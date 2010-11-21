@@ -96,8 +96,8 @@ function groups_setup_nav() {
 
 			/* When in a single group, the first action is bumped down one because of the
 			   group name, so we need to adjust this and set the group name to current_item. */
-			$bp->current_item = $bp->current_action;
-			$bp->current_action = $bp->action_variables[0];
+			$bp->current_item = isset( $bp->current_action ) ? $bp->current_action : false;
+			$bp->current_action = isset( $bp->action_variables[0] ) ? $bp->action_variables[0] : false;
 			array_shift($bp->action_variables);
 
 			$bp->bp_options_title = $bp->groups->current_group->name;
@@ -989,7 +989,7 @@ function groups_action_create_group() {
 	groups_action_sort_creation_steps();
 
 	/* If no current step is set, reset everything so we can start a fresh group creation */
-	if ( !$bp->groups->current_create_step = $bp->action_variables[1] ) {
+	if ( !isset( $bp->action_variables[1] ) || !$bp->groups->current_create_step = $bp->action_variables[1] ) {
 
 		unset( $bp->groups->current_create_step );
 		unset( $bp->groups->completed_create_steps );
@@ -1008,7 +1008,7 @@ function groups_action_create_group() {
 	}
 
 	/* Fetch the currently completed steps variable */
-	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && !$reset_steps )
+	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && !isset( $reset_steps ) )
 		$bp->groups->completed_create_steps = unserialize( stripslashes( $_COOKIE['bp_completed_create_steps'] ) );
 
 	/* Set the ID of the new group, if it has already been created in a previous step */
@@ -1028,8 +1028,10 @@ function groups_action_create_group() {
 				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
+			
+			$new_group_id = isset( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : 0;
 
-			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ), 'date_created' => bp_core_current_time(), 'status' => 'public' ) ) ) {
+			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ), 'date_created' => bp_core_current_time(), 'status' => 'public' ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
@@ -1074,7 +1076,8 @@ function groups_action_create_group() {
 		 * we need to add the current step to the array of completed steps, then update the cookies
 		 * holding the information
 		 */
-		if ( !in_array( $bp->groups->current_create_step, (array)$bp->groups->completed_create_steps ) )
+		$completed_create_steps = isset( $bp->groups->completed_create_steps ) ? $bp->groups->completed_create_steps : array();
+		if ( !in_array( $bp->groups->current_create_step, $completed_create_steps ) )
 			$bp->groups->completed_create_steps[] = $bp->groups->current_create_step;
 
 		/* Reset cookie info */
@@ -1107,7 +1110,7 @@ function groups_action_create_group() {
 					continue;
 				}
 
-				if ( $next ) {
+				if ( isset( $next ) ) {
 					$next_step = $key;
 					break;
 				}
@@ -1464,12 +1467,12 @@ function groups_create_group( $args = '' ) {
 	 *	'date_created'
 	 */
 
-	if ( $group_id )
+	if ( isset( $group_id ) && $group_id )
 		$group = new BP_Groups_Group( $group_id );
 	else
 		$group = new BP_Groups_Group;
 
-	if ( $creator_id )
+	if ( isset( $creator_id ) && $creator_id )
 		$group->creator_id = $creator_id;
 	else
 		$group->creator_id = $bp->loggedin_user->id;

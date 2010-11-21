@@ -1129,7 +1129,7 @@ function bp_group_join_button( $group = false ) {
 			$group =& $groups_template->group;
 
 		// If they're not logged in or are banned from the group, no join button.
-		if ( !is_user_logged_in() || $group->is_banned )
+		if ( !is_user_logged_in() || isset( $group->is_banned ) )
 			return false;
 
 		// Group creation was not completed or status is unknown
@@ -1632,7 +1632,7 @@ function bp_is_group_creation_step( $step_slug ) {
 function bp_is_group_creation_step_complete( $step_slugs ) {
 	global $bp;
 
-	if ( !$bp->groups->completed_create_steps )
+	if ( !isset( $bp->groups->completed_create_steps ) )
 		return false;
 
 	if ( is_array( $step_slugs ) ) {
@@ -1677,7 +1677,13 @@ function bp_new_group_id() {
 }
 	function bp_get_new_group_id() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_id', $bp->groups->new_group_id );
+		
+		if ( isset( $bp->groups->new_group_id ) )
+			$new_group_id = $bp->groups->new_group_id;
+		else
+			$new_group_id = 0;
+		
+		return apply_filters( 'bp_get_new_group_id', $new_group_id );
 	}
 
 function bp_new_group_name() {
@@ -1685,7 +1691,13 @@ function bp_new_group_name() {
 }
 	function bp_get_new_group_name() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_name', $bp->groups->current_group->name );
+		
+		if ( isset( $bp->groups->current_group->name ) )
+			$name = $bp->groups->current_group->name;
+		else
+			$name = '';
+		
+		return apply_filters( 'bp_get_new_group_name', $name );
 	}
 
 function bp_new_group_description() {
@@ -1693,7 +1705,13 @@ function bp_new_group_description() {
 }
 	function bp_get_new_group_description() {
 		global $bp;
-		return apply_filters( 'bp_get_new_group_description', $bp->groups->current_group->description );
+		
+		if ( isset( $bp->groups->current_group->description ) )
+			$description = $bp->groups->current_group->description;
+		else
+			$description = '';
+			
+		return apply_filters( 'bp_get_new_group_description', $description );
 	}
 
 function bp_new_group_enable_forum() {

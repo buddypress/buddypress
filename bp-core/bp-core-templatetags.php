@@ -704,8 +704,13 @@ function bp_avatar_admin_step() {
 }
 	function bp_get_avatar_admin_step() {
 		global $bp;
+		
+		if ( isset( $bp->avatar_admin->step ) )
+			$step = $bp->avatar_admin->step;
+		else
+			$step = '';
 
-		return apply_filters( 'bp_get_avatar_admin_step', $bp->avatar_admin->step );
+		return apply_filters( 'bp_get_avatar_admin_step', $step );
 	}
 
 function bp_avatar_to_crop() {
@@ -713,8 +718,13 @@ function bp_avatar_to_crop() {
 }
 	function bp_get_avatar_to_crop() {
 		global $bp;
+		
+		if ( isset( $bp->avatar_admin->image->url ) )
+			$url = $bp->avatar_admin->image->url;
+		else
+			$url = '';
 
-		return apply_filters( 'bp_get_avatar_to_crop', $bp->avatar_admin->image->url );
+		return apply_filters( 'bp_get_avatar_to_crop', $url );
 	}
 
 function bp_avatar_to_crop_src() {
@@ -1026,7 +1036,7 @@ function bp_search_form_type_select() {
 	if ( bp_is_active( 'groups' ) )
 		$options['groups'] = __( 'Groups', 'buddypress' );
 
-	if ( function_exists( 'bp_forums_is_installed_correctly' ) && bp_forums_is_installed_correctly() && !(int) $bp->site_options['bp-disable-forum-directory'] )
+	if ( function_exists( 'bp_forums_is_installed_correctly' ) && bp_forums_is_installed_correctly() && !isset( $bp->site_options['bp-disable-forum-directory'] ) )
 		$options['forums'] = __( 'Forums', 'buddypress' );
 
 	if ( bp_is_active( 'blogs' ) && is_multisite() )
