@@ -12,6 +12,7 @@ add_custom_background();
 // Area 1, located in the sidebar. Empty by default.
 register_sidebar( array(
 	'name'          => 'Sidebar',
+	'description' 	=> __( 'The sidebar widget area', 'buddypress' ),
 	'before_widget' => '<div id="%1$s" class="widget %2$s">',
 	'after_widget'  => '</div>',
 	'before_title'  => '<h3 class="widgettitle">',
