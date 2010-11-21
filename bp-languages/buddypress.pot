@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-20 13:13+0000\n"
+"POT-Creation-Date: 2010-11-21 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -546,7 +546,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:1053
 #: bp-forums/bp-forums-templatetags.php:1035
 #: bp-groups/bp-groups-templatetags.php:1826
-#: bp-themes/bp-default/header.php:54 bp-themes/bp-default/searchform.php:5
+#: bp-themes/bp-default/header.php:56 bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
 
@@ -1639,7 +1639,7 @@ msgid "%1$s at %2$s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:884 bp-groups.php:127
-#: bp-themes/bp-default/functions.php:362 bp-themes/bp-default/header.php:41
+#: bp-themes/bp-default/functions.php:408 bp-themes/bp-default/header.php:41
 msgid "Home"
 msgstr ""
 
@@ -1946,7 +1946,7 @@ msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
 #: bp-forums/bp-forums-templatetags.php:977
-#: bp-themes/bp-default/functions.php:102
+#: bp-themes/bp-default/functions.php:148
 #: bp-xprofile/bp-xprofile-admin.php:398
 msgid "Edit"
 msgstr ""
@@ -3103,7 +3103,7 @@ msgid "Deactivate"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:490
-#: bp-themes/bp-default/functions.php:38
+#: bp-themes/bp-default/functions.php:84
 msgid "Close"
 msgstr ""
 
@@ -3580,7 +3580,7 @@ msgstr ""
 msgid "%d Trackbacks"
 msgstr ""
 
-#: bp-themes/bp-default/footer.php:7
+#: bp-themes/bp-default/footer.php:10
 #, php-format
 msgid ""
 "%s is proudly powered by <a href=\"http://wordpress.org\">WordPress</a> and "
@@ -3678,35 +3678,67 @@ msgstr ""
 msgid "Unreplied"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:21
-msgid "Primary Navigation"
+#: bp-themes/bp-default/functions.php:23
+msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:32
-msgid "My Favorites"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:33
-msgid "Accepted"
+#: bp-themes/bp-default/functions.php:25
+msgid "The first footer widget area"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:34
-msgid "Rejected"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:35
-msgid "Show all comments for this thread"
+msgid "Second Footer Widget Area"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:36
+msgid "The second footer widget area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:45
+msgid "Third Footer Widget Area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:47
+msgid "The third footer widget area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:56
+msgid "Fourth Footer Widget Area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:58
+msgid "The fourth footer widget area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:67
+msgid "Primary Navigation"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:78
+msgid "My Favorites"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:79
+msgid "Accepted"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:80
+msgid "Rejected"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:81
+msgid "Show all comments for this thread"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:82
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:37
+#: bp-themes/bp-default/functions.php:83
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:43
+#: bp-themes/bp-default/functions.php:89
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
@@ -3714,23 +3746,23 @@ msgid ""
 "use it."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:90
+#: bp-themes/bp-default/functions.php:136
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:91
+#: bp-themes/bp-default/functions.php:137
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:95
+#: bp-themes/bp-default/functions.php:141
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:131
+#: bp-themes/bp-default/functions.php:177
 msgid "Activity Stream"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:339
+#: bp-themes/bp-default/functions.php:385
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
