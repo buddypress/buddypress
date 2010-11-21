@@ -76,6 +76,55 @@ function bp_loaded() {
 	do_action( 'bp_loaded' );
 }
 
+/**
+ * bp_core_get_site_options()
+ *
+ * BuddyPress uses site options to store configuration settings. Many of these settings are needed
+ * at run time. Instead of fetching them all and adding many initial queries to each page load, let's fetch
+ * them all in one go.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_get_site_options() {
+	global $bp, $wpdb;
+
+	$options = apply_filters( 'bp_core_site_options', array(
+		'bp-deactivated-components',
+		'bp-blogs-first-install',
+		'bp-disable-blog-forum-comments',
+		'bp-xprofile-base-group-name',
+		'bp-xprofile-fullname-field-name',
+		'bp-disable-profile-sync',
+		'bp-disable-avatar-uploads',
+		'bp-disable-account-deletion',
+		'bp-disable-forum-directory',
+		'bp-disable-blogforum-comments',
+		'bb-config-location',
+		'hide-loggedout-adminbar',
+
+		/* Useful WordPress settings used often */
+		'user-avatar-default',
+		'tags_blog_id',
+		'registration',
+		'fileupload_maxk'
+	) );
+
+	$meta_keys = "'" . implode( "','", (array)$options ) ."'";
+
+	if ( is_multisite() )
+		$meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
+	else
+		$meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
+
+	$site_options = array();
+	if ( !empty( $meta ) ) {
+		foreach( (array)$meta as $meta_item )
+			$site_options[$meta_item->name] = $meta_item->value;
+	}
+
+	return apply_filters( 'bp_core_get_site_options', $site_options );
+}
+
 /* Activation Function */
 function bp_loader_activate() {
 	/* Force refresh theme roots. */
@@ -84,10 +133,6 @@ function bp_loader_activate() {
 	/* Switch the user to the new bp-default if they are using the old bp-default on activation. */
 	if ( 'bp-sn-parent' == get_blog_option( BP_ROOT_BLOG, 'template' ) && 'bp-default' == get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) )
 		switch_theme( 'bp-default', 'bp-default' );
-
-	/* Install site options on activation */
-	//TODO: Find where to put this back. Here is no good because bp-core.php isn't loaded on new installation.
-	//bp_core_activate_site_options( array( 'bp-disable-account-deletion' => 0, 'bp-disable-avatar-uploads' => 0, 'bp-disable-blogforum-comments' => 0,  'bp-disable-forum-directory' => 0,  'bp-disable-profile-sync' => 0 ) );
 
 	do_action( 'bp_loader_activate' );
 }
@@ -107,7 +152,6 @@ function bp_loader_deactivate() {
 	delete_site_option( 'bp-xprofile-db-version' );
 	delete_site_option( 'bp-deactivated-components' );
 	delete_site_option( 'bp-blogs-first-install' );
-	delete_site_option( 'bp-pages' );
 
 	do_action( 'bp_loader_deactivate' );
 }

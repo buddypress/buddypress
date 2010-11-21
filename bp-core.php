@@ -82,6 +82,7 @@ function bp_core_setup_globals() {
 
 	// Set up the members id and active components entry
 	$bp->members->id = 'members';
+
 	$bp->members->slug = $bp->pages->members->slug;
 	$bp->active_components[$bp->members->slug] = $bp->members->id;
 
@@ -211,13 +212,42 @@ function bp_core_define_slugs() {
 }
 add_action( 'bp_setup_globals', 'bp_core_define_slugs' );
 
-function bp_core_get_page_names() {
-	global $wpdb, $current_blog;
 
-	if ( defined( 'BP_ENABLE_MULTIBLOG' ) )
-		$page_ids = get_blog_option( $current_blog->blog_id, 'bp-pages' );
-	else
+/**
+ * bp_core_get_page_meta()
+ *
+ * Fetches BP pages from the meta table, depending on setup
+ *
+ * @package BuddyPress Core Core
+ */
+function bp_core_get_page_meta() {
+	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
 		$page_ids = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
+	else
+		$page_ids = get_option( 'bp-pages' );
+
+	return $page_ids;
+}
+
+/**
+ * bp_core_update_page_meta()
+ *
+ * Stores BP pages in the meta table, depending on setup
+ *
+ * @package BuddyPress Core Core
+ */
+function bp_core_update_page_meta( $page_ids ) {
+	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
+		update_blog_option( BP_ROOT_BLOG, 'bp-pages', $page_ids );
+	else
+		update_option( 'bp-pages', $page_ids );
+}
+
+
+function bp_core_get_page_names() {
+	global $wpdb;
+
+	$page_ids = bp_core_get_page_meta();
 
 	if ( empty( $page_ids ) )
 		return false;
@@ -632,7 +662,6 @@ function bp_core_get_root_domain() {
  * eg: http://andy.domain.com/ or http://domain.com/andy/
  *
  * @package BuddyPress Core
- * @global $current_blog WordPress global containing information and settings for the current blog being viewed.
  * @uses bp_core_get_userid_from_user_login() Returns the user id for the username passed
  * @return The user id for the user that is currently being displayed, return zero if this is not a user home and just a normal blog.
  */
@@ -1555,55 +1584,6 @@ function bp_core_get_site_path() {
 }
 
 /**
- * bp_core_get_site_options()
- *
- * BuddyPress uses site options to store configuration settings. Many of these settings are needed
- * at run time. Instead of fetching them all and adding many initial queries to each page load, let's fetch
- * them all in one go.
- *
- * @package BuddyPress Core
- */
-function bp_core_get_site_options() {
-	global $bp, $wpdb;
-
-	$options = apply_filters( 'bp_core_site_options', array(
-		'bp-deactivated-components',
-		'bp-blogs-first-install',
-		'bp-disable-blog-forum-comments',
-		'bp-xprofile-base-group-name',
-		'bp-xprofile-fullname-field-name',
-		'bp-disable-profile-sync',
-		'bp-disable-avatar-uploads',
-		'bp-disable-account-deletion',
-		'bp-disable-forum-directory',
-		'bp-disable-blogforum-comments',
-		'bb-config-location',
-		'hide-loggedout-adminbar',
-
-		// Useful WordPress settings used often
-		'avatar_default',
-		'tags_blog_id',
-		'registration',
-		'fileupload_maxk'
-	) );
-
-	$meta_keys = "'" . implode( "','", (array)$options ) ."'";
-
-	if ( is_multisite() )
-		$meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
-	else
-		$meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
-
-	$site_options = array();
-	if ( !empty( $meta ) ) {
-		foreach( (array)$meta as $meta_item )
-			$site_options[$meta_item->name] = $meta_item->value;
-	}
-
-	return apply_filters( 'bp_core_get_site_options', $site_options );
-}
-
-/**
  * bp_core_redirect()
  *
  * Performs a status safe wp_redirect() that is compatible with bp_catch_uri()
@@ -2163,9 +2143,11 @@ function bp_core_create_root_component_page() {
 	foreach ( (array)$bp->add_root as $slug )
 		$new_page_ids[$slug] = wp_insert_post( array( 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 
-	$page_ids = get_site_option( 'bp-pages' );
+	$page_ids = bp_core_get_page_meta();
+
 	$page_ids = (array) $page_ids;
 	$page_ids = array_merge( (array) $new_page_ids, (array) $page_ids );
-	update_site_option( 'bp-pages', $page_ids );
+
+	bp_core_update_page_meta( $page_ids );
 }
 ?>

@@ -1,19 +1,61 @@
 <?php
 
+if ( !defined( 'BP_ROOT_BLOG' ) )
+	define( 'BP_ROOT_BLOG', 1 );
+
 require_once( dirname( dirname( __FILE__ ) ) . '/bp-core-wpabstraction.php' );
 
 register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
+
+// Install site options on activation
+bp_core_activate_site_options( array( 'bp-disable-account-deletion' => 0, 'bp-disable-avatar-uploads' => 0, 'bp-disable-blogforum-comments' => 0,  'bp-disable-forum-directory' => 0,  'bp-disable-profile-sync' => 0 ) );
+ 
+/**
+ * bp_core_activate_site_options()
+ *
+ * When switching from single to multisite we need to copy blog options to
+ * site options.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_activate_site_options( $keys = array() ) {
+	global $bp;
+
+	$bp->site_options = bp_core_get_site_options();
+
+	if ( !empty( $keys ) && is_array( $keys ) ) {
+		$errors = false;
+
+		foreach ( $keys as $key => $default ) {
+			if ( empty( $bp->site_options[ $key ] ) ) {
+				$bp->site_options[ $key ] = get_blog_option( BP_ROOT_BLOG, $key, $default );
+
+				if ( !update_site_option( $key, $bp->site_options[ $key ] ) )
+					$errors = true;
+			}
+		}
+
+		if ( empty( $errors ) )
+			return true;
+	}
+
+	return false;
+}
 
 class BP_Core_Setup_Wizard {
 	var $current_step;
 	var $steps;
 
 	var $current_version;
+	var $is_network_activate;
 	var $new_version;
 	var $setup_type;
 
 	function bp_core_setup_wizard() {
-		$this->current_version = get_site_option( 'bp-db-version' );
+		if ( !$this->current_version = get_site_option( 'bp-db-version' ) )
+			if ( $this->current_version = get_option( 'bp-db-version' ) )
+				$this->is_network_activate = true;
+		
 		$this->new_version = constant( 'BP_DB_VERSION' );
 		$this->setup_type = ( empty( $this->current_version ) && !(int)get_site_option( 'bp-core-db-version' ) ) ? 'new' : 'upgrade';
 		$this->current_step = $this->current_step();
@@ -43,7 +85,7 @@ class BP_Core_Setup_Wizard {
 		global $wp_rewrite;
 
 		if ( 'new' == $this->setup_type ) {
-			/* Setup wizard steps */
+			// Setup wizard steps
 			$steps = array(
 				__( 'Components', 'buddypress' ),
 				__( 'Pages', 'buddypress' ),
@@ -60,8 +102,13 @@ class BP_Core_Setup_Wizard {
 				$steps = array_merge( array(), $steps );
 			}
 		} else {
-			/* Upgrade wizard steps */
-			$steps[] = __( 'Database Upgrade', 'buddypress' );
+			// Upgrade wizard steps
+			
+			if ( $this->is_network_activate )
+				$steps[] = __( 'Multisite Upgrade', 'buddypress' );
+			
+			if ( $this->current_version < $this->new_version )
+				$steps[] = __( 'Database Upgrade', 'buddypress' );
 
 			if ( $this->current_version < 1225 )
 				$steps[] = __( 'Pages', 'buddypress' );
@@ -77,6 +124,12 @@ class BP_Core_Setup_Wizard {
 		switch ( $step_name ) {
 			case 'db_upgrade': default:
 				$result = $this->step_db_upgrade_save();
+				break;
+			case 'ms_upgrade': default:
+				$result = $this->step_ms_upgrade_save();
+				break;
+			case 'ms_pages': default:
+				$result = $this->step_ms_upgrade_save();
 				break;
 			case 'components': default:
 				$result = $this->step_components_save();
@@ -139,6 +192,12 @@ class BP_Core_Setup_Wizard {
 						case __( 'Database Upgrade', 'buddypress'):
 							$this->step_db_upgrade();
 							break;
+						case __( 'Multisite Upgrade', 'buddypress'):
+							$this->step_ms_upgrade();
+							break;
+						case __( 'Blog Directory', 'buddypress'):
+							$this->step_ms_upgrade();
+							break;
 						case __( 'Components', 'buddypress'):
 							$this->step_components();
 							break;
@@ -183,6 +242,80 @@ class BP_Core_Setup_Wizard {
 		</div>
 	<?php
 	}
+	
+	function step_ms_upgrade() {
+		if ( !current_user_can( 'activate_plugins' ) )
+			return false;
+
+		if ( defined( 'BP_BLOGS_SLUG' ) )
+			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
+		else
+			$blogs_slug = __( 'blogs', 'buddypress' );
+		
+		if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
+			$existing_pages = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
+		else
+			$existing_pages = get_option( 'bp-pages' );
+
+	?>
+		<div class="prev-next submit clear">
+			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
+		</div>
+		
+		<p><?php printf( __( 'It looks like you have just activated WordPress Multisite mode, which allows members of your BuddyPress community to have their own WordPress blogs. You can enable or disable this feature at any time at <a href="%s">Network Options</a>.', 'buddypress' ), admin_url( 'ms-options.php' ) ); ?></p>
+		
+		<p><?php _e( "Please select the WordPress page you would like to use to display the blog directory. You can either choose an existing page or let BuddyPress auto-create a page for you. If you'd like to manually create pages, please go ahead and do that now, you can come back to this step once you are finished.", 'buddypress' ) ?></p>
+
+		<p><strong><?php _e( 'Please Note:', 'buddypress' ) ?></strong> <?php _e( "If you have manually added BuddyPress navigation links in your theme you may need to remove these from your header.php to avoid duplicate links.", 'buddypress' ) ?></p>
+
+		<table class="form-table">
+
+			<tr valign="top">
+				<th scope="row">
+					<h5><?php _e( 'Blogs', 'buddypress' ) ?></h5>
+					<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ) ?></p>
+				</th>
+				<td>
+					<p><input type="radio" name="bp_pages[blogs]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-blogs-page&echo=0&show_option_none=".__('- Select -')."&selected=" . $existing_pages['blogs'] ) ?></p>
+					<p><input type="radio" name="bp_pages[blogs]" checked="checked" value="<?php echo $blogs_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo site_url( $blogs_slug ) ?>/</p>
+				</td>
+			</tr>
+			
+		</table>
+		
+		<p><?php _e( 'Would you like to enable blog tracking, which tracks blog activity across your network?', 'buddypress' ); ?></p>
+		
+		<div class="left-col">
+			
+			<div class="component">
+				<h5><?php _e( "Blog Tracking", 'buddypress' ) ?></h5>
+
+				<div class="radio">
+					<input type="radio" name="bp_components[bp-blogs.php]" value="1"<?php if ( !isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+					<input type="radio" name="bp_components[bp-blogs.php]" value="0"<?php if ( isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+				</div>
+
+				<img src="<?php echo plugins_url( 'buddypress/screenshot-7.gif' ) ?>" alt="Activity Streams" />
+					<p><?php _e( "Track new blogs, new posts and new comments across your entire blog network.", 'buddypress' ) ?></p>
+			</div>		
+		</div>
+		
+		<div class="submit clear">
+			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
+
+			<input type="hidden" name="save" value="ms_upgrade" />
+			<input type="hidden" name="step" value="<?php echo esc_attr( $this->current_step ) ?>" />
+			<?php wp_nonce_field( 'bpwizard_ms_upgrade' ) ?>
+		</div>
+		
+		<script type="text/javascript">
+			jQuery('select').click( function() {
+				jQuery(this).parent().children('input').attr( 'checked', 'checked' );
+			});
+		</script>
+	<?php
+	}
+
 
 	function step_components() {
 		if ( !current_user_can( 'activate_plugins' ) )
@@ -306,7 +439,11 @@ class BP_Core_Setup_Wizard {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
-		$existing_pages = get_site_option( 'bp-pages' );
+		if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
+			$existing_pages = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
+		else
+			$existing_pages = get_option( 'bp-pages' );
+
 		$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
 		/* Check for defined slugs */
@@ -644,7 +781,6 @@ class BP_Core_Setup_Wizard {
 			<h2>Upgrade Complete!</h2>
 		<?php endif; ?>
 
-		<?php?>
 		<p><?php printf( __( "You've now completed all of the %s steps and BuddyPress is ready to be activated. Please hit the 'Finish &amp; Activate' button to complete the %s procedure.", 'buddypress' ), $type, $type ) ?></p>
 
 
@@ -676,6 +812,56 @@ class BP_Core_Setup_Wizard {
 		return false;
 	}
 
+	function step_ms_upgrade_save() {
+		global $current_blog;
+
+		if ( isset( $_POST['submit'] ) ) {
+			check_admin_referer( 'bpwizard_ms_upgrade' );
+
+			if ( !$disabled = get_option( 'bp-deactivated-components' ) )
+				$disabled = array();
+
+			// Transfer important settings from blog options to site options
+			$options = array(
+				'bp-db-version' => $this->current_version,
+				'bp-deactivated-components' => $disabled
+			);
+			bp_core_activate_site_options( $options );
+
+			if ( !(int) $_POST['bp_components']['bp-blogs.php'] ) {
+				if ( !$disabled )
+					$disabled = array();
+				$disabled['bp-blogs.php'] = 1;
+			} else {
+				// Make sure that the pages are created on the BP_ROOT_BLOG, no matter which Dashboard the setup is being run on
+				if ( $current_blog->blog_id != BP_ROOT_BLOG && !defined( 'BP_ENABLE_MULTIBLOG' ) )
+					switch_to_blog( BP_ROOT_BLOG );
+	
+				$existing_pages = get_option( 'bp-pages' );
+
+				$bp_pages = $this->setup_pages( (array)$_POST['bp_pages'] );
+				
+				$bp_pages = array_merge( (array)$existing_pages, (array)$bp_pages );
+	
+				update_option( 'bp-pages', $bp_pages );
+
+				if ( $current_blog->blog_id != BP_ROOT_BLOG )
+					restore_current_blog();
+			
+				unset( $disabled['bp-blogs.php'] );
+				
+				bp_core_install( $disabled );
+			}
+			
+			update_site_option( 'bp-deactivated-components', $disabled );
+
+			return true;
+		}
+
+		return false;
+	}
+
+
 	function step_components_save() {
 		if ( isset( $_POST['submit'] ) && isset( $_POST['bp_components'] ) ) {
 			check_admin_referer( 'bpwizard_components' );
@@ -697,29 +883,27 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_pages_save() {
+		global $current_blog;
+
 		if ( isset( $_POST['submit'] ) && isset( $_POST['bp_pages'] ) ) {
 			check_admin_referer( 'bpwizard_pages' );
 
-			/* Delete any existing pages */
-			$existing_pages = get_site_option( 'bp-pages' );
+			// Make sure that the pages are created on the BP_ROOT_BLOG, no matter which Dashboard the setup is being run on
+			if ( $current_blog->blog_id != BP_ROOT_BLOG && !defined( 'BP_ENABLE_MULTIBLOG' ) )
+				switch_to_blog( BP_ROOT_BLOG );
+
+			// Delete any existing pages
+			$existing_pages = get_option( 'bp-pages' );
 
 			foreach ( (array)$existing_pages as $page_id )
 				wp_delete_post( $page_id, true );
 
-			// Settings form submitted, now save the settings.
-			foreach ( (array)$_POST['bp_pages'] as $key => $value ) {
-				if ( 'page' == $value ) {
-					/* Check for the selected page */
-					if ( !empty( $_POST['bp-' . $key . '-page'] ) )
-						$bp_pages[$key] = (int)$_POST['bp-' . $key . '-page'];
-					else
-						$bp_pages[$key] = wp_insert_post( array( 'post_title' => ucwords( $key ), 'post_status' => 'publish', 'post_type' => 'page' ) );
-				} else {
-					/* Create a new page */
-					$bp_pages[$key] = wp_insert_post( array( 'post_title' => ucwords( $value ), 'post_status' => 'publish', 'post_type' => 'page' ) );
-				}
-			}
-			update_site_option( 'bp-pages', $bp_pages );
+			$bp_pages = $this->setup_pages( (array)$_POST['bp_pages'] );
+
+			update_option( 'bp-pages', $bp_pages );
+
+			if ( $current_blog->blog_id != BP_ROOT_BLOG )
+				restore_current_blog();
 
 			return true;
 		}
@@ -850,12 +1034,29 @@ class BP_Core_Setup_Wizard {
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
 			/* Redirect to the BuddyPress dashboard */
-			wp_redirect( site_url( 'wp-admin/admin.php?page=bp-general-settings' ) );
+			wp_redirect( admin_url( 'admin.php?page=bp-general-settings' ) );
 
 			return true;
 		}
 
 		return false;
+	}
+	
+	function setup_pages( $pages ) {
+		foreach ( $pages as $key => $value ) {
+			if ( 'page' == $value ) {
+				/* Check for the selected page */
+				if ( !empty( $_POST['bp-' . $key . '-page'] ) )
+					$bp_pages[$key] = (int)$_POST['bp-' . $key . '-page'];
+				else
+					$bp_pages[$key] = wp_insert_post( array( 'post_title' => ucwords( $key ), 'post_status' => 'publish', 'post_type' => 'page' ) );
+			} else {
+				/* Create a new page */
+				$bp_pages[$key] = wp_insert_post( array( 'post_title' => ucwords( $value ), 'post_status' => 'publish', 'post_type' => 'page' ) );
+			}
+		}
+		
+		return $bp_pages;
 	}
 
 	/* Database upgrade methods based on version numbers */
@@ -1051,7 +1252,7 @@ function bp_core_add_admin_menu() {
 	if ( !current_user_can( 'activate_plugins' ) )
 		return false;
 
-	if ( '' == get_site_option( 'bp-db-version' ) && !(int)get_site_option( 'bp-core-db-version' ) )
+	if ( '' == get_site_option( 'bp-db-version' ) && !(int)get_site_option( 'bp-core-db-version' ) && !$bp_wizard->is_network_activate )
 		$status = __( 'Setup', 'buddypress' );
 	else
 		$status = __( 'Upgrade', 'buddypress' );
@@ -1084,5 +1285,4 @@ function bp_core_add_admin_menu_styles() {
 	</style>
 <?php
 }
-
 ?>
