@@ -13,8 +13,12 @@ class BP_Groups_Widget extends WP_Widget {
 		$widget_ops = array( 'description' => __( 'A dynamic list of recently active, popular, and newest groups', 'buddypress' ) );
 		parent::WP_Widget( false, $name = __( 'Groups', 'buddypress' ), $widget_ops );
 
-		if ( is_active_widget( false, false, $this->id_base ) )
-			wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . '/bp-groups/js/widget-groups.js', array('jquery') );
+		if ( is_active_widget( false, false, $this->id_base ) ) {
+			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
+				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . '/bp-groups/js/widget-groups.dev.js', array( 'jquery' ) );
+			else
+				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . '/bp-groups/js/widget-groups.js', array( 'jquery' ) );
+		}
 	}
 
 	function widget( $args, $instance ) {
