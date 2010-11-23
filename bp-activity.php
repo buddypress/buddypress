@@ -608,6 +608,7 @@ function bp_activity_get( $args = '' ) {
 		'search_terms' => false, // Pass search terms as a string
 		'show_hidden' => false, // Show activity items that are hidden site-wide?
 		'exclude' => false, // Comma-separated list of activity IDs to exclude
+		'in' => false, // Comma-separated list or array of activity IDs to which you want to limit the query
 
 		/**
 		 * Pass filters as an array -- all filter items can be multiple values comma separated:
@@ -632,7 +633,7 @@ function bp_activity_get( $args = '' ) {
 			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
 		}
 	} else
-		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, $exclude );
+		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, $exclude, $in );
 
 	return apply_filters( 'bp_activity_get', $activity, &$r );
 }

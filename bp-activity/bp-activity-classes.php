@@ -88,7 +88,7 @@ Class BP_Activity_Activity {
 
 	// Static Functions
 
-	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false, $exclude = false ) {
+	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false, $exclude = false, $in = false ) {
 		global $wpdb, $bp;
 
 		// Select conditions
@@ -120,6 +120,13 @@ Class BP_Activity_Activity {
 		// Exclude specified items
 		if ( $exclude )
 			$where_conditions['exclude'] = "a.id NOT IN ({$exclude})";
+		
+		// The specific ids to which you want to limit the query
+		if ( !empty( $in ) ) {
+			if ( is_array( $in ) )
+				$in = implode( ',', $in );
+			$where_conditions['in'] = "a.id IN ({$in})";
+		}
 
 		// Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity
 		if ( !$display_comments || 'threaded' == $display_comments ) {
