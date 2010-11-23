@@ -258,7 +258,7 @@ function bp_has_activities( $args = '' ) {
 
 	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude );
 
-	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), &$activities_template );
+	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), $activities_template );
 }
 
 function bp_activities() {
@@ -588,7 +588,7 @@ function bp_activity_content() {
 
 		/* Add the delete link if the user has permission on this item */
 		if ( ( is_user_logged_in() && $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || $bp->loggedin_user->is_super_admin )
-			 $content .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), &$activities_template->activity );
+			 $content .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), $activities_template->activity );
 
 		return apply_filters( 'bp_insert_activity_meta', $content );
 	}

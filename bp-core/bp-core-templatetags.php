@@ -166,7 +166,7 @@ function bp_has_members( $args = '' ) {
 		return false;
 
 	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude );
-	return apply_filters( 'bp_has_members', $members_template->has_members(), &$members_template );
+	return apply_filters( 'bp_has_members', $members_template->has_members(), $members_template );
 }
 
 function bp_the_member() {

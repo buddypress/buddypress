@@ -151,7 +151,7 @@ function bp_has_blogs( $args = '' ) {
 	}
 
 	$blogs_template = new BP_Blogs_Template( $type, $page, $per_page, $max, $user_id, $search_terms );
-	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), &$blogs_template );
+	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), $blogs_template );
 }
 
 function bp_blogs() {

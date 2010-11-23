@@ -176,7 +176,7 @@ function bp_has_message_threads( $args = '' ) {
 		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type );
 	}
 
-	return apply_filters( 'bp_has_message_threads', $messages_template->has_threads(), &$messages_template );
+	return apply_filters( 'bp_has_message_threads', $messages_template->has_threads(), $messages_template );
 }
 
 function bp_message_threads() {

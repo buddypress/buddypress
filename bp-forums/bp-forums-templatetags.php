@@ -218,7 +218,7 @@ function bp_has_forum_topics( $args = '' ) {
 	}
 
 	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms );
-	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), &$forum_template );
+	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), $forum_template );
 }
 
 function bp_forum_topics() {
@@ -846,7 +846,7 @@ function bp_has_forum_topic_posts( $args = '' ) {
 		return false;
 	}
 
-	return apply_filters( 'bp_has_topic_posts', $topic_template->has_posts(), &$topic_template );
+	return apply_filters( 'bp_has_topic_posts', $topic_template->has_posts(), $topic_template );
 }
 
 function bp_forum_topic_posts() {
