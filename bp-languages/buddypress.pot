@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-23 13:13+0000\n"
+"POT-Creation-Date: 2010-11-24 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,21 +146,21 @@ msgstr ""
 msgid "%1$s mentioned you in an activity update"
 msgstr ""
 
-#: bp-activity.php:728
+#: bp-activity.php:729
 #, php-format
 msgid "%s posted an update:"
 msgstr ""
 
-#: bp-activity.php:781
+#: bp-activity.php:782
 #, php-format
 msgid "%s posted a new activity comment:"
 msgstr ""
 
-#: bp-activity.php:996
+#: bp-activity.php:997
 msgid "Thumbnail"
 msgstr ""
 
-#: bp-activity.php:1224
+#: bp-activity.php:1225
 msgid "Posted an update"
 msgstr ""
 
@@ -232,86 +232,86 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:285
+#: bp-activity/bp-activity-templatetags.php:287
 #, php-format
 msgid "Viewing item %1$s to %2$s (of %3$s items)"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:437
-#: bp-activity/bp-activity-templatetags.php:483 bp-groups.php:32
+#: bp-activity/bp-activity-templatetags.php:439
+#: bp-activity/bp-activity-templatetags.php:485 bp-groups.php:32
 msgid "Avatar"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:584
+#: bp-activity/bp-activity-templatetags.php:586
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:587
+#: bp-activity/bp-activity-templatetags.php:589
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View Thread / Permalink"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:587
-#: bp-activity/bp-activity-templatetags.php:824
+#: bp-activity/bp-activity-templatetags.php:589
+#: bp-activity/bp-activity-templatetags.php:826
 #: bp-core/bp-core-templatetags.php:389
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:667
+#: bp-activity/bp-activity-templatetags.php:669
 #: bp-themes/bp-default/_inc/ajax.php:210
 #, php-format
 msgid "%s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:671
+#: bp-activity/bp-activity-templatetags.php:673
 #: bp-themes/bp-default/_inc/ajax.php:211
 #: bp-themes/bp-default/activity/entry.php:28
 msgid "Reply"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:675
-#: bp-activity/bp-activity-templatetags.php:808
+#: bp-activity/bp-activity-templatetags.php:677
+#: bp-activity/bp-activity-templatetags.php:810
 #: bp-forums/bp-forums-templatetags.php:981
 #: bp-themes/bp-default/_inc/ajax.php:212
 #: bp-xprofile/bp-xprofile-admin.php:399
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:884
+#: bp-activity/bp-activity-templatetags.php:886
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:884
+#: bp-activity/bp-activity-templatetags.php:886
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:884
+#: bp-activity/bp-activity-templatetags.php:886
 #: bp-core/admin/bp-core-upgrade.php:458 bp-core/bp-core-classes.php:98
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:884
+#: bp-activity/bp-activity-templatetags.php:886
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:884
+#: bp-activity/bp-activity-templatetags.php:886
 #: bp-core/admin/bp-core-upgrade.php:253 bp-core/admin/bp-core-upgrade.php:473
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:892
+#: bp-activity/bp-activity-templatetags.php:894
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:971
+#: bp-activity/bp-activity-templatetags.php:973
 msgid ""
 "Mention this user in a new public message, this will send the user a "
 "notification to get their attention."
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:972
+#: bp-activity/bp-activity-templatetags.php:974
 msgid "Mention this User"
 msgstr ""
 
@@ -500,39 +500,39 @@ msgid ""
 "and in public listings around this site."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:468
+#: bp-blogs/bp-blogs-templatetags.php:470
 msgid "Congratulations! You have successfully registered a new blog."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:470
+#: bp-blogs/bp-blogs-templatetags.php:472
 #, php-format
 msgid ""
-"<a href=\"http://%1$s\">http://%2$s</a> is your new blog.  <a href=\"%3$s"
-"\">Login</a> as \"%4$s\" using your existing password."
+"<a href=\"%1$s\">%2$s</a> is your new blog.  <a href=\"%3$s\">Login</a> as "
+"\"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:480 bp-core/bp-core-templatetags.php:930
+#: bp-blogs/bp-blogs-templatetags.php:482 bp-core/bp-core-templatetags.php:930
 #: bp-themes/bp-default/blogs/create.php:10
 #: bp-themes/bp-default/blogs/index.php:8
 msgid "Create a Blog"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:494
+#: bp-blogs/bp-blogs-templatetags.php:496
 #, php-format
 msgid "%s's Blogs"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:495
+#: bp-blogs/bp-blogs-templatetags.php:497
 #, php-format
 msgid "%s's Recent Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:496
+#: bp-blogs/bp-blogs-templatetags.php:498
 #, php-format
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:505 bp-core/bp-core-templatetags.php:457
+#: bp-blogs/bp-blogs-templatetags.php:507 bp-core/bp-core-templatetags.php:457
 #: bp-core/bp-core-templatetags.php:463
 #: bp-forums/bp-forums-templatetags.php:1031
 #: bp-forums/bp-forums-templatetags.php:1037
@@ -542,7 +542,7 @@ msgstr ""
 msgid "Search anything..."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:506 bp-core/bp-core-templatetags.php:464
+#: bp-blogs/bp-blogs-templatetags.php:508 bp-core/bp-core-templatetags.php:464
 #: bp-core/bp-core-templatetags.php:1063
 #: bp-forums/bp-forums-templatetags.php:1038
 #: bp-groups/bp-groups-templatetags.php:1844
@@ -550,8 +550,8 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:538
-#: bp-blogs/bp-blogs-templatetags.php:539
+#: bp-blogs/bp-blogs-templatetags.php:540
+#: bp-blogs/bp-blogs-templatetags.php:541
 msgid "Visit Blog"
 msgstr ""
 
