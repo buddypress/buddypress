@@ -345,6 +345,6 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
 		if ( empty( $user_id ) )
 			$user_id = $bp->loggedin_user->id;
 
-		return apply_filters( 'bp_friend_get_total_requests_count', (int) BP_Friends_Friendship::get_friend_user_ids( $user_id, true ) );
+		return apply_filters( 'bp_friend_get_total_requests_count', count( BP_Friends_Friendship::get_friend_user_ids( $user_id, true ) ) );
 	}
 ?>
