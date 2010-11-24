@@ -464,10 +464,12 @@ function bp_blogs_validate_blog_form() {
 }
 
 function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = '' ) {
+	$protocol = is_ssl() ? 'https://' : 'http://';
+	$blog_url = $protocol . $domain . $path;
 	?>
 	<p><?php _e('Congratulations! You have successfully registered a new blog.', 'buddypress') ?></p>
 	<p>
-		<?php printf(__('<a href="http://%1$s">http://%2$s</a> is your new blog.  <a href="%3$s">Login</a> as "%4$s" using your existing password.', 'buddypress'), $domain.$path, $domain.$path, "http://" . $domain.$path . "wp-login.php", $user_name) ?>
+		<?php printf(__('<a href="%1$s">%2$s</a> is your new blog.  <a href="%3$s">Login</a> as "%4$s" using your existing password.', 'buddypress'), $blog_url, $blog_url, $blog_url . "wp-login.php", $user_name) ?>
 	</p>
 	<?php
 	do_action('signup_finished');
