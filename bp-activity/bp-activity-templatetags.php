@@ -132,6 +132,19 @@ class BP_Activity_Template {
 	}
 }
 
+/**
+ * bp_has_activities()
+ *
+ * Initializes the activity loop. 
+ *
+ * Based on the $args passed, bp_has_activities() populates the $activities_template global.
+ *
+ * @package BuddyPress Activity
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ *
+ * @param mixed $args Arguments for limiting the contents of the activity loop. Can be passed as an associative array or as a URL argument string
+ * @return bool Returns true when activities are found
+ */
 function bp_has_activities( $args = '' ) {
 	global $bp, $activities_template;
 
@@ -148,17 +161,24 @@ function bp_has_activities( $args = '' ) {
 	$object = false;
 	$primary_id = false;
 
-	/* User filtering */
+	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
 		$user_id = $bp->displayed_user->id;
 
-	/* Group filtering */
+	// Group filtering
 	if ( !empty( $bp->groups->current_group ) ) {
 		$object = $bp->groups->id;
 		$primary_id = $bp->groups->current_group->id;
 
 		if ( 'public' != $bp->groups->current_group->status && ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) || $bp->loggedin_user->is_super_admin ) )
 			$show_hidden = true;
+	}
+	
+	// The default scope should recognize custom slugs
+	if ( array_key_exists( $bp->current_action, (array)$bp->active_components ) ) {
+		$scope = $bp->active_components[$bp->current_action];
+	} else {
+		$scope = $bp->current_action;
 	}
 
 	/* Support for permalinks on single item pages: /groups/my-group/activity/124/ */
