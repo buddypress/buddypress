@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-24 13:13+0000\n"
+"POT-Creation-Date: 2010-11-27 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -232,86 +232,86 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:287
+#: bp-activity/bp-activity-templatetags.php:307
 #, php-format
 msgid "Viewing item %1$s to %2$s (of %3$s items)"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:439
-#: bp-activity/bp-activity-templatetags.php:485 bp-groups.php:32
+#: bp-activity/bp-activity-templatetags.php:459
+#: bp-activity/bp-activity-templatetags.php:505 bp-groups.php:32
 msgid "Avatar"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:586
+#: bp-activity/bp-activity-templatetags.php:606
 #, php-format
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:589
+#: bp-activity/bp-activity-templatetags.php:609
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View Thread / Permalink"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:589
-#: bp-activity/bp-activity-templatetags.php:826
+#: bp-activity/bp-activity-templatetags.php:609
+#: bp-activity/bp-activity-templatetags.php:846
 #: bp-core/bp-core-templatetags.php:389
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:669
+#: bp-activity/bp-activity-templatetags.php:689
 #: bp-themes/bp-default/_inc/ajax.php:210
 #, php-format
 msgid "%s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:673
+#: bp-activity/bp-activity-templatetags.php:693
 #: bp-themes/bp-default/_inc/ajax.php:211
 #: bp-themes/bp-default/activity/entry.php:28
 msgid "Reply"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:677
-#: bp-activity/bp-activity-templatetags.php:810
+#: bp-activity/bp-activity-templatetags.php:697
+#: bp-activity/bp-activity-templatetags.php:830
 #: bp-forums/bp-forums-templatetags.php:981
 #: bp-themes/bp-default/_inc/ajax.php:212
 #: bp-xprofile/bp-xprofile-admin.php:399
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:886
+#: bp-activity/bp-activity-templatetags.php:906
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:886
+#: bp-activity/bp-activity-templatetags.php:906
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:886
+#: bp-activity/bp-activity-templatetags.php:906
 #: bp-core/admin/bp-core-upgrade.php:458 bp-core/bp-core-classes.php:98
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:886
+#: bp-activity/bp-activity-templatetags.php:906
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:886
+#: bp-activity/bp-activity-templatetags.php:906
 #: bp-core/admin/bp-core-upgrade.php:253 bp-core/admin/bp-core-upgrade.php:473
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:894
+#: bp-activity/bp-activity-templatetags.php:914
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:973
+#: bp-activity/bp-activity-templatetags.php:993
 msgid ""
 "Mention this user in a new public message, this will send the user a "
 "notification to get their attention."
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:974
+#: bp-activity/bp-activity-templatetags.php:994
 msgid "Mention this User"
 msgstr ""
 
