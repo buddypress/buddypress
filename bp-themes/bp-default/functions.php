@@ -154,76 +154,60 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 }
 
 /**
- * Filter the dropdown for selecting the page to show on front to include "Activity Stream"
+ * In BuddyPress 1.2.x, this function filtered the dropdown on the Settings > Reading screen for selecting
+ * the page to show on front to include "Activity Stream."
+ * As of 1.3.x, it is no longer required.
  *
+ * @deprecated 1.3
+ * @deprecated No longer required.
  * @param string $page_html A list of pages as a dropdown (select list)
- * @see wp_dropdown_pages()
  * @return string
- * @package BuddyPress Theme
+ * @see wp_dropdown_pages()
  * @since 1.2
  */
 function bp_dtheme_wp_pages_filter( $page_html ) {
-	if ( !bp_is_active( 'activity' ) )
-		return $page_html;
-
-	if ( 'page_on_front' != substr( $page_html, 14, 13 ) )
-		return $page_html;
-
-	$selected = false;
-	$page_html = str_replace( '</select>', '', $page_html );
-
-	if ( bp_dtheme_page_on_front() == 'activity' )
-		$selected = ' selected="selected"';
-
-	$page_html .= '<option class="level-0" value="activity"' . $selected . '>' . __( 'Activity Stream', 'buddypress' ) . '</option></select>';
+	_deprecated_function( __FUNCTION__, '1.3', "No longer required." );
 	return $page_html;
 }
-add_filter( 'wp_dropdown_pages', 'bp_dtheme_wp_pages_filter' );
 
 /**
- * Hijack the saving of page on front setting to save the activity stream setting
+ * In BuddyPress 1.2.x, this function hijacked the saving of page on front setting to save the activity stream setting.
+ * As of 1.3.x, it is no longer required.
  *
+ * @deprecated 1.3
+ * @deprecated No longer required.
  * @param $string $oldvalue Previous value of get_option( 'page_on_front' )
  * @param $string $oldvalue New value of get_option( 'page_on_front' )
  * @return string
- * @package BuddyPress Theme
  * @since 1.2
  */
 function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
+	_deprecated_function( __FUNCTION__, '1.3', "No longer required." );
 	if ( !is_admin() || !is_super_admin() )
 		return false;
 
-	if ( 'activity' == $_POST['page_on_front'] )
-		return 'activity';
-	else
-		return $oldvalue;
+	return $oldvalue;
 }
-add_action( 'pre_update_option_page_on_front', 'bp_dtheme_page_on_front_update', 10, 2 );
 
 /**
- * Load the activity stream template if settings allow
+ * In BuddyPress 1.2.x, this function loaded the activity stream template if the front page display settings allow.
+ * As of 1.3.x, it is no longer required.
  *
+ * @deprecated 1.3
+ * @deprecated No longer required.
  * @param string $template Absolute path to the page template 
  * @return string
- * @global WP_Query $wp_query WordPress query object
- * @package BuddyPress Theme
  * @since 1.2
  */
 function bp_dtheme_page_on_front_template( $template ) {
-	global $wp_query;
-
-	if ( empty( $wp_query->post->ID ) )
-		return locate_template( array( 'activity/index.php' ), false );
-	else
-		return $template;
+	_deprecated_function( __FUNCTION__, '1.3', "No longer required." );
+	return $template;
 }
-add_filter( 'page_template', 'bp_dtheme_page_on_front_template' );
 
 /**
  * Return the ID of a page set as the home page.
  *
  * @return false|int ID of page set as the home page
- * @package BuddyPress Theme
  * @since 1.2
  */
 function bp_dtheme_page_on_front() {
@@ -234,39 +218,31 @@ function bp_dtheme_page_on_front() {
 }
 
 /**
- * Force the page ID as a string to stop the get_posts query from kicking up a fuss.
+ * In BuddyPress 1.2.x, this forced the page ID as a string to stop the get_posts query from kicking up a fuss.
+ * As of 1.3.x, it is no longer required.
  *
- * @global WP_Query $wp_query WordPress query object
- * @package BuddyPress Theme
+ * @deprecated 1.3
+ * @deprecated No longer required.
  * @since 1.2
  */
 function bp_dtheme_fix_get_posts_on_activity_front() {
-	global $wp_query;
-
-	if ( !empty($wp_query->query_vars['page_id']) && 'activity' == $wp_query->query_vars['page_id'] )
-		$wp_query->query_vars['page_id'] = '"activity"';
+	_deprecated_function( __FUNCTION__, '1.3', "No longer required." );
 }
-add_action( 'pre_get_posts', 'bp_dtheme_fix_get_posts_on_activity_front' );
 
 /**
- * WP 3.0 requires there to be a non-null post in the posts array
+ * In BuddyPress 1.3, this was used as part of the code that set the activity stream to be on the front page.
+ * As of 1.3.x, it is no longer required.
  *
+ * @deprecated 1.3
+ * @deprecated No longer required.
  * @param array $posts Posts as retrieved by WP_Query
- * @global WP_Query $wp_query WordPress query object
  * @return array
- * @package BuddyPress Theme
  * @since 1.2.5
  */
 function bp_dtheme_fix_the_posts_on_activity_front( $posts ) {
-	global $wp_query;
-
-	// NOTE: the double quotes around '"activity"' are thanks to our previous function bp_dtheme_fix_get_posts_on_activity_front()
-	if ( empty( $posts ) && !empty( $wp_query->query_vars['page_id'] ) && '"activity"' == $wp_query->query_vars['page_id'] )
-		$posts = array( (object) array( 'ID' => 'activity' ) );
-
+	_deprecated_function( __FUNCTION__, '1.3', "No longer required." );
 	return $posts;
 }
-add_filter( 'the_posts', 'bp_dtheme_fix_the_posts_on_activity_front' );
 
 /**
  * Add secondary avatar image to this activity stream's record, if supported
@@ -405,7 +381,7 @@ if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
 function bp_dtheme_main_nav( $args ) {
 ?>
 	<ul id="nav">
-		<li<?php if ( bp_is_front_page() ) : ?> class="selected"<?php endif; ?>>
+		<li<?php if ( is_front_page() ) : ?> class="selected"<?php endif; ?>>
 			<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
 		</li>
 

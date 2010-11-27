@@ -1517,6 +1517,32 @@ function bp_root_domain() {
 
 /* Template is_() functions to determine the current page */
 
+/**
+ * Checks if the site's front page is set to the specified BuddyPress component page in wp-admin's Settings > Reading screen.
+ *
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $current_blog WordPress global containing information and settings for the current blog being viewed.
+ * @param string $component Optional; name of the component to check for. If not specified, uses $bp->current_component.
+ * @return bool True if the specified component is set to be the site's front page.
+ * @since 1.3
+ */
+function bp_is_component_front_page( $component='' ) {
+	global $bp, $current_blog;
+
+	if ( !$component && !empty( $bp->current_component ) )
+		$component = $bp->current_component;
+
+	if ( is_main_site() )
+		$path = bp_core_get_site_path();
+	else
+		$path = $current_blog->path;
+		
+	if ( 'page' != get_option( 'show_on_front' ) || !$component || empty( $bp->pages->{$component} ) || $_SERVER['REQUEST_URI'] != $path )
+		return false;
+
+	return apply_filters( 'bp_is_component_front_page', ( $bp->pages->{$component}->id == get_option( 'page_on_front' ) ), $component );
+}
+
 function bp_is_blog_page() {
 	global $bp, $is_member_page, $wp_query;
 
@@ -1541,24 +1567,28 @@ function bp_is_my_profile() {
 }
 function bp_is_home() { return bp_is_my_profile(); }
 
+/**
+ * Is the user on the front page of the site?
+ *
+ * @deprecated 1.3
+ * @deprecated Use is_front_page()
+ * @return bool
+ */
 function bp_is_front_page() {
-	if ( 'posts' == get_option('show_on_front') && is_home() )
-		return true;
-	else if ( bp_is_activity_front_page() )
-		return true;
-	else
-		return is_front_page();
+	_deprecated_function( __FUNCTION__, '1.3', "is_front_page()" );
+	return is_front_page();
 }
 
+/**
+ * Is the front page of the site set to the Activity component?
+ *
+ * @deprecated 1.3
+ * @deprecated Use bp_is_component_front_page( 'activity' )
+ * @return bool
+ */
 function bp_is_activity_front_page() {
-	global $current_blog;
-
-	if ( is_main_site() )
-		$path = bp_core_get_site_path();
-	else
-		$path = $current_blog->path;
-
-	return ( 'page' == get_option('show_on_front') && 'activity' == get_option('page_on_front') && $_SERVER['REQUEST_URI'] == $path );
+	_deprecated_function( __FUNCTION__, '1.3', "bp_is_component_front_page( 'activity' )" );
+	return bp_is_component_front_page( 'activity' );
 }
 
 function bp_is_directory() {
@@ -1979,7 +2009,7 @@ function bp_the_body_class() {
 
 		$bp_classes = array();
 
-		if ( bp_is_front_page() )
+		if ( is_front_page() )
 			$bp_classes[] = 'home-page';
 
 		if ( bp_is_directory() )
@@ -1988,19 +2018,19 @@ function bp_the_body_class() {
 		if ( bp_is_user_profile() && !bp_is_blog_page() )
 			$bp_classes[] = 'profile';
 
-		if ( bp_is_activity_component() && !bp_is_blog_page() || ( bp_is_activity_front_page() && bp_is_front_page() ) )
+		if ( bp_is_activity_component() && !bp_is_blog_page() )
 			$bp_classes[] = 'activity';
 
-		if ( bp_is_blogs_component() && !bp_is_blog_page()  )
+		if ( bp_is_blogs_component() && !bp_is_blog_page() )
 			$bp_classes[] = 'blogs';
 
 		if ( bp_is_messages_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'messages';
 
-		if ( bp_is_friends_component() && !bp_is_blog_page()  )
+		if ( bp_is_friends_component() && !bp_is_blog_page() )
 			$bp_classes[] = 'friends';
 
-		if ( bp_is_groups_component() && !bp_is_blog_page()  )
+		if ( bp_is_groups_component() && !bp_is_blog_page() )
 			$bp_classes[] = 'groups';
 
 		if ( bp_is_settings_component() && !bp_is_blog_page()  )

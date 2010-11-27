@@ -104,8 +104,15 @@ function bp_core_set_uri_globals() {
 	}
 
 	// Reset the keys by merging with an empty array
-	$bp_uri		 		= array_merge( array(), $bp_uri );
-	$bp_unfiltered_uri 	= $bp_uri;
+	$bp_uri            = array_merge( array(), $bp_uri );
+	$bp_unfiltered_uri = $bp_uri;
+
+	// If a component is set to the front page, force its name into $bp_uri so that $current_component is populated
+	if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && empty( $bp_uri ) ) {
+		$post = get_post( get_option( 'page_on_front' ) );
+		if ( !empty( $post ) )
+			$bp_uri[0] = $post->post_name;
+	}
 
 	// Find a match within registered BuddyPress controlled WP pages (check members first)
 	foreach ( (array)$bp_pages as $page_key => $bp_page ) {
@@ -214,45 +221,23 @@ add_action( 'bp_loaded', 'bp_core_set_uri_globals', 4 );
  *
  * @package BuddyPress Core
  * @param $username str Username to check.
- * @global $wpdb WordPress DB access object.
- * @return false on no match
- * @return int the user ID of the matched user.
+ * @return false|int The user ID of the matched user, or false.
  */
 function bp_core_load_template( $templates ) {
-	global $post, $bp, $wpdb, $wp_query, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
+	global $bp, $wpdb, $wp_query, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
 
 	// Determine if the root object WP page exists for this request (TODO: is there an API function for this?
-	if ( !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) ) )
-		return false;
-
-	// Set the root object as the current wp_query-ied item
-	$object_id = 0;
-	foreach ( (array)$bp->pages as $page ) {
-		if ( isset( $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) && $page->name == $bp_unfiltered_uri[$bp_unfiltered_uri_offset] )
-			$object_id = $page->id;
-	}
-
-	// Make the queried/post object an actual valid page
-	if ( !empty( $object_id ) ) {
-		$wp_query->queried_object = &get_post( $object_id );
-		$wp_query->queried_object_id = $object_id;
-
-		$post = $wp_query->queried_object;
-	}
+	if ( !empty( $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) )
+		if ( !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) ) )
+			return false;
 
 	// Fetch each template and add the php suffix
 	foreach ( (array)$templates as $template )
 		$filtered_templates[] = $template . '.php';
 
 	// Filter the template locations so that plugins can alter where they are located
-	if ( $located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates ) ) {
-		// Template was located, lets set this as a valid page and not a 404.
- 		status_header( 200 );
-		$wp_query->is_page = true;
-		$wp_query->is_404 = false;
-
+	if ( $located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates ) )
 		load_template( apply_filters( 'bp_load_template', $located_template ) );
-	}
 
 	// Kill any other output after this.
 	die;

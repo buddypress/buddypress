@@ -15,6 +15,9 @@ function bp_core_screen_signup() {
 		return false;
 
 	$bp->is_directory = false;
+	
+	if ( bp_is_component_front_page( 'register' ) && ( is_user_logged_in() || !bp_get_signup_allowed() ) )
+		bp_core_redirect( $bp->root_domain . '/' . $bp->members->slug );
 
 	/* If the user is logged in, redirect away from here */
 	if ( is_user_logged_in() )
