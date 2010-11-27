@@ -23,6 +23,8 @@ function bp_core_add_settings_nav() {
 
 	if ( !is_super_admin() && !isset( $bp->site_option['bp-disable-account-deletion'] ) )
 		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_my_profile() ) );
+	
+	do_action( 'bp_core_settings_setup_nav' );
 }
 add_action( 'bp_setup_nav', 'bp_core_add_settings_nav' );
 
