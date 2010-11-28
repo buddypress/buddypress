@@ -991,7 +991,7 @@ function bp_activity_thumbnail_content_images( $content ) {
 			}
 
 			$ratio = (int)$width / (int)$height;
-			$new_height = 100;
+			$new_height = (int)$height >= 100 ? 100 : $height;
 			$new_width = $new_height * $ratio;
 
 			$content = '<img src="' . esc_attr( $src) . '" width="' . $new_width . '" height="' . $new_height . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />' . $content;
