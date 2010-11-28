@@ -599,16 +599,17 @@ function bp_activity_content() {
 	function bp_insert_activity_meta( $content ) {
 		global $activities_template, $bp;
 
-		/* Strip any legacy time since placeholders -- TODO: Remove this in 1.3 */
+		// Strip any legacy time since placeholders -- TODO: Remove this in 1.3
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
-		/* Insert the time since. */
+		// Insert the time since.
 		$content .= ' ' . apply_filters( 'bp_activity_time_since', '<span class="time-since">' . sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', &$activities_template->activity );
 
-		/* Insert the permalink */
-		$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity );
+		// Insert the permalink
+		if ( !bp_is_activity_permalink() )
+			$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity );
 
-		/* Add the delete link if the user has permission on this item */
+		// Add the delete link if the user has permission on this item
 		if ( ( is_user_logged_in() && $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || $bp->loggedin_user->is_super_admin )
 			 $content .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), $activities_template->activity );
 
