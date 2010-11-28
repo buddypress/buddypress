@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-27 13:13+0000\n"
+"POT-Creation-Date: 2010-11-28 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1441,7 +1441,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:233 bp-core/bp-core-signup.php:625
+#: bp-core/bp-core-filters.php:233 bp-core/bp-core-signup.php:628
 #, php-format
 msgid ""
 "Thanks for registering! To complete the activation of your account please "
@@ -1451,7 +1451,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:234 bp-core/bp-core-signup.php:626
+#: bp-core/bp-core-filters.php:234 bp-core/bp-core-signup.php:629
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1459,39 +1459,39 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:186
+#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:188
 msgid "Delete Account"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:71
+#: bp-core/bp-core-settings.php:73
 msgid "General Settings"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:79 bp-core/bp-core-settings.php:146
+#: bp-core/bp-core-settings.php:81 bp-core/bp-core-settings.php:148
 msgid "Changes Saved."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:85
+#: bp-core/bp-core-settings.php:87
 msgid "Your passwords did not match"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:90
+#: bp-core/bp-core-settings.php:92
 msgid "Account Email"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:93
+#: bp-core/bp-core-settings.php:95
 msgid "Change Password <span>(leave blank for no change)</span>"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:94
+#: bp-core/bp-core-settings.php:96
 msgid "New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:95
+#: bp-core/bp-core-settings.php:97
 msgid "Repeat New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:100 bp-core/bp-core-settings.php:157
+#: bp-core/bp-core-settings.php:102 bp-core/bp-core-settings.php:159
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:100
 #: bp-themes/bp-default/groups/single/forum/edit.php:34
@@ -1501,113 +1501,113 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:138
+#: bp-core/bp-core-settings.php:140
 msgid "Notification Settings"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:151
+#: bp-core/bp-core-settings.php:153
 msgid "Email Notifications"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:152
+#: bp-core/bp-core-settings.php:154
 msgid "Send a notification by email when:"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:195
+#: bp-core/bp-core-settings.php:197
 msgid ""
 "WARNING: Deleting your account will completely remove ALL content associated "
 "with it. There is no way back, please be careful with this option."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:198
+#: bp-core/bp-core-settings.php:200
 msgid "I understand the consequences of deleting my account."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:203
+#: bp-core/bp-core-settings.php:205
 msgid "Delete My Account"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:49
+#: bp-core/bp-core-signup.php:52
 msgid "Please make sure you enter your password twice"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:53
+#: bp-core/bp-core-signup.php:56
 msgid "The passwords you entered do not match."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:76
+#: bp-core/bp-core-signup.php:79
 msgid "This is a required field"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:170
+#: bp-core/bp-core-signup.php:173
 msgid ""
 "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:200 bp-xprofile.php:314
+#: bp-core/bp-core-signup.php:203 bp-xprofile.php:314
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:202
+#: bp-core/bp-core-signup.php:205
 msgid "Your new avatar was uploaded successfully"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:224 bp-core/bp-core-signup.php:495
+#: bp-core/bp-core-signup.php:227 bp-core/bp-core-signup.php:498
 msgid "There was an error activating your account, please try again."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:238
+#: bp-core/bp-core-signup.php:241
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:356
+#: bp-core/bp-core-signup.php:359
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:367
+#: bp-core/bp-core-signup.php:370
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:370
+#: bp-core/bp-core-signup.php:373
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:373
+#: bp-core/bp-core-signup.php:376
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:380
+#: bp-core/bp-core-signup.php:383
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:383
+#: bp-core/bp-core-signup.php:386
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:391
+#: bp-core/bp-core-signup.php:394
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:396
+#: bp-core/bp-core-signup.php:399
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:400
+#: bp-core/bp-core-signup.php:403
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:435
+#: bp-core/bp-core-signup.php:438
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
 "href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:520 bp-core/bp-core-signup.php:524
+#: bp-core/bp-core-signup.php:523 bp-core/bp-core-signup.php:527
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:567
+#: bp-core/bp-core-signup.php:570
 #, php-format
 msgid "%s became a registered member"
 msgstr ""
@@ -1675,7 +1675,7 @@ msgid "%1$s at %2$s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:894 bp-groups.php:127
-#: bp-themes/bp-default/functions.php:409 bp-themes/bp-default/header.php:41
+#: bp-themes/bp-default/functions.php:385 bp-themes/bp-default/header.php:41
 msgid "Home"
 msgstr ""
 
@@ -3798,11 +3798,7 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:178
-msgid "Activity Stream"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:386
+#: bp-themes/bp-default/functions.php:362
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
