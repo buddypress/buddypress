@@ -689,7 +689,7 @@ function bp_activity_comments( $args = '' ) {
 				$content .= '<div class="acomment-meta"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . apply_filters( 'bp_acomment_name', $comment->user_fullname, $comment ) . '</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( $comment->date_recorded ) );
 
 				/* Reply link - the span is so that threaded reply links can be hidden when JS is off. */
-				if ( is_user_logged_in() )
+				if ( is_user_logged_in() && bp_activity_can_comment_reply( $comment ) )
 					$content .= '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>';
 
 				/* Delete link */
@@ -930,6 +930,12 @@ function bp_activity_can_comment() {
 		$can_comment = false;
 
 	return apply_filters( 'bp_activity_can_comment', $can_comment );
+}
+
+function bp_activity_can_comment_reply( $comment ) {
+	$can_comment = true;
+
+	return apply_filters( 'bp_activity_can_comment_reply', $can_comment, $comment );
 }
 
 function bp_activity_can_favorite() {	
