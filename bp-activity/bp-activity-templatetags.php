@@ -695,7 +695,7 @@ function bp_activity_comments( $args = '' ) {
 
 				/* Delete link */
 				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id )
-					$content .= ' &middot; <a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' ) . '" class="delete acomment-delete">' . __( 'Delete', 'buddypress' ) . '</a>';
+					$content .= ' &middot; <a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' ) . '" class="delete acomment-delete" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>';
 
 				$content .= '</div>';
 				$content .= '<div class="acomment-content">' . apply_filters( 'bp_get_activity_content', $comment->content ) . '</div>';
@@ -828,7 +828,7 @@ function bp_activity_delete_link() {
 	function bp_get_activity_delete_link() {
 		global $activities_template, $bp;
 
-		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete-activity confirm">' . __( 'Delete', 'buddypress' ) . '</a>' );
+		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete-activity confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>' );
 	}
 
 function bp_activity_latest_update( $user_id = false ) {
