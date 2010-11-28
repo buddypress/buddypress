@@ -139,7 +139,11 @@ function bp_core_set_uri_globals() {
 
 		unset( $uri_chunks );
 	}
-
+	
+	// Search doesn't have an associated page, so we check for it separately
+	if ( BP_SEARCH_SLUG == $bp_uri[0] )
+		$matches[] = 1;
+		
 	// This is not a BuddyPress page, so just return.
 	if ( !isset( $matches ) )
 		return false;

@@ -22,6 +22,10 @@ if ( !defined( 'CUSTOM_USER_TABLE' ) )
 if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
 	define( 'CUSTOM_USER_META_TABLE', $wpdb->base_prefix . 'usermeta' );
 
+// The search slug has to be defined nice and early because of the way search requests are loaded
+if ( !defined( 'BP_SEARCH_SLUG' ) )
+        define( 'BP_SEARCH_SLUG', 'search' );
+
 /* Load the files containing functions that we globally will need. */
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php' );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php' );
@@ -202,9 +206,6 @@ function bp_core_define_slugs() {
 
 	if ( !defined( 'BP_ACTIVATION_SLUG' ) )
 		define( 'BP_ACTIVATION_SLUG', $bp->pages->activate->slug );
-
-	if ( !defined( 'BP_SEARCH_SLUG' ) )
-		define( 'BP_SEARCH_SLUG', 'search' );
 }
 add_action( 'bp_setup_globals', 'bp_core_define_slugs' );
 
