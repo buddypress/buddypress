@@ -1,100 +1,295 @@
 <?php
-// Stop the theme from killing WordPress if BuddyPress is not enabled.
-if ( !class_exists( 'BP_Core_User' ) )
-	return false;
+/**
+ * BP-Default theme functions and definitions
+ *
+ * Sets up the theme and provides some helper functions. Some helper functions
+ * are used in the theme as custom template tags. Others are attached to action and
+ * filter hooks in WordPress and BuddyPress to change core functionality.
+ *
+ * The first function, bp_dtheme_setup(), sets up the theme by registering support
+ * for various features in WordPress, such as post thumbnails and navigation menus, and
+ * for BuddyPress, action buttons and javascript localisation.
+ *
+ * When using a child theme (see http://codex.wordpress.org/Theme_Development, http://codex.wordpress.org/Child_Themes
+ * and http://codex.buddypress.org/theme-development/building-a-buddypress-child-theme/), you can override
+ * certain functions (those wrapped in a function_exists() call) by defining them first in your
+ * child theme's functions.php file. The child theme's functions.php file is included before the
+ * parent theme's file, so the child theme functions would be used.
+ *
+ * Functions that are not pluggable (not wrapped in function_exists()) are instead attached
+ * to a filter or action hook. The hook can be removed by using remove_action() or
+ * remove_filter() and you can attach your own function to the hook.
+ *
+ * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
+ *
+ * @package BuddyPress
+ * @subpackage BP-Default
+ * @since 1.2
+ */
 
-add_theme_support( 'automatic-feed-links' );
+if ( !function_exists( 'bp_dtheme_setup' ) ) :
+/**
+ * Sets up theme defaults and registers support for various WordPress and BuddyPress features.
+ *
+ * Note that this function is hooked into the after_setup_theme hook, which runs
+ * before the init hook. The init hook is too late for some features, such as indicating
+ * support post thumbnails.
+ *
+ * To override bp_dtheme_setup() in a child theme, add your own bp_dtheme_setup to your child theme's
+ * functions.php file.
+ *
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @since 1.3
+ */
+function bp_dtheme_setup() {
+	global $bp;
 
-// This theme allows users to set a custom background
-add_custom_background();
+	// Load the AJAX functions for the theme
+	require_once( TEMPLATEPATH . '/_inc/ajax.php' );
 
-// Register the widget columns
-// Area 1, located in the sidebar. Empty by default.
-register_sidebar( array(
-	'name'          => 'Sidebar',
-	'description' 	=> __( 'The sidebar widget area', 'buddypress' ),
-	'before_widget' => '<div id="%1$s" class="widget %2$s">',
-	'after_widget'  => '</div>',
-	'before_title'  => '<h3 class="widgettitle">',
-	'after_title'   => '</h3>'
-) );
+	// This theme uses post thumbnails
+	add_theme_support( 'post-thumbnails' );
 
-// Area 2, located in the footer. Empty by default.
-register_sidebar( array(
-	'name' => __( 'First Footer Widget Area', 'buddypress' ),
-	'id' => 'first-footer-widget-area',
-	'description' => __( 'The first footer widget area', 'buddypress' ),
-	'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-	'after_widget' => '</li>',
-	'before_title' => '<h3 class="widgettitle">',
-	'after_title' => '</h3>',
-) );
+	// Add default posts and comments RSS feed links to head
+	add_theme_support( 'automatic-feed-links' );
 
-// Area 3, located in the footer. Empty by default.
-register_sidebar( array(
-	'name' => __( 'Second Footer Widget Area', 'buddypress' ),
-	'id' => 'second-footer-widget-area',
-	'description' => __( 'The second footer widget area', 'buddypress' ),
-	'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-	'after_widget' => '</li>',
-	'before_title' => '<h3 class="widgettitle">',
-	'after_title' => '</h3>',
-) );
+	// This theme uses wp_nav_menu() in one location.
+	register_nav_menus( array(
+		'primary' => __( 'Primary Navigation', 'buddypress' ),
+	) );
 
-// Area 4, located in the footer. Empty by default.
-register_sidebar( array(
-	'name' => __( 'Third Footer Widget Area', 'buddypress' ),
-	'id' => 'third-footer-widget-area',
-	'description' => __( 'The third footer widget area', 'buddypress' ),
-	'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-	'after_widget' => '</li>',
-	'before_title' => '<h3 class="widgettitle">',
-	'after_title' => '</h3>',
-) );
+	// This theme allows users to set a custom background
+	add_custom_background();
 
-// Area 5, located in the footer. Empty by default.
-register_sidebar( array(
-	'name' => __( 'Fourth Footer Widget Area', 'buddypress' ),
-	'id' => 'fourth-footer-widget-area',
-	'description' => __( 'The fourth footer widget area', 'buddypress' ),
-	'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-	'after_widget' => '</li>',
-	'before_title' => '<h3 class="widgettitle">',
-	'after_title' => '</h3>',
-) );
+	// Changeable header section starts here
+	define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
+	// No CSS. The %s is a placeholder for the theme template directory URI.
+	define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' );
 
-// Register navigation menu
-register_nav_menus( array(
-	'primary' => __( 'Primary Navigation', 'buddypress' ),
-) );
+	// The height and width of your custom header. You can hook into the theme's own filters to change these values.
+	// Add a filter to bp_dtheme_header_image_width and bp_dtheme_header_image_height to change these values.
+	define( 'HEADER_IMAGE_WIDTH', apply_filters( 'bp_dtheme_header_image_width', 1250 ) );
+	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'bp_dtheme_header_image_height', 100 ) );
 
-// Load the AJAX functions for the theme
-require_once( TEMPLATEPATH . '/_inc/ajax.php' );
+	// We'll be using post thumbnails for custom header images on posts and pages. We want them to be 1250 pixels wide by 100 pixels tall.
+	// Larger images will be auto-cropped to fit, smaller ones will be ignored.
+	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
 
-// Load the javascript for the theme
-wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ) );
+	// Add a way for the custom header to be styled in the admin panel that controls custom headers.
+	add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style' );
 
-// Add words that we need to use in JS to the end of the page so they can be translated and still used.
-$params = array(
-	'my_favs'           => __( 'My Favorites', 'buddypress' ),
-	'accepted'          => __( 'Accepted', 'buddypress' ),
-	'rejected'          => __( 'Rejected', 'buddypress' ),
-	'show_all_comments' => __( 'Show all comments for this thread', 'buddypress' ),
-	'show_all'          => __( 'Show all', 'buddypress' ),
-	'comments'          => __( 'comments', 'buddypress' ),
-	'close'             => __( 'Close', 'buddypress' )
-);
+	//End of changeable header section
 
-global $bp;
-if ( isset( $bp->displayed_user->id ) )
-	$params['mention_explain'] = sprintf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", 'buddypress' ), '@' . bp_get_displayed_user_username(), bp_get_user_firstname( bp_get_displayed_user_fullname() ), bp_get_user_firstname( bp_get_displayed_user_fullname() ) );
+	// Load the javascript for the theme
+	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ) );
 
-wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
+	// Add words that we need to use in JS to the end of the page so they can be translated and still used.
+	$params = array(
+		'my_favs'           => __( 'My Favorites', 'buddypress' ),
+		'accepted'          => __( 'Accepted', 'buddypress' ),
+		'rejected'          => __( 'Rejected', 'buddypress' ),
+		'show_all_comments' => __( 'Show all comments for this thread', 'buddypress' ),
+		'show_all'          => __( 'Show all', 'buddypress' ),
+		'comments'          => __( 'comments', 'buddypress' ),
+		'close'             => __( 'Close', 'buddypress' )
+	);
+
+	if ( !empty( $bp->displayed_user->id ) )
+		$params['mention_explain'] = sprintf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", 'buddypress' ), '@' . bp_get_displayed_user_username(), bp_get_user_firstname( bp_get_displayed_user_fullname() ), bp_get_user_firstname( bp_get_displayed_user_fullname() ) );
+
+	wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
+
+	// Register buttons for the relevant component templates
+	// Friends button
+	if ( bp_is_active( 'friends' ) )
+		add_action( 'bp_member_header_actions',    'bp_add_friend_button' );
+
+	// Activity button
+	if ( bp_is_active( 'activity' ) )
+		add_action( 'bp_member_header_actions',    'bp_send_public_message_button' );
+
+	// Messages button
+	if ( bp_is_active( 'messages' ) )
+		add_action( 'bp_member_header_actions',    'bp_send_private_message_button' );
+
+	// Group buttons
+	if ( bp_is_active( 'groups' ) ) {
+		add_action( 'bp_group_header_actions',     'bp_group_join_button' );
+		add_action( 'bp_group_header_actions',     'bp_group_new_topic_button' );
+		add_action( 'bp_directory_groups_actions', 'bp_group_join_button' );
+	}
+
+	// Blog button
+	if ( bp_is_active( 'blogs' ) )
+		add_action( 'bp_directory_blogs_actions',  'bp_blogs_visit_blog_button' );
+}
+add_action( 'after_setup_theme', 'bp_dtheme_setup' );
+endif;
+
+if ( !function_exists( 'bp_dtheme_admin_header_style' ) ) :
+/**
+ * Styles the header image displayed on the Appearance > Header admin panel.
+ *
+ * Referenced via add_custom_image_header() in bp_dtheme_setup().
+ *
+ * @since 1.2
+ */
+function bp_dtheme_admin_header_style() {
+?>
+	<style type="text/css">
+		#headimg {
+			position: relative;
+			color: #fff;
+			background: url(<?php header_image() ?>);
+			-moz-border-radius-bottomleft: 6px;
+			-webkit-border-bottom-left-radius: 6px;
+			-moz-border-radius-bottomright: 6px;
+			-webkit-border-bottom-right-radius: 6px;
+			margin-bottom: 20px;
+			height: 100px;
+			padding-top: 25px;
+		}
+
+		#headimg h1{
+			position: absolute;
+			bottom: 15px;
+			left: 15px;
+			width: 44%;
+			margin: 0;
+			font-family: Arial, Tahoma, sans-serif;
+		}
+		#headimg h1 a{
+			color:#<?php header_textcolor() ?>;
+			text-decoration: none;
+			border-bottom: none;
+		}
+		#headimg #desc{
+			color:#<?php header_textcolor() ?>;
+			font-size:1em;
+			margin-top:-0.5em;
+		}
+
+		#desc {
+			display: none;
+		}
+
+		<?php if ( 'blank' == get_header_textcolor() ) { ?>
+		#headimg h1, #headimg #desc {
+			display: none;
+		}
+		#headimg h1 a, #headimg #desc {
+			color:#<?php echo HEADER_TEXTCOLOR ?>;
+		}
+		<?php } ?>
+	</style>
+<?php
+}
+endif;
+
+if ( !function_exists( 'bp_dtheme_header_style' ) ) :
+/**
+ * The styles for the post thumbnails / custom page headers.
+ *
+ * Referenced via add_custom_image_header() in bp_dtheme_setup().
+ *
+ * @global WP_Query $post The current WP_Query object for the current post or page
+ * @since 1.2
+ */
+function bp_dtheme_header_style() {
+	global $post;
+
+	if ( is_singular() && has_post_thumbnail( $post->ID ) ) {
+		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'post-thumbnail' );
+
+		// $src, $width, $height
+		if ( !empty( $image ) && $image[1] >= HEADER_IMAGE_WIDTH )
+			$header_image = $image[0];
+	}
+
+	if ( empty( $header_image ) )
+		$header_image = get_header_image();
+?>
+	<style type="text/css">
+		#header { background-image: url(<?php echo $header_image ?>); }
+		<?php if ( 'blank' == get_header_textcolor() ) { ?>
+		#header h1, #header #desc { display: none; }
+		<?php } else { ?>
+		#header h1 a, #desc { color:#<?php header_textcolor() ?>; }
+		<?php } ?>
+	</style>
+<?php
+}
+endif;
+
+/**
+ * Register widgetised areas, including one sidebar and four widget-ready columns in the footer.
+ *
+ * To override bp_dtheme_widgets_init() in a child theme, remove the action hook and add your own
+ * function tied to the init hook.
+ *
+ * @since 1.3
+ */
+function bp_dtheme_widgets_init() {
+	// Register the widget columns
+	// Area 1, located in the sidebar. Empty by default.
+	register_sidebar( array(
+		'name'          => 'Sidebar',
+		'description' 	=> __( 'The sidebar widget area', 'buddypress' ),
+		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h3 class="widgettitle">',
+		'after_title'   => '</h3>'
+	) );
+
+	// Area 2, located in the footer. Empty by default.
+	register_sidebar( array(
+		'name' => __( 'First Footer Widget Area', 'buddypress' ),
+		'id' => 'first-footer-widget-area',
+		'description' => __( 'The first footer widget area', 'buddypress' ),
+		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
+		'after_widget' => '</li>',
+		'before_title' => '<h3 class="widgettitle">',
+		'after_title' => '</h3>',
+	) );
+
+	// Area 3, located in the footer. Empty by default.
+	register_sidebar( array(
+		'name' => __( 'Second Footer Widget Area', 'buddypress' ),
+		'id' => 'second-footer-widget-area',
+		'description' => __( 'The second footer widget area', 'buddypress' ),
+		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
+		'after_widget' => '</li>',
+		'before_title' => '<h3 class="widgettitle">',
+		'after_title' => '</h3>',
+	) );
+
+	// Area 4, located in the footer. Empty by default.
+	register_sidebar( array(
+		'name' => __( 'Third Footer Widget Area', 'buddypress' ),
+		'id' => 'third-footer-widget-area',
+		'description' => __( 'The third footer widget area', 'buddypress' ),
+		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
+		'after_widget' => '</li>',
+		'before_title' => '<h3 class="widgettitle">',
+		'after_title' => '</h3>',
+	) );
+
+	// Area 5, located in the footer. Empty by default.
+	register_sidebar( array(
+		'name' => __( 'Fourth Footer Widget Area', 'buddypress' ),
+		'id' => 'fourth-footer-widget-area',
+		'description' => __( 'The fourth footer widget area', 'buddypress' ),
+		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
+		'after_widget' => '</li>',
+		'before_title' => '<h3 class="widgettitle">',
+		'after_title' => '</h3>',
+	) );
+}
+add_action( 'widgets_init', 'bp_dtheme_widgets_init' );
 
 /**
  * Add the JS needed for blog comment replies
  *
- * @package BuddyPress Theme
  * @since 1.2
  */
 function bp_dtheme_add_blog_comments_js() {
@@ -103,14 +298,19 @@ function bp_dtheme_add_blog_comments_js() {
 }
 add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
 
+if ( !function_exists( 'bp_dtheme_blog_comments' ) ) :
 /**
- * HTML for outputting blog comments as defined by the WP comment API
+ * Template for comments and pingbacks.
+ *
+ * To override this walker in a child theme without modifying the comments template
+ * simply create your own bp_dtheme_blog_comments(), and that function will be used instead.
+ *
+ * Used as a callback by wp_list_comments() for displaying the comments.
  *
  * @param mixed $comment Comment record from database
  * @param array $args Arguments from wp_list_comments() call
  * @param int $depth Comment nesting level
  * @see wp_list_comments()
- * @package BuddyPress Theme
  * @since 1.2
  */
 function bp_dtheme_blog_comments( $comment, $args, $depth ) {
@@ -139,19 +339,101 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 			</div>
 
 			<?php if ( $comment->comment_approved == '0' ) : ?>
-			 	<em class="moderate"><?php _e('Your comment is awaiting moderation.'); ?></em><br />
+			 	<em class="moderate"><?php _e( 'Your comment is awaiting moderation.', 'buddypress' ); ?></em><br />
 			<?php endif; ?>
 
 			<?php comment_text() ?>
 
 			<div class="comment-options">
-				<?php echo comment_reply_link( array('depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?>
-				<?php edit_comment_link( __( 'Edit' ),'','' ); ?>
+				<?php echo comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?>
+				<?php edit_comment_link( __( 'Edit', 'buddypress' ), '', '' ); ?>
 			</div>
 
 		</div>
 <?php
 }
+endif;
+
+/**
+ * Return the ID of a page set as the home page.
+ *
+ * @return false|int ID of page set as the home page
+ * @since 1.2
+ */
+function bp_dtheme_page_on_front() {
+	if ( 'page' != get_option( 'show_on_front' ) )
+		return false;
+
+	return apply_filters( 'bp_dtheme_page_on_front', get_option( 'page_on_front' ) );
+}
+
+/**
+ * Add secondary avatar image to this activity stream's record, if supported.
+ *
+ * @param string $action The text of this activity
+ * @param BP_Activity_Activity $activity Activity object
+ * @package BuddyPress Theme
+ * @return string
+ * @since 1.2.6
+ */
+function bp_dtheme_activity_secondary_avatars( $action, $activity ) {
+	switch ( $activity->component ) {
+		case 'groups' :
+		case 'blogs' :
+		case 'friends' :
+			// Only insert avatar if one exists
+			if ( $secondary_avatar = bp_get_activity_secondary_avatar() ) {
+				$reverse_content = strrev( $action );
+				$position        = strpos( $reverse_content, 'a<' );
+				$action          = substr_replace( $action, $secondary_avatar, -$position - 2, 0 );
+			}
+			break;
+	}
+
+	return $action;
+}
+add_filter( 'bp_get_activity_action_pre_meta', 'bp_dtheme_activity_secondary_avatars', 10, 2 );
+
+/**
+ * Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html)
+ *
+ * @since 1.2
+ */
+function bp_dtheme_show_notice() { ?>
+	<div id="message" class="updated fade">
+		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">custom header image</a> support and <a href="%s">sidebar widgets</a>.', 'buddypress' ), admin_url( 'themes.php?page=custom-header' ), admin_url( 'widgets.php' ) ) ?></p>
+	</div>
+
+	<style type="text/css">#message2, #message0 { display: none; }</style>
+	<?php
+}
+if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
+	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
+
+/**
+ * wp_nav_menu() callback from the main navigation in header.php
+ *
+ * Used when the custom menus haven't been configured.
+ *
+ * @param array Menu arguments from wp_nav_menu()
+ * @package BuddyPress Theme
+ * @see wp_nav_menu()
+ * @since 1.3
+ */
+function bp_dtheme_main_nav( $args ) {
+?>
+	<ul id="nav">
+		<li<?php if ( is_front_page() ) : ?> class="selected"<?php endif; ?>>
+			<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
+		</li>
+
+		<?php wp_list_pages( 'title_li=&depth=0&exclude=' . bp_dtheme_page_on_front() ); ?>
+		<?php do_action( 'bp_nav_items' ); ?>
+	</ul><!-- #nav -->
+<?php
+}
+
+// Everything beyond this point is deprecated as of BuddyPress 1.3. This will be removed in a future version.
 
 /**
  * In BuddyPress 1.2.x, this function filtered the dropdown on the Settings > Reading screen for selecting
@@ -205,19 +487,6 @@ function bp_dtheme_page_on_front_template( $template ) {
 }
 
 /**
- * Return the ID of a page set as the home page.
- *
- * @return false|int ID of page set as the home page
- * @since 1.2
- */
-function bp_dtheme_page_on_front() {
-	if ( 'page' != get_option( 'show_on_front' ) )
-		return false;
-
-	return apply_filters( 'bp_dtheme_page_on_front', get_option( 'page_on_front' ) );
-}
-
-/**
  * In BuddyPress 1.2.x, this forced the page ID as a string to stop the get_posts query from kicking up a fuss.
  * As of 1.3.x, it is no longer required.
  *
@@ -243,172 +512,4 @@ function bp_dtheme_fix_the_posts_on_activity_front( $posts ) {
 	_deprecated_function( __FUNCTION__, '1.3', "No longer required." );
 	return $posts;
 }
-
-/**
- * Add secondary avatar image to this activity stream's record, if supported
- *
- * @param string $action The text of this activity
- * @param BP_Activity_Activity $activity Activity object
- * @return string
- * @package BuddyPress Theme
- * @since 1.2.6
- */
-function bp_dtheme_activity_secondary_avatars( $action, $activity ) {
-	switch ( $activity->component ) {
-		case 'groups' :
-		case 'blogs' :
-		case 'friends' :
-			// Only insert avatar if one exists
-			if ( $secondary_avatar = bp_get_activity_secondary_avatar() ) {
-				$reverse_content = strrev( $action );
-				$position        = strpos( $reverse_content, 'a<' );
-				$action          = substr_replace( $action, $secondary_avatar, -$position - 2, 0 );
-			}
-			break;
-	}
-
-	return $action;
-}
-add_filter( 'bp_get_activity_action_pre_meta', 'bp_dtheme_activity_secondary_avatars', 10, 2 );
-
-/**
- * Custom header image support. You can remove this entirely in a child theme by adding this line
- * to your functions.php: define( 'BP_DTHEME_DISABLE_CUSTOM_HEADER', true );
- *
- * @package BuddyPress Theme
- * @since 1.2
- */
-function bp_dtheme_add_custom_header_support() {
-	// Set the defaults for the custom header image (http://ryan.boren.me/2007/01/07/custom-image-header-api/)
-	define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
-	define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' ); // %s is theme dir uri
-	define( 'HEADER_IMAGE_WIDTH', 1250 );
-	define( 'HEADER_IMAGE_HEIGHT', 125 );
-
-	function bp_dtheme_header_style() { ?>
-		<style type="text/css">
-			#header { background-image: url(<?php header_image() ?>); }
-			<?php if ( 'blank' == get_header_textcolor() ) { ?>
-			#header h1, #header #desc { display: none; }
-			<?php } else { ?>
-			#header h1 a, #desc { color:#<?php header_textcolor() ?>; }
-			<?php } ?>
-		</style>
-	<?php
-	}
-
-	function bp_dtheme_admin_header_style() { ?>
-		<style type="text/css">
-			#headimg {
-				position: relative;
-				color: #fff;
-				background: url(<?php header_image() ?>);
-				-moz-border-radius-bottomleft: 6px;
-				-webkit-border-bottom-left-radius: 6px;
-				-moz-border-radius-bottomright: 6px;
-				-webkit-border-bottom-right-radius: 6px;
-				margin-bottom: 20px;
-				height: 100px;
-				padding-top: 25px;
-			}
-
-			#headimg h1{
-				position: absolute;
-				bottom: 15px;
-				left: 15px;
-				width: 44%;
-				margin: 0;
-				font-family: Arial, Tahoma, sans-serif;
-			}
-			#headimg h1 a{
-				color:#<?php header_textcolor() ?>;
-				text-decoration: none;
-				border-bottom: none;
-			}
-			#headimg #desc{
-				color:#<?php header_textcolor() ?>;
-				font-size:1em;
-				margin-top:-0.5em;
-			}
-
-			#desc {
-				display: none;
-			}
-
-			<?php if ( 'blank' == get_header_textcolor() ) { ?>
-			#headimg h1, #headimg #desc {
-				display: none;
-			}
-			#headimg h1 a, #headimg #desc {
-				color:#<?php echo HEADER_TEXTCOLOR ?>;
-			}
-			<?php } ?>
-		</style>
-	<?php
-	}
-	add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style' );
-}
-if ( !defined( 'BP_DTHEME_DISABLE_CUSTOM_HEADER' ) )
-	add_action( 'init', 'bp_dtheme_add_custom_header_support' );
-
-/**
- * Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html)
- *
- * @package BuddyPress Theme
- * @since 1.2
- */
-function bp_dtheme_show_notice() { ?>
-	<div id="message" class="updated fade">
-		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">custom header image</a> support and <a href="%s">sidebar widgets</a>.', 'buddypress' ), admin_url( 'themes.php?page=custom-header' ), admin_url( 'widgets.php' ) ) ?></p>
-	</div>
-
-	<style type="text/css">#message2, #message0 { display: none; }</style>
-	<?php
-}
-if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
-	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
-
-/**
- * wp_nav_menu() callback from the main navigation in header.php
- *
- * Used when the custom menus haven't been configured.
- *
- * @param array Menu arguments from wp_nav_menu()
- * @package BuddyPress Theme
- * @see wp_nav_menu()
- * @since 1.3
- */
-function bp_dtheme_main_nav( $args ) {
-?>
-	<ul id="nav">
-		<li<?php if ( is_front_page() ) : ?> class="selected"<?php endif; ?>>
-			<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
-		</li>
-
-		<?php wp_list_pages( 'title_li=&depth=0&exclude=' . bp_dtheme_page_on_front() ); ?>
-		<?php do_action( 'bp_nav_items' ); ?>
-	</ul><!-- #nav -->
-<?php
-}
-
-// Member Buttons
-if ( bp_is_active( 'friends' ) )
-	add_action( 'bp_member_header_actions',    'bp_add_friend_button' );
-
-if ( bp_is_active( 'activity' ) )
-	add_action( 'bp_member_header_actions',    'bp_send_public_message_button' );
-
-if ( bp_is_active( 'messages' ) )
-	add_action( 'bp_member_header_actions',    'bp_send_private_message_button' );
-
-// Group Buttons
-if ( bp_is_active( 'groups' ) ) {
-	add_action( 'bp_group_header_actions',     'bp_group_join_button' );
-	add_action( 'bp_group_header_actions',     'bp_group_new_topic_button' );
-	add_action( 'bp_directory_groups_actions', 'bp_group_join_button' );
-}
-
-// Blog Buttons
-if ( bp_is_active( 'blogs' ) )
-	add_action( 'bp_directory_blogs_actions',  'bp_blogs_visit_blog_button' );
 ?>
