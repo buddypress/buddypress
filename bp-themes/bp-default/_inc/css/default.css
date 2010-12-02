@@ -105,6 +105,31 @@ img.avatar {
 	border: 2px solid #eee;
 }
 
+del {
+	text-decoration: line-through;
+}
+
+ins {
+	background: #fff9db;
+	text-decoration: none;
+}
+
+sub {
+	top: .5ex;
+}
+
+sup {
+	bottom: 1ex;
+}
+
+sub,
+sup {
+	height: 0;
+	line-height: 1;
+	vertical-align: baseline;
+	position: relative;	
+}
+
 
 /* > Admin Bar
 -------------------------------------------------------------- */
@@ -2041,6 +2066,9 @@ div.post .wp-caption p.wp-caption-text {
 	margin: 0;
 }
 
+div.post .gallery .gallery-caption {
+	color: #555;
+}
 
 /* > WordPress Blog Comment Styles
 -------------------------------------------------------------- */
