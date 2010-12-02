@@ -743,7 +743,7 @@ function bp_avatar_cropper() {
 }
 
 function bp_site_name() {
-	echo apply_filters( 'bp_site_name', get_blog_option( BP_ROOT_BLOG, 'blogname' ) );
+	echo apply_filters( 'bp_site_name', get_bloginfo( 'name', 'display' ) );
 }
 
 function bp_core_get_wp_profile() {
@@ -930,13 +930,7 @@ function bp_get_page_title() {
 		$title = __( 'Create a Blog', 'buddypress' );
 	}
 
-	if ( defined( 'BP_ENABLE_MULTIBLOG' ) ) {
-		$blog_title = get_blog_option( $current_blog->blog_id, 'blogname' );
-	} else {
-		$blog_title = get_blog_option( BP_ROOT_BLOG, 'blogname' );
-	}
-
-	return apply_filters( 'bp_page_title', $blog_title . ' &#124; ' . esc_attr( $title ), esc_attr( $title ) );
+	return apply_filters( 'bp_page_title', esc_attr( get_bloginfo( 'name', 'display' ) . ' &#124; ' . $title ), esc_attr( $title ) );
 }
 
 function bp_styles() {
