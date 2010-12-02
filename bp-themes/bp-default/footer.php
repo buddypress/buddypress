@@ -7,7 +7,8 @@
 			<?php get_sidebar( 'footer' ) ?>
 
 			<div id="site-generator" role="contentinfo">
-				<p><?php printf( __( '%s is proudly powered by <a href="http://wordpress.org">WordPress</a> and <a href="http://buddypress.org">BuddyPress</a>', 'buddypress' ), get_bloginfo( 'name', 'display' ) ); ?></p>
+				<?php do_action( 'bp_dtheme_credits' ) ?>
+				<p><?php printf( __( 'Proudly powered by <a href="%1$s">WordPress</a> and <a href="%2$s">BuddyPress</a>.', 'buddypress' ), 'http://wordpress.org', 'http://buddypress.org' ) ?></p>
 			</div>
 
 			<?php do_action( 'bp_footer' ) ?>
