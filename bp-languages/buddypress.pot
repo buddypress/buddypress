@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-11-29 13:13+0000\n"
+"POT-Creation-Date: 2010-12-02 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1675,7 +1675,7 @@ msgid "%1$s at %2$s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:894 bp-groups.php:127
-#: bp-themes/bp-default/functions.php:385 bp-themes/bp-default/header.php:41
+#: bp-themes/bp-default/functions.php:427 bp-themes/bp-default/header.php:41
 msgid "Home"
 msgstr ""
 
@@ -1982,7 +1982,7 @@ msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
 #: bp-forums/bp-forums-templatetags.php:980
-#: bp-themes/bp-default/functions.php:149
+#: bp-themes/bp-default/functions.php:349
 #: bp-xprofile/bp-xprofile-admin.php:398
 msgid "Edit"
 msgstr ""
@@ -3139,7 +3139,7 @@ msgid "Deactivate"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:490
-#: bp-themes/bp-default/functions.php:85
+#: bp-themes/bp-default/functions.php:94
 msgid "Close"
 msgstr ""
 
@@ -3714,71 +3714,35 @@ msgstr ""
 msgid "Unreplied"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:15
-msgid "The sidebar widget area"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:24
-msgid "First Footer Widget Area"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:26
-msgid "The first footer widget area"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:35
-msgid "Second Footer Widget Area"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:37
-msgid "The second footer widget area"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:46
-msgid "Third Footer Widget Area"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:48
-msgid "The third footer widget area"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:57
-msgid "Fourth Footer Widget Area"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:59
-msgid "The fourth footer widget area"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:68
+#: bp-themes/bp-default/functions.php:58
 msgid "Primary Navigation"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:79
+#: bp-themes/bp-default/functions.php:88
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:80
+#: bp-themes/bp-default/functions.php:89
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:81
+#: bp-themes/bp-default/functions.php:90
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:82
+#: bp-themes/bp-default/functions.php:91
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:83
+#: bp-themes/bp-default/functions.php:92
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:84
+#: bp-themes/bp-default/functions.php:93
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:90
+#: bp-themes/bp-default/functions.php:98
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
@@ -3786,19 +3750,55 @@ msgid ""
 "use it."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:137
+#: bp-themes/bp-default/functions.php:237
+msgid "The sidebar widget area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:246
+msgid "First Footer Widget Area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:248
+msgid "The first footer widget area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:257
+msgid "Second Footer Widget Area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:259
+msgid "The second footer widget area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:268
+msgid "Third Footer Widget Area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:270
+msgid "The third footer widget area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:279
+msgid "Fourth Footer Widget Area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:281
+msgid "The fourth footer widget area"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:337
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:138
+#: bp-themes/bp-default/functions.php:338
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:142
+#: bp-themes/bp-default/functions.php:342
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:362
+#: bp-themes/bp-default/functions.php:404
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
