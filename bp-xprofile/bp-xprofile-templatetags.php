@@ -393,7 +393,7 @@ function bp_the_profile_field_options( $args = '' ) {
 						$selected = '';
 					}
 
-					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . esc_attr( $options[$k]->name ) . '">' . esc_attr( $options[$k]->name ) . '</option>', $options[$k] );
+					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . stripslashes( esc_attr( $options[$k]->name ) ) . '">' . stripslashes( esc_attr( $options[$k]->name ) ) . '</option>', $options[$k] );
 				}
 				break;
 
@@ -415,7 +415,7 @@ function bp_the_profile_field_options( $args = '' ) {
 						$selected = '';
 					}
 
-					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . esc_attr( $options[$k]->name ) . '"> ' . esc_attr( $options[$k]->name ) . '</label>', $options[$k] );
+					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . stripslashes( esc_attr( $options[$k]->name ) ) . '"> ' . stripslashes( esc_attr( $options[$k]->name ) ) . '</label>', $options[$k] );
 				}
 
 				$html .= '</div>';
@@ -440,7 +440,7 @@ function bp_the_profile_field_options( $args = '' ) {
 						}
 					}
 
-					$html .= apply_filters( 'bp_get_the_profile_field_options_checkbox', '<label><input' . $selected . ' type="checkbox" name="field_' . $field->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . esc_attr( $options[$k]->name ) . '"> ' . esc_attr( $options[$k]->name ) . '</label>', $options[$k] );
+					$html .= apply_filters( 'bp_get_the_profile_field_options_checkbox', '<label><input' . $selected . ' type="checkbox" name="field_' . $field->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . stripslashes( esc_attr( $options[$k]->name ) ) . '"> ' . stripslashes( esc_attr( $options[$k]->name ) ) . '</label>', $options[$k] );
 					$selected = '';
 				}
 				break;
