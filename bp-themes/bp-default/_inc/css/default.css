@@ -269,7 +269,6 @@ div#sidebar ul#bp-nav li {
 	padding: 10px 15px;
 }
 
-#footer-widget-area h3.widgettitle, 
 div#sidebar h3.widgettitle {
 	margin: 25px -20px 10px -19px;
 	background: #eaeaea;
@@ -2095,7 +2094,7 @@ ol.commentlist ul.children {
 
 #footer {
 	margin-bottom: 25px;
-	padding: 0 19px 19px 19px;
+	padding: 19px;
 	border-radius: 6px;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
@@ -2111,8 +2110,8 @@ ol.commentlist ul.children {
 }
 
 #footer-widget-area {
-	margin-bottom: 20px;
 	overflow: hidden;
+	margin-top: -19px;
 }
 
 #footer-widget-area div.widget-area > ul {
@@ -2121,10 +2120,16 @@ ol.commentlist ul.children {
 	width: 23%;
 }
 
-#footer-widget-area h3.widgettitle {
+#footer-widget-area div.widget-area > ul > li {
 	margin-top: 19px;
-	margin-left: 0;
-	margin-right: 0;
+}
+
+#footer-widget-area h3.widgettitle {
+	margin: 0 0 10px 0;
+	background: #eaeaea;
+	padding: 5px 15px;
+	font-size: 12px;
+	clear: left;	
 }
 
 #footer-widget-area div div.item-options {
