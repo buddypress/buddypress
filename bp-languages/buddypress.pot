@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-02 13:13+0000\n"
+"POT-Creation-Date: 2010-12-03 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "Friends"
 msgstr ""
 
 #: bp-activity.php:49 bp-core/admin/bp-core-admin.php:222
-#: bp-core/admin/bp-core-upgrade.php:529 bp-core/bp-core-templatetags.php:1037
+#: bp-core/admin/bp-core-upgrade.php:529 bp-core/bp-core-templatetags.php:1031
 #: bp-groups.php:932 bp-groups.php:1367 bp-groups.php:1380 bp-groups.php:1393
 #: bp-groups.php:1406 bp-groups/bp-groups-widgets.php:14
 #: bp-groups/bp-groups-widgets.php:97
@@ -426,7 +426,7 @@ msgid "Blog avatar"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:260 bp-core/bp-core-classes.php:82
-#: bp-core/bp-core-templatetags.php:365 bp-core/bp-core-templatetags.php:1368
+#: bp-core/bp-core-templatetags.php:365 bp-core/bp-core-templatetags.php:1362
 #: bp-groups/bp-groups-widgets.php:60 bp-groups/bp-groups-widgets.php:160
 #: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
@@ -543,7 +543,7 @@ msgid "Search anything..."
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:508 bp-core/bp-core-templatetags.php:464
-#: bp-core/bp-core-templatetags.php:1063
+#: bp-core/bp-core-templatetags.php:1057
 #: bp-forums/bp-forums-templatetags.php:1038
 #: bp-groups/bp-groups-templatetags.php:1844
 #: bp-themes/bp-default/header.php:56 bp-themes/bp-default/searchform.php:5
@@ -939,7 +939,7 @@ msgid ""
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:275 bp-core/admin/bp-core-upgrade.php:555
-#: bp-core/bp-core-templatetags.php:1043
+#: bp-core/bp-core-templatetags.php:1037
 msgid "Blogs"
 msgstr ""
 
@@ -1078,7 +1078,7 @@ msgid ""
 "now, you can come back to this step once you are finished."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:504 bp-core/bp-core-templatetags.php:1034
+#: bp-core/admin/bp-core-upgrade.php:504 bp-core/bp-core-templatetags.php:1028
 #: bp-core/bp-core-widgets.php:16 bp-core/bp-core-widgets.php:105
 #: bp-themes/bp-default/groups/single/admin.php:174
 msgid "Members"
@@ -1099,7 +1099,7 @@ msgid ""
 "@mentions."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:542 bp-core/bp-core-templatetags.php:1040
+#: bp-core/admin/bp-core-upgrade.php:542 bp-core/bp-core-templatetags.php:1034
 #: bp-forums/bp-forums-admin.php:161
 msgid "Forums"
 msgstr ""
@@ -1323,8 +1323,8 @@ msgid "My Account"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:100 bp-core/bp-core-templatetags.php:528
-#: bp-core/bp-core-templatetags.php:530 bp-core/bp-core-templatetags.php:1074
-#: bp-core/bp-core-templatetags.php:1076 bp-themes/bp-default/sidebar.php:18
+#: bp-core/bp-core-templatetags.php:530 bp-core/bp-core-templatetags.php:1068
+#: bp-core/bp-core-templatetags.php:1070 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -1717,11 +1717,11 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1252
+#: bp-core/bp-core-templatetags.php:1246
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1325
+#: bp-core/bp-core-templatetags.php:1319
 msgid "a user"
 msgstr ""
 
@@ -3616,11 +3616,11 @@ msgstr ""
 msgid "%d Trackbacks"
 msgstr ""
 
-#: bp-themes/bp-default/footer.php:10
+#: bp-themes/bp-default/footer.php:11
 #, php-format
 msgid ""
-"%s is proudly powered by <a href=\"http://wordpress.org\">WordPress</a> and "
-"<a href=\"http://buddypress.org\">BuddyPress</a>"
+"Proudly powered by <a href=\"%1$s\">WordPress</a> and <a href=\"%2$s"
+"\">BuddyPress</a>."
 msgstr ""
 
 #: bp-themes/bp-default/forums/forums-loop.php:24
