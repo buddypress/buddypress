@@ -1030,11 +1030,11 @@ function bp_directory_forums_search_form() {
 
 	$search_value = __( 'Search anything...', 'buddypress' );
 	if ( !empty( $_REQUEST['fs'] ) )
-	 	$search_value = $_REQUEST['fs'];
+	 	$search_value = stripslashes( $_REQUEST['fs'] );
 
 ?>
 	<form action="" method="get" id="search-forums-form">
-		<label><input type="text" name="s" id="forums_search" value="<?php echo esc_attr($search_value) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<label><input type="text" name="s" id="forums_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
 		<input type="submit" id="forums_search_submit" name="forums_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php

@@ -456,7 +456,7 @@ function bp_directory_members_search_form() {
 
 	$search_value = __( 'Search anything...', 'buddypress' );
 	if ( !empty( $_GET['s'] ) )
-	 	$search_value = $_GET['s'];
+	 	$search_value = stripslashes( $_GET['s'] );
 
 	?>
 	<form action="" method="get" id="search-members-form">

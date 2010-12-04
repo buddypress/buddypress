@@ -1678,40 +1678,48 @@ function bp_core_delete_account( $user_id = false ) {
  *
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @param $slug The slug to redirect to for searching.
+ * @param string $slug The slug to redirect to for searching.
  */
-function bp_core_action_search_site( $slug = false ) {
+function bp_core_action_search_site( $slug = '' ) {
 	global $bp;
 
-	if ( $bp->current_component == BP_SEARCH_SLUG ) {
-		$search_terms = $_POST['search-terms'];
-		$search_which = $_POST['search-which'];
+	if ( BP_SEARCH_SLUG != $bp->current_component )
+		return;
 
-		if ( !$slug || empty( $slug ) ) {
-			switch ( $search_which ) {
-				case 'members': default:
-					$slug = $bp->members->slug;
-					$var = '/?s=';
-					break;
-				case 'groups':
-					$slug = BP_GROUPS_SLUG;
-					$var = '/?s=';
-					break;
-				case 'forums':
-					$slug = BP_FORUMS_SLUG;
-					$var = '/?fs=';
-					break;
-				case 'blogs':
-					$slug = BP_BLOGS_SLUG;
-					$var = '/?s=';
-					break;
-			}
+	if ( empty( $_POST['search-terms'] ) ) {
+		bp_core_redirect( $bp->root_domain );
+		return;
+	}
+
+	$search_terms = stripslashes( $_POST['search-terms'] );
+	$search_which = !empty( $_POST['search-which'] ) ? $_POST['search-which'] : '';
+	$query_string = '/?s=';
+
+	if ( empty( $slug ) ) {
+		switch ( $search_which ) {
+			case 'blogs':
+				$slug = bp_is_active( 'blogs' )  ? $bp->blogs->slug  : '';
+				break;
+			case 'forums':
+				$slug = bp_is_active( 'forums' ) ? $bp->forums->slug : '';
+				$query_string = '/?fs=';
+				break;
+			case 'groups':
+				$slug = bp_is_active( 'groups' ) ? $bp->groups->slug : '';
+				break;
+			case 'members':
+			default:
+				$slug = $bp->members->slug;
+				break;
 		}
 
-		$search_url = apply_filters( 'bp_core_search_site', site_url( $slug . $var . urlencode($search_terms) ), $search_terms );
-
-		bp_core_redirect( $search_url );
+		if ( empty( $slug ) ) {
+			bp_core_redirect( $bp->root_domain );
+			return;
+		}
 	}
+
+	bp_core_redirect( apply_filters( 'bp_core_search_site', site_url( $slug . $query_string . urlencode( $search_terms ) ), $search_terms ) );
 }
 add_action( 'init', 'bp_core_action_search_site', 5 );
 
