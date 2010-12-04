@@ -575,7 +575,7 @@ Class BP_XProfile_Field {
 							$default_name = '[' . $j . ']';
 ?>
 						<p><?php _e('Option', 'buddypress'); ?> <?php echo $j; ?>:
-						   <input type="text" name="<?php echo $type; ?>_option[<?php echo $j; ?>]" id="<?php echo $type; ?>_option<?php echo $j; ?>" value="<?php echo esc_attr( $options[$i]->name ); ?>" />
+						   <input type="text" name="<?php echo $type; ?>_option[<?php echo $j; ?>]" id="<?php echo $type; ?>_option<?php echo $j; ?>" value="<?php echo stripslashes( esc_attr( $options[$i]->name ) ); ?>" />
 						   <input type="<?php echo $default_input; ?>" name="isDefault_<?php echo $type; ?>_option<?php echo $default_name; ?>" <?php if ( (int) $options[$i]->is_default_option ) {?> checked="checked"<?php } ?> " value="<?php echo $j; ?>" /> <?php _e( 'Default Value', 'buddypress' ); ?>
 <?php
 					if ( $j != 1 && $options[$i]->id != -1 ) : ?>
