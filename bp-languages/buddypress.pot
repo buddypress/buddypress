@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-03 13:13+0000\n"
+"POT-Creation-Date: 2010-12-05 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -532,7 +532,8 @@ msgstr ""
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:507 bp-core/bp-core-templatetags.php:457
+#: bp-blogs/bp-blogs-templatetags.php:507
+#: bp-blogs/bp-blogs-templatetags.php:513 bp-core/bp-core-templatetags.php:457
 #: bp-core/bp-core-templatetags.php:463
 #: bp-forums/bp-forums-templatetags.php:1031
 #: bp-forums/bp-forums-templatetags.php:1037
@@ -542,7 +543,7 @@ msgstr ""
 msgid "Search anything..."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:508 bp-core/bp-core-templatetags.php:464
+#: bp-blogs/bp-blogs-templatetags.php:514 bp-core/bp-core-templatetags.php:464
 #: bp-core/bp-core-templatetags.php:1057
 #: bp-forums/bp-forums-templatetags.php:1038
 #: bp-groups/bp-groups-templatetags.php:1844
@@ -550,8 +551,8 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:540
-#: bp-blogs/bp-blogs-templatetags.php:541
+#: bp-blogs/bp-blogs-templatetags.php:546
+#: bp-blogs/bp-blogs-templatetags.php:547
 msgid "Visit Blog"
 msgstr ""
 
@@ -688,13 +689,13 @@ msgstr ""
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1914
+#: bp-core.php:1922
 msgid ""
 "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-"
 "from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:1943
+#: bp-core.php:1951
 #, php-format
 msgid ""
 "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update "
@@ -702,7 +703,7 @@ msgid ""
 "work."
 msgstr ""
 
-#: bp-core.php:1952
+#: bp-core.php:1960
 #, php-format
 msgid ""
 "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a "
