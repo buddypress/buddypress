@@ -81,5 +81,5 @@ ul.acfb-holder {
 			cursor: pointer;
 		}
 
-input#send-to-input { width: 275px !important; }
+input#send-to-input { width: 275px; }
 
