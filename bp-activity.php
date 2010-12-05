@@ -966,9 +966,12 @@ function bp_activity_hide_user_activity( $user_id ) {
  *
  * @package BuddyPress Activity
  * @param $content str - The content to work with
+ * @param $link str - Optional. The URL that the image should link to
  * @return $content str - The content with images stripped and replaced with a single thumb.
  */
-function bp_activity_thumbnail_content_images( $content ) {
+function bp_activity_thumbnail_content_images( $content, $link = false ) {
+	global $post;
+
 	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
 	$content = preg_replace('/<img[^>]*>/Ui', '', $content );
 
@@ -994,7 +997,13 @@ function bp_activity_thumbnail_content_images( $content ) {
 			$new_height = (int)$height >= 100 ? 100 : $height;
 			$new_width = $new_height * $ratio;
 
-			$content = '<img src="' . esc_attr( $src) . '" width="' . $new_width . '" height="' . $new_height . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />' . $content;
+			$image = '<img src="' . esc_attr( $src ) . '" width="' . $new_width . '" height="' . $new_height . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />';
+			
+			if ( !empty( $link ) ) {
+				$image = '<a href="' . $link . '">' . $image . '</a>';
+			}
+
+			$content = $image . $content;
 		}
 	}
 

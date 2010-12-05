@@ -165,7 +165,7 @@ function bp_blogs_record_activity( $args = '' ) {
 
 	/* Remove large images and replace them with just one image thumbnail */
  	if ( function_exists( 'bp_activity_thumbnail_content_images' ) && !empty( $content ) )
-		$content = bp_activity_thumbnail_content_images( $content );
+		$content = bp_activity_thumbnail_content_images( $content, $primary_link );
 
 	if ( !empty( $action ) )
 		$action = apply_filters( 'bp_blogs_record_activity_action', $action );
