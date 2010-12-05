@@ -214,13 +214,13 @@ function bp_activity_screen_notification_settings() {
 		</thead>
 
 		<tbody>
-			<tr>
+			<tr id="activity-notification-settings-mentions">
 				<td></td>
 				<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login ) ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php if ( !get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_mention', true ) || 'yes' == get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_mention', true ) ) { ?>checked="checked" <?php } ?>/></td>
 				<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php if ( 'no' == get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_mention', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
-			<tr>
+			<tr id="activity-notification-settings-replies">
 				<td></td>
 				<td><?php _e( "A member replies to an update or comment you've posted", 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" value="yes" <?php if ( !get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_reply', true ) || 'yes' == get_user_meta( $bp->loggedin_user->id, 'notification_activity_new_reply', true ) ) { ?>checked="checked" <?php } ?>/></td>

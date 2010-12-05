@@ -119,13 +119,13 @@ function friends_screen_notification_settings() {
 		</thead>
 
 		<tbody>
-			<tr>
+			<tr id="friends-notification-settings-request">
 				<td></td>
 				<td><?php _e( 'A member sends you a friendship request', 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_request]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_friends_friendship_request', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_friends_friendship_request', true ) ) { ?>checked="checked" <?php } ?>/></td>
 				<td class="no"><input type="radio" name="notifications[notification_friends_friendship_request]" value="no" <?php if ( get_user_meta( $current_user->id, 'notification_friends_friendship_request', true ) == 'no' ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
-			<tr>
+			<tr id="friends-notification-settings-accepted">
 				<td></td>
 				<td><?php _e( 'A member accepts your friendship request', 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_friends_friendship_accepted', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_friends_friendship_accepted', true ) ) { ?>checked="checked" <?php } ?>/></td>

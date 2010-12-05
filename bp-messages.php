@@ -179,13 +179,13 @@ function messages_screen_notification_settings() {
 		</thead>
 
 		<tbody>
-			<tr>
+			<tr id="messages-notification-settings-new-message">
 				<td></td>
 				<td><?php _e( 'A member sends you a new message', 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_messages_new_message', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_messages_new_message', true ) ) { ?>checked="checked" <?php } ?>/></td>
 				<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" value="no" <?php if ( 'no' == get_user_meta( $current_user->id, 'notification_messages_new_message', true ) ) { ?>checked="checked" <?php } ?>/></td>
 			</tr>
-			<tr>
+			<tr id="messages-notification-settings-new-site-notice">
 				<td></td>
 				<td><?php _e( 'A new site notice is posted', 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="yes" <?php if ( !get_user_meta( $current_user->id, 'notification_messages_new_notice', true ) || 'yes' == get_user_meta( $current_user->id, 'notification_messages_new_notice', true ) ) { ?>checked="checked" <?php } ?>/></td>
