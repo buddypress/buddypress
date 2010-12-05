@@ -23,8 +23,10 @@ class BP_Groups_Widget extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		global $bp;
+		
+		$user_id = apply_filters( 'bp_group_widget_user_id', '0' );
 
-	    extract( $args );
+		extract( $args );
 
 		if ( !$instance['group_default'] )
 			$instance['group_default'] = 'popular';
@@ -34,7 +36,7 @@ class BP_Groups_Widget extends WP_Widget {
 		   . $instance['title']
 		   . $after_title; ?>
 
-		<?php if ( bp_has_groups( 'type=' . $instance['group_default'] . '&max=' . $instance['max_groups'] ) ) : ?>
+		<?php if ( bp_has_groups( 'user_id=' . $user_id . '&type=' . $instance['group_default'] . '&max=' . $instance['max_groups'] ) ) : ?>
 			<div class="item-options" id="groups-list-options">
 				<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="newest-groups"<?php if ( $instance['group_default'] == 'newest' ) : ?> class="selected"<?php endif; ?>><?php _e("Newest", 'buddypress') ?></a> |
 				<a href="<?php echo site_url() . '/' . $bp->groups->slug ?>" id="recently-active-groups"<?php if ( $instance['group_default'] == 'active' ) : ?> class="selected"<?php endif; ?>><?php _e("Active", 'buddypress') ?></a> |
