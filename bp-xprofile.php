@@ -597,12 +597,15 @@ function xprofile_delete_field( $field_id ) {
  *
  * Fetches profile data for a specific field for the user.
  *
+ * When the field value is serialized, this function unserializes and filters each item in the array
+ * that results.
+ *
  * @package BuddyPress Core
- * @param $field The ID of the field, or the $name of the field.
- * @param $user_id The ID of the user
+ * @param mixed $field The ID of the field, or the $name of the field.
+ * @param int $user_id The ID of the user
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @uses BP_XProfile_ProfileData::get_value_byfieldname() Fetches the value based on the params passed.
- * @return The profile field data.
+ * @uses BP_XProfile_ProfileData::get_value_byid() Fetches the value based on the params passed.
+ * @return mixed The profile field data.
  */
 function xprofile_get_field_data( $field, $user_id = null ) {
 	global $bp;
@@ -625,7 +628,18 @@ function xprofile_get_field_data( $field, $user_id = null ) {
 	if ( !$field_id )
 		return false;
 
-	return apply_filters( 'xprofile_get_field_data', BP_XProfile_ProfileData::get_value_byid( $field_id, $user_id ) );
+	$values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field_id, $user_id ) );
+
+	if ( is_array( $values ) ) {
+		$data = array();
+		foreach( (array)$values as $value ) {
+			$data[] = apply_filters( 'xprofile_get_field_data', $value ); 
+		}
+	} else {
+		$data = apply_filters( 'xprofile_get_field_data', $values );
+	}
+	
+	return $data;
 }
 
 /**
