@@ -406,6 +406,14 @@ function bp_message_is_active_notice() {
 		return false;
 	}
 
+function bp_message_notice_id() {
+	echo bp_get_message_notice_id();
+}
+	function bp_get_message_notice_id() {
+		global $messages_template;
+		return apply_filters( 'bp_get_message_notice_id', $messages_template->thread->id );
+	}
+
 function bp_message_notice_post_date() {
 	echo bp_get_message_notice_post_date();
 }
