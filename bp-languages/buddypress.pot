@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-05 13:13+0000\n"
+"POT-Creation-Date: 2010-12-06 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 #: bp-core/admin/bp-core-upgrade.php:529 bp-core/bp-core-templatetags.php:1031
 #: bp-groups.php:932 bp-groups.php:1367 bp-groups.php:1380 bp-groups.php:1393
 #: bp-groups.php:1406 bp-groups/bp-groups-widgets.php:14
-#: bp-groups/bp-groups-widgets.php:97
+#: bp-groups/bp-groups-widgets.php:99
 msgid "Groups"
 msgstr ""
 
@@ -156,11 +156,11 @@ msgstr ""
 msgid "%s posted a new activity comment:"
 msgstr ""
 
-#: bp-activity.php:997
+#: bp-activity.php:1000
 msgid "Thumbnail"
 msgstr ""
 
-#: bp-activity.php:1225
+#: bp-activity.php:1234
 msgid "Posted an update"
 msgstr ""
 
@@ -427,7 +427,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:260 bp-core/bp-core-classes.php:82
 #: bp-core/bp-core-templatetags.php:365 bp-core/bp-core-templatetags.php:1362
-#: bp-groups/bp-groups-widgets.php:60 bp-groups/bp-groups-widgets.php:160
+#: bp-groups/bp-groups-widgets.php:62 bp-groups/bp-groups-widgets.php:162
 #: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
 #, php-format
@@ -1114,7 +1114,7 @@ msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:578
-#: bp-messages/bp-messages-templatetags.php:465
+#: bp-messages/bp-messages-templatetags.php:473
 #: bp-themes/bp-default/registration/activate.php:40
 msgid "Activate"
 msgstr ""
@@ -1733,19 +1733,19 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:41 bp-core/bp-core-widgets.php:123
 #: bp-friends/bp-friends-templatetags.php:7
 #: bp-friends/bp-friends-templatetags.php:23
-#: bp-groups/bp-groups-widgets.php:39 bp-groups/bp-groups-widgets.php:115
+#: bp-groups/bp-groups-widgets.php:41 bp-groups/bp-groups-widgets.php:117
 #: bp-themes/bp-default/blogs/index.php:31
 #: bp-themes/bp-default/members/single/blogs.php:9
 msgid "Newest"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:42 bp-core/bp-core-widgets.php:124
-#: bp-groups/bp-groups-widgets.php:40 bp-groups/bp-groups-widgets.php:116
+#: bp-groups/bp-groups-widgets.php:42 bp-groups/bp-groups-widgets.php:118
 msgid "Active"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:46 bp-core/bp-core-widgets.php:125
-#: bp-groups/bp-groups-widgets.php:41 bp-groups/bp-groups-widgets.php:117
+#: bp-groups/bp-groups-widgets.php:43 bp-groups/bp-groups-widgets.php:119
 msgid "Popular"
 msgstr ""
 
@@ -1754,7 +1754,7 @@ msgid "No one has signed up yet!"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:116 bp-core/bp-core-widgets.php:191
-#: bp-core/bp-core-widgets.php:255 bp-groups/bp-groups-widgets.php:108
+#: bp-core/bp-core-widgets.php:255 bp-groups/bp-groups-widgets.php:110
 #: bp-themes/bp-default/forums/index.php:31
 #: bp-themes/bp-default/groups/single/forum.php:35
 #: bp-themes/bp-default/groups/single/forum/edit.php:26
@@ -2786,7 +2786,7 @@ msgid "%s member"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:603
-#: bp-themes/bp-default/members/single/groups/invites.php:11
+#: bp-themes/bp-default/members/single/groups/invites.php:14
 #, php-format
 msgid "%s members"
 msgstr ""
@@ -2925,24 +2925,24 @@ msgstr ""
 msgid "A dynamic list of recently active, popular, and newest groups"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:58 bp-groups/bp-groups-widgets.php:158
+#: bp-groups/bp-groups-widgets.php:60 bp-groups/bp-groups-widgets.php:160
 #, php-format
 msgid "created %s ago"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:77
+#: bp-groups/bp-groups-widgets.php:79
 msgid "There are no groups to display."
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:110
+#: bp-groups/bp-groups-widgets.php:112
 msgid "Max groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:113
+#: bp-groups/bp-groups-widgets.php:115
 msgid "Default groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:177
+#: bp-groups/bp-groups-widgets.php:179
 msgid "No groups matched the current filter."
 msgstr ""
 
@@ -3135,29 +3135,29 @@ msgstr ""
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:463
+#: bp-messages/bp-messages-templatetags.php:471
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:490
+#: bp-messages/bp-messages-templatetags.php:498
 #: bp-themes/bp-default/functions.php:94
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:535
+#: bp-messages/bp-messages-templatetags.php:543
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:536
+#: bp-messages/bp-messages-templatetags.php:544
 msgid "Send Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:717
+#: bp-messages/bp-messages-templatetags.php:725
 #, php-format
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:783
+#: bp-messages/bp-messages-templatetags.php:791
 #: bp-themes/bp-default/_inc/ajax.php:488
 #, php-format
 msgid "Sent %s ago"
@@ -4086,13 +4086,13 @@ msgstr ""
 
 #: bp-themes/bp-default/groups/single/admin.php:263
 #: bp-themes/bp-default/members/single/friends/requests.php:21
-#: bp-themes/bp-default/members/single/groups/invites.php:20
+#: bp-themes/bp-default/members/single/groups/invites.php:23
 msgid "Accept"
 msgstr ""
 
 #: bp-themes/bp-default/groups/single/admin.php:265
 #: bp-themes/bp-default/members/single/friends/requests.php:22
-#: bp-themes/bp-default/members/single/groups/invites.php:21
+#: bp-themes/bp-default/members/single/groups/invites.php:24
 msgid "Reject"
 msgstr ""
 
@@ -4223,7 +4223,7 @@ msgstr ""
 msgid "You have no pending friendship requests."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/groups/invites.php:34
+#: bp-themes/bp-default/members/single/groups/invites.php:37
 msgid "You have no outstanding group invites."
 msgstr ""
 
