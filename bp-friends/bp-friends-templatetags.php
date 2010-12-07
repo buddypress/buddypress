@@ -231,7 +231,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'id'                => 'is_friend',
 					'component'         => 'friends',
 					'must_be_logged_in' => true,
-					'block_self'        => true,
+					'block_self'        => false,
 					'wrapper_class'     => 'friendship-button is_friend',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_class'        => '',
