@@ -691,11 +691,13 @@ function bp_activity_comments( $args = '' ) {
 
 				/* Reply link - the span is so that threaded reply links can be hidden when JS is off. */
 				if ( is_user_logged_in() && bp_activity_can_comment_reply( $comment ) )
-					$content .= '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>';
+					$content .= apply_filters( 'bp_activity_comment_reply_link', '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>', $comment );
 
 				/* Delete link */
-				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id )
-					$content .= ' &middot; <a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' ) . '" class="delete acomment-delete" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>';
+				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id ) {
+					$delete_url = wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' );
+					$content .= apply_filters( 'bp_activity_comment_delete_link', ' &middot; <a href="' . $delete_url . '" class="delete acomment-delete" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>', $comment, $delete_url );
+				}
 
 				$content .= '</div>';
 				$content .= '<div class="acomment-content">' . apply_filters( 'bp_get_activity_content', $comment->content ) . '</div>';
