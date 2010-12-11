@@ -80,25 +80,6 @@ function bp_dtheme_setup() {
 
 	//End of changeable header section
 
-	// Load the javascript for the theme
-	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ) );
-
-	// Add words that we need to use in JS to the end of the page so they can be translated and still used.
-	$params = array(
-		'my_favs'           => __( 'My Favorites', 'buddypress' ),
-		'accepted'          => __( 'Accepted', 'buddypress' ),
-		'rejected'          => __( 'Rejected', 'buddypress' ),
-		'show_all_comments' => __( 'Show all comments for this thread', 'buddypress' ),
-		'show_all'          => __( 'Show all', 'buddypress' ),
-		'comments'          => __( 'comments', 'buddypress' ),
-		'close'             => __( 'Close', 'buddypress' )
-	);
-
-	if ( !empty( $bp->displayed_user->id ) )
-		$params['mention_explain'] = sprintf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", 'buddypress' ), '@' . bp_get_displayed_user_username(), bp_get_user_firstname( bp_get_displayed_user_fullname() ), bp_get_user_firstname( bp_get_displayed_user_fullname() ) );
-
-	wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
-
 	// Register buttons for the relevant component templates
 	// Friends button
 	if ( bp_is_active( 'friends' ) )
@@ -125,6 +106,36 @@ function bp_dtheme_setup() {
 }
 add_action( 'after_setup_theme', 'bp_dtheme_setup' );
 endif;
+
+/**
+ * Enqueue theme javascript safely after the 'init' action, per WordPress Codex.
+ *
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+ * @since 1.3
+ */
+function bp_dtheme_enqueue_scripts() {
+	global $bp;
+
+	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ) );
+
+	// Add words that we need to use in JS to the end of the page so they can be translated and still used.
+	$params = array(
+		'my_favs'           => __( 'My Favorites', 'buddypress' ),
+		'accepted'          => __( 'Accepted', 'buddypress' ),
+		'rejected'          => __( 'Rejected', 'buddypress' ),
+		'show_all_comments' => __( 'Show all comments for this thread', 'buddypress' ),
+		'show_all'          => __( 'Show all', 'buddypress' ),
+		'comments'          => __( 'comments', 'buddypress' ),
+		'close'             => __( 'Close', 'buddypress' )
+	);
+
+	if ( !empty( $bp->displayed_user->id ) )
+		$params['mention_explain'] = sprintf( __( "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it.", 'buddypress' ), '@' . bp_get_displayed_user_username(), bp_get_user_firstname( bp_get_displayed_user_fullname() ), bp_get_user_firstname( bp_get_displayed_user_fullname() ) );
+
+	wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
+}
+add_action( 'wp_enqueue_scripts', 'bp_dtheme_enqueue_scripts' );
 
 if ( !function_exists( 'bp_dtheme_admin_header_style' ) ) :
 /**
