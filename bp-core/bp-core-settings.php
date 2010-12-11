@@ -194,7 +194,7 @@ function bp_core_screen_notification_settings() {
 }
 
 function bp_core_screen_notification_settings_title() {
-	echo apply_filters( 'bp_core_notification_settings_title', __( 'Email Notifications', 'buddypress' ) );;
+	echo apply_filters( 'bp_core_notification_settings_title', __( 'Email Notifications', 'buddypress' ) );
 }
 
 function bp_core_screen_notification_settings_content() {
