@@ -31,10 +31,12 @@ add_action( 'bp_setup_nav', 'bp_core_add_settings_nav' );
 /**** GENERAL SETTINGS ****/
 
 function bp_core_screen_general_settings() {
-	global $current_user, $bp_settings_updated, $pass_error;
+	global $current_user, $bp_settings_updated, $pass_error, $email_error, $pwd_error;
 
 	$bp_settings_updated = false;
 	$pass_error = false;
+	$email_error = false;
+	$pwd_error = false;
 
 	if ( isset($_POST['submit']) ) {
 		check_admin_referer('bp_settings_general');
@@ -42,24 +44,61 @@ function bp_core_screen_general_settings() {
 		require_once( WPINC . '/registration.php' );
 
 		// Form has been submitted and nonce checks out, lets do it.
-
-		if ( $_POST['email'] != '' )
-			$current_user->user_email = esc_html( trim( $_POST['email'] ) );
-
-		if ( $_POST['pass1'] != '' && $_POST['pass2'] != '' ) {
-			if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) )
-				$current_user->user_pass = $_POST['pass1'];
-			else
-				$pass_error = true;
-		} else if ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) || !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) {
-			$pass_error = true;
-		} else {
-			unset( $current_user->user_pass );
-		}
-
-		if ( !$pass_error && wp_update_user( get_object_vars( $current_user ) ) )
-			$bp_settings_updated = true;
-			
+		
+ 		// Validate the user again for the current password when making a big change
+ 		if ( !empty( $_POST['pwd'] ) && $_POST['pwd'] != '' && wp_check_password($_POST['pwd'], $current_user->user_pass, $current_user->ID) ) {
+ 
+ 			// Make sure changing an email address does not already exist
+ 			if ( $_POST['email'] != '' ) {
+ 
+ 				// What is missing from the profile page vs signup - lets double check the goodies
+ 				$user_email = sanitize_email( wp_specialchars( trim( $_POST['email'] ) ) );
+ 
+ 				if ( !is_email( $user_email ) )
+ 					$email_error = true;
+ 
+ 				$limited_email_domains = get_site_option( 'limited_email_domains', 'buddypress' );
+ 
+ 				if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
+ 					$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
+ 
+ 					if ( in_array( $emaildomain, (array)$limited_email_domains ) == false ) {
+ 						$email_error = true;
+ 						
+ 					}
+ 				}
+ 
+ 				if ( !$email_error && $current_user->user_email != $user_email  ) {
+ 				
+ 					//we don't want email dups in the system
+ 					if ( email_exists( $user_email ) )
+ 						$email_error = true;
+ 						
+ 					if (!$email_error)
+ 						$current_user->user_email = $user_email;
+ 				}
+ 			}
+ 
+ 			if ( $_POST['pass1'] != '' && $_POST['pass2'] != '' ) {
+ 			
+ 				if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) )
+ 					$current_user->user_pass = $_POST['pass1'];
+ 				else
+ 					$pass_error = true;
+  
+ 			} else if ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) || !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) {
+  				$pass_error = true;
+ 			} else {
+ 				unset( $current_user->user_pass );
+ 			}
+ 
+ 			if ( !$email_error && !$pass_error && wp_update_user( get_object_vars( $current_user ) ) )
+ 				$bp_settings_updated = true;
+ 			
+  		} else {
+ 			$pwd_error = true;
+  		}
+  		
 		do_action( 'bp_core_general_settings_after_save' );
 	}
 
@@ -74,7 +113,7 @@ function bp_core_screen_general_settings_title() {
 }
 
 function bp_core_screen_general_settings_content() {
-	global $bp, $current_user, $bp_settings_updated, $pass_error; ?>
+	global $bp, $current_user, $bp_settings_updated, $pass_error, $pwd_error, $email_error; ?>
 
 	<?php if ( $bp_settings_updated && !$pass_error ) { ?>
 		<div id="message" class="updated fade">
@@ -87,8 +126,26 @@ function bp_core_screen_general_settings_content() {
 			<p><?php _e( 'Your passwords did not match', 'buddypress' ) ?></p>
 		</div>
 	<?php } ?>
+	
+	<?php if ( $pwd_error && !$bp_settings_updated ) { ?>
+		<div id="message" class="error fade">
+			<p><?php _e( 'Your password is incorrect', 'buddypress' ) ?></p>
+		</div>
+	<?php } ?>
+
+	<?php 
+	if ( $email_error && !$bp_settings_updated ) { ?>
+		<div id="message" class="error fade">
+			<p><?php _e( 'Sorry, that email address is already used or is invalid', 'buddypress' ) ?></p>
+		</div>
+	<?php } ?>
+
 
 	<form action="<?php echo $bp->loggedin_user->domain . BP_SETTINGS_SLUG . '/general' ?>" method="post" class="standard-form" id="settings-form">
+
+		<label for="pwd"><?php _e( 'Current Password <span>(required to update email or change current password)</span>', 'buddypress' ) ?></label>
+		<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" /> &nbsp;<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+
 		<label for="email"><?php _e( 'Account Email', 'buddypress' ) ?></label>
 		<input type="text" name="email" id="email" value="<?php echo esc_attr( $current_user->user_email ); ?>" class="settings-input" />
 
@@ -137,7 +194,7 @@ function bp_core_screen_notification_settings() {
 }
 
 function bp_core_screen_notification_settings_title() {
-	echo apply_filters( 'bp_core_notification_settings_title', __( 'Notification Settings', 'buddypress' ) );;
+	echo apply_filters( 'bp_core_notification_settings_title', __( 'Email Notifications', 'buddypress' ) );;
 }
 
 function bp_core_screen_notification_settings_content() {
@@ -150,7 +207,6 @@ function bp_core_screen_notification_settings_content() {
 	<?php } ?>
 
 	<form action="<?php echo $bp->loggedin_user->domain . BP_SETTINGS_SLUG . '/notifications' ?>" method="post" id="settings-form">
-		<h3><?php _e( 'Email Notifications', 'buddypress' ) ?></h3>
 		<p><?php _e( 'Send a notification by email when:', 'buddypress' ) ?></p>
 
 		<?php do_action( 'bp_notification_settings' ) ?>

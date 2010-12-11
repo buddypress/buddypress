@@ -30,7 +30,7 @@
 					</ul>
 				</div><!-- .item-list-tabs -->
 
-				<?php do_action( 'bp_template_title' ) ?>
+				<h3><?php do_action( 'bp_template_title' ) ?></h3>
 
 				<?php do_action( 'bp_template_content' ) ?>
 
