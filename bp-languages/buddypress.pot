@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-06 13:13+0000\n"
+"POT-Creation-Date: 2010-12-12 13:13+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -253,7 +253,7 @@ msgid "View Thread / Permalink"
 msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:610
-#: bp-activity/bp-activity-templatetags.php:847
+#: bp-activity/bp-activity-templatetags.php:849
 #: bp-core/bp-core-templatetags.php:389
 #: bp-themes/bp-default/activity/entry.php:46
 msgid "View"
@@ -271,47 +271,49 @@ msgstr ""
 msgid "Reply"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:698
-#: bp-activity/bp-activity-templatetags.php:831
+#: bp-activity/bp-activity-templatetags.php:699
+#: bp-activity/bp-activity-templatetags.php:833
 #: bp-forums/bp-forums-templatetags.php:981
 #: bp-themes/bp-default/_inc/ajax.php:212
+#: bp-themes/bp-default/members/single/messages/messages-loop.php:50
+#: bp-themes/bp-default/members/single/messages/single.php:13
 #: bp-xprofile/bp-xprofile-admin.php:399
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:907
+#: bp-activity/bp-activity-templatetags.php:909
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:907
+#: bp-activity/bp-activity-templatetags.php:909
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:907
+#: bp-activity/bp-activity-templatetags.php:909
 #: bp-core/admin/bp-core-upgrade.php:458 bp-core/bp-core-classes.php:98
 msgid "groups"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:907
+#: bp-activity/bp-activity-templatetags.php:909
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:907
+#: bp-activity/bp-activity-templatetags.php:909
 #: bp-core/admin/bp-core-upgrade.php:253 bp-core/admin/bp-core-upgrade.php:473
 msgid "blogs"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:915
+#: bp-activity/bp-activity-templatetags.php:917
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1000
+#: bp-activity/bp-activity-templatetags.php:1002
 msgid ""
 "Mention this user in a new public message, this will send the user a "
 "notification to get their attention."
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1001
+#: bp-activity/bp-activity-templatetags.php:1003
 msgid "Mention this User"
 msgstr ""
 
@@ -1460,39 +1462,61 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:188
+#: bp-core/bp-core-settings.php:25 bp-core/bp-core-settings.php:244
 msgid "Delete Account"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:73
+#: bp-core/bp-core-settings.php:112
 msgid "General Settings"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:81 bp-core/bp-core-settings.php:148
+#: bp-core/bp-core-settings.php:120 bp-core/bp-core-settings.php:205
 msgid "Changes Saved."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:87
+#: bp-core/bp-core-settings.php:126
 msgid "Your passwords did not match"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:92
+#: bp-core/bp-core-settings.php:132
+msgid "Your password is incorrect"
+msgstr ""
+
+#: bp-core/bp-core-settings.php:139
+msgid "Sorry, that email address is already used or is invalid"
+msgstr ""
+
+#: bp-core/bp-core-settings.php:146
+msgid ""
+"Current Password <span>(required to update email or change current password)"
+"</span>"
+msgstr ""
+
+#: bp-core/bp-core-settings.php:147
+msgid "Password Lost and Found"
+msgstr ""
+
+#: bp-core/bp-core-settings.php:147
+msgid "Lost your password?"
+msgstr ""
+
+#: bp-core/bp-core-settings.php:149
 msgid "Account Email"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:95
+#: bp-core/bp-core-settings.php:152
 msgid "Change Password <span>(leave blank for no change)</span>"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:96
+#: bp-core/bp-core-settings.php:153
 msgid "New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:97
+#: bp-core/bp-core-settings.php:154
 msgid "Repeat New Password"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:102 bp-core/bp-core-settings.php:159
+#: bp-core/bp-core-settings.php:159 bp-core/bp-core-settings.php:215
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:100
 #: bp-themes/bp-default/groups/single/forum/edit.php:34
@@ -1502,29 +1526,25 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:140
-msgid "Notification Settings"
-msgstr ""
-
-#: bp-core/bp-core-settings.php:153
+#: bp-core/bp-core-settings.php:197
 msgid "Email Notifications"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:154
+#: bp-core/bp-core-settings.php:210
 msgid "Send a notification by email when:"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:197
+#: bp-core/bp-core-settings.php:253
 msgid ""
 "WARNING: Deleting your account will completely remove ALL content associated "
 "with it. There is no way back, please be careful with this option."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:200
+#: bp-core/bp-core-settings.php:256
 msgid "I understand the consequences of deleting my account."
 msgstr ""
 
-#: bp-core/bp-core-settings.php:205
+#: bp-core/bp-core-settings.php:261
 msgid "Delete My Account"
 msgstr ""
 
@@ -1676,7 +1696,7 @@ msgid "%1$s at %2$s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:894 bp-groups.php:127
-#: bp-themes/bp-default/functions.php:427 bp-themes/bp-default/header.php:41
+#: bp-themes/bp-default/functions.php:438 bp-themes/bp-default/header.php:41
 msgid "Home"
 msgstr ""
 
@@ -1983,7 +2003,7 @@ msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
 #: bp-forums/bp-forums-templatetags.php:980
-#: bp-themes/bp-default/functions.php:349
+#: bp-themes/bp-default/functions.php:360
 #: bp-xprofile/bp-xprofile-admin.php:398
 msgid "Edit"
 msgstr ""
@@ -3140,7 +3160,7 @@ msgid "Deactivate"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:498
-#: bp-themes/bp-default/functions.php:94
+#: bp-themes/bp-default/functions.php:130
 msgid "Close"
 msgstr ""
 
@@ -3157,7 +3177,7 @@ msgstr ""
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:791
+#: bp-messages/bp-messages-templatetags.php:800
 #: bp-themes/bp-default/_inc/ajax.php:488
 #, php-format
 msgid "Sent %s ago"
@@ -3719,31 +3739,31 @@ msgstr ""
 msgid "Primary Navigation"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:88
+#: bp-themes/bp-default/functions.php:124
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:89
+#: bp-themes/bp-default/functions.php:125
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:90
+#: bp-themes/bp-default/functions.php:126
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:91
+#: bp-themes/bp-default/functions.php:127
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:92
+#: bp-themes/bp-default/functions.php:128
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:93
+#: bp-themes/bp-default/functions.php:129
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:98
+#: bp-themes/bp-default/functions.php:134
 #, php-format
 msgid ""
 "%s is a unique identifier for %s that you can type into any message on this "
@@ -3751,55 +3771,55 @@ msgid ""
 "use it."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:237
+#: bp-themes/bp-default/functions.php:248
 msgid "The sidebar widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:246
+#: bp-themes/bp-default/functions.php:257
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:248
+#: bp-themes/bp-default/functions.php:259
 msgid "The first footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:257
+#: bp-themes/bp-default/functions.php:268
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:259
+#: bp-themes/bp-default/functions.php:270
 msgid "The second footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:268
+#: bp-themes/bp-default/functions.php:279
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:270
+#: bp-themes/bp-default/functions.php:281
 msgid "The third footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:279
+#: bp-themes/bp-default/functions.php:290
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:281
+#: bp-themes/bp-default/functions.php:292
 msgid "The fourth footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:337
+#: bp-themes/bp-default/functions.php:348
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:338
+#: bp-themes/bp-default/functions.php:349
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:342
+#: bp-themes/bp-default/functions.php:353
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:404
+#: bp-themes/bp-default/functions.php:415
 #, php-format
 msgid ""
 "Theme activated! This theme contains <a href=\"%s\">custom header image</a> "
@@ -4261,6 +4281,7 @@ msgstr ""
 
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/notices-loop.php:38
+#: bp-themes/bp-default/members/single/messages/single.php:13
 msgid "Delete Message"
 msgstr ""
 
@@ -4281,11 +4302,11 @@ msgstr ""
 msgid "Sent between %s and %s"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/messages/single.php:63
+#: bp-themes/bp-default/members/single/messages/single.php:64
 msgid "Send a Reply"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/messages/single.php:79
+#: bp-themes/bp-default/members/single/messages/single.php:80
 msgid "Send Reply"
 msgstr ""
 
