@@ -782,6 +782,15 @@ function bp_the_thread_message_sender_name() {
 		return apply_filters( 'bp_get_the_thread_message_sender_name', bp_core_get_user_displayname( $thread_template->message->sender_id ) );
 	}
 
+function bp_the_thread_delete_link() {
+	echo bp_get_the_thread_delete_link();
+}
+	function bp_get_the_thread_delete_link() {
+		global $bp;
+
+		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/inbox/delete/' . bp_get_the_thread_id(), 'messages_delete_thread' ) );
+	}
+
 function bp_the_thread_message_time_since() {
 	echo bp_get_the_thread_message_time_since();
 }
