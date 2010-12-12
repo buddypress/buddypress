@@ -2099,9 +2099,6 @@ function bp_core_clear_user_object_cache( $user_id ) {
 add_action( 'wp_login', 'bp_core_clear_cache' );
 add_action( 'bp_core_render_notice', 'bp_core_clear_cache' );
 
-// Remove the catch non existent blogs hook so WPMU doesn't think BuddyPress pages are non existing blogs
-remove_action( 'plugins_loaded', 'catch_nonexistant_blogs' );
-
 
 /* DEPRECATED FUNCTIONS ****/
 
