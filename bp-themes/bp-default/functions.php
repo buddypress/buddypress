@@ -435,7 +435,7 @@ function bp_dtheme_main_nav( $args ) {
 ?>
 	<ul id="nav">
 		<li<?php if ( is_front_page() ) : ?> class="selected"<?php endif; ?>>
-			<a href="<?php echo site_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
+			<a href="<?php echo home_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
 		</li>
 
 		<?php wp_list_pages( 'title_li=&depth=0&exclude=' . bp_dtheme_page_on_front() ); ?>
