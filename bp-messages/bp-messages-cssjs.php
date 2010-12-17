@@ -38,12 +38,11 @@ function messages_add_autocomplete_css() {
 add_action( 'wp_head', 'messages_add_autocomplete_css' );
 
 function messages_autocomplete_init_jsblock() {
-	global $bp;
 ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			var acfb =
-			jQuery("ul.first").autoCompletefb({urlLookup:'<?php echo $bp->root_domain . str_replace( 'index.php', 'wp-load.php', $_SERVER['SCRIPT_NAME'] ) ?>'});
+			jQuery("ul.first").autoCompletefb({urlLookup:'<?php echo site_url( 'wp-load.php' ) ?>'});
 
 			jQuery('#send_message_form').submit( function() {
 				var users = document.getElementById('send-to-usernames').className;
