@@ -127,7 +127,7 @@ function bp_core_get_site_options() {
 		
 	$root_blog_meta_keys = "'" . implode( "','", (array)$root_blog_options ) ."'";
 	
-	$root_blog_meta_table = BP_ROOT_BLOG == 1 ? $wpdb->base_prefix . 'options' : $wpdb->base_prefix . BP_ROOT_BLOG . '_options';
+	$root_blog_meta_table = $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'options';
 	$root_blog_meta = $wpdb->get_results( $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$root_blog_meta_table} WHERE option_name IN ({$root_blog_meta_keys})" ) );
 
 	$site_options = array();
