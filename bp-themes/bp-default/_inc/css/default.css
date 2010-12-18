@@ -1563,6 +1563,11 @@ div.activity-comments ul li {
 	padding: 10px 0 0;
 }
 		
+body.activity-permalink .activity-list li.mini .activity-comments {
+	clear: none;
+	margin-top: 0;
+}
+
 body.activity-permalink div.activity-comments ul li {
 	border-width: 1px;
 	padding: 10px 0 0;
