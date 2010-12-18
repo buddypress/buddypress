@@ -1029,7 +1029,7 @@ function bp_group_is_user_banned( $group = false, $user_id = false ) {
 
 	// Site admins always have access
 	if ( $bp->loggedin_user->is_super_admin )
-		return true;
+		return false;
 
 	if ( !$group ) {
 		$group =& $groups_template->group;
