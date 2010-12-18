@@ -18,7 +18,7 @@
 
 <?php if ( !bp_is_group_forum_topic_edit() && !bp_is_group_forum_topic() ) : ?>
 
-	<?php if ( ( is_user_logged_in() && 'public' == bp_get_group_status() ) || bp_group_is_member() ) : ?>
+	<?php if ( !bp_group_is_user_banned() && ( ( is_user_logged_in() && 'public' == bp_get_group_status() ) || bp_group_is_member() ) ) : ?>
 
 		<form action="" method="post" id="forum-topic-form" class="standard-form">
 			<div id="new-topic-post">

@@ -78,7 +78,7 @@
 
 			<?php if ( bp_get_the_topic_is_last_page() ) : ?>
 
-				<?php if ( bp_get_the_topic_is_topic_open() ) : ?>
+				<?php if ( bp_get_the_topic_is_topic_open() && !bp_group_is_user_banned() ) : ?>
 
 					<div id="post-topic-reply">
 						<p id="post-reply"></p>
@@ -102,7 +102,7 @@
 						<?php wp_nonce_field( 'bp_forums_new_reply' ) ?>
 					</div>
 
-				<?php else : ?>
+				<?php elseif ( !bp_group_is_user_banned() ) : ?>
 
 					<div id="message" class="info">
 						<p><?php _e( 'This topic is closed, replies are no longer accepted.', 'buddypress' ) ?></p>

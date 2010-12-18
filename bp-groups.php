@@ -51,7 +51,8 @@ function groups_setup_nav() {
 
 		/* This is a single group page. */
 		$bp->is_single_item = true;
-		$bp->groups->current_group = new BP_Groups_Group( $group_id );
+		$bp->groups->current_group = groups_get_groups( array( 'type' => 'active', 'include' => $group_id ) );
+		$bp->groups->current_group = $bp->groups->current_group['groups'][0];
 
 		/* Using "item" not "group" for generic support in other components. */
 		if ( is_super_admin() )
@@ -291,10 +292,14 @@ function groups_screen_group_forum() {
 		$topic_id = bp_forums_get_topic_id_from_slug( $topic_slug );
 		$forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
 
+		$user_is_banned = false;
+		if ( !is_super_admin() && groups_is_user_banned( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+			$user_is_banned = true;
+
 		if ( $topic_slug && $topic_id ) {
 
 			/* Posting a reply */
-			if ( !isset( $bp->action_variables[2] ) && isset( $_POST['submit_reply'] ) ) {
+			if ( !$user_is_banned && !isset( $bp->action_variables[2] ) && isset( $_POST['submit_reply'] ) ) {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_new_reply' );
 
@@ -372,7 +377,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Delete a topic */
-			else if ( isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
+			else if ( !$user_is_banned && isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
 				/* Fetch the topic */
 				$topic = bp_forums_get_topic_details( $topic_id );
 
@@ -386,14 +391,13 @@ function groups_screen_group_forum() {
 				if ( !groups_delete_group_forum_topic( $topic_id ) )
 					bp_core_add_message( __( 'There was an error deleting the topic', 'buddypress'), 'error' );
 				else
-					bp_core_add_message( __( 'The topic was deleted successfully', 'buddypress') );
 
 				do_action( 'groups_delete_forum_topic', $topic_id );
 				bp_core_redirect( wp_get_referer() );
 			}
 
 			/* Editing a topic */
-			else if ( isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
+			else if ( !$user_is_banned && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
 				/* Fetch the topic */
 				$topic = bp_forums_get_topic_details( $topic_id );
 
@@ -418,7 +422,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Delete a post */
-			else if ( isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
+			else if ( !$user_is_banned && isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
 				/* Fetch the post */
 				$post = bp_forums_get_post( $post_id );
 
@@ -439,7 +443,7 @@ function groups_screen_group_forum() {
 			}
 
 			/* Editing a post */
-			else if ( isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
+			else if ( !$user_is_banned && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
 				/* Fetch the post */
 				$post = bp_forums_get_post( $bp->action_variables[4] );
 
@@ -468,19 +472,25 @@ function groups_screen_group_forum() {
 
 			/* Standard topic display */
 			else {
+				if ( $user_is_banned )
+					bp_core_add_message( __( "You have been banned from this group.", 'buddypress' ) );
+
 				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/single/home' ) );
 			}
 
 		} else {
-
 			/* Posting a topic */
 			if ( isset( $_POST['submit_topic'] ) && function_exists( 'bp_forums_new_topic') ) {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_new_topic' );
 
-				/* Auto join this user if they are not yet a member of this group */
-				if ( $bp->groups->auto_join && !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+				if ( $user_is_banned ) {
+				 	$error_message = __( "You have been banned from this group.", 'buddypress' );
+
+				} elseif ( $bp->groups->auto_join && !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+					// Auto join this user if they are not yet a member of this group
 					groups_join_group( $bp->groups->current_group->id, $bp->loggedin_user->id );
+				}
 
 				if ( empty( $_POST['topic_title'] ) )
 					$error_message = __( 'Please provide a title for your forum topic.', 'buddypress' );
@@ -499,9 +509,8 @@ function groups_screen_group_forum() {
 						$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
 					}
 				}
-				
+
 				bp_core_redirect( $redirect );
-				
 			}
 
 			do_action( 'groups_screen_group_forum', $topic_id, $forum_id );

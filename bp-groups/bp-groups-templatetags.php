@@ -31,9 +31,7 @@ class BP_Groups_Template {
 		if ( 'invites' == $type ) {
 			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page, $exclude );
 		} else if ( 'single-group' == $type ) {
-			$group = new stdClass;
-			$group->group_id = BP_Groups_Group::get_id_from_slug($slug);
-			$this->groups    = array( $group );
+			$this->groups = array( $bp->groups->current_group );
 		} else {
 			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'include' => $include, 'exclude' => $exclude, 'populate_extras' => $populate_extras ) );
 		}
@@ -119,9 +117,6 @@ class BP_Groups_Template {
 
 		$this->in_the_loop = true;
 		$this->group = $this->next_group();
-
-		if ( $this->single_group )
-			$this->group = new BP_Groups_Group( $this->group->group_id, true );
 
 		if ( 0 == $this->current_group ) // loop has just started
 			do_action('loop_start');
@@ -1010,21 +1005,43 @@ function bp_group_is_member( $group = false ) {
 	global $bp, $groups_template;
 
 	// Site admins always have access
-	if ( is_super_admin() )
+	if ( $bp->loggedin_user->is_super_admin )
 		return true;
 
-	// Load group if none passed
 	if ( !$group )
 		$group =& $groups_template->group;
 
-	// Check membership
-	if ( null == $group->is_member )
-		$is_member = false;
-	else
-		$is_member = true;
+	return apply_filters( 'bp_group_is_member', !empty( $group->is_member ) );
+}
 
-	// Return
-	return apply_filters( 'bp_group_is_member', $is_member );
+/**
+ * Checks if a user is banned from a group.
+ *
+ * @global object $bp BuddyPress global settings
+ * @global BP_Groups_Template $groups_template Group template loop object
+ * @param object $group Group to check if user is banned from the group
+ * @param int $user_id
+ * @return bool If user is banned from the group or not
+ * @since 1.3
+ */
+function bp_group_is_user_banned( $group = false, $user_id = false ) {
+	global $bp, $groups_template;
+
+	// Site admins always have access
+	if ( $bp->loggedin_user->is_super_admin )
+		return true;
+
+	if ( !$group ) {
+		$group =& $groups_template->group;
+
+		if ( !$user_id )
+			return apply_filters( 'bp_group_is_member_banned', !empty( $group->is_banned ) );
+	}
+
+	if ( !$user_id )
+		$user_id = $bp->loggedin_user->id;
+
+	return apply_filters( 'bp_group_is_user_banned', groups_is_user_banned( $user_id, $group->id ) );
 }
 
 function bp_group_accept_invite_link() {
@@ -1102,9 +1119,19 @@ function bp_has_friends_to_invite( $group = false ) {
 	return true;
 }
 
-function bp_group_new_topic_button() {
-	if ( bp_is_group_forum() && is_user_logged_in() && !bp_is_group_forum_topic() ) {
-		bp_button( array (
+function bp_group_new_topic_button( $group = false ) {
+	echo bp_get_group_new_topic_button();
+}
+	function bp_get_group_new_topic_button( $group = false ) {
+		global $groups_template;
+
+		if ( !$group )
+			$group =& $groups_template->group;
+
+		if ( !is_user_logged_in() || bp_group_is_user_banned() || !bp_is_group_forum() || bp_is_group_forum_topic() )
+			return false;
+
+		$button = bp_button( array (
 			'id'                => 'new_topic',
 			'component'         => 'groups',
 			'must_be_logged_in' => true,
@@ -1116,8 +1143,10 @@ function bp_group_new_topic_button() {
 			'link_text'         => __( 'New Topic', 'buddypress' ),
 			'link_title'        => __( 'New Topic', 'buddypress' ),
 		) );
+
+		// Filter and return the HTML button
+		return bp_get_button( apply_filters( 'bp_get_group_new_topic_button', $button ) );
 	}
-}
 
 function bp_group_join_button( $group = false ) {
 	echo bp_get_group_join_button();
@@ -1128,8 +1157,7 @@ function bp_group_join_button( $group = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		// If they're not logged in or are banned from the group, no join button.
-		if ( !is_user_logged_in() || isset( $group->is_banned ) )
+		if ( !is_user_logged_in() || bp_group_is_user_banned() )
 			return false;
 
 		// Group creation was not completed or status is unknown
