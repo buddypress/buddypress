@@ -1331,7 +1331,6 @@ function groups_update_last_activity( $group_id = false ) {
 	
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 }
-add_action( 'groups_joined_group', 'groups_update_last_activity' );
 add_action( 'groups_leave_group', 'groups_update_last_activity' );
 add_action( 'groups_created_group', 'groups_update_last_activity' );
 add_action( 'groups_new_forum_topic', 'groups_update_last_activity' );
