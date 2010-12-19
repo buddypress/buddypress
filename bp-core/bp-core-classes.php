@@ -283,6 +283,7 @@ class BP_Core_User {
 	function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
 		global $wpdb, $bp;
 
+		$pag_sql = '';
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 

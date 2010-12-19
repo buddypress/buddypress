@@ -1503,7 +1503,7 @@ function bp_group_member_is_friend() {
 	function bp_get_group_member_is_friend() {
 		global $members_template;
 
-		if ( null === $members_template->member->is_friend )
+		if ( !isset( $members_template->member->is_friend ) )
 			$friend_status = 'not_friends';
 		else
 			$friend_status = ( 0 == $members_template->member->is_friend ) ? 'pending' : 'is_friend';

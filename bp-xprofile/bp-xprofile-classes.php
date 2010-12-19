@@ -115,11 +115,11 @@ Class BP_XProfile_Group {
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
+		$where_sql = '';
 
-		$group_id_sql = '';
 		if ( $profile_group_id )
 			$where_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
-		else if ( $exclude_groups )
+		elseif ( $exclude_groups )
 			$where_sql = $wpdb->prepare( "WHERE g.id NOT IN ({$exclude_groups})");
 
 		if ( $hide_empty_groups )
@@ -140,6 +140,7 @@ Class BP_XProfile_Group {
 		if ( empty( $group_ids ) )
 			return $groups;
 
+		$exclude_fields_sql = '';
 		if ( $exclude_fields )
 			$exclude_fields_sql = $wpdb->prepare( "AND id NOT IN ({$exclude_fields})" );
 

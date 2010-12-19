@@ -80,12 +80,14 @@ Class BP_Messages_Thread {
 	function get_current_threads_for_user( $user_id, $box = 'inbox', $type = 'all', $limit = null, $page = null ) {
 		global $wpdb, $bp;
 
+		$pag_sql = '';
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
+		$type_sql = '';
 		if ( $type == 'unread' )
 			$type_sql = $wpdb->prepare( " AND r.unread_count != 0 " );
-		else if ( $type == 'read' )
+		elseif ( $type == 'read' )
 			$type_sql = $wpdb->prepare( " AND r.unread_count = 0 " );
 
 		if ( 'sentbox' == $box ) {
