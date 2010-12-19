@@ -526,6 +526,8 @@ Class BP_Groups_Group {
 		/* Fetch the logged in users status within each group */
 		$user_status = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_confirmed = 1 AND is_banned = 0", $bp->loggedin_user->id ) );
 		for ( $i = 0; $i < count( $paged_groups ); $i++ ) {
+			$paged_groups[$i]->is_member = false;
+
 			foreach ( (array)$user_status as $group_id ) {
 				if ( $group_id == $paged_groups[$i]->id )
 					$paged_groups[$i]->is_member = true;
@@ -534,6 +536,8 @@ Class BP_Groups_Group {
 
 		$user_banned = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE is_banned = 1 AND user_id = %d AND group_id IN ( {$group_ids} )", $bp->loggedin_user->id ) );
 		for ( $i = 0; $i < count( $paged_groups ); $i++ ) {
+			$paged_groups[$i]->is_banned = false;
+
 			foreach ( (array)$user_banned as $group_id ) {
 				if ( $group_id == $paged_groups[$i]->id )
 					$paged_groups[$i]->is_banned = true;

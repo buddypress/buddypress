@@ -1023,8 +1023,8 @@ function bp_group_is_member( $group = false ) {
  * Checks if a user is banned from a group.
  *
  * If this function is invoked inside the groups template loop (e.g. the group directory), then
- * $groups_template->group->is_banned is set if the user is banned, so use that instead of making
- * another SQL query.
+ * check $groups_template->group->is_banned instead of making another SQL query.
+ * However, if used in a single group's pages, we must use groups_is_user_banned().
  *
  * @global object $bp BuddyPress global settings
  * @global BP_Groups_Template $groups_template Group template loop object
@@ -1033,7 +1033,7 @@ function bp_group_is_member( $group = false ) {
  * @return bool If user is banned from the group or not
  * @since 1.3
  */
-function bp_group_is_user_banned( $group = false, $user_id = false ) {
+function bp_group_is_user_banned( $group = false, $user_id = 0 ) {
 	global $bp, $groups_template;
 
 	// Site admins always have access
@@ -1043,8 +1043,8 @@ function bp_group_is_user_banned( $group = false, $user_id = false ) {
 	if ( !$group ) {
 		$group =& $groups_template->group;
 
-		if ( !$user_id && !empty( $group->is_banned ) )
-			return apply_filters( 'bp_group_is_member_banned', true );
+		if ( !$user_id && isset( $group->is_banned ) )
+			return apply_filters( 'bp_group_is_user_banned', $group->is_banned );
 	}
 
 	if ( !$user_id )
