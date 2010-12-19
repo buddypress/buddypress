@@ -1177,7 +1177,8 @@ function bp_group_join_button( $group = false ) {
 		if ( $group->is_member ) {
 
 			// Stop sole admins from abandoning their group
-			if ( $bp->is_item_admin && count( groups_get_group_admins( $group->id ) ) < 2 )
+	 		$group_admins = groups_get_group_admins( $group->id );
+		 	if ( 1 == count( $group_admins ) && $group_admins[0]->user_id == $bp->loggedin_user->id )
 				return false;
 
 			$button = array(
