@@ -31,7 +31,9 @@ class BP_Groups_Template {
 		if ( 'invites' == $type ) {
 			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page, $exclude );
 		} else if ( 'single-group' == $type ) {
-			$this->groups = array( $bp->groups->current_group );
+			$group           = new stdClass;
+			$group->group_id = BP_Groups_Group::get_id_from_slug( $slug );
+			$this->groups    = array( $group );
 		} else {
 			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'include' => $include, 'exclude' => $exclude, 'populate_extras' => $populate_extras ) );
 		}
@@ -117,6 +119,9 @@ class BP_Groups_Template {
 
 		$this->in_the_loop = true;
 		$this->group = $this->next_group();
+
+		if ( $this->single_group )
+			$this->group = new BP_Groups_Group( $this->group->group_id );
 
 		if ( 0 == $this->current_group ) // loop has just started
 			do_action('loop_start');
@@ -1017,6 +1022,10 @@ function bp_group_is_member( $group = false ) {
 /**
  * Checks if a user is banned from a group.
  *
+ * If this function is invoked inside the groups template loop (e.g. the group directory), then
+ * $groups_template->group->is_banned is set if the user is banned, so use that instead of making
+ * another SQL query.
+ *
  * @global object $bp BuddyPress global settings
  * @global BP_Groups_Template $groups_template Group template loop object
  * @param object $group Group to check if user is banned from the group
@@ -1034,8 +1043,8 @@ function bp_group_is_user_banned( $group = false, $user_id = false ) {
 	if ( !$group ) {
 		$group =& $groups_template->group;
 
-		if ( !$user_id )
-			return apply_filters( 'bp_group_is_member_banned', !empty( $group->is_banned ) );
+		if ( !$user_id && !empty( $group->is_banned ) )
+			return apply_filters( 'bp_group_is_member_banned', true );
 	}
 
 	if ( !$user_id )

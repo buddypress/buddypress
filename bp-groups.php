@@ -51,8 +51,7 @@ function groups_setup_nav() {
 
 		/* This is a single group page. */
 		$bp->is_single_item = true;
-		$bp->groups->current_group = groups_get_groups( array( 'type' => 'active', 'include' => $group_id ) );
-		$bp->groups->current_group = $bp->groups->current_group['groups'][0];
+		$bp->groups->current_group = new BP_Groups_Group( $group_id );
 
 		/* Using "item" not "group" for generic support in other components. */
 		if ( is_super_admin() )
