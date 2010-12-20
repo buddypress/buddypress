@@ -384,20 +384,20 @@ Class BP_XProfile_Field {
 					$parent_id = $wpdb->insert_id;
 
 				if ( 'radio' == $this->type ) {
-					$options	= $_POST['radio_option'];
-					$defaults	= $_POST['isDefault_radio_option'];
+					$options	= apply_filters( 'xprofile_field_options_before_save', $_POST['radio_option'], 'radio' );
+					$defaults	= apply_filters( 'xprofile_field_default_before_save', $_POST['isDefault_radio_option'], 'radio' );
 
 				} else if ( 'selectbox' == $this->type ) {
-					$options	= $_POST['selectbox_option'];
-					$defaults	= $_POST['isDefault_selectbox_option'];
+					$options	= apply_filters( 'xprofile_field_options_before_save', $_POST['selectbox_option'], 'selectbox' );
+					$defaults	= apply_filters( 'xprofile_field_default_before_save', $_POST['isDefault_selectbox_option'], 'selectbox' );
 
 				} else if ( 'multiselectbox' == $this->type ) {
-					$options	= $_POST['multiselectbox_option'];
-					$defaults	= $_POST['isDefault_multiselectbox_option'];
+					$options	= apply_filters( 'xprofile_field_options_before_save', $_POST['multiselectbox_option'], 'multiselectbox' );
+					$defaults	= apply_filters( 'xprofile_field_default_before_save', $_POST['isDefault_multiselectbox_option'], 'multiselectbox' );
 
 				} else if ( 'checkbox' == $this->type ) {
-					$options	= $_POST['checkbox_option'];
-					$defaults	= $_POST['isDefault_checkbox_option'];
+					$options	= apply_filters( 'xprofile_field_options_before_save', $_POST['checkbox_option'], 'checkbox' );
+					$defaults	= apply_filters( 'xprofile_field_default_before_save', $_POST['isDefault_checkbox_option'], 'checkbox' );
 				}
 
 				$counter = 1;
@@ -610,12 +610,14 @@ Class BP_XProfile_Field {
 			$title				= __( 'Add Field', 'buddypress' );
 			$action				= "admin.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field#tabs-" . $this->group_id;
 
-			$this->name			= $_POST['title'];
-			$this->description	= $_POST['description'];
-			$this->is_required	= $_POST['required'];
-			$this->type			= $_POST['fieldtype'];
-			$this->order_by		= $_POST["sort_order_{$this->type}"];
-			$this->field_order	= $_POST['field_order'];
+			if ( !empty( $_POST['saveField'] ) ) {
+				$this->name		= $_POST['title'];
+				$this->description	= $_POST['description'];
+				$this->is_required	= $_POST['required'];
+				$this->type		= $_POST['fieldtype'];
+				$this->order_by		= $_POST["sort_order_{$this->type}"];
+				$this->field_order	= $_POST['field_order'];
+			}
 		} else {
 			$title				= __( 'Edit Field', 'buddypress' );
 			$action				= "admin.php?page=bp-profile-setup&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id . "#tabs-" . $this->group_id;
