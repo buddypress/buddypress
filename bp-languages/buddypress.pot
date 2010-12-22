@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-22 01:30:24+00:00\n"
+"POT-Creation-Date: 2010-12-22 14:30:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2131,7 +2131,7 @@ msgstr ""
 msgid "NOTE: Any fields in the \"%s\" group will appear on the signup page."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:70 bp-xprofile/bp-xprofile-admin.php:338
+#: bp-xprofile/bp-xprofile-admin.php:70 bp-xprofile/bp-xprofile-admin.php:339
 msgid "(Core)"
 msgstr ""
 
@@ -2167,31 +2167,31 @@ msgstr ""
 msgid "The group was deleted successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:229
+#: bp-xprofile/bp-xprofile-admin.php:230
 msgid "There was an error saving the field. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:235
+#: bp-xprofile/bp-xprofile-admin.php:236
 msgid "The field was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:262
+#: bp-xprofile/bp-xprofile-admin.php:263
 msgid "field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:264
+#: bp-xprofile/bp-xprofile-admin.php:265
 msgid "option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:269
+#: bp-xprofile/bp-xprofile-admin.php:270
 msgid "There was an error deleting the %s. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:272
+#: bp-xprofile/bp-xprofile-admin.php:273
 msgid "The %s was deleted successfully!"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:338
+#: bp-xprofile/bp-xprofile-admin.php:339
 #: bp-themes/bp-default/registration/register.php:28
 #: bp-themes/bp-default/registration/register.php:32
 #: bp-themes/bp-default/registration/register.php:36
@@ -2217,20 +2217,20 @@ msgstr ""
 msgid "(required)"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:368
+#: bp-xprofile/bp-xprofile-admin.php:369
 #: bp-themes/bp-default/registration/register.php:110
 #: bp-themes/bp-default/members/single/profile/edit.php:52
 #: bp-themes/bp-default/members/single/profile/edit.php:65
 msgid "Clear"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:398
+#: bp-xprofile/bp-xprofile-admin.php:399
 #: bp-forums/bp-forums-templatetags.php:980
 #: bp-themes/bp-default/functions.php:360
 msgid "Edit"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:399
+#: bp-xprofile/bp-xprofile-admin.php:400
 #: bp-forums/bp-forums-templatetags.php:981
 #: bp-themes/bp-default/_inc/ajax.php:212
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
@@ -2240,68 +2240,68 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:498
+#: bp-xprofile/bp-xprofile-templatetags.php:500
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:498
+#: bp-xprofile/bp-xprofile-templatetags.php:500
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:498
+#: bp-xprofile/bp-xprofile-templatetags.php:500
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:499
+#: bp-xprofile/bp-xprofile-templatetags.php:501
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:499
+#: bp-xprofile/bp-xprofile-templatetags.php:501
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:499
+#: bp-xprofile/bp-xprofile-templatetags.php:501
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:500
+#: bp-xprofile/bp-xprofile-templatetags.php:502
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:500
+#: bp-xprofile/bp-xprofile-templatetags.php:502
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:500
+#: bp-xprofile/bp-xprofile-templatetags.php:502
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:501
+#: bp-xprofile/bp-xprofile-templatetags.php:503
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:501
+#: bp-xprofile/bp-xprofile-templatetags.php:503
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:501
+#: bp-xprofile/bp-xprofile-templatetags.php:503
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:642
+#: bp-xprofile/bp-xprofile-templatetags.php:644
 msgid "Avatar uploads are currently disabled. Why not use a <a href=\"http://gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:651
+#: bp-xprofile/bp-xprofile-templatetags.php:653
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:662
+#: bp-xprofile/bp-xprofile-templatetags.php:664
 msgid "Profile updated %s ago"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:707
-#: bp-xprofile/bp-xprofile-templatetags.php:708 bp-xprofile.php:102
+#: bp-xprofile/bp-xprofile-templatetags.php:709
+#: bp-xprofile/bp-xprofile-templatetags.php:710 bp-xprofile.php:102
 msgid "Edit Profile"
 msgstr ""
 
