@@ -2,7 +2,7 @@
 Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, mingle, social, community, networks, networking, cms
 Requires at least: 3.0
-Tested up to: 3.0.2
+Tested up to: 3.0.3
 Stable tag: 1.2.7
 
 == Description ==
@@ -123,9 +123,6 @@ The <a href="http://i18n.svn.buddypress.org/">BuddyPress langauge file repositor
 
 = 1.2.7 =
 Fixes over 10 bugs.
-
-= 1.2.6 =
-Fixes over 80 known issues. Important upgrade.
 
 == Changelog ==
 
