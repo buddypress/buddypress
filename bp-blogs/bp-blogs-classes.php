@@ -77,12 +77,12 @@ Class BP_Blogs_Blog {
 
 		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = "AND wb.public = 1";
+		else
+			$hidden_sql = '';
 
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		$pag_sql = ( $limit && $page ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
 
-		if ( $user_id )
-			$user_sql = $wpdb->prepare( " AND b.user_id = %d", $user_id );
+		$user_sql = !empty( $user_id ) ? $wpdb->prepare( " AND b.user_id = %d", $user_id ) : '';
 
 		switch ( $type ) {
 			case 'active': default:
@@ -108,7 +108,11 @@ Class BP_Blogs_Blog {
 			$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb WHERE b.blog_id = wb.blog_id {$user_sql} AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}" ) );
 		}
 
-		foreach ( (array)$paged_blogs as $blog ) $blog_ids[] = $blog->blog_id;
+		$blog_ids = array();
+		foreach ( (array)$paged_blogs as $blog ) {
+			$blog_ids[] = $blog->blog_id;
+		}
+		
 		$blog_ids = $wpdb->escape( join( ',', (array)$blog_ids ) );
 		$paged_blogs = BP_Blogs_Blog::get_blog_extras( &$paged_blogs, $blog_ids, $type );
 
@@ -242,11 +246,9 @@ Class BP_Blogs_Blog {
 		if ( !$bp->blogs )
 			bp_blogs_setup_globals();
 
-		if ( !is_super_admin() )
-			$hidden_sql = "AND wb.public = 1";
+		$hidden_sql = !is_super_admin() ? "AND wb.public = 1" : '';
 
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		$pag_sql = ( $limit && $page ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
 
 		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$hidden_sql} {$pag_sql}" ) );
 		$total_blogs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$hidden_sql}" ) );
