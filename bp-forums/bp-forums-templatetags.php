@@ -493,9 +493,9 @@ function bp_the_topic_permalink() {
 	function bp_get_the_topic_permalink() {
 		global $forum_template, $bp;
 
-		if ( $forum_template->topic->object_slug )
+		if ( !empty( $forum_template->topic->object_slug ) )
 			$permalink = $bp->root_domain . '/' . BP_GROUPS_SLUG . '/' . $forum_template->topic->object_slug . '/';
-		else if ( $bp->is_single_item )
+		else if ( !empty( $bp->is_single_item ) )
 			$permalink = $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item . '/';
 		else
 			$permalink = $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_action . '/';
