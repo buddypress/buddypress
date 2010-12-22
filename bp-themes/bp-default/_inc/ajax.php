@@ -412,9 +412,6 @@ function bp_dtheme_ajax_joinleave_group() {
 	if ( !$group = new BP_Groups_Group( $_POST['gid'], false, false ) )
 		return false;
 
-	if ( 'hidden' == $group->status )
-		return false;
-
 	if ( !groups_is_user_member( $bp->loggedin_user->id, $group->id ) ) {
 
 		if ( 'public' == $group->status ) {
