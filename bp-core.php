@@ -1443,6 +1443,10 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 			break;
 	}
 
+        // If $i iterates all the way to $j, then the event happened 0 seconds ago
+        if ( !isset( $chunks[$i] ) )
+		return '0 ' . __( 'seconds', 'buddypress' );
+
 	/* Set output var */
 	$output = ( 1 == $count ) ? '1 '. $chunks[$i][1] : $count . ' ' . $chunks[$i][2];
 
