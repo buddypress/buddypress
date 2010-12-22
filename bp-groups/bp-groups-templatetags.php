@@ -1846,7 +1846,7 @@ function bp_new_group_invite_friend_list() {
 		extract( $r, EXTR_SKIP );
 
 		if ( !$group_id )
-			$group_id = ( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
+			$group_id = !empty( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
 
 		$friends = friends_get_friends_invite_list( $bp->loggedin_user->id, $group_id );
 
@@ -1854,12 +1854,11 @@ function bp_new_group_invite_friend_list() {
 			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_id );
 
 			for ( $i = 0; $i < count( $friends ); $i++ ) {
-				if ( $invites ) {
-					if ( in_array( $friends[$i]['id'], $invites ) ) {
+				$checked = '';
+				
+				if ( !empty( $invites ) ) {
+					if ( in_array( $friends[$i]['id'], $invites ) )
 						$checked = ' checked="checked"';
-					} else {
-						$checked = '';
-					}
 				}
 
 				$items[] = '<' . $separator . '><input' . $checked . ' type="checkbox" name="friends[]" id="f-' . $friends[$i]['id'] . '" value="' . esc_attr( $friends[$i]['id'] ) . '" /> ' . $friends[$i]['full_name'] . '</' . $separator . '>';
@@ -2219,7 +2218,7 @@ class BP_Groups_Invite_Template {
 	}
 
 	function the_invite() {
-		global $invite;
+		global $invite, $group_id;
 
 		$this->in_the_loop = true;
 		$user_id = $this->next_invite();
@@ -2246,8 +2245,10 @@ function bp_group_has_invites( $args = '' ) {
 
 	if ( !$group_id ) {
 		/* Backwards compatibility */
-		if ( $bp->groups->current_group ) $group_id = $bp->groups->current_group->id;
-		if ( $bp->groups->new_group_id ) $group_id = $bp->groups->new_group_id;
+		if ( !empty( $bp->groups->current_group ) ) 
+			$group_id = $bp->groups->current_group->id;
+		if ( !empty( $bp->groups->new_group_id ) )
+			$group_id = $bp->groups->new_group_id;
 	}
 
 	if ( !$group_id )

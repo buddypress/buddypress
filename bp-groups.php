@@ -535,7 +535,7 @@ function groups_screen_group_invite() {
 	global $bp;
 
 	if ( $bp->is_single_item ) {
-		if ( isset($bp->action_variables) && 'send' == $bp->action_variables[0] ) {
+		if ( !empty( $bp->action_variables[0] ) && 'send' == $bp->action_variables[0] ) {
 
 			if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
 				return false;
@@ -1420,7 +1420,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 
 			$group = new BP_Groups_Group( $group_id );
-			$user_url = bp_core_get_user_domain( $user_id );
+			$user_url = bp_core_get_user_domain( $bp->loggedin_user->id );
 
 			if ( (int)$total_items > 1 )
 				return apply_filters( 'bp_groups_multiple_group_invite_notification', '<a href="' . $bp->loggedin_user->domain . $bp->groups->slug . '/invites/?n=1" title="' . __( 'Group Invites', 'buddypress' ) . '">' . sprintf( __( 'You have %d new group invitations', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );

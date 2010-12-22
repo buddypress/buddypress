@@ -506,8 +506,7 @@ class BP_Core_Notification {
 	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id ) {
 		global $wpdb, $bp;
 
-		if ( $secondary_item_id )
-			$secondary_item_sql = $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id );
+		$secondary_item_sql = !empty( $secondary_item_id ) ? $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id ) : '';
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s{$secondary_item_sql}", $user_id, $item_id, $component_name, $component_action ) );
 	}
