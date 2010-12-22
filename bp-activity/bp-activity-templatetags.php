@@ -610,11 +610,29 @@ function bp_activity_content() {
 			$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity );
 
 		// Add the delete link if the user has permission on this item
-		if ( ( is_user_logged_in() && $activities_template->activity->user_id == $bp->loggedin_user->id ) || $bp->is_item_admin || $bp->loggedin_user->is_super_admin )
+		if ( bp_activity_user_can_delete() )
 			 $content .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), $activities_template->activity );
 
 		return apply_filters( 'bp_insert_activity_meta', $content );
 	}
+
+function bp_activity_user_can_delete() {
+	global $activities_template, $bp;
+
+	if ( !is_user_logged_in() )
+		$can_delete = false;
+	
+	if ( $bp->loggedin_user->is_super_admin )
+		$can_delete = true;
+	
+	if ( $activities_template->activity->user_id == $bp->loggedin_user->id )
+		$can_delete = true;
+		
+	if ( $bp->is_item_admin && $bp->is_single_item )
+		$can_delete = true;
+	
+	return apply_filters( 'bp_activity_user_can_delete', $can_delete );
+}
 
 function bp_activity_parent_content( $args = '' ) {
 	echo bp_get_activity_parent_content($args);
