@@ -155,19 +155,6 @@ register_activation_hook( 'buddypress/bp-loader.php', 'bp_loader_activate' );
 
 /* Deactivation Function */
 function bp_loader_deactivate() {
-	if ( !function_exists( 'delete_site_option') )
-		return false;
-
-	delete_site_option( 'bp-core-db-version' );
-	delete_site_option( 'bp-activity-db-version' );
-	delete_site_option( 'bp-blogs-db-version' );
-	delete_site_option( 'bp-friends-db-version' );
-	delete_site_option( 'bp-groups-db-version' );
-	delete_site_option( 'bp-messages-db-version' );
-	delete_site_option( 'bp-xprofile-db-version' );
-	delete_site_option( 'bp-deactivated-components' );
-	delete_site_option( 'bp-blogs-first-install' );
-
 	do_action( 'bp_loader_deactivate' );
 }
 register_deactivation_hook( 'buddypress/bp-loader.php', 'bp_loader_deactivate' );
