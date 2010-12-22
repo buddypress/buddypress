@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-22 14:30:33+00:00\n"
+"POT-Creation-Date: 2010-12-22 15:30:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -640,7 +640,7 @@ msgid "BuddyPress has been updated! Before you can continue using BuddyPress, we
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:253 bp-core/admin/bp-core-upgrade.php:473
-#: bp-activity/bp-activity-templatetags.php:909
+#: bp-activity/bp-activity-templatetags.php:927
 msgid "blogs"
 msgstr ""
 
@@ -752,7 +752,7 @@ msgid "members"
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:458 bp-core/bp-core-classes.php:98
-#: bp-activity/bp-activity-templatetags.php:909
+#: bp-activity/bp-activity-templatetags.php:927
 msgid "groups"
 msgstr ""
 
@@ -1123,7 +1123,7 @@ msgstr ""
 #: bp-core/bp-core-templatetags.php:389
 #: bp-themes/bp-default/activity/entry.php:46
 #: bp-activity/bp-activity-templatetags.php:610
-#: bp-activity/bp-activity-templatetags.php:849
+#: bp-activity/bp-activity-templatetags.php:867
 msgid "View"
 msgstr ""
 
@@ -2235,8 +2235,8 @@ msgstr ""
 #: bp-themes/bp-default/_inc/ajax.php:212
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:13
-#: bp-activity/bp-activity-templatetags.php:699
-#: bp-activity/bp-activity-templatetags.php:833
+#: bp-activity/bp-activity-templatetags.php:717
+#: bp-activity/bp-activity-templatetags.php:851
 msgid "Delete"
 msgstr ""
 
@@ -3285,13 +3285,13 @@ msgid "There was a problem posting your update, please try again."
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:210
-#: bp-activity/bp-activity-templatetags.php:690
+#: bp-activity/bp-activity-templatetags.php:708
 msgid "%s ago"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:211
 #: bp-themes/bp-default/activity/entry.php:28
-#: bp-activity/bp-activity-templatetags.php:694
+#: bp-activity/bp-activity-templatetags.php:712
 msgid "Reply"
 msgstr ""
 
@@ -4352,27 +4352,27 @@ msgstr ""
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:909
+#: bp-activity/bp-activity-templatetags.php:927
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:909
+#: bp-activity/bp-activity-templatetags.php:927
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:909
+#: bp-activity/bp-activity-templatetags.php:927
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:917
+#: bp-activity/bp-activity-templatetags.php:935
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1002
+#: bp-activity/bp-activity-templatetags.php:1020
 msgid "Mention this user in a new public message, this will send the user a notification to get their attention."
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1003
+#: bp-activity/bp-activity-templatetags.php:1021
 msgid "Mention this User"
 msgstr ""
 
