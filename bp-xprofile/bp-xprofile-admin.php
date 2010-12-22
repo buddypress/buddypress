@@ -217,7 +217,8 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			$field->description = wp_filter_kses( $_POST['description'] );
 			$field->is_required = wp_filter_kses( $_POST['required'] );
 			$field->type = wp_filter_kses( $_POST['fieldtype'] );
-			$field->order_by = wp_filter_kses( $_POST["sort_order_{$field->type}"] );
+			if ( !empty( $_POST["sort_order_{$field->type}"] ) )
+				$field->order_by = wp_filter_kses( $_POST["sort_order_{$field->type}"] );
 
 			$field->field_order = $wpdb->get_var( $wpdb->prepare( "SELECT field_order FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id ) );
 			if ( !$field->field_order ) {

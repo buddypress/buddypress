@@ -839,7 +839,7 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = false ) {
 function xprofile_sync_wp_profile( $user_id = false ) {
 	global $bp, $wpdb;
 
-	if ( (int)$bp->site_options['bp-disable-profile-sync'] )
+	if ( !empty( $bp->site_options['bp-disable-profile-sync'] ) && (int)$bp->site_options['bp-disable-profile-sync'] )
 		return true;
 
 	if ( empty( $user_id ) )

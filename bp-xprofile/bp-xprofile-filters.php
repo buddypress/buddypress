@@ -2,7 +2,6 @@
 
 /* Apply WordPress defined filters */
 
-add_filter( 'bp_get_the_profile_field_value',         'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_profile_field_name',          'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_profile_field_edit_value',    'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_profile_field_description',   'wp_filter_kses', 1 );
@@ -31,11 +30,31 @@ add_filter( 'xprofile_get_field_data',                'stripslashes' );
 
 /* Custom BuddyPress filters */
 
+add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_kses', 1 );
+
 add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_site_member_profile_data',    'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_link_profile_data', 50, 2 );
 
-add_filter( 'xprofile_data_value_before_save',        'xprofile_sanitize_data_value_before_save', 1, 2 );
+add_filter( 'xprofile_data_value_before_save',        'xprofile_sanitize_data_value_before_save', 1, 2 );		
+
+/**
+ * xprofile_filter_kses ( $content )
+ *
+ * Run profile field values through kses with filterable allowed tags.
+ *
+ * @param string $content
+ * @return string $content
+ */
+function xprofile_filter_kses( $content ) {
+	global $allowedtags;
+
+	$xprofile_allowedtags = $allowedtags;
+	$xprofile_allowedtags['a']['rel']      = array();
+
+	$xprofile_allowedtags = apply_filters( 'xprofile_allowed_tags', $xprofile_allowedtags );
+	return wp_kses( $content, $xprofile_allowedtags );
+}
 
 /**
  * xprofile_sanitize_data_value_before_save ( $field_value, $field_id )
@@ -57,14 +76,18 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id ) {
 
 	// Filter single value
 	if ( !is_array( $field_value ) ) {
-		$kses_field_value     = wp_filter_kses( $field_value );
-		$filtered_field_value = force_balance_tags( $kses_field_value );
+		$kses_field_value     = xprofile_filter_kses( $field_value );
+		$filtered_field_value = wp_rel_nofollow( force_balance_tags( $kses_field_value ) );
+		$filtered_field_value = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_field_value, $field_value );
 
 	// Filter each array item independently
 	} else {
+		$filtered_values = array();
 		foreach ( (array)$field_value as $value ) {
-			$kses_field_value       = wp_filter_kses( $value );
-			$filtered_values[] = force_balance_tags( $kses_field_value );
+			$kses_field_value       = xprofile_filter_kses( $value );
+			$filtered_value 	= wp_rel_nofollow( force_balance_tags( $kses_field_value ) );
+			$filtered_values[] = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_value, $value );
+			
 		}
 
 		$filtered_field_value = serialize( $filtered_values );
@@ -105,7 +128,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 				if ( count( explode( ' ', $value ) ) > 5 ) {
 					$new_values[] = $value;
 				} else {
-					$new_values[] = '<a href="' . site_url( BP_MEMBERS_SLUG ) . '/?s=' . strip_tags( $value ) . '">' . $value . '</a>';
+					$new_values[] = '<a href="' . site_url( BP_MEMBERS_SLUG ) . '/?s=' . strip_tags( $value ) . '" rel="nofollow">' . $value . '</a>';
 				}
 			}
 		}

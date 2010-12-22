@@ -101,7 +101,7 @@ Class BP_XProfile_Data_Template {
 		for ( $i = 0; $i < count( $this->group->fields ); $i++ ) {
 			$field = &$this->group->fields[$i];
 
-			if ( $field->data->value != null ) {
+			if ( !empty( $field->data ) && $field->data->value != null ) {
 				$has_data = true;
 			}
 		}
@@ -440,7 +440,9 @@ function bp_the_profile_field_options( $args = '' ) {
 
 				$option_values = maybe_unserialize($option_values);
 
+				$html = '';
 				for ( $k = 0; $k < count($options); $k++ ) {
+					$selected = '';
 					for ( $j = 0; $j < count($option_values); $j++ ) {
 						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) || $options[$k]->is_default_option ) {
 							$selected = ' checked="checked"';
