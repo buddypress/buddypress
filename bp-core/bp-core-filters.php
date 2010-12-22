@@ -68,7 +68,7 @@ function bp_core_allow_default_theme( $themes ) {
 	if ( !is_super_admin() )
 		return $themes;
 
-	if ( $current_blog->ID == $bp->root_blog ) {
+	if ( $current_blog->blog_id == BP_ROOT_BLOG ) {
 		$themes['bp-default'] = 1;
 	}
 
