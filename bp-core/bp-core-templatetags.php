@@ -908,10 +908,10 @@ function bp_get_page_title() {
 	} else if ( !empty( $bp->displayed_user->fullname ) ) {
  		$title = strip_tags( $bp->displayed_user->fullname . ' &#124; ' . ucwords( $bp->current_component ) );
 
-	} else if ( $bp->is_single_item ) {
+	} else if ( !empty( $bp->is_single_item ) ) {
 		$title = ucwords( $bp->current_component ) . ' &#124; ' . $bp->bp_options_title . ' &#124; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'];
 
-	} else if ( $bp->is_directory ) {
+	} else if ( !empty( $bp->is_directory ) ) {
 		if ( !$bp->current_component )
 			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( BP_MEMBERS_SLUG ) );
 		else
