@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-22 00:30:28+00:00\n"
+"POT-Creation-Date: 2010-12-22 01:30:24+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -246,8 +246,8 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:507
 #: bp-blogs/bp-blogs-templatetags.php:513 bp-core/bp-core-templatetags.php:457
 #: bp-core/bp-core-templatetags.php:463
-#: bp-groups/bp-groups-templatetags.php:1875
-#: bp-groups/bp-groups-templatetags.php:1881
+#: bp-groups/bp-groups-templatetags.php:1874
+#: bp-groups/bp-groups-templatetags.php:1880
 #: bp-forums/bp-forums-templatetags.php:1031
 #: bp-forums/bp-forums-templatetags.php:1037
 #: bp-themes/bp-default/_inc/ajax.php:56
@@ -256,7 +256,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:514 bp-core/bp-core-templatetags.php:464
 #: bp-core/bp-core-templatetags.php:1057
-#: bp-groups/bp-groups-templatetags.php:1882
+#: bp-groups/bp-groups-templatetags.php:1881
 #: bp-forums/bp-forums-templatetags.php:1038 bp-themes/bp-default/header.php:56
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
@@ -1414,15 +1414,15 @@ msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:6
 #: bp-friends/bp-friends-templatetags.php:20
-#: bp-groups/bp-groups-templatetags.php:1890
-#: bp-groups/bp-groups-templatetags.php:1907
+#: bp-groups/bp-groups-templatetags.php:1889
+#: bp-groups/bp-groups-templatetags.php:1906
 msgid "Recently Active"
 msgstr ""
 
 #: bp-friends/bp-friends-templatetags.php:8
 #: bp-friends/bp-friends-templatetags.php:26
-#: bp-groups/bp-groups-templatetags.php:1895
-#: bp-groups/bp-groups-templatetags.php:1922
+#: bp-groups/bp-groups-templatetags.php:1894
+#: bp-groups/bp-groups-templatetags.php:1921
 msgid "Alphabetically"
 msgstr ""
 
@@ -1715,7 +1715,7 @@ msgid "Group Settings"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:937
-#: bp-groups/bp-groups-templatetags.php:1948 bp-groups.php:105
+#: bp-groups/bp-groups-templatetags.php:1947 bp-groups.php:105
 msgid "Group Avatar"
 msgstr ""
 
@@ -1741,19 +1741,19 @@ msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1193
 #: bp-groups/bp-groups-templatetags.php:1194
-#: bp-themes/bp-default/_inc/ajax.php:427
+#: bp-themes/bp-default/_inc/ajax.php:424
 msgid "Leave Group"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1216
 #: bp-groups/bp-groups-templatetags.php:1217
-#: bp-themes/bp-default/_inc/ajax.php:449
+#: bp-themes/bp-default/_inc/ajax.php:446
 msgid "Join Group"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:1234
 #: bp-groups/bp-groups-templatetags.php:1235 bp-groups.php:135
-#: bp-themes/bp-default/_inc/ajax.php:451
+#: bp-themes/bp-default/_inc/ajax.php:448
 msgid "Request Membership"
 msgstr ""
 
@@ -1782,31 +1782,31 @@ msgstr ""
 msgid "Viewing members %1$s to %2$s (of %3$s members)"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1891
-#: bp-groups/bp-groups-templatetags.php:1910
+#: bp-groups/bp-groups-templatetags.php:1890
+#: bp-groups/bp-groups-templatetags.php:1909
 msgid "Recently Joined"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1892
-#: bp-groups/bp-groups-templatetags.php:1913
+#: bp-groups/bp-groups-templatetags.php:1891
+#: bp-groups/bp-groups-templatetags.php:1912
 msgid "Most Popular"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1893
-#: bp-groups/bp-groups-templatetags.php:1916
+#: bp-groups/bp-groups-templatetags.php:1892
+#: bp-groups/bp-groups-templatetags.php:1915
 msgid "Administrator Of"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1894
-#: bp-groups/bp-groups-templatetags.php:1919
+#: bp-groups/bp-groups-templatetags.php:1893
+#: bp-groups/bp-groups-templatetags.php:1918
 msgid "Moderator Of"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1950
+#: bp-groups/bp-groups-templatetags.php:1949
 msgid "No Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:2154
+#: bp-groups/bp-groups-templatetags.php:2153
 msgid "requested %s ago"
 msgstr ""
 
@@ -2542,7 +2542,7 @@ msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:800
-#: bp-themes/bp-default/_inc/ajax.php:488
+#: bp-themes/bp-default/_inc/ajax.php:485
 msgid "Sent %s ago"
 msgstr ""
 
@@ -3044,7 +3044,7 @@ msgstr ""
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages.php:289 bp-themes/bp-default/_inc/ajax.php:554
+#: bp-messages.php:289 bp-themes/bp-default/_inc/ajax.php:551
 msgid "Messages deleted."
 msgstr ""
 
@@ -3328,39 +3328,39 @@ msgstr ""
 msgid "There was a problem rejecting that request. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:425
+#: bp-themes/bp-default/_inc/ajax.php:422
 msgid "Error joining group"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:435
+#: bp-themes/bp-default/_inc/ajax.php:432
 msgid "Error requesting membership"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:437
+#: bp-themes/bp-default/_inc/ajax.php:434
 msgid "Membership Requested"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:446
+#: bp-themes/bp-default/_inc/ajax.php:443
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:463
+#: bp-themes/bp-default/_inc/ajax.php:460
 msgid "There was a problem closing the notice."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:505
+#: bp-themes/bp-default/_inc/ajax.php:502
 msgid "There was a problem sending that reply. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:515
+#: bp-themes/bp-default/_inc/ajax.php:512
 msgid "There was a problem marking messages as unread."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:531
+#: bp-themes/bp-default/_inc/ajax.php:528
 msgid "There was a problem marking messages as read."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:547
+#: bp-themes/bp-default/_inc/ajax.php:544
 msgid "There was a problem deleting messages."
 msgstr ""
 
