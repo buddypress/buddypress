@@ -67,7 +67,7 @@ function groups_setup_nav() {
 		$bp->groups->current_group->is_user_member = ( is_user_logged_in() && groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) ? true : false;
 
 		/* Should this group be visible to the logged in user? */
-		$bp->groups->current_group->is_group_visible_to_member = ( 'public' == $bp->groups->current_group->status || $is_member ) ? true : false;
+		$bp->groups->current_group->is_group_visible_to_member = ( 'public' == $bp->groups->current_group->status || $bp->groups->current_group->is_user_member ) ? true : false;
 	}
 
 	/* Add 'Groups' to the main navigation */
