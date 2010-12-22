@@ -867,6 +867,8 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) && isset( $_POST['bp_components'] ) ) {
 			check_admin_referer( 'bpwizard_components' );
 
+			$disabled = array();
+
 			// Settings form submitted, now save the settings.
 			foreach ( (array)$_POST['bp_components'] as $key => $value ) {
 				if ( !(int) $value )

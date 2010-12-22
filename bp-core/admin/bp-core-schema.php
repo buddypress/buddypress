@@ -2,7 +2,7 @@
 function bp_core_set_charset() {
 	global $wpdb;
 
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 	/* BuddyPress component DB schema */
 	if ( !empty($wpdb->charset) )
