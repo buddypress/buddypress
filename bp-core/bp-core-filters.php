@@ -200,9 +200,9 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	$subject = '[' . $from_name . '] ' . sprintf(__('Activate %s', 'buddypress' ), esc_url('http://' . $domain . $path));
 
 	/* Send the message */
-	$to = apply_filters( 'bp_core_activation_signup_blog_notification_to', $user_email );
-	$subject = apply_filters( 'bp_core_activation_signup_blog_notification_subject', $subject );
-	$message = apply_filters( 'bp_core_activation_signup_blog_notification_message', $message );
+	$to = apply_filters( 'bp_core_activation_signup_blog_notification_to', $user_email, $domain, $path, $title, $user, $user_email, $key, $meta );
+	$subject = apply_filters( 'bp_core_activation_signup_blog_notification_subject', $subject, $domain, $path, $title, $user, $user_email, $key, $meta );
+	$message = apply_filters( 'bp_core_activation_signup_blog_notification_message', $message, $domain, $path, $title, $user, $user_email, $key, $meta );
 
 	wp_mail( $to, $subject, $message, $message_headers );
 	
@@ -234,9 +234,9 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
 	/* Send the message */
-	$to = apply_filters( 'bp_core_activation_signup_user_notification_to', $user_email );
-	$subject = apply_filters( 'bp_core_activation_signup_user_notification_subject', $subject );
-	$message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message );
+	$to = apply_filters( 'bp_core_activation_signup_user_notification_to', $user_email, $user, $user_email, $key, $meta );
+	$subject = apply_filters( 'bp_core_activation_signup_user_notification_subject', $subject, $user, $user_email, $key, $meta );
+	$message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message, $user, $user_email, $key, $meta );
 
 	wp_mail( $to, $subject, $message, $message_headers );
 

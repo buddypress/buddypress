@@ -629,9 +629,9 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
 	/* Send the message */
-	$to = apply_filters( 'bp_core_activation_signup_user_notification_to', $user_email );
-	$subject = apply_filters( 'bp_core_activation_signup_user_notification_subject', $subject );
-	$message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message );
+	$to = apply_filters( 'bp_core_activation_signup_user_notification_to', $user_email, $user_id );
+	$subject = apply_filters( 'bp_core_activation_signup_user_notification_subject', $subject, $user_id );
+	$message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message, $user_id );
 
 	wp_mail( $to, $subject, $message, $message_headers );
 	
