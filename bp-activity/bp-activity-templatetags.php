@@ -619,6 +619,8 @@ function bp_activity_content() {
 function bp_activity_user_can_delete() {
 	global $activities_template, $bp;
 
+	$can_delete = false;
+
 	if ( !is_user_logged_in() )
 		$can_delete = false;
 	
