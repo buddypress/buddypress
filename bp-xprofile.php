@@ -880,7 +880,7 @@ add_action( 'bp_core_signup_user', 'xprofile_sync_wp_profile' );
 function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
 	global $bp;
 
-	if ( (int)$bp->site_options['bp-disable-profile-sync'] || !$update || $errors->get_error_codes() )
+	if ( ( !empty( $bp->site_options['bp-disable-profile-sync'] ) && (int)$bp->site_options['bp-disable-profile-sync'] ) || !$update || $errors->get_error_codes() )
 		return;
 
 	xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user->ID, $user->display_name );
