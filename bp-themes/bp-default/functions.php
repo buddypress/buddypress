@@ -510,7 +510,7 @@ function bp_dtheme_fix_get_posts_on_activity_front() {
 }
 
 /**
- * In BuddyPress 1.3, this was used as part of the code that set the activity stream to be on the front page.
+ * In BuddyPress 1.2.x, this was used as part of the code that set the activity stream to be on the front page.
  * As of 1.3.x, it is no longer required.
  *
  * @deprecated 1.3
