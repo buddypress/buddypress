@@ -387,6 +387,8 @@ function groups_screen_group_forum() {
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_delete_topic' );
 
+				do_action( 'groups_before_delete_forum_topic', $topic_id );
+
 				if ( !groups_delete_group_forum_topic( $topic_id ) )
 					bp_core_add_message( __( 'There was an error deleting the topic', 'buddypress'), 'error' );
 				else
@@ -431,6 +433,8 @@ function groups_screen_group_forum() {
 
 				/* Check the nonce */
 				check_admin_referer( 'bp_forums_delete_post' );
+
+				do_action( 'groups_before_delete_forum_post', $post_id );
 
 				if ( !groups_delete_group_forum_post( $bp->action_variables[4], $topic_id ) )
 					bp_core_add_message( __( 'There was an error deleting that post', 'buddypress'), 'error' );
@@ -909,6 +913,8 @@ function groups_screen_group_admin_delete_group() {
 			/* Check the nonce first. */
 			if ( !check_admin_referer( 'groups_delete_group' ) )
 				return false;
+
+			do_action( 'groups_before_group_deleted', $bp->groups->current_group->id );
 
 			// Group admin has deleted the group, now do it.
 			if ( !groups_delete_group( $bp->groups->current_group->id ) ) {
@@ -1607,6 +1613,8 @@ function groups_delete_group( $group_id ) {
 	if ( !$group->delete() )
 		return false;
 
+	do_action( 'groups_before_delete_group', $group_id );
+
 	// Delete all group activity from activity streams
 	if ( bp_is_active( 'activity' ) )
 		bp_activity_delete_by_item_id( array( 'item_id' => $group_id, 'component' => $bp->groups->id ) );
@@ -2118,6 +2126,8 @@ function groups_delete_group_forum_topic( $topic_id ) {
 	global $bp;
 
 	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
+		do_action( 'groups_before_delete_group_forum_topic', $topic_id );
+
 		/* Delete the activity stream item */
 		if ( function_exists( 'bp_activity_delete' ) ) {
 			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
@@ -2135,6 +2145,8 @@ function groups_delete_group_forum_post( $post_id, $topic_id ) {
 	global $bp;
 
 	if ( bp_forums_delete_post( array( 'post_id' => $post_id ) ) ) {
+		do_action( 'groups_before_delete_group_forum_post', $post_id, $topic_id );
+
 		/* Delete the activity stream item */
 		if ( function_exists( 'bp_activity_delete' ) ) {
 			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
