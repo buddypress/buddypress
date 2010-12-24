@@ -260,9 +260,9 @@ function bp_activity_action_permalink_router() {
 	$redirect = false;
 	/* Redirect based on the type of activity */
 	if ( $activity->component == $bp->groups->id ) {
-		if ( $activity->user_id )
+		if ( $activity->user_id ) {
 			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id . '/';
-		else {
+		} else {
 			if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) )
 				$redirect = bp_get_group_permalink( $group ) . $bp->activity->slug . '/' . $activity->id . '/';
 		}
@@ -651,7 +651,7 @@ function bp_activity_get_specific( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get_specific( $activity_ids, $max, $page, $per_page, $sort, $display_comments ) );
+	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, false, false, $activity_ids ) );
 }
 
 function bp_activity_add( $args = '' ) {

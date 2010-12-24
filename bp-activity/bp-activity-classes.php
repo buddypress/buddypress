@@ -120,7 +120,7 @@ Class BP_Activity_Activity {
 		// Exclude specified items
 		if ( $exclude )
 			$where_conditions['exclude'] = "a.id NOT IN ({$exclude})";
-		
+
 		// The specific ids to which you want to limit the query
 		if ( !empty( $in ) ) {
 			if ( is_array( $in ) )
@@ -180,37 +180,24 @@ Class BP_Activity_Activity {
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 
+	/**
+	 * In BuddyPress 1.2.x, this was used to retrieve specific activity stream items (for example, on an activity's permalink page).
+	 * As of 1.3.x, use BP_Activity_Activity::get( ..., $in ) instead.
+	 *
+	 * @deprecated 1.3
+	 * @deprecated Use BP_Activity_Activity::get( ..., $in ) instead.
+	 * @param mixed $activity_ids Array or comma-separated string of activity IDs to retrieve
+	 * @param int $max Maximum number of results to return. (Optional; default is no maximum)
+	 * @param int $page The set of results that the user is viewing. Used in pagination. (Optional; default is 1)
+	 * @param int $per_page Specifies how many results per page. Used in pagination. (Optional; default is 25)
+	 * @param string MySQL column sort; ASC or DESC. (Optional; default is DESC)
+	 * @param bool $display_comments Retrieve an activity item's associated comments or not. (Optional; default is false)
+	 * @return array
+	 * @since 1.2
+	 */
 	function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
-		global $wpdb, $bp;
-
-		if ( is_array( $activity_ids ) )
-			$activity_ids = implode( ',', $activity_ids );
-
-		$activity_ids = $wpdb->escape( $activity_ids );
-
-		if ( empty( $activity_ids ) )
-			return false;
-
-		$pag_sql = '';
-		if ( $per_page && $page )
-			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
-
-		if ( $sort != 'ASC' && $sort != 'DESC' )
-			$sort = 'DESC';
-
-		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) ORDER BY date_recorded {$sort} $pag_sql" ) );
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids})" ) );
-
-		if ( $display_comments )
-			$activities = BP_Activity_Activity::append_comments( $activities );
-
-		// If $max is set, only return up to the max results
-		if ( !empty( $max ) ) {
-			if ( (int)$total_activities > (int)$max )
-				$total_activities = $max;
-		}
-
-		return array( 'activities' => $activities, 'total' => (int)$total_activities );
+		_deprecated_function( __FUNCTION__, '1.3', 'Use BP_Activity_Activity::get( ..., $in ) instead.' );
+		return BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, false, false, $activity_ids );
 	}
 
 	function get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content, $date_recorded ) {

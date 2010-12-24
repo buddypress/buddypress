@@ -423,7 +423,7 @@ function bp_activity_user_link() {
 		if ( empty( $activities_template->activity->user_id ) )
 			$link = $activities_template->activity->primary_link;
 		else
-			$link = bp_core_get_user_domain( $activities_template->activity->user_id );
+			$link = bp_core_get_user_domain( $activities_template->activity->user_id, $activities_template->activity->user_nicename, $activities_template->activity->user_login );
 
 		return apply_filters( 'bp_get_activity_user_link', $link );
 	}
