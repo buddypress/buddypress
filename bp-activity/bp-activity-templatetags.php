@@ -621,9 +621,6 @@ function bp_activity_user_can_delete() {
 
 	$can_delete = false;
 
-	if ( !is_user_logged_in() )
-		$can_delete = false;
-	
 	if ( $bp->loggedin_user->is_super_admin )
 		$can_delete = true;
 	
