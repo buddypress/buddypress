@@ -8,8 +8,7 @@ Class BP_Blogs_Blog {
 	function bp_blogs_blog( $id = null ) {
 		global $bp, $wpdb;
 
-		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+		$user_id = $bp->displayed_user->id;
 
 		if ( $id ) {
 			$this->id = $id;

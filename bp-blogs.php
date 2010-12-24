@@ -288,13 +288,17 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	$recorded_blog->blog_id = $blog_id;
 
 	$recorded_blog_id = $recorded_blog->save();
+	
+	$is_recorded = !empty( $recorded_blog_id ) ? true : false; 
 
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', bp_core_current_time() );
+	
+	$is_private = !empty( $_POST['blog_public'] ) && (int)$_POST['blog_public'] ? false : true;
 
 	// Only record this activity if the blog is public
-	if ( (int)$_POST['blog_public'] && !$no_activity ) {
+	if ( !$is_private && !$no_activity ) {
 		// Record this in activity streams
 		bp_blogs_record_activity( array(
 			'user_id'      => $recorded_blog->user_id,
@@ -713,7 +717,7 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 		return false;
 	}
 
-	wp_cache_set( 'bp_blogs_blogmeta_' . $blog_id . '_' . $meta_key, $metas, 'bp' );
+	wp_cache_set( 'bp_blogs_blogmeta_' . $blog_id . '_' . $meta_key, $meta_value, 'bp' );
 
 	return true;
 }

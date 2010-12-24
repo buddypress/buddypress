@@ -41,7 +41,7 @@ function bp_core_screen_general_settings() {
 	if ( isset($_POST['submit']) ) {
 		check_admin_referer('bp_settings_general');
 
-		require_once( WPINC . '/registration.php' );
+		require_once( ABSPATH . WPINC . '/registration.php' );
 
 		// Form has been submitted and nonce checks out, lets do it.
 		
