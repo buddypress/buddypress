@@ -247,7 +247,7 @@ add_action( 'wp', 'messages_action_view_message', 3 );
 function messages_action_delete_message() {
 	global $bp, $thread_id;
 
-	if ( $bp->current_component != $bp->messages->slug || 'notices' == $bp->current_action || $bp->action_variables[0] != 'delete' )
+	if ( $bp->current_component != $bp->messages->slug || 'notices' == $bp->current_action || empty( $bp->action_variables[0] ) || 'delete' != $bp->action_variables[0] )
 		return false;
 
 	$thread_id = $bp->action_variables[1];
@@ -272,7 +272,7 @@ add_action( 'wp', 'messages_action_delete_message', 3 );
 function messages_action_bulk_delete() {
 	global $bp, $thread_ids;
 
-	if ( $bp->current_component != $bp->messages->slug || $bp->action_variables[0] != 'bulk-delete' )
+	if ( $bp->current_component != $bp->messages->slug || empty( $bp->action_variables[0] ) || 'bulk-delete' != $bp->action_variables[0] )
 		return false;
 
 	$thread_ids = $_POST['thread_ids'];

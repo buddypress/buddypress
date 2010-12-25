@@ -360,14 +360,22 @@ function bp_messages_subject_value() {
 	echo bp_get_messages_subject_value();
 }
 	function bp_get_messages_subject_value() {
-		return apply_filters( 'bp_get_messages_subject_value', $_POST['subject'] );
+		$subject = '';
+		if ( !empty( $_POST['subject'] ) )
+			$subject = $_POST['subject'];
+
+		return apply_filters( 'bp_get_messages_subject_value', $subject );
 	}
 
 function bp_messages_content_value() {
 	echo bp_get_messages_content_value();
 }
 	function bp_get_messages_content_value() {
-		return apply_filters( 'bp_get_messages_content_value', $_POST['content'] );
+		$content = '';
+		if ( !empty( $_POST['content'] ) )
+			$content = $_POST['content'];
+
+		return apply_filters( 'bp_get_messages_content_value', $content );
 	}
 
 function bp_messages_options() {
@@ -577,7 +585,11 @@ function bp_message_get_recipient_usernames() {
 	echo bp_get_message_get_recipient_usernames();
 }
 	function bp_get_message_get_recipient_usernames() {
-		return apply_filters( 'bp_get_message_get_recipient_usernames', $_GET['r'] );
+		$recipients = '';
+		if ( !empty( $_GET['r'] ) )
+			$recipients = $_GET['r'];
+
+		return apply_filters( 'bp_get_message_get_recipient_usernames', $recipients );
 	}
 
 
