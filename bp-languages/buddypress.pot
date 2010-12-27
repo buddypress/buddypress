@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-25 19:30:27+00:00\n"
+"POT-Creation-Date: 2010-12-27 18:30:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1169,7 +1169,7 @@ msgid "%1$s at %2$s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:894 bp-groups.php:127
-#: bp-themes/bp-default/functions.php:438 bp-themes/bp-default/header.php:41
+#: bp-themes/bp-default/functions.php:485 bp-themes/bp-default/header.php:41
 msgid "Home"
 msgstr ""
 
@@ -2226,7 +2226,7 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:399
 #: bp-forums/bp-forums-templatetags.php:980
-#: bp-themes/bp-default/functions.php:360
+#: bp-themes/bp-default/functions.php:407
 msgid "Edit"
 msgstr ""
 
@@ -3502,55 +3502,55 @@ msgstr ""
 msgid "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:248
+#: bp-themes/bp-default/functions.php:295
 msgid "The sidebar widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:257
+#: bp-themes/bp-default/functions.php:304
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:259
+#: bp-themes/bp-default/functions.php:306
 msgid "The first footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:268
+#: bp-themes/bp-default/functions.php:315
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:270
+#: bp-themes/bp-default/functions.php:317
 msgid "The second footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:279
+#: bp-themes/bp-default/functions.php:326
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:281
+#: bp-themes/bp-default/functions.php:328
 msgid "The third footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:290
+#: bp-themes/bp-default/functions.php:337
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:292
+#: bp-themes/bp-default/functions.php:339
 msgid "The fourth footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:348
+#: bp-themes/bp-default/functions.php:395
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:349
+#: bp-themes/bp-default/functions.php:396
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:353
+#: bp-themes/bp-default/functions.php:400
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:415
+#: bp-themes/bp-default/functions.php:462
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
