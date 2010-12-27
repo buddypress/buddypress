@@ -59,7 +59,7 @@ function bp_dtheme_setup() {
 	) );
 
 	// This theme allows users to set a custom background
-	add_custom_background();
+	add_custom_background( 'bp_dtheme_custom_background_style' );
 
 	// Changeable header section starts here
 	define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
@@ -191,6 +191,54 @@ function bp_dtheme_admin_header_style() {
 			color:#<?php echo HEADER_TEXTCOLOR ?>;
 		}
 		<?php } ?>
+	</style>
+<?php
+}
+endif;
+
+if ( !function_exists( 'bp_dtheme_custom_background_style' ) ) :
+/**
+ * The style for the custom background image or colour.
+ *
+ * Referenced via add_custom_background() in bp_dtheme_setup().
+ *
+ * @see _custom_background_cb()
+ * @since 1.3
+ */
+function bp_dtheme_custom_background_style() {
+	$background = get_background_image();
+	$color = get_background_color();
+	if ( ! $background && ! $color )
+		return;
+
+	$style = $color ? "background-color: #$color;" : '';
+
+	if ( $style && !$background ) {
+		$style .= ' background-image: none;';
+
+	} elseif ( $background ) {
+		$image = " background-image: url('$background');";
+
+		$repeat = get_theme_mod( 'background_repeat', 'repeat' );
+		if ( ! in_array( $repeat, array( 'no-repeat', 'repeat-x', 'repeat-y', 'repeat' ) ) )
+			$repeat = 'repeat';
+		$repeat = " background-repeat: $repeat;";
+
+		$position = get_theme_mod( 'background_position_x', 'left' );
+		if ( ! in_array( $position, array( 'center', 'right', 'left' ) ) )
+			$position = 'left';
+		$position = " background-position: top $position;";
+
+		$attachment = get_theme_mod( 'background_attachment', 'scroll' );
+		if ( ! in_array( $attachment, array( 'fixed', 'scroll' ) ) )
+			$attachment = 'scroll';
+		$attachment = " background-attachment: $attachment;";
+
+		$style .= $image . $repeat . $position . $attachment;
+	}
+?>
+	<style type="text/css">
+		body { <?php echo trim( $style ); ?> }
 	</style>
 <?php
 }
