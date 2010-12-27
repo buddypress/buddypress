@@ -143,15 +143,15 @@ sup {
 -------------------------------------------------------------- */
 
 #header {
-	position: relative;
-	color: #fff;
 	-moz-border-radius-bottomleft: 6px;
 	-webkit-border-bottom-left-radius: 6px;
 	-moz-border-radius-bottomright: 6px;
 	-webkit-border-bottom-right-radius: 6px;
-	margin-bottom: 20px;
+	color: #fff;
 	height: 100px;
+	margin-bottom: 20px;
 	padding-top: 25px;
+	position: relative;
 }
 	
 #header #search-bar {
@@ -160,10 +160,6 @@ sup {
 	right: 0;
 	width: 100%;
 	text-align: right;
-}
-
-#header h1 {
-	line-height: 230%;
 }
 
 #header #search-bar .padder {
@@ -186,11 +182,12 @@ sup {
 }
 
 #header h1 {
-	position: absolute;
-	bottom: 0;
+	bottom: 30px;
+	line-height: 230%;
 	left: 20px;
+	margin-bottom: 0;
+	position: absolute;
 	width: 44%;
-	margin: 0 0 -5px 0;
 }
 		
 #header h1 a {
@@ -203,45 +200,126 @@ sup {
 /* > Navigation
 -------------------------------------------------------------- */
 
-ul#nav {
+#nav {
 	margin: 0;
 	padding: 0;
 	position: absolute;
 	right: 15px;
 	list-style: none;
 	bottom: 0;
-	max-width: 65%;
+	max-width: 95%;
 }
-	
-ul#nav li {
-	float: left;
-	margin: 0 5px 0 0;
-}
-		
-ul#nav li a {
-	display: block;
-	color: #fff;
-	text-decoration: none;
-	padding: 5px 15px;
+
+#nav li a {
 	background: url( ../images/60pc_black.png );
+	color: #fff;
+	display: block;
+	padding: 5px 15px;
+	text-decoration: none;
+}
+
+#nav > li {
+	margin-left: 5px;
+	float: left;
+}
+
+#nav > li > a {
 	-moz-border-radius-topleft: 3px;
 	-webkit-border-top-left-radius: 3px;
 	-moz-border-radius-topright: 3px;
 	-webkit-border-top-right-radius: 3px;
 }
-			
-ul#nav li.selected a, 
-ul#nav li.current_page_item a {
+
+#nav li.selected a,
+#nav > li.current_page_item a {
 	background: #f5f5f5;
 	color: #555;
 }
-			
-ul#nav a:focus { 
-	outline: none; 
+
+#nav > li > ul {
+	border-top-width: 0;
 }
+
+#nav > ul li.sfhover a,
+#nav > ul li:hover a {
+	background: #333;
+	color: #fff;
+}
+
+#nav li.sfhover,
+#nav li:hover {
+	position: relative;
+	z-index: 1000;
+}
+
+#nav ul {
+	border: 1px solid #222;
+	-moz-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	-moz-border-radius-topright: 0;
+	-webkit-border-top-right-radius: 0;
+}
+
+#nav ul li ul {
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+#nav ul,
+#nav .sfhover ul ul,
+#nav :hover ul ul {
+	right: -9999px;
+	position: absolute;
+}
+
+#nav .sfhover ul,
+#nav :hover ul {
+	right: 0;
+	top: 100%;
+	width: 128px;
+}
+
+#nav .sfhover ul li > a,
+#nav :hover ul li > a {
+	background: #333;
+	color: #fff;
+}
+
+#nav .sfhover ul .sfhover > ul,
+#nav :hover ul :hover > ul {
+	right: 125px;
+	top: -1px;
+	width: 128px;
+	z-index: 1000;
+}
+
+#nav ul li.sfhover > a,
+#nav ul li:hover > a {
+	background-color: #222;
+	color: #fff;
+}
+
+#nav .sfhover ul li,
+#nav :hover ul li {
+	height: 30px;
+	line-height: 30px;
+	text-indent: 10px;
+	width: 128px;
+}
+
+#nav .sfhover ul li a,
+#nav :hover ul li a {
+	padding: 0 0;
+}
+
 
 /* > Container
 -------------------------------------------------------------- */
+
 div#container {
 	position: relative;
 	width: 100%;
@@ -367,8 +445,10 @@ div#sidebar div.tags div#tag-text {
 	padding-top: 10px;
 }
 
+
 /* > Content
 -------------------------------------------------------------- */
+
 div#content {
 	float: left;
 	width: 100%;
@@ -2172,24 +2252,4 @@ ol.commentlist ul.children {
 
 #footer-widget-area ul.item-list li img.avatar {
 	margin-left: 15px;  /* border is 4px */
-}
-
-
-/* Menu
--------------------------------------------------------------- */
-
-#nav ul {
-	display: none;
-	position: absolute;
-	z-index: 99999;
-	right: 0;
-}
-	
-#nav li:hover > ul {
-	display: block;
-}
-
-#nav ul li {
-	margin-right: 0;
-	min-width: 186px;
 }

@@ -56,13 +56,36 @@ img.avatar {
 /* > Navigation
 -------------------------------------------------------------- */
 
-ul#nav {
+#nav {
 	left: 15px;
 	right: auto;
 }
-ul#nav li {
+
+#nav > li {
+	margin-right: 5px;
 	float: right;
-	margin: 0 0 0 5px;
+}
+
+#nav ul,
+#nav .sfhover ul ul,
+#nav :hover ul ul {
+	left: -9999px;
+	position: absolute;
+}
+
+#nav .sfhover ul,
+#nav :hover ul {
+	left: 0;
+	top: 100%;
+	width: 128px;
+}
+
+#nav .sfhover ul .sfhover > ul,
+#nav :hover ul :hover > ul {
+	left: 125px;
+	top: -1px;
+	width: 128px;
+	z-index: 1000;
 }
 
 
@@ -90,6 +113,7 @@ div#sidebar {
 	-webkit-border-top-right-radius: 0;
 	background: url( _inc/images/sidebar_back.gif ) top right repeat-x;
 }
+
 div#sidebar div#sidebar-me img.avatar {
 	float: right;
 	margin: 0 0 15px 10px;
@@ -116,8 +140,10 @@ div#sidebar div.item-options {
 	margin: -10px -19px 0 -20px;
 }
 
-#footer-widget-area div.item-meta, #footer-widget-area div.item-content,
-div#sidebar div.item-meta, div#sidebar div.item-content {
+#footer-widget-area div.item-meta,
+#footer-widget-area div.item-content,
+div#sidebar div.item-meta,
+div#sidebar div.item-content {
 	margin-right: 38px;
 	margin-left: 0;
 }
@@ -152,6 +178,7 @@ div#content .padder {
 	-webkit-border-bottom-right-radius: 6px;
 	-webkit-border-bottom-left-radius: 0;
 }
+
 div#content .left-menu {
 	float: right;
 }
@@ -183,7 +210,8 @@ div#item-header ul li {
 	float: left;
 }
 
-div#item-header div.generic-button, div#item-header a.button {
+div#item-header div.generic-button,
+div#item-header a.button {
 	float: right;
 	margin: 10px 0 0 10px;
 }
@@ -214,10 +242,12 @@ ul.item-list li div.action {
 div.item-list-tabs {
 	clear: right;
 }
+
 div.item-list-tabs ul li {
 	float: right;
 	margin: 5px 5px 0 0;
 }
+
 div.item-list-tabs ul li:first-child {
 	margin-left: 0;
 	margin-right: 20px;
@@ -233,6 +263,7 @@ ul li.loading a {
 	padding-left: 30px !important;
 	padding-right: 0 !important;
 }
+
 div#item-nav ul li.loading a {
 	background-position: 12% 50%;
 }
@@ -247,7 +278,8 @@ div.item-list-tabs ul li.feed a {
 /* > Item Body
 -------------------------------------------------------------- */
 
-span.activity, div#message p {
+span.activity,
+div#message p {
 	border-left: 1px solid #FFE8C4;
 	border-right: 0;
 }
@@ -276,8 +308,11 @@ div.pagination .pagination-links {
 /* > Buttons
 -------------------------------------------------------------- */
 
-a.button, input[type=submit], input[type=button],
-ul.button-nav li a, div.generic-button a {
+a.button,
+input[type=submit],
+input[type=button],
+ul.button-nav li a,
+div.generic-button a {
 	background-position: right top;
 }
 div.accept, div.reject {
@@ -312,6 +347,7 @@ a.loading {
 form.standard-form#signup_form div.submit {
 	float: left;
 }
+
 form.standard-form#signup_form div.signup-avatar {
 	margin-left: 15px;
 	margin-right: 0;
@@ -326,13 +362,16 @@ form.standard-form div.radio ul {
 	margin: 10px 38px 15px 0;
 }
 
-form.standard-form #basic-details-section, form.standard-form #blog-details-section,
+form.standard-form #basic-details-section,
+form.standard-form #blog-details-section,
 form.standard-form #profile-details-section {
 	float: right;
 }
+
 form.standard-form #profile-details-section {
 	float: left;
 }
+
 form.standard-form #blog-details-section {
 	clear: right;
 }
@@ -351,19 +390,24 @@ table.forum tr.closed td.td-title {
 	background-position: 5% 50%;
 }
 
-table.forum tr > td:first-child, table.forum tr > th:first-child {
+table.forum tr > td:first-child,
+table.forum tr > th:first-child {
 	padding-right: 15px;
 	padding-left: 0;
 }
 
-table.forum tr > td:last-child, table.forum tr > th:last-child {
+table.forum tr > td:last-child,
+table.forum tr > th:last-child {
 	padding-left: 15px;
 	padding-right: 0;
 }
 
-table.forum tr th#th-title, table.forum tr th#th-poster,
-table.forum tr th#th-group, table.forum td.td-poster,
-table.forum td.td-group, table.forum td.td-title {
+table.forum tr th#th-title,
+table.forum tr th#th-poster,
+table.forum tr th#th-group,
+table.forum td.td-poster,
+table.forum td.td-group,
+table.forum td.td-title {
 	text-align: right;
 }
 
@@ -403,6 +447,7 @@ form#whats-new-form #whats-new-submit {
 	margin-right: 36px;
 	margin-left: 0;
 }
+
 .activity-list li.activity_comment .activity-avatar img.avatar,
 .activity-list li.activity_comment .activity-avatar img.FB_profile_pic {
 	margin-right: 20px;
@@ -427,6 +472,7 @@ body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
 	left: 0;
 	right: auto;
 }
+
 body.activity-permalink .activity-list li.mini .activity-meta {
 	left: 15px;
 	right: auto;
@@ -448,12 +494,14 @@ body.activity-permalink .activity-list li.mini .activity-meta {
 	margin-right: 70px;
 	margin-left: 0;
 }
+
 body.activity-permalink .activity-list li .activity-content {
 	border-left: 1px solid #ddd;
 	border-right: 0;
 	margin-right: 135px;
 	margin-left: 0;
 }
+
 body.activity-permalink .activity-list li .activity-content > p {
 	background-position: top right;
 	margin-right: -35px;
@@ -461,7 +509,8 @@ body.activity-permalink .activity-list li .activity-content > p {
 	padding: 5px 38px 0 0;
 }
 
-.activity-list .activity-content > p > a:first-child, span.highlight,
+.activity-list .activity-content > p > a:first-child,
+span.highlight,
 .activity-list .activity-content > .comment-header > a:first-child {
 	border-left: 1px solid #a1dcfa;
 	border-right: 0;
@@ -624,7 +673,9 @@ div#topic-meta div.admin-links {
 /* > WordPress Blog Styles
 -------------------------------------------------------------- */
 
-.navigation, .paged-navigation, .comment-navigation {
+.navigation,
+.paged-navigation,
+.comment-navigation {
 	font-family: sans-serif;
 }
 
@@ -636,7 +687,9 @@ div.navigation .alignleft {
 	float: right;
 }
 
-div.post ul, div.post ol, div.post dl {
+div.post ul,
+div.post ol,
+div.post dl {
 	margin: 0 1.5em 18px 0;
 }
 
@@ -656,18 +709,23 @@ div.post table th {
 	text-align: right;
 }
 
-div.post div.author-box, div.comment-avatar-box {
+div.post div.author-box,
+div.comment-avatar-box {
 	float: right;
 	margin: 0 0 15px 15px;
 	font-family: sans-serif;
 }
 
-div.post div.post-content, div.comment-content {
+div.post div.post-content,
+div.comment-content {
 	margin-right: 105px;
 	margin-left: 0;
 }
 
-div.post p.date, div.post p.postmetadata, div.comment-meta, div.comment-options {
+div.post p.date,
+div.post p.postmetadata,
+div.comment-meta,
+div.comment-options {
 	font-family: sans-serif;
 }
 
@@ -682,7 +740,8 @@ div.post .comments {
 	float: left;
 }
 
-div.post dd.wp-caption p.wp-caption-text, div.post .wp-caption p.wp-caption-text {
+div.post dd.wp-caption p.wp-caption-text,
+div.post .wp-caption p.wp-caption-text {
 	padding: 0 0 5px 4px;
 }
 
@@ -773,7 +832,10 @@ div.comment-meta em {
 	margin: -25px 184px 0 0;
 }
 
-#wp-admin-bar ul li:hover ul, #wp-admin-bar ul li li:hover ul, #wp-admin-bar ul li.sfhover ul, #wp-admin-bar ul li ul li.sfhover ul {/* lists nested under hovered list items */
+#wp-admin-bar ul li:hover ul,
+#wp-admin-bar ul li li:hover ul,
+#wp-admin-bar ul li.sfhover ul,
+#wp-admin-bar ul li ul li.sfhover ul {/* lists nested under hovered list items */
 	right: auto;
 }
 
@@ -782,7 +844,8 @@ div.comment-meta em {
 	right: auto;
 }
 
-#wp-admin-bar ul li:hover ul ul, #wp-admin-bar li.sfhover ul li ul {
+#wp-admin-bar ul li:hover ul ul,
+#wp-admin-bar li.sfhover ul li ul {
 	right: -999em;
 	left: auto;
 }
