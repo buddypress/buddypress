@@ -14,8 +14,8 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 	foreach( (array)$usernames as $username ) {
 		if ( !$receiver_user_id = bp_core_get_userid( $username ) )
 			continue;
-			
-		bp_core_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $poster_user_id ); 
+
+		bp_core_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $poster_user_id );
 
 		// Now email the user with the contents of the message (if they have enabled email notifications)
 		if ( 'no' != get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
@@ -53,7 +53,7 @@ To view and respond to the message, log in and visit: %3$s
 			wp_mail( $to, $subject, $message );
 		}
 	}
-	
+
 	do_action( 'bp_activity_sent_mention_email', $usernames, $subject, $message, $content, $poster_user_id, $activity_id );
 }
 add_action( 'bp_activity_posted_update', 'bp_activity_at_message_notification', 10, 3 );
@@ -97,7 +97,7 @@ To view your original update and all comments, log in and visit: %3$s
 		$message = apply_filters( 'bp_activity_new_comment_notification_message', $message, $poster_name, $content, $thread_link );
 
 		wp_mail( $to, $subject, $message );
-		
+
 		do_action( 'bp_activity_sent_reply_to_update_email', $original_activity->user_id, $subject, $message, $comment_id, $commenter_id, $params );
 	}
 
@@ -142,7 +142,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 		$message = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $message, $poster_name, $content );
 
 		wp_mail( $to, $subject, $message );
-		
+
 		do_action( 'bp_activity_sent_reply_to_reply_email', $original_activity->user_id, $subject, $message, $comment_id, $commenter_id, $params );
 	}
 }

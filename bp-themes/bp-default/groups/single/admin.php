@@ -199,13 +199,13 @@
 
 						<h5>
 							<?php bp_group_member_link() ?>
-							
+
 							<?php if ( bp_get_group_member_is_banned() ) _e( '(banned)', 'buddypress'); ?>
 
-							<span class="small"> - 
-							
+							<span class="small"> -
+
 							<?php if ( bp_get_group_member_is_banned() ) : ?>
-								
+
 								<a href="<?php bp_group_member_unban_link() ?>" class="confirm member-unban" title="<?php _e( 'Unban this member', 'buddypress' ) ?>"><?php _e( 'Remove Ban', 'buddypress' ); ?></a>
 
 							<?php else : ?>

@@ -227,7 +227,7 @@ function bp_core_install_extended_profiles() {
 			    KEY can_delete (can_delete),
 			    KEY is_required (is_required)
 			   ) {$charset_collate};";
-		
+
 	$sql[] = "CREATE TABLE {$wpdb->base_prefix}bp_xprofile_data (
 			    id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			    field_id bigint(20) unsigned NOT NULL,

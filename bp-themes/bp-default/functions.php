@@ -535,7 +535,7 @@ function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
  *
  * @deprecated 1.3
  * @deprecated No longer required.
- * @param string $template Absolute path to the page template 
+ * @param string $template Absolute path to the page template
  * @return string
  * @since 1.2
  */

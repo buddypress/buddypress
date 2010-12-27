@@ -18,7 +18,7 @@
 				$numTrackBacks = 0; $numComments = 0;
 				foreach ( (array)$comments as $comment )
 					if ( 'comment' != get_comment_type() )
-						$numTrackBacks++; 
+						$numTrackBacks++;
 					else
 						$numComments++;
 			?>

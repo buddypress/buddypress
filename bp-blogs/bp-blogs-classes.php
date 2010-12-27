@@ -111,7 +111,7 @@ Class BP_Blogs_Blog {
 		foreach ( (array)$paged_blogs as $blog ) {
 			$blog_ids[] = $blog->blog_id;
 		}
-		
+
 		$blog_ids = $wpdb->escape( join( ',', (array)$blog_ids ) );
 		$paged_blogs = BP_Blogs_Blog::get_blog_extras( &$paged_blogs, $blog_ids, $type );
 

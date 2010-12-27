@@ -112,7 +112,7 @@ function bp_core_get_site_options() {
 		'registration',
 		'fileupload_maxk'
 	) );
-	
+
 	// These options always come from the options table of BP_ROOT_BLOG
 	$root_blog_options = apply_filters( 'bp_core_root_blog_options', array(
 		'avatar_default'
@@ -124,9 +124,9 @@ function bp_core_get_site_options() {
 		$site_meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
 	else
 		$site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
-		
+
 	$root_blog_meta_keys = "'" . implode( "','", (array)$root_blog_options ) ."'";
-	
+
 	$root_blog_meta_table = $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'options';
 	$root_blog_meta = $wpdb->get_results( $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$root_blog_meta_table} WHERE option_name IN ({$root_blog_meta_keys})" ) );
 

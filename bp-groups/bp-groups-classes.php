@@ -288,7 +288,7 @@ Class BP_Groups_Group {
 			$include = $wpdb->escape( $include );
 			$sql['include'] = " AND g.id IN ({$include})";
 		}
-		
+
 		if ( !empty( $exclude ) ) {
 			$exclude = $wpdb->escape( $exclude );
 			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
@@ -357,7 +357,7 @@ Class BP_Groups_Group {
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
-	
+
 	function get_by_most_forum_topics( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp, $bbdb;
 
@@ -375,7 +375,7 @@ Class BP_Groups_Group {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
-		
+
 		if ( !empty( $exclude ) ) {
 			$exclude = $wpdb->escape( $exclude );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
@@ -416,7 +416,7 @@ Class BP_Groups_Group {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
-		
+
 		if ( !empty( $exclude ) ) {
 			$exclude = $wpdb->escape( $exclude );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
@@ -493,7 +493,7 @@ Class BP_Groups_Group {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
-		
+
 		if ( !empty( $exclude ) ) {
 			$exclude = $wpdb->escape( $exclude );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
@@ -866,7 +866,7 @@ Class BP_Groups_Member {
 		global $wpdb, $bp;
 
 		$pag_sql = ( !empty( $limit ) && !empty( $page ) ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
-		
+
 		$exclude_sql = !empty( $exclude ) ? $wpdb->prepare( " AND g.id NOT IN (%s)", $exclude ) : '';
 
 		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d {$exclude_sql} ORDER BY m.date_modified ASC {$pag_sql}", $user_id ) );

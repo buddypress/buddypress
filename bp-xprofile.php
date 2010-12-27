@@ -633,12 +633,12 @@ function xprofile_get_field_data( $field, $user_id = null ) {
 	if ( is_array( $values ) ) {
 		$data = array();
 		foreach( (array)$values as $value ) {
-			$data[] = apply_filters( 'xprofile_get_field_data', $value ); 
+			$data[] = apply_filters( 'xprofile_get_field_data', $value );
 		}
 	} else {
 		$data = apply_filters( 'xprofile_get_field_data', $values );
 	}
-	
+
 	return $data;
 }
 
@@ -927,10 +927,10 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 
 	if ( !$object_id )
 		return false;
-	
+
 	if ( !isset( $object_type ) )
 		return false;
-	
+
 	if ( !in_array( $object_type, array( 'group', 'field', 'data' ) ) )
 		return false;
 
@@ -961,10 +961,10 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '') {
 
 	if ( !$object_id )
 		return false;
-	
+
 	if ( !isset( $object_type ) )
 		return false;
-	
+
 	if ( !in_array( $object_type, array( 'group', 'field', 'data' ) ) )
 		return false;
 
@@ -1002,13 +1002,13 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
 
 	if ( !$object_id )
 		return false;
-	
+
 	if ( !isset( $object_type ) )
 		return false;
-	
+
 	if ( !in_array( $object_type, array( 'group', 'field', 'data' ) ) )
 		return false;
-		
+
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	if ( is_string( $meta_value ) )
@@ -1018,7 +1018,7 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
 
 	if ( empty( $meta_value ) )
 		return bp_xprofile_delete_meta( $object_id, $object_type, $meta_key );
-	
+
 	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp->profile->table_name_meta . " WHERE object_id = %d AND object_type = %s AND meta_key = %s", $object_id, $object_type, $meta_key ) );
 
 	if ( !$cur )
@@ -1035,15 +1035,15 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
 }
 
 function bp_xprofile_update_fieldgroup_meta( $field_group_id, $meta_key, $meta_value ) {
-	return bp_xprofile_update_meta( $field_group_id, 'group', $meta_key, $meta_value );	
+	return bp_xprofile_update_meta( $field_group_id, 'group', $meta_key, $meta_value );
 }
 
 function bp_xprofile_update_field_meta( $field_id, $meta_key, $meta_value ) {
-	return bp_xprofile_update_meta( $field_id, 'field', $meta_key, $meta_value );	
+	return bp_xprofile_update_meta( $field_id, 'field', $meta_key, $meta_value );
 }
 
 function bp_xprofile_update_fielddata_meta( $field_data_id, $meta_key, $meta_value ) {
-	return bp_xprofile_update_meta( $field_data_id, 'data', $meta_key, $meta_value );	
+	return bp_xprofile_update_meta( $field_data_id, 'data', $meta_key, $meta_value );
 }
 
 /********************************************************************************

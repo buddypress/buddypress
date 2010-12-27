@@ -65,7 +65,7 @@ function bp_core_set_uri_globals() {
 
  	// Running off blog other than root
   	if ( defined( 'BP_ENABLE_MULTIBLOG' ) || 1 != BP_ROOT_BLOG ) {
- 
+
  		// Any subdirectory names must be removed from $bp_uri.
  		// This includes two cases: (1) when WP is installed in a subdirectory,
  		// and (2) when BP is running on secondary blog of a subdirectory
@@ -73,10 +73,10 @@ function bp_core_set_uri_globals() {
  		if ( $chunks = explode( '/', $current_blog->path ) ) {
  			foreach( $chunks as $key => $chunk ) {
  				$bkey = array_search( $chunk, $bp_uri );
- 
+
  				if ( $bkey !== false )
  					unset( $bp_uri[$bkey] );
- 
+
  				$bp_uri = array_values( $bp_uri );
  			}
  		}
@@ -140,11 +140,11 @@ function bp_core_set_uri_globals() {
 
 		unset( $uri_chunks );
 	}
-	
+
 	// Search doesn't have an associated page, so we check for it separately
 	if ( !empty( $bp_uri[0] ) && BP_SEARCH_SLUG == $bp_uri[0] )
 		$matches[] = 1;
-		
+
 	// This is not a BuddyPress page, so just return.
 	if ( !isset( $matches ) )
 		return false;

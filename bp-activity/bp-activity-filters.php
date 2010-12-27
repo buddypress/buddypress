@@ -109,7 +109,7 @@ function bp_activity_filter_kses( $content ) {
  * Finds and links @-mentioned users in activity updates
  *
  * @package BuddyPress Activity
- * 
+ *
  * @param string $content The activity content
  */
 function bp_activity_at_name_filter( $content ) {

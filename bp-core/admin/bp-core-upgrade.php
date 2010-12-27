@@ -9,7 +9,7 @@ register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
 
 // Install site options on activation
 bp_core_activate_site_options( array( 'bp-disable-account-deletion' => 0, 'bp-disable-avatar-uploads' => 0, 'bp-disable-blogforum-comments' => 0,  'bp-disable-forum-directory' => 0,  'bp-disable-profile-sync' => 0 ) );
- 
+
 /**
  * bp_core_activate_site_options()
  *
@@ -55,7 +55,7 @@ class BP_Core_Setup_Wizard {
 		if ( !$this->current_version = get_site_option( 'bp-db-version' ) )
 			if ( $this->current_version = get_option( 'bp-db-version' ) )
 				$this->is_network_activate = true;
-		
+
 		$this->new_version = constant( 'BP_DB_VERSION' );
 		$this->setup_type = ( empty( $this->current_version ) && !(int)get_site_option( 'bp-core-db-version' ) ) ? 'new' : 'upgrade';
 		$this->current_step = $this->current_step();
@@ -103,10 +103,10 @@ class BP_Core_Setup_Wizard {
 			}
 		} else {
 			// Upgrade wizard steps
-			
+
 			if ( $this->is_network_activate )
 				$steps[] = __( 'Multisite Upgrade', 'buddypress' );
-			
+
 			if ( $this->current_version < $this->new_version )
 				$steps[] = __( 'Database Upgrade', 'buddypress' );
 
@@ -242,7 +242,7 @@ class BP_Core_Setup_Wizard {
 		</div>
 	<?php
 	}
-	
+
 	function step_ms_upgrade() {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
@@ -251,7 +251,7 @@ class BP_Core_Setup_Wizard {
 			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
 		else
 			$blogs_slug = __( 'blogs', 'buddypress' );
-		
+
 		if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
 			$existing_pages = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
 		else
@@ -261,9 +261,9 @@ class BP_Core_Setup_Wizard {
 		<div class="prev-next submit clear">
 			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
 		</div>
-		
+
 		<p><?php printf( __( 'It looks like you have just activated WordPress Multisite mode, which allows members of your BuddyPress community to have their own WordPress blogs. You can enable or disable this feature at any time at <a href="%s">Network Options</a>.', 'buddypress' ), admin_url( 'ms-options.php' ) ); ?></p>
-		
+
 		<p><?php _e( "Please select the WordPress page you would like to use to display the blog directory. You can either choose an existing page or let BuddyPress auto-create a page for you. If you'd like to manually create pages, please go ahead and do that now, you can come back to this step once you are finished.", 'buddypress' ) ?></p>
 
 		<p><strong><?php _e( 'Please Note:', 'buddypress' ) ?></strong> <?php _e( "If you have manually added BuddyPress navigation links in your theme you may need to remove these from your header.php to avoid duplicate links.", 'buddypress' ) ?></p>
@@ -280,13 +280,13 @@ class BP_Core_Setup_Wizard {
 					<p><input type="radio" name="bp_pages[blogs]" checked="checked" value="<?php echo $blogs_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo site_url( $blogs_slug ) ?>/</p>
 				</td>
 			</tr>
-			
+
 		</table>
-		
+
 		<p><?php _e( 'Would you like to enable blog tracking, which tracks blog activity across your network?', 'buddypress' ); ?></p>
-		
+
 		<div class="left-col">
-			
+
 			<div class="component">
 				<h5><?php _e( "Blog Tracking", 'buddypress' ) ?></h5>
 
@@ -297,9 +297,9 @@ class BP_Core_Setup_Wizard {
 
 				<img src="<?php echo plugins_url( 'buddypress/screenshot-7.gif' ) ?>" alt="Activity Streams" />
 					<p><?php _e( "Track new blogs, new posts and new comments across your entire blog network.", 'buddypress' ) ?></p>
-			</div>		
+			</div>
 		</div>
-		
+
 		<div class="submit clear">
 			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
 
@@ -307,7 +307,7 @@ class BP_Core_Setup_Wizard {
 			<input type="hidden" name="step" value="<?php echo esc_attr( $this->current_step ) ?>" />
 			<?php wp_nonce_field( 'bpwizard_ms_upgrade' ) ?>
 		</div>
-		
+
 		<script type="text/javascript">
 			jQuery('select').click( function() {
 				jQuery(this).parent().children('input').attr( 'checked', 'checked' );
@@ -837,23 +837,23 @@ class BP_Core_Setup_Wizard {
 				// Make sure that the pages are created on the BP_ROOT_BLOG, no matter which Dashboard the setup is being run on
 				if ( $current_blog->blog_id != BP_ROOT_BLOG && !defined( 'BP_ENABLE_MULTIBLOG' ) )
 					switch_to_blog( BP_ROOT_BLOG );
-	
+
 				$existing_pages = get_option( 'bp-pages' );
 
 				$bp_pages = $this->setup_pages( (array)$_POST['bp_pages'] );
-				
+
 				$bp_pages = array_merge( (array)$existing_pages, (array)$bp_pages );
-	
+
 				update_option( 'bp-pages', $bp_pages );
 
 				if ( $current_blog->blog_id != BP_ROOT_BLOG )
 					restore_current_blog();
-			
+
 				unset( $disabled['bp-blogs.php'] );
-				
+
 				bp_core_install( $disabled );
 			}
-			
+
 			update_site_option( 'bp-deactivated-components', $disabled );
 
 			return true;
@@ -1044,7 +1044,7 @@ class BP_Core_Setup_Wizard {
 
 		return false;
 	}
-	
+
 	function setup_pages( $pages ) {
 		foreach ( $pages as $key => $value ) {
 			if ( 'page' == $value ) {
@@ -1058,7 +1058,7 @@ class BP_Core_Setup_Wizard {
 				$bp_pages[$key] = wp_insert_post( array( 'post_title' => ucwords( $value ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 			}
 		}
-		
+
 		return $bp_pages;
 	}
 

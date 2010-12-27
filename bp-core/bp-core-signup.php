@@ -15,7 +15,7 @@ function bp_core_screen_signup() {
 		return false;
 
 	$bp->is_directory = false;
-	
+
 	if ( bp_is_component_front_page( 'register' ) && ( is_user_logged_in() || !bp_get_signup_allowed() ) )
 		bp_core_redirect( $bp->root_domain . '/' . $bp->members->slug );
 
@@ -325,7 +325,7 @@ function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
 
 	if ( defined( 'BP_ACTIVATION_SLUG' ) )
 		$bp_component_slugs[] = BP_ACTIVATION_SLUG;
-	
+
 	// Add our slugs to the array and allow them to be filtered
 	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array_merge( array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' ), $bp_component_slugs ) );
 
@@ -634,7 +634,7 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message, $user_id );
 
 	wp_mail( $to, $subject, $message, $message_headers );
-	
+
 	do_action( 'bp_core_sent_user_validation_email', $admin_email, $subject, $message, $user_id, $user_email, $key );
 }
 

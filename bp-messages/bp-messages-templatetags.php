@@ -672,7 +672,7 @@ class BP_Messages_Thread_Template {
 
 function bp_thread_has_messages( $args = '' ) {
 	global $bp, $thread_template, $group_id;
-	
+
 	$defaults = array(
 		'thread_id' => false,
 		'order' => 'ASC'

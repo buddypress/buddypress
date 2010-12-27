@@ -135,7 +135,7 @@ class BP_Activity_Template {
 /**
  * bp_has_activities()
  *
- * Initializes the activity loop. 
+ * Initializes the activity loop.
  *
  * Based on the $args passed, bp_has_activities() populates the $activities_template global.
  *
@@ -173,7 +173,7 @@ function bp_has_activities( $args = '' ) {
 		if ( 'public' != $bp->groups->current_group->status && ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) || $bp->loggedin_user->is_super_admin ) )
 			$show_hidden = true;
 	}
-	
+
 	// The default scope should recognize custom slugs
 	if ( array_key_exists( $bp->current_action, (array)$bp->active_components ) ) {
 		$scope = $bp->active_components[$bp->current_action];
@@ -958,9 +958,9 @@ function bp_activity_can_comment_reply( $comment ) {
 	return apply_filters( 'bp_activity_can_comment_reply', $can_comment, $comment );
 }
 
-function bp_activity_can_favorite() {	
+function bp_activity_can_favorite() {
 	$can_favorite = true;
-	
+
 	return apply_filters( 'bp_activity_can_favorite', $can_favorite );
 }
 
@@ -1047,8 +1047,8 @@ function bp_sitewide_activity_feed_link() {
 function bp_member_activity_feed_link() {
 	echo bp_get_member_activity_feed_link();
 }
-function bp_activities_member_rss_link() { 
-	echo bp_get_member_activity_feed_link(); 
+function bp_activities_member_rss_link() {
+	echo bp_get_member_activity_feed_link();
 }
 
 	function bp_get_member_activity_feed_link() {

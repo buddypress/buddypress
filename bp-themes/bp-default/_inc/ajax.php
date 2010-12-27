@@ -567,7 +567,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 	// Include everyone in the autocomplete, or just friends?
 	if ( $bp->messages->slug == $bp->current_component )
 		$autocomplete_all = $bp->messages->autocomplete_all;
-	
+
 	$friends = false;
 
 	$limit = $_GET['limit'] ? $_GET['limit'] : apply_filters( 'bp_autocomplete_max_results', 10 );
@@ -575,7 +575,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 	// Get the user ids based on the search terms
 	if ( $autocomplete_all ) {
 		$users = BP_Core_User::search_users( $_GET['q'], $limit, $pag_page );
-		
+
 		if ( !empty( $users['users'] ) ) {
 			// Build an array with the correct format
 			$user_ids = array();
@@ -583,21 +583,21 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 				if ( $user->id != $bp->loggedin_user->id )
 					$user_ids[] = $user->id;
 			}
-			
+
 			$user_ids = apply_filters( 'bp_core_autocomplete_ids', $user_ids, $_GET['q'], $limit );
 		}
 	} else {
 		if ( function_exists( 'friends_search_friends' ) ) {
 			$users = friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $limit, 1 );
-			
+
 			// Keeping the bp_friends_autocomplete_list filter for backward compatibility
 			$users = apply_filters( 'bp_friends_autocomplete_list', $users, $_GET['q'], $limit );
-			
+
 			if ( !empty( $users['friends'] ) )
 				$user_ids = apply_filters( 'bp_friends_autocomplete_ids', $users['friends'], $_GET['q'], $limit );
 		}
 	}
-	
+
 
 	if ( $user_ids ) {
 		foreach ( $user_ids as $user_id ) {

@@ -6,18 +6,18 @@
  * Credits:
  * - Idea: Facebook
  * - Guillermo Rauch: Original MooTools script
- * - InteRiders <http://interiders.com/> 
+ * - InteRiders <http://interiders.com/>
  *
  * Copyright (c) 2008 Widi Harsojo <wharsojo@gmail.com>, http://wharsojo.wordpress.com/
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  */
- 
-jQuery.fn.autoCompletefb = function(options) 
+
+jQuery.fn.autoCompletefb = function(options)
 {
 	var tmp = this;
-	var settings = 
+	var settings =
 	{
 		ul         : tmp,
 		urlLookup  : [""],
@@ -25,10 +25,10 @@ jQuery.fn.autoCompletefb = function(options)
 		foundClass : ".friend-tab",
 		inputClass : ".send-to-input"
 	}
-	
+
 	if(options) jQuery.extend(settings, options);
-	
-	var acfb = 
+
+	var acfb =
 	{
 		params  : settings,
 		removeFind : function(o){
@@ -42,11 +42,11 @@ jQuery.fn.autoCompletefb = function(options)
 			jQuery('#send-to-usernames').removeClass(newID[1]);
 		}
 	}
-	
+
 	jQuery(settings.foundClass+" img.p").click(function(){
 		acfb.removeFind(this);
 	});
-	
+
 	jQuery(settings.inputClass,tmp).autocomplete(settings.urlLookup,settings.acOptions);
 	jQuery(settings.inputClass,tmp).result(function(e,d,f){
 		var f = settings.foundClass.replace(/\./,'');
@@ -56,15 +56,15 @@ jQuery.fn.autoCompletefb = function(options)
 		var l = jQuery(ln).attr('value');
 		var v = '<li class="'+f+'" id="un-'+un+'"><span><a href="'+l+'">'+d[0]+'</a></span> <span class="p">X</span></li>';
 		var x = jQuery(settings.inputClass,tmp).before(v);
-		
+
 		jQuery('#send-to-usernames').addClass(un);
-		
+
 		jQuery('.p',x[0].previousSibling).click(function(){
 			acfb.removeFind(this);
 		});
 		jQuery(settings.inputClass,tmp).val('');
 	});
-	
+
 	jQuery(settings.inputClass,tmp).focus();
 	return acfb;
 }

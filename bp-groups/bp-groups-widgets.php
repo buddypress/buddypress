@@ -23,7 +23,7 @@ class BP_Groups_Widget extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		global $bp;
-		
+
 		$user_id = apply_filters( 'bp_group_widget_user_id', '0' );
 
 		extract( $args );
@@ -99,25 +99,25 @@ class BP_Groups_Widget extends WP_Widget {
 			'title' => __( 'Groups', 'buddypress' ),
 			'max_members' => 5,
 			'group_default' => 'active'
-		);	
+		);
 		$instance = wp_parse_args( (array) $instance, $defaults );
-		
+
 		$title = strip_tags( $instance['title'] );
 		$max_groups = strip_tags( $instance['max_groups'] );
 		$group_default = strip_tags( $instance['group_default'] );
 		?>
-		
+
 		<p><label for="bp-groups-widget-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" /></label></p>
 
 		<p><label for="bp-groups-widget-groups-max"><?php _e('Max groups to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_groups' ); ?>" name="<?php echo $this->get_field_name( 'max_groups' ); ?>" type="text" value="<?php echo esc_attr( $max_groups ); ?>" style="width: 30%" /></label></p>
-		
+
 		<p>
-			<label for="bp-groups-widget-groups-default"><?php _e('Default groups to show:', 'buddypress'); ?> 
+			<label for="bp-groups-widget-groups-default"><?php _e('Default groups to show:', 'buddypress'); ?>
 			<select name="<?php echo $this->get_field_name( 'group_default' ); ?>">
 				<option value="newest" <?php if ( $group_default == 'newest' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Newest', 'buddypress' ) ?></option>
 				<option value="active" <?php if ( $group_default == 'active' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Active', 'buddypress' ) ?></option>
 				<option value="popular"  <?php if ( $group_default == 'popular' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Popular', 'buddypress' ) ?></option>
-			</select>			
+			</select>
 			</label>
 		</p>
 	<?php

@@ -704,7 +704,7 @@ function bp_avatar_admin_step() {
 }
 	function bp_get_avatar_admin_step() {
 		global $bp;
-		
+
 		if ( isset( $bp->avatar_admin->step ) )
 			$step = $bp->avatar_admin->step;
 		else
@@ -718,7 +718,7 @@ function bp_avatar_to_crop() {
 }
 	function bp_get_avatar_to_crop() {
 		global $bp;
-		
+
 		if ( isset( $bp->avatar_admin->image->url ) )
 			$url = $bp->avatar_admin->image->url;
 		else
@@ -1023,7 +1023,7 @@ function bp_search_form_type_select() {
 	global $bp;
 
 	$options = array();
-	
+
 	if ( bp_is_active( 'xprofile' ) )
 		$options['members'] = __( 'Members', 'buddypress' );
 
@@ -1530,7 +1530,7 @@ function bp_is_component_front_page( $component='' ) {
 		$path = bp_core_get_site_path();
 	else
 		$path = $current_blog->path;
-		
+
 	if ( 'page' != get_option( 'show_on_front' ) || !$component || empty( $bp->pages->{$component} ) || $_SERVER['REQUEST_URI'] != $path )
 		return false;
 

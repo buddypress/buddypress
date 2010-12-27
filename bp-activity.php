@@ -508,18 +508,18 @@ add_action( 'wp', 'bp_activity_action_favorites_feed', 3 );
  *
  * @package BuddyPress Activity
  * @since 1.3
- * 
+ *
  * @param $content The content of the activity, usually found in $activity->content
  * @return array $usernames Array of the found usernames that match existing users
  */
 function bp_activity_find_mentions( $content ) {
 	$pattern = '/[@]+([A-Za-z0-9-_\.]+)/';
 	preg_match_all( $pattern, $content, $usernames );
-	
+
 	// Make sure there's only one instance of each username
 	if ( !$usernames = array_unique( $usernames[1] ) )
 		return false;
-		
+
 	return $usernames;
 }
 
@@ -530,19 +530,19 @@ function bp_activity_find_mentions( $content ) {
  *
  * @package BuddyPress Activity
  * @since 1.3
- * 
+ *
  * @param $activity_id The unique id for the activity item
  */
 function bp_activity_reduce_mention_count( $activity_id ) {
 	$activity = new BP_Activity_Activity( $activity_id );
-	
-	if ( $usernames = bp_activity_find_mentions( strip_tags( $activity->content ) ) ) {	
+
+	if ( $usernames = bp_activity_find_mentions( strip_tags( $activity->content ) ) ) {
 		include_once( ABSPATH . WPINC . '/registration.php' );
-		
-		foreach( (array)$usernames as $username ) { 
+
+		foreach( (array)$usernames as $username ) {
 			if ( !$user_id = username_exists( $username ) )
 				continue;
-	
+
 			// Decrease the number of new @ mentions for the user
 			$new_mention_count = (int)get_user_meta( $user_id, 'bp_new_mention_count', true );
 			update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count - 1 );
@@ -577,7 +577,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 				return apply_filters( 'bp_activity_multiple_at_mentions_notification', '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . sprintf( __( 'You have %1$d new activity mentions', 'buddypress' ), (int)$total_items ) . '</a>', $at_mention_link, $total_items, $activity_id, $poster_user_id );
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $poster_user_id );
-				
+
 				return apply_filters( 'bp_activity_single_at_mentions_notification', '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . sprintf( __( '%1$s mentioned you in an activity update', 'buddypress' ), $user_fullname ) . '</a>', $at_mention_link, $total_items, $activity_id, $poster_user_id );
 			}
 		break;
@@ -998,7 +998,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
 			$new_width = $new_height * $ratio;
 
 			$image = '<img src="' . esc_attr( $src ) . '" width="' . $new_width . '" height="' . $new_height . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />';
-			
+
 			if ( !empty( $link ) ) {
 				$image = '<a href="' . $link . '">' . $image . '</a>';
 			}
@@ -1223,9 +1223,9 @@ add_action( 'bp_make_spam_user', 'bp_activity_remove_data' );
 
 /**
  * updates_register_activity_actions()
- * 
+ *
  * Register the activity stream actions for updates
- * 
+ *
  * @global array $bp
  */
 function updates_register_activity_actions() {

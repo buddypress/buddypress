@@ -23,7 +23,7 @@ function bp_core_add_settings_nav() {
 
 	if ( !is_super_admin() && empty( $bp->site_options['bp-disable-account-deletion'] ) )
 		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_my_profile() ) );
-	
+
 	do_action( 'bp_core_settings_setup_nav' );
 }
 add_action( 'bp_setup_nav', 'bp_core_add_settings_nav' );
@@ -44,61 +44,61 @@ function bp_core_screen_general_settings() {
 		require_once( ABSPATH . WPINC . '/registration.php' );
 
 		// Form has been submitted and nonce checks out, lets do it.
-		
+
  		// Validate the user again for the current password when making a big change
  		if ( !empty( $_POST['pwd'] ) && $_POST['pwd'] != '' && wp_check_password($_POST['pwd'], $current_user->user_pass, $current_user->ID) ) {
- 
+
  			// Make sure changing an email address does not already exist
  			if ( $_POST['email'] != '' ) {
- 
+
  				// What is missing from the profile page vs signup - lets double check the goodies
  				$user_email = sanitize_email( wp_specialchars( trim( $_POST['email'] ) ) );
- 
+
  				if ( !is_email( $user_email ) )
  					$email_error = true;
- 
+
  				$limited_email_domains = get_site_option( 'limited_email_domains', 'buddypress' );
- 
+
  				if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
  					$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
- 
+
  					if ( in_array( $emaildomain, (array)$limited_email_domains ) == false ) {
  						$email_error = true;
- 						
+
  					}
  				}
- 
+
  				if ( !$email_error && $current_user->user_email != $user_email  ) {
- 				
+
  					//we don't want email dups in the system
  					if ( email_exists( $user_email ) )
  						$email_error = true;
- 						
+
  					if (!$email_error)
  						$current_user->user_email = $user_email;
  				}
  			}
- 
+
  			if ( $_POST['pass1'] != '' && $_POST['pass2'] != '' ) {
- 			
+
  				if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) )
  					$current_user->user_pass = $_POST['pass1'];
  				else
  					$pass_error = true;
-  
+
  			} else if ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) || !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) {
   				$pass_error = true;
  			} else {
  				unset( $current_user->user_pass );
  			}
- 
+
  			if ( !$email_error && !$pass_error && wp_update_user( get_object_vars( $current_user ) ) )
  				$bp_settings_updated = true;
- 			
+
   		} else {
  			$pwd_error = true;
   		}
-  		
+
 		do_action( 'bp_core_general_settings_after_save' );
 	}
 
@@ -126,14 +126,14 @@ function bp_core_screen_general_settings_content() {
 			<p><?php _e( 'Your passwords did not match', 'buddypress' ) ?></p>
 		</div>
 	<?php } ?>
-	
+
 	<?php if ( $pwd_error && !$bp_settings_updated ) { ?>
 		<div id="message" class="error fade">
 			<p><?php _e( 'Your password is incorrect', 'buddypress' ) ?></p>
 		</div>
 	<?php } ?>
 
-	<?php 
+	<?php
 	if ( $email_error && !$bp_settings_updated ) { ?>
 		<div id="message" class="error fade">
 			<p><?php _e( 'Sorry, that email address is already used or is invalid', 'buddypress' ) ?></p>
@@ -152,13 +152,13 @@ function bp_core_screen_general_settings_content() {
 		<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ) ?></label>
 		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'buddypress' ) ?><br />
 		<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'Repeat New Password', 'buddypress' ) ?>
-		
+
 		<?php do_action( 'bp_core_general_settings_before_submit' ) ?>
 
 		<div class="submit">
 			<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="submit" class="auto" />
 		</div>
-		
+
 		<?php do_action( 'bp_core_general_settings_after_submit' ) ?>
 
 		<?php wp_nonce_field('bp_settings_general') ?>
@@ -183,7 +183,7 @@ function bp_core_screen_notification_settings() {
 		}
 
 		$bp_settings_updated = true;
-		
+
 		do_action( 'bp_core_notification_settings_after_save' );
 	}
 
@@ -216,7 +216,7 @@ function bp_core_screen_notification_settings_content() {
 		</div>
 
 		<?php do_action( 'bp_core_notification_settings_after_submit' ) ?>
-		
+
 		<?php wp_nonce_field('bp_settings_notifications') ?>
 
 	</form>
@@ -256,11 +256,11 @@ function bp_core_screen_delete_account_content() {
 		<input type="checkbox" name="delete-account-understand" id="delete-account-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-account-button').disabled = ''; } else { document.getElementById('delete-account-button').disabled = 'disabled'; }" /> <?php _e( 'I understand the consequences of deleting my account.', 'buddypress' ); ?>
 
 		<?php do_action( 'bp_core_delete_account_before_submit' ) ?>
-		
+
 		<div class="submit">
 			<input type="submit" disabled="disabled" value="<?php _e( 'Delete My Account', 'buddypress' ) ?> &rarr;" id="delete-account-button" name="delete-account-button" />
 		</div>
-		
+
 		<?php do_action( 'bp_core_delete_account_after_submit' ) ?>
 
 		<?php wp_nonce_field('delete-account') ?>

@@ -1715,12 +1715,12 @@ function bp_new_group_id() {
 }
 	function bp_get_new_group_id() {
 		global $bp;
-		
+
 		if ( isset( $bp->groups->new_group_id ) )
 			$new_group_id = $bp->groups->new_group_id;
 		else
 			$new_group_id = 0;
-		
+
 		return apply_filters( 'bp_get_new_group_id', $new_group_id );
 	}
 
@@ -1729,12 +1729,12 @@ function bp_new_group_name() {
 }
 	function bp_get_new_group_name() {
 		global $bp;
-		
+
 		if ( isset( $bp->groups->current_group->name ) )
 			$name = $bp->groups->current_group->name;
 		else
 			$name = '';
-		
+
 		return apply_filters( 'bp_get_new_group_name', $name );
 	}
 
@@ -1743,12 +1743,12 @@ function bp_new_group_description() {
 }
 	function bp_get_new_group_description() {
 		global $bp;
-		
+
 		if ( isset( $bp->groups->current_group->description ) )
 			$description = $bp->groups->current_group->description;
 		else
 			$description = '';
-			
+
 		return apply_filters( 'bp_get_new_group_description', $description );
 	}
 
@@ -1855,7 +1855,7 @@ function bp_new_group_invite_friend_list() {
 
 			for ( $i = 0; $i < count( $friends ); $i++ ) {
 				$checked = '';
-				
+
 				if ( !empty( $invites ) ) {
 					if ( in_array( $friends[$i]['id'], $invites ) )
 						$checked = ' checked="checked"';
@@ -2245,7 +2245,7 @@ function bp_group_has_invites( $args = '' ) {
 
 	if ( !$group_id ) {
 		/* Backwards compatibility */
-		if ( !empty( $bp->groups->current_group ) ) 
+		if ( !empty( $bp->groups->current_group ) )
 			$group_id = $bp->groups->current_group->id;
 		if ( !empty( $bp->groups->new_group_id ) )
 			$group_id = $bp->groups->new_group_id;

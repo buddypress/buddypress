@@ -115,7 +115,7 @@
 			<?php do_action( 'bp_after_directory_forums_content' ) ?>
 
 		</form>
-		
+
 		<?php do_action( 'bp_after_directory_forums' ) ?>
 
 		</div><!-- .padder -->

@@ -72,7 +72,7 @@ function bp_forums_directory_forums_setup() {
 						$error_message = __( 'Please provide a title for your forum topic.', 'buddypress' );
 					else if ( empty( $_POST['topic_text'] ) )
 						$error_message = __( 'Forum posts cannot be empty. Please enter some text.', 'buddypress' );
-					
+
 					if ( $error_message ) {
 						bp_core_add_message( $error_message, 'error' );
 						$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum';
@@ -85,9 +85,9 @@ function bp_forums_directory_forums_setup() {
 							$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
 						}
 					}
-					
+
 					bp_core_redirect( $redirect );
-				
+
 				} else {
 					bp_core_add_message( __( 'Please pick the group forum where you would like to post this topic.', 'buddypress' ), 'error' );
 				}

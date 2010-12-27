@@ -8,7 +8,7 @@ add_filter( 'bp_get_the_topic_title', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_latest_post_excerpt', 'bp_forums_filter_kses', 1 );
 add_filter( 'bp_get_the_topic_post_content', 'bp_forums_filter_kses', 1 );
 
-add_filter( 'bp_get_the_topic_title', 'force_balance_tags' ); 
+add_filter( 'bp_get_the_topic_title', 'force_balance_tags' );
 add_filter( 'bp_get_the_topic_latest_post_excerpt', 'force_balance_tags' );
 add_filter( 'bp_get_the_topic_post_content', 'force_balance_tags' );
 
@@ -120,13 +120,13 @@ add_filter( 'bp_page_title', 'bp_forums_add_forum_topic_to_page_title' );
  */
 function bp_forums_strip_mentions_on_post_edit( $content ) {
 	global $bp;
-	
+
 	$content = htmlspecialchars_decode( $content );
-	
+
 	$pattern = "|<a href=&#039;" . $bp->root_domain . "/" . $bp->members->slug . "/[A-Za-z0-9-_\.]+/&#039; rel=&#039;nofollow&#039;>(@[A-Za-z0-9-_\.]+)</a>|";
-	
+
 	$content = preg_replace( $pattern, "$1", $content );
-	
+
 	return $content;
 }
 add_filter( 'bp_get_the_topic_post_edit_text', 'bp_forums_strip_mentions_on_post_edit' );

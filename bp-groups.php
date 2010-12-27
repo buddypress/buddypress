@@ -499,7 +499,7 @@ function groups_screen_group_forum() {
 					$error_message = __( 'Please provide a title for your forum topic.', 'buddypress' );
 				else if ( empty( $_POST['topic_text'] ) )
 					$error_message = __( 'Forum posts cannot be empty. Please enter some text.', 'buddypress' );
-				
+
 				if ( isset( $error_message ) ) {
 					bp_core_add_message( $error_message, 'error' );
 					$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum';
@@ -1044,7 +1044,7 @@ function groups_action_create_group() {
 				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
 				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
-			
+
 			$new_group_id = isset( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : 0;
 
 			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ), 'date_created' => bp_core_current_time(), 'status' => 'public' ) ) ) {
@@ -1336,13 +1336,13 @@ function groups_record_activity( $args = '' ) {
 
 function groups_update_last_activity( $group_id = false ) {
 	global $bp;
-	
+
 	if ( !$group_id )
 		$group_id = $bp->groups->current_group->id;
-		
+
 	if ( !$group_id )
 		return false;
-	
+
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 }
 add_action( 'groups_leave_group', 'groups_update_last_activity' );

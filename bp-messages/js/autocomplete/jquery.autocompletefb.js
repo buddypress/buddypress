@@ -6,7 +6,7 @@
  * Credits:
  * - Idea: Facebook
  * - Guillermo Rauch: Original MooTools script
- * - InteRiders <http://interiders.com/> 
+ * - InteRiders <http://interiders.com/>
  *
  * Copyright (c) 2008 Widi Harsojo <wharsojo@gmail.com>, http://wharsojo.wordpress.com/
  * Dual licensed under the MIT and GPL licenses:

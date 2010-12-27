@@ -760,7 +760,7 @@ Class BP_XProfile_ProfileData {
 	function exists() {
 		global $wpdb, $bp;
 
-		
+
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
 
 		return apply_filters( 'xprofile_data_exists', (bool)$retval, $this );
