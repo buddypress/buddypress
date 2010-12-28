@@ -1138,4 +1138,43 @@ function bp_activity_feed_item_description() {
 		return apply_filters( 'bp_get_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $content ) ) );
 	}
 
+/**
+ * Template tag so we can hook activity feed to <head>
+ *
+ * @since 1.3
+ */
+function bp_dtheme_sitewide_feed() {
+?>
+<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_sitewide_activity_feed_link() ?>" />
+<?php
+}
+add_action( 'bp_head', 'bp_dtheme_sitewide_feed' );
+
+/**
+ * Template tag so we can hook member activity feed to <head>
+ *
+ * @since 1.3
+ */
+function bp_dtheme_member_feed() {
+	if ( !bp_is_member() )
+		return;
+?>
+		<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_displayed_user_fullname() ?> | <?php _e( 'Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_member_activity_feed_link() ?>" />
+<?php
+}
+add_action( 'bp_head', 'bp_dtheme_member_feed' );
+
+/**
+ * Template tag so we can hook group activity feed to <head>
+ *
+ * @since 1.3
+ */
+function bp_dtheme_group_feed() {
+	if ( !bp_is_active( 'groups' ) || !bp_is_group() )
+		return;
+?>
+		<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_current_group_name() ?> | <?php _e( 'Group Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_group_activity_feed_link() ?>" />
+<?php
+}
+add_action( 'bp_head', 'bp_dtheme_group_feed' );
 ?>
