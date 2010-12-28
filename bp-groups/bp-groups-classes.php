@@ -1116,29 +1116,17 @@ class BP_Group_Extension {
 
 	// Methods you should override
 
-	function display() {
-		die( 'function BP_Group_Extension::display() must be over-ridden in a sub-class.' );
-	}
+	function display() {}
 
-	function widget_display() {
-		die( 'function BP_Group_Extension::widget_display() must be over-ridden in a sub-class.' );
-	}
+	function widget_display() {}
 
-	function edit_screen() {
-		die( 'function BP_Group_Extension::edit_screen() must be over-ridden in a sub-class.' );
-	}
+	function edit_screen() {}
 
-	function edit_screen_save() {
-		die( 'function BP_Group_Extension::edit_screen_save() must be over-ridden in a sub-class.' );
-	}
+	function edit_screen_save() {}
 
-	function create_screen() {
-		die( 'function BP_Group_Extension::create_screen() must be over-ridden in a sub-class.' );
-	}
+	function create_screen() {}
 
-	function create_screen_save() {
-		die( 'function BP_Group_Extension::create_screen_save() must be over-ridden in a sub-class.' );
-	}
+	function create_screen_save() {}
 
 	// Private Methods
 
@@ -1162,7 +1150,9 @@ class BP_Group_Extension {
 
 			// Catch the edit screen and forward it to the plugin template
 			if ( $bp->current_component == $bp->groups->slug && 'admin' == $bp->current_action && !empty( $bp->action_variables[0] ) && $this->slug == $bp->action_variables[0] ) {
-				add_action( 'wp', array( &$this, 'edit_screen_save' ) );
+				// Check whether the user is saving changes
+				$this->edit_screen_save();		
+				
 				add_action( 'groups_custom_edit_steps', array( &$this, 'edit_screen' ) );
 
 				if ( '' != locate_template( array( 'groups/single/home.php' ), false ) ) {
