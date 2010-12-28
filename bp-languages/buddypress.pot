@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-27 18:30:37+00:00\n"
+"POT-Creation-Date: 2010-12-28 14:30:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -257,7 +257,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:514 bp-core/bp-core-templatetags.php:464
 #: bp-core/bp-core-templatetags.php:1057
 #: bp-groups/bp-groups-templatetags.php:1881
-#: bp-forums/bp-forums-templatetags.php:1038 bp-themes/bp-default/header.php:56
+#: bp-forums/bp-forums-templatetags.php:1038 bp-themes/bp-default/header.php:32
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -1169,7 +1169,7 @@ msgid "%1$s at %2$s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:894 bp-groups.php:127
-#: bp-themes/bp-default/functions.php:485 bp-themes/bp-default/header.php:41
+#: bp-themes/bp-default/functions.php:484 bp-themes/bp-default/header.php:18
 msgid "Home"
 msgstr ""
 
@@ -3550,7 +3550,7 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:462
+#: bp-themes/bp-default/functions.php:461
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
@@ -3566,18 +3566,6 @@ msgstr ""
 
 #: bp-themes/bp-default/page.php:21 bp-themes/bp-default/onecolumn-page.php:32
 msgid "Edit this entry."
-msgstr ""
-
-#: bp-themes/bp-default/header.php:18
-msgid "Site Wide Activity RSS Feed"
-msgstr ""
-
-#: bp-themes/bp-default/header.php:22
-msgid "Activity RSS Feed"
-msgstr ""
-
-#: bp-themes/bp-default/header.php:26
-msgid "Group Activity RSS Feed"
 msgstr ""
 
 #: bp-themes/bp-default/members/index.php:8
@@ -4374,6 +4362,18 @@ msgstr ""
 
 #: bp-activity/bp-activity-templatetags.php:1020
 msgid "Mention this User"
+msgstr ""
+
+#: bp-activity/bp-activity-templatetags.php:1149
+msgid "Site Wide Activity RSS Feed"
+msgstr ""
+
+#: bp-activity/bp-activity-templatetags.php:1164
+msgid "Activity RSS Feed"
+msgstr ""
+
+#: bp-activity/bp-activity-templatetags.php:1179
+msgid "Group Activity RSS Feed"
 msgstr ""
 
 #: bp-activity/feeds/bp-activity-friends-feed.php:21
