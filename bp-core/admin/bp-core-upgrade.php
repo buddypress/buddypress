@@ -1052,10 +1052,10 @@ class BP_Core_Setup_Wizard {
 				if ( !empty( $_POST['bp-' . $key . '-page'] ) )
 					$bp_pages[$key] = (int)$_POST['bp-' . $key . '-page'];
 				else
-					$bp_pages[$key] = wp_insert_post( array( 'post_title' => ucwords( $key ), 'post_status' => 'publish', 'post_type' => 'page' ) );
+					$bp_pages[$key] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $key ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 			} else {
 				/* Create a new page */
-				$bp_pages[$key] = wp_insert_post( array( 'post_title' => ucwords( $value ), 'post_status' => 'publish', 'post_type' => 'page' ) );
+				$bp_pages[$key] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $value ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 			}
 		}
 

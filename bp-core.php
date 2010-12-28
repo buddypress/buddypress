@@ -2148,7 +2148,7 @@ function bp_core_create_root_component_page() {
 	$new_page_ids = array();
 
 	foreach ( (array)$bp->add_root as $slug )
-		$new_page_ids[$slug] = wp_insert_post( array( 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
+		$new_page_ids[$slug] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 
 	$page_ids = bp_core_get_page_meta();
 
