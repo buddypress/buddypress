@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: apeatling, johnjamesjacoby, mrmaz
+Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, mingle, social, community, networks, networking, cms
 Requires at least: 3.0
-Tested up to: 3.0.1
-Stable tag: 1.2.5.2
+Tested up to: 3.0.3
+Stable tag: 1.2.7
 
 == Description ==
 
@@ -25,19 +25,17 @@ More and more WordPress with BuddyPress powered sites are popping up. You can ta
 
 BuddyPress boasts an ever growing array of new features developed by the awesome plugin development community. Some of most popular BuddyPress plugins currently available are:
 
-*	<a href="http://wordpress.org/extend/plugins/wp-fb-autoconnect">WP-FB-AutoConnect</a> - allow your users to instantly log in to your site using their Facebook credentials.
 *	<a href="http://wordpress.org/extend/plugins/buddypress-like">BuddyPress Like</a> - add a "like" button to site activity.
 *	<a href="http://wordpress.org/extend/plugins/buddypress-links">BuddyPress Links</a> - rich media embedding for your BuddyPress powered site.
-*	<a href="http://wordpress.org/extend/plugins/tweetstream">BuddyPress Tweetstream</a> - allow your users to sync and post to their Twitter stream.
-*	<a href="http://wordpress.org/extend/plugins/facestream">BuddyPress Facestream</a> - allow your users to sync and post to their Facebook stream.
+*	<a href="http://wordpress.org/extend/plugins/buddystream/">BuddyStream</a> - synchronizes all of your favorite social networks to the BuddyPress activity stream.
 *	<a href="http://wordpress.org/extend/plugins/bp-album">BuddyPress Album+</a> - allow your users to upload photos and create albums.
 *	<a href="http://wordpress.org/extend/plugins/buddypress-group-documents">BuddyPress Group Documents</a> - add file upload and document repositories to your groups.
 *	<a href="http://wordpress.org/extend/plugins/bp-profile-privacy">BuddyPress Profile Privacy</a> - allow your users to set privacy options on their profile data.
 *	<a href="http://wordpress.org/extend/plugins/welcome-pack">BuddyPress Welcome Pack</a> - set defaults for new users, auto join them to groups or send welcome messages.
 *	<a href="http://wordpress.org/extend/plugins/bp-groupblog">BuddyPress Group Blog</a> (WordPress MU only) - allow your groups to include a fully functional WordPress blog.
-*	<a href="http://wordpress.org/extend/plugins/buddypress-group-wiki/">BuddyPress Group Wiki</a> - add wiki functionality to your groups so all members can contribute to pages.
+*	<a href="http://wordpress.org/extend/plugins/bp-wiki/">BuddyPress Wiki Component</a> - adds wiki functionality.
 
-There are already more than 125 BuddyPress plugins available, the list is growing every day. For a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can also install any of these plugins automatically through the plugin installer menu inside of your WordPress installation.
+There are more than 300 BuddyPress plugins available, the list is growing every day. For a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can also install any of these plugins automatically through the plugin installer menu inside of your WordPress installation.
 
 <h4>More Information</h4>
 
@@ -123,8 +121,8 @@ The <a href="http://i18n.svn.buddypress.org/">BuddyPress langauge file repositor
 
 == Upgrade Notice ==
 
-= 1.2.5.1 =
-Fixes 'Mark user as spam' and 'Delete user' issues. Important upgrade.
+= 1.2.7 =
+Fixes over 10 bugs.
 
 == Changelog ==
 
