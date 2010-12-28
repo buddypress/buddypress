@@ -69,20 +69,20 @@ img.avatar {
 #nav ul,
 #nav .sfhover ul ul,
 #nav :hover ul ul {
-	left: -9999px;
+	right: -9999px;
 	position: absolute;
 }
 
 #nav .sfhover ul,
 #nav :hover ul {
-	left: 0;
+	right: 0;
 	top: 100%;
 	width: 128px;
 }
 
 #nav .sfhover ul .sfhover > ul,
 #nav :hover ul :hover > ul {
-	left: 125px;
+	right: 125px;
 	top: -1px;
 	width: 128px;
 	z-index: 1000;

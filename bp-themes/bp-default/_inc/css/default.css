@@ -272,13 +272,13 @@ sup {
 #nav ul,
 #nav .sfhover ul ul,
 #nav :hover ul ul {
-	right: -9999px;
+	left: -9999px;
 	position: absolute;
 }
 
 #nav .sfhover ul,
 #nav :hover ul {
-	right: 0;
+	left: 0;
 	top: 100%;
 	width: 128px;
 }
@@ -291,7 +291,7 @@ sup {
 
 #nav .sfhover ul .sfhover > ul,
 #nav :hover ul :hover > ul {
-	right: 125px;
+	left: 125px;
 	top: -1px;
 	width: 128px;
 	z-index: 1000;
