@@ -1116,6 +1116,7 @@ function bp_button( $button = '' ) {
  * @return str The excerpt text
  */
 function bp_create_excerpt( $text, $excerpt_length = 55, $filter_shortcodes = true ) { // Fakes an excerpt if needed
+	$original_text = $text;
 	$text = str_replace(']]>', ']]&gt;', $text);
 
 	if ( $filter_shortcodes )
@@ -1134,7 +1135,7 @@ function bp_create_excerpt( $text, $excerpt_length = 55, $filter_shortcodes = tr
 		$text = implode(' ', $words);
 	}
 
-	return apply_filters( 'bp_create_excerpt', $text );
+	return apply_filters( 'bp_create_excerpt', $text, $original_text );
 }
 add_filter( 'bp_create_excerpt', 'wp_trim_excerpt' );
 add_filter( 'bp_create_excerpt', 'stripslashes_deep' );
