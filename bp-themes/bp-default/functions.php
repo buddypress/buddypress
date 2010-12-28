@@ -61,24 +61,24 @@ function bp_dtheme_setup() {
 	// This theme allows users to set a custom background
 	add_custom_background( 'bp_dtheme_custom_background_style' );
 
-	// Changeable header section starts here
-	define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
-	// No CSS. The %s is a placeholder for the theme template directory URI.
-	define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' );
-
-	// The height and width of your custom header. You can hook into the theme's own filters to change these values.
-	// Add a filter to bp_dtheme_header_image_width and bp_dtheme_header_image_height to change these values.
-	define( 'HEADER_IMAGE_WIDTH', apply_filters( 'bp_dtheme_header_image_width', 1250 ) );
-	define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'bp_dtheme_header_image_height', 125 ) );
-
-	// We'll be using post thumbnails for custom header images on posts and pages. We want them to be 1250 pixels wide by 125 pixels tall.
-	// Larger images will be auto-cropped to fit, smaller ones will be ignored.
-	set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
-
-	// Add a way for the custom header to be styled in the admin panel that controls custom headers.
-	add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style' );
-
-	//End of changeable header section
+	// Add custom header support if allowed
+	if ( !defined( 'BP_DTHEME_DISABLE_CUSTOM_HEADER' ) ) {
+		define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
+		// No CSS. The %s is a placeholder for the theme template directory URI.
+		define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' );
+	
+		// The height and width of your custom header. You can hook into the theme's own filters to change these values.
+		// Add a filter to bp_dtheme_header_image_width and bp_dtheme_header_image_height to change these values.
+		define( 'HEADER_IMAGE_WIDTH', apply_filters( 'bp_dtheme_header_image_width', 1250 ) );
+		define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'bp_dtheme_header_image_height', 125 ) );
+	
+		// We'll be using post thumbnails for custom header images on posts and pages. We want them to be 1250 pixels wide by 125 pixels tall.
+		// Larger images will be auto-cropped to fit, smaller ones will be ignored.
+		set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
+	
+		// Add a way for the custom header to be styled in the admin panel that controls custom headers.
+		add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style' );
+	}
 
 	// Register buttons for the relevant component templates
 	// Friends button
