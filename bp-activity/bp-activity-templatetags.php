@@ -862,7 +862,7 @@ function bp_activity_latest_update( $user_id = false ) {
 		if ( !$update = get_user_meta( $user_id, 'bp_latest_update', true ) )
 			return false;
 
-		$latest_update = '&quot;' . apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 40 ) ) ) ) . '&quot;';
+		$latest_update = '&quot;' . apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 180 ) ) ) ) . '&quot;';
 		$latest_update .= ' &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_activity_latest_update', $latest_update  );
@@ -1101,7 +1101,7 @@ function bp_activity_feed_item_title() {
 			$title = substr( $title, 0, -1 );
 
 		if ( 'activity_update' == $activities_template->activity->type )
-			$title .= ': ' . strip_tags( bp_create_excerpt( $activities_template->activity->content, 15 ) );
+			$title .= ': ' . strip_tags( bp_create_excerpt( $activities_template->activity->content, 70 ) );
 
 		return apply_filters( 'bp_get_activity_feed_item_title', $title );
 	}

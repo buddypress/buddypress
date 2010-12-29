@@ -374,7 +374,7 @@ function bp_member_latest_update( $args = '' ) {
 		global $members_template, $bp;
 
 		$defaults = array(
-			'length' => 15
+			'length' => 70
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -1115,26 +1115,20 @@ function bp_button( $button = '' ) {
  * @uses $excerpt_length The maximum length in characters of the excerpt.
  * @return str The excerpt text
  */
-function bp_create_excerpt( $text, $excerpt_length = 55, $filter_shortcodes = true ) { // Fakes an excerpt if needed
+function bp_create_excerpt( $text, $excerpt_length = 225, $filter_shortcodes = true ) { // Fakes an excerpt if needed
 	$original_text = $text;
 	$text = str_replace(']]>', ']]&gt;', $text);
 
 	if ( $filter_shortcodes )
 		$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
 
-	$words = preg_split(
-		"%\s*((?:<[^>]+>)+\S*)\s*|\s+%s",
-		$text,
-		$excerpt_length + 1,
-		PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
-	);
-
-	if (count($words) > $excerpt_length) {
-		array_pop($words);
-		array_push($words, '[...]');
-		$text = implode(' ', $words);
+	preg_match( "%\s*((?:<[^>]+>)+\S*)\s*|\s+%s", $text, $matches, PREG_OFFSET_CAPTURE, $excerpt_length );
+	
+	if ( !empty( $matches ) ) {
+		$pos = array_pop( array_pop( $matches ) );	
+		$text = substr( $text, 0, $pos ) . ' [...]';
 	}
-
+	
 	return apply_filters( 'bp_create_excerpt', $text, $original_text );
 }
 add_filter( 'bp_create_excerpt', 'wp_trim_excerpt' );

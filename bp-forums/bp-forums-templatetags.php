@@ -519,7 +519,7 @@ function bp_the_topic_latest_post_excerpt( $args = '' ) {
 		global $forum_template;
 
 		$defaults = array(
-			'length' => 10
+			'length' => 45
 		);
 
 		$r = wp_parse_args( $args, $defaults );
