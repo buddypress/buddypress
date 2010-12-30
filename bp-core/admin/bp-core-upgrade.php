@@ -892,7 +892,7 @@ class BP_Core_Setup_Wizard {
 			check_admin_referer( 'bpwizard_pages' );
 
 			// Make sure that the pages are created on the BP_ROOT_BLOG, no matter which Dashboard the setup is being run on
-			if ( $current_blog->blog_id != BP_ROOT_BLOG && !defined( 'BP_ENABLE_MULTIBLOG' ) )
+			if ( !empty( $current_blog->blog_id ) && $current_blog->blog_id != BP_ROOT_BLOG && !defined( 'BP_ENABLE_MULTIBLOG' ) )
 				switch_to_blog( BP_ROOT_BLOG );
 
 			// Delete any existing pages
@@ -905,7 +905,7 @@ class BP_Core_Setup_Wizard {
 
 			update_option( 'bp-pages', $bp_pages );
 
-			if ( $current_blog->blog_id != BP_ROOT_BLOG )
+			if ( !empty( $current_blog->blog_id ) && $current_blog->blog_id != BP_ROOT_BLOG )
 				restore_current_blog();
 
 			return true;
