@@ -139,7 +139,7 @@ class BP_Forums_Template_Forum {
 		if ( $this->current_topic + 1 < $this->topic_count ) {
 			return true;
 		} elseif ( $this->current_topic + 1 == $this->topic_count ) {
-			do_action('loop_end');
+			do_action('forum_loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_topics();
 		}
@@ -156,7 +156,7 @@ class BP_Forums_Template_Forum {
 		$this->topic = (object)$this->topic;
 
 		if ( $this->current_topic == 0 ) // loop has just started
-			do_action('loop_start');
+			do_action('forum_loop_start');
 	}
 }
 
@@ -798,7 +798,7 @@ class BP_Forums_Template_Topic {
 		if ( $this->current_post + 1 < $this->post_count ) {
 			return true;
 		} elseif ( $this->current_post + 1 == $this->post_count ) {
-			do_action('loop_end');
+			do_action('topic_loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_posts();
 		}
@@ -815,7 +815,7 @@ class BP_Forums_Template_Topic {
 		$this->post = (object)$this->post;
 
 		if ( $this->current_post == 0 ) // loop has just started
-			do_action('loop_start');
+			do_action('topic_loop_start');
 	}
 }
 

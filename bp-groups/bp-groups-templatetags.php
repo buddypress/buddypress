@@ -105,7 +105,7 @@ class BP_Groups_Template {
 		if ( $this->current_group + 1 < $this->group_count ) {
 			return true;
 		} elseif ( $this->current_group + 1 == $this->group_count ) {
-			do_action('loop_end');
+			do_action('group_loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_groups();
 		}
@@ -124,7 +124,7 @@ class BP_Groups_Template {
 			$this->group = new BP_Groups_Group( $this->group->group_id );
 
 		if ( 0 == $this->current_group ) // loop has just started
-			do_action('loop_start');
+			do_action('group_loop_start');
 	}
 }
 
@@ -2066,7 +2066,7 @@ class BP_Groups_Membership_Requests_Template {
 		if ( $this->current_request + 1 < $this->request_count ) {
 			return true;
 		} elseif ( $this->current_request + 1 == $this->request_count ) {
-			do_action('loop_end');
+			do_action('group_request_loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_requests();
 		}
@@ -2082,7 +2082,7 @@ class BP_Groups_Membership_Requests_Template {
 		$this->request = $this->next_request();
 
 		if ( 0 == $this->current_request ) // loop has just started
-			do_action('loop_start');
+			do_action('group_request_loop_start');
 	}
 }
 

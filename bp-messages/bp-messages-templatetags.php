@@ -99,7 +99,7 @@ Class BP_Messages_Box_Template {
 		if ( $this->current_thread + 1 < $this->thread_count ) {
 			return true;
 		} elseif ( $this->current_thread + 1 == $this->thread_count ) {
-			do_action('loop_end');
+			do_action('messages_box_loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_threads();
 		}
@@ -143,7 +143,7 @@ Class BP_Messages_Box_Template {
 		$this->thread->last_message_content = $this->thread->messages[$last_message_index]->message;
 
 		if ( 0 == $this->current_thread ) // loop has just started
-			do_action('loop_start');
+			do_action('messages_box_loop_start');
 	}
 }
 

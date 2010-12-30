@@ -83,7 +83,7 @@ class BP_Blogs_Template {
 		if ( $this->current_blog + 1 < $this->blog_count ) {
 			return true;
 		} elseif ( $this->current_blog + 1 == $this->blog_count ) {
-			do_action('loop_end');
+			do_action('blog_loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_blogs();
 		}
@@ -99,7 +99,7 @@ class BP_Blogs_Template {
 		$this->blog = $this->next_blog();
 
 		if ( 0 == $this->current_blog ) // loop has just started
-			do_action('loop_start');
+			do_action('blog_loop_start');
 	}
 }
 

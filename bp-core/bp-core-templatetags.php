@@ -86,7 +86,7 @@ class BP_Core_Members_Template {
 		if ( $this->current_member + 1 < $this->member_count ) {
 			return true;
 		} elseif ( $this->current_member + 1 == $this->member_count ) {
-			do_action('loop_end');
+			do_action('member_loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_members();
 		}
@@ -102,7 +102,7 @@ class BP_Core_Members_Template {
 		$this->member = $this->next_member();
 
 		if ( 0 == $this->current_member ) // loop has just started
-			do_action('loop_start');
+			do_action('member_loop_start');
 	}
 }
 
