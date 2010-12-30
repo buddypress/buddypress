@@ -1028,13 +1028,12 @@ function bp_the_topic_is_last_page() {
 function bp_directory_forums_search_form() {
 	global $bp;
 
-	$search_value = __( 'Search anything...', 'buddypress' );
-	if ( !empty( $_REQUEST['fs'] ) )
-	 	$search_value = stripslashes( $_REQUEST['fs'] );
+	$default_search_value = bp_get_search_default_text(); 
+	$search_value = !empty( $_REQUEST['fs'] ) ? stripslashes( $_REQUEST['fs'] ) : $default_search_value; 
 
 ?>
 	<form action="" method="get" id="search-forums-form">
-		<label><input type="text" name="s" id="forums_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<label><input type="text" name="s" id="forums_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php echo $default_search_value ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php echo $default_search_value ?>';}" /></label>
 		<input type="submit" id="forums_search_submit" name="forums_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php

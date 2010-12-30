@@ -168,6 +168,9 @@ function bp_core_setup_globals() {
 	if ( !$bp->current_component && $bp->displayed_user->id )
 		$bp->current_component = $bp->default_component;
 
+	// The default text for the members directory search box
+        $bp->default_search_strings[$bp->members->slug] = __( 'Search Members...', 'buddypress' ); 
+
 	do_action( 'bp_core_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'bp_core_setup_globals' );

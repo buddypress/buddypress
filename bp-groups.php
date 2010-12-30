@@ -4,8 +4,14 @@ require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-widgets.php' );
 require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-filters.php' );
 
+/**
+ * Puts important groups component data into the $bp global for later use.
+ *
+ * @package BuddyPress Groups
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
 function groups_setup_globals() {
-	global $bp, $wpdb;
+	global $bp;
 
 	if ( !defined( 'BP_GROUPS_SLUG' ) )
 		define ( 'BP_GROUPS_SLUG', $bp->pages->groups->slug );
@@ -39,6 +45,9 @@ function groups_setup_globals() {
 
 	// Auto join group when non group member performs group activity
 	$bp->groups->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) ? false : true;
+
+	// The default text for the groups directory search box
+        $bp->default_search_strings[$bp->groups->slug] = __( 'Search Groups...', 'buddypress' ); 
 
 	do_action( 'groups_setup_globals' );
 }

@@ -53,7 +53,8 @@ function bp_dtheme_ajax_querystring( $query_string, $object ) {
 	if ( !empty( $_POST['page'] ) && '-1' != $_POST['page'] )
 		$qs[] = 'page=' . $_POST['page'];
 
-	if ( !empty( $_POST['search_terms'] ) && __( 'Search anything...', 'buddypress' ) != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] )
+	$object_search_text = bp_get_search_default_text( $object ); 
+ 	if ( !empty( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] ) 
 		$qs[] = 'search_terms=' . $_POST['search_terms'];
 
 	/* Now pass the querystring to override default values. */

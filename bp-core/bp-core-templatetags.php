@@ -454,13 +454,12 @@ function bp_member_hidden_fields() {
 function bp_directory_members_search_form() {
 	global $bp;
 
-	$search_value = __( 'Search anything...', 'buddypress' );
-	if ( !empty( $_GET['s'] ) )
-	 	$search_value = stripslashes( $_GET['s'] );
+	$default_search_value = bp_get_search_default_text(); 
+	$search_value = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
 
 	?>
 	<form action="" method="get" id="search-members-form">
-		<label><input type="text" name="s" id="members_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<label><input type="text" name="s" id="members_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php echo $default_search_value ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php echo $default_search_value ?>';}" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php
@@ -1047,6 +1046,40 @@ function bp_search_form_type_select() {
 
 	return apply_filters( 'bp_search_form_type_select', $selection_box );
 }
+
+/** 
+ * Get the default text for the search box for a given component. 
+ * 
+ * @global object $bp BuddyPress global settings 
+ * @return string 
+ * @since 1.3 
+ */ 
+function bp_search_default_text() { 
+	echo bp_get_search_default_text(); 
+} 
+	function bp_get_search_default_text( $component = false ) { 
+ 		global $bp; 
+ 		
+ 	        if ( empty( $component ) ) 
+			$component = $bp->current_component;
+		
+		$default_text = __( 'Search anything...', 'buddypress' );
+		
+		if ( !empty( $bp->default_search_strings[$component] ) ) {
+			// Most of the time, $component will be the actual component name
+			$default_text = $bp->default_search_strings[$component];
+		} else {
+			// When the request comes through AJAX, we need to get the component name
+			// out of $bp->pages
+			if ( !empty( $bp->pages->{$component}->slug ) ) {
+				$key = $bp->pages->{$component}->slug;
+				if ( !empty( $bp->default_search_strings[$key] ) )
+					$default_text = $bp->default_search_strings[$key];
+			}
+		}
+		
+		return apply_filters( 'bp_search_default_text', $default_text, $component ); 
+	} 
 
 function bp_search_form() {
 	$form = '

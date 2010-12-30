@@ -504,13 +504,12 @@ function bp_blogs_blog_tabs() {
 function bp_directory_blogs_search_form() {
 	global $bp;
 
-	$search_value = __( 'Search anything...', 'buddypress' );
-	if ( !empty( $_GET['s'] ) )
-	 	$search_value = stripslashes( $_GET['s'] );
+	$default_search_value = bp_get_search_default_text(); 
+	$search_value = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; 
 
 	?>
 	<form action="" method="get" id="search-blogs-form">
-		<label><input type="text" name="s" id="blogs_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php _e( 'Search anything...', 'buddypress' ) ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php _e( 'Search anything...', 'buddypress' ) ?>';}" /></label>
+		<label><input type="text" name="s" id="blogs_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php echo $default_search_value ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php echo $default_search_value ?>';}" /></label>
 		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
 <?php

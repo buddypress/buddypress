@@ -12,7 +12,7 @@ function bp_blogs_setup_globals() {
 	if ( !defined( 'BP_BLOGS_SLUG' ) )
 		define ( 'BP_BLOGS_SLUG', $bp->pages->blogs->slug );
 
-	/* For internal identification */
+	// For internal identification
 	$bp->blogs->id = 'blogs';
 
 	$bp->blogs->slug = BP_BLOGS_SLUG;
@@ -22,8 +22,11 @@ function bp_blogs_setup_globals() {
 
 	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
 
-	/* Register this in the active components array */
+	// Register this in the active components array
 	$bp->active_components[$bp->blogs->slug] = $bp->blogs->id;
+
+	// The default text for the blogs directory search box	
+	$bp->default_search_strings[$bp->blogs->slug] = __( 'Search Blogs...', 'buddypress' ); 
 
 	do_action( 'bp_blogs_setup_globals' );
 }

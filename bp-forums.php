@@ -4,19 +4,25 @@
 if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
 	define( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
 
-if ( !defined( 'BP_FORUMS_SLUG' ) )
-	define( 'BP_FORUMS_SLUG', 'forums' );
-
 if ( !defined( 'BB_PATH' ) )
 	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress.php' );
 
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php' );
 
+/**
+ * Puts important forums component data into the $bp global for later use.
+ *
+ * @package BuddyPress Forums
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ */
 function bp_forums_setup() {
 	global $bp;
+        
+        if ( !defined( 'BP_FORUMS_SLUG' ) )
+                define ( 'BP_FORUMS_SLUG', $bp->pages->forums->slug );
 
-	/* For internal identification */
+	// For internal identification
 	$bp->forums->id = 'forums';
 
 	$bp->forums->image_base = BP_PLUGIN_URL . '/bp-forums/images';
@@ -25,8 +31,11 @@ function bp_forums_setup() {
 	if ( isset( $bp->site_options['bb-config-location'] ) )
 		$bp->forums->bbconfig = $bp->site_options['bb-config-location'];
 
-	/* Register this in the active components array */
+	// Register this in the active components array
 	$bp->active_components[$bp->forums->slug] = $bp->forums->id;
+
+	// The default text for the forums directory search box
+	$bp->default_search_strings[$bp->forums->slug] = __( 'Search Forum Topics...', 'buddypress' ); 
 
 	do_action( 'bp_forums_setup' );
 }
