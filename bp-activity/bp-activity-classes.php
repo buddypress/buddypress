@@ -142,7 +142,9 @@ Class BP_Activity_Activity {
 			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort ) ) );
 		}
 
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$where_sql} ORDER BY a.date_recorded {$sort}" ) );
+		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$where_sql} ORDER BY a.date_recorded {$sort}" ), $where_sql, $sort );
+
+		$total_activities = $wpdb->get_var( $total_activities_sql );
 
 		// Get the fullnames of users so we don't have to query in the loop
 		if ( bp_is_active( 'xprofile' ) && $activities ) {

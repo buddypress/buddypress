@@ -316,7 +316,8 @@ Class BP_Groups_Group {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page), intval( $per_page ) );
 
 		/* Get paginated results */
-		$paged_groups = $wpdb->get_results( join( ' ', (array)$sql ) );
+		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array)$sql ), $sql );
+		$paged_groups = $wpdb->get_results( $paged_groups_sql );
 
 		$total_sql['select'] = "SELECT COUNT(g.id) FROM {$bp->groups->table_name} g";
 
@@ -343,7 +344,8 @@ Class BP_Groups_Group {
 			$t_sql .= " WHERE " . join( ' AND ', (array)$total_sql['where'] );
 
 		/* Get total group results */
-		$total_groups = $wpdb->get_var( join( ' ', (array)$t_sql ) );
+		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', join( ' ', (array)$sql ), $sql );
+		$total_groups = $wpdb->get_var( $total_groups_sql );
 
 		/* Populate some extra information instead of querying each time in the loop */
 		if ( !empty( $populate_extras ) ) {
