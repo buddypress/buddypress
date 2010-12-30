@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-29 15:30:31+00:00\n"
+"POT-Creation-Date: 2010-12-30 16:30:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1009,11 +1009,7 @@ msgid "Activate %s"
 msgstr ""
 
 #: bp-core/bp-core-filters.php:233 bp-core/bp-core-signup.php:628
-msgid ""
-"Thanks for registering! To complete the activation of your account please click the following link:\n"
-"\n"
-"%s\n"
-"\n"
+msgid "Thanks for registering! To complete the activation of your account please click the following link:\\n\\n%s\\n\\n"
 msgstr ""
 
 #: bp-core/bp-core-filters.php:234 bp-core/bp-core-signup.php:629
@@ -1477,6 +1473,17 @@ msgstr ""
 
 #: bp-friends/bp-friends-notifications.php:22
 msgid "New friendship request from %s"
+msgstr ""
+
+#: bp-friends/bp-friends-notifications.php:24
+msgid ""
+"%1$s wants to add you as a friend.\n"
+"\n"
+"To view all of your pending friendship requests: %2$s\n"
+"\n"
+"To view %3$s's profile: %4$s\n"
+"\n"
+"---------------------\n"
 msgstr ""
 
 #: bp-friends/bp-friends-notifications.php:34
