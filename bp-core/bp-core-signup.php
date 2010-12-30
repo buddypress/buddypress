@@ -534,7 +534,7 @@ function bp_core_activate_signup( $key ) {
 	}
 
 	/* Update the user_url and display_name */
-	wp_update_user( array( 'ID' => $user_id, 'user_url' => bp_core_get_user_domain( $user_id, sanitize_title( $user_login ), $user_login ), 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
+	wp_update_user( array( 'ID' => $user_id, 'user_url' => bp_core_get_user_domain( $user_id ), 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
 
 	/* Add a last active entry */
 	update_user_meta( $user_id, 'last_activity', bp_core_current_time() );
@@ -618,24 +618,20 @@ function bp_core_signup_avatar_upload_dir() {
 function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$activate_url = bp_get_activation_page() ."?key=$key";
 	$activate_url = esc_url( $activate_url );
-	$admin_email = get_site_option( "admin_email" );
-
-	if ( empty( $admin_email ) )
-		$admin_email = 'noreply@' . $_SERVER['SERVER_NAME'];
-
-	$from_name = ( '' == get_option( 'blogname' ) ) ? 'BuddyPress' : esc_html( get_option( 'blogname' ) );
-	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
-	$message = sprintf( __( 'Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n', 'buddypress' ), $activate_url );
+	
+	$from_name = ( '' == get_option( 'blogname' ) ) ? 'BuddyPress' : wp_specialchars( get_option( 'blogname' ) );
+	
+	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n", 'buddypress' ), $activate_url );
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
 	/* Send the message */
-	$to = apply_filters( 'bp_core_activation_signup_user_notification_to', $user_email, $user_id );
-	$subject = apply_filters( 'bp_core_activation_signup_user_notification_subject', $subject, $user_id );
-	$message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message, $user_id );
+	$to = apply_filters( 'bp_core_signup_send_validation_email_to', $user_email, $user_id );
+	$subject = apply_filters( 'bp_core_signup_send_validation_email_subject', $subject, $user_id );
+	$message = apply_filters( 'bp_core_signup_send_validation_email_message', $message, $user_id, $activate_url );
 
-	wp_mail( $to, $subject, $message, $message_headers );
+	wp_mail( $to, $subject, $message );
 
-	do_action( 'bp_core_sent_user_validation_email', $admin_email, $subject, $message, $user_id, $user_email, $key );
+	do_action( 'bp_core_sent_user_validation_email', $subject, $message, $user_id, $user_email, $key );
 }
 
 /* Stop user accounts logging in that have not been activated (user_status = 2) */
