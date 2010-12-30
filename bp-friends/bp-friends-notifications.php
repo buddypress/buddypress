@@ -22,17 +22,17 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$subject  = '[' . $sitename . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
 
 	$message = sprintf( __(
-"%1$s wants to add you as a friend.
+'%1$s wants to add you as a friend.
 
 To view all of your pending friendship requests: %2$s
 
-To view %3$s's profile: %4$s
+To view %3$s\'s profile: %4$s
 
 ---------------------
-", 'buddypress' ), $initiator_name, $all_requests_link, $initiator_name, $initiator_link );
+', 'buddypress' ), $initiator_name, $all_requests_link, $initiator_name, $initiator_link );
 
 	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
-
+	
 	/* Send the message */
 	$to = apply_filters( 'friends_notification_new_request_to', $to );
 	$subject = apply_filters( 'friends_notification_new_request_subject', $subject, $initiator_name );

@@ -625,7 +625,7 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 
 	$from_name = ( '' == get_option( 'blogname' ) ) ? 'BuddyPress' : esc_html( get_option( 'blogname' ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
-	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n", 'buddypress' ), $activate_url );
+	$message = sprintf( __( 'Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n', 'buddypress' ), $activate_url );
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
 	/* Send the message */

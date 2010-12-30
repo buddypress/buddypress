@@ -230,7 +230,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 
 	$from_name = ( '' == get_site_option( "site_name" ) ) ? 'WordPress' : esc_html( get_site_option( "site_name" ) );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
-	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n", 'buddypress' ), $activate_url . $email, esc_url( "http://{$domain}{$path}" ) );
+	$message = sprintf( __( 'Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n', 'buddypress' ), $activate_url . $email, esc_url( "http://{$domain}{$path}" ) );
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
 	/* Send the message */
