@@ -283,18 +283,34 @@ function bp_adminbar_random_menu() {
 	<?php
 }
 
-// Actions used to build the admin bar
-add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',         2   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu',       4   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu',         6   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_thisblog_menu',      6   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu',       12  );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu',        100 );
-
-// Actions used to append admin bar to footer
-add_action( 'wp_footer',    'bp_core_admin_bar', 8 );
-add_action( 'admin_footer', 'bp_core_admin_bar'    );
+function bp_core_load_admin_bar() {
+	global $wp_version;
+	
+	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) && BP_USE_WP_ADMIN_BAR && $wp_version >= 3.1 ) {
+		// TODO: Add BP support to WP admin bar
+		return;
+	} elseif ( !defined( 'BP_DISABLE_ADMIN_BAR' ) || !BP_DISABLE_ADMIN_BAR ) {
+		// Keep the WP admin bar from loading
+		remove_action( 'init', 'wp_admin_bar_init' );
+		
+		// Remove the WP admin bar options from user profiles 
+		remove_action( 'personal_options', '_admin_bar_preferences' );
+		
+		// Actions used to build the BP admin bar
+		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',         2   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu',       4   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu',         6   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_thisblog_menu',      6   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu',       12  );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu',        100 );
+		
+		// Actions used to append BP admin bar to footer
+		add_action( 'wp_footer',    'bp_core_admin_bar', 8 );
+		add_action( 'admin_footer', 'bp_core_admin_bar'    );	
+	}
+}
+add_action( 'bp_loaded', 'bp_core_load_admin_bar' );
 
 ?>
