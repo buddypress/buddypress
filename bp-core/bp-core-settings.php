@@ -14,12 +14,12 @@ function bp_core_add_settings_nav() {
 	$bp->active_components[$bp->settings->slug] = $bp->settings->id;
 
 	/* Add the settings navigation item */
-	bp_core_new_nav_item( array( 'name' => __('Settings', 'buddypress'), 'slug' => $bp->settings->slug, 'position' => 100, 'show_for_displayed_user' => false, 'screen_function' => 'bp_core_screen_general_settings', 'default_subnav_slug' => 'general' ) );
+	bp_core_new_nav_item( array( 'name' => __('Settings', 'buddypress'), 'slug' => $bp->settings->slug, 'position' => 100, 'show_for_displayed_user' => bp_core_can_edit_settings(), 'screen_function' => 'bp_core_screen_general_settings', 'default_subnav_slug' => 'general' ) );
 
-	$settings_link = $bp->loggedin_user->domain . $bp->settings->slug . '/';
+	$settings_link = $bp->displayed_user->domain . $bp->settings->slug . '/';
 
-	bp_core_new_subnav_item( array( 'name' => __( 'General', 'buddypress' ), 'slug' => 'general', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_general_settings', 'position' => 10, 'user_has_access' => bp_is_my_profile() ) );
-	bp_core_new_subnav_item( array( 'name' => __( 'Notifications', 'buddypress' ), 'slug' => 'notifications', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_notification_settings', 'position' => 20, 'user_has_access' => bp_is_my_profile() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'General', 'buddypress' ), 'slug' => 'general', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_general_settings', 'position' => 10, 'user_has_access' => bp_core_can_edit_settings() ) );
+	bp_core_new_subnav_item( array( 'name' => __( 'Notifications', 'buddypress' ), 'slug' => 'notifications', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_notification_settings', 'position' => 20, 'user_has_access' => bp_core_can_edit_settings() ) );
 
 	if ( !is_super_admin() && empty( $bp->site_options['bp-disable-account-deletion'] ) )
 		bp_core_new_subnav_item( array( 'name' => __( 'Delete Account', 'buddypress' ), 'slug' => 'delete-account', 'parent_url' => $settings_link, 'parent_slug' => $bp->settings->slug, 'screen_function' => 'bp_core_screen_delete_account', 'position' => 90, 'user_has_access' => bp_is_my_profile() ) );
@@ -28,10 +28,20 @@ function bp_core_add_settings_nav() {
 }
 add_action( 'bp_setup_nav', 'bp_core_add_settings_nav' );
 
+function bp_core_can_edit_settings() {
+	if ( bp_is_my_profile() )
+		return true;
+	
+	if ( is_super_admin() )
+		return true;
+	
+	return false;
+}
+
 /**** GENERAL SETTINGS ****/
 
 function bp_core_screen_general_settings() {
-	global $current_user, $bp_settings_updated, $pass_error, $email_error, $pwd_error;
+	global $bp, $current_user, $bp_settings_updated, $pass_error, $email_error, $pwd_error;
 
 	$bp_settings_updated = false;
 	$pass_error = false;
@@ -46,13 +56,15 @@ function bp_core_screen_general_settings() {
 		// Form has been submitted and nonce checks out, lets do it.
 
  		// Validate the user again for the current password when making a big change
- 		if ( !empty( $_POST['pwd'] ) && $_POST['pwd'] != '' && wp_check_password($_POST['pwd'], $current_user->user_pass, $current_user->ID) ) {
+ 		if ( is_super_admin() || ( !empty( $_POST['pwd'] ) && $_POST['pwd'] != '' && wp_check_password($_POST['pwd'], $current_user->user_pass, $current_user->ID ) ) ) {
+ 		
+ 			$update_user = get_userdata( $bp->displayed_user->id );
 
  			// Make sure changing an email address does not already exist
  			if ( $_POST['email'] != '' ) {
 
  				// What is missing from the profile page vs signup - lets double check the goodies
- 				$user_email = sanitize_email( wp_specialchars( trim( $_POST['email'] ) ) );
+ 				$user_email = sanitize_email( esc_html( trim( $_POST['email'] ) ) );
 
  				if ( !is_email( $user_email ) )
  					$email_error = true;
@@ -64,36 +76,39 @@ function bp_core_screen_general_settings() {
 
  					if ( in_array( $emaildomain, (array)$limited_email_domains ) == false ) {
  						$email_error = true;
-
  					}
  				}
 
- 				if ( !$email_error && $current_user->user_email != $user_email  ) {
+ 				if ( !$email_error && $bp->displayed_user->userdata->user_email != $user_email  ) {
 
  					//we don't want email dups in the system
  					if ( email_exists( $user_email ) )
  						$email_error = true;
 
- 					if (!$email_error)
- 						$current_user->user_email = $user_email;
+ 					if ( !$email_error )
+ 						$update_user->user_email = $user_email;
  				}
  			}
 
  			if ( $_POST['pass1'] != '' && $_POST['pass2'] != '' ) {
 
- 				if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) )
- 					$current_user->user_pass = $_POST['pass1'];
- 				else
+ 				if ( $_POST['pass1'] == $_POST['pass2'] && !strpos( " " . $_POST['pass1'], "\\" ) ) {
+ 					$update_user->user_pass = $_POST['pass1'];
+ 				} else {
  					$pass_error = true;
+				}
 
  			} else if ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) || !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) {
   				$pass_error = true;
  			} else {
- 				unset( $current_user->user_pass );
+ 				unset( $update_user->user_pass );
  			}
 
- 			if ( !$email_error && !$pass_error && wp_update_user( get_object_vars( $current_user ) ) )
+ 			if ( !$email_error && !$pass_error && wp_update_user( get_object_vars( $update_user ) ) ) {
+ 				// Make sure these changes are in $bp for the current page load
+ 				$bp->displayed_user->userdata = bp_core_get_core_userdata( $bp->displayed_user->id );
  				$bp_settings_updated = true;
+ 			}
 
   		} else {
  			$pwd_error = true;
@@ -113,7 +128,7 @@ function bp_core_screen_general_settings_title() {
 }
 
 function bp_core_screen_general_settings_content() {
-	global $bp, $current_user, $bp_settings_updated, $pass_error, $pwd_error, $email_error; ?>
+	global $bp, $bp_settings_updated, $pass_error, $pwd_error, $email_error; ?>
 
 	<?php if ( $bp_settings_updated && !$pass_error ) { ?>
 		<div id="message" class="updated fade">
@@ -141,13 +156,15 @@ function bp_core_screen_general_settings_content() {
 	<?php } ?>
 
 
-	<form action="<?php echo $bp->loggedin_user->domain . BP_SETTINGS_SLUG . '/general' ?>" method="post" class="standard-form" id="settings-form">
+	<form action="<?php echo $bp->displayed_user->domain . BP_SETTINGS_SLUG . '/general' ?>" method="post" class="standard-form" id="settings-form">
 
-		<label for="pwd"><?php _e( 'Current Password <span>(required to update email or change current password)</span>', 'buddypress' ) ?></label>
-		<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" /> &nbsp;<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+		<?php if ( empty( $bp->loggedin_user->is_super_admin ) ) : ?>
+			<label for="pwd"><?php _e( 'Current Password <span>(required to update email or change current password)</span>', 'buddypress' ) ?></label>
+			<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" /> &nbsp;<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+		<?php endif ?>
 
 		<label for="email"><?php _e( 'Account Email', 'buddypress' ) ?></label>
-		<input type="text" name="email" id="email" value="<?php echo esc_attr( $current_user->user_email ); ?>" class="settings-input" />
+		<input type="text" name="email" id="email" value="<?php echo esc_attr( $bp->displayed_user->userdata->user_email ); ?>" class="settings-input" />
 
 		<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ) ?></label>
 		<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'buddypress' ) ?><br />
@@ -169,7 +186,7 @@ function bp_core_screen_general_settings_content() {
 /***** NOTIFICATION SETTINGS ******/
 
 function bp_core_screen_notification_settings() {
-	global $current_user, $bp_settings_updated;
+	global $bp, $bp_settings_updated;
 
 	$bp_settings_updated = false;
 
@@ -178,7 +195,7 @@ function bp_core_screen_notification_settings() {
 
 		if ( isset( $_POST['notifications'] ) ) {
 			foreach ( (array)$_POST['notifications'] as $key => $value ) {
-				update_user_meta( (int)$current_user->id, $key, $value );
+				update_user_meta( (int)$bp->displayed_user->id, $key, $value );
 			}
 		}
 
@@ -198,7 +215,7 @@ function bp_core_screen_notification_settings_title() {
 }
 
 function bp_core_screen_notification_settings_content() {
-	global $bp, $current_user, $bp_settings_updated; ?>
+	global $bp, $bp_settings_updated; ?>
 
 	<?php if ( $bp_settings_updated ) { ?>
 		<div id="message" class="updated fade">
@@ -206,7 +223,7 @@ function bp_core_screen_notification_settings_content() {
 		</div>
 	<?php } ?>
 
-	<form action="<?php echo $bp->loggedin_user->domain . BP_SETTINGS_SLUG . '/notifications' ?>" method="post" id="settings-form">
+	<form action="<?php echo $bp->displayed_user->domain . BP_SETTINGS_SLUG . '/notifications' ?>" method="post" id="settings-form">
 		<p><?php _e( 'Send a notification by email when:', 'buddypress' ) ?></p>
 
 		<?php do_action( 'bp_notification_settings' ) ?>
@@ -226,11 +243,13 @@ function bp_core_screen_notification_settings_content() {
 /**** DELETE ACCOUNT ****/
 
 function bp_core_screen_delete_account() {
+	global $bp;
+	
 	if ( isset( $_POST['delete-account-understand'] ) ) {
 		check_admin_referer( 'delete-account' );
 
 		// delete the users account
-		if ( bp_core_delete_account() )
+		if ( bp_core_delete_account( $bp->displayed_user->id ) )
 			bp_core_redirect( site_url() );
 	}
 
@@ -245,9 +264,9 @@ function bp_core_screen_delete_account_title() {
 }
 
 function bp_core_screen_delete_account_content() {
-	global $bp, $current_user, $bp_settings_updated, $pass_error; 	?>
+	global $bp, $bp_settings_updated, $pass_error; 	?>
 
-	<form action="<?php echo $bp->loggedin_user->domain .  BP_SETTINGS_SLUG . '/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
+	<form action="<?php echo $bp->displayed_user->domain .  BP_SETTINGS_SLUG . '/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
 
 		<div id="message" class="info">
 			<p><?php _e( 'WARNING: Deleting your account will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'buddypress' ); ?></p>
