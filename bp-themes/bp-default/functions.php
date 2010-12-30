@@ -477,8 +477,7 @@ if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
  * @see wp_nav_menu()
  * @since 1.3
  */
-function bp_dtheme_main_nav( $args ) {
-?>
+function bp_dtheme_main_nav( $args ) { ?>
 	<ul id="nav">
 		<li<?php if ( is_front_page() ) : ?> class="selected"<?php endif; ?>>
 			<a href="<?php echo home_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
@@ -489,6 +488,46 @@ function bp_dtheme_main_nav( $args ) {
 	</ul><!-- #nav -->
 <?php
 }
+
+/**
+ * Applies BuddyPress customisations to the post comment form.
+ *
+ * @global string $user_identity The display name of the user
+ * @param array $default_labels The default options for strings, fields etc in the form
+ * @see comment_form()
+ * @since 1.3
+ */
+function bp_dtheme_comment_form( $default_labels ) {
+	global $user_identity;
+
+	$commenter = wp_get_current_commenter();
+	$req = get_option( 'require_name_email' );
+	$aria_req = ( $req ? " aria-required='true'" : '' );
+	$fields =  array(
+		'author' => '<p class="comment-form-author">' . '<label for="author">' . __( 'Name' ) . ( $req ? '<span class="required"> *</span>' : '' ) . '</label> ' .
+		            '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /></p>',
+		'email'  => '<p class="comment-form-email"><label for="email">' . __( 'Email' ) . ( $req ? '<span class="required"> *</span>' : '' ) . '</label> ' .
+		            '<input id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></p>',
+		'url'    => '<p class="comment-form-url"><label for="url">' . __( 'Website' ) . '</label>' .
+		            '<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" /></p>',
+	);
+
+	$new_labels = array(
+		'cancel_reply_link'    => '<p id="cancel-comment-reply">' . __( 'Cancel reply', 'buddypress' ) . '</p>',
+		'comment_field'        => '<p class="form-textarea"><label for="comment">' . __( 'Comment', 'buddypress' ) . '</label><textarea name="comment" id="comment" cols="60" rows="10" aria-required="true"></textarea></p>',
+		'comment_notes_after'  => '',
+		'comment_notes_before' => '',
+		'fields'               => apply_filters( 'comment_form_default_fields', $fields ),
+		'logged_in_as'         => '<p class="log-in-out">' . sprintf( __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s">Log out?</a>', 'buddypress' ), bp_loggedin_user_domain(), $user_identity, wp_logout_url( get_permalink() ) ) . '</p>',
+		'must_log_in'          => '<p class="alert">' . sprintf( __( 'You must be <a href="%1$s">logged in</a> to post a comment.', 'buddypress' ), wp_login_url( get_permalink() ) )	. '</p>',
+		'title_reply'          => '<h3 id="reply" class="comments-header">' . __( 'Leave a reply', 'buddypress' ) . '</h3>',
+		'title_reply_to'       => '<h3 id="reply" class="comments-header">' . __( 'Leave a reply to %s', 'buddypress' ) . '</h3>'
+	);
+
+	return apply_filters( 'bp_dtheme_comment_form', array_merge( $default_labels, $new_labels ) );
+}
+add_filter( 'comment_form_defaults', 'bp_dtheme_comment_form', 10 );
+
 
 // Everything beyond this point is deprecated as of BuddyPress 1.3. This will be removed in a future version.
 

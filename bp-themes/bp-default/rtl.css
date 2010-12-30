@@ -344,35 +344,35 @@ a.loading {
 /* > Input Forms
 -------------------------------------------------------------- */
 
-form.standard-form#signup_form div.submit {
+.standard-form#signup_form div.submit {
 	float: left;
 }
 
-form.standard-form#signup_form div.signup-avatar {
+.standard-form#signup_form div.signup-avatar {
 	margin-left: 15px;
 	margin-right: 0;
 }
 
-form.standard-form div.submit input {
+.standard-form div.submit input {
 	margin-left: 15px;
 	margin-right: 0;
 }
 
-form.standard-form div.radio ul {
+.standard-form div.radio ul {
 	margin: 10px 38px 15px 0;
 }
 
-form.standard-form #basic-details-section,
-form.standard-form #blog-details-section,
-form.standard-form #profile-details-section {
+.standard-form #basic-details-section,
+.standard-form #blog-details-section,
+.standard-form #profile-details-section {
 	float: right;
 }
 
-form.standard-form #profile-details-section {
+.standard-form #profile-details-section {
 	float: left;
 }
 
-form.standard-form #blog-details-section {
+.standard-form #blog-details-section {
 	clear: right;
 }
 

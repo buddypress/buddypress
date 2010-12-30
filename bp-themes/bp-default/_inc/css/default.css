@@ -872,7 +872,7 @@ div#message.updated p {
 	border-color: #c4e9bd;
 }
 
-form.standard-form#signup_form div div.error {
+.standard-form#signup_form div div.error {
 	color: #fff;
 	background: #e41717;
 	-moz-border-radius: 3px;
@@ -967,10 +967,10 @@ a.loading {
 /* > Input Forms
 -------------------------------------------------------------- */
 
-form.standard-form textarea,
-form.standard-form input[type=text],
-form.standard-form select,
-form.standard-form input[type=password],
+.standard-form textarea,
+.standard-form input[type=text],
+.standard-form select,
+.standard-form input[type=password],
 .dir-search input[type=text] {
 	border: 1px inset #ccc;
 	-moz-border-radius: 3px;
@@ -982,54 +982,54 @@ form.standard-form input[type=password],
 	color: #888;
 }
 
-form.standard-form select {
+.standard-form select {
 	padding: 3px;
 }
 
-form.standard-form input[type=password] {
+.standard-form input[type=password] {
 	margin-bottom: 5px;
 }
 
-form.standard-form label,
-form.standard-form span.label {
+.standard-form label,
+.standard-form span.label {
 	display: block;
 	font-weight: bold;
 	margin: 15px 0 5px 0;
 }
 
-form.standard-form div.checkbox label,
-form.standard-form div.radio label {
+.standard-form div.checkbox label,
+.standard-form div.radio label {
 	font-weight: normal;
 	margin: 5px 0 0 0;
 	font-size: 14px;
 	color: #888;
 }
 
-form.standard-form#sidebar-login-form label {
+.standard-form#sidebar-login-form label {
 	margin-top: 5px;
 }
 
-form.standard-form input[type=text] {
+.standard-form input[type=text] {
 	width: 75%;
 }
 
-form.standard-form#sidebar-login-form input[type=text],
-form.standard-form#sidebar-login-form input[type=password] {
+.standard-form#sidebar-login-form input[type=text],
+.standard-form#sidebar-login-form input[type=password] {
 	padding: 4px;
 	width: 95%;
 }
 
-form.standard-form #basic-details-section input[type=password],
-form.standard-form #blog-details-section input#signup_blog_url {
+.standard-form #basic-details-section input[type=password],
+.standard-form #blog-details-section input#signup_blog_url {
 	width: 35%;
 }
 
-form.standard-form#signup_form input[type=text],
-form.standard-form#signup_form textarea {
+.standard-form#signup_form input[type=text],
+.standard-form#signup_form textarea {
 	width: 90%;
 }
 
-form.standard-form#signup_form div.submit {
+.standard-form#signup_form div.submit {
 	float: right;
 }
 
@@ -1037,67 +1037,67 @@ div#signup-avatar img {
 	margin: 0 15px 10px 0;
 }
 
-form.standard-form textarea {
+.standard-form textarea {
 	width: 75%;
 	height: 120px;
 }
 
-form.standard-form textarea#message_content {
+.standard-form textarea#message_content {
 	height: 200px;
 }
 
-form.standard-form#send-reply textarea {
+.standard-form#send-reply textarea {
 	width: 97.5%;
 }
 
-form.standard-form p.description {
+.standard-form p.description {
 	font-size: 11px;
 	color: #888;
 	margin: 5px 0;
 }
 
-form.standard-form div.submit {
+.standard-form div.submit {
 	padding: 15px 0;
 	clear: both;
 }
 
-form.standard-form div.submit input {
+.standard-form div.submit input {
 	margin-right: 15px;
 }
 
-form.standard-form div.radio ul {
+.standard-form div.radio ul {
 	margin: 10px 0 15px 38px;
 	list-style: disc;
 }
 
-form.standard-form div.radio ul li {
+.standard-form div.radio ul li {
 	margin-bottom: 5px;
 }
 
-form.standard-form a.clear-value {
+.standard-form a.clear-value {
 	display: block;
 	margin-top: 5px;
 	outline: none;
 }
 
-form.standard-form #basic-details-section,
-form.standard-form #blog-details-section,
-form.standard-form #profile-details-section {
+.standard-form #basic-details-section,
+.standard-form #blog-details-section,
+.standard-form #profile-details-section {
 	float: left;
 	width: 48%;
 }
 
-form.standard-form #profile-details-section {
+.standard-form #profile-details-section {
 	float: right;
 }
 
-form.standard-form #blog-details-section {
+.standard-form #blog-details-section {
 	clear: left;
 }
 
-form.standard-form input:focus,
-form.standard-form textarea:focus,
-form.standard-form select:focus {
+.standard-form input:focus,
+.standard-form textarea:focus,
+.standard-form select:focus {
 	background: #fafafa;
 	color: #555;
 }
