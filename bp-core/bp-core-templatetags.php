@@ -1299,7 +1299,9 @@ function bp_blog_signup_allowed() {
 function bp_account_was_activated() {
 	global $bp;
 
-	return $bp->activation_complete;
+	$activation_complete = !empty( $bp->activation_complete ) ? $bp->activation_complete : false;
+
+	return $activation_complete;
 }
 
 function bp_registration_needs_activation() {

@@ -222,9 +222,9 @@ function bp_core_screen_activation() {
 		/* Activate the signup */
 		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $_GET['key'] ) );
 
-		/* If there was errors, add a message and redirect */
-		if ( $user->errors ) {
-			bp_core_add_message( __( 'There was an error activating your account, please try again.', 'buddypress' ), 'error' );
+		/* If there were errors, add a message and redirect */
+		if ( !empty( $user->errors ) ) {
+			bp_core_add_message( $user->get_error_message(), 'error' );
 			bp_core_redirect( $bp->root_domain . '/' . BP_ACTIVATION_SLUG );
 		}
 
@@ -434,7 +434,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 			'user_email' => $user_email
 		) );
 
-		if ( is_wp_error( $user_id ) || !$user_id ) {
+		if ( empty( $user_id ) ) {
 			$errors->add( 'registerfail', sprintf( __('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !', 'buddypress' ), get_option( 'admin_email' ) ) );
 			return $errors;
 		}
@@ -494,10 +494,9 @@ function bp_core_activate_signup( $key ) {
 	if ( is_multisite() ) {
 		$user = wpmu_activate_signup( $key );
 
-		/* If there was errors, add a message and redirect */
-		if ( $user->errors ) {
-			bp_core_add_message( __( 'There was an error activating your account, please try again.', 'buddypress' ), 'error' );
-			bp_core_redirect( $bp->root_domain . '/' . BP_ACTIVATION_SLUG );
+		/* If there were errors, add a message and redirect */
+		if ( !empty( $user->errors ) ) {
+			return $user;
 		}
 
 		$user_id = $user['user_id'];
