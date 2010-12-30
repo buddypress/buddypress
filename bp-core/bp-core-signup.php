@@ -111,7 +111,7 @@ function bp_core_screen_signup() {
 			$bp->signup->step = 'save-details';
 
 			/* No errors! Let's register those deets. */
-			$active_signup = $bp->site_options['registration'];
+			$active_signup = !empty( $bp->site_options['registration'] ) ? $bp->site_options['registration'] : '';
 
 			if ( 'none' != $active_signup ) {
 
@@ -448,10 +448,11 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 				$profile_field_ids = explode( ',', $usermeta['profile_field_ids'] );
 
 				foreach( (array)$profile_field_ids as $field_id ) {
+					if ( empty( $usermeta["field_{$field_id}"] ) )
+						continue;
+					
 					$current_field = $usermeta["field_{$field_id}"];
-
-					if ( !empty( $current_field ) )
-						xprofile_set_field_data( $field_id, $user_id, $current_field );
+					xprofile_set_field_data( $field_id, $user_id, $current_field );
 				}
 			}
 		}
