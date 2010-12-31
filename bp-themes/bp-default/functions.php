@@ -467,6 +467,7 @@ function bp_dtheme_show_notice() { ?>
 if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
 	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
 
+if ( !function_exists( 'bp_dtheme_main_nav' ) ) :
 /**
  * wp_nav_menu() callback from the main navigation in header.php
  *
@@ -477,17 +478,33 @@ if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
  * @see wp_nav_menu()
  * @since 1.3
  */
-function bp_dtheme_main_nav( $args ) { ?>
+function bp_dtheme_main_nav( $args ) {
+	global $bp;
+
+	$pages_args = array(
+		'title_li' => '',
+		'depth' => '0',
+		'exclude' => bp_dtheme_page_on_front()
+	);
+
+	if ( bp_forum_directory_is_disabled() ) {
+		if ( !empty( $pages_args['exclude'] ) )
+				$pages_args['exclude'] .= ',';
+
+		$pages_args['exclude'] .= $bp->pages->forums->id;
+	}
+?>
 	<ul id="nav">
 		<li<?php if ( is_front_page() ) : ?> class="selected"<?php endif; ?>>
 			<a href="<?php echo home_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
 		</li>
 
-		<?php wp_list_pages( 'title_li=&depth=0&exclude=' . bp_dtheme_page_on_front() ); ?>
-		<?php do_action( 'bp_nav_items' ); ?>
+		<?php wp_list_pages( $pages_args ) ?>
+		<?php do_action( 'bp_nav_items' ) ?>
 	</ul><!-- #nav -->
 <?php
 }
+endif;
 
 /**
  * Applies BuddyPress customisations to the post comment form.

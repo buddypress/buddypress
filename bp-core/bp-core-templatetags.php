@@ -984,19 +984,16 @@ function bp_activation_page() {
  *
  * Only show the search form if there are available objects to search for.
  *
- * @global array $bp
  * @uses function_exists
  * @uses is_multisite()
  * @return bool Filterable result
  */
 function bp_search_form_enabled() {
-	global $bp;
-
 	if ( bp_is_active( 'xprofile' )
 		 || bp_is_active( 'groups' )
 		 || ( bp_is_active( 'blogs' ) && is_multisite() )
-		 || ( function_exists( 'bp_forums_setup' ) && !(int)$bp->site_options['bp-disable-forum-directory'] )
-		) {
+		 || ( bp_is_active( 'forums' ) && !bp_forum_directory_is_disabled() )
+	) {
 		$search_enabled = true;
 	} else {
 		$search_enabled = false;
@@ -1029,7 +1026,7 @@ function bp_search_form_type_select() {
 	if ( bp_is_active( 'groups' ) )
 		$options['groups'] = __( 'Groups', 'buddypress' );
 
-	if ( function_exists( 'bp_forums_is_installed_correctly' ) && bp_forums_is_installed_correctly() && !isset( $bp->site_options['bp-disable-forum-directory'] ) )
+	if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() && !bp_forum_directory_is_disabled() )
 		$options['forums'] = __( 'Forums', 'buddypress' );
 
 	if ( bp_is_active( 'blogs' ) && is_multisite() )

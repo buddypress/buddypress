@@ -50,11 +50,25 @@ function bp_forums_is_installed_correctly() {
 	return false;
 }
 
+/**
+ * Convenience function to determine if the forum directory has been disabled
+ * by the site admin.
+ *
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @return bool True if forum is disabled
+ * @since 1.3
+ */
+function bp_forum_directory_is_disabled() {
+	global $bp;
+
+	return !empty( $bp->site_options['bp-disable-forum-directory'] );
+}
+
 function bp_forums_directory_forums_setup() {
 	global $bp;
 
 	if ( $bp->current_component == $bp->forums->slug ) {
-		if ( (int) $bp->site_options['bp-disable-forum-directory'] || !bp_is_active( 'groups' ) )
+		if ( bp_forum_directory_is_disabled() || !bp_is_active( 'groups' ) )
 			return false;
 
 		if ( !bp_forums_is_installed_correctly() ) {
