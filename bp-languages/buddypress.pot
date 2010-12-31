@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2010-12-30 22:30:22+00:00\n"
+"POT-Creation-Date: 2010-12-31 13:30:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1001,8 +1001,12 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:233
-msgid "Thanks for registering! To complete the activation of your account please click the following link:\\n\\n%s\\n\\n"
+#: bp-core/bp-core-filters.php:233 bp-core/bp-core-signup.php:624
+msgid ""
+"Thanks for registering! To complete the activation of your account please click the following link:\n"
+"\n"
+"%s\n"
+"\n"
 msgstr ""
 
 #: bp-core/bp-core-filters.php:234 bp-core/bp-core-signup.php:625
@@ -1083,14 +1087,6 @@ msgstr ""
 
 #: bp-core/bp-core-signup.php:570
 msgid "%s became a registered member"
-msgstr ""
-
-#: bp-core/bp-core-signup.php:624
-msgid ""
-"Thanks for registering! To complete the activation of your account please click the following link:\n"
-"\n"
-"%s\n"
-"\n"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:194
