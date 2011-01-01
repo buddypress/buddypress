@@ -290,7 +290,7 @@ function bp_group_avatar( $args = '' ) {
 			'height' => false,
 			'class' => 'avatar',
 			'id' => false,
-			'alt' => __( 'Group avatar', 'buddypress' )
+			'alt' => __( 'Group logo of %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -473,7 +473,7 @@ function bp_group_list_admins( $group = false ) {
 		<ul id="group-admins">
 			<?php foreach( (array)$group->admins as $admin ) { ?>
 				<li>
-					<a href="<?php echo bp_core_get_user_domain( $admin->user_id, $admin->user_nicename, $admin->user_login ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'email' => $admin->user_email ) ) ?></a>
+					<a href="<?php echo bp_core_get_user_domain( $admin->user_id, $admin->user_nicename, $admin->user_login ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'email' => $admin->user_email, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?></a>
 				</li>
 			<?php } ?>
 		</ul>
@@ -493,7 +493,7 @@ function bp_group_list_mods( $group = false ) {
 		<ul id="group-mods">
 			<?php foreach( (array)$group->mods as $mod ) { ?>
 				<li>
-					<a href="<?php echo bp_core_get_user_domain( $mod->user_id, $mod->user_nicename, $mod->user_login ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'email' => $mod->user_email ) ) ?></a>
+					<a href="<?php echo bp_core_get_user_domain( $mod->user_id, $mod->user_nicename, $mod->user_login ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'email' => $mod->user_email, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?></a>
 				</li>
 			<?php } ?>
 		</ul>
@@ -736,12 +736,12 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 		<?php foreach ( (array)$admins as $admin ) { ?>
 			<?php if ( $admin_list ) { ?>
 			<li>
-				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) ) ?>
+				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
 				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?>  <span class="small"> &mdash; <a class="confirm admin-demote-to-member" href="<?php bp_group_member_demote_link($admin->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a></span></h5>
 			</li>
 			<?php } else { ?>
 			<li>
-				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb' ) ) ?>
+				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb', 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
 				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?></h5>
 				<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s ago', 'buddypress') ); ?></span>
 
@@ -774,12 +774,12 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 			<?php foreach ( (array)$group_mods as $mod ) { ?>
 				<?php if ( $admin_list ) { ?>
 				<li>
-					<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) ) ?>
+					<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
 					<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => $mod->user_id ) ) ?>" class="confirm mod-promote-to-admin" title="<?php _e( 'Promote to Admin', 'buddypress' ); ?>"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a> | <a class="confirm mod-demote-to-member" href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a></span></h5>
 				</li>
 				<?php } else { ?>
 				<li>
-					<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb' ) ) ?>
+					<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
 					<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?></h5>
 					<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s ago', 'buddypress') ); ?></span>
 
@@ -1441,7 +1441,7 @@ function bp_group_member_avatar() {
 	function bp_get_group_member_avatar() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'full', 'email' => $members_template->member->user_email ) ) );
+		return apply_filters( 'bp_get_group_member_avatar', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'full', 'email' => $members_template->member->user_email, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) );
 	}
 
 function bp_group_member_avatar_thumb() {
@@ -1450,7 +1450,7 @@ function bp_group_member_avatar_thumb() {
 	function bp_get_group_member_avatar_thumb() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'email' => $members_template->member->user_email ) ) );
+		return apply_filters( 'bp_get_group_member_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'email' => $members_template->member->user_email, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) );
 	}
 
 function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
@@ -1459,7 +1459,7 @@ function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
 	function bp_get_group_member_avatar_mini( $width = 30, $height = 30 ) {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar_mini', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'width' => $width, 'height' => $height, 'email' => $members_template->member->user_email ) ) );
+		return apply_filters( 'bp_get_group_member_avatar_mini', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'width' => $width, 'height' => $height, 'email' => $members_template->member->user_email, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) );
 	}
 
 function bp_group_member_name() {
@@ -2116,7 +2116,7 @@ function bp_group_the_membership_request() {
 function bp_group_request_user_avatar_thumb() {
 	global $requests_template;
 
-	echo apply_filters( 'bp_group_request_user_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $requests_template->request->user_id, 'type' => 'thumb' ) ) );
+	echo apply_filters( 'bp_group_request_user_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $requests_template->request->user_id, 'type' => 'thumb', 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) );
 }
 
 function bp_group_request_reject_link() {

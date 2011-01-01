@@ -321,7 +321,7 @@ function bp_member_avatar( $args = '' ) {
 			'height' => false,
 			'class' => 'avatar',
 			'id' => false,
-			'alt' => __( 'Member avatar', 'buddypress' )
+			'alt' => __( 'Profile picture of %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -670,13 +670,14 @@ function bp_loggedin_user_avatar( $args = '' ) {
 			'type'		=> 'thumb',
 			'width'		=> false,
 			'height'	=> false,
-			'html'		=> true
+			'html'		=> true,
+			'alt' => __( 'Profile picture of %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->loggedin_user->id, 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html ) ) );
+		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->loggedin_user->id, 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html, 'alt' => $alt ) ) );
 	}
 
 function bp_displayed_user_avatar( $args = '' ) {
@@ -689,13 +690,14 @@ function bp_displayed_user_avatar( $args = '' ) {
 			'type'		=> 'thumb',
 			'width'		=> false,
 			'height'	=> false,
-			'html'		=> true
+			'html'		=> true,
+			'alt' => __( 'Profile picture of %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html ) ) );
+		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html, 'alt' => $alt ) ) );
 	}
 
 function bp_avatar_admin_step() {

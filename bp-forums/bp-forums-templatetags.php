@@ -287,12 +287,13 @@ function bp_the_topic_poster_avatar( $args = '' ) {
 			'type' => 'thumb',
 			'width' => false,
 			'height' => false,
+			'alt' => __( 'Profile picture of %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_the_topic_poster_avatar', bp_core_fetch_avatar( array( 'item_id' => $forum_template->topic->topic_poster, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_the_topic_poster_avatar', bp_core_fetch_avatar( array( 'item_id' => $forum_template->topic->topic_poster, 'type' => $type, 'width' => $width, 'height' => $height, 'alt' => $alt ) ) );
 	}
 
 function bp_the_topic_poster_name() {
@@ -368,12 +369,13 @@ function bp_the_topic_object_avatar( $args = '' ) {
 			'type' => 'thumb',
 			'width' => false,
 			'height' => false,
+			'alt' => __( 'Group logo for %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_the_topic_object_avatar', bp_core_fetch_avatar( array( 'item_id' => $forum_template->topic->object_id, 'type' => $type, 'object' => 'group', 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_the_topic_object_avatar', bp_core_fetch_avatar( array( 'item_id' => $forum_template->topic->object_id, 'type' => $type, 'object' => 'group', 'width' => $width, 'height' => $height, 'alt' => $alt ) ) );
 	}
 
 function bp_the_topic_last_poster_avatar( $args = '' ) {
@@ -386,12 +388,13 @@ function bp_the_topic_last_poster_avatar( $args = '' ) {
 			'type' => 'thumb',
 			'width' => false,
 			'height' => false,
+			'alt' => __( 'Profile picture of %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_the_topic_last_poster_avatar', bp_core_fetch_avatar( array( 'email' => $forum_template->topic->topic_last_poster_email, 'item_id' => $forum_template->topic->topic_last_poster, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_the_topic_last_poster_avatar', bp_core_fetch_avatar( array( 'email' => $forum_template->topic->topic_last_poster_email, 'item_id' => $forum_template->topic->topic_last_poster, 'type' => $type, 'width' => $width, 'height' => $height, 'alt' => $alt ) ) );
 	}
 
 function bp_the_topic_start_time() {
@@ -908,12 +911,13 @@ function bp_the_topic_post_poster_avatar( $args = '' ) {
 			'type' => 'thumb',
 			'width' => 20,
 			'height' => 20,
+			'alt' => __( 'Profile picture of %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_the_topic_post_poster_avatar', bp_core_fetch_avatar( array( 'item_id' => $topic_template->post->poster_id, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_the_topic_post_poster_avatar', bp_core_fetch_avatar( array( 'item_id' => $topic_template->post->poster_id, 'type' => $type, 'width' => $width, 'height' => $height, 'alt' => $alt ) ) );
 	}
 
 function bp_the_topic_post_poster_name() {

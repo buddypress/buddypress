@@ -456,7 +456,7 @@ function bp_activity_avatar( $args = '' ) {
 			'width'  => 20,
 			'height' => 20,
 			'class'  => 'avatar',
-			'alt'    => __( 'Avatar', 'buddypress' ),
+			'alt'    => __( 'Profile picture of %s', 'buddypress' ),
 			'email'  => false
 		);
 
@@ -502,7 +502,6 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			'width'  => 20,
 			'height' => 20,
 			'class'  => 'avatar',
-			'alt'    => __( 'Avatar', 'buddypress' ),
 			'email'  => false
 		);
 
@@ -514,19 +513,35 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			case 'groups' :
 				$object = 'group';
 				$item_id = $activities_template->activity->item_id;
+
+				if ( !$alt )
+					$alt = __( 'Group logo of %s', 'buddypress' );
+
 				break;
 			case 'blogs' :
 				$object = 'blog';
 				$item_id = $activities_template->activity->item_id;
+
+				if ( !$alt )
+					$alt = sprintf( __( 'Blog authored by %s', 'buddypress' ), get_blog_option( $item_id, 'blogname' ) );
+
 				break;
 			case 'friends' :
 				$object  = 'user';
 				$item_id = $activities_template->activity->secondary_item_id;
+
+				if ( !$alt )
+					$alt = __( 'Profile picture of %s', 'buddypress' );
+
 				break;
 			default :
 				$object  = 'user';
 				$item_id = $activities_template->activity->user_id;
 				$email = $activities_template->activity->user_email;
+
+				if ( !$alt )
+					$alt = __( 'Profile picture of %s', 'buddypress' );
+
 				break;
 		}
 

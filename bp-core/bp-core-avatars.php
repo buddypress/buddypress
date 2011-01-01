@@ -52,8 +52,8 @@ add_action( 'bp_loaded', 'bp_core_set_avatar_constants', 8 );
  * Fetches an avatar from a BuddyPress object. Supports user/group/blog as
  * default, but can be extended to include your own custom components too.
  *
- * @global object $bp
- * @global object $current_blog
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals() 
+ * @global $current_blog WordPress global containing information and settings for the current blog being viewed. 
  * @param array $args Determine the output of this function
  * @return string Formatted HTML <img> element, or raw avatar URL based on $html arg
  */
@@ -61,25 +61,26 @@ function bp_core_fetch_avatar( $args = '' ) {
 	global $bp, $current_blog;
 
 	// Set a few default variables
-	$def_object		= 'user';
-	$def_type		= 'thumb';
-	$def_class		= 'avatar';
-	$def_alt		= __( 'Avatar Image', 'buddypress' );
+	$def_object = 'user';
+	$def_type   = 'thumb';
+	$def_class  = 'avatar';
+	$def_alt    = __( 'Avatar Image', 'buddypress' );
 
 	// Set the default variables array
 	$defaults = array(
-		'item_id'		=> false,
-		'object'		=> $def_object,	// user/group/blog/custom type (if you use filters)
-		'type'			=> $def_type,	// thumb or full
-		'avatar_dir'	=> false,		// Specify a custom avatar directory for your object
-		'width'			=> false,		// Custom width (int)
-		'height'		=> false,		// Custom height (int)
-		'class'			=> $def_class,	// Custom <img> class (string)
-		'css_id'		=> false,		// Custom <img> ID (string)
-		'alt'			=> $def_alt,	// Custom <img> alt (string)
-		'email'			=> false,		// Pass the user email (for gravatar) to prevent querying the DB for it
-		'no_grav'		=> false,		// If there is no avatar found, return false instead of a grav?
-		'html'			=> true			// Wrap the return img URL in <img />
+		'item_id'    => false,
+		'object'     => $def_object, // user/group/blog/custom type (if you use filters)
+		'type'       => $def_type,   // thumb or full
+		'avatar_dir' => false,       // Specify a custom avatar directory for your object
+		'width'      => false,       // Custom width (int)
+		'height'     => false,       // Custom height (int)
+		'class'      => $def_class,  // Custom <img> class (string)
+		'css_id'     => false,       // Custom <img> ID (string)
+		'alt'        => $def_alt,    // Custom <img> alt (string)
+		'email'      => false,       // Pass the user email (for gravatar) to prevent querying the DB for it
+		'no_grav'    => false,       // If there is no avatar found, return false instead of a grav?
+		'html'       => true,        // Wrap the return img URL in <img />
+		'title'      => ''           // Custom <img> title (string)
 	);
 
 	// Compare defaults to passed and extract
@@ -97,7 +98,8 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 		$item_id = apply_filters( 'bp_core_avatar_item_id', $item_id, $object );
 
-		if ( !$item_id ) return false;
+		if ( !$item_id )
+			return false;
 	}
 
 	// Set avatar_dir if not passed (uses $object)
@@ -111,11 +113,30 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 		$avatar_dir = apply_filters( 'bp_core_avatar_dir', $avatar_dir, $object );
 
-		if ( !$avatar_dir ) return false;
+		if ( !$avatar_dir )
+			return false;
 	}
 
 	// Add an identifying class to each item
 	$class .= ' ' . $object . '-' . $item_id . '-avatar';
+
+	// Get item name for alt/title tags
+	$item_name = '';
+
+	if ( 'user' == $object )
+		$item_name = bp_core_get_user_displayname( $item_id );
+	elseif ( 'group' == $object )
+		$item_name = bp_get_group_name( new BP_Groups_Group( $item_id ) );
+	elseif ( 'blog' == $object )
+		$item_name = get_blog_option( $item_id, 'blogname' );
+
+	$alt = sprintf( $alt, apply_filters( 'bp_core_avatar_alt', $item_name, $item_id, $object ) );
+
+	// Set title tag
+	if ( $title )
+		$title = " title='" . esc_attr( apply_filters( 'bp_core_avatar_title', $title, $item_id, $object ) ) . "'";
+	elseif ( $item_name )
+		$title = " title='" . esc_attr( apply_filters( 'bp_core_avatar_title', $item_name, $item_id, $object ) ) . "'";
 
 	// Set CSS ID if passed
 	if ( !empty( $css_id ) )
@@ -195,7 +216,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 			// Return it wrapped in an <img> element
 			if ( true === $html ) {
-				return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $avatar_url . '" alt="' . $alt . '" class="' . $class . '"' . $css_id . $html_width . $html_height . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+				return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $avatar_url . '" alt="' . esc_attr( $alt ) . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 
 			// ...or only the URL
 			} else {
@@ -246,7 +267,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 		// Return gravatar wrapped in <img />
 		if ( true === $html )
-			return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" alt="' . $alt . '" class="' . $class . '"' . $css_id . $html_width . $html_height . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+			return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" alt="' . esc_attr( $alt ) . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 
 		// ...or only return the gravatar URL
 		else
@@ -504,6 +525,9 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt ) {
 	// If somehow $id hasn't been assigned, return the result of get_avatar
 	if ( empty( $id ) )
 		return !empty( $avatar ) ? $avatar : $default;
+
+	if ( !$alt ) 
+		$alt = __( 'Avatar of %s', 'buddypress' ); 
 
 	// Let BuddyPress handle the fetching of the avatar
 	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $id, 'width' => $size, 'height' => $size, 'alt' => $alt ) );

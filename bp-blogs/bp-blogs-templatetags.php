@@ -199,7 +199,7 @@ function bp_blog_avatar( $args = '' ) {
 			'height' => false,
 			'class' => 'avatar',
 			'id' => false,
-			'alt' => __( 'Blog avatar', 'buddypress' ),
+			'alt' => __( 'Blog authored by %s', 'buddypress' ),
 			'no_grav' => true
 		);
 
