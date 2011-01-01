@@ -356,7 +356,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 		$user_id = (int)$post->post_author;
 
 	// This is to stop infinite loops with Donncha's sitewide tags plugin
-	if ( (int)$blog_id == (int)$bp->site_options['tags_blog_id'] )
+	if ( !empty( $bp->site_options['tags_blog_id'] ) && (int)$blog_id == (int)$bp->site_options['tags_blog_id'] )
 		return false;
 
 	// Don't record this if it's not a post
@@ -367,7 +367,13 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 			// Record this in activity streams
 			$post_permalink   = get_permalink( $post_id );
-			$activity_action  = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
+			
+			if ( is_multisite() ) {
+				$activity_action  = sprintf( __( '%s wrote a new blog post: %s on the blog %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
+			} else {
+				$activity_action  = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
+			}
+
 			$activity_content = $post->post_content;
 
 			bp_blogs_record_activity( array(
@@ -385,7 +391,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 		// Update the blogs last activity
 		bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
 	} else {
-		bp_blogs_remove_post( $post_id, $blog_id );
+		bp_blogs_remove_post( $post_id, $blog_id, $user_id );
 	}
 
 	do_action( 'bp_blogs_new_blog_post', $post_id, $post, $user_id );
@@ -442,9 +448,14 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		$comment_link   = htmlspecialchars( get_comment_link( $recorded_comment->comment_ID ) );
 
 		// Prepare to record in activity streams
-		$activity_action	= sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>' );
+		if ( is_multisite() ) {
+			$activity_action	= sprintf( __( '%s commented on the blog post %s on the blog %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
+		} else {
+			$activity_action	= sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>' );
+		}
+		
 		$activity_content	= $recorded_comment->comment_content;
-
+		
 		// Record in activity streams
 		bp_blogs_record_activity( array(
 			'user_id'           => $user_id,
@@ -537,7 +548,7 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 }
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
 
-function bp_blogs_remove_post( $post_id, $blog_id = false ) {
+function bp_blogs_remove_post( $post_id, $blog_id = false, $user_id = false ) {
 	global $current_blog, $bp;
 
 	$post_id = (int)$post_id;
@@ -545,10 +556,13 @@ function bp_blogs_remove_post( $post_id, $blog_id = false ) {
 	if ( !$blog_id )
 		$blog_id = (int)$current_blog->blog_id;
 
+	if ( !$user_id )
+		$user_id = $bp->loggedin_user->id;
+
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'secondary_item_id' => $post_id, 'component' => $bp->blogs->slug, 'type' => 'new_blog_post' ) );
 
-	do_action( 'bp_blogs_remove_post', $blog_id, $post_id, $post->user_id );
+	do_action( 'bp_blogs_remove_post', $blog_id, $post_id, $user_id );
 }
 add_action( 'delete_post', 'bp_blogs_remove_post' );
 
