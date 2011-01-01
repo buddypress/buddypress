@@ -251,9 +251,12 @@ function bp_core_get_page_names() {
 
 	if ( empty( $page_ids ) )
 		return false;
+		
+	$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'posts' : $wpdb->posts;
 
 	$page_ids_sql = implode( ',', (array)$page_ids );
-	$page_names = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$wpdb->posts} WHERE ID IN ({$page_ids_sql}) " ) );
+
+	$page_names = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) " ) );
 	$pages = new stdClass;
 
 	foreach ( (array)$page_ids as $key => $page_id ) {
@@ -266,7 +269,7 @@ function bp_core_get_page_names() {
 
 				/* Get the slug */
 				while ( $page_name->post_parent != 0 ) {
-					$parent = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$wpdb->posts} WHERE ID = %d", $page_name->post_parent ) );
+					$parent = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
 					$slug[] = $parent[0]->post_name;
 					$page_name->post_parent = $parent[0]->post_parent;
 				}

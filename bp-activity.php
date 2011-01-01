@@ -984,7 +984,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
 	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
 	$content = preg_replace('/<img[^>]*>/Ui', '', $content );
 
-	if ( !empty( $matches ) ) {
+	if ( !empty( $matches ) && !empty( $matches[0] ) ) {
 		/* Get the SRC value */
 		preg_match( '/<img.*?(src\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $src );
 
