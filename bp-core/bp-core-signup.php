@@ -384,6 +384,9 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 	if ( !is_email( $user_email ) )
 		$errors->add( 'user_email', __( 'Please check your email address.', 'buddypress' ) );
+	
+	if ( function_exists( 'is_email_address_unsafe' ) && is_email_address_unsafe( $user_email ) )
+		$errors->add( 'user_email',  __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
 
 	$limited_email_domains = get_site_option( 'limited_email_domains', 'buddypress' );
 
