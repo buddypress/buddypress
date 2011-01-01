@@ -25,8 +25,8 @@ function xprofile_setup_globals() {
 		define ( 'BP_XPROFILE_SLUG', 'profile' );
 
 	/* Assign the base group and fullname field names to constants to use in SQL statements */
-	define ( 'BP_XPROFILE_BASE_GROUP_NAME', $bp->site_options['bp-xprofile-base-group-name'] );
-	define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', $bp->site_options['bp-xprofile-fullname-field-name'] );
+	define ( 'BP_XPROFILE_BASE_GROUP_NAME', stripslashes( $bp->site_options['bp-xprofile-base-group-name'] ) );
+	define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', stripslashes( $bp->site_options['bp-xprofile-fullname-field-name'] ) );
 
 	/* For internal identification */
 	$bp->profile->id = 'profile';

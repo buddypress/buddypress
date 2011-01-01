@@ -35,13 +35,10 @@ function bp_core_admin_settings() {
 		foreach ( (array)$_POST['bp-admin'] as $key => $value ) {
 
 			if ( bp_is_active( 'xprofile' ) ) {
-				if ( 'bp-xprofile-base-group-name' == $key ) {
-					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s WHERE id = 1", $value ) );
-				}
-
-				if ( 'bp-xprofile-fullname-field-name' == $key ) {
-					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET name = %s WHERE group_id = 1 AND id = 1", $value ) );
-				}
+				if ( 'bp-xprofile-base-group-name' == $key )
+					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s WHERE id = 1", stripslashes( $value ) ) );
+				elseif ( 'bp-xprofile-fullname-field-name' == $key )
+					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET name = %s WHERE group_id = 1 AND id = 1", stripslashes( $value ) ) );
 			}
 
 			update_site_option( $key, $value );
@@ -67,13 +64,13 @@ function bp_core_admin_settings() {
 				<tr>
 					<th scope="row"><?php _e( 'Base profile group name', 'buddypress' ) ?>:</th>
 					<td>
-						<input name="bp-admin[bp-xprofile-base-group-name]" id="bp-xprofile-base-group-name" value="<?php echo get_site_option('bp-xprofile-base-group-name') ?>" />
+						<input name="bp-admin[bp-xprofile-base-group-name]" id="bp-xprofile-base-group-name" value="<?php echo esc_attr( stripslashes( get_site_option( 'bp-xprofile-base-group-name' ) ) ) ?>" />
 					</td>
 				</tr>
 				<tr>
 					<th scope="row"><?php _e( 'Full Name field name', 'buddypress' ) ?>:</th>
 					<td>
-						<input name="bp-admin[bp-xprofile-fullname-field-name]" id="bp-xprofile-fullname-field-name" value="<?php echo get_site_option('bp-xprofile-fullname-field-name') ?>" />
+						<input name="bp-admin[bp-xprofile-fullname-field-name]" id="bp-xprofile-fullname-field-name" value="<?php echo esc_attr( stripslashes( get_site_option( 'bp-xprofile-fullname-field-name' ) ) ) ?>" />
 					</td>
 				</tr>
 				<tr>

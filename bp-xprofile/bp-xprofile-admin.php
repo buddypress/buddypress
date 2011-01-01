@@ -47,7 +47,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 			<a id="add_group" class="button add-new-h2" href="admin.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ); ?></a>
 		</h2>
 		<p><?php _e( 'Your users will distinguish themselves through their profile page. You must give them profile fields that allow them to describe themselves in a way that is relevant to the theme of your social network.', 'buddypress'); ?></p>
-		<p><?php echo sprintf( __( 'NOTE: Any fields in the "%s" group will appear on the signup page.', 'buddypress' ), get_site_option( 'bp-xprofile-base-group-name' ) ); ?></p>
+		<p><?php echo sprintf( __( 'NOTE: Any fields in the "%s" group will appear on the signup page.', 'buddypress' ), esc_html( stripslashes( get_site_option( 'bp-xprofile-base-group-name' ) ) ) ) ?></p>
 
 		<form action="" id="profile-field-form" method="post">
 			<?php wp_nonce_field( 'bp_reorder_fields', '_wpnonce_reorder_fields' ); ?>
