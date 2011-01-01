@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-01 18:30:26+00:00\n"
+"POT-Creation-Date: 2011-01-01 19:30:24+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1006,7 +1006,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:233 bp-core/bp-core-signup.php:624
+#: bp-core/bp-core-filters.php:233 bp-core/bp-core-signup.php:627
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1014,7 +1014,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:234 bp-core/bp-core-signup.php:625
+#: bp-core/bp-core-filters.php:234 bp-core/bp-core-signup.php:628
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1070,27 +1070,27 @@ msgstr ""
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:394
+#: bp-core/bp-core-signup.php:389 bp-core/bp-core-signup.php:397
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:399
+#: bp-core/bp-core-signup.php:402
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:403
+#: bp-core/bp-core-signup.php:406
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:438
+#: bp-core/bp-core-signup.php:441
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:523 bp-core/bp-core-signup.php:527
+#: bp-core/bp-core-signup.php:526 bp-core/bp-core-signup.php:530
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:570
+#: bp-core/bp-core-signup.php:573
 msgid "%s became a registered member"
 msgstr ""
 
