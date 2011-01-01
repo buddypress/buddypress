@@ -227,8 +227,8 @@ function bp_adminbar_authors_menu() {
 	// Hide on root blog
 	if ( $current_blog->blog_id == BP_ROOT_BLOG || !bp_is_active( 'blogs' ) )
 		return false;
-
-	$blog_prefix = $wpdb->get_blog_prefix( $current_blog->id );
+		
+	$blog_prefix = $wpdb->get_blog_prefix( $current_blog->blog_id );
 	$authors     = $wpdb->get_results( "SELECT user_id, user_login, user_nicename, display_name, user_email, meta_value as caps FROM $wpdb->users u, $wpdb->usermeta um WHERE u.ID = um.user_id AND meta_key = '{$blog_prefix}capabilities' ORDER BY um.user_id" );
 
 	if ( !empty( $authors ) ) {
