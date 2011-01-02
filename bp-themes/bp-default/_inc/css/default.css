@@ -20,11 +20,6 @@ body {
 	padding-top: 0 !important; /* Remove the top padding space for the admin bar in this theme */
 }
 
-body.activity-permalink {
-	min-width: 960px;
-	max-width: 960px;
-}
-
 h1,
 h2,
 h3,
@@ -1371,6 +1366,10 @@ ul.activity-list li.has-comments {
 	width: 40px;
 	height: 40px;
 	margin-left: 20px;
+}
+
+body.activity-permalink .activity-list > li:first-child {
+	padding-top: 0;
 }
 
 body.activity-permalink .activity-list li .activity-avatar img.avatar,

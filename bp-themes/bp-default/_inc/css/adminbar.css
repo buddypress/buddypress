@@ -27,11 +27,6 @@ body#bp-default #wp-admin-bar .padder {
 	max-width: 1250px;
 }
 
-body#bp-default.activity-permalink #wp-admin-bar .padder {
-	min-width: 960px;
-	max-width: 960px;
-}
-
 #wp-admin-bar * {
 	z-index: 999;
 }
