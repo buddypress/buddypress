@@ -514,7 +514,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$object = 'group';
 				$item_id = $activities_template->activity->item_id;
 
-				if ( !$alt )
+				if ( empty( $alt ) )
 					$alt = __( 'Group logo of %s', 'buddypress' );
 
 				break;
@@ -530,7 +530,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$object  = 'user';
 				$item_id = $activities_template->activity->secondary_item_id;
 
-				if ( !$alt )
+				if ( empty( $alt ) )
 					$alt = __( 'Profile picture of %s', 'buddypress' );
 
 				break;
