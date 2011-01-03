@@ -255,7 +255,7 @@ Class BP_Groups_Group {
 		return array( 'requests' => $paged_requests, 'total' => $total_requests );
 	}
 
-	function get( $type = 'newest', $per_page = null, $page = null, $user_id = false, $search_terms = false, $include = false, $populate_extras = true, $exclude = false ) {
+	function get( $type = 'newest', $per_page = null, $page = null, $user_id = false, $search_terms = false, $include = false, $populate_extras = true, $exclude = false, $show_hidden = false ) {
 		global $wpdb, $bp;
 
 		$sql = array();
@@ -273,7 +273,7 @@ Class BP_Groups_Group {
 
 		$sql['where'] = " g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'";
 
-		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
+		if ( !$show_hidden )
 			$sql['hidden'] = " AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
@@ -1153,8 +1153,8 @@ class BP_Group_Extension {
 			// Catch the edit screen and forward it to the plugin template
 			if ( $bp->current_component == $bp->groups->slug && 'admin' == $bp->current_action && !empty( $bp->action_variables[0] ) && $this->slug == $bp->action_variables[0] ) {
 				// Check whether the user is saving changes
-				$this->edit_screen_save();		
-				
+				$this->edit_screen_save();
+
 				add_action( 'groups_custom_edit_steps', array( &$this, 'edit_screen' ) );
 
 				if ( '' != locate_template( array( 'groups/single/home.php' ), false ) ) {

@@ -22,11 +22,14 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 
-	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude ) {
+	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude, $show_hidden ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+
+		if ( $bp->loggedin_user->is_super_admin || ( is_user_logged_in() && $user_id == $bp->loggedin_user->id ) )
+			$show_hidden = true;
 
 		if ( 'invites' == $type ) {
 			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page, $exclude );
@@ -35,7 +38,7 @@ class BP_Groups_Template {
 			$group->group_id = BP_Groups_Group::get_id_from_slug( $slug );
 			$this->groups    = array( $group );
 		} else {
-			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'include' => $include, 'exclude' => $exclude, 'populate_extras' => $populate_extras ) );
+			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'include' => $include, 'exclude' => $exclude, 'populate_extras' => $populate_extras, 'show_hidden' => $show_hidden ) );
 		}
 
 		if ( 'invites' == $type ) {
@@ -136,10 +139,9 @@ function bp_has_groups( $args = '' ) {
 	 * if arguments are directly passed into the loop. Custom plugins should always
 	 * pass their parameters directly to the loop.
 	 */
-	$type = 'active';
-	$user_id = false;
-	$search_terms = null;
 	$slug = false;
+	$type = 'active';
+	$user_id = 0;
 
 	/* User filtering */
 	if ( !empty( $bp->displayed_user->id ) )
@@ -164,10 +166,11 @@ function bp_has_groups( $args = '' ) {
 		'page' => 1,
 		'per_page' => 20,
 		'max' => false,
+		'show_hidden' => false,
 
 		'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
 		'slug' => $slug, // Pass a group slug to only return that group
-		'search_terms' => $search_terms, // Pass search terms to return only matching groups
+		'search_terms' => '', // Pass search terms to return only matching groups
 		'include' => false, // Pass comma separated list of group ID's to return only these groups
 		'exclude' => false, // Pass comma separated list of group ID's to exclude these groups
 
@@ -186,7 +189,7 @@ function bp_has_groups( $args = '' ) {
 			$search_terms = false;
 	}
 
-	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, $include, (bool)$populate_extras, $exclude );
+	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, $include, (bool)$populate_extras, $exclude, $show_hidden );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template );
 }
 
@@ -1871,8 +1874,8 @@ function bp_new_group_invite_friend_list() {
 function bp_directory_groups_search_form() {
 	global $bp;
 
-	$default_search_value = bp_get_search_default_text(); 
-	$search_value = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; 
+	$default_search_value = bp_get_search_default_text();
+	$search_value = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
 
 ?>
 	<form action="" method="get" id="search-groups-form">

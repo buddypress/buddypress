@@ -47,7 +47,7 @@ function groups_setup_globals() {
 	$bp->groups->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) ? false : true;
 
 	// The default text for the groups directory search box
-        $bp->default_search_strings[$bp->groups->slug] = __( 'Search Groups...', 'buddypress' ); 
+        $bp->default_search_strings[$bp->groups->slug] = __( 'Search Groups...', 'buddypress' );
 
 	do_action( 'groups_setup_globals' );
 }
@@ -1819,6 +1819,7 @@ function groups_get_groups( $args = '' ) {
 		'include' => false, // Only include these specific groups (group_ids)
 		'exclude' => false, // Do not include these specific groups (group_ids)
 		'search_terms' => false, // Limit to groups that match these search terms
+		'show_hidden' => false, // Show hidden groups to non-admins
 
 		'per_page' => 20, // The number of results to return per page
 		'page' => 1, // The page to return if limiting per page
@@ -1828,7 +1829,7 @@ function groups_get_groups( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	$groups = BP_Groups_Group::get( $type, $per_page, $page, $user_id, $search_terms, $include, $populate_extras, $exclude );
+	$groups = BP_Groups_Group::get( $type, $per_page, $page, $user_id, $search_terms, $include, $populate_extras, $exclude, $show_hidden );
 
 	return apply_filters( 'groups_get_groups', $groups, &$params );
 }
