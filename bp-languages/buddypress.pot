@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-04 13:30:29+00:00\n"
+"POT-Creation-Date: 2011-01-04 19:30:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1161,7 +1161,7 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:763 bp-themes/bp-default/functions.php:524
+#: bp-core/bp-core-templatetags.php:763 bp-themes/bp-default/functions.php:534
 msgid "Name"
 msgstr ""
 
@@ -1169,7 +1169,7 @@ msgstr ""
 msgid "About Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:783 bp-themes/bp-default/functions.php:528
+#: bp-core/bp-core-templatetags.php:783 bp-themes/bp-default/functions.php:538
 msgid "Website"
 msgstr ""
 
@@ -1190,7 +1190,7 @@ msgid "%1$s at %2$s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:897 bp-groups.php:136
-#: bp-themes/bp-default/functions.php:499 bp-themes/bp-default/header.php:21
+#: bp-themes/bp-default/header.php:21
 msgid "Home"
 msgstr ""
 
@@ -3571,31 +3571,31 @@ msgstr ""
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:526
+#: bp-themes/bp-default/functions.php:536
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:533
+#: bp-themes/bp-default/functions.php:543
 msgid "Cancel reply"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:534
+#: bp-themes/bp-default/functions.php:544
 msgid "Comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:538
+#: bp-themes/bp-default/functions.php:548
 msgid "Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\">Log out?</a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:539
+#: bp-themes/bp-default/functions.php:549
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:540
+#: bp-themes/bp-default/functions.php:550
 msgid "Leave a reply"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:541
+#: bp-themes/bp-default/functions.php:551
 msgid "Leave a reply to %s"
 msgstr ""
 
