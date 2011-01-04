@@ -833,12 +833,14 @@ function bp_exists( $component_name ) {
 	return false;
 }
 
-function bp_format_time( $time, $just_date = false ) {
-	if ( !$time )
+function bp_format_time( $time, $just_date = false, $localize_time = true ) {
+	if ( !isset( $time ) || !is_numeric( $time ) )
 		return false;
 
 	// Get GMT offset from root blog
-	$root_blog_offset = get_blog_option( BP_ROOT_BLOG, 'gmt_offset' );
+	$root_blog_offset = false;
+	if ( $localize_time )
+		$root_blog_offset = get_blog_option( BP_ROOT_BLOG, 'gmt_offset' );
 
 	// Calculate offset time
 	$time_offset = $time + ( $root_blog_offset * 3600 );
@@ -849,7 +851,7 @@ function bp_format_time( $time, $just_date = false ) {
 	// Should we show the time also?
 	if ( !$just_date ) {
 		// Current time (9:50pm)
-		$time = date_i18n( ' g:ia', $time_offset );
+		$time = date_i18n( get_option( 'time_format' ), $time_offset );
 
 		// Return string formatted with date and time
 		$date = sprintf( __( '%1$s at %2$s', 'buddypress' ), $date, $time );

@@ -101,7 +101,7 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 		return false;
 
 	if ( 'datebox' == $field_type )
-		$field_value = bp_format_time( $field_value, true );
+		$field_value = bp_format_time( $field_value, true, false );
 	else
 		$field_value = str_replace(']]>', ']]&gt;', $field_value );
 
