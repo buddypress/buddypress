@@ -368,13 +368,12 @@ function bp_forums_delete_topic( $args = '' ) {
 }
 
 function bp_forums_total_topic_count() {
+	global $bbdb;
+
 	do_action( 'bbpress_init' );
 
-	$query = new BB_Query( 'topic', array( 'page' => 1, 'per_page' => -1, 'count' => true ) );
-	$count = $query->count;
-	$query = null;
-
-	return $count;
+	$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t". groups_add_forum_tables_sql( '' ) . " WHERE " . groups_add_forum_where_sql( "t.topic_status = '0'" ) ) );
+	return apply_filters( 'bp_forums_total_topic_count', count( (array)$count ) );
 }
 
 function bp_forums_total_topic_count_for_user( $user_id = false ) {
