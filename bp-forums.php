@@ -90,6 +90,7 @@ function bp_forums_directory_forums_setup() {
 				if ( !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->groups->current_group->id );
 
+				$error_message = '';
 				if ( $forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) ) {
 					if ( empty( $_POST['topic_title'] ) )
 						$error_message = __( 'Please provide a title for your forum topic.', 'buddypress' );
