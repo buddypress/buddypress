@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-04 19:30:31+00:00\n"
+"POT-Creation-Date: 2011-01-04 20:30:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -247,7 +247,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-templatetags.php:513 bp-core/bp-core-templatetags.php:463
 #: bp-core/bp-core-templatetags.php:1091
 #: bp-groups/bp-groups-templatetags.php:1883
-#: bp-forums/bp-forums-templatetags.php:1041 bp-themes/bp-default/header.php:35
+#: bp-forums/bp-forums-templatetags.php:1041 bp-themes/bp-default/header.php:40
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -265,27 +265,27 @@ msgstr ""
 msgid "The forums component has not been set up yet."
 msgstr ""
 
-#: bp-forums.php:95 bp-groups.php:508
+#: bp-forums.php:96 bp-groups.php:508
 msgid "Please provide a title for your forum topic."
 msgstr ""
 
-#: bp-forums.php:97 bp-groups.php:510
+#: bp-forums.php:98 bp-groups.php:510
 msgid "Forum posts cannot be empty. Please enter some text."
 msgstr ""
 
-#: bp-forums.php:104 bp-groups.php:517
+#: bp-forums.php:105 bp-groups.php:517
 msgid "There was an error when creating the topic"
 msgstr ""
 
-#: bp-forums.php:107 bp-groups.php:520
+#: bp-forums.php:108 bp-groups.php:520
 msgid "The topic was created successfully"
 msgstr ""
 
-#: bp-forums.php:115
+#: bp-forums.php:116
 msgid "Please pick the group forum where you would like to post this topic."
 msgstr ""
 
-#: bp-forums.php:136 bp-forums/bp-forums-admin.php:8
+#: bp-forums.php:137 bp-forums/bp-forums-admin.php:8
 msgid "Forums Setup"
 msgstr ""
 
@@ -1161,7 +1161,7 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:763 bp-themes/bp-default/functions.php:534
+#: bp-core/bp-core-templatetags.php:763 bp-themes/bp-default/functions.php:523
 msgid "Name"
 msgstr ""
 
@@ -1169,7 +1169,7 @@ msgstr ""
 msgid "About Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:783 bp-themes/bp-default/functions.php:538
+#: bp-core/bp-core-templatetags.php:783 bp-themes/bp-default/functions.php:527
 msgid "Website"
 msgstr ""
 
@@ -1190,7 +1190,7 @@ msgid "%1$s at %2$s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:897 bp-groups.php:136
-#: bp-themes/bp-default/header.php:21
+#: bp-themes/bp-default/header.php:26
 msgid "Home"
 msgstr ""
 
@@ -2270,7 +2270,7 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:399
 #: bp-forums/bp-forums-templatetags.php:984
-#: bp-themes/bp-default/functions.php:407
+#: bp-themes/bp-default/functions.php:396
 msgid "Edit"
 msgstr ""
 
@@ -3555,47 +3555,47 @@ msgstr ""
 msgid "The fourth footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:395
+#: bp-themes/bp-default/functions.php:384
 msgid "said:"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:396
+#: bp-themes/bp-default/functions.php:385
 msgid "On"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:400
+#: bp-themes/bp-default/functions.php:389
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:461
+#: bp-themes/bp-default/functions.php:450
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:536
+#: bp-themes/bp-default/functions.php:525
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:543
+#: bp-themes/bp-default/functions.php:532
 msgid "Cancel reply"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:544
+#: bp-themes/bp-default/functions.php:533
 msgid "Comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:548
+#: bp-themes/bp-default/functions.php:537
 msgid "Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\">Log out?</a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:549
+#: bp-themes/bp-default/functions.php:538
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:550
+#: bp-themes/bp-default/functions.php:539
 msgid "Leave a reply"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:551
+#: bp-themes/bp-default/functions.php:540
 msgid "Leave a reply to %s"
 msgstr ""
 
