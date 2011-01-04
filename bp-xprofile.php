@@ -225,7 +225,7 @@ function xprofile_screen_edit_profile() {
 		foreach ( (array)$posted_field_ids as $field_id ) {
 			if ( !isset( $_POST['field_' . $field_id] ) ) {
 
-				if ( is_numeric( $_POST['field_' . $field_id . '_day'] ) ) {
+				if ( !empty( $_POST['field_' . $field_id . '_day'] ) && is_numeric( $_POST['field_' . $field_id . '_day'] ) ) {
 					/* Concatenate the values. */
 					$date_value = $_POST['field_' . $field_id . '_day'] . ' ' .
 							      $_POST['field_' . $field_id . '_month'] . ' ' .
@@ -250,10 +250,17 @@ function xprofile_screen_edit_profile() {
 
 			/* Now we've checked for required fields, lets save the values. */
 			foreach ( (array)$posted_field_ids as $field_id ) {
-				if ( !xprofile_set_field_data( $field_id, $bp->displayed_user->id, $_POST['field_' . $field_id], $is_required[$field_id] ) )
+				
+				// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.
+				if ( empty( $_POST['field_' . $field_id] ) )
+					$value = array();
+				else
+					$value = $_POST['field_' . $field_id];
+					
+				if ( !xprofile_set_field_data( $field_id, $bp->displayed_user->id, $value, $is_required[$field_id] ) )
 					$errors = true;
 				else
-					do_action( 'xprofile_profile_field_data_updated', $field_id, $_POST['field_' . $field_id] );
+					do_action( 'xprofile_profile_field_data_updated', $field_id, $value );
 			}
 
 			do_action( 'xprofile_updated_profile', $bp->displayed_user->id, $posted_field_ids, $errors );
@@ -667,13 +674,14 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	if ( $is_required && ( empty( $value ) || !is_array( $value ) && !strlen( trim( $value ) ) ) )
 		return false;
 
-	/* If the value is empty, then delete any field data that exists */
-	if ( empty( $value ) ) {
+	$field = new BP_XProfile_Field( $field_id );
+
+	// If the value is empty, then delete any field data that exists, unless the field is of a
+	// type where null values are semantically meaningful
+	if ( empty( $value ) && 'checkbox' != $field->type && 'multiselectbox' != $field->type ) {
 		xprofile_delete_field_data( $field_id, $user_id );
 		return true;
 	}
-
-	$field = new BP_XProfile_Field( $field_id );
 
 	/* Check the value is an acceptable value */
 	if ( 'checkbox' == $field->type || 'radio' == $field->type || 'selectbox' == $field->type || 'multiselectbox' == $field->type ) {
@@ -687,9 +695,6 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 				if ( !in_array( $single, (array)$possible_values ) )
 					unset( $value[$i] );
 			}
-
-			if ( empty( $value ) )
-				return false;
 
 			/* Reset the keys by merging with an empty array */
 			$value = array_merge( array(), $value );
