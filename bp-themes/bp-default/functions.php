@@ -473,8 +473,8 @@ if ( !function_exists( 'bp_dtheme_main_nav' ) ) :
  *
  * Used when the custom menus haven't been configured.
  *
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @param array Menu arguments from wp_nav_menu()
- * @package BuddyPress Theme
  * @see wp_nav_menu()
  * @since 1.3
  */
@@ -482,9 +482,10 @@ function bp_dtheme_main_nav( $args ) {
 	global $bp;
 
 	$pages_args = array(
-		'title_li' => '',
-		'depth' => '0',
-		'exclude' => bp_dtheme_page_on_front()
+		'depth'      => 0,
+		'echo'       => false,
+		'exclude'    => '',
+		'title_li'   => ''
 	);
 
 	if ( bp_forum_directory_is_disabled() ) {
@@ -493,18 +494,27 @@ function bp_dtheme_main_nav( $args ) {
 
 		$pages_args['exclude'] .= $bp->pages->forums->id;
 	}
-?>
-	<ul id="nav">
-		<li<?php if ( is_front_page() ) : ?> class="selected"<?php endif; ?>>
-			<a href="<?php echo home_url() ?>" title="<?php _e( 'Home', 'buddypress' ) ?>"><?php _e( 'Home', 'buddypress' ) ?></a>
-		</li>
 
-		<?php wp_list_pages( $pages_args ) ?>
-		<?php do_action( 'bp_nav_items' ) ?>
-	</ul><!-- #nav -->
-<?php
+	$menu = wp_page_menu( $pages_args );
+	$menu = str_replace( array( '<div class="menu"><ul>', '</ul></div>' ), array( '<ul id="nav">', '</ul><!-- #nav -->' ), $menu );
+	echo $menu;
+
+	do_action( 'bp_nav_items' );
 }
 endif;
+
+/**
+ * Get our wp_nav_menu() fallback, bp_dtheme_main_nav(), to show a home link.
+ *
+ * @param array $args Default values for wp_page_menu()
+ * @see wp_page_menu()
+ * @since 1.3
+ */
+function bp_dtheme_page_menu_args( $args ) {
+	$args['show_home'] = true;
+	return $args;
+}
+add_filter( 'wp_page_menu_args', 'bp_dtheme_page_menu_args' );
 
 /**
  * Applies BuddyPress customisations to the post comment form.
