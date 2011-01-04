@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-03 23:30:32+00:00\n"
+"POT-Creation-Date: 2011-01-04 13:30:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -155,7 +155,7 @@ msgid "Blog authored by %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:260 bp-core/bp-core-templatetags.php:365
-#: bp-core/bp-core-templatetags.php:1391 bp-core/bp-core-classes.php:82
+#: bp-core/bp-core-templatetags.php:1393 bp-core/bp-core-classes.php:82
 #: bp-groups/bp-groups-widgets.php:62 bp-groups/bp-groups-widgets.php:162
 #: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
@@ -226,7 +226,7 @@ msgstr ""
 msgid "<a href=\"%1$s\">%2$s</a> is your new blog.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-templatetags.php:482 bp-core/bp-core-templatetags.php:931
+#: bp-blogs/bp-blogs-templatetags.php:482 bp-core/bp-core-templatetags.php:933
 #: bp-themes/bp-default/blogs/index.php:8
 #: bp-themes/bp-default/blogs/create.php:10
 msgid "Create a Blog"
@@ -245,7 +245,7 @@ msgid "%s's Recent Comments"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:513 bp-core/bp-core-templatetags.php:463
-#: bp-core/bp-core-templatetags.php:1089
+#: bp-core/bp-core-templatetags.php:1091
 #: bp-groups/bp-groups-templatetags.php:1883
 #: bp-forums/bp-forums-templatetags.php:1041 bp-themes/bp-default/header.php:35
 #: bp-themes/bp-default/searchform.php:5
@@ -294,7 +294,7 @@ msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:16 bp-core/bp-core-widgets.php:105
-#: bp-core/admin/bp-core-upgrade.php:504 bp-core/bp-core-templatetags.php:1026
+#: bp-core/admin/bp-core-upgrade.php:504 bp-core/bp-core-templatetags.php:1028
 #: bp-themes/bp-default/groups/single/admin.php:174
 msgid "Members"
 msgstr ""
@@ -387,8 +387,8 @@ msgid "My Account"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:100 bp-core/bp-core-templatetags.php:527
-#: bp-core/bp-core-templatetags.php:529 bp-core/bp-core-templatetags.php:1100
-#: bp-core/bp-core-templatetags.php:1102 bp-themes/bp-default/sidebar.php:18
+#: bp-core/bp-core-templatetags.php:529 bp-core/bp-core-templatetags.php:1102
+#: bp-core/bp-core-templatetags.php:1104 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -565,7 +565,7 @@ msgid "Allows the creation of friend connections between users."
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:219 bp-core/admin/bp-core-upgrade.php:529
-#: bp-core/bp-core-templatetags.php:1029 bp-activity.php:49
+#: bp-core/bp-core-templatetags.php:1031 bp-activity.php:49
 #: bp-groups/bp-groups-widgets.php:14 bp-groups/bp-groups-widgets.php:99
 #: bp-groups.php:972 bp-groups.php:1406 bp-groups.php:1419 bp-groups.php:1432
 #: bp-groups.php:1445
@@ -673,7 +673,7 @@ msgid "If you have manually added BuddyPress navigation links in your theme you 
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:275 bp-core/admin/bp-core-upgrade.php:555
-#: bp-core/bp-core-templatetags.php:1035
+#: bp-core/bp-core-templatetags.php:1037
 msgid "Blogs"
 msgstr ""
 
@@ -801,7 +801,7 @@ msgstr ""
 msgid "Displays the activity for the entire site, a member's friends, groups and @mentions."
 msgstr ""
 
-#: bp-core/admin/bp-core-upgrade.php:542 bp-core/bp-core-templatetags.php:1032
+#: bp-core/admin/bp-core-upgrade.php:542 bp-core/bp-core-templatetags.php:1034
 #: bp-forums/bp-forums-admin.php:161
 msgid "Forums"
 msgstr ""
@@ -1044,7 +1044,7 @@ msgstr ""
 msgid "There was a problem uploading your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:203 bp-xprofile.php:314
+#: bp-core/bp-core-signup.php:203 bp-xprofile.php:321
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
@@ -1185,48 +1185,48 @@ msgstr ""
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:855
+#: bp-core/bp-core-templatetags.php:857
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:895 bp-groups.php:136
+#: bp-core/bp-core-templatetags.php:897 bp-groups.php:136
 #: bp-themes/bp-default/functions.php:499 bp-themes/bp-default/header.php:21
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:907 bp-themes/bp-default/attachment.php:9
+#: bp-core/bp-core-templatetags.php:909 bp-themes/bp-default/attachment.php:9
 #: bp-themes/bp-default/search.php:10
 msgid "Blog"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:917 bp-core/bp-core-templatetags.php:919
+#: bp-core/bp-core-templatetags.php:919 bp-core/bp-core-templatetags.php:921
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:922
+#: bp-core/bp-core-templatetags.php:924
 #: bp-themes/bp-default/registration/register.php:14
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:925
+#: bp-core/bp-core-templatetags.php:927
 #: bp-themes/bp-default/registration/activate.php:28
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:928 bp-themes/bp-default/groups/index.php:7
+#: bp-core/bp-core-templatetags.php:930 bp-themes/bp-default/groups/index.php:7
 #: bp-themes/bp-default/groups/create.php:7
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1065
+#: bp-core/bp-core-templatetags.php:1067
 msgid "Search anything..."
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1273
+#: bp-core/bp-core-templatetags.php:1275
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1348
+#: bp-core/bp-core-templatetags.php:1350
 msgid "a user"
 msgstr ""
 
@@ -2284,68 +2284,68 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:500
+#: bp-xprofile/bp-xprofile-templatetags.php:543
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:500
+#: bp-xprofile/bp-xprofile-templatetags.php:543
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:500
+#: bp-xprofile/bp-xprofile-templatetags.php:543
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:501
+#: bp-xprofile/bp-xprofile-templatetags.php:544
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:501
+#: bp-xprofile/bp-xprofile-templatetags.php:544
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:501
+#: bp-xprofile/bp-xprofile-templatetags.php:544
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:502
+#: bp-xprofile/bp-xprofile-templatetags.php:545
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:502
+#: bp-xprofile/bp-xprofile-templatetags.php:545
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:502
+#: bp-xprofile/bp-xprofile-templatetags.php:545
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:503
+#: bp-xprofile/bp-xprofile-templatetags.php:546
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:503
+#: bp-xprofile/bp-xprofile-templatetags.php:546
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:503
+#: bp-xprofile/bp-xprofile-templatetags.php:546
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:644
+#: bp-xprofile/bp-xprofile-templatetags.php:675
 msgid "Avatar uploads are currently disabled. Why not use a <a href=\"http://gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:653
+#: bp-xprofile/bp-xprofile-templatetags.php:684
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:664
+#: bp-xprofile/bp-xprofile-templatetags.php:695
 msgid "Profile updated %s ago"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:709
-#: bp-xprofile/bp-xprofile-templatetags.php:710 bp-xprofile.php:102
+#: bp-xprofile/bp-xprofile-templatetags.php:740
+#: bp-xprofile/bp-xprofile-templatetags.php:741 bp-xprofile.php:102
 msgid "Edit Profile"
 msgstr ""
 
@@ -2500,31 +2500,31 @@ msgstr ""
 msgid "Please make sure you fill in all required fields in this profile field group before saving."
 msgstr ""
 
-#: bp-xprofile.php:263
+#: bp-xprofile.php:270
 msgid "There was a problem updating some of your profile information, please try again."
 msgstr ""
 
-#: bp-xprofile.php:265
+#: bp-xprofile.php:272
 msgid "Changes saved."
 msgstr ""
 
-#: bp-xprofile.php:316
+#: bp-xprofile.php:323
 msgid "Your new avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-xprofile.php:361 bp-groups.php:706
+#: bp-xprofile.php:368 bp-groups.php:706
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-xprofile.php:363 bp-groups.php:708
+#: bp-xprofile.php:370 bp-groups.php:708
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
-#: bp-xprofile.php:383
+#: bp-xprofile.php:390
 msgid "New member registered"
 msgstr ""
 
-#: bp-xprofile.php:384
+#: bp-xprofile.php:391
 msgid "Updated Profile"
 msgstr ""
 
