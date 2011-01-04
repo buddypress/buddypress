@@ -10,7 +10,12 @@
 
 		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ) ?>" />
 
-		<?php wp_head(); ?>
+		<?php
+			if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) )
+				wp_enqueue_script( 'comment-reply' );
+
+			wp_head();
+		?>
 	</head>
 
 	<body <?php body_class() ?> id="bp-default">

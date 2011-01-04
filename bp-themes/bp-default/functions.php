@@ -345,17 +345,6 @@ function bp_dtheme_widgets_init() {
 }
 add_action( 'widgets_init', 'bp_dtheme_widgets_init' );
 
-/**
- * Add the JS needed for blog comment replies
- *
- * @since 1.2
- */
-function bp_dtheme_add_blog_comments_js() {
-	if ( is_singular() && get_option( 'thread_comments' ) )
-		wp_enqueue_script( 'comment-reply' );
-}
-add_action( 'template_redirect', 'bp_dtheme_add_blog_comments_js' );
-
 if ( !function_exists( 'bp_dtheme_blog_comments' ) ) :
 /**
  * Template for comments and pingbacks.
@@ -634,5 +623,19 @@ function bp_dtheme_fix_get_posts_on_activity_front() {
 function bp_dtheme_fix_the_posts_on_activity_front( $posts ) {
 	_deprecated_function( __FUNCTION__, '1.3', "No longer required." );
 	return $posts;
+}
+
+/**
+ * In BuddyPress 1.2.x, this added the javascript needed for blog comment replies.
+ * As of 1.3.x, we recommend that you enqueue the comment-reply javascript in your theme's header.php.
+ *
+ * @deprecated 1.3
+ * @deprecated Enqueue the comment-reply script in your theme's header.php.
+ * @since 1.2
+ */
+function bp_dtheme_add_blog_comments_js() {
+	_deprecated_function( __FUNCTION__, '1.3', "Enqueue the comment-reply script in your theme's header.php." );
+	if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) )
+		wp_enqueue_script( 'comment-reply' );
 }
 ?>
