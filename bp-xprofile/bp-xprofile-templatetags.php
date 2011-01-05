@@ -617,16 +617,22 @@ function bp_profile_group_tabs() {
 	if ( empty( $group_name ) )
 		$group_name = bp_profile_group_name(false);
 
+	$tabs = array();
 	for ( $i = 0; $i < count($groups); $i++ ) {
-		if ( $group_name == $groups[$i]->name ) {
+		if ( $group_name == $groups[$i]->name )
 			$selected = ' class="current"';
-		} else {
+		else
 			$selected = '';
-		}
 
-		if ( $groups[$i]->fields )
-			echo '<li' . $selected . '><a href="' . $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id . '">' . esc_attr( $groups[$i]->name ) . '</a></li>';
+		if ( $groups[$i]->fields ) {
+			$link = $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id;
+			$tabs[] = sprintf( '<li %1$s><a href="%2$s">%3$s</a><li>', $selected, $link, esc_html( $groups[$i]->name ) );
+		}
 	}
+
+	$tabs = apply_filters( 'xprofile_filter_profile_group_tabs', $tabs, $groups, $group_name );
+	foreach ( (array)$tabs as $tab )
+		echo $tab;
 
 	do_action( 'xprofile_profile_group_tabs' );
 }
