@@ -325,7 +325,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 	global $current_user, $current_site;
 	global $bp;
 
-	require_once( ABSPATH . WPINC . '/registration.php' );
+	bp_core_maybe_include_user_registration_file();
 
 	if ( isset($_POST['submit']) ) {
 		bp_blogs_validate_blog_signup();

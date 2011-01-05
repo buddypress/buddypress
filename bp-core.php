@@ -285,6 +285,21 @@ function bp_core_get_page_names() {
 }
 
 /**
+ * If we're not on WordPress 3.1+, then include the file containing the user registration methods.
+ *
+ * @global float $wp_version WordPress version number
+ * @since 1.3
+ */
+function bp_core_maybe_include_user_registration_file() {
+	global $wp_version;
+
+	if ( $wp_version >= 3.1 )
+		return;
+
+	require_once( ABSPATH . WPINC . '/registration.php' );
+}
+
+/**
  * bp_core_admin_menu_init()
  *
  * Initializes the wp-admin area "BuddyPress" menus and sub menus.

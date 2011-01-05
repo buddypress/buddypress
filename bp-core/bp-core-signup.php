@@ -35,7 +35,7 @@ function bp_core_screen_signup() {
 		/* Check the nonce */
 		check_admin_referer( 'bp_new_signup' );
 
-		require_once( ABSPATH . WPINC . '/registration.php' );
+		bp_core_maybe_include_user_registration_file();
 
 		/* Check the base account details for problems */
 		$account_details = bp_core_validate_user_signup( $_POST['signup_username'], $_POST['signup_email'] );
@@ -217,7 +217,7 @@ function bp_core_screen_activation() {
 	/* Check if an activation key has been passed */
 	if ( isset( $_GET['key'] ) ) {
 
-		require_once( ABSPATH . WPINC . '/registration.php' );
+		bp_core_maybe_include_user_registration_file();
 
 		/* Activate the signup */
 		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $_GET['key'] ) );

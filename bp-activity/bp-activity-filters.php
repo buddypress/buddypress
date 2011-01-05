@@ -113,7 +113,7 @@ function bp_activity_filter_kses( $content ) {
  * @param string $content The activity content
  */
 function bp_activity_at_name_filter( $content ) {
-	include_once( ABSPATH . WPINC . '/registration.php' );
+	bp_core_maybe_include_user_registration_file();
 
 	$usernames = bp_activity_find_mentions( $content );
 

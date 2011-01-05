@@ -546,7 +546,7 @@ function bp_activity_reduce_mention_count( $activity_id ) {
 	$activity = new BP_Activity_Activity( $activity_id );
 
 	if ( $usernames = bp_activity_find_mentions( strip_tags( $activity->content ) ) ) {
-		include_once( ABSPATH . WPINC . '/registration.php' );
+		bp_core_maybe_include_user_registration_file();
 
 		foreach( (array)$usernames as $username ) {
 			if ( !$user_id = username_exists( $username ) )
