@@ -372,7 +372,7 @@ function bp_forums_total_topic_count() {
 
 	do_action( 'bbpress_init' );
 
-	$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t". groups_add_forum_tables_sql( '' ) . " WHERE " . groups_add_forum_where_sql( "t.topic_status = '0'" ) ) );
+	$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t". groups_add_forum_tables_sql( '' ) . " WHERE " . groups_add_forum_where_sql( "t.topic_status = 0" ) ) );
 	return apply_filters( 'bp_forums_total_topic_count', count( (array)$count ) );
 }
 
@@ -546,7 +546,6 @@ function bp_forums_get_post_extras( $posts ) {
 	return $posts;
 }
 
-
 function bp_forums_get_forum_topicpost_count( $forum_id ) {
 	global $wpdb, $bbdb;
 
@@ -555,7 +554,6 @@ function bp_forums_get_forum_topicpost_count( $forum_id ) {
 	/* Need to find a bbPress function that does this */
 	return $wpdb->get_results( $wpdb->prepare( "SELECT topics, posts from {$bbdb->forums} WHERE forum_id = %d", $forum_id ) );
 }
-
 
 function bp_forums_filter_caps( $allcaps ) {
 	global $bp, $wp_roles, $bb_table_prefix;
@@ -588,5 +586,4 @@ add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
 add_action( 'bp_forums_new_forum', 'bp_core_clear_cache' );
 add_action( 'bp_forums_new_topic', 'bp_core_clear_cache' );
 add_action( 'bp_forums_new_post', 'bp_core_clear_cache' );
-
 ?>

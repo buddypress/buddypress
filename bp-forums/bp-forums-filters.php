@@ -131,5 +131,4 @@ function bp_forums_strip_mentions_on_post_edit( $content ) {
 }
 add_filter( 'bp_get_the_topic_post_edit_text', 'bp_forums_strip_mentions_on_post_edit' );
 add_filter( 'bp_get_the_topic_text', 'bp_forums_strip_mentions_on_post_edit' );
-
 ?>
