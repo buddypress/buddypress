@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-05 22:30:31+00:00\n"
+"POT-Creation-Date: 2011-01-05 23:30:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2332,20 +2332,20 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:675
+#: bp-xprofile/bp-xprofile-templatetags.php:681
 msgid "Avatar uploads are currently disabled. Why not use a <a href=\"http://gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:684
+#: bp-xprofile/bp-xprofile-templatetags.php:690
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:695
+#: bp-xprofile/bp-xprofile-templatetags.php:701
 msgid "Profile updated %s ago"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-templatetags.php:740
-#: bp-xprofile/bp-xprofile-templatetags.php:741 bp-xprofile.php:102
+#: bp-xprofile/bp-xprofile-templatetags.php:746
+#: bp-xprofile/bp-xprofile-templatetags.php:747 bp-xprofile.php:102
 msgid "Edit Profile"
 msgstr ""
 
