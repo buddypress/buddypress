@@ -1278,7 +1278,11 @@ function bp_signup_avatar( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		$signup_avatar_dir = ( !empty( $_POST['signup_avatar_dir'] ) ) ? $_POST['signup_avatar_dir'] : $bp->signup->avatar_dir;
+		if ( !empty( $_POST['signup_avatar_dir'] ) ) {
+			$signup_avatar_dir = $_POST['signup_avatar_dir'];
+		} else if ( !empty( $bp->signup->avatar_dir ) ) {
+			$signup_avatar_dir = $bp->signup->avatar_dir;
+		}
 
 		if ( empty( $signup_avatar_dir ) ) {
 			if ( empty( $bp->grav_default->user ) ) {

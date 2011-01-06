@@ -35,8 +35,6 @@ function bp_core_screen_signup() {
 		/* Check the nonce */
 		check_admin_referer( 'bp_new_signup' );
 
-		bp_core_maybe_include_user_registration_file();
-
 		/* Check the base account details for problems */
 		$account_details = bp_core_validate_user_signup( $_POST['signup_username'], $_POST['signup_email'] );
 
@@ -217,8 +215,6 @@ function bp_core_screen_activation() {
 	/* Check if an activation key has been passed */
 	if ( isset( $_GET['key'] ) ) {
 
-		bp_core_maybe_include_user_registration_file();
-
 		/* Activate the signup */
 		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $_GET['key'] ) );
 
@@ -352,6 +348,9 @@ add_filter( 'pre_update_site_option_illegal_names', 'bp_core_illegal_names', 10,
 function bp_core_validate_user_signup( $user_name, $user_email ) {
 	global $wpdb;
 
+	if ( ! function_exists( 'validate_username' ) )
+		require_once( ABSPATH . WPINC . '/registration.php' );
+
 	$errors = new WP_Error();
 	$user_email = sanitize_email( $user_email );
 
@@ -429,6 +428,9 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 
 	} else {
 		$errors = new WP_Error();
+
+		if ( ! function_exists( 'wp_insert_user' ) )
+			require_once( ABSPATH . WPINC . '/registration.php' );
 
 		$user_id = wp_insert_user( array(
 			'user_login' => $user_login,
@@ -536,7 +538,11 @@ function bp_core_activate_signup( $key ) {
 		delete_user_meta( $user_id, 'activation_key' );
 	}
 
-	/* Update the user_url and display_name */
+	// Update the user_url and display_name
+	// Support for WP < 3.1
+	if ( ! function_exists( 'wp_update_user' ) ) 
+ 		require_once( ABSPATH . WPINC . '/registration.php' );
+ 		
 	wp_update_user( array( 'ID' => $user_id, 'user_url' => bp_core_get_user_domain( $user_id ), 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
 
 	/* Add a last active entry */
