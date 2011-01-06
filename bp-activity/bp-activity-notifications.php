@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Sends an email notification and a BP notification when someone mentions you in an update
+ *
+ * @package BuddyPress Activity
+ * @param str $content The content of the activity update 
+ * @param int $poster_user_id The unique user_id of the user who sent the update
+ * @param int $activity_id The id of the activity update
+ */
 function bp_activity_at_message_notification( $content, $poster_user_id, $activity_id ) {
 	global $bp;
 
@@ -16,6 +24,9 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 			continue;
 
 		bp_core_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $poster_user_id );
+
+		$subject = '';
+		$message = '';
 
 		// Now email the user with the contents of the message (if they have enabled email notifications)
 		if ( 'no' != get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
@@ -52,9 +63,9 @@ To view and respond to the message, log in and visit: %3$s
 
 			wp_mail( $to, $subject, $message );
 		}
+		
+		do_action( 'bp_activity_sent_mention_email', $usernames, $subject, $message, $content, $poster_user_id, $activity_id );
 	}
-
-	do_action( 'bp_activity_sent_mention_email', $usernames, $subject, $message, $content, $poster_user_id, $activity_id );
 }
 add_action( 'bp_activity_posted_update', 'bp_activity_at_message_notification', 10, 3 );
 
