@@ -552,7 +552,7 @@ function bp_core_check_avatar_size($file) {
 }
 
 function bp_core_check_avatar_type($file) {
-	if ( ( strlen($file['file']['type']) && !preg_match('/(jpe?g|gif|png)$/', $file['file']['type'] ) ) && !preg_match( '/(jpe?g|gif|png)$/', $file['file']['name'] ) )
+	if ( ( !empty( $file['file']['type'] ) && !preg_match('/(jpe?g|gif|png)$/', $file['file']['type'] ) ) || !preg_match( '/(jpe?g|gif|png)$/', $file['file']['name'] ) )
 		return false;
 
 	return true;
