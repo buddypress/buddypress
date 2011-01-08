@@ -107,7 +107,7 @@ function bp_core_install_groups() {
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				creator_id bigint(20) NOT NULL,
 		  		name varchar(100) NOT NULL,
-		  		slug varchar(100) NOT NULL,
+		  		slug varchar(200) NOT NULL,
 		  		description longtext NOT NULL,
 				status varchar(10) NOT NULL DEFAULT 'public',
 				enable_forum tinyint(1) NOT NULL DEFAULT '1',
