@@ -25,8 +25,8 @@ function bp_blogs_setup_globals() {
 	// Register this in the active components array
 	$bp->active_components[$bp->blogs->slug] = $bp->blogs->id;
 
-	// The default text for the blogs directory search box	
-	$bp->default_search_strings[$bp->blogs->slug] = __( 'Search Blogs...', 'buddypress' ); 
+	// The default text for the blogs directory search box
+	$bp->default_search_strings[$bp->blogs->slug] = __( 'Search Blogs...', 'buddypress' );
 
 	do_action( 'bp_blogs_setup_globals' );
 }
@@ -291,13 +291,13 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	$recorded_blog->blog_id = $blog_id;
 
 	$recorded_blog_id = $recorded_blog->save();
-	
-	$is_recorded = !empty( $recorded_blog_id ) ? true : false; 
+
+	$is_recorded = !empty( $recorded_blog_id ) ? true : false;
 
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', bp_core_current_time() );
-	
+
 	$is_private = !empty( $_POST['blog_public'] ) && (int)$_POST['blog_public'] ? false : true;
 
 	// Only record this activity if the blog is public
@@ -367,11 +367,11 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
 			// Record this in activity streams
 			$post_permalink   = get_permalink( $post_id );
-			
+
 			if ( is_multisite() ) {
-				$activity_action  = sprintf( __( '%s wrote a new blog post: %s on the blog %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
+				$activity_action  = sprintf( __( '%1$s wrote a new blog post: %2$s on the blog %3$s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
 			} else {
-				$activity_action  = sprintf( __( '%s wrote a new blog post: %s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
+				$activity_action  = sprintf( __( '%1$s wrote a new blog post: %2$s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
 			}
 
 			$activity_content = $post->post_content;
@@ -449,13 +449,13 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 
 		// Prepare to record in activity streams
 		if ( is_multisite() ) {
-			$activity_action	= sprintf( __( '%s commented on the blog post %s on the blog %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
+			$activity_action	= sprintf( __( '%1$s commented on the blog post %2$s on the blog %3$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
 		} else {
-			$activity_action	= sprintf( __( '%s commented on the blog post %s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>' );
+			$activity_action	= sprintf( __( '%1$s commented on the blog post %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>' );
 		}
-		
+
 		$activity_content	= $recorded_comment->comment_content;
-		
+
 		// Record in activity streams
 		bp_blogs_record_activity( array(
 			'user_id'           => $user_id,
@@ -493,9 +493,9 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = false ) 
 
 	if ( empty( $role ) ) {
 		$key = $wpdb->get_blog_prefix( $blog_id ). 'capabilities';
-		
+
 		$roles = get_user_meta( $user_id, $key, true );
-		
+
 		if ( is_array( $roles ) )
 			$role = array_search( 1, $roles );
 		else
