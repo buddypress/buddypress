@@ -89,6 +89,17 @@ jq(document).ready( function() {
 
 				jq("ul.activity-list").prepend(response);
 				jq("ul.activity-list li:first").addClass('new-update');
+				
+				if ( 0 != jq("div#latest-update").length ) {
+					var l = jq("ul#activity-stream li.new-update .activity-content .activity-inner p").html();
+					var v = jq("ul#activity-stream li.new-update .activity-content .activity-header p a.view").attr('href');
+					
+					jq("div#latest-update").slideUp(300,function(){
+						jq("div#latest-update").html('"' + l + '" &middot; <a href="' + v + '" rel="nofollow">View</a>');
+						jq("div#latest-update").slideDown(300);
+					});
+				}
+				
 				jq("li.new-update").hide().slideDown( 300 );
 				jq("li.new-update").removeClass( 'new-update' );
 				jq("textarea#whats-new").val('');
