@@ -316,6 +316,24 @@ function bp_activity_pagination_links() {
 		return apply_filters( 'bp_get_activity_pagination_links', $activities_template->pag_links );
 	}
 
+/**
+ * Returns true when there are more activity items to be shown than currently appear
+ *
+ * @package BuddyPress Activity
+ * @since 1.3
+ *
+ * @global $activities_template The activity data loop object created in bp_has_activities()
+ */
+function bp_activity_has_more_items() {
+	global $activities_template;
+	
+	$remaining_pages = floor( ( $activities_template->total_activity_count - 1 ) / ( $activities_template->pag_num * $activities_template->pag_page ) ); 
+	
+	$has_more_items = (int)$remaining_pages ? true : false;
+	
+	return apply_filters( 'bp_activity_has_more_items', $has_more_items );
+}
+
 function bp_activity_count() {
 	echo bp_get_activity_count();
 }

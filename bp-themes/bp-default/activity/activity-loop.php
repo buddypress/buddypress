@@ -22,7 +22,7 @@
 
 	<?php endwhile; ?>
 
-	<?php if ( bp_get_activity_count() == bp_get_activity_per_page() ) : ?>
+	<?php if ( bp_activity_has_more_items() ) : ?>
 		<li class="load-more">
 			<a href="#more"><?php _e( 'Load More', 'buddypress' ) ?></a> &nbsp; <span class="ajax-loader"></span>
 		</li>
