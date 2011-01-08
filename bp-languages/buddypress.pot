@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-07 09:30:24+00:00\n"
+"POT-Creation-Date: 2011-01-08 17:30:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -150,7 +150,7 @@ msgid "Viewing blog %1$s to %2$s (of %3$s blogs)"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:202
-#: bp-activity/bp-activity-templatetags.php:526
+#: bp-activity/bp-activity-templatetags.php:544
 msgid "Blog authored by %s"
 msgstr ""
 
@@ -644,7 +644,7 @@ msgid "BuddyPress has been updated! Before you can continue using BuddyPress, we
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:253 bp-core/admin/bp-core-upgrade.php:473
-#: bp-activity/bp-activity-templatetags.php:941
+#: bp-activity/bp-activity-templatetags.php:959
 msgid "blogs"
 msgstr ""
 
@@ -756,7 +756,7 @@ msgid "members"
 msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:458 bp-core/bp-core-classes.php:98
-#: bp-activity/bp-activity-templatetags.php:941
+#: bp-activity/bp-activity-templatetags.php:959
 msgid "groups"
 msgstr ""
 
@@ -1135,16 +1135,16 @@ msgstr ""
 #: bp-forums/bp-forums-templatetags.php:290
 #: bp-forums/bp-forums-templatetags.php:391
 #: bp-forums/bp-forums-templatetags.php:914
-#: bp-activity/bp-activity-templatetags.php:459
-#: bp-activity/bp-activity-templatetags.php:534
-#: bp-activity/bp-activity-templatetags.php:543
+#: bp-activity/bp-activity-templatetags.php:477
+#: bp-activity/bp-activity-templatetags.php:552
+#: bp-activity/bp-activity-templatetags.php:561
 msgid "Profile picture of %s"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:389
 #: bp-themes/bp-default/activity/entry.php:46
-#: bp-activity/bp-activity-templatetags.php:625
-#: bp-activity/bp-activity-templatetags.php:881
+#: bp-activity/bp-activity-templatetags.php:643
+#: bp-activity/bp-activity-templatetags.php:899
 msgid "View"
 msgstr ""
 
@@ -1667,7 +1667,7 @@ msgid "Group"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:296
-#: bp-activity/bp-activity-templatetags.php:518
+#: bp-activity/bp-activity-templatetags.php:536
 msgid "Group logo of %s"
 msgstr ""
 
@@ -2279,8 +2279,8 @@ msgstr ""
 #: bp-themes/bp-default/_inc/ajax.php:213
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:13
-#: bp-activity/bp-activity-templatetags.php:731
-#: bp-activity/bp-activity-templatetags.php:865
+#: bp-activity/bp-activity-templatetags.php:749
+#: bp-activity/bp-activity-templatetags.php:883
 msgid "Delete"
 msgstr ""
 
@@ -3140,19 +3140,19 @@ msgid "%s created the blog %s"
 msgstr ""
 
 #: bp-blogs.php:372
-msgid "%s wrote a new blog post: %s on the blog %s"
+msgid "%1$s wrote a new blog post: %2$s on the blog %3$s"
 msgstr ""
 
 #: bp-blogs.php:374
-msgid "%s wrote a new blog post: %s"
+msgid "%1$s wrote a new blog post: %2$s"
 msgstr ""
 
 #: bp-blogs.php:452
-msgid "%s commented on the blog post %s on the blog %s"
+msgid "%1$s commented on the blog post %2$s on the blog %3$s"
 msgstr ""
 
 #: bp-blogs.php:454
-msgid "%s commented on the blog post %s"
+msgid "%1$s commented on the blog post %2$s"
 msgstr ""
 
 #: bp-themes/bp-default/index.php:20 bp-themes/bp-default/index.php:26
@@ -3348,13 +3348,13 @@ msgid "There was a problem posting your update, please try again."
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:211
-#: bp-activity/bp-activity-templatetags.php:722
+#: bp-activity/bp-activity-templatetags.php:740
 msgid "%s ago"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:212
 #: bp-themes/bp-default/activity/entry.php:28
-#: bp-activity/bp-activity-templatetags.php:726
+#: bp-activity/bp-activity-templatetags.php:744
 msgid "Reply"
 msgstr ""
 
@@ -3906,7 +3906,7 @@ msgid "In reply to"
 msgstr ""
 
 #: bp-themes/bp-default/activity/entry.php:46
-#: bp-activity/bp-activity-templatetags.php:625
+#: bp-activity/bp-activity-templatetags.php:643
 msgid "View Thread / Permalink"
 msgstr ""
 
@@ -4381,43 +4381,43 @@ msgstr ""
 msgid "Viewing item %1$s to %2$s (of %3$s items)"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:621
+#: bp-activity/bp-activity-templatetags.php:639
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:941
+#: bp-activity/bp-activity-templatetags.php:959
 msgid "profile"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:941
+#: bp-activity/bp-activity-templatetags.php:959
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:941
+#: bp-activity/bp-activity-templatetags.php:959
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:949
+#: bp-activity/bp-activity-templatetags.php:967
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1034
+#: bp-activity/bp-activity-templatetags.php:1052
 msgid "Mention this user in a new public message, this will send the user a notification to get their attention."
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1035
+#: bp-activity/bp-activity-templatetags.php:1053
 msgid "Mention this User"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1163
+#: bp-activity/bp-activity-templatetags.php:1181
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1177
+#: bp-activity/bp-activity-templatetags.php:1195
 msgid "Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1191
+#: bp-activity/bp-activity-templatetags.php:1209
 msgid "Group Activity RSS Feed"
 msgstr ""
 
