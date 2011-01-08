@@ -88,10 +88,10 @@ p:last-child {
 }
 
 hr {
-	background-color:#e7e7e7;
-	border:0 none;
-	clear:both;
-	height:1px;
+	background-color: #e7e7e7;
+	border: 0 none;
+	clear: both;
+	height: 1px;
 	margin: 20px 0;
 }
 
@@ -584,7 +584,7 @@ div#item-header div.generic-button,
 div#item-header a.button {
 	float: left;
 	margin: 10px 10px 0 0;
-	}
+}
 
 div#item-header div#message.info {
 	line-height: 80%;
@@ -851,7 +851,7 @@ div#message.updated {
 div#message p {
 	padding: 10px 15px;
 	font-size: 12px;
-	display:block;
+	display: block;
 }
 
 div#message.error p {
@@ -916,7 +916,8 @@ div.generic-button a:hover {
 }
 
 /* Buttons that are disabled */
-div.pending a, a.disabled {
+div.pending a,
+a.disabled {
 	border-color: #eee;
 	color: #bbb;
 	cursor: default;
@@ -943,8 +944,10 @@ ul.button-nav li.current a {
 	font-weight: bold;
 }
 
+
 /* > AJAX Loaders
 -------------------------------------------------------------- */
+
 .ajax-loader {
 	background: url( ../images/ajax-loader.gif ) center left no-repeat !important;
 	padding: 8px;
@@ -1140,7 +1143,8 @@ div#sidebar table {
 	width: 117%;
 }
 
-table tr td, table tr th {
+table tr td,
+table tr th {
 	padding: 8px;
 	vertical-align: middle;
 }
@@ -1197,7 +1201,7 @@ table.forum {
 
 table.forum tr.sticky td {
 	background: #fff9db;
-	border-top: 1px solid #ffe8C4;
+	border-top: 1px solid #ffe8c4;
 	border-bottom: 1px solid #ffe8c4;
 }
 
@@ -1241,7 +1245,8 @@ table.forum td img.avatar {
 	margin-right: 5px;
 }
 
-table.forum td.td-poster, table.forum td.td-group  {
+table.forum td.td-poster,
+table.forum td.td-group {
 	min-width: 130px;
 }
 
@@ -1546,7 +1551,7 @@ body.activity-permalink .activity-content blockquote {
 }
 
 .activity-list li.load-more {
-	margin: 15px  0 !important;
+	margin: 15px 0 !important;
 	padding: 10px 15px !important;
 	background: #f0f0f0 !important;
 	text-align: center;
@@ -1628,7 +1633,8 @@ div.activity-comments > ul {
 	padding: 0 10px 0;
 }
 
-div.activity-comments ul, div.activity-comments ul li {
+div.activity-comments ul,
+div.activity-comments ul li {
 	border: none;
 	list-style: none;
 }
@@ -2005,16 +2011,16 @@ div.post code {
 
 div.post blockquote {
 	quotes: none;
-	font-style:italic;
-	padding:0 3em;
+	font-style: italic;
+	padding: 0 3em;
 	font-family: georgia, times, serif;
 	font-size: 16px;
 	line-height: 150%;
 }
 
 div.post table {
-	border-collapse:collapse;
-	border-spacing:0;
+	border-collapse: collapse;
+	border-spacing: 0;
 	border: 1px solid #eee;
 }
 
@@ -2101,7 +2107,8 @@ div.post img.wp-smiley {
 	clear: none !important;
 }
 
-div.post img.centered, img.aligncenter {
+div.post img.centered,
+img.aligncenter {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -2153,6 +2160,7 @@ div.post .wp-caption p.wp-caption-text {
 div.post .gallery .gallery-caption {
 	color: #555;
 }
+
 
 /* > WordPress Blog Comment Styles
 -------------------------------------------------------------- */
