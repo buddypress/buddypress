@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-09 22:30:24+00:00\n"
+"POT-Creation-Date: 2011-01-09 23:30:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -156,7 +156,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:260 bp-core/bp-core-templatetags.php:365
 #: bp-core/bp-core-templatetags.php:1409 bp-core/bp-core-classes.php:82
-#: bp-groups/bp-groups-widgets.php:62 bp-groups/bp-groups-widgets.php:162
+#: bp-groups/bp-groups-widgets.php:65 bp-groups/bp-groups-widgets.php:165
 #: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
 msgid "active %s ago"
@@ -301,20 +301,20 @@ msgstr ""
 
 #: bp-core/bp-core-widgets.php:41 bp-core/bp-core-widgets.php:123
 #: bp-friends/bp-friends-templatetags.php:7
-#: bp-friends/bp-friends-templatetags.php:23 bp-groups/bp-groups-widgets.php:41
-#: bp-groups/bp-groups-widgets.php:117
+#: bp-friends/bp-friends-templatetags.php:23 bp-groups/bp-groups-widgets.php:44
+#: bp-groups/bp-groups-widgets.php:120
 #: bp-themes/bp-default/members/single/blogs.php:9
 #: bp-themes/bp-default/blogs/index.php:31
 msgid "Newest"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:42 bp-core/bp-core-widgets.php:124
-#: bp-groups/bp-groups-widgets.php:42 bp-groups/bp-groups-widgets.php:118
+#: bp-groups/bp-groups-widgets.php:45 bp-groups/bp-groups-widgets.php:121
 msgid "Active"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:46 bp-core/bp-core-widgets.php:125
-#: bp-groups/bp-groups-widgets.php:43 bp-groups/bp-groups-widgets.php:119
+#: bp-groups/bp-groups-widgets.php:46 bp-groups/bp-groups-widgets.php:122
 msgid "Popular"
 msgstr ""
 
@@ -323,7 +323,7 @@ msgid "No one has signed up yet!"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:116 bp-core/bp-core-widgets.php:191
-#: bp-core/bp-core-widgets.php:255 bp-groups/bp-groups-widgets.php:110
+#: bp-core/bp-core-widgets.php:255 bp-groups/bp-groups-widgets.php:113
 #: bp-themes/bp-default/forums/index.php:31
 #: bp-themes/bp-default/groups/single/forum/edit.php:26
 #: bp-themes/bp-default/groups/single/forum.php:35
@@ -567,9 +567,9 @@ msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:219 bp-core/admin/bp-core-upgrade.php:529
 #: bp-core/bp-core-templatetags.php:1031 bp-activity.php:49
-#: bp-groups/bp-groups-widgets.php:14 bp-groups/bp-groups-widgets.php:99
-#: bp-groups.php:972 bp-groups.php:1406 bp-groups.php:1419 bp-groups.php:1432
-#: bp-groups.php:1445
+#: bp-groups/bp-groups-widgets.php:14 bp-groups/bp-groups-widgets.php:35
+#: bp-groups/bp-groups-widgets.php:102 bp-groups.php:972 bp-groups.php:1406
+#: bp-groups.php:1419 bp-groups.php:1432 bp-groups.php:1445
 msgid "Groups"
 msgstr ""
 
@@ -1965,23 +1965,23 @@ msgstr ""
 msgid "A dynamic list of recently active, popular, and newest groups"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:60 bp-groups/bp-groups-widgets.php:160
+#: bp-groups/bp-groups-widgets.php:63 bp-groups/bp-groups-widgets.php:163
 msgid "created %s ago"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:79
+#: bp-groups/bp-groups-widgets.php:82
 msgid "There are no groups to display."
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:112
+#: bp-groups/bp-groups-widgets.php:115
 msgid "Max groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:115
+#: bp-groups/bp-groups-widgets.php:118
 msgid "Default groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:179
+#: bp-groups/bp-groups-widgets.php:182
 msgid "No groups matched the current filter."
 msgstr ""
 
