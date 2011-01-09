@@ -381,7 +381,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 		<div class="comment-content">
 
 			<div class="comment-meta">
-				<a href="<?php echo get_comment_author_url() ?>" rel="nofollow"><?php echo get_comment_author(); ?></a> <?php _e( 'said:', 'buddypress' ) ?>
+				<?php printf( __( '%s said:', 'buddypress' ), '<a href="' . get_comment_author_url() . '" rel="nofollow">' . get_comment_author() . '</a>' ) ?>
 				<em><?php _e( 'On', 'buddypress' ) ?> <a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date() ?></a></em>
 			</div>
 

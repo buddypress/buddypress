@@ -62,33 +62,33 @@ img.avatar {
 }
 
 #nav li {
+	margin-left: auto;
 	margin-right: 5px;
 	float: right;
 }
 
 #nav li li { 
+	margin-left: auto;
 	margin-right: 0; 
 }
 
 #nav ul,
 #nav .sfhover ul ul,
 #nav :hover ul ul {
+	left: auto;
 	right: -9999px;
-	position: absolute;
 }
 
 #nav .sfhover ul,
 #nav :hover ul {
+	left: auto;
 	right: 0;
-	top: 100%;
-	width: 128px;
 }
 
 #nav .sfhover ul .sfhover > ul,
 #nav :hover ul :hover > ul {
+	left: auto;
 	right: 125px;
-	top: -1px;
-	width: 128px;
 }
 
 
