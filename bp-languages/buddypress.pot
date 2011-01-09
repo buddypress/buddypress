@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-09 15:30:24+00:00\n"
+"POT-Creation-Date: 2011-01-09 18:30:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -155,7 +155,7 @@ msgid "Blog authored by %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:260 bp-core/bp-core-templatetags.php:365
-#: bp-core/bp-core-templatetags.php:1397 bp-core/bp-core-classes.php:82
+#: bp-core/bp-core-templatetags.php:1409 bp-core/bp-core-classes.php:82
 #: bp-groups/bp-groups-widgets.php:62 bp-groups/bp-groups-widgets.php:162
 #: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
@@ -1222,11 +1222,11 @@ msgstr ""
 msgid "Search anything..."
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1275
+#: bp-core/bp-core-templatetags.php:1287
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:1354
+#: bp-core/bp-core-templatetags.php:1366
 msgid "a user"
 msgstr ""
 
@@ -1487,19 +1487,19 @@ msgstr ""
 msgid "%d friends"
 msgstr ""
 
+#: bp-friends/bp-friends-templatetags.php:223
 #: bp-friends/bp-friends-templatetags.php:224
-#: bp-friends/bp-friends-templatetags.php:225
 #: bp-themes/bp-default/_inc/ajax.php:374
 msgid "Friendship Requested"
 msgstr ""
 
+#: bp-friends/bp-friends-templatetags.php:238
 #: bp-friends/bp-friends-templatetags.php:239
-#: bp-friends/bp-friends-templatetags.php:240
 msgid "Cancel Friendship"
 msgstr ""
 
-#: bp-friends/bp-friends-templatetags.php:257
-#: bp-friends/bp-friends-templatetags.php:258
+#: bp-friends/bp-friends-templatetags.php:255
+#: bp-friends/bp-friends-templatetags.php:256
 #: bp-themes/bp-default/_inc/ajax.php:364
 msgid "Add Friend"
 msgstr ""
@@ -1779,26 +1779,26 @@ msgstr ""
 msgid "New Topic"
 msgstr ""
 
+#: bp-groups/bp-groups-templatetags.php:1195
 #: bp-groups/bp-groups-templatetags.php:1196
-#: bp-groups/bp-groups-templatetags.php:1197
 #: bp-themes/bp-default/_inc/ajax.php:425
 msgid "Leave Group"
 msgstr ""
 
+#: bp-groups/bp-groups-templatetags.php:1218
 #: bp-groups/bp-groups-templatetags.php:1219
-#: bp-groups/bp-groups-templatetags.php:1220
 #: bp-themes/bp-default/_inc/ajax.php:447
 msgid "Join Group"
 msgstr ""
 
-#: bp-groups/bp-groups-templatetags.php:1237
-#: bp-groups/bp-groups-templatetags.php:1238 bp-groups.php:144
+#: bp-groups/bp-groups-templatetags.php:1236
+#: bp-groups/bp-groups-templatetags.php:1237 bp-groups.php:144
 #: bp-themes/bp-default/_inc/ajax.php:449
 msgid "Request Membership"
 msgstr ""
 
+#: bp-groups/bp-groups-templatetags.php:1251
 #: bp-groups/bp-groups-templatetags.php:1252
-#: bp-groups/bp-groups-templatetags.php:1253
 msgid "Request Sent"
 msgstr ""
 
@@ -2577,11 +2577,11 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:551
+#: bp-messages/bp-messages-templatetags.php:550
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-messages/bp-messages-templatetags.php:552
+#: bp-messages/bp-messages-templatetags.php:551
 msgid "Send Private Message"
 msgstr ""
 
@@ -4409,15 +4409,15 @@ msgstr ""
 msgid "Mention this User"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1181
+#: bp-activity/bp-activity-templatetags.php:1182
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1195
+#: bp-activity/bp-activity-templatetags.php:1196
 msgid "Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-templatetags.php:1209
+#: bp-activity/bp-activity-templatetags.php:1210
 msgid "Group Activity RSS Feed"
 msgstr ""
 
