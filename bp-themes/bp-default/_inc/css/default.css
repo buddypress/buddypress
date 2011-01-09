@@ -1348,6 +1348,10 @@ ul.activity-list li.has-comments {
 	padding-bottom: 20px;
 }
 
+body.activity-permalink ul.activity-list li.has-comments {
+	padding-bottom: 0;
+}
+
 .activity-list li.mini {
 	position: relative;
 	font-size: 11px;
