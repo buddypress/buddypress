@@ -219,10 +219,10 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'block_self'        => true,
 					'wrapper_class'     => 'friendship-button pending',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
-					'link_class'        => 'requested',
 					'link_href'         => trailingslashit( $bp->loggedin_user->domain . $bp->friends->slug . '/requests' ),
 					'link_text'         => __( 'Friendship Requested', 'buddypress' ),
-					'link_title'        => __( 'Friendship Requested', 'buddypress' )
+					'link_title'        => __( 'Friendship Requested', 'buddypress' ),
+					'link_class'        => 'friendship-button pending requested'
 				);
 				break;
 
@@ -234,13 +234,12 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'block_self'        => false,
 					'wrapper_class'     => 'friendship-button is_friend',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
-					'link_class'        => '',
 					'link_href'         => wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/remove-friend/' . $potential_friend_id . '/', 'friends_remove_friend' ),
 					'link_text'         => __( 'Cancel Friendship', 'buddypress' ),
 					'link_title'        => __( 'Cancel Friendship', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'remove',
-					'link_class'        => 'remove'
+					'link_class'        => 'friendship-button is_friend remove'
 				);
 				break;
 
@@ -252,13 +251,12 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'block_self'        => true,
 					'wrapper_class'     => 'friendship-button not_friends',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
-					'link_class'        => '',
 					'link_href'         => wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/add-friend/' . $potential_friend_id . '/', 'friends_add_friend' ),
 					'link_text'         => __( 'Add Friend', 'buddypress' ),
 					'link_title'        => __( 'Add Friend', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'add',
-					'link_class'        => 'add'
+					'link_class'        => 'friendship-button not_friends add'
 				);
 				break;
 		}

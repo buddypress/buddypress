@@ -1115,28 +1115,40 @@ function bp_custom_profile_sidebar_boxes() {
 }
 
 /**
- * bp_button( $button )
- *
  * Creates and outputs a button.
- * Args: div_id | div_class | a_href | a_title | a_id | a_class | a_rel | a_text
- *
- * @param array $button
+ * 
+ * @param array $args See bp_get_button() for the list of arguments.
+ * @see bp_get_button()
  */
-function bp_button( $button = '' ) {
-	echo bp_get_button( $button );
+function bp_button( $args = '' ) {
+	echo bp_get_button( $args );
 }
 	/**
-	 * bp_get_button( $button )
-	 *
 	 * Creates and returns a button.
-	 * Args: div_id | div_class | a_href | a_title | a_id | a_class | a_rel | a_text
+	 *
+	 * Args:
+	 * component: Which component this button is for
+	 * must_be_logged_in: Button only appears for logged in users
+	 * block_self: Button will not appear when viewing your own profile.
+	 * wrapper: div|span|p|li|
+	 * wrapper_id: The DOM ID of the button wrapper
+	 * wrapper_class: The DOM class of the button wrapper
+	 * link_href: The destination link of the button
+	 * link_title: Title of the button
+	 * link_id: The DOM ID of the button
+	 * link_class: The DOM class of the button
+	 * link_rel: The DOM rel of the button
+	 * link_text: The contents of the button
 	 *
 	 * @param array $button
 	 * @return string
+	 * @see bp_add_friend_button()
+	 * @see bp_send_public_message_button()
+	 * @see bp_send_private_message_button()
 	 */
-	function bp_get_button( $button = '' ) {
-		$btn = new BP_Button( $button );
-		return apply_filters( 'bp_get_button', $btn->contents, $button );
+	function bp_get_button( $args = '' ) {
+		$button = new BP_Button( $args );
+		return apply_filters( 'bp_get_button', $button->contents, $args, $button );
 	}
 
 /**

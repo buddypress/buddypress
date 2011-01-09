@@ -547,9 +547,9 @@ function bp_send_message_button() {
 				'block_self'        => true,
 				'wrapper_id'        => 'send-private-message',
 				'link_href'         => bp_get_send_private_message_link(),
-				'link_class'        => 'send-message',
 				'link_title'        => __( 'Send a private message to this user.', 'buddypress' ),
-				'link_text'         => __( 'Send Private Message', 'buddypress' )
+				'link_text'         => __( 'Send Private Message', 'buddypress' ),
+				'link_class'        => 'send-message',
 			) )
 		);
 	}

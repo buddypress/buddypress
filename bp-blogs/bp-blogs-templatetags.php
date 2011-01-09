@@ -539,7 +539,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 			'block_self'        => false,
 			'wrapper_class'     => 'blog-button visit',
 			'link_href'         => bp_get_blog_permalink(),
-			'link_class'        => 'visit',
+			'link_class'        => 'blog-button visit',
 			'link_text'         => __( 'Visit Blog', 'buddypress' ),
 			'link_title'        => __( 'Visit Blog', 'buddypress' ),
 		);

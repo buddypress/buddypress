@@ -546,7 +546,8 @@ class BP_Button {
 	var $must_be_logged_in;
 	var $block_self;
 
-	// Wrapper div
+	// Wrapper
+	var $wrapper;
 	var $wrapper_class;
 	var $wrapper_id;
 
@@ -569,6 +570,7 @@ class BP_Button {
 	 * component: Which component this button is for
 	 * must_be_logged_in: Button only appears for logged in users
 	 * block_self: Button will not appear when viewing your own profile.
+	 * wrapper: div|span|p|li|false for no wrapper
 	 * wrapper_id: The DOM ID of the button wrapper
 	 * wrapper_class: The DOM class of the button wrapper
 	 * link_href: The destination link of the button
@@ -583,12 +585,14 @@ class BP_Button {
 	 */
 	function bp_button( $args = '' ) {
 
+		// Default arguments
 		$defaults = array(
 			'id'                => '',
 			'component'         => 'core',
 			'must_be_logged_in' => true,
 			'block_self'        => true,
 
+			'wrapper'           => 'div',
 			'wrapper_id'        => '',
 			'wrapper_class'     => '',
 
@@ -608,6 +612,7 @@ class BP_Button {
 		$this->component         = $component;
 		$this->must_be_logged_in = (bool)$must_be_logged_in;
 		$this->block_self        = (bool)$block_self;
+		$this->wrapper           = $wrapper;
 
 		// $id and $component are required
 		if ( empty( $id ) || empty( $component ) )
@@ -626,40 +631,51 @@ class BP_Button {
 			return false;
 
 		// Wrapper properties
-		if ( !empty( $wrapper_id ) )
-			$this->wrapper_id    = ' id="' . $wrapper_id . '"';
+		if ( false !== $this->wrapper ) {
 
-		if ( !empty( $wrapper_class ) )
-			$this->wrapper_class = ' class="generic-button ' . $wrapper_class . '"';
-		else
-			$this->wrapper_class = ' class="generic-button"';
+			// Wrapper ID
+			if ( !empty( $wrapper_id ) )
+				$this->wrapper_id    = ' id="' . $wrapper_id . '"';
+
+			// Wrapper class
+			if ( !empty( $wrapper_class ) )
+				$this->wrapper_class = ' class="generic-button ' . $wrapper_class . '"';
+			else
+				$this->wrapper_class = ' class="generic-button"';
+
+			// Set before and after
+			$before = '<' . $wrapper . $this->wrapper_class . $this->wrapper_id . '>';
+			$after  = '</' . $wrapper . '>';
+
+		// No wrapper
+		} else {
+			$before = $after = '';
+		}
 
 		// Link properties
 		if ( !empty( $link_id ) )
-			$this->link_id       = ' id="' . $link_id . '"';
+			$this->link_id    = ' id="' . $link_id . '"';
 
 		if ( !empty( $link_href ) )
-			$this->link_href     = ' href="' . $link_href . '"';
+			$this->link_href  = ' href="' . $link_href . '"';
 
 		if ( !empty( $link_title ) )
-			$this->link_title    = ' title="' . $link_title . '"';
+			$this->link_title = ' title="' . $link_title . '"';
 
 		if ( !empty( $link_rel ) )
-			$this->link_rel      = ' rel="' . $link_rel . '"';
+			$this->link_rel   = ' rel="' . $link_rel . '"';
 
 		if ( !empty( $link_class ) )
-			$this->link_class    = ' class="' . $link_class . '"';
+			$this->link_class = ' class="' . $link_class . '"';
 
 		if ( !empty( $link_text ) )
-			$this->link_text     = $link_text;
+			$this->link_text  = $link_text;
 
 		// Build the button
-		$this->contents  = '<div' . $this->wrapper_class . $this->wrapper_id . '>';
-		$this->contents .= '<a'. $this->link_href . $this->link_title . $this->link_id . $this->link_rel . $this->link_class . '>' . $this->link_text . '</a>';
-		$this->contents .= '</div>';
+		$this->contents = $before . '<a'. $this->link_href . $this->link_title . $this->link_id . $this->link_rel . $this->link_class . '>' . $this->link_text . '</a>' . $after;
 
 		// Allow button to be manipulated externally
-		$this->contents = apply_filters( 'bp_button_' . $component . '_' . $id, $this->contents, $this );
+		$this->contents = apply_filters( 'bp_button_' . $component . '_' . $id, $this->contents, $this, $before, $after );
 	}
 
 	/**
