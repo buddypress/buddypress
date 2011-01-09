@@ -100,6 +100,10 @@ img.avatar {
 	border: 2px solid #eee;
 }
 
+big {
+	font-size: 18px;
+}
+
 del {
 	text-decoration: line-through;
 }
@@ -1931,6 +1935,14 @@ div#new-topic-post {
 /* > WordPress Blog Styles
 -------------------------------------------------------------- */
 
+body.home-page .sticky .date {
+	background: #fff9db;
+	border-top: 1px solid #ffe8c4;
+	border-bottom: 1px solid #ffe8c4;
+	color: #ffa200;
+	padding: 5px;
+}
+
 div.post {
 	margin: 0 0 40px 0;
 	overflow: hidden;
@@ -2191,8 +2203,15 @@ div.post .gallery .gallery-caption {
 	color: #aaa;
 }
 
+.commentlist .bypostauthor {
+}
+
 ol.commentlist li {
 	margin: 0 0 30px 0;
+}
+
+ol.commentlist ul.children {
+	margin-left: 105px;
 }
 
 div.comment-meta {
@@ -2210,10 +2229,6 @@ div.comment-meta em {
 
 div.comment-options {
 	border-bottom: none;
-}
-
-ol.commentlist ul.children {
-	margin-left: 105px;
 }
 
 

@@ -27,6 +27,15 @@
  * @since 1.2
  */
 
+/**
+ * Set the content width based on the theme's design and stylesheet.
+ *
+ * Used to set the width of images and content. Should be equal to the width the theme
+ * is designed for, generally via the style.css stylesheet.
+ */
+if ( ! isset( $content_width ) )
+	$content_width = 591;
+
 if ( !function_exists( 'bp_dtheme_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress and BuddyPress features.
