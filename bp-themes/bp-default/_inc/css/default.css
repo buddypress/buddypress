@@ -213,9 +213,13 @@ sup {
 	text-decoration: none;
 }
 
-#nav > li {
+#nav li {
 	margin-left: 5px;
 	float: left;
+}
+
+#nav li li {
+	margin-left: 0;
 }
 
 #nav > li > a {
