@@ -61,9 +61,13 @@ img.avatar {
 	right: auto;
 }
 
-#nav > li {
+#nav li {
 	margin-right: 5px;
 	float: right;
+}
+
+#nav li li { 
+	margin-right: 0; 
 }
 
 #nav ul,
