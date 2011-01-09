@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-09 20:30:25+00:00\n"
+"POT-Creation-Date: 2011-01-09 22:30:24+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -457,7 +457,8 @@ msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:7 bp-core/admin/bp-core-upgrade.php:162
 #: bp-core/admin/bp-core-upgrade.php:1265
-#: bp-core/admin/bp-core-upgrade.php:1266 bp-core.php:319 bp-core.php:320
+#: bp-core/admin/bp-core-upgrade.php:1266 bp-core/bp-core-signup.php:585
+#: bp-core.php:319 bp-core.php:320
 msgid "BuddyPress"
 msgstr ""
 
@@ -816,7 +817,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:578
 #: bp-messages/bp-messages-templatetags.php:481
-#: bp-themes/bp-default/registration/activate.php:40
+#: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
 
@@ -1016,7 +1017,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:233 bp-core/bp-core-signup.php:633
+#: bp-core/bp-core-filters.php:233 bp-core/bp-core-signup.php:587
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1024,7 +1025,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:234 bp-core/bp-core-signup.php:634
+#: bp-core/bp-core-filters.php:234 bp-core/bp-core-signup.php:588
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1040,67 +1041,55 @@ msgstr ""
 msgid "This is a required field"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:171
-msgid "There was a problem uploading your avatar, please try uploading it again"
-msgstr ""
-
-#: bp-core/bp-core-signup.php:201 bp-xprofile.php:321
-msgid "There was a problem cropping your avatar, please try uploading it again"
-msgstr ""
-
-#: bp-core/bp-core-signup.php:203
-msgid "Your new avatar was uploaded successfully"
-msgstr ""
-
-#: bp-core/bp-core-signup.php:237
+#: bp-core/bp-core-signup.php:191
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:358
+#: bp-core/bp-core-signup.php:312
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:369
+#: bp-core/bp-core-signup.php:323
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:372
+#: bp-core/bp-core-signup.php:326
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:375
+#: bp-core/bp-core-signup.php:329
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:382
+#: bp-core/bp-core-signup.php:336
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:385
+#: bp-core/bp-core-signup.php:339
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-core/bp-core-signup.php:388 bp-core/bp-core-signup.php:396
+#: bp-core/bp-core-signup.php:342 bp-core/bp-core-signup.php:350
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:401
+#: bp-core/bp-core-signup.php:355
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:405
+#: bp-core/bp-core-signup.php:359
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:443
+#: bp-core/bp-core-signup.php:397
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:528 bp-core/bp-core-signup.php:532
+#: bp-core/bp-core-signup.php:482 bp-core/bp-core-signup.php:486
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-core/bp-core-signup.php:579
+#: bp-core/bp-core-signup.php:533
 msgid "%s became a registered member"
 msgstr ""
 
@@ -1209,7 +1198,7 @@ msgid "Create an Account"
 msgstr ""
 
 #: bp-core/bp-core-templatetags.php:927
-#: bp-themes/bp-default/registration/activate.php:28
+#: bp-themes/bp-default/registration/activate.php:24
 msgid "Activate your Account"
 msgstr ""
 
@@ -2508,6 +2497,10 @@ msgstr ""
 msgid "Changes saved."
 msgstr ""
 
+#: bp-xprofile.php:321
+msgid "There was a problem cropping your avatar, please try uploading it again"
+msgstr ""
+
 #: bp-xprofile.php:323
 msgid "Your new avatar was uploaded successfully!"
 msgstr ""
@@ -3217,23 +3210,23 @@ msgstr ""
 msgid "Sorry, but you are looking for something that isn't here."
 msgstr ""
 
-#: bp-themes/bp-default/registration/activate.php:16
+#: bp-themes/bp-default/registration/activate.php:12
 msgid "Account Activated"
 msgstr ""
 
-#: bp-themes/bp-default/registration/activate.php:21
+#: bp-themes/bp-default/registration/activate.php:17
 msgid "Your account was activated successfully! Your account details have been sent to you in a separate email."
 msgstr ""
 
-#: bp-themes/bp-default/registration/activate.php:23
+#: bp-themes/bp-default/registration/activate.php:19
 msgid "Your account was activated successfully! You can now log in with the username and password you provided when you signed up."
 msgstr ""
 
-#: bp-themes/bp-default/registration/activate.php:32
+#: bp-themes/bp-default/registration/activate.php:28
 msgid "Please provide a valid activation key."
 msgstr ""
 
-#: bp-themes/bp-default/registration/activate.php:36
+#: bp-themes/bp-default/registration/activate.php:32
 msgid "Activation Key:"
 msgstr ""
 
@@ -3294,53 +3287,12 @@ msgstr ""
 msgid "Sign Up Complete!"
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:226
+#: bp-themes/bp-default/registration/register.php:227
 msgid "You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address."
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:228
+#: bp-themes/bp-default/registration/register.php:229
 msgid "You have successfully created your account! Please log in using the username and password you have just created."
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:235
-msgid "Your Current Avatar"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:236
-msgid "We've fetched an avatar for your new account. If you'd like to change this, why not upload a new one?"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:244
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:17
-#: bp-themes/bp-default/groups/single/admin.php:114
-#: bp-themes/bp-default/groups/create.php:118
-msgid "Upload Image"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:256
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:32
-msgid "Crop Your New Avatar"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:258
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:34
-#: bp-themes/bp-default/groups/single/admin.php:134
-#: bp-themes/bp-default/groups/create.php:131
-msgid "Avatar to crop"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:261
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:37
-#: bp-themes/bp-default/groups/single/admin.php:137
-#: bp-themes/bp-default/groups/create.php:134
-msgid "Avatar preview"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:264
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:40
-#: bp-themes/bp-default/groups/single/admin.php:140
-#: bp-themes/bp-default/groups/create.php:137
-msgid "Crop Image"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:158
@@ -3663,6 +3615,12 @@ msgstr ""
 msgid "Click below to select a JPG, GIF or PNG format photo from your computer and then click 'Upload Image' to proceed."
 msgstr ""
 
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:17
+#: bp-themes/bp-default/groups/single/admin.php:114
+#: bp-themes/bp-default/groups/create.php:118
+msgid "Upload Image"
+msgstr ""
+
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:22
 msgid "If you'd like to delete your current avatar but not upload a new one, please use the delete avatar button."
 msgstr ""
@@ -3674,6 +3632,28 @@ msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:23
 msgid "Delete My Avatar"
+msgstr ""
+
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:32
+msgid "Crop Your New Avatar"
+msgstr ""
+
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:34
+#: bp-themes/bp-default/groups/single/admin.php:134
+#: bp-themes/bp-default/groups/create.php:131
+msgid "Avatar to crop"
+msgstr ""
+
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:37
+#: bp-themes/bp-default/groups/single/admin.php:137
+#: bp-themes/bp-default/groups/create.php:134
+msgid "Avatar preview"
+msgstr ""
+
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:40
+#: bp-themes/bp-default/groups/single/admin.php:140
+#: bp-themes/bp-default/groups/create.php:137
+msgid "Crop Image"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:56
