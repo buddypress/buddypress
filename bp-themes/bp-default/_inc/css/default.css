@@ -147,6 +147,7 @@ sup {
 	margin-bottom: 20px;
 	padding-top: 25px;
 	position: relative;
+	z-index: 1000;
 }
 
 #header #search-bar {
@@ -293,7 +294,6 @@ sup {
 	left: 125px;
 	top: -1px;
 	width: 128px;
-	z-index: 1000;
 }
 
 #nav ul li.sfhover > a,
