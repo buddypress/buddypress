@@ -11,7 +11,7 @@ add_action( 'bp_register_widgets', 'groups_register_widgets' );
 class BP_Groups_Widget extends WP_Widget {
 	function bp_groups_widget() {
 		$widget_ops = array( 'description' => __( 'A dynamic list of recently active, popular, and newest groups', 'buddypress' ) );
-		parent::WP_Widget( false, $name = __( 'Groups', 'buddypress' ), $widget_ops );
+		parent::WP_Widget( false, __( 'Groups', 'buddypress' ), $widget_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) ) {
 			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
@@ -28,8 +28,11 @@ class BP_Groups_Widget extends WP_Widget {
 
 		extract( $args );
 
-		if ( !$instance['group_default'] )
+		if ( empty( $instance['group_default'] ) )
 			$instance['group_default'] = 'popular';
+
+		if ( empty( $instance['title'] ) )
+			$instance['title'] = __( 'Groups', 'buddypress' );
 
 		echo $before_widget;
 		echo $before_title
