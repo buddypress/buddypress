@@ -1,5 +1,3 @@
-<?php /* This template is only used on multisite installations */ ?>
-
 <?php get_header(); ?>
 
 	<div id="content">
@@ -8,8 +6,6 @@
 		<?php do_action( 'bp_before_activation_page' ) ?>
 
 		<div class="page" id="activate-page">
-
-			<?php do_action( 'template_notices' ) ?>
 
 			<?php if ( bp_account_was_activated() ) : ?>
 

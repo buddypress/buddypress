@@ -221,6 +221,7 @@
 				<h2><?php _e( 'Sign Up Complete!', 'buddypress' ) ?></h2>
 
 				<?php do_action( 'template_notices' ) ?>
+				<?php do_action( 'bp_before_registration_confirmed' ) ?>
 
 				<?php if ( bp_registration_needs_activation() ) : ?>
 					<p><?php _e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ) ?></p>
@@ -228,56 +229,7 @@
 					<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ) ?></p>
 				<?php endif; ?>
 
-				<?php if ( bp_is_active( 'xprofile' ) && !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
-
-					<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
-
-						<h4><?php _e( 'Your Current Avatar', 'buddypress' ) ?></h4>
-						<p><?php _e( "We've fetched an avatar for your new account. If you'd like to change this, why not upload a new one?", 'buddypress' ) ?></p>
-
-						<div id="signup-avatar">
-							<?php bp_signup_avatar() ?>
-						</div>
-
-						<p>
-							<input type="file" name="file" id="file" />
-							<input type="submit" name="upload" id="upload" value="<?php _e( 'Upload Image', 'buddypress' ) ?>" />
-							<input type="hidden" name="action" id="action" value="bp_avatar_upload" />
-							<input type="hidden" name="signup_email" id="signup_email" value="<?php bp_signup_email_value() ?>" />
-							<input type="hidden" name="signup_username" id="signup_username" value="<?php bp_signup_username_value() ?>" />
-						</p>
-
-						<?php wp_nonce_field( 'bp_avatar_upload' ) ?>
-
-					<?php endif; ?>
-
-					<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
-
-						<h3><?php _e( 'Crop Your New Avatar', 'buddypress' ) ?></h3>
-
-						<img src="<?php bp_avatar_to_crop() ?>" id="avatar-to-crop" class="avatar" alt="<?php _e( 'Avatar to crop', 'buddypress' ) ?>" />
-
-						<div id="avatar-crop-pane">
-							<img src="<?php bp_avatar_to_crop() ?>" id="avatar-crop-preview" class="avatar" alt="<?php _e( 'Avatar preview', 'buddypress' ) ?>" />
-						</div>
-
-						<input type="submit" name="avatar-crop-submit" id="avatar-crop-submit" value="<?php _e( 'Crop Image', 'buddypress' ) ?>" />
-
-						<input type="hidden" name="signup_email" id="signup_email" value="<?php bp_signup_email_value() ?>" />
-						<input type="hidden" name="signup_username" id="signup_username" value="<?php bp_signup_username_value() ?>" />
-						<input type="hidden" name="signup_avatar_dir" id="signup_avatar_dir" value="<?php bp_signup_avatar_dir_value() ?>" />
-
-						<input type="hidden" name="image_src" id="image_src" value="<?php bp_avatar_to_crop_src() ?>" />
-						<input type="hidden" id="x" name="x" />
-						<input type="hidden" id="y" name="y" />
-						<input type="hidden" id="w" name="w" />
-						<input type="hidden" id="h" name="h" />
-
-						<?php wp_nonce_field( 'bp_avatar_cropstore' ) ?>
-
-					<?php endif; ?>
-
-				<?php endif; ?>
+				<?php do_action( 'bp_after_registration_confirmed' ) ?>
 
 			<?php endif; // completed-confirmation signup step ?>
 

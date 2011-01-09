@@ -155,53 +155,7 @@ function bp_core_screen_signup() {
 
 	}
 
-	$bp->avatar_admin->step = 'upload-image';
-
-	/* If user has uploaded a new avatar */
-	if ( !empty( $_FILES ) ) {
-
-		/* Check the nonce */
-		check_admin_referer( 'bp_avatar_upload' );
-
-		$bp->signup->step = 'completed-confirmation';
-
-		if ( is_multisite() ) {
-			/* Get the activation key */
-			if ( !$bp->signup->key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $_POST[ 'signup_username' ], $_POST[ 'signup_email' ] ) ) ) {
-				bp_core_add_message( __( 'There was a problem uploading your avatar, please try uploading it again', 'buddypress' ) );
-			} else {
-				/* Hash the key to create the upload folder (added security so people don't sniff the activation key) */
-				$bp->signup->avatar_dir = wp_hash( $bp->signup->key );
-			}
-		} else {
-			$user_id = bp_core_get_userid( $_POST['signup_username'] );
-			$bp->signup->avatar_dir = wp_hash( $user_id );
-		}
-
-		/* Pass the file to the avatar upload handler */
-		if ( bp_core_avatar_handle_upload( $_FILES, 'bp_core_signup_avatar_upload_dir' ) ) {
-			$bp->avatar_admin->step = 'crop-image';
-
-			/* Make sure we include the jQuery jCrop file for image cropping */
-			add_action( 'wp_print_scripts', 'bp_core_add_jquery_cropper' );
-		}
-	}
-
-	/* If the image cropping is done, crop the image and save a full/thumb version */
-	if ( isset( $_POST['avatar-crop-submit'] ) ) {
-
-		/* Check the nonce */
-		check_admin_referer( 'bp_avatar_cropstore' );
-
-		/* Reset the avatar step so we can show the upload form again if needed */
-		$bp->signup->step = 'completed-confirmation';
-		$bp->avatar_admin->step = 'upload-image';
-
-		if ( !bp_core_avatar_handle_crop( array( 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
-			bp_core_add_message( __( 'There was a problem cropping your avatar, please try uploading it again', 'buddypress' ), 'error' );
-		else
-			bp_core_add_message( __( 'Your new avatar was uploaded successfully', 'buddypress' ) );
-	}
+	do_action( 'bp_core_screen_signup' );
 	bp_core_load_template( apply_filters( 'bp_core_template_register', 'registration/register' ) );
 }
 add_action( 'wp', 'bp_core_screen_signup', 3 );
