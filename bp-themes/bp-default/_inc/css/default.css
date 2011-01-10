@@ -332,7 +332,6 @@ div#container {
 	border-bottom: 1px solid #e0e0e0;
 	background: #fff;
 	overflow: hidden;
-	margin-bottom: 20px;
 }
 
 body.activity-permalink div#container {
@@ -2236,17 +2235,21 @@ div.comment-options {
 -------------------------------------------------------------- */
 
 #footer {
-	margin-bottom: 20px;
-	padding: 19px;
+	margin: 20px 0;
+}
+
+#footer-widgets {
+	background: #fff;
+	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
 	border-radius: 6px;
+	padding: 19px;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
-	border-right: 1px solid #e0e0e0;
-	border-bottom: 1px solid #e0e0e0;
-	background: #fff;
 }
 
 #site-generator {
+	margin: 20px 20px;
 	text-align: center;
 	color: #bbb;
 	text-shadow: #fafafa 1px 1px 0;
