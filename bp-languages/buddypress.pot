@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-09 23:30:23+00:00\n"
+"POT-Creation-Date: 2011-01-10 21:30:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3379,7 +3379,7 @@ msgstr ""
 msgid "There was a problem deleting messages."
 msgstr ""
 
-#: bp-themes/bp-default/footer.php:11
+#: bp-themes/bp-default/footer.php:15
 msgid "Proudly powered by <a href=\"%1$s\">WordPress</a> and <a href=\"%2$s\">BuddyPress</a>."
 msgstr ""
 
