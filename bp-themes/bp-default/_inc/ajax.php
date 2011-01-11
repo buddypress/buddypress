@@ -146,10 +146,10 @@ function bp_dtheme_post_update() {
 		return false;
 	}
 
-	if ( empty( $_POST['object'] ) && function_exists( 'bp_activity_post_update' ) ) {
+	if ( empty( $_POST['object'] ) && bp_is_active( 'activity' ) ) {
 		$activity_id = bp_activity_post_update( array( 'content' => $_POST['content'] ) );
 	} elseif ( $_POST['object'] == 'groups' ) {
-		if ( !empty( $_POST['item_id'] ) && function_exists( 'groups_post_update' ) )
+		if ( !empty( $_POST['item_id'] ) && bp_is_active( 'groups' ) )
 			$activity_id = groups_post_update( array( 'content' => $_POST['content'], 'group_id' => $_POST['item_id'] ) );
 	} else
 		$activity_id = apply_filters( 'bp_activity_custom_update', $_POST['object'], $_POST['item_id'], $_POST['content'] );
@@ -588,7 +588,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 			$user_ids = apply_filters( 'bp_core_autocomplete_ids', $user_ids, $_GET['q'], $limit );
 		}
 	} else {
-		if ( function_exists( 'friends_search_friends' ) ) {
+		if ( bp_is_active( 'friends' ) ) {
 			$users = friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $limit, 1 );
 
 			// Keeping the bp_friends_autocomplete_list filter for backward compatibility

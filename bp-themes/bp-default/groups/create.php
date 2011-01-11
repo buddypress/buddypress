@@ -40,13 +40,7 @@
 
 					<?php do_action( 'bp_before_group_settings_creation_step' ); ?>
 
-					<?php if ( function_exists('bp_wire_install') ) : ?>
-					<div class="checkbox">
-						<label><input type="checkbox" name="group-show-wire" id="group-show-wire" value="1"<?php if ( bp_get_new_group_enable_wire() ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable comment wire', 'buddypress') ?></label>
-					</div>
-					<?php endif; ?>
-
-					<?php if ( function_exists('bp_forums_is_installed_correctly') ) : ?>
+					<?php if ( bp_is_active( 'forums' ) ) : ?>
 						<?php if ( bp_forums_is_installed_correctly() ) : ?>
 							<div class="checkbox">
 								<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php if ( bp_get_new_group_enable_forum() ) { ?> checked="checked"<?php } ?> /> <?php _e('Enable discussion forum', 'buddypress') ?></label>
@@ -156,7 +150,7 @@
 
 					<?php do_action( 'bp_before_group_invites_creation_step' ); ?>
 
-					<?php if ( function_exists( 'bp_get_total_friend_count' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
+					<?php if ( bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 						<div class="left-menu">
 
 							<div id="invite-list">

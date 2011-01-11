@@ -22,7 +22,7 @@
 
 		<?php do_action( 'bp_after_sidebar_me' ) ?>
 
-		<?php if ( function_exists( 'bp_message_get_notices' ) ) : ?>
+		<?php if ( bp_is_active( 'messages' ) ) : ?>
 			<?php bp_message_get_notices(); /* Site wide notices to all users */ ?>
 		<?php endif; ?>
 
@@ -60,7 +60,7 @@
 		<div id="forum-directory-tags" class="widget tags">
 
 			<h3 class="widgettitle"><?php _e( 'Forum Topic Tags', 'buddypress' ) ?></h3>
-			<?php if ( function_exists('bp_forums_tag_heat_map') ) : ?>
+			<?php if ( bp_is_active( 'forums' ) ) : ?>
 				<div id="tag-text"><?php bp_forums_tag_heat_map(); ?></div>
 			<?php endif; ?>
 		</div>

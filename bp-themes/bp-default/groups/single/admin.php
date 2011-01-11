@@ -39,15 +39,7 @@
 
 	<?php do_action( 'bp_before_group_settings_admin' ); ?>
 
-	<?php if ( function_exists('bp_wire_install') ) : ?>
-
-		<div class="checkbox">
-			<label><input type="checkbox" name="group-show-wire" id="group-show-wire" value="1"<?php bp_group_show_wire_setting() ?>/> <?php _e( 'Enable comment wire', 'buddypress' ) ?></label>
-		</div>
-
-	<?php endif; ?>
-
-	<?php if ( function_exists('bp_forums_is_installed_correctly') ) : ?>
+	<?php if ( bp_is_active( 'forums' ) ) : ?>
 
 		<?php if ( bp_forums_is_installed_correctly() ) : ?>
 
