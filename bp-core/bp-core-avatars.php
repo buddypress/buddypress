@@ -536,7 +536,7 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt ) {
 add_filter( 'get_avatar', 'bp_core_fetch_avatar_filter', 10, 5 );
 
 function bp_core_check_avatar_upload($file) {
-	if ( $file['error'] )
+	if ( isset( $file['error'] ) && $file['error'] )
 		return false;
 
 	return true;
