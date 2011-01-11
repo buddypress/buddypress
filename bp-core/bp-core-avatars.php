@@ -228,7 +228,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	// If no avatars could be found, try to display a gravatar
 
 	// Skips gravatar check if $no_grav is passed
-	if ( !$no_grav ) {
+	if ( ! apply_filters( 'bp_core_fetch_avatar_no_grav', $no_grav ) ) {
 
 		// Set gravatar size
 		if ( $width )
@@ -265,17 +265,15 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$email		= apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );
 		$gravatar	= apply_filters( 'bp_gravatar_url', $host ) . md5( strtolower( $email ) ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
-		// Return gravatar wrapped in <img />
-		if ( true === $html )
-			return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" alt="' . esc_attr( $alt ) . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
-
-		// ...or only return the gravatar URL
-		else
-			return apply_filters( 'bp_core_fetch_avatar_url', $gravatar );
-
 	} else {
-		return apply_filters( 'bp_core_fetch_avatar', false, $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+		// No avatar was found, and we've been told not to use a gravatar.
+		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg', $params ); 
 	}
+
+	if ( true === $html )
+		return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" alt="' . esc_attr( $alt ) . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+	else
+		return apply_filters( 'bp_core_fetch_avatar_url', $gravatar );
 }
 
 function bp_core_delete_existing_avatar( $args = '' ) {
