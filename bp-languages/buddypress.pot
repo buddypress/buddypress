@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-10 21:30:32+00:00\n"
+"POT-Creation-Date: 2011-01-11 18:30:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -295,7 +295,7 @@ msgstr ""
 
 #: bp-core/bp-core-widgets.php:16 bp-core/bp-core-widgets.php:105
 #: bp-core/admin/bp-core-upgrade.php:504 bp-core/bp-core-templatetags.php:1028
-#: bp-themes/bp-default/groups/single/admin.php:174
+#: bp-themes/bp-default/groups/single/admin.php:166
 msgid "Members"
 msgstr ""
 
@@ -612,7 +612,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-upgrade.php:94 bp-core/admin/bp-core-upgrade.php:116
 #: bp-core/admin/bp-core-upgrade.php:213 bp-core/admin/bp-core-upgrade.php:1235
-#: bp-themes/bp-default/groups/create.php:239
+#: bp-themes/bp-default/groups/create.php:233
 msgid "Finish"
 msgstr ""
 
@@ -961,47 +961,47 @@ msgstr ""
 msgid "Avatar Image"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:353
+#: bp-core/bp-core-avatars.php:351
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:354 bp-core/bp-core-avatars.php:355
+#: bp-core/bp-core-avatars.php:352 bp-core/bp-core-avatars.php:353
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:356
+#: bp-core/bp-core-avatars.php:354
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:357
+#: bp-core/bp-core-avatars.php:355
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:358
+#: bp-core/bp-core-avatars.php:356
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:362
+#: bp-core/bp-core-avatars.php:360
 msgid "Your upload failed, please try again. Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:367
+#: bp-core/bp-core-avatars.php:365
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:372
+#: bp-core/bp-core-avatars.php:370
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:383 bp-core/bp-core-avatars.php:396
+#: bp-core/bp-core-avatars.php:381 bp-core/bp-core-avatars.php:394
 msgid "Upload Failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:414
+#: bp-core/bp-core-avatars.php:412
 msgid "Upload failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:530
+#: bp-core/bp-core-avatars.php:528
 msgid "Avatar of %s"
 msgstr ""
 
@@ -1293,7 +1293,7 @@ msgstr ""
 #: bp-themes/bp-default/groups/single/forum/edit.php:34
 #: bp-themes/bp-default/groups/single/forum/edit.php:52
 #: bp-themes/bp-default/groups/single/admin.php:32
-#: bp-themes/bp-default/groups/single/admin.php:100
+#: bp-themes/bp-default/groups/single/admin.php:92
 msgid "Save Changes"
 msgstr ""
 
@@ -1727,7 +1727,7 @@ msgid "This group has no administrators"
 msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:781
-#: bp-themes/bp-default/groups/single/admin.php:215
+#: bp-themes/bp-default/groups/single/admin.php:207
 msgid "Promote to Admin"
 msgstr ""
 
@@ -1758,7 +1758,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-templatetags.php:949
 #: bp-xprofile/bp-xprofile-admin.php:86 bp-groups.php:191
-#: bp-themes/bp-default/groups/single/admin.php:303
+#: bp-themes/bp-default/groups/single/admin.php:295
 msgid "Delete Group"
 msgstr ""
 
@@ -3327,7 +3327,7 @@ msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:336
 #: bp-themes/bp-default/groups/single/send-invites.php:42
-#: bp-themes/bp-default/groups/create.php:191
+#: bp-themes/bp-default/groups/create.php:185
 msgid "Remove Invite"
 msgstr ""
 
@@ -3616,8 +3616,8 @@ msgid "Click below to select a JPG, GIF or PNG format photo from your computer a
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:17
-#: bp-themes/bp-default/groups/single/admin.php:114
-#: bp-themes/bp-default/groups/create.php:118
+#: bp-themes/bp-default/groups/single/admin.php:106
+#: bp-themes/bp-default/groups/create.php:112
 msgid "Upload Image"
 msgstr ""
 
@@ -3626,7 +3626,7 @@ msgid "If you'd like to delete your current avatar but not upload a new one, ple
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:23
-#: bp-themes/bp-default/groups/single/admin.php:122
+#: bp-themes/bp-default/groups/single/admin.php:114
 msgid "Delete Avatar"
 msgstr ""
 
@@ -3639,20 +3639,20 @@ msgid "Crop Your New Avatar"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:34
-#: bp-themes/bp-default/groups/single/admin.php:134
-#: bp-themes/bp-default/groups/create.php:131
+#: bp-themes/bp-default/groups/single/admin.php:126
+#: bp-themes/bp-default/groups/create.php:125
 msgid "Avatar to crop"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:37
-#: bp-themes/bp-default/groups/single/admin.php:137
-#: bp-themes/bp-default/groups/create.php:134
+#: bp-themes/bp-default/groups/single/admin.php:129
+#: bp-themes/bp-default/groups/create.php:128
 msgid "Avatar preview"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:40
-#: bp-themes/bp-default/groups/single/admin.php:140
-#: bp-themes/bp-default/groups/create.php:137
+#: bp-themes/bp-default/groups/single/admin.php:132
+#: bp-themes/bp-default/groups/create.php:131
 msgid "Crop Image"
 msgstr ""
 
@@ -3738,13 +3738,13 @@ msgstr ""
 
 #: bp-themes/bp-default/members/single/groups/invites.php:23
 #: bp-themes/bp-default/members/single/friends/requests.php:21
-#: bp-themes/bp-default/groups/single/admin.php:263
+#: bp-themes/bp-default/groups/single/admin.php:255
 msgid "Accept"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/groups/invites.php:24
 #: bp-themes/bp-default/members/single/friends/requests.php:22
-#: bp-themes/bp-default/groups/single/admin.php:265
+#: bp-themes/bp-default/groups/single/admin.php:257
 msgid "Reject"
 msgstr ""
 
@@ -4018,7 +4018,7 @@ msgid "There were no groups found."
 msgstr ""
 
 #: bp-themes/bp-default/groups/single/members.php:51
-#: bp-themes/bp-default/groups/single/admin.php:233
+#: bp-themes/bp-default/groups/single/admin.php:225
 msgid "This group has no members."
 msgstr ""
 
@@ -4085,12 +4085,12 @@ msgid "Send Request"
 msgstr ""
 
 #: bp-themes/bp-default/groups/single/send-invites.php:22
-#: bp-themes/bp-default/groups/create.php:175
+#: bp-themes/bp-default/groups/create.php:169
 msgid "Select people to invite from your friends list."
 msgstr ""
 
 #: bp-themes/bp-default/groups/single/send-invites.php:73
-#: bp-themes/bp-default/groups/create.php:206
+#: bp-themes/bp-default/groups/create.php:200
 msgid "Once you have built up friend connections you will be able to invite others to your group. You can send invites any time in the future by selecting the \"Send Invites\" option when viewing your new group."
 msgstr ""
 
@@ -4114,137 +4114,132 @@ msgstr ""
 msgid "Notify group members of changes via email"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:45
-#: bp-themes/bp-default/groups/create.php:45
-msgid "Enable comment wire"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:55
-#: bp-themes/bp-default/groups/create.php:52
+#: bp-themes/bp-default/groups/single/admin.php:47
+#: bp-themes/bp-default/groups/create.php:46
 msgid "Enable discussion forum"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:64
-#: bp-themes/bp-default/groups/create.php:65
+#: bp-themes/bp-default/groups/single/admin.php:56
+#: bp-themes/bp-default/groups/create.php:59
 msgid "Privacy Options"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:69
-#: bp-themes/bp-default/groups/create.php:69
+#: bp-themes/bp-default/groups/single/admin.php:61
+#: bp-themes/bp-default/groups/create.php:63
 msgid "This is a public group"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:71
-#: bp-themes/bp-default/groups/create.php:71
+#: bp-themes/bp-default/groups/single/admin.php:63
+#: bp-themes/bp-default/groups/create.php:65
 msgid "Any site member can join this group."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:72
-#: bp-themes/bp-default/groups/single/admin.php:82
-#: bp-themes/bp-default/groups/create.php:72
-#: bp-themes/bp-default/groups/create.php:81
+#: bp-themes/bp-default/groups/single/admin.php:64
+#: bp-themes/bp-default/groups/single/admin.php:74
+#: bp-themes/bp-default/groups/create.php:66
+#: bp-themes/bp-default/groups/create.php:75
 msgid "This group will be listed in the groups directory and in search results."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:73
-#: bp-themes/bp-default/groups/create.php:73
+#: bp-themes/bp-default/groups/single/admin.php:65
+#: bp-themes/bp-default/groups/create.php:67
 msgid "Group content and activity will be visible to any site member."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:79
-#: bp-themes/bp-default/groups/create.php:78
+#: bp-themes/bp-default/groups/single/admin.php:71
+#: bp-themes/bp-default/groups/create.php:72
 msgid "This is a private group"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:81
-#: bp-themes/bp-default/groups/create.php:80
+#: bp-themes/bp-default/groups/single/admin.php:73
+#: bp-themes/bp-default/groups/create.php:74
 msgid "Only users who request membership and are accepted can join the group."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:83
-#: bp-themes/bp-default/groups/single/admin.php:93
-#: bp-themes/bp-default/groups/create.php:82
-#: bp-themes/bp-default/groups/create.php:91
+#: bp-themes/bp-default/groups/single/admin.php:75
+#: bp-themes/bp-default/groups/single/admin.php:85
+#: bp-themes/bp-default/groups/create.php:76
+#: bp-themes/bp-default/groups/create.php:85
 msgid "Group content and activity will only be visible to members of the group."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:89
-#: bp-themes/bp-default/groups/create.php:87
+#: bp-themes/bp-default/groups/single/admin.php:81
+#: bp-themes/bp-default/groups/create.php:81
 msgid "This is a hidden group"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:91
-#: bp-themes/bp-default/groups/create.php:89
+#: bp-themes/bp-default/groups/single/admin.php:83
+#: bp-themes/bp-default/groups/create.php:83
 msgid "Only users who are invited can join the group."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:92
-#: bp-themes/bp-default/groups/create.php:90
+#: bp-themes/bp-default/groups/single/admin.php:84
+#: bp-themes/bp-default/groups/create.php:84
 msgid "This group will not be listed in the groups directory or search results."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:110
-#: bp-themes/bp-default/groups/create.php:114
+#: bp-themes/bp-default/groups/single/admin.php:102
+#: bp-themes/bp-default/groups/create.php:108
 msgid "Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:120
+#: bp-themes/bp-default/groups/single/admin.php:112
 msgid "If you'd like to remove the existing avatar but not upload a new one, please use the delete avatar button."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:132
+#: bp-themes/bp-default/groups/single/admin.php:124
 msgid "Crop Avatar"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:160
+#: bp-themes/bp-default/groups/single/admin.php:152
 msgid "Administrators"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:167
+#: bp-themes/bp-default/groups/single/admin.php:159
 msgid "Moderators"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:203
+#: bp-themes/bp-default/groups/single/admin.php:195
 msgid "(banned)"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:209
+#: bp-themes/bp-default/groups/single/admin.php:201
 msgid "Unban this member"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:209
+#: bp-themes/bp-default/groups/single/admin.php:201
 msgid "Remove Ban"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:213
+#: bp-themes/bp-default/groups/single/admin.php:205
 msgid "Kick and ban this member"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:213
+#: bp-themes/bp-default/groups/single/admin.php:205
 msgid "Kick &amp; Ban"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:214
+#: bp-themes/bp-default/groups/single/admin.php:206
 msgid "Promote to Mod"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:219
+#: bp-themes/bp-default/groups/single/admin.php:211
 msgid "Remove this member"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:219
+#: bp-themes/bp-default/groups/single/admin.php:211
 msgid "Remove from group"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:278
+#: bp-themes/bp-default/groups/single/admin.php:270
 msgid "There are no pending membership requests."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:295
+#: bp-themes/bp-default/groups/single/admin.php:287
 msgid "WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back, please be careful with this option."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/admin.php:298
+#: bp-themes/bp-default/groups/single/admin.php:290
 msgid "I understand the consequences of deleting this group."
 msgstr ""
 
@@ -4256,27 +4251,27 @@ msgstr ""
 msgid "* Group Description"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:57
+#: bp-themes/bp-default/groups/create.php:51
 msgid "<strong>Attention Site Admin:</strong> Group forums require the <a href=\"%s\">correct setup and configuration</a> of a bbPress installation."
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:122
+#: bp-themes/bp-default/groups/create.php:116
 msgid "To skip the avatar upload process, hit the \"Next Step\" button."
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:129
+#: bp-themes/bp-default/groups/create.php:123
 msgid "Crop Group Avatar"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:224
+#: bp-themes/bp-default/groups/create.php:218
 msgid "Previous Step"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:229
+#: bp-themes/bp-default/groups/create.php:223
 msgid "Next Step"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:234
+#: bp-themes/bp-default/groups/create.php:228
 msgid "Create Group and Continue"
 msgstr ""
 
