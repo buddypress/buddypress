@@ -2065,7 +2065,7 @@ function bp_the_body_class() {
 		if ( bp_is_blogs_component() && !bp_is_blog_page() )
 			$bp_classes[] = 'blogs';
 
-		if ( bp_is_messages_component() && !bp_is_blog_page()  )
+		if ( bp_is_messages_component() && !bp_is_blog_page() )
 			$bp_classes[] = 'messages';
 
 		if ( bp_is_friends_component() && !bp_is_blog_page() )
@@ -2076,6 +2076,12 @@ function bp_the_body_class() {
 
 		if ( bp_is_settings_component() && !bp_is_blog_page()  )
 			$bp_classes[] = 'settings';
+
+		if ( bp_is_user_profile() )
+			$bp_classes[] = 'my-profile';
+
+		if ( bp_is_my_profile() )
+			$bp_classes[] = 'my-account';
 
 		if ( bp_is_single_item() )
 			$bp_classes[] = 'single-item';
@@ -2097,6 +2103,9 @@ function bp_the_body_class() {
 
 		if ( bp_is_user_friends() )
 			$bp_classes[] = 'my-friends';
+
+		if ( bp_is_user_messages() )
+			$bp_classes[] = 'my-messages';
 
 		if ( bp_is_create_blog() )
 			$bp_classes[] = 'create-blog';
@@ -2164,7 +2173,7 @@ function bp_the_body_class() {
 		if ( is_user_logged_in() )
 			$bp_classes[] = 'logged-in';
 
-		/* Add the current_component, current_action into the bp classes */
+		// Add the current_component, current_action into the bp classes
 		if ( !bp_is_blog_page() ) {
 			if ( !empty( $bp->current_component ) )
 				$bp_classes[] = $bp->current_component;
@@ -2173,19 +2182,19 @@ function bp_the_body_class() {
 				$bp_classes[] = $bp->current_action;
 		}
 
-		/* We don't want WordPress blog classes to appear on non-blog pages. */
+		// We don't want WordPress blog classes to appear on non-blog pages.
 		if ( !bp_is_blog_page() || is_home() ) {
-			/* Preserve any custom classes already set */
+			// Preserve any custom classes already set
 			if ( !empty( $custom_classes ) )
 				$wp_classes = (array) $custom_classes;
 			else
 				$wp_classes = array();
 		}
 
-		/* Merge WP classes with BP classes */
+		// Merge WP classes with BP classes
 		$classes = array_merge( (array) $bp_classes, (array) $wp_classes );
 
-		/* Remove any duplicates */
+		// Remove any duplicates
 		$classes = array_unique( $classes );
 
 		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
