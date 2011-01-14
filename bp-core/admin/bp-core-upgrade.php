@@ -52,19 +52,25 @@ class BP_Core_Setup_Wizard {
 	var $setup_type;
 
 	function bp_core_setup_wizard() {
-		if ( !$this->current_version = get_site_option( 'bp-db-version' ) )
-			if ( $this->current_version = get_option( 'bp-db-version' ) )
+		// Look for current DB version
+		if ( !$this->current_version = get_site_option( 'bp-db-version' ) ) {
+			if ( $this->current_version = get_option( 'bp-db-version' ) ) {
 				$this->is_network_activate = true;
+			} else {
+				setcookie( 'bp-wizard-step', 0, time() + 60 * 60 * 24, COOKIEPATH );
+				$_COOKIE['bp-wizard-step'] = 0;
+			}
+		}
 
-		$this->new_version = constant( 'BP_DB_VERSION' );
-		$this->setup_type = ( empty( $this->current_version ) && !(int)get_site_option( 'bp-core-db-version' ) ) ? 'new' : 'upgrade';
+		$this->new_version  = constant( 'BP_DB_VERSION' );
+		$this->setup_type   = ( empty( $this->current_version ) && !(int)get_site_option( 'bp-core-db-version' ) ) ? 'new' : 'upgrade';
 		$this->current_step = $this->current_step();
 
-		/* Call the save method that will save data and modify $current_step */
+		// Call the save method that will save data and modify $current_step
 		if ( isset( $_POST['save'] ) )
 			$this->save( $_POST['save'] );
 
-		/* Build the steps needed for upgrade or new installations */
+		// Build the steps needed for upgrade or new installations
 		$this->steps = $this->add_steps();
 	}
 
@@ -120,7 +126,7 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function save( $step_name ) {
-		/* Save any posted values */
+		// Save any posted values
 		switch ( $step_name ) {
 			case 'db_upgrade': default:
 				$result = $this->step_db_upgrade_save();
@@ -184,9 +190,14 @@ class BP_Core_Setup_Wizard {
 				</ol>
 			</div>
 
-			<?php do_action( 'bp_admin_notices' ) ?>
+			<?php
+				do_action( 'bp_admin_notices' );
+				$step_count  = count( $this->steps ) - 1;
+				$wiz_or_set  = $this->current_step >= $step_count ? 'bp-general-settings' : 'bp-wizard';
+				$form_action = is_multisite() ? network_admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) ) : admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) );
+			?>
 
-			<form action="<?php echo site_url( '/wp-admin/admin.php?page=bp-wizard' ) ?>" method="post" id="bp-admin-form">
+			<form action="<?php echo $form_action; ?>" method="post" id="bp-admin-form">
 				<div id="bp-admin-content">
 					<?php switch ( $this->steps[$this->current_step] ) {
 						case __( 'Database Upgrade', 'buddypress'):
@@ -488,9 +499,13 @@ class BP_Core_Setup_Wizard {
 		</div>
 
 		<?php if ( 'new' == $this->setup_type ) : ?>
+
 			<p><?php _e( "BuddyPress needs to use pages to display content and directories.", 'buddypress' ) ?></p>
+
 		<?php else : ?>
+
 			<p><?php _e( "New versions of BuddyPress use WordPress pages to display content. This allows you to easily change the names of pages or move them to a sub page.", 'buddypress' ) ?></p>
+
 		<?php endif; ?>
 
 		<p><?php _e( "Please select the WordPress pages you would like to use to display these. You can either choose an existing page or let BuddyPress auto-create pages for you. If you'd like to manually create pages, please go ahead and do that now, you can come back to this step once you are finished.", 'buddypress' ) ?></p>
@@ -505,61 +520,69 @@ class BP_Core_Setup_Wizard {
 					<p><?php _e( 'Displays member profiles, and a directory of all site members.', 'buddypress' ) ?></p>
 				</th>
 				<td>
-					<p><input type="radio" name="bp_pages[members]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-members-page&echo=0&show_option_none=".__('- Select -')."&selected=" . $existing_pages['members'] ) ?></p>
-					<p><input type="radio" name="bp_pages[members]" checked="checked" value="<?php echo $members_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo site_url( $members_slug ) ?>/</p>
+					<p><input type="radio" name="bp_pages[members]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-members-page&echo=0&show_option_none=" . __('- Select -') . "&selected=" . $existing_pages['members'] ) ?></p>
+					<p><input type="radio" name="bp_pages[members]" checked="checked" value="<?php echo $members_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $members_slug ) ?>/</p>
 				</td>
 			</tr>
 
 			<?php if ( !isset( $disabled_components['bp-activity.php'] ) ) : ?>
-			<tr valign="top">
-				<th scope="row">
-					<h5><?php _e( 'Site Activity', 'buddypress' ) ?></h5>
-					<p><?php _e( "Displays the activity for the entire site, a member's friends, groups and @mentions.", 'buddypress' ) ?></p>
-				</th>
-				<td>
-					<p><input type="radio" name="bp_pages[activity]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-activity-page&echo=0&show_option_none=".__('- Select -')."&selected=" . $existing_pages['activity'] ) ?></p>
-					<p><input type="radio" name="bp_pages[activity]" checked="checked" value="<?php echo $activity_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo site_url( $activity_slug ) ?>/</p>
-				</td>
-			</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<h5><?php _e( 'Site Activity', 'buddypress' ) ?></h5>
+						<p><?php _e( "Displays the activity for the entire site, a member's friends, groups and @mentions.", 'buddypress' ) ?></p>
+					</th>
+					<td>
+						<p><input type="radio" name="bp_pages[activity]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-activity-page&echo=0&show_option_none=" . __('- Select -') . "&selected=" . $existing_pages['activity'] ) ?></p>
+						<p><input type="radio" name="bp_pages[activity]" checked="checked" value="<?php echo $activity_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $activity_slug ) ?>/</p>
+					</td>
+				</tr>
+
 			<?php endif; ?>
 
 			<?php if ( !isset( $disabled_components['bp-groups.php'] ) ) : ?>
-			<tr valign="top">
-				<th scope="row">
-					<h5><?php _e( 'Groups', 'buddypress' ) ?></h5>
-					<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ) ?></p>
-				</th>
-				<td>
-					<p><input type="radio" name="bp_pages[groups]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-groups-page&echo=0&show_option_none=".__('- Select -')."&selected=" . $existing_pages['groups'] ) ?></p>
-					<p><input type="radio" name="bp_pages[groups]" checked="checked" value="<?php echo $groups_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo site_url( $groups_slug ) ?>/</p>
-				</td>
-			</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<h5><?php _e( 'Groups', 'buddypress' ) ?></h5>
+						<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ) ?></p>
+					</th>
+					<td>
+						<p><input type="radio" name="bp_pages[groups]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-groups-page&echo=0&show_option_none=" . __('- Select -') . "&selected=" . $existing_pages['groups'] ) ?></p>
+						<p><input type="radio" name="bp_pages[groups]" checked="checked" value="<?php echo $groups_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $groups_slug ) ?>/</p>
+					</td>
+				</tr>
+				
 			<?php endif; ?>
 
 			<?php if ( !isset( $disabled_components['bp-forums.php'] ) ) : ?>
-			<tr valign="top">
-				<th scope="row">
-					<h5><?php _e( 'Forums', 'buddypress' ) ?></h5>
-					<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ) ?></p>
-				</th>
-				<td>
-					<p><input type="radio" name="bp_pages[forums]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-forums-page&echo=0&show_option_none=".__('- Select -')."&selected=" . $existing_pages['forums'] ) ?></p>
-					<p><input type="radio" name="bp_pages[forums]" checked="checked" value="<?php echo $forums_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo site_url( $forums_slug ) ?>/</p>
-				</td>
-			</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<h5><?php _e( 'Forums', 'buddypress' ) ?></h5>
+						<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ) ?></p>
+					</th>
+					<td>
+						<p><input type="radio" name="bp_pages[forums]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-forums-page&echo=0&show_option_none=" . __('- Select -') . "&selected=" . $existing_pages['forums'] ) ?></p>
+						<p><input type="radio" name="bp_pages[forums]" checked="checked" value="<?php echo $forums_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $forums_slug ) ?>/</p>
+					</td>
+				</tr>
+
 			<?php endif; ?>
 
 			<?php if ( is_multisite() && !isset( $disabled_components['bp-blogs.php'] ) ) : ?>
-			<tr valign="top">
-				<th scope="row">
-					<h5><?php _e( 'Blogs', 'buddypress' ) ?></h5>
-					<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ) ?></p>
-				</th>
-				<td>
-					<p><input type="radio" name="bp_pages[blogs]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-blogs-page&echo=0&show_option_none=".__('- Select -')."&selected=" . $existing_pages['blogs'] ) ?></p>
-					<p><input type="radio" name="bp_pages[blogs]" checked="checked" value="<?php echo $blogs_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo site_url( $blogs_slug ) ?>/</p>
-				</td>
-			</tr>
+
+				<tr valign="top">
+					<th scope="row">
+						<h5><?php _e( 'Blogs', 'buddypress' ) ?></h5>
+						<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ) ?></p>
+					</th>
+					<td>
+						<p><input type="radio" name="bp_pages[blogs]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-blogs-page&echo=0&show_option_none=" . __('- Select -') . "&selected=" . $existing_pages['blogs'] ) ?></p>
+						<p><input type="radio" name="bp_pages[blogs]" checked="checked" value="<?php echo $blogs_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $blogs_slug ) ?>/</p>
+					</td>
+				</tr>
+
 			<?php endif; ?>
 
 			<tr valign="top">
@@ -568,8 +591,8 @@ class BP_Core_Setup_Wizard {
 					<p><?php _e( 'Displays a site registration page where users can create new accounts.', 'buddypress' ) ?></p>
 				</th>
 				<td>
-					<p><input type="radio" name="bp_pages[register]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-register-page&echo=0&show_option_none=".__('- Select -')."&selected=" . $existing_pages['register'] ) ?></p>
-					<p><input type="radio" name="bp_pages[register]" checked="checked" value="<?php echo $register_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo site_url( $register_slug ) ?>/</p>
+					<p><input type="radio" name="bp_pages[register]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-register-page&echo=0&show_option_none=" . __('- Select -') . "&selected=" . $existing_pages['register'] ) ?></p>
+					<p><input type="radio" name="bp_pages[register]" checked="checked" value="<?php echo $register_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $register_slug ) ?>/</p>
 				</td>
 			</tr>
 
@@ -579,8 +602,8 @@ class BP_Core_Setup_Wizard {
 					<p><?php _e( 'The page users will visit to activate their account once they have registered.', 'buddypress' ) ?></p>
 				</th>
 				<td>
-					<p><input type="radio" name="bp_pages[activate]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-activate-page&echo=0&show_option_none=".__('- Select -')."&selected=" . $existing_pages['activate'] ) ?></p>
-					<p><input type="radio" name="bp_pages[activate]" checked="checked" value="<?php echo $activation_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo site_url( $activation_slug ) ?>/</p>
+					<p><input type="radio" name="bp_pages[activate]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ) ?> <?php echo wp_dropdown_pages("name=bp-activate-page&echo=0&show_option_none=" . __('- Select -') . "&selected=" . $existing_pages['activate'] ) ?></p>
+					<p><input type="radio" name="bp_pages[activate]" checked="checked" value="<?php echo $activation_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $activation_slug ) ?>/</p>
 				</td>
 			</tr>
 		</table>
@@ -590,7 +613,9 @@ class BP_Core_Setup_Wizard {
 
 			<input type="hidden" name="save" value="pages" />
 			<input type="hidden" name="step" value="<?php echo esc_attr( $this->current_step ) ?>" />
+
 			<?php wp_nonce_field( 'bpwizard_pages' )?>
+
 		</div>
 
 		<script type="text/javascript">
@@ -752,7 +777,9 @@ class BP_Core_Setup_Wizard {
 
 			<input type="hidden" name="save" value="theme" />
 			<input type="hidden" name="step" value="<?php echo esc_attr( $this->current_step ) ?>" />
+
 			<?php wp_nonce_field( 'bpwizard_theme' ) ?>
+
 		</div>
 
 		<script type="text/javascript">
@@ -772,13 +799,15 @@ class BP_Core_Setup_Wizard {
 		</div>
 
 		<?php if ( 'new' == $this->setup_type ) :
-			$type = __( 'setup', 'buddypress' );
-		?>
+			$type = __( 'setup', 'buddypress' ); ?>
+
 			<h2>Setup Complete!</h2>
+
 		<?php else :
-			$type = __( 'upgrade', 'buddypress' );
-		?>
+			$type = __( 'upgrade', 'buddypress' ); ?>
+
 			<h2>Upgrade Complete!</h2>
+
 		<?php endif; ?>
 
 		<p><?php printf( __( "You've now completed all of the %s steps and BuddyPress is ready to be activated. Please hit the 'Finish &amp; Activate' button to complete the %s procedure.", 'buddypress' ), $type, $type ) ?></p>
@@ -789,7 +818,9 @@ class BP_Core_Setup_Wizard {
 
 			<input type="hidden" name="save" value="finish" />
 			<input type="hidden" name="step" value="<?php echo esc_attr( $this->current_step ) ?>" />
+
 			<?php wp_nonce_field( 'bpwizard_finish' ) ?>
+
 		</div>
 
 		<p>[TODO: A selection of the best BuddyPress plugins will appear here.]</p>
@@ -990,12 +1021,16 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) && isset( $_POST['theme'] ) ) {
 			check_admin_referer( 'bpwizard_theme' );
 
+			// Update the DB version in the database
+			update_site_option( 'bp-db-version', constant( 'BP_DB_VERSION' ) );
+			delete_site_option( 'bp-core-db-version' );
+
 			require_once( ABSPATH . WPINC . '/plugin.php' );
 			$installed_plugins = get_plugins();
 
 			switch ( $_POST['theme'] ) {
 				case 'bp_default':
-					/* Activate the bp-default theme */
+					// Activate the bp-default theme
 					switch_theme( 'bp-default', 'bp-default' );
 					break;
 
@@ -1029,15 +1064,13 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'bpwizard_finish' );
 
-			/* Update the DB version in the database */
-			update_site_option( 'bp-db-version', constant( 'BP_DB_VERSION' ) );
-			delete_site_option( 'bp-core-db-version' );
-
-			/* Delete the setup cookie */
+			// Delete the setup cookie
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
-			/* Redirect to the BuddyPress dashboard */
-			wp_redirect( admin_url( 'admin.php?page=bp-general-settings' ) );
+			// Redirect to the BuddyPress dashboard
+			$redirect = is_multisite() ? network_admin_url( add_query_arg( array( 'page' => 'bp-general-settings' ) ) ) : admin_url( add_query_arg( array( 'page' => 'bp-general-settings' ) ) );
+
+			wp_redirect( $redirect );
 
 			return true;
 		}
@@ -1048,13 +1081,13 @@ class BP_Core_Setup_Wizard {
 	function setup_pages( $pages ) {
 		foreach ( $pages as $key => $value ) {
 			if ( 'page' == $value ) {
-				/* Check for the selected page */
+				// Check for the selected page
 				if ( !empty( $_POST['bp-' . $key . '-page'] ) )
 					$bp_pages[$key] = (int)$_POST['bp-' . $key . '-page'];
 				else
 					$bp_pages[$key] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $key ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 			} else {
-				/* Create a new page */
+				// Create a new page
 				$bp_pages[$key] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $value ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 			}
 		}
@@ -1064,16 +1097,23 @@ class BP_Core_Setup_Wizard {
 
 	/* Database upgrade methods based on version numbers */
 	function upgrade_1_3() {
-		/* Run the schema install to upgrade tables */
+		// Run the schema install to upgrade tables
 		bp_core_install();
 
-		/* Delete old database version options */
+		// Delete old database version options
 		delete_site_option( 'bp-activity-db-version' );
 		delete_site_option( 'bp-blogs-db-version' );
 		delete_site_option( 'bp-friends-db-version' );
 		delete_site_option( 'bp-groups-db-version' );
 		delete_site_option( 'bp-messages-db-version' );
 		delete_site_option( 'bp-xprofile-db-version' );
+	}
+	
+	/**
+	 * Reset the cookie so the install script starts over
+	 */
+	function reset_cookie() {
+		@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 	}
 }
 
@@ -1082,7 +1122,8 @@ function bp_core_setup_wizard_init() {
 
 	$bp_wizard = new BP_Core_Setup_Wizard;
 }
-add_action( 'admin_menu', 'bp_core_setup_wizard_init' );
+is_multisite() ? add_action( 'network_admin_menu', 'bp_core_setup_wizard_init' ) : add_action( 'admin_menu', 'bp_core_setup_wizard_init' );
+	
 
 function bp_core_install( $disabled = false ) {
 	global $wpdb;
@@ -1092,30 +1133,30 @@ function bp_core_install( $disabled = false ) {
 
 	require_once( dirname( __FILE__ ) . '/bp-core-schema.php' );
 
-	/* Core DB Tables */
+	// Core DB Tables
 	bp_core_install_notifications();
 
-	/* Activity Streams */
+	// Activity Streams
 	if ( empty( $disabled['bp-activity.php'] ) )
 		bp_core_install_activity_streams();
 
-	/* Friend Connections */
+	// Friend Connections
 	if ( empty( $disabled['bp-friends.php'] ) )
 		bp_core_install_friends();
 
-	/* Extensible Groups */
+	// Extensible Groups
 	if ( empty( $disabled['bp-groups.php'] ) )
 		bp_core_install_groups();
 
-	/* Private Messaging */
+	// Private Messaging
 	if ( empty( $disabled['bp-messages.php'] ) )
 		bp_core_install_private_messaging();
 
-	/* Extended Profiles */
+	// Extended Profiles
 	if ( empty( $disabled['bp-xprofile.php'] ) )
 		bp_core_install_extended_profiles();
 
-	/* Only install blog tables if this is a multisite installation */
+	// Only install blog tables if this is a multisite installation
 	if ( is_multisite() && empty( $disabled['bp-blogs.php'] ) )
 		bp_core_install_blog_tracking();
 }
@@ -1127,11 +1168,11 @@ function bp_core_upgrade( $disabled ) {
 }
 
 function bp_upgrade_db_stuff() {
-	/* Rename the old user activity cached table if needed. */
+	// Rename the old user activity cached table if needed.
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_activity_user_activity_cached%'" ) )
 		$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
 
-	/* Rename fields from pre BP 1.2 */
+	// Rename fields from pre BP 1.2
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->activity->table_name}%'" ) ) {
 		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->activity->table_name} LIKE 'component_action'" ) )
 			$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE component_action type varchar(75) NOT NULL" );
@@ -1149,7 +1190,7 @@ function bp_upgrade_db_stuff() {
 	if ( is_multisite() )
 		bp_core_add_illegal_names();
 
-	/* Upgrade and remove the message threads table if it exists */
+	// Upgrade and remove the message threads table if it exists
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_messages_threads%'" ) ) {
 		$upgrade = BP_Messages_Thread::upgrade_tables();
 
@@ -1170,40 +1211,22 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 	global $menu, $admin_page_hooks, $_registered_pages;
 
 	$defaults = array(
-		'page_title' => '',
-		'menu_title' => '',
-		'access_level' => 2,
-		'file' => false,
-		'function' => false,
-		'icon_url' => false,
-		'position' => 100
+		'page_title'   => '',
+		'menu_title'   => '',
+		'capability'   => 'manage_options',
+		'menu_slug'    => '',
+		'function'     => false,
+		'icon_url'     => false,
+		'position'     => 100
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$file = plugin_basename( $file );
-
-	$admin_page_hooks[$file] = sanitize_title( $menu_title );
-
-	$hookname = get_plugin_page_hookname( $file, '' );
-	if ( ! empty( $function ) && !empty ( $hookname ) )
-		add_action( $hookname, $function );
-
-	if ( empty($icon_url) )
-		$icon_url = 'images/generic.png';
-	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
-		$icon_url = 'https://' . substr($icon_url, 7);
-
-	do {
-		$position++;
-	} while ( !empty( $menu[$position] ) );
-
-	$menu[$position] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
-
-	$_registered_pages[$hookname] = true;
-
-	return $hookname;
+	if ( is_multisite() )
+		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+	else
+		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
 }
 
 function bp_core_wizard_message() {
@@ -1260,21 +1283,22 @@ function bp_core_add_admin_menu() {
 	else
 		$status = __( 'Upgrade', 'buddypress' );
 
-	/* Add the administration tab under the "Site Admin" tab for site administrators */
+	// Add the administration tab under the "Site Admin" tab for site administrators
 	bp_core_add_admin_menu_page( array(
-		'menu_title' => __( 'BuddyPress', 'buddypress' ),
-		'page_title' => __( 'BuddyPress', 'buddypress' ),
-		'access_level' => 10, 'file' => 'bp-wizard',
-		'function' => '',
-		'position' => 2
+		'menu_title'   => __( 'BuddyPress', 'buddypress' ),
+		'page_title'   => __( 'BuddyPress', 'buddypress' ),
+		'capability'   => 'manage_options',
+		'menu_slug'    => 'bp-wizard',
+		'function'     => '',
+		'position'     => 3
 	) );
 
 	$hook = add_submenu_page( 'bp-wizard', $status, $status, 'manage_options', 'bp-wizard', array( $bp_wizard, 'html' ) );
 
-	/* Add a hook for css/js */
+	// Add a hook for css/js
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
-add_action( 'admin_menu', 'bp_core_add_admin_menu' );
+is_multisite() ? add_action( 'network_admin_menu', 'bp_core_add_admin_menu' ) : add_action( 'admin_menu', 'bp_core_add_admin_menu' );
 
 function bp_core_add_admin_menu_styles() {
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
@@ -1286,10 +1310,23 @@ function bp_core_add_admin_menu_styles() {
 	wp_enqueue_style( 'thickbox' );
 ?>
 	<style type="text/css">
-		ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image a { background-position: -1px 0; }
+		/* Wizard Icon */
 		ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a img { display: none; }
+		ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image a,
+		ul#adminmenu li.toplevel_page_bp-wizard.wp-has-current-submenu .wp-menu-image a {
+			background-position: -1px 0;
+		}
+
+		/* Settings Icon */
+		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img { display: none; }
+		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a,
+		ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a {
+			background-position: -1px 0;
+		}
 	</style>
 <?php
 }
+add_action( 'admin_head', 'bp_core_add_admin_menu_styles' );
 ?>

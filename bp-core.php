@@ -298,7 +298,7 @@ function bp_core_admin_menu_init() {
 
 	require ( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin.php' );
 }
-add_action( 'admin_menu', 'bp_core_admin_menu_init' );
+is_multisite() ? add_action( 'network_admin_menu', 'bp_core_admin_menu_init' ) : add_action( 'admin_menu', 'bp_core_admin_menu_init' );
 
 /**
  * bp_core_add_admin_menu()
@@ -314,22 +314,23 @@ function bp_core_add_admin_menu() {
 	if ( !is_super_admin() )
 		return false;
 
-	/* Add the administration tab under the "Site Admin" tab for site administrators */
+	// Add the administration tab under the "Site Admin" tab for site administrators
 	$hook = bp_core_add_admin_menu_page( array(
-		'menu_title' => __( 'BuddyPress', 'buddypress' ),
-		'page_title' => __( 'BuddyPress', 'buddypress' ),
-		'access_level' => 10, 'file' => 'bp-general-settings',
-		'function' => 'bp_core_admin_dashboard',
-		'position' => 2
+		'menu_title'   => __( 'BuddyPress', 'buddypress' ),
+		'page_title'   => __( 'BuddyPress', 'buddypress' ),
+		'capability'   => 'manage_options',
+		'file'         => 'bp-general-settings',
+		'function'     => 'bp_core_admin_dashboard',
+		'position'     => 2
 	) );
 
 	add_submenu_page( 'bp-general-settings', __( 'BuddyPress Dashboard', 'buddypress' ), __( 'Dashboard', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_dashboard' );
-	add_submenu_page( 'bp-general-settings', __( 'Settings', 'buddypress' ), __( 'Settings', 'buddypress' ), 'manage_options', 'bp-settings', 'bp_core_admin_settings' );
+	add_submenu_page( 'bp-general-settings', __( 'Settings', 'buddypress' ),             __( 'Settings',  'buddypress' ), 'manage_options', 'bp-settings',         'bp_core_admin_settings'  );
 
-	/* Add a hook for css/js */
+	// Add a hook for css/js
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
-add_action( 'admin_menu', 'bp_core_add_admin_menu' );
+is_multisite() ? add_action( 'network_admin_menu', 'bp_core_add_admin_menu' ) : add_action( 'admin_menu', 'bp_core_add_admin_menu' );
 
 /**
  * bp_core_is_root_component()
@@ -1815,13 +1816,13 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 	global $menu, $admin_page_hooks, $_registered_pages;
 
 	$defaults = array(
-		'page_title' => '',
-		'menu_title' => '',
-		'access_level' => 2,
-		'file' => false,
-		'function' => false,
-		'icon_url' => false,
-		'position' => 100
+		'page_title'   => '',
+		'menu_title'   => '',
+		'capability'   => 'manage_options',
+		'file'         => false,
+		'function'     => false,
+		'icon_url'     => false,
+		'position'     => 100
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -1844,7 +1845,7 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 		$position++;
 	} while ( !empty( $menu[$position] ) );
 
-	$menu[$position] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
+	$menu[$position] = array ( $menu_title, $capability, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
 
 	$_registered_pages[$hookname] = true;
 

@@ -33,13 +33,24 @@ add_action( 'init', 'bp_core_add_admin_bar_css' );
  * @package BuddyPress Core
  */
 function bp_core_admin_menu_icon_css() {
-	global $bp;
-?>
+	global $bp; ?>
 
 	<style type="text/css">
-		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a { background-image: url( <?php echo BP_PLUGIN_URL . '/bp-core/images/admin_menu_icon.png' ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a, ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a { background-position: -1px 0; }
+		/* Wizard Icon */
+		ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a img { display: none; }
+		ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image a,
+		ul#adminmenu li.toplevel_page_bp-wizard.wp-has-current-submenu .wp-menu-image a {
+			background-position: -1px 0;
+		}
+
+		/* Settings Icon */
 		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img { display: none; }
+		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a,
+		ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a {
+			background-position: -1px 0;
+		}
 	</style>
 
 <?php
@@ -84,10 +95,13 @@ function bp_core_add_cropper_inline_js() {
 
 	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( BP_AVATAR_UPLOAD_PATH . $bp->avatar_admin->image->dir ) );
 	$aspect_ratio = 1;
+	
+	$full_height = (int) constant( 'BP_AVATAR_FULL_HEIGHT' );
+	$full_width  = (int) constant( 'BP_AVATAR_FULL_WIDTH'  );
 
 	// Calculate Aspect Ratio
-	if ( (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) && ( (int) constant( 'BP_AVATAR_FULL_WIDTH' ) != (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ) )
-		$aspect_ratio = (int) constant( 'BP_AVATAR_FULL_WIDTH' ) / (int) constant( 'BP_AVATAR_FULL_HEIGHT' );
+	if ( $full_height && ( $full_width != $full_height ) )
+		$aspect_ratio = $full_width / $full_height;
 
 	$width  = $image[0] / 2;
 	$height = $image[1] / 2;
@@ -114,13 +128,13 @@ function bp_core_add_cropper_inline_js() {
 
 		function showPreview(coords) {
 			if ( parseInt(coords.w) > 0 ) {
-				var rx = <?php echo (int) constant( 'BP_AVATAR_FULL_WIDTH' ) ?> / coords.w;
-				var ry = <?php echo (int) constant( 'BP_AVATAR_FULL_HEIGHT' ) ?> / coords.h;
+				var rx = <?php echo $full_width; ?> / coords.w;
+				var ry = <?php echo $full_height; ?> / coords.h;
 
 				jQuery('#avatar-crop-preview').css({
 				<?php if ( $image ) : ?>
-					width: Math.round(rx * <?php echo $image[0] ?>) + 'px',
-					height: Math.round(ry * <?php echo $image[1] ?>) + 'px',
+					width: Math.round(rx * <?php echo $image[0]; ?>) + 'px',
+					height: Math.round(ry * <?php echo $image[1]; ?>) + 'px',
 				<?php endif; ?>
 					marginLeft: '-' + Math.round(rx * coords.x) + 'px',
 					marginTop: '-' + Math.round(ry * coords.y) + 'px'
