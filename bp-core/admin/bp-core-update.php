@@ -63,14 +63,14 @@ class BP_Core_Setup_Wizard {
 		}
 
 		$this->new_version  = constant( 'BP_DB_VERSION' );
-		$this->setup_type   = ( empty( $this->current_version ) && !(int)get_site_option( 'bp-core-db-version' ) ) ? 'new' : 'upgrade';
+		$this->setup_type   = ( empty( $this->current_version ) && !(int)get_site_option( 'bp-core-db-version' ) ) ? 'new' : 'update';
 		$this->current_step = $this->current_step();
 
 		// Call the save method that will save data and modify $current_step
 		if ( isset( $_POST['save'] ) )
 			$this->save( $_POST['save'] );
 
-		// Build the steps needed for upgrade or new installations
+		// Build the steps needed for update or new installations
 		$this->steps = $this->add_steps();
 	}
 
@@ -108,13 +108,13 @@ class BP_Core_Setup_Wizard {
 				$steps = array_merge( array(), $steps );
 			}
 		} else {
-			// Upgrade wizard steps
+			// Update wizard steps
 
 			if ( $this->is_network_activate )
-				$steps[] = __( 'Multisite Upgrade', 'buddypress' );
+				$steps[] = __( 'Multisite Update', 'buddypress' );
 
 			if ( $this->current_version < $this->new_version )
-				$steps[] = __( 'Database Upgrade', 'buddypress' );
+				$steps[] = __( 'Database Update', 'buddypress' );
 
 			if ( $this->current_version < 1225 )
 				$steps[] = __( 'Pages', 'buddypress' );
@@ -128,14 +128,14 @@ class BP_Core_Setup_Wizard {
 	function save( $step_name ) {
 		// Save any posted values
 		switch ( $step_name ) {
-			case 'db_upgrade': default:
-				$result = $this->step_db_upgrade_save();
+			case 'db_update': default:
+				$result = $this->step_db_update_save();
 				break;
-			case 'ms_upgrade': default:
-				$result = $this->step_ms_upgrade_save();
+			case 'ms_update': default:
+				$result = $this->step_ms_update_save();
 				break;
 			case 'ms_pages': default:
-				$result = $this->step_ms_upgrade_save();
+				$result = $this->step_ms_update_save();
 				break;
 			case 'components': default:
 				$result = $this->step_components_save();
@@ -167,8 +167,8 @@ class BP_Core_Setup_Wizard {
 			<div id="bp-admin-header">
 				<h3><?php _e( 'BuddyPress', 'buddypress' ) ?></h3>
 				<h4>
-					<?php if ( 'upgrade' == $this->setup_type ) : ?>
-						<?php _e( 'Upgrade', 'buddypress' ) ?>
+					<?php if ( 'update' == $this->setup_type ) : ?>
+						<?php _e( 'Update', 'buddypress' ) ?>
 					<?php else : ?>
 						<?php _e( 'Setup', 'buddypress' ) ?>
 					<?php endif; ?>
@@ -200,14 +200,14 @@ class BP_Core_Setup_Wizard {
 			<form action="<?php echo $form_action; ?>" method="post" id="bp-admin-form">
 				<div id="bp-admin-content">
 					<?php switch ( $this->steps[$this->current_step] ) {
-						case __( 'Database Upgrade', 'buddypress'):
-							$this->step_db_upgrade();
+						case __( 'Database Update', 'buddypress'):
+							$this->step_db_update();
 							break;
-						case __( 'Multisite Upgrade', 'buddypress'):
-							$this->step_ms_upgrade();
+						case __( 'Multisite Update', 'buddypress'):
+							$this->step_ms_update();
 							break;
 						case __( 'Blog Directory', 'buddypress'):
-							$this->step_ms_upgrade();
+							$this->step_ms_update();
 							break;
 						case __( 'Components', 'buddypress'):
 							$this->step_components();
@@ -234,27 +234,27 @@ class BP_Core_Setup_Wizard {
 
 	/* Setup Step HTML */
 
-	function step_db_upgrade() {
+	function step_db_update() {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 	?>
 		<div class="prev-next submit clear">
-			<p><input type="submit" value="<?php _e( 'Upgrade &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
+			<p><input type="submit" value="<?php _e( 'Update &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
 		</div>
 
-		<p><?php _e( 'BuddyPress has been updated! Before you can continue using BuddyPress, we have to upgrade your database to the newest version.', 'buddypress' ); ?></p>
+		<p><?php _e( 'BuddyPress has been updated! Before you can continue using BuddyPress, we have to update your database to the newest version.', 'buddypress' ); ?></p>
 
 		<div class="submit clear">
-			<p><input type="submit" value="<?php _e( 'Upgrade &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
+			<p><input type="submit" value="<?php _e( 'Update &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
 
-			<input type="hidden" name="save" value="db_upgrade" />
+			<input type="hidden" name="save" value="db_update" />
 			<input type="hidden" name="step" value="<?php echo esc_attr( $this->current_step ) ?>" />
-			<?php wp_nonce_field( 'bpwizard_db_upgrade' ) ?>
+			<?php wp_nonce_field( 'bpwizard_db_update' ) ?>
 		</div>
 	<?php
 	}
 
-	function step_ms_upgrade() {
+	function step_ms_update() {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
@@ -314,9 +314,9 @@ class BP_Core_Setup_Wizard {
 		<div class="submit clear">
 			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
 
-			<input type="hidden" name="save" value="ms_upgrade" />
+			<input type="hidden" name="save" value="ms_update" />
 			<input type="hidden" name="step" value="<?php echo esc_attr( $this->current_step ) ?>" />
-			<?php wp_nonce_field( 'bpwizard_ms_upgrade' ) ?>
+			<?php wp_nonce_field( 'bpwizard_ms_update' ) ?>
 		</div>
 
 		<script type="text/javascript">
@@ -716,11 +716,11 @@ class BP_Core_Setup_Wizard {
 			<?php /*
 			<tr>
 				<th>
-					<h5>Automatically Upgrade My WordPress Theme</h5>
+					<h5>Automatically Update My WordPress Theme</h5>
 					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/auto_theme.jpg' ) ?>" alt="bp-default" />
 				</th>
 				<td>
-					<p>The BuddyPress [plugin name] plugin will automatically upgrade your existing WordPress theme so it can display BuddyPress pages. Your existing theme's page.php template file will be used to show BuddyPress content.</p>
+					<p>The BuddyPress [plugin name] plugin will automatically update your existing WordPress theme so it can display BuddyPress pages. Your existing theme's page.php template file will be used to show BuddyPress content.</p>
 					<p><strong>This is the best choice if you have an existing WordPress theme and simply want to start using BuddyPress features without control of template layout and design.</strong></p>
 					<p><label><input type="radio" name="theme" value="auto_wp" disabled="disabled" /> You must first install the [plugin name] before choosing this option</label></p>
 					<p><a id="bp-plugin-name" class="thickbox onclick button" href="http://buddypressorg.dev/wp-admin/plugin-install.php?tab=plugin-information&plugin=bp-template-pack&TB_iframe=true&width=640&height=500">+ Install Now</a></p>
@@ -729,7 +729,7 @@ class BP_Core_Setup_Wizard {
 			*/ ?>
 			<tr>
 				<th>
-					<h5><?php _e( 'Manually Upgrade My WordPress Theme', 'buddypress' ) ?>'</h5>
+					<h5><?php _e( 'Manually Update My WordPress Theme', 'buddypress' ) ?>'</h5>
 					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/manual_theme.jpg' ) ?>" alt="bp-default" />
 				</th>
 				<td>
@@ -804,9 +804,9 @@ class BP_Core_Setup_Wizard {
 			<h2>Setup Complete!</h2>
 
 		<?php else :
-			$type = __( 'upgrade', 'buddypress' ); ?>
+			$type = __( 'update', 'buddypress' ); ?>
 
-			<h2>Upgrade Complete!</h2>
+			<h2>Update Complete!</h2>
 
 		<?php endif; ?>
 
@@ -830,12 +830,12 @@ class BP_Core_Setup_Wizard {
 
 	/* Save Step Methods */
 
-	function step_db_upgrade_save() {
+	function step_db_update_save() {
 		if ( isset( $_POST['submit'] ) ) {
-			check_admin_referer( 'bpwizard_db_upgrade' );
+			check_admin_referer( 'bpwizard_db_update' );
 
 			if ( $this->current_version < 1225 )
-				$this->upgrade_1_3();
+				$this->update_1_3();
 
 			return true;
 		}
@@ -843,11 +843,11 @@ class BP_Core_Setup_Wizard {
 		return false;
 	}
 
-	function step_ms_upgrade_save() {
+	function step_ms_update_save() {
 		global $current_blog;
 
 		if ( isset( $_POST['submit'] ) ) {
-			check_admin_referer( 'bpwizard_ms_upgrade' );
+			check_admin_referer( 'bpwizard_ms_update' );
 
 			if ( !$disabled = get_option( 'bp-deactivated-components' ) )
 				$disabled = array();
@@ -1095,9 +1095,9 @@ class BP_Core_Setup_Wizard {
 		return $bp_pages;
 	}
 
-	/* Database upgrade methods based on version numbers */
-	function upgrade_1_3() {
-		// Run the schema install to upgrade tables
+	/* Database update methods based on version numbers */
+	function update_1_3() {
+		// Run the schema install to update tables
 		bp_core_install();
 
 		// Delete old database version options
@@ -1122,7 +1122,7 @@ function bp_core_setup_wizard_init() {
 
 	$bp_wizard = new BP_Core_Setup_Wizard;
 }
-is_multisite() ? add_action( 'network_admin_menu', 'bp_core_setup_wizard_init' ) : add_action( 'admin_menu', 'bp_core_setup_wizard_init' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_setup_wizard_init' );
 	
 
 function bp_core_install( $disabled = false ) {
@@ -1161,13 +1161,13 @@ function bp_core_install( $disabled = false ) {
 		bp_core_install_blog_tracking();
 }
 
-function bp_core_upgrade( $disabled ) {
+function bp_core_update( $disabled ) {
 	global $wpdb;
 
 	require_once( dirname( __FILE__ ) . '/bp-core-schema.php' );
 }
 
-function bp_upgrade_db_stuff() {
+function bp_update_db_stuff() {
 	// Rename the old user activity cached table if needed.
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_activity_user_activity_cached%'" ) )
 		$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
@@ -1190,11 +1190,11 @@ function bp_upgrade_db_stuff() {
 	if ( is_multisite() )
 		bp_core_add_illegal_names();
 
-	// Upgrade and remove the message threads table if it exists
+	// Update and remove the message threads table if it exists
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_messages_threads%'" ) ) {
-		$upgrade = BP_Messages_Thread::upgrade_tables();
+		$update = BP_Messages_Thread::update_tables();
 
-		if ( $upgrade )
+		if ( $update )
 			$wpdb->query( "DROP TABLE {$wpdb->base_prefix}bp_messages_threads" );
 	}
 
@@ -1244,7 +1244,8 @@ add_action( 'bp_admin_notices', 'bp_core_wizard_message' );
 
 /* Alter thickbox screens so the entire plugin download and install interface is contained within. */
 function bp_core_wizard_thickbox() {
-?>
+	$form_action = is_multisite() ? network_admin_url( add_query_arg( array( 'page' => 'bp-wizard', 'updated' => '1' ), 'admin.php' ) ) : admin_url( add_query_arg( array( 'page' => 'bp-wizard', 'updated' => '1' ), 'admin.php' ) ); ?>
+
 	<script type="text/javascript">
 		jQuery('p.action-button a').attr( 'target', '' );
 
@@ -1255,7 +1256,7 @@ function bp_core_wizard_thickbox() {
 			jQuery('#wpwrap').css( 'min-height', '30px' );
 			jQuery('a').removeClass( 'thickbox thickbox-preview onclick' );
 			jQuery('body.update-php div.wrap p:last').hide();
-			jQuery('body.update-php div.wrap p:last').after( '<p><a class="button" target="_parent" href="<?php echo site_url( '/wp-admin/admin.php?page=bp-wizard' ) ?>&updated=1"><?php _e( 'Finish', 'buddypress' ) ?> &rarr;</a></p>' );
+			jQuery('body.update-php div.wrap p:last').after( '<p><a class="button" target="_parent" href="<?php echo $form_action; ?>"><?php _e( 'Finish', 'buddypress' ) ?> &rarr;</a></p>' );
 		}
 	</script>
 <?php
@@ -1281,7 +1282,7 @@ function bp_core_add_admin_menu() {
 	if ( '' == get_site_option( 'bp-db-version' ) && !(int)get_site_option( 'bp-core-db-version' ) && !$bp_wizard->is_network_activate )
 		$status = __( 'Setup', 'buddypress' );
 	else
-		$status = __( 'Upgrade', 'buddypress' );
+		$status = __( 'Update', 'buddypress' );
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
 	bp_core_add_admin_menu_page( array(
@@ -1298,7 +1299,7 @@ function bp_core_add_admin_menu() {
 	// Add a hook for css/js
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
-is_multisite() ? add_action( 'network_admin_menu', 'bp_core_add_admin_menu' ) : add_action( 'admin_menu', 'bp_core_add_admin_menu' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu',  'bp_core_add_admin_menu' );
 
 function bp_core_add_admin_menu_styles() {
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )

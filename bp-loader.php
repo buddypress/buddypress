@@ -18,13 +18,13 @@ if ( !defined( 'BP_ROOT_BLOG' ) )
 
 /***
  * Check if this is the first time BuddyPress has been loaded, or the first time
- * since an upgrade. If so, load the install/upgrade routine only.
+ * since an update. If so, load the install/update routine only.
  */
 if ( get_site_option( 'bp-db-version' ) < constant( 'BP_DB_VERSION' ) ) {
-	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-upgrade.php' );
+	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
 
 /***
- * If the install or upgrade routine is completed and everything is up to date
+ * If the install or update routine is completed and everything is up to date
  * continue loading BuddyPress as normal.
  */
 } else {

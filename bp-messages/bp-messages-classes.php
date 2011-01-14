@@ -205,15 +205,15 @@ Class BP_Messages_Thread {
 		return implode( ', ', (array) $recipient_links );
 	}
 
-	/* Upgrade Functions */
+	/* Update Functions */
 
-	function upgrade_tables() {
+	function update_tables() {
 		global $wpdb, $bp;
 
 		$errors = false;
 		$threads = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->base_prefix}bp_messages_threads" ) );
 
-		/* Nothing to upgrade, just return true to remove the table */
+		/* Nothing to update, just return true to remove the table */
 		if ( empty( $threads ) )
 			return true;
 

@@ -136,7 +136,7 @@ function bp_forums_add_admin_menu() {
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
 	add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
 }
-is_multisite() ? add_action( 'network_admin_menu', 'bp_forums_add_admin_menu' ) : add_action( 'admin_menu', 'bp_forums_add_admin_menu' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_forums_add_admin_menu' );
 
 /* Forum Functions */
 

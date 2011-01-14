@@ -64,7 +64,7 @@ function bp_forums_load_bbpress() {
 
 	/* This must be loaded before functionss.bb-admin.php otherwise we get a function conflict. */
 	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) )
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once( ABSPATH . 'wp-admin/includes/update.php' );
 
 	require_once( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
 
@@ -96,7 +96,7 @@ function bp_forums_load_bbpress() {
 		/* Backticks and "IF NOT EXISTS" break the dbDelta function. */
 		dbDelta( str_replace( ' IF NOT EXISTS', '', str_replace( '`', '', $bb_queries ) ) );
 
-		require_once( BB_PATH . 'bb-admin/includes/functions.bb-upgrade.php' );
+		require_once( BB_PATH . 'bb-admin/includes/functions.bb-update.php' );
 		bb_update_db_version();
 
 		/* Set the site admins as the keymasters */

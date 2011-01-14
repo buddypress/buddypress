@@ -75,7 +75,7 @@ function xprofile_add_admin_menu() {
 	/* Add the administration tab under the "Site Admin" tab for site administrators */
 	add_submenu_page( 'bp-general-settings', __( 'Profile Field Setup', 'buddypress' ), __( 'Profile Field Setup', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
 }
-is_multisite() ? add_action( 'network_admin_menu', 'xprofile_add_admin_menu' ) : add_action( 'admin_menu', 'xprofile_add_admin_menu' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'xprofile_add_admin_menu' );
 
 /**
  * xprofile_setup_nav()

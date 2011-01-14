@@ -298,7 +298,7 @@ function bp_core_admin_menu_init() {
 
 	require ( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin.php' );
 }
-is_multisite() ? add_action( 'network_admin_menu', 'bp_core_admin_menu_init' ) : add_action( 'admin_menu', 'bp_core_admin_menu_init' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_admin_menu_init' );
 
 /**
  * bp_core_add_admin_menu()
@@ -330,7 +330,7 @@ function bp_core_add_admin_menu() {
 	// Add a hook for css/js
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
-is_multisite() ? add_action( 'network_admin_menu', 'bp_core_add_admin_menu' ) : add_action( 'admin_menu', 'bp_core_add_admin_menu' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_admin_menu' );
 
 /**
  * bp_core_is_root_component()
@@ -1973,7 +1973,7 @@ function bp_core_activation_notice() {
 		/* The best way to remove this notice is to add a "buddypress" tag to your active theme's CSS header. */
 		if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) { ?>
 			<div id="message" class="updated fade">
-				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>upgrade your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) ?></p>
+				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) ?></p>
 			</div><?php
 		}
 	}
