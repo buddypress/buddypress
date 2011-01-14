@@ -102,11 +102,4 @@ if ( !function_exists( 'is_subdomain_install' ) ) {
 		return false;
 	}
 }
-
-if ( !function_exists( 'is_site_admin' ) ) {
-	function is_site_admin( $user_id = false ) {
-		_deprecated_function( __FUNCTION__, '1.2.6', 'is_super_admin()' );
-		return is_super_admin( $user_id );
-	}
-}
 ?>
