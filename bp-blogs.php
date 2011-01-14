@@ -11,7 +11,7 @@ function bp_blogs_setup_globals() {
 
 	if ( !defined( 'BP_BLOGS_SLUG' ) && isset( $bp->pages->blogs->slug ) )
 		define ( 'BP_BLOGS_SLUG', $bp->pages->blogs->slug );
-	else
+	elseif( !defined( 'BP_BLOGS_SLUG' ) )
 		define ( 'BP_BLOGS_SLUG', 'blogs' );
 
 	// For internal identification
