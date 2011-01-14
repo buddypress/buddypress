@@ -9,8 +9,10 @@ if ( is_multisite() )
 function bp_blogs_setup_globals() {
 	global $bp, $wpdb;
 
-	if ( !defined( 'BP_BLOGS_SLUG' ) )
+	if ( !defined( 'BP_BLOGS_SLUG' ) && isset( $bp->pages->blogs->slug ) )
 		define ( 'BP_BLOGS_SLUG', $bp->pages->blogs->slug );
+	else
+		define ( 'BP_BLOGS_SLUG', 'blogs' );
 
 	// For internal identification
 	$bp->blogs->id = 'blogs';
