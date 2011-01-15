@@ -82,16 +82,10 @@ div#bp-admin-nav {
 		padding: 6px;
 	}
 
-div#bp-admin div.left-col, div#bp-admin div.right-col {
+div.component {
 	width: 323px;
 	float: left;
 	margin: 15px 30px 0 0;
-}
-div#bp-admin div.right-col { margin-right: 0; }
-
-div.component {
-	width: 323px;
-	margin: 10px 0 40px 0;
 }
 	div.component div.radio {
 		position: relative;
