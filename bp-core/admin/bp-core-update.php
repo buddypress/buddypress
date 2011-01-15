@@ -166,28 +166,17 @@ class BP_Core_Setup_Wizard {
 
 			<div id="bp-admin-header">
 				<h3><?php _e( 'BuddyPress', 'buddypress' ) ?></h3>
-				<h4>
+				<h2>
 					<?php if ( 'update' == $this->setup_type ) : ?>
-						<?php _e( 'Update', 'buddypress' ) ?>
-					<?php else : ?>
-						<?php _e( 'Setup', 'buddypress' ) ?>
-					<?php endif; ?>
-				</h4>
-			</div>
 
-			<div id="bp-admin-nav">
-				<ol>
-					<?php foreach( (array)$this->steps as $i => $name ) : ?>
-						<li<?php if ( $this->current_step == $i ) : ?> class="current"<?php endif; ?>>
-							<?php if ( $this->current_step > $i ) : ?>
-								<span class="complete">&nbsp;</span>
-							<?php else : ?>
-								<?php echo $i + 1 . '. ' ?>
-							<?php endif; ?>
-							<?php echo esc_attr( $name ) ?>
-						</li>
-					<?php endforeach; ?>
-				</ol>
+						<?php _e( 'Update', 'buddypress' ) ?>
+
+					<?php else : ?>
+
+						<?php _e( 'Setup', 'buddypress' ) ?>
+
+					<?php endif; ?>
+				</h2>
 			</div>
 
 			<?php
@@ -198,6 +187,24 @@ class BP_Core_Setup_Wizard {
 			?>
 
 			<form action="<?php echo $form_action; ?>" method="post" id="bp-admin-form">
+				<div id="bp-admin-nav">
+					<ol>
+						<?php foreach( (array)$this->steps as $i => $name ) : ?>
+							<li<?php if ( $this->current_step == $i ) : ?> class="current"<?php endif; ?>>
+								<?php if ( $this->current_step > $i ) : ?>
+									<span class="complete">&nbsp;</span>
+								<?php else : ?>
+									<?php echo $i + 1 . '. ' ?>
+								<?php endif; ?>
+								<?php echo esc_attr( $name ) ?>
+							</li>
+						<?php endforeach; ?>
+					</ol>
+					<div class="prev-next submit clear">
+						<input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" />
+					</div>
+				</div>
+
 				<div id="bp-admin-content">
 					<?php switch ( $this->steps[$this->current_step] ) {
 						case __( 'Database Update', 'buddypress'):
@@ -266,12 +273,7 @@ class BP_Core_Setup_Wizard {
 		if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
 			$existing_pages = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
 		else
-			$existing_pages = get_option( 'bp-pages' );
-
-	?>
-		<div class="prev-next submit clear">
-			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
-		</div>
+			$existing_pages = get_option( 'bp-pages' ); ?>
 
 		<p><?php printf( __( 'It looks like you have just activated WordPress Multisite mode, which allows members of your BuddyPress community to have their own WordPress blogs. You can enable or disable this feature at any time at <a href="%s">Network Options</a>.', 'buddypress' ), admin_url( 'ms-options.php' ) ); ?></p>
 
@@ -333,10 +335,6 @@ class BP_Core_Setup_Wizard {
 			return false;
 
 		$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) ); ?>
-
-		<div class="prev-next submit clear">
-			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
-		</div>
 
 		<p><?php _e( "BuddyPress is made up of a number of individual components, each one adding a distinct feature. The first step is to decide which of these features you'd like to enable on your site. All features are enabled by default, and don't worry, you can change your mind at any point in the future.", 'buddypress' ) ?></p>
 
@@ -492,12 +490,7 @@ class BP_Core_Setup_Wizard {
 		else
 			$activation_slug = __( 'activate', 'buddypress' );
 
-	?>
-		<div class="prev-next submit clear">
-			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
-		</div>
-
-		<?php if ( 'new' == $this->setup_type ) : ?>
+		if ( 'new' == $this->setup_type ) : ?>
 
 			<p><?php _e( "BuddyPress needs to use pages to display content and directories.", 'buddypress' ) ?></p>
 
@@ -636,9 +629,6 @@ class BP_Core_Setup_Wizard {
 		if ( !got_mod_rewrite() && !iis7_supports_permalinks() )
 			$prefix = '/index.php';
 	?>
-		<div class="prev-next submit clear">
-			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
-		</div>
 
 		<p><?php _e( "To make sure the pages we created in the previous step work correctly, you will need to enable permalink support on your site.", 'buddypress' ) ?></p>
 		<p><?php printf( __( 'Below are the basic permalink options, please select which permalink setting you would like to use. If you\'d like more advanced options please visit the <a href="%s">permalink settings page</a> then return to complete this setup wizard.', 'buddypress' ), site_url( '/wp-admin/options-permalink.php' ) ) ?>
@@ -694,9 +684,6 @@ class BP_Core_Setup_Wizard {
 			}
 		}
 	?>
-		<div class="prev-next submit clear">
-			<p><input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" /></p>
-		</div>
 
 		<p><?php _e( "BuddyPress introduces a whole range of new screens to display content. To display these screens you will need to decide how you want to handle them in your active theme. There are a few different options, please choose the option that best suits your demands and needs.", 'buddypress' ) ?></p>
 
@@ -792,12 +779,8 @@ class BP_Core_Setup_Wizard {
 	function step_finish() {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
-	?>
-		<div class="prev-next submit clear">
-			<p><input type="submit" value="<?php _e( 'Finish &amp; Activate &rarr;', 'buddypress' ) ?>" name="submit" /></p>
-		</div>
 
-		<?php if ( 'new' == $this->setup_type ) :
+		if ( 'new' == $this->setup_type ) :
 			$type = __( 'setup', 'buddypress' ); ?>
 
 			<h2>Setup Complete!</h2>

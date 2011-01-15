@@ -5,7 +5,7 @@ function bp_core_admin_dashboard() { ?>
 
 		<div id="bp-admin-header">
 			<h3><?php _e( 'BuddyPress', 'buddypress' ) ?></h3>
-			<h4><?php _e( 'Dashboard', 'buddypress' ) ?></h4>
+			<h2><?php _e( 'Dashboard', 'buddypress' ) ?></h2>
 		</div>
 
 		<?php do_action( 'bp_admin_notices' ) ?>
