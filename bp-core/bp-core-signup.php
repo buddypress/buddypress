@@ -337,7 +337,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 	if ( !is_email( $user_email ) )
 		$errors->add( 'user_email', __( 'Please check your email address.', 'buddypress' ) );
-	
+
 	if ( function_exists( 'is_email_address_unsafe' ) && is_email_address_unsafe( $user_email ) )
 		$errors->add( 'user_email',  __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
 
@@ -409,7 +409,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 				foreach( (array)$profile_field_ids as $field_id ) {
 					if ( empty( $usermeta["field_{$field_id}"] ) )
 						continue;
-					
+
 					$current_field = $usermeta["field_{$field_id}"];
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
 				}
@@ -494,13 +494,10 @@ function bp_core_activate_signup( $key ) {
 
 	// Update the user_url and display_name
 	// Support for WP < 3.1
-	if ( ! function_exists( 'wp_update_user' ) ) 
+	if ( ! function_exists( 'wp_update_user' ) )
  		require_once( ABSPATH . WPINC . '/registration.php' );
- 		
-	wp_update_user( array( 'ID' => $user_id, 'user_url' => bp_core_get_user_domain( $user_id ), 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
 
-	/* Add a last active entry */
-	update_user_meta( $user_id, 'last_activity', bp_core_current_time() );
+	wp_update_user( array( 'ID' => $user_id, 'user_url' => bp_core_get_user_domain( $user_id ), 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
 
 	/* Set the password on multisite installs */
 	if ( is_multisite() && !empty( $user['meta']['password'] ) )
@@ -542,9 +539,6 @@ function bp_core_map_user_registration( $user_id ) {
 	if ( !is_admin() )
 		return false;
 
-	/* Add a last active entry */
-	update_user_meta( $user_id, 'last_activity', bp_core_current_time() );
-
 	/* Add the user's fullname to Xprofile */
 	if ( function_exists( 'xprofile_set_field_data' ) ) {
 		$firstname = get_user_meta( $user_id, 'first_name', true );
@@ -581,9 +575,9 @@ function bp_core_signup_avatar_upload_dir() {
 function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$activate_url = bp_get_activation_page() ."?key=$key";
 	$activate_url = esc_url( $activate_url );
-	
+
 	$from_name = ( '' == get_option( 'blogname' ) ) ? __( 'BuddyPress', 'buddypress' ) : esc_html( get_option( 'blogname' ) );
-	
+
 	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%s\n\n", 'buddypress' ), $activate_url );
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
