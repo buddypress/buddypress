@@ -169,7 +169,7 @@ function bp_core_setup_globals() {
 		$bp->current_component = $bp->default_component;
 
 	// The default text for the members directory search box
-        $bp->default_search_strings[$bp->members->slug] = __( 'Search Members...', 'buddypress' ); 
+        $bp->default_search_strings[$bp->members->slug] = __( 'Search Members...', 'buddypress' );
 
 	do_action( 'bp_core_setup_globals' );
 }
@@ -251,7 +251,7 @@ function bp_core_get_page_names() {
 
 	if ( empty( $page_ids ) )
 		return false;
-		
+
 	$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'posts' : $wpdb->posts;
 
 	$page_ids_sql = implode( ',', (array)$page_ids );
@@ -330,7 +330,7 @@ function bp_core_add_admin_menu() {
 	// Add a hook for css/js
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_admin_menu' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_admin_menu', 9 );
 
 /**
  * bp_core_is_root_component()
@@ -1764,7 +1764,7 @@ function bp_core_strip_username_spaces( $username ) {
         // See http://trac.buddypress.org/ticket/2642
         if ( username_exists( $username ) && ( !defined( 'BP_ENABLE_USER_COMPATIBILITY_MODE' ) || !BP_ENABLE_USER_COMPATIBILITY_MODE ) )
                 return $username;
-                
+
 	return str_replace( ' ', '-', $username );
 }
 add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );

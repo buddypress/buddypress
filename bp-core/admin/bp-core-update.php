@@ -544,7 +544,7 @@ class BP_Core_Setup_Wizard {
 						<p><input type="radio" name="bp_pages[groups]" checked="checked" value="<?php echo $groups_slug ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $groups_slug ) ?>/</p>
 					</td>
 				</tr>
-				
+
 			<?php endif; ?>
 
 			<?php if ( !isset( $disabled_components['bp-forums.php'] ) ) : ?>
@@ -1090,7 +1090,7 @@ class BP_Core_Setup_Wizard {
 		delete_site_option( 'bp-messages-db-version' );
 		delete_site_option( 'bp-xprofile-db-version' );
 	}
-	
+
 	/**
 	 * Reset the cookie so the install script starts over
 	 */
@@ -1105,7 +1105,7 @@ function bp_core_setup_wizard_init() {
 	$bp_wizard = new BP_Core_Setup_Wizard;
 }
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_setup_wizard_init' );
-	
+
 
 function bp_core_install( $disabled = false ) {
 	global $wpdb;
@@ -1281,7 +1281,7 @@ function bp_core_add_admin_menu() {
 	// Add a hook for css/js
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu',  'bp_core_add_admin_menu' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu',  'bp_core_add_admin_menu', 9 );
 
 function bp_core_add_admin_menu_styles() {
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
