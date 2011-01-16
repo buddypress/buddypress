@@ -1104,7 +1104,7 @@ function bp_core_setup_wizard_init() {
 
 	$bp_wizard = new BP_Core_Setup_Wizard;
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_setup_wizard_init' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_setup_wizard_init', 7 );
 
 
 function bp_core_install( $disabled = false ) {
