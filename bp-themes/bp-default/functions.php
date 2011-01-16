@@ -85,16 +85,16 @@ function bp_dtheme_setup() {
 		define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
 		// No CSS. The %s is a placeholder for the theme template directory URI.
 		define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' );
-	
+
 		// The height and width of your custom header. You can hook into the theme's own filters to change these values.
 		// Add a filter to bp_dtheme_header_image_width and bp_dtheme_header_image_height to change these values.
 		define( 'HEADER_IMAGE_WIDTH', apply_filters( 'bp_dtheme_header_image_width', 1250 ) );
 		define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'bp_dtheme_header_image_height', 125 ) );
-	
+
 		// We'll be using post thumbnails for custom header images on posts and pages. We want them to be 1250 pixels wide by 125 pixels tall.
 		// Larger images will be auto-cropped to fit, smaller ones will be ignored.
 		set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
-	
+
 		// Add a way for the custom header to be styled in the admin panel that controls custom headers.
 		add_custom_image_header( 'bp_dtheme_header_style', 'bp_dtheme_admin_header_style' );
 	}
@@ -381,41 +381,54 @@ if ( !function_exists( 'bp_dtheme_blog_comments' ) ) :
  * @since 1.2
  */
 function bp_dtheme_blog_comments( $comment, $args, $depth ) {
-	$GLOBALS['comment'] = $comment; ?>
+	$GLOBALS['comment'] = $comment;
 
-	<?php if ( 'pingback' == $comment->comment_type ) return false; ?>
+	if ( 'pingback' == $comment->comment_type )
+		return false;
 
-	<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
+	if ( 1 == $depth )
+		$avatar_size = 50;
+	else
+		$avatar_size = 20;
+	?>
+	<li <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
 		<div class="comment-avatar-box">
 			<div class="avb">
 				<a href="<?php echo get_comment_author_url() ?>" rel="nofollow">
 					<?php if ( $comment->user_id ) : ?>
-						<?php echo bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 50, 'height' => 50, 'email' => $comment->comment_author_email ) ); ?>
+						<?php echo bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => $avatar_size, 'height' => $avatar_size, 'email' => $comment->comment_author_email ) ) ?>
 					<?php else : ?>
-						<?php echo get_avatar( $comment, 50 ) ?>
+						<?php echo get_avatar( $comment, $avatar_size ) ?>
 					<?php endif; ?>
 				</a>
 			</div>
 		</div>
 
 		<div class="comment-content">
-
 			<div class="comment-meta">
-				<?php printf( __( '%s said:', 'buddypress' ), '<a href="' . get_comment_author_url() . '" rel="nofollow">' . get_comment_author() . '</a>' ) ?>
-				<em><?php _e( 'On', 'buddypress' ) ?> <a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date() ?></a></em>
+				<a href="<?php echo get_comment_author_url() ?>" rel="nofollow"><?php echo get_comment_author() ?></a> <?php echo _n( 'said:', 'replied:', $depth, 'buddypress' ) ?></a>
+				<span class="time-since">&nbsp; <?php comment_date() ?></span>
+
+				<?php if ( 1 == $depth ) : ?>
+					&middot; <a href="#comment-<?php comment_ID() ?>"><?php _e( 'View', 'buddypress' ) ?></a>
+				<?php else: ?>
+					&middot; <?php echo comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => __( 'Reply', 'buddypress' ) ) ) ?>
+				<?php endif; ?>
+
+				<?php edit_comment_link( __( 'Edit', 'buddypress' ), '&middot; ', '' ) ?>
 			</div>
 
 			<?php if ( $comment->comment_approved == '0' ) : ?>
-			 	<em class="moderate"><?php _e( 'Your comment is awaiting moderation.', 'buddypress' ); ?></em><br />
+			 	<em class="moderate"><?php _e( 'Your comment is awaiting moderation.', 'buddypress' ) ?></em><br />
 			<?php endif; ?>
 
 			<?php comment_text() ?>
 
-			<div class="comment-options">
-				<?php echo comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?>
-				<?php edit_comment_link( __( 'Edit', 'buddypress' ), '', '' ); ?>
-			</div>
-
+			<?php if ( 1 == $depth ) : ?>
+				<div class="comment-options">
+					<?php echo comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?>
+				</div>
+			<?php endif; ?>
 		</div>
 <?php
 }
@@ -549,20 +562,59 @@ function bp_dtheme_comment_form( $default_labels ) {
 	);
 
 	$new_labels = array(
-		'cancel_reply_link'    => '<p id="cancel-comment-reply">' . __( 'Cancel reply', 'buddypress' ) . '</p>',
 		'comment_field'        => '<p class="form-textarea"><label for="comment">' . __( 'Comment', 'buddypress' ) . '</label><textarea name="comment" id="comment" cols="60" rows="10" aria-required="true"></textarea></p>',
 		'comment_notes_after'  => '',
 		'comment_notes_before' => '',
 		'fields'               => apply_filters( 'comment_form_default_fields', $fields ),
 		'logged_in_as'         => '<p class="log-in-out">' . sprintf( __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s">Log out?</a>', 'buddypress' ), bp_loggedin_user_domain(), $user_identity, wp_logout_url( get_permalink() ) ) . '</p>',
-		'must_log_in'          => '<p class="alert">' . sprintf( __( 'You must be <a href="%1$s">logged in</a> to post a comment.', 'buddypress' ), wp_login_url( get_permalink() ) )	. '</p>',
-		'title_reply'          => '<h3 id="reply" class="comments-header">' . __( 'Leave a reply', 'buddypress' ) . '</h3>',
-		'title_reply_to'       => '<h3 id="reply" class="comments-header">' . __( 'Leave a reply to %s', 'buddypress' ) . '</h3>'
+		'must_log_in'          => '<p class="alert">' . sprintf( __( 'You must be <a href="%1$s">logged in</a> to post a comment.', 'buddypress' ), wp_login_url( get_permalink() ) )	. '</p>'
 	);
 
 	return apply_filters( 'bp_dtheme_comment_form', array_merge( $default_labels, $new_labels ) );
 }
 add_filter( 'comment_form_defaults', 'bp_dtheme_comment_form', 10 );
+
+/**
+ * Adds the user's avatar before the comment form box.
+ *
+ * The 'comment_form_top' action is used to insert our HTML within <div id="reply">
+ * so that the nested comments comment-reply javascript moves the entirety of the comment reply area.
+ *
+ * @see comment_form()
+ * @since 1.3
+ */
+function bp_dtheme_before_comment_form() {
+?>
+	<div class="comment-avatar-box">
+		<div class="avb">
+			<?php if ( bp_loggedin_user_id() ) : ?>
+				<a href="<?php echo bp_loggedin_user_domain() ?>">
+					<?php echo get_avatar( bp_loggedin_user_id(), 50 ) ?>
+				</a>
+			<?php else : ?>
+				<?php echo get_avatar( 0, 50 ) ?>
+			<?php endif; ?>
+		</div>
+	</div>
+
+	<div class="comment-content standard-form">
+<?php
+}
+add_action( 'comment_form_top', 'bp_dtheme_before_comment_form' );
+
+/**
+ * Closes tags opened in bp_dtheme_before_comment_form().
+ *
+ * @see bp_dtheme_before_comment_form()
+ * @see comment_form()
+ * @since 1.3
+ */
+function bp_dtheme_after_comment_form() {
+?>
+	</div><!-- .comment-content standard-form -->
+<?php
+}
+add_action( 'comment_form', 'bp_dtheme_after_comment_form' );
 
 
 // Everything beyond this point is deprecated as of BuddyPress 1.3. This will be removed in a future version.

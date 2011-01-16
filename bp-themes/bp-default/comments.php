@@ -54,25 +54,7 @@
 <?php endif; ?>
 
 <?php if ( comments_open() ) : ?>
-	<div id="respond">
-
-		<div class="comment-avatar-box">
-			<div class="avb">
-				<?php if ( bp_loggedin_user_id() ) : ?>
-					<a href="<?php echo bp_loggedin_user_domain() ?>">
-						<?php echo get_avatar( bp_loggedin_user_id(), 50 ) ?>
-					</a>
-				<?php else : ?>
-					<?php echo get_avatar( 0, 50 ) ?>
-				<?php endif; ?>
-			</div>
-		</div>
-
-		<div class="comment-content standard-form">
-			<?php comment_form() ?>
-		</div><!-- .comment-content -->
-
-	</div><!-- #respond -->
+	<?php comment_form() ?>
 <?php endif; ?>
 
 <?php if ( !empty( $num_trackbacks ) ) : ?>
