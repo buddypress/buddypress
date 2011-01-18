@@ -790,6 +790,9 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'bpwizard_db_update' );
 
+			// Run the schema install to update tables
+			bp_core_install();
+
 			if ( $this->current_version < 1225 )
 				$this->update_1_3();
 				
@@ -1058,9 +1061,6 @@ class BP_Core_Setup_Wizard {
 
 	// Database update methods based on version numbers
 	function update_1_3() {
-		// Run the schema install to update tables
-		bp_core_install();
-
 		// Delete old database version options
 		delete_site_option( 'bp-activity-db-version' );
 		delete_site_option( 'bp-blogs-db-version'    );
