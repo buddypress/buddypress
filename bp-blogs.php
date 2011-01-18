@@ -13,16 +13,16 @@ function bp_blogs_setup_globals() {
 
 	if ( !defined( 'BP_BLOGS_SLUG' ) && isset( $bp->pages->blogs->slug ) )
 		define ( 'BP_BLOGS_SLUG', bp_core_component_slug_from_root_slug( $bp->pages->blogs->slug ) );
-	else if( !defined( 'BP_BLOGS_SLUG' ) )
+	else if ( !defined( 'BP_BLOGS_SLUG' ) )
 		define ( 'BP_BLOGS_SLUG', 'blogs' );
 
 	// For internal identification
 	$bp->blogs->id   = 'blogs';
-	$bp->blogs->name = $bp->pages->blogs->name;
+	$bp->blogs->name = !empty( $bp->pages->blogs->name ) ? $bp->pages->blogs->name : 'blogs';
 
 	// Slugs
 	$bp->blogs->slug      = BP_BLOGS_SLUG;
-	$bp->blogs->root_slug = $bp->pages->blogs->slug;
+	$bp->blogs->root_slug = !empty( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : BP_BLOGS_SLUG;
 
 	// Tables
 	$bp->blogs->table_name          = $bp->table_prefix . 'bp_user_blogs';
@@ -557,6 +557,9 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
 
 function bp_blogs_remove_post( $post_id, $blog_id = false, $user_id = false ) {
 	global $current_blog, $bp;
+	
+	if ( empty( $current_blog->blog_id ) )
+		return false;
 
 	$post_id = (int)$post_id;
 

@@ -1,45 +1,5 @@
 <?php
 
-if ( !defined( 'BP_ROOT_BLOG' ) )
-	define( 'BP_ROOT_BLOG', 1 );
-
-require_once( dirname( dirname( __FILE__ ) ) . '/bp-core-wpabstraction.php' );
-
-register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
-
-// Install site options on activation
-bp_core_activate_site_options( array( 'bp-disable-account-deletion' => 0, 'bp-disable-avatar-uploads' => 0, 'bp-disable-blogforum-comments' => 0,  'bp-disable-forum-directory' => 0,  'bp-disable-profile-sync' => 0 ) );
-
-/**
- * When switching from single to multisite we need to copy blog options to
- * site options.
- *
- * @package BuddyPress Core
- */
-function bp_core_activate_site_options( $keys = array() ) {
-	global $bp;
-
-	$bp->site_options = bp_core_get_site_options();
-
-	if ( !empty( $keys ) && is_array( $keys ) ) {
-		$errors = false;
-
-		foreach ( $keys as $key => $default ) {
-			if ( empty( $bp->site_options[ $key ] ) ) {
-				$bp->site_options[ $key ] = get_blog_option( BP_ROOT_BLOG, $key, $default );
-
-				if ( !update_site_option( $key, $bp->site_options[ $key ] ) )
-					$errors = true;
-			}
-		}
-
-		if ( empty( $errors ) )
-			return true;
-	}
-
-	return false;
-}
-
 class BP_Core_Setup_Wizard {
 	var $current_step;
 	var $steps;
@@ -114,7 +74,7 @@ class BP_Core_Setup_Wizard {
 			if ( $this->current_version < $this->new_version )
 				$steps[] = __( 'Database Update', 'buddypress' );
 
-			if ( $this->current_version < 1225 )
+			if ( $this->current_version < 1225 || ( function_exists( 'bp_core_get_page_meta' ) && !bp_core_get_page_meta() ) )
 				$steps[] = __( 'Pages', 'buddypress' );
 
 			$steps[] = __( 'Finish', 'buddypress' );
@@ -151,7 +111,7 @@ class BP_Core_Setup_Wizard {
 				$result = $this->step_finish_save();
 				break;
 		}
-
+		
 		if ( !$result && $this->current_step )
 			$this->current_step--;
 
@@ -460,37 +420,37 @@ class BP_Core_Setup_Wizard {
 		$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
 		// Check for defined slugs
-		if ( defined( 'BP_MEMBERS_SLUG' ) )
+		if ( defined( 'BP_MEMBERS_SLUG' ) && BP_MEMBERS_SLUG )
 			$members_slug = constant( 'BP_MEMBERS_SLUG' );
 		else
 			$members_slug = __( 'members', 'buddypress' );
 
-		if ( defined( 'BP_GROUPS_SLUG' ) )
+		if ( defined( 'BP_GROUPS_SLUG' ) && BP_GROUPS_SLUG )
 			$groups_slug = constant( 'BP_GROUPS_SLUG' );
 		else
 			$groups_slug = __( 'groups', 'buddypress' );
 
-		if ( defined( 'BP_ACTIVITY_SLUG' ) )
+		if ( defined( 'BP_ACTIVITY_SLUG' ) && BP_ACTIVITY_SLUG )
 			$activity_slug = constant( 'BP_ACTIVITY_SLUG' );
 		else
 			$activity_slug = __( 'activity', 'buddypress' );
 
-		if ( defined( 'BP_FORUMS_SLUG' ) )
+		if ( defined( 'BP_FORUMS_SLUG' ) && BP_FORUMS_SLUG )
 			$forums_slug = constant( 'BP_FORUMS_SLUG' );
 		else
 			$forums_slug = __( 'forums', 'buddypress' );
 
-		if ( defined( 'BP_BLOGS_SLUG' ) )
+		if ( defined( 'BP_BLOGS_SLUG' ) && BP_BLOGS_SLUG )
 			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
 		else
 			$blogs_slug = __( 'blogs', 'buddypress' );
 
-		if ( defined( 'BP_REGISTER_SLUG' ) )
+		if ( defined( 'BP_REGISTER_SLUG' ) && BP_REGISTER_SLUG )
 			$register_slug = constant( 'BP_REGISTER_SLUG' );
 		else
 			$register_slug = __( 'register', 'buddypress' );
 
-		if ( defined( 'BP_ACTIVATION_SLUG' ) )
+		if ( defined( 'BP_ACTIVATION_SLUG' ) && BP_ACTIVATION_SLUG )
 			$activation_slug = constant( 'BP_ACTIVATION_SLUG' );
 		else
 			$activation_slug = __( 'activate', 'buddypress' );
@@ -786,7 +746,11 @@ class BP_Core_Setup_Wizard {
 	<?php
 	}
 
-	function step_finish() {
+	function step_finish() {			
+		// Update the DB version in the database
+		update_site_option( 'bp-db-version', constant( 'BP_DB_VERSION' ) );
+		delete_site_option( 'bp-core-db-version' );
+	
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
@@ -828,7 +792,7 @@ class BP_Core_Setup_Wizard {
 
 			if ( $this->current_version < 1225 )
 				$this->update_1_3();
-
+				
 			return true;
 		}
 
@@ -917,7 +881,7 @@ class BP_Core_Setup_Wizard {
 				switch_to_blog( BP_ROOT_BLOG );
 
 			// Delete any existing pages
-			$existing_pages = get_option( 'bp-pages' );
+			$existing_pages = bp_core_update_get_page_meta( 'bp-pages' );
 
 			foreach ( (array)$existing_pages as $page_id )
 				wp_delete_post( $page_id, true );
@@ -1060,7 +1024,7 @@ class BP_Core_Setup_Wizard {
 	function step_finish_save() {
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'bpwizard_finish' );
-
+			
 			// Delete the setup cookie
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
@@ -1120,7 +1084,6 @@ function bp_core_setup_wizard_init() {
 	$bp_wizard = new BP_Core_Setup_Wizard;
 }
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_setup_wizard_init', 7 );
-
 
 function bp_core_install( $disabled = false ) {
 	global $wpdb;
@@ -1198,13 +1161,11 @@ function bp_update_db_stuff() {
 }
 
 /**
- * bp_core_add_admin_menu_page()
- *
  * A better version of add_admin_menu_page() that allows positioning of menus.
  *
  * @package BuddyPress Core
  */
-function bp_core_add_admin_menu_page( $args = '' ) {
+function bp_core_update_add_admin_menu_page( $args = '' ) {
 	global $menu, $admin_page_hooks, $_registered_pages;
 
 	$defaults = array(
@@ -1271,9 +1232,13 @@ add_action( 'admin_footer', 'bp_core_wizard_thickbox' );
  * @global $wpdb WordPress DB access object.
  * @uses add_submenu_page() WP function to add a submenu item
  */
-function bp_core_add_admin_menu() {
+function bp_core_update_add_admin_menu() {
 	global $bp_wizard;
 
+	// Only load this version of the menu if this is an upgrade or a new installation 
+	if ( ( !defined( 'BP_IS_UPGRADE' ) || !BP_IS_UPGRADE ) && ( !defined( 'BP_IS_INSTALL' ) || !BP_IS_INSTALL ) ) 
+		return false; 
+	
 	if ( !current_user_can( 'activate_plugins' ) )
 		return false;
 
@@ -1283,7 +1248,7 @@ function bp_core_add_admin_menu() {
 		$status = __( 'Update', 'buddypress' );
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
-	bp_core_add_admin_menu_page( array(
+	bp_core_update_add_admin_menu_page( array(
 		'menu_title'   => __( 'BuddyPress', 'buddypress' ),
 		'page_title'   => __( 'BuddyPress', 'buddypress' ),
 		'capability'   => 'manage_options',
@@ -1295,11 +1260,11 @@ function bp_core_add_admin_menu() {
 	$hook = add_submenu_page( 'bp-wizard', $status, $status, 'manage_options', 'bp-wizard', array( $bp_wizard, 'html' ) );
 
 	// Add a hook for css/js
-	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
+	add_action( "admin_print_styles-$hook", 'bp_core_update_add_admin_menu_styles' );
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu',  'bp_core_add_admin_menu', 9 );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu',  'bp_core_update_add_admin_menu', 9 );
 
-function bp_core_add_admin_menu_styles() {
+function bp_core_update_add_admin_menu_styles() {
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
 		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', plugins_url( $path = '/buddypress' ) . '/bp-core/css/admin.dev.css' ) );
 	else
@@ -1328,6 +1293,49 @@ function bp_core_add_admin_menu_styles() {
 
 <?php
 }
-add_action( 'admin_head', 'bp_core_add_admin_menu_styles' );
+add_action( 'admin_head', 'bp_core_update_add_admin_menu_styles' );
+
+/**
+ * Fetches BP pages from the meta table, depending on setup
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ *
+ * @return array $page_ids
+ */
+function bp_core_update_get_page_meta() {
+	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
+		$page_ids = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
+	else
+		$page_ids = get_option( 'bp-pages' );
+
+	return $page_ids;
+}
+
+/** 
+ * Adds an admin nag about running the BP upgrade/install wizard 
+ * 
+ * @package BuddyPress Core 
+ * @since 1.3 
+ * @global $pagenow The current admin page 
+ */ 
+function bp_core_update_nag() { 
+	global $pagenow; 
+
+  	if ( !is_super_admin() ) 
+  		return; 
+  	
+  	if ( 'admin.php' == $pagenow && ( empty( $_GET['page'] ) || 'bp-wizard' == $_GET['page'] ) ) 
+  		return; 
+  	
+  	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE ) 
+  		$msg = sprintf( __( 'BuddyPress has been updated! Please run the <a href="%s">upgrade wizard</a>.', 'buddypress' ), admin_url( 'admin.php?page=bp-wizard' ) ); 
+  	else if ( defined( 'BP_IS_INSTALL' ) && BP_IS_INSTALL ) 
+  		$msg = sprintf( __( 'BuddyPress has been installed! Please run the <a href="%s">upgrade wizard</a>.', 'buddypress' ), admin_url( 'admin.php?page=bp-wizard' ) ); 
+                  
+  	echo "<div class='update-nag'>$msg</div>"; 
+} 
+add_action( 'admin_notices', 'bp_core_update_nag', 5 ); 
+
 
 ?>

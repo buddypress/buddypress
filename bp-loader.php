@@ -10,23 +10,24 @@ Network: true
 */
 
 define( 'BP_VERSION', '1.3-bleeding' );
-define( 'BP_DB_VERSION', 1225 );
+define( 'BP_DB_VERSION', 3705 );
 
 // Define on which blog ID BuddyPress should run
 if ( !defined( 'BP_ROOT_BLOG' ) )
 	define( 'BP_ROOT_BLOG', 1 );
 
-/***
- * Check if this is the first time BuddyPress has been loaded, or the first time
- * since an update. If so, load the install/update routine only.
- */
-if ( get_site_option( 'bp-db-version' ) < constant( 'BP_DB_VERSION' ) ) {
+// Register BuddyPress themes contained within the bp-themes folder 
+register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' ); 
+	 
+// Test to see whether this is a new installation or an upgraded version of BuddyPress 
+$bp_db_version = get_site_option( 'bp-db-version' ); 
+if ( ! $bp_db_version ) 
+	$bp_db_version = get_site_option( 'bp-core-db-version' );  // BP 1.2 option name 
+	 
+if ( ! $bp_db_version ) {
+ 	// This is a new installation. Run the wizard before loading BP core files
+ 	define( 'BP_IS_INSTALL', true ); 
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
-
-/***
- * If the install or update routine is completed and everything is up to date
- * continue loading BuddyPress as normal.
- */
 } else {
 	/***
 	 * This file will load in each BuddyPress component based on which
@@ -64,6 +65,12 @@ if ( get_site_option( 'bp-db-version' ) < constant( 'BP_DB_VERSION' ) ) {
 	// Extended Profiles
 	if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 		include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
+		
+	// If this is an upgrade, load the upgrade file 
+ 	if ( $bp_db_version < constant( 'BP_DB_VERSION' ) ) { 
+ 		define( 'BP_IS_UPGRADE', true ); 
+ 		require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' ); 
+ 	} 
 
 	add_action( 'plugins_loaded', 'bp_loaded', 20 );
 }
@@ -135,10 +142,21 @@ function bp_core_get_site_options() {
 	return apply_filters( 'bp_core_get_site_options', $site_options );
 }
 
-// Activation Function
+/** 
+ * Defines BP's activation routine. 
+ * 
+ * Most of BP's crucial setup is handled by the setup wizard. This function takes care of some 
+ * issues with incompatible legacy themes, and provides a hook for other functions to know that 
+ * BP has been activated. 
+ * 
+ * @package BuddyPress Core 
+*/ 
 function bp_loader_activate() {
 	// Force refresh theme roots.
 	delete_site_transient( 'theme_roots' );
+
+	if ( !function_exists( 'get_blog_option' ) )
+		require ( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-wpabstraction.php' );
 
 	// Switch the user to the new bp-default if they are using the old
 	// bp-default on activation.

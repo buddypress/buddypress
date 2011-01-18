@@ -43,9 +43,6 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-deprecated.php'    );
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php' );
 
-// Register BuddyPress themes contained within the bp-theme folder
-register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
-
 /** "And now for something completely different" ******************************/
 
 /**
@@ -207,6 +204,9 @@ function bp_core_get_table_prefix() {
  * Define the slugs used for BuddyPress pages, based on the slugs of the WP pages used.
  * These can be overridden manually by defining these slugs in wp-config.php.
  *
+ * The fallback values are only used during initial BP page creation, when no slugs have been
+ * explicitly defined.
+ *
  * @package BuddyPress Core Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
@@ -215,12 +215,13 @@ function bp_core_define_slugs() {
 
 	if ( !defined( 'BP_MEMBERS_SLUG' ) )
 		define( 'BP_MEMBERS_SLUG', $bp->pages->members->slug );
-
+	
 	if ( !defined( 'BP_REGISTER_SLUG' ) )
 		define( 'BP_REGISTER_SLUG', $bp->pages->register->slug );
-
+	
 	if ( !defined( 'BP_ACTIVATION_SLUG' ) )
 		define( 'BP_ACTIVATION_SLUG', $bp->pages->activate->slug );
+	
 }
 add_action( 'bp_setup_globals', 'bp_core_define_slugs' );
 
@@ -257,15 +258,35 @@ function bp_core_get_page_names() {
 
 	$page_ids = bp_core_get_page_meta();
 
-	if ( empty( $page_ids ) )
-		return false;
+	$pages = new stdClass;
+
+	// When upgrading to BP 1.3+ from a version of BP that does not use WP pages, $bp->pages
+	// must be populated with dummy info to avoid crashing the site while the db is upgraded
+	if ( empty( $page_ids ) ) {
+		$dummy_components = array(
+			'members',
+			'groups',
+			'activity',
+			'forums',
+			'activate',
+			'register',
+			'blogs'
+		);
+		
+		foreach ( $dummy_components as $dc ) {
+			$pages->{$dc}->name 	= $dc;
+			$pages->{$dc}->slug 	= $dc;
+			$pages->{$dc}->id 	= $dc;
+		}
+		
+		return $pages;
+	}
 
 	$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'posts' : $wpdb->posts;
 
 	$page_ids_sql = implode( ',', (array)$page_ids );
 
 	$page_names = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) " ) );
-	$pages = new stdClass;
 
 	foreach ( (array)$page_ids as $key => $page_id ) {
 		foreach ( (array)$page_names as $page_name ) {
@@ -347,6 +368,11 @@ add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_admin
 function bp_core_add_admin_menu() {
 	if ( !is_super_admin() )
 		return false;
+	
+	// Don't add this version of the admin menu if a BP upgrade is in progress 
+ 	// See bp_core_update_add_admin_menu() 
+	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE ) 
+ 		return false; 
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
 	$hook = bp_core_add_admin_menu_page( array(

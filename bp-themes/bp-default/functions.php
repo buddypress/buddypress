@@ -36,16 +36,6 @@
 if ( ! isset( $content_width ) )
 	$content_width = 591;
 
-/**
- * Temporary work-around to prevent errors with bp-default being active
- * when BuddyPress is not installed.
- */
-if ( !constant( 'BP_VERSION' ) || !get_site_option( 'bp-db-version' ) ) {
-	switch_theme( 'twentyten', 'twentyten' );
-	wp_redirect( $_SERVER['HTTP_REFERER'] );
-	exit;
-}
-
 if ( !function_exists( 'bp_dtheme_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress and BuddyPress features.
