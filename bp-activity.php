@@ -1,4 +1,6 @@
 <?php
+
+// Required Files
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-templatetags.php' );
 require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-filters.php' );
@@ -6,17 +8,23 @@ require ( BP_PLUGIN_DIR . '/bp-activity/bp-activity-filters.php' );
 function bp_activity_setup_globals() {
 	global $bp, $current_blog;
 
+	// Define a slug, if necessary
 	if ( !defined( 'BP_ACTIVITY_SLUG' ) )
-		define ( 'BP_ACTIVITY_SLUG', $bp->pages->activity->slug );
+		define( 'BP_ACTIVITY_SLUG', bp_core_component_slug_from_root_slug( $bp->pages->activity->slug ) ); 
 
 	// For internal identification
-	$bp->activity->id = 'activity';
+	$bp->activity->id   = 'activity';
 	$bp->activity->name = $bp->pages->activity->name;
-	$bp->activity->slug = BP_ACTIVITY_SLUG;
 
+	// Slugs
+	$bp->activity->slug      = BP_ACTIVITY_SLUG;
+	$bp->activity->root_slug = $bp->pages->activity->slug;
+
+	// Tables
 	$bp->activity->table_name      = $bp->table_prefix . 'bp_activity';
 	$bp->activity->table_name_meta = $bp->table_prefix . 'bp_activity_meta';
 
+	// Notifications
 	$bp->activity->format_notification_function = 'bp_activity_format_notifications';
 
 	// Register this in the active components array
@@ -37,16 +45,16 @@ function bp_activity_setup_nav() {
 
 	$user_domain = ( isset( $bp->displayed_user->domain ) ) ? $bp->displayed_user->domain : $bp->loggedin_user->domain;
 	$user_login = ( isset( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
-	$activity_link = $user_domain . $bp->activity->name . '/';
+	$activity_link = $user_domain . $bp->activity->slug . '/';
 
 	/* Add the subnav items to the activity nav item if we are using a theme that supports this */
 	bp_core_new_subnav_item( array( 'name' => __( 'Personal', 'buddypress' ), 'slug' => 'just-me', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_my_activity', 'position' => 10 ) );
 
 	if ( bp_is_active( 'friends' ) )
-		bp_core_new_subnav_item( array( 'name' => __( 'Friends', 'buddypress' ), 'slug' => BP_FRIENDS_SLUG, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_friends', 'position' => 20, 'item_css_id' => 'activity-friends' ) );
+		bp_core_new_subnav_item( array( 'name' => __( 'Friends', 'buddypress' ), 'slug' => BP_FRIENDS_SLUG, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_friends', 'position' => 20, 'item_css_id' => 'activity-friends' ) );
 
 	if ( bp_is_active( 'groups' ) )
-		bp_core_new_subnav_item( array( 'name' => __( 'Groups', 'buddypress' ), 'slug' => BP_GROUPS_SLUG, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_groups', 'position' => 30, 'item_css_id' => 'activity-groups' ) );
+		bp_core_new_subnav_item( array( 'name' => __( 'Groups', 'buddypress' ), 'slug' => BP_GROUPS_SLUG, 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->slug, 'screen_function' => 'bp_activity_screen_groups', 'position' => 30, 'item_css_id' => 'activity-groups' ) );
 
 	bp_core_new_subnav_item( array( 'name' => __( 'Favorites', 'buddypress' ), 'slug' => 'favorites', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_favorites', 'position' => 40, 'item_css_id' => 'activity-favs' ) );
 	bp_core_new_subnav_item( array( 'name' => sprintf( __( '@%s Mentions', 'buddypress' ), $user_login ), 'slug' => 'mentions', 'parent_url' => $activity_link, 'parent_slug' => $bp->activity->name, 'screen_function' => 'bp_activity_screen_mentions', 'position' => 50, 'item_css_id' => 'activity-mentions' ) );
@@ -59,7 +67,7 @@ function bp_activity_setup_nav() {
 			$bp->bp_options_title = $bp->displayed_user->fullname;
 		}
 	}
-
+	
 	do_action( 'bp_activity_setup_nav' );
 }
 add_action( 'bp_setup_nav', 'bp_activity_setup_nav' );

@@ -1,3 +1,7 @@
+html {
+	padding-top: 28px !important;
+}
+
 div#bp-admin {
 	margin: 25px 15px 25px 0;
 	padding: 0 20px 20px 20px;
@@ -8,7 +12,7 @@ div#bp-admin {
 	div#bp-admin p { line-height: 170%; }
 
 div#bp-admin div#bp-admin-header {
-	height: 45px;
+	
 }
 
 div#bp-admin h3, div#bp-admin h4 {

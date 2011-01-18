@@ -8,14 +8,14 @@
 define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
 define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
 
-/* Load the WP abstraction file so BuddyPress can run on all WordPress setups. */
+// Load the WP abstraction file so BuddyPress can run on all WordPress setups.
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
 
-/* Place your custom code (actions/filters) in a file called /plugins/bp-custom.php and it will be loaded before anything else. */
+// Place your custom code (actions/filters) in a file called /plugins/bp-custom.php and it will be loaded before anything else.
 if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 	require( WP_PLUGIN_DIR . '/bp-custom.php' );
 
-/* Define the user and usermeta table names, useful if you are using custom or shared tables. */
+// Define the user and usermeta table names, useful if you are using custom or shared tables.
 if ( !defined( 'CUSTOM_USER_TABLE' ) )
 	define( 'CUSTOM_USER_TABLE', $wpdb->base_prefix . 'users' );
 
@@ -24,34 +24,31 @@ if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
 
 // The search slug has to be defined nice and early because of the way search requests are loaded
 if ( !defined( 'BP_SEARCH_SLUG' ) )
-        define( 'BP_SEARCH_SLUG', 'search' );
+	define( 'BP_SEARCH_SLUG', 'search' );
 
-/* Load the files containing functions that we globally will need. */
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-templatetags.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-settings.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php' );
+// Load the files containing functions that we globally will need.
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'      );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'       );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'       );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'         );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'       );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-templatetags.php'  );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-settings.php'      );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'       );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php' );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php'        );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-deprecated.php'    );
 
-/* If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar. */
+// If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar.
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require ( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php' );
 
-/* Register BuddyPress themes contained within the bp-theme folder */
+// Register BuddyPress themes contained within the bp-theme folder
 register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
 
-
-/* "And now for something completely different" .... */
-
+/** "And now for something completely different" ******************************/
 
 /**
- * bp_core_setup_globals()
- *
  * Sets up default global BuddyPress configuration settings and stores
  * them in a $bp variable.
  *
@@ -75,19 +72,24 @@ function bp_core_setup_globals() {
 	$bp->table_prefix = bp_core_get_table_prefix();
 
 	// The domain for the root of the site where the main blog resides
-	$bp->root_domain = bp_core_get_root_domain();
+	$bp->root_domain  = bp_core_get_root_domain();
 
 	// The names of the core WordPress pages used to display BuddyPress content
-	$bp->pages = $bp_pages;
+	$bp->pages        = $bp_pages;
+
+	/** Members Component *****************************************************/
 
 	// Set up the members id and active components entry
-	$bp->members->id = 'members';
+	$bp->members->id  = 'members';
 
+	// Members Slugs
 	$bp->members->slug = $bp->pages->members->slug;
 	$bp->active_components[$bp->members->slug] = $bp->members->id;
 
 	// The user ID of the user who is currently logged in.
 	$bp->loggedin_user->id = $current_user->ID;
+
+	/** Logged in user ********************************************************/
 
 	// The domain for the user currently logged in. eg: http://domain.com/members/andy
 	$bp->loggedin_user->domain = bp_core_get_user_domain( $bp->loggedin_user->id );
@@ -99,6 +101,8 @@ function bp_core_setup_globals() {
 	$bp->loggedin_user->is_super_admin = is_super_admin();
 	$bp->loggedin_user->is_site_admin  = $bp->loggedin_user->is_super_admin; // deprecated 1.2.6
 
+	/** Displayed user ********************************************************/
+
 	// The user id of the user currently being viewed, set in /bp-core/bp-core-catchuri.php
 	$bp->displayed_user->id = $displayed_user_id;
 
@@ -107,6 +111,8 @@ function bp_core_setup_globals() {
 
 	// The core userdata of the user who is currently being displayed
 	$bp->displayed_user->userdata = bp_core_get_core_userdata( $bp->displayed_user->id );
+
+	/** Component and Action **************************************************/
 
 	// The component being used eg: http://domain.com/members/andy/ [profile]
 	$bp->current_component = $current_component; // type: string
@@ -120,7 +126,8 @@ function bp_core_setup_globals() {
 	// Only used where a component has a sub item, e.g. groups: http://domain.com/members/andy/groups/ [my-group] / home - manipulated in the actual component not in catch uri code.
 	$bp->current_item = ''; // type: string
 
-	// Used for overriding the 2nd level navigation menu so it can be used to display custom navigation for an item (for example a group)
+	// Used for overriding the 2nd level navigation menu so it can be used to
+	// display custom navigation for an item (for example a group)
 	$bp->is_single_item = false;
 
 	// The default component to use if none are set and someone visits: http://domain.com/members/andy
@@ -133,17 +140,22 @@ function bp_core_setup_globals() {
 		$bp->default_component = BP_DEFAULT_COMPONENT;
 	}
 
-	// Fetches all of the core database based BuddyPress settings in one foul swoop
+	// Fetches all of the core BuddyPress settings in one fell swoop
 	$bp->site_options = bp_core_get_site_options();
 
-	// Sets up the array container for the component navigation rendered by bp_get_nav()
+	// Sets up the array container for the component navigation rendered
+	// by bp_get_nav()
 	$bp->bp_nav = array();
 
-	// Sets up the array container for the component options navigation rendered by bp_get_options_nav()
+	// Sets up the array container for the component options navigation
+	// rendered by bp_get_options_nav()
 	$bp->bp_options_nav = array();
 
-	// Contains an array of all the active components. The key is the slug, value the internal ID of the component
+	// Contains an array of all the active components. The key is the slug,
+	// value the internal ID of the component.
 	$bp->active_components = array();
+
+	/** Avatars ***************************************************************/
 
 	// Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar
 	$bp->grav_default->user  = apply_filters( 'bp_user_gravatar_default',  $bp->site_options['avatar_default'] );
@@ -154,30 +166,32 @@ function bp_core_setup_globals() {
 	$bp->loggedin_user->fullname  = bp_core_get_user_displayname( $bp->loggedin_user->id );
 	$bp->displayed_user->fullname = bp_core_get_user_displayname( $bp->displayed_user->id );
 
-	/* Used to determine if user has admin rights on current content. If the logged in user is viewing
-	   their own profile and wants to delete something, is_item_admin is used. This is a
-	   generic variable so it can be used by other components. It can also be modified, so when viewing a group
-	   'is_item_admin' would be 1 if they are a group admin, 0 if they are not. */
+	/**
+	 * Used to determine if user has admin rights on current content. If the logged in user is viewing
+	 * their own profile and wants to delete something, is_item_admin is used. This is a
+	 * generic variable so it can be used by other components. It can also be modified, so when viewing a group
+	 * 'is_item_admin' would be 1 if they are a group admin, 0 if they are not.
+	 */
 	$bp->is_item_admin = bp_user_has_access();
 
 	// Used to determine if the logged in user is a moderator for the current content.
 	$bp->is_item_mod = false;
 
+	// Notifications Table
 	$bp->core->table_name_notifications = $bp->table_prefix . 'bp_notifications';
 
+	// Default Component
 	if ( !$bp->current_component && $bp->displayed_user->id )
 		$bp->current_component = $bp->default_component;
 
 	// The default text for the members directory search box
-        $bp->default_search_strings[$bp->members->slug] = __( 'Search Members...', 'buddypress' );
+	$bp->default_search_strings[$bp->members->slug] = __( 'Search Members...', 'buddypress' );
 
 	do_action( 'bp_core_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'bp_core_setup_globals' );
 
 /**
- * bp_core_get_table_prefix()
- *
  * Allow filtering of database prefix. Intended for use in multinetwork installations.
  *
  * @global object $wpdb WordPress database object
@@ -190,8 +204,6 @@ function bp_core_get_table_prefix() {
 }
 
 /**
- * bp_core_define_slugs()
- *
  * Define the slugs used for BuddyPress pages, based on the slugs of the WP pages used.
  * These can be overridden manually by defining these slugs in wp-config.php.
  *
@@ -214,8 +226,6 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs' );
 
 
 /**
- * bp_core_get_page_meta()
- *
  * Fetches BP pages from the meta table, depending on setup
  *
  * @package BuddyPress Core Core
@@ -230,8 +240,6 @@ function bp_core_get_page_meta() {
 }
 
 /**
- * bp_core_update_page_meta()
- *
  * Stores BP pages in the meta table, depending on setup
  *
  * @package BuddyPress Core Core
@@ -284,9 +292,37 @@ function bp_core_get_page_names() {
 	return apply_filters( 'bp_core_get_page_names', $pages );
 }
 
-/**
- * bp_core_admin_menu_init()
+/** 
+ * Creates a default component slug from a WP page root_slug 
+ * 
+ * Since 1.3, BP components get their root_slug (the slug used immediately
+ * following the root domain) from the slug of a corresponding WP page.
+ * 
+ * E.g. if your BP installation at example.com has its members page at
+ * example.com/community/people, $bp->members->root_slug will be 'community/people'.
  *
+ * By default, this function creates a shorter version of the root_slug for
+ * use elsewhere in the URL, by returning the content after the final '/'
+ * in the root_slug ('people' in the example above).
+ * 
+ * Filter on 'bp_core_component_slug_from_root_slug' to override this method
+ * in general, or define a specific component slug constant (e.g. BP_MEMBERS_SLUG)
+ * to override specific component slugs.
+ *  
+ * @package BuddyPress Core 
+ * @since 1.3 
+ * 
+ * @param str $root_slug The root slug, which comes from $bp->pages->[component]->slug 
+ * @return str $slug The short slug for use in the middle of URLs 
+ */ 
+function bp_core_component_slug_from_root_slug( $root_slug ) { 
+	$slug_chunks = explode( '/', $root_slug ); 
+ 	$slug        = array_pop( $slug_chunks );
+ 	
+ 	return apply_filters( 'bp_core_component_slug_from_root_slug', $slug, $root_slug ); 
+} 
+
+/**
  * Initializes the wp-admin area "BuddyPress" menus and sub menus.
  *
  * @package BuddyPress Core
@@ -301,8 +337,6 @@ function bp_core_admin_menu_init() {
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_admin_menu_init' );
 
 /**
- * bp_core_add_admin_menu()
- *
  * Adds the "BuddyPress" admin submenu item to the Site Admin tab.
  *
  * @package BuddyPress Core
@@ -333,28 +367,6 @@ function bp_core_add_admin_menu() {
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_admin_menu', 9 );
 
 /**
- * bp_core_is_root_component()
- *
- * Checks to see if a component's URL should be in the root, not under a member page:
- * eg: http://domain.com/groups/the-group NOT http://domain.com/members/andy/groups/the-group
- *
- * @package BuddyPress Core
- * @return true if root component, else false.
- */
-function bp_core_is_root_component( $component_name ) {
-	global $bp;
-
-	foreach ( (array) $bp->pages as $key => $page ) {
-		if ( $key == $component_name || $page->slug == $component_name )
-			return true;
-	}
-
-	return false;
-}
-
-/**
- * bp_core_setup_nav()
- *
  * Sets up the profile navigation item if the Xprofile component is not installed.
  *
  * @package BuddyPress Core
@@ -418,8 +430,6 @@ add_action( 'bp_setup_nav', 'bp_core_setup_nav' );
  */
 
 /**
- * bp_core_action_directory_members()
- *
  * Listens to the $bp component and action variables to determine if the user is viewing the members
  * directory page. If they are, it will set up the directory and load the members directory template.
  *
@@ -441,8 +451,6 @@ function bp_core_action_directory_members() {
 add_action( 'wp', 'bp_core_action_directory_members', 2 );
 
 /**
- * bp_core_action_set_spammer_status()
- *
  * When a site admin selects "Mark as Spammer/Not Spammer" from the admin menu
  * this action will fire and mark or unmark the user and their blogs as spam.
  * Must be a site admin for this function to run.
@@ -457,10 +465,10 @@ function bp_core_action_set_spammer_status() {
 		return false;
 
 	if ( 'admin' == $bp->current_component && ( 'mark-spammer' == $bp->current_action || 'unmark-spammer' == $bp->current_action ) ) {
-		/* Check the nonce */
+		// Check the nonce
 		check_admin_referer( 'mark-unmark-spammer' );
 
-		/* Get the functions file */
+		// Get the functions file
 		if ( is_multisite() )
 			require_once( ABSPATH . 'wp-admin/includes/ms.php' );
 
@@ -469,22 +477,22 @@ function bp_core_action_set_spammer_status() {
 		else
 			$is_spam = 0;
 
-		/* Get the blogs for the user */
+		// Get the blogs for the user
 		$blogs = get_blogs_of_user( $bp->displayed_user->id, true );
 
 		foreach ( (array) $blogs as $key => $details ) {
-			/* Do not mark the main or current root blog as spam */
+			// Do not mark the main or current root blog as spam
 			if ( 1 == $details->userblog_id || BP_ROOT_BLOG == $details->userblog_id )
 				continue;
 
-			/* Update the blog status */
+			// Update the blog status
 			update_blog_status( $details->userblog_id, 'spam', $is_spam );
 
-			/* Fire the standard WPMU hook */
+			// Fire the standard multisite hook
 			do_action( 'make_spam_blog', $details->userblog_id );
 		}
 
-		/* Finally, mark this user as a spammer */
+		// Finally, mark this user as a spammer
 		if ( is_multisite() )
 			$wpdb->update( $wpdb->users, array( 'spam' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
 
@@ -495,13 +503,14 @@ function bp_core_action_set_spammer_status() {
 		else
 			bp_core_add_message( __( 'User removed as spammer.', 'buddypress' ) );
 
-		/* Hide this user's activity */
+		// Hide this user's activity
 		if ( $is_spam && function_exists( 'bp_activity_hide_user_activity' ) )
 			bp_activity_hide_user_activity( $bp->displayed_user->id );
 
-		// We need a special hook for is_spam so that components can delete data at spam time
+		// We need a special hook for is_spam so that components can
+		// delete data at spam time
 		if ( $is_spam )
-		        do_action( 'bp_make_spam_user', $bp->displayed_user->id );
+			do_action( 'bp_make_spam_user', $bp->displayed_user->id );
 
 		do_action( 'bp_core_action_set_spammer_status', $bp->displayed_user->id, $is_spam );
 
@@ -511,8 +520,6 @@ function bp_core_action_set_spammer_status() {
 add_action( 'wp', 'bp_core_action_set_spammer_status', 3 );
 
 /**
- * bp_core_action_delete_user()
- *
  * Allows a site admin to delete a user from the adminbar menu.
  *
  * @package BuddyPress Core
@@ -525,7 +532,7 @@ function bp_core_action_delete_user() {
 		return false;
 
 	if ( 'admin' == $bp->current_component && 'delete-user' == $bp->current_action ) {
-		/* Check the nonce */
+		// Check the nonce
 		check_admin_referer( 'delete-user' );
 
 		$errors = false;
@@ -558,8 +565,6 @@ add_action( 'wp', 'bp_core_action_delete_user', 3 );
  */
 
 /**
- * bp_core_get_users()
- *
  * Return an array of users IDs based on the parameters passed.
  *
  * @package BuddyPress Core
@@ -586,10 +591,7 @@ function bp_core_get_users( $args = '' ) {
 }
 
 /**
- * bp_core_get_user_domain()
- *
- * Returns the domain for the passed user:
- * e.g. http://domain.com/members/andy/
+ * Returns the domain for the passed user: e.g. http://domain.com/members/andy/
  *
  * @package BuddyPress Core
  * @global $current_user WordPress global variable containing current logged in user information
@@ -604,13 +606,13 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 	if ( !$domain = wp_cache_get( 'bp_user_domain_' . $user_id, 'bp' ) ) {
 		$username = bp_core_get_username( $user_id, $user_nicename, $user_login );
 
-		/* If we are using a members slug, include it. */
+		// If we are using a members slug, include it.
 		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
 			$domain = $bp->root_domain . '/' . $bp->members->slug . '/' . $username . '/';
 		else
 			$domain = $bp->root_domain . '/' . $username . '/';
 
-		/* Cache the link */
+		// Cache the link
 		if ( !empty( $domain ) )
 			wp_cache_set( 'bp_user_domain_' . $user_id, $domain, 'bp' );
 	}
@@ -619,8 +621,6 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 }
 
 /**
- * bp_core_get_core_userdata()
- *
  * Fetch everything in the wp_users table for a user, without any usermeta.
  *
  * @package BuddyPress Core
@@ -639,8 +639,6 @@ function bp_core_get_core_userdata( $user_id ) {
 }
 
 /**
- * bp_core_get_root_domain()
- *
  * Returns the domain for the root blog.
  * eg: http://domain.com/ OR https://domain.com
  *
@@ -660,8 +658,6 @@ function bp_core_get_root_domain() {
 }
 
 /**
- * bp_core_get_displayed_userid()
- *
  * Returns the user id for the user that is currently being displayed.
  * eg: http://andy.domain.com/ or http://domain.com/andy/
  *
@@ -674,8 +670,6 @@ function bp_core_get_displayed_userid( $user_login ) {
 }
 
 /**
- * bp_core_new_nav_item()
- *
  * Adds a navigation item to the main navigation array used in BuddyPress themes.
  *
  * @package BuddyPress Core
@@ -685,24 +679,24 @@ function bp_core_new_nav_item( $args = '' ) {
 	global $bp;
 
 	$defaults = array(
-		'name' => false, // Display name for the nav item
-		'slug' => false, // URL slug for the nav item
-		'item_css_id' => false, // The CSS ID to apply to the HTML of the nav item
-		'show_for_displayed_user' => true, // When viewing another user does this nav item show up?
-		'site_admin_only' => false, // Can only site admins see this nav item?
-		'position' => 99, // Index of where this nav item should be positioned
-		'screen_function' => false, // The name of the function to run when clicked
-		'default_subnav_slug' => false // The slug of the default subnav item to select when clicked
+		'name'                    => false, // Display name for the nav item
+		'slug'                    => false, // URL slug for the nav item
+		'item_css_id'             => false, // The CSS ID to apply to the HTML of the nav item
+		'show_for_displayed_user' => true,  // When viewing another user does this nav item show up?
+		'site_admin_only'         => false, // Can only site admins see this nav item?
+		'position'                => 99,    // Index of where this nav item should be positioned
+		'screen_function'         => false, // The name of the function to run when clicked
+		'default_subnav_slug'     => false  // The slug of the default subnav item to select when clicked
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	/* If we don't have the required info we need, don't create this subnav item */
+	// If we don't have the required info we need, don't create this subnav item
 	if ( empty($name) || empty($slug) )
 		return false;
 
-	/* If this is for site admins only and the user is not one, don't create the subnav item */
+	// If this is for site admins only and the user is not one, don't create the subnav item
 	if ( $site_admin_only && !is_super_admin() )
 		return false;
 
@@ -710,13 +704,13 @@ function bp_core_new_nav_item( $args = '' ) {
 		$item_css_id = $slug;
 
 	$bp->bp_nav[$slug] = array(
-		'name' => $name,
-		'slug' => $slug,
-		'link' => $bp->loggedin_user->domain . $slug . '/',
-		'css_id' => $item_css_id,
+		'name'                    => $name,
+		'slug'                    => $slug,
+		'link'                    => $bp->loggedin_user->domain . $slug . '/',
+		'css_id'                  => $item_css_id,
 		'show_for_displayed_user' => $show_for_displayed_user,
-		'position' => $position,
-		'screen_function' => &$screen_function
+		'position'                => $position,
+		'screen_function'         => &$screen_function
 	);
 
  	/***
@@ -731,7 +725,7 @@ function bp_core_new_nav_item( $args = '' ) {
  	 * If we are not viewing a user, and this is a root component, don't attach the
  	 * default subnav function so we can display a directory or something else.
  	 */
-	if ( bp_core_is_root_component( $slug ) && !$bp->displayed_user->id )
+	if ( bp_is_root_component( $slug ) && !$bp->displayed_user->id )
 		return;
 
 	if ( $bp->current_component == $slug && !$bp->current_action ) {
@@ -746,8 +740,6 @@ function bp_core_new_nav_item( $args = '' ) {
 }
 
 /**
- * bp_core_new_nav_default()
- *
  * Modify the default subnav item to load when a top level nav item is clicked.
  *
  * @package BuddyPress Core
@@ -757,9 +749,9 @@ function bp_core_new_nav_default( $args = '' ) {
 	global $bp;
 
 	$defaults = array(
-		'parent_slug' => false, // Slug of the parent
+		'parent_slug'     => false, // Slug of the parent
 		'screen_function' => false, // The name of the function to run when clicked
-		'subnav_slug' => false // The slug of the subnav item to select when clicked
+		'subnav_slug'     => false  // The slug of the subnav item to select when clicked
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -786,8 +778,6 @@ function bp_core_new_nav_default( $args = '' ) {
 }
 
 /**
- * bp_core_sort_nav_items()
- *
  * We can only sort nav items by their position integer at a later point in time, once all
  * plugins have registered their navigation items.
  *
@@ -816,12 +806,10 @@ function bp_core_sort_nav_items() {
 	ksort( $temp );
 	$bp->bp_nav = &$temp;
 }
-add_action( 'wp_head', 'bp_core_sort_nav_items' );
+add_action( 'wp_head',    'bp_core_sort_nav_items' );
 add_action( 'admin_head', 'bp_core_sort_nav_items' );
 
 /**
- * bp_core_new_subnav_item()
- *
  * Adds a navigation item to the sub navigation array used in BuddyPress themes.
  *
  * @package BuddyPress Core
@@ -831,25 +819,25 @@ function bp_core_new_subnav_item( $args = '' ) {
 	global $bp;
 
 	$defaults = array(
-		'name' => false, // Display name for the nav item
-		'slug' => false, // URL slug for the nav item
-		'parent_slug' => false, // URL slug of the parent nav item
-		'parent_url' => false, // URL of the parent item
-		'item_css_id' => false, // The CSS ID to apply to the HTML of the nav item
-		'user_has_access' => true, // Can the logged in user see this nav item?
+		'name'            => false, // Display name for the nav item
+		'slug'            => false, // URL slug for the nav item
+		'parent_slug'     => false, // URL slug of the parent nav item
+		'parent_url'      => false, // URL of the parent item
+		'item_css_id'     => false, // The CSS ID to apply to the HTML of the nav item
+		'user_has_access' => true,  // Can the logged in user see this nav item?
 		'site_admin_only' => false, // Can only site admins see this nav item?
-		'position' => 90, // Index of where this nav item should be positioned
-		'screen_function' => false // The name of the function to run when clicked
+		'position'        => 90,    // Index of where this nav item should be positioned
+		'screen_function' => false  // The name of the function to run when clicked
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	/* If we don't have the required info we need, don't create this subnav item */
-	if ( empty($name) || empty($slug) || empty($parent_slug) || empty($parent_url) || empty($screen_function) )
+	// If we don't have the required info we need, don't create this subnav item
+	if ( empty( $name ) || empty( $slug ) || empty( $parent_slug ) || empty( $parent_url ) || empty( $screen_function ) )
 		return false;
 
-	/* If this is for site admins only and the user is not one, don't create the subnav item */
+	// If this is for site admins only and the user is not one, don't create the subnav item
 	if ( $site_admin_only && !is_super_admin() )
 		return false;
 
@@ -857,15 +845,15 @@ function bp_core_new_subnav_item( $args = '' ) {
 		$item_css_id = $slug;
 
 	$bp->bp_options_nav[$parent_slug][$slug] = array(
-		'name' => $name,
-		'link' => $parent_url . $slug . '/',
-		'slug' => $slug,
-		'css_id' => $item_css_id,
-		'position' => $position,
+		'name'            => $name,
+		'link'            => $parent_url . $slug . '/',
+		'slug'            => $slug,
+		'css_id'          => $item_css_id,
+		'position'        => $position,
 		'user_has_access' => $user_has_access,
 		'screen_function' => &$screen_function
 	);
-
+	
 	if ( ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) && $user_has_access ) {
 		if ( !is_object( $screen_function[0] ) )
 			add_action( 'wp', $screen_function, 3 );
@@ -898,15 +886,13 @@ function bp_core_sort_subnav_items() {
 		}
 		ksort( $temp );
 		$bp->bp_options_nav[$parent_slug] = &$temp;
-		unset($temp);
+		unset( $temp );
 	}
 }
-add_action( 'wp_head', 'bp_core_sort_subnav_items' );
+add_action( 'wp_head',    'bp_core_sort_subnav_items' );
 add_action( 'admin_head', 'bp_core_sort_subnav_items' );
 
 /**
- * bp_core_remove_nav_item()
- *
  * Removes a navigation item from the sub navigation array used in BuddyPress themes.
  *
  * @package BuddyPress Core
@@ -916,7 +902,7 @@ add_action( 'admin_head', 'bp_core_sort_subnav_items' );
 function bp_core_remove_nav_item( $parent_id ) {
 	global $bp;
 
-	/* Unset subnav items for this nav item */
+	// Unset subnav items for this nav item
 	if ( is_array( $bp->bp_options_nav[$parent_id] ) ) {
 		foreach( (array)$bp->bp_options_nav[$parent_id] as $subnav_item ) {
 			bp_core_remove_subnav_item( $parent_id, $subnav_item['slug'] );
@@ -934,8 +920,6 @@ function bp_core_remove_nav_item( $parent_id ) {
 }
 
 /**
- * bp_core_remove_subnav_item()
- *
  * Removes a navigation item from the sub navigation array used in BuddyPress themes.
  *
  * @package BuddyPress Core
@@ -961,23 +945,19 @@ function bp_core_remove_subnav_item( $parent_id, $slug ) {
 }
 
 /**
- * bp_core_reset_subnav_items()
- *
  * Clear the subnav items for a specific nav item.
  *
  * @package BuddyPress Core
  * @param $parent_id The id of the parent navigation item.
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_core_reset_subnav_items($parent_slug) {
+function bp_core_reset_subnav_items( $parent_slug ) {
 	global $bp;
 
-	unset($bp->bp_options_nav[$parent_slug]);
+	unset( $bp->bp_options_nav[$parent_slug] );
 }
 
 /**
- * bp_core_get_random_member()
- *
  * Returns the user_id for a user based on their username.
  *
  * @package BuddyPress Core
@@ -996,8 +976,6 @@ function bp_core_get_random_member() {
 add_action( 'wp', 'bp_core_get_random_member' );
 
 /**
- * bp_core_get_userid()
- *
  * Returns the user_id for a user based on their username.
  *
  * @package BuddyPress Core
@@ -1016,8 +994,6 @@ function bp_core_get_userid( $username ) {
 }
 
 /**
- * bp_core_get_userid_from_nicename()
- *
  * Returns the user_id for a user based on their user_nicename.
  *
  * @package BuddyPress Core
@@ -1036,8 +1012,6 @@ function bp_core_get_userid_from_nicename( $user_nicename ) {
 }
 
 /**
- * bp_core_get_username()
- *
  * Returns the username for a user based on their user id.
  *
  * @package BuddyPress Core
@@ -1075,7 +1049,7 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 			$username = $user_nicename;
 	}
 
-	/* Add this to cache */
+	// Add this to cache
 	if ( !empty( $username ) )
 		wp_cache_set( 'bp_user_username_' . $user_id, $username, 'bp' );
 
@@ -1083,8 +1057,6 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 }
 
 /**
- * bp_core_get_user_email()
- *
  * Returns the email address for the user based on user ID
  *
  * @package BuddyPress Core
@@ -1104,8 +1076,6 @@ function bp_core_get_user_email( $uid ) {
 }
 
 /**
- * bp_core_get_userlink()
- *
  * Returns a HTML formatted link for a user with the user's full name as the link text.
  * eg: <a href="http://andy.domain.com/">Andy Peatling</a>
  * Optional parameters will return just the name, or just the URL, or disable "You" text when
@@ -1145,8 +1115,6 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
 
 
 /**
- * bp_core_get_user_displayname()
- *
  * Fetch the display name for a user. This will use the "Name" field in xprofile if it is installed.
  * Otherwise, it will fall back to the normal WP display_name, or user_nicename, depending on what has been set.
  *
@@ -1202,13 +1170,11 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 	return apply_filters( 'bp_core_get_user_displayname', $fullname, $user_id );
 }
 add_filter( 'bp_core_get_user_displayname', 'strip_tags', 1 );
-add_filter( 'bp_core_get_user_displayname', 'trim' );
-add_filter( 'bp_core_get_user_displayname', 'stripslashes' );
+add_filter( 'bp_core_get_user_displayname', 'trim'          );
+add_filter( 'bp_core_get_user_displayname', 'stripslashes'  );
 
 
 /**
- * bp_core_get_userlink_by_email()
- *
  * Returns the user link for the user based on user email address
  *
  * @package BuddyPress Core
@@ -1223,8 +1189,6 @@ function bp_core_get_userlink_by_email( $email ) {
 }
 
 /**
- * bp_core_get_userlink_by_username()
- *
  * Returns the user link for the user based on user's username
  *
  * @package BuddyPress Core
@@ -1240,8 +1204,6 @@ function bp_core_get_userlink_by_username( $username ) {
 }
 
 /**
- * bp_core_get_total_member_count()
- *
  * Returns the total number of members for the installation.
  *
  * @package BuddyPress Core
@@ -1260,8 +1222,6 @@ function bp_core_get_total_member_count() {
 }
 
 /**
- * bp_core_is_user_spammer()
- *
  * Checks if the user has been marked as a spammer.
  *
  * @package BuddyPress Core
@@ -1280,8 +1240,6 @@ function bp_core_is_user_spammer( $user_id ) {
 }
 
 /**
- * bp_core_is_user_deleted()
- *
  * Checks if the user has been marked as deleted.
  *
  * @package BuddyPress Core
@@ -1295,8 +1253,6 @@ function bp_core_is_user_deleted( $user_id ) {
 }
 
 /**
- * bp_core_current_time()
- *
  * Get the current GMT time to save into the DB
  *
  * @package BuddyPress Core
@@ -1310,8 +1266,6 @@ function bp_core_current_time( $gmt = true ) {
 }
 
 /**
- * bp_core_add_message()
- *
  * Adds a feedback (error/success) message to the WP cookie so it can be displayed after the page reloads.
  *
  * @package BuddyPress Core
@@ -1322,7 +1276,7 @@ function bp_core_add_message( $message, $type = false ) {
 	if ( !$type )
 		$type = 'success';
 
-	/* Send the values to the cookie for page reload display */
+	// Send the values to the cookie for page reload display
 	@setcookie( 'bp-message', $message, time()+60*60*24, COOKIEPATH );
 	@setcookie( 'bp-message-type', $type, time()+60*60*24, COOKIEPATH );
 
@@ -1330,18 +1284,17 @@ function bp_core_add_message( $message, $type = false ) {
 	 * Send the values to the $bp global so we can still output messages
 	 * without a page reload
 	 */
-	$bp->template_message = $message;
+	$bp->template_message      = $message;
 	$bp->template_message_type = $type;
 }
 
 /**
- * bp_core_setup_message()
+ * Checks if there is a feedback message in the WP cookie, if so, adds a
+ * "template_notices" action so that the message can be parsed into the template
+ * and displayed to the user.
  *
- * Checks if there is a feedback message in the WP cookie, if so, adds a "template_notices" action
- * so that the message can be parsed into the template and displayed to the user.
- *
- * After the message is displayed, it removes the message vars from the cookie so that the message
- * is not shown to the user multiple times.
+ * After the message is displayed, it removes the message vars from the cookie
+ * so that the message is not shown to the user multiple times.
  *
  * @package BuddyPress Core
  * @global $bp_message The message text
@@ -1365,8 +1318,6 @@ function bp_core_setup_message() {
 add_action( 'wp', 'bp_core_setup_message', 2 );
 
 /**
- * bp_core_render_message()
- *
  * Renders a feedback message (either error or success message) to the theme template.
  * The hook action 'template_notices' is used to call this function, it is not called directly.
  *
@@ -1377,19 +1328,19 @@ function bp_core_render_message() {
 	global $bp;
 
 	if ( isset( $bp->template_message ) && $bp->template_message ) {
-		$type = ( 'success' == $bp->template_message_type ) ? 'updated' : 'error';
-	?>
+		$type = ( 'success' == $bp->template_message_type ) ? 'updated' : 'error'; ?>
+
 		<div id="message" class="<?php echo $type; ?>">
 			<p><?php echo stripslashes( esc_attr( $bp->template_message ) ); ?></p>
 		</div>
+
 	<?php
+
 		do_action( 'bp_core_render_message' );
 	}
 }
 
 /**
- * bp_core_time_since()
- *
  * Based on function created by Dunstan Orchard - http://1976design.com
  *
  * This function will return an English representation of the time elapsed
@@ -1423,14 +1374,17 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		$older_date = gmmktime( (int)$time_chunks[1], (int)$time_chunks[2], (int)$time_chunks[3], (int)$date_chunks[1], (int)$date_chunks[2], (int)$date_chunks[0] );
 	}
 
-	/* $newer_date will equal false if we want to know the time elapsed between a date and the current time */
-	/* $newer_date will have a value if we want to work out time elapsed between two known dates */
+	/**
+	 * $newer_date will equal false if we want to know the time elapsed between
+	 * a date and the current time. $newer_date will have a value if we want to
+	 * work out time elapsed between two known dates.
+	 */
 	$newer_date = ( !$newer_date ) ? strtotime( bp_core_current_time() ) : $newer_date;
 
-	/* Difference in seconds */
+	// Difference in seconds
 	$since = $newer_date - $older_date;
 
-	/* Something went wrong with date calculation and we ended up with a negative date. */
+	// Something went wrong with date calculation and we ended up with a negative date.
 	if ( 0 > $since )
 		return __( 'sometime', 'buddypress' );
 
@@ -1441,23 +1395,23 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	 * so there's only two bits of calculation below:
 	 */
 
-	/* Step one: the first chunk */
+	// Step one: the first chunk
 	for ( $i = 0, $j = count($chunks); $i < $j; $i++) {
 		$seconds = $chunks[$i][0];
 
-		/* Finding the biggest chunk (if the chunk fits, break) */
+		// Finding the biggest chunk (if the chunk fits, break)
 		if ( ( $count = floor($since / $seconds) ) != 0 )
 			break;
 	}
 
-        // If $i iterates all the way to $j, then the event happened 0 seconds ago
-        if ( !isset( $chunks[$i] ) )
+	// If $i iterates all the way to $j, then the event happened 0 seconds ago
+	if ( !isset( $chunks[$i] ) )
 		return '0 ' . __( 'seconds', 'buddypress' );
 
-	/* Set output var */
+	// Set output var
 	$output = ( 1 == $count ) ? '1 '. $chunks[$i][1] : $count . ' ' . $chunks[$i][2];
 
-	/* Step two: the second chunk */
+	// Step two: the second chunk
 	if ( $i + 2 < $j ) {
 		$seconds2 = $chunks[$i + 1][0];
 		$name2 = $chunks[$i + 1][1];
@@ -1468,7 +1422,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		}
 	}
 
-	if ( !(int)trim($output) )
+	if ( !(int)trim( $output ) )
 		$output = '0 ' . __( 'seconds', 'buddypress' );
 
 	return $output;
@@ -1476,8 +1430,6 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 
 
 /**
- * bp_core_record_activity()
- *
  * Record user activity to the database. Many functions use a "last active" feature to
  * show the length of time since the user was last active.
  * This function will update that time as a usermeta setting for the user every 5 minutes.
@@ -1500,15 +1452,13 @@ function bp_core_record_activity() {
 	// Get current time
 	$current_time = bp_core_current_time();
 
-	if ( '' == $activity || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) )
+	if ( empty( $activity ) || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) )
 		update_user_meta( $bp->loggedin_user->id, 'last_activity', $current_time );
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
 
 
 /**
- * bp_core_get_last_activity()
- *
  * Formats last activity based on time since date given.
  *
  * @package BuddyPress Core
@@ -1518,17 +1468,16 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  * @uses bp_core_time_since() This function will return an English representation of the time elapsed.
  */
 function bp_core_get_last_activity( $last_activity_date, $string ) {
-	if ( !$last_activity_date || empty( $last_activity_date ) ) {
+	if ( !$last_activity_date || empty( $last_activity_date ) )
 		$last_active = __( 'not recently active', 'buddypress' );
-	} else {
+	else
 		$last_active = sprintf( $string, bp_core_time_since( $last_activity_date ) );
-	}
 
 	return apply_filters( 'bp_core_get_last_activity', $last_active, $last_activity_date, $string );
 }
 
 function bp_core_number_format( $number, $decimals = false ) {
-	/* Check we actually have a number first. */
+	// Check we actually have a number first.
 	if ( empty( $number ) )
 		return $number;
 
@@ -1536,8 +1485,6 @@ function bp_core_number_format( $number, $decimals = false ) {
 }
 
 /**
- * bp_core_get_all_posts_for_user()
- *
  * Fetch every post that is authored by the given user for the current blog.
  *
  * @package BuddyPress Core
@@ -1545,18 +1492,16 @@ function bp_core_number_format( $number, $decimals = false ) {
  * @global $wpdb WordPress user data for the current logged in user.
  * @return array of post ids.
  */
-function bp_core_get_all_posts_for_user( $user_id = null ) {
+function bp_core_get_all_posts_for_user( $user_id = 0 ) {
 	global $bp, $wpdb;
 
-	if ( !$user_id )
+	if ( empty( $user_id ) )
 		$user_id = $bp->displayed_user->id;
 
 	return apply_filters( 'bp_core_get_all_posts_for_user', $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->posts WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) ) );
 }
 
 /**
- * bp_core_get_site_path()
- *
  * Get the path of of the current site.
  *
  * @package BuddyPress Core
@@ -1576,7 +1521,7 @@ function bp_core_get_site_path() {
 		if ( count( $site_path ) < 2 )
 			$site_path = '/';
 		else {
-			/* Unset the first three segments (http(s)://domain.com part) */
+			// Unset the first three segments (http(s)://domain.com part)
 			unset( $site_path[0] );
 			unset( $site_path[1] );
 			unset( $site_path[2] );
@@ -1592,8 +1537,6 @@ function bp_core_get_site_path() {
 }
 
 /**
- * bp_core_redirect()
- *
  * Performs a status safe wp_redirect() that is compatible with bp_catch_uri()
  *
  * @package BuddyPress Core
@@ -1613,8 +1556,6 @@ function bp_core_redirect( $location, $status = 302 ) {
 }
 
 /**
- * bp_core_referrer()
- *
  * Returns the referrer URL without the http(s)://
  *
  * @package BuddyPress Core
@@ -1627,8 +1568,6 @@ function bp_core_referrer() {
 }
 
 /**
- * bp_core_add_illegal_names()
- *
  * Adds illegal names to WP so that root components will not conflict with
  * blog names on a subdirectory installation.
  *
@@ -1639,8 +1578,6 @@ function bp_core_add_illegal_names() {
 }
 
 /**
- * bp_core_delete_account()
- *
  * Allows a user to completely remove their account from the system
  *
  * @package BuddyPress Core
@@ -1656,15 +1593,15 @@ function bp_core_delete_account( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 
-	/* Make sure account deletion is not disabled */
+	// Make sure account deletion is not disabled
 	if ( !empty( $bp->site_options['bp-disable-account-deletion'] ) && !$bp->loggedin_user->is_super_admin )
 		return false;
 
-	/* Site admins cannot be deleted */
+	// Site admins cannot be deleted
 	if ( is_super_admin( bp_core_get_username( $user_id ) ) )
 		return false;
 
-	/* Specifically handle multi-site environment */
+	// Specifically handle multi-site environment
 	if ( is_multisite() ) {
 		if ( $wp_version >= '3.0' )
 			require_once( ABSPATH . '/wp-admin/includes/ms.php' );
@@ -1675,7 +1612,7 @@ function bp_core_delete_account( $user_id = false ) {
 
 		return wpmu_delete_user( $user_id );
 
-	/* Single site user deletion */
+	// Single site user deletion
 	} else {
 		require_once( ABSPATH . '/wp-admin/includes/user.php' );
 		return wp_delete_user( $user_id );
@@ -1683,8 +1620,6 @@ function bp_core_delete_account( $user_id = false ) {
 }
 
 /**
- * bp_core_search_site()
- *
  * A javascript free implementation of the search functions in BuddyPress
  *
  * @package BuddyPress Core
@@ -1711,13 +1646,16 @@ function bp_core_action_search_site( $slug = '' ) {
 			case 'blogs':
 				$slug = bp_is_active( 'blogs' )  ? $bp->blogs->slug  : '';
 				break;
+
 			case 'forums':
 				$slug = bp_is_active( 'forums' ) ? $bp->forums->slug : '';
 				$query_string = '/?fs=';
 				break;
+
 			case 'groups':
 				$slug = bp_is_active( 'groups' ) ? $bp->groups->slug : '';
 				break;
+
 			case 'members':
 			default:
 				$slug = $bp->members->slug;
@@ -1734,10 +1672,7 @@ function bp_core_action_search_site( $slug = '' ) {
 }
 add_action( 'init', 'bp_core_action_search_site', 5 );
 
-
 /**
- * bp_core_ucfirst()
- *
  * Localization safe ucfirst() support.
  *
  * @package BuddyPress Core
@@ -1751,27 +1686,22 @@ function bp_core_ucfirst( $str ) {
 	}
 }
 
-
 /**
- * bp_core_strip_username_spaces()
- *
  * Strips spaces from usernames that are created using add_user() and wp_insert_user()
  *
  * @package BuddyPress Core
  */
 function bp_core_strip_username_spaces( $username ) {
-        // Don't alter the user_login of existing users, as it causes user_nicename problems.
-        // See http://trac.buddypress.org/ticket/2642
-        if ( username_exists( $username ) && ( !defined( 'BP_ENABLE_USER_COMPATIBILITY_MODE' ) || !BP_ENABLE_USER_COMPATIBILITY_MODE ) )
-                return $username;
+	// Don't alter the user_login of existing users, as it causes user_nicename problems.
+	// See http://trac.buddypress.org/ticket/2642
+	if ( username_exists( $username ) && ( !defined( 'BP_ENABLE_USER_COMPATIBILITY_MODE' ) || !BP_ENABLE_USER_COMPATIBILITY_MODE ) )
+		return $username;
 
 	return str_replace( ' ', '-', $username );
 }
 add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );
 
-
 /**
- * bp_core_clear_cache()
  * REQUIRES WP-SUPER-CACHE
  *
  * When wp-super-cache is installed this function will clear cached pages
@@ -1790,8 +1720,6 @@ function bp_core_clear_cache() {
 }
 
 /**
- * bp_core_print_generation_time()
- *
  * Prints the generation time in the footer of the site.
  *
  * @package BuddyPress Core
@@ -1806,8 +1734,6 @@ function bp_core_print_generation_time() {
 add_action( 'wp_footer', 'bp_core_print_generation_time' );
 
 /**
- * bp_core_add_admin_menu_page()
- *
  * A better version of add_admin_menu_page() that allows positioning of menus.
  *
  * @package BuddyPress Core
@@ -1853,8 +1779,6 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 }
 
 /**
- * bp_core_boot_spammer()
- *
  * When a user logs in, check if they have been marked as a spammer. If yes then simply
  * redirect them to the home page and stop them from logging in.
  *
@@ -1869,7 +1793,7 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 	global $bp;
 
 	if ( !$user = get_userdatabylogin( $username ) )
-	        return false;
+		return false;
 
 	if ( ( is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
 		bp_core_redirect( $bp->root_domain );
@@ -1879,8 +1803,6 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 add_filter( 'authenticate', 'bp_core_boot_spammer', 11, 2 );
 
 /**
- * bp_core_remove_data()
- *
  * Deletes usermeta for the user when the user is deleted.
  *
  * @package BuddyPress Core
@@ -1888,19 +1810,17 @@ add_filter( 'authenticate', 'bp_core_boot_spammer', 11, 2 );
  * @uses delete_user_meta() deletes a row from the wp_usermeta table based on meta_key
  */
 function bp_core_remove_data( $user_id ) {
-	/* Remove usermeta */
+	// Remove usermeta
 	delete_user_meta( $user_id, 'last_activity' );
 
-	/* Flush the cache to remove the user from all cached objects */
+	// Flush the cache to remove the user from all cached objects
 	wp_cache_flush();
 }
-add_action( 'wpmu_delete_user', 'bp_core_remove_data' );
-add_action( 'delete_user', 'bp_core_remove_data' );
+add_action( 'wpmu_delete_user',  'bp_core_remove_data' );
+add_action( 'delete_user',       'bp_core_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_core_remove_data' );
 
 /**
- * bp_load_buddypress_textdomain()
- *
  * Load the buddypress translation file for current language
  *
  * @package BuddyPress Core
@@ -1921,15 +1841,13 @@ function bp_core_load_buddypress_textdomain() {
 add_action ( 'bp_loaded', 'bp_core_load_buddypress_textdomain', 2 );
 
 function bp_core_add_ajax_hook() {
-	/* Theme only, we already have the wp_ajax_ hook firing in wp-admin */
+	// Theme only, we already have the wp_ajax_ hook firing in wp-admin
 	if ( !defined( 'WP_ADMIN' ) && isset( $_REQUEST['action'] ) )
 		do_action( 'wp_ajax_' . $_REQUEST['action'] );
 }
 add_action( 'init', 'bp_core_add_ajax_hook' );
 
 /**
- * bp_core_update_message()
- *
  * Add an extra update message to the update plugin notification.
  *
  * @package BuddyPress Core
@@ -1940,8 +1858,6 @@ function bp_core_update_message() {
 add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update_message' );
 
 /**
- * bp_core_activation_notice()
- *
  * When BuddyPress is activated we must make sure that mod_rewrite is enabled.
  * We must also make sure a BuddyPress compatible theme is enabled. This function
  * will show helpful messages to the administrator.
@@ -1963,26 +1879,30 @@ function bp_core_activation_notice() {
 	}
 
 	if ( empty( $wp_rewrite->permalink_structure ) ) { ?>
+
 		<div id="message" class="updated fade">
 			<p><?php printf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) ?></p>
 		</div><?php
+
 	} else {
-		/* Get current theme info */
+		// Get current theme info
 		$ct = current_theme_info();
 
-		/* The best way to remove this notice is to add a "buddypress" tag to your active theme's CSS header. */
+		// The best way to remove this notice is to add a "buddypress" tag to
+		// your active theme's CSS header.
 		if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) { ?>
+
 			<div id="message" class="updated fade">
 				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) ?></p>
-			</div><?php
+			</div>
+
+		<?php
 		}
 	}
 }
 add_action( 'admin_notices', 'bp_core_activation_notice' );
 
 /**
- * bp_core_activate_site_options()
- *
  * When switching from single to multisite we need to copy blog options to
  * site options.
  *
@@ -2018,8 +1938,6 @@ function bp_core_activate_site_options( $keys = array() ) {
  */
 
 /**
- * bp_include()
- *
  * Allow plugins to include their files ahead of core filters
  */
 function bp_include() {
@@ -2028,8 +1946,6 @@ function bp_include() {
 add_action( 'bp_loaded', 'bp_include', 2 );
 
 /**
- * bp_setup_root_components()
- *
  * Allow core components and dependent plugins to set root components
  */
 function bp_setup_root_components() {
@@ -2038,8 +1954,6 @@ function bp_setup_root_components() {
 add_action( 'bp_loaded', 'bp_setup_root_components', 2 );
 
 /**
- * bp_setup_globals()
- *
  * Allow core components and dependent plugins to set globals
  */
 function bp_setup_globals() {
@@ -2048,8 +1962,6 @@ function bp_setup_globals() {
 add_action( 'bp_loaded', 'bp_setup_globals', 6 );
 
 /**
- * bp_setup_nav()
- *
  * Allow core components and dependent plugins to set their nav
  */
 function bp_setup_nav() {
@@ -2058,8 +1970,6 @@ function bp_setup_nav() {
 add_action( 'bp_loaded', 'bp_setup_nav', 8 );
 
 /**
- * bp_setup_widgets()
- *
  * Allow core components and dependent plugins to register widgets
  */
 function bp_setup_widgets() {
@@ -2068,8 +1978,6 @@ function bp_setup_widgets() {
 add_action( 'bp_loaded', 'bp_setup_widgets', 8 );
 
 /**
- * bp_init()
- *
  * Allow components to initialize themselves cleanly
  */
 function bp_init() {
@@ -2086,8 +1994,6 @@ add_action( 'bp_loaded', 'bp_init' );
  */
 
 /**
- * bp_core_add_global_group()
- *
  * Add's 'bp' to global group of network wide cachable objects
  *
  * @package BuddyPress Core
@@ -2101,8 +2007,6 @@ function bp_core_add_global_group() {
 add_action( 'init', 'bp_core_add_global_group' );
 
 /**
- * bp_core_clear_user_object_cache()
- *
  * Clears all cached objects for a user, or a user is part of.
  *
  * @package BuddyPress Core
@@ -2112,61 +2016,7 @@ function bp_core_clear_user_object_cache( $user_id ) {
 }
 
 // List actions to clear super cached pages on, if super cache is installed
-add_action( 'wp_login', 'bp_core_clear_cache' );
+add_action( 'wp_login',              'bp_core_clear_cache' );
 add_action( 'bp_core_render_notice', 'bp_core_clear_cache' );
 
-
-/* DEPRECATED FUNCTIONS ****/
-
-/**
- * bp_core_add_root_component()
- *
- * This function originally let plugins add support for pages in the root of the install.
- * These pages are now handled by actual WordPress pages so this function is deprecated.
- * It now simply facilitates backwards compatibility by adding a WP page if the plugin has not been
- * updated to do so.
- *
- * @deprecated 1.3
- * @deprecated Use wp_insert_post() to create a page
- * @package BuddyPress Core
- * @param $slug str The slug of the component
- * @global $bp BuddyPress global settings
- */
-function bp_core_add_root_component( $slug ) {
-	global $bp, $bp_pages;
-
-	_deprecated_function( __FUNCTION__, '1.3', 'wp_insert_post()' );
-	if ( empty( $bp_pages ) )
-		$bp_pages = bp_core_get_page_names();
-
-	$match = false;
-
-	/* Check if the slug is registered in the $bp->pages global */
-	foreach ( (array)$bp_pages as $key => $page ) {
-		if ( $key == $slug || $page->slug == $slug )
-			$match = true;
-	}
-
-	/* If there was no match, add a page for this root component */
-	if ( empty( $match ) ) {
-		$bp->add_root[] = $slug;
-		add_action( 'init', 'bp_core_create_root_component_page' );
-	}
-}
-
-function bp_core_create_root_component_page() {
-	global $bp;
-
-	$new_page_ids = array();
-
-	foreach ( (array)$bp->add_root as $slug )
-		$new_page_ids[$slug] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
-
-	$page_ids = bp_core_get_page_meta();
-
-	$page_ids = (array) $page_ids;
-	$page_ids = array_merge( (array) $new_page_ids, (array) $page_ids );
-
-	bp_core_update_page_meta( $page_ids );
-}
 ?>

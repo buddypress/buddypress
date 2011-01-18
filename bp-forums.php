@@ -1,6 +1,6 @@
 <?php
 
-/* Define the parent forum ID */
+// Define the parent forum ID
 if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
 	define( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
 
@@ -18,15 +18,19 @@ require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php' );
  */
 function bp_forums_setup() {
 	global $bp;
-        
-        if ( !defined( 'BP_FORUMS_SLUG' ) )
-                define ( 'BP_FORUMS_SLUG', $bp->pages->forums->slug );
+
+	if ( !defined( 'BP_FORUMS_SLUG' ) )
+		define ( 'BP_FORUMS_SLUG', bp_core_component_slug_from_root_slug( $bp->pages->forums->slug ) );
 
 	// For internal identification
 	$bp->forums->id = 'forums';
 
+	// Slugs
+	$bp->forums->slug      = BP_FORUMS_SLUG;
+	$bp->forums->root_slug = $bp->pages->forums->slug;
+
+	// Images
 	$bp->forums->image_base = BP_PLUGIN_URL . '/bp-forums/images';
-	$bp->forums->slug = BP_FORUMS_SLUG;
 
 	if ( isset( $bp->site_options['bb-config-location'] ) )
 		$bp->forums->bbconfig = $bp->site_options['bb-config-location'];
@@ -80,13 +84,12 @@ function bp_forums_directory_forums_setup() {
 
 		do_action( 'bbpress_init' );
 
-		/* Check to see if the user has posted a new topic from the forums page. */
+		// Check to see if the user has posted a new topic from the forums page.
 		if ( isset( $_POST['submit_topic'] ) && function_exists( 'bp_forums_new_topic' ) ) {
-			/* Check the nonce */
 			check_admin_referer( 'bp_forums_new_topic' );
 
 			if ( $bp->groups->current_group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) ) ) {
-				/* Auto join this user if they are not yet a member of this group */
+				// Auto join this user if they are not yet a member of this group
 				if ( !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->groups->current_group->id );
 
@@ -133,12 +136,12 @@ function bp_forums_add_admin_menu() {
 
 	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php' );
 
-	/* Add the administration tab under the "Site Admin" tab for site administrators */
+	// Add the administration tab under the "Site Admin" tab for site administrators
 	add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
 }
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_forums_add_admin_menu' );
 
-/* Forum Functions */
+/** Forum Functions ***********************************************************/
 
 function bp_forums_get_forum( $forum_id ) {
 	do_action( 'bbpress_init' );
@@ -149,10 +152,10 @@ function bp_forums_new_forum( $args = '' ) {
 	do_action( 'bbpress_init' );
 
 	$defaults = array(
-		'forum_name' => '',
-		'forum_desc' => '',
-		'forum_parent_id' => BP_FORUMS_PARENT_FORUM_ID,
-		'forum_order' => false,
+		'forum_name'        => '',
+		'forum_desc'        => '',
+		'forum_parent_id'   => BP_FORUMS_PARENT_FORUM_ID,
+		'forum_order'       => false,
 		'forum_is_category' => 0
 	);
 
@@ -181,7 +184,7 @@ function bp_forums_update_forum( $args = '' ) {
 	return bb_update_forum( array( 'forum_id' => (int)$forum_id, 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_slug' => stripslashes( $forum_slug ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
 }
 
-/* Topic Functions */
+/** Topic Functions ***********************************************************/
 
 function bp_forums_get_forum_topics( $args = '' ) {
 	global $bp;
@@ -206,22 +209,22 @@ function bp_forums_get_forum_topics( $args = '' ) {
 		case 'newest':
 			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'number' => $per_page, 'exclude' => $exclude, 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_latest_topics' );
 			$topics =& $query->results;
-		break;
+			break;
 
 		case 'popular':
 			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_posts', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
 			$topics =& $query->results;
-		break;
+			break;
 
 		case 'unreplied':
 			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'post_count' => 1, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
 			$topics =& $query->results;
-		break;
+			break;
 
 		case 'tags':
 			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'tag' => $filter, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'sticky' => $show_stickies ) );
 			$topics =& $query->results;
-		break;
+			break;
 	}
 
 	return apply_filters( 'bp_forums_get_forum_topics', $topics, &$r );
@@ -246,18 +249,18 @@ function bp_forums_new_topic( $args = '' ) {
 	do_action( 'bbpress_init' );
 
 	$defaults = array(
-		'topic_title' => '',
-		'topic_slug' => '',
-		'topic_text' => '',
-		'topic_poster' => $bp->loggedin_user->id, // accepts ids
-		'topic_poster_name' => $bp->loggedin_user->fullname, // accept names
-		'topic_last_poster' => $bp->loggedin_user->id, // accepts ids
+		'topic_title'            => '',
+		'topic_slug'             => '',
+		'topic_text'             => '',
+		'topic_poster'           => $bp->loggedin_user->id, // accepts ids
+		'topic_poster_name'      => $bp->loggedin_user->fullname, // accept names
+		'topic_last_poster'      => $bp->loggedin_user->id, // accepts ids
 		'topic_last_poster_name' => $bp->loggedin_user->fullname, // accept names
-		'topic_start_time' => bp_core_current_time(),
-		'topic_time' => bp_core_current_time(),
-		'topic_open' => 1,
-		'topic_tags' => false, // accepts array or comma delim
-		'forum_id' => 0 // accepts ids or slugs
+		'topic_start_time'       => bp_core_current_time(),
+		'topic_time'             => bp_core_current_time(),
+		'topic_open'             => 1,
+		'topic_tags'             => false, // accepts array or comma delim
+		'forum_id'               => 0 // accepts ids or slugs
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -274,7 +277,7 @@ function bp_forums_new_topic( $args = '' ) {
 	if ( !$topic_id = bb_insert_topic( array( 'topic_title' => stripslashes( $topic_title ), 'topic_slug' => $topic_slug, 'topic_poster' => $topic_poster, 'topic_poster_name' => $topic_poster_name, 'topic_last_poster' => $topic_last_poster, 'topic_last_poster_name' => $topic_last_poster_name, 'topic_start_time' => $topic_start_time, 'topic_time' => $topic_time, 'topic_open' => $topic_open, 'forum_id' => (int)$forum_id, 'tags' => $topic_tags ) ) )
 		return false;
 
-	/* Now insert the first post. */
+	// Now insert the first post.
 	if ( !bp_forums_insert_post( array( 'topic_id' => $topic_id, 'post_text' => $topic_text, 'post_time' => $topic_time, 'poster_id' => $topic_poster ) ) )
 		return false;
 
@@ -289,9 +292,9 @@ function bp_forums_update_topic( $args = '' ) {
 	do_action( 'bbpress_init' );
 
 	$defaults = array(
-		'topic_id' => false,
+		'topic_id'    => false,
 		'topic_title' => '',
-		'topic_text' => ''
+		'topic_text'  => ''
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -303,7 +306,7 @@ function bp_forums_update_topic( $args = '' ) {
 	if ( !$post = bb_get_first_post( $topic_id ) )
 		return false;
 
-	/* Update the first post */
+	// Update the first post
 	if ( !$post = bp_forums_insert_post( array( 'post_id' => $post->post_id, 'topic_id' => $topic_id, 'post_text' => $topic_text, 'post_time' => $post->post_time, 'poster_id' => $post->poster_id, 'poster_ip' => $post->poster_ip, 'post_status' => $post->post_status, 'post_position' => $post->post_position ) ) )
 		return false;
 
@@ -317,7 +320,7 @@ function bp_forums_sticky_topic( $args = '' ) {
 
 	$defaults = array(
 		'topic_id' => false,
-		'mode' => 'stick' // stick/unstick
+		'mode'     => 'stick' // stick/unstick
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -338,7 +341,7 @@ function bp_forums_openclose_topic( $args = '' ) {
 
 	$defaults = array(
 		'topic_id' => false,
-		'mode' => 'close' // stick/unstick
+		'mode'     => 'close' // stick/unstick
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -397,24 +400,24 @@ function bp_forums_get_topic_extras( $topics ) {
 	if ( empty( $topics ) )
 		return $topics;
 
-	/* Get the topic ids */
+	// Get the topic ids
 	foreach ( (array)$topics as $topic ) $topic_ids[] = $topic->topic_id;
 	$topic_ids = $wpdb->escape( join( ',', (array)$topic_ids ) );
 
-	/* Fetch the topic's last poster details */
+	// Fetch the topic's last poster details
 	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, t.topic_last_poster, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u, {$bbdb->topics} t WHERE u.ID = t.topic_last_poster AND t.topic_id IN ( {$topic_ids} )" ) );
 	for ( $i = 0; $i < count( $topics ); $i++ ) {
 		foreach ( (array)$poster_details as $poster ) {
 			if ( $poster->topic_id == $topics[$i]->topic_id ) {
-				$topics[$i]->topic_last_poster_email = $poster->user_email;
-				$topics[$i]->topic_last_poster_nicename = $poster->user_nicename;
-				$topics[$i]->topic_last_poster_login = $poster->user_login;
+				$topics[$i]->topic_last_poster_email       = $poster->user_email;
+				$topics[$i]->topic_last_poster_nicename    = $poster->user_nicename;
+				$topics[$i]->topic_last_poster_login       = $poster->user_login;
 				$topics[$i]->topic_last_poster_displayname = $poster->display_name;
 			}
 		}
 	}
 
-	/* Fetch fullname for the topic's last poster */
+	// Fetch fullname for the topic's last poster
 	if ( bp_is_active( 'xprofile' ) ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, pd.value FROM {$bp->profile->table_name_data} pd, {$bbdb->topics} t WHERE pd.user_id = t.topic_last_poster AND pd.field_id = 1 AND t.topic_id IN ( {$topic_ids} )" ) );
 		for ( $i = 0; $i < count( $topics ); $i++ ) {
@@ -428,21 +431,21 @@ function bp_forums_get_topic_extras( $topics ) {
 	return $topics;
 }
 
-/* Post Functions */
+/** Post Functions ************************************************************/
 
 function bp_forums_get_topic_posts( $args = '' ) {
 	do_action( 'bbpress_init' );
 
 	$defaults = array(
 		'topic_id' => false,
-		'page' => 1,
+		'page'     => 1,
 		'per_page' => 15,
-		'order' => 'ASC'
+		'order'    => 'ASC'
 	);
 
-	$args = wp_parse_args( $args, $defaults );
-
+	$args  = wp_parse_args( $args, $defaults );
 	$query = new BB_Query( 'post', $args, 'get_thread' );
+
 	return bp_forums_get_post_extras( $query->results );
 }
 
@@ -472,13 +475,13 @@ function bp_forums_insert_post( $args = '' ) {
 	do_action( 'bbpress_init' );
 
 	$defaults = array(
-		'post_id' => false,
-		'topic_id' => false,
-		'post_text' => '',
-		'post_time' => bp_core_current_time(),
-		'poster_id' => $bp->loggedin_user->id, // accepts ids or names
-		'poster_ip' => $_SERVER['REMOTE_ADDR'],
-		'post_status' => 0, // use bb_delete_post() instead
+		'post_id'       => false,
+		'topic_id'      => false,
+		'post_text'     => '',
+		'post_time'     => bp_core_current_time(),
+		'poster_id'     => $bp->loggedin_user->id, // accepts ids or names
+		'poster_ip'     => $_SERVER['REMOTE_ADDR'],
+		'post_status'   => 0, // use bb_delete_post() instead
 		'post_position' => false
 	);
 
@@ -502,7 +505,7 @@ function bp_forums_insert_post( $args = '' ) {
 
 	$post_id = bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( trim( $post_text ) ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
 
-	if ( $post_id )
+	if ( !empty( $post_id ) )
 		do_action( 'bp_forums_new_post', $post_id );
 
 	return $post_id;
@@ -514,25 +517,25 @@ function bp_forums_get_post_extras( $posts ) {
 	if ( empty( $posts ) )
 		return $posts;
 
-	/* Get the user ids */
+	// Get the user ids
 	foreach ( (array)$posts as $post ) $user_ids[] = $post->poster_id;
 	$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
 
-	/* Fetch the poster's user_email, user_nicename and user_login */
+	// Fetch the poster's user_email, user_nicename and user_login
 	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u WHERE u.ID IN ( {$user_ids} )" ) );
 
 	for ( $i = 0; $i < count( $posts ); $i++ ) {
 		foreach ( (array)$poster_details as $poster ) {
 			if ( $poster->user_id == $posts[$i]->poster_id ) {
-				$posts[$i]->poster_email = $poster->user_email;
-				$posts[$i]->poster_login = $poster->user_nicename;
+				$posts[$i]->poster_email    = $poster->user_email;
+				$posts[$i]->poster_login    = $poster->user_nicename;
 				$posts[$i]->poster_nicename = $poster->user_login;
-				$posts[$i]->poster_name = $poster->display_name;
+				$posts[$i]->poster_name     = $poster->display_name;
 			}
 		}
 	}
 
-	/* Fetch fullname for each poster. */
+	// Fetch fullname for each poster.
 	if ( bp_is_active( 'xprofile' ) ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id, pd.value FROM {$bp->profile->table_name_data} pd WHERE pd.user_id IN ( {$user_ids} )" ) );
 		for ( $i = 0; $i < count( $posts ); $i++ ) {
@@ -551,7 +554,7 @@ function bp_forums_get_forum_topicpost_count( $forum_id ) {
 
 	do_action( 'bbpress_init' );
 
-	/* Need to find a bbPress function that does this */
+	// Need to find a bbPress function that does this
 	return $wpdb->get_results( $wpdb->prepare( "SELECT topics, posts from {$bbdb->forums} WHERE forum_id = %d", $forum_id ) );
 }
 
@@ -585,5 +588,6 @@ add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'bp_forums_new_forum', 'bp_core_clear_cache' );
 add_action( 'bp_forums_new_topic', 'bp_core_clear_cache' );
-add_action( 'bp_forums_new_post', 'bp_core_clear_cache' );
+add_action( 'bp_forums_new_post',  'bp_core_clear_cache' );
+
 ?>

@@ -175,46 +175,45 @@ function bp_has_activities( $args = '' ) {
 	}
 
 	// The default scope should recognize custom slugs
-	if ( array_key_exists( $bp->current_action, (array)$bp->active_components ) ) {
+	if ( array_key_exists( $bp->current_action, (array)$bp->active_components ) )
 		$scope = $bp->active_components[$bp->current_action];
-	} else {
+	else
 		$scope = $bp->current_action;
-	}
 
-	/* Support for permalinks on single item pages: /groups/my-group/activity/124/ */
+	// Support for permalinks on single item pages: /groups/my-group/activity/124/
 	if ( $bp->current_action == $bp->activity->slug )
 		$include = $bp->action_variables[0];
 
-	/* Note: any params used for filtering can be a single value, or multiple values comma separated. */
+	// Note: any params used for filtering can be a single value, or multiple values comma separated.
 	$defaults = array(
-		'display_comments' => 'threaded', // false for none, stream/threaded - show comments in the stream or threaded under items
-		'include' => $include, // pass an activity_id or string of IDs comma-separated
-		'exclude' => $exclude, // pass an activity_id or string of IDs comma-separated
-		'in' => $in, // comma-separated list or array of activity IDs among which to search
-		'sort' => 'DESC', // sort DESC or ASC
-		'page' => 1, // which page to load
-		'per_page' => 20, // number of items per page
-		'max' => false, // max number to return
-		'show_hidden' => $show_hidden, // Show activity items that are hidden site-wide?
+		'display_comments' => 'threaded',   // false for none, stream/threaded - show comments in the stream or threaded under items
+		'include'          => $include,     // pass an activity_id or string of IDs comma-separated
+		'exclude'          => $exclude,     // pass an activity_id or string of IDs comma-separated
+		'in'               => $in,          // comma-separated list or array of activity IDs among which to search
+		'sort'             => 'DESC',       // sort DESC or ASC
+		'page'             => 1,            // which page to load
+		'per_page'         => 20,           // number of items per page
+		'max'              => false,        // max number to return
+		'show_hidden'      => $show_hidden, // Show activity items that are hidden site-wide?
 
-		/* Scope - pre-built activity filters for a user (friends/groups/favorites/mentions) */
-		'scope' => $bp->current_action,
+		// Scope - pre-built activity filters for a user (friends/groups/favorites/mentions)
+		'scope'            => $scope,
 
-		/* Filtering */
-		'user_id' => $user_id, // user_id to filter on
-		'object' => $object, // object to filter on e.g. groups, profile, status, friends
-		'action' => false, // action to filter on e.g. activity_update, new_forum_post, profile_updated
-		'primary_id' => $primary_id, // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
-		'secondary_id' => false, // secondary object ID to filter on e.g. a post_id
+		// Filtering
+		'user_id'          => $user_id,     // user_id to filter on
+		'object'           => $object,      // object to filter on e.g. groups, profile, status, friends
+		'action'           => false,        // action to filter on e.g. activity_update, new_forum_post, profile_updated
+		'primary_id'       => $primary_id,  // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
+		'secondary_id'     => false,        // secondary object ID to filter on e.g. a post_id
 
-		/* Searching */
-		'search_terms' => false // specify terms to search on
+		// Searching
+		'search_terms'     => false         // specify terms to search on
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
-	/* If you have passed a "scope" then this will override any filters you have passed. */
+	// If you have passed a "scope" then this will override any filters you have passed.
 	if ( 'just-me' == $scope || 'friends' == $scope || 'groups' == $scope || 'favorites' == $scope || 'mentions' == $scope ) {
 		if ( 'just-me' == $scope )
 			$display_comments = 'stream';
@@ -271,12 +270,13 @@ function bp_has_activities( $args = '' ) {
 			$per_page = $max;
 	}
 
-	/* Support for basic filters in earlier BP versions. */
-	$filter = false;
+	// Support for basic filters in earlier BP versions.
 	if ( isset( $_GET['afilter'] ) )
 		$filter = array( 'object' => $_GET['afilter'] );
 	else if ( !empty( $user_id ) || !empty( $object ) || !empty( $action ) || !empty( $primary_id ) || !empty( $secondary_id ) )
 		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
+	else
+		$filter = false;
 
 	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude, $in );
 

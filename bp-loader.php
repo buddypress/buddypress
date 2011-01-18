@@ -37,31 +37,31 @@ if ( get_site_option( 'bp-db-version' ) < constant( 'BP_DB_VERSION' ) ) {
 
 	do_action( 'bp_core_loaded' );
 
-	/* Activity Streams */
+	// Activity Streams
 	if ( !isset( $bp_deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )
 		include( BP_PLUGIN_DIR . '/bp-activity.php' );
 
-	/* Blog Tracking */
+	// Blog Tracking
 	if ( !isset( $bp_deactivated['bp-blogs.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') )
 		include( BP_PLUGIN_DIR . '/bp-blogs.php' );
 
-	/* bbPress Forum Integration */
+	// bbPress Forum Integration
 	if ( !isset( $bp_deactivated['bp-forums.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums.php') )
 		include( BP_PLUGIN_DIR . '/bp-forums.php' );
 
-	/* Friend Connections */
+	// Friend Connections
 	if ( !isset( $bp_deactivated['bp-friends.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends.php') )
 		include( BP_PLUGIN_DIR . '/bp-friends.php' );
 
-	/* Groups Support */
+	// Groups Support
 	if ( !isset( $bp_deactivated['bp-groups.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups.php') )
 		include( BP_PLUGIN_DIR . '/bp-groups.php' );
 
-	/* Private Messaging */
+	// Private Messaging
 	if ( !isset( $bp_deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-messages.php') )
 		include( BP_PLUGIN_DIR . '/bp-messages.php' );
 
-	/* Extended Profiles */
+	// Extended Profiles
 	if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
 		include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
 
@@ -69,20 +69,16 @@ if ( get_site_option( 'bp-db-version' ) < constant( 'BP_DB_VERSION' ) ) {
 }
 
 /**
-* bp_loaded()
-*
-* Allow dependent plugins and core actions to attach themselves in a safe way.
-*
-* See bp-core.php for the following core actions:
-*      - bp_init|bp_setup_globals|bp_setup_root_components|bp_setup_nav|bp_register_widgets
-*/
+ * Allow dependent plugins and core actions to attach themselves in a safe way.
+ *
+ * See bp-core.php for the following core actions:
+ *      - bp_init|bp_setup_globals|bp_setup_root_components|bp_setup_nav|bp_register_widgets
+ */
 function bp_loaded() {
 	do_action( 'bp_loaded' );
 }
 
 /**
- * bp_core_get_site_options()
- *
  * BuddyPress uses site options to store configuration settings. Many of these settings are needed
  * at run time. Instead of fetching them all and adding many initial queries to each page load, let's fetch
  * them all in one go.
@@ -125,10 +121,9 @@ function bp_core_get_site_options() {
 	else
 		$site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
 
-	$root_blog_meta_keys = "'" . implode( "','", (array)$root_blog_options ) ."'";
-
+	$root_blog_meta_keys  = "'" . implode( "','", (array)$root_blog_options ) ."'";
 	$root_blog_meta_table = $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'options';
-	$root_blog_meta = $wpdb->get_results( $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$root_blog_meta_table} WHERE option_name IN ({$root_blog_meta_keys})" ) );
+	$root_blog_meta       = $wpdb->get_results( $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$root_blog_meta_table} WHERE option_name IN ({$root_blog_meta_keys})" ) );
 
 	$site_options = array();
 	foreach( array( $site_meta, $root_blog_meta ) as $meta ) {
@@ -140,12 +135,13 @@ function bp_core_get_site_options() {
 	return apply_filters( 'bp_core_get_site_options', $site_options );
 }
 
-/* Activation Function */
+// Activation Function
 function bp_loader_activate() {
-	/* Force refresh theme roots. */
+	// Force refresh theme roots.
 	delete_site_transient( 'theme_roots' );
 
-	/* Switch the user to the new bp-default if they are using the old bp-default on activation. */
+	// Switch the user to the new bp-default if they are using the old
+	// bp-default on activation.
 	if ( 'bp-sn-parent' == get_blog_option( BP_ROOT_BLOG, 'template' ) && 'bp-default' == get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) )
 		switch_theme( 'bp-default', 'bp-default' );
 
@@ -153,7 +149,7 @@ function bp_loader_activate() {
 }
 register_activation_hook( 'buddypress/bp-loader.php', 'bp_loader_activate' );
 
-/* Deactivation Function */
+// Deactivation Function
 function bp_loader_deactivate() {
 	do_action( 'bp_loader_deactivate' );
 }

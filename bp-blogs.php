@@ -1,8 +1,10 @@
 <?php
+
+// Required Files
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-classes.php' );
 require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-templatetags.php' );
 
-/* Include the sitewide blog posts widget if this is a multisite installation */
+// Include the sitewide blog posts widget if this is a multisite installation
 if ( is_multisite() )
 	require ( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
 
@@ -10,22 +12,27 @@ function bp_blogs_setup_globals() {
 	global $bp, $wpdb;
 
 	if ( !defined( 'BP_BLOGS_SLUG' ) && isset( $bp->pages->blogs->slug ) )
-		define ( 'BP_BLOGS_SLUG', $bp->pages->blogs->slug );
-	elseif( !defined( 'BP_BLOGS_SLUG' ) )
+		define ( 'BP_BLOGS_SLUG', bp_core_component_slug_from_root_slug( $bp->pages->blogs->slug ) );
+	else if( !defined( 'BP_BLOGS_SLUG' ) )
 		define ( 'BP_BLOGS_SLUG', 'blogs' );
 
 	// For internal identification
-	$bp->blogs->id = 'blogs';
+	$bp->blogs->id   = 'blogs';
+	$bp->blogs->name = $bp->pages->blogs->name;
 
-	$bp->blogs->slug = BP_BLOGS_SLUG;
+	// Slugs
+	$bp->blogs->slug      = BP_BLOGS_SLUG;
+	$bp->blogs->root_slug = $bp->pages->blogs->slug;
 
+	// Tables
 	$bp->blogs->table_name          = $bp->table_prefix . 'bp_user_blogs';
 	$bp->blogs->table_name_blogmeta = $bp->table_prefix . 'bp_user_blogs_blogmeta';
 
-	$bp->blogs->format_notification_function = 'bp_blogs_format_notifications';
+	// Notifications
+	$bp->blogs->format_notification_function      = 'bp_blogs_format_notifications';
 
 	// Register this in the active components array
-	$bp->active_components[$bp->blogs->slug] = $bp->blogs->id;
+	$bp->active_components[$bp->blogs->slug]      = $bp->blogs->id;
 
 	// The default text for the blogs directory search box
 	$bp->default_search_strings[$bp->blogs->slug] = __( 'Search Blogs...', 'buddypress' );
@@ -35,8 +42,6 @@ function bp_blogs_setup_globals() {
 add_action( 'bp_setup_globals', 'bp_blogs_setup_globals' );
 
 /**
- * bp_blogs_setup_nav()
- *
  * Adds "Blog" to the navigation arrays for the current and logged in user.
  *
  * @package BuddyPress Blogs
@@ -46,24 +51,28 @@ add_action( 'bp_setup_globals', 'bp_blogs_setup_globals' );
 function bp_blogs_setup_nav() {
 	global $bp;
 
-	/* Blog/post/comment menus should not appear on single WordPress setups. Although comments
-	   and posts made by users will still show on their activity stream .*/
+	/**
+	 * Blog/post/comment menus should not appear on single WordPress setups.
+	 * Although comments and posts made by users will still show on their
+	 * activity stream.
+	 */
 	if ( !is_multisite() )
 		return false;
 
-	/* Add 'Blogs' to the main navigation */
+	// Add 'Blogs' to the main navigation
 	bp_core_new_nav_item( array( 'name' => sprintf( __( 'Blogs <span>(%d)</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ), 'slug' => $bp->blogs->slug, 'position' => 30, 'screen_function' => 'bp_blogs_screen_my_blogs', 'default_subnav_slug' => 'my-blogs', 'item_css_id' => $bp->blogs->id ) );
 
 	$blogs_link = $bp->loggedin_user->domain . $bp->blogs->slug . '/';
 
-	/* Set up the component options navigation for Blog */
+	// Set up the component options navigation for Blog
 	if ( $bp->blogs->slug == $bp->current_component ) {
 		if ( bp_is_my_profile() ) {
 			if ( function_exists('xprofile_setup_nav') ) {
 				$bp->bp_options_title = __('My Blogs', 'buddypress');
 			}
 		} else {
-			/* If we are not viewing the logged in user, set up the current users avatar and name */
+			// If we are not viewing the logged in user, set up the current
+			// users avatar and name
 			$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
 			$bp->bp_options_title = $bp->displayed_user->fullname;
 		}
@@ -86,7 +95,7 @@ function bp_blogs_directory_blogs_setup() {
 add_action( 'wp', 'bp_blogs_directory_blogs_setup', 2 );
 
 
-/********************************************************************************
+/*******************************************************************************
  * Screen Functions
  *
  * Screen functions are the controllers of BuddyPress. They will execute when their
@@ -116,11 +125,10 @@ function bp_blogs_screen_create_a_blog() {
 	do_action( 'bp_blogs_screen_create_a_blog' );
 	bp_core_load_template( apply_filters( 'bp_blogs_template_create_a_blog', 'blogs/create' ) );
 }
-/* The create screen is not attached to a nav item, so we need to attach it to an action */
 add_action( 'wp', 'bp_blogs_screen_create_a_blog', 3 );
 
 
-/********************************************************************************
+/*******************************************************************************
  * Activity & Notification Functions
  *
  * These functions handle the recording, deleting and formatting of activity and
@@ -147,28 +155,31 @@ function bp_blogs_record_activity( $args = '' ) {
 	if ( !function_exists( 'bp_activity_add' ) )
 		return false;
 
-	/* Because blog, comment, and blog post code execution happens before anything else
-	   we may need to manually instantiate the activity component globals */
+	/**
+	 * Because blog, comment, and blog post code execution happens before
+	 * anything else we may need to manually instantiate the activity
+	 * component globals.
+	 */
 	if ( !$bp->activity && function_exists('bp_activity_setup_globals') )
 		bp_activity_setup_globals();
 
 	$defaults = array(
-		'user_id' => $bp->loggedin_user->id,
-		'action' => '',
-		'content' => '',
-		'primary_link' => '',
-		'component' => $bp->blogs->id,
-		'type' => false,
-		'item_id' => false,
+		'user_id'           => $bp->loggedin_user->id,
+		'action'            => '',
+		'content'           => '',
+		'primary_link'      => '',
+		'component'         => $bp->blogs->id,
+		'type'              => false,
+		'item_id'           => false,
 		'secondary_item_id' => false,
-		'recorded_time' => bp_core_current_time(),
-		'hide_sitewide' => false
+		'recorded_time'     => bp_core_current_time(),
+		'hide_sitewide'     => false
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	/* Remove large images and replace them with just one image thumbnail */
+	// Remove large images and replace them with just one image thumbnail
  	if ( function_exists( 'bp_activity_thumbnail_content_images' ) && !empty( $content ) )
 		$content = bp_activity_thumbnail_content_images( $content, $primary_link );
 
@@ -178,7 +189,7 @@ function bp_blogs_record_activity( $args = '' ) {
 	if ( !empty( $content ) )
 		$content = apply_filters( 'bp_blogs_record_activity_content', bp_create_excerpt( $content ), $content );
 
-	/* Check for an existing entry and update if one exists. */
+	// Check for an existing entry and update if one exists.
 	$id = bp_activity_get_activity_id( array(
 		'user_id' => $user_id,
 		'component' => $component,
@@ -193,12 +204,12 @@ function bp_blogs_record_activity( $args = '' ) {
 function bp_blogs_delete_activity( $args = true ) {
 	global $bp;
 
-	if ( function_exists('bp_activity_delete_by_item_id') ) {
+	if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
 		$defaults = array(
-			'item_id' => false,
-			'component' => $bp->blogs->id,
-			'type' => false,
-			'user_id' => false,
+			'item_id'           => false,
+			'component'         => $bp->blogs->id,
+			'type'              => false,
+			'user_id'           => false,
 			'secondary_item_id' => false
 		);
 
@@ -228,12 +239,11 @@ function bp_blogs_get_blogs( $args = '' ) {
 	global $bp;
 
 	$defaults = array(
-		'type' => 'active', // active, alphabetical, newest, or random.
-		'user_id' => false, // Pass a user_id to limit to only blogs that this user has privilages higher than subscriber on.
-		'search_terms' => false, // Limit to blogs that match these search terms
-
-		'per_page' => 20, // The number of results to return per page
-		'page' => 1, // The page to return if limiting per page
+		'type'         => 'active', // active, alphabetical, newest, or random
+		'user_id'      => false,    // Pass a user_id to limit to only blogs that this user has privilages higher than subscriber on
+		'search_terms' => false,    // Limit to blogs that match these search terms
+		'per_page'     => 20,       // The number of results to return per page
+		'page'         => 1,        // The page to return if limiting per page
 	);
 
 	$params = wp_parse_args( $args, $defaults );
@@ -245,7 +255,7 @@ function bp_blogs_get_blogs( $args = '' ) {
 function bp_blogs_record_existing_blogs() {
 	global $bp, $wpdb;
 
-	/* Truncate user blogs table and re-record. */
+	// Truncate user blogs table and re-record.
 	$wpdb->query( "TRUNCATE TABLE {$bp->blogs->table_name}" );
 
 	$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0" ) );
@@ -319,8 +329,6 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
 /**
- * bp_blogs_update_option_blogname()
- *
  * Updates blogname in BuddyPress blogmeta table
  *
  * @global object $wpdb DB Layer
@@ -329,13 +337,12 @@ add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
  */
 function bp_blogs_update_option_blogname( $oldvalue, $newvalue ) {
 	global $wpdb;
+
 	bp_blogs_update_blogmeta( $wpdb->blogid, 'name', $newvalue );
 }
 add_action( 'update_option_blogname', 'bp_blogs_update_option_blogname', 10, 2 );
 
 /**
- * bp_blogs_update_option_blogdescription()
- *
  * Updates blogdescription in BuddyPress blogmeta table
  *
  * @global object $wpdb DB Layer
@@ -344,6 +351,7 @@ add_action( 'update_option_blogname', 'bp_blogs_update_option_blogname', 10, 2 )
  */
 function bp_blogs_update_option_blogdescription( $oldvalue, $newvalue ) {
 	global $wpdb;
+
 	bp_blogs_update_blogmeta( $wpdb->blogid, 'description', $newvalue );
 }
 add_action( 'update_option_blogdescription', 'bp_blogs_update_option_blogdescription', 10, 2 );
@@ -379,7 +387,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 			$activity_content = $post->post_content;
 
 			bp_blogs_record_activity( array(
-				'user_id'            => (int)$post->post_author,
+				'user_id'           => (int)$post->post_author,
 				'action'            => apply_filters( 'bp_blogs_activity_new_post_action', $activity_action, &$post, $post_permalink ),
 				'content'           => apply_filters( 'bp_blogs_activity_new_post_content', $activity_content, &$post, $post_permalink ),
 				'primary_link'      => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink, $post_id ),
@@ -401,8 +409,6 @@ function bp_blogs_record_post( $post_id, $post, $user_id = false ) {
 add_action( 'save_post', 'bp_blogs_record_post', 10, 2 );
 
 /**
- * bp_blogs_record_comment()
- *
  * Record blog comment activity. Checks if blog is public and post is not
  * password protected.
  *
@@ -427,7 +433,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		return false;
 
 	// Get the user_id from the comment author email.
-	$user = get_user_by_email( $recorded_comment->comment_author_email );
+	$user    = get_user_by_email( $recorded_comment->comment_author_email );
 	$user_id = (int)$user->ID;
 
 	// If there's no registered user id, don't record activity
@@ -435,7 +441,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		return false;
 
 	// Get blog and post data
-	$blog_id = (int)$wpdb->blogid;
+	$blog_id                = (int)$wpdb->blogid;
 	$recorded_comment->post = get_post( $recorded_comment->comment_post_ID );
 
 	// If this is a password protected post, don't record the comment
@@ -450,11 +456,10 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		$comment_link   = htmlspecialchars( get_comment_link( $recorded_comment->comment_ID ) );
 
 		// Prepare to record in activity streams
-		if ( is_multisite() ) {
-			$activity_action	= sprintf( __( '%1$s commented on the blog post %2$s on the blog %3$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
-		} else {
-			$activity_action	= sprintf( __( '%1$s commented on the blog post %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>' );
-		}
+		if ( is_multisite() )
+			$activity_action = sprintf( __( '%1$s commented on the blog post %2$s on the blog %3$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
+		else
+			$activity_action = sprintf( __( '%1$s commented on the blog post %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . $post_permalink . '">' . apply_filters( 'the_title', $recorded_comment->post->post_title ) . '</a>' );
 
 		$activity_content	= $recorded_comment->comment_content;
 
@@ -477,7 +482,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	return $recorded_comment;
 }
 add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
-add_action( 'edit_comment', 'bp_blogs_record_comment', 10 );
+add_action( 'edit_comment', 'bp_blogs_record_comment', 10    );
 
 function bp_blogs_manage_comment( $comment_id, $comment_status ) {
 	if ( 'spam' == $comment_status || 'hold' == $comment_status || 'delete' == $comment_status || 'trash' == $comment_status )
@@ -508,8 +513,8 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = false ) 
 		bp_blogs_record_blog( $blog_id, $user_id, true );
 }
 add_action( 'add_user_to_blog', 'bp_blogs_add_user_to_blog', 10, 3 );
-add_action( 'profile_update', 'bp_blogs_add_user_to_blog' );
-add_action( 'user_register', 'bp_blogs_add_user_to_blog' );
+add_action( 'profile_update',   'bp_blogs_add_user_to_blog'        );
+add_action( 'user_register',    'bp_blogs_add_user_to_blog'        );
 
 function bp_blogs_remove_user_from_blog( $user_id, $blog_id = false ) {
 	global $current_blog;
@@ -604,7 +609,7 @@ function bp_blogs_total_blogs_for_user( $user_id = false ) {
 function bp_blogs_remove_data_for_blog( $blog_id ) {
 	global $bp;
 
-	/* If this is regular blog, delete all data for that blog. */
+	// If this is regular blog, delete all data for that blog.
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 
 	// Delete activity stream item
@@ -642,12 +647,14 @@ function bp_blogs_redirect_to_random_blog() {
 add_action( 'wp', 'bp_blogs_redirect_to_random_blog', 6 );
 
 
-//
-// Blog meta functions
-// These functions are used to store specific blogmeta in one global table, rather than in each
-// blog's options table. Significantly speeds up global blog queries.
-// By default each blog's name, description and last updated time are stored and synced here.
-//
+/*******************************************************************************
+ * Blog meta functions
+ *
+ * These functions are used to store specific blogmeta in one global table,
+ * rather than in each blog's options table. Significantly speeds up global blog
+ * queries. By default each blog's name, description and last updated time are
+ * stored and synced here.
+ */
 
 function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false ) {
 	global $wpdb, $bp;
@@ -662,13 +669,12 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 
 	$meta_value = trim( $meta_value );
 
-	if ( !$meta_key ) {
+	if ( !$meta_key )
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d", $blog_id ) );
-	} else if ( $meta_value ) {
+	else if ( $meta_value )
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s AND meta_value = %s", $blog_id, $meta_key, $meta_value ) );
-	} else {
+	else
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
-	}
 
 	wp_cache_delete( 'bp_blogs_blogmeta_' . $blog_id . '_' . $meta_key, 'bp' );
 
@@ -722,19 +728,17 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 
 	$meta_value = maybe_serialize($meta_value);
 
-	if (empty($meta_value)) {
+	if (empty( $meta_value ) )
 		return bp_blogs_delete_blogmeta( $blog_id, $meta_key );
-	}
 
 	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d AND meta_key = %s", $blog_id, $meta_key ) );
 
-	if ( !$cur ) {
+	if ( !$cur )
 		$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->blogs->table_name_blogmeta} ( blog_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $blog_id, $meta_key, $meta_value ) );
-	} else if ( $cur->meta_value != $meta_value ) {
+	else if ( $cur->meta_value != $meta_value )
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->blogs->table_name_blogmeta} SET meta_value = %s WHERE blog_id = %d AND meta_key = %s", $meta_value, $blog_id, $meta_key ) );
-	} else {
+	else
 		return false;
-	}
 
 	wp_cache_set( 'bp_blogs_blogmeta_' . $blog_id . '_' . $meta_key, $meta_value, 'bp' );
 
@@ -745,17 +749,17 @@ function bp_blogs_remove_data( $user_id ) {
 	if ( !is_multisite() )
 		return false;
 
-	/* If this is regular blog, delete all data for that blog. */
+	// If this is regular blog, delete all data for that blog.
 	BP_Blogs_Blog::delete_blogs_for_user( $user_id );
 
 	do_action( 'bp_blogs_remove_data', $user_id );
 }
-add_action( 'wpmu_delete_user', 'bp_blogs_remove_data' );
-add_action( 'delete_user', 'bp_blogs_remove_data' );
+add_action( 'wpmu_delete_user',  'bp_blogs_remove_data' );
+add_action( 'delete_user',       'bp_blogs_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_blogs_remove_data' );
 
 
-/********************************************************************************
+/*******************************************************************************
  * Caching
  *
  * Caching functions handle the clearing of cached objects and pages on specific
@@ -774,17 +778,17 @@ function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
 
 // List actions to clear object caches on
 add_action( 'bp_blogs_remove_blog_for_user', 'bp_blogs_clear_blog_object_cache', 10, 2 );
-add_action( 'bp_blogs_new_blog', 'bp_blogs_format_clear_blog_cache', 10, 2 );
+add_action( 'bp_blogs_new_blog',             'bp_blogs_format_clear_blog_cache', 10, 2 );
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'bp_blogs_remove_data_for_blog', 'bp_core_clear_cache' );
-add_action( 'bp_blogs_remove_comment', 'bp_core_clear_cache' );
-add_action( 'bp_blogs_remove_post', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_remove_comment',       'bp_core_clear_cache' );
+add_action( 'bp_blogs_remove_post',          'bp_core_clear_cache' );
 add_action( 'bp_blogs_remove_blog_for_user', 'bp_core_clear_cache' );
-add_action( 'bp_blogs_remove_blog', 'bp_core_clear_cache' );
-add_action( 'bp_blogs_new_blog_comment', 'bp_core_clear_cache' );
-add_action( 'bp_blogs_new_blog_post', 'bp_core_clear_cache' );
-add_action( 'bp_blogs_new_blog', 'bp_core_clear_cache' );
-add_action( 'bp_blogs_remove_data', 'bp_core_clear_cache' );
+add_action( 'bp_blogs_remove_blog',          'bp_core_clear_cache' );
+add_action( 'bp_blogs_new_blog_comment',     'bp_core_clear_cache' );
+add_action( 'bp_blogs_new_blog_post',        'bp_core_clear_cache' );
+add_action( 'bp_blogs_new_blog',             'bp_core_clear_cache' );
+add_action( 'bp_blogs_remove_data',          'bp_core_clear_cache' );
 
 ?>

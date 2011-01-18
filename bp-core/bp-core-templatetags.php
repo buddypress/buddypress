@@ -162,7 +162,7 @@ function bp_has_members( $args = '' ) {
 	}
 
 	// Make sure we return no members if we looking at friendship requests and there are none.
-	if ( empty( $include ) && $bp->friends->slug == $bp->current_component && 'requests' == $bp->current_action )
+	if ( empty( $include ) && bp_is_current_component( $bp->friends->slug ) && 'requests' == $bp->current_action )
 		return false;
 
 	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude );
@@ -582,12 +582,16 @@ function bp_get_displayed_user_nav() {
  */
 function bp_get_options_nav() {
 	global $bp;
-
-	if ( count( $bp->bp_options_nav[$bp->current_component] ) < 1 )
+	
+	// If we are looking at a member profile, then the we can use the current component as an
+	// index. Otherwise we need to use the component's root_slug
+	$component_index = !empty( $bp->displayed_user ) ? $bp->current_component : bp_get_root_slug( $bp->current_component );
+	
+	if ( count( $bp->bp_options_nav[$component_index] ) < 1 )
 		return false;
 
 	/* Loop through each navigation item */
-	foreach ( (array)$bp->bp_options_nav[$bp->current_component] as $subnav_item ) {
+	foreach ( (array)$bp->bp_options_nav[$component_index] as $subnav_item ) {
 		if ( !$subnav_item['user_has_access'] )
 			continue;
 
@@ -1556,7 +1560,133 @@ function bp_root_domain() {
 		return apply_filters( 'bp_get_root_domain', $bp->root_domain );
 	}
 
+/**
+ * Echoes the output of bp_get_root_slug()
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ */
+function bp_root_slug( $component = '' ) {
+	echo bp_get_root_slug( $component );
+}
+	/**
+	 * Gets the root slug for a component slug
+	 *
+	 * In order to maintain backward compatibility, the following procedure is used:
+	 * 1) Use the short slug to get the canonical component name from the
+	 *    active component array
+	 * 2) Use the component name to get the root slug out of the appropriate part of the $bp
+	 *    global
+	 * 3) If nothing turns up, it probably means that $component is itself a root slug
+	 *
+	 * Example: If your groups directory is at /community/companies, this function first uses
+	 * the short slug 'companies' (ie the current component) to look up the canonical name
+	 * 'groups' in $bp->active_components. Then it uses 'groups' to get the root slug, from
+	 * $bp->groups->root_slug.
+	 *
+	 * @package BuddyPress Core
+	 * @since 1.3
+	 *
+	 * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+	 * @param string $component Optional. Defaults to the current component
+	 * @return string $root_slug The root slug
+	 */
+	function bp_get_root_slug( $component = '' ) {
+		global $bp;
+
+		$root_slug = '';
+
+		// Use current global component if none passed
+		if ( empty( $component ) )
+			$component = $bp->current_component;
+
+		// Component is active
+		if ( !empty( $bp->active_components[$component] ) ) {
+			$component_name = $bp->active_components[$component];
+
+			// Component has specific root slug
+			if ( !empty( $bp->{$component_name}->root_slug ) ) 
+				$root_slug = $bp->{$component_name}->root_slug;
+		}
+
+		// No specific root slug, so fall back to component slug
+		if ( empty( $root_slug ) )
+			$root_slug = $component;
+
+		return apply_filters( 'bp_get_root_slug', $root_slug, $component );
+	}
+
 /* Template is_() functions to determine the current page */
+
+/**
+ * Checks to see whether the current page belongs to the specified component
+ *
+ * This function is designed to be generous, accepting several different kinds
+ * of value for the $component parameter. It checks $component_name against:
+ * - the component's root_slug, which matches the page slug in $bp->pages
+ * - the component's regular slug
+ * - the component's id, or 'canonical' name
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ * @return bool Returns true if the component matches, or else false.
+ */
+function bp_is_current_component( $component ) {
+	global $bp;
+
+	$is_current_component = false;
+
+	if ( !empty( $bp->current_component ) ) {
+
+		// First, check to see whether $component_name and the current
+		// component are a simple match
+		if ( $bp->current_component == $component ) {
+			$is_current_component = true;
+
+		// Next, check to see whether $component is a canonical,
+		// non-translatable component name. If so, we can return its
+		// corresponding slug from $bp->active_components.
+		} else if ( $key = array_search( $component, $bp->active_components ) ) {
+			if ( $key === $bp->current_component )
+				$is_current_component = true;
+
+		// If we haven't found a match yet, check against the root_slugs
+		// created by $bp->pages
+		} else {
+			foreach ( $bp->active_components as $key => $id ) {
+				// If the $component parameter does not match the current_component,
+				// then move along, these are not the droids you are looking for
+				if ( $bp->{$id}->root_slug != $bp->current_component )
+					continue;
+
+				if ( $key == $component ) {
+					$is_current_component = true;
+					break;
+				}
+			}
+		}
+	}
+
+ 	return apply_filters( 'bp_is_current_component', $is_current_component, $component_name );
+}
+
+/**
+ * Checks to see if a component's URL should be in the root, not under a member page:
+ * eg: http://domain.com/groups/the-group NOT http://domain.com/members/andy/groups/the-group
+ *
+ * @package BuddyPress Core
+ * @return true if root component, else false.
+ */
+function bp_is_root_component( $component_name ) {
+	global $bp;
+
+	foreach ( (array) $bp->active_components as $key => $slug ) {
+		if ( $key == $component_name || $slug == $component_name )
+			return true;
+	}
+
+	return false;
+}
 
 /**
  * Checks if the site's front page is set to the specified BuddyPress component page in wp-admin's Settings > Reading screen.
@@ -1590,7 +1720,7 @@ function bp_is_blog_page() {
 	if ( $wp_query->is_home && ( !isset( $bp->is_directory ) || !$bp->is_directory ) )
 		return true;
 
-	if ( !$bp->displayed_user->id && !$bp->is_single_item && ( !isset( $bp->is_directory ) || !$bp->is_directory ) && !bp_core_is_root_component( $bp->current_component ) )
+	if ( !$bp->displayed_user->id && !$bp->is_single_item && ( !isset( $bp->is_directory ) || !$bp->is_directory ) && !bp_is_root_component( $bp->current_component ) )
 		return true;
 
 	return false;
@@ -1660,63 +1790,49 @@ function bp_is_active( $component ) {
 }
 
 function bp_is_profile_component() {
-	global $bp;
-
-	if ( BP_XPROFILE_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_XPROFILE_SLUG ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_activity_component() {
-	global $bp;
-
-	if ( BP_ACTIVITY_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_ACTIVITY_SLUG ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_blogs_component() {
-	global $bp;
-
-	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component )
+	if ( is_multisite() && bp_is_current_component( BP_BLOGS_SLUG ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_messages_component() {
-	global $bp;
-
-	if ( BP_MESSAGES_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_MESSAGES_SLUG ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_friends_component() {
-	global $bp;
-
-	if ( BP_FRIENDS_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_FRIENDS_SLUG ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_groups_component() {
-	global $bp;
-
-	if ( BP_GROUPS_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_settings_component() {
-	global $bp;
-
-	if ( BP_SETTINGS_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_SETTINGS_SLUG ) )
 		return true;
 
 	return false;
@@ -1734,7 +1850,7 @@ function bp_is_member() {
 function bp_is_user_activity() {
 	global $bp;
 
-	if ( $bp->activity->slug == $bp->current_component )
+	if ( bp_is_current_component( $bp->activity->slug ) )
 		return true;
 
 	return false;
@@ -1743,7 +1859,7 @@ function bp_is_user_activity() {
 function bp_is_user_friends_activity() {
 	global $bp;
 
-	if ( $bp->activity->slug == $bp->current_component && 'my-friends' == $bp->current_action )
+	if ( bp_is_current_component( $bp->activity->slug ) && 'my-friends' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1752,7 +1868,7 @@ function bp_is_user_friends_activity() {
 function bp_is_activity_permalink() {
 	global $bp;
 
-	if ( BP_ACTIVITY_SLUG == $bp->current_component && is_numeric( $bp->current_action ) )
+	if ( bp_is_current_component( BP_ACTIVITY_SLUG ) && is_numeric( $bp->current_action ) )
 		return true;
 
 	return false;
@@ -1761,7 +1877,7 @@ function bp_is_activity_permalink() {
 function bp_is_user_profile() {
 	global $bp;
 
-	if ( defined( 'BP_XPROFILE_SLUG' ) && BP_XPROFILE_SLUG == $bp->current_component || isset( $bp->core->profile->slug ) && $bp->core->profile->slug == $bp->current_component )
+	if ( defined( 'BP_XPROFILE_SLUG' ) && bp_is_current_component( BP_XPROFILE_SLUG ) || isset( $bp->core->profile->slug ) && bp_is_current_component( $bp->core->profile->slug ) )
 		return true;
 
 	return false;
@@ -1770,7 +1886,7 @@ function bp_is_user_profile() {
 function bp_is_profile_edit() {
 	global $bp;
 
-	if ( BP_XPROFILE_SLUG == $bp->current_component && 'edit' == $bp->current_action )
+	if ( bp_is_current_component( BP_XPROFILE_SLUG ) && 'edit' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1779,7 +1895,7 @@ function bp_is_profile_edit() {
 function bp_is_change_avatar() {
 	global $bp;
 
-	if ( BP_XPROFILE_SLUG == $bp->current_component && 'change-avatar' == $bp->current_action )
+	if ( bp_is_current_component( BP_XPROFILE_SLUG ) && 'change-avatar' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1787,8 +1903,8 @@ function bp_is_change_avatar() {
 
 function bp_is_user_groups() {
 	global $bp;
-
-	if ( $bp->groups->slug == $bp->current_component )
+	
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) )
 		return true;
 
 	return false;
@@ -1796,8 +1912,8 @@ function bp_is_user_groups() {
 
 function bp_is_group() {
 	global $bp;
-
-	if ( BP_GROUPS_SLUG == $bp->current_component && isset( $bp->groups->current_group ) && $bp->groups->current_group )
+	
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && isset( $bp->groups->current_group ) && $bp->groups->current_group )
 		return true;
 
 	return false;
@@ -1806,7 +1922,7 @@ function bp_is_group() {
 function bp_is_group_home() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
 		return true;
 
 	return false;
@@ -1815,7 +1931,7 @@ function bp_is_group_home() {
 function bp_is_group_create() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && 'create' == $bp->current_action )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && 'create' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1825,7 +1941,7 @@ function bp_is_group_create() {
 function bp_is_group_admin_page() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'admin' == $bp->current_action )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'admin' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1834,7 +1950,7 @@ function bp_is_group_admin_page() {
 function bp_is_group_forum() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'forum' == $bp->current_action )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'forum' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1843,7 +1959,7 @@ function bp_is_group_forum() {
 function bp_is_group_activity() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'activity' == $bp->current_action )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'activity' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1852,7 +1968,7 @@ function bp_is_group_activity() {
 function bp_is_group_forum_topic() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'forum' == $bp->current_action && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'forum' == $bp->current_action && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] )
 		return true;
 
 	return false;
@@ -1861,7 +1977,7 @@ function bp_is_group_forum_topic() {
 function bp_is_group_forum_topic_edit() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'forum' == $bp->current_action && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'forum' == $bp->current_action && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] )
 		return true;
 
 	return false;
@@ -1870,7 +1986,7 @@ function bp_is_group_forum_topic_edit() {
 function bp_is_group_members() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'members' == $bp->current_action )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'members' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1879,7 +1995,7 @@ function bp_is_group_members() {
 function bp_is_group_invites() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && 'send-invites' == $bp->current_action )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && 'send-invites' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1888,7 +2004,7 @@ function bp_is_group_invites() {
 function bp_is_group_membership_request() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && 'request-membership' == $bp->current_action )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && 'request-membership' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1897,7 +2013,7 @@ function bp_is_group_membership_request() {
 function bp_is_group_leave() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item && 'leave-group' == $bp->current_action )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'leave-group' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1906,7 +2022,7 @@ function bp_is_group_leave() {
 function bp_is_group_single() {
 	global $bp;
 
-	if ( BP_GROUPS_SLUG == $bp->current_component && $bp->is_single_item )
+	if ( bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item )
 		return true;
 
 	return false;
@@ -1915,7 +2031,7 @@ function bp_is_group_single() {
 function bp_is_user_blogs() {
 	global $bp;
 
-	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component )
+	if ( is_multisite() && bp_is_current_component( BP_BLOGS_SLUG ) )
 		return true;
 
 	return false;
@@ -1924,7 +2040,7 @@ function bp_is_user_blogs() {
 function bp_is_user_recent_posts() {
 	global $bp;
 
-	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component && 'recent-posts' == $bp->current_action )
+	if ( is_multisite() && bp_is_current_component( BP_BLOGS_SLUG ) && 'recent-posts' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1933,7 +2049,7 @@ function bp_is_user_recent_posts() {
 function bp_is_user_recent_commments() {
 	global $bp;
 
-	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component && 'recent-comments' == $bp->current_action )
+	if ( is_multisite() && bp_is_current_component( BP_BLOGS_SLUG ) && 'recent-comments' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1942,16 +2058,14 @@ function bp_is_user_recent_commments() {
 function bp_is_create_blog() {
 	global $bp;
 
-	if ( is_multisite() && BP_BLOGS_SLUG == $bp->current_component && 'create' == $bp->current_action )
+	if ( is_multisite() && bp_is_current_component( BP_BLOGS_SLUG ) && 'create' == $bp->current_action )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_friends() {
-	global $bp;
-
-	if ( BP_FRIENDS_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_FRIENDS_SLUG ) )
 		return true;
 
 	return false;
@@ -1960,16 +2074,14 @@ function bp_is_user_friends() {
 function bp_is_friend_requests() {
 	global $bp;
 
-	if ( BP_FRIENDS_SLUG == $bp->current_component && 'requests' == $bp->current_action )
+	if ( bp_is_current_component( BP_FRIENDS_SLUG ) && 'requests' == $bp->current_action )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_messages() {
-	global $bp;
-
-	if ( BP_MESSAGES_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_MESSAGES_SLUG ) )
 		return true;
 
 	return false;
@@ -1978,7 +2090,7 @@ function bp_is_user_messages() {
 function bp_is_messages_inbox() {
 	global $bp;
 
-	if ( BP_MESSAGES_SLUG == $bp->current_component && ( !$bp->current_action || 'inbox' == $bp->current_action ) )
+	if ( bp_is_current_component( BP_MESSAGES_SLUG ) && ( !$bp->current_action || 'inbox' == $bp->current_action ) )
 		return true;
 
 	return false;
@@ -1987,7 +2099,7 @@ function bp_is_messages_inbox() {
 function bp_is_messages_sentbox() {
 	global $bp;
 
-	if ( BP_MESSAGES_SLUG == $bp->current_component && 'sentbox' == $bp->current_action )
+	if ( bp_is_current_component( BP_MESSAGES_SLUG ) && 'sentbox' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1997,7 +2109,7 @@ function bp_is_messages_sentbox() {
 function bp_is_notices() {
 	global $bp;
 
-	if ( BP_MESSAGES_SLUG == $bp->current_component && 'notices' == $bp->current_action )
+	if ( bp_is_current_component( BP_MESSAGES_SLUG ) && 'notices' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2007,7 +2119,7 @@ function bp_is_notices() {
 function bp_is_messages_compose_screen() {
 	global $bp;
 
-	if ( BP_MESSAGES_SLUG == $bp->current_component && 'compose' == $bp->current_action )
+	if ( bp_is_current_component( BP_MESSAGES_SLUG ) && 'compose' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2023,18 +2135,14 @@ function bp_is_single_item() {
 }
 
 function bp_is_activation_page() {
-	global $bp;
-
-	if ( BP_ACTIVATION_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_ACTIVATION_SLUG ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_register_page() {
-	global $bp;
-
-	if ( BP_REGISTER_SLUG == $bp->current_component )
+	if ( bp_is_current_component( BP_REGISTER_SLUG ) )
 		return true;
 
 	return false;
