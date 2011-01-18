@@ -454,7 +454,7 @@ function bp_member_hidden_fields() {
 function bp_directory_members_search_form() {
 	global $bp;
 
-	$default_search_value = bp_get_search_default_text(); 
+	$default_search_value = bp_get_search_default_text();
 	$search_value = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
 
 	?>
@@ -533,10 +533,7 @@ function bp_get_loggedin_user_nav() {
 }
 
 /**
- * bp_get_displayed_user_nav()
- * TEMPLATE TAG
- *
- * Uses the $bp->bp_users_nav global to render out the user navigation when viewing another user other than
+ * Uses the $bp->bp_nav global to render out the user navigation when viewing another user other than
  * yourself.
  *
  * @package BuddyPress Core
@@ -582,11 +579,11 @@ function bp_get_displayed_user_nav() {
  */
 function bp_get_options_nav() {
 	global $bp;
-	
+
 	// If we are looking at a member profile, then the we can use the current component as an
 	// index. Otherwise we need to use the component's root_slug
 	$component_index = !empty( $bp->displayed_user ) ? $bp->current_component : bp_get_root_slug( $bp->current_component );
-	
+
 	if ( count( $bp->bp_options_nav[$component_index] ) < 1 )
 		return false;
 
@@ -1052,24 +1049,24 @@ function bp_search_form_type_select() {
 	return apply_filters( 'bp_search_form_type_select', $selection_box );
 }
 
-/** 
- * Get the default text for the search box for a given component. 
- * 
- * @global object $bp BuddyPress global settings 
- * @return string 
- * @since 1.3 
- */ 
-function bp_search_default_text() { 
-	echo bp_get_search_default_text(); 
-} 
-	function bp_get_search_default_text( $component = false ) { 
- 		global $bp; 
- 		
- 	        if ( empty( $component ) ) 
+/**
+ * Get the default text for the search box for a given component.
+ *
+ * @global object $bp BuddyPress global settings
+ * @return string
+ * @since 1.3
+ */
+function bp_search_default_text() {
+	echo bp_get_search_default_text();
+}
+	function bp_get_search_default_text( $component = false ) {
+ 		global $bp;
+
+ 	        if ( empty( $component ) )
 			$component = $bp->current_component;
-		
+
 		$default_text = __( 'Search anything...', 'buddypress' );
-		
+
 		if ( !empty( $bp->default_search_strings[$component] ) ) {
 			// Most of the time, $component will be the actual component name
 			$default_text = $bp->default_search_strings[$component];
@@ -1082,9 +1079,9 @@ function bp_search_default_text() {
 					$default_text = $bp->default_search_strings[$key];
 			}
 		}
-		
-		return apply_filters( 'bp_search_default_text', $default_text, $component ); 
-	} 
+
+		return apply_filters( 'bp_search_default_text', $default_text, $component );
+	}
 
 function bp_search_form() {
 	$form = '
@@ -1120,7 +1117,7 @@ function bp_custom_profile_sidebar_boxes() {
 
 /**
  * Creates and outputs a button.
- * 
+ *
  * @param array $args See bp_get_button() for the list of arguments.
  * @see bp_get_button()
  */
@@ -1173,12 +1170,12 @@ function bp_create_excerpt( $text, $excerpt_length = 225, $filter_shortcodes = t
 		$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
 
 	preg_match( "%\s*((?:<[^>]+>)+\S*)\s*|\s+%s", $text, $matches, PREG_OFFSET_CAPTURE, $excerpt_length );
-	
+
 	if ( !empty( $matches ) ) {
-		$pos = array_pop( array_pop( $matches ) );	
+		$pos = array_pop( array_pop( $matches ) );
 		$text = substr( $text, 0, $pos ) . ' [...]';
 	}
-	
+
 	return apply_filters( 'bp_create_excerpt', $text, $original_text );
 }
 add_filter( 'bp_create_excerpt', 'wp_trim_excerpt' );
@@ -1605,7 +1602,7 @@ function bp_root_slug( $component = '' ) {
 			$component_name = $bp->active_components[$component];
 
 			// Component has specific root slug
-			if ( !empty( $bp->{$component_name}->root_slug ) ) 
+			if ( !empty( $bp->{$component_name}->root_slug ) )
 				$root_slug = $bp->{$component_name}->root_slug;
 		}
 
@@ -1903,7 +1900,7 @@ function bp_is_change_avatar() {
 
 function bp_is_user_groups() {
 	global $bp;
-	
+
 	if ( bp_is_current_component( BP_GROUPS_SLUG ) )
 		return true;
 
@@ -1912,7 +1909,7 @@ function bp_is_user_groups() {
 
 function bp_is_group() {
 	global $bp;
-	
+
 	if ( bp_is_current_component( BP_GROUPS_SLUG ) && isset( $bp->groups->current_group ) && $bp->groups->current_group )
 		return true;
 
