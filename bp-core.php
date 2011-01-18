@@ -292,35 +292,35 @@ function bp_core_get_page_names() {
 	return apply_filters( 'bp_core_get_page_names', $pages );
 }
 
-/** 
- * Creates a default component slug from a WP page root_slug 
- * 
+/**
+ * Creates a default component slug from a WP page root_slug
+ *
  * Since 1.3, BP components get their root_slug (the slug used immediately
  * following the root domain) from the slug of a corresponding WP page.
- * 
+ *
  * E.g. if your BP installation at example.com has its members page at
  * example.com/community/people, $bp->members->root_slug will be 'community/people'.
  *
  * By default, this function creates a shorter version of the root_slug for
  * use elsewhere in the URL, by returning the content after the final '/'
  * in the root_slug ('people' in the example above).
- * 
+ *
  * Filter on 'bp_core_component_slug_from_root_slug' to override this method
  * in general, or define a specific component slug constant (e.g. BP_MEMBERS_SLUG)
  * to override specific component slugs.
- *  
- * @package BuddyPress Core 
- * @since 1.3 
- * 
- * @param str $root_slug The root slug, which comes from $bp->pages->[component]->slug 
- * @return str $slug The short slug for use in the middle of URLs 
- */ 
-function bp_core_component_slug_from_root_slug( $root_slug ) { 
-	$slug_chunks = explode( '/', $root_slug ); 
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ *
+ * @param str $root_slug The root slug, which comes from $bp->pages->[component]->slug
+ * @return str $slug The short slug for use in the middle of URLs
+ */
+function bp_core_component_slug_from_root_slug( $root_slug ) {
+	$slug_chunks = explode( '/', $root_slug );
  	$slug        = array_pop( $slug_chunks );
- 	
- 	return apply_filters( 'bp_core_component_slug_from_root_slug', $slug, $root_slug ); 
-} 
+
+ 	return apply_filters( 'bp_core_component_slug_from_root_slug', $slug, $root_slug );
+}
 
 /**
  * Initializes the wp-admin area "BuddyPress" menus and sub menus.
@@ -853,7 +853,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'user_has_access' => $user_has_access,
 		'screen_function' => &$screen_function
 	);
-	
+
 	if ( ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) && $user_has_access ) {
 		if ( !is_object( $screen_function[0] ) )
 			add_action( 'wp', $screen_function, 3 );
@@ -1796,11 +1796,11 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 		return false;
 
 	if ( ( is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
-		bp_core_redirect( $bp->root_domain );
+		return new WP_Error( 'invalid_username', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
 	else
 		return $auth_obj;
 }
-add_filter( 'authenticate', 'bp_core_boot_spammer', 11, 2 );
+add_filter( 'authenticate', 'bp_core_boot_spammer', 30, 2 );
 
 /**
  * Deletes usermeta for the user when the user is deleted.

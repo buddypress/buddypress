@@ -601,11 +601,11 @@ function bp_core_signup_disable_inactive( $auth_obj, $username ) {
 	$user_status = (int) $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM $wpdb->users WHERE ID = %d", $user_id ) );
 
 	if ( 2 == $user_status )
-		bp_core_redirect( $bp->root_domain );
+		return new WP_Error( 'bp_account_not_activated', __( '<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link.', 'buddypress' ) );
 	else
 		return $auth_obj;
 }
-add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 11, 2 );
+add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 2 );
 
 /* Kill the wp-signup.php if custom registration signup templates are present */
 function bp_core_wpsignup_redirect() {
