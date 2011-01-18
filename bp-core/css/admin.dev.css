@@ -8,7 +8,7 @@ div#bp-admin {
 	div#bp-admin p { line-height: 170%; }
 
 div#bp-admin div#bp-admin-header {
-	height: 60px;
+	height: 45px;
 }
 
 div#bp-admin h3, div#bp-admin h4 {
@@ -24,8 +24,8 @@ div#bp-admin h3, div#bp-admin h4 {
 		text-indent: -999em;
 		overflow: hidden;
 		width: 212px;
-		height: 49px;
-		background: url( ../images/logo.gif ) top left no-repeat;
+		height: 48px;
+		background: url( ../images/logo.png ) top left no-repeat;
 		padding-right: 20px;
 		float: left;
 	}
