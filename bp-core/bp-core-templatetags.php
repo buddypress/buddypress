@@ -1653,7 +1653,7 @@ function bp_is_current_component( $component ) {
 			foreach ( $bp->active_components as $key => $id ) {
 				// If the $component parameter does not match the current_component,
 				// then move along, these are not the droids you are looking for
-				if ( $bp->{$id}->root_slug != $bp->current_component )
+				if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug != $bp->current_component )
 					continue;
 
 				if ( $key == $component ) {
