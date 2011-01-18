@@ -1664,7 +1664,7 @@ function bp_is_current_component( $component ) {
 		}
 	}
 
- 	return apply_filters( 'bp_is_current_component', $is_current_component, $component_name );
+ 	return apply_filters( 'bp_is_current_component', $is_current_component, $component );
 }
 
 /**
