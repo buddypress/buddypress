@@ -361,8 +361,10 @@ function bp_core_add_admin_menu() {
 	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE ) 
  		return false; 
 
+	$hooks = array();
+
 	// Add the administration tab under the "Site Admin" tab for site administrators
-	$hook = bp_core_add_admin_menu_page( array(
+	$hooks[] = bp_core_add_admin_menu_page( array(
 		'menu_title' => __( 'BuddyPress', 'buddypress' ),
 		'page_title' => __( 'BuddyPress', 'buddypress' ),
 		'capability' => 'manage_options',
@@ -371,11 +373,14 @@ function bp_core_add_admin_menu() {
 		'position'   => 2
 	) );
 
-	add_submenu_page( 'bp-general-settings', __( 'BuddyPress Dashboard', 'buddypress' ), __( 'Dashboard', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_dashboard' );
-	add_submenu_page( 'bp-general-settings', __( 'Settings', 'buddypress' ),             __( 'Settings',  'buddypress' ), 'manage_options', 'bp-settings',         'bp_core_admin_settings'  );
+	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'BuddyPress Dashboard', 'buddypress' ), __( 'Dashboard', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_dashboard' );
+	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Settings', 'buddypress' ),       __( 'Settings',  'buddypress' ), 'manage_options', 'bp-settings',         'bp_core_admin_settings'  );
+	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Component Setup', 'buddypress' ),             __( 'Component Setup',  'buddypress' ), 'manage_options', 'bp-component-setup',         'bp_core_admin_component_setup'  );
 
 	// Add a hook for css/js
-	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
+	foreach( $hooks as $hook ) {
+		add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
+	}
 }
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_admin_menu', 9 );
 

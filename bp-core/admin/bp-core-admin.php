@@ -184,102 +184,10 @@ function bp_core_admin_component_setup() {
 			<p><?php _e('By default, all BuddyPress components are enabled. You can selectively disable any of the components by using the form below. Your BuddyPress installation will continue to function, however the features of the disabled components will no longer be accessible to anyone using the site.', 'buddypress' ) ?></p>
 
 			<?php $disabled_components = get_site_option( 'bp-deactivated-components' ); ?>
+			
+			<?php bp_core_admin_component_options() ?>
 
-			<table class="form-table" style="width: 80%">
-				<tbody>
-
-					<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-activity.php') ) : ?>
-
-						<tr>
-							<td><h3><?php _e( 'Activity Streams', 'buddypress' ) ?></h3><p><?php _e( 'Allow users to post activity updates and track all activity across the entire site.', 'buddypress' ) ?></p></td>
-							<td>
-								<input type="radio" name="bp_components[bp-activity.php]" value="1"<?php if ( !isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
-								<input type="radio" name="bp_components[bp-activity.php]" value="0"<?php if ( isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-							</td>
-						</tr>
-
-					<?php endif; ?>
-
-					<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') && is_multisite() ) : ?>
-
-						<tr>
-							<td><h3><?php _e( 'Blog Tracking', 'buddypress' ) ?></h3><p><?php _e( 'Tracks blogs, blog posts and blogs comments for a user across a WPMU installation.', 'buddypress' ) ?></p></td>
-							<td>
-								<input type="radio" name="bp_components[bp-blogs.php]" value="1"<?php if ( !isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
-								<input type="radio" name="bp_components[bp-blogs.php]" value="0"<?php if ( isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-							</td>
-						</tr>
-
-					<?php else: ?>
-
-						<input type="hidden" name="bp_components[bp-blogs.php]" value="0" />
-
-					<?php endif; ?>
-
-					<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-forums.php') ) : ?>
-
-						<tr>
-							<td><h3><?php _e( 'bbPress Forums', 'buddypress' ) ?></h3><p><?php _e( 'Activates bbPress forum support within BuddyPress groups or any other custom component.', 'buddypress' ) ?></p></td>
-							<td>
-								<input type="radio" name="bp_components[bp-forums.php]" value="1"<?php if ( !isset( $disabled_components['bp-forums.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
-								<input type="radio" name="bp_components[bp-forums.php]" value="0"<?php if ( isset( $disabled_components['bp-forums.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-							</td>
-						</tr>
-
-					<?php endif; ?>
-
-					<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-friends.php') ) : ?>
-
-						<tr>
-							<td><h3><?php _e( 'Friends', 'buddypress' ) ?></h3><p><?php _e( 'Allows the creation of friend connections between users.', 'buddypress' ) ?></p></td>
-							<td>
-								<input type="radio" name="bp_components[bp-friends.php]" value="1"<?php if ( !isset( $disabled_components['bp-friends.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
-								<input type="radio" name="bp_components[bp-friends.php]" value="0"<?php if ( isset( $disabled_components['bp-friends.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-							</td>
-						</tr>
-
-					<?php endif; ?>
-
-					<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-groups.php') ) : ?>
-
-						<tr>
-							<td><h3><?php _e( 'Groups', 'buddypress' ) ?></h3><p><?php _e( 'Let users create, join and participate in groups.', 'buddypress' ) ?></p></td>
-							<td>
-								<input type="radio" name="bp_components[bp-groups.php]" value="1"<?php if ( !isset( $disabled_components['bp-groups.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
-								<input type="radio" name="bp_components[bp-groups.php]" value="0"<?php if ( isset( $disabled_components['bp-groups.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-							</td>
-						</tr>
-
-					<?php endif; ?>
-
-					<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-messages.php') ) : ?>
-
-						<tr>
-							<td><h3><?php _e( 'Private Messaging', 'buddypress' ) ?></h3><p><?php _e( 'Let users send private messages to one another. Site admins can also send site-wide notices.', 'buddypress' ) ?></p></td>
-							<td>
-								<input type="radio" name="bp_components[bp-messages.php]" value="1"<?php if ( !isset( $disabled_components['bp-messages.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
-								<input type="radio" name="bp_components[bp-messages.php]" value="0"<?php if ( isset( $disabled_components['bp-messages.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-							</td>
-						</tr>
-
-					<?php endif; ?>
-
-					<?php if ( file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') ) : ?>
-
-						<tr>
-							<td><h3><?php _e( 'Extended Profiles', 'buddypress' ) ?></h3><p><?php _e( 'Activates customizable profiles and avatars for site users.', 'buddypress' ) ?></p></td>
-							<td width="45%">
-								<input type="radio" name="bp_components[bp-xprofile.php]" value="1"<?php if ( !isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?>  &nbsp;
-								<input type="radio" name="bp_components[bp-xprofile.php]" value="0"<?php if ( isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-							</td>
-						</tr>
-
-					<?php endif; ?>
-
-				</tbody>
-			</table>
-
-			<p class="submit">
+			<p class="submit clear">
 				<input class="button-primary" type="submit" name="bp-admin-component-submit" id="bp-admin-component-submit" value="<?php _e( 'Save Settings', 'buddypress' ) ?>"/>
 			</p>
 
@@ -289,6 +197,105 @@ function bp_core_admin_component_setup() {
 	</div>
 
 <?php
+}
+
+function bp_core_admin_component_options() {
+	$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) ); 
+	?>
+	
+	<div class="component">
+		<h5><?php _e( "Extended Profiles", 'buddypress' ) ?></h5>
+
+		<div class="radio">
+			<input type="radio" name="bp_components[bp-xprofile.php]" value="1"<?php if ( !isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+			<input type="radio" name="bp_components[bp-xprofile.php]" value="0"<?php if ( isset( $disabled_components['bp-xprofile.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+		</div>
+
+		<img src="<?php echo plugins_url( 'buddypress/screenshot-2.gif' ) ?>" alt="Activity Streams" />
+		<p><?php _e( "Fully editable profile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience.", 'buddypress' ) ?></p>
+	</div>
+
+	<div class="component">
+		<h5><?php _e( "Friend Connections", 'buddypress' ) ?></h5>
+
+		<div class="radio">
+			<input type="radio" name="bp_components[bp-friends.php]" value="1"<?php if ( !isset( $disabled_components['bp-friends.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+			<input type="radio" name="bp_components[bp-friends.php]" value="0"<?php if ( isset( $disabled_components['bp-friends.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+		</div>
+
+		<img src="<?php echo plugins_url( 'buddypress/screenshot-4.gif' ) ?>" alt="Activity Streams" />
+		<p><?php _e( "Let your users make connections so they can track the activity of others, or filter on only those users they care about the most.", 'buddypress' ) ?></p>
+	</div>
+
+	<div class="component">
+		<h5><?php _e( "Discussion Forums", 'buddypress' ) ?></h5>
+
+		<div class="radio">
+			<input type="radio" name="bp_components[bp-forums.php]" value="1"<?php if ( !isset( $disabled_components['bp-forums.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+			<input type="radio" name="bp_components[bp-forums.php]" value="0"<?php if ( isset( $disabled_components['bp-forums.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+		</div>
+
+		<img src="<?php echo plugins_url( 'buddypress/screenshot-6.gif' ) ?>" alt="Activity Streams" />
+		<p><?php _e( "Full powered discussion forums built directly into groups allow for more conventional in-depth conversations. <strong>NOTE: This will require an extra (but easy) setup step.</strong>", 'buddypress' ) ?></p>
+	</div>
+
+	<div class="component">
+		<h5><?php _e( "Activity Streams", 'buddypress' ) ?></h5>
+
+		<div class="radio">
+			<input type="radio" name="bp_components[bp-activity.php]" value="1"<?php if ( !isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+			<input type="radio" name="bp_components[bp-activity.php]" value="0"<?php if ( isset( $disabled_components['bp-activity.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+		</div>
+
+		<img src="<?php echo plugins_url( 'buddypress/screenshot-1.gif' ) ?>" alt="Activity Streams" />
+		<p><?php _e( "Global, personal and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feed and email notification support.", 'buddypress' ) ?></p>
+	</div>
+
+	<div class="component">
+		<h5><?php _e( "Extensible Groups", 'buddypress' ) ?></h5>
+
+		<div class="radio">
+			<input type="radio" name="bp_components[bp-groups.php]" value="1"<?php if ( !isset( $disabled_components['bp-groups.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+			<input type="radio" name="bp_components[bp-groups.php]" value="0"<?php if ( isset( $disabled_components['bp-groups.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+		</div>
+
+		<img src="<?php echo plugins_url( 'buddypress/screenshot-3.gif' ) ?>" alt="Activity Streams" />
+		<p><?php _e( "Powerful public, private or hidden groups allow your users to break the discussion down into specific topics with a separate activity stream and member listing.", 'buddypress' ) ?></p>
+	</div>
+
+	<div class="component">
+		<h5><?php _e( "Private Messaging", 'buddypress' ) ?></h5>
+
+		<div class="radio">
+			<input type="radio" name="bp_components[bp-messages.php]" value="1"<?php if ( !isset( $disabled_components['bp-messages.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+			<input type="radio" name="bp_components[bp-messages.php]" value="0"<?php if ( isset( $disabled_components['bp-messages.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+		</div>
+
+		<img src="<?php echo plugins_url( 'buddypress/screenshot-5.gif' ) ?>" alt="Activity Streams" />
+		<p><?php _e( "Private messaging will allow your users to talk to each other directly, and in private. Not just limited to one on one discussions, your users can send messages to multiple recipients.", 'buddypress' ) ?></p>
+	</div>
+
+	<?php if ( is_multisite() ) : ?>
+
+		<div class="component">
+			<h5><?php _e( "Blog Tracking", 'buddypress' ) ?></h5>
+
+			<div class="radio">
+				<input type="radio" name="bp_components[bp-blogs.php]" value="1"<?php if ( !isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+				<input type="radio" name="bp_components[bp-blogs.php]" value="0"<?php if ( isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+			</div>
+
+			<img src="<?php echo plugins_url( 'buddypress/screenshot-7.gif' ) ?>" alt="Activity Streams" />
+				<p><?php _e( "Track new blogs, new posts and new comments across your entire blog network.", 'buddypress' ) ?></p>
+		</div>
+
+	<?php else: ?>
+
+		<input type="hidden" name="bp_components[bp-blogs.php]" value="0" />
+
+	<?php endif; ?>
+	
+	<?php
 }
 
 function bp_core_add_admin_menu_styles() {

@@ -510,7 +510,7 @@ function bp_dtheme_main_nav( $args ) {
 		'title_li'   => ''
 	);
 
-	if ( bp_forum_directory_is_disabled() ) {
+	if ( !bp_is_active( 'forums' ) || bp_forum_directory_is_disabled() ) {
 		if ( !empty( $pages_args['exclude'] ) )
 				$pages_args['exclude'] .= ',';
 
