@@ -19,15 +19,16 @@ if ( !defined( 'BP_ROOT_BLOG' ) )
 // Register BuddyPress themes contained within the bp-themes folder 
 register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' ); 
 	 
-// Test to see whether this is a new installation or an upgraded version of BuddyPress 
-$bp_db_version = get_site_option( 'bp-db-version' ); 
-if ( ! $bp_db_version ) 
+// Test to see whether this is a new installation or an upgraded version of BuddyPress  
+if ( !$bp_db_version = get_site_option( 'bp-db-version' ) ) 
 	$bp_db_version = get_site_option( 'bp-core-db-version' );  // BP 1.2 option name 
 	 
-if ( ! $bp_db_version ) {
- 	// This is a new installation. Run the wizard before loading BP core files
+// This is a new installation. Run the wizard before loading BP core files
+if ( empty( $bp_db_version ) ) {
  	define( 'BP_IS_INSTALL', true ); 
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
+	
+// Existing successful installation
 } else {
 	/***
 	 * This file will load in each BuddyPress component based on which
@@ -36,6 +37,13 @@ if ( ! $bp_db_version ) {
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core.php' );
 	$bp_deactivated = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
+	/**
+	 * At this point in the stack, BuddyPress core has been loaded but
+	 * individual components (friends/activity/groups/etc...) have not.
+	 * 
+	 * The 'bp_core_loaded' action lets you execute code ahead of the
+	 * other components.
+	 */
 	do_action( 'bp_core_loaded' );
 
 	// Activity Streams
@@ -76,57 +84,51 @@ if ( ! $bp_db_version ) {
 /********************************************************************************
  * Custom Actions
  *
- * Functions to set up custom BuddyPress actions that all other components can
+ * Functions to set up custom BuddyPress actions that components should
  * hook in to.
  */
 
 /**
- * Allow plugins to include their files ahead of core filters
+ * Include files on this action
  */
 function bp_include() {
 	do_action( 'bp_include' );
 }
-add_action( 'bp_loaded', 'bp_include', 2 );
 
 /**
- * Allow core components and dependent plugins to set root components
+ * Setup BuddyPress root directory components
  */
 function bp_setup_root_components() {
 	do_action( 'bp_setup_root_components' );
 }
-add_action( 'bp_init', 'bp_setup_root_components', 2 );
 
 /**
- * Allow core components and dependent plugins to set globals
+ * Setup global variables and objects
  */
 function bp_setup_globals() {
 	do_action( 'bp_setup_globals' );
 }
-add_action( 'bp_init', 'bp_setup_globals', 6 );
 
 /**
- * Allow core components and dependent plugins to set their nav
+ * Set navigation elements
  */
 function bp_setup_nav() {
 	do_action( 'bp_setup_nav' );
 }
-add_action( 'bp_init', 'bp_setup_nav', 8 );
 
 /**
- * Allow core components and dependent plugins to register widgets
+ * Register widgets
  */
 function bp_setup_widgets() {
 	do_action( 'bp_register_widgets' );
 }
-add_action( 'bp_init', 'bp_setup_widgets', 8 );
 
 /**
- * Allow components to initialize themselves cleanly
+ * Initlialize code
  */
 function bp_init() {
 	do_action( 'bp_init' );
 }
-add_action( 'init', 'bp_init' );
 
 /**
  * Attached to plugins_loaded
@@ -134,7 +136,6 @@ add_action( 'init', 'bp_init' );
 function bp_loaded() {
 	do_action( 'bp_loaded' );
 }
-add_action( 'plugins_loaded', 'bp_loaded', 10 );
 
 /** 
  * Defines BP's activation routine. 

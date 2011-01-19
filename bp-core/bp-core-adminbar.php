@@ -308,6 +308,5 @@ function bp_core_load_admin_bar() {
 		add_action( 'admin_footer', 'bp_core_admin_bar'    );	
 	}
 }
-add_action( 'bp_init', 'bp_core_load_admin_bar' );
 
 ?>

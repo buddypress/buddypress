@@ -27,6 +27,7 @@ if ( !defined( 'BP_SEARCH_SLUG' ) )
 	define( 'BP_SEARCH_SLUG', 'search' );
 
 // Load the files containing functions that we globally will need.
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'         );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'      );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'       );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'       );

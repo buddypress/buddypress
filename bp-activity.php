@@ -1268,5 +1268,4 @@ function bp_register_activity_actions() {
 }
 add_action( 'bp_init', 'bp_register_activity_actions', 8 );
 
-
 ?>
