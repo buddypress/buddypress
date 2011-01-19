@@ -20,9 +20,12 @@ class BP_Core_Members_Template {
 	function bp_core_members_template( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude ) {
 		global $bp;
 
-		$this->pag_page = isset( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : $page_number;
-		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-		$this->type     = $type;
+		$this->pag_page  = !empty( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : (int)$page_number;
+		$this->pag_num   = !empty( $_REQUEST['num'] )   ? intval( $_REQUEST['num'] )   : (int)$per_page;
+		$this->type      = $type;
+
+		if ( !$this->pag_num )
+			$this->pag_num = 1;
 
 		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] )
 			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras, $exclude );
