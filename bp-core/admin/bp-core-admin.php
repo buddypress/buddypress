@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Renders the main admin panel.
+ *
+ * @package BuddyPress Core
+ * @since {@internal Unknown}}
+ */
 function bp_core_admin_dashboard() { ?>
 	<div class="wrap" id="bp-admin">
 
@@ -21,6 +27,12 @@ function bp_core_admin_dashboard() { ?>
 <?php
 }
 
+/**
+ * Renders the Settings admin panel.
+ *
+ * @package BuddyPress Core
+ * @since {@internal Unknown}}
+ */
 function bp_core_admin_settings() {
 	global $wpdb, $bp, $current_blog;
 
@@ -152,6 +164,13 @@ function bp_core_admin_settings() {
 <?php
 }
 
+/**
+ * Renders the Component Setup admin panel.
+ *
+ * @package BuddyPress Core
+ * @since {@internal Unknown}}
+ * @uses bp_core_admin_component_options()
+ */
 function bp_core_admin_component_setup() {
 	global $wpdb, $bp;
 
@@ -199,6 +218,15 @@ function bp_core_admin_component_setup() {
 <?php
 }
 
+/**
+ * Creates reusable markup for the component setup dashboard panel.
+ *
+ * This markup has been abstracted so that it can be used both during the setup wizard as well as
+ * when BP has been fully installed.
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ */
 function bp_core_admin_component_options() {
 	$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) ); 
 	?>
@@ -298,6 +326,12 @@ function bp_core_admin_component_options() {
 	<?php
 }
 
+/**
+ * Loads admin panel styles and scripts.
+ *
+ * @package BuddyPress Core
+ * @since {@internal Unknown}}
+ */
 function bp_core_add_admin_menu_styles() {
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
 		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', BP_PLUGIN_URL . '/bp-core/css/admin.dev.css' ) );
