@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-19 00:30:23+00:00\n"
+"POT-Creation-Date: 2011-01-19 08:30:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -155,7 +155,7 @@ msgid "Blog authored by %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-templatetags.php:260 bp-core/bp-core-templatetags.php:365
-#: bp-core/bp-core-templatetags.php:1410 bp-core/bp-core-classes.php:82
+#: bp-core/bp-core-templatetags.php:1415 bp-core/bp-core-classes.php:82
 #: bp-groups/bp-groups-widgets.php:65 bp-groups/bp-groups-widgets.php:165
 #: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
