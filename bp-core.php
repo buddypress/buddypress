@@ -252,54 +252,40 @@ function bp_core_update_page_meta( $page_ids ) {
 		update_option( 'bp-pages', $page_ids );
 }
 
-
 function bp_core_get_page_names() {
-	global $wpdb;
+	global $wpdb, $bp;
 
-	$page_ids = bp_core_get_page_meta();
-
+	// Set pages as standard class
 	$pages = new stdClass;
 
-	// When upgrading to BP 1.3+ from a version of BP that does not use WP pages, $bp->pages
-	// must be populated with dummy info to avoid crashing the site while the db is upgraded
-	if ( empty( $page_ids ) ) {
-		$dummy_components = array(
-			'members',
-			'groups',
-			'activity',
-			'forums',
-			'activate',
-			'register',
-			'blogs'
-		);
-		
-		foreach ( $dummy_components as $dc ) {
-			$pages->{$dc}->name 	= $dc;
-			$pages->{$dc}->slug 	= $dc;
-			$pages->{$dc}->id 	= $dc;
+	// When upgrading to BP 1.3+ from a version of BP that does not use WP
+	// pages, $bp->pages must be populated with dummy info to avoid crashing the
+	// site while the db is upgraded.
+	if ( !$page_ids = bp_core_get_page_meta() ) {		
+		foreach ( $bp->active_components as $component ) {
+			$pages->{$component->id}->name = $component->id;
+			$pages->{$component->id}->slug = $component->id;
+			$pages->{$component->id}->id   = $component->id;
 		}
 		
 		return $pages;
 	}
 
 	$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'posts' : $wpdb->posts;
-
-	$page_ids_sql = implode( ',', (array)$page_ids );
-
-	$page_names = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) " ) );
+	$page_ids_sql     = implode( ',', (array)$page_ids );
+	$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) " ) );
 
 	foreach ( (array)$page_ids as $key => $page_id ) {
 		foreach ( (array)$page_names as $page_name ) {
 			if ( $page_name->ID == $page_id ) {
 				$pages->{$key}->name = $page_name->post_name;
-				$pages->{$key}->id = $page_name->ID;
+				$pages->{$key}->id   = $page_name->ID;
+				$slug[]              = $page_name->post_name;
 
-				$slug[] = $page_name->post_name;
-
-				/* Get the slug */
+				// Get the slug
 				while ( $page_name->post_parent != 0 ) {
-					$parent = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
-					$slug[] = $parent[0]->post_name;
+					$parent                 = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
+					$slug[]                 = $parent[0]->post_name;
 					$page_name->post_parent = $parent[0]->post_parent;
 				}
 
@@ -376,12 +362,12 @@ function bp_core_add_admin_menu() {
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
 	$hook = bp_core_add_admin_menu_page( array(
-		'menu_title'   => __( 'BuddyPress', 'buddypress' ),
-		'page_title'   => __( 'BuddyPress', 'buddypress' ),
-		'capability'   => 'manage_options',
-		'file'         => 'bp-general-settings',
-		'function'     => 'bp_core_admin_dashboard',
-		'position'     => 2
+		'menu_title' => __( 'BuddyPress', 'buddypress' ),
+		'page_title' => __( 'BuddyPress', 'buddypress' ),
+		'capability' => 'manage_options',
+		'file'       => 'bp-general-settings',
+		'function'   => 'bp_core_admin_dashboard',
+		'position'   => 2
 	) );
 
 	add_submenu_page( 'bp-general-settings', __( 'BuddyPress Dashboard', 'buddypress' ), __( 'Dashboard', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_dashboard' );
@@ -410,11 +396,11 @@ function bp_core_setup_nav() {
 	 * built in WordPress profile information
 	 */
 	if ( !bp_is_active( 'xprofile' ) ) {
-		/* Fallback values if xprofile is disabled */
+		// Fallback values if xprofile is disabled
 		$bp->core->profile->slug = 'profile';
 		$bp->active_components[$bp->core->profile->slug] = $bp->core->profile->slug;
 
-		/* Add 'Profile' to the main navigation */
+		// Add 'Profile' to the main navigation
 		bp_core_new_nav_item( array(
 			'name' => __('Profile', 'buddypress'),
 			'slug' => $bp->core->profile->slug,
@@ -425,7 +411,7 @@ function bp_core_setup_nav() {
 
 		$profile_link = $bp->loggedin_user->domain . '/profile/';
 
-		/* Add the subnav items to the profile */
+		// Add the subnav items to the profile
 		bp_core_new_subnav_item( array(
 			'name' => __( 'Public', 'buddypress' ),
 			'slug' => 'public',
@@ -1443,7 +1429,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		$name2 = $chunks[$i + 1][1];
 
 		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
-			/* Add to output var */
+			// Add to output var
 			$output .= ( 1 == $count2 ) ? _x( ',', 'Separator in time since', 'buddypress' ) . ' 1 '. $chunks[$i + 1][1] : _x( ',', 'Separator in time since', 'buddypress' ) . ' ' . $count2 . ' ' . $chunks[$i + 1][2];
 		}
 	}
@@ -1696,7 +1682,7 @@ function bp_core_action_search_site( $slug = '' ) {
 
 	bp_core_redirect( apply_filters( 'bp_core_search_site', site_url( $slug . $query_string . urlencode( $search_terms ) ), $search_terms ) );
 }
-add_action( 'init', 'bp_core_action_search_site', 5 );
+add_action( 'bp_init', 'bp_core_action_search_site', 7 );
 
 /**
  * Localization safe ucfirst() support.
@@ -1864,14 +1850,14 @@ function bp_core_load_buddypress_textdomain() {
 	else
 		return false;
 }
-add_action ( 'bp_loaded', 'bp_core_load_buddypress_textdomain', 2 );
+add_action ( 'bp_init', 'bp_core_load_buddypress_textdomain', 2 );
 
 function bp_core_add_ajax_hook() {
 	// Theme only, we already have the wp_ajax_ hook firing in wp-admin
 	if ( !defined( 'WP_ADMIN' ) && isset( $_REQUEST['action'] ) )
 		do_action( 'wp_ajax_' . $_REQUEST['action'] );
 }
-add_action( 'init', 'bp_core_add_ajax_hook' );
+add_action( 'bp_init', 'bp_core_add_ajax_hook' );
 
 /**
  * Add an extra update message to the update plugin notification.
@@ -1956,61 +1942,62 @@ function bp_core_activate_site_options( $keys = array() ) {
 	return false;
 }
 
-/********************************************************************************
- * Custom Actions
+/**
+ * BuddyPress uses site options to store configuration settings. Many of these settings are needed
+ * at run time. Instead of fetching them all and adding many initial queries to each page load, let's fetch
+ * them all in one go.
  *
- * Functions to set up custom BuddyPress actions that all other components can
- * hook in to.
+ * @package BuddyPress Core
  */
+function bp_core_get_site_options() {
+	global $bp, $wpdb;
 
-/**
- * Allow plugins to include their files ahead of core filters
- */
-function bp_include() {
-	do_action( 'bp_include' );
+	// These options come from the options table in WP single, and sitemeta in MS
+	$site_options = apply_filters( 'bp_core_site_options', array(
+		'bp-deactivated-components',
+		'bp-blogs-first-install',
+		'bp-disable-blog-forum-comments',
+		'bp-xprofile-base-group-name',
+		'bp-xprofile-fullname-field-name',
+		'bp-disable-profile-sync',
+		'bp-disable-avatar-uploads',
+		'bp-disable-account-deletion',
+		'bp-disable-forum-directory',
+		'bp-disable-blogforum-comments',
+		'bb-config-location',
+		'hide-loggedout-adminbar',
+
+		// Useful WordPress settings used often
+		'tags_blog_id',
+		'registration',
+		'fileupload_maxk'
+	) );
+
+	// These options always come from the options table of BP_ROOT_BLOG
+	$root_blog_options = apply_filters( 'bp_core_root_blog_options', array(
+		'avatar_default'
+	) );
+
+	$meta_keys = "'" . implode( "','", (array)$site_options ) ."'";
+
+	if ( is_multisite() )
+		$site_meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
+	else
+		$site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
+
+	$root_blog_meta_keys  = "'" . implode( "','", (array)$root_blog_options ) ."'";
+	$root_blog_meta_table = $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'options';
+	$root_blog_meta       = $wpdb->get_results( $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$root_blog_meta_table} WHERE option_name IN ({$root_blog_meta_keys})" ) );
+
+	$site_options = array();
+	foreach( array( $site_meta, $root_blog_meta ) as $meta ) {
+		if ( !empty( $meta ) ) {
+			foreach( (array)$meta as $meta_item )
+				$site_options[$meta_item->name] = $meta_item->value;
+		}
+	}
+	return apply_filters( 'bp_core_get_site_options', $site_options );
 }
-add_action( 'bp_loaded', 'bp_include', 2 );
-
-/**
- * Allow core components and dependent plugins to set root components
- */
-function bp_setup_root_components() {
-	do_action( 'bp_setup_root_components' );
-}
-add_action( 'bp_loaded', 'bp_setup_root_components', 2 );
-
-/**
- * Allow core components and dependent plugins to set globals
- */
-function bp_setup_globals() {
-	do_action( 'bp_setup_globals' );
-}
-add_action( 'bp_loaded', 'bp_setup_globals', 6 );
-
-/**
- * Allow core components and dependent plugins to set their nav
- */
-function bp_setup_nav() {
-	do_action( 'bp_setup_nav' );
-}
-add_action( 'bp_loaded', 'bp_setup_nav', 8 );
-
-/**
- * Allow core components and dependent plugins to register widgets
- */
-function bp_setup_widgets() {
-	do_action( 'bp_register_widgets' );
-}
-add_action( 'bp_loaded', 'bp_setup_widgets', 8 );
-
-/**
- * Allow components to initialize themselves cleanly
- */
-function bp_init() {
-	do_action( 'bp_init' );
-}
-add_action( 'bp_loaded', 'bp_init' );
-
 
 /********************************************************************************
  * Caching
@@ -2030,7 +2017,7 @@ function bp_core_add_global_group() {
 	if ( function_exists( 'wp_cache_add_global_groups' ) )
 		wp_cache_add_global_groups( array( 'bp' ) );
 }
-add_action( 'init', 'bp_core_add_global_group' );
+add_action( 'bp_loaded', 'bp_core_add_global_group' );
 
 /**
  * Clears all cached objects for a user, or a user is part of.

@@ -1266,7 +1266,7 @@ add_action( 'bp_register_activity_actions', 'updates_register_activity_actions' 
 function bp_register_activity_actions() {
 	do_action( 'bp_register_activity_actions' );
 }
-add_action( 'bp_loaded', 'bp_register_activity_actions', 8 );
+add_action( 'bp_init', 'bp_register_activity_actions', 8 );
 
 
 ?>

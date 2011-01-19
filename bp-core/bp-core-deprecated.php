@@ -38,7 +38,7 @@ function bp_core_add_root_component( $slug ) {
 	// If there was no match, add a page for this root component
 	if ( empty( $match ) ) {
 		$bp->add_root[] = $slug;
-		add_action( 'init', 'bp_core_create_root_component_page' );
+		add_action( 'bp_init', 'bp_core_create_root_component_page' );
 	}
 }
 

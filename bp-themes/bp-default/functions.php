@@ -116,8 +116,9 @@ function bp_dtheme_setup() {
 add_action( 'after_setup_theme', 'bp_dtheme_setup' );
 endif;
 
+if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
 /**
- * Enqueue theme javascript safely after the 'init' action, per WordPress Codex.
+ * Enqueue theme javascript safely
  *
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
@@ -145,6 +146,7 @@ function bp_dtheme_enqueue_scripts() {
 	wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
 }
 add_action( 'wp_enqueue_scripts', 'bp_dtheme_enqueue_scripts' );
+endif;
 
 if ( !function_exists( 'bp_dtheme_admin_header_style' ) ) :
 /**
@@ -288,6 +290,7 @@ function bp_dtheme_header_style() {
 }
 endif;
 
+if ( !function_exists( 'bp_dtheme_widgets_init' ) ) :
 /**
  * Register widgetised areas, including one sidebar and four widget-ready columns in the footer.
  *
@@ -354,6 +357,7 @@ function bp_dtheme_widgets_init() {
 	) );
 }
 add_action( 'widgets_init', 'bp_dtheme_widgets_init' );
+endif;
 
 if ( !function_exists( 'bp_dtheme_blog_comments' ) ) :
 /**
@@ -424,6 +428,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 }
 endif;
 
+if ( !function_exists( 'bp_dtheme_page_on_front' ) ) :
 /**
  * Return the ID of a page set as the home page.
  *
@@ -436,7 +441,9 @@ function bp_dtheme_page_on_front() {
 
 	return apply_filters( 'bp_dtheme_page_on_front', get_option( 'page_on_front' ) );
 }
+endif;
 
+if ( !function_exists( 'bp_dtheme_activity_secondary_avatars' ) ) :
 /**
  * Add secondary avatar image to this activity stream's record, if supported.
  *
@@ -462,7 +469,9 @@ function bp_dtheme_activity_secondary_avatars( $action, $activity ) {
 	return $action;
 }
 add_filter( 'bp_get_activity_action_pre_meta', 'bp_dtheme_activity_secondary_avatars', 10, 2 );
+endif;
 
+if ( !function_exists( 'bp_dtheme_show_notice' ) ) :
 /**
  * Show a notice when the theme is activated - workaround by Ozh (http://old.nabble.com/Activation-hook-exist-for-themes--td25211004.html)
  *
@@ -478,6 +487,7 @@ function bp_dtheme_show_notice() { ?>
 }
 if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
 	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
+endif;
 
 if ( !function_exists( 'bp_dtheme_main_nav' ) ) :
 /**
@@ -515,6 +525,7 @@ function bp_dtheme_main_nav( $args ) {
 }
 endif;
 
+if ( !function_exists( 'bp_dtheme_page_menu_args' ) ) :
 /**
  * Get our wp_nav_menu() fallback, bp_dtheme_main_nav(), to show a home link.
  *
@@ -527,7 +538,9 @@ function bp_dtheme_page_menu_args( $args ) {
 	return $args;
 }
 add_filter( 'wp_page_menu_args', 'bp_dtheme_page_menu_args' );
+endif;
 
+if ( !function_exists( 'bp_dtheme_comment_form' ) ) :
 /**
  * Applies BuddyPress customisations to the post comment form.
  *
@@ -563,7 +576,9 @@ function bp_dtheme_comment_form( $default_labels ) {
 	return apply_filters( 'bp_dtheme_comment_form', array_merge( $default_labels, $new_labels ) );
 }
 add_filter( 'comment_form_defaults', 'bp_dtheme_comment_form', 10 );
+endif;
 
+if ( !function_exists( 'bp_dtheme_before_comment_form' ) ) :
 /**
  * Adds the user's avatar before the comment form box.
  *
@@ -591,7 +606,9 @@ function bp_dtheme_before_comment_form() {
 <?php
 }
 add_action( 'comment_form_top', 'bp_dtheme_before_comment_form' );
+endif;
 
+if ( !function_exists( 'bp_dtheme_after_comment_form' ) ) :
 /**
  * Closes tags opened in bp_dtheme_before_comment_form().
  *
@@ -601,13 +618,17 @@ add_action( 'comment_form_top', 'bp_dtheme_before_comment_form' );
  */
 function bp_dtheme_after_comment_form() {
 ?>
+
 	</div><!-- .comment-content standard-form -->
+
 <?php
 }
 add_action( 'comment_form', 'bp_dtheme_after_comment_form' );
-
+endif;
 
 // Everything beyond this point is deprecated as of BuddyPress 1.3. This will be removed in a future version.
+
+if ( BP_VERSION < 1.3 ) :
 
 /**
  * In BuddyPress 1.2.x, this function filtered the dropdown on the Settings > Reading screen for selecting
@@ -700,4 +721,6 @@ function bp_dtheme_add_blog_comments_js() {
 	if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
 }
+endif;
+
 ?>

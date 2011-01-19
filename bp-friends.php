@@ -200,7 +200,7 @@ function friends_action_add_friend() {
 
 	return false;
 }
-add_action( 'init', 'friends_action_add_friend' );
+add_action( 'bp_init', 'friends_action_add_friend' );
 
 function friends_action_remove_friend() {
 	global $bp;
@@ -239,7 +239,7 @@ function friends_action_remove_friend() {
 
 	return false;
 }
-add_action( 'init', 'friends_action_remove_friend' );
+add_action( 'bp_init', 'friends_action_remove_friend' );
 
 
 /********************************************************************************

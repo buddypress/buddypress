@@ -71,76 +71,70 @@ if ( ! $bp_db_version ) {
  		define( 'BP_IS_UPGRADE', true ); 
  		require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' ); 
  	} 
-
-	add_action( 'plugins_loaded', 'bp_loaded', 20 );
 }
 
-/**
- * Allow dependent plugins and core actions to attach themselves in a safe way.
+/********************************************************************************
+ * Custom Actions
  *
- * See bp-core.php for the following core actions:
- *      - bp_init|bp_setup_globals|bp_setup_root_components|bp_setup_nav|bp_register_widgets
+ * Functions to set up custom BuddyPress actions that all other components can
+ * hook in to.
+ */
+
+/**
+ * Allow plugins to include their files ahead of core filters
+ */
+function bp_include() {
+	do_action( 'bp_include' );
+}
+add_action( 'bp_loaded', 'bp_include', 2 );
+
+/**
+ * Allow core components and dependent plugins to set root components
+ */
+function bp_setup_root_components() {
+	do_action( 'bp_setup_root_components' );
+}
+add_action( 'bp_init', 'bp_setup_root_components', 2 );
+
+/**
+ * Allow core components and dependent plugins to set globals
+ */
+function bp_setup_globals() {
+	do_action( 'bp_setup_globals' );
+}
+add_action( 'bp_init', 'bp_setup_globals', 6 );
+
+/**
+ * Allow core components and dependent plugins to set their nav
+ */
+function bp_setup_nav() {
+	do_action( 'bp_setup_nav' );
+}
+add_action( 'bp_init', 'bp_setup_nav', 8 );
+
+/**
+ * Allow core components and dependent plugins to register widgets
+ */
+function bp_setup_widgets() {
+	do_action( 'bp_register_widgets' );
+}
+add_action( 'bp_init', 'bp_setup_widgets', 8 );
+
+/**
+ * Allow components to initialize themselves cleanly
+ */
+function bp_init() {
+	do_action( 'bp_init' );
+}
+add_action( 'init', 'bp_init' );
+
+/**
+ * Attached to plugins_loaded
  */
 function bp_loaded() {
 	do_action( 'bp_loaded' );
 }
-
-/**
- * BuddyPress uses site options to store configuration settings. Many of these settings are needed
- * at run time. Instead of fetching them all and adding many initial queries to each page load, let's fetch
- * them all in one go.
- *
- * @package BuddyPress Core
- */
-function bp_core_get_site_options() {
-	global $bp, $wpdb;
-
-	// These options come from the options table in WP single, and sitemeta in MS
-	$site_options = apply_filters( 'bp_core_site_options', array(
-		'bp-deactivated-components',
-		'bp-blogs-first-install',
-		'bp-disable-blog-forum-comments',
-		'bp-xprofile-base-group-name',
-		'bp-xprofile-fullname-field-name',
-		'bp-disable-profile-sync',
-		'bp-disable-avatar-uploads',
-		'bp-disable-account-deletion',
-		'bp-disable-forum-directory',
-		'bp-disable-blogforum-comments',
-		'bb-config-location',
-		'hide-loggedout-adminbar',
-
-		// Useful WordPress settings used often
-		'tags_blog_id',
-		'registration',
-		'fileupload_maxk'
-	) );
-
-	// These options always come from the options table of BP_ROOT_BLOG
-	$root_blog_options = apply_filters( 'bp_core_root_blog_options', array(
-		'avatar_default'
-	) );
-
-	$meta_keys = "'" . implode( "','", (array)$site_options ) ."'";
-
-	if ( is_multisite() )
-		$site_meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
-	else
-		$site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
-
-	$root_blog_meta_keys  = "'" . implode( "','", (array)$root_blog_options ) ."'";
-	$root_blog_meta_table = $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'options';
-	$root_blog_meta       = $wpdb->get_results( $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$root_blog_meta_table} WHERE option_name IN ({$root_blog_meta_keys})" ) );
-
-	$site_options = array();
-	foreach( array( $site_meta, $root_blog_meta ) as $meta ) {
-		if ( !empty( $meta ) ) {
-			foreach( (array)$meta as $meta_item )
-				$site_options[$meta_item->name] = $meta_item->value;
-		}
-	}
-	return apply_filters( 'bp_core_get_site_options', $site_options );
-}
+add_action( 'plugins_loaded', 'bp_loaded', 10 );
 
 /** 
  * Defines BP's activation routine. 

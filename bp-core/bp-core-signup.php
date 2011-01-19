@@ -622,6 +622,6 @@ function bp_core_wpsignup_redirect() {
 if ( is_multisite() )
 	add_action( 'wp', 'bp_core_wpsignup_redirect' );
 else
-	add_action( 'init', 'bp_core_wpsignup_redirect' );
+	add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
 
 ?>

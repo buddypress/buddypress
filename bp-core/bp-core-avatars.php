@@ -44,7 +44,7 @@ function bp_core_set_avatar_constants() {
 	if ( !defined( 'BP_AVATAR_DEFAULT_THUMB' ) )
 		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . '/bp-core/images/mystery-man-50.jpg' );
 }
-add_action( 'bp_loaded', 'bp_core_set_avatar_constants', 8 );
+add_action( 'bp_init', 'bp_core_set_avatar_constants', 8 );
 
 /**
  * bp_core_fetch_avatar()

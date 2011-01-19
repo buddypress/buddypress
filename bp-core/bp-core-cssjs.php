@@ -23,7 +23,7 @@ function bp_core_add_admin_bar_css() {
 			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-themes/bp-default/_inc/css/adminbar.css' ) );
 	}
 }
-add_action( 'init', 'bp_core_add_admin_bar_css' );
+add_action( 'bp_init', 'bp_core_add_admin_bar_css' );
 
 /**
  * bp_core_admin_menu_icon_css()
