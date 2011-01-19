@@ -1372,7 +1372,12 @@ function bp_mentioned_user_display_name( $user_id_or_username ) {
 function bp_get_option( $option_name ) {
 	global $bp;
 
-	return apply_filters( 'bp_get_option', $bp->site_options[$option_name] );
+	if ( !empty( $bp->site_options[$option_name] ) )
+		$retval = $bp->site_options[$option_name];
+	else
+		$retval = false;
+
+	return apply_filters( 'bp_get_option', $retval );
 }
 
 /**
