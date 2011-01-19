@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-19 08:30:31+00:00\n"
+"POT-Creation-Date: 2011-01-19 09:30:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -397,7 +397,7 @@ msgid "My Blogs"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:136 bp-core/bp-core-adminbar.php:165
-#: bp-core/admin/bp-core-admin.php:8 bp-core.php:387
+#: bp-core/admin/bp-core-admin.php:8 bp-core.php:374
 msgid "Dashboard"
 msgstr ""
 
@@ -457,7 +457,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:7 bp-core/admin/bp-core-update.php:126
 #: bp-core/admin/bp-core-update.php:1252 bp-core/admin/bp-core-update.php:1253
-#: bp-core/bp-core-signup.php:579 bp-core.php:379 bp-core.php:380
+#: bp-core/bp-core-signup.php:579 bp-core.php:366 bp-core.php:367
 msgid "BuddyPress"
 msgstr ""
 
@@ -1139,7 +1139,7 @@ msgstr ""
 msgid "Profile picture of %s"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:389 bp-themes/bp-default/functions.php:403
+#: bp-core/bp-core-templatetags.php:389 bp-themes/bp-default/functions.php:407
 #: bp-themes/bp-default/activity/entry.php:46
 #: bp-activity/bp-activity-templatetags.php:643
 #: bp-activity/bp-activity-templatetags.php:899
@@ -1154,12 +1154,12 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:758 bp-core.php:440 bp-xprofile.php:107
+#: bp-core/bp-core-templatetags.php:758 bp-core.php:427 bp-xprofile.php:107
 #: bp-themes/bp-default/activity/post-form.php:41
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:764 bp-themes/bp-default/functions.php:546
+#: bp-core/bp-core-templatetags.php:764 bp-themes/bp-default/functions.php:559
 msgid "Name"
 msgstr ""
 
@@ -1167,7 +1167,7 @@ msgstr ""
 msgid "About Me"
 msgstr ""
 
-#: bp-core/bp-core-templatetags.php:784 bp-themes/bp-default/functions.php:550
+#: bp-core/bp-core-templatetags.php:784 bp-themes/bp-default/functions.php:563
 msgid "Website"
 msgstr ""
 
@@ -1236,7 +1236,7 @@ msgstr ""
 msgid "group"
 msgstr ""
 
-#: bp-core/bp-core-settings.php:17 bp-core.php:388 bp-groups.php:45
+#: bp-core/bp-core-settings.php:17 bp-core.php:375 bp-groups.php:45
 msgid "Settings"
 msgstr ""
 
@@ -1326,120 +1326,120 @@ msgstr ""
 msgid "Delete My Account"
 msgstr ""
 
-#: bp-core.php:185
+#: bp-core.php:186
 msgid "Search Members..."
 msgstr ""
 
-#: bp-core.php:387
+#: bp-core.php:374
 msgid "BuddyPress Dashboard"
 msgstr ""
 
-#: bp-core.php:419 bp-xprofile.php:96
+#: bp-core.php:406 bp-xprofile.php:96
 msgid "Profile"
 msgstr ""
 
-#: bp-core.php:430 bp-groups/bp-groups-templatetags.php:427 bp-xprofile.php:101
+#: bp-core.php:417 bp-groups/bp-groups-templatetags.php:427 bp-xprofile.php:101
 msgid "Public"
 msgstr ""
 
-#: bp-core.php:528
+#: bp-core.php:515
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: bp-core.php:530
+#: bp-core.php:517
 msgid "User removed as spammer."
 msgstr ""
 
-#: bp-core.php:567
+#: bp-core.php:554
 msgid "%s has been deleted from the system."
 msgstr ""
 
-#: bp-core.php:569
+#: bp-core.php:556
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-core.php:1387
+#: bp-core.php:1374
 msgid "year"
 msgstr ""
 
-#: bp-core.php:1387
+#: bp-core.php:1374
 msgid "years"
 msgstr ""
 
-#: bp-core.php:1388
+#: bp-core.php:1375
 msgid "month"
 msgstr ""
 
-#: bp-core.php:1388
+#: bp-core.php:1375
 msgid "months"
 msgstr ""
 
-#: bp-core.php:1389
+#: bp-core.php:1376
 msgid "week"
 msgstr ""
 
-#: bp-core.php:1389
+#: bp-core.php:1376
 msgid "weeks"
 msgstr ""
 
-#: bp-core.php:1390
+#: bp-core.php:1377
 msgid "day"
 msgstr ""
 
-#: bp-core.php:1390
+#: bp-core.php:1377
 msgid "days"
 msgstr ""
 
-#: bp-core.php:1391
+#: bp-core.php:1378
 msgid "hour"
 msgstr ""
 
-#: bp-core.php:1391
+#: bp-core.php:1378
 msgid "hours"
 msgstr ""
 
-#: bp-core.php:1392
+#: bp-core.php:1379
 msgid "minute"
 msgstr ""
 
-#: bp-core.php:1392
+#: bp-core.php:1379
 msgid "minutes"
 msgstr ""
 
-#: bp-core.php:1393
+#: bp-core.php:1380
 msgid "second"
 msgstr ""
 
-#: bp-core.php:1393 bp-core.php:1435 bp-core.php:1452
+#: bp-core.php:1380 bp-core.php:1422 bp-core.php:1439
 msgid "seconds"
 msgstr ""
 
-#: bp-core.php:1415
+#: bp-core.php:1402
 msgid "sometime"
 msgstr ""
 
-#: bp-core.php:1447
+#: bp-core.php:1434
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core.php:1498
+#: bp-core.php:1485
 msgid "not recently active"
 msgstr ""
 
-#: bp-core.php:1825
+#: bp-core.php:1812
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
-#: bp-core.php:1882
+#: bp-core.php:1869
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-from-10x/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core.php:1910
+#: bp-core.php:1897
 msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update your permalink structure</a> to something other than the default for it to work."
 msgstr ""
 
-#: bp-core.php:1922
+#: bp-core.php:1909
 msgid "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>."
 msgstr ""
 
@@ -2272,7 +2272,7 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:399
 #: bp-forums/bp-forums-templatetags.php:984
-#: bp-themes/bp-default/functions.php:408
+#: bp-themes/bp-default/functions.php:412
 msgid "Edit"
 msgstr ""
 
@@ -2579,7 +2579,7 @@ msgid "Deactivate"
 msgstr ""
 
 #: bp-messages/bp-messages-templatetags.php:506
-#: bp-themes/bp-default/functions.php:139
+#: bp-themes/bp-default/functions.php:140
 msgid "Close"
 msgstr ""
 
@@ -3318,7 +3318,7 @@ msgid "%s ago"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:212
-#: bp-themes/bp-default/functions.php:405
+#: bp-themes/bp-default/functions.php:409
 #: bp-themes/bp-default/activity/entry.php:28
 #: bp-activity/bp-activity-templatetags.php:744
 msgid "Reply"
@@ -3457,97 +3457,97 @@ msgstr ""
 msgid "Primary Navigation"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:133
+#: bp-themes/bp-default/functions.php:134
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:134
+#: bp-themes/bp-default/functions.php:135
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:135
+#: bp-themes/bp-default/functions.php:136
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:136
+#: bp-themes/bp-default/functions.php:137
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:137
+#: bp-themes/bp-default/functions.php:138
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:138
+#: bp-themes/bp-default/functions.php:139
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:143
+#: bp-themes/bp-default/functions.php:144
 msgid "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:305
+#: bp-themes/bp-default/functions.php:308
 msgid "The sidebar widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:314
+#: bp-themes/bp-default/functions.php:317
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:316
+#: bp-themes/bp-default/functions.php:319
 msgid "The first footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:325
+#: bp-themes/bp-default/functions.php:328
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:327
+#: bp-themes/bp-default/functions.php:330
 msgid "The second footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:336
+#: bp-themes/bp-default/functions.php:339
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:338
+#: bp-themes/bp-default/functions.php:341
 msgid "The third footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:347
+#: bp-themes/bp-default/functions.php:350
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:349
+#: bp-themes/bp-default/functions.php:352
 msgid "The fourth footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:399
+#: bp-themes/bp-default/functions.php:403
 msgid "said:"
 msgid_plural "replied:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-themes/bp-default/functions.php:412
+#: bp-themes/bp-default/functions.php:416
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:473
+#: bp-themes/bp-default/functions.php:482
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:548
+#: bp-themes/bp-default/functions.php:561
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:555
+#: bp-themes/bp-default/functions.php:568
 msgid "Comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:559
+#: bp-themes/bp-default/functions.php:572
 msgid "Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\">Log out?</a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:560
+#: bp-themes/bp-default/functions.php:573
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
