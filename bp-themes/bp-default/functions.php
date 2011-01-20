@@ -127,7 +127,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
 function bp_dtheme_enqueue_scripts() {
 	global $bp;
 
-	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ) );
+	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ), BP_VERSION );
 
 	// Add words that we need to use in JS to the end of the page so they can be translated and still used.
 	$params = array(
