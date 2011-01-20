@@ -28,7 +28,7 @@ function bp_activity_slug() {
 	 */
 	function bp_get_activity_slug() {
 		global $bp;
-		return apply_filters( 'bp_get_activity_slug', $bp->activation->slug );
+		return apply_filters( 'bp_get_activity_slug', $bp->activity->slug );
 	}
 
 /**
