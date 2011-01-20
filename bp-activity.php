@@ -1,9 +1,20 @@
 <?php
 
+/**
+ * BuddyPress Activity Streams
+ *
+ * An activity stream component, for users, groups, and blog tracking.
+ *
+ * @package BuddyPress
+ * @subpackage Activity Core
+ */
+
 class BP_Activity_Component extends BP_Component {
 
 	/**
 	 * Start the activity component creation process
+	 *
+	 * @since BuddyPress {unknown}
 	 */
 	function BP_Activity_Component() {
 		parent::start( 'activity', __( 'Activity Streams', 'buddypress' ) );
@@ -12,6 +23,10 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Setup globals
 	 *
+	 * The BP_ACTIVITY_SLUG constant is deprecated, and only used here for
+	 * backwards compatibility.
+	 *
+	 * @since BuddyPress {unknown}
 	 * @global obj $bp
 	 */
 	function _setup_globals() {
@@ -36,12 +51,12 @@ class BP_Activity_Component extends BP_Component {
 	 * @global obj $bp
 	 */
 	function _includes() {
-		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-actions.php'      );
-		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-filters.php'      );
-		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-screens.php'      );
-		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-classes.php'      );
-		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-functions.php'    );
-		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-template.php' );
+		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-actions.php'   );
+		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-filters.php'   );
+		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-screens.php'   );
+		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-classes.php'   );
+		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-template.php'  );
+		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-functions.php' );
 	}
 
 	/**
@@ -247,21 +262,43 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 
 /** Actions *******************************************************************/
 
+/**
+ * Sets the current action for a given activity stream location
+ *
+ * @global obj $bp
+ * @param str $component_id
+ * @param str $key
+ * @param str $value
+ * @return bool False on error, True on success
+ */
 function bp_activity_set_action( $component_id, $key, $value ) {
 	global $bp;
 
+	// Return false if any of the above values are not set
 	if ( empty( $component_id ) || empty( $key ) || empty( $value ) )
 		return false;
 
+	// Set activity action
 	$bp->activity->actions->{$component_id}->{$key} = apply_filters( 'bp_activity_set_action', array(
 		'key'   => $key,
 		'value' => $value
 	), $component_id, $key, $value );
+
+	return true;
 }
 
+/**
+ * Retreives the current action from a component and key
+ *
+ * @global obj $bp
+ * @param str $component_id
+ * @param str $key
+ * @return mixed False on error, action on success
+ */
 function bp_activity_get_action( $component_id, $key ) {
 	global $bp;
 
+	// Return false if any of the above values are not set
 	if ( empty( $component_id ) || empty( $key ) )
 		return false;
 
@@ -270,9 +307,23 @@ function bp_activity_get_action( $component_id, $key ) {
 
 /** Favorites *****************************************************************/
 
-function bp_activity_get_user_favorites( $user_id ) {
-	$my_favs = maybe_unserialize( get_user_meta( $user_id, 'bp_favorite_activities', true ) );
-	$existing_favs = bp_activity_get_specific( array( 'activity_ids' => $my_favs ) );
+/**
+ * Get a users favorite activity stream items
+ *
+ * @global obj $bp
+ * @param int $user_id
+ * @return array Array of users favorite activity stream ID's
+ */
+function bp_activity_get_user_favorites( $user_id = 0 ) {
+	global $bp;
+
+	// Fallback to logged in user if no user_id is passed
+	if ( empty( $user_id ) )
+		$user_id = $bp->displayed_user->id;
+
+	// Get favorites for user
+	$favs          = get_user_meta( $user_id, 'bp_favorite_activities', true );
+	$existing_favs = bp_activity_get_specific( array( 'activity_ids' => $favs ) );
 
 	foreach( (array)$existing_favs['activities'] as $fav )
 		$new_favs[] = $fav->id;
@@ -283,71 +334,133 @@ function bp_activity_get_user_favorites( $user_id ) {
 	return apply_filters( 'bp_activity_get_user_favorites', $new_favs );
 }
 
-function bp_activity_add_user_favorite( $activity_id, $user_id = false ) {
+/**
+ * Add an activity stream item as a favorite for a user
+ *
+ * @global obj $bp
+ * @param int $activity_id
+ * @param int $user_id
+ * @return bool
+ */
+function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 	global $bp;
 
-	if ( !$user_id )
+	// Favorite activity stream items are for logged in users only
+	if ( !is_user_logged_in() )
+		return false;
+
+	// Fallback to logged in user if no user_id is passed
+	if ( empty( $user_id ) )
 		$user_id = $bp->loggedin_user->id;
 
 	// Update the user's personal favorites
-	$my_favs = maybe_unserialize( get_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', true ) );
+	$my_favs   = get_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', true );
 	$my_favs[] = $activity_id;
 
 	// Update the total number of users who have favorited this activity
 	$fav_count = bp_activity_get_meta( $activity_id, 'favorite_count' );
+	$fav_count = !empty( $fav_count ) ? (int)$fav_count + 1 : 1;
 
-	if ( !empty( $fav_count ) )
-		$fav_count = (int)$fav_count + 1;
-	else
-		$fav_count = 1;
-
+	// Update user meta
 	update_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
-	bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count );
 
-	do_action( 'bp_activity_add_user_favorite', $activity_id, $user_id );
+	// Update activity meta counts
+	if ( true === bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count ) ) {
 
-	return true;
+		// Execute additional code
+		do_action( 'bp_activity_add_user_favorite', $activity_id, $user_id );
+
+		// Success
+		return true;
+
+	// Saving meta was unsuccessful for an unknown reason
+	} else {
+		// Execute additional code
+		do_action( 'bp_activity_add_user_favorite_fail', $activity_id, $user_id );
+
+		return false;
+	}
 }
 
-function bp_activity_remove_user_favorite( $activity_id, $user_id = false ) {
+function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 	global $bp;
 
-	if ( !$user_id )
+	// Favorite activity stream items are for logged in users only
+	if ( !is_user_logged_in() )
+		return false;
+
+	// Fallback to logged in user if no user_id is passed
+	if ( empty( $user_id ) )
 		$user_id = $bp->loggedin_user->id;
 
 	// Remove the fav from the user's favs
-	$my_favs = maybe_unserialize( get_user_meta( $user_id, 'bp_favorite_activities', true ) );
+	$my_favs = get_user_meta( $user_id, 'bp_favorite_activities', true );
 	$my_favs = array_flip( (array) $my_favs );
 	unset( $my_favs[$activity_id] );
 	$my_favs = array_unique( array_flip( $my_favs ) );
 
 	// Update the total number of users who have favorited this activity
-	$fav_count = bp_activity_get_meta( $activity_id, 'favorite_count' );
+	if ( $fav_count = bp_activity_get_meta( $activity_id, 'favorite_count' ) ) {
 
-	if ( !empty( $fav_count ) ) {
-		$fav_count = (int)$fav_count - 1;
-		bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count );
+		// Deduct from total favorites
+		if ( bp_activity_update_meta( $activity_id, 'favorite_count', (int)$fav_count - 1 ) ) {
+
+			// Update users favorites
+			if ( update_user_meta( $user_id, 'bp_favorite_activities', $my_favs ) ) {
+
+				// Execute additional code
+				do_action( 'bp_activity_remove_user_favorite', $activity_id, $user_id );
+
+				// Success
+				return true;
+
+			// Error updating
+			} else {
+				return false;
+			}
+
+		// Error updating favorite count
+		} else {
+			return false;
+		}
+
+	// Error getting favorite count
+	} else {
+		return false;
 	}
-
-	update_user_meta( $user_id, 'bp_favorite_activities', $my_favs );
-
-	do_action( 'bp_activity_remove_user_favorite', $activity_id, $user_id );
-
-	return true;
 }
 
+/**
+ * Check if activity exists by scanning content
+ *
+ * @param str $content
+ * @return bool
+ */
 function bp_activity_check_exists_by_content( $content ) {
 	return apply_filters( 'bp_activity_check_exists_by_content', BP_Activity_Activity::check_exists_by_content( $content ) );
 }
 
+/**
+ * Retreive the last time activity was updated
+ *
+ * @return str
+ */
 function bp_activity_get_last_updated() {
 	return apply_filters( 'bp_activity_get_last_updated', BP_Activity_Activity::get_last_updated() );
 }
 
-function bp_activity_total_favorites_for_user( $user_id = false ) {
+/**
+ * Retreive the number of favorite activity stream items a user has
+ *
+ * @global obj $bp
+ * @param int $user_id
+ * @return int
+ */
+function bp_activity_total_favorites_for_user( $user_id = 0 ) {
 	global $bp;
 
-	if ( !$user_id )
+	// Fallback on displayed user, and then logged in user
+	if ( empty( $user_id ) )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
 	return BP_Activity_Activity::total_favorite_count( $user_id );
@@ -355,94 +468,172 @@ function bp_activity_total_favorites_for_user( $user_id = false ) {
 
 /** Meta **********************************************************************/
 
-
-function bp_activity_delete_meta( $activity_id, $meta_key = false, $meta_value = false ) {
+/**
+ * Delete a meta entry from the DB for an activity stream item
+ *
+ * @global DB $wpdb
+ * @global obj $bp
+ * @param int $activity_id
+ * @param str $meta_key
+ * @param str $meta_value
+ * @return bool
+ */
+function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = '' ) {
 	global $wpdb, $bp;
 
+	// Return false if any of the above values are not set
 	if ( !is_numeric( $activity_id ) )
 		return false;
 
+	// Sanitize key
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	if ( is_array( $meta_value ) || is_object( $meta_value ) )
 		$meta_value = serialize( $meta_value );
 
+	// Trim off whitespace
 	$meta_value = trim( $meta_value );
 
-	if ( !$meta_key )
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
-	else if ( $meta_value )
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s AND meta_value = %s", $activity_id, $meta_key, $meta_value ) );
-	else
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
+	// Delete all for activity_id
+	if ( empty( $meta_key ) )
+		$retval = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
 
+	// Delete only when all match
+	else if ( $meta_value )
+		$retval = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s AND meta_value = %s", $activity_id, $meta_key, $meta_value ) );
+
+	// Delete only when activity_id and meta_key match
+	else
+		$retval = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
+
+	// Delete cache entry
 	wp_cache_delete( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, 'bp' );
 
-	return true;
+	// Success
+	if ( !is_wp_error( $retval ) )
+		return true;
+
+	// Fail
+	else
+		return false;
 }
 
-function bp_activity_get_meta( $activity_id, $meta_key = '' ) {
+/**
+ * Get activity meta
+ *
+ * @global DB $wpdb
+ * @global obj $bp
+ * @param int $activity_id
+ * @param str $meta_key
+ * @return bool
+ */
+function bp_activity_get_meta( $activity_id = 0, $meta_key = '' ) {
 	global $wpdb, $bp;
 
-	$activity_id = (int)$activity_id;
-
-	if ( !$activity_id )
+	// Make sure activity_id is valid
+	if ( empty( $activity_id ) || !is_numeric( $activity_id ) )
 		return false;
 
-	if ( !empty($meta_key) ) {
+	// We have a key to look for
+	if ( !empty( $meta_key ) ) {
+
+		// Sanitize key
 		$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
+		// Check cache
 		if ( !$metas = wp_cache_get( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, 'bp' ) ) {
+
+			// No cache so hit the DB
 			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
+
+			// Set cache
 			wp_cache_set( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, $metas, 'bp' );
 		}
-	} else
-		$metas = $wpdb->get_col( $wpdb->prepare( "SELECT meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
 
-	if ( empty($metas) )
+	// No key so get all for activity_id
+	} else {
+		$metas = $wpdb->get_col( $wpdb->prepare( "SELECT meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
+	}
+
+	// No result so return false
+	if ( empty( $metas ) )
 		return false;
 
+	// Maybe, just maybe... unserialize
 	$metas = array_map( 'maybe_unserialize', (array)$metas );
 
-	if ( 1 == count($metas) )
-		return $metas[0];
-	else
-		return $metas;
+	// Return first item in array if only 1, else return all metas found
+	$retval = ( 1 == count( $metas ) ? $metas[0] : $metas );
+
+	// Filter result before returning
+	return apply_filters( 'bp_activity_get_meta', $retval, $activity_id, $meta_key );
 }
 
+/**
+ * Update activity meta
+ *
+ * @global DB $wpdb
+ * @global obj $bp
+ * @param int $activity_id
+ * @param str $meta_key
+ * @param str $meta_value
+ * @return bool
+ */
 function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
 	global $wpdb, $bp;
 
+	// Make sure activity_id is valid
 	if ( !is_numeric( $activity_id ) )
 		return false;
 
+	// Sanitize key
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
+	// Sanitize value
 	if ( is_string( $meta_value ) )
 		$meta_value = stripslashes( $wpdb->escape( $meta_value ) );
 
+	// Maybe, just maybe... serialize
 	$meta_value = maybe_serialize( $meta_value );
 
+	// If value is empty, delete the meta key
 	if ( empty( $meta_value ) )
 		return bp_activity_delete_meta( $activity_id, $meta_key );
 
+	// See if meta key exists for activity_id
 	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
 
-	if ( !$cur )
+	// Meta key does not exist so INSERT
+	if ( empty( $cur ) )
 		$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name_meta} ( activity_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $activity_id, $meta_key, $meta_value ) );
+
+	// Meta key exists, so UPDATE
 	else if ( $cur->meta_value != $meta_value )
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name_meta} SET meta_value = %s WHERE activity_id = %d AND meta_key = %s", $meta_value, $activity_id, $meta_key ) );
+
+	// Weirdness, so return false
 	else
 		return false;
 
+	// Set cache
 	wp_cache_set( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, $meta_value, 'bp' );
 
+	// Victory is ours!
 	return true;
 }
 
 /** Clean up ******************************************************************/
 
-function bp_activity_remove_data( $user_id ) {
+/**
+ * Completely remove
+ * @param int $user_id
+ */
+function bp_activity_remove_all_user_data( $user_id = 0 ) {
+
+	// Do not delete user data unless a logged in user says so
+	if ( empty( $user_id ) || !is_user_logged_in() )
+		return false;
+
 	// Clear the user's activity from the sitewide stream and clear their activity tables
 	bp_activity_delete( array( 'user_id' => $user_id ) );
 
@@ -450,16 +641,20 @@ function bp_activity_remove_data( $user_id ) {
 	delete_user_meta( $user_id, 'bp_latest_update' );
 	delete_user_meta( $user_id, 'bp_favorite_activities' );
 
-	do_action( 'bp_activity_remove_data', $user_id );
+	// Execute additional code
+	do_action( 'bp_activity_remove_data', $user_id ); // Deprecated! Do not use!
+
+	// Use this going forward
+	do_action( 'bp_activity_remove_all_user_data', $user_id );
 }
-add_action( 'wpmu_delete_user',  'bp_activity_remove_data' );
-add_action( 'delete_user',       'bp_activity_remove_data' );
-add_action( 'bp_make_spam_user', 'bp_activity_remove_data' );
+add_action( 'wpmu_delete_user',  'bp_activity_remove_all_user_data' );
+add_action( 'delete_user',       'bp_activity_remove_all_user_data' );
+add_action( 'bp_make_spam_user', 'bp_activity_remove_all_user_data' );
 
 /**
  * Register the activity stream actions for updates
  *
- * @global array $bp
+ * @global obj $bp
  */
 function updates_register_activity_actions() {
 	global $bp;
