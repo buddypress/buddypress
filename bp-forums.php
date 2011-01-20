@@ -103,6 +103,7 @@ function bp_forums_add_admin_menu() {
 	add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
 }
 add_action( 'admin_menu', 'bp_forums_add_admin_menu' );
+add_action( 'network_admin_menu', 'bp_forums_add_admin_menu' );
 
 /* Forum Functions */
 

@@ -62,6 +62,7 @@ function friends_check_installed() {
 		friends_install();
 }
 add_action( 'admin_menu', 'friends_check_installed' );
+add_action( 'network_admin_menu', 'friends_check_installed' );
 
 function friends_setup_nav() {
 	global $bp;

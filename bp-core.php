@@ -285,6 +285,7 @@ function bp_core_check_installed() {
 		bp_core_install();
 }
 add_action( 'admin_menu', 'bp_core_check_installed' );
+add_action( 'network_admin_menu', 'bp_core_check_installed' );
 
 /**
  * bp_core_add_admin_menu()
@@ -300,7 +301,11 @@ function bp_core_add_admin_menu() {
 	if ( !is_super_admin() )
 		return false;
 
-	/* Add the administration tab under the "Site Admin" tab for site administrators */
+	// If this is WP 3.1+ and multisite is enabled, only load on the Network Admin
+	if ( is_multisite() && function_exists( 'is_network_admin' ) && ! is_network_admin()  )
+		return false;
+
+	// Add the administration tab under the "Site Admin" tab for site administrators
 	bp_core_add_admin_menu_page( array(
 		'menu_title' => __( 'BuddyPress', 'buddypress' ),
 		'page_title' => __( 'BuddyPress', 'buddypress' ),
@@ -313,6 +318,7 @@ function bp_core_add_admin_menu() {
 	add_submenu_page( 'bp-general-settings', __( 'Component Setup', 'buddypress'), __( 'Component Setup', 'buddypress' ), 'manage_options', 'bp-component-setup', 'bp_core_admin_component_setup' );
 }
 add_action( 'admin_menu', 'bp_core_add_admin_menu' );
+add_action( 'network_admin_menu', 'bp_core_add_admin_menu' );
 
 /**
  * bp_core_is_root_component()

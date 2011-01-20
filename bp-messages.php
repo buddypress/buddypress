@@ -97,6 +97,7 @@ function messages_check_installed() {
 		messages_install();
 }
 add_action( 'admin_menu', 'messages_check_installed' );
+add_action( 'network_admin_menu', 'messages_check_installed' );
 
 function messages_setup_nav() {
 	global $bp;

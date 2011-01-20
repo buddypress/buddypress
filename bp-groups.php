@@ -117,6 +117,7 @@ function groups_check_installed() {
 		groups_install();
 }
 add_action( 'admin_menu', 'groups_check_installed' );
+add_action( 'network_admin_menu', 'groups_check_installed' );
 
 function groups_setup_nav() {
 	global $bp;

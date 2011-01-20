@@ -291,7 +291,8 @@ function bp_core_load_admin_bar() {
 		return;
 	} elseif ( !defined( 'BP_DISABLE_ADMIN_BAR' ) || !BP_DISABLE_ADMIN_BAR ) {
 		// Keep the WP admin bar from loading
-		show_admin_bar( false );
+		if ( function_exists( 'show_admin_bar' ) )
+			show_admin_bar( false );
 		
 		// Actions used to build the BP admin bar
 		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );

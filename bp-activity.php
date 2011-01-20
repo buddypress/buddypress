@@ -99,6 +99,7 @@ function bp_activity_check_installed() {
 		bp_activity_install();
 }
 add_action( 'admin_menu', 'bp_activity_check_installed' );
+add_action( 'network_admin_menu', 'bp_activity_check_installed' );
 
 function bp_activity_setup_root_component() {
 	/* Register 'activity' as a root component (for RSS feed use) */

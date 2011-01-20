@@ -152,6 +152,7 @@ function xprofile_add_admin_menu() {
 		xprofile_install();
 }
 add_action( 'admin_menu', 'xprofile_add_admin_menu' );
+add_action( 'network_admin_menu', 'xprofile_add_admin_menu' );
 
 /**
  * xprofile_setup_nav()
