@@ -22,7 +22,7 @@ function messages_new_message( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !$sender_id || !$content )
+	if ( empty( $sender_id ) || empty( $content ) )
 		return false;
 
 	// Create a new message object
@@ -34,7 +34,7 @@ function messages_new_message( $args = '' ) {
 	$message->date_sent = $date_sent;
 
 	// If we have a thread ID, use the existing recipients, otherwise use the recipients passed
-	if ( $thread_id ) {
+	if ( !empty( $thread_id ) ) {
 		$thread = new BP_Messages_Thread( $thread_id );
 		$message->recipients = $thread->get_recipients();
 
@@ -74,7 +74,7 @@ function messages_new_message( $args = '' ) {
 
 		// Format this to match existing recipients
 		foreach( (array)$recipient_ids as $i => $recipient_id ) {
-			$message->recipients[$i] = new stdClass;
+			$message->recipients[$i]          = new stdClass;
 			$message->recipients[$i]->user_id = $recipient_id;
 		}
 	}
@@ -126,7 +126,7 @@ function messages_delete_thread( $thread_ids ) {
 				$error = 1;
 		}
 
-		if ( $error )
+		if ( !empty( $error ) )
 			return false;
 
 		do_action( 'messages_delete_thread', $thread_ids );
@@ -145,7 +145,7 @@ function messages_delete_thread( $thread_ids ) {
 function messages_check_thread_access( $thread_id, $user_id = 0 ) {
 	global $bp;
 
-	if ( !$user_id )
+	if ( empty( $user_id ) )
 		$user_id = $bp->loggedin_user->id;
 
 	return BP_Messages_Thread::check_access( $thread_id, $user_id );
@@ -160,21 +160,21 @@ function messages_mark_thread_unread( $thread_id ) {
 }
 
 function messages_add_callback_values( $recipients, $subject, $content ) {
-	setcookie( 'bp_messages_send_to', $recipients, time()+60*60*24, COOKIEPATH );
-	setcookie( 'bp_messages_subject', $subject, time()+60*60*24, COOKIEPATH );
-	setcookie( 'bp_messages_content', $content, time()+60*60*24, COOKIEPATH );
+	@setcookie( 'bp_messages_send_to', $recipients, time() + 60 * 60 * 24, COOKIEPATH );
+	@setcookie( 'bp_messages_subject', $subject,    time() + 60 * 60 * 24, COOKIEPATH );
+	@setcookie( 'bp_messages_content', $content,    time() + 60 * 60 * 24, COOKIEPATH );
 }
 
 function messages_remove_callback_values() {
-	setcookie( 'bp_messages_send_to', false, time()-1000, COOKIEPATH );
-	setcookie( 'bp_messages_subject', false, time()-1000, COOKIEPATH );
-	setcookie( 'bp_messages_content', false, time()-1000, COOKIEPATH );
+	@setcookie( 'bp_messages_send_to', false, time() - 1000, COOKIEPATH );
+	@setcookie( 'bp_messages_subject', false, time() - 1000, COOKIEPATH );
+	@setcookie( 'bp_messages_content', false, time() - 1000, COOKIEPATH );
 }
 
 function messages_get_unread_count( $user_id = 0 ) {
 	global $bp;
 
-	if ( !$user_id )
+	if ( empty( $user_id ) )
 		$user_id = $bp->loggedin_user->id;
 
 	return BP_Messages_Thread::get_inbox_count( $user_id );
