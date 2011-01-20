@@ -32,4 +32,17 @@ function bp_blogs_screen_create_a_blog() {
 }
 add_action( 'wp', 'bp_blogs_screen_create_a_blog', 3 );
 
+function bp_blogs_screen_index() {
+	global $bp;
+
+	if ( is_multisite() && $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
+		$bp->is_directory = true;
+
+		do_action( 'bp_blogs_screen_index' );
+
+		bp_core_load_template( apply_filters( 'bp_blogs_screen_index', 'blogs/index' ) );
+	}
+}
+add_action( 'wp', 'bp_blogs_screen_index', 2 );
+
 ?>
