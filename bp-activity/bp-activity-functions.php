@@ -10,24 +10,6 @@
  */
 
 /**
- * @todo Figure out if this is still needed
- *
- * @global obj $bp
- */
-function bp_activity_directory_activity_setup() {
-	global $bp;
-
-	if ( bp_is_activity_component() && empty( $bp->current_action ) ) {
-		$bp->is_directory = true;
-
-		do_action( 'bp_activity_directory_activity_setup' );
-
-		bp_core_load_template( apply_filters( 'bp_activity_directory_activity_setup', 'activity/index' ) );
-	}
-}
-add_action( 'wp', 'bp_activity_directory_activity_setup', 2 );
-
-/**
  * Searches through the content of an activity item to locate usernames, designated by an @ sign
  *
  * @package BuddyPress Activity

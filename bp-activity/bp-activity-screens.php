@@ -8,6 +8,24 @@
  * business functions, then pass on the user to a template file.
  */
 
+/**
+ * Activity index
+ *
+ * @global obj $bp
+ */
+function bp_activity_screen_index() {
+	global $bp;
+
+	if ( bp_is_activity_component() && empty( $bp->current_action ) ) {
+		$bp->is_directory = true;
+
+		do_action( 'bp_activity_screen_index' );
+
+		bp_core_load_template( apply_filters( 'bp_activity_screen_index', 'activity/index' ) );
+	}
+}
+add_action( 'wp', 'bp_activity_screen_index', 2 );
+
 function bp_activity_screen_my_activity() {
 	do_action( 'bp_activity_screen_my_activity' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'members/single/home' ) );
