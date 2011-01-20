@@ -379,6 +379,8 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	$friendship_id = BP_Friends_Friendship::get_friendship_id( $initiator_userid, $friend_userid );
 	$friendship    = new BP_Friends_Friendship( $friendship_id );
 
+	do_action( 'friends_before_friendship_delete', $friendship_id, $initiator_userid, $friend_userid );
+
 	// Remove the activity stream item for the user who canceled the friendship
 	friends_delete_activity( array( 'item_id' => $friendship_id, 'type' => 'friendship_accepted', 'user_id' => $bp->displayed_user->id ) );
 
@@ -588,6 +590,8 @@ function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $sta
 
 function friends_remove_data( $user_id ) {
 	global $bp;
+
+	do_action( 'friends_before_remove_data', $user_id );
 
 	BP_Friends_Friendship::delete_all_for_user($user_id);
 

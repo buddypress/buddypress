@@ -244,12 +244,14 @@ function bp_dtheme_delete_activity() {
 		return false;
 
 	// Call the action before the delete so plugins can still fetch information about it
-	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $activity->user_id );
+	do_action( 'bp_activity_before_action_delete_activity', $_POST['id'], $activity->user_id );
 
 	if ( !bp_activity_delete( array( 'id' => $_POST['id'], 'user_id' => $activity->user_id ) ) ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
+
+	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $activity->user_id );
 
 	return true;
 }
@@ -277,12 +279,14 @@ function bp_dtheme_delete_activity_comment() {
 		return false;
 
 	/* Call the action before the delete so plugins can still fetch information about it */
-	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $comment->user_id );
+	do_action( 'bp_activity_before_action_delete_activity', $_POST['id'], $comment->user_id );
 
 	if ( !bp_activity_delete_comment( $comment->item_id, $comment->id ) ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
+
+	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $comment->user_id );
 
 	return true;
 }

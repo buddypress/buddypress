@@ -770,6 +770,8 @@ function bp_activity_delete( $args = '' ) {
 	else
 		$user_id = $args['user_id'];
 
+	do_action( 'bp_before_activity_delete', $args );
+
 	$latest_update = get_user_meta( $user_id, 'bp_latest_update', true );
 	if ( !empty( $latest_update ) ) {
 		if ( in_array( (int)$latest_update['id'], (array)$activity_ids_deleted ) )
