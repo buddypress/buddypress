@@ -47,8 +47,6 @@ class BP_Activity_Component extends BP_Component {
 
 	/**
 	 * Include files
-	 *
-	 * @global obj $bp
 	 */
 	function _includes() {
 		require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-actions.php'   );
