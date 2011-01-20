@@ -600,7 +600,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 	}
 
 
-	if ( $user_ids ) {
+	if ( !empty( $user_ids ) ) {
 		foreach ( $user_ids as $user_id ) {
 			$ud = get_userdata($user_id);
 			$username = $ud->user_login;

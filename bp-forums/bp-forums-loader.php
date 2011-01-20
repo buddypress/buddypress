@@ -4,11 +4,12 @@
 if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
 	define( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
 
+// Support for bbPress stand-alone
 if ( !defined( 'BB_PATH' ) )
-	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress.php' );
+	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress-sa.php' );
 
-require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-templatetags.php' );
-require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php' );
+require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php'  );
+require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-template.php' );
 
 /**
  * Puts important forums component data into the $bp global for later use.
@@ -39,7 +40,7 @@ function bp_forums_setup() {
 	$bp->active_components[$bp->forums->slug] = $bp->forums->id;
 
 	// The default text for the forums directory search box
-	$bp->default_search_strings[$bp->forums->slug] = __( 'Search Forum Topics...', 'buddypress' ); 
+	$bp->default_search_strings[$bp->forums->slug] = __( 'Search Forum Topics...', 'buddypress' );
 
 	do_action( 'bp_forums_setup' );
 }

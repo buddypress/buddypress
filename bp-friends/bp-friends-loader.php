@@ -1,8 +1,8 @@
 <?php
 
 // Required Files
-require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-classes.php' );
-require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-templatetags.php' );
+require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-classes.php'  );
+require ( BP_PLUGIN_DIR . '/bp-friends/bp-friends-template.php' );
 
 define ( 'BP_FRIENDS_DB_VERSION', '1800' );
 
@@ -69,7 +69,7 @@ function friends_screen_my_friends() {
 	global $bp;
 
 	// Delete any friendship acceptance notifications for the user when viewing a profile
-	bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_accepted' );
+	bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_accepted' );
 
 	do_action( 'friends_screen_my_friends' );
 
@@ -105,7 +105,7 @@ function friends_screen_requests() {
 	do_action( 'friends_screen_requests' );
 
 	if ( isset( $_GET['new'] ) )
-		bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_request' );
+		bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_request' );
 
 	bp_core_load_template( apply_filters( 'friends_template_requests', 'members/single/home' ) );
 }
@@ -113,7 +113,7 @@ function friends_screen_requests() {
 function friends_screen_notification_settings() {
 	global $bp;
 
-	
+
 	if ( !$send_requests = get_user_meta( $bp->displayed_user->id, 'notification_friends_friendship_request', true ) )
 		$send_requests   = 'yes';
 
@@ -356,7 +356,7 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 
 		if ( !$force_accept ) {
 			// Add the on screen notification
-			bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, $bp->friends->id, 'friendship_request' );
+			bp_users_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, $bp->friends->id, 'friendship_request' );
 
 			// Send the email notification
 			require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
@@ -402,10 +402,10 @@ function friends_accept_friendship( $friendship_id ) {
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
 
 		// Remove the friend request notice
-		bp_core_delete_notifications_for_user_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
+		bp_users_delete_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
 
 		// Add a friend accepted notice for the initiating user
-		bp_core_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_accepted' );
+		bp_users_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_accepted' );
 
 		$initiator_link = bp_core_get_userlink( $friendship->initiator_user_id );
 		$friend_link = bp_core_get_userlink( $friendship->friend_user_id );
@@ -446,7 +446,7 @@ function friends_reject_friendship( $friendship_id ) {
 
 	if ( !$friendship->is_confirmed && BP_Friends_Friendship::reject( $friendship_id ) ) {
 		// Remove the friend request notice
-		bp_core_delete_notifications_for_user_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
+		bp_users_delete_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
 
 		do_action( 'friends_friendship_rejected', $friendship_id, &$friendship );
 		return true;
@@ -595,7 +595,7 @@ function friends_remove_data( $user_id ) {
 	delete_user_meta( $user_id, 'total_friend_count' );
 
 	// Remove friendship requests FROM user
-	bp_core_delete_notifications_from_user( $user_id, $bp->friends->id, 'friendship_request' );
+	bp_users_delete_notifications_from_user( $user_id, $bp->friends->id, 'friendship_request' );
 
 	do_action( 'friends_remove_data', $user_id );
 }
@@ -625,7 +625,7 @@ function friends_clear_friend_notifications() {
 	global $bp;
 
 	if ( isset( $_GET['new'] ) )
-		bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_accepted' );
+		bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_accepted' );
 }
 add_action( 'bp_activity_screen_my_activity', 'friends_clear_friend_notifications' );
 

@@ -1788,7 +1788,7 @@ function bp_is_page( $page ) {
 function bp_is_active( $component ) {
 	global $bp_deactivated;
 
-	if ( !isset( $bp_deactivated[ 'bp-' . $component . '.php' ] ) )
+	if ( !isset( $bp_deactivated[ 'bp-' . $component . '/bp-' . $component . '-loader.php' ] ) )
 		return true;
 
 	return false;

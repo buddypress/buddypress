@@ -188,7 +188,7 @@ function bp_adminbar_notifications_menu() {
 	echo '<li id="bp-adminbar-notifications-menu"><a href="' . $bp->loggedin_user->domain . '">';
 	_e( 'Notifications', 'buddypress' );
 
-	if ( $notifications = bp_core_get_notifications_for_user( $bp->loggedin_user->id ) ) { ?>
+	if ( $notifications = bp_users_get_notifications_for_user( $bp->loggedin_user->id ) ) { ?>
 		<span><?php echo count( $notifications ) ?></span>
 	<?php
 	}

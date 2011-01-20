@@ -1,11 +1,11 @@
 <?php
 
 // Required files
-require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-admin.php'       );
-require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-classes.php'      );
-require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-filters.php'      );
-require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-templatetags.php' );
-require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php'        );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-cssjs.php'    );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-admin.php'    );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-classes.php'  );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-filters.php'  );
+require ( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-template.php' );
 
 /**
  * Add the profile globals to the $bp global for use across the installation
@@ -253,13 +253,13 @@ function xprofile_screen_edit_profile() {
 
 			// Now we've checked for required fields, lets save the values.
 			foreach ( (array)$posted_field_ids as $field_id ) {
-				
+
 				// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.
 				if ( empty( $_POST['field_' . $field_id] ) )
 					$value = array();
 				else
 					$value = $_POST['field_' . $field_id];
-					
+
 				if ( !xprofile_set_field_data( $field_id, $bp->displayed_user->id, $value, $is_required[$field_id] ) )
 					$errors = true;
 				else

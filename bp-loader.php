@@ -1,20 +1,47 @@
 <?php
-/*
-Plugin Name: BuddyPress
-Plugin URI: http://buddypress.org
-Description: Social networking in a box. Build a social network for your company, school, sports team or niche community all based on the power and flexibility of WordPress.
-Author: The BuddyPress Community
-Version: 1.3-bleeding
-Author URI: http://buddypress.org/community/members/
-Network: true
-*/
+/**
+ * Plugin Name: BuddyPress
+ * Plugin URI:  http://buddypress.org
+ * Description: Social networking in a box. Build a social network for your company, school, sports team or niche community all based on the power and flexibility of WordPress.
+ * Author:      The BuddyPress Community
+ * Version:     1.3-bleeding
+ * Author URI:  http://buddypress.org/community/members/
+ * Network:     true
+ */
+
+/** Constants *****************************************************************/
 
 define( 'BP_VERSION', '1.3-bleeding' );
-define( 'BP_DB_VERSION', 3705 );
+define( 'BP_DB_VERSION', 3605 );
 
 // Define on which blog ID BuddyPress should run
 if ( !defined( 'BP_ROOT_BLOG' ) )
 	define( 'BP_ROOT_BLOG', 1 );
+
+// Path and URL
+define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
+define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
+
+// Load the WP abstraction file so BuddyPress can run on all WordPress setups.
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
+
+// Place your custom code (actions/filters) in a file called
+// '/plugins/bp-custom.php' and it will be loaded before anything else.
+if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
+	require( WP_PLUGIN_DIR . '/bp-custom.php' );
+
+// Define the user and usermeta table names, useful if you are using custom or shared tables.
+if ( !defined( 'CUSTOM_USER_TABLE' ) )
+	define( 'CUSTOM_USER_TABLE',      $wpdb->base_prefix . 'users' );
+
+if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
+	define( 'CUSTOM_USER_META_TABLE', $wpdb->base_prefix . 'usermeta' );
+
+// The search slug has to be defined nice and early because of the way search requests are loaded
+if ( !defined( 'BP_SEARCH_SLUG' ) )
+	define( 'BP_SEARCH_SLUG', 'search' );
+
+/** Loader ********************************************************************/
 
 // Register BuddyPress themes contained within the bp-themes folder 
 register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' ); 
@@ -30,11 +57,12 @@ if ( empty( $bp_db_version ) ) {
 	
 // Existing successful installation
 } else {
+
 	/***
 	 * This file will load in each BuddyPress component based on which
 	 * of the components have been activated on the "BuddyPress" admin menu.
 	 */
-	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core.php' );
+	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
 	$bp_deactivated = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
 	/**
@@ -46,33 +74,37 @@ if ( empty( $bp_db_version ) ) {
 	 */
 	do_action( 'bp_core_loaded' );
 
+	// Users
+	include( BP_PLUGIN_DIR . '/bp-users/bp-users-loader.php'       );
+	include( BP_PLUGIN_DIR . '/bp-settings/bp-settings-loader.php' );
+
 	// Activity Streams
-	if ( !isset( $bp_deactivated['bp-activity.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity.php') )
-		include( BP_PLUGIN_DIR . '/bp-activity.php' );
+	if ( !isset( $bp_deactivated['bp-activity/bp-activity-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity/bp-activity-loader.php') )
+		include( BP_PLUGIN_DIR . '/bp-activity/bp-activity-loader.php' );
 
 	// Blog Tracking
-	if ( !isset( $bp_deactivated['bp-blogs.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs.php') )
-		include( BP_PLUGIN_DIR . '/bp-blogs.php' );
+	if ( !isset( $bp_deactivated['bp-blogs/bp-blogs-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-loader.php') )
+		include( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-loader.php' );
 
 	// bbPress Forum Integration
-	if ( !isset( $bp_deactivated['bp-forums.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums.php') )
-		include( BP_PLUGIN_DIR . '/bp-forums.php' );
+	if ( !isset( $bp_deactivated['bp-forums/bp-forums-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums/bp-forums-loader.php') )
+		include( BP_PLUGIN_DIR . '/bp-forums/bp-forums-loader.php' );
 
 	// Friend Connections
-	if ( !isset( $bp_deactivated['bp-friends.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends.php') )
-		include( BP_PLUGIN_DIR . '/bp-friends.php' );
+	if ( !isset( $bp_deactivated['bp-friends/bp-friends-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends/bp-friends-loader.php') )
+		include( BP_PLUGIN_DIR . '/bp-friends/bp-friends-loader.php' );
 
 	// Groups Support
-	if ( !isset( $bp_deactivated['bp-groups.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups.php') )
-		include( BP_PLUGIN_DIR . '/bp-groups.php' );
+	if ( !isset( $bp_deactivated['bp-groups/bp-groups-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php') )
+		include( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php' );
 
 	// Private Messaging
-	if ( !isset( $bp_deactivated['bp-messages.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-messages.php') )
-		include( BP_PLUGIN_DIR . '/bp-messages.php' );
+	if ( !isset( $bp_deactivated['bp-messages/bp-messages-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-messages/bp-messages-loader.php') )
+		include( BP_PLUGIN_DIR . '/bp-messages/bp-messages-loader.php' );
 
 	// Extended Profiles
-	if ( !isset( $bp_deactivated['bp-xprofile.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile.php') )
-		include( BP_PLUGIN_DIR . '/bp-xprofile.php' );
+	if ( !isset( $bp_deactivated['bp-xprofile/bp-xprofile-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-loader.php') )
+		include( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-loader.php' );
 		
 	// If this is an upgrade, load the upgrade file 
  	if ( $bp_db_version < constant( 'BP_DB_VERSION' ) ) { 
@@ -82,8 +114,6 @@ if ( empty( $bp_db_version ) ) {
 }
 
 /********************************************************************************
- * Custom Actions
- *
  * Functions to set up custom BuddyPress actions that components should
  * hook in to.
  */
@@ -135,6 +165,13 @@ function bp_init() {
  */
 function bp_loaded() {
 	do_action( 'bp_loaded' );
+}
+
+/**
+ * Attach potential template screens
+ */
+function bp_screens() {
+	do_action( 'bp_screens' );
 }
 
 /** 

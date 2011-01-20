@@ -557,7 +557,7 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
 
 function bp_blogs_remove_post( $post_id, $blog_id = false, $user_id = false ) {
 	global $current_blog, $bp;
-	
+
 	if ( empty( $current_blog->blog_id ) )
 		return false;
 

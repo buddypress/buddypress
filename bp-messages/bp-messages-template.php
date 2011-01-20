@@ -165,7 +165,7 @@ function bp_has_message_threads( $args = '' ) {
 		wp_redirect( $bp->displayed_user->id );
 	} else {
 		if ( 'inbox' == $bp->current_action )
-			bp_core_delete_notifications_for_user_by_type( $bp->loggedin_user->id, $bp->messages->id, 'new_message' );
+			bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->messages->id, 'new_message' );
 
 		if ( 'sentbox' == $bp->current_action )
 			$box = 'sentbox';
@@ -342,7 +342,12 @@ function bp_messages_form_action() {
 	function bp_get_messages_form_action() {
 		global $bp;
 
-		return apply_filters( 'bp_get_messages_form_action', trailingslashit( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/' . $bp->action_variables[0] . '/' ) );
+		if ( isset( $bp->action_variables[0] ) )
+			$av = $bp->action_variables[0];
+		else
+			$av = '';
+
+		return apply_filters( 'bp_get_messages_form_action', trailingslashit( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/' . $av . '/' ) );
 	}
 
 function bp_messages_username_value() {
@@ -733,7 +738,9 @@ function bp_the_thread_recipients() {
 	function bp_get_the_thread_recipients() {
 		global $thread_template, $bp;
 
-		if ( count($thread_template->thread->recipients) >= 5 )
+		$recipient_links = array();
+
+		if ( count( $thread_template->thread->recipients ) >= 5 )
 			return apply_filters( 'bp_get_the_thread_recipients', sprintf( __( '%d Recipients', 'buddypress' ), count($thread_template->thread->recipients) ) );
 
 		foreach( (array)$thread_template->thread->recipients as $recipient ) {

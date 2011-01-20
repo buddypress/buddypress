@@ -1,45 +1,16 @@
 <?php
 
-/***
- * Define the path and url of the BuddyPress plugins directory.
- * It is important to use plugins_url() core function to obtain
- * the correct scheme used (http or https).
- */
-define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
-define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
-
-// Load the WP abstraction file so BuddyPress can run on all WordPress setups.
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
-
-// Place your custom code (actions/filters) in a file called /plugins/bp-custom.php and it will be loaded before anything else.
-if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
-	require( WP_PLUGIN_DIR . '/bp-custom.php' );
-
-// Define the user and usermeta table names, useful if you are using custom or shared tables.
-if ( !defined( 'CUSTOM_USER_TABLE' ) )
-	define( 'CUSTOM_USER_TABLE', $wpdb->base_prefix . 'users' );
-
-if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
-	define( 'CUSTOM_USER_META_TABLE', $wpdb->base_prefix . 'usermeta' );
-
-// The search slug has to be defined nice and early because of the way search requests are loaded
-if ( !defined( 'BP_SEARCH_SLUG' ) )
-	define( 'BP_SEARCH_SLUG', 'search' );
-
 // Load the files containing functions that we globally will need.
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php'     );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'         );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'      );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'       );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'       );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'         );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'       );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-templatetags.php'  );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-settings.php'      );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'       );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-notifications.php' );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-signup.php'        );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-deprecated.php'    );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php'  );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'      );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'   );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'    );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'    );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'      );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'    );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-template.php'   );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'    );
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-deprecated.php' );
 
 // If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar.
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
@@ -217,13 +188,13 @@ function bp_core_define_slugs() {
 
 	if ( !defined( 'BP_MEMBERS_SLUG' ) )
 		define( 'BP_MEMBERS_SLUG', $bp->pages->members->slug );
-	
+
 	if ( !defined( 'BP_REGISTER_SLUG' ) )
 		define( 'BP_REGISTER_SLUG', $bp->pages->register->slug );
-	
+
 	if ( !defined( 'BP_ACTIVATION_SLUG' ) )
 		define( 'BP_ACTIVATION_SLUG', $bp->pages->activate->slug );
-	
+
 }
 add_action( 'bp_setup_globals', 'bp_core_define_slugs' );
 
@@ -263,13 +234,13 @@ function bp_core_get_page_names() {
 	// When upgrading to BP 1.3+ from a version of BP that does not use WP
 	// pages, $bp->pages must be populated with dummy info to avoid crashing the
 	// site while the db is upgraded.
-	if ( !$page_ids = bp_core_get_page_meta() ) {		
+	if ( !$page_ids = bp_core_get_page_meta() ) {
 		foreach ( $bp->active_components as $component ) {
 			$pages->{$component->id}->name = $component->id;
 			$pages->{$component->id}->slug = $component->id;
 			$pages->{$component->id}->id   = $component->id;
 		}
-		
+
 		return $pages;
 	}
 
@@ -356,11 +327,11 @@ add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_admin
 function bp_core_add_admin_menu() {
 	if ( !is_super_admin() )
 		return false;
-	
-	// Don't add this version of the admin menu if a BP upgrade is in progress 
- 	// See bp_core_update_add_admin_menu() 
-	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE ) 
- 		return false; 
+
+	// Don't add this version of the admin menu if a BP upgrade is in progress
+ 	// See bp_core_update_add_admin_menu()
+	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE )
+ 		return false;
 
 	$hooks = array();
 
@@ -403,16 +374,17 @@ function bp_core_setup_nav() {
 	 * built in WordPress profile information
 	 */
 	if ( !bp_is_active( 'xprofile' ) ) {
+
 		// Fallback values if xprofile is disabled
 		$bp->core->profile->slug = 'profile';
 		$bp->active_components[$bp->core->profile->slug] = $bp->core->profile->slug;
 
 		// Add 'Profile' to the main navigation
 		bp_core_new_nav_item( array(
-			'name' => __('Profile', 'buddypress'),
-			'slug' => $bp->core->profile->slug,
-			'position' => 20,
-			'screen_function' => 'bp_core_catch_profile_uri',
+			'name'                => __( 'Profile', 'buddypress' ),
+			'slug'                => $bp->core->profile->slug,
+			'position'            => 20,
+			'screen_function'     => 'bp_core_catch_profile_uri',
 			'default_subnav_slug' => 'public'
 		) );
 
@@ -420,20 +392,20 @@ function bp_core_setup_nav() {
 
 		// Add the subnav items to the profile
 		bp_core_new_subnav_item( array(
-			'name' => __( 'Public', 'buddypress' ),
-			'slug' => 'public',
-			'parent_url' => $profile_link,
-			'parent_slug' => $bp->core->profile->slug,
+			'name'            => __( 'Public', 'buddypress' ),
+			'slug'            => 'public',
+			'parent_url'      => $profile_link,
+			'parent_slug'     => $bp->core->profile->slug,
 			'screen_function' => 'bp_core_catch_profile_uri'
 		) );
 
-
+		// Looking at a profile
 		if ( 'profile' == $bp->current_component ) {
 			if ( bp_is_my_profile() ) {
-				$bp->bp_options_title = __('My Profile', 'buddypress');
+				$bp->bp_options_title = __( 'My Profile', 'buddypress' );
 			} else {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => 'thumb' ) );
-				$bp->bp_options_title = $bp->displayed_user->fullname;
+				$bp->bp_options_title  = $bp->displayed_user->fullname;
 			}
 		}
 	}
@@ -1285,19 +1257,25 @@ function bp_core_current_time( $gmt = true ) {
 }
 
 /**
- * Adds a feedback (error/success) message to the WP cookie so it can be displayed after the page reloads.
+ * Adds a feedback (error/success) message to the WP cookie so it can be
+ * displayed after the page reloads.
  *
  * @package BuddyPress Core
+ *
+ * @global obj $bp
+ * @param str $message Feedback to give to user
+ * @param str $type updated|success|error|warning
  */
-function bp_core_add_message( $message, $type = false ) {
+function bp_core_add_message( $message, $type = '' ) {
 	global $bp;
 
-	if ( !$type )
+	// Success is the default
+	if ( empty( $type ) )
 		$type = 'success';
 
 	// Send the values to the cookie for page reload display
-	@setcookie( 'bp-message', $message, time()+60*60*24, COOKIEPATH );
-	@setcookie( 'bp-message-type', $type, time()+60*60*24, COOKIEPATH );
+	@setcookie( 'bp-message',      $message, time() + 60 * 60 * 24, COOKIEPATH );
+	@setcookie( 'bp-message-type', $type,    time() + 60 * 60 * 24, COOKIEPATH );
 
 	/***
 	 * Send the values to the $bp global so we can still output messages
@@ -1331,7 +1309,7 @@ function bp_core_setup_message() {
 
 	add_action( 'template_notices', 'bp_core_render_message' );
 
-	@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
+	@setcookie( 'bp-message',      false, time() - 1000, COOKIEPATH );
 	@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
 }
 add_action( 'wp', 'bp_core_setup_message', 2 );
@@ -1346,7 +1324,7 @@ add_action( 'wp', 'bp_core_setup_message', 2 );
 function bp_core_render_message() {
 	global $bp;
 
-	if ( isset( $bp->template_message ) && $bp->template_message ) {
+	if ( isset( $bp->template_message ) && $bp->template_message ) :
 		$type = ( 'success' == $bp->template_message_type ) ? 'updated' : 'error'; ?>
 
 		<div id="message" class="<?php echo $type; ?>">
@@ -1356,7 +1334,8 @@ function bp_core_render_message() {
 	<?php
 
 		do_action( 'bp_core_render_message' );
-	}
+
+	endif;
 }
 
 /**
@@ -1389,8 +1368,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	if ( !is_numeric( $older_date ) ) {
 		$time_chunks = explode( ':', str_replace( ' ', ':', $older_date ) );
 		$date_chunks = explode( '-', str_replace( ' ', '-', $older_date ) );
-
-		$older_date = gmmktime( (int)$time_chunks[1], (int)$time_chunks[2], (int)$time_chunks[3], (int)$date_chunks[1], (int)$date_chunks[2], (int)$date_chunks[0] );
+		$older_date  = gmmktime( (int)$time_chunks[1], (int)$time_chunks[2], (int)$time_chunks[3], (int)$date_chunks[1], (int)$date_chunks[2], (int)$date_chunks[0] );
 	}
 
 	/**
@@ -1447,7 +1425,6 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	return $output;
 }
 
-
 /**
  * Record user activity to the database. Many functions use a "last active" feature to
  * show the length of time since the user was last active.
@@ -1475,7 +1452,6 @@ function bp_core_record_activity() {
 		update_user_meta( $bp->loggedin_user->id, 'last_activity', $current_time );
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
-
 
 /**
  * Formats last activity based on time since date given.

@@ -1,5 +1,53 @@
 <?php
 
+/**
+ * Output the groups component slug
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_groups_slug()
+ */
+function bp_groups_slug() {
+	echo bp_get_groups_slug();
+}
+	/**
+	 * Return the groups component slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_groups_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_groups_slug', $bp->groups->slug );
+	}
+
+/**
+ * Output the groups component root slug
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_groups_root_slug()
+ */
+function bp_groups_root_slug() {
+	echo bp_get_groups_root_slug();
+}
+	/**
+	 * Return the groups component root slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_groups_root_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_groups_root_slug', $bp->groups->root_slug );
+	}
+
 /*****************************************************************************
  * Groups Template Class/Tags
  **/
@@ -139,15 +187,16 @@ function bp_has_groups( $args = '' ) {
 	 * if arguments are directly passed into the loop. Custom plugins should always
 	 * pass their parameters directly to the loop.
 	 */
-	$slug = false;
-	$type = 'active';
+	$slug    = false;
+	$type    = 'active';
 	$user_id = 0;
+	$order   = '';
 
-	/* User filtering */
+	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
 		$user_id = $bp->displayed_user->id;
 
-	/* Type */
+	// Type
 	if ( 'my-groups' == $bp->current_action ) {
 		if ( 'most-popular' == $order ) {
 			$type = 'popular';
