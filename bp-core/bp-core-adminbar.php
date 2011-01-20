@@ -273,18 +273,41 @@ function bp_adminbar_random_menu() {
 	<?php
 }
 
-// Actions used to build the admin bar
-add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',         2   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu',       4   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu',         6   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_thisblog_menu',      6   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8   );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu',       12  );
-add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu',        100 );
-
-// Actions used to append admin bar to footer
-add_action( 'wp_footer',    'bp_core_admin_bar', 8 );
-add_action( 'admin_footer', 'bp_core_admin_bar'    );
+/**
+ * Provides fallback support for the WordPress 3.1 admin bar
+ *
+ * By default, this function turns off the WP 3.1 admin bar in favor of the classic BP BuddyBar.
+ * To turn off the BP BuddyBar in favor of WP's admin bar, place the following in wp-config.php:
+ * define( 'BP_USE_WP_ADMIN_BAR', true );
+ *
+ * @package BuddyPress Core
+ * @since 1.2.8
+ */
+function bp_core_load_admin_bar() {
+	global $wp_version;
+	
+	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) && BP_USE_WP_ADMIN_BAR && version_compare( $wp_version, 3.1, '>=' ) ) {
+		// TODO: Add BP support to WP admin bar
+		return;
+	} elseif ( !defined( 'BP_DISABLE_ADMIN_BAR' ) || !BP_DISABLE_ADMIN_BAR ) {
+		// Keep the WP admin bar from loading
+		show_admin_bar( false );
+		
+		// Actions used to build the BP admin bar
+		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',         2   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu',       4   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu',         6   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_thisblog_menu',      6   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu',       12  );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu',        100 );
+		
+		// Actions used to append BP admin bar to footer
+		add_action( 'wp_footer',    'bp_core_admin_bar', 8 );
+		add_action( 'admin_footer', 'bp_core_admin_bar'    );	
+	}
+}
+add_action( 'bp_loaded', 'bp_core_load_admin_bar' );
 
 ?>
