@@ -30,7 +30,7 @@ class BP_User_Component extends BP_Component {
 	 * @global obj $bp
 	 */
 	function _setup_globals() {
-		global $bp;
+		global $bp, $current_user, $displayed_user_id;
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_MEMBERS_SLUG' ) )
@@ -38,11 +38,72 @@ class BP_User_Component extends BP_Component {
 
 		// Do some slug checks
 		$this->slug      = BP_MEMBERS_SLUG;
-		$this->root_slug = isset( $bp->pages->users->slug ) ? $bp->pages->users->slug : $this->slug;
+		$this->root_slug = isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : $this->slug;
 
 		// Tables
 		$this->table_name      = $bp->table_prefix . 'bp_users';
 		$this->table_name_meta = $bp->table_prefix . 'bp_users_meta';
+
+		/** Logged in user ****************************************************/
+
+		// Logged in user is the 'current_user'
+		$current_user                      = wp_get_current_user();
+
+		// The user ID of the user who is currently logged in.
+		$bp->loggedin_user->id             = $current_user->ID;
+
+		// The domain for the user currently logged in. eg: http://domain.com/members/andy
+		$bp->loggedin_user->domain         = bp_core_get_user_domain( $bp->loggedin_user->id );
+
+		// The core userdata of the user who is currently logged in.
+		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( $bp->loggedin_user->id );
+
+		// Fetch the full name for the logged in user
+		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $bp->loggedin_user->id );
+
+		// is_super_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop.
+		$bp->loggedin_user->is_super_admin = is_super_admin();
+		$bp->loggedin_user->is_site_admin  = $bp->loggedin_user->is_super_admin; // deprecated 1.2.6
+
+		/**
+		 * Used to determine if user has admin rights on current content. If the
+		 * logged in user is viewing their own profile and wants to delete
+		 * something, is_item_admin is used. This is a generic variable so it
+		 * can be used by other components. It can also be modified, so when
+		 * viewing a group 'is_item_admin' would be 1 if they are a group
+		 * admin, 0 if they are not.
+		 */
+		$bp->is_item_admin = bp_user_has_access();
+
+		// Used to determine if the logged in user is a moderator for
+		// the current content.
+		$bp->is_item_mod = false;
+
+		/** Displayed user ****************************************************/
+
+		// The user id of the user currently being viewed:
+		// $bp->displayed_user->id is set in /bp-core/bp-core-catchuri.php
+		if ( empty( $bp->displayed_user->id ) )
+			$bp->displayed_user->id = 0;
+
+		// The domain for the user currently being displayed
+		$bp->displayed_user->domain   = bp_core_get_user_domain( $bp->displayed_user->id );
+
+		// The core userdata of the user who is currently being displayed
+		$bp->displayed_user->userdata = bp_core_get_core_userdata( $bp->displayed_user->id );
+
+		// Fetch the full name displayed user
+		$bp->displayed_user->fullname = bp_core_get_user_displayname( $bp->displayed_user->id );
+
+		/** Active Component **************************************************/
+
+		// Users is active
+		$bp->active_components[$this->slug] = $this->id;
+		
+		/** Default Profile Component *****************************************/
+		if ( !$bp->current_component && $bp->displayed_user->id )
+			$bp->current_component = $bp->default_component;
+
 	}
 
 	/**
@@ -162,6 +223,6 @@ class BP_User_Component extends BP_Component {
 	}
 }
 // Create the users component
-$bp->users = new BP_User_Component();
+$bp->members = new BP_User_Component();
 
 ?>

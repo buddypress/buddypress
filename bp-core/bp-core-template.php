@@ -1720,7 +1720,7 @@ function bp_is_component_front_page( $component='' ) {
 }
 
 function bp_is_blog_page() {
-	global $bp, $is_member_page, $wp_query;
+	global $bp, $wp_query;
 
 	if ( $wp_query->is_home && ( !isset( $bp->is_directory ) || !$bp->is_directory ) )
 		return true;

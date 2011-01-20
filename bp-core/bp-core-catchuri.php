@@ -5,13 +5,14 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
 */
 
 /**
- * bp_core_set_uri_globals()
- *
  * Analyzes the URI structure and breaks it down into parts for use in code.
  * The idea is that BuddyPress can use complete custom friendly URI's without the
  * user having to add new re-write rules.
  *
  * Future custom components would then be able to use their own custom URI structure.
+ *
+ * @package BuddyPress Core
+ * @since BuddyPress (r100)
  *
  * The URI's are broken down as follows:
  *   - http:// domain.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
@@ -23,24 +24,24 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  *    - $bp->current_action: string 'edit'
  *    - $bp->action_variables: array ['group', 5]
  *
- * @package BuddyPress Core
  */
 function bp_core_set_uri_globals() {
-	global $current_component, $current_action, $action_variables;
-	global $displayed_user_id, $bp_pages;
-	global $is_member_page;
+	global $bp, $bp_pages;
 	global $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
-	global $bp, $current_blog;
+	global $current_blog;
 
-	/* Fetch all the WP page names for each component */
-	if ( empty( $bp_pages ) )
-		$bp_pages = bp_core_get_page_names();
+	$current_component = '';
 
 	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() ) {
-		/* Only catch URI's on the root blog if we are not running BP on multiple blogs */
+		// Only catch URI's on the root blog if we are not running
+		// on multiple blogs
 		if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
 			return false;
 	}
+
+	// Fetch all the WP page names for each component
+	if ( empty( $bp_pages ) )
+		$bp_pages = bp_core_get_page_names();
 
 	// Ajax or not?
 	if ( strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
@@ -52,8 +53,7 @@ function bp_core_set_uri_globals() {
 
 	// Take GET variables off the URL to avoid problems,
 	// they are still registered in the global $_GET variable
-	$noget = substr( $path, 0, strpos( $path, '?' ) );
-	if ( $noget != '' )
+	if ( $noget = substr( $path, 0, strpos( $path, '?' ) ) )
 		$path = $noget;
 
 	// Fetch the current URI and explode each part separated by '/' into an array
@@ -83,8 +83,8 @@ function bp_core_set_uri_globals() {
   	}
 
 	// Set the indexes, these are incresed by one if we are not on a VHOST install
-	$component_index 	= 0;
-	$action_index 		= $component_index + 1;
+	$component_index = 0;
+	$action_index    = $component_index + 1;
 
 	// Get site path items
 	$paths = explode( '/', bp_core_get_site_path() );
@@ -104,7 +104,7 @@ function bp_core_set_uri_globals() {
 	}
 
 	// Reset the keys by merging with an empty array
-	$bp_uri            = array_merge( array(), $bp_uri );
+	$bp_uri = array_merge( array(), $bp_uri );
 
 	// If a component is set to the front page, force its name into $bp_uri so that $current_component is populated
 	if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && empty( $bp_uri ) ) {
@@ -146,8 +146,13 @@ function bp_core_set_uri_globals() {
 		$matches[] = 1;
 
 	// This is not a BuddyPress page, so just return.
-	if ( !isset( $matches ) )
+	if ( !isset( $matches ) ) {
+		$bp->current_component = $current_component;
+		$bp->current_action    = '';
+		$bp->action_variables  = '';
+		$bp->current_item      = '';
 		return false;
+	}
 
 	// Find the offset
 	$uri_offset = 0;
@@ -165,9 +170,9 @@ function bp_core_set_uri_globals() {
 	if ( 'members' == $match->key ) {
 		if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
 			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
-				$displayed_user_id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
+				$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
 			else
-				$displayed_user_id = (int) bp_core_get_userid_from_nicename( urldecode( $bp_uri[$uri_offset + 1] ) );
+				$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( urldecode( $bp_uri[$uri_offset + 1] ) );
 
 			$uri_offset = $uri_offset + 2;
 
@@ -192,25 +197,32 @@ function bp_core_set_uri_globals() {
 					$current_component .= '/';
 			}
 		}
-	} else
+	} else {
 		$i = 1;
+	}
+
+	// Set the current component in the global
+	$bp->current_component = $current_component;
 
 	// Set the current action
-	$current_action = isset( $bp_uri[$i] ) ? $bp_uri[$i] : '';
+	$bp->current_action    = isset( $bp_uri[$i] ) ? $bp_uri[$i] : '';
 
 	// Unset the current_component and action from action_variables
 	for ( $j = 0; $j <= $i; $j++ )
 		unset( $bp_uri[$j] );
 
 	// Set the entire URI as the action variables, we will unset the current_component and action in a second
-	$action_variables = $bp_uri;
+	$bp->action_variables = $bp_uri;
 
 	// Remove the username from action variables if this is not a VHOST install
 	if ( defined( 'VHOST' ) && 'no' == VHOST && empty( $is_root_component ) )
-		array_shift($bp_uri);
+		array_shift( $bp_uri );
 
 	// Reset the keys by merging with an empty array
-	$action_variables = array_merge( array(), $action_variables );
+	$bp->action_variables = array_merge( array(), $bp->action_variables );
+
+	// Set the current item to empty
+	$bp->current_item     = '';
 }
 
 /**
@@ -243,10 +255,9 @@ function bp_core_load_template( $templates ) {
 
 	// Make the queried/post object an actual valid page
 	if ( !empty( $object_id ) ) {
-		$wp_query->queried_object = &get_post( $object_id );
+		$wp_query->queried_object    = &get_post( $object_id );
 		$wp_query->queried_object_id = $object_id;
-
-		$post = $wp_query->queried_object;
+		$post                        = $wp_query->queried_object;
 	}
 
 	// Fetch each template and add the php suffix

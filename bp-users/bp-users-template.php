@@ -1,9 +1,4 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 
 function bp_displayed_user_email() {
 	echo bp_get_displayed_user_email();
