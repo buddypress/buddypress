@@ -193,39 +193,43 @@ function bp_forums_get_forum_topics( $args = '' ) {
 	do_action( 'bbpress_init' );
 
 	$defaults = array(
-		'type' => 'newest',
-		'forum_id' => false,
-		'user_id' => false,
-		'page' => 1,
-		'per_page' => 15,
-		'exclude' => false,
+		'type'          => 'newest',
+		'forum_id'      => false,
+		'user_id'       => false,
+		'page'          => 1,
+		'per_page'      => 15,
+		'exclude'       => false,
 		'show_stickies' => 'all',
-		'filter' => false // if $type = tag then filter is the tag name, otherwise it's terms to search on.
+		'filter'        => false // if $type = tag then filter is the tag name, otherwise it's terms to search on.
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	switch ( $type ) {
-		case 'newest':
-			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'number' => $per_page, 'exclude' => $exclude, 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_latest_topics' );
-			$topics =& $query->results;
-			break;
+	if ( class_exists( 'BB_Query' ) ) {
+		switch ( $type ) {
+			case 'newest':
+				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'number' => $per_page, 'exclude' => $exclude, 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_latest_topics' );
+				$topics =& $query->results;
+				break;
 
-		case 'popular':
-			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_posts', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
-			$topics =& $query->results;
-			break;
+			case 'popular':
+				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_posts', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
+				$topics =& $query->results;
+				break;
 
-		case 'unreplied':
-			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'post_count' => 1, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
-			$topics =& $query->results;
-			break;
+			case 'unreplied':
+				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'post_count' => 1, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
+				$topics =& $query->results;
+				break;
 
-		case 'tags':
-			$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'tag' => $filter, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'sticky' => $show_stickies ) );
-			$topics =& $query->results;
-			break;
+			case 'tags':
+				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'tag' => $filter, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'sticky' => $show_stickies ) );
+				$topics =& $query->results;
+				break;
+		}
+	} else {
+		$topics = array();
 	}
 
 	return apply_filters( 'bp_forums_get_forum_topics', $topics, &$r );
@@ -376,7 +380,11 @@ function bp_forums_total_topic_count() {
 
 	do_action( 'bbpress_init' );
 
-	$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t". groups_add_forum_tables_sql( '' ) . " WHERE " . groups_add_forum_where_sql( "t.topic_status = 0" ) ) );
+	if ( isset( $bbdb ) )
+		$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t". groups_add_forum_tables_sql( '' ) . " WHERE " . groups_add_forum_where_sql( "t.topic_status = 0" ) ) );
+	else
+		$count = 0;
+
 	return apply_filters( 'bp_forums_total_topic_count', count( (array)$count ) );
 }
 
@@ -388,9 +396,13 @@ function bp_forums_total_topic_count_for_user( $user_id = false ) {
 	if ( !$user_id )
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
-	$query = new BB_Query( 'topic', array( 'topic_author_id' => $user_id, 'page' => 1, 'per_page' => -1, 'count' => true ) );
-	$count = $query->count;
-	$query = null;
+	if ( class_exists( 'BB_Query' ) ) {
+		$query = new BB_Query( 'topic', array( 'topic_author_id' => $user_id, 'page' => 1, 'per_page' => -1, 'count' => true ) );
+		$count = $query->count;
+		$query = null;
+	} else {
+		$count = 0;
+	}
 
 	return $count;
 }
