@@ -23,7 +23,7 @@ function friends_setup_globals() {
 	$bp->friends->table_name = $bp->table_prefix . 'bp_friends';
 
 	// Notifications
-	$bp->friends->format_notification_function = 'friends_format_notifications';
+	$bp->friends->notification_callback = 'friends_format_notifications';
 
 	// Register this in the active components array
 	$bp->active_components[$bp->friends->slug] = $bp->friends->id;

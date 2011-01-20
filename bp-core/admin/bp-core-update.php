@@ -322,52 +322,62 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_pages() {
+		global $bp;
+
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
+		// Determine where to get the pages from
 		if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
 			$existing_pages = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
 		else
 			$existing_pages = get_option( 'bp-pages' );
 
+		// Get disabled components
 		$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
 		// Check for defined slugs
-		if ( defined( 'BP_MEMBERS_SLUG' ) && BP_MEMBERS_SLUG )
-			$members_slug = constant( 'BP_MEMBERS_SLUG' );
+		if ( isset( $bp->members->slug ) )
+			$members_slug = $bp->members->slug;
 		else
-			$members_slug = __( 'members', 'buddypress' );
+			$members_slug = __( 'Members', 'buddypress' );
 
-		if ( defined( 'BP_GROUPS_SLUG' ) && BP_GROUPS_SLUG )
+		// Groups
+		if ( isset( $bp->groups->slug ) )
 			$groups_slug = constant( 'BP_GROUPS_SLUG' );
 		else
-			$groups_slug = __( 'groups', 'buddypress' );
+			$groups_slug = __( 'Groups', 'buddypress' );
 
-		if ( defined( 'BP_ACTIVITY_SLUG' ) && BP_ACTIVITY_SLUG )
-			$activity_slug = constant( 'BP_ACTIVITY_SLUG' );
+		// Activity
+		if ( isset( $bp->activity->slug ) )
+			$activity_slug = $bp->activity->slug;
 		else
 			$activity_slug = __( 'activity', 'buddypress' );
 
-		if ( defined( 'BP_FORUMS_SLUG' ) && BP_FORUMS_SLUG )
-			$forums_slug = constant( 'BP_FORUMS_SLUG' );
+		// Forums
+		if ( isset( $bp->forums->slug ) )
+			$forums_slug = $bp->forums->slug;
 		else
 			$forums_slug = __( 'forums', 'buddypress' );
 
-		if ( defined( 'BP_BLOGS_SLUG' ) && BP_BLOGS_SLUG )
-			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
+		// Blogs
+		if ( isset( $bp->blogs->slug ) )
+			$blogs_slug = $bp->blogs->slug;
 		else
 			$blogs_slug = __( 'blogs', 'buddypress' );
 
-		if ( defined( 'BP_REGISTER_SLUG' ) && BP_REGISTER_SLUG )
-			$register_slug = constant( 'BP_REGISTER_SLUG' );
+		// Register
+		if ( isset( $bp->register->slug ) )
+			$register_slug = $bp->register->slug;
 		else
 			$register_slug = __( 'register', 'buddypress' );
 
-		if ( defined( 'BP_ACTIVATION_SLUG' ) && BP_ACTIVATION_SLUG )
-			$activation_slug = constant( 'BP_ACTIVATION_SLUG' );
+		if ( isset( $bp->activation->slug ) )
+			$activation_slug = $bp->activation->slug;
 		else
 			$activation_slug = __( 'activate', 'buddypress' );
 
+		// What kind of setup is taking place
 		if ( 'new' == $this->setup_type ) : ?>
 
 			<p><?php _e( "BuddyPress needs to use pages to display content and directories.", 'buddypress' ) ?></p>

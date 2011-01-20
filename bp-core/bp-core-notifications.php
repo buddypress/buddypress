@@ -59,8 +59,8 @@ function bp_core_get_notifications_for_user( $user_id ) {
 			if ( $action_item_count < 1 )
 				continue;
 
-			if ( function_exists( $bp->{$component_name}->format_notification_function ) ) {
-				$renderable[] = call_user_func( $bp->{$component_name}->format_notification_function, $component_action_name, $component_action_items[0]->item_id, $component_action_items[0]->secondary_item_id, $action_item_count );
+			if ( function_exists( $bp->{$component_name}->notification_callback ) ) {
+				$renderable[] = call_user_func( $bp->{$component_name}->notification_callback, $component_action_name, $component_action_items[0]->item_id, $component_action_items[0]->secondary_item_id, $action_item_count );
 			}
 		}
 	}

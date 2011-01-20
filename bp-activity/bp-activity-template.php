@@ -1,5 +1,69 @@
 <?php
 
+/**
+ * BuddyPress Activity Template Functions
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ */
+
+/**
+ * Output the activity component slug
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_activity_slug()
+ */
+function bp_activity_slug() {
+	echo bp_get_activity_slug();
+}
+	/**
+	 * Return the activity component slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_activity_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_activity_slug', $bp->activation->slug );
+	}
+
+/**
+ * Output the activity component root slug
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_activity_root_slug()
+ */
+function bp_activity_root_slug() {
+	echo bp_get_activity_root_slug();
+}
+	/**
+	 * Return the activity component root slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_activity_root_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_activity_root_slug', $bp->activity->root_slug );
+	}
+
+/**
+ * The main activity template loop
+ *
+ * This is responsible for loading a group of activity items and displaying them
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since {unknown}
+ */
 class BP_Activity_Template {
 	var $current_activity = -1;
 	var $activity_count;
@@ -810,7 +874,9 @@ function bp_activity_comment_form_action() {
 	echo bp_get_activity_comment_form_action();
 }
 	function bp_get_activity_comment_form_action() {
-		return apply_filters( 'bp_get_activity_comment_form_action', site_url( BP_ACTIVITY_SLUG . '/reply/' ) );
+		global $bp;
+
+		return apply_filters( 'bp_get_activity_comment_form_action', home_url( $bp->activity->root_slug . '/reply/' ) );
 	}
 
 function bp_activity_permalink_id() {
@@ -837,16 +903,16 @@ function bp_activity_favorite_link() {
 	echo bp_get_activity_favorite_link();
 }
 	function bp_get_activity_favorite_link() {
-		global $activities_template;
-		return apply_filters( 'bp_get_activity_favorite_link', wp_nonce_url( site_url( BP_ACTIVITY_SLUG . '/favorite/' . $activities_template->activity->id . '/' ), 'mark_favorite' ) );
+		global $bp, $activities_template;
+		return apply_filters( 'bp_get_activity_favorite_link', wp_nonce_url( home_url( $bp->activity->root_slug . '/favorite/' . $activities_template->activity->id . '/' ), 'mark_favorite' ) );
 	}
 
 function bp_activity_unfavorite_link() {
 	echo bp_get_activity_unfavorite_link();
 }
 	function bp_get_activity_unfavorite_link() {
-		global $activities_template;
-		return apply_filters( 'bp_get_activity_unfavorite_link', wp_nonce_url( site_url( BP_ACTIVITY_SLUG . '/unfavorite/' . $activities_template->activity->id . '/' ), 'unmark_favorite' ) );
+		global $bp, $activities_template;
+		return apply_filters( 'bp_get_activity_unfavorite_link', wp_nonce_url( home_url( $bp->activity->root_slug . '/unfavorite/' . $activities_template->activity->id . '/' ), 'unmark_favorite' ) );
 	}
 
 function bp_activity_css_class() {
@@ -896,7 +962,7 @@ function bp_activity_latest_update( $user_id = false ) {
 			return false;
 
 		$latest_update = '&quot;' . apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 180 ) ) ) ) . '&quot;';
-		$latest_update .= ' &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
+		$latest_update .= ' &middot; <a href="' . $bp->root_domain . '/' . $bp->activity->root_slug . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_activity_latest_update', $latest_update  );
 	}
@@ -1064,7 +1130,7 @@ function bp_activity_post_form_action() {
 	echo bp_get_activity_post_form_action();
 }
 	function bp_get_activity_post_form_action() {
-		return apply_filters( 'bp_get_activity_post_form_action', site_url( BP_ACTIVITY_SLUG . '/post/' ) );
+		return apply_filters( 'bp_get_activity_post_form_action', home_url( bp_get_activity_root_slug() . '/post/' ) );
 	}
 
 /* RSS Feed Template Tags ***************************/
@@ -1073,9 +1139,7 @@ function bp_sitewide_activity_feed_link() {
 	echo bp_get_sitewide_activity_feed_link();
 }
 	function bp_get_sitewide_activity_feed_link() {
-		global $bp;
-
-		return apply_filters( 'bp_get_sitewide_activity_feed_link', site_url( $bp->activity->slug . '/feed/' ) );
+		return apply_filters( 'bp_get_sitewide_activity_feed_link', home_url( bp_get_activity_root_slug() . '/feed/' ) );
 	}
 
 function bp_member_activity_feed_link() {

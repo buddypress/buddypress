@@ -27,6 +27,7 @@ if ( !defined( 'BP_SEARCH_SLUG' ) )
 	define( 'BP_SEARCH_SLUG', 'search' );
 
 // Load the files containing functions that we globally will need.
+require ( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php'     );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'         );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'      );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'       );
@@ -131,9 +132,9 @@ function bp_core_setup_globals() {
 	// The default component to use if none are set and someone visits: http://domain.com/members/andy
 	if ( !defined( 'BP_DEFAULT_COMPONENT' ) ) {
 		if ( isset( $bp->pages->activity ) )
-			$bp->default_component = $bp->pages->activity->name;
+			$bp->default_component = $bp->activity->id;
 		else
-			$bp->default_component = $bp->pages->profile->name;
+			$bp->default_component = $bp->profile->id;
 	} else {
 		$bp->default_component = BP_DEFAULT_COMPONENT;
 	}
@@ -187,7 +188,7 @@ function bp_core_setup_globals() {
 
 	do_action( 'bp_core_setup_globals' );
 }
-add_action( 'bp_setup_globals', 'bp_core_setup_globals' );
+add_action( 'bp_setup_globals', 'bp_core_setup_globals', 1 );
 
 /**
  * Allow filtering of database prefix. Intended for use in multinetwork installations.

@@ -1,6 +1,6 @@
 <?php
 
-/* Apply WordPress defined filters */
+// Apply WordPress defined filters
 add_filter( 'bp_get_activity_action',                'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_content_body',          'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_content',               'bp_activity_filter_kses', 1 );
@@ -63,7 +63,7 @@ add_filter( 'bp_get_activity_latest_update',         'stripslashes_deep' );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'stripslashes_deep' );
 add_filter( 'bp_get_activity_feed_item_description', 'stripslashes_deep' );
 
-/* Apply BuddyPress defined filters */
+// Apply BuddyPress defined filters
 add_filter( 'bp_get_activity_content',               'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_content_body',          'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_parent_content',        'bp_activity_make_nofollow_filter' );
@@ -73,7 +73,7 @@ add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_make_nofollow_
 
 add_filter( 'bp_get_activity_parent_content', 'bp_create_excerpt' );
 
-/* Allow shortcodes in activity posts */
+// Allow shortcodes in activity posts
 add_filter( 'bp_get_activity_content', 'do_shortcode' );
 add_filter( 'bp_get_activity_content_body', 'do_shortcode' );
 

@@ -389,7 +389,7 @@ function bp_member_latest_update( $args = '' ) {
 		$update_content = apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
 
 		if ( !empty( $update['id'] ) )
-			$update_content .= ' &middot; <a href="' . $bp->root_domain . '/' . BP_ACTIVITY_SLUG . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
+			$update_content .= ' &middot; <a href="' . $bp->root_domain . '/' . $bp->activity->root_slug . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_member_latest_update', $update_content );
 	}
@@ -1773,7 +1773,7 @@ function bp_is_directory() {
 	return ( isset( $bp->is_directory ) && $bp->is_directory );
 }
 
-function bp_is_page($page) {
+function bp_is_page( $page ) {
 	global $bp;
 
 	if ( !$bp->displayed_user->id && $bp->current_component == $page )
@@ -1795,49 +1795,50 @@ function bp_is_active( $component ) {
 }
 
 function bp_is_profile_component() {
-	if ( bp_is_current_component( BP_XPROFILE_SLUG ) )
+	if ( bp_is_current_component( 'xprofile' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_activity_component() {
-	if ( defined( 'BP_ACTIVITY_SLUG' ) && bp_is_current_component( BP_ACTIVITY_SLUG ) )
+	if ( bp_is_current_component( 'activity' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_blogs_component() {
-	if ( is_multisite() && defined( 'BP_BLOGS_SLUG' ) && bp_is_current_component( BP_BLOGS_SLUG ) )
+	if ( is_multisite() && bp_is_current_component( 'blogs' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_messages_component() {
-	if ( defined( 'BP_MESSAGES_SLUG' ) && bp_is_current_component( BP_MESSAGES_SLUG ) )
+	if ( bp_is_current_component( 'messages' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_friends_component() {
-	if ( defined( 'BP_FRIENDS_SLUG' ) && bp_is_current_component( BP_FRIENDS_SLUG ) )
+
+	if ( bp_is_current_component( 'friends' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_groups_component() {
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) )
+	if ( bp_is_current_component( 'groups' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_settings_component() {
-	if ( bp_is_current_component( BP_SETTINGS_SLUG ) )
+	if ( bp_is_current_component( 'settings' ) )
 		return true;
 
 	return false;
@@ -1855,7 +1856,7 @@ function bp_is_member() {
 function bp_is_user_activity() {
 	global $bp;
 
-	if ( !empty( $bp->activity->slug ) && bp_is_current_component( $bp->activity->slug ) )
+	if ( bp_is_current_component( 'activity' ) )
 		return true;
 
 	return false;
@@ -1864,7 +1865,7 @@ function bp_is_user_activity() {
 function bp_is_user_friends_activity() {
 	global $bp;
 
-	if ( !empty( $bp->activity->slug ) && bp_is_current_component( $bp->activity->slug ) && 'my-friends' == $bp->current_action )
+	if ( bp_is_current_component( 'activity' ) && 'my-friends' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1873,7 +1874,7 @@ function bp_is_user_friends_activity() {
 function bp_is_activity_permalink() {
 	global $bp;
 
-	if ( defined( 'BP_ACTIVITY_SLUG' ) && bp_is_current_component( BP_ACTIVITY_SLUG ) && is_numeric( $bp->current_action ) )
+	if ( bp_is_current_component( 'activity' ) && is_numeric( $bp->current_action ) )
 		return true;
 
 	return false;
@@ -1882,7 +1883,7 @@ function bp_is_activity_permalink() {
 function bp_is_user_profile() {
 	global $bp;
 
-	if ( defined( 'BP_XPROFILE_SLUG' ) && bp_is_current_component( BP_XPROFILE_SLUG ) || isset( $bp->core->profile->slug ) && bp_is_current_component( $bp->core->profile->slug ) )
+	if ( bp_is_current_component( 'xprofile' ) )
 		return true;
 
 	return false;
@@ -1891,7 +1892,7 @@ function bp_is_user_profile() {
 function bp_is_profile_edit() {
 	global $bp;
 
-	if ( defined( 'BP_XPROFILE_SLUG' ) && bp_is_current_component( BP_XPROFILE_SLUG ) && 'edit' == $bp->current_action )
+	if ( bp_is_current_component( 'xprofile' ) && 'edit' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1900,7 +1901,7 @@ function bp_is_profile_edit() {
 function bp_is_change_avatar() {
 	global $bp;
 
-	if ( defined( 'BP_XPROFILE_SLUG' ) && bp_is_current_component( BP_XPROFILE_SLUG ) && 'change-avatar' == $bp->current_action )
+	if ( bp_is_current_component( 'xprofile' ) && 'change-avatar' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1909,7 +1910,7 @@ function bp_is_change_avatar() {
 function bp_is_user_groups() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) )
+	if ( bp_is_current_component( 'groups' ) )
 		return true;
 
 	return false;
@@ -1918,7 +1919,7 @@ function bp_is_user_groups() {
 function bp_is_group() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && isset( $bp->groups->current_group ) && $bp->groups->current_group )
+	if ( bp_is_current_component( 'groups' ) && isset( $bp->groups->current_group ) && $bp->groups->current_group )
 		return true;
 
 	return false;
@@ -1927,7 +1928,7 @@ function bp_is_group() {
 function bp_is_group_home() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
+	if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
 		return true;
 
 	return false;
@@ -1936,7 +1937,7 @@ function bp_is_group_home() {
 function bp_is_group_create() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && 'create' == $bp->current_action )
+	if ( bp_is_current_component( 'groups' ) && 'create' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1946,7 +1947,7 @@ function bp_is_group_create() {
 function bp_is_group_admin_page() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'admin' == $bp->current_action )
+	if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && 'admin' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1955,7 +1956,7 @@ function bp_is_group_admin_page() {
 function bp_is_group_forum() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'forum' == $bp->current_action )
+	if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && 'forum' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1964,7 +1965,7 @@ function bp_is_group_forum() {
 function bp_is_group_activity() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'activity' == $bp->current_action )
+	if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && 'activity' == $bp->current_action )
 		return true;
 
 	return false;
@@ -1973,7 +1974,7 @@ function bp_is_group_activity() {
 function bp_is_group_forum_topic() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'forum' == $bp->current_action && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] )
+	if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && 'forum' == $bp->current_action && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] )
 		return true;
 
 	return false;
@@ -1982,7 +1983,7 @@ function bp_is_group_forum_topic() {
 function bp_is_group_forum_topic_edit() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'forum' == $bp->current_action && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] )
+	if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && 'forum' == $bp->current_action && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] )
 		return true;
 
 	return false;
@@ -1991,7 +1992,7 @@ function bp_is_group_forum_topic_edit() {
 function bp_is_group_members() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'members' == $bp->current_action )
+	if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && 'members' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2000,7 +2001,7 @@ function bp_is_group_members() {
 function bp_is_group_invites() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && 'send-invites' == $bp->current_action )
+	if ( bp_is_current_component( 'groups' ) && 'send-invites' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2009,7 +2010,7 @@ function bp_is_group_invites() {
 function bp_is_group_membership_request() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && 'request-membership' == $bp->current_action )
+	if ( bp_is_current_component( 'groups' ) && 'request-membership' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2018,7 +2019,7 @@ function bp_is_group_membership_request() {
 function bp_is_group_leave() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item && 'leave-group' == $bp->current_action )
+	if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && 'leave-group' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2027,7 +2028,7 @@ function bp_is_group_leave() {
 function bp_is_group_single() {
 	global $bp;
 
-	if ( defined( 'BP_GROUPS_SLUG' ) && bp_is_current_component( BP_GROUPS_SLUG ) && $bp->is_single_item )
+	if ( bp_is_current_component( 'groups' ) && $bp->is_single_item )
 		return true;
 
 	return false;
@@ -2036,7 +2037,7 @@ function bp_is_group_single() {
 function bp_is_user_blogs() {
 	global $bp;
 
-	if ( is_multisite() && defined( 'BP_BLOGS_SLUG' ) && bp_is_current_component( BP_BLOGS_SLUG ) )
+	if ( is_multisite() && bp_is_current_component( 'blogs' ) )
 		return true;
 
 	return false;
@@ -2045,7 +2046,7 @@ function bp_is_user_blogs() {
 function bp_is_user_recent_posts() {
 	global $bp;
 
-	if ( is_multisite() && defined( 'BP_BLOGS_SLUG' ) && bp_is_current_component( BP_BLOGS_SLUG ) && 'recent-posts' == $bp->current_action )
+	if ( is_multisite() && bp_is_current_component( 'blogs' ) && 'recent-posts' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2054,7 +2055,7 @@ function bp_is_user_recent_posts() {
 function bp_is_user_recent_commments() {
 	global $bp;
 
-	if ( is_multisite() && defined( 'BP_BLOGS_SLUG' ) && bp_is_current_component( BP_BLOGS_SLUG ) && 'recent-comments' == $bp->current_action )
+	if ( is_multisite() && bp_is_current_component( 'blogs' ) && 'recent-comments' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2063,14 +2064,15 @@ function bp_is_user_recent_commments() {
 function bp_is_create_blog() {
 	global $bp;
 
-	if ( is_multisite() && defined( 'BP_BLOGS_SLUG' ) && bp_is_current_component( BP_BLOGS_SLUG ) && 'create' == $bp->current_action )
+	if ( is_multisite() && bp_is_current_component( 'blogs' ) && 'create' == $bp->current_action )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_friends() {
-	if ( defined( 'BP_FRIENDS_SLUG' ) && bp_is_current_component( BP_FRIENDS_SLUG ) )
+
+	if ( bp_is_current_component( 'friends' ) )
 		return true;
 
 	return false;
@@ -2079,14 +2081,15 @@ function bp_is_user_friends() {
 function bp_is_friend_requests() {
 	global $bp;
 
-	if ( defined( 'BP_FRIENDS_SLUG' ) && bp_is_current_component( BP_FRIENDS_SLUG ) && 'requests' == $bp->current_action )
+	if ( bp_is_current_component( 'friends' ) && 'requests' == $bp->current_action )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_messages() {
-	if ( defined( 'BP_MESSAGES_SLUG' ) && bp_is_current_component( BP_MESSAGES_SLUG ) )
+
+	if ( bp_is_current_component( 'messages' ) )
 		return true;
 
 	return false;
@@ -2095,7 +2098,7 @@ function bp_is_user_messages() {
 function bp_is_messages_inbox() {
 	global $bp;
 
-	if ( defined( 'BP_MESSAGES_SLUG' ) && bp_is_current_component( BP_MESSAGES_SLUG ) && ( !$bp->current_action || 'inbox' == $bp->current_action ) )
+	if ( bp_is_current_component( 'messages' ) && ( !$bp->current_action || 'inbox' == $bp->current_action ) )
 		return true;
 
 	return false;
@@ -2104,7 +2107,7 @@ function bp_is_messages_inbox() {
 function bp_is_messages_sentbox() {
 	global $bp;
 
-	if ( defined( 'BP_MESSAGES_SLUG' ) && bp_is_current_component( BP_MESSAGES_SLUG ) && 'sentbox' == $bp->current_action )
+	if ( bp_is_current_component( 'messages' ) && 'sentbox' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2114,7 +2117,7 @@ function bp_is_messages_sentbox() {
 function bp_is_notices() {
 	global $bp;
 
-	if ( defined( 'BP_MESSAGES_SLUG' ) && bp_is_current_component( BP_MESSAGES_SLUG ) && 'notices' == $bp->current_action )
+	if ( bp_is_current_component( 'messages' ) && 'notices' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2124,7 +2127,7 @@ function bp_is_notices() {
 function bp_is_messages_compose_screen() {
 	global $bp;
 
-	if ( defined( 'BP_MESSAGES_SLUG' ) && bp_is_current_component( BP_MESSAGES_SLUG ) && 'compose' == $bp->current_action )
+	if ( bp_is_current_component( 'messages' ) && 'compose' == $bp->current_action )
 		return true;
 
 	return false;
@@ -2140,14 +2143,14 @@ function bp_is_single_item() {
 }
 
 function bp_is_activation_page() {
-	if ( bp_is_current_component( BP_ACTIVATION_SLUG ) )
+	if ( bp_is_current_component( 'activation' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_register_page() {
-	if ( bp_is_current_component( BP_REGISTER_SLUG ) )
+	if ( bp_is_current_component( 'register' ) )
 		return true;
 
 	return false;

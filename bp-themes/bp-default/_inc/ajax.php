@@ -94,25 +94,25 @@ add_action( 'wp_ajax_groups_filter', 'bp_dtheme_object_template_loader' );
 add_action( 'wp_ajax_blogs_filter', 'bp_dtheme_object_template_loader' );
 add_action( 'wp_ajax_forums_filter', 'bp_dtheme_object_template_loader' );
 
-/* This function will load the activity loop template when activity is requested via AJAX */
+// This function will load the activity loop template when activity is requested via AJAX
 function bp_dtheme_activity_template_loader() {
 	global $bp;
 
-	/* We need to calculate and return the feed URL for each scope */
-	$feed_url = site_url( BP_ACTIVITY_SLUG . '/feed/' );
+	// We need to calculate and return the feed URL for each scope
+	$feed_url = home_url( bp_get_activity_root_slug() . '/feed/' );
 
 	switch ( $_POST['scope'] ) {
 		case 'friends':
-			$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/friends/feed/';
+			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/friends/feed/';
 			break;
 		case 'groups':
-			$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/groups/feed/';
+			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/groups/feed/';
 			break;
 		case 'favorites':
-			$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/favorites/feed/';
+			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/favorites/feed/';
 			break;
 		case 'mentions':
-			$feed_url = $bp->loggedin_user->domain . BP_ACTIVITY_SLUG . '/mentions/feed/';
+			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/mentions/feed/';
 			delete_user_meta( $bp->loggedin_user->id, 'bp_new_mention_count' );
 			break;
 	}

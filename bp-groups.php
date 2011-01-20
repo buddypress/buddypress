@@ -33,7 +33,7 @@ function groups_setup_globals() {
 	$bp->groups->table_name_groupmeta = $bp->table_prefix . 'bp_groups_groupmeta';
 
 	// Notifications
-	$bp->groups->format_notification_function = 'groups_format_notifications';
+	$bp->groups->notification_callback = 'groups_format_notifications';
 
 	// Register this in the active components array
 	$bp->active_components[$bp->groups->slug] = $bp->groups->id;

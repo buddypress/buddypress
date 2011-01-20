@@ -24,7 +24,7 @@ function messages_setup_globals() {
 	$bp->messages->table_name_recipients 	= $bp->table_prefix . 'bp_messages_recipients';
 
 	// Notifications
-	$bp->messages->format_notification_function = 'messages_format_notifications';
+	$bp->messages->notification_callback = 'messages_format_notifications';
 
 	// Register this in the active components array
 	$bp->active_components[$bp->messages->slug] = $bp->messages->id;

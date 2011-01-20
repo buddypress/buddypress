@@ -29,7 +29,7 @@ function bp_blogs_setup_globals() {
 	$bp->blogs->table_name_blogmeta = $bp->table_prefix . 'bp_user_blogs_blogmeta';
 
 	// Notifications
-	$bp->blogs->format_notification_function      = 'bp_blogs_format_notifications';
+	$bp->blogs->notification_callback      = 'bp_blogs_format_notifications';
 
 	// Register this in the active components array
 	$bp->active_components[$bp->blogs->slug]      = $bp->blogs->id;

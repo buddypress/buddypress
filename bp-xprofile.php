@@ -42,7 +42,7 @@ function xprofile_setup_globals() {
 	$bp->profile->table_name_meta	= $bp->table_prefix . 'bp_xprofile_meta';
 
 	// Notifications
-	$bp->profile->format_notification_function = 'xprofile_format_notifications';
+	$bp->profile->notification_callback = 'xprofile_format_notifications';
 
 	// Register this in the active components array
 	$bp->active_components[$bp->profile->slug] = $bp->profile->id;
