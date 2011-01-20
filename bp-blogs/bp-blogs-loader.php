@@ -65,8 +65,6 @@ class BP_Blogs_Component extends BP_Component {
 		require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-template.php'     );
 		require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-functions.php'    );
 
-
-
 		if ( is_multisite() )
 			require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
 	}
