@@ -803,12 +803,12 @@ div.dir-search input[type=text] {
 -------------------------------------------------------------- */
 
 div.pagination {
-	margin: -20px -20px 9px -20px;
+	margin: -20px -19px 9px -20px;
 	border-bottom: 1px solid #eaeaea;
 	padding: 10px 20px 10px 20px;
 	color: #888;
 	font-size: 11px;
-	height: 16px;
+	height: 19px;
 }
 
 div.pagination#user-pag,
