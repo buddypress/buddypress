@@ -113,7 +113,7 @@ class BP_Activity_Component extends BP_Component {
 		if ( bp_is_active( 'friends' ) ) {
 			bp_core_new_subnav_item( array(
 				'name'            => __( 'Friends', 'buddypress' ),
-				'slug'            => BP_FRIENDS_SLUG,
+				'slug'            => $bp->friends->slug,
 				'parent_url'      => $activity_link,
 				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_activity_screen_friends',
@@ -126,7 +126,7 @@ class BP_Activity_Component extends BP_Component {
 		if ( bp_is_active( 'groups' ) ) {
 			bp_core_new_subnav_item( array(
 				'name'            => __( 'Groups', 'buddypress' ),
-				'slug'            => BP_GROUPS_SLUG,
+				'slug'            => $bp->groups->slug,
 				'parent_url'      => $activity_link,
 				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_activity_screen_groups',
