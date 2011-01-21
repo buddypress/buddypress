@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-21 08:30:30+00:00\n"
+"POT-Creation-Date: 2011-01-21 10:30:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -632,7 +632,7 @@ msgstr ""
 #: bp-groups/bp-groups-loader.php:1440 bp-groups/bp-groups-loader.php:1453
 #: bp-groups/bp-groups-widgets.php:14 bp-groups/bp-groups-widgets.php:35
 #: bp-groups/bp-groups-widgets.php:102 bp-users/bp-users-loader.php:179
-#: bp-activity/bp-activity-loader.php:119
+#: bp-activity/bp-activity-loader.php:128
 msgid "Groups"
 msgstr ""
 
@@ -1123,7 +1123,7 @@ msgid "Friendship could not be rejected"
 msgstr ""
 
 #: bp-friends/bp-friends-loader.php:128 bp-users/bp-users-loader.php:166
-#: bp-activity/bp-activity-loader.php:106
+#: bp-activity/bp-activity-loader.php:115
 msgid "Friends"
 msgstr ""
 
@@ -2539,17 +2539,17 @@ msgstr ""
 msgid "User"
 msgstr ""
 
-#: bp-users/bp-users-loader.php:155 bp-activity/bp-activity-loader.php:95
+#: bp-users/bp-users-loader.php:155 bp-activity/bp-activity-loader.php:104
 msgid "Personal"
 msgstr ""
 
-#: bp-users/bp-users-loader.php:191 bp-activity/bp-activity-loader.php:131
+#: bp-users/bp-users-loader.php:191 bp-activity/bp-activity-loader.php:140
 msgid "Favorites"
 msgstr ""
 
 #: bp-users/bp-users-loader.php:202 bp-themes/bp-default/activity/index.php:75
 #: bp-themes/bp-default/page-activity.php:75
-#: bp-activity/bp-activity-loader.php:142
+#: bp-activity/bp-activity-loader.php:151
 #: bp-activity/bp-activity-functions.php:76
 msgid "@%s Mentions"
 msgstr ""
@@ -4305,7 +4305,7 @@ msgstr ""
 msgid "Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:154
+#: bp-activity/bp-activity-loader.php:163
 msgid "My Activity"
 msgstr ""
 
