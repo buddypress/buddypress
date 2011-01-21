@@ -803,7 +803,7 @@ div.dir-search input[type=text] {
 -------------------------------------------------------------- */
 
 div.pagination {
-	margin: -20px -19px 9px -20px;
+	margin: -20px -19px 9px -19px;
 	border-bottom: 1px solid #eaeaea;
 	padding: 10px 20px 10px 20px;
 	color: #888;
