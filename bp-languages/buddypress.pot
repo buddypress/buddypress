@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-21 10:30:23+00:00\n"
+"POT-Creation-Date: 2011-01-21 11:30:24+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -50,7 +50,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:260 bp-core/bp-core-classes.php:82
 #: bp-groups/bp-groups-widgets.php:65 bp-groups/bp-groups-widgets.php:165
-#: bp-users/bp-users-template.php:370 bp-users/bp-users-template.php:630
+#: bp-users/bp-users-template.php:371 bp-users/bp-users-template.php:633
 #: bp-themes/bp-default/groups/groups-loop.php:31
 #: bp-themes/bp-default/groups/single/group-header.php:31
 msgid "active %s ago"
@@ -162,7 +162,7 @@ msgid "%s's Recent Comments"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:511 bp-core/bp-core-template.php:448
-#: bp-groups/bp-groups-template.php:1932 bp-users/bp-users-template.php:464
+#: bp-groups/bp-groups-template.php:1932 bp-users/bp-users-template.php:467
 #: bp-forums/bp-forums-template.php:1041 bp-themes/bp-default/header.php:40
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
@@ -304,8 +304,8 @@ msgid "My Account"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:100 bp-core/bp-core-template.php:459
-#: bp-core/bp-core-template.php:461 bp-users/bp-users-template.php:529
-#: bp-users/bp-users-template.php:531 bp-themes/bp-default/sidebar.php:18
+#: bp-core/bp-core-template.php:461 bp-users/bp-users-template.php:532
+#: bp-users/bp-users-template.php:534 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -383,7 +383,7 @@ msgstr ""
 #: bp-core/admin/bp-core-admin.php:68 bp-core/admin/bp-core-update.php:126
 #: bp-core/admin/bp-core-update.php:1175 bp-core/admin/bp-core-update.php:1176
 #: bp-core/bp-core-functions.php:153 bp-core/bp-core-functions.php:154
-#: bp-users/bp-users-signup.php:565
+#: bp-users/bp-users-signup.php:562
 msgid "BuddyPress"
 msgstr ""
 
@@ -439,7 +439,7 @@ msgstr ""
 msgid "By default, all BuddyPress components are enabled. You can selectively disable any of the components by using the form below. Your BuddyPress installation will continue to function, however the features of the disabled components will no longer be accessible to anyone using the site."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:290
+#: bp-core/admin/bp-core-admin.php:290 bp-xprofile/bp-xprofile-loader.php:21
 msgid "Extended Profiles"
 msgstr ""
 
@@ -894,7 +894,7 @@ msgid "Options"
 msgstr ""
 
 #: bp-core/bp-core-template.php:156 bp-core/bp-core-loader.php:141
-#: bp-xprofile/bp-xprofile-loader.php:107
+#: bp-xprofile/bp-xprofile-loader.php:139
 #: bp-themes/bp-default/activity/post-form.php:41
 msgid "My Profile"
 msgstr ""
@@ -973,7 +973,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:233 bp-users/bp-users-signup.php:567
+#: bp-core/bp-core-filters.php:233 bp-users/bp-users-signup.php:564
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -981,7 +981,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:234 bp-users/bp-users-signup.php:568
+#: bp-core/bp-core-filters.php:234 bp-users/bp-users-signup.php:565
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1084,12 +1084,12 @@ msgstr ""
 msgid "Search Members..."
 msgstr ""
 
-#: bp-core/bp-core-loader.php:120 bp-xprofile/bp-xprofile-loader.php:96
+#: bp-core/bp-core-loader.php:120 bp-xprofile/bp-xprofile-loader.php:97
 msgid "Profile"
 msgstr ""
 
 #: bp-core/bp-core-loader.php:131 bp-groups/bp-groups-template.php:476
-#: bp-xprofile/bp-xprofile-loader.php:101
+#: bp-xprofile/bp-xprofile-loader.php:109
 msgid "Public"
 msgstr ""
 
@@ -1305,7 +1305,7 @@ msgstr ""
 
 #: bp-settings/bp-settings-actions.php:93
 #: bp-settings/bp-settings-actions.php:126
-#: bp-xprofile/bp-xprofile-loader.php:275
+#: bp-xprofile/bp-xprofile-screens.php:111
 msgid "Changes saved."
 msgstr ""
 
@@ -1372,12 +1372,12 @@ msgstr ""
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:197 bp-xprofile/bp-xprofile-loader.php:135
+#: bp-groups/bp-groups-loader.php:197 bp-xprofile/bp-xprofile-admin.php:46
 msgid "Admin Options"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:200 bp-groups/bp-groups-template.php:998
-#: bp-xprofile/bp-xprofile-admin.php:86
+#: bp-xprofile/bp-xprofile-admin.php:171
 #: bp-themes/bp-default/groups/single/admin.php:295
 msgid "Delete Group"
 msgstr ""
@@ -1519,11 +1519,11 @@ msgstr ""
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:715 bp-xprofile/bp-xprofile-loader.php:367
+#: bp-groups/bp-groups-loader.php:715 bp-xprofile/bp-xprofile-actions.php:34
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:717 bp-xprofile/bp-xprofile-loader.php:369
+#: bp-groups/bp-groups-loader.php:717 bp-xprofile/bp-xprofile-actions.php:36
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
@@ -1923,8 +1923,8 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:829 bp-groups/bp-groups-template.php:834
 #: bp-groups/bp-groups-template.php:1496 bp-groups/bp-groups-template.php:1505
 #: bp-groups/bp-groups-template.php:1514 bp-groups/bp-groups-template.php:2175
-#: bp-users/bp-users-template.php:329 bp-users/bp-users-template.php:577
-#: bp-users/bp-users-template.php:597 bp-forums/bp-forums-template.php:290
+#: bp-users/bp-users-template.php:329 bp-users/bp-users-template.php:580
+#: bp-users/bp-users-template.php:600 bp-forums/bp-forums-template.php:290
 #: bp-forums/bp-forums-template.php:391 bp-forums/bp-forums-template.php:914
 #: bp-activity/bp-activity-template.php:539
 #: bp-activity/bp-activity-template.php:614
@@ -2083,63 +2083,31 @@ msgstr ""
 msgid "Group Activity RSS Feed"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:78 bp-xprofile/bp-xprofile-admin.php:46
-msgid "Profile Field Setup"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-loader.php:102
+#: bp-xprofile/bp-xprofile-loader.php:119
 #: bp-xprofile/bp-xprofile-template.php:746
 #: bp-xprofile/bp-xprofile-template.php:747
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:103
+#: bp-xprofile/bp-xprofile-loader.php:129
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
 msgid "Change Avatar"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:138
-msgid "Edit %s's Profile"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-loader.php:139
-msgid "Edit %s's Avatar"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-loader.php:143
-msgid "Mark as Spammer"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-loader.php:147
-msgid "Not a Spammer"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-loader.php:151
-msgid "Delete %s"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-loader.php:249
+#: bp-xprofile/bp-xprofile-screens.php:83
 msgid "Please make sure you fill in all required fields in this profile field group before saving."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:273
+#: bp-xprofile/bp-xprofile-screens.php:109
 msgid "There was a problem updating some of your profile information, please try again."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:322
+#: bp-xprofile/bp-xprofile-screens.php:158
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:324
+#: bp-xprofile/bp-xprofile-screens.php:160
 msgid "Your new avatar was uploaded successfully!"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-loader.php:389
-msgid "New member registered"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-loader.php:390
-msgid "Updated Profile"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:189
@@ -2321,79 +2289,107 @@ msgstr ""
 msgid "Checkbox field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:47 bp-xprofile/bp-xprofile-admin.php:129
-msgid "Add New Group"
+#: bp-xprofile/bp-xprofile-admin.php:24 bp-xprofile/bp-xprofile-admin.php:120
+msgid "Profile Field Setup"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:49
-msgid "Your users will distinguish themselves through their profile page. You must give them profile fields that allow them to describe themselves in a way that is relevant to the theme of your social network."
+msgid "Edit %s's Profile"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:50
+msgid "Edit %s's Avatar"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:54
+msgid "Edit %s's Settings"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:60
+msgid "Mark as Spammer"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:64
+msgid "Not a Spammer"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:68
+msgid "Delete %s"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:122 bp-xprofile/bp-xprofile-admin.php:224
+msgid "Add New Group"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:125
+msgid "Your users will distinguish themselves through their profile page. You must give them profile fields that allow them to describe themselves in a way that is relevant to the theme of your social network."
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:126
 msgid "NOTE: Any fields in the \"%s\" group will appear on the signup page."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:70 bp-xprofile/bp-xprofile-admin.php:339
+#: bp-xprofile/bp-xprofile-admin.php:149 bp-xprofile/bp-xprofile-admin.php:437
 msgid "(Core)"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:83
+#: bp-xprofile/bp-xprofile-admin.php:166
 msgid "Add New Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:84
+#: bp-xprofile/bp-xprofile-admin.php:167
 msgid "Edit Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:116
+#: bp-xprofile/bp-xprofile-admin.php:206
 msgid "There are no fields in this group."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:128
+#: bp-xprofile/bp-xprofile-admin.php:223
 msgid "You have no groups."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:156
+#: bp-xprofile/bp-xprofile-admin.php:252
 msgid "There was an error saving the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:159
+#: bp-xprofile/bp-xprofile-admin.php:255
 msgid "The group was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:188
+#: bp-xprofile/bp-xprofile-admin.php:284
 msgid "There was an error deleting the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:191
+#: bp-xprofile/bp-xprofile-admin.php:287
 msgid "The group was deleted successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:230
+#: bp-xprofile/bp-xprofile-admin.php:328
 msgid "There was an error saving the field. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:236
+#: bp-xprofile/bp-xprofile-admin.php:334
 msgid "The field was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:263
+#: bp-xprofile/bp-xprofile-admin.php:361
 msgid "field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:265
+#: bp-xprofile/bp-xprofile-admin.php:363
 msgid "option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:270
+#: bp-xprofile/bp-xprofile-admin.php:368
 msgid "There was an error deleting the %s. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:273
+#: bp-xprofile/bp-xprofile-admin.php:371
 msgid "The %s was deleted successfully!"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:339
+#: bp-xprofile/bp-xprofile-admin.php:437
 #: bp-themes/bp-default/registration/register.php:28
 #: bp-themes/bp-default/registration/register.php:32
 #: bp-themes/bp-default/registration/register.php:36
@@ -2419,19 +2415,19 @@ msgstr ""
 msgid "(required)"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:369
+#: bp-xprofile/bp-xprofile-admin.php:470
 #: bp-themes/bp-default/registration/register.php:110
 #: bp-themes/bp-default/members/single/profile/edit.php:52
 #: bp-themes/bp-default/members/single/profile/edit.php:65
 msgid "Clear"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:399 bp-forums/bp-forums-template.php:984
+#: bp-xprofile/bp-xprofile-admin.php:501 bp-forums/bp-forums-template.php:984
 #: bp-themes/bp-default/functions.php:412
 msgid "Edit"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:400 bp-forums/bp-forums-template.php:985
+#: bp-xprofile/bp-xprofile-admin.php:502 bp-forums/bp-forums-template.php:985
 #: bp-themes/bp-default/_inc/ajax.php:213
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:13
@@ -2500,6 +2496,14 @@ msgstr ""
 msgid "Profile updated %s ago"
 msgstr ""
 
+#: bp-xprofile/bp-xprofile-functions.php:15
+msgid "New member registered"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-functions.php:16
+msgid "Updated Profile"
+msgstr ""
+
 #: bp-users/bp-users-template.php:199
 msgid "Viewing member %1$s to %2$s (of %3$s active members)"
 msgstr ""
@@ -2516,22 +2520,26 @@ msgstr ""
 msgid "Viewing member %1$s to %2$s (of %3$s members)"
 msgstr ""
 
-#: bp-users/bp-users-template.php:394 bp-themes/bp-default/functions.php:407
+#: bp-users/bp-users-template.php:373
+msgid "Never active"
+msgstr ""
+
+#: bp-users/bp-users-template.php:397 bp-themes/bp-default/functions.php:407
 #: bp-themes/bp-default/activity/entry.php:46
 #: bp-activity/bp-activity-template.php:704
 #: bp-activity/bp-activity-template.php:964
 msgid "View"
 msgstr ""
 
-#: bp-users/bp-users-template.php:430
+#: bp-users/bp-users-template.php:433
 msgid "registered %s ago"
 msgstr ""
 
-#: bp-users/bp-users-template.php:885
+#: bp-users/bp-users-template.php:888
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-users/bp-users-template.php:940
+#: bp-users/bp-users-template.php:943
 msgid "Activity RSS Feed"
 msgstr ""
 
@@ -2578,55 +2586,55 @@ msgstr ""
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:298
+#: bp-users/bp-users-signup.php:295
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:309
+#: bp-users/bp-users-signup.php:306
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:312
+#: bp-users/bp-users-signup.php:309
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:315
+#: bp-users/bp-users-signup.php:312
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:322
+#: bp-users/bp-users-signup.php:319
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:325
+#: bp-users/bp-users-signup.php:322
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-users/bp-users-signup.php:328 bp-users/bp-users-signup.php:336
+#: bp-users/bp-users-signup.php:325 bp-users/bp-users-signup.php:333
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:341
+#: bp-users/bp-users-signup.php:338
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:345
+#: bp-users/bp-users-signup.php:342
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:383
+#: bp-users/bp-users-signup.php:380
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:468 bp-users/bp-users-signup.php:472
+#: bp-users/bp-users-signup.php:465 bp-users/bp-users-signup.php:469
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:516
+#: bp-users/bp-users-signup.php:513
 msgid "%s became a registered member"
 msgstr ""
 
-#: bp-users/bp-users-signup.php:590
+#: bp-users/bp-users-signup.php:587
 msgid "<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link."
 msgstr ""
 
