@@ -581,7 +581,7 @@ function bp_users_signup_send_validation_email( $user_id, $user_email, $key ) {
 function bp_users_signup_disable_inactive( $auth_obj, $username ) {
 	global $bp, $wpdb;
 
-	if ( !$user_id = bp_get_user_id( $username ) )
+	if ( !$user_id = bp_core_get_userid( $username ) )
 		return $auth_obj;
 
 	$user_status = (int) $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM $wpdb->users WHERE ID = %d", $user_id ) );
