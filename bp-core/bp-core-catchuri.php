@@ -63,24 +63,24 @@ function bp_core_set_uri_globals() {
 	foreach ( (array)$bp_uri as $key => $uri_chunk )
 		if ( empty( $bp_uri[$key] ) ) unset( $bp_uri[$key] );
 
- 	// Running off blog other than root
-  	if ( defined( 'BP_ENABLE_MULTIBLOG' ) || 1 != BP_ROOT_BLOG ) {
+	// Running off blog other than root
+	if ( defined( 'BP_ENABLE_MULTIBLOG' ) || 1 != BP_ROOT_BLOG ) {
 
- 		// Any subdirectory names must be removed from $bp_uri.
- 		// This includes two cases: (1) when WP is installed in a subdirectory,
- 		// and (2) when BP is running on secondary blog of a subdirectory
- 		// multisite installation. Phew!
- 		if ( $chunks = explode( '/', $current_blog->path ) ) {
- 			foreach( $chunks as $key => $chunk ) {
- 				$bkey = array_search( $chunk, $bp_uri );
+		// Any subdirectory names must be removed from $bp_uri.
+		// This includes two cases: (1) when WP is installed in a subdirectory,
+		// and (2) when BP is running on secondary blog of a subdirectory
+		// multisite installation. Phew!
+		if ( $chunks = explode( '/', $current_blog->path ) ) {
+			foreach( $chunks as $key => $chunk ) {
+				$bkey = array_search( $chunk, $bp_uri );
 
- 				if ( $bkey !== false )
- 					unset( $bp_uri[$bkey] );
+				if ( $bkey !== false )
+					unset( $bp_uri[$bkey] );
 
- 				$bp_uri = array_values( $bp_uri );
- 			}
- 		}
-  	}
+				$bp_uri = array_values( $bp_uri );
+			}
+		}
+	}
 
 	// Set the indexes, these are incresed by one if we are not on a VHOST install
 	$component_index = 0;
@@ -267,7 +267,7 @@ function bp_core_load_template( $templates ) {
 	// Filter the template locations so that plugins can alter where they are located
 	if ( $located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates ) ) {
 		// Template was located, lets set this as a valid page and not a 404.
- 		status_header( 200 );
+		status_header( 200 );
 		$wp_query->is_page = true;
 		$wp_query->is_404 = false;
 
