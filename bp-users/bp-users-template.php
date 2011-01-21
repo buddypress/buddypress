@@ -367,7 +367,10 @@ function bp_member_last_active() {
 	function bp_get_member_last_active() {
 		global $members_template;
 
-		$last_activity = bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s ago', 'buddypress' ) );
+		if ( isset( $members_template->member->last_activity ) )
+			$last_activity = bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s ago', 'buddypress' ) );
+		else
+			$last_activity = __( 'Never active', 'buddypress' );
 
 		return apply_filters( 'bp_member_last_active', $last_activity );
 	}
