@@ -45,7 +45,7 @@
 							<option value="active"><?php _e( 'Last Active', 'buddypress' ) ?></option>
 							<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ) ?></option>
 
-							<?php if ( bp_is_active( 'xprofile' ) ) : ?>
+							<?php if ( bp_is_active( 'profile' ) ) : ?>
 
 								<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ) ?></option>
 

@@ -402,7 +402,7 @@ function bp_member_profile_data( $args = '' ) {
 	function bp_get_member_profile_data( $args = '' ) {
 		global $members_template;
 
-		if ( !bp_is_active( 'xprofile' ) )
+		if ( !bp_is_active( 'profile' ) )
 			return false;
 
 		$defaults = array(

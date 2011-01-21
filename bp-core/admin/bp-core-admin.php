@@ -100,7 +100,7 @@ function bp_core_admin_settings() {
 		// Settings form submitted, now save the settings.
 		foreach ( (array)$_POST['bp-admin'] as $key => $value ) {
 
-			if ( bp_is_active( 'xprofile' ) ) {
+			if ( bp_is_active( 'profile' ) ) {
 				if ( 'bp-xprofile-base-group-name' == $key )
 					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s WHERE id = 1", stripslashes( $value ) ) );
 				elseif ( 'bp-xprofile-fullname-field-name' == $key )
@@ -129,7 +129,7 @@ function bp_core_admin_settings() {
 			<table class="form-table">
 				<tbody>
 
-					<?php if ( bp_is_active( 'xprofile' ) ) : ?>
+					<?php if ( bp_is_active( 'profile' ) ) : ?>
 
 						<tr>
 							<th scope="row"><?php _e( 'Base profile group name', 'buddypress' ) ?>:</th>

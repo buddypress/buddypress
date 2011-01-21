@@ -392,7 +392,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 		return false;
 
 	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
-		if ( bp_is_active( 'xprofile' ) ) {
+		if ( bp_is_active( 'profile' ) ) {
 			$fullname = xprofile_get_field_data( stripslashes( $bp->site_options['bp-xprofile-fullname-field-name'] ), $user_id );
 
 			if ( empty($fullname) ) {

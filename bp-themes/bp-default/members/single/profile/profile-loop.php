@@ -1,6 +1,6 @@
 <?php do_action( 'bp_before_profile_loop_content' ) ?>
 
-<?php if ( bp_is_active( 'xprofile' ) ) : ?>
+<?php if ( bp_is_active( 'profile' ) ) : ?>
 
 	<?php if ( bp_has_profile() ) : ?>
 

@@ -350,7 +350,7 @@ function bp_styles() {
  * @return bool Filterable result
  */
 function bp_search_form_enabled() {
-	if ( bp_is_active( 'xprofile' )
+	if ( bp_is_active( 'profile' )
 		 || bp_is_active( 'groups' )
 		 || ( bp_is_active( 'blogs' ) && is_multisite() )
 		 || ( bp_is_active( 'forums' ) && !bp_forum_directory_is_disabled() )
@@ -381,7 +381,7 @@ function bp_search_form_type_select() {
 
 	$options = array();
 
-	if ( bp_is_active( 'xprofile' ) )
+	if ( bp_is_active( 'profile' ) )
 		$options['members'] = __( 'Members', 'buddypress' );
 
 	if ( bp_is_active( 'groups' ) )
@@ -865,7 +865,7 @@ function bp_is_active( $component ) {
 }
 
 function bp_is_profile_component() {
-	if ( bp_is_current_component( 'xprofile' ) )
+	if ( bp_is_current_component( 'profile' ) )
 		return true;
 
 	return false;
@@ -953,7 +953,7 @@ function bp_is_activity_permalink() {
 function bp_is_user_profile() {
 	global $bp;
 
-	if ( bp_is_current_component( 'xprofile' ) )
+	if ( bp_is_current_component( 'profile' ) )
 		return true;
 
 	return false;
@@ -962,7 +962,7 @@ function bp_is_user_profile() {
 function bp_is_profile_edit() {
 	global $bp;
 
-	if ( bp_is_current_component( 'xprofile' ) && 'edit' == $bp->current_action )
+	if ( bp_is_current_component( 'profile' ) && 'edit' == $bp->current_action )
 		return true;
 
 	return false;
@@ -971,7 +971,7 @@ function bp_is_profile_edit() {
 function bp_is_change_avatar() {
 	global $bp;
 
-	if ( bp_is_current_component( 'xprofile' ) && 'change-avatar' == $bp->current_action )
+	if ( bp_is_current_component( 'profile' ) && 'change-avatar' == $bp->current_action )
 		return true;
 
 	return false;

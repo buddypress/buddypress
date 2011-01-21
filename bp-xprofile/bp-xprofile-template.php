@@ -738,7 +738,7 @@ function bp_edit_profile_button() {
 
 	bp_button( array (
 		'id'                => 'edit_profile',
-		'component'         => 'xprofile',
+		'component'         => 'profile',
 		'must_be_logged_in' => true,
 		'block_self'        => true,
 		'link_href'         => trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit' ),

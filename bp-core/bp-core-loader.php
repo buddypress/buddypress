@@ -109,7 +109,7 @@ function bp_core_setup_nav() {
 	 * If the extended profiles component is disabled, we need to revert to using the
 	 * built in WordPress profile information
 	 */
-	if ( !bp_is_active( 'xprofile' ) ) {
+	if ( !bp_is_active( 'profile' ) ) {
 
 		// Fallback values if xprofile is disabled
 		$bp->core->profile->slug = 'profile';

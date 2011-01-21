@@ -18,7 +18,7 @@ Class BP_Activity_Activity {
 	function bp_activity_activity( $id = false ) {
 		global $bp;
 
-		if ( $id ) {
+		if ( !empty( $id ) ) {
 			$this->id = $id;
 			$this->populate();
 		}
@@ -27,21 +27,20 @@ Class BP_Activity_Activity {
 	function populate() {
 		global $wpdb, $bp;
 
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) );
-		if ( $row ) {
-			$this->id = $row->id;
-			$this->item_id = $row->item_id;
+		if ( $row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) ) ) {
+			$this->id                = $row->id;
+			$this->item_id           = $row->item_id;
 			$this->secondary_item_id = $row->secondary_item_id;
-			$this->user_id = $row->user_id;
-			$this->primary_link = $row->primary_link;
-			$this->component = $row->component;
-			$this->type = $row->type;
-			$this->action = $row->action;
-			$this->content = $row->content;
-			$this->date_recorded = $row->date_recorded;
-			$this->hide_sitewide = $row->hide_sitewide;
-			$this->mptt_left = $row->mptt_left;
-			$this->mptt_right = $row->mptt_right;
+			$this->user_id           = $row->user_id;
+			$this->primary_link      = $row->primary_link;
+			$this->component         = $row->component;
+			$this->type              = $row->type;
+			$this->action            = $row->action;
+			$this->content           = $row->content;
+			$this->date_recorded     = $row->date_recorded;
+			$this->hide_sitewide     = $row->hide_sitewide;
+			$this->mptt_left         = $row->mptt_left;
+			$this->mptt_right        = $row->mptt_right;
 		}
 	}
 
@@ -50,19 +49,19 @@ Class BP_Activity_Activity {
 
 		do_action( 'bp_activity_before_save', &$this );
 
-		$this->id = apply_filters( 'bp_activity_id_before_save', $this->id, &$this );
-		$this->item_id = apply_filters( 'bp_activity_item_id_before_save', $this->item_id, &$this );
+		$this->id                = apply_filters( 'bp_activity_id_before_save',                $this->id,                &$this );
+		$this->item_id           = apply_filters( 'bp_activity_item_id_before_save',           $this->item_id,           &$this );
 		$this->secondary_item_id = apply_filters( 'bp_activity_secondary_item_id_before_save', $this->secondary_item_id, &$this );
-		$this->user_id = apply_filters( 'bp_activity_user_id_before_save', $this->user_id, &$this );
-		$this->primary_link = apply_filters( 'bp_activity_primary_link_before_save', $this->primary_link, &$this );
-		$this->component = apply_filters( 'bp_activity_component_before_save', $this->component, &$this );
-		$this->type = apply_filters( 'bp_activity_type_before_save', $this->type, &$this );
-		$this->action = apply_filters( 'bp_activity_action_before_save', $this->action, &$this );
-		$this->content = apply_filters( 'bp_activity_content_before_save', $this->content, &$this );
-		$this->date_recorded = apply_filters( 'bp_activity_date_recorded_before_save', $this->date_recorded, &$this );
-		$this->hide_sitewide = apply_filters( 'bp_activity_hide_sitewide_before_save', $this->hide_sitewide, &$this );
-		$this->mptt_left = apply_filters( 'bp_activity_mptt_left_before_save', $this->mptt_left, &$this );
-		$this->mptt_right = apply_filters( 'bp_activity_mptt_right_before_save', $this->mptt_right, &$this );
+		$this->user_id           = apply_filters( 'bp_activity_user_id_before_save',           $this->user_id,           &$this );
+		$this->primary_link      = apply_filters( 'bp_activity_primary_link_before_save',      $this->primary_link,      &$this );
+		$this->component         = apply_filters( 'bp_activity_component_before_save',         $this->component,         &$this );
+		$this->type              = apply_filters( 'bp_activity_type_before_save',              $this->type,              &$this );
+		$this->action            = apply_filters( 'bp_activity_action_before_save',            $this->action,            &$this );
+		$this->content           = apply_filters( 'bp_activity_content_before_save',           $this->content,           &$this );
+		$this->date_recorded     = apply_filters( 'bp_activity_date_recorded_before_save',     $this->date_recorded,     &$this );
+		$this->hide_sitewide     = apply_filters( 'bp_activity_hide_sitewide_before_save',     $this->hide_sitewide,     &$this );
+		$this->mptt_left         = apply_filters( 'bp_activity_mptt_left_before_save',         $this->mptt_left,         &$this );
+		$this->mptt_right        = apply_filters( 'bp_activity_mptt_right_before_save',        $this->mptt_right,        &$this );
 
 		if ( !$this->component || !$this->type )
 			return false;
@@ -128,10 +127,11 @@ Class BP_Activity_Activity {
 			$where_conditions['in'] = "a.id IN ({$in})";
 		}
 
-		// Alter the query based on whether we want to show activity item comments in the stream like normal comments or threaded below the activity
-		if ( !$display_comments || 'threaded' == $display_comments ) {
+		// Alter the query based on whether we want to show activity item
+		// comments in the stream like normal comments or threaded below
+		// the activity.
+		if ( !$display_comments || 'threaded' == $display_comments )
 			$where_conditions[] = "a.type != 'activity_comment'";
-		}
 
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
@@ -147,7 +147,7 @@ Class BP_Activity_Activity {
 		$total_activities = $wpdb->get_var( $total_activities_sql );
 
 		// Get the fullnames of users so we don't have to query in the loop
-		if ( bp_is_active( 'xprofile' ) && $activities ) {
+		if ( bp_is_active( 'profile' ) && $activities ) {
 			foreach ( (array)$activities as $activity ) {
 				if ( (int)$activity->user_id )
 					$activity_user_ids[] = $activity->user_id;
@@ -245,17 +245,17 @@ Class BP_Activity_Activity {
 		extract( $args );
 
 		$defaults = array(
-			'id' => false,
-			'action' => false,
-			'content' => false,
-			'component' => false,
-			'type' => false,
-			'primary_link' => false,
-			'user_id' => false,
-			'item_id' => false,
+			'id'                => false,
+			'action'            => false,
+			'content'           => false,
+			'component'         => false,
+			'type'              => false,
+			'primary_link'      => false,
+			'user_id'           => false,
+			'item_id'           => false,
 			'secondary_item_id' => false,
-			'date_recorded' => false,
-			'hide_sitewide' => false
+			'date_recorded'     => false,
+			'hide_sitewide'     => false
 		);
 
 		$where_args = false;
@@ -298,7 +298,7 @@ Class BP_Activity_Activity {
 		else
 			return false;
 
-		/* Fetch the activity IDs so we can delete any comments for this activity item */
+		// Fetch the activity IDs so we can delete any comments for this activity item
 		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" ) );
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} {$where_sql}" ) ) )
@@ -359,30 +359,31 @@ Class BP_Activity_Activity {
 		global $wpdb, $bp;
 
 		if ( !$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id ) ) {
-			/* Select the user's fullname with the query so we don't have to fetch it for each comment */
-			if ( bp_is_active( 'xprofile' ) ) {
+			// Select the user's fullname with the query so we don't have to
+			// fetch it for each comment
+			if ( bp_is_active( 'profile' ) ) {
 				$fullname_select = ", pd.value as user_fullname";
 				$fullname_from = ", {$bp->profile->table_name_data} pd ";
 				$fullname_where = "AND pd.user_id = a.user_id AND pd.field_id = 1";
 			}
 
-			/* Retrieve all descendants of the $root node */
+			// Retrieve all descendants of the $root node
 			$descendants = $wpdb->get_results( apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ), $activity_id, $left, $right ) );
 
-			/* Loop descendants and build an assoc array */
+			// Loop descendants and build an assoc array
 			foreach ( (array)$descendants as $d ) {
-			    $d->children = array();
+				$d->children = array();
 
-				/* If we have a reference on the parent */
-			    if ( isset( $ref[ $d->secondary_item_id ] ) ) {
-			        $ref[ $d->secondary_item_id ]->children[ $d->id ] = $d;
-			        $ref[ $d->id ] =& $ref[ $d->secondary_item_id ]->children[ $d->id ];
+				// If we have a reference on the parent
+				if ( isset( $ref[ $d->secondary_item_id ] ) ) {
+					$ref[ $d->secondary_item_id ]->children[ $d->id ] = $d;
+					$ref[ $d->id ] =& $ref[ $d->secondary_item_id ]->children[ $d->id ];
 
-				/* If we don't have a reference on the parent, put in the root level */
-			    } else {
-			        $comments[ $d->id ] = $d;
-			        $ref[ $d->id ] =& $comments[ $d->id ];
-			    }
+				// If we don't have a reference on the parent, put in the root level
+				} else {
+					$comments[ $d->id ] = $d;
+					$ref[ $d->id ] =& $comments[ $d->id ];
+				}
 			}
 			wp_cache_set( 'bp_activity_comments_' . $activity_id, $comments, 'bp' );
 		}
@@ -393,23 +394,24 @@ Class BP_Activity_Activity {
 	function rebuild_activity_comment_tree( $parent_id, $left = 1 ) {
 		global $wpdb, $bp;
 
-		/* The right value of this node is the left value + 1 */
+		// The right value of this node is the left value + 1
 		$right = $left + 1;
 
-		/* Get all descendants of this node */
+		// Get all descendants of this node
 		$descendants = BP_Activity_Activity::get_child_comments( $parent_id );
 
-		/* Loop the descendants and recalculate the left and right values */
+		// Loop the descendants and recalculate the left and right values
 		foreach ( (array)$descendants as $descendant )
 			$right = BP_Activity_Activity::rebuild_activity_comment_tree( $descendant->id, $right );
 
-		/* We've got the left value, and now that we've processed the children of this node we also know the right value */
+		// We've got the left value, and now that we've processed the children
+		// of this node we also know the right value
 		if ( 1 == $left )
 			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET mptt_left = %d, mptt_right = %d WHERE id = %d", $left, $right, $parent_id ) );
 		else
 			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET mptt_left = %d, mptt_right = %d WHERE type = 'activity_comment' AND id = %d", $left, $right, $parent_id ) );
 
-		/* Return the right value of this node + 1 */
+		// Return the right value of this node + 1
 		return $right + 1;
 	}
 
