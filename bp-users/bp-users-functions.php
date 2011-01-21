@@ -192,35 +192,119 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 	global $bp;
 
 	if ( !$username = wp_cache_get( 'bp_user_username_' . $user_id, 'bp' ) ) {
+		// Cache not found so prepare to update it
+		$update_cache = true;
+
+		// Nicename and login were not passed
 		if ( empty( $user_nicename ) && empty( $user_login ) ) {
-			$ud = false;
 
-			if ( isset( $bp->loggedin_user->id ) && $bp->loggedin_user->id == $user_id )
-				$ud = &$bp->loggedin_user->userdata;
+			// User ID matches logged in user
+			if ( isset( $bp->loggedin_user->id ) && $bp->loggedin_user->id == $user_id ) {
+				$userdata = &$bp->loggedin_user->userdata;
 
-			if ( isset( $bp->displayed_user->id ) && $bp->displayed_user->id == $user_id )
-				$ud = &$bp->displayed_user->userdata;
+			// User ID matches displayed in user
+			} elseif ( isset( $bp->displayed_user->id ) && $bp->displayed_user->id == $user_id ) {
+				$userdata = &$bp->displayed_user->userdata;
 
-			if ( empty( $ud ) ) {
-				if ( !$ud = bp_core_get_core_userdata( $user_id ) )
-					return false;
+			// No user ID match
+			} else {
+				$userdata = false;
 			}
 
-			$user_nicename = $ud->user_nicename;
-			$user_login = $ud->user_login;
+			// No match so go dig
+			if ( empty( $userdata ) ) {
+
+				// User not found so return false
+				if ( !$userdata = bp_core_get_core_userdata( $user_id ) ) {
+					return false;
+				}
+			}
+
+			// Update the $user_id for later
+			$user_id       = $userdata->ID;
+
+			// Two possible options
+			$user_nicename = $userdata->user_nicename;
+			$user_login    = $userdata->user_login;
 		}
 
+		// Pull an audible and use the login over the nicename
 		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
 			$username = $user_login;
 		else
 			$username = $user_nicename;
+
+	// Username found in cache so don't update it again
+	} else {
+		$update_cache = false;
 	}
 
+	// Check $username for empty spaces and default to nicename if found
+	if ( strstr( $username, ' ' ) )
+		$username = bp_users_get_user_nicename( $user_id );
+
 	// Add this to cache
-	if ( !empty( $username ) )
+	if ( ( true == $update_cache ) && !empty( $username ) )
 		wp_cache_set( 'bp_user_username_' . $user_id, $username, 'bp' );
 
 	return apply_filters( 'bp_core_get_username', $username );
+}
+
+/**
+ * Returns the user_nicename for a user based on their user_id. This should be
+ * used for linking to user profiles and anywhere else a sanitized and unique
+ * slug to a user is needed.
+ *
+ * @since BuddyPress (1.3)
+ *
+ * @package BuddyPress Core
+ * @param $uid int User ID to check.
+ * @global $userdata WordPress user data for the current logged in user.
+ * @uses get_userdata() WordPress function to fetch the userdata for a user ID
+ * @return false on no match
+ * @return str the username of the matched user.
+ */
+function bp_users_get_user_nicename( $user_id ) {
+	global $bp;
+
+	if ( !$user_nicename = wp_cache_get( 'bp_users_user_nicename_' . $user_id, 'bp' ) ) {
+		$update_cache = true;
+
+		// User ID matches logged in user
+		if ( isset( $bp->loggedin_user->id ) && $bp->loggedin_user->id == $user_id ) {
+			$userdata = &$bp->loggedin_user->userdata;
+
+		// User ID matches displayed in user
+		} elseif ( isset( $bp->displayed_user->id ) && $bp->displayed_user->id == $user_id ) {
+			$userdata = &$bp->displayed_user->userdata;
+
+		// No user ID match
+		} else {
+			$userdata = false;
+		}
+
+		// No match so go dig
+		if ( empty( $userdata ) ) {
+
+			// User not found so return false
+			if ( !$userdata = bp_core_get_core_userdata( $user_id ) ) {
+				return false;
+			}
+		}
+
+		// User nicename found
+		$user_nicename = $userdata->user_nicename;
+
+	// Nicename found in cache so don't update it again
+	} else {
+		$update_cache = false;
+	}
+
+	// Add this to cache
+	if ( true == $update_cache && !empty( $user_nicename ) )
+		wp_cache_set( 'bp_users_user_nicename_' . $user_id, $user_nicename, 'bp' );
+
+	return apply_filters( 'bp_users_get_user_nicename', $user_nicename );
 }
 
 /**
