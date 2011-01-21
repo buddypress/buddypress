@@ -254,7 +254,7 @@ function bp_the_profile_group_edit_form_action() {
 	function bp_get_the_profile_group_edit_form_action() {
 		global $bp, $group;
 
-		return apply_filters( 'bp_get_the_profile_group_edit_form_action', $bp->displayed_user->domain . BP_XPROFILE_SLUG . '/edit/group/' . $group->id . '/' );
+		return apply_filters( 'bp_get_the_profile_group_edit_form_action', $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $group->id . '/' );
 	}
 
 function bp_the_profile_group_field_ids() {
