@@ -44,41 +44,32 @@ function bp_core_get_page_names() {
 	// Set pages as standard class
 	$pages = new stdClass;
 
-	// When upgrading to BP 1.3+ from a version of BP that does not use WP
-	// pages, $bp->pages must be populated with dummy info to avoid crashing the
-	// site while the db is upgraded.
-	if ( !$page_ids = bp_core_get_page_meta() ) {
-		foreach ( $bp->active_components as $component ) {
-			$pages->{$component->id}->name = $component->id;
-			$pages->{$component->id}->slug = $component->id;
-			$pages->{$component->id}->id   = $component->id;
-		}
+	// Get pages and IDs
+	if ( $page_ids = bp_core_get_page_meta() ) {
 
-		return $pages;
-	}
+		$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'posts' : $wpdb->posts;
+		$page_ids_sql     = implode( ',', (array)$page_ids );
+		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) " ) );
 
-	$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'posts' : $wpdb->posts;
-	$page_ids_sql     = implode( ',', (array)$page_ids );
-	$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) " ) );
+		foreach ( (array)$page_ids as $key => $page_id ) {
+			foreach ( (array)$page_names as $page_name ) {
+				if ( $page_name->ID == $page_id ) {
+					$pages->{$key}->name = $page_name->post_name;
+					$pages->{$key}->id   = $page_name->ID;
+					$slug[]              = $page_name->post_name;
 
-	foreach ( (array)$page_ids as $key => $page_id ) {
-		foreach ( (array)$page_names as $page_name ) {
-			if ( $page_name->ID == $page_id ) {
-				$pages->{$key}->name = $page_name->post_name;
-				$pages->{$key}->id   = $page_name->ID;
-				$slug[]              = $page_name->post_name;
+					// Get the slug
+					while ( $page_name->post_parent != 0 ) {
+						$parent                 = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
+						$slug[]                 = $parent[0]->post_name;
+						$page_name->post_parent = $parent[0]->post_parent;
+					}
 
-				// Get the slug
-				while ( $page_name->post_parent != 0 ) {
-					$parent                 = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
-					$slug[]                 = $parent[0]->post_name;
-					$page_name->post_parent = $parent[0]->post_parent;
+					$pages->{$key}->slug = implode( '/', array_reverse( (array)$slug ) );
 				}
 
-				$pages->{$key}->slug = implode( '/', array_reverse( (array)$slug ) );
+				unset( $slug );
 			}
-
-			unset( $slug );
 		}
 	}
 
