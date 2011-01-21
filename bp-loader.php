@@ -74,10 +74,6 @@ if ( empty( $bp_db_version ) ) {
 	 */
 	do_action( 'bp_core_loaded' );
 
-	// Users
-	include( BP_PLUGIN_DIR . '/bp-users/bp-users-loader.php'       );
-	include( BP_PLUGIN_DIR . '/bp-settings/bp-settings-loader.php' );
-
 	// Activity Streams
 	if ( !isset( $bp_deactivated['bp-activity/bp-activity-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity/bp-activity-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-activity/bp-activity-loader.php' );
@@ -106,6 +102,12 @@ if ( empty( $bp_db_version ) ) {
 	if ( !isset( $bp_deactivated['bp-xprofile/bp-xprofile-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-loader.php' );
 		
+	// Users
+	include( BP_PLUGIN_DIR . '/bp-users/bp-users-loader.php'       );
+
+	// Settings
+	include( BP_PLUGIN_DIR . '/bp-settings/bp-settings-loader.php' );
+
 	// If this is an upgrade, load the upgrade file 
  	if ( $bp_db_version < constant( 'BP_DB_VERSION' ) ) { 
  		define( 'BP_IS_UPGRADE', true ); 
