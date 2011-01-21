@@ -85,10 +85,19 @@ class BP_Activity_Component extends BP_Component {
 		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
 			return;
 
-		// User links
-		$user_domain   = ( isset( $bp->displayed_user->domain ) )               ? $bp->displayed_user->domain               : $bp->loggedin_user->domain;
-		$user_login    = ( isset( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
-		$activity_link = $user_domain . $this->slug . '/';
+		// Determine user to use
+		if ( isset( $bp->displayed_user->domain ) ) {
+			$user_domain = $bp->displayed_user->domain;
+			$user_login  = $bp->displayed_user->userdata->user_login;
+		} elseif ( isset( $bp->loggedin_user->domain ) ) {
+			$user_domain = $bp->loggedin_user->domain;
+			$user_login  = $bp->loggedin_user->userdata->user_login;
+		} else {
+			return;
+		}
+
+		// User link
+		$activity_link = trailingslashit( $user_domain . $this->slug );
 
 		// Add the subnav items to the activity nav item if we are using a theme that supports this
 		bp_core_new_subnav_item( array(
