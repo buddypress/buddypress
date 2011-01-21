@@ -46,8 +46,14 @@ function xprofile_setup_adminbar_menu() {
 		<a href=""><?php _e( 'Admin Options', 'buddypress' ) ?></a>
 
 		<ul>
-			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/edit/"><?php printf( __( "Edit %s's Profile", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
-			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug ?>/change-avatar/"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
+			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug; ?>/edit/"><?php printf( __( "Edit %s's Profile", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
+			<li><a href="<?php echo $bp->displayed_user->domain . $bp->profile->slug; ?>/change-avatar/"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
+
+			<?php if ( bp_is_active( 'settings' ) ) : ?>
+
+				<li><a href="<?php echo $bp->displayed_user->domain . $bp->settings->slug; ?>/general/"><?php printf( __( "Edit %s's Settings", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
+
+			<?php endif; ?>
 
 			<?php if ( !bp_core_is_user_spammer( $bp->displayed_user->id ) ) : ?>
 
