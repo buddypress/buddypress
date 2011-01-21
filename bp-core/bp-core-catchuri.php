@@ -130,7 +130,7 @@ function bp_core_set_uri_globals() {
 			}
 
 			if ( !in_array( 0, (array) $matches ) ) {
-				$match = $bp_page;
+				$match      = $bp_page;
 				$match->key = $page_key;
 				break;
 			};
@@ -156,7 +156,7 @@ function bp_core_set_uri_globals() {
 
 	// Find the offset
 	$uri_offset = 0;
-	$slug = explode( '/', $match->slug );
+	$slug = isset( $match ) ? explode( '/', $match->slug ) : '';
 
 	if ( !empty( $slug ) && 1 != count( $slug ) ) {
 		array_pop( $slug );
@@ -167,7 +167,7 @@ function bp_core_set_uri_globals() {
 	$bp_unfiltered_uri_offset = $uri_offset;
 
 	// This is a members page so lets check if we have a displayed member
-	if ( 'members' == $match->key ) {
+	if ( isset( $match ) && 'members' == $match->key ) {
 		if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
 			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
 				$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );

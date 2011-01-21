@@ -211,19 +211,19 @@ function bp_has_groups( $args = '' ) {
 	}
 
 	$defaults = array(
-		'type' => $type,
-		'page' => 1,
-		'per_page' => 20,
-		'max' => false,
-		'show_hidden' => false,
+		'type'            => $type,
+		'page'            => 1,
+		'per_page'        => 20,
+		'max'             => false,
+		'show_hidden'     => false,
 
-		'user_id' => $user_id, // Pass a user ID to limit to groups this user has joined
-		'slug' => $slug, // Pass a group slug to only return that group
-		'search_terms' => '', // Pass search terms to return only matching groups
-		'include' => false, // Pass comma separated list of group ID's to return only these groups
-		'exclude' => false, // Pass comma separated list of group ID's to exclude these groups
+		'user_id'         => $user_id, // Pass a user ID to limit to groups this user has joined
+		'slug'            => $slug,    // Pass a group slug to only return that group
+		'search_terms'    => '',       // Pass search terms to return only matching groups
+		'include'         => false,    // Pass comma separated list of group ID's to return only these groups
+		'exclude'         => false,    // Pass comma separated list of group ID's to exclude these groups
 
-		'populate_extras' => true // Get extra meta - is_member, is_banned
+		'populate_extras' => true      // Get extra meta - is_member, is_banned
 	);
 
 	$r = wp_parse_args( $args, $defaults );

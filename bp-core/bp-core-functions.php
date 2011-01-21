@@ -446,7 +446,7 @@ function bp_core_get_site_path() {
 	if ( is_multisite() )
 		$site_path = $current_site->path;
 	else {
-		$site_path = (array) explode( '/', site_url() );
+		$site_path = (array) explode( '/', home_url() );
 
 		if ( count( $site_path ) < 2 )
 			$site_path = '/';
@@ -532,21 +532,21 @@ function bp_core_action_search_site( $slug = '' ) {
 	if ( empty( $slug ) ) {
 		switch ( $search_which ) {
 			case 'blogs':
-				$slug = bp_is_active( 'blogs' )  ? $bp->blogs->slug  : '';
+				$slug = bp_is_active( 'blogs' )  ? $bp->blogs->root_slug  : '';
 				break;
 
 			case 'forums':
-				$slug = bp_is_active( 'forums' ) ? $bp->forums->slug : '';
+				$slug = bp_is_active( 'forums' ) ? $bp->forums->root_slug : '';
 				$query_string = '/?fs=';
 				break;
 
 			case 'groups':
-				$slug = bp_is_active( 'groups' ) ? $bp->groups->slug : '';
+				$slug = bp_is_active( 'groups' ) ? $bp->groups->root_slug : '';
 				break;
 
 			case 'members':
 			default:
-				$slug = $bp->members->slug;
+				$slug = $bp->members->root_slug;
 				break;
 		}
 
@@ -556,7 +556,7 @@ function bp_core_action_search_site( $slug = '' ) {
 		}
 	}
 
-	bp_core_redirect( apply_filters( 'bp_core_search_site', site_url( $slug . $query_string . urlencode( $search_terms ) ), $search_terms ) );
+	bp_core_redirect( apply_filters( 'bp_core_search_site', home_url( $slug . $query_string . urlencode( $search_terms ) ), $search_terms ) );
 }
 add_action( 'bp_init', 'bp_core_action_search_site', 7 );
 

@@ -231,7 +231,7 @@ class BP_Core_Setup_Wizard {
 		if ( defined( 'BP_BLOGS_SLUG' ) )
 			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
 		else
-			$blogs_slug = __( 'blogs', 'buddypress' );
+			$blogs_slug = 'blogs';
 
 		if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
 			$existing_pages = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
@@ -614,12 +614,17 @@ class BP_Core_Setup_Wizard {
 					<p><strong><?php _e( 'This is the best choice if you have an existing WordPress theme and want complete control over template layout and design.', 'buddypress' ) ?></strong></p>
 
 					<?php if ( !$template_pack_installed ) : ?>
+
 						<p><label><input type="radio" name="theme" value="manual_wp" disabled="disabled" /> <?php _e( 'You must first install the BuddyPress template pack before choosing this option', 'buddypress' ) ?></label></p>
 						<p><a id="bp-template-pack" class="thickbox onclick button" href="http://buddypressorg.dev/wp-admin/plugin-install.php?tab=plugin-information&plugin=bp-template-pack&TB_iframe=true&width=640&height=500">+ <?php _e( 'Install Now', 'buddypress' ) ?></a></p>
+
 					<?php else : ?>
+
 						<p><label><input type="radio" name="theme" value="manual_wp" /> <?php _e( 'Choose this option (go to Appearance &rarr; BP Compatibility after setup is complete)', 'buddypress' ) ?></label></p>
 						<p><a id="bp-template-pack" class="button installed disabled" href="javascript:void();"><span></span><?php _e( 'Plugin Installed', 'buddypress' ) ?></a></p>
+
 					<?php endif; ?>
+
 				</td>
 			</tr>
 
@@ -646,6 +651,20 @@ class BP_Core_Setup_Wizard {
 							</select>
 						</p>
 					<?php endif; ?>
+				</td>
+			</tr>
+
+			<tr>
+				<th>
+					<h5><?php _e( 'Do Not Change Theme', 'buddypress' ) ?></h5>
+					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/existing.jpg' ) ?>" alt="bp-default" />
+				</th>
+				<td>
+					<p><?php _e( "You are happy with your current theme and plan on changing it later.", 'buddypress' ) ?></p>
+					<p><strong><?php _e( 'This is the best choice if you have a highly customized theme on your site already, and want to manually integrate BuddyPress into your site over time.', 'buddypress' ) ?></strong></p>
+
+					<p><label><input type="radio" name="theme" value="do_not_change" /><?php _e( 'Choose this option', 'buddypress' ) ?></label></p>
+
 				</td>
 			</tr>
 		</table>
@@ -867,27 +886,42 @@ class BP_Core_Setup_Wizard {
 
 					<div id="message" class="updated fade"><p>
 
-					<?php
-						_e( 'Oops, there was a problem creating a configuration file. ', 'buddypress' );
+						<?php
+							_e( 'Oops, there was a problem creating a configuration file. ', 'buddypress' );
 
-						if ( $iis7_permalinks ) {
-							if ( $permalink_structure && ! $usingpi && ! $writable ) {
-								_e( 'If your <code>web.config</code> file were <a href="http://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file.' )
-								?><br /><br /><textarea rows="9" class="large-text readonly" style="background: #fff;" name="rules" id="rules" readonly="readonly"><?php echo esc_html($wp_rewrite->iis7_url_rewrite_rules()); ?></textarea></p><?php
-							} else if ( $permalink_structure && ! $usingpi && $writable )
-								_e( 'Permalink structure updated. Remove write access on web.config file now!' );
-						} else {
-							_e( 'If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.' );
-							?><br /><br /><textarea rows="6" class="large-text readonly" style="background: #fff;" name="rules" id="rules" readonly="readonly"><?php echo esc_html($wp_rewrite->mod_rewrite_rules()); ?></textarea><?php
-						}
-					?>
+							if ( $iis7_permalinks ) {
 
-					<br /><br />
+								if ( $permalink_structure && ! $usingpi && ! $writable ) {
 
-					<?php
-						if ( empty( $iis7_permalinks ) )
-							_e( 'Paste all these rules into a new <code>.htaccess</code> file in the root of your WordPress installation and save the file. Once you\'re done, please hit the "Save and Next" button to continue.', 'buddypress' );
-					?>
+									_e( 'If your <code>web.config</code> file were <a href="http://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file.' ); ?>
+
+									<br /><br />
+								
+									<textarea rows="9" class="large-text readonly" style="background: #fff;" name="rules" id="rules" readonly="readonly"><?php echo esc_html( $wp_rewrite->iis7_url_rewrite_rules() ); ?></textarea>
+								
+								<?php
+
+								} else if ( $permalink_structure && ! $usingpi && $writable ); {
+
+										_e( 'Permalink structure updated. Remove write access on web.config file now!' );
+								}
+
+							} else {
+
+								_e( 'If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.' ); ?>
+
+								<br /><br />
+								
+								<textarea rows="6" class="large-text readonly" style="background: #fff;" name="rules" id="rules" readonly="readonly"><?php echo esc_html( $wp_rewrite->mod_rewrite_rules() ); ?></textarea>
+
+							<?php } ?>
+
+						<br /><br />
+
+						<?php
+							if ( empty( $iis7_permalinks ) )
+								_e( 'Paste all these rules into a new <code>.htaccess</code> file in the root of your WordPress installation and save the file. Once you\'re done, please hit the "Save and Next" button to continue.', 'buddypress' );
+						?>
 
 					</p></div>
 

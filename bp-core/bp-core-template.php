@@ -385,13 +385,13 @@ function bp_search_form_type_select() {
 		$options['members'] = __( 'Members', 'buddypress' );
 
 	if ( bp_is_active( 'groups' ) )
-		$options['groups'] = __( 'Groups', 'buddypress' );
-
-	if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() && !bp_forum_directory_is_disabled() )
-		$options['forums'] = __( 'Forums', 'buddypress' );
+		$options['groups']  = __( 'Groups',  'buddypress' );
 
 	if ( bp_is_active( 'blogs' ) && is_multisite() )
-		$options['blogs'] = __( 'Blogs', 'buddypress' );
+		$options['blogs']   = __( 'Blogs',   'buddypress' );
+
+	if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() && !bp_forum_directory_is_disabled() )
+		$options['forums']  = __( 'Forums',  'buddypress' );
 
 	// Eventually this won't be needed and a page will be built to integrate all search results.
 	$selection_box = '<select name="search-which" id="search-which" style="width: auto">';
@@ -416,9 +416,9 @@ function bp_search_default_text() {
 	echo bp_get_search_default_text();
 }
 	function bp_get_search_default_text( $component = false ) {
- 		global $bp;
+		global $bp;
 
- 	        if ( empty( $component ) )
+		if ( empty( $component ) )
 			$component = $bp->current_component;
 
 		$default_text = __( 'Search anything...', 'buddypress' );
@@ -722,7 +722,7 @@ function bp_is_current_component( $component ) {
 		// non-translatable component name. If so, we can return its
 		// corresponding slug from $bp->active_components.
 		} else if ( $key = array_search( $component, $bp->active_components ) ) {
-			if ( $key === $bp->current_component )
+			if ( strstr( $bp->current_component, $key ) )
 				$is_current_component = true;
 
 		// If we haven't found a match yet, check against the root_slugs

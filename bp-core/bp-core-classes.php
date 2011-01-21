@@ -222,6 +222,8 @@ class BP_Core_User {
 		 * We can't add these to the main query above since only users who have this information will be returned (since the much of the data is in usermeta and won't support any type of directional join)
 		 */
 		if ( $populate_extras ) {
+			$user_ids = array();
+
 			foreach ( (array)$paged_users as $user )
 				$user_ids[] = $user->id;
 

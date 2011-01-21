@@ -125,9 +125,9 @@ function bp_has_members( $args = '' ) {
 	 * if arguments are directly passed into the loop. Custom plugins should always
 	 * pass their parameters directly to the loop.
 	 */
-	$type = 'active';
-	$user_id = 0;
-	$page = 1;
+	$type         = 'active';
+	$user_id      = 0;
+	$page         = 1;
 	$search_terms = null;
 
 	// User filtering
@@ -136,18 +136,18 @@ function bp_has_members( $args = '' ) {
 
 	// type: active ( default ) | random | newest | popular | online | alphabetical
 	$defaults = array(
-		'type' => $type,
-		'page' => $page,
-		'per_page' => 20,
-		'max' => false,
+		'type'            => $type,
+		'page'            => $page,
+		'per_page'        => 20,
+		'max'             => false,
 
-		'include' => false, // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
-		'exclude' => false, // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
+		'include'         => false,         // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
+		'exclude'         => false,         // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
 
-		'user_id' => $user_id, // Pass a user_id to only show friends of this user
-		'search_terms' => $search_terms, // Pass search_terms to filter users by their profile data
+		'user_id'         => $user_id,      // Pass a user_id to only show friends of this user
+		'search_terms'    => $search_terms, // Pass search_terms to filter users by their profile data
 
-		'populate_extras' => true // Fetch usermeta? Friend count, last active etc.
+		'populate_extras' => true           // Fetch usermeta? Friend count, last active etc.
 	);
 
 	$r = wp_parse_args( $args, $defaults );

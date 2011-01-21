@@ -174,7 +174,7 @@ add_action( 'bp_setup_nav', 'groups_setup_nav' );
 function groups_directory_groups_setup() {
 	global $bp;
 
-	if ( bp_is_current_component( $bp->groups->slug ) && empty( $bp->current_action ) && empty( $bp->current_item ) ) {
+	if ( bp_is_current_component( $bp->groups->id ) && empty( $bp->current_action ) && empty( $bp->current_item ) ) {
 		$bp->is_directory = true;
 
 		do_action( 'groups_directory_groups_setup' );

@@ -11,10 +11,10 @@
 		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ) ?>" />
 
 		<?php
-		if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) )
-			wp_enqueue_script( 'comment-reply' );
+			if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) )
+				wp_enqueue_script( 'comment-reply' );
 
-		wp_head();
+			wp_head();
 		?>
 	</head>
 
@@ -33,13 +33,18 @@
 				<div class="padder">
 
 				<?php if ( bp_search_form_enabled() ) : ?>
+
 					<form action="<?php echo bp_search_form_action() ?>" method="post" id="search-form">
-						<input type="text" id="search-terms" name="search-terms" value="" />
+						<input type="text" id="search-terms" name="search-terms" value="<?php echo isset( $_REQUEST['s'] ) ? esc_attr( $_REQUEST['s'] ) : ''; ?>" />
+
 						<?php echo bp_search_form_type_select() ?>
 
 						<input type="submit" name="search-submit" id="search-submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
+
 						<?php wp_nonce_field( 'bp_search_form' ) ?>
+
 					</form><!-- #search-form -->
+
 				<?php endif; ?>
 
 				<?php do_action( 'bp_search_login_bar' ) ?>
