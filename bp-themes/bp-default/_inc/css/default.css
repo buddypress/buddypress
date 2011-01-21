@@ -1271,14 +1271,12 @@ table.forum th#th-postcount {
 
 form#whats-new-form {
 	margin-bottom: 5px;
-	border-bottom: 1px solid #f0f0f0;
-	overflow: hidden;
-	padding-bottom: 20px;
 }
 
 #item-body form#whats-new-form {
-	margin-top: 20px;
-	border: none;
+	margin: 20px 0 10px;
+	padding-bottom: 40px;
+	border-bottom: 1px solid #ddd;
 }
 
 .home-page form#whats-new-form {
