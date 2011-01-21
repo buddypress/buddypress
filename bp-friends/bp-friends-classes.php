@@ -116,7 +116,7 @@ class BP_Friends_Friendship {
 		return $wpdb->get_col( $wpdb->prepare( "SELECT initiator_user_id FROM {$bp->friends->table_name} WHERE friend_user_id = %d AND is_confirmed = 0", $user_id ) );
 	}
 
-	function total_friend_count( $user_id = false ) {
+	function total_friend_count( $user_id = 0 ) {
 		global $wpdb, $bp;
 
 		if ( !$user_id )

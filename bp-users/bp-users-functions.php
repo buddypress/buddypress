@@ -446,7 +446,7 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
  * @uses wp_delete_user() Deletes a user from the system on singlesite installs.
  * @uses get_site_option Checks if account deletion is allowed
  */
-function bp_core_delete_account( $user_id = false ) {
+function bp_core_delete_account( $user_id = 0 ) {
 	global $bp, $wp_version;
 
 	if ( !$user_id )

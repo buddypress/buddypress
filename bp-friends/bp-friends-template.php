@@ -265,7 +265,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 		return bp_get_button( apply_filters( 'bp_get_add_friend_button', $button ) );
 	}
 
-function bp_get_friend_ids( $user_id = false ) {
+function bp_get_friend_ids( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )

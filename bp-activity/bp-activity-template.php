@@ -217,13 +217,13 @@ function bp_has_activities( $args = '' ) {
 	 * if arguments are directly passed into the loop. Custom plugins should always
 	 * pass their parameters directly to the loop.
 	 */
-	$user_id = false;
-	$include = false;
-	$exclude = false;
-	$in = false;
+	$user_id     = false;
+	$include     = false;
+	$exclude     = false;
+	$in          = false;
 	$show_hidden = false;
-	$object = false;
-	$primary_id = false;
+	$object      = false;
+	$primary_id  = false;
 
 	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
@@ -308,7 +308,7 @@ function bp_has_activities( $args = '' ) {
 						$object = $bp->groups->id;
 						$primary_id = implode( ',', (array)$groups['groups'] );
 
-						$user_id = false;
+						$user_id = 0;
 					}
 					break;
 				case 'favorites':
@@ -323,16 +323,15 @@ function bp_has_activities( $args = '' ) {
 					$user_login = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
 					$search_terms = '@' . bp_core_get_username( $user_id, $user_nicename, $user_login ) . '<'; // Start search at @ symbol and stop search at closing tag delimiter.
 					$display_comments = 'stream';
-					$user_id = false;
+					$user_id = 0;
 					break;
 			}
 		}
 	}
 
-	if ( $max ) {
-		if ( $per_page > $max )
-			$per_page = $max;
-	}
+	// Do not exceed the maximum per page
+	if ( !empty( $max ) && ( (int)$per_page > (int)$max ) )
+		$per_page = $max;
 
 	// Support for basic filters in earlier BP versions.
 	if ( isset( $_GET['afilter'] ) )
@@ -364,9 +363,9 @@ function bp_activity_pagination_count() {
 		global $bp, $activities_template;
 
 		$start_num = intval( ( $activities_template->pag_page - 1 ) * $activities_template->pag_num ) + 1;
-		$from_num = bp_core_number_format( $start_num );
-		$to_num = bp_core_number_format( ( $start_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $start_num + ( $activities_template->pag_num - 1 ) );
-		$total = bp_core_number_format( $activities_template->total_activity_count );
+		$from_num  = bp_core_number_format( $start_num );
+		$to_num    = bp_core_number_format( ( $start_num + ( $activities_template->pag_num - 1 ) > $activities_template->total_activity_count ) ? $activities_template->total_activity_count : $start_num + ( $activities_template->pag_num - 1 ) );
+		$total     = bp_core_number_format( $activities_template->total_activity_count );
 
 		return sprintf( __( 'Viewing item %1$s to %2$s (of %3$s items)', 'buddypress' ), $from_num, $to_num, $total ) . ' &nbsp; <span class="ajax-loader"></span>';
 	}
@@ -392,8 +391,7 @@ function bp_activity_has_more_items() {
 	global $activities_template;
 	
 	$remaining_pages = floor( ( $activities_template->total_activity_count - 1 ) / ( $activities_template->pag_num * $activities_template->pag_page ) ); 
-	
-	$has_more_items = (int)$remaining_pages ? true : false;
+	$has_more_items  = (int)$remaining_pages ? true : false;
 	
 	return apply_filters( 'bp_activity_has_more_items', $has_more_items );
 }
@@ -645,7 +643,6 @@ function bp_activity_action() {
 		global $activities_template;
 
 		$action = $activities_template->activity->action;
-
 		$action = apply_filters( 'bp_get_activity_action_pre_meta', $action, &$activities_template->activity );
 
 		if ( !empty( $action ) )
@@ -660,7 +657,7 @@ function bp_activity_content_body() {
 	function bp_get_activity_content_body() {
 		global $activities_template;
 
-		/* Backwards compatibility if action is not being used */
+		// Backwards compatibility if action is not being used
 		if ( empty( $activities_template->activity->action ) && !empty( $activities_template->activity->content ) )
 			$activities_template->activity->content = bp_insert_activity_meta( $activities_template->activity->content );
 
@@ -743,11 +740,11 @@ function bp_activity_parent_content( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		/* Get the ID of the parent activity content */
+		// Get the ID of the parent activity content
 		if ( !$parent_id = $activities_template->activity->item_id )
 			return false;
 
-		/* Get the content of the parent */
+		// Get the content of the parent
 		if ( empty( $activities_template->activity_parents[$parent_id] ) )
 			return false;
 
@@ -756,10 +753,10 @@ function bp_activity_parent_content( $args = '' ) {
 		else
 			$content = $activities_template->activity_parents[$parent_id]->action . ' ' . $activities_template->activity_parents[$parent_id]->content;
 
-		/* Remove the time since content for backwards compatibility */
+		// Remove the time since content for backwards compatibility
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
-		/* Remove images */
+		// Remove images
 		$content = preg_replace( '/<img[^>]*>/Ui', '', $content );
 
 		return apply_filters( 'bp_get_activity_parent_content', $content );
@@ -787,7 +784,8 @@ function bp_activity_comments( $args = '' ) {
 
 		return apply_filters( 'bp_activity_get_comments', $comments_html );
 	}
-		/* TODO: The HTML in this function is temporary and will be moved to the template in a future version. */
+		// TODO: The HTML in this function is temporary and will be moved
+		// to the template in a future version
 		function bp_activity_recurse_comments( $comment ) {
 			global $activities_template, $bp;
 
@@ -803,11 +801,12 @@ function bp_activity_comments( $args = '' ) {
 				$content .= '<div class="acomment-avatar"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 20, 'height' => 20, 'email' => $comment->user_email ) ) . '</a></div>';
 				$content .= '<div class="acomment-meta"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . apply_filters( 'bp_acomment_name', $comment->user_fullname, $comment ) . '</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( $comment->date_recorded ) );
 
-				/* Reply link - the span is so that threaded reply links can be hidden when JS is off. */
+				// Reply link - the span is so that threaded reply links can be
+				// hidden when JS is off.
 				if ( is_user_logged_in() && bp_activity_can_comment_reply( $comment ) )
 					$content .= apply_filters( 'bp_activity_comment_reply_link', '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>', $comment );
 
-				/* Delete link */
+				// Delete link
 				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id ) {
 					$delete_url = wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' );
 					$content .= apply_filters( 'bp_activity_comment_delete_link', ' &middot; <a href="' . $delete_url . '" class="delete acomment-delete" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>', $comment, $delete_url );
@@ -949,10 +948,10 @@ function bp_activity_delete_link() {
 		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete-activity confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>' );
 	}
 
-function bp_activity_latest_update( $user_id = false ) {
+function bp_activity_latest_update( $user_id = 0 ) {
 	echo bp_get_activity_latest_update( $user_id );
 }
-	function bp_get_activity_latest_update( $user_id = false ) {
+	function bp_get_activity_latest_update( $user_id = 0 ) {
 		global $bp;
 
 		if ( !$user_id )
@@ -980,7 +979,7 @@ function bp_activity_filter_links( $args = false ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		/* Fetch the names of components that have activity recorded in the DB */
+		// Fetch the names of components that have activity recorded in the DB
 		$components = BP_Activity_Activity::get_recorded_components();
 
 		if ( !$components )
@@ -1021,7 +1020,7 @@ function bp_activity_filter_links( $args = false ) {
 
 			$link = apply_filters( 'bp_get_activity_filter_link_href', $link, $component );
 
-			/* Make sure all core internal component names are translatable */
+			// Make sure all core internal component names are translatable
 			$translatable_components = array( __( 'profile', 'buddypress'), __( 'friends', 'buddypress' ), __( 'groups', 'buddypress' ), __( 'status', 'buddypress' ), __( 'blogs', 'buddypress' ) );
 
 			$component_links[] = $before . '<a href="' . esc_attr( $link ) . '">' . ucwords( __( $component, 'buddypress' ) ) . '</a>' . $after;
@@ -1063,17 +1062,17 @@ function bp_activity_can_favorite() {
 	return apply_filters( 'bp_activity_can_favorite', $can_favorite );
 }
 
-function bp_total_favorite_count_for_user( $user_id = false ) {
+function bp_total_favorite_count_for_user( $user_id = 0 ) {
 	echo bp_get_total_favorite_count_for_user( $user_id );
 }
-	function bp_get_total_favorite_count_for_user( $user_id = false ) {
+	function bp_get_total_favorite_count_for_user( $user_id = 0 ) {
 		return apply_filters( 'bp_get_total_favorite_count_for_user', bp_activity_total_favorites_for_user( $user_id ) );
 	}
 
-function bp_total_mention_count_for_user( $user_id = false ) {
+function bp_total_mention_count_for_user( $user_id = 0 ) {
 	echo bp_get_total_favorite_count_for_user( $user_id );
 }
-	function bp_get_total_mention_count_for_user( $user_id = false ) {
+	function bp_get_total_mention_count_for_user( $user_id = 0 ) {
 		return apply_filters( 'bp_get_total_mention_count_for_user', get_user_meta( $user_id, 'bp_new_mention_count', true ) );
 	}
 
@@ -1087,6 +1086,16 @@ function bp_send_public_message_link() {
 			return false;
 
 		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->activity->slug . '/?r=' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
+	}
+
+function bp_mentioned_user_display_name( $user_id_or_username ) {
+	echo bp_get_mentioned_user_display_name( $user_id_or_username );
+}
+	function bp_get_mentioned_user_display_name( $user_id_or_username ) {
+		if ( !$name = bp_core_get_user_displayname( $user_id_or_username ) )
+			$name = __( 'a user', 'buddypress' );
+
+		return apply_filters( 'bp_get_mentioned_user_display_name', $name, $user_id_or_username );
 	}
 
 /**
@@ -1152,8 +1161,6 @@ function bp_activities_member_rss_link() {
 	function bp_get_member_activity_feed_link() {
 		global $bp;
 
-		$link = '';
-
 		if ( $bp->current_component == $bp->profile->slug || 'just-me' == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/feed/';
 		elseif ( $bp->friends->slug == $bp->current_action )
@@ -1164,13 +1171,15 @@ function bp_activities_member_rss_link() {
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/favorites/feed/';
 		elseif ( 'mentions' == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/mentions/feed/';
+		else
+			$link = '';
 
 		return apply_filters( 'bp_get_activities_member_rss_link', $link );
 	}
 	function bp_get_activities_member_rss_link() { return bp_get_member_activity_feed_link(); }
 
 
-/* Template tags for RSS feed output */
+/** Template tags for RSS feed output *****************************************/
 
 function bp_activity_feed_item_guid() {
 	echo bp_get_activity_feed_item_guid();
@@ -1241,38 +1250,13 @@ function bp_activity_feed_item_description() {
  *
  * @since 1.3
  */
-function bp_dtheme_sitewide_feed() {
+function bp_activity_sitewide_feed() {
 ?>
-<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_sitewide_activity_feed_link() ?>" />
-<?php
-}
-add_action( 'bp_head', 'bp_dtheme_sitewide_feed' );
 
-/**
- * Template tag so we can hook member activity feed to <head>
- *
- * @since 1.3
- */
-function bp_dtheme_member_feed() {
-	if ( !bp_is_member() )
-		return;
-?>
-		<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_displayed_user_fullname() ?> | <?php _e( 'Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_member_activity_feed_link() ?>" />
-<?php
-}
-add_action( 'bp_head', 'bp_dtheme_member_feed' );
+	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_sitewide_activity_feed_link() ?>" />
 
-/**
- * Template tag so we can hook group activity feed to <head>
- *
- * @since 1.3
- */
-function bp_dtheme_group_feed() {
-	if ( !bp_is_active( 'groups' ) || !bp_is_group() )
-		return;
-?>
-		<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_current_group_name() ?> | <?php _e( 'Group Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_group_activity_feed_link() ?>" />
 <?php
 }
-add_action( 'bp_head', 'bp_dtheme_group_feed' );
+add_action( 'bp_head', 'bp_activity_sitewide_feed' );
+
 ?>

@@ -169,7 +169,7 @@ function bp_has_forum_topics( $args = '' ) {
 	 * pass their parameters directly to the loop.
 	 */
 	$type = 'newest';
-	$user_id = false;
+	$user_id = 0;
 	$forum_id = false;
 	$search_terms = false;
 	$no_stickies = 'all';
@@ -1097,17 +1097,17 @@ function bp_forum_topic_action() {
 		return apply_filters( 'bp_get_forum_topic_action', $bp->root_domain . esc_attr( $_SERVER['REQUEST_URI'] ) );
 	}
 
-function bp_forum_topic_count_for_user( $user_id = false ) {
+function bp_forum_topic_count_for_user( $user_id = 0 ) {
 	echo bp_get_forum_topic_count_for_user( $user_id );
 }
-	function bp_get_forum_topic_count_for_user( $user_id = false ) {
+	function bp_get_forum_topic_count_for_user( $user_id = 0 ) {
 		return apply_filters( 'bp_get_forum_topic_count_for_user', bp_forums_total_topic_count_for_user( $user_id ) );
 	}
 
-function bp_forum_topic_count( $user_id = false ) {
+function bp_forum_topic_count( $user_id = 0 ) {
 	echo bp_get_forum_topic_count( $user_id );
 }
-	function bp_get_forum_topic_count( $user_id = false ) {
+	function bp_get_forum_topic_count( $user_id = 0 ) {
 		return apply_filters( 'bp_get_forum_topic_count', bp_forums_total_topic_count( $user_id ) );
 	}
 ?>

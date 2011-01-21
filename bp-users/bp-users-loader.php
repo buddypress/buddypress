@@ -98,7 +98,7 @@ class BP_User_Component extends BP_Component {
 		/** Active Component **************************************************/
 
 		// Users is active
-		$bp->active_components[$this->slug] = $this->id;
+		$bp->active_components[$this->id] = $this->id;
 		
 		/** Default Profile Component *****************************************/
 		if ( !$bp->current_component && $bp->displayed_user->id )
@@ -134,12 +134,12 @@ class BP_User_Component extends BP_Component {
 		// Add 'User' to the main navigation
 		bp_core_new_nav_item( array(
 			'name'                => __( 'User', 'buddypress' ),
-			'slug'                => $bp->users->slug,
+			'slug'                => $this->slug,
 			'position'            => 10,
 			'screen_function'     => 'bp_users_screen_my_users',
 			'default_subnav_slug' => 'just-me',
-			'item_css_id'         => $bp->users->id )
-		);
+			'item_css_id'         => $this->id
+		) );
 
 		// Stop if there is no user displayed or logged in
 		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
@@ -148,14 +148,14 @@ class BP_User_Component extends BP_Component {
 		// User links
 		$user_domain   = ( isset( $bp->displayed_user->domain ) )               ? $bp->displayed_user->domain               : $bp->loggedin_user->domain;
 		$user_login    = ( isset( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
-		$users_link = $user_domain . $bp->users->slug . '/';
+		$users_link    = $user_domain . $this->slug . '/';
 
 		// Add the subnav items to the users nav item if we are using a theme that supports this
 		bp_core_new_subnav_item( array(
 			'name'            => __( 'Personal', 'buddypress' ),
 			'slug'            => 'just-me',
 			'parent_url'      => $users_link,
-			'parent_slug'     => $bp->users->slug,
+			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_users_screen_my_users',
 			'position'        => 10
 		) );
@@ -166,7 +166,7 @@ class BP_User_Component extends BP_Component {
 				'name'            => __( 'Friends', 'buddypress' ),
 				'slug'            => BP_FRIENDS_SLUG,
 				'parent_url'      => $users_link,
-				'parent_slug'     => $bp->users->slug,
+				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_users_screen_friends',
 				'position'        => 20,
 				'item_css_id'     => 'users-friends'
@@ -179,7 +179,7 @@ class BP_User_Component extends BP_Component {
 				'name'            => __( 'Groups', 'buddypress' ),
 				'slug'            => BP_GROUPS_SLUG,
 				'parent_url'      => $users_link,
-				'parent_slug'     => $bp->users->slug,
+				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_users_screen_groups',
 				'position'        => 30,
 				'item_css_id'     => 'users-groups'
@@ -191,7 +191,7 @@ class BP_User_Component extends BP_Component {
 			'name'            => __( 'Favorites', 'buddypress' ),
 			'slug'            => 'favorites',
 			'parent_url'      => $users_link,
-			'parent_slug'     => $bp->users->slug,
+			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_users_screen_favorites',
 			'position'        => 40,
 			'item_css_id'     => 'users-favs'
@@ -202,7 +202,7 @@ class BP_User_Component extends BP_Component {
 			'name'            => sprintf( __( '@%s Mentions', 'buddypress' ), $user_login ),
 			'slug'            => 'mentions',
 			'parent_url'      => $users_link,
-			'parent_slug'     => $bp->users->slug,
+			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_users_screen_mentions',
 			'position'        => 50,
 			'item_css_id'     => 'users-mentions'

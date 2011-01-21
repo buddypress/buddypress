@@ -956,7 +956,7 @@ Class BP_XProfile_ProfileData {
 		return $wpdb->get_results( $wpdb->prepare( "SELECT pf.type, pf.name, pd.value FROM {$bp->profile->table_name_data} pd INNER JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id AND pd.user_id = %d {$exclude_sql} ORDER BY RAND() LIMIT 1", $user_id ) );
 	}
 
-	function get_fullname( $user_id = false ) {
+	function get_fullname( $user_id = 0 ) {
 		global $bp;
 
 		if ( !$user_id )

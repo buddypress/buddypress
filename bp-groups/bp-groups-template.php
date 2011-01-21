@@ -894,7 +894,7 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 		return apply_filters( 'bp_get_group_member_promote_admin_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/admin/' . $user_id, 'groups_promote_member' ) );
 	}
 
-function bp_group_member_demote_link( $user_id = false ) {
+function bp_group_member_demote_link( $user_id = 0 ) {
 	global $members_template;
 
 	if ( !$user_id )
@@ -902,7 +902,7 @@ function bp_group_member_demote_link( $user_id = false ) {
 
 	echo bp_get_group_member_demote_link( $user_id );
 }
-	function bp_get_group_member_demote_link( $user_id = false, $group = false ) {
+	function bp_get_group_member_demote_link( $user_id = 0, $group = false ) {
 		global $members_template, $groups_template, $bp;
 
 		if ( !$group )
@@ -914,7 +914,7 @@ function bp_group_member_demote_link( $user_id = false ) {
 		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/demote/' . $user_id, 'groups_demote_member' ) );
 	}
 
-function bp_group_member_ban_link( $user_id = false ) {
+function bp_group_member_ban_link( $user_id = 0 ) {
 	global $members_template;
 
 	if ( !$user_id )
@@ -922,7 +922,7 @@ function bp_group_member_ban_link( $user_id = false ) {
 
 	echo bp_get_group_member_ban_link( $user_id );
 }
-	function bp_get_group_member_ban_link( $user_id = false, $group = false ) {
+	function bp_get_group_member_ban_link( $user_id = 0, $group = false ) {
 		global $members_template, $groups_template, $bp;
 
 		if ( !$group )
@@ -931,7 +931,7 @@ function bp_group_member_ban_link( $user_id = false ) {
 		return apply_filters( 'bp_get_group_member_ban_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/ban/' . $user_id, 'groups_ban_member' ) );
 	}
 
-function bp_group_member_unban_link( $user_id = false ) {
+function bp_group_member_unban_link( $user_id = 0 ) {
 	global $members_template;
 
 	if ( !$user_id )
@@ -939,7 +939,7 @@ function bp_group_member_unban_link( $user_id = false ) {
 
 	echo bp_get_group_member_unban_link( $user_id );
 }
-	function bp_get_group_member_unban_link( $user_id = false, $group = false ) {
+	function bp_get_group_member_unban_link( $user_id = 0, $group = false ) {
 		global $members_template, $groups_template;
 
 		if ( !$user_id )
@@ -952,7 +952,7 @@ function bp_group_member_unban_link( $user_id = false ) {
 	}
 
 
-function bp_group_member_remove_link( $user_id = false ) {
+function bp_group_member_remove_link( $user_id = 0 ) {
 	global $members_template;
 
 	if ( !$user_id )
@@ -960,7 +960,7 @@ function bp_group_member_remove_link( $user_id = false ) {
 
 	echo bp_get_group_member_remove_link( $user_id );
 }
-	function bp_get_group_member_remove_link( $user_id = false, $group = false ) {
+	function bp_get_group_member_remove_link( $user_id = 0, $group = false ) {
 		global $members_template, $groups_template;
 
 		if ( !$group )
@@ -1351,10 +1351,10 @@ function bp_total_group_count() {
 		return apply_filters( 'bp_get_total_group_count', groups_get_total_group_count() );
 	}
 
-function bp_total_group_count_for_user( $user_id = false ) {
+function bp_total_group_count_for_user( $user_id = 0 ) {
 	echo bp_get_total_group_count_for_user( $user_id );
 }
-	function bp_get_total_group_count_for_user( $user_id = false ) {
+	function bp_get_total_group_count_for_user( $user_id = 0 ) {
 		return apply_filters( 'bp_get_total_group_count_for_user', groups_total_groups_for_user( $user_id ) );
 	}
 
@@ -2373,6 +2373,21 @@ function bp_group_invite_user_remove_invite_url() {
 /***
  * Groups RSS Feed Template Tags
  */
+
+/**
+ * Hook group activity feed to <head>
+ *
+ * @since 1.3
+ */
+function bp_groups_activity_feed() {
+	if ( !bp_is_active( 'groups' ) || !bp_is_active( 'activity' ) || !bp_is_group() )
+		return; ?>
+
+	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_current_group_name() ?> | <?php _e( 'Group Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_group_activity_feed_link() ?>" />
+
+<?php
+}
+add_action( 'bp_head', 'bp_groups_activity_feed' );
 
 function bp_group_activity_feed_link() {
 	echo bp_get_group_activity_feed_link();

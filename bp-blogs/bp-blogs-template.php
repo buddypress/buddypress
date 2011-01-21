@@ -118,7 +118,7 @@ function bp_has_blogs( $args = '' ) {
 	 * pass their parameters directly to the loop.
 	 */
 	$type = 'active';
-	$user_id = false;
+	$user_id = 0;
 	$search_terms = null;
 
 	/* User filtering */
@@ -294,10 +294,10 @@ function bp_total_blog_count() {
 	}
 	add_filter( 'bp_get_total_blog_count', 'bp_core_number_format' );
 
-function bp_total_blog_count_for_user( $user_id = false ) {
+function bp_total_blog_count_for_user( $user_id = 0 ) {
 	echo bp_get_total_blog_count_for_user( $user_id );
 }
-	function bp_get_total_blog_count_for_user( $user_id = false ) {
+	function bp_get_total_blog_count_for_user( $user_id = 0 ) {
 		return apply_filters( 'bp_get_total_blog_count_for_user', bp_blogs_total_blogs_for_user( $user_id ) );
 	}
 	add_filter( 'bp_get_total_blog_count_for_user', 'bp_core_number_format' );

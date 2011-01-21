@@ -388,7 +388,7 @@ function bp_forums_total_topic_count() {
 	return apply_filters( 'bp_forums_total_topic_count', count( (array)$count ) );
 }
 
-function bp_forums_total_topic_count_for_user( $user_id = false ) {
+function bp_forums_total_topic_count_for_user( $user_id = 0 ) {
 	global $bp;
 
 	do_action( 'bbpress_init' );

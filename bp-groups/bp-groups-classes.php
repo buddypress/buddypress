@@ -165,7 +165,7 @@ Class BP_Groups_Group {
 		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d and is_confirmed = 0 AND inviter_id = %d", $group_id, $user_id ) );
 	}
 
-	function filter_user_groups( $filter, $user_id = false, $order = false, $limit = null, $page = null ) {
+	function filter_user_groups( $filter, $user_id = 0, $order = false, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 
 		if ( !$user_id )
@@ -255,7 +255,7 @@ Class BP_Groups_Group {
 		return array( 'requests' => $paged_requests, 'total' => $total_requests );
 	}
 
-	function get( $type = 'newest', $per_page = null, $page = null, $user_id = false, $search_terms = false, $include = false, $populate_extras = true, $exclude = false, $show_hidden = false ) {
+	function get( $type = 'newest', $per_page = null, $page = null, $user_id = 0, $search_terms = false, $include = false, $populate_extras = true, $exclude = false, $show_hidden = false ) {
 		global $wpdb, $bp;
 
 		$sql = array();
@@ -360,7 +360,7 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_by_most_forum_topics( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true, $exclude = false ) {
+	function get_by_most_forum_topics( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp, $bbdb;
 
 		if ( !$bbdb )
@@ -482,7 +482,7 @@ Class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_random( $limit = null, $page = null, $user_id = false, $search_terms = false, $populate_extras = true, $exclude = false ) {
+	function get_random( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp;
 
 		if ( $limit && $page )
@@ -599,7 +599,7 @@ Class BP_Groups_Member {
 
 	var $user;
 
-	function bp_groups_member( $user_id = false, $group_id = false, $id = false, $populate = true ) {
+	function bp_groups_member( $user_id = 0, $group_id = false, $id = false, $populate = true ) {
 		if ( $user_id && $group_id && !$id ) {
 			$this->user_id = $user_id;
 			$this->group_id = $group_id;
@@ -851,7 +851,7 @@ Class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function total_group_count( $user_id = false ) {
+	function total_group_count( $user_id = 0 ) {
 		global $bp, $wpdb;
 
 		if ( !$user_id )

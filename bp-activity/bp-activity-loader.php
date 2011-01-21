@@ -43,6 +43,12 @@ class BP_Activity_Component extends BP_Component {
 		// Tables
 		$this->table_name      = $bp->table_prefix . 'bp_activity';
 		$this->table_name_meta = $bp->table_prefix . 'bp_activity_meta';
+		
+		// Register this in the active components array
+		$bp->active_components[$this->id] = $this->id;
+
+		// The default text for the blogs directory search box
+		$bp->default_search_strings[$this->id] = __( 'Search Activity...', 'buddypress' );		
 	}
 
 	/**
@@ -68,11 +74,11 @@ class BP_Activity_Component extends BP_Component {
 		// Add 'Activity' to the main navigation
 		bp_core_new_nav_item( array(
 			'name'                => __( 'Activity', 'buddypress' ),
-			'slug'                => $bp->activity->slug,
+			'slug'                => $this->slug,
 			'position'            => 10,
 			'screen_function'     => 'bp_activity_screen_my_activity',
 			'default_subnav_slug' => 'just-me',
-			'item_css_id'         => $bp->activity->id )
+			'item_css_id'         => $this->id )
 		);
 
 		// Stop if there is no user displayed or logged in
@@ -82,14 +88,14 @@ class BP_Activity_Component extends BP_Component {
 		// User links
 		$user_domain   = ( isset( $bp->displayed_user->domain ) )               ? $bp->displayed_user->domain               : $bp->loggedin_user->domain;
 		$user_login    = ( isset( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
-		$activity_link = $user_domain . $bp->activity->slug . '/';
+		$activity_link = $user_domain . $this->slug . '/';
 
 		// Add the subnav items to the activity nav item if we are using a theme that supports this
 		bp_core_new_subnav_item( array(
 			'name'            => __( 'Personal', 'buddypress' ),
 			'slug'            => 'just-me',
 			'parent_url'      => $activity_link,
-			'parent_slug'     => $bp->activity->slug,
+			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_activity_screen_my_activity',
 			'position'        => 10
 		) );
@@ -100,7 +106,7 @@ class BP_Activity_Component extends BP_Component {
 				'name'            => __( 'Friends', 'buddypress' ),
 				'slug'            => BP_FRIENDS_SLUG,
 				'parent_url'      => $activity_link,
-				'parent_slug'     => $bp->activity->slug,
+				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_activity_screen_friends',
 				'position'        => 20,
 				'item_css_id'     => 'activity-friends'
@@ -113,7 +119,7 @@ class BP_Activity_Component extends BP_Component {
 				'name'            => __( 'Groups', 'buddypress' ),
 				'slug'            => BP_GROUPS_SLUG,
 				'parent_url'      => $activity_link,
-				'parent_slug'     => $bp->activity->slug,
+				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_activity_screen_groups',
 				'position'        => 30,
 				'item_css_id'     => 'activity-groups'
@@ -125,7 +131,7 @@ class BP_Activity_Component extends BP_Component {
 			'name'            => __( 'Favorites', 'buddypress' ),
 			'slug'            => 'favorites',
 			'parent_url'      => $activity_link,
-			'parent_slug'     => $bp->activity->slug,
+			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_activity_screen_favorites',
 			'position'        => 40,
 			'item_css_id'     => 'activity-favs'
@@ -136,7 +142,7 @@ class BP_Activity_Component extends BP_Component {
 			'name'            => sprintf( __( '@%s Mentions', 'buddypress' ), $user_login ),
 			'slug'            => 'mentions',
 			'parent_url'      => $activity_link,
-			'parent_slug'     => $bp->activity->slug,
+			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_activity_screen_mentions',
 			'position'        => 50,
 			'item_css_id'     => 'activity-mentions'

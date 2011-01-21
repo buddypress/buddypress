@@ -30,6 +30,9 @@ class BP_Settings_Component extends BP_Component {
 		// Do some slug checks
 		$this->slug      = BP_SETTINGS_SLUG;
 		$this->root_slug = isset( $bp->pages->settings->slug ) ? $bp->pages->settings->slug : $this->slug;
+		
+		// Register this in the active components array
+		$bp->active_components[$this->id] = $this->id;
 	}
 
 	/**
@@ -55,7 +58,7 @@ class BP_Settings_Component extends BP_Component {
 		// Add the settings navigation item
 		bp_core_new_nav_item( array(
 			'name'                    => __( 'Settings', 'buddypress' ),
-			'slug'                    => $bp->settings->slug,
+			'slug'                    => $this->slug,
 			'position'                => 100,
 			'show_for_displayed_user' => bp_users_can_edit_settings(),
 			'screen_function'         => 'bp_settings_screen_general_settings',
@@ -69,7 +72,7 @@ class BP_Settings_Component extends BP_Component {
 			'name'            => __( 'General', 'buddypress' ),
 			'slug'            => 'general',
 			'parent_url'      => $settings_link,
-			'parent_slug'     => $bp->settings->slug,
+			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_settings_screen_general_settings',
 			'position'        => 10,
 			'user_has_access' => bp_users_can_edit_settings()
@@ -80,7 +83,7 @@ class BP_Settings_Component extends BP_Component {
 			'name'            => __( 'Notifications', 'buddypress' ),
 			'slug'            => 'notifications',
 			'parent_url'      => $settings_link,
-			'parent_slug'     => $bp->settings->slug,
+			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_settings_screen_notification_settings',
 			'position'        => 20,
 			'user_has_access' => bp_users_can_edit_settings()
@@ -92,7 +95,7 @@ class BP_Settings_Component extends BP_Component {
 				'name'            => __( 'Delete Account', 'buddypress' ),
 				'slug'            => 'delete-account',
 				'parent_url'      => $settings_link,
-				'parent_slug'     => $bp->settings->slug,
+				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_settings_screen_delete_account',
 				'position'        => 90,
 				'user_has_access' => bp_is_my_profile()
@@ -100,15 +103,7 @@ class BP_Settings_Component extends BP_Component {
 		}
 	}
 }
+// Create the settingss component
 $bp->settings = new BP_Settings_Component();
-
-function bp_users_add_settings_nav() {
-	global $bp;
-
-	// Register this in the active components array
-	$bp->active_components[$bp->settings->slug] = $bp->settings->id;
-
-	do_action( 'bp_core_settings_setup_nav' );
-}
 
 ?>

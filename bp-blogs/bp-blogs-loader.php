@@ -44,13 +44,13 @@ class BP_Blogs_Component extends BP_Component {
 		$this->table_name_meta = $bp->table_prefix . 'bp_user_blogs_blogmeta';
 
 		// Notifications
-		$bp->blogs->notification_callback = 'bp_blogs_format_notifications';
+		$this->notification_callback = 'bp_blogs_format_notifications';
 
 		// Register this in the active components array
-		$bp->active_components[$this->slug] = $this->id;
+		$bp->active_components[$this->id] = $this->id;
 
 		// The default text for the blogs directory search box
-		$bp->default_search_strings[$this->slug] = __( 'Search Blogs...', 'buddypress' );
+		$bp->default_search_strings[$this->id] = __( 'Search Blogs...', 'buddypress' );
 	}
 
 	/**
@@ -88,11 +88,11 @@ class BP_Blogs_Component extends BP_Component {
 		// Add 'Blogs' to the main navigation
 		bp_core_new_nav_item( array(
 			'name'                => sprintf( __( 'Blogs <span>(%d)</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ),
-			'slug'                => $bp->blogs->slug,
+			'slug'                => $this->slug,
 			'position'            => 30,
 			'screen_function'     => 'bp_blogs_screen_my_blogs',
 			'default_subnav_slug' => 'my-blogs',
-			'item_css_id'         => $bp->blogs->id
+			'item_css_id'         => $this->id
 		) );
 
 		// Set up the component options navigation for Blog

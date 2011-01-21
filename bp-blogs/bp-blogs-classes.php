@@ -68,7 +68,7 @@ Class BP_Blogs_Blog {
 
 	/* Static Functions */
 
-	function get( $type, $limit = false, $page = false, $user_id = false, $search_terms = false ) {
+	function get( $type, $limit = false, $page = false, $user_id = 0, $search_terms = false ) {
 		global $bp, $wpdb;
 
 		if ( !$bp->blogs )
@@ -153,7 +153,7 @@ Class BP_Blogs_Blog {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE user_id = %d", $user_id ) );
 	}
 
-	function get_blogs_for_user( $user_id = false, $show_hidden = false ) {
+	function get_blogs_for_user( $user_id = 0, $show_hidden = false ) {
 		global $bp, $wpdb;
 
 		if ( !$bp->blogs )
@@ -182,7 +182,7 @@ Class BP_Blogs_Blog {
 		return array( 'blogs' => $user_blogs, 'count' => $total_blog_count );
 	}
 
-	function get_blog_ids_for_user( $user_id = false ) {
+	function get_blog_ids_for_user( $user_id = 0 ) {
 		global $bp, $wpdb;
 
 		if ( !$bp->blogs )
