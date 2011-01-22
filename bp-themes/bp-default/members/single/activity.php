@@ -20,7 +20,7 @@
 				<option value="activity_update"><?php _e( 'Show Updates', 'buddypress' ) ?></option>
 
 				<?php
-				if ( 'groups' != bp_current_action() ) :
+				if ( !bp_is_current_action( 'groups' ) ) :
 					if ( bp_is_active( 'blogs' ) ) : ?>
 
 						<option value="new_blog_post"><?php _e( 'Show Blog Posts', 'buddypress' ) ?></option>
@@ -61,7 +61,7 @@
 <?php do_action( 'bp_before_member_activity_post_form' ); ?>
 
 <?php
-if ( is_user_logged_in() && bp_is_my_profile() && ( !bp_is_current_action() || bp_is_current_action( 'just-me' ) ) )
+if ( is_user_logged_in() && bp_is_my_profile() && ( !bp_current_action() || bp_is_current_action( 'just-me' ) ) )
 	locate_template( array( 'activity/post-form.php'), true );
 
 do_action( 'bp_after_member_activity_post_form' );
