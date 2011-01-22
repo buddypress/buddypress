@@ -639,12 +639,7 @@ function bp_last_activity( $user_id = 0 ) {
 	}	
 
 function bp_user_has_access() {
-	global $bp;
-
-	if ( is_super_admin() || is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
-		$has_access = true;
-	else
-		$has_access = false;
+	$has_access = ( is_super_admin() || bp_is_my_profile() ) ? true : false;
 
 	return apply_filters( 'bp_user_has_access', $has_access );
 }
