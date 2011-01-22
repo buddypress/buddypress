@@ -1362,8 +1362,8 @@ body.activity-permalink ul.activity-list li.has-comments {
 
 .activity-list li.mini .activity-avatar img.avatar,
 .activity-list li.mini .activity-avatar img.FB_profile_pic {
-	width: 20px;
-	height: 20px;
+	width: 30px;
+	height: 30px;
 	margin-left: 36px;
 }
 
@@ -1400,6 +1400,10 @@ body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
 	top: 0;
 }
 
+body.activity-permalink .activity-list .activity-meta {
+	top: 18px;
+	right: 15px;
+}
 body.activity-permalink .activity-list li.mini .activity-meta {
 	position: absolute;
 	right: 15px;
