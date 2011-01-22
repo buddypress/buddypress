@@ -59,27 +59,26 @@ class BP_Core_User {
 			$this->profile_data = $this->get_profile_data();
 
 		if ( $this->profile_data ) {
-			$this->user_url = bp_core_get_user_domain( $this->id, $this->profile_data['user_nicename'], $this->profile_data['user_login'] );
-			$this->fullname = esc_attr( $this->profile_data[BP_XPROFILE_FULLNAME_FIELD_NAME]['field_data'] );
+			$this->user_url  = bp_core_get_user_domain( $this->id, $this->profile_data['user_nicename'], $this->profile_data['user_login'] );
+			$this->fullname  = esc_attr( $this->profile_data[BP_XPROFILE_FULLNAME_FIELD_NAME]['field_data'] );
 			$this->user_link = "<a href='{$this->user_url}' title='{$this->fullname}'>{$this->fullname}</a>";
-			$this->email = esc_attr( $this->profile_data['user_email'] );
+			$this->email     = esc_attr( $this->profile_data['user_email'] );
 		} else {
-			$this->user_url = bp_core_get_user_domain( $this->id );
+			$this->user_url  = bp_core_get_user_domain( $this->id );
 			$this->user_link = bp_core_get_userlink( $this->id );
-			$this->fullname = esc_attr( bp_core_get_user_displayname( $this->id ) );
-			$this->email = esc_attr( bp_core_get_user_email( $this->id ) );
+			$this->fullname  = esc_attr( bp_core_get_user_displayname( $this->id ) );
+			$this->email     = esc_attr( bp_core_get_user_email( $this->id ) );
 		}
 
-		/* Cache a few things that are fetched often */
+		// Cache a few things that are fetched often
 		wp_cache_set( 'bp_user_fullname_' . $this->id, $this->fullname, 'bp' );
 		wp_cache_set( 'bp_user_email_' . $this->id, $this->email, 'bp' );
 		wp_cache_set( 'bp_user_url_' . $this->id, $this->user_url, 'bp' );
 
-		$this->avatar = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full' ) );
+		$this->avatar       = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full'  ) );
 		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb' ) );
-		$this->avatar_mini = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) );
-
-		$this->last_active = bp_core_get_last_activity( get_user_meta( $this->id, 'last_activity', true ), __( 'active %s ago', 'buddypress' ) );
+		$this->avatar_mini  = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) );
+		$this->last_active  = bp_core_get_last_activity( get_user_meta( $this->id, 'last_activity', true ), __( 'active %s ago', 'buddypress' ) );
 	}
 
 	function populate_extras() {
@@ -104,7 +103,7 @@ class BP_Core_User {
 		return BP_XProfile_ProfileData::get_all_for_user( $this->id );
 	}
 
-	/* Static Functions */
+	/** Static Functions ******************************************************/
 
 	function get_users( $type, $limit = null, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp;
@@ -160,14 +159,15 @@ class BP_Core_User {
 
 			if ( !empty( $friend_ids ) )
 				$sql['where_friends'] = "AND u.ID IN ({$friend_ids})";
-			else {
-				/* User has no friends, return false since there will be no users to fetch. */
+
+			// User has no friends, return false since there will be no users to fetch.
+			else 
 				return false;
-			}
+
 		}
 
 		if ( $search_terms && bp_is_active( 'profile' ) ) {
-			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+			$search_terms             = like_escape( $wpdb->escape( $search_terms ) );
 			$sql['where_searchterms'] = "AND pd.value LIKE '%%$search_terms%%'";
 		}
 
@@ -192,11 +192,11 @@ class BP_Core_User {
 		if ( $limit && $page )
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		/* Get paginated results */
+		// Get paginated results
 		$paged_users_sql = apply_filters( 'bp_core_get_paged_users_sql', join( ' ', (array)$sql ), $sql );
 		$paged_users     = $wpdb->get_results( $paged_users_sql );
 
-		/* Re-jig the SQL so we can get the total user count */
+		// Re-jig the SQL so we can get the total user count
 		unset( $sql['select_main'] );
 
 		if ( !empty( $sql['select_active'] ) )
@@ -213,7 +213,7 @@ class BP_Core_User {
 
 		array_unshift( $sql, "SELECT COUNT(DISTINCT u.ID)" );
 
-		/* Get total user results */
+		// Get total user results
 		$total_users_sql = apply_filters( 'bp_core_get_total_users_sql', join( ' ', (array)$sql ), $sql );
 		$total_users     = $wpdb->get_var( $total_users_sql );
 
@@ -229,7 +229,7 @@ class BP_Core_User {
 
 			$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
 
-			/* Add additional data to the returned results */
+			// Add additional data to the returned results
 			$paged_users = BP_Core_User::get_user_extras( &$paged_users, $user_ids, $type );
 		}
 
@@ -254,7 +254,7 @@ class BP_Core_User {
 			}
 		}
 
-		$letter = like_escape( $wpdb->escape( $letter ) );
+		$letter     = like_escape( $wpdb->escape( $letter ) );
 		$status_sql = bp_core_get_status_sql( 'u.' );
 
 		$exclude_sql = ( !empty( $exclude ) ) ? " AND u.ID NOT IN ({$exclude})" : "";
@@ -289,7 +289,7 @@ class BP_Core_User {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		$user_sql = " AND user_id IN ( " . $wpdb->escape( $user_ids ) . " ) ";
+		$user_sql   = " AND user_id IN ( " . $wpdb->escape( $user_ids ) . " ) ";
 		$status_sql = bp_core_get_status_sql();
 
 		$total_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT ID) FROM " . CUSTOM_USER_TABLE . " WHERE {$status_sql} AND ID IN ( " . $wpdb->escape( $user_ids ) . " ) " ), $wpdb->escape( $user_ids ) );
@@ -318,7 +318,7 @@ class BP_Core_User {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		$search_terms = like_escape( $wpdb->escape( $search_terms ) );
-		$status_sql = bp_core_get_status_sql( 'u.' );
+		$status_sql   = bp_core_get_status_sql( 'u.' );
 
 		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', "SELECT COUNT(DISTINCT u.ID) as id FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC", $search_terms );
 		$paged_users_sql = apply_filters( 'bp_core_search_users_sql', "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE '%%$search_terms%%' ORDER BY pd.value ASC{$pag_sql}", $search_terms, $pag_sql );
@@ -335,7 +335,7 @@ class BP_Core_User {
 
 		$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
 
-		/* Add additional data to the returned results */
+		// Add additional data to the returned results
 		if ( $populate_extras )
 			$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
 
@@ -348,9 +348,9 @@ class BP_Core_User {
 		if ( empty( $user_ids ) )
 			return $paged_users;
 
-		/* Fetch the user's full name */
+		// Fetch the user's full name
 		if ( bp_is_active( 'profile' ) && 'alphabetical' != $type ) {
-			/* Ensure xprofile globals are set */
+			// Ensure xprofile globals are set
 			if ( !defined( 'BP_XPROFILE_FULLNAME_FIELD_NAME' ) )
 				xprofile_setup_globals();
 
@@ -363,7 +363,7 @@ class BP_Core_User {
 			}
 		}
 
-		/* Fetch the user's total friend count */
+		// Fetch the user's total friend count
 		if ( 'popular' != $type ) {
 			$friend_count = $wpdb->get_results( "SELECT user_id as id, meta_value as total_friend_count FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'total_friend_count' AND user_id IN ( {$user_ids} )" );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
@@ -374,7 +374,7 @@ class BP_Core_User {
 			}
 		}
 
-		/* Fetch whether or not the user is a friend */
+		// Fetch whether or not the user is a friend
 		if ( bp_is_active( 'friends' ) ) {
 			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", $bp->loggedin_user->id, $bp->loggedin_user->id ) );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
@@ -395,7 +395,7 @@ class BP_Core_User {
 			}
 		}
 
-		/* Fetch the user's last_activity */
+		// Fetch the user's last_activity
 		if ( 'active' != $type ) {
 			$user_activity = $wpdb->get_results( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'last_activity' AND user_id IN ( {$user_ids} )" );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
@@ -406,7 +406,7 @@ class BP_Core_User {
 			}
 		}
 
-		/* Fetch the user's latest update */
+		// Fetch the user's latest update
 		$user_update = $wpdb->get_results( "SELECT user_id as id, meta_value as latest_update FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'bp_latest_update' AND user_id IN ( {$user_ids} )" );
 		for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 			foreach ( (array)$user_update as $update ) {
@@ -459,24 +459,24 @@ class BP_Core_Notification {
 		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE id = %d", $this->id ) ) ) {
 			$this->item_id = $notification->item_id;
 			$this->secondary_item_id = $notification->secondary_item_id;
-			$this->user_id = $notification->user_id;
-			$this->component_name = $notification->component_name;
-			$this->component_action = $notification->component_action;
-			$this->date_notified = $notification->date_notified;
-			$this->is_new = $notification->is_new;
+			$this->user_id           = $notification->user_id;
+			$this->component_name    = $notification->component_name;
+			$this->component_action  = $notification->component_action;
+			$this->date_notified     = $notification->date_notified;
+			$this->is_new            = $notification->is_new;
 		}
 	}
 
 	function save() {
 		global $wpdb, $bp;
 
-		if ( $this->id ) {
-			// Update
+		// Update
+		if ( $this->id )
 			$sql = $wpdb->prepare( "UPDATE {$bp->core->table_name_notifications} SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = %s, is_new = %d ) WHERE id = %d", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
-		} else {
-			// Save
+
+		// Save
+		else
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->core->table_name_notifications} ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %d, %s, %s, %s, %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
-		}
 
 		if ( !$result = $wpdb->query( $sql ) )
 			return false;
@@ -485,7 +485,7 @@ class BP_Core_Notification {
 		return true;
 	}
 
-	/* Static functions */
+	/** Static functions ******************************************************/
 
 	function check_access( $user_id, $notification_id ) {
 		global $wpdb, $bp;
