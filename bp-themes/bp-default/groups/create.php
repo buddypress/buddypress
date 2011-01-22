@@ -117,7 +117,7 @@
 
 					<?php do_action( 'bp_before_group_avatar_creation_step' ); ?>
 
-					<?php if ( !bp_get_avatar_admin_step() ) : ?>
+					<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
 
 						<div class="left-menu">
 
