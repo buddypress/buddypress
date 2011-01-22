@@ -524,9 +524,13 @@ class BP_Core_Notification {
 
 		if ( $component_action )
 			$component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
+		else
+			$component_action_sql = '';
 
 		if ( $secondary_item_id )
 			$secondary_item_sql = $wpdb->prepare( "AND secondary_item_id = %d", $secondary_item_id );
+		else
+			$secondary_item_sql = '';
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s {$component_action_sql} {$secondary_item_sql}", $item_id, $component_name ) );
 	}
