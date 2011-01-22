@@ -16,7 +16,7 @@
 function bp_activity_screen_index() {
 	global $bp;
 
-	if ( bp_is_activity_component() && empty( $bp->current_action ) ) {
+	if ( !bp_displayed_user_id() && bp_is_current_component( 'activity' ) && !bp_current_action() ) {
 		$bp->is_directory = true;
 
 		do_action( 'bp_activity_screen_index' );
