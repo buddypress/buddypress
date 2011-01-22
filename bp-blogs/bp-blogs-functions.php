@@ -267,8 +267,10 @@ add_action( 'wp_set_comment_status', 'bp_blogs_manage_comment', 10, 2 );
 function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = false ) {
 	global $wpdb, $current_blog;
 
-	if ( empty( $blog_id ) )
+	if ( empty( $blog_id ) && isset( $current_blog ) )
 		$blog_id = $current_blog->blog_id;
+	else
+		$blog_id = BP_ROOT_BLOG;
 
 	if ( empty( $role ) ) {
 		$key = $wpdb->get_blog_prefix( $blog_id ). 'capabilities';
