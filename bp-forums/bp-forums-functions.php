@@ -322,12 +322,14 @@ function bp_forums_total_topic_count() {
 
 	do_action( 'bbpress_init' );
 
-	if ( isset( $bbdb ) )
+	if ( isset( $bbdb ) ) {
 		$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t". groups_add_forum_tables_sql( '' ) . " WHERE " . groups_add_forum_where_sql( "t.topic_status = 0" ) ) );
-	else
+		$count = count( (array)$count );
+	} else {
 		$count = 0;
+	}
 
-	return apply_filters( 'bp_forums_total_topic_count', count( (array)$count ) );
+	return apply_filters( 'bp_forums_total_topic_count', $count );
 }
 
 function bp_forums_total_topic_count_for_user( $user_id = 0 ) {
