@@ -88,9 +88,6 @@ function bp_core_setup_globals() {
 	// Notifications Table
 	$bp->core->table_name_notifications = $bp->table_prefix . 'bp_notifications';
 
-	// The default text for the members directory search box
-	$bp->default_search_strings[$bp->members->slug] = __( 'Search Members...', 'buddypress' );
-
 	do_action( 'bp_core_setup_globals' );
 }
 add_action( 'bp_setup_globals', 'bp_core_setup_globals', 1 );

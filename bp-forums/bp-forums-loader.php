@@ -48,11 +48,11 @@ class BP_Forums_Component extends BP_Component {
 		if ( isset( $bp->site_options['bb-config-location'] ) )
 			$this->bbconfig = $bp->site_options['bb-config-location'];
 
+		// The default text for the blogs directory search box
+		$this->default_search_string = __( 'Search Forums...', 'buddypress' );
+
 		// Register this in the active components array
 		$bp->active_components[$this->id] = $this->id;
-
-		// The default text for the blogs directory search box
-		$bp->default_search_strings[$this->id] = __( 'Search Forums...', 'buddypress' );
 	}
 
 	/**

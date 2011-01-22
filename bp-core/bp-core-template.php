@@ -341,10 +341,10 @@ function bp_search_form_type_select() {
  * @return string
  * @since 1.3
  */
-function bp_search_default_text() {
-	echo bp_get_search_default_text();
+function bp_search_default_text( $component = '' ) {
+	echo bp_get_search_default_text( $component );
 }
-	function bp_get_search_default_text( $component = false ) {
+	function bp_get_search_default_text( $component = '' ) {
 		global $bp;
 
 		if ( empty( $component ) )
@@ -352,20 +352,20 @@ function bp_search_default_text() {
 
 		$default_text = __( 'Search anything...', 'buddypress' );
 
-		if ( !empty( $bp->default_search_strings[$component] ) ) {
-			// Most of the time, $component will be the actual component name
-			$default_text = $bp->default_search_strings[$component];
+		// Most of the time, $component will be the actual component ID
+		if ( !empty( $bp->{$component}->default_search_string ) ) {
+			$default_text = $bp->{$component}->default_search_string;
 		} else {
-			// When the request comes through AJAX, we need to get the component name
-			// out of $bp->pages
+			// When the request comes through AJAX, we need to get the component
+			// name out of $bp->pages
 			if ( !empty( $bp->pages->{$component}->slug ) ) {
 				$key = $bp->pages->{$component}->slug;
-				if ( !empty( $bp->default_search_strings[$key] ) )
-					$default_text = $bp->default_search_strings[$key];
+				if ( !empty( $bp->{$key}->default_search_string ) )
+					$default_text = $bp->{$key}->default_search_string;
 			}
 		}
 
-		return apply_filters( 'bp_search_default_text', $default_text, $component );
+		return apply_filters( 'bp_get_search_default_text', $default_text, $component );
 	}
 
 function bp_search_form() {

@@ -105,11 +105,11 @@ class BP_Groups_Component extends BP_Component {
 		// Auto join group when non group member performs group activity
 		$this->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) ? false : true;
 
-		// Register this in the active components array
-		$bp->active_components[$this->slug] = $this->id;
-
 		// The default text for the groups directory search box
-		$bp->default_search_strings[$this->slug] = __( 'Search Groups...', 'buddypress' );
+		$this->default_search_string = __( 'Search Groups...', 'buddypress' );
+
+		// Register this in the active components array
+		$bp->active_components[$this->id] = $this->id;
 	}
 
 	/**
