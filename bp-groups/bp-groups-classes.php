@@ -317,9 +317,9 @@ Class BP_Groups_Group {
 
 		/* Get paginated results */
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array)$sql ), $sql );
-		$paged_groups = $wpdb->get_results( $paged_groups_sql );
+		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
 
-		$total_sql['select'] = "SELECT COUNT(g.id) FROM {$bp->groups->table_name} g";
+		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g";
 
 		if ( !empty( $user_id ) )
 			$total_sql['select'] .= ", {$bp->groups->table_name_members} m";
@@ -344,8 +344,8 @@ Class BP_Groups_Group {
 			$t_sql .= " WHERE " . join( ' AND ', (array)$total_sql['where'] );
 
 		/* Get total group results */
-		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', join( ' ', (array)$sql ), $sql );
-		$total_groups = $wpdb->get_var( $total_groups_sql );
+		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', join( ' ', (array)$t_sql ), $t_sql );
+		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
 		/* Populate some extra information instead of querying each time in the loop */
 		if ( !empty( $populate_extras ) ) {
