@@ -1,9 +1,9 @@
-<?php get_header() ?>
+<?php get_header(); ?>
 
 	<div id="content">
 		<div class="padder">
 
-			<?php do_action( 'bp_before_member_home_content' ) ?>
+			<?php do_action( 'bp_before_member_home_content' ); ?>
 
 			<div id="item-header" role="complementary">
 
@@ -15,43 +15,42 @@
 				<div class="item-list-tabs no-ajax" id="object-nav" role="navigation">
 					<ul>
 
-						<?php bp_get_displayed_user_nav() ?>
+						<?php bp_get_displayed_user_nav(); ?>
 
-						<?php do_action( 'bp_member_options_nav' ) ?>
+						<?php do_action( 'bp_member_options_nav' ); ?>
 
 					</ul>
 				</div>
 			</div><!-- #item-nav -->
 
 			<div id="item-body">
-				<?php do_action( 'bp_before_member_body' ); ?>
+				<?php do_action( 'bp_before_member_body' );
 
-				<?php if ( bp_is_user_activity() || !bp_current_component() ) : ?>
-					<?php locate_template( array( 'members/single/activity.php' ), true ); ?>
+				if ( bp_is_user_activity() || !bp_current_component() ) :
+					locate_template( array( 'members/single/activity.php' ), true );
 
-				<?php elseif ( bp_is_user_blogs() ) : ?>
-					<?php locate_template( array( 'members/single/blogs.php' ), true ); ?>
+				 elseif ( bp_is_user_blogs() ) :
+					locate_template( array( 'members/single/blogs.php'    ), true );
 
-				<?php elseif ( bp_is_user_friends() ) : ?>
-					<?php locate_template( array( 'members/single/friends.php' ), true ); ?>
+				elseif ( bp_is_user_friends() ) :
+					locate_template( array( 'members/single/friends.php'  ), true );
 
-				<?php elseif ( bp_is_user_groups() ) : ?>
-					<?php locate_template( array( 'members/single/groups.php' ), true ); ?>
+				elseif ( bp_is_user_groups() ) :
+					locate_template( array( 'members/single/groups.php'   ), true );
 
-				<?php elseif ( bp_is_user_messages() ) : ?>
-					<?php locate_template( array( 'members/single/messages.php' ), true ); ?>
+				elseif ( bp_is_user_messages() ) :
+					locate_template( array( 'members/single/messages.php' ), true );
 
-				<?php elseif ( bp_is_user_profile() ) : ?>
-					<?php locate_template( array( 'members/single/profile.php' ), true ); ?>
+				elseif ( bp_is_user_profile() ) :
+					locate_template( array( 'members/single/profile.php'  ), true );
 
-				<?php else : ?>
-					<?php
-						// If nothing sticks, load a generic template
-						locate_template( array( 'members/single/front.php' ), true );
-					?>
-				<?php endif; ?>
+				// If nothing sticks, load a generic template
+				else :
+					locate_template( array( 'members/single/front.php'    ), true );
 
-				<?php do_action( 'bp_after_member_body' ); ?>
+				endif;
+
+				do_action( 'bp_after_member_body' ); ?>
 
 			</div><!-- #item-body -->
 
@@ -61,4 +60,4 @@
 	</div><!-- #content -->
 
 <?php get_sidebar(); ?>
-<?php get_footer() ?>
+<?php get_footer(); ?>

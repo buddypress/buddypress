@@ -8,10 +8,10 @@
 
 <?php
 
-	if ( 'compose' == bp_current_action() ) :
+	if ( bp_is_current_action( 'compose' ) ) :
 		locate_template( array( 'members/single/messages/compose.php' ), true );
 
-	elseif ( 'view' == bp_current_action() ) :
+	elseif ( bp_is_current_action( 'view' ) ) :
 		locate_template( array( 'members/single/messages/single.php' ), true );
 
 	else :
@@ -20,13 +20,10 @@
 	<div class="messages" role="main">
 
 		<?php
-			if ( 'notices' == bp_current_action() ) :
+			if ( bp_is_current_action( 'notices' ) )
 				locate_template( array( 'members/single/messages/notices-loop.php' ), true );
-
-			else :
+			else
 				locate_template( array( 'members/single/messages/messages-loop.php' ), true );
-
-			endif;
 		?>
 
 	</div><!-- .messages -->
