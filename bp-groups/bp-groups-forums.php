@@ -1,0 +1,231 @@
+<?php
+
+/*** Group Forums **************************************************************/
+
+function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = '' ) {
+	global $bp;
+
+	if ( !$group_id )
+		$group_id = $bp->groups->current_group->id;
+
+	if ( !$group_name )
+		$group_name = $bp->groups->current_group->name;
+
+	if ( !$group_desc )
+		$group_desc = $bp->groups->current_group->description;
+
+	$forum_id = bp_forums_new_forum( array( 'forum_name' => $group_name, 'forum_desc' => $group_desc ) );
+
+	groups_update_groupmeta( $group_id, 'forum_id', $forum_id );
+
+	do_action( 'groups_new_group_forum', $forum_id, $group_id );
+}
+
+function groups_update_group_forum( $group_id ) {
+
+	$group = new BP_Groups_Group( $group_id );
+
+	if ( !$group->enable_forum || !function_exists( 'bp_forums_setup' ) )
+		return false;
+
+	$args = array(
+		'forum_id'      => groups_get_groupmeta( $group_id, 'forum_id' ),
+		'forum_name'    => $group->name,
+		'forum_desc'    => $group->desc,
+		'forum_slug'    => $group->slug
+	);
+
+	bp_forums_update_forum( apply_filters( 'groups_update_group_forum', $args ) );
+}
+add_action( 'groups_details_updated', 'groups_update_group_forum' );
+
+function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
+	global $bp;
+
+	if ( empty( $post_text ) )
+		return false;
+
+	$post_text = apply_filters( 'group_forum_post_text_before_save', $post_text );
+	$topic_id  = apply_filters( 'group_forum_post_topic_id_before_save', $topic_id );
+
+	if ( $post_id = bp_forums_insert_post( array( 'post_text' => $post_text, 'topic_id' => $topic_id ) ) ) {
+		$topic = bp_forums_get_topic_details( $topic_id );
+
+		$activity_action = sprintf( __( '%1$s posted on the forum topic %2$s in the group %3$s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . esc_attr( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' );
+		$activity_content = bp_create_excerpt( $post_text );
+		$primary_link = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
+
+		if ( $page )
+			$primary_link .= "?topic_page=" . $page;
+
+		// Record this in activity streams
+		groups_record_activity( array(
+			'action'            => apply_filters( 'groups_activity_new_forum_post_action', $activity_action, $post_id, $post_text, &$topic ),
+			'content'           => apply_filters( 'groups_activity_new_forum_post_content', $activity_content, $post_id, $post_text, &$topic ),
+			'primary_link'      => apply_filters( 'groups_activity_new_forum_post_primary_link', "{$primary_link}#post-{$post_id}" ),
+			'type'              => 'new_forum_post',
+			'item_id'           => $bp->groups->current_group->id,
+			'secondary_item_id' => $post_id
+		) );
+
+		do_action( 'groups_new_forum_topic_post', $bp->groups->current_group->id, $post_id );
+
+		return $post_id;
+	}
+
+	return false;
+}
+
+function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) {
+	global $bp;
+
+	if ( empty( $topic_title ) || empty( $topic_text ) )
+		return false;
+
+	$topic_title = apply_filters( 'group_forum_topic_title_before_save', $topic_title );
+	$topic_text  = apply_filters( 'group_forum_topic_text_before_save', $topic_text );
+	$topic_tags  = apply_filters( 'group_forum_topic_tags_before_save', $topic_tags );
+	$forum_id    = apply_filters( 'group_forum_topic_forum_id_before_save', $forum_id );
+
+	if ( $topic_id = bp_forums_new_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_tags' => $topic_tags, 'forum_id' => $forum_id ) ) ) {
+		$topic = bp_forums_get_topic_details( $topic_id );
+
+		$activity_action = sprintf( __( '%1$s started the forum topic %2$s in the group %3$s:', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . esc_attr( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' );
+		$activity_content = bp_create_excerpt( $topic_text );
+
+		// Record this in activity streams
+		groups_record_activity( array(
+			'action'            => apply_filters( 'groups_activity_new_forum_topic_action', $activity_action, $topic_text, &$topic ),
+			'content'           => apply_filters( 'groups_activity_new_forum_topic_content', $activity_content, $topic_text, &$topic ),
+			'primary_link'      => apply_filters( 'groups_activity_new_forum_topic_primary_link', bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/' ),
+			'type'              => 'new_forum_topic',
+			'item_id'           => $bp->groups->current_group->id,
+			'secondary_item_id' => $topic->topic_id
+		) );
+
+		do_action( 'groups_new_forum_topic', $bp->groups->current_group->id, &$topic );
+
+		return $topic;
+	}
+
+	return false;
+}
+
+function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text ) {
+	global $bp;
+
+	$topic_title = apply_filters( 'group_forum_topic_title_before_save', $topic_title );
+	$topic_text  = apply_filters( 'group_forum_topic_text_before_save',  $topic_text  );
+
+	if ( $topic = bp_forums_update_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_id' => $topic_id ) ) ) {
+		// Update the activity stream item
+		if ( function_exists( 'bp_activity_delete_by_item_id' ) )
+			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
+
+		$activity_action = sprintf( __( '%1$s started the forum topic %2$s in the group %3$s:', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . esc_attr( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' );
+		$activity_content = bp_create_excerpt( $topic_text );
+
+		// Record this in activity streams
+		groups_record_activity( array(
+			'action'            => apply_filters( 'groups_activity_new_forum_topic_action', $activity_action, $topic_text, &$topic ),
+			'content'           => apply_filters( 'groups_activity_new_forum_topic_content', $activity_content, $topic_text, &$topic ),
+			'primary_link'      => apply_filters( 'groups_activity_new_forum_topic_primary_link', bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/' ),
+			'type'              => 'new_forum_topic',
+			'item_id'           => (int)$bp->groups->current_group->id,
+			'user_id'           => (int)$topic->topic_poster,
+			'secondary_item_id' => $topic->topic_id,
+			'recorded_time '    => $topic->topic_time
+		) );
+
+		do_action( 'groups_update_group_forum_topic', &$topic );
+
+		return $topic;
+	}
+
+	return false;
+}
+
+function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page = false ) {
+	global $bp;
+
+	$post_text = apply_filters( 'group_forum_post_text_before_save', $post_text );
+	$topic_id  = apply_filters( 'group_forum_post_topic_id_before_save', $topic_id );
+	$post      = bp_forums_get_post( $post_id );
+
+	if ( $post_id = bp_forums_insert_post( array( 'post_id' => $post_id, 'post_text' => $post_text, 'post_time' => $post->post_time, 'topic_id' => $topic_id, 'poster_id' => $post->poster_id ) ) ) {
+		$topic = bp_forums_get_topic_details( $topic_id );
+
+		$activity_action = sprintf( __( '%1$s posted on the forum topic %2$s in the group %3$s:', 'buddypress'), bp_core_get_userlink( $post->poster_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'">' . esc_attr( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' );
+		$activity_content = bp_create_excerpt( $post_text );
+		$primary_link = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
+
+		if ( $page )
+			$primary_link .= "?topic_page=" . $page;
+
+		// Fetch an existing entry and update if one exists.
+		if ( function_exists( 'bp_activity_get_activity_id' ) )
+			$id = bp_activity_get_activity_id( array( 'user_id' => $post->poster_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post', 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id ) );
+
+		// Update the entry in activity streams
+		groups_record_activity( array(
+			'id'                => $id,
+			'action'            => apply_filters( 'groups_activity_new_forum_post_action', $activity_action, $post_text, &$topic, &$forum_post ),
+			'content'           => apply_filters( 'groups_activity_new_forum_post_content', $activity_content, $post_text, &$topic, &$forum_post ),
+			'primary_link'      => apply_filters( 'groups_activity_new_forum_post_primary_link', $primary_link . "#post-" . $post_id ),
+			'type'              => 'new_forum_post',
+			'item_id'           => (int)$bp->groups->current_group->id,
+			'user_id'           => (int)$post->poster_id,
+			'secondary_item_id' => $post_id,
+			'recorded_time'     => $post->post_time
+		) );
+
+		do_action( 'groups_update_group_forum_post', &$post, &$topic );
+
+		return $post_id;
+	}
+
+	return false;
+}
+
+function groups_delete_group_forum_topic( $topic_id ) {
+	global $bp;
+
+	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
+		do_action( 'groups_before_delete_group_forum_topic', $topic_id );
+
+		// Delete the activity stream item
+		if ( function_exists( 'bp_activity_delete' ) )
+			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
+
+		do_action( 'groups_delete_group_forum_topic', $topic_id );
+
+		return true;
+	}
+
+	return false;
+}
+
+function groups_delete_group_forum_post( $post_id, $topic_id ) {
+	global $bp;
+
+	if ( bp_forums_delete_post( array( 'post_id' => $post_id ) ) ) {
+		do_action( 'groups_before_delete_group_forum_post', $post_id, $topic_id );
+
+		// Delete the activity stream item
+		if ( function_exists( 'bp_activity_delete' ) )
+			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
+
+		do_action( 'groups_delete_group_forum_post', $post_id, $topic_id );
+
+		return true;
+	}
+
+	return false;
+}
+
+
+function groups_total_public_forum_topic_count( $type = 'newest' ) {
+	return apply_filters( 'groups_total_public_forum_topic_count', BP_Groups_Group::get_global_forum_topic_count( $type ) );
+}
+
+?>

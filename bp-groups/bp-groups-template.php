@@ -86,7 +86,17 @@ class BP_Groups_Template {
 			$group->group_id = BP_Groups_Group::get_id_from_slug( $slug );
 			$this->groups    = array( $group );
 		} else {
-			$this->groups = groups_get_groups( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'include' => $include, 'exclude' => $exclude, 'populate_extras' => $populate_extras, 'show_hidden' => $show_hidden ) );
+			$this->groups = groups_get_groups( array(
+				'type'            => $type,
+				'per_page'        => $this->pag_num,
+				'page'            => $this->pag_page,
+				'user_id'         => $user_id,
+				'search_terms'    => $search_terms,
+				'include'         => $include,
+				'exclude'         => $exclude,
+				'populate_extras' => $populate_extras,
+				'show_hidden'     => $show_hidden
+			) );
 		}
 
 		if ( 'invites' == $type ) {
@@ -596,7 +606,7 @@ function bp_group_show_no_groups_message() {
 function bp_group_is_activity_permalink() {
 	global $bp;
 
-	if ( !$bp->is_single_item || !bp_is_current_component( $bp->groups->slug ) || $bp->current_action != $bp->activity->slug )
+	if ( !bp_is_single_item() || !bp_is_current_component( 'groups' ) || !bp_is_current_action( $bp->activity->slug ) )
 		return false;
 
 	return true;
@@ -1699,7 +1709,7 @@ function bp_is_group_creation_step( $step_slug ) {
 	global $bp;
 
 	/* Make sure we are in the groups component */
-	if ( !bp_is_current_component( $bp->groups->slug ) || 'create' != $bp->current_action )
+	if ( !bp_is_current_component( 'groups' ) ||  !bp_is_current_action( 'create' ) )
 		return false;
 
 	/* If this the first step, we can just accept and return true */
@@ -1978,7 +1988,7 @@ function bp_groups_filter_title() {
 function bp_is_group_admin_screen( $slug ) {
 	global $bp;
 
-	if ( !bp_is_current_component( $bp->groups->slug ) || 'admin' != $bp->current_action )
+	if ( !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'admin' ) )
 		return false;
 
 	if ( $bp->action_variables[0] == $slug )
