@@ -98,15 +98,19 @@ function bp_activity_screen_single_activity_permalink() {
 	global $bp;
 
 	// No displayed user or not viewing activity component
-	if ( empty( $bp->displayed_user->id ) || $bp->current_component != $bp->activity->id )
+	if ( !bp_is_activity_component() )
 		return false;
 
 	// No current action or not a specific activity item
-	if ( empty( $bp->current_action ) || !is_numeric( $bp->current_action ) )
+	if ( !bp_current_action() || !bp_is_current_action( 'p' ) || !isset( $bp->action_variables['0'] ) )
 		return false;
 
+	// RE-jig the action and action variables
+	$bp->current_action = $bp->action_variables['0'];
+	unset( $bp->action_variables['0'] );
+
 	// Get the activity details
-	$activity = bp_activity_get_specific( array( 'activity_ids' => $bp->current_action ) );
+	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action() ) );
 
 	if ( !$activity = $activity['activities'][0] )
 		bp_core_redirect( $bp->root_domain );
@@ -114,10 +118,10 @@ function bp_activity_screen_single_activity_permalink() {
 	// Default access is true
 	$has_access = true;
 
-	// Redirect based on the type of activity
+	// If activity is from a group, do an extra cap check
 	if ( isset( $bp->groups->id ) && $activity->component == $bp->groups->id ) {
 
-		// This should never happen, but we'll check it anyways
+		// Activity is from a group, but groups is currently disabled
 		if ( !bp_is_active( 'groups') )
 			bp_core_redirect( $bp->root_domain );
 
