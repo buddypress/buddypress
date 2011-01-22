@@ -101,7 +101,7 @@ function bp_avatar_admin_step() {
 		if ( isset( $bp->avatar_admin->step ) )
 			$step = $bp->avatar_admin->step;
 		else
-			$step = '';
+			$step = 'upload-image';
 
 		return apply_filters( 'bp_get_avatar_admin_step', $step );
 	}
@@ -677,7 +677,7 @@ function bp_is_current_component( $component ) {
 function bp_is_current_action( $action = '' ) {
 	global $bp;
 
-	if ( !empty( $action ) && ( $action == $bp->current_action ) )
+	if ( $action == $bp->current_action )
 		return true;
 
 	return false;
@@ -686,7 +686,7 @@ function bp_is_current_action( $action = '' ) {
 function bp_is_current_item( $item = '' ) {
 	global $bp;
 
-	if ( !empty( $item ) && ( $item == $bp->current_item ) )
+	if ( $item == $bp->current_item )
 		return true;
 
 	return false;
@@ -701,7 +701,7 @@ function bp_is_single_item() {
 	return false;
 }
 
-function bp_is_item_admin( $item = '' ) {
+function bp_is_item_admin() {
 	global $bp;
 
 	if ( !empty( $bp->is_item_admin ) )
@@ -710,7 +710,7 @@ function bp_is_item_admin( $item = '' ) {
 	return false;
 }
 
-function bp_is_item_mod( $item = '' ) {
+function bp_is_item_mod() {
 	global $bp;
 
 	if ( !empty( $bp->is_item_mod ) )
@@ -1013,7 +1013,7 @@ function bp_is_group() {
 function bp_is_group_home() {
 	global $bp;
 
-	if ( bp_is_single_item() && bp_is_current_component( 'groups' ) && ( !bp_is_current_action() || bp_is_current_action( 'home' ) ) )
+	if ( bp_is_single_item() && bp_is_current_component( 'groups' ) && ( !bp_current_action() || bp_is_current_action( 'home' ) ) )
 		return true;
 
 	return false;
@@ -1140,7 +1140,7 @@ function bp_is_user_messages() {
 function bp_is_messages_inbox() {
 	global $bp;
 
-	if ( bp_is_current_component( 'messages' ) && ( !bp_is_current_action() || bp_is_current_action( 'inbox' ) ) )
+	if ( bp_is_current_component( 'messages' ) && ( !bp_current_action() || bp_is_current_action( 'inbox' ) ) )
 		return true;
 
 	return false;
