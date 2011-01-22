@@ -13,7 +13,7 @@ function groups_action_create_group() {
 	global $bp;
 
 	// If we're not at domain.org/groups/create/ then return false
-	if ( !bp_is_current_component( $bp->groups->slug ) || 'create' != $bp->current_action )
+	if ( !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'create' ) )
 		return false;
 
 	if ( !is_user_logged_in() )
@@ -186,7 +186,7 @@ add_action( 'wp', 'groups_action_create_group', 3 );
 function groups_action_join_group() {
 	global $bp;
 
-	if ( !$bp->is_single_item || !bp_is_current_component( $bp->groups->slug ) || $bp->current_action != 'join' )
+	if ( !bp_is_single_item() || !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'join' ) )
 		return false;
 
 	// Nonce check
@@ -221,7 +221,7 @@ add_action( 'wp', 'groups_action_join_group', 3 );
 function groups_action_leave_group() {
 	global $bp;
 
-	if ( !$bp->is_single_item || !bp_is_current_component( $bp->groups->slug ) || $bp->current_action != 'leave-group' )
+	if ( !bp_is_single_item() || !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'leave-group' ) )
 		return false;
 
 	// Nonce check
@@ -246,7 +246,7 @@ add_action( 'wp', 'groups_action_leave_group', 3 );
 function groups_action_sort_creation_steps() {
 	global $bp;
 
-	if ( !bp_is_current_component( BP_GROUPS_SLUG ) && $bp->current_action != 'create' )
+	if ( !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'create' ) )
 		return false;
 
 	if ( !is_array( $bp->groups->group_creation_steps ) )
@@ -281,7 +281,7 @@ add_action( 'wp', 'groups_action_redirect_to_random_group', 6 );
 function groups_action_group_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_active( 'activity' ) || !bp_is_current_component( $bp->groups->slug ) || !isset( $bp->groups->current_group ) || $bp->current_action != 'feed' )
+	if ( !bp_is_active( 'activity' ) || !bp_is_current_component( 'groups' ) || !isset( $bp->groups->current_group ) || !bp_is_current_action( 'feed' ) )
 		return false;
 
 	$wp_query->is_404 = false;
