@@ -204,7 +204,7 @@ function bp_dtheme_new_activity_comment() {
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<li id="acomment-<?php bp_activity_id() ?>">
 				<div class="acomment-avatar">
-					<?php bp_activity_avatar() ?>
+					<?php bp_activity_avatar( array( 'height' => 30, 'width' => 30 ) ); ?>
 				</div>
 
 				<div class="acomment-meta">
