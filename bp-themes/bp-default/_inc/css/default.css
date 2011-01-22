@@ -1920,6 +1920,7 @@ div#topic-meta h3 {
 }
 
 div#new-topic-post {
+	display: none;
 	margin: 0;
 	padding: 1px 0 0 0;
 }

@@ -31,7 +31,7 @@
 
 		<?php do_action( 'bp_before_new_topic_form' ); ?>
 
-		<div id="new-topic-post">
+		<div id="new-topic-post" style="display: none;">
 
 			<?php if ( is_user_logged_in() ) : ?>
 
