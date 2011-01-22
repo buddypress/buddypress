@@ -683,10 +683,37 @@ function bp_is_current_action( $action = '' ) {
 	return false;
 }
 
+function bp_is_current_item( $item = '' ) {
+	global $bp;
+
+	if ( !empty( $item ) && ( $item == $bp->current_item ) )
+		return true;
+
+	return false;
+}
+
 function bp_is_single_item() {
 	global $bp;
 
 	if ( !empty( $bp->is_single_item ) )
+		return true;
+
+	return false;
+}
+
+function bp_is_item_admin( $item = '' ) {
+	global $bp;
+
+	if ( !empty( $bp->is_item_admin ) )
+		return true;
+
+	return false;
+}
+
+function bp_is_item_mod( $item = '' ) {
+	global $bp;
+
+	if ( !empty( $bp->is_item_mod ) )
 		return true;
 
 	return false;
