@@ -1,9 +1,9 @@
 <?php
 
 /**
- * BuddyPress Forums Streams Loader
+ * BuddyPress Forums Loader
  *
- * An forums stream component, for users, groups, and blog tracking.
+ * A discussion forums component. Comes bundled with bbPress stand-alone.
  *
  * @package BuddyPress
  * @subpackage Forums Core
@@ -59,6 +59,7 @@ class BP_Forums_Component extends BP_Component {
 	 * Include files
 	 */
 	function _includes() {
+
 		// Support for bbPress stand-alone
 		if ( !defined( 'BB_PATH' ) )
 			require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress-sa.php' );
