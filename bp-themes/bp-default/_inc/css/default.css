@@ -790,11 +790,11 @@ div#message p {
 
 div.dir-search {
 	float: right;
-	margin: -37px 0 0 0;
+	margin: -39px 0 0 0;
 }
 
 div.dir-search input[type=text] {
-	padding: 4px;
+	padding: 0 3px;
 	font-size: 12px;
 }
 
