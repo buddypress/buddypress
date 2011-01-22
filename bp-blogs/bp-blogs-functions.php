@@ -264,7 +264,7 @@ function bp_blogs_manage_comment( $comment_id, $comment_status ) {
 }
 add_action( 'wp_set_comment_status', 'bp_blogs_manage_comment', 10, 2 );
 
-function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = false ) {
+function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	global $wpdb, $current_blog;
 
 	if ( empty( $blog_id ) && isset( $current_blog ) )
@@ -290,7 +290,7 @@ add_action( 'add_user_to_blog', 'bp_blogs_add_user_to_blog', 10, 3 );
 add_action( 'profile_update',   'bp_blogs_add_user_to_blog'        );
 add_action( 'user_register',    'bp_blogs_add_user_to_blog'        );
 
-function bp_blogs_remove_user_from_blog( $user_id, $blog_id = false ) {
+function bp_blogs_remove_user_from_blog( $user_id, $blog_id = 0 ) {
 	global $current_blog;
 
 	if ( empty( $blog_id ) )
@@ -329,7 +329,7 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 }
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
 
-function bp_blogs_remove_post( $post_id, $blog_id = false, $user_id = 0 ) {
+function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 	global $current_blog, $bp;
 
 	if ( empty( $current_blog->blog_id ) )
