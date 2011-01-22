@@ -42,9 +42,9 @@ Class BP_XProfile_Data_Template {
 	function next_group() {
 		$this->current_group++;
 
-		$this->group = $this->groups[$this->current_group];
+		$this->group         = $this->groups[$this->current_group];
 		$this->group->fields = apply_filters( 'xprofile_group_fields', $this->group->fields, $this->group->id );
-		$this->field_count = count( $this->group->fields );
+		$this->field_count   = count( $this->group->fields );
 
 		return $this->group;
 	}
@@ -147,12 +147,12 @@ function bp_has_profile( $args = '' ) {
 
 	$defaults = array(
 		'user_id' => $bp->displayed_user->id,
-		'profile_group_id' => false,
-		'hide_empty_groups'	=> true,
-		'fetch_fields'		=> true,
-		'fetch_field_data'	=> true,
-		'exclude_groups' => false, // Comma-separated list of profile field group IDs to exclude
-		'exclude_fields' => false // Comma-separated list of profile field IDs to exclude
+		'profile_group_id'  => false,
+		'hide_empty_groups' => true,
+		'fetch_fields'      => true,
+		'fetch_field_data'  => true,
+		'exclude_groups'    => false, // Comma-separated list of profile field group IDs to exclude
+		'exclude_fields'    => false  // Comma-separated list of profile field IDs to exclude
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -254,7 +254,7 @@ function bp_the_profile_group_edit_form_action() {
 	function bp_get_the_profile_group_edit_form_action() {
 		global $bp, $group;
 
-		return apply_filters( 'bp_get_the_profile_group_edit_form_action', $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $group->id . '/' );
+		return apply_filters( 'bp_get_the_profile_group_edit_form_action', trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $group->id ) );
 	}
 
 function bp_the_profile_group_field_ids() {
@@ -640,7 +640,7 @@ function bp_profile_group_tabs() {
 function bp_profile_group_name( $deprecated = true ) {
 	global $bp;
 
-	$group_id = $bp->action_variables[1];
+	$group_id = !empty( $bp->action_variables[1] ) ? $bp->action_variables[1] : 1;
 
 	if ( !is_numeric( $group_id ) )
 		$group_id = 1;
@@ -659,7 +659,7 @@ function bp_profile_group_name( $deprecated = true ) {
 	function bp_get_profile_group_name() {
 		global $bp;
 
-		$group_id = $bp->action_variables[1];
+		$group_id = !empty( $bp->action_variables[1] ) ? $bp->action_variables[1] : 1;
 
 		if ( !is_numeric( $group_id ) )
 			$group_id = 1;
@@ -709,7 +709,7 @@ function bp_current_profile_group_id() {
 	function bp_get_current_profile_group_id() {
 		global $bp;
 
-		if ( !$profile_group_id = $bp->action_variables[1] )
+		if ( empty( $bp->action_variables[1] ) || !$profile_group_id = $bp->action_variables[1] )
 			$profile_group_id = 1;
 
 		return apply_filters( 'bp_get_current_profile_group_id', $profile_group_id ); // admin/profile/edit/[group-id]
