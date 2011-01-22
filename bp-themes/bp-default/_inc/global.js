@@ -157,7 +157,7 @@ jq(document).ready( function() {
 		var target = jq(event.target);
 
 		/* Favoriting activity stream items */
-		if ( target.attr('class') == 'fav' || target.attr('class') == 'unfav' ) {
+		if ( target.hasClass('fav') || target.hasClass('unfav') ) {
 			var type = target.attr('class')
 			var parent = target.parent().parent().parent();
 			var parent_id = parent.attr('id').substr( 9, parent.attr('id').length );
@@ -238,7 +238,7 @@ jq(document).ready( function() {
 		}
 
 		/* Load more updates at the end of the page */
-		if ( target.parent().attr('class') == 'load-more' ) {
+		if ( target.parent().hasClass('load-more') ) {
 			jq("#content li.load-more").addClass('loading');
 
 			if ( null == jq.cookie('bp-activity-oldestpage') )
@@ -278,8 +278,8 @@ jq(document).ready( function() {
 		var target = jq(event.target);
 
 		/* Comment / comment reply links */
-		if ( target.attr('class') == 'acomment-reply' || target.parent().attr('class') == 'acomment-reply' ) {
-			if ( target.parent().attr('class') == 'acomment-reply' )
+		if ( target.hasClass('acomment-reply') || target.parent().hasClass('acomment-reply') ) {
+			if ( target.parent().hasClass('acomment-reply') )
 				target = target.parent();
 
 			var id = target.attr('id');
@@ -307,7 +307,7 @@ jq(document).ready( function() {
 				jq('li#activity-' + a_id + ' div.activity-comments').append( form );
 			}
 
-	 		if ( form.parent().attr( 'class' ) == 'activity-comments' )
+	 		if ( form.parent().hasClass( 'activity-comments' ) )
 				form.addClass('root');
 
 			form.slideDown( 200 );
@@ -323,7 +323,7 @@ jq(document).ready( function() {
 			var form_parent = form.parent();
 			var form_id = form.attr('id').split('-');
 
-			if ( 'activity-comments' !== form_parent.attr('class') ) {
+			if ( !form_parent.hasClass('activity-comments') ) {
 				var tmp_id = form_parent.attr('id').split('-');
 				var comment_id = tmp_id[1];
 			} else {
@@ -355,7 +355,7 @@ jq(document).ready( function() {
 					form.fadeOut( 200,
 						function() {
 							if ( 0 == form.parent().children('ul').length ) {
-								if ( form.parent().attr('class') == 'activity-comments' )
+								if ( form.parent().hasClass('activity-comments') )
 									form.parent().prepend('<ul></ul>');
 								else
 									form.parent().append('<ul></ul>');
@@ -461,7 +461,7 @@ jq(document).ready( function() {
 
 		if ( keyCode == 27 ) {
 			if (element.tagName == 'TEXTAREA') {
-				if ( jq(element).attr('class') == 'ac-input' )
+				if ( jq(element).hasClass('ac-input') )
 					jq(element).parent().parent().parent().slideUp( 200 );
 			}
 		}
