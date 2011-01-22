@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-22 14:30:25+00:00\n"
+"POT-Creation-Date: 2011-01-22 15:30:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -161,8 +161,8 @@ msgid "%s's Recent Comments"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:511 bp-core/bp-core-template.php:377
-#: bp-groups/bp-groups-template.php:1942 bp-users/bp-users-template.php:470
-#: bp-forums/bp-forums-template.php:1041 bp-themes/bp-default/header.php:42
+#: bp-groups/bp-groups-template.php:1941 bp-users/bp-users-template.php:470
+#: bp-forums/bp-forums-template.php:1040 bp-themes/bp-default/header.php:42
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -562,7 +562,7 @@ msgstr ""
 #: bp-groups/bp-groups-activity.php:142 bp-groups/bp-groups-loader.php:239
 #: bp-groups/bp-groups-widgets.php:14 bp-groups/bp-groups-widgets.php:35
 #: bp-groups/bp-groups-widgets.php:102 bp-groups/bp-groups-screens.php:770
-#: bp-users/bp-users-loader.php:179 bp-activity/bp-activity-loader.php:128
+#: bp-users/bp-users-loader.php:182 bp-activity/bp-activity-loader.php:128
 msgid "Groups"
 msgstr ""
 
@@ -918,7 +918,7 @@ msgstr ""
 msgid "groups"
 msgstr ""
 
-#: bp-core/deprecated/1.3.php:203 bp-core/bp-core-loader.php:144
+#: bp-core/deprecated/1.3.php:203 bp-core/bp-core-loader.php:141
 #: bp-xprofile/bp-xprofile-loader.php:139
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:52
@@ -1094,15 +1094,11 @@ msgstr ""
 msgid "Random Blog"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:92
-msgid "Search Members..."
-msgstr ""
-
-#: bp-core/bp-core-loader.php:123 bp-xprofile/bp-xprofile-loader.php:97
+#: bp-core/bp-core-loader.php:120 bp-xprofile/bp-xprofile-loader.php:97
 msgid "Profile"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:134 bp-groups/bp-groups-template.php:486
+#: bp-core/bp-core-loader.php:131 bp-groups/bp-groups-template.php:486
 #: bp-xprofile/bp-xprofile-loader.php:109
 msgid "Public"
 msgstr ""
@@ -1136,7 +1132,7 @@ msgstr ""
 msgid "Friendship could not be rejected"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:128 bp-users/bp-users-loader.php:166
+#: bp-friends/bp-friends-loader.php:128 bp-users/bp-users-loader.php:169
 #: bp-activity/bp-activity-loader.php:115
 msgid "Friends"
 msgstr ""
@@ -1455,7 +1451,7 @@ msgstr ""
 msgid "User Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:73 bp-groups/bp-groups-loader.php:112
+#: bp-groups/bp-groups-loader.php:73 bp-groups/bp-groups-loader.php:109
 msgid "Search Groups..."
 msgstr ""
 
@@ -2560,25 +2556,29 @@ msgstr ""
 msgid "Activity RSS Feed"
 msgstr ""
 
-#: bp-users/bp-users-loader.php:136
+#: bp-users/bp-users-loader.php:48
+msgid "Search Members..."
+msgstr ""
+
+#: bp-users/bp-users-loader.php:139
 msgid "User"
 msgstr ""
 
-#: bp-users/bp-users-loader.php:155 bp-activity/bp-activity-loader.php:104
+#: bp-users/bp-users-loader.php:158 bp-activity/bp-activity-loader.php:104
 msgid "Personal"
 msgstr ""
 
-#: bp-users/bp-users-loader.php:191 bp-activity/bp-activity-loader.php:140
+#: bp-users/bp-users-loader.php:194 bp-activity/bp-activity-loader.php:140
 msgid "Favorites"
 msgstr ""
 
-#: bp-users/bp-users-loader.php:202 bp-themes/bp-default/activity/index.php:75
+#: bp-users/bp-users-loader.php:205 bp-themes/bp-default/activity/index.php:75
 #: bp-activity/bp-activity-loader.php:151
 #: bp-activity/bp-activity-functions.php:76
 msgid "@%s Mentions"
 msgstr ""
 
-#: bp-users/bp-users-loader.php:214
+#: bp-users/bp-users-loader.php:217
 msgid "My User"
 msgstr ""
 
@@ -2746,7 +2746,7 @@ msgstr ""
 msgid "Use an existing bbPress installation"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:55
+#: bp-forums/bp-forums-loader.php:52
 msgid "Search Forums..."
 msgstr ""
 
