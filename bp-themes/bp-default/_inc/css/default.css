@@ -803,22 +803,14 @@ div.dir-search input[type=text] {
 -------------------------------------------------------------- */
 
 div.pagination {
-	margin: -20px -19px 9px -19px;
-	border-bottom: 1px solid #eaeaea;
-	padding: 10px 20px 10px 20px;
+	margin: -20px -19px 0px -19px;
+	padding: 8px 20px;
 	color: #888;
 	font-size: 11px;
 	height: 19px;
-}
-
-div.pagination#user-pag,
-.friends div.pagination,
-.mygroups div.pagination,
-.myblogs div.pagination,
-noscript div.pagination {
-	background: #f8f8f8;
+	background: #f4f4f4;
 	border: none;
-	padding: 8px 15px;
+	position: relative;
 }
 
 div.pagination .pag-count {
@@ -840,7 +832,7 @@ div.pagination .pagination-links a:hover {
 }
 
 div#pag-bottom {
-	margin-top: 0;
+	margin-top: -1px;
 }
 
 

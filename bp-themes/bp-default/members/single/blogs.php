@@ -1,3 +1,14 @@
+<?php
+
+/**
+ * BuddyPress - Users Blogs
+ *
+ * @package BuddyPress
+ * @subpackage bp-default
+ */
+
+?>
+
 <div class="item-list-tabs" id="subnav" role="navigation">
 	<ul>
 

@@ -3,7 +3,7 @@
 /**
  * Template Name: BuddyPress - Activity Directory
  *
- * @package bbPress
+ * @package BuddyPress
  * @subpackage Theme
  */
 

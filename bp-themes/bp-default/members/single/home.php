@@ -1,3 +1,14 @@
+<?php
+
+/**
+ * BuddyPress - Users Home
+ *
+ * @package BuddyPress
+ * @subpackage bp-default
+ */
+
+?>
+
 <?php get_header(); ?>
 
 	<div id="content">

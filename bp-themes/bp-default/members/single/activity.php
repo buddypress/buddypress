@@ -1,3 +1,14 @@
+<?php
+
+/**
+ * BuddyPress - Users Activity
+ *
+ * @package BuddyPress
+ * @subpackage bp-default
+ */
+
+?>
+
 <div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 	<ul>
 
