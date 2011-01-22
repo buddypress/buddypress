@@ -1032,16 +1032,17 @@ function bp_the_topic_is_last_page() {
 function bp_directory_forums_search_form() {
 	global $bp;
 
-	$default_search_value = bp_get_search_default_text(); 
-	$search_value = !empty( $_REQUEST['fs'] ) ? stripslashes( $_REQUEST['fs'] ) : $default_search_value; 
+	$default_search_value = bp_get_search_default_text( 'forums' );
+	$search_value = !empty( $_REQUEST['fs'] ) ? stripslashes( $_REQUEST['fs'] ) : $default_search_value;  ?>
 
-?>
 	<form action="" method="get" id="search-forums-form">
-		<label><input type="text" name="s" id="forums_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php echo $default_search_value ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php echo $default_search_value ?>';}" /></label>
-		<input type="submit" id="forums_search_submit" name="forums_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
+		<label><input type="text" name="s" id="forums_search" value="<?php echo esc_attr( $search_value ); ?>"  onfocus="if (this.value == '<?php echo $default_search_value ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php echo $default_search_value ?>';}" /></label>
+		<input type="submit" id="forums_search_submit" name="forums_search_submit" value="<?php _e( 'Search', 'buddypress' ); ?>" />
 	</form>
+
 <?php
 }
+
 function bp_forum_permalink() {
 	echo bp_get_forum_permalink();
 }

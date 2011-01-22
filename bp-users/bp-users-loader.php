@@ -44,6 +44,9 @@ class BP_User_Component extends BP_Component {
 		$this->table_name      = $bp->table_prefix . 'bp_users';
 		$this->table_name_meta = $bp->table_prefix . 'bp_users_meta';
 
+		// The default text for the members directory search box
+		$this->default_search_string = __( 'Search Members...', 'buddypress' );
+
 		/** Logged in user ****************************************************/
 
 		// Logged in user is the 'current_user'

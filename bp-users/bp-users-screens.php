@@ -3,7 +3,7 @@
 function bp_users_screen_index() {
 	global $bp;
 
-	if ( empty( $bp->displayed_user->id ) && $bp->current_component == $bp->members->root_slug ) {
+	if ( !bp_is_user() && bp_is_current_component( 'members' ) ) {
 		$bp->is_directory = true;
 
 		do_action( 'bp_users_screen_index' );
