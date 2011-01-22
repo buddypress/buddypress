@@ -4,7 +4,7 @@
  * Output the groups component slug
  *
  * @package BuddyPress
- * @subpackage Activity Template
+ * @subpackage Groups Template
  * @since BuddyPress {unknown}
  *
  * @uses bp_get_groups_slug()
@@ -16,7 +16,7 @@ function bp_groups_slug() {
 	 * Return the groups component slug
 	 *
 	 * @package BuddyPress
-	 * @subpackage Activity Template
+	 * @subpackage Groups Template
 	 * @since BuddyPress {unknown}
 	 */
 	function bp_get_groups_slug() {
@@ -28,7 +28,7 @@ function bp_groups_slug() {
  * Output the groups component root slug
  *
  * @package BuddyPress
- * @subpackage Activity Template
+ * @subpackage Groups Template
  * @since BuddyPress {unknown}
  *
  * @uses bp_get_groups_root_slug()
@@ -40,7 +40,7 @@ function bp_groups_root_slug() {
 	 * Return the groups component root slug
 	 *
 	 * @package BuddyPress
-	 * @subpackage Activity Template
+	 * @subpackage Groups Template
 	 * @since BuddyPress {unknown}
 	 */
 	function bp_get_groups_root_slug() {

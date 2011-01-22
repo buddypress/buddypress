@@ -1,11 +1,60 @@
 <?php
 
+/**
+ * Output the friends component slug
+ *
+ * @package BuddyPress
+ * @subpackage Friends Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_friends_slug()
+ */
+function bp_friends_slug() {
+	echo bp_get_friends_slug();
+}
+	/**
+	 * Return the friends component slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Friends Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_friends_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_friends_slug', $bp->friends->slug );
+	}
+
+/**
+ * Output the friends component root slug
+ *
+ * @package BuddyPress
+ * @subpackage Friends Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_friends_root_slug()
+ */
+function bp_friends_root_slug() {
+	echo bp_get_friends_root_slug();
+}
+	/**
+	 * Return the friends component root slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Friends Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_friends_root_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_friends_root_slug', $bp->friends->root_slug );
+	}
+
 function bp_friends_header_tabs() {
-	global $bp;
-?>
+	global $bp; ?>
+
 	<li<?php if ( !isset($bp->action_variables[0]) || 'recently-active' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>/my-friends/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
 	<li<?php if ( 'newest' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>/my-friends/newest"><?php _e( 'Newest', 'buddypress' ) ?></a></li>
 	<li<?php if ( 'alphabetically' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>/my-friends/alphabetically""><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+
 <?php
 	do_action( 'friends_header_tabs' );
 }
@@ -24,7 +73,7 @@ function bp_friends_filter_title() {
 			break;
 		case 'alphabetically':
 			_e( 'Alphabetically', 'buddypress' );
-		break;
+			break;
 	}
 }
 
@@ -34,24 +83,32 @@ function bp_friends_random_friends() {
 	if ( !$friend_ids = wp_cache_get( 'friends_friend_ids_' . $bp->displayed_user->id, 'bp' ) ) {
 		$friend_ids = BP_Friends_Friendship::get_random_friends( $bp->displayed_user->id );
 		wp_cache_set( 'friends_friend_ids_' . $bp->displayed_user->id, $friend_ids, 'bp' );
-	}
-?>
+	} ?>
+
 	<div class="info-group">
 		<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?>  (<?php echo BP_Friends_Friendship::total_friend_count( $bp->displayed_user->id ) ?>) <span><a href="<?php echo $bp->displayed_user->domain . $bp->friends->slug ?>"><?php _e('See All', 'buddypress') ?> &rarr;</a></span></h4>
 
 		<?php if ( $friend_ids ) { ?>
+
 			<ul class="horiz-gallery">
+
 			<?php for ( $i = 0; $i < count( $friend_ids ); $i++ ) { ?>
+
 				<li>
 					<a href="<?php echo bp_core_get_user_domain( $friend_ids[$i] ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $friend_ids[$i], 'type' => 'thumb' ) ) ?></a>
 					<h5><?php echo bp_core_get_userlink($friend_ids[$i]) ?></h5>
 				</li>
+
 			<?php } ?>
+
 			</ul>
+
 		<?php } else { ?>
+
 			<div id="message" class="info">
 				<p><?php bp_word_or_name( __( "You haven't added any friend connections yet.", 'buddypress' ), __( "%s hasn't created any friend connections yet.", 'buddypress' ) ) ?></p>
 			</div>
+
 		<?php } ?>
 		<div class="clear"></div>
 	</div>
@@ -64,34 +121,52 @@ function bp_friends_random_members( $total_members = 5 ) {
 	if ( !$user_ids = wp_cache_get( 'friends_random_users', 'bp' ) ) {
 		$user_ids = BP_Core_User::get_users( 'random', $total_members );
 		wp_cache_set( 'friends_random_users', $user_ids, 'bp' );
-	}
-?>
+	} ?>
+
 	<?php if ( $user_ids['users'] ) { ?>
+
 		<ul class="item-list" id="random-members-list">
+
 		<?php for ( $i = 0; $i < count( $user_ids['users'] ); $i++ ) { ?>
+
 			<li>
 				<a href="<?php echo bp_core_get_user_domain( $user_ids['users'][$i]->user_id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->user_id, 'type' => 'thumb' ) ) ?></a>
 				<h5><?php echo bp_core_get_userlink( $user_ids['users'][$i]->user_id ) ?></h5>
+
 				<?php if ( function_exists( 'xprofile_get_random_profile_data' ) ) { ?>
+
 					<?php $random_data = xprofile_get_random_profile_data( $user_ids['users'][$i]->user_id, true ); ?>
+
 					<div class="profile-data">
 						<p class="field-name"><?php echo $random_data[0]->name ?></p>
+
 						<?php echo $random_data[0]->value ?>
+
 					</div>
+
 				<?php } ?>
 
 				<div class="action">
+
 					<?php if ( function_exists( 'bp_add_friend_button' ) ) { ?>
+
 						<?php bp_add_friend_button( $user_ids['users'][$i]->user_id ) ?>
+
 					<?php } ?>
+
 				</div>
 			</li>
+
 		<?php } ?>
+
 		</ul>
+
 	<?php } else { ?>
+
 		<div id="message" class="info">
 			<p><?php _e( "There aren't enough site members to show a random sample just yet.", 'buddypress' ) ?></p>
 		</div>
+
 	<?php } ?>
 <?php
 }
@@ -100,17 +175,19 @@ function bp_friend_search_form() {
 	global $friends_template, $bp;
 
 	$action = $bp->displayed_user->domain . $bp->friends->slug . '/my-friends/search/';
-	$label = __( 'Filter Friends', 'buddypress' );
-	?>
+	$label = __( 'Filter Friends', 'buddypress' ); ?>
+
 		<form action="<?php echo $action ?>" id="friend-search-form" method="post">
 
 			<label for="friend-search-box" id="friend-search-label"><?php echo $label ?></label>
 			<input type="search" name="friend-search-box" id="friend-search-box" value="<?php echo $value ?>"<?php echo $disabled ?> />
 
 			<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>
+
 			<input type="hidden" name="initiator" id="initiator" value="<?php echo esc_attr( $bp->displayed_user->id ) ?>" />
 
 		</form>
+
 	<?php
 }
 
@@ -345,4 +422,5 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
 
 		return apply_filters( 'bp_friend_get_total_requests_count', count( BP_Friends_Friendship::get_friend_user_ids( $user_id, true ) ) );
 	}
+
 ?>

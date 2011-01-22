@@ -1,5 +1,53 @@
 <?php
 
+/**
+ * Output the forums component slug
+ *
+ * @package BuddyPress
+ * @subpackage Forums Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_forums_slug()
+ */
+function bp_forums_slug() {
+	echo bp_get_forums_slug();
+}
+	/**
+	 * Return the forums component slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Forums Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_forums_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_forums_slug', $bp->forums->slug );
+	}
+
+/**
+ * Output the forums component root slug
+ *
+ * @package BuddyPress
+ * @subpackage Forums Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_forums_root_slug()
+ */
+function bp_forums_root_slug() {
+	echo bp_get_forums_root_slug();
+}
+	/**
+	 * Return the forums component root slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Forums Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_forums_root_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_forums_root_slug', $bp->forums->root_slug );
+	}
+
 class BP_Forums_Template_Forum {
 	var $current_topic = -1;
 	var $topic_count;
