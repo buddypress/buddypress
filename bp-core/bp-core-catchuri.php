@@ -30,7 +30,8 @@ function bp_core_set_uri_globals() {
 	global $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
 	global $current_blog;
 
-	$current_component = '';
+	// Create global component, action, and item variables
+	$bp->current_component = $bp->current_action = $bp->action_variables = $bp->current_item = '';
 
 	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() ) {
 		// Only catch URI's on the root blog if we are not running
@@ -57,7 +58,7 @@ function bp_core_set_uri_globals() {
 		$path = $noget;
 
 	// Fetch the current URI and explode each part separated by '/' into an array
-	$bp_uri = explode( "/", $path );
+	$bp_uri = explode( '/', $path );
 
 	// Loop and remove empties
 	foreach ( (array)$bp_uri as $key => $uri_chunk )
@@ -146,13 +147,8 @@ function bp_core_set_uri_globals() {
 		$matches[] = 1;
 
 	// This is not a BuddyPress page, so just return.
-	if ( !isset( $matches ) ) {
-		$bp->current_component = $current_component;
-		$bp->current_action    = '';
-		$bp->action_variables  = '';
-		$bp->current_item      = '';
+	if ( !isset( $matches ) )
 		return false;
-	}
 
 	// Find the offset
 	$uri_offset = 0;
@@ -167,7 +163,7 @@ function bp_core_set_uri_globals() {
 	$bp_unfiltered_uri_offset = $uri_offset;
 
 	// This is a members page so lets check if we have a displayed member
-	if ( isset( $match ) && 'members' == $match->key ) {
+	if ( isset( $match->key ) && 'members' == $match->key ) {
 		if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
 			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
 				$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
@@ -180,7 +176,7 @@ function bp_core_set_uri_globals() {
 			for ( $i = 0; $i < $uri_offset; $i++ )
 				unset( $bp_uri[$i] );
 
-			$current_component = isset( $bp_uri[$uri_offset] ) ? $bp_uri[$uri_offset] : '';
+			$bp->current_component = isset( $bp_uri[$uri_offset] ) ? $bp_uri[$uri_offset] : '';
 		}
 	}
 
@@ -188,24 +184,21 @@ function bp_core_set_uri_globals() {
 	$bp_uri = array_merge( array(), $bp_uri );
 
 	// Set the current component
-	if ( empty( $current_component ) ) {
+	if ( empty( $bp->current_component ) ) {
 		for ( $i = 0; $i <= $uri_offset; $i++ ) {
 			if ( !empty( $bp_uri[$i] ) ) {
-				$current_component .= $bp_uri[$i];
+				$bp->current_component .= $bp_uri[$i];
 
 				if ( $i != $uri_offset )
-					$current_component .= '/';
+					$bp->current_component .= '/';
 			}
 		}
 	} else {
 		$i = 1;
 	}
 
-	// Set the current component in the global
-	$bp->current_component = $current_component;
-
 	// Set the current action
-	$bp->current_action    = isset( $bp_uri[$i] ) ? $bp_uri[$i] : '';
+	$bp->current_action = isset( $bp_uri[$i] ) ? $bp_uri[$i] : '';
 
 	// Unset the current_component and action from action_variables
 	for ( $j = 0; $j <= $i; $j++ )
@@ -220,9 +213,6 @@ function bp_core_set_uri_globals() {
 
 	// Reset the keys by merging with an empty array
 	$bp->action_variables = array_merge( array(), $bp->action_variables );
-
-	// Set the current item to empty
-	$bp->current_item     = '';
 }
 
 /**
