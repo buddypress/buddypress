@@ -1362,9 +1362,9 @@ body.activity-permalink ul.activity-list li.has-comments {
 
 .activity-list li.mini .activity-avatar img.avatar,
 .activity-list li.mini .activity-avatar img.FB_profile_pic {
-	width: 30px;
-	height: 30px;
-	margin-left: 36px;
+	width: 20px;
+	height: 20px;
+	margin-left: 76px;
 }
 
 .activity-list li.activity_comment .activity-avatar img.avatar,
