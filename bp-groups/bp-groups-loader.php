@@ -138,7 +138,7 @@ function groups_setup_nav() {
 			bp_core_reset_subnav_items( $bp->groups->root_slug );
 
 			// Add a new default subnav item for when the groups nav is selected.
-			bp_core_new_nav_default( array( 'parent_slug' => $bp->groups->root_slug, 'screen_function' => 'groups_screen_group_home', 'subnav_slug' => 'home' ) );
+			bp_core_new_nav_default( array( 'parent_slug' => $bp->groups->slug, 'screen_function' => 'groups_screen_group_home', 'subnav_slug' => 'home' ) );
 
 			// Add the "Home" subnav item, as this will always be present
 			bp_core_new_subnav_item( array( 'name' => __( 'Home', 'buddypress' ), 'slug' => 'home', 'parent_url' => $group_link, 'parent_slug' => $bp->groups->root_slug, 'screen_function' => 'groups_screen_group_home', 'position' => 10, 'item_css_id' => 'home' ) );
@@ -174,7 +174,7 @@ add_action( 'bp_setup_nav', 'groups_setup_nav' );
 function groups_directory_groups_setup() {
 	global $bp;
 
-	if ( bp_is_current_component( $bp->groups->id ) && empty( $bp->current_action ) && empty( $bp->current_item ) ) {
+	if ( bp_is_current_component( 'groups' ) && empty( $bp->current_action ) && empty( $bp->current_item ) ) {
 		$bp->is_directory = true;
 
 		do_action( 'groups_directory_groups_setup' );
@@ -631,7 +631,7 @@ function groups_screen_group_admin() {
 function groups_screen_group_admin_edit_details() {
 	global $bp;
 
-	if ( bp_is_current_component( $bp->groups->slug ) && 'edit-details' == $bp->action_variables[0] ) {
+	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'edit-details' == $bp->action_variables[0] ) {
 
 		if ( $bp->is_item_admin || $bp->is_item_mod  ) {
 
@@ -663,7 +663,7 @@ add_action( 'wp', 'groups_screen_group_admin_edit_details', 4 );
 function groups_screen_group_admin_settings() {
 	global $bp;
 
-	if ( bp_is_current_component( $bp->groups->slug ) && 'group-settings' == $bp->action_variables[0] ) {
+	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'group-settings' == $bp->action_variables[0] ) {
 
 		if ( !$bp->is_item_admin )
 			return false;
@@ -700,7 +700,7 @@ add_action( 'wp', 'groups_screen_group_admin_settings', 4 );
 function groups_screen_group_admin_avatar() {
 	global $bp;
 
-	if ( bp_is_current_component( $bp->groups->slug ) && 'group-avatar' == $bp->action_variables[0] ) {
+	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'group-avatar' == $bp->action_variables[0] ) {
 
 		if ( !$bp->is_item_admin )
 			return false;
@@ -758,7 +758,7 @@ add_action( 'wp', 'groups_screen_group_admin_avatar', 4 );
 function groups_screen_group_admin_manage_members() {
 	global $bp;
 
-	if ( bp_is_current_component( $bp->groups->slug ) && 'manage-members' == $bp->action_variables[0] ) {
+	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'manage-members' == $bp->action_variables[0] ) {
 
 		if ( !$bp->is_item_admin )
 			return false;
@@ -864,7 +864,7 @@ add_action( 'wp', 'groups_screen_group_admin_manage_members', 4 );
 function groups_screen_group_admin_requests() {
 	global $bp;
 
-	if ( bp_is_current_component( $bp->groups->slug ) && 'membership-requests' == $bp->action_variables[0] ) {
+	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'membership-requests' == $bp->action_variables[0] ) {
 
 		// Ask for a login if the user is coming here via an email notification
 		if ( !is_user_logged_in() )
@@ -922,7 +922,7 @@ add_action( 'wp', 'groups_screen_group_admin_requests', 4 );
 function groups_screen_group_admin_delete_group() {
 	global $bp;
 
-	if ( bp_is_current_component( $bp->groups->slug ) && 'delete-group' == $bp->action_variables[0] ) {
+	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'delete-group' == $bp->action_variables[0] ) {
 
 		if ( !$bp->is_item_admin && !is_super_admin() )
 			return false;

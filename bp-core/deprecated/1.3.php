@@ -8,182 +8,261 @@
  * @deprecated Since 1.3
  */
 
+/** Activity ******************************************************************/
+
+function bp_is_activity_permalink() {
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_is_single_activity' );
+	bp_is_single_activity();
+}
+
 /** Sign up *******************************************************************/
 
 function bp_core_screen_signup() {
-	_deprecated_function( 'bp_core_screen_signup', '1.3', 'bp_users_screen_signup' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_screen_signup' );
 	bp_users_screen_signup();
 }
 
 function bp_core_screen_activation() {
-	_deprecated_function( 'bp_core_screen_activation', '1.3', 'bp_users_screen_activation' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_screen_activation' );
 	bp_users_screen_activation();
 }
 
 function bp_core_flush_illegal_names() {
-	_deprecated_function( 'bp_core_flush_illegal_names', '1.3', 'bp_users_flush_illegal_names' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_flush_illegal_names' );
 	bp_users_flush_illegal_names();
 }
 
 function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
-	_deprecated_function( 'bp_core_illegal_names', '1.3', 'bp_users_illegal_names' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_illegal_names' );
 	bp_users_illegal_names( $value, $oldvalue );
 }
 
 function bp_core_validate_user_signup( $user_name, $user_email ) {
-	_deprecated_function( 'bp_core_validate_user_signup', '1.3', 'bp_users_validate_user_signup' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_validate_user_signup' );
 	bp_users_validate_user_signup( $user_name, $user_email );
 }
 
 function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
-	_deprecated_function( 'bp_core_validate_blog_signup', '1.3', 'bp_users_validate_blog_signup' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_validate_blog_signup' );
 	bp_users_validate_blog_signup( $blog_url, $blog_title );
 }
 
 function bp_core_signup_user( $user_login, $user_password, $user_email, $usermeta ) {
-	_deprecated_function( 'bp_core_signup_user', '1.3', 'bp_users_signup_user' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_user' );
 	bp_users_signup_user( $user_login, $user_password, $user_email, $usermeta );
 }
 
 function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) {
-	_deprecated_function( 'bp_core_signup_blog', '1.3', 'bp_users_signup_blog' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_blog' );
 	bp_users_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta );
 }
 
 function bp_core_activate_signup( $key ) {
-	_deprecated_function( 'bp_core_activate_signup', '1.3', 'bp_users_activate_signup' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_activate_signup' );
 	bp_users_activate_signup( $key );
 }
 
 function bp_core_new_user_activity( $user ) {
-	_deprecated_function( 'bp_core_new_user_activity', '1.3', 'bp_users_new_user_activity' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_new_user_activity' );
 	bp_users_new_user_activity( $user );
 }
 
 function bp_core_map_user_registration( $user_id ) {
-	_deprecated_function( 'bp_core_map_user_registration', '1.3', 'bp_users_map_user_registration' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_map_user_registration' );
 	bp_users_map_user_registration( $user_id );
 }
 
 function bp_core_signup_avatar_upload_dir() {
-	_deprecated_function( 'bp_core_signup_avatar_upload_dir', '1.3', 'bp_users_signup_avatar_upload_dir' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_avatar_upload_dir' );
 	bp_users_signup_avatar_upload_dir();
 }
 
 function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
-	_deprecated_function( 'bp_core_signup_send_validation_email', '1.3', 'bp_users_signup_send_validation_email' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_send_validation_email' );
 	bp_users_signup_send_validation_email( $user_id, $user_email, $key );
 }
 
 function bp_core_signup_disable_inactive( $auth_obj, $username ) {
-	_deprecated_function( 'bp_core_signup_disable_inactive', '1.3', 'bp_users_signup_disable_inactive' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_disable_inactive' );
 	bp_users_signup_disable_inactive( $auth_obj, $username );
 }
 
 function bp_core_wpsignup_redirect() {
-	_deprecated_function( 'bp_core_wpsignup_redirect', '1.3', 'bp_users_wpsignup_redirect' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_wpsignup_redirect' );
 	bp_users_wpsignup_redirect();
 }
 
 /** Settings ******************************************************************/
 
 function bp_core_add_settings_nav() {
-	_deprecated_function( 'bp_core_add_settings_nav', '1.3', 'bp_settings_add_settings_nav' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_add_settings_nav' );
 	bp_settings_add_settings_nav();
 }
 
 function bp_core_can_edit_settings() {
-	_deprecated_function( 'bp_core_can_edit_settings', '1.3', 'bp_users_can_edit_settings' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_can_edit_settings' );
 	bp_users_can_edit_settings();
 }
 
 function bp_core_screen_general_settings() {
-	_deprecated_function( 'bp_core_screen_general_settings', '1.3', 'bp_settings_screen_general_settings' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_screen_general_settings' );
 	bp_settings_screen_general_settings();
 }
 
 function bp_core_screen_general_settings_title() {
-	_deprecated_function( 'bp_core_screen_general_settings_title', '1.3', 'bp_settings_screen_general_settings' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_screen_general_settings' );
 }
 
 function bp_core_screen_general_settings_content() {
-	_deprecated_function( 'bp_core_screen_general_settings_content', '1.3', 'bp_settings_screen_general_settings' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_screen_general_settings' );
 }
 
 function bp_core_screen_notification_settings() {
-	_deprecated_function( 'bp_core_screen_notification_settings', '1.3', 'bp_settings_screen_notification_settings' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_screen_notification_settings' );
 	bp_settings_screen_notification_settings();
 }
 
 function bp_core_screen_notification_settings_title() {
-	_deprecated_function( 'bp_core_screen_notification_settings_title', '1.3', 'bp_settings_screen_notification_settings' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_screen_notification_settings' );
 }
 
 function bp_core_screen_notification_settings_content() {
-	_deprecated_function( 'bp_core_screen_notification_settings_content', '1.3', 'bp_settings_screen_notification_settings' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_screen_notification_settings' );
 }
 
 function bp_core_screen_delete_account() {
-	_deprecated_function( 'bp_core_screen_delete_account', '1.3', 'bp_settings_screen_delete_account' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_screen_delete_account' );
 	bp_settings_screen_delete_account();
 }
 
 function bp_core_screen_delete_account_title() {
-	_deprecated_function( 'bp_core_screen_delete_account_title', '1.3', 'bp_settings_screen_delete_account' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_screen_delete_account' );
 }
 
 function bp_core_screen_delete_account_content() {
-	_deprecated_function( 'bp_core_screen_delete_account_content', '1.3', 'bp_settings_screen_delete_account' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_settings_screen_delete_account' );
 }
 
 /** Notifications *************************************************************/
 
 function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = false, $date_notified = false ) {
-	_deprecated_function( 'bp_core_add_notification', '1.3', 'bp_users_add_notification' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_add_notification' );
 	bp_users_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id, $date_notified );
 }
 
 function bp_core_delete_notification( $id ) {
-	_deprecated_function( 'bp_core_delete_notification', '1.3', 'bp_users_delete_notification' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_notification' );
 	bp_users_delete_notification( $id );
 }
 
 function bp_core_get_notification( $id ) {
-	_deprecated_function( 'bp_core_get_notification', '1.3', 'bp_users_get_notification' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_get_notification' );
 	bp_users_get_notification( $id );
 }
 
 function bp_core_get_notifications_for_user( $user_id ) {
-	_deprecated_function( 'bp_core_get_notifications_for_user', '1.3', 'bp_users_get_notifications_for_user' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_get_notifications_for_user' );
 	bp_users_get_notifications_for_user( $user_id );
 }
 
 function bp_core_delete_notifications_by_type( $user_id, $component_name, $component_action ) {
-	_deprecated_function( 'bp_core_delete_notifications_by_type', '1.3', 'bp_users_delete_notifications_by_type' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_notifications_by_type' );
 	bp_users_delete_notifications_by_type( $user_id, $component_name, $component_action );
 }
 
 function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
-	_deprecated_function( 'bp_core_delete_notifications_for_user_by_item_id', '1.3', 'bp_users_delete_notifications_by_item_id' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_notifications_by_item_id' );
 	bp_users_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
 function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false ) {
-	_deprecated_function( 'bp_core_delete_all_notifications_by_type', '1.3', 'bp_users_delete_all_notifications_by_type' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_all_notifications_by_type' );
 	bp_users_delete_all_notifications_by_type( $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
 function bp_core_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
-	_deprecated_function( 'bp_core_delete_notifications_from_user', '1.3', 'bp_users_delete_notifications_from_user' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_notifications_from_user' );
 	bp_users_delete_notifications_from_user( $user_id, $component_name, $component_action );
 }
 
 function bp_core_check_notification_access( $user_id, $notification_id ) {
-	_deprecated_function( 'bp_core_check_notification_access', '1.3', 'bp_users_check_notification_access' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_check_notification_access' );
 	bp_users_check_notification_access( $user_id, $notification_id );
 }
 
 /** Core **********************************************************************/
+
+function bp_core_get_wp_profile() {
+	_deprecated_function( __FUNCTION__, '1.3' );
+
+	global $bp;
+
+	$ud = get_userdata( $bp->displayed_user->id ); ?>
+
+<div class="bp-widget wp-profile">
+	<h4><?php _e( 'My Profile' ) ?></h4>
+
+	<table class="wp-profile-fields zebra">
+
+		<?php if ( $ud->display_name ) : ?>
+
+			<tr id="wp_displayname">
+				<td class="label"><?php _e( 'Name', 'buddypress' ); ?></td>
+				<td class="data"><?php echo $ud->display_name; ?></td>
+			</tr>
+
+		<?php endif; ?>
+
+		<?php if ( $ud->user_description ) : ?>
+
+			<tr id="wp_desc">
+				<td class="label"><?php _e( 'About Me', 'buddypress' ); ?></td>
+				<td class="data"><?php echo $ud->user_description; ?></td>
+			</tr>
+
+		<?php endif; ?>
+
+		<?php if ( $ud->user_url ) : ?>
+
+			<tr id="wp_website">
+				<td class="label"><?php _e( 'Website', 'buddypress' ); ?></td>
+				<td class="data"><?php echo make_clickable( $ud->user_url ); ?></td>
+			</tr>
+
+		<?php endif; ?>
+
+		<?php if ( $ud->jabber ) : ?>
+
+			<tr id="wp_jabber">
+				<td class="label"><?php _e( 'Jabber', 'buddypress' ); ?></td>
+				<td class="data"><?php echo $ud->jabber; ?></td>
+			</tr>
+
+		<?php endif; ?>
+
+		<?php if ( $ud->aim ) : ?>
+
+			<tr id="wp_aim">
+				<td class="label"><?php _e( 'AOL Messenger', 'buddypress' ); ?></td>
+				<td class="data"><?php echo $ud->aim; ?></td>
+			</tr>
+
+		<?php endif; ?>
+
+		<?php if ( $ud->yim ) : ?>
+
+			<tr id="wp_yim">
+				<td class="label"><?php _e( 'Yahoo Messenger', 'buddypress' ); ?></td>
+				<td class="data"><?php echo $ud->yim; ?></td>
+			</tr>
+
+		<?php endif; ?>
+
+	</table>
+</div>
+
+<?php
+}
 
 /**
  * This function originally let plugins add support for pages in the root of the install.
@@ -233,6 +312,46 @@ function bp_core_create_root_component_page() {
 
 	bp_core_update_page_meta( $page_ids );
 }
+
+function bp_is_home() {
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_is_my_profile' );
+	return bp_is_my_profile();
+}
+
+/**
+ * Is the user on the front page of the site?
+ *
+ * @deprecated 1.3
+ * @deprecated Use is_front_page()
+ * @return bool
+ */
+function bp_is_front_page() {
+	_deprecated_function( __FUNCTION__, '1.3', "is_front_page()" );
+	return is_front_page();
+}
+
+/**
+ * Is the front page of the site set to the Activity component?
+ *
+ * @deprecated 1.3
+ * @deprecated Use bp_is_component_front_page( 'activity' )
+ * @return bool
+ */
+function bp_is_activity_front_page() {
+	_deprecated_function( __FUNCTION__, '1.3', "bp_is_component_front_page( 'activity' )" );
+	return bp_is_component_front_page( 'activity' );
+}
+
+function bp_is_member() {
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_is_user' );
+	bp_is_user();
+}
+
+function bp_loggedinuser_link() {
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_loggedin_user_link' );
+	bp_loggedin_user_link();
+}
+
 
 /** Theme *********************************************************************/
 
@@ -348,4 +467,5 @@ function bp_dtheme_deprecated() {
 	endif;
 }
 add_action( 'after_setup_theme', 'bp_dtheme_deprecated', 15 );
+
 ?>

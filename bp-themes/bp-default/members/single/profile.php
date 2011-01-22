@@ -21,8 +21,11 @@
 		elseif ( 'change-avatar' == bp_current_action() ) :
 			locate_template( array( 'members/single/profile/change-avatar.php' ), true );
 
-		else :
+		elseif ( bp_is_active( 'profile' ) ) :
 			locate_template( array( 'members/single/profile/profile-loop.php' ), true );
+
+		else :
+			locate_template( array( 'members/single/profile/profile-wp.php' ), true );
 
 		endif;
 	?>

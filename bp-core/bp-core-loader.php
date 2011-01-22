@@ -12,7 +12,10 @@ require ( BP_PLUGIN_DIR . '/bp-core/bp-core-buddybar.php'   );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'   );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php'  );
 require ( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php'  );
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-deprecated.php' );
+
+// Do we load deprecated functions?
+if ( !defined( 'BP_SKIP_DEPRECATED' ) )
+	require ( BP_PLUGIN_DIR . '/bp-core/deprecated/1.3.php' );
 
 // If BP_DISABLE_ADMIN_BAR is defined, do not load the global admin bar.
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )

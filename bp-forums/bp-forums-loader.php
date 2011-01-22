@@ -1,606 +1,159 @@
 <?php
 
-// Define the parent forum ID
-if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
-	define( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
-
-// Support for bbPress stand-alone
-if ( !defined( 'BB_PATH' ) )
-	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress-sa.php' );
-
-require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php'  );
-require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-template.php' );
-
 /**
- * Puts important forums component data into the $bp global for later use.
+ * BuddyPress Forums Streams Loader
  *
- * @package BuddyPress Forums
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- */
-function bp_forums_setup() {
-	global $bp;
-
-	if ( !defined( 'BP_FORUMS_SLUG' ) )
-		define ( 'BP_FORUMS_SLUG', bp_core_component_slug_from_root_slug( $bp->pages->forums->slug ) );
-
-	// For internal identification
-	$bp->forums->id = 'forums';
-
-	// Slugs
-	$bp->forums->slug      = BP_FORUMS_SLUG;
-	$bp->forums->root_slug = $bp->pages->forums->slug;
-
-	// Images
-	$bp->forums->image_base = BP_PLUGIN_URL . '/bp-forums/images';
-
-	if ( isset( $bp->site_options['bb-config-location'] ) )
-		$bp->forums->bbconfig = $bp->site_options['bb-config-location'];
-
-	// Register this in the active components array
-	$bp->active_components[$bp->forums->slug] = $bp->forums->id;
-
-	// The default text for the forums directory search box
-	$bp->default_search_strings[$bp->forums->slug] = __( 'Search Forum Topics...', 'buddypress' );
-
-	do_action( 'bp_forums_setup' );
-}
-add_action( 'bp_setup_globals', 'bp_forums_setup' );
-
-function bp_forums_is_installed_correctly() {
-	global $bp;
-
-	if ( isset( $bp->forums->bbconfig ) && file_exists( $bp->forums->bbconfig ) )
-		return true;
-
-	return false;
-}
-
-/**
- * Convenience function to determine if the forum directory has been disabled
- * by the site admin.
+ * An forums stream component, for users, groups, and blog tracking.
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- * @return bool True if forum is disabled
- * @since 1.3
- */
-function bp_forum_directory_is_disabled() {
-	global $bp;
-
-	return !empty( $bp->site_options['bp-disable-forum-directory'] );
-}
-
-function bp_forums_directory_forums_setup() {
-	global $bp;
-
-	if ( $bp->current_component == $bp->forums->slug ) {
-		if ( bp_forum_directory_is_disabled() || !bp_is_active( 'groups' ) )
-			return false;
-
-		if ( !bp_forums_is_installed_correctly() ) {
-			bp_core_add_message( __( 'The forums component has not been set up yet.', 'buddypress' ), 'error' );
-			bp_core_redirect( $bp->root_domain );
-		}
-
-		$bp->is_directory = true;
-
-		do_action( 'bbpress_init' );
-
-		// Check to see if the user has posted a new topic from the forums page.
-		if ( isset( $_POST['submit_topic'] ) && function_exists( 'bp_forums_new_topic' ) ) {
-			check_admin_referer( 'bp_forums_new_topic' );
-
-			if ( $bp->groups->current_group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) ) ) {
-				// Auto join this user if they are not yet a member of this group
-				if ( !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
-					groups_join_group( $bp->groups->current_group->id, $bp->groups->current_group->id );
-
-				$error_message = '';
-				if ( $forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) ) {
-					if ( empty( $_POST['topic_title'] ) )
-						$error_message = __( 'Please provide a title for your forum topic.', 'buddypress' );
-					else if ( empty( $_POST['topic_text'] ) )
-						$error_message = __( 'Forum posts cannot be empty. Please enter some text.', 'buddypress' );
-
-					if ( $error_message ) {
-						bp_core_add_message( $error_message, 'error' );
-						$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum';
-					} else {
-						if ( !$topic = groups_new_group_forum_topic( $_POST['topic_title'], $_POST['topic_text'], $_POST['topic_tags'], $forum_id ) ) {
-							bp_core_add_message( __( 'There was an error when creating the topic', 'buddypress'), 'error' );
-							$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum';
-						} else {
-							bp_core_add_message( __( 'The topic was created successfully', 'buddypress') );
-							$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/';
-						}
-					}
-
-					bp_core_redirect( $redirect );
-
-				} else {
-					bp_core_add_message( __( 'Please pick the group forum where you would like to post this topic.', 'buddypress' ), 'error' );
-				}
-			}
-		}
-
-		do_action( 'bp_forums_directory_forums_setup' );
-
-		bp_core_load_template( apply_filters( 'bp_forums_template_directory_forums_setup', 'forums/index' ) );
-	}
-}
-add_action( 'wp', 'bp_forums_directory_forums_setup', 2 );
-
-function bp_forums_add_admin_menu() {
-	global $bp;
-
-	if ( !is_super_admin() )
-		return false;
-
-	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php' );
-
-	// Add the administration tab under the "Site Admin" tab for site administrators
-	add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
-}
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_forums_add_admin_menu' );
-
-/** Forum Functions ***********************************************************/
-
-function bp_forums_get_forum( $forum_id ) {
-	do_action( 'bbpress_init' );
-	return bb_get_forum( $forum_id );
-}
-
-function bp_forums_new_forum( $args = '' ) {
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'forum_name'        => '',
-		'forum_desc'        => '',
-		'forum_parent_id'   => BP_FORUMS_PARENT_FORUM_ID,
-		'forum_order'       => false,
-		'forum_is_category' => 0
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	return bb_new_forum( array( 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
-}
-
-function bp_forums_update_forum( $args = '' ) {
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'forum_id'			=> '',
-		'forum_name'		=> '',
-		'forum_desc'		=> '',
-		'forum_slug'		=> '',
-		'forum_parent_id'	=> BP_FORUMS_PARENT_FORUM_ID,
-		'forum_order'		=> false,
-		'forum_is_category'	=> 0
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	return bb_update_forum( array( 'forum_id' => (int)$forum_id, 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_slug' => stripslashes( $forum_slug ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
-}
-
-/** Topic Functions ***********************************************************/
-
-function bp_forums_get_forum_topics( $args = '' ) {
-	global $bp;
-
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'type'          => 'newest',
-		'forum_id'      => false,
-		'user_id'       => false,
-		'page'          => 1,
-		'per_page'      => 15,
-		'exclude'       => false,
-		'show_stickies' => 'all',
-		'filter'        => false // if $type = tag then filter is the tag name, otherwise it's terms to search on.
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( class_exists( 'BB_Query' ) ) {
-		switch ( $type ) {
-			case 'newest':
-				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'number' => $per_page, 'exclude' => $exclude, 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_latest_topics' );
-				$topics =& $query->results;
-				break;
-
-			case 'popular':
-				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_posts', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
-				$topics =& $query->results;
-				break;
-
-			case 'unreplied':
-				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'post_count' => 1, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'topic_title' => $filter, 'sticky' => $show_stickies ) );
-				$topics =& $query->results;
-				break;
-
-			case 'tags':
-				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'tag' => $filter, 'per_page' => $per_page, 'page' => $page, 'order_by' => 't.topic_time', 'sticky' => $show_stickies ) );
-				$topics =& $query->results;
-				break;
-		}
-	} else {
-		$topics = array();
-	}
-
-	return apply_filters( 'bp_forums_get_forum_topics', $topics, &$r );
-}
-
-function bp_forums_get_topic_details( $topic_id ) {
-	do_action( 'bbpress_init' );
-
-	$query = new BB_Query( 'topic', 'topic_id=' . $topic_id . '&page=1' /* Page override so bbPress doesn't use the URI */ );
-
-	return $query->results[0];
-}
-
-function bp_forums_get_topic_id_from_slug( $topic_slug ) {
-	do_action( 'bbpress_init' );
-	return bb_get_id_from_slug( 'topic', $topic_slug );
-}
-
-function bp_forums_new_topic( $args = '' ) {
-	global $bp;
-
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'topic_title'            => '',
-		'topic_slug'             => '',
-		'topic_text'             => '',
-		'topic_poster'           => $bp->loggedin_user->id, // accepts ids
-		'topic_poster_name'      => $bp->loggedin_user->fullname, // accept names
-		'topic_last_poster'      => $bp->loggedin_user->id, // accepts ids
-		'topic_last_poster_name' => $bp->loggedin_user->fullname, // accept names
-		'topic_start_time'       => bp_core_current_time(),
-		'topic_time'             => bp_core_current_time(),
-		'topic_open'             => 1,
-		'topic_tags'             => false, // accepts array or comma delim
-		'forum_id'               => 0 // accepts ids or slugs
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	$topic_title = strip_tags( $topic_title );
-
-	if ( empty( $topic_title ) || !strlen( trim( $topic_title ) ) )
-		return false;
-
-	if ( empty( $topic_slug ) )
-		$topic_slug = sanitize_title( $topic_title );
-
-	if ( !$topic_id = bb_insert_topic( array( 'topic_title' => stripslashes( $topic_title ), 'topic_slug' => $topic_slug, 'topic_poster' => $topic_poster, 'topic_poster_name' => $topic_poster_name, 'topic_last_poster' => $topic_last_poster, 'topic_last_poster_name' => $topic_last_poster_name, 'topic_start_time' => $topic_start_time, 'topic_time' => $topic_time, 'topic_open' => $topic_open, 'forum_id' => (int)$forum_id, 'tags' => $topic_tags ) ) )
-		return false;
-
-	// Now insert the first post.
-	if ( !bp_forums_insert_post( array( 'topic_id' => $topic_id, 'post_text' => $topic_text, 'post_time' => $topic_time, 'poster_id' => $topic_poster ) ) )
-		return false;
-
-	do_action( 'bp_forums_new_topic', $topic_id );
-
-	return $topic_id;
-}
-
-function bp_forums_update_topic( $args = '' ) {
-	global $bp;
-
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'topic_id'    => false,
-		'topic_title' => '',
-		'topic_text'  => ''
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( !$topic_id = bb_insert_topic( array( 'topic_id' => $topic_id, 'topic_title' => stripslashes( $topic_title ) ) ) )
-		return false;
-
-	if ( !$post = bb_get_first_post( $topic_id ) )
-		return false;
-
-	// Update the first post
-	if ( !$post = bp_forums_insert_post( array( 'post_id' => $post->post_id, 'topic_id' => $topic_id, 'post_text' => $topic_text, 'post_time' => $post->post_time, 'poster_id' => $post->poster_id, 'poster_ip' => $post->poster_ip, 'post_status' => $post->post_status, 'post_position' => $post->post_position ) ) )
-		return false;
-
-	return bp_forums_get_topic_details( $topic_id );
-}
-
-function bp_forums_sticky_topic( $args = '' ) {
-	global $bp;
-
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'topic_id' => false,
-		'mode'     => 'stick' // stick/unstick
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( 'stick' == $mode )
-		return bb_stick_topic( $topic_id );
-	else if ( 'unstick' == $mode )
-		return bb_unstick_topic( $topic_id );
-
-	return false;
-}
-
-function bp_forums_openclose_topic( $args = '' ) {
-	global $bp;
-
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'topic_id' => false,
-		'mode'     => 'close' // stick/unstick
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( 'close' == $mode )
-		return bb_close_topic( $topic_id );
-	else if ( 'open' == $mode )
-		return bb_open_topic( $topic_id );
-
-	return false;
-}
-
-function bp_forums_delete_topic( $args = '' ) {
-	global $bp;
-
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'topic_id' => false
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	return bb_delete_topic( $topic_id, 1 );
-}
-
-function bp_forums_total_topic_count() {
-	global $bbdb;
-
-	do_action( 'bbpress_init' );
-
-	if ( isset( $bbdb ) )
-		$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t". groups_add_forum_tables_sql( '' ) . " WHERE " . groups_add_forum_where_sql( "t.topic_status = 0" ) ) );
-	else
-		$count = 0;
-
-	return apply_filters( 'bp_forums_total_topic_count', count( (array)$count ) );
-}
-
-function bp_forums_total_topic_count_for_user( $user_id = 0 ) {
-	global $bp;
-
-	do_action( 'bbpress_init' );
-
-	if ( !$user_id )
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
-
-	if ( class_exists( 'BB_Query' ) ) {
-		$query = new BB_Query( 'topic', array( 'topic_author_id' => $user_id, 'page' => 1, 'per_page' => -1, 'count' => true ) );
-		$count = $query->count;
-		$query = null;
-	} else {
-		$count = 0;
-	}
-
-	return $count;
-}
-
-function bp_forums_get_topic_extras( $topics ) {
-	global $bp, $wpdb, $bbdb;
-
-	if ( empty( $topics ) )
-		return $topics;
-
-	// Get the topic ids
-	foreach ( (array)$topics as $topic ) $topic_ids[] = $topic->topic_id;
-	$topic_ids = $wpdb->escape( join( ',', (array)$topic_ids ) );
-
-	// Fetch the topic's last poster details
-	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, t.topic_last_poster, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u, {$bbdb->topics} t WHERE u.ID = t.topic_last_poster AND t.topic_id IN ( {$topic_ids} )" ) );
-	for ( $i = 0; $i < count( $topics ); $i++ ) {
-		foreach ( (array)$poster_details as $poster ) {
-			if ( $poster->topic_id == $topics[$i]->topic_id ) {
-				$topics[$i]->topic_last_poster_email       = $poster->user_email;
-				$topics[$i]->topic_last_poster_nicename    = $poster->user_nicename;
-				$topics[$i]->topic_last_poster_login       = $poster->user_login;
-				$topics[$i]->topic_last_poster_displayname = $poster->display_name;
-			}
-		}
-	}
-
-	// Fetch fullname for the topic's last poster
-	if ( bp_is_active( 'profile' ) ) {
-		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, pd.value FROM {$bp->profile->table_name_data} pd, {$bbdb->topics} t WHERE pd.user_id = t.topic_last_poster AND pd.field_id = 1 AND t.topic_id IN ( {$topic_ids} )" ) );
-		for ( $i = 0; $i < count( $topics ); $i++ ) {
-			foreach ( (array)$poster_names as $name ) {
-				if ( $name->topic_id == $topics[$i]->topic_id )
-					$topics[$i]->topic_last_poster_displayname = $name->value;
-			}
-		}
-	}
-
-	return $topics;
-}
-
-/** Post Functions ************************************************************/
-
-function bp_forums_get_topic_posts( $args = '' ) {
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'topic_id' => false,
-		'page'     => 1,
-		'per_page' => 15,
-		'order'    => 'ASC'
-	);
-
-	$args  = wp_parse_args( $args, $defaults );
-	$query = new BB_Query( 'post', $args, 'get_thread' );
-
-	return bp_forums_get_post_extras( $query->results );
-}
-
-function bp_forums_get_post( $post_id ) {
-	do_action( 'bbpress_init' );
-	return bb_get_post( $post_id );
-}
-
-function bp_forums_delete_post( $args = '' ) {
-	global $bp;
-
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'post_id' => false
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	return bb_delete_post( $post_id, 1 );
-}
-
-function bp_forums_insert_post( $args = '' ) {
-	global $bp;
-
-	do_action( 'bbpress_init' );
-
-	$defaults = array(
-		'post_id'       => false,
-		'topic_id'      => false,
-		'post_text'     => '',
-		'post_time'     => bp_core_current_time(),
-		'poster_id'     => $bp->loggedin_user->id, // accepts ids or names
-		'poster_ip'     => $_SERVER['REMOTE_ADDR'],
-		'post_status'   => 0, // use bb_delete_post() instead
-		'post_position' => false
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( !$post = bp_forums_get_post( $post_id ) )
-		$post_id = false;
-
-	if ( !isset( $topic_id ) )
-		$topic_id = $post->topic_id;
-
-	if ( empty( $post_text ) )
-		$post_text = $post->post_text;
-
-	if ( !isset( $post_time ) )
-		$post_time = $post->post_time;
-
-	if ( !isset( $post_position ) )
-		$post_position = $post->post_position;
-
-	$post_id = bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( trim( $post_text ) ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
-
-	if ( !empty( $post_id ) )
-		do_action( 'bp_forums_new_post', $post_id );
-
-	return $post_id;
-}
-
-function bp_forums_get_post_extras( $posts ) {
-	global $bp, $wpdb;
-
-	if ( empty( $posts ) )
-		return $posts;
-
-	// Get the user ids
-	foreach ( (array)$posts as $post ) $user_ids[] = $post->poster_id;
-	$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
-
-	// Fetch the poster's user_email, user_nicename and user_login
-	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u WHERE u.ID IN ( {$user_ids} )" ) );
-
-	for ( $i = 0; $i < count( $posts ); $i++ ) {
-		foreach ( (array)$poster_details as $poster ) {
-			if ( $poster->user_id == $posts[$i]->poster_id ) {
-				$posts[$i]->poster_email    = $poster->user_email;
-				$posts[$i]->poster_login    = $poster->user_nicename;
-				$posts[$i]->poster_nicename = $poster->user_login;
-				$posts[$i]->poster_name     = $poster->display_name;
-			}
-		}
-	}
-
-	// Fetch fullname for each poster.
-	if ( bp_is_active( 'profile' ) ) {
-		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id, pd.value FROM {$bp->profile->table_name_data} pd WHERE pd.user_id IN ( {$user_ids} )" ) );
-		for ( $i = 0; $i < count( $posts ); $i++ ) {
-			foreach ( (array)$poster_names as $name ) {
-				if ( isset( $topics[$i] ) && $name->user_id == $topics[$i]->user_id )
-				$posts[$i]->poster_name = $poster->value;
-			}
-		}
-	}
-
-	return $posts;
-}
-
-function bp_forums_get_forum_topicpost_count( $forum_id ) {
-	global $wpdb, $bbdb;
-
-	do_action( 'bbpress_init' );
-
-	// Need to find a bbPress function that does this
-	return $wpdb->get_results( $wpdb->prepare( "SELECT topics, posts from {$bbdb->forums} WHERE forum_id = %d", $forum_id ) );
-}
-
-function bp_forums_filter_caps( $allcaps ) {
-	global $bp, $wp_roles, $bb_table_prefix;
-
-	if ( !isset( $bp->loggedin_user->id ) )
-		return $allcaps;
-
-	$bb_cap = get_user_meta( $bp->loggedin_user->id, $bb_table_prefix . 'capabilities', true );
-
-	if ( empty( $bb_cap ) )
-		return $allcaps;
-
-	$bb_cap = array_keys($bb_cap);
-	$bb_cap = $wp_roles->get_role( $bb_cap[0] );
-	$bb_cap = $bb_cap->capabilities;
-
-	return array_merge( (array) $allcaps, (array) $bb_cap );
-}
-add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
-
-
-/********************************************************************************
- * Caching
- *
- * Caching functions handle the clearing of cached objects and pages on specific
- * actions throughout BuddyPress.
+ * @package BuddyPress
+ * @subpackage Forums Core
  */
 
-// List actions to clear super cached pages on, if super cache is installed
-add_action( 'bp_forums_new_forum', 'bp_core_clear_cache' );
-add_action( 'bp_forums_new_topic', 'bp_core_clear_cache' );
-add_action( 'bp_forums_new_post',  'bp_core_clear_cache' );
+class BP_Forums_Component extends BP_Component {
+
+	/**
+	 * Start the forums component creation process
+	 *
+	 * @since BuddyPress {unknown}
+	 */
+	function BP_Forums_Component() {
+		parent::start( 'forums', __( 'Discussion Forums', 'buddypress' ) );
+	}
+
+	/**
+	 * Setup globals
+	 *
+	 * The BP_FORUMS_SLUG constant is deprecated, and only used here for
+	 * backwards compatibility.
+	 *
+	 * @since BuddyPress {unknown}
+	 * @global obj $bp
+	 */
+	function _setup_globals() {
+		global $bp;
+
+		// Define the parent forum ID
+		if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
+			define( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
+
+		// Define a slug, if necessary
+		if ( !defined( 'BP_FORUMS_SLUG' ) )
+			define( 'BP_FORUMS_SLUG', $this->id );
+
+		// Do some slug checks
+		$this->slug      = BP_FORUMS_SLUG;
+		$this->root_slug = isset( $bp->pages->forums->slug ) ? $bp->pages->forums->slug : $this->slug;
+
+		// The location of the bbPress stand-alone config file
+		if ( isset( $bp->site_options['bb-config-location'] ) )
+			$this->bbconfig = $bp->site_options['bb-config-location'];
+
+		// Register this in the active components array
+		$bp->active_components[$this->id] = $this->id;
+
+		// The default text for the blogs directory search box
+		$bp->default_search_strings[$this->id] = __( 'Search Forums...', 'buddypress' );
+	}
+
+	/**
+	 * Include files
+	 */
+	function _includes() {
+		// Support for bbPress stand-alone
+		if ( !defined( 'BB_PATH' ) )
+			require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress-sa.php' );
+
+		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-actions.php'   );
+		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-screens.php'   );
+		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php'   );
+		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-template.php'  );
+		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-functions.php' );
+	}
+
+	/**
+	 * Setup BuddyBar navigation
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_nav() {
+		global $bp;
+
+		// Add 'Forums' to the main navigation
+		bp_core_new_nav_item( array(
+			'name'                => __( 'Forums', 'buddypress' ),
+			'slug'                => $this->slug,
+			'position'            => 80,
+			'screen_function'     => 'bp_forums_screen_topics',
+			'default_subnav_slug' => 'topics',
+			'item_css_id'         => $this->id )
+		);
+
+		// Stop if there is no user displayed or logged in
+		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
+			return;
+
+		// Determine user to use
+		if ( isset( $bp->displayed_user->domain ) ) {
+			$user_domain = $bp->displayed_user->domain;
+			$user_login  = $bp->displayed_user->userdata->user_login;
+		} elseif ( isset( $bp->loggedin_user->domain ) ) {
+			$user_domain = $bp->loggedin_user->domain;
+			$user_login  = $bp->loggedin_user->userdata->user_login;
+		} else {
+			return;
+		}
+
+		// User link
+		$forums_link = trailingslashit( $user_domain . $this->slug );
+
+		// Additional menu if friends is active
+		bp_core_new_subnav_item( array(
+			'name'            => __( 'Topics Started', 'buddypress' ),
+			'slug'            => 'topics',
+			'parent_url'      => $forums_link,
+			'parent_slug'     => $this->slug,
+			'screen_function' => 'bp_forums_screen_topics',
+			'position'        => 20,
+			'item_css_id'     => 'forums-friends'
+		) );
+
+		// Additional menu if friends is active
+		bp_core_new_subnav_item( array(
+			'name'            => __( 'Replies', 'buddypress' ),
+			'slug'            => 'replies',
+			'parent_url'      => $forums_link,
+			'parent_slug'     => $this->slug,
+			'screen_function' => 'bp_forums_screen_topics',
+			'position'        => 40,
+			'item_css_id'     => 'forums-friends'
+		) );
+
+		// Favorite forums items
+		bp_core_new_subnav_item( array(
+			'name'            => __( 'Favorite Topics', 'buddypress' ),
+			'slug'            => 'favorites',
+			'parent_url'      => $forums_link,
+			'parent_slug'     => $this->slug,
+			'screen_function' => 'bp_forums_screen_favorites',
+			'position'        => 60,
+			'item_css_id'     => 'forums-favs'
+		) );
+
+		// Adjust title based on view
+		if ( bp_is_forums_component() ) {
+			if ( bp_is_my_profile() ) {
+				$bp->bp_options_title = __( 'My Forums', 'buddypress' );
+			} else {
+				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
+					'item_id' => $bp->displayed_user->id,
+					'type'    => 'thumb'
+				) );
+				$bp->bp_options_title  = $bp->displayed_user->fullname;
+			}
+		}
+	}
+}
+// Create the forums component
+$bp->forums = new BP_Forums_Component();
 
 ?>

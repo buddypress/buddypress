@@ -156,7 +156,7 @@ function bp_core_set_uri_globals() {
 
 	// Find the offset
 	$uri_offset = 0;
-	$slug = isset( $match ) ? explode( '/', $match->slug ) : '';
+	$slug       = explode( '/', $match->slug );
 
 	if ( !empty( $slug ) && 1 != count( $slug ) ) {
 		array_pop( $slug );

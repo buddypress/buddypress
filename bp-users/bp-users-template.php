@@ -674,14 +674,6 @@ function bp_loggedin_user_link() {
 		return apply_filters( 'bp_get_loggedin_user_link', $bp->loggedin_user->domain );
 	}
 
-/* @todo Deprecate incorrectly named function? */
-function bp_loggedinuser_link() {
-	global $bp;
-
-	if ( $link = bp_core_get_userlink( $bp->loggedin_user->id ) )
-		echo apply_filters( 'bp_loggedin_user_link', $link );
-}
-
 function bp_displayed_user_link() {
 	echo bp_get_displayed_user_link();
 }
@@ -937,7 +929,7 @@ function bp_signup_allowed() {
  * @since 1.3
  */
 function bp_users_activity_feed() {
-	if ( !bp_is_active( 'activity' ) || !bp_is_member() )
+	if ( !bp_is_active( 'activity' ) || !bp_is_user() )
 		return; ?>
 
 	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_displayed_user_fullname() ?> | <?php _e( 'Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_member_activity_feed_link() ?>" />
