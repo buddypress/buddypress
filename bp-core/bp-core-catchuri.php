@@ -31,7 +31,8 @@ function bp_core_set_uri_globals() {
 	global $current_blog;
 
 	// Create global component, action, and item variables
-	$bp->current_component = $bp->current_action = $bp->action_variables = $bp->current_item = '';
+	$bp->current_component = $bp->current_action = $bp->current_item ='';
+	$bp->action_variables = $bp->displayed_user->id = '';
 
 	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() ) {
 		// Only catch URI's on the root blog if we are not running
