@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-22 15:30:28+00:00\n"
+"POT-Creation-Date: 2011-01-22 16:30:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -162,7 +162,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:511 bp-core/bp-core-template.php:377
 #: bp-groups/bp-groups-template.php:1941 bp-users/bp-users-template.php:470
-#: bp-forums/bp-forums-template.php:1040 bp-themes/bp-default/header.php:42
+#: bp-forums/bp-forums-template.php:1088 bp-themes/bp-default/header.php:42
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -215,7 +215,7 @@ msgid "Members"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:41 bp-core/bp-core-widgets.php:123
-#: bp-friends/bp-friends-template.php:7 bp-friends/bp-friends-template.php:23
+#: bp-friends/bp-friends-template.php:55 bp-friends/bp-friends-template.php:72
 #: bp-groups/bp-groups-widgets.php:44 bp-groups/bp-groups-widgets.php:120
 #: bp-themes/bp-default/members/single/blogs.php:23
 #: bp-themes/bp-default/blogs/index.php:55
@@ -1108,7 +1108,7 @@ msgid "Friends <span>(%d)</span>"
 msgstr ""
 
 #: bp-friends/bp-friends-loader.php:44 bp-friends/bp-friends-loader.php:49
-#: bp-friends/bp-friends-loader.php:304 bp-friends/bp-friends-template.php:40
+#: bp-friends/bp-friends-loader.php:304 bp-friends/bp-friends-template.php:89
 msgid "My Friends"
 msgstr ""
 
@@ -1245,61 +1245,61 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:6 bp-friends/bp-friends-template.php:20
+#: bp-friends/bp-friends-template.php:54 bp-friends/bp-friends-template.php:69
 #: bp-groups/bp-groups-template.php:1950 bp-groups/bp-groups-template.php:1967
 msgid "Recently Active"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:8 bp-friends/bp-friends-template.php:26
+#: bp-friends/bp-friends-template.php:56 bp-friends/bp-friends-template.php:75
 #: bp-groups/bp-groups-template.php:1955 bp-groups/bp-groups-template.php:1982
 msgid "Alphabetically"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:40
+#: bp-friends/bp-friends-template.php:89
 msgid "%s's Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:40
+#: bp-friends/bp-friends-template.php:89
 msgid "See All"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:53
+#: bp-friends/bp-friends-template.php:109
 msgid "You haven't added any friend connections yet."
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:53
+#: bp-friends/bp-friends-template.php:109
 msgid "%s hasn't created any friend connections yet."
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:93
+#: bp-friends/bp-friends-template.php:167
 msgid "There aren't enough site members to show a random sample just yet."
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:103
+#: bp-friends/bp-friends-template.php:178
 msgid "Filter Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:138
+#: bp-friends/bp-friends-template.php:215
 msgid "%d friend"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:140
+#: bp-friends/bp-friends-template.php:217
 msgid "%d friends"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:223
-#: bp-friends/bp-friends-template.php:224
+#: bp-friends/bp-friends-template.php:300
+#: bp-friends/bp-friends-template.php:301
 #: bp-themes/bp-default/_inc/ajax.php:378
 msgid "Friendship Requested"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:238
-#: bp-friends/bp-friends-template.php:239
+#: bp-friends/bp-friends-template.php:315
+#: bp-friends/bp-friends-template.php:316
 msgid "Cancel Friendship"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:255
-#: bp-friends/bp-friends-template.php:256
+#: bp-friends/bp-friends-template.php:332
+#: bp-friends/bp-friends-template.php:333
 #: bp-themes/bp-default/_inc/ajax.php:368
 msgid "Add Friend"
 msgstr ""
@@ -1924,8 +1924,8 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:1506 bp-groups/bp-groups-template.php:1515
 #: bp-groups/bp-groups-template.php:1524 bp-groups/bp-groups-template.php:2185
 #: bp-users/bp-users-template.php:332 bp-users/bp-users-template.php:583
-#: bp-users/bp-users-template.php:603 bp-forums/bp-forums-template.php:290
-#: bp-forums/bp-forums-template.php:391 bp-forums/bp-forums-template.php:914
+#: bp-users/bp-users-template.php:603 bp-forums/bp-forums-template.php:338
+#: bp-forums/bp-forums-template.php:439 bp-forums/bp-forums-template.php:962
 #: bp-activity/bp-activity-template.php:539
 #: bp-activity/bp-activity-template.php:614
 #: bp-activity/bp-activity-template.php:623
@@ -1965,11 +1965,11 @@ msgstr ""
 msgid "%d topics"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:738 bp-forums/bp-forums-template.php:470
+#: bp-groups/bp-groups-template.php:738 bp-forums/bp-forums-template.php:518
 msgid "%d post"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:740 bp-forums/bp-forums-template.php:472
+#: bp-groups/bp-groups-template.php:740 bp-forums/bp-forums-template.php:520
 msgid "%d posts"
 msgstr ""
 
@@ -2145,7 +2145,7 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:219
 #: bp-themes/bp-default/members/single/settings/notifications.php:62
-#: bp-themes/bp-default/members/single/settings/general.php:73
+#: bp-themes/bp-default/members/single/settings/general.php:69
 #: bp-themes/bp-default/members/single/profile/edit.php:126
 #: bp-themes/bp-default/groups/single/forum/edit.php:34
 #: bp-themes/bp-default/groups/single/forum/edit.php:52
@@ -2435,12 +2435,12 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:501 bp-forums/bp-forums-template.php:984
+#: bp-xprofile/bp-xprofile-admin.php:501 bp-forums/bp-forums-template.php:1032
 #: bp-themes/bp-default/functions.php:412
 msgid "Edit"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:502 bp-forums/bp-forums-template.php:985
+#: bp-xprofile/bp-xprofile-admin.php:502 bp-forums/bp-forums-template.php:1033
 #: bp-themes/bp-default/_inc/ajax.php:213
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:13
@@ -2548,11 +2548,11 @@ msgstr ""
 msgid "registered %s ago"
 msgstr ""
 
-#: bp-users/bp-users-template.php:883
+#: bp-users/bp-users-template.php:878
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-users/bp-users-template.php:938
+#: bp-users/bp-users-template.php:933
 msgid "Activity RSS Feed"
 msgstr ""
 
@@ -2766,48 +2766,48 @@ msgstr ""
 msgid "My Forums"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:308 bp-forums/bp-forums-template.php:357
-#: bp-forums/bp-forums-template.php:930
+#: bp-forums/bp-forums-template.php:356 bp-forums/bp-forums-template.php:405
+#: bp-forums/bp-forums-template.php:978
 msgid "Deleted User"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:372
+#: bp-forums/bp-forums-template.php:420
 msgid "Group logo for %s"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:569
+#: bp-forums/bp-forums-template.php:617
 msgid "Edit Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:573
+#: bp-forums/bp-forums-template.php:621
 msgid "Sticky Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:575
+#: bp-forums/bp-forums-template.php:623
 msgid "Un-stick Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:578
+#: bp-forums/bp-forums-template.php:626
 msgid "Open Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:580
+#: bp-forums/bp-forums-template.php:628
 msgid "Close Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:582
+#: bp-forums/bp-forums-template.php:630
 msgid "Delete Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:691
+#: bp-forums/bp-forums-template.php:739
 msgid " matching tag \"%s\""
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:693
+#: bp-forums/bp-forums-template.php:741
 msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:1017
+#: bp-forums/bp-forums-template.php:1065
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
 msgstr ""
 
@@ -3518,31 +3518,31 @@ msgstr ""
 msgid "General Settings"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:58
+#: bp-themes/bp-default/members/single/settings/general.php:56
 msgid "Current Password <span>(required to update email or change current password)</span>"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:59
+#: bp-themes/bp-default/members/single/settings/general.php:57
 msgid "Password Lost and Found"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:59
+#: bp-themes/bp-default/members/single/settings/general.php:57
 msgid "Lost your password?"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:63
+#: bp-themes/bp-default/members/single/settings/general.php:59
 msgid "Account Email"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:66
+#: bp-themes/bp-default/members/single/settings/general.php:62
 msgid "Change Password <span>(leave blank for no change)</span>"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:67
+#: bp-themes/bp-default/members/single/settings/general.php:63
 msgid "New Password"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:68
+#: bp-themes/bp-default/members/single/settings/general.php:64
 msgid "Repeat New Password"
 msgstr ""
 
