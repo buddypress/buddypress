@@ -596,8 +596,8 @@ function bp_core_avatar_url() {
 	$upload_dir = wp_upload_dir();
 
 	// If multisite, and current blog does not match root blog, make adjustments
-	if ( is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
-		$upload_dir['baseurl'] = str_replace( get_home_url( $current_blog->blog_id ) , get_home_url( BP_ROOT_BLOG ), $upload_dir['baseurl'] );
+	if ( bp_core_is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
+		$upload_dir['baseurl'] = trailingslashit( get_blog_option( BP_ROOT_BLOG, 'home' ) ) . get_blog_option( BP_ROOT_BLOG, 'upload_path' );
 
 	return apply_filters( 'bp_core_avatar_url', $upload_dir['baseurl'] );
 }
