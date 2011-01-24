@@ -310,6 +310,9 @@ function groups_screen_group_forum() {
 				else if ( empty( $_POST['topic_text'] ) )
 					$error_message = __( 'Forum posts cannot be empty. Please enter some text.', 'buddypress' );
 
+				if ( empty( $forum_id ) )
+					$error_message = __( 'This group does not have a forum setup yet.', 'buddypress' );
+
 				if ( isset( $error_message ) ) {
 					bp_core_add_message( $error_message, 'error' );
 					$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'forum';
@@ -462,10 +465,9 @@ function groups_screen_group_admin_settings() {
 
 		// If the edit form has been submitted, save the edited details
 		if ( isset( $_POST['save'] ) ) {
-			$enable_forum = ( isset($_POST['group-show-forum'] ) ) ? 1 : 0;
-
+			$enable_forum   = ( isset($_POST['group-show-forum'] ) ) ? 1 : 0;
 			$allowed_status = apply_filters( 'groups_allowed_status', array( 'public', 'private', 'hidden' ) );
-			$status = ( in_array( $_POST['group-status'], (array)$allowed_status ) ) ? $_POST['group-status'] : 'public';
+			$status         = ( in_array( $_POST['group-status'], (array)$allowed_status ) ) ? $_POST['group-status'] : 'public';
 
 			// Check the nonce
 			if ( !check_admin_referer( 'groups_edit_group_settings' ) )
