@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-24 12:30:22+00:00\n"
+"POT-Creation-Date: 2011-01-24 13:30:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1506,11 +1506,11 @@ msgstr ""
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:685
+#: bp-groups/bp-groups-classes.php:683
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:691 bp-groups/bp-groups-functions.php:120
+#: bp-groups/bp-groups-classes.php:689 bp-groups/bp-groups-functions.php:120
 msgid "Group Admin"
 msgstr ""
 
