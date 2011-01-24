@@ -318,8 +318,14 @@ function bp_users_get_user_nicename( $user_id ) {
  */
 function bp_core_get_user_email( $uid ) {
 	if ( !$email = wp_cache_get( 'bp_user_email_' . $uid, 'bp' ) ) {
-		$ud = bp_core_get_core_userdata($uid);
-		$email = $ud->user_email;
+		// User exists
+		if ( $ud = bp_core_get_core_userdata( $uid ) )
+			$email = $ud->user_email;
+
+		// User was deleted
+		else
+			$email = '';
+
 		wp_cache_set( 'bp_user_email_' . $uid, $email, 'bp' );
 	}
 
