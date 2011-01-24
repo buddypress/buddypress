@@ -60,7 +60,7 @@ Class BP_Groups_Group {
 
 		do_action_ref_array( 'groups_group_before_save', array( &$this ) );
 
-		if ( $this->id ) {
+		if ( !empty( $this->id ) ) {
 			$sql = $wpdb->prepare(
 				"UPDATE {$bp->groups->table_name} SET
 					creator_id = %d,
@@ -108,7 +108,7 @@ Class BP_Groups_Group {
 		if ( false === $wpdb->query($sql) )
 			return false;
 
-		if ( !$this->id )
+		if ( empty( $this->id ) )
 			$this->id = $wpdb->insert_id;
 
 		do_action_ref_array( 'groups_group_after_save', array( &$this ) );
