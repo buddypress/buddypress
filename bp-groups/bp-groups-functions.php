@@ -400,7 +400,7 @@ function groups_get_groups( $args = '' ) {
 
 	$groups = BP_Groups_Group::get( $type, $per_page, $page, $user_id, $search_terms, $include, $populate_extras, $exclude, $show_hidden );
 
-	return apply_filters( 'groups_get_groups', $groups, &$params );
+	return apply_filters( 'groups_get_groups', $groups, $params );
 }
 
 function groups_get_total_group_count() {
@@ -800,7 +800,7 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
 	$group = new BP_Groups_Group( $membership->group_id );
 
 	groups_record_activity( array(
-		'action'  => apply_filters( 'groups_activity_membership_accepted_action', sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $membership->user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( $group->name ) . '</a>' ), $membership->user_id, &$group ),
+		'action'  => apply_filters( 'groups_activity_membership_accepted_action', sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $membership->user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( $group->name ) . '</a>' ), $membership->user_id, $group ),
 		'type'    => 'joined_group',
 		'item_id' => $membership->group_id,
 		'user_id' => $membership->user_id

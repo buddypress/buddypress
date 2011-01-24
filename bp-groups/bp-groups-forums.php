@@ -60,8 +60,8 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 
 		// Record this in activity streams
 		groups_record_activity( array(
-			'action'            => apply_filters( 'groups_activity_new_forum_post_action', $activity_action, $post_id, $post_text, &$topic ),
-			'content'           => apply_filters( 'groups_activity_new_forum_post_content', $activity_content, $post_id, $post_text, &$topic ),
+			'action'            => apply_filters( 'groups_activity_new_forum_post_action', $activity_action,   $post_id, $post_text, $topic ),
+			'content'           => apply_filters( 'groups_activity_new_forum_post_content', $activity_content, $post_id, $post_text, $topic ),
 			'primary_link'      => apply_filters( 'groups_activity_new_forum_post_primary_link', "{$primary_link}#post-{$post_id}" ),
 			'type'              => 'new_forum_post',
 			'item_id'           => $bp->groups->current_group->id,
@@ -95,15 +95,15 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 
 		// Record this in activity streams
 		groups_record_activity( array(
-			'action'            => apply_filters( 'groups_activity_new_forum_topic_action', $activity_action, $topic_text, &$topic ),
-			'content'           => apply_filters( 'groups_activity_new_forum_topic_content', $activity_content, $topic_text, &$topic ),
+			'action'            => apply_filters( 'groups_activity_new_forum_topic_action', $activity_action,   $topic_text, $topic ),
+			'content'           => apply_filters( 'groups_activity_new_forum_topic_content', $activity_content, $topic_text, $topic ),
 			'primary_link'      => apply_filters( 'groups_activity_new_forum_topic_primary_link', bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/' ),
 			'type'              => 'new_forum_topic',
 			'item_id'           => $bp->groups->current_group->id,
 			'secondary_item_id' => $topic->topic_id
 		) );
 
-		do_action( 'groups_new_forum_topic', $bp->groups->current_group->id, &$topic );
+		do_action( 'groups_new_forum_topic', $bp->groups->current_group->id, $topic );
 
 		return $topic;
 	}
@@ -127,8 +127,8 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 
 		// Record this in activity streams
 		groups_record_activity( array(
-			'action'            => apply_filters( 'groups_activity_new_forum_topic_action', $activity_action, $topic_text, &$topic ),
-			'content'           => apply_filters( 'groups_activity_new_forum_topic_content', $activity_content, $topic_text, &$topic ),
+			'action'            => apply_filters( 'groups_activity_new_forum_topic_action', $activity_action,   $topic_text, $topic ),
+			'content'           => apply_filters( 'groups_activity_new_forum_topic_content', $activity_content, $topic_text, $topic ),
 			'primary_link'      => apply_filters( 'groups_activity_new_forum_topic_primary_link', bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/' ),
 			'type'              => 'new_forum_topic',
 			'item_id'           => (int)$bp->groups->current_group->id,
@@ -137,7 +137,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 			'recorded_time '    => $topic->topic_time
 		) );
 
-		do_action( 'groups_update_group_forum_topic', &$topic );
+		do_action( 'groups_update_group_forum_topic', $topic );
 
 		return $topic;
 	}
@@ -169,8 +169,8 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
 		// Update the entry in activity streams
 		groups_record_activity( array(
 			'id'                => $id,
-			'action'            => apply_filters( 'groups_activity_new_forum_post_action', $activity_action, $post_text, &$topic, &$forum_post ),
-			'content'           => apply_filters( 'groups_activity_new_forum_post_content', $activity_content, $post_text, &$topic, &$forum_post ),
+			'action'            => apply_filters( 'groups_activity_new_forum_post_action', $activity_action, $post_text,   $topic, $forum_post ),
+			'content'           => apply_filters( 'groups_activity_new_forum_post_content', $activity_content, $post_text, $topic, $forum_post ),
 			'primary_link'      => apply_filters( 'groups_activity_new_forum_post_primary_link', $primary_link . "#post-" . $post_id ),
 			'type'              => 'new_forum_post',
 			'item_id'           => (int)$bp->groups->current_group->id,
@@ -179,7 +179,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
 			'recorded_time'     => $post->post_time
 		) );
 
-		do_action( 'groups_update_group_forum_post', &$post, &$topic );
+		do_action( 'groups_update_group_forum_post', $post, $topic );
 
 		return $post_id;
 	}
