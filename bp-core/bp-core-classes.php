@@ -230,7 +230,7 @@ class BP_Core_User {
 			$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
 
 			// Add additional data to the returned results
-			$paged_users = BP_Core_User::get_user_extras( &$paged_users, $user_ids, $type );
+			$paged_users = BP_Core_User::get_user_extras( $paged_users, $user_ids, $type );
 		}
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
@@ -277,7 +277,7 @@ class BP_Core_User {
 
 		/* Add additional data to the returned results */
 		if ( $populate_extras )
-			$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
+			$paged_users = BP_Core_User::get_user_extras( $paged_users, &$user_ids );
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
@@ -305,7 +305,7 @@ class BP_Core_User {
 
 		/* Add additional data to the returned results */
 		if ( $populate_extras )
-			$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
+			$paged_users = BP_Core_User::get_user_extras( $paged_users, &$user_ids );
 
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
@@ -337,12 +337,12 @@ class BP_Core_User {
 
 		// Add additional data to the returned results
 		if ( $populate_extras )
-			$paged_users = BP_Core_User::get_user_extras( &$paged_users, &$user_ids );
+			$paged_users = BP_Core_User::get_user_extras( $paged_users, &$user_ids );
 
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
-	function get_user_extras( $paged_users, $user_ids, $type = false ) {
+	function get_user_extras( &$paged_users, $user_ids, $type = false ) {
 		global $bp, $wpdb;
 
 		if ( empty( $user_ids ) )
