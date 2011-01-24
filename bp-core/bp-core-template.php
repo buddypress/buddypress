@@ -671,7 +671,7 @@ function bp_is_current_component( $component ) {
 		}
 
 	// Page template fallback check if $bp->current_component is empty
-	} elseif ( is_page() ) {
+	} elseif ( !is_admin() && is_page() ) {
 		global $wp_query;
 		$page          = $wp_query->get_queried_object();
 		$custom_fields = get_post_custom_values( '_wp_page_template', $page->ID );
