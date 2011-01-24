@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-24 13:30:23+00:00\n"
+"POT-Creation-Date: 2011-01-24 15:30:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -239,7 +239,7 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:116 bp-core/bp-core-widgets.php:191
 #: bp-core/bp-core-widgets.php:255 bp-groups/bp-groups-widgets.php:113
 #: bp-themes/bp-default/forums/index.php:47
-#: bp-themes/bp-default/groups/single/forum/edit.php:26
+#: bp-themes/bp-default/groups/single/forum/edit.php:49
 #: bp-themes/bp-default/groups/single/forum.php:60
 msgid "Title:"
 msgstr ""
@@ -2151,8 +2151,8 @@ msgstr ""
 #: bp-themes/bp-default/members/single/settings/notifications.php:62
 #: bp-themes/bp-default/members/single/settings/general.php:69
 #: bp-themes/bp-default/members/single/profile/edit.php:126
-#: bp-themes/bp-default/groups/single/forum/edit.php:34
-#: bp-themes/bp-default/groups/single/forum/edit.php:52
+#: bp-themes/bp-default/groups/single/forum/edit.php:57
+#: bp-themes/bp-default/groups/single/forum/edit.php:73
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:92
 msgid "Save Changes"
@@ -3209,6 +3209,8 @@ msgstr ""
 #: bp-themes/bp-default/_inc/ajax.php:212
 #: bp-themes/bp-default/functions.php:409
 #: bp-themes/bp-default/activity/entry.php:50
+#: bp-themes/bp-default/groups/single/forum/edit.php:10
+#: bp-themes/bp-default/groups/single/forum/topic.php:10
 #: bp-activity/bp-activity-template.php:834
 msgid "Reply"
 msgstr ""
@@ -3882,7 +3884,7 @@ msgid "Post a New Topic:"
 msgstr ""
 
 #: bp-themes/bp-default/forums/index.php:50
-#: bp-themes/bp-default/groups/single/forum/edit.php:29
+#: bp-themes/bp-default/groups/single/forum/edit.php:52
 #: bp-themes/bp-default/groups/single/forum.php:63
 msgid "Content:"
 msgstr ""
@@ -3969,53 +3971,44 @@ msgstr ""
 msgid "This group has no members."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/edit.php:9
-#: bp-themes/bp-default/groups/single/forum/topic.php:21
-msgid "Group Forum"
+#: bp-themes/bp-default/groups/single/forum/edit.php:16
+#: bp-themes/bp-default/groups/single/forum/topic.php:16
+msgid "Forum Directory"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/edit.php:9
-#: bp-themes/bp-default/groups/single/forum/topic.php:21
-msgid "Group Forum Directory"
+#: bp-themes/bp-default/groups/single/forum/edit.php:25
+msgid "Edit:"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/edit.php:24
-msgid "Edit Topic:"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/edit.php:46
-msgid "Edit Post:"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/edit.php:67
+#: bp-themes/bp-default/groups/single/forum/edit.php:88
 msgid "This topic does not exist."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/topic.php:42
+#: bp-themes/bp-default/groups/single/forum/topic.php:67
 msgid "%s said %s ago:"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/topic.php:56
+#: bp-themes/bp-default/groups/single/forum/topic.php:81
 msgid "Permanent link to this post"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/topic.php:87
+#: bp-themes/bp-default/groups/single/forum/topic.php:112
 msgid "You will auto join this group when you reply to this topic."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/topic.php:92
+#: bp-themes/bp-default/groups/single/forum/topic.php:117
 msgid "Add a reply:"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/topic.php:97
+#: bp-themes/bp-default/groups/single/forum/topic.php:122
 msgid "Post Reply"
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/topic.php:108
+#: bp-themes/bp-default/groups/single/forum/topic.php:133
 msgid "This topic is closed, replies are no longer accepted."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/topic.php:121
+#: bp-themes/bp-default/groups/single/forum/topic.php:147
 msgid "There are no posts for this topic."
 msgstr ""
 
