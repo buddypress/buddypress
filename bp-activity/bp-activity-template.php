@@ -842,7 +842,7 @@ function bp_activity_comments( $args = '' ) {
 				$content .= '</div>';
 				$content .= '<div class="acomment-content">' . apply_filters( 'bp_get_activity_content', $comment->content ) . '</div>';
 
-				$content .= bp_activity_recurse_comments( $comment );
+				$content .= bp_activity_recurse_comments( $comment_child );
 				$content .= '</li>';
 			}
 			$content .= '</ul>';
