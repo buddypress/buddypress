@@ -28,7 +28,7 @@ add_action( 'bp_init', 'bp_setup_nav',             8 );
 add_action( 'bp_init', 'bp_setup_widgets',         8 );
 	
 // Setup admin bar
-add_action( 'bp_init', 'bp_core_load_admin_bar'      );
+add_action( 'bp_loaded', 'bp_core_load_admin_bar'   );
 
 
 ?>
