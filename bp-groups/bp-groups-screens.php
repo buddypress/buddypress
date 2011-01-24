@@ -500,7 +500,7 @@ function groups_screen_group_admin_avatar() {
 			return false;
 
 		// If the group admin has deleted the admin avatar
-		if ( 'delete' == $bp->action_variables[1] ) {
+		if ( isset( $bp->action_variables[1] ) && 'delete' == $bp->action_variables[1] ) {
 
 			// Check the nonce
 			check_admin_referer( 'bp_group_avatar_delete' );
