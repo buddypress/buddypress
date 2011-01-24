@@ -127,8 +127,8 @@ class BP_Forums_Template_Forum {
 			}
 		}
 
-		$this->topic_count       = apply_filters( 'bp_forums_template_topic_count',                                 $this->topic_count, $topics, $type, $forum_id, $per_page, $max, $no_stickies );
-		$this->total_topic_count = apply_filters( 'bp_forums_template_total_topic_count', $this->total_topic_count, $this->topic_count, $topics, $type, $forum_id, $per_page, $max, $no_stickies );
+		$this->topic_count       = apply_filters( 'bp_forums_template_topic_count',                                 $this->topic_count, $this->topics, $type, $forum_id, $per_page, $max, $no_stickies );
+		$this->total_topic_count = apply_filters( 'bp_forums_template_total_topic_count', $this->total_topic_count, $this->topic_count, $this->topics, $type, $forum_id, $per_page, $max, $no_stickies );
 
 		if ( !$no_stickies ) {
 			$stickies = array();
