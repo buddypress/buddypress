@@ -1,15 +1,40 @@
-<?php do_action( 'bp_before_group_forum_content' ) ?>
+<?php
 
-<?php if ( bp_is_group_forum_topic_edit() ) : ?>
-	<?php locate_template( array( 'groups/single/forum/edit.php' ), true ) ?>
+do_action( 'bp_before_group_forum_content' );
 
-<?php elseif ( bp_is_group_forum_topic() ) : ?>
-	<?php locate_template( array( 'groups/single/forum/topic.php' ), true ) ?>
+if ( bp_is_group_forum_topic_edit() ) :
+	locate_template( array( 'groups/single/forum/edit.php' ), true );
 
-<?php else : ?>
+elseif ( bp_is_group_forum_topic() ) :
+	locate_template( array( 'groups/single/forum/topic.php' ), true );
+
+else : ?>
+
+	<div class="item-list-tabs" id="subnav" role="navigation">
+		<ul>
+
+			<?php do_action( 'bp_forums_directory_group_sub_types' ); ?>
+
+			<li id="forums-order-select" class="last filter">
+
+				<?php _e( 'Order By:', 'buddypress' ); ?>
+
+				<select>
+					<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
+					<option value="popular"><?php _e( 'Most Posts', 'buddypress' ); ?></option>
+					<option value="unreplied"><?php _e( 'Unreplied', 'buddypress' ); ?></option>
+
+					<?php do_action( 'bp_forums_directory_order_options' ); ?>
+
+				</select>
+			</li>
+		</ul>
+	</div>
 
 	<div class="forums single-forum" role="main">
+
 		<?php locate_template( array( 'forums/forums-loop.php' ), true ) ?>
+
 	</div><!-- .forums.single-forum -->
 
 <?php endif; ?>
