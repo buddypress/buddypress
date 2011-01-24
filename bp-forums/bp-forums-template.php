@@ -1100,11 +1100,11 @@ function bp_forum_permalink() {
 		global $bp;
 
 		if ( $bp->is_single_item )
-			$permalink = $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item . '/';
+			$permalink = trailingslashit( $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item );
 		else
-			$permalink = $bp->root_domain . $bp->current_component . '/' . $bp->current_action . '/';
+			$permalink = trailingslashit( $bp->root_domain . $bp->current_component . '/' . $bp->current_action );
 
-		return apply_filters( 'bp_get_forum_permalink', $permalink . 'forum' );
+		return apply_filters( 'bp_get_forum_permalink', trailingslashit( $permalink . 'forum' ) );
 	}
 
 function bp_forum_directory_permalink() {
@@ -1113,15 +1113,15 @@ function bp_forum_directory_permalink() {
 	function bp_get_forum_directory_permalink() {
 		global $bp;
 
-		return apply_filters( 'bp_get_forum_directory_permalink', $bp->root_domain . '/' . $bp->forums->slug );
+		return apply_filters( 'bp_get_forum_directory_permalink', trailingslashit( $bp->root_domain . '/' . $bp->forums->root_slug ) );
 	}
 
 function bp_forums_tag_heat_map( $args = '' ) {
 	$defaults = array(
 		'smallest' => '10',
-		'largest' => '42',
-		'sizing' => 'px',
-		'limit' => '50'
+		'largest'  => '42',
+		'sizing'   => 'px',
+		'limit'    => '50'
 	);
 
 	$r = wp_parse_args( $args, $defaults );
