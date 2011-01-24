@@ -1880,7 +1880,7 @@ div#message-thread div.message-options {
 -------------------------------------------------------------- */
 
 ul#topic-post-list {
-	margin: 15px -20px;
+	margin: 0px -19px 15px;
 	width: auto;
 }
 
@@ -1890,7 +1890,7 @@ ul#topic-post-list li {
 }
 
 ul#topic-post-list li.alt {
-	background: #f4f4f4;
+	background: #f8f8f8;
 }
 
 ul#topic-post-list li div.poster-meta {
@@ -1910,19 +1910,20 @@ div.admin-links {
 	font-size: 11px;
 }
 
-div#topic-meta div.admin-links {
-	bottom: 0;
-	right: 0;
-	top: auto;
+div#topic-meta {
+	padding: 5px 19px 30px;
+	margin: -10px -19px;
+	position: relative;
 }
 
-div#topic-meta {
-	position: relative;
-	padding: 5px 0;
+div#topic-meta div.admin-links {
+	right: 19px;
+	top: -36px;
 }
 
 div#topic-meta h3 {
 	font-size: 20px;
+	margin: 5px 0;
 }
 
 div#new-topic-post {
