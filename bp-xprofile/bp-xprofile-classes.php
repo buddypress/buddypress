@@ -34,10 +34,10 @@ Class BP_XProfile_Group {
 	function save() {
 		global $wpdb, $bp;
 
-		$this->name			= apply_filters( 'xprofile_group_name_before_save', $this->name, $this->id );
+		$this->name			= apply_filters( 'xprofile_group_name_before_save',        $this->name,        $this->id );
 		$this->description	= apply_filters( 'xprofile_group_description_before_save', $this->description, $this->id );
 
-		do_action( 'xprofile_group_before_save', $this );
+		do_action_ref_array( 'xprofile_group_before_save', array( &$this ) );
 
 		if ( $this->id )
 			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id );
@@ -47,7 +47,7 @@ Class BP_XProfile_Group {
 		if ( !$wpdb->query( $sql ) )
 			return false;
 
-		do_action( 'xprofile_group_after_save', $this );
+		do_action_ref_array( 'xprofile_group_after_save', array( &$this ) );
 
 		if ( $this->id )
 			return $this->id;
@@ -336,16 +336,16 @@ Class BP_XProfile_Field {
 
 		$error = false;
 
-		$this->group_id		= apply_filters( 'xprofile_field_group_id_before_save', $this->group_id, $this->id );
-		$this->parent_id	= apply_filters( 'xprofile_field_parent_id_before_save', $this->parent_id, $this->id );
-		$this->type			= apply_filters( 'xprofile_field_type_before_save', $this->type, $this->id );
-		$this->name			= apply_filters( 'xprofile_field_name_before_save', $this->name, $this->id );
+		$this->group_id		= apply_filters( 'xprofile_field_group_id_before_save',    $this->group_id,    $this->id );
+		$this->parent_id	= apply_filters( 'xprofile_field_parent_id_before_save',   $this->parent_id,   $this->id );
+		$this->type			= apply_filters( 'xprofile_field_type_before_save',        $this->type,        $this->id );
+		$this->name			= apply_filters( 'xprofile_field_name_before_save',        $this->name,        $this->id );
 		$this->description	= apply_filters( 'xprofile_field_description_before_save', $this->description, $this->id );
 		$this->is_required	= apply_filters( 'xprofile_field_is_required_before_save', $this->is_required, $this->id );
-		$this->order_by		= apply_filters( 'xprofile_field_order_by_before_save', $this->order_by, $this->id );
+		$this->order_by		= apply_filters( 'xprofile_field_order_by_before_save',    $this->order_by,    $this->id );
 		$this->field_order	= apply_filters( 'xprofile_field_field_order_before_save', $this->field_order, $this->id );
 
-		do_action( 'xprofile_field_before_save', $this );
+		do_action_ref_array( 'xprofile_field_before_save', array( &$this ) );
 
 		if ( $this->id != null )
 			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s, field_order = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order, $this->id );
@@ -423,7 +423,7 @@ Class BP_XProfile_Field {
 				}
 			}
 
-			do_action( 'xprofile_field_after_save', $this );
+			do_action_ref_array( 'xprofile_field_after_save', array( &$this ) );
 
 			return $field_id;
 		} else {
@@ -760,10 +760,9 @@ Class BP_XProfile_ProfileData {
 	function exists() {
 		global $wpdb, $bp;
 
-
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
 
-		return apply_filters( 'xprofile_data_exists', (bool)$retval, $this );
+		return apply_filters_ref_array( 'xprofile_data_exists', array( (bool)$retval, &$this ) );
 	}
 
 	/**
@@ -780,18 +779,18 @@ Class BP_XProfile_ProfileData {
 
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id ) );
 
-		return apply_filters( 'xprofile_data_is_valid_field', (bool)$retval, $this );
+		return apply_filters_ref_arra( 'xprofile_data_is_valid_field', array( (bool)$retval, &$this ) );
 	}
 
 	function save() {
 		global $wpdb, $bp;
 
-		$this->user_id      = apply_filters( 'xprofile_data_user_id_before_save', $this->user_id, $this->id );
-		$this->field_id     = apply_filters( 'xprofile_data_field_id_before_save', $this->field_id, $this->id );
-		$this->value        = apply_filters( 'xprofile_data_value_before_save', $this->value, $this->id );
+		$this->user_id      = apply_filters( 'xprofile_data_user_id_before_save',      $this->user_id,         $this->id );
+		$this->field_id     = apply_filters( 'xprofile_data_field_id_before_save',     $this->field_id,        $this->id );
+		$this->value        = apply_filters( 'xprofile_data_value_before_save',        $this->value,           $this->id );
 		$this->last_updated = apply_filters( 'xprofile_data_last_updated_before_save', bp_core_current_time(), $this->id );
 
-		do_action( 'xprofile_data_before_save', $this );
+		do_action_ref_array( 'xprofile_data_before_save', array( &$this ) );
 
 		if ( $this->is_valid_field() ) {
 			if ( $this->exists() && !empty( $this->value ) && strlen( trim( $this->value ) ) )
@@ -807,7 +806,7 @@ Class BP_XProfile_ProfileData {
 			if ( !$result )
 				return false;
 
-			do_action( 'xprofile_data_after_save', $this );
+			do_action_ref_array( 'xprofile_data_after_save', array( &$this ) );
 
 			return true;
 		}

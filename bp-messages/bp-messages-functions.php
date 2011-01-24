@@ -89,7 +89,7 @@ function messages_new_message( $args = '' ) {
 		// Send email notifications to the recipients
 		messages_notification_new_message( array( 'message_id' => $message->id, 'sender_id' => $message->sender_id, 'subject' => $message->subject, 'content' => $message->message, 'recipients' => $message->recipients, 'thread_id' => $message->thread_id) );
 
-		do_action( 'messages_message_sent', $message );
+		do_action_ref_array( 'messages_message_sent', array( &$message ) );
 
 		return $message->thread_id;
 	}
@@ -111,7 +111,7 @@ function messages_send_notice( $subject, $message ) {
 		$notice->is_active = 1;
 		$notice->save(); // send it.
 
-		do_action( 'messages_send_notice', $subject, $message );
+		do_action_ref_array( 'messages_send_notice', array( $subject, $message ) );
 
 		return true;
 	}

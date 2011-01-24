@@ -643,12 +643,12 @@ function bp_activity_action() {
 		global $activities_template;
 
 		$action = $activities_template->activity->action;
-		$action = apply_filters( 'bp_get_activity_action_pre_meta', $action, $activities_template->activity );
+		$action = apply_filters_ref_array( 'bp_get_activity_action_pre_meta', array( $action, $activities_template->activity ) );
 
 		if ( !empty( $action ) )
 			$action = bp_insert_activity_meta( $action );
 
-		return apply_filters( 'bp_get_activity_action', $action, $activities_template->activity );
+		return apply_filters_ref_array( 'bp_get_activity_action', array( $action, &$activities_template->activity ) );
 	}
 
 function bp_activity_content_body() {
@@ -661,7 +661,7 @@ function bp_activity_content_body() {
 		if ( empty( $activities_template->activity->action ) && !empty( $activities_template->activity->content ) )
 			$activities_template->activity->content = bp_insert_activity_meta( $activities_template->activity->content );
 
-		return apply_filters( 'bp_get_activity_content_body', $activities_template->activity->content, $activities_template->activity );
+		return apply_filters_ref_array( 'bp_get_activity_content_body', array( $activities_template->activity->content, &$activities_template->activity ) );
 	}
 
 	function bp_activity_has_content() {
@@ -697,15 +697,15 @@ function bp_activity_content() {
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
 		// Insert the time since.
-		$content .= ' ' . apply_filters( 'bp_activity_time_since', '<span class="time-since">' . sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', $activities_template->activity );
+		$content .= ' ' . apply_filters_ref_array( 'bp_activity_time_since', array( '<span class="time-since">' . sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', &$activities_template->activity ) );
 
 		// Insert the permalink
 		if ( !bp_is_single_activity() )
-			$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', $activities_template->activity );
+			$content .= apply_filters_ref_array( 'bp_activity_permalink', array( ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity ) );
 
 		// Add the delete link if the user has permission on this item
 		if ( bp_activity_user_can_delete() )
-			 $content .= apply_filters( 'bp_activity_delete_link', ' &middot; ' . bp_get_activity_delete_link(), $activities_template->activity );
+			 $content .= apply_filters_ref_array( 'bp_activity_delete_link', array( ' &middot; ' . bp_get_activity_delete_link(), &$activities_template->activity ) );
 
 		return apply_filters( 'bp_insert_activity_meta', $content );
 	}

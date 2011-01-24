@@ -45,7 +45,7 @@ function groups_screen_group_invites() {
 			$group = new BP_Groups_Group( $group_id );
 
 			groups_record_activity( array(
-				'action'  => apply_filters( 'groups_activity_accepted_invite_action', sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( $group->name ) . '</a>' ), $bp->loggedin_user->id, $group ),
+				'action'  => apply_filters_ref_array( 'groups_activity_accepted_invite_action', array( sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( $group->name ) . '</a>' ), $bp->loggedin_user->id, &$group ) ),
 				'type'    => 'joined_group',
 				'item_id' => $group->id
 			) );

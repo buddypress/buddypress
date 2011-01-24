@@ -539,7 +539,7 @@ function bp_activity_get( $args = '' ) {
 	} else
 		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, $exclude, $in );
 
-	return apply_filters( 'bp_activity_get', $activity, $r );
+	return apply_filters_ref_array( 'bp_activity_get', array( &$activity, &$r ) );
 }
 
 function bp_activity_get_specific( $args = '' ) {

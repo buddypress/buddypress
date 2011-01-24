@@ -70,7 +70,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	if ( empty( $name ) )
 		return false;
 
-	$recorded_blog = new BP_Blogs_Blog;
+	$recorded_blog          = new BP_Blogs_Blog;
 	$recorded_blog->user_id = $user_id;
 	$recorded_blog->blog_id = $blog_id;
 
@@ -96,7 +96,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 		) );
 	}
 
-	do_action( 'bp_blogs_new_blog', $recorded_blog, $is_private, $is_recorded );
+	do_action( 'bp_blogs_new_blog', &$recorded_blog, $is_private, $is_recorded );
 }
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
@@ -237,9 +237,9 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		// Record in activity streams
 		bp_blogs_record_activity( array(
 			'user_id'           => $user_id,
-			'action'            => apply_filters( 'bp_blogs_activity_new_comment_action',       $activity_action,  $recorded_comment, $comment_link ),
-			'content'           => apply_filters( 'bp_blogs_activity_new_comment_content',      $activity_content, $recorded_comment, $comment_link ),
-			'primary_link'      => apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link,     $recorded_comment                ),
+			'action'            => apply_filters( 'bp_blogs_activity_new_comment_action',       $activity_action,  &$recorded_comment, $comment_link ),
+			'content'           => apply_filters( 'bp_blogs_activity_new_comment_content',      $activity_content, &$recorded_comment, $comment_link ),
+			'primary_link'      => apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link,     &$recorded_comment                ),
 			'type'              => 'new_blog_comment',
 			'item_id'           => $blog_id,
 			'secondary_item_id' => $comment_id,

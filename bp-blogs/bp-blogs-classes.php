@@ -31,7 +31,7 @@ Class BP_Blogs_Blog {
 		$this->user_id = apply_filters( 'bp_blogs_blog_user_id_before_save', $this->user_id, $this->id );
 		$this->blog_id = apply_filters( 'bp_blogs_blog_id_before_save', $this->blog_id, $this->id );
 
-		do_action( 'bp_blogs_blog_before_save', $this );
+		do_action_ref_array( 'bp_blogs_blog_before_save', array( &$this ) );
 
 		// Don't try and save if there is no user ID or blog ID set.
 		if ( !$this->user_id || !$this->blog_id )
@@ -52,7 +52,7 @@ Class BP_Blogs_Blog {
 		if ( !$wpdb->query($sql) )
 			return false;
 
-		do_action( 'bp_blogs_blog_after_save', $this );
+		do_action_ref_array( 'bp_blogs_blog_after_save', array( &$this ) );
 
 		if ( $this->id )
 			return $this->id;

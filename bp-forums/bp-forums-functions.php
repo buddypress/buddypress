@@ -174,7 +174,7 @@ function bp_forums_get_forum_topics( $args = '' ) {
 		$topics = array();
 	}
 
-	return apply_filters( 'bp_forums_get_forum_topics', $topics, $r );
+	return apply_filters_ref_array( 'bp_forums_get_forum_topics', array( &$topics, &$r ) );
 }
 
 function bp_forums_get_topic_details( $topic_id ) {

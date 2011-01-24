@@ -272,11 +272,11 @@ Class BP_Messages_Message {
 
 		$this->sender_id = apply_filters( 'messages_message_sender_id_before_save', $this->sender_id, $this->id );
 		$this->thread_id = apply_filters( 'messages_message_thread_id_before_save', $this->thread_id, $this->id );
-		$this->subject   = apply_filters( 'messages_message_subject_before_save', $this->subject, $this->id );
-		$this->message   = apply_filters( 'messages_message_content_before_save', $this->message, $this->id );
+		$this->subject   = apply_filters( 'messages_message_subject_before_save',   $this->subject,   $this->id );
+		$this->message   = apply_filters( 'messages_message_content_before_save',   $this->message,   $this->id );
 		$this->date_sent = apply_filters( 'messages_message_date_sent_before_save', $this->date_sent, $this->id );
 
-		do_action( 'messages_message_before_save', $this );
+		do_action_ref_array( 'messages_message_before_save', array( &$this ) );
 
 		// Make sure we have at least one recipient before sending.
 		if ( empty( $this->recipients ) )
@@ -310,7 +310,7 @@ Class BP_Messages_Message {
 		$this->id = $wpdb->insert_id;
 		messages_remove_callback_values();
 
-		do_action( 'messages_message_after_save', $this );
+		do_action_ref_array( 'messages_message_after_save', array( &$this ) );
 
 		return $this->id;
 	}
@@ -387,7 +387,7 @@ Class BP_Messages_Notice {
 		$this->subject = apply_filters( 'messages_notice_subject_before_save', $this->subject, $this->id );
 		$this->message = apply_filters( 'messages_notice_message_before_save', $this->message, $this->id );
 
-		do_action( 'messages_notice_before_save', $this );
+		do_action_ref_array( 'messages_notice_before_save', array( &$this ) );
 
 		if ( empty( $this->id ) )
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_notices} (subject, message, date_sent, is_active) VALUES (%s, %s, %s, %d)", $this->subject, $this->message, $this->date_sent, $this->is_active );
@@ -405,7 +405,7 @@ Class BP_Messages_Notice {
 
 		update_user_meta( $bp->loggedin_user->id, 'last_activity', bp_core_current_time() );
 
-		do_action( 'messages_notice_after_save', $this );
+		do_action_ref_array( 'messages_notice_after_save', array( &$this ) );
 
 		return true;
 	}

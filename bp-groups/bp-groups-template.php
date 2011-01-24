@@ -886,7 +886,7 @@ function bp_group_member_promote_mod_link( $args = '' ) {
 
 		$defaults = array(
 			'user_id' => $members_template->member->user_id,
-			'group'   => $groups_template->group
+			'group'   => &$groups_template->group
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -903,7 +903,7 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 
 		$defaults = array(
 			'user_id' => $members_template->member->user_id,
-			'group'   => $groups_template->group
+			'group'   => &$groups_template->group
 		);
 
 		$r = wp_parse_args( $args, $defaults );
