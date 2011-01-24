@@ -96,7 +96,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 		) );
 	}
 
-	do_action( 'bp_blogs_new_blog', &$recorded_blog, $is_private, $is_recorded );
+	do_action( 'bp_blogs_new_blog', $recorded_blog, $is_private, $is_recorded );
 }
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
@@ -159,9 +159,9 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 
 			bp_blogs_record_activity( array(
 				'user_id'           => (int)$post->post_author,
-				'action'            => apply_filters( 'bp_blogs_activity_new_post_action', $activity_action, &$post, $post_permalink ),
-				'content'           => apply_filters( 'bp_blogs_activity_new_post_content', $activity_content, &$post, $post_permalink ),
-				'primary_link'      => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink, $post_id ),
+				'action'            => apply_filters( 'bp_blogs_activity_new_post_action',       $activity_action,  $post, $post_permalink ),
+				'content'           => apply_filters( 'bp_blogs_activity_new_post_content',      $activity_content, $post, $post_permalink ),
+				'primary_link'      => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink,   $post_id               ),
 				'type'              => 'new_blog_post',
 				'item_id'           => $blog_id,
 				'secondary_item_id' => $post_id,
@@ -237,9 +237,9 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		// Record in activity streams
 		bp_blogs_record_activity( array(
 			'user_id'           => $user_id,
-			'action'            => apply_filters( 'bp_blogs_activity_new_comment_action', $activity_action, &$recorded_comment, $comment_link ),
-			'content'           => apply_filters( 'bp_blogs_activity_new_comment_content', $activity_content, &$recorded_comment, $comment_link ),
-			'primary_link'      => apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link, &$recorded_comment ),
+			'action'            => apply_filters( 'bp_blogs_activity_new_comment_action',       $activity_action,  $recorded_comment, $comment_link ),
+			'content'           => apply_filters( 'bp_blogs_activity_new_comment_content',      $activity_content, $recorded_comment, $comment_link ),
+			'primary_link'      => apply_filters( 'bp_blogs_activity_new_comment_primary_link', $comment_link,     $recorded_comment                ),
 			'type'              => 'new_blog_comment',
 			'item_id'           => $blog_id,
 			'secondary_item_id' => $comment_id,
