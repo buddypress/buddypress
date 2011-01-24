@@ -112,7 +112,7 @@ class BP_Core_User {
 
 		$sql['select_main'] = "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.display_name, u.user_email";
 
-		if ( 'active' == $type || 'online' == $type )
+		if ( 'active' == $type || 'online' == $type || 'newest' == $type  )
 			$sql['select_active'] = ", um.meta_value as last_activity";
 
 		if ( 'popular' == $type )
@@ -128,7 +128,7 @@ class BP_Core_User {
 
 		$sql['where'] = 'WHERE ' . bp_core_get_status_sql( 'u.' );
 
-		if ( 'active' == $type || 'online' == $type )
+		if ( 'active' == $type || 'online' == $type || 'newest' == $type )
 			$sql['where_active'] = "AND um.meta_key = 'last_activity'";
 
 		if ( 'popular' == $type )
