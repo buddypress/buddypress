@@ -643,12 +643,12 @@ function bp_activity_action() {
 		global $activities_template;
 
 		$action = $activities_template->activity->action;
-		$action = apply_filters( 'bp_get_activity_action_pre_meta', $action, &$activities_template->activity );
+		$action = apply_filters( 'bp_get_activity_action_pre_meta', $action, $activities_template->activity );
 
 		if ( !empty( $action ) )
 			$action = bp_insert_activity_meta( $action );
 
-		return apply_filters( 'bp_get_activity_action', $action, &$activities_template->activity );
+		return apply_filters( 'bp_get_activity_action', $action, $activities_template->activity );
 	}
 
 function bp_activity_content_body() {
@@ -661,7 +661,7 @@ function bp_activity_content_body() {
 		if ( empty( $activities_template->activity->action ) && !empty( $activities_template->activity->content ) )
 			$activities_template->activity->content = bp_insert_activity_meta( $activities_template->activity->content );
 
-		return apply_filters( 'bp_get_activity_content_body', $activities_template->activity->content, &$activities_template->activity );
+		return apply_filters( 'bp_get_activity_content_body', $activities_template->activity->content, $activities_template->activity );
 	}
 
 	function bp_activity_has_content() {
@@ -697,11 +697,11 @@ function bp_activity_content() {
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
 		// Insert the time since.
-		$content .= ' ' . apply_filters( 'bp_activity_time_since', '<span class="time-since">' . sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', &$activities_template->activity );
+		$content .= ' ' . apply_filters( 'bp_activity_time_since', '<span class="time-since">' . sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', $activities_template->activity );
 
 		// Insert the permalink
 		if ( !bp_is_single_activity() )
-			$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity );
+			$content .= apply_filters( 'bp_activity_permalink', ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', $activities_template->activity );
 
 		// Add the delete link if the user has permission on this item
 		if ( bp_activity_user_can_delete() )
@@ -793,13 +793,40 @@ function bp_activity_comments( $args = '' ) {
 				return false;
 
 			$content = '<ul>';
-			foreach ( (array)$comment->children as $comment ) {
-				if ( !$comment->user_fullname )
-					$comment->user_fullname = $comment->display_name;
+			foreach ( (array)$comment->children as $comment_child ) {
+				if ( empty( $comment_child->user_fullname ) )
+					$comment_child->user_fullname = $comment_child->display_name;
 
-				$content .= '<li id="acomment-' . $comment->id . '">';
-				$content .= '<div class="acomment-avatar"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => 30, 'height' => 30, 'email' => $comment->user_email ) ) . '</a></div>';
-				$content .= '<div class="acomment-meta"><a href="' . bp_core_get_user_domain( $comment->user_id, $comment->user_nicename, $comment->user_login ) . '">' . apply_filters( 'bp_acomment_name', $comment->user_fullname, $comment ) . '</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( $comment->date_recorded ) );
+				if ( empty( $comment_child->user_nicename ) )
+					$comment_child->user_nicename = '';
+
+				if ( empty( $comment_child->user_login ) )
+					$comment_child->user_login = '';
+
+				if ( empty( $comment_child->user_email ) )
+					$comment_child->user_email = '';
+
+				$content .= '<li id="acomment-' . $comment_child->id . '">';
+				$content .= '<div class="acomment-avatar"><a href="' .
+					bp_core_get_user_domain(
+						$comment_child->user_id,
+						$comment_child->user_nicename,
+						$comment_child->user_login ) . '">' .
+					bp_core_fetch_avatar( array(
+						'item_id' => $comment_child->user_id,
+						'width'   => 30,
+						'height'  => 30,
+						'email'   => $comment_child->user_email
+					) ) .
+				'</a></div>';
+
+				$content .= '<div class="acomment-meta"><a href="' .
+					bp_core_get_user_domain(
+						$comment_child->user_id,
+						$comment_child->user_nicename,
+						$comment_child->user_login ) . '">' .
+					apply_filters( 'bp_acomment_name', $comment_child->user_fullname, $comment_child ) .
+				'</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( $comment_child->date_recorded ) );
 
 				// Reply link - the span is so that threaded reply links can be
 				// hidden when JS is off.
