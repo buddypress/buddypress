@@ -1238,6 +1238,8 @@ table.forum td.td-title {
 table.forum td.td-freshness {
 	font-size: 11px;
 	color: #888;
+	white-space: nowrap;
+	width: 150px;
 }
 
 table.forum td img.avatar {
@@ -1246,15 +1248,15 @@ table.forum td img.avatar {
 
 table.forum td.td-poster,
 table.forum td.td-group {
-	min-width: 130px;
+	min-width: 140px;
 }
 
 table.forum th#th-title {
-	width: 40%;
+	width: 100%;
 }
 
 table.forum th#th-postcount {
-	width: 1%;
+	width: 50px;
 }
 
 

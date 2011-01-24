@@ -37,14 +37,14 @@
 		<thead>
 			<tr>
 				<th id="th-title"><?php _e( 'Topic Title', 'buddypress' ); ?></th>
-				<th id="th-poster"><?php _e( 'Latest Poster', 'buddypress' ); ?></th>
 
 				<?php if ( !bp_is_group_forum() ) : ?>
 
-					<th id="th-group"><?php _e( 'Posted In Group', 'buddypress' ); ?></th>
+					<th id="th-group"><?php _e( 'In Group', 'buddypress' ); ?></th>
 
 				<?php endif; ?>
 
+				<th id="th-poster"><?php _e( 'Latest Poster', 'buddypress' ); ?></th>
 				<th id="th-postcount"><?php _e( 'Posts', 'buddypress' ); ?></th>
 				<th id="th-freshness"><?php _e( 'Freshness', 'buddypress' ); ?></th>
 
@@ -65,10 +65,6 @@
 
 					</a>
 				</td>
-				<td class="td-poster">
-					<a href="<?php bp_the_topic_permalink(); ?>"><?php bp_the_topic_last_poster_avatar( 'type=thumb&width=20&height=20' ); ?></a>
-					<div class="poster-name"><?php bp_the_topic_last_poster_name(); ?></div>
-				</td>
 
 				<?php if ( !bp_is_group_forum() ) : ?>
 
@@ -79,6 +75,10 @@
 
 				<?php endif; ?>
 
+				<td class="td-poster">
+					<a href="<?php bp_the_topic_permalink(); ?>"><?php bp_the_topic_last_poster_avatar( 'type=thumb&width=20&height=20' ); ?></a>
+					<div class="poster-name"><?php bp_the_topic_last_poster_name(); ?></div>
+				</td>
 				<td class="td-postcount">
 
 					<?php bp_the_topic_total_posts(); ?>
