@@ -6,8 +6,6 @@ function bp_forums_add_admin_menu() {
 	if ( !is_super_admin() )
 		return false;
 
-	require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php' );
-
 	// Add the administration tab under the "Site Admin" tab for site administrators
 	add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
 }
@@ -85,8 +83,11 @@ function bp_forums_bbpress_install_wizard() {
 						break;
 					default:
 						// Just write the contents to screen
-						_e( 'A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.', 'buddypress' );
-						?><code style="display:block; margin-top: 30px;"><pre><?php echo htmlspecialchars( $result ) ?></pre></code><?php
+						_e( 'A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.', 'buddypress' ); ?>
+					
+						<textarea style="display:block; margin-top: 30px; width: 80%;" rows="50"><?php echo htmlspecialchars( $result ); ?></textarea>
+
+					<?php
 						break;
 				}
 			} else { ?>

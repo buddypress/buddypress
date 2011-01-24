@@ -64,6 +64,10 @@ class BP_Forums_Component extends BP_Component {
 		if ( !defined( 'BB_PATH' ) )
 			require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress-sa.php' );
 
+		// Admin
+		if ( is_admin() )
+			require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php'   );
+
 		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-actions.php'   );
 		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-screens.php'   );
 		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php'   );
