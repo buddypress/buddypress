@@ -669,6 +669,17 @@ function bp_is_current_component( $component ) {
 				}
 			}
 		}
+
+	// Page template fallback check if $bp->current_component is empty
+	} elseif ( is_page() ) {
+		global $wp_query;
+		$page          = $wp_query->get_queried_object();
+		$custom_fields = get_post_custom_values( '_wp_page_template', $page->ID );
+		$page_template = $custom_fields[0];
+
+		// Component name is in the page template name
+		if ( strstr( strtolower( $page_template ), strtolower( $component ) ) )
+			$is_current_component = true;
 	}
 
  	return apply_filters( 'bp_is_current_component', $is_current_component, $component );

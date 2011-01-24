@@ -234,7 +234,7 @@ function bp_core_load_template( $templates ) {
 	global $post, $bp, $wpdb, $wp_query, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
 
 	// Determine if the root object WP page exists for this request (TODO: is there an API function for this?
-	if ( !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) ) )
+	if ( !empty( $bp_unfiltered_uri_offset ) && !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) ) )
 		return false;
 
 	// Set the root object as the current wp_query-ied item
