@@ -163,6 +163,10 @@ class BP_Groups_Component extends BP_Component {
 				$this->current_group->is_visible = true;
 			else
 				$this->current_group->is_visible = false;
+
+		// Set current_group to 0 to prevent debug errors
+		} else {
+			$this->current_group = 0;
 		}
 
 		// Add 'Groups' to the main navigation
