@@ -47,7 +47,7 @@ Class BP_Activity_Activity {
 	function save() {
 		global $wpdb, $bp, $current_user;
 
-		do_action( 'bp_activity_before_save', &$this );
+		do_action( 'bp_activity_before_save', $this );
 
 		$this->id                = apply_filters( 'bp_activity_id_before_save',                $this->id,                $this );
 		$this->item_id           = apply_filters( 'bp_activity_item_id_before_save',           $this->item_id,           $this );
