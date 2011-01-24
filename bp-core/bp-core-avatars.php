@@ -573,11 +573,18 @@ function bp_core_avatar_upload_path() {
 	// Get upload directory information from current site
 	$upload_dir = wp_upload_dir();
 
-	// If multisite, and current blog does not match root blog, make adjustments
-	if ( is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
-		$upload_dir['basedir'] = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+	// Directory does not exist and cannot be created
+	if ( isset( $upload_dir['baseurl'] ) ) {
+		$basedir = $upload_dir['baseurl'];
 
-	return apply_filters( 'bp_core_avatar_upload_path', $upload_dir['basedir'] );
+		// If multisite, and current blog does not match root blog, make adjustments
+		if ( is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
+			$basedir = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+	} else {
+		$basedir = '';
+	}
+
+	return apply_filters( 'bp_core_avatar_upload_path', $basedir );
 }
 
 /**
@@ -595,11 +602,18 @@ function bp_core_avatar_url() {
 	// Get upload directory information from current site
 	$upload_dir = wp_upload_dir();
 
-	// If multisite, and current blog does not match root blog, make adjustments
-	if ( is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
-		$upload_dir['baseurl'] = trailingslashit( get_blog_option( BP_ROOT_BLOG, 'home' ) ) . get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+	// Directory does not exist and cannot be created
+	if ( isset( $upload_dir['baseurl'] ) ) {
+		$baseurl = $upload_dir['baseurl'];
 
-	return apply_filters( 'bp_core_avatar_url', $upload_dir['baseurl'] );
+		// If multisite, and current blog does not match root blog, make adjustments
+		if ( is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
+			$baseurl = trailingslashit( get_blog_option( BP_ROOT_BLOG, 'home' ) ) . get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+	} else {
+		$baseurl = '';
+	}
+
+	return apply_filters( 'bp_core_avatar_url', $baseurl );
 }
 
 ?>
