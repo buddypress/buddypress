@@ -187,6 +187,10 @@ function bp_forums_get_topic_details( $topic_id ) {
 
 function bp_forums_get_topic_id_from_slug( $topic_slug ) {
 	do_action( 'bbpress_init' );
+
+	if ( empty( $topic_slug ) )
+		return false;
+
 	return bb_get_id_from_slug( 'topic', $topic_slug );
 }
 
