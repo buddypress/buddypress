@@ -548,21 +548,29 @@ function bp_group_list_admins( $group = false ) {
 function bp_group_list_mods( $group = false ) {
 	global $groups_template;
 
-	if ( !$group )
+	if ( empty( $group ) )
 		$group =& $groups_template->group;
 
-	if ( $group->mods ) { ?>
+	if ( !empty( $group->mods ) ) : ?>
+
 		<ul id="group-mods">
+
 			<?php foreach( (array)$group->mods as $mod ) { ?>
+
 				<li>
 					<a href="<?php echo bp_core_get_user_domain( $mod->user_id, $mod->user_nicename, $mod->user_login ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'email' => $mod->user_email, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?></a>
 				</li>
+
 			<?php } ?>
+
 		</ul>
-	<?php } else { ?>
+
+<?php else : ?>
+
 		<span class="activity"><?php _e( 'No Mods', 'buddypress' ) ?></span>
-	<?php } ?>
-<?php
+
+<?php endif;
+
 }
 
 function bp_group_all_members_permalink() {
