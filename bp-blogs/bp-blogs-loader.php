@@ -40,8 +40,8 @@ class BP_Blogs_Component extends BP_Component {
 		$this->root_slug = isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : $this->slug;
 
 		// Tables
-		$this->table_name      = $bp->table_prefix . 'bp_user_blogs';
-		$this->table_name_meta = $bp->table_prefix . 'bp_user_blogs_blogmeta';
+		$this->table_name          = $bp->table_prefix . 'bp_user_blogs';
+		$this->table_name_blogmeta = $bp->table_prefix . 'bp_user_blogs_blogmeta';
 
 		// Notifications
 		$this->notification_callback = 'bp_blogs_format_notifications';
