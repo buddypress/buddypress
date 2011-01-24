@@ -69,10 +69,10 @@ function messages_screen_notices() {
 	if ( !is_super_admin() )
 		return false;
 
-	$notice_id = $bp->action_variables[1];
+	$notice_id = isset( $bp->action_variables[1] ) ? $bp->action_variables[1] : 0;
 
-	if ( $notice_id && is_numeric($notice_id) ) {
-		$notice = new BP_Messages_Notice($notice_id);
+	if ( !empty( $notice_id ) && is_numeric( $notice_id ) ) {
+		$notice = new BP_Messages_Notice( $notice_id );
 
 		if ( 'deactivate' == $bp->action_variables[0] ) {
 			if ( !$notice->deactivate() ) {
