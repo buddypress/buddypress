@@ -113,7 +113,7 @@ Class BP_Blogs_Blog {
 		}
 
 		$blog_ids = $wpdb->escape( join( ',', (array)$blog_ids ) );
-		$paged_blogs = BP_Blogs_Blog::get_blog_extras( &$paged_blogs, $blog_ids, $type );
+		$paged_blogs = BP_Blogs_Blog::get_blog_extras( $paged_blogs, $blog_ids, $type );
 
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}
@@ -275,7 +275,7 @@ Class BP_Blogs_Blog {
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}
 
-	function get_blog_extras( $paged_blogs, $blog_ids, $type = false ) {
+	function get_blog_extras( &$paged_blogs, &$blog_ids, $type = false ) {
 		global $bp, $wpdb;
 
 		if ( empty( $blog_ids ) )

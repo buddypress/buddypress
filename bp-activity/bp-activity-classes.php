@@ -49,19 +49,19 @@ Class BP_Activity_Activity {
 
 		do_action( 'bp_activity_before_save', &$this );
 
-		$this->id                = apply_filters( 'bp_activity_id_before_save',                $this->id,                &$this );
-		$this->item_id           = apply_filters( 'bp_activity_item_id_before_save',           $this->item_id,           &$this );
-		$this->secondary_item_id = apply_filters( 'bp_activity_secondary_item_id_before_save', $this->secondary_item_id, &$this );
-		$this->user_id           = apply_filters( 'bp_activity_user_id_before_save',           $this->user_id,           &$this );
-		$this->primary_link      = apply_filters( 'bp_activity_primary_link_before_save',      $this->primary_link,      &$this );
-		$this->component         = apply_filters( 'bp_activity_component_before_save',         $this->component,         &$this );
-		$this->type              = apply_filters( 'bp_activity_type_before_save',              $this->type,              &$this );
-		$this->action            = apply_filters( 'bp_activity_action_before_save',            $this->action,            &$this );
-		$this->content           = apply_filters( 'bp_activity_content_before_save',           $this->content,           &$this );
-		$this->date_recorded     = apply_filters( 'bp_activity_date_recorded_before_save',     $this->date_recorded,     &$this );
-		$this->hide_sitewide     = apply_filters( 'bp_activity_hide_sitewide_before_save',     $this->hide_sitewide,     &$this );
-		$this->mptt_left         = apply_filters( 'bp_activity_mptt_left_before_save',         $this->mptt_left,         &$this );
-		$this->mptt_right        = apply_filters( 'bp_activity_mptt_right_before_save',        $this->mptt_right,        &$this );
+		$this->id                = apply_filters( 'bp_activity_id_before_save',                $this->id,                $this );
+		$this->item_id           = apply_filters( 'bp_activity_item_id_before_save',           $this->item_id,           $this );
+		$this->secondary_item_id = apply_filters( 'bp_activity_secondary_item_id_before_save', $this->secondary_item_id, $this );
+		$this->user_id           = apply_filters( 'bp_activity_user_id_before_save',           $this->user_id,           $this );
+		$this->primary_link      = apply_filters( 'bp_activity_primary_link_before_save',      $this->primary_link,      $this );
+		$this->component         = apply_filters( 'bp_activity_component_before_save',         $this->component,         $this );
+		$this->type              = apply_filters( 'bp_activity_type_before_save',              $this->type,              $this );
+		$this->action            = apply_filters( 'bp_activity_action_before_save',            $this->action,            $this );
+		$this->content           = apply_filters( 'bp_activity_content_before_save',           $this->content,           $this );
+		$this->date_recorded     = apply_filters( 'bp_activity_date_recorded_before_save',     $this->date_recorded,     $this );
+		$this->hide_sitewide     = apply_filters( 'bp_activity_hide_sitewide_before_save',     $this->hide_sitewide,     $this );
+		$this->mptt_left         = apply_filters( 'bp_activity_mptt_left_before_save',         $this->mptt_left,         $this );
+		$this->mptt_right        = apply_filters( 'bp_activity_mptt_right_before_save',        $this->mptt_right,        $this );
 
 		if ( !$this->component || !$this->type )
 			return false;
@@ -81,7 +81,7 @@ Class BP_Activity_Activity {
 		if ( empty( $this->id ) )
 			$this->id = $wpdb->insert_id;
 
-		do_action( 'bp_activity_after_save', &$this );
+		do_action( 'bp_activity_after_save', $this );
 		return true;
 	}
 
@@ -171,7 +171,7 @@ Class BP_Activity_Activity {
 		}
 
 		if ( $activities && $display_comments )
-			$activities = BP_Activity_Activity::append_comments( &$activities );
+			$activities = BP_Activity_Activity::append_comments( $activities );
 
 		// If $max is set, only return up to the max results
 		if ( !empty( $max ) ) {
