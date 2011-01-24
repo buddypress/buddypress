@@ -115,9 +115,6 @@ class BP_Core_User {
 		if ( 'active' == $type || 'online' == $type )
 			$sql['select_active'] = ", um.meta_value as last_activity";
 
-		if ( 'newest' == $type )
-			$sql['select_newest'] = ", um.meta_value as date_activated";
-
 		if ( 'popular' == $type )
 			$sql['select_popular'] = ", um.meta_value as total_friend_count";
 
@@ -133,9 +130,6 @@ class BP_Core_User {
 
 		if ( 'active' == $type || 'online' == $type )
 			$sql['where_active'] = "AND um.meta_key = 'last_activity'";
-
-		if ( 'newest' == $type )
-			$sql['where_newest'] = "AND um.meta_key = 'date_activated'";
 
 		if ( 'popular' == $type )
 			$sql['where_popular'] = "AND um.meta_key = 'total_friend_count'";
@@ -182,7 +176,7 @@ class BP_Core_User {
 				$sql[] = "ORDER BY um.meta_value DESC";
 				break;
 			case 'newest':
-				$sql[] = "ORDER BY um.meta_value DESC";
+				$sql[] = "ORDER BY u.ID DESC";
 				break;
 			case 'alphabetical':
 				$sql[] = "ORDER BY pd.value ASC";
@@ -207,9 +201,6 @@ class BP_Core_User {
 
 		if ( !empty( $sql['select_active'] ) )
 			unset( $sql['select_active'] );
-
-		if ( !empty( $sql['select_newest'] ) )
-			unset( $sql['select_newest'] );
 
 		if ( !empty( $sql['select_popular'] ) )
 			unset( $sql['select_popular'] );
