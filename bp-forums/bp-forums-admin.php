@@ -29,8 +29,9 @@ function bp_forums_bbpress_admin() {
 		<?php
 
 		if ( isset( $_REQUEST['reinstall'] ) || !bp_forums_is_installed_correctly() ) :
-			update_site_option( 'bb-config-location', false );
+
 			bp_forums_bbpress_install_wizard();
+
 		else : ?>
 
 			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>', 'buddypress' ), site_url( 'wp-admin/admin.php?page=bb-forums-setup&reinstall=1' ) ); ?>
@@ -135,10 +136,10 @@ function bp_forums_configure_existing_install() {
 		$_REQUEST['bbconfigloc'] .= 'bb-config.php';
 	}
 
+	update_site_option( 'bb-config-location', $_REQUEST['bbconfigloc'] );
+
 	if ( !file_exists( $_REQUEST['bbconfigloc'] ) )
 		return false;
-
-	update_site_option( 'bb-config-location', $_REQUEST['bbconfigloc'] );
 
 	return true;
 }
