@@ -643,7 +643,7 @@ function bp_activity_action() {
 		global $activities_template;
 
 		$action = $activities_template->activity->action;
-		$action = apply_filters_ref_array( 'bp_get_activity_action_pre_meta', array( $action, $activities_template->activity ) );
+		$action = apply_filters_ref_array( 'bp_get_activity_action_pre_meta', array( $action, &$activities_template->activity ) );
 
 		if ( !empty( $action ) )
 			$action = bp_insert_activity_meta( $action );
