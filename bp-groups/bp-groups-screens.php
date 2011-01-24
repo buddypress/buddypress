@@ -105,7 +105,7 @@ function groups_screen_group_forum() {
 		if ( !is_super_admin() && groups_is_user_banned( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 			$user_is_banned = true;
 
-		if ( $topic_slug && $topic_id ) {
+		if ( !empty( $topic_slug ) && !empty( $topic_id ) ) {
 
 			// Posting a reply
 			if ( !$user_is_banned && !isset( $bp->action_variables[2] ) && isset( $_POST['submit_reply'] ) ) {
@@ -186,7 +186,7 @@ function groups_screen_group_forum() {
 			}
 
 			// Delete a topic
-			else if ( !$user_is_banned && isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
+			else if ( empty( $user_is_banned ) && isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
 				// Fetch the topic
 				$topic = bp_forums_get_topic_details( $topic_id );
 
@@ -208,7 +208,7 @@ function groups_screen_group_forum() {
 			}
 
 			// Editing a topic
-			else if ( !$user_is_banned && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
+			else if ( empty( $user_is_banned ) && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && empty( $bp->action_variables[3] ) ) {
 				// Fetch the topic
 				$topic = bp_forums_get_topic_details( $topic_id );
 
@@ -233,7 +233,7 @@ function groups_screen_group_forum() {
 			}
 
 			// Delete a post
-			else if ( !$user_is_banned && isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
+			elseif ( empty( $user_is_banned ) && isset( $bp->action_variables[2] ) && 'delete' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
 				// Fetch the post
 				$post = bp_forums_get_post( $post_id );
 
@@ -256,7 +256,7 @@ function groups_screen_group_forum() {
 			}
 
 			// Editing a post
-			else if ( !$user_is_banned && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
+			elseif ( empty( $user_is_banned ) && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] && isset( $bp->action_variables[4] ) && $post_id = $bp->action_variables[4] ) {
 				// Fetch the post
 				$post = bp_forums_get_post( $bp->action_variables[4] );
 
@@ -285,7 +285,7 @@ function groups_screen_group_forum() {
 
 			// Standard topic display
 			else {
-				if ( $user_is_banned )
+				if ( !empty( $user_is_banned ) )
 					bp_core_add_message( __( "You have been banned from this group.", 'buddypress' ) );
 
 				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/single/home' ) );

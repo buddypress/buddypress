@@ -885,14 +885,14 @@ function bp_has_forum_topic_posts( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !$topic_id && $bp->current_component == $bp->groups->slug && 'forum' == $bp->current_action && 'topic' == $bp->action_variables[0] )
+	if ( empty( $topic_id ) && bp_is_current_component( 'groups') && bp_is_current_action( 'forum' ) && 'topic' == $bp->action_variables[0] )
 		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[1] );
 
 	if ( is_numeric( $topic_id ) ) {
 		$topic_template = new BP_Forums_Template_Topic( $topic_id, $per_page, $max, $order );
 
 		// Current topic forum_id needs to match current_group forum_id
-		if ( $bp->current_component == $bp->groups->slug && $topic_template->forum_id != groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) )
+		if ( bp_is_current_component( 'groups' ) && $topic_template->forum_id != groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) )
 			return false;
 
 	} else {
