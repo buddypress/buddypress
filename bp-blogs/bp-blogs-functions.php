@@ -128,7 +128,7 @@ function bp_blogs_update_option_blogdescription( $oldvalue, $newvalue ) {
 }
 add_action( 'update_option_blogdescription', 'bp_blogs_update_option_blogdescription', 10, 2 );
 
-function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
+function bp_blogs_record_post( &$post_id, &$post, $user_id = 0 ) {
 	global $bp, $wpdb;
 
 	$post_id = (int)$post_id;
