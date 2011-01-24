@@ -779,7 +779,7 @@ Class BP_XProfile_ProfileData {
 
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id ) );
 
-		return apply_filters_ref_arra( 'xprofile_data_is_valid_field', array( (bool)$retval, &$this ) );
+		return apply_filters_ref_array( 'xprofile_data_is_valid_field', array( (bool)$retval, &$this ) );
 	}
 
 	function save() {
