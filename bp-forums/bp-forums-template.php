@@ -136,7 +136,7 @@ class BP_Forums_Template_Forum {
 
 			// Place stickies at the top - not sure why bbPress doesn't do this?
 			foreach( (array)$this->topics as $topic ) {
-				if ( 1 == (int)$topic->topic_sticky ) {
+				if ( isset( $topic->topic_sticky ) && 1 == (int)$topic->topic_sticky ) {
 					$stickies[] = $topic;
 				} else {
 					$standard[] = $topic;
@@ -147,7 +147,7 @@ class BP_Forums_Template_Forum {
 		}
 
 		// Fetch extra information for topics, so we don't have to query inside the loop
-		$this->topics = bp_forums_get_topic_extras( &$this->topics );
+		$this->topics = bp_forums_get_topic_extras( $this->topics );
 
 		if ( (int)$this->total_topic_count && (int)$this->pag_num ) {
 			$this->pag_links = paginate_links( array(
@@ -222,44 +222,46 @@ function bp_has_forum_topics( $args = '' ) {
 	$search_terms = false;
 	$no_stickies = 'all';
 
-	/* User filtering */
+	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
 		$user_id = $bp->displayed_user->id;
 
-	/* If we're in a single group, set this group's forum_id */
+	// If we're in a single group, set this group's forum_id
 	if ( !$forum_id && !empty( $bp->groups->current_group ) ) {
 		$bp->groups->current_group->forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
 
-		/* If it turns out there is no forum for this group, return false so we don't fetch all global topics */
-		if ( !$bp->groups->current_group->forum_id )
+		// If it turns out there is no forum for this group, return false so
+		// we don't fetch all global topics
+		if ( empty( $bp->groups->current_group->forum_id ) )
 			return false;
 
 		$forum_id = $bp->groups->current_group->forum_id;
 	}
 
-	/* If $_GET['fs'] is set, let's auto populate the search_terms var */
+	// If $_GET['fs'] is set, let's auto populate the search_terms var
 	if ( isset( $bp->is_directory ) && !empty( $_GET['fs'] ) )
 		$search_terms = $_GET['fs'];
 
-	/* Show stickies on a group forum */
+	// Show stickies on a group forum
 	if ( isset( $bp->groups->current_group ) )
 		$no_stickies = null;
 
 	$defaults = array(
-		'type' => $type,
-		'forum_id' => $forum_id,
-		'user_id' => $user_id,
-		'page' => 1,
-		'per_page' => 20,
-		'max' => false,
-		'no_stickies' => $no_stickies,
+		'type'         => $type,
+		'forum_id'     => $forum_id,
+		'user_id'      => $user_id,
+		'page'         => 1,
+		'per_page'     => 20,
+		'max'          => false,
+		'no_stickies'  => $no_stickies,
 		'search_terms' => $search_terms
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
-	/* If we're viewing a tag URL in the directory, let's override the type and set it to tags and the filter to the tag name */
+	// If we're viewing a tag URL in the directory, let's override the type and
+	// set it to tags and the filter to the tag name
 	if ( 'tag' == $bp->current_action && !empty( $bp->action_variables[0] ) ) {
 		$search_terms = $bp->action_variables[0];
 		$type = 'tags';
@@ -392,7 +394,7 @@ function bp_the_topic_object_permalink() {
 		global $bp, $forum_template;
 
 		/* Currently this will only work with group forums, extended support in the future */
-		return apply_filters( 'bp_get_the_topic_object_permalink', $bp->root_domain . '/' . BP_GROUPS_SLUG . '/' . $forum_template->topic->object_slug . '/forum/' );
+		return apply_filters( 'bp_get_the_topic_object_permalink', $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $forum_template->topic->object_slug . '/forum/' );
 	}
 
 function bp_the_topic_last_poster_name() {
@@ -545,13 +547,13 @@ function bp_the_topic_permalink() {
 		global $forum_template, $bp;
 
 		if ( !empty( $forum_template->topic->object_slug ) )
-			$permalink = $bp->root_domain . '/' . BP_GROUPS_SLUG . '/' . $forum_template->topic->object_slug . '/';
+			$permalink = trailingslashit( $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $forum_template->topic->object_slug );
 		else if ( !empty( $bp->is_single_item ) )
-			$permalink = $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item . '/';
+			$permalink = trailingslashit( $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item );
 		else
-			$permalink = $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_action . '/';
+			$permalink = trailingslashit( $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_action );
 
-		return apply_filters( 'bp_get_the_topic_permalink', $permalink . 'forum/topic/' . $forum_template->topic->topic_slug . '/' );
+		return apply_filters( 'bp_get_the_topic_permalink', trailingslashit( $permalink . 'forum/topic/' . $forum_template->topic->topic_slug ) );
 	}
 
 function bp_the_topic_time_since_created() {
@@ -645,10 +647,10 @@ function bp_the_topic_css_class() {
 		if ( $forum_template->current_topic % 2 == 1 )
 			$class .= 'alt';
 
-		if ( 1 == (int)$forum_template->topic->topic_sticky )
+		if ( isset( $forum_template->topic->topic_sticky ) && 1 == (int)$forum_template->topic->topic_sticky )
 			$class .= ' sticky';
 
-		if ( 0 == (int)$forum_template->topic->topic_open )
+		if ( !isset( $forum_template->topic->topic_open ) || 0 == (int)$forum_template->topic->topic_open )
 			$class .= ' closed';
 
 		return apply_filters( 'bp_get_the_topic_css_class', trim( $class ) );
