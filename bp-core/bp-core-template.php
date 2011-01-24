@@ -678,7 +678,7 @@ function bp_is_current_component( $component ) {
 		$page_template = $custom_fields[0];
 
 		// Component name is in the page template name
-		if ( strstr( strtolower( $page_template ), strtolower( $component ) ) )
+		if ( !empty( $page_template ) && strstr( strtolower( $page_template ), strtolower( $component ) ) )
 			$is_current_component = true;
 	}
 
