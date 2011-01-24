@@ -235,17 +235,18 @@ function bp_core_remove_nav_item( $parent_id ) {
 	global $bp;
 
 	// Unset subnav items for this nav item
-	if ( is_array( $bp->bp_options_nav[$parent_id] ) ) {
+	if ( isset( $bp->bp_options_nav[$parent_id] ) && is_array( $bp->bp_options_nav[$parent_id] ) ) {
 		foreach( (array)$bp->bp_options_nav[$parent_id] as $subnav_item ) {
 			bp_core_remove_subnav_item( $parent_id, $subnav_item['slug'] );
 		}
 	}
 
 	if ( $function = $bp->bp_nav[$parent_id]['screen_function'] ) {
-		if ( !is_object( $function[0] ) )
+		if ( !is_object( $function[0] ) ) {
 			remove_action( 'wp', $function, 3 );
-		else
+		} else {
 			remove_action( 'wp', array( &$function[0], $function[1] ), 3 );
+		}
 	}
 
 	unset( $bp->bp_nav[$parent_id] );
