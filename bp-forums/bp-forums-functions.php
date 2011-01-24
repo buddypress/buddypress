@@ -507,7 +507,7 @@ function bp_forums_get_post_extras( $posts ) {
 		}
 	}
 
-	return $posts;
+	return apply_filters( 'bp_forums_get_post_extras', $posts );
 }
 
 function bp_forums_get_forum_topicpost_count( $forum_id ) {
