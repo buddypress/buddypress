@@ -227,7 +227,7 @@ function bp_has_forum_topics( $args = '' ) {
 		$user_id = $bp->displayed_user->id;
 
 	/* If we're in a single group, set this group's forum_id */
-	if ( !$forum_id && isset( $bp->groups->current_group ) ) {
+	if ( !$forum_id && !empty( $bp->groups->current_group ) ) {
 		$bp->groups->current_group->forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
 
 		/* If it turns out there is no forum for this group, return false so we don't fetch all global topics */
