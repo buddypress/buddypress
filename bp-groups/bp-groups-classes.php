@@ -599,7 +599,7 @@ Class BP_Groups_Member {
 
 	var $user;
 
-	function bp_groups_member( $user_id = 0, $group_id = false, $id = false, $populate = true ) {
+	function bp_groups_member( $user_id = 0, $group_id = 0, $id = false, $populate = true ) {
 		if ( $user_id && $group_id && !$id ) {
 			$this->user_id = $user_id;
 			$this->group_id = $group_id;

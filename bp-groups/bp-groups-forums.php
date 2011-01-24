@@ -5,13 +5,13 @@
 function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = '' ) {
 	global $bp;
 
-	if ( !$group_id )
+	if ( empty( $group_id ) )
 		$group_id = $bp->groups->current_group->id;
 
-	if ( !$group_name )
+	if ( empty( $group_name ) )
 		$group_name = $bp->groups->current_group->name;
 
-	if ( !$group_desc )
+	if ( empty( $group_desc ) )
 		$group_desc = $bp->groups->current_group->description;
 
 	$forum_id = bp_forums_new_forum( array( 'forum_name' => $group_name, 'forum_desc' => $group_desc ) );
@@ -25,7 +25,7 @@ function groups_update_group_forum( $group_id ) {
 
 	$group = new BP_Groups_Group( $group_id );
 
-	if ( !$group->enable_forum || !function_exists( 'bp_forums_setup' ) )
+	if ( empty( $group->enable_forum ) || !function_exists( 'bp_forums_setup' ) )
 		return false;
 
 	$args = array(

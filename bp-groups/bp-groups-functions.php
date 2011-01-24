@@ -776,7 +776,7 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	return false;
 }
 
-function groups_accept_membership_request( $membership_id, $user_id = 0, $group_id = false ) {
+function groups_accept_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
 	global $bp;
 
 	if ( $user_id && $group_id )
@@ -815,7 +815,7 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
 	return true;
 }
 
-function groups_reject_membership_request( $membership_id, $user_id = 0, $group_id = false ) {
+function groups_reject_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
 	if ( !$membership = groups_delete_membership_request( $membership_id, $user_id, $group_id ) )
 		return false;
 
@@ -828,7 +828,7 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
 	return true;
 }
 
-function groups_delete_membership_request( $membership_id, $user_id = 0, $group_id = false ) {
+function groups_delete_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
 	if ( $user_id && $group_id )
 		$membership = new BP_Groups_Member( $user_id, $group_id );
 	else
