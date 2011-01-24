@@ -1908,19 +1908,17 @@ function bp_new_group_invite_friend_list() {
 			return false;
 
 		$defaults = array(
-			'group_id' => false,
+			'group_id'  => false,
 			'separator' => 'li'
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		if ( !$group_id )
+		if ( empty( $group_id ) )
 			$group_id = !empty( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
 
-		$friends = friends_get_friends_invite_list( $bp->loggedin_user->id, $group_id );
-
-		if ( $friends ) {
+		if ( $friends = friends_get_friends_invite_list( $bp->loggedin_user->id, $group_id ) ) {
 			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_id );
 
 			for ( $i = 0; $i < count( $friends ); $i++ ) {
@@ -1935,7 +1933,10 @@ function bp_new_group_invite_friend_list() {
 			}
 		}
 
-		return implode( "\n", (array)$items );
+		if ( !empty( $items ) )
+			return implode( "\n", (array)$items );
+
+		return false;
 	}
 
 function bp_directory_groups_search_form() {
