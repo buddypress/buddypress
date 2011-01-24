@@ -146,15 +146,14 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 		return false;
 
 	if ( 'publish' == $post->post_status && empty( $post->post_password ) ) {
-		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !bp_core_is_multisite() ) {
+		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !is_multisite() ) {
 			// Record this in activity streams
 			$post_permalink   = get_permalink( $post_id );
 
-			if ( is_multisite() ) {
+			if ( is_multisite() )
 				$activity_action  = sprintf( __( '%1$s wrote a new blog post: %2$s on the blog %3$s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
-			} else {
+			else
 				$activity_action  = sprintf( __( '%1$s wrote a new blog post: %2$s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
-			}
 
 			$activity_content = $post->post_content;
 

@@ -8,6 +8,22 @@
  * @deprecated Since 1.3
  */
 
+/** WP Abstraction ************************************************************/
+
+/**
+ * bp_core_is_multisite()
+ *
+ * This function originally served as a wrapper when WordPress and WordPress MU were separate entities.
+ * Use is_multisite() instead.
+ *
+ * @deprecated 1.3
+ * @deprecated Use is_multisite()
+ */
+function bp_core_is_multisite() {
+	_deprecated_function( __FUNCTION__, '1.3', 'is_multisite()' );
+	return is_multisite();
+}
+
 /** Activity ******************************************************************/
 
 function bp_is_activity_permalink() {
