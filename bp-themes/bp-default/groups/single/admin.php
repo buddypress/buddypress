@@ -47,11 +47,11 @@
 				<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php bp_group_show_forum_setting() ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ) ?></label>
 			</div>
 
+			<hr />
+
 		<?php endif; ?>
 
 	<?php endif; ?>
-
-	<hr />
 
 	<h4><?php _e( 'Privacy Options', 'buddypress' ); ?></h4>
 
