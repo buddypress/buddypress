@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-24 11:30:23+00:00\n"
+"POT-Creation-Date: 2011-01-24 12:30:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3927,12 +3927,12 @@ msgstr ""
 msgid "Topic Title"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:40
-msgid "Latest Poster"
+#: bp-themes/bp-default/forums/forums-loop.php:43
+msgid "In Group"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:44
-msgid "Posted In Group"
+#: bp-themes/bp-default/forums/forums-loop.php:47
+msgid "Latest Poster"
 msgstr ""
 
 #: bp-themes/bp-default/forums/forums-loop.php:48
