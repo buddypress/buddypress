@@ -527,7 +527,7 @@ function bp_get_loggedin_user_nav() {
 		}
 
 		// echo out the final list item
-		echo apply_filters( 'bp_get_loggedin_user_nav_' . $nav_item['css_id'], '<li id="li-nav-' . $nav_item['css_id'] . '" ' . $selected . '><a id="my-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>', &$nav_item );
+		echo apply_filters( 'bp_get_loggedin_user_nav_' . $nav_item['css_id'], '<li id="li-nav-' . $nav_item['css_id'] . '" ' . $selected . '><a id="my-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>', $nav_item );
 	}
 
 	// Always add a log out list item to the end of the navigation
@@ -563,7 +563,7 @@ function bp_get_displayed_user_nav() {
 		else
 			$link = $bp->displayed_user->domain . $user_nav_item['link'];
 
-		echo apply_filters( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item );
+		echo apply_filters( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', $user_nav_item );
 	}
 }
 
