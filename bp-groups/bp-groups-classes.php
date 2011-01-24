@@ -352,7 +352,7 @@ Class BP_Groups_Group {
 			$group_ids = array();
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
-			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, $type );
+			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $type );
 		}
 
 		unset( $sql, $total_sql );
@@ -395,7 +395,7 @@ Class BP_Groups_Group {
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
-			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
+			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
@@ -436,7 +436,7 @@ Class BP_Groups_Group {
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
-			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
+			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
@@ -476,7 +476,7 @@ Class BP_Groups_Group {
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
-			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
+			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
@@ -513,13 +513,13 @@ Class BP_Groups_Group {
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
-			$paged_groups = BP_Groups_Group::get_group_extras( &$paged_groups, $group_ids, 'newest' );
+			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function get_group_extras( $paged_groups, $group_ids, $type = false ) {
+	function get_group_extras( &$paged_groups, &$group_ids, $type = false ) {
 		global $bp, $wpdb;
 
 		if ( empty( $group_ids ) )
@@ -1140,10 +1140,10 @@ class BP_Group_Extension {
 			$bp->groups->group_creation_steps[$this->slug] = array( 'name' => $this->name, 'slug' => $this->slug, 'position' => $this->create_step_position );
 
 			// Attach the group creation step display content action
-			add_action( 'groups_custom_create_steps', array( &$this, 'create_screen' ) );
+			add_action( 'groups_custom_create_steps', array( $this, 'create_screen' ) );
 
 			// Attach the group creation step save content action
-			add_action( 'groups_create_group_step_save_' . $this->slug, array( &$this, 'create_screen_save' ) );
+			add_action( 'groups_create_group_step_save_' . $this->slug, array( $this, 'create_screen_save' ) );
 		}
 
 		// Construct the admin edit tab for the new group extension
@@ -1155,13 +1155,13 @@ class BP_Group_Extension {
 				// Check whether the user is saving changes
 				$this->edit_screen_save();
 
-				add_action( 'groups_custom_edit_steps', array( &$this, 'edit_screen' ) );
+				add_action( 'groups_custom_edit_steps', array( $this, 'edit_screen' ) );
 
 				if ( '' != locate_template( array( 'groups/single/home.php' ), false ) ) {
 					bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 				} else {
 					add_action( 'bp_template_content_header', create_function( '', 'echo "<ul class=\"content-header-nav\">"; bp_group_admin_tabs(); echo "</ul>";' ) );
-					add_action( 'bp_template_content', array( &$this, 'edit_screen' ) );
+					add_action( 'bp_template_content', array( $this, 'edit_screen' ) );
 					bp_core_load_template( apply_filters( 'bp_core_template_plugin', '/groups/single/plugins' ) );
 				}
 			}
@@ -1171,7 +1171,7 @@ class BP_Group_Extension {
 		if ( $this->visibility == 'public' || ( $this->visibility != 'public' && $bp->groups->current_group->user_has_access ) ) {
 			if ( $this->enable_nav_item ) {
 				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item )
-					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => BP_GROUPS_SLUG, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
+					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => BP_GROUPS_SLUG, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( $this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
 
 				// When we are viewing the extension display page, set the title and options title
 				if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && $bp->current_action == $this->slug ) {
@@ -1182,12 +1182,12 @@ class BP_Group_Extension {
 
 			// Hook the group home widget
 			if ( $bp->current_component == $bp->groups->slug && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
-				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
+				add_action( $this->display_hook, array( $this, 'widget_display' ) );
 		}
 	}
 
 	function _display_hook() {
-		add_action( 'bp_template_content', array( &$this, 'display' ) );
+		add_action( 'bp_template_content', array( $this, 'display' ) );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', $this->template_file ) );
 	}
 }
@@ -1199,8 +1199,7 @@ function bp_register_group_extension( $group_extension_class ) {
 		return false;
 
 	/* Register the group extension on the bp_init action so we have access to all plugins */
-	add_action( 'bp_init', create_function( '', '$extension = new ' . $group_extension_class . '; add_action( "wp", array( &$extension, "_register" ), 2 );' ), 11 );
+	add_action( 'bp_init', create_function( '', '$extension = new ' . $group_extension_class . '; add_action( "wp", array( $extension, "_register" ), 2 );' ), 11 );
 }
-
 
 ?>
