@@ -55,10 +55,11 @@ if ( empty( $bp_db_version ) ) {
 	if ( !isset( $bp_deactivated['bp-xprofile/bp-xprofile-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-loader.php' );
 
-	// Always require BuddyPress Members - It cannot be turned off
-	include( BP_PLUGIN_DIR . '/bp-settings/bp-settings-loader.php' );
+	// Member Settings
+	if ( !isset( $bp_deactivated['bp-settings/bp-settings-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-settings/bp-settings-loader.php') )
+		include( BP_PLUGIN_DIR . '/bp-settings/bp-settings-loader.php' );
 
-	// Always require BuddyPress Members - It cannot be turned off
+	// Always require BuddyPress Members - It cannot be turned off (yet)
 	include( BP_PLUGIN_DIR . '/bp-members/bp-members-loader.php'   );
 
 	// If this is an upgrade, load the upgrade file
