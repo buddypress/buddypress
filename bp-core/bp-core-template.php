@@ -232,14 +232,14 @@ function bp_get_page_title() {
 
 	// A single item of a component
 	} elseif ( bp_is_single_item() ) {
-		$title = ucwords( $bp->current_component ) . ' &#124; ' . $bp->bp_options_title . ' &#124; '; // . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'];
+		$title = bp_get_name_from_root_slug() . ' &#124; ' . $bp->bp_options_title . ' &#124; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'];
 
 	// An index or directory
 	} elseif ( bp_is_directory() ) {
-		if ( !$bp->current_component )
-			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( BP_MEMBERS_SLUG ) );
+		if ( !bp_current_component() )
+			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( $bp->members->slug ) );
 		else
-			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( $bp->current_component ) );
+			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug() );
 
 	// Sign up page
 	} elseif ( bp_is_register_page() ) {
@@ -619,6 +619,36 @@ function bp_root_slug( $component = '' ) {
 
 		return apply_filters( 'bp_get_root_slug', $root_slug, $component );
 	}
+
+/**
+ * Return the component name based on the current root slug
+ *
+ * @since BuddyPress {r3923}
+ * @global obj $bp
+ * @param str $root_slug Needle to our active component haystack
+ * @return mixed False if none found, component name if found
+ */
+function bp_get_name_from_root_slug( $root_slug = '' ) {
+
+	// If no slug is passed, look at current_component
+	if ( empty( $root_slug ) ) {
+		global $bp;
+		$root_slug = $bp->current_component;
+	}
+
+	// No current component or root slug, so flee
+	if ( empty( $root_slug ) )
+		return false;
+
+	// Loop through active components and look for a match
+	foreach ( $bp->active_components as $component => $id )
+		if (	isset( $bp->{$component}->root_slug ) &&
+				!empty( $bp->{$component}->root_slug ) &&
+				$bp->{$component}->root_slug == $root_slug )
+			return $bp->{$component}->name;
+
+	return false;
+}
 
 /** is_() functions to determine the current page *****************************/
 

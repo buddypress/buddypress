@@ -219,9 +219,15 @@ class BP_Component {
 		do_action( 'bp_' . $this->id . '_setup_nav' );
 	}
 
-
+	/**
+	 * Setup the component title
+	 *
+	 * @since Buddypress {unknown}
+	 *
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_setup_title'
+	 */
 	function _setup_title( ) {
-		
+		do_action(  'bp_' . $this->id . '_setup_title' );
 	}
 
 	/**
