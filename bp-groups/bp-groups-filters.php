@@ -89,7 +89,7 @@ function groups_add_forum_tables_sql( $sql ) {
 function groups_add_forum_where_sql( $sql ) {
 	global $bp;
 
-	if ( !is_super_admin() || !bp_group_is_member( $bp->groups->current_group->id ) )
+	if ( !is_super_admin() || ( bp_is_single_item() && !bp_group_is_member( $bp->groups->current_group->id ) ) )
 		$must_be_public = "AND g.status = 'public'";
 	else
 		$must_be_public = '';
