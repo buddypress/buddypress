@@ -1,5 +1,52 @@
 <?php
 
+/**
+ * Output the members component slug
+ *
+ * @package BuddyPress
+ * @subpackage Members Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_members_slug()
+ */
+function bp_members_slug() {
+	echo bp_get_members_slug();
+}
+	/**
+	 * Return the members component slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Members Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_members_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_members_slug', $bp->members->slug );
+	}
+
+/**
+ * Output the members component root slug
+ *
+ * @package BuddyPress
+ * @subpackage Members Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_members_root_slug()
+ */
+function bp_members_root_slug() {
+	echo bp_get_members_root_slug();
+}
+	/**
+	 * Return the members component root slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Members Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_members_root_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_members_root_slug', $bp->members->root_slug );
+	}
 
 /***
  * Members template loop that will allow you to loop all members or friends of a member

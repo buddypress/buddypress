@@ -68,7 +68,7 @@ function groups_add_forum_privacy_sql() {
 	if ( bp_is_forums_component() ||
 			( !empty( $bp->groups->current_group ) &&
 				( 'public' == $bp->groups->current_group->status ) ||
-					( 1 == $bp->groups->current_group->is_member ) ) ) {
+					( !empty( $bp->groups->current_group->is_member ) ) ) ) {
 
 		add_filter( 'get_topics_fields',     'groups_add_forum_fields_sql' );
 		add_filter( 'get_topics_index_hint', 'groups_add_forum_tables_sql' );

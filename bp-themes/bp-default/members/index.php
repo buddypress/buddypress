@@ -28,7 +28,7 @@
 
 			<div class="item-list-tabs" role="navigation">
 				<ul>
-					<li class="selected" id="members-all"><a href="<?php bp_root_domain(); ?>"><?php printf( __( 'All Members (%s)', 'buddypress' ), bp_get_total_member_count() ); ?></a></li>
+					<li class="selected" id="members-all"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ); ?>"><?php printf( __( 'All Members (%s)', 'buddypress' ), bp_get_total_member_count() ); ?></a></li>
 
 					<?php if ( is_user_logged_in() && bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 
