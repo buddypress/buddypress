@@ -588,7 +588,7 @@ jq(document).ready( function() {
 	/**** New Forum Directory Post **************************************/
 
 	/* Hit the "New Topic" button on the forums directory page */
-	jq('a#new-topic-button').click( function() {
+	jq('a.show-hide-new').click( function() {
 		if ( !jq('div#new-topic-post').length )
 			return false;
 

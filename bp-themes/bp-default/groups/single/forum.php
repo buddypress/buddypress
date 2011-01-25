@@ -10,8 +10,20 @@ elseif ( bp_is_group_forum_topic() ) :
 
 else : ?>
 
-	<div class="item-list-tabs" id="subnav" role="navigation">
+	<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 		<ul>
+
+			<li>
+				<a href="#post-new" class="show-hide-new">&darr; <?php _e( 'New Topic', 'buddypress' ) ?></a>
+			</li>
+
+			<?php if ( !bp_forum_directory_is_disabled() ) : ?>
+
+				<li>
+					<a href="<?php bp_forum_directory_permalink() ?>"><?php _e( 'Forum Directory', 'buddypress') ?></a>
+				</li>
+
+			<?php endif; ?>
 
 			<?php do_action( 'bp_forums_directory_group_sub_types' ); ?>
 
