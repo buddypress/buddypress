@@ -148,15 +148,15 @@ class BP_Component {
 		foreach ( $includes as $file ) {
 
 			// Check path + file
-			if ( file_exists( $this->path . '/' . $file ) )
+			if ( @is_file( $this->path . '/' . $file ) )
 				require_once( $this->path . '/' . $file );
 
 			// Check path + /bp-component/ + file
-			elseif ( file_exists( $this->path . '/bp-' . $this->id . '/' . $file ) )
-				require_once( $this->$path . '/bp-' . $this->id . '/' . $file );
+			elseif ( @is_file( $this->path . '/bp-' . $this->id . '/' . $file ) )
+				require_once( $this->path . '/bp-' . $this->id . '/' . $file );
 
 			// Check buddypress/bp-component/bp-component-$file.php
-			elseif ( file_exists( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php' ) )
+			elseif ( @is_file( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php' ) )
 				require_once( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file . '.php' );
 
 		}
