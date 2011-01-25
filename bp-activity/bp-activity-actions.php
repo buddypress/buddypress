@@ -61,7 +61,7 @@ function bp_activity_action_permalink_router() {
 	// Redirect to the actual activity permalink page
 	bp_core_redirect( $redirect );
 }
-add_action( 'wp', 'bp_activity_action_permalink_router', 3 );
+add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
 
 function bp_activity_action_delete_activity() {
 	global $bp;
@@ -99,7 +99,7 @@ function bp_activity_action_delete_activity() {
 	// Redirect
 	bp_core_redirect( wp_get_referer() );
 }
-add_action( 'wp', 'bp_activity_action_delete_activity', 3 );
+add_action( 'bp_actions', 'bp_activity_action_delete_activity' );
 
 function bp_activity_action_post_update() {
 	global $bp;
@@ -146,7 +146,7 @@ function bp_activity_action_post_update() {
 	// Redirect
 	bp_core_redirect( wp_get_referer() );
 }
-add_action( 'wp', 'bp_activity_action_post_update', 3 );
+add_action( 'bp_actions', 'bp_activity_action_post_update' );
 
 function bp_activity_action_post_comment() {
 	global $bp;
@@ -178,7 +178,7 @@ function bp_activity_action_post_comment() {
 
 	bp_core_redirect( wp_get_referer() . '#ac-form-' . $activity_id );
 }
-add_action( 'wp', 'bp_activity_action_post_comment', 3 );
+add_action( 'bp_actions', 'bp_activity_action_post_comment' );
 
 function bp_activity_action_mark_favorite() {
 	global $bp;
@@ -196,7 +196,7 @@ function bp_activity_action_mark_favorite() {
 
 	bp_core_redirect( wp_get_referer() . '#activity-' . $bp->action_variables[0] );
 }
-add_action( 'wp', 'bp_activity_action_mark_favorite', 3 );
+add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
 
 function bp_activity_action_remove_favorite() {
 	global $bp;
@@ -214,7 +214,7 @@ function bp_activity_action_remove_favorite() {
 
 	bp_core_redirect( wp_get_referer() . '#activity-' . $bp->action_variables[0] );
 }
-add_action( 'wp', 'bp_activity_action_remove_favorite', 3 );
+add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
 
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
@@ -228,7 +228,7 @@ function bp_activity_action_sitewide_feed() {
 	include_once( 'bp-activity/feeds/bp-activity-sitewide-feed.php' );
 	die;
 }
-add_action( 'wp', 'bp_activity_action_sitewide_feed', 3 );
+add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
 
 function bp_activity_action_personal_feed() {
 	global $bp, $wp_query;
@@ -242,7 +242,7 @@ function bp_activity_action_personal_feed() {
 	include_once( 'bp-activity/feeds/bp-activity-personal-feed.php' );
 	die;
 }
-add_action( 'wp', 'bp_activity_action_personal_feed', 3 );
+add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 
 function bp_activity_action_friends_feed() {
 	global $bp, $wp_query;
@@ -256,7 +256,7 @@ function bp_activity_action_friends_feed() {
 	include_once( 'bp-activity/feeds/bp-activity-friends-feed.php' );
 	die;
 }
-add_action( 'wp', 'bp_activity_action_friends_feed', 3 );
+add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
 
 function bp_activity_action_my_groups_feed() {
 	global $bp, $wp_query;
@@ -270,7 +270,7 @@ function bp_activity_action_my_groups_feed() {
 	include_once( 'bp-activity/feeds/bp-activity-mygroups-feed.php' );
 	die;
 }
-add_action( 'wp', 'bp_activity_action_my_groups_feed', 3 );
+add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
 
 function bp_activity_action_mentions_feed() {
 	global $bp, $wp_query;
@@ -284,7 +284,7 @@ function bp_activity_action_mentions_feed() {
 	include_once( 'bp-activity/feeds/bp-activity-mentions-feed.php' );
 	die;
 }
-add_action( 'wp', 'bp_activity_action_mentions_feed', 3 );
+add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
 
 function bp_activity_action_favorites_feed() {
 	global $bp, $wp_query;
@@ -298,6 +298,6 @@ function bp_activity_action_favorites_feed() {
 	include_once( 'bp-activity/feeds/bp-activity-favorites-feed.php' );
 	die;
 }
-add_action( 'wp', 'bp_activity_action_favorites_feed', 3 );
+add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
 
 ?>

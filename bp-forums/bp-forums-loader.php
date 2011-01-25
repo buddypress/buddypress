@@ -17,7 +17,11 @@ class BP_Forums_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_Forums_Component() {
-		parent::start( 'forums', __( 'Discussion Forums', 'buddypress' ) );
+		parent::start(
+			'forums',
+			__( 'Discussion Forums', 'buddypress' ),
+			BP_PLUGIN_DIR
+		);
 	}
 
 	/**
@@ -40,19 +44,20 @@ class BP_Forums_Component extends BP_Component {
 		if ( !defined( 'BP_FORUMS_SLUG' ) )
 			define( 'BP_FORUMS_SLUG', $this->id );
 
-		// Do some slug checks
-		$this->slug      = BP_FORUMS_SLUG;
-		$this->root_slug = isset( $bp->pages->forums->slug ) ? $bp->pages->forums->slug : $this->slug;
-
 		// The location of the bbPress stand-alone config file
 		if ( isset( $bp->site_options['bb-config-location'] ) )
 			$this->bbconfig = $bp->site_options['bb-config-location'];
 
-		// The default text for the blogs directory search box
-		$this->default_search_string = __( 'Search Forums...', 'buddypress' );
+		// All globals for messaging component.
+		// Note that global_tables is included in this array.
+		$globals = array(
+			'slug'                  => BP_FORUMS_SLUG,
+			'root_slug'             => isset( $bp->pages->forums->slug ) ? $bp->pages->forums->slug : BP_FORUMS_SLUG,
+			'notification_callback' => 'messages_format_notifications',
+			'search_string'         => __( 'Search Forums...', 'buddypress' ),
+		);
 
-		// Register this in the active components array
-		$bp->active_components[$this->id] = $this->id;
+		parent::_setup_globals( $globals );
 	}
 
 	/**
@@ -60,19 +65,25 @@ class BP_Forums_Component extends BP_Component {
 	 */
 	function _includes() {
 
-		// Support for bbPress stand-alone
-		if ( !defined( 'BB_PATH' ) )
-			require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-bbpress-sa.php' );
+		// Files to include
+		$includes = array(
+			'actions',
+			'screens',
+			'classes',
+			'filters',
+			'template',
+			'functions',
+		);
 
-		// Admin
+		// Admin area
 		if ( is_admin() )
-			require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-admin.php'   );
+			$includes[] = 'admin';
 
-		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-actions.php'   );
-		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-screens.php'   );
-		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-filters.php'   );
-		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-template.php'  );
-		require ( BP_PLUGIN_DIR . '/bp-forums/bp-forums-functions.php' );
+		// bbPress stand-alone
+		if ( !defined( 'BB_PATH' ) )
+			$includes[] = 'bbpress-sa';
+
+		parent::_includes( $includes );
 	}
 
 	/**
@@ -84,13 +95,13 @@ class BP_Forums_Component extends BP_Component {
 		global $bp;
 
 		// Add 'Forums' to the main navigation
-		bp_core_new_nav_item( array(
+		$main_nav = array(
 			'name'                => __( 'Forums', 'buddypress' ),
 			'slug'                => $this->slug,
 			'position'            => 80,
 			'screen_function'     => 'bp_forums_screen_topics',
 			'default_subnav_slug' => 'topics',
-			'item_css_id'         => $this->id )
+			'item_css_id'         => $this->id
 		);
 
 		// Stop if there is no user displayed or logged in
@@ -112,7 +123,7 @@ class BP_Forums_Component extends BP_Component {
 		$forums_link = trailingslashit( $user_domain . $this->slug );
 
 		// Additional menu if friends is active
-		bp_core_new_subnav_item( array(
+		$sub_nav[] = array(
 			'name'            => __( 'Topics Started', 'buddypress' ),
 			'slug'            => 'topics',
 			'parent_url'      => $forums_link,
@@ -120,10 +131,10 @@ class BP_Forums_Component extends BP_Component {
 			'screen_function' => 'bp_forums_screen_topics',
 			'position'        => 20,
 			'item_css_id'     => 'forums-friends'
-		) );
+		);
 
 		// Additional menu if friends is active
-		bp_core_new_subnav_item( array(
+		$sub_nav[] = array(
 			'name'            => __( 'Replies', 'buddypress' ),
 			'slug'            => 'replies',
 			'parent_url'      => $forums_link,
@@ -131,10 +142,10 @@ class BP_Forums_Component extends BP_Component {
 			'screen_function' => 'bp_forums_screen_topics',
 			'position'        => 40,
 			'item_css_id'     => 'forums-friends'
-		) );
+		);
 
 		// Favorite forums items
-		bp_core_new_subnav_item( array(
+		$sub_nav[] = array(
 			'name'            => __( 'Favorite Topics', 'buddypress' ),
 			'slug'            => 'favorites',
 			'parent_url'      => $forums_link,
@@ -142,7 +153,18 @@ class BP_Forums_Component extends BP_Component {
 			'screen_function' => 'bp_forums_screen_favorites',
 			'position'        => 60,
 			'item_css_id'     => 'forums-favs'
-		) );
+		);
+
+		parent::_setup_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Sets up the title for pages and <title>
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_title() {
+		global $bp;
 
 		// Adjust title based on view
 		if ( bp_is_forums_component() ) {
@@ -156,6 +178,8 @@ class BP_Forums_Component extends BP_Component {
 				$bp->bp_options_title  = $bp->displayed_user->fullname;
 			}
 		}
+
+		parent::_setup_title();
 	}
 }
 // Create the forums component

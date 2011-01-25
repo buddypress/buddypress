@@ -106,7 +106,7 @@ function bp_settings_screen_general_settings() {
 	}
 
 	// Load the template
-	bp_core_load_template( apply_filters( 'bp_users_template_settings', 'members/single/settings/general' ) );
+	bp_core_load_template( apply_filters( 'bp_members_template_settings', 'members/single/settings/general' ) );
 }
 
 /** Notifications *************************************************************/

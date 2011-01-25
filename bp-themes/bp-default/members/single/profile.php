@@ -35,7 +35,7 @@
 			locate_template( array( 'members/single/profile/change-avatar.php' ), true );
 
 		// Display XProfile
-		elseif ( bp_is_active( 'profile' ) )
+		elseif ( bp_is_active( 'xprofile' ) )
 			locate_template( array( 'members/single/profile/profile-loop.php' ), true );
 
 		// Display WordPress profile (fallback)

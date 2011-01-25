@@ -17,7 +17,11 @@ class BP_Blogs_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_Blogs_Component() {
-		parent::start( 'blogs', __( 'Blogs Streams', 'buddypress' ) );
+		parent::start(
+			'blogs',
+			__( 'Blogs Streams', 'buddypress' ),
+			BP_PLUGIN_DIR
+		);
 	}
 
 	/**
@@ -35,38 +39,48 @@ class BP_Blogs_Component extends BP_Component {
 		if ( !defined( 'BP_BLOGS_SLUG' ) )
 			define ( 'BP_BLOGS_SLUG', $this->id );
 
-		// Do some slug checks
-		$this->slug      = BP_BLOGS_SLUG;
-		$this->root_slug = isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : $this->slug;
+		// Global tables for messaging component
+		$global_tables = array(
+			'table_name'          => $bp->table_prefix . 'bp_user_blogs',
+			'table_name_blogmeta' => $bp->table_prefix . 'bp_user_blogs_blogmeta',
+		);
 
-		// Tables
-		$this->table_name          = $bp->table_prefix . 'bp_user_blogs';
-		$this->table_name_blogmeta = $bp->table_prefix . 'bp_user_blogs_blogmeta';
+		// All globals for messaging component.
+		// Note that global_tables is included in this array.
+		$globals = array(
+			'path'                  => BP_PLUGIN_DIR,
+			'slug'                  => BP_BLOGS_SLUG,
+			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : BP_BLOGS_SLUG,
+			'notification_callback' => 'bp_blogs_format_notifications',
+			'search_string'         => __( 'Search Blogs...', 'buddypress' ),
+			'autocomplete_all'      => defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' ),
+			'global_tables'         => $global_tables,
+		);
 
-		// Notifications
-		$this->notification_callback = 'bp_blogs_format_notifications';
-
-		// Register this in the active components array
-		$bp->active_components[$this->id] = $this->id;
-
-		// The default text for the blogs directory search box
-		$bp->default_search_strings[$this->id] = __( 'Search Blogs...', 'buddypress' );
+		// Setup the globals
+		parent::_setup_globals( $globals );
 	}
 
 	/**
 	 * Include files
 	 */
 	function _includes() {
-		require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-cache.php'        );
-		require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-classes.php'      );
-		require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-screens.php'      );
-		require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-actions.php'      );
-		require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-activity.php'     );
-		require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-template.php'     );
-		require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-functions.php'    );
+		// Files to include
+		$includes = array(
+			'cache',
+			'actions',
+			'screens',
+			'classes',
+			'template',
+			'activity',
+			'functions',
+		);
 
 		if ( is_multisite() )
-			require_once( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-widgets.php' );
+			$includes[] = 'widgets';
+
+		// Include the files
+		parent::_includes( $includes );
 	}
 
 	/**
@@ -86,17 +100,29 @@ class BP_Blogs_Component extends BP_Component {
 			return false;
 
 		// Add 'Blogs' to the main navigation
-		bp_core_new_nav_item( array(
+		$main_nav =  array(
 			'name'                => sprintf( __( 'Blogs <span>(%d)</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ),
 			'slug'                => $this->slug,
 			'position'            => 30,
 			'screen_function'     => 'bp_blogs_screen_my_blogs',
 			'default_subnav_slug' => 'my-blogs',
 			'item_css_id'         => $this->id
-		) );
+		);
+
+		// Setup navigation
+		parent::_setup_nav( $main_nav, $sub_nav );
+	}
+	
+	/**
+	 * Sets up the title for pages and <title>
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_title() {
+		global $bp;
 
 		// Set up the component options navigation for Blog
-		if ( $bp->blogs->slug == $bp->current_component ) {
+		if ( bp_is_blogs_component() ) {
 			if ( bp_is_my_profile() ) {
 				if ( function_exists('xprofile_setup_nav') ) {
 					$bp->bp_options_title = __( 'My Blogs', 'buddypress' );
@@ -112,6 +138,8 @@ class BP_Blogs_Component extends BP_Component {
 				$bp->bp_options_title = $bp->displayed_user->fullname;
 			}
 		}
+
+		parent::_setup_title();
 	}
 }
 // Create the blogs component

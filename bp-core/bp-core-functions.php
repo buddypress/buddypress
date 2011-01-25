@@ -248,7 +248,7 @@ function bp_core_setup_message() {
 	@setcookie( 'bp-message',      false, time() - 1000, COOKIEPATH );
 	@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
 }
-add_action( 'wp', 'bp_core_setup_message', 2 );
+add_action( 'bp_actions', 'bp_core_setup_message' );
 
 /**
  * Renders a feedback message (either error or success message) to the theme template.
@@ -316,7 +316,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		array( 1, __( 'second', 'buddypress' ), __( 'seconds', 'buddypress' ) )
 	);
 
-	if ( !is_numeric( $older_date ) ) {
+	if ( !empty( $older_date ) && !is_numeric( $older_date ) ) {
 		$time_chunks = explode( ':', str_replace( ' ', ':', $older_date ) );
 		$date_chunks = explode( '-', str_replace( ' ', '-', $older_date ) );
 		$older_date  = gmmktime( (int)$time_chunks[1], (int)$time_chunks[2], (int)$time_chunks[3], (int)$date_chunks[1], (int)$date_chunks[2], (int)$date_chunks[0] );

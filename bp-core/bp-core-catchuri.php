@@ -20,7 +20,7 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  *
  *	Example:
  *    - http://domain.com/members/andy/profile/edit/group/5/
- *    - $bp->current_component: string 'profile'
+ *    - $bp->current_component: string 'xprofile'
  *    - $bp->current_action: string 'edit'
  *    - $bp->action_variables: array ['group', 5]
  *
@@ -279,7 +279,7 @@ function bp_core_load_template( $templates ) {
 function bp_core_catch_profile_uri() {
 	global $bp;
 
-	if ( !bp_is_active( 'profile' ) )
+	if ( !bp_is_active( 'xprofile' ) )
 		bp_core_load_template( apply_filters( 'bp_core_template_display_profile', 'members/single/home' ) );
 }
 

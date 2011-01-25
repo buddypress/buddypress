@@ -56,13 +56,13 @@
 
 					<?php do_action( 'bp_notification_settings' ); ?>
 
-					<?php do_action( 'bp_users_notification_settings_before_submit' ); ?>
+					<?php do_action( 'bp_members_notification_settings_before_submit' ); ?>
 
 					<div class="submit">
 						<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ); ?>" id="submit" class="auto" />
 					</div>
 
-					<?php do_action( 'bp_users_notification_settings_after_submit' ); ?>
+					<?php do_action( 'bp_members_notification_settings_after_submit' ); ?>
 
 					<?php wp_nonce_field('bp_settings_notifications'); ?>
 

@@ -1,23 +1,45 @@
 <?php
 
 /**
- * BuddyPress User Loader
+ * BuddyPress Member Loader
  *
- * A users component to help contain all of the user specific slugs
+ * A members component to help contain all of the user specific slugs
  *
  * @package BuddyPress
  * @subpackage User Core
  */
 
-class BP_User_Component extends BP_Component {
+class BP_Members_Component extends BP_Component {
 
 	/**
-	 * Start the users component creation process
+	 * Start the members component creation process
 	 *
 	 * @since BuddyPress {unknown}
 	 */
-	function BP_User_Component() {
-		parent::start( 'members', __( 'Members', 'buddypress' ) );
+	function BP_Members_Component() {
+		parent::start(
+			'members',
+			__( 'Members', 'buddypress' ),
+			BP_PLUGIN_DIR
+		);
+	}
+
+	/**
+	 * Include files
+	 *
+	 * @global obj $bp
+	 */
+	function _includes() {
+		$includes = array(
+			'signup',
+			'actions',
+			'filters',
+			'screens',
+			'template',
+			'functions',
+			'notifications',
+		);
+		parent::_includes( $includes );
 	}
 
 	/**
@@ -37,29 +59,21 @@ class BP_User_Component extends BP_Component {
 			define( 'BP_MEMBERS_SLUG', $this->id );
 
 		// Do some slug checks
-		$this->slug      = BP_MEMBERS_SLUG;
-		$this->root_slug = isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : $this->slug;
+		$global_tables = array(
+			'table_name'      => $bp->table_prefix . 'bp_users',
+			'table_name_meta' => $bp->table_prefix . 'bp_members_meta',
+		);
 
-		// Tables
-		$this->table_name      = $bp->table_prefix . 'bp_users';
-		$this->table_name_meta = $bp->table_prefix . 'bp_users_meta';
+		$globals = array(
+			'slug'          => BP_MEMBERS_SLUG,
+			'root_slug'     => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : BP_MEMBERS_SLUG,
+			'search_string' => __( 'Search Members...', 'buddypress' ),
+			'global_tables' => $global_tables
+		);
 
-		// The default text for the members directory search box
-		$this->default_search_string = __( 'Search Members...', 'buddypress' );
+		parent::_setup_globals( $globals );
 
 		/** Logged in user ****************************************************/
-
-		// Logged in user is the 'current_user'
-		$current_user                      = wp_get_current_user();
-
-		// The user ID of the user who is currently logged in.
-		$bp->loggedin_user->id             = $current_user->ID;
-
-		// The domain for the user currently logged in. eg: http://domain.com/members/andy
-		$bp->loggedin_user->domain         = bp_core_get_user_domain( $bp->loggedin_user->id );
-
-		// The core userdata of the user who is currently logged in.
-		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( $bp->loggedin_user->id );
 
 		// Fetch the full name for the logged in user
 		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $bp->loggedin_user->id );
@@ -67,6 +81,12 @@ class BP_User_Component extends BP_Component {
 		// is_super_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop.
 		$bp->loggedin_user->is_super_admin = is_super_admin();
 		$bp->loggedin_user->is_site_admin  = $bp->loggedin_user->is_super_admin; // deprecated 1.2.6
+
+		// The domain for the user currently logged in. eg: http://domain.com/members/andy
+		$bp->loggedin_user->domain         = bp_core_get_user_domain( $bp->loggedin_user->id );
+
+		// The core userdata of the user who is currently logged in.
+		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( $bp->loggedin_user->id );
 
 		/**
 		 * Used to determine if user has admin rights on current content. If the
@@ -98,30 +118,10 @@ class BP_User_Component extends BP_Component {
 		// Fetch the full name displayed user
 		$bp->displayed_user->fullname = bp_core_get_user_displayname( $bp->displayed_user->id );
 
-		/** Active Component **************************************************/
-
-		// Users is active
-		$bp->active_components[$this->id] = $this->id;
-		
 		/** Default Profile Component *****************************************/
 		if ( !$bp->current_component && $bp->displayed_user->id )
 			$bp->current_component = $bp->default_component;
 
-	}
-
-	/**
-	 * Include files
-	 *
-	 * @global obj $bp
-	 */
-	function _includes() {
-		require_once( BP_PLUGIN_DIR . '/bp-users/bp-users-signup.php'        );
-		require_once( BP_PLUGIN_DIR . '/bp-users/bp-users-actions.php'       );
-		require_once( BP_PLUGIN_DIR . '/bp-users/bp-users-filters.php'       );
-		require_once( BP_PLUGIN_DIR . '/bp-users/bp-users-screens.php'       );
-		require_once( BP_PLUGIN_DIR . '/bp-users/bp-users-template.php'      );
-		require_once( BP_PLUGIN_DIR . '/bp-users/bp-users-functions.php'     );
-		require_once( BP_PLUGIN_DIR . '/bp-users/bp-users-notifications.php' );
 	}
 
 	/**
@@ -135,14 +135,14 @@ class BP_User_Component extends BP_Component {
 		return false;
 
 		// Add 'User' to the main navigation
-		bp_core_new_nav_item( array(
+		$main_nav = array(
 			'name'                => __( 'User', 'buddypress' ),
 			'slug'                => $this->slug,
 			'position'            => 10,
-			'screen_function'     => 'bp_users_screen_my_users',
+			'screen_function'     => 'bp_members_screen_my_users',
 			'default_subnav_slug' => 'just-me',
 			'item_css_id'         => $this->id
-		) );
+		);
 
 		// Stop if there is no user displayed or logged in
 		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
@@ -154,67 +154,67 @@ class BP_User_Component extends BP_Component {
 		$users_link    = $user_domain . $this->slug . '/';
 
 		// Add the subnav items to the users nav item if we are using a theme that supports this
-		bp_core_new_subnav_item( array(
+		$sub_nav[] = array(
 			'name'            => __( 'Personal', 'buddypress' ),
 			'slug'            => 'just-me',
 			'parent_url'      => $users_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_users_screen_my_users',
+			'screen_function' => 'bp_members_screen_my_users',
 			'position'        => 10
-		) );
+		);
 
 		// Additional menu if friends is active
 		if ( bp_is_active( 'friends' ) ) {
-			bp_core_new_subnav_item( array(
+			$sub_nav[] = array(
 				'name'            => __( 'Friends', 'buddypress' ),
 				'slug'            => BP_FRIENDS_SLUG,
 				'parent_url'      => $users_link,
 				'parent_slug'     => $this->slug,
-				'screen_function' => 'bp_users_screen_friends',
+				'screen_function' => 'bp_members_screen_friends',
 				'position'        => 20,
 				'item_css_id'     => 'users-friends'
-			) );
+			);
 		}
 
 		// Additional menu if groups is active
 		if ( bp_is_active( 'groups' ) ) {
-			bp_core_new_subnav_item( array(
+			$sub_nav[] = array(
 				'name'            => __( 'Groups', 'buddypress' ),
 				'slug'            => BP_GROUPS_SLUG,
 				'parent_url'      => $users_link,
 				'parent_slug'     => $this->slug,
-				'screen_function' => 'bp_users_screen_groups',
+				'screen_function' => 'bp_members_screen_groups',
 				'position'        => 30,
 				'item_css_id'     => 'users-groups'
-			) );
+			);
 		}
 
 		// Favorite users items
-		bp_core_new_subnav_item( array(
+		$sub_nav[] = array(
 			'name'            => __( 'Favorites', 'buddypress' ),
 			'slug'            => 'favorites',
 			'parent_url'      => $users_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_users_screen_favorites',
+			'screen_function' => 'bp_members_screen_favorites',
 			'position'        => 40,
 			'item_css_id'     => 'users-favs'
-		) );
+		);
 
 		// @ mentions
-		bp_core_new_subnav_item( array(
+		$sub_nav[] = array(
 			'name'            => sprintf( __( '@%s Mentions', 'buddypress' ), $user_login ),
 			'slug'            => 'mentions',
 			'parent_url'      => $users_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_users_screen_mentions',
+			'screen_function' => 'bp_members_screen_mentions',
 			'position'        => 50,
 			'item_css_id'     => 'users-mentions'
-		) );
+		);
 
 		// Adjust title based on view
 		if ( bp_is_users_component() ) {
 			if ( bp_is_my_profile() ) {
-				$bp->bp_options_title = __( 'My User', 'buddypress' );
+				$bp->bp_options_title = __( 'You', 'buddypress' );
 			} else {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 					'item_id' => $bp->displayed_user->id,
@@ -223,9 +223,11 @@ class BP_User_Component extends BP_Component {
 				$bp->bp_options_title  = $bp->displayed_user->fullname;
 			}
 		}
+
+		parent::_setup_nav( $main_nav, $sub_nav );
 	}
 }
 // Create the users component
-$bp->members = new BP_User_Component();
+$bp->members = new BP_Members_Component();
 
 ?>

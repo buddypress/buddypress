@@ -33,6 +33,11 @@ class BP_Component {
 	var $slug;
 
 	/**
+	 * @var string The path to the plugins files
+	 */
+	var $path;
+
+	/**
 	 * @var WP_Query The loop for this component
 	 */
 	var $query;
@@ -62,14 +67,18 @@ class BP_Component {
 	 * @uses bp_Component::_includes() Include the required files
 	 * @uses bp_Component::_setup_actions() Setup the hooks and actions
 	 */
-	function start( $id, $name ) {
+	function start( $id, $name, $path ) {
 		// Internal identifier of component
 		$this->id   = $id;
 
 		// Internal component name
 		$this->name = $name;
 
-		$this->_setup_actions ();
+		// Path for includes
+		$this->path = $path;
+
+		// Move on to the next step
+		$this->_setup_actions();
 	}
 
 	/**
@@ -89,8 +98,10 @@ class BP_Component {
 		/** Slugs *************************************************************/
 
 		$defaults = array(
-			'slug'      => '',
-			'root_slug' => ''
+			'slug'                  => '',
+			'root_slug'             => '',
+			'notification_callback' => '',
+			'global_tables'         => ''
 		);
 		$r = wp_parse_args( $args, $defaults );
 
@@ -100,16 +111,21 @@ class BP_Component {
 		// Slug used for root directory
 		$this->root_slug = apply_filters( 'bp_' . $this->id . '_root_slug', $r['root_slug'] );
 
+		// Notifications callback
+		$this->notification_callback = 'bp_' . $this->id . '_notification_callback';
+
+		// Setup global table names
+		if ( !empty( $r['global_tables'] ) )
+			foreach ( $r['global_tables'] as $global_name => $table_name )
+				$this->$global_name = $table_name;
+
 		/** BuddyPress ********************************************************/
 
-		// Avoid syntactical errors
-		$component_id = $this->id;
-
 		// Register this component in the active components array
-		$bp->active_components[$bp->$component_id->slug] = $this->id;
+		$bp->active_components[$this->slug] = $this->id;
 
-		// Notifications callback
-		$bp->$component_id->notification_callback = apply_filters( 'bp_' . $this->id . '_format_notifications', 'bp_' . $this->id . '_format_notifications' );
+		// Call action
+		do_action( 'bp_' . $this->id . '_setup_globals' );
 	}
 
 	/**
@@ -120,7 +136,28 @@ class BP_Component {
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_includes'
 	 */
-	function _includes() {
+	function _includes( $includes = '' ) {
+		if ( empty( $includes ) )
+			return;
+
+		// Loop through files to be included
+		foreach ( $includes as $file ) {
+
+			// Check path + file
+			if ( file_exists( $this->path . '/' . $file ) )
+				require_once( $this->path . '/' . $file );
+
+			// Check path + /bp-component/ + file
+			elseif ( file_exists( $this->path . '/bp-' . $this->id . '/' . $file ) )
+				require_once( $this->$path . '/bp-' . $this->id . '/' . $file );
+
+			// Check buddypress/bp-component/bp-component-$file.php
+			elseif ( file_exists( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php' ) )
+				require_once( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file . '.php' );
+
+		}
+
+		// Call action
 		do_action( 'bp_' . $this->id . '_includes' );
 	}
 
@@ -144,6 +181,9 @@ class BP_Component {
 		add_action( 'bp_setup_nav',                array ( $this, '_setup_nav'               ), 10 );
 
 		// Register post types
+		add_action( 'bp_setup_title',              array ( $this, '_setup_title'             ), 10 );
+
+		// Register post types
 		add_action( 'bp_register_post_types',      array ( $this, 'register_post_types'      ), 10 );
 
 		// Register taxonomies
@@ -157,6 +197,27 @@ class BP_Component {
 
 		// Additional actions can be attached here
 		do_action( 'bp_' . $this->id . '_setup_actions' );
+	}
+
+	/**
+	 * Setup the navigation
+	 *
+	 * @param arr $main_nav
+	 * @param arr $sub_nav
+	 */
+	function _setup_nav( $main_nav, $sub_nav ) {
+		bp_core_new_nav_item( $main_nav );
+
+		foreach( $sub_nav as $nav )
+			bp_core_new_subnav_item( $nav );
+
+		// Call action
+		do_action( 'bp_' . $this->id . '_setup_nav' );
+	}
+
+
+	function _setup_title( ) {
+		
 	}
 
 	/**
@@ -203,4 +264,6 @@ class BP_Component {
 		do_action( 'bp_' . $this->id . '_generate_rewrite_rules' );
 	}
 }
-endif; // bp_Component
+endif; // BP_Component
+
+?>

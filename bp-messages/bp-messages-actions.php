@@ -40,7 +40,7 @@ function messages_action_view_message() {
 	bp_core_new_subnav_item( array( 'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ), 'slug' => 'view', 'parent_url' => $bp->loggedin_user->domain . $bp->messages->slug . '/', 'parent_slug' => $bp->messages->slug, 'screen_function' => true, 'position' => 40, 'user_has_access' => bp_is_my_profile() ) );
 	bp_core_load_template( apply_filters( 'messages_template_view_message', 'members/single/home' ) );
 }
-add_action( 'wp', 'messages_action_view_message', 3 );
+add_action( 'bp_actions', 'messages_action_view_message' );
 
 function messages_action_delete_message() {
 	global $bp, $thread_id;
@@ -65,7 +65,7 @@ function messages_action_delete_message() {
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
 	}
 }
-add_action( 'wp', 'messages_action_delete_message', 3 );
+add_action( 'bp_actions', 'messages_action_delete_message' );
 
 function messages_action_bulk_delete() {
 	global $bp, $thread_ids;
@@ -89,6 +89,6 @@ function messages_action_bulk_delete() {
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
 	}
 }
-add_action( 'wp', 'messages_action_bulk_delete', 3 );
+add_action( 'bp_actions', 'messages_action_bulk_delete' );
 
 ?>

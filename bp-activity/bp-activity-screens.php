@@ -24,7 +24,7 @@ function bp_activity_screen_index() {
 		bp_core_load_template( apply_filters( 'bp_activity_screen_index', 'activity/index' ) );
 	}
 }
-add_action( 'wp', 'bp_activity_screen_index', 2 );
+add_action( 'bp_screens', 'bp_activity_screen_index' );
 
 function bp_activity_screen_my_activity() {
 	do_action( 'bp_activity_screen_my_activity' );
@@ -88,7 +88,7 @@ function bp_activity_screen_mentions() {
 function bp_activity_remove_screen_notifications() {
 	global $bp;
 
-	bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->activity->id, 'new_at_mention' );
+	bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->activity->id, 'new_at_mention' );
 }
 add_action( 'bp_activity_screen_my_activity',               'bp_activity_remove_screen_notifications' );
 add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_screen_notifications' );
@@ -160,7 +160,7 @@ function bp_activity_screen_single_activity_permalink() {
 
 	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );
 }
-add_action( 'wp', 'bp_activity_screen_single_activity_permalink', 3 );
+add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
 
 function bp_activity_screen_notification_settings() {
 	global $bp;

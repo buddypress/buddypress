@@ -129,24 +129,6 @@ function bp_core_get_displayed_userid( $user_login ) {
  *
  * @package BuddyPress Core
  * @param $username str Username to check.
- * @return false on no match
- * @return int the user ID of the matched user.
- */
-function bp_core_get_random_member() {
-	global $bp;
-
-	if ( isset( $_GET['random-member'] ) ) {
-		$user = bp_core_get_users( array( 'type' => 'random', 'per_page' => 1 ) );
-		bp_core_redirect( bp_core_get_user_domain( $user['users'][0]->id ) );
-	}
-}
-add_action( 'wp', 'bp_core_get_random_member' );
-
-/**
- * Returns the user_id for a user based on their username.
- *
- * @package BuddyPress Core
- * @param $username str Username to check.
  * @global $wpdb WordPress DB access object.
  * @return false on no match
  * @return int the user ID of the matched user.
@@ -241,7 +223,7 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 
 	// Check $username for empty spaces and default to nicename if found
 	if ( strstr( $username, ' ' ) )
-		$username = bp_users_get_user_nicename( $user_id );
+		$username = bp_members_get_user_nicename( $user_id );
 
 	// Add this to cache
 	if ( ( true == $update_cache ) && !empty( $username ) )
@@ -264,10 +246,10 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
  * @return false on no match
  * @return str the username of the matched user.
  */
-function bp_users_get_user_nicename( $user_id ) {
+function bp_members_get_user_nicename( $user_id ) {
 	global $bp;
 
-	if ( !$user_nicename = wp_cache_get( 'bp_users_user_nicename_' . $user_id, 'bp' ) ) {
+	if ( !$user_nicename = wp_cache_get( 'bp_members_user_nicename_' . $user_id, 'bp' ) ) {
 		$update_cache = true;
 
 		// User ID matches logged in user
@@ -302,9 +284,9 @@ function bp_users_get_user_nicename( $user_id ) {
 
 	// Add this to cache
 	if ( true == $update_cache && !empty( $user_nicename ) )
-		wp_cache_set( 'bp_users_user_nicename_' . $user_id, $user_nicename, 'bp' );
+		wp_cache_set( 'bp_members_user_nicename_' . $user_id, $user_nicename, 'bp' );
 
-	return apply_filters( 'bp_users_get_user_nicename', $user_nicename );
+	return apply_filters( 'bp_members_get_user_nicename', $user_nicename );
 }
 
 /**
@@ -398,7 +380,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 		return false;
 
 	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
-		if ( bp_is_active( 'profile' ) ) {
+		if ( bp_is_active( 'xprofile' ) ) {
 			$fullname = xprofile_get_field_data( stripslashes( $bp->site_options['bp-xprofile-fullname-field-name'] ), $user_id );
 
 			if ( empty($fullname) ) {
@@ -639,7 +621,7 @@ add_action( 'wpmu_delete_user',  'bp_core_remove_data' );
 add_action( 'delete_user',       'bp_core_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_core_remove_data' );
 
-function bp_users_can_edit_settings() {
+function bp_members_can_edit_settings() {
 	if ( bp_is_my_profile() )
 		return true;
 

@@ -1,6 +1,6 @@
 <?php
 
-function bp_users_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false ) {
+function bp_members_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false ) {
 	global $bp;
 
 	if ( empty( $date_notified ) )
@@ -23,18 +23,18 @@ function bp_users_add_notification( $item_id, $user_id, $component_name, $compon
 	return true;
 }
 
-function bp_users_delete_notification( $id ) {
-	if ( !bp_users_check_notification_access( $bp->loggedin_user->id, $id ) )
+function bp_members_delete_notification( $id ) {
+	if ( !bp_members_check_notification_access( $bp->loggedin_user->id, $id ) )
 		return false;
 
 	return BP_Core_Notification::delete( $id );
 }
 
-function bp_users_get_notification( $id ) {
+function bp_members_get_notification( $id ) {
 	return new BP_Core_Notification( $id );
 }
 
-function bp_users_get_notifications_for_user( $user_id ) {
+function bp_members_get_notifications_for_user( $user_id ) {
 	global $bp;
 
 	$notifications = BP_Core_Notification::get_all_for_user( $user_id );
@@ -71,23 +71,23 @@ function bp_users_get_notifications_for_user( $user_id ) {
 	return isset( $renderable ) ? $renderable : false;
 }
 
-function bp_users_delete_notifications_by_type( $user_id, $component_name, $component_action ) {
+function bp_members_delete_notifications_by_type( $user_id, $component_name, $component_action ) {
 	return BP_Core_Notification::delete_for_user_by_type( $user_id, $component_name, $component_action );
 }
 
-function bp_users_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
+function bp_members_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 	return BP_Core_Notification::delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
-function bp_users_delete_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false ) {
+function bp_members_delete_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false ) {
 	return BP_Core_Notification::delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
-function bp_users_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
+function bp_members_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
 	return BP_Core_Notification::delete_from_user_by_type( $user_id, $component_name, $component_action );
 }
 
-function bp_users_check_notification_access( $user_id, $notification_id ) {
+function bp_members_check_notification_access( $user_id, $notification_id ) {
 	if ( !BP_Core_Notification::check_access( $user_id, $notification_id ) )
 		return false;
 

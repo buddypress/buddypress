@@ -7,8 +7,6 @@
  */
 
 function bp_blogs_screen_my_blogs() {
-	global $bp;
-
 	if ( !is_multisite() )
 		return false;
 
@@ -18,9 +16,7 @@ function bp_blogs_screen_my_blogs() {
 }
 
 function bp_blogs_screen_create_a_blog() {
-	global $bp;
-
-	if ( !is_multisite() || $bp->current_component != $bp->blogs->slug || 'create' != $bp->current_action )
+	if ( !is_multisite() ||  !bp_is_blogs_component() || !bp_is_current_action( 'create' ) )
 		return false;
 
 	if ( !is_user_logged_in() || !bp_blog_signup_enabled() )
@@ -30,12 +26,12 @@ function bp_blogs_screen_create_a_blog() {
 
 	bp_core_load_template( apply_filters( 'bp_blogs_template_create_a_blog', 'blogs/create' ) );
 }
-add_action( 'wp', 'bp_blogs_screen_create_a_blog', 3 );
+add_action( 'bp_screens', 'bp_blogs_screen_create_a_blog', 3 );
 
 function bp_blogs_screen_index() {
 	global $bp;
 
-	if ( is_multisite() && $bp->current_component == $bp->blogs->slug && empty( $bp->current_action ) ) {
+	if ( is_multisite() && bp_is_blogs_component() && !bp_current_action() ) {
 		$bp->is_directory = true;
 
 		do_action( 'bp_blogs_screen_index' );
@@ -43,6 +39,6 @@ function bp_blogs_screen_index() {
 		bp_core_load_template( apply_filters( 'bp_blogs_screen_index', 'blogs/index' ) );
 	}
 }
-add_action( 'wp', 'bp_blogs_screen_index', 2 );
+add_action( 'bp_screens', 'bp_blogs_screen_index', 2 );
 
 ?>

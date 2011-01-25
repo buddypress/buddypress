@@ -279,7 +279,7 @@ function bp_styles() {
  * @return bool Filterable result
  */
 function bp_search_form_enabled() {
-	if ( bp_is_active( 'profile' )
+	if ( bp_is_active( 'xprofile' )
 		 || bp_is_active( 'groups' )
 		 || ( bp_is_active( 'blogs' ) && is_multisite() )
 		 || ( bp_is_active( 'forums' ) && !bp_forum_directory_is_disabled() )
@@ -310,7 +310,7 @@ function bp_search_form_type_select() {
 
 	$options = array();
 
-	if ( bp_is_active( 'profile' ) )
+	if ( bp_is_active( 'xprofile' ) )
 		$options['members'] = __( 'Members', 'buddypress' );
 
 	if ( bp_is_active( 'groups' ) )
@@ -823,7 +823,7 @@ function bp_is_active( $component ) {
 }
 
 function bp_is_profile_component() {
-	if ( bp_is_current_component( 'profile' ) )
+	if ( bp_is_current_component( 'xprofile' ) )
 		return true;
 
 	return false;
@@ -933,7 +933,7 @@ function bp_is_user_friends_activity() {
 function bp_is_user_profile() {
 	global $bp;
 
-	if ( bp_is_current_component( 'profile' ) )
+	if ( bp_is_current_component( 'xprofile' ) )
 		return true;
 
 	return false;
@@ -942,7 +942,7 @@ function bp_is_user_profile() {
 function bp_is_user_profile_edit() {
 	global $bp;
 
-	if ( bp_is_current_component( 'profile' ) && bp_is_current_action( 'edit' ) )
+	if ( bp_is_current_component( 'xprofile' ) && bp_is_current_action( 'edit' ) )
 		return true;
 
 	return false;
@@ -951,7 +951,7 @@ function bp_is_user_profile_edit() {
 function bp_is_user_change_avatar() {
 	global $bp;
 
-	if ( bp_is_current_component( 'profile' ) && bp_is_current_action( 'change-avatar' ) )
+	if ( bp_is_current_component( 'xprofile' ) && bp_is_current_action( 'change-avatar' ) )
 		return true;
 
 	return false;
@@ -1239,7 +1239,7 @@ function bp_the_body_class() {
 
 		if ( !bp_is_blog_page() ) :
 			if ( bp_is_user_profile() )
-				$bp_classes[] = 'profile';
+				$bp_classes[] = 'xprofile';
 
 			if ( bp_is_activity_component() )
 				$bp_classes[] = 'activity';

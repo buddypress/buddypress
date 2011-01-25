@@ -8,15 +8,28 @@
  * functions, then pass on the user to a template file.
  */
 
+function groups_directory_groups_setup() {
+	global $bp;
+
+	if ( bp_is_groups_component() && !bp_current_action() && !bp_current_item() ) {
+		$bp->is_directory = true;
+
+		do_action( 'groups_directory_groups_setup' );
+
+		bp_core_load_template( apply_filters( 'groups_template_directory_groups', 'groups/index' ) );
+	}
+}
+add_action( 'bp_screens', 'groups_directory_groups_setup', 2 );
+
 function groups_screen_my_groups() {
 	global $bp;
 
 	// Delete group request notifications for the user
 	if ( isset( $_GET['n'] ) ) {
-		bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_accepted' );
-		bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_rejected' );
-		bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_mod'      );
-		bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_admin'    );
+		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_accepted' );
+		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_rejected' );
+		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_mod'      );
+		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_admin'    );
 	}
 
 	do_action( 'groups_screen_my_groups' );
@@ -67,7 +80,7 @@ function groups_screen_group_invites() {
 	}
 
 	// Remove notifications
-	bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'group_invite' );
+	bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'group_invite' );
 
 	do_action( 'groups_screen_group_invites', $group_id );
 
@@ -79,10 +92,10 @@ function groups_screen_group_home() {
 
 	if ( bp_is_single_item() ) {
 		if ( isset( $_GET['n'] ) ) {
-			bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_accepted' );
-			bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_rejected' );
-			bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_mod'      );
-			bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_admin'    );
+			bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_accepted' );
+			bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_rejected' );
+			bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_mod'      );
+			bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_admin'    );
 		}
 
 		do_action( 'groups_screen_group_home' );
@@ -409,7 +422,7 @@ function groups_screen_group_activity_permalink() {
 
 	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 }
-add_action( 'wp', 'groups_screen_group_activity_permalink', 3 );
+add_action( 'bp_screens', 'groups_screen_group_activity_permalink' );
 
 function groups_screen_group_admin() {
 	global $bp;
@@ -453,7 +466,7 @@ function groups_screen_group_admin_edit_details() {
 		}
 	}
 }
-add_action( 'wp', 'groups_screen_group_admin_edit_details', 4 );
+add_action( 'bp_screens', 'groups_screen_group_admin_edit_details' );
 
 function groups_screen_group_admin_settings() {
 	global $bp;
@@ -489,7 +502,7 @@ function groups_screen_group_admin_settings() {
 		bp_core_load_template( apply_filters( 'groups_template_group_admin_settings', 'groups/single/home' ) );
 	}
 }
-add_action( 'wp', 'groups_screen_group_admin_settings', 4 );
+add_action( 'bp_screens', 'groups_screen_group_admin_settings' );
 
 function groups_screen_group_admin_avatar() {
 	global $bp;
@@ -547,7 +560,7 @@ function groups_screen_group_admin_avatar() {
 		bp_core_load_template( apply_filters( 'groups_template_group_admin_avatar', 'groups/single/home' ) );
 	}
 }
-add_action( 'wp', 'groups_screen_group_admin_avatar', 4 );
+add_action( 'bp_screens', 'groups_screen_group_admin_avatar' );
 
 function groups_screen_group_admin_manage_members() {
 	global $bp;
@@ -657,7 +670,7 @@ function groups_screen_group_admin_manage_members() {
 		bp_core_load_template( apply_filters( 'groups_template_group_admin_manage_members', 'groups/single/home' ) );
 	}
 }
-add_action( 'wp', 'groups_screen_group_admin_manage_members', 4 );
+add_action( 'bp_screens', 'groups_screen_group_admin_manage_members' );
 
 function groups_screen_group_admin_requests() {
 	global $bp;
@@ -672,7 +685,7 @@ function groups_screen_group_admin_requests() {
 			return false;
 
 		// Remove any screen notifications
-		bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'new_membership_request' );
+		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'new_membership_request' );
 
 		$request_action = $bp->action_variables[1];
 		$membership_id = $bp->action_variables[2];
@@ -715,7 +728,7 @@ function groups_screen_group_admin_requests() {
 		bp_core_load_template( apply_filters( 'groups_template_group_admin_requests', 'groups/single/home' ) );
 	}
 }
-add_action( 'wp', 'groups_screen_group_admin_requests', 4 );
+add_action( 'bp_screens', 'groups_screen_group_admin_requests' );
 
 function groups_screen_group_admin_delete_group() {
 	global $bp;
@@ -751,7 +764,7 @@ function groups_screen_group_admin_delete_group() {
 		bp_core_load_template( apply_filters( 'groups_template_group_admin_delete_group', 'groups/single/home' ) );
 	}
 }
-add_action( 'wp', 'groups_screen_group_admin_delete_group', 4 );
+add_action( 'bp_screens', 'groups_screen_group_admin_delete_group' );
 
 function groups_screen_notification_settings() {
 	global $bp;

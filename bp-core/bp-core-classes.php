@@ -55,7 +55,7 @@ class BP_Core_User {
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
 	function populate() {
-		if ( bp_is_active( 'profile' ) )
+		if ( bp_is_active( 'xprofile' ) )
 			$this->profile_data = $this->get_profile_data();
 
 		if ( $this->profile_data ) {
@@ -123,7 +123,7 @@ class BP_Core_User {
 
 		$sql['from'] = "FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN " . CUSTOM_USER_META_TABLE . " um ON um.user_id = u.ID";
 
-		if ( $search_terms && bp_is_active( 'profile' ) || 'alphabetical' == $type )
+		if ( $search_terms && bp_is_active( 'xprofile' ) || 'alphabetical' == $type )
 			$sql['join_profiledata'] = "LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id";
 
 		$sql['where'] = 'WHERE ' . bp_core_get_status_sql( 'u.' );
@@ -166,7 +166,7 @@ class BP_Core_User {
 
 		}
 
-		if ( $search_terms && bp_is_active( 'profile' ) ) {
+		if ( $search_terms && bp_is_active( 'xprofile' ) ) {
 			$search_terms             = like_escape( $wpdb->escape( $search_terms ) );
 			$sql['where_searchterms'] = "AND pd.value LIKE '%%$search_terms%%'";
 		}
@@ -348,7 +348,7 @@ class BP_Core_User {
 			return $paged_users;
 
 		// Fetch the user's full name
-		if ( bp_is_active( 'profile' ) && 'alphabetical' != $type ) {
+		if ( bp_is_active( 'xprofile' ) && 'alphabetical' != $type ) {
 			// Ensure xprofile globals are set
 			if ( !defined( 'BP_XPROFILE_FULLNAME_FIELD_NAME' ) )
 				xprofile_setup_globals();

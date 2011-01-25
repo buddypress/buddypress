@@ -62,9 +62,9 @@ function bp_core_new_nav_item( $args = '' ) {
 
 	if ( bp_is_current_component( $slug ) && !bp_current_action() ) {
 		if ( !is_object( $screen_function[0] ) )
-			add_action( 'wp', $screen_function, 3 );
+			add_action( 'bp_screens', $screen_function );
 		else
-			add_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );
+			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
 
 		if ( !empty( $default_subnav_slug ) )
 			$bp->current_action = $default_subnav_slug;
@@ -91,18 +91,18 @@ function bp_core_new_nav_default( $args = '' ) {
 
 	if ( $function = $bp->bp_nav[$parent_slug]['screen_function'] ) {
 		if ( !is_object( $function[0] ) )
-			remove_action( 'wp', $function, 3 );
+			remove_action( 'bp_screens', $function, 3 );
 		else
-			remove_action( 'wp', array( &$function[0], $function[1] ), 3 );
+			remove_action( 'bp_screens', array( &$function[0], $function[1] ), 3 );
 	}
 
 	$bp->bp_nav[$parent_slug]['screen_function'] = &$screen_function;
 
 	if ( $bp->current_component == $parent_slug && !$bp->current_action ) {
 		if ( !is_object( $screen_function[0] ) )
-			add_action( 'wp', $screen_function, 3 );
+			add_action( 'bp_screens', $screen_function );
 		else
-			add_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );
+			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
 
 		if ( $subnav_slug )
 			$bp->current_action = $subnav_slug;
@@ -188,9 +188,9 @@ function bp_core_new_subnav_item( $args = '' ) {
 
 	if ( ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) && $user_has_access ) {
 		if ( !is_object( $screen_function[0] ) )
-			add_action( 'wp', $screen_function, 3 );
+			add_action( 'bp_screens', $screen_function );
 		else
-			add_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );
+			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
 	}
 }
 
@@ -243,9 +243,9 @@ function bp_core_remove_nav_item( $parent_id ) {
 
 	if ( $function = $bp->bp_nav[$parent_id]['screen_function'] ) {
 		if ( !is_object( $function[0] ) ) {
-			remove_action( 'wp', $function, 3 );
+			remove_action( 'bp_screens', $function );
 		} else {
-			remove_action( 'wp', array( &$function[0], $function[1] ), 3 );
+			remove_action( 'bp_screens', array( &$function[0], $function[1] ) );
 		}
 	}
 
@@ -266,9 +266,9 @@ function bp_core_remove_subnav_item( $parent_id, $slug ) {
 
 	if ( $screen_function ) {
 		if ( !is_object( $screen_function[0] ) )
-			remove_action( 'wp', $screen_function, 3 );
+			remove_action( 'bp_screens', $screen_function );
 		else
-			remove_action( 'wp', array( &$screen_function[0], $screen_function[1] ), 3 );
+			remove_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
 	}
 
 	unset( $bp->bp_options_nav[$parent_id][$slug] );
@@ -483,7 +483,7 @@ function bp_adminbar_notifications_menu() {
 	echo '<li id="bp-adminbar-notifications-menu"><a href="' . $bp->loggedin_user->domain . '">';
 	_e( 'Notifications', 'buddypress' );
 
-	if ( $notifications = bp_users_get_notifications_for_user( $bp->loggedin_user->id ) ) { ?>
+	if ( $notifications = bp_members_get_notifications_for_user( $bp->loggedin_user->id ) ) { ?>
 		<span><?php echo count( $notifications ) ?></span>
 	<?php
 	}

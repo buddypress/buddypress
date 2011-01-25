@@ -84,7 +84,7 @@ function messages_new_message( $args = '' ) {
 
 		// Send screen notifications to the recipients
 		foreach ( (array)$message->recipients as $recipient )
-			bp_users_add_notification( $message->id, $recipient->user_id, 'messages', 'new_message' );
+			bp_members_add_notification( $message->id, $recipient->user_id, 'messages', 'new_message' );
 
 		// Send email notifications to the recipients
 		messages_notification_new_message( array( 'message_id' => $message->id, 'sender_id' => $message->sender_id, 'subject' => $message->subject, 'content' => $message->message, 'recipients' => $message->recipients, 'thread_id' => $message->thread_id) );
@@ -190,6 +190,26 @@ function messages_get_message_sender( $message_id ) {
 
 function messages_is_valid_thread( $thread_id ) {
 	return BP_Messages_Thread::is_valid( $thread_id );
+}
+
+/*******************************************************************************
+ * These functions handle the recording, deleting and formatting of activity and
+ * notifications for the user and for this specific component.
+ */
+
+function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
+	global $bp;
+
+	if ( 'new_message' == $action ) {
+		if ( (int)$total_items > 1 )
+			return apply_filters( 'bp_messages_multiple_new_message_notification', '<a href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/inbox" title="' . __( 'Inbox', 'buddypress' ) . '">' . sprintf( __('You have %d new messages', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );
+		else
+			return apply_filters( 'bp_messages_single_new_message_notification', '<a href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/inbox" title="' . __( 'Inbox', 'buddypress' ) . '">' . sprintf( __('You have %d new message', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );
+	}
+
+	do_action( 'messages_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
+
+	return false;
 }
 
 ?>

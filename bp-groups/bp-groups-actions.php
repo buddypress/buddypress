@@ -181,7 +181,7 @@ function groups_action_create_group() {
 
  	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
-add_action( 'wp', 'groups_action_create_group', 3 );
+add_action( 'bp_actions', 'groups_action_create_group' );
 
 function groups_action_join_group() {
 	global $bp;
@@ -215,7 +215,7 @@ function groups_action_join_group() {
 
 	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 }
-add_action( 'wp', 'groups_action_join_group', 3 );
+add_action( 'bp_actions', 'groups_action_join_group' );
 
 
 function groups_action_leave_group() {
@@ -240,7 +240,7 @@ function groups_action_leave_group() {
 
 	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 }
-add_action( 'wp', 'groups_action_leave_group', 3 );
+add_action( 'bp_actions', 'groups_action_leave_group' );
 
 
 function groups_action_sort_creation_steps() {
@@ -276,7 +276,7 @@ function groups_action_redirect_to_random_group() {
 		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug . '/' );
 	}
 }
-add_action( 'wp', 'groups_action_redirect_to_random_group', 6 );
+add_action( 'bp_actions', 'groups_action_redirect_to_random_group' );
 
 function groups_action_group_feed() {
 	global $bp, $wp_query;
@@ -295,6 +295,6 @@ function groups_action_group_feed() {
 	include_once( 'bp-activity/feeds/bp-activity-group-feed.php' );
 	die;
 }
-add_action( 'wp', 'groups_action_group_feed', 3 );
+add_action( 'bp_actions', 'groups_action_group_feed' );
 
 ?>

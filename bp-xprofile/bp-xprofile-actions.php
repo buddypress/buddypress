@@ -37,6 +37,6 @@ function xprofile_action_delete_avatar() {
 
 	bp_core_redirect( wp_get_referer() );
 }
-add_action( 'wp', 'xprofile_action_delete_avatar', 3 );
+add_action( 'bp_actions', 'xprofile_action_delete_avatar' );
 
 ?>

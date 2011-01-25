@@ -8,6 +8,13 @@
  * @deprecated Since 1.3
  */
 
+/** Loader ********************************************************************/
+
+function bp_setup_root_components() {
+	do_action( 'bp_setup_root_components' );
+}
+add_action( 'bp_init', 'bp_setup_root_components', 6 );
+
 /** WP Abstraction ************************************************************/
 
 /**
@@ -34,78 +41,78 @@ function bp_is_activity_permalink() {
 /** Sign up *******************************************************************/
 
 function bp_core_screen_signup() {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_screen_signup' );
-	bp_users_screen_signup();
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_screen_signup' );
+	bp_members_screen_signup();
 }
 
 function bp_core_screen_activation() {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_screen_activation' );
-	bp_users_screen_activation();
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_screen_activation' );
+	bp_members_screen_activation();
 }
 
 function bp_core_flush_illegal_names() {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_flush_illegal_names' );
-	bp_users_flush_illegal_names();
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_flush_illegal_names' );
+	bp_members_flush_illegal_names();
 }
 
 function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_illegal_names' );
-	bp_users_illegal_names( $value, $oldvalue );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_illegal_names' );
+	bp_members_illegal_names( $value, $oldvalue );
 }
 
 function bp_core_validate_user_signup( $user_name, $user_email ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_validate_user_signup' );
-	bp_users_validate_user_signup( $user_name, $user_email );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_validate_user_signup' );
+	bp_members_validate_user_signup( $user_name, $user_email );
 }
 
 function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_validate_blog_signup' );
-	bp_users_validate_blog_signup( $blog_url, $blog_title );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_validate_blog_signup' );
+	bp_members_validate_blog_signup( $blog_url, $blog_title );
 }
 
 function bp_core_signup_user( $user_login, $user_password, $user_email, $usermeta ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_user' );
-	bp_users_signup_user( $user_login, $user_password, $user_email, $usermeta );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_signup_user' );
+	bp_members_signup_user( $user_login, $user_password, $user_email, $usermeta );
 }
 
 function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_blog' );
-	bp_users_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_signup_blog' );
+	bp_members_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta );
 }
 
 function bp_core_activate_signup( $key ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_activate_signup' );
-	bp_users_activate_signup( $key );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_activate_signup' );
+	bp_members_activate_signup( $key );
 }
 
 function bp_core_new_user_activity( $user ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_new_user_activity' );
-	bp_users_new_user_activity( $user );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_new_user_activity' );
+	bp_members_new_user_activity( $user );
 }
 
 function bp_core_map_user_registration( $user_id ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_map_user_registration' );
-	bp_users_map_user_registration( $user_id );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_map_user_registration' );
+	bp_members_map_user_registration( $user_id );
 }
 
 function bp_core_signup_avatar_upload_dir() {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_avatar_upload_dir' );
-	bp_users_signup_avatar_upload_dir();
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_signup_avatar_upload_dir' );
+	bp_members_signup_avatar_upload_dir();
 }
 
 function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_send_validation_email' );
-	bp_users_signup_send_validation_email( $user_id, $user_email, $key );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_signup_send_validation_email' );
+	bp_members_signup_send_validation_email( $user_id, $user_email, $key );
 }
 
 function bp_core_signup_disable_inactive( $auth_obj, $username ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_signup_disable_inactive' );
-	bp_users_signup_disable_inactive( $auth_obj, $username );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_signup_disable_inactive' );
+	bp_members_signup_disable_inactive( $auth_obj, $username );
 }
 
 function bp_core_wpsignup_redirect() {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_wpsignup_redirect' );
-	bp_users_wpsignup_redirect();
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_wpsignup_redirect' );
+	bp_members_wpsignup_redirect();
 }
 
 /** Settings ******************************************************************/
@@ -116,8 +123,8 @@ function bp_core_add_settings_nav() {
 }
 
 function bp_core_can_edit_settings() {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_can_edit_settings' );
-	bp_users_can_edit_settings();
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_can_edit_settings' );
+	bp_members_can_edit_settings();
 }
 
 function bp_core_screen_general_settings() {
@@ -162,48 +169,48 @@ function bp_core_screen_delete_account_content() {
 /** Notifications *************************************************************/
 
 function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = false, $date_notified = false ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_add_notification' );
-	bp_users_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id, $date_notified );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_add_notification' );
+	bp_members_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id, $date_notified );
 }
 
 function bp_core_delete_notification( $id ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_notification' );
-	bp_users_delete_notification( $id );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_delete_notification' );
+	bp_members_delete_notification( $id );
 }
 
 function bp_core_get_notification( $id ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_get_notification' );
-	bp_users_get_notification( $id );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_get_notification' );
+	bp_members_get_notification( $id );
 }
 
 function bp_core_get_notifications_for_user( $user_id ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_get_notifications_for_user' );
-	bp_users_get_notifications_for_user( $user_id );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_get_notifications_for_user' );
+	bp_members_get_notifications_for_user( $user_id );
 }
 
 function bp_core_delete_notifications_by_type( $user_id, $component_name, $component_action ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_notifications_by_type' );
-	bp_users_delete_notifications_by_type( $user_id, $component_name, $component_action );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_delete_notifications_by_type' );
+	bp_members_delete_notifications_by_type( $user_id, $component_name, $component_action );
 }
 
 function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_notifications_by_item_id' );
-	bp_users_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_delete_notifications_by_item_id' );
+	bp_members_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
 function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_all_notifications_by_type' );
-	bp_users_delete_all_notifications_by_type( $item_id, $component_name, $component_action, $secondary_item_id );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_delete_all_notifications_by_type' );
+	bp_members_delete_all_notifications_by_type( $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
 function bp_core_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_delete_notifications_from_user' );
-	bp_users_delete_notifications_from_user( $user_id, $component_name, $component_action );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_delete_notifications_from_user' );
+	bp_members_delete_notifications_from_user( $user_id, $component_name, $component_action );
 }
 
 function bp_core_check_notification_access( $user_id, $notification_id ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_users_check_notification_access' );
-	bp_users_check_notification_access( $user_id, $notification_id );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_members_check_notification_access' );
+	bp_members_check_notification_access( $user_id, $notification_id );
 }
 
 /** Core **********************************************************************/

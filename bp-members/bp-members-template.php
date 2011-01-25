@@ -408,7 +408,7 @@ function bp_member_profile_data( $args = '' ) {
 	function bp_get_member_profile_data( $args = '' ) {
 		global $members_template;
 
-		if ( !bp_is_active( 'profile' ) )
+		if ( !bp_is_active( 'xprofile' ) )
 			return false;
 
 		$defaults = array(
@@ -926,7 +926,7 @@ function bp_signup_allowed() {
  *
  * @since 1.3
  */
-function bp_users_activity_feed() {
+function bp_members_activity_feed() {
 	if ( !bp_is_active( 'activity' ) || !bp_is_user() )
 		return; ?>
 
@@ -934,6 +934,6 @@ function bp_users_activity_feed() {
 
 <?php
 }
-add_action( 'bp_head', 'bp_users_activity_feed' );
+add_action( 'bp_head', 'bp_members_activity_feed' );
 
 ?>

@@ -25,7 +25,7 @@
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_users_action_set_spammer_status() {
+function bp_members_action_set_spammer_status() {
 	global $bp, $wpdb, $wp_version;
 
 	if ( !is_super_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
@@ -79,12 +79,12 @@ function bp_users_action_set_spammer_status() {
 		if ( $is_spam )
 			do_action( 'bp_make_spam_user', $bp->displayed_user->id );
 
-		do_action( 'bp_users_action_set_spammer_status', $bp->displayed_user->id, $is_spam );
+		do_action( 'bp_members_action_set_spammer_status', $bp->displayed_user->id, $is_spam );
 
 		bp_core_redirect( wp_get_referer() );
 	}
 }
-add_action( 'wp', 'bp_users_action_set_spammer_status', 3 );
+add_action( 'bp_actions', 'bp_members_action_set_spammer_status' );
 
 /**
  * Allows a site admin to delete a user from the adminbar menu.
@@ -92,7 +92,7 @@ add_action( 'wp', 'bp_users_action_set_spammer_status', 3 );
  * @package BuddyPress Core
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
-function bp_users_action_delete_user() {
+function bp_members_action_delete_user() {
 	global $bp;
 
 	if ( !is_super_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
@@ -111,7 +111,7 @@ function bp_users_action_delete_user() {
 			$errors = true;
 		}
 
-		do_action( 'bp_users_action_delete_user', $errors );
+		do_action( 'bp_members_action_delete_user', $errors );
 
 		if ( $errors )
 			bp_core_redirect( $bp->displayed_user->domain );
@@ -119,6 +119,24 @@ function bp_users_action_delete_user() {
 			bp_core_redirect( $bp->loggedin_user->domain );
 	}
 }
-add_action( 'wp', 'bp_users_action_delete_user', 3 );
+add_action( 'bp_actions', 'bp_members_action_delete_user' );
+
+/**
+ * Returns the user_id for a user based on their username.
+ *
+ * @package BuddyPress Core
+ * @param $username str Username to check.
+ * @return false on no match
+ * @return int the user ID of the matched user.
+ */
+function bp_core_get_random_member() {
+	global $bp;
+
+	if ( isset( $_GET['random-member'] ) ) {
+		$user = bp_core_get_users( array( 'type' => 'random', 'per_page' => 1 ) );
+		bp_core_redirect( bp_core_get_user_domain( $user['users'][0]->id ) );
+	}
+}
+add_action( 'bp_actions', 'bp_core_get_random_member' );
 
 ?>

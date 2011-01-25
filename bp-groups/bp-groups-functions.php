@@ -7,19 +7,6 @@
  * true or false on success or failure.
  */
 
-function groups_directory_groups_setup() {
-	global $bp;
-
-	if ( bp_is_current_component( 'groups' ) && !bp_current_action() && !bp_current_item() ) {
-		$bp->is_directory = true;
-
-		do_action( 'groups_directory_groups_setup' );
-
-		bp_core_load_template( apply_filters( 'groups_template_directory_groups', 'groups/index' ) );
-	}
-}
-add_action( 'wp', 'groups_directory_groups_setup', 2 );
-
 function groups_setup_adminbar_menu() {
 	global $bp;
 
@@ -217,7 +204,7 @@ function groups_delete_group( $group_id ) {
 	groups_delete_all_group_invites( $group_id );
 
 	// Remove all notifications for any user belonging to this group
-	bp_users_delete_all_notifications_by_type( $group_id, $bp->groups->slug );
+	bp_members_delete_all_notifications_by_type( $group_id, $bp->groups->slug );
 
 	// Remove forum if component is active and current group has one
 	if ( bp_is_active( 'forums' ) && $forum_id = groups_get_groupmeta( $group_id, 'forum_id' ) ) {
@@ -607,7 +594,7 @@ function groups_accept_invite( $user_id, $group_id ) {
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
-	bp_users_delete_notifications_by_item_id( $user_id, $group_id, $bp->groups->id, 'group_invite' );
+	bp_members_delete_notifications_by_item_id( $user_id, $group_id, $bp->groups->id, 'group_invite' );
 
 	do_action( 'groups_accept_invite', $user_id, $group_id );
 	return true;
@@ -628,7 +615,7 @@ function groups_delete_invite( $user_id, $group_id ) {
 	$delete = BP_Groups_Member::delete_invite( $user_id, $group_id );
 
 	if ( $delete )
-		bp_users_delete_notifications_by_item_id( $user_id, $group_id, $bp->groups->id, 'group_invite' );
+		bp_members_delete_notifications_by_item_id( $user_id, $group_id, $bp->groups->id, 'group_invite' );
 
 	return $delete;
 }

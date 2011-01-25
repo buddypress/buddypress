@@ -165,7 +165,7 @@ function bp_has_message_threads( $args = '' ) {
 		wp_redirect( $bp->displayed_user->id );
 	} else {
 		if ( 'inbox' == $bp->current_action )
-			bp_users_delete_notifications_by_type( $bp->loggedin_user->id, $bp->messages->id, 'new_message' );
+			bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->messages->id, 'new_message' );
 
 		if ( 'sentbox' == $bp->current_action )
 			$box = 'sentbox';

@@ -411,18 +411,6 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
 	return BP_Blogs_Blog::is_hidden( $blog_id );
 }
 
-function bp_blogs_redirect_to_random_blog() {
-	global $bp, $wpdb;
-
-	if ( $bp->current_component == $bp->blogs->slug && isset( $_GET['random-blog'] ) ) {
-		$blog = bp_blogs_get_random_blogs( 1, 1 );
-
-		bp_core_redirect( get_site_url( $blog['blogs'][0]->blog_id ) );
-	}
-}
-add_action( 'wp', 'bp_blogs_redirect_to_random_blog', 6 );
-
-
 /*******************************************************************************
  * Blog meta functions
  *
