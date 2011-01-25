@@ -101,15 +101,19 @@ class BP_Component {
 			'slug'                  => '',
 			'root_slug'             => '',
 			'notification_callback' => '',
-			'global_tables'         => ''
+			'search_string'         => '',
+			'global_tables'         => '',
 		);
 		$r = wp_parse_args( $args, $defaults );
 
 		// Slug used for permalinks
-		$this->slug      = apply_filters( 'bp_' . $this->id . '_slug',      $r['slug']      );
+		$this->slug          = apply_filters( 'bp_' . $this->id . '_slug',          $r['slug']          );
 
 		// Slug used for root directory
-		$this->root_slug = apply_filters( 'bp_' . $this->id . '_root_slug', $r['root_slug'] );
+		$this->root_slug     = apply_filters( 'bp_' . $this->id . '_root_slug',     $r['root_slug']     );
+
+		// Search string
+		$this->search_string = apply_filters( 'bp_' . $this->id . '_search_string', $r['search_string'] );
 
 		// Notifications callback
 		$this->notification_callback = 'bp_' . $this->id . '_notification_callback';
