@@ -64,11 +64,15 @@ function bp_groups_filter_kses( $content ) {
 function groups_add_forum_privacy_sql() {
 	global $bp;
 
-	/* Only filter the forum SQL on group pages or on the forums directory */
-	if ( bp_is_forums_component() || ( !empty( $bp->groups->current_group ) && 'public' == $bp->groups->current_group->status ) ) {
+	// Only filter the forum SQL on group pages or on the forums directory
+	if ( bp_is_forums_component() ||
+			( !empty( $bp->groups->current_group ) &&
+				( 'public' == $bp->groups->current_group->status ) ||
+					( 1 == $bp->groups->current_group->is_member ) ) ) {
+
 		add_filter( 'get_topics_fields',     'groups_add_forum_fields_sql' );
 		add_filter( 'get_topics_index_hint', 'groups_add_forum_tables_sql' );
-		add_filter( 'get_topics_where',      'groups_add_forum_where_sql' );
+		add_filter( 'get_topics_where',      'groups_add_forum_where_sql'  );
 	}
 }
 add_filter( 'bbpress_init', 'groups_add_forum_privacy_sql' );
@@ -85,8 +89,14 @@ function groups_add_forum_tables_sql( $sql ) {
 function groups_add_forum_where_sql( $sql ) {
 	global $bp;
 
-	$bp->groups->filter_sql = ' AND ' . $sql;
-	return "(gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND " . $sql;
+	if ( !is_super_admin() || !bp_group_is_member( $bp->groups->current_group->id ) )
+		$must_be_public = "AND g.status = 'public'";
+	else
+		$must_be_public = '';
+
+	$bp->groups->filter_sql = $must_be_public . ' AND ' . $sql;
+
+	return "(gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) {$must_be_public} AND {$sql}";
 }
 
 function groups_filter_bbpress_caps( $value, $cap, $args ) {
