@@ -96,7 +96,7 @@ class BP_Blogs_Template {
 		global $blog;
 
 		$this->in_the_loop = true;
-		$this->blog = $this->next_blog();
+		$this->blog        = $this->next_blog();
 
 		if ( 0 == $this->current_blog ) // loop has just started
 			do_action('blog_loop_start');
@@ -117,8 +117,8 @@ function bp_has_blogs( $args = '' ) {
 	 * if arguments are directly passed into the loop. Custom plugins should always
 	 * pass their parameters directly to the loop.
 	 */
-	$type = 'active';
-	$user_id = 0;
+	$type         = 'active';
+	$user_id      = 0;
 	$search_terms = null;
 
 	/* User filtering */
@@ -126,12 +126,12 @@ function bp_has_blogs( $args = '' ) {
 		$user_id = $bp->displayed_user->id;
 
 	$defaults = array(
-		'type' => $type,
-		'page' => 1,
-		'per_page' => 20,
-		'max' => false,
+		'type'         => $type,
+		'page'         => 1,
+		'per_page'     => 20,
+		'max'          => false,
 
-		'user_id' => $user_id, // Pass a user_id to limit to only blogs this user has higher than subscriber access to
+		'user_id'      => $user_id, // Pass a user_id to limit to only blogs this user has higher than subscriber access to
 		'search_terms' => $search_terms // Pass search terms to filter on the blog title or description.
 	);
 
@@ -170,9 +170,9 @@ function bp_blogs_pagination_count() {
 	global $bp, $blogs_template;
 
 	$start_num = intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1;
-	$from_num = bp_core_number_format( $start_num );
-	$to_num = bp_core_number_format( ( $start_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $start_num + ( $blogs_template->pag_num - 1 ) );
-	$total = bp_core_number_format( $blogs_template->total_blog_count );
+	$from_num  = bp_core_number_format( $start_num );
+	$to_num    = bp_core_number_format( ( $start_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $start_num + ( $blogs_template->pag_num - 1 ) );
+	$total     = bp_core_number_format( $blogs_template->total_blog_count );
 
 	echo sprintf( __( 'Viewing blog %1$s to %2$s (of %3$s blogs)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
@@ -194,12 +194,12 @@ function bp_blog_avatar( $args = '' ) {
 		global $blogs_template, $bp;
 
 		$defaults = array(
-			'type' => 'full',
-			'width' => false,
-			'height' => false,
-			'class' => 'avatar',
-			'id' => false,
-			'alt' => __( 'Blog authored by %s', 'buddypress' ),
+			'type'    => 'full',
+			'width'   => false,
+			'height'  => false,
+			'class'   => 'avatar',
+			'id'      => false,
+			'alt'     => __( 'Blog authored by %s', 'buddypress' ),
 			'no_grav' => true
 		);
 
@@ -273,17 +273,14 @@ function bp_blog_latest_post() {
 	}
 
 function bp_blog_hidden_fields() {
-	if ( isset( $_REQUEST['s'] ) ) {
+	if ( isset( $_REQUEST['s'] ) )
 		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ). '" name="search_terms" />';
-	}
 
-	if ( isset( $_REQUEST['letter'] ) ) {
+	if ( isset( $_REQUEST['letter'] ) )
 		echo '<input type="hidden" id="selected_letter" value="' . esc_attr( $_REQUEST['letter'] ) . '" name="selected_letter" />';
-	}
 
-	if ( isset( $_REQUEST['blogs_search'] ) ) {
+	if ( isset( $_REQUEST['blogs_search'] ) )
 		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['blogs_search'] ) . '" name="search_terms" />';
-	}
 }
 
 function bp_total_blog_count() {
@@ -372,7 +369,9 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 		echo '<label for="blogname">' . __('Blog Domain:', 'buddypress') . '</label>';
 
 	if ( $errmsg = $errors->get_error_message('blogname') ) { ?>
+
 		<p class="error"><?php echo $errmsg ?></p>
+
 	<?php }
 
 	if ( !is_subdomain_install() )
@@ -394,9 +393,13 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 	// Blog Title
 	?>
+
 	<label for="blog_title"><?php _e('Blog Title:', 'buddypress') ?></label>
+
 	<?php if ( $errmsg = $errors->get_error_message('blog_title') ) { ?>
+
 		<p class="error"><?php echo $errmsg ?></p>
+
 	<?php }
 	echo '<input name="blog_title" type="text" id="blog_title" value="'.esc_html($blog_title, 1).'" /></p>';
 	?>
@@ -463,22 +466,22 @@ function bp_blogs_validate_blog_form() {
 
 function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = '' ) {
 	$protocol = is_ssl() ? 'https://' : 'http://';
-	$blog_url = $protocol . $domain . $path;
-	?>
-	<p><?php _e('Congratulations! You have successfully registered a new blog.', 'buddypress') ?></p>
+	$blog_url = $protocol . $domain . $path; ?>
+
+	<p><?php _e( 'Congratulations! You have successfully registered a new blog.', 'buddypress' ) ?></p>
 	<p>
-		<?php printf(__('<a href="%1$s">%2$s</a> is your new blog.  <a href="%3$s">Login</a> as "%4$s" using your existing password.', 'buddypress'), $blog_url, $blog_url, $blog_url . "wp-login.php", $user_name) ?>
+		<?php printf(__( '<a href="%1$s">%2$s</a> is your new blog.  <a href="%3$s">Login</a> as "%4$s" using your existing password.', 'buddypress' ), $blog_url, $blog_url, $blog_url . "wp-login.php", $user_name ); ?>
 	</p>
-	<?php
+
+<?php
 	do_action('signup_finished');
 }
 
 function bp_create_blog_link() {
 	global $bp;
 
-	if ( bp_is_my_profile() )	{
-		echo apply_filters( 'bp_create_blog_link', '<a href="' . $bp->root_domain . '/' . $bp->blogs->slug . '/create">' . __('Create a Blog', 'buddypress') . '</a>' );
-	}
+	if ( bp_is_my_profile() )
+		echo apply_filters( 'bp_create_blog_link', '<a href="' . $bp->root_domain . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Blog', 'buddypress' ) . '</a>' );
 }
 
 function bp_blogs_blog_tabs() {
@@ -488,13 +491,14 @@ function bp_blogs_blog_tabs() {
 	if ( bp_is_my_profile() )
 		return false;
 
-	$current_tab = $bp->current_action
-?>
+	$current_tab = $bp->current_action; ?>
+
 	<ul class="content-header-nav">
-		<li<?php if ( 'my-blogs' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/my-blogs"><?php printf( __( "%s's Blogs", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
-		<li<?php if ( 'recent-posts' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-posts"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
-		<li<?php if ( 'recent-comments' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . $bp->blogs->slug ?>/recent-comments"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp->displayed_user->fullname )  ?></a></li>
+		<li<?php if ( 'my-blogs' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/my-blogs' ); ?>"><?php printf( __( "%s's Blogs", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
+		<li<?php if ( 'recent-posts' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/recent-posts' ); ?>"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
+		<li<?php if ( 'recent-comments' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/recent-comments' );?>"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
 	</ul>
+
 <?php
 	do_action( 'bp_blogs_blog_tabs', $current_tab );
 }
@@ -503,13 +507,13 @@ function bp_directory_blogs_search_form() {
 	global $bp;
 
 	$default_search_value = bp_get_search_default_text(); 
-	$search_value = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; 
+	$search_value = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
 
-	?>
 	<form action="" method="get" id="search-blogs-form">
 		<label><input type="text" name="s" id="blogs_search" value="<?php echo esc_attr( $search_value ) ?>"  onfocus="if (this.value == '<?php echo $default_search_value ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php echo $default_search_value ?>';}" /></label>
 		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
 	</form>
+
 <?php
 }
 

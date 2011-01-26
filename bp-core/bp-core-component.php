@@ -206,14 +206,21 @@ class BP_Component {
 	/**
 	 * Setup the navigation
 	 *
-	 * @param arr $main_nav
-	 * @param arr $sub_nav
+	 * @param arr $main_nav Optional
+	 * @param arr $sub_nav Optional
 	 */
-	function _setup_nav( $main_nav, $sub_nav ) {
-		bp_core_new_nav_item( $main_nav );
+	function _setup_nav( $main_nav = '', $sub_nav = '' ) {
+		// No sub nav items without a main nav item
+		if ( !empty( $main_nav ) ) {
+			bp_core_new_nav_item( $main_nav );
 
-		foreach( $sub_nav as $nav )
-			bp_core_new_subnav_item( $nav );
+			// Sub nav items are not required
+			if ( !empty( $sub_nav ) ) {
+				foreach( $sub_nav as $nav ) {
+					bp_core_new_subnav_item( $nav );
+				}
+			}
+		}
 
 		// Call action
 		do_action( 'bp_' . $this->id . '_setup_nav' );

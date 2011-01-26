@@ -307,7 +307,7 @@ function bp_blogs_remove_blog( $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->slug, 'type' => 'new_blog' ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->id, 'type' => 'new_blog' ) );
 
 	do_action( 'bp_blogs_remove_blog', $blog_id );
 }
@@ -322,7 +322,7 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_user( $blog_id, $user_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->slug, 'type' => 'new_blog' ) );
+	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->id, 'type' => 'new_blog' ) );
 
 	do_action( 'bp_blogs_remove_blog_for_user', $blog_id, $user_id );
 }
