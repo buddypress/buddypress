@@ -110,7 +110,7 @@ class BP_Blogs_Component extends BP_Component {
 		);
 
 		// Setup navigation
-		parent::_setup_nav( $main_nav, $sub_nav );
+		parent::_setup_nav( $main_nav );
 	}
 	
 	/**
