@@ -49,6 +49,8 @@ class BP_Core_Setup_Wizard {
 		global $wp_rewrite;
 
 		// Setup wizard steps
+		$steps = array();
+
 		if ( 'new' == $this->setup_type ) {
 			$steps = array(
 				__( 'Components', 'buddypress' ),
@@ -57,14 +59,6 @@ class BP_Core_Setup_Wizard {
 				__( 'Theme',      'buddypress' ),
 				__( 'Finish',     'buddypress' )
 			);
-
-			require_once ( ABSPATH . '/wp-admin/includes/file.php' );
-
-			$home_path = get_home_path();
-			if ( !empty( $wp_rewrite->permalink_structure ) && ( file_exists( $home_path . '.htaccess' ) || file_exists( $home_path . 'web.config' ) ) ) {
-				unset( $steps[2] );
-				$steps = array_merge( array(), $steps );
-			}
 
 		// Update wizard steps
 		} else {
