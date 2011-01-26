@@ -101,10 +101,10 @@ class BP_Forums_Template_Forum {
 			$this->topic_count       = 0;
 			$this->total_topic_count = 0;
 		} else {
-			if ( $forum_id ) {
+			if ( !empty( $forum_id ) ) {
 				$topic_count = bp_forums_get_forum( $forum_id );
 				$topic_count = (int)$topic_count->topics;
-			} else if ( function_exists( 'groups_total_public_forum_topic_count' ) ) {
+			} else if ( !empty( $bp->groups->current_group ) ) {
 				$topic_count = (int)groups_total_public_forum_topic_count( $type );
 			} else {
 				$topic_count = count( $this->topics );
@@ -216,11 +216,11 @@ function bp_has_forum_topics( $args = '' ) {
 	 * if arguments are directly passed into the loop. Custom plugins should always
 	 * pass their parameters directly to the loop.
 	 */
-	$type = 'newest';
-	$user_id = 0;
-	$forum_id = false;
+	$type         = 'newest';
+	$user_id      = 0;
+	$forum_id     = false;
 	$search_terms = false;
-	$no_stickies = 'all';
+	$no_stickies  = 'all';
 
 	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
@@ -731,12 +731,12 @@ function bp_forum_pagination_count() {
 	function bp_get_forum_pagination_count() {
 		global $bp, $forum_template;
 
-		$start_num = intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1;
-		$from_num = bp_core_number_format( $start_num );
-		$to_num = bp_core_number_format( ( $start_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $start_num + ( $forum_template->pag_num - 1 ) );
-		$total = bp_core_number_format( $forum_template->total_topic_count );
-
+		$start_num  = intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1;
+		$from_num   = bp_core_number_format( $start_num );
+		$to_num     = bp_core_number_format( ( $start_num + ( $forum_template->pag_num - 1  ) > $forum_template->total_topic_count ) ? $forum_template->total_topic_count : $start_num + ( $forum_template->pag_num - 1 ) );
+		$total      = bp_core_number_format( $forum_template->total_topic_count );
 		$pag_filter = false;
+
 		if ( 'tags' == $forum_template->type && !empty( $forum_template->search_terms ) )
 			$pag_filter = sprintf( __( ' matching tag "%s"', 'buddypress' ), $forum_template->search_terms );
 

@@ -124,7 +124,7 @@ class BP_Forums_Component extends BP_Component {
 
 		// Additional menu if friends is active
 		$sub_nav[] = array(
-			'name'            => __( 'Topics Started', 'buddypress' ),
+			'name'            => __( 'Started', 'buddypress' ),
 			'slug'            => 'topics',
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,
@@ -135,18 +135,18 @@ class BP_Forums_Component extends BP_Component {
 
 		// Additional menu if friends is active
 		$sub_nav[] = array(
-			'name'            => __( 'Replies', 'buddypress' ),
+			'name'            => __( 'Replied To', 'buddypress' ),
 			'slug'            => 'replies',
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_forums_screen_topics',
+			'screen_function' => 'bp_forums_screen_replies',
 			'position'        => 40,
 			'item_css_id'     => 'forums-friends'
 		);
 
 		// Favorite forums items
 		$sub_nav[] = array(
-			'name'            => __( 'Favorite Topics', 'buddypress' ),
+			'name'            => __( 'Favorites', 'buddypress' ),
 			'slug'            => 'favorites',
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,

@@ -65,15 +65,9 @@ function groups_add_forum_privacy_sql() {
 	global $bp;
 
 	// Only filter the forum SQL on group pages or on the forums directory
-	if ( bp_is_forums_component() ||
-			( !empty( $bp->groups->current_group ) &&
-				( 'public' == $bp->groups->current_group->status ) ||
-					( !empty( $bp->groups->current_group->is_member ) ) ) ) {
-
-		add_filter( 'get_topics_fields',     'groups_add_forum_fields_sql' );
-		add_filter( 'get_topics_index_hint', 'groups_add_forum_tables_sql' );
-		add_filter( 'get_topics_where',      'groups_add_forum_where_sql'  );
-	}
+	add_filter( 'get_topics_fields',     'groups_add_forum_fields_sql' );
+	add_filter( 'get_topics_index_hint', 'groups_add_forum_tables_sql' );
+	add_filter( 'get_topics_where',      'groups_add_forum_where_sql'  );
 }
 add_filter( 'bbpress_init', 'groups_add_forum_privacy_sql' );
 
@@ -89,14 +83,41 @@ function groups_add_forum_tables_sql( $sql ) {
 function groups_add_forum_where_sql( $sql ) {
 	global $bp;
 
-	if ( !is_super_admin() || ( bp_is_single_item() && !bp_group_is_member( $bp->groups->current_group->id ) ) )
-		$must_be_public = "AND g.status = 'public'";
-	else
-		$must_be_public = '';
+	// Set this for groups
+	$parts['groups'] = "(gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id)";
 
-	$bp->groups->filter_sql = $must_be_public . ' AND ' . $sql;
+	// Restrict to public...
+	$parts['private'] = "g.status = 'public'";
 
-	return "(gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) {$must_be_public} AND {$sql}";
+	/**
+	 * ...but do some checks to possibly remove public restriction.
+	 *
+	 * Decide if private are visible
+	 */
+	// Are we in our own profile?
+	if ( bp_is_my_profile() )
+		unset( $parts['private'] );
+
+	// Are we a super admin?
+	elseif ( is_super_admin() )
+		unset( $parts['private'] );
+
+	// Are we a member of this group
+	elseif ( bp_is_single_item() && bp_group_is_member( $bp->groups->current_group->id ) )
+		unset( $parts['private'] );
+
+	// Check the SQL filter that was passed
+	if ( !empty( $sql ) )
+		$parts['passed'] = $sql;
+
+	// Assemble Voltron
+	$parts_string = implode( ' AND ', $parts );
+
+	// Set it to the global filter
+	$bp->groups->filter_sql = $parts_string;
+
+	// Return the global filter
+	return $bp->groups->filter_sql;
 }
 
 function groups_filter_bbpress_caps( $value, $cap, $args ) {

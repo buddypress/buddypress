@@ -987,6 +987,15 @@ function bp_is_user_change_avatar() {
 	return false;
 }
 
+function bp_is_user_forums() {
+	global $bp;
+
+	if ( bp_is_current_component( 'forums' ) )
+		return true;
+
+	return false;
+}
+
 function bp_is_user_groups() {
 	global $bp;
 

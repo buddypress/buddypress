@@ -56,6 +56,9 @@
 				elseif ( bp_is_user_profile() ) :
 					locate_template( array( 'members/single/profile.php'  ), true );
 
+				elseif ( bp_is_user_forums() ) :
+					locate_template( array( 'members/single/forums.php'  ), true );
+
 				// If nothing sticks, load a generic template
 				else :
 					locate_template( array( 'members/single/front.php'    ), true );

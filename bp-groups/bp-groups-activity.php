@@ -32,7 +32,7 @@ function groups_record_activity( $args = '' ) {
 		return false;
 
 	// If the group is not public, hide the activity sitewide.
-	if ( 'public' == $bp->groups->current_group->status )
+	if ( isset( $bp->groups->current_group->status ) && 'public' == $bp->groups->current_group->status )
 		$hide_sitewide = false;
 	else
 		$hide_sitewide = true;
