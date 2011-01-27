@@ -58,17 +58,10 @@ class BP_Members_Component extends BP_Component {
 		if ( !defined( 'BP_MEMBERS_SLUG' ) )
 			define( 'BP_MEMBERS_SLUG', $this->id );
 
-		// Do some slug checks
-		$global_tables = array(
-			'table_name'      => $bp->table_prefix . 'bp_users',
-			'table_name_meta' => $bp->table_prefix . 'bp_members_meta',
-		);
-
 		$globals = array(
 			'slug'          => BP_MEMBERS_SLUG,
 			'root_slug'     => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : BP_MEMBERS_SLUG,
 			'search_string' => __( 'Search Members...', 'buddypress' ),
-			'global_tables' => $global_tables
 		);
 
 		parent::_setup_globals( $globals );
