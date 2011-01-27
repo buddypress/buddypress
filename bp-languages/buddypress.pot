@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-27 02:30:30+00:00\n"
+"POT-Creation-Date: 2011-01-27 06:30:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -563,7 +563,7 @@ msgstr ""
 #: bp-groups/bp-groups-activity.php:142 bp-groups/bp-groups-loader.php:236
 #: bp-groups/bp-groups-widgets.php:14 bp-groups/bp-groups-widgets.php:35
 #: bp-groups/bp-groups-widgets.php:102 bp-groups/bp-groups-screens.php:789
-#: bp-members/bp-members-loader.php:182 bp-activity/bp-activity-loader.php:142
+#: bp-members/bp-members-loader.php:175 bp-activity/bp-activity-loader.php:142
 msgid "Groups"
 msgstr ""
 
@@ -1098,11 +1098,11 @@ msgstr ""
 msgid "BuddyPress Core"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:119 bp-xprofile/bp-xprofile-loader.php:108
+#: bp-core/bp-core-loader.php:116 bp-xprofile/bp-xprofile-loader.php:108
 msgid "Profile"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:130 bp-groups/bp-groups-template.php:486
+#: bp-core/bp-core-loader.php:127 bp-groups/bp-groups-template.php:486
 #: bp-xprofile/bp-xprofile-loader.php:120
 msgid "Public"
 msgstr ""
@@ -1280,7 +1280,7 @@ msgstr ""
 msgid "Friendship could not be rejected"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:69 bp-members/bp-members-loader.php:169
+#: bp-friends/bp-friends-screens.php:69 bp-members/bp-members-loader.php:162
 #: bp-activity/bp-activity-loader.php:129
 msgid "Friends"
 msgstr ""
@@ -2622,7 +2622,7 @@ msgstr ""
 msgid "Replied To"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:149 bp-members/bp-members-loader.php:194
+#: bp-forums/bp-forums-loader.php:149 bp-members/bp-members-loader.php:187
 #: bp-activity/bp-activity-loader.php:154
 msgid "Favorites"
 msgstr ""
@@ -2919,26 +2919,26 @@ msgstr ""
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-members/bp-members-loader.php:70
+#: bp-members/bp-members-loader.php:64
 msgid "Search Members..."
 msgstr ""
 
-#: bp-members/bp-members-loader.php:139
+#: bp-members/bp-members-loader.php:132
 msgid "User"
 msgstr ""
 
-#: bp-members/bp-members-loader.php:158 bp-activity/bp-activity-loader.php:118
+#: bp-members/bp-members-loader.php:151 bp-activity/bp-activity-loader.php:118
 msgid "Personal"
 msgstr ""
 
-#: bp-members/bp-members-loader.php:205
+#: bp-members/bp-members-loader.php:198
 #: bp-themes/bp-default/activity/index.php:75
 #: bp-activity/bp-activity-loader.php:165
 #: bp-activity/bp-activity-functions.php:76
 msgid "@%s Mentions"
 msgstr ""
 
-#: bp-members/bp-members-loader.php:217
+#: bp-members/bp-members-loader.php:210
 msgid "You"
 msgstr ""
 
