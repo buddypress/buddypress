@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-27 15:30:29+00:00\n"
+"POT-Creation-Date: 2011-01-27 16:30:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Blogs <span>(%d)</span>"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:128 bp-core/bp-core-buddybar.php:417
+#: bp-blogs/bp-blogs-loader.php:128 bp-blogs/bp-blogs-buddybar.php:23
 msgid "My Blogs"
 msgstr ""
 
@@ -38,6 +38,27 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-activity.php:16
 msgid "New blog post comment posted"
+msgstr ""
+
+#: bp-blogs/bp-blogs-buddybar.php:35 bp-core/admin/bp-core-admin.php:69
+#: bp-core/bp-core-functions.php:152 bp-core/bp-core-buddybar.php:401
+msgid "Dashboard"
+msgstr ""
+
+#: bp-blogs/bp-blogs-buddybar.php:36 bp-core/bp-core-buddybar.php:405
+msgid "New Post"
+msgstr ""
+
+#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-buddybar.php:406
+msgid "Manage Posts"
+msgstr ""
+
+#: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-buddybar.php:407
+msgid "Manage Comments"
+msgstr ""
+
+#: bp-blogs/bp-blogs-buddybar.php:51
+msgid "Create a Blog!"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:177
@@ -318,11 +339,6 @@ msgstr ""
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:69 bp-core/bp-core-functions.php:152
-#: bp-core/bp-core-buddybar.php:431 bp-core/bp-core-buddybar.php:460
-msgid "Dashboard"
-msgstr ""
-
 #: bp-core/admin/bp-core-admin.php:117
 msgid "BuddyPress Settings"
 msgstr ""
@@ -563,7 +579,7 @@ msgstr ""
 #: bp-groups/bp-groups-activity.php:142 bp-groups/bp-groups-loader.php:236
 #: bp-groups/bp-groups-widgets.php:14 bp-groups/bp-groups-widgets.php:35
 #: bp-groups/bp-groups-widgets.php:102 bp-groups/bp-groups-screens.php:789
-#: bp-members/bp-members-loader.php:175 bp-activity/bp-activity-loader.php:142
+#: bp-members/bp-members-loader.php:176 bp-activity/bp-activity-loader.php:142
 msgid "Groups"
 msgstr ""
 
@@ -878,7 +894,7 @@ msgid "Search anything..."
 msgstr ""
 
 #: bp-core/bp-core-template.php:388 bp-core/bp-core-template.php:390
-#: bp-core/bp-core-buddybar.php:395 bp-members/bp-members-template.php:582
+#: bp-core/bp-core-buddybar.php:393 bp-members/bp-members-template.php:582
 #: bp-members/bp-members-template.php:584 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
@@ -1038,59 +1054,31 @@ msgstr ""
 msgid "not recently active"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:336 bp-themes/bp-default/sidebar.php:50
+#: bp-core/bp-core-buddybar.php:335 bp-themes/bp-default/sidebar.php:50
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:340
+#: bp-core/bp-core-buddybar.php:339
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:353
+#: bp-core/bp-core-buddybar.php:351
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:432 bp-core/bp-core-buddybar.php:465
-msgid "New Post"
-msgstr ""
-
-#: bp-core/bp-core-buddybar.php:433 bp-core/bp-core-buddybar.php:466
-msgid "Manage Posts"
-msgstr ""
-
-#: bp-core/bp-core-buddybar.php:434 bp-core/bp-core-buddybar.php:467
-msgid "Manage Comments"
-msgstr ""
-
-#: bp-core/bp-core-buddybar.php:448
-msgid "Create a Blog!"
-msgstr ""
-
-#: bp-core/bp-core-buddybar.php:484 bp-settings/bp-settings-loader.php:94
-msgid "Notifications"
-msgstr ""
-
-#: bp-core/bp-core-buddybar.php:505
-msgid "No new notifications."
-msgstr ""
-
-#: bp-core/bp-core-buddybar.php:532
-msgid "Blog Authors"
-msgstr ""
-
-#: bp-core/bp-core-buddybar.php:557
+#: bp-core/bp-core-buddybar.php:422
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:559
+#: bp-core/bp-core-buddybar.php:424
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:563
+#: bp-core/bp-core-buddybar.php:428
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:569
+#: bp-core/bp-core-buddybar.php:434
 msgid "Random Blog"
 msgstr ""
 
@@ -1280,7 +1268,7 @@ msgstr ""
 msgid "Friendship could not be rejected"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:69 bp-members/bp-members-loader.php:162
+#: bp-friends/bp-friends-screens.php:69 bp-members/bp-members-loader.php:163
 #: bp-activity/bp-activity-loader.php:129
 msgid "Friends"
 msgstr ""
@@ -1315,6 +1303,10 @@ msgstr ""
 
 #: bp-settings/bp-settings-loader.php:83
 msgid "General"
+msgstr ""
+
+#: bp-settings/bp-settings-loader.php:94 bp-members/bp-members-buddybar.php:11
+msgid "Notifications"
 msgstr ""
 
 #: bp-settings/bp-settings-loader.php:106
@@ -2622,7 +2614,7 @@ msgstr ""
 msgid "Replied To"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:149 bp-members/bp-members-loader.php:187
+#: bp-forums/bp-forums-loader.php:149 bp-members/bp-members-loader.php:188
 #: bp-activity/bp-activity-loader.php:154
 msgid "Favorites"
 msgstr ""
@@ -2919,26 +2911,34 @@ msgstr ""
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-members/bp-members-loader.php:64
+#: bp-members/bp-members-buddybar.php:32
+msgid "No new notifications."
+msgstr ""
+
+#: bp-members/bp-members-buddybar.php:60
+msgid "Blog Authors"
+msgstr ""
+
+#: bp-members/bp-members-loader.php:65
 msgid "Search Members..."
 msgstr ""
 
-#: bp-members/bp-members-loader.php:132
+#: bp-members/bp-members-loader.php:133
 msgid "User"
 msgstr ""
 
-#: bp-members/bp-members-loader.php:151 bp-activity/bp-activity-loader.php:118
+#: bp-members/bp-members-loader.php:152 bp-activity/bp-activity-loader.php:118
 msgid "Personal"
 msgstr ""
 
-#: bp-members/bp-members-loader.php:198
+#: bp-members/bp-members-loader.php:199
 #: bp-themes/bp-default/activity/index.php:75
 #: bp-activity/bp-activity-loader.php:165
 #: bp-activity/bp-activity-functions.php:76
 msgid "@%s Mentions"
 msgstr ""
 
-#: bp-members/bp-members-loader.php:210
+#: bp-members/bp-members-loader.php:211
 msgid "You"
 msgstr ""
 
