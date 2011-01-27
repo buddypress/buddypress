@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-27 06:30:26+00:00\n"
+"POT-Creation-Date: 2011-01-27 07:30:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1098,11 +1098,11 @@ msgstr ""
 msgid "BuddyPress Core"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:116 bp-xprofile/bp-xprofile-loader.php:108
+#: bp-core/bp-core-loader.php:122 bp-xprofile/bp-xprofile-loader.php:108
 msgid "Profile"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:127 bp-groups/bp-groups-template.php:486
+#: bp-core/bp-core-loader.php:133 bp-groups/bp-groups-template.php:486
 #: bp-xprofile/bp-xprofile-loader.php:120
 msgid "Public"
 msgstr ""
