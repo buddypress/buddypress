@@ -107,7 +107,7 @@ function groups_screen_group_home() {
 function groups_screen_group_forum() {
 	global $bp;
 
-	if ( $bp->is_single_item && $bp->groups->current_group->user_has_access ) {
+	if ( bp_is_single_item() && $bp->groups->current_group->user_has_access ) {
 
 		// Fetch the details we need
 		$topic_slug     = isset( $bp->action_variables[1] ) ? $bp->action_variables[1] : false;
