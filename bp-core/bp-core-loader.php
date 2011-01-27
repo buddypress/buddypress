@@ -36,9 +36,6 @@ class BP_Core extends BP_Component {
 	function _setup_globals() {
 		global $bp, $bp_pages;
 
-		// Setup the BuddyPress theme directory
-		register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
-
 		// Get the base database prefix
 		$bp->table_prefix = bp_core_get_table_prefix();
 

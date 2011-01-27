@@ -1,5 +1,8 @@
 <?php
 
+// Setup the BuddyPress theme directory
+register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
+
 // Test to see whether this is a new installation or an upgraded version of BuddyPress
 if ( !$bp_db_version = get_site_option( 'bp-db-version' ) )
 	$bp_db_version = get_site_option( 'bp-core-db-version' );  // BP 1.2 option name
