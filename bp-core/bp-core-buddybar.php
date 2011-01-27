@@ -412,17 +412,18 @@ function bp_adminbar_blogs_menu() {
 		wp_cache_set( 'bp_blogs_of_user_' . $bp->loggedin_user->id . '_inc_hidden', $blogs, 'bp' );
 	}
 
-	echo '<li id="bp-adminbar-blogs-menu"><a href="' . $bp->loggedin_user->domain . $bp->blogs->slug . '/">';
-
-	_e( 'My Blogs', 'buddypress' );
-
-	echo '</a>';
-	echo '<ul>';
-
 	$counter = 0;
 	if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
+
+		echo '<li id="bp-adminbar-blogs-menu"><a href="' . trailingslashit( $bp->loggedin_user->domain . $bp->blogs->slug ) . '">';
+
+		_e( 'My Blogs', 'buddypress' );
+
+		echo '</a>';
+		echo '<ul>';
+
 		foreach ( (array)$blogs['blogs'] as $blog ) {
-			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
+			$alt      = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 			$site_url = esc_attr( $blog->siteurl );
 
 			echo '<li' . $alt . '>';
@@ -439,18 +440,18 @@ function bp_adminbar_blogs_menu() {
 			echo '</li>';
 			$counter++;
 		}
-	}
 
-	$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
+		$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 
-	if ( bp_blog_signup_enabled() ) {
-		echo '<li' . $alt . '>';
-		echo '<a href="' . $bp->root_domain . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Blog!', 'buddypress' ) . '</a>';
+		if ( bp_blog_signup_enabled() ) {
+			echo '<li' . $alt . '>';
+			echo '<a href="' . $bp->root_domain . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Blog!', 'buddypress' ) . '</a>';
+			echo '</li>';
+		}
+
+		echo '</ul>';
 		echo '</li>';
 	}
-
-	echo '</ul>';
-	echo '</li>';
 }
 
 function bp_adminbar_thisblog_menu() {
