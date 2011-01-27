@@ -27,6 +27,10 @@
  * @since 1.2
  */
 
+// If BuddyPress is not activated, switch back to the default WP theme
+if ( !defined( 'BP_VERSION' ) )
+	switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
+
 /**
  * Set the content width based on the theme's design and stylesheet.
  *
