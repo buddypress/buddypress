@@ -677,6 +677,11 @@ function bp_is_current_component( $component ) {
 		if ( $bp->current_component == $component ) {
 			$is_current_component = true;
 
+		// Since the current component is based on the visible URL slug let's
+		// check the component being passed and see if its root_slug matches
+		} elseif ( isset( $bp->{$component}->root_slug ) && $bp->{$component}->root_slug == $bp->current_component ) {
+			$is_current_component = true;
+
 		// Next, check to see whether $component is a canonical,
 		// non-translatable component name. If so, we can return its
 		// corresponding slug from $bp->active_components.
