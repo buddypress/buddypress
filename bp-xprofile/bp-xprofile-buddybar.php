@@ -74,6 +74,6 @@ function xprofile_setup_adminbar_menu() {
 
 	<?php
 }
-add_action( 'bp_adminbar_menus', 'xprofile_setup_adminbar_menu', 20 );
+//add_action( 'bp_adminbar_menus', 'xprofile_setup_adminbar_menu', 20 );
 
 ?>

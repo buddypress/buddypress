@@ -983,4 +983,39 @@ function bp_members_activity_feed() {
 }
 add_action( 'bp_head', 'bp_members_activity_feed' );
 
+
+function bp_members_component_link( $component, $action = '', $query_args = '', $nonce = false ) {
+	echo bp_get_members_component_link( $component, $action, $query_args, $nonce );
+}
+	function bp_get_members_component_link( $component, $action = '', $query_args = '', $nonce = false ) {
+		global $bp;
+
+		// Must be displayed user
+		if ( empty( $bp->displayed_user->id ) )
+			return;
+
+		// Append $action to $url if there is no $type
+		if ( !empty( $action ) )
+			$url = $bp->displayed_user->domain . $bp->{$component}->slug . '/' . $action;
+		else
+			$url = $bp->displayed_user->domain . $bp->{$component}->slug;
+
+		// Add a slash at the end of our user url
+		$url = trailingslashit( $url );
+
+		// Add possible query arg
+		if ( !empty( $query_args ) && is_array( $query_args ) )
+			$url = add_query_arg( $query_args, $url );
+
+		// To nonce, or not to nonce...
+		if ( true === $nonce )
+			$url = wp_nonce_url( $url );
+		elseif ( is_string( $nonce ) )
+			$url = wp_nonce_url( $url, $nonce );
+
+		// Return the url, if there is one
+		if ( !empty( $url ) )
+			return $url;
+	}
+
 ?>

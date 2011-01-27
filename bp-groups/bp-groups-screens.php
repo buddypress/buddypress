@@ -570,7 +570,7 @@ function groups_screen_group_admin_manage_members() {
 		if ( !$bp->is_item_admin )
 			return false;
 
-		if ( isset( $bp->action_variables[1] ) && isset( $bp->action_variables[2] ) && $bp->action_variables[3] ) {
+		if ( isset( $bp->action_variables[1] ) && isset( $bp->action_variables[2] ) && isset( $bp->action_variables[3] ) ) {
 			if ( 'promote' == $bp->action_variables[1] && ( 'mod' == $bp->action_variables[2] || 'admin' == $bp->action_variables[2] ) && is_numeric( $bp->action_variables[3] ) ) {
 				$user_id = $bp->action_variables[3];
 				$status  = $bp->action_variables[2];

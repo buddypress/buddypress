@@ -7,31 +7,6 @@
  * true or false on success or failure.
  */
 
-function groups_setup_adminbar_menu() {
-	global $bp;
-
-	if ( empty( $bp->groups->current_group ) )
-		return false;
-
-	// Don't show this menu to non site admins or if you're viewing your own profile
-	if ( !is_super_admin() )
-		return false; ?>
-
-	<li id="bp-adminbar-adminoptions-menu">
-		<a href=""><?php _e( 'Admin Options', 'buddypress' ) ?></a>
-
-		<ul>
-			<li><a class="confirm" href="<?php echo wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/delete-group/', 'groups_delete_group' ) ?>&amp;delete-group-button=1&amp;delete-group-understand=1"><?php _e( "Delete Group", 'buddypress' ) ?></a></li>
-
-			<?php do_action( 'groups_adminbar_menu_items' ) ?>
-
-		</ul>
-	</li>
-
-	<?php
-}
-add_action( 'bp_adminbar_menus', 'groups_setup_adminbar_menu', 20 );
-
 function groups_get_group( $args = '' ) {
 	$defaults = array(
 		'group_id'   => false,

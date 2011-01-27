@@ -39,7 +39,7 @@
 						<?php do_action( 'bp_group_send_invites_item' ) ?>
 
 						<div class="action">
-							<a class="remove" href="<?php bp_group_invite_user_remove_invite_url() ?>" id="<?php bp_group_invite_item_id() ?>"><?php _e( 'Remove Invite', 'buddypress' ) ?></a>
+							<a class="button remove" href="<?php bp_group_invite_user_remove_invite_url() ?>" id="<?php bp_group_invite_item_id() ?>"><?php _e( 'Remove Invite', 'buddypress' ) ?></a>
 
 							<?php do_action( 'bp_group_send_invites_item_action' ) ?>
 						</div>

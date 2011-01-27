@@ -1,8 +1,7 @@
 <?php
 
 // Require all of the BuddyPress core libraries
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php'  );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-cache.php'  );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'  );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'  );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'  );
@@ -12,6 +11,8 @@ require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'  );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-template.php'  );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-buddybar.php'  );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'  );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php'  );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php'  );
 
 // Load deprecated functions
 if ( !defined( 'BP_SKIP_DEPRECATED' ) )

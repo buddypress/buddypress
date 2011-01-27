@@ -41,6 +41,7 @@ class BP_Groups_Component extends BP_Component {
 			'widgets',
 			'activity',
 			'template',
+			'buddybar',
 			'functions'
 		);
 		parent::_includes( $includes );
@@ -228,105 +229,103 @@ class BP_Groups_Component extends BP_Component {
 
 		parent::_setup_nav( $main_nav, $sub_nav );
 
-		if ( bp_is_groups_component() ) {
-			if ( bp_is_single_item() ) {
+		if ( bp_is_groups_component() && bp_is_single_item() ) {
 
-				// Add 'Groups' to the main navigation
-				$main_nav = array(
-					'name'                => __( 'Groups', 'buddypress' ),
-					'slug'                => $this->root_slug,
-					'position'            => -1, // Do not show in BuddyBar
-					'screen_function'     => 'groups_screen_group_home',
-					'default_subnav_slug' => 'home',
-					'item_css_id'         => $this->id
-				);
+			// Add 'Groups' to the main navigation
+			$main_nav = array(
+				'name'                => __( 'Groups', 'buddypress' ),
+				'slug'                => $this->root_slug,
+				'position'            => -1, // Do not show in BuddyBar
+				'screen_function'     => 'groups_screen_group_home',
+				'default_subnav_slug' => 'home',
+				'item_css_id'         => $this->id
+			);
 
-				$group_link = trailingslashit( $bp->root_domain . '/' . $this->root_slug . '/' . $this->current_group->slug );
+			$group_link = trailingslashit( $bp->root_domain . '/' . $this->root_slug . '/' . $this->current_group->slug );
 
-				// Add the "Home" subnav item, as this will always be present
+			// Add the "Home" subnav item, as this will always be present
+			$sub_nav[] = array(
+				'name'            => __( 'Home', 'buddypress' ),
+				'slug'            => 'home',
+				'parent_url'      => $group_link,
+				'parent_slug'     => $this->root_slug,
+				'screen_function' => 'groups_screen_group_home',
+				'position'        => 10,
+				'item_css_id'     => 'home'
+			);
+
+			// If the user is a group mod or more, then show the group admin nav item
+			if ( bp_is_item_admin() || bp_is_item_mod() ) {
 				$sub_nav[] = array(
-					'name'            => __( 'Home', 'buddypress' ),
-					'slug'            => 'home',
+					'name'            => __( 'Admin', 'buddypress' ),
+					'slug'            => 'admin',
 					'parent_url'      => $group_link,
 					'parent_slug'     => $this->root_slug,
-					'screen_function' => 'groups_screen_group_home',
-					'position'        => 10,
-					'item_css_id'     => 'home'
+					'screen_function' => 'groups_screen_group_admin',
+					'position'        => 20,
+					'user_has_access' => ( $bp->is_item_admin + (int)$bp->is_item_mod ),
+					'item_css_id'     => 'admin'
 				);
-
-				// If the user is a group mod or more, then show the group admin nav item
-				if ( bp_is_item_admin() || bp_is_item_mod() ) {
-					$sub_nav[] = array(
-						'name'            => __( 'Admin', 'buddypress' ),
-						'slug'            => 'admin',
-						'parent_url'      => $group_link,
-						'parent_slug'     => $this->root_slug,
-						'screen_function' => 'groups_screen_group_admin',
-						'position'        => 20,
-						'user_has_access' => ( $bp->is_item_admin + (int)$bp->is_item_mod ),
-						'item_css_id'     => 'admin'
-					);
-				}
-
-				// If this is a private group, and the user is not a member, show a "Request Membership" nav item.
-				if ( is_user_logged_in() &&
-					 !is_super_admin() &&
-					 !$this->current_group->is_user_member &&
-					 !groups_check_for_membership_request( $bp->loggedin_user->id, $this->current_group->id ) &&
-					 $this->current_group->status == 'private'
-					) {
-					$sub_nav[] = array(
-						'name'               => __( 'Request Membership', 'buddypress' ),
-						'slug'               => 'request-membership',
-						'parent_url'         => $group_link,
-						'parent_slug'        => $this->root_slug,
-						'screen_function'    => 'groups_screen_group_request_membership',
-						'position'           => 30
-					);
-				}
-
-				// Forums are enabled and turned on
-				if ( $this->current_group->enable_forum && bp_is_active( 'forums' ) ) {
-					$sub_nav[] = array(
-						'name'            => __( 'Forum', 'buddypress' ),
-						'slug'            => 'forum',
-						'parent_url'      => $group_link,
-						'parent_slug'     => $this->root_slug,
-						'screen_function' => 'groups_screen_group_forum',
-						'position'        => 40,
-						'user_has_access' => $this->current_group->user_has_access,
-						'item_css_id'     => 'forums'
-					);
-				}
-
-				$sub_nav[] = array(
-					'name'            => sprintf( __( 'Members (%s)', 'buddypress' ), number_format( $this->current_group->total_member_count ) ),
-					'slug'            => 'members',
-					'parent_url'      => $group_link,
-					'parent_slug'     => $this->root_slug,
-					'screen_function' => 'groups_screen_group_members',
-					'position'        => 60,
-					'user_has_access' => $this->current_group->user_has_access,
-					'item_css_id'     => 'members'
-				);
-
-				if ( is_user_logged_in() && groups_is_user_member( $bp->loggedin_user->id, $this->current_group->id ) ) {
-					if ( bp_is_active( 'friends' ) ) {
-						$sub_nav[] = array(
-							'name'            => __( 'Send Invites', 'buddypress' ),
-							'slug'            => 'send-invites',
-							'parent_url'      => $group_link,
-							'parent_slug'     => $this->root_slug,
-							'screen_function' => 'groups_screen_group_invite',
-							'item_css_id'     => 'invite',
-							'position'        => 70,
-							'user_has_access' => $this->current_group->user_has_access
-						);
-					}
-				}
-
-				parent::_setup_nav( $main_nav, $sub_nav );
 			}
+
+			// If this is a private group, and the user is not a member, show a "Request Membership" nav item.
+			if ( is_user_logged_in() &&
+				 !is_super_admin() &&
+				 !$this->current_group->is_user_member &&
+				 !groups_check_for_membership_request( $bp->loggedin_user->id, $this->current_group->id ) &&
+				 $this->current_group->status == 'private'
+				) {
+				$sub_nav[] = array(
+					'name'               => __( 'Request Membership', 'buddypress' ),
+					'slug'               => 'request-membership',
+					'parent_url'         => $group_link,
+					'parent_slug'        => $this->root_slug,
+					'screen_function'    => 'groups_screen_group_request_membership',
+					'position'           => 30
+				);
+			}
+
+			// Forums are enabled and turned on
+			if ( $this->current_group->enable_forum && bp_is_active( 'forums' ) ) {
+				$sub_nav[] = array(
+					'name'            => __( 'Forum', 'buddypress' ),
+					'slug'            => 'forum',
+					'parent_url'      => $group_link,
+					'parent_slug'     => $this->root_slug,
+					'screen_function' => 'groups_screen_group_forum',
+					'position'        => 40,
+					'user_has_access' => $this->current_group->user_has_access,
+					'item_css_id'     => 'forums'
+				);
+			}
+
+			$sub_nav[] = array(
+				'name'            => sprintf( __( 'Members (%s)', 'buddypress' ), number_format( $this->current_group->total_member_count ) ),
+				'slug'            => 'members',
+				'parent_url'      => $group_link,
+				'parent_slug'     => $this->root_slug,
+				'screen_function' => 'groups_screen_group_members',
+				'position'        => 60,
+				'user_has_access' => $this->current_group->user_has_access,
+				'item_css_id'     => 'members'
+			);
+
+			if ( is_user_logged_in() && groups_is_user_member( $bp->loggedin_user->id, $this->current_group->id ) ) {
+				if ( bp_is_active( 'friends' ) ) {
+					$sub_nav[] = array(
+						'name'            => __( 'Send Invites', 'buddypress' ),
+						'slug'            => 'send-invites',
+						'parent_url'      => $group_link,
+						'parent_slug'     => $this->root_slug,
+						'screen_function' => 'groups_screen_group_invite',
+						'item_css_id'     => 'invite',
+						'position'        => 70,
+						'user_has_access' => $this->current_group->user_has_access
+					);
+				}
+			}
+
+			parent::_setup_nav( $main_nav, $sub_nav );
 		}
 
 		if ( isset( $this->current_group->user_has_access ) )

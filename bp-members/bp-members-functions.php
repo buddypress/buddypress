@@ -625,7 +625,7 @@ function bp_members_can_edit_settings() {
 	if ( bp_is_my_profile() )
 		return true;
 
-	if ( is_super_admin() )
+	if ( is_super_admin() || current_user_can( 'edit_users' ) )
 		return true;
 
 	return false;

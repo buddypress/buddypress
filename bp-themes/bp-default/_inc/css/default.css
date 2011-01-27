@@ -656,6 +656,7 @@ ul.item-list li div.meta {
 ul.item-list li h5 span.small {
 	font-weight: normal;
 	font-size: 11px;
+	float: right;
 }
 
 

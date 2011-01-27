@@ -796,77 +796,129 @@ function bp_group_show_status_setting( $setting, $group = false ) {
 function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 	global $groups_template;
 
-	if ( !$group )
+	if ( empty( $group ) )
 		$group =& $groups_template->group;
 
-	$admins = groups_get_group_admins( $group->id );
-?>
-	<?php if ( $admins ) { ?>
-		<ul id="admins-list" class="item-list<?php if ( $admin_list ) { ?> single-line<?php } ?>">
+
+	if ( $admins = groups_get_group_admins( $group->id ) ) : ?>
+
+		<ul id="admins-list" class="item-list<?php if ( !empty( $admin_list ) ) : ?> single-line<?php endif; ?>">
+
 		<?php foreach ( (array)$admins as $admin ) { ?>
-			<?php if ( $admin_list ) { ?>
+
+			<?php if ( !empty( $admin_list ) ) : ?>
+
 			<li>
+
 				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
-				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?>  <span class="small"> &mdash; <a class="confirm admin-demote-to-member" href="<?php bp_group_member_demote_link($admin->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a></span></h5>
+
+				<h5>
+
+					<?php echo bp_core_get_userlink( $admin->user_id ); ?>
+
+					<span class="small">
+						<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link($admin->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
+					</span>
+				</h5>
 			</li>
-			<?php } else { ?>
+
+			<?php else : ?>
+
 			<li>
+
 				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb', 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
+
 				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?></h5>
-				<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s ago', 'buddypress') ); ?></span>
+				<span class="activity">
+					<?php echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s ago', 'buddypress') ); ?>
+				</span>
 
 				<?php if ( bp_is_active( 'friends' ) ) : ?>
+
 					<div class="action">
-						<?php bp_add_friend_button( $admin->user_id ) ?>
+
+						<?php bp_add_friend_button( $admin->user_id ); ?>
+
 					</div>
+
 				<?php endif; ?>
+
 			</li>
-			<?php } ?>
-		<?php } ?>
+
+			<?php endif;
+		} ?>
+
 		</ul>
-	<?php } else { ?>
+
+	<?php else : ?>
+
 		<div id="message" class="info">
 			<p><?php _e( 'This group has no administrators', 'buddypress' ); ?></p>
 		</div>
-	<?php }
+
+	<?php endif;
 }
 
 function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 	global $groups_template, $group_mods;
 
-	if ( !$group )
+	if ( empty( $group ) )
 		$group =& $groups_template->group;
 
-	$group_mods = groups_get_group_mods( $group->id );
-	?>
-		<?php if ( $group_mods ) { ?>
-			<ul id="mods-list" class="item-list<?php if ( $admin_list ) { ?> single-line<?php } ?>">
-			<?php foreach ( (array)$group_mods as $mod ) { ?>
-				<?php if ( $admin_list ) { ?>
-				<li>
-					<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
-					<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?>  <span class="small"> &mdash; <a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => $mod->user_id ) ) ?>" class="confirm mod-promote-to-admin" title="<?php _e( 'Promote to Admin', 'buddypress' ); ?>"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a> | <a class="confirm mod-demote-to-member" href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a></span></h5>
-				</li>
-				<?php } else { ?>
-				<li>
-					<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
-					<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?></h5>
-					<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s ago', 'buddypress') ); ?></span>
+	if ( $group_mods = groups_get_group_mods( $group->id ) ) { ?>
 
-					<?php if ( bp_is_active( 'friends' ) ) : ?>
-						<div class="action">
-							<?php bp_add_friend_button( $mod->user_id ) ?>
-						</div>
-					<?php endif; ?>
-				</li>
-				<?php } ?>
+		<ul id="mods-list" class="item-list<?php if ( $admin_list ) { ?> single-line<?php } ?>">
+
+		<?php foreach ( (array)$group_mods as $mod ) { ?>
+
+			<?php if ( !empty( $admin_list ) ) { ?>
+
+			<li>
+
+				<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
+
+				<h5>
+					<?php echo bp_core_get_userlink( $mod->user_id ); ?>
+
+					<span class="small">
+						<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => $mod->user_id ) ) ?>" class="button confirm mod-promote-to-admin" title="<?php _e( 'Promote to Admin', 'buddypress' ); ?>"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a>
+						<a class="button confirm mod-demote-to-member" href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
+					</span>
+				</h5>
+			</li>
+
+			<?php } else { ?>
+
+			<li>
+
+				<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
+
+				<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?></h5>
+
+				<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s ago', 'buddypress') ); ?></span>
+
+				<?php if ( bp_is_active( 'friends' ) ) : ?>
+
+					<div class="action">
+						<?php bp_add_friend_button( $mod->user_id ) ?>
+					</div>
+
+				<?php endif; ?>
+
+			</li>
+
 			<?php } ?>
-			</ul>
-		<?php } else { ?>
-			<div id="message" class="info">
-				<p><?php _e( 'This group has no moderators', 'buddypress' ); ?></p>
-			</div>
-		<?php }
+		<?php } ?>
+
+		</ul>
+
+	<?php } else { ?>
+
+		<div id="message" class="info">
+			<p><?php _e( 'This group has no moderators', 'buddypress' ); ?></p>
+		</div>
+
+	<?php }
 }
 
 function bp_group_has_moderators( $group = false ) {
@@ -2425,5 +2477,39 @@ function bp_current_group_name() {
 
 		$name = apply_filters( 'bp_get_group_name', $bp->groups->current_group->name );
 		return apply_filters( 'bp_get_current_group_name', $name );
+	}
+
+function bp_groups_action_link( $action = '', $query_args = '', $nonce = false ) {
+	echo bp_get_groups_action_link( $action, $query_args, $nonce );
+}
+	function bp_get_groups_action_link( $action = '', $query_args = '', $nonce = false ) {
+		global $bp;
+
+		// Must be displayed user
+		if ( empty( $bp->groups->current_group->id ) )
+			return;
+
+		// Append $action to $url if there is no $type
+		if ( !empty( $action ) )
+			$url = $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $bp->groups->current_group->slug . '/' . $action;
+		else
+			$url = $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $bp->groups->current_group->slug;
+
+		// Add a slash at the end of our user url
+		$url = trailingslashit( $url );
+
+		// Add possible query arg
+		if ( !empty( $query_args ) && is_array( $query_args ) )
+			$url = add_query_arg( $query_args, $url );
+
+		// To nonce, or not to nonce...
+		if ( true === $nonce )
+			$url = wp_nonce_url( $url );
+		elseif ( is_string( $nonce ) )
+			$url = wp_nonce_url( $url, $nonce );
+
+		// Return the url, if there is one
+		if ( !empty( $url ) )
+			return $url;
 	}
 ?>
