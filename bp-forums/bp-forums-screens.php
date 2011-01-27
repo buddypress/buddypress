@@ -3,8 +3,8 @@
 function bp_forums_directory_forums_setup() {
 	global $bp;
 
-	if ( bp_is_groups_component() && !bp_current_action() && !bp_current_item() ) {
-		if ( bp_forum_directory_is_disabled() || !bp_is_active( 'groups' ) )
+	if ( bp_is_forums_component() && !bp_current_action() && !bp_current_item() ) {
+		if ( bp_forum_directory_is_disabled() )
 			return false;
 
 		if ( !bp_forums_is_installed_correctly() ) {
