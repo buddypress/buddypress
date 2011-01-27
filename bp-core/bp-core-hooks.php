@@ -31,7 +31,7 @@ add_action( 'bp_init',    'bp_setup_title',          8 );
 add_action( 'bp_init',    'bp_setup_widgets',        8 );
 	
 // Setup admin bar
-add_action( 'bp_loaded',  'bp_core_load_admin_bar'    );
+add_action( 'bp_loaded',  'bp_core_load_admin_bar'     );
 
 /** The hooks *****************************************************************/
 

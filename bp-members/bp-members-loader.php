@@ -36,6 +36,7 @@ class BP_Members_Component extends BP_Component {
 			'filters',
 			'screens',
 			'template',
+			'buddybar',
 			'functions',
 			'notifications',
 		);
