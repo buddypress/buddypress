@@ -13,6 +13,8 @@
  * Only add abstraction functions if WordPress is not in multisite mode
  */
 if ( !is_multisite() ) {
+	global $wpdb;
+
 	$wpdb->base_prefix = $wpdb->prefix;
 	$wpdb->blogid      = 1;
 

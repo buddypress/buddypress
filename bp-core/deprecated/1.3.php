@@ -300,16 +300,16 @@ function bp_core_get_wp_profile() {
  * @global $bp BuddyPress global settings
  */
 function bp_core_add_root_component( $slug ) {
-	global $bp, $bp_pages;
+	global $bp;
 
 	_deprecated_function( __FUNCTION__, '1.3', 'wp_insert_post()' );
-	if ( empty( $bp_pages ) )
-		$bp_pages = bp_core_get_page_names();
+	if ( empty( $bp->pages ) )
+		$bp->pages = bp_core_get_page_names();
 
 	$match = false;
 
 	// Check if the slug is registered in the $bp->pages global
-	foreach ( (array)$bp_pages as $key => $page ) {
+	foreach ( (array)$bp->pages as $key => $page ) {
 		if ( $key == $slug || $page->slug == $slug )
 			$match = true;
 	}

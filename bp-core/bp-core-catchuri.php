@@ -26,8 +26,7 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  *
  */
 function bp_core_set_uri_globals() {
-	global $bp, $bp_pages;
-	global $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
+	global $bp, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
 	global $current_blog;
 
 	// Create global component, action, and item variables
@@ -42,8 +41,8 @@ function bp_core_set_uri_globals() {
 	}
 
 	// Fetch all the WP page names for each component
-	if ( empty( $bp_pages ) )
-		$bp_pages = bp_core_get_page_names();
+	if ( empty( $bp->pages ) )
+		$bp->pages = bp_core_get_page_names();
 
 	// Ajax or not?
 	if ( strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
@@ -118,7 +117,7 @@ function bp_core_set_uri_globals() {
 	$bp_unfiltered_uri = $bp_uri;
 
 	// Find a match within registered BuddyPress controlled WP pages (check members first)
-	foreach ( (array)$bp_pages as $page_key => $bp_page ) {
+	foreach ( (array)$bp->pages as $page_key => $bp_page ) {
 		if ( in_array( $bp_page->name, (array)$bp_uri ) ) {
 			// Match found, now match the slug to make sure.
 			$uri_chunks = explode( '/', $bp_page->slug );

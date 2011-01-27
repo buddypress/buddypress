@@ -34,18 +34,27 @@ class BP_Core extends BP_Component {
 	}
 
 	function _setup_globals() {
-		global $bp, $bp_pages;
+		global $bp;
+
+		/** Database **********************************************************/
 
 		// Get the base database prefix
-		$bp->table_prefix = bp_core_get_table_prefix();
+		if ( empty( $bp->table_prefix ) )
+			$bp->table_prefix = bp_core_get_table_prefix();
 
 		// The domain for the root of the site where the main blog resides
-		$bp->root_domain  = bp_core_get_root_domain();
+		if ( empty( $bp->root_domain ) )
+			$bp->root_domain = bp_core_get_root_domain();
+
+		// Fetches all of the core BuddyPress settings in one fell swoop
+		if ( empty( $bp->site_options ) )
+			$bp->site_options = bp_core_get_site_options();
 
 		// The names of the core WordPress pages used to display BuddyPress content
-		$bp->pages        = $bp_pages;
+		if ( empty( $bp->pages ) )
+			$bp->pages = bp_core_get_page_names();
 
-		/** Component and Action **************************************************/
+		/** Component and Action **********************************************/
 
 		// Used for overriding the 2nd level navigation menu so it can be used to
 		// display custom navigation for an item (for example a group)
@@ -62,9 +71,6 @@ class BP_Core extends BP_Component {
 			$bp->default_component     = BP_DEFAULT_COMPONENT;
 		}
 
-		// Fetches all of the core BuddyPress settings in one fell swoop
-		$bp->site_options = bp_core_get_site_options();
-
 		// Sets up the array container for the component navigation rendered
 		// by bp_get_nav()
 		$bp->bp_nav            = array();
@@ -77,7 +83,7 @@ class BP_Core extends BP_Component {
 		// value the internal ID of the component.
 		$bp->active_components = array();
 
-		/** Basic current user data ***********************************************/
+		/** Basic current user data *******************************************/
 
 		// Logged in user is the 'current_user'
 		$current_user            = wp_get_current_user();
@@ -85,7 +91,7 @@ class BP_Core extends BP_Component {
 		// The user ID of the user who is currently logged in.
 		$bp->loggedin_user->id   = $current_user->ID;
 
-		/** Avatars ***************************************************************/
+		/** Avatars ***********************************************************/
 
 		// Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar
 		$bp->grav_default->user  = apply_filters( 'bp_user_gravatar_default',  $bp->site_options['avatar_default'] );
