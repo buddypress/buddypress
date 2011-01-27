@@ -10,24 +10,32 @@
  */
 /** Constants *****************************************************************/
 
-define( 'BP_VERSION', '1.3-bleeding' );
-define( 'BP_DB_VERSION', 3605 );
+// Define the BuddyPress version
+if ( !defined( 'BP_VERSION' ) )
+	define( 'BP_VERSION', '1.3-bleeding' );
+
+// Define the database version
+if ( !defined( 'BP_DB_VERSION' ) )
+	define( 'BP_DB_VERSION', 3605 );
 
 // Define on which blog ID BuddyPress should run
 if ( !defined( 'BP_ROOT_BLOG' ) )
 	define( 'BP_ROOT_BLOG', 1 );
 
 // Path and URL
-define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
-define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
+if ( !defined( 'BP_PLUGIN_DIR' ) )
+	define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
+
+if ( !defined( 'BP_PLUGIN_URL' ) )
+	define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
 
 // Load the WP abstraction file so BuddyPress can run on all WordPress setups.
-require ( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
 
 // Place your custom code (actions/filters) in a file called
 // '/plugins/bp-custom.php' and it will be loaded before anything else.
 if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
-	require( WP_PLUGIN_DIR . '/bp-custom.php' );
+	require_once( WP_PLUGIN_DIR . '/bp-custom.php' );
 
 // Define the user and usermeta table names, useful if you are using custom or shared tables.
 if ( !defined( 'CUSTOM_USER_TABLE' ) )
@@ -44,7 +52,8 @@ if ( !defined( 'BP_SEARCH_SLUG' ) )
 
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-bootstrap.php' );
 
-/** 
+if ( !function_exists( 'bp_loader_activate' ) ) :
+/**
  * Defines BP's activation routine. 
  * 
  * Most of BP's crucial setup is handled by the setup wizard. This function takes care of some 
@@ -68,11 +77,14 @@ function bp_loader_activate() {
 	do_action( 'bp_loader_activate' );
 }
 register_activation_hook( 'buddypress/bp-loader.php', 'bp_loader_activate' );
+endif;
 
+if ( !function_exists( 'bp_loader_deactivate' ) ) :
 // Deactivation Function
 function bp_loader_deactivate() {
 	do_action( 'bp_loader_deactivate' );
 }
 register_deactivation_hook( 'buddypress/bp-loader.php', 'bp_loader_deactivate' );
+endif;
 
 ?>
