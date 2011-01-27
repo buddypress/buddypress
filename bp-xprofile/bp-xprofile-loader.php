@@ -31,12 +31,14 @@ class BP_XProfile_Component extends BP_Component {
 	function _includes() {
 		$includes = array(
 			'cssjs',
+			'cache',
 			'actions',
 			'screens',
 			'classes',
 			'filters',
 			'template',
-			'functions'
+			'buddybar',
+			'functions',
 		);
 
 		if ( is_admin() )
