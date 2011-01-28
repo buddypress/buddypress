@@ -475,12 +475,12 @@ function bp_members_activate_signup( $key ) {
 		delete_user_meta( $user_id, 'activation_key' );
 	}
 
-	// Update the user_url and display_name
 	// Support for WP < 3.1
 	if ( ! function_exists( 'wp_update_user' ) )
  		require_once( ABSPATH . WPINC . '/registration.php' );
 
-	wp_update_user( array( 'ID' => $user_id, 'user_url' => bp_members_get_user_domain( $user_id ), 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
+	// Update the display_name
+	wp_update_user( array( 'ID' => $user_id, 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
 
 	// Set the password on multisite installs
 	if ( is_multisite() && !empty( $user['meta']['password'] ) )

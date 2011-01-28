@@ -505,7 +505,6 @@ function xprofile_sync_wp_profile( $user_id = 0 ) {
 	update_user_meta( $user_id, 'last_name',  $lastname  );
 
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET display_name = %s WHERE ID = %d", $fullname, $user_id ) );
-	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_url = %s WHERE ID = %d", bp_core_get_user_domain( $user_id ), $user_id ) );
 }
 add_action( 'xprofile_updated_profile', 'xprofile_sync_wp_profile' );
 add_action( 'bp_core_signup_user', 'xprofile_sync_wp_profile' );
