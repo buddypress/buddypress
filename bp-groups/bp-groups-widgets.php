@@ -99,8 +99,8 @@ class BP_Groups_Widget extends WP_Widget {
 
 	function form( $instance ) {
 		$defaults = array(
-			'title' => __( 'Groups', 'buddypress' ),
-			'max_members' => 5,
+			'title'         => __( 'Groups', 'buddypress' ),
+			'max_groups'    => 5,
 			'group_default' => 'active'
 		);
 		$instance = wp_parse_args( (array) $instance, $defaults );
