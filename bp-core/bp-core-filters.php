@@ -12,11 +12,15 @@
 function bp_core_exclude_pages( $pages ) {
 	global $bp;
 
-	$pages[] = $bp->pages->activate->id;
-	$pages[] = $bp->pages->register->id;
+	if ( !empty( $bp->pages->activate ) )
+		$pages[] = $bp->pages->activate->id;
+
+	if ( !empty( $bp->pages->register ) )
+		$pages[] = $bp->pages->register->id;
 
 	if ( !bp_is_active( 'forums' ) || ( function_exists( 'bp_forums_is_installed_correctly' ) && !bp_forums_is_installed_correctly() ) )
-		$pages[] = $bp->pages->forums->id;
+		if ( !empty( $bp->pages->forums ) )
+			$pages[] = $bp->pages->forums->id;
 
 	return apply_filters( 'bp_core_exclude_pages', $pages );
 }

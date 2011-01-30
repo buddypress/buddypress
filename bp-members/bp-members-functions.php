@@ -22,14 +22,20 @@
 function bp_core_define_slugs() {
 	global $bp;
 
-	if ( !defined( 'BP_MEMBERS_SLUG' ) )
+	if ( !defined( 'BP_MEMBERS_SLUG' ) && !empty( $bp->pages->members ) )
 		define( 'BP_MEMBERS_SLUG', $bp->pages->members->slug );
+	else if ( !defined( 'BP_MEMBERS_SLUG' ) )
+		define( 'BP_MEMBERS_SLUG', 'members' );
 
-	if ( !defined( 'BP_REGISTER_SLUG' ) )
+	if ( !defined( 'BP_REGISTER_SLUG' ) && !empty( $bp->pages->register ) )
 		define( 'BP_REGISTER_SLUG', $bp->pages->register->slug );
+	else if ( !defined( 'BP_REGISTER_SLUG' ) )
+		define( 'BP_REGISTER_SLUG', 'register' );
 
-	if ( !defined( 'BP_ACTIVATION_SLUG' ) )
+	if ( !defined( 'BP_ACTIVATION_SLUG' ) && !empty( $bp->pages->activate ) )
 		define( 'BP_ACTIVATION_SLUG', $bp->pages->activate->slug );
+	else if ( !defined( 'BP_ACTIVATION_SLUG' ) )
+		define( 'BP_ACTIVATION_SLUG', 'activate' );
 
 }
 add_action( 'bp_setup_globals', 'bp_core_define_slugs' );
