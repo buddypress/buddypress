@@ -568,7 +568,7 @@ function bp_message_loading_image_src() {
 	}
 
 function bp_message_get_recipient_tabs() {
-	if ( $recipient = stripslashes( $_GET['r'] ) ) :
+	if ( $recipients = bp_get_message_get_recipient_usernames() ) :
 		if ( $user_id = bp_core_get_userid( $recipient ) ) : ?>
 
 			<li id="un-<?php echo esc_attr( $recipient ); ?>" class="friend-tab">
@@ -586,9 +586,7 @@ function bp_message_get_recipient_usernames() {
 	echo bp_get_message_get_recipient_usernames();
 }
 	function bp_get_message_get_recipient_usernames() {
-		$recipients = '';
-		if ( !empty( $_GET['r'] ) )
-			$recipients = $_GET['r'];
+		$recipients = isset( $_GET['r'] ) ? stripslashes( $_GET['r'] ) : '';
 
 		return apply_filters( 'bp_get_message_get_recipient_usernames', $recipients );
 	}
