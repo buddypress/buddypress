@@ -73,9 +73,10 @@ class BP_Messages_Component extends BP_Component {
 			'root_slug'             => isset( $bp->pages->messages->slug ) ? $bp->pages->messages->slug : BP_MESSAGES_SLUG,
 			'notification_callback' => 'messages_format_notifications',
 			'search_string'         => __( 'Search Messages...', 'buddypress' ),
-			'autocomplete_all'      => defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' ),
 			'global_tables'         => $global_tables,
 		);
+
+		$this->autocomplete_all = defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' );
 
 		parent::_setup_globals( $globals );
 	}
