@@ -573,12 +573,13 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 	if ( $bp->messages->slug == $bp->current_component )
 		$autocomplete_all = $bp->messages->autocomplete_all;
 
-	$friends = false;
+	$friends  = false;
+	$pag_page = 1;
 
 	$limit = $_GET['limit'] ? $_GET['limit'] : apply_filters( 'bp_autocomplete_max_results', 10 );
 
 	// Get the user ids based on the search terms
-	if ( $autocomplete_all ) {
+	if ( !empty( $autocomplete_all ) ) {
 		$users = BP_Core_User::search_users( $_GET['q'], $limit, $pag_page );
 
 		if ( !empty( $users['users'] ) ) {
