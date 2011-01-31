@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-01-31 15:30:32+00:00\n"
+"POT-Creation-Date: 2011-01-31 16:30:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -387,119 +387,119 @@ msgstr ""
 msgid "BuddyPress Component Setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:301 bp-xprofile/bp-xprofile-loader.php:23
+#: bp-core/admin/bp-core-admin.php:303 bp-xprofile/bp-xprofile-loader.php:23
 msgid "Extended Profiles"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:302
+#: bp-core/admin/bp-core-admin.php:304
 msgid "Fully editable profile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:305 bp-friends/bp-friends-loader.php:22
+#: bp-core/admin/bp-core-admin.php:307 bp-friends/bp-friends-loader.php:22
 msgid "Friend Connections"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:306
+#: bp-core/admin/bp-core-admin.php:308
 msgid "Let your users make connections so they can track the activity of others, or filter on only those users they care about the most."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:309
+#: bp-core/admin/bp-core-admin.php:311
 msgid "Private Messaging"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:310
+#: bp-core/admin/bp-core-admin.php:312
 msgid "Private messaging will allow your users to talk to each other directly, and in private. Not just limited to one on one discussions, your users can send messages to multiple recipients."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:313 bp-activity/bp-activity-loader.php:22
+#: bp-core/admin/bp-core-admin.php:315 bp-activity/bp-activity-loader.php:22
 msgid "Activity Streams"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:314
+#: bp-core/admin/bp-core-admin.php:316
 msgid "Global, personal and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feed and email notification support."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:317
+#: bp-core/admin/bp-core-admin.php:319
 msgid "Extensible Groups"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:318
+#: bp-core/admin/bp-core-admin.php:320
 msgid "Powerful public, private or hidden groups allow your users to break the discussion down into specific topics with a separate activity stream and member listing."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:321 bp-forums/bp-forums-loader.php:22
+#: bp-core/admin/bp-core-admin.php:323 bp-forums/bp-forums-loader.php:22
 msgid "Discussion Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:322
+#: bp-core/admin/bp-core-admin.php:324
 msgid "Full powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:328 bp-core/admin/bp-core-update.php:261
+#: bp-core/admin/bp-core-admin.php:330 bp-core/admin/bp-core-update.php:261
 msgid "Blog Tracking"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:329 bp-core/admin/bp-core-update.php:269
+#: bp-core/admin/bp-core-admin.php:331 bp-core/admin/bp-core-update.php:269
 msgid "Track new blogs, new posts and new comments across your entire blog network."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:335
+#: bp-core/admin/bp-core-admin.php:339
 msgid "Optional Components"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:337
+#: bp-core/admin/bp-core-admin.php:341
 msgid "Select the BuddyPress components you'd like to enable."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:382 bp-themes/bp-default/groups/index.php:21
+#: bp-core/admin/bp-core-admin.php:387 bp-themes/bp-default/groups/index.php:21
 #: bp-themes/bp-default/groups/create.php:18
 msgid "Groups Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:383
+#: bp-core/admin/bp-core-admin.php:388
 msgid "Forums Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:384
+#: bp-core/admin/bp-core-admin.php:389
 #: bp-themes/bp-default/members/index.php:21
 msgid "Members Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:385 bp-groups/bp-groups-buddybar.php:46
+#: bp-core/admin/bp-core-admin.php:390 bp-groups/bp-groups-buddybar.php:46
 #: bp-members/bp-members-buddybar.php:124 bp-activity/bp-activity-loader.php:90
 #: bp-activity/feeds/bp-activity-personal-feed.php:21
 #: bp-activity/bp-activity-screens.php:178
 msgid "Activity"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:386 bp-core/admin/bp-core-update.php:464
+#: bp-core/admin/bp-core-admin.php:391 bp-core/admin/bp-core-update.php:464
 msgid "Register"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:387 bp-core/admin/bp-core-update.php:475
+#: bp-core/admin/bp-core-admin.php:392 bp-core/admin/bp-core-update.php:475
 #: bp-messages/bp-messages-template.php:486
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:391 bp-themes/bp-default/blogs/index.php:21
+#: bp-core/admin/bp-core-admin.php:396 bp-themes/bp-default/blogs/index.php:21
 #: bp-themes/bp-default/blogs/create.php:21
 msgid "Blogs Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:396
+#: bp-core/admin/bp-core-admin.php:401
 msgid "BuddyPress Page Setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:398
+#: bp-core/admin/bp-core-admin.php:403
 msgid "Choose the WordPress pages you'd like to associate with the following BuddyPress content."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:400
+#: bp-core/admin/bp-core-admin.php:405
 msgid "Leaving any of these items unset makes that content inaccessible to visitors, so be sure to fill this section out carefully."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:414 bp-core/admin/bp-core-update.php:249
+#: bp-core/admin/bp-core-admin.php:419 bp-core/admin/bp-core-update.php:249
 #: bp-core/admin/bp-core-update.php:397 bp-core/admin/bp-core-update.php:410
 #: bp-core/admin/bp-core-update.php:425 bp-core/admin/bp-core-update.php:440
 #: bp-core/admin/bp-core-update.php:455 bp-core/admin/bp-core-update.php:468
