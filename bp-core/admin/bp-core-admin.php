@@ -293,6 +293,8 @@ function bp_core_admin_component_setup() {
  * @since 1.3
  */
 function bp_core_admin_component_options() {
+	global $bp_wizard;
+	
 	$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) ); 
 	
 	// An array of strings looped over to create component setup markup
@@ -332,9 +334,12 @@ function bp_core_admin_component_options() {
 	
 	?>
 	
-	<h3><?php _e( 'Optional Components', 'buddypress' ) ?></h3>
+	<?php /* The setup wizard uses different, more descriptive text here */ ?>
+	<?php if ( empty( $bp_wizard ) ) : ?>
+		<h3><?php _e( 'Optional Components', 'buddypress' ) ?></h3>
 				
-	<p><?php _e( "Select the BuddyPress components you'd like to enable.", 'buddypress' ) ?></p>
+		<p><?php _e( "Select the BuddyPress components you'd like to enable.", 'buddypress' ) ?></p>
+	<?php endif ?>
 	
 	<table class="form-table">
 		<tbody>
