@@ -145,18 +145,17 @@ function bp_core_add_admin_menu() {
 		'page_title' => __( 'BuddyPress', 'buddypress' ),
 		'capability' => 'manage_options',
 		'file'       => 'bp-general-settings',
-		'function'   => 'bp_core_admin_dashboard',
+		'function'   => 'bp_core_admin_component_setup',
 		'position'   => 2
 	) );
 
-	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'BuddyPress Dashboard', 'buddypress' ), __( 'Dashboard', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_dashboard' );
-	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Settings', 'buddypress' ),       __( 'Settings',  'buddypress' ), 'manage_options', 'bp-settings',         'bp_core_admin_settings'  );
-	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Component Setup', 'buddypress' ),             __( 'Component Setup',  'buddypress' ), 'manage_options', 'bp-component-setup',         'bp_core_admin_component_setup'  );
+	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Components', 'buddypress' ), __( 'Components', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup'  );
+	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Settings',   'buddypress' ), __( 'Settings',   'buddypress' ), 'manage_options', 'bp-settings',         'bp_core_admin_settings'         );
 
 	// Add a hook for css/js
-	foreach( $hooks as $hook ) {
+	foreach( $hooks as $hook )
 		add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
-	}
+
 }
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_admin_menu', 9 );
 

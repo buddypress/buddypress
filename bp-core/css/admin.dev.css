@@ -1,3 +1,7 @@
+div#icon-buddypress {
+	background: url( ../images/icons32.png ) no-repeat -4px 0px;
+}
+
 div#bp-admin {
 	margin: 25px 15px 25px 0;
 	padding: 0 20px 20px 20px;

@@ -38,10 +38,12 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 ?>
 
 	<div class="wrap">
-		<div class="icon32" id="icon-tools"><br></div>
+
+		<?php screen_icon( 'buddypress' ); ?>
+
 		<h2>
 
-			<?php _e( 'Profile Field Setup', 'buddypress'); ?>
+			<?php _e( 'Extended Profile Fields', 'buddypress'); ?>
 
 			<a id="add_group" class="button add-new-h2" href="admin.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ); ?></a>
 		</h2>
