@@ -10,15 +10,15 @@ function bp_members_screen_signup() {
 	$bp->is_directory = false;
 
 	if ( bp_is_component_front_page( 'register' ) && ( is_user_logged_in() || !bp_get_signup_allowed() ) )
-		bp_core_redirect( $bp->root_domain . '/' . $bp->members->slug );
+		bp_core_redirect( bp_get_root_domain() . '/' . $bp->members->slug );
 
 	// If the user is logged in, redirect away from here
 	if ( is_user_logged_in() )
-		bp_core_redirect( $bp->root_domain );
+		bp_core_redirect( bp_get_root_domain() );
 
 	// If signups are disabled, just re-direct
 	if ( !bp_get_signup_allowed() )
-		bp_core_redirect( $bp->root_domain );
+		bp_core_redirect( bp_get_root_domain() );
 
 	$bp->signup->step = 'request-details';
 
@@ -72,7 +72,7 @@ function bp_members_screen_signup() {
 
 			// This situation doesn't naturally occur so bounce to website root
 			} else {
-				bp_core_redirect( $bp->root_domain );
+				bp_core_redirect( bp_get_root_domain() );
 			}
 		}
 
@@ -166,7 +166,7 @@ function bp_members_screen_activation() {
 		// If there were errors, add a message and redirect
 		if ( !empty( $user->errors ) ) {
 			bp_core_add_message( $user->get_error_message(), 'error' );
-			bp_core_redirect( $bp->root_domain . '/' . BP_ACTIVATION_SLUG );
+			bp_core_redirect( bp_get_root_domain() . '/' . BP_ACTIVATION_SLUG );
 		}
 
 		// Check for an uploaded avatar and move that to the correct user folder

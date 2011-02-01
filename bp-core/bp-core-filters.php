@@ -136,7 +136,7 @@ function bp_core_login_redirect( $redirect_to ) {
 	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && false === strpos( wp_get_referer(), 'activate' ) && empty( $_REQUEST['nr'] ) )
 		return wp_get_referer();
 
-	return $bp->root_domain;
+	return bp_get_root_domain();
 }
 add_filter( 'login_redirect', 'bp_core_login_redirect' );
 

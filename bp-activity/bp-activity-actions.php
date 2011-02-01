@@ -28,7 +28,7 @@ function bp_activity_action_permalink_router() {
 
 	// Redirect to root if activity does not exist
 	if ( !$activity = $activity['activities'][0] )
-		bp_core_redirect( $bp->root_domain );
+		bp_core_redirect( bp_get_root_domain() );
 
 	// Do not redirect at default
 	$redirect = false;
@@ -56,7 +56,7 @@ function bp_activity_action_permalink_router() {
 
 	// Allow redirect to be filtered
 	if ( !$redirect = apply_filters( 'bp_activity_permalink_redirect_url', $redirect, &$activity ) )
-		bp_core_redirect( $bp->root_domain );
+		bp_core_redirect( bp_get_root_domain() );
 
 	// Redirect to the actual activity permalink page
 	bp_core_redirect( $redirect );

@@ -295,7 +295,7 @@ function bp_search_form_enabled() {
 function bp_search_form_action() {
 	global $bp;
 
-	return apply_filters( 'bp_search_form_action', $bp->root_domain . '/' . BP_SEARCH_SLUG );
+	return apply_filters( 'bp_search_form_action', bp_get_root_domain() . '/' . BP_SEARCH_SLUG );
 }
 
 /**
@@ -385,9 +385,9 @@ function bp_search_form() {
 function bp_log_out_link() {
 	global $bp;
 	if ( function_exists('wp_logout_url') )
-		$logout_link = '<a href="' . wp_logout_url( $bp->root_domain ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
+		$logout_link = '<a href="' . wp_logout_url( bp_get_root_domain() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
 	else
-		$logout_link = '<a href="' . $bp->root_domain . '/wp-login.php?action=logout&amp;redirect_to=' . $bp->root_domain . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
+		$logout_link = '<a href="' . bp_get_root_domain() . '/wp-login.php?action=logout&amp;redirect_to=' . bp_get_root_domain() . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
 
 	echo apply_filters( 'bp_logout_link', $logout_link );
 }
@@ -561,7 +561,14 @@ function bp_root_domain() {
 	function bp_get_root_domain() {
 		global $bp;
 
-		return apply_filters( 'bp_get_root_domain', $bp->root_domain );
+		if ( isset( $bp->root_domain ) && !empty( $bp->root_domain ) ) {
+			$domain = $bp->root_domain;
+		} else {
+			$domain          = bp_core_get_root_domain();
+			$bp->root_domain = $domain;
+		}
+
+		return apply_filters( 'bp_get_root_domain', $domain );
 	}
 
 /**

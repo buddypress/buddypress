@@ -512,7 +512,7 @@ function bp_core_action_search_site( $slug = '' ) {
 		return;
 
 	if ( empty( $_POST['search-terms'] ) ) {
-		bp_core_redirect( $bp->root_domain );
+		bp_core_redirect( bp_get_root_domain() );
 		return;
 	}
 
@@ -542,7 +542,7 @@ function bp_core_action_search_site( $slug = '' ) {
 		}
 
 		if ( empty( $slug ) ) {
-			bp_core_redirect( $bp->root_domain );
+			bp_core_redirect( bp_get_root_domain() );
 			return;
 		}
 	}

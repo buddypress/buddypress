@@ -394,7 +394,7 @@ function bp_the_topic_object_permalink() {
 		global $bp, $forum_template;
 
 		/* Currently this will only work with group forums, extended support in the future */
-		return apply_filters( 'bp_get_the_topic_object_permalink', $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $forum_template->topic->object_slug . '/forum/' );
+		return apply_filters( 'bp_get_the_topic_object_permalink', bp_get_root_domain() . '/' . $bp->groups->root_slug . '/' . $forum_template->topic->object_slug . '/forum/' );
 	}
 
 function bp_the_topic_last_poster_name() {
@@ -547,11 +547,11 @@ function bp_the_topic_permalink() {
 		global $forum_template, $bp;
 
 		if ( !empty( $forum_template->topic->object_slug ) )
-			$permalink = trailingslashit( $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $forum_template->topic->object_slug );
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->groups->root_slug . '/' . $forum_template->topic->object_slug );
 		else if ( !empty( $bp->is_single_item ) )
-			$permalink = trailingslashit( $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item );
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . $bp->current_item );
 		else
-			$permalink = trailingslashit( $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_action );
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . $bp->current_action );
 
 		return apply_filters( 'bp_get_the_topic_permalink', trailingslashit( $permalink . 'forum/topic/' . $forum_template->topic->topic_slug ) );
 	}
@@ -662,7 +662,7 @@ function bp_my_forum_topics_link() {
 	function bp_get_my_forum_topics_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_my_forum_topics_link', $bp->root_domain . '/' . $bp->forums->slug . '/personal/' );
+		return apply_filters( 'bp_get_my_forum_topics_link', bp_get_root_domain() . '/' . $bp->forums->slug . '/personal/' );
 	}
 
 function bp_unreplied_forum_topics_link() {
@@ -671,7 +671,7 @@ function bp_unreplied_forum_topics_link() {
 	function bp_get_unreplied_forum_topics_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_unreplied_forum_topics_link', $bp->root_domain . '/' . $bp->forums->slug . '/unreplied/' );
+		return apply_filters( 'bp_get_unreplied_forum_topics_link', bp_get_root_domain() . '/' . $bp->forums->slug . '/unreplied/' );
 	}
 
 
@@ -681,7 +681,7 @@ function bp_popular_forum_topics_link() {
 	function bp_get_popular_forum_topics_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_popular_forum_topics_link', $bp->root_domain . '/' . $bp->forums->slug . '/popular/' );
+		return apply_filters( 'bp_get_popular_forum_topics_link', bp_get_root_domain() . '/' . $bp->forums->slug . '/popular/' );
 	}
 
 function bp_newest_forum_topics_link() {
@@ -690,7 +690,7 @@ function bp_newest_forum_topics_link() {
 	function bp_get_newest_forum_topics_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_newest_forum_topics_link', $bp->root_domain . '/' . $bp->forums->slug . '/' );
+		return apply_filters( 'bp_get_newest_forum_topics_link', bp_get_root_domain() . '/' . $bp->forums->slug . '/' );
 	}
 
 function bp_forum_topic_type() {
@@ -1100,9 +1100,9 @@ function bp_forum_permalink() {
 		global $bp;
 
 		if ( $bp->is_single_item )
-			$permalink = trailingslashit( $bp->root_domain . '/' . $bp->current_component . '/' . $bp->current_item );
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . $bp->current_item );
 		else
-			$permalink = trailingslashit( $bp->root_domain . $bp->current_component . '/' . $bp->current_action );
+			$permalink = trailingslashit( bp_get_root_domain() . $bp->current_component . '/' . $bp->current_action );
 
 		return apply_filters( 'bp_get_forum_permalink', trailingslashit( $permalink . 'forum' ) );
 	}
@@ -1113,7 +1113,7 @@ function bp_forum_directory_permalink() {
 	function bp_get_forum_directory_permalink() {
 		global $bp;
 
-		return apply_filters( 'bp_get_forum_directory_permalink', trailingslashit( $bp->root_domain . '/' . $bp->forums->root_slug ) );
+		return apply_filters( 'bp_get_forum_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . $bp->forums->root_slug ) );
 	}
 
 function bp_forums_tag_heat_map( $args = '' ) {
@@ -1136,7 +1136,7 @@ function bp_forum_action() {
 	function bp_get_forum_action() {
 		global $topic_template;
 
-		return apply_filters( 'bp_get_forum_action', $bp->root_domain . esc_attr( $_SERVER['REQUEST_URI'] ) );
+		return apply_filters( 'bp_get_forum_action', bp_get_root_domain() . esc_attr( $_SERVER['REQUEST_URI'] ) );
 	}
 
 function bp_forum_topic_action() {
@@ -1145,7 +1145,7 @@ function bp_forum_topic_action() {
 	function bp_get_forum_topic_action() {
 		global $bp;
 
-		return apply_filters( 'bp_get_forum_topic_action', $bp->root_domain . esc_attr( $_SERVER['REQUEST_URI'] ) );
+		return apply_filters( 'bp_get_forum_topic_action', bp_get_root_domain() . esc_attr( $_SERVER['REQUEST_URI'] ) );
 	}
 
 function bp_forum_topic_count_for_user( $user_id = 0 ) {

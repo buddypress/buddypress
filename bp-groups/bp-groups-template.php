@@ -409,7 +409,7 @@ function bp_group_permalink() {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_permalink', $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $group->slug . '/' );
+		return apply_filters( 'bp_get_group_permalink', bp_get_root_domain() . '/' . $bp->groups->root_slug . '/' . $group->slug . '/' );
 	}
 
 function bp_group_admin_permalink() {
@@ -421,7 +421,7 @@ function bp_group_admin_permalink() {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_admin_permalink', $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $group->slug . '/admin' );
+		return apply_filters( 'bp_get_group_admin_permalink', bp_get_root_domain() . '/' . $bp->groups->root_slug . '/' . $group->slug . '/admin' );
 	}
 
 function bp_group_slug() {
@@ -1048,24 +1048,24 @@ function bp_group_admin_tabs( $group = false ) {
 	$current_tab = $bp->action_variables[0];
 ?>
 	<?php if ( $bp->is_item_admin || $bp->is_item_mod ) { ?>
-		<li<?php if ( 'edit-details' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->root_domain . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/edit-details"><?php _e('Edit Details', 'buddypress') ?></a></li>
+		<li<?php if ( 'edit-details' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/edit-details"><?php _e('Edit Details', 'buddypress') ?></a></li>
 	<?php } ?>
 
 	<?php
 		if ( !$bp->is_item_admin )
 			return false;
 	?>
-	<li<?php if ( 'group-settings' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->root_domain . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/group-settings"><?php _e('Group Settings', 'buddypress') ?></a></li>
-	<li<?php if ( 'group-avatar' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->root_domain . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/group-avatar"><?php _e('Group Avatar', 'buddypress') ?></a></li>
-	<li<?php if ( 'manage-members' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->root_domain . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/manage-members"><?php _e('Manage Members', 'buddypress') ?></a></li>
+	<li<?php if ( 'group-settings' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/group-settings"><?php _e('Group Settings', 'buddypress') ?></a></li>
+	<li<?php if ( 'group-avatar' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/group-avatar"><?php _e('Group Avatar', 'buddypress') ?></a></li>
+	<li<?php if ( 'manage-members' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/manage-members"><?php _e('Manage Members', 'buddypress') ?></a></li>
 
 	<?php if ( $groups_template->group->status == 'private' ) : ?>
-		<li<?php if ( 'membership-requests' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->root_domain . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/membership-requests"><?php _e('Membership Requests', 'buddypress') ?></a></li>
+		<li<?php if ( 'membership-requests' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/membership-requests"><?php _e('Membership Requests', 'buddypress') ?></a></li>
 	<?php endif; ?>
 
 	<?php do_action( 'groups_admin_tabs', $current_tab, $group->slug ) ?>
 
-	<li<?php if ( 'delete-group' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->root_domain . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/delete-group"><?php _e('Delete Group', 'buddypress') ?></a></li>
+	<li<?php if ( 'delete-group' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . $bp->groups->root_slug ?>/<?php echo $group->slug ?>/admin/delete-group"><?php _e('Delete Group', 'buddypress') ?></a></li>
 <?php
 }
 
@@ -1738,7 +1738,7 @@ function bp_group_creation_tabs() {
 	foreach ( (array)$bp->groups->group_creation_steps as $slug => $step ) {
 		$is_enabled = bp_are_previous_group_creation_steps_complete( $slug ); ?>
 
-		<li<?php if ( $bp->groups->current_create_step == $slug ) : ?> class="current"<?php endif; ?>><?php if ( $is_enabled ) : ?><a href="<?php echo $bp->root_domain . '/' . $bp->groups->root_slug ?>/create/step/<?php echo $slug ?>/"><?php else: ?><span><?php endif; ?><?php echo $counter ?>. <?php echo $step['name'] ?><?php if ( $is_enabled ) : ?></a><?php else: ?></span><?php endif ?></li><?php
+		<li<?php if ( $bp->groups->current_create_step == $slug ) : ?> class="current"<?php endif; ?>><?php if ( $is_enabled ) : ?><a href="<?php echo bp_get_root_domain() . '/' . $bp->groups->root_slug ?>/create/step/<?php echo $slug ?>/"><?php else: ?><span><?php endif; ?><?php echo $counter ?>. <?php echo $step['name'] ?><?php if ( $is_enabled ) : ?></a><?php else: ?></span><?php endif ?></li><?php
 		$counter++;
 	}
 
@@ -1762,7 +1762,7 @@ function bp_group_creation_form_action() {
 		if ( empty( $bp->action_variables[1] ) )
 			$bp->action_variables[1] = array_shift( array_keys( $bp->groups->group_creation_steps ) );
 
-		return apply_filters( 'bp_get_group_creation_form_action', $bp->root_domain . '/' . $bp->groups->root_slug . '/create/step/' . $bp->action_variables[1] );
+		return apply_filters( 'bp_get_group_creation_form_action', bp_get_root_domain() . '/' . $bp->groups->root_slug . '/create/step/' . $bp->action_variables[1] );
 	}
 
 function bp_is_group_creation_step( $step_slug ) {
@@ -2491,9 +2491,9 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 
 		// Append $action to $url if there is no $type
 		if ( !empty( $action ) )
-			$url = $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $bp->groups->current_group->slug . '/' . $action;
+			$url = bp_get_root_domain() . '/' . $bp->groups->root_slug . '/' . $bp->groups->current_group->slug . '/' . $action;
 		else
-			$url = $bp->root_domain . '/' . $bp->groups->root_slug . '/' . $bp->groups->current_group->slug;
+			$url = bp_get_root_domain() . '/' . $bp->groups->root_slug . '/' . $bp->groups->current_group->slug;
 
 		// Add a slash at the end of our user url
 		$url = trailingslashit( $url );

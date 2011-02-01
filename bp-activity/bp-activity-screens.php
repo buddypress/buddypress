@@ -113,7 +113,7 @@ function bp_activity_screen_single_activity_permalink() {
 	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action() ) );
 
 	if ( !$activity = $activity['activities'][0] )
-		bp_core_redirect( $bp->root_domain );
+		bp_core_redirect( bp_get_root_domain() );
 
 	// Default access is true
 	$has_access = true;
@@ -123,7 +123,7 @@ function bp_activity_screen_single_activity_permalink() {
 
 		// Activity is from a group, but groups is currently disabled
 		if ( !bp_is_active( 'groups') )
-			bp_core_redirect( $bp->root_domain );
+			bp_core_redirect( bp_get_root_domain() );
 
 		// Check to see if the group is not public, if so, check the
 		// user has access to see this activity
@@ -155,7 +155,7 @@ function bp_activity_screen_single_activity_permalink() {
 		// Redirect based on logged in status
 		is_user_logged_in() ?
 			bp_core_redirect( $bp->loggedin_user->domain ) :
-			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . esc_url( $bp->root_domain . '/' . $bp->activity->slug . '/p/' . $bp->current_action ) ) );
+			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . esc_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/p/' . $bp->current_action ) ) );
 	}
 
 	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );

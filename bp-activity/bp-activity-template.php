@@ -835,7 +835,7 @@ function bp_activity_comments( $args = '' ) {
 
 				// Delete link
 				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id ) {
-					$delete_url = wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' );
+					$delete_url = wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' );
 					$content .= apply_filters( 'bp_activity_comment_delete_link', ' &middot; <a href="' . $delete_url . '" class="delete acomment-delete" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>', $comment, $delete_url );
 				}
 
@@ -972,7 +972,7 @@ function bp_activity_delete_link() {
 	function bp_get_activity_delete_link() {
 		global $activities_template, $bp;
 
-		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( $bp->root_domain . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete-activity confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>' );
+		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete-activity confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>' );
 	}
 
 function bp_activity_latest_update( $user_id = 0 ) {
@@ -988,7 +988,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
 			return false;
 
 		$latest_update = '&quot;' . apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 180 ) ) ) ) . '&quot;';
-		$latest_update .= ' &middot; <a href="' . $bp->root_domain . '/' . $bp->activity->root_slug . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
+		$latest_update .= ' &middot; <a href="' . bp_get_root_domain() . '/' . $bp->activity->root_slug . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_activity_latest_update', $latest_update  );
 	}

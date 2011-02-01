@@ -75,7 +75,7 @@ function bp_forums_filter_kses( $content ) {
 function bp_forums_filter_tag_link( $link, $tag, $page, $context ) {
 	global $bp;
 
-	return apply_filters( 'bp_forums_filter_tag_link', $bp->root_domain . '/' . $bp->forums->slug . '/tag/' . $tag . '/' );
+	return apply_filters( 'bp_forums_filter_tag_link', bp_get_root_domain() . '/' . $bp->forums->slug . '/tag/' . $tag . '/' );
 }
 add_filter( 'bb_get_tag_link', 'bp_forums_filter_tag_link', 10, 4);
 
@@ -123,7 +123,7 @@ function bp_forums_strip_mentions_on_post_edit( $content ) {
 
 	$content = htmlspecialchars_decode( $content );
 
-	$pattern = "|<a href=&#039;" . $bp->root_domain . "/" . $bp->members->slug . "/[A-Za-z0-9-_\.]+/&#039; rel=&#039;nofollow&#039;>(@[A-Za-z0-9-_\.]+)</a>|";
+	$pattern = "|<a href=&#039;" . bp_get_root_domain() . "/" . $bp->members->slug . "/[A-Za-z0-9-_\.]+/&#039; rel=&#039;nofollow&#039;>(@[A-Za-z0-9-_\.]+)</a>|";
 
 	$content = preg_replace( $pattern, "$1", $content );
 

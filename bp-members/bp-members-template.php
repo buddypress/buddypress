@@ -444,7 +444,7 @@ function bp_member_latest_update( $args = '' ) {
 		$update_content = apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
 
 		if ( !empty( $update['id'] ) )
-			$update_content .= ' &middot; <a href="' . $bp->root_domain . '/' . $bp->activity->root_slug . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
+			$update_content .= ' &middot; <a href="' . bp_get_root_domain() . '/' . $bp->activity->root_slug . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_member_latest_update', $update_content );
 	}
@@ -579,9 +579,9 @@ function bp_get_loggedin_user_nav() {
 
 	// Always add a log out list item to the end of the navigation
 	if ( function_exists( 'wp_logout_url' ) )
-		$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( $bp->root_domain ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
+		$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( bp_get_root_domain() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
 	else
-		$logout_link = '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . $bp->root_domain . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
+		$logout_link = '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . bp_get_root_domain() . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
 
 	echo apply_filters( 'bp_logout_nav_link', $logout_link );
 }
@@ -801,9 +801,9 @@ function bp_signup_page() {
 		global $bp;
 
 		if ( bp_has_custom_signup_page() )
-			$page = $bp->root_domain . '/' . BP_REGISTER_SLUG;
+			$page = bp_get_root_domain() . '/' . BP_REGISTER_SLUG;
 		else
-			$page = $bp->root_domain . '/wp-signup.php';
+			$page = bp_get_root_domain() . '/wp-signup.php';
 
 		return apply_filters( 'bp_get_signup_page', $page );
 	}
@@ -822,9 +822,9 @@ function bp_activation_page() {
 		global $bp;
 
 		if ( bp_has_custom_activation_page() )
-			$page = trailingslashit( $bp->root_domain ) . BP_ACTIVATION_SLUG;
+			$page = trailingslashit( bp_get_root_domain() ) . BP_ACTIVATION_SLUG;
 		else
-			$page = trailingslashit( $bp->root_domain ) . 'wp-activate.php';
+			$page = trailingslashit( bp_get_root_domain() ) . 'wp-activate.php';
 
 		return apply_filters( 'bp_get_activation_page', $page );
 	}

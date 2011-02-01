@@ -322,7 +322,7 @@ function bp_core_admin_bar() {
 function bp_adminbar_logo() {
 	global $bp;
 
-	echo '<a href="' . $bp->root_domain . '" id="admin-bar-logo">' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '</a>';
+	echo '<a href="' . bp_get_root_domain() . '" id="admin-bar-logo">' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '</a>';
 }
 
 // **** "Log In" and "Sign Up" links (Visible when not logged in) ********
@@ -332,7 +332,7 @@ function bp_adminbar_login_menu() {
 	if ( is_user_logged_in() )
 		return false;
 
-	echo '<li class="bp-login no-arrow"><a href="' . $bp->root_domain . '/wp-login.php?redirect_to=' . urlencode( $bp->root_domain ) . '">' . __( 'Log In', 'buddypress' ) . '</a></li>';
+	echo '<li class="bp-login no-arrow"><a href="' . bp_get_root_domain() . '/wp-login.php?redirect_to=' . urlencode( bp_get_root_domain() ) . '">' . __( 'Log In', 'buddypress' ) . '</a></li>';
 
 	// Show "Sign Up" link if user registrations are allowed
 	if ( bp_get_signup_allowed() )
@@ -421,17 +421,17 @@ function bp_adminbar_random_menu() {
 	<li class="align-right" id="bp-adminbar-visitrandom-menu">
 		<a href="#"><?php _e( 'Visit', 'buddypress' ) ?></a>
 		<ul class="random-list">
-			<li><a href="<?php echo trailingslashit( $bp->root_domain . '/' . $bp->members->root_slug ) . '?random-member' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
+			<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->members->root_slug ) . '?random-member' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
 
 			<?php if ( bp_is_active( 'groups' ) ) : ?>
 
-				<li class="alt"><a href="<?php echo trailingslashit( $bp->root_domain . '/' . $bp->groups->root_slug ) . '?random-group' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
+				<li class="alt"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->groups->root_slug ) . '?random-group' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
 
 			<?php if ( is_multisite() && bp_is_active( 'blogs' ) ) : ?>
 
-				<li><a href="<?php echo trailingslashit( $bp->root_domain . '/' . $bp->blogs->root_slug ) . '?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
+				<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->blogs->root_slug ) . '?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
 

@@ -39,7 +39,7 @@ function xprofile_screen_edit_profile() {
 
 	// Check the field group exists
 	if ( !xprofile_get_field_group( $bp->action_variables[1] ) )
-		bp_core_redirect( $bp->root_domain );
+		bp_core_redirect( bp_get_root_domain() );
 
 	// Check to see if any new information has been submitted
 	if ( isset( $_POST['field_ids'] ) ) {

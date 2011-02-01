@@ -32,13 +32,13 @@ function groups_action_create_group() {
 		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH );
 
 		$reset_steps = true;
-		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->root_slug . '/create/step/' . array_shift( array_keys( $bp->groups->group_creation_steps ) ) . '/' );
+		bp_core_redirect( bp_get_root_domain() . '/' . $bp->groups->root_slug . '/create/step/' . array_shift( array_keys( $bp->groups->group_creation_steps ) ) . '/' );
 	}
 
 	// If this is a creation step that is not recognized, just redirect them back to the first screen
 	if ( $bp->action_variables[1] && !$bp->groups->group_creation_steps[$bp->action_variables[1]] ) {
 		bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
-		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->root_slug . '/create/' );
+		bp_core_redirect( bp_get_root_domain() . '/' . $bp->groups->root_slug . '/create/' );
 	}
 
 	// Fetch the currently completed steps variable
@@ -60,14 +60,14 @@ function groups_action_create_group() {
 		if ( 'group-details' == $bp->groups->current_create_step ) {
 			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) || !strlen( trim( $_POST['group-name'] ) ) || !strlen( trim( $_POST['group-desc'] ) ) ) {
 				bp_core_add_message( __( 'Please fill in all of the required fields', 'buddypress' ), 'error' );
-				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->root_slug . '/create/step/' . $bp->groups->current_create_step . '/' );
+				bp_core_redirect( bp_get_root_domain() . '/' . $bp->groups->root_slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
 
 			$new_group_id = isset( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : 0;
 
 			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $new_group_id, 'name' => $_POST['group-name'], 'description' => $_POST['group-desc'], 'slug' => groups_check_slug( sanitize_title( esc_attr( $_POST['group-name'] ) ) ), 'date_created' => bp_core_current_time(), 'status' => 'public' ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
-				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->root_slug . '/create/step/' . $bp->groups->current_create_step . '/' );
+				bp_core_redirect( bp_get_root_domain() . '/' . $bp->groups->root_slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
 
 			groups_update_groupmeta( $bp->groups->new_group_id, 'total_member_count', 1 );
@@ -94,7 +94,7 @@ function groups_action_create_group() {
 
 			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_forum' => $group_enable_forum ) ) ) {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
-				bp_core_redirect( $bp->root_domain . '/' . $bp->groups->root_slug . '/create/step/' . $bp->groups->current_create_step . '/' );
+				bp_core_redirect( bp_get_root_domain() . '/' . $bp->groups->root_slug . '/create/step/' . $bp->groups->current_create_step . '/' );
 			}
 		}
 
@@ -150,7 +150,7 @@ function groups_action_create_group() {
 				}
 			}
 
-			bp_core_redirect( $bp->root_domain . '/' . $bp->groups->root_slug . '/create/step/' . $next_step . '/' );
+			bp_core_redirect( bp_get_root_domain() . '/' . $bp->groups->root_slug . '/create/step/' . $next_step . '/' );
 		}
 	}
 
@@ -273,7 +273,7 @@ function groups_action_redirect_to_random_group() {
 	if ( bp_is_current_component( $bp->groups->slug ) && isset( $_GET['random-group'] ) ) {
 		$group = groups_get_groups( array( 'type' => 'random', 'per_page' => 1 ) );
 
-		bp_core_redirect( $bp->root_domain . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug . '/' );
+		bp_core_redirect( bp_get_root_domain() . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug . '/' );
 	}
 }
 add_action( 'bp_actions', 'groups_action_redirect_to_random_group' );

@@ -253,7 +253,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 			if ( 'user' == $object ) {
 				$email = bp_core_get_user_email( $item_id );
 			} else if ( 'group' == $object || 'blog' == $object ) {
-				$email = "{$item_id}-{$object}@{$bp->root_domain}";
+				$email = "{$item_id}-{$object}@{bp_get_root_domain()}";
 			}
 		}
 

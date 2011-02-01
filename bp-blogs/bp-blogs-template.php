@@ -221,7 +221,7 @@ function bp_blog_permalink() {
 		global $blogs_template;
 
 		if ( empty( $blogs_template->blog->domain ) )
-			$permalink = $bp->root_domain . $blogs_template->blog->path;
+			$permalink = bp_get_root_domain() . $blogs_template->blog->path;
 		else {
 			$protocol = 'http://';
 			if ( is_ssl() )
@@ -481,7 +481,7 @@ function bp_create_blog_link() {
 	global $bp;
 
 	if ( bp_is_my_profile() )
-		echo apply_filters( 'bp_create_blog_link', '<a href="' . $bp->root_domain . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Blog', 'buddypress' ) . '</a>' );
+		echo apply_filters( 'bp_create_blog_link', '<a href="' . bp_get_root_domain() . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Blog', 'buddypress' ) . '</a>' );
 }
 
 function bp_blogs_blog_tabs() {
