@@ -16,7 +16,7 @@ function bp_activity_action_permalink_router() {
 	global $bp;
 
 	// Not viewing activity
-	if ( ( $bp->current_component != $bp->activity->id ) || ( $bp->current_action != 'p' ) )
+	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'p' ) )
 		return false;
 
 	// No activity to display
@@ -67,7 +67,7 @@ function bp_activity_action_delete_activity() {
 	global $bp;
 
 	// Not viewing activity or action is not delete
-	if ( ( $bp->current_component != $bp->activity->id ) || ( $bp->current_action != 'delete' ) )
+	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'delete' ) )
 		return false;
 
 	// Not viewing a specific activity item
@@ -105,7 +105,7 @@ function bp_activity_action_post_update() {
 	global $bp;
 
 	// Do not proceed if user is not logged in, not viewing activity, or not posting
-	if ( !is_user_logged_in() || ( $bp->current_component != $bp->activity->id ) || ( 'post' != $bp->current_action ) )
+	if ( !is_user_logged_in() || ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'post' ) )
 		return false;
 
 	// Check the nonce
@@ -151,7 +151,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_update' );
 function bp_activity_action_post_comment() {
 	global $bp;
 
-	if ( !is_user_logged_in() || $bp->current_component != $bp->activity->id || $bp->current_action != 'reply' )
+	if ( !is_user_logged_in() || ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'reply' ) )
 		return false;
 
 	// Check the nonce
@@ -183,10 +183,10 @@ add_action( 'bp_actions', 'bp_activity_action_post_comment' );
 function bp_activity_action_mark_favorite() {
 	global $bp;
 
-	if ( !is_user_logged_in() || $bp->current_component != $bp->activity->slug || $bp->current_action != 'favorite' )
+	if ( !is_user_logged_in() || ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'favorite' ) )
 		return false;
 
-	/* Check the nonce */
+	// Check the nonce
 	check_admin_referer( 'mark_favorite' );
 
 	if ( bp_activity_add_user_favorite( $bp->action_variables[0] ) )
@@ -201,10 +201,10 @@ add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
 function bp_activity_action_remove_favorite() {
 	global $bp;
 
-	if ( !is_user_logged_in() || $bp->current_component != $bp->activity->slug || $bp->current_action != 'unfavorite' )
+	if ( !is_user_logged_in() || ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'unfavorite' ) )
 		return false;
 
-	/* Check the nonce */
+	// Check the nonce
 	check_admin_referer( 'unmark_favorite' );
 
 	if ( bp_activity_remove_user_favorite( $bp->action_variables[0] ) )
@@ -219,7 +219,7 @@ add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || $bp->current_action != 'feed' || ( isset( $bp->displayed_user->id ) && $bp->displayed_user->id ) || isset( $bp->groups->current_group ) )
+	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'feed' ) || bp_is_user() || isset( $bp->groups->current_group ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -233,7 +233,7 @@ add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
 function bp_activity_action_personal_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'feed' )
+	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_user() || !bp_is_current_action( 'feed' ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -247,7 +247,7 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 function bp_activity_action_friends_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != $bp->friends->slug || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
+	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_user() || !bp_is_current_action( $bp->friends->slug ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -261,7 +261,7 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
 function bp_activity_action_my_groups_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != $bp->groups->slug || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
+	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_user() || !bp_is_current_action( $bp->groups->slug ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -275,7 +275,7 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
 function bp_activity_action_mentions_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'mentions' || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
+	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_user() || !bp_is_current_action( 'mentions' ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -289,7 +289,7 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
 function bp_activity_action_favorites_feed() {
 	global $bp, $wp_query;
 
-	if ( $bp->current_component != $bp->activity->slug || !$bp->displayed_user->id || $bp->current_action != 'favorites' || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
+	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_user() || !bp_is_current_action( 'favorites' ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;
