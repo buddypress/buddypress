@@ -178,8 +178,11 @@ class BP_Component {
 		// Register post types
 		add_action( 'bp_setup_globals',            array ( $this, '_setup_globals'           ), 10 );
 
-		// Register post types
-		add_action( 'bp_include',                  array ( $this, '_includes'                ), 10 );
+		// Include required files. Called early to ensure that BP core components are
+		// loaded before plugins that hook their loader functions to bp_include with
+		// the default priority of 10. This is for backwards compatibility; henceforth,
+		// plugins should register themselves by extending this base class.
+		add_action( 'bp_include',                  array ( $this, '_includes'                ), 8 );
 
 		// Register post types
 		add_action( 'bp_setup_nav',                array ( $this, '_setup_nav'               ), 10 );
