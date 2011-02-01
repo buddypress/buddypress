@@ -316,7 +316,7 @@ function bp_has_activities( $args = '' ) {
 					if ( empty( $favs ) )
 						return false;
 
-					$in = implode( ',', (array)$favs );
+					$include = implode( ',', (array)$favs );
 					break;
 				case 'mentions':
 					$user_nicename = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_nicename : $bp->loggedin_user->userdata->user_nicename;
