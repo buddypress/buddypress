@@ -549,7 +549,7 @@ function bp_the_topic_permalink() {
 		if ( !empty( $forum_template->topic->object_slug ) )
 			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->groups->root_slug . '/' . $forum_template->topic->object_slug );
 		else if ( !empty( $bp->is_single_item ) )
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . $bp->current_item );
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . bp_current_item() );
 		else
 			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . $bp->current_action );
 
@@ -1100,7 +1100,7 @@ function bp_forum_permalink() {
 		global $bp;
 
 		if ( $bp->is_single_item )
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . $bp->current_item );
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . bp_current_item() );
 		else
 			$permalink = trailingslashit( bp_get_root_domain() . $bp->current_component . '/' . $bp->current_action );
 

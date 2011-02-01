@@ -542,17 +542,20 @@ function bp_current_component() {
 
 function bp_current_action() {
 	global $bp;
-	return apply_filters( 'bp_current_action', $bp->current_action );
+	$current_action = !empty( $bp->current_action ) ? $bp->current_action : false;
+	return apply_filters( 'bp_current_action', $current_action );
 }
 
 function bp_current_item() {
 	global $bp;
-	return apply_filters( 'bp_current_item', $bp->current_item );
+	$current_item = !empty( $bp->current_item ) ? $bp->current_item : false;
+	return apply_filters( 'bp_current_item', $current_item );
 }
 
 function bp_action_variables() {
 	global $bp;
-	return apply_filters( 'bp_action_variables', $bp->action_variables );
+	$action_variables = !empty( $bp->action_variables ) ? $bp->action_variables : false;
+	return apply_filters( 'bp_action_variables', $action_variables );
 }
 
 function bp_root_domain() {
@@ -737,9 +740,7 @@ function bp_is_current_action( $action = '' ) {
 }
 
 function bp_is_current_item( $item = '' ) {
-	global $bp;
-
-	if ( $item == $bp->current_item )
+	if ( !empty( $item ) && $item == bp_current_item() )
 		return true;
 
 	return false;

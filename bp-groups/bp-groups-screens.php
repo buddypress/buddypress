@@ -679,7 +679,7 @@ function groups_screen_group_admin_requests() {
 
 		// Ask for a login if the user is coming here via an email notification
 		if ( !is_user_logged_in() )
-			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . bp_get_root_domain() . '/' . $bp->current_component . '/' . $bp->current_item . '/admin/membership-requests/' ) );
+			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . bp_get_root_domain() . '/' . $bp->current_component . '/' . bp_current_item() . '/admin/membership-requests/' ) );
 
 		if ( !$bp->is_item_admin || 'public' == $bp->groups->current_group->status )
 			return false;
@@ -688,7 +688,7 @@ function groups_screen_group_admin_requests() {
 		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'new_membership_request' );
 
 		$request_action = $bp->action_variables[1];
-		$membership_id = $bp->action_variables[2];
+		$membership_id  = $bp->action_variables[2];
 
 		if ( isset($request_action) && isset($membership_id) ) {
 			if ( 'accept' == $request_action && is_numeric($membership_id) ) {
