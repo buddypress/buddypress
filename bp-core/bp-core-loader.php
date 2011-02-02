@@ -57,21 +57,33 @@ class BP_Core extends BP_Component {
 		$bp->required_components    = apply_filters( 'bp_required_components',    array( 'members', ) );
 
 		// Get a list of activated components
-		if ( $activated_components = get_site_option( 'bp-active-components' ) ) {
-			$bp->active_components      = apply_filters( 'bp_active_components',      $activated_components );
-			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_keys( $bp->active_components ) ) );
+		if ( $active_components = get_site_option( 'bp-active-components' ) ) {
+			$bp->active_components      = apply_filters( 'bp_active_components',      $active_components );
+			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', array_values( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_keys( $bp->active_components ) ) ) );
 
-		// Backwards compatibility
+		// Pre 1.3 Backwards compatibility
 		} elseif ( $deactivated_components = get_site_option( 'bp-deactivated-components' ) ) {
-			foreach ( $deactivated_components as $name => $value )
-				$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $name ) );
+			// Trim off namespace and filename
+			foreach ( $deactivated_components as $component => $value )
+				$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $component ) );
+
+			// Set globals
 			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', $trimmed );
-			$bp->active_components      = apply_filters( 'bp_active_components',      array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $bp->deactivated_components ) ) );
+
+			// Setup the active components
+			$active_components          = array_flip( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $bp->deactivated_components ) ) );
+
+			// Loop through active components and set the values
+			foreach( $active_components as $component => $value )
+				$bp->active_components[$component] = 1;
+
+			// Set the active component global
+			$bp->active_components      = apply_filters( 'bp_active_components', $bp->active_components );
 		}
 
 		// Loop through optional components
 		foreach( $bp->optional_components as $component )
-			if ( bp_is_active( $component) && file_exists( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) )
+			if ( bp_is_active( $component ) && file_exists( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) )
 				include( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' );
 
 		// Loop through required components
