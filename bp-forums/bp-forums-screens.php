@@ -60,32 +60,52 @@ function bp_forums_directory_forums_setup() {
 }
 add_action( 'bp_screens', 'bp_forums_directory_forums_setup' );
 
-function bp_forums_screen_topics() {
+function bp_member_forums_screen_topics() {
 	global $bp;
 
-	do_action( 'bp_forums_screen_topics' );
+	do_action( 'bp_member_forums_screen_topics' );
 
 	bp_core_load_template( apply_filters( 'bp_forums_screen_topics', 'members/single/home' ) );
 }
 
-function bp_forums_screen_replies() {
+function bp_member_forums_screen_replies() {
+	global $bp;
+
+	do_action( 'bp_member_forums_screen_replies' );
+
+	bp_core_load_template( apply_filters( 'bp_member_forums_screen_replies', 'members/single/home' ) );
+}
+
+function bp_member_forums_screen_favorites() {
+	global $bp;
+
+	do_action( 'bp_member_forums_screen_favorites' );
+
+	bp_core_load_template( apply_filters( 'bp_member_forums_screen_favorites', 'members/single/home' ) );
+}
+
+function bp_forums_screen_single_forum() {
+	global $bp;
+
+	if ( !bp_is_forums_component() || !bp_is_current_action( 'forum' ) || empty( $bp->action_variables[0] ) )
+		return false;
+
+	do_action( 'bp_forums_screen_single_forum' );
+
+	bp_core_load_template( apply_filters( 'bp_forums_screen_single_forum', 'forums/single/forum' ) );
+}
+add_action( 'bp_screens', 'bp_forums_screen_single_forum' );
+
+function bp_forums_screen_single_topic() {
 	global $bp;
 
 	if ( !bp_is_forums_component() || !bp_is_current_action( 'topic' ) || empty( $bp->action_variables[0] ) )
 		return false;
 
-	do_action( 'bp_forums_screen_replies' );
+	do_action( 'bp_forums_screen_single_topic' );
 
-	bp_core_load_template( apply_filters( 'bp_forums_screen_replies', 'forums/single/topic' ) );
+	bp_core_load_template( apply_filters( 'bp_forums_screen_single_topic', 'forums/single/topic' ) );
 }
-add_action( 'bp_screens', 'bp_forums_screen_replies' );
-
-function bp_forums_screen_favorites() {
-	global $bp;
-
-	do_action( 'bp_forums_screen_favorites' );
-
-	bp_core_load_template( apply_filters( 'bp_forums_screen_favorites', 'members/single/home' ) );
-}
+add_action( 'bp_screens', 'bp_forums_screen_single_topic' );
 
 ?>

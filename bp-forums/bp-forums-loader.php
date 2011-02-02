@@ -128,7 +128,7 @@ class BP_Forums_Component extends BP_Component {
 			'slug'            => 'topics',
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_forums_screen_topics',
+			'screen_function' => 'bp_member_forums_screen_topics',
 			'position'        => 20,
 			'item_css_id'     => 'forums-friends'
 		);
@@ -139,7 +139,7 @@ class BP_Forums_Component extends BP_Component {
 			'slug'            => 'replies',
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_forums_screen_replies',
+			'screen_function' => 'bp_member_forums_screen_replies',
 			'position'        => 40,
 			'item_css_id'     => 'forums-friends'
 		);
@@ -150,7 +150,7 @@ class BP_Forums_Component extends BP_Component {
 			'slug'            => 'favorites',
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_forums_screen_favorites',
+			'screen_function' => 'bp_member_forums_screen_favorites',
 			'position'        => 60,
 			'item_css_id'     => 'forums-favs'
 		);

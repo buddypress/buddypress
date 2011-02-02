@@ -448,10 +448,10 @@ function bp_the_topic_last_poster_avatar( $args = '' ) {
 		global $forum_template;
 
 		$defaults = array(
-			'type' => 'thumb',
-			'width' => false,
+			'type'   => 'thumb',
+			'width'  => false,
 			'height' => false,
-			'alt' => __( 'Profile picture of %s', 'buddypress' )
+			'alt'    => __( 'Profile picture of %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -564,7 +564,7 @@ function bp_the_topic_permalink() {
 		else if ( bp_is_single_item() )
 			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/' . bp_current_item() );
 		else
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/' . $bp->current_action );
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() );
 
 		return apply_filters( 'bp_get_the_topic_permalink', trailingslashit( $permalink . 'topic/' . $forum_template->topic->topic_slug ) );
 	}
@@ -900,6 +900,8 @@ function bp_has_forum_topic_posts( $args = '' ) {
 
 	if ( empty( $topic_id ) && bp_is_current_component( 'groups') && bp_is_current_action( 'forum' ) && 'topic' == $bp->action_variables[0] )
 		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[1] );
+	elseif ( empty( $topic_id ) && bp_is_current_component( 'forums') && bp_is_current_action( 'topic' ) && !empty( $bp->action_variables[0] ) )
+		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[0] );
 
 	if ( is_numeric( $topic_id ) ) {
 		$topic_template = new BP_Forums_Template_Topic( $topic_id, $per_page, $max, $order );
@@ -1106,18 +1108,46 @@ function bp_directory_forums_search_form() {
 <?php
 }
 
-function bp_forum_permalink() {
-	echo bp_get_forum_permalink();
+function bp_forum_permalink( $forum_id = 0 ) {
+	echo bp_get_forum_permalink( $forum_id );
 }
-	function bp_get_forum_permalink() {
+	function bp_get_forum_permalink( $forum_id = 0 ) {
 		global $bp;
 
-		if ( $bp->is_single_item )
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . bp_current_item() );
-		else
-			$permalink = trailingslashit( bp_get_root_domain() . $bp->current_component . '/' . $bp->current_action );
+		if ( bp_is_groups_component() ) {
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . bp_current_item() . 'forum' );
+		} else {
+			if ( empty( $forum_id ) ) {
+				global $topic_template;
+				if ( isset( $topic_template->forum_id ) )
+					$forum_id = $topic_template->forum_id;
+			}
 
-		return apply_filters( 'bp_get_forum_permalink', trailingslashit( $permalink . 'forum' ) );
+			if ( $forum = bp_forums_get_forum( $forum_id ) )
+				$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/forum/' . $forum->forum_slug );
+			else
+				return false;
+		}
+
+		return apply_filters( 'bp_get_forum_permalink', trailingslashit( $permalink ) );
+	}
+
+function bp_forum_name( $forum_id = 0 ) {
+	echo bp_get_forum_name( $forum_id );
+}
+	function bp_get_forum_name( $forum_id = 0 ) {
+		global $bp;
+
+		if ( empty( $forum_id ) ) {
+			global $topic_template;
+			if ( isset( $topic_template->forum_id ) )
+				$forum_id = $topic_template->forum_id;
+		}
+
+		if ( $forum = bp_forums_get_forum( $forum_id ) )
+			return apply_filters( 'bp_get_forum_name', $forum->forum_name, $forum->forum_id );
+		else
+			return false;
 	}
 
 function bp_forum_directory_permalink() {
