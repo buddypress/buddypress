@@ -17,7 +17,7 @@ if ( !defined( 'BP_VERSION' ) )
 
 // Define the database version
 if ( !defined( 'BP_DB_VERSION' ) )
-	define( 'BP_DB_VERSION', 3605 );
+	define( 'BP_DB_VERSION', 3706 );
 
 // Place your custom code (actions/filters) in a file called
 // '/plugins/bp-custom.php' and it will be loaded before anything else.
@@ -64,7 +64,7 @@ if ( empty( $bp->database_version ) ) {
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
 
 // An update is required
-} elseif ( $bp->database_version < constant( 'BP_DB_VERSION' ) ) {
+} elseif ( (int)$bp->database_version < (int)constant( 'BP_DB_VERSION' ) ) {
 	$bp->maintenence_mode = 'update';
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
 
