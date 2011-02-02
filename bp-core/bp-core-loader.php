@@ -50,17 +50,24 @@ class BP_Core extends BP_Component {
 
 		/** Components ********************************************************/
 
-		// Get a list of activated components
-		$bp->active_components      = apply_filters( 'bp_active_components',      get_site_option( 'bp-active-components' ) );
-
 		// Set the included and optional components
 		$bp->optional_components    = apply_filters( 'bp_optional_components',    array( 'activity', 'blogs', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile', ) );
 
 		// Set the required components
 		$bp->required_components    = apply_filters( 'bp_required_components',    array( 'members', ) );
 
-		// Set the inactive components for backpat
-		$bp->deactivated_components = apply_filters( 'bp_deactivated_components', array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_keys( $bp->active_components ) ) );
+		// Get a list of activated components
+		if ( $activated_components = get_site_option( 'bp-active-components' ) ) {
+			$bp->active_components      = apply_filters( 'bp_active_components',      $activated_components );
+			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_keys( $bp->active_components ) ) );
+
+		// Backwards compatibility
+		} elseif ( $deactivated_components = get_site_option( 'bp-deactivated-components' ) ) {
+			foreach ( $deactivated_components as $name => $value )
+				$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $name ) );
+			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', $trimmed );
+			$bp->active_components      = apply_filters( 'bp_active_components',      array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $bp->deactivated_components ) ) );
+		}
 
 		// Loop through optional components
 		foreach( $bp->optional_components as $component )
