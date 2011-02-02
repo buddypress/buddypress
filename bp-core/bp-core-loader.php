@@ -61,17 +61,6 @@ class BP_Core extends BP_Component {
 		// display custom navigation for an item (for example a group)
 		$bp->is_single_item = false;
 
-		// The default component to use if none are set and someone
-		// visits: http://domain.com/members/andy
-		if ( !defined( 'BP_DEFAULT_COMPONENT' ) ) {
-			if ( isset( $bp->pages->activity ) )
-				$bp->default_component = $bp->activity->id;
-			else
-				$bp->default_component = $bp->profile->id;
-		} else {
-			$bp->default_component     = BP_DEFAULT_COMPONENT;
-		}
-
 		// Sets up the array container for the component navigation rendered
 		// by bp_get_nav()
 		$bp->bp_nav            = array();
@@ -82,7 +71,7 @@ class BP_Core extends BP_Component {
 
 		// Contains an array of all the active components. The key is the slug,
 		// value the internal ID of the component.
-		$bp->active_components = array();
+		//$bp->active_components = array();
 
 		/** Basic current user data *******************************************/
 

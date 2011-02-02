@@ -112,10 +112,22 @@ class BP_Members_Component extends BP_Component {
 		// Fetch the full name displayed user
 		$bp->displayed_user->fullname = bp_core_get_user_displayname( $bp->displayed_user->id );
 
+		/** Profiles Fallback *************************************************/
+		if ( !bp_is_active( 'xprofile' ) )
+			$bp->profile->slug = 'profile';
+
 		/** Default Profile Component *****************************************/
+		if ( !defined( 'BP_DEFAULT_COMPONENT' ) ) {
+			if ( isset( $bp->pages->activity ) )
+				$bp->default_component = $bp->activity->id;
+			else
+				$bp->default_component = $bp->profile->id;
+		} else {
+			$bp->default_component     = BP_DEFAULT_COMPONENT;
+		}
+
 		if ( !$bp->current_component && $bp->displayed_user->id )
 			$bp->current_component = $bp->default_component;
-
 	}
 
 	/**

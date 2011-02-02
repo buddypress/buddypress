@@ -362,12 +362,15 @@ Class BP_Activity_Activity {
 		global $wpdb, $bp;
 
 		if ( !$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id ) ) {
-			// Select the user's fullname with the query so we don't have to
-			// fetch it for each comment
+			// Select the user's fullname with the query
 			if ( bp_is_active( 'xprofile' ) ) {
 				$fullname_select = ", pd.value as user_fullname";
 				$fullname_from = ", {$bp->profile->table_name_data} pd ";
 				$fullname_where = "AND pd.user_id = a.user_id AND pd.field_id = 1";
+
+			// Prevent debug errors
+			} else {
+				$fullname_select = $fullname_from = $fullname_where = '';
 			}
 
 			// Retrieve all descendants of the $root node

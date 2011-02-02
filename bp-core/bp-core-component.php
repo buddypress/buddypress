@@ -126,7 +126,7 @@ class BP_Component {
 		/** BuddyPress ********************************************************/
 
 		// Register this component in the active components array
-		$bp->active_components[$this->slug] = $this->id;
+		$bp->loaded_components[$this->slug] = $this->id;
 
 		// Call action
 		do_action( 'bp_' . $this->id . '_setup_globals' );
