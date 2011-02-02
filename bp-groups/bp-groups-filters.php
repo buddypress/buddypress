@@ -71,16 +71,16 @@ function groups_add_forum_privacy_sql() {
 }
 add_filter( 'bbpress_init', 'groups_add_forum_privacy_sql' );
 
-function groups_add_forum_fields_sql( $sql ) {
+function groups_add_forum_fields_sql( $sql = '' ) {
 	return 't.*, g.id as object_id, g.name as object_name, g.slug as object_slug';
 }
 
-function groups_add_forum_tables_sql( $sql ) {
+function groups_add_forum_tables_sql( $sql = '' ) {
 	global $bp;
 	return ', ' . $bp->groups->table_name . ' AS g LEFT JOIN ' . $bp->groups->table_name_groupmeta . ' AS gm ON g.id = gm.group_id ';
 }
 
-function groups_add_forum_where_sql( $sql ) {
+function groups_add_forum_where_sql( $sql = '' ) {
 	global $bp;
 
 	// Set this for groups
