@@ -348,20 +348,22 @@ function bp_search_default_text( $component = '' ) {
 		global $bp;
 
 		if ( empty( $component ) )
-			$component = $bp->current_component;
+			$component = bp_current_component();
 
 		$default_text = __( 'Search anything...', 'buddypress' );
 
 		// Most of the time, $component will be the actual component ID
-		if ( !empty( $bp->{$component}->search_string ) ) {
-			$default_text = $bp->{$component}->search_string;
-		} else {
-			// When the request comes through AJAX, we need to get the component
-			// name out of $bp->pages
-			if ( !empty( $bp->pages->{$component}->slug ) ) {
-				$key = $bp->pages->{$component}->slug;
-				if ( !empty( $bp->{$key}->search_string ) )
-					$default_text = $bp->{$key}->search_string;
+		if ( !empty( $component ) ) {
+			if ( !empty( $bp->{$component}->search_string ) ) {
+				$default_text = $bp->{$component}->search_string;
+			} else {
+				// When the request comes through AJAX, we need to get the component
+				// name out of $bp->pages
+				if ( !empty( $bp->pages->{$component}->slug ) ) {
+					$key = $bp->pages->{$component}->slug;
+					if ( !empty( $bp->{$key}->search_string ) )
+						$default_text = $bp->{$key}->search_string;
+				}
 			}
 		}
 
