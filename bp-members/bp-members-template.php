@@ -214,7 +214,7 @@ function bp_has_members( $args = '' ) {
 	}
 
 	// Make sure we return no members if we looking at friendship requests and there are none.
-	if ( empty( $include ) && bp_is_current_component( $bp->friends->slug ) && 'requests' == $bp->current_action )
+	if ( empty( $include ) && bp_is_friends_component() && bp_is_current_action( 'requests' ) )
 		return false;
 
 	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude );
@@ -443,8 +443,8 @@ function bp_member_latest_update( $args = '' ) {
 
 		$update_content = apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
 
-		if ( !empty( $update['id'] ) )
-			$update_content .= ' &middot; <a href="' . bp_get_root_domain() . '/' . $bp->activity->root_slug . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
+		if ( !empty( $update['id'] ) && bp_is_active( 'activity' ) )
+			$update_content .= ' &middot; <a href="' . bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_member_latest_update', $update_content );
 	}
