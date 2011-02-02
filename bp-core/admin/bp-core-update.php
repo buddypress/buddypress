@@ -4,15 +4,15 @@ class BP_Core_Setup_Wizard {
 	var $current_step;
 	var $steps;
 
-	var $current_version;
+	var $database_version;
 	var $is_network_activate;
 	var $new_version;
 	var $setup_type;
 
 	function bp_core_setup_wizard() {
 		// Look for current DB version
-		if ( !$this->current_version = get_site_option( 'bp-db-version' ) ) {
-			if ( $this->current_version = get_option( 'bp-db-version' ) ) {
+		if ( !$this->database_version = get_site_option( 'bp-db-version' ) ) {
+			if ( $this->database_version = get_option( 'bp-db-version' ) ) {
 				$this->is_network_activate = true;
 			} else {
 				setcookie( 'bp-wizard-step', 0, time() + 60 * 60 * 24, COOKIEPATH );
@@ -21,7 +21,7 @@ class BP_Core_Setup_Wizard {
 		}
 
 		$this->new_version  = constant( 'BP_DB_VERSION' );
-		$this->setup_type   = ( empty( $this->current_version ) && !(int)get_site_option( 'bp-core-db-version' ) ) ? 'new' : 'update';
+		$this->setup_type   = ( empty( $this->database_version ) && !(int)get_site_option( 'bp-core-db-version' ) ) ? 'install' : 'update';
 		$this->current_step = $this->current_step();
 
 		// Call the save method that will save data and modify $current_step
@@ -51,7 +51,7 @@ class BP_Core_Setup_Wizard {
 		// Setup wizard steps
 		$steps = array();
 
-		if ( 'new' == $this->setup_type ) {
+		if ( 'install' == $this->setup_type ) {
 			$steps = array(
 				__( 'Components', 'buddypress' ),
 				__( 'Pages',      'buddypress' ),
@@ -65,10 +65,10 @@ class BP_Core_Setup_Wizard {
 			if ( $this->is_network_activate )
 				$steps[] = __( 'Multisite Update', 'buddypress' );
 
-			if ( $this->current_version < $this->new_version )
+			if ( $this->database_version < $this->new_version )
 				$steps[] = __( 'Database Update', 'buddypress' );
 
-			if ( $this->current_version < 1225 || ( function_exists( 'bp_core_get_page_meta' ) && !bp_core_get_page_meta() ) )
+			if ( $this->database_version < 1225 || ( function_exists( 'bp_core_get_page_meta' ) && !bp_core_get_page_meta() ) )
 				$steps[] = __( 'Pages', 'buddypress' );
 
 			$steps[] = __( 'Finish', 'buddypress' );
@@ -372,7 +372,7 @@ class BP_Core_Setup_Wizard {
 			$activation_slug = __( 'activate', 'buddypress' );
 
 		// What kind of setup is taking place
-		if ( 'new' == $this->setup_type ) : ?>
+		if ( 'install' == $this->setup_type ) : ?>
 
 			<p><?php _e( "BuddyPress needs to use pages to display content and directories.", 'buddypress' ) ?></p>
 
@@ -690,7 +690,7 @@ class BP_Core_Setup_Wizard {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
-		if ( 'new' == $this->setup_type ) :
+		if ( 'install' == $this->setup_type ) :
 			$type = __( 'setup', 'buddypress' ); ?>
 
 			<h2>Setup Complete!</h2>
@@ -729,7 +729,7 @@ class BP_Core_Setup_Wizard {
 			// Run the schema install to update tables
 			bp_core_install();
 
-			if ( $this->current_version < 1225 )
+			if ( $this->database_version < 1225 )
 				$this->update_1_3();
 				
 			return true;
@@ -749,7 +749,7 @@ class BP_Core_Setup_Wizard {
 
 			// Transfer important settings from blog options to site options
 			$options = array(
-				'bp-db-version'             => $this->current_version,
+				'bp-db-version'             => $this->database_version,
 				'bp-deactivated-components' => $disabled,
 				'avatar-default'            => get_option( 'avatar-default' )
 			);
@@ -1120,13 +1120,13 @@ function bp_core_update_add_admin_menu_page( $args = '' ) {
 	global $menu, $admin_page_hooks, $_registered_pages;
 
 	$defaults = array(
-		'page_title'   => '',
-		'menu_title'   => '',
-		'capability'   => 'manage_options',
-		'menu_slug'    => '',
-		'function'     => false,
-		'icon_url'     => false,
-		'position'     => 100
+		'page_title' => '',
+		'menu_title' => '',
+		'capability' => 'manage_options',
+		'menu_slug'  => '',
+		'function'   => false,
+		'icon_url'   => false,
+		'position'   => 100
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -1187,7 +1187,7 @@ function bp_core_update_add_admin_menu() {
 	global $bp_wizard;
 
 	// Only load this version of the menu if this is an upgrade or a new installation 
-	if ( ( !defined( 'BP_IS_UPGRADE' ) || !BP_IS_UPGRADE ) && ( !defined( 'BP_IS_INSTALL' ) || !BP_IS_INSTALL ) ) 
+	if ( ( empty( $bp->maintenence_mode ) ) )
 		return false; 
 	
 	if ( !current_user_can( 'activate_plugins' ) )
@@ -1200,12 +1200,12 @@ function bp_core_update_add_admin_menu() {
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
 	bp_core_update_add_admin_menu_page( array(
-		'menu_title'   => __( 'BuddyPress', 'buddypress' ),
-		'page_title'   => __( 'BuddyPress', 'buddypress' ),
-		'capability'   => 'manage_options',
-		'menu_slug'    => 'bp-wizard',
-		'function'     => '',
-		'position'     => 3
+		'menu_title' => __( 'BuddyPress', 'buddypress' ),
+		'page_title' => __( 'BuddyPress', 'buddypress' ),
+		'capability' => 'manage_options',
+		'menu_slug'  => 'bp-wizard',
+		'function'   => '',
+		'position'   => 3
 	) );
 
 	$hook = add_submenu_page( 'bp-wizard', $status, $status, 'manage_options', 'bp-wizard', array( $bp_wizard, 'html' ) );
@@ -1263,30 +1263,33 @@ function bp_core_update_get_page_meta() {
 	return $page_ids;
 }
 
-/** 
- * Adds an admin nag about running the BP upgrade/install wizard 
- * 
- * @package BuddyPress Core 
- * @since 1.3 
- * @global $pagenow The current admin page 
- */ 
-function bp_core_update_nag() { 
-	global $pagenow; 
+/**
+ * Adds an admin nag about running the BP upgrade/install wizard
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ * @global $pagenow The current admin page
+ */
+function bp_core_update_nag() {
+	global $pagenow;
 
-  	if ( !is_super_admin() ) 
-  		return; 
-  	
-  	if ( 'admin.php' == $pagenow && ( empty( $_GET['page'] ) || 'bp-wizard' == $_GET['page'] ) ) 
-  		return; 
-  	
-  	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE ) 
-  		$msg = sprintf( __( 'BuddyPress has been updated! Please run the <a href="%s">upgrade wizard</a>.', 'buddypress' ), admin_url( 'admin.php?page=bp-wizard' ) ); 
-  	else if ( defined( 'BP_IS_INSTALL' ) && BP_IS_INSTALL ) 
-  		$msg = sprintf( __( 'BuddyPress has been installed! Please run the <a href="%s">upgrade wizard</a>.', 'buddypress' ), admin_url( 'admin.php?page=bp-wizard' ) ); 
-                  
-  	echo "<div class='update-nag'>$msg</div>"; 
-} 
+	if ( !is_super_admin() )
+		return;
+	
+	if ( 'admin.php' == $pagenow && ( empty( $_GET['page'] ) || 'bp-wizard' == $_GET['page'] ) )
+		return;
+
+	switch( $bp->maintenence_mode ) {
+		case 'update' :
+			$msg = sprintf( __( 'BuddyPress has been updated! Please run the <a href="%s">update wizard</a>.', 'buddypress' ), admin_url( 'admin.php?page=bp-wizard' ) );
+			break;
+		case 'install' :
+			$msg = sprintf( __( 'BuddyPress was successfully installed! Please run the <a href="%s">installation wizard</a>.', 'buddypress' ), admin_url( 'admin.php?page=bp-wizard' ) );
+			break;
+	}
+
+	echo '<div class="update-nag">' . $msg . '</div>';
+}
 add_action( 'admin_notices', 'bp_core_update_nag', 5 ); 
-
 
 ?>

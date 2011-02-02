@@ -8,6 +8,7 @@
  * Author URI:  http://buddypress.org/community/members/
  * Network:     true
  */
+
 /** Constants *****************************************************************/
 
 // Define the BuddyPress version
@@ -17,6 +18,11 @@ if ( !defined( 'BP_VERSION' ) )
 // Define the database version
 if ( !defined( 'BP_DB_VERSION' ) )
 	define( 'BP_DB_VERSION', 3605 );
+
+// Place your custom code (actions/filters) in a file called
+// '/plugins/bp-custom.php' and it will be loaded before anything else.
+if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
+	require_once( WP_PLUGIN_DIR . '/bp-custom.php' );
 
 // Define on which blog ID BuddyPress should run
 if ( !defined( 'BP_ROOT_BLOG' ) )
@@ -29,14 +35,6 @@ if ( !defined( 'BP_PLUGIN_DIR' ) )
 if ( !defined( 'BP_PLUGIN_URL' ) )
 	define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
 
-// Load the WP abstraction file so BuddyPress can run on all WordPress setups.
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
-
-// Place your custom code (actions/filters) in a file called
-// '/plugins/bp-custom.php' and it will be loaded before anything else.
-if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
-	require_once( WP_PLUGIN_DIR . '/bp-custom.php' );
-
 // Define the user and usermeta table names, useful if you are using custom or shared tables.
 if ( !defined( 'CUSTOM_USER_TABLE' ) )
 	define( 'CUSTOM_USER_TABLE',      $wpdb->base_prefix . 'users' );
@@ -48,9 +46,34 @@ if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
 if ( !defined( 'BP_SEARCH_SLUG' ) )
 	define( 'BP_SEARCH_SLUG', 'search' );
 
+// Setup the BuddyPress theme directory
+register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
+
 /** Loader ********************************************************************/
 
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-bootstrap.php' );
+// Load the WP abstraction file so BuddyPress can run on all WordPress setups.
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
+
+// Test to see whether this is a new installation or an upgraded version of BuddyPress
+if ( !$bp->database_version = get_site_option( 'bp-db-version' ) )
+	$bp->database_version = get_site_option( 'bp-core-db-version' );  // BP 1.2 option name
+
+// This is a new installation.
+if ( empty( $bp->database_version ) ) {
+ 	$bp->maintenence_mode = 'install';
+	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
+
+// An update is required
+} elseif ( $bp->database_version < constant( 'BP_DB_VERSION' ) ) {
+	$bp->maintenence_mode = 'update';
+	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
+
+// Existing installation - No maintenence required
+} else {
+	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
+}
+
+/** Activation ****************************************************************/
 
 if ( !function_exists( 'bp_loader_activate' ) ) :
 /**

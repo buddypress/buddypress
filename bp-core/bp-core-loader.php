@@ -1,21 +1,21 @@
 <?php
 
 // Require all of the BuddyPress core libraries
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-cache.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'  );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-cache.php'     );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'     );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'     );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'   );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'   );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'   );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'   );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-template.php'  );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-buddybar.php'  );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php'  );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php' );
+require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 // Load deprecated functions
-if ( !defined( 'BP_SKIP_DEPRECATED' ) )
+if ( !empty( $bp->load_deprecated ) )
 	require_once( BP_PLUGIN_DIR . '/bp-core/deprecated/1.3.php'  );
 
 // Load the WP admin bar.
@@ -32,6 +32,45 @@ class BP_Core extends BP_Component {
 			__( 'BuddyPress Core', 'buddypress' )
 			, BP_PLUGIN_DIR
 		);
+
+		$this->_bootstrap();
+	}
+
+	function _bootstrap() {
+		global $bp;
+
+		/**
+		 * At this point in the stack, BuddyPress core has been loaded but
+		 * individual components (friends/activity/groups/etc...) have not.
+		 *
+		 * The 'bp_core_loaded' action lets you execute code ahead of the
+		 * other components.
+		 */
+		do_action( 'bp_core_loaded' );
+
+		/** Components ********************************************************/
+
+		// Get a list of activated components
+		$bp->active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
+
+		// Set the included and optional components
+		$bp->optional_components = apply_filters( 'bp_optional_components', array( 'activity', 'blogs', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile', ) );
+
+		// Set the required components
+		$bp->required_components = apply_filters( 'bp_required_components', array( 'members', ) );
+
+		// Loop through optional components
+		foreach( $bp->optional_components as $component )
+			if ( bp_is_active( $component) && file_exists( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) )
+				include( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' );
+
+		// Loop through required components
+		foreach( $bp->required_components as $component )
+			if ( file_exists( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) )
+				include( BP_PLUGIN_DIR . '/bp-members/bp-members-loader.php' );
+
+		// Add Core to required components
+		$bp->required_components[] = 'core';
 	}
 
 	function _setup_globals() {
@@ -129,6 +168,8 @@ class BP_Core extends BP_Component {
 		}
 	}
 }
+
+// Initialize the BuddyPress Core
 $bp->core = new BP_Core();
 
 ?>

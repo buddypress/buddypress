@@ -99,19 +99,10 @@ function bp_core_admin_settings() {
 			return false;
 
 		// Settings form submitted, now save the settings.
-		foreach ( (array)$_POST['bp-admin'] as $key => $value ) {
-
-			if ( bp_is_active( 'xprofile' ) ) {
-				if ( 'bp-xprofile-base-group-name' == $key )
-					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s WHERE id = 1", stripslashes( $value ) ) );
-				elseif ( 'bp-xprofile-fullname-field-name' == $key )
-					$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET name = %s WHERE group_id = 1 AND id = 1", stripslashes( $value ) ) );
-			}
-
+		foreach ( (array)$_POST['bp-admin'] as $key => $value )
 			update_site_option( $key, $value );
-		}
-	}
-	?>
+
+	} ?>
 
 	<div class="wrap">
 
@@ -212,17 +203,10 @@ function bp_core_admin_settings() {
 <?php
 }
 
-/**
- * Renders the Component Setup admin panel.
- *
- * @package BuddyPress Core
- * @since {@internal Unknown}}
- * @uses bp_core_admin_component_options()
- */
-function bp_core_admin_component_setup() {
+function bp_core_admin_component_setup_handler() {
 	global $wpdb, $bp;
 
-	if ( isset( $_POST['bp-admin-component-submit'] ) && isset( $_POST['bp_components'] ) ) {
+	if ( isset( $_POST['bp-admin-component-submit'] ) ) {
 		if ( !check_admin_referer('bp-admin-component-setup') )
 			return false;
 
@@ -242,7 +226,21 @@ function bp_core_admin_component_setup() {
 			}
 			bp_core_update_page_meta( $directory_pages );
 		}
-	} ?>
+
+		wp_redirect( admin_url( add_query_arg( array( 'page' => 'bp-general-settings', 'updated' => 'true' ), 'admin.php' ) ) );
+	}
+}
+add_action( 'admin_init', 'bp_core_admin_component_setup_handler' );
+
+/**
+ * Renders the Component Setup admin panel.
+ *
+ * @package BuddyPress Core
+ * @since {@internal Unknown}}
+ * @uses bp_core_admin_component_options()
+ */
+function bp_core_admin_component_setup() {
+?>
 
 	<div class="wrap">
 
@@ -250,7 +248,7 @@ function bp_core_admin_component_setup() {
 
 		<h2><?php _e( 'BuddyPress Component Settings', 'buddypress' ); ?></h2>
 
-		<?php if ( isset( $_POST['bp-admin-component-submit'] ) ) : ?>
+		<?php if ( isset( $_GET['updated'] ) && 'true' === $_GET['updated'] ) : ?>
 
 			<div id="message" class="updated fade">
 
