@@ -38,9 +38,9 @@
 			<tr>
 				<th id="th-title"><?php _e( 'Topic Title', 'buddypress' ); ?></th>
 
-				<?php if ( !bp_is_group_forum() ) : ?>
+				<?php if ( bp_is_directory() ) : ?>
 
-					<th id="th-group"><?php _e( 'In Group', 'buddypress' ); ?></th>
+					<th id="th-group"><?php _e( 'Forum', 'buddypress' ); ?></th>
 
 				<?php endif; ?>
 
@@ -66,7 +66,7 @@
 					</a>
 				</td>
 
-				<?php if ( !bp_is_group_forum() ) : ?>
+				<?php if ( bp_is_directory() ) : ?>
 
 					<td class="td-group">
 						<a href="<?php bp_the_topic_object_permalink(); ?>"><?php bp_the_topic_object_avatar( 'type=thumb&width=20&height=20' ); ?></a>

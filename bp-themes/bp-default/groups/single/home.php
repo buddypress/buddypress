@@ -47,6 +47,12 @@
 				elseif ( bp_group_is_visible() && bp_is_active( 'activity' ) ) :
 					locate_template( array( 'groups/single/activity.php' ), true );
 
+				elseif ( bp_group_is_visible() && bp_is_active( 'forums' ) ) :
+					locate_template( array( 'groups/single/forum.php' ), true );
+
+				elseif ( bp_group_is_visible() ) :
+					locate_template( array( 'groups/single/members.php' ), true );
+
 				elseif ( !bp_group_is_visible() ) :
 					// The group is not visible, show the status message
 
