@@ -5,7 +5,7 @@
 <?php do_action( 'bp_before_profile_field_content' ) ?>
 
 	<div class="bp-widget wp-profile">
-		<h4><?php _e( 'My Profile' ) ?></h4>
+		<h4><?php bp_is_my_profile() ? _e( 'My Profile' ) : printf( __( "%s's Profile", 'buddypress' ), bp_get_displayed_user_fullname() ); ?></h4>
 
 		<table class="wp-profile-fields zebra">
 
