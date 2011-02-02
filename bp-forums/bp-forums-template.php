@@ -334,10 +334,10 @@ function bp_the_topic_poster_avatar( $args = '' ) {
 		global $forum_template;
 
 		$defaults = array(
-			'type' => 'thumb',
-			'width' => false,
+			'type'   => 'thumb',
+			'width'  => false,
 			'height' => false,
-			'alt' => __( 'Profile picture of %s', 'buddypress' )
+			'alt'    => __( 'Profile picture of %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -375,7 +375,12 @@ function bp_the_topic_object_name() {
 	function bp_get_the_topic_object_name() {
 		global $forum_template;
 
-		return apply_filters( 'bp_get_the_topic_object_name', $forum_template->topic->object_name );
+		if ( isset( $forum_template->topic->object_name ) )
+			$retval = $forum_template->topic->object_name;
+		else
+			$retval = '';
+
+		return apply_filters( 'bp_get_the_topic_object_name', $retval );
 	}
 
 function bp_the_topic_object_slug() {
@@ -393,8 +398,13 @@ function bp_the_topic_object_permalink() {
 	function bp_get_the_topic_object_permalink() {
 		global $bp, $forum_template;
 
-		/* Currently this will only work with group forums, extended support in the future */
-		return apply_filters( 'bp_get_the_topic_object_permalink', bp_get_root_domain() . '/' . $bp->groups->root_slug . '/' . $forum_template->topic->object_slug . '/forum/' );
+		// Currently this will only work with group forums, extended support in the future
+		if ( bp_is_active( 'groups' ) )
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $forum_template->topic->object_slug . '/forum/' );
+		else
+			$permalink = '';
+
+		return apply_filters( 'bp_get_the_topic_object_permalink', $permalink );
 	}
 
 function bp_the_topic_last_poster_name() {
@@ -415,11 +425,14 @@ function bp_the_topic_object_avatar( $args = '' ) {
 	function bp_get_the_topic_object_avatar( $args = '' ) {
 		global $forum_template;
 
+		if ( !isset( $forum_template->topic->object_id ) )
+			return false;
+
 		$defaults = array(
-			'type' => 'thumb',
-			'width' => false,
+			'type'   => 'thumb',
+			'width'  => false,
 			'height' => false,
-			'alt' => __( 'Group logo for %s', 'buddypress' )
+			'alt'    => __( 'Group logo for %s', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -546,14 +559,14 @@ function bp_the_topic_permalink() {
 	function bp_get_the_topic_permalink() {
 		global $forum_template, $bp;
 
-		if ( !empty( $forum_template->topic->object_slug ) )
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->groups->root_slug . '/' . $forum_template->topic->object_slug );
-		else if ( !empty( $bp->is_single_item ) )
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . bp_current_item() );
+		if ( bp_is_active( 'groups' ) && !empty( $forum_template->topic->object_slug ) )
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $forum_template->topic->object_slug . '/forum' );
+		else if ( bp_is_single_item() )
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/' . bp_current_item() );
 		else
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . $bp->current_component . '/' . $bp->current_action );
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/' . $bp->current_action );
 
-		return apply_filters( 'bp_get_the_topic_permalink', trailingslashit( $permalink . 'forum/topic/' . $forum_template->topic->topic_slug ) );
+		return apply_filters( 'bp_get_the_topic_permalink', trailingslashit( $permalink . 'topic/' . $forum_template->topic->topic_slug ) );
 	}
 
 function bp_the_topic_time_since_created() {

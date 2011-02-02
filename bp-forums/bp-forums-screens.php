@@ -71,10 +71,14 @@ function bp_forums_screen_topics() {
 function bp_forums_screen_replies() {
 	global $bp;
 
+	if ( !bp_is_forums_component() || !bp_is_current_action( 'topic' ) || empty( $bp->action_variables[0] ) )
+		return false;
+
 	do_action( 'bp_forums_screen_replies' );
 
-	bp_core_load_template( apply_filters( 'bp_forums_screen_replies', 'members/single/home' ) );
+	bp_core_load_template( apply_filters( 'bp_forums_screen_replies', 'forums/single/topic' ) );
 }
+add_action( 'bp_screens', 'bp_forums_screen_replies' );
 
 function bp_forums_screen_favorites() {
 	global $bp;

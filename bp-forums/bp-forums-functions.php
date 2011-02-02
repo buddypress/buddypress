@@ -267,7 +267,14 @@ function bp_forums_total_topic_count() {
 	do_action( 'bbpress_init' );
 
 	if ( isset( $bbdb ) ) {
-		$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t". groups_add_forum_tables_sql( '' ) . " WHERE " . groups_add_forum_where_sql( "t.topic_status = 0" ) ) );
+		if ( bp_is_active( 'groups' ) ) {
+			$groups_table_sql = groups_add_forum_tables_sql();
+			$groups_where_sql = groups_add_forum_where_sql( "t.topic_status = 0" );
+		} else {
+			$groups_table_sql = '';
+			$groups_where_sql = "t.topic_status = 0";
+		}
+		$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t {$groups_table_sql} WHERE {$groups_where_sql}" ) );
 		$count = count( (array)$count );
 	} else {
 		$count = 0;
