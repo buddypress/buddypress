@@ -60,17 +60,19 @@ if ( !$bp->database_version = get_site_option( 'bp-db-version' ) )
 
 // This is a new installation.
 if ( empty( $bp->database_version ) ) {
- 	$bp->maintenence_mode = 'install';
+	$bp->maintenence_mode = 'install';
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
 
-// An update is required
-} elseif ( (int)$bp->database_version < (int)constant( 'BP_DB_VERSION' ) ) {
-	$bp->maintenence_mode = 'update';
-	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
-
-// Existing installation - No maintenence required
+// There is a previous installation
 } else {
+	// Load core
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
+
+	// Check if an update is required
+	if ( (int)$bp->database_version < (int)constant( 'BP_DB_VERSION' ) ) {
+		$bp->maintenence_mode = 'update';
+		require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
+	}
 }
 
 /** Activation ****************************************************************/
