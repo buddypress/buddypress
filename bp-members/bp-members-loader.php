@@ -165,9 +165,9 @@ class BP_Members_Component extends BP_Component {
 				'screen_function' => 'bp_members_screen_display_profile',
 				'position'        => 10
 			);
-		}
 
-		parent::_setup_nav( $main_nav, $sub_nav );
+			parent::_setup_nav( $main_nav, $sub_nav );
+		}
 	}
 
 	/**
