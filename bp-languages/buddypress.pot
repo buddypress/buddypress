@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-02-02 09:30:30+00:00\n"
+"POT-Creation-Date: 2011-02-02 19:30:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3699,6 +3699,10 @@ msgstr ""
 
 #: bp-themes/bp-default/members/single/settings/general.php:64
 msgid "Repeat New Password"
+msgstr ""
+
+#: bp-themes/bp-default/members/single/profile/profile-wp.php:8
+msgid "%s's Profile"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:7
