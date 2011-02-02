@@ -1,6 +1,6 @@
 <?php do_action( 'bp_before_profile_loop_content' ) ?>
 
-<?php $ud = get_userdata( bp_core_get_displayed_userid() ); ?>
+<?php $ud = get_userdata( bp_displayed_user_id() ); ?>
 
 <?php do_action( 'bp_before_profile_field_content' ) ?>
 

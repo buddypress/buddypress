@@ -57,7 +57,7 @@ class BP_Members_Component extends BP_Component {
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_MEMBERS_SLUG' ) )
-			define( 'BP_MEMBERS_SLUG', $this->id );
+			define( 'BP_MEMBERS_SLUG', 'members' );
 
 		$globals = array(
 			'slug'          => BP_MEMBERS_SLUG,
@@ -140,100 +140,57 @@ class BP_Members_Component extends BP_Component {
 	function _setup_nav() {
 		global $bp;
 
-		return false;
-
-		// Add 'User' to the main navigation
-		$main_nav = array(
-			'name'                => __( 'User', 'buddypress' ),
-			'slug'                => $this->slug,
-			'position'            => 10,
-			'screen_function'     => 'bp_members_screen_my_users',
-			'default_subnav_slug' => 'just-me',
-			'item_css_id'         => $this->id
-		);
-
-		// Stop if there is no user displayed or logged in
-		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
-			return;
-
-		// User links
-		$user_domain   = ( isset( $bp->displayed_user->domain ) )               ? $bp->displayed_user->domain               : $bp->loggedin_user->domain;
-		$user_login    = ( isset( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
-		$users_link    = $user_domain . $this->slug . '/';
-
-		// Add the subnav items to the users nav item if we are using a theme that supports this
-		$sub_nav[] = array(
-			'name'            => __( 'Personal', 'buddypress' ),
-			'slug'            => 'just-me',
-			'parent_url'      => $users_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_members_screen_my_users',
-			'position'        => 10
-		);
-
-		// Additional menu if friends is active
-		if ( bp_is_active( 'friends' ) ) {
-			$sub_nav[] = array(
-				'name'            => __( 'Friends', 'buddypress' ),
-				'slug'            => BP_FRIENDS_SLUG,
-				'parent_url'      => $users_link,
-				'parent_slug'     => $this->slug,
-				'screen_function' => 'bp_members_screen_friends',
-				'position'        => 20,
-				'item_css_id'     => 'users-friends'
+		// Add 'Profile' to the main navigation
+		if ( !bp_is_active( 'xprofile' ) ) {
+			$main_nav = array(
+				'name'                => __( 'Profile', 'buddypress' ),
+				'slug'                => $bp->profile->slug,
+				'position'            => 20,
+				'screen_function'     => 'bp_members_screen_display_profile',
+				'default_subnav_slug' => 'public',
+				'item_css_id'         => $bp->profile->id
 			);
-		}
 
-		// Additional menu if groups is active
-		if ( bp_is_active( 'groups' ) ) {
+			// User links
+			$user_domain   = ( isset( $bp->displayed_user->domain ) )               ? $bp->displayed_user->domain               : $bp->loggedin_user->domain;
+			$user_login    = ( isset( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
+			$profile_link  = trailingslashit( $user_domain . $bp->profile->slug );
+
+			// Add the subnav items to the profile
 			$sub_nav[] = array(
-				'name'            => __( 'Groups', 'buddypress' ),
-				'slug'            => BP_GROUPS_SLUG,
-				'parent_url'      => $users_link,
-				'parent_slug'     => $this->slug,
-				'screen_function' => 'bp_members_screen_groups',
-				'position'        => 30,
-				'item_css_id'     => 'users-groups'
+				'name'            => __( 'Public', 'buddypress' ),
+				'slug'            => 'public',
+				'parent_url'      => $profile_link,
+				'parent_slug'     => $bp->profile->slug,
+				'screen_function' => 'bp_members_screen_display_profile',
+				'position'        => 10
 			);
-		}
-
-		// Favorite users items
-		$sub_nav[] = array(
-			'name'            => __( 'Favorites', 'buddypress' ),
-			'slug'            => 'favorites',
-			'parent_url'      => $users_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_members_screen_favorites',
-			'position'        => 40,
-			'item_css_id'     => 'users-favs'
-		);
-
-		// @ mentions
-		$sub_nav[] = array(
-			'name'            => sprintf( __( '@%s Mentions', 'buddypress' ), $user_login ),
-			'slug'            => 'mentions',
-			'parent_url'      => $users_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_members_screen_mentions',
-			'position'        => 50,
-			'item_css_id'     => 'users-mentions'
-		);
-
-		// Adjust title based on view
-		if ( bp_is_users_component() ) {
-			if ( bp_is_my_profile() ) {
-				$bp->bp_options_title = __( 'You', 'buddypress' );
-			} else {
-				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => $bp->displayed_user->id,
-					'type'    => 'thumb'
-				) );
-				$bp->bp_options_title  = $bp->displayed_user->fullname;
-			}
 		}
 
 		parent::_setup_nav( $main_nav, $sub_nav );
 	}
+
+	/**
+	 * Sets up the title for pages and <title>
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_title() {
+		global $bp;
+
+		if ( bp_is_my_profile() ) {
+			$bp->bp_options_title = __( 'You', 'buddypress' );
+		} elseif( bp_is_user() ) {
+			$bp->bp_options_avatar = bp_core_fetch_avatar( array(
+				'item_id' => $bp->displayed_user->id,
+				'type'    => 'thumb'
+			) );
+			$bp->bp_options_title  = $bp->displayed_user->fullname;
+		}
+
+		parent::_setup_title();
+	}
+
 }
 // Create the users component
 $bp->members = new BP_Members_Component();

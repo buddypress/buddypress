@@ -21,7 +21,7 @@ function bp_get_options_nav() {
 	// index. Otherwise we need to use the component's root_slug
 	$component_index = !empty( $bp->displayed_user ) ? $bp->current_component : bp_get_root_slug( $bp->current_component );
 
-	if ( count( $bp->bp_options_nav[$component_index] ) < 1 )
+	if ( !isset( $bp->bp_options_nav[$component_index] ) || count( $bp->bp_options_nav[$component_index] ) < 1 )
 		return false;
 
 	// Loop through each navigation item
@@ -978,7 +978,7 @@ function bp_is_user_friends_activity() {
 function bp_is_user_profile() {
 	global $bp;
 
-	if ( bp_is_current_component( 'xprofile' ) )
+	if ( bp_is_current_component( 'xprofile' ) || bp_is_current_component( 'profile' ) )
 		return true;
 
 	return false;
