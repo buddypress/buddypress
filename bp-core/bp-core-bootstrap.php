@@ -28,38 +28,38 @@ if ( empty( $bp_db_version ) ) {
 	do_action( 'bp_core_loaded' );
 
 	// Get a list of deactivated components
-	$bp_deactivated = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
+	$bp->active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
 
 	// Activity Streams
-	if ( !isset( $bp_deactivated['bp-activity/bp-activity-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-activity/bp-activity-loader.php') )
+	if ( bp_is_active( 'activity') && file_exists( BP_PLUGIN_DIR . '/bp-activity/bp-activity-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-activity/bp-activity-loader.php' );
 
 	// Blog Tracking
-	if ( !isset( $bp_deactivated['bp-blogs/bp-blogs-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-loader.php') )
+	if ( bp_is_active( 'blogs') && file_exists( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-blogs/bp-blogs-loader.php' );
 
 	// bbPress Forum Integration
-	if ( !isset( $bp_deactivated['bp-forums/bp-forums-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-forums/bp-forums-loader.php') )
+	if ( bp_is_active( 'forums') && file_exists( BP_PLUGIN_DIR . '/bp-forums/bp-forums-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-forums/bp-forums-loader.php' );
 
 	// Friend Connections
-	if ( !isset( $bp_deactivated['bp-friends/bp-friends-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-friends/bp-friends-loader.php') )
+	if ( bp_is_active( 'friends') && file_exists( BP_PLUGIN_DIR . '/bp-friends/bp-friends-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-friends/bp-friends-loader.php' );
 
 	// Groups Support
-	if ( !isset( $bp_deactivated['bp-groups/bp-groups-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php') )
+	if ( bp_is_active( 'groups') && file_exists( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-groups/bp-groups-loader.php' );
 
 	// Private Messaging
-	if ( !isset( $bp_deactivated['bp-messages/bp-messages-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-messages/bp-messages-loader.php') )
+	if ( bp_is_active( 'messages') && file_exists( BP_PLUGIN_DIR . '/bp-messages/bp-messages-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-messages/bp-messages-loader.php' );
 
 	// Extended Profiles
-	if ( !isset( $bp_deactivated['bp-xprofile/bp-xprofile-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-loader.php') )
+	if ( bp_is_active( 'xprofile') && file_exists( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-xprofile/bp-xprofile-loader.php' );
 
 	// Member Settings
-	if ( !isset( $bp_deactivated['bp-settings/bp-settings-loader.php'] ) && file_exists( BP_PLUGIN_DIR . '/bp-settings/bp-settings-loader.php') )
+	if ( bp_is_active( 'settings') && file_exists( BP_PLUGIN_DIR . '/bp-settings/bp-settings-loader.php') )
 		include( BP_PLUGIN_DIR . '/bp-settings/bp-settings-loader.php' );
 
 	// Always require BuddyPress Members - It cannot be turned off (yet)

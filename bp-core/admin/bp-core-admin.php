@@ -227,19 +227,21 @@ function bp_core_admin_component_setup() {
 			return false;
 
 		// Settings form submitted, now save the settings. First, set active components
-		foreach ( (array)$_POST['bp_components'] as $key => $value ) {
-			if ( !(int) $value )
-				$disabled[$key] = 1;
+		if ( isset( $_POST['bp_components'] ) ) {
+			$bp->active_components = stripslashes_deep( $_POST['bp_components'] );
+			update_site_option( 'bp-active-components', $bp->active_components );
 		}
-		update_site_option( 'bp-deactivated-components', $disabled );
-		
+
 		// Then, update the directory pages
-		$directory_pages = array();	
-		foreach ( (array)$_POST['bp_pages'] as $key => $value ) {
-			if ( !empty( $value ) )
-				$directory_pages[$key] = (int)$value;
+		if ( isset( $_POST['bp_pages'] ) ) {
+			$directory_pages = array();
+			foreach ( (array)$_POST['bp_pages'] as $key => $value ) {
+				if ( !empty( $value ) ) {
+					$directory_pages[$key] = (int)$value;
+				}
+			}
+			bp_core_update_page_meta( $directory_pages );
 		}
-		bp_core_update_page_meta( $directory_pages );
 	} ?>
 
 	<div class="wrap">
@@ -262,7 +264,6 @@ function bp_core_admin_component_setup() {
 
 			<?php
 
-				$disabled_components = get_site_option( 'bp-deactivated-components' );
 				bp_core_admin_component_options();
 				bp_core_admin_page_options();
 
@@ -291,30 +292,34 @@ function bp_core_admin_component_setup() {
  */
 function bp_core_admin_component_options() {
 	global $bp_wizard;
-	
-	$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) ); 
+
+	$active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
 	
 	// An array of strings looped over to create component setup markup
 	$optional_components = array(
 		'xprofile' => array(
 			'title'       => __( 'Extended Profiles', 'buddypress' ),
-			'description' => __( 'Fully editable profile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience.', 'buddypress' )
+			'description' => __( 'Customize your community with fully editable profile fields that allow your users use to uniquely describe themselves.', 'buddypress' )
+		),
+		'settings' => array(
+			'title'       => __( 'Account Settings', 'buddypress' ),
+			'description' => __( 'Allow your users to modify their account and notification settings directly from within their profiles.', 'buddypress' )
 		),
 		'friends' => array(
 			'title'       => __( 'Friend Connections', 'buddypress' ),
-			'description' => __( 'Let your users make connections so they can track the activity of others, or filter on only those users they care about the most.', 'buddypress' )
+			'description' => __( 'Let your users make connections so they can track the activity of others and focus on the people they care about the most.', 'buddypress' )
 		),
 		'messages' => array(
 			'title'	      => __( 'Private Messaging', 'buddypress' ),
-			'description' => __( 'Private messaging will allow your users to talk to each other directly, and in private. Not just limited to one on one discussions, your users can send messages to multiple recipients.', 'buddypress' )
+			'description' => __( 'Allow your users to talk to each other directly and in private. They are not just limited to one-on-one discussions, and can send messages to multiple recipients.', 'buddypress' )
 		),
 		'activity' => array(
 			'title'       => __( 'Activity Streams', 'buddypress' ),
-			'description' => __( 'Global, personal and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feed and email notification support.', 'buddypress' )
+			'description' => __( 'Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support.', 'buddypress' )
 		),
 		'groups' => array(
-			'title'       => __( 'Extensible Groups', 'buddypress' ),
-			'description' => __( 'Powerful public, private or hidden groups allow your users to break the discussion down into specific topics with a separate activity stream and member listing.', 'buddypress' )
+			'title'       => __( 'User Groups', 'buddypress' ),
+			'description' => __( 'Groups allow your users to organize themselves into specific public, private or hidden sections with a separate activity stream and member listing.', 'buddypress' )
 		),
 		'forums' => array(
 			'title'       => __( 'Discussion Forums', 'buddypress' ),
@@ -349,8 +354,8 @@ function bp_core_admin_component_options() {
 					<th scope="row"><?php echo esc_html( $labels['title'] ); ?></th>
 
 					<td>
-						<label for="bp_components[bp-<?php echo esc_attr( $name ); ?>.php]">
-							<input type="checkbox" name="bp_components[bp-<?php echo esc_attr( $name ); ?>.php]" value="1"<?php if ( !isset( $disabled_components['bp-' . esc_attr( $name ) . '.php'] ) ) : ?> checked="checked"<?php endif ?> />
+						<label for="bp_components[<?php echo esc_attr( $name ); ?>]">
+							<input type="checkbox" name="bp_components[<?php echo esc_attr( $name ); ?>]" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> />
 
 							<?php echo esc_html( $labels['description'] ); ?>
 
@@ -361,16 +366,13 @@ function bp_core_admin_component_options() {
 
 			<?php endforeach ?>
 
+			<?php do_action( 'bp_active_external_components' ); ?>
+
 		</tbody>
 	</table>
 
-	<?php /* Make sure that the blogs component is deactivated when multisite is shut off */ ?>
-	<?php if ( !is_multisite() ) : ?>
+	<input type="hidden" name="bp_components[members]" value="1" />
 
-		<input type="hidden" name="bp_components[bp-blogs.php]" value="0" />
-
-	<?php endif ?>
-	
 	<?php
 }
 
@@ -386,30 +388,69 @@ function bp_core_admin_component_options() {
 function bp_core_admin_page_options() {
 	// Get the existing WP pages
 	$existing_pages = bp_core_get_page_meta();
-	
+
 	// An array of strings looped over to create component setup markup
 	$directory_pages = array(
-		'groups'   => __( 'Groups Directory', 'buddypress' ),
-		'forums'   => __( 'Forums Directory', 'buddypress' ),
-		'members'  => __( 'Members Directory', 'buddypress' ),
-		'activity' => __( 'Activity', 'buddypress' ),
-		'register' => __( 'Register', 'buddypress' ),
-		'activate' => __( 'Activate', 'buddypress' )
+		'members'  => __( 'Members Directory',  'buddypress' ),
+		'activity' => __( 'Activity Directory', 'buddypress' ),
+		'groups'   => __( 'Groups Directory',   'buddypress' ),
+		'forums'   => __( 'Forums Directory',   'buddypress' ),
 	);
 	
 	if ( is_multisite() )
 		$directory_pages['blogs'] = __( "Blogs Directory", 'buddypress' ); ?>
 	
-	<h3><?php _e( 'Page Setup', 'buddypress' ); ?></h3>
+	<h3><?php _e( 'Directory Pages', 'buddypress' ); ?></h3>
 	
-	<p><?php _e( 'Choose the WordPress pages you would like to associate with the following BuddyPress content.', 'buddypress' ); ?></p>
-	
-	<p><?php _e( 'Leaving any of these items unset makes that content inaccessible to visitors, so be sure to fill this section out carefully.', 'buddypress' ); ?></p>
-	
+	<p><?php _e( 'Choose a WordPress Page to associate with each BuddyPress component directory. Setting to "None" will render that page inaccessible.', 'buddypress' ); ?></p>
+
 	<table class="form-table">
 		<tbody>
 
 			<?php foreach ( $directory_pages as $name => $label ) : ?>
+
+				<?php if ( bp_is_active( $name ) ) : ?>
+
+					<tr valign="top">
+						<th scope="row">
+							<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?></label>
+						</th>
+
+						<td>
+							<?php echo wp_dropdown_pages( array(
+								'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
+								'echo'             => false,
+								'show_option_none' => __( '- None -', 'buddypress' ),
+								'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
+							) ) ?>
+						</td>
+					</tr>
+
+				<?php endif; ?>
+
+			<?php endforeach ?>
+
+			<?php do_action( 'bp_active_external_directories' ); ?>
+
+		</tbody>
+	</table>
+	
+	<?php
+
+	// Static pages
+	$static_pages = array(
+		'register' => __( 'Sign up Page',    'buddypress' ),
+		'activate' => __( 'Activation Page', 'buddypress' ),
+	); ?>
+
+	<h3><?php _e( 'Other Pages', 'buddypress' ); ?></h3>
+
+	<p><?php _e( 'Associate WordPress Pages with the following BuddyPress pages. Setting to "None" will render that page inaccessible.', 'buddypress' ); ?></p>
+
+	<table class="form-table">
+		<tbody>
+
+			<?php foreach ( $static_pages as $name => $label ) : ?>
 
 				<tr valign="top">
 					<th scope="row">
@@ -428,9 +469,11 @@ function bp_core_admin_page_options() {
 
 			<?php endforeach ?>
 
+			<?php do_action( 'bp_active_external_pages' ); ?>
+
 		</tbody>
 	</table>
-	
+
 	<?php
 }
 
