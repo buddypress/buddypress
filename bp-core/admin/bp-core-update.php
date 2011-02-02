@@ -1184,7 +1184,7 @@ add_action( 'admin_footer', 'bp_core_wizard_thickbox' );
  * @uses add_submenu_page() WP function to add a submenu item
  */
 function bp_core_update_add_admin_menu() {
-	global $bp_wizard;
+	global $bp, $bp_wizard;
 
 	// Only load this version of the menu if this is an upgrade or a new installation 
 	if ( ( empty( $bp->maintenence_mode ) ) )
@@ -1271,7 +1271,7 @@ function bp_core_update_get_page_meta() {
  * @global $pagenow The current admin page
  */
 function bp_core_update_nag() {
-	global $pagenow;
+	global $bp, $pagenow;
 
 	if ( !is_super_admin() )
 		return;
