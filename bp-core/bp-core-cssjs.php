@@ -62,7 +62,12 @@ function bp_core_confirmation_js() {
 
 	if ( is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
 		return false;
-?>
+
+	if ( !wp_script_is( 'jquery' ) )
+		wp_enqueue_script( 'jquery' );
+
+	if ( !wp_script_is( 'jquery', 'done' ) )
+		wp_print_scripts( 'jquery' ); ?>
 
 	<script type="text/javascript"> jQuery(document).ready( function() { jQuery("a.confirm").click( function() { if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) ) return true; else return false; }); });</script>
 
