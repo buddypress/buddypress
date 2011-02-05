@@ -324,9 +324,9 @@ function bp_the_profile_field_edit_value() {
 		}
 
 		if ( isset( $field->data->value ) )
-			return apply_filters( 'bp_get_the_profile_field_edit_value', esc_html( bp_unserialize_profile_field( $field->data->value ) ) );
+			return apply_filters( 'bp_get_the_profile_field_edit_value', esc_html( bp_unserialize_profile_field( $field->data->value ) ), $field->type, $field->id );
 		else
-			return apply_filters( 'bp_get_the_profile_field_edit_value', '' );
+			return apply_filters( 'bp_get_the_profile_field_edit_value', '', $field->type, $field->id );
 	}
 
 function bp_the_profile_field_type() {
