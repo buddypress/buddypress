@@ -353,7 +353,7 @@ function bp_core_admin_component_options() {
 
 					<td>
 						<label for="bp_components[<?php echo esc_attr( $name ); ?>]">
-							<input type="checkbox" name="bp_components[<?php echo esc_attr( $name ); ?>]" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> />
+							<input type="checkbox" id="bp_components[<?php echo esc_attr( $name ); ?>]" name="bp_components[<?php echo esc_attr( $name ); ?>]" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> />
 
 							<?php echo esc_html( $labels['description'] ); ?>
 
