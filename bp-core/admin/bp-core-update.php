@@ -791,14 +791,13 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) && isset( $_POST['bp_components'] ) ) {
 			check_admin_referer( 'bpwizard_components' );
 
-			$disabled = array();
+			$active_components = array();
 
 			// Settings form submitted, now save the settings.
-			foreach ( (array)$_POST['bp_components'] as $key => $value ) {
-				if ( !(int) $value )
-					$disabled[$key] = 1;
-			}
-			update_site_option( 'bp-deactivated-components', $disabled );
+			foreach ( (array)$_POST['bp_components'] as $key => $value )
+				$active_components[$key] = 1;
+
+			update_site_option( 'bp-active-components', $active_components );
 
 			wp_cache_flush();
 			bp_core_install( $disabled );
