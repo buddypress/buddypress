@@ -294,7 +294,7 @@ function bp_core_reset_subnav_items( $parent_slug ) {
 function bp_core_admin_bar() {
 	global $bp;
 
-	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) )
+	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) && BP_DISABLE_ADMIN_BAR )
 		return false;
 
 	if ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
@@ -449,10 +449,19 @@ function bp_core_load_admin_bar() {
 	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) && BP_USE_WP_ADMIN_BAR && $wp_version >= 3.1 ) {
 		// TODO: Add BP support to WP admin bar
 		return;
+
 	} elseif ( !defined( 'BP_DISABLE_ADMIN_BAR' ) || !BP_DISABLE_ADMIN_BAR ) {
 		// Keep the WP admin bar from loading
 		show_admin_bar( false );
 
+		// Admin bar styles
+		$stylesheet = get_blog_option( BP_ROOT_BLOG, 'stylesheet' );
+
+		if ( file_exists( WP_CONTENT_DIR . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ) )
+			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', WP_CONTENT_URL . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ), array(), BP_VERSION );
+		else
+			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-themes/bp-default/_inc/css/adminbar.css' ), array(), BP_VERSION );
+		
 		// Actions used to build the BP admin bar
 		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
 		add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',         2   );
