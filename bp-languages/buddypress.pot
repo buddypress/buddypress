@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-02-04 16:30:34+00:00\n"
+"POT-Creation-Date: 2011-02-08 19:30:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -445,62 +445,62 @@ msgstr ""
 msgid "Track new blogs, new posts and new comments across your entire blog network."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:340
+#: bp-core/admin/bp-core-admin.php:344
 msgid "Active Components"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:342
+#: bp-core/admin/bp-core-admin.php:346
 msgid "Choose which BuddyPress components you would like to use."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:392
+#: bp-core/admin/bp-core-admin.php:396
 #: bp-themes/bp-default/members/index.php:21
 msgid "Members Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:393
+#: bp-core/admin/bp-core-admin.php:397
 msgid "Activity Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:394 bp-themes/bp-default/groups/index.php:21
+#: bp-core/admin/bp-core-admin.php:398 bp-themes/bp-default/groups/index.php:21
 #: bp-themes/bp-default/groups/create.php:18
 msgid "Groups Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:395 bp-themes/bp-default/forums/index.php:23
+#: bp-core/admin/bp-core-admin.php:399 bp-themes/bp-default/forums/index.php:23
 msgid "Forums Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:399 bp-themes/bp-default/blogs/index.php:21
+#: bp-core/admin/bp-core-admin.php:403 bp-themes/bp-default/blogs/index.php:21
 #: bp-themes/bp-default/blogs/create.php:21
 msgid "Blogs Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:401
+#: bp-core/admin/bp-core-admin.php:405
 msgid "Directory Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:403
+#: bp-core/admin/bp-core-admin.php:407
 msgid "Choose a WordPress Page to associate with each BuddyPress component directory. Setting to \"None\" will render that page inaccessible."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:421 bp-core/admin/bp-core-admin.php:462
+#: bp-core/admin/bp-core-admin.php:425 bp-core/admin/bp-core-admin.php:466
 msgid "- None -"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:440
+#: bp-core/admin/bp-core-admin.php:444
 msgid "Sign up Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:441
+#: bp-core/admin/bp-core-admin.php:445
 msgid "Activation Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:444
+#: bp-core/admin/bp-core-admin.php:448
 msgid "Other Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:446
+#: bp-core/admin/bp-core-admin.php:450
 msgid "Associate WordPress Pages with the following BuddyPress pages. Setting to \"None\" will render that page inaccessible."
 msgstr ""
 
