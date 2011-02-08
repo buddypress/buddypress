@@ -331,7 +331,11 @@ function bp_core_admin_component_options() {
 			'description' => __( 'Track new blogs, new posts and new comments across your entire blog network.', 'buddypress' )
 		);
 	}
-	
+
+	// On new install, set all components to be active by default
+	if ( 'install' == $bp_wizard->setup_type && empty( $active_components ) )
+		$active_components = $optional_components;
+
 	?>
 	
 	<?php /* The setup wizard uses different, more descriptive text here */ ?>
