@@ -1280,7 +1280,7 @@ function bp_group_new_topic_button( $group = false ) {
 	}
 
 function bp_group_join_button( $group = false ) {
-	echo bp_get_group_join_button();
+	echo bp_get_group_join_button( $group );
 }
 	function bp_get_group_join_button( $group = false ) {
 		global $bp, $groups_template;
