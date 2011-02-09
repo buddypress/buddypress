@@ -333,7 +333,7 @@ function bp_core_admin_component_options() {
 	}
 
 	// On new install, set all components to be active by default
-	if ( 'install' == $bp_wizard->setup_type && empty( $active_components ) )
+	if ( !empty( $bp_wizard ) && 'install' == $bp_wizard->setup_type && empty( $active_components ) )
 		$active_components = $optional_components;
 
 	?>
