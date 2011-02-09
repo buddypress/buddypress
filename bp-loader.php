@@ -10,6 +10,7 @@
  */
 
 /** Constants *****************************************************************/
+global $wpdb;
 
 // Define the BuddyPress version
 if ( !defined( 'BP_VERSION' ) )
