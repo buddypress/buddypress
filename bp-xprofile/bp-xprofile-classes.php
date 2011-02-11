@@ -793,15 +793,17 @@ Class BP_XProfile_ProfileData {
 		do_action_ref_array( 'xprofile_data_before_save', array( &$this ) );
 
 		if ( $this->is_valid_field() ) {
-			if ( $this->exists() && !empty( $this->value ) && strlen( trim( $this->value ) ) )
-				$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
+			if ( $this->exists() && !empty( $this->value ) && strlen( trim( $this->value ) ) ) {
+				$result   = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
 
-			/* Data removed, delete the entry. */
-			else if ( $this->exists() && empty( $this->value ) )
-				$result = $this->delete();
+			} else if ( $this->exists() && empty( $this->value ) ) {
+				// Data removed, delete the entry.
+				$result   = $this->delete();
 
-			else
-				$result = $wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
+			} else {
+				$result   = $wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
+				$this->id = $wpdb->insert_id;
+			}
 
 			if ( !$result )
 				return false;
