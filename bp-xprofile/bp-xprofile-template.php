@@ -556,7 +556,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					case 'year':
 						$html .= '<option value=""' . selected( $year, '', false ) . '>----</option>';
 
-						for ( $i = date( 'Y' ); $i > 1899; $i-- ) {
+						for ( $i = 2037; $i > 1901; $i-- ) {
 							$html .= '<option value="' . $i .'"' . selected( $year, $i, false ) . '>' . $i . '</option>';
 						}
 						break;
