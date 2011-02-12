@@ -1155,7 +1155,7 @@ function bp_activity_request(scope, filter) {
 	/* Save the type and filter to a session cookie */
 	jq.cookie( 'bp-activity-scope', scope, {path: '/'} );
 	jq.cookie( 'bp-activity-filter', filter, {path: '/'} );
-	jq.cookie( 'bp-activity-oldestpage', 1 );
+	jq.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
 
 	/* Remove selected and loading classes from tabs */
 	jq('div.item-list-tabs li').each( function() {
