@@ -292,7 +292,7 @@ function bp_has_activities( $args = '' ) {
 
 			switch ( $scope ) {
 				case 'friends':
-					if ( function_exists( 'friends_get_friend_user_ids' ) )
+					if ( bp_is_active( 'friends' ) )
 						$friends = friends_get_friend_user_ids( $user_id );
 						if ( empty( $friends ) )
 							return false;
@@ -300,7 +300,7 @@ function bp_has_activities( $args = '' ) {
 						$user_id = implode( ',', (array)$friends );
 					break;
 				case 'groups':
-					if ( function_exists( 'groups_get_user_groups' ) ) {
+					if ( bp_is_active( 'groups' ) ) {
 						$groups = groups_get_user_groups( $user_id );
 						if ( empty( $groups['groups'] ) )
 							return false;

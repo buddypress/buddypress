@@ -13,7 +13,7 @@
 function groups_register_activity_actions() {
 	global $bp;
 
-	if ( !function_exists( 'bp_activity_set_action' ) )
+	if ( !bp_is_active( 'activity' ) )
 		return false;
 
 	bp_activity_set_action( $bp->groups->id, 'created_group',   __( 'Created a group',       'buddypress' ) );
@@ -28,7 +28,7 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
 function groups_record_activity( $args = '' ) {
 	global $bp;
 
-	if ( !function_exists( 'bp_activity_add' ) )
+	if ( !bp_is_active( 'activity' ) )
 		return false;
 
 	// If the group is not public, hide the activity sitewide.

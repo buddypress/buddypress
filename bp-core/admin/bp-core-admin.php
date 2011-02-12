@@ -159,7 +159,7 @@ function bp_core_admin_settings() {
 						</td>
 					</tr>
 
-					<?php if ( function_exists( 'bp_forums_setup') ) : ?>
+					<?php if ( bp_is_active( 'forums' ) ) : ?>
 
 						<tr>
 							<th scope="row"><?php _e( 'Disable global forum directory?', 'buddypress' ) ?>:</th>

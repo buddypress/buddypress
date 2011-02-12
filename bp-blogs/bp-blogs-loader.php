@@ -124,7 +124,7 @@ class BP_Blogs_Component extends BP_Component {
 		// Set up the component options navigation for Blog
 		if ( bp_is_blogs_component() ) {
 			if ( bp_is_my_profile() ) {
-				if ( function_exists('xprofile_setup_nav') ) {
+				if ( bp_is_active( 'xprofile' ) ) {
 					$bp->bp_options_title = __( 'My Blogs', 'buddypress' );
 				}
 

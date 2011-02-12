@@ -18,7 +18,7 @@ function bp_core_exclude_pages( $pages ) {
 	if ( !empty( $bp->pages->register ) )
 		$pages[] = $bp->pages->register->id;
 
-	if ( !bp_is_active( 'forums' ) || ( function_exists( 'bp_forums_is_installed_correctly' ) && !bp_forums_is_installed_correctly() ) )
+	if ( !bp_is_active( 'forums' ) || ( bp_is_active( 'forums' ) && !bp_forums_is_installed_correctly() ) )
 		if ( !empty( $bp->pages->forums ) )
 			$pages[] = $bp->pages->forums->id;
 

@@ -688,7 +688,7 @@ Class BP_XProfile_Field {
 
 			</div>
 
-			<?php if ( function_exists( 'wp_nonce_field' ) ) wp_nonce_field( 'xprofile_delete_option' ); ?>
+			<?php wp_nonce_field( 'xprofile_delete_option' ); ?>
 
 		</form>
 	</div>

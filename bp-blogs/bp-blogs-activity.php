@@ -8,7 +8,7 @@
 function bp_blogs_register_activity_actions() {
 	global $bp;
 
-	if ( !function_exists( 'bp_activity_set_action' ) )
+	if ( !bp_is_active( 'activity' ) )
 		return false;
 
 	bp_activity_set_action( $bp->blogs->id, 'new_blog',         __( 'New blog created',             'buddypress' ) );
@@ -22,7 +22,7 @@ add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions'
 function bp_blogs_record_activity( $args = '' ) {
 	global $bp;
 
-	if ( !function_exists( 'bp_activity_add' ) )
+	if ( !bp_is_active( 'activity' ) )
 		return false;
 
 	/**
@@ -30,7 +30,7 @@ function bp_blogs_record_activity( $args = '' ) {
 	 * anything else we may need to manually instantiate the activity
 	 * component globals.
 	 */
-	if ( !$bp->activity && function_exists('bp_activity_setup_globals') )
+	if ( !$bp->activity && bp_is_active( 'activity' ) )
 		bp_activity_setup_globals();
 
 	$defaults = array(
@@ -50,7 +50,7 @@ function bp_blogs_record_activity( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	// Remove large images and replace them with just one image thumbnail
- 	if ( function_exists( 'bp_activity_thumbnail_content_images' ) && !empty( $content ) )
+ 	if ( bp_is_active( 'activity' ) && !empty( $content ) )
 		$content = bp_activity_thumbnail_content_images( $content, $primary_link );
 
 	if ( !empty( $action ) )
@@ -74,7 +74,7 @@ function bp_blogs_record_activity( $args = '' ) {
 function bp_blogs_delete_activity( $args = true ) {
 	global $bp;
 
-	if ( function_exists( 'bp_activity_delete_by_item_id' ) ) {
+	if ( bp_is_active( 'activity' ) ) {
 		$defaults = array(
 			'item_id'           => false,
 			'component'         => $bp->blogs->id,

@@ -495,7 +495,7 @@ function bp_members_activate_signup( $key ) {
 }
 
 function bp_members_new_user_activity( $user ) {
-	if ( empty( $user ) || !function_exists( 'bp_activity_add' ) )
+	if ( empty( $user ) || !bp_is_active( 'activity' ) )
 		return false;
 
 	if ( is_array( $user ) )

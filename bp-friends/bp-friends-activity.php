@@ -8,7 +8,7 @@
 function friends_record_activity( $args = '' ) {
 	global $bp;
 
-	if ( !function_exists( 'bp_activity_add' ) )
+	if ( !bp_is_active( 'activity' ) )
 		return false;
 
 	$defaults = array (
@@ -42,7 +42,7 @@ function friends_delete_activity( $args ) {
 function friends_register_activity_actions() {
 	global $bp;
 
-	if ( !function_exists( 'bp_activity_set_action' ) )
+	if ( !bp_is_active( 'activity' ) )
 		return false;
 
 	bp_activity_set_action( $bp->friends->id, 'friends_register_activity_action', __( 'New friendship created', 'buddypress' ) );
