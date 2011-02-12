@@ -1278,12 +1278,16 @@ function bp_core_update_nag() {
 	if ( 'admin.php' == $pagenow && ( empty( $_GET['page'] ) || 'bp-wizard' == $_GET['page'] ) )
 		return;
 
+	$url = is_multisite() ? network_admin_url( 'admin.php?page=bp-wizard' ) : admin_url( 'admin.php?page=bp-wizard' );
+
 	switch( $bp->maintenence_mode ) {
-		case 'update' :
-			$msg = sprintf( __( 'BuddyPress has been updated! Please run the <a href="%s">update wizard</a>.', 'buddypress' ), admin_url( 'admin.php?page=bp-wizard' ) );
+		case 'update':
+			$msg = sprintf( __( 'BuddyPress has been updated! Please run the <a href="%s">update wizard</a>.', 'buddypress' ), $url );
 			break;
-		case 'install' :
-			$msg = sprintf( __( 'BuddyPress was successfully installed! Please run the <a href="%s">installation wizard</a>.', 'buddypress' ), admin_url( 'admin.php?page=bp-wizard' ) );
+
+		default:
+		case 'install':
+			$msg = sprintf( __( 'BuddyPress was successfully installed! Please run the <a href="%s">installation wizard</a>.', 'buddypress' ), $url );
 			break;
 	}
 
