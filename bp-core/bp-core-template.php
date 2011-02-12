@@ -851,7 +851,7 @@ function bp_is_page( $page ) {
 		return true;
 
 	if ( 'home' == $page )
-		return bp_is_front_page();
+		return is_front_page();
 
 	return false;
 }
