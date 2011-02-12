@@ -98,10 +98,12 @@ add_action( 'wp_ajax_forums_filter', 'bp_dtheme_object_template_loader' );
 function bp_dtheme_activity_template_loader() {
 	global $bp;
 
-	// We need to calculate and return the feed URL for each scope
-	$feed_url = home_url( bp_get_activity_root_slug() . '/feed/' );
+	$scope = '';
+	if ( !empty( $_POST['scope'] ) )
+		$scope = $_POST['scope'];
 
-	switch ( $_POST['scope'] ) {
+	// We need to calculate and return the feed URL for each scope
+	switch ( $scope ) {
 		case 'friends':
 			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/friends/feed/';
 			break;
@@ -115,13 +117,16 @@ function bp_dtheme_activity_template_loader() {
 			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/mentions/feed/';
 			delete_user_meta( $bp->loggedin_user->id, 'bp_new_mention_count' );
 			break;
+		default:
+			$feed_url = home_url( bp_get_activity_root_slug() . '/feed/' );
+			break;
 	}
 
 	/* Buffer the loop in the template to a var for JS to spit out. */
 	ob_start();
 	locate_template( array( 'activity/activity-loop.php' ), true );
 	$result['contents'] = ob_get_contents();
-	$result['feed_url'] = apply_filters( 'bp_dtheme_activity_feed_url', $feed_url, $_POST['scope'] );
+	$result['feed_url'] = apply_filters( 'bp_dtheme_activity_feed_url', $feed_url, $scope );
 	ob_end_clean();
 
 	echo json_encode( $result );
