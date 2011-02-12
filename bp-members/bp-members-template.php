@@ -958,14 +958,18 @@ function bp_signup_allowed() {
 	function bp_get_signup_allowed() {
 		global $bp;
 
+		$signup_allowed = false;
+
 		if ( is_multisite() ) {
 			if ( in_array( $bp->site_options['registration'], array( 'all', 'user' ) ) )
-				return true;
+				$signup_allowed = true;
+
 		} else {
-			if ( (int)get_option( 'users_can_register') )
-				return true;
+			if ( get_option( 'users_can_register') )
+				$signup_allowed = true;
 		}
-		return false;
+
+		return apply_filters( 'bp_get_signup_allowed', $signup_allowed );
 	}
 
 /**
