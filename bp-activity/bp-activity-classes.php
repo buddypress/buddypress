@@ -47,10 +47,6 @@ Class BP_Activity_Activity {
 	function save() {
 		global $wpdb, $bp, $current_user;
 
-		// Use this...
-		do_action_ref_array( 'bp_activity_before_save', array( &$this ) );
-
-		// Not these.
 		$this->id                = apply_filters_ref_array( 'bp_activity_id_before_save',                array( $this->id,                &$this ) );
 		$this->item_id           = apply_filters_ref_array( 'bp_activity_item_id_before_save',           array( $this->item_id,           &$this ) );
 		$this->secondary_item_id = apply_filters_ref_array( 'bp_activity_secondary_item_id_before_save', array( $this->secondary_item_id, &$this ) );
@@ -64,6 +60,9 @@ Class BP_Activity_Activity {
 		$this->hide_sitewide     = apply_filters_ref_array( 'bp_activity_hide_sitewide_before_save',     array( $this->hide_sitewide,     &$this ) );
 		$this->mptt_left         = apply_filters_ref_array( 'bp_activity_mptt_left_before_save',         array( $this->mptt_left,         &$this ) );
 		$this->mptt_right        = apply_filters_ref_array( 'bp_activity_mptt_right_before_save',        array( $this->mptt_right,        &$this ) );
+
+		// Use this, not the filters above
+		do_action_ref_array( 'bp_activity_before_save', array( &$this ) );
 
 		if ( !$this->component || !$this->type )
 			return false;
