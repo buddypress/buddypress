@@ -95,6 +95,7 @@
 					<input type="hidden" name="comment_form_id" value="<?php bp_activity_id(); ?>" />
 				</div>
 
+				<?php do_action( 'bp_activity_entry_comments' ); ?>
 				<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ); ?>
 
 			</form>
