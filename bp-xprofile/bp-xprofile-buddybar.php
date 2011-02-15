@@ -21,7 +21,8 @@ function xprofile_add_admin_menu() {
 		return false;
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
-	add_submenu_page( 'bp-general-settings', __( 'Profile Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
+	$hook = add_submenu_page( 'bp-general-settings', __( 'Profile Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
+	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'xprofile_add_admin_menu' );
 

@@ -7,7 +7,8 @@ function bp_forums_add_admin_menu() {
 		return false;
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
-	add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
+	$hook = add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
+	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_forums_add_admin_menu' );
 
@@ -15,7 +16,7 @@ function bp_forums_bbpress_admin() {
 	global $bp; ?>
 
 	<div class="wrap">
-
+		<?php screen_icon( 'buddypress' ); ?>
 		<h2><?php _e( 'Forums Setup', 'buddypress' ) ?></h2>
 
 		<?php if ( isset( $_POST['submit'] ) ) : ?>
