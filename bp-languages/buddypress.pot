@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-02-12 19:30:30+00:00\n"
+"POT-Creation-Date: 2011-02-15 23:30:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -683,7 +683,7 @@ msgid "Displays the activity for the entire site, a member's friends, groups and
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:436 bp-core/bp-core-template.php:323
-#: bp-groups/bp-groups-buddybar.php:57 bp-forums/bp-forums-admin.php:182
+#: bp-groups/bp-groups-buddybar.php:57 bp-forums/bp-forums-admin.php:183
 #: bp-forums/bp-forums-loader.php:99 bp-members/bp-members-buddybar.php:184
 msgid "Forums"
 msgstr ""
@@ -2380,35 +2380,35 @@ msgstr ""
 msgid "Profile Fields"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-buddybar.php:46
+#: bp-xprofile/bp-xprofile-buddybar.php:47
 msgid "Admin Options"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-buddybar.php:49
+#: bp-xprofile/bp-xprofile-buddybar.php:50
 #: bp-members/bp-members-buddybar.php:137
 msgid "Edit %s's Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-buddybar.php:50
+#: bp-xprofile/bp-xprofile-buddybar.php:51
 #: bp-members/bp-members-buddybar.php:138
 msgid "Edit %s's Avatar"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-buddybar.php:54
+#: bp-xprofile/bp-xprofile-buddybar.php:55
 #: bp-members/bp-members-buddybar.php:199
 msgid "Edit %s's Settings"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-buddybar.php:60
+#: bp-xprofile/bp-xprofile-buddybar.php:61
 msgid "Mark as Spammer"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-buddybar.php:64
+#: bp-xprofile/bp-xprofile-buddybar.php:65
 #: bp-members/bp-members-buddybar.php:113
 msgid "Not a Spammer"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-buddybar.php:68
+#: bp-xprofile/bp-xprofile-buddybar.php:69
 msgid "Delete %s"
 msgstr ""
 
@@ -2581,79 +2581,79 @@ msgstr ""
 msgid "Updated Profile"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:10 bp-forums/bp-forums-admin.php:19
+#: bp-forums/bp-forums-admin.php:10 bp-forums/bp-forums-admin.php:20
 msgid "Forums Setup"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:24
+#: bp-forums/bp-forums-admin.php:25
 msgid "Settings Saved."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:37
+#: bp-forums/bp-forums-admin.php:38
 msgid "bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href=\"%s\" title=\"Reinstall bbPress\">re-install</a>"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:38
+#: bp-forums/bp-forums-admin.php:39
 msgid "NOTE: The forums directory will only work if your bbPress tables are in the same database as your WordPress tables. If you are not using an existing bbPress install you can ignore this message."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:55
+#: bp-forums/bp-forums-admin.php:56
 msgid "The bb-config.php file was not found at that location, please try again."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:58
+#: bp-forums/bp-forums-admin.php:59
 msgid "Forums were set up correctly using your existing bbPress install!"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:59
+#: bp-forums/bp-forums-admin.php:60
 msgid "BuddyPress will now use its internal copy of bbPress to run the forums on your site. If you wish, you can remove your old bbPress installation files, as long as you keep the bb-config.php file in the same location."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:64
+#: bp-forums/bp-forums-admin.php:65
 msgid "Existing bbPress Installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:65
+#: bp-forums/bp-forums-admin.php:66
 msgid "BuddyPress can make use of your existing bbPress install. Just provide the location of your <code>bb-config.php</code> file, and BuddyPress will do the rest."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:67 bp-forums/bp-forums-admin.php:99
+#: bp-forums/bp-forums-admin.php:68 bp-forums/bp-forums-admin.php:100
 msgid "Complete Installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:83
+#: bp-forums/bp-forums-admin.php:84
 msgid "All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install."
 msgstr ""
 
 #. Just write the contents to screen
 
-#: bp-forums/bp-forums-admin.php:87
+#: bp-forums/bp-forums-admin.php:88
 msgid "A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:96
+#: bp-forums/bp-forums-admin.php:97
 msgid "New bbPress Installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:97
+#: bp-forums/bp-forums-admin.php:98
 msgid ""
 "You've decided to set up a new installation of bbPress for forum management in BuddyPress. This is very simple and is usually just a one click\n"
 "\t\t\t\tprocess. When you're ready, hit the link below."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:109
+#: bp-forums/bp-forums-admin.php:110
 msgid "bbPress files were not found. To install the forums component you must download a copy of bbPress and make sure it is in the folder: \"%s\""
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:114
+#: bp-forums/bp-forums-admin.php:115
 msgid "Forums in BuddyPress make use of a bbPress installation to function. You can choose to either let BuddyPress set up a new bbPress install, or use an already existing bbPress install. Please choose one of the options below."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:116
+#: bp-forums/bp-forums-admin.php:117
 msgid "Set up a new bbPress installation"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:117
+#: bp-forums/bp-forums-admin.php:118
 msgid "Use an existing bbPress installation"
 msgstr ""
 
