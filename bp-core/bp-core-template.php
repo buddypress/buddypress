@@ -539,7 +539,8 @@ function bp_ajax_querystring( $object = false ) {
 
 function bp_current_component() {
 	global $bp;
-	return apply_filters( 'bp_current_component', $bp->current_component );
+	$current_component = !empty( $bp->current_component ) ? $bp->current_component : false;
+	return apply_filters( 'bp_current_component', $current_component );
 }
 
 function bp_current_action() {
