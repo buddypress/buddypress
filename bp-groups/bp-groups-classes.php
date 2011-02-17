@@ -1144,6 +1144,25 @@ class BP_Group_Extension {
 			add_action( 'groups_create_group_step_save_' . $this->slug, array( &$this, 'create_screen_save' ) );
 		}
 
+		// When we are viewing a single group, add the group extension nav item
+		if ( $this->visibility == 'public' || ( $this->visibility != 'public' && $bp->groups->current_group->user_has_access ) ) {
+			if ( $this->enable_nav_item ) {
+				if ( bp_is_current_component( 'groups' ) && $bp->is_single_item ) {
+					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => $bp->groups->root_slug, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
+				}
+
+				// When we are viewing the extension display page, set the title and options title
+				if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && $bp->current_action == $this->slug ) {
+					add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
+			 		add_action( 'bp_template_title', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
+				}
+			}
+
+			// Hook the group home widget
+			if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
+				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
+		}
+		
 		// Construct the admin edit tab for the new group extension
 		if ( !empty( $this->enable_edit_item ) && !empty( $bp->is_item_admin ) ) {
 			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', '$selected = ""; if ( "' . esc_attr( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . bp_get_root_domain() . '/' . $bp->groups->root_slug . '/{$group_slug}/admin/' . esc_attr( $this->slug ) . '\">' . esc_attr( $this->name ) . '</a></li>";' ), 10, 2 );
@@ -1163,25 +1182,6 @@ class BP_Group_Extension {
 					bp_core_load_template( apply_filters( 'bp_core_template_plugin', '/groups/single/plugins' ) );
 				}
 			}
-		}
-
-		// When we are viewing a single group, add the group extension nav item
-		if ( $this->visibility == 'public' || ( $this->visibility != 'public' && $bp->groups->current_group->user_has_access ) ) {
-			if ( $this->enable_nav_item ) {
-				if ( bp_is_current_component( 'groups' ) && $bp->is_single_item ) {
-					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => $bp->groups->root_slug, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
-				}
-
-				// When we are viewing the extension display page, set the title and options title
-				if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && $bp->current_action == $this->slug ) {
-					add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
-			 		add_action( 'bp_template_title', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
-				}
-			}
-
-			// Hook the group home widget
-			if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
-				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 		}
 	}
 
