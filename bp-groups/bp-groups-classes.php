@@ -1198,7 +1198,7 @@ function bp_register_group_extension( $group_extension_class ) {
 		return false;
 
 	/* Register the group extension on the bp_init action so we have access to all plugins */
-	add_action( 'bp_init', create_function( '', '$extension = new ' . $group_extension_class . '; add_action( "bp_actions", array( &$extension, "_register" ) );' ), 11 );
+	add_action( 'bp_init', create_function( '', '$extension = new ' . $group_extension_class . '; add_action( "bp_actions", array( &$extension, "_register" ), 8 );' ), 11 );
 }
 
 ?>
