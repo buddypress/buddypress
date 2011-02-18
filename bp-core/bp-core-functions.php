@@ -15,7 +15,7 @@ function bp_core_get_table_prefix() {
 /**
  * Fetches BP pages from the meta table, depending on setup
  *
- * @package BuddyPress Core Core
+ * @package BuddyPress Core
  */
 function bp_core_get_page_meta() {
 	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
@@ -29,7 +29,7 @@ function bp_core_get_page_meta() {
 /**
  * Stores BP pages in the meta table, depending on setup
  *
- * @package BuddyPress Core Core
+ * @package BuddyPress Core 
  */
 function bp_core_update_page_meta( $page_ids ) {
 	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
@@ -721,4 +721,44 @@ function bp_core_get_site_options() {
 	return apply_filters( 'bp_core_get_site_options', $site_options );
 }
 
+/**
+ * This function originally let plugins add support for pages in the root of the install.
+ * These root level pages are now handled by actual WordPress pages and this function is now
+ * a convenience for compatibility with the new method.
+ *
+ * @global $bp BuddyPress global settings
+ * @param $slug str The slug of the component
+ */
+function bp_core_add_root_component( $slug ) {
+	global $bp;
+
+	if ( empty( $bp->pages ) )
+		$bp->pages = bp_core_get_page_names();
+
+	$match = false;
+
+	// Check if the slug is registered in the $bp->pages global
+	foreach ( (array)$bp->pages as $key => $page ) {
+		if ( $key == $slug || $page->slug == $slug )
+			$match = true;
+	}
+
+	// If there was no match, add a page for this root component
+	if ( empty( $match ) ) {
+		$bp->add_root[] = $slug;
+		add_action( 'bp_init', 'bp_core_create_root_component_page' );
+	}
+}
+
+function bp_core_create_root_component_page() {
+	global $bp;
+
+	$new_page_ids = array();
+
+	foreach ( (array)$bp->add_root as $slug )
+		$new_page_ids[$slug] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
+
+	$page_ids = array_merge( (array) $new_page_ids, (array) bp_core_get_page_meta() );
+	bp_core_update_page_meta( $page_ids );
+}
 ?>
