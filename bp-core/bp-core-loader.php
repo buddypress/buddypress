@@ -15,8 +15,7 @@ require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php' );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 // Load deprecated functions
-if ( !empty( $bp->load_deprecated ) )
-	require_once( BP_PLUGIN_DIR . '/bp-core/deprecated/1.3.php'  );
+require_once( BP_PLUGIN_DIR . '/bp-core/deprecated/1.3.php'    );
 
 // Load the WP admin bar.
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
