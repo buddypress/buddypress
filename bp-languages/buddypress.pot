@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-02-21 13:30:28+00:00\n"
+"POT-Creation-Date: 2011-02-21 14:30:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2226,7 +2226,7 @@ msgid "Save Changes"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:225
-#: bp-xprofile/bp-xprofile-classes.php:629
+#: bp-xprofile/bp-xprofile-classes.php:641
 msgid "Fields marked * are required"
 msgstr ""
 
@@ -2240,21 +2240,21 @@ msgid "Group Description"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:254
-#: bp-xprofile/bp-xprofile-classes.php:686
+#: bp-xprofile/bp-xprofile-classes.php:698
 msgid "or"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:254
-#: bp-xprofile/bp-xprofile-classes.php:686
+#: bp-xprofile/bp-xprofile-classes.php:698
 #: bp-themes/bp-default/forums/index.php:133
 msgid "Cancel"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:546
+#: bp-xprofile/bp-xprofile-classes.php:558
 msgid "Please enter options for this Field:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:547
+#: bp-xprofile/bp-xprofile-classes.php:559
 #: bp-themes/bp-default/members/index.php:51
 #: bp-themes/bp-default/members/single/friends.php:18
 #: bp-themes/bp-default/members/single/groups.php:20
@@ -2269,110 +2269,110 @@ msgstr ""
 msgid "Order By:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:549
+#: bp-xprofile/bp-xprofile-classes.php:561
 msgid "Order Entered"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:550
+#: bp-xprofile/bp-xprofile-classes.php:562
 msgid "Name - Ascending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:551
+#: bp-xprofile/bp-xprofile-classes.php:563
 msgid "Name - Descending"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:578
-#: bp-xprofile/bp-xprofile-classes.php:595
+#: bp-xprofile/bp-xprofile-classes.php:590
+#: bp-xprofile/bp-xprofile-classes.php:607
 msgid "Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:580
-#: bp-xprofile/bp-xprofile-classes.php:596
+#: bp-xprofile/bp-xprofile-classes.php:592
+#: bp-xprofile/bp-xprofile-classes.php:608
 msgid "Default Value"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:602
+#: bp-xprofile/bp-xprofile-classes.php:614
 msgid "Add Another Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:610
+#: bp-xprofile/bp-xprofile-classes.php:622
 msgid "Add Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:622
+#: bp-xprofile/bp-xprofile-classes.php:634
 msgid "Edit Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:642
+#: bp-xprofile/bp-xprofile-classes.php:654
 msgid "Field Title"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:651
+#: bp-xprofile/bp-xprofile-classes.php:663
 msgid "Field Description"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:658
+#: bp-xprofile/bp-xprofile-classes.php:670
 msgid "Is This Field Required?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:660
+#: bp-xprofile/bp-xprofile-classes.php:672
 msgid "Not Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:661
+#: bp-xprofile/bp-xprofile-classes.php:673
 msgid "Required"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:666
+#: bp-xprofile/bp-xprofile-classes.php:678
 msgid "Field Type"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:668
+#: bp-xprofile/bp-xprofile-classes.php:680
 msgid "Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:669
+#: bp-xprofile/bp-xprofile-classes.php:681
 msgid "Multi-line Text Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:670
+#: bp-xprofile/bp-xprofile-classes.php:682
 msgid "Date Selector"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:671
+#: bp-xprofile/bp-xprofile-classes.php:683
 msgid "Radio Buttons"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:672
+#: bp-xprofile/bp-xprofile-classes.php:684
 msgid "Drop Down Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:673
+#: bp-xprofile/bp-xprofile-classes.php:685
 msgid "Multi Select Box"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:674
+#: bp-xprofile/bp-xprofile-classes.php:686
 msgid "Checkboxes"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:685
+#: bp-xprofile/bp-xprofile-classes.php:697
 msgid "Save"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:704
+#: bp-xprofile/bp-xprofile-classes.php:716
 msgid "Please make sure you fill out all required fields."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:707
+#: bp-xprofile/bp-xprofile-classes.php:719
 msgid "Radio button field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:710
-#: bp-xprofile/bp-xprofile-classes.php:713
+#: bp-xprofile/bp-xprofile-classes.php:722
+#: bp-xprofile/bp-xprofile-classes.php:725
 msgid "Select box field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-classes.php:716
+#: bp-xprofile/bp-xprofile-classes.php:728
 msgid "Checkbox field types require at least one option. Please add options below."
 msgstr ""
 
