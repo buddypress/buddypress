@@ -506,7 +506,7 @@ function bp_members_new_user_activity( $user ) {
 	if ( empty( $user_id ) )
 		return false;
 
-	$userlink = bp_members_get_userlink( $user_id );
+	$userlink = bp_core_get_userlink( $user_id );
 
 	bp_activity_add( array(
 		'user_id'   => $user_id,
