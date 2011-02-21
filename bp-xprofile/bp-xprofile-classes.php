@@ -44,7 +44,7 @@ Class BP_XProfile_Group {
 		else
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_groups} (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description );
 
-		if ( !$wpdb->query( $sql ) )
+		if ( is_wp_error( $wpdb->query( $sql ) ) )
 			return false;
 
 		do_action_ref_array( 'xprofile_group_after_save', array( &$this ) );

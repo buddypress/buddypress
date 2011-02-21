@@ -172,7 +172,7 @@ function xprofile_admin_manage_group( $group_id = null ) {
 	if ( isset( $_POST['save_group'] ) ) {
 		if ( BP_XProfile_Group::admin_validate( $_POST ) ) {
 			$group->name		= wp_filter_kses( $_POST['group_name'] );
-			$group->description	= wp_filter_kses( $_POST['group_description'] );
+			$group->description	= !empty( $_POST['group_description'] ) ? wp_filter_kses( $_POST['group_description'] ) : '';
 
 			if ( !$group->save() ) {
 				$message = __( 'There was an error saving the group. Please try again', 'buddypress' );
@@ -236,7 +236,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 	if ( isset( $_POST['saveField'] ) ) {
 		if ( BP_XProfile_Field::admin_validate() ) {
 			$field->name        = wp_filter_kses( $_POST['title'] );
-			$field->description = wp_filter_kses( $_POST['description'] );
+			$field->description = !empty( $_POST['description'] ) ? wp_filter_kses( $_POST['description'] ) : '';
 			$field->is_required = wp_filter_kses( $_POST['required'] );
 			$field->type        = wp_filter_kses( $_POST['fieldtype'] );
 
