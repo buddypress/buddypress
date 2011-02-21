@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-02-18 03:30:32+00:00\n"
+"POT-Creation-Date: 2011-02-21 13:30:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -41,19 +41,19 @@ msgid "New blog post comment posted"
 msgstr ""
 
 #: bp-blogs/bp-blogs-buddybar.php:35 bp-core/admin/bp-core-admin.php:70
-#: bp-core/bp-core-buddybar.php:401
+#: bp-core/bp-core-buddybar.php:421
 msgid "Dashboard"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:36 bp-core/bp-core-buddybar.php:405
+#: bp-blogs/bp-blogs-buddybar.php:36 bp-core/bp-core-buddybar.php:425
 msgid "New Post"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-buddybar.php:406
+#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-buddybar.php:426
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-buddybar.php:407
+#: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-buddybar.php:427
 msgid "Manage Comments"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgstr ""
 msgid "<a href=\"%1$s\">%2$s</a> is your new blog.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:484 bp-core/bp-core-template.php:258
+#: bp-blogs/bp-blogs-template.php:484 bp-core/bp-core-template.php:269
 #: bp-themes/bp-default/blogs/index.php:21
 #: bp-themes/bp-default/blogs/create.php:21
 msgid "Create a Blog"
@@ -183,7 +183,7 @@ msgstr ""
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:514 bp-core/bp-core-template.php:379
+#: bp-blogs/bp-blogs-template.php:514 bp-core/bp-core-template.php:390
 #: bp-groups/bp-groups-template.php:2002 bp-forums/bp-forums-template.php:1105
 #: bp-members/bp-members-template.php:517 bp-themes/bp-default/header.php:42
 #: bp-themes/bp-default/searchform.php:5
@@ -232,7 +232,7 @@ msgstr ""
 
 #: bp-core/bp-core-widgets.php:16 bp-core/bp-core-widgets.php:105
 #: bp-core/admin/bp-core-update.php:337 bp-core/admin/bp-core-update.php:393
-#: bp-core/bp-core-template.php:314 bp-members/bp-members-loader.php:22
+#: bp-core/bp-core-template.php:325 bp-members/bp-members-loader.php:22
 #: bp-themes/bp-default/groups/single/admin.php:166
 msgid "Members"
 msgstr ""
@@ -579,7 +579,7 @@ msgid "If you have manually added BuddyPress navigation links in your theme you 
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:245 bp-core/admin/bp-core-update.php:451
-#: bp-core/bp-core-template.php:320
+#: bp-core/bp-core-template.php:331
 msgid "Blogs"
 msgstr ""
 
@@ -626,9 +626,9 @@ msgid "BuddyPress is made up of a number of individual components, each one addi
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:343 bp-core/admin/bp-core-update.php:421
-#: bp-core/bp-core-template.php:317 bp-groups/bp-groups-activity.php:103
+#: bp-core/bp-core-template.php:328 bp-groups/bp-groups-activity.php:103
 #: bp-groups/bp-groups-activity.php:116 bp-groups/bp-groups-activity.php:129
-#: bp-groups/bp-groups-activity.php:142 bp-groups/bp-groups-loader.php:236
+#: bp-groups/bp-groups-activity.php:142 bp-groups/bp-groups-loader.php:238
 #: bp-groups/bp-groups-widgets.php:14 bp-groups/bp-groups-widgets.php:35
 #: bp-groups/bp-groups-widgets.php:102 bp-groups/bp-groups-screens.php:789
 #: bp-members/bp-members-buddybar.php:172
@@ -682,7 +682,7 @@ msgstr ""
 msgid "Displays the activity for the entire site, a member's friends, groups and @mentions."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:436 bp-core/bp-core-template.php:323
+#: bp-core/admin/bp-core-update.php:436 bp-core/bp-core-template.php:334
 #: bp-groups/bp-groups-buddybar.php:57 bp-forums/bp-forums-admin.php:183
 #: bp-forums/bp-forums-loader.php:99 bp-members/bp-members-buddybar.php:184
 msgid "Forums"
@@ -906,49 +906,49 @@ msgstr ""
 msgid "Avatar of %s"
 msgstr ""
 
-#: bp-core/bp-core-template.php:48
+#: bp-core/bp-core-template.php:59
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-template.php:174
+#: bp-core/bp-core-template.php:185
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: bp-core/bp-core-template.php:214 bp-groups/bp-groups-loader.php:248
+#: bp-core/bp-core-template.php:225 bp-groups/bp-groups-loader.php:250
 #: bp-themes/bp-default/header.php:26
 msgid "Home"
 msgstr ""
 
-#: bp-core/bp-core-template.php:227 bp-themes/bp-default/attachment.php:9
+#: bp-core/bp-core-template.php:238 bp-themes/bp-default/attachment.php:9
 #: bp-themes/bp-default/search.php:10
 msgid "Blog"
 msgstr ""
 
-#: bp-core/bp-core-template.php:240 bp-core/bp-core-template.php:242
+#: bp-core/bp-core-template.php:251 bp-core/bp-core-template.php:253
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-template.php:246
+#: bp-core/bp-core-template.php:257
 #: bp-themes/bp-default/registration/register.php:14
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-template.php:250
+#: bp-core/bp-core-template.php:261
 #: bp-themes/bp-default/registration/activate.php:24
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-template.php:254 bp-themes/bp-default/groups/index.php:21
+#: bp-core/bp-core-template.php:265 bp-themes/bp-default/groups/index.php:21
 #: bp-themes/bp-default/groups/create.php:18
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-template.php:353
+#: bp-core/bp-core-template.php:364
 msgid "Search anything..."
 msgstr ""
 
-#: bp-core/bp-core-template.php:390 bp-core/bp-core-template.php:392
-#: bp-core/bp-core-buddybar.php:393 bp-members/bp-members-template.php:582
+#: bp-core/bp-core-template.php:401 bp-core/bp-core-template.php:403
+#: bp-core/bp-core-buddybar.php:413 bp-members/bp-members-template.php:582
 #: bp-members/bp-members-template.php:584 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
@@ -1101,31 +1101,31 @@ msgstr ""
 msgid "not recently active"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:335 bp-themes/bp-default/sidebar.php:50
+#: bp-core/bp-core-buddybar.php:355 bp-themes/bp-default/sidebar.php:50
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:339
+#: bp-core/bp-core-buddybar.php:359
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:351
+#: bp-core/bp-core-buddybar.php:371
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:422
+#: bp-core/bp-core-buddybar.php:442
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:424
+#: bp-core/bp-core-buddybar.php:444
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:428
+#: bp-core/bp-core-buddybar.php:448
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:434
+#: bp-core/bp-core-buddybar.php:454
 msgid "Random Blog"
 msgstr ""
 
@@ -1516,7 +1516,7 @@ msgstr ""
 msgid "Groups <span>(%d)</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:210 bp-groups/bp-groups-loader.php:349
+#: bp-groups/bp-groups-loader.php:210 bp-groups/bp-groups-loader.php:351
 msgid "My Groups"
 msgstr ""
 
@@ -1524,30 +1524,30 @@ msgstr ""
 msgid "Invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:260 bp-groups/bp-groups-buddybar.php:18
+#: bp-groups/bp-groups-loader.php:262 bp-groups/bp-groups-buddybar.php:18
 msgid "Admin"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:279 bp-groups/bp-groups-template.php:1355
+#: bp-groups/bp-groups-loader.php:281 bp-groups/bp-groups-template.php:1355
 #: bp-groups/bp-groups-template.php:1356 bp-themes/bp-default/_inc/ajax.php:458
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:291
+#: bp-groups/bp-groups-loader.php:293
 #: bp-themes/bp-default/forums/forums-loop.php:43
 msgid "Forum"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:303
+#: bp-groups/bp-groups-loader.php:305
 msgid "Members (%s)"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:316
+#: bp-groups/bp-groups-loader.php:318
 #: bp-themes/bp-default/groups/single/send-invites.php:60
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:368 bp-groups/bp-groups-buddybar.php:23
+#: bp-groups/bp-groups-loader.php:370 bp-groups/bp-groups-buddybar.php:23
 #: bp-groups/bp-groups-template.php:1059 bp-groups/bp-groups-template.php:2070
 msgid "Group Avatar"
 msgstr ""
