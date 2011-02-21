@@ -272,10 +272,10 @@ Class BP_Groups_Group {
 
 		$sql['where'] = " g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'";
 
-		if ( !$show_hidden )
+		if ( empty( $show_hidden ) )
 			$sql['hidden'] = " AND g.status != 'hidden'";
 
-		if ( $search_terms ) {
+		if ( !empty( $search_terms ) ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$sql['search'] = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
@@ -318,7 +318,7 @@ Class BP_Groups_Group {
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array)$sql ), $sql );
 		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
 
-		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g";
+		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g, {$bp->groups->table_name_groupmeta} gm2";
 
 		if ( !empty( $user_id ) )
 			$total_sql['select'] .= ", {$bp->groups->table_name_members} m";
@@ -336,6 +336,9 @@ Class BP_Groups_Group {
 			$exclude = $wpdb->escape( $exclude );
 			$total_sql['where'][] = " g.id NOT IN ({$exclude})";
 		}
+
+		$total_sql['where'][] = "g.id = gm2.group_id";
+		$total_sql['where'][] = "gm2.meta_key = 'last_activity'";
 
 		$t_sql = $total_sql['select'];
 

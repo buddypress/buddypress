@@ -108,7 +108,7 @@ class BP_Groups_Template {
 			$this->total_group_count = 1;
 			$this->group_count       = 1;
 		} else {
-			if ( !$max || $max >= (int)$this->groups['total'] ) {
+			if ( empty( $max ) || $max >= (int)$this->groups['total'] ) {
 				$this->total_group_count = (int)$this->groups['total'];
 			} else {
 				$this->total_group_count = (int)$max;
@@ -116,7 +116,7 @@ class BP_Groups_Template {
 
 			$this->groups = $this->groups['groups'];
 
-			if ( $max ) {
+			if ( !empty( $max ) ) {
 				if ( $max >= count( $this->groups ) ) {
 					$this->group_count = count( $this->groups );
 				} else {
