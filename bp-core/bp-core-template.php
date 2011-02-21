@@ -21,11 +21,22 @@ function bp_get_options_nav() {
 	// index. Otherwise we need to use the component's root_slug
 	$component_index = !empty( $bp->displayed_user ) ? $bp->current_component : bp_get_root_slug( $bp->current_component );
 
-	if ( !isset( $bp->bp_options_nav[$component_index] ) || count( $bp->bp_options_nav[$component_index] ) < 1 )
-		return false;
+	if ( !bp_is_single_item() ) {
+		if ( !isset( $bp->bp_options_nav[$component_index] ) || count( $bp->bp_options_nav[$component_index] ) < 1 ) {
+			return false;
+		} else {
+			$the_index = $component_index;
+		}
+	} else {
+		if ( !isset( $bp->bp_options_nav[$bp->current_item] ) || count( $bp->bp_options_nav[$bp->current_item] ) < 1 ) {
+			return false;
+		} else {
+			$the_index = $bp->current_item;
+		}
+	}
 
 	// Loop through each navigation item
-	foreach ( (array)$bp->bp_options_nav[$component_index] as $subnav_item ) {
+	foreach ( (array)$bp->bp_options_nav[$the_index] as $subnav_item ) {
 		if ( !$subnav_item['user_has_access'] )
 			continue;
 

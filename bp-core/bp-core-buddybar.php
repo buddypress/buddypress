@@ -53,13 +53,25 @@ function bp_core_new_nav_item( $args = '' ) {
 		return false;
 
 	/***
- 	 * If we are not viewing a user, and this is a root component, don't attach the
- 	 * default subnav function so we can display a directory or something else.
+ 	 * If the nav item is visible, we are not viewing a user, and this is a root
+	 * component, don't attach the default subnav function so we can display a
+	 * directory or something else.
  	 */
-	if ( bp_is_root_component( $slug ) && !bp_displayed_user_id() )
+	if ( ( -1 != $position ) && bp_is_root_component( $slug ) && !bp_displayed_user_id() )
 		return;
 
+	// Look for current component
 	if ( bp_is_current_component( $slug ) && !bp_current_action() ) {
+		if ( !is_object( $screen_function[0] ) )
+			add_action( 'bp_screens', $screen_function );
+		else
+			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
+
+		if ( !empty( $default_subnav_slug ) )
+			$bp->current_action = $default_subnav_slug;
+
+	// Look for current item
+	} elseif ( bp_is_current_item( $slug ) && !bp_current_action() ) {
 		if ( !is_object( $screen_function[0] ) )
 			add_action( 'bp_screens', $screen_function );
 		else
@@ -185,7 +197,15 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'screen_function' => &$screen_function
 	);
 
+	// Look for current component
 	if ( ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) && $user_has_access ) {
+		if ( !is_object( $screen_function[0] ) )
+			add_action( 'bp_screens', $screen_function );
+		else
+			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
+
+	// Look for current item
+	} elseif ( ( $bp->current_action == $slug && $bp->current_item == $parent_slug ) && $user_has_access ) {
 		if ( !is_object( $screen_function[0] ) )
 			add_action( 'bp_screens', $screen_function );
 		else

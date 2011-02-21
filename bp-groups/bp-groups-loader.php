@@ -231,10 +231,12 @@ class BP_Groups_Component extends BP_Component {
 
 		if ( bp_is_groups_component() && bp_is_single_item() ) {
 
+			unset( $main_nav ); unset( $sub_nav );
+
 			// Add 'Groups' to the main navigation
 			$main_nav = array(
 				'name'                => __( 'Groups', 'buddypress' ),
-				'slug'                => $this->root_slug,
+				'slug'                => $this->current_group->slug,
 				'position'            => -1, // Do not show in BuddyBar
 				'screen_function'     => 'groups_screen_group_home',
 				'default_subnav_slug' => 'home',
@@ -248,7 +250,7 @@ class BP_Groups_Component extends BP_Component {
 				'name'            => __( 'Home', 'buddypress' ),
 				'slug'            => 'home',
 				'parent_url'      => $group_link,
-				'parent_slug'     => $this->root_slug,
+				'parent_slug'     => $this->current_group->slug,
 				'screen_function' => 'groups_screen_group_home',
 				'position'        => 10,
 				'item_css_id'     => 'home'
@@ -260,7 +262,7 @@ class BP_Groups_Component extends BP_Component {
 					'name'            => __( 'Admin', 'buddypress' ),
 					'slug'            => 'admin',
 					'parent_url'      => $group_link,
-					'parent_slug'     => $this->root_slug,
+					'parent_slug'     => $this->current_group->slug,
 					'screen_function' => 'groups_screen_group_admin',
 					'position'        => 20,
 					'user_has_access' => ( $bp->is_item_admin + (int)$bp->is_item_mod ),
@@ -279,7 +281,7 @@ class BP_Groups_Component extends BP_Component {
 					'name'               => __( 'Request Membership', 'buddypress' ),
 					'slug'               => 'request-membership',
 					'parent_url'         => $group_link,
-					'parent_slug'        => $this->root_slug,
+					'parent_slug'        => $this->current_group->slug,
 					'screen_function'    => 'groups_screen_group_request_membership',
 					'position'           => 30
 				);
@@ -291,7 +293,7 @@ class BP_Groups_Component extends BP_Component {
 					'name'            => __( 'Forum', 'buddypress' ),
 					'slug'            => 'forum',
 					'parent_url'      => $group_link,
-					'parent_slug'     => $this->root_slug,
+					'parent_slug'     => $this->current_group->slug,
 					'screen_function' => 'groups_screen_group_forum',
 					'position'        => 40,
 					'user_has_access' => $this->current_group->user_has_access,
@@ -303,7 +305,7 @@ class BP_Groups_Component extends BP_Component {
 				'name'            => sprintf( __( 'Members (%s)', 'buddypress' ), number_format( $this->current_group->total_member_count ) ),
 				'slug'            => 'members',
 				'parent_url'      => $group_link,
-				'parent_slug'     => $this->root_slug,
+				'parent_slug'     => $this->current_group->slug,
 				'screen_function' => 'groups_screen_group_members',
 				'position'        => 60,
 				'user_has_access' => $this->current_group->user_has_access,
@@ -316,7 +318,7 @@ class BP_Groups_Component extends BP_Component {
 						'name'            => __( 'Send Invites', 'buddypress' ),
 						'slug'            => 'send-invites',
 						'parent_url'      => $group_link,
-						'parent_slug'     => $this->root_slug,
+						'parent_slug'     => $this->current_group->slug,
 						'screen_function' => 'groups_screen_group_invite',
 						'item_css_id'     => 'invite',
 						'position'        => 70,
