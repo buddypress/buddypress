@@ -384,20 +384,32 @@ Class BP_XProfile_Field {
 					$parent_id = $wpdb->insert_id;
 
 				if ( 'radio' == $this->type ) {
-					$options	= apply_filters( 'xprofile_field_options_before_save', $_POST['radio_option'], 'radio' );
-					$defaults	= apply_filters( 'xprofile_field_default_before_save', $_POST['isDefault_radio_option'], 'radio' );
+					$post_option  = !empty( $_POST['radio_option']           ) ? $_POST['radio_option']           : '';
+					$post_default = !empty( $_POST['isDefault_radio_option'] ) ? $_POST['isDefault_radio_option'] : '';
+
+					$options	= apply_filters( 'xprofile_field_options_before_save', $post_option,  'radio' );
+					$defaults	= apply_filters( 'xprofile_field_default_before_save', $post_default, 'radio' );
 
 				} else if ( 'selectbox' == $this->type ) {
-					$options	= apply_filters( 'xprofile_field_options_before_save', $_POST['selectbox_option'], 'selectbox' );
-					$defaults	= apply_filters( 'xprofile_field_default_before_save', $_POST['isDefault_selectbox_option'], 'selectbox' );
+					$post_option  = !empty( $_POST['selectbox_option']           ) ? $_POST['selectbox_option']           : '';
+					$post_default = !empty( $_POST['isDefault_selectbox_option'] ) ? $_POST['isDefault_selectbox_option'] : '';
+
+					$options	= apply_filters( 'xprofile_field_options_before_save', $post_option, 'selectbox' );
+					$defaults	= apply_filters( 'xprofile_field_default_before_save', $post_default, 'selectbox' );
 
 				} else if ( 'multiselectbox' == $this->type ) {
-					$options	= apply_filters( 'xprofile_field_options_before_save', $_POST['multiselectbox_option'], 'multiselectbox' );
-					$defaults	= apply_filters( 'xprofile_field_default_before_save', $_POST['isDefault_multiselectbox_option'], 'multiselectbox' );
+					$post_option  = !empty( $_POST['multiselectbox_option']           ) ? $_POST['multiselectbox_option']           : '';
+					$post_default = !empty( $_POST['isDefault_multiselectbox_option'] ) ? $_POST['isDefault_multiselectbox_option'] : '';
+
+					$options	= apply_filters( 'xprofile_field_options_before_save', $post_option, 'multiselectbox' );
+					$defaults	= apply_filters( 'xprofile_field_default_before_save', $post_default, 'multiselectbox' );
 
 				} else if ( 'checkbox' == $this->type ) {
-					$options	= apply_filters( 'xprofile_field_options_before_save', $_POST['checkbox_option'], 'checkbox' );
-					$defaults	= apply_filters( 'xprofile_field_default_before_save', $_POST['isDefault_checkbox_option'], 'checkbox' );
+					$post_option  = !empty( $_POST['checkbox_option']           ) ? $_POST['checkbox_option']           : '';
+					$post_default = !empty( $_POST['isDefault_checkbox_option'] ) ? $_POST['isDefault_checkbox_option'] : '';
+
+					$options	= apply_filters( 'xprofile_field_options_before_save', $post_option, 'checkbox' );
+					$defaults	= apply_filters( 'xprofile_field_default_before_save', $post_default, 'checkbox' );
 				}
 
 				$counter = 1;

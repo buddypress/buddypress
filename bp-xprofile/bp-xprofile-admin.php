@@ -109,7 +109,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 <?php				endif;
 
-					if ( $group->fields ) :
+					if ( !empty( $group->fields ) ) :
 						foreach ( $group->fields as $field ) {
 
 							// Load the field
