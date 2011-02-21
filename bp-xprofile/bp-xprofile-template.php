@@ -624,7 +624,7 @@ function bp_profile_group_tabs() {
 		else
 			$selected = '';
 
-		if ( $groups[$i]->fields ) {
+		if ( !empty( $groups[$i]->fields ) ) {
 			$link = $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id;
 			$tabs[] = sprintf( '<li %1$s><a href="%2$s">%3$s</a><li>', $selected, $link, esc_html( $groups[$i]->name ) );
 		}
