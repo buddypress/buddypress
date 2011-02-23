@@ -44,7 +44,7 @@ function bp_core_admin_menu_icon_css() {
 
 <?php
 }
-add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_head', 'bp_core_admin_menu_icon_css' );
 
 function bp_core_confirmation_js() {
 	global $current_blog;

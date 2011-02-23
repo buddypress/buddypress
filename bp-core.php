@@ -284,8 +284,7 @@ function bp_core_check_installed() {
 	if ( get_site_option( 'bp-core-db-version' ) < BP_CORE_DB_VERSION )
 		bp_core_install();
 }
-add_action( 'admin_menu', 'bp_core_check_installed' );
-add_action( 'network_admin_menu', 'bp_core_check_installed' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_check_installed' );
 
 /**
  * bp_core_add_admin_menu()
@@ -317,8 +316,7 @@ function bp_core_add_admin_menu() {
 	add_submenu_page( 'bp-general-settings', __( 'General Settings', 'buddypress'), __( 'General Settings', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_settings' );
 	add_submenu_page( 'bp-general-settings', __( 'Component Setup', 'buddypress'), __( 'Component Setup', 'buddypress' ), 'manage_options', 'bp-component-setup', 'bp_core_admin_component_setup' );
 }
-add_action( 'admin_menu', 'bp_core_add_admin_menu' );
-add_action( 'network_admin_menu', 'bp_core_add_admin_menu' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_admin_menu' );
 
 /**
  * bp_core_is_root_component()

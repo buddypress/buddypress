@@ -96,8 +96,7 @@ function messages_check_installed() {
 	if ( get_site_option( 'bp-messages-db-version' ) < BP_MESSAGES_DB_VERSION )
 		messages_install();
 }
-add_action( 'admin_menu', 'messages_check_installed' );
-add_action( 'network_admin_menu', 'messages_check_installed' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'messages_check_installed' );
 
 function messages_setup_nav() {
 	global $bp;

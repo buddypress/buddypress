@@ -60,8 +60,7 @@ function bp_blogs_check_installed() {
 			bp_blogs_install();
 	}
 }
-add_action( 'admin_menu', 'bp_blogs_check_installed' );
-add_action( 'network_admin_menu', 'bp_blogs_check_installed' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_blogs_check_installed' );
 
 function bp_blogs_setup_globals() {
 	global $bp, $wpdb;

@@ -8,8 +8,7 @@ function xprofile_add_admin_css() {
 	if ( !empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false )
 		wp_enqueue_style( 'xprofile-admin-css', BP_PLUGIN_URL . '/bp-xprofile/admin/css/admin.css' );
 }
-add_action( 'admin_menu', 'xprofile_add_admin_css' );
-add_action( 'network_admin_menu', 'xprofile_add_admin_css' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'xprofile_add_admin_css' );
 
 function xprofile_add_admin_js() {
 	// If this is WP 3.1+ and multisite is enabled, only load on the Network Admin
@@ -21,7 +20,6 @@ function xprofile_add_admin_js() {
 		wp_enqueue_script( 'xprofile-admin-js', BP_PLUGIN_URL . '/bp-xprofile/admin/js/admin.js', array( 'jquery' ) );
 	}
 }
-add_action( 'admin_menu', 'xprofile_add_admin_js', 1 );
-add_action( 'network_admin_menu', 'xprofile_add_admin_js', 1 );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'xprofile_add_admin_js', 1 );
 
 ?>

@@ -151,8 +151,7 @@ function xprofile_add_admin_menu() {
 	if ( get_site_option( 'bp-xprofile-db-version' ) < BP_XPROFILE_DB_VERSION )
 		xprofile_install();
 }
-add_action( 'admin_menu', 'xprofile_add_admin_menu' );
-add_action( 'network_admin_menu', 'xprofile_add_admin_menu' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'xprofile_add_admin_menu' );
 
 /**
  * xprofile_setup_nav()

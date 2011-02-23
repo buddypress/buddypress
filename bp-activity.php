@@ -98,8 +98,7 @@ function bp_activity_check_installed() {
 	if ( get_site_option( 'bp-activity-db-version' ) < BP_ACTIVITY_DB_VERSION )
 		bp_activity_install();
 }
-add_action( 'admin_menu', 'bp_activity_check_installed' );
-add_action( 'network_admin_menu', 'bp_activity_check_installed' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_activity_check_installed' );
 
 function bp_activity_setup_root_component() {
 	/* Register 'activity' as a root component (for RSS feed use) */

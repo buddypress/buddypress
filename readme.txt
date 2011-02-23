@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, mingle, social, community, networks, networking, cms
-Requires at least: 3.0
-Tested up to: 3.0.3
-Stable tag: 1.2.7
+Requires at least: 3.1
+Tested up to: 3.1
+Stable tag: 1.2.8
 
 == Description ==
 
@@ -61,7 +61,7 @@ BuddyPress also includes support for discussion forums. Each group created on yo
 
 Of course! First install and activate BuddyPress, then download and activate the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">template extension pack</a>. This plugin will run you through the process step-by-step.
 
-Be sure to also try out the default theme bundled with BuddyPress. It provides all the awesome features of a standard WordPress blog, but also integrates the BuddyPress features both seamlessly and beautfully. It's also really easy to modify with custom header support, widget support and via a <a href="http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/">child theme</a>.
+Be sure to also try out the default theme bundled with BuddyPress. It provides all the awesome features of a standard WordPress blog, but also integrates the BuddyPress features both seamlessly and beautifully. It's also really easy to modify with custom header support, widget support and via a <a href="http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/">child theme</a>.
 
 = Will this work on standard WordPress and WordPress MU? =
 
@@ -95,7 +95,7 @@ BuddyPress subversion trunk can be found at: http://svn.buddypress.org/trunk/
 
 == Languages ==
 
-BuddyPress is available in more than 20 languages. For more information about BuddyPress in your language please select a langauge site from the list below. Is your language missing? Please send a message to the <a href="http://lists.automattic.com/mailman/listinfo/wp-polyglots">WP-Polygots</a> mailing list and request for your language to be set up.
+BuddyPress is available in more than 20 languages. For more information about BuddyPress in your language please select a language site from the list below. Is your language missing? Please send a message to the <a href="http://lists.automattic.com/mailman/listinfo/wp-polyglots">WP-Polygots</a> mailing list and request for your language to be set up.
 
 *	<a href="http://br.buddypress.org/">Brasil</a>
 *	<a href="http://ca.buddypress.org/">Català</a>
@@ -117,12 +117,12 @@ BuddyPress is available in more than 20 languages. For more information about Bu
 *	<a href="http://ko.buddypress.org/">한국어</a>
 *	<a href="http://tw.buddypress.org/">正體中文</a>
 
-The <a href="http://i18n.svn.buddypress.org/">BuddyPress langauge file repository</a> includes some language that have not yet set up a localization site.
+The <a href="http://i18n.svn.buddypress.org/">BuddyPress language file repository</a> includes some language that have not yet set up a localization site.
 
 == Upgrade Notice ==
 
-= 1.2.7 =
-Fixes over 10 bugs.
+= 1.2.8 =
+Compatibility with WordPress 3.1
 
 == Changelog ==
 

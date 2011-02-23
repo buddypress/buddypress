@@ -116,8 +116,7 @@ function groups_check_installed() {
 	if ( get_site_option( 'bp-groups-db-version' ) < BP_GROUPS_DB_VERSION )
 		groups_install();
 }
-add_action( 'admin_menu', 'groups_check_installed' );
-add_action( 'network_admin_menu', 'groups_check_installed' );
+add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'groups_check_installed' );
 
 function groups_setup_nav() {
 	global $bp;

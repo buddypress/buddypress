@@ -43,19 +43,19 @@ function bp_core_admin_settings() {
 			<tbody>
 				<?php if ( function_exists( 'xprofile_install' ) ) :?>
 				<tr>
-					<th scope="row"><?php _e( 'Base profile group name', 'buddypress' ) ?>:</th>
+					<th scope="row"><p><?php _e( 'Base profile group name', 'buddypress' ) ?>:</p></th>
 					<td>
 						<input name="bp-admin[bp-xprofile-base-group-name]" id="bp-xprofile-base-group-name" value="<?php echo get_site_option('bp-xprofile-base-group-name') ?>" />
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php _e( 'Full Name field name', 'buddypress' ) ?>:</th>
+					<th scope="row"><p><?php _e( 'Full Name field name', 'buddypress' ) ?>:</p></th>
 					<td>
 						<input name="bp-admin[bp-xprofile-fullname-field-name]" id="bp-xprofile-fullname-field-name" value="<?php echo get_site_option('bp-xprofile-fullname-field-name') ?>" />
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php _e( 'Disable BuddyPress to WordPress profile syncing?', 'buddypress' ) ?>:</th>
+					<th scope="row"><p><?php _e( 'Disable BuddyPress to WordPress profile syncing?', 'buddypress' ) ?>:</p></th>
 					<td>
 						<input type="radio" name="bp-admin[bp-disable-profile-sync]"<?php if ( (int)get_site_option( 'bp-disable-profile-sync' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-profile-sync" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
 						<input type="radio" name="bp-admin[bp-disable-profile-sync]"<?php if ( !(int)get_site_option( 'bp-disable-profile-sync' ) || '' == get_site_option( 'bp-disable-profile-sync' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-profile-sync" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
@@ -63,21 +63,21 @@ function bp_core_admin_settings() {
 				</tr>
 				<?php endif; ?>
 				<tr>
-					<th scope="row"><?php _e( 'Hide admin bar for logged out users?', 'buddypress' ) ?>:</th>
+					<th scope="row"><p><?php _e( 'Hide admin bar for logged out users?', 'buddypress' ) ?>:</p></th>
 					<td>
 						<input type="radio" name="bp-admin[hide-loggedout-adminbar]"<?php if ( (int)get_site_option( 'hide-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-hide-loggedout-adminbar-yes" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
 						<input type="radio" name="bp-admin[hide-loggedout-adminbar]"<?php if ( !(int)get_site_option( 'hide-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-hide-loggedout-adminbar-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php _e( 'Disable avatar uploads? (Gravatars will still work)', 'buddypress' ) ?>:</th>
+					<th scope="row"><p><?php _e( 'Disable avatar uploads? (Gravatars will still work)', 'buddypress' ) ?>:</p></th>
 					<td>
 						<input type="radio" name="bp-admin[bp-disable-avatar-uploads]"<?php if ( (int)get_site_option( 'bp-disable-avatar-uploads' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-disable-avatar-uploads-yes" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
 						<input type="radio" name="bp-admin[bp-disable-avatar-uploads]"<?php if ( !(int)get_site_option( 'bp-disable-avatar-uploads' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-disable-avatar-uploads-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php _e( 'Disable user account deletion?', 'buddypress' ) ?>:</th>
+					<th scope="row"><p><?php _e( 'Disable user account deletion?', 'buddypress' ) ?>:</p></th>
 					<td>
 						<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( (int)get_site_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
 						<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( !(int)get_site_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
@@ -85,7 +85,7 @@ function bp_core_admin_settings() {
 				</tr>
 				<?php if ( function_exists( 'bp_forums_setup') ) : ?>
 				<tr>
-					<th scope="row"><?php _e( 'Disable global forum directory?', 'buddypress' ) ?>:</th>
+					<th scope="row"><p><?php _e( 'Disable global forum directory?', 'buddypress' ) ?>:</p></th>
 					<td>
 						<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( (int)get_site_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
 						<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( !(int)get_site_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
@@ -94,7 +94,7 @@ function bp_core_admin_settings() {
 				<?php endif; ?>
 				<?php if ( function_exists( 'bp_activity_install') ) : ?>
 				<tr>
-					<th scope="row"><?php _e( 'Disable activity stream commenting on blog and forum posts?', 'buddypress' ) ?>:</th>
+					<th scope="row"><p><?php _e( 'Disable activity stream commenting on blog and forum posts?', 'buddypress' ) ?>:</p></th>
 					<td>
 						<input type="radio" name="bp-admin[bp-disable-blogforum-comments]"<?php if ( (int)get_site_option( 'bp-disable-blogforum-comments' ) || false === get_site_option( 'bp-disable-blogforum-comments' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-blogforum-comments" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
 						<input type="radio" name="bp-admin[bp-disable-blogforum-comments]"<?php if ( !(int)get_site_option( 'bp-disable-blogforum-comments' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-blogforum-comments" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
@@ -103,7 +103,7 @@ function bp_core_admin_settings() {
 				<?php endif; ?>
 
 				<tr>
-					<th scope="row"><?php _e( 'Default User Avatar', 'buddypress' ) ?></th>
+					<th scope="row"><p><?php _e( 'Default User Avatar', 'buddypress' ) ?></p></th>
 					<td>
 						<p><?php _e( 'For users without a custom avatar of their own, you can either display a generic logo or a generated one based on their email address', 'buddypress' ) ?></p>
 

@@ -11,16 +11,18 @@ function bp_forums_bbpress_admin() {
 			<div id="message" class="updated fade">
 				<p><?php _e( 'Settings Saved.', 'buddypress' ) ?></p>
 			</div>
-		<?php endif; ?>
-
-		<?php
+		<?php endif;
 
 		if ( isset( $_REQUEST['reinstall'] ) || !bp_forums_is_installed_correctly() ) {
 			update_site_option( 'bb-config-location', false );
 			bp_forums_bbpress_install_wizard();
-		} else { ?>
-			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>', 'buddypress' ), site_url( 'wp-admin/admin.php?page=bb-forums-setup&reinstall=1' ) ); ?>
+		} else {
+			$url       = 'admin.php?page=bb-forums-setup&reinstall=1';
+			$reinstall = is_multisite() ? network_admin_url( $url ) : admin_url( $url ); ?>
+
+			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>', 'buddypress' ), $reinstall ); ?>
 			<p><?php _e( 'NOTE: The forums directory will only work if your bbPress tables are in the same database as your WordPress tables. If you are not using an existing bbPress install you can ignore this message.', 'buddypress' ) ?></p>
+
 		<?php
 		}
 		?>
@@ -29,7 +31,8 @@ function bp_forums_bbpress_admin() {
 }
 
 function bp_forums_bbpress_install_wizard() {
-	$post_url = site_url( 'wp-admin/admin.php?page=bb-forums-setup' );
+	$url      = 'admin.php?page=bb-forums-setup';
+	$post_url = is_multisite() ? network_admin_url( $url ) : admin_url( $url );
 
 	switch( $_REQUEST['step'] ) {
 		case 'existing':
@@ -67,7 +70,7 @@ function bp_forums_bbpress_install_wizard() {
 					default:
 						// Just write the contents to screen
 						_e( 'A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.', 'buddypress' );
-						?><code style="display:block; margin-top: 30px;"><pre><?php echo htmlspecialchars( $result ) ?></pre></code><?php
+						?><br /><textarea cols="110" rows="50" style="margin: 10px 0 50px 0;"><?php echo htmlspecialchars( $result ) ?></textarea><?php
 						break;
 				}
 			} else {
