@@ -17,8 +17,7 @@ function bp_forums_bbpress_admin() {
 			update_site_option( 'bb-config-location', false );
 			bp_forums_bbpress_install_wizard();
 		} else {
-			$url       = 'admin.php?page=bb-forums-setup&reinstall=1';
-			$reinstall = is_multisite() ? network_admin_url( $url ) : admin_url( $url ); ?>
+			$reinstall = network_admin_url( 'admin.php?page=bb-forums-setup&reinstall=1' ); ?>
 
 			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>', 'buddypress' ), $reinstall ); ?>
 			<p><?php _e( 'NOTE: The forums directory will only work if your bbPress tables are in the same database as your WordPress tables. If you are not using an existing bbPress install you can ignore this message.', 'buddypress' ) ?></p>
@@ -31,8 +30,7 @@ function bp_forums_bbpress_admin() {
 }
 
 function bp_forums_bbpress_install_wizard() {
-	$url      = 'admin.php?page=bb-forums-setup';
-	$post_url = is_multisite() ? network_admin_url( $url ) : admin_url( $url );
+	$post_url = network_admin_url( 'admin.php?page=bb-forums-setup' );
 
 	switch( $_REQUEST['step'] ) {
 		case 'existing':
