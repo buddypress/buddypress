@@ -112,4 +112,17 @@ if ( !function_exists( 'is_site_admin' ) ) {
 	}
 }
 
+// Added for WordPress 3.1 support
+if ( !function_exists( 'get_dashboard_url' ) ) {
+
+	/**
+	 * Make sure the 'network_admin_menu' hook (which is new to 3.1) fires
+	 * on our reliable friend 'admin_menu'
+	 */
+	function bp_network_admin_menu() {
+		do_action( 'network_admin_menu' );
+	}
+	add_action( 'admin_menu', 'bp_network_admin_menu' );
+}
+
 ?>
