@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-02-21 16:30:28+00:00\n"
+"POT-Creation-Date: 2011-02-26 11:30:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -323,7 +323,7 @@ msgid "Name"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:9
-msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/getting-started/upgrading-from-10x/\">Read this before attempting to update BuddyPress</a>"
+msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:38
