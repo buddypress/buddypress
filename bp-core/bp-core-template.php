@@ -241,7 +241,11 @@ function bp_get_page_title() {
 	} elseif ( !empty( $bp->displayed_user->fullname ) ) {
  		$title = strip_tags( $bp->displayed_user->fullname . ' &#124; ' . ucwords( $bp->current_component ) );
 
-	// A single item of a component
+	// A single group
+	} elseif ( !empty( $bp->groups->current_group ) ) {
+		$title = $bp->bp_options_title . ' &#124; ' . $bp->bp_options_nav[$bp->groups->current_group->slug ][$bp->current_action]['name'];
+
+	// A single item from a component other than groups
 	} elseif ( bp_is_single_item() ) {
 		$title = bp_get_name_from_root_slug() . ' &#124; ' . $bp->bp_options_title . ' &#124; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'];
 
