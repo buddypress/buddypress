@@ -31,7 +31,7 @@ function bp_members_signup_sanitization() {
 		'bp_get_signup_avatar_dir_value',
 	);
 
-	// Add the 'strip_tags' filter to each field
+	// Add the filters to each field
 	foreach( $fields as $filter ) {
 		add_filter( $filter, 'esc_html',       1 );
 		add_filter( $filter, 'wp_filter_kses', 2 );
