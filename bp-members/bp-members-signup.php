@@ -164,7 +164,7 @@ add_action( 'bp_screens', 'bp_members_screen_signup' );
 function bp_members_screen_activation() {
 	global $bp, $wpdb;
 
-	if ( bp_is_current_component( 'activate' ) )
+	if ( !bp_is_current_component( 'activate' ) )
 		return false;
 
 	// Check if an activation key has been passed
