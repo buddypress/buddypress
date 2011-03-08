@@ -100,7 +100,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 )
-				return apply_filters( 'bp_groups_multiple_membership_request_accepted_notification', '<a href="' . $bp->loggedin_user->domain . $bp->groups->slug . '/?n=1" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __( '%d accepted group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group_name );
+				return apply_filters( 'bp_groups_multiple_membership_request_accepted_notification', '<a href="' . $bp->loggedin_user->domain . $bp->groups->slug . '/?n=1" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __( '%d accepted group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group->name );
 			else
 				return apply_filters( 'bp_groups_single_membership_request_accepted_notification', '<a href="' . $group_link . '?n=1">' . sprintf( __( 'Membership for group "%s" accepted', 'buddypress' ), $group->name ) . '</a>', $group_link, $group->name );
 
@@ -113,7 +113,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 )
-				return apply_filters( 'bp_groups_multiple_membership_request_rejected_notification', '<a href="' . site_url() . '/' . $bp->members->slug . '/' . $bp->groups->slug . '/?n=1" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __( '%d rejected group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group->name );
+				return apply_filters( 'bp_groups_multiple_membership_request_rejected_notification', '<a href="' . $bp->loggedin_user->domain . $bp->groups->slug . '/?n=1" title="' . __( 'Groups', 'buddypress' ) . '">' . sprintf( __( '%d rejected group membership requests', 'buddypress' ), (int)$total_items, $group->name ) . '</a>', $total_items, $group->name );
 			else
 				return apply_filters( 'bp_groups_single_membership_request_rejected_notification', '<a href="' . $group_link . '?n=1">' . sprintf( __( 'Membership for group "%s" rejected', 'buddypress' ), $group->name ) . '</a>', $group_link, $group->name );
 
