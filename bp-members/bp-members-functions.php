@@ -1,13 +1,14 @@
 <?php
 
-/********************************************************************************
- * Business Functions
+/**
+ * BuddyPress Member Functions
  *
- * Business functions are where all the magic happens in BuddyPress. They will
- * handle the actual saving or manipulation of information. Usually they will
- * hand off to a database class for data access, then return
- * true or false on success or failure.
+ * Functions specific to the members component.
+ *
+ * @package BuddyPress
+ * @subpackage Members
  */
+
 
 /**
  * Define the slugs used for BuddyPress pages, based on the slugs of the WP pages used.
@@ -22,20 +23,26 @@
 function bp_core_define_slugs() {
 	global $bp;
 
-	if ( !defined( 'BP_MEMBERS_SLUG' ) && !empty( $bp->pages->members ) )
-		define( 'BP_MEMBERS_SLUG', $bp->pages->members->slug );
-	else if ( !defined( 'BP_MEMBERS_SLUG' ) )
-		define( 'BP_MEMBERS_SLUG', 'members' );
+	// No custom members slug
+	if ( !defined( 'BP_MEMBERS_SLUG' ) )
+		if ( !empty( $bp->pages->members ) )
+			define( 'BP_MEMBERS_SLUG', $bp->pages->members->slug );
+		else
+			define( 'BP_MEMBERS_SLUG', 'members' );
 
-	if ( !defined( 'BP_REGISTER_SLUG' ) && !empty( $bp->pages->register ) )
-		define( 'BP_REGISTER_SLUG', $bp->pages->register->slug );
-	else if ( !defined( 'BP_REGISTER_SLUG' ) )
-		define( 'BP_REGISTER_SLUG', 'register' );
+	// No custom registration slug
+	if ( !defined( 'BP_REGISTER_SLUG' ) )
+		if ( !empty( $bp->pages->register ) )
+			define( 'BP_REGISTER_SLUG', $bp->pages->register->slug );
+		else
+			define( 'BP_REGISTER_SLUG', 'register' );
 
-	if ( !defined( 'BP_ACTIVATION_SLUG' ) && !empty( $bp->pages->activate ) )
-		define( 'BP_ACTIVATION_SLUG', $bp->pages->activate->slug );
-	else if ( !defined( 'BP_ACTIVATION_SLUG' ) )
-		define( 'BP_ACTIVATION_SLUG', 'activate' );
+	// No custom activation slug
+	if ( !defined( 'BP_ACTIVATION_SLUG' ) )
+		if ( !empty( $bp->pages->activate ) )
+			define( 'BP_ACTIVATION_SLUG', $bp->pages->activate->slug );
+		else
+			define( 'BP_ACTIVATION_SLUG', 'activate' );
 
 }
 add_action( 'bp_setup_globals', 'bp_core_define_slugs' );

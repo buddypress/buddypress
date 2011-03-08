@@ -1,23 +1,13 @@
 <?php
 
-/*******************************************************************************
- * Screen Functions
- *
- * Screen functions are the controllers of BuddyPress. They will execute when
- * their specific URL is caught. They will first save or manipulate data using
- * business functions, then pass on the user to a template file.
- */
-
 /**
  * Activity index
  *
  * @global obj $bp
  */
 function bp_activity_screen_index() {
-	global $bp;
-
-	if ( !bp_displayed_user_id() && bp_is_current_component( 'activity' ) && !bp_current_action() ) {
-		$bp->is_directory = true;
+	if ( !bp_displayed_user_id() && bp_is_activity_component() && !bp_current_action() ) {
+		bp_update_is_directory( true, 'activity' );
 
 		do_action( 'bp_activity_screen_index' );
 
@@ -32,47 +22,31 @@ function bp_activity_screen_my_activity() {
 }
 
 function bp_activity_screen_friends() {
-	global $bp;
-
 	if ( !bp_is_active( 'friends' ) )
 		return false;
 
-	if ( !is_super_admin() )
-		$bp->is_item_admin = false;
-
+	bp_update_is_item_admin( is_super_admin(), 'activity' );
 	do_action( 'bp_activity_screen_friends' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'members/single/home' ) );
 }
 
 function bp_activity_screen_groups() {
-	global $bp;
-
 	if ( !bp_is_active( 'groups' ) )
 		return false;
 
-	if ( !is_super_admin() )
-		$bp->is_item_admin = false;
-
+	bp_update_is_item_admin( is_super_admin(), 'activity' );
 	do_action( 'bp_activity_screen_groups' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_groups_activity', 'members/single/home' ) );
 }
 
 function bp_activity_screen_favorites() {
-	global $bp;
-
-	if ( !is_super_admin() )
-		$bp->is_item_admin = false;
-
+	bp_update_is_item_admin( is_super_admin(), 'activity' );
 	do_action( 'bp_activity_screen_favorites' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_favorite_activity', 'members/single/home' ) );
 }
 
 function bp_activity_screen_mentions() {
-	global $bp;
-
-	if ( !is_super_admin() )
-		$bp->is_item_admin = false;
-
+	bp_update_is_item_admin( is_super_admin(), 'activity' );
 	do_action( 'bp_activity_screen_mentions' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_mention_activity', 'members/single/home' ) );
 }

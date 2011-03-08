@@ -98,13 +98,13 @@ class BP_Groups_Component extends BP_Component {
 
 			// Using "item" not "group" for generic support in other components.
 			if ( is_super_admin() )
-				$bp->is_item_admin = 1;
+				bp_update_is_item_admin( true, 'groups' );
 			else
-				$bp->is_item_admin = groups_is_user_admin( $bp->loggedin_user->id, $this->current_group->id );
+				bp_update_is_item_admin( groups_is_user_admin( $bp->loggedin_user->id, $this->current_group->id ), 'groups' );
 
 			// If the user is not an admin, check if they are a moderator
-			if ( empty( $bp->is_item_admin ) )
-				$bp->is_item_mod = groups_is_user_mod( $bp->loggedin_user->id, $this->current_group->id );
+			if ( !bp_is_item_admin() )
+				bp_update_is_item_mod  ( groups_is_user_mod  ( $bp->loggedin_user->id, $this->current_group->id ), 'groups' );
 
 			// Is the logged in user a member of the group?
 			if ( ( is_user_logged_in() && groups_is_user_member( $bp->loggedin_user->id, $this->current_group->id ) ) )

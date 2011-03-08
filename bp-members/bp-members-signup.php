@@ -1,16 +1,26 @@
 <?php
 
+/**
+ * BuddyPress Member Sign-up
+ *
+ * Functions and filters specific to the member sign-up process
+ *
+ * @package BuddyPress
+ * @subpackage Members
+ */
+
 
 function bp_members_screen_signup() {
 	global $bp, $wpdb;
 
-	if ( $bp->current_component != BP_REGISTER_SLUG )
+	if ( !bp_is_current_component( 'register' ) )
 		return false;
 
-	$bp->is_directory = false;
+	// Not a directory
+	bp_update_is_directory( false, 'register' );
 
 	if ( bp_is_component_front_page( 'register' ) && ( is_user_logged_in() || !bp_get_signup_allowed() ) )
-		bp_core_redirect( bp_get_root_domain() . '/' . $bp->members->slug );
+		bp_core_redirect( bp_get_root_domain() . '/' . bp_get_members_root_slug() );
 
 	// If the user is logged in, redirect away from here
 	if ( is_user_logged_in() )
@@ -154,7 +164,7 @@ add_action( 'bp_screens', 'bp_members_screen_signup' );
 function bp_members_screen_activation() {
 	global $bp, $wpdb;
 
-	if ( BP_ACTIVATION_SLUG != $bp->current_component )
+	if ( bp_is_current_component( 'activate' ) )
 		return false;
 
 	// Check if an activation key has been passed
@@ -166,7 +176,7 @@ function bp_members_screen_activation() {
 		// If there were errors, add a message and redirect
 		if ( !empty( $user->errors ) ) {
 			bp_core_add_message( $user->get_error_message(), 'error' );
-			bp_core_redirect( bp_get_root_domain() . '/' . BP_ACTIVATION_SLUG );
+			bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
 		}
 
 		// Check for an uploaded avatar and move that to the correct user folder
@@ -592,6 +602,8 @@ add_filter( 'authenticate', 'bp_members_signup_disable_inactive', 30, 2 );
 
 // Kill the wp-signup.php if custom registration signup templates are present
 function bp_members_wpsignup_redirect() {
+	global $bp;
+
 	$action = '';
 	if ( isset( $_GET['action'] ) )
 		$action = $_GET['action'];
@@ -600,7 +612,7 @@ function bp_members_wpsignup_redirect() {
 		return false;
 
 	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
-		bp_core_redirect( bp_get_root_domain() . '/' . BP_REGISTER_SLUG . '/' );
+		bp_core_redirect( bp_get_root_domain() . '/' . $bp->pages->register->slug . '/' );
 }
 if ( is_multisite() )
 	add_action( 'bp_screens', 'bp_members_wpsignup_redirect' );

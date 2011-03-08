@@ -130,7 +130,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 				if ( count( explode( ' ', $value ) ) > 5 ) {
 					$new_values[] = $value;
 				} else {
-					$new_values[] = '<a href="' . site_url( BP_MEMBERS_SLUG ) . '/?s=' . strip_tags( $value ) . '" rel="nofollow">' . $value . '</a>';
+					$new_values[] = '<a href="' . site_url( bp_get_members_root_slug() ) . '/?s=' . strip_tags( $value ) . '" rel="nofollow">' . $value . '</a>';
 				}
 			}
 		}

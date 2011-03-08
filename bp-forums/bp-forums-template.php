@@ -239,7 +239,7 @@ function bp_has_forum_topics( $args = '' ) {
 	}
 
 	// If $_GET['fs'] is set, let's auto populate the search_terms var
-	if ( isset( $bp->is_directory ) && !empty( $_GET['fs'] ) )
+	if ( bp_is_directory() && !empty( $_GET['fs'] ) )
 		$search_terms = $_GET['fs'];
 
 	// Show stickies on a group forum
@@ -712,7 +712,7 @@ function bp_forum_topic_type() {
 	function bp_get_forum_topic_type() {
 		global $bp;
 
-		if ( !$bp->is_directory || !$bp->current_action )
+		if ( !bp_is_directory() || !$bp->current_action )
 			return 'newest';
 
 
@@ -725,7 +725,7 @@ function bp_forums_tag_name() {
 	function bp_get_forums_tag_name() {
 		global $bp;
 
-		if ( $bp->is_directory && $bp->forums->slug == $bp->current_component )
+		if ( bp_is_directory() && $bp->forums->slug == $bp->current_component )
 			return apply_filters( 'bp_get_forums_tag_name', $bp->action_variables[0] );
 	}
 

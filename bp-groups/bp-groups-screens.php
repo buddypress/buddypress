@@ -9,10 +9,8 @@
  */
 
 function groups_directory_groups_setup() {
-	global $bp;
-
 	if ( bp_is_groups_component() && !bp_current_action() && !bp_current_item() ) {
-		$bp->is_directory = true;
+		bp_update_is_directory( true, 'groups' );
 
 		do_action( 'groups_directory_groups_setup' );
 

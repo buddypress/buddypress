@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * BuddyPress Member Template Tags
+ *
+ * Functions that are safe to use inside your template files and themes
+ *
+ * @package BuddyPress
+ * @subpackage Members
+ */
+
+/**
  * Output the members component slug
  *
  * @package BuddyPress
@@ -46,6 +55,70 @@ function bp_members_root_slug() {
 	function bp_get_members_root_slug() {
 		global $bp;
 		return apply_filters( 'bp_get_members_root_slug', $bp->members->root_slug );
+	}
+
+/**
+ * Output the sign-up slug
+ *
+ * @package BuddyPress
+ * @subpackage Members Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_members_slug()
+ */
+function bp_signup_slug() {
+	echo bp_get_signup_slug();
+}
+	/**
+	 * Return the sign-up slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Members Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_signup_slug() {
+		global $bp;
+
+		if ( !empty( $bp->pages->register->slug ) )
+			$slug = $bp->pages->register->slug;
+		elseif ( defined( 'BP_REGISTER_SLUG' ) )
+			$slug = BP_REGISTER_SLUG;
+		else
+			$slug = 'register';
+
+		return apply_filters( 'bp_get_signup_slug', $bp->pages->register->slug );
+	}
+
+/**
+ * Output the activation slug
+ *
+ * @package BuddyPress
+ * @subpackage Members Template
+ * @since BuddyPress {unknown}
+ *
+ * @uses bp_get_members_slug()
+ */
+function bp_activate_slug() {
+	echo bp_get_activate_slug();
+}
+	/**
+	 * Return the activation slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Members Template
+	 * @since BuddyPress {unknown}
+	 */
+	function bp_get_activate_slug() {
+		global $bp;
+
+		if ( !empty( $bp->pages->activate->slug ) )
+			$slug = $bp->pages->activate->slug;
+		elseif ( defined( 'BP_ACTIVATION_SLUG' ) )
+			$slug = BP_ACTIVATION_SLUG;
+		else
+			$slug = 'activate';
+
+		return apply_filters( 'bp_get_activate_slug', $bp->pages->activate->slug );
 	}
 
 /***
@@ -801,7 +874,7 @@ function bp_signup_page() {
 		global $bp;
 
 		if ( bp_has_custom_signup_page() )
-			$page = bp_get_root_domain() . '/' . BP_REGISTER_SLUG;
+			$page = trailingslashit( bp_get_root_domain() . '/' . $bp->pages->register->slug );
 		else
 			$page = bp_get_root_domain() . '/wp-signup.php';
 
@@ -822,7 +895,7 @@ function bp_activation_page() {
 		global $bp;
 
 		if ( bp_has_custom_activation_page() )
-			$page = trailingslashit( bp_get_root_domain() ) . BP_ACTIVATION_SLUG;
+			$page = trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug );
 		else
 			$page = trailingslashit( bp_get_root_domain() ) . 'wp-activate.php';
 

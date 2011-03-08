@@ -12,7 +12,7 @@ function bp_forums_directory_forums_setup() {
 			bp_core_redirect( bp_get_root_domain() );
 		}
 
-		$bp->is_directory = true;
+		bp_update_is_directory( true, 'forums' );
 
 		do_action( 'bbpress_init' );
 

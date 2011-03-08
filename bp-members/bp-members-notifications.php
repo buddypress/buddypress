@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * BuddyPress Member Notifications
+ *
+ * Functions and filters used for member notification
+ *
+ * @package BuddyPress
+ * @subpackage Members
+ */
+
 function bp_members_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false ) {
 	global $bp;
 

@@ -6,7 +6,7 @@
  * A members component to help contain all of the user specific slugs
  *
  * @package BuddyPress
- * @subpackage Member Core
+ * @subpackage Members
  */
 
 class BP_Members_Component extends BP_Component {
@@ -72,9 +72,8 @@ class BP_Members_Component extends BP_Component {
 		// Fetch the full name for the logged in user
 		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $bp->loggedin_user->id );
 
-		// is_super_admin() hits the DB on single WP installs, so we need to get this separately so we can call it in a loop.
-		$bp->loggedin_user->is_super_admin = is_super_admin();
-		$bp->loggedin_user->is_site_admin  = $bp->loggedin_user->is_super_admin; // deprecated 1.2.6
+		// Hits the DB on single WP installs so get this separately
+		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin();
 
 		// The domain for the user currently logged in. eg: http://domain.com/members/andy
 		$bp->loggedin_user->domain         = bp_core_get_user_domain( $bp->loggedin_user->id );
@@ -87,14 +86,13 @@ class BP_Members_Component extends BP_Component {
 		 * logged in user is viewing their own profile and wants to delete
 		 * something, is_item_admin is used. This is a generic variable so it
 		 * can be used by other components. It can also be modified, so when
-		 * viewing a group 'is_item_admin' would be 1 if they are a group
-		 * admin, 0 if they are not.
+		 * viewing a group 'is_item_admin' would be 'true' if they are a group
+		 * admin, and 'false' if they are not.
 		 */
-		$bp->is_item_admin = bp_user_has_access();
+		bp_update_is_item_admin( bp_user_has_access(), 'members' );
 
-		// Used to determine if the logged in user is a moderator for
-		// the current content.
-		$bp->is_item_mod = false;
+		// Is the logged in user is a mod for the current item?
+		bp_update_is_item_mod  ( false,                'members' );
 
 		/** Displayed user ****************************************************/
 

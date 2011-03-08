@@ -761,4 +761,55 @@ function bp_core_create_root_component_page() {
 	$page_ids = array_merge( (array) $new_page_ids, (array) bp_core_get_page_meta() );
 	bp_core_update_page_meta( $page_ids );
 }
+
+/** Global Manipulators *******************************************************/
+
+/**
+ * Set the $bp->is_directory global
+ *
+ * @global obj $bp
+ * @param bool $is_directory
+ * @param str $component
+ */
+function bp_update_is_directory( $is_directory = false, $component = '' ) {
+	global $bp;
+
+	if ( empty( $component ) )
+		$component = bp_current_component();
+
+	$bp->is_directory = apply_filters( 'bp_update_is_directory', $is_directory, $component );
+}
+
+/**
+ * Set the $bp->is_item_admin global
+ *
+ * @global obj $bp
+ * @param bool $is_item_admin
+ * @param str $component
+ */
+function bp_update_is_item_admin( $is_item_admin = false, $component = '' ) {
+	global $bp;
+
+	if ( empty( $component ) )
+		$component = bp_current_component();
+
+	$bp->is_item_admin = apply_filters( 'bp_update_is_item_admin', $is_item_admin, $component );
+}
+
+/**
+ * Set the $bp->is_item_mod global
+ *
+ * @global obj $bp
+ * @param bool $is_item_mod
+ * @param str $component
+ */
+function bp_update_is_item_mod( $is_item_mod = false, $component = '' ) {
+	global $bp;
+
+	if ( empty( $component ) )
+		$component = bp_current_component();
+
+	$bp->is_item_mod = apply_filters( 'bp_update_is_item_mod', $is_item_mod, $component );
+}
+
 ?>

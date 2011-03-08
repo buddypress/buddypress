@@ -331,42 +331,42 @@ class BP_Core_Setup_Wizard {
 		$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
 
 		// Check for defined slugs
-		if ( isset( $bp->members->slug ) )
+		if ( !empty( $bp->members->slug ) )
 			$members_slug = $bp->members->slug;
 		else
-			$members_slug = __( 'Members', 'buddypress' );
+			$members_slug = __( 'members', 'buddypress' );
 
 		// Groups
-		if ( isset( $bp->groups->slug ) )
-			$groups_slug = constant( 'BP_GROUPS_SLUG' );
+		if ( !empty( $bp->groups->slug ) )
+			$groups_slug = $bp->groups->slug;
 		else
-			$groups_slug = __( 'Groups', 'buddypress' );
+			$groups_slug = __( 'groups', 'buddypress' );
 
 		// Activity
-		if ( isset( $bp->activity->slug ) )
+		if ( !empty( $bp->activity->slug ) )
 			$activity_slug = $bp->activity->slug;
 		else
 			$activity_slug = __( 'activity', 'buddypress' );
 
 		// Forums
-		if ( isset( $bp->forums->slug ) )
+		if ( !empty( $bp->forums->slug ) )
 			$forums_slug = $bp->forums->slug;
 		else
 			$forums_slug = __( 'forums', 'buddypress' );
 
 		// Blogs
-		if ( isset( $bp->blogs->slug ) )
+		if ( !empty( $bp->blogs->slug ) )
 			$blogs_slug = $bp->blogs->slug;
 		else
 			$blogs_slug = __( 'blogs', 'buddypress' );
 
 		// Register
-		if ( isset( $bp->register->slug ) )
+		if ( !empty( $bp->register->slug ) )
 			$register_slug = $bp->register->slug;
 		else
 			$register_slug = __( 'register', 'buddypress' );
 
-		if ( isset( $bp->activation->slug ) )
+		if ( !empty( $bp->activation->slug ) )
 			$activation_slug = $bp->activation->slug;
 		else
 			$activation_slug = __( 'activate', 'buddypress' );
