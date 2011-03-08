@@ -6,7 +6,7 @@
  * A members component to help contain all of the user specific slugs
  *
  * @package BuddyPress
- * @subpackage User Core
+ * @subpackage Member Core
  */
 
 class BP_Members_Component extends BP_Component {

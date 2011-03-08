@@ -901,6 +901,18 @@ function bp_signup_avatar_dir_value() {
 	function bp_get_signup_avatar_dir_value() {
 		global $bp;
 
+		// Check if signup_avatar_dir is passed
+		if ( !empty( $_POST['signup_avatar_dir'] ) )
+			$signup_avatar_dir = $_POST['signup_avatar_dir'];
+
+		// If not, check if global is set
+		elseif ( !empty( $bp->signup->avatar_dir ) )
+			$signup_avatar_dir = $bp->signup->avatar_dir;
+
+		// If not, set false
+		else
+			$signup_avatar_dir = false;
+
 		return apply_filters( 'bp_get_signup_avatar_dir_value', $bp->signup->avatar_dir );
 	}
 
@@ -928,28 +940,37 @@ function bp_signup_avatar( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		if ( !empty( $_POST['signup_avatar_dir'] ) ) {
-			$signup_avatar_dir = $_POST['signup_avatar_dir'];
-		} else if ( !empty( $bp->signup->avatar_dir ) ) {
-			$signup_avatar_dir = $bp->signup->avatar_dir;
-		}
+		// Avatar DIR is found
+		if ( $signup_avatar_dir = bp_get_signup_avatar_dir_value() ) {
+			$gravatar_img = bp_core_fetch_avatar( array(
+				'item_id'    => $signup_avatar_dir,
+				'object'     => 'signup',
+				'avatar_dir' => 'avatars/signups',
+				'type'       => 'full',
+				'width'      => $size,
+				'height'     => $size,
+				'alt'        => $alt,
+				'class'      => $class
+			) );
 
-		if ( empty( $signup_avatar_dir ) ) {
-			if ( empty( $bp->grav_default->user ) ) {
-				$default_grav = 'wavatar';
-			} else if ( 'mystery' == $bp->grav_default->user ) {
-				$default_grav = apply_filters( 'bp_core_mysteryman_src', BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg' );
-			} else {
-				$default_grav = $bp->grav_default->user;
-			}
-
-			$gravatar_url = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' );
-			$gravatar_img = '<img src="' . $gravatar_url . md5( strtolower( $_POST['signup_email'] ) ) . '?d=' . $default_grav . '&amp;s=' . $size . '" width="' . $size . '" height="' . $size . '" alt="' . $alt . '" class="' . $class . '" />';
+		// No avatar DIR was found
 		} else {
-			$gravatar_img = bp_core_fetch_avatar( array( 'item_id' => $signup_avatar_dir, 'object' => 'signup', 'avatar_dir' => 'avatars/signups', 'type' => 'full', 'width' => $size, 'height' => $size, 'alt' => $alt, 'class' => $class ) );
+
+			// Set default gravatar type
+			if ( empty( $bp->grav_default->user ) )
+				$default_grav = 'wavatar';
+			else if ( 'mystery' == $bp->grav_default->user )
+				$default_grav = BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg';
+			else
+				$default_grav = $bp->grav_default->user;
+
+			// Create
+			$gravatar_url    = apply_filters( 'bp_gravatar_url', 'http://www.gravatar.com/avatar/' );
+			$md5_lcase_email = md5( strtolower( bp_get_signup_email_value() ) );
+			$gravatar_img    = '<img src="' . $gravatar_url . $md5_lcase_email . '?d=' . $default_grav . '&amp;s=' . $size . '" width="' . $size . '" height="' . $size . '" alt="' . $alt . '" class="' . $class . '" />';
 		}
 
-		return apply_filters( 'bp_get_signup_avatar', $gravatar_img );
+		return apply_filters( 'bp_get_signup_avatar', $gravatar_img, $args );
 	}
 
 function bp_signup_allowed() {
