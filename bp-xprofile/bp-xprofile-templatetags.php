@@ -315,9 +315,9 @@ function bp_the_profile_field_edit_value() {
 				$field->data->value = $_POST['field_' . $field->id];
 		}
 
-		$field->data->value = bp_unserialize_profile_field( $field->data->value );
+		$field_value = isset( $field->data->value ) ? bp_unserialize_profile_field( $field->data->value ) : '';
 
-		return apply_filters( 'bp_get_the_profile_field_edit_value', $field->data->value );
+		return apply_filters( 'bp_get_the_profile_field_edit_value', $field_value, $field->type, $field->id );
 	}
 
 function bp_the_profile_field_type() {
