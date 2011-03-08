@@ -14,6 +14,9 @@ add_filter( 'bp_get_the_profile_field_value',         'wpautop'            );
 add_filter( 'bp_get_the_profile_field_value',         'make_clickable'     );
 add_filter( 'bp_get_the_profile_field_value',         'force_balance_tags' );
 
+add_filter( 'bp_get_the_profile_field_edit_value',    'force_balance_tags' );
+add_filter( 'bp_get_the_profile_field_edit_value',    'esc_html'           );
+
 add_filter( 'bp_get_the_profile_field_value',         'stripslashes' );
 add_filter( 'bp_get_the_profile_field_edit_value',    'stripslashes' );
 add_filter( 'bp_get_the_profile_field_name',          'stripslashes' );
