@@ -2,9 +2,10 @@
 
 /* Apply WordPress defined filters */
 
-add_filter( 'bp_get_the_profile_field_name',          'wp_filter_kses', 1 );
-add_filter( 'bp_get_the_profile_field_edit_value',    'wp_filter_kses', 1 );
-add_filter( 'bp_get_the_profile_field_description',   'wp_filter_kses', 1 );
+add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_kses', 1 );
+add_filter( 'bp_get_the_profile_field_name',          'wp_filter_kses',       1 );
+add_filter( 'bp_get_the_profile_field_edit_value',    'wp_filter_kses',       1 );
+add_filter( 'bp_get_the_profile_field_description',   'wp_filter_kses',       1 );
 
 add_filter( 'bp_get_the_profile_field_value',         'wptexturize'        );
 add_filter( 'bp_get_the_profile_field_value',         'convert_smilies', 2 );
@@ -12,6 +13,9 @@ add_filter( 'bp_get_the_profile_field_value',         'convert_chars'      );
 add_filter( 'bp_get_the_profile_field_value',         'wpautop'            );
 add_filter( 'bp_get_the_profile_field_value',         'make_clickable'     );
 add_filter( 'bp_get_the_profile_field_value',         'force_balance_tags' );
+
+add_filter( 'bp_get_the_profile_field_edit_value',    'force_balance_tags' );
+add_filter( 'bp_get_the_profile_field_edit_value',    'esc_html'           );
 
 add_filter( 'bp_get_the_profile_field_value',         'stripslashes' );
 add_filter( 'bp_get_the_profile_field_edit_value',    'stripslashes' );
@@ -30,8 +34,6 @@ add_filter( 'xprofile_get_field_data',                'stripslashes' );
 
 /* Custom BuddyPress filters */
 
-add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_kses', 1 );
-
 add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_site_member_profile_data',    'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_link_profile_data', 50, 2 );
@@ -49,8 +51,8 @@ add_filter( 'xprofile_data_value_before_save',        'xprofile_sanitize_data_va
 function xprofile_filter_kses( $content ) {
 	global $allowedtags;
 
-	$xprofile_allowedtags = $allowedtags;
-	$xprofile_allowedtags['a']['rel']      = array();
+	$xprofile_allowedtags             = $allowedtags;
+	$xprofile_allowedtags['a']['rel'] = array();
 
 	$xprofile_allowedtags = apply_filters( 'xprofile_allowed_tags', $xprofile_allowedtags );
 	return wp_kses( $content, $xprofile_allowedtags );
