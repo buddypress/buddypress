@@ -116,29 +116,40 @@ function bp_core_set_uri_globals() {
 
 	$bp_unfiltered_uri = $bp_uri;
 
-	// Find a match within registered BuddyPress controlled WP pages (check members first)
-	foreach ( (array)$bp->pages as $page_key => $bp_page ) {
-		if ( in_array( $bp_page->name, (array)$bp_uri ) ) {
+	// Loop through each page in the global
+	foreach ( (array) $bp->pages as $page_key => $bp_page ) {
+
+		// Look for a match (check members first)
+		if ( in_array( $bp_page->name, (array) $bp_uri ) ) {
+
 			// Match found, now match the slug to make sure.
 			$uri_chunks = explode( '/', $bp_page->slug );
 
-			foreach ( (array)$uri_chunks as $key => $uri_chunk ) {
-				if ( $bp_uri[$key] == $uri_chunk ) {
+			// Loop through uri_chunks
+			foreach ( (array) $uri_chunks as $key => $uri_chunk ) {
+
+				// Make sure chunk is in the correct position
+				if ( !empty( $bp_uri[$key] ) && ( $bp_uri[$key] == $uri_chunk ) ) {
 					$matches[] = 1;
+
+				// No match
 				} else {
 					$matches[] = 0;
 				}
 			}
 
+			// Have a match
 			if ( !in_array( 0, (array) $matches ) ) {
 				$match      = $bp_page;
 				$match->key = $page_key;
 				break;
 			};
 
+			// Unset matches
 			unset( $matches );
 		}
 
+		// Unset uri chunks
 		unset( $uri_chunks );
 	}
 
