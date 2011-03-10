@@ -33,9 +33,9 @@ function bp_core_set_uri_globals() {
 	$bp->current_component = $bp->current_action = $bp->current_item ='';
 	$bp->action_variables = $bp->displayed_user->id = '';
 
+	// Only catch URI's on the root blog if we are not running
+	// on multiple blogs
 	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() ) {
-		// Only catch URI's on the root blog if we are not running
-		// on multiple blogs
 		if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
 			return false;
 	}
@@ -50,6 +50,7 @@ function bp_core_set_uri_globals() {
 	else
 		$path = esc_url( $_SERVER['REQUEST_URI'] );
 
+	// Filter the path
 	$path = apply_filters( 'bp_uri', $path );
 
 	// Take GET variables off the URL to avoid problems,
@@ -91,15 +92,16 @@ function bp_core_set_uri_globals() {
 	$paths = explode( '/', bp_core_get_site_path() );
 
 	// Take empties off the end of path
-	if ( empty( $paths[count($paths) - 1] ) )
+	if ( empty( $paths[count( $paths ) - 1] ) )
 		array_pop( $paths );
 
 	// Take empties off the start of path
 	if ( empty( $paths[0] ) )
 		array_shift( $paths );
 
-	foreach ( (array)$bp_uri as $key => $uri_chunk ) {
-		if ( in_array( $uri_chunk, $paths )) {
+	// Unset URI indices if they intersect with the paths
+	foreach ( (array) $bp_uri as $key => $uri_chunk ) {
+		if ( in_array( $uri_chunk, $paths ) ) {
 			unset( $bp_uri[$key] );
 		}
 	}
@@ -107,54 +109,75 @@ function bp_core_set_uri_globals() {
 	// Reset the keys by merging with an empty array
 	$bp_uri = array_merge( array(), $bp_uri );
 
-	// If a component is set to the front page, force its name into $bp_uri so that $current_component is populated
+	// If a component is set to the front page, force its name into $bp_uri
+	// so that $current_component is populated
 	if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && empty( $bp_uri ) ) {
 		$post = get_post( get_option( 'page_on_front' ) );
 		if ( !empty( $post ) )
 			$bp_uri[0] = $post->post_name;
 	}
 
+	// Keep the unfiltered URI safe
 	$bp_unfiltered_uri = $bp_uri;
 
-	// Loop through each page in the global
+	// Get slugs of pages into array
 	foreach ( (array) $bp->pages as $page_key => $bp_page ) {
+		$key_slugs[$page_key] = trailingslashit( '/' . $bp_page->slug );
+	}
 
-		// Look for a match (check members first)
-		if ( in_array( $bp_page->name, (array) $bp_uri ) ) {
+	// Loop through page slugs and look for exact match to path
+	foreach ( $key_slugs as $key => $slug ) {
+		if ( $slug == $path ) {
+			$match      = $bp->pages->{$key};
+			$match->key = $key;
+			$matches[]  = 1;
+			break;
+		}
+	}
 
-			// Match found, now match the slug to make sure.
-			$uri_chunks = explode( '/', $bp_page->slug );
+	// No exact match, so look for partials
+	if ( empty( $match ) ) {
 
-			// Loop through uri_chunks
-			foreach ( (array) $uri_chunks as $key => $uri_chunk ) {
+		// Loop through each page in the $bp->pages global
+		foreach ( (array) $bp->pages as $page_key => $bp_page ) {
 
-				// Make sure chunk is in the correct position
-				if ( !empty( $bp_uri[$key] ) && ( $bp_uri[$key] == $uri_chunk ) ) {
-					$matches[] = 1;
+			// Look for a match (check members first)
+			if ( in_array( $bp_page->name, (array) $bp_uri ) ) {
 
-				// No match
-				} else {
-					$matches[] = 0;
+				// Match found, now match the slug to make sure.
+				$uri_chunks = explode( '/', $bp_page->slug );
+
+				// Loop through uri_chunks
+				foreach ( (array) $uri_chunks as $key => $uri_chunk ) {
+
+					// Make sure chunk is in the correct position
+					if ( !empty( $bp_uri[$key] ) && ( $bp_uri[$key] == $uri_chunk ) ) {
+						$matches[] = 1;
+
+					// No match
+					} else {
+						$matches[] = 0;
+					}
 				}
+
+				// Have a match
+				if ( !in_array( 0, (array) $matches ) ) {
+					$match      = $bp_page;
+					$match->key = $page_key;
+					break;
+				};
+
+				// Unset matches
+				unset( $matches );
 			}
 
-			// Have a match
-			if ( !in_array( 0, (array) $matches ) ) {
-				$match      = $bp_page;
-				$match->key = $page_key;
-				break;
-			};
-
-			// Unset matches
-			unset( $matches );
+			// Unset uri chunks
+			unset( $uri_chunks );
 		}
-
-		// Unset uri chunks
-		unset( $uri_chunks );
 	}
 
 	// Search doesn't have an associated page, so we check for it separately
-	if ( !empty( $bp_uri[0] ) && BP_SEARCH_SLUG == $bp_uri[0] )
+	if ( !empty( $bp_uri[0] ) && ( BP_SEARCH_SLUG == $bp_uri[0] ) )
 		$matches[] = 1;
 
 	// This is not a BuddyPress page, so just return.
@@ -162,10 +185,11 @@ function bp_core_set_uri_globals() {
 		return false;
 
 	// Find the offset
+	$slug       = !empty ( $match ) ? explode( '/', $match->slug ) : '';
 	$uri_offset = 0;
-	$slug       = explode( '/', $match->slug );
 
-	if ( !empty( $slug ) && 1 != count( $slug ) ) {
+	// Rejig the offset
+	if ( !empty( $slug ) && ( 1 < count( $slug ) ) ) {
 		array_pop( $slug );
 		$uri_offset = count( $slug );
 	}
@@ -173,47 +197,47 @@ function bp_core_set_uri_globals() {
 	// Global the unfiltered offset to use in bp_core_load_template()
 	$bp_unfiltered_uri_offset = $uri_offset;
 
-	// This is a members page so lets check if we have a displayed member
-	if ( isset( $match->key ) && 'members' == $match->key ) {
-		if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
-			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
-				$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
-			else
-				$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( urldecode( $bp_uri[$uri_offset + 1] ) );
+	// We have an exact match
+	if ( isset( $match->key ) ) {
 
-			$uri_offset = $uri_offset + 2;
+		// Set current component to matched key
+		$bp->current_component = $match->key;
 
-			// Remove everything from the URI up to the offset and take it from there.
-			for ( $i = 0; $i < $uri_offset; $i++ )
-				unset( $bp_uri[$i] );
+		// If members component, do more work to find the actual component
+		if ( 'members' == $match->key ) {
 
-			$bp->current_component = isset( $bp_uri[$uri_offset] ) ? $bp_uri[$uri_offset] : '';
-		}
-	}
+			// Viewing a specific user
+			if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
 
-	// Reset the keys by merging with an empty array
-	$bp_uri = array_merge( array(), $bp_uri );
+				// Switch the displayed_user based on cmpatbility mode
+				if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+					$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
+				else
+					$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( urldecode( $bp_uri[$uri_offset + 1] ) );
 
-	// Set the current component
-	if ( empty( $bp->current_component ) ) {
-		for ( $i = 0; $i <= $uri_offset; $i++ ) {
-			if ( !empty( $bp_uri[$i] ) ) {
-				$bp->current_component .= $bp_uri[$i];
+				// Bump the offset
+				if ( isset( $bp_uri[$uri_offset + 2] ) ) {
+					$bp_uri                = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
+					$bp->current_component = $bp_uri[0];
 
-				if ( $i != $uri_offset )
-					$bp->current_component .= '/';
+				// No component, so default will be picked later
+				} else {
+					$bp_uri                = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
+					$bp->current_component = '';
+				}
+				
+				// Reset the offset
+				$uri_offset = 0;
 			}
 		}
-	} else {
-		$i = 1;
 	}
 
 	// Set the current action
-	$bp->current_action = isset( $bp_uri[$i] ) ? $bp_uri[$i] : '';
+	$bp->current_action = isset( $bp_uri[$uri_offset + 1] ) ? $bp_uri[$uri_offset + 1] : '';
 
-	// Unset the current_component and action from action_variables
-	for ( $j = 0; $j <= $i; $j++ )
-		unset( $bp_uri[$j] );
+	// Slice the rest of the $bp_uri array and reset offset
+	$bp_uri      = array_slice( $bp_uri, $uri_offset + 2 );
+	$uri_offset  = 0;
 
 	// Set the entire URI as the action variables, we will unset the current_component and action in a second
 	$bp->action_variables = $bp_uri;
