@@ -275,16 +275,15 @@ function bp_has_members( $args = '' ) {
 
 	// Pass a filter if ?s= is set.
 	if ( is_null( $search_terms ) ) {
-		if ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
+		if ( !empty( $_REQUEST['s'] ) )
 			$search_terms = $_REQUEST['s'];
 		else
 			$search_terms = false;
 	}
 
-	if ( $max ) {
-		if ( $per_page > $max )
-			$per_page = $max;
-	}
+	// Set per_page to max if max is larger than per_page
+	if ( !empty( $max ) && ( $per_page > $max ) )
+		$per_page = $max;
 
 	// Make sure we return no members if we looking at friendship requests and there are none.
 	if ( empty( $include ) && bp_is_friends_component() && bp_is_current_action( 'requests' ) )
