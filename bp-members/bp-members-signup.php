@@ -604,19 +604,17 @@ add_filter( 'authenticate', 'bp_members_signup_disable_inactive', 30, 2 );
 function bp_members_wpsignup_redirect() {
 	global $bp;
 
-	$action = '';
-	if ( isset( $_GET['action'] ) )
-		$action = $_GET['action'];
+	// Get action
+	$action = !empty( $_GET['action'] ) ? $_GET['action'] : '';
 
-	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && $action != 'register' )
+	// Not at the WP core signup page and action is not register
+	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) )
 		return false;
 
+	// Redirect to sign-up page
 	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
-		bp_core_redirect( bp_get_root_domain() . '/' . $bp->pages->register->slug . '/' );
+		bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->register->slug ) );
 }
-if ( is_multisite() )
-	add_action( 'bp_screens', 'bp_members_wpsignup_redirect' );
-else
-	add_action( 'bp_init', 'bp_members_wpsignup_redirect' );
+add_action( 'bp_screens', 'bp_members_wpsignup_redirect' );
 
 ?>
