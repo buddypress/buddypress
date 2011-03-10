@@ -7,10 +7,10 @@ div#icon-buddypress {
 	background: #DFDFDF url(../../../../../wp-admin/images/gray-grad.png) repeat-x scroll 0% 0%;
 	height: 32px;
 	border: 1px solid #ccc;
-	-moz-border-radius: 0 0 5px 5px;
-	-khtml-border-radius: 0 0 5px 5px;
-	-webkit-border-radius: 0 0 5px 5px;
-	border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 6px 6px;
+	-khtml-border-radius: 0 0 6px 6px;
+	-webkit-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
 }
 
 #tabs {
@@ -60,7 +60,7 @@ div#icon-buddypress {
 			padding: 5px 10px 5px 28px;
 			border: 1px solid #ccc;
 			border-bottom: none;
-			-moz-border-radius: 6px 56x 0 0;
+			-moz-border-radius: 6px 6px 0 0;
 			-khtml-border-radius: 6px 6px 0 0;
 			-webkit-border-radius: 6px 6px 0 0;
 			border-radius: 6px 6px 0 0;
