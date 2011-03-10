@@ -94,7 +94,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 <?php				if ( $group->can_delete ) : ?>
 
-								<a class="button delete" href="admin.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo esc_attr( $group->id ); ?>"><?php _e( 'Delete Group', 'buddypress' ); ?></a>
+								<a class="submitdelete deletion" href="admin.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo esc_attr( $group->id ); ?>"><?php _e( 'Delete Group', 'buddypress' ); ?></a>
 
 <?php				endif; ?>
 
@@ -152,6 +152,9 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 <?php
 				endif;
 ?>
+				<div id="tabs-bottom">
+					&nbsp;
+				</div>
 			</form>
 		</div>
 <?php

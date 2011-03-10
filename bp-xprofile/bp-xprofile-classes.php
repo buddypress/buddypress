@@ -220,7 +220,9 @@ Class BP_XProfile_Group {
 		}
 ?>
 		<div class="wrap">
-			<div class="icon32" id="icon-tools"><br></div>
+
+			<?php screen_icon( 'buddypress' ); ?>
+
 			<h2><?php echo $title; ?></h2>
 			<p><?php _e( 'Fields marked * are required', 'buddypress' ) ?></p>
 
