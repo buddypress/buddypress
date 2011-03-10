@@ -1,5 +1,53 @@
 <?php
 
+/**
+ * Output the blogs component slug
+ *
+ * @package BuddyPress
+ * @subpackage Blogs Template
+ * @since BuddyPress (r4100)
+ *
+ * @uses bp_get_blogs_slug()
+ */
+function bp_blogs_slug() {
+	echo bp_get_blogs_slug();
+}
+	/**
+	 * Return the blogs component slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Blogs Template
+	 * @since BuddyPress (r4100)
+	 */
+	function bp_get_blogs_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_blogs_slug', $bp->blogs->slug );
+	}
+
+/**
+ * Output the blogs component root slug
+ *
+ * @package BuddyPress
+ * @subpackage Blogs Template
+ * @since BuddyPress (r4100)
+ *
+ * @uses bp_get_blogs_root_slug()
+ */
+function bp_blogs_root_slug() {
+	echo bp_get_blogs_root_slug();
+}
+	/**
+	 * Return the blogs component root slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Blogs Template
+	 * @since BuddyPress (r4100)
+	 */
+	function bp_get_blogs_root_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_blogs_root_slug', $bp->blogs->root_slug );
+	}
+
 /**********************************************************************
  * Blog listing template class.
  */
