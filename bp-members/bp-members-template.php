@@ -86,7 +86,7 @@ function bp_signup_slug() {
 		else
 			$slug = 'register';
 
-		return apply_filters( 'bp_get_signup_slug', $bp->pages->register->slug );
+		return apply_filters( 'bp_get_signup_slug', $slug );
 	}
 
 /**
@@ -118,7 +118,7 @@ function bp_activate_slug() {
 		else
 			$slug = 'activate';
 
-		return apply_filters( 'bp_get_activate_slug', $bp->pages->activate->slug );
+		return apply_filters( 'bp_get_activate_slug', $slug );
 	}
 
 /***
