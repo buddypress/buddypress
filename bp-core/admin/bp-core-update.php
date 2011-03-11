@@ -838,7 +838,7 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_permalinks_save() {
-		global $wp_rewrite;
+		global $wp_rewrite, $current_site, $current_blog;
 
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'bpwizard_permalinks' );
