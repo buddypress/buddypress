@@ -121,9 +121,12 @@ function bp_core_set_uri_globals() {
 	$bp_unfiltered_uri = $bp_uri;
 
 	// Get slugs of pages into array
-	foreach ( (array) $bp->pages as $page_key => $bp_page ) {
+	foreach ( (array) $bp->pages as $page_key => $bp_page )
 		$key_slugs[$page_key] = trailingslashit( '/' . $bp_page->slug );
-	}
+
+	// Bail if keyslugs are empty, as BP is not setup correct
+	if ( empty( $key_slugs ) )
+		return;
 
 	// Loop through page slugs and look for exact match to path
 	foreach ( $key_slugs as $key => $slug ) {
