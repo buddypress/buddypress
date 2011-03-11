@@ -47,7 +47,7 @@ function bp_core_activation_notice() {
 		if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) { ?>
 
 			<div id="message" class="updated fade">
-				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) ?></p>
+				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), network_admin_url( 'themes.php' ), network_admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), network_admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) ?></p>
 			</div>
 
 		<?php
@@ -72,7 +72,7 @@ function bp_core_admin_dashboard() { ?>
 
 		<?php do_action( 'bp_admin_notices' ); ?>
 
-		<form action="<?php echo site_url( '/wp-admin/admin.php?page=bp-general-settings' ) ?>" method="post" id="bp-admin-form">
+		<form action="<?php echo network_admin_url( 'admin.php?page=bp-general-settings' ) ?>" method="post" id="bp-admin-form">
 			<div id="bp-admin-content">
 				<p>[TODO: All sorts of awesome things will go here. Latest plugins and themes, stats, version check, support topics, news, tips]</p>
 			</div>
@@ -227,7 +227,7 @@ function bp_core_admin_component_setup_handler() {
 			bp_core_update_page_meta( $directory_pages );
 		}
 
-		wp_redirect( admin_url( add_query_arg( array( 'page' => 'bp-general-settings', 'updated' => 'true' ), 'admin.php' ) ) );
+		wp_redirect( network_admin_url( add_query_arg( array( 'page' => 'bp-general-settings', 'updated' => 'true' ), 'admin.php' ) ) );
 	}
 }
 add_action( 'admin_init', 'bp_core_admin_component_setup_handler' );
