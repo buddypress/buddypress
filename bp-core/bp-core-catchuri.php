@@ -178,6 +178,25 @@ function bp_core_set_uri_globals() {
 			unset( $uri_chunks );
 		}
 	}
+	
+	// URLs with BP_ENABLE_ROOT_PROFILES enabled won't be caught above 
+	if ( empty( $matches ) && defined( 'BP_ENABLE_ROOT_PROFILES' ) && BP_ENABLE_ROOT_PROFILES ) {
+		
+		// Make sure there's a user corresponding to $bp_uri[0]
+		if ( !empty( $bp_uri[0] ) && $root_profile = get_userdatabylogin( $bp_uri[0] ) ) {
+			
+			// Force BP to recognize that this is a members page
+			$matches[] 	= 1;
+			$match		= $bp->pages->members;
+			$match->key	= 'members';
+			
+			// Without the 'members' URL chunk, WordPress won't know which page to load
+			// This filter intercepts the WP query and tells it to load the members page
+			add_filter( 'request', create_function( '$query_args', '$query_args["pagename"] = "' . $match->name . '"; return $query_args;' ) );
+		
+		}
+	
+	}
 
 	// Search doesn't have an associated page, so we check for it separately
 	if ( !empty( $bp_uri[0] ) && ( BP_SEARCH_SLUG == $bp_uri[0] ) )
@@ -187,9 +206,9 @@ function bp_core_set_uri_globals() {
 	if ( !isset( $matches ) )
 		return false;
 
-	// Find the offset
+	// Find the offset. With $root_profile set, we fudge the offset down so later parsing works
 	$slug       = !empty ( $match ) ? explode( '/', $match->slug ) : '';
-	$uri_offset = 0;
+	$uri_offset = empty( $root_profile ) ? 0 : -1;
 
 	// Rejig the offset
 	if ( !empty( $slug ) && ( 1 < count( $slug ) ) ) {
@@ -197,8 +216,9 @@ function bp_core_set_uri_globals() {
 		$uri_offset = count( $slug );
 	}
 
-	// Global the unfiltered offset to use in bp_core_load_template()
-	$bp_unfiltered_uri_offset = $uri_offset;
+	// Global the unfiltered offset to use in bp_core_load_template().
+	// To avoid PHP warnings in bp_core_load_template(), it must always be >= 0 
+	$bp_unfiltered_uri_offset = $uri_offset >= 0 ? $uri_offset : 0;
 
 	// We have an exact match
 	if ( isset( $match->key ) ) {
@@ -211,7 +231,7 @@ function bp_core_set_uri_globals() {
 
 			// Viewing a specific user
 			if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
-
+				
 				// Switch the displayed_user based on cmpatbility mode
 				if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
 					$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
