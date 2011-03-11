@@ -19,7 +19,7 @@
  * @return array $usernames Array of the found usernames that match existing users
  */
 function bp_activity_find_mentions( $content ) {
-	$pattern = '/[@]+([A-Za-z0-9-_\.]+)/';
+	$pattern = '/[@]+([A-Za-z0-9-_\.@]+)/';
 	preg_match_all( $pattern, $content, $usernames );
 
 	// Make sure there's only one instance of each username

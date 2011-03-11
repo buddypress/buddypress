@@ -253,7 +253,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 	global $bp;
 
 	/* Scan for @username strings in an activity update. Notify each user. */
-	$pattern = '/[@]+([A-Za-z0-9-_\.]+)/';
+	$pattern = '/[@]+([A-Za-z0-9-_\.@]+)/';
 	preg_match_all( $pattern, $content, $usernames );
 
 	/* Make sure there's only one instance of each username */
