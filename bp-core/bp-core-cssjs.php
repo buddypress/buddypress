@@ -25,6 +25,8 @@ function bp_core_admin_menu_icon_css() {
 		ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a {
 			background-position: -1px 0;
 		}
+		
+		.fixed .column-bp-pages { width: 10em; margin: auto 5px; }
 	</style>
 
 <?php
