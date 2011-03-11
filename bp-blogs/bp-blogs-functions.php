@@ -168,7 +168,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 				'type'              => 'new_blog_post',
 				'item_id'           => $blog_id,
 				'secondary_item_id' => $post_id,
-				'recorded_time'     => $post->post_date_gmt
+				'recorded_time'     => $post->post_modified_gmt
 			));
 		}
 
