@@ -120,23 +120,28 @@ div#icon-buddypress {
 	}
 
 	.tab-wrapper fieldset {
+		position: relative;
+		cursor: default !important;
+		background: #fff;
+		}
+		.tab-wrapper fieldset legend {
+			padding-bottom: 15px;
+			font-weight: bold;
+		}
+
+	.tab-wrapper fieldset fieldset {
 		border: 1px solid #ddd;
-		-moz-border-radius: 5px;
-		-khtml-border-radius: 5px;
-		-webkit-border-radius: 5px;
+		-moz-border-radius: 6px;
+		-khtml-border-radius: 6px;
+		-webkit-border-radius: 6px;
 		border-radius: 5px;
 		padding: 40px 20px 20px;
 		margin: 10px 0 0 0;
-		position: relative;
-		cursor: default !important;
-		background: #fff url(../../../../../wp-admin/images/gray-grad.png) repeat-x scroll 0% 0%;
-	}
-	.tab-wrapper fieldset fieldset {
 		cursor: move !important;
 		padding: 40px 10px 10px 10px;
 		background: #fcfcfc url(../../../../../wp-admin/images/gray-grad.png) repeat-x scroll 0% 0%;
 	}
-	.tab-wrapper fieldset legend {
+	.tab-wrapper fieldset fieldset legend {
 		position: absolute;
 		top: 6px;
 		font-weight: bold;
