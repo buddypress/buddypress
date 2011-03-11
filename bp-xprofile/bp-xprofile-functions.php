@@ -221,10 +221,7 @@ function xprofile_insert_field( $args = '' ) {
 	if ( !empty( $option_order ) )
 		$field->option_order = $option_order;
 
-	if ( !$field->save() )
-		return false;
-
-	return true;
+	return $field->save();
 }
 
 function xprofile_get_field( $field_id ) {
