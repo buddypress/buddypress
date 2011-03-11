@@ -83,6 +83,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', bp_core_current_time() );
 
 	$is_private = !empty( $_POST['blog_public'] ) && (int)$_POST['blog_public'] ? false : true;
+	$is_private = !apply_filters( 'bp_is_new_blog_public', !$is_private ); 
 
 	// Only record this activity if the blog is public
 	if ( !$is_private && !$no_activity ) {
@@ -145,8 +146,10 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 	if ( 'post' != $post->post_type )
 		return false;
 
+	$is_blog_public = apply_filters( 'bp_is_blog_public', (int)get_blog_option( $blog_id, 'blog_public' ) ); 
+
 	if ( 'publish' == $post->post_status && empty( $post->post_password ) ) {
-		if ( (int)get_blog_option( $blog_id, 'blog_public' ) || !is_multisite() ) {
+		if ( $is_blog_public || !is_multisite() ) {
 			// Record this in activity streams
 			$post_permalink   = get_permalink( $post_id );
 
@@ -219,8 +222,10 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	if ( !empty( $recorded_comment->post->post_password ) )
 		return false;
 
+	$is_blog_public = apply_filters( 'bp_is_blog_public', (int)get_blog_option( $blog_id, 'blog_public' ) );
+
 	// If blog is public allow activity to be posted
-	if ( get_blog_option( $blog_id, 'blog_public' ) ) {
+	if ( $is_blog_public ) {
 
 		// Get activity related links
 		$post_permalink = get_permalink( $recorded_comment->comment_post_ID );
