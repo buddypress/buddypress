@@ -317,7 +317,6 @@ function bp_has_activities( $args = '' ) {
 						return false;
 
 					$include          = implode( ',', (array)$favs );
-					$show_hidden      = true;
 					$display_comments = true;
 					break;
 				case 'mentions':
