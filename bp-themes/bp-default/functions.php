@@ -516,7 +516,7 @@ function bp_dtheme_main_nav( $args ) {
 		'title_li'   => ''
 	);
 
-	if ( !bp_is_active( 'forums' ) || bp_forum_directory_is_disabled() ) {
+	if ( ( !bp_is_active( 'forums' ) || bp_forum_directory_is_disabled() ) && !empty( $bp->pages->forums->id ) ) {
 		if ( !empty( $pages_args['exclude'] ) )
 				$pages_args['exclude'] .= ',';
 
