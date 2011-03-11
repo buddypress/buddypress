@@ -166,7 +166,7 @@ Class BP_Activity_Activity {
 		return array( 'activities' => $activities, 'total' => (int)$total_activities );
 	}
 
-	function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
+	function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false, $show_hidden = false ) {
 		global $wpdb, $bp;
 
 		if ( is_array( $activity_ids ) )
@@ -183,8 +183,14 @@ Class BP_Activity_Activity {
 		if ( $sort != 'ASC' && $sort != 'DESC' )
 			$sort = 'DESC';
 
-		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) ORDER BY date_recorded {$sort} $pag_sql" ) );
-		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids})" ) );
+		// Hide Hidden Items?
+		if ( !$show_hidden )
+			$hidden_sql = "AND hide_sitewide = 0";
+		else
+			$hidden_sql = '';
+
+		$activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) {$hidden_sql} ORDER BY date_recorded {$sort} {$pag_sql}" ) );
+		$total_activities = $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) {$hidden_sql}" ) );
 
 		if ( $display_comments )
 			$activities = BP_Activity_Activity::append_comments( $activities );

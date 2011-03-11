@@ -610,18 +610,19 @@ function bp_activity_get( $args = '' ) {
 
 function bp_activity_get_specific( $args = '' ) {
 	$defaults = array(
-		'activity_ids' => false, // A single activity_id or array of IDs.
-		'page' => 1, // page 1 without a per_page will result in no pagination.
-		'per_page' => false, // results per page
-		'max' => false, // Maximum number of results to return
-		'sort' => 'DESC', // sort ASC or DESC
-		'display_comments' => false // true or false to display threaded comments for these specific activity items
+		'activity_ids'     => false,  // A single activity_id or array of IDs.
+		'page'             => 1,      // page 1 without a per_page will result in no pagination.
+		'per_page'         => false,  // results per page
+		'max'              => false,  // Maximum number of results to return
+		'sort'             => 'DESC', // sort ASC or DESC
+		'display_comments' => false,  // true or false to display threaded comments for these specific activity items
+		'show_hidden'      => false
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get_specific( $activity_ids, $max, $page, $per_page, $sort, $display_comments ) );
+	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get_specific( $activity_ids, $max, $page, $per_page, $sort, $display_comments, $show_hidden ) );
 }
 
 function bp_activity_add( $args = '' ) {
@@ -994,7 +995,7 @@ function bp_activity_get_action( $component_id, $key ) {
 
 function bp_activity_get_user_favorites( $user_id ) {
 	$my_favs = maybe_unserialize( get_user_meta( $user_id, 'bp_favorite_activities', true ) );
-	$existing_favs = bp_activity_get_specific( array( 'activity_ids' => $my_favs ) );
+	$existing_favs = bp_activity_get_specific( array( 'activity_ids' => $my_favs, 'show_hidden' => true ) );
 
 	foreach( (array)$existing_favs['activities'] as $fav )
 		$new_favs[] = $fav->id;
