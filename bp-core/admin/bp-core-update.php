@@ -152,9 +152,12 @@ class BP_Core_Setup_Wizard {
 						<?php endforeach; ?>
 
 					</ol>
-					<div class="prev-next submit clear">
-						<input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" />
-					</div>
+
+					<?php if ( __( 'Finish', 'buddypress' ) != $this->steps[$this->current_step] ) : ?>
+						<div class="prev-next submit clear">
+							<input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ) ?>" name="submit" />
+						</div>
+					<?php endif; ?>
 				</div>
 
 				<div id="bp-admin-content">
@@ -702,7 +705,7 @@ class BP_Core_Setup_Wizard {
 
 		<?php endif; ?>
 
-		<p><?php printf( __( "You've now completed all of the %s steps and BuddyPress is ready to be activated. Please hit the 'Finish &amp; Activate' button to complete the %s procedure.", 'buddypress' ), $type, $type ) ?></p>
+		<p><?php printf( __( "You've now completed all of the %1\$s steps and BuddyPress is ready to be activated. Please hit the 'Finish &amp; Activate' button to complete the %2\$s procedure.", 'buddypress' ), $type, $type ) ?></p>
 
 
 		<div class="submit clear">
