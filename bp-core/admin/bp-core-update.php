@@ -739,7 +739,7 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_ms_update_save() {
-		global $current_blog;
+		global $wpdb;
 
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'bpwizard_ms_update' );
@@ -761,7 +761,7 @@ class BP_Core_Setup_Wizard {
 				$disabled['bp-blogs.php'] = 1;
 			} else {
 				// Make sure that the pages are created on the BP_ROOT_BLOG, no matter which Dashboard the setup is being run on
-				if ( $current_blog->blog_id != BP_ROOT_BLOG && !defined( 'BP_ENABLE_MULTIBLOG' ) )
+				if ( $wpdb->blogid != BP_ROOT_BLOG && !defined( 'BP_ENABLE_MULTIBLOG' ) )
 					switch_to_blog( BP_ROOT_BLOG );
 
 				$existing_pages = get_option( 'bp-pages' );
@@ -770,7 +770,7 @@ class BP_Core_Setup_Wizard {
 
 				update_option( 'bp-pages', $bp_pages );
 
-				if ( $current_blog->blog_id != BP_ROOT_BLOG )
+				if ( $wpdb->blogid != BP_ROOT_BLOG )
 					restore_current_blog();
 
 				unset( $disabled['bp-blogs.php'] );
@@ -809,13 +809,13 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_pages_save() {
-		global $current_blog;
+		global $wpdb;
 
 		if ( isset( $_POST['submit'] ) && isset( $_POST['bp_pages'] ) ) {
 			check_admin_referer( 'bpwizard_pages' );
 
 			// Make sure that the pages are created on the BP_ROOT_BLOG, no matter which Dashboard the setup is being run on
-			if ( !empty( $current_blog->blog_id ) && $current_blog->blog_id != BP_ROOT_BLOG && !defined( 'BP_ENABLE_MULTIBLOG' ) )
+			if ( !empty( $wpdb->blogid ) && $wpdb->blogid != BP_ROOT_BLOG && !defined( 'BP_ENABLE_MULTIBLOG' ) )
 				switch_to_blog( BP_ROOT_BLOG );
 
 			// Delete any existing pages
@@ -828,7 +828,7 @@ class BP_Core_Setup_Wizard {
 
 			update_option( 'bp-pages', $bp_pages );
 
-			if ( !empty( $current_blog->blog_id ) && $current_blog->blog_id != BP_ROOT_BLOG )
+			if ( !empty( $wpdb->blogid ) && $wpdb->blogid != BP_ROOT_BLOG )
 				restore_current_blog();
 
 			return true;
@@ -852,7 +852,7 @@ class BP_Core_Setup_Wizard {
 				if ( !empty($permalink_structure) )
 					$permalink_structure = preg_replace( '#/+#', '/', '/' . $_POST['permalink_structure'] );
 
-				if ( ( defined( 'VHOST' ) && constant( 'VHOST' ) == 'no' ) && $permalink_structure != '' && $current_site->domain.$current_site->path == $current_blog->domain.$current_blog->path )
+				if ( ( defined( 'VHOST' ) && constant( 'VHOST' ) == 'no' ) && $permalink_structure != '' && $current_site->domain . $current_site->path == $current_blog->domain . $current_blog->path )
 					$permalink_structure = '/blog' . $permalink_structure;
 
 				$wp_rewrite->set_permalink_structure( $permalink_structure );

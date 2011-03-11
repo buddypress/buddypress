@@ -6,9 +6,9 @@
  */
 
 function bp_blogs_register_widgets() {
-	global $current_blog, $bp;
+	global $wpdb, $bp;
 
-	if ( bp_is_active( 'activity' ) && (int)$current_blog->blog_id == BP_ROOT_BLOG )
+	if ( bp_is_active( 'activity' ) && (int)$wpdb->blogid == BP_ROOT_BLOG )
 		add_action('widgets_init', create_function('', 'return register_widget("BP_Blogs_Recent_Posts_Widget");') );
 }
 add_action( 'bp_register_widgets', 'bp_blogs_register_widgets' );

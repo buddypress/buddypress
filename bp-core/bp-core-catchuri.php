@@ -27,7 +27,7 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  */
 function bp_core_set_uri_globals() {
 	global $bp, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
-	global $current_blog;
+	global $current_blog, $wpdb;
 
 	// Create global component, action, and item variables
 	$bp->current_component = $bp->current_action = $bp->current_item ='';
@@ -36,7 +36,7 @@ function bp_core_set_uri_globals() {
 	// Only catch URI's on the root blog if we are not running
 	// on multiple blogs
 	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() ) {
-		if ( BP_ROOT_BLOG != (int) $current_blog->blog_id )
+		if ( BP_ROOT_BLOG != (int) $wpdb->blogid )
 			return false;
 	}
 

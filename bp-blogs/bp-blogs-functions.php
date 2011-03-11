@@ -264,10 +264,10 @@ function bp_blogs_manage_comment( $comment_id, $comment_status ) {
 add_action( 'wp_set_comment_status', 'bp_blogs_manage_comment', 10, 2 );
 
 function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
-	global $wpdb, $current_blog;
+	global $wpdb;
 
-	if ( empty( $blog_id ) && isset( $current_blog ) )
-		$blog_id = $current_blog->blog_id;
+	if ( empty( $blog_id ) && isset( $wpdb->blogid ) )
+		$blog_id = $wpdb->blogid;
 	else
 		$blog_id = BP_ROOT_BLOG;
 
@@ -290,10 +290,10 @@ add_action( 'profile_update',   'bp_blogs_add_user_to_blog'        );
 add_action( 'user_register',    'bp_blogs_add_user_to_blog'        );
 
 function bp_blogs_remove_user_from_blog( $user_id, $blog_id = 0 ) {
-	global $current_blog;
+	global $wpdb;
 
 	if ( empty( $blog_id ) )
-		$blog_id = $current_blog->blog_id;
+		$blog_id = $wpdb->blogid;
 
 	bp_blogs_remove_blog_for_user( $user_id, $blog_id );
 }
@@ -329,15 +329,15 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
 
 function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
-	global $current_blog, $bp;
+	global $wpdb, $bp;
 
-	if ( empty( $current_blog->blog_id ) )
+	if ( empty( $wpdb->blogid ) )
 		return false;
 
 	$post_id = (int)$post_id;
 
 	if ( !$blog_id )
-		$blog_id = (int)$current_blog->blog_id;
+		$blog_id = (int)$wpdb->blogid;
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;

@@ -32,9 +32,9 @@ function bp_core_admin_menu_icon_css() {
 add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
 
 function bp_core_confirmation_js() {
-	global $current_blog;
+	global $wpdb;
 
-	if ( is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
+	if ( is_multisite() && $wpdb->blogid != BP_ROOT_BLOG )
 		return false;
 
 	if ( !wp_script_is( 'jquery' ) )

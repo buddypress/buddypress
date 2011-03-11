@@ -563,12 +563,12 @@ function bp_core_check_avatar_type($file) {
  *
  * Returns the absolute upload path for the WP installation
  *
- * @global object $current_blog Current blog information
+ * @global object $wpdb WordPress database global
  * @uses wp_upload_dir To get upload directory info
  * @return string Absolute path to WP upload directory
  */
 function bp_core_avatar_upload_path() {
-	global $current_blog;
+	global $wpdb;
 
 	// Get upload directory information from current site
 	$upload_dir = wp_upload_dir();
@@ -578,7 +578,7 @@ function bp_core_avatar_upload_path() {
 		$basedir = $upload_dir['baseurl'];
 
 		// If multisite, and current blog does not match root blog, make adjustments
-		if ( is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
+		if ( is_multisite() && BP_ROOT_BLOG != $wpdb->blogid )
 			$basedir = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
 	} else {
 		$basedir = '';
@@ -592,12 +592,12 @@ function bp_core_avatar_upload_path() {
  *
  * Returns the raw base URL for root site upload location
  *
- * @global object $current_blog Current blog information
+ * @global object $wpdb WordPress database global
  * @uses wp_upload_dir To get upload directory info
  * @return string Full URL to current upload location
  */
 function bp_core_avatar_url() {
-	global $current_blog;
+	global $wpdb;
 
 	// Get upload directory information from current site
 	$upload_dir = wp_upload_dir();
@@ -607,7 +607,7 @@ function bp_core_avatar_url() {
 		$baseurl = $upload_dir['baseurl'];
 
 		// If multisite, and current blog does not match root blog, make adjustments
-		if ( is_multisite() && BP_ROOT_BLOG != $current_blog->blog_id )
+		if ( is_multisite() && BP_ROOT_BLOG != $wpdb->blogid )
 			$baseurl = trailingslashit( get_blog_option( BP_ROOT_BLOG, 'home' ) ) . get_blog_option( BP_ROOT_BLOG, 'upload_path' );
 	} else {
 		$baseurl = '';

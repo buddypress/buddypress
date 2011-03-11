@@ -18,7 +18,7 @@ add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update
  * @package BuddyPress Core
  */
 function bp_core_activation_notice() {
-	global $wp_rewrite, $current_blog, $bp;
+	global $wp_rewrite, $wpdb, $bp;
 
 	if ( isset( $_POST['permalink_structure'] ) )
 		return false;
@@ -26,8 +26,8 @@ function bp_core_activation_notice() {
 	if ( !is_super_admin() )
 		return false;
 
-	if ( !empty( $current_blog ) ) {
-		if ( $current_blog->blog_id != BP_ROOT_BLOG ) {
+	if ( !empty( $wpdb->blogid ) ) {
+		if ( $wpdb->blogid != BP_ROOT_BLOG ) {
 			return false;
 		}
 	}
@@ -90,7 +90,7 @@ function bp_core_admin_dashboard() { ?>
  * @since {@internal Unknown}}
  */
 function bp_core_admin_settings() {
-	global $wpdb, $bp, $current_blog;
+	global $wpdb, $bp;
 
 	$ud = get_userdata( $bp->loggedin_user->id );
 

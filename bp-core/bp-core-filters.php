@@ -67,15 +67,15 @@ add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
  * @package BuddyPress Core
  */
 function bp_core_allow_default_theme( $themes ) {
-	global $bp, $current_blog;
+	global $bp, $wpdb;
 
 	if ( !is_super_admin() )
 		return $themes;
 
-	if ( $current_blog->blog_id == BP_ROOT_BLOG ) {
+	if ( $wpdb->blogid == BP_ROOT_BLOG ) {
 		$themes['bp-default'] = 1;
 	}
-
+	
 	return $themes;
 }
 add_filter( 'allowed_themes', 'bp_core_allow_default_theme' );
@@ -125,9 +125,9 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
  * @package BuddyPress Core
  */
 function bp_core_login_redirect( $redirect_to ) {
-	global $bp, $current_blog;
+	global $bp, $wpdb;
 
-	if ( is_multisite() && $current_blog->blog_id != BP_ROOT_BLOG )
+	if ( is_multisite() && $wpdb->blogid != BP_ROOT_BLOG )
 		return $redirect_to;
 
 	if ( isset( $_REQUEST['redirect_to'] ) && ( !empty( $_REQUEST['redirect_to'] ) || strpos( $_REQUEST['redirect_to'], 'wp-admin' ) ) )

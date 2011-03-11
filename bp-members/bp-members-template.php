@@ -603,9 +603,6 @@ function bp_total_site_member_count() {
 /** Navigation and other misc template tags **/
 
 /**
- * bp_get_nav()
- * TEMPLATE TAG
- *
  * Uses the $bp->bp_nav global to render out the navigation within a BuddyPress install.
  * Each component adds to this navigation array within its own [component_name]_setup_nav() function.
  *
@@ -621,7 +618,7 @@ function bp_total_site_member_count() {
  * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  */
 function bp_get_loggedin_user_nav() {
-	global $bp, $current_blog;
+	global $bp;
 
 	// Loop through each navigation item
 	foreach( (array) $bp->bp_nav as $nav_item ) {

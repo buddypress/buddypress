@@ -168,10 +168,10 @@ add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_a
  * @return $domain The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
-	global $current_blog;
+	global $wpdb;
 
 	if ( defined( 'BP_ENABLE_MULTIBLOG' ) )
-		$domain = get_home_url( $current_blog->blog_id );
+		$domain = get_home_url( $wpdb->blogid );
 	else
 		$domain = get_home_url( BP_ROOT_BLOG );
 
