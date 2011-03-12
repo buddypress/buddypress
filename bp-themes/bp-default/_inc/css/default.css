@@ -2201,7 +2201,7 @@ ol.commentlist div.comment-avatar-box {
 	margin: 10px 10px 10px 0;
 }
 
-ul.children div.comment-avatar-box {
+.commentlist ul.children div.comment-avatar-box {
 	float: left;
 	margin: 0px 10px 10px 0;
 }
@@ -2282,7 +2282,7 @@ div.comment-options a.comment-reply-link:hover {
 	color: #fff;
 }
 
-ul.children {
+.commentlist ul.children {
 	background: #f5f5f5;
 	margin-bottom: 20px;
 	margin-left: 75px;
@@ -2291,48 +2291,48 @@ ul.children {
 	-webkit-border-radius: 4px;
 }
 
-ul.children ul {
+.commentlist ul.children ul {
 	margin-left: 20px;
 	margin-bottom: 0;
 	padding: 5px 0 0 0;
 }
 
-ul.children img.avatar {
+.commentlist ul.children img.avatar {
 	border-style: none;
 	height: 25px;
 	margin: 0;
 	width: 25px;
 }
 
-ul.children div.comment-content {
+.commentlist ul.children div.comment-content {
 	border-top: none;
 	padding-left: 35px;
 }
 
-ul.children div.comment-meta {
+.commentlist ul.children div.comment-meta {
 	font-size: 11px;
 	margin-top: 0;
 }
 
-ul.children div.comment-options {
+.commentlist ul.children div.comment-options {
 	margin-bottom: 5px;
 	margin-top: 0;
 }
 
-ul.children li {
+.commentlist ul.children li {
 	border-top: 2px solid #fffeff;
 	padding-top: 10px;
 }
 
-ul.children li:first-child {
+.commentlist ul.children li:first-child {
 	border-top: none;
 }
 
-ul.children ul li:first-child {
+.commentlist ul.children ul li:first-child {
 	border-top: 2px solid #fffeff;
 }
 
-ul.children div.comment-options a.comment-reply-link {
+.commentlist ul.children div.comment-options a.comment-reply-link {
 	background: transparent;
 	border-style: none;
 	color: #1fb3dd;
@@ -2341,7 +2341,7 @@ ul.children div.comment-options a.comment-reply-link {
 	text-decoration: underline;
 }
 
-ul.children div.comment-options a.comment-reply-link:hover {
+.commentlist ul.children div.comment-options a.comment-reply-link:hover {
 	background: transparent;
 	border-style: none;
 	color: #1fb3dd;
@@ -2361,7 +2361,7 @@ ol.commentlist #respond {
 	margin-left: 75px;
 }
 
-ul.children #respond {
+.commentlist ul.children #respond {
 	margin-bottom: 10px;
 	margin-left: 35px;
 	margin-right: 20px;
