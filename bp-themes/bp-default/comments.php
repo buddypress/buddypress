@@ -21,7 +21,7 @@
 	<div id="comments">
 
 		<h3>
-			<?php printf( _n( 'One Response to %2$s', '%1$s Responses to %2$s', $num_comments, 'buddypress' ), number_format_i18n( $num_comments ), '<em>' . get_the_title() . '</em>' ) ?>
+			<?php printf( _n( '1 response to %2$s', '%1$s responses to %2$s', $num_comments, 'buddypress' ), number_format_i18n( $num_comments ), '<em>' . get_the_title() . '</em>' ) ?>
 		</h3>
 
 		<?php do_action( 'bp_before_blog_comment_list' ) ?>
@@ -59,7 +59,7 @@
 
 <?php if ( !empty( $num_trackbacks ) ) : ?>
 	<div id="trackbacks">
-		<h3><?php printf( _n( '%d Trackback', '%d Trackbacks', $num_trackbacks, 'buddypress' ), number_format_i18n( $num_trackbacks ) ) ?></h3>
+		<h3><?php printf( _n( '1 trackback', '%d trackbacks', $num_trackbacks, 'buddypress' ), number_format_i18n( $num_trackbacks ) ) ?></h3>
 
 		<ul id="trackbacklist">
 			<?php foreach ( (array)$comments as $comment ) : ?>
