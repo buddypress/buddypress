@@ -2379,6 +2379,10 @@ h3#reply .comments-header {
 	border-style: none;
 }
 
+#nav-below {
+	margin: 0 0;
+	padding: 0 0;
+}
 
 /* > Footer
 -------------------------------------------------------------- */

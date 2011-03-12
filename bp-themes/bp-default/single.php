@@ -3,18 +3,11 @@
 	<div id="content">
 		<div class="padder">
 
-		<?php do_action( 'bp_before_blog_single_post' ) ?>
+			<?php do_action( 'bp_before_blog_single_post' ) ?>
 
-		<div class="page" id="blog-single" role="main">
+			<div class="page" id="blog-single" role="main">
 
 			<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-
-				<div class="item-options">
-
-					<div class="alignleft"><?php next_posts_link( __( '&larr; Previous Entries', 'buddypress' ) ) ?></div>
-					<div class="alignright"><?php previous_posts_link( __( 'Next Entries &rarr;', 'buddypress' ) ) ?></div>
-
-				</div>
 
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
@@ -35,6 +28,9 @@
 						</div>
 
 						<p class="postmetadata"><span class="tags"><?php the_tags( __( 'Tags: ', 'buddypress' ), ', ', '<br />'); ?></span> <span class="comments"><?php comments_popup_link( __( 'No Comments &#187;', 'buddypress' ), __( '1 Comment &#187;', 'buddypress' ), __( '% Comments &#187;', 'buddypress' ) ); ?></span></p>
+
+						<div class="alignleft"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'buddypress' ) . '</span> %title' ); ?></div>
+						<div class="alignright"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'buddypress' ) . '</span>' ); ?></div>
 					</div>
 
 				</div>

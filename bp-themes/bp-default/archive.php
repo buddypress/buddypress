@@ -11,7 +11,7 @@
 
 			<?php if ( have_posts() ) : ?>
 
-				<div class="navigation">
+				<div id="nav-above" class="navigation">
 
 					<div class="alignleft"><?php next_posts_link( __( '&larr; Previous Entries', 'buddypress' ) ) ?></div>
 					<div class="alignright"><?php previous_posts_link( __( 'Next Entries &rarr;', 'buddypress' ) ) ?></div>
@@ -47,7 +47,7 @@
 
 				<?php endwhile; ?>
 
-				<div class="navigation">
+				<div id="nav-below" class="navigation">
 
 					<div class="alignleft"><?php next_posts_link( __( '&larr; Previous Entries', 'buddypress' ) ) ?></div>
 					<div class="alignright"><?php previous_posts_link( __( 'Next Entries &rarr;', 'buddypress' ) ) ?></div>
