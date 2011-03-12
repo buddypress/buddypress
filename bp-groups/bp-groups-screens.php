@@ -103,12 +103,12 @@ function groups_screen_group_home() {
 }
 
 function groups_screen_group_forum() {
-	global $bp;
+	global $bp, $wp_query;
 
 	if ( bp_is_single_item() && $bp->groups->current_group->user_has_access ) {
 
 		// Fetch the details we need
-		$topic_slug     = isset( $bp->action_variables[1] ) ? $bp->action_variables[1] : false;
+		$topic_slug     = !empty( $bp->action_variables[1] ) ? $bp->action_variables[1] : false;
 		$topic_id       = bp_forums_get_topic_id_from_slug( $topic_slug );
 		$forum_id       = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
 		$user_is_banned = false;
@@ -301,6 +301,13 @@ function groups_screen_group_forum() {
 
 				bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/single/home' ) );
 			}
+
+		// Forum topic does not exist
+		} elseif ( !empty( $topic_slug ) && empty( $topic_id ) ) {
+			$wp_query->set_404();
+			status_header( 404 );
+			nocache_headers();
+			return;
 
 		} else {
 			// Posting a topic

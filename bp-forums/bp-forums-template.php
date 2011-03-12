@@ -898,20 +898,20 @@ function bp_has_forum_topic_posts( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( empty( $topic_id ) && bp_is_current_component( 'groups') && bp_is_current_action( 'forum' ) && 'topic' == $bp->action_variables[0] )
+	if ( empty( $topic_id ) && bp_is_current_component( 'groups') && bp_is_current_action( 'forum' ) && !empty( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] && !empty( $bp->action_variables[1] ) )
 		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[1] );
 	elseif ( empty( $topic_id ) && bp_is_current_component( 'forums') && bp_is_current_action( 'topic' ) && !empty( $bp->action_variables[0] ) )
 		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[0] );
 
-	if ( is_numeric( $topic_id ) ) {
-		$topic_template = new BP_Forums_Template_Topic( $topic_id, $per_page, $max, $order );
+	if ( empty( $topic_id ) ) {
+		return false;
+
+	} else {
+		$topic_template = new BP_Forums_Template_Topic( (int) $topic_id, $per_page, $max, $order );
 
 		// Current topic forum_id needs to match current_group forum_id
 		if ( bp_is_current_component( 'groups' ) && $topic_template->forum_id != groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) )
 			return false;
-
-	} else {
-		return false;
 	}
 
 	return apply_filters( 'bp_has_topic_posts', $topic_template->has_posts(), $topic_template );
