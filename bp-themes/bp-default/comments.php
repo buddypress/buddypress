@@ -41,11 +41,11 @@
 	</div><!-- #comments -->
 <?php else : ?>
 
-	<?php if ( pings_open() && !comments_open() && is_single() ) : ?>
+	<?php if ( pings_open() && !comments_open() && ( is_single() || is_page() ) ) : ?>
 		<p class="comments-closed pings-open">
 			<?php printf( __( 'Comments are closed, but <a href="%1$s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'buddypress' ), trackback_url( '0' ) ) ?>
 		</p>
-	<?php elseif ( !comments_open() && is_single() ) : ?>
+	<?php elseif ( !comments_open() && ( is_single() || is_page() ) ) : ?>
 		<p class="comments-closed">
 			<?php _e( 'Comments are closed.', 'buddypress' ) ?>
 		</p>
