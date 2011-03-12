@@ -560,7 +560,7 @@ function bp_member_registered() {
 function bp_member_random_profile_data() {
 	global $members_template;
 
-	if ( function_exists( 'xprofile_get_random_profile_data' ) ) { ?>
+	if ( bp_is_active( 'xprofile' ) ) { ?>
 		<?php $random_data = xprofile_get_random_profile_data( $members_template->member->id, true ); ?>
 			<strong><?php echo wp_filter_kses( $random_data[0]->name ) ?></strong>
 			<?php echo wp_filter_kses( $random_data[0]->value ) ?>
@@ -647,10 +647,7 @@ function bp_get_loggedin_user_nav() {
 	}
 
 	// Always add a log out list item to the end of the navigation
-	if ( function_exists( 'wp_logout_url' ) )
-		$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( bp_get_root_domain() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
-	else
-		$logout_link = '<li><a id="wp-logout" href="' . site_url() . '/wp-login.php?action=logout&amp;redirect_to=' . bp_get_root_domain() . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
+	$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( bp_get_root_domain() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
 
 	echo apply_filters( 'bp_logout_nav_link', $logout_link );
 }

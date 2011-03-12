@@ -70,29 +70,10 @@ if ( !is_multisite() ) {
 	}
 }
 
-/**
- * bp_core_is_main_site
- *
- * Checks if current blog is root blog of site. Deprecated in 1.3.
- *
- * @deprecated 1.3
- * @deprecated Use is_multisite()
- * @package BuddyPress
- * @param int $blog_id optional blog id to test (default current blog)
- * @return bool True if not multisite or $blog_id is main site
- * @since 1.2.6
- */
-function bp_core_is_main_site( $blog_id = '' ) {
-	_deprecated_function( __FUNCTION__, '1.3', 'is_main_site()' );
-	return is_main_site( $blog_id );
-}
-
 function bp_core_get_status_sql( $prefix = false ) {
 	if ( !is_multisite() )
 		return "{$prefix}user_status = 0";
 	else
 		return "{$prefix}spam = 0 AND {$prefix}deleted = 0 AND {$prefix}user_status = 0";
 }
-
-
 ?>

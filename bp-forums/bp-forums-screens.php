@@ -17,7 +17,7 @@ function bp_forums_directory_forums_setup() {
 		do_action( 'bbpress_init' );
 
 		// Check to see if the user has posted a new topic from the forums page.
-		if ( isset( $_POST['submit_topic'] ) && function_exists( 'bp_forums_new_topic' ) ) {
+		if ( isset( $_POST['submit_topic'] ) && bp_is_active( 'forums' ) ) {
 			check_admin_referer( 'bp_forums_new_topic' );
 
 			if ( $bp->groups->current_group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) ) ) {

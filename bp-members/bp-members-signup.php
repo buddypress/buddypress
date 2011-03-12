@@ -60,7 +60,7 @@ function bp_members_screen_signup() {
 		$bp->signup->email = $_POST['signup_email'];
 
 		// Now we've checked account details, we can check profile information
-		if ( function_exists( 'xprofile_check_is_required_field' ) ) {
+		if ( bp_is_active( 'xprofile' ) ) {
 
 			// Make sure hidden field is passed and populated
 			if ( isset( $_POST['signup_profile_field_ids'] ) && !empty( $_POST['signup_profile_field_ids'] ) ) {
@@ -395,7 +395,7 @@ function bp_members_signup_user( $user_login, $user_password, $user_email, $user
 		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->users SET user_status = 2 WHERE ID = %d", $user_id ) );
 
 		// Set any profile data
-		if ( function_exists( 'xprofile_set_field_data' ) ) {
+		if ( bp_is_active( 'xprofile' ) ) {
 			if ( !empty( $usermeta['profile_field_ids'] ) ) {
 				$profile_field_ids = explode( ',', $usermeta['profile_field_ids'] );
 
@@ -454,7 +454,7 @@ function bp_members_activate_signup( $key ) {
 		$user_id = $user['user_id'];
 
 		// Set any profile data
-		if ( function_exists( 'xprofile_set_field_data' ) ) {
+		if ( bp_is_active( 'xprofile' ) ) {
 			if ( !empty( $user['meta']['profile_field_ids'] ) ) {
 				$profile_field_ids = explode( ',', $user['meta']['profile_field_ids'] );
 
@@ -485,9 +485,7 @@ function bp_members_activate_signup( $key ) {
 		delete_user_meta( $user_id, 'activation_key' );
 	}
 
-	// Support for WP < 3.1
-	if ( ! function_exists( 'wp_update_user' ) )
- 		require_once( ABSPATH . WPINC . '/registration.php' );
+	require_once( ABSPATH . WPINC . '/registration.php' );
 
 	// Update the display_name
 	wp_update_user( array( 'ID' => $user_id, 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
@@ -533,7 +531,7 @@ function bp_members_map_user_registration( $user_id ) {
 		return false;
 
 	// Add the user's fullname to Xprofile
-	if ( function_exists( 'xprofile_set_field_data' ) ) {
+	if ( bp_is_active( 'xprofile' ) ) {
 		$firstname = get_user_meta( $user_id, 'first_name', true );
 		$lastname = ' ' . get_user_meta( $user_id, 'last_name', true );
 		$name = $firstname . $lastname;

@@ -30,9 +30,7 @@ function bp_core_clear_cache() {
  */
 function bp_core_add_global_group() {
 	wp_cache_init();
-
-	if ( function_exists( 'wp_cache_add_global_groups' ) )
-		wp_cache_add_global_groups( array( 'bp' ) );
+	wp_cache_add_global_groups( array( 'bp' ) );
 }
 add_action( 'bp_loaded', 'bp_core_add_global_group' );
 

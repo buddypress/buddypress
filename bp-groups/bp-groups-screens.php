@@ -311,7 +311,7 @@ function groups_screen_group_forum() {
 
 		} else {
 			// Posting a topic
-			if ( isset( $_POST['submit_topic'] ) && function_exists( 'bp_forums_new_topic') ) {
+			if ( isset( $_POST['submit_topic'] ) && bp_is_active( 'forums' ) ) {
 				// Check the nonce
 				check_admin_referer( 'bp_forums_new_topic' );
 

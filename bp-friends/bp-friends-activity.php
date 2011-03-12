@@ -33,7 +33,7 @@ function friends_record_activity( $args = '' ) {
 function friends_delete_activity( $args ) {
 	global $bp;
 
-	if ( function_exists('bp_activity_delete_by_item_id') ) {
+	if ( bp_is_active( 'activity' ) ) {
 		extract( (array)$args );
 		bp_activity_delete_by_item_id( array( 'item_id' => $item_id, 'component' => $bp->friends->id, 'type' => $type, 'user_id' => $user_id, 'secondary_item_id' => $secondary_item_id ) );
 	}

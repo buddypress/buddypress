@@ -133,7 +133,7 @@ function bp_friends_random_members( $total_members = 5 ) {
 				<a href="<?php echo bp_core_get_user_domain( $user_ids['users'][$i]->user_id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->user_id, 'type' => 'thumb' ) ) ?></a>
 				<h5><?php echo bp_core_get_userlink( $user_ids['users'][$i]->user_id ) ?></h5>
 
-				<?php if ( function_exists( 'xprofile_get_random_profile_data' ) ) { ?>
+				<?php if ( bp_is_active( 'xprofile' ) ) { ?>
 
 					<?php $random_data = xprofile_get_random_profile_data( $user_ids['users'][$i]->user_id, true ); ?>
 
@@ -148,7 +148,7 @@ function bp_friends_random_members( $total_members = 5 ) {
 
 				<div class="action">
 
-					<?php if ( function_exists( 'bp_add_friend_button' ) ) { ?>
+					<?php if ( bp_is_active( 'friends' ) ) { ?>
 
 						<?php bp_add_friend_button( $user_ids['users'][$i]->user_id ) ?>
 

@@ -25,7 +25,7 @@ function groups_update_group_forum( $group_id ) {
 
 	$group = new BP_Groups_Group( $group_id );
 
-	if ( empty( $group->enable_forum ) || !function_exists( 'bp_forums_setup' ) )
+	if ( empty( $group->enable_forum ) || !bp_is_active( 'forums' ) )
 		return false;
 
 	$args = array(
@@ -119,7 +119,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text )
 
 	if ( $topic = bp_forums_update_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_id' => $topic_id ) ) ) {
 		// Update the activity stream item
-		if ( function_exists( 'bp_activity_delete_by_item_id' ) )
+		if ( bp_is_active( 'activity' ) )
 			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
 
 		$activity_action = sprintf( __( '%1$s started the forum topic %2$s in the group %3$s:', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . esc_attr( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' );
@@ -163,7 +163,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
 			$primary_link .= "?topic_page=" . $page;
 
 		// Fetch an existing entry and update if one exists.
-		if ( function_exists( 'bp_activity_get_activity_id' ) )
+		if ( bp_is_active( 'activity' ) )
 			$id = bp_activity_get_activity_id( array( 'user_id' => $post->poster_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post', 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id ) );
 
 		// Update the entry in activity streams
@@ -194,7 +194,7 @@ function groups_delete_group_forum_topic( $topic_id ) {
 		do_action( 'groups_before_delete_group_forum_topic', $topic_id );
 
 		// Delete the activity stream item
-		if ( function_exists( 'bp_activity_delete' ) )
+		if ( bp_is_active( 'activity' ) )
 			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
 
 		do_action( 'groups_delete_group_forum_topic', $topic_id );
@@ -212,7 +212,7 @@ function groups_delete_group_forum_post( $post_id, $topic_id ) {
 		do_action( 'groups_before_delete_group_forum_post', $post_id, $topic_id );
 
 		// Delete the activity stream item
-		if ( function_exists( 'bp_activity_delete' ) )
+		if ( bp_is_active( 'activity' ) )
 			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
 
 		do_action( 'groups_delete_group_forum_post', $post_id, $topic_id );

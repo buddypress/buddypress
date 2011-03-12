@@ -701,7 +701,7 @@ function bp_group_forum_topic_count( $args = '' ) {
 		if ( !$forum_id = groups_get_groupmeta( $groups_template->group->id, 'forum_id' ) )
 			return false;
 
-		if ( !function_exists( 'bp_forums_get_forum_topicpost_count' ) )
+		if ( !bp_is_active( 'forums' ) )
 			return false;
 
 		if ( !$groups_template->group->forum_counts )
@@ -735,7 +735,7 @@ function bp_group_forum_post_count( $args = '' ) {
 		if ( !$forum_id = groups_get_groupmeta( $groups_template->group->id, 'forum_id' ) )
 			return false;
 
-		if ( !function_exists( 'bp_forums_get_forum_topicpost_count' ) )
+		if ( !bp_is_active( 'forums' ) )
 			return false;
 
 		if ( !$groups_template->group->forum_counts )
@@ -759,7 +759,7 @@ function bp_group_is_forum_enabled( $group = false ) {
 	if ( !$group )
 		$group =& $groups_template->group;
 
-	if ( function_exists( 'bp_forums_is_installed_correctly' ) ) {
+	if ( bp_is_active( 'forums' ) ) {
 		if ( bp_forums_is_installed_correctly() ) {
 			if ( $group->enable_forum )
 				return true;
