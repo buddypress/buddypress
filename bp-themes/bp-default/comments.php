@@ -59,11 +59,7 @@
 
 <?php if ( !empty( $num_trackbacks ) ) : ?>
 	<div id="trackbacks">
-		<span class="title"><?php the_title() ?></span>
-
-		<h3>
-			<?php printf( _n( '%d Trackback', '%d Trackbacks', $num_trackbacks, 'buddypress' ), number_format_i18n( $num_trackbacks ) ) ?>
-		</h3>
+		<h3><?php printf( _n( '%d Trackback', '%d Trackbacks', $num_trackbacks, 'buddypress' ), number_format_i18n( $num_trackbacks ) ) ?></h3>
 
 		<ul id="trackbacklist">
 			<?php foreach ( (array)$comments as $comment ) : ?>
