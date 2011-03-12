@@ -1945,19 +1945,26 @@ body.home-page .sticky .date {
 	padding: 5px;
 }
 
+div.page,
 div.post {
 	margin: 0 0 40px 0;
 	overflow: hidden;
 }
 
-div.post h2.pagetitle,
-div.post h2.posttitle {
+div.page:last-child,
+div.post:last-child,
+#trackbacklist {
+	margin-bottom: 0;
+}
+
+h2.pagetitle,
+h2.posttitle {
 	margin: 0;
 	line-height: 120%;
 }
 
-div.post h2.pagetitle a,
-div.post h2.posttitle a {
+h2.pagetitle a,
+h2.posttitle a {
 	color: #666;
 	text-decoration: none;
 }
@@ -1983,43 +1990,49 @@ div.post h2.posttitle a {
 	margin-right: 15px;
 }
 
-div.post p {
+p {
 	margin: 0 0 20px 0;
 }
 
+div.page ul,
+div.page ol,
+div.page dl,
 div.post ul,
 div.post ol,
 div.post dl {
 	margin: 0 0 18px 1.5em;
 }
 
+div.page ul,
 div.post ul {
 	list-style: square;
 }
 
+div.page ol,
 div.post ol {
 	list-style: decimal;
 }
 
+div.page ol ol,
 div.post ol ol {
 	list-style: upper-alpha;
 }
 
-div.post dl {
+dl {
 	margin-left: 0;
 }
 
-div.post dt {
+dt {
 	font-size: 14px;
 	font-weight: bold;
 }
 
-div.post dd {
+dd {
 	margin: 0 0 15px 0;
 }
 
-div.post pre,
-div.post code p {
+pre,
+code p {
 	padding: 15px;
 	background: #f4f4f4;
 	-moz-border-radius: 3px;
@@ -2027,11 +2040,11 @@ div.post code p {
 	border-radius: 3px;
 }
 
-div.post code {
+code {
 	font-family: "Monaco", courier, sans-serif;
 }
 
-div.post blockquote {
+blockquote {
 	quotes: none;
 	font-style: italic;
 	padding: 0 3em;
@@ -2040,22 +2053,29 @@ div.post blockquote {
 	line-height: 150%;
 }
 
-div.post table {
+blockquote p {
+	margin-bottom: 15px !importantr;
+}
+
+div.post table,
+div.page table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	border: 1px solid #eee;
 }
 
-div.post table th {
+div.post table th,
+div.page table th {
 	border-top: 1px solid #eee;
 	text-align: left;
 }
 
-div.post table td {
+div.post table td,
+div.page table td {
 	border-top: 1px solid #eee;
 }
 
-div.post div.author-box {
+div.author-box {
 	background: #f0f0f0;
 	padding: 10px;
 	float: left;
@@ -2079,18 +2099,18 @@ div.comment-avatar-box a {
 	text-decoration: none;
 }
 
-div.post div.author-box img {
+div.author-box img {
 	float: none;
 	border: 4px solid #fff;
 	margin: 0;
 }
 
-div.post div.post-content {
+div.post-content {
 	margin-left: 105px;
 }
 
-div.post p.date,
-div.post p.postmetadata {
+p.date,
+p.postmetadata {
 	color: #888;
 	font-size: 12px;
 	font-family: Georgia, times, serif;
@@ -2100,25 +2120,26 @@ div.post p.postmetadata {
 	border-top: 1px solid #e4e4e4;
 }
 
-div.post p.postmetadata {
+p.postmetadata {
 	margin-top: 15px;
 	clear: left;
 	overflow: hidden;
 }
 
-div.post .tags {
+.tags {
 	float: left;
 }
 
-div.post .comments {
+.comments {
 	float: right;
 }
 
+div.page img,
 div.post img {
 	margin-bottom: 15px;
 }
 
-div.post img.wp-smiley {
+img.wp-smiley {
 	padding: 0 !important;
 	margin: 0 !important;
 	border: none !important;
@@ -2126,33 +2147,32 @@ div.post img.wp-smiley {
 	clear: none !important;
 }
 
-div.post img.centered,
+img.centered,
 img.aligncenter {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-div.post img.alignright {
+img.alignright {
 	padding: 4px;
 	margin: 0 0 2px 7px;
 	display: inline;
 }
 
-div.post img.alignleft {
+img.alignleft {
 	padding: 4px;
 	margin: 0 7px 2px 0;
 	display: inline;
 }
 
-div.post .aligncenter,
-div.post div.aligncenter {
+.aligncenter {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-div.post .wp-caption {
+.wp-caption {
 	border: 1px solid #ddd;
 	text-align: center;
 	background-color: #f3f3f3;
@@ -2162,21 +2182,21 @@ div.post .wp-caption {
 	border-radius: 3px;
 }
 
-div.post .wp-caption img {
+.wp-caption img {
 	margin: 0;
 	padding: 0;
 	border: 0 none;
 }
 
-div.post dd.wp-caption p.wp-caption-text,
-div.post .wp-caption p.wp-caption-text {
+dd.wp-caption p.wp-caption-text,
+.wp-caption p.wp-caption-text {
 	font-size: 0.9em;
 	line-height: 17px;
 	padding: 0 4px 5px 0;
 	margin: 0;
 }
 
-div.post .gallery .gallery-caption {
+.gallery .gallery-caption {
 	color: #555;
 }
 
@@ -2194,6 +2214,10 @@ div.post .gallery .gallery-caption {
 #comments ol.commentlist {
 	border-bottom: 1px solid #e4e4e4;
 	margin-bottom: 30px;
+}
+
+ol.commentlist li {
+	list-style: none;
 }
 
 ol.commentlist div.comment-avatar-box {

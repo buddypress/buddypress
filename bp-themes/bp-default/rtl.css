@@ -682,69 +682,72 @@ div#topic-meta div.admin-links {
 	font-family: sans-serif;
 }
 
-div.navigation .alignright {
+.alignright {
 	float: left;
 }
 
-div.navigation .alignleft {
+.alignleft {
 	float: right;
 }
 
+div.page ul,
+div.page ol,
+div.page dl,
 div.post ul,
 div.post ol,
 div.post dl {
 	margin: 0 1.5em 18px 0;
 }
 
-div.post dl {
+dl {
 	margin-right: 0;
 }
 
-div.post code {
+code {
 	font-family: "Monaco", courier, sans-serif;
 }
 
-div.post blockquote {
+blockquote {
 	font-family: sans-serif;
 }
 
-div.post table th {
+table th {
 	text-align: right;
 }
 
-div.post div.author-box,
+div.author-box,
 div.comment-avatar-box {
 	float: right;
 	margin: 0 0 15px 15px;
 	font-family: sans-serif;
 }
 
-div.post div.post-content,
+div.post-content,
 div.comment-content {
 	margin-right: 105px;
 	margin-left: 0;
 }
 
-div.post p.date,
-div.post p.postmetadata,
+p.date,
+p.postmetadata,
 div.comment-meta,
 div.comment-options {
 	font-family: sans-serif;
 }
 
-div.post p.postmetadata {
+p.postmetadata {
 	clear: right;
 }
 
-div.post .tags {
+.tags {
 	float: right;
 }
-div.post .comments {
+.comments {
 	float: left;
 }
 
-div.post dd.wp-caption p.wp-caption-text,
-div.post .wp-caption p.wp-caption-text {
+dd.wp-caption p.wp-caption-text,
+.wp-caption p.wp-caption-text {
 	padding: 0 0 5px 4px;
 }
 
