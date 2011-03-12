@@ -6,7 +6,7 @@
 
 	<p><?php _e( 'Your avatar will be used on your profile and throughout the site. If there is a <a href="http://gravatar.com">Gravatar</a> associated with your account email we will use that, or you can upload an image from your computer.', 'buddypress') ?></p>
 
-	<form action="" method="post" id="avatar-upload-form" enctype="multipart/form-data">
+	<form action="" method="post" id="avatar-upload-form" class="standard-form" enctype="multipart/form-data">
 
 		<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
 
