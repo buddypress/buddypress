@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-03-12 13:30:35+00:00\n"
+"POT-Creation-Date: 2011-03-12 18:30:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3501,7 +3501,7 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: bp-themes/bp-default/comments.php:65
+#: bp-themes/bp-default/comments.php:62
 msgid "%d Trackback"
 msgid_plural "%d Trackbacks"
 msgstr[0] ""
