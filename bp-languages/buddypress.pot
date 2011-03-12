@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-03-12 18:30:32+00:00\n"
+"POT-Creation-Date: 2011-03-12 19:30:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3488,8 +3488,8 @@ msgid "Enter the password to view comments."
 msgstr ""
 
 #: bp-themes/bp-default/comments.php:24
-msgid "One Response to %2$s"
-msgid_plural "%1$s Responses to %2$s"
+msgid "1 response to %2$s"
+msgid_plural "%1$s responses to %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -3502,8 +3502,8 @@ msgid "Comments are closed."
 msgstr ""
 
 #: bp-themes/bp-default/comments.php:62
-msgid "%d Trackback"
-msgid_plural "%d Trackbacks"
+msgid "1 trackback"
+msgid_plural "%d trackbacks"
 msgstr[0] ""
 msgstr[1] ""
 
