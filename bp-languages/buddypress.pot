@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-03-12 01:30:26+00:00\n"
+"POT-Creation-Date: 2011-03-12 13:30:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3183,54 +3183,54 @@ msgstr ""
 #: bp-themes/bp-default/index.php:20 bp-themes/bp-default/index.php:26
 #: bp-themes/bp-default/search.php:29 bp-themes/bp-default/search.php:35
 #: bp-themes/bp-default/archive.php:29 bp-themes/bp-default/archive.php:35
-#: bp-themes/bp-default/single.php:23 bp-themes/bp-default/single.php:29
+#: bp-themes/bp-default/single.php:16 bp-themes/bp-default/single.php:22
 msgid "by %s"
 msgstr ""
 
 #: bp-themes/bp-default/index.php:24 bp-themes/bp-default/search.php:33
-#: bp-themes/bp-default/archive.php:33 bp-themes/bp-default/single.php:27
+#: bp-themes/bp-default/archive.php:33 bp-themes/bp-default/single.php:20
 msgid "Permanent Link to"
 msgstr ""
 
 #: bp-themes/bp-default/index.php:26 bp-themes/bp-default/search.php:35
-#: bp-themes/bp-default/archive.php:35 bp-themes/bp-default/single.php:29
+#: bp-themes/bp-default/archive.php:35 bp-themes/bp-default/single.php:22
 msgid "in"
 msgstr ""
 
 #: bp-themes/bp-default/index.php:29 bp-themes/bp-default/search.php:38
-#: bp-themes/bp-default/archive.php:38 bp-themes/bp-default/single.php:32
+#: bp-themes/bp-default/archive.php:38 bp-themes/bp-default/single.php:25
 msgid "Read the rest of this entry &rarr;"
 msgstr ""
 
 #: bp-themes/bp-default/index.php:32 bp-themes/bp-default/search.php:41
-#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/single.php:37
+#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/single.php:30
 msgid "Tags: "
 msgstr ""
 
 #: bp-themes/bp-default/index.php:32 bp-themes/bp-default/search.php:41
-#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/single.php:37
+#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/single.php:30
 msgid "No Comments &#187;"
 msgstr ""
 
 #: bp-themes/bp-default/index.php:32 bp-themes/bp-default/search.php:41
-#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/single.php:37
+#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/single.php:30
 msgid "1 Comment &#187;"
 msgstr ""
 
 #: bp-themes/bp-default/index.php:32 bp-themes/bp-default/search.php:41
-#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/single.php:37
+#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/single.php:30
 msgid "% Comments &#187;"
 msgstr ""
 
 #: bp-themes/bp-default/index.php:43 bp-themes/bp-default/search.php:17
 #: bp-themes/bp-default/search.php:51 bp-themes/bp-default/archive.php:16
-#: bp-themes/bp-default/archive.php:52 bp-themes/bp-default/single.php:14
+#: bp-themes/bp-default/archive.php:52
 msgid "&larr; Previous Entries"
 msgstr ""
 
 #: bp-themes/bp-default/index.php:44 bp-themes/bp-default/search.php:18
 #: bp-themes/bp-default/search.php:52 bp-themes/bp-default/archive.php:17
-#: bp-themes/bp-default/archive.php:53 bp-themes/bp-default/single.php:15
+#: bp-themes/bp-default/archive.php:53
 msgid "Next Entries &rarr;"
 msgstr ""
 
@@ -3619,7 +3619,7 @@ msgstr ""
 
 #: bp-themes/bp-default/page.php:20 bp-themes/bp-default/attachment.php:27
 #: bp-themes/bp-default/onecolumn-page.php:31
-#: bp-themes/bp-default/single.php:34
+#: bp-themes/bp-default/single.php:27
 msgid "<p><strong>Pages:</strong> "
 msgstr ""
 
@@ -4425,11 +4425,21 @@ msgstr ""
 msgid "Links"
 msgstr ""
 
-#: bp-themes/bp-default/single.php:29
+#: bp-themes/bp-default/single.php:22
 msgid "Edit this entry"
 msgstr ""
 
-#: bp-themes/bp-default/single.php:46
+#: bp-themes/bp-default/single.php:32
+msgctxt "Previous post link"
+msgid "&larr;"
+msgstr ""
+
+#: bp-themes/bp-default/single.php:33
+msgctxt "Next post link"
+msgid "&rarr;"
+msgstr ""
+
+#: bp-themes/bp-default/single.php:42
 msgid "Sorry, no posts matched your criteria."
 msgstr ""
 
