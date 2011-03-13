@@ -16,10 +16,15 @@
 function bp_core_clear_cache() {
 	global $cache_path, $cache_filename;
 
+	// WP Super Cache
 	if ( function_exists( 'prune_super_cache' ) ) {
 		do_action( 'bp_core_clear_cache' );
-
 		return prune_super_cache( $cache_path, true );
+
+	// W3 Total Cache
+	} elseif ( function_exists( 'w3tc_pgcache_flush' ) ) {
+		do_action( 'bp_core_clear_cache' );
+		return w3tc_pgcache_flush();		
 	}
 }
 
