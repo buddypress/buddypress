@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-03-12 21:30:30+00:00\n"
+"POT-Creation-Date: 2011-03-13 14:30:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -336,8 +336,8 @@ msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:69 bp-core/admin/bp-core-update.php:120
 #: bp-core/admin/bp-core-update.php:1205 bp-core/admin/bp-core-update.php:1206
-#: bp-core/bp-core-functions.php:143 bp-core/bp-core-functions.php:253
-#: bp-core/bp-core-functions.php:254 bp-members/bp-members-signup.php:570
+#: bp-core/bp-core-functions.php:144 bp-core/bp-core-functions.php:145
+#: bp-members/bp-members-signup.php:570
 msgid "BuddyPress"
 msgstr ""
 
@@ -505,7 +505,7 @@ msgid "Associate WordPress Pages with the following BuddyPress pages. Setting to
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:56 bp-core/admin/bp-core-update.php:175
-#: bp-core/bp-core-functions.php:261
+#: bp-core/bp-core-functions.php:152
 msgid "Components"
 msgstr ""
 
@@ -697,8 +697,7 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:467 bp-core/bp-core-functions.php:113
-#: bp-core/bp-core-functions.php:164
+#: bp-core/admin/bp-core-update.php:467
 msgid "Register"
 msgstr ""
 
@@ -706,8 +705,8 @@ msgstr ""
 msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:478 bp-core/bp-core-functions.php:115
-#: bp-core/bp-core-functions.php:166 bp-messages/bp-messages-template.php:486
+#: bp-core/admin/bp-core-update.php:478
+#: bp-messages/bp-messages-template.php:486
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
@@ -987,7 +986,7 @@ msgstr ""
 msgid "Activate Your Account"
 msgstr ""
 
-#: bp-core/bp-core-cssjs.php:48
+#: bp-core/bp-core-cssjs.php:46
 msgid "Are you sure?"
 msgstr ""
 
@@ -1031,95 +1030,79 @@ msgstr ""
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:90
-msgid "Is this page associated with a BuddyPress component?"
-msgstr ""
-
-#: bp-core/bp-core-functions.php:178
-msgid "This page is associated with a BuddyPress component: <strong>%1$s</strong>."
-msgstr ""
-
-#: bp-core/bp-core-functions.php:180
-msgid "This page is not associated with a BuddyPress component."
-msgstr ""
-
-#: bp-core/bp-core-functions.php:183
-msgid "Visit the <a href=\"%1$s\">BuddyPress component setup panel</a> to change your BuddyPress component settings."
-msgstr ""
-
-#: bp-core/bp-core-functions.php:262 bp-settings/bp-settings-loader.php:13
+#: bp-core/bp-core-functions.php:153 bp-settings/bp-settings-loader.php:13
 #: bp-settings/bp-settings-loader.php:71 bp-groups/bp-groups-loader.php:161
 #: bp-members/bp-members-buddybar.php:197
 msgid "Settings"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:418
+#: bp-core/bp-core-functions.php:309
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:418
+#: bp-core/bp-core-functions.php:309
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:419
+#: bp-core/bp-core-functions.php:310
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:419
+#: bp-core/bp-core-functions.php:310
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:420
+#: bp-core/bp-core-functions.php:311
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:420
+#: bp-core/bp-core-functions.php:311
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:421
+#: bp-core/bp-core-functions.php:312
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:421
+#: bp-core/bp-core-functions.php:312
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:422
+#: bp-core/bp-core-functions.php:313
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:422
+#: bp-core/bp-core-functions.php:313
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:423
+#: bp-core/bp-core-functions.php:314
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:423
+#: bp-core/bp-core-functions.php:314
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:424
+#: bp-core/bp-core-functions.php:315
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:424 bp-core/bp-core-functions.php:465
-#: bp-core/bp-core-functions.php:482
+#: bp-core/bp-core-functions.php:315 bp-core/bp-core-functions.php:356
+#: bp-core/bp-core-functions.php:373
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:445
+#: bp-core/bp-core-functions.php:336
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:477
+#: bp-core/bp-core-functions.php:368
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:526
+#: bp-core/bp-core-functions.php:417
 msgid "not recently active"
 msgstr ""
 
