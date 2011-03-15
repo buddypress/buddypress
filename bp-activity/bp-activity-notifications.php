@@ -59,7 +59,7 @@ To view and respond to the message, log in and visit: %3$s
 			/* Send the message */
 			$to = apply_filters( 'bp_activity_at_message_notification_to', $to );
 			$subject = apply_filters( 'bp_activity_at_message_notification_subject', $subject, $poster_name );
-			$message = apply_filters( 'bp_activity_at_message_notification_message', $message, $poster_name, $content, $message_link );
+			$message = apply_filters( 'bp_activity_at_message_notification_message', $message, $poster_name, $content, $message_link, $settings_link );
 
 			wp_mail( $to, $subject, $message );
 		}
@@ -105,7 +105,7 @@ To view your original update and all comments, log in and visit: %3$s
 		/* Send the message */
 		$to = apply_filters( 'bp_activity_new_comment_notification_to', $to );
 		$subject = apply_filters( 'bp_activity_new_comment_notification_subject', $subject, $poster_name );
-		$message = apply_filters( 'bp_activity_new_comment_notification_message', $message, $poster_name, $content, $thread_link );
+		$message = apply_filters( 'bp_activity_new_comment_notification_message', $message, $poster_name, $content, $thread_link, $settings_link );
 
 		wp_mail( $to, $subject, $message );
 
@@ -150,7 +150,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 		/* Send the message */
 		$to = apply_filters( 'bp_activity_new_comment_notification_comment_author_to', $to );
 		$subject = apply_filters( 'bp_activity_new_comment_notification_comment_author_subject', $subject, $poster_name );
-		$message = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $message, $poster_name, $content );
+		$message = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $message, $poster_name, $content, $settings_link );
 
 		wp_mail( $to, $subject, $message );
 

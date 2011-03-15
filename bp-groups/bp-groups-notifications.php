@@ -32,7 +32,7 @@ To view the group: %2$s
 		/* Send the message */
 		$to      = apply_filters( 'groups_notification_group_updated_to', $to );
 		$subject = apply_filters_ref_array( 'groups_notification_group_updated_subject', array( $subject, &$group ) );
-		$message = apply_filters_ref_array( 'groups_notification_group_updated_message', array( $message, &$group, $group_link ) );
+		$message = apply_filters_ref_array( 'groups_notification_group_updated_message', array( $message, &$group, $group_link, $settings_link ) );
 
 		wp_mail( $to, $subject, $message );
 
@@ -83,7 +83,7 @@ To view %4$s\'s profile: %5$s
 	/* Send the message */
 	$to      = apply_filters( 'groups_notification_new_membership_request_to', $to );
 	$subject = apply_filters_ref_array( 'groups_notification_new_membership_request_subject', array( $subject, &$group ) );
-	$message = apply_filters_ref_array( 'groups_notification_new_membership_request_message', array( $message, &$group, $requesting_user_name, $profile_link, $group_requests ) );
+	$message = apply_filters_ref_array( 'groups_notification_new_membership_request_message', array( $message, &$group, $requesting_user_name, $profile_link, $group_requests, $settings_link ) );
 
 	wp_mail( $to, $subject, $message );
 
@@ -139,7 +139,7 @@ To submit another request please log in and visit: %2$s
 	/* Send the message */
 	$to      = apply_filters( 'groups_notification_membership_request_completed_to', $to );
 	$subject = apply_filters_ref_array( 'groups_notification_membership_request_completed_subject', array( $subject, &$group ) );
-	$message = apply_filters_ref_array( 'groups_notification_membership_request_completed_message', array( $message, &$group, $group_link ) );
+	$message = apply_filters_ref_array( 'groups_notification_membership_request_completed_message', array( $message, &$group, $group_link, $settings_link ) );
 
 	wp_mail( $to, $subject, $message );
 
@@ -187,7 +187,7 @@ To view the group please visit: %3$s
 	/* Send the message */
 	$to      = apply_filters( 'groups_notification_promoted_member_to', $to );
 	$subject = apply_filters_ref_array( 'groups_notification_promoted_member_subject', array( $subject, &$group ) );
-	$message = apply_filters_ref_array( 'groups_notification_promoted_member_message', array( $message, &$group, $promoted_to, $group_link ) );
+	$message = apply_filters_ref_array( 'groups_notification_promoted_member_message', array( $message, &$group, $promoted_to, $group_link, $settings_link ) );
 
 	wp_mail( $to, $subject, $message );
 
@@ -241,7 +241,7 @@ To view %5$s\'s profile visit: %6$s
 		/* Send the message */
 		$to      = apply_filters( 'groups_notification_group_invites_to', $to );
 		$subject = apply_filters_ref_array( 'groups_notification_group_invites_subject', array( $subject, &$group ) );
-		$message = apply_filters_ref_array( 'groups_notification_group_invites_message', array( $message, &$group, $inviter_name, $inviter_link, $invites_link, $group_link ) );
+		$message = apply_filters_ref_array( 'groups_notification_group_invites_message', array( $message, &$group, $inviter_name, $inviter_link, $invites_link, $group_link, $settings_link ) );
 
 		wp_mail( $to, $subject, $message );
 	}
@@ -301,7 +301,7 @@ To view and respond to the message, log in and visit: %4$s
 			/* Send the message */
 			$to = apply_filters( 'groups_at_message_notification_to', $to );
 			$subject = apply_filters( 'groups_at_message_notification_subject', $subject, $group, $poster_name );
-			$message = apply_filters( 'groups_at_message_notification_message', $message, $group, $poster_name, $content, $message_link );
+			$message = apply_filters( 'groups_at_message_notification_message', $message, $group, $poster_name, $content, $message_link, $settings_link );
 
 			wp_mail( $to, $subject, $message );
 		}

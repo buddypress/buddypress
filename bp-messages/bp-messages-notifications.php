@@ -44,7 +44,7 @@ To view and read your messages please log in and visit: %s
 		// Send the message
 		$email_to = apply_filters( 'messages_notification_new_message_to', $email_to );
 		$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject, $sender_name );
-		$email_content = apply_filters( 'messages_notification_new_message_message', $email_content, $sender_name, $subject, $content, $message_link );
+		$email_content = apply_filters( 'messages_notification_new_message_message', $email_content, $sender_name, $subject, $content, $message_link, $settings_link );
 
 		wp_mail( $email_to, $email_subject, $email_content );
 	}
