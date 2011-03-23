@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-03-13 14:30:30+00:00\n"
+"POT-Creation-Date: 2011-03-23 19:30:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4004,7 +4004,7 @@ msgstr ""
 #: bp-activity/feeds/bp-activity-friends-feed.php:48
 #: bp-activity/feeds/bp-activity-mentions-feed.php:47
 #: bp-activity/feeds/bp-activity-personal-feed.php:47
-#: bp-activity/feeds/bp-activity-favorites-feed.php:55
+#: bp-activity/feeds/bp-activity-favorites-feed.php:54
 msgid "In reply to"
 msgstr ""
 
@@ -4558,7 +4558,7 @@ msgstr ""
 #: bp-activity/feeds/bp-activity-friends-feed.php:44
 #: bp-activity/feeds/bp-activity-mentions-feed.php:43
 #: bp-activity/feeds/bp-activity-personal-feed.php:43
-#: bp-activity/feeds/bp-activity-favorites-feed.php:51
+#: bp-activity/feeds/bp-activity-favorites-feed.php:50
 #: bp-activity/feeds/bp-activity-group-feed.php:43
 #: bp-activity/feeds/bp-activity-sitewide-feed.php:44
 #: bp-activity/feeds/bp-activity-mygroups-feed.php:48
@@ -4574,8 +4574,8 @@ msgstr ""
 msgid "%s - Activity Feed"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-favorites-feed.php:22
-#: bp-activity/feeds/bp-activity-favorites-feed.php:25
+#: bp-activity/feeds/bp-activity-favorites-feed.php:21
+#: bp-activity/feeds/bp-activity-favorites-feed.php:24
 msgid "Favorite Activity"
 msgstr ""
 
