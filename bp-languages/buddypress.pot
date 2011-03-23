@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-03-23 19:30:32+00:00\n"
+"POT-Creation-Date: 2011-03-23 21:30:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -139,7 +139,7 @@ msgstr ""
 #: bp-core/admin/bp-core-admin.php:141 bp-core/admin/bp-core-admin.php:149
 #: bp-core/admin/bp-core-admin.php:157 bp-core/admin/bp-core-admin.php:167
 #: bp-core/admin/bp-core-admin.php:179 bp-friends/bp-friends-screens.php:70
-#: bp-groups/bp-groups-screens.php:795 bp-messages/bp-messages-screens.php:119
+#: bp-groups/bp-groups-screens.php:797 bp-messages/bp-messages-screens.php:119
 #: bp-themes/bp-default/registration/register.php:196
 #: bp-themes/bp-default/groups/single/admin.php:26
 #: bp-activity/bp-activity-screens.php:153
@@ -150,7 +150,7 @@ msgstr ""
 #: bp-core/admin/bp-core-admin.php:142 bp-core/admin/bp-core-admin.php:150
 #: bp-core/admin/bp-core-admin.php:158 bp-core/admin/bp-core-admin.php:168
 #: bp-core/admin/bp-core-admin.php:180 bp-friends/bp-friends-screens.php:71
-#: bp-groups/bp-groups-screens.php:796 bp-messages/bp-messages-screens.php:120
+#: bp-groups/bp-groups-screens.php:798 bp-messages/bp-messages-screens.php:120
 #: bp-themes/bp-default/registration/register.php:197
 #: bp-themes/bp-default/groups/single/admin.php:27
 #: bp-activity/bp-activity-screens.php:154
@@ -184,7 +184,7 @@ msgid "%s's Recent Comments"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:562 bp-core/bp-core-template.php:394
-#: bp-groups/bp-groups-template.php:2002 bp-forums/bp-forums-template.php:1105
+#: bp-groups/bp-groups-template.php:2002 bp-forums/bp-forums-template.php:1108
 #: bp-members/bp-members-template.php:589 bp-themes/bp-default/header.php:42
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
@@ -686,7 +686,7 @@ msgstr ""
 #: bp-groups/bp-groups-activity.php:129 bp-groups/bp-groups-activity.php:142
 #: bp-groups/bp-groups-loader.php:238 bp-groups/bp-groups-widgets.php:14
 #: bp-groups/bp-groups-widgets.php:35 bp-groups/bp-groups-widgets.php:102
-#: bp-groups/bp-groups-screens.php:794 bp-members/bp-members-buddybar.php:172
+#: bp-groups/bp-groups-screens.php:796 bp-members/bp-members-buddybar.php:172
 #: bp-activity/bp-activity-loader.php:142
 msgid "Groups"
 msgstr ""
@@ -1773,175 +1773,175 @@ msgstr ""
 msgid "There was an error deleting the topic"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:235
+#: bp-groups/bp-groups-screens.php:237
 msgid "There was an error when editing that topic"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:237
+#: bp-groups/bp-groups-screens.php:239
 msgid "The topic was edited successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:261
+#: bp-groups/bp-groups-screens.php:263
 msgid "There was an error deleting that post"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:263
+#: bp-groups/bp-groups-screens.php:265
 msgid "The post was deleted successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:283
+#: bp-groups/bp-groups-screens.php:285
 msgid "There was an error when editing that post"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:285
+#: bp-groups/bp-groups-screens.php:287
 msgid "The post was edited successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:300 bp-groups/bp-groups-screens.php:319
+#: bp-groups/bp-groups-screens.php:302 bp-groups/bp-groups-screens.php:321
 msgid "You have been banned from this group."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:327 bp-forums/bp-forums-screens.php:31
+#: bp-groups/bp-groups-screens.php:329 bp-forums/bp-forums-screens.php:31
 msgid "Please provide a title for your forum topic."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:329 bp-forums/bp-forums-screens.php:33
+#: bp-groups/bp-groups-screens.php:331 bp-forums/bp-forums-screens.php:33
 msgid "Forum posts cannot be empty. Please enter some text."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:332
+#: bp-groups/bp-groups-screens.php:334
 msgid "This group does not have a forum setup yet."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:339 bp-forums/bp-forums-screens.php:40
+#: bp-groups/bp-groups-screens.php:341 bp-forums/bp-forums-screens.php:40
 msgid "There was an error when creating the topic"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:342 bp-forums/bp-forums-screens.php:43
+#: bp-groups/bp-groups-screens.php:344 bp-forums/bp-forums-screens.php:43
 msgid "The topic was created successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:381
+#: bp-groups/bp-groups-screens.php:383
 msgid "Group invites sent."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:407
+#: bp-groups/bp-groups-screens.php:409
 msgid "There was an error sending your group membership request, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:409
+#: bp-groups/bp-groups-screens.php:411
 msgid "Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:458
+#: bp-groups/bp-groups-screens.php:460
 msgid "There was an error updating group details, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:460
+#: bp-groups/bp-groups-screens.php:462
 msgid "Group details were successfully updated."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:495
+#: bp-groups/bp-groups-screens.php:497
 msgid "There was an error updating group settings, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:497
+#: bp-groups/bp-groups-screens.php:499
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:527 bp-xprofile/bp-xprofile-actions.php:34
+#: bp-groups/bp-groups-screens.php:529 bp-xprofile/bp-xprofile-actions.php:34
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:529 bp-xprofile/bp-xprofile-actions.php:36
+#: bp-groups/bp-groups-screens.php:531 bp-xprofile/bp-xprofile-actions.php:36
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:557
+#: bp-groups/bp-groups-screens.php:559
 msgid "There was a problem cropping the avatar, please try uploading it again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:559
+#: bp-groups/bp-groups-screens.php:561
 msgid "The new group avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:589
+#: bp-groups/bp-groups-screens.php:591
 msgid "There was an error when promoting that user, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:591
+#: bp-groups/bp-groups-screens.php:593
 msgid "User promoted successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:609
+#: bp-groups/bp-groups-screens.php:611
 msgid "There was an error when demoting that user, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:611
+#: bp-groups/bp-groups-screens.php:613
 msgid "User demoted successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:627
+#: bp-groups/bp-groups-screens.php:629
 msgid "There was an error when banning that user, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:629
+#: bp-groups/bp-groups-screens.php:631
 msgid "User banned successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:645
+#: bp-groups/bp-groups-screens.php:647
 msgid "There was an error when unbanning that user, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:647
+#: bp-groups/bp-groups-screens.php:649
 msgid "User ban removed successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:663
+#: bp-groups/bp-groups-screens.php:665
 msgid "There was an error removing that user from the group, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:665
+#: bp-groups/bp-groups-screens.php:667
 msgid "User removed successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:707
+#: bp-groups/bp-groups-screens.php:709
 msgid "There was an error accepting the membership request, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:709
+#: bp-groups/bp-groups-screens.php:711
 msgid "Group membership request accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:719
+#: bp-groups/bp-groups-screens.php:721
 msgid "There was an error rejecting the membership request, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:721
+#: bp-groups/bp-groups-screens.php:723
 msgid "Group membership request rejected"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:755
+#: bp-groups/bp-groups-screens.php:757
 msgid "There was an error deleting the group, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:757
+#: bp-groups/bp-groups-screens.php:759
 msgid "The group was deleted successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:803
+#: bp-groups/bp-groups-screens.php:805
 msgid "A member invites you to join a group"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:809
+#: bp-groups/bp-groups-screens.php:811
 msgid "Group information is updated"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:815
+#: bp-groups/bp-groups-screens.php:817
 msgid "You are promoted to a group administrator or moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:821
+#: bp-groups/bp-groups-screens.php:823
 msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
@@ -2021,7 +2021,7 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:1566 bp-groups/bp-groups-template.php:1575
 #: bp-groups/bp-groups-template.php:1584 bp-groups/bp-groups-template.php:2246
 #: bp-forums/bp-forums-template.php:340 bp-forums/bp-forums-template.php:454
-#: bp-forums/bp-forums-template.php:979 bp-members/bp-members-template.php:451
+#: bp-forums/bp-forums-template.php:982 bp-members/bp-members-template.php:451
 #: bp-members/bp-members-template.php:696
 #: bp-members/bp-members-template.php:716
 #: bp-activity/bp-activity-template.php:540
@@ -2223,8 +2223,8 @@ msgstr ""
 #: bp-themes/bp-default/members/single/profile/edit.php:126
 #: bp-themes/bp-default/forums/single/edit.php:57
 #: bp-themes/bp-default/forums/single/edit.php:73
-#: bp-themes/bp-default/groups/single/forum/edit.php:57
-#: bp-themes/bp-default/groups/single/forum/edit.php:73
+#: bp-themes/bp-default/groups/single/forum/edit.php:60
+#: bp-themes/bp-default/groups/single/forum/edit.php:76
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:92
 msgid "Save Changes"
@@ -2504,12 +2504,12 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:430 bp-forums/bp-forums-template.php:1049
+#: bp-xprofile/bp-xprofile-admin.php:430 bp-forums/bp-forums-template.php:1052
 #: bp-themes/bp-default/functions.php:418
 msgid "Edit"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:431 bp-forums/bp-forums-template.php:1050
+#: bp-xprofile/bp-xprofile-admin.php:431 bp-forums/bp-forums-template.php:1053
 #: bp-themes/bp-default/_inc/ajax.php:218
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:13
@@ -2683,7 +2683,7 @@ msgid "My Forums"
 msgstr ""
 
 #: bp-forums/bp-forums-template.php:358 bp-forums/bp-forums-template.php:417
-#: bp-forums/bp-forums-template.php:995
+#: bp-forums/bp-forums-template.php:998
 msgid "Deleted User"
 msgstr ""
 
@@ -2723,7 +2723,7 @@ msgstr ""
 msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:1082
+#: bp-forums/bp-forums-template.php:1085
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
 msgstr ""
 
@@ -4065,6 +4065,7 @@ msgid "Content:"
 msgstr ""
 
 #: bp-themes/bp-default/forums/index.php:109
+#: bp-themes/bp-default/groups/single/forum/edit.php:55
 #: bp-themes/bp-default/groups/single/forum.php:78
 msgid "Tags (comma separated):"
 msgstr ""
@@ -4121,7 +4122,7 @@ msgid "Edit:"
 msgstr ""
 
 #: bp-themes/bp-default/forums/single/edit.php:88
-#: bp-themes/bp-default/groups/single/forum/edit.php:88
+#: bp-themes/bp-default/groups/single/forum/edit.php:91
 msgid "This topic does not exist."
 msgstr ""
 
@@ -4131,32 +4132,32 @@ msgid "New Reply"
 msgstr ""
 
 #: bp-themes/bp-default/forums/single/topic.php:97
-#: bp-themes/bp-default/groups/single/forum/topic.php:67
+#: bp-themes/bp-default/groups/single/forum/topic.php:77
 msgid "%s said %s ago:"
 msgstr ""
 
 #: bp-themes/bp-default/forums/single/topic.php:117
-#: bp-themes/bp-default/groups/single/forum/topic.php:81
+#: bp-themes/bp-default/groups/single/forum/topic.php:91
 msgid "Permanent link to this post"
 msgstr ""
 
 #: bp-themes/bp-default/forums/single/topic.php:153
-#: bp-themes/bp-default/groups/single/forum/topic.php:117
+#: bp-themes/bp-default/groups/single/forum/topic.php:127
 msgid "Add a reply:"
 msgstr ""
 
 #: bp-themes/bp-default/forums/single/topic.php:158
-#: bp-themes/bp-default/groups/single/forum/topic.php:122
+#: bp-themes/bp-default/groups/single/forum/topic.php:132
 msgid "Post Reply"
 msgstr ""
 
 #: bp-themes/bp-default/forums/single/topic.php:169
-#: bp-themes/bp-default/groups/single/forum/topic.php:133
+#: bp-themes/bp-default/groups/single/forum/topic.php:143
 msgid "This topic is closed, replies are no longer accepted."
 msgstr ""
 
 #: bp-themes/bp-default/forums/single/topic.php:184
-#: bp-themes/bp-default/groups/single/forum/topic.php:147
+#: bp-themes/bp-default/groups/single/forum/topic.php:157
 msgid "There are no posts for this topic."
 msgstr ""
 
@@ -4173,7 +4174,11 @@ msgstr ""
 msgid "This group has no members."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum/topic.php:112
+#: bp-themes/bp-default/groups/single/forum/topic.php:31
+msgid "Topic tags:"
+msgstr ""
+
+#: bp-themes/bp-default/groups/single/forum/topic.php:122
 msgid "You will auto join this group when you reply to this topic."
 msgstr ""
 
