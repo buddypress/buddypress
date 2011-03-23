@@ -23,6 +23,16 @@
 
 		<div id="topic-meta">
 			<h3><?php bp_the_topic_title() ?> (<?php bp_the_topic_total_post_count() ?>)</h3>
+			
+			<?php if ( bp_forum_topic_has_tags() ) : ?>
+				
+				<div class="topic-tags">
+				
+					<?php _e( 'Topic tags:', 'buddypress' ) ?> <?php bp_forum_topic_tag_list() ?>
+				
+				</div>
+				
+			<?php endif; ?>
 
 			<?php if ( bp_group_is_admin() || bp_group_is_mod() || bp_get_the_topic_is_mine() ) : ?>
 

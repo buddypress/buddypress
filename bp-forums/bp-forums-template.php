@@ -821,6 +821,9 @@ class BP_Forums_Template_Topic {
 				$this->post_count = count( $this->posts );
 			}
 		}
+		
+		// Load topic tags
+		$this->topic_tags = bb_get_topic_tags( $this->topic_id );
 
 		if ( (int)$this->total_post_count && (int)$this->pag_num ) {
 			$this->pag_links = paginate_links( array(
@@ -913,7 +916,7 @@ function bp_has_forum_topic_posts( $args = '' ) {
 		if ( bp_is_current_component( 'groups' ) && $topic_template->forum_id != groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) )
 			return false;
 	}
-
+	
 	return apply_filters( 'bp_has_topic_posts', $topic_template->has_posts(), $topic_template );
 }
 
@@ -1192,15 +1195,16 @@ function bp_forum_topic_tag_list() {
 	 * @return mixed $tags
 	 */
 	function bp_get_forum_topic_tag_list( $format = 'string' ) {
-		do_action( 'bbpress_init' );
+		global $topic_template;
 		
-		// Pull up the tag objects
-		$tags_data = bb_get_topic_tags( bp_get_the_topic_id() );
+		$tags_data = !empty( $topic_template->topic_tags ) ? $topic_template->topic_tags : false;
 		
-		// Convert them to a comma-separated string
 		$tags = array();
-		foreach( $tags_data as $tag_data ) {
-			$tags[] = $tag_data->name;
+		
+		if ( $tags_data ) {
+			foreach( $tags_data as $tag_data ) {
+				$tags[] = $tag_data->name;
+			}
 		}
 		
 		if ( 'string' == $format )
@@ -1208,6 +1212,25 @@ function bp_forum_topic_tag_list() {
 			
 		return apply_filters( 'bp_forum_topic_tag_list', $tags, $format );
 	}
+
+/**
+ * Returns true if the current topic has tags
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return bool
+ */
+function bp_forum_topic_has_tags() {
+	global $topic_template;
+	
+	$has_tags = false;
+	
+	if ( !empty( $topic_template->topic_tags ) )
+		$has_tags = true;
+	
+	return apply_filters( 'bp_forum_topic_has_tags', $has_tags );
+}
 
 function bp_forum_action() {
 	echo bp_get_forum_action();
