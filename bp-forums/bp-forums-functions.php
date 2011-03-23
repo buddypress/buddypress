@@ -192,6 +192,9 @@ function bp_forums_update_topic( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
+	// bb_insert_topic() will append tags, but not remove them. So we remove all existing tags.
+	bb_remove_topic_tags( $topic_id );
+
 	if ( !$topic_id = bb_insert_topic( array( 'topic_id' => $topic_id, 'topic_title' => stripslashes( $topic_title ), 'tags' => $topic_tags ) ) )
 		return false;
 
