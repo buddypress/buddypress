@@ -185,13 +185,14 @@ function bp_forums_update_topic( $args = '' ) {
 	$defaults = array(
 		'topic_id'    => false,
 		'topic_title' => '',
-		'topic_text'  => ''
+		'topic_text'  => '',
+		'topic_tags'  => false
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !$topic_id = bb_insert_topic( array( 'topic_id' => $topic_id, 'topic_title' => stripslashes( $topic_title ) ) ) )
+	if ( !$topic_id = bb_insert_topic( array( 'topic_id' => $topic_id, 'topic_title' => stripslashes( $topic_title ), 'tags' => $topic_tags ) ) )
 		return false;
 
 	if ( !$post = bb_get_first_post( $topic_id ) )

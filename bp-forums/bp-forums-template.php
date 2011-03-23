@@ -1173,6 +1173,42 @@ function bp_forums_tag_heat_map( $args = '' ) {
 	bb_tag_heat_map( $smallest, $largest, $sizing, $limit );
 }
 
+/**
+ * Echo the current topic's tag list, comma-separated
+ *
+ * @package BuddyPress
+ * @since 1.3
+ */
+function bp_forum_topic_tag_list() {
+	echo bp_get_forum_topic_tag_list();
+}
+	/**
+	 * Get the current topic's tag list
+	 *
+	 * @package BuddyPress
+	 * @since 1.3
+	 *
+	 * @param str $format 'string' returns comma-separated string; otherwise returns array
+	 * @return mixed $tags
+	 */
+	function bp_get_forum_topic_tag_list( $format = 'string' ) {
+		do_action( 'bbpress_init' );
+		
+		// Pull up the tag objects
+		$tags_data = bb_get_topic_tags( bp_get_the_topic_id() );
+		
+		// Convert them to a comma-separated string
+		$tags = array();
+		foreach( $tags_data as $tag_data ) {
+			$tags[] = $tag_data->name;
+		}
+		
+		if ( 'string' == $format )
+			$tags = implode( ', ', $tags );
+			
+		return apply_filters( 'bp_forum_topic_tag_list', $tags, $format );
+	}
+
 function bp_forum_action() {
 	echo bp_get_forum_action();
 }

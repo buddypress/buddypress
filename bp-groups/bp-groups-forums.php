@@ -111,13 +111,13 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	return false;
 }
 
-function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text ) {
+function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, $topic_tags = false ) {
 	global $bp;
 
 	$topic_title = apply_filters( 'group_forum_topic_title_before_save', $topic_title );
 	$topic_text  = apply_filters( 'group_forum_topic_text_before_save',  $topic_text  );
 
-	if ( $topic = bp_forums_update_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_id' => $topic_id ) ) ) {
+	if ( $topic = bp_forums_update_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_id' => $topic_id, 'topic_tags' => $topic_tags ) ) ) {
 		// Update the activity stream item
 		if ( bp_is_active( 'activity' ) )
 			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );

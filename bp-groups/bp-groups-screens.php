@@ -231,7 +231,9 @@ function groups_screen_group_forum() {
 					// Check the nonce
 					check_admin_referer( 'bp_forums_edit_topic' );
 
-					if ( !groups_update_group_forum_topic( $topic_id, $_POST['topic_title'], $_POST['topic_text'] ) )
+					$topic_tags = !empty( $_POST['topic_tags'] ) ? $_POST['topic_tags'] : false;
+
+					if ( !groups_update_group_forum_topic( $topic_id, $_POST['topic_title'], $_POST['topic_text'], $topic_tags ) )
 						bp_core_add_message( __( 'There was an error when editing that topic', 'buddypress'), 'error' );
 					else
 						bp_core_add_message( __( 'The topic was edited successfully', 'buddypress') );
