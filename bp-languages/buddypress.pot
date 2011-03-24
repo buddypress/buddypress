@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-03-24 06:30:30+00:00\n"
+"POT-Creation-Date: 2011-03-24 07:30:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1390,7 +1390,7 @@ msgstr ""
 
 #: bp-settings/bp-settings-loader.php:163
 #: bp-messages/bp-messages-loader.php:134
-#: bp-messages/bp-messages-loader.php:207
+#: bp-messages/bp-messages-loader.php:210
 msgid "Compose"
 msgstr ""
 
@@ -2808,7 +2808,7 @@ msgstr ""
 msgid "Search Messages..."
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:93 bp-messages/bp-messages-loader.php:175
+#: bp-messages/bp-messages-loader.php:93 bp-messages/bp-messages-loader.php:178
 msgid "Messages <strong>(%s)</strong>"
 msgstr ""
 
@@ -2817,7 +2817,7 @@ msgid "Messages <strong></strong>"
 msgstr ""
 
 #: bp-messages/bp-messages-loader.php:114
-#: bp-messages/bp-messages-loader.php:179
+#: bp-messages/bp-messages-loader.php:182
 #: bp-messages/bp-messages-functions.php:205
 #: bp-messages/bp-messages-functions.php:207
 msgid "Inbox"
@@ -2831,25 +2831,25 @@ msgstr ""
 msgid "Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:176
+#: bp-messages/bp-messages-loader.php:179
 msgid "Inbox <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:178
+#: bp-messages/bp-messages-loader.php:181
 #: bp-messages/bp-messages-screens.php:118
 #: bp-members/bp-members-buddybar.php:147
 msgid "Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:200
+#: bp-messages/bp-messages-loader.php:203
 msgid "Sent"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:215
+#: bp-messages/bp-messages-loader.php:218
 msgid "All Member Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:234
+#: bp-messages/bp-messages-loader.php:237
 msgid "My Messages"
 msgstr ""
 
