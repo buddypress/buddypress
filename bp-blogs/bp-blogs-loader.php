@@ -121,6 +121,9 @@ class BP_Blogs_Component extends BP_Component {
 	function _setup_admin_bar() {
 		global $bp;
 
+		// Prevent debug notices
+		$wp_admin_nav = array();
+
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
 

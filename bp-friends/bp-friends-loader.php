@@ -133,7 +133,10 @@ class BP_Friends_Component extends BP_Component {
 	function _setup_admin_bar() {
 		global $bp;
 
-		// "My Account" menu
+		// Prevent debug notices
+		$wp_admin_nav = array();
+
+		// Menus for logged in user
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
