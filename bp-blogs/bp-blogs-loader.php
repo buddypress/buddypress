@@ -112,7 +112,40 @@ class BP_Blogs_Component extends BP_Component {
 		// Setup navigation
 		parent::_setup_nav( $main_nav );
 	}
-	
+
+	/**
+	 * Set up the admin bar
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_admin_bar() {
+		global $bp;
+
+		// Menus for logged in user
+		if ( is_user_logged_in() ) {
+
+			$blogs_link = trailingslashit( $bp->loggedin_user->domain . $this->slug );
+
+			// Add the "Blogs" sub menu
+			$wp_admin_nav[] = array(
+				'parent' => $bp->my_account_menu_id,
+				'id'     => 'my-account-' . $this->id,
+				'title'  => __( 'Blogs', 'buddypress' ),
+				'href'   => trailingslashit( $blogs_link )
+			);
+
+			// My Blogs
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'My Blogs', 'buddypress' ),
+				'href'   => trailingslashit( $blogs_link . 'my-blogs' )
+			);
+
+		}
+
+		parent::_setup_admin_bar( $wp_admin_nav );
+	}
+
 	/**
 	 * Sets up the title for pages and <title>
 	 *

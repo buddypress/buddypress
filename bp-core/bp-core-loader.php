@@ -115,6 +115,11 @@ class BP_Core extends BP_Component {
 		if ( empty( $bp->pages ) )
 			$bp->pages = bp_core_get_page_names();
 
+		/** Admin Bar *********************************************************/
+
+		// Set the 'My Account' global to prevent debug notices
+		$bp->my_account_menu_id = false;
+
 		/** Component and Action **********************************************/
 
 		// Used for overriding the 2nd level navigation menu so it can be used to

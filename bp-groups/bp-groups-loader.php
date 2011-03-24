@@ -337,6 +337,58 @@ class BP_Groups_Component extends BP_Component {
 	}
 
 	/**
+	 * Set up the admin bar
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_admin_bar() {
+		global $bp;
+
+		// Menus for logged in user
+		if ( is_user_logged_in() ) {
+
+			// Setup the logged in user variables
+			$user_domain = $bp->loggedin_user->domain;
+			$groups_link = trailingslashit( $user_domain . $this->slug );
+
+			// Pending group invites
+			$count = groups_get_invites_for_user( $bp->loggedin_user->id );
+
+			if ( !empty( $count->total ) ) {
+				$title   = sprintf( __( 'Groups <strong>(%s)</strong>',          'buddypress' ), $count->total );
+				$pending = sprintf( __( 'Pending Invites <strong>(%s)</strong>', 'buddypress' ), $count->total );
+			} else {
+				$title   = __( 'Groups',             'buddypress' );
+				$pending = __( 'No Pending Invites', 'buddypress' );
+			}
+
+			// Add the "My Account" sub menus
+			$wp_admin_nav[] = array(
+				'parent' => $bp->my_account_menu_id,
+				'id'     => 'my-account-' . $this->id,
+				'title'  => $title,
+				'href'   => trailingslashit( $groups_link )
+			);
+
+			// My Groups
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'My Groups', 'buddypress' ),
+				'href'   => trailingslashit( $groups_link )
+			);
+
+			// Invitations
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => $pending,
+				'href'   => trailingslashit( $groups_link . 'invites' )
+			);
+		}
+
+		parent::_setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
 	 * Sets up the title for pages and <title>
 	 *
 	 * @global obj $bp

@@ -151,6 +151,54 @@ class BP_XProfile_Component extends BP_Component {
 	}
 
 	/**
+	 * Set up the admin bar
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_admin_bar() {
+		global $bp;
+
+		// Menus for logged in user
+		if ( is_user_logged_in() ) {
+
+			// Profile link
+			$profile_link = trailingslashit( $bp->loggedin_user->domain . $this->slug );
+
+			// Add the "Profile" sub menu
+			$wp_admin_nav[] = array(
+				'parent' => $bp->my_account_menu_id,
+				'id'     => 'my-account-' . $this->id,
+				'title'  => __( 'Profile', 'buddypress' ),
+				'href'   => trailingslashit( $profile_link )
+			);
+
+			// View Profile
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'View My Profile', 'buddypress' ),
+				'href'   => trailingslashit( $profile_link . 'public' )
+			);
+
+			// Edit Profile
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'Edit My Profile', 'buddypress' ),
+				'href'   => trailingslashit( $profile_link . 'edit' )
+			);
+
+			// Edit Profile
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'Change My Avatar', 'buddypress' ),
+				'href'   => trailingslashit( $profile_link . 'change-avatar' )
+			);
+
+		}
+
+		parent::_setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
 	 * Sets up the title for pages and <title>
 	 *
 	 * @global obj $bp

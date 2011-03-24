@@ -126,6 +126,56 @@ class BP_Friends_Component extends BP_Component {
 	}
 
 	/**
+	 * Set up the admin bar
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_admin_bar() {
+		global $bp;
+
+		// "My Account" menu
+		if ( is_user_logged_in() ) {
+
+			// Setup the logged in user variables
+			$user_domain  = $bp->loggedin_user->domain;
+			$friends_link = trailingslashit( $user_domain . $this->slug );
+
+			// Pending friend requests
+			if ( $count = count( friends_get_friendship_request_user_ids( $bp->loggedin_user->id ) ) ) {
+				$title   = sprintf( __( 'Friends <strong>(%s)</strong>',          'buddypress' ), $count );
+				$pending = sprintf( __( 'Pending Requests <strong>(%s)</strong>', 'buddypress' ), $count );
+			} else {
+				$title   = __( 'Friends',             'buddypress' );
+				$pending = __( 'No Pending Requests', 'buddypress' );
+			}
+
+			// Add the "My Account" sub menus
+			$wp_admin_nav[] = array(
+				'parent' => $bp->my_account_menu_id,
+				'id'     => 'my-account-' . $this->id,
+				'title'  => $title,
+				'href'   => trailingslashit( $friends_link )
+			);
+
+			// My Groups
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'My Friends', 'buddypress' ),
+				'href'   => trailingslashit( $friends_link )
+			);
+
+			// Requests
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => $pending,
+				'href'   => trailingslashit( $friends_link . 'requests' )
+			);
+		}
+
+		parent::_setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
 	 * Sets up the title for pages and <title>
 	 *
 	 * @global obj $bp

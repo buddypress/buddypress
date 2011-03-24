@@ -130,7 +130,7 @@ class BP_Forums_Component extends BP_Component {
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_member_forums_screen_topics',
 			'position'        => 20,
-			'item_css_id'     => 'forums-friends'
+			'item_css_id'     => 'topics'
 		);
 
 		// Additional menu if friends is active
@@ -141,7 +141,7 @@ class BP_Forums_Component extends BP_Component {
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_member_forums_screen_replies',
 			'position'        => 40,
-			'item_css_id'     => 'forums-friends'
+			'item_css_id'     => 'replies'
 		);
 
 		// Favorite forums items
@@ -152,10 +152,59 @@ class BP_Forums_Component extends BP_Component {
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_member_forums_screen_favorites',
 			'position'        => 60,
-			'item_css_id'     => 'forums-favs'
+			'item_css_id'     => 'favorites'
 		);
 
 		parent::_setup_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Set up the admin bar
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_admin_bar() {
+		global $bp;
+
+		// "My Account" menu
+		if ( is_user_logged_in() ) {
+
+			// Setup the logged in user variables
+			$user_domain = $bp->loggedin_user->domain;
+			$user_login  = $bp->loggedin_user->userdata->user_login;
+			$forums_link = trailingslashit( $user_domain . $this->slug );
+
+			// Add the "My Account" sub menus
+			$wp_admin_nav[] = array(
+				'parent' => $bp->my_account_menu_id,
+				'id'     => 'my-account-' . $this->id,
+				'title'  => __( 'Forums', 'buddypress' ),
+				'href'   => trailingslashit( $forums_link )
+			);
+
+			// Topics
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'My Topics', 'buddypress' ),
+				'href'   => trailingslashit( $forums_link . 'topics' )
+			);
+
+			// Replies
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'My Replies', 'buddypress' ),
+				'href'   => trailingslashit( $forums_link . 'replies' )
+			);
+
+			// Favorites
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'My Favorites', 'buddypress' ),
+				'href'   => trailingslashit( $forums_link . 'favorites' )
+			);
+		}
+
+		parent::_setup_admin_bar( $wp_admin_nav );
 	}
 
 	/**

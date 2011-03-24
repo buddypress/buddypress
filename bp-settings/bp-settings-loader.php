@@ -115,6 +115,56 @@ class BP_Settings_Component extends BP_Component {
 
 		parent::_setup_nav( $main_nav, $sub_nav );
 	}
+
+	/**
+	 * Set up the admin bar
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_admin_bar() {
+		global $bp;
+
+		// "My Account" menu
+		if ( is_user_logged_in() ) {
+
+			// Setup the logged in user variables
+			$user_domain   = $bp->loggedin_user->domain;
+			$settings_link = trailingslashit( $user_domain . $this->slug );
+
+			// Add main Settings menu
+			$wp_admin_nav[] = array(
+				'parent' => $bp->my_account_menu_id,
+				'id'     => 'my-account-' . $this->id,
+				'title'  => __( 'Settings', 'buddypress' ),
+				'href'   => trailingslashit( $settings_link )
+			);
+
+			// General Account
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'General', 'buddypress' ),
+				'href'   => trailingslashit( $settings_link . 'general' )
+			);
+
+			// Notifications
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'Notifications', 'buddypress' ),
+				'href'   => trailingslashit( $settings_link . 'notifications' )
+			);
+
+			// Delete Account
+			if ( !is_super_admin() && empty( $bp->site_options['bp-disable-account-deletion'] ) ) {
+				$wp_admin_nav[] = array(
+					'parent' => 'my-account-' . $this->id,
+					'title'  => __( 'Compose', 'buddypress' ),
+					'href'   => trailingslashit( $settings_link . 'delete-account' )
+				);
+			}
+		}
+
+		parent::_setup_admin_bar( $wp_admin_nav );
+	}
 }
 // Create the settingss component
 $bp->settings = new BP_Settings_Component();

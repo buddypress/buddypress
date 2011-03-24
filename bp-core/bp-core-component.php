@@ -53,6 +53,11 @@ class BP_Component {
 	var $notification_callback;
 
 	/**
+	 * @var array WordPress admin bar links
+	 */
+	var $admin_menu;
+
+	/**
 	 * Component loader
 	 *
 	 * @since BuddyPress {unknown}
@@ -188,6 +193,9 @@ class BP_Component {
 		add_action( 'bp_setup_nav',                array ( $this, '_setup_nav'               ), 10 );
 
 		// Register post types
+		add_action( 'bp_setup_admin_bar',          array ( $this, '_setup_admin_bar'         ), 10 );
+
+		// Register post types
 		add_action( 'bp_setup_title',              array ( $this, '_setup_title'             ), 10 );
 
 		// Register post types
@@ -213,6 +221,7 @@ class BP_Component {
 	 * @param arr $sub_nav Optional
 	 */
 	function _setup_nav( $main_nav = '', $sub_nav = '' ) {
+
 		// No sub nav items without a main nav item
 		if ( !empty( $main_nav ) ) {
 			bp_core_new_nav_item( $main_nav );
@@ -227,6 +236,36 @@ class BP_Component {
 
 		// Call action
 		do_action( 'bp_' . $this->id . '_setup_nav' );
+	}
+
+	/**
+	 * Setup the admin bar
+	 *
+	 * @global obj $wp_admin_bar
+	 * @param array $wp_admin_menus
+	 */
+	function _setup_admin_bar( $wp_admin_nav = '' ) {
+
+		// Do not proceed if constant is not set
+		if ( !defined( 'BP_USE_WP_ADMIN_BAR' ) )
+			return;
+
+		// Do we have admin bar menus to add?
+		if ( !empty( $wp_admin_nav ) ) {
+
+			// Set this objects menus
+			$this->admin_menu = $wp_admin_nav;
+
+			// Define the WordPress global
+			global $wp_admin_bar;
+
+			// Add each admin menu
+			foreach( $this->admin_menu as $admin_menu )
+				$wp_admin_bar->add_menu( $admin_menu );
+		}
+
+		// Call action
+		do_action( 'bp_' . $this->id . '_setup_admin_bar' );
 	}
 
 	/**

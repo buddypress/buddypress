@@ -37,6 +37,7 @@ class BP_Members_Component extends BP_Component {
 			'screens',
 			'template',
 			'buddybar',
+			'adminbar',
 			'functions',
 			'notifications',
 		);

@@ -152,6 +152,83 @@ class BP_Messages_Component extends BP_Component {
 			);
 		}
 
+		parent::_setup_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Set up the admin bar
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_admin_bar() {
+		global $bp;
+
+		// "My Account" menu
+		if ( is_user_logged_in() ) {
+
+			// Setup the logged in user variables
+			$user_domain   = $bp->loggedin_user->domain;
+			$messages_link = trailingslashit( $user_domain . $this->slug );
+
+			// Unread message count
+			if ( $count = messages_get_unread_count() ) {
+				$title = sprintf( __( 'Messages <strong>(%s)</strong>', 'buddypress' ), $count );
+				$inbox = sprintf( __( 'Inbox <strong>(%s)</strong>',    'buddypress' ), $count );
+			} else {
+				$title = __( 'Messages', 'buddypress' );
+				$inbox = __( 'Inbox',    'buddypress' );
+			}
+
+			// Add main Messages menu
+			$wp_admin_nav[] = array(
+				'parent' => $bp->my_account_menu_id,
+				'id'     => 'my-account-' . $this->id,
+				'title'  => $title,
+				'href'   => trailingslashit( $messages_link )
+			);
+
+			// Inbox
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => $inbox,
+				'href'   => trailingslashit( $messages_link . 'inbox' )
+			);
+
+			// Sent Messages
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'Sent', 'buddypress' ),
+				'href'   => trailingslashit( $messages_link . 'sent' )
+			);
+
+			// Compose Message
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'title'  => __( 'Compose', 'buddypress' ),
+				'href'   => trailingslashit( $messages_link . 'compose' )
+			);
+
+			// Site Wide Notices
+			if ( is_super_admin() ) {
+				$wp_admin_nav[] = array(
+					'parent' => 'my-account-' . $this->id,
+					'title'  => __( 'All Member Notices', 'buddypress' ),
+					'href'   => trailingslashit( $messages_link . 'notices' )
+				);
+			}
+		}
+
+		parent::_setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
+	 * Sets up the title for pages and <title>
+	 *
+	 * @global obj $bp
+	 */
+	function _setup_title() {
+		global $bp;
+
 		if ( bp_is_messages_component() ) {
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = __( 'My Messages', 'buddypress' );
@@ -164,7 +241,7 @@ class BP_Messages_Component extends BP_Component {
 			}
 		}
 
-		parent::_setup_nav( $main_nav, $sub_nav );
+		parent::_setup_title();
 	}
 }
 // Create the messages component
