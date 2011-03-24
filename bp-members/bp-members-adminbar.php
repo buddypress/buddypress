@@ -17,6 +17,13 @@
 function bp_members_admin_bar_my_account_menu() {
 	global $bp, $wp_admin_bar;
 
+	// Create the root blog menu
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'bp-root-blog',
+		'title' => get_blog_option( BP_ROOT_BLOG, 'blogname' ),
+		'href'  => bp_get_root_domain()
+	) );
+
 	// Logged in user
 	if ( is_user_logged_in() ) {
 
@@ -37,6 +44,27 @@ function bp_members_admin_bar_my_account_menu() {
 			'title' => $avatar . bp_get_user_firstname(),
 			'href'  => bp_core_get_user_domain( $bp->loggedin_user->id )
 		) );
+
+	// Show login and sign-up links
+	} elseif ( !empty( $wp_admin_bar ) ) {
+
+		add_filter ( 'show_admin_bar', '__return_true' );
+
+		// Create the main 'My Account' menu
+		$wp_admin_bar->add_menu( array(
+			'id'    => 'bp-login',
+			'title' => __( 'Log in', 'buddypress' ),
+			'href'  => wp_login_url()
+		) );
+
+		// Sign up
+		if ( bp_get_signup_allowed() ) {
+			$wp_admin_bar->add_menu( array(
+				'id'    => 'bp-register',
+				'title' => __( 'Register', 'buddypress' ),
+				'href'  => bp_get_signup_page()
+			) );
+		}
 	}
 }
 if ( defined( 'BP_USE_WP_ADMIN_BAR' ) )
