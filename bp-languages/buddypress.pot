@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-03-24 07:30:34+00:00\n"
+"POT-Creation-Date: 2011-03-29 05:30:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -701,7 +701,7 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:467 bp-members/bp-members-adminbar.php:64
+#: bp-core/admin/bp-core-update.php:467 bp-members/bp-members-adminbar.php:68
 msgid "Register"
 msgstr ""
 
@@ -961,7 +961,7 @@ msgid "Search anything..."
 msgstr ""
 
 #: bp-core/bp-core-template.php:405 bp-core/bp-core-template.php:407
-#: bp-core/bp-core-buddybar.php:413 bp-members/bp-members-adminbar.php:88
+#: bp-core/bp-core-buddybar.php:413 bp-members/bp-members-adminbar.php:96
 #: bp-members/bp-members-template.php:650 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
@@ -3030,7 +3030,7 @@ msgstr ""
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:56
+#: bp-members/bp-members-adminbar.php:60
 msgid "Log in"
 msgstr ""
 
