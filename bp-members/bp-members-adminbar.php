@@ -17,6 +17,10 @@
 function bp_members_admin_bar_my_account_menu() {
 	global $bp, $wp_admin_bar;
 
+	// Bail if this is an ajax request
+	if ( defined( 'DOING_AJAX' ) )
+		return;
+
 	// Create the root blog menu
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'bp-root-blog',
@@ -80,6 +84,10 @@ if ( defined( 'BP_USE_WP_ADMIN_BAR' ) )
  */
 function bp_members_admin_bar_my_account_logout() {
 	global $bp, $wp_admin_bar;
+
+	// Bail if this is an ajax request
+	if ( defined( 'DOING_AJAX' ) )
+		return;
 
 	if ( is_user_logged_in() ) {
 		// Log out

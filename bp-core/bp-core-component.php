@@ -246,6 +246,10 @@ class BP_Component {
 	 */
 	function _setup_admin_bar( $wp_admin_nav = '' ) {
 
+		// Bail if this is an ajax request
+		if ( defined( 'DOING_AJAX' ) )
+			return;
+
 		// Do not proceed if constant is not set
 		if ( !defined( 'BP_USE_WP_ADMIN_BAR' ) )
 			return;
