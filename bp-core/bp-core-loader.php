@@ -88,7 +88,7 @@ class BP_Core extends BP_Component {
 		// Loop through required components
 		foreach( $bp->required_components as $component )
 			if ( file_exists( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) )
-				include( BP_PLUGIN_DIR . '/bp-members/bp-members-loader.php' );
+				include( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' );
 
 		// Add Core to required components
 		$bp->required_components[] = 'core';
