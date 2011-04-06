@@ -53,6 +53,8 @@ function messages_new_message( $args = '' ) {
 		if ( empty( $message->subject ) )
 			$message->subject = __( 'No Subject', 'buddypress' );
 
+		$recipient_ids = array();
+
 		// Loop the recipients and convert all usernames to user_ids where needed
 		foreach( (array) $recipients as $recipient ) {
 			if ( is_numeric( trim( $recipient ) ) )
