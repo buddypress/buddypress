@@ -11,6 +11,7 @@ Class BP_Groups_Group {
 	var $date_created;
 
 	var $admins;
+	var $mods;
 	var $total_member_count;
 
 	function bp_groups_group( $id = null ) {
