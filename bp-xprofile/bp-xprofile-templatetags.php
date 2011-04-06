@@ -521,7 +521,7 @@ function bp_the_profile_field_options( $args = '' ) {
 						break;
 				}
 
-				apply_filters( 'bp_get_the_profile_field_datebox', $html, $day, $month, $year, $default_select );
+				$html = apply_filters( 'bp_get_the_profile_field_datebox', $html, $day, $month, $year, $default_select );
 
 				break;
 		}
