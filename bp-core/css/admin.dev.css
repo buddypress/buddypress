@@ -3,45 +3,14 @@ div#icon-buddypress {
 }
 
 div#bp-admin {
-	margin: 25px 15px 25px 0;
-	padding: 0 20px 20px 20px;
 	color: #555;
-	overflow: hidden;
 	min-width: 680px;
-}
+	}
 	div#bp-admin p { line-height: 170%; }
 
-div#bp-admin div#bp-admin-header {
-	
+form#bp-admin-form {
+	margin: 0 10px;
 }
-
-div#bp-admin h3, div#bp-admin h4 {
-	margin: 0;
-}
-	div#bp-admin h2 {
-		color: #555;
-		position: relative;
-		top: -6px;
-	}
-
-	div#bp-admin h3 {
-		text-indent: -999em;
-		overflow: hidden;
-		width: 212px;
-		height: 48px;
-		background: url( ../images/logo.png ) top left no-repeat;
-		padding-right: 10px;
-		float: left;
-		border-right: 1px solid #dfdfdf;
-		margin-right: 10px;
-	}
-
-	div#bp-admin h4 {
-		padding-left: 20px;
-		font-size: 28px;
-		float: left;
-		margin: 17px 0 0 0;
-	}
 
 div#bp-admin-nav {
 	background: #e0e0e0;
