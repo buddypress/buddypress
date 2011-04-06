@@ -236,7 +236,7 @@ function bp_members_illegal_names( $value = '', $oldvalue = '' ) {
 	if ( is_array( $value ) )
 		$db_illegal_names = $value;
 	elseif ( is_string( $value ) )
-		$db_illegal_names = implode( ' ', $names );
+		$db_illegal_names = explode( ' ', $value );
 
 	// Add the core components' slugs to the banned list even if their components aren't active.
 	$bp_component_slugs = array(
