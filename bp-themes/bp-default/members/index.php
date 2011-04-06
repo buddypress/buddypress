@@ -11,7 +11,7 @@
 
 <?php get_header(); ?>
 
-	<?php do_action( 'bp_before_directory_groups_content' ); ?>
+	<?php do_action( 'bp_before_directory_members_content' ); ?>
 
 	<div id="content">
 		<div class="padder">
