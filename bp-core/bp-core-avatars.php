@@ -54,8 +54,8 @@ add_action( 'bp_init', 'bp_core_set_avatar_constants', 3 );
  * Fetches an avatar from a BuddyPress object. Supports user/group/blog as
  * default, but can be extended to include your own custom components too.
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals() 
- * @global $current_blog WordPress global containing information and settings for the current blog being viewed. 
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global $current_blog WordPress global containing information and settings for the current blog being viewed.
  * @param array $args Determine the output of this function
  * @return string Formatted HTML <img> element, or raw avatar URL based on $html arg
  */
@@ -269,7 +269,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	} else {
 		// No avatar was found, and we've been told not to use a gravatar.
-		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg', $params ); 
+		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg', $params );
 	}
 
 	if ( true === $html )
@@ -526,8 +526,8 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt ) {
 	if ( empty( $id ) )
 		return !empty( $avatar ) ? $avatar : $default;
 
-	if ( !$alt ) 
-		$alt = __( 'Avatar of %s', 'buddypress' ); 
+	if ( !$alt )
+		$alt = __( 'Avatar of %s', 'buddypress' );
 
 	// Let BuddyPress handle the fetching of the avatar
 	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $id, 'width' => $size, 'height' => $size, 'alt' => $alt ) );
@@ -552,7 +552,7 @@ function bp_core_check_avatar_size($file) {
 }
 
 function bp_core_check_avatar_type($file) {
-	if ( ( !empty( $file['file']['type'] ) && !preg_match('/(jpe?g|gif|png)$/', $file['file']['type'] ) ) || !preg_match( '/(jpe?g|gif|png)$/', $file['file']['name'] ) )
+	if ( ( !empty( $file['file']['type'] ) && !preg_match('/(jpe?g|gif|png)$/i', $file['file']['type'] ) ) || !preg_match( '/(jpe?g|gif|png)$/i', $file['file']['name'] ) )
 		return false;
 
 	return true;
