@@ -767,6 +767,27 @@ function bp_core_create_root_component_page() {
 	bp_core_update_page_meta( $page_ids );
 }
 
+/**
+ * Is this BP_ROOT_BLOG?
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param int $blog_id Optional. Defaults to the current blog id.
+ * @return bool $is_root_blog Returns true if this is BP_ROOT_BLOG.
+ */
+function bp_is_root_blog( $blog_id = false ) {
+	$is_root_blog = true;
+	
+	if ( !$blog_id )
+		$blog_id = get_current_blog_id();
+
+	if ( $blog_id != BP_ROOT_BLOG )
+		$is_root_blog = false;
+
+	return apply_filters( 'bp_is_root_blog', $is_root_blog );
+}
+
 /** Global Manipulators *******************************************************/
 
 /**
