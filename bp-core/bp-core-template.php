@@ -337,6 +337,8 @@ function bp_search_form_type_select() {
 	if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() && !bp_forum_directory_is_disabled() )
 		$options['forums']  = __( 'Forums',  'buddypress' );
 
+	$options['posts'] = __( 'Posts', 'buddypress' );
+
 	// Eventually this won't be needed and a page will be built to integrate all search results.
 	$selection_box = '<select name="search-which" id="search-which" style="width: auto">';
 

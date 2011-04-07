@@ -186,9 +186,9 @@ function bp_core_set_uri_globals() {
 		if ( !empty( $bp_uri[0] ) && $root_profile = get_userdatabylogin( $bp_uri[0] ) ) {
 			
 			// Force BP to recognize that this is a members page
-			$matches[] 	= 1;
-			$match		= $bp->pages->members;
-			$match->key	= 'members';
+			$matches[]  = 1;
+			$match      = $bp->pages->members;
+			$match->key = 'members';
 			
 			// Without the 'members' URL chunk, WordPress won't know which page to load
 			// This filter intercepts the WP query and tells it to load the members page
@@ -199,8 +199,12 @@ function bp_core_set_uri_globals() {
 	}
 
 	// Search doesn't have an associated page, so we check for it separately
-	if ( !empty( $bp_uri[0] ) && ( BP_SEARCH_SLUG == $bp_uri[0] ) )
-		$matches[] = 1;
+	if ( !empty( $bp_uri[0] ) && ( BP_SEARCH_SLUG == $bp_uri[0] ) ) {
+		$matches[]   = 1;
+		$match       = new stdClass;
+		$match->key  = 'search';
+		$match->slug = BP_SEARCH_SLUG;
+	}
 
 	// This is not a BuddyPress page, so just return.
 	if ( !isset( $matches ) )

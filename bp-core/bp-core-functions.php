@@ -521,6 +521,11 @@ function bp_core_action_search_site( $slug = '' ) {
 
 	if ( empty( $slug ) ) {
 		switch ( $search_which ) {
+			case 'posts':
+				$slug = '';
+				$var  = '/?s=';
+				break;
+
 			case 'blogs':
 				$slug = bp_is_active( 'blogs' )  ? $bp->blogs->root_slug  : '';
 				break;
@@ -540,7 +545,7 @@ function bp_core_action_search_site( $slug = '' ) {
 				break;
 		}
 
-		if ( empty( $slug ) ) {
+		if ( empty( $slug ) && 'posts' != $search_which ) {
 			bp_core_redirect( bp_get_root_domain() );
 			return;
 		}
