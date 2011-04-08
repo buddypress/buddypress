@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-08 21:30:42+00:00\n"
+"POT-Creation-Date: 2011-04-08 22:30:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2628,11 +2628,11 @@ msgstr ""
 msgid "Profile updated %s ago"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-functions.php:15
+#: bp-xprofile/bp-xprofile-activity.php:19
 msgid "New member registered"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-functions.php:16
+#: bp-xprofile/bp-xprofile-activity.php:20
 msgid "Updated Profile"
 msgstr ""
 
