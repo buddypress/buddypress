@@ -160,6 +160,95 @@ function bp_core_add_admin_menu() {
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_admin_menu', 9 );
 
 /**
+ * Print admin messages to admin_notices or network_admin_notices
+ *
+ * BuddyPress combines all its messages into a single notice, to avoid a preponderance of yellow
+ * boxes.
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ *
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses is_super_admin() to check current user permissions before showing the notices
+ * @uses bp_is_root_blog()
+ */
+function bp_core_print_admin_notices() {
+	global $bp;
+	
+	// Only the super admin should see messages
+	if ( !is_super_admin() )
+		return;
+	
+	// On multisite installs, don't show on the Site Admin of a non-root blog
+	if ( !bp_is_root_blog() )
+		return;
+		
+	// Show the messages
+	if ( !empty( $bp->admin->notices ) ) {
+	?>
+		<div id="message" class="updated fade">
+			<?php foreach( $bp->admin->notices as $notice ) : ?>
+				<p><?php echo $notice ?></p>
+			<?php endforeach ?>
+		</div>		
+	<?php
+	}
+}
+add_action( 'admin_notices', 'bp_core_print_admin_notices' );
+add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
+
+/**
+ * Add an admin notice to the BP queue
+ *
+ * Messages added with this function are displayed in BuddyPress's general purpose admin notices
+ * box. It is recommended that you hook this function to admin_init, so that your messages are
+ * loaded in time.
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ *
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @param string $notice The notice you are adding to the queue
+ */
+function bp_core_add_admin_notice( $notice ) {
+	global $bp;
+	
+	if ( empty( $bp->admin->notices ) ) {
+		$bp->admin->notices = array();
+	}
+	
+	$bp->admin->notices[] = $notice;
+}
+
+/**
+ * When BuddyPress is activated we must make sure that mod_rewrite is enabled.
+ * We must also make sure a BuddyPress compatible theme is enabled. This function
+ * will show helpful messages to the administrator.
+ *
+ * @package BuddyPress Core
+ */
+function bp_core_activation_notice() {
+	global $wp_rewrite, $wpdb, $bp;
+
+	if ( isset( $_POST['permalink_structure'] ) )
+		return false;
+
+	if ( empty( $wp_rewrite->permalink_structure ) ) { 
+		bp_core_add_admin_notice( sprintf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) );
+	}
+		
+	// Get current theme info
+	$ct = current_theme_info();
+
+	// The best way to remove this notice is to add a "buddypress" tag to
+	// your active theme's CSS header.
+	if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) { 
+		bp_core_add_admin_notice( sprintf( __( "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), network_admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), network_admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) );
+	}
+}
+add_action( 'admin_init', 'bp_core_activation_notice' );
+
+/**
  * Returns the domain for the root blog.
  * eg: http://domain.com/ OR https://domain.com
  *

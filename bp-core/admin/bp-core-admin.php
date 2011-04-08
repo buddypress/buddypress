@@ -11,52 +11,6 @@ function bp_core_update_message() {
 add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update_message' );
 
 /**
- * When BuddyPress is activated we must make sure that mod_rewrite is enabled.
- * We must also make sure a BuddyPress compatible theme is enabled. This function
- * will show helpful messages to the administrator.
- *
- * @package BuddyPress Core
- */
-function bp_core_activation_notice() {
-	global $wp_rewrite, $wpdb, $bp;
-
-	if ( isset( $_POST['permalink_structure'] ) )
-		return false;
-
-	if ( !is_super_admin() )
-		return false;
-
-	if ( !empty( $wpdb->blogid ) ) {
-		if ( $wpdb->blogid != BP_ROOT_BLOG ) {
-			return false;
-		}
-	}
-
-	if ( empty( $wp_rewrite->permalink_structure ) ) { ?>
-
-		<div id="message" class="updated fade">
-			<p><?php printf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) ?></p>
-		</div><?php
-
-	} else {
-		// Get current theme info
-		$ct = current_theme_info();
-
-		// The best way to remove this notice is to add a "buddypress" tag to
-		// your active theme's CSS header.
-		if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) { ?>
-
-			<div id="message" class="updated fade">
-				<p style="line-height: 150%"><?php printf( __( "<strong>BuddyPress is ready</strong>. You'll need to <a href='%s'>activate a BuddyPress compatible theme</a> to take advantage of all of the features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), network_admin_url( 'themes.php' ), network_admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), network_admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) ?></p>
-			</div>
-
-		<?php
-		}
-	}
-}
-add_action( 'admin_notices', 'bp_core_activation_notice' );
-
-/**
  * Renders the main admin panel.
  *
  * @package BuddyPress Core
