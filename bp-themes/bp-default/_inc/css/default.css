@@ -1973,11 +1973,7 @@ h2.posttitle a {
 	text-decoration: none;
 }
 
-.edit-link {
-	clear: both;
-	display: block;
-}
-
+.edit-link,
 .page-link {
 	clear: both;
 }
@@ -2042,6 +2038,10 @@ dt {
 
 dd {
 	margin: 0 0 15px 0;
+}
+
+pre, blockquote {
+	margin-bottom: 20px;
 }
 
 pre,
