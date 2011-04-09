@@ -273,17 +273,23 @@ if ( !function_exists( 'bp_dtheme_header_style' ) ) :
 function bp_dtheme_header_style() {
 	global $post;
 
-	if ( is_singular() && has_post_thumbnail( $post->ID ) ) {
+	$header_image = '';
+
+	if ( is_singular() && current_theme_supports( 'post-thumbnails' ) && has_post_thumbnail( $post->ID ) ) {
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'post-thumbnail' );
 
 		// $src, $width, $height
 		if ( !empty( $image ) && $image[1] >= HEADER_IMAGE_WIDTH )
 			$header_image = $image[0];
+
+	} else {
+		$header_image = get_header_image();
 	}
 
 	if ( empty( $header_image ) )
-		$header_image = get_header_image();
+		return;
 ?>
+
 	<style type="text/css">
 		#header { background-image: url(<?php echo $header_image ?>); }
 		<?php if ( 'blank' == get_header_textcolor() ) { ?>
@@ -292,6 +298,7 @@ function bp_dtheme_header_style() {
 		#header h1 a, #desc { color:#<?php header_textcolor() ?>; }
 		<?php } ?>
 	</style>
+
 <?php
 }
 endif;
