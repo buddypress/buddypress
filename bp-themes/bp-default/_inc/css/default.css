@@ -1973,6 +1973,10 @@ h2.posttitle a {
 	text-decoration: none;
 }
 
+.page-link {
+	clear: both;
+}
+
 .navigation,
 .paged-navigation,
 .comment-navigation {

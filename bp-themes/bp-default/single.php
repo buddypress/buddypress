@@ -24,7 +24,7 @@
 						<div class="entry">
 							<?php the_content( __( 'Read the rest of this entry &rarr;', 'buddypress' ) ); ?>
 
-							<?php wp_link_pages(array('before' => __( '<p><strong>Pages:</strong> ', 'buddypress' ), 'after' => '</p>', 'next_or_number' => 'number')); ?>
+							<?php wp_link_pages( array( 'before' => '<div class="page-link"><p>' . __( '<strong>Pages:</strong> ', 'buddypress' ), 'after' => '</p></div>', 'next_or_number' => 'number')); ?>
 						</div>
 
 						<p class="postmetadata"><span class="tags"><?php the_tags( __( 'Tags: ', 'buddypress' ), ', ', '<br />'); ?></span> <span class="comments"><?php comments_popup_link( __( 'No Comments &#187;', 'buddypress' ), __( '1 Comment &#187;', 'buddypress' ), __( '% Comments &#187;', 'buddypress' ) ); ?></span></p>
