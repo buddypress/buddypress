@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-09 14:30:31+00:00\n"
+"POT-Creation-Date: 2011-04-09 18:30:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -333,8 +333,8 @@ msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administ
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:23 bp-core/admin/bp-core-update.php:1221
-#: bp-core/admin/bp-core-update.php:1222 bp-core/bp-core-functions.php:144
-#: bp-core/bp-core-functions.php:145 bp-members/bp-members-signup.php:570
+#: bp-core/admin/bp-core-update.php:1222 bp-core/bp-core-functions.php:158
+#: bp-core/bp-core-functions.php:159 bp-members/bp-members-signup.php:570
 msgid "BuddyPress"
 msgstr ""
 
@@ -478,31 +478,31 @@ msgid "Directory Pages"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:361
-msgid "Choose a WordPress Page to associate with each BuddyPress component directory. Setting to \"None\" will render that page inaccessible."
+msgid "Choose a WordPress Page to associate with each BuddyPress component directory. Deactivated components should be set to \"None\"."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:379 bp-core/admin/bp-core-admin.php:420
+#: bp-core/admin/bp-core-admin.php:378 bp-core/admin/bp-core-admin.php:418
 msgid "- None -"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:398
+#: bp-core/admin/bp-core-admin.php:396
 msgid "Sign up Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:399
+#: bp-core/admin/bp-core-admin.php:397
 msgid "Activation Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:402
+#: bp-core/admin/bp-core-admin.php:400
 msgid "Other Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:404
+#: bp-core/admin/bp-core-admin.php:402
 msgid "Associate WordPress Pages with the following BuddyPress pages. Setting to \"None\" will render that page inaccessible."
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:58 bp-core/admin/bp-core-update.php:203
-#: bp-core/bp-core-functions.php:152
+#: bp-core/bp-core-functions.php:166
 msgid "Components"
 msgstr ""
 
@@ -690,7 +690,8 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:475 bp-members/bp-members-adminbar.php:68
+#: bp-core/admin/bp-core-update.php:475 bp-core/bp-core-functions.php:349
+#: bp-members/bp-members-adminbar.php:68
 msgid "Register"
 msgstr ""
 
@@ -698,7 +699,7 @@ msgstr ""
 msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:486
+#: bp-core/admin/bp-core-update.php:486 bp-core/bp-core-functions.php:344
 #: bp-messages/bp-messages-template.php:486
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
@@ -1024,87 +1025,95 @@ msgstr ""
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:153 bp-settings/bp-settings-loader.php:13
-#: bp-settings/bp-settings-loader.php:71 bp-settings/bp-settings-loader.php:141
+#: bp-core/bp-core-functions.php:167 bp-settings/bp-settings-loader.php:13
+#: bp-settings/bp-settings-loader.php:69 bp-settings/bp-settings-loader.php:139
 #: bp-groups/bp-groups-loader.php:161 bp-members/bp-members-buddybar.php:197
 msgid "Settings"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:237
+#: bp-core/bp-core-functions.php:267
 msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update your permalink structure</a> to something other than the default for it to work."
 msgstr ""
 
-#: bp-core/bp-core-functions.php:246
+#: bp-core/bp-core-functions.php:280
 msgid "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>."
 msgstr ""
 
-#: bp-core/bp-core-functions.php:398
+#: bp-core/bp-core-functions.php:317
+msgid "Some of your WordPress pages are linked to BuddyPress components that have been disabled. These pages may continue to show up in your site navigation. Consider <a href=\"%1$s\">reactivating the components</a>, or unpublishing the pages: <strong>%2$s</strong>"
+msgstr ""
+
+#: bp-core/bp-core-functions.php:360
+msgid "Some BuddyPress components must be associated with WordPress pages for your site to work properly. The following components are missing their required WP pages: <strong>%1$s</strong>. Visit the <a href=\"%2$s\">BuddyPress Components</a> panel, where you can either deactivate unused components or complete the page setup."
+msgstr ""
+
+#: bp-core/bp-core-functions.php:514
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:398
+#: bp-core/bp-core-functions.php:514
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:399
+#: bp-core/bp-core-functions.php:515
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:399
+#: bp-core/bp-core-functions.php:515
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:400
+#: bp-core/bp-core-functions.php:516
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:400
+#: bp-core/bp-core-functions.php:516
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:401
+#: bp-core/bp-core-functions.php:517
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:401
+#: bp-core/bp-core-functions.php:517
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:402
+#: bp-core/bp-core-functions.php:518
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:402
+#: bp-core/bp-core-functions.php:518
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:403
+#: bp-core/bp-core-functions.php:519
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:403
+#: bp-core/bp-core-functions.php:519
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:404
+#: bp-core/bp-core-functions.php:520
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:404 bp-core/bp-core-functions.php:445
-#: bp-core/bp-core-functions.php:462
+#: bp-core/bp-core-functions.php:520 bp-core/bp-core-functions.php:561
+#: bp-core/bp-core-functions.php:578
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:425
+#: bp-core/bp-core-functions.php:541
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:457
+#: bp-core/bp-core-functions.php:573
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:506
+#: bp-core/bp-core-functions.php:622
 msgid "not recently active"
 msgstr ""
 
@@ -1151,40 +1160,40 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:76
+#: bp-friends/bp-friends-loader.php:75
 msgid "Search Friends..."
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:94
+#: bp-friends/bp-friends-loader.php:93
 msgid "Friends <span>(%d)</span>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:106 bp-friends/bp-friends-loader.php:166
-#: bp-friends/bp-friends-loader.php:192 bp-friends/bp-friends-template.php:89
+#: bp-friends/bp-friends-loader.php:105 bp-friends/bp-friends-loader.php:165
+#: bp-friends/bp-friends-loader.php:191 bp-friends/bp-friends-template.php:89
 #: bp-friends/bp-friends-activity.php:60
 msgid "My Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:116
+#: bp-friends/bp-friends-loader.php:115
 msgid "Requests"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:148
+#: bp-friends/bp-friends-loader.php:147
 msgid "Friends <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:149
+#: bp-friends/bp-friends-loader.php:148
 msgid "Pending Requests <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:151 bp-friends/bp-friends-screens.php:69
+#: bp-friends/bp-friends-loader.php:150 bp-friends/bp-friends-screens.php:69
 #: bp-members/bp-members-buddybar.php:160
 #: bp-activity/bp-activity-loader.php:148
 #: bp-activity/bp-activity-loader.php:225
 msgid "Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:152
+#: bp-friends/bp-friends-loader.php:151
 msgid "No Pending Requests"
 msgstr ""
 
@@ -1372,23 +1381,23 @@ msgstr ""
 msgid "You have a friendship request from %s"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:83 bp-settings/bp-settings-loader.php:148
+#: bp-settings/bp-settings-loader.php:81 bp-settings/bp-settings-loader.php:146
 msgid "General"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:94 bp-settings/bp-settings-loader.php:155
+#: bp-settings/bp-settings-loader.php:92 bp-settings/bp-settings-loader.php:153
 #: bp-members/bp-members-buddybar.php:11
 msgid "Notifications"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:106
+#: bp-settings/bp-settings-loader.php:104
 #: bp-themes/bp-default/members/single/settings/delete-account.php:50
 msgid "Delete Account"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:163
-#: bp-messages/bp-messages-loader.php:134
-#: bp-messages/bp-messages-loader.php:210
+#: bp-settings/bp-settings-loader.php:161
+#: bp-messages/bp-messages-loader.php:133
+#: bp-messages/bp-messages-loader.php:209
 msgid "Compose"
 msgstr ""
 
@@ -2802,52 +2811,52 @@ msgstr ""
 msgid "Private Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:75
+#: bp-messages/bp-messages-loader.php:74
 msgid "Search Messages..."
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:93 bp-messages/bp-messages-loader.php:178
+#: bp-messages/bp-messages-loader.php:92 bp-messages/bp-messages-loader.php:177
 msgid "Messages <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:95
+#: bp-messages/bp-messages-loader.php:94
 msgid "Messages <strong></strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:114
-#: bp-messages/bp-messages-loader.php:182
+#: bp-messages/bp-messages-loader.php:113
+#: bp-messages/bp-messages-loader.php:181
 #: bp-messages/bp-messages-functions.php:207
 #: bp-messages/bp-messages-functions.php:209
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:124
+#: bp-messages/bp-messages-loader.php:123
 msgid "Sent Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:145
+#: bp-messages/bp-messages-loader.php:144
 msgid "Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:179
+#: bp-messages/bp-messages-loader.php:178
 msgid "Inbox <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:181
+#: bp-messages/bp-messages-loader.php:180
 #: bp-messages/bp-messages-screens.php:118
 #: bp-members/bp-members-buddybar.php:147
 msgid "Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:203
+#: bp-messages/bp-messages-loader.php:202
 msgid "Sent"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:218
+#: bp-messages/bp-messages-loader.php:217
 msgid "All Member Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:237
+#: bp-messages/bp-messages-loader.php:236
 msgid "My Messages"
 msgstr ""
 
