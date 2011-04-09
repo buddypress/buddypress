@@ -61,18 +61,17 @@ class BP_Friends_Component extends BP_Component {
 		if ( !defined( 'BP_FRIENDS_SLUG' ) )
 			define( 'BP_FRIENDS_SLUG', $this->id );
 
-		// Global tables for messaging component
+		// Global tables for the friends component
 		$global_tables = array(
 			'table_name'      => $bp->table_prefix . 'bp_friends',
 			'table_name_meta' => $bp->table_prefix . 'bp_friends_meta',
 		);
 
-		// All globals for messaging component.
+		// All globals for the friends component.
 		// Note that global_tables is included in this array.
 		$globals = array(
 			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_FRIENDS_SLUG,
-			'root_slug'             => isset( $bp->pages->friends->slug ) ? $bp->pages->friends->slug : BP_FRIENDS_SLUG,
 			'search_string'         => __( 'Search Friends...', 'buddypress' ),
 			'notification_callback' => 'friends_format_notifications',
 			'global_tables'         => $global_tables,

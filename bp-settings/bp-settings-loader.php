@@ -48,11 +48,9 @@ class BP_Settings_Component extends BP_Component {
 		if ( !defined( 'BP_SETTINGS_SLUG' ) )
 			define( 'BP_SETTINGS_SLUG', $this->id );
 
-		// All globals for messaging component.
-		// Note that global_tables is included in this array.
+		// All globals for settings component.
 		$globals = array(
 			'slug'      => BP_SETTINGS_SLUG,
-			'root_slug' => isset( $bp->pages->settings->slug ) ? $bp->pages->settings->slug : BP_SETTINGS_SLUG,
 		);
 
 		parent::_setup_globals( $globals );

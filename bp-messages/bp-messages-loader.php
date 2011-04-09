@@ -70,7 +70,6 @@ class BP_Messages_Component extends BP_Component {
 		// Note that global_tables is included in this array.
 		$globals = array(
 			'slug'                  => BP_MESSAGES_SLUG,
-			'root_slug'             => isset( $bp->pages->messages->slug ) ? $bp->pages->messages->slug : BP_MESSAGES_SLUG,
 			'notification_callback' => 'messages_format_notifications',
 			'search_string'         => __( 'Search Messages...', 'buddypress' ),
 			'global_tables'         => $global_tables,

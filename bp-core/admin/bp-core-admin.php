@@ -358,31 +358,29 @@ function bp_core_admin_page_options() {
 	
 	<h3><?php _e( 'Directory Pages', 'buddypress' ); ?></h3>
 	
-	<p><?php _e( 'Choose a WordPress Page to associate with each BuddyPress component directory. Setting to "None" will render that page inaccessible.', 'buddypress' ); ?></p>
+	<p><?php _e( 'Choose a WordPress Page to associate with each BuddyPress component directory. Deactivated components should be set to "None".', 'buddypress' ); ?></p>
 
 	<table class="form-table">
 		<tbody>
 
 			<?php foreach ( $directory_pages as $name => $label ) : ?>
+				<?php $disabled = !bp_is_active( $name ) ? ' disabled="disabled"' : ''; ?>
+				
+				<tr valign="top">
+					<th scope="row">
+						<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?><?php if ( !bp_is_active( $name ) ) : ?> <span class="description">(deactivated)</span><?php endif ?></label>
+					</th>
 
-				<?php if ( bp_is_active( $name ) ) : ?>
+					<td>
+						<?php echo wp_dropdown_pages( array(
+							'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
+							'echo'             => false,
+							'show_option_none' => __( '- None -', 'buddypress' ),
+							'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
+						) ) ?>
+					</td>
+				</tr>
 
-					<tr valign="top">
-						<th scope="row">
-							<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?></label>
-						</th>
-
-						<td>
-							<?php echo wp_dropdown_pages( array(
-								'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
-								'echo'             => false,
-								'show_option_none' => __( '- None -', 'buddypress' ),
-								'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
-							) ) ?>
-						</td>
-					</tr>
-
-				<?php endif; ?>
 
 			<?php endforeach ?>
 

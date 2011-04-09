@@ -29,7 +29,13 @@ function bp_core_get_page_meta() {
 /**
  * Stores BP pages in the meta table, depending on setup
  *
+ * bp-pages data is stored in the options table of the root blog, except when BP_ENABLE_MULTIBLOG
+ * is turned on.
+ *
  * @package BuddyPress Core 
+ * @since 1.3
+ *
+ * @param array $page_ids The IDs of the WP pages corresponding to BP component directories
  */
 function bp_core_update_page_meta( $page_ids ) {
 	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
@@ -38,6 +44,14 @@ function bp_core_update_page_meta( $page_ids ) {
 		update_option( 'bp-pages', $page_ids );
 }
 
+/**
+ * Get bp-pages names and slugs
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ *
+ * @return obj $pages Page names, IDs, and slugs
+ */
 function bp_core_get_page_names() {
 	global $wpdb, $bp;
 
@@ -49,7 +63,7 @@ function bp_core_get_page_names() {
 
 		$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'posts' : $wpdb->posts;
 		$page_ids_sql     = implode( ',', (array)$page_ids );
-		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) " ) );
+		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " ) );
 
 		foreach ( (array)$page_ids as $key => $page_id ) {
 			foreach ( (array)$page_names as $page_name ) {
@@ -221,22 +235,42 @@ function bp_core_add_admin_notice( $notice ) {
 }
 
 /**
- * When BuddyPress is activated we must make sure that mod_rewrite is enabled.
- * We must also make sure a BuddyPress compatible theme is enabled. This function
- * will show helpful messages to the administrator.
+ * Verify that some BP prerequisites are set up properly, and notify the admin if not
+ *
+ * On every Dashboard page, this function checks the following:
+ *   - that pretty permalinks are enabled
+ *   - that a BP-compatible theme is activated
+ *   - that every BP component that needs a WP page for a directory has one
+ *   - that no directory WP pages are published for deactivated components
+ * The administrator will be shown a notice for each check that fails.
  *
  * @package BuddyPress Core
  */
 function bp_core_activation_notice() {
 	global $wp_rewrite, $wpdb, $bp;
 
+	// Only the super admin gets warnings
+	if ( !is_super_admin() )
+		return;
+	
+	// On multisite installs, don't log on a non-root blog
+	if ( !bp_is_root_blog() )
+		return;
+
+	/**
+	 * Are pretty permalinks enabled?
+	 */
 	if ( isset( $_POST['permalink_structure'] ) )
 		return false;
 
 	if ( empty( $wp_rewrite->permalink_structure ) ) { 
 		bp_core_add_admin_notice( sprintf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) );
 	}
-		
+	
+	/**
+	 * Are you using a BP-compatible theme?
+	 */
+	
 	// Get current theme info
 	$ct = current_theme_info();
 
@@ -244,6 +278,88 @@ function bp_core_activation_notice() {
 	// your active theme's CSS header.
 	if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) { 
 		bp_core_add_admin_notice( sprintf( __( "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), network_admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), network_admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) );
+	}
+		
+	/**
+	 * Check for orphaned directory pages (BP component is disabled, WP page exists)
+	 */
+	 
+	$orphaned_pages = array();
+	foreach( $bp->pages as $component_id => $page ) {
+		
+		// Some members of $bp->pages will not have corresponding $bp->{component}, so we
+		// skip them. Plugins can add themselves here if necessary.
+		$exceptions = apply_filters( 'bp_pages_without_components', array( 'register', 'activate' ) );
+		if ( in_array( $component_id, $exceptions ) )
+			continue;
+		
+		if ( !isset( $bp->{$component_id} ) ) {
+			// We'll need to get some more information about the page for the notice
+			$page_data = get_post( $page->id );
+
+			$orphaned_pages[] = array(
+				'id'	=> $page_data->ID,
+				'title'	=> $page_data->post_title
+			);
+		}
+		
+	}
+	
+	// If orphaned pages are found, post a notice about them.
+	if ( !empty( $orphaned_pages ) ) {
+		
+		// Create the string of links to the Edit Page screen for the pages
+		$edit_pages_links = array();
+		foreach( $orphaned_pages as $op ) {
+			$edit_pages_links[] = sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'post.php?action=edit&post=' . $op['id'] ), $op['title'] );
+		}
+		
+		$notice = sprintf( __( 'Some of your WordPress pages are linked to BuddyPress components that have been disabled. These pages may continue to show up in your site navigation. Consider <a href="%1$s">reactivating the components</a>, or unpublishing the pages: <strong>%2$s</strong>', 'buddypress' ), network_admin_url( 'admin.php?page=bp-general-settings' ), implode( ', ', $edit_pages_links ) );
+		
+		bp_core_add_admin_notice( $notice );
+	}
+	
+	/**
+	 * Check for orphaned BP components (BP component is enabled, no WP page exists)
+	 */
+	
+	$orphaned_components = array();
+	$wp_page_components  = array();
+	
+	// Only some BP components require a WP page to function - those with a non-empty root_slug
+	foreach( $bp->active_components as $component_id => $is_active ) {
+		if ( !empty( $bp->{$component_id}->root_slug ) ) {
+			$wp_page_components[] = array(
+				'id'	=> $component_id,
+				'name'	=> $bp->{$component_id}->name
+			);
+		}
+	}
+	
+	// Activate and Register are special cases. They are not components but they need WP pages.
+	// If user registration is disabled, we can skip this step.
+	if ( isset( $bp->site_options['registration'] ) && ( 'user' == $bp->site_options['registration'] || ( 'all' == $bp->site_options['registration'] ) ) ) {
+		$wp_page_components[] = array(
+			'id'	=> 'activate',
+			'name'	=> __( 'Activate', 'buddypress' )
+		);
+		
+		$wp_page_components[] = array(
+			'id'	=> 'register',
+			'name'	=> __( 'Register', 'buddypress' )
+		);
+	}	
+	
+	foreach( $wp_page_components as $component ) {		
+		if ( !isset( $bp->pages->{$component['id']} ) ) {
+			$orphaned_components[] = $component['name'];
+		}
+	}
+	
+	if ( !empty( $orphaned_components ) ) {
+		$notice = sprintf( __( 'Some BuddyPress components must be associated with WordPress pages for your site to work properly. The following components are missing their required WP pages: <strong>%1$s</strong>. Visit the <a href="%2$s">BuddyPress Components</a> panel, where you can either deactivate unused components or complete the page setup.', 'buddypress' ), implode( ', ', $orphaned_components ), network_admin_url( 'admin.php?page=bp-general-settings' ) );
+		
+		bp_core_add_admin_notice( $notice );
 	}
 }
 add_action( 'admin_init', 'bp_core_activation_notice' );
