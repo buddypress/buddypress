@@ -60,6 +60,9 @@ function bp_dtheme_setup() {
 	// Load the AJAX functions for the theme
 	require_once( TEMPLATEPATH . '/_inc/ajax.php' );
 
+	// This theme styles the visual editor with editor-style.css to match the theme style.
+	add_editor_style();
+
 	// This theme uses post thumbnails
 	add_theme_support( 'post-thumbnails' );
 
