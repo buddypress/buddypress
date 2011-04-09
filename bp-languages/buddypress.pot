@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-09 18:30:36+00:00\n"
+"POT-Creation-Date: 2011-04-09 20:30:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3685,7 +3685,7 @@ msgstr ""
 #: bp-themes/bp-default/page.php:20 bp-themes/bp-default/attachment.php:27
 #: bp-themes/bp-default/onecolumn-page.php:31
 #: bp-themes/bp-default/single.php:27
-msgid "<p><strong>Pages:</strong> "
+msgid "<strong>Pages:</strong> "
 msgstr ""
 
 #: bp-themes/bp-default/page.php:21 bp-themes/bp-default/onecolumn-page.php:32
