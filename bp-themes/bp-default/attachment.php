@@ -24,7 +24,7 @@
 
 							<?php the_content( __('<p class="serif">Read the rest of this entry &rarr;</p>', 'buddypress' ) ); ?>
 
-							<?php wp_link_pages( array( 'before' => __( '<p><strong>Pages:</strong> ', 'buddypress' ), 'after' => '</p>', 'next_or_number' => 'number')); ?>
+							<?php wp_link_pages( array( 'before' => '<div class="page-link"><p>' . __( '<strong>Pages:</strong> ', 'buddypress' ), 'after' => '</p></div>', 'next_or_number' => 'number')); ?>
 						</div>
 
 					</div>
