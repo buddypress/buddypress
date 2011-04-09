@@ -31,7 +31,7 @@
 
 	<?php while ( bp_activities() ) : bp_the_activity(); ?>
 
-		<?php locate_template( array( 'activity/entry.php' ), true ); ?>
+		<?php locate_template( array( 'activity/entry.php' ), true, false ); ?>
 
 	<?php endwhile; ?>
 
