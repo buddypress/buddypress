@@ -1973,6 +1973,11 @@ h2.posttitle a {
 	text-decoration: none;
 }
 
+.edit-link {
+	clear: both;
+	display: block;
+}
+
 .page-link {
 	clear: both;
 }
