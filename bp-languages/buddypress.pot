@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-08 22:30:36+00:00\n"
+"POT-Creation-Date: 2011-04-09 14:30:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -994,7 +994,7 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/deprecated/1.3.php:250 bp-themes/bp-default/functions.php:565
+#: bp-core/deprecated/1.3.php:250 bp-themes/bp-default/functions.php:572
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
@@ -1004,7 +1004,7 @@ msgstr ""
 msgid "About Me"
 msgstr ""
 
-#: bp-core/deprecated/1.3.php:268 bp-themes/bp-default/functions.php:569
+#: bp-core/deprecated/1.3.php:268 bp-themes/bp-default/functions.php:576
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
@@ -2555,7 +2555,7 @@ msgid "Clear"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:430 bp-forums/bp-forums-template.php:1052
-#: bp-themes/bp-default/functions.php:418
+#: bp-themes/bp-default/functions.php:425
 msgid "Edit"
 msgstr ""
 
@@ -3221,7 +3221,7 @@ msgid "Never active"
 msgstr ""
 
 #: bp-members/bp-members-template.php:519
-#: bp-themes/bp-default/functions.php:413
+#: bp-themes/bp-default/functions.php:420
 #: bp-themes/bp-default/activity/entry.php:74
 #: bp-activity/bp-activity-template.php:705
 #: bp-activity/bp-activity-template.php:992
@@ -3438,7 +3438,7 @@ msgid "%s ago"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:217
-#: bp-themes/bp-default/functions.php:415
+#: bp-themes/bp-default/functions.php:422
 #: bp-themes/bp-default/activity/entry.php:50
 #: bp-themes/bp-default/forums/single/edit.php:10
 #: bp-themes/bp-default/groups/single/forum/edit.php:10
@@ -3603,69 +3603,69 @@ msgstr ""
 msgid "%s is a unique identifier for %s that you can type into any message on this site. %s will be sent a notification and a link to your message any time you use it."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:314
+#: bp-themes/bp-default/functions.php:321
 msgid "The sidebar widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:323
+#: bp-themes/bp-default/functions.php:330
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:325
+#: bp-themes/bp-default/functions.php:332
 msgid "The first footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:334
+#: bp-themes/bp-default/functions.php:341
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:336
+#: bp-themes/bp-default/functions.php:343
 msgid "The second footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:345
+#: bp-themes/bp-default/functions.php:352
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:347
+#: bp-themes/bp-default/functions.php:354
 msgid "The third footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:356
+#: bp-themes/bp-default/functions.php:363
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:358
+#: bp-themes/bp-default/functions.php:365
 msgid "The fourth footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:409
+#: bp-themes/bp-default/functions.php:416
 msgid "said:"
 msgid_plural "replied:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-themes/bp-default/functions.php:422
+#: bp-themes/bp-default/functions.php:429
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:488
+#: bp-themes/bp-default/functions.php:495
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:567
+#: bp-themes/bp-default/functions.php:574
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:574
+#: bp-themes/bp-default/functions.php:581
 msgid "Comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:578
+#: bp-themes/bp-default/functions.php:585
 msgid "Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\">Log out?</a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:579
+#: bp-themes/bp-default/functions.php:586
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
