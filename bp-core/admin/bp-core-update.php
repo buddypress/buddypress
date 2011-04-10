@@ -260,7 +260,13 @@ class BP_Core_Setup_Wizard {
 		if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
 			$existing_pages = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
 		else
-			$existing_pages = get_option( 'bp-pages' ); ?>
+			$existing_pages = get_option( 'bp-pages' );
+
+		if ( !empty( $existing_pages['blogs'] ) )
+			$existing_blog_page = '&selected=' . $existing_pages['blogs'];
+		else
+			$existing_blog_page = '';
+		?>
 
 		<script type="text/javascript">
 			jQuery( document ).ready( function() {
@@ -285,7 +291,7 @@ class BP_Core_Setup_Wizard {
 				</th>
 				<td>
 					<p><input type="radio" name="bp_pages[blogs]" checked="checked" value="<?php echo $blogs_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo site_url( $blogs_slug ); ?>/</p>
-					<p><input type="radio" name="bp_pages[blogs]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . "&selected=" . $existing_pages['blogs'] ); ?></p>
+					<p><input type="radio" name="bp_pages[blogs]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_blog_page ); ?></p>
 				</td>
 			</tr>
 
