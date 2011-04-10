@@ -94,6 +94,14 @@ class BP_Forums_Component extends BP_Component {
 	function _setup_nav() {
 		global $bp;
 
+		// Stop if forums haven't been set up yet
+		if ( !bp_forums_is_installed_correctly() )
+			return;
+
+		// Stop if there is no user displayed or logged in
+		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
+			return;
+		
 		// Add 'Forums' to the main navigation
 		$main_nav = array(
 			'name'                => __( 'Forums', 'buddypress' ),
@@ -103,10 +111,6 @@ class BP_Forums_Component extends BP_Component {
 			'default_subnav_slug' => 'topics',
 			'item_css_id'         => $this->id
 		);
-
-		// Stop if there is no user displayed or logged in
-		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
-			return;
 
 		// Determine user to use
 		if ( isset( $bp->displayed_user->domain ) ) {
