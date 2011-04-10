@@ -25,7 +25,7 @@ add_action( 'bp_init',    'bp_setup_globals',        4 );
 add_action( 'bp_init',    'bp_setup_nav',            7 );
 
 // Setup the navigation menu
-add_action( 'bp_init',    'bp_setup_admin_bar',      8 );
+add_action( 'admin_bar_menu',    'bp_setup_admin_bar'  );
 
 // Setup the title
 add_action( 'bp_init',    'bp_setup_title',          9 );
