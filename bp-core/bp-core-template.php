@@ -220,6 +220,8 @@ function bp_page_title() {
 function bp_get_page_title() {
 	global $bp, $post, $wp_query;
 
+	$title = '';
+
 	// Home
 	if ( is_front_page() || ( is_home() && bp_is_page( 'home' ) ) ) {
 		$title = __( 'Home', 'buddypress' );
@@ -227,11 +229,11 @@ function bp_get_page_title() {
 	// Blog
 	} elseif ( bp_is_blog_page() ) {
 		if ( is_single() ) {
-			$title = __( 'Blog &#124; ' . $post->post_title, 'buddypress' );
+			$title = sprintf( __( 'Blog &#124; %s', 'buddypress' ), $post->post_title );
 		} else if ( is_category() ) {
-			$title = __( 'Blog &#124; Categories &#124; ' . ucwords( $wp_query->query_vars['category_name'] ), 'buddypress' );
+			$title = sprintf( __( 'Blog &#124; Categories &#124; %s', 'buddypress' ), ucwords( $wp_query->query_vars['category_name'] ) );
 		} else if ( is_tag() ) {
-			$title = __( 'Blog &#124; Tags &#124; ' . ucwords( $wp_query->query_vars['tag'] ), 'buddypress' );
+			$title = sprintf( __( 'Blog &#124; Tags &#124; %s', 'buddypress' ), ucwords( $wp_query->query_vars['tag'] ) );
 		} else if ( is_page() ){
 			$title = $post->post_title;
 		} else
@@ -239,20 +241,23 @@ function bp_get_page_title() {
 
 	// Displayed user
 	} elseif ( !empty( $bp->displayed_user->fullname ) ) {
- 		$title = strip_tags( $bp->displayed_user->fullname . ' &#124; ' . ucwords( $bp->current_component ) );
+		// translators: "displayed user's name | canonicalised component name"
+		$title = strip_tags( sprintf( __( '%1$s &#124; %2$s', 'buddypress' ), $bp->displayed_user->fullname, ucwords( bp_current_component() ) ) ); 
 
 	// A single group
-	} elseif ( !empty( $bp->groups->current_group ) && !empty( $bp->bp_options_nav[$bp->groups->current_group->slug] ) ) {
-		$title = $bp->bp_options_title . ' &#124; ' . $bp->bp_options_nav[$bp->groups->current_group->slug][$bp->current_action]['name'];
+	} elseif ( bp_is_active( 'groups' ) && !empty( $bp->groups->current_group ) && !empty( $bp->bp_options_nav[$bp->groups->current_group->slug] ) ) {
+		// translators: "group name | group nav section name"
+		$title = sprintf( __( '%1$s &#124; %2$s', 'buddypress' ), $bp->bp_options_title, $bp->bp_options_nav[$bp->groups->current_group->slug][$bp->current_action]['name'] );
 
 	// A single item from a component other than groups
 	} elseif ( bp_is_single_item() ) {
-		$title = bp_get_name_from_root_slug() . ' &#124; ' . $bp->bp_options_title . ' &#124; ' . $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'];
+		// translators: "root component name | component item name | component nav section name"
+		$title = sprintf( __( '%1$s &#124; %2$s &#124; %3$s', 'buddypress' ), bp_get_name_from_root_slug(), $bp->bp_options_title, $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'] );
 
 	// An index or directory
 	} elseif ( bp_is_directory() ) {
 		if ( !bp_current_component() )
-			$title = sprintf( __( '%s Directory', 'buddypress' ), ucwords( $bp->members->slug ) );
+			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug( $bp->members->slug ) );
 		else
 			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug() );
 
@@ -654,17 +659,16 @@ function bp_root_slug( $component = '' ) {
  * Return the component name based on the current root slug
  *
  * @since BuddyPress {r3923}
- * @global obj $bp
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
  * @param str $root_slug Needle to our active component haystack
  * @return mixed False if none found, component name if found
  */
 function bp_get_name_from_root_slug( $root_slug = '' ) {
+	global $bp;
 
 	// If no slug is passed, look at current_component
-	if ( empty( $root_slug ) ) {
-		global $bp;
+	if ( empty( $root_slug ) )
 		$root_slug = $bp->current_component;
-	}
 
 	// No current component or root slug, so flee
 	if ( empty( $root_slug ) )
