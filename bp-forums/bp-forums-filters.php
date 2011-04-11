@@ -36,7 +36,7 @@ add_filter( 'bp_get_the_topic_poster_name', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_last_poster_name', 'stripslashes_deep' );
 add_filter( 'bp_get_the_topic_object_name', 'stripslashes_deep' );
 
-add_filter( 'bp_get_the_topic_post_content', 'make_clickable' );
+add_filter( 'bp_get_the_topic_post_content', 'make_clickable', 9 );
 
 add_filter( 'bp_get_forum_topic_count_for_user', 'bp_core_number_format' );
 add_filter( 'bp_get_forum_topic_count', 'bp_core_number_format' );

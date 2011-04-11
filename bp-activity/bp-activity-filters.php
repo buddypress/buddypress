@@ -46,13 +46,13 @@ add_filter( 'bp_get_activity_content_body',          'wpautop' );
 add_filter( 'bp_get_activity_content',               'wpautop' );
 add_filter( 'bp_get_activity_feed_item_description', 'wpautop' );
 
-add_filter( 'bp_get_activity_action',                'make_clickable' );
-add_filter( 'bp_get_activity_content_body',          'make_clickable' );
-add_filter( 'bp_get_activity_content',               'make_clickable' );
-add_filter( 'bp_get_activity_parent_content',        'make_clickable' );
-add_filter( 'bp_get_activity_latest_update',         'make_clickable' );
-add_filter( 'bp_get_activity_latest_update_excerpt', 'make_clickable' );
-add_filter( 'bp_get_activity_feed_item_description', 'make_clickable' );
+add_filter( 'bp_get_activity_action',                'make_clickable', 9 );
+add_filter( 'bp_get_activity_content_body',          'make_clickable', 9 );
+add_filter( 'bp_get_activity_content',               'make_clickable', 9 );
+add_filter( 'bp_get_activity_parent_content',        'make_clickable', 9 );
+add_filter( 'bp_get_activity_latest_update',         'make_clickable', 9 );
+add_filter( 'bp_get_activity_latest_update_excerpt', 'make_clickable', 9 );
+add_filter( 'bp_get_activity_feed_item_description', 'make_clickable', 9 );
 
 add_filter( 'bp_acomment_name',                      'stripslashes_deep' );
 add_filter( 'bp_get_activity_action',                'stripslashes_deep' );

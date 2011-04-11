@@ -40,9 +40,9 @@ add_filter( 'bp_get_message_thread_subject', 'convert_chars' );
 add_filter( 'bp_get_message_thread_excerpt', 'convert_chars' );
 add_filter( 'bp_get_the_thread_message_content', 'convert_chars' );
 
-add_filter( 'bp_get_message_notice_text', 'make_clickable' );
-add_filter( 'bp_get_message_thread_excerpt', 'make_clickable' );
-add_filter( 'bp_get_the_thread_message_content', 'make_clickable' );
+add_filter( 'bp_get_message_notice_text', 'make_clickable', 9 );
+add_filter( 'bp_get_message_thread_excerpt', 'make_clickable', 9 );
+add_filter( 'bp_get_the_thread_message_content', 'make_clickable', 9 );
 
 add_filter( 'bp_get_message_notice_text', 'wpautop' );
 add_filter( 'bp_get_the_thread_message_content', 'wpautop' );
