@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-10 18:30:28+00:00\n"
+"POT-Creation-Date: 2011-04-13 19:30:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -913,8 +913,8 @@ msgstr ""
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: bp-core/bp-core-template.php:227 bp-groups/bp-groups-loader.php:250
-#: bp-themes/bp-default/header.php:26
+#: bp-core/bp-core-template.php:227
+msgctxt "Home page title"
 msgid "Home"
 msgstr ""
 
@@ -1582,6 +1582,11 @@ msgstr ""
 
 #: bp-groups/bp-groups-loader.php:221
 msgid "Invitations"
+msgstr ""
+
+#: bp-groups/bp-groups-loader.php:250
+msgctxt "Group home navigation title"
+msgid "Home"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:262 bp-groups/bp-groups-buddybar.php:18
@@ -3710,6 +3715,11 @@ msgstr ""
 
 #: bp-themes/bp-default/page.php:21 bp-themes/bp-default/onecolumn-page.php:32
 msgid "Edit this entry."
+msgstr ""
+
+#: bp-themes/bp-default/header.php:26
+msgctxt "Home page banner link title"
+msgid "Home"
 msgstr ""
 
 #: bp-themes/bp-default/members/index.php:31
