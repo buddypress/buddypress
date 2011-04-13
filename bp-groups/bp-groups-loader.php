@@ -247,7 +247,7 @@ class BP_Groups_Component extends BP_Component {
 
 			// Add the "Home" subnav item, as this will always be present
 			$sub_nav[] = array(
-				'name'            => __( 'Home', 'buddypress' ),
+				'name'            =>  _x( 'Home', 'Group home navigation title', 'buddypress' ),
 				'slug'            => 'home',
 				'parent_url'      => $group_link,
 				'parent_slug'     => $this->current_group->slug,

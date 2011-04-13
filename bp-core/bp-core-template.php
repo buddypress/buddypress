@@ -224,7 +224,7 @@ function bp_get_page_title() {
 
 	// Home
 	if ( is_front_page() || ( is_home() && bp_is_page( 'home' ) ) ) {
-		$title = __( 'Home', 'buddypress' );
+		$title = _x( 'Home', 'Home page title', 'buddypress' );
 
 	// Blog
 	} elseif ( bp_is_blog_page() ) {
