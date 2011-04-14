@@ -252,6 +252,8 @@ class BP_Core_Setup_Wizard {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
+		$active_components = get_site_option( 'bp-active-components' );
+
 		if ( defined( 'BP_BLOGS_SLUG' ) )
 			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
 		else
@@ -276,9 +278,9 @@ class BP_Core_Setup_Wizard {
 			});
 		</script>
 
-		<p><?php printf( __( 'BuddyPress has detected a recent change to WordPress Multisite, which allows members of your community to have their own WordPress blogs. You can enable or disable this feature at any time at <a href="%s">Network Options</a>.', 'buddypress' ), admin_url( 'ms-options.php' ) ); ?></p>
+		<p><?php printf( __( 'BuddyPress has detected a recent change to WordPress Multisite, which allows members of your community to have their own WordPress blogs. You can enable or disable this feature at any time at <a href="%s">Network Options</a>.', 'buddypress' ), network_admin_url( 'settings.php' ) ); ?></p>
 
-		<p><?php _e( "Please select the WordPress page you would like to use to display the blog directory. You can either choose an existing page or let BuddyPress auto-create a page for you. If you'd like to manually create pages, please go ahead and do that now, you can come back to this step once you are finished.", 'buddypress' ) ?></p>
+		<p><?php __( "Please select the WordPress page you would like to use to display the blog directory. You can either choose an existing page or let BuddyPress auto-create a page for you. If you'd like, you can go to manually create pages now, and return to this step when you are finished.", 'buddypress' ) ?></p>
 
 		<p><strong><?php _e( 'Please Note:', 'buddypress' ) ?></strong> <?php _e( "If you have manually added BuddyPress navigation links in your theme you may need to remove these from your header.php to avoid duplicate links.", 'buddypress' ) ?></p>
 
@@ -305,8 +307,8 @@ class BP_Core_Setup_Wizard {
 				<h5><?php _e( "Blog Tracking", 'buddypress' ); ?></h5>
 
 				<div class="radio">
-					<input type="radio" name="bp_components[bp-blogs.php]" value="1"<?php if ( !isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
-					<input type="radio" name="bp_components[bp-blogs.php]" value="0"<?php if ( isset( $disabled_components['bp-blogs.php'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
+					<input type="radio" name="bp_components[blogs]" value="1"<?php if ( isset( $active_components['blogs'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
+					<input type="radio" name="bp_components[blogs]" value="0"<?php if ( !isset( $active_components['blogs'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
 				</div>
 
 				<img src="<?php echo plugins_url( 'buddypress/screenshot-7.gif' ) ?>" alt="Activity Streams" />
@@ -332,9 +334,7 @@ class BP_Core_Setup_Wizard {
 			return false;
 
 		if ( !function_exists( 'bp_core_admin_component_options' ) )
-			require ( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' );
-
-		$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) ); ?>
+			require ( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' ); ?>
 
 		<p><?php _e( "BuddyPress bundles several individual social components together, each one adding a distinct feature. This first step decides which features are enabled on your site; all features are enabled by default. Don't worry, you can change your mind at any point in the future.", 'buddypress' ); ?></p>
 
@@ -363,8 +363,8 @@ class BP_Core_Setup_Wizard {
 		else
 			$existing_pages = get_option( 'bp-pages' );
 
-		// Get disabled components
-		$disabled_components = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
+		// Get active components
+		$active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
 
 		// Check for defined slugs
 		$members_slug    = !empty( $bp->members->slug    ) ? $bp->members->slug    : __( 'members',  'buddypress' );
@@ -416,7 +416,7 @@ class BP_Core_Setup_Wizard {
 				</td>
 			</tr>
 
-			<?php if ( !isset( $disabled_components['bp-activity.php'] ) ) : ?>
+			<?php if ( isset( $active_components['activity'] ) ) : ?>
 
 				<tr valign="top">
 					<th scope="row">
@@ -431,7 +431,7 @@ class BP_Core_Setup_Wizard {
 
 			<?php endif; ?>
 
-			<?php if ( !isset( $disabled_components['bp-groups.php'] ) ) : ?>
+			<?php if ( isset( $active_components['groups'] ) ) : ?>
 
 				<tr valign="top">
 					<th scope="row">
@@ -446,7 +446,7 @@ class BP_Core_Setup_Wizard {
 
 			<?php endif; ?>
 
-			<?php if ( !isset( $disabled_components['bp-forums.php'] ) ) : ?>
+			<?php if ( isset( $active_components['forums'] ) ) : ?>
 
 				<tr valign="top">
 					<th scope="row">
@@ -461,7 +461,7 @@ class BP_Core_Setup_Wizard {
 
 			<?php endif; ?>
 
-			<?php if ( is_multisite() && !isset( $disabled_components['bp-blogs.php'] ) ) : ?>
+			<?php if ( is_multisite() && isset( $active_components['blogs'] ) ) : ?>
 
 				<tr valign="top">
 					<th scope="row">
@@ -751,25 +751,19 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'bpwizard_ms_update' );
 
-			if ( !$disabled = get_option( 'bp-deactivated-components' ) )
-				$disabled = array();
+			if ( !$active_components = get_option( 'bp-active-components' ) )
+				$active_components = array();
 
 			// Transfer important settings from blog options to site options
 			$options = array(
-				'bp-db-version'             => $this->database_version,
-				'bp-deactivated-components' => $disabled,
-				'avatar-default'            => get_option( 'avatar-default' )
+				'bp-db-version'		=> $this->database_version,
+				'bp-active-components'	=> $active_components,
+				'avatar-default'	=> get_option( 'avatar-default' )
 			);
 			bp_core_activate_site_options( $options );
 
-			if ( !(int) $_POST['bp_components']['bp-blogs.php'] ) {
-				if ( empty( $disabled ) ) {
-					$disabled = array();
-				}
-
-				$disabled['bp-blogs.php'] = 1;
-
-			} else {
+			if ( isset( $_POST['bp_components']['blogs'] ) ) {
+				$active_components['blogs'] = 1;
 
 				// Make sure that the pages are created on the BP_ROOT_BLOG, no matter which Dashboard the setup is being run on
 				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
@@ -784,12 +778,10 @@ class BP_Core_Setup_Wizard {
 				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
 					restore_current_blog();
 
-				unset( $disabled['bp-blogs.php'] );
-
-				bp_core_install( $disabled );
+				bp_core_install( $active_components );
 			}
 
-			update_site_option( 'bp-deactivated-components', $disabled );
+			update_site_option( 'bp-active-components', $active_components );
 
 			return true;
 		}
@@ -1060,39 +1052,39 @@ function bp_core_setup_wizard_init() {
 }
 add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_setup_wizard_init', 7 );
 
-function bp_core_install( $disabled = false ) {
+function bp_core_install( $active_components = false ) {
 	global $wpdb;
 
-	if ( empty( $disabled ) )
-		$disabled = apply_filters( 'bp_deactivated_components', get_site_option( 'bp-deactivated-components' ) );
+	if ( empty( $active_components ) )
+		$active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
 
 	require_once( dirname( __FILE__ ) . '/bp-core-schema.php' );
-
+	
 	// Core DB Tables
 	bp_core_install_notifications();
 
 	// Activity Streams
-	if ( empty( $disabled['bp-activity.php'] ) )
+	if ( !empty( $active_components['activity'] ) )
 		bp_core_install_activity_streams();
 
 	// Friend Connections
-	if ( empty( $disabled['bp-friends.php'] ) )
+	if ( !empty( $active_components['friends'] ) )
 		bp_core_install_friends();
 
 	// Extensible Groups
-	if ( empty( $disabled['bp-groups.php'] ) )
+	if ( !empty( $active_components['groups'] ) )
 		bp_core_install_groups();
 
 	// Private Messaging
-	if ( empty( $disabled['bp-messages.php'] ) )
+	if ( !empty( $active_components['messages'] ) )
 		bp_core_install_private_messaging();
 
 	// Extended Profiles
-	if ( empty( $disabled['bp-xprofile.php'] ) )
+	if ( !empty( $active_components['xprofile'] ) )
 		bp_core_install_extended_profiles();
 
 	// Only install blog tables if this is a multisite installation
-	if ( is_multisite() && empty( $disabled['bp-blogs.php'] ) )
+	if ( is_multisite() && !empty( $active_components['blogs'] ) )
 		bp_core_install_blog_tracking();
 }
 
@@ -1319,5 +1311,6 @@ function bp_core_update_nag() {
 	echo '<div class="update-nag">' . $msg . '</div>';
 }
 add_action( 'admin_notices', 'bp_core_update_nag', 5 );
+add_action( 'network_admin_notices', 'bp_core_update_nag', 5 );
 
 ?>

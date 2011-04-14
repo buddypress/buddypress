@@ -27,6 +27,9 @@
  * @since 1.2
  */
 
+if ( !function_exists( 'bp_is_active' ) )
+	return;
+
 // If BuddyPress is not activated, switch back to the default WP theme
 if ( !defined( 'BP_VERSION' ) )
 	switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );

@@ -256,6 +256,10 @@ function bp_core_activation_notice() {
 	// On multisite installs, don't log on a non-root blog
 	if ( !bp_is_root_blog() )
 		return;
+		
+	// Don't show these messages during setup or upgrade
+	if ( isset( $bp->maintenence_mode ) )
+		return;
 
 	/**
 	 * Are pretty permalinks enabled?
@@ -941,7 +945,7 @@ function bp_core_get_site_options() {
  */
 function bp_core_add_root_component( $slug ) {
 	global $bp;
-
+	
 	if ( empty( $bp->pages ) )
 		$bp->pages = bp_core_get_page_names();
 

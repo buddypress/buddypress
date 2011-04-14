@@ -56,8 +56,13 @@ register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
 require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
 
 // Test to see whether this is a new installation or an upgraded version of BuddyPress
-if ( !$bp->database_version = get_site_option( 'bp-db-version' ) )
-	$bp->database_version = get_site_option( 'bp-core-db-version' );  // BP 1.2 option name
+if ( !$bp->database_version = get_site_option( 'bp-db-version' ) ) {
+	if ( $bp->database_version = get_option( 'bp-db-version' ) ) {
+		$bp->is_ms_activate = 1;
+	} else {
+		$bp->database_version = get_site_option( 'bp-core-db-version' );  // BP 1.2 option
+	}
+}
 
 // This is a new installation.
 if ( empty( $bp->database_version ) ) {
@@ -70,7 +75,7 @@ if ( empty( $bp->database_version ) ) {
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
 
 	// Check if an update is required
-	if ( (int)$bp->database_version < (int)constant( 'BP_DB_VERSION' ) ) {
+	if ( (int)$bp->database_version < (int)constant( 'BP_DB_VERSION' ) || isset( $bp->is_ms_activate ) ) {
 		$bp->maintenence_mode = 'update';
 		require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
 	}
