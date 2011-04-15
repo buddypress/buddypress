@@ -45,7 +45,7 @@ function bp_members_admin_bar_my_account_menu() {
 		// Create the main 'My Account' menu
 		$wp_admin_bar->add_menu( array(
 			'id'    => $bp->my_account_menu_id,
-			'title' => $avatar . bp_get_user_firstname(),
+			'title' => $avatar . bp_get_user_firstname( $bp->loggedin_user->fullname ),
 			'href'  => bp_core_get_user_domain( $bp->loggedin_user->id )
 		) );
 
