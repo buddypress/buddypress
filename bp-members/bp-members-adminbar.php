@@ -31,6 +31,28 @@ function bp_members_admin_bar_my_account_menu() {
 	// Logged in user
 	if ( is_user_logged_in() ) {
 
+		// Dashboard links
+		if ( is_super_admin() ) {
+
+			// Add site admin link
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'bp-root-blog',
+				'title'  => __( 'Admin Dashboard', 'buddypress' ),
+				'href'   => get_admin_url( BP_ROOT_BLOG )
+			) );
+
+			// Add network admin link
+			if ( is_multisite() ) {
+
+				// Link to the network admin dashboard
+				$wp_admin_bar->add_menu( array(
+					'parent' => 'bp-root-blog',
+					'title'  => __( 'Network Dashboard', 'buddypress' ),
+					'href'   => network_admin_url()
+				) );
+			}
+		}
+
 		// User avatar
 		$avatar = bp_core_fetch_avatar( array(
 			'item_id' => $bp->loggedin_user->id,
