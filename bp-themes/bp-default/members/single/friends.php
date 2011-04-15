@@ -13,19 +13,24 @@
 	<ul>
 		<?php if ( bp_is_my_profile() ) bp_get_options_nav(); ?>
 
-		<li id="members-order-select" class="last filter">
+		<?php if ( !bp_is_current_action( 'requests' ) ) : ?>
 
-			<?php _e( 'Order By:', 'buddypress' ) ?>
+			<li id="members-order-select" class="last filter">
 
-			<select id="members-all">
-				<option value="active"><?php _e( 'Last Active', 'buddypress' ) ?></option>
-				<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ) ?></option>
-				<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ) ?></option>
+				<?php _e( 'Order By:', 'buddypress' ) ?>
 
-				<?php do_action( 'bp_member_blog_order_options' ) ?>
+				<select id="members-all">
+					<option value="active"><?php _e( 'Last Active', 'buddypress' ) ?></option>
+					<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ) ?></option>
+					<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ) ?></option>
 
-			</select>
-		</li>
+					<?php do_action( 'bp_member_blog_order_options' ) ?>
+
+				</select>
+			</li>
+
+		<?php endif; ?>
+
 	</ul>
 </div>
 
