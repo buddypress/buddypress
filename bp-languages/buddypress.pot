@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-15 09:30:34+00:00\n"
+"POT-Creation-Date: 2011-04-16 17:30:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,24 +12,24 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: bp-blogs/bp-blogs-loader.php:22
+#: bp-blogs/bp-blogs-loader.php:26
 msgid "Blogs Streams"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:55
+#: bp-blogs/bp-blogs-loader.php:59
 msgid "Search Blogs..."
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:104
+#: bp-blogs/bp-blogs-loader.php:108
 msgid "Blogs <span>(%d)</span>"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:136 bp-core/admin/bp-core-update.php:291
-#: bp-core/admin/bp-core-update.php:468 bp-core/bp-core-template.php:340
+#: bp-blogs/bp-blogs-loader.php:140 bp-core/admin/bp-core-update.php:295
+#: bp-core/admin/bp-core-update.php:472 bp-core/bp-core-template.php:340
 msgid "Blogs"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:143 bp-blogs/bp-blogs-loader.php:164
+#: bp-blogs/bp-blogs-loader.php:147 bp-blogs/bp-blogs-loader.php:168
 #: bp-blogs/bp-blogs-buddybar.php:23
 msgid "My Blogs"
 msgstr ""
@@ -67,81 +67,81 @@ msgstr ""
 msgid "Create a Blog!"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:225
+#: bp-blogs/bp-blogs-template.php:229
 msgid "Viewing blog %1$s to %2$s (of %3$s blogs)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:250 bp-activity/bp-activity-template.php:607
+#: bp-blogs/bp-blogs-template.php:254 bp-activity/bp-activity-template.php:607
 msgid "Blog authored by %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:308 bp-core/bp-core-classes.php:81
-#: bp-groups/bp-groups-widgets.php:65 bp-groups/bp-groups-widgets.php:165
-#: bp-members/bp-members-template.php:493
-#: bp-members/bp-members-template.php:749
+#: bp-blogs/bp-blogs-template.php:312 bp-core/bp-core-classes.php:85
+#: bp-groups/bp-groups-widgets.php:69 bp-groups/bp-groups-widgets.php:169
+#: bp-members/bp-members-template.php:497
+#: bp-members/bp-members-template.php:753
 #: bp-themes/bp-default/forums/single/forum-header.php:13
 #: bp-themes/bp-default/groups/groups-loop.php:47
 #: bp-themes/bp-default/groups/single/group-header.php:42
 msgid "active %s ago"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:320
+#: bp-blogs/bp-blogs-template.php:324
 msgid "Latest Post: %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:387
+#: bp-blogs/bp-blogs-template.php:391
 msgid "There was a problem, please correct the form below and try again."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:390
+#: bp-blogs/bp-blogs-template.php:394
 msgid "By filling out the form below, you can <strong>add a blog to your account</strong>. There is no limit to the number of blogs you can have, so create to your heart's content, but blog responsibly."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:392
+#: bp-blogs/bp-blogs-template.php:396
 msgid "If you&#8217;re not going to use a great blog domain, leave it for a new user. Now have at it!"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:401
+#: bp-blogs/bp-blogs-template.php:405
 msgid "Create Blog &rarr;"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:415
+#: bp-blogs/bp-blogs-template.php:419
 msgid "Blog Name:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:417
+#: bp-blogs/bp-blogs-template.php:421
 msgid "Blog Domain:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:431
+#: bp-blogs/bp-blogs-template.php:435
 msgid "Your address will be "
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:434
+#: bp-blogs/bp-blogs-template.php:438
 msgid "blogname"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:436
+#: bp-blogs/bp-blogs-template.php:440
 msgid "domain."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:439
+#: bp-blogs/bp-blogs-template.php:443
 msgid "Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:445
+#: bp-blogs/bp-blogs-template.php:449
 msgid "Blog Title:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:456
+#: bp-blogs/bp-blogs-template.php:460
 msgid "Privacy:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:457
+#: bp-blogs/bp-blogs-template.php:461
 msgid "I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:462 bp-core/admin/bp-core-admin.php:85
+#: bp-blogs/bp-blogs-template.php:466 bp-core/admin/bp-core-admin.php:85
 #: bp-core/admin/bp-core-admin.php:95 bp-core/admin/bp-core-admin.php:103
 #: bp-core/admin/bp-core-admin.php:111 bp-core/admin/bp-core-admin.php:121
 #: bp-core/admin/bp-core-admin.php:133 bp-friends/bp-friends-screens.php:70
@@ -152,7 +152,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:466 bp-core/admin/bp-core-admin.php:86
+#: bp-blogs/bp-blogs-template.php:470 bp-core/admin/bp-core-admin.php:86
 #: bp-core/admin/bp-core-admin.php:96 bp-core/admin/bp-core-admin.php:104
 #: bp-core/admin/bp-core-admin.php:112 bp-core/admin/bp-core-admin.php:122
 #: bp-core/admin/bp-core-admin.php:134 bp-friends/bp-friends-screens.php:71
@@ -163,40 +163,40 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:519
+#: bp-blogs/bp-blogs-template.php:523
 msgid "Congratulations! You have successfully registered a new blog."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:521
+#: bp-blogs/bp-blogs-template.php:525
 msgid "<a href=\"%1$s\">%2$s</a> is your new blog.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:532 bp-core/bp-core-template.php:278
+#: bp-blogs/bp-blogs-template.php:536 bp-core/bp-core-template.php:278
 #: bp-themes/bp-default/blogs/index.php:21
 #: bp-themes/bp-default/blogs/create.php:21
 msgid "Create a Blog"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:545
+#: bp-blogs/bp-blogs-template.php:549
 msgid "%s's Blogs"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:546
+#: bp-blogs/bp-blogs-template.php:550
 msgid "%s's Recent Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:547
+#: bp-blogs/bp-blogs-template.php:551
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:562 bp-core/bp-core-template.php:401
-#: bp-groups/bp-groups-template.php:2002 bp-forums/bp-forums-template.php:1108
-#: bp-members/bp-members-template.php:589 bp-themes/bp-default/header.php:42
+#: bp-blogs/bp-blogs-template.php:566 bp-core/bp-core-template.php:401
+#: bp-groups/bp-groups-template.php:2002 bp-forums/bp-forums-template.php:1116
+#: bp-members/bp-members-template.php:593 bp-themes/bp-default/header.php:42
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:595 bp-blogs/bp-blogs-template.php:596
+#: bp-blogs/bp-blogs-template.php:599 bp-blogs/bp-blogs-template.php:600
 msgid "Visit Blog"
 msgstr ""
 
@@ -220,53 +220,53 @@ msgstr ""
 msgid "%1$s commented on the blog post %2$s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-widgets.php:18
+#: bp-blogs/bp-blogs-widgets.php:23
 msgid "Recent Site Wide Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-widgets.php:60
+#: bp-blogs/bp-blogs-widgets.php:65
 msgid "Sorry, there were no blog posts found. Why not write one?"
 msgstr ""
 
-#: bp-blogs/bp-blogs-widgets.php:80
+#: bp-blogs/bp-blogs-widgets.php:85
 msgid "Max posts to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:15
+#: bp-core/bp-core-widgets.php:20
 msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:16 bp-core/bp-core-widgets.php:105
-#: bp-core/admin/bp-core-update.php:410 bp-core/bp-core-template.php:334
-#: bp-members/bp-members-loader.php:22
+#: bp-core/bp-core-widgets.php:21 bp-core/bp-core-widgets.php:110
+#: bp-core/admin/bp-core-update.php:414 bp-core/bp-core-template.php:334
+#: bp-members/bp-members-loader.php:26
 #: bp-themes/bp-default/groups/single/admin.php:166
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:41 bp-core/bp-core-widgets.php:123
+#: bp-core/bp-core-widgets.php:46 bp-core/bp-core-widgets.php:128
 #: bp-friends/bp-friends-template.php:55 bp-friends/bp-friends-template.php:72
-#: bp-groups/bp-groups-widgets.php:44 bp-groups/bp-groups-widgets.php:120
+#: bp-groups/bp-groups-widgets.php:48 bp-groups/bp-groups-widgets.php:124
 #: bp-themes/bp-default/members/single/blogs.php:23
 #: bp-themes/bp-default/blogs/index.php:55
 msgid "Newest"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:42 bp-core/bp-core-widgets.php:124
-#: bp-groups/bp-groups-widgets.php:45 bp-groups/bp-groups-widgets.php:121
+#: bp-core/bp-core-widgets.php:47 bp-core/bp-core-widgets.php:129
+#: bp-groups/bp-groups-widgets.php:49 bp-groups/bp-groups-widgets.php:125
 msgid "Active"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:46 bp-core/bp-core-widgets.php:125
-#: bp-groups/bp-groups-widgets.php:46 bp-groups/bp-groups-widgets.php:122
+#: bp-core/bp-core-widgets.php:51 bp-core/bp-core-widgets.php:130
+#: bp-groups/bp-groups-widgets.php:50 bp-groups/bp-groups-widgets.php:126
 msgid "Popular"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:85
+#: bp-core/bp-core-widgets.php:90
 msgid "No one has signed up yet!"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:116 bp-core/bp-core-widgets.php:191
-#: bp-core/bp-core-widgets.php:255 bp-groups/bp-groups-widgets.php:113
+#: bp-core/bp-core-widgets.php:121 bp-core/bp-core-widgets.php:201
+#: bp-core/bp-core-widgets.php:270 bp-groups/bp-groups-widgets.php:117
 #: bp-themes/bp-default/forums/index.php:103
 #: bp-themes/bp-default/forums/single/edit.php:49
 #: bp-themes/bp-default/groups/single/forum/edit.php:49
@@ -274,47 +274,47 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:118
+#: bp-core/bp-core-widgets.php:123
 msgid "Max members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:121
+#: bp-core/bp-core-widgets.php:126
 msgid "Default members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:138
+#: bp-core/bp-core-widgets.php:148
 msgid "Avatars of users who are currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:139
+#: bp-core/bp-core-widgets.php:149
 msgid "Who's Online Avatars"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:163
+#: bp-core/bp-core-widgets.php:173
 msgid "There are no users currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:182
+#: bp-core/bp-core-widgets.php:192
 msgid "Who's Online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:193 bp-core/bp-core-widgets.php:257
+#: bp-core/bp-core-widgets.php:203 bp-core/bp-core-widgets.php:272
 msgid "Max Members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:202
+#: bp-core/bp-core-widgets.php:217
 msgid "Avatars of recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:203
+#: bp-core/bp-core-widgets.php:218
 msgid "Recently Active Member Avatars"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:227
+#: bp-core/bp-core-widgets.php:242
 msgid "There are no recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:313
+#: bp-core/bp-core-widgets.php:328
 msgid "There were no members found, please try another filter."
 msgstr ""
 
@@ -332,8 +332,8 @@ msgstr ""
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:23 bp-core/admin/bp-core-update.php:1219
-#: bp-core/admin/bp-core-update.php:1220 bp-core/bp-core-functions.php:158
+#: bp-core/admin/bp-core-admin.php:23 bp-core/admin/bp-core-update.php:1223
+#: bp-core/admin/bp-core-update.php:1224 bp-core/bp-core-functions.php:158
 #: bp-core/bp-core-functions.php:159 bp-members/bp-members-signup.php:570
 msgid "BuddyPress"
 msgstr ""
@@ -378,7 +378,7 @@ msgstr ""
 msgid "BuddyPress Component Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:253 bp-xprofile/bp-xprofile-loader.php:23
+#: bp-core/admin/bp-core-admin.php:253 bp-xprofile/bp-xprofile-loader.php:27
 msgid "Extended Profiles"
 msgstr ""
 
@@ -394,7 +394,7 @@ msgstr ""
 msgid "Allow your users to modify their account and notification settings directly from within their profiles."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:261 bp-friends/bp-friends-loader.php:22
+#: bp-core/admin/bp-core-admin.php:261 bp-friends/bp-friends-loader.php:26
 msgid "Friend Connections"
 msgstr ""
 
@@ -410,7 +410,7 @@ msgstr ""
 msgid "Allow your users to talk to each other directly and in private. They are not just limited to one-on-one discussions, and can send messages to multiple recipients."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:269 bp-activity/bp-activity-loader.php:22
+#: bp-core/admin/bp-core-admin.php:269 bp-activity/bp-activity-loader.php:26
 msgid "Activity Streams"
 msgstr ""
 
@@ -418,7 +418,7 @@ msgstr ""
 msgid "Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:273 bp-groups/bp-groups-loader.php:25
+#: bp-core/admin/bp-core-admin.php:273 bp-groups/bp-groups-loader.php:29
 msgid "User Groups"
 msgstr ""
 
@@ -426,7 +426,7 @@ msgstr ""
 msgid "Groups allow your users to organize themselves into specific public, private or hidden sections with a separate activity stream and member listing."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:277 bp-forums/bp-forums-loader.php:22
+#: bp-core/admin/bp-core-admin.php:277 bp-forums/bp-forums-loader.php:26
 msgid "Discussion Forums"
 msgstr ""
 
@@ -434,11 +434,11 @@ msgstr ""
 msgid "Full powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:284 bp-core/admin/bp-core-update.php:307
+#: bp-core/admin/bp-core-admin.php:284 bp-core/admin/bp-core-update.php:311
 msgid "Blog Tracking"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:285 bp-core/admin/bp-core-update.php:316
+#: bp-core/admin/bp-core-admin.php:285 bp-core/admin/bp-core-update.php:320
 msgid "Track new blogs, new posts and new comments across your entire blog network."
 msgstr ""
 
@@ -501,359 +501,359 @@ msgstr ""
 msgid "Associate WordPress Pages with the following BuddyPress pages. Setting to \"None\" will render that page inaccessible."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:58 bp-core/admin/bp-core-update.php:203
+#: bp-core/admin/bp-core-update.php:62 bp-core/admin/bp-core-update.php:207
 #: bp-core/bp-core-functions.php:166
 msgid "Components"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:59 bp-core/admin/bp-core-update.php:74
-#: bp-core/admin/bp-core-update.php:207
+#: bp-core/admin/bp-core-update.php:63 bp-core/admin/bp-core-update.php:78
+#: bp-core/admin/bp-core-update.php:211
 msgid "Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:60 bp-core/admin/bp-core-update.php:211
+#: bp-core/admin/bp-core-update.php:64 bp-core/admin/bp-core-update.php:215
 msgid "Permalinks"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:61 bp-core/admin/bp-core-update.php:215
+#: bp-core/admin/bp-core-update.php:65 bp-core/admin/bp-core-update.php:219
 msgid "Theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:62 bp-core/admin/bp-core-update.php:76
-#: bp-core/admin/bp-core-update.php:172 bp-core/admin/bp-core-update.php:219
-#: bp-core/admin/bp-core-update.php:1186
+#: bp-core/admin/bp-core-update.php:66 bp-core/admin/bp-core-update.php:80
+#: bp-core/admin/bp-core-update.php:176 bp-core/admin/bp-core-update.php:223
+#: bp-core/admin/bp-core-update.php:1190
 #: bp-themes/bp-default/groups/create.php:269
 msgid "Finish"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:68 bp-core/admin/bp-core-update.php:195
+#: bp-core/admin/bp-core-update.php:72 bp-core/admin/bp-core-update.php:199
 msgid "Multisite Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:71 bp-core/admin/bp-core-update.php:191
+#: bp-core/admin/bp-core-update.php:75 bp-core/admin/bp-core-update.php:195
 msgid "Database Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:129 bp-core/admin/bp-core-update.php:1215
+#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1219
 msgid "Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:129 bp-core/admin/bp-core-update.php:1213
+#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1217
 msgid "Setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:137
+#: bp-core/admin/bp-core-update.php:141
 msgid "BuddyPress %s"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:175
+#: bp-core/admin/bp-core-update.php:179
 msgid "Finish &amp; Activate &rarr;"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:181
+#: bp-core/admin/bp-core-update.php:185
 msgid "Save &amp; Next &rarr;"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:199
+#: bp-core/admin/bp-core-update.php:203
 msgid "Blog Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:238
+#: bp-core/admin/bp-core-update.php:242
 msgid "Before you can continue using BuddyPress, a few minor adjustments need to be made. These changes are not distructive and will not remove or change any existing settings."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:281
+#: bp-core/admin/bp-core-update.php:285
 msgid "BuddyPress has detected a recent change to WordPress Multisite, which allows members of your community to have their own WordPress blogs. You can enable or disable this feature at any time at <a href=\"%s\">Network Options</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:283
+#: bp-core/admin/bp-core-update.php:287
 msgid "Please select the WordPress page you would like to use to display the blog directory. You can either choose an existing page or let BuddyPress auto-create a page for you. If you'd like, you can go to manually create pages now, and return to this step when you are finished."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:285 bp-core/admin/bp-core-update.php:404
+#: bp-core/admin/bp-core-update.php:289 bp-core/admin/bp-core-update.php:408
 msgid "Please Note:"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:285 bp-core/admin/bp-core-update.php:404
+#: bp-core/admin/bp-core-update.php:289 bp-core/admin/bp-core-update.php:408
 msgid "If you have manually added BuddyPress navigation links in your theme you may need to remove these from your header.php to avoid duplicate links."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:292 bp-core/admin/bp-core-update.php:439
-#: bp-core/admin/bp-core-update.php:454 bp-core/admin/bp-core-update.php:469
+#: bp-core/admin/bp-core-update.php:296 bp-core/admin/bp-core-update.php:443
+#: bp-core/admin/bp-core-update.php:458 bp-core/admin/bp-core-update.php:473
 msgid "Displays individual groups as well as a directory of groups."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:295 bp-core/admin/bp-core-update.php:414
-#: bp-core/admin/bp-core-update.php:427 bp-core/admin/bp-core-update.php:442
-#: bp-core/admin/bp-core-update.php:457 bp-core/admin/bp-core-update.php:472
-#: bp-core/admin/bp-core-update.php:485 bp-core/admin/bp-core-update.php:496
+#: bp-core/admin/bp-core-update.php:299 bp-core/admin/bp-core-update.php:418
+#: bp-core/admin/bp-core-update.php:431 bp-core/admin/bp-core-update.php:446
+#: bp-core/admin/bp-core-update.php:461 bp-core/admin/bp-core-update.php:476
+#: bp-core/admin/bp-core-update.php:489 bp-core/admin/bp-core-update.php:500
 msgid "Automatically create a page at:"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:296 bp-core/admin/bp-core-update.php:415
-#: bp-core/admin/bp-core-update.php:428 bp-core/admin/bp-core-update.php:443
-#: bp-core/admin/bp-core-update.php:458 bp-core/admin/bp-core-update.php:473
-#: bp-core/admin/bp-core-update.php:486 bp-core/admin/bp-core-update.php:497
+#: bp-core/admin/bp-core-update.php:300 bp-core/admin/bp-core-update.php:419
+#: bp-core/admin/bp-core-update.php:432 bp-core/admin/bp-core-update.php:447
+#: bp-core/admin/bp-core-update.php:462 bp-core/admin/bp-core-update.php:477
+#: bp-core/admin/bp-core-update.php:490 bp-core/admin/bp-core-update.php:501
 msgid "Use an existing page:"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:296 bp-core/admin/bp-core-update.php:415
-#: bp-core/admin/bp-core-update.php:428 bp-core/admin/bp-core-update.php:443
-#: bp-core/admin/bp-core-update.php:458 bp-core/admin/bp-core-update.php:473
-#: bp-core/admin/bp-core-update.php:486 bp-core/admin/bp-core-update.php:497
+#: bp-core/admin/bp-core-update.php:300 bp-core/admin/bp-core-update.php:419
+#: bp-core/admin/bp-core-update.php:432 bp-core/admin/bp-core-update.php:447
+#: bp-core/admin/bp-core-update.php:462 bp-core/admin/bp-core-update.php:477
+#: bp-core/admin/bp-core-update.php:490 bp-core/admin/bp-core-update.php:501
 msgid "- Select -"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:302
+#: bp-core/admin/bp-core-update.php:306
 msgid "Would you like to enable blog tracking, which tracks blog activity across your network?"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:310
+#: bp-core/admin/bp-core-update.php:314
 msgid "Enabled"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:311
+#: bp-core/admin/bp-core-update.php:315
 msgid "Disabled"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:339
+#: bp-core/admin/bp-core-update.php:343
 msgid "BuddyPress bundles several individual social components together, each one adding a distinct feature. This first step decides which features are enabled on your site; all features are enabled by default. Don't worry, you can change your mind at any point in the future."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:370
+#: bp-core/admin/bp-core-update.php:374
 msgid "members"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:373 bp-core/bp-core-classes.php:97
+#: bp-core/admin/bp-core-update.php:377 bp-core/bp-core-classes.php:101
 #: bp-activity/bp-activity-template.php:1052
 msgid "groups"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:376
+#: bp-core/admin/bp-core-update.php:380
 msgid "activity"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:379
+#: bp-core/admin/bp-core-update.php:383
 msgid "forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:382
+#: bp-core/admin/bp-core-update.php:386
 #: bp-activity/bp-activity-template.php:1052
 msgid "blogs"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:385
+#: bp-core/admin/bp-core-update.php:389
 msgid "register"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:388
+#: bp-core/admin/bp-core-update.php:392
 msgid "activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:400
+#: bp-core/admin/bp-core-update.php:404
 msgid "BuddyPress now uses WordPress pages to display content. This allows you to easily change the names of pages or move them to a sub page."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:402
+#: bp-core/admin/bp-core-update.php:406
 msgid "Either choose an existing page or let BuddyPress auto-create pages for you. To manually create custom pages, come back to this step once you are finished."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:411
+#: bp-core/admin/bp-core-update.php:415
 msgid "Displays member profiles, and a directory of all site members."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:423
+#: bp-core/admin/bp-core-update.php:427
 #: bp-themes/bp-default/activity/index.php:19
 msgid "Site Activity"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:424
+#: bp-core/admin/bp-core-update.php:428
 msgid "Displays the activity for the entire site, a member's friends, groups and @mentions."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:438 bp-core/bp-core-template.php:337
+#: bp-core/admin/bp-core-update.php:442 bp-core/bp-core-template.php:337
 #: bp-groups/bp-groups-activity.php:103 bp-groups/bp-groups-activity.php:116
 #: bp-groups/bp-groups-activity.php:129 bp-groups/bp-groups-activity.php:142
-#: bp-groups/bp-groups-loader.php:238 bp-groups/bp-groups-loader.php:364
-#: bp-groups/bp-groups-widgets.php:14 bp-groups/bp-groups-widgets.php:35
-#: bp-groups/bp-groups-widgets.php:102 bp-groups/bp-groups-screens.php:796
+#: bp-groups/bp-groups-loader.php:242 bp-groups/bp-groups-loader.php:368
+#: bp-groups/bp-groups-widgets.php:18 bp-groups/bp-groups-widgets.php:39
+#: bp-groups/bp-groups-widgets.php:106 bp-groups/bp-groups-screens.php:796
 #: bp-members/bp-members-buddybar.php:172
-#: bp-activity/bp-activity-loader.php:161
-#: bp-activity/bp-activity-loader.php:234
+#: bp-activity/bp-activity-loader.php:165
+#: bp-activity/bp-activity-loader.php:238
 msgid "Groups"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:453 bp-core/bp-core-template.php:343
+#: bp-core/admin/bp-core-update.php:457 bp-core/bp-core-template.php:343
 #: bp-groups/bp-groups-buddybar.php:57 bp-forums/bp-forums-admin.php:183
-#: bp-forums/bp-forums-loader.php:107 bp-forums/bp-forums-loader.php:188
+#: bp-forums/bp-forums-loader.php:111 bp-forums/bp-forums-loader.php:192
 #: bp-members/bp-members-buddybar.php:184
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:481 bp-core/bp-core-functions.php:353
+#: bp-core/admin/bp-core-update.php:485 bp-core/bp-core-functions.php:353
 #: bp-members/bp-members-adminbar.php:90
 msgid "Register"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:482
+#: bp-core/admin/bp-core-update.php:486
 msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:492 bp-core/bp-core-functions.php:348
-#: bp-messages/bp-messages-template.php:486
+#: bp-core/admin/bp-core-update.php:496 bp-core/bp-core-functions.php:348
+#: bp-messages/bp-messages-template.php:490
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:493
+#: bp-core/admin/bp-core-update.php:497
 msgid "The page users will visit to activate their account once they have registered."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:524
+#: bp-core/admin/bp-core-update.php:528
 msgid "To make sure the pages created in the previous step work correctly, pretty permalinks must be active on your site."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:525
+#: bp-core/admin/bp-core-update.php:529
 msgid "Please select the permalink setting you would like to use. For more advanced options please visit the <a href=\"%s\">permalink settings page</a> first, and complete this setup wizard later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:529
+#: bp-core/admin/bp-core-update.php:533
 msgid "Day and name"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:533
+#: bp-core/admin/bp-core-update.php:537
 msgid "Month and name"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:537
+#: bp-core/admin/bp-core-update.php:541
 msgid "Numeric"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:595
+#: bp-core/admin/bp-core-update.php:599
 msgid "BuddyPress introduces a whole range of new screens to display content. To display these screens you will need to decide how you want to handle them in your active theme. There are a few different options, please choose the option that best suits your demands and needs."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:600
+#: bp-core/admin/bp-core-update.php:604
 msgid "Use the Default Theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:604
+#: bp-core/admin/bp-core-update.php:608
 msgid "The default theme contains everything you need to get up and running out of the box. It supports all features and is highly customizable."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:605
+#: bp-core/admin/bp-core-update.php:609
 msgid "This is the best choice if you do not have an existing WordPress theme or want to create a child theme from a solid starting point."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:606 bp-core/admin/bp-core-update.php:693
+#: bp-core/admin/bp-core-update.php:610 bp-core/admin/bp-core-update.php:697
 msgid "Choose this option"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:627
+#: bp-core/admin/bp-core-update.php:631
 msgid "Manually Update My WordPress Theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:631
+#: bp-core/admin/bp-core-update.php:635
 msgid "The BuddyPress template pack plugin will run you through the process of manually upgrading your existing WordPress theme. This usually involves following the step by step instructions and copying the BuddyPress template files into your theme then tweaking the HTML to match."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:632
+#: bp-core/admin/bp-core-update.php:636
 msgid "This is the best choice if you have an existing WordPress theme and want complete control over template layout and design."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:636
+#: bp-core/admin/bp-core-update.php:640
 msgid "You must first install the BuddyPress template pack before choosing this option"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:637
+#: bp-core/admin/bp-core-update.php:641
 msgid "Install Now"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:641
+#: bp-core/admin/bp-core-update.php:645
 msgid "Choose this option (go to Appearance &rarr; BP Compatibility after setup is complete)"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:642
+#: bp-core/admin/bp-core-update.php:646
 msgid "Plugin Installed"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:651
+#: bp-core/admin/bp-core-update.php:655
 msgid "Find a BuddyPress Theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:655
+#: bp-core/admin/bp-core-update.php:659
 msgid "There's growing number of BuddyPress themes available for you to download and use. Browse through the list of available themes to see if there is one that matches your needs."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:656
+#: bp-core/admin/bp-core-update.php:660
 msgid "This is the best choice if want to use a theme other than the default and get started straight out of the box."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:660
+#: bp-core/admin/bp-core-update.php:664
 msgid "You must first install at least one BuddyPress theme before choosing this option"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:661
+#: bp-core/admin/bp-core-update.php:665
 msgid "Add Themes"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:666
+#: bp-core/admin/bp-core-update.php:670
 msgid "Choose this option and use the theme:"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:686
+#: bp-core/admin/bp-core-update.php:690
 msgid "Do Not Change Theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:690
+#: bp-core/admin/bp-core-update.php:694
 msgid "You are happy with your current theme and plan on changing it later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:691
+#: bp-core/admin/bp-core-update.php:695
 msgid "This is the best choice if you have a highly customized theme on your site already, and want to manually integrate BuddyPress into your site over time."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:715
+#: bp-core/admin/bp-core-update.php:719
 msgid "setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:715
+#: bp-core/admin/bp-core-update.php:719
 msgid "update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:717
+#: bp-core/admin/bp-core-update.php:721
 msgid "The BuddyPress %1$s is complete, and your site is ready to go!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:890
+#: bp-core/admin/bp-core-update.php:894
 msgid "Oops, there was a problem creating a configuration file. "
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:896
+#: bp-core/admin/bp-core-update.php:900
 msgid "If your <code>web.config</code> file were <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:905
+#: bp-core/admin/bp-core-update.php:909
 msgid "Permalink structure updated. Remove write access on web.config file now!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:910
+#: bp-core/admin/bp-core-update.php:914
 msgid "If your <code>.htaccess</code> file were <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:922
+#: bp-core/admin/bp-core-update.php:926
 msgid "Paste all these rules into a new <code>.htaccess</code> file in the root of your WordPress installation and save the file. Once you're done, please hit the \"Save and Next\" button to continue."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1159
+#: bp-core/admin/bp-core-update.php:1163
 msgid "Installation was successful. The available options have now been updated, please continue with your selection."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1302
+#: bp-core/admin/bp-core-update.php:1306
 msgid "BuddyPress has been updated! Please run the <a href=\"%s\">update wizard</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1307
+#: bp-core/admin/bp-core-update.php:1311
 msgid "BuddyPress was successfully installed! Please run the <a href=\"%s\">installation wizard</a>."
 msgstr ""
 
@@ -973,7 +973,7 @@ msgstr ""
 
 #: bp-core/bp-core-template.php:412 bp-core/bp-core-template.php:414
 #: bp-core/bp-core-buddybar.php:413 bp-members/bp-members-adminbar.php:118
-#: bp-members/bp-members-template.php:650 bp-themes/bp-default/sidebar.php:18
+#: bp-members/bp-members-template.php:654 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -1005,11 +1005,11 @@ msgstr ""
 msgid "Are you sure?"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:95
+#: bp-core/bp-core-classes.php:99
 msgid "group"
 msgstr ""
 
-#: bp-core/deprecated/1.3.php:243 bp-xprofile/bp-xprofile-loader.php:214
+#: bp-core/deprecated/1.3.php:243 bp-xprofile/bp-xprofile-loader.php:218
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:52
 msgid "My Profile"
@@ -1045,9 +1045,9 @@ msgstr ""
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:167 bp-settings/bp-settings-loader.php:13
-#: bp-settings/bp-settings-loader.php:69 bp-settings/bp-settings-loader.php:139
-#: bp-groups/bp-groups-loader.php:161 bp-members/bp-members-buddybar.php:197
+#: bp-core/bp-core-functions.php:167 bp-settings/bp-settings-loader.php:17
+#: bp-settings/bp-settings-loader.php:73 bp-settings/bp-settings-loader.php:143
+#: bp-groups/bp-groups-loader.php:165 bp-members/bp-members-buddybar.php:197
 msgid "Settings"
 msgstr ""
 
@@ -1165,55 +1165,55 @@ msgstr ""
 msgid "Random Blog"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:31
+#: bp-core/bp-core-loader.php:35
 msgid "BuddyPress Core"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:177 bp-xprofile/bp-xprofile-loader.php:110
-#: bp-xprofile/bp-xprofile-loader.php:174
-#: bp-members/bp-members-buddybar.php:135 bp-members/bp-members-loader.php:145
+#: bp-core/bp-core-loader.php:181 bp-xprofile/bp-xprofile-loader.php:114
+#: bp-xprofile/bp-xprofile-loader.php:178
+#: bp-members/bp-members-buddybar.php:135 bp-members/bp-members-loader.php:149
 msgid "Profile"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:188 bp-groups/bp-groups-template.php:486
-#: bp-xprofile/bp-xprofile-loader.php:122 bp-members/bp-members-loader.php:160
+#: bp-core/bp-core-loader.php:192 bp-groups/bp-groups-template.php:486
+#: bp-xprofile/bp-xprofile-loader.php:126 bp-members/bp-members-loader.php:164
 msgid "Public"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:75
+#: bp-friends/bp-friends-loader.php:79
 msgid "Search Friends..."
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:93
+#: bp-friends/bp-friends-loader.php:97
 msgid "Friends <span>(%d)</span>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:105 bp-friends/bp-friends-loader.php:165
-#: bp-friends/bp-friends-loader.php:191 bp-friends/bp-friends-template.php:89
+#: bp-friends/bp-friends-loader.php:109 bp-friends/bp-friends-loader.php:169
+#: bp-friends/bp-friends-loader.php:195 bp-friends/bp-friends-template.php:89
 #: bp-friends/bp-friends-activity.php:60
 msgid "My Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:115
+#: bp-friends/bp-friends-loader.php:119
 msgid "Requests"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:147
+#: bp-friends/bp-friends-loader.php:151
 msgid "Friends <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:148
+#: bp-friends/bp-friends-loader.php:152
 msgid "Pending Requests <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:150 bp-friends/bp-friends-screens.php:69
+#: bp-friends/bp-friends-loader.php:154 bp-friends/bp-friends-screens.php:69
 #: bp-members/bp-members-buddybar.php:160
-#: bp-activity/bp-activity-loader.php:148
-#: bp-activity/bp-activity-loader.php:225
+#: bp-activity/bp-activity-loader.php:152
+#: bp-activity/bp-activity-loader.php:229
 msgid "Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:151
+#: bp-friends/bp-friends-loader.php:155
 msgid "No Pending Requests"
 msgstr ""
 
@@ -1401,23 +1401,23 @@ msgstr ""
 msgid "You have a friendship request from %s"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:81 bp-settings/bp-settings-loader.php:146
+#: bp-settings/bp-settings-loader.php:85 bp-settings/bp-settings-loader.php:150
 msgid "General"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:92 bp-settings/bp-settings-loader.php:153
+#: bp-settings/bp-settings-loader.php:96 bp-settings/bp-settings-loader.php:157
 #: bp-members/bp-members-buddybar.php:11
 msgid "Notifications"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:104
+#: bp-settings/bp-settings-loader.php:108
 #: bp-themes/bp-default/members/single/settings/delete-account.php:50
 msgid "Delete Account"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:161
-#: bp-messages/bp-messages-loader.php:133
-#: bp-messages/bp-messages-loader.php:209
+#: bp-settings/bp-settings-loader.php:165
+#: bp-messages/bp-messages-loader.php:137
+#: bp-messages/bp-messages-loader.php:213
 msgid "Compose"
 msgstr ""
 
@@ -1555,85 +1555,85 @@ msgstr ""
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:79
+#: bp-groups/bp-groups-loader.php:83
 msgid "Search Groups..."
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:157
+#: bp-groups/bp-groups-loader.php:161
 msgid "Details"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:165
+#: bp-groups/bp-groups-loader.php:169
 msgid "Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:172
+#: bp-groups/bp-groups-loader.php:176
 msgid "Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:198
+#: bp-groups/bp-groups-loader.php:202
 msgid "Groups <span>(%d)</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:210 bp-groups/bp-groups-loader.php:379
-#: bp-groups/bp-groups-loader.php:406
+#: bp-groups/bp-groups-loader.php:214 bp-groups/bp-groups-loader.php:383
+#: bp-groups/bp-groups-loader.php:410
 msgid "My Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:221
+#: bp-groups/bp-groups-loader.php:225
 msgid "Invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:250
+#: bp-groups/bp-groups-loader.php:254
 msgctxt "Group home navigation title"
 msgid "Home"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:262 bp-groups/bp-groups-buddybar.php:18
+#: bp-groups/bp-groups-loader.php:266 bp-groups/bp-groups-buddybar.php:18
 msgid "Admin"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:281 bp-groups/bp-groups-template.php:1355
+#: bp-groups/bp-groups-loader.php:285 bp-groups/bp-groups-template.php:1355
 #: bp-groups/bp-groups-template.php:1356 bp-themes/bp-default/_inc/ajax.php:458
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:293
+#: bp-groups/bp-groups-loader.php:297
 #: bp-themes/bp-default/forums/forums-loop.php:43
 msgid "Forum"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:305
+#: bp-groups/bp-groups-loader.php:309
 msgid "Members (%s)"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:318
+#: bp-groups/bp-groups-loader.php:322
 #: bp-themes/bp-default/groups/single/send-invites.php:60
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:361
+#: bp-groups/bp-groups-loader.php:365
 msgid "Groups <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:362
+#: bp-groups/bp-groups-loader.php:366
 msgid "Pending Invites <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:365
+#: bp-groups/bp-groups-loader.php:369
 msgid "No Pending Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:425 bp-groups/bp-groups-buddybar.php:23
+#: bp-groups/bp-groups-loader.php:429 bp-groups/bp-groups-buddybar.php:23
 #: bp-groups/bp-groups-template.php:1059 bp-groups/bp-groups-template.php:2070
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:688
+#: bp-groups/bp-groups-classes.php:696
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:694 bp-groups/bp-groups-buddybar.php:14
+#: bp-groups/bp-groups-classes.php:702 bp-groups/bp-groups-buddybar.php:14
 #: bp-groups/bp-groups-functions.php:82
 msgid "Group Admin"
 msgstr ""
@@ -1748,27 +1748,27 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:13
+#: bp-groups/bp-groups-widgets.php:17
 msgid "A dynamic list of recently active, popular, and newest groups"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:63 bp-groups/bp-groups-widgets.php:163
+#: bp-groups/bp-groups-widgets.php:67 bp-groups/bp-groups-widgets.php:167
 msgid "created %s ago"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:82
+#: bp-groups/bp-groups-widgets.php:86
 msgid "There are no groups to display."
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:115
+#: bp-groups/bp-groups-widgets.php:119
 msgid "Max groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:118
+#: bp-groups/bp-groups-widgets.php:122
 msgid "Default groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:182
+#: bp-groups/bp-groups-widgets.php:186
 msgid "No groups matched the current filter."
 msgstr ""
 
@@ -2044,7 +2044,7 @@ msgid "Delete Group"
 msgstr ""
 
 #: bp-groups/bp-groups-buddybar.php:46 bp-members/bp-members-buddybar.php:124
-#: bp-activity/bp-activity-loader.php:90 bp-activity/bp-activity-loader.php:196
+#: bp-activity/bp-activity-loader.php:94 bp-activity/bp-activity-loader.php:200
 #: bp-activity/feeds/bp-activity-personal-feed.php:21
 #: bp-activity/bp-activity-screens.php:152
 msgid "Activity"
@@ -2092,10 +2092,10 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:878 bp-groups/bp-groups-template.php:894
 #: bp-groups/bp-groups-template.php:1566 bp-groups/bp-groups-template.php:1575
 #: bp-groups/bp-groups-template.php:1584 bp-groups/bp-groups-template.php:2246
-#: bp-forums/bp-forums-template.php:340 bp-forums/bp-forums-template.php:454
-#: bp-forums/bp-forums-template.php:982 bp-members/bp-members-template.php:451
-#: bp-members/bp-members-template.php:696
-#: bp-members/bp-members-template.php:716
+#: bp-forums/bp-forums-template.php:344 bp-forums/bp-forums-template.php:458
+#: bp-forums/bp-forums-template.php:990 bp-members/bp-members-template.php:455
+#: bp-members/bp-members-template.php:700
+#: bp-members/bp-members-template.php:720
 #: bp-activity/bp-activity-template.php:540
 #: bp-activity/bp-activity-template.php:615
 #: bp-activity/bp-activity-template.php:624
@@ -2135,11 +2135,11 @@ msgstr ""
 msgid "%d topics"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:746 bp-forums/bp-forums-template.php:533
+#: bp-groups/bp-groups-template.php:746 bp-forums/bp-forums-template.php:537
 msgid "%d post"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:748 bp-forums/bp-forums-template.php:535
+#: bp-groups/bp-groups-template.php:748 bp-forums/bp-forums-template.php:539
 msgid "%d posts"
 msgstr ""
 
@@ -2246,26 +2246,26 @@ msgstr ""
 msgid "%1$s posted an update in the group %2$s:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:132
-#: bp-xprofile/bp-xprofile-template.php:745
-#: bp-xprofile/bp-xprofile-template.php:746
+#: bp-xprofile/bp-xprofile-loader.php:136
+#: bp-xprofile/bp-xprofile-template.php:749
+#: bp-xprofile/bp-xprofile-template.php:750
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:142
+#: bp-xprofile/bp-xprofile-loader.php:146
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
 msgid "Change Avatar"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:181
+#: bp-xprofile/bp-xprofile-loader.php:185
 msgid "View My Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:188
+#: bp-xprofile/bp-xprofile-loader.php:192
 msgid "Edit My Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:195
+#: bp-xprofile/bp-xprofile-loader.php:199
 msgid "Change My Avatar"
 msgstr ""
 
@@ -2588,12 +2588,12 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:430 bp-forums/bp-forums-template.php:1052
+#: bp-xprofile/bp-xprofile-admin.php:430 bp-forums/bp-forums-template.php:1060
 #: bp-themes/bp-default/functions.php:431
 msgid "Edit"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:431 bp-forums/bp-forums-template.php:1053
+#: bp-xprofile/bp-xprofile-admin.php:431 bp-forums/bp-forums-template.php:1061
 #: bp-themes/bp-default/_inc/ajax.php:218
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:13
@@ -2602,63 +2602,63 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:542
+#: bp-xprofile/bp-xprofile-template.php:546
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:542
+#: bp-xprofile/bp-xprofile-template.php:546
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:542
+#: bp-xprofile/bp-xprofile-template.php:546
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:543
+#: bp-xprofile/bp-xprofile-template.php:547
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:543
+#: bp-xprofile/bp-xprofile-template.php:547
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:543
+#: bp-xprofile/bp-xprofile-template.php:547
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:544
+#: bp-xprofile/bp-xprofile-template.php:548
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:544
+#: bp-xprofile/bp-xprofile-template.php:548
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:544
+#: bp-xprofile/bp-xprofile-template.php:548
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:545
+#: bp-xprofile/bp-xprofile-template.php:549
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:545
+#: bp-xprofile/bp-xprofile-template.php:549
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:545
+#: bp-xprofile/bp-xprofile-template.php:549
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:680
+#: bp-xprofile/bp-xprofile-template.php:684
 msgid "Avatar uploads are currently disabled. Why not use a <a href=\"http://gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:689
+#: bp-xprofile/bp-xprofile-template.php:693
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:700
+#: bp-xprofile/bp-xprofile-template.php:704
 msgid "Profile updated %s ago"
 msgstr ""
 
@@ -2746,81 +2746,81 @@ msgstr ""
 msgid "Use an existing bbPress installation"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:57
+#: bp-forums/bp-forums-loader.php:61
 msgid "Search Forums..."
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:131
+#: bp-forums/bp-forums-loader.php:135
 msgid "Started"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:142
+#: bp-forums/bp-forums-loader.php:146
 msgid "Replied To"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:153 bp-activity/bp-activity-loader.php:136
-#: bp-activity/bp-activity-loader.php:217
+#: bp-forums/bp-forums-loader.php:157 bp-activity/bp-activity-loader.php:140
+#: bp-activity/bp-activity-loader.php:221
 msgid "Favorites"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:195
+#: bp-forums/bp-forums-loader.php:199
 msgid "My Topics"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:202
+#: bp-forums/bp-forums-loader.php:206
 msgid "My Replies"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:209 bp-themes/bp-default/functions.php:146
+#: bp-forums/bp-forums-loader.php:213 bp-themes/bp-default/functions.php:146
 msgid "My Favorites"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:228
+#: bp-forums/bp-forums-loader.php:232
 msgid "My Forums"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:358 bp-forums/bp-forums-template.php:417
-#: bp-forums/bp-forums-template.php:998
+#: bp-forums/bp-forums-template.php:362 bp-forums/bp-forums-template.php:421
+#: bp-forums/bp-forums-template.php:1006
 msgid "Deleted User"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:435
+#: bp-forums/bp-forums-template.php:439
 msgid "Group logo for %s"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:632
+#: bp-forums/bp-forums-template.php:636
 msgid "Edit Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:636
+#: bp-forums/bp-forums-template.php:640
 msgid "Sticky Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:638
+#: bp-forums/bp-forums-template.php:642
 msgid "Un-stick Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:641
+#: bp-forums/bp-forums-template.php:645
 msgid "Open Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:643
+#: bp-forums/bp-forums-template.php:647
 msgid "Close Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:645
+#: bp-forums/bp-forums-template.php:649
 msgid "Delete Topic"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:754
+#: bp-forums/bp-forums-template.php:758
 msgid " matching tag \"%s\""
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:756
+#: bp-forums/bp-forums-template.php:760
 msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:1085
+#: bp-forums/bp-forums-template.php:1093
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
 msgstr ""
 
@@ -2832,117 +2832,117 @@ msgstr ""
 msgid "Please pick the group forum where you would like to post this topic."
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:22
+#: bp-messages/bp-messages-loader.php:26
 msgid "Private Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:74
+#: bp-messages/bp-messages-loader.php:78
 msgid "Search Messages..."
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:92 bp-messages/bp-messages-loader.php:177
+#: bp-messages/bp-messages-loader.php:96 bp-messages/bp-messages-loader.php:181
 msgid "Messages <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:94
+#: bp-messages/bp-messages-loader.php:98
 msgid "Messages <strong></strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:113
-#: bp-messages/bp-messages-loader.php:181
+#: bp-messages/bp-messages-loader.php:117
+#: bp-messages/bp-messages-loader.php:185
 #: bp-messages/bp-messages-functions.php:207
 #: bp-messages/bp-messages-functions.php:209
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:123
+#: bp-messages/bp-messages-loader.php:127
 msgid "Sent Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:144
+#: bp-messages/bp-messages-loader.php:148
 msgid "Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:178
+#: bp-messages/bp-messages-loader.php:182
 msgid "Inbox <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:180
+#: bp-messages/bp-messages-loader.php:184
 #: bp-messages/bp-messages-screens.php:118
 #: bp-members/bp-members-buddybar.php:147
 msgid "Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:202
+#: bp-messages/bp-messages-loader.php:206
 msgid "Sent"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:217
+#: bp-messages/bp-messages-loader.php:221
 msgid "All Member Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:236
+#: bp-messages/bp-messages-loader.php:240
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:335
+#: bp-messages/bp-messages-template.php:339
 msgid "Viewing message %1$s to %2$s (of %3$s messages)"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:389
+#: bp-messages/bp-messages-template.php:393
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:392
+#: bp-messages/bp-messages-template.php:396
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:393
+#: bp-messages/bp-messages-template.php:397
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:394
+#: bp-messages/bp-messages-template.php:398
 msgid "All"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:397
+#: bp-messages/bp-messages-template.php:401
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:398
+#: bp-messages/bp-messages-template.php:402
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:400
+#: bp-messages/bp-messages-template.php:404
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:409
+#: bp-messages/bp-messages-template.php:413
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:484
+#: bp-messages/bp-messages-template.php:488
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:511
+#: bp-messages/bp-messages-template.php:515
 #: bp-themes/bp-default/functions.php:152
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:555
+#: bp-messages/bp-messages-template.php:559
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:556
+#: bp-messages/bp-messages-template.php:560
 msgid "Send Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:738
+#: bp-messages/bp-messages-template.php:746
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:813
+#: bp-messages/bp-messages-template.php:821
 #: bp-themes/bp-default/_inc/ajax.php:495
 msgid "Sent %s ago"
 msgstr ""
@@ -2976,7 +2976,7 @@ msgstr ""
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages/bp-messages-classes.php:198
+#: bp-messages/bp-messages-classes.php:202
 msgid " Recipients"
 msgstr ""
 
@@ -3162,11 +3162,11 @@ msgstr ""
 msgid "Edit %s's Notifications"
 msgstr ""
 
-#: bp-members/bp-members-loader.php:66
+#: bp-members/bp-members-loader.php:70
 msgid "Search Members..."
 msgstr ""
 
-#: bp-members/bp-members-loader.php:181
+#: bp-members/bp-members-loader.php:185
 msgid "You"
 msgstr ""
 
@@ -3242,27 +3242,27 @@ msgstr ""
 msgid "<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link."
 msgstr ""
 
-#: bp-members/bp-members-template.php:321
+#: bp-members/bp-members-template.php:325
 msgid "Viewing member %1$s to %2$s (of %3$s active members)"
 msgstr ""
 
-#: bp-members/bp-members-template.php:323
+#: bp-members/bp-members-template.php:327
 msgid "Viewing member %1$s to %2$s (of %3$s members with friends)"
 msgstr ""
 
-#: bp-members/bp-members-template.php:325
+#: bp-members/bp-members-template.php:329
 msgid "Viewing member %1$s to %2$s (of %3$s members online)"
 msgstr ""
 
-#: bp-members/bp-members-template.php:327
+#: bp-members/bp-members-template.php:331
 msgid "Viewing member %1$s to %2$s (of %3$s members)"
 msgstr ""
 
-#: bp-members/bp-members-template.php:495
+#: bp-members/bp-members-template.php:499
 msgid "Never active"
 msgstr ""
 
-#: bp-members/bp-members-template.php:519
+#: bp-members/bp-members-template.php:523
 #: bp-themes/bp-default/functions.php:426
 #: bp-themes/bp-default/activity/entry.php:74
 #: bp-activity/bp-activity-template.php:705
@@ -3270,15 +3270,15 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: bp-members/bp-members-template.php:555
+#: bp-members/bp-members-template.php:559
 msgid "registered %s ago"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1003
+#: bp-members/bp-members-template.php:1007
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1071
+#: bp-members/bp-members-template.php:1075
 msgid "Activity RSS Feed"
 msgstr ""
 
@@ -4586,23 +4586,23 @@ msgstr ""
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:73
+#: bp-activity/bp-activity-loader.php:77
 msgid "Search Activity..."
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:115
-#: bp-activity/bp-activity-loader.php:210
+#: bp-activity/bp-activity-loader.php:119
+#: bp-activity/bp-activity-loader.php:214
 msgid "Personal"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:125
-#: bp-activity/bp-activity-loader.php:203
+#: bp-activity/bp-activity-loader.php:129
+#: bp-activity/bp-activity-loader.php:207
 #: bp-activity/feeds/bp-activity-mentions-feed.php:21
 #: bp-activity/feeds/bp-activity-mentions-feed.php:24
 msgid "Mentions"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:254
+#: bp-activity/bp-activity-loader.php:258
 msgid "My Activity"
 msgstr ""
 
