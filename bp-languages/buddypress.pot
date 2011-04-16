@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-16 17:30:30+00:00\n"
+"POT-Creation-Date: 2011-04-16 18:30:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4649,6 +4649,10 @@ msgid ""
 "To view the original activity, your comment and all replies, log in and visit: %3$s\n"
 "\n"
 "---------------------\n"
+msgstr ""
+
+#: bp-activity/bp-activity-filters.php:163
+msgid "[Read more]"
 msgstr ""
 
 #: bp-activity/bp-activity-functions.php:79
