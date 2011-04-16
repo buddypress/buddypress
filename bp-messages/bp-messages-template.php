@@ -20,6 +20,10 @@ Class BP_Messages_Box_Template {
 	var $pag_links;
 
 	function bp_messages_box_template( $user_id, $box, $per_page, $max, $type ) {
+		$this->__construct( $user_id, $box, $per_page, $max, $type );
+	}
+
+	function __construct( $user_id, $box, $per_page, $max, $type ) {
 		$this->pag_page = isset( $_GET['mpage'] ) ? intval( $_GET['mpage'] ) : 1;
 		$this->pag_num  = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
 
@@ -611,6 +615,10 @@ class BP_Messages_Thread_Template {
 	var $total_message_count;
 
 	function bp_messages_thread_template( $thread_id, $order ) {
+		$this->__construct( $thread_id, $order );
+	}
+
+	function __construct( $thread_id, $order ) {
 		global $bp;
 
 		$this->thread = new BP_Messages_Thread( $thread_id, $order );

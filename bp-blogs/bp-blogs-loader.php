@@ -17,6 +17,10 @@ class BP_Blogs_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_Blogs_Component() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		parent::start(
 			'blogs',
 			__( 'Blogs Streams', 'buddypress' ),

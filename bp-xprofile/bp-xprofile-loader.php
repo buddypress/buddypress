@@ -18,6 +18,10 @@ class BP_XProfile_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_XProfile_Component() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		parent::start(
 			'xprofile',
 			__( 'Extended Profiles', 'buddypress' ),

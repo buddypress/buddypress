@@ -69,6 +69,10 @@ class BP_Forums_Template_Forum {
 	var $order;
 
 	function BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms ) {
+		$this->__construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms );
+	}
+
+	function __construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms ) {	
 		global $bp;
 
 		$this->pag_page     = isset( $_REQUEST['p'] ) ? intval( $_REQUEST['p'] ) : $page;
@@ -789,6 +793,10 @@ class BP_Forums_Template_Topic {
 	var $order;
 
 	function BP_Forums_Template_Topic( $topic_id, $per_page, $max, $order ) {
+		$this->__construct( $topic_id, $per_page, $max, $order );
+	}
+		
+	function __construct( $topic_id, $per_page, $max, $order ) {
 		global $bp, $current_user, $forum_template;
 
 		$this->pag_page        = isset( $_REQUEST['topic_page'] ) ? intval( $_REQUEST['topic_page'] ) : 1;

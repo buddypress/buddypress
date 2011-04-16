@@ -31,6 +31,10 @@ class BP_Core_User {
 	var $total_groups;
 
 	function bp_core_user( $user_id, $populate_extras = false ) {
+		$this->__construct( $user_id, $populate_extras );
+	}
+
+		function __construct( $user_id, $populate_extras = false ) {
 		if ( $user_id ) {
 			$this->id = $user_id;
 			$this->populate();
@@ -446,6 +450,10 @@ class BP_Core_Notification {
 	var $is_new;
 
 	function bp_core_notification( $id = false ) {
+		$this->__construct($id);
+	}
+		
+	function __construct( $id = false ) {
 		if ( $id ) {
 			$this->id = $id;
 			$this->populate();
@@ -589,6 +597,10 @@ class BP_Button {
 	 * @return bool False if not allowed
 	 */
 	function bp_button( $args = '' ) {
+		$this->__construct($args);
+	}
+	
+	function __construct( $args = '' ) {
 
 		// Default arguments
 		$defaults = array(

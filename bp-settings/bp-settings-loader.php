@@ -8,6 +8,10 @@ class BP_Settings_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_Settings_Component() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		parent::start(
 			'settings',
 			__( 'Settings', 'buddypress' ),

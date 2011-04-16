@@ -17,6 +17,10 @@ class BP_Activity_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_Activity_Component() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		parent::start(
 			'activity',
 			__( 'Activity Streams', 'buddypress' ),

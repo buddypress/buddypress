@@ -140,6 +140,10 @@ class BP_Core_Members_Template {
 	var $total_member_count;
 
 	function bp_core_members_template( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude ) {
+		$this->__construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude );
+	}
+
+	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude ) {
 		global $bp;
 
 		$this->pag_page  = !empty( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : (int)$page_number;

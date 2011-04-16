@@ -66,6 +66,10 @@ class BP_Blogs_Template {
 	var $total_blog_count;
 
 	function bp_blogs_template( $type, $page, $per_page, $max, $user_id, $search_terms ) {
+		$this->__construct( $type, $page, $per_page, $max, $user_id, $search_terms );
+	}
+
+	function __construct( $type, $page, $per_page, $max, $user_id, $search_terms ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['bpage'] ) ? intval( $_REQUEST['bpage'] ) : $page;

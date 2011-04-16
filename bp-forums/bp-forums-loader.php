@@ -17,6 +17,10 @@ class BP_Forums_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_Forums_Component() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		parent::start(
 			'forums',
 			__( 'Discussion Forums', 'buddypress' ),

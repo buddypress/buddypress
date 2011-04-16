@@ -16,6 +16,10 @@ Class BP_Activity_Activity {
 	var $mptt_right;
 
 	function bp_activity_activity( $id = false ) {
+		$this->__construct( $id );
+	}
+
+	function __construct( $id = false ) {
 		global $bp;
 
 		if ( !empty( $id ) ) {

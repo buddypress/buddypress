@@ -6,6 +6,10 @@ Class BP_Blogs_Blog {
 	var $blog_id;
 
 	function bp_blogs_blog( $id = null ) {
+		$this->__construct( $id );
+	}
+
+	function __construct( $id = null ) {
 		global $bp, $wpdb;
 
 		$user_id = $bp->displayed_user->id;

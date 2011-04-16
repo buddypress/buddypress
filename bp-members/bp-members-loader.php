@@ -17,6 +17,10 @@ class BP_Members_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_Members_Component() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		parent::start(
 			'members',
 			__( 'Members', 'buddypress' ),

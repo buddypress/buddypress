@@ -14,6 +14,10 @@ class BP_Friends_Friendship {
 	var $friend;
 
 	function bp_friends_friendship( $id = null, $is_request = false, $populate_friend_details = true ) {
+		$this->__construct( $id, $is_request, $populate_friend_details );
+	}
+
+	function __construct( $id = null, $is_request = false, $populate_friend_details = true ) {
 		$this->is_request = $is_request;
 
 		if ( $id ) {

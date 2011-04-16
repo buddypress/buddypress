@@ -17,6 +17,10 @@ class BP_Friends_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_Friends_Component() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		parent::start(
 			'friends',
 			__( 'Friend Connections', 'buddypress' ),

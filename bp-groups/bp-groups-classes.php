@@ -15,6 +15,10 @@ Class BP_Groups_Group {
 	var $total_member_count;
 
 	function bp_groups_group( $id = null ) {
+		$this->__construct($id);
+	}
+
+	function __construct( $id = null ) {
 		if ( $id ) {
 			$this->id = $id;
 			$this->populate();
@@ -604,6 +608,10 @@ Class BP_Groups_Member {
 	var $user;
 
 	function bp_groups_member( $user_id = 0, $group_id = 0, $id = false, $populate = true ) {
+		$this->__construct($user_id,$group_id,$id,$populate);
+	}
+	
+	function __construct( $user_id = 0, $group_id = 0, $id = false, $populate = true ) {
 		if ( $user_id && $group_id && !$id ) {
 			$this->user_id = $user_id;
 			$this->group_id = $group_id;

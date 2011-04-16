@@ -26,6 +26,10 @@ if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 class BP_Core extends BP_Component {
 
 	function BP_Core() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		parent::start(
 			'_core',
 			__( 'BuddyPress Core', 'buddypress' )

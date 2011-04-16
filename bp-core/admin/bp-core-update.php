@@ -10,6 +10,10 @@ class BP_Core_Setup_Wizard {
 	var $setup_type;
 
 	function bp_core_setup_wizard() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		// Look for current DB version
 		if ( !$this->database_version = get_site_option( 'bp-db-version' ) ) {
 			if ( $this->database_version = get_option( 'bp-db-version' ) ) {

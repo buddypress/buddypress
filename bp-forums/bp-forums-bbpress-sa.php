@@ -137,7 +137,11 @@ class BPDB extends WPDB {
 	var $db_servers = array();
 
 	function BPDB( $dbuser, $dbpassword, $dbname, $dbhost ) {
-		parent::WPDB( $dbuser, $dbpassword, $dbname, $dbhost );
+		$this->__construct( $dbuser, $dbpassword, $dbname, $dbhost );
+	}
+
+	function __construct( $dbuser, $dbpassword, $dbname, $dbhost ) {
+		parent::__construct( $dbuser, $dbpassword, $dbname, $dbhost );
 
 		$args = func_get_args();
 		$args = call_user_func_array( array( &$this, '_init' ), $args );

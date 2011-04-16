@@ -9,6 +9,10 @@ Class BP_Messages_Thread {
 	var $unread_count;
 
 	function bp_messages_thread ( $thread_id = false, $order = 'ASC' ) {
+		$this->__construct( $thread_id, $order);
+	}
+
+	function __construct( $thread_id = false, $order = 'ASC' ) {
 		if ( $thread_id )
 			$this->populate( $thread_id, $order );
 	}
@@ -245,6 +249,10 @@ Class BP_Messages_Message {
 	var $recipients = false;
 
 	function bp_messages_message( $id = null ) {
+		$this->__construct( $id );
+	}
+	
+	function __construct( $id = null ) {
 		global $bp;
 
 		$this->date_sent = bp_core_current_time();
@@ -362,6 +370,10 @@ Class BP_Messages_Notice {
 	var $is_active;
 
 	function bp_messages_notice( $id = null ) {
+		$this->__construct($id);
+	}
+	
+	function __construct( $id = null ) {
 		if ( $id ) {
 			$this->id = $id;
 			$this->populate($id);

@@ -20,6 +20,10 @@ class BP_Groups_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 */
 	function BP_Groups_Component() {
+		$this->__construct();
+	}
+
+	function __construct() {
 		parent::start(
 			'groups',
 			__( 'User Groups', 'buddypress' ),
