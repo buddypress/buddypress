@@ -1561,6 +1561,10 @@ body.activity-permalink .activity-content blockquote {
 	border: 2px solid #eee;
 }
 
+.activity-read-more {
+	margin-left: 1em;
+}
+
 .activity-list li.load-more {
 	margin: 15px 0 !important;
 	padding: 10px 15px !important;

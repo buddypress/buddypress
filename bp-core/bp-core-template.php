@@ -468,12 +468,17 @@ function bp_button( $args = '' ) {
  *
  * @package BuddyPress Core
  * @param $text str The text to create the excerpt from
- * @uses $excerpt_length The maximum length in characters of the excerpt.
+ * @param $excerpt_length Minimum excerpt length, in characters
+ * @param $filter_shortcodes When true, apparent shortcodes (in square brackets) will be stripped
+ * @param $append_text Be sure to include a leading space
  * @return str The excerpt text
  */
-function bp_create_excerpt( $text, $excerpt_length = 225, $filter_shortcodes = true ) { // Fakes an excerpt if needed
+function bp_create_excerpt( $text, $excerpt_length = 225, $filter_shortcodes = true, $append_text = ' [&hellip;]' ) { // Fakes an excerpt if needed
 	$original_text = $text;
-	$text = str_replace(']]>', ']]&gt;', $text);
+	$text = str_replace( ']]>', ']]&gt;', $text );
+
+	$excerpt_length = apply_filters( 'bp_excerpt_length', $excerpt_length );
+	$append_text = apply_filters( 'bp_excerpt_append_text', $append_text );
 
 	if ( $filter_shortcodes )
 		$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
@@ -482,10 +487,10 @@ function bp_create_excerpt( $text, $excerpt_length = 225, $filter_shortcodes = t
 
 	if ( !empty( $matches ) ) {
 		$pos = array_pop( array_pop( $matches ) );
-		$text = substr( $text, 0, $pos ) . ' [...]';
+		$text = substr( $text, 0, $pos ) . $append_text;
 	}
 
-	return apply_filters( 'bp_create_excerpt', $text, $original_text );
+	return apply_filters( 'bp_create_excerpt', $text, $original_text, $excerpt_length, $filter_shortcodes, $append_text );
 }
 add_filter( 'bp_create_excerpt', 'wp_trim_excerpt' );
 add_filter( 'bp_create_excerpt', 'stripslashes_deep' );

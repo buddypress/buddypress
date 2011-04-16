@@ -147,4 +147,27 @@ function bp_activity_make_nofollow_filter( $text ) {
 		return "<a $text rel=\"nofollow\">";
 	}
 
+/**
+ * Truncates long activity entries when viewed in activity streams
+ *
+ * @package BuddyPress Activity
+ * @since 1.3
+ * @param $text The original activity entry text
+ * @return $excerpt The truncated text
+ */
+function bp_activity_truncate_entry( $text ) {
+	// The full text of the activity update should always show on the single activity screen
+	if ( bp_is_single_activity() )
+		return $text;
+
+	$append_text    = apply_filters( 'bp_activity_excerpt_append_text', __( '[Read more]', 'buddypress' ) );
+	$excerpt_length = apply_filters( 'bp_activity_excerpt_length', 358 );
+	$excerpt        = $text;
+
+	if ( strlen( $excerpt ) > $excerpt_length )
+		$excerpt = sprintf( '%1$s<span class="activity-read-more"><a href="%2$s" rel="nofollow">%3$s</a></span>', bp_create_excerpt( $excerpt, $excerpt_length, true, '&hellip;' ), bp_get_activity_thread_permalink(), $append_text );
+	
+	return apply_filters( 'bp_activity_truncate_entry', $excerpt, $text, $more_link );
+}
+add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 ?>
