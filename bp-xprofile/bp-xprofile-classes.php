@@ -9,6 +9,10 @@ Class BP_XProfile_Group {
 	var $fields;
 
 	function bp_xprofile_group( $id = null ) {
+		$this->__construct( $id );
+	}
+
+	function __construct( $id = null ) {
 		global $bp, $wpdb;
 
 		if ( $id )
@@ -280,8 +284,12 @@ Class BP_XProfile_Field {
 	var $data;
 	var $message = null;
 	var $message_type = 'err';
-
+	
 	function bp_xprofile_field( $id = null, $user_id = null, $get_data = true ) {
+		$this->__construct( $id, $user_id, $get_data );
+	}
+	
+	function __construct( $id = null, $user_id = null, $get_data = true ) {
 		if ( $id )
 			$this->populate( $id, $user_id, $get_data );
 	}
@@ -742,8 +750,12 @@ Class BP_XProfile_ProfileData {
 	var $field_id;
 	var $value;
 	var $last_updated;
-
+	
 	function bp_xprofile_profiledata( $field_id = null, $user_id = null ) {
+		$this->__construct( $field_id, $user_id );		
+	}
+	
+	function __construct( $field_id = null, $user_id = null ) {
 		if ( $field_id )
 			$this->populate( $field_id, $user_id );
 	}

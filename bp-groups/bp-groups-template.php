@@ -71,6 +71,11 @@ class BP_Groups_Template {
 	var $order;
 
 	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude, $show_hidden ) {
+		$this->__construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude, $show_hidden );
+	}
+
+	function __construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude, $show_hidden ){
+
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
@@ -1447,6 +1452,10 @@ class BP_Groups_Group_Members_Template {
 	var $total_group_count;
 
 	function bp_groups_group_members_template( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude ) {
+		$this->__construct( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude );	
+	}
+	
+	function __construct( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : 1;
@@ -2133,6 +2142,12 @@ class BP_Groups_Membership_Requests_Template {
 	var $total_request_count;
 
 	function bp_groups_membership_requests_template( $group_id, $per_page, $max ) {
+		$this->__construct( $group_id, $per_page, $max );
+	}
+	
+	
+	function __construct( $group_id, $per_page, $max ) {
+		
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : 1;
@@ -2303,10 +2318,16 @@ class BP_Groups_Invite_Template {
 	var $total_invite_count;
 
 	function bp_groups_invite_template( $user_id, $group_id ) {
-		global $bp;
+		$this->__construct( $user_id, $group_id ); 
+	}
+		
+	function __construct( $user_id, $group_id ) {
 
+		global $bp;
+		
 		$this->invites = groups_get_invites_for_group( $user_id, $group_id );
 		$this->invite_count = count( $this->invites );
+
 	}
 
 	function has_invites() {
