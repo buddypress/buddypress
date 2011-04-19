@@ -211,11 +211,12 @@ function groups_screen_group_forum() {
 				do_action( 'groups_before_delete_forum_topic', $topic_id );
 
 				if ( !groups_delete_group_forum_topic( $topic_id ) )
-					bp_core_add_message( __( 'There was an error deleting the topic', 'buddypress'), 'error' );
+					bp_core_add_message( __( 'There was an error deleting the topic', 'buddypress' ), 'error' );
 				else
+					bp_core_add_message( __( 'The topic was deleted successfully', 'buddypress' ) );
 
 				do_action( 'groups_delete_forum_topic', $topic_id );
-				bp_core_redirect( wp_get_referer() );
+				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'forum/' );
 			}
 
 			// Editing a topic
