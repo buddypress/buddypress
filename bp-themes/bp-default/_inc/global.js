@@ -595,7 +595,7 @@ jq(document).ready( function() {
 		if ( jq('div#new-topic-post').is(":visible") )
 			jq('div#new-topic-post').slideUp(200);
 		else
-			jq('div#new-topic-post').slideDown(200);
+			jq('div#new-topic-post').slideDown(200, function() { jq('#topic_title').focus(); } );
 
 		return false;
 	});
