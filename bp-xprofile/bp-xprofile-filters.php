@@ -38,7 +38,8 @@ add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_format_fi
 add_filter( 'bp_get_the_site_member_profile_data',    'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_link_profile_data', 50, 2 );
 
-add_filter( 'xprofile_data_value_before_save',        'xprofile_sanitize_data_value_before_save', 1, 2 );		
+add_filter( 'xprofile_data_value_before_save',        'xprofile_sanitize_data_value_before_save', 1, 2 );
+add_filter( 'xprofile_filtered_data_value_before_save', 'trim', 2 );
 
 /**
  * xprofile_filter_kses ( $content )
