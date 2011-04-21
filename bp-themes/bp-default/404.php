@@ -5,7 +5,7 @@
 
 		<?php do_action( 'bp_before_404' ) ?>
 
-		<div class="page 404">
+		<div class="page-404">
 
 			<h2 class="pagetitle"><?php _e( 'Page Not Found', 'buddypress' ) ?></h2>
 
