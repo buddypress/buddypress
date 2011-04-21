@@ -2218,6 +2218,15 @@ dd.wp-caption p.wp-caption-text,
 	margin: 0;
 }
 
+#content .gallery {
+	margin: 0 auto 15px;
+}
+
+#content .gallery .gallery-item {
+	margin-bottom: 0;
+	margin-left: 0;
+}
+
 .gallery .gallery-caption {
 	color: #555;
 }
