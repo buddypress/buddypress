@@ -2126,6 +2126,11 @@ div.post-content {
 	margin-left: 105px;
 }
 
+p.date span,
+.post-utility {
+	font-style: italic;
+}
+
 p.date,
 p.postmetadata {
 	color: #888;
