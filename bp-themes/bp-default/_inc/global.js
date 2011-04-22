@@ -8,8 +8,10 @@ jq(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
 	/* Hide Forums Post Form */
-	if ( jq('div.forums').length )
+	if ( '-1' == window.location.search.indexOf('new') && jq('div.forums').length )
 		jq('div#new-topic-post').hide();
+	else
+		jq('div#new-topic-post').show();
 
 	/* Activity filter and scope set */
 	bp_init_activity();

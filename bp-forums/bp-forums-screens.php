@@ -20,13 +20,16 @@ function bp_forums_directory_forums_setup() {
 		if ( isset( $_POST['submit_topic'] ) && bp_is_active( 'forums' ) ) {
 			check_admin_referer( 'bp_forums_new_topic' );
 
-			if ( $bp->groups->current_group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) ) ) {
+			$bp->groups->current_group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) );
+			if ( !empty( $bp->groups->current_group->id ) ) {
 				// Auto join this user if they are not yet a member of this group
 				if ( !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, $bp->groups->current_group->id );
 
 				$error_message = '';
-				if ( $forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) ) {
+
+				$forum_id = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
+				if ( !empty( $forum_id ) ) {
 					if ( empty( $_POST['topic_title'] ) )
 						$error_message = __( 'Please provide a title for your forum topic.', 'buddypress' );
 					else if ( empty( $_POST['topic_text'] ) )
@@ -49,7 +52,12 @@ function bp_forums_directory_forums_setup() {
 
 				} else {
 					bp_core_add_message( __( 'Please pick the group forum where you would like to post this topic.', 'buddypress' ), 'error' );
+					bp_core_redirect( add_query_arg( 'new', '', bp_get_forum_directory_permalink() ) );
 				}
+
+			}	 else {
+				bp_core_add_message( __( 'Please pick the group forum where you would like to post this topic.', 'buddypress' ), 'error' );
+				bp_core_redirect( add_query_arg( 'new', '', bp_get_forum_directory_permalink() ) );
 			}
 		}
 

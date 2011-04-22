@@ -87,7 +87,7 @@
 
 			<?php do_action( 'bp_before_new_topic_form' ); ?>
 
-			<div id="new-topic-post" style="display: none;">
+			<div id="new-topic-post">
 
 				<?php if ( is_user_logged_in() ) : ?>
 
@@ -99,6 +99,8 @@
 
 							<a name="post-new"></a>
 							<h5><?php _e( 'Create New Topic:', 'buddypress' ); ?></h5>
+
+							<?php do_action( 'template_notices' ); ?>
 
 							<label><?php _e( 'Title:', 'buddypress' ); ?></label>
 							<input type="text" name="topic_title" id="topic_title" value="" />
