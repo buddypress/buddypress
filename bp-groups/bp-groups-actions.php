@@ -292,9 +292,8 @@ function groups_action_group_feed() {
 			return false;
 	}
 
-	include_once( 'bp-activity/feeds/bp-activity-group-feed.php' );
+	include_once( BP_PLUGIN_DIR . '/bp-activity/feeds/bp-activity-group-feed.php' );
 	die;
 }
 add_action( 'bp_actions', 'groups_action_group_feed' );
-
 ?>
