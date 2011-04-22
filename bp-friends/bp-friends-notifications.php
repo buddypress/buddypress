@@ -80,7 +80,7 @@ To view %2$s\'s profile: %3$s
 
 	wp_mail( $to, $subject, $message );
 
-	do_action( 'bp_friends_sent_accepted_email', $initator_id, $subject, $message, $friendship_id, $friend_id );
+	do_action( 'bp_friends_sent_accepted_email', $initiator_id, $subject, $message, $friendship_id, $friend_id );
 }
 
 ?>
