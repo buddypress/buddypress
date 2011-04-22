@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-22 17:30:27+00:00\n"
+"POT-Creation-Date: 2011-04-22 21:30:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,19 +47,19 @@ msgid "New blog post comment posted"
 msgstr ""
 
 #: bp-blogs/bp-blogs-buddybar.php:35 bp-core/admin/bp-core-admin.php:24
-#: bp-core/bp-core-buddybar.php:421
+#: bp-core/bp-core-buddybar.php:425
 msgid "Dashboard"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:36 bp-core/bp-core-buddybar.php:425
+#: bp-blogs/bp-blogs-buddybar.php:36 bp-core/bp-core-buddybar.php:429
 msgid "New Post"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-buddybar.php:426
+#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-buddybar.php:430
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-buddybar.php:427
+#: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-buddybar.php:431
 msgid "Manage Comments"
 msgstr ""
 
@@ -625,7 +625,7 @@ msgid "members"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:377 bp-core/bp-core-classes.php:101
-#: bp-activity/bp-activity-template.php:1056
+#: bp-activity/bp-activity-template.php:1062
 msgid "groups"
 msgstr ""
 
@@ -638,7 +638,7 @@ msgid "forums"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:386
-#: bp-activity/bp-activity-template.php:1056
+#: bp-activity/bp-activity-template.php:1062
 msgid "blogs"
 msgstr ""
 
@@ -971,7 +971,7 @@ msgid "Search anything..."
 msgstr ""
 
 #: bp-core/bp-core-template.php:412 bp-core/bp-core-template.php:414
-#: bp-core/bp-core-buddybar.php:413 bp-members/bp-members-adminbar.php:118
+#: bp-core/bp-core-buddybar.php:417 bp-members/bp-members-adminbar.php:118
 #: bp-members/bp-members-template.php:654 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
@@ -1136,31 +1136,31 @@ msgstr ""
 msgid "not recently active"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:355 bp-themes/bp-default/sidebar.php:50
+#: bp-core/bp-core-buddybar.php:359 bp-themes/bp-default/sidebar.php:50
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:359
+#: bp-core/bp-core-buddybar.php:363
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:371
+#: bp-core/bp-core-buddybar.php:375
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:442
+#: bp-core/bp-core-buddybar.php:446
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:444
+#: bp-core/bp-core-buddybar.php:448
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:448
+#: bp-core/bp-core-buddybar.php:452
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:454
+#: bp-core/bp-core-buddybar.php:458
 msgid "Random Blog"
 msgstr ""
 
@@ -1304,7 +1304,7 @@ msgstr ""
 
 #: bp-friends/bp-friends-template.php:300
 #: bp-friends/bp-friends-template.php:301
-#: bp-themes/bp-default/_inc/ajax.php:387
+#: bp-themes/bp-default/_inc/ajax.php:415
 msgid "Friendship Requested"
 msgstr ""
 
@@ -1315,11 +1315,11 @@ msgstr ""
 
 #: bp-friends/bp-friends-template.php:332
 #: bp-friends/bp-friends-template.php:333
-#: bp-themes/bp-default/_inc/ajax.php:377
+#: bp-themes/bp-default/_inc/ajax.php:405
 msgid "Add Friend"
 msgstr ""
 
-#: bp-friends/bp-friends-actions.php:31 bp-themes/bp-default/_inc/ajax.php:385
+#: bp-friends/bp-friends-actions.php:31 bp-themes/bp-default/_inc/ajax.php:413
 msgid "Friendship could not be requested."
 msgstr ""
 
@@ -1335,7 +1335,7 @@ msgstr ""
 msgid "You already have a pending friendship request with this user"
 msgstr ""
 
-#: bp-friends/bp-friends-actions.php:70 bp-themes/bp-default/_inc/ajax.php:375
+#: bp-friends/bp-friends-actions.php:70 bp-themes/bp-default/_inc/ajax.php:403
 msgid "Friendship could not be canceled."
 msgstr ""
 
@@ -1593,7 +1593,7 @@ msgid "Admin"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:285 bp-groups/bp-groups-template.php:1360
-#: bp-groups/bp-groups-template.php:1361 bp-themes/bp-default/_inc/ajax.php:462
+#: bp-groups/bp-groups-template.php:1361 bp-themes/bp-default/_inc/ajax.php:490
 msgid "Request Membership"
 msgstr ""
 
@@ -2176,12 +2176,12 @@ msgid "New Topic"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1319 bp-groups/bp-groups-template.php:1320
-#: bp-themes/bp-default/_inc/ajax.php:438
+#: bp-themes/bp-default/_inc/ajax.php:466
 msgid "Leave Group"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1342 bp-groups/bp-groups-template.php:1343
-#: bp-themes/bp-default/_inc/ajax.php:460
+#: bp-themes/bp-default/_inc/ajax.php:488
 msgid "Join Group"
 msgstr ""
 
@@ -2600,8 +2600,8 @@ msgstr ""
 #: bp-themes/bp-default/_inc/ajax.php:222
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:13
-#: bp-activity/bp-activity-template.php:844
-#: bp-activity/bp-activity-template.php:980
+#: bp-activity/bp-activity-template.php:847
+#: bp-activity/bp-activity-template.php:986
 msgid "Delete"
 msgstr ""
 
@@ -2946,7 +2946,7 @@ msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:821
-#: bp-themes/bp-default/_inc/ajax.php:499
+#: bp-themes/bp-default/_inc/ajax.php:527
 msgid "Sent %s ago"
 msgstr ""
 
@@ -2958,24 +2958,24 @@ msgstr ""
 msgid "There was a problem sending your reply, please try again"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:42
+#: bp-messages/bp-messages-actions.php:43
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:63
+#: bp-messages/bp-messages-actions.php:73
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:65
+#: bp-messages/bp-messages-actions.php:75
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:87
+#: bp-messages/bp-messages-actions.php:97
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:89
-#: bp-themes/bp-default/_inc/ajax.php:565
+#: bp-messages/bp-messages-actions.php:99
+#: bp-themes/bp-default/_inc/ajax.php:593
 msgid "Messages deleted."
 msgstr ""
 
@@ -3269,7 +3269,7 @@ msgstr ""
 #: bp-themes/bp-default/functions.php:426
 #: bp-themes/bp-default/activity/entry.php:74
 #: bp-activity/bp-activity-template.php:709
-#: bp-activity/bp-activity-template.php:996
+#: bp-activity/bp-activity-template.php:1002
 msgid "View"
 msgstr ""
 
@@ -3482,7 +3482,7 @@ msgid "There was an error posting that reply, please try again."
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:220
-#: bp-activity/bp-activity-template.php:834
+#: bp-activity/bp-activity-template.php:837
 msgid "%s ago"
 msgstr ""
 
@@ -3491,7 +3491,7 @@ msgstr ""
 #: bp-themes/bp-default/activity/entry.php:50
 #: bp-themes/bp-default/forums/single/edit.php:10
 #: bp-themes/bp-default/groups/single/forum/edit.php:10
-#: bp-activity/bp-activity-template.php:839
+#: bp-activity/bp-activity-template.php:842
 msgid "Reply"
 msgstr ""
 
@@ -3510,57 +3510,57 @@ msgstr ""
 msgid "Favorite"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:349
+#: bp-themes/bp-default/_inc/ajax.php:377
 #: bp-themes/bp-default/groups/single/send-invites.php:42
 #: bp-themes/bp-default/groups/create.php:209
 msgid "Remove Invite"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:390
+#: bp-themes/bp-default/_inc/ajax.php:418
 msgid "Request Pending"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:402
+#: bp-themes/bp-default/_inc/ajax.php:430
 msgid "There was a problem accepting that request. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:413
+#: bp-themes/bp-default/_inc/ajax.php:441
 msgid "There was a problem rejecting that request. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:436
+#: bp-themes/bp-default/_inc/ajax.php:464
 msgid "Error joining group"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:446
+#: bp-themes/bp-default/_inc/ajax.php:474
 msgid "Error requesting membership"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:448
+#: bp-themes/bp-default/_inc/ajax.php:476
 msgid "Membership Requested"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:457
+#: bp-themes/bp-default/_inc/ajax.php:485
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:474
+#: bp-themes/bp-default/_inc/ajax.php:502
 msgid "There was a problem closing the notice."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:516
+#: bp-themes/bp-default/_inc/ajax.php:544
 msgid "There was a problem sending that reply. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:526
+#: bp-themes/bp-default/_inc/ajax.php:554
 msgid "There was a problem marking messages as unread."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:542
+#: bp-themes/bp-default/_inc/ajax.php:570
 msgid "There was a problem marking messages as read."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:558
+#: bp-themes/bp-default/_inc/ajax.php:586
 msgid "There was a problem deleting messages."
 msgstr ""
 
@@ -4568,35 +4568,35 @@ msgstr ""
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1056
+#: bp-activity/bp-activity-template.php:1062
 msgid "xprofile"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1056
+#: bp-activity/bp-activity-template.php:1062
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1056
+#: bp-activity/bp-activity-template.php:1062
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1064
+#: bp-activity/bp-activity-template.php:1070
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1128
+#: bp-activity/bp-activity-template.php:1134
 msgid "a user"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1159
+#: bp-activity/bp-activity-template.php:1165
 msgid "Mention this user in a new public message, this will send the user a notification to get their attention."
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1160
+#: bp-activity/bp-activity-template.php:1166
 msgid "Mention this User"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1288
+#: bp-activity/bp-activity-template.php:1294
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
@@ -4665,7 +4665,7 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-filters.php:163
+#: bp-activity/bp-activity-filters.php:165
 msgid "[Read more]"
 msgstr ""
 
