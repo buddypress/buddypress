@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-22 15:30:30+00:00\n"
+"POT-Creation-Date: 2011-04-22 17:30:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2950,31 +2950,31 @@ msgstr ""
 msgid "Sent %s ago"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:28
+#: bp-messages/bp-messages-actions.php:30
 msgid "Your reply was sent successfully"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:30
+#: bp-messages/bp-messages-actions.php:32
 msgid "There was a problem sending your reply, please try again"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:40
+#: bp-messages/bp-messages-actions.php:42
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:61
+#: bp-messages/bp-messages-actions.php:63
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:63
+#: bp-messages/bp-messages-actions.php:65
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:85
+#: bp-messages/bp-messages-actions.php:87
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:87
+#: bp-messages/bp-messages-actions.php:89
 #: bp-themes/bp-default/_inc/ajax.php:565
 msgid "Messages deleted."
 msgstr ""
