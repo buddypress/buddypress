@@ -799,6 +799,9 @@ function bp_activity_comments( $args = '' ) {
 
 			$content = '<ul>';
 			foreach ( (array)$comment->children as $comment_child ) {
+				// Put the comment into the global so it's available to filters
+				$activities_template->activity->current_comment = $comment_child;
+				
 				if ( empty( $comment_child->user_fullname ) )
 					$comment_child->user_fullname = $comment_child->display_name;
 
@@ -836,19 +839,22 @@ function bp_activity_comments( $args = '' ) {
 				// Reply link - the span is so that threaded reply links can be
 				// hidden when JS is off.
 				if ( is_user_logged_in() && bp_activity_can_comment_reply( $comment ) )
-					$content .= apply_filters( 'bp_activity_comment_reply_link', '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>', $comment );
+					$content .= apply_filters( 'bp_activity_comment_reply_link', '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment_child->id . '" class="acomment-reply" id="acomment-reply-' . $comment->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>', $comment_child );
 
 				// Delete link
 				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id ) {
-					$delete_url = wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/?cid=' . $comment->id, 'bp_activity_delete_link' );
-					$content .= apply_filters( 'bp_activity_comment_delete_link', ' &middot; <a href="' . $delete_url . '" class="delete acomment-delete" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>', $comment, $delete_url );
+					$delete_url = wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/?cid=' . $comment_child->id, 'bp_activity_delete_link' );
+					$content .= apply_filters( 'bp_activity_comment_delete_link', ' &middot; <a href="' . $delete_url . '" class="delete acomment-delete" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>', $comment_child, $delete_url );
 				}
 
 				$content .= '</div>';
-				$content .= '<div class="acomment-content">' . apply_filters( 'bp_get_activity_content', $comment->content ) . '</div>';
+				$content .= '<div class="acomment-content">' . apply_filters( 'bp_get_activity_content', $comment_child->content ) . '</div>';
 
 				$content .= bp_activity_recurse_comments( $comment_child );
 				$content .= '</li>';
+				
+				// Unset in the global in case of the last iteration
+				unset( $activities_template->activity->current_comment );
 			}
 			$content .= '</ul>';
 

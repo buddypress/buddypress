@@ -156,6 +156,8 @@ function bp_activity_make_nofollow_filter( $text ) {
  * @return $excerpt The truncated text
  */
 function bp_activity_truncate_entry( $text ) {
+	global $activities_template;
+	
 	// The full text of the activity update should always show on the single activity screen
 	if ( bp_is_single_activity() )
 		return $text;
@@ -163,11 +165,14 @@ function bp_activity_truncate_entry( $text ) {
 	$append_text    = apply_filters( 'bp_activity_excerpt_append_text', __( '[Read more]', 'buddypress' ) );
 	$excerpt_length = apply_filters( 'bp_activity_excerpt_length', 358 );
 	$excerpt        = $text;
-
+	
+	$id		= !empty( $activities_template->activity->current_comment->id ) ? 'acomment-read-more-' . $activities_template->activity->current_comment->id : 'activity-read-more-' . bp_get_activity_id();
+	
 	if ( strlen( $excerpt ) > $excerpt_length )
-		$excerpt = sprintf( '%1$s<span class="activity-read-more"><a href="%2$s" rel="nofollow">%3$s</a></span>', bp_create_excerpt( $excerpt, $excerpt_length, true, '&hellip;' ), bp_get_activity_thread_permalink(), $append_text );
+		$excerpt = sprintf( '%1$s<span class="activity-read-more" id="%2$s"><a href="%3$s" rel="nofollow">%4$s</a></span>', bp_create_excerpt( $excerpt, $excerpt_length, true, '&hellip;' ), $id, bp_get_activity_thread_permalink(), $append_text );
 	
 	return apply_filters( 'bp_activity_truncate_entry', $excerpt, $text, $append_text );
 }
 add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
+add_filter( 'bp_get_activity_content', 'bp_activity_truncate_entry', 5 );
 ?>

@@ -266,6 +266,31 @@ jq(document).ready( function() {
 		}
 	});
 
+	/* Activity "Read More" links */
+	jq('.activity-read-more a').click(function(event) {
+		var target = jq(event.target);
+		var link_id = target.parent().attr('id').split('-');
+		var a_id = link_id[3];
+		var type = link_id[0]; /* activity or acomment */
+		
+		var inner_class = type == 'acomment' ? 'acomment-content' : 'activity-inner';
+		var a_inner = jq('li#' + type + '-' + a_id + ' .' + inner_class );
+		
+		jq.post( ajaxurl, {
+			action: 'get_single_activity_content',
+			'activity_id': a_id
+		},
+		function(response) {
+			jq(a_inner).slideUp(200,function(){
+				jq(a_inner).html(response);
+				jq(a_inner).slideDown(200);
+			});
+		});
+		
+		
+		return false;
+	});
+
 	/**** Activity Comments *******************************************************/
 
 	/* Hide all activity comment forms */

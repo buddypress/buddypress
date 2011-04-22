@@ -319,6 +319,34 @@ function bp_dtheme_unmark_activity_favorite() {
 }
 add_action( 'wp_ajax_activity_mark_unfav', 'bp_dtheme_unmark_activity_favorite' );
 
+/**
+ * AJAX handler for Read More link on long activity items
+ *
+ * @package BuddyPress
+ * @since 1.3
+ */
+function bp_dtheme_get_single_activity_content() {
+	$activity_array = bp_activity_get_specific( array( 
+		'activity_ids' 		=> $_POST['activity_id'], 
+		'display_comments' 	=> 'stream' 
+	) );
+	
+	$activity = !empty( $activity_array['activities'][0] ) ? $activity_array['activities'][0] : false;
+	
+	if ( !$activity )
+		exit(); // todo: error?
+	
+	// Activity content retrieved through AJAX should run through normal filters, but not be
+	// truncated
+	remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
+	$content = apply_filters( 'bp_get_activity_content_body', $activity->content );
+	
+	echo $content;
+	
+	exit();
+}
+add_action( 'wp_ajax_get_single_activity_content', 'bp_dtheme_get_single_activity_content' );
+
 /* AJAX invite a friend to a group functionality */
 function bp_dtheme_ajax_invite_user() {
 	global $bp;
