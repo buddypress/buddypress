@@ -456,11 +456,14 @@ function groups_post_update( $args = '' ) {
 	$defaults = array(
 		'content'  => false,
 		'user_id'  => $bp->loggedin_user->id,
-		'group_id' => $bp->groups->current_group->id
+		'group_id' => 0
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
+
+	if ( empty( $group_id ) && !empty( $bp->groups->current_group->id ) )
+		$group_id = $bp->groups->current_group->id;
 
 	if ( empty( $content ) || !strlen( trim( $content ) ) || empty( $user_id ) || empty( $group_id ) )
 		return false;

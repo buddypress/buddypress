@@ -138,7 +138,7 @@ add_action( 'wp_ajax_activity_get_older_updates', 'bp_dtheme_activity_template_l
 function bp_dtheme_post_update() {
 	global $bp;
 
-	/* Check the nonce */
+	// Check the nonce
 	check_admin_referer( 'post_update', '_wpnonce_post_update' );
 
 	if ( !is_user_logged_in() ) {
@@ -151,15 +151,19 @@ function bp_dtheme_post_update() {
 		return false;
 	}
 
+	$activity_id = 0;
 	if ( empty( $_POST['object'] ) && bp_is_active( 'activity' ) ) {
 		$activity_id = bp_activity_post_update( array( 'content' => $_POST['content'] ) );
+
 	} elseif ( $_POST['object'] == 'groups' ) {
 		if ( !empty( $_POST['item_id'] ) && bp_is_active( 'groups' ) )
 			$activity_id = groups_post_update( array( 'content' => $_POST['content'], 'group_id' => $_POST['item_id'] ) );
-	} else
-		$activity_id = apply_filters( 'bp_activity_custom_update', $_POST['object'], $_POST['item_id'], $_POST['content'] );
 
-	if ( !$activity_id ) {
+	} else {
+		$activity_id = apply_filters( 'bp_activity_custom_update', $_POST['object'], $_POST['item_id'], $_POST['content'] );
+	}
+
+	if ( empty( $activity_id ) ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
