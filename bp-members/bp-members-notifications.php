@@ -84,7 +84,7 @@ function bp_members_delete_notifications_by_type( $user_id, $component_name, $co
 	return BP_Core_Notification::delete_for_user_by_type( $user_id, $component_name, $component_action );
 }
 
-function bp_members_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
+function bp_members_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 	return BP_Core_Notification::delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
