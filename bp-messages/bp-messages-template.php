@@ -118,33 +118,36 @@ Class BP_Messages_Box_Template {
 		$this->in_the_loop = true;
 		$this->thread = $this->next_thread();
 
-		$last_message_index = count($this->thread->messages) - 1;
-		$this->thread->messages = array_reverse( (array)$this->thread->messages );
+		if ( 'notices' != $bp->current_action ) {
+			$last_message_index = count( $this->thread->messages ) - 1;
+			$this->thread->messages = array_reverse( (array)$this->thread->messages );
 
-		/* Set up the last message data */
-		if ( count($this->thread->messages) > 1 ) {
-			if ( 'inbox' == $this->box ) {
-				foreach ( (array)$this->thread->messages as $key => $message ) {
-					if ( $bp->loggedin_user->id != $message->sender_id ) {
-						$last_message_index = $key;
-						break;
+			// Set up the last message data
+			if ( count($this->thread->messages) > 1 ) {
+				if ( 'inbox' == $this->box ) {
+					foreach ( (array)$this->thread->messages as $key => $message ) {
+						if ( $bp->loggedin_user->id != $message->sender_id ) {
+							$last_message_index = $key;
+							break;
+						}
 					}
-				}
-			} else if ( 'sentbox' == $this->box ) {
-				foreach ( (array)$this->thread->messages as $key => $message ) {
-					if ( $bp->loggedin_user->id == $message->sender_id ) {
-						$last_message_index = $key;
-						break;
+
+				} elseif ( 'sentbox' == $this->box ) {
+					foreach ( (array)$this->thread->messages as $key => $message ) {
+						if ( $bp->loggedin_user->id == $message->sender_id ) {
+							$last_message_index = $key;
+							break;
+						}
 					}
 				}
 			}
-		}
 
-		$this->thread->last_message_id = $this->thread->messages[$last_message_index]->id;
-		$this->thread->last_message_date = $this->thread->messages[$last_message_index]->date_sent;
-		$this->thread->last_sender_id = $this->thread->messages[$last_message_index]->sender_id;
-		$this->thread->last_message_subject = $this->thread->messages[$last_message_index]->subject;
-		$this->thread->last_message_content = $this->thread->messages[$last_message_index]->message;
+			$this->thread->last_message_id = $this->thread->messages[$last_message_index]->id;
+			$this->thread->last_message_date = $this->thread->messages[$last_message_index]->date_sent;
+			$this->thread->last_sender_id = $this->thread->messages[$last_message_index]->sender_id;
+			$this->thread->last_message_subject = $this->thread->messages[$last_message_index]->subject;
+			$this->thread->last_message_content = $this->thread->messages[$last_message_index]->message;
+		}
 
 		if ( 0 == $this->current_thread ) // loop has just started
 			do_action('messages_box_loop_start');
