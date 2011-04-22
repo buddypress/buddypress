@@ -167,7 +167,7 @@ function bp_activity_truncate_entry( $text ) {
 	if ( strlen( $excerpt ) > $excerpt_length )
 		$excerpt = sprintf( '%1$s<span class="activity-read-more"><a href="%2$s" rel="nofollow">%3$s</a></span>', bp_create_excerpt( $excerpt, $excerpt_length, true, '&hellip;' ), bp_get_activity_thread_permalink(), $append_text );
 	
-	return apply_filters( 'bp_activity_truncate_entry', $excerpt, $text, $more_link );
+	return apply_filters( 'bp_activity_truncate_entry', $excerpt, $text, $append_text );
 }
 add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 ?>
