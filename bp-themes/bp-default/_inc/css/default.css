@@ -2127,8 +2127,7 @@ div.post-content {
 	margin-left: 105px;
 }
 
-p.date span,
-.post-utility {
+p.date span:first-child {
 	font-style: italic;
 }
 
