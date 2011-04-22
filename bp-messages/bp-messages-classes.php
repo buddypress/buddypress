@@ -302,13 +302,17 @@ Class BP_Messages_Message {
 		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( thread_id, sender_id, subject, message, date_sent ) VALUES ( %d, %d, %s, %s, %s )", $this->thread_id, $this->sender_id, $this->subject, $this->message, $this->date_sent ) ) )
 			return false;
 
+		$recipient_ids = array();
+
 		if ( $new_thread ) {
 			// Add an recipient entry for all recipients
-			foreach ( (array)$this->recipients as $recipient )
+			foreach ( (array)$this->recipients as $recipient ) {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count ) VALUES ( %d, %d, 1 )", $recipient->user_id, $this->thread_id ) );
+				$recipient_ids[] = $recipient->user_id;
+			}
 
 			// Add a sender recipient entry if the sender is not in the list of recipients
-			if ( !in_array( $this->sender_id, $this->recipients ) )
+			if ( !in_array( $this->sender_id, $recipient_ids ) )
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, sender_only ) VALUES ( %d, %d, 1 )", $this->sender_id, $this->thread_id ) );
 		} else {
 			// Update the unread count for all recipients
