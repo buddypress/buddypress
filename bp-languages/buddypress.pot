@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-22 21:30:34+00:00\n"
+"POT-Creation-Date: 2011-04-22 22:30:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -700,7 +700,7 @@ msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:496 bp-core/bp-core-functions.php:348
-#: bp-messages/bp-messages-template.php:490
+#: bp-messages/bp-messages-template.php:493
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
@@ -2888,64 +2888,64 @@ msgstr ""
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:339
+#: bp-messages/bp-messages-template.php:342
 msgid "Viewing message %1$s to %2$s (of %3$s messages)"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:393
+#: bp-messages/bp-messages-template.php:396
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:396
+#: bp-messages/bp-messages-template.php:399
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:397
+#: bp-messages/bp-messages-template.php:400
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:398
+#: bp-messages/bp-messages-template.php:401
 msgid "All"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:401
+#: bp-messages/bp-messages-template.php:404
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:402
+#: bp-messages/bp-messages-template.php:405
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:404
+#: bp-messages/bp-messages-template.php:407
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:413
+#: bp-messages/bp-messages-template.php:416
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:488
+#: bp-messages/bp-messages-template.php:491
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:515
+#: bp-messages/bp-messages-template.php:518
 #: bp-themes/bp-default/functions.php:152
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:559
+#: bp-messages/bp-messages-template.php:562
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:560
+#: bp-messages/bp-messages-template.php:563
 msgid "Send Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:746
+#: bp-messages/bp-messages-template.php:749
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:821
+#: bp-messages/bp-messages-template.php:824
 #: bp-themes/bp-default/_inc/ajax.php:527
 msgid "Sent %s ago"
 msgstr ""
