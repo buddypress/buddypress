@@ -111,7 +111,7 @@ class BP_Forums_Component extends BP_Component {
 			'name'                => __( 'Forums', 'buddypress' ),
 			'slug'                => $this->slug,
 			'position'            => 80,
-			'screen_function'     => 'bp_forums_screen_topics',
+			'screen_function'     => 'bp_member_forums_screen_topics',
 			'default_subnav_slug' => 'topics',
 			'item_css_id'         => $this->id
 		);

@@ -73,7 +73,7 @@ function bp_member_forums_screen_topics() {
 
 	do_action( 'bp_member_forums_screen_topics' );
 
-	bp_core_load_template( apply_filters( 'bp_forums_screen_topics', 'members/single/home' ) );
+	bp_core_load_template( apply_filters( 'bp_member_forums_screen_topics', 'members/single/home' ) );
 }
 
 function bp_member_forums_screen_replies() {
