@@ -35,7 +35,7 @@ function friends_delete_activity( $args ) {
 
 	if ( bp_is_active( 'activity' ) ) {
 		extract( (array)$args );
-		bp_activity_delete_by_item_id( array( 'item_id' => $item_id, 'component' => $bp->friends->id, 'type' => $type, 'user_id' => $user_id, 'secondary_item_id' => $secondary_item_id ) );
+		bp_activity_delete_by_item_id( array( 'item_id' => $item_id, 'component' => $bp->friends->id, 'type' => $type, 'user_id' => $user_id ) );
 	}
 }
 
