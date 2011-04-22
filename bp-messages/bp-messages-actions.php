@@ -12,7 +12,9 @@ function messages_action_view_message() {
 	if ( $bp->current_component != $bp->messages->slug || $bp->current_action != 'view' )
 		return false;
 
-	$thread_id = $bp->action_variables[0];
+	$thread_id = 0;
+	if ( !empty( $bp->action_variables[0] ) )
+		$thread_id = $bp->action_variables[0];
 
 	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access($thread_id) && !is_super_admin() ) )
 		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component );
@@ -37,7 +39,7 @@ function messages_action_view_message() {
 
 	do_action( 'messages_action_view_message' );
 
-	bp_core_new_subnav_item( array( 'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ), 'slug' => 'view', 'parent_url' => $bp->loggedin_user->domain . $bp->messages->slug . '/', 'parent_slug' => $bp->messages->slug, 'screen_function' => true, 'position' => 40, 'user_has_access' => bp_is_my_profile() ) );
+	bp_core_new_subnav_item( array( 'name' => sprintf( __( 'From: %s', 'buddypress'), BP_Messages_Thread::get_last_sender($thread_id) ), 'slug' => "view/{$thread_id}", 'parent_url' => $bp->loggedin_user->domain . $bp->messages->slug . '/', 'parent_slug' => $bp->messages->slug, 'screen_function' => true, 'position' => 40, 'user_has_access' => bp_is_my_profile() ) );
 	bp_core_load_template( apply_filters( 'messages_template_view_message', 'members/single/home' ) );
 }
 add_action( 'bp_actions', 'messages_action_view_message' );

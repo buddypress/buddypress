@@ -242,7 +242,7 @@ function bp_message_thread_view_link() {
 }
 	function bp_get_message_thread_view_link() {
 		global $messages_template, $bp;
-		return apply_filters( 'bp_get_message_thread_view_link', $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $messages_template->thread->thread_id );
+		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . $messages_template->thread->thread_id ) );
 	}
 
 function bp_message_thread_delete_link() {
