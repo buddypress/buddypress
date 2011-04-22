@@ -1055,8 +1055,13 @@ div#signup-avatar img {
 }
 
 .standard-form div.submit {
-	padding: 15px 0;
+	padding: 15px 0 0 0;
 	clear: both;
+}
+
+.standard-form p.submit {
+	padding: 15px 0 0 0;
+	margin-bottom: 0;
 }
 
 .standard-form div.submit input {
@@ -1937,7 +1942,7 @@ div#topic-meta h3 {
 
 div#new-topic-post {
 	display: none;
-	margin: 0;
+	margin: 20px 0 0 0;
 	padding: 1px 0 0 0;
 }
 
@@ -1962,6 +1967,7 @@ div.attachment {
 
 div.page:last-child,
 div.post:last-child,
+div.item-body:last-child,
 #trackbacklist {
 	margin-bottom: 0;
 }
