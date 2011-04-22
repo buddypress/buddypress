@@ -170,7 +170,8 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'user_has_access' => true,  // Can the logged in user see this nav item?
 		'site_admin_only' => false, // Can only site admins see this nav item?
 		'position'        => 90,    // Index of where this nav item should be positioned
-		'screen_function' => false  // The name of the function to run when clicked
+		'screen_function' => false, // The name of the function to run when clicked
+		'link'            => ''     // The link for the subnav item; optional, not usually required.
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -179,6 +180,9 @@ function bp_core_new_subnav_item( $args = '' ) {
 	// If we don't have the required info we need, don't create this subnav item
 	if ( empty( $name ) || empty( $slug ) || empty( $parent_slug ) || empty( $parent_url ) || empty( $screen_function ) )
 		return false;
+
+	if ( empty( $link ) )
+		$link = $parent_url . $slug;
 
 	// If this is for site admins only and the user is not one, don't create the subnav item
 	if ( $site_admin_only && !is_super_admin() )
@@ -189,7 +193,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 
 	$bp->bp_options_nav[$parent_slug][$slug] = array(
 		'name'            => $name,
-		'link'            => $parent_url . $slug . '/',
+		'link'            => trailingslashit( $link ),
 		'slug'            => $slug,
 		'css_id'          => $item_css_id,
 		'position'        => $position,
