@@ -1954,7 +1954,8 @@ body.home-page .sticky .date {
 }
 
 div.page,
-div.post {
+div.post,
+div.attachment {
 	margin: 0 0 40px 0;
 	overflow: hidden;
 }
