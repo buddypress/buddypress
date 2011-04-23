@@ -90,10 +90,10 @@ function bp_settings_screen_general_settings() {
 			bp_core_add_message( __( 'Changes saved.', 'buddypress' ), 'success' );
 
 		elseif ( !empty( $pass_error ) )
-			bp_core_add_message( __( 'Your passwords did not match.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'Your new passwords did not match.', 'buddypress' ), 'error' );
 
 		elseif ( !empty( $pwd_error ) )
-			bp_core_add_message( __( 'Your password is incorrect.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'Your existing password is incorrect.', 'buddypress' ), 'error' );
 
 		elseif ( !empty( $email_error ) )
 			bp_core_add_message( __( 'Sorry, that email address is already used or is invalid.', 'buddypress' ), 'error' );
