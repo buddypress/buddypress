@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-23 20:30:28+00:00\n"
+"POT-Creation-Date: 2011-04-23 23:30:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -267,7 +267,7 @@ msgstr ""
 
 #: bp-core/bp-core-widgets.php:121 bp-core/bp-core-widgets.php:201
 #: bp-core/bp-core-widgets.php:270 bp-groups/bp-groups-widgets.php:117
-#: bp-themes/bp-default/forums/index.php:105
+#: bp-themes/bp-default/forums/index.php:103
 #: bp-themes/bp-default/forums/single/edit.php:49
 #: bp-themes/bp-default/groups/single/forum/edit.php:49
 #: bp-themes/bp-default/groups/single/forum.php:72
@@ -2339,7 +2339,7 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:260
 #: bp-xprofile/bp-xprofile-classes.php:708
-#: bp-themes/bp-default/forums/index.php:135
+#: bp-themes/bp-default/forums/index.php:133
 msgid "Cancel"
 msgstr ""
 
@@ -4180,33 +4180,33 @@ msgstr ""
 msgid "My Topics (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:101
+#: bp-themes/bp-default/forums/index.php:99
 msgid "Create New Topic:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:108
+#: bp-themes/bp-default/forums/index.php:106
 #: bp-themes/bp-default/forums/single/edit.php:52
 #: bp-themes/bp-default/groups/single/forum/edit.php:52
 #: bp-themes/bp-default/groups/single/forum.php:75
 msgid "Content:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:111
+#: bp-themes/bp-default/forums/index.php:109
 #: bp-themes/bp-default/groups/single/forum/edit.php:55
 #: bp-themes/bp-default/groups/single/forum.php:78
 msgid "Tags (comma separated):"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:114
+#: bp-themes/bp-default/forums/index.php:112
 msgid "Post In Group Forum:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:134
+#: bp-themes/bp-default/forums/index.php:132
 #: bp-themes/bp-default/groups/single/forum.php:84
 msgid "Post Topic"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:146
+#: bp-themes/bp-default/forums/index.php:144
 msgid "You are not a member of any groups so you don't have any group forums you can post in. To start posting, first find a group that matches the topic subject you'd like to start. If this group does not exist, why not <a href='%s'>create a new group</a>? Once you have joined or created the group you can post your topic in that group's forum."
 msgstr ""
 
