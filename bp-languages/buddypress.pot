@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-23 18:30:38+00:00\n"
+"POT-Creation-Date: 2011-04-23 19:30:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -148,7 +148,7 @@ msgstr ""
 #: bp-groups/bp-groups-screens.php:798 bp-messages/bp-messages-screens.php:119
 #: bp-themes/bp-default/registration/register.php:196
 #: bp-themes/bp-default/groups/single/admin.php:26
-#: bp-activity/bp-activity-screens.php:153
+#: bp-activity/bp-activity-screens.php:148
 msgid "Yes"
 msgstr ""
 
@@ -159,7 +159,7 @@ msgstr ""
 #: bp-groups/bp-groups-screens.php:799 bp-messages/bp-messages-screens.php:120
 #: bp-themes/bp-default/registration/register.php:197
 #: bp-themes/bp-default/groups/single/admin.php:27
-#: bp-activity/bp-activity-screens.php:154
+#: bp-activity/bp-activity-screens.php:149
 msgid "No"
 msgstr ""
 
@@ -2049,7 +2049,7 @@ msgstr ""
 #: bp-groups/bp-groups-buddybar.php:46 bp-members/bp-members-buddybar.php:124
 #: bp-activity/bp-activity-loader.php:94 bp-activity/bp-activity-loader.php:200
 #: bp-activity/feeds/bp-activity-personal-feed.php:21
-#: bp-activity/bp-activity-screens.php:152
+#: bp-activity/bp-activity-screens.php:147
 msgid "Activity"
 msgstr ""
 
@@ -4742,15 +4742,15 @@ msgstr ""
 msgid "My Groups - Public Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:127
+#: bp-activity/bp-activity-screens.php:122
 msgid "You do not have access to this activity."
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:161
+#: bp-activity/bp-activity-screens.php:156
 msgid "A member mentions you in an update using \"@%s\""
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:167
+#: bp-activity/bp-activity-screens.php:162
 msgid "A member replies to an update or comment you've posted"
 msgstr ""
 
