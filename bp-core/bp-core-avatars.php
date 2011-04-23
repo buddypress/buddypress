@@ -563,25 +563,23 @@ function bp_core_check_avatar_type($file) {
  *
  * Returns the absolute upload path for the WP installation
  *
- * @global object $wpdb WordPress database global
  * @uses wp_upload_dir To get upload directory info
  * @return string Absolute path to WP upload directory
  */
 function bp_core_avatar_upload_path() {
-	global $wpdb;
-
 	// Get upload directory information from current site
 	$upload_dir = wp_upload_dir();
 
 	// Directory does not exist and cannot be created
-	if ( isset( $upload_dir['baseurl'] ) ) {
-		$basedir = $upload_dir['baseurl'];
+	if ( !empty( $upload_dir['error'] ) ) {
+		$basedir = '';
+
+	} else {
+		$basedir = $upload_dir['basedir'];
 
 		// If multisite, and current blog does not match root blog, make adjustments
-		if ( is_multisite() && BP_ROOT_BLOG != $wpdb->blogid )
+		if ( is_multisite() && BP_ROOT_BLOG != get_current_blog_id() )
 			$basedir = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
-	} else {
-		$basedir = '';
 	}
 
 	return apply_filters( 'bp_core_avatar_upload_path', $basedir );
@@ -592,28 +590,25 @@ function bp_core_avatar_upload_path() {
  *
  * Returns the raw base URL for root site upload location
  *
- * @global object $wpdb WordPress database global
  * @uses wp_upload_dir To get upload directory info
  * @return string Full URL to current upload location
  */
 function bp_core_avatar_url() {
-	global $wpdb;
-
 	// Get upload directory information from current site
 	$upload_dir = wp_upload_dir();
 
 	// Directory does not exist and cannot be created
-	if ( isset( $upload_dir['baseurl'] ) ) {
+	if ( !empty( $upload_dir['error'] ) ) {
+		$baseurl = '';
+
+	} else {
 		$baseurl = $upload_dir['baseurl'];
 
 		// If multisite, and current blog does not match root blog, make adjustments
-		if ( is_multisite() && BP_ROOT_BLOG != $wpdb->blogid )
+		if ( is_multisite() && BP_ROOT_BLOG != get_current_blog_id() )
 			$baseurl = trailingslashit( get_blog_option( BP_ROOT_BLOG, 'home' ) ) . get_blog_option( BP_ROOT_BLOG, 'upload_path' );
-	} else {
-		$baseurl = '';
 	}
 
 	return apply_filters( 'bp_core_avatar_url', $baseurl );
 }
-
 ?>
