@@ -14,9 +14,6 @@ function bp_settings_screen_general_settings() {
 		// Nonce check
 		check_admin_referer('bp_settings_general');
 
-		if ( ! function_exists( 'email_exists' ) )
-			require_once( ABSPATH . WPINC . '/registration.php' );
-
 		// Validate the user again for the current password when making a big change
 		if ( is_super_admin() || ( !empty( $_POST['pwd'] ) && $_POST['pwd'] != '' && wp_check_password( $_POST['pwd'], $bp->displayed_user->userdata->user_pass, $bp->displayed_user->id ) ) ) {
 

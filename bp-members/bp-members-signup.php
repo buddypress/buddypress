@@ -295,9 +295,6 @@ add_filter( 'pre_update_site_option_illegal_names', 'bp_members_illegal_names', 
 function bp_members_validate_user_signup( $user_name, $user_email ) {
 	global $wpdb;
 
-	if ( ! function_exists( 'validate_username' ) )
-		require_once( ABSPATH . WPINC . '/registration.php' );
-
 	$errors = new WP_Error();
 	$user_email = sanitize_email( $user_email );
 
@@ -375,9 +372,6 @@ function bp_members_signup_user( $user_login, $user_password, $user_email, $user
 
 	} else {
 		$errors = new WP_Error();
-
-		if ( ! function_exists( 'wp_insert_user' ) )
-			require_once( ABSPATH . WPINC . '/registration.php' );
 
 		$user_id = wp_insert_user( array(
 			'user_login' => $user_login,
@@ -484,8 +478,6 @@ function bp_members_activate_signup( $key ) {
 		// Remove the activation key meta
 		delete_user_meta( $user_id, 'activation_key' );
 	}
-
-	require_once( ABSPATH . WPINC . '/registration.php' );
 
 	// Update the display_name
 	wp_update_user( array( 'ID' => $user_id, 'display_name' => bp_core_get_user_displayname( $user_id ) ) );

@@ -113,9 +113,6 @@ function bp_activity_filter_kses( $content ) {
  * @param string $content The activity content
  */
 function bp_activity_at_name_filter( $content ) {
-	if ( ! function_exists( 'username_exists' ) )
-		require_once( ABSPATH . WPINC . '/registration.php' );
-
 	$usernames = bp_activity_find_mentions( $content );
 
 	foreach( (array)$usernames as $username ) {
