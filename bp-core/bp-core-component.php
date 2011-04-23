@@ -121,7 +121,7 @@ class BP_Component {
 		$this->search_string = apply_filters( 'bp_' . $this->id . '_search_string', $r['search_string'] );
 
 		// Notifications callback
-		$this->notification_callback = 'bp_' . $this->id . '_notification_callback';
+		$this->notification_callback = apply_filters( 'bp_' . $this->id . '_notification_callback', $r['notification_callback'] );
 
 		// Setup global table names
 		if ( !empty( $r['global_tables'] ) )
