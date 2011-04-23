@@ -36,6 +36,14 @@ function messages_action_view_message() {
 
 	// Mark message read
 	messages_mark_thread_read( $thread_id );
+	
+	// Decrease the unread count in the nav before it's rendered
+	if ( $count = messages_get_unread_count() ) 
+		$name = sprintf( __( 'Messages <strong>(%s)</strong>', 'buddypress' ), $count ); 
+	else 
+		$name = __( 'Messages <strong></strong>', 'buddypress' ); 
+	
+	$bp->bp_nav[$bp->messages->slug]['name'] = $name;
 
 	do_action( 'messages_action_view_message' );
 
