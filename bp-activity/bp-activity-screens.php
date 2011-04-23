@@ -74,15 +74,10 @@ function bp_activity_screen_single_activity_permalink() {
 	// No displayed user or not viewing activity component
 	if ( !bp_is_activity_component() )
 		return false;
-
-	// No current action or not a specific activity item
-	if ( !bp_current_action() || !bp_is_current_action( 'p' ) || !isset( $bp->action_variables['0'] ) )
-		return false;
-
-	// RE-jig the action and action variables
-	$bp->current_action = $bp->action_variables['0'];
-	unset( $bp->action_variables['0'] );
-
+	
+	if ( empty( $bp->current_action ) || !is_numeric( $bp->current_action ) ) 
+		return false; 
+	
 	// Get the activity details
 	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action() ) );
 
