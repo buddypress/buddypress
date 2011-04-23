@@ -119,6 +119,8 @@ function friends_accept_friendship( $friendship_id ) {
 }
 
 function friends_reject_friendship( $friendship_id ) {
+	global $bp;
+
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 
 	if ( !$friendship->is_confirmed && BP_Friends_Friendship::reject( $friendship_id ) ) {
