@@ -16,32 +16,70 @@ function bp_core_get_table_prefix() {
  * Fetches BP pages from the meta table, depending on setup
  *
  * @package BuddyPress Core
+ * @since 1.3
+ *
+ * @todo Remove the "Upgrading from an earlier version of BP pre-1.3" block. Temporary measure for
+ *       people running trunk installations. Leave for a version or two, then remove.
  */
 function bp_core_get_page_meta() {
-	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
-		$page_ids = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
-	else
-		$page_ids = get_option( 'bp-pages' );
+	$page_ids = get_site_option( 'bp-pages' );
+	
+	$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
 
-	return $page_ids;
+	$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
+	
+	// Upgrading from an earlier version of BP pre-1.3
+	if ( empty( $page_ids ) || isset( $page_ids['members'] ) ) {		
+		if ( empty( $page_ids ) ) {		
+			// We're probably coming from an old multisite install
+			$old_page_ids = get_blog_option( $page_blog_id, 'bp-pages' );
+		} else {
+			// We're probably coming from an old single-WP install
+			$old_page_ids = $page_ids;
+		}
+		
+		/**
+		 * If $page_ids is found in a blog_option, and it's formatted in the new way (keyed
+		 * by blog_id), it means that this is an MS upgrade. Return false and let the
+		 * upgrade wizard handle the migration.
+		 */
+		if ( !isset( $old_page_ids['members'] ) )
+			return false;
+			
+		// Finally, move the page ids over to site options
+		$new_page_ids = array(
+			$page_blog_id => $old_page_ids
+		);
+
+		update_site_option( 'bp-pages', $new_page_ids );
+	}
+	
+	$blog_page_ids = !empty( $page_ids[$page_blog_id] ) ? $page_ids[$page_blog_id] : false;
+	
+	return apply_filters( 'bp_core_get_page_meta', $blog_page_ids );
 }
 
 /**
  * Stores BP pages in the meta table, depending on setup
  *
- * bp-pages data is stored in the options table of the root blog, except when BP_ENABLE_MULTIBLOG
- * is turned on.
+ * bp-pages data is stored in site_options (falls back to options on non-MS), in an array keyed by
+ * blog_id. This allows you to change your BP_ROOT_BLOG and go through the setup process again.
  *
  * @package BuddyPress Core 
  * @since 1.3
  *
- * @param array $page_ids The IDs of the WP pages corresponding to BP component directories
+ * @param array $blog_page_ids The IDs of the WP pages corresponding to BP component directories
  */
-function bp_core_update_page_meta( $page_ids ) {
-	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
-		update_blog_option( BP_ROOT_BLOG, 'bp-pages', $page_ids );
-	else
-		update_option( 'bp-pages', $page_ids );
+function bp_core_update_page_meta( $blog_page_ids ) {
+	if ( !$page_ids = get_site_option( 'bp-pages' ) )
+		$page_ids = array();
+
+	// Generally, we key by the BP_ROOT_BLOG. Exception: when BP_ENABLE_MULTIBLOG is turned on
+	$key = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
+	
+	$page_ids[$key] = $blog_page_ids;
+
+	update_site_option( 'bp-pages', $page_ids );
 }
 
 /**
@@ -63,14 +101,15 @@ function bp_core_get_page_names() {
 
 		$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'posts' : $wpdb->posts;
 		$page_ids_sql     = implode( ',', (array)$page_ids );
-		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " ) );
+		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " ) );
 
 		foreach ( (array)$page_ids as $key => $page_id ) {
 			foreach ( (array)$page_names as $page_name ) {
 				if ( $page_name->ID == $page_id ) {
-					$pages->{$key}->name = $page_name->post_name;
-					$pages->{$key}->id   = $page_name->ID;
-					$slug[]              = $page_name->post_name;
+					$pages->{$key}->name  = $page_name->post_name;
+					$pages->{$key}->id    = $page_name->ID;
+					$pages->{$key}->title = $page_name->post_title;
+					$slug[]               = $page_name->post_name;
 
 					// Get the slug
 					while ( $page_name->post_parent != 0 ) {

@@ -262,11 +262,11 @@ class BP_Core_Setup_Wizard {
 			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
 		else
 			$blogs_slug = 'blogs';
-
-		if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
-			$existing_pages = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
-		else
-			$existing_pages = get_option( 'bp-pages' );
+ 
+ 		// Call up old bp-pages to see if a page has been previously linked to Blogs 
+		$page_blog_id 		= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
+		$existing_pages_data 	= get_blog_option( $page_blog_id, 'bp-pages' );
+		$existing_pages 	= $existing_pages_data[$page_blog_id];
 
 		if ( !empty( $existing_pages['blogs'] ) )
 			$existing_blog_page = '&selected=' . $existing_pages['blogs'];
@@ -361,11 +361,7 @@ class BP_Core_Setup_Wizard {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
-		// Determine where to get the pages from
-		if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
-			$existing_pages = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
-		else
-			$existing_pages = get_option( 'bp-pages' );
+		$existing_pages = bp_core_update_get_page_meta();
 
 		// Get active components
 		$active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
@@ -773,11 +769,17 @@ class BP_Core_Setup_Wizard {
 				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
 					switch_to_blog( BP_ROOT_BLOG );
 
-				$existing_pages = get_option( 'bp-pages' );
-				$bp_pages       = $this->setup_pages( (array)$_POST['bp_pages'] );
-				$bp_pages       = array_merge( (array)$existing_pages, (array)$bp_pages );
+				// Move bp-pages data from the blog options table to site options
+				$page_blog_id 		= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
+				$existing_pages_data 	= get_blog_option( $page_blog_id, 'bp-pages' );
+				$existing_pages 	= $existing_pages_data[$page_blog_id];
+				
+				$bp_pages       	= $this->setup_pages( (array)$_POST['bp_pages'] );
+				$bp_pages       	= array_merge( (array)$existing_pages, (array)$bp_pages );
+				
+				$existing_pages_data[$page_blog_id] = $bp_pages;
 
-				update_option( 'bp-pages', $bp_pages );
+				update_site_option( 'bp-pages', $existing_pages_data );
 
 				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
 					restore_current_blog();
@@ -831,9 +833,11 @@ class BP_Core_Setup_Wizard {
 			foreach ( (array)$existing_pages as $page_id )
 				wp_delete_post( $page_id, true );
 
-			$bp_pages = $this->setup_pages( (array)$_POST['bp_pages'] );
+			$blog_pages 	= $this->setup_pages( (array)$_POST['bp_pages'] );
+			$page_blog_id 	= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
+			$bp_pages	= array( $page_blog_id => $blog_pages );
 
-			update_option( 'bp-pages', $bp_pages );
+			update_site_option( 'bp-pages', $bp_pages );
 
 			if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
 				restore_current_blog();
@@ -1275,12 +1279,15 @@ add_action( 'admin_head', 'bp_core_update_add_admin_menu_styles' );
  * @return array $page_ids
  */
 function bp_core_update_get_page_meta() {
-	if ( !defined( 'BP_ENABLE_MULTIBLOG' ) && is_multisite() )
-		$page_ids = get_blog_option( BP_ROOT_BLOG, 'bp-pages' );
-	else
-		$page_ids = get_option( 'bp-pages' );
+	$page_ids = get_site_option( 'bp-pages' );
+	
+	$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
 
-	return $page_ids;
+	$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
+	
+	$blog_page_ids = !empty( $page_ids[$page_blog_id] ) ? $page_ids[$page_blog_id] : false;
+	
+	return apply_filters( 'bp_core_update_get_page_meta', $blog_page_ids );
 }
 
 /**
