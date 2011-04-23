@@ -821,6 +821,7 @@ function bp_activity_comments( $args = '' ) {
 						$comment_child->user_nicename,
 						$comment_child->user_login ) . '">' .
 					bp_core_fetch_avatar( array(
+						'alt'    => __( 'Profile picture of %s', 'buddypress' ),
 						'item_id' => $comment_child->user_id,
 						'width'   => 30,
 						'height'  => 30,
@@ -844,7 +845,7 @@ function bp_activity_comments( $args = '' ) {
 				// Delete link
 				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id ) {
 					$delete_url = wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/?cid=' . $comment_child->id, 'bp_activity_delete_link' );
-					$content .= apply_filters( 'bp_activity_comment_delete_link', ' &middot; <a href="' . $delete_url . '" class="delete acomment-delete" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>', $comment_child, $delete_url );
+					$content .= apply_filters( 'bp_activity_comment_delete_link', ' &middot; <a href="' . $delete_url . '" class="delete acomment-delete confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>', $comment_child, $delete_url );
 				}
 
 				$content .= '</div>';

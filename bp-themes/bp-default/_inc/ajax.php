@@ -213,12 +213,12 @@ function bp_dtheme_new_activity_comment() {
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<li id="acomment-<?php bp_activity_id() ?>">
 				<div class="acomment-avatar">
-					<?php bp_activity_avatar( array( 'height' => 30, 'width' => 30 ) ); ?>
+					<a href="<?php echo bp_core_get_userlink( bp_get_activity_user_id(), false, true ); ?>"><?php bp_activity_avatar( array( 'height' => 30, 'width' => 30 ) ); ?></a>
 				</div>
 
 				<div class="acomment-meta">
-					<?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> &middot; <?php printf( __( '%s ago', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ) ?> &middot;
-					<a class="acomment-reply" href="#acomment-<?php bp_activity_id() ?>" id="acomment-reply-<?php echo esc_attr( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ) ?></a>
+					<?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> &middot; <?php printf( __( '%s ago', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ) ?>
+					<span class="acomment-replylink"> &middot; <a class="acomment-reply" href="#acomment-<?php bp_activity_id() ?>" id="acomment-reply-<?php echo esc_attr( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ) ?></a></span>
 					 &middot; <a href="<?php echo wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/' . bp_get_activity_id() . '?cid=' . $comment_id, 'bp_activity_delete_link' ) ?>" class="delete acomment-delete confirm" rel="nofollow"><?php _e( 'Delete', 'buddypress' ) ?></a>
 				</div>
 
