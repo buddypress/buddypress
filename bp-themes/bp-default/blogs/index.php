@@ -62,8 +62,6 @@
 				</ul>
 			</div>
 
-			<?php do_action( 'bp_before_directory_blogs_list' ); ?>
-
 			<div id="blogs-dir-list" class="blogs dir-list">
 
 				<?php locate_template( array( 'blogs/blogs-loop.php' ), true ); ?>

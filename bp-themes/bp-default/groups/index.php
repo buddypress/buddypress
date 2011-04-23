@@ -63,8 +63,6 @@
 				</ul>
 			</div>
 
-			<?php do_action( 'bp_before_directory_groups_list' ); ?>
-
 			<div id="groups-dir-list" class="groups dir-list">
 
 				<?php locate_template( array( 'groups/groups-loop.php' ), true ); ?>
