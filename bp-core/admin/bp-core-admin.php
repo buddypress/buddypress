@@ -342,6 +342,13 @@ function bp_core_admin_component_options() {
  * @since 1.3
  */
 function bp_core_admin_page_options() {
+	global $bp;
+	
+	if ( !bp_is_root_blog() ) {
+		$bp->is_switched = 1;
+		switch_to_blog( BP_ROOT_BLOG );
+	}
+		
 	// Get the existing WP pages
 	$existing_pages = bp_core_get_page_meta();
 
@@ -429,6 +436,11 @@ function bp_core_admin_page_options() {
 	</table>
 
 	<?php
+	
+	if ( isset( $bp->is_switched ) ) {
+		restore_current_blog();
+		unset( $bp->is_switched );
+	}
 }
 
 /**
