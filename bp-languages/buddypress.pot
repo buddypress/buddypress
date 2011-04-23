@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-23 16:30:35+00:00\n"
+"POT-Creation-Date: 2011-04-23 17:30:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -332,9 +332,9 @@ msgstr ""
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:23 bp-core/admin/bp-core-update.php:1227
-#: bp-core/admin/bp-core-update.php:1228 bp-core/bp-core-functions.php:197
-#: bp-core/bp-core-functions.php:198 bp-members/bp-members-signup.php:570
+#: bp-core/admin/bp-core-admin.php:23 bp-core/admin/bp-core-update.php:1230
+#: bp-core/admin/bp-core-update.php:1231 bp-core/bp-core-functions.php:197
+#: bp-core/bp-core-functions.php:198 bp-members/bp-members-signup.php:562
 msgid "BuddyPress"
 msgstr ""
 
@@ -450,54 +450,54 @@ msgstr ""
 msgid "Choose which BuddyPress components you would like to use."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:350
+#: bp-core/admin/bp-core-admin.php:357
 #: bp-themes/bp-default/members/index.php:21
 msgid "Members Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:351
+#: bp-core/admin/bp-core-admin.php:358
 msgid "Activity Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:352 bp-themes/bp-default/groups/index.php:21
+#: bp-core/admin/bp-core-admin.php:359 bp-themes/bp-default/groups/index.php:21
 #: bp-themes/bp-default/groups/create.php:18
 msgid "Groups Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:353 bp-themes/bp-default/forums/index.php:23
+#: bp-core/admin/bp-core-admin.php:360 bp-themes/bp-default/forums/index.php:23
 msgid "Forums Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:357 bp-themes/bp-default/blogs/index.php:21
+#: bp-core/admin/bp-core-admin.php:364 bp-themes/bp-default/blogs/index.php:21
 #: bp-themes/bp-default/blogs/create.php:21
 msgid "Blogs Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:359
+#: bp-core/admin/bp-core-admin.php:366
 msgid "Directory Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:361
+#: bp-core/admin/bp-core-admin.php:368
 msgid "Choose a WordPress Page to associate with each BuddyPress component directory. Deactivated components should be set to \"None\"."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:378 bp-core/admin/bp-core-admin.php:418
+#: bp-core/admin/bp-core-admin.php:385 bp-core/admin/bp-core-admin.php:425
 msgid "- None -"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:396
+#: bp-core/admin/bp-core-admin.php:403
 msgid "Sign up Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:397
+#: bp-core/admin/bp-core-admin.php:404
 msgid "Activation Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:400
+#: bp-core/admin/bp-core-admin.php:407
 msgid "Other Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:402
+#: bp-core/admin/bp-core-admin.php:409
 msgid "Associate WordPress Pages with the following BuddyPress pages. Setting to \"None\" will render that page inaccessible."
 msgstr ""
 
@@ -521,7 +521,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-update.php:66 bp-core/admin/bp-core-update.php:80
 #: bp-core/admin/bp-core-update.php:176 bp-core/admin/bp-core-update.php:223
-#: bp-core/admin/bp-core-update.php:1194
+#: bp-core/admin/bp-core-update.php:1197
 #: bp-themes/bp-default/groups/create.php:269
 msgid "Finish"
 msgstr ""
@@ -534,11 +534,11 @@ msgstr ""
 msgid "Database Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1223
+#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1226
 msgid "Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1221
+#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1224
 msgid "Setup"
 msgstr ""
 
@@ -845,15 +845,15 @@ msgstr ""
 msgid "Paste all these rules into a new <code>.htaccess</code> file in the root of your WordPress installation and save the file. Once you're done, please hit the \"Save and Next\" button to continue."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1167
+#: bp-core/admin/bp-core-update.php:1170
 msgid "Installation was successful. The available options have now been updated, please continue with your selection."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1313
+#: bp-core/admin/bp-core-update.php:1316
 msgid "BuddyPress has been updated! Please run the <a href=\"%s\">update wizard</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1318
+#: bp-core/admin/bp-core-update.php:1321
 msgid "BuddyPress was successfully installed! Please run the <a href=\"%s\">installation wizard</a>."
 msgstr ""
 
@@ -988,7 +988,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:237 bp-members/bp-members-signup.php:572
+#: bp-core/bp-core-filters.php:237 bp-members/bp-members-signup.php:564
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -996,7 +996,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:238 bp-members/bp-members-signup.php:573
+#: bp-core/bp-core-filters.php:238 bp-members/bp-members-signup.php:565
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1420,21 +1420,21 @@ msgstr ""
 msgid "Compose"
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:93
-#: bp-settings/bp-settings-actions.php:126
+#: bp-settings/bp-settings-actions.php:90
+#: bp-settings/bp-settings-actions.php:123
 #: bp-xprofile/bp-xprofile-screens.php:111
 msgid "Changes saved."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:96
+#: bp-settings/bp-settings-actions.php:93
 msgid "Your passwords did not match."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:99
+#: bp-settings/bp-settings-actions.php:96
 msgid "Your password is incorrect."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:102
+#: bp-settings/bp-settings-actions.php:99
 msgid "Sorry, that email address is already used or is invalid."
 msgstr ""
 
@@ -3194,55 +3194,55 @@ msgstr ""
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:305
+#: bp-members/bp-members-signup.php:302
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:316
+#: bp-members/bp-members-signup.php:313
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:319
+#: bp-members/bp-members-signup.php:316
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:322
+#: bp-members/bp-members-signup.php:319
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:329
+#: bp-members/bp-members-signup.php:326
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:332
+#: bp-members/bp-members-signup.php:329
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-members/bp-members-signup.php:335 bp-members/bp-members-signup.php:343
+#: bp-members/bp-members-signup.php:332 bp-members/bp-members-signup.php:340
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:348
+#: bp-members/bp-members-signup.php:345
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:352
+#: bp-members/bp-members-signup.php:349
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:390
+#: bp-members/bp-members-signup.php:384
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:475 bp-members/bp-members-signup.php:479
+#: bp-members/bp-members-signup.php:469 bp-members/bp-members-signup.php:473
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:521
+#: bp-members/bp-members-signup.php:513
 msgid "%s became a registered member"
 msgstr ""
 
-#: bp-members/bp-members-signup.php:595
+#: bp-members/bp-members-signup.php:587
 msgid "<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link."
 msgstr ""
 
@@ -4080,7 +4080,7 @@ msgid "Activity that I have been mentioned in."
 msgstr ""
 
 #: bp-themes/bp-default/activity/index.php:75
-#: bp-activity/bp-activity-functions.php:76
+#: bp-activity/bp-activity-functions.php:73
 msgid "@%s Mentions"
 msgstr ""
 
@@ -4666,31 +4666,31 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-filters.php:165
+#: bp-activity/bp-activity-filters.php:162
 msgid "[Read more]"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:79
+#: bp-activity/bp-activity-functions.php:76
 msgid "You have %1$d new activity mentions"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:83
+#: bp-activity/bp-activity-functions.php:80
 msgid "%1$s mentioned you in an activity update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:485
+#: bp-activity/bp-activity-functions.php:482
 msgid "Posted an update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:624
+#: bp-activity/bp-activity-functions.php:621
 msgid "%s posted an update:"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:677
+#: bp-activity/bp-activity-functions.php:674
 msgid "%s posted a new activity comment:"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:897
+#: bp-activity/bp-activity-functions.php:894
 msgid "Thumbnail"
 msgstr ""
 
