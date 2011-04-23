@@ -3,7 +3,7 @@
 function bp_forums_directory_forums_setup() {
 	global $bp;
 
-	if ( bp_is_forums_component() && !bp_current_action() && !bp_current_item() ) {
+	if ( bp_is_forums_component() ) {
 		if ( bp_forum_directory_is_disabled() )
 			return false;
 

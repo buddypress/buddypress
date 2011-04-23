@@ -66,7 +66,7 @@ function groups_add_forum_privacy_sql() {
 
 	// Only filter the forum SQL on group pages or on the forums directory
 	add_filter( 'get_topics_fields',     'groups_add_forum_fields_sql' );
-	add_filter( 'get_topics_index_hint', 'groups_add_forum_tables_sql' );
+	add_filter( 'get_topics_join', 	     'groups_add_forum_tables_sql' );
 	add_filter( 'get_topics_where',      'groups_add_forum_where_sql'  );
 }
 add_filter( 'bbpress_init', 'groups_add_forum_privacy_sql' );
@@ -77,7 +77,10 @@ function groups_add_forum_fields_sql( $sql = '' ) {
 
 function groups_add_forum_tables_sql( $sql = '' ) {
 	global $bp;
-	return ', ' . $bp->groups->table_name . ' AS g LEFT JOIN ' . $bp->groups->table_name_groupmeta . ' AS gm ON g.id = gm.group_id ';
+	
+	$sql .= ', ' . $bp->groups->table_name . ' AS g LEFT JOIN ' . $bp->groups->table_name_groupmeta . ' AS gm ON g.id = gm.group_id ';
+	
+	return $sql;
 }
 
 function groups_add_forum_where_sql( $sql = '' ) {
