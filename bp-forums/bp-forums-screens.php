@@ -3,7 +3,7 @@
 function bp_forums_directory_forums_setup() {
 	global $bp;
 
-	if ( bp_is_forums_component() ) {
+	if ( bp_is_forums_component() && !bp_current_action() && !bp_current_item() ) {
 		if ( bp_forum_directory_is_disabled() )
 			return false;
 
@@ -66,7 +66,7 @@ function bp_forums_directory_forums_setup() {
 		bp_core_load_template( apply_filters( 'bp_forums_template_directory_forums_setup', 'forums/index' ) );
 	}
 }
-add_action( 'bp_screens', 'bp_forums_directory_forums_setup' );
+add_action( 'bp_screens', 'bp_forums_directory_forums_setup', 2 );
 
 function bp_member_forums_screen_topics() {
 	global $bp;
@@ -115,5 +115,4 @@ function bp_forums_screen_single_topic() {
 	bp_core_load_template( apply_filters( 'bp_forums_screen_single_topic', 'forums/single/topic' ) );
 }
 add_action( 'bp_screens', 'bp_forums_screen_single_topic' );
-
 ?>
