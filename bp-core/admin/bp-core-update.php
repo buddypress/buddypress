@@ -239,7 +239,7 @@ class BP_Core_Setup_Wizard {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false; ?>
 
-		<p><?php _e( 'Before you can continue using BuddyPress, a few minor adjustments need to be made. These changes are not distructive and will not remove or change any existing settings.', 'buddypress' ); ?></p>
+		<p><?php _e( 'Before you can continue using BuddyPress, a few minor adjustments need to be made. These changes are not destructive and will not remove or change any existing settings.', 'buddypress' ); ?></p>
 
 		<div class="submit clear">
 			<input type="hidden" name="save" value="db_update" />
