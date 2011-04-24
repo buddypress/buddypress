@@ -28,10 +28,6 @@ jq(document).ready( function() {
 		}
 	}
 
-	/* @mention username help button display */
-	if ( jq( 'span.highlight span' ).length )
-		jq( 'span.highlight span' ).toggle();
-
 	/**** Activity Posting ********************************************************/
 
 	/* New posts */

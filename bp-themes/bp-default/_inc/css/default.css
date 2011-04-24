@@ -542,7 +542,6 @@ div#item-header h2 span.highlight span {
 	-webkit-border-radius: 3px;
 	vertical-align: middle;
 	cursor: pointer;
-	display: none;
 }
 
 div#item-header div#item-meta {

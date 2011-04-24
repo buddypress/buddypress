@@ -23,7 +23,7 @@
 
 	<h2 class="fn">
 		<a href="<?php bp_displayed_user_link(); ?>"><?php bp_displayed_user_fullname(); ?></a>
-		<span class="highlight">@<?php bp_displayed_user_username(); ?> <span>?</span></span>
+		<span class="highlight">@<?php bp_displayed_user_username(); ?> <span title="<?php printf( __( '%1$s is a unique identifier for %2$s that you can type into any message on this site. %2$s will be sent a notification and a link to your message any time you use it.', 'buddypress' ), '@' . bp_get_displayed_user_username(), bp_get_user_firstname( bp_get_displayed_user_fullname() ) ); ?>">?</span></span>
 	</h2>
 	<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
 
