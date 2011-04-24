@@ -92,6 +92,10 @@ class BP_Friends_Component extends BP_Component {
 	function _setup_nav() {
 		global $bp;
 
+		// Stop if there is no user displayed
+		if ( empty( $bp->displayed_user->id ) )
+			return;
+
 		// Add 'Friends' to the main navigation
 		$main_nav = array(
 			'name'                => sprintf( __( 'Friends <span>(%d)</span>', 'buddypress' ), friends_get_total_friend_count() ),

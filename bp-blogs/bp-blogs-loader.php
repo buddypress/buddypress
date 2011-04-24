@@ -101,10 +101,14 @@ class BP_Blogs_Component extends BP_Component {
 		 * activity stream.
 		 */
 		if ( !is_multisite() )
-			return false;
+			return;
+
+		// Stop if there is no user displayed
+		if ( empty( $bp->displayed_user->id ) )
+			return;
 
 		// Add 'Blogs' to the main navigation
-		$main_nav =  array(
+		$main_nav = array(
 			'name'                => sprintf( __( 'Blogs <span>(%d)</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ),
 			'slug'                => $this->slug,
 			'position'            => 30,

@@ -92,6 +92,10 @@ class BP_Messages_Component extends BP_Component {
 	function _setup_nav() {
 		global $bp;
 
+		// Stop if there is no user displayed
+		if ( empty( $bp->displayed_user->id ) )
+			return;
+
 		if ( $count = messages_get_unread_count() )
 			$name = sprintf( __( 'Messages <strong>(%s)</strong>', 'buddypress' ), $count );
 		else

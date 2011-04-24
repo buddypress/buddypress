@@ -89,6 +89,16 @@ class BP_Activity_Component extends BP_Component {
 	function _setup_nav() {
 		global $bp;
 
+		// Stop if there is no user displayed
+		if ( empty( $bp->displayed_user->id ) )
+			return;
+
+		// Determine user to use
+		if ( !empty( $bp->displayed_user->domain ) )
+			$user_domain = $bp->displayed_user->domain;
+		else
+			return;
+			
 		// Add 'Activity' to the main navigation
 		$main_nav = array(
 			'name'                => __( 'Activity', 'buddypress' ),
@@ -98,18 +108,6 @@ class BP_Activity_Component extends BP_Component {
 			'default_subnav_slug' => 'just-me',
 			'item_css_id'         => $this->id
 		);
-
-		// Stop if there is no user displayed or logged in
-		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
-			return;
-
-		// Determine user to use
-		if ( isset( $bp->displayed_user->domain ) )
-			$user_domain = $bp->displayed_user->domain;
-		elseif ( isset( $bp->loggedin_user->domain ) )
-			$user_domain = $bp->loggedin_user->domain;
-		else
-			return;
 
 		// User link
 		$activity_link = trailingslashit( $user_domain . $this->slug );

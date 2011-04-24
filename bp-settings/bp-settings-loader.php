@@ -68,6 +68,10 @@ class BP_Settings_Component extends BP_Component {
 	function _setup_nav() {
 		global $bp;
 
+		// Stop if there is no user displayed
+		if ( empty( $bp->displayed_user->id ) )
+			return;
+
 		// Add the settings navigation item
 		$main_nav = array(
 			'name'                    => __( 'Settings', 'buddypress' ),
