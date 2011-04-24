@@ -122,7 +122,7 @@ function bp_xprofile_new_avatar_activity() {
 
 	bp_activity_add( array(
 		'user_id' => $user_id,
-		'action' => apply_filters( 'bp_xprofile_new_avatar_action', sprintf( __( '%s uploaded a new profile picture', 'buddypress' ), $userlink ), $user_id ),
+		'action' => apply_filters( 'bp_xprofile_new_avatar_action', sprintf( __( '%s changed their profile picture', 'buddypress' ), $userlink ), $user_id ),
 		'component' => 'profile',
 		'type' => 'new_avatar'
 	) );
