@@ -278,8 +278,13 @@ function bp_get_page_title() {
 		$title = __( 'Create a Blog', 'buddypress' );
 	}
 
+	$site_title = get_bloginfo( 'name', 'display' );
+
 	// Filter the title
-	return apply_filters( 'bp_page_title', esc_attr( get_bloginfo( 'name', 'display' ) . ' &#124; ' . $title ), esc_attr( $title ) );
+	if ( !empty( $title ) )
+		$site_title .= ' &#124; ' . $title;
+
+	return apply_filters( 'bp_page_title', esc_attr( $site_title ), esc_attr( $site_title ) );
 }
 
 function bp_styles() {
