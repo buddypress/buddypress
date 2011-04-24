@@ -37,6 +37,7 @@ class BP_XProfile_Component extends BP_Component {
 			'cssjs',
 			'cache',
 			'actions',
+			'activity',
 			'screens',
 			'classes',
 			'filters',

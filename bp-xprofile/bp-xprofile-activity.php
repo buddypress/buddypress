@@ -102,4 +102,30 @@ function xprofile_register_activity_action( $key, $value ) {
 
 	return apply_filters( 'xprofile_register_activity_action', bp_activity_set_action( $bp->profile->id, $key, $value ), $key, $value );
 }
+
+/**
+ * Adds an activity stream item when a user has uploaded a new avatar.
+ *
+ * @package BuddyPress XProfile
+ * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity
+ */
+function bp_xprofile_new_avatar_activity() {
+	global $bp;
+	
+	if ( !bp_is_active( 'activity' ) )
+		return false;
+
+	$user_id = apply_filters( 'bp_xprofile_new_avatar_user_id', $bp->displayed_user->id );
+
+	$userlink = bp_core_get_userlink( $user_id );
+
+	bp_activity_add( array(
+		'user_id' => $user_id,
+		'action' => apply_filters( 'bp_xprofile_new_avatar_action', sprintf( __( '%s uploaded a new profile picture', 'buddypress' ), $userlink ), $user_id ),
+		'component' => 'profile',
+		'type' => 'new_avatar'
+	) );
+}
+add_action( 'xprofile_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
 ?>
