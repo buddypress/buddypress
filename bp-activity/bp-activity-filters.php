@@ -116,14 +116,19 @@ function bp_activity_at_name_filter( $content ) {
 	$usernames = bp_activity_find_mentions( $content );
 
 	foreach( (array)$usernames as $username ) {
-		if ( !$user_id = username_exists( $username ) )
+		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+			$user_id = username_exists( $username );
+		else
+			$user_id = bp_core_get_userid_from_nicename( $username );
+
+		if ( empty( $user_id ) )
 			continue;
 
 		// Increase the number of new @ mentions for the user
 		$new_mention_count = (int)get_user_meta( $user_id, 'bp_new_mention_count', true );
 		update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count + 1 );
 
-		$content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( bp_core_get_userid( $username ) ) . "' rel='nofollow'>@$username</a>", $content );
+		$content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( $user_id ) . "' rel='nofollow'>@$username</a>", $content );
 	}
 
 	return $content;

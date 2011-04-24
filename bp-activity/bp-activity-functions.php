@@ -42,7 +42,12 @@ function bp_activity_reduce_mention_count( $activity_id ) {
 
 	if ( $usernames = bp_activity_find_mentions( strip_tags( $activity->content ) ) ) {
 		foreach( (array)$usernames as $username ) {
-			if ( !$user_id = username_exists( $username ) )
+			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+				$user_id = username_exists( $username );
+			else
+				$user_id = bp_core_get_userid_from_nicename( $username );
+
+			if ( empty( $user_id ) )
 				continue;
 
 			// Decrease the number of new @ mentions for the user

@@ -20,7 +20,12 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 		return false;
 
 	foreach( (array)$usernames as $username ) {
-		if ( !$receiver_user_id = bp_core_get_userid( $username ) )
+		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+			$receiver_user_id = bp_core_get_userid( $username );
+		else
+			$receiver_user_id = bp_core_get_userid_from_nicename( $username );
+
+		if ( empty( $receiver_user_id ) )
 			continue;
 
 		bp_members_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $poster_user_id );
