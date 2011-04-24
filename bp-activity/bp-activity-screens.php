@@ -140,7 +140,7 @@ function bp_activity_screen_notification_settings() {
 	if ( !$reply = get_user_meta( $bp->displayed_user->id, 'notification_activity_new_reply', true ) )
 		$reply = 'yes'; ?>
 
-	<table class="notification-settings zebra" id="activity-notification-settings">
+	<table class="notification-settings" id="activity-notification-settings">
 		<thead>
 			<tr>
 				<th class="icon">&nbsp;</th>

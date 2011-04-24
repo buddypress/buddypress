@@ -111,7 +111,7 @@ function messages_screen_notification_settings() {
 		$new_notices  = 'yes';
 ?>
 
-	<table class="notification-settings zebra" id="messages-notification-settings">
+	<table class="notification-settings" id="messages-notification-settings">
 		<thead>
 			<tr>
 				<th class="icon"></th>

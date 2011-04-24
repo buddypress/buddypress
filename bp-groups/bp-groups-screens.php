@@ -790,7 +790,7 @@ function groups_screen_notification_settings() {
 		$group_request = 'yes';
 ?>
 
-	<table class="notification-settings zebra" id="groups-notification-settings">
+	<table class="notification-settings" id="groups-notification-settings">
 		<thead>
 			<tr>
 				<th class="icon"></th>

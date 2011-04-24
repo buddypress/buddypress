@@ -33,7 +33,7 @@
 
 	<?php do_action( 'bp_before_directory_forums_list' ); ?>
 
-	<table class="forum zebra">
+	<table class="forum">
 		<thead>
 			<tr>
 				<th id="th-title"><?php _e( 'Topic Title', 'buddypress' ); ?></th>

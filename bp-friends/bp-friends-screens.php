@@ -62,7 +62,7 @@ function friends_screen_notification_settings() {
 		$accept_requests = 'yes';
 ?>
 
-	<table class="notification-settings zebra" id="friends-notification-settings">
+	<table class="notification-settings" id="friends-notification-settings">
 		<thead>
 			<tr>
 				<th class="icon"></th>

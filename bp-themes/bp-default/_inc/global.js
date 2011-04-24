@@ -853,21 +853,6 @@ jq(document).ready( function() {
 		return false;
 	});
 
-	/** Alternate Highlighting ******************************************/
-
-	jq('body#bp-default table.zebra tbody tr').mouseover( function() {
-		jq(this).addClass('over');
-	}).mouseout( function() {
-		jq(this).removeClass('over');
-	});
-
-	jq('body#bp-default table.zebra tbody tr:odd').addClass('alt');
-
-	jq('div.message-box').each( function(i) {
-		if ( i % 2 == 1 )
-			jq(this).addClass('alt');
-	});
-
 	/** Private Messaging ******************************************/
 
 	/* AJAX send reply functionality */
@@ -905,12 +890,6 @@ jq(document).ready( function() {
 
 					jq("div.new-message").hide().slideDown( 200, function() {
 						jq('div.new-message').removeClass('new-message');
-					});
-
-					jq('div.message-box').each( function(i) {
-						jq(this).removeClass('alt');
-						if ( i % 2 != 1 )
-							jq(this).addClass('alt');
 					});
 				}
 				jq('form#send-reply span.ajax-loader').toggle();

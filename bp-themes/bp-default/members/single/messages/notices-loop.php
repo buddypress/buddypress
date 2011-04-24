@@ -17,9 +17,9 @@
 	<?php do_action( 'bp_after_notices_pagination' ) ?>
 	<?php do_action( 'bp_before_notices' ) ?>
 
-	<table id="message-threads" class="zebra messages-notices">
+	<table id="message-threads" class="messages-notices">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
-			<tr id="notice-<?php bp_message_notice_id() ?>">
+			<tr id="notice-<?php bp_message_notice_id() ?>" class="<?php bp_message_css_class(); ?>">
 				<td width="1%">
 				</td>
 				<td width="38%">

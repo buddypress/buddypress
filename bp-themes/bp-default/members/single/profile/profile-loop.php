@@ -13,7 +13,7 @@
 					<h4><?php bp_the_profile_group_name() ?></h4>
 				<?php endif; ?>
 
-				<table class="profile-fields zebra">
+				<table class="profile-fields">
 					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
 						<?php if ( bp_field_has_data() ) : ?>
