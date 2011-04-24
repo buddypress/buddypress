@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-24 21:30:32+00:00\n"
+"POT-Creation-Date: 2011-04-24 23:30:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -559,7 +559,7 @@ msgid "Blog Directory"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:242
-msgid "Before you can continue using BuddyPress, a few minor adjustments need to be made. These changes are not distructive and will not remove or change any existing settings."
+msgid "Before you can continue using BuddyPress, a few minor adjustments need to be made. These changes are not destructive and will not remove or change any existing settings."
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:285
@@ -2676,7 +2676,7 @@ msgid "Updated Profile"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-activity.php:125
-msgid "%s uploaded a new profile picture"
+msgid "%s changed their profile picture"
 msgstr ""
 
 #: bp-forums/bp-forums-admin.php:10 bp-forums/bp-forums-admin.php:20
