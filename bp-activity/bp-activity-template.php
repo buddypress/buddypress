@@ -1202,9 +1202,9 @@ function bp_activities_member_rss_link() {
 
 		if ( $bp->current_component == $bp->profile->slug || 'just-me' == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/feed/';
-		elseif ( $bp->friends->slug == $bp->current_action )
+		elseif ( bp_is_active( 'friends' ) && $bp->friends->slug == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/' . $bp->friends->slug . '/feed/';
-		elseif ( $bp->groups->slug == $bp->current_action )
+		elseif ( bp_is_active( 'groups' ) && $bp->groups->slug == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/' . $bp->groups->slug . '/feed/';
 		elseif ( 'favorites' == $bp->current_action )
 			$link = $bp->displayed_user->domain . $bp->activity->slug . '/favorites/feed/';

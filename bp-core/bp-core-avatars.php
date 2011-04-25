@@ -93,7 +93,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	if ( !$item_id ) {
 		if ( 'user' == $object )
 			$item_id = $bp->displayed_user->id;
-		else if ( 'group' == $object )
+		else if ( bp_is_active( 'groups' ) && 'group' == $object )
 			$item_id = $bp->groups->current_group->id;
 		else if ( 'blog' == $object )
 			$item_id = $current_blog->id;
@@ -108,7 +108,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	if ( !$avatar_dir ) {
 		if ( 'user' == $object )
 			$avatar_dir = 'avatars';
-		else if ( 'group' == $object )
+		else if ( bp_is_active( 'groups' ) && 'group' == $object )
 			$avatar_dir = 'group-avatars';
 		else if ( 'blog' == $object )
 			$avatar_dir = 'blog-avatars';
