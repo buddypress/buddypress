@@ -34,7 +34,7 @@ function bp_activity_action_permalink_router() {
 	$redirect = false;
 
 	// Redirect based on the type of activity
-	if ( $activity->component == $bp->groups->id ) {
+	if ( bp_is_active( 'groups' ) && $activity->component == $bp->groups->id ) {
 
 		// Activity is a user update
 		if ( !empty( $activity->user_id ) ) {
