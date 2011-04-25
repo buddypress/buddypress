@@ -66,14 +66,6 @@ class BP_Core_Setup_Wizard {
 				__( 'Finish',     'buddypress' )
 			);
 
-			// Only show permalinks panel if we don't already use them
-			if ( !empty( $wp_rewrite->permalink_structure ) ) {
-				unset( $steps[2] );
-
-				// Reset the keys by merging with an empty array
-				$steps = array_merge( array(), $steps );
-			}
-
 		// Update wizard steps
 		} else {
 			if ( $this->is_network_activate )
@@ -270,8 +262,8 @@ class BP_Core_Setup_Wizard {
 			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
 		else
 			$blogs_slug = 'blogs';
-
- 		// Call up old bp-pages to see if a page has been previously linked to Blogs
+ 
+ 		// Call up old bp-pages to see if a page has been previously linked to Blogs 
 		$page_blog_id 		= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
 		$existing_pages_data 	= get_blog_option( $page_blog_id, 'bp-pages' );
 		$existing_pages 	= $existing_pages_data[$page_blog_id];
@@ -781,10 +773,10 @@ class BP_Core_Setup_Wizard {
 				$page_blog_id 		= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
 				$existing_pages_data 	= get_blog_option( $page_blog_id, 'bp-pages' );
 				$existing_pages 	= $existing_pages_data[$page_blog_id];
-
+				
 				$bp_pages       	= $this->setup_pages( (array)$_POST['bp_pages'] );
 				$bp_pages       	= array_merge( (array)$existing_pages, (array)$bp_pages );
-
+				
 				$existing_pages_data[$page_blog_id] = $bp_pages;
 
 				update_site_option( 'bp-pages', $existing_pages_data );
@@ -1014,7 +1006,7 @@ class BP_Core_Setup_Wizard {
 			// Delete the setup cookie
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
-			// Load BP, so that the redirect is successful
+			// Load BP, so that the redirect is successful			
 			require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
 
 			// Redirect to the BuddyPress dashboard
@@ -1078,7 +1070,7 @@ function bp_core_install( $active_components = false ) {
 		$active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
 
 	require_once( dirname( __FILE__ ) . '/bp-core-schema.php' );
-
+	
 	// Core DB Tables
 	bp_core_install_notifications();
 
@@ -1291,13 +1283,13 @@ add_action( 'admin_head', 'bp_core_update_add_admin_menu_styles' );
  */
 function bp_core_update_get_page_meta() {
 	$page_ids = get_site_option( 'bp-pages' );
-
+	
 	$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
 
 	$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
-
+	
 	$blog_page_ids = !empty( $page_ids[$page_blog_id] ) ? $page_ids[$page_blog_id] : false;
-
+	
 	return apply_filters( 'bp_core_update_get_page_meta', $blog_page_ids );
 }
 
