@@ -66,7 +66,7 @@ class BP_Core_Setup_Wizard {
 				__( 'Finish',     'buddypress' )
 			);
 
-		// Only show permalinks panel if we don't already use them
+			// Only show permalinks panel if we don't already use them
 			if ( !empty( $wp_rewrite->permalink_structure ) ) {
 				unset( $steps[2] );
 
