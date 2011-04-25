@@ -57,11 +57,22 @@ function messages_new_message( $args = '' ) {
 
 		// Loop the recipients and convert all usernames to user_ids where needed
 		foreach( (array) $recipients as $recipient ) {
-			if ( is_numeric( trim( $recipient ) ) )
-				$recipient_ids[] = (int)trim( $recipient );
+			$recipient = trim( $recipient );
+			if ( empty( $recipient ) )
+				continue;
 
-			if ( $recipient_id = bp_core_get_userid( trim( $recipient ) ) )
-				$recipient_ids[] = (int)$recipient_id;
+			if ( is_numeric( $recipient ) ) {
+				if ( bp_core_get_core_userdata( (int) $recipient ) )
+					$recipient_ids[] = (int) $recipient;
+
+			} else {
+				if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ) 
+					$recipient_id = bp_core_get_userid( $recipient ); 
+				else
+					$recipient_id = bp_core_get_userid_from_nicename( $recipient );
+
+				$recipient_ids[] = (int) $recipient_id;
+			}
 		}
 
 		// Strip the sender from the recipient list if they exist
