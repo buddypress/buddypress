@@ -240,7 +240,7 @@ function bp_get_page_title() {
 			$title = __( 'Blog', 'buddypress' );
 
 	// Displayed user
-	} elseif ( !empty( $bp->displayed_user->fullname ) ) {
+	} elseif ( !empty( $bp->displayed_user->fullname ) && !is_404() ) {
 		// translators: "displayed user's name | canonicalised component name"
 		$title = strip_tags( sprintf( __( '%1$s &#124; %2$s', 'buddypress' ), $bp->displayed_user->fullname, ucwords( bp_current_component() ) ) ); 
 
