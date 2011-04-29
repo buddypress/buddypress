@@ -54,14 +54,11 @@ function bp_members_action_set_spammer_status() {
 
 			// Update the blog status
 			update_blog_status( $details->userblog_id, 'spam', $is_spam );
-
-			// Fire the standard multisite hook
-			do_action( 'make_spam_blog', $details->userblog_id );
 		}
 
 		// Finally, mark this user as a spammer
 		if ( is_multisite() )
-			$wpdb->update( $wpdb->users, array( 'spam' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
+			update_user_status( $bp->displayed_user->id, 'spam', 1 );
 
 		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
 
@@ -74,13 +71,13 @@ function bp_members_action_set_spammer_status() {
 		if ( $is_spam && bp_is_active( 'activity' ) )
 			bp_activity_hide_user_activity( $bp->displayed_user->id );
 
-		// We need a special hook for is_spam so that components can
-		// delete data at spam time
+		// We need a special hook for is_spam so that components can delete data at spam time
 		if ( $is_spam )
 			do_action( 'bp_make_spam_user', $bp->displayed_user->id );
+		else
+			do_action( 'bp_make_ham_user',  $bp->displayed_user->id );
 
 		do_action( 'bp_members_action_set_spammer_status', $bp->displayed_user->id, $is_spam );
-
 		bp_core_redirect( wp_get_referer() );
 	}
 }
