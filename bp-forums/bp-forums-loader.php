@@ -152,7 +152,8 @@ class BP_Forums_Component extends BP_Component {
 			'item_css_id'     => 'replies'
 		);
 
-		// Favorite forums items
+		// Favorite forums items. Disabled until future release.
+		/*
 		$sub_nav[] = array(
 			'name'            => __( 'Favorites', 'buddypress' ),
 			'slug'            => 'favorites',
@@ -162,6 +163,7 @@ class BP_Forums_Component extends BP_Component {
 			'position'        => 60,
 			'item_css_id'     => 'favorites'
 		);
+		*/
 
 		parent::_setup_nav( $main_nav, $sub_nav );
 	}

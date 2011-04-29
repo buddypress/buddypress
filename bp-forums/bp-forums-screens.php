@@ -84,6 +84,13 @@ function bp_member_forums_screen_replies() {
 	bp_core_load_template( apply_filters( 'bp_member_forums_screen_replies', 'members/single/home' ) );
 }
 
+/**
+ * Loads the template content for a user's Favorites forum tab.
+ *
+ * Note that this feature is not fully implemented at the moment.
+ *
+ * @package BuddyPress Forums
+ */
 function bp_member_forums_screen_favorites() {
 	global $bp;
 
