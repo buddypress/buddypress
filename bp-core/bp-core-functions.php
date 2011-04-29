@@ -846,9 +846,9 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 		add_action( $hookname, $function );
 
 	if ( empty( $icon_url ) )
-		$icon_url = 'images/generic.png';
-	elseif ( is_ssl() && 0 === strpos( $icon_url, 'http://' ) )
-		$icon_url = 'https://' . substr( $icon_url, 7 );
+		$icon_url = esc_url( admin_url( 'images/generic.png' ) );
+	elseif ( is_ssl() && 0 === strpos($icon_url, 'http://') )
+		$icon_url = 'https://' . substr($icon_url, 7);
 
 	do {
 		$position++;
