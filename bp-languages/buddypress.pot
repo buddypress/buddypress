@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-04-29 20:30:36+00:00\n"
+"POT-Creation-Date: 2011-04-29 21:30:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -685,7 +685,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-update.php:453 bp-core/bp-core-template.php:348
 #: bp-groups/bp-groups-buddybar.php:57 bp-forums/bp-forums-admin.php:183
-#: bp-forums/bp-forums-loader.php:111 bp-forums/bp-forums-loader.php:192
+#: bp-forums/bp-forums-loader.php:111 bp-forums/bp-forums-loader.php:194
 #: bp-members/bp-members-buddybar.php:184
 msgid "Forums"
 msgstr ""
@@ -2767,24 +2767,19 @@ msgstr ""
 msgid "Replied To"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:157 bp-activity/bp-activity-loader.php:138
-#: bp-activity/bp-activity-loader.php:219
-msgid "Favorites"
-msgstr ""
-
-#: bp-forums/bp-forums-loader.php:199
+#: bp-forums/bp-forums-loader.php:201
 msgid "My Topics"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:206
+#: bp-forums/bp-forums-loader.php:208
 msgid "My Replies"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:213 bp-themes/bp-default/functions.php:146
+#: bp-forums/bp-forums-loader.php:215 bp-themes/bp-default/functions.php:146
 msgid "My Favorites"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:232
+#: bp-forums/bp-forums-loader.php:234
 msgid "My Forums"
 msgstr ""
 
@@ -4624,6 +4619,11 @@ msgstr ""
 #: bp-activity/feeds/bp-activity-mentions-feed.php:21
 #: bp-activity/feeds/bp-activity-mentions-feed.php:24
 msgid "Mentions"
+msgstr ""
+
+#: bp-activity/bp-activity-loader.php:138
+#: bp-activity/bp-activity-loader.php:219
+msgid "Favorites"
 msgstr ""
 
 #: bp-activity/bp-activity-loader.php:256
