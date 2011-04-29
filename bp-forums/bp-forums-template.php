@@ -229,6 +229,15 @@ function bp_has_forum_topics( $args = '' ) {
 	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
 		$user_id = $bp->displayed_user->id;
+	
+	// "Replied" query must be manually modified
+	if ( 'replies' == bp_current_action() ) {
+		$user_id = 0; // User id must be handled manually by the filter, not by BB_Query
+		
+		add_filter( 'get_topics_distinct',   'bp_forums_add_replied_distinct_sql', 20 );
+		add_filter( 'get_topics_join', 	     'bp_forums_add_replied_join_sql', 20 );
+		add_filter( 'get_topics_where',      'bp_forums_add_replied_where_sql', 20  );
+	}
 
 	// If we're in a single group, set this group's forum_id
 	if ( !$forum_id && !empty( $bp->groups->current_group ) ) {

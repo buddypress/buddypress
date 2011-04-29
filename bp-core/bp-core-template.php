@@ -34,7 +34,7 @@ function bp_get_options_nav() {
 			$the_index = $bp->current_item;
 		}
 	}
-
+	
 	// Loop through each navigation item
 	foreach ( (array)$bp->bp_options_nav[$the_index] as $subnav_item ) {
 		if ( !$subnav_item['user_has_access'] )

@@ -131,4 +131,70 @@ function bp_forums_strip_mentions_on_post_edit( $content ) {
 }
 add_filter( 'bp_get_the_topic_post_edit_text', 'bp_forums_strip_mentions_on_post_edit' );
 add_filter( 'bp_get_the_topic_text', 'bp_forums_strip_mentions_on_post_edit' );
+
+/**
+ * "REPLIED TO" SQL FILTERS
+ */
+
+/**
+ * Filters the get_topics_distinct portion of the Forums sql when on a user's Replied To page.
+ *
+ * This filter is added in bp_has_forum_topics()
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @global object $wpdb The WordPress database global
+ * @param string $sql
+ * @return string $sql
+ */
+function bp_forums_add_replied_distinct_sql( $sql ) {
+	global $wpdb;
+	
+	$sql = $wpdb->prepare( "DISTINCT t.topic_id, " );
+	
+	return $sql;
+}
+
+/**
+ * Filters the get_topics_join portion of the Forums sql when on a user's Replied To page.
+ *
+ * This filter is added in bp_has_forum_topics()
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @global object $bbdb The bbPress database global
+ * @global object $wpdb The WordPress database global
+ * @param string $sql
+ * @return string $sql
+ */
+function bp_forums_add_replied_join_sql( $sql ) {
+	global $bbdb, $wpdb;
+	
+	$sql .= $wpdb->prepare( " LEFT JOIN $bbdb->posts p ON p.topic_id = t.topic_id " );
+	
+	return $sql;
+}
+
+/**
+ * Filters the get_topics_where portion of the Forums sql when on a user's Replied To page.
+ *
+ * This filter is added in bp_has_forum_topics()
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @global object $wpdb The WordPress database global
+ * @param string $sql
+ * @return string $sql
+ */
+function bp_forums_add_replied_where_sql( $sql ) {
+	global $wpdb;
+	
+	$sql .= $wpdb->prepare( " AND p.poster_id = %s ", bp_displayed_user_id() );
+
+	return $sql;
+}
+
 ?>
