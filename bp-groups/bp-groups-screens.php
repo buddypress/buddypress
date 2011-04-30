@@ -423,7 +423,7 @@ function groups_screen_group_request_membership() {
 function groups_screen_group_activity_permalink() {
 	global $bp;
 
-	if ( !bp_is_groups_component() || ( bp_is_active( 'activity' ) && !bp_is_current_action( $bp->activity->slug ) ) || empty( $bp->action_variables[0] ) )
+	if ( !bp_is_groups_component() || !bp_is_active( 'activity' ) || ( bp_is_active( 'activity' ) && !bp_is_current_action( $bp->activity->slug ) ) || empty( $bp->action_variables[0] ) )
 		return false;
 
 	$bp->is_single_item = true;
