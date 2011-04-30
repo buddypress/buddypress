@@ -14,7 +14,7 @@ else : ?>
 		<ul>
 
 			<li>
-				<a href="#post-new" class="show-hide-new">&darr; <?php _e( 'New Topic', 'buddypress' ) ?></a>
+				<a href="#post-new" class="show-hide-new"><?php _e( 'New Topic', 'buddypress' ) ?></a>
 			</li>
 
 			<?php if ( !bp_forum_directory_is_disabled() ) : ?>

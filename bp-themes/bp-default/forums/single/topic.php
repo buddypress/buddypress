@@ -34,7 +34,7 @@
 						<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 							<ul>
 								<li>
-									<a href="#post-topic-reply" class="show-hide-new">&darr; <?php _e( 'New Reply', 'buddypress' ) ?></a>
+									<a href="#post-topic-reply" class="show-hide-new"><?php _e( 'New Reply', 'buddypress' ) ?></a>
 								</li>
 
 								<?php if ( !bp_forum_directory_is_disabled() ) : ?>

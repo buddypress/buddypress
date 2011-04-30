@@ -7,7 +7,7 @@
 		<div class="item-list-tabs" id="subnav" role="navigation">
 			<ul>
 				<li>
-					<a href="#post-topic-reply">&darr; <?php _e( 'Reply', 'buddypress' ); ?></a>
+					<a href="#post-topic-reply"><?php _e( 'Reply', 'buddypress' ); ?></a>
 				</li>
 
 				<?php if ( !bp_forum_directory_is_disabled() ) : ?>
