@@ -48,6 +48,34 @@ function bp_core_is_main_site( $blog_id = '' ) {
 	return is_main_site( $blog_id );
 }
 
+/** Admin ******************************************************************/
+
+/**
+ * In BuddyPress 1.1 - 1.2.x, this function provided a better version of add_menu_page()
+ * that allowed positioning of menus. Deprecated in 1.3 in favour of a WP core function.
+ *
+ * @deprecated 1.3
+ * @deprecated Use add_menu_page().
+ * @since 1.1
+ */
+function bp_core_add_admin_menu_page( $args = '' ) {
+	$defaults = array(
+		'page_title'   => '',
+		'menu_title'   => '',
+		'capability'   => 'manage_options',
+		'file'         => '',
+		'function'     => '',
+		'icon_url'     => '',
+		'position'     => 100
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	_deprecated_function( __FUNCTION__, '1.3', 'Use add_menu_page()' );
+	return add_menu_page( $page_title, $menu_title, $capability, $file, $function, $icon_url, $position );
+}
+
 /** Activity ******************************************************************/
 
 function bp_is_activity_permalink() {

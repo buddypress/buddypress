@@ -1138,33 +1138,6 @@ function bp_update_db_stuff() {
 
 }
 
-/**
- * A better version of add_admin_menu_page() that allows positioning of menus.
- *
- * @package BuddyPress Core
- */
-function bp_core_update_add_admin_menu_page( $args = '' ) {
-	global $menu, $admin_page_hooks, $_registered_pages;
-
-	$defaults = array(
-		'page_title' => '',
-		'menu_title' => '',
-		'capability' => 'manage_options',
-		'menu_slug'  => '',
-		'function'   => false,
-		'icon_url'   => false,
-		'position'   => 100
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( is_multisite() )
-		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
-	else
-		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
-}
-
 function bp_core_wizard_message() {
 	if ( isset( $_GET['updated'] ) )
 		$message = __( 'Installation was successful. The available options have now been updated, please continue with your selection.', 'buddypress' );
@@ -1226,15 +1199,7 @@ function bp_core_update_add_admin_menu() {
 		$status = __( 'Update', 'buddypress' );
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
-	bp_core_update_add_admin_menu_page( array(
-		'menu_title' => __( 'BuddyPress', 'buddypress' ),
-		'page_title' => __( 'BuddyPress', 'buddypress' ),
-		'capability' => 'manage_options',
-		'menu_slug'  => 'bp-wizard',
-		'function'   => '',
-		'position'   => 3
-	) );
-
+	add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-wizard', '', '', 3 );
 	$hook = add_submenu_page( 'bp-wizard', $status, $status, 'manage_options', 'bp-wizard', array( $bp_wizard, 'html' ) );
 
 	// Add a hook for css/js
