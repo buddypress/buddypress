@@ -38,16 +38,13 @@
 				elseif ( bp_is_group_invites() && bp_group_is_visible() ) :
 					locate_template( array( 'groups/single/send-invites.php' ), true );
 
-				elseif ( bp_is_group_forum() && bp_group_is_visible() ) :
-					locate_template( array( 'groups/single/forum.php' ), true );
-
 				elseif ( bp_is_group_membership_request() ) :
 					locate_template( array( 'groups/single/request-membership.php' ), true );
 
 				elseif ( bp_group_is_visible() && bp_is_active( 'activity' ) ) :
 					locate_template( array( 'groups/single/activity.php' ), true );
 
-				elseif ( bp_group_is_visible() && bp_is_active( 'forums' ) ) :
+				elseif ( bp_is_group_forum() && bp_group_is_visible() && bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() ) :
 					locate_template( array( 'groups/single/forum.php' ), true );
 
 				elseif ( bp_group_is_visible() ) :

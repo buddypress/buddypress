@@ -105,6 +105,9 @@ function groups_screen_group_home() {
 function groups_screen_group_forum() {
 	global $bp, $wp_query;
 
+	if ( !bp_is_active( 'forums' ) || !bp_forums_is_installed_correctly() )
+		return false;
+
 	if ( bp_is_single_item() && $bp->groups->current_group->user_has_access ) {
 
 		// Fetch the details we need
