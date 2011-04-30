@@ -607,34 +607,19 @@ class BP_Core_Setup_Wizard {
 				</td>
 			</tr>
 
-			<?php /*
-			<tr>
-				<th>
-					<h5>Automatically Update My WordPress Theme</h5>
-					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/auto_theme.jpg' ) ?>" alt="bp-default" />
-				</th>
-				<td>
-					<p>The BuddyPress [plugin name] plugin will automatically update your existing WordPress theme so it can display BuddyPress pages. Your existing theme's page.php template file will be used to show BuddyPress content.</p>
-					<p><strong>This is the best choice if you have an existing WordPress theme and simply want to start using BuddyPress features without control of template layout and design.</strong></p>
-					<p><label><input type="radio" name="theme" value="auto_wp" disabled="disabled" /> You must first install the [plugin name] before choosing this option</label></p>
-					<p><a id="bp-plugin-name" class="thickbox onclick button" href="http://buddypressorg.dev/wp-admin/plugin-install.php?tab=plugin-information&plugin=bp-template-pack&TB_iframe=true&width=640&height=500">+ Install Now</a></p>
-				</td>
-			</tr>
-			*/ ?>
-
 			<tr>
 				<th>
 					<h5><?php _e( 'Manually Update My WordPress Theme', 'buddypress' ); ?>'</h5>
 					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/manual_theme.jpg' ); ?>" alt="bp-default" />
 				</th>
 				<td>
-					<p><?php _e( 'The BuddyPress template pack plugin will run you through the process of manually upgrading your existing WordPress theme. This usually involves following the step by step instructions and copying the BuddyPress template files into your theme then tweaking the HTML to match.', 'buddypress' ); ?></p>
+					<p><?php _e( 'The BuddyPress Template Pack plugin will run you through the process of manually upgrading your existing WordPress theme. This usually involves following the step by step instructions and copying the BuddyPress template files into your theme then tweaking the HTML to match.', 'buddypress' ); ?></p>
 					<p><strong><?php _e( 'This is the best choice if you have an existing WordPress theme and want complete control over template layout and design.', 'buddypress' ); ?></strong></p>
 
 					<?php if ( empty( $template_pack_installed ) ) : ?>
 
-						<p><label><input type="radio" name="theme" value="manual_wp" disabled="disabled" /> <?php _e( 'You must first install the BuddyPress template pack before choosing this option', 'buddypress' ); ?></label></p>
-						<p><a id="bp-template-pack" class="thickbox onclick button" href="http://buddypressorg.dev/wp-admin/plugin-install.php?tab=plugin-information&plugin=bp-template-pack&TB_iframe=true&width=640&height=500">+ <?php _e( 'Install Now', 'buddypress' ); ?></a></p>
+						<p><label><input type="radio" name="theme" value="manual_wp" disabled="disabled" /> <?php _e( 'You must first install the BuddyPress Template Pack before choosing this option', 'buddypress' ); ?></label></p>
+						<p><a id="bp-template-pack" class="thickbox onclick button" href="<?php echo network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=bp-template-pack&TB_iframe=true&width=640&height=500' ); ?>"><?php _e( 'Install Now', 'buddypress' ); ?></a></p>
 
 					<?php else : ?>
 
@@ -658,7 +643,7 @@ class BP_Core_Setup_Wizard {
 					<?php if ( empty( $bp_theme_installed ) ) : ?>
 
 						<p><label><input type="radio" name="theme" value="third_party" disabled="disabled" /> <?php _e( 'You must first install at least one BuddyPress theme before choosing this option', 'buddypress' ); ?></label></p>
-						<p><a id="bp-themes" class="thickbox onclick button" href="<?php echo admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ); ?>&TB_iframe=true&width=860&height=500">+ <?php _e( 'Add Themes', 'buddypress' ); ?></a></p>
+						<p><a id="bp-themes" class="thickbox onclick button" href="<?php echo network_admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ); ?>&TB_iframe=true&width=860&height=500"><?php _e( 'Add Themes', 'buddypress' ); ?></a></p>
 
 					<?php else : ?>
 
