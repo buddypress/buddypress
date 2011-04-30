@@ -115,7 +115,6 @@ class BP_Friends_Component extends BP_Component {
 			'parent_url' => $friends_link,
 			'parent_slug' => $bp->friends->slug,
 			'screen_function' => 'friends_screen_my_friends',
-			'user_has_access' =>  bp_is_my_profile(),
 			'position' => 10,
 			'item_css_id'     => 'friends-my-friends'
 		);
