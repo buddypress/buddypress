@@ -137,6 +137,7 @@ class BP_Forums_Component extends BP_Component {
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_member_forums_screen_topics',
+			'user_has_access' =>  bp_is_my_profile(),
 			'position'        => 20,
 			'item_css_id'     => 'topics'
 		);
@@ -148,6 +149,7 @@ class BP_Forums_Component extends BP_Component {
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_member_forums_screen_replies',
+			'user_has_access' =>  bp_is_my_profile(),
 			'position'        => 40,
 			'item_css_id'     => 'replies'
 		);
@@ -160,6 +162,7 @@ class BP_Forums_Component extends BP_Component {
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'bp_member_forums_screen_favorites',
+			'user_has_access' =>  bp_is_my_profile(),
 			'position'        => 60,
 			'item_css_id'     => 'favorites'
 		);

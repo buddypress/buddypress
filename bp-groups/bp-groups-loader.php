@@ -216,6 +216,7 @@ class BP_Groups_Component extends BP_Component {
 			'parent_url'      => $groups_link,
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'groups_screen_my_groups',
+			'user_has_access' =>  bp_is_my_profile(),
 			'position'        => 10,
 			'item_css_id'     => 'groups-my-groups'
 		);
@@ -227,6 +228,7 @@ class BP_Groups_Component extends BP_Component {
 			'parent_url'      => $groups_link,
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'groups_screen_group_invites',
+			'user_has_access' =>  bp_is_my_profile(),
 			'position'        => 30,
 			'user_has_access' => bp_is_my_profile()
 		);

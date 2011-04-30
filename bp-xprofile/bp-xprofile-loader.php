@@ -133,6 +133,7 @@ class BP_XProfile_Component extends BP_Component {
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'xprofile_screen_display_profile',
+			'user_has_access' =>  bp_is_my_profile(),
 			'position'        => 10
 		);
 
@@ -143,6 +144,7 @@ class BP_XProfile_Component extends BP_Component {
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'xprofile_screen_edit_profile',
+			'user_has_access' =>  bp_is_my_profile(),
 			'position'        => 20
 		);
 
@@ -153,6 +155,7 @@ class BP_XProfile_Component extends BP_Component {
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'xprofile_screen_change_avatar',
+			'user_has_access' =>  bp_is_my_profile(),
 			'position'        => 30
 		);
 

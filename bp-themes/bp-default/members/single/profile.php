@@ -9,17 +9,13 @@
 
 ?>
 
-<?php if ( bp_is_my_profile() ) : ?>
+<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
+	<ul>
 
-	<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
-		<ul>
+		<?php bp_get_options_nav(); ?>
 
-			<?php bp_get_options_nav(); ?>
-
-		</ul>
-	</div><!-- .item-list-tabs -->
-
-<?php endif; ?>
+	</ul>
+</div><!-- .item-list-tabs -->
 
 <?php do_action( 'bp_before_profile_content' ); ?>
 
