@@ -229,7 +229,7 @@ class BP_Groups_Component extends BP_Component {
 			'parent_slug'     => $this->slug,
 			'screen_function' => 'groups_screen_group_invites',
 			'user_has_access' =>  bp_is_my_profile(),
-			'position'        => 30,
+			'position'        => 30
 		);
 
 		parent::_setup_nav( $main_nav, $sub_nav );
