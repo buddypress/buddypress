@@ -888,13 +888,18 @@ Class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function check_has_invite( $user_id, $group_id ) {
+	function check_has_invite( $user_id, $group_id, $type = 'sent' ) {
 		global $wpdb, $bp;
 
 		if ( !$user_id )
 			return false;
+		
+		$sql = "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0";
+		
+		if ( 'sent' == $type )
+			$sql .= " AND invite_sent = 1";
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id, $group_id ) );
+		return $wpdb->get_var( $wpdb->prepare( $sql, $user_id, $group_id ) );
 	}
 
 	function delete_invite( $user_id, $group_id ) {

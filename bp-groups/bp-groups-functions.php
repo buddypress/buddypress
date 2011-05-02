@@ -524,7 +524,7 @@ function groups_invite_user( $args = '' ) {
 	if ( !$user_id || !$group_id )
 		return false;
 
-	if ( !groups_is_user_member( $user_id, $group_id ) && !groups_check_user_has_invite( $user_id, $group_id ) ) {
+	if ( !groups_is_user_member( $user_id, $group_id ) && !groups_check_user_has_invite( $user_id, $group_id, 'all' ) ) {
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $group_id;
 		$invite->user_id       = $user_id;
@@ -627,8 +627,22 @@ function groups_get_invites_for_group( $user_id, $group_id ) {
 	return BP_Groups_Group::get_invites( $user_id, $group_id );
 }
 
-function groups_check_user_has_invite( $user_id, $group_id ) {
-	return BP_Groups_Member::check_has_invite( $user_id, $group_id );
+/**
+ * Check to see whether a user has already been invited to a group
+ *
+ * By default, the function checks for invitations that have been sent. Entering 'all' as the $type
+ * parameter will return unsent invitations as well (useful to make sure AJAX requests are not
+ * duplicated)
+ *
+ * @package BuddyPress Groups
+ *
+ * @param int $user_id Potential group member
+ * @param int $group_id Potential group
+ * @param str $type Optional. Use 'sent' to check for sent invites, 'all' to check for all
+ * @return bool Returns true if an invitation is found
+ */
+function groups_check_user_has_invite( $user_id, $group_id, $type = 'sent' ) {
+	return BP_Groups_Member::check_has_invite( $user_id, $group_id, $type );
 }
 
 function groups_delete_all_group_invites( $group_id ) {

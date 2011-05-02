@@ -381,6 +381,12 @@ function groups_screen_group_invite() {
 			if ( !check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) )
 				return false;
 
+			if ( !empty( $_POST['friends'] ) ) {
+				foreach( (array)$_POST['friends'] as $friend ) {
+					groups_invite_user( array( 'user_id' => $friend, 'group_id' => $bp->groups->current_group->id ) );
+				}
+			}
+
 			// Send the invites.
 			groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
 
