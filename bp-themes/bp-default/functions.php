@@ -160,6 +160,20 @@ function bp_dtheme_enqueue_scripts() {
 add_action( 'wp_enqueue_scripts', 'bp_dtheme_enqueue_scripts' );
 endif;
 
+if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
+/**
+ * Enqueue theme CSS safely
+ *
+ * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+ * @since 1.3
+ */
+function bp_dtheme_enqueue_styles() {
+	wp_enqueue_style( 'bp-default-reset', get_template_directory_uri() . '/_inc/css/reset.css', '', BP_VERSION );
+	wp_enqueue_style( 'bp-default-main',  get_template_directory_uri() . '/_inc/css/default.css', array( 'bp-default-reset' ), BP_VERSION );
+}
+add_action( 'wp_print_styles', 'bp_dtheme_enqueue_styles' );
+endif;
+
 if ( !function_exists( 'bp_dtheme_admin_header_style' ) ) :
 /**
  * Styles the header image displayed on the Appearance > Header admin panel.
