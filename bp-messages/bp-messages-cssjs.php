@@ -26,7 +26,7 @@ add_action( 'bp_actions', 'messages_add_autocomplete_js' );
 function messages_add_autocomplete_css() {
 	global $bp;
 
-	if ( bp_is_messages_component() && bp_is_current_item( 'compose' ) ) {
+	if ( bp_is_messages_component() && bp_is_current_action( 'compose' ) ) {
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
 			wp_enqueue_style( 'bp-messages-autocomplete', BP_PLUGIN_URL . '/bp-messages/css/autocomplete/jquery.autocompletefb.dev.css', array(), BP_VERSION );
 		else
