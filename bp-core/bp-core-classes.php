@@ -109,7 +109,7 @@ class BP_Core_User {
 
 	/** Static Functions ******************************************************/
 
-	function get_users( $type, $limit = null, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false ) {
+	function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp;
 
 		$sql = array();
