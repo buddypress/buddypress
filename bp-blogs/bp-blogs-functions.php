@@ -319,7 +319,7 @@ function bp_blogs_remove_blog( $blog_id ) {
 add_action( 'delete_blog', 'bp_blogs_remove_blog' );
 
 function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
-	global $current_user;
+	global $bp, $current_user;
 
 	$blog_id = (int)$blog_id;
 	$user_id = (int)$user_id;
