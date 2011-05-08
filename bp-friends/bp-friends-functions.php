@@ -180,7 +180,7 @@ function friends_get_friendship_id( $initiator_user_id, $friend_user_id ) {
 }
 
 function friends_get_friend_user_ids( $user_id, $friend_requests_only = false, $assoc_arr = false, $filter = false ) {
-	return BP_Friends_Friendship::get_friend_user_ids( $user_id, $friend_requests_only, $assoc_arr, $filter );
+	return BP_Friends_Friendship::get_friend_user_ids( $user_id, $friend_requests_only, $assoc_arr );
 }
 
 function friends_search_friends( $search_terms, $user_id, $pag_num = 10, $pag_page = 1 ) {
