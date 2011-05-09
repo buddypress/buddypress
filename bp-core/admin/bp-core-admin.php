@@ -137,6 +137,18 @@ function bp_core_admin_settings() {
 
 					<?php endif; ?>
 
+					<?php if ( bp_is_active( 'groups' ) ) : ?>
+
+						<tr>
+							<th scope="row"><?php _e( 'Restrict group creation to Site Admins?', 'buddypress' ) ?>:</th>
+							<td>
+								<input type="radio" name="bp-admin[bp_restrict_group_creation]"<?php checked( '1', get_site_option( 'bp_restrict_group_creation', '0' ) ); ?>id="bp-restrict-group-creation" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+								<input type="radio" name="bp-admin[bp_restrict_group_creation]"<?php checked( '0', get_site_option( 'bp_restrict_group_creation', '0' ) ); ?>id="bp-restrict-group-creation" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+							</td>
+						</tr>
+
+					<?php endif; ?>
+
 					<?php do_action( 'bp_core_admin_screen_fields' ) ?>
 
 				</tbody>

@@ -19,6 +19,11 @@ function groups_action_create_group() {
 	if ( !is_user_logged_in() )
 		return false;
 
+ 	if ( !bp_user_can_create_groups() ) {
+		bp_core_add_message( __( 'Sorry, you are not allowed to create groups.', 'buddypress' ), 'error' );
+		bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) );
+	}
+
 	// Make sure creation steps are in the right order
 	groups_action_sort_creation_steps();
 
