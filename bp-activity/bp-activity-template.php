@@ -394,10 +394,10 @@ function bp_activity_pagination_links() {
  */
 function bp_activity_has_more_items() {
 	global $activities_template;
-	
-	$remaining_pages = floor( ( $activities_template->total_activity_count - 1 ) / ( $activities_template->pag_num * $activities_template->pag_page ) ); 
+
+	$remaining_pages = floor( ( $activities_template->total_activity_count - 1 ) / ( $activities_template->pag_num * $activities_template->pag_page ) );
 	$has_more_items  = (int)$remaining_pages ? true : false;
-	
+
 	return apply_filters( 'bp_activity_has_more_items', $has_more_items );
 }
 
@@ -504,7 +504,7 @@ function bp_activity_user_link() {
 }
 	function bp_get_activity_user_link() {
 		global $activities_template;
-		
+
 		if ( empty( $activities_template->activity->user_id ) )
 			$link = $activities_template->activity->primary_link;
 		else
@@ -722,13 +722,13 @@ function bp_activity_user_can_delete() {
 
 	if ( $bp->loggedin_user->is_super_admin )
 		$can_delete = true;
-	
+
 	if ( $activities_template->activity->user_id == $bp->loggedin_user->id )
 		$can_delete = true;
-		
+
 	if ( $bp->is_item_admin && $bp->is_single_item )
 		$can_delete = true;
-	
+
 	return apply_filters( 'bp_activity_user_can_delete', $can_delete );
 }
 
@@ -801,7 +801,7 @@ function bp_activity_comments( $args = '' ) {
 			foreach ( (array)$comment->children as $comment_child ) {
 				// Put the comment into the global so it's available to filters
 				$activities_template->activity->current_comment = $comment_child;
-				
+
 				if ( empty( $comment_child->user_fullname ) )
 					$comment_child->user_fullname = $comment_child->display_name;
 
@@ -853,7 +853,7 @@ function bp_activity_comments( $args = '' ) {
 
 				$content .= bp_activity_recurse_comments( $comment_child );
 				$content .= '</li>';
-				
+
 				// Unset in the global in case of the last iteration
 				unset( $activities_template->activity->current_comment );
 			}
@@ -978,13 +978,42 @@ function bp_activity_css_class() {
 		return apply_filters( 'bp_get_activity_css_class', $activities_template->activity->component . ' ' . $activities_template->activity->type . $class );
 	}
 
+/**
+ * bp_activity_delete_link()
+ *
+ * Display the activity delete link.
+ *
+ * @since 1.1
+ * @uses bp_get_activity_delete_link()
+ */
 function bp_activity_delete_link() {
 	echo bp_get_activity_delete_link();
 }
+
+	/**
+	 * bp_get_activity_delete_link()
+	 *
+	 * Return the activity delete link.
+	 *
+	 * @global object $activities_template BuddyPress Activities Template
+	 * @global object $bp BuddyPress global settings
+	 * @return string $link Activity delete link. Contains $redirect_to arg if on single activity page.
+	 * @since 1.1
+	 */
 	function bp_get_activity_delete_link() {
 		global $activities_template, $bp;
 
-		return apply_filters( 'bp_get_activity_delete_link', '<a href="' . wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/' . $activities_template->activity->id, 'bp_activity_delete_link' ) . '" class="item-button delete-activity confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>' );
+		$url   = bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/delete/' . $activities_template->activity->id;
+		$class = 'delete-activity';
+
+		// Determine if we're on a single activity page, and customize accordingly
+		if ( bp_is_activity_component() && is_numeric( bp_current_action() ) ) {
+			$url   = add_query_arg( array( 'redirect_to' => wp_get_referer() ), $url );
+			$class = 'delete-activity-single';
+		}
+
+		$link = '<a href="' . wp_nonce_url( $url, 'bp_activity_delete_link' ) . '" class="item-button ' . $class . ' confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>';
+		return apply_filters( 'bp_get_activity_delete_link', $link );
 	}
 
 function bp_activity_latest_update( $user_id = 0 ) {

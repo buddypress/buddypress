@@ -53,8 +53,8 @@ function bp_dtheme_ajax_querystring( $query_string, $object ) {
 	if ( !empty( $_POST['page'] ) && '-1' != $_POST['page'] )
 		$qs[] = 'page=' . $_POST['page'];
 
-	$object_search_text = bp_get_search_default_text( $object ); 
- 	if ( !empty( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] ) 
+	$object_search_text = bp_get_search_default_text( $object );
+ 	if ( !empty( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] )
 		$qs[] = 'search_terms=' . $_POST['search_terms'];
 
 	/* Now pass the querystring to override default values. */
@@ -246,21 +246,21 @@ function bp_dtheme_delete_activity() {
 	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) )
 		return false;
 
-	$activity = new BP_Activity_Activity( $_POST['id'] );
+	$activity = new BP_Activity_Activity( (int) $_POST['id'] );
 
 	// Check access
-	if ( !is_super_admin() && $activity->user_id != $bp->loggedin_user->id )
+	if ( !is_super_admin() && ( $activity->user_id != bp_loggedin_user_id() ) )
 		return false;
 
 	// Call the action before the delete so plugins can still fetch information about it
-	do_action( 'bp_activity_before_action_delete_activity', $_POST['id'], $activity->user_id );
+	do_action( 'bp_activity_before_action_delete_activity', $activity->id, $activity->user_id );
 
-	if ( !bp_activity_delete( array( 'id' => $_POST['id'], 'user_id' => $activity->user_id ) ) ) {
+	if ( !bp_activity_delete( array( 'id' => $activity->id, 'user_id' => $activity->user_id ) ) ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
 
-	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $activity->user_id );
+	do_action( 'bp_activity_action_delete_activity', $activity->id, $activity->user_id );
 
 	return true;
 }
@@ -326,23 +326,23 @@ add_action( 'wp_ajax_activity_mark_unfav', 'bp_dtheme_unmark_activity_favorite' 
  * @since 1.3
  */
 function bp_dtheme_get_single_activity_content() {
-	$activity_array = bp_activity_get_specific( array( 
-		'activity_ids' 		=> $_POST['activity_id'], 
-		'display_comments' 	=> 'stream' 
+	$activity_array = bp_activity_get_specific( array(
+		'activity_ids' 		=> $_POST['activity_id'],
+		'display_comments' 	=> 'stream'
 	) );
-	
+
 	$activity = !empty( $activity_array['activities'][0] ) ? $activity_array['activities'][0] : false;
-	
+
 	if ( !$activity )
 		exit(); // todo: error?
-	
+
 	// Activity content retrieved through AJAX should run through normal filters, but not be
 	// truncated
 	remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 	$content = apply_filters( 'bp_get_activity_content_body', $activity->content );
-	
+
 	echo $content;
-	
+
 	exit();
 }
 add_action( 'wp_ajax_get_single_activity_content', 'bp_dtheme_get_single_activity_content' );
@@ -647,7 +647,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 			if ( !$ud )
 				continue;
 
-			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ) 
+			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
 				$username = $ud->user_login;
 			else
 				$username = $ud->user_nicename;

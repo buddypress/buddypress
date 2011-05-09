@@ -63,26 +63,38 @@ function bp_activity_action_permalink_router() {
 }
 add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
 
-function bp_activity_action_delete_activity() {
+/**
+ * bp_activity_action_delete_activity()
+ *
+ * Delete specific activity item and redirect to previous page.
+ *
+ * @global object $bp
+ * @since 1.1
+ * @uses do_action() Calls 'bp_activity_action_delete_activity' hook to allow actions to be taken after the activity is deleted.
+ * @uses do_action() Calls 'bp_activity_before_action_delete_activity' hook to allow actions to be taken before the activity is deleted.
+ */
+function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	global $bp;
 
 	// Not viewing activity or action is not delete
-	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'delete' ) )
+	if ( !bp_is_activity_component() || !bp_is_current_action( 'delete' ) )
 		return false;
 
+	if ( empty( $activity_id ) && !empty( $bp->action_variables[0] ) && is_numeric( $bp->action_variables[0] ) )
+		$activity_id = (int) $bp->action_variables[0];
+
 	// Not viewing a specific activity item
-	if ( empty( $bp->action_variables[0] ) || !is_numeric( $bp->action_variables[0] ) )
+	if ( empty( $activity_id ) )
 		return false;
 
 	// Check the nonce
 	check_admin_referer( 'bp_activity_delete_link' );
 
 	// Load up the activity item
-	$activity_id = $bp->action_variables[0];
-	$activity    = new BP_Activity_Activity( $activity_id );
+	$activity = new BP_Activity_Activity( $activity_id );
 
 	// Check access
-	if ( !is_super_admin() && $activity->user_id != $bp->loggedin_user->id )
+	if ( empty( $activity->user_id ) || !is_super_admin() && $activity->user_id != bp_loggedin_user_id() )
 		return false;
 
 	// Call the action before the delete so plugins can still fetch information about it
@@ -90,14 +102,17 @@ function bp_activity_action_delete_activity() {
 
 	// Delete the activity item and provide user feedback
 	if ( bp_activity_delete( array( 'id' => $activity_id, 'user_id' => $activity->user_id ) ) )
-		bp_core_add_message( __( 'Activity deleted', 'buddypress' ) );
+		bp_core_add_message( __( 'Activity deleted successfully', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was an error when deleting that activity', 'buddypress' ), 'error' );
 
 	do_action( 'bp_activity_action_delete_activity', $activity_id, $activity->user_id );
 
-	// Redirect
-	bp_core_redirect( wp_get_referer() );
+	// Check for the redirect query arg, otherwise let WP handle things
+ 	if ( !empty( $_GET['redirect_to'] ) )
+		bp_core_redirect( esc_url( $_GET['redirect_to'] ) );
+	else
+		bp_core_redirect( wp_get_referer() );
 }
 add_action( 'bp_actions', 'bp_activity_action_delete_activity' );
 
@@ -218,7 +233,7 @@ add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
 
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
-	
+
 	if ( !bp_is_current_component( 'activity' ) || !bp_is_current_action( 'feed' ) || bp_is_user() || !empty( $bp->groups->current_group ) )
 		return false;
 
