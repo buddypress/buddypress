@@ -262,8 +262,8 @@ class BP_Core_Setup_Wizard {
 			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
 		else
 			$blogs_slug = 'blogs';
- 
- 		// Call up old bp-pages to see if a page has been previously linked to Blogs 
+
+ 		// Call up old bp-pages to see if a page has been previously linked to Blogs
 		$page_blog_id 		= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
 		$existing_pages_data 	= get_blog_option( $page_blog_id, 'bp-pages' );
 		$existing_pages 	= $existing_pages_data[$page_blog_id];
@@ -516,12 +516,19 @@ class BP_Core_Setup_Wizard {
 
 		$prefix              = '';
 		$permalink_structure = get_option( 'permalink_structure' );
+		$using_permalinks    = ( !empty( $permalink_structure ) ) ? true : false;
 		$structures          = array( '', $prefix . '/%year%/%monthnum%/%day%/%postname%/', $prefix . '/%year%/%monthnum%/%postname%/', $prefix . '/archives/%post_id%' );
+
+		// If we're using permalinks already, adjust text accordingly
+		if ( $permalink_structure )
+			$permalink_setup_text = __( 'Congratulations! You are already using pretty permalinks, which BuddyPress requires. If you\'d like to change your settings, you may do so now. If you\'re happy with your current settings, click Save &amp; Next to continue.', 'buddypress' );
+		else
+			$permalink_setup_text = __( 'To make sure the pages created in the previous step work correctly, pretty permalinks must be active on your site.', 'buddypress' );
 
 		if ( !got_mod_rewrite() && !iis7_supports_permalinks() )
 			$prefix = '/index.php'; ?>
 
-		<p><?php _e( 'To make sure the pages created in the previous step work correctly, pretty permalinks must be active on your site.', 'buddypress' ); ?></p>
+		<p><?php echo $permalink_setup_text; ?></p>
 		<p><?php printf( __( 'Please select the permalink setting you would like to use. For more advanced options please visit the <a href="%s">permalink settings page</a> first, and complete this setup wizard later.', 'buddypress' ), admin_url( 'options-permalink.php' ) ); ?>
 
 		<table class="form-table">
@@ -758,10 +765,10 @@ class BP_Core_Setup_Wizard {
 				$page_blog_id 		= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
 				$existing_pages_data 	= get_blog_option( $page_blog_id, 'bp-pages' );
 				$existing_pages 	= $existing_pages_data[$page_blog_id];
-				
+
 				$bp_pages       	= $this->setup_pages( (array)$_POST['bp_pages'] );
 				$bp_pages       	= array_merge( (array)$existing_pages, (array)$bp_pages );
-				
+
 				$existing_pages_data[$page_blog_id] = $bp_pages;
 
 				update_site_option( 'bp-pages', $existing_pages_data );
@@ -991,7 +998,7 @@ class BP_Core_Setup_Wizard {
 			// Delete the setup cookie
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
-			// Load BP, so that the redirect is successful			
+			// Load BP, so that the redirect is successful
 			require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
 
 			// Redirect to the BuddyPress dashboard
@@ -1055,7 +1062,7 @@ function bp_core_install( $active_components = false ) {
 		$active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
 
 	require_once( dirname( __FILE__ ) . '/bp-core-schema.php' );
-	
+
 	// Core DB Tables
 	bp_core_install_notifications();
 
@@ -1233,13 +1240,13 @@ add_action( 'admin_head', 'bp_core_update_add_admin_menu_styles' );
  */
 function bp_core_update_get_page_meta() {
 	$page_ids = get_site_option( 'bp-pages' );
-	
+
 	$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
 
 	$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
-	
+
 	$blog_page_ids = !empty( $page_ids[$page_blog_id] ) ? $page_ids[$page_blog_id] : false;
-	
+
 	return apply_filters( 'bp_core_update_get_page_meta', $blog_page_ids );
 }
 
