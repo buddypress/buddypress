@@ -24,6 +24,16 @@ function bp_blogs_get_blogs( $args = '' ) {
 	return apply_filters( 'bp_blogs_get_blogs', BP_Blogs_Blog::get( $type, $per_page, $page, $user_id, $search_terms ), $params );
 }
 
+/**
+ * Populates the BP blogs table with existing blogs. 
+ *
+ * @package BuddyPress Blogs
+ *
+ * @global object $bp BuddyPress global settings
+ * @global object $wpdb WordPress database object
+ * @uses get_users()
+ * @uses bp_blogs_record_blog()
+ */
 function bp_blogs_record_existing_blogs() {
 	global $bp, $wpdb;
 
@@ -34,14 +44,14 @@ function bp_blogs_record_existing_blogs() {
 
 	if ( $blog_ids ) {
 		foreach( (array)$blog_ids as $blog_id ) {
-			$users = get_users_of_blog( $blog_id );
-
+			$users 		= get_users( array( 'blog_id' => $blog_id ) );
+			$subscribers 	= get_users( array( 'blog_id' => $blog_id, 'role' => 'subscriber' ) );
+			
 			if ( $users ) {
 				foreach ( (array)$users as $user ) {
-					$role = unserialize( $user->meta_value );
-
-					if ( !isset( $role['subscriber'] ) )
-						bp_blogs_record_blog( $blog_id, $user->user_id, true );
+					// Don't record blogs for subscribers
+					if ( !in_array( $user, $subscribers ) )
+						bp_blogs_record_blog( $blog_id, $user->ID, true );
 				}
 			}
 		}
