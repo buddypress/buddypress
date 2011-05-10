@@ -293,6 +293,17 @@ function bp_core_activation_notice() {
 		return;
 
 	/**
+	 * Check to make sure that the blog setup routine has run. This can't happen during the
+	 * wizard because of the order which the components are loaded
+	 */
+	if ( bp_is_active( 'blogs' ) ) {
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$bp->blogs->table_name}" ) );
+		
+		if ( !$count )
+			bp_blogs_record_existing_blogs();
+	}
+
+	/**
 	 * Are pretty permalinks enabled?
 	 */
 	if ( isset( $_POST['permalink_structure'] ) )
