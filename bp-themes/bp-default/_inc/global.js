@@ -1075,7 +1075,7 @@ function bp_init_activity() {
 	jq.cookie( 'bp-activity-oldestpage', 1, {path: '/'} );
 
 	if ( null != jq.cookie('bp-activity-filter') && jq('#activity-filter-select').length )
-		jq('#activity-filter-select select option[value=' + jq.cookie('bp-activity-filter') + ']').attr( 'selected', 'selected' );
+		jq('#activity-filter-select select option[value="' + jq.cookie('bp-activity-filter') + '"]').attr( 'selected', 'selected' );
 
 	/* Activity Tab Set */
 	if ( null != jq.cookie('bp-activity-scope') && jq('div.activity-type-tabs').length ) {
@@ -1090,7 +1090,7 @@ function bp_init_activity() {
 function bp_init_objects(objects) {
 	jq(objects).each( function(i) {
 		if ( null != jq.cookie('bp-' + objects[i] + '-filter') && jq('li#' + objects[i] + '-order-select select').length )
-			jq('li#' + objects[i] + '-order-select select option[value=' + jq.cookie('bp-' + objects[i] + '-filter') + ']').attr( 'selected', 'selected' );
+			jq('li#' + objects[i] + '-order-select select option[value="' + jq.cookie('bp-' + objects[i] + '-filter') + '"]').attr( 'selected', 'selected' );
 
 		if ( null != jq.cookie('bp-' + objects[i] + '-scope') && jq('div.' + objects[i]).length ) {
 			jq('div.item-list-tabs li').each( function() {
@@ -1123,7 +1123,7 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	});
 	jq('div.item-list-tabs li#' + object + '-' + scope + ', div.item-list-tabs#object-nav li.current').addClass('selected');
 	jq('div.item-list-tabs li.selected').addClass('loading');
-	jq('div.item-list-tabs select option[value=' + filter + ']').attr( 'selected', 'selected' );
+	jq('div.item-list-tabs select option[value="' + filter + '"]').attr( 'selected', 'selected' );
 
 	if ( 'friends' == object )
 		object = 'members';
@@ -1165,7 +1165,7 @@ function bp_activity_request(scope, filter) {
 	/* Set the correct selected nav and filter */
 	jq('li#activity-' + scope + ', div.item-list-tabs li.current').addClass('selected');
 	jq('div#object-nav.item-list-tabs li.selected, div.activity-type-tabs li.selected').addClass('loading');
-	jq('#activity-filter-select select option[value=' + filter + ']').attr( 'selected', 'selected' );
+	jq('#activity-filter-select select option[value="' + filter + '"]').attr( 'selected', 'selected' );
 
 	/* Reload the activity stream based on the selection */
 	jq('.widget_bp_activity_widget h2 span.ajax-loader').show();
