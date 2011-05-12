@@ -31,7 +31,7 @@ function groups_update_group_forum( $group_id ) {
 	$args = array(
 		'forum_id'      => groups_get_groupmeta( $group_id, 'forum_id' ),
 		'forum_name'    => $group->name,
-		'forum_desc'    => $group->desc,
+		'forum_desc'    => $group->description,
 		'forum_slug'    => $group->slug
 	);
 
