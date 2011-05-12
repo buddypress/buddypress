@@ -1,4 +1,4 @@
-<?php get_header() ?>
+<?php get_header( 'buddypress' ) ?>
 
 	<div id="content">
 		<div class="padder">
@@ -244,7 +244,7 @@
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
-	<?php get_sidebar() ?>
+	<?php get_sidebar( 'buddypress' ) ?>
 
 	<?php do_action( 'bp_after_directory_activity_content' ) ?>
 
@@ -259,4 +259,4 @@
 		});
 	</script>
 
-<?php get_footer() ?>
+<?php get_footer( 'buddypress' ) ?>

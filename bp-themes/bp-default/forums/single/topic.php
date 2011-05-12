@@ -1,4 +1,4 @@
-<?php get_header(); ?>
+<?php get_header( 'buddypress' ); ?>
 
 	<div id="content">
 		<div class="padder">
@@ -191,5 +191,5 @@
 
 <?php do_action( 'bp_after_group_forum_topic' ) ?>
 
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+<?php get_sidebar( 'buddypress' ); ?>
+<?php get_footer( 'buddypress' ); ?>
