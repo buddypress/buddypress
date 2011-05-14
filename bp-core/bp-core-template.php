@@ -474,7 +474,7 @@ function bp_button( $args = '' ) {
  * @package BuddyPress Core
  * @param $text str The text to create the excerpt from
  * @param $excerpt_length Minimum excerpt length, in characters
- * @param $filter_shortcodes When true, apparent shortcodes (in square brackets) will be stripped
+ * @param $filter_shortcodes When true, registered shortcodes (in square brackets) will be stripped
  * @param $append_text Be sure to include a leading space
  * @return str The excerpt text
  */
@@ -486,7 +486,7 @@ function bp_create_excerpt( $text, $excerpt_length = 225, $filter_shortcodes = t
 	$append_text = apply_filters( 'bp_excerpt_append_text', $append_text );
 
 	if ( $filter_shortcodes )
-		$text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '', $text );
+		$text = strip_shortcodes( $text );
 
 	preg_match( "%\s*((?:<[^>]+>)+\S*)\s*|\s+%s", $text, $matches, PREG_OFFSET_CAPTURE, $excerpt_length );
 
