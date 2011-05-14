@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-05-14 10:30:06+00:00\n"
+"POT-Creation-Date: 2011-05-14 13:30:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -207,19 +207,19 @@ msgid "%s created the blog %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-functions.php:167
-msgid "%1$s wrote a new blog post: %2$s on the blog %3$s"
+msgid "%1$s wrote a new post, %2$s, on the site %3$s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-functions.php:169
-msgid "%1$s wrote a new blog post: %2$s"
+msgid "%1$s wrote a new post, %2$s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-functions.php:246
-msgid "%1$s commented on the blog post %2$s on the blog %3$s"
+msgid "%1$s commented on the post, %2$s, on the site %3$s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-functions.php:248
-msgid "%1$s commented on the blog post %2$s"
+msgid "%1$s commented on the post, %2$s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-widgets.php:23
