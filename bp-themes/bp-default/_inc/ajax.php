@@ -4,9 +4,6 @@
  *
  * All of these functions enhance the responsiveness of the user interface in the default
  * theme by adding AJAX functionality.
- *
- * By default your child theme will inherit this AJAX functionality. You can however create
- * your own _inc/ajax.php file and add/remove AJAX functionality as you see fit.
  */
 
 /***
