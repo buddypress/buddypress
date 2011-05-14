@@ -758,6 +758,7 @@ div#message.updated p {
 /* > Buttons
 -------------------------------------------------------------- */
 
+button,
 a.button,
 input[type=submit],
 input[type=button],
@@ -777,6 +778,7 @@ div.generic-button a {
 	vertical-align: bottom;
 	cursor: pointer;
 }
+button,
 a.button:hover,
 a.button:focus,
 input[type=submit]:hover,
@@ -791,12 +793,16 @@ div.generic-button a:hover {
 }
 
 /* Buttons that are disabled */
+button.pending,
+button.disabled,
 div.pending a,
 a.disabled {
 	border-color: #eee;
 	color: #bbb;
 	cursor: default;
 }
+button.pending:hover,
+button.disabled:hover,
 div.pending a:hover,
 a.disabled:hover {
 	border-color: #eee;
