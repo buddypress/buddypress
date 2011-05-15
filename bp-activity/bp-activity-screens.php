@@ -68,6 +68,20 @@ add_action( 'bp_activity_screen_my_activity',               'bp_activity_remove_
 add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_screen_notifications' );
 add_action( 'bp_activity_screen_mentions',                  'bp_activity_remove_screen_notifications' );
 
+/**
+ * Reset the logged-in user's new mentions data when he visits his mentions screen
+ *
+ * @package BuddyPress Activity
+ * @since 1.3
+ * @uses bp_activity_clear_new_mentions()
+ * @uses bp_is_my_profile()
+ */
+function bp_activity_reset_my_new_mentions() {	
+	if ( bp_is_my_profile() )
+		bp_activity_clear_new_mentions( bp_loggedin_user_id() );
+}
+add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' );
+
 function bp_activity_screen_single_activity_permalink() {
 	global $bp;
 

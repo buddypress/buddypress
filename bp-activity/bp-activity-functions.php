@@ -15,7 +15,7 @@
  * @package BuddyPress Activity
  * @since 1.3
  *
- * @param $content The content of the activity, usually found in $activity->content
+ * @param str $content The content of the activity, usually found in $activity->content
  * @return array $usernames Array of the found usernames that match existing users
  */
 function bp_activity_find_mentions( $content ) {
@@ -30,14 +30,27 @@ function bp_activity_find_mentions( $content ) {
 }
 
 /**
- * Reduces new mention count for mentioned users when activity items are deleted
+ * Resets a user's unread mentions list and count
  *
  * @package BuddyPress Activity
  * @since 1.3
  *
- * @param $activity_id The unique id for the activity item
+ * @param int $user_id The id of the user whose unread mentions are being reset
  */
-function bp_activity_reduce_mention_count( $activity_id ) {
+function bp_activity_clear_new_mentions( $user_id ) {
+	delete_user_meta( $user_id, 'bp_new_mention_count' );
+	delete_user_meta( $user_id, 'bp_new_mentions' );
+}
+
+/**
+ * Adjusts new mention count for mentioned users when activity items are deleted or created
+ *
+ * @package BuddyPress Activity
+ * @since 1.3
+ *
+ * @param int $activity_id The unique id for the activity item
+ */
+function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
 	$activity = new BP_Activity_Activity( $activity_id );
 
 	if ( $usernames = bp_activity_find_mentions( strip_tags( $activity->content ) ) ) {
@@ -50,13 +63,38 @@ function bp_activity_reduce_mention_count( $activity_id ) {
 			if ( empty( $user_id ) )
 				continue;
 
-			// Decrease the number of new @ mentions for the user
+			// Adjust the mention list and count for the member
 			$new_mention_count = (int)get_user_meta( $user_id, 'bp_new_mention_count', true );
-			update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count - 1 );
+			if ( !$new_mentions = get_user_meta( $user_id, 'bp_new_mentions', true ) )
+				$new_mentions = array();
+				
+			switch ( $action ) {
+				case 'delete' :
+					$key = array_search( $activity_id, $new_mentions );
+					if ( $key !== false ) {
+						var_dump( $new_mentions );
+						var_dump( $activity_id );
+						unset( $new_mentions[$key] );
+					}
+					break;
+				
+				case 'add' :
+				default :
+					if ( !in_array( $activity_id, $new_mentions ) ) {
+						$new_mentions[] = (int)$activity_id;
+					}
+					break;
+			}
+			
+			// Get an updated mention count			
+			$new_mention_count = count( $new_mentions );
+			
+			// Resave the user_meta
+			update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count );
+			update_user_meta( $user_id, 'bp_new_mentions', $new_mentions );
 		}
 	}
 }
-add_action( 'bp_activity_action_delete_activity', 'bp_activity_reduce_mention_count' );
 
 /**
  * Formats notifications related to activity
@@ -756,6 +794,9 @@ function bp_activity_delete( $args = '' ) {
 	);
 
 	$args = wp_parse_args( $args, $defaults );
+
+	// Adjust the new mention count of any mentioned member
+	bp_activity_adjust_mention_count( $args['id'], 'delete' );
 
 	if ( !$activity_ids_deleted = BP_Activity_Activity::delete( $args ) )
 		return false;

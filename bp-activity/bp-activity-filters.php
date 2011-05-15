@@ -112,7 +112,12 @@ function bp_activity_filter_kses( $content ) {
  *
  * @param string $content The activity content
  */
-function bp_activity_at_name_filter( $content ) {
+function bp_activity_at_name_filter( $activity ) {
+	// Only run this function once for a given activity item
+	remove_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter' );
+
+	$content = $activity->content;
+
 	$usernames = bp_activity_find_mentions( $content );
 
 	foreach( (array)$usernames as $username ) {
@@ -125,20 +130,16 @@ function bp_activity_at_name_filter( $content ) {
 			continue;
 
 		// Increase the number of new @ mentions for the user
-		$new_mention_count = (int)get_user_meta( $user_id, 'bp_new_mention_count', true );
-		update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count + 1 );
+		bp_activity_adjust_mention_count( $activity->id, 'add' );
 
 		$content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( $user_id ) . "' rel='nofollow'>@$username</a>", $content );
 	}
 
-	return $content;
+	// Resave the activity item with the linked usernames
+	$activity->content = $content;
+	$activity->save();
 }
-add_filter( 'bp_activity_new_update_content',     'bp_activity_at_name_filter' );
-add_filter( 'groups_activity_new_update_content', 'bp_activity_at_name_filter' );
-add_filter( 'pre_comment_content',                'bp_activity_at_name_filter' );
-add_filter( 'group_forum_topic_text_before_save', 'bp_activity_at_name_filter' );
-add_filter( 'group_forum_post_text_before_save',  'bp_activity_at_name_filter' );
-add_filter( 'bp_activity_comment_content',        'bp_activity_at_name_filter' );
+add_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter' );
 
 function bp_activity_make_nofollow_filter( $text ) {
 	return preg_replace_callback( '|<a (.+?)>|i', 'bp_activity_make_nofollow_filter_callback', $text );
