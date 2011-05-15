@@ -139,11 +139,11 @@ class BP_Core_Members_Template {
 	var $pag_links;
 	var $total_member_count;
 
-	function bp_core_members_template( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude ) {
-		$this->__construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude );
+	function bp_core_members_template( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value ) {
+		$this->__construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value );
 	}
 
-	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude ) {
+	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value ) {
 		global $bp;
 		
 		$this->pag_page  = !empty( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : (int)$page_number;
@@ -155,7 +155,7 @@ class BP_Core_Members_Template {
 		else if ( false !== $include )
 			$this->members = BP_Core_User::get_specific_users( $include, $this->pag_num, $this->pag_page, $populate_extras );
 		else
-			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras, 'exclude' => $exclude ) );
+			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras, 'exclude' => $exclude, 'meta_key' => $meta_key, 'meta_value' => $meta_value ) );
 
 		if ( !$max || $max >= (int)$this->members['total'] )
 			$this->total_member_count = (int)$this->members['total'];
@@ -267,6 +267,9 @@ function bp_has_members( $args = '' ) {
 
 		'user_id'         => $user_id,      // Pass a user_id to only show friends of this user
 		'search_terms'    => $search_terms, // Pass search_terms to filter users by their profile data
+		
+		'meta_key'	  => false,	    // Only return users with this usermeta
+		'meta_value'	  => false,	    // Only return users where the usermeta value matches. Requires meta_key
 
 		'populate_extras' => true           // Fetch usermeta? Friend count, last active etc.
 	);
@@ -290,7 +293,7 @@ function bp_has_members( $args = '' ) {
 	if ( empty( $include ) && bp_is_friends_component() && bp_is_current_action( 'requests' ) )
 		return false;
 
-	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude );
+	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude, $meta_key, $meta_value );
 	return apply_filters( 'bp_has_members', $members_template->has_members(), $members_template );
 }
 

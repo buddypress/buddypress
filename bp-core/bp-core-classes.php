@@ -109,7 +109,7 @@ class BP_Core_User {
 
 	/** Static Functions ******************************************************/
 
-	function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false ) {
+	function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
 		global $wpdb, $bp;
 
 		$sql = array();
@@ -124,11 +124,21 @@ class BP_Core_User {
 
 		if ( 'alphabetical' == $type )
 			$sql['select_alpha'] = ", pd.value as fullname";
+		
+		if ( $meta_key ) {
+			$sql['select_meta'] = ", umm.meta_key";
+			
+			if ( $meta_value )
+				$sql['select_meta'] .= ", umm.meta_value";
+		}
 
 		$sql['from'] = "FROM " . CUSTOM_USER_TABLE . " u LEFT JOIN " . CUSTOM_USER_META_TABLE . " um ON um.user_id = u.ID";
 
 		if ( $search_terms && bp_is_active( 'xprofile' ) || 'alphabetical' == $type )
 			$sql['join_profiledata'] = "LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id";
+			
+		if ( $meta_key )
+			$sql['join_meta'] = "LEFT JOIN {$wpdb->usermeta} umm ON umm.user_id = u.ID";
 
 		$sql['where'] = 'WHERE ' . bp_core_get_status_sql( 'u.' );
 
@@ -173,6 +183,15 @@ class BP_Core_User {
 		if ( $search_terms && bp_is_active( 'xprofile' ) ) {
 			$search_terms             = like_escape( $wpdb->escape( $search_terms ) );
 			$sql['where_searchterms'] = "AND pd.value LIKE '%%$search_terms%%'";
+		}
+		
+		if ( $meta_key ) {
+			$sql['where_meta'] = $wpdb->prepare( " AND umm.meta_key = %s", $meta_key );
+			
+			// If a meta value is provided, match it
+			if ( $meta_value ) {
+				$sql['where_meta'] .= $wpdb->prepare( " AND umm.meta_value = %s", $meta_value );
+			}
 		}
 
 		switch ( $type ) {
