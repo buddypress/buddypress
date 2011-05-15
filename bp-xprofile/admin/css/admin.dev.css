@@ -128,23 +128,33 @@ div#icon-buddypress {
 			padding-bottom: 15px;
 			font-weight: bold;
 		}
-
+	.tab-wrapper .xprofile-field {
+		position: relative;
+	}
 	.tab-wrapper fieldset fieldset {
+		position: relative;
 		border: 1px solid #ddd;
 		-moz-border-radius: 6px;
 		-khtml-border-radius: 6px;
 		-webkit-border-radius: 6px;
 		border-radius: 5px;
-		padding: 40px 20px 20px;
 		margin: 10px 0 0 0;
 		cursor: move !important;
-		padding: 40px 10px 10px 10px;
 		background: #fcfcfc url(../../../../../wp-admin/images/gray-grad.png) repeat-x scroll 0% 0%;
 	}
 	.tab-wrapper fieldset fieldset legend {
+		position: absolute !important;
+		top: 0;
+		left: 0;
+		width: 80%;
+		padding: 30px;
+	}
+	.tab-wrapper fieldset fieldset legend span {
 		position: absolute;
 		top: 6px;
+		left: 30px;
 		font-weight: bold;
+		width: 100%;
 	}
 		.field-group fieldset:hover {
 			background-color: #fafafa;
@@ -152,14 +162,15 @@ div#icon-buddypress {
 		}
 		fieldset div.field-wrapper {
 			padding-left: 30px;
-			background: url(../images/move.gif) 0px 3px no-repeat transparent;
+			padding: 40px 10px 10px 10px;
+			background: url(../images/move.gif) 6px 6px no-repeat transparent;
 		}
 	fieldset.radio div div,
-	fieldset.checkbox div div {
+	fieldset.checkbox div {
 		float: left;
 	}
 	fieldset.radio div div label,
-	fieldset.checkbox div div label {
+	fieldset.checkbox div label {
 		margin-right: 20px;
 	}
 
