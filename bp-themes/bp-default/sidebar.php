@@ -66,7 +66,7 @@
 		</div>
 	<?php endif; ?>
 
-	<?php dynamic_sidebar( 'sidebar' ) ?>
+	<?php dynamic_sidebar( 'sidebar-1' ) ?>
 
 	<?php do_action( 'bp_inside_after_sidebar' ) ?>
 
