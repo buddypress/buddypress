@@ -432,9 +432,13 @@ function bp_the_profile_field_options( $args = '' ) {
 
 					$selected = '';
 					
+					// Run the allowed option name through the before_save
+					// filter, so we'll be sure to get a match
+					$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
+					
 					// First, check to see whether the user-entered value
 					// matches
-					if ( in_array( $options[$k]->name, (array) $option_values ) )
+					if ( in_array( $allowed_options, (array) $option_values ) )
 						$selected = ' selected="selected"';
 
 					// Then, if the user has not provided a value, check for
@@ -458,8 +462,12 @@ function bp_the_profile_field_options( $args = '' ) {
 							$option_value = $_POST['field_' . $field->id];
 					}
 					
+					// Run the allowed option name through the before_save
+					// filter, so we'll be sure to get a match
+					$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
+					
 					$selected = '';	
-					if ( $option_value == $options[$k]->name || !empty( $value ) && $value == $options[$k]->name || ( empty( $option_value ) && $options[$k]->is_default_option ) )
+					if ( $option_value == $allowed_options || !empty( $value ) && $value == $allowed_options || ( empty( $option_value ) && $options[$k]->is_default_option ) )
 						$selected = ' checked="checked"';
 
 					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '"> ' . esc_attr( stripslashes( $options[$k]->name ) ) . '</label>', $options[$k] );
@@ -485,7 +493,13 @@ function bp_the_profile_field_options( $args = '' ) {
 					// First, check to see whether the user's saved values
 					// match the option
 					for ( $j = 0; $j < count($option_values); $j++ ) {
-						if ( $option_values[$j] == $options[$k]->name || @in_array( $options[$k]->name, $value ) ) {
+						
+						// Run the allowed option name through the
+						// before_save filter, so we'll be sure to get a
+						// match
+						$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
+						
+						if ( $option_values[$j] == $allowed_options || @in_array( $allowed_options, $value ) ) {
 							$selected = ' checked="checked"';
 							break;
 						}

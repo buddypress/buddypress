@@ -66,9 +66,10 @@ function xprofile_filter_kses( $content ) {
  *
  * @param string $field_value
  * @param int $field_id
+ * @param bool $reserialize Whether to reserialize arrays before returning. Defaults to true
  * @return string
  */
-function xprofile_sanitize_data_value_before_save ( $field_value, $field_id ) {
+function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $reserialize = true ) {
 
 	// Return if empty
 	if ( empty( $field_value ) )
@@ -93,7 +94,10 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id ) {
 			
 		}
 
-		$filtered_field_value = serialize( $filtered_values );
+		if ( $reserialize )
+			$filtered_field_value = serialize( $filtered_values );
+		else
+			$filtered_field_value = $filtered_values;
 	}
 
 	return $filtered_field_value;
