@@ -148,7 +148,7 @@ class BP_Core_User {
 			$sql['where_active'] = $wpdb->prepare( "AND um.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
 
 		if ( 'popular' == $type )
-			$sql['where_popular'] = "AND um.meta_key = 'total_friend_count'";
+			$sql['where_popular'] = $wpdb->prepare( "AND um.meta_key = %s", bp_get_user_meta_key( 'total_friend_count' ) );
 
 		if ( 'online' == $type )
 			$sql['where_online'] = "AND DATE_ADD( um.meta_value, INTERVAL 5 MINUTE ) >= UTC_TIMESTAMP()";
@@ -389,7 +389,7 @@ class BP_Core_User {
 
 		// Fetch the user's total friend count
 		if ( 'popular' != $type ) {
-			$friend_count = $wpdb->get_results( "SELECT user_id as id, meta_value as total_friend_count FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'total_friend_count' AND user_id IN ( {$user_ids} )" );
+			$friend_count = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as total_friend_count FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'total_friend_count' ) ) );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( (array)$friend_count as $count ) {
 					if ( $count->id == $paged_users[$i]->id )
@@ -410,7 +410,7 @@ class BP_Core_User {
 		}
 
 		if ( 'active' != $type ) {
-			$user_activity = $wpdb->get_results( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = '" . bp_get_user_meta_key( 'last_activity' ) . "' AND user_id IN ( {$user_ids} )" );
+			$user_activity = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'last_activity' ) ) );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( (array)$user_activity as $activity ) {
 					if ( $activity->id == $paged_users[$i]->id )
@@ -421,7 +421,7 @@ class BP_Core_User {
 
 		// Fetch the user's last_activity
 		if ( 'active' != $type ) {
-			$user_activity = $wpdb->get_results( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = '" . bp_get_user_meta_key( 'last_activity' ) . "' AND user_id IN ( {$user_ids} )" );
+			$user_activity = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'last_activity' ) ) );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( (array)$user_activity as $activity ) {
 					if ( $activity->id == $paged_users[$i]->id )
@@ -431,7 +431,7 @@ class BP_Core_User {
 		}
 
 		// Fetch the user's latest update
-		$user_update = $wpdb->get_results( "SELECT user_id as id, meta_value as latest_update FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = '" . bp_get_user_meta_key( 'bp_latest_update' ) . "' AND user_id IN ( {$user_ids} )" );
+		$user_update = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as latest_update FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'bp_latest_update' ) ) );
 		for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 			foreach ( (array)$user_update as $update ) {
 				if ( $update->id == $paged_users[$i]->id )
