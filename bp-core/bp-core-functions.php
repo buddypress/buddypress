@@ -27,7 +27,7 @@ function bp_core_get_page_meta() {
 	$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
 
 	$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
-	
+
 	// Upgrading from an earlier version of BP pre-1.3
 	if ( empty( $page_ids ) || isset( $page_ids['members'] ) ) {		
 		if ( empty( $page_ids ) ) {		
@@ -1000,7 +1000,7 @@ function bp_is_root_blog( $blog_id = false ) {
  *
  * BuddyPress stores a number of pieces of userdata in the WordPress central usermeta table. In
  * order to allow plugins to enable multiple instances of BuddyPress on a single WP installation,
- * BP's usermeta keys are abstracted and stored in the $bp global, at $bp->user_meta_keys.
+ * BP's usermeta keys are filtered with this function, so that they can be altered on the fly.
  *
  * Plugin authors who access or modify metadata created by BuddyPress should use
  * this function exclusively in the context of the _user_meta() functions. For example,
@@ -1008,27 +1008,18 @@ function bp_is_root_blog( $blog_id = false ) {
  * Do not hardcode these keys.
  * 
  * If your plugin introduces custom user metadata that might change between multiple BP instances
- * on a single WP installation, you are strongly recommended to register your meta keys in the $bp
- * global (see BP_Core_Component::setup_globals()), and use this function when storing and
+ * on a single WP installation, you are strongly recommended to use this function when storing and
  * retrieving metadata.
  *
  * @package BuddyPress
  * @since 1.3
- * @see BP_Core_Component::_setup_globals()
  *
  * @uses apply_filters() Filter bp_get_user_meta_key to modify keys individually
- * @param str $name
+ * @param str $key
  * @return str $key
  */
-function bp_get_user_meta_key( $name = false ) {
-	global $bp;
-	
-	if ( !$name )
-		return false;
-	
-	$key = isset( $bp->user_meta_keys->$name ) ? $bp->user_meta_keys->$name : false;
-	
-	return apply_filters( 'bp_get_user_meta_key', $key, $name );
+function bp_get_user_meta_key( $key = false ) {
+	return apply_filters( 'bp_get_user_meta_key', $key );
 }
 
 /** Global Manipulators *******************************************************/

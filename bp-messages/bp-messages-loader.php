@@ -70,19 +70,13 @@ class BP_Messages_Component extends BP_Component {
 			'table_name_recipients' => $bp->table_prefix . 'bp_messages_recipients'
 		);
 		
-		$user_meta_keys = array(
-			'notification_messages_new_message' => 'notification_messages_new_message',
-			'notification_messages_new_notice'  => 'notification_messages_new_notice'
-		);
-
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(
 			'slug'                  => BP_MESSAGES_SLUG,
 			'notification_callback' => 'messages_format_notifications',
 			'search_string'         => __( 'Search Messages...', 'buddypress' ),
-			'global_tables'         => $global_tables,
-			'user_meta_keys'	=> $user_meta_keys
+			'global_tables'         => $global_tables
 		);
 
 		$this->autocomplete_all = defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' );

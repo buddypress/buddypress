@@ -73,16 +73,6 @@ class BP_Groups_Component extends BP_Component {
 			'table_name_members'   => $bp->table_prefix . 'bp_groups_members',
 			'table_name_groupmeta' => $bp->table_prefix . 'bp_groups_groupmeta'
 		);
-		
-		// User meta_keys
-		$user_meta_keys = array(
-			'total_group_count' 		    	    => 'total_group_count',
-			'notification_groups_group_updated' 	    => 'notification_groups_group_updated',
-			'notification_groups_membership_request'    => 'notification_groups_membership_request',
-			'notification_membership_request_completed' => 'notification_membership_request_completed',
-			'notification_groups_invite'		    => 'notification_groups_invite',
-			'notification_groups_admin_promotion'	    => 'notification_groups_admin_promotion'
-		);
 
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
@@ -91,8 +81,7 @@ class BP_Groups_Component extends BP_Component {
 			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
 			'notification_callback' => 'groups_format_notifications',
 			'search_string'         => __( 'Search Groups...', 'buddypress' ),
-			'global_tables'         => $global_tables,
-			'user_meta_keys'	=> $user_meta_keys
+			'global_tables'         => $global_tables
 		);
 
 		parent::_setup_globals( $globals );

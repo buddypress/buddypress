@@ -67,16 +67,6 @@ class BP_Activity_Component extends BP_Component {
 			'table_name'      => $bp->table_prefix . 'bp_activity',
 			'table_name_meta' => $bp->table_prefix . 'bp_activity_meta',
 		);
-		
-		// User meta keys
-		$user_meta_keys = array(
-			'new_mention_count' 			=> 'bp_new_mention_count',
-			'new_mentions'				=> 'bp_new_mentions',
-			'favorite_activities' 			=> 'bp_favorite_activities',
-			'latest_update' 			=> 'bp_latest_update',
-			'notification_activity_new_mention'	=> 'notification_activity_new_mention',
-			'notification_activity_new_reply'	=> 'notification_activity_new_reply'
-		);
 
 		// All globals for activity component.
 		// Note that global_tables is included in this array.
@@ -85,8 +75,7 @@ class BP_Activity_Component extends BP_Component {
 			'slug'                  => BP_ACTIVITY_SLUG,
 			'root_slug'             => isset( $bp->pages->activity->slug ) ? $bp->pages->activity->slug : BP_ACTIVITY_SLUG,
 			'search_string'         => __( 'Search Activity...', 'buddypress' ),
-			'global_tables'         => $global_tables,
-			'user_meta_keys'	=> $user_meta_keys
+			'global_tables'         => $global_tables
 		);
 
 		parent::_setup_globals( $globals );

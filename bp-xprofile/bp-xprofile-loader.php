@@ -92,16 +92,11 @@ class BP_XProfile_Component extends BP_Component {
 			'table_name_meta'	=> $bp->table_prefix . 'bp_xprofile_meta',
 		);
 
-		$user_meta_keys = array(
-			'profile_last_updated' => 'profile_last_updated'
-		);
-
 		$globals = array(
 			'slug'                  => BP_XPROFILE_SLUG,
 			'root_slug'             => isset( $bp->pages->xprofile->slug ) ? $bp->pages->xprofile->slug : BP_XPROFILE_SLUG,
 			'notification_callback' => 'xprofile_format_notifications',
-			'global_tables'         => $global_tables,
-			'user_meta_keys'	=> $user_meta_keys
+			'global_tables'         => $global_tables
 		);
 
 		parent::_setup_globals( $globals );

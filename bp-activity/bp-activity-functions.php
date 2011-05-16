@@ -190,7 +190,7 @@ function bp_activity_get_user_favorites( $user_id = 0 ) {
 		$user_id = $bp->displayed_user->id;
 
 	// Get favorites for user
-	$favs = get_user_meta( $user_id, bp_get_user_meta_key( 'favorite_activities' ), true );
+	$favs = get_user_meta( $user_id, bp_get_user_meta_key( 'bp_favorite_activities' ), true );
 
 	return apply_filters( 'bp_activity_get_user_favorites', $favs );
 }
@@ -215,7 +215,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 		$user_id = $bp->loggedin_user->id;
 
 	// Update the user's personal favorites
-	$my_favs   = get_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'favorite_activities' ), true );
+	$my_favs   = get_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'bp_favorite_activities' ), true );
 	$my_favs[] = $activity_id;
 
 	// Update the total number of users who have favorited this activity
@@ -223,7 +223,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 	$fav_count = !empty( $fav_count ) ? (int)$fav_count + 1 : 1;
 
 	// Update user meta
-	update_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'favorite_activities' ), $my_favs );
+	update_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'bp_favorite_activities' ), $my_favs );
 
 	// Update activity meta counts
 	if ( true === bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count ) ) {
@@ -255,7 +255,7 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 		$user_id = $bp->loggedin_user->id;
 
 	// Remove the fav from the user's favs
-	$my_favs = get_user_meta( $user_id, bp_get_user_meta_key( 'favorite_activities' ), true );
+	$my_favs = get_user_meta( $user_id, bp_get_user_meta_key( 'bp_favorite_activities' ), true );
 	$my_favs = array_flip( (array) $my_favs );
 	unset( $my_favs[$activity_id] );
 	$my_favs = array_unique( array_flip( $my_favs ) );
@@ -267,7 +267,7 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 		if ( bp_activity_update_meta( $activity_id, 'favorite_count', (int)$fav_count - 1 ) ) {
 
 			// Update users favorites
-			if ( update_user_meta( $user_id, bp_get_user_meta_key( 'favorite_activities' ), $my_favs ) ) {
+			if ( update_user_meta( $user_id, bp_get_user_meta_key( 'bp_favorite_activities' ), $my_favs ) ) {
 
 				// Execute additional code
 				do_action( 'bp_activity_remove_user_favorite', $activity_id, $user_id );
@@ -499,8 +499,8 @@ function bp_activity_remove_all_user_data( $user_id = 0 ) {
 	bp_activity_delete( array( 'user_id' => $user_id ) );
 
 	// Remove any usermeta
-	delete_user_meta( $user_id, bp_get_user_meta_key( 'latest_update' ) );
-	delete_user_meta( $user_id, bp_get_user_meta_key( 'favorite_activities' ) );
+	delete_user_meta( $user_id, bp_get_user_meta_key( 'bp_latest_update' ) );
+	delete_user_meta( $user_id, bp_get_user_meta_key( 'bp_favorite_activities' ) );
 
 	// Execute additional code
 	do_action( 'bp_activity_remove_data', $user_id ); // Deprecated! Do not use!
@@ -675,7 +675,7 @@ function bp_activity_post_update( $args = '' ) {
 	) );
 
 	// Add this update to the "latest update" usermeta so it can be fetched anywhere.
-	update_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'latest_update' ), array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
+	update_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'bp_latest_update' ), array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
 
  	// Require the notifications code so email notifications can be set on the 'bp_activity_posted_update' action.
 	require_once( BP_PLUGIN_DIR . '/bp-activity/bp-activity-notifications.php' );
@@ -807,10 +807,10 @@ function bp_activity_delete( $args = '' ) {
 
 	do_action( 'bp_before_activity_delete', $args );
 
-	$latest_update = get_user_meta( $user_id, bp_get_user_meta_key( 'latest_update' ), true );
+	$latest_update = get_user_meta( $user_id, bp_get_user_meta_key( 'bp_latest_update' ), true );
 	if ( !empty( $latest_update ) ) {
 		if ( in_array( (int)$latest_update['id'], (array)$activity_ids_deleted ) )
-			delete_user_meta( $user_id, bp_get_user_meta_key( 'latest_update' ) );
+			delete_user_meta( $user_id, bp_get_user_meta_key( 'bp_latest_update' ) );
 	}
 
 	do_action( 'bp_activity_delete', $args );
