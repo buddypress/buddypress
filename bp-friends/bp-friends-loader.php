@@ -70,6 +70,13 @@ class BP_Friends_Component extends BP_Component {
 			'table_name'      => $bp->table_prefix . 'bp_friends',
 			'table_name_meta' => $bp->table_prefix . 'bp_friends_meta',
 		);
+		
+		// User meta keys
+		$user_meta_keys	= array(
+			'total_friend_count' 				=> 'total_friend_count',
+			'notification_friends_friendship_request'	=> 'notification_friends_friendship_request',
+			'notification_friends_friendship_accepted'	=> 'notification_friends_friendship_accepted'
+		);
 
 		// All globals for the friends component.
 		// Note that global_tables is included in this array.
@@ -79,6 +86,7 @@ class BP_Friends_Component extends BP_Component {
 			'search_string'         => __( 'Search Friends...', 'buddypress' ),
 			'notification_callback' => 'friends_format_notifications',
 			'global_tables'         => $global_tables,
+			'user_meta_keys'	=> $user_meta_keys
 		);
 
 		parent::_setup_globals( $globals );

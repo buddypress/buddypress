@@ -641,7 +641,7 @@ function bp_core_record_activity() {
 	if ( !is_user_logged_in() )
 		return false;
 
-	$activity = get_user_meta( $bp->loggedin_user->id, 'last_activity', true );
+	$activity = get_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'last_activity' ), true );
 
 	if ( !is_numeric( $activity ) )
 		$activity = strtotime( $activity );
@@ -650,7 +650,7 @@ function bp_core_record_activity() {
 	$current_time = bp_core_current_time();
 
 	if ( empty( $activity ) || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) )
-		update_user_meta( $bp->loggedin_user->id, 'last_activity', $current_time );
+		update_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'last_activity' ), $current_time );
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
 
@@ -993,6 +993,42 @@ function bp_is_root_blog( $blog_id = false ) {
 		$is_root_blog = false;
 
 	return apply_filters( 'bp_is_root_blog', $is_root_blog );
+}
+
+/**
+ * Get the meta_key for a given piece of user metadata
+ *
+ * BuddyPress stores a number of pieces of userdata in the WordPress central usermeta table. In
+ * order to allow plugins to enable multiple instances of BuddyPress on a single WP installation,
+ * BP's usermeta keys are abstracted and stored in the $bp global, at $bp->user_meta_keys.
+ *
+ * Plugin authors who access or modify metadata created by BuddyPress should use
+ * this function exclusively in the context of the _user_meta() functions. For example,
+ *    $last_active = get_user_meta( $user_id, bp_get_user_meta_key( 'last_activity' ), true );
+ * Do not hardcode these keys.
+ * 
+ * If your plugin introduces custom user metadata that might change between multiple BP instances
+ * on a single WP installation, you are strongly recommended to register your meta keys in the $bp
+ * global (see BP_Core_Component::setup_globals()), and use this function when storing and
+ * retrieving metadata.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ * @see BP_Core_Component::_setup_globals()
+ *
+ * @uses apply_filters() Filter bp_get_user_meta_key to modify keys individually
+ * @param str $name
+ * @return str $key
+ */
+function bp_get_user_meta_key( $name = false ) {
+	global $bp;
+	
+	if ( !$name )
+		return false;
+	
+	$key = isset( $bp->user_meta_keys->$name ) ? $bp->user_meta_keys->$name : false;
+	
+	return apply_filters( 'bp_get_user_meta_key', $key, $name );
 }
 
 /** Global Manipulators *******************************************************/

@@ -94,6 +94,7 @@ class BP_Component {
 	 *
 	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_id'
 	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_slug'
+	 * @uses apply_filters() Calls 'bp_user_meta_keys_$key_name'
 	 *
 	 * @param arr $args Used to
 	 */
@@ -108,6 +109,7 @@ class BP_Component {
 			'notification_callback' => '',
 			'search_string'         => '',
 			'global_tables'         => '',
+			'user_meta_keys'	=> array()
 		);
 		$r = wp_parse_args( $args, $defaults );
 
@@ -127,7 +129,13 @@ class BP_Component {
 		if ( !empty( $r['global_tables'] ) )
 			foreach ( $r['global_tables'] as $global_name => $table_name )
 				$this->$global_name = $table_name;
-
+			
+		// User meta keys
+		if ( !empty( $r['user_meta_keys'] ) ) {
+			foreach ( $r['user_meta_keys'] as $key_name => $key_value )
+				$bp->user_meta_keys->$key_name = apply_filters( "bp_user_meta_keys_$key_name", $key_value );
+		}
+		
 		/** BuddyPress ********************************************************/
 
 		// Register this component in the active components array

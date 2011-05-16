@@ -148,10 +148,10 @@ add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
 function bp_activity_screen_notification_settings() {
 	global $bp;
 
-	if ( !$mention = get_user_meta( $bp->displayed_user->id, 'notification_activity_new_mention', true ) )
+	if ( !$mention = get_user_meta( $bp->displayed_user->id, bp_get_user_meta_key( 'notification_activity_new_mention' ), true ) )
 		$mention = 'yes';
 
-	if ( !$reply = get_user_meta( $bp->displayed_user->id, 'notification_activity_new_reply', true ) )
+	if ( !$reply = get_user_meta( $bp->displayed_user->id, bp_get_user_meta_key( 'notification_activity_new_reply' ), true ) )
 		$reply = 'yes'; ?>
 
 	<table class="notification-settings" id="activity-notification-settings">

@@ -503,7 +503,7 @@ function bp_message_get_notices() {
 	if ( empty( $notice ) )
 		return false;
 
-	$closed_notices = get_user_meta( $userdata->ID, 'closed_notices', true );
+	$closed_notices = get_user_meta( $userdata->ID, bp_get_user_meta_key( 'closed_notices' ), true );
 
 	if ( !$closed_notices )
 		$closed_notices = array();

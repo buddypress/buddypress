@@ -81,7 +81,6 @@ function bp_core_get_users( $args = '' ) {
  * @package BuddyPress Core
  * @global $current_user WordPress global variable containing current logged in user information
  * @param user_id The ID of the user.
- * @uses get_user_meta() WordPress function to get the usermeta for a user.
  */
 function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login = false ) {
 	global $bp;
@@ -627,7 +626,7 @@ add_filter( 'authenticate', 'bp_core_boot_spammer', 30, 2 );
  */
 function bp_core_remove_data( $user_id ) {
 	// Remove usermeta
-	delete_user_meta( $user_id, 'last_activity' );
+	delete_user_meta( $user_id, bp_get_user_meta_key( 'last_activity' ) );
 
 	// Flush the cache to remove the user from all cached objects
 	wp_cache_flush();

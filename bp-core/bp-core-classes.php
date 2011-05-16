@@ -59,6 +59,8 @@ class BP_Core_User {
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
 	function populate() {
+		global $bp;
+		
 		if ( bp_is_active( 'xprofile' ) )
 			$this->profile_data = $this->get_profile_data();
 
@@ -82,7 +84,7 @@ class BP_Core_User {
 		$this->avatar       = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full'  ) );
 		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb' ) );
 		$this->avatar_mini  = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) );
-		$this->last_active  = bp_core_get_last_activity( get_user_meta( $this->id, 'last_activity', true ), __( 'active %s ago', 'buddypress' ) );
+		$this->last_active  = bp_core_get_last_activity( get_user_meta( $this->id, bp_get_user_meta_key( 'last_activity' ), true ), __( 'active %s ago', 'buddypress' ) );
 	}
 
 	function populate_extras() {
@@ -143,7 +145,7 @@ class BP_Core_User {
 		$sql['where'] = 'WHERE ' . bp_core_get_status_sql( 'u.' );
 
 		if ( 'active' == $type || 'online' == $type || 'newest' == $type )
-			$sql['where_active'] = "AND um.meta_key = 'last_activity'";
+			$sql['where_active'] = $wpdb->prepare( "AND um.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
 
 		if ( 'popular' == $type )
 			$sql['where_popular'] = "AND um.meta_key = 'total_friend_count'";
@@ -408,7 +410,7 @@ class BP_Core_User {
 		}
 
 		if ( 'active' != $type ) {
-			$user_activity = $wpdb->get_results( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'last_activity' AND user_id IN ( {$user_ids} )" );
+			$user_activity = $wpdb->get_results( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = '" . bp_get_user_meta_key( 'last_activity' ) . "' AND user_id IN ( {$user_ids} )" );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( (array)$user_activity as $activity ) {
 					if ( $activity->id == $paged_users[$i]->id )
@@ -419,7 +421,7 @@ class BP_Core_User {
 
 		// Fetch the user's last_activity
 		if ( 'active' != $type ) {
-			$user_activity = $wpdb->get_results( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = 'last_activity' AND user_id IN ( {$user_ids} )" );
+			$user_activity = $wpdb->get_results( "SELECT user_id as id, meta_value as last_activity FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = '" . bp_get_user_meta_key( 'last_activity' ) . "' AND user_id IN ( {$user_ids} )" );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( (array)$user_activity as $activity ) {
 					if ( $activity->id == $paged_users[$i]->id )

@@ -149,6 +149,10 @@ class BP_Core extends BP_Component {
 
 		// The user ID of the user who is currently logged in.
 		$bp->loggedin_user->id   = $current_user->ID;
+		
+		// Keys for BP user_meta
+		$bp->user_meta_keys->last_activity 	= apply_filters( 'bp_user_meta_key_last_activity', 'last_activity' );
+		$bp->user_meta_keys->closed_notices 	= apply_filters( 'bp_user_meta_key_closed_notices', 'closed_notices' );
 
 		/** Avatars ***********************************************************/
 
