@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-05-16 12:30:41+00:00\n"
+"POT-Creation-Date: 2011-05-16 21:30:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Blog authored by %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:317 bp-core/bp-core-classes.php:85
+#: bp-blogs/bp-blogs-template.php:317 bp-core/bp-core-classes.php:87
 #: bp-groups/bp-groups-widgets.php:69 bp-groups/bp-groups-widgets.php:169
 #: bp-members/bp-members-template.php:497
 #: bp-members/bp-members-template.php:753
@@ -145,7 +145,7 @@ msgstr ""
 #: bp-core/admin/bp-core-admin.php:95 bp-core/admin/bp-core-admin.php:103
 #: bp-core/admin/bp-core-admin.php:111 bp-core/admin/bp-core-admin.php:121
 #: bp-core/admin/bp-core-admin.php:133 bp-core/admin/bp-core-admin.php:145
-#: bp-friends/bp-friends-screens.php:70 bp-groups/bp-groups-screens.php:807
+#: bp-friends/bp-friends-screens.php:69 bp-groups/bp-groups-screens.php:807
 #: bp-messages/bp-messages-screens.php:119
 #: bp-themes/bp-default/registration/register.php:196
 #: bp-themes/bp-default/groups/single/admin.php:26
@@ -157,7 +157,7 @@ msgstr ""
 #: bp-core/admin/bp-core-admin.php:96 bp-core/admin/bp-core-admin.php:104
 #: bp-core/admin/bp-core-admin.php:112 bp-core/admin/bp-core-admin.php:122
 #: bp-core/admin/bp-core-admin.php:134 bp-core/admin/bp-core-admin.php:146
-#: bp-friends/bp-friends-screens.php:71 bp-groups/bp-groups-screens.php:808
+#: bp-friends/bp-friends-screens.php:70 bp-groups/bp-groups-screens.php:808
 #: bp-messages/bp-messages-screens.php:120
 #: bp-themes/bp-default/registration/register.php:197
 #: bp-themes/bp-default/groups/single/admin.php:27
@@ -629,7 +629,7 @@ msgstr ""
 msgid "members"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:373 bp-core/bp-core-classes.php:101
+#: bp-core/admin/bp-core-update.php:373 bp-core/bp-core-classes.php:103
 #: bp-activity/bp-activity-template.php:1092
 msgid "groups"
 msgstr ""
@@ -679,12 +679,12 @@ msgstr ""
 #: bp-core/admin/bp-core-update.php:438 bp-core/bp-core-template.php:342
 #: bp-groups/bp-groups-activity.php:103 bp-groups/bp-groups-activity.php:116
 #: bp-groups/bp-groups-activity.php:129 bp-groups/bp-groups-activity.php:142
-#: bp-groups/bp-groups-loader.php:242 bp-groups/bp-groups-loader.php:368
+#: bp-groups/bp-groups-loader.php:253 bp-groups/bp-groups-loader.php:379
 #: bp-groups/bp-groups-widgets.php:18 bp-groups/bp-groups-widgets.php:39
 #: bp-groups/bp-groups-widgets.php:106 bp-groups/bp-groups-screens.php:806
 #: bp-members/bp-members-buddybar.php:172
-#: bp-activity/bp-activity-loader.php:163
-#: bp-activity/bp-activity-loader.php:236
+#: bp-activity/bp-activity-loader.php:174
+#: bp-activity/bp-activity-loader.php:247
 msgid "Groups"
 msgstr ""
 
@@ -1013,11 +1013,11 @@ msgstr ""
 msgid "Are you sure?"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:99
+#: bp-core/bp-core-classes.php:101
 msgid "group"
 msgstr ""
 
-#: bp-core/deprecated/1.3.php:271 bp-xprofile/bp-xprofile-loader.php:223
+#: bp-core/deprecated/1.3.php:271 bp-xprofile/bp-xprofile-loader.php:228
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:52
 msgid "My Profile"
@@ -1055,7 +1055,7 @@ msgstr ""
 
 #: bp-core/bp-core-functions.php:199 bp-settings/bp-settings-loader.php:17
 #: bp-settings/bp-settings-loader.php:77 bp-settings/bp-settings-loader.php:147
-#: bp-groups/bp-groups-loader.php:165 bp-members/bp-members-buddybar.php:197
+#: bp-groups/bp-groups-loader.php:176 bp-members/bp-members-buddybar.php:197
 msgid "Settings"
 msgstr ""
 
@@ -1177,51 +1177,51 @@ msgstr ""
 msgid "BuddyPress Core"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:181 bp-xprofile/bp-xprofile-loader.php:119
-#: bp-xprofile/bp-xprofile-loader.php:183
+#: bp-core/bp-core-loader.php:185 bp-xprofile/bp-xprofile-loader.php:124
+#: bp-xprofile/bp-xprofile-loader.php:188
 #: bp-members/bp-members-buddybar.php:135 bp-members/bp-members-loader.php:153
 msgid "Profile"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:192 bp-groups/bp-groups-template.php:491
-#: bp-xprofile/bp-xprofile-loader.php:131 bp-members/bp-members-loader.php:168
+#: bp-core/bp-core-loader.php:196 bp-groups/bp-groups-template.php:491
+#: bp-xprofile/bp-xprofile-loader.php:136 bp-members/bp-members-loader.php:168
 msgid "Public"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:79
+#: bp-friends/bp-friends-loader.php:86
 msgid "Search Friends..."
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:101
+#: bp-friends/bp-friends-loader.php:109
 msgid "Friends <span>(%d)</span>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:113 bp-friends/bp-friends-loader.php:173
-#: bp-friends/bp-friends-loader.php:199 bp-friends/bp-friends-template.php:89
+#: bp-friends/bp-friends-loader.php:121 bp-friends/bp-friends-loader.php:181
+#: bp-friends/bp-friends-loader.php:207 bp-friends/bp-friends-template.php:89
 #: bp-friends/bp-friends-activity.php:60
 msgid "My Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:123
+#: bp-friends/bp-friends-loader.php:131
 msgid "Requests"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:155
+#: bp-friends/bp-friends-loader.php:163
 msgid "Friends <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:156
+#: bp-friends/bp-friends-loader.php:164
 msgid "Pending Requests <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:158 bp-friends/bp-friends-screens.php:69
+#: bp-friends/bp-friends-loader.php:166 bp-friends/bp-friends-screens.php:68
 #: bp-members/bp-members-buddybar.php:160
-#: bp-activity/bp-activity-loader.php:150
-#: bp-activity/bp-activity-loader.php:227
+#: bp-activity/bp-activity-loader.php:161
+#: bp-activity/bp-activity-loader.php:238
 msgid "Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:159
+#: bp-friends/bp-friends-loader.php:167
 msgid "No Pending Requests"
 msgstr ""
 
@@ -1381,11 +1381,11 @@ msgstr ""
 msgid "Friendship could not be rejected"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:78
+#: bp-friends/bp-friends-screens.php:77
 msgid "A member sends you a friendship request"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:84
+#: bp-friends/bp-friends-screens.php:83
 msgid "A member accepts your friendship request"
 msgstr ""
 
@@ -1424,13 +1424,13 @@ msgid "Delete Account"
 msgstr ""
 
 #: bp-settings/bp-settings-loader.php:169
-#: bp-messages/bp-messages-loader.php:141
-#: bp-messages/bp-messages-loader.php:217
+#: bp-messages/bp-messages-loader.php:147
+#: bp-messages/bp-messages-loader.php:223
 msgid "Compose"
 msgstr ""
 
 #: bp-settings/bp-settings-actions.php:90
-#: bp-settings/bp-settings-actions.php:123
+#: bp-settings/bp-settings-actions.php:124
 #: bp-xprofile/bp-xprofile-screens.php:111
 msgid "Changes saved."
 msgstr ""
@@ -1567,76 +1567,76 @@ msgstr ""
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:83
+#: bp-groups/bp-groups-loader.php:93
 msgid "Search Groups..."
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:161
+#: bp-groups/bp-groups-loader.php:172
 msgid "Details"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:169
+#: bp-groups/bp-groups-loader.php:180
 msgid "Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:176
+#: bp-groups/bp-groups-loader.php:187
 msgid "Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:202
+#: bp-groups/bp-groups-loader.php:213
 msgid "Groups <span>(%d)</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:214 bp-groups/bp-groups-loader.php:383
-#: bp-groups/bp-groups-loader.php:410
+#: bp-groups/bp-groups-loader.php:225 bp-groups/bp-groups-loader.php:394
+#: bp-groups/bp-groups-loader.php:421
 msgid "My Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:225
+#: bp-groups/bp-groups-loader.php:236
 msgid "Invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:254
+#: bp-groups/bp-groups-loader.php:265
 msgctxt "Group home navigation title"
 msgid "Home"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:266 bp-groups/bp-groups-buddybar.php:18
+#: bp-groups/bp-groups-loader.php:277 bp-groups/bp-groups-buddybar.php:18
 msgid "Admin"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:285 bp-groups/bp-groups-template.php:1360
+#: bp-groups/bp-groups-loader.php:296 bp-groups/bp-groups-template.php:1360
 #: bp-groups/bp-groups-template.php:1361 bp-themes/bp-default/_inc/ajax.php:487
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:297
+#: bp-groups/bp-groups-loader.php:308
 #: bp-themes/bp-default/forums/forums-loop.php:43
 msgid "Forum"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:309
+#: bp-groups/bp-groups-loader.php:320
 msgid "Members (%s)"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:322
+#: bp-groups/bp-groups-loader.php:333
 #: bp-themes/bp-default/groups/single/send-invites.php:60
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:365
+#: bp-groups/bp-groups-loader.php:376
 msgid "Groups <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:366
+#: bp-groups/bp-groups-loader.php:377
 msgid "Pending Invites <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:369
+#: bp-groups/bp-groups-loader.php:380
 msgid "No Pending Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:429 bp-groups/bp-groups-buddybar.php:23
+#: bp-groups/bp-groups-loader.php:440 bp-groups/bp-groups-buddybar.php:23
 #: bp-groups/bp-groups-template.php:1064 bp-groups/bp-groups-template.php:2109
 msgid "Group Avatar"
 msgstr ""
@@ -2060,8 +2060,8 @@ msgid "Delete Group"
 msgstr ""
 
 #: bp-groups/bp-groups-buddybar.php:46 bp-members/bp-members-buddybar.php:124
-#: bp-activity/bp-activity-loader.php:104
-#: bp-activity/bp-activity-loader.php:198
+#: bp-activity/bp-activity-loader.php:115
+#: bp-activity/bp-activity-loader.php:209
 #: bp-activity/feeds/bp-activity-personal-feed.php:21
 #: bp-activity/bp-activity-screens.php:161
 msgid "Activity"
@@ -2264,26 +2264,26 @@ msgstr ""
 msgid "%1$s posted an update in the group %2$s:"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:141
+#: bp-xprofile/bp-xprofile-loader.php:146
 #: bp-xprofile/bp-xprofile-template.php:763
 #: bp-xprofile/bp-xprofile-template.php:764
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:151
+#: bp-xprofile/bp-xprofile-loader.php:156
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
 msgid "Change Avatar"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:190
+#: bp-xprofile/bp-xprofile-loader.php:195
 msgid "View My Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:197
+#: bp-xprofile/bp-xprofile-loader.php:202
 msgid "Edit My Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:204
+#: bp-xprofile/bp-xprofile-loader.php:209
 msgid "Change My Avatar"
 msgstr ""
 
@@ -2853,55 +2853,55 @@ msgstr ""
 msgid "Private Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:78
+#: bp-messages/bp-messages-loader.php:83
 msgid "Search Messages..."
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:100
-#: bp-messages/bp-messages-loader.php:185
+#: bp-messages/bp-messages-loader.php:106
+#: bp-messages/bp-messages-loader.php:191
 #: bp-messages/bp-messages-actions.php:42
 msgid "Messages <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:102
+#: bp-messages/bp-messages-loader.php:108
 #: bp-messages/bp-messages-actions.php:44
 msgid "Messages <strong></strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:121
-#: bp-messages/bp-messages-loader.php:189
+#: bp-messages/bp-messages-loader.php:127
+#: bp-messages/bp-messages-loader.php:195
 #: bp-messages/bp-messages-functions.php:218
 #: bp-messages/bp-messages-functions.php:220
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:131
+#: bp-messages/bp-messages-loader.php:137
 msgid "Sent Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:152
+#: bp-messages/bp-messages-loader.php:158
 msgid "Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:186
+#: bp-messages/bp-messages-loader.php:192
 msgid "Inbox <strong>(%s)</strong>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:188
+#: bp-messages/bp-messages-loader.php:194
 #: bp-messages/bp-messages-screens.php:118
 #: bp-members/bp-members-buddybar.php:147
 msgid "Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:210
+#: bp-messages/bp-messages-loader.php:216
 msgid "Sent"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:225
+#: bp-messages/bp-messages-loader.php:231
 msgid "All Member Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:244
+#: bp-messages/bp-messages-loader.php:250
 msgid "My Messages"
 msgstr ""
 
@@ -3190,7 +3190,7 @@ msgstr ""
 msgid "You"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:615
+#: bp-members/bp-members-functions.php:614
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
@@ -4602,44 +4602,44 @@ msgstr ""
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1164
+#: bp-activity/bp-activity-template.php:1166
 msgid "a user"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1195
+#: bp-activity/bp-activity-template.php:1197
 msgid "Mention this user in a new public message, this will send the user a notification to get their attention."
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1196
+#: bp-activity/bp-activity-template.php:1198
 msgid "Mention this User"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1324
+#: bp-activity/bp-activity-template.php:1326
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:77
+#: bp-activity/bp-activity-loader.php:87
 msgid "Search Activity..."
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:117
-#: bp-activity/bp-activity-loader.php:212
+#: bp-activity/bp-activity-loader.php:128
+#: bp-activity/bp-activity-loader.php:223
 msgid "Personal"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:127
-#: bp-activity/bp-activity-loader.php:205
+#: bp-activity/bp-activity-loader.php:138
+#: bp-activity/bp-activity-loader.php:216
 #: bp-activity/feeds/bp-activity-mentions-feed.php:21
 #: bp-activity/feeds/bp-activity-mentions-feed.php:24
 msgid "Mentions"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:138
-#: bp-activity/bp-activity-loader.php:219
+#: bp-activity/bp-activity-loader.php:149
+#: bp-activity/bp-activity-loader.php:230
 msgid "Favorites"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:256
+#: bp-activity/bp-activity-loader.php:267
 msgid "My Activity"
 msgstr ""
 
