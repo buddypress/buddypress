@@ -72,8 +72,6 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
 				case 'delete' :
 					$key = array_search( $activity_id, $new_mentions );
 					if ( $key !== false ) {
-						var_dump( $new_mentions );
-						var_dump( $activity_id );
 						unset( $new_mentions[$key] );
 					}
 					break;
