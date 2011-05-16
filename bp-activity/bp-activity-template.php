@@ -1278,7 +1278,7 @@ function bp_activity_feed_item_title() {
 			$title = substr( $title, 0, -1 );
 
 		if ( 'activity_update' == $activities_template->activity->type )
-			$title .= ': ' . strip_tags( bp_create_excerpt( $activities_template->activity->content, 70 ) );
+			$title .= ': ' . strip_tags( ent2ncr( trim( convert_chars( bp_create_excerpt( $activities_template->activity->content, 70, true, " [&#133;]" ) ) ) ) );
 
 		return apply_filters( 'bp_get_activity_feed_item_title', $title );
 	}
