@@ -609,7 +609,7 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 	global $bp;
 
 	if ( !$user = get_userdatabylogin( $username ) )
-		return false;
+		return $auth_obj;
 
 	if ( ( is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
 		return new WP_Error( 'invalid_username', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
