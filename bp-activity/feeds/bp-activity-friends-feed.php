@@ -32,7 +32,7 @@ header('Status: 200 OK');
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<guid><?php bp_activity_thread_permalink() ?></guid>
-				<title><![CDATA[<?php bp_activity_feed_item_title() ?>]]></title>
+				<title><?php bp_activity_feed_item_title() ?></title>
 				<link><?php echo bp_activity_thread_permalink() ?></link>
 				<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false); ?></pubDate>
 

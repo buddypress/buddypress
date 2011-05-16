@@ -1272,7 +1272,7 @@ function bp_activity_feed_item_title() {
 			$content = $activities_template->activity->content;
 
 		$content = explode( '<span', $content );
-		$title = trim( strip_tags( html_entity_decode( utf8_encode( $content[0] ) ) ) );
+		$title = strip_tags( ent2ncr( trim( convert_chars( $content[0] ) ) ) );
 
 		if ( ':' == substr( $title, -1 ) )
 			$title = substr( $title, 0, -1 );
@@ -1312,7 +1312,7 @@ function bp_activity_feed_item_description() {
 		else
 			$content = $activities_template->activity->action . ' ' . $activities_template->activity->content;
 
-		return apply_filters( 'bp_get_activity_feed_item_description', html_entity_decode( str_replace( '%s', '', $content ) ) );
+		return apply_filters( 'bp_get_activity_feed_item_description', ent2ncr( convert_chars( str_replace( '%s', '', $content ) ) ) );
 	}
 
 /**
