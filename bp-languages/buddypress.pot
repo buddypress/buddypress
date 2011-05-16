@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-05-15 23:30:07+00:00\n"
+"POT-Creation-Date: 2011-05-16 12:30:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4097,7 +4097,7 @@ msgid "Activity that I have been mentioned in."
 msgstr ""
 
 #: bp-themes/bp-default/activity/index.php:75
-#: bp-activity/bp-activity-functions.php:116
+#: bp-activity/bp-activity-functions.php:114
 msgid "@%s Mentions"
 msgstr ""
 
@@ -4692,27 +4692,27 @@ msgstr ""
 msgid "[Read more]"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:119
+#: bp-activity/bp-activity-functions.php:117
 msgid "You have %1$d new activity mentions"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:123
+#: bp-activity/bp-activity-functions.php:121
 msgid "%1$s mentioned you in an activity update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:525
+#: bp-activity/bp-activity-functions.php:523
 msgid "Posted an update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:664
+#: bp-activity/bp-activity-functions.php:662
 msgid "%s posted an update:"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:717
+#: bp-activity/bp-activity-functions.php:715
 msgid "%s posted a new activity comment:"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:940
+#: bp-activity/bp-activity-functions.php:938
 msgid "Thumbnail"
 msgstr ""
 
