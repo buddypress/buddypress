@@ -221,6 +221,7 @@ class BP_Component {
 	 * @param arr $sub_nav Optional
 	 */
 	function _setup_nav( $main_nav = '', $sub_nav = '' ) {
+
 		// No sub nav items without a main nav item
 		if ( !empty( $main_nav ) ) {
 			bp_core_new_nav_item( $main_nav );

@@ -143,10 +143,6 @@ class BP_Members_Component extends BP_Component {
 	function _setup_nav() {
 		global $bp;
 
-		// Stop if there is no user displayed and not logged in
-		if ( !is_user_logged_in() && empty( $bp->displayed_user->id ) )
-			return;
-
 		// Add 'Profile' to the main navigation
 		if ( !bp_is_active( 'xprofile' ) ) {
 			$main_nav = array(
@@ -159,8 +155,8 @@ class BP_Members_Component extends BP_Component {
 			);
 
 			// User links
-			$user_domain   = ( !empty( $bp->displayed_user->domain ) )               ? $bp->displayed_user->domain               : $bp->loggedin_user->domain;
-			$user_login    = ( !empty( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
+			$user_domain   = ( isset( $bp->displayed_user->domain ) )               ? $bp->displayed_user->domain               : $bp->loggedin_user->domain;
+			$user_login    = ( isset( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
 			$profile_link  = trailingslashit( $user_domain . $bp->profile->slug );
 
 			// Add the subnav items to the profile

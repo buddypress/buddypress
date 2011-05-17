@@ -110,10 +110,6 @@ class BP_XProfile_Component extends BP_Component {
 	function _setup_nav() {
 		global $bp;
 
-		// Stop if there is no user displayed
-		if ( empty( $bp->displayed_user->id ) )
-			return;
-
 		// Add 'Profile' to the main navigation
 		$main_nav = array(
 			'name'                => __( 'Profile', 'buddypress' ),
