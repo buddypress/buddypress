@@ -147,9 +147,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 		case 'group_invite':
 			$group_id = $item_id;
-
 			$group = new BP_Groups_Group( $group_id );
-			$user_url = bp_core_get_user_domain( $bp->loggedin_user->id );
 
 			if ( (int)$total_items > 1 )
 				return apply_filters( 'bp_groups_multiple_group_invite_notification', '<a href="' . $bp->loggedin_user->domain . $bp->groups->slug . '/invites/?n=1" title="' . __( 'Group Invites', 'buddypress' ) . '">' . sprintf( __( 'You have %d new group invitations', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );
@@ -163,6 +161,4 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 	return false;
 }
-
-
 ?>
