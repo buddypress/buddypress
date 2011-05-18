@@ -91,6 +91,9 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 	if ( !$domain = wp_cache_get( 'bp_user_domain_' . $user_id, 'bp' ) ) {
 		$username = bp_core_get_username( $user_id, $user_nicename, $user_login );
 
+		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ) 
+			$username = rawurlencode( $username );
+
 		// If we are using a members slug, include it.
 		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
 			$domain = bp_get_root_domain() . '/' . $bp->members->root_slug . '/' . $username;
