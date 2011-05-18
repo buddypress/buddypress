@@ -503,7 +503,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
  * @param string $alt Alternate text to use in image tag. Defaults to blank
  * @return <type>
  */
-function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt ) {
+function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = '' ) {
 	global $pagenow;
 
 	// Do not filter if inside WordPress options page
