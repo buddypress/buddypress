@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-05-18 20:30:19+00:00\n"
+"POT-Creation-Date: 2011-05-18 22:30:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3187,7 +3187,7 @@ msgstr ""
 msgid "You"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:614
+#: bp-members/bp-members-functions.php:617
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
