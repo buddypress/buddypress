@@ -442,17 +442,17 @@ function bp_core_get_userlink_by_email( $email ) {
 }
 
 /**
- * Returns the user link for the user based on user's username
+ * Returns the user link for the user based on the supplied identifier
  *
- * @package BuddyPress Core
- * @param $username str The username for the user.
- * @uses bp_core_get_userlink() BuddyPress function to get a userlink by user ID.
+ * @param $username str If BP_ENABLE_USERNAME_COMPATIBILITY_MODE is set, this will be user_login, otherwise it will be user_nicename.
  * @return str The link to the users home base. False on no match.
  */
 function bp_core_get_userlink_by_username( $username ) {
-	global $wpdb;
+	if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+		$user_id = bp_core_get_userid( $username );
+	else
+		$user_id = bp_core_get_userid_from_nicename( $username ); 
 
-	$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) );
 	return apply_filters( 'bp_core_get_userlink_by_username', bp_core_get_userlink( $user_id, false, false, true ) );
 }
 
