@@ -176,7 +176,10 @@ function bp_forums_bbpress_install() {
 	else
 		$file = &$initial_write;
 
-	$file = substr( $file, 0, -2 );
+	$file = trim( $file );
+	if ( '?>' == substr( $file, -2, 2 ) )
+		$file = substr( $file, 0, -2 );
+
 	$file .= "\n" .   '$bb->custom_user_table = \'' . $wpdb->users . '\';';
 	$file .= "\n" .   '$bb->custom_user_meta_table = \'' . $wpdb->usermeta . '\';';
 	$file .= "\n\n" . '$bb->uri = \'' . BP_PLUGIN_URL . '/bp-forums/bbpress/\';';
