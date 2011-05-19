@@ -124,7 +124,7 @@ function bp_activity_screen_single_activity_permalink() {
 	}
 
 	// Allow access to be filtered
-	$has_access = apply_filters( 'bp_activity_permalink_access', $has_access, &$activity );
+	$has_access = apply_filters_ref_array( 'bp_activity_permalink_access', array( $has_access, &$activity ) );
 
 	// Allow additional code execution
 	do_action( 'bp_activity_screen_single_activity_permalink', $activity, $has_access );

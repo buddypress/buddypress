@@ -55,7 +55,7 @@ function bp_activity_action_permalink_router() {
 	}
 
 	// Allow redirect to be filtered
-	if ( !$redirect = apply_filters( 'bp_activity_permalink_redirect_url', $redirect, &$activity ) )
+	if ( !$redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) ) )
 		bp_core_redirect( bp_get_root_domain() );
 
 	// Redirect to the actual activity permalink page
