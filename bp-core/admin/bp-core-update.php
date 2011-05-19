@@ -1098,9 +1098,10 @@ function bp_core_update( $disabled ) {
 }
 
 function bp_update_db_stuff() {
+	$bp_prefix = bp_core_get_table_prefix();
 	// Rename the old user activity cached table if needed.
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_activity_user_activity_cached%'" ) )
-		$wpdb->query( "RENAME TABLE {$wpdb->base_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp_prefix}bp_activity_user_activity_cached%'" ) )
+		$wpdb->query( "RENAME TABLE {$bp_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
 
 	// Rename fields from pre BP 1.2
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->activity->table_name}%'" ) ) {
@@ -1121,11 +1122,11 @@ function bp_update_db_stuff() {
 		bp_core_add_illegal_names();
 
 	// Update and remove the message threads table if it exists
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$wpdb->base_prefix}bp_messages_threads%'" ) ) {
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp_prefix}bp_messages_threads%'" ) ) {
 		$update = BP_Messages_Thread::update_tables();
 
 		if ( $update )
-			$wpdb->query( "DROP TABLE {$wpdb->base_prefix}bp_messages_threads" );
+			$wpdb->query( "DROP TABLE {$bp_prefix}bp_messages_threads" );
 	}
 
 }
