@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-05-19 17:30:21+00:00\n"
+"POT-Creation-Date: 2011-05-19 21:30:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -689,7 +689,7 @@ msgid "Groups"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:453 bp-core/bp-core-template.php:348
-#: bp-groups/bp-groups-buddybar.php:57 bp-forums/bp-forums-admin.php:183
+#: bp-groups/bp-groups-buddybar.php:57 bp-forums/bp-forums-admin.php:186
 #: bp-forums/bp-forums-loader.php:111 bp-forums/bp-forums-loader.php:194
 #: bp-members/bp-members-buddybar.php:184
 msgid "Forums"
