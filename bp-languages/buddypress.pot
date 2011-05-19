@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-05-18 22:30:19+00:00\n"
+"POT-Creation-Date: 2011-05-19 17:30:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -320,12 +320,12 @@ msgstr ""
 msgid "There were no members found, please try another filter."
 msgstr ""
 
-#: bp-core/admin/bp-core-schema.php:199
+#: bp-core/admin/bp-core-schema.php:207
 msgctxt "First XProfile group name"
 msgid "Base"
 msgstr ""
 
-#: bp-core/admin/bp-core-schema.php:200
+#: bp-core/admin/bp-core-schema.php:208
 msgctxt "XProfile fullname field name"
 msgid "Name"
 msgstr ""
@@ -334,7 +334,7 @@ msgstr ""
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:23 bp-core/admin/bp-core-update.php:1194
+#: bp-core/admin/bp-core-admin.php:23 bp-core/admin/bp-core-update.php:1195
 #: bp-core/bp-core-functions.php:196 bp-members/bp-members-signup.php:566
 msgid "BuddyPress"
 msgstr ""
@@ -526,7 +526,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-update.php:66 bp-core/admin/bp-core-update.php:80
 #: bp-core/admin/bp-core-update.php:176 bp-core/admin/bp-core-update.php:223
-#: bp-core/admin/bp-core-update.php:1162
+#: bp-core/admin/bp-core-update.php:1163
 #: bp-themes/bp-default/groups/create.php:269
 msgid "Finish"
 msgstr ""
@@ -539,11 +539,11 @@ msgstr ""
 msgid "Database Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1191
+#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1192
 msgid "Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1189
+#: bp-core/admin/bp-core-update.php:133 bp-core/admin/bp-core-update.php:1190
 msgid "Setup"
 msgstr ""
 
@@ -854,15 +854,15 @@ msgstr ""
 msgid "Paste all these rules into a new <code>.htaccess</code> file in the root of your WordPress installation and save the file. Once you're done, please hit the \"Save and Next\" button to continue."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1135
+#: bp-core/admin/bp-core-update.php:1136
 msgid "Installation was successful. The available options have now been updated, please continue with your selection."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1273
+#: bp-core/admin/bp-core-update.php:1274
 msgid "BuddyPress has been updated! Please run the <a href=\"%s\">update wizard</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1278
+#: bp-core/admin/bp-core-update.php:1279
 msgid "BuddyPress was successfully installed! Please run the <a href=\"%s\">installation wizard</a>."
 msgstr ""
 
