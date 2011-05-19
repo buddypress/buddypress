@@ -26,8 +26,10 @@ if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 	require_once( WP_PLUGIN_DIR . '/bp-custom.php' );
 
 // Define on which blog ID BuddyPress should run
-if ( !defined( 'BP_ROOT_BLOG' ) )
-	define( 'BP_ROOT_BLOG', 1 );
+if ( !defined( 'BP_ROOT_BLOG' ) ) {
+	$current_site = get_current_site();
+	define( 'BP_ROOT_BLOG', $current_site->blog_id );
+}
 
 // Path and URL
 if ( !defined( 'BP_PLUGIN_DIR' ) )
