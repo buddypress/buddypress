@@ -888,9 +888,6 @@ Class BP_XProfile_ProfileData {
 		if ( !$user_ids )
 			$user_ids = $bp->displayed_user->id;
 
-		if ( !$bp->profile )
-			xprofile_setup_globals();
-
 		if ( is_array( $user_ids ) ) {
 			$user_ids = implode( ',', (array) $user_ids );
 			$data = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$user_ids})", $field_id ) );
@@ -909,9 +906,6 @@ Class BP_XProfile_ProfileData {
 
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
-
-		if ( !$bp->profile )
-			xprofile_setup_globals();
 
 		$field_sql = '';
 

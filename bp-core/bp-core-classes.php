@@ -374,10 +374,6 @@ class BP_Core_User {
 
 		// Fetch the user's full name
 		if ( bp_is_active( 'xprofile' ) && 'alphabetical' != $type ) {
-			// Ensure xprofile globals are set
-			if ( !defined( 'BP_XPROFILE_FULLNAME_FIELD_NAME' ) )
-				xprofile_setup_globals();
-
 			$names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id as id, pd.value as fullname FROM {$bp->profile->table_name_fields} pf, {$bp->profile->table_name_data} pd WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} )", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
 			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
 				foreach ( (array)$names as $name ) {

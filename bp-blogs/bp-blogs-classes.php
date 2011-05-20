@@ -75,9 +75,6 @@ Class BP_Blogs_Blog {
 	function get( $type, $limit = false, $page = false, $user_id = 0, $search_terms = false ) {
 		global $bp, $wpdb;
 
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
 		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
 			$hidden_sql = "AND wb.public = 1";
 		else
@@ -125,19 +122,12 @@ Class BP_Blogs_Blog {
 	function delete_blog_for_all( $blog_id ) {
 		global $wpdb, $bp;
 
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
 		bp_blogs_delete_blogmeta( $blog_id );
-
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE blog_id = %d", $blog_id ) );
 	}
 
 	function delete_blog_for_user( $blog_id, $user_id = null ) {
 		global $wpdb, $bp;
-
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
 
 		if ( !$user_id )
 			$user_id = $bp->loggedin_user->id;
@@ -148,9 +138,6 @@ Class BP_Blogs_Blog {
 	function delete_blogs_for_user( $user_id = null ) {
 		global $wpdb, $bp;
 
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
 		if ( !$user_id )
 			$user_id = $bp->loggedin_user->id;
 
@@ -159,9 +146,6 @@ Class BP_Blogs_Blog {
 
 	function get_blogs_for_user( $user_id = 0, $show_hidden = false ) {
 		global $bp, $wpdb;
-
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
 
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
@@ -189,9 +173,6 @@ Class BP_Blogs_Blog {
 	function get_blog_ids_for_user( $user_id = 0 ) {
 		global $bp, $wpdb;
 
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
@@ -201,17 +182,11 @@ Class BP_Blogs_Blog {
 	function is_recorded( $blog_id ) {
 		global $bp, $wpdb;
 
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->blogs->table_name} WHERE blog_id = %d", $blog_id ) );
 	}
 
 	function total_blog_count_for_user( $user_id = null ) {
 		global $bp, $wpdb;
-
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
 
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
@@ -225,9 +200,6 @@ Class BP_Blogs_Blog {
 
 	function search_blogs( $filter, $limit = null, $page = null ) {
 		global $wpdb, $bp;
-
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
 
 		$filter = like_escape( $wpdb->escape( $filter ) );
 
@@ -246,11 +218,7 @@ Class BP_Blogs_Blog {
 	function get_all( $limit = null, $page = null ) {
 		global $bp, $wpdb;
 
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
 		$hidden_sql = !is_super_admin() ? "AND wb.public = 1" : '';
-
 		$pag_sql = ( $limit && $page ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
 
 		$paged_blogs = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$hidden_sql} {$pag_sql}" ) );
@@ -261,9 +229,6 @@ Class BP_Blogs_Blog {
 
 	function get_by_letter( $letter, $limit = null, $page = null ) {
 		global $bp, $wpdb;
-
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
 
 		$letter = like_escape( $wpdb->escape( $letter ) );
 
@@ -306,14 +271,10 @@ Class BP_Blogs_Blog {
 	function is_hidden( $blog_id ) {
 		global $wpdb;
 
-		if ( !$bp->blogs )
-			bp_blogs_setup_globals();
-
 		if ( !(int)$wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT public FROM {$wpdb->base_prefix}blogs WHERE blog_id = %d", $blog_id ) ) )
 			return true;
 
 		return false;
 	}
 }
-
 ?>

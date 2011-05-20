@@ -151,10 +151,6 @@ function xprofile_delete_field( $field_id ) {
 function xprofile_get_field_data( $field, $user_id = 0 ) {
 	global $bp;
 
-	// This is required because of a call to bp_core_get_user_displayname() in bp_core_setup_globals()
-	if ( !isset( $bp->profile->id ) )
-		xprofile_setup_globals();
-
 	if ( empty( $user_id ) )
 		$user_id = $bp->displayed_user->id;
 

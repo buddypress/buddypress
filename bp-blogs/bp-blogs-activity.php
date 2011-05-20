@@ -25,14 +25,6 @@ function bp_blogs_record_activity( $args = '' ) {
 	if ( !bp_is_active( 'activity' ) )
 		return false;
 
-	/**
-	 * Because blog, comment, and blog post code execution happens before
-	 * anything else we may need to manually instantiate the activity
-	 * component globals.
-	 */
-	if ( !$bp->activity && bp_is_active( 'activity' ) )
-		bp_activity_setup_globals();
-
 	$defaults = array(
 		'user_id'           => $bp->loggedin_user->id,
 		'action'            => '',
