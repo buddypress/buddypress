@@ -131,11 +131,12 @@ function messages_send_notice( $subject, $message ) {
 }
 
 function messages_delete_thread( $thread_ids ) {
+	do_action( 'messages_before_delete_thread', $thread_ids );
 
-	if ( is_array($thread_ids) ) {
+	if ( is_array( $thread_ids ) ) {
 		$error = 0;
-		for ( $i = 0; $i < count($thread_ids); $i++ ) {
-			if ( !$status = BP_Messages_Thread::delete($thread_ids[$i]) )
+		for ( $i = 0; $i < count( $thread_ids ); $i++ ) {
+			if ( !$status = BP_Messages_Thread::delete( $thread_ids[$i]) )
 				$error = 1;
 		}
 
@@ -146,7 +147,7 @@ function messages_delete_thread( $thread_ids ) {
 
 		return true;
 	} else {
-		if ( !BP_Messages_Thread::delete($thread_ids) )
+		if ( !BP_Messages_Thread::delete( $thread_ids ) )
 			return false;
 
 		do_action( 'messages_delete_thread', $thread_ids );
@@ -224,5 +225,4 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 
 	return false;
 }
-
 ?>

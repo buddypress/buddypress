@@ -1,5 +1,4 @@
 <?php
-
 /*******************************************************************************
  * Action Functions
  *
@@ -100,6 +99,7 @@ function bp_members_action_delete_user() {
 		check_admin_referer( 'delete-user' );
 
 		$errors = false;
+		do_action( 'bp_members_before_action_delete_user', $errors );
 
 		if ( bp_core_delete_account( $bp->displayed_user->id ) ) {
 			bp_core_add_message( sprintf( __( '%s has been deleted from the system.', 'buddypress' ), $bp->displayed_user->fullname ) );
@@ -135,5 +135,4 @@ function bp_core_get_random_member() {
 	}
 }
 add_action( 'bp_actions', 'bp_core_get_random_member' );
-
 ?>

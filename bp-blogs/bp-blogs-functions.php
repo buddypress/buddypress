@@ -318,6 +318,7 @@ function bp_blogs_remove_blog( $blog_id ) {
 	global $bp;
 
 	$blog_id = (int)$blog_id;
+	do_action( 'bp_blogs_before_remove_blog', $blog_id );
 
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 
@@ -333,6 +334,8 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 
 	$blog_id = (int)$blog_id;
 	$user_id = (int)$user_id;
+
+	do_action( 'bp_blogs_before_remove_blog_for_user', $blog_id, $user_id );
 
 	BP_Blogs_Blog::delete_blog_for_user( $blog_id, $user_id );
 
@@ -356,6 +359,8 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
+
+	do_action( 'bp_blogs_before_remove_post', $blog_id, $post_id, $user_id );
 
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'secondary_item_id' => $post_id, 'component' => $bp->blogs->slug, 'type' => 'new_blog_post' ) );
@@ -399,6 +404,8 @@ function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
 
 function bp_blogs_remove_data_for_blog( $blog_id ) {
 	global $bp;
+
+	do_action( 'bp_blogs_before_remove_data_for_blog', $blog_id );
 
 	// If this is regular blog, delete all data for that blog.
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
@@ -528,6 +535,8 @@ function bp_blogs_remove_data( $user_id ) {
 	if ( !is_multisite() )
 		return false;
 
+	do_action( 'bp_blogs_before_remove_data', $user_id );
+
 	// If this is regular blog, delete all data for that blog.
 	BP_Blogs_Blog::delete_blogs_for_user( $user_id );
 
@@ -536,5 +545,4 @@ function bp_blogs_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user',  'bp_blogs_remove_data' );
 add_action( 'delete_user',       'bp_blogs_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_blogs_remove_data' );
-
 ?>
