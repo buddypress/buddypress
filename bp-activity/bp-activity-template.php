@@ -207,14 +207,13 @@ class BP_Activity_Template {
  *
  * Based on the $args passed, bp_has_activities() populates the $activities_template global.
  *
- * @package BuddyPress Activity
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
- *
+ * @global BP_Activity_Template $activities_template
+ * @global object $bp Global BuddyPress settings object
  * @param mixed $args Arguments for limiting the contents of the activity loop. Can be passed as an associative array or as a URL argument string
  * @return bool Returns true when activities are found
  */
 function bp_has_activities( $args = '' ) {
-	global $bp, $activities_template;
+	global $activities_template, $bp;
 
 	/***
 	 * Set the defaults based on the current page. Any of these will be overridden

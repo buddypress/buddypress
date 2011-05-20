@@ -12,7 +12,7 @@
  * directory page. If they are, it will set up the directory and load the members directory template.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @uses wp_enqueue_script() Loads a JS script into the header of the page.
  * @uses bp_core_load_template() Loads a specific template file.
  */
@@ -22,7 +22,7 @@
  * Must be a site admin for this function to run.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_members_action_set_spammer_status() {
 	global $bp, $wpdb, $wp_version;
@@ -86,7 +86,7 @@ add_action( 'bp_actions', 'bp_members_action_set_spammer_status' );
  * Allows a site admin to delete a user from the adminbar menu.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_members_action_delete_user() {
 	global $bp;

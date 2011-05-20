@@ -54,7 +54,7 @@ if ( !function_exists( 'bp_dtheme_setup' ) ) :
  * To override bp_dtheme_setup() in a child theme, add your own bp_dtheme_setup to your child theme's
  * functions.php file.
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @since 1.3
  */
 function bp_dtheme_setup() {
@@ -132,7 +132,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
 /**
  * Enqueue theme javascript safely
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
  * @since 1.3
  */
@@ -528,7 +528,7 @@ if ( !function_exists( 'bp_dtheme_main_nav' ) ) :
  *
  * Used when the custom menus haven't been configured.
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @param array Menu arguments from wp_nav_menu()
  * @see wp_nav_menu()
  * @since 1.3

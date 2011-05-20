@@ -54,7 +54,7 @@ add_action( 'bp_init', 'bp_core_set_avatar_constants', 3 );
  * Fetches an avatar from a BuddyPress object. Supports user/group/blog as
  * default, but can be extended to include your own custom components too.
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @global $current_blog WordPress global containing information and settings for the current blog being viewed.
  * @param array $args Determine the output of this function
  * @return string Formatted HTML <img> element, or raw avatar URL based on $html arg

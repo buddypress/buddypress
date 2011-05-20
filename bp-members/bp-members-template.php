@@ -619,7 +619,7 @@ function bp_total_site_member_count() {
  * @package BuddyPress Core
  * @todo Move to a back-compat file?
  * @deprecated Does not seem to be called anywhere in the core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_get_loggedin_user_nav() {
 	global $bp;
@@ -661,7 +661,7 @@ function bp_get_loggedin_user_nav() {
  * yourself.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_get_displayed_user_nav() {
 	global $bp;

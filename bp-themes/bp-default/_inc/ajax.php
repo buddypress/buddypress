@@ -597,7 +597,7 @@ add_action( 'wp_ajax_messages_delete', 'bp_dtheme_ajax_messages_delete' );
  *
  * AJAX handler for autocomplete. Displays friends only, unless BP_MESSAGES_AUTOCOMPLETE_ALL is defined
  *
- * @global object $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object object $bp Global BuddyPress settings object
  * @return none
  */
 function bp_dtheme_ajax_messages_autocomplete_results() {

@@ -14,7 +14,7 @@ function bp_forums_is_installed_correctly() {
  * Convenience function to determine if the forum directory has been disabled
  * by the site admin.
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @return bool True if forum is disabled
  * @since 1.3
  */

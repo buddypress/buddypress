@@ -18,7 +18,7 @@
  * explicitly defined.
  *
  * @package BuddyPress Core Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_core_define_slugs() {
 	global $bp;
@@ -375,7 +375,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
  * Otherwise, it will fall back to the normal WP display_name, or user_nicename, depending on what has been set.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @uses wp_cache_get() Will try and fetch the value from the cache, rather than querying the DB again.
  * @uses get_userdata() Fetches the WP userdata for a specific user.
  * @uses xprofile_set_field_data() Will update the field data for a user based on field name and user id.
@@ -512,7 +512,7 @@ function bp_core_is_user_deleted( $user_id ) {
  * Fetch every post that is authored by the given user for the current blog.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @global $wpdb WordPress user data for the current logged in user.
  * @return array of post ids.
  */
@@ -529,7 +529,7 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
  * Allows a user to completely remove their account from the system
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @uses is_super_admin() Checks to see if the user is a site administrator.
  * @uses wpmu_delete_user() Deletes a user from the system on multisite installs.
  * @uses wp_delete_user() Deletes a user from the system on singlesite installs.

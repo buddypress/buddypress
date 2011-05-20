@@ -5,7 +5,7 @@
  * tables are set up.
  *
  * @package BuddyPress XProfile
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @global $wpdb WordPress DB access object.
  * @uses is_super_admin() returns true if the current user is a site admin, false if not
  * @uses bp_xprofile_install() runs the installation of DB tables for the xprofile component

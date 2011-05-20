@@ -13,7 +13,7 @@
  * The function will delete the active avatar for a user.
  *
  * @package BuddyPress Xprofile
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @uses bp_core_delete_avatar() Deletes the active avatar for the logged in user.
  * @uses add_action() Runs a specific function for an action when it fires.
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)

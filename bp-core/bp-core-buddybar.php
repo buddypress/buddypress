@@ -4,7 +4,7 @@
  * Adds a navigation item to the main navigation array used in BuddyPress themes.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_core_new_nav_item( $args = '' ) {
 	global $bp;
@@ -86,7 +86,7 @@ function bp_core_new_nav_item( $args = '' ) {
  * Modify the default subnav item to load when a top level nav item is clicked.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_core_new_nav_default( $args = '' ) {
 	global $bp;
@@ -125,7 +125,7 @@ function bp_core_new_nav_default( $args = '' ) {
  * plugins have registered their navigation items.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_core_sort_nav_items() {
 	global $bp;
@@ -156,7 +156,7 @@ add_action( 'admin_head', 'bp_core_sort_nav_items' );
  * Adds a navigation item to the sub navigation array used in BuddyPress themes.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_core_new_subnav_item( $args = '' ) {
 	global $bp;
@@ -305,7 +305,7 @@ function bp_core_remove_subnav_item( $parent_id, $slug ) {
  *
  * @package BuddyPress Core
  * @param $parent_id The id of the parent navigation item.
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_core_reset_subnav_items( $parent_slug ) {
 	global $bp;

@@ -1172,7 +1172,7 @@ add_action( 'admin_footer', 'bp_core_wizard_thickbox' );
  * Adds the "BuddyPress" admin submenu item to the Site Admin tab.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @global $wpdb WordPress DB access object.
  * @uses add_submenu_page() WP function to add a submenu item
  */

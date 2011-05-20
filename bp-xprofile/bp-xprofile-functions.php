@@ -144,7 +144,7 @@ function xprofile_delete_field( $field_id ) {
  * @package BuddyPress Core
  * @param mixed $field The ID of the field, or the $name of the field.
  * @param int $user_id The ID of the user
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @uses BP_XProfile_ProfileData::get_value_byid() Fetches the value based on the params passed.
  * @return mixed The profile field data.
  */
@@ -186,7 +186,7 @@ function xprofile_get_field_data( $field, $user_id = 0 ) {
  * @param $field The ID of the field, or the $name of the field.
  * @param $user_id The ID of the user
  * @param $value The value for the field you want to set for the user.
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @uses xprofile_get_field_id_from_name() Gets the ID for the field based on the name.
  * @return true on success, false on failure.
  */
@@ -282,7 +282,7 @@ function xprofile_get_field_id_from_name( $field_name ) {
  * @package BuddyPress Core
  * @param $user_id User ID of the user to get random data for
  * @param $exclude_fullname whether or not to exclude the full name field as random data.
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @global $wpdb WordPress DB access object.
  * @global $current_user WordPress global variable containing current logged in user information
  * @uses xprofile_format_profile_field() Formats profile field data so it is suitable for display.

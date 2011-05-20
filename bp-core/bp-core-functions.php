@@ -177,7 +177,7 @@ add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_admin
  * Adds the "BuddyPress" admin submenu item to the Site Admin tab.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @uses is_super_admin() returns true if the current user is a site admin, false if not
  * @uses add_submenu_page() WP function to add a submenu item
  */
@@ -213,7 +213,7 @@ add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_a
  * @package BuddyPress Core
  * @since 1.3
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @uses is_super_admin() to check current user permissions before showing the notices
  * @uses bp_is_root_blog()
  */
@@ -252,7 +252,7 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  * @package BuddyPress Core
  * @since 1.3
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @param string $notice The notice you are adding to the queue
  */
 function bp_core_add_admin_notice( $notice ) {
@@ -505,7 +505,7 @@ add_action( 'bp_actions', 'bp_core_setup_message' );
  * The hook action 'template_notices' is used to call this function, it is not called directly.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_core_render_message() {
 	global $bp;
@@ -752,7 +752,7 @@ function bp_core_add_illegal_names() {
  * A javascript free implementation of the search functions in BuddyPress
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @param string $slug The slug to redirect to for searching.
  */
 function bp_core_action_search_site( $slug = '' ) {

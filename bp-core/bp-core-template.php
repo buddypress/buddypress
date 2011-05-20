@@ -11,7 +11,7 @@
  * or not to highlight a particular sub nav item.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @uses bp_get_user_nav() Renders the navigation for a profile of a currently viewed user.
  */
 function bp_get_options_nav() {
@@ -68,7 +68,7 @@ function bp_get_options_title() {
  * like a group, or a friend. Basically an avatar that appears in the sub nav options bar.
  *
  * @package BuddyPress Core
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  */
 function bp_has_options_avatar() {
 	global $bp;
@@ -636,7 +636,7 @@ function bp_root_slug( $component = '' ) {
 	 * @package BuddyPress Core
 	 * @since 1.3
 	 *
-	 * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+	 * @global object $bp Global BuddyPress settings object
 	 * @param string $component Optional. Defaults to the current component
 	 * @return string $root_slug The root slug
 	 */
@@ -669,7 +669,7 @@ function bp_root_slug( $component = '' ) {
  * Return the component name based on the current root slug
  *
  * @since BuddyPress {r3923}
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @param str $root_slug Needle to our active component haystack
  * @return mixed False if none found, component name if found
  */
@@ -844,7 +844,7 @@ function bp_is_root_component( $component_name ) {
  * Checks if the site's front page is set to the specified BuddyPress component
  * page in wp-admin's Settings > Reading screen.
  *
- * @global $bp The global BuddyPress settings variable created in bp_core_setup_globals()
+ * @global object $bp Global BuddyPress settings object
  * @global $current_blog WordPress global for the current blog
  * @param string $component Optional; Name of the component to check for.
  * @return bool True If the specified component is set to be the site's front page.
