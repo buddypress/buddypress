@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-05-21 17:30:18+00:00\n"
+"POT-Creation-Date: 2011-05-21 22:30:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3321,46 +3321,52 @@ msgstr ""
 msgid "Read the rest of this entry &rarr;"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:32 bp-themes/bp-default/search.php:41
-#: bp-themes/bp-default/archive.php:41 bp-themes/bp-default/single.php:33
+#: bp-themes/bp-default/index.php:30 bp-themes/bp-default/page.php:20
+#: bp-themes/bp-default/onecolumn-page.php:31
+#: bp-themes/bp-default/archive.php:39 bp-themes/bp-default/single.php:30
+msgid "Pages: "
+msgstr ""
+
+#: bp-themes/bp-default/index.php:33 bp-themes/bp-default/search.php:41
+#: bp-themes/bp-default/archive.php:42 bp-themes/bp-default/single.php:33
 msgid "Tags: "
 msgstr ""
 
-#: bp-themes/bp-default/index.php:32 bp-themes/bp-default/attachment.php:50
-#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/archive.php:41
+#: bp-themes/bp-default/index.php:33 bp-themes/bp-default/attachment.php:50
+#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/archive.php:42
 #: bp-themes/bp-default/single.php:33
 msgid "No Comments &#187;"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:32 bp-themes/bp-default/attachment.php:50
-#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/archive.php:41
+#: bp-themes/bp-default/index.php:33 bp-themes/bp-default/attachment.php:50
+#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/archive.php:42
 #: bp-themes/bp-default/single.php:33
 msgid "1 Comment &#187;"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:32 bp-themes/bp-default/attachment.php:50
-#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/archive.php:41
+#: bp-themes/bp-default/index.php:33 bp-themes/bp-default/attachment.php:50
+#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/archive.php:42
 #: bp-themes/bp-default/single.php:33
 msgid "% Comments &#187;"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:43 bp-themes/bp-default/search.php:17
+#: bp-themes/bp-default/index.php:44 bp-themes/bp-default/search.php:17
 #: bp-themes/bp-default/search.php:51 bp-themes/bp-default/archive.php:16
-#: bp-themes/bp-default/archive.php:52
+#: bp-themes/bp-default/archive.php:53
 msgid "&larr; Previous Entries"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:44 bp-themes/bp-default/search.php:18
+#: bp-themes/bp-default/index.php:45 bp-themes/bp-default/search.php:18
 #: bp-themes/bp-default/search.php:52 bp-themes/bp-default/archive.php:17
-#: bp-themes/bp-default/archive.php:53
+#: bp-themes/bp-default/archive.php:54
 msgid "Next Entries &rarr;"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:50 bp-themes/bp-default/archive.php:59
+#: bp-themes/bp-default/index.php:51 bp-themes/bp-default/archive.php:60
 msgid "Not Found"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:51
+#: bp-themes/bp-default/index.php:52
 msgid "Sorry, but you are looking for something that isn't here."
 msgstr ""
 
@@ -3734,11 +3740,6 @@ msgstr ""
 
 #: bp-themes/bp-default/page.php:18 bp-themes/bp-default/onecolumn-page.php:29
 msgid "<p class=\"serif\">Read the rest of this page &rarr;</p>"
-msgstr ""
-
-#: bp-themes/bp-default/page.php:20 bp-themes/bp-default/onecolumn-page.php:31
-#: bp-themes/bp-default/single.php:30
-msgid "<strong>Pages:</strong> "
 msgstr ""
 
 #: bp-themes/bp-default/page.php:21 bp-themes/bp-default/onecolumn-page.php:32
