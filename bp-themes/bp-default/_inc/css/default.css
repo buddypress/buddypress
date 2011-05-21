@@ -1666,7 +1666,7 @@ div#new-topic-post {
 /* > WordPress Blog Styles
 -------------------------------------------------------------- */
 
-body.home-page .sticky .date {
+.sticky .date {
 	background: #fff9db;
 	border-top: 1px solid #ffe8c4;
 	border-bottom: 1px solid #ffe8c4;
