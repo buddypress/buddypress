@@ -487,6 +487,9 @@ function bp_core_load_admin_bar() {
 		// Keep the WP admin bar from loading
 		show_admin_bar( false );
 
+		if ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
+			return;
+
 		// Admin bar styles
 		$stylesheet = get_blog_option( BP_ROOT_BLOG, 'stylesheet' );
 
