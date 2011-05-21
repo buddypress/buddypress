@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-05-21 12:30:09+00:00\n"
+"POT-Creation-Date: 2011-05-21 17:30:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3308,7 +3308,6 @@ msgstr ""
 
 #: bp-themes/bp-default/index.php:24 bp-themes/bp-default/attachment.php:22
 #: bp-themes/bp-default/search.php:33 bp-themes/bp-default/archive.php:33
-#: bp-themes/bp-default/single.php:20
 msgid "Permanent Link to"
 msgstr ""
 
