@@ -1698,6 +1698,7 @@ h2.posttitle a {
 .edit-link,
 .page-link {
 	clear: both;
+	font-weight: bold;
 }
 .navigation,
 .paged-navigation,
