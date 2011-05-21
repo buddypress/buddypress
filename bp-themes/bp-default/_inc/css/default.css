@@ -14,7 +14,6 @@ body {
 	min-width: 960px;
 	max-width: 1250px;
 	margin: 0 auto;
-	padding-top: 0 !important; /* Remove the top padding space for the admin bar in this theme */
 }
 h1,
 h2,

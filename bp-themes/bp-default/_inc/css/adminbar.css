@@ -1,6 +1,6 @@
 body,
 body.wp-admin {
-	padding-top: 25px;
+	padding-top: 25px !important;
 }
 #wp-admin-bar {
 	position: fixed;
