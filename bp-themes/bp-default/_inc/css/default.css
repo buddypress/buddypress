@@ -1718,9 +1718,6 @@ h2.posttitle a {
 	float: left;
 	margin-right: 15px;
 }
-p {
-	margin: 0 0 20px 0;
-}
 div.page ul,
 div.page ol,
 div.page dl,
@@ -1778,6 +1775,7 @@ blockquote p {
 }
 div.post table,
 div.page table {
+	margin-bottom: 15px;
 	border-collapse: collapse;
 	border-spacing: 0;
 	border: 1px solid #eee;
@@ -1881,6 +1879,7 @@ img.alignleft {
 	text-align: center;
 	background-color: #f3f3f3;
 	padding-top: 4px;
+	margin-bottom: 15px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
