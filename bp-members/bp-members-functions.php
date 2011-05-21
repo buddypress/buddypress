@@ -91,7 +91,7 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 	if ( !$domain = wp_cache_get( 'bp_user_domain_' . $user_id, 'bp' ) ) {
 		$username = bp_core_get_username( $user_id, $user_nicename, $user_login );
 
-		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ) 
+		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
 			$username = rawurlencode( $username );
 
 		// If we are using a members slug, include it.
@@ -385,6 +385,8 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
 function bp_core_get_user_displayname( $user_id_or_username ) {
 	global $bp;
 
+	$fullname = '';
+
 	if ( !$user_id_or_username )
 		return false;
 
@@ -405,7 +407,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 
 				if ( !empty( $ud->display_name ) )
 					$fullname = $ud->display_name;
-				else
+				elseif ( !empty( $ud->user_nicename ) )
 					$fullname = $ud->user_nicename;
 
 				xprofile_set_field_data( 1, $user_id, $fullname );
@@ -415,7 +417,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 
 			if ( !empty( $ud->display_name ) )
 				$fullname = $ud->display_name;
-			else
+			elseif ( !empty( $ud->user_nicename ) )
 				$fullname = $ud->user_nicename;
 		}
 
@@ -454,7 +456,7 @@ function bp_core_get_userlink_by_username( $username ) {
 	if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
 		$user_id = bp_core_get_userid( $username );
 	else
-		$user_id = bp_core_get_userid_from_nicename( $username ); 
+		$user_id = bp_core_get_userid_from_nicename( $username );
 
 	return apply_filters( 'bp_core_get_userlink_by_username', bp_core_get_userlink( $user_id, false, false, true ) );
 }
