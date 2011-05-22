@@ -14,26 +14,29 @@ function bp_members_screen_signup() {
 	global $bp, $wpdb;
 
 	if ( !bp_is_current_component( 'register' ) )
-		return false;
+		return;
 
 	// Not a directory
 	bp_update_is_directory( false, 'register' );
 
-	if ( bp_is_component_front_page( 'register' ) && ( is_user_logged_in() || !bp_get_signup_allowed() ) )
-		bp_core_redirect( bp_get_root_domain() . '/' . bp_get_members_root_slug() );
-
 	// If the user is logged in, redirect away from here
-	if ( is_user_logged_in() )
-		bp_core_redirect( bp_get_root_domain() );
+	if ( is_user_logged_in() ) {
+		if ( bp_is_component_front_page( 'register' ) )
+			bp_core_redirect( bp_get_root_domain() . '/' . bp_get_members_root_slug() );
+		else
+			bp_core_redirect( bp_get_root_domain() );
 
-	// If signups are disabled, just re-direct
-	if ( !bp_get_signup_allowed() )
-		bp_core_redirect( bp_get_root_domain() );
+		return;
+	}
 
 	$bp->signup->step = 'request-details';
 
+ 	if ( !bp_get_signup_allowed() ) {
+		$bp->signup->step = 'registration-disabled';
+	}
+
 	// If the signup page is submitted, validate and save
-	if ( isset( $_POST['signup_submit'] ) ) {
+	elseif ( isset( $_POST['signup_submit'] ) ) {
 
 		// Check the nonce
 		check_admin_referer( 'bp_new_signup' );

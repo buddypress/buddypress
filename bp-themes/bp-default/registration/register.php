@@ -9,6 +9,15 @@
 
 			<form action="" name="signup_form" id="signup_form" class="standard-form" method="post" enctype="multipart/form-data">
 
+			<?php if ( 'registration-disabled' == bp_get_current_signup_step() ) : ?>
+				<?php do_action( 'template_notices' ) ?>
+				<?php do_action( 'bp_before_registration_disabled' ) ?>
+
+					<p><?php _e( 'User registration is currently not allowed.', 'buddypress' ); ?></p>
+
+				<?php do_action( 'bp_after_registration_disabled' ); ?>
+			<?php endif; // registration-disabled signup setp ?>
+
 			<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 
 				<h2><?php _e( 'Create an Account', 'buddypress' ) ?></h2>
