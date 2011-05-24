@@ -601,8 +601,6 @@ function bp_dtheme_comment_form( $default_labels ) {
 
 	$new_labels = array(
 		'comment_field'        => '<p class="form-textarea"><label for="comment">' . __( 'Comment', 'buddypress' ) . '</label><textarea name="comment" id="comment" cols="60" rows="10" aria-required="true"></textarea></p>',
-		'comment_notes_after'  => '',
-		'comment_notes_before' => '',
 		'fields'               => apply_filters( 'comment_form_default_fields', $fields ),
 		'logged_in_as'         => '<p class="log-in-out">' . sprintf( __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s">Log out?</a>', 'buddypress' ), bp_loggedin_user_domain(), $user_identity, wp_logout_url( get_permalink() ) ) . '</p>',
 		'must_log_in'          => '<p class="alert">' . sprintf( __( 'You must be <a href="%1$s">logged in</a> to post a comment.', 'buddypress' ), wp_login_url( get_permalink() ) )	. '</p>'

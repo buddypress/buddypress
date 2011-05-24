@@ -872,6 +872,7 @@ a.loading {
 .standard-form#sidebar-login-form label {
 	margin-top: 5px;
 }
+.form-allowed-tags,
 .standard-form input[type=text] {
 	width: 75%;
 }
