@@ -439,11 +439,11 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 
 					<?php if ( 1 == $depth ) : ?>
 						&middot; <a href="#comment-<?php comment_ID() ?>"><?php _e( 'View', 'buddypress' ) ?></a>
-					<?php else: ?>
+					<?php elseif ( comments_open() ) : ?>
 						&middot; <?php echo comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => __( 'Reply', 'buddypress' ) ) ) ?>
 					<?php endif; ?>
 
-					<?php edit_comment_link( __( 'Edit', 'buddypress' ), '&middot; ', '' ) ?>
+					<?php edit_comment_link( __( 'Edit', 'buddypress' ), '&middot; ', '' ); ?>
 				</p>
 			</div>
 
@@ -453,7 +453,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 
 			<?php comment_text() ?>
 
-			<?php if ( 1 == $depth ) : ?>
+			<?php if ( 1 == $depth && comments_open() ) : ?>
 				<div class="comment-options">
 					<?php echo comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?>
 				</div>
