@@ -128,14 +128,12 @@ sup {
 	z-index: 1000;
 }
 #header #search-bar {
-	position: absolute;
-	top: 25px;
-	right: 0;
-	width: 100%;
+	margin-top: 5px;
 	text-align: right;
+	width: 100%;
 }
 #header #search-bar .padder {
-	padding: 10px 20px;
+	padding: 10px 15px 0 20px;
 }
 #header #search-bar input[type=text] {
 	-moz-border-radius: 3px;
@@ -151,12 +149,9 @@ sup {
 	margin-left: 4px;
 }
 #header h1 {
-	bottom: 30px;
-	line-height: 230%;
-	left: 20px;
+	float: left;
 	margin-bottom: 0;
-	position: absolute;
-	width: 44%;
+	margin-top: 0;
 }
 #header h1 a {
 	color: #fff;
