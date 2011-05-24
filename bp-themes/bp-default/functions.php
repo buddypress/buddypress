@@ -433,16 +433,18 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 
 		<div class="comment-content">
 			<div class="comment-meta">
-				<a href="<?php echo get_comment_author_url() ?>" rel="nofollow"><?php echo get_comment_author() ?></a> <?php echo _n( 'said:', 'replied:', $depth, 'buddypress' ) ?></a>
-				<span class="time-since">&nbsp; <?php comment_date() ?></span>
+				<p>
+					<a href="<?php echo get_comment_author_url() ?>" rel="nofollow"><?php echo get_comment_author() ?></a> <?php echo _n( 'said:', 'replied:', $depth, 'buddypress' ) ?>
+					<span class="time-since">&nbsp; <?php comment_date() ?></span>
 
-				<?php if ( 1 == $depth ) : ?>
-					&middot; <a href="#comment-<?php comment_ID() ?>"><?php _e( 'View', 'buddypress' ) ?></a>
-				<?php else: ?>
-					&middot; <?php echo comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => __( 'Reply', 'buddypress' ) ) ) ?>
-				<?php endif; ?>
+					<?php if ( 1 == $depth ) : ?>
+						&middot; <a href="#comment-<?php comment_ID() ?>"><?php _e( 'View', 'buddypress' ) ?></a>
+					<?php else: ?>
+						&middot; <?php echo comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => __( 'Reply', 'buddypress' ) ) ) ?>
+					<?php endif; ?>
 
-				<?php edit_comment_link( __( 'Edit', 'buddypress' ), '&middot; ', '' ) ?>
+					<?php edit_comment_link( __( 'Edit', 'buddypress' ), '&middot; ', '' ) ?>
+				</p>
 			</div>
 
 			<?php if ( $comment->comment_approved == '0' ) : ?>
