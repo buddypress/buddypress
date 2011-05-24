@@ -183,7 +183,7 @@ function bp_forums_bbpress_install() {
 	$file .= "\n" .   '$bb->custom_user_table = \'' . $wpdb->users . '\';';
 	$file .= "\n" .   '$bb->custom_user_meta_table = \'' . $wpdb->usermeta . '\';';
 	$file .= "\n\n" . '$bb->uri = \'' . BP_PLUGIN_URL . '/bp-forums/bbpress/\';';
-	$file .= "\n" .   '$bb->name = \'' . get_blog_option( BP_ROOT_BLOG, 'name' ) . ' ' . __( 'Forums', 'buddypress' ) . '\';';
+	$file .= "\n" .   '$bb->name = \'' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . ' ' . __( 'Forums', 'buddypress' ) . '\';';
 
 	if ( is_multisite() )
 		$file .= "\n" .   '$bb->wordpress_mu_primary_blog_id = ' . BP_ROOT_BLOG . ';';
