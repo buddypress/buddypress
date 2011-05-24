@@ -364,8 +364,10 @@ div#sidebar div.item-options {
 	padding: 5px 15px;
 	font-size: 11px;
 }
+#footer-widget-area div.item-content {
+	margin-left: 38px;
+}
 #footer-widget-area div.item-meta,
-#footer-widget-area div.item-content,
 div#sidebar div.item-meta,
 div#sidebar div.item-content {
 	margin-left: 38px;
@@ -523,7 +525,7 @@ ul.single-line li {
 }
 ul.item-list li img.avatar {
 	float: left;
-	margin: 0 10px 10px 0;
+	margin: 0 10px 15px 0;
 }
 ul.item-list li div.item-title,
 ul.item-list li h4 {
@@ -1147,14 +1149,17 @@ form#whats-new-form #whats-new-submit {
 -------------------------------------------------------------- */
 
 ul.activity-list li {
-	padding: 20px 0 0 0;
+	padding: 10px 0 0;
 	overflow: hidden;
+}
+.activity-list .activity-avatar {
+	float: left;
 }
 ul.activity-list > li:first-child {
 	padding-top: 5px;
 }
 ul.activity-list li.has-comments {
-	padding-bottom: 20px;
+	padding-bottom: 10px;
 }
 body.activity-permalink ul.activity-list li.has-comments {
 	padding-bottom: 0;
@@ -1275,6 +1280,9 @@ body.activity-permalink .activity-list li .activity-header > p {
 	font-size: 11px;
 	color: #888;
 	line-height: 220%;
+}
+.activity-header {
+	margin-right: 130px;
 }
 .activity-list .activity-content .activity-header img.avatar {
 	float: none !important;
@@ -1436,7 +1444,6 @@ body.activity-permalink div.activity-comments ul li {
 	border-width: 1px;
 	padding: 10px 0 0;
 }
-div.activity-comments ul li p:last-child,
 .commentlist .comment-content a:first-child {
 	margin-bottom: 10px;
 }
@@ -1817,6 +1824,9 @@ div.post-content {
 p.date span:first-child {
 	font-style: italic;
 }
+.entry {
+	margin-bottom: 15px;
+}
 p.date,
 p.postmetadata {
 	color: #888;
@@ -1828,7 +1838,6 @@ p.postmetadata {
 	border-top: 1px solid #e4e4e4;
 }
 p.postmetadata {
-	margin-top: 15px;
 	clear: left;
 	overflow: hidden;
 }
@@ -1914,7 +1923,7 @@ dd.wp-caption p.wp-caption-text,
 }
 #comments ol.commentlist {
 	border-bottom: 1px solid #e4e4e4;
-	margin-bottom: 30px;
+	margin: 0 0 30px 0;
 }
 ol.commentlist li {
 	list-style: none;
@@ -1942,7 +1951,6 @@ div.comment-options {
 	color: #888;
 	font-size: 11px;
 	margin: 10px 0;
-	padding: 0 0 3px;
 }
 div.comment-meta em {
 	font-style: normal;
@@ -1964,6 +1972,9 @@ div.comment-meta .comment-highlight a:hover,
 	background: #059AE7;
 	border-color: #059AE7;
 	color: #fff;
+}
+#reply-title {
+	margin-top: 0;
 }
 #reply-title small {
 	float: right;
@@ -1994,7 +2005,7 @@ div.comment-options a.comment-reply-link:hover {
 }
 .commentlist ul.children {
 	background: #f5f5f5;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	margin-left: 75px;
 	padding: 1px 10px;
 	-moz-border-radius: 4px;
@@ -2053,6 +2064,9 @@ div.comment-options a.comment-reply-link:hover {
 	padding: 10px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
+}
+#respond .form-submit {
+	margin-bottom: 0;
 }
 ol.commentlist #respond {
 	margin-left: 75px;
