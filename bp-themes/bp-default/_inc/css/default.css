@@ -1927,6 +1927,7 @@ dd.wp-caption p.wp-caption-text,
 }
 ol.commentlist li {
 	list-style: none;
+	clear: left;
 }
 ol.commentlist div.comment-avatar-box {
 	float: left;
