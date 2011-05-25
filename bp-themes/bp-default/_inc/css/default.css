@@ -1824,7 +1824,7 @@ div.post-content {
 p.date span:first-child {
 	font-style: italic;
 }
-.entry {
+div.post .entry {
 	margin-bottom: 15px;
 }
 p.date,
