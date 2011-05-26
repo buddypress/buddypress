@@ -1149,7 +1149,7 @@ form#whats-new-form #whats-new-submit {
 -------------------------------------------------------------- */
 
 ul.activity-list li {
-	padding: 10px 0 0;
+	padding: 15px 0 0;
 	overflow: hidden;
 }
 .activity-list .activity-avatar {
@@ -1159,7 +1159,7 @@ ul.activity-list > li:first-child {
 	padding-top: 5px;
 }
 ul.activity-list li.has-comments {
-	padding-bottom: 10px;
+	padding-bottom: 15px;
 }
 body.activity-permalink ul.activity-list li.has-comments {
 	padding-bottom: 0;
@@ -1168,7 +1168,7 @@ body.activity-permalink ul.activity-list li.has-comments {
 	position: relative;
 	font-size: 11px;
 	min-height: 35px;
-	padding: 12px 0 0 0;
+	padding: 15px 0 0 0;
 }
 .activity-list li.mini div.activity-meta {
 	margin: 0;
@@ -1271,7 +1271,7 @@ body.activity-permalink .activity-list li .activity-content {
 body.activity-permalink .activity-list li .activity-header > p {
 	background: url( ../images/activity_arrow.gif ) top left no-repeat;
 	margin-left: -35px;
-	padding: 5px 0 0 38px;
+	padding: 5px 0 0 35px;
 	height: 35px;
 	margin-bottom: 0;
 }
@@ -1333,6 +1333,7 @@ span.highlight {
 }
 body.activity-permalink .activity-content .activity-inner,
 body.activity-permalink .activity-content blockquote {
+	margin-left: 0;
 	margin-top: 5px;
 }
 
@@ -1458,7 +1459,10 @@ div.activity-comments ul li > ul {
 	margin-left: 20px;
 }
 body.activity-permalink div.activity-comments ul li > ul {
-	margin-top: 15px;
+	margin-top: 10px;
+}
+body.activity-permalink div.activity-comments > ul {
+	padding-left: 15px;
 }
 div.activity-comments div.acomment-avatar img {
 	border-width: 2px !important;
@@ -1679,7 +1683,7 @@ div#new-topic-post {
 div.page,
 div.post,
 div.attachment {
-	margin: 0 0 40px 0;
+	margin: 0 0 30px 0;
 	overflow: hidden;
 }
 div.page:last-child,
@@ -1847,10 +1851,6 @@ p.postmetadata {
 .comments {
 	float: right;
 }
-div.page img,
-div.post img {
-	margin-bottom: 15px;
-}
 img.wp-smiley {
 	padding: 0 !important;
 	margin: 0 !important;
@@ -1898,7 +1898,7 @@ dd.wp-caption p.wp-caption-text,
 .wp-caption p.wp-caption-text {
 	font-size: 0.9em;
 	line-height: 17px;
-	padding: 0 4px 5px 0;
+	padding: 5px 4px 5px 0;
 	margin: 0;
 }
 #content .gallery {
@@ -1907,6 +1907,9 @@ dd.wp-caption p.wp-caption-text,
 #content .gallery .gallery-item {
 	margin-bottom: 0;
 	margin-left: 0;
+}
+.gallery-item img {
+	margin-bottom: 15px;
 }
 .gallery .gallery-caption {
 	color: #555;
@@ -1926,12 +1929,13 @@ dd.wp-caption p.wp-caption-text,
 	margin: 0 0 30px 0;
 }
 ol.commentlist li {
-	list-style: none;
 	clear: left;
+	list-style: none;
+	margin-bottom: 15px;
 }
 ol.commentlist div.comment-avatar-box {
 	float: left;
-	margin: 10px 10px 10px 0;
+	margin: 15px 10px 15px 0;
 }
 .commentlist ul.children div.comment-avatar-box {
 	float: left;
@@ -1951,7 +1955,7 @@ div.comment-meta,
 div.comment-options {
 	color: #888;
 	font-size: 11px;
-	margin: 10px 0;
+	margin: 15px 0;
 }
 div.comment-meta em {
 	font-style: normal;
@@ -2062,7 +2066,7 @@ div.comment-options a.comment-reply-link:hover {
 	background-color: #fafafa;
 	border: 1px solid #e5e5e5;
 	border-radius: 4px;
-	padding: 10px;
+	padding: 15px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 }
