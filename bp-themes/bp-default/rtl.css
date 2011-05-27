@@ -22,7 +22,6 @@ body {
 .clear {
 	clear: right;
 }
-
 img.avatar {
 	float: right;
 }
@@ -36,17 +35,14 @@ img.avatar {
 	right: auto;
 	text-align: left;
 }
-
 #header #search-bar input[type=text] {
 	margin-left: 4px;
 	margin-right: 0;
 }
-
 #header #search-bar input[type=submit] {
 	margin-right: 4px;
 	margin-left: 0;
 }
-
 #header h1 {
 	left: auto;
 	right: 20px;
@@ -60,31 +56,26 @@ img.avatar {
 	left: 15px;
 	right: auto;
 }
-
 #nav li {
 	margin-left: auto;
 	margin-right: 5px;
 	float: right;
 }
-
 #nav li li { 
 	margin-left: auto;
 	margin-right: 0; 
 }
-
 #nav ul,
 #nav .sfhover ul ul,
 #nav :hover ul ul {
 	left: auto;
 	right: -9999px;
 }
-
 #nav .sfhover ul,
 #nav :hover ul {
 	left: auto;
 	right: 0;
 }
-
 #nav .sfhover ul .sfhover > ul,
 #nav :hover ul :hover > ul {
 	left: auto;
@@ -116,33 +107,27 @@ div#sidebar {
 	-webkit-border-top-right-radius: 0;
 	background: url( _inc/images/sidebar_back.gif ) top right repeat-x;
 }
-
 div#sidebar div#sidebar-me img.avatar {
 	float: right;
 	margin: 0 0 15px 10px;
 }
-
 div#sidebar ul#bp-nav {
 	clear: right;
 }
-
 #footer-widget-area h3.widgettitle,
 div#sidebar h3.widgettitle {
 	margin: 25px -19px 10px -20px;
 	clear: right;
 }
-
 #footer-widget-area ul.item-list img.avatar,
 div#sidebar ul.item-list img.avatar {
 	margin-left: 10px;
 	margin-right: 0;
 }
-
 #footer-widget-area div.item-options,
 div#sidebar div.item-options {
 	margin: -10px -19px 0 -20px;
 }
-
 #footer-widget-area div.item-meta,
 #footer-widget-area div.item-content,
 div#sidebar div.item-meta,
@@ -166,7 +151,6 @@ div#content {
 	-webkit-border-bottom-right-radius: 6px;
 	-webkit-border-bottom-left-radius: 0;
 }
-
 div#content .padder {
 	margin-left: 225px;
 	margin-right: 0;
@@ -181,11 +165,9 @@ div#content .padder {
 	-webkit-border-bottom-right-radius: 6px;
 	-webkit-border-bottom-left-radius: 0;
 }
-
 div#content .left-menu {
 	float: right;
 }
-
 div#content .main-column {
 	margin-right: 190px;
 	margin-left: 0;
@@ -199,11 +181,9 @@ div#item-header img.avatar {
 	float: right;
 	margin: 0 0 25px 15px;
 }
-
 div#item-header span.activity {
 	margin: 0 4px 5px 0;
 }
-
 div#item-header div#item-actions {
 	float: left;
 	margin: 0 15px 15px 0;
@@ -212,7 +192,6 @@ div#item-header div#item-actions {
 div#item-header ul li {
 	float: left;
 }
-
 div#item-header div.generic-button,
 div#item-header a.button {
 	float: right;
@@ -227,11 +206,9 @@ ul.item-list li img.avatar {
 	float: right;
 	margin: 0 0 10px 10px;
 }
-
 ul.item-list li div.item-desc {
 	margin: 10px 64px 0 0;
 }
-
 ul.item-list li div.action {
 	left: 0;
 	right: auto;
@@ -245,32 +222,26 @@ ul.item-list li div.action {
 div.item-list-tabs {
 	clear: right;
 }
-
 div.item-list-tabs ul li {
 	float: right;
 	margin: 5px 5px 0 0;
 }
-
 div.item-list-tabs ul li:first-child {
 	margin-left: 0;
 	margin-right: 20px;
 }
-
 div.item-list-tabs ul li.last {
 	float: left;
 	margin: 7px 0 0 20px;
 }
-
 ul li.loading a {
 	background-position: 8% 50%;
 	padding-left: 30px !important;
 	padding-right: 0 !important;
 }
-
 div#item-nav ul li.loading a {
 	background-position: 12% 50%;
 }
-
 div.item-list-tabs ul li.feed a {
 	background-position: right center;
 	padding-right: 20px;
@@ -302,7 +273,6 @@ div.dir-search {
 div.pagination .pag-count {
 	float: right;
 }
-
 div.pagination .pagination-links {
 	float: left;
 }
@@ -323,7 +293,6 @@ div.accept, div.reject {
 	margin-left: 0;
 	margin-right: 10px;
 }
-
 ul.button-nav li {
 	float: right;
 	margin: 0 0 10px 10px;
@@ -336,7 +305,6 @@ ul.button-nav li {
 .ajax-loader {
 	background-position: right center !important;
 }
-
 a.loading {
 	background-position: 5% 50% !important;
 	padding-left: 25px !important;
@@ -350,31 +318,25 @@ a.loading {
 .standard-form#signup_form div.submit {
 	float: left;
 }
-
 .standard-form#signup_form div.signup-avatar {
 	margin-left: 15px;
 	margin-right: 0;
 }
-
 .standard-form div.submit input {
 	margin-left: 15px;
 	margin-right: 0;
 }
-
 .standard-form div.radio ul {
 	margin: 10px 38px 15px 0;
 }
-
 .standard-form #basic-details-section,
 .standard-form #blog-details-section,
 .standard-form #profile-details-section {
 	float: right;
 }
-
 .standard-form #profile-details-section {
 	float: left;
 }
-
 .standard-form #blog-details-section {
 	clear: right;
 }
@@ -386,25 +348,21 @@ table tr td.label {
 	border-left: 1px solid #eaeaea;
 	border-right: 0;
 }
-
 table.forum tr.closed td.td-title {
 	padding-right: 35px;
 	padding-left: 0;
 	background-position: 5% 50%;
 }
-
 table.forum tr > td:first-child,
 table.forum tr > th:first-child {
 	padding-right: 15px;
 	padding-left: 0;
 }
-
 table.forum tr > td:last-child,
 table.forum tr > th:last-child {
 	padding-left: 15px;
 	padding-right: 0;
 }
-
 table.forum tr th#th-title,
 table.forum tr th#th-poster,
 table.forum tr th#th-group,
@@ -413,7 +371,6 @@ table.forum td.td-group,
 table.forum td.td-title {
 	text-align: right;
 }
-
 table.forum td img.avatar {
 	margin-left: 5px;
 	margin-right: 0;
@@ -427,16 +384,13 @@ form#whats-new-form h5 {
 	margin-right: 76px;
 	margin-left: 0;
 }
-
 form#whats-new-form #whats-new-avatar {
 	float: right;
 }
-
 form#whats-new-form #whats-new-content {
 	margin-right: 54px;
 	padding-right: 22px;
 }
-
 form#whats-new-form #whats-new-submit {
 	float: left;
 }
@@ -450,41 +404,33 @@ form#whats-new-form #whats-new-submit {
 	margin-right: 36px;
 	margin-left: 0;
 }
-
 .activity-list li.activity_comment .activity-avatar img.avatar,
 .activity-list li.activity_comment .activity-avatar img.FB_profile_pic {
 	margin-right: 20px;
 	margin-left: 0;
 }
-
 body.activity-permalink .activity-list li .activity-avatar img.avatar,
 body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
 	margin-right: 0;
 }
-
 .activity-list li.mini .activity-content {
 	margin-left: 175px;
 	margin-right: 0;
 }
-
 .activity-list li.mini .activity-content p {
 	float: right;
 }
-
 .activity-list li.mini .activity-meta {
 	left: 0;
 	right: auto;
 }
-
 body.activity-permalink .activity-list li.mini .activity-meta {
 	left: 15px;
 	right: auto;
 }
-
 .activity-list li.mini .activity-comments {
 	clear: right;
 }
-
 .activity-list li .activity-inreplyto {
 	margin-right: 70px;
 	margin-left: 0;
@@ -492,26 +438,22 @@ body.activity-permalink .activity-list li.mini .activity-meta {
 	padding-left: 0;
 	background-position: 5% 0;
 }
-
 .activity-list .activity-content {
 	margin-right: 70px;
 	margin-left: 0;
 }
-
 body.activity-permalink .activity-list li .activity-content {
 	border-left: 1px solid #ddd;
 	border-right: 0;
 	margin-right: 135px;
 	margin-left: 0;
 }
-
 body.activity-permalink .activity-list li .activity-content > p {
 	background-position: top right;
 	margin-right: -35px;
 	margin-left: 0;
 	padding: 5px 38px 0 0;
 }
-
 .activity-list .activity-content > p > a:first-child,
 span.highlight,
 .activity-list .activity-content > .comment-header > a:first-child {
@@ -520,18 +462,15 @@ span.highlight,
 	margin-left: 3px;
 	margin-right: 0;
 }
-
 .activity-list .activity-content .activity-inner,
 .activity-list .activity-content blockquote {
 	margin: 15px 5px 15px 0;
 	overflow: hidden;
 }
-
 .activity-list .activity-content img.thumbnail {
 	float: right;
 	margin: 0 0 5px 10px;
 }
-
 .activity-list li.load-more {
 	border-left: 1px solid #ddd;
 	border-right: 0;
@@ -545,81 +484,65 @@ div.activity-meta {
 	margin: 0 3px 20px 0;
 	clear: right;
 }
-
 .activity-list div.activity-meta a {
 	border-left: 1px solid #ddd;
 	border-right: 0;
 	margin-left: 3px;
 	margin-right: 0;
 }
-
 .activity-list div.activity-meta a.acomment-reply {
 	border-left: 1px solid #FFE8C4;
 	border-right: 0;
 }
-
 div.activity-comments {
 	margin: 0 75px 0 0;
 }
-
 body.activity-permalink div.activity-comments {
 	margin-right: 135px;
 	margin-left: 0;
 }
-
 div.activity-comments ul {
 	clear: right;
 }
-
 div.activity-comments ul li {
 	padding: 10px 0 10px 15px;
 	margin-right: 15px;
 	margin-left: 0;
 }
-
 body.activity-permalink div.activity-comments ul li {
 	padding: 15px 0 15px 15px;
 }
-
 div.activity-comments ul li > ul {
 	margin-right: 25px;
 	margin-left: 0;
 }
-
 div.activity-comments div.acomment-avatar img {
 	float: right;
 	margin-left: 10px;
 	margin-right: 0;
 }
-
 div.activity-comments div.acomment-content {
 	margin-right: 39px;
 	margin-right: 0;
 }
-
 div.activity-comments form.ac-form {
 	margin: 10px 33px 10px 0;
 	border-left: 1px solid #ddd;
 	border-right: 0;
 }
-
 div.activity-comments li form.ac-form {
 	margin-left: 15px;
 	margin-right: 0;
 }
-
 div.activity-comments form.root {
 	margin-right: 0;
 }
-
 div.activity-comments form.loading {
 	background-position: 88% 95%;
 }
-
 div.activity-comments form div.ac-reply-avatar {
 	float: right;
 }
-
 div.activity-comments form div.ac-reply-content {
 	margin-right: 25px;
 	margin-left: 0;
@@ -634,21 +557,17 @@ div.activity-comments form div.ac-reply-content {
 div.messages-options-nav {
 	text-align: left;
 }
-
 div#message-thread img.avatar {
 	float: right;
 	margin: 0 0 0 10px;
 }
-
 div#message-thread strong span.activity {
 	margin: 4px 10px 0 0;
 }
-
 div#message-thread div.message-content {
 	margin-right: 45px;
 	margin-left: 0;
 }
-
 div#message-thread div.message-options {
 	text-align: left;
 }
@@ -661,12 +580,10 @@ ul#topic-post-list li div.post-content {
 	margin-right: 54px;
 	margin-left: 0;
 }
-
 div.admin-links {
 	left: 25px;
 	right: auto
 }
-
 div#topic-meta div.admin-links {
 	left: 0;
 	right: auto;
@@ -681,15 +598,12 @@ div#topic-meta div.admin-links {
 .comment-navigation {
 	font-family: sans-serif;
 }
-
 .alignright {
 	float: left;
 }
-
 .alignleft {
 	float: right;
 }
-
 div.page ul,
 div.page ol,
 div.page dl,
@@ -698,54 +612,44 @@ div.post ol,
 div.post dl {
 	margin: 0 1.5em 18px 0;
 }
-
 dl {
 	margin-right: 0;
 }
-
 code {
 	font-family: "Monaco", courier, sans-serif;
 }
-
 blockquote {
 	font-family: sans-serif;
 }
-
 table th {
 	text-align: right;
 }
-
 div.author-box,
 div.comment-avatar-box {
 	float: right;
 	margin: 0 0 15px 15px;
 	font-family: sans-serif;
 }
-
 div.post-content,
 div.comment-content {
 	margin-right: 105px;
 	margin-left: 0;
 }
-
 p.date,
 p.postmetadata,
 div.comment-meta,
 div.comment-options {
 	font-family: sans-serif;
 }
-
 p.postmetadata {
 	clear: right;
 }
-
 .tags {
 	float: right;
 }
 .comments {
 	float: left;
 }
-
 dd.wp-caption p.wp-caption-text,
 .wp-caption p.wp-caption-text {
 	padding: 0 0 5px 4px;
@@ -767,41 +671,33 @@ div.comment-meta em {
 	margin-left: 19px;
 	margin-right: 0;
 }
-
 #footer-widget-area ul.item-list li img.avatar {
 	margin-right: 15px; /* border is 4px */
 	margin-left: 0;
 }
 
-/***
-* The admin bar styles.
-*/
+
+/* > Admin bar styles
+-------------------------------------------------------------- */
 
 #wp-admin-bar {
 	right: 0;
 	left: auto;
 }
-
 #wp-admin-bar div#admin-bar-logo {
 	right: 10px;
 	left: auto;
 }
-
 #wp-admin-bar li {
 	text-align: right;
 }
-
 #wp-admin-bar li.no-arrow a {
 	padding-left: 15px;
 	padding-right: 0;
 }
-
 #admin-bar-logo {
 	float: right;
 }
-
-
-/*******************/
 
 #wp-admin-bar ul li {/* all list items */
 	float: right;
@@ -809,47 +705,38 @@ div.comment-meta em {
 	padding-left: 11px;
 	padding-right: 0;
 }
-
 #wp-admin-bar ul li.no-arrow {
 	padding-left: 0;
 }
-
-
 #wp-admin-bar ul li.align-right {
 	left: 0;
 	right: auto;
 }
 
 /* second-level lists */
-
 #wp-admin-bar ul li ul {
 	right: -999em;
 	left: auto;
 	margin-right: 0;
 }
-
 #wp-admin-bar ul li ul li {
 	float: right;
 }
 
 /* third-and-above-level lists */
-
 #wp-admin-bar ul li ul ul {
 	margin: -25px 184px 0 0;
 }
-
 #wp-admin-bar ul li:hover ul,
 #wp-admin-bar ul li li:hover ul,
 #wp-admin-bar ul li.sfhover ul,
 #wp-admin-bar ul li ul li.sfhover ul {/* lists nested under hovered list items */
 	right: auto;
 }
-
 #wp-admin-bar ul li.align-right:hover ul {
 	left: 0;
 	right: auto;
 }
-
 #wp-admin-bar ul li:hover ul ul,
 #wp-admin-bar li.sfhover ul li ul {
 	right: -999em;
@@ -857,18 +744,15 @@ div.comment-meta em {
 }
 
 /* Menu item css */
-
 #wp-admin-bar img.avatar {
 	float: right;
 	margin-left: 8px;
 	margin-right: 0;
 }
-
 #wp-admin-bar span.activity {
 	margin-right: 34px;
 	margin-left: 0;
 }
-
 #wp-admin-bar ul li#bp-adminbar-notifications-menu a span {
 	margin-right: 2px;
 	margin-left: 0;
