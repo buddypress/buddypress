@@ -2,6 +2,8 @@
 
 /* Apply WordPress defined filters */
 
+add_filter( 'bp_get_the_profile_group_name',          'wp_filter_kses',       1 );
+add_filter( 'bp_get_the_profile_group_description',   'wp_filter_kses',       1 );
 add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_kses', 1 );
 add_filter( 'bp_get_the_profile_field_name',          'wp_filter_kses',       1 );
 add_filter( 'bp_get_the_profile_field_edit_value',    'wp_filter_kses',       1 );
@@ -17,6 +19,8 @@ add_filter( 'bp_get_the_profile_field_value',         'force_balance_tags' );
 add_filter( 'bp_get_the_profile_field_edit_value',    'force_balance_tags' );
 add_filter( 'bp_get_the_profile_field_edit_value',    'esc_html'           );
 
+add_filter( 'bp_get_the_profile_group_name',          'stripslashes' );
+add_filter( 'bp_get_the_profile_group_description',   'stripslashes' );
 add_filter( 'bp_get_the_profile_field_value',         'stripslashes' );
 add_filter( 'bp_get_the_profile_field_edit_value',    'stripslashes' );
 add_filter( 'bp_get_the_profile_field_name',          'stripslashes' );

@@ -28,11 +28,11 @@ Class BP_XProfile_Group {
 		if ( !$group = $wpdb->get_row( $sql ) )
 			return false;
 
-		$this->id			= $group->id;
-		$this->name			= $group->name;
-		$this->description	= $group->description;
-		$this->can_delete	= $group->can_delete;
-		$this->group_order	= $group->group_order;
+		$this->id          = $group->id;
+		$this->name        = stripslashes( $group->name );
+		$this->description = stripslashes( $group->description );
+		$this->can_delete  = $group->can_delete;
+		$this->group_order = $group->group_order;
 	}
 
 	function save() {
