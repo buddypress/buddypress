@@ -470,9 +470,8 @@ function bp_adminbar_random_menu() {
 /**
  * Handle the Admin Bar/BuddyBar business
  *
- * @todo Clean up global constants
- *
  * @global num $wp_version
+ * @todo Clean up global constants
  */
 function bp_core_load_admin_bar() {
 	global $wp_version;
@@ -491,12 +490,14 @@ function bp_core_load_admin_bar() {
 			return;
 
 		// Admin bar styles
-		$stylesheet = get_blog_option( BP_ROOT_BLOG, 'stylesheet' );
-
-		if ( file_exists( WP_CONTENT_DIR . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ) )
-			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', WP_CONTENT_URL . '/themes/' . $stylesheet . '/_inc/css/adminbar.css' ), array(), BP_VERSION );
+		if ( file_exists( get_stylesheet_directory() . '/_inc/css/adminbar.css' ) ) // Backwards compatibility
+			$stylesheet = get_stylesheet_directory_uri() . '/_inc/css/adminbar.css';
+		elseif ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
+			$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar.dev.css';
 		else
-			wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', BP_PLUGIN_URL . '/bp-themes/bp-default/_inc/css/adminbar.css' ), array(), BP_VERSION );
+			$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar.css';
+
+		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array(), BP_VERSION );
 
 		// Actions used to build the BP admin bar
 		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
@@ -511,4 +512,23 @@ function bp_core_load_admin_bar() {
 	}
 }
 
+/**
+ * Load the buddybar's RTL stylesheet if appropriate.
+ *
+ * This can't be done in bp_core_load_admin_bar() because that function is called before locale.php is included.
+ *
+ * @since 1.3
+ */
+function bp_core_load_buddybar_rtl_stylesheet() {
+	if ( !is_rtl() )
+		return;
+
+	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
+		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar-rtl.dev.css';
+	else
+		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar-rtl.css';
+
+	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), BP_VERSION );
+}
+add_action( 'wp', 'bp_core_load_buddybar_rtl_stylesheet' );
 ?>
