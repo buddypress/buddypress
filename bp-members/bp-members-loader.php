@@ -123,12 +123,13 @@ class BP_Members_Component extends BP_Component {
 
 		/** Default Profile Component *****************************************/
 		if ( !defined( 'BP_DEFAULT_COMPONENT' ) ) {
-			if ( isset( $bp->pages->activity ) && isset( $bp->activity->id ) )
+			if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) )
 				$bp->default_component = $bp->activity->id;
 			else
-				$bp->default_component = $bp->profile->id;
+				$bp->default_component = ( 'xprofile' == $bp->profile->id ) ? 'profile' : $bp->profile->id;
+
 		} else {
-			$bp->default_component     = BP_DEFAULT_COMPONENT;
+			$bp->default_component = BP_DEFAULT_COMPONENT;
 		}
 
 		if ( !$bp->current_component && $bp->displayed_user->id )
