@@ -945,6 +945,9 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) && isset( $_POST['theme'] ) ) {
 			check_admin_referer( 'bpwizard_theme' );
 
+			if ( is_multisite() && BP_ROOT_BLOG != get_current_blog_id() )
+				switch_to_blog( BP_ROOT_BLOG );
+
 			switch ( $_POST['theme'] ) {
 
 				// Activate the bp-default theme
@@ -980,6 +983,9 @@ class BP_Core_Setup_Wizard {
 					return true;
 					break;
 			}
+
+			if ( is_multisite() )
+				restore_current_blog();
 
 			return true;
 		}
