@@ -156,7 +156,7 @@ function bp_core_get_userid( $username ) {
 	if ( empty( $username ) )
 		return false;
 
-	return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_login = %s", $username ) ) );
+	return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_login = %s", $username ) ) );
 }
 
 /**
@@ -174,7 +174,7 @@ function bp_core_get_userid_from_nicename( $user_nicename ) {
 	if ( empty( $user_nicename ) )
 		return false;
 
-	return apply_filters( 'bp_core_get_userid_from_nicename', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . CUSTOM_USER_TABLE . " WHERE user_nicename = %s", $user_nicename ) ) );
+	return apply_filters( 'bp_core_get_userid_from_nicename', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_nicename = %s", $user_nicename ) ) );
 }
 
 /**
@@ -472,7 +472,7 @@ function bp_core_get_total_member_count() {
 
 	if ( !$count = wp_cache_get( 'bp_total_member_count', 'bp' ) ) {
 		$status_sql = bp_core_get_status_sql();
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM " . CUSTOM_USER_TABLE . " WHERE {$status_sql}" ) );
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->users WHERE {$status_sql}" ) );
 		wp_cache_set( 'bp_total_member_count', $count, 'bp' );
 	}
 
@@ -490,9 +490,9 @@ function bp_core_is_user_spammer( $user_id ) {
 	global $wpdb;
 
 	if ( is_multisite() )
-		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT spam FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) );
+		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT spam FROM $wpdb->users WHERE ID = %d", $user_id ) );
 	else
-		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) );
+		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM $wpdb->users WHERE ID = %d", $user_id ) );
 
 	return apply_filters( 'bp_core_is_user_spammer', $is_spammer );
 }
@@ -507,7 +507,7 @@ function bp_core_is_user_spammer( $user_id ) {
 function bp_core_is_user_deleted( $user_id ) {
 	global $wpdb;
 
-	return apply_filters( 'bp_core_is_user_spammer', (int) $wpdb->get_var( $wpdb->prepare( "SELECT deleted FROM " . CUSTOM_USER_TABLE . " WHERE ID = %d", $user_id ) ) );
+	return apply_filters( 'bp_core_is_user_spammer', (int) $wpdb->get_var( $wpdb->prepare( "SELECT deleted FROM $wpdb->users WHERE ID = %d", $user_id ) ) );
 }
 
 /**

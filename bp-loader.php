@@ -42,14 +42,7 @@ if ( !defined( 'BP_PLUGIN_DIR' ) )
 	define( 'BP_PLUGIN_DIR', WP_PLUGIN_DIR . '/buddypress' );
 
 if ( !defined( 'BP_PLUGIN_URL' ) )
-	define( 'BP_PLUGIN_URL', plugins_url( $path = '/buddypress' ) );
-
-// Define the user and usermeta table names, useful if you are using custom or shared tables.
-if ( !defined( 'CUSTOM_USER_TABLE' ) )
-	define( 'CUSTOM_USER_TABLE',      $wpdb->base_prefix . 'users' );
-
-if ( !defined( 'CUSTOM_USER_META_TABLE' ) )
-	define( 'CUSTOM_USER_META_TABLE', $wpdb->base_prefix . 'usermeta' );
+	define( 'BP_PLUGIN_URL', plugins_url( 'buddypress' ) );
 
 // The search slug has to be defined nice and early because of the way search requests are loaded
 if ( !defined( 'BP_SEARCH_SLUG' ) )

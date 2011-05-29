@@ -166,8 +166,8 @@ class BP_Friends_Friendship {
 			$sql = "SELECT DISTINCT user_id FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%' {$pag_sql}";
 			$total_sql = "SELECT COUNT(DISTINCT user_id) FROM {$bp->profile->table_name_data} WHERE user_id IN ($fids) AND value LIKE '$filter%%'";
 		} else {
-			$sql = "SELECT DISTINCT user_id FROM " . CUSTOM_USER_META_TABLE . " WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%' {$pag_sql}";
-			$total_sql = "SELECT COUNT(DISTINCT user_id) FROM " . CUSTOM_USER_META_TABLE . " WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%'";
+			$sql = "SELECT DISTINCT user_id FROM {$wpdb->usermeta} WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%' {$pag_sql}";
+			$total_sql = "SELECT COUNT(DISTINCT user_id) FROM {$wpdb->usermeta} WHERE user_id IN ($fids) AND meta_key = 'nickname' AND meta_value LIKE '$filter%%'";
 		}
 
 		$filtered_friend_ids = $wpdb->get_col($sql);
@@ -201,7 +201,7 @@ class BP_Friends_Friendship {
 	function get_bulk_last_active( $user_ids ) {
 		global $wpdb, $bp;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT meta_value as last_activity, user_id FROM " . CUSTOM_USER_META_TABLE . " WHERE meta_key = %s AND user_id IN ( {$user_ids} ) ORDER BY meta_value DESC", bp_get_user_meta_key( 'last_activity' ) ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT meta_value as last_activity, user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} ) ORDER BY meta_value DESC", bp_get_user_meta_key( 'last_activity' ) ) );
 	}
 
 	function accept($friendship_id) {
@@ -335,5 +335,4 @@ class BP_Friends_Friendship {
 		}
 	}
 }
-
 ?>
