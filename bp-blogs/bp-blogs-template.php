@@ -481,7 +481,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 }
 
 function bp_blogs_validate_blog_signup() {
-	global $wpdb, $current_user, $blogname, $blog_title, $errors, $domain, $path;
+	global $wpdb, $current_user, $blogname, $blog_title, $errors, $domain, $path, $current_site;
 
 	if ( !check_admin_referer( 'bp_blog_signup_form' ) )
 		return false;
@@ -505,8 +505,9 @@ function bp_blogs_validate_blog_signup() {
 	$meta = apply_filters( 'signup_create_blog_meta', array( 'lang_id' => 1, 'public' => $public ) ); // depreciated
 	$meta = apply_filters( 'add_signup_meta', $meta );
 
-	/* If this is a VHOST install, remove the username from the domain as we are setting this blog
-	   up inside a user domain, not the root domain. */
+	// If this is a subdomain install, set up the site inside the root domain.
+	if ( is_subdomain_install() )
+		$domain = $blogname . '.' . preg_replace( '|^www\.|', '', $current_site->domain );
 
 	wpmu_create_blog( $domain, $path, $blog_title, $current_user->id, $meta, $wpdb->siteid );
 	bp_blogs_confirm_blog_signup($domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta);
