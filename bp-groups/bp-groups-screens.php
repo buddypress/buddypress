@@ -704,44 +704,39 @@ function groups_screen_group_admin_requests() {
 		// Remove any screen notifications
 		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'new_membership_request' );
 
-		$request_action = $bp->action_variables[1];
-		$membership_id  = $bp->action_variables[2];
+		$request_action = ( !empty( $bp->action_variables[1] ) ? $bp->action_variables[1] : '' );
+		$membership_id  = ( !empty( $bp->action_variables[2] ) ? $bp->action_variables[2] : 0 );
 
-		if ( isset($request_action) && isset($membership_id) ) {
-			if ( 'accept' == $request_action && is_numeric($membership_id) ) {
+		if ( !empty( $request_action ) && !empty( $membership_id ) ) {
+			if ( 'accept' == $request_action && is_numeric( $membership_id ) ) {
 
 				// Check the nonce first.
 				if ( !check_admin_referer( 'groups_accept_membership_request' ) )
 					return false;
 
 				// Accept the membership request
-				if ( !groups_accept_membership_request( $membership_id ) ) {
+				if ( !groups_accept_membership_request( $membership_id ) )
 					bp_core_add_message( __( 'There was an error accepting the membership request, please try again.', 'buddypress' ), 'error' );
-				} else {
+				else
 					bp_core_add_message( __( 'Group membership request accepted', 'buddypress' ) );
-				}
 
-			} else if ( 'reject' == $request_action && is_numeric($membership_id) ) {
+			} elseif ( 'reject' == $request_action && is_numeric( $membership_id ) ) {
 				/* Check the nonce first. */
 				if ( !check_admin_referer( 'groups_reject_membership_request' ) )
 					return false;
 
 				// Reject the membership request
-				if ( !groups_reject_membership_request( $membership_id ) ) {
+				if ( !groups_reject_membership_request( $membership_id ) )
 					bp_core_add_message( __( 'There was an error rejecting the membership request, please try again.', 'buddypress' ), 'error' );
-				} else {
+				else
 					bp_core_add_message( __( 'Group membership request rejected', 'buddypress' ) );
-				}
-
 			}
 
 			do_action( 'groups_group_request_managed', $bp->groups->current_group->id, $request_action, $membership_id );
-
 			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/membership-requests/' );
 		}
 
 		do_action( 'groups_screen_group_admin_requests', $bp->groups->current_group->id );
-
 		bp_core_load_template( apply_filters( 'groups_template_group_admin_requests', 'groups/single/home' ) );
 	}
 }
@@ -843,6 +838,4 @@ function groups_screen_notification_settings() {
 <?php
 }
 add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
-
-
 ?>
