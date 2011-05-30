@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------
 Hello, this is the BuddyPress Default theme stylesheet.
-Please see adminbar.css in this folder for the adminbar styling.
+
 ----------------------------------------------------------------
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------
@@ -100,13 +100,13 @@ form#whats-new-form #whats-new-content {
 	padding-left: 22px;
 }
 form#whats-new-form #whats-new-textarea {
-	padding: 8px;
-	border: 1px inset #ccc;
 	background: #fff;
-	margin-bottom: 10px;
+	border: 1px inset #ccc;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	margin-bottom: 10px;
+	padding: 8px;
 }
 form#whats-new-form textarea {
 	width: 100%;
@@ -237,18 +237,18 @@ body.activity-permalink .activity-list .activity-avatar img {
 	margin-left: 70px;
 }
 body.activity-permalink .activity-list li .activity-content {
+	background: #fff;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	background: #fff;
-	padding: 15px;
-	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	margin-left: 135px;
 	font-size: 16px;
 	line-height: 150%;
 	min-height: 35px;
+	margin-left: 135px;
 	margin-right: 0;
+	padding: 15px;
 }
 body.activity-permalink .activity-list li .activity-header > p {
 	background: url( ../images/activity_arrow.gif ) top left no-repeat;
@@ -276,13 +276,13 @@ span.highlight {
 	background: #ebf7ff;
 	border-bottom: 1px solid #a1dcfa;
 	border-right: 1px solid #a1dcfa;
-	color: #059ae7;
-	padding: 3px 8px;
-	text-decoration: none;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	color: #059ae7;
 	margin-right: 3px;
+	padding: 3px 8px;
+	text-decoration: none;
 }
 .activity-list .activity-header a:first-child:hover {
 	background: #059ae7 !important;
@@ -333,16 +333,16 @@ body.activity-permalink .activity-content blockquote {
 	margin-left: 1em;
 }
 .activity-list li.load-more {
-	margin: 15px 0 !important;
-	padding: 10px 15px !important;
 	background: #f0f0f0 !important;
-	text-align: center;
-	font-size: 1.2em;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	font-size: 1.2em;
+	margin: 15px 0 !important;
+	padding: 10px 15px !important;
+	text-align: center;
 }
 .activity-list li.load-more a {
 	color: #555;
@@ -357,17 +357,17 @@ div.activity-meta {
 	clear: left;
 }
 .activity-list div.activity-meta a {
-	font-size: 11px;
 	background: #f4f4f4;
 	border-bottom: 1px solid #ddd;
 	border-right: 1px solid #ddd;
-	color: #999;
-	padding: 4px 8px;
-	text-decoration: none;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	color: #999;
+	font-size: 11px;
 	margin-right: 3px;
+	padding: 4px 8px;
+	text-decoration: none;
 }
 .activity-list div.activity-meta a.acomment-reply {
 	background: #fff9db;
@@ -403,6 +403,7 @@ div.activity-comments > ul {
 	background: #f5f5f5;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
+	border-radius: 4px;
 	padding: 0 10px 0;
 }
 div.activity-comments ul,
@@ -471,13 +472,13 @@ div.activity-comments div.acomment-meta {
 	color: #888;
 }
 div.activity-comments form.ac-form {
-	display: none;
-	margin: 10px 0 10px 33px;
 	background: #fafafa;
 	border: 1px solid #ddd;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	display: none;
+	margin: 10px 0 10px 33px;
 	padding: 8px;
 }
 div.activity-comments li form.ac-form {
@@ -496,13 +497,13 @@ div.activity-comments form.loading {
 	background-repeat: no-repeat;
 }
 div.activity-comments form .ac-textarea {
-	padding: 8px;
-	border: 1px inset #ccc;
 	background: #fff;
-	margin-bottom: 10px;
+	border: 1px inset #ccc;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	margin-bottom: 10px;
+	padding: 8px;
 }
 div.activity-comments form textarea {
 	width: 100%;
@@ -743,19 +744,19 @@ div#new-topic-post {
 }
 span.activity,
 div#message p {
-	display: inline-block;
-	font-size: 11px;
-	font-weight: normal;
 	background: #fff9db;
 	border-bottom: 1px solid #ffe8C4;
 	border-right: 1px solid #ffe8C4;
-	color: #ffa200;
-	padding: 1px 8px;
-	margin-top: 6px;
-	text-decoration: none;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	color: #ffa200;
+	display: inline-block;
+	font-size: 11px;
+	font-weight: normal;
+	margin-top: 6px;
+	padding: 1px 8px;
+	text-decoration: none;
 }
 
 
@@ -796,19 +797,20 @@ div#item-header h2 span.highlight {
 	font-size: 16px;
 }
 div#item-header h2 span.highlight span {
-	position: relative;
-	top: -2px;
-	right: -2px;
-	font-weight: bold;
-	font-size: 11px;
 	background: #a1dcfa;
-	color: #fff;
-	padding: 1px 4px;
-	margin-bottom: 2px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	vertical-align: middle;
+	border-radius: 3px;
+	color: #fff;
 	cursor: pointer;
+	font-weight: bold;
+	font-size: 11px;
+	margin-bottom: 2px;
+	padding: 1px 4px;
+	position: relative;
+	right: -2px;
+	top: -2px;
+	vertical-align: middle;
 }
 div#item-header div#item-meta {
 	font-size: 14px;
@@ -960,12 +962,14 @@ div.item-list-tabs ul li a span {
 div.item-list-tabs ul li.selected a,
 div.item-list-tabs ul li.current a {
 	background-color: #fff;
-	color: #555;
-	font-weight: bold;
 	-moz-border-radius-topleft: 3px;
 	-webkit-border-top-left-radius: 3px;
 	-moz-border-radius-topright: 3px;
 	-webkit-border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	color: #555;
+	font-weight: bold;
 }
 ul li.loading a {
 	background-image: url( ../images/ajax-loader.gif );
@@ -1007,12 +1011,12 @@ table#message-threads tr.unread td span.activity {
 li span.unread-count,
 tr.unread span.unread-count {
 	background: #dd0000;
-	padding: 2px 8px;
-	color: #fff;
-	font-weight: bold;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	color: #fff;
+	font-weight: bold;
+	padding: 2px 8px;
 }
 div.item-list-tabs ul li a span.unread-count {
 	padding: 1px 6px;
@@ -1087,14 +1091,14 @@ div#message.updated p {
 	border-color: #c4e9bd;
 }
 .standard-form#signup_form div div.error {
-	color: #fff;
 	background: #e41717;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	color: #fff;
+	margin: 0 0 10px 0;
 	padding: 6px;
 	width: 90%;
-	margin: 0 0 10px 0;
 }
 button.pending,
 button.disabled,
@@ -1137,10 +1141,10 @@ ul.button-nav li.current a {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	padding: 6px;
+	color: #888;
 	font: inherit;
 	font-size: 14px;
-	color: #888;
+	padding: 6px;
 }
 .standard-form select {
 	padding: 3px;
@@ -1247,16 +1251,16 @@ form#send-invite-form {
 	margin-top: 20px;
 }
 div#invite-list {
-	height: 400px;
-	overflow: scroll;
+	background: #f5f5f5;
+	border: 1px solid #e4e4e4;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	padding: 5px;
-	background: #f5f5f5;
-	width: 160px;
-	border: 1px solid #e4e4e4;
+	height: 400px;
 	margin: 10px 0;
+	overflow: scroll;
+	padding: 5px;
+	width: 160px;
 }
 
 
@@ -1272,16 +1276,16 @@ ul.button-nav li a,
 div.generic-button a {
 	background: url( ../images/white-grad.png ) top left repeat-x;
 	border: 1px solid #ddd;
-	padding: 3px 10px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	cursor: pointer;
 	text-decoration: none;
 	color: #888;
 	font-size: 12px;
 	font-weight: normal;
+	padding: 3px 10px;
 	vertical-align: bottom;
-	cursor: pointer;
 }
 button:hover,
 a.button:hover,
@@ -1339,6 +1343,8 @@ a:focus {
 	-webkit-border-top-left-radius: 3px;
 	-moz-border-radius-topright: 3px;
 	-webkit-border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 }
 #nav li.selected a,
 #nav > li.current-menu-item a,
@@ -1361,18 +1367,22 @@ a:focus {
 }
 #nav ul {
 	border: 1px solid #222;
-	-moz-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	-webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius-topleft: 0;
-	-webkit-border-top-left-radius: 0;
 	-moz-border-radius-topright: 0;
+	-webkit-border-top-left-radius: 0;
 	-webkit-border-top-right-radius: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	-moz-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 #nav ul li ul {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 #nav ul,
 #nav .sfhover ul ul,
@@ -1478,14 +1488,15 @@ hr {
 	margin: 20px 0;
 }
 div#container {
-	position: relative;
-	width: 100%;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
+	background: #fff;
 	border-right: 1px solid #e0e0e0;
 	border-bottom: 1px solid #e0e0e0;
-	background: #fff;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
 	overflow: hidden;
+	position: relative;
+	width: 100%;
 }
 body.activity-permalink div#container {
 	background: none;
@@ -1497,20 +1508,24 @@ body.activity-permalink div#container {
 6.1 - Content
 --------------------------------------------------------------*/
 div#content {
-	float: left;
-	width: 100%;
 	-moz-border-radius-topleft: 6px;
 	-webkit-border-top-left-radius: 6px;
 	-moz-border-radius-bottomleft: 6px;
 	-webkit-border-bottom-left-radius: 6px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	float: left;
+	width: 100%;
 }
 div#content .padder {
-	margin-right: 225px;
 	border-right: 1px solid #ddd;
 	-moz-border-radius-topleft: 6px;
 	-webkit-border-top-left-radius: 6px;
 	-moz-border-radius-bottomleft: 6px;
 	-webkit-border-bottom-left-radius: 6px;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	margin-right: 225px;
 }
 div#content .one-column {
 	margin-right: 0;
@@ -1533,6 +1548,8 @@ div#content .main-column {
 	-webkit-border-bottom-left-radius: 6px;
 	-moz-border-radius-bottomright: 6px;
 	-webkit-border-bottom-right-radius: 6px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
 	color: #fff;
 	height: 100px;
 	margin-bottom: 20px;
@@ -1549,12 +1566,12 @@ div#content .main-column {
 	padding: 10px 15px 0 20px;
 }
 #header #search-bar input[type=text] {
+	border: 1px inset #888;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	border: 1px inset #888;
-	padding: 2px;
 	margin-right: 4px;
+	padding: 2px;
 }
 #header #search-bar input[type=submit] {
 	font-size: 11px;
@@ -1583,10 +1600,10 @@ div#content .main-column {
 	background: #fff;
 	border-bottom: 1px solid #e0e0e0;
 	border-right: 1px solid #e0e0e0;
-	border-radius: 6px;
-	padding: 19px;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	padding: 19px;
 }
 #site-generator {
 	margin: 20px 20px;
@@ -1626,14 +1643,15 @@ div#content .main-column {
 6.4 - Sidebar
 --------------------------------------------------------------*/
 div#sidebar {
-	float: left;
-	width: 224px;
-	margin-left: -226px;
-	margin-top: 1px;
+	background: url( ../images/sidebar_back.gif ) top left repeat-x;
 	border-left: 1px solid #ddd;
 	-moz-border-radius-topright: 3px;
 	-webkit-border-top-right-radius: 3px;
-	background: url( ../images/sidebar_back.gif ) top left repeat-x;
+	border-top-right-radius: 3px;
+	float: left;
+	margin-left: -226px;
+	margin-top: 1px;
+	width: 224px;
 }
 div#sidebar div#sidebar-me img.avatar {
 	float: left;
@@ -1867,15 +1885,15 @@ div.comment-meta em {
 }
 div.comment-meta span.comment-highlight a {
 	background: #EBF7FF;
-	border-bottom: 1px solid #a1dcfa;
-	border-radius: 4px;
 	border-right: 1px solid #a1dcfa;
+	border-bottom: 1px solid #a1dcfa;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
 	color: #059AE7;
 	margin-right: 3px;
 	padding: 3px 8px;
 	text-decoration: none;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
 }
 div.comment-meta .comment-highlight a:hover,
 .commentlist .depth-1 > .comment-content .comment-meta a:first-child:hover {
@@ -1895,14 +1913,14 @@ div.comment-meta .comment-highlight a:hover,
 div.comment-options a.comment-reply-link {
 	background: #FFF9DB;
 	border-bottom: 1px solid #FFE8C4;
-	border-radius: 4px;
 	border-right: 1px solid #FFE8C4;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
 	color: #ffa200;
 	margin-right: 10px;
 	padding: 3px 8px;
 	text-decoration: none;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
 }
 #reply-title small a {
 	margin-right: 0;
@@ -1915,11 +1933,13 @@ div.comment-options a.comment-reply-link:hover {
 }
 .commentlist ul.children {
 	background: #f5f5f5;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
 	margin-bottom: 10px;
 	margin-left: 75px;
 	padding: 1px 10px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
+
 }
 .commentlist ul.children ul {
 	margin-left: 20px;
@@ -1970,10 +1990,10 @@ div.comment-options a.comment-reply-link:hover {
 #respond {
 	background-color: #fafafa;
 	border: 1px solid #e5e5e5;
-	border-radius: 4px;
-	padding: 15px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	padding: 15px;
 }
 #respond .form-submit {
 	margin-bottom: 0;
@@ -2005,14 +2025,15 @@ h3#reply .comments-header {
 8.3 - Gallery
 --------------------------------------------------------------*/
 .wp-caption {
-	border: 1px solid #ddd;
-	text-align: center;
 	background-color: #f3f3f3;
-	padding-top: 4px;
-	margin-bottom: 15px;
+	border: 1px solid #ddd;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	margin-bottom: 15px;
+	padding-top: 4px;
+	text-align: center;
+
 }
 .wp-caption img {
 	margin: 0;
@@ -2150,11 +2171,11 @@ pre, blockquote {
 }
 pre,
 code p {
-	padding: 15px;
 	background: #f4f4f4;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	padding: 15px;
 }
 code {
 	font-family: "Monaco", courier, sans-serif;
@@ -2188,16 +2209,16 @@ div.page table td {
 }
 div.author-box {
 	background: #f0f0f0;
-	padding: 10px;
-	float: left;
-	margin: 0 15px 15px 0;
-	font-family: georgia, times, serif;
-	font-style: italic;
-	text-align: center;
-	width: 70px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	float: left;
+	font-family: georgia, times, serif;
+	font-style: italic;
+	margin: 0 15px 15px 0;
+	padding: 10px;
+	text-align: center;
+	width: 70px;
 }
 div.author-box p,
 div.comment-avatar-box p {
