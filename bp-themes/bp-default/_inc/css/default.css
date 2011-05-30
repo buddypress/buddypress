@@ -871,7 +871,7 @@ ul.single-line li {
 }
 ul.item-list li img.avatar {
 	float: left;
-	margin: 0 10px 15px 0;
+	margin: 0 10px 0 0;
 }
 ul.item-list li div.item-title,
 ul.item-list li h4 {

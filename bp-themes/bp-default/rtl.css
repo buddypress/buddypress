@@ -204,7 +204,7 @@ div#item-header a.button {
 
 ul.item-list li img.avatar {
 	float: right;
-	margin: 0 0 10px 10px;
+	margin: 0 0 0 10px;
 }
 ul.item-list li div.item-desc {
 	margin: 10px 64px 0 0;
