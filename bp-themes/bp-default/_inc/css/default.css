@@ -72,12 +72,8 @@ a img{border:none;}
 /*--------------------------------------------------------------
 2.1 - Activity
 --------------------------------------------------------------*/
-form#whats-new-form {
-	margin-bottom: 5px;
-}
 #item-body form#whats-new-form {
 	margin: 20px 0 10px;
-	padding-bottom: 40px;
 	border-bottom: 1px solid #ddd;
 }
 .home-page form#whats-new-form {
@@ -124,6 +120,10 @@ form#whats-new-form #whats-new-options select {
 form#whats-new-form #whats-new-submit {
 	float: right;
 	margin: 0;
+}
+#whats-new-options {
+	margin-bottom: 18px;
+	overflow: auto;
 }
 
 
