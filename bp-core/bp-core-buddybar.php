@@ -445,17 +445,17 @@ function bp_adminbar_random_menu() {
 	<li class="align-right" id="bp-adminbar-visitrandom-menu">
 		<a href="#"><?php _e( 'Visit', 'buddypress' ) ?></a>
 		<ul class="random-list">
-			<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->members->root_slug ) . '?random-member' ?>"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
+			<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->members->root_slug ) . '?random-member' ?>" rel="nofollow"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
 
 			<?php if ( bp_is_active( 'groups' ) ) : ?>
 
-				<li class="alt"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->groups->root_slug ) . '?random-group' ?>"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
+				<li class="alt"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->groups->root_slug ) . '?random-group' ?>"  rel="nofollow"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
 
 			<?php if ( is_multisite() && bp_is_active( 'blogs' ) ) : ?>
 
-				<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->blogs->root_slug ) . '?random-blog' ?>"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
+				<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->blogs->root_slug ) . '?random-blog' ?>"  rel="nofollow"><?php _e( 'Random Blog', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
 
