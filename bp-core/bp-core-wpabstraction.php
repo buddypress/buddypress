@@ -24,18 +24,6 @@ if ( !is_multisite() ) {
 		}
 	}
 
-	if ( !function_exists( 'add_blog_option' ) ) {
-		function add_blog_option( $blog_id, $option_name, $option_value ) {
-			return add_option( $option_name, $option_value );
-		}
-	}
-
-	if ( !function_exists( 'update_blog_option' ) ) {
-		function update_blog_option( $blog_id, $option_name, $option_value ) {
-			return update_option( $option_name, $option_value );
-		}
-	}
-
 	if ( !function_exists( 'switch_to_blog' ) ) {
 		function switch_to_blog() {
 			return 1;
