@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-05-29 20:30:14+00:00\n"
+"POT-Creation-Date: 2011-06-04 22:30:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -248,8 +248,8 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:46 bp-core/bp-core-widgets.php:128
 #: bp-friends/bp-friends-template.php:55 bp-friends/bp-friends-template.php:72
 #: bp-groups/bp-groups-widgets.php:48 bp-groups/bp-groups-widgets.php:124
-#: bp-themes/bp-default/members/single/blogs.php:23
-#: bp-themes/bp-default/blogs/index.php:55
+#: bp-themes/bp-default/members/single/blogs.php:22
+#: bp-themes/bp-default/blogs/index.php:54
 msgid "Newest"
 msgstr ""
 
@@ -269,10 +269,10 @@ msgstr ""
 
 #: bp-core/bp-core-widgets.php:121 bp-core/bp-core-widgets.php:201
 #: bp-core/bp-core-widgets.php:270 bp-groups/bp-groups-widgets.php:117
-#: bp-themes/bp-default/forums/index.php:103
+#: bp-themes/bp-default/forums/index.php:102
 #: bp-themes/bp-default/forums/single/edit.php:49
 #: bp-themes/bp-default/groups/single/forum/edit.php:49
-#: bp-themes/bp-default/groups/single/forum.php:72
+#: bp-themes/bp-default/groups/single/forum.php:71
 msgid "Title:"
 msgstr ""
 
@@ -2352,7 +2352,7 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:260
 #: bp-xprofile/bp-xprofile-classes.php:708
-#: bp-themes/bp-default/forums/index.php:133
+#: bp-themes/bp-default/forums/index.php:132
 msgid "Cancel"
 msgstr ""
 
@@ -3765,33 +3765,33 @@ msgstr ""
 msgid "My Friends (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/members/index.php:54
-#: bp-themes/bp-default/members/single/friends.php:23
-#: bp-themes/bp-default/members/single/groups.php:23
-#: bp-themes/bp-default/members/single/forums.php:21
-#: bp-themes/bp-default/members/single/blogs.php:22
-#: bp-themes/bp-default/blogs/index.php:54
-#: bp-themes/bp-default/forums/index.php:61
-#: bp-themes/bp-default/forums/single/forum.php:37
-#: bp-themes/bp-default/groups/index.php:56
-#: bp-themes/bp-default/groups/single/members.php:15
-#: bp-themes/bp-default/groups/single/forum.php:35
+#: bp-themes/bp-default/members/index.php:53
+#: bp-themes/bp-default/members/single/friends.php:22
+#: bp-themes/bp-default/members/single/groups.php:22
+#: bp-themes/bp-default/members/single/forums.php:20
+#: bp-themes/bp-default/members/single/blogs.php:21
+#: bp-themes/bp-default/blogs/index.php:53
+#: bp-themes/bp-default/forums/index.php:60
+#: bp-themes/bp-default/forums/single/forum.php:36
+#: bp-themes/bp-default/groups/index.php:55
+#: bp-themes/bp-default/groups/single/members.php:14
+#: bp-themes/bp-default/groups/single/forum.php:34
 msgid "Last Active"
 msgstr ""
 
-#: bp-themes/bp-default/members/index.php:55
-#: bp-themes/bp-default/members/single/friends.php:24
-#: bp-themes/bp-default/groups/single/members.php:16
+#: bp-themes/bp-default/members/index.php:54
+#: bp-themes/bp-default/members/single/friends.php:23
+#: bp-themes/bp-default/groups/single/members.php:15
 msgid "Newest Registered"
 msgstr ""
 
-#: bp-themes/bp-default/members/index.php:59
-#: bp-themes/bp-default/members/single/friends.php:25
-#: bp-themes/bp-default/members/single/groups.php:26
-#: bp-themes/bp-default/members/single/blogs.php:24
-#: bp-themes/bp-default/blogs/index.php:56
-#: bp-themes/bp-default/groups/index.php:59
-#: bp-themes/bp-default/groups/single/members.php:20
+#: bp-themes/bp-default/members/index.php:58
+#: bp-themes/bp-default/members/single/friends.php:24
+#: bp-themes/bp-default/members/single/groups.php:25
+#: bp-themes/bp-default/members/single/blogs.php:23
+#: bp-themes/bp-default/blogs/index.php:55
+#: bp-themes/bp-default/groups/index.php:58
+#: bp-themes/bp-default/groups/single/members.php:19
 msgid "Alphabetical"
 msgstr ""
 
@@ -3912,27 +3912,27 @@ msgstr ""
 msgid "Editing '%s' Profile Group"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/groups.php:24
-#: bp-themes/bp-default/groups/index.php:57
+#: bp-themes/bp-default/members/single/groups.php:23
+#: bp-themes/bp-default/groups/index.php:56
 msgid "Most Members"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/groups.php:25
-#: bp-themes/bp-default/groups/index.php:58
+#: bp-themes/bp-default/members/single/groups.php:24
+#: bp-themes/bp-default/groups/index.php:57
 msgid "Newly Created"
+msgstr ""
+
+#: bp-themes/bp-default/members/single/forums.php:21
+#: bp-themes/bp-default/forums/index.php:61
+#: bp-themes/bp-default/forums/single/forum.php:37
+#: bp-themes/bp-default/groups/single/forum.php:35
+msgid "Most Posts"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/forums.php:22
 #: bp-themes/bp-default/forums/index.php:62
 #: bp-themes/bp-default/forums/single/forum.php:38
 #: bp-themes/bp-default/groups/single/forum.php:36
-msgid "Most Posts"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/forums.php:23
-#: bp-themes/bp-default/forums/index.php:63
-#: bp-themes/bp-default/forums/single/forum.php:39
-#: bp-themes/bp-default/groups/single/forum.php:37
 msgid "Unreplied"
 msgstr ""
 
@@ -4197,33 +4197,33 @@ msgstr ""
 msgid "My Topics (%s)"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:99
+#: bp-themes/bp-default/forums/index.php:98
 msgid "Create New Topic:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:106
+#: bp-themes/bp-default/forums/index.php:105
 #: bp-themes/bp-default/forums/single/edit.php:52
 #: bp-themes/bp-default/groups/single/forum/edit.php:52
-#: bp-themes/bp-default/groups/single/forum.php:75
+#: bp-themes/bp-default/groups/single/forum.php:74
 msgid "Content:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:109
+#: bp-themes/bp-default/forums/index.php:108
 #: bp-themes/bp-default/groups/single/forum/edit.php:55
-#: bp-themes/bp-default/groups/single/forum.php:78
+#: bp-themes/bp-default/groups/single/forum.php:77
 msgid "Tags (comma separated):"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:112
+#: bp-themes/bp-default/forums/index.php:111
 msgid "Post In Group Forum:"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:132
-#: bp-themes/bp-default/groups/single/forum.php:84
+#: bp-themes/bp-default/forums/index.php:131
+#: bp-themes/bp-default/groups/single/forum.php:83
 msgid "Post Topic"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:144
+#: bp-themes/bp-default/forums/index.php:143
 msgid "You are not a member of any groups so you don't have any group forums you can post in. To start posting, first find a group that matches the topic subject you'd like to start. If this group does not exist, why not <a href='%s'>create a new group</a>? Once you have joined or created the group you can post your topic in that group's forum."
 msgstr ""
 
@@ -4309,7 +4309,7 @@ msgstr ""
 msgid "There were no groups found."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/members.php:105
+#: bp-themes/bp-default/groups/single/members.php:104
 #: bp-themes/bp-default/groups/single/admin.php:225
 msgid "This group has no members."
 msgstr ""
@@ -4344,11 +4344,11 @@ msgstr ""
 msgid "Once you have built up friend connections you will be able to invite others to your group. You can send invites any time in the future by selecting the \"Send Invites\" option when viewing your new group."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum.php:66
+#: bp-themes/bp-default/groups/single/forum.php:65
 msgid "You will auto join this group when you start a new topic."
 msgstr ""
 
-#: bp-themes/bp-default/groups/single/forum.php:70
+#: bp-themes/bp-default/groups/single/forum.php:69
 msgid "Post a New Topic:"
 msgstr ""
 
