@@ -1480,6 +1480,10 @@ body {
 .clear {
 	clear: left;
 }
+.accessibly-hidden {
+	left: -999em;
+	position: absolute;
+}
 hr {
 	background-color: #e7e7e7;
 	border: 0 none;

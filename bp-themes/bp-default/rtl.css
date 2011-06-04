@@ -25,7 +25,10 @@ body {
 img.avatar {
 	float: right;
 }
-
+.accessibly-hidden {
+	left: auto;
+	right: -999em;
+}
 
 /* > Header
 -------------------------------------------------------------- */

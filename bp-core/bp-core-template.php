@@ -350,7 +350,8 @@ function bp_search_form_type_select() {
 	$options['posts'] = __( 'Posts', 'buddypress' );
 
 	// Eventually this won't be needed and a page will be built to integrate all search results.
-	$selection_box = '<select name="search-which" id="search-which" style="width: auto">';
+	$selection_box  = '<label for="search-which" class="accessibly-hidden">' . __( 'Search these:', 'buddypress' ) . '</label>';
+	$selection_box .= '<select name="search-which" id="search-which" style="width: auto">';
 
 	$options = apply_filters( 'bp_search_form_type_select_options', $options );
 	foreach( (array)$options as $option_value => $option_title )
