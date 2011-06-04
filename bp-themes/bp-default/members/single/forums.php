@@ -15,9 +15,8 @@
 
 		<li id="forums-order-select" class="last filter">
 
-			<?php _e( 'Order By:', 'buddypress' ); ?>
-
-			<select>
+			<label for="forums-order-by"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+			<select id="forums-order-by">
 				<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
 				<option value="popular"><?php _e( 'Most Posts', 'buddypress' ); ?></option>
 				<option value="unreplied"><?php _e( 'Unreplied', 'buddypress' ); ?></option>

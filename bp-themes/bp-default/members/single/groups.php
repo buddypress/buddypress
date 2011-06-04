@@ -17,8 +17,7 @@
 
 			<li id="groups-order-select" class="last filter">
 
-				<?php _e( 'Order By:', 'buddypress' ) ?>
-
+				<label for="groups-sort-by"><?php _e( 'Order By:', 'buddypress' ); ?></label>
 				<select id="groups-sort-by">
 					<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
 					<option value="popular"><?php _e( 'Most Members', 'buddypress' ); ?></option>

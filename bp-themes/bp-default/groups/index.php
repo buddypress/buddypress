@@ -50,9 +50,8 @@
 
 					<li id="groups-order-select" class="last filter">
 
-						<?php _e( 'Order By:', 'buddypress' ); ?>
-
-						<select>
+						<label for="groups-order-by"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+						<select id="groups-order-by">
 							<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
 							<option value="popular"><?php _e( 'Most Members', 'buddypress' ); ?></option>
 							<option value="newest"><?php _e( 'Newly Created', 'buddypress' ); ?></option>

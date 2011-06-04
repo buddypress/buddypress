@@ -566,7 +566,7 @@ Class BP_XProfile_Field {
 ?>
 			<div id="<?php echo $type; ?>" class="options-box" style="<?php if ( $this->type != $type ) { ?>display: none;<?php } ?> margin-left: 15px;">
 				<h4><?php _e( 'Please enter options for this Field:', 'buddypress' ); ?></h4>
-				<p><?php _e( 'Order By:', 'buddypress' ); ?>
+				<p><label for="sort_order_<?php echo $type; ?>"><?php _e( 'Order By:', 'buddypress' ); ?></label>
 					<select name="sort_order_<?php echo $type; ?>" id="sort_order_<?php echo $type; ?>" >
 						<option value="default" <?php if ( 'default' == $this->order_by ) {?> selected="selected"<?php } ?> ><?php _e( 'Order Entered', 'buddypress' ); ?></option>
 						<option value="asc" <?php if ( 'asc' == $this->order_by ) {?> selected="selected"<?php } ?>><?php _e( 'Name - Ascending', 'buddypress' ); ?></option>
