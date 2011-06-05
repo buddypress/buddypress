@@ -278,6 +278,18 @@ function bp_core_fetch_avatar( $args = '' ) {
 		return apply_filters( 'bp_core_fetch_avatar_url', $gravatar );
 }
 
+/**
+ * Delete an existing avatar
+ *
+ * Accepted values for $args are:
+ *  item_id - item id which relates to the object type.
+ *  object - the objetc type user, group, blog, etc.
+ *  avatar_dir - The directory where the avatars to be uploaded.
+ *
+ * @global object $bp BuddyPress global settings
+ * @param mixed $args
+ * @return bool Success/failure
+ */
 function bp_core_delete_existing_avatar( $args = '' ) {
 	global $bp;
 
@@ -336,6 +348,20 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 	return true;
 }
 
+/**
+ * Handles avatar uploading.
+ *
+ * The functions starts off by checking that the file has been uploaded properly using bp_core_check_avatar_upload().
+ * It then checks that the file size is within limits, and that it has an accepted file extension (jpg, gif, png).
+ * If everything checks out, crop the image and move it to its real location.
+ *
+ * @global object $bp BuddyPress global settings
+ * @param array $file The appropriate entry the from $_FILES superglobal.
+ * @param string $upload_dir_filter A filter to be applied to upload_dir
+ * @return bool Success/failure
+ * @see bp_core_check_avatar_upload()
+ * @see bp_core_check_avatar_type()
+ */
 function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	global $bp;
 
@@ -421,6 +447,23 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	return true;
 }
 
+/**
+ * Crop an uploaded avatar
+ *
+ * $args has the following parameters:
+ *  object - What component the avatar is for, e.g. "user"
+ *  avatar_dir  The absolute path to the avatar
+ *  item_id - Item ID
+ *  original_file - The absolute path to the original avatar file
+ *  crop_w - Crop width
+ *  crop_h - Crop height
+ *  crop_x - The horizontal starting point of the crop
+ *  crop_y - The vertical starting point of the crop
+ *
+ * @global object $bp BuddyPress global settings
+ * @param mixed $args
+ * @return bool Success/failure
+ */
 function bp_core_avatar_handle_crop( $args = '' ) {
 	global $bp;
 
@@ -537,20 +580,40 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 }
 add_filter( 'get_avatar', 'bp_core_fetch_avatar_filter', 10, 5 );
 
-function bp_core_check_avatar_upload($file) {
+/**
+ * Has the current avatar upload generated an error?
+ *
+ * @param array $file
+ * @return bool
+ */
+function bp_core_check_avatar_upload( $file ) {
 	if ( isset( $file['error'] ) && $file['error'] )
 		return false;
 
 	return true;
 }
 
-function bp_core_check_avatar_size($file) {
+/**
+ * Is the file size of the current avatar upload permitted?
+ *
+ * @param array $file
+ * @return bool
+ */
+function bp_core_check_avatar_size( $file ) {
 	if ( $file['file']['size'] > BP_AVATAR_ORIGINAL_MAX_FILESIZE )
 		return false;
 
 	return true;
 }
 
+/**
+ * Does the current avatar upload have an allowed file type?
+ *
+ * Permitted file types are JPG, GIF and PNG.
+ *
+ * @param string $file
+ * @return bool
+ */
 function bp_core_check_avatar_type($file) {
 	if ( ( !empty( $file['file']['type'] ) && !preg_match('/(jpe?g|gif|png)$/i', $file['file']['type'] ) ) || !preg_match( '/(jpe?g|gif|png)$/i', $file['file']['name'] ) )
 		return false;

@@ -13,28 +13,113 @@
  * @package BuddyPress Core
  */
 class BP_Core_User {
+
+	/**
+	 * ID of the user which the object relates to.
+	 *
+	 * @var integer
+	 */
 	var $id;
+
+	/**
+	 * The URL to the full size of the avatar for the user.
+	 *
+	 * @var string
+	 */
 	var $avatar;
+
+	/**
+	 * The URL to the thumb size of the avatar for the user.
+	 *
+	 * @var string
+	 */
 	var $avatar_thumb;
+
+	/**
+	 * The URL to the mini size of the avatar for the user.
+	 *
+	 * @var string
+	 */
 	var $avatar_mini;
+
+	/**
+	 * The full name of the user
+	 *
+	 * @var string
+	 */
 	var $fullname;
+
+	/**
+	 * The email for the user.
+	 *
+	 * @var string
+	 */
 	var $email;
 
+	/**
+	 * The absolute url for the user's profile.
+	 *
+	 * @var string
+	 */
 	var $user_url;
+
+	/**
+	 * The HTML for the user link, with the link text being the user's full name.
+	 *
+	 * @var string
+	 */
 	var $user_link;
 
+	/**
+	 * Contains a formatted string when the last time the user was active.
+	 *
+	 * Example: "active 2 hours and 50 minutes ago"
+	 *
+	 * @var string
+	 */
 	var $last_active;
 
 	/* Extras */
+
+	/**
+	 * The total number of "Friends" the user has on site.
+	 *
+	 * @var integer
+	 */
 	var $total_friends;
+
+	/**
+	 * The total number of blog posts posted by the user
+	 *
+	 * @var integer
+	 */
 	var $total_blogs;
+
+	/**
+	 * The total number of groups the user is a part of.
+	 *
+	 * Example: "1 group", "2 groups"
+	 *
+	 * @var string
+	 */
 	var $total_groups;
 
+	/**
+	 * PHP4 constructor.
+	 *
+	 * @see BP_Core_User::__construct()
+	 */
 	function bp_core_user( $user_id, $populate_extras = false ) {
 		$this->__construct( $user_id, $populate_extras );
 	}
 
-		function __construct( $user_id, $populate_extras = false ) {
+	/**
+	 * Class constructor.
+	 *
+	 * @param integer $user_id The ID for the user
+	 * @param boolean $populate_extras Whether to fetch extra information such as group/friendship counts or not.
+	 */
+	function __construct( $user_id, $populate_extras = false ) {
 		if ( $user_id ) {
 			$this->id = $user_id;
 			$this->populate();
@@ -45,12 +130,9 @@ class BP_Core_User {
 	}
 
 	/**
-	 * populate()
-	 *
 	 * Populate the instantiated class with data based on the User ID provided.
 	 *
-	 * @package BuddyPress Core
- 	 * @global $userdata WordPress user data for the current logged in user.
+	 * @global object $bp Global BuddyPress settings object
 	 * @uses bp_core_get_userurl() Returns the URL with no HTML markup for a user based on their user id
 	 * @uses bp_core_get_userlink() Returns a HTML formatted link for a user with the user's full name as the link text
 	 * @uses bp_core_get_user_email() Returns the email address for the user based on user ID
@@ -60,7 +142,7 @@ class BP_Core_User {
 	 */
 	function populate() {
 		global $bp;
-		
+
 		if ( bp_is_active( 'xprofile' ) )
 			$this->profile_data = $this->get_profile_data();
 
@@ -87,6 +169,11 @@ class BP_Core_User {
 		$this->last_active  = bp_core_get_last_activity( get_user_meta( $this->id, bp_get_user_meta_key( 'last_activity' ), true ), __( 'active %s ago', 'buddypress' ) );
 	}
 
+	/**
+	 * Populates extra fields such as group and friendship counts.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 */
 	function populate_extras() {
 		global $bp;
 
@@ -95,13 +182,7 @@ class BP_Core_User {
 
 		if ( bp_is_active( 'groups' ) ) {
 			$this->total_groups = BP_Groups_Member::total_group_count( $this->id );
-
-			if ( $this->total_groups ) {
-				if ( 1 == $this->total_groups )
-					$this->total_groups .= ' ' . __( 'group', 'buddypress' );
-				else
-					$this->total_groups .= ' ' . __( 'groups', 'buddypress' );
-			}
+			$this->total_groups = sprintf( _n( '%d group', '%d groups', $this->total_groups ), $this->total_groups );
 		}
 	}
 
@@ -126,10 +207,10 @@ class BP_Core_User {
 
 		if ( 'alphabetical' == $type )
 			$sql['select_alpha'] = ", pd.value as fullname";
-		
+
 		if ( $meta_key ) {
 			$sql['select_meta'] = ", umm.meta_key";
-			
+
 			if ( $meta_value )
 				$sql['select_meta'] .= ", umm.meta_value";
 		}
@@ -138,7 +219,7 @@ class BP_Core_User {
 
 		if ( $search_terms && bp_is_active( 'xprofile' ) || 'alphabetical' == $type )
 			$sql['join_profiledata'] = "LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id";
-			
+
 		if ( $meta_key )
 			$sql['join_meta'] = "LEFT JOIN {$wpdb->usermeta} umm ON umm.user_id = u.ID";
 
@@ -186,10 +267,10 @@ class BP_Core_User {
 			$search_terms             = like_escape( $wpdb->escape( $search_terms ) );
 			$sql['where_searchterms'] = "AND pd.value LIKE '%%$search_terms%%'";
 		}
-		
+
 		if ( $meta_key ) {
 			$sql['where_meta'] = $wpdb->prepare( " AND umm.meta_key = %s", $meta_key );
-			
+
 			// If a meta value is provided, match it
 			if ( $meta_value ) {
 				$sql['where_meta'] .= $wpdb->prepare( " AND umm.meta_value = %s", $meta_value );
@@ -261,8 +342,22 @@ class BP_Core_User {
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
-	function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = false ) {
-		global $wpdb, $bp;
+
+	/**
+	 * Fetches the user details for all the users who username starts with the letter given.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param string $letter The letter the users names are to start with.
+	 * @param integer $limit The number of users we wish to retrive.
+	 * @param integer $page The page number we are currently on, used in conjunction with $limit to get the start position for the limit.
+	 * @param boolean $populate_extras Populate extra user fields?
+	 * @param string $exclude Comma-separated IDs of users whose results aren't to be fetched.
+	 * @return mixed False on error, otherwise associative array of results.
+	 * @static
+	 */
+	function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
+		global $bp, $wpdb;
 
 		$pag_sql = '';
 		if ( $limit && $page )
@@ -307,8 +402,20 @@ class BP_Core_User {
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
+	/**
+	 * Get details of specific users from the database
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param array $user_ids The user IDs of the users who we wish to fetch information on.
+	 * @param integer $limit The limit of results we want.
+	 * @param integer $page The page we are on for pagination.
+	 * @param boolean $populate_extras Populate extra user fields?
+	 * @return array Associative array
+	 * @static
+	 */
 	function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
 		$pag_sql = '';
 		if ( $limit && $page )
@@ -335,8 +442,20 @@ class BP_Core_User {
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
+	/**
+	 * Find users who match on the value of an xprofile data.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param string $search_terms The terms to search the profile table value column for.
+	 * @param integer $limit The limit of results we want.
+	 * @param integer $page The page we are on for pagination.
+	 * @param boolean $populate_extras Populate extra user fields?
+	 * @return array Associative array
+	 * @static
+	 */
 	function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -366,6 +485,19 @@ class BP_Core_User {
 		return array( 'users' => $paged_users, 'total' => $total_users );
 	}
 
+	/**
+	 * Fetch extra user information, such as friend count and last profile update message.
+	 *
+	 * Accepts multiple user IDs to fetch data for.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param array $paged_users an array of stdClass containing the users
+	 * @param string $user_ids the user ids to select information about
+	 * @param string $type the type of fields we wish to get
+	 * @return mixed False on error, otherwise associative array of results.
+	 * @static
+	 */
 	function get_user_extras( &$paged_users, &$user_ids, $type = false ) {
 		global $bp, $wpdb;
 
@@ -438,6 +570,14 @@ class BP_Core_User {
 		return $paged_users;
 	}
 
+	/**
+	 * Get WordPress user details for a specified user.
+	 *
+	 * @global wpdb $wpdb WordPress database object
+	 * @param integer $user_id User ID
+	 * @return array Associative array
+	 * @static
+	 */
 	function get_core_userdata( $user_id ) {
 		global $wpdb;
 
@@ -457,28 +597,93 @@ class BP_Core_User {
  */
 
 class BP_Core_Notification {
+
+	/**
+	 * The notification id
+	 *
+	 * @var integer
+	 */
 	var $id;
+
+	/**
+	 * The ID to which the notification relates to within the component.
+	 *
+	 * @var integer
+	 */
 	var $item_id;
+
+	/**
+	 * The secondary ID to which the notification relates to within the component.
+	 *
+	 * @var integer
+	 */
 	var $secondary_item_id = null;
+
+	/**
+	 * The user ID for who the notification is for.
+	 *
+	 * @var integer
+	 */
 	var $user_id;
+
+	/**
+	 * The name of the component that the notification is for.
+	 *
+	 * @var string
+	 */
 	var $component_name;
+
+	/**
+	 * The action within the component which the notification is related to.
+	 *
+	 * @var string
+	 */
 	var $component_action;
+
+	/**
+	 * The date the notification was created.
+	 *
+	 * @var string
+	 */
 	var $date_notified;
+
+	/**
+	 * Is the notification new or has it already been read.
+	 *
+	 * @var boolean
+	 */
 	var $is_new;
 
-	function bp_core_notification( $id = false ) {
+
+	/**
+	 * PHP4 constructor
+	 *
+	 * @param integer $id
+	 */
+	function bp_core_notification( $id = 0 ) {
 		$this->__construct($id);
 	}
-		
-	function __construct( $id = false ) {
+
+	/**
+	 * Constructor
+	 *
+	 * @param integer $id
+	 */
+	function __construct( $id = 0 ) {
 		if ( $id ) {
 			$this->id = $id;
 			$this->populate();
 		}
 	}
 
+	/**
+	 * Fetches the notification data from the database.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 */
 	function populate() {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
 		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE id = %d", $this->id ) ) ) {
 			$this->item_id = $notification->item_id;
@@ -491,8 +696,15 @@ class BP_Core_Notification {
 		}
 	}
 
+	/**
+	 * Update or insert notification details into the database.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @return bool Success or failure
+	 */
 	function save() {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
 		// Update
 		if ( $this->id )
@@ -517,34 +729,86 @@ class BP_Core_Notification {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->core->table_name_notifications} WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
 	}
 
+	/**
+	 * Fetches all the notifications in the database for a specific user.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param integer $user_id User ID
+	 * @return array Associative array
+	 * @static
+	 */
 	function get_all_for_user( $user_id ) {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
  		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND is_new = 1", $user_id ) );
 	}
 
+	/**
+	 * Delete all the notifications for a user based on the component name and action.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param integer $user_id
+	 * @param string $component_name
+	 * @param string $component_action
+	 * @static
+	 */
 	function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
 	}
 
+	/**
+	 * Delete all the notifications that have a specific item id, component name and action.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param integer $user_id The ID of the user who the notifications are for.
+	 * @param integer $item_id The item ID of the notifications we wish to delete.
+	 * @param string $component_name The name of the component that the notifications we wish to delete.
+	 * @param string $component_action The action of the component that the notifications we wish to delete.
+	 * @param integer $secondary_item_id (optional) The secondary item id of the notifications that we wish to use to delete.
+	 * @static
+	 */
 	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id ) {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
 		$secondary_item_sql = !empty( $secondary_item_id ) ? $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id ) : '';
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s{$secondary_item_sql}", $user_id, $item_id, $component_name, $component_action ) );
 	}
 
+	/**
+	 * Deletes all the notifications sent by a specific user, by component and action.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param integer $user_id The ID of the user whose sent notifications we wish to delete.
+	 * @param string $component_name The name of the component the notification was sent from.
+	 * @param string $component_action The action of the component the notification was sent from.
+	 * @static
+	 */
 	function delete_from_user_by_type( $user_id, $component_name, $component_action ) {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
 	}
 
+	/**
+	 * Deletes all the notifications for all users by item id, and optional secondary item id, and component name and action.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param string $item_id The item id that they notifications are to be for.
+	 * @param string $component_name The component that the notifications are to be from.
+	 * @param string $component_action The action that the notificationsa are to be from.
+	 * @param string $secondary_item_id Optional secondary item id that the notifications are to have.
+	 * @static
+	 */
 	function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
-		global $wpdb, $bp;
+		global $bp, $wpdb;
 
 		if ( $component_action )
 			$component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
@@ -569,27 +833,109 @@ class BP_Core_Notification {
  * @since 1.2.6
  */
 class BP_Button {
-
 	// Button properties
+
+	/**
+	 * The button ID
+	 *
+	 * @var integer
+	 */
 	var $id;
+
+	/**
+	 * The component name that button belongs to.
+	 *
+	 * @var string
+	 */
 	var $component;
+
+	/**
+	 * Does the user need to be logged in to see this button?
+	 *
+	 * @var boolean
+	 */
 	var $must_be_logged_in;
+
+	/**
+	 * True or false if the button should not be displayed while viewing your own profile.
+	 *
+	 * @var boolean
+	 */
 	var $block_self;
 
+
 	// Wrapper
+
+	/**
+	 * What type of DOM element to use for a wrapper.
+	 *
+	 *
+	 * @var mixed div|span|p|li, or false for no wrapper
+	 */
 	var $wrapper;
+
+	/**
+	 * The DOM class of the button wrapper
+	 *
+	 * @var string
+	 */
 	var $wrapper_class;
+
+	/**
+	 * The DOM ID of the button wrapper
+	 *
+	 * @var string
+	 */
 	var $wrapper_id;
 
+
 	// Button
+
+	/**
+	 * The destination link of the button
+	 *
+	 * @var string
+	 */
 	var $link_href;
+
+	/**
+	 * The DOM class of the button link
+	 *
+	 * @var string
+	 */
 	var $link_class;
+
+	/**
+	 * The DOM ID of the button link
+	 *
+	 * @var string
+	 */
 	var $link_id;
+
+	/**
+	 * The DOM rel value of the button link
+	 *
+	 * @var string
+	 */
 	var $link_rel;
+
+	/**
+	 * Title of the button link
+	 *
+	 * @var string
+	 */
 	var $link_title;
+
+	/**
+	 * The contents of the button link
+	 *
+	 * @var string
+	 */
 	var $link_text;
 
+
 	// HTML result
+
 	var $contents;
 
 	/**
@@ -616,7 +962,7 @@ class BP_Button {
 	function bp_button( $args = '' ) {
 		$this->__construct($args);
 	}
-	
+
 	function __construct( $args = '' ) {
 
 		// Default arguments
