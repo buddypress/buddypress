@@ -111,7 +111,6 @@ div#bp-admin table td {
 
 div#bp-admin table.form-table th {
 	border-right: 1px solid #eee;
-	width: 208px;
 	padding: 15px 25px 15px 0;
 	color: #555;
 }
@@ -128,6 +127,7 @@ div#bp-admin table.form-table th {
 
 	div#bp-admin table.form-table th img {
 		margin-top: 5px;
+		width: 215px;
 	}
 
 	div#bp-admin table.form-table th p { margin: 3px 0 0 0; }

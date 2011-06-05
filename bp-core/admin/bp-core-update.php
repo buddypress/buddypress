@@ -589,6 +589,14 @@ class BP_Core_Setup_Wizard {
 				}
 			}
 		}
+
+		// Get theme screenshot
+		$current_theme = get_current_theme();
+		$screenshot    = '';
+		$themes        = get_themes();
+
+		if ( !empty( $themes[$current_theme]['Screenshot'] ) )
+			$screenshot = trailingslashit( get_stylesheet_directory_uri() ) . $themes[$current_theme]['Screenshot'];
 	?>
 
 		<script type="text/javascript">
@@ -599,34 +607,58 @@ class BP_Core_Setup_Wizard {
 			});
 		</script>
 
-		<p><?php _e( "BuddyPress introduces a whole range of new screens to display content. To display these screens you will need to decide how you want to handle them in your active theme. There are a few different options, please choose the option that best suits your demands and needs.", 'buddypress' ); ?></p>
+		<p><?php _e( "BuddyPress introduces a whole range of new screens to display content. To display these screens, you need to decide how you want to handle them in your current theme.", 'buddypress' ); ?></p>
 
 		<table class="form-table">
 			<tr>
 				<th>
-					<h5><?php _e( 'Use the Default Theme', 'buddypress' ); ?></h5>
-					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/default.jpg' ); ?>" alt="bp-default" />
+					<h5><?php _e( 'Use BuddyPress Default', 'buddypress' ); ?></h5>
+					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/default.jpg' ); ?>" alt="<?php _e( 'BuddyPress Default', 'buddypress' ); ?>" />
 				</th>
 				<td>
-					<p><?php _e( 'The default theme contains everything you need to get up and running out of the box. It supports all features and is highly customizable.', 'buddypress' ); ?></p>
-					<p><strong><?php _e( 'This is the best choice if you do not have an existing WordPress theme or want to create a child theme from a solid starting point.', 'buddypress' ); ?></strong></p>
-					<p><label><input type="radio" name="theme" value="bp_default" checked="checked" /> <?php _e( 'Choose this option', 'buddypress' ); ?></label></p>
+					<p><?php _e( 'BuddyPress Default contains everything you need to get up and running out of the box. It supports all features and is highly customizable.', 'buddypress' ); ?></p>
+					<p><strong><?php _e( 'This is the best choice if you do not have an existing WordPress theme, or want to start using BuddyPress immediately.', 'buddypress' ); ?></strong></p>
+					<p><label><input type="radio" name="theme" value="bp_default" checked="checked" /> <?php _e( 'Yes, please!', 'buddypress' ); ?></label></p>
 				</td>
 			</tr>
 
+			<?php if ( $bp_theme_installed ) : ?>
+				<tr>
+					<th>
+						<h5><?php _e( 'Other themes', 'buddypress' ); ?></h5>
+						<img src="<?php echo plugins_url( '/buddypress/bp-core/images/find.jpg' ); ?>" alt="<?php _e( 'A BuddyPress theme', 'buddypress' ); ?>" />
+					</th>
+					<td>
+						<p><?php _e( "We've found that you already have some other BuddyPress-compatible themes available. To use one of those, pick it from this list.", 'buddypress' ); ?></p>
+						<p>
+							<label>
+								<input type="radio" name="theme" value="3rd_party" /> <?php _e( 'Use this theme', 'buddypress' ); ?>
+							</label>
+							<select name="3rd_party_theme">
+
+								<?php foreach( (array) $bp_themes as $theme ) : ?>
+									<option value="<?php echo $theme['Template'] . ',' . $theme['Stylesheet']; ?>"><?php echo $theme['Name']; ?></option>
+								<?php endforeach; ?>
+
+							</select>
+						</p>
+					</td>
+				</tr>
+			<?php endif; ?>
+
 			<tr>
 				<th>
-					<h5><?php _e( 'Manually Update My WordPress Theme', 'buddypress' ); ?>'</h5>
-					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/manual_theme.jpg' ); ?>" alt="bp-default" />
+					<h5><?php _e( 'Manually update current theme', 'buddypress' ); ?></h5>
+					<?php if ( !empty( $screenshot ) ) : ?>
+						<img src="<?php echo esc_url( $screenshot ); ?>" alt="<?php _e( 'Your existing theme', 'buddypress' ); ?>" />
+					<?php endif; ?>
 				</th>
 				<td>
-					<p><?php _e( 'The BuddyPress Template Pack plugin will run you through the process of manually upgrading your existing WordPress theme. This usually involves following the step by step instructions and copying the BuddyPress template files into your theme then tweaking the HTML to match.', 'buddypress' ); ?></p>
-					<p><strong><?php _e( 'This is the best choice if you have an existing WordPress theme and want complete control over template layout and design.', 'buddypress' ); ?></strong></p>
+					<p><?php _e( 'The BuddyPress Template Pack plugin will guide you through the process of manually upgrading your existing WordPress theme. This usually involves following the step-by-step instructions and copying the BuddyPress template files into your theme. This option requires a working knowledge of CSS and HTML, as you will need to tweak the new templates to match your existing theme.', 'buddypress' ); ?></p>
 
 					<?php if ( empty( $template_pack_installed ) ) : ?>
 
-						<p><label><input type="radio" name="theme" value="manual_wp" disabled="disabled" /> <?php _e( 'You must first install the BuddyPress Template Pack before choosing this option', 'buddypress' ); ?></label></p>
-						<p><a id="bp-template-pack" class="thickbox onclick button" href="<?php echo network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=bp-template-pack&TB_iframe=true&width=640&height=500' ); ?>"><?php _e( 'Install Now', 'buddypress' ); ?></a></p>
+						<p><a id="bp-template-pack" class="thickbox onclick button" href="<?php echo network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=bp-template-pack&TB_iframe=true&width=640&height=500' ); ?>"><?php _e( 'Install BuddyPress Template Pack', 'buddypress' ); ?></a></p>
 
 					<?php else : ?>
 
@@ -640,49 +672,13 @@ class BP_Core_Setup_Wizard {
 
 			<tr>
 				<th>
-					<h5><?php _e( 'Find a BuddyPress Theme', 'buddypress' ); ?></h5>
-					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/find.jpg' ); ?>" alt="bp-default" />
+					<h5><?php _e( 'Do not change theme', 'buddypress' ) ?></h5>
 				</th>
 				<td>
-					<p><?php _e( "There's growing number of BuddyPress themes available for you to download and use. Browse through the list of available themes to see if there is one that matches your needs.", 'buddypress' ); ?></p>
-					<p><strong><?php _e( 'This is the best choice if want to use a theme other than the default and get started straight out of the box.', 'buddypress' ); ?></strong></p>
+					<p><?php _e( "You are happy with your current theme and plan on changing it later.", 'buddypress' ); ?></p>
+					<p><strong><?php _e( 'This is the best choice if you have a highly customized theme on your site already, and want to later manually integrate BuddyPress into your site.', 'buddypress' ); ?></strong></p>
 
-					<?php if ( empty( $bp_theme_installed ) ) : ?>
-
-						<p><label><input type="radio" name="theme" value="third_party" disabled="disabled" /> <?php _e( 'You must first install at least one BuddyPress theme before choosing this option', 'buddypress' ); ?></label></p>
-						<p><a id="bp-themes" class="thickbox onclick button" href="<?php echo network_admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ); ?>&TB_iframe=true&width=860&height=500"><?php _e( 'Add Themes', 'buddypress' ); ?></a></p>
-
-					<?php else : ?>
-
-						<p><label>
-								<input type="radio" name="theme" value="3rd_party" /> <?php _e( 'Choose this option and use the theme:', 'buddypress' ); ?>
-							</label>
-							<select name="3rd_party_theme">
-
-								<?php foreach( (array)$bp_themes as $theme ) : ?>
-
-									<option value="<?php echo $theme['Template'] . ',' . $theme['Stylesheet']; ?>"><?php echo $theme['Name']; ?></option>
-
-								<?php endforeach; ?>
-
-							</select>
-						</p>
-
-					<?php endif; ?>
-
-				</td>
-			</tr>
-
-			<tr>
-				<th>
-					<h5><?php _e( 'Do Not Change Theme', 'buddypress' ) ?></h5>
-					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/existing.jpg' ) ?>" alt="bp-default" />
-				</th>
-				<td>
-					<p><?php _e( "You are happy with your current theme and plan on changing it later.", 'buddypress' ) ?></p>
-					<p><strong><?php _e( 'This is the best choice if you have a highly customized theme on your site already, and want to manually integrate BuddyPress into your site over time.', 'buddypress' ) ?></strong></p>
-
-					<p><label><input type="radio" name="theme" value="do_not_change" /> <?php _e( 'Choose this option', 'buddypress' ) ?></label></p>
+					<p><label><input type="radio" name="theme" value="do_not_change" /> <?php _e( "Don't change my current theme", 'buddypress' ); ?></label></p>
 
 				</td>
 			</tr>
