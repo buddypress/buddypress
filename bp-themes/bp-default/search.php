@@ -7,7 +7,7 @@
 
 		<div class="page" id="blog-search" role="main">
 
-			<h2 class="pagetitle"><?php _e( 'Blog', 'buddypress' ) ?></h2>
+			<h2 class="pagetitle"><?php _e( 'Site', 'buddypress' ) ?></h2>
 
 			<?php if (have_posts()) : ?>
 

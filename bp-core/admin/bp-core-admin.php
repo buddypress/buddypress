@@ -293,8 +293,8 @@ function bp_core_admin_component_options() {
 	
 	if ( is_multisite() ) {
 		$optional_components['blogs'] = array(
-			'title'	      => __( 'Blog Tracking', 'buddypress' ),
-			'description' => __( 'Track new blogs, new posts and new comments across your entire blog network.', 'buddypress' )
+			'title'	      => __( 'Site Tracking', 'buddypress' ),
+			'description' => __( 'Track new sites, new posts and new comments across your entire network.', 'buddypress' )
 		);
 	}
 
@@ -373,7 +373,7 @@ function bp_core_admin_page_options() {
 	);
 	
 	if ( is_multisite() )
-		$directory_pages['blogs'] = __( "Blogs Directory", 'buddypress' ); ?>
+		$directory_pages['blogs'] = __( "Site Directory", 'buddypress' ); ?>
 	
 	<h3><?php _e( 'Directory Pages', 'buddypress' ); ?></h3>
 	

@@ -226,7 +226,7 @@ function bp_blogs_pagination_count() {
 	$to_num    = bp_core_number_format( ( $start_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $start_num + ( $blogs_template->pag_num - 1 ) );
 	$total     = bp_core_number_format( $blogs_template->total_blog_count );
 
-	echo sprintf( __( 'Viewing blog %1$s to %2$s (of %3$s blogs)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
+	echo sprintf( __( 'Viewing site %1$s to %2$s (of %3$s sites)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
 	<span class="ajax-loader"></span><?php
 }
 
@@ -251,7 +251,7 @@ function bp_blog_avatar( $args = '' ) {
 			'height'  => false,
 			'class'   => 'avatar',
 			'id'      => false,
-			'alt'     => __( 'Blog authored by %s', 'buddypress' ),
+			'alt'     => __( 'Site authored by %s', 'buddypress' ),
 			'no_grav' => true
 		);
 
@@ -396,9 +396,9 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 			echo "<p>" . __('There was a problem, please correct the form below and try again.', 'buddypress') . "</p>";
 		}
 		?>
-		<p><?php printf(__("By filling out the form below, you can <strong>add a blog to your account</strong>. There is no limit to the number of blogs you can have, so create to your heart's content, but blog responsibly.", 'buddypress'), $current_user->display_name) ?></p>
+		<p><?php printf(__("By filling out the form below, you can <strong>add a site to your account</strong>. There is no limit to the number of sites that you can have, so create to your heart's content, but blog responsibly!", 'buddypress'), $current_user->display_name) ?></p>
 
-		<p><?php _e("If you&#8217;re not going to use a great blog domain, leave it for a new user. Now have at it!", 'buddypress') ?></p>
+		<p><?php _e("If you&#8217;re not going to use a great domain, leave it for a new user. Now have at it!", 'buddypress') ?></p>
 
 		<form class="standard-form" id="setupform" method="post" action="">
 
@@ -407,7 +407,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 
 			<?php bp_blogs_signup_blog($blogname, $blog_title, $errors); ?>
 			<p>
-				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Blog &rarr;', 'buddypress') ?>" />
+				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Site', 'buddypress') ?>" />
 			</p>
 
 			<?php wp_nonce_field( 'bp_blog_signup_form' ) ?>
@@ -421,9 +421,9 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 	// Blog name
 	if( !is_subdomain_install() )
-		echo '<label for="blogname">' . __('Blog Name:', 'buddypress') . '</label>';
+		echo '<label for="blogname">' . __('Site Name:', 'buddypress') . '</label>';
 	else
-		echo '<label for="blogname">' . __('Blog Domain:', 'buddypress') . '</label>';
+		echo '<label for="blogname">' . __('Site Domain:', 'buddypress') . '</label>';
 
 	if ( $errmsg = $errors->get_error_message('blogname') ) { ?>
 
@@ -451,7 +451,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	// Blog Title
 	?>
 
-	<label for="blog_title"><?php _e('Blog Title:', 'buddypress') ?></label>
+	<label for="blog_title"><?php _e('Site Title:', 'buddypress') ?></label>
 
 	<?php if ( $errmsg = $errors->get_error_message('blog_title') ) { ?>
 
@@ -463,8 +463,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 	<p>
 		<label for="blog_public_on"><?php _e('Privacy:', 'buddypress') ?></label>
-		<?php _e('I would like my blog to appear in search engines like Google and Technorati, and in public listings around this site.', 'buddypress'); ?>
-
+		<?php _e( 'I would like my site to appear in search engines, and in public listings around this network.', 'buddypress' ); ?>
 
 		<label class="checkbox" for="blog_public_on">
 			<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || '1' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
@@ -526,9 +525,9 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 	$protocol = is_ssl() ? 'https://' : 'http://';
 	$blog_url = $protocol . $domain . $path; ?>
 
-	<p><?php _e( 'Congratulations! You have successfully registered a new blog.', 'buddypress' ) ?></p>
+	<p><?php _e( 'Congratulations! You have successfully registered a new site.', 'buddypress' ) ?></p>
 	<p>
-		<?php printf(__( '<a href="%1$s">%2$s</a> is your new blog.  <a href="%3$s">Login</a> as "%4$s" using your existing password.', 'buddypress' ), $blog_url, $blog_url, $blog_url . "wp-login.php", $user_name ); ?>
+		<?php printf(__( '<a href="%1$s">%2$s</a> is your new site.  <a href="%3$s">Login</a> as "%4$s" using your existing password.', 'buddypress' ), $blog_url, $blog_url, $blog_url . "wp-login.php", $user_name ); ?>
 	</p>
 
 <?php
@@ -539,7 +538,7 @@ function bp_create_blog_link() {
 	global $bp;
 
 	if ( bp_is_my_profile() )
-		echo apply_filters( 'bp_create_blog_link', '<a href="' . bp_get_root_domain() . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Blog', 'buddypress' ) . '</a>' );
+		echo apply_filters( 'bp_create_blog_link', '<a href="' . bp_get_root_domain() . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
 }
 
 function bp_blogs_blog_tabs() {
@@ -552,7 +551,7 @@ function bp_blogs_blog_tabs() {
 	$current_tab = $bp->current_action; ?>
 
 	<ul class="content-header-nav">
-		<li<?php if ( 'my-blogs' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/my-blogs' ); ?>"><?php printf( __( "%s's Blogs", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
+		<li<?php if ( 'my-blogs' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/my-blogs' ); ?>"><?php printf( __( "%s's Sites", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
 		<li<?php if ( 'recent-posts' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/recent-posts' ); ?>"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
 		<li<?php if ( 'recent-comments' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/recent-comments' );?>"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
 	</ul>
@@ -602,8 +601,8 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 			'wrapper_class'     => 'blog-button visit',
 			'link_href'         => bp_get_blog_permalink(),
 			'link_class'        => 'blog-button visit',
-			'link_text'         => __( 'Visit Blog', 'buddypress' ),
-			'link_title'        => __( 'Visit Blog', 'buddypress' ),
+			'link_text'         => __( 'Visit Site', 'buddypress' ),
+			'link_title'        => __( 'Visit Site', 'buddypress' ),
 		);
 
 		$button = wp_parse_args( $args, $defaults );

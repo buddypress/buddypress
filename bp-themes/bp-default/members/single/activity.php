@@ -24,8 +24,8 @@
 				if ( !bp_is_current_action( 'groups' ) ) :
 					if ( bp_is_active( 'blogs' ) ) : ?>
 
-						<option value="new_blog_post"><?php _e( 'Blog Posts', 'buddypress' ) ?></option>
-						<option value="new_blog_comment"><?php _e( 'Blog Comments', 'buddypress' ) ?></option>
+						<option value="new_blog_post"><?php _e( 'Posts', 'buddypress' ) ?></option>
+						<option value="new_blog_comment"><?php _e( 'Comments', 'buddypress' ) ?></option>
 
 					<?php
 					endif;

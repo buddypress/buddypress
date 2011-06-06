@@ -18,7 +18,7 @@
 
 		<form action="" method="post" id="blogs-directory-form" class="dir-form">
 
-			<h3><?php _e( 'Blogs Directory', 'buddypress' ); ?><?php if ( is_user_logged_in() && bp_blog_signup_enabled() ) : ?> &nbsp;<a class="button" href="<?php echo bp_get_root_domain() . '/' . BP_BLOGS_SLUG . '/create/' ?>"><?php _e( 'Create a Blog', 'buddypress' ); ?></a><?php endif; ?></h3>
+			<h3><?php _e( 'Site Directory', 'buddypress' ); ?><?php if ( is_user_logged_in() && bp_blog_signup_enabled() ) : ?> &nbsp;<a class="button" href="<?php echo bp_get_root_domain() . '/' . BP_BLOGS_SLUG . '/create/' ?>"><?php _e( 'Create a Site', 'buddypress' ); ?></a><?php endif; ?></h3>
 
 			<div id="blog-dir-search" class="dir-search" role="search">
 
@@ -28,11 +28,11 @@
 
 			<div class="item-list-tabs" role="navigation">
 				<ul>
-					<li class="selected" id="blogs-all"><a href="<?php bp_root_domain(); ?>"><?php printf( __( 'All Blogs (%s)', 'buddypress' ), bp_get_total_blog_count() ); ?></a></li>
+					<li class="selected" id="blogs-all"><a href="<?php bp_root_domain(); ?>"><?php printf( __( 'All Sites (%s)', 'buddypress' ), bp_get_total_blog_count() ); ?></a></li>
 
 					<?php if ( is_user_logged_in() && bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) ) : ?>
 
-						<li id="blogs-personal"><a href="<?php echo bp_loggedin_user_domain() . BP_BLOGS_SLUG . '/my-blogs/' ?>"><?php printf( __( 'My Blogs (%s)', 'buddypress' ), bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
+						<li id="blogs-personal"><a href="<?php echo bp_loggedin_user_domain() . BP_BLOGS_SLUG . '/my-blogs/' ?>"><?php printf( __( 'My Sites (%s)', 'buddypress' ), bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) ); ?></a></li>
 
 					<?php endif; ?>
 

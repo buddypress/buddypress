@@ -20,7 +20,7 @@ function bp_adminbar_blogs_menu() {
 
 		echo '<li id="bp-adminbar-blogs-menu"><a href="' . trailingslashit( $bp->loggedin_user->domain . $bp->blogs->slug ) . '">';
 
-		_e( 'My Blogs', 'buddypress' );
+		_e( 'My Sites', 'buddypress' );
 
 		echo '</a>';
 		echo '<ul>';
@@ -48,7 +48,7 @@ function bp_adminbar_blogs_menu() {
 
 		if ( bp_blog_signup_enabled() ) {
 			echo '<li' . $alt . '>';
-			echo '<a href="' . bp_get_root_domain() . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Blog!', 'buddypress' ) . '</a>';
+			echo '<a href="' . bp_get_root_domain() . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Site!', 'buddypress' ) . '</a>';
 			echo '</li>';
 		}
 

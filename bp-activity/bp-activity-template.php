@@ -607,7 +607,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$item_id = $activities_template->activity->item_id;
 
 				if ( !$alt )
-					$alt = sprintf( __( 'Blog authored by %s', 'buddypress' ), get_blog_option( $item_id, 'blogname' ) );
+					$alt = sprintf( __( 'Site authored by %s', 'buddypress' ), get_blog_option( $item_id, 'blogname' ) );
 
 				break;
 			case 'friends' :
@@ -1088,7 +1088,7 @@ function bp_activity_filter_links( $args = false ) {
 			$link = apply_filters( 'bp_get_activity_filter_link_href', $link, $component );
 
 			// Make sure all core internal component names are translatable
-			$translatable_components = array( __( 'xprofile', 'buddypress'), __( 'friends', 'buddypress' ), __( 'groups', 'buddypress' ), __( 'status', 'buddypress' ), __( 'blogs', 'buddypress' ) );
+			$translatable_components = array( __( 'xprofile', 'buddypress'), __( 'friends', 'buddypress' ), __( 'groups', 'buddypress' ), __( 'status', 'buddypress' ), __( 'sites', 'buddypress' ) );
 
 			$component_links[] = $before . '<a href="' . esc_attr( $link ) . '">' . ucwords( __( $component, 'buddypress' ) ) . '</a>' . $after;
 		}

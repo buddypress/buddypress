@@ -18,7 +18,7 @@
 
 		<?php do_action( 'template_notices' ); ?>
 
-			<h3><?php _e( 'Create a Blog', 'buddypress' ); ?> &nbsp;<a class="button" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() ) ?>"><?php _e( 'Blogs Directory', 'buddypress' ); ?></a></h3>
+			<h3><?php _e( 'Create a Site', 'buddypress' ); ?> &nbsp;<a class="button" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() ) ?>"><?php _e( 'Site Directory', 'buddypress' ); ?></a></h3>
 
 		<?php do_action( 'bp_before_create_blog_content' ); ?>
 
@@ -29,7 +29,7 @@
 		<?php else: ?>
 
 			<div id="message" class="info">
-				<p><?php _e( 'Blog registration is currently disabled', 'buddypress' ); ?></p>
+				<p><?php _e( 'Site registration is currently disabled', 'buddypress' ); ?></p>
 			</div>
 
 		<?php endif; ?>

@@ -23,7 +23,7 @@ class BP_Blogs_Component extends BP_Component {
 	function __construct() {
 		parent::start(
 			'blogs',
-			__( 'Blogs Streams', 'buddypress' ),
+			__( 'Site Streams', 'buddypress' ),
 			BP_PLUGIN_DIR
 		);
 	}
@@ -56,7 +56,7 @@ class BP_Blogs_Component extends BP_Component {
 			'slug'                  => BP_BLOGS_SLUG,
 			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : BP_BLOGS_SLUG,
 			'notification_callback' => 'bp_blogs_format_notifications',
-			'search_string'         => __( 'Search Blogs...', 'buddypress' ),
+			'search_string'         => __( 'Search sites...', 'buddypress' ),
 			'autocomplete_all'      => defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' ),
 			'global_tables'         => $global_tables,
 		);
@@ -103,9 +103,9 @@ class BP_Blogs_Component extends BP_Component {
 		if ( !is_multisite() )
 			return false;
 
-		// Add 'Blogs' to the main navigation
+		// Add 'Sites' to the main navigation
 		$main_nav =  array(
-			'name'                => sprintf( __( 'Blogs <span>(%d)</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ),
+			'name'                => sprintf( __( 'Sites <span>(%d)</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ),
 			'slug'                => $this->slug,
 			'position'            => 30,
 			'screen_function'     => 'bp_blogs_screen_my_blogs',
@@ -137,14 +137,14 @@ class BP_Blogs_Component extends BP_Component {
 			$wp_admin_nav[] = array(
 				'parent' => $bp->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
-				'title'  => __( 'Blogs', 'buddypress' ),
+				'title'  => __( 'Sites', 'buddypress' ),
 				'href'   => trailingslashit( $blogs_link )
 			);
 
 			// My Blogs
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'My Blogs', 'buddypress' ),
+				'title'  => __( 'My Sites', 'buddypress' ),
 				'href'   => trailingslashit( $blogs_link . 'my-blogs' )
 			);
 
@@ -165,7 +165,7 @@ class BP_Blogs_Component extends BP_Component {
 		if ( bp_is_blogs_component() ) {
 			if ( bp_is_my_profile() ) {
 				if ( bp_is_active( 'xprofile' ) ) {
-					$bp->bp_options_title = __( 'My Blogs', 'buddypress' );
+					$bp->bp_options_title = __( 'My Sites', 'buddypress' );
 				}
 
 			// If we are not viewing the logged in user, set up the current

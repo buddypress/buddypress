@@ -229,15 +229,15 @@ function bp_get_page_title() {
 	// Blog
 	} elseif ( bp_is_blog_page() ) {
 		if ( is_single() ) {
-			$title = sprintf( __( 'Blog &#124; %s', 'buddypress' ), $post->post_title );
+			$title = sprintf( __( 'Site &#124; %s', 'buddypress' ), $post->post_title );
 		} else if ( is_category() ) {
-			$title = sprintf( __( 'Blog &#124; Categories &#124; %s', 'buddypress' ), ucwords( $wp_query->query_vars['category_name'] ) );
+			$title = sprintf( __( 'Site &#124; Categories &#124; %s', 'buddypress' ), ucwords( $wp_query->query_vars['category_name'] ) );
 		} else if ( is_tag() ) {
-			$title = sprintf( __( 'Blog &#124; Tags &#124; %s', 'buddypress' ), ucwords( $wp_query->query_vars['tag'] ) );
+			$title = sprintf( __( 'Site &#124; Tags &#124; %s', 'buddypress' ), ucwords( $wp_query->query_vars['tag'] ) );
 		} else if ( is_page() ){
 			$title = $post->post_title;
 		} else
-			$title = __( 'Blog', 'buddypress' );
+			$title = __( 'Site', 'buddypress' );
 
 	// Displayed user
 	} elseif ( !empty( $bp->displayed_user->fullname ) && !is_404() ) {
@@ -275,7 +275,7 @@ function bp_get_page_title() {
 
 	// Blog creation page
 	} elseif ( bp_is_create_blog() ) {
-		$title = __( 'Create a Blog', 'buddypress' );
+		$title = __( 'Create a Site', 'buddypress' );
 	}
 
 	$site_title = get_bloginfo( 'name', 'display' );

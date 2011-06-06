@@ -200,7 +200,7 @@ class BP_Core_Setup_Wizard {
 							$this->step_ms_update();
 							break;
 
-						case __( 'Blog Directory', 'buddypress') :
+						case __( 'Site Directory', 'buddypress') :
 							$this->step_ms_update();
 							break;
 
@@ -282,9 +282,9 @@ class BP_Core_Setup_Wizard {
 			});
 		</script>
 
-		<p><?php printf( __( 'BuddyPress has detected a recent change to WordPress Multisite, which allows members of your community to have their own WordPress blogs. You can enable or disable this feature at any time at <a href="%s">Network Options</a>.', 'buddypress' ), network_admin_url( 'settings.php' ) ); ?></p>
+		<p><?php printf( __( 'BuddyPress has detected a recent change to WordPress Multisite, which allows members of your community to have their own WordPress sites. You can enable or disable this feature at any time at <a href="%s">Network Options</a>.', 'buddypress' ), network_admin_url( 'settings.php' ) ); ?></p>
 
-		<p><?php __( "Please select the WordPress page you would like to use to display the blog directory. You can either choose an existing page or let BuddyPress auto-create a page for you. If you'd like, you can go to manually create pages now, and return to this step when you are finished.", 'buddypress' ) ?></p>
+		<p><?php __( "Please select the WordPress page you would like to use to display the site directory. You can either choose an existing page or let BuddyPress auto-create a page for you. If you'd like, you can go to manually create pages now, and return to this step when you are finished.", 'buddypress' ) ?></p>
 
 		<p><strong><?php _e( 'Please Note:', 'buddypress' ) ?></strong> <?php _e( "If you have manually added BuddyPress navigation links in your theme you may need to remove these from your header.php to avoid duplicate links.", 'buddypress' ) ?></p>
 
@@ -292,7 +292,7 @@ class BP_Core_Setup_Wizard {
 
 			<tr valign="top">
 				<th scope="row">
-					<h5><?php _e( 'Blogs', 'buddypress' ); ?></h5>
+					<h5><?php _e( 'Sites', 'buddypress' ); ?></h5>
 					<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ); ?></p>
 				</th>
 				<td>
@@ -303,12 +303,12 @@ class BP_Core_Setup_Wizard {
 
 		</table>
 
-		<p><?php _e( 'Would you like to enable blog tracking, which tracks blog activity across your network?', 'buddypress' ); ?></p>
+		<p><?php _e( 'Would you like to enable site tracking, which tracks activity across all of your network?', 'buddypress' ); ?></p>
 
 		<div class="left-col">
 
 			<div class="component">
-				<h5><?php _e( "Blog Tracking", 'buddypress' ); ?></h5>
+				<h5><?php _e( "Site Tracking", 'buddypress' ); ?></h5>
 
 				<div class="radio">
 					<input type="radio" name="bp_components[blogs]" value="1"<?php if ( isset( $active_components['blogs'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
@@ -317,7 +317,7 @@ class BP_Core_Setup_Wizard {
 
 				<img src="<?php echo plugins_url( 'buddypress/screenshot-7.gif' ) ?>" alt="Activity Streams" />
 
-				<p><?php _e( "Track new blogs, new posts and new comments across your entire blog network.", 'buddypress' ) ?></p>
+				<p><?php _e( "Track new sites, new posts and new comments across your entire network.", 'buddypress' ) ?></p>
 
 			</div>
 		</div>
@@ -465,7 +465,7 @@ class BP_Core_Setup_Wizard {
 
 				<tr valign="top">
 					<th scope="row">
-						<h5><?php _e( 'Blogs', 'buddypress' ); ?></h5>
+						<h5><?php _e( 'Sites', 'buddypress' ); ?></h5>
 						<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ); ?></p>
 					</th>
 					<td>

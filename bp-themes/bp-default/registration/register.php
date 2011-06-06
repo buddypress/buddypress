@@ -182,7 +182,7 @@
 
 						<h4><?php _e( 'Blog Details', 'buddypress' ) ?></h4>
 
-						<p><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes, I\'d like to create a new blog', 'buddypress' ) ?></p>
+						<p><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes, I\'d like to create a new site', 'buddypress' ) ?></p>
 
 						<div id="blog-details"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?>class="show"<?php endif; ?>>
 
@@ -195,11 +195,11 @@
 								<?php echo site_url() ?>/ <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value() ?>" />
 							<?php endif; ?>
 
-							<label for="signup_blog_title"><?php _e( 'Blog Title', 'buddypress' ) ?> <?php _e( '(required)', 'buddypress' ) ?></label>
+							<label for="signup_blog_title"><?php _e( 'Site Title', 'buddypress' ) ?> <?php _e( '(required)', 'buddypress' ) ?></label>
 							<?php do_action( 'bp_signup_blog_title_errors' ) ?>
 							<input type="text" name="signup_blog_title" id="signup_blog_title" value="<?php bp_signup_blog_title_value() ?>" />
 
-							<span class="label"><?php _e( 'I would like my blog to appear in search engines, and in public listings around this site', 'buddypress' ) ?>:</span>
+							<span class="label"><?php _e( 'I would like my site to appear in search engines, and in public listings around this network.', 'buddypress' ) ?>:</span>
 							<?php do_action( 'bp_signup_blog_privacy_errors' ) ?>
 
 							<label><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php if ( 'public' == bp_get_signup_blog_privacy_value() || !bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes' ) ?></label>
