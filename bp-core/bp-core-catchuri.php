@@ -344,4 +344,125 @@ function bp_core_catch_profile_uri() {
 		bp_core_load_template( apply_filters( 'bp_core_template_display_profile', 'members/single/home' ) );
 }
 
+/**
+ * Catches invalid access to BuddyPress pages and redirects them accordingly.
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ */
+function bp_core_catch_no_access() {
+	global $bp, $wp_query, $bp_unfiltered_uri, $bp_no_status_set;
+
+	// If bp_core_redirect() and $bp_no_status_set is true,
+	// we are redirecting to an accessible page, so skip this check.
+	if ( $bp_no_status_set )
+		return false;
+
+	// If the displayed user was marked as a spammer and the logged-in user is not a super admin, redirect
+	if ( isset( $bp->displayed_user->id ) && bp_core_is_user_spammer( $bp->displayed_user->id ) ) {
+		if ( !is_super_admin() )
+			bp_core_redirect( $bp->root_domain );
+		else
+			bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'error' );
+	}
+
+	// If BP_ENABLE_ROOT_PROFILES is not defined and the displayed user does not exist, redirect
+	if ( !$bp->displayed_user->id && isset( $bp_unfiltered_uri[0] ) && $bp_unfiltered_uri[0] == $bp->members->slug && isset( $bp_unfiltered_uri[1] ) )
+		bp_core_redirect( $bp->root_domain );
+
+	// Access control!
+	if ( !isset( $wp_query->queried_object ) && !bp_is_blog_page() ) {
+		if ( is_user_logged_in() ) {
+			bp_core_no_access( array( 'redirect' => false, 'message' => __( 'You do not have access to that page', 'buddypress' ) ) );
+		} else {
+			bp_core_no_access();
+		}
+	}
+}
+add_action( 'wp', 'bp_core_catch_no_access' );
+
+/**
+ * Redirects a user to login for BP pages that require access control and adds an error message (if
+ * one is provided).
+ * If authenticated, redirects user back to requested content by default.
+ *
+ * @package BuddyPress Core
+ * @since 1.3
+ */
+function bp_core_no_access( $args = '' ) {
+	global $bp;
+
+	$defaults = array(
+		'mode'		=> '1',			// 1 = $root, 2 = wp-login.php
+		'message'	=> __( 'You must log in to access the page you requested.', 'buddypress' ),
+		'redirect'	=> wp_guess_url(),	// the URL you get redirected to when a user successfully logs in
+		'root'		=> $bp->root_domain	// the landing page you get redirected to when a user doesn't have access
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	// Group filtering
+	// When a user doesn't have access to a group's activity / secondary page, redirect to group's homepage
+	if ( !$redirect ) {
+		if ( bp_is_active( 'groups' ) && bp_is_current_component( 'groups' ) ) {
+			$root = bp_get_group_permalink( $bp->groups->current_group );
+			$message = false;
+		}
+	}
+
+	// Apply filters to these variables
+	$mode		= apply_filters( 'bp_no_access_mode', $mode, $root, $redirect, $message );
+	$redirect	= apply_filters( 'bp_no_access_redirect', $redirect, $root, $message, $mode );
+	$root		= trailingslashit( apply_filters( 'bp_no_access_root', $root, $redirect, $message, $mode ) );
+	$message	= apply_filters( 'bp_no_access_message', $message, $root, $redirect, $mode );
+
+	switch ( $mode ) {
+		// Option to redirect to wp-login.php
+		// Error message is displayed with bp_core_no_access_wp_login_error()
+		case 2 :
+			if ( $redirect ) {
+				bp_core_redirect( wp_login_url( $redirect ) . '&action=bpnoaccess' );
+			} else {
+				bp_core_redirect( $root );
+			}
+		break;
+
+		// Redirect to root with "redirect_to" parameter
+		// Error message is displayed with bp_core_add_message()
+		case 1 :
+		default :
+			if ( $redirect ) {
+				$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $root );
+			} else {
+				$url = $root;
+			}
+
+			if ( $message ) {
+				bp_core_add_message( $message, 'error' );
+			}
+
+			bp_core_redirect( $url );
+		break;
+	}
+}
+
+/**
+ * Adds an error message to wp-login.php.
+ * Hooks into the "bpnoaccess" action defined in bp_core_no_access().
+ *
+ * @package BuddyPress Core
+ * @global $error
+ * @since 1.3
+ */
+function bp_core_no_access_wp_login_error() {
+	global $error;
+
+	$error = apply_filters( 'bp_wp_login_error', __( 'You must log in to access the page you requested.', 'buddypress' ), $_REQUEST['redirect_to'] );
+
+	// shake shake shake!
+	add_action( 'login_head', 'wp_shake_js', 12 );
+}
+add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
+
 ?>

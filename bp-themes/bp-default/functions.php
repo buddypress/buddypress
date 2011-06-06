@@ -657,4 +657,19 @@ function bp_dtheme_after_comment_form() {
 }
 add_action( 'comment_form', 'bp_dtheme_after_comment_form' );
 endif;
+
+/**
+ * Adds a hidden "redirect_to" input field to the sidebar login form.
+ * Put here temporarily for proof-of-concept.
+ *
+ * @since 1.3
+ */
+function bp_dtheme_sidebar_login_redirect_to() {
+	$redirect_to = apply_filters( 'bp_no_access_redirect', isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '' );
+?>
+	<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
+<?php
+}
+add_action( 'bp_sidebar_login_form', 'bp_dtheme_sidebar_login_redirect_to' );
+
 ?>
