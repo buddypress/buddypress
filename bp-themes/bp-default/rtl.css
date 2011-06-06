@@ -1,38 +1,96 @@
-/*
-Theme Name: BuddyPress Default
-*/
-
-/***
-* Right to left styles. This will transform the theme to read from right to left
-* for languages that support this method.
-*/
-
+/*--------------------------------------------------------------
+Hello, this is the BuddyPress Default rtl stylesheet.
+Right to left styles. This will transform the theme to read from 
+right to left for languages that support this method.
+----------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+1.0 - Structural
+	1.1 - Content
+	1.2 - Header
+	1.3 - Footer
+	1.4 - Sidebar
+2.0 - Non-structural
+	2.1 - Text
+	2.2 - Headers
+	2.3 - Lists
+3.0 - Navigation
+	3.1 - Pagination
+4.0 - WordPress
+	4.1 - Alignments
+	4.2 - Comments
+	4.3 - Gallery
+	4.4 - Images
+	4.5 - Posts
+5.0 - BuddyPress
+	5.1 - Activity
+		5.1.1 - Activity Listing
+		5.1.2 - Activity Comments
+	5.2 - Admin Bar
+	5.3 - Ajax Loading
+	5.4 - Directories - Members, Groups, Blogs, Forums
+	5.5 - Error / Success Messages
+	5.6 - Forms
+	5.7 - Topics and Tables - Forums and General
+	5.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
+	5.9 - Private Messaging Threads	
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+1.0 - Structure
+--------------------------------------------------------------*/
 body {
 	direction: rtl;
 	unicode-bidi: embed;
 }
-
-
-/* > Global Elements
--------------------------------------------------------------- */
-
 body {
 	background: #eaeaea url( _inc/images/background.gif ) top right repeat-x;
 }
-.clear {
-	clear: right;
+
+
+/*--------------------------------------------------------------
+1.1 - Content
+--------------------------------------------------------------*/
+div#container {
+	border-left: 0;
+	border-right: 1px solid #e0e0e0;
 }
-img.avatar {
+div#content {
+	float: right;
+	-moz-border-radius-topleft: 0;
+	-moz-border-radius-topright: 6px;
+	-webkit-border-top-right-radius: 6px;
+	-webkit-border-top-left-radius: 0;
+	-moz-border-radius-bottomleft: 0;
+	-moz-border-radius-bottomright: 6px;
+	-webkit-border-bottom-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 0;
+}
+div#content .padder {
+	margin-left: 225px;
+	margin-right: 0;
+	border-left: 1px solid #e4e4e4;
+	border-right: 0;
+	-moz-border-radius-topright: 6px;
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-right-radius: 6px;
+	-webkit-border-top-left-radius: 0;
+	-moz-border-radius-bottomright: 6px;
+	-moz-border-radius-bottomleft: 0;
+	-webkit-border-bottom-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 0;
+}
+div#content .left-menu {
 	float: right;
 }
-.accessibly-hidden {
-	left: auto;
-	right: -999em;
+div#content .main-column {
+	margin-right: 190px;
+	margin-left: 0;
 }
 
-/* > Header
--------------------------------------------------------------- */
 
+/*--------------------------------------------------------------
+1.2 - Header
+--------------------------------------------------------------*/
 #header #search-bar {
 	left: 0;
 	right: auto;
@@ -52,52 +110,23 @@ img.avatar {
 }
 
 
-/* > Navigation
--------------------------------------------------------------- */
-
-#nav {
-	left: 15px;
-	right: auto;
-}
-#nav li {
-	margin-left: auto;
-	margin-right: 5px;
+/*--------------------------------------------------------------
+1.3 - Footer
+--------------------------------------------------------------*/
+#footer-widget-area div.widget-area > ul {
 	float: right;
+	margin-left: 19px;
+	margin-right: 0;
 }
-#nav li li { 
-	margin-left: auto;
-	margin-right: 0; 
-}
-#nav ul,
-#nav .sfhover ul ul,
-#nav :hover ul ul {
-	left: auto;
-	right: -9999px;
-}
-#nav .sfhover ul,
-#nav :hover ul {
-	left: auto;
-	right: 0;
-}
-#nav .sfhover ul .sfhover > ul,
-#nav :hover ul :hover > ul {
-	left: auto;
-	right: 125px;
+#footer-widget-area ul.item-list li img.avatar {
+	margin-right: 15px; /* border is 4px */
+	margin-left: 0;
 }
 
 
-/* > Container
--------------------------------------------------------------- */
-
-div#container {
-	border-left: 0;
-	border-right: 1px solid #e0e0e0;
-}
-
-
-/* > Sidebar
--------------------------------------------------------------- */
-
+/*--------------------------------------------------------------
+1.4 - Sidebar
+--------------------------------------------------------------*/
 div#sidebar {
 	float: right;
 	margin-right: -226px;
@@ -140,139 +169,106 @@ div#sidebar div.item-content {
 }
 
 
-/* > Content
--------------------------------------------------------------- */
-
-div#content {
-	float: right;
-	-moz-border-radius-topleft: 0;
-	-moz-border-radius-topright: 6px;
-	-webkit-border-top-right-radius: 6px;
-	-webkit-border-top-left-radius: 0;
-	-moz-border-radius-bottomleft: 0;
-	-moz-border-radius-bottomright: 6px;
-	-webkit-border-bottom-right-radius: 6px;
-	-webkit-border-bottom-left-radius: 0;
-}
-div#content .padder {
-	margin-left: 225px;
-	margin-right: 0;
-	border-left: 1px solid #e4e4e4;
-	border-right: 0;
-	-moz-border-radius-topright: 6px;
-	-moz-border-radius-topleft: 0;
-	-webkit-border-top-right-radius: 6px;
-	-webkit-border-top-left-radius: 0;
-	-moz-border-radius-bottomright: 6px;
-	-moz-border-radius-bottomleft: 0;
-	-webkit-border-bottom-right-radius: 6px;
-	-webkit-border-bottom-left-radius: 0;
-}
-div#content .left-menu {
-	float: right;
-}
-div#content .main-column {
-	margin-right: 190px;
-	margin-left: 0;
-}
-
-
-/* > Item Headers (Profiles, Groups)
--------------------------------------------------------------- */
-
-div#item-header img.avatar {
-	float: right;
-	margin: 0 0 25px 15px;
-}
-div#item-header span.activity {
-	margin: 0 4px 5px 0;
-}
-div#item-header div#item-actions {
-	float: left;
-	margin: 0 15px 15px 0;
-	text-align: left;
-}
-div#item-header ul li {
-	float: left;
-}
-div#item-header div.generic-button,
-div#item-header a.button {
-	float: right;
-	margin: 10px 0 0 10px;
-}
-
-
-/* > Item Lists (Activity, Friend, Group lists)
--------------------------------------------------------------- */
-
-ul.item-list li img.avatar {
-	float: right;
-	margin: 0 0 0 10px;
-}
-ul.item-list li div.item-desc {
-	margin: 10px 64px 0 0;
-}
-ul.item-list li div.action {
-	left: 0;
-	right: auto;
-	text-align: left;
-}
-
-
-/* > Item Tabs
--------------------------------------------------------------- */
-
-div.item-list-tabs {
+/*--------------------------------------------------------------
+2.0 - Non-structural
+--------------------------------------------------------------*/
+p.postmetadata {
 	clear: right;
 }
-div.item-list-tabs ul li {
+
+
+/*--------------------------------------------------------------
+2.1 - Text
+--------------------------------------------------------------*/
+code {
+	font-family: "Monaco", courier, sans-serif;
+}
+blockquote {
+	font-family: sans-serif;
+}
+table th {
+	text-align: right;
+}
+div.author-box,
+div.comment-avatar-box {
 	float: right;
-	margin: 5px 5px 0 0;
+	margin: 0 0 15px 15px;
+	font-family: sans-serif;
 }
-div.item-list-tabs ul li:first-child {
+div.post-content,
+div.comment-content {
+	margin-right: 105px;
 	margin-left: 0;
-	margin-right: 20px;
 }
-div.item-list-tabs ul li.last {
-	float: left;
-	margin: 7px 0 0 20px;
-}
-ul li.loading a {
-	background-position: 8% 50%;
-	padding-left: 30px !important;
-	padding-right: 0 !important;
-}
-div#item-nav ul li.loading a {
-	background-position: 12% 50%;
-}
-div.item-list-tabs ul li.feed a {
-	background-position: right center;
-	padding-right: 20px;
-	padding-left: 0;
+p.date,
+p.postmetadata,
+div.comment-meta,
+div.comment-options {
+	font-family: sans-serif;
 }
 
 
-/* > Item Body
--------------------------------------------------------------- */
-
-span.activity,
-div#message p {
-	border-left: 1px solid #FFE8C4;
-	border-right: 0;
+/*--------------------------------------------------------------
+2.2 - Headers
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+2.3 - Lists
+--------------------------------------------------------------*/
+div.page ul,
+div.page ol,
+div.page dl,
+div.post ul,
+div.post ol,
+div.post dl {
+	margin: 0 1.5em 18px 0;
+}
+dl {
+	margin-right: 0;
 }
 
 
-/* > Directories (Members, Groups, Blogs, Forums)
--------------------------------------------------------------- */
-
-div.dir-search {
-	float: left;
+/*--------------------------------------------------------------
+3.0 - Navigation
+--------------------------------------------------------------*/
+#nav {
+	left: 15px;
+	right: auto;
+}
+#nav li {
+	margin-left: auto;
+	margin-right: 5px;
+	float: right;
+}
+#nav li li { 
+	margin-left: auto;
+	margin-right: 0; 
+}
+#nav ul,
+#nav .sfhover ul ul,
+#nav :hover ul ul {
+	left: auto;
+	right: -9999px;
+}
+#nav .sfhover ul,
+#nav :hover ul {
+	left: auto;
+	right: 0;
+}
+#nav .sfhover ul .sfhover > ul,
+#nav :hover ul :hover > ul {
+	left: auto;
+	right: 125px;
+}
+.navigation,
+.paged-navigation,
+.comment-navigation {
+	font-family: sans-serif;
 }
 
 
-/* > Pagination
--------------------------------------------------------------- */
-
+/*--------------------------------------------------------------
+3.1 - Pagination
+--------------------------------------------------------------*/
 div.pagination .pag-count {
 	float: right;
 }
@@ -281,108 +277,67 @@ div.pagination .pagination-links {
 }
 
 
-/* > Buttons
--------------------------------------------------------------- */
-
-a.button,
-input[type=submit],
-input[type=button],
-ul.button-nav li a,
-div.generic-button a {
-	background-position: right top;
-}
-div.accept, div.reject {
-	float: right;
-	margin-left: 0;
-	margin-right: 10px;
-}
-ul.button-nav li {
-	float: right;
-	margin: 0 0 10px 10px;
-}
-
-
-/* > AJAX Loaders
--------------------------------------------------------------- */
-
-.ajax-loader {
-	background-position: right center !important;
-}
-a.loading {
-	background-position: 5% 50% !important;
-	padding-left: 25px !important;
-	padding-right: 0 !important;
-}
-
-
-/* > Input Forms
--------------------------------------------------------------- */
-
-.standard-form#signup_form div.submit {
+/*--------------------------------------------------------------
+4.0 - WordPress
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+4.1 - Alignments
+--------------------------------------------------------------*/
+.alignright {
 	float: left;
 }
-.standard-form#signup_form div.signup-avatar {
-	margin-left: 15px;
-	margin-right: 0;
-}
-.standard-form div.submit input {
-	margin-left: 15px;
-	margin-right: 0;
-}
-.standard-form div.radio ul {
-	margin: 10px 38px 15px 0;
-}
-.standard-form #basic-details-section,
-.standard-form #blog-details-section,
-.standard-form #profile-details-section {
+.alignleft {
 	float: right;
 }
-.standard-form #profile-details-section {
-	float: left;
-}
-.standard-form #blog-details-section {
+.clear {
 	clear: right;
 }
-
-
-/* > Data Tables
--------------------------------------------------------------- */
-table tr td.label {
-	border-left: 1px solid #eaeaea;
-	border-right: 0;
+img.avatar {
+	float: right;
 }
-table.forum tr.closed td.td-title {
-	padding-right: 35px;
-	padding-left: 0;
-	background-position: 5% 50%;
-}
-table.forum tr > td:first-child,
-table.forum tr > th:first-child {
-	padding-right: 15px;
-	padding-left: 0;
-}
-table.forum tr > td:last-child,
-table.forum tr > th:last-child {
-	padding-left: 15px;
-	padding-right: 0;
-}
-table.forum tr th#th-title,
-table.forum tr th#th-poster,
-table.forum tr th#th-group,
-table.forum td.td-poster,
-table.forum td.td-group,
-table.forum td.td-title {
-	text-align: right;
-}
-table.forum td img.avatar {
-	margin-left: 5px;
-	margin-right: 0;
+.accessibly-hidden {
+	left: auto;
+	right: -999em;
 }
 
 
-/* > Activity Stream Posting
--------------------------------------------------------------- */
+/*--------------------------------------------------------------
+4.2 - Comments
+--------------------------------------------------------------*/
+.comments {
+	float: left;
+}
+div.comment-meta em {
+	float: left;
+}
 
+
+/*--------------------------------------------------------------
+4.3 - Gallery
+--------------------------------------------------------------*/
+dd.wp-caption p.wp-caption-text,
+.wp-caption p.wp-caption-text {
+	padding: 0 0 5px 4px;
+}
+
+
+/*--------------------------------------------------------------
+4.4 - Images
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+4.5 - Posts
+--------------------------------------------------------------*/
+.tags {
+	float: right;
+}
+
+
+/*--------------------------------------------------------------
+5.0 - BuddyPress
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+5.1 - Activity
+--------------------------------------------------------------*/
 form#whats-new-form h5 {
 	margin-right: 76px;
 	margin-left: 0;
@@ -399,9 +354,9 @@ form#whats-new-form #whats-new-submit {
 }
 
 
-/* > Activity Stream Listing
--------------------------------------------------------------- */
-
+/*--------------------------------------------------------------
+5.1.1 - Activity Listing
+--------------------------------------------------------------*/
 .activity-list li.mini .activity-avatar img.avatar,
 .activity-list li.mini .activity-avatar img.FB_profile_pic {
 	margin-right: 36px;
@@ -480,9 +435,9 @@ span.highlight,
 }
 
 
-/* > Activity Stream Comments
--------------------------------------------------------------- */
-
+/*--------------------------------------------------------------
+5.1.2 - Activity Comments
+--------------------------------------------------------------*/
 div.activity-meta {
 	margin: 0 3px 20px 0;
 	clear: right;
@@ -554,9 +509,202 @@ div.activity-comments form div.ac-reply-content {
 }
 
 
-/* > Private Message Threads
--------------------------------------------------------------- */
+/*--------------------------------------------------------------
+5.2 - Admin Bar
+--------------------------------------------------------------*/
+/*--------------------------------------------------------------
+5.3 - Ajax Loading
+--------------------------------------------------------------*/
+.ajax-loader {
+	background-position: right center !important;
+}
+a.loading {
+	background-position: 5% 50% !important;
+	padding-left: 25px !important;
+	padding-right: 0 !important;
+}
 
+
+/*--------------------------------------------------------------
+5.4 - Directories - Members, Groups, Blogs, Forums
+--------------------------------------------------------------*/
+div.dir-search {
+	float: left;
+}
+
+
+/*--------------------------------------------------------------
+5.5 - Error / Success Messages
+--------------------------------------------------------------*/
+span.activity,
+div#message p {
+	border-left: 1px solid #FFE8C4;
+	border-right: 0;
+}
+
+
+/*--------------------------------------------------------------
+5.6 - Forms
+--------------------------------------------------------------*/
+.standard-form#signup_form div.submit {
+	float: left;
+}
+.standard-form#signup_form div.signup-avatar {
+	margin-left: 15px;
+	margin-right: 0;
+}
+.standard-form div.submit input {
+	margin-left: 15px;
+	margin-right: 0;
+}
+.standard-form div.radio ul {
+	margin: 10px 38px 15px 0;
+}
+.standard-form #basic-details-section,
+.standard-form #blog-details-section,
+.standard-form #profile-details-section {
+	float: right;
+}
+.standard-form #profile-details-section {
+	float: left;
+}
+.standard-form #blog-details-section {
+	clear: right;
+}
+a.button,
+input[type=submit],
+input[type=button],
+ul.button-nav li a,
+div.generic-button a {
+	background-position: right top;
+}
+div.accept, div.reject {
+	float: right;
+	margin-left: 0;
+	margin-right: 10px;
+}
+ul.button-nav li {
+	float: right;
+	margin: 0 0 10px 10px;
+}
+
+
+/*--------------------------------------------------------------
+5.7 - Topics and Tables - Forums and General
+--------------------------------------------------------------*/
+table tr td.label {
+	border-left: 1px solid #eaeaea;
+	border-right: 0;
+}
+table.forum tr.closed td.td-title {
+	padding-right: 35px;
+	padding-left: 0;
+	background-position: 5% 50%;
+}
+table.forum tr > td:first-child,
+table.forum tr > th:first-child {
+	padding-right: 15px;
+	padding-left: 0;
+}
+table.forum tr > td:last-child,
+table.forum tr > th:last-child {
+	padding-left: 15px;
+	padding-right: 0;
+}
+table.forum tr th#th-title,
+table.forum tr th#th-poster,
+table.forum tr th#th-group,
+table.forum td.td-poster,
+table.forum td.td-group,
+table.forum td.td-title {
+	text-align: right;
+}
+table.forum td img.avatar {
+	margin-left: 5px;
+	margin-right: 0;
+}
+ul#topic-post-list li div.post-content {
+	margin-right: 54px;
+	margin-left: 0;
+}
+div.admin-links {
+	left: 25px;
+	right: auto
+}
+div#topic-meta div.admin-links {
+	left: 0;
+	right: auto;
+}
+
+
+/*--------------------------------------------------------------
+5.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
+--------------------------------------------------------------*/
+div#item-header img.avatar {
+	float: right;
+	margin: 0 0 25px 15px;
+}
+div#item-header span.activity {
+	margin: 0 4px 5px 0;
+}
+div#item-header div#item-actions {
+	float: left;
+	margin: 0 15px 15px 0;
+	text-align: left;
+}
+div#item-header ul li {
+	float: left;
+}
+div#item-header div.generic-button,
+div#item-header a.button {
+	float: right;
+	margin: 10px 0 0 10px;
+}
+ul.item-list li img.avatar {
+	float: right;
+	margin: 0 0 0 10px;
+}
+ul.item-list li div.item-desc {
+	margin: 10px 64px 0 0;
+}
+ul.item-list li div.action {
+	left: 0;
+	right: auto;
+	text-align: left;
+}
+div.item-list-tabs {
+	clear: right;
+}
+div.item-list-tabs ul li {
+	float: right;
+	margin: 5px 5px 0 0;
+}
+div.item-list-tabs ul li:first-child {
+	margin-left: 0;
+	margin-right: 20px;
+}
+div.item-list-tabs ul li.last {
+	float: left;
+	margin: 7px 0 0 20px;
+}
+ul li.loading a {
+	background-position: 8% 50%;
+	padding-left: 30px !important;
+	padding-right: 0 !important;
+}
+div#item-nav ul li.loading a {
+	background-position: 12% 50%;
+}
+div.item-list-tabs ul li.feed a {
+	background-position: right center;
+	padding-right: 20px;
+	padding-left: 0;
+}
+
+
+/*--------------------------------------------------------------
+5.9 - Private Messaging Threads
+--------------------------------------------------------------*/
 div.messages-options-nav {
 	text-align: left;
 }
@@ -573,109 +721,4 @@ div#message-thread div.message-content {
 }
 div#message-thread div.message-options {
 	text-align: left;
-}
-
-
-/* > Group Forum Topics
--------------------------------------------------------------- */
-
-ul#topic-post-list li div.post-content {
-	margin-right: 54px;
-	margin-left: 0;
-}
-div.admin-links {
-	left: 25px;
-	right: auto
-}
-div#topic-meta div.admin-links {
-	left: 0;
-	right: auto;
-}
-
-
-/* > WordPress Blog Styles
--------------------------------------------------------------- */
-
-.navigation,
-.paged-navigation,
-.comment-navigation {
-	font-family: sans-serif;
-}
-.alignright {
-	float: left;
-}
-.alignleft {
-	float: right;
-}
-div.page ul,
-div.page ol,
-div.page dl,
-div.post ul,
-div.post ol,
-div.post dl {
-	margin: 0 1.5em 18px 0;
-}
-dl {
-	margin-right: 0;
-}
-code {
-	font-family: "Monaco", courier, sans-serif;
-}
-blockquote {
-	font-family: sans-serif;
-}
-table th {
-	text-align: right;
-}
-div.author-box,
-div.comment-avatar-box {
-	float: right;
-	margin: 0 0 15px 15px;
-	font-family: sans-serif;
-}
-div.post-content,
-div.comment-content {
-	margin-right: 105px;
-	margin-left: 0;
-}
-p.date,
-p.postmetadata,
-div.comment-meta,
-div.comment-options {
-	font-family: sans-serif;
-}
-p.postmetadata {
-	clear: right;
-}
-.tags {
-	float: right;
-}
-.comments {
-	float: left;
-}
-dd.wp-caption p.wp-caption-text,
-.wp-caption p.wp-caption-text {
-	padding: 0 0 5px 4px;
-}
-
-
-/* > WordPress Blog Comment Styles
--------------------------------------------------------------- */
-
-div.comment-meta em {
-	float: left;
-}
-
-
-/* > Footer
--------------------------------------------------------------- */
-
-#footer-widget-area div.widget-area > ul {
-	float: right;
-	margin-left: 19px;
-	margin-right: 0;
-}
-#footer-widget-area ul.item-list li img.avatar {
-	margin-right: 15px; /* border is 4px */
-	margin-left: 0;
 }
