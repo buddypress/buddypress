@@ -33,7 +33,7 @@ Hello, this is the BuddyPress Default theme stylesheet.
 	6.6 - Forms
 	6.7 - Topics and Tables - Forums and General
 	6.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
-	6.9 - Private Messaging Threads	
+	6.9 - Private Messaging Threads
 --------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
@@ -68,14 +68,14 @@ body {
 	background-image: url( ../images/background.gif );
 	background-repeat: repeat-x;
 	background-position: top left;
+	color: #555;
 	font-size: 12px;
 	font-family: Arial, Tahoma, Verdana, sans-serif;
 	line-height: 170%;
-	color: #555;
-	width: 90%;
 	min-width: 960px;
 	max-width: 1250px;
 	margin: 0 auto;
+	width: 90%;
 }
 .padder {
 	padding: 19px;
@@ -121,8 +121,8 @@ div#content .padder {
 	margin-right: 225px;
 }
 div#content .one-column {
-	margin-right: 0;
 	border-right: 0 none;
+	margin-right: 0;
 }
 div#content .left-menu {
 	float: left;
@@ -199,14 +199,14 @@ div#content .main-column {
 	padding: 19px;
 }
 #site-generator {
+	color: #bbb;
 	margin: 20px 20px;
 	text-align: center;
-	color: #bbb;
 	text-shadow: #fafafa 1px 1px 0;
 }
 #footer-widget-area {
-	overflow: hidden;
 	margin-top: -19px;
+	overflow: hidden;
 }
 #footer-widget-area div.widget-area > ul {
 	float: left;
@@ -217,11 +217,11 @@ div#content .main-column {
 	margin-top: 19px;
 }
 #footer-widget-area h3.widgettitle {
-	margin: 0 0 10px 0;
 	background: #eaeaea;
+	clear: left;
 	padding: 5px 15px;
 	font-size: 12px;
-	clear: left;
+	margin: 0 0 10px 0;
 }
 #footer-widget-area div div.item-options {
 	margin-left: 0;
@@ -263,11 +263,11 @@ div#sidebar ul#bp-nav li {
 	padding: 10px 15px;
 }
 div#sidebar h3.widgettitle {
-	margin: 25px -20px 10px -19px;
 	background: #eaeaea;
-	padding: 5px 15px;
-	font-size: 12px;
 	clear: left;
+	font-size: 12px;
+	margin: 25px -20px 10px -19px;
+	padding: 5px 15px;
 }
 #footer-widget-area .widget_search,
 div#sidebar .widget_search {
@@ -275,8 +275,8 @@ div#sidebar .widget_search {
 }
 #footer-widget-area .widget_search input[type=text],
 div#sidebar .widget_search input[type=text] {
-	width: 110px;
 	padding: 2px;
+	width: 110px;
 }
 #footer-widget-area ul#recentcomments li,
 #footer-widget-area .widget_recent_entries ul li,
@@ -286,15 +286,15 @@ div#sidebar .widget_recent_entries ul li {
 }
 #footer-widget-area ul.item-list img.avatar,
 div#sidebar ul.item-list img.avatar {
-	width: 20px;
 	height: 20px;
 	margin-right: 10px;
+	width: 20px;
 }
 #footer-widget-area div.item-avatar img,
 div#sidebar div.item-avatar img {
-	width: 40px;
 	height: 40px;
 	margin: 1px;
+	width: 40px;
 }
 #footer-widget-area .avatar-block,
 div#sidebar .avatar-block {
@@ -306,10 +306,10 @@ div#sidebar ul.item-list div.item-title {
 }
 #footer-widget-area div.item-options,
 div#sidebar div.item-options {
-	margin: -10px -20px 0 -19px;
 	background: #f8f8f8;
-	padding: 5px 15px;
 	font-size: 11px;
+	margin: -10px -20px 0 -19px;
+	padding: 5px 15px;
 }
 #footer-widget-area div.item-content {
 	margin-left: 38px;
@@ -317,8 +317,8 @@ div#sidebar div.item-options {
 #footer-widget-area div.item-meta,
 div#sidebar div.item-meta,
 div#sidebar div.item-content {
-	margin-left: 38px;
 	font-size: 11px;
+	margin-left: 38px;
 }
 #footer-widget-area div.tags div#tag-text,
 div#sidebar div.tags div#tag-text {
@@ -337,9 +337,9 @@ p {
 p:last-child {
 	margin-bottom: 0;
 }
-.accessibly-hidden { 
-	left: -999em; 
-	position: absolute; 
+.accessibly-hidden {
+	left: -999em;
+	position: absolute;
 }
 hr {
 	background-color: #e7e7e7;
@@ -373,8 +373,8 @@ sub,
 sup {
 	height: 0;
 	line-height: 1;
-	vertical-align: baseline;
 	position: relative;
+	vertical-align: baseline;
 }
 pre, blockquote {
 	margin-bottom: 20px;
@@ -391,12 +391,12 @@ code {
 	font-family: "Monaco", courier, sans-serif;
 }
 blockquote {
-	quotes: none;
-	font-style: italic;
-	padding: 0 3em;
 	font-family: georgia, times, serif;
 	font-size: 16px;
+	font-style: italic;
 	line-height: 150%;
+	padding: 0 3em;
+	quotes: none;
 }
 blockquote p {
 	margin-bottom: 15px !importantr;
@@ -489,12 +489,12 @@ a:focus {
 }
 #nav {
 	margin: 0;
+	list-style: none;
+	max-width: 95%;
 	padding: 0;
 	position: absolute;
 	right: 15px;
-	list-style: none;
 	bottom: 0;
-	max-width: 95%;
 }
 #nav li a {
 	background: url( ../images/60pc_black.png );
@@ -601,13 +601,13 @@ a:focus {
 4.1 - Pagination
 --------------------------------------------------------------*/
 div.pagination {
-	margin: -20px -19px 0px -19px;
-	padding: 8px 20px;
+	background: #f4f4f4;
+	border: none;
 	color: #888;
 	font-size: 11px;
 	height: 19px;
-	background: #f4f4f4;
-	border: none;
+	margin: -20px -19px 0px -19px;
+	padding: 8px 20px;
 	position: relative;
 }
 div.pagination .pag-count {
@@ -661,10 +661,10 @@ div#pag-bottom {
 .comment-navigation {
 	overflow: hidden;
 	font-family: georgia, times, serif;
-	font-style: italic;
 	font-size: 14px;
-	padding: 5px 0;
+	font-style: italic;
 	margin: 5px 0 25px 0;
+	padding: 5px 0;
 }
 .comments {
 	float: right;
@@ -863,16 +863,17 @@ h3#reply .comments-header {
 
 }
 .wp-caption img {
+	border: 0 none;
 	margin: 0;
 	padding: 0;
-	border: 0 none;
+
 }
 dd.wp-caption p.wp-caption-text,
 .wp-caption p.wp-caption-text {
 	font-size: 0.9em;
 	line-height: 17px;
-	padding: 5px 4px 5px 0;
 	margin: 0;
+	padding: 5px 4px 5px 0;
 }
 #content .gallery {
 	margin: 0 auto 15px;
@@ -893,15 +894,15 @@ dd.wp-caption p.wp-caption-text,
 5.4 - Images
 --------------------------------------------------------------*/
 img.avatar {
-	float: left;
 	border: 2px solid #eee;
+	float: left;
 }
 img.wp-smiley {
-	padding: 0 !important;
-	margin: 0 !important;
 	border: none !important;
-	float: none !important;
 	clear: none !important;
+	float: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
 }
 img.centered,
 img.aligncenter {
@@ -910,14 +911,14 @@ img.aligncenter {
 	margin-right: auto;
 }
 img.alignright {
-	padding: 4px;
-	margin: 0 0 2px 7px;
 	display: inline;
+	margin: 0 0 2px 7px;
+	padding: 4px;
 }
 img.alignleft {
-	padding: 4px;
-	margin: 0 7px 2px 0;
 	display: inline;
+	margin: 0 7px 2px 0;
+	padding: 4px;
 }
 
 
@@ -945,8 +946,8 @@ div.item-body:last-child,
 }
 h2.pagetitle,
 h2.posttitle {
-	margin: 0;
 	line-height: 120%;
+	margin: 0;
 }
 h2.pagetitle a,
 h2.posttitle a {
@@ -960,10 +961,10 @@ h2.posttitle a {
 }
 div.post table,
 div.page table {
-	margin-bottom: 15px;
+	border: 1px solid #eee;
 	border-collapse: collapse;
 	border-spacing: 0;
-	border: 1px solid #eee;
+	margin-bottom: 15px;
 }
 div.post table th,
 div.page table th {
@@ -1011,13 +1012,13 @@ div.post .entry {
 }
 p.date,
 p.postmetadata {
-	color: #888;
-	font-size: 12px;
-	font-family: Georgia, times, serif;
-	padding: 3px 0;
-	margin: 10px 0;
 	border-bottom: 1px solid #e4e4e4;
 	border-top: 1px solid #e4e4e4;
+	color: #888;
+	font-family: Georgia, times, serif;
+	font-size: 12px;
+	margin: 10px 0;
+	padding: 3px 0;
 }
 p.postmetadata {
 	clear: left;
@@ -1035,18 +1036,18 @@ p.postmetadata {
 6.1 - Activity
 --------------------------------------------------------------*/
 #item-body form#whats-new-form {
-	margin: 20px 0 10px;
 	border-bottom: 1px solid #ddd;
+	margin: 20px 0 10px;
 }
 .home-page form#whats-new-form {
 	border-bottom: none;
 	padding-bottom: 0;
 }
 form#whats-new-form h5 {
-	margin: 0;
 	font-weight: normal;
 	font-size: 12px;
 	color: #888;
+	margin: 0;
 	margin-left: 76px;
 	padding: 0 0 3px 0;
 }
@@ -1067,14 +1068,14 @@ form#whats-new-form #whats-new-textarea {
 	padding: 8px;
 }
 form#whats-new-form textarea {
-	width: 100%;
-	height: 50px;
-	font-size: 14px;
-	font-family: inherit;
-	color: #555;
 	border: none;
+	color: #555;
+	font-family: inherit;
+	font-size: 14px;
+	height: 50px;
 	margin: 0;
 	padding: 0;
+	width: 100%;
 }
 form#whats-new-form #whats-new-options select {
 	max-width: 200px;
@@ -1093,8 +1094,8 @@ form#whats-new-form #whats-new-submit {
 6.1.1 - Activity Listing
 --------------------------------------------------------------*/
 ul.activity-list li {
-	padding: 15px 0 0;
 	overflow: hidden;
+	padding: 15px 0 0;
 }
 .activity-list .activity-avatar {
 	float: left;
@@ -1109,10 +1110,10 @@ body.activity-permalink ul.activity-list li.has-comments {
 	padding-bottom: 0;
 }
 .activity-list li.mini {
-	position: relative;
 	font-size: 11px;
 	min-height: 35px;
 	padding: 15px 0 0 0;
+	position: relative;
 }
 .activity-list li.mini div.activity-meta {
 	margin: 0;
@@ -1122,31 +1123,31 @@ body.activity-permalink ul.activity-list li.has-comments {
 }
 .activity-list li.mini .activity-avatar img.avatar,
 .activity-list li.mini .activity-avatar img.FB_profile_pic {
-	width: 20px;
 	height: 20px;
 	margin-left: 76px;
+	width: 20px;
 }
 .activity-list li.activity_comment .activity-avatar img.avatar,
 .activity-list li.activity_comment .activity-avatar img.FB_profile_pic {
-	width: 40px;
 	height: 40px;
 	margin-left: 20px;
+	width: 40px;
 }
 body.activity-permalink .activity-list > li:first-child {
 	padding-top: 0;
 }
 body.activity-permalink .activity-list li .activity-avatar img.avatar,
 body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
-	width: 100px;
 	height: 100px;
 	margin-left: 0;
+	width: 100px;
 }
 .activity-list li .activity-content {
 	position: relative;
 }
 .activity-list li.mini .activity-content p {
-	margin: 0;
 	float: left;
+	margin: 0;
 }
 .activity-list li .activity-meta {
 	position: absolute;
@@ -1154,8 +1155,8 @@ body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
 	top: 0;
 }
 body.activity-permalink .activity-list .activity-meta {
-	top: 18px;
 	right: 15px;
+	top: 18px;
 }
 body.activity-permalink .activity-list li.mini .activity-meta {
 	position: absolute;
@@ -1167,12 +1168,12 @@ body.activity-permalink .activity-list li.mini .activity-meta {
 	margin-top: 30px;
 }
 .activity-list li .activity-inreplyto {
-	font-size: 11px;
+	background: url( ../images/replyto_arrow.gif ) 7px 0 no-repeat;
 	color: #888;
+	font-size: 11px;
 	margin-left: 70px;
 	margin-bottom: 15px;
 	padding-left: 25px;
-	background: url( ../images/replyto_arrow.gif ) 7px 0 no-repeat;
 }
 .activity-list li .activity-inreplyto > p {
 	margin: 0;
@@ -1183,9 +1184,9 @@ body.activity-permalink .activity-list li.mini .activity-meta {
 	background: none;
 	border: none;
 	display: inline;
-	padding: 0;
 	margin: 0;
 	overflow: hidden;
+	padding: 0;
 }
 .activity-list .activity-avatar img {
 	width: 50px;
@@ -1214,15 +1215,15 @@ body.activity-permalink .activity-list li .activity-content {
 }
 body.activity-permalink .activity-list li .activity-header > p {
 	background: url( ../images/activity_arrow.gif ) top left no-repeat;
-	margin-left: -35px;
-	padding: 5px 0 0 35px;
 	height: 35px;
 	margin-bottom: 0;
+	margin-left: -35px;
+	padding: 5px 0 0 35px;
 }
 .activity-list .activity-content .activity-header,
 .activity-list .activity-content .comment-header {
-	font-size: 11px;
 	color: #888;
+	font-size: 11px;
 	line-height: 220%;
 }
 .activity-header {
@@ -1259,11 +1260,11 @@ span.highlight {
 }
 .activity-list .activity-content span.activity-header-meta a {
 	background: none;
-	padding: 0;
-	font-size: 11px;
-	margin: 0;
 	border: none;
 	color: #aaa;
+	font-size: 11px;
+	margin: 0;
+	padding: 0;
 	text-decoration: underline;
 }
 .activity-list .activity-content span.activity-header-meta a:hover {
@@ -1287,9 +1288,9 @@ body.activity-permalink .activity-content blockquote {
 	margin: 0 !important;
 }
 .activity-list .activity-content img.thumbnail {
+	border: 2px solid #eee;
 	float: left;
 	margin: 0 10px 5px 0;
-	border: 2px solid #eee;
 }
 .activity-read-more {
 	margin-left: 1em;
@@ -1315,8 +1316,8 @@ body.activity-permalink .activity-content blockquote {
 6.1.2 - Activity Comments
 --------------------------------------------------------------*/
 div.activity-meta {
-	margin: 0 0 20px 3px;
 	clear: left;
+	margin: 0 0 20px 3px;
 }
 .activity-list div.activity-meta a {
 	background: #f4f4f4;
@@ -1342,24 +1343,24 @@ div.activity-meta a:focus {
 }
 div.activity-meta a:hover {
 	background: #aaa;
-	color: #fff;
 	border-color: #aaa;
+	color: #fff;
 }
 div.activity-meta a.acomment-reply:hover {
 	background: #f7740a;
-	color: #fff;
 	border-color: #f7740a;
+	color: #fff;
 }
 div.activity-comments {
-	position: relative;
 	margin: 0 0 0 75px;
-	width: auto;
 	overflow: hidden; /* IE fix */
+	position: relative;
+	width: auto;
 }
 body.activity-permalink div.activity-comments {
-	width: auto;
+ background: none;
 	margin-left: 135px;
-	background: none;
+	width: auto;
 }
 div.activity-comments > ul {
 	background: #f5f5f5;
@@ -1417,12 +1418,8 @@ div.activity-comments div.acomment-content {
 	margin-left: 39px;
 	margin-top: 5px;
 }
-div.acomment-content .time-since {
-	display: none;
-}
-div.acomment-content .activity-delete-link {
-	display: none;
-}
+div.acomment-content .time-since,
+div.acomment-content .activity-delete-link,
 div.acomment-content .comment-header {
 	display: none;
 }
@@ -1430,8 +1427,8 @@ body.activity-permalink div.activity-comments div.acomment-content {
 	font-size: 14px;
 }
 div.activity-comments div.acomment-meta {
-	font-size: 11px;
 	color: #888;
+	font-size: 11px;
 }
 div.activity-comments form.ac-form {
 	background: #fafafa;
@@ -1468,13 +1465,13 @@ div.activity-comments form .ac-textarea {
 	padding: 8px;
 }
 div.activity-comments form textarea {
-	width: 100%;
+	border: none;
+	color: #555;
 	font-family: inherit;
 	font-size: 11px;
-	color: #555;
 	height: 60px;
-	border: none;
 	padding: 0;
+	width: 100%;
 }
 div.activity-comments form input {
 	margin-top: 5px;
@@ -1486,10 +1483,10 @@ div.ac-reply-avatar img {
 	border: 2px solid #fff !important;
 }
 div.activity-comments form div.ac-reply-content {
-	margin-left: 50px;
-	padding-left: 15px;
 	color: #888;
 	font-size: 11px;
+	margin-left: 50px;
+	padding-left: 15px;
 }
 
 
@@ -1506,8 +1503,8 @@ div.activity-comments form div.ac-reply-content {
 --------------------------------------------------------------*/
 .ajax-loader {
 	background: url( ../images/ajax-loader.gif ) center left no-repeat !important;
-	padding: 8px 8px 3px 8px;
 	display: none;
+	padding: 8px 8px 3px 8px;
 }
 a.loading {
 	background-image: url( ../images/ajax-loader.gif ) !important;
@@ -1525,8 +1522,8 @@ div.dir-search {
 	margin: -39px 0 0 0;
 }
 div.dir-search input[type=text] {
-	padding: 0 3px;
 	font-size: 12px;
+	padding: 0 3px;
 }
 
 
@@ -1540,20 +1537,20 @@ div#message.updated {
 	clear: both;
 }
 div#message p {
-	padding: 10px 15px;
 	font-size: 12px;
 	display: block;
+	padding: 10px 15px;
 }
 div#message.error p {
 	background: #e41717;
-	color: #fff;
 	border-color: #a71a1a;
 	clear: left;
+	color: #fff;
 }
 div#message.updated p {
 	background: #dffcd9;
-	color: #1a9b00;
 	border-color: #c4e9bd;
+	color: #1a9b00;
 }
 .standard-form#signup_form div div.error {
 	background: #e41717;
@@ -1625,10 +1622,10 @@ ul.button-nav li.current a {
 }
 .standard-form div.checkbox label,
 .standard-form div.radio label {
+	color: #888;
+	font-size: 14px;
 	font-weight: normal;
 	margin: 5px 0 0 0;
-	font-size: 14px;
-	color: #888;
 }
 .standard-form#sidebar-login-form label {
 	margin-top: 5px;
@@ -1667,17 +1664,17 @@ div#signup-avatar img {
 	width: 97.5%;
 }
 .standard-form p.description {
-	font-size: 11px;
 	color: #888;
+	font-size: 11px;
 	margin: 5px 0;
 }
 .standard-form div.submit {
-	padding: 15px 0 0 0;
 	clear: both;
+	padding: 15px 0 0 0;
 }
 .standard-form p.submit {
-	padding: 15px 0 0 0;
 	margin-bottom: 0;
+	padding: 15px 0 0 0;
 }
 .standard-form div.submit input {
 	margin-right: 15px;
@@ -1739,12 +1736,12 @@ div.generic-button a {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	cursor: pointer;
-	text-decoration: none;
 	color: #888;
+	cursor: pointer;
 	font-size: 12px;
 	font-weight: normal;
 	padding: 3px 10px;
+	text-decoration: none;
 	vertical-align: bottom;
 }
 button:hover,
@@ -1777,8 +1774,8 @@ ul#topic-post-list li.alt {
 	background: #f8f8f8;
 }
 ul#topic-post-list li div.poster-meta {
-	margin-bottom: 10px;
 	color: #888;
+	margin-bottom: 10px;
 }
 ul#topic-post-list li div.post-content {
 	margin-left: 54px;
@@ -1787,15 +1784,15 @@ div.topic-tags {
 	font-size: 11px;
 }
 div.admin-links {
+	color: #888;
+	font-size: 11px;
 	position: absolute;
 	top: 15px;
 	right: 25px;
-	color: #888;
-	font-size: 11px;
 }
 div#topic-meta {
-	padding: 5px 19px 30px;
 	margin: -10px -19px;
+	padding: 5px 19px 30px;
 	position: relative;
 }
 div#topic-meta div.admin-links {
@@ -1866,8 +1863,8 @@ table.notification-settings th.title {
 }
 table.notification-settings .yes,
 table.notification-settings .no {
-	width: 40px;
 	text-align: center;
+	width: 40px;
 }
 table.forum {
 	margin: 0 -19px;
@@ -1879,10 +1876,10 @@ table.forum tr.sticky td {
 	border-bottom: 1px solid #ffe8c4;
 }
 table.forum tr.closed td.td-title {
-	padding-left: 35px;
 	background-image: url( ../images/closed.png );
 	background-position: 15px 50%;
 	background-repeat: no-repeat;
+	padding-left: 35px;
 }
 table.forum td p.topic-text {
 	color: #888;
@@ -1955,12 +1952,12 @@ div#item-header div#item-header-content {
 }
 div#item-header h2 {
 	font-size: 28px;
-	margin: 0 0 15px 0;
 	line-height: 120%;
+	margin: 0 0 15px 0;
 }
 div#item-header h2 a {
-	text-decoration: none;
 	color: #777;
+	text-decoration: none;
 }
 div#item-header img.avatar {
 	float: left;
@@ -1971,11 +1968,11 @@ div#item-header h2 {
 }
 div#item-header span.activity,
 div#item-header h2 span.highlight {
-	vertical-align: middle;
 	font-size: 11px;
 	font-weight: normal;
 	line-height: 170%;
 	margin-bottom: 7px;
+	vertical-align: middle;
 }
 div#item-header h2 span.highlight {
 	font-size: 16px;
@@ -1999,23 +1996,23 @@ div#item-header h2 span.highlight span {
 div#item-header div#item-meta {
 	font-size: 14px;
 	color: #aaa;
-	padding-bottom: 10px;
 	overflow: hidden;
 	margin: 15px 0 5px 0;
+	padding-bottom: 10px;
 }
 div#item-header div#item-actions {
 	float: right;
-	width: 20%;
 	margin: 0 0 15px 15px;
 	text-align: right;
+	width: 20%;
 }
 div#item-header div#item-actions h3 {
 	font-size: 12px;
 	margin: 0 0 5px 0;
 }
 div#item-header ul {
-	overflow: hidden;
 	margin-bottom: 15px;
+	overflow: hidden;
 }
 div#item-header ul h5,
 div#item-header ul span,
@@ -2027,9 +2024,9 @@ div#item-header ul li {
 }
 div#item-header ul img.avatar,
 div#item-header ul.avatars img.avatar {
-	width: 30px;
 	height: 30px;
 	margin: 2px;
+	width: 30px;
 }
 div#item-header div.generic-button,
 div#item-header a.button {
@@ -2043,9 +2040,9 @@ ul.item-list {
 	width: 100%;
 }
 ul.item-list li {
-	position: relative;
-	padding: 15px 0;
 	border-bottom: 1px solid #eaeaea;
+	padding: 15px 0;
+	position: relative;
 }
 ul.single-line li {
 	border: none;
@@ -2058,17 +2055,17 @@ ul.item-list li div.item-title,
 ul.item-list li h4 {
 	font-weight: normal;
 	font-size: 14px;
-	width: 75%;
 	margin: 0;
+	width: 75%;
 }
 ul.item-list li div.item-title span {
-	font-size: 12px;
 	color: #999;
+	font-size: 12px;
 }
 ul.item-list li div.item-desc {
-	margin: 10px 0 0 64px;
-	font-size: 11px;
 	color: #888;
+	font-size: 11px;
+	margin: 10px 0 0 64px;
 	width: 50%;
 }
 ul.item-list li div.action {
@@ -2078,20 +2075,20 @@ ul.item-list li div.action {
 	text-align: right;
 }
 ul.item-list li div.meta {
-	margin-top: 10px;
 	color: #888;
 	font-size: 11px;
+	margin-top: 10px;
 }
 ul.item-list li h5 span.small {
-	font-weight: normal;
-	font-size: 11px;
 	float: right;
+	font-size: 11px;
+	font-weight: normal;
 }
 div.item-list-tabs {
-	clear: left;
-	overflow: hidden;
-	margin: 25px -19px 20px -19px;
 	background: #eaeaea;
+	clear: left;
+	margin: 25px -19px 20px -19px;
+	overflow: hidden;
 }
 div.item-list-tabs ul li a {
 	text-decoration: none;
@@ -2129,9 +2126,9 @@ div.item-list-tabs ul li span {
 	color: #aaa;
 }
 div.item-list-tabs ul li a span {
+	color: inherit;
 	display: inline;
 	padding: 0;
-	color: inherit;
 }
 div.item-list-tabs ul li.selected a,
 div.item-list-tabs ul li.current a {
@@ -2159,8 +2156,8 @@ div.item-list-tabs#object-nav {
 }
 div.item-list-tabs#subnav {
 	background: #fff;
-	margin: -15px -19px 15px -19px;
 	border-bottom: 1px solid #eaeaea;
+	margin: -15px -19px 15px -19px;
 	min-height: 35px;
 	overflow: hidden;
 }
@@ -2197,11 +2194,11 @@ div.item-list-tabs ul li a span.unread-count {
 	color: #fff;
 }
 div.messages-options-nav {
-	font-size: 11px;
 	background: #eee;
-	text-align: right;
+	font-size: 11px;
 	margin: 0 -19px;
 	padding: 5px 15px;
+	text-align: right;
 }
 div#message-thread div.message-box {
 	margin: 0 -19px;
@@ -2219,8 +2216,8 @@ div#message-thread img.avatar {
 	vertical-align: middle;
 }
 div#message-thread strong {
-	margin: 0;
 	font-size: 16px;
+	margin: 0;
 }
 div#message-thread strong a {
 	text-decoration: none;
