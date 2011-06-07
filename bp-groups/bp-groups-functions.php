@@ -74,7 +74,7 @@ function groups_create_group( $args = '' ) {
 		return false;
 
 	// If this is a new group, set up the creator as the first member and admin
-	if ( !$group_id ) {
+	if ( empty( $group_id ) ) {
 		$member                = new BP_Groups_Member;
 		$member->group_id      = $group->id;
 		$member->user_id       = $group->creator_id;
