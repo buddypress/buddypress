@@ -289,11 +289,17 @@ Class BP_Groups_Group {
 			$sql['user'] = $wpdb->prepare( " AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id );
 
 		if ( !empty( $include ) ) {
+			if ( is_array( $include ) )
+				$include = implode( ',', $include );
+				
 			$include = $wpdb->escape( $include );
 			$sql['include'] = " AND g.id IN ({$include})";
 		}
 
 		if ( !empty( $exclude ) ) {
+			if ( is_array( $exclude ) )
+				$exclude = implode( ',', $exclude );
+				
 			$exclude = $wpdb->escape( $exclude );
 			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
 		}
