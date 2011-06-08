@@ -839,7 +839,7 @@ function bp_activity_comments( $args = '' ) {
 				// Reply link - the span is so that threaded reply links can be
 				// hidden when JS is off.
 				if ( is_user_logged_in() && bp_activity_can_comment_reply( $comment ) )
-					$content .= apply_filters( 'bp_activity_comment_reply_link', '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment_child->id . '" class="acomment-reply" id="acomment-reply-' . $comment->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>', $comment_child );
+					$content .= apply_filters( 'bp_activity_comment_reply_link', '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment_child->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>', $comment_child );
 
 				// Delete link
 				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id ) {
@@ -1141,7 +1141,7 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 }
 	function bp_get_total_mention_count_for_user( $user_id = 0 ) {
 		global $bp;
-		
+
 		return apply_filters( 'bp_get_total_mention_count_for_user', get_user_meta( $user_id, bp_get_user_meta_key( 'bp_new_mention_count' ), true ) );
 	}
 
