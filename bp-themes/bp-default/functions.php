@@ -658,6 +658,7 @@ function bp_dtheme_after_comment_form() {
 add_action( 'comment_form', 'bp_dtheme_after_comment_form' );
 endif;
 
+if ( !function_exists( 'bp_dtheme_sidebar_login_redirect_to' ) ) :
 /**
  * Adds a hidden "redirect_to" input field to the sidebar login form.
  *
@@ -670,5 +671,5 @@ function bp_dtheme_sidebar_login_redirect_to() {
 <?php
 }
 add_action( 'bp_sidebar_login_form', 'bp_dtheme_sidebar_login_redirect_to' );
-
+endif;
 ?>
