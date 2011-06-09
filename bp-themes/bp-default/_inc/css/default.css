@@ -1417,6 +1417,7 @@ div.activity-comments div.acomment-content {
 	font-size: 11px;
 	margin-left: 39px;
 	margin-top: 5px;
+	margin-bottom: 10px;
 }
 div.acomment-content .time-since,
 div.acomment-content .activity-delete-link,
