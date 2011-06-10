@@ -10,10 +10,16 @@ function bp_forums_add_admin_menu() {
 	$hook = add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_forums_add_admin_menu' );
+add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
 
 function bp_forums_bbpress_admin() {
-	global $bp; ?>
+	global $bp; 
+	
+	$base_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' );
+	
+	$action = add_query_arg( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), $base_url );
+	
+	?>
 
 	<div class="wrap">
 		<?php screen_icon( 'buddypress' ); ?>
@@ -35,7 +41,7 @@ function bp_forums_bbpress_admin() {
 
 		else : ?>
 
-			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>', 'buddypress' ), network_admin_url( 'admin.php?page=bb-forums-setup&reinstall=1' ) ); ?>
+			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>.', 'buddypress' ), $action ); ?>
 			<p><?php _e( 'NOTE: The forums directory will only work if your bbPress tables are in the same database as your WordPress tables. If you are not using an existing bbPress install you can ignore this message.', 'buddypress' ) ?></p>
 
 		<?php endif; ?>

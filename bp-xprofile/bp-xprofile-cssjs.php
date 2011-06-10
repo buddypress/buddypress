@@ -7,7 +7,7 @@ function xprofile_add_admin_css() {
 			wp_enqueue_style( 'xprofile-admin-css', BP_PLUGIN_URL . '/bp-xprofile/admin/css/admin.css', array(), BP_VERSION );
 	}
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'xprofile_add_admin_css' );
+add_action( bp_core_admin_hook(), 'xprofile_add_admin_css' );
 
 function xprofile_add_admin_js() {
 	if ( !empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
@@ -24,5 +24,5 @@ function xprofile_add_admin_js() {
 			wp_enqueue_script( 'xprofile-admin-js', BP_PLUGIN_URL . '/bp-xprofile/admin/js/admin.js', array( 'jquery', 'jquery-ui-sortable' ), BP_VERSION );
 	}
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'xprofile_add_admin_js', 1 );
+add_action( bp_core_admin_hook(), 'xprofile_add_admin_js', 1 );
 ?>

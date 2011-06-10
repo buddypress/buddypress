@@ -16,7 +16,11 @@ add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update
  * @package BuddyPress Core
  * @since {@internal Unknown}}
  */
-function bp_core_admin_dashboard() { ?>
+function bp_core_admin_dashboard() { 
+	$base_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' );
+	
+	$action = add_query_arg( array( 'page' => 'bp-general-settings' ), $base_url );
+	?>
 	<div class="wrap" id="bp-admin">
 
 		<div id="bp-admin-header">
@@ -26,7 +30,7 @@ function bp_core_admin_dashboard() { ?>
 
 		<?php do_action( 'bp_admin_notices' ); ?>
 
-		<form action="<?php echo network_admin_url( 'admin.php?page=bp-general-settings' ) ?>" method="post" id="bp-admin-form">
+		<form action="<?php echo $action ?>" method="post" id="bp-admin-form">
 			<div id="bp-admin-content">
 				<p>[TODO: All sorts of awesome things will go here. Latest plugins and themes, stats, version check, support topics, news, tips]</p>
 			</div>
@@ -193,7 +197,9 @@ function bp_core_admin_component_setup_handler() {
 			bp_core_update_page_meta( $directory_pages );
 		}
 
-		wp_redirect( network_admin_url( add_query_arg( array( 'page' => 'bp-general-settings', 'updated' => 'true' ), 'admin.php' ) ) );
+		$base_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' );
+
+		wp_redirect( add_query_arg( array( 'page' => 'bp-general-settings', 'updated' => 'true' ), $base_url ) );
 	}
 }
 add_action( 'admin_init', 'bp_core_admin_component_setup_handler' );
@@ -356,11 +362,6 @@ function bp_core_admin_component_options() {
 function bp_core_admin_page_options() {
 	global $bp;
 	
-	if ( !bp_is_root_blog() ) {
-		$bp->is_switched = 1;
-		switch_to_blog( BP_ROOT_BLOG );
-	}
-		
 	// Get the existing WP pages
 	$existing_pages = bp_core_get_page_meta();
 
@@ -448,11 +449,6 @@ function bp_core_admin_page_options() {
 	</table>
 
 	<?php
-	
-	if ( isset( $bp->is_switched ) ) {
-		restore_current_blog();
-		unset( $bp->is_switched );
-	}
 }
 
 /**

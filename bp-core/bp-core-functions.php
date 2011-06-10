@@ -159,6 +159,21 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
  	return apply_filters( 'bp_core_component_slug_from_root_slug', $slug, $root_slug );
 }
 
+function bp_core_do_network_admin() {
+	$do_network_admin = false;
+	
+	if ( is_multisite() && ( !defined( 'BP_ENABLE_MULTIBLOG' ) || !BP_ENABLE_MULTIBLOG ) )
+		$do_network_admin = true;
+	
+	return apply_filters( 'bp_core_do_network_admin', $do_network_admin );
+}
+
+function bp_core_admin_hook() {
+	$hook = bp_core_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
+	
+	return apply_filters( 'bp_core_admin_hook', $hook );
+}
+
 /**
  * Initializes the wp-admin area "BuddyPress" menus and sub menus.
  *
@@ -168,10 +183,12 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
 function bp_core_admin_menu_init() {
 	if ( !is_super_admin() )
 		return false;
+	
+	add_action( bp_core_admin_hook(), 'bp_core_add_admin_menu', 9 );
 
 	require ( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin.php' );
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_admin_menu_init' );
+add_action( 'bp_init', 'bp_core_admin_menu_init' );
 
 /**
  * Adds the "BuddyPress" admin submenu item to the Site Admin tab.
@@ -193,7 +210,7 @@ function bp_core_add_admin_menu() {
 	$hooks = array();
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
-	$hooks[] = add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup', '', 2 );
+	$hooks[] = add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup', '', 4 );
 
 	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Components', 'buddypress' ), __( 'Components', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup'  );
 	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Settings',   'buddypress' ), __( 'Settings',   'buddypress' ), 'manage_options', 'bp-settings',         'bp_core_admin_settings'         );
@@ -202,7 +219,6 @@ function bp_core_add_admin_menu() {
 	foreach( $hooks as $hook )
 		add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_add_admin_menu', 9 );
 
 /**
  * Print admin messages to admin_notices or network_admin_notices
@@ -224,8 +240,9 @@ function bp_core_print_admin_notices() {
 	if ( !is_super_admin() )
 		return;
 	
-	// On multisite installs, don't show on the Site Admin of a non-root blog
-	if ( !bp_is_root_blog() )
+	// On multisite installs, don't show on the Site Admin of a non-root blog, unless
+	// do_network_admin is overridden
+	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() )
 		return;
 		
 	// Show the messages
@@ -283,9 +300,10 @@ function bp_core_activation_notice() {
 	// Only the super admin gets warnings
 	if ( !is_super_admin() )
 		return;
-	
-	// On multisite installs, don't log on a non-root blog
-	if ( !bp_is_root_blog() )
+		
+	// On multisite installs, don't load on a non-root blog, unless do_network_admin is
+	// overridden
+	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() )
 		return;
 		
 	// Don't show these messages during setup or upgrade
@@ -360,7 +378,9 @@ function bp_core_activation_notice() {
 			$edit_pages_links[] = sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'post.php?action=edit&post=' . $op['id'] ), $op['title'] );
 		}
 		
-		$notice = sprintf( __( 'Some of your WordPress pages are linked to BuddyPress components that have been disabled. These pages may continue to show up in your site navigation. Consider <a href="%1$s">reactivating the components</a>, or unpublishing the pages: <strong>%2$s</strong>', 'buddypress' ), network_admin_url( 'admin.php?page=bp-general-settings' ), implode( ', ', $edit_pages_links ) );
+		$admin_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php?page=bp-general-settings' ) : admin_url( 'admin.php?page=bp-general-settings' );
+		
+		$notice = sprintf( __( 'Some of your WordPress pages are linked to BuddyPress components that have been disabled. These pages may continue to show up in your site navigation. Consider <a href="%1$s">reactivating the components</a>, or unpublishing the pages: <strong>%2$s</strong>', 'buddypress' ), $admin_url, implode( ', ', $edit_pages_links ) );
 		
 		bp_core_add_admin_notice( $notice );
 	}
@@ -403,7 +423,9 @@ function bp_core_activation_notice() {
 	}
 	
 	if ( !empty( $orphaned_components ) ) {
-		$notice = sprintf( __( 'Some BuddyPress components must be associated with WordPress pages for your site to work properly. The following components are missing their required WP pages: <strong>%1$s</strong>. Visit the <a href="%2$s">BuddyPress Components</a> panel, where you can either deactivate unused components or complete the page setup.', 'buddypress' ), implode( ', ', $orphaned_components ), network_admin_url( 'admin.php?page=bp-general-settings' ) );
+		$admin_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php?page=bp-general-settings' ) : admin_url( 'admin.php?page=bp-general-settings' );
+		
+		$notice = sprintf( __( 'Some BuddyPress components must be associated with WordPress pages for your site to work properly. The following components are missing their required WP pages: <strong>%1$s</strong>. Visit the <a href="%2$s">BuddyPress Components</a> panel, where you can either deactivate unused components or complete the page setup.', 'buddypress' ), implode( ', ', $orphaned_components ), $admin_url );
 		
 		bp_core_add_admin_notice( $notice );
 	}

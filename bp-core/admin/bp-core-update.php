@@ -145,7 +145,7 @@ class BP_Core_Setup_Wizard {
 
 				$step_count  = count( $this->steps ) - 1;
 				$wiz_or_set  = $this->current_step >= $step_count ? 'bp-general-settings' : 'bp-wizard';
-				$form_action = is_multisite() ? network_admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) ) : admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) );
+				$form_action = bp_core_update_do_network_admin() ? network_admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) ) : admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) );
 			?>
 
 			<form action="<?php echo $form_action; ?>" method="post" id="bp-admin-form">
@@ -1004,7 +1004,7 @@ class BP_Core_Setup_Wizard {
 			require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
 
 			// Redirect to the BuddyPress dashboard
-			$redirect = is_multisite() ? add_query_arg( array( 'page' => 'bp-general-settings' ), network_admin_url( 'admin.php' ) ) : add_query_arg( array( 'page' => 'bp-general-settings' ), admin_url( 'admin.php' ) );
+			$redirect = bp_core_update_do_network_admin() ? add_query_arg( array( 'page' => 'bp-general-settings' ), network_admin_url( 'admin.php' ) ) : add_query_arg( array( 'page' => 'bp-general-settings' ), admin_url( 'admin.php' ) );
 
 			wp_redirect( $redirect );
 
@@ -1055,7 +1055,7 @@ function bp_core_setup_wizard_init() {
 
 	$bp_wizard = new BP_Core_Setup_Wizard;
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'bp_core_setup_wizard_init', 7 );
+add_action( bp_core_update_admin_hook(), 'bp_core_setup_wizard_init', 7 );
 
 function bp_core_install( $active_components = false ) {
 	global $wpdb;
@@ -1150,7 +1150,7 @@ add_action( 'bp_admin_notices', 'bp_core_wizard_message' );
 // Alter thickbox screens so the entire plugin download and install
 // interface is contained within.
 function bp_core_wizard_thickbox() {
-	$form_action = is_multisite() ? network_admin_url( add_query_arg( array( 'page' => 'bp-wizard', 'updated' => '1' ), 'admin.php' ) ) : admin_url( add_query_arg( array( 'page' => 'bp-wizard', 'updated' => '1' ), 'admin.php' ) ); ?>
+	$form_action = bp_core_update_do_network_admin() ? network_admin_url( add_query_arg( array( 'page' => 'bp-wizard', 'updated' => '1' ), 'admin.php' ) ) : admin_url( add_query_arg( array( 'page' => 'bp-wizard', 'updated' => '1' ), 'admin.php' ) ); ?>
 
 	<script type="text/javascript">
 		jQuery('p.action-button a').attr( 'target', '' );
@@ -1200,7 +1200,7 @@ function bp_core_update_add_admin_menu() {
 	// Add a hook for css/js
 	add_action( "admin_print_styles-$hook", 'bp_core_update_add_admin_menu_styles' );
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu',  'bp_core_update_add_admin_menu', 9 );
+add_action( bp_core_update_admin_hook(),  'bp_core_update_add_admin_menu', 9 );
 
 function bp_core_update_add_admin_menu_styles() {
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
@@ -1253,6 +1253,21 @@ function bp_core_update_get_page_meta() {
 	return apply_filters( 'bp_core_update_get_page_meta', $blog_page_ids );
 }
 
+function bp_core_update_do_network_admin() {
+	$do_network_admin = false;
+	
+	if ( is_multisite() && ( !defined( 'BP_ENABLE_MULTIBLOG' ) || !BP_ENABLE_MULTIBLOG ) )
+		$do_network_admin = true;
+	
+	return apply_filters( 'bp_core_do_network_admin', $do_network_admin );
+}
+
+function bp_core_update_admin_hook() {
+	$hook = bp_core_update_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
+	
+	return apply_filters( 'bp_core_admin_hook', $hook );
+}
+
 /**
  * Adds an admin nag about running the BP upgrade/install wizard
  *
@@ -1269,7 +1284,7 @@ function bp_core_update_nag() {
 	if ( 'admin.php' == $pagenow && ( empty( $_GET['page'] ) || 'bp-wizard' == $_GET['page'] ) )
 		return;
 
-	$url = is_multisite() ? network_admin_url( 'admin.php?page=bp-wizard' ) : admin_url( 'admin.php?page=bp-wizard' );
+	$url = bp_core_update_do_network_admin() ? network_admin_url( 'admin.php?page=bp-wizard' ) : admin_url( 'admin.php?page=bp-wizard' );
 
 	switch( $bp->maintenence_mode ) {
 		case 'update':

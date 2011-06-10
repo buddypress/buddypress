@@ -24,7 +24,7 @@ function xprofile_add_admin_menu() {
 	$hook = add_submenu_page( 'bp-general-settings', __( 'Profile Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
-add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'xprofile_add_admin_menu' );
+add_action( bp_core_admin_hook(), 'xprofile_add_admin_menu' );
 
 /**
  * Adds an admin bar menu to any profile page providing site admin options
