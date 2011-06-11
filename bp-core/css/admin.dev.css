@@ -107,12 +107,14 @@ div#bp-admin div.prev-next {
 
 div#bp-admin table td {
 	font-family: helvetica, arial, tahoma, sans-serif;
+	vertical-align: top;
 }
 
 div#bp-admin table.form-table th {
 	border-right: 1px solid #eee;
 	padding: 15px 25px 15px 0;
 	color: #555;
+	vertical-align: top;
 }
 	div#bp-admin table.form-table tr {
 		border-bottom: 1px dotted #f0f0f0;
@@ -127,7 +129,6 @@ div#bp-admin table.form-table th {
 
 	div#bp-admin table.form-table th img {
 		margin-top: 5px;
-		width: 215px;
 	}
 
 	div#bp-admin table.form-table th p { margin: 3px 0 0 0; }

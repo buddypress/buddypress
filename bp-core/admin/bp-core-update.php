@@ -613,7 +613,7 @@ class BP_Core_Setup_Wizard {
 			<tr>
 				<th>
 					<h5><?php _e( 'Use BuddyPress Default', 'buddypress' ); ?></h5>
-					<img src="<?php echo plugins_url( '/buddypress/bp-core/images/default.jpg' ); ?>" alt="<?php _e( 'BuddyPress Default', 'buddypress' ); ?>" />
+					<img src="<?php echo plugins_url( '/buddypress/bp-themes/bp-default/screenshot.png' ); ?>" alt="<?php _e( 'BuddyPress Default', 'buddypress' ); ?>" />
 				</th>
 				<td>
 					<p><?php _e( 'BuddyPress Default contains everything you need to get up and running out of the box. It supports all features and is highly customizable.', 'buddypress' ); ?></p>
@@ -626,7 +626,7 @@ class BP_Core_Setup_Wizard {
 				<tr>
 					<th>
 						<h5><?php _e( 'Other themes', 'buddypress' ); ?></h5>
-						<img src="<?php echo plugins_url( '/buddypress/bp-core/images/find.jpg' ); ?>" alt="<?php _e( 'A BuddyPress theme', 'buddypress' ); ?>" />
+						<img src="<?php echo plugins_url( '/buddypress/bp-core/images/find.png' ); ?>" alt="<?php _e( 'A BuddyPress theme', 'buddypress' ); ?>" />
 					</th>
 					<td>
 						<p><?php _e( "We've found that you already have some other BuddyPress-compatible themes available. To use one of those, pick it from this list.", 'buddypress' ); ?></p>
