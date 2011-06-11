@@ -66,7 +66,7 @@ function bp_core_set_uri_globals() {
 		if ( empty( $bp_uri[$key] ) ) unset( $bp_uri[$key] );
 
 	// Running off blog other than root
-	if ( defined( 'BP_ENABLE_MULTIBLOG' ) || 1 != BP_ROOT_BLOG ) {
+	if ( is_multisite() && ( defined( 'BP_ENABLE_MULTIBLOG' ) || 1 != BP_ROOT_BLOG ) ) {
 
 		// Any subdirectory names must be removed from $bp_uri.
 		// This includes two cases: (1) when WP is installed in a subdirectory,

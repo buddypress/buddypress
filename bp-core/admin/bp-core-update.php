@@ -1000,8 +1000,9 @@ class BP_Core_Setup_Wizard {
 			// Delete the setup cookie
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
-			// Load BP, so that the redirect is successful
+			// Load BP and hook the admin menu, so that the redirect is successful
 			require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
+			bp_core_add_admin_menu();
 
 			// Redirect to the BuddyPress dashboard
 			$redirect = bp_core_update_do_network_admin() ? add_query_arg( array( 'page' => 'bp-general-settings' ), network_admin_url( 'admin.php' ) ) : add_query_arg( array( 'page' => 'bp-general-settings' ), admin_url( 'admin.php' ) );
