@@ -147,20 +147,58 @@
 <?php if ( bp_is_group_admin_screen( 'manage-members' ) ) : ?>
 
 	<?php do_action( 'bp_before_group_manage_members_admin' ); ?>
-
+	
 	<div class="bp-widget">
 		<h4><?php _e( 'Administrators', 'buddypress' ); ?></h4>
-		<?php bp_group_admin_memberlist( true ) ?>
+
+		<?php if ( bp_has_members( '&include='. bp_group_admin_ids() ) ) : ?>
+		
+		<ul id="admins-list" class="item-list single-line>">
+			
+			<?php while ( bp_members() ) : bp_the_member(); ?>
+			<li>
+				<?php echo bp_core_fetch_avatar( array( 'item_id' => bp_get_member_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
+				<h5>
+					<a href="<?php bp_member_permalink(); ?>"> <?php bp_member_name(); ?></a>
+					<span class="small">
+						<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
+					</span>			
+				</h5>		
+			</li>
+			<?php endwhile; ?>
+		
+		</ul>
+		
+		<?php endif; ?>
+
 	</div>
-
+	
 	<?php if ( bp_group_has_moderators() ) : ?>
-
 		<div class="bp-widget">
-			<h4><?php _e( 'Moderators', 'buddypress' ) ?></h4>
-			<?php bp_group_mod_memberlist( true ) ?>
+			<h4><?php _e( 'Moderators', 'buddypress' ) ?></h4>		
+			
+			<?php if ( bp_has_members( '&include=' . bp_group_mod_ids() ) ) : ?>
+				<ul id="mods-list" class="item-list">
+				
+					<?php while ( bp_members() ) : bp_the_member(); ?>					
+					<li>
+						<?php echo bp_core_fetch_avatar( array( 'item_id' => bp_get_member_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => __( 'Profile picture of %s', 'buddypress' ) ) ) ?>
+						<h5>
+							<a href="<?php bp_member_permalink(); ?>"> <?php bp_member_name(); ?></a>
+							<span class="small">
+								<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => bp_get_member_user_id() ) ) ?>" class="button confirm mod-promote-to-admin" title="<?php _e( 'Promote to Admin', 'buddypress' ); ?>"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a>
+								<a class="button confirm mod-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
+							</span>		
+						</h5>		
+					</li>	
+					<?php endwhile; ?>			
+				
+				</ul>
+			
+			<?php endif; ?>
 		</div>
+	<?php endif ?>
 
-	<?php endif; ?>
 
 	<div class="bp-widget">
 		<h4><?php _e("Members", "buddypress"); ?></h4>

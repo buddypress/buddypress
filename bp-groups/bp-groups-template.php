@@ -578,6 +578,66 @@ function bp_group_list_mods( $group = false ) {
 
 }
 
+/**
+ * Return a list of user_ids for a group's admins
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param obj $group (optional) The group being queried. Defaults to the current group in the loop
+ * @param str $format 'string' to get a comma-separated string, 'array' to get an array
+ * @return mixed $admin_ids A string or array of user_ids
+ */
+function bp_group_admin_ids( $group = false, $format = 'string' ) {
+	global $groups_template;
+
+	if ( !$group )
+		$group =& $groups_template->group;
+
+	$admin_ids = array();
+
+	if ( $group->admins ) { 
+		foreach( $group->admins as $admin ) {
+			$admin_ids[] = $admin->user_id;
+		}
+	}
+			
+	if ( 'string' == $format ) 
+		$admin_ids = implode( ',', $admin_ids );
+	
+	return apply_filters( 'bp_group_admin_ids', $admin_ids );
+}
+
+/**
+ * Return a list of user_ids for a group's moderators
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param obj $group (optional) The group being queried. Defaults to the current group in the loop
+ * @param str $format 'string' to get a comma-separated string, 'array' to get an array
+ * @return mixed $mod_ids A string or array of user_ids
+ */
+function bp_group_mod_ids( $group = false, $format = 'string' ) {
+	global $groups_template;
+
+	if ( !$group )
+		$group =& $groups_template->group;
+
+	$mod_ids = array();
+
+	if ( $group->mods ) { 
+		foreach( $group->mods as $mod ) {
+			$mod_ids[] = $mod->user_id;
+		}
+	}
+	
+	if ( 'string' == $format ) 
+		$mod_ids = implode( ',', $mod_ids );
+	
+	return apply_filters( 'bp_group_mod_ids', $mod_ids );
+}
+
 function bp_group_all_members_permalink() {
 	echo bp_get_group_all_members_permalink();
 }
@@ -959,7 +1019,7 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 		global $members_template, $groups_template, $bp;
 
 		$defaults = array(
-			'user_id' => $members_template->member->user_id,
+			'user_id' => !empty( $members_template->member->user_id ) ? $members_template->member->user_id : false,
 			'group'   => &$groups_template->group
 		);
 
