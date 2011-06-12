@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-12 13:30:57+00:00\n"
+"POT-Creation-Date: 2011-06-12 14:31:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3320,74 +3320,62 @@ msgstr ""
 msgid "Activity RSS Feed"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:22 bp-themes/bp-default/attachment.php:18
-#: bp-themes/bp-default/search.php:29 bp-themes/bp-default/archive.php:29
+#: bp-themes/bp-default/index.php:24 bp-themes/bp-default/attachment.php:18
+#: bp-themes/bp-default/search.php:26 bp-themes/bp-default/archive.php:24
 #: bp-themes/bp-default/single.php:16
 msgctxt "Post written by..."
 msgid "by %s"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:26 bp-themes/bp-default/attachment.php:22
-#: bp-themes/bp-default/search.php:33 bp-themes/bp-default/archive.php:33
+#: bp-themes/bp-default/index.php:28 bp-themes/bp-default/attachment.php:22
+#: bp-themes/bp-default/search.php:30 bp-themes/bp-default/archive.php:28
 msgid "Permanent Link to"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:28 bp-themes/bp-default/search.php:35
-#: bp-themes/bp-default/archive.php:35 bp-themes/bp-default/single.php:23
+#: bp-themes/bp-default/index.php:30 bp-themes/bp-default/search.php:32
+#: bp-themes/bp-default/archive.php:30 bp-themes/bp-default/single.php:23
 msgid "%1$s <span>in %2$s by %3$s</span>"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:31 bp-themes/bp-default/search.php:38
-#: bp-themes/bp-default/archive.php:38 bp-themes/bp-default/single.php:28
+#: bp-themes/bp-default/index.php:33 bp-themes/bp-default/search.php:35
+#: bp-themes/bp-default/archive.php:33 bp-themes/bp-default/single.php:28
 msgid "Read the rest of this entry &rarr;"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:32 bp-themes/bp-default/page.php:20
+#: bp-themes/bp-default/index.php:34 bp-themes/bp-default/page.php:20
 #: bp-themes/bp-default/onecolumn-page.php:31
-#: bp-themes/bp-default/archive.php:39 bp-themes/bp-default/single.php:30
+#: bp-themes/bp-default/archive.php:34 bp-themes/bp-default/single.php:30
 msgid "Pages: "
 msgstr ""
 
-#: bp-themes/bp-default/index.php:35 bp-themes/bp-default/search.php:41
-#: bp-themes/bp-default/archive.php:42 bp-themes/bp-default/single.php:33
+#: bp-themes/bp-default/index.php:37 bp-themes/bp-default/search.php:38
+#: bp-themes/bp-default/archive.php:37 bp-themes/bp-default/single.php:33
 msgid "Tags: "
 msgstr ""
 
-#: bp-themes/bp-default/index.php:35 bp-themes/bp-default/attachment.php:50
-#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/archive.php:42
+#: bp-themes/bp-default/index.php:37 bp-themes/bp-default/attachment.php:50
+#: bp-themes/bp-default/search.php:38 bp-themes/bp-default/archive.php:37
 #: bp-themes/bp-default/single.php:33
 msgid "No Comments &#187;"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:35 bp-themes/bp-default/attachment.php:50
-#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/archive.php:42
+#: bp-themes/bp-default/index.php:37 bp-themes/bp-default/attachment.php:50
+#: bp-themes/bp-default/search.php:38 bp-themes/bp-default/archive.php:37
 #: bp-themes/bp-default/single.php:33
 msgid "1 Comment &#187;"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:35 bp-themes/bp-default/attachment.php:50
-#: bp-themes/bp-default/search.php:41 bp-themes/bp-default/archive.php:42
+#: bp-themes/bp-default/index.php:37 bp-themes/bp-default/attachment.php:50
+#: bp-themes/bp-default/search.php:38 bp-themes/bp-default/archive.php:37
 #: bp-themes/bp-default/single.php:33
 msgid "% Comments &#187;"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:46 bp-themes/bp-default/search.php:17
-#: bp-themes/bp-default/search.php:51 bp-themes/bp-default/archive.php:16
-#: bp-themes/bp-default/archive.php:53
-msgid "&larr; Previous Entries"
-msgstr ""
-
-#: bp-themes/bp-default/index.php:47 bp-themes/bp-default/search.php:18
-#: bp-themes/bp-default/search.php:52 bp-themes/bp-default/archive.php:17
-#: bp-themes/bp-default/archive.php:54
-msgid "Next Entries &rarr;"
-msgstr ""
-
-#: bp-themes/bp-default/index.php:53 bp-themes/bp-default/archive.php:60
+#: bp-themes/bp-default/index.php:50 bp-themes/bp-default/archive.php:50
 msgid "Not Found"
 msgstr ""
 
-#: bp-themes/bp-default/index.php:54
+#: bp-themes/bp-default/index.php:51
 msgid "Sorry, but you are looking for something that isn't here."
 msgstr ""
 
@@ -3759,6 +3747,14 @@ msgstr ""
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
+#: bp-themes/bp-default/functions.php:688
+msgid "&larr; Previous Entries"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:689
+msgid "Next Entries &rarr;"
+msgstr ""
+
 #: bp-themes/bp-default/page.php:18 bp-themes/bp-default/onecolumn-page.php:29
 msgid "<p class=\"serif\">Read the rest of this page &rarr;</p>"
 msgstr ""
@@ -3880,52 +3876,52 @@ msgstr ""
 msgid "Your avatar will be used on your profile and throughout the site. If there is a <a href=\"http://gravatar.com\">Gravatar</a> associated with your account email we will use that, or you can upload an image from your computer."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:13
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:14
 msgid "Click below to select a JPG, GIF or PNG format photo from your computer and then click 'Upload Image' to proceed."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:17
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:18
 #: bp-themes/bp-default/groups/single/admin.php:106
 #: bp-themes/bp-default/groups/create.php:133
 msgid "Upload Image"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:22
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:23
 msgid "If you'd like to delete your current avatar but not upload a new one, please use the delete avatar button."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:23
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:24
 #: bp-themes/bp-default/groups/single/admin.php:114
 msgid "Delete Avatar"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:23
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:24
 msgid "Delete My Avatar"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:32
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:31
 msgid "Crop Your New Avatar"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:34
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:33
 #: bp-themes/bp-default/groups/single/admin.php:126
 #: bp-themes/bp-default/groups/create.php:146
 msgid "Avatar to crop"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:37
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:36
 #: bp-themes/bp-default/groups/single/admin.php:129
 #: bp-themes/bp-default/groups/create.php:149
 msgid "Avatar preview"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:40
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:39
 #: bp-themes/bp-default/groups/single/admin.php:132
 #: bp-themes/bp-default/groups/create.php:152
 msgid "Crop Image"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:56
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:55
 msgid "Your avatar will be used on your profile and throughout the site. To change your avatar, please create an account with <a href=\"http://gravatar.com\">Gravatar</a> using the same email address as you used to register with this site."
 msgstr ""
 
@@ -4575,7 +4571,7 @@ msgstr ""
 msgid "Search Results"
 msgstr ""
 
-#: bp-themes/bp-default/search.php:57
+#: bp-themes/bp-default/search.php:51
 msgid "No posts found. Try a different search?"
 msgstr ""
 
