@@ -10,6 +10,7 @@
 
 		<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
 
+			<?php wp_nonce_field( 'bp_avatar_upload' ) ?>
 			<p><?php _e( 'Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Image\' to proceed.', 'buddypress' ) ?></p>
 
 			<p id="avatar-upload">
@@ -22,8 +23,6 @@
 				<p><?php _e( "If you'd like to delete your current avatar but not upload a new one, please use the delete avatar button.", 'buddypress' ) ?></p>
 				<p><a class="button edit" href="<?php bp_avatar_delete_link() ?>" title="<?php _e( 'Delete Avatar', 'buddypress' ) ?>"><?php _e( 'Delete My Avatar', 'buddypress' ) ?></a></p>
 			<?php endif; ?>
-
-			<?php wp_nonce_field( 'bp_avatar_upload' ) ?>
 
 		<?php endif; ?>
 
