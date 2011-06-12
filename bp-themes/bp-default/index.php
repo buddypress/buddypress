@@ -11,6 +11,8 @@
 
 			<?php if ( have_posts() ) : ?>
 
+				<?php bp_dtheme_content_nav( 'nav-above' ); ?>
+
 				<?php while (have_posts()) : the_post(); ?>
 
 					<?php do_action( 'bp_before_blog_post' ) ?>
@@ -41,12 +43,7 @@
 
 				<?php endwhile; ?>
 
-				<div id="nav-below" class="navigation">
-
-					<div class="alignleft"><?php next_posts_link( __( '&larr; Previous Entries', 'buddypress' ) ) ?></div>
-					<div class="alignright"><?php previous_posts_link( __( 'Next Entries &rarr;', 'buddypress' ) ) ?></div>
-
-				</div>
+				<?php bp_dtheme_content_nav( 'nav-below' ); ?>
 
 			<?php else : ?>
 

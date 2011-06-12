@@ -672,4 +672,22 @@ function bp_dtheme_sidebar_login_redirect_to() {
 }
 add_action( 'bp_sidebar_login_form', 'bp_dtheme_sidebar_login_redirect_to' );
 endif;
+
+/**
+ * Display navigation to next/previous pages when applicable
+ *
+ * @global unknown $wp_query
+ * @param string $nav_id DOM ID for this navigation
+ * @since 1.3
+ */
+function bp_dtheme_content_nav( $nav_id ) {
+	global $wp_query;
+
+	if ( $wp_query->max_num_pages > 1 ) : ?>
+		<div id="<?php echo $nav_id; ?>" class="navigation">
+			<div class="alignleft"><?php next_posts_link( __( '&larr; Previous Entries', 'buddypress' ) ); ?></div>
+			<div class="alignright"><?php previous_posts_link( __( 'Next Entries &rarr;', 'buddypress' ) ); ?></div>
+		</div><!-- #<?php echo $nav_id; ?> -->
+	<?php endif;
+}
 ?>
