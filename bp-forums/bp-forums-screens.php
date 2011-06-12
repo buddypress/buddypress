@@ -1,9 +1,9 @@
 <?php
 
 function bp_forums_directory_forums_setup() {
-	global $bp;
+	global $bp, $bp_unfiltered_uri;
 
-	if ( bp_is_forums_component() && ( !bp_current_action() || 'tag' == bp_current_action() ) && !bp_current_item() ) {
+	if ( bp_is_forums_component() && !isset( $bp_unfiltered_uri[1] ) && ( !bp_current_action() || 'tag' == bp_current_action() ) && !bp_current_item() ) {
 		if ( bp_forum_directory_is_disabled() )
 			return false;
 
