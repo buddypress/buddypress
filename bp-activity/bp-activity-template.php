@@ -536,12 +536,13 @@ function bp_activity_avatar( $args = '' ) {
 		global $bp, $activities_template;
 
 		$defaults = array(
-			'type'   => 'thumb',
-			'width'  => 20,
-			'height' => 20,
-			'class'  => 'avatar',
-			'alt'    => __( 'Profile picture of %s', 'buddypress' ),
-			'email'  => false
+			'type'    => 'thumb',
+			'width'   => 20,
+			'height'  => 20,
+			'class'   => 'avatar',
+			'alt'     => __( 'Profile picture of %s', 'buddypress' ),
+			'email'   => false,
+			'user_id' => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -552,7 +553,7 @@ function bp_activity_avatar( $args = '' ) {
 		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $activities_template->activity->user_id );
 
 		// If this is a user object pass the users' email address for Gravatar so we don't have to refetch it.
-		if ( 'user' == $object && empty( $email ) && isset( $activities_template->activity->user_email ) )
+		if ( 'user' == $object && empty( $user_id ) && empty( $email ) && isset( $activities_template->activity->user_email ) )
 			$email = $activities_template->activity->user_email;
 
 		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
@@ -775,91 +776,291 @@ function bp_activity_is_favorite() {
  		return apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array)$activities_template->my_favs ) );
 	}
 
+/**
+ * Echoes the comment markup for an activity item
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ *
+ * @param str $args Unused
+ */
 function bp_activity_comments( $args = '' ) {
 	echo bp_activity_get_comments( $args );
 }
+	/**
+	 * Gets the comment markup for an activity item
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 *
+	 * @param str $args Unused. Appears to be left over from an earlier implementation.
+	 * @todo Given that checks for children already happen in bp_activity_recurse_comments(),
+	 *    this function can probably be streamlined or removed.
+	 */
 	function bp_activity_get_comments( $args = '' ) {
 		global $activities_template, $bp;
 
 		if ( !isset( $activities_template->activity->children ) || !$activities_template->activity->children )
 			return false;
 
-		$comments_html = bp_activity_recurse_comments( $activities_template->activity );
-
-		return apply_filters( 'bp_activity_get_comments', $comments_html );
+		bp_activity_recurse_comments( $activities_template->activity );
 	}
-		// TODO: The HTML in this function is temporary and will be moved
-		// to the template in a future version
+	
+		/**
+		 * Loops through a level of activity comments and loads the template for each
+		 *
+		 * Note: The recursion itself used to happen entirely in this function. Now it is
+		 * split between here and the comment.php template.
+		 *
+		 * @package BuddyPress
+		 * @subpackage Activity Template
+		 *
+		 * @param obj $comment The activity object currently being recursed
+		 */
 		function bp_activity_recurse_comments( $comment ) {
-			global $activities_template, $bp;
-
+			global $activities_template, $bp, $counter;
+			
+			if ( !$comment )
+				return false;
+				
 			if ( !$comment->children )
 				return false;
 
-			$content = '<ul>';
+			echo '<ul>';
 			foreach ( (array)$comment->children as $comment_child ) {
 				// Put the comment into the global so it's available to filters
 				$activities_template->activity->current_comment = $comment_child;
 
-				if ( empty( $comment_child->user_fullname ) )
-					$comment_child->user_fullname = $comment_child->display_name;
-
-				if ( empty( $comment_child->user_nicename ) )
-					$comment_child->user_nicename = '';
-
-				if ( empty( $comment_child->user_login ) )
-					$comment_child->user_login = '';
-
-				if ( empty( $comment_child->user_email ) )
-					$comment_child->user_email = '';
-
-				$content .= '<li id="acomment-' . $comment_child->id . '">';
-				$content .= '<div class="acomment-avatar"><a href="' .
-					bp_core_get_user_domain(
-						$comment_child->user_id,
-						$comment_child->user_nicename,
-						$comment_child->user_login ) . '">' .
-					bp_core_fetch_avatar( array(
-						'alt'    => __( 'Profile picture of %s', 'buddypress' ),
-						'item_id' => $comment_child->user_id,
-						'width'   => 30,
-						'height'  => 30,
-						'email'   => $comment_child->user_email
-					) ) .
-				'</a></div>';
-
-				$content .= '<div class="acomment-meta"><a href="' .
-					bp_core_get_user_domain(
-						$comment_child->user_id,
-						$comment_child->user_nicename,
-						$comment_child->user_login ) . '">' .
-					apply_filters( 'bp_acomment_name', $comment_child->user_fullname, $comment_child ) .
-				'</a> &middot; ' . sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( $comment_child->date_recorded ) );
-
-				// Reply link - the span is so that threaded reply links can be
-				// hidden when JS is off.
-				if ( is_user_logged_in() && bp_activity_can_comment_reply( $comment ) )
-					$content .= apply_filters( 'bp_activity_comment_reply_link', '<span class="acomment-replylink"> &middot; <a href="#acomment-' . $comment_child->id . '" class="acomment-reply" id="acomment-reply-' . $activities_template->activity->id . '">' . __( 'Reply', 'buddypress' ) . '</a></span>', $comment_child );
-
-				// Delete link
-				if ( $bp->loggedin_user->is_super_admin || $bp->loggedin_user->id == $comment->user_id ) {
-					$delete_url = wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/?cid=' . $comment_child->id, 'bp_activity_delete_link' );
-					$content .= apply_filters( 'bp_activity_comment_delete_link', ' &middot; <a href="' . $delete_url . '" class="delete acomment-delete confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>', $comment_child, $delete_url );
+				$template = locate_template( 'activity/comment.php', false, false );
+				
+				// Backward compatibility. In older versions of BP, the markup was
+				// generated in the PHP instead of a template. This ensures that
+				// older themes (which are not children of bp-default and won't
+				// have the new template) will still work.
+				if ( !$template ) {
+					$template = BP_PLUGIN_DIR . '/bp-themes/bp-default/activity/comment.php';
 				}
-
-				$content .= '</div>';
-				$content .= '<div class="acomment-content">' . apply_filters( 'bp_get_activity_content', $comment_child->content ) . '</div>';
-
-				$content .= bp_activity_recurse_comments( $comment_child );
-				$content .= '</li>';
-
-				// Unset in the global in case of the last iteration
+				
+				load_template( $template, false );
+				
 				unset( $activities_template->activity->current_comment );
 			}
-			$content .= '</ul>';
-
-			return apply_filters( 'bp_activity_recurse_comments', $content );
+			echo '</ul>';
 		}
+
+/**
+ * Utility function that returns the comment currently being recursed
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since 1.3
+ *
+ * @return obj $current_comment The activity comment currently being displayed
+ */
+function bp_activity_current_comment() {
+	global $activities_template;
+	
+	$current_comment = !empty( $activities_template->activity->current_comment ) ? $activities_template->activity->current_comment : false;
+	
+	return apply_filters( 'bp_activity_current_comment', $current_comment );
+}
+
+
+/**
+ * Echoes the id of the activity comment currently being displayed
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since 1.3
+ */
+function bp_activity_comment_id() {
+	echo bp_get_activity_comment_id();
+}
+	/**
+	 * Gets the id of the activity comment currently being displayed
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since 1.3
+	 *
+	 * @return int $comment_id The id of the activity comment currently being displayed
+	 */
+	function bp_get_activity_comment_id() {
+		global $activities_template;
+		
+		$comment_id = isset( $activities_template->activity->current_comment->id ) ? $activities_template->activity->current_comment->id : false;
+	
+		return apply_filters( 'bp_activity_comment_id', $comment_id );
+	}
+
+/**
+ * Echoes the user_id of the author of the activity comment currently being displayed
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since 1.3
+ */
+function bp_activity_comment_user_id() {
+	echo bp_get_activity_comment_user_id();
+}
+	/**
+	 * Gets the user_id of the author of the activity comment currently being displayed
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since 1.3
+	 *
+	 * @return int $user_id The user_id of the author of the displayed activity comment
+	 */
+	function bp_get_activity_comment_user_id() {
+		global $activities_template;
+		
+		$user_id = isset( $activities_template->activity->current_comment->user_id ) ? $activities_template->activity->current_comment->user_id : false;
+		
+		return apply_filters( 'bp_activity_comment_user_id', $user_id );
+	}
+
+/**
+ * Echoes the author link for the activity comment currently being displayed
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since 1.3
+ */
+function bp_activity_comment_user_link() {
+	echo bp_get_activity_comment_user_link();
+}
+	/**
+	 * Gets the author link for the activity comment currently being displayed
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since 1.3
+	 *
+	 * @return str $user_link The URL of the activity comment author's profile
+	 */
+	function bp_get_activity_comment_user_link() {
+		$user_link = bp_core_get_user_domain( bp_get_activity_comment_user_id() );
+	
+		return apply_filters( 'bp_activity_comment_user_link', $user_link );
+	}
+
+/**
+ * Echoes the author name for the activity comment currently being displayed
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since 1.3
+ */
+function bp_activity_comment_name() {
+	echo bp_get_activity_comment_name();
+}
+	/**
+	 * Gets the author name for the activity comment currently being displayed
+	 *
+	 * The use of the bp_acomment_name filter is deprecated. Please use bp_activity_comment_name
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since 1.3
+	 *
+	 * @return str $name The full name of the activity comment author
+	 */
+	function bp_get_activity_comment_name() {
+		global $activities_template;
+		
+		$name = apply_filters( 'bp_acomment_name', $activities_template->activity->current_comment->user_fullname, $activities_template->activity->current_comment ); // backward compatibility
+		
+		return apply_filters( 'bp_activity_comment_name', $name );
+	}
+
+/**
+ * Echoes the date_recorded of the activity comment currently being displayed
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since 1.3
+ */
+function bp_activity_comment_date_recorded() {
+	echo bp_get_activity_comment_date_recorded();
+}
+	/**
+	 * Gets the date_recorded for the activity comment currently being displayed
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since 1.3
+	 *
+	 * @return str $date_recorded Time since the activity was recorded, of the form "%s ago"
+	 */
+	function bp_get_activity_comment_date_recorded() {
+		global $activities_template;
+		
+		if ( empty( $activities_template->activity->current_comment->date_recorded ) )
+			return false;
+		
+		$date_recorded = sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->current_comment->date_recorded ) );
+		
+		return apply_filters( 'bp_activity_comment_date_recorded', $date_recorded );
+	}
+
+/**
+ * Echoes the 'delete' URL for the activity comment currently being displayed
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since 1.3
+ */
+function bp_activity_comment_delete_link() {
+	echo bp_get_activity_comment_delete_link();
+}
+	/**
+	 * Gets the 'delete' URL for the activity comment currently being displayed
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since 1.3
+	 *
+	 * @return str $link The nonced URL for deleting the current activity comment
+	 */
+	function bp_get_activity_comment_delete_link() {
+		global $bp;
+		
+		$link = wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/?cid=' . bp_get_activity_comment_id(), 'bp_activity_delete_link' );
+		
+		return apply_filters( 'bp_activity_comment_delete_link', $link );
+	}
+
+/**
+ * Echoes the content of the activity comment currently being displayed
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since 1.3
+ */
+function bp_activity_comment_content() {
+	echo bp_get_activity_comment_content();
+}
+	/**
+	 * Gets the content of the activity comment currently being displayed
+	 *
+	 * The content is run through two filters. bp_get_activity_content will apply all filters
+	 * applied to activity items in general. Use bp_activity_comment_content to modify the
+	 * content of activity comments only.
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since 1.3
+	 *
+	 * @return str $content The content of the current activity comment
+	 */
+	function bp_get_activity_comment_content() {
+		global $activities_template;
+		
+		$content = apply_filters( 'bp_get_activity_content', $activities_template->activity->current_comment->content );
+		
+		return apply_filters( 'bp_activity_comment_content', $content );
+	}
 
 function bp_activity_comment_count() {
 	echo bp_activity_get_comment_count();

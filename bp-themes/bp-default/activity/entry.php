@@ -80,7 +80,7 @@
 
 	<?php if ( bp_activity_can_comment() ) : ?>
 		<div class="activity-comments">
-
+			
 			<?php bp_activity_comments(); ?>
 
 			<?php if ( is_user_logged_in() ) : ?>
