@@ -755,12 +755,6 @@ function bp_last_activity( $user_id = 0 ) {
 		return apply_filters( 'bp_get_last_activity', $last_activity );
 	}	
 
-function bp_user_has_access() {
-	$has_access = ( is_super_admin() || bp_is_my_profile() ) ? true : false;
-
-	return apply_filters( 'bp_user_has_access', $has_access );
-}
-
 function bp_user_firstname() {
 	echo bp_get_user_firstname();
 }

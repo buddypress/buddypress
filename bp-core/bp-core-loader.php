@@ -160,6 +160,19 @@ class BP_Core extends BP_Component {
 		// Notifications Table
 		$bp->core->table_name_notifications = $bp->table_prefix . 'bp_notifications';
 
+		/**
+		 * Used to determine if user has admin rights on current content. If the
+		 * logged in user is viewing their own profile and wants to delete
+		 * something, is_item_admin is used. This is a generic variable so it
+		 * can be used by other components. It can also be modified, so when
+		 * viewing a group 'is_item_admin' would be 'true' if they are a group
+		 * admin, and 'false' if they are not.
+		 */
+		bp_update_is_item_admin( bp_user_has_access(), 'core' );
+
+		// Is the logged in user is a mod for the current item?
+		bp_update_is_item_mod( false,                  'core' );
+
 		do_action( 'bp_core_setup_globals' );
 	}
 

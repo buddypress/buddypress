@@ -86,19 +86,6 @@ class BP_Members_Component extends BP_Component {
 		// The core userdata of the user who is currently logged in.
 		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( $bp->loggedin_user->id );
 
-		/**
-		 * Used to determine if user has admin rights on current content. If the
-		 * logged in user is viewing their own profile and wants to delete
-		 * something, is_item_admin is used. This is a generic variable so it
-		 * can be used by other components. It can also be modified, so when
-		 * viewing a group 'is_item_admin' would be 'true' if they are a group
-		 * admin, and 'false' if they are not.
-		 */
-		bp_update_is_item_admin( bp_user_has_access(), 'members' );
-
-		// Is the logged in user is a mod for the current item?
-		bp_update_is_item_mod  ( false,                'members' );
-
 		/** Displayed user ****************************************************/
 
 		// The user id of the user currently being viewed:

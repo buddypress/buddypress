@@ -695,6 +695,12 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 	return false;
 }
 
+function bp_user_has_access() {
+	$has_access = ( is_super_admin() || bp_is_my_profile() ) ? true : false;
+
+	return apply_filters( 'bp_user_has_access', $has_access );
+}
+
 /** is_() functions to determine the current page *****************************/
 
 /**
