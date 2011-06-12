@@ -674,6 +674,9 @@ div#pag-bottom {
 }
 .commentlist .bypostauthor {
 }
+#comments {
+	margin-top: 30px;
+}
 #comments ol.commentlist {
 	border-bottom: 1px solid #e4e4e4;
 	margin: 0 0 30px 0;
@@ -846,7 +849,10 @@ h3#reply .comments-header {
 	margin: 0 0;
 	padding: 0 0;
 }
-
+#nav-above {
+	margin: 0 0 15px;
+	padding: 0;
+}
 
 /*--------------------------------------------------------------
 5.3 - Gallery
@@ -935,12 +941,12 @@ img.alignleft {
 div.page,
 div.post,
 div.attachment {
-	margin: 0 0 30px 0;
+	margin: 0 0 15px 0;
 	overflow: hidden;
 }
 div.page:last-child,
 div.post:last-child,
-div.item-body:last-child,
+#item-body:last-child,
 #trackbacklist {
 	margin-bottom: 0;
 }
@@ -1103,7 +1109,7 @@ ul.activity-list li {
 ul.activity-list > li:first-child {
 	padding-top: 5px;
 }
-ul.activity-list li.has-comments {
+ul.item-list.activity-list li.has-comments {
 	padding-bottom: 15px;
 }
 body.activity-permalink ul.activity-list li.has-comments {
@@ -1532,7 +1538,10 @@ div.dir-search input[type=text] {
 6.5 - Errors / Success Messages
 --------------------------------------------------------------*/
 div#message {
-	margin: 15px 0;
+	margin: 0 0 15px;
+}
+#message.info {
+	margin-bottom: 0;
 }
 div#message.updated {
 	clear: both;
@@ -1822,6 +1831,9 @@ table#message-threads {
 table.profile-fields {
 	margin-bottom: 20px;
 }
+table.profile-fields:last-child {
+	margin-bottom: 0;
+}
 div#sidebar table {
 	margin: 0 -16px;
 	width: 117%;
@@ -1854,6 +1866,9 @@ table tr.alt {
 table.notification-settings {
 	margin-bottom: 20px;
 	text-align: left;
+}
+#groups-notification-settings {
+	margin-bottom: 0;
 }
 table.notification-settings th.icon,
 table.notification-settings td:first-child {
@@ -1924,7 +1939,7 @@ table.forum th#th-postcount {
 
 
 /*--------------------------------------------------------------
-6.8 - Headers, Lists and Tabs - Acvtivity, Groups, Blogs, Forums
+6.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
 --------------------------------------------------------------*/
 .item-body {
 	margin: 20px 0;
@@ -1964,7 +1979,7 @@ div#item-header h2 a {
 }
 div#item-header img.avatar {
 	float: left;
-	margin: 0 15px 25px 0;
+	margin: 0 15px 19px 0;
 }
 div#item-header h2 {
 	margin-bottom: 5px;
@@ -2046,6 +2061,9 @@ ul.item-list li {
 	border-bottom: 1px solid #eaeaea;
 	padding: 15px 0;
 	position: relative;
+}
+ul.item-list.activity-list li {
+	padding-bottom: 0;
 }
 ul.single-line li {
 	border: none;
@@ -2167,6 +2185,9 @@ div.item-list-tabs#subnav {
 div.item-list-tabs ul li.feed a {
 	background: url( ../images/rss.png ) center left no-repeat;
 	padding-left: 20px;
+}
+#admins-list li {
+	overflow: auto;
 }
 
 
