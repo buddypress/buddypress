@@ -858,8 +858,19 @@ function bp_group_show_status_setting( $setting, $group = false ) {
 		echo ' checked="checked"';
 }
 
+/**
+ * Since BuddyPress 1.0, this generated the group settings admin/member screen.
+ * As of BuddyPress 1.3 (r4489), and because this function outputs HTML, it was moved into /bp-default/groups/single/admin.php.
+ *
+ * @deprecated 1.3
+ * @deprecated No longer used.
+ * @since 1.0
+ * @todo Remove in 1.4
+ */
 function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 	global $groups_template;
+
+	_deprecated_function( __FUNCTION__, '1.3', 'No longer used. See /bp-default/groups/single/admin.php' );
 
 	if ( empty( $group ) )
 		$group =& $groups_template->group;
