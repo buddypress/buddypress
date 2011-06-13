@@ -23,21 +23,21 @@ function bp_core_get_table_prefix() {
  */
 function bp_core_get_page_meta() {
 	$page_ids = get_site_option( 'bp-pages' );
-	
+
 	$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
 
 	$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
 
 	// Upgrading from an earlier version of BP pre-1.3
-	if ( empty( $page_ids ) || isset( $page_ids['members'] ) ) {		
-		if ( empty( $page_ids ) ) {		
+	if ( empty( $page_ids ) || isset( $page_ids['members'] ) ) {
+		if ( empty( $page_ids ) ) {
 			// We're probably coming from an old multisite install
 			$old_page_ids = get_blog_option( $page_blog_id, 'bp-pages' );
 		} else {
 			// We're probably coming from an old single-WP install
 			$old_page_ids = $page_ids;
 		}
-		
+
 		/**
 		 * If $page_ids is found in a blog_option, and it's formatted in the new way (keyed
 		 * by blog_id), it means that this is an MS upgrade. Return false and let the
@@ -45,7 +45,7 @@ function bp_core_get_page_meta() {
 		 */
 		if ( !isset( $old_page_ids['members'] ) )
 			return false;
-			
+
 		// Finally, move the page ids over to site options
 		$new_page_ids = array(
 			$page_blog_id => $old_page_ids
@@ -53,9 +53,9 @@ function bp_core_get_page_meta() {
 
 		update_site_option( 'bp-pages', $new_page_ids );
 	}
-	
+
 	$blog_page_ids = !empty( $page_ids[$page_blog_id] ) ? $page_ids[$page_blog_id] : false;
-	
+
 	return apply_filters( 'bp_core_get_page_meta', $blog_page_ids );
 }
 
@@ -65,7 +65,7 @@ function bp_core_get_page_meta() {
  * bp-pages data is stored in site_options (falls back to options on non-MS), in an array keyed by
  * blog_id. This allows you to change your BP_ROOT_BLOG and go through the setup process again.
  *
- * @package BuddyPress Core 
+ * @package BuddyPress Core
  * @since 1.3
  *
  * @param array $blog_page_ids The IDs of the WP pages corresponding to BP component directories
@@ -76,7 +76,7 @@ function bp_core_update_page_meta( $blog_page_ids ) {
 
 	// Generally, we key by the BP_ROOT_BLOG. Exception: when BP_ENABLE_MULTIBLOG is turned on
 	$key = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
-	
+
 	$page_ids[$key] = $blog_page_ids;
 
 	update_site_option( 'bp-pages', $page_ids );
@@ -161,16 +161,16 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
 
 function bp_core_do_network_admin() {
 	$do_network_admin = false;
-	
+
 	if ( is_multisite() && ( !defined( 'BP_ENABLE_MULTIBLOG' ) || !BP_ENABLE_MULTIBLOG ) )
 		$do_network_admin = true;
-	
+
 	return apply_filters( 'bp_core_do_network_admin', $do_network_admin );
 }
 
 function bp_core_admin_hook() {
 	$hook = bp_core_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
-	
+
 	return apply_filters( 'bp_core_admin_hook', $hook );
 }
 
@@ -183,7 +183,7 @@ function bp_core_admin_hook() {
 function bp_core_admin_menu_init() {
 	if ( !is_super_admin() )
 		return false;
-	
+
 	add_action( bp_core_admin_hook(), 'bp_core_add_admin_menu', 9 );
 
 	require ( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin.php' );
@@ -235,16 +235,16 @@ function bp_core_add_admin_menu() {
  */
 function bp_core_print_admin_notices() {
 	global $bp;
-	
+
 	// Only the super admin should see messages
 	if ( !is_super_admin() )
 		return;
-	
+
 	// On multisite installs, don't show on the Site Admin of a non-root blog, unless
 	// do_network_admin is overridden
 	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() )
 		return;
-		
+
 	// Show the messages
 	if ( !empty( $bp->admin->notices ) ) {
 	?>
@@ -252,7 +252,7 @@ function bp_core_print_admin_notices() {
 			<?php foreach( $bp->admin->notices as $notice ) : ?>
 				<p><?php echo $notice ?></p>
 			<?php endforeach ?>
-		</div>		
+		</div>
 	<?php
 	}
 }
@@ -274,11 +274,11 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  */
 function bp_core_add_admin_notice( $notice ) {
 	global $bp;
-	
+
 	if ( empty( $bp->admin->notices ) ) {
 		$bp->admin->notices = array();
 	}
-	
+
 	$bp->admin->notices[] = $notice;
 }
 
@@ -300,12 +300,12 @@ function bp_core_activation_notice() {
 	// Only the super admin gets warnings
 	if ( !is_super_admin() )
 		return;
-		
+
 	// On multisite installs, don't load on a non-root blog, unless do_network_admin is
 	// overridden
 	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() )
 		return;
-		
+
 	// Don't show these messages during setup or upgrade
 	if ( isset( $bp->maintenence_mode ) )
 		return;
@@ -316,7 +316,7 @@ function bp_core_activation_notice() {
 	 */
 	if ( bp_is_active( 'blogs' ) ) {
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$bp->blogs->table_name}" ) );
-		
+
 		if ( !$count )
 			bp_blogs_record_existing_blogs();
 	}
@@ -327,36 +327,36 @@ function bp_core_activation_notice() {
 	if ( isset( $_POST['permalink_structure'] ) )
 		return false;
 
-	if ( empty( $wp_rewrite->permalink_structure ) ) { 
+	if ( empty( $wp_rewrite->permalink_structure ) ) {
 		bp_core_add_admin_notice( sprintf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) );
 	}
-	
+
 	/**
 	 * Are you using a BP-compatible theme?
 	 */
-	
+
 	// Get current theme info
 	$ct = current_theme_info();
 
 	// The best way to remove this notice is to add a "buddypress" tag to
 	// your active theme's CSS header.
-	if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) { 
+	if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) {
 		bp_core_add_admin_notice( sprintf( __( "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), network_admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), network_admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) );
 	}
-		
+
 	/**
 	 * Check for orphaned directory pages (BP component is disabled, WP page exists)
 	 */
-	 
+
 	$orphaned_pages = array();
 	foreach( $bp->pages as $component_id => $page ) {
-		
+
 		// Some members of $bp->pages will not have corresponding $bp->{component}, so we
 		// skip them. Plugins can add themselves here if necessary.
 		$exceptions = apply_filters( 'bp_pages_without_components', array( 'register', 'activate' ) );
 		if ( in_array( $component_id, $exceptions ) )
 			continue;
-		
+
 		if ( !isset( $bp->{$component_id} ) ) {
 			// We'll need to get some more information about the page for the notice
 			$page_data = get_post( $page->id );
@@ -366,32 +366,32 @@ function bp_core_activation_notice() {
 				'title'	=> $page_data->post_title
 			);
 		}
-		
+
 	}
-	
+
 	// If orphaned pages are found, post a notice about them.
 	if ( !empty( $orphaned_pages ) ) {
-		
+
 		// Create the string of links to the Edit Page screen for the pages
 		$edit_pages_links = array();
 		foreach( $orphaned_pages as $op ) {
 			$edit_pages_links[] = sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'post.php?action=edit&post=' . $op['id'] ), $op['title'] );
 		}
-		
+
 		$admin_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php?page=bp-general-settings' ) : admin_url( 'admin.php?page=bp-general-settings' );
-		
+
 		$notice = sprintf( __( 'Some of your WordPress pages are linked to BuddyPress components that have been disabled. These pages may continue to show up in your site navigation. Consider <a href="%1$s">reactivating the components</a>, or unpublishing the pages: <strong>%2$s</strong>', 'buddypress' ), $admin_url, implode( ', ', $edit_pages_links ) );
-		
+
 		bp_core_add_admin_notice( $notice );
 	}
-	
+
 	/**
 	 * Check for orphaned BP components (BP component is enabled, no WP page exists)
 	 */
-	
+
 	$orphaned_components = array();
 	$wp_page_components  = array();
-	
+
 	// Only some BP components require a WP page to function - those with a non-empty root_slug
 	foreach( $bp->active_components as $component_id => $is_active ) {
 		if ( !empty( $bp->{$component_id}->root_slug ) ) {
@@ -401,7 +401,7 @@ function bp_core_activation_notice() {
 			);
 		}
 	}
-	
+
 	// Activate and Register are special cases. They are not components but they need WP pages.
 	// If user registration is disabled, we can skip this step.
 	if ( isset( $bp->site_options['registration'] ) && ( 'user' == $bp->site_options['registration'] || ( 'all' == $bp->site_options['registration'] ) ) ) {
@@ -409,24 +409,24 @@ function bp_core_activation_notice() {
 			'id'	=> 'activate',
 			'name'	=> __( 'Activate', 'buddypress' )
 		);
-		
+
 		$wp_page_components[] = array(
 			'id'	=> 'register',
 			'name'	=> __( 'Register', 'buddypress' )
 		);
-	}	
-	
-	foreach( $wp_page_components as $component ) {		
+	}
+
+	foreach( $wp_page_components as $component ) {
 		if ( !isset( $bp->pages->{$component['id']} ) ) {
 			$orphaned_components[] = $component['name'];
 		}
 	}
-	
+
 	if ( !empty( $orphaned_components ) ) {
 		$admin_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php?page=bp-general-settings' ) : admin_url( 'admin.php?page=bp-general-settings' );
-		
+
 		$notice = sprintf( __( 'Some BuddyPress components must be associated with WordPress pages for your site to work properly. The following components are missing their required WP pages: <strong>%1$s</strong>. Visit the <a href="%2$s">BuddyPress Components</a> panel, where you can either deactivate unused components or complete the page setup.', 'buddypress' ), implode( ', ', $orphaned_components ), $admin_url );
-		
+
 		bp_core_add_admin_notice( $notice );
 	}
 }
@@ -965,7 +965,7 @@ function bp_core_get_site_options() {
  */
 function bp_core_add_root_component( $slug ) {
 	global $bp;
-	
+
 	if ( empty( $bp->pages ) )
 		$bp->pages = bp_core_get_page_names();
 
@@ -1007,7 +1007,7 @@ function bp_core_create_root_component_page() {
  */
 function bp_is_root_blog( $blog_id = false ) {
 	$is_root_blog = true;
-	
+
 	if ( !$blog_id )
 		$blog_id = get_current_blog_id();
 
@@ -1028,7 +1028,7 @@ function bp_is_root_blog( $blog_id = false ) {
  * this function exclusively in the context of the _user_meta() functions. For example,
  *    $last_active = get_user_meta( $user_id, bp_get_user_meta_key( 'last_activity' ), true );
  * Do not hardcode these keys.
- * 
+ *
  * If your plugin introduces custom user metadata that might change between multiple BP instances
  * on a single WP installation, you are strongly recommended to use this function when storing and
  * retrieving metadata.
@@ -1094,4 +1094,24 @@ function bp_update_is_item_mod( $is_item_mod = false, $component = '' ) {
 	$bp->is_item_mod = apply_filters( 'bp_update_is_item_mod', $is_item_mod, $component );
 }
 
+/**
+ * Trigger a 404
+ *
+ * @global object $bp Global BuddyPress settings object
+ * @global WP_Query $wp_query WordPress query object
+ * @param string $redirect If 'remove_canonical_direct', remove WordPress' "helpful" redirect_canonical action.
+ * @since 1.3
+ */
+function bp_do_404( $redirect = 'remove_canonical_direct' ) {
+	global $bp, $wp_query;
+
+	do_action( 'bp_do_404', $redirect );
+
+	$wp_query->set_404(); 
+	status_header( 404 ); 
+	nocache_headers();
+
+	if ( 'remove_canonical_direct' == $redirect )
+		remove_action( 'template_redirect', 'redirect_canonical' );
+}
 ?>

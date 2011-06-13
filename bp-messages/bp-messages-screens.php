@@ -7,17 +7,36 @@
  */
 
 function messages_screen_inbox() {
+	global $bp;
+
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
+
 	do_action( 'messages_screen_inbox' );
 	bp_core_load_template( apply_filters( 'messages_template_inbox', 'members/single/home' ) );
 }
 
 function messages_screen_sentbox() {
+	global $bp;
+
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
+
 	do_action( 'messages_screen_sentbox' );
 	bp_core_load_template( apply_filters( 'messages_template_sentbox', 'members/single/home' ) );
 }
 
 function messages_screen_compose() {
 	global $bp;
+
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
 
 	// Remove any saved message data from a previous session.
 	messages_remove_callback_values();
@@ -96,6 +115,11 @@ function messages_screen_notices() {
 		bp_core_redirect( $bp->loggedin_user->domain . $bp->messages->slug . '/notices' );
 	}
 
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
+
 	do_action( 'messages_screen_notices' );
 
 	bp_core_load_template( apply_filters( 'messages_template_notices', 'members/single/home' ) );
@@ -103,6 +127,11 @@ function messages_screen_notices() {
 
 function messages_screen_notification_settings() {
 	global $bp;
+
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
 
 	if ( !$new_messages = get_user_meta( $bp->displayed_user->id, bp_get_user_meta_key( 'notification_messages_new_message' ), true ) )
 		$new_messages = 'yes';

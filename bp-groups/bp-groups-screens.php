@@ -103,12 +103,22 @@ function groups_screen_group_home() {
 }
 
 function groups_screen_group_forum() {
-	global $bp, $wp_query;
+	global $bp;
 
 	if ( !bp_is_active( 'forums' ) || !bp_forums_is_installed_correctly() )
 		return false;
 
-	if ( bp_is_single_item() && $bp->groups->current_group->user_has_access ) {
+	if ( !empty( $bp->action_variables[0] ) && 'topic' != $bp->action_variables[0] ) {
+		bp_do_404();
+		return;
+	}
+
+	if ( !$bp->groups->current_group->user_has_access ) {
+		bp_core_no_access();
+		return;
+	}
+
+	if ( bp_is_single_item() ) {
 
 		// Fetch the details we need
 		$topic_slug     = !empty( $bp->action_variables[1] ) ? $bp->action_variables[1] : false;
@@ -310,9 +320,7 @@ function groups_screen_group_forum() {
 
 		// Forum topic does not exist
 		} elseif ( !empty( $topic_slug ) && empty( $topic_id ) ) {
-			$wp_query->set_404();
-			status_header( 404 );
-			nocache_headers();
+			bp_do_404();
 			return;
 
 		} else {
@@ -389,15 +397,16 @@ function groups_screen_group_invite() {
 
 			// Send the invites.
 			groups_send_invites( $bp->loggedin_user->id, $bp->groups->current_group->id );
-
 			bp_core_add_message( __('Group invites sent.', 'buddypress') );
-
 			do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
-
 			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
-		} else {
+
+		} elseif ( empty( $bp->action_variables[0] ) ) {
 			// Show send invite page
 			bp_core_load_template( apply_filters( 'groups_template_group_invite', 'groups/single/home' ) );
+
+		} else {
+			bp_do_404();
 		}
 	}
 }

@@ -105,8 +105,8 @@ function groups_add_forum_where_sql( $sql = '' ) {
 	elseif ( is_super_admin() )
 		unset( $parts['private'] );
 
-	// Are we a member of this group
-	elseif ( bp_is_single_item() && bp_group_is_member( $bp->groups->current_group->id ) )
+	// No need to filter on a single item
+	elseif ( bp_is_single_item() )
 		unset( $parts['private'] );
 
 	// Check the SQL filter that was passed

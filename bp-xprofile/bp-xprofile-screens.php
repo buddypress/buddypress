@@ -12,7 +12,7 @@
  * @package BuddyPress XProfile
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
-function xprofile_screen_display_profile() {
+function xprofile_screen_display_profile() {	
 	$new = isset( $_GET['new'] ) ? $_GET['new'] : '';
 
 	do_action( 'xprofile_screen_display_profile', $new );
@@ -38,8 +38,10 @@ function xprofile_screen_edit_profile() {
 		bp_core_redirect( $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/1' );
 
 	// Check the field group exists
-	if ( !xprofile_get_field_group( $bp->action_variables[1] ) )
-		bp_core_redirect( bp_get_root_domain() );
+	if ( ( !empty( $bp->action_variables[0] ) && 'group' != $bp->action_variables[0] ) || !xprofile_get_field_group( $bp->action_variables[1] ) ) {
+		bp_do_404();
+		return;
+	}
 
 	// Check to see if any new information has been submitted
 	if ( isset( $_POST['field_ids'] ) ) {
@@ -131,6 +133,11 @@ function xprofile_screen_change_avatar() {
 
 	if ( !bp_is_my_profile() && !is_super_admin() )
 		return false;
+
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
 
 	$bp->avatar_admin->step = 'upload-image';
 

@@ -246,8 +246,9 @@ function bp_get_page_title() {
 
 	// A single group
 	} elseif ( bp_is_active( 'groups' ) && !empty( $bp->groups->current_group ) && !empty( $bp->bp_options_nav[$bp->groups->current_group->slug] ) ) {
+		$subnav = isset( $bp->bp_options_nav[$bp->groups->current_group->slug][$bp->current_action]['name'] ) ? $bp->bp_options_nav[$bp->groups->current_group->slug][$bp->current_action]['name'] : '';
 		// translators: "group name | group nav section name"
-		$title = sprintf( __( '%1$s &#124; %2$s', 'buddypress' ), $bp->bp_options_title, $bp->bp_options_nav[$bp->groups->current_group->slug][$bp->current_action]['name'] );
+		$title = sprintf( __( '%1$s &#124; %2$s', 'buddypress' ), $bp->bp_options_title, $subnav );
 
 	// A single item from a component other than groups
 	} elseif ( bp_is_single_item() ) {

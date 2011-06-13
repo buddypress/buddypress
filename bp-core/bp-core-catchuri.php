@@ -242,6 +242,14 @@ function bp_core_set_uri_globals() {
 				else
 					$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( urldecode( $bp_uri[$uri_offset + 1] ) );
 
+				if ( empty( $bp->displayed_user->id ) ) {
+					// Prevent components from loading their templates
+					$bp->current_component = ''; 
+
+					bp_do_404();
+					return;
+				}
+
 				// Bump the offset
 				if ( isset( $bp_uri[$uri_offset + 2] ) ) {
 					$bp_uri                = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
@@ -351,32 +359,26 @@ function bp_core_catch_profile_uri() {
  * @since 1.3
  */
 function bp_core_catch_no_access() {
-	global $bp, $wp_query, $bp_unfiltered_uri, $bp_no_status_set;
+	global $bp, $bp_no_status_set;
 
 	// If bp_core_redirect() and $bp_no_status_set is true,
 	// we are redirecting to an accessible page, so skip this check.
 	if ( $bp_no_status_set )
 		return false;
 
-	// If the displayed user was marked as a spammer and the logged-in user is not a super admin, redirect
+	// If the displayed user was marked as a spammer and the logged-in user is not a super admin, 404.
 	if ( isset( $bp->displayed_user->id ) && bp_core_is_user_spammer( $bp->displayed_user->id ) ) {
-		if ( !is_super_admin() )
-			bp_core_redirect( $bp->root_domain );
-		else
+		if ( !$bp->loggedin_user->is_super_admin ) {
+			bp_do_404();
+			return;
+
+		} else {
 			bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'error' );
+		}
 	}
 
-	// If BP_ENABLE_ROOT_PROFILES is not defined and the displayed user does not exist, redirect
-	if ( !$bp->displayed_user->id && isset( $bp_unfiltered_uri[0] ) && $bp_unfiltered_uri[0] == $bp->members->slug && isset( $bp_unfiltered_uri[1] ) )
-		bp_core_redirect( $bp->root_domain );
-
-	// Access control!
 	if ( !isset( $wp_query->queried_object ) && !bp_is_blog_page() ) {
-		if ( is_user_logged_in() ) {
-			bp_core_no_access( array( 'redirect' => false, 'message' => __( 'You do not have access to that page', 'buddypress' ) ) );
-		} else {
-			bp_core_no_access();
-		}
+		bp_do_404();
 	}
 }
 add_action( 'wp', 'bp_core_catch_no_access' );
@@ -401,15 +403,6 @@ function bp_core_no_access( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
-
-	// Group filtering
-	// When a user doesn't have access to a group's activity / secondary page, redirect to group's homepage
-	if ( !$redirect ) {
-		if ( bp_is_active( 'groups' ) && bp_is_current_component( 'groups' ) ) {
-			$root = bp_get_group_permalink( $bp->groups->current_group );
-			$message = false;
-		}
-	}
 
 	// Apply filters to these variables
 	$mode		= apply_filters( 'bp_no_access_mode', $mode, $root, $redirect, $message );

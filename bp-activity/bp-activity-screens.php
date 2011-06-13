@@ -95,8 +95,16 @@ function bp_activity_screen_single_activity_permalink() {
 	// Get the activity details
 	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action() ) );
 
-	if ( !$activity = $activity['activities'][0] )
-		bp_core_redirect( bp_get_root_domain() );
+	// 404 if activity does not exist
+	if ( !$activity = $activity['activities'][0] ) {
+		bp_do_404();
+		return;
+	}
+
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
 
 	// Default access is true
 	$has_access = true;
@@ -105,8 +113,10 @@ function bp_activity_screen_single_activity_permalink() {
 	if ( isset( $bp->groups->id ) && $activity->component == $bp->groups->id ) {
 
 		// Activity is from a group, but groups is currently disabled
-		if ( !bp_is_active( 'groups') )
-			bp_core_redirect( bp_get_root_domain() );
+		if ( !bp_is_active( 'groups') ) {
+			bp_do_404();
+			return;
+		}
 
 		// Check to see if the group is not public, if so, check the
 		// user has access to see this activity

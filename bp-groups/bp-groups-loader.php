@@ -155,6 +155,18 @@ class BP_Groups_Component extends BP_Component {
 			$this->root_slug,
 		) );
 
+		// If the user was attempting to access a group, but no group by that name was
+		// found, 404
+		if ( empty( $this->current_group ) && !empty( $bp->current_action ) && !in_array( $bp->current_action, $this->forbidden_names ) ) {
+			bp_do_404();
+			return;
+		}
+		
+		// Group access control
+		if ( !empty( $this->current_group ) && !$this->current_group->user_has_access ) {
+			bp_core_no_access();
+		}
+
 		// Preconfigured group creation steps
 		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', array(
 			'group-details'  => array(

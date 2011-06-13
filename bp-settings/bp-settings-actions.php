@@ -1,10 +1,13 @@
 <?php
-
-
 /** General *******************************************************************/
 
 function bp_settings_screen_general_settings() {
 	global $bp;
+
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
 
 	// Setup private variables
 	$bp_settings_updated = $pass_error = $email_error = $pwd_error = false;
@@ -111,6 +114,11 @@ function bp_settings_screen_general_settings() {
 function bp_settings_screen_notification_settings() {
 	global $bp;
 
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
+
 	if ( isset( $_POST['submit'] ) ) {
 		check_admin_referer('bp_settings_notifications');
 
@@ -133,6 +141,11 @@ function bp_settings_screen_notification_settings() {
 
 function bp_settings_screen_delete_account() {
 	global $bp;
+
+	if ( !empty( $bp->action_variables ) ) {
+		bp_do_404();
+		return;
+	}
 
 	if ( isset( $_POST['delete-account-understand'] ) ) {
 		// Nonce check

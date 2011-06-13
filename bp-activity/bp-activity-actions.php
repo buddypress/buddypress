@@ -26,9 +26,11 @@ function bp_activity_action_permalink_router() {
 	// Get the activity details
 	$activity = bp_activity_get_specific( array( 'activity_ids' => $bp->action_variables[0] ) );
 
-	// Redirect to root if activity does not exist
-	if ( !$activity = $activity['activities'][0] )
-		bp_core_redirect( bp_get_root_domain() );
+	// 404 if activity does not exist
+	if ( !$activity = $activity['activities'][0] ) {
+		bp_do_404();
+		return;
+	}
 
 	// Do not redirect at default
 	$redirect = false;
