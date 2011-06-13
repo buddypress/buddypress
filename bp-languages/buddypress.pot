@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-12 17:30:58+00:00\n"
+"POT-Creation-Date: 2011-06-13 13:30:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -936,9 +936,15 @@ msgstr ""
 msgid "Site"
 msgstr ""
 
+#. translators: "displayed user's name | canonicalised component name"
+#. translators: "group name | group nav section name"
+
 #: bp-core/bp-core-template.php:245 bp-core/bp-core-template.php:250
 msgid "%1$s &#124; %2$s"
 msgstr ""
+
+#. translators: "root component name | component item name | component nav
+#. section name"
 
 #: bp-core/bp-core-template.php:255
 msgid "%1$s &#124; %2$s &#124; %3$s"
@@ -2755,8 +2761,6 @@ msgstr ""
 #: bp-forums/bp-forums-admin.php:90
 msgid "All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install."
 msgstr ""
-
-#. Just write the contents to screen
 
 #: bp-forums/bp-forums-admin.php:94
 msgid "A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality."
