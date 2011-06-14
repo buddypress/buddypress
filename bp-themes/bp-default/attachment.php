@@ -22,7 +22,7 @@
 							<h2 class="posttitle"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php _e( 'Permanent Link to', 'buddypress' ) ?> <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
 
 							<p class="date">
-								<?php printf( __( '%1$s <span>by %2$s</span>', 'buddypress' ), get_the_date(), bp_core_get_userlink( $post->post_author ) ); ?>
+								<?php printf( __( '%1$s <span>by %2$s</span>', 'buddypress' ), get_the_date(), str_replace( '<a href=', '<a rel="author" href=', bp_core_get_userlink( $post->post_author ) ) ); ?>
 								<span class="post-utility alignright"><?php edit_post_link( __( 'Edit this entry', 'buddypress' ) ); ?></span>
 							</p>
 
