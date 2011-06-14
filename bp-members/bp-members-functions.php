@@ -334,22 +334,14 @@ function bp_core_get_user_email( $uid ) {
 /**
  * Returns a HTML formatted link for a user with the user's full name as the link text.
  * eg: <a href="http://andy.domain.com/">Andy Peatling</a>
- * Optional parameters will return just the name, or just the URL, or disable "You" text when
- * user matches the logged in user.
+ * Optional parameters will return just the name or just the URL.
  *
- * [NOTES: This function needs to be cleaned up or split into separate functions]
- *
- * @package BuddyPress Core
- * @param $uid int User ID to check.
+ * @param int $user_id User ID to check.
  * @param $no_anchor bool Disable URL and HTML and just return full name. Default false.
  * @param $just_link bool Disable full name and HTML and just return the URL text. Default false.
- * @param $no_you bool Disable replacing full name with "You" when logged in user is equal to the current user. Default false.
- * @global $userdata WordPress user data for the current logged in user.
- * @uses get_userdata() WordPress function to fetch the userdata for a user ID
- * @uses bp_fetch_user_fullname() Returns the full name for a user based on user ID.
- * @uses bp_core_get_userurl() Returns the URL for the user with no anchor tag based on user ID
  * @return false on no match
  * @return str The link text based on passed parameters.
+ * @todo This function needs to be cleaned up or split into separate functions
  */
 function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false ) {
 	$display_name = bp_core_get_user_displayname( $user_id );
