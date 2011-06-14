@@ -27,7 +27,7 @@
 							</p>
 
 							<div class="entry">
-								<a href="#"><?php echo wp_get_attachment_image( $post->ID, 'large', false, array( 'class' => 'size-large aligncenter' ) ); ?></a>
+								<?php echo wp_get_attachment_image( $post->ID, 'large', false, array( 'class' => 'size-large aligncenter' ) ); ?>
 
 								<div class="entry-caption"><?php if ( !empty( $post->post_excerpt ) ) the_excerpt(); ?></div>
 								<?php the_content(); ?>
