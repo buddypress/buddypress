@@ -550,13 +550,14 @@ function bp_activity_avatar( $args = '' ) {
 
 		// Primary activity avatar is always a user, but can be modified via a filter
 		$object  = apply_filters( 'bp_get_activity_avatar_object_' . $activities_template->activity->component, 'user' );
-		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $activities_template->activity->user_id );
+		$item_id = $user_id ? $user_id : $activities_template->activity->user_id;
+		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $item_id );
 
 		// If this is a user object pass the users' email address for Gravatar so we don't have to refetch it.
 		if ( 'user' == $object && empty( $user_id ) && empty( $email ) && isset( $activities_template->activity->user_email ) )
 			$email = $activities_template->activity->user_email;
 
-		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $user_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
+		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
 	}
 
 /**
