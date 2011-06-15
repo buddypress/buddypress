@@ -33,10 +33,6 @@ function bp_activity_action_permalink_router() {
 
 	} else {
 		$activity = $activity['activities'][0];
-		if ( empty( $activity ) ) {
-			bp_do_404();
-			return;
-		}
 	}
 
 	// Do not redirect at default

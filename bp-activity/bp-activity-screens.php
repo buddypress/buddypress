@@ -102,10 +102,6 @@ function bp_activity_screen_single_activity_permalink() {
 
 	} else {
 		$activity = $activity['activities'][0];
-		if ( empty( $activity ) ) {
-			bp_do_404();
-			return;
-		}
 	}
 
 	// Default access is true
