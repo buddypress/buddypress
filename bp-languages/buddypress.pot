@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-14 21:31:00+00:00\n"
+"POT-Creation-Date: 2011-06-15 20:30:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -71,7 +71,7 @@ msgstr ""
 msgid "Viewing site %1$s to %2$s (of %3$s sites)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:254 bp-activity/bp-activity-template.php:611
+#: bp-blogs/bp-blogs-template.php:254 bp-activity/bp-activity-template.php:612
 msgid "Site authored by %s"
 msgstr ""
 
@@ -628,7 +628,7 @@ msgid "members"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:373
-#: bp-activity/bp-activity-template.php:1292
+#: bp-activity/bp-activity-template.php:1293
 msgid "groups"
 msgstr ""
 
@@ -2110,7 +2110,7 @@ msgid "Group"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:360
-#: bp-activity/bp-activity-template.php:603
+#: bp-activity/bp-activity-template.php:604
 msgid "Group logo of %s"
 msgstr ""
 
@@ -2134,8 +2134,8 @@ msgstr ""
 #: bp-themes/bp-default/groups/single/admin.php:160
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-activity/bp-activity-template.php:543
-#: bp-activity/bp-activity-template.php:619
-#: bp-activity/bp-activity-template.php:628
+#: bp-activity/bp-activity-template.php:620
+#: bp-activity/bp-activity-template.php:629
 msgid "Profile picture of %s"
 msgstr ""
 
@@ -2638,7 +2638,7 @@ msgstr ""
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:13
 #: bp-themes/bp-default/activity/comment.php:32
-#: bp-activity/bp-activity-template.php:1215
+#: bp-activity/bp-activity-template.php:1216
 msgid "Delete"
 msgstr ""
 
@@ -3303,8 +3303,8 @@ msgstr ""
 #: bp-members/bp-members-template.php:523
 #: bp-themes/bp-default/functions.php:440
 #: bp-themes/bp-default/activity/entry.php:74
-#: bp-activity/bp-activity-template.php:709
-#: bp-activity/bp-activity-template.php:1232
+#: bp-activity/bp-activity-template.php:710
+#: bp-activity/bp-activity-template.php:1233
 msgid "View"
 msgstr ""
 
@@ -3510,7 +3510,7 @@ msgid "There was an error posting that reply, please try again."
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:217
-#: bp-activity/bp-activity-template.php:1002
+#: bp-activity/bp-activity-template.php:1003
 msgid "%s ago"
 msgstr ""
 
@@ -4171,7 +4171,7 @@ msgid "In reply to"
 msgstr ""
 
 #: bp-themes/bp-default/activity/entry.php:74
-#: bp-activity/bp-activity-template.php:709
+#: bp-activity/bp-activity-template.php:710
 msgid "View Thread / Permalink"
 msgstr ""
 
@@ -4601,43 +4601,43 @@ msgstr ""
 msgid "Viewing item %1$s to %2$s (of %3$s items)"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:705
+#: bp-activity/bp-activity-template.php:706
 msgid "&nbsp; %s ago"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1292
+#: bp-activity/bp-activity-template.php:1293
 msgid "xprofile"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1292
+#: bp-activity/bp-activity-template.php:1293
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1292
+#: bp-activity/bp-activity-template.php:1293
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1292
+#: bp-activity/bp-activity-template.php:1293
 msgid "sites"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1300
+#: bp-activity/bp-activity-template.php:1301
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1366
+#: bp-activity/bp-activity-template.php:1367
 msgid "a user"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1397
+#: bp-activity/bp-activity-template.php:1398
 msgid "Mention this user in a new public message, this will send the user a notification to get their attention."
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1398
+#: bp-activity/bp-activity-template.php:1399
 msgid "Mention this User"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1526
+#: bp-activity/bp-activity-template.php:1527
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
