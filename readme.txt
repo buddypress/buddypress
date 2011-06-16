@@ -1,8 +1,8 @@
 === Plugin Name ===
 Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
-Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, mingle, social, community, networks, networking, cms
+Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.1
-Tested up to: 3.1
+Tested up to: 3.2
 Stable tag: 1.2.7
 
 == Description ==
@@ -23,19 +23,7 @@ More and more WordPress with BuddyPress powered sites are popping up. You can ta
 
 <h4>Plugins: Adding So Much More</h4>
 
-BuddyPress boasts an ever growing array of new features developed by the awesome plugin development community. Some of most popular BuddyPress plugins currently available are:
-
-*	<a href="http://wordpress.org/extend/plugins/buddypress-like">BuddyPress Like</a> - add a "like" button to site activity.
-*	<a href="http://wordpress.org/extend/plugins/buddypress-links">BuddyPress Links</a> - rich media embedding for your BuddyPress powered site.
-*	<a href="http://wordpress.org/extend/plugins/buddystream/">BuddyStream</a> - synchronizes all of your favorite social networks to the BuddyPress activity stream.
-*	<a href="http://wordpress.org/extend/plugins/bp-album">BuddyPress Album+</a> - allow your users to upload photos and create albums.
-*	<a href="http://wordpress.org/extend/plugins/buddypress-group-documents">BuddyPress Group Documents</a> - add file upload and document repositories to your groups.
-*	<a href="http://wordpress.org/extend/plugins/bp-profile-privacy">BuddyPress Profile Privacy</a> - allow your users to set privacy options on their profile data.
-*	<a href="http://wordpress.org/extend/plugins/welcome-pack">BuddyPress Welcome Pack</a> - set defaults for new users, auto join them to groups or send welcome messages.
-*	<a href="http://wordpress.org/extend/plugins/bp-groupblog">BuddyPress Group Blog</a> (WordPress MU only) - allow your groups to include a fully functional WordPress blog.
-*	<a href="http://wordpress.org/extend/plugins/bp-wiki/">BuddyPress Wiki Component</a> - adds wiki functionality.
-
-There are more than 300 BuddyPress plugins available, the list is growing every day. For a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can also install any of these plugins automatically through the plugin installer menu inside of your WordPress installation.
+BuddyPress boasts an ever growing array of new features developed by the awesome plugin development community. There are more than 300 BuddyPress plugins available, and the list is growing every day. For a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can also install any of these plugins automatically through the plugin installer menu inside of your WordPress installation.
 
 <h4>More Information</h4>
 
