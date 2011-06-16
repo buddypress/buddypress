@@ -859,6 +859,123 @@ function bp_group_show_status_setting( $setting, $group = false ) {
 }
 
 /**
+ * Get the 'checked' value, if needed, for a given invite_status on the group create/admin screens
+ *
+ * @package BuddyPress
+ * @subpackage Groups Template
+ * @since 1.3
+ *
+ * @param str $setting The setting you want to check against ('members', 'mods', or 'admins')
+ * @param obj $group (optional) The group whose status you want to check
+ */
+function bp_group_show_invite_status_setting( $setting, $group = false ) { 
+	$group_id = isset( $group->id ) ? $group->id : false;
+	
+	$invite_status = bp_group_get_invite_status( $group_id );
+	
+	if ( $setting == $invite_status )
+		echo ' checked="checked"';
+}
+
+/**
+ * Get the invite status of a group
+ *
+ * 'invite_status' became part of BuddyPress in BP 1.3. In order to provide backward compatibility,
+ * groups without a status set will default to 'members', ie all members in a group can send
+ * invitations. Filter 'bp_group_invite_status_fallback' to change this fallback behavior.
+ *
+ * This function can be used either in or out of the loop.
+ *
+ * @package BuddyPress
+ * @subpackage Groups Template
+ * @since 1.3
+ *
+ * @param int $group_id (optional) The id of the group whose status you want to check
+ * @return mixed Returns false when no group can be found. Otherwise returns the group invite
+ *    status, from among 'members', 'mods', and 'admins'
+ */
+function bp_group_get_invite_status( $group_id = false ) {
+	global $bp, $groups_template;
+		
+	if ( !$group_id ) {
+		if ( isset( $bp->groups->current_group->id ) ) {
+			// Default to the current group first
+			$group_id = $bp->groups->current_group->id;
+		} else if ( isset( $groups_template->group->id ) ) {
+			// Then see if we're in the loop
+			$group_id = $groups_template->group->id;
+		} else {
+			return false;
+		}
+	}
+	
+	$invite_status = groups_get_groupmeta( $group_id, 'invite_status' );
+
+	// Backward compatibility. When 'invite_status' is not set, fall back to a default value
+	if ( !$invite_status ) {
+		$invite_status = apply_filters( 'bp_group_invite_status_fallback', 'members' );
+	}
+
+	return apply_filters( 'bp_group_get_invite_status', $invite_status, $group_id );
+}
+
+/**
+ * Can the logged-in user send invitations in the specified group?
+ *
+ * @package BuddyPress
+ * @subpackage Groups Template
+ * @since 1.3
+ *
+ * @param int $group_id (optional) The id of the group whose status you want to check
+ * @return bool $can_send_invites
+ */
+function bp_groups_user_can_send_invites( $group_id = false ) { 
+	global $bp; 
+
+	$can_send_invites = false;
+	$invite_status    = false;
+	
+	if ( is_user_logged_in() ) {
+		if ( is_super_admin() ) { 
+			// Super admins can always send invitations 
+			$can_send_invites = true;
+
+		} else {
+			// If no $group_id is provided, default to the current group id
+			if ( !$group_id )
+				$group_id = isset( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
+
+			// If no group has been found, bail
+			if ( !$group_id )
+				return false;
+
+			$invite_status = bp_group_get_invite_status( $group_id );
+			if ( !$invite_status )
+				return false;
+
+			switch ( $invite_status ) {
+				case 'admins' : 
+					if ( groups_is_user_admin( bp_loggedin_user_id(), $group_id ) ) 
+						$can_send_invites = true;
+					break;
+
+				case 'mods' :
+					if ( groups_is_user_mod( bp_loggedin_user_id(), $group_id ) || groups_is_user_admin( bp_loggedin_user_id(), $group_id ) )
+						$can_send_invites = true;
+					break;
+
+				case 'members' :
+					if ( groups_is_user_member( bp_loggedin_user_id(), $group_id ) )
+						$can_send_invites = true;
+					break;
+			}
+		}
+	}
+
+	return apply_filters( 'bp_groups_user_can_send_invites', $can_send_invites, $group_id, $invite_status );
+} 
+
+/**
  * Since BuddyPress 1.0, this generated the group settings admin/member screen.
  * As of BuddyPress 1.3 (r4489), and because this function outputs HTML, it was moved into /bp-default/groups/single/admin.php.
  *

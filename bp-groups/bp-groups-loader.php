@@ -338,19 +338,17 @@ class BP_Groups_Component extends BP_Component {
 				'item_css_id'     => 'members'
 			);
 
-			if ( is_user_logged_in() && groups_is_user_member( $bp->loggedin_user->id, $this->current_group->id ) ) {
-				if ( bp_is_active( 'friends' ) ) {
-					$sub_nav[] = array(
-						'name'            => __( 'Send Invites', 'buddypress' ),
-						'slug'            => 'send-invites',
-						'parent_url'      => $group_link,
-						'parent_slug'     => $this->current_group->slug,
-						'screen_function' => 'groups_screen_group_invite',
-						'item_css_id'     => 'invite',
-						'position'        => 70,
-						'user_has_access' => $this->current_group->user_has_access
-					);
-				}
+			if ( bp_is_active( 'friends' ) && bp_groups_user_can_send_invites() ) {
+				$sub_nav[] = array(
+					'name'            => __( 'Send Invites', 'buddypress' ),
+					'slug'            => 'send-invites',
+					'parent_url'      => $group_link,
+					'parent_slug'     => $this->current_group->slug,
+					'screen_function' => 'groups_screen_group_invite',
+					'item_css_id'     => 'invite',
+					'position'        => 70,
+					'user_has_access' => $this->current_group->user_has_access
+				);
 			}
 
 			parent::_setup_nav( $main_nav, $sub_nav );

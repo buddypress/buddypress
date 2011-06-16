@@ -118,7 +118,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 	return true;
 }
 
-function groups_edit_group_settings( $group_id, $enable_forum, $status ) {
+function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false ) {
 	global $bp;
 
 	$group = new BP_Groups_Group( $group_id );
@@ -143,6 +143,10 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status ) {
 			groups_new_group_forum( $group->id, $group->name, $group->description );
 		}
 	}
+
+	// Set the invite status
+	if ( $invite_status )
+		groups_update_groupmeta( $group->id, 'invite_status', $invite_status );
 
 	groups_update_groupmeta( $group->id, 'last_activity', bp_core_current_time() );
 	do_action( 'groups_settings_updated', $group->id );

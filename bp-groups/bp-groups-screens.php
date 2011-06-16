@@ -505,14 +505,20 @@ function groups_screen_group_admin_settings() {
 		// If the edit form has been submitted, save the edited details
 		if ( isset( $_POST['save'] ) ) {
 			$enable_forum   = ( isset($_POST['group-show-forum'] ) ) ? 1 : 0;
+			
+			// Checked against a whitelist for security
 			$allowed_status = apply_filters( 'groups_allowed_status', array( 'public', 'private', 'hidden' ) );
 			$status         = ( in_array( $_POST['group-status'], (array)$allowed_status ) ) ? $_POST['group-status'] : 'public';
+			
+			// Checked against a whitelist for security
+			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
+			$invite_status	       = in_array( $_POST['group-invite-status'], (array)$allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
 
 			// Check the nonce
 			if ( !check_admin_referer( 'groups_edit_group_settings' ) )
 				return false;
 
-			if ( !groups_edit_group_settings( $_POST['group-id'], $enable_forum, $status ) ) {
+			if ( !groups_edit_group_settings( $_POST['group-id'], $enable_forum, $status, $invite_status ) ) {
 				bp_core_add_message( __( 'There was an error updating group settings, please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'Group settings were successfully updated.', 'buddypress' ) );

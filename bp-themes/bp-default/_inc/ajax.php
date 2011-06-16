@@ -353,7 +353,7 @@ function bp_dtheme_ajax_invite_user() {
 	if ( !$_POST['friend_id'] || !$_POST['friend_action'] || !$_POST['group_id'] )
 		return false;
 
-	if ( !groups_is_user_admin( $bp->loggedin_user->id, $_POST['group_id'] ) )
+	if ( !bp_groups_user_can_send_invites( $_POST['group_id'] ) )
 		return false;
 
 	if ( !friends_check_friendship( $bp->loggedin_user->id, $_POST['friend_id'] ) )
