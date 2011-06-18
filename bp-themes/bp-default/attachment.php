@@ -15,14 +15,14 @@
 
 						<div class="author-box">
 							<?php echo get_avatar( get_the_author_meta( 'user_email' ), '50' ); ?>
-							<p><?php printf( _x( 'by %s', 'Post written by...', 'buddypress' ), bp_core_get_userlink( $post->post_author ) ) ?></p>
+							<p><?php printf( _x( 'by %s', 'Post written by...', 'buddypress' ), str_replace( '<a href=', '<a rel="author" href=', bp_core_get_userlink( $post->post_author ) ) ); ?></p>
 						</div>
 
 						<div class="post-content">
 							<h2 class="posttitle"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php _e( 'Permanent Link to', 'buddypress' ) ?> <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
 
 							<p class="date">
-								<?php printf( __( '%1$s <span>by %2$s</span>', 'buddypress' ), get_the_date(), str_replace( '<a href=', '<a rel="author" href=', bp_core_get_userlink( $post->post_author ) ) ); ?>
+								<?php the_date(); ?>
 								<span class="post-utility alignright"><?php edit_post_link( __( 'Edit this entry', 'buddypress' ) ); ?></span>
 							</p>
 
@@ -47,7 +47,7 @@
 										);
 									endif;
 								?>
-								<span class="comments"><?php comments_popup_link( __( 'No Comments &#187;', 'buddypress' ), __( '1 Comment &#187;', 'buddypress' ), __( '% Comments &#187;', 'buddypress' ) ); ?></span>
+								&nbsp;
 							</p>
 						</div>
 
