@@ -13,14 +13,14 @@
 
 					<div class="author-box">
 						<?php echo get_avatar( get_the_author_meta( 'user_email' ), '50' ); ?>
-						<p><?php printf( _x( 'by %s', 'Post written by...', 'buddypress' ), bp_core_get_userlink( $post->post_author ) ) ?></p>
+						<p><?php printf( _x( 'by %s', 'Post written by...', 'buddypress' ), str_replace( '<a href=', '<a rel="author" href=', bp_core_get_userlink( $post->post_author ) ) ); ?></p>
 					</div>
 
 					<div class="post-content">
 						<h2 class="posttitle"><?php the_title(); ?></h2>
 
 						<p class="date">
-							<?php printf( __( '%1$s <span>in %2$s by %3$s</span>', 'buddypress' ), get_the_date(), get_the_category_list( ', ' ), str_replace( '<a href=', '<a rel="author" href=', bp_core_get_userlink( $post->post_author ) ) ); ?>
+							<?php printf( __( '%1$s <span>in %2$s</span>', 'buddypress' ), get_the_date(), get_the_category_list( ', ' ) ); ?>
 							<span class="post-utility alignright"><?php edit_post_link( __( 'Edit this entry', 'buddypress' ) ); ?></span>
 						</p>
 
