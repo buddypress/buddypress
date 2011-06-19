@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-18 22:30:56+00:00\n"
+"POT-Creation-Date: 2011-06-19 15:31:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -192,9 +192,9 @@ msgstr ""
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:571 bp-core/bp-core-template.php:408
+#: bp-blogs/bp-blogs-template.php:571 bp-core/bp-core-template.php:385
 #: bp-groups/bp-groups-template.php:2229 bp-forums/bp-forums-template.php:1125
-#: bp-members/bp-members-template.php:593 bp-themes/bp-default/header.php:38
+#: bp-members/bp-members-template.php:593 bp-themes/bp-default/header.php:36
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -240,7 +240,7 @@ msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:21 bp-core/bp-core-widgets.php:110
-#: bp-core/admin/bp-core-update.php:410 bp-core/bp-core-template.php:340
+#: bp-core/admin/bp-core-update.php:410 bp-core/bp-core-template.php:317
 #: bp-members/bp-members-loader.php:26
 #: bp-themes/bp-default/groups/single/admin.php:229
 msgid "Members"
@@ -673,7 +673,7 @@ msgstr ""
 msgid "Displays the activity for the entire site, a member's friends, groups and @mentions."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:438 bp-core/bp-core-template.php:343
+#: bp-core/admin/bp-core-update.php:438 bp-core/bp-core-template.php:320
 #: bp-groups/bp-groups-activity.php:103 bp-groups/bp-groups-activity.php:116
 #: bp-groups/bp-groups-activity.php:129 bp-groups/bp-groups-activity.php:142
 #: bp-groups/bp-groups-loader.php:264 bp-groups/bp-groups-loader.php:388
@@ -685,7 +685,7 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:453 bp-core/bp-core-template.php:349
+#: bp-core/admin/bp-core-update.php:453 bp-core/bp-core-template.php:326
 #: bp-groups/bp-groups-buddybar.php:57 bp-forums/bp-forums-admin.php:192
 #: bp-forums/bp-forums-loader.php:111 bp-forums/bp-forums-loader.php:194
 #: bp-members/bp-members-buddybar.php:184
@@ -969,26 +969,26 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-template.php:346
+#: bp-core/bp-core-template.php:323
 msgid "Blogs"
 msgstr ""
 
-#: bp-core/bp-core-template.php:351
+#: bp-core/bp-core-template.php:328
 #: bp-themes/bp-default/members/single/activity.php:27
 #: bp-themes/bp-default/activity/index.php:97
 #: bp-themes/bp-default/forums/forums-loop.php:48
 msgid "Posts"
 msgstr ""
 
-#: bp-core/bp-core-template.php:354
+#: bp-core/bp-core-template.php:331
 msgid "Search these:"
 msgstr ""
 
-#: bp-core/bp-core-template.php:382
+#: bp-core/bp-core-template.php:359
 msgid "Search anything..."
 msgstr ""
 
-#: bp-core/bp-core-template.php:419 bp-core/bp-core-template.php:421
+#: bp-core/bp-core-template.php:396 bp-core/bp-core-template.php:398
 #: bp-core/bp-core-buddybar.php:417 bp-members/bp-members-adminbar.php:118
 #: bp-members/bp-members-template.php:654 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
@@ -3769,7 +3769,7 @@ msgctxt "Home page banner link title"
 msgid "Home"
 msgstr ""
 
-#: bp-themes/bp-default/header.php:33
+#: bp-themes/bp-default/header.php:31
 msgid "Search for:"
 msgstr ""
 
