@@ -23,7 +23,8 @@
  */
 function bp_admin_bar_remove_wp_menus() {
 	remove_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu',   20 );
+
+	/*remove_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu',   20 );
 	remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu',       30 );
 	remove_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu',  80 );
 
@@ -33,7 +34,7 @@ function bp_admin_bar_remove_wp_menus() {
 		remove_action( 'admin_bar_menu', 'wp_admin_bar_appearance_menu',  60 );
 	}
 
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu',    70 );
+	remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu',    70 );*/
 }
 if ( defined( 'BP_USE_WP_ADMIN_BAR' ) )
 	add_action( 'bp_init', 'bp_admin_bar_remove_wp_menus', 2 );
