@@ -94,19 +94,23 @@ function bp_forums_make_nofollow_filter( $text ) {
  * Append forum topic to page title
  *
  * @global object $bp
- * @param string $title
+ * @param string $title New page title; see bp_modify_page_title()
+ * @param string $title Original page title
+ * @param string $sep How to separate the various items within the page title.
+ * @param string $seplocation Direction to display title
  * @return string
+ * @see bp_modify_page_title()
  */
-function bp_forums_add_forum_topic_to_page_title( $title ) {
+function bp_forums_add_forum_topic_to_page_title( $title, $original_title, $sep, $seplocation  ) {
 	global $bp;
 
 	if ( $bp->current_action == 'forum' && !empty( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] )
 		if ( bp_has_forum_topic_posts() )
-			$title .= ' &#124; ' . bp_get_the_topic_title();
+			$title .= bp_get_the_topic_title() . " $sep ";
 
 	return $title;
 }
-add_filter( 'bp_page_title', 'bp_forums_add_forum_topic_to_page_title' );
+add_filter( 'bp_modify_page_title', 'bp_forums_add_forum_topic_to_page_title', 9, 4 );
 
 /**
  * bp_forums_strip_mentions_on_post_edit( $title )

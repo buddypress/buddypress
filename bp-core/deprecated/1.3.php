@@ -382,6 +382,38 @@ function bp_search_form_enabled() {
 	return apply_filters( 'bp_search_form_enabled', true );
 }
 
+/**
+ * Template tag version of bp_get_page_title()
+ *
+ * @deprecated 1.3
+ * @deprecated Use wp_title()
+ * @since 1.0
+ */
+function bp_page_title() {
+	echo bp_get_page_title(); 
+}
+	/**
+	 * Prior to BuddyPress 1.3, this was used to generate the page's <title> text.
+	 * Now, just simply use wp_title().
+	 *
+	 * @deprecated 1.3
+	 * @deprecated Use wp_title()
+	 * @since 1.0
+	 */
+	function bp_get_page_title() {
+		_deprecated_function( __FUNCTION__, '1.3', 'wp_title()' );
+		$title = wp_title( '|', false, 'right' ) . get_bloginfo( 'name', 'display' );
+
+		// Backpat for BP 1.2 filter
+		$title = apply_filters( 'bp_page_title', esc_attr( $title ), esc_attr( $title ) );
+
+		return apply_filters( 'bp_get_page_title', $title );
+	}
+
+function bp_styles() {
+	do_action( 'bp_styles' );
+	wp_print_styles();
+}
 
 /** Theme *********************************************************************/
 

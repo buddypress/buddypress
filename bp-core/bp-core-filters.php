@@ -251,4 +251,71 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 if ( !is_admin() || ( is_admin() && empty( $_POST['noconfirmation'] ) ) )
 	add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_notification', 1, 4 );
 
+/**
+ * Filter the page title for BuddyPress pages
+ *
+ * @global object $bp BuddyPress global settings
+ * @global unknown $post
+ * @global WP_Query $wp_query WordPress query object
+ * @param string $title Original page title
+ * @param string $sep How to separate the various items within the page title.
+ * @param string $seplocation Direction to display title
+ * @return string new page title
+ * @see wp_title()
+ * @since 1.3
+ */
+function bp_modify_page_title( $title, $sep, $seplocation ) {
+	global $bp, $post, $wp_query;
+
+	if ( bp_is_blog_page() )
+		return $title;
+
+	$title = '';
+
+	// Displayed user
+	if ( !empty( $bp->displayed_user->fullname ) && !is_404() ) {
+		// translators: "displayed user's name | canonicalised component name"
+		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), ucwords( bp_current_component() ) ) ); 
+
+	// A single group
+	} elseif ( bp_is_active( 'groups' ) && !empty( $bp->groups->current_group ) && !empty( $bp->bp_options_nav[$bp->groups->current_group->slug] ) ) {
+		$subnav = isset( $bp->bp_options_nav[$bp->groups->current_group->slug][$bp->current_action]['name'] ) ? $bp->bp_options_nav[$bp->groups->current_group->slug][$bp->current_action]['name'] : '';
+		// translators: "group name | group nav section name"
+		$title = sprintf( __( '%1$s | %2$s', 'buddypress' ), $bp->bp_options_title, $subnav );
+
+	// A single item from a component other than groups
+	} elseif ( bp_is_single_item() ) {
+		// translators: "root component name | component item name | component nav section name"
+		$title = sprintf( __( '%1$s | %2$s | %3$s', 'buddypress' ), bp_get_name_from_root_slug(), $bp->bp_options_title, $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'] );
+
+	// An index or directory
+	} elseif ( bp_is_directory() ) {
+		if ( !bp_current_component() )
+			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug( $bp->members->slug ) );
+		else
+			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug() );
+
+	// Sign up page
+	} elseif ( bp_is_register_page() ) {
+		$title = __( 'Create an Account', 'buddypress' );
+
+	// Activation page
+	} elseif ( bp_is_activation_page() ) {
+		$title = __( 'Activate your Account', 'buddypress' );
+
+	// Group creation page
+	} elseif ( bp_is_group_create() ) {
+		$title = __( 'Create a Group', 'buddypress' );
+
+	// Blog creation page
+	} elseif ( bp_is_create_blog() ) {
+		$title = __( 'Create a Site', 'buddypress' );
+	}
+
+	return apply_filters( 'bp_modify_page_title', $title . " $sep ", $title, $sep, $seplocation );
+}
+add_filter( 'wp_title', 'bp_modify_page_title', 10, 3 );
+add_filter( 'bp_modify_page_title', 'wptexturize'   );
+add_filter( 'bp_modify_page_title', 'convert_chars' );
+add_filter( 'bp_modify_page_title', 'esc_html'      );
 ?>
