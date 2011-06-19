@@ -295,29 +295,6 @@ function bp_styles() {
 
 /** Search Form ***************************************************************/
 
-/**
- * bp_search_form_available()
- *
- * Only show the search form if there are available objects to search for.
- *
- * @uses function_exists
- * @uses is_multisite()
- * @return bool Filterable result
- */
-function bp_search_form_enabled() {
-	if ( bp_is_active( 'xprofile' )
-		 || bp_is_active( 'groups' )
-		 || ( bp_is_active( 'blogs' ) && is_multisite() )
-		 || ( bp_is_active( 'forums' ) && !bp_forum_directory_is_disabled() )
-	) {
-		$search_enabled = true;
-	} else {
-		$search_enabled = false;
-	}
-
-	return apply_filters( 'bp_search_form_enabled', $search_enabled );
-}
-
 function bp_search_form_action() {
 	global $bp;
 

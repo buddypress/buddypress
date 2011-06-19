@@ -371,6 +371,17 @@ function bp_loggedinuser_link() {
 	bp_loggedin_user_link();
 }
 
+/**
+ * Only show the search form if there are available objects to search for.
+ * Deprecated in 1.3; not used anymore.
+ *
+ * @return bool
+ */
+function bp_search_form_enabled() {
+	_deprecated_function( __FUNCTION__, '1.3', 'No longer required.' );
+	return apply_filters( 'bp_search_form_enabled', true );
+}
+
 
 /** Theme *********************************************************************/
 
