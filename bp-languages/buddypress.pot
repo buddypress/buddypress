@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-19 16:30:57+00:00\n"
+"POT-Creation-Date: 2011-06-19 17:30:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -174,7 +174,7 @@ msgstr ""
 msgid "<a href=\"%1$s\">%2$s</a> is your new site.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:541 bp-core/bp-core-template.php:279
+#: bp-blogs/bp-blogs-template.php:541 bp-core/bp-core-filters.php:312
 #: bp-themes/bp-default/blogs/index.php:21
 #: bp-themes/bp-default/blogs/create.php:21
 msgid "Create a Site"
@@ -192,7 +192,7 @@ msgstr ""
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:571 bp-core/bp-core-template.php:385
+#: bp-blogs/bp-blogs-template.php:571 bp-core/bp-core-template.php:305
 #: bp-groups/bp-groups-template.php:2229 bp-forums/bp-forums-template.php:1125
 #: bp-members/bp-members-template.php:593 bp-themes/bp-default/header.php:36
 #: bp-themes/bp-default/searchform.php:5
@@ -240,7 +240,7 @@ msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:21 bp-core/bp-core-widgets.php:110
-#: bp-core/admin/bp-core-update.php:410 bp-core/bp-core-template.php:317
+#: bp-core/admin/bp-core-update.php:410 bp-core/bp-core-template.php:237
 #: bp-members/bp-members-loader.php:26
 #: bp-themes/bp-default/groups/single/admin.php:229
 msgid "Members"
@@ -673,7 +673,7 @@ msgstr ""
 msgid "Displays the activity for the entire site, a member's friends, groups and @mentions."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:438 bp-core/bp-core-template.php:320
+#: bp-core/admin/bp-core-update.php:438 bp-core/bp-core-template.php:240
 #: bp-groups/bp-groups-activity.php:103 bp-groups/bp-groups-activity.php:116
 #: bp-groups/bp-groups-activity.php:129 bp-groups/bp-groups-activity.php:142
 #: bp-groups/bp-groups-loader.php:264 bp-groups/bp-groups-loader.php:388
@@ -685,7 +685,7 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:453 bp-core/bp-core-template.php:326
+#: bp-core/admin/bp-core-update.php:453 bp-core/bp-core-template.php:246
 #: bp-groups/bp-groups-buddybar.php:57 bp-forums/bp-forums-admin.php:192
 #: bp-forums/bp-forums-loader.php:111 bp-forums/bp-forums-loader.php:194
 #: bp-members/bp-members-buddybar.php:184
@@ -915,80 +915,26 @@ msgstr ""
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: bp-core/bp-core-template.php:227
-msgctxt "Home page title"
-msgid "Home"
-msgstr ""
-
-#: bp-core/bp-core-template.php:232
-msgid "Site &#124; %s"
-msgstr ""
-
-#: bp-core/bp-core-template.php:234
-msgid "Site &#124; Categories &#124; %s"
-msgstr ""
-
-#: bp-core/bp-core-template.php:236
-msgid "Site &#124; Tags &#124; %s"
-msgstr ""
-
-#: bp-core/bp-core-template.php:240 bp-themes/bp-default/search.php:10
-msgid "Site"
-msgstr ""
-
-#. translators: "displayed user's name | canonicalised component name"
-#. translators: "group name | group nav section name"
-
-#: bp-core/bp-core-template.php:245 bp-core/bp-core-template.php:251
-msgid "%1$s &#124; %2$s"
-msgstr ""
-
-#. translators: "root component name | component item name | component nav
-#. section name"
-
-#: bp-core/bp-core-template.php:256
-msgid "%1$s &#124; %2$s &#124; %3$s"
-msgstr ""
-
-#: bp-core/bp-core-template.php:261 bp-core/bp-core-template.php:263
-msgid "%s Directory"
-msgstr ""
-
-#: bp-core/bp-core-template.php:267
-#: bp-themes/bp-default/registration/register.php:23
-msgid "Create an Account"
-msgstr ""
-
-#: bp-core/bp-core-template.php:271
-#: bp-themes/bp-default/registration/activate.php:24
-msgid "Activate your Account"
-msgstr ""
-
-#: bp-core/bp-core-template.php:275 bp-themes/bp-default/groups/index.php:21
-#: bp-themes/bp-default/groups/create.php:18
-msgid "Create a Group"
-msgstr ""
-
-#: bp-core/bp-core-template.php:323
+#: bp-core/bp-core-template.php:243
 msgid "Blogs"
 msgstr ""
 
-#: bp-core/bp-core-template.php:328
+#: bp-core/bp-core-template.php:248
 #: bp-themes/bp-default/members/single/activity.php:27
 #: bp-themes/bp-default/activity/index.php:97
 #: bp-themes/bp-default/forums/forums-loop.php:48
 msgid "Posts"
 msgstr ""
 
-#: bp-core/bp-core-template.php:331
+#: bp-core/bp-core-template.php:251
 msgid "Search these:"
 msgstr ""
 
-#: bp-core/bp-core-template.php:359
+#: bp-core/bp-core-template.php:279
 msgid "Search anything..."
 msgstr ""
 
-#: bp-core/bp-core-template.php:396 bp-core/bp-core-template.php:398
+#: bp-core/bp-core-template.php:316 bp-core/bp-core-template.php:318
 #: bp-core/bp-core-buddybar.php:417 bp-members/bp-members-adminbar.php:118
 #: bp-members/bp-members-template.php:654 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
@@ -1016,6 +962,39 @@ msgstr ""
 
 #: bp-core/bp-core-filters.php:237 bp-members/bp-members-signup.php:572
 msgid "Activate Your Account"
+msgstr ""
+
+#. translators: "displayed user's name | canonicalised component name"
+#. translators: "group name | group nav section name"
+
+#: bp-core/bp-core-filters.php:278 bp-core/bp-core-filters.php:284
+msgid "%1$s | %2$s"
+msgstr ""
+
+#. translators: "root component name | component item name | component nav
+#. section name"
+
+#: bp-core/bp-core-filters.php:289
+msgid "%1$s | %2$s | %3$s"
+msgstr ""
+
+#: bp-core/bp-core-filters.php:294 bp-core/bp-core-filters.php:296
+msgid "%s Directory"
+msgstr ""
+
+#: bp-core/bp-core-filters.php:300
+#: bp-themes/bp-default/registration/register.php:23
+msgid "Create an Account"
+msgstr ""
+
+#: bp-core/bp-core-filters.php:304
+#: bp-themes/bp-default/registration/activate.php:24
+msgid "Activate your Account"
+msgstr ""
+
+#: bp-core/bp-core-filters.php:308 bp-themes/bp-default/groups/index.php:21
+#: bp-themes/bp-default/groups/create.php:18
+msgid "Create a Group"
 msgstr ""
 
 #: bp-core/bp-core-cssjs.php:46
@@ -4587,6 +4566,10 @@ msgstr ""
 
 #: bp-themes/bp-default/attachment.php:62
 msgid "Sorry, no attachments matched your criteria."
+msgstr ""
+
+#: bp-themes/bp-default/search.php:10
+msgid "Site"
 msgstr ""
 
 #: bp-themes/bp-default/search.php:14
