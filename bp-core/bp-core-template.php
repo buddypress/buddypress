@@ -213,6 +213,11 @@ function bp_get_plugin_sidebar() {
 	locate_template( array( 'plugin-sidebar.php' ), true );
 }
 
+function bp_styles() {
+	do_action( 'bp_styles' );
+	wp_print_styles();
+}
+
 /** Search Form ***************************************************************/
 
 function bp_search_form_action() {

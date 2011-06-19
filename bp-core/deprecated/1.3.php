@@ -410,11 +410,6 @@ function bp_page_title() {
 		return apply_filters( 'bp_get_page_title', $title );
 	}
 
-function bp_styles() {
-	do_action( 'bp_styles' );
-	wp_print_styles();
-}
-
 /** Theme *********************************************************************/
 
 /**
