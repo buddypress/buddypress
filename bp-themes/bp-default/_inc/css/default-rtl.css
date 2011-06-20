@@ -43,7 +43,7 @@ body {
 	unicode-bidi: embed;
 }
 body {
-	background: #eaeaea url( _inc/images/background.gif ) top right repeat-x;
+	background: #eaeaea url( ../images/background.gif ) top right repeat-x;
 }
 
 
@@ -137,7 +137,7 @@ div#sidebar {
 	-webkit-border-top-left-radius: 3px;
 	-moz-border-radius-topright: 0;
 	-webkit-border-top-right-radius: 0;
-	background: url( _inc/images/sidebar_back.gif ) top right repeat-x;
+	background: url( ../images/sidebar_back.gif ) top right repeat-x;
 }
 div#sidebar div#sidebar-me img.avatar {
 	float: right;
