@@ -1368,7 +1368,7 @@ div.activity-comments > ul {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	padding: 0;
+	padding: 0 0 0 10px;
 }
 div.activity-comments ul,
 div.activity-comments ul li {
