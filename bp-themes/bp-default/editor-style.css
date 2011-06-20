@@ -145,7 +145,7 @@ blockquote {
 	line-height: 150%;
 }
 blockquote p {
-	margin-bottom: 15px !importantr;
+	margin-bottom: 15px !important;
 }
 p.date {
 	color: #888;
