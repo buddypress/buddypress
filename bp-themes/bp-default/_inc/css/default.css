@@ -399,7 +399,7 @@ blockquote {
 	quotes: none;
 }
 blockquote p {
-	margin-bottom: 15px !importantr;
+	margin-bottom: 15px !important;
 }
 
 
@@ -1368,7 +1368,7 @@ div.activity-comments > ul {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	padding: 0 10px 0;
+	padding: 0;
 }
 div.activity-comments ul,
 div.activity-comments ul li {
@@ -1388,7 +1388,7 @@ body.activity-permalink .activity-list li.mini .activity-comments {
 }
 body.activity-permalink div.activity-comments ul li {
 	border-width: 1px;
-	padding: 10px 0 0;
+	padding: 10px 10px 0;
 }
 .commentlist .comment-content a:first-child {
 	margin-bottom: 10px;
