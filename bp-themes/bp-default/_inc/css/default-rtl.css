@@ -105,6 +105,7 @@ div#content .main-column {
 	margin-left: 0;
 }
 #header h1 {
+	float: right;
 	left: auto;
 	right: 20px;
 }
