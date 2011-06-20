@@ -168,7 +168,13 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  * @since 1.3
  */
 function bp_dtheme_enqueue_styles() {
+	
+	// Default CSS
 	wp_enqueue_style( 'bp-default-main',  get_template_directory_uri() . '/_inc/css/default.css', array(), BP_VERSION );
+
+	// Right to left CSS
+	if ( is_rtl() )
+		wp_enqueue_style( 'bp-default-main-rtl',  get_template_directory_uri() . '/_inc/css/default-rtl.css', array( 'bp-default-main' ), BP_VERSION );
 }
 add_action( 'wp_print_styles', 'bp_dtheme_enqueue_styles' );
 endif;
