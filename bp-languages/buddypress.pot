@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-21 19:30:54+00:00\n"
+"POT-Creation-Date: 2011-06-21 21:30:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1196,7 +1196,6 @@ msgstr ""
 
 #: bp-friends/bp-friends-loader.php:109 bp-friends/bp-friends-loader.php:169
 #: bp-friends/bp-friends-loader.php:195 bp-friends/bp-friends-template.php:89
-#: bp-friends/bp-friends-activity.php:60
 msgid "My Friends"
 msgstr ""
 
@@ -1254,7 +1253,7 @@ msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
 
 #: bp-friends/bp-friends-notifications.php:64
-#: bp-friends/bp-friends-activity.php:64
+#: bp-friends/bp-friends-activity.php:63
 msgid "%s accepted your friendship request"
 msgstr ""
 
@@ -1391,19 +1390,19 @@ msgstr ""
 msgid "New friendship created"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:60
+#: bp-friends/bp-friends-activity.php:61
 msgid "%d friends accepted your friendship requests"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:70 bp-friends/bp-friends-activity.php:74
+#: bp-friends/bp-friends-activity.php:69 bp-friends/bp-friends-activity.php:73
 msgid "Friendship requests"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:70
+#: bp-friends/bp-friends-activity.php:69
 msgid "You have %d pending friendship requests"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:74
+#: bp-friends/bp-friends-activity.php:73
 msgid "You have a friendship request from %s"
 msgstr ""
 
