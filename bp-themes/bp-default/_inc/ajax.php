@@ -240,14 +240,18 @@ function bp_dtheme_delete_activity() {
 		return false;
 	}
 
-	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) )
+	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) ) {
+		echo '-1';
 		return false;
+	}
 
 	$activity = new BP_Activity_Activity( (int) $_POST['id'] );
 
 	// Check access
-	if ( !bp_activity_user_can_delete() )
+	if ( empty( $activity->user_id ) || !bp_activity_user_can_delete( $activity ) ) {
+		echo '-1';
 		return false;
+	}
 
 	// Call the action before the delete so plugins can still fetch information about it
 	do_action( 'bp_activity_before_action_delete_activity', $activity->id, $activity->user_id );
@@ -256,7 +260,7 @@ function bp_dtheme_delete_activity() {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
-	
+
 	do_action( 'bp_activity_action_delete_activity', $activity->id, $activity->user_id );
 
 	return true;

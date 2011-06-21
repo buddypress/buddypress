@@ -716,15 +716,18 @@ function bp_activity_content() {
 		return apply_filters( 'bp_insert_activity_meta', $content );
 	}
 
-function bp_activity_user_can_delete() {
+function bp_activity_user_can_delete( $activity = false ) {
 	global $activities_template, $bp;
+
+	if ( !$activity )
+		$activity = $activities_template->activity;
 
 	$can_delete = false;
 
 	if ( $bp->loggedin_user->is_super_admin )
 		$can_delete = true;
 
-	if ( $activities_template->activity->user_id == $bp->loggedin_user->id )
+	if ( $activity->user_id == $bp->loggedin_user->id )
 		$can_delete = true;
 
 	if ( $bp->is_item_admin && $bp->is_single_item )

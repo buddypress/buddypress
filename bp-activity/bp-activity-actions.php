@@ -99,7 +99,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	$activity = new BP_Activity_Activity( $activity_id );
 
 	// Check access
-	if ( !bp_activity_user_can_delete() )
+	if ( empty( $activity->user_id ) || !bp_activity_user_can_delete( $activity ) )
 		return false;
 
 	// Call the action before the delete so plugins can still fetch information about it
