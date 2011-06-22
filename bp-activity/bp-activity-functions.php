@@ -67,7 +67,7 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
 			$new_mention_count = (int)get_user_meta( $user_id, bp_get_user_meta_key( 'bp_new_mention_count' ), true );
 			if ( !$new_mentions = get_user_meta( $user_id, bp_get_user_meta_key( 'bp_new_mentions' ), true ) )
 				$new_mentions = array();
-				
+
 			switch ( $action ) {
 				case 'delete' :
 					$key = array_search( $activity_id, $new_mentions );
@@ -75,7 +75,7 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
 						unset( $new_mentions[$key] );
 					}
 					break;
-				
+
 				case 'add' :
 				default :
 					if ( !in_array( $activity_id, $new_mentions ) ) {
@@ -83,10 +83,10 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
 					}
 					break;
 			}
-			
-			// Get an updated mention count			
+
+			// Get an updated mention count
 			$new_mention_count = count( $new_mentions );
-			
+
 			// Resave the user_meta
 			update_user_meta( $user_id, bp_get_user_meta_key( 'bp_new_mention_count' ), $new_mention_count );
 			update_user_meta( $user_id, bp_get_user_meta_key( 'bp_new_mentions' ), $new_mentions );
@@ -875,6 +875,20 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 		bp_activity_delete( array( 'secondary_item_id' => $comment_id, 'type' => 'activity_comment', 'item_id' => $activity_id ) );
 	}
 
+/**
+ * Get the permalink for a single activity item
+ *
+ * When only the $activity_id param is passed, BP has to instantiate a new BP_Activity_Activity
+ * object. To save yourself some processing overhead, be sure to pass the full $activity_obj param
+ * as well, if you already have it available.
+ *
+ * @package BuddyPress
+ *
+ * @uses apply_filters_ref_array() Filter 'bp_activity_get_permalink' to modify the function output
+ * @param int $activity_id The unique id of the activity object
+ * @param obj $activity_obj (optional) The activity object
+ * @return str $link Permalink for the activity item
+ */
 function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	global $bp;
 
@@ -890,7 +904,7 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 			$link = bp_get_root_domain() . '/' . $bp->activity->root_slug . '/p/' . $activity_obj->id . '/';
 	}
 
-	return apply_filters( 'bp_activity_get_permalink', $link );
+	return apply_filters_ref_array( 'bp_activity_get_permalink', array( $link, &$activity_obj ) );
 }
 
 function bp_activity_hide_user_activity( $user_id ) {
