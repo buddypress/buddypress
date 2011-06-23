@@ -34,7 +34,7 @@ function bp_get_options_nav() {
 			$the_index = $bp->current_item;
 		}
 	}
-	
+
 	// Loop through each navigation item
 	foreach ( (array)$bp->bp_options_nav[$the_index] as $subnav_item ) {
 		if ( !$subnav_item['user_has_access'] )
@@ -1369,7 +1369,7 @@ function bp_the_body_class() {
 		/** Clean up***********************************************************/
 
 		// We don't want WordPress blog classes to appear on non-blog pages.
-		if ( !bp_is_blog_page() || is_home() ) {
+		if ( !bp_is_blog_page() ) {
 			// Preserve any custom classes already set
 			if ( !empty( $custom_classes ) )
 				$wp_classes = (array) $custom_classes;
@@ -1386,6 +1386,4 @@ function bp_the_body_class() {
 		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
 	}
 	add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 )
-
-
 ?>
