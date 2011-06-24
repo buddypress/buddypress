@@ -187,15 +187,36 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
 	return false;
 }
 
+/**
+ * Handles the forum topic deletion routine
+ *
+ * @package BuddyPress
+ *
+ * @uses bp_activity_delete() to delete corresponding activity items
+ * @uses bp_forums_get_topic_posts() to get the child posts
+ * @uses bp_forums_delete_topic() to do the deletion itself
+ * @param int $topic_id The id of the topic to be deleted
+ * @return bool True if the delete routine went through properly
+ */
 function groups_delete_group_forum_topic( $topic_id ) {
 	global $bp;
+
+	// Before deleting the thread, get the post ids so that their activity items can be deleted
+	$posts = bp_forums_get_topic_posts( array( 'topic_id' => $topic_id, 'per_page' => -1 ) );
 
 	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
 		do_action( 'groups_before_delete_group_forum_topic', $topic_id );
 
-		// Delete the activity stream item
-		if ( bp_is_active( 'activity' ) )
+		// Delete the activity stream items
+		if ( bp_is_active( 'activity' ) ) {
+			// The activity item for the initial topic
 			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
+			
+			// The activity item for each post
+			foreach ( (array)$posts as $post ) {
+				bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post->post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
+			}
+		}
 
 		do_action( 'groups_delete_group_forum_topic', $topic_id );
 
