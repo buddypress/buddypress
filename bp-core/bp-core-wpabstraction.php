@@ -16,11 +16,17 @@ if ( !is_multisite() ) {
 	global $wpdb;
 
 	$wpdb->base_prefix = $wpdb->prefix;
-	$wpdb->blogid      = 1;
+	$wpdb->blogid      = BP_ROOT_BLOG;
 
 	if ( !function_exists( 'get_blog_option' ) ) {
 		function get_blog_option( $blog_id, $option_name, $default = false ) {
 			return get_option( $option_name, $default );
+		}
+	}
+	
+	if ( !function_exists( 'update_blog_option' ) ) {
+		function update_blog_option( $blog_id, $option_name, $value ) {
+			return update_option( $option_name, $value );
 		}
 	}
 

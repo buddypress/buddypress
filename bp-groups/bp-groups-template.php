@@ -1928,7 +1928,7 @@ function bp_group_member_admin_pagination() {
  * @since BuddyPress 1.3
  *
  * @uses apply_filters() To call 'bp_user_can_create_groups'.
- * @uses get_site_option() To retrieve value of 'bp_restrict_group_creation'. Defaults to 0.
+ * @uses bp_get_option() To retrieve value of 'bp_restrict_group_creation'. Defaults to 0.
  * @uses is_super_admin() To determine if current user if super admin.
  *
  * @return bool True if user can create groups. False otherwise.
@@ -1939,7 +1939,7 @@ function bp_user_can_create_groups() {
 		return true;
 
 	// Get group creation option, default to 0 (allowed)
-	$restricted = (int) get_site_option( 'bp_restrict_group_creation', 0 );
+	$restricted = (int) bp_get_option( 'bp_restrict_group_creation', 0 );
 
 	// Allow by default
 	$can_create = true;

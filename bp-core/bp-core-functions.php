@@ -1,6 +1,103 @@
 <?php
 
 /**
+ * Retrieve an option
+ *
+ * This is a wrapper for get_blog_option(), which in turn stores settings data (such as bp-pages)
+ * on the appropriate blog, given your current setup.
+ *
+ * The 'bp_get_option' filter is primarily for backward-compatibility.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @uses bp_get_option_blog_id()
+ * @param str $option_name The option to be retrieved
+ * @param str $default Optional. Default value to be returned if the option isn't set
+ * @return mixed The value for the option
+ */
+function bp_get_option( $option_name, $default = false ) {
+	$value = get_blog_option( bp_get_option_blog_id( $option_name ), $option_name, $default );
+	
+	return apply_filters( 'bp_get_option', $value );
+}
+
+/**
+ * Save an option
+ *
+ * This is a wrapper for update_blog_option(), which in turn stores settings data (such as bp-pages)
+ * on the appropriate blog, given your current setup.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @uses bp_get_option_blog_id()
+ * @param str $option_name The option key to be set
+ * @param str $value The value to be set
+ */
+function bp_update_option( $option_name, $value ) {
+	// update_blog_option() does not return anything on success/failure, so neither can we
+	update_blog_option( bp_get_option_blog_id( $option_name ), $option_name, $value );
+}
+
+/**
+ * Delete an option
+ *
+ * This is a wrapper for delete_blog_option(), which in turn deletes settings data (such as
+ * bp-pages) on the appropriate blog, given your current setup.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @uses bp_get_option_blog_id()
+ * @param str $option_name The option key to be set
+ */
+function bp_delete_option( $option_name ) {
+	// update_blog_option() does not return anything on success/failure, so neither can we
+	delete_blog_option( bp_get_option_blog_id( $option_name ), $option_name );
+}
+
+/**
+ * Retrieve the filterable blog_id of the blog where the option is question is saved
+ *
+ * Since BP 1.3, BuddyPress has stored all of its settings in blog options tables, as opposed to
+ * sitemeta. This makes it easier for non-standard setups (like BP_ENABLE_MULTIBLOG and
+ * multinetwork BP) to save and access options in a consistent and logical way.
+ *
+ * By default, nearly all settings are stored in the options table of BP_ROOT_BLOG. The one
+ * exception is when BP_ENABLE_MULTIBLOG is enabled. In this case, bp-pages - the list of pages that
+ * are associated with BP top-level components - must be specific to each blog in the network. If
+ * you are building a plugin that requires an option (either a BP-native option, or your own custom
+ * option) to be specific to each blog in a network, filter 'bp_blog_specific_options' and add your
+ * option's name. This will allow you to use bp_get_option() and bp_update_option() seamlessly.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @see bp_get_option()
+ * @see bp_update_option()
+ * @uses apply_filters() Filter bp_get_option_blog_id to change this setting
+ * @return int $blog_id
+ */
+function bp_get_option_blog_id( $option_name ) {
+	$blog_specific_options = apply_filters( 'bp_blog_specific_options', array(
+		'bp-pages'
+	) );
+	
+	if ( in_array( $option_name, $blog_specific_options ) ) {
+		if ( defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ) {
+			$blog_id = get_current_blog_id();
+		} else {
+			$blog_id = BP_ROOT_BLOG;
+		}
+	} else {
+		$blog_id = BP_ROOT_BLOG;
+	}
+
+	return apply_filters( 'bp_get_option_blog_id', $blog_id );
+}
+
+/**
  * Allow filtering of database prefix. Intended for use in multinetwork installations.
  *
  * @global object $wpdb WordPress database object
@@ -22,41 +119,22 @@ function bp_core_get_table_prefix() {
  *       people running trunk installations. Leave for a version or two, then remove.
  */
 function bp_core_get_page_meta() {
-	$page_ids = get_site_option( 'bp-pages' );
+	$page_ids = bp_get_option( 'bp-pages' );
+  
+  	// Upgrading from an earlier version of BP pre-1.3
+	if ( !isset( $page_ids['members'] ) && $ms_page_ids = get_site_option( 'bp-pages' ) ) {
+		$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
+  
+		$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
 
-	$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
+		if ( isset( $ms_page_ids[$page_blog_id] ) ) {
+			$page_ids = $ms_page_ids[$page_blog_id];
 
-	$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
-
-	// Upgrading from an earlier version of BP pre-1.3
-	if ( empty( $page_ids ) || isset( $page_ids['members'] ) ) {
-		if ( empty( $page_ids ) ) {
-			// We're probably coming from an old multisite install
-			$old_page_ids = get_blog_option( $page_blog_id, 'bp-pages' );
-		} else {
-			// We're probably coming from an old single-WP install
-			$old_page_ids = $page_ids;
+			bp_update_option( 'bp-pages', $page_ids );
 		}
-
-		/**
-		 * If $page_ids is found in a blog_option, and it's formatted in the new way (keyed
-		 * by blog_id), it means that this is an MS upgrade. Return false and let the
-		 * upgrade wizard handle the migration.
-		 */
-		if ( !isset( $old_page_ids['members'] ) )
-			return false;
-
-		// Finally, move the page ids over to site options
-		$new_page_ids = array(
-			$page_blog_id => $old_page_ids
-		);
-
-		update_site_option( 'bp-pages', $new_page_ids );
-	}
-
-	$blog_page_ids = !empty( $page_ids[$page_blog_id] ) ? $page_ids[$page_blog_id] : false;
-
-	return apply_filters( 'bp_core_get_page_meta', $blog_page_ids );
+  	}
+  	
+	return apply_filters( 'bp_core_get_page_meta', $page_ids );
 }
 
 /**
@@ -71,15 +149,7 @@ function bp_core_get_page_meta() {
  * @param array $blog_page_ids The IDs of the WP pages corresponding to BP component directories
  */
 function bp_core_update_page_meta( $blog_page_ids ) {
-	if ( !$page_ids = get_site_option( 'bp-pages' ) )
-		$page_ids = array();
-
-	// Generally, we key by the BP_ROOT_BLOG. Exception: when BP_ENABLE_MULTIBLOG is turned on
-	$key = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
-
-	$page_ids[$key] = $blog_page_ids;
-
-	update_site_option( 'bp-pages', $page_ids );
+	bp_update_option( 'bp-pages', $blog_page_ids );
 }
 
 /**
@@ -874,6 +944,7 @@ add_action( 'bp_init', 'bp_core_add_ajax_hook' );
  * site options.
  *
  * @package BuddyPress Core
+ * @todo Does this need to be here anymore after the introduction of bp_get_option etc?
  */
 function bp_core_activate_site_options( $keys = array() ) {
 	global $bp;
@@ -883,9 +954,9 @@ function bp_core_activate_site_options( $keys = array() ) {
 
 		foreach ( $keys as $key => $default ) {
 			if ( empty( $bp->site_options[ $key ] ) ) {
-				$bp->site_options[ $key ] = get_blog_option( BP_ROOT_BLOG, $key, $default );
+				$bp->site_options[ $key ] = bp_get_option( $key, $default );
 
-				if ( !update_site_option( $key, $bp->site_options[ $key ] ) )
+				if ( !bp_update_option( $key, $bp->site_options[ $key ] ) )
 					$errors = true;
 			}
 		}
@@ -907,7 +978,7 @@ function bp_core_activate_site_options( $keys = array() ) {
 function bp_core_get_site_options() {
 	global $bp, $wpdb;
 
-	// These options come from the options table in WP single, and sitemeta in MS
+	// These options come from the options table
 	$site_options = apply_filters( 'bp_core_site_options', array(
 		'bp-deactivated-components',
 		'bp-blogs-first-install',
@@ -935,10 +1006,41 @@ function bp_core_get_site_options() {
 
 	$meta_keys = "'" . implode( "','", (array)$site_options ) ."'";
 
-	if ( is_multisite() )
-		$site_meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
-	else
-		$site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
+	$site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
+	
+	// Backward compatibility - moves sitemeta to the blog
+	if ( empty( $site_meta ) || ( count( $site_meta ) < count( $site_options ) ) ) {
+		if ( is_multisite() ) {
+			$ms_site_meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
+		} else {
+			$ms_site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
+		}
+		
+		$settings_to_move = array(
+			'bp-deactivated-components',
+			'bp-blogs-first-install',
+			'bp-disable-blog-forum-comments',
+			'bp-xprofile-base-group-name',
+			'bp-xprofile-fullname-field-name',
+			'bp-disable-profile-sync',
+			'bp-disable-avatar-uploads',
+			'bp-disable-account-deletion',
+			'bp-disable-forum-directory',
+			'bp-disable-blogforum-comments',
+			'bb-config-location',
+			'hide-loggedout-adminbar',
+		);
+		
+		foreach( (array)$ms_site_meta as $meta ) {	
+			if ( isset( $meta->name ) && in_array( $meta->name, $settings_to_move ) ) {
+				bp_update_option( $meta->name, $meta->value );
+						
+				if ( empty( $site_meta[$meta->name] ) ) {
+					$site_meta[$meta->name] = $meta->value;
+				}
+			}
+		}
+	}
 
 	$root_blog_meta_keys  = "'" . implode( "','", (array)$root_blog_options ) ."'";
 	$root_blog_meta_table = $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'options';
@@ -948,7 +1050,8 @@ function bp_core_get_site_options() {
 	foreach( array( $site_meta, $root_blog_meta ) as $meta ) {
 		if ( !empty( $meta ) ) {
 			foreach( (array)$meta as $meta_item ) {
-				$site_options[$meta_item->name] = $meta_item->value;
+				if ( isset( $meta_item->name ) )
+					$site_options[$meta_item->name] = $meta_item->value;
 			}
 		}
 	}

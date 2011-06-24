@@ -527,7 +527,6 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
  * @uses is_super_admin() Checks to see if the user is a site administrator.
  * @uses wpmu_delete_user() Deletes a user from the system on multisite installs.
  * @uses wp_delete_user() Deletes a user from the system on singlesite installs.
- * @uses get_site_option Checks if account deletion is allowed
  */
 function bp_core_delete_account( $user_id = 0 ) {
 	global $bp, $wp_version;

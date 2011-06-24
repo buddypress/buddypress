@@ -204,8 +204,8 @@ function bp_core_install_extended_profiles() {
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix = bp_core_get_table_prefix();
 
-	update_site_option( 'bp-xprofile-base-group-name', _x( 'Base', 'First XProfile group name', 'buddypress' ) );
-	update_site_option( 'bp-xprofile-fullname-field-name', _x( 'Name', 'XProfile fullname field name', 'buddypress' ) );
+	bp_update_option( 'bp-xprofile-base-group-name', _x( 'Base', 'First XProfile group name', 'buddypress' ) );
+	bp_update_option( 'bp-xprofile-fullname-field-name', _x( 'Name', 'XProfile fullname field name', 'buddypress' ) );
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_xprofile_groups (
 			    id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -262,10 +262,10 @@ function bp_core_install_extended_profiles() {
 	$insert_sql = array();
 
 	if ( !$wpdb->get_var( "SELECT id FROM {$bp_prefix}bp_xprofile_groups WHERE id = 1" ) )
-		$insert_sql[] = "INSERT INTO {$bp_prefix}bp_xprofile_groups ( name, description, can_delete ) VALUES ( " . $wpdb->prepare( '%s', stripslashes( get_site_option( 'bp-xprofile-base-group-name' ) ) ) . ", '', 0 );";
+		$insert_sql[] = "INSERT INTO {$bp_prefix}bp_xprofile_groups ( name, description, can_delete ) VALUES ( " . $wpdb->prepare( '%s', stripslashes( bp_get_option( 'bp-xprofile-base-group-name' ) ) ) . ", '', 0 );";
 
 	if ( !$wpdb->get_var( "SELECT id FROM {$bp_prefix}bp_xprofile_fields WHERE id = 1" ) )
-		$insert_sql[] = "INSERT INTO {$bp_prefix}bp_xprofile_fields ( group_id, parent_id, type, name, description, is_required, can_delete ) VALUES ( 1, 0, 'textbox', " . $wpdb->prepare( '%s', stripslashes( get_site_option( 'bp-xprofile-fullname-field-name' ) ) ) . ", '', 1, 0 );";
+		$insert_sql[] = "INSERT INTO {$bp_prefix}bp_xprofile_fields ( group_id, parent_id, type, name, description, is_required, can_delete ) VALUES ( 1, 0, 'textbox', " . $wpdb->prepare( '%s', stripslashes( bp_get_option( 'bp-xprofile-fullname-field-name' ) ) ) . ", '', 1, 0 );";
 
 	dbDelta( $insert_sql );
 }

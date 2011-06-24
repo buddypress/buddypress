@@ -143,7 +143,7 @@ function bp_forums_configure_existing_install() {
 		$_REQUEST['bbconfigloc'] .= 'bb-config.php';
 	}
 
-	update_site_option( 'bb-config-location', $_REQUEST['bbconfigloc'] );
+	bp_update_option( 'bb-config-location', $_REQUEST['bbconfigloc'] );
 
 	if ( !file_exists( $_REQUEST['bbconfigloc'] ) )
 		return false;
@@ -214,7 +214,7 @@ function bp_forums_bbpress_install() {
 		$initial_write = $file;
 	}
 
-	update_site_option( 'bb-config-location', ABSPATH . 'bb-config.php' );
+	bp_update_option( 'bb-config-location', ABSPATH . 'bb-config.php' );
 	return $initial_write;
 }
 

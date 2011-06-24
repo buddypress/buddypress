@@ -441,17 +441,6 @@ function bp_registration_needs_activation() {
 	return apply_filters( 'bp_registration_needs_activation', true );
 }
 
-function bp_get_option( $option_name ) {
-	global $bp;
-
-	if ( !empty( $bp->site_options[$option_name] ) )
-		$retval = $bp->site_options[$option_name];
-	else
-		$retval = false;
-
-	return apply_filters( 'bp_get_option', $retval );
-}
-
 /**
  * Allow templates to pass parameters directly into the template loops via AJAX
  *

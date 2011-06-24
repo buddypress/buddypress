@@ -21,6 +21,11 @@ require_once( BP_PLUGIN_DIR . '/bp-core/deprecated/1.3.php'    );
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php'  );
 
+// Move active components from sitemeta, if necessary
+// Provides backpat with earlier versions of BP 
+if ( is_multisite() && $active_components = get_site_option( 'bp-active-components' ) )
+	bp_update_option( 'bp-active-components', $active_components );
+
 /** "And now for something completely different" ******************************/
 
 class BP_Core extends BP_Component {
@@ -66,12 +71,12 @@ class BP_Core extends BP_Component {
 		$bp->required_components    = apply_filters( 'bp_required_components', array( 'members' ) );
 
 		// Get a list of activated components
-		if ( $active_components = get_site_option( 'bp-active-components' ) ) {
+		if ( $active_components = bp_get_option( 'bp-active-components' ) ) {
 			$bp->active_components      = apply_filters( 'bp_active_components', $active_components );
 			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', array_values( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_keys( $bp->active_components ) ) ) );
 
 		// Pre 1.3 Backwards compatibility
-		} elseif ( $deactivated_components = get_site_option( 'bp-deactivated-components' ) ) {
+		} elseif ( $deactivated_components = bp_get_option( 'bp-deactivated-components' ) ) {
 			// Trim off namespace and filename
 			foreach ( (array) $deactivated_components as $component => $value )
 				$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $component ) );

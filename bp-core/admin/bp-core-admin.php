@@ -58,7 +58,7 @@ function bp_core_admin_settings() {
 
 		// Settings form submitted, now save the settings.
 		foreach ( (array)$_POST['bp-admin'] as $key => $value )
-			update_site_option( $key, $value );
+			bp_update_option( $key, $value );
 
 	} ?>
 
@@ -86,8 +86,8 @@ function bp_core_admin_settings() {
 						<tr>
 							<th scope="row"><?php _e( 'Disable BuddyPress to WordPress profile syncing?', 'buddypress' ) ?>:</th>
 							<td>
-								<input type="radio" name="bp-admin[bp-disable-profile-sync]"<?php if ( (int)get_site_option( 'bp-disable-profile-sync' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-profile-sync" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-								<input type="radio" name="bp-admin[bp-disable-profile-sync]"<?php if ( !(int)get_site_option( 'bp-disable-profile-sync' ) || '' == get_site_option( 'bp-disable-profile-sync' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-profile-sync" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+								<input type="radio" name="bp-admin[bp-disable-profile-sync]"<?php if ( (int)bp_get_option( 'bp-disable-profile-sync' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-profile-sync" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+								<input type="radio" name="bp-admin[bp-disable-profile-sync]"<?php if ( !(int)bp_get_option( 'bp-disable-profile-sync' ) || '' == bp_get_option( 'bp-disable-profile-sync' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-profile-sync" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 							</td>
 						</tr>
 
@@ -96,24 +96,24 @@ function bp_core_admin_settings() {
 					<tr>
 						<th scope="row"><?php _e( 'Hide admin bar for logged out users?', 'buddypress' ) ?>:</th>
 						<td>
-							<input type="radio" name="bp-admin[hide-loggedout-adminbar]"<?php if ( (int)get_site_option( 'hide-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-hide-loggedout-adminbar-yes" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-							<input type="radio" name="bp-admin[hide-loggedout-adminbar]"<?php if ( !(int)get_site_option( 'hide-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-hide-loggedout-adminbar-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+							<input type="radio" name="bp-admin[hide-loggedout-adminbar]"<?php if ( (int)bp_get_option( 'hide-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-hide-loggedout-adminbar-yes" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+							<input type="radio" name="bp-admin[hide-loggedout-adminbar]"<?php if ( !(int)bp_get_option( 'hide-loggedout-adminbar' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-hide-loggedout-adminbar-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 						</td>
 					</tr>
 
 					<tr>
 						<th scope="row"><?php _e( 'Disable avatar uploads? (Gravatars will still work)', 'buddypress' ) ?>:</th>
 						<td>
-							<input type="radio" name="bp-admin[bp-disable-avatar-uploads]"<?php if ( (int)get_site_option( 'bp-disable-avatar-uploads' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-disable-avatar-uploads-yes" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-							<input type="radio" name="bp-admin[bp-disable-avatar-uploads]"<?php if ( !(int)get_site_option( 'bp-disable-avatar-uploads' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-disable-avatar-uploads-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+							<input type="radio" name="bp-admin[bp-disable-avatar-uploads]"<?php if ( (int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-disable-avatar-uploads-yes" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+							<input type="radio" name="bp-admin[bp-disable-avatar-uploads]"<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?> checked="checked"<?php endif; ?> id="bp-admin-disable-avatar-uploads-no" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 						</td>
 					</tr>
 
 					<tr>
 						<th scope="row"><?php _e( 'Disable user account deletion?', 'buddypress' ) ?>:</th>
 						<td>
-							<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( (int)get_site_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-							<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( !(int)get_site_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+							<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( (int)bp_get_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+							<input type="radio" name="bp-admin[bp-disable-account-deletion]"<?php if ( !(int)bp_get_option( 'bp-disable-account-deletion' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-account-deletion" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 						</td>
 					</tr>
 
@@ -122,8 +122,8 @@ function bp_core_admin_settings() {
 						<tr>
 							<th scope="row"><?php _e( 'Disable global forum directory?', 'buddypress' ) ?>:</th>
 							<td>
-								<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( (int)get_site_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-								<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( !(int)get_site_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+								<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( (int)bp_get_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+								<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( !(int)bp_get_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 							</td>
 						</tr>
 
@@ -134,8 +134,8 @@ function bp_core_admin_settings() {
 						<tr>
 							<th scope="row"><?php _e( 'Disable activity stream commenting on blog and forum posts?', 'buddypress' ) ?>:</th>
 							<td>
-								<input type="radio" name="bp-admin[bp-disable-blogforum-comments]"<?php if ( (int)get_site_option( 'bp-disable-blogforum-comments' ) || false === get_site_option( 'bp-disable-blogforum-comments' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-blogforum-comments" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-								<input type="radio" name="bp-admin[bp-disable-blogforum-comments]"<?php if ( !(int)get_site_option( 'bp-disable-blogforum-comments' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-blogforum-comments" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+								<input type="radio" name="bp-admin[bp-disable-blogforum-comments]"<?php if ( (int)bp_get_option( 'bp-disable-blogforum-comments' ) || false === bp_get_option( 'bp-disable-blogforum-comments' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-blogforum-comments" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+								<input type="radio" name="bp-admin[bp-disable-blogforum-comments]"<?php if ( !(int)bp_get_option( 'bp-disable-blogforum-comments' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-blogforum-comments" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 							</td>
 						</tr>
 
@@ -146,8 +146,8 @@ function bp_core_admin_settings() {
 						<tr>
 							<th scope="row"><?php _e( 'Restrict group creation to Site Admins?', 'buddypress' ) ?>:</th>
 							<td>
-								<input type="radio" name="bp-admin[bp_restrict_group_creation]"<?php checked( '1', get_site_option( 'bp_restrict_group_creation', '0' ) ); ?>id="bp-restrict-group-creation" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-								<input type="radio" name="bp-admin[bp_restrict_group_creation]"<?php checked( '0', get_site_option( 'bp_restrict_group_creation', '0' ) ); ?>id="bp-restrict-group-creation" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
+								<input type="radio" name="bp-admin[bp_restrict_group_creation]"<?php checked( '1', bp_get_option( 'bp_restrict_group_creation', '0' ) ); ?>id="bp-restrict-group-creation" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
+								<input type="radio" name="bp-admin[bp_restrict_group_creation]"<?php checked( '0', bp_get_option( 'bp_restrict_group_creation', '0' ) ); ?>id="bp-restrict-group-creation" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
 							</td>
 						</tr>
 
@@ -183,7 +183,7 @@ function bp_core_admin_component_setup_handler() {
 		// Settings form submitted, now save the settings. First, set active components
 		if ( isset( $_POST['bp_components'] ) ) {
 			$bp->active_components = stripslashes_deep( $_POST['bp_components'] );
-			update_site_option( 'bp-active-components', $bp->active_components );
+			bp_update_option( 'bp-active-components', $bp->active_components );
 		}
 
 		// Then, update the directory pages
@@ -262,8 +262,10 @@ function bp_core_admin_component_setup() {
  */
 function bp_core_admin_component_options() {
 	global $bp_wizard;
+			
+	require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
-	$active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
+	$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 	
 	// An array of strings looped over to create component setup markup
 	$optional_components = array(

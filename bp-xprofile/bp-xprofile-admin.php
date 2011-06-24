@@ -49,7 +49,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		</h2>
 
 		<p><?php _e( 'Your users will distinguish themselves through their profile page. You must give them profile fields that allow them to describe themselves in a way that is relevant to the theme of your social network.', 'buddypress'); ?></p>
-		<p><?php echo sprintf( __( 'NOTE: Any fields in the "%s" group will appear on the signup page.', 'buddypress' ), esc_html( stripslashes( get_site_option( 'bp-xprofile-base-group-name' ) ) ) ) ?></p>
+		<p><?php echo sprintf( __( 'NOTE: Any fields in the "%s" group will appear on the signup page.', 'buddypress' ), esc_html( stripslashes( bp_get_option( 'bp-xprofile-base-group-name' ) ) ) ) ?></p>
 
 		<form action="" id="profile-field-form" method="post">
 

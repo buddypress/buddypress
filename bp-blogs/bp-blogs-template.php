@@ -362,10 +362,7 @@ function bp_total_blog_count_for_user( $user_id = 0 ) {
 function bp_blog_signup_enabled() {
 	global $bp;
 
-	$active_signup = $bp->site_options['registration'];
-
-	if ( !$active_signup )
-		$active_signup = 'all';
+	$active_signup = isset( $bp->site_options['registration'] ) ? $bp->site_options['registration'] : 'all';
 
 	$active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
 

@@ -321,7 +321,7 @@ function bp_core_admin_bar() {
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) && BP_DISABLE_ADMIN_BAR )
 		return false;
 
-	if ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
+	if ( (int)bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
 		return false;
 
 	$bp->doing_admin_bar = true;
@@ -486,7 +486,7 @@ function bp_core_load_admin_bar() {
 		// Keep the WP admin bar from loading
 		show_admin_bar( false );
 
-		if ( (int)get_site_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
+		if ( (int)bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
 			return;
 
 		// Admin bar styles

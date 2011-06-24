@@ -17,7 +17,7 @@ class BP_Core_Setup_Wizard {
 		global $bp;
 
 		// Ensure that we have access to some utility functions
-		include( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
+		require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 		// Get current DB version
 		$this->database_version = !empty( $bp->database_version ) ? (int) $bp->database_version : 0;
@@ -259,11 +259,11 @@ class BP_Core_Setup_Wizard {
 	<?php
 	}
 
-	function step_ms_update() {
+	function step_ms_update() {		
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
-		$active_components = get_site_option( 'bp-active-components' );
+		$active_components = bp_get_option( 'bp-active-components' );
 
 		if ( defined( 'BP_BLOGS_SLUG' ) )
 			$blogs_slug = constant( 'BP_BLOGS_SLUG' );
@@ -271,9 +271,7 @@ class BP_Core_Setup_Wizard {
 			$blogs_slug = 'blogs';
 
  		// Call up old bp-pages to see if a page has been previously linked to Blogs
-		$page_blog_id        = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
-		$existing_pages_data = get_blog_option( $page_blog_id, 'bp-pages' );
-		$existing_pages      = $existing_pages_data[$page_blog_id];
+		$existing_pages = bp_get_option( 'bp-pages' );
 
 		if ( !empty( $existing_pages['blogs'] ) )
 			$existing_blog_page = '&selected=' . $existing_pages['blogs'];
@@ -369,9 +367,21 @@ class BP_Core_Setup_Wizard {
 			return false;
 
 		$existing_pages = bp_core_update_get_page_meta();
+		
+		// Provide empty indexes to avoid PHP errors with wp_dropdown_pages()
+		$indexes = array( 'members', 'activity', 'groups', 'forums', 'blogs', 'register', 'activate' );
+		foreach ( $indexes as $index ) {
+			if ( !isset( $existing_pages[$index] ) )
+				$existing_pages[$index] = '';
+		}
+		
+		if ( !empty( $existing_pages['blogs'] ) )
+			$existing_blog_page = '&selected=' . $existing_pages['blogs'];
+		else
+			$existing_blog_page = '';
 
 		// Get active components
-		$active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
+		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
 		// Check for defined slugs
 		$members_slug    = !empty( $bp->members->slug    ) ? $bp->members->slug    : __( 'members',  'buddypress' );
@@ -738,7 +748,7 @@ class BP_Core_Setup_Wizard {
 
 			// Update the active components option early if we're updating
 			if ( 'update' == $this->setup_type )
-				update_site_option( 'bp-active-components', $bp->active_components );
+				bp_update_option( 'bp-active-components', $bp->active_components );
 
 			return true;
 		}
@@ -771,16 +781,12 @@ class BP_Core_Setup_Wizard {
 					switch_to_blog( BP_ROOT_BLOG );
 
 				// Move bp-pages data from the blog options table to site options
-				$page_blog_id        = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
-				$existing_pages_data = get_blog_option( $page_blog_id, 'bp-pages' );
-				$existing_pages      = $existing_pages_data[$page_blog_id];
+				$existing_pages	= bp_get_option( 'bp-pages' );
 
-				$bp_pages            = $this->setup_pages( (array)$_POST['bp_pages'] );
-				$bp_pages            = array_merge( (array)$existing_pages, (array)$bp_pages );
+				$bp_pages       = $this->setup_pages( (array)$_POST['bp_pages'] );
+				$bp_pages       = array_merge( (array)$existing_pages, (array)$bp_pages );
 
-				$existing_pages_data[$page_blog_id] = $bp_pages;
-
-				update_site_option( 'bp-pages', $existing_pages_data );
+				bp_update_option( 'bp-pages', $existing_pages );
 
 				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
 					restore_current_blog();
@@ -788,7 +794,7 @@ class BP_Core_Setup_Wizard {
 				bp_core_install( $active_components );
 			}
 
-			update_site_option( 'bp-active-components', $active_components );
+			bp_update_option( 'bp-active-components', $active_components );
 
 			return true;
 		}
@@ -807,7 +813,7 @@ class BP_Core_Setup_Wizard {
 			foreach ( (array)$_POST['bp_components'] as $key => $value )
 				$active_components[$key] = 1;
 
-			update_site_option( 'bp-active-components', $active_components );
+			bp_update_option( 'bp-active-components', $active_components );
 
 			wp_cache_flush();
 			bp_core_install();
@@ -835,10 +841,7 @@ class BP_Core_Setup_Wizard {
 				wp_delete_post( $page_id, true );
 
 			$blog_pages   = $this->setup_pages( (array)$_POST['bp_pages'] );
-			$page_blog_id = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
-			$bp_pages     = array( $page_blog_id => $blog_pages );
-
-			update_site_option( 'bp-pages', $bp_pages );
+			bp_update_option( 'bp-pages', $blog_pages );
 
 			if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
 				restore_current_blog();
@@ -1007,6 +1010,7 @@ class BP_Core_Setup_Wizard {
 			check_admin_referer( 'bpwizard_finish' );
 
 			// Update the DB version in the database
+			// Stored in sitemeta. Do not use bp_update_option()
 			update_site_option( 'bp-db-version', $this->new_version );
 			delete_site_option( 'bp-core-db-version' );
 
@@ -1075,7 +1079,7 @@ function bp_core_install( $active_components = false ) {
 	global $wpdb;
 
 	if ( empty( $active_components ) )
-		$active_components = apply_filters( 'bp_active_components', get_site_option( 'bp-active-components' ) );
+		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
 	require_once( dirname( __FILE__ ) . '/bp-core-schema.php' );
 
@@ -1131,7 +1135,7 @@ function bp_update_db_stuff() {
 	// On first installation - record all existing blogs in the system.
 	if ( !(int)$bp->site_options['bp-blogs-first-install'] && is_multisite() ) {
 		bp_blogs_record_existing_blogs();
-		add_site_option( 'bp-blogs-first-install', 1 );
+		bp_update_option( 'bp-blogs-first-install', 1 );
 	}
 
 	if ( is_multisite() )
@@ -1248,23 +1252,20 @@ function bp_core_update_add_admin_menu_styles() {
 add_action( 'admin_head', 'bp_core_update_add_admin_menu_styles' );
 
 /**
- * Fetches BP pages from the meta table, depending on setup
+ * Fetches BP pages from the meta table
  *
  * @package BuddyPress Core
  * @since 1.3
  *
  * @return array $page_ids
  */
-function bp_core_update_get_page_meta() {
-	$page_ids = get_site_option( 'bp-pages' );
+function bp_core_update_get_page_meta() {			
+	require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
+	
+	if ( !$page_ids = bp_get_option( 'bp-pages' ) )
+		$page_ids = array();
 
-	$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
-
-	$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
-
-	$blog_page_ids = !empty( $page_ids[$page_blog_id] ) ? $page_ids[$page_blog_id] : false;
-
-	return apply_filters( 'bp_core_update_get_page_meta', $blog_page_ids );
+	return apply_filters( 'bp_core_update_get_page_meta', $page_ids );
 }
 
 function bp_core_update_do_network_admin() {
