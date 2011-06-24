@@ -2170,10 +2170,21 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
 function groups_delete_group_forum_topic( $topic_id ) {
 	global $bp;
 
+	// Before deleting the thread, get the post ids so that their activity items can be deleted
+	$posts = bp_forums_get_topic_posts( array( 'topic_id' => $topic_id, 'per_page' => -1 ) );
+
 	if ( bp_forums_delete_topic( array( 'topic_id' => $topic_id ) ) ) {
-		/* Delete the activity stream item */
-		if ( function_exists( 'bp_activity_delete' ) ) {
+		do_action( 'groups_before_delete_group_forum_topic', $topic_id );
+
+		// Delete the activity stream items
+		if ( bp_is_active( 'activity' ) ) {
+			// The activity item for the initial topic
 			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
+			
+			// The activity item for each post
+			foreach ( (array)$posts as $post ) {
+				bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post->post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
+			}
 		}
 
 		do_action( 'groups_delete_group_forum_topic', $topic_id );
