@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-21 21:30:50+00:00\n"
+"POT-Creation-Date: 2011-06-24 14:30:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4739,7 +4739,7 @@ msgstr ""
 msgid "%s posted a new activity comment:"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:938
+#: bp-activity/bp-activity-functions.php:952
 msgid "Thumbnail"
 msgstr ""
 
