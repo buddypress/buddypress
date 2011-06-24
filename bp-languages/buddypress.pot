@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-13 13:31:07+00:00\n"
+"POT-Creation-Date: 2011-06-24 20:31:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2178,7 +2178,7 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups.php:306 bp-groups.php:1774 bp-groups.php:2479
+#: bp-groups.php:306 bp-groups.php:1774 bp-groups.php:2490
 msgid "%s joined the group %s"
 msgstr ""
 
