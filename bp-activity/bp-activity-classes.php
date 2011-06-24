@@ -523,7 +523,7 @@ Class BP_Activity_Activity {
 	}
 
 	function total_favorite_count( $user_id ) {
-		if ( !$favorite_activity_entries = get_user_meta( $user_id, bp_get_user_meta_key( 'bp_favorite_activities' ), true ) )
+		if ( !$favorite_activity_entries = bp_get_user_meta( $user_id, 'bp_favorite_activities', true ) )
 			return 0;
 
 		return count( maybe_unserialize( $favorite_activity_entries ) );

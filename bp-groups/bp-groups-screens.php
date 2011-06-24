@@ -793,19 +793,24 @@ function groups_screen_group_admin_delete_group() {
 }
 add_action( 'bp_screens', 'groups_screen_group_admin_delete_group' );
 
+/**
+ * Renders the group settings fields on the Notification Settings page
+ *
+ * @package BuddyPress
+ */
 function groups_screen_notification_settings() {
 	global $bp;
 
-	if ( !$group_invite = get_user_meta( $bp->displayed_user->id, bp_get_user_meta_key( 'notification_groups_invite' ), true ) )
+	if ( !$group_invite = bp_get_user_meta( $bp->displayed_user->id, 'notification_groups_invite', true ) )
 		$group_invite  = 'yes';
 
-	if ( !$group_update = get_user_meta( $bp->displayed_user->id, bp_get_user_meta_key( 'notification_groups_group_updated' ), true ) )
+	if ( !$group_update = bp_get_user_meta( $bp->displayed_user->id, 'notification_groups_group_updated', true ) )
 		$group_update  = 'yes';
 
-	if ( !$group_promo = get_user_meta( $bp->displayed_user->id, bp_get_user_meta_key( 'notification_groups_admin_promotion' ), true ) )
+	if ( !$group_promo = bp_get_user_meta( $bp->displayed_user->id, 'notification_groups_admin_promotion', true ) )
 		$group_promo   = 'yes';
 
-	if ( !$group_request = get_user_meta( $bp->displayed_user->id, bp_get_user_meta_key( 'notification_groups_membership_request' ), true ) )
+	if ( !$group_request = bp_get_user_meta( $bp->displayed_user->id, 'notification_groups_membership_request', true ) )
 		$group_request = 'yes';
 ?>
 

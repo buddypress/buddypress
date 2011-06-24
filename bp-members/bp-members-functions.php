@@ -619,11 +619,11 @@ add_filter( 'authenticate', 'bp_core_boot_spammer', 30, 2 );
  *
  * @package BuddyPress Core
  * @param $user_id The user id for the user to delete usermeta for
- * @uses delete_user_meta() deletes a row from the wp_usermeta table based on meta_key
+ * @uses bp_delete_user_meta() deletes a row from the wp_usermeta table based on meta_key
  */
 function bp_core_remove_data( $user_id ) {
 	// Remove usermeta
-	delete_user_meta( $user_id, bp_get_user_meta_key( 'last_activity' ) );
+	bp_delete_user_meta( $user_id, 'last_activity' );
 
 	// Flush the cache to remove the user from all cached objects
 	wp_cache_flush();

@@ -9,7 +9,7 @@ function messages_notification_new_message( $args ) {
 	$sender_name   = bp_core_get_user_displayname( $sender_id );
 
 	foreach( $recipients as $recipient ) {
-		if ( $sender_id == $recipient->user_id || 'no' == get_user_meta( $recipient->user_id, bp_get_user_meta_key( 'notification_messages_new_message' ), true ) )
+		if ( $sender_id == $recipient->user_id || 'no' == bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) )
 			continue;
 
 		// User data and links

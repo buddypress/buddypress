@@ -133,10 +133,10 @@ function messages_screen_notification_settings() {
 		return;
 	}
 
-	if ( !$new_messages = get_user_meta( $bp->displayed_user->id, bp_get_user_meta_key( 'notification_messages_new_message' ), true ) )
+	if ( !$new_messages = bp_get_user_meta( $bp->displayed_user->id, 'notification_messages_new_message', true ) )
 		$new_messages = 'yes';
 
-	if ( !$new_notices = get_user_meta( $bp->displayed_user->id, bp_get_user_meta_key( 'notification_messages_new_notice' ), true ) )
+	if ( !$new_notices = bp_get_user_meta( $bp->displayed_user->id, 'notification_messages_new_notice', true ) )
 		$new_notices  = 'yes';
 ?>
 

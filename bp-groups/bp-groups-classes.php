@@ -730,9 +730,9 @@ Class BP_Groups_Member {
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
 
-		$group_count = get_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), true );
+		$group_count = bp_get_user_meta( $this->user_id, 'total_group_count', true );
 		if ( !empty( $group_count ) )
-			update_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), (int)$group_count - 1 );
+			bp_update_user_meta( $this->user_id, 'total_group_count', (int)$group_count - 1 );
 
 		return $this->save();
 	}
@@ -746,7 +746,7 @@ Class BP_Groups_Member {
 		$this->is_banned = 0;
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) + 1 ) );
-		update_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), (int)get_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), true ) + 1 );
+		bp_update_user_meta( $this->user_id, 'total_group_count', (int)bp_get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 
 		return $this->save();
 	}
@@ -758,7 +758,7 @@ Class BP_Groups_Member {
 		$this->is_confirmed  = 1;
 		$this->date_modified = bp_core_current_time();
 
-		update_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), (int)get_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), true ) + 1 );
+		bp_update_user_meta( $this->user_id, 'total_group_count', (int)bp_get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 	}
 
 	function accept_request() {
@@ -767,7 +767,7 @@ Class BP_Groups_Member {
 		$this->is_confirmed = 1;
 		$this->date_modified = bp_core_current_time();
 
-		update_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), (int)get_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), true ) + 1 );
+		bp_update_user_meta( $this->user_id, 'total_group_count', (int)bp_get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 	}
 
 	function remove() {
@@ -780,9 +780,9 @@ Class BP_Groups_Member {
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
 
-		$group_count = get_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), true );
+		$group_count = bp_get_user_meta( $this->user_id, 'total_group_count', true );
 		if ( !empty( $group_count ) )
-			update_user_meta( $this->user_id, bp_get_user_meta_key( 'total_group_count' ), (int)$group_count - 1 );
+			bp_update_user_meta( $this->user_id, 'total_group_count', (int)$group_count - 1 );
 
 		return $result;
 	}

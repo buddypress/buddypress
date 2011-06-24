@@ -34,7 +34,7 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 		$message = '';
 
 		// Now email the user with the contents of the message (if they have enabled email notifications)
-		if ( 'no' != get_user_meta( $receiver_user_id, bp_get_user_meta_key( 'notification_activity_new_mention' ), true ) ) {
+		if ( 'no' != bp_get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );
 
 			$message_link = bp_activity_get_permalink( $activity_id );
@@ -81,7 +81,7 @@ function bp_activity_new_comment_notification( $comment_id, $commenter_id, $para
 
 	$original_activity = new BP_Activity_Activity( $activity_id );
 
-	if ( $original_activity->user_id != $commenter_id && 'no' != get_user_meta( $original_activity->user_id, bp_get_user_meta_key( 'notification_activity_new_reply' ), true ) ) {
+	if ( $original_activity->user_id != $commenter_id && 'no' != bp_get_user_meta( $original_activity->user_id, 'notification_activity_new_reply', true ) ) {
 		$poster_name = bp_core_get_user_displayname( $commenter_id );
 		$thread_link = bp_activity_get_permalink( $activity_id );
 		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
@@ -126,7 +126,7 @@ To view your original update and all comments, log in and visit: %3$s
 
 	$parent_comment = new BP_Activity_Activity( $parent_id );
 
-	if ( $parent_comment->user_id != $commenter_id && $original_activity->user_id != $parent_comment->user_id && 'no' != get_user_meta( $parent_comment->user_id, bp_get_user_meta_key( 'notification_activity_new_reply' ), true ) ) {
+	if ( $parent_comment->user_id != $commenter_id && $original_activity->user_id != $parent_comment->user_id && 'no' != bp_get_user_meta( $parent_comment->user_id, 'notification_activity_new_reply', true ) ) {
 		$poster_name = bp_core_get_user_displayname( $commenter_id );
 		$thread_link = bp_activity_get_permalink( $activity_id );
 		$settings_link = bp_core_get_user_domain( $parent_comment->user_id ) .  BP_SETTINGS_SLUG . '/notifications/';

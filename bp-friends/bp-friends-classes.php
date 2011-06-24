@@ -132,10 +132,10 @@ class BP_Friends_Friendship {
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id ) );
 
 		// Do not update meta if user has never had friends
-		if ( !$count && !get_user_meta( $user_id, bp_get_user_meta_key( 'total_friend_count' ), true ) )
+		if ( !$count && !bp_get_user_meta( $user_id, 'total_friend_count', true ) )
 			return 0;
 
-		update_user_meta( $user_id, bp_get_user_meta_key( 'total_friend_count' ), (int)$count );
+		bp_update_user_meta( $user_id, 'total_friend_count', (int)$count );
 		return (int)$count;
 	}
 

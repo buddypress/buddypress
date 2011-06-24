@@ -93,7 +93,7 @@ class BP_Activity_Template {
 		$this->disable_blogforum_replies = isset( $bp->site_options['bp-disable-blogforum-comments'] ) ? $bp->site_options['bp-disable-blogforum-comments'] : false;
 
 		// Get an array of the logged in user's favorite activities
-		$this->my_favs = maybe_unserialize( get_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'bp_favorite_activities' ), true ) );
+		$this->my_favs = maybe_unserialize( bp_get_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', true ) );
 
 		// Fetch specific activity items based on ID's
 		if ( !empty( $include ) )
@@ -1229,7 +1229,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
-		if ( !$update = get_user_meta( $user_id, bp_get_user_meta_key( 'bp_latest_update' ), true ) )
+		if ( !$update = bp_get_user_meta( $user_id, 'bp_latest_update', true ) )
 			return false;
 
 		$latest_update = '&quot;' . apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 358 ) ) ) ) . '&quot;';
@@ -1347,7 +1347,7 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 	function bp_get_total_mention_count_for_user( $user_id = 0 ) {
 		global $bp;
 
-		return apply_filters( 'bp_get_total_mention_count_for_user', get_user_meta( $user_id, bp_get_user_meta_key( 'bp_new_mention_count' ), true ) );
+		return apply_filters( 'bp_get_total_mention_count_for_user', bp_get_user_meta( $user_id, 'bp_new_mention_count', true ) );
 	}
 
 function bp_send_public_message_link() {

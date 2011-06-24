@@ -136,7 +136,7 @@ class BP_Core_User {
 	 * @uses bp_core_get_userurl() Returns the URL with no HTML markup for a user based on their user id
 	 * @uses bp_core_get_userlink() Returns a HTML formatted link for a user with the user's full name as the link text
 	 * @uses bp_core_get_user_email() Returns the email address for the user based on user ID
-	 * @uses get_user_meta() WordPress function returns the value of passed usermeta name from usermeta table
+	 * @uses bp_get_user_meta() BP function returns the value of passed usermeta name from usermeta table
 	 * @uses bp_core_fetch_avatar() Returns HTML formatted avatar for a user
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
@@ -166,7 +166,7 @@ class BP_Core_User {
 		$this->avatar       = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full'  ) );
 		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb' ) );
 		$this->avatar_mini  = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'width' => 30, 'height' => 30 ) );
-		$this->last_active  = bp_core_get_last_activity( get_user_meta( $this->id, bp_get_user_meta_key( 'last_activity' ), true ), __( 'active %s ago', 'buddypress' ) );
+		$this->last_active  = bp_core_get_last_activity( bp_get_user_meta( $this->id, 'last_activity', true ), __( 'active %s ago', 'buddypress' ) );
 	}
 
 	/**

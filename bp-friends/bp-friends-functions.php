@@ -155,7 +155,7 @@ function friends_get_total_friend_count( $user_id = 0 ) {
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
 	if ( !$count = wp_cache_get( 'bp_total_friend_count_' . $user_id, 'bp' ) ) {
-		$count = get_user_meta( $user_id, bp_get_user_meta_key( 'total_friend_count' ), true );
+		$count = bp_get_user_meta( $user_id, 'total_friend_count', true );
 		if ( empty( $count ) ) $count = 0;
 		wp_cache_set( 'bp_total_friend_count_' . $user_id, $count, 'bp' );
 	}
@@ -258,14 +258,12 @@ function friends_is_friendship_confirmed( $friendship_id ) {
 function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $status = 'add' ) {
 	global $bp;
 	
-	$meta_key = bp_get_user_meta_key( 'total_friend_count' );
-	
 	if ( 'add' == $status ) {
-		update_user_meta( $initiator_user_id, $meta_key, (int)get_user_meta( $initiator_user_id, $meta_key, true ) + 1 );
-		update_user_meta( $friend_user_id, $meta_key, (int)get_user_meta( $friend_user_id, $meta_key, true ) + 1 );
+		bp_update_user_meta( $initiator_user_id, 'total_friend_count', (int)bp_get_user_meta( $initiator_user_id, 'total_friend_count', true ) + 1 );
+		bp_update_user_meta( $friend_user_id, 'total_friend_count', (int)bp_get_user_meta( $friend_user_id, 'total_friend_count', true ) + 1 );
 	} else {
-		update_user_meta( $initiator_user_id, $meta_key, (int)get_user_meta( $initiator_user_id, $meta_key, true ) - 1 );
-		update_user_meta( $friend_user_id, $meta_key, (int)get_user_meta( $friend_user_id, $meta_key, true ) - 1 );
+		bp_update_user_meta( $initiator_user_id, 'total_friend_count', (int)bp_get_user_meta( $initiator_user_id, 'total_friend_count', true ) - 1 );
+		bp_update_user_meta( $friend_user_id, 'total_friend_count', (int)bp_get_user_meta( $friend_user_id, 'total_friend_count', true ) - 1 );
 	}
 }
 
@@ -277,7 +275,7 @@ function friends_remove_data( $user_id ) {
 	BP_Friends_Friendship::delete_all_for_user($user_id);
 
 	// Remove usermeta
-	delete_user_meta( $user_id, bp_get_user_meta_key( 'total_friend_count' ) );
+	bp_delete_user_meta( $user_id, 'total_friend_count' );
 
 	// Remove friendship requests FROM user
 	bp_members_delete_notifications_from_user( $user_id, $bp->friends->id, 'friendship_request' );

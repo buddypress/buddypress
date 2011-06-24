@@ -655,7 +655,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
  *
  * @package BuddyPress Core
  * @global $userdata WordPress user data for the current logged in user.
- * @uses update_user_meta() WordPress function to update user metadata in the usermeta table.
+ * @uses bp_update_user_meta() BP function to update user metadata in the usermeta table.
  */
 function bp_core_record_activity() {
 	global $bp;
@@ -663,7 +663,7 @@ function bp_core_record_activity() {
 	if ( !is_user_logged_in() )
 		return false;
 
-	$activity = get_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'last_activity' ), true );
+	$activity = bp_get_user_meta( $bp->loggedin_user->id, 'last_activity', true );
 
 	if ( !is_numeric( $activity ) )
 		$activity = strtotime( $activity );
@@ -672,7 +672,7 @@ function bp_core_record_activity() {
 	$current_time = bp_core_current_time();
 
 	if ( empty( $activity ) || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) )
-		update_user_meta( $bp->loggedin_user->id, bp_get_user_meta_key( 'last_activity' ), $current_time );
+		bp_update_user_meta( $bp->loggedin_user->id, 'last_activity', $current_time );
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
 
@@ -1024,14 +1024,11 @@ function bp_is_root_blog( $blog_id = false ) {
  * order to allow plugins to enable multiple instances of BuddyPress on a single WP installation,
  * BP's usermeta keys are filtered with this function, so that they can be altered on the fly.
  *
- * Plugin authors who access or modify metadata created by BuddyPress should use
- * this function exclusively in the context of the _user_meta() functions. For example,
+ * Plugin authors should use BP's _user_meta() functions, which bakes in bp_get_user_meta_key().
+ *    $last_active = bp_get_user_meta( $user_id, 'last_activity', true );
+ * If you have to use WP's _user_meta() functions for some reason, you should use this function, eg
  *    $last_active = get_user_meta( $user_id, bp_get_user_meta_key( 'last_activity' ), true );
- * Do not hardcode these keys.
- *
- * If your plugin introduces custom user metadata that might change between multiple BP instances
- * on a single WP installation, you are strongly recommended to use this function when storing and
- * retrieving metadata.
+ * If using the WP functions, do not not hardcode your meta keys.
  *
  * @package BuddyPress
  * @since 1.3
@@ -1043,6 +1040,69 @@ function bp_is_root_blog( $blog_id = false ) {
 function bp_get_user_meta_key( $key = false ) {
 	return apply_filters( 'bp_get_user_meta_key', $key );
 }
+
+/**
+ * Get a piece of usermeta
+ *
+ * This is a wrapper for get_user_meta() that allows for easy use of bp_get_user_meta_key(), thereby
+ * increasing compatibility with non-standard BP setups.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @uses bp_get_user_meta_key() For a filterable version of the meta key
+ * @uses get_user_meta() See get_user_meta() docs for more details on parameters
+ * @param int $user_id The id of the user whose meta you're fetching
+ * @param string $key The meta key to retrieve.
+ * @param bool $single Whether to return a single value.
+ * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
+ *  is true.
+ */
+function bp_get_user_meta( $user_id, $key, $single = false ) {
+	return get_user_meta( $user_id, bp_get_user_meta_key( $key ), $single );
+}
+
+/**
+ * Update a piece of usermeta
+ *
+ * This is a wrapper for update_user_meta() that allows for easy use of bp_get_user_meta_key(),
+ * thereby increasing compatibility with non-standard BP setups.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @uses bp_get_user_meta_key() For a filterable version of the meta key
+ * @uses update_user_meta() See update_user_meta() docs for more details on parameters
+ * @param int $user_id The id of the user whose meta you're setting
+ * @param string $key The meta key to set.
+ * @param mixed $value Metadata value.
+ * @param mixed $prev_value Optional. Previous value to check before removing.
+ * @return bool False on failure, true if success.
+ */
+function bp_update_user_meta( $user_id, $key, $value, $prev_value = '' ) {
+	return update_user_meta( $user_id, bp_get_user_meta_key( $key ), $value, $prev_value );
+}
+
+/**
+ * Delete a piece of usermeta
+ *
+ * This is a wrapper for delete_user_meta() that allows for easy use of bp_get_user_meta_key(),
+ * thereby increasing compatibility with non-standard BP setups.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @uses bp_get_user_meta_key() For a filterable version of the meta key
+ * @uses delete_user_meta() See delete_user_meta() docs for more details on parameters
+ * @param int $user_id The id of the user whose meta you're deleting
+ * @param string $key The meta key to delete.
+ * @param mixed $value Optional. Metadata value.
+ * @return bool False for failure. True for success.
+ */
+function bp_delete_user_meta( $user_id, $key, $value = '' ) {
+	return delete_user_meta( $user_id, bp_get_user_meta_key( $key ), $value );
+}
+
 
 /** Global Manipulators *******************************************************/
 
