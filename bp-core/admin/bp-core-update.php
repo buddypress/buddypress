@@ -14,21 +14,28 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function __construct() {
-		// Look for current DB version
-		if ( !$this->database_version = get_site_option( 'bp-db-version' ) ) {
-			if ( $this->database_version = get_option( 'bp-db-version' ) ) {
-				$this->is_network_activate = true;
-			} else {
-				if ( !$this->current_step() ) {
-					setcookie( 'bp-wizard-step', 0, time() + 60 * 60 * 24, COOKIEPATH );
-					$_COOKIE['bp-wizard-step'] = 0;
-				}
-			}
+		global $bp;
+
+		// Ensure that we have access to some utility functions
+		include( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
+
+		// Get current DB version
+		$this->database_version = !empty( $bp->database_version ) ? (int) $bp->database_version : 0;
+
+		if ( !empty( $bp->is_network_activate ) ) {
+			$this->is_network_activate = $bp->is_network_activate;
+
+		} elseif ( !$this->current_step() ) {
+			setcookie( 'bp-wizard-step', 0, time() + 60 * 60 * 24, COOKIEPATH );
+			$_COOKIE['bp-wizard-step'] = 0;
 		}
 
 		$this->new_version  = constant( 'BP_DB_VERSION' );
-		$this->setup_type   = ( empty( $this->database_version ) && !(int)get_site_option( 'bp-core-db-version' ) ) ? 'install' : 'update';
+		$this->setup_type   = !empty( $bp->maintenance_mode ) ? $bp->maintenance_mode : '';
 		$this->current_step = $this->current_step();
+
+		// Remove the admin menu while we update/install
+		remove_action( bp_core_admin_hook(), 'bp_core_add_admin_menu', 9 );
 
 		// Call the save method that will save data and modify $current_step
 		if ( isset( $_POST['save'] ) )
@@ -71,10 +78,10 @@ class BP_Core_Setup_Wizard {
 			if ( $this->is_network_activate )
 				$steps[] = __( 'Multisite Update', 'buddypress' );
 
-			if ( $this->database_version < $this->new_version )
+			if ( $this->database_version < (int) $this->new_version )
 				$steps[] = __( 'Database Update', 'buddypress' );
 
-			if ( $this->database_version < 1225 || !bp_core_get_page_meta() )
+			if ( $this->database_version < 1801 || !bp_core_get_page_meta() )
 				$steps[] = __( 'Pages', 'buddypress' );
 
 			$steps[] = __( 'Finish', 'buddypress' );
@@ -264,9 +271,9 @@ class BP_Core_Setup_Wizard {
 			$blogs_slug = 'blogs';
 
  		// Call up old bp-pages to see if a page has been previously linked to Blogs
-		$page_blog_id 		= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
-		$existing_pages_data 	= get_blog_option( $page_blog_id, 'bp-pages' );
-		$existing_pages 	= $existing_pages_data[$page_blog_id];
+		$page_blog_id        = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
+		$existing_pages_data = get_blog_option( $page_blog_id, 'bp-pages' );
+		$existing_pages      = $existing_pages_data[$page_blog_id];
 
 		if ( !empty( $existing_pages['blogs'] ) )
 			$existing_blog_page = '&selected=' . $existing_pages['blogs'];
@@ -718,14 +725,20 @@ class BP_Core_Setup_Wizard {
 	/** Save Step Methods *****************************************************/
 
 	function step_db_update_save() {
+		global $bp;
+
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'bpwizard_db_update' );
 
 			// Run the schema install to update tables
 			bp_core_install();
 
-			if ( $this->database_version < 1225 )
+			if ( $this->database_version < 1801 )
 				$this->update_1_3();
+
+			// Update the active components option early if we're updating
+			if ( 'update' == $this->setup_type )
+				update_site_option( 'bp-active-components', $bp->active_components );
 
 			return true;
 		}
@@ -739,14 +752,14 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'bpwizard_ms_update' );
 
-			if ( !$active_components = get_option( 'bp-active-components' ) )
+			if ( !$active_components = get_site_option( 'bp-active-components' ) )
 				$active_components = array();
 
 			// Transfer important settings from blog options to site options
 			$options = array(
-				'bp-db-version'		=> $this->database_version,
-				'bp-active-components'	=> $active_components,
-				'avatar-default'	=> get_option( 'avatar-default' )
+				'bp-db-version'        => $this->database_version,
+				'bp-active-components' => $active_components,
+				'avatar-default'       => get_option( 'avatar-default' )
 			);
 			bp_core_activate_site_options( $options );
 
@@ -758,12 +771,12 @@ class BP_Core_Setup_Wizard {
 					switch_to_blog( BP_ROOT_BLOG );
 
 				// Move bp-pages data from the blog options table to site options
-				$page_blog_id 		= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
-				$existing_pages_data 	= get_blog_option( $page_blog_id, 'bp-pages' );
-				$existing_pages 	= $existing_pages_data[$page_blog_id];
+				$page_blog_id        = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
+				$existing_pages_data = get_blog_option( $page_blog_id, 'bp-pages' );
+				$existing_pages      = $existing_pages_data[$page_blog_id];
 
-				$bp_pages       	= $this->setup_pages( (array)$_POST['bp_pages'] );
-				$bp_pages       	= array_merge( (array)$existing_pages, (array)$bp_pages );
+				$bp_pages            = $this->setup_pages( (array)$_POST['bp_pages'] );
+				$bp_pages            = array_merge( (array)$existing_pages, (array)$bp_pages );
 
 				$existing_pages_data[$page_blog_id] = $bp_pages;
 
@@ -821,9 +834,9 @@ class BP_Core_Setup_Wizard {
 			foreach ( (array)$existing_pages as $page_id )
 				wp_delete_post( $page_id, true );
 
-			$blog_pages 	= $this->setup_pages( (array)$_POST['bp_pages'] );
-			$page_blog_id 	= is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
-			$bp_pages	= array( $page_blog_id => $blog_pages );
+			$blog_pages   = $this->setup_pages( (array)$_POST['bp_pages'] );
+			$page_blog_id = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? get_current_blog_id() : BP_ROOT_BLOG;
+			$bp_pages     = array( $page_blog_id => $blog_pages );
 
 			update_site_option( 'bp-pages', $bp_pages );
 
@@ -994,7 +1007,7 @@ class BP_Core_Setup_Wizard {
 			check_admin_referer( 'bpwizard_finish' );
 
 			// Update the DB version in the database
-			update_site_option( 'bp-db-version', constant( 'BP_DB_VERSION' ) );
+			update_site_option( 'bp-db-version', $this->new_version );
 			delete_site_option( 'bp-core-db-version' );
 
 			// Delete the setup cookie
@@ -1180,16 +1193,16 @@ add_action( 'admin_footer', 'bp_core_wizard_thickbox' );
  * @uses add_submenu_page() WP function to add a submenu item
  */
 function bp_core_update_add_admin_menu() {
-	global $bp, $bp_wizard;
+	global $bp_wizard;
 
 	// Only load this version of the menu if this is an upgrade or a new installation
-	if ( empty( $bp->maintenence_mode ) )
+	if ( empty( $bp_wizard->setup_type ) )
 		return false;
 
 	if ( !current_user_can( 'activate_plugins' ) )
 		return false;
 
-	if ( '' == get_site_option( 'bp-db-version' ) && !(int)get_site_option( 'bp-core-db-version' ) && !$bp_wizard->is_network_activate )
+	if ( 'install' == $bp_wizard->setup_type )
 		$status = __( 'Setup', 'buddypress' );
 	else
 		$status = __( 'Update', 'buddypress' );
@@ -1277,7 +1290,10 @@ function bp_core_update_admin_hook() {
  * @global $pagenow The current admin page
  */
 function bp_core_update_nag() {
-	global $bp, $pagenow;
+	global $bp_wizard, $pagenow;
+
+	if ( empty( $bp_wizard->setup_type ) )
+		return;
 
 	if ( !is_super_admin() )
 		return;
@@ -1287,7 +1303,7 @@ function bp_core_update_nag() {
 
 	$url = bp_core_update_do_network_admin() ? network_admin_url( 'admin.php?page=bp-wizard' ) : admin_url( 'admin.php?page=bp-wizard' );
 
-	switch( $bp->maintenence_mode ) {
+	switch( $bp_wizard->setup_type ) {
 		case 'update':
 			$msg = sprintf( __( 'BuddyPress has been updated! Please run the <a href="%s">update wizard</a>.', 'buddypress' ), $url );
 			break;

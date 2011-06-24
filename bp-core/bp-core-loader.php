@@ -53,35 +53,54 @@ class BP_Core extends BP_Component {
 
 		/** Components ********************************************************/
 
-		// Set the included and optional components
-		$bp->optional_components    = apply_filters( 'bp_optional_components',    array( 'activity', 'blogs', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile', ) );
+		// Set the included and optional components.
+		$bp->optional_components = array( 'activity', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile', );
+
+		// Blogs component only available for multisite
+		if ( is_multisite() )
+			$bp->optional_components[] = 'blogs';
+
+		$bp->optional_components    = apply_filters( 'bp_optional_components', $bp->optional_components );
 
 		// Set the required components
-		$bp->required_components    = apply_filters( 'bp_required_components',    array( 'members', ) );
+		$bp->required_components    = apply_filters( 'bp_required_components', array( 'members' ) );
 
 		// Get a list of activated components
 		if ( $active_components = get_site_option( 'bp-active-components' ) ) {
-			$bp->active_components      = apply_filters( 'bp_active_components',      $active_components );
+			$bp->active_components      = apply_filters( 'bp_active_components', $active_components );
 			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', array_values( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_keys( $bp->active_components ) ) ) );
 
 		// Pre 1.3 Backwards compatibility
 		} elseif ( $deactivated_components = get_site_option( 'bp-deactivated-components' ) ) {
 			// Trim off namespace and filename
-			foreach ( $deactivated_components as $component => $value )
+			foreach ( (array) $deactivated_components as $component => $value )
 				$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $component ) );
 
 			// Set globals
 			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', $trimmed );
 
 			// Setup the active components
-			$active_components          = array_flip( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $bp->deactivated_components ) ) );
+			$active_components     = array_flip( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $bp->deactivated_components ) ) );
 
 			// Loop through active components and set the values
-			foreach( $active_components as $component => $value )
-				$bp->active_components[$component] = 1;
+			$bp->active_components = array_map( '__return_true', $active_components );
 
 			// Set the active component global
-			$bp->active_components      = apply_filters( 'bp_active_components', $bp->active_components );
+			$bp->active_components = apply_filters( 'bp_active_components', $bp->active_components );
+
+		// Default to all components active
+		} else {
+			// Set globals
+			$bp->deactivated_components = array();
+
+			// Setup the active components
+			$active_components     = array_flip( array_values( array_merge( $bp->optional_components, $bp->required_components ) ) );
+
+			// Loop through active components and set the values
+			$bp->active_components = array_map( '__return_true', $active_components );
+
+			// Set the active component global
+			$bp->active_components = apply_filters( 'bp_active_components', $bp->active_components );
 		}
 
 		// Loop through optional components

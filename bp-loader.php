@@ -59,7 +59,7 @@ require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
 // Test to see whether this is a new installation or an upgraded version of BuddyPress
 if ( !$bp->database_version = get_site_option( 'bp-db-version' ) ) {
 	if ( $bp->database_version = get_option( 'bp-db-version' ) ) {
-		$bp->is_ms_activate = 1;
+		$bp->is_network_activate = 1;
 	} else {
 		$bp->database_version = get_site_option( 'bp-core-db-version' );  // BP 1.2 option
 	}
@@ -67,7 +67,7 @@ if ( !$bp->database_version = get_site_option( 'bp-db-version' ) ) {
 
 // This is a new installation.
 if ( empty( $bp->database_version ) ) {
-	$bp->maintenence_mode = 'install';
+	$bp->maintenance_mode = 'install';
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
 
 // There is a previous installation
@@ -76,8 +76,8 @@ if ( empty( $bp->database_version ) ) {
 	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
 
 	// Check if an update is required
-	if ( (int)$bp->database_version < (int)constant( 'BP_DB_VERSION' ) || isset( $bp->is_ms_activate ) ) {
-		$bp->maintenence_mode = 'update';
+	if ( (int)$bp->database_version < (int)constant( 'BP_DB_VERSION' ) || isset( $bp->is_network_activate ) ) {
+		$bp->maintenance_mode = 'update';
 		require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
 	}
 }
