@@ -137,6 +137,7 @@ div#content .main-column {
 2.2 - Header
 --------------------------------------------------------------*/
 #header {
+	background-color: #283862;
 	-moz-border-radius-bottomleft: 6px;
 	-webkit-border-bottom-left-radius: 6px;
 	border-bottom-left-radius: 6px;
@@ -199,7 +200,7 @@ div#content .main-column {
 	padding: 19px;
 }
 #site-generator {
-	color: #bbb;
+	color: #4D4D4D;
 	margin: 20px 20px;
 	text-align: center;
 	text-shadow: #fafafa 1px 1px 0;
@@ -522,7 +523,7 @@ a:focus {
 #nav > li.current-menu-item a,
 #nav > li.current_page_item a {
 	background: #f5f5f5;
-	color: #555;
+	color: #4D4D4D;
 }
 #nav > li > ul {
 	border-top-width: 0;
@@ -1315,7 +1316,7 @@ body.activity-permalink .activity-content blockquote {
 	text-align: center;
 }
 .activity-list li.load-more a {
-	color: #555;
+	color: #4D4D4D;
 }
 
 
