@@ -46,6 +46,7 @@ class BP_Groups_Component extends BP_Component {
 			'activity',
 			'template',
 			'buddybar',
+			'adminbar',
 			'functions'
 		);
 		parent::_includes( $includes );
