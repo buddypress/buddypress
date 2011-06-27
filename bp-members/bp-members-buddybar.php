@@ -97,9 +97,32 @@ function bp_members_adminbar_admin_menu() {
 		return false; ?>
 
 	<li id="bp-adminbar-adminoptions-menu">
-		<a href=""><?php _e( 'User Admin', 'buddypress' ) ?></a>
+		
+		<a href=""><?php _e( 'Admin Options', 'buddypress' ) ?></a>
 
 		<ul>
+			<?php if ( bp_is_active( 'xprofile' ) ) : ?>
+
+				<li><a href="<?php bp_members_component_link( 'profile', 'edit' ); ?>"><?php printf( __( "Edit %s's Profile", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
+
+			<?php endif ?>
+			
+			<li><a href="<?php bp_members_component_link( 'profile', 'change-avatar' ); ?>"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
+			
+			<?php if ( !bp_core_is_user_spammer( $bp->displayed_user->id ) ) : ?>
+
+				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/mark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php printf( __( "Mark as Spammer", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ); ?></a></li>
+
+			<?php else : ?>
+
+				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/unmark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Not a Spammer", 'buddypress' ) ?></a></li>
+
+			<?php endif; ?>			
+	
+			<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/delete-user/', 'delete-user' ) ?>" class="confirm"><?php printf( __( "Delete %s's Account", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ); ?></a></li>
+			
+			<?php /* The following items have been removed for the BP 1.3 release */ ?>
+			<?php /*
 			<li>
 				<a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->profile->slug ); ?>"><?php _e( 'Account Status', 'buddypress' ); ?></a>
 				<ul>
@@ -202,6 +225,8 @@ function bp_members_adminbar_admin_menu() {
 				</li>
 
 			<?php endif; ?>
+			
+			*/ ?>
 
 			<?php do_action( 'bp_members_adminbar_admin_menu' ) ?>
 
