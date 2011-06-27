@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-27 13:30:53+00:00\n"
+"POT-Creation-Date: 2011-06-27 19:30:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1917,11 +1917,11 @@ msgstr ""
 msgid "You have been banned from this group."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:341 bp-forums/bp-forums-screens.php:34
+#: bp-groups/bp-groups-screens.php:341 bp-forums/bp-forums-screens.php:33
 msgid "Please provide a title for your forum topic."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:343 bp-forums/bp-forums-screens.php:36
+#: bp-groups/bp-groups-screens.php:343 bp-forums/bp-forums-screens.php:35
 msgid "Forum posts cannot be empty. Please enter some text."
 msgstr ""
 
@@ -1929,11 +1929,11 @@ msgstr ""
 msgid "This group does not have a forum setup yet."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:353 bp-forums/bp-forums-screens.php:43
+#: bp-groups/bp-groups-screens.php:353 bp-forums/bp-forums-screens.php:42
 msgid "There was an error when creating the topic"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:356 bp-forums/bp-forums-screens.php:46
+#: bp-groups/bp-groups-screens.php:356 bp-forums/bp-forums-screens.php:45
 msgid "The topic was created successfully"
 msgstr ""
 
@@ -2835,11 +2835,11 @@ msgstr ""
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
 msgstr ""
 
-#: bp-forums/bp-forums-screens.php:11
+#: bp-forums/bp-forums-screens.php:10
 msgid "The forums component has not been set up yet."
 msgstr ""
 
-#: bp-forums/bp-forums-screens.php:54 bp-forums/bp-forums-screens.php:59
+#: bp-forums/bp-forums-screens.php:53 bp-forums/bp-forums-screens.php:58
 msgid "Please pick the group forum where you would like to post this topic."
 msgstr ""
 
