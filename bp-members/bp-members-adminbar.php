@@ -93,8 +93,7 @@ function bp_members_admin_bar_my_account_menu() {
 		}
 	}
 }
-if ( defined( 'BP_USE_WP_ADMIN_BAR' ) )
-	add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
+add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
 
 /**
  * Make sure the logout link is at the bottom of the "My Account" menu
@@ -120,7 +119,6 @@ function bp_members_admin_bar_my_account_logout() {
 		) );
 	}
 }
-if ( defined( 'BP_USE_WP_ADMIN_BAR' ) )
-	add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_logout', 9999 );
+add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_logout', 9999 );
 
 ?>
