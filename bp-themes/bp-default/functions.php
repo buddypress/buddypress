@@ -83,8 +83,6 @@ function bp_dtheme_setup() {
 	// Add custom header support if allowed
 	if ( !defined( 'BP_DTHEME_DISABLE_CUSTOM_HEADER' ) ) {
 		define( 'HEADER_TEXTCOLOR', 'FFFFFF' );
-		// No CSS. The %s is a placeholder for the theme template directory URI.
-		define( 'HEADER_IMAGE', '%s/_inc/images/default_header.jpg' );
 
 		// The height and width of your custom header. You can hook into the theme's own filters to change these values.
 		// Add a filter to bp_dtheme_header_image_width and bp_dtheme_header_image_height to change these values.
