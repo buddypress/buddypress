@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-06-29 20:31:00+00:00\n"
+"POT-Creation-Date: 2011-06-30 21:30:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1011,7 +1011,7 @@ msgstr[1] ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/deprecated/1.3.php:278 bp-themes/bp-default/functions.php:597
+#: bp-core/deprecated/1.3.php:278 bp-themes/bp-default/functions.php:600
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
@@ -1021,7 +1021,7 @@ msgstr ""
 msgid "About Me"
 msgstr ""
 
-#: bp-core/deprecated/1.3.php:296 bp-themes/bp-default/functions.php:601
+#: bp-core/deprecated/1.3.php:296 bp-themes/bp-default/functions.php:604
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
@@ -2603,7 +2603,7 @@ msgid "Clear"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-admin.php:429 bp-forums/bp-forums-template.php:1069
-#: bp-themes/bp-default/functions.php:449
+#: bp-themes/bp-default/functions.php:450
 msgid "Edit"
 msgstr ""
 
@@ -3231,7 +3231,7 @@ msgid "Never active"
 msgstr ""
 
 #: bp-members/bp-members-template.php:523
-#: bp-themes/bp-default/functions.php:444
+#: bp-themes/bp-default/functions.php:445
 #: bp-themes/bp-default/activity/entry.php:74
 #: bp-activity/bp-activity-template.php:710
 #: bp-activity/bp-activity-template.php:1236
@@ -3442,7 +3442,7 @@ msgid "%s ago"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:218
-#: bp-themes/bp-default/functions.php:446
+#: bp-themes/bp-default/functions.php:447
 #: bp-themes/bp-default/activity/comment.php:28
 #: bp-themes/bp-default/activity/entry.php:50
 #: bp-themes/bp-default/forums/single/edit.php:10
@@ -3644,41 +3644,41 @@ msgstr ""
 msgid "The fourth footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:440
+#: bp-themes/bp-default/functions.php:441
 msgid "said:"
 msgid_plural "replied:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-themes/bp-default/functions.php:454
+#: bp-themes/bp-default/functions.php:460
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:520
+#: bp-themes/bp-default/functions.php:523
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:599
+#: bp-themes/bp-default/functions.php:602
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:606
+#: bp-themes/bp-default/functions.php:609
 msgid "Comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:608
+#: bp-themes/bp-default/functions.php:611
 msgid "Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\">Log out?</a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:609
+#: bp-themes/bp-default/functions.php:612
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:692
+#: bp-themes/bp-default/functions.php:695
 msgid "&larr; Previous Entries"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:693
+#: bp-themes/bp-default/functions.php:696
 msgid "Next Entries &rarr;"
 msgstr ""
 
