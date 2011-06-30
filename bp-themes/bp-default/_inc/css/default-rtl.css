@@ -196,6 +196,10 @@ div.comment-avatar-box {
 	margin: 0 0 15px 15px;
 	font-family: sans-serif;
 }
+#respond .comment-avatar-box {
+	float: right;
+	margin: 0 0 0 15px;
+}
 div.post-content,
 div.comment-content {
 	margin-right: 105px;
@@ -308,7 +312,27 @@ img.avatar {
 .comments {
 	float: left;
 }
+.commentlist ul.children {
+	margin: 15px 70px 15px 0;
+}
+.commentlist ul.children ul {
+	margin: 0 25px 0 0 0;
+}
+ol.commentlist #respond {
+	clear: right;
+	margin-left: auto;
+	margin-right: 70px;
+}
+div.comment-meta {
+	float: right;
+}
 div.comment-meta em {
+	float: left;
+}
+div.comment-meta p {
+	float: right;
+}
+div.comment-meta p.comment-reply {
 	float: left;
 }
 

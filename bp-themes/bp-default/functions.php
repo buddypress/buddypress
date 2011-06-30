@@ -421,6 +421,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 	else
 		$avatar_size = 20;
 	?>
+
 	<li <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
 		<div class="comment-avatar-box">
 			<div class="avb">
@@ -441,27 +442,29 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 					<span class="time-since">&nbsp; <?php comment_date() ?></span>
 
 					<?php if ( 1 == $depth ) : ?>
-						&middot; <a href="#comment-<?php comment_ID() ?>"><?php _e( 'View', 'buddypress' ) ?></a>
+						<a href="#comment-<?php comment_ID() ?>"><?php _e( 'View', 'buddypress' ) ?></a>
 					<?php elseif ( comments_open() ) : ?>
-						&middot; <?php comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => __( 'Reply', 'buddypress' ) ) ) ?>
+						<?php comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => __( 'Reply', 'buddypress' ) ) ) ?>
 					<?php endif; ?>
 
-					<?php edit_comment_link( __( 'Edit', 'buddypress' ), '&middot; ', '' ); ?>
+					<?php edit_comment_link( __( 'Edit', 'buddypress' ) ); ?>
 				</p>
+
+				<?php if ( 1 == $depth && -1 != $args['max_depth'] && comments_open() ) : ?>
+					<p class="comment-reply"><?php comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?></p>
+				<?php endif; ?>
 			</div>
 
-			<?php if ( $comment->comment_approved == '0' ) : ?>
-			 	<em class="moderate"><?php _e( 'Your comment is awaiting moderation.', 'buddypress' ) ?></em><br />
-			<?php endif; ?>
+			<div class="comment-entry">
+				<?php if ( $comment->comment_approved == '0' ) : ?>
+				 	<em class="moderate"><?php _e( 'Your comment is awaiting moderation.', 'buddypress' ); ?></em>
+				<?php endif; ?>
 
-			<?php comment_text() ?>
+				<?php comment_text() ?>
+			</div>
 
-			<?php if ( 1 == $depth && -1 != $args['max_depth'] && comments_open() ) : ?>
-				<div class="comment-options">
-					<?php comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?>
-				</div>
-			<?php endif; ?>
 		</div>
+
 <?php
 }
 endif;

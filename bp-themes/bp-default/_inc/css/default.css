@@ -696,33 +696,47 @@ div#pag-bottom {
 	margin: 0 0 30px 0;
 }
 ol.commentlist li {
+	border-top: 1px solid #e4e4e4;
 	clear: left;
 	list-style: none;
 	margin-bottom: 15px;
 }
+ol.commentlist ul.children li {
+	margin-bottom: 0;
+}
 ol.commentlist div.comment-avatar-box {
 	float: left;
-	margin: 15px 10px 15px 0;
+	margin: 15px 15px 0 0;
 }
 .commentlist ul.children div.comment-avatar-box {
 	float: left;
-	margin: 0px 10px 10px 0;
+	margin: 0px 10px 0 0;
 }
 div.comment-avatar-box img {
 	border: 2px solid #eee;
 }
 div.comment-content {
-	border-top: 1px solid #e4e4e4;
-	padding-left: 75px;
+	overflow: hidden;
 }
-.commentlist .children .comment {
-	margin-bottom: 5px;
+.comment-entry {
+	float: left;
 }
-div.comment-meta,
-div.comment-options {
+ul.children .comment-entry {
+	margin-bottom: 10px;
+}
+div.comment-meta {
 	color: #888;
+	float: left; 
 	font-size: 11px;
 	margin: 15px 0;
+	width: 100%;
+}
+div.comment-meta p {
+	float: left;
+	margin-bottom: 0;
+}
+div.comment-meta p.comment-reply {
+	float: right;
 }
 div.comment-meta em {
 	font-style: normal;
@@ -780,15 +794,11 @@ div.comment-options a.comment-reply-link:hover {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	margin-bottom: 10px;
-	margin-left: 75px;
-	padding: 1px 10px;
-
+	margin: 15px 0 15px 70px;
+	padding: 0 10px;
 }
 .commentlist ul.children ul {
-	margin-left: 20px;
-	margin-bottom: 0;
-	padding: 5px 0 0 0;
+	margin: 0 0 0 25px;
 }
 .commentlist ul.children img.avatar {
 	border-style: none;
@@ -796,13 +806,9 @@ div.comment-options a.comment-reply-link:hover {
 	margin: 0;
 	width: 25px;
 }
-.commentlist ul.children div.comment-content {
-	border-top: none;
-	padding-left: 35px;
-}
 .commentlist ul.children div.comment-meta {
 	font-size: 11px;
-	margin-top: 0;
+	margin: 0 0 10px 0;
 }
 .commentlist ul.children div.comment-options {
 	margin-bottom: 5px;
@@ -839,11 +845,19 @@ div.comment-options a.comment-reply-link:hover {
 	border-radius: 4px;
 	padding: 15px;
 }
+#respond .avb img {
+	float: inherit;
+}
+#respond .comment-avatar-box {
+	float: left;
+	margin: 0 15px 0 0;
+}
 #respond .form-submit {
 	margin-bottom: 0;
 }
 ol.commentlist #respond {
-	margin-left: 75px;
+	clear: left;
+	margin-left: 70px;
 }
 .commentlist ul.children #respond {
 	margin-bottom: 10px;
@@ -852,9 +866,6 @@ ol.commentlist #respond {
 }
 h3#reply .comments-header {
 	font-size: 14px;
-}
-#respond div.comment-avatar-box {
-	margin-top: 0;
 }
 #respond div.comment-content {
 	border-style: none;
@@ -1649,7 +1660,6 @@ ul.button-nav li.current a {
 .standard-form#sidebar-login-form label {
 	margin-top: 5px;
 }
-.form-allowed-tags,
 .standard-form input[type=text] {
 	width: 75%;
 }
@@ -1663,7 +1673,10 @@ ul.button-nav li.current a {
 	width: 35%;
 }
 .standard-form#signup_form input[type=text],
-.standard-form#signup_form textarea {
+.standard-form#signup_form textarea,
+.form-allowed-tags,
+#commentform input[type=text],
+#commentform textarea {
 	width: 90%;
 }
 .standard-form#signup_form div.submit {

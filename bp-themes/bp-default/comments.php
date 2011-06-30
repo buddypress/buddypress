@@ -27,7 +27,7 @@
 		<?php do_action( 'bp_before_blog_comment_list' ) ?>
 
 		<ol class="commentlist">
-			<?php wp_list_comments( array( 'callback' => 'bp_dtheme_blog_comments' ) ) ?>
+			<?php wp_list_comments( array( 'callback' => 'bp_dtheme_blog_comments', 'type' => 'comment' ) ) ?>
 		</ol><!-- .comment-list -->
 
 		<?php do_action( 'bp_after_blog_comment_list' ) ?>
