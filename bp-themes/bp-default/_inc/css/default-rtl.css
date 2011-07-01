@@ -332,7 +332,7 @@ div.comment-meta em {
 div.comment-meta p {
 	float: right;
 }
-div.comment-meta p.comment-reply {
+div.comment-meta .comment-options {
 	float: left;
 }
 

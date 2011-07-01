@@ -451,7 +451,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 				</p>
 
 				<?php if ( 1 == $depth && -1 != $args['max_depth'] && comments_open() ) : ?>
-					<p class="comment-reply"><?php comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?></p>
+					<div class="comment-options"><?php comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?></div>
 				<?php endif; ?>
 			</div>
 

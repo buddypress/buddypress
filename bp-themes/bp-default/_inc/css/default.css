@@ -735,7 +735,7 @@ div.comment-meta p {
 	float: left;
 	margin-bottom: 0;
 }
-div.comment-meta p.comment-reply {
+div.comment-meta .comment-options {
 	float: right;
 }
 div.comment-meta em {
@@ -754,7 +754,7 @@ div.comment-meta span.comment-highlight a {
 	text-decoration: none;
 }
 div.comment-meta .comment-highlight a:hover,
-.commentlist .depth-1 > .comment-content .comment-meta a:first-child:hover {
+.commentlist .depth-1 > .comment-content .comment-meta > p a:first-child:hover {
 	background: #059AE7;
 	border-color: #059AE7;
 	color: #fff;
@@ -1260,7 +1260,7 @@ body.activity-permalink .activity-list li .activity-header > p {
 	margin: 0 5px -8px 0 !important;
 }
 .activity-list .activity-header a:first-child,
-.commentlist .depth-1 > .comment-content .comment-meta a:first-child,
+.commentlist .depth-1 > .comment-content .comment-meta > p a:first-child,
 span.highlight {
 	background: #ebf7ff;
 	border-bottom: 1px solid #a1dcfa;
