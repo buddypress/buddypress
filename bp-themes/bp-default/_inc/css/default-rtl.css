@@ -196,12 +196,7 @@ div.comment-avatar-box {
 	margin: 0 0 15px 15px;
 	font-family: sans-serif;
 }
-#respond .comment-avatar-box {
-	float: right;
-	margin: 0 0 0 15px;
-}
-div.post-content,
-div.comment-content {
+div.post-content {
 	margin-right: 105px;
 	margin-left: 0;
 }
@@ -312,16 +307,35 @@ img.avatar {
 .comments {
 	float: left;
 }
+ol.commentlist li {
+	clear: right;
+}
 .commentlist ul.children {
 	margin: 15px 70px 15px 0;
 }
 .commentlist ul.children ul {
 	margin: 0 25px 0 0 0;
 }
+.commentlist ul.children div.comment-options a.comment-reply-link {
+	margin-left: 0;
+	margin-right: auto;
+}
 ol.commentlist #respond {
 	clear: right;
 	margin-left: auto;
 	margin-right: 70px;
+}
+.commentlist ul.children #respond {
+	margin-left: 20px;
+	margin-right: 35px;
+}
+ol.commentlist div.comment-avatar-box {
+	float: right;
+	margin: 15px 0 0 15px;
+}
+.commentlist ul.children div.comment-avatar-box {
+	float: right;
+	margin: 0 0 0 10px;
 }
 div.comment-meta {
 	float: right;
@@ -334,6 +348,33 @@ div.comment-meta p {
 }
 div.comment-meta .comment-options {
 	float: left;
+}
+div.comment-meta span.comment-highlight a {
+	border-left: 1px solid #a1dcfa;
+	border-right: 0;
+	margin-left: 3px;
+	margin-right: auto;
+}
+.comment-entry {
+	float: right;
+}
+#reply-title small {
+	float: left;
+}
+#reply-title small a,
+div.comment-options a.comment-reply-link {
+	border-left: 1px solid #FFE8C4;
+	border-right: 0;
+	margin-left: 10px;
+	margin-right: auto;
+}
+#reply-title small a {
+	margin-right: auto;
+	margin-left: 0;
+}
+#respond .comment-avatar-box {
+	float: right;
+	margin: 0 0 0 15px;
 }
 
 
