@@ -218,7 +218,7 @@ div#content .main-column {
 }
 #footer-widget-area div.widget-area > ul {
 	float: left;
-	margin-right: 19px;
+	margin-right: 2.5%;
 	width: 23%;
 }
 #footer-widget-area div.widget-area > ul > li {
@@ -238,6 +238,7 @@ div#content .main-column {
 #footer-widget-area ul.item-list li img.avatar {
 	margin-left: 15px; /* border is 4px */
 }
+div#fourth ul.xoxo { margin-right: 0; }
 
 
 /*--------------------------------------------------------------
@@ -285,12 +286,6 @@ div#sidebar .widget_search {
 div#sidebar .widget_search input[type=text] {
 	padding: 2px;
 	width: 110px;
-}
-#footer-widget-area ul#recentcomments li,
-#footer-widget-area .widget_recent_entries ul li,
-div#sidebar ul#recentcomments li,
-div#sidebar .widget_recent_entries ul li {
-	margin-bottom: 15px;
 }
 #footer-widget-area ul.item-list img.avatar,
 div#sidebar ul.item-list img.avatar {
@@ -713,12 +708,12 @@ div#pag-bottom {
 	list-style-type: decimal;
 	margin: 0 0 18px 2.5em;
 }
-#comments ol.commentlist ol ol { 
-	list-style: lower-alpha; 
+#comments ol.commentlist ol ol {
+	list-style: lower-alpha;
 	margin-bottom: 0px;
 }
-#comments ol.commentlist ol ol ol { 
-	list-style: lower-roman; 
+#comments ol.commentlist ol ol ol {
+	list-style: lower-roman;
 }
 ol.commentlist li.comment {
 	border-top: 1px solid #e4e4e4;
