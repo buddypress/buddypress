@@ -359,7 +359,7 @@ function bp_core_catch_profile_uri() {
  * @since 1.3
  */
 function bp_core_catch_no_access() {
-	global $bp, $bp_no_status_set;
+	global $bp, $bp_no_status_set, $wp_query;
 
 	// If bp_core_redirect() and $bp_no_status_set is true,
 	// we are redirecting to an accessible page, so skip this check.
