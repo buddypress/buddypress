@@ -468,7 +468,11 @@ div.post ol {
 }
 div.page ol ol,
 div.post ol ol {
-	list-style: upper-alpha;
+	list-style: lower-alpha;
+}
+div.page ol ol ol,
+div.post ol ol ol {
+	list-style: lower-roman;
 }
 dl {
 	margin-left: 0;
@@ -479,6 +483,16 @@ dt {
 }
 dd {
 	margin: 0 0 15px 0;
+}
+div.post ul ul,
+div.post ol ol,
+div.post ol ul,
+div.post ul ol,
+div.page ul ul,
+div.page ol ol,
+div.page ol ul,
+div.page ul ol {
+	margin-bottom: 0px;
 }
 
 
@@ -695,7 +709,18 @@ div#pag-bottom {
 	border-bottom: 1px solid #e4e4e4;
 	margin: 0 0 30px 0;
 }
-ol.commentlist li {
+#comments ol.commentlist ol {
+	list-style-type: decimal;
+	margin: 0 0 18px 2.5em;
+}
+#comments ol.commentlist ol ol { 
+	list-style: lower-alpha; 
+	margin-bottom: 0px;
+}
+#comments ol.commentlist ol ol ol { 
+	list-style: lower-roman; 
+}
+ol.commentlist li.comment {
 	border-top: 1px solid #e4e4e4;
 	clear: left;
 	list-style: none;

@@ -307,7 +307,7 @@ img.avatar {
 .comments {
 	float: left;
 }
-ol.commentlist li {
+ol.commentlist li.comment {
 	clear: right;
 }
 .commentlist ul.children {
@@ -336,6 +336,9 @@ ol.commentlist div.comment-avatar-box {
 .commentlist ul.children div.comment-avatar-box {
 	float: right;
 	margin: 0 0 0 10px;
+}
+#comments ol.commentlist ol {
+	margin: 0 2.5em 18px 0;
 }
 div.comment-meta {
 	float: right;
