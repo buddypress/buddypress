@@ -1041,13 +1041,26 @@ function bp_core_get_site_options() {
 			}
 		}
 	}
+	
+	// Some WP settings are always in sitemeta
+	if ( is_multisite() ) {
+		$sitewide_option_keys = apply_filters( 'bp_core_sitewide_site_options', array(
+			'tags_blog_id',
+			'registration',
+			'fileupload_maxk'
+		) );
+		
+		$sitewide_options_keys_cs = "'" . implode( "','", (array)$sitewide_option_keys ) ."'";
+		
+		$network_meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$sitewide_options_keys_cs}) AND site_id = {$wpdb->siteid}" );
+	}
 
 	$root_blog_meta_keys  = "'" . implode( "','", (array)$root_blog_options ) ."'";
 	$root_blog_meta_table = $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'options';
 	$root_blog_meta       = $wpdb->get_results( $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$root_blog_meta_table} WHERE option_name IN ({$root_blog_meta_keys})" ) );
 	$site_options         = array();
 
-	foreach( array( $site_meta, $root_blog_meta ) as $meta ) {
+	foreach( array( $site_meta, $root_blog_meta, $network_meta ) as $meta ) {
 		if ( !empty( $meta ) ) {
 			foreach( (array)$meta as $meta_item ) {
 				if ( isset( $meta_item->name ) )
