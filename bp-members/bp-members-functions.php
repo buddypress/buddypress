@@ -476,7 +476,7 @@ function bp_core_get_total_member_count() {
  *
  * @package BuddyPress Core
  * @param int $user_id int The id for the user.
- * @return bool 1 if spammer, 0 if not.
+ * @return bool True if spammer, False if not.
  */
 function bp_core_is_user_spammer( $user_id = 0 ) {
 	global $wpdb;
@@ -514,7 +514,7 @@ function bp_core_is_user_spammer( $user_id = 0 ) {
  *
  * @package BuddyPress Core
  * @param int $user_id int The id for the user.
- * @return bool 1 if deleted, 0 if not.
+ * @return bool True if deleted, False if not.
  */
 function bp_core_is_user_deleted( $user_id = 0 ) {
 	global $wpdb;
