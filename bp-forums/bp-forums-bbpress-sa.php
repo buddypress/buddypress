@@ -83,7 +83,7 @@ function bp_forums_load_bbpress() {
 
 	// Set a site id if there isn't one already
 	if ( !isset( $bb->site_id ) )
-		$bb->site_id = BP_ROOT_BLOG;
+		$bb->site_id = bp_get_root_blog_id();
 
 	// Check if the tables are installed, if not, install them
 	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) ) {

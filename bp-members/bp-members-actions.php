@@ -48,7 +48,7 @@ function bp_members_action_set_spammer_status() {
 
 		foreach ( (array) $blogs as $key => $details ) {
 			// Do not mark the main or current root blog as spam
-			if ( 1 == $details->userblog_id || BP_ROOT_BLOG == $details->userblog_id )
+			if ( 1 == $details->userblog_id || bp_get_root_blog_id() == $details->userblog_id )
 				continue;
 
 			// Update the blog status

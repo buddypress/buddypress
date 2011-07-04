@@ -48,7 +48,7 @@ function bp_adminbar_authors_menu() {
 		return false;
 
 	// Hide on root blog
-	if ( $wpdb->blogid == BP_ROOT_BLOG || !bp_is_active( 'blogs' ) )
+	if ( $wpdb->blogid == bp_get_root_blog_id() || !bp_is_active( 'blogs' ) )
 		return false;
 
 	$blog_prefix = $wpdb->get_blog_prefix( $wpdb->blogid );

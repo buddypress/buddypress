@@ -35,7 +35,7 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  * @return The blog name for the root blog
  */
 function bp_core_email_from_name_filter() {
- 	return apply_filters( 'bp_core_email_from_name_filter', wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES ) );
+ 	return apply_filters( 'bp_core_email_from_name_filter', wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES ) );
 }
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
@@ -71,7 +71,7 @@ function bp_core_allow_default_theme( $themes ) {
 	if ( !is_super_admin() )
 		return $themes;
 
-	if ( $wpdb->blogid == BP_ROOT_BLOG ) {
+	if ( $wpdb->blogid == bp_get_root_blog_id() ) {
 		$themes['bp-default'] = 1;
 	}
 	
@@ -126,7 +126,7 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
 function bp_core_login_redirect( $redirect_to ) {
 	global $bp, $wpdb;
 
-	if ( is_multisite() && $wpdb->blogid != BP_ROOT_BLOG )
+	if ( is_multisite() && $wpdb->blogid != bp_get_root_blog_id() )
 		return $redirect_to;
 
 	if ( isset( $_REQUEST['redirect_to'] ) && ( !empty( $_REQUEST['redirect_to'] ) || strpos( $_REQUEST['redirect_to'], 'wp-admin' ) ) )

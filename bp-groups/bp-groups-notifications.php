@@ -4,7 +4,7 @@ function groups_notification_group_updated( $group_id ) {
 	global $bp;
 
 	$group    = new BP_Groups_Group( $group_id );
-	$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+	$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
 	$subject  = '[' . $sitename . '] ' . __( 'Group Details Updated', 'buddypress' );
 
 	$user_ids = BP_Groups_Member::get_group_member_ids( $group->id );
@@ -111,7 +111,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 
 	// Set up and send the message
 	$to       = $ud->user_email;
-	$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+	$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
 
 	if ( $accepted ) {
 		$subject = '[' . $sitename . '] ' . sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), $group->name );
@@ -171,7 +171,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 
 	// Set up and send the message
 	$to       = $ud->user_email;
-	$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+	$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
 	$subject  = '[' . $sitename . '] ' . sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), $group->name );
 
 	$message = sprintf( __(
@@ -221,7 +221,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 		// Set up and send the message
 		$to       = $invited_ud->user_email;
-		$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+		$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
 		$subject  = '[' . $sitename . '] ' . sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), $group->name );
 
 		$message = sprintf( __(
@@ -283,7 +283,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			// Set up and send the message
 			$ud = bp_core_get_core_userdata( $receiver_user_id );
 			$to = $ud->user_email;
-			$sitename = wp_specialchars_decode( get_blog_option( BP_ROOT_BLOG, 'blogname' ), ENT_QUOTES );
+			$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
 			$subject  = '[' . $sitename . '] ' . sprintf( __( '%1$s mentioned you in the group "%2$s"', 'buddypress' ), $poster_name, $group->name );
 
 $message = sprintf( __(

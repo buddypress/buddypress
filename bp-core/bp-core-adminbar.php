@@ -56,7 +56,7 @@ function bp_admin_bar_root_site() {
 	// Create the root blog menu
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'bp-root-blog',
-		'title' => get_blog_option( BP_ROOT_BLOG, 'blogname' ),
+		'title' => get_blog_option( bp_get_root_blog_id(), 'blogname' ),
 		'href'  => bp_get_root_domain()
 	) );
 
@@ -71,7 +71,7 @@ function bp_admin_bar_root_site() {
 				'id' => 'dashboard',
 				'parent' => 'bp-root-blog',
 				'title' => __( 'Admin Dashboard', 'buddypress' ),
-				'href' => get_admin_url( BP_ROOT_BLOG )
+				'href' => get_admin_url( bp_get_root_blog_id() )
 			) );
 
 			// Add network admin link

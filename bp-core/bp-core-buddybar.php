@@ -378,7 +378,7 @@ function bp_core_admin_bar() {
 function bp_adminbar_logo() {
 	global $bp;
 
-	echo '<a href="' . bp_get_root_domain() . '" id="admin-bar-logo">' . get_blog_option( BP_ROOT_BLOG, 'blogname' ) . '</a>';
+	echo '<a href="' . bp_get_root_domain() . '" id="admin-bar-logo">' . get_blog_option( bp_get_root_blog_id(), 'blogname' ) . '</a>';
 }
 
 // **** "Log In" and "Sign Up" links (Visible when not logged in) ********

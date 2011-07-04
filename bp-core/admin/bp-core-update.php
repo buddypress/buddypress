@@ -776,9 +776,9 @@ class BP_Core_Setup_Wizard {
 			if ( isset( $_POST['bp_components']['blogs'] ) ) {
 				$active_components['blogs'] = 1;
 
-				// Make sure that the pages are created on the BP_ROOT_BLOG, no matter which Dashboard the setup is being run on
-				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
-					switch_to_blog( BP_ROOT_BLOG );
+				// Make sure that the pages are created on the bp_get_root_blog_id(), no matter which Dashboard the setup is being run on
+				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != bp_get_root_blog_id() ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
+					switch_to_blog( bp_get_root_blog_id() );
 
 				// Move bp-pages data from the blog options table to site options
 				$existing_pages	= bp_get_option( 'bp-pages' );
@@ -788,7 +788,7 @@ class BP_Core_Setup_Wizard {
 
 				bp_update_option( 'bp-pages', $existing_pages );
 
-				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
+				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != bp_get_root_blog_id() ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
 					restore_current_blog();
 
 				bp_core_install( $active_components );
@@ -830,9 +830,9 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) && isset( $_POST['bp_pages'] ) ) {
 			check_admin_referer( 'bpwizard_pages' );
 
-			// Make sure that the pages are created on the BP_ROOT_BLOG, no matter which Dashboard the setup is being run on
-			if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
-				switch_to_blog( BP_ROOT_BLOG );
+			// Make sure that the pages are created on the bp_get_root_blog_id(), no matter which Dashboard the setup is being run on
+			if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != bp_get_root_blog_id() ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
+				switch_to_blog( bp_get_root_blog_id() );
 
 			// Delete any existing pages
 			$existing_pages = bp_core_update_get_page_meta( 'bp-pages' );
@@ -843,7 +843,7 @@ class BP_Core_Setup_Wizard {
 			$blog_pages   = $this->setup_pages( (array)$_POST['bp_pages'] );
 			bp_update_option( 'bp-pages', $blog_pages );
 
-			if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != BP_ROOT_BLOG ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
+			if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != bp_get_root_blog_id() ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
 				restore_current_blog();
 
 			return true;
@@ -957,8 +957,8 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) && isset( $_POST['theme'] ) ) {
 			check_admin_referer( 'bpwizard_theme' );
 
-			if ( is_multisite() && BP_ROOT_BLOG != get_current_blog_id() )
-				switch_to_blog( BP_ROOT_BLOG );
+			if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
+				switch_to_blog( bp_get_root_blog_id() );
 
 			switch ( $_POST['theme'] ) {
 

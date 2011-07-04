@@ -11,13 +11,13 @@
  * @package BuddyPress
  * @since 1.3
  *
- * @uses bp_get_option_blog_id()
+ * @uses bp_get_root_blog_id()
  * @param str $option_name The option to be retrieved
  * @param str $default Optional. Default value to be returned if the option isn't set
  * @return mixed The value for the option
  */
 function bp_get_option( $option_name, $default = '' ) {
-	$value = get_blog_option( bp_get_option_blog_id( $option_name ), $option_name, $default );
+	$value = get_blog_option( bp_get_root_blog_id(), $option_name, $default );
 	
 	return apply_filters( 'bp_get_option', $value );
 }
@@ -31,13 +31,12 @@ function bp_get_option( $option_name, $default = '' ) {
  * @package BuddyPress
  * @since 1.3
  *
- * @uses bp_get_option_blog_id()
+ * @uses bp_get_root_blog_id()
  * @param str $option_name The option key to be set
  * @param str $value The value to be set
  */
 function bp_update_option( $option_name, $value ) {
-	// update_blog_option() does not return anything on success/failure, so neither can we
-	update_blog_option( bp_get_option_blog_id( $option_name ), $option_name, $value );
+	update_blog_option( bp_get_root_blog_id(), $option_name, $value );
 }
 
 /**
@@ -49,52 +48,11 @@ function bp_update_option( $option_name, $value ) {
  * @package BuddyPress
  * @since 1.3
  *
- * @uses bp_get_option_blog_id()
+ * @uses bp_get_root_blog_id()
  * @param str $option_name The option key to be set
  */
 function bp_delete_option( $option_name ) {
-	// update_blog_option() does not return anything on success/failure, so neither can we
-	delete_blog_option( bp_get_option_blog_id( $option_name ), $option_name );
-}
-
-/**
- * Retrieve the filterable blog_id of the blog where the option is question is saved
- *
- * Since BP 1.3, BuddyPress has stored all of its settings in blog options tables, as opposed to
- * sitemeta. This makes it easier for non-standard setups (like BP_ENABLE_MULTIBLOG and
- * multinetwork BP) to save and access options in a consistent and logical way.
- *
- * By default, nearly all settings are stored in the options table of BP_ROOT_BLOG. The one
- * exception is when BP_ENABLE_MULTIBLOG is enabled. In this case, bp-pages - the list of pages that
- * are associated with BP top-level components - must be specific to each blog in the network. If
- * you are building a plugin that requires an option (either a BP-native option, or your own custom
- * option) to be specific to each blog in a network, filter 'bp_blog_specific_options' and add your
- * option's name. This will allow you to use bp_get_option() and bp_update_option() seamlessly.
- *
- * @package BuddyPress
- * @since 1.3
- *
- * @see bp_get_option()
- * @see bp_update_option()
- * @uses apply_filters() Filter bp_get_option_blog_id to change this setting
- * @return int $blog_id
- */
-function bp_get_option_blog_id( $option_name ) {
-	$blog_specific_options = apply_filters( 'bp_blog_specific_options', array(
-		'bp-pages'
-	) );
-	
-	if ( in_array( $option_name, $blog_specific_options ) ) {
-		if ( defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ) {
-			$blog_id = get_current_blog_id();
-		} else {
-			$blog_id = BP_ROOT_BLOG;
-		}
-	} else {
-		$blog_id = BP_ROOT_BLOG;
-	}
-
-	return apply_filters( 'bp_get_option_blog_id', $blog_id );
+	delete_blog_option( bp_get_root_blog_id(), $option_name );
 }
 
 /**
@@ -125,7 +83,7 @@ function bp_core_get_page_meta() {
 	if ( !isset( $page_ids['members'] ) && $ms_page_ids = get_site_option( 'bp-pages' ) ) {
 		$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
   
-		$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : BP_ROOT_BLOG;
+		$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : bp_get_root_blog_id();
 
 		if ( isset( $ms_page_ids[$page_blog_id] ) ) {
 			$page_ids = $ms_page_ids[$page_blog_id];
@@ -141,7 +99,7 @@ function bp_core_get_page_meta() {
  * Stores BP pages in the meta table, depending on setup
  *
  * bp-pages data is stored in site_options (falls back to options on non-MS), in an array keyed by
- * blog_id. This allows you to change your BP_ROOT_BLOG and go through the setup process again.
+ * blog_id. This allows you to change your bp_get_root_blog_id() and go through the setup process again.
  *
  * @package BuddyPress Core
  * @since 1.3
@@ -169,7 +127,7 @@ function bp_core_get_page_names() {
 	// Get pages and IDs
 	if ( $page_ids = bp_core_get_page_meta() ) {
 
-		$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'posts' : $wpdb->posts;
+		$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts' : $wpdb->posts;
 		$page_ids_sql     = implode( ',', (array)$page_ids );
 		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " ) );
 
@@ -512,10 +470,7 @@ add_action( 'admin_init', 'bp_core_activation_notice' );
 function bp_core_get_root_domain() {
 	global $wpdb;
 
-	if ( defined( 'BP_ENABLE_MULTIBLOG' ) )
-		$domain = get_home_url( $wpdb->blogid );
-	else
-		$domain = get_home_url( BP_ROOT_BLOG );
+	$domain = get_home_url( bp_get_root_blog_id() );
 
 	return apply_filters( 'bp_core_get_root_domain', $domain );
 }
@@ -1096,24 +1051,66 @@ function bp_core_create_root_component_page() {
 }
 
 /**
- * Is this BP_ROOT_BLOG?
+ * Is this the root blog ID?
  *
  * @package BuddyPress
  * @since 1.3
  *
  * @param int $blog_id Optional. Defaults to the current blog id.
- * @return bool $is_root_blog Returns true if this is BP_ROOT_BLOG.
+ * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
  */
-function bp_is_root_blog( $blog_id = false ) {
-	$is_root_blog = true;
+function bp_is_root_blog( $blog_id = 0 ) {
+	
+	// Assume false
+	$is_root_blog = false;
 
-	if ( !$blog_id )
+	// Use current blog if no ID is passed
+	if ( empty( $blog_id ) )
 		$blog_id = get_current_blog_id();
 
-	if ( $blog_id != BP_ROOT_BLOG )
-		$is_root_blog = false;
+	// Compare to root blog ID
+	if ( $blog_id == bp_get_root_blog_id() )
+		$is_root_blog = true;
 
-	return apply_filters( 'bp_is_root_blog', $is_root_blog );
+	return apply_filters( 'bp_is_root_blog', (bool) $is_root_blog );
+}
+
+/**
+ * Is this bp_get_root_blog_id()?
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param int $blog_id Optional. Defaults to the current blog id.
+ * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
+ */
+function bp_get_root_blog_id( $blog_id = false ) {
+
+	// Define on which blog ID BuddyPress should run
+	if ( !defined( 'BP_ROOT_BLOG' ) ) {
+
+		// Root blog is the main site on this network
+		if ( is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+			$current_site = get_current_site();
+			$root_blog_id = $current_site->blog_id;
+
+		// Root blog is every site on this network
+		} elseif ( is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+			$root_blog_id = get_current_blog_id();
+
+		// Root blog is the only blog on this network
+		} elseif( !is_multisite() ) {
+			$root_blog_id = 1;
+		}
+
+		define( 'BP_ROOT_BLOG', $root_blog_id );
+		
+	// Root blog is defined
+	} else {
+		$root_blog_id = BP_ROOT_BLOG;
+	}
+
+	return apply_filters( 'bp_get_root_blog_id', (int) $root_blog_id );
 }
 
 /**

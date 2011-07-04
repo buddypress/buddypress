@@ -641,8 +641,8 @@ function bp_core_avatar_upload_path() {
 		$basedir = $upload_dir['basedir'];
 
 		// If multisite, and current blog does not match root blog, make adjustments
-		if ( is_multisite() && BP_ROOT_BLOG != get_current_blog_id() )
-			$basedir = get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+		if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
+			$basedir = get_blog_option( bp_get_root_blog_id(), 'upload_path' );
 	}
 
 	return apply_filters( 'bp_core_avatar_upload_path', $basedir );
@@ -668,8 +668,8 @@ function bp_core_avatar_url() {
 		$baseurl = $upload_dir['baseurl'];
 
 		// If multisite, and current blog does not match root blog, make adjustments
-		if ( is_multisite() && BP_ROOT_BLOG != get_current_blog_id() )
-			$baseurl = trailingslashit( get_blog_option( BP_ROOT_BLOG, 'home' ) ) . get_blog_option( BP_ROOT_BLOG, 'upload_path' );
+		if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
+			$baseurl = trailingslashit( get_blog_option( bp_get_root_blog_id(), 'home' ) ) . get_blog_option( bp_get_root_blog_id(), 'upload_path' );
 	}
 
 	return apply_filters( 'bp_core_avatar_url', $baseurl );

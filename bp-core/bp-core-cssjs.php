@@ -34,7 +34,7 @@ add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
 function bp_core_confirmation_js() {
 	global $wpdb;
 
-	if ( is_multisite() && $wpdb->blogid != BP_ROOT_BLOG )
+	if ( is_multisite() && $wpdb->blogid != bp_get_root_blog_id() )
 		return false;
 
 	if ( !wp_script_is( 'jquery' ) )

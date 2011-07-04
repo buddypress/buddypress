@@ -27,10 +27,18 @@ if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 
 // Define on which blog ID BuddyPress should run
 if ( !defined( 'BP_ROOT_BLOG' ) ) {
-	if ( is_multisite() ) {
+	
+	// Root blog is the main site on this network
+	if ( is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ) {
 		$current_site = get_current_site();
 		$root_blog_id = $current_site->blog_id;
-	} else {
+		
+	// Root blog is every site on this network
+	} elseif ( is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+		$root_blog_id = get_current_blog_id();
+		
+	// Root blog is the only blog on this network
+	} elseif( !is_multisite() ) {
 		$root_blog_id = 1;
 	}
 
@@ -103,7 +111,7 @@ function bp_loader_activate() {
 
 	// Switch the user to the new bp-default if they are using the old
 	// bp-default on activation.
-	if ( 'bp-sn-parent' == get_blog_option( BP_ROOT_BLOG, 'template' ) && 'bp-default' == get_blog_option( BP_ROOT_BLOG, 'stylesheet' ) )
+	if ( 'bp-sn-parent' == get_blog_option( bp_get_root_blog_id(), 'template' ) && 'bp-default' == get_blog_option( bp_get_root_blog_id(), 'stylesheet' ) )
 		switch_theme( 'bp-default', 'bp-default' );
 
 	do_action( 'bp_loader_activate' );

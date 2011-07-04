@@ -32,13 +32,13 @@ if ( !is_multisite() ) {
 
 	if ( !function_exists( 'switch_to_blog' ) ) {
 		function switch_to_blog() {
-			return 1;
+			return bp_get_root_blog_id();
 		}
 	}
 
 	if ( !function_exists( 'restore_current_blog' ) ) {
 		function restore_current_blog() {
-			return 1;
+			return bp_get_root_blog_id();
 		}
 	}
 

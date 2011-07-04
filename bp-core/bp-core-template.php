@@ -168,7 +168,7 @@ function bp_format_time( $time, $just_date = false, $localize_time = true ) {
 	// Get GMT offset from root blog
 	$root_blog_offset = false;
 	if ( $localize_time )
-		$root_blog_offset = get_blog_option( BP_ROOT_BLOG, 'gmt_offset' );
+		$root_blog_offset = get_blog_option( bp_get_root_blog_id(), 'gmt_offset' );
 
 	// Calculate offset time
 	$time_offset = $time + ( $root_blog_offset * 3600 );
