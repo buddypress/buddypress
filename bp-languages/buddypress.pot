@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-04 14:30:55+00:00\n"
+"POT-Creation-Date: 2011-07-04 15:30:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,21 +47,21 @@ msgid "New post comment posted"
 msgstr ""
 
 #: bp-blogs/bp-blogs-buddybar.php:35 bp-core/bp-core-adminbar.php:115
-#: bp-core/admin/bp-core-admin.php:28 bp-core/bp-core-buddybar.php:425
+#: bp-core/admin/bp-core-admin.php:28 bp-core/bp-core-buddybar.php:457
 msgid "Dashboard"
 msgstr ""
 
 #: bp-blogs/bp-blogs-buddybar.php:36 bp-core/bp-core-adminbar.php:118
-#: bp-core/bp-core-buddybar.php:429
+#: bp-core/bp-core-buddybar.php:461
 msgid "New Post"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-buddybar.php:430
+#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-buddybar.php:462
 msgid "Manage Posts"
 msgstr ""
 
 #: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-adminbar.php:119
-#: bp-core/bp-core-buddybar.php:431
+#: bp-core/bp-core-buddybar.php:463
 msgid "Manage Comments"
 msgstr ""
 
@@ -989,7 +989,7 @@ msgid "Search anything..."
 msgstr ""
 
 #: bp-core/bp-core-template.php:321 bp-core/bp-core-template.php:323
-#: bp-core/bp-core-buddybar.php:417 bp-members/bp-members-adminbar.php:169
+#: bp-core/bp-core-buddybar.php:449 bp-members/bp-members-adminbar.php:169
 #: bp-members/bp-members-template.php:654 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
@@ -1197,31 +1197,35 @@ msgstr ""
 msgid "You must log in to access the page you requested."
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:359 bp-themes/bp-default/sidebar.php:50
+#: bp-core/bp-core-buddybar.php:240
+msgid "You do not have access to this page."
+msgstr ""
+
+#: bp-core/bp-core-buddybar.php:391 bp-themes/bp-default/sidebar.php:50
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:363
+#: bp-core/bp-core-buddybar.php:395
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:375
+#: bp-core/bp-core-buddybar.php:407
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:446
+#: bp-core/bp-core-buddybar.php:478
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:448
+#: bp-core/bp-core-buddybar.php:480
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:452
+#: bp-core/bp-core-buddybar.php:484
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:458
+#: bp-core/bp-core-buddybar.php:490
 msgid "Random Site"
 msgstr ""
 
