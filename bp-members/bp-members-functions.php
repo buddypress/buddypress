@@ -475,11 +475,15 @@ function bp_core_get_total_member_count() {
  * Checks if the user has been marked as a spammer.
  *
  * @package BuddyPress Core
- * @param $user_id int The id for the user.
- * @return int 1 if spammer, 0 if not.
+ * @param int $user_id int The id for the user.
+ * @return bool 1 if spammer, 0 if not.
  */
-function bp_core_is_user_spammer( $user_id ) {
+function bp_core_is_user_spammer( $user_id = 0 ) {
 	global $wpdb;
+
+	// No user to check
+	if ( empty( $user_id ) )
+		return false;
 
 	// Assume user is not spam
 	$is_spammer = false;
@@ -509,11 +513,15 @@ function bp_core_is_user_spammer( $user_id ) {
  * Checks if the user has been marked as deleted.
  *
  * @package BuddyPress Core
- * @param $user_id int The id for the user.
- * @return int 1 if deleted, 0 if not.
+ * @param int $user_id int The id for the user.
+ * @return bool 1 if deleted, 0 if not.
  */
-function bp_core_is_user_deleted( $user_id ) {
+function bp_core_is_user_deleted( $user_id = 0 ) {
 	global $wpdb;
+
+	// No user to check
+	if ( empty( $user_id ) )
+		return false;
 
 	// Assume user is not deleted
 	$is_deleted = false;
