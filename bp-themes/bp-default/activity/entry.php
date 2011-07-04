@@ -44,24 +44,19 @@
 		<?php do_action( 'bp_activity_entry_content' ); ?>
 
 		<div class="activity-meta">
+			<?php
+				// Add the delete link if the user has permission on this item
+				if ( bp_activity_user_can_delete() )
+					bp_activity_delete_link();
+			?>
 
-			<?php if ( is_user_logged_in() && bp_activity_can_comment() ) : ?>
-
-				<a href="<?php bp_activity_comment_link(); ?>" class="acomment-reply" id="acomment-comment-<?php bp_activity_id(); ?>"><?php _e( 'Reply', 'buddypress' ); ?> (<span><?php bp_activity_comment_count(); ?></span>)</a>
-
-			<?php endif; ?>
-
-			<?php if ( is_user_logged_in() && bp_activity_can_favorite() ) :
-				if ( !bp_get_activity_is_favorite() ) : ?>
-
-					<a href="<?php bp_activity_favorite_link() ?>" class="fav" title="<?php _e( 'Mark as Favorite', 'buddypress' ) ?>"><?php _e( 'Favorite', 'buddypress' ) ?></a>
-
+			<?php if ( is_user_logged_in() && bp_activity_can_favorite() ) : ?>
+				<?php if ( !bp_get_activity_is_favorite() ) : ?>
+					<a href="<?php bp_activity_favorite_link(); ?>" class="fav bp-secondary-action" title="<?php esc_attr_e( 'Mark as Favorite', 'buddypress' ); ?>"><?php _e( 'Favorite', 'buddypress' ) ?></a>
 				<?php else : ?>
-
-					<a href="<?php bp_activity_unfavorite_link() ?>" class="unfav" title="<?php _e( 'Remove Favorite', 'buddypress' ) ?>"><?php _e( 'Remove Favorite', 'buddypress' ) ?></a>
-
-				<?php endif;
-			endif; ?>
+					<a href="<?php bp_activity_unfavorite_link(); ?>" class="unfav bp-secondary-action" title="<?php esc_attr_e( 'Remove Favorite', 'buddypress' ); ?>"><?php _e( 'Remove Favorite', 'buddypress' ) ?></a>
+				<?php endif; ?>
+			<?php endif; ?>
 
 			<?php do_action( 'bp_activity_entry_meta' ); ?>
 		</div>

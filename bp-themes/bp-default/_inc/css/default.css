@@ -757,24 +757,12 @@ div.comment-meta p {
 }
 div.comment-meta .comment-options {
 	float: right;
+	margin-right: 10px;
 }
 div.comment-meta em {
 	font-style: normal;
 }
-div.comment-meta span.comment-highlight a {
-	background: #EBF7FF;
-	border-right: 1px solid #a1dcfa;
-	border-bottom: 1px solid #a1dcfa;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
-	color: #059AE7;
-	margin-right: 3px;
-	padding: 3px 8px;
-	text-decoration: none;
-}
-div.comment-meta .comment-highlight a:hover,
-.commentlist .depth-1 > .comment-content .comment-meta > p a:first-child:hover {
+a.bp-secondary-action:hover {
 	background: #059AE7;
 	border-color: #059AE7;
 	color: #fff;
@@ -787,27 +775,8 @@ div.comment-meta .comment-highlight a:hover,
 	font-size: 11px;
 	font-weight: normal;
 }
-#reply-title small a,
-div.comment-options a.comment-reply-link {
-	background: #FFF9DB;
-	border-bottom: 1px solid #FFE8C4;
-	border-right: 1px solid #FFE8C4;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
-	color: #ffa200;
-	margin-right: 10px;
-	padding: 3px 8px;
-	text-decoration: none;
-}
 #reply-title small a {
 	margin-right: 0;
-}
-#reply-title small a:hover,
-div.comment-options a.comment-reply-link:hover {
-	background: #f7740a;
-	border-color: #f7740a;
-	color: #fff;
 }
 .commentlist ul.children {
 	background: #f5f5f5;
@@ -819,6 +788,7 @@ div.comment-options a.comment-reply-link:hover {
 }
 .commentlist ul.children ul {
 	margin: 0 0 0 25px;
+	padding-right: 0;
 }
 .commentlist ul.children img.avatar {
 	border-style: none;
@@ -831,8 +801,7 @@ div.comment-options a.comment-reply-link:hover {
 	margin: 0 0 10px 0;
 }
 .commentlist ul.children div.comment-options {
-	margin-bottom: 5px;
-	margin-top: 0;
+	margin-right: 0;
 }
 .commentlist ul.children li {
 	border-top: 2px solid #fffeff;
@@ -843,19 +812,6 @@ div.comment-options a.comment-reply-link:hover {
 }
 .commentlist ul.children ul li:first-child {
 	border-top: 2px solid #fffeff;
-}
-.commentlist ul.children div.comment-options a.comment-reply-link {
-	background: transparent;
-	border-style: none;
-	color: #1fb3dd;
-	margin-right: 0;
-	padding: 3px 8px;
-	text-decoration: underline;
-}
-.commentlist ul.children div.comment-options a.comment-reply-link:hover {
-	background: transparent;
-	border-style: none;
-	color: #1fb3dd;
 }
 #respond {
 	background-color: #fafafa;
@@ -1201,7 +1157,7 @@ body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
 	top: 0;
 }
 body.activity-permalink .activity-list .activity-meta {
-	right: 15px;
+	right: 10px;
 	top: 18px;
 }
 body.activity-permalink .activity-list li.mini .activity-meta {
@@ -1275,12 +1231,16 @@ body.activity-permalink .activity-list li .activity-header > p {
 .activity-header {
 	margin-right: 130px;
 }
+.activity-header a,
+.comment-meta a,
+.acomment-meta a {
+	text-decoration: none;
+}
 .activity-list .activity-content .activity-header img.avatar {
 	float: none !important;
 	margin: 0 5px -8px 0 !important;
 }
-.activity-list .activity-header a:first-child,
-.commentlist .depth-1 > .comment-content .comment-meta > p a:first-child,
+a.bp-secondary-action,
 span.highlight {
 	background: #ebf7ff;
 	border-bottom: 1px solid #a1dcfa;
@@ -1289,37 +1249,13 @@ span.highlight {
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	color: #059ae7;
-	margin-right: 3px;
-	padding: 3px 8px;
-	text-decoration: none;
-}
-.activity-list .activity-header a:first-child:hover {
-	background: #059ae7 !important;
-	color: #fff !important;
-}
-.activity-list .activity-content a:first-child:focus {
-	outline: none;
-}
-.activity-list .activity-content span.time-since,
-.comment-content .comment-meta span.time-since {
-	color: #bbb;
-}
-.activity-list .activity-content span.activity-header-meta a {
-	background: none;
-	border: none;
-	color: #aaa;
 	font-size: 11px;
-	margin: 0;
-	padding: 0;
-	text-decoration: underline;
-}
-.activity-list .activity-content span.activity-header-meta a:hover {
-	color: inherit;
+	padding: 3px 8px;
 	text-decoration: none;
 }
 .activity-list .activity-content .activity-inner,
 .activity-list .activity-content blockquote {
-	margin: 15px 0 15px 5px;
+	margin: 15px 0;
 	overflow: hidden;
 }
 body.activity-permalink .activity-content .activity-inner,
@@ -1363,48 +1299,37 @@ body.activity-permalink .activity-content blockquote {
 --------------------------------------------------------------*/
 div.activity-meta {
 	clear: left;
-	margin: 0 0 20px 3px;
+	margin: 0 10px 20px 0;
 }
-.activity-list div.activity-meta a {
-	background: #f4f4f4;
-	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #ddd;
+a.bp-primary-action,
+.comment-reply-link,
+#reply-title small a {
+	background: #fff9db;
+	border-bottom: 1px solid #ffe8c4;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	color: #999;
-	font-size: 11px;
-	margin-right: 3px;
-	padding: 4px 8px;
-	text-decoration: none;
-}
-.activity-list div.activity-meta a.acomment-reply {
-	background: #fff9db;
-	border-bottom: 1px solid #ffe8c4;
 	border-right: 1px solid #ffe8c4;
 	color: #ffa200;
+	font-size: 11px;
+	padding: 3px 8px;
+	text-decoration: none;
 }
-div.activity-meta a:focus {
-	outline: none;
-}
-div.activity-meta a:hover {
-	background: #aaa;
-	border-color: #aaa;
-	color: #fff;
-}
-div.activity-meta a.acomment-reply:hover {
+a.bp-primary-action:hover,
+.comment-reply-link:hover,
+#reply-title small a:hover {
 	background: #f7740a;
 	border-color: #f7740a;
 	color: #fff;
 }
 div.activity-comments {
-	margin: 0 0 0 75px;
+	margin: 0 0 0 70px;
 	overflow: hidden; /* IE fix */
 	position: relative;
 	width: auto;
 }
 body.activity-permalink div.activity-comments {
- background: none;
+	background: none;
 	margin-left: 135px;
 	width: auto;
 }
@@ -1433,10 +1358,7 @@ body.activity-permalink .activity-list li.mini .activity-comments {
 }
 body.activity-permalink div.activity-comments ul li {
 	border-width: 1px;
-	padding: 10px 10px 0;
-}
-.commentlist .comment-content a:first-child {
-	margin-bottom: 10px;
+	padding: 10px 0 0 0;
 }
 div.activity-comments > ul > li:first-child {
 	border-top: none;
@@ -1445,14 +1367,15 @@ div.activity-comments ul li:last-child {
 	margin-bottom: 0;
 }
 div.activity-comments ul li > ul {
+	margin-left: 25px;
 	margin-top: 0;
-	margin-left: 20px;
+	padding-left: 10px;
 }
 body.activity-permalink div.activity-comments ul li > ul {
 	margin-top: 10px;
 }
 body.activity-permalink div.activity-comments > ul {
-	padding-left: 15px;
+	padding: 0 10px 0 15px;
 }
 div.activity-comments div.acomment-avatar img {
 	border-width: 2px !important;
@@ -1534,6 +1457,10 @@ div.activity-comments form div.ac-reply-content {
 	font-size: 11px;
 	margin-left: 50px;
 	padding-left: 15px;
+}
+.acomment-options {
+	float: right;
+	margin-right: 10px;
 }
 
 

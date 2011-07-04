@@ -676,7 +676,7 @@ function bp_activity_post_update( $args = '' ) {
 
 	// Record this on the user's profile
 	$from_user_link   = bp_core_get_userlink( $user_id );
-	$activity_action  = sprintf( __( '%s posted an update:', 'buddypress' ), $from_user_link );
+	$activity_action  = sprintf( __( '%s posted an update', 'buddypress' ), $from_user_link );
 	$activity_content = $content;
 	$primary_link     = bp_core_get_userlink( $user_id, false, true );
 
@@ -728,7 +728,7 @@ function bp_activity_new_comment( $args = '' ) {
 	// Insert the activity comment
 	$comment_id = bp_activity_add( array(
 		'id' => $id,
-		'action' => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment:', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
+		'action' => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
 		'content' => apply_filters( 'bp_activity_comment_content', $content ),
 		'component' => $bp->activity->id,
 		'type' => 'activity_comment',

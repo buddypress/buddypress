@@ -14,32 +14,35 @@
 
 <?php do_action( 'bp_before_activity_comment' ); ?>
 
-<li id="acomment-<?php bp_activity_comment_id() ?>">
+<li id="acomment-<?php bp_activity_comment_id(); ?>">
 	<div class="acomment-avatar">
-		<a href="<?php bp_activity_comment_user_link() ?>">
-			<?php bp_activity_avatar( 'type=full&width=30&height=30&user_id=' . bp_get_activity_comment_user_id() ); ?>
+		<a href="<?php bp_activity_comment_user_link(); ?>">
+			<?php bp_activity_avatar( 'type=full&width=25&height=25&user_id=' . bp_get_activity_comment_user_id() ); ?>
 		</a>
 	</div>
 
 	<div class="acomment-meta">
-		<a href="<?php bp_activity_comment_user_link() ?>"><?php bp_activity_comment_name() ?></a> &middot; <?php bp_activity_comment_date_recorded() ?>
+		<?php
+		/* translators: 1: user profile link, 2: user name, 3: activity permalink, 3: activity timestamp */
+		printf( __( '<a href="%1$s">%2$s</a> replied <a href="%3$s">%4$s</a>', 'buddypress' ), bp_get_activity_comment_user_link(), bp_get_activity_comment_name(), bp_get_activity_thread_permalink(), bp_get_activity_comment_date_recorded() );
+		?>
 
 		<?php if ( is_user_logged_in() && bp_activity_can_comment_reply( bp_activity_current_comment() ) ) : ?>
-			<span class="acomment-replylink"> &middot; <a href="#acomment-<?php bp_activity_comment_id() ?>" class="acomment-reply" id="acomment-reply-<?php bp_activity_id() ?>-from-<?php bp_activity_comment_id() ?>"><?php _e( 'Reply', 'buddypress' ) ?></a></span>
-		<?php endif ?>
-	
-		<?php if ( bp_activity_user_can_delete() ) : ?>
-			&middot; <a href="<?php bp_activity_comment_delete_link() ?>" class="delete acomment-delete confirm" rel="nofollow"><?php _e( 'Delete', 'buddypress' ) ?></a>
-		<?php endif ?>
+			<a href="#acomment-<?php bp_activity_comment_id(); ?>" class="acomment-reply bp-primary-action" id="acomment-reply-<?php bp_activity_id() ?>-from-<?php bp_activity_comment_id() ?>"><?php _e( 'Reply', 'buddypress' ); ?></a>
+		<?php endif; ?>
 
+		<?php if ( bp_activity_user_can_delete() ) : ?>
+			<div class="acomment-options">
+				<a href="<?php bp_activity_comment_delete_link(); ?>" class="delete acomment-delete confirm bp-secondary-action" rel="nofollow"><?php _e( 'Delete', 'buddypress' ); ?></a>
+			</div>
+		<?php endif; ?>
 	</div>
-	
-	
+
 	<div class="acomment-content">
-		<?php bp_activity_comment_content() ?>
+		<?php bp_activity_comment_content(); ?>
 	</div>
 	
-	<?php bp_activity_recurse_comments( bp_activity_current_comment() ) ?>
+	<?php bp_activity_recurse_comments( bp_activity_current_comment() ); ?>
 </li>
 
 <?php do_action( 'bp_after_activity_comment' ); ?>

@@ -214,13 +214,22 @@ function bp_dtheme_new_activity_comment() {
 				</div>
 
 				<div class="acomment-meta">
-					<?php echo bp_core_get_userlink( bp_get_activity_user_id() ) ?> &middot; <?php printf( __( '%s ago', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ) ?>
-					<span class="acomment-replylink"> &middot; <a class="acomment-reply" href="#acomment-<?php bp_activity_id() ?>" id="acomment-reply-<?php echo esc_attr( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ) ?></a></span>
-					 &middot; <a href="<?php echo wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/' . bp_get_activity_id() . '?cid=' . $comment_id, 'bp_activity_delete_link' ) ?>" class="delete acomment-delete confirm" rel="nofollow"><?php _e( 'Delete', 'buddypress' ) ?></a>
+					<?php
+					/* translators: 1: user profile link + username, 2: activity item permalink, 3: activity item timestamp */
+					printf( __( '%1$s replied <a href="%2$s">%3$s ago</a>', 'buddypress' ), bp_core_get_userlink( bp_get_activity_user_id() ), bp_get_activity_thread_permalink(), bp_core_time_since( bp_core_current_time() ) );
+					?>
+
+					<a class="acomment-reply bp-primary-action" href="#acomment-<?php bp_activity_id() ?>" id="acomment-reply-<?php echo esc_attr( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ); ?></a>
+
+					<?php if ( bp_activity_user_can_delete() ) : ?>
+						<div class="acomment-options">
+							<a href="<?php echo wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/' . bp_get_activity_id() . '?cid=' . $comment_id, 'bp_activity_delete_link' ) ?>" class="delete acomment-delete confirm bp-secondary-action" rel="nofollow"><?php _e( 'Delete', 'buddypress' ); ?></a>
+						</div>
+					<?php endif; ?>
 				</div>
 
 				<div class="acomment-content">
-					<?php bp_activity_content_body() ?>
+					<?php bp_activity_content_body(); ?>
 				</div>
 			</li>
 		<?php endwhile; ?>

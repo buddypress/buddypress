@@ -419,7 +419,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 	if ( 1 == $depth )
 		$avatar_size = 50;
 	else
-		$avatar_size = 20;
+		$avatar_size = 25;
 	?>
 
 	<li <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
@@ -439,21 +439,18 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 			<div class="comment-meta">
 				<p>
 					<?php
-						if ( 1 == $depth )
-							$links = sprintf( '<a href="#comment-%1$d">%2$s</a>', get_comment_ID(), __( 'View', 'buddypress' ) );
+						if ( current_user_can( 'edit_comment', get_comment_ID() ) )
+							$links = get_comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) );
 						else
-							$links = get_comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => __( 'Reply', 'buddypress' ) ) );
+							$links = '';
 
-						$links .= sprintf( ' <a class="comment-edit-link" href="%1$s" title="%2$s">%3$s</a>', get_edit_comment_link( $comment->comment_ID ), esc_attr__( 'Edit comment', 'buddypress' ), __( 'Edit', 'buddypress' ) );
-						$noun = _n( 'said:', 'replied:', $depth, 'buddypress' );
-
-						/* translators: 1: comment author url, 2: comment author name, 3: "said:" or "replied:", 4: comment date/timestamp, 5: view/reply & edit comment links */
-						printf( __( '<a href="%1$s" rel="nofollow">%2$s</a> %3$s <span class="time-since">&nbsp; %4$s</span> %5$s', 'buddypress' ), get_comment_author_url(), get_comment_author(), $noun, get_comment_date(), $links );
+						/* translators: 1: comment author url, 2: comment author name, 3: comment permalink, 4: comment date/timestamp, 5: view/reply & edit comment links */
+						printf( __( '<a href="%1$s" rel="nofollow">%2$s</a> said on <a href="%3$s"><span class="time-since">%4$s</span></a> %5$s', 'buddypress' ), get_comment_author_url(), get_comment_author(), get_comment_link(), get_comment_date(), $links );
 					?>
 				</p>
 
-				<?php if ( 1 == $depth && -1 != $args['max_depth'] && comments_open() ) : ?>
-					<div class="comment-options"><?php comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ?></div>
+				<?php if ( comments_open() ) : ?>
+					<div class="comment-options"><?php printf( '<a class="comment-edit-link bp-secondary-action" href="%1$s" title="%2$s">%3$s</a> ', get_edit_comment_link( $comment->comment_ID ), esc_attr__( 'Edit comment', 'buddypress' ), __( 'Edit', 'buddypress' ) ) ?></div>
 				<?php endif; ?>
 			</div>
 

@@ -699,19 +699,20 @@ function bp_activity_content() {
 	function bp_insert_activity_meta( $content ) {
 		global $activities_template, $bp;
 
-		// Strip any legacy time since placeholders -- TODO: Remove this in 1.3
+		// Strip any legacy time since placeholders from BP 1.0-1.1
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
 		// Insert the time since.
-		$content .= ' ' . apply_filters_ref_array( 'bp_activity_time_since', array( '<span class="time-since">' . sprintf( __( '&nbsp; %s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', &$activities_template->activity ) );
-
+		$time_since = apply_filters_ref_array( 'bp_activity_time_since', array( '<span class="time-since">' . sprintf( __( ' %s ago ', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', &$activities_template->activity ) );
+	
 		// Insert the permalink
 		if ( !bp_is_single_activity() )
-			$content .= apply_filters_ref_array( 'bp_activity_permalink', array( ' &middot; <a href="' . bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '" class="view" title="' . __( 'View Thread / Permalink', 'buddypress' ) . '">' . __( 'View', 'buddypress' ) . '</a>', &$activities_template->activity ) );
+			$content .= apply_filters_ref_array( 'bp_activity_permalink', array( sprintf( ' about <a href="%1$s" class="view" title="%2$s">%3$s</a>', bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ), esc_attr__( 'View Discussion', 'buddypress' ), $time_since ), &$activities_template->activity ) );
+		else
+			$content .= $time_since;
 
-		// Add the delete link if the user has permission on this item
-		if ( bp_activity_user_can_delete() )
-			 $content .= apply_filters_ref_array( 'bp_activity_delete_link', array( ' &middot; ' . bp_get_activity_delete_link(), &$activities_template->activity ) );
+		if ( is_user_logged_in() && bp_activity_can_comment() )
+			$content .= sprintf( '<a href="%1$s" class="acomment-reply bp-primary-action" id="acomment-comment-%2$d">%3$s</a>', bp_get_activity_comment_link(), bp_get_activity_id(), sprintf( __( 'Reply (<span>%s</span>)', 'buddypress' ), bp_activity_get_comment_count() ) );
 
 		return apply_filters( 'bp_insert_activity_meta', $content );
 	}
@@ -1216,7 +1217,7 @@ function bp_activity_delete_link() {
 			$class = 'delete-activity-single';
 		}
 
-		$link = '<a href="' . wp_nonce_url( $url, 'bp_activity_delete_link' ) . '" class="item-button ' . $class . ' confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>';
+		$link = '<a href="' . wp_nonce_url( $url, 'bp_activity_delete_link' ) . '" class="item-button bp-secondary-action ' . $class . ' confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>';
 		return apply_filters( 'bp_get_activity_delete_link', $link );
 	}
 

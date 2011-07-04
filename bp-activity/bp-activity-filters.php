@@ -87,6 +87,7 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags['div']['class']  = array();
 	$activity_allowedtags['div']['id']     = array();
 	$activity_allowedtags['a']['class']    = array();
+	$activity_allowedtags['a']['id']       = array();
 	$activity_allowedtags['a']['rel']      = array();
 	$activity_allowedtags['img']           = array();
 	$activity_allowedtags['img']['src']    = array();

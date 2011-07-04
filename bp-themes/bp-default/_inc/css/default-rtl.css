@@ -314,11 +314,8 @@ ol.commentlist li.comment {
 	margin: 15px 70px 15px 0;
 }
 .commentlist ul.children ul {
-	margin: 0 25px 0 0 0;
-}
-.commentlist ul.children div.comment-options a.comment-reply-link {
-	margin-left: 0;
-	margin-right: auto;
+	margin: 0 25px 0 0;
+	padding-left: 0;
 }
 ol.commentlist #respond {
 	clear: right;
@@ -337,6 +334,10 @@ ol.commentlist div.comment-avatar-box {
 	float: right;
 	margin: 0 0 0 10px;
 }
+.commentlist ul.children div.comment-options {
+	margin-right: auto;
+	margin-left: 0;
+}
 #comments ol.commentlist ol {
 	margin: 0 2.5em 18px 0;
 }
@@ -351,25 +352,14 @@ div.comment-meta p {
 }
 div.comment-meta .comment-options {
 	float: left;
-}
-div.comment-meta span.comment-highlight a {
-	border-left: 1px solid #a1dcfa;
-	border-right: 0;
-	margin-left: 3px;
 	margin-right: auto;
+	margin-left: 10px;
 }
 .comment-entry {
 	float: right;
 }
 #reply-title small {
 	float: left;
-}
-#reply-title small a,
-div.comment-options a.comment-reply-link {
-	border-left: 1px solid #FFE8C4;
-	border-right: 0;
-	margin-left: 10px;
-	margin-right: auto;
 }
 #reply-title small a {
 	margin-right: auto;
@@ -378,6 +368,11 @@ div.comment-options a.comment-reply-link {
 #respond .comment-avatar-box {
 	float: right;
 	margin: 0 0 0 15px;
+}
+.acomment-options {
+	float: left;
+	margin-left: 10px;
+	margin-right: auto;
 }
 
 
@@ -451,8 +446,15 @@ form#whats-new-form #whats-new-submit {
 }
 body.activity-permalink .activity-list li .activity-avatar img.avatar,
 body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
-	margin-right: 175px;
+	margin-left: auto;
+	margin-right: 0;
 }
+body.activity-permalink .activity-list li .activity-header > p {
+	margin-left: auto;
+	margin-right: -35px;
+	padding: 5px 35px 0 0;
+}
+
 .activity-list li.mini .activity-content {
 	margin-right: 0;
 }
@@ -501,11 +503,6 @@ span.highlight,
 	margin-left: 3px;
 	margin-right: 0;
 }
-.activity-list .activity-content .activity-inner,
-.activity-list .activity-content blockquote {
-	margin: 15px 5px 15px 0;
-	overflow: hidden;
-}
 .activity-list .activity-content img.thumbnail {
 	float: right;
 	margin: 0 0 5px 10px;
@@ -520,17 +517,11 @@ span.highlight,
 5.1.2 - Activity Comments
 --------------------------------------------------------------*/
 div.activity-meta {
-	margin: 0 3px 20px 0;
+	margin: 0 0 20px 10px;
 	clear: right;
 }
-.activity-list div.activity-meta a {
-	margin-left: 3px;
-	margin-right: 0;
-}
-.activity-list div.activity-meta a.acomment-reply {
-}
 div.activity-comments {
-	margin: 0 75px 0 0;
+	margin: 0 70px 0 0;
 }
 body.activity-permalink div.activity-comments {
 	margin-right: 135px;
@@ -539,17 +530,14 @@ body.activity-permalink div.activity-comments {
 div.activity-comments ul {
 	clear: right;
 }
-div.activity-comments ul li {
-	padding: 10px 0 10px 15px;
-	margin-right: 15px;
-	margin-left: 0;
-}
-body.activity-permalink div.activity-comments ul li {
-	padding: 15px 0 15px 15px;
+div.activity-comments > ul {
+	padding: 0 10px 0 0;
 }
 div.activity-comments ul li > ul {
-	margin-right: 25px;
 	margin-left: 0;
+	margin-right: 25px;
+	padding-left: 0;
+	padding-right: 10px;
 }
 div.activity-comments div.acomment-avatar img {
 	float: right;
@@ -583,6 +571,13 @@ div.activity-comments form div.ac-reply-content {
 	margin-left: 0;
 	padding-right: 15px;
 	padding-left: 0;
+}
+body.activity-permalink .activity-list .activity-meta {
+	left: 10px;
+	right: auto;
+}
+body.activity-permalink div.activity-comments > ul {
+	padding: 0 15px 0 10px;
 }
 
 
