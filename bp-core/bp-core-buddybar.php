@@ -200,20 +200,50 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'user_has_access' => $user_has_access,
 		'screen_function' => &$screen_function
 	);
-
-	// Look for current component
-	if ( ( $bp->current_action == $slug && $bp->current_component == $parent_slug ) && $user_has_access ) {
-		if ( !is_object( $screen_function[0] ) )
-			add_action( 'bp_screens', $screen_function );
-		else
-			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
-
-	// Look for current item
-	} elseif ( ( $bp->current_action == $slug && $bp->current_item == $parent_slug ) && $user_has_access ) {
-		if ( !is_object( $screen_function[0] ) )
-			add_action( 'bp_screens', $screen_function );
-		else
-			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
+	
+	/**
+	 * The last step is to hook the screen function for the added subnav item. But this only
+	 * needs to be done if this subnav item is the current view, and the user has access to the
+	 * subnav item. We figure out whether we're currently viewing this subnav by checking the
+	 * following two conditions:
+	 *   (1) Either:
+	 *	 (a) the parent slug matches the current_component, or
+	 *	 (b) the parent slug matches the current_item
+	 *   (2) And either:
+	 * 	 (a) the current_action matches $slug, or
+	 *       (b) there is no current_action (ie, this is the default subnav for the parent nav)
+	 *	     and this subnav item is the default for the parent item (which we check by
+	 *	     comparing this subnav item's screen function with the screen function of the
+	 *	     parent nav item in $bp->bp_nav).
+	 */
+	
+	// If we *don't* meet condition (1), return
+	if ( $bp->current_component != $parent_slug && $bp->current_item != $parent_slug )
+		return;
+		
+	// If we *do* meet condition (2), then the added subnav item is currently being requested
+	if ( ( !empty( $bp->current_action ) && $slug == $bp->current_action ) || ( empty( $bp->current_action ) && $screen_function == $bp->bp_nav[$parent_slug]['screen_function'] ) ) {
+		// Before hooking the screen function, check user access
+		if ( $user_has_access ) {
+			if ( !is_object( $screen_function[0] ) )
+				add_action( 'bp_screens', $screen_function );
+			else
+				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
+		} else {
+			// When the content is off-limits, we handle the situation differently
+			// depending on whether the current user is logged in
+			if ( is_user_logged_in() ) {
+				// Off-limits to this user. Throw an error and redirect to the displayed user's domain			
+				bp_core_no_access( array(
+					'message'	=> __( 'You do not have access to this page.', 'buddypress' ),
+					'root'		=> bp_displayed_user_domain(),
+					'redirect'	=> false
+				) );
+			} else {
+				// Not logged in. Allow the user to log in, and attempt to redirect
+				bp_core_no_access();
+			}
+		}
 	}
 }
 
