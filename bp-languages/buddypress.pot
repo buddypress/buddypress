@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-04 07:30:57+00:00\n"
+"POT-Creation-Date: 2011-07-04 14:30:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -147,9 +147,8 @@ msgstr ""
 #: bp-blogs/bp-blogs-template.php:467 bp-core/admin/bp-core-admin.php:89
 #: bp-core/admin/bp-core-admin.php:99 bp-core/admin/bp-core-admin.php:107
 #: bp-core/admin/bp-core-admin.php:115 bp-core/admin/bp-core-admin.php:125
-#: bp-core/admin/bp-core-admin.php:137 bp-core/admin/bp-core-admin.php:149
-#: bp-friends/bp-friends-screens.php:69 bp-groups/bp-groups-screens.php:822
-#: bp-messages/bp-messages-screens.php:148
+#: bp-core/admin/bp-core-admin.php:137 bp-friends/bp-friends-screens.php:69
+#: bp-groups/bp-groups-screens.php:822 bp-messages/bp-messages-screens.php:148
 #: bp-themes/bp-default/registration/register.php:205
 #: bp-themes/bp-default/groups/single/admin.php:26
 #: bp-activity/bp-activity-screens.php:170
@@ -159,9 +158,8 @@ msgstr ""
 #: bp-blogs/bp-blogs-template.php:471 bp-core/admin/bp-core-admin.php:90
 #: bp-core/admin/bp-core-admin.php:100 bp-core/admin/bp-core-admin.php:108
 #: bp-core/admin/bp-core-admin.php:116 bp-core/admin/bp-core-admin.php:126
-#: bp-core/admin/bp-core-admin.php:138 bp-core/admin/bp-core-admin.php:150
-#: bp-friends/bp-friends-screens.php:70 bp-groups/bp-groups-screens.php:823
-#: bp-messages/bp-messages-screens.php:149
+#: bp-core/admin/bp-core-admin.php:138 bp-friends/bp-friends-screens.php:70
+#: bp-groups/bp-groups-screens.php:823 bp-messages/bp-messages-screens.php:149
 #: bp-themes/bp-default/registration/register.php:206
 #: bp-themes/bp-default/groups/single/admin.php:27
 #: bp-activity/bp-activity-screens.php:171
@@ -176,7 +174,7 @@ msgstr ""
 msgid "<a href=\"%1$s\">%2$s</a> is your new site.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:538 bp-core/bp-core-filters.php:312
+#: bp-blogs/bp-blogs-template.php:538 bp-core/bp-core-filters.php:311
 #: bp-themes/bp-default/blogs/index.php:21
 #: bp-themes/bp-default/blogs/create.php:21
 msgid "Create a Site"
@@ -206,23 +204,23 @@ msgstr ""
 msgid "Visit Site"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:103
+#: bp-blogs/bp-blogs-functions.php:110
 msgid "%s created the site %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:167
+#: bp-blogs/bp-blogs-functions.php:174
 msgid "%1$s wrote a new post, %2$s, on the site %3$s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:169
+#: bp-blogs/bp-blogs-functions.php:176
 msgid "%1$s wrote a new post, %2$s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:246
+#: bp-blogs/bp-blogs-functions.php:253
 msgid "%1$s commented on the post, %2$s, on the site %3$s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:248
+#: bp-blogs/bp-blogs-functions.php:255
 msgid "%1$s commented on the post, %2$s"
 msgstr ""
 
@@ -407,7 +405,7 @@ msgstr ""
 msgid "BuddyPress General Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:74 bp-core/admin/bp-core-admin.php:227
+#: bp-core/admin/bp-core-admin.php:74 bp-core/admin/bp-core-admin.php:215
 msgid "Settings Saved"
 msgstr ""
 
@@ -428,151 +426,147 @@ msgid "Disable user account deletion?"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:123
-msgid "Disable global forum directory?"
-msgstr ""
-
-#: bp-core/admin/bp-core-admin.php:135
 msgid "Disable activity stream commenting on blog and forum posts?"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:147
+#: bp-core/admin/bp-core-admin.php:135
 msgid "Restrict group creation to Site Admins?"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:164 bp-core/admin/bp-core-admin.php:243
+#: bp-core/admin/bp-core-admin.php:152 bp-core/admin/bp-core-admin.php:231
 msgid "Save Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:221
+#: bp-core/admin/bp-core-admin.php:209
 msgid "BuddyPress Component Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:273 bp-xprofile/bp-xprofile-loader.php:27
+#: bp-core/admin/bp-core-admin.php:261 bp-xprofile/bp-xprofile-loader.php:27
 msgid "Extended Profiles"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:274
+#: bp-core/admin/bp-core-admin.php:262
 msgid "Customize your community with fully editable profile fields that allow your users use to uniquely describe themselves."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:277
+#: bp-core/admin/bp-core-admin.php:265
 msgid "Account Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:278
+#: bp-core/admin/bp-core-admin.php:266
 msgid "Allow your users to modify their account and notification settings directly from within their profiles."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:281 bp-friends/bp-friends-loader.php:26
+#: bp-core/admin/bp-core-admin.php:269 bp-friends/bp-friends-loader.php:26
 msgid "Friend Connections"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:282
+#: bp-core/admin/bp-core-admin.php:270
 msgid "Let your users make connections so they can track the activity of others and focus on the people they care about the most."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:285
+#: bp-core/admin/bp-core-admin.php:273
 msgid "Private Messaging"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:286
+#: bp-core/admin/bp-core-admin.php:274
 msgid "Allow your users to talk to each other directly and in private. They are not just limited to one-on-one discussions, and can send messages to multiple recipients."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:289 bp-activity/bp-activity-loader.php:26
+#: bp-core/admin/bp-core-admin.php:277 bp-activity/bp-activity-loader.php:26
 msgid "Activity Streams"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:290
+#: bp-core/admin/bp-core-admin.php:278
 msgid "Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:293 bp-groups/bp-groups-loader.php:29
+#: bp-core/admin/bp-core-admin.php:281 bp-groups/bp-groups-loader.php:29
 msgid "User Groups"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:294
+#: bp-core/admin/bp-core-admin.php:282
 msgid "Groups allow your users to organize themselves into specific public, private or hidden sections with a separate activity stream and member listing."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:297 bp-forums/bp-forums-loader.php:26
+#: bp-core/admin/bp-core-admin.php:285 bp-forums/bp-forums-loader.php:26
 msgid "Discussion Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:298
+#: bp-core/admin/bp-core-admin.php:286
 msgid "Full powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:304 bp-core/admin/bp-core-update.php:316
+#: bp-core/admin/bp-core-admin.php:292 bp-core/admin/bp-core-update.php:316
 msgid "Site Tracking"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:305 bp-core/admin/bp-core-update.php:325
+#: bp-core/admin/bp-core-admin.php:293 bp-core/admin/bp-core-update.php:325
 msgid "Track new sites, new posts and new comments across your entire network."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:318
+#: bp-core/admin/bp-core-admin.php:306
 msgid "Active Components"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:320
+#: bp-core/admin/bp-core-admin.php:308
 msgid "Choose which BuddyPress components you would like to use."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:372
+#: bp-core/admin/bp-core-admin.php:360
 #: bp-themes/bp-default/members/index.php:21
 msgid "Members Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:373
+#: bp-core/admin/bp-core-admin.php:361
 msgid "Activity Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:374 bp-themes/bp-default/groups/index.php:21
+#: bp-core/admin/bp-core-admin.php:362 bp-themes/bp-default/groups/index.php:21
 #: bp-themes/bp-default/groups/create.php:18
 msgid "Groups Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:375 bp-themes/bp-default/forums/index.php:23
+#: bp-core/admin/bp-core-admin.php:363 bp-themes/bp-default/forums/index.php:23
 msgid "Forums Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:379 bp-core/admin/bp-core-update.php:210
+#: bp-core/admin/bp-core-admin.php:367 bp-core/admin/bp-core-update.php:210
 #: bp-themes/bp-default/blogs/index.php:21
 #: bp-themes/bp-default/blogs/create.php:21
 msgid "Site Directory"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:381
+#: bp-core/admin/bp-core-admin.php:369
 msgid "Directory Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:383
+#: bp-core/admin/bp-core-admin.php:371
 msgid "Choose a WordPress Page to associate with each BuddyPress component directory. Deactivated components should be set to \"None\"."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:400 bp-core/admin/bp-core-admin.php:440
+#: bp-core/admin/bp-core-admin.php:388 bp-core/admin/bp-core-admin.php:428
 msgid "- None -"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:418
+#: bp-core/admin/bp-core-admin.php:406
 msgid "Sign up Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:419
+#: bp-core/admin/bp-core-admin.php:407
 msgid "Activation Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:422
+#: bp-core/admin/bp-core-admin.php:410
 msgid "Other Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:424
+#: bp-core/admin/bp-core-admin.php:412
 msgid "Associate WordPress Pages with the following BuddyPress pages. Setting to \"None\" will render that page inaccessible."
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:69 bp-core/admin/bp-core-update.php:214
-#: bp-core/bp-core-functions.php:285
+#: bp-core/bp-core-functions.php:284
 msgid "Components"
 msgstr ""
 
@@ -752,7 +746,7 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:498 bp-core/bp-core-functions.php:485
+#: bp-core/admin/bp-core-update.php:498 bp-core/bp-core-functions.php:484
 #: bp-members/bp-members-adminbar.php:61
 msgid "Register"
 msgstr ""
@@ -761,7 +755,7 @@ msgstr ""
 msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:509 bp-core/bp-core-functions.php:480
+#: bp-core/admin/bp-core-update.php:509 bp-core/bp-core-functions.php:479
 #: bp-messages/bp-messages-template.php:493
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
@@ -1000,19 +994,19 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:55
+#: bp-core/bp-core-filters.php:54
 msgid "noreply"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:159 bp-core/bp-core-filters.php:183
+#: bp-core/bp-core-filters.php:158 bp-core/bp-core-filters.php:182
 msgid "[User Set]"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:204
+#: bp-core/bp-core-filters.php:203
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:236 bp-members/bp-members-signup.php:571
+#: bp-core/bp-core-filters.php:235 bp-members/bp-members-signup.php:571
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1020,39 +1014,39 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:237 bp-members/bp-members-signup.php:572
+#: bp-core/bp-core-filters.php:236 bp-members/bp-members-signup.php:572
 msgid "Activate Your Account"
 msgstr ""
 
 #. translators: "displayed user's name | canonicalised component name"
 #. translators: "group name | group nav section name"
 
-#: bp-core/bp-core-filters.php:278 bp-core/bp-core-filters.php:284
+#: bp-core/bp-core-filters.php:277 bp-core/bp-core-filters.php:283
 msgid "%1$s | %2$s"
 msgstr ""
 
 #. translators: "root component name | component item name | component nav
 #. section name"
 
-#: bp-core/bp-core-filters.php:289
+#: bp-core/bp-core-filters.php:288
 msgid "%1$s | %2$s | %3$s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:294 bp-core/bp-core-filters.php:296
+#: bp-core/bp-core-filters.php:293 bp-core/bp-core-filters.php:295
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:300
+#: bp-core/bp-core-filters.php:299
 #: bp-themes/bp-default/registration/register.php:23
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:304
+#: bp-core/bp-core-filters.php:303
 #: bp-themes/bp-default/registration/activate.php:24
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:308 bp-themes/bp-default/groups/index.php:21
+#: bp-core/bp-core-filters.php:307 bp-themes/bp-default/groups/index.php:21
 #: bp-themes/bp-default/groups/create.php:18
 msgid "Create a Group"
 msgstr ""
@@ -1103,95 +1097,95 @@ msgstr ""
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:286 bp-settings/bp-settings-loader.php:17
+#: bp-core/bp-core-functions.php:285 bp-settings/bp-settings-loader.php:17
 #: bp-settings/bp-settings-loader.php:73 bp-settings/bp-settings-loader.php:143
 #: bp-groups/bp-groups-loader.php:188 bp-groups/bp-groups-template.php:1251
 msgid "Settings"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:401
+#: bp-core/bp-core-functions.php:400
 msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update your permalink structure</a> to something other than the default for it to work."
 msgstr ""
 
-#: bp-core/bp-core-functions.php:414
+#: bp-core/bp-core-functions.php:413
 msgid "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>."
 msgstr ""
 
-#: bp-core/bp-core-functions.php:453
+#: bp-core/bp-core-functions.php:452
 msgid "Some of your WordPress pages are linked to BuddyPress components that have been disabled. These pages may continue to show up in your site navigation. Consider <a href=\"%1$s\">reactivating the components</a>, or unpublishing the pages: <strong>%2$s</strong>"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:498
+#: bp-core/bp-core-functions.php:497
 msgid "Some BuddyPress components must be associated with WordPress pages for your site to work properly. The following components are missing their required WP pages: <strong>%1$s</strong>. Visit the <a href=\"%2$s\">BuddyPress Components</a> panel, where you can either deactivate unused components or complete the page setup."
 msgstr ""
 
-#: bp-core/bp-core-functions.php:652
+#: bp-core/bp-core-functions.php:651
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:652
+#: bp-core/bp-core-functions.php:651
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:653
+#: bp-core/bp-core-functions.php:652
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:653
+#: bp-core/bp-core-functions.php:652
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:654
+#: bp-core/bp-core-functions.php:653
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:654
+#: bp-core/bp-core-functions.php:653
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:655
+#: bp-core/bp-core-functions.php:654
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:655
+#: bp-core/bp-core-functions.php:654
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:656
+#: bp-core/bp-core-functions.php:655
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:656
+#: bp-core/bp-core-functions.php:655
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:657
+#: bp-core/bp-core-functions.php:656
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:657
+#: bp-core/bp-core-functions.php:656
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:658
+#: bp-core/bp-core-functions.php:657
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:658 bp-core/bp-core-functions.php:699
-#: bp-core/bp-core-functions.php:716
+#: bp-core/bp-core-functions.php:657 bp-core/bp-core-functions.php:698
+#: bp-core/bp-core-functions.php:715
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:679
+#: bp-core/bp-core-functions.php:678
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:711
+#: bp-core/bp-core-functions.php:710
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:765
+#: bp-core/bp-core-functions.php:764
 msgid "not recently active"
 msgstr ""
 
@@ -1549,7 +1543,7 @@ msgstr ""
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:248 bp-groups/bp-groups-functions.php:265
+#: bp-groups/bp-groups-actions.php:248 bp-groups/bp-groups-functions.php:279
 msgid "You successfully left the group."
 msgstr ""
 
@@ -1711,7 +1705,7 @@ msgstr ""
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:708 bp-groups/bp-groups-functions.php:82
+#: bp-groups/bp-groups-classes.php:708 bp-groups/bp-groups-functions.php:96
 msgid "Group Admin"
 msgstr ""
 
@@ -1850,7 +1844,7 @@ msgid "Membership Requests"
 msgstr ""
 
 #: bp-groups/bp-groups-adminbar.php:107 bp-groups/bp-groups-buddybar.php:37
-#: bp-xprofile/bp-xprofile-admin.php:97
+#: bp-xprofile/bp-xprofile-admin.php:123
 #: bp-themes/bp-default/groups/single/admin.php:358
 msgid "Delete Group"
 msgstr ""
@@ -1895,8 +1889,8 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:59 bp-groups/bp-groups-functions.php:309
-#: bp-groups/bp-groups-functions.php:786
+#: bp-groups/bp-groups-screens.php:59 bp-groups/bp-groups-functions.php:323
+#: bp-groups/bp-groups-functions.php:800
 msgid "%1$s joined the group %2$s"
 msgstr ""
 
@@ -2128,8 +2122,7 @@ msgstr ""
 msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
-#: bp-groups/bp-groups-buddybar.php:14 bp-xprofile/bp-xprofile-buddybar.php:47
-#: bp-members/bp-members-buddybar.php:101
+#: bp-groups/bp-groups-buddybar.php:14 bp-members/bp-members-buddybar.php:101
 msgid "Admin Options"
 msgstr ""
 
@@ -2249,7 +2242,7 @@ msgstr ""
 msgid "This group has no moderators"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:1261 bp-xprofile/bp-xprofile-admin.php:430
+#: bp-groups/bp-groups-template.php:1261 bp-xprofile/bp-xprofile-admin.php:456
 #: bp-forums/bp-forums-template.php:1070 bp-themes/bp-default/_inc/ajax.php:219
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:13
@@ -2331,16 +2324,16 @@ msgstr ""
 msgid "Group Activity RSS Feed"
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:240
+#: bp-groups/bp-groups-functions.php:254
 msgid "As the only Admin, you cannot leave the group."
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:482
+#: bp-groups/bp-groups-functions.php:496
 msgid "%1$s posted an update in the group %2$s:"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-loader.php:137
-#: bp-xprofile/bp-xprofile-loader.php:193 bp-xprofile/bp-xprofile-admin.php:429
+#: bp-xprofile/bp-xprofile-loader.php:193 bp-xprofile/bp-xprofile-admin.php:455
 #: bp-forums/bp-forums-template.php:1069 bp-themes/bp-default/functions.php:447
 msgid "Edit"
 msgstr ""
@@ -2556,121 +2549,95 @@ msgstr ""
 msgid "Checkbox field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-buddybar.php:24
+#: bp-xprofile/bp-xprofile-admin.php:23
+msgid "Profiles Fields"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-admin.php:23
 msgid "Profile Fields"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-buddybar.php:50
-#: bp-members/bp-members-buddybar.php:106
-msgid "Edit %s's Profile"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-buddybar.php:51
-#: bp-members/bp-members-buddybar.php:110
-msgid "Edit %s's Avatar"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-buddybar.php:55
-msgid "Edit %s's Settings"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-buddybar.php:61
-#: bp-members/bp-members-adminbar.php:125
-#: bp-members/bp-members-buddybar.php:114
-msgid "Mark as Spammer"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-buddybar.php:65
-#: bp-members/bp-members-adminbar.php:133
-#: bp-members/bp-members-buddybar.php:118
-msgid "Not a Spammer"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-buddybar.php:69
-msgid "Delete %s"
-msgstr ""
-
-#: bp-xprofile/bp-xprofile-admin.php:46
+#: bp-xprofile/bp-xprofile-admin.php:72
 msgid "Extended Profile Fields"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:48 bp-xprofile/bp-xprofile-admin.php:150
+#: bp-xprofile/bp-xprofile-admin.php:74 bp-xprofile/bp-xprofile-admin.php:176
 msgid "Add New Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:51
+#: bp-xprofile/bp-xprofile-admin.php:77
 msgid "Your users will distinguish themselves through their profile page. You must give them profile fields that allow them to describe themselves in a way that is relevant to the theme of your social network."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:52
+#: bp-xprofile/bp-xprofile-admin.php:78
 msgid "NOTE: Any fields in the \"%s\" group will appear on the signup page."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:75 bp-xprofile/bp-xprofile-admin.php:365
+#: bp-xprofile/bp-xprofile-admin.php:101 bp-xprofile/bp-xprofile-admin.php:391
 msgid "(Primary)"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:92
+#: bp-xprofile/bp-xprofile-admin.php:118
 msgid "Add New Field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:93
+#: bp-xprofile/bp-xprofile-admin.php:119
 msgid "Edit Group"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:132
+#: bp-xprofile/bp-xprofile-admin.php:158
 msgid "There are no fields in this group."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:149
+#: bp-xprofile/bp-xprofile-admin.php:175
 msgid "You have no groups."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:181
+#: bp-xprofile/bp-xprofile-admin.php:207
 msgid "There was an error saving the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:184
+#: bp-xprofile/bp-xprofile-admin.php:210
 msgid "The group was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:213
+#: bp-xprofile/bp-xprofile-admin.php:239
 msgid "There was an error deleting the group. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:216
+#: bp-xprofile/bp-xprofile-admin.php:242
 msgid "The group was deleted successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:257
+#: bp-xprofile/bp-xprofile-admin.php:283
 msgid "There was an error saving the field. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:263
+#: bp-xprofile/bp-xprofile-admin.php:289
 msgid "The field was saved successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:290
+#: bp-xprofile/bp-xprofile-admin.php:316
 msgid "field"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:292
+#: bp-xprofile/bp-xprofile-admin.php:318
 msgid "option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:297
+#: bp-xprofile/bp-xprofile-admin.php:323
 msgid "There was an error deleting the %s. Please try again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:300
+#: bp-xprofile/bp-xprofile-admin.php:326
 msgid "The %s was deleted successfully!"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:365
+#: bp-xprofile/bp-xprofile-admin.php:391
 msgid "(Required)"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-admin.php:398
+#: bp-xprofile/bp-xprofile-admin.php:424
 #: bp-themes/bp-default/registration/register.php:119
 #: bp-themes/bp-default/members/single/profile/edit.php:58
 #: bp-themes/bp-default/members/single/profile/edit.php:73
@@ -3133,8 +3100,18 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
+#: bp-members/bp-members-adminbar.php:125
+#: bp-members/bp-members-buddybar.php:114
+msgid "Mark as Spammer"
+msgstr ""
+
 #: bp-members/bp-members-adminbar.php:127
 msgid "Are you sure you want to mark this user as a spammer?"
+msgstr ""
+
+#: bp-members/bp-members-adminbar.php:133
+#: bp-members/bp-members-buddybar.php:118
+msgid "Not a Spammer"
 msgstr ""
 
 #: bp-members/bp-members-adminbar.php:135
@@ -3169,6 +3146,14 @@ msgstr ""
 msgid "Blog Authors"
 msgstr ""
 
+#: bp-members/bp-members-buddybar.php:106
+msgid "Edit %s's Profile"
+msgstr ""
+
+#: bp-members/bp-members-buddybar.php:110
+msgid "Edit %s's Avatar"
+msgstr ""
+
 #: bp-members/bp-members-buddybar.php:122
 msgid "Delete %s's Account"
 msgstr ""
@@ -3181,7 +3166,7 @@ msgstr ""
 msgid "You"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:656
+#: bp-members/bp-members-functions.php:669
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
@@ -3704,7 +3689,7 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:525
+#: bp-themes/bp-default/functions.php:533
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
@@ -4088,7 +4073,7 @@ msgid "Activity that I have been mentioned in."
 msgstr ""
 
 #: bp-themes/bp-default/activity/index.php:75
-#: bp-activity/bp-activity-functions.php:114
+#: bp-activity/bp-activity-functions.php:128
 msgid "@%s Mentions"
 msgstr ""
 
@@ -4718,27 +4703,27 @@ msgstr ""
 msgid "[Read more]"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:117
+#: bp-activity/bp-activity-functions.php:131
 msgid "You have %1$d new activity mentions"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:121
+#: bp-activity/bp-activity-functions.php:135
 msgid "%1$s mentioned you in an activity update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:523
+#: bp-activity/bp-activity-functions.php:537
 msgid "Posted an update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:665
+#: bp-activity/bp-activity-functions.php:679
 msgid "%s posted an update:"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:717
+#: bp-activity/bp-activity-functions.php:731
 msgid "%s posted a new activity comment:"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:954
+#: bp-activity/bp-activity-functions.php:968
 msgid "Thumbnail"
 msgstr ""
 
