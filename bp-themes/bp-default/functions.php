@@ -520,16 +520,24 @@ if ( !function_exists( 'bp_dtheme_show_notice' ) ) :
  *
  * @since 1.2
  */
-function bp_dtheme_show_notice() { ?>
+function bp_dtheme_show_notice() {
+	global $pagenow;
+	
+	// Bail if bp-default theme was not just activated
+	if ( empty( $_GET['activated'] ) || ( 'themes.php' != $pagenow ) || !is_admin() )
+		return;
+	
+	?>
+
 	<div id="message" class="updated fade">
 		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">custom header image</a> support and <a href="%s">sidebar widgets</a>.', 'buddypress' ), admin_url( 'themes.php?page=custom-header' ), admin_url( 'widgets.php' ) ) ?></p>
 	</div>
 
 	<style type="text/css">#message2, #message0 { display: none; }</style>
+
 	<?php
 }
-if ( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
-	add_action( 'admin_notices', 'bp_dtheme_show_notice' );
+add_action( 'admin_notices', 'bp_dtheme_show_notice' );
 endif;
 
 if ( !function_exists( 'bp_dtheme_main_nav' ) ) :
