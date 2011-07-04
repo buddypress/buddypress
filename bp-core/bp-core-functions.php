@@ -729,11 +729,16 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
  */
 function bp_core_record_activity() {
 	global $bp;
-
+	
 	if ( !is_user_logged_in() )
 		return false;
+	
+	$user_id = $bp->loggedin_user->id;
+	
+	if ( bp_core_is_user_spammer( $user_id ) || bp_core_is_user_deleted( $user_id ) )
+		return false;
 
-	$activity = bp_get_user_meta( $bp->loggedin_user->id, 'last_activity', true );
+	$activity = bp_get_user_meta( $user_id, 'last_activity', true );
 
 	if ( !is_numeric( $activity ) )
 		$activity = strtotime( $activity );
@@ -742,7 +747,7 @@ function bp_core_record_activity() {
 	$current_time = bp_core_current_time();
 
 	if ( empty( $activity ) || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) )
-		bp_update_user_meta( $bp->loggedin_user->id, 'last_activity', $current_time );
+		bp_update_user_meta( $user_id, 'last_activity', $current_time );
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
 
