@@ -106,7 +106,7 @@ function bp_core_screen_general_settings() {
 	}
 
 	// Load the template
-	bp_core_load_template( apply_filters( 'bp_members_template_settings', 'members/single/settings/general' ) );
+	bp_core_load_template( apply_filters( 'bp_core_screen_general_settings', 'members/single/settings/general' ) );
 }
 
 /** Notifications *************************************************************/
@@ -134,7 +134,7 @@ function bp_core_screen_notification_settings() {
 		do_action( 'bp_core_notification_settings_after_save' );
 	}
 
-	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/settings/notifications' ) );
+	bp_core_load_template( apply_filters( 'bp_core_screen_notification_settings', 'members/single/settings/notifications' ) );
 }
 
 /** Delete Account ************************************************************/
@@ -158,7 +158,7 @@ function bp_core_screen_delete_account() {
 	}
 
 	// Load the template
-	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/settings/delete-account' ) );
+	bp_core_load_template( apply_filters( 'bp_core_screen_delete_account', 'members/single/settings/delete-account' ) );
 }
 
 ?>

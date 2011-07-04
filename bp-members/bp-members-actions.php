@@ -24,7 +24,7 @@
  * @package BuddyPress Core
  * @global object $bp Global BuddyPress settings object
  */
-function bp_members_action_set_spammer_status() {
+function bp_core_action_set_spammer_status() {
 	global $bp, $wpdb, $wp_version;
 
 	if ( !is_super_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
@@ -76,11 +76,11 @@ function bp_members_action_set_spammer_status() {
 		else
 			do_action( 'bp_make_ham_user',  $bp->displayed_user->id );
 
-		do_action( 'bp_members_action_set_spammer_status', $bp->displayed_user->id, $is_spam );
+		do_action( 'bp_core_action_set_spammer_status', $bp->displayed_user->id, $is_spam );
 		bp_core_redirect( wp_get_referer() );
 	}
 }
-add_action( 'bp_actions', 'bp_members_action_set_spammer_status' );
+add_action( 'bp_actions', 'bp_core_action_set_spammer_status' );
 
 /**
  * Allows a site admin to delete a user from the adminbar menu.
@@ -88,7 +88,7 @@ add_action( 'bp_actions', 'bp_members_action_set_spammer_status' );
  * @package BuddyPress Core
  * @global object $bp Global BuddyPress settings object
  */
-function bp_members_action_delete_user() {
+function bp_core_action_delete_user() {
 	global $bp;
 
 	if ( !is_super_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
@@ -99,7 +99,7 @@ function bp_members_action_delete_user() {
 		check_admin_referer( 'delete-user' );
 
 		$errors = false;
-		do_action( 'bp_members_before_action_delete_user', $errors );
+		do_action( 'bp_core_before_action_delete_user', $errors );
 
 		if ( bp_core_delete_account( $bp->displayed_user->id ) ) {
 			bp_core_add_message( sprintf( __( '%s has been deleted from the system.', 'buddypress' ), $bp->displayed_user->fullname ) );
@@ -108,7 +108,7 @@ function bp_members_action_delete_user() {
 			$errors = true;
 		}
 
-		do_action( 'bp_members_action_delete_user', $errors );
+		do_action( 'bp_core_action_delete_user', $errors );
 
 		if ( $errors )
 			bp_core_redirect( $bp->displayed_user->domain );
@@ -116,7 +116,7 @@ function bp_members_action_delete_user() {
 			bp_core_redirect( $bp->loggedin_user->domain );
 	}
 }
-add_action( 'bp_actions', 'bp_members_action_delete_user' );
+add_action( 'bp_actions', 'bp_core_action_delete_user' );
 
 /**
  * Returns the user_id for a user based on their username.

@@ -160,7 +160,7 @@ function bp_core_screen_signup() {
 	}
 
 	do_action( 'bp_core_screen_signup' );
-	bp_core_load_template( apply_filters( 'bp_members_template_register', 'registration/register' ) );
+	bp_core_load_template( apply_filters( 'bp_core_template_register', 'registration/register' ) );
 }
 add_action( 'bp_screens', 'bp_core_screen_signup' );
 
@@ -174,7 +174,7 @@ function bp_core_screen_activation() {
 	if ( isset( $_GET['key'] ) ) {
 
 		// Activate the signup
-		$user = apply_filters( 'bp_members_activate_account', bp_core_activate_signup( $_GET['key'] ) );
+		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $_GET['key'] ) );
 
 		// If there were errors, add a message and redirect
 		if ( !empty( $user->errors ) ) {
@@ -275,7 +275,7 @@ function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
 			$bp_component_slugs[] = constant( $constant );
 
 	// Add our slugs to the array and allow them to be filtered
-	$filtered_illegal_names = apply_filters( 'bp_members_illegal_usernames', array_merge( array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' ), $bp_component_slugs ) );
+	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array_merge( array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' ), $bp_component_slugs ) );
 
 	// Merge the arrays together
 	$merged_names           = array_merge( (array)$filtered_illegal_names, (array)$db_illegal_names );
@@ -416,9 +416,9 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 	 * Now generate an activation key and send an email to the user so they can activate their account
 	 * and validate their email address. Multisite installs send their own email, so this is only for single blog installs.
 	 *
-	 * To disable sending activation emails you can user the filter 'bp_members_signup_send_activation_key' and return false.
+	 * To disable sending activation emails you can user the filter 'bp_core_signup_send_activation_key' and return false.
 	 */
-	if ( apply_filters( 'bp_members_signup_send_activation_key', true ) ) {
+	if ( apply_filters( 'bp_core_signup_send_activation_key', true ) ) {
 		if ( !is_multisite() ) {
 			$activation_key = wp_hash( $user_id );
 			update_user_meta( $user_id, 'activation_key', $activation_key );
@@ -496,7 +496,7 @@ function bp_core_activate_signup( $key ) {
 	// Delete the total member cache
 	wp_cache_delete( 'bp_total_member_count', 'bp' );
 
-	do_action( 'bp_members_activated_user', $user_id, $key, $user );
+	do_action( 'bp_core_activated_user', $user_id, $key, $user );
 
 	return $user_id;
 }
@@ -517,12 +517,12 @@ function bp_core_new_user_activity( $user ) {
 
 	bp_activity_add( array(
 		'user_id'   => $user_id,
-		'action'    => apply_filters( 'bp_members_activity_registered_member_action', sprintf( __( '%s became a registered member', 'buddypress' ), $userlink ), $user_id ),
+		'action'    => apply_filters( 'bp_core_activity_registered_member_action', sprintf( __( '%s became a registered member', 'buddypress' ), $userlink ), $user_id ),
 		'component' => 'xprofile',
 		'type'      => 'new_member'
 	) );
 }
-add_action( 'bp_members_activated_user', 'bp_core_new_user_activity' );
+add_action( 'bp_core_activated_user', 'bp_core_new_user_activity' );
 
 function bp_core_map_user_registration( $user_id ) {
 	// Only map data when the site admin is adding users, not on registration.
@@ -578,7 +578,7 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 
 	wp_mail( $to, $subject, $message );
 
-	do_action( 'bp_members_sent_user_validation_email', $subject, $message, $user_id, $user_email, $key );
+	do_action( 'bp_core_sent_user_validation_email', $subject, $message, $user_id, $user_email, $key );
 }
 
 // Stop user accounts logging in that have not been activated (user_status = 2)
