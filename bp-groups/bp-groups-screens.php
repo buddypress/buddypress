@@ -24,10 +24,10 @@ function groups_screen_my_groups() {
 
 	// Delete group request notifications for the user
 	if ( isset( $_GET['n'] ) ) {
-		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_accepted' );
-		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_rejected' );
-		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_mod'      );
-		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_admin'    );
+		bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_accepted' );
+		bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_rejected' );
+		bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_mod'      );
+		bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_admin'    );
 	}
 
 	do_action( 'groups_screen_my_groups' );
@@ -78,7 +78,7 @@ function groups_screen_group_invites() {
 	}
 
 	// Remove notifications
-	bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'group_invite' );
+	bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'group_invite' );
 
 	do_action( 'groups_screen_group_invites', $group_id );
 
@@ -90,10 +90,10 @@ function groups_screen_group_home() {
 
 	if ( bp_is_single_item() ) {
 		if ( isset( $_GET['n'] ) ) {
-			bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_accepted' );
-			bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_rejected' );
-			bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_mod'      );
-			bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_admin'    );
+			bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_accepted' );
+			bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'membership_request_rejected' );
+			bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_mod'      );
+			bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'member_promoted_to_admin'    );
 		}
 
 		do_action( 'groups_screen_group_home' );
@@ -717,7 +717,7 @@ function groups_screen_group_admin_requests() {
 			return false;
 
 		// Remove any screen notifications
-		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'new_membership_request' );
+		bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->groups->id, 'new_membership_request' );
 
 		$request_action = ( !empty( $bp->action_variables[1] ) ? $bp->action_variables[1] : '' );
 		$membership_id  = ( !empty( $bp->action_variables[2] ) ? $bp->action_variables[2] : 0 );

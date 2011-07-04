@@ -28,7 +28,7 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 		if ( empty( $receiver_user_id ) )
 			continue;
 
-		bp_members_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $poster_user_id );
+		bp_core_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $poster_user_id );
 
 		$subject = '';
 		$message = '';

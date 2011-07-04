@@ -10,7 +10,7 @@
  */
 
 
-function bp_members_screen_signup() {
+function bp_core_screen_signup() {
 	global $bp, $wpdb;
 
 	if ( !bp_is_current_component( 'register' ) )
@@ -42,7 +42,7 @@ function bp_members_screen_signup() {
 		check_admin_referer( 'bp_new_signup' );
 
 		// Check the base account details for problems
-		$account_details = bp_members_validate_user_signup( $_POST['signup_username'], $_POST['signup_email'] );
+		$account_details = bp_core_validate_user_signup( $_POST['signup_username'], $_POST['signup_email'] );
 
 		// If there are errors with account details, set them for display
 		if ( !empty( $account_details['errors']->errors['user_name'] ) )
@@ -94,7 +94,7 @@ function bp_members_screen_signup() {
 			$active_signup = $bp->site_options['registration'];
 
 			if ( 'blog' == $active_signup || 'all' == $active_signup ) {
-				$blog_details = bp_members_validate_blog_signup( $_POST['signup_blog_url'], $_POST['signup_blog_title'] );
+				$blog_details = bp_core_validate_blog_signup( $_POST['signup_blog_url'], $_POST['signup_blog_title'] );
 
 				// If there are errors with blog details, set them for display
 				if ( !empty( $blog_details['errors']->errors['blogname'] ) )
@@ -147,9 +147,9 @@ function bp_members_screen_signup() {
 
 				// Finally, sign up the user and/or blog
 				if ( isset( $_POST['signup_with_blog'] ) && is_multisite() )
-					bp_members_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
+					bp_core_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
 				else
-					bp_members_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
+					bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
 
 				$bp->signup->step = 'completed-confirmation';
 			}
@@ -162,9 +162,9 @@ function bp_members_screen_signup() {
 	do_action( 'bp_core_screen_signup' );
 	bp_core_load_template( apply_filters( 'bp_members_template_register', 'registration/register' ) );
 }
-add_action( 'bp_screens', 'bp_members_screen_signup' );
+add_action( 'bp_screens', 'bp_core_screen_signup' );
 
-function bp_members_screen_activation() {
+function bp_core_screen_activation() {
 	global $bp, $wpdb;
 
 	if ( !bp_is_current_component( 'activate' ) )
@@ -174,7 +174,7 @@ function bp_members_screen_activation() {
 	if ( isset( $_GET['key'] ) ) {
 
 		// Activate the signup
-		$user = apply_filters( 'bp_members_activate_account', bp_members_activate_signup( $_GET['key'] ) );
+		$user = apply_filters( 'bp_members_activate_account', bp_core_activate_signup( $_GET['key'] ) );
 
 		// If there were errors, add a message and redirect
 		if ( !empty( $user->errors ) ) {
@@ -203,7 +203,7 @@ function bp_members_screen_activation() {
 	else
 		bp_core_load_template( apply_filters( 'bp_core_template_activate', 'registration/activate' ) );
 }
-add_action( 'bp_screens', 'bp_members_screen_activation' );
+add_action( 'bp_screens', 'bp_core_screen_activation' );
 
 
 /********************************************************************************
@@ -218,7 +218,7 @@ add_action( 'bp_screens', 'bp_members_screen_activation' );
 /**
  * Flush illegal names by getting and setting 'illegal_names' site option
  */
-function bp_members_flush_illegal_names() {
+function bp_core_flush_illegal_names() {
 	$illegal_names = get_site_option( 'illegal_names' );
 	update_site_option( 'illegal_names', $illegal_names );
 }
@@ -231,7 +231,7 @@ function bp_members_flush_illegal_names() {
  * @param array|string $oldvalue The value as it is currently
  * @return array Merged and unique array of illegal names
  */
-function bp_members_illegal_names( $value = '', $oldvalue = '' ) {
+function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
 
 	// Make sure $value is array
 	if ( empty( $value ) )
@@ -283,9 +283,9 @@ function bp_members_illegal_names( $value = '', $oldvalue = '' ) {
 	// Remove duplicates
 	$illegal_names          = array_unique( (array)$merged_names );
 
-	return apply_filters( 'bp_members_illegal_names', $illegal_names );
+	return apply_filters( 'bp_core_illegal_names', $illegal_names );
 }
-add_filter( 'pre_update_site_option_illegal_names', 'bp_members_illegal_names', 10, 2 );
+add_filter( 'pre_update_site_option_illegal_names', 'bp_core_illegal_names', 10, 2 );
 
 /**
  * Validate a user name and email address when creating a new user.
@@ -295,7 +295,7 @@ add_filter( 'pre_update_site_option_illegal_names', 'bp_members_illegal_names', 
  * @param string $user_email Email address to validate
  * @return array Results of user validation including errors, if any
  */
-function bp_members_validate_user_signup( $user_name, $user_email ) {
+function bp_core_validate_user_signup( $user_name, $user_email ) {
 	global $wpdb;
 
 	$errors = new WP_Error();
@@ -308,7 +308,7 @@ function bp_members_validate_user_signup( $user_name, $user_email ) {
 	preg_match( "/[a-z0-9]+/", $user_name, $maybe );
 
 	// Make sure illegal names include BuddyPress slugs and values
-	bp_members_flush_illegal_names();
+	bp_core_flush_illegal_names();
 
 	$illegal_names = get_site_option( 'illegal_names' );
 
@@ -356,17 +356,17 @@ function bp_members_validate_user_signup( $user_name, $user_email ) {
 	// Apply WPMU legacy filter
 	$result = apply_filters( 'wpmu_validate_user_signup', $result );
 
- 	return apply_filters( 'bp_members_validate_user_signup', $result );
+ 	return apply_filters( 'bp_core_validate_user_signup', $result );
 }
 
-function bp_members_validate_blog_signup( $blog_url, $blog_title ) {
+function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
 	if ( !is_multisite() || !function_exists( 'wpmu_validate_blog_signup' ) )
 		return false;
 
-	return apply_filters( 'bp_members_validate_blog_signup', wpmu_validate_blog_signup( $blog_url, $blog_title ) );
+	return apply_filters( 'bp_core_validate_blog_signup', wpmu_validate_blog_signup( $blog_url, $blog_title ) );
 }
 
-function bp_members_signup_user( $user_login, $user_password, $user_email, $usermeta ) {
+function bp_core_signup_user( $user_login, $user_password, $user_email, $usermeta ) {
 	global $bp, $wpdb;
 
 	// Multisite installs have their own install procedure
@@ -422,23 +422,23 @@ function bp_members_signup_user( $user_login, $user_password, $user_email, $user
 		if ( !is_multisite() ) {
 			$activation_key = wp_hash( $user_id );
 			update_user_meta( $user_id, 'activation_key', $activation_key );
-			bp_members_signup_send_validation_email( $user_id, $user_email, $activation_key );
+			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key );
 		}
 	}
 
-	do_action( 'bp_members_signup_user', $user_id, $user_login, $user_password, $user_email, $usermeta );
+	do_action( 'bp_core_signup_user', $user_id, $user_login, $user_password, $user_email, $usermeta );
 
 	return $user_id;
 }
 
-function bp_members_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) {
+function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) {
 	if ( !is_multisite() || !function_exists( 'wpmu_signup_blog' ) )
 		return false;
 
-	return apply_filters( 'bp_members_signup_blog', wpmu_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) );
+	return apply_filters( 'bp_core_signup_blog', wpmu_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) );
 }
 
-function bp_members_activate_signup( $key ) {
+function bp_core_activate_signup( $key ) {
 	global $bp, $wpdb;
 
 	$user = false;
@@ -501,7 +501,7 @@ function bp_members_activate_signup( $key ) {
 	return $user_id;
 }
 
-function bp_members_new_user_activity( $user ) {
+function bp_core_new_user_activity( $user ) {
 	if ( empty( $user ) || !bp_is_active( 'activity' ) )
 		return false;
 
@@ -522,9 +522,9 @@ function bp_members_new_user_activity( $user ) {
 		'type'      => 'new_member'
 	) );
 }
-add_action( 'bp_members_activated_user', 'bp_members_new_user_activity' );
+add_action( 'bp_members_activated_user', 'bp_core_new_user_activity' );
 
-function bp_members_map_user_registration( $user_id ) {
+function bp_core_map_user_registration( $user_id ) {
 	// Only map data when the site admin is adding users, not on registration.
 	if ( !is_admin() )
 		return false;
@@ -541,9 +541,9 @@ function bp_members_map_user_registration( $user_id ) {
 		xprofile_set_field_data( 1, $user_id, $name );
 	}
 }
-add_action( 'user_register', 'bp_members_map_user_registration' );
+add_action( 'user_register', 'bp_core_map_user_registration' );
 
-function bp_members_signup_avatar_upload_dir() {
+function bp_core_signup_avatar_upload_dir() {
 	global $bp;
 
 	if ( !$bp->signup->avatar_dir )
@@ -559,10 +559,10 @@ function bp_members_signup_avatar_upload_dir() {
 	$newburl = $newurl;
 	$newsubdir = '/avatars/signups/' . $bp->signup->avatar_dir;
 
-	return apply_filters( 'bp_members_signup_avatar_upload_dir', array( 'path' => $path, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
+	return apply_filters( 'bp_core_signup_avatar_upload_dir', array( 'path' => $path, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
 }
 
-function bp_members_signup_send_validation_email( $user_id, $user_email, $key ) {
+function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$activate_url = bp_get_activation_page() ."?key=$key";
 	$activate_url = esc_url( $activate_url );
 
@@ -572,9 +572,9 @@ function bp_members_signup_send_validation_email( $user_id, $user_email, $key ) 
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
 
 	// Send the message
-	$to      = apply_filters( 'bp_members_signup_send_validation_email_to',     $user_email, $user_id                );
-	$subject = apply_filters( 'bp_members_signup_send_validation_email_subject', $subject,    $user_id                );
-	$message = apply_filters( 'bp_members_signup_send_validation_email_message', $message,    $user_id, $activate_url );
+	$to      = apply_filters( 'bp_core_signup_send_validation_email_to',     $user_email, $user_id                );
+	$subject = apply_filters( 'bp_core_signup_send_validation_email_subject', $subject,    $user_id                );
+	$message = apply_filters( 'bp_core_signup_send_validation_email_message', $message,    $user_id, $activate_url );
 
 	wp_mail( $to, $subject, $message );
 
@@ -582,7 +582,7 @@ function bp_members_signup_send_validation_email( $user_id, $user_email, $key ) 
 }
 
 // Stop user accounts logging in that have not been activated (user_status = 2)
-function bp_members_signup_disable_inactive( $auth_obj, $username ) {
+function bp_core_signup_disable_inactive( $auth_obj, $username ) {
 	global $bp, $wpdb;
 
 	if ( !$user_id = bp_core_get_userid( $username ) )
@@ -595,10 +595,10 @@ function bp_members_signup_disable_inactive( $auth_obj, $username ) {
 	else
 		return $auth_obj;
 }
-add_filter( 'authenticate', 'bp_members_signup_disable_inactive', 30, 2 );
+add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 2 );
 
 // Kill the wp-signup.php if custom registration signup templates are present
-function bp_members_wpsignup_redirect() {
+function bp_core_wpsignup_redirect() {
 	global $bp;
 
 	// Get action
@@ -612,6 +612,6 @@ function bp_members_wpsignup_redirect() {
 	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
 		bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->register->slug ) );
 }
-add_action( 'bp_screens', 'bp_members_wpsignup_redirect' );
+add_action( 'bp_screens', 'bp_core_wpsignup_redirect' );
 
 ?>

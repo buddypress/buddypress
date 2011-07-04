@@ -45,7 +45,7 @@ To view the group: %2$s
 function groups_notification_new_membership_request( $requesting_user_id, $admin_id, $group_id, $membership_id ) {
 	global $bp;
 
-	bp_members_add_notification( $requesting_user_id, $admin_id, 'groups', 'new_membership_request', $group_id );
+	bp_core_add_notification( $requesting_user_id, $admin_id, 'groups', 'new_membership_request', $group_id );
 
 	if ( 'no' == bp_get_user_meta( $admin_id, 'notification_groups_membership_request', true ) )
 		return false;
@@ -95,9 +95,9 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 
 	// Post a screen notification first.
 	if ( $accepted )
-		bp_members_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_accepted' );
+		bp_core_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_accepted' );
 	else
-		bp_members_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_rejected' );
+		bp_core_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_rejected' );
 
 	if ( 'no' == bp_get_user_meta( $requesting_user_id, 'notification_membership_request_completed', true ) )
 		return false;
@@ -158,7 +158,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	}
 
 	// Post a screen notification first.
-	bp_members_add_notification( $group_id, $user_id, 'groups', $type );
+	bp_core_add_notification( $group_id, $user_id, 'groups', $type );
 
 	if ( 'no' == bp_get_user_meta( $user_id, 'notification_groups_admin_promotion', true ) )
 		return false;
@@ -208,7 +208,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		$invited_user_id = $member->user_id;
 
 		// Post a screen notification first.
-		bp_members_add_notification( $group->id, $invited_user_id, 'groups', 'group_invite' );
+		bp_core_add_notification( $group->id, $invited_user_id, 'groups', 'group_invite' );
 
 		if ( 'no' == bp_get_user_meta( $invited_user_id, 'notification_groups_invite', true ) )
 			return false;

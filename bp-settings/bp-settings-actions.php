@@ -1,7 +1,7 @@
 <?php
 /** General *******************************************************************/
 
-function bp_settings_screen_general_settings() {
+function bp_core_screen_general_settings() {
 	global $bp;
 
 	if ( !empty( $bp->action_variables ) ) {
@@ -111,7 +111,7 @@ function bp_settings_screen_general_settings() {
 
 /** Notifications *************************************************************/
 
-function bp_settings_screen_notification_settings() {
+function bp_core_screen_notification_settings() {
 	global $bp;
 
 	if ( !empty( $bp->action_variables ) ) {
@@ -139,7 +139,7 @@ function bp_settings_screen_notification_settings() {
 
 /** Delete Account ************************************************************/
 
-function bp_settings_screen_delete_account() {
+function bp_core_screen_delete_account() {
 	global $bp;
 
 	if ( !empty( $bp->action_variables ) ) {

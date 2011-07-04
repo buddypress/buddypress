@@ -73,8 +73,8 @@ class BP_Settings_Component extends BP_Component {
 			'name'                    => __( 'Settings', 'buddypress' ),
 			'slug'                    => $this->slug,
 			'position'                => 100,
-			'show_for_displayed_user' => bp_members_can_edit_settings(),
-			'screen_function'         => 'bp_settings_screen_general_settings',
+			'show_for_displayed_user' => bp_core_can_edit_settings(),
+			'screen_function'         => 'bp_core_screen_general_settings',
 			'default_subnav_slug'     => 'general'
 		);
 
@@ -86,9 +86,9 @@ class BP_Settings_Component extends BP_Component {
 			'slug'            => 'general',
 			'parent_url'      => $settings_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_settings_screen_general_settings',
+			'screen_function' => 'bp_core_screen_general_settings',
 			'position'        => 10,
-			'user_has_access' => bp_members_can_edit_settings()
+			'user_has_access' => bp_core_can_edit_settings()
 		);
 
 		// Add Notifications nav item
@@ -97,9 +97,9 @@ class BP_Settings_Component extends BP_Component {
 			'slug'            => 'notifications',
 			'parent_url'      => $settings_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_settings_screen_notification_settings',
+			'screen_function' => 'bp_core_screen_notification_settings',
 			'position'        => 20,
-			'user_has_access' => bp_members_can_edit_settings()
+			'user_has_access' => bp_core_can_edit_settings()
 		);
 
 		// Add Delete Account nav item
@@ -109,7 +109,7 @@ class BP_Settings_Component extends BP_Component {
 				'slug'            => 'delete-account',
 				'parent_url'      => $settings_link,
 				'parent_slug'     => $this->slug,
-				'screen_function' => 'bp_settings_screen_delete_account',
+				'screen_function' => 'bp_core_screen_delete_account',
 				'position'        => 90,
 				'user_has_access' => bp_is_my_profile()
 			);

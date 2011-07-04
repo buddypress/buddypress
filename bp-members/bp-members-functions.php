@@ -690,7 +690,7 @@ add_action( 'wpmu_delete_user',  'bp_core_remove_data' );
 add_action( 'delete_user',       'bp_core_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_core_remove_data' );
 
-function bp_members_can_edit_settings() {
+function bp_core_can_edit_settings() {
 	if ( bp_is_my_profile() )
 		return true;
 

@@ -19,7 +19,7 @@ function friends_clear_friend_notifications() {
 	global $bp;
 
 	if ( isset( $_GET['new'] ) )
-		bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_accepted' );
+		bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_accepted' );
 }
 add_action( 'bp_activity_screen_my_activity', 'friends_clear_friend_notifications' );
 

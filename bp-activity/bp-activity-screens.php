@@ -62,7 +62,7 @@ function bp_activity_screen_mentions() {
 function bp_activity_remove_screen_notifications() {
 	global $bp;
 
-	bp_members_delete_notifications_by_type( $bp->loggedin_user->id, $bp->activity->id, 'new_at_mention' );
+	bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->activity->id, 'new_at_mention' );
 }
 add_action( 'bp_activity_screen_my_activity',               'bp_activity_remove_screen_notifications' );
 add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_screen_notifications' );
