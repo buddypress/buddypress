@@ -214,7 +214,8 @@ function bp_core_new_subnav_item( $args = '' ) {
 	 *       (b) there is no current_action (ie, this is the default subnav for the parent nav)
 	 *	     and this subnav item is the default for the parent item (which we check by
 	 *	     comparing this subnav item's screen function with the screen function of the
-	 *	     parent nav item in $bp->bp_nav).
+	 *	     parent nav item in $bp->bp_nav). This condition only arises when viewing a
+	 *	     user, since groups should always have an action set.
 	 */
 	
 	// If we *don't* meet condition (1), return
@@ -222,7 +223,8 @@ function bp_core_new_subnav_item( $args = '' ) {
 		return;
 		
 	// If we *do* meet condition (2), then the added subnav item is currently being requested
-	if ( ( !empty( $bp->current_action ) && $slug == $bp->current_action ) || ( empty( $bp->current_action ) && $screen_function == $bp->bp_nav[$parent_slug]['screen_function'] ) ) {
+	if ( ( !empty( $bp->current_action ) && $slug == $bp->current_action ) || ( bp_is_user() && empty( $bp->current_action ) && $screen_function == $bp->bp_nav[$parent_slug]['screen_function'] ) ) {
+	
 		// Before hooking the screen function, check user access
 		if ( $user_has_access ) {
 			if ( !is_object( $screen_function[0] ) )
