@@ -481,12 +481,28 @@ function bp_core_get_total_member_count() {
 function bp_core_is_user_spammer( $user_id ) {
 	global $wpdb;
 
-	if ( is_multisite() )
-		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT spam FROM $wpdb->users WHERE ID = %d", $user_id ) );
-	else
-		$is_spammer = (int) $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM $wpdb->users WHERE ID = %d", $user_id ) );
+	// Assume user is not spam
+	$is_spammer = false;
 
-	return apply_filters( 'bp_core_is_user_spammer', $is_spammer );
+	// Get user data
+	$user = get_userdata( $user_id );
+
+	// No user found
+	if ( empty( $user ) ) {
+		$is_spammer = false;
+		
+	// User found
+	} else {
+
+		// Check if spam
+		if ( !empty( $user->spam ) )
+			$is_spammer = true;
+
+		if ( 'spam' == $user->user_status )
+			$is_spammer = true;
+	}
+
+	return apply_filters( 'bp_core_is_user_spammer', (bool) $is_spammer );
 }
 
 /**
@@ -499,7 +515,29 @@ function bp_core_is_user_spammer( $user_id ) {
 function bp_core_is_user_deleted( $user_id ) {
 	global $wpdb;
 
-	return apply_filters( 'bp_core_is_user_spammer', (int) $wpdb->get_var( $wpdb->prepare( "SELECT deleted FROM $wpdb->users WHERE ID = %d", $user_id ) ) );
+	// Assume user is not deleted
+	$is_deleted = false;
+
+	// Get user data
+	$user = get_userdata( $user_id );
+
+	// No user found
+	if ( empty( $user ) ) {
+		$is_deleted = true;
+		
+	// User found
+	} else {
+
+		// Check if deleted
+		if ( !empty( $user->deleted ) )
+			$is_deleted = true;
+
+		if ( 'deleted' == $user->user_status )
+			$is_deleted = true;
+
+	}
+
+	return apply_filters( 'bp_core_is_user_deleted', (bool) $is_deleted );
 }
 
 /**
