@@ -657,12 +657,14 @@ function bp_activity_post_update( $args = '' ) {
 	if ( empty( $content ) || !strlen( trim( $content ) ) )
 		return false;
 
-	// Record this on the user's profile
-	$from_user_link = bp_core_get_userlink( $user_id );
-	$activity_action = sprintf( __( '%s posted an update:', 'buddypress' ), $from_user_link );
-	$activity_content = $content;
+	if ( bp_core_is_user_spammer( $user_id ) || bp_core_is_user_deleted( $user_id ) )
+		return false;
 
-	$primary_link = bp_core_get_userlink( $user_id, false, true );
+	// Record this on the user's profile
+	$from_user_link   = bp_core_get_userlink( $user_id );
+	$activity_action  = sprintf( __( '%s posted an update:', 'buddypress' ), $from_user_link );
+	$activity_content = $content;
+	$primary_link     = bp_core_get_userlink( $user_id, false, true );
 
 	// Now write the values
 	$activity_id = bp_activity_add( array(
