@@ -1229,6 +1229,9 @@ function bp_activity_latest_update( $user_id = 0 ) {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
+		if ( bp_core_is_user_spammer( $user_id ) || bp_core_is_user_deleted( $user_id ) )
+			return false;
+
 		if ( !$update = bp_get_user_meta( $user_id, 'bp_latest_update', true ) )
 			return false;
 
