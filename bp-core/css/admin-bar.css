@@ -1,0 +1,28 @@
+#wpadminbar .quicklinks li#wp-admin-bar-user-admin > a {
+	border-left: none;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar > a {
+	border-left: none;
+	background: url(../images/admin-bar-sprite.png?d=11122010) top left no-repeat;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar > a img {
+	width: 16px;
+	height: 16px;
+	display: inline;
+	border: 1px solid #999;
+	vertical-align: middle;
+	margin: -2px 23px 0 -5px;
+	padding: 0;
+	background: #eee;
+	float: none;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar ul {
+	left: 30px;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar ul ul { 
+ 	left: 0; 
+}

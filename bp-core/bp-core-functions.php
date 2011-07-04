@@ -16,7 +16,7 @@
  * @param str $default Optional. Default value to be returned if the option isn't set
  * @return mixed The value for the option
  */
-function bp_get_option( $option_name, $default = false ) {
+function bp_get_option( $option_name, $default = '' ) {
 	$value = get_blog_option( bp_get_option_blog_id( $option_name ), $option_name, $default );
 	
 	return apply_filters( 'bp_get_option', $value );

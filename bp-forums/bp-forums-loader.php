@@ -132,7 +132,7 @@ class BP_Forums_Component extends BP_Component {
 
 		// Additional menu if friends is active
 		$sub_nav[] = array(
-			'name'            => __( 'Started', 'buddypress' ),
+			'name'            => __( 'Topics Started', 'buddypress' ),
 			'slug'            => 'topics',
 			'parent_url'      => $forums_link,
 			'parent_slug'     => $this->slug,
@@ -198,21 +198,21 @@ class BP_Forums_Component extends BP_Component {
 			// Topics
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'My Topics', 'buddypress' ),
+				'title'  => __( 'Topics Started', 'buddypress' ),
 				'href'   => trailingslashit( $forums_link . 'topics' )
 			);
 
 			// Replies
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'My Replies', 'buddypress' ),
+				'title'  => __( 'Replies', 'buddypress' ),
 				'href'   => trailingslashit( $forums_link . 'replies' )
 			);
 
 			// Favorites
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'My Favorites', 'buddypress' ),
+				'title'  => __( 'Favorite Topics', 'buddypress' ),
 				'href'   => trailingslashit( $forums_link . 'favorites' )
 			);
 		}
@@ -231,7 +231,7 @@ class BP_Forums_Component extends BP_Component {
 		// Adjust title based on view
 		if ( bp_is_forums_component() ) {
 			if ( bp_is_my_profile() ) {
-				$bp->bp_options_title = __( 'My Forums', 'buddypress' );
+				$bp->bp_options_title = __( 'Forums', 'buddypress' );
 			} else {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 					'item_id' => $bp->displayed_user->id,

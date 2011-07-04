@@ -234,7 +234,7 @@ class BP_Groups_Component extends BP_Component {
 
 		// Add the My Groups nav item
 		$sub_nav[] = array(
-			'name'            => __( 'My Groups', 'buddypress' ),
+			'name'            => __( 'Memberships', 'buddypress' ),
 			'slug'            => 'my-groups',
 			'parent_url'      => $groups_link,
 			'parent_slug'     => $this->slug,
@@ -245,7 +245,7 @@ class BP_Groups_Component extends BP_Component {
 
 		// Add the Group Invites nav item
 		$sub_nav[] = array(
-			'name'            => __( 'Invitations',   'buddypress' ),
+			'name'            => __( 'Invitations', 'buddypress' ),
 			'slug'            => 'invites',
 			'parent_url'      => $groups_link,
 			'parent_slug'     => $this->slug,
@@ -262,7 +262,7 @@ class BP_Groups_Component extends BP_Component {
 
 			// Add 'Groups' to the main navigation
 			$main_nav = array(
-				'name'                => __( 'Groups', 'buddypress' ),
+				'name'                => __( 'Memberships', 'buddypress' ),
 				'slug'                => $this->current_group->slug,
 				'position'            => -1, // Do not show in BuddyBar
 				'screen_function'     => 'groups_screen_group_home',
@@ -401,7 +401,7 @@ class BP_Groups_Component extends BP_Component {
 			// My Groups
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'My Groups', 'buddypress' ),
+				'title'  => __( 'Memberships', 'buddypress' ),
 				'href'   => trailingslashit( $groups_link )
 			);
 
@@ -428,7 +428,7 @@ class BP_Groups_Component extends BP_Component {
 
 			if ( bp_is_my_profile() && !bp_is_single_item() ) {
 
-				$bp->bp_options_title = __( 'My Groups', 'buddypress' );
+				$bp->bp_options_title = __( 'Memberships', 'buddypress' );
 
 			} else if ( !bp_is_my_profile() && !bp_is_single_item() ) {
 

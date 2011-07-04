@@ -124,7 +124,7 @@ class BP_Messages_Component extends BP_Component {
 		);
 
 		$sub_nav[] = array(
-			'name'            => __( 'Sent Messages', 'buddypress' ),
+			'name'            => __( 'Sent', 'buddypress' ),
 			'slug'            => 'sentbox',
 			'parent_url'      => $messages_link,
 			'parent_slug'     => $this->slug,

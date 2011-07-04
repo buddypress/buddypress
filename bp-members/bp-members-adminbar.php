@@ -21,37 +21,8 @@ function bp_members_admin_bar_my_account_menu() {
 	if ( defined( 'DOING_AJAX' ) )
 		return;
 
-	// Create the root blog menu
-	$wp_admin_bar->add_menu( array(
-		'id'    => 'bp-root-blog',
-		'title' => get_blog_option( BP_ROOT_BLOG, 'blogname' ),
-		'href'  => bp_get_root_domain()
-	) );
-
 	// Logged in user
 	if ( is_user_logged_in() ) {
-
-		// Dashboard links
-		if ( is_super_admin() ) {
-
-			// Add site admin link
-			$wp_admin_bar->add_menu( array(
-				'parent' => 'bp-root-blog',
-				'title'  => __( 'Admin Dashboard', 'buddypress' ),
-				'href'   => get_admin_url( BP_ROOT_BLOG )
-			) );
-
-			// Add network admin link
-			if ( is_multisite() ) {
-
-				// Link to the network admin dashboard
-				$wp_admin_bar->add_menu( array(
-					'parent' => 'bp-root-blog',
-					'title'  => __( 'Network Dashboard', 'buddypress' ),
-					'href'   => network_admin_url()
-				) );
-			}
-		}
 
 		// User avatar
 		$avatar = bp_core_fetch_avatar( array(
@@ -67,7 +38,7 @@ function bp_members_admin_bar_my_account_menu() {
 		// Create the main 'My Account' menu
 		$wp_admin_bar->add_menu( array(
 			'id'    => $bp->my_account_menu_id,
-			'title' => $avatar . bp_get_user_firstname( $bp->loggedin_user->fullname ),
+			'title' => $avatar . bp_get_loggedin_user_fullname(),
 			'href'  => $bp->loggedin_user->domain
 		) );
 
@@ -102,7 +73,7 @@ add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
  * @since 1.3
  */
 function bp_members_user_admin_menu() {
-	global $wp_admin_bar;
+	global $bp, $wp_admin_bar;
 
 	// Only show if viewing a user
 	if ( !bp_is_user() )
@@ -112,51 +83,54 @@ function bp_members_user_admin_menu() {
 	if ( !current_user_can( 'edit_users' ) || bp_is_my_profile() )
 		return false;
 
+	// User avatar
+	$avatar = bp_core_fetch_avatar( array(
+		'item_id' => $bp->displayed_user->id,
+		'email'   => $bp->displayed_user->userdata->user_email,
+		'width'   => 16,
+		'height'  => 16
+	) );
+
+	// Unique ID for the 'My Account' menu
+	$bp->user_admin_menu_id = ( ! empty( $avatar ) ) ? 'user-admin-with-avatar' : 'user-admin';
+
 	// Add the top-level User Admin button
 	$wp_admin_bar->add_menu( array(
-		'id'    => 'user-admin',
-		'title' => __( 'User Admin', 'buddypress' ),
+		'id'    => $bp->user_admin_menu_id,
+		'title' => $avatar . bp_get_displayed_user_fullname(),
 		'href'  => bp_displayed_user_domain()
 	) );
 
 	// User Admin > Edit this user's profile
 	$wp_admin_bar->add_menu( array(
-		'parent' => 'user-admin',
+		'parent' => $bp->user_admin_menu_id,
 		'id'     => 'edit-profile',
-		'title'  => sprintf( __( "Edit %s's Profile", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'title'  => __( "Edit Profile", 'buddypress' ),
 		'href'   => bp_get_members_component_link( 'profile', 'edit' )
 	) );
 	
 	// User Admin > Edit this user's avatar
 	$wp_admin_bar->add_menu( array(
-		'parent' => 'user-admin',
+		'parent' => $bp->user_admin_menu_id,
 		'id'     => 'change-avatar',
-		'title'  => sprintf( __( "Edit %s's Avatar", 'buddypress' ), bp_get_displayed_user_fullname() ),
-		'href'   => bp_get_members_component_link( 'profile', 'change-avatar' )
-	) );
-	
-	// User Admin > Edit this user's avatar
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'user-admin',
-		'id'     => 'change-avatar',
-		'title'  => sprintf( __( "Edit %s's Avatar", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'title'  => __( "Edit Avatar", 'buddypress' ),
 		'href'   => bp_get_members_component_link( 'profile', 'change-avatar' )
 	) );
 	
 	// User Admin > Spam/unspam
 	if ( !bp_core_is_user_spammer( bp_displayed_user_id() ) ) {
 		$wp_admin_bar->add_menu( array(
-			'parent' => 'user-admin',
+			'parent' => $bp->user_admin_menu_id,
 			'id'     => 'spam-user',
-			'title'  => __( "Mark as Spammer", 'buddypress' ),
+			'title'  => __( 'Mark as Spammer', 'buddypress' ),
 			'href'   => wp_nonce_url( bp_displayed_user_domain() . 'admin/mark-spammer/', 'mark-unmark-spammer' ),
 			'meta'   => array( 'onclick' => 'confirm(" ' . __( 'Are you sure you want to mark this user as a spammer?', 'buddypress' ) . '");' ) 
 		) );	
 	} else {
 		$wp_admin_bar->add_menu( array(
-			'parent' => 'user-admin',
+			'parent' => $bp->user_admin_menu_id,
 			'id'     => 'unspam-user',
-			'title'  => __( "Not a Spammer", 'buddypress' ),
+			'title'  => __( 'Not a Spammer', 'buddypress' ),
 			'href'   => wp_nonce_url( bp_displayed_user_domain() . 'admin/unmark-spammer/', 'mark-unmark-spammer' ),
 			'meta'   => array( 'onclick' => 'confirm(" ' . __( 'Are you sure you want to mark this user as not a spammer?', 'buddypress' ) . '");' ) 
 		) );
@@ -164,9 +138,9 @@ function bp_members_user_admin_menu() {
 	
 	// User Admin > Delete Account
 	$wp_admin_bar->add_menu( array(
-		'parent' => 'user-admin',
+		'parent' => $bp->user_admin_menu_id,
 		'id'     => 'delete-user',
-		'title'  => sprintf( __( "Delete %s's Account", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'title'  => __( 'Delete Account', 'buddypress' ),
 		'href'   => wp_nonce_url( bp_displayed_user_domain() . 'admin/delete-user/', 'delete-user' ),
 		'meta'   => array( 'onclick' => 'confirm(" ' . __( "Are you sure you want to delete this user's account?", 'buddypress' ) . '");' ) 
 	) );

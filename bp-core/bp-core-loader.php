@@ -137,7 +137,7 @@ class BP_Core extends BP_Component {
 
 		// Fetches all of the core BuddyPress settings in one fell swoop
 		if ( empty( $bp->site_options ) )
-			$bp->site_options = bp_core_get_site_options();
+			$bp->site_options = bp_core_get_root_options();
 
 		// The names of the core WordPress pages used to display BuddyPress content
 		if ( empty( $bp->pages ) )

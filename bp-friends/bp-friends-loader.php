@@ -106,7 +106,7 @@ class BP_Friends_Component extends BP_Component {
 
 		// Add the subnav items to the friends nav item
 		$sub_nav[] = array(
-			'name' => __( 'My Friends', 'buddypress' ),
+			'name' => __( 'Friendships', 'buddypress' ),
 			'slug' => 'my-friends',
 			'parent_url' => $friends_link,
 			'parent_slug' => $bp->friends->slug,
@@ -166,7 +166,7 @@ class BP_Friends_Component extends BP_Component {
 			// My Groups
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'My Friends', 'buddypress' ),
+				'title'  => __( 'Friendships', 'buddypress' ),
 				'href'   => trailingslashit( $friends_link )
 			);
 
@@ -192,7 +192,7 @@ class BP_Friends_Component extends BP_Component {
 		// Adjust title
 		if ( bp_is_friends_component() ) {
 			if ( bp_is_my_profile() ) {
-				$bp->bp_options_title = __( 'My Friends', 'buddypress' );
+				$bp->bp_options_title = __( 'Friendships', 'buddypress' );
 			} else {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 					'item_id' => $bp->displayed_user->id,

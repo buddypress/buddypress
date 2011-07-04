@@ -134,7 +134,7 @@ class BP_XProfile_Component extends BP_Component {
 
 		// Edit Profile
 		$sub_nav[] = array(
-			'name'            => __( 'Edit Profile', 'buddypress' ),
+			'name'            => __( 'Edit', 'buddypress' ),
 			'slug'            => 'edit',
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $this->slug,
@@ -183,21 +183,21 @@ class BP_XProfile_Component extends BP_Component {
 			// View Profile
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'View My Profile', 'buddypress' ),
+				'title'  => __( 'View', 'buddypress' ),
 				'href'   => trailingslashit( $profile_link . 'public' )
 			);
 
 			// Edit Profile
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'Edit My Profile', 'buddypress' ),
+				'title'  => __( 'Edit', 'buddypress' ),
 				'href'   => trailingslashit( $profile_link . 'edit' )
 			);
 
 			// Edit Profile
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'Change My Avatar', 'buddypress' ),
+				'title'  => __( 'Change Avatar', 'buddypress' ),
 				'href'   => trailingslashit( $profile_link . 'change-avatar' )
 			);
 
