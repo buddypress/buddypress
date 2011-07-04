@@ -754,7 +754,7 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	$requesting_user->user_title    = '';
 	$requesting_user->date_modified = bp_core_current_time();
 	$requesting_user->is_confirmed  = 0;
-	$requesting_user->comments      = $_POST['group-request-membership-comments'];
+	$requesting_user->comments      = isset( $_POST['group-request-membership-comments'] ) ? $_POST['group-request-membership-comments'] : '';
 
 	if ( $requesting_user->save() ) {
 		$admins = groups_get_group_admins( $group_id );
