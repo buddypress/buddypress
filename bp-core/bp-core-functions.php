@@ -969,106 +969,86 @@ function bp_core_activate_site_options( $keys = array() ) {
 }
 
 /**
- * BuddyPress uses site options to store configuration settings. Many of these settings are needed
- * at run time. Instead of fetching them all and adding many initial queries to each page load, let's fetch
- * them all in one go.
+ * BuddyPress uses common options to store configuration settings. Many of these
+ * settings are needed at run time. Instead of fetching them all and adding many
+ * initial queries to each page load, let's fetch them all in one go.
  *
  * @package BuddyPress Core
+ * @todo Use settings API and audit these methods
  */
-function bp_core_get_site_options() {
-	global $bp, $wpdb;
+function bp_core_get_root_options() {
+    global $wpdb;
 
-	// These options come from the options table
-	$site_options = apply_filters( 'bp_core_site_options', array(
-		'bp-deactivated-components',
-		'bp-blogs-first-install',
-		'bp-disable-blog-forum-comments',
-		'bp-xprofile-base-group-name',
-		'bp-xprofile-fullname-field-name',
-		'bp-disable-profile-sync',
-		'bp-disable-avatar-uploads',
-		'bp-disable-account-deletion',
-		'bp-disable-forum-directory',
-		'bp-disable-blogforum-comments',
-		'bb-config-location',
-		'hide-loggedout-adminbar',
+    // These options come from the root blog options table
+    $root_blog_options = apply_filters( 'bp_core_site_options', array(
 
-		// Useful WordPress settings used often
-		'tags_blog_id',
-		'registration',
-		'fileupload_maxk'
-	) );
+        // BuddyPress core settings
+        'bp-deactivated-components'       => serialize( array( ) ),
+        'bp-blogs-first-install'          => '0',
+        'bp-disable-blog-forum-comments'  => '0',
+        'bp-xprofile-base-group-name'     => 'Base',
+        'bp-xprofile-fullname-field-name' => 'Name',
+        'bp-disable-profile-sync'         => '0',
+        'bp-disable-avatar-uploads'       => '0',
+        'bp-disable-account-deletion'     => '0',
+        'bp-disable-forum-directory'      => '0',
+        'bp-disable-blogforum-comments'   => '0',
+        'bb-config-location'              => ABSPATH,
+        'hide-loggedout-adminbar'         => '0',
 
-	// These options always come from the options table of BP_ROOT_BLOG
-	$root_blog_options = apply_filters( 'bp_core_root_blog_options', array(
-		'avatar_default'
-	) );
+        // Useful WordPress settings
+        'tags_blog_id'                    => '0',
+        'registration'                    => '0',
+        'fileupload_maxk'                 => '1500',
+        'avatar_default'                  => 'mysteryman'
+    ) );
+    $root_blog_option_keys  = array_keys( $root_blog_options );
+    $blog_options_keys      = implode( "', '", (array) $root_blog_option_keys );
+    $blog_options_query     = sprintf( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ('%s')", $blog_options_keys );
+    $root_blog_options_meta = $wpdb->get_results( $blog_options_query );
 
-	$meta_keys = "'" . implode( "','", (array)$site_options ) ."'";
+    // Missing some options, so do some one-time fixing
+    if ( empty( $root_blog_options_meta ) || ( count( $root_blog_options_meta ) < count( $root_blog_option_keys ) ) ) {
 
-	$site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
-	
-	// Backward compatibility - moves sitemeta to the blog
-	if ( empty( $site_meta ) || ( count( $site_meta ) < count( $site_options ) ) ) {
-		if ( is_multisite() ) {
-			$ms_site_meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$meta_keys}) AND site_id = {$wpdb->siteid}" );
-		} else {
-			$ms_site_meta = $wpdb->get_results( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ({$meta_keys})" );
-		}
-		
-		$settings_to_move = array(
-			'bp-deactivated-components',
-			'bp-blogs-first-install',
-			'bp-disable-blog-forum-comments',
-			'bp-xprofile-base-group-name',
-			'bp-xprofile-fullname-field-name',
-			'bp-disable-profile-sync',
-			'bp-disable-avatar-uploads',
-			'bp-disable-account-deletion',
-			'bp-disable-forum-directory',
-			'bp-disable-blogforum-comments',
-			'bb-config-location',
-			'hide-loggedout-adminbar',
-		);
-		
-		foreach( (array)$ms_site_meta as $meta ) {	
-			if ( isset( $meta->name ) && in_array( $meta->name, $settings_to_move ) ) {
-				bp_update_option( $meta->name, $meta->value );
-						
-				if ( empty( $site_meta[$meta->name] ) ) {
-					$site_meta[$meta->name] = $meta->value;
-				}
-			}
-		}
-	}
-	
-	// Some WP settings are always in sitemeta
-	if ( is_multisite() ) {
-		$sitewide_option_keys = apply_filters( 'bp_core_sitewide_site_options', array(
-			'tags_blog_id',
-			'registration',
-			'fileupload_maxk'
-		) );
-		
-		$sitewide_options_keys_cs = "'" . implode( "','", (array)$sitewide_option_keys ) ."'";
-		
-		$network_meta = $wpdb->get_results( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ({$sitewide_options_keys_cs}) AND site_id = {$wpdb->siteid}" );
-	}
+        // Unset the query - We'll be resetting it soon
+        unset( $root_blog_options_meta );
 
-	$root_blog_meta_keys  = "'" . implode( "','", (array)$root_blog_options ) ."'";
-	$root_blog_meta_table = $wpdb->get_blog_prefix( BP_ROOT_BLOG ) . 'options';
-	$root_blog_meta       = $wpdb->get_results( $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$root_blog_meta_table} WHERE option_name IN ({$root_blog_meta_keys})" ) );
-	$site_options         = array();
+        // Loop through options
+        foreach ( $root_blog_options as $old_meta_key => $old_meta_default ) {
 
-	foreach( array( $site_meta, $root_blog_meta, $network_meta ) as $meta ) {
-		if ( !empty( $meta ) ) {
-			foreach( (array)$meta as $meta_item ) {
-				if ( isset( $meta_item->name ) )
-					$site_options[$meta_item->name] = $meta_item->value;
-			}
-		}
-	}
-	return apply_filters( 'bp_core_get_site_options', $site_options );
+            // Clear out the value from the last time around
+            unset( $old_meta_value );
+
+            // Get old site option
+            if ( is_multisite() )
+                $old_meta_value = get_site_option( $old_meta_key );
+
+            // No site option so look in root blog
+            if ( empty( $old_meta_value ) )
+                $old_meta_value = bp_get_option( $old_meta_key, $old_meta_default );
+
+            // Update the root blog option
+            bp_update_option( $old_meta_key, $old_meta_value );
+
+            // Update the global array
+            $root_blog_options_meta[$old_meta_key] = $old_meta_value;
+        }
+
+    // We're all matched up
+    } else {
+
+        // Loop through our results and make them usable
+        foreach ( $root_blog_options_meta as $root_blog_option )
+            $root_blog_options[$root_blog_option->name] = $root_blog_option->value;
+
+        // Copy the options no the return val
+        $root_blog_options_meta = $root_blog_options;
+
+        // Clean up our temporary copy
+        unset( $root_blog_options );
+    }
+
+    return apply_filters( 'bp_core_get_root_options', $root_blog_options_meta );
 }
 
 /**
