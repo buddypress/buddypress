@@ -9,6 +9,19 @@
  * @subpackage Members
  */
 
+/**
+ * Checks $bp pages global and looks for directory page
+ *
+ * @since 1.3
+ *
+ * @global object $bp Global BuddyPress settings object
+ * @return bool True if set, False if empty
+ */
+function bp_members_has_directory() {
+	global $bp;
+
+	return (bool) !empty( $bp->pages->members->id );
+}
 
 /**
  * Define the slugs used for BuddyPress pages, based on the slugs of the WP pages used.

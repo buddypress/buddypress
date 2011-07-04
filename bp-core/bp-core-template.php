@@ -247,7 +247,7 @@ function bp_search_form_type_select() {
 	if ( bp_is_active( 'blogs' ) && is_multisite() )
 		$options['blogs']   = __( 'Blogs',   'buddypress' );
 
-	if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() && !bp_forum_directory_is_disabled() )
+	if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() && bp_forums_has_directory() )
 		$options['forums']  = __( 'Forums',  'buddypress' );
 
 	$options['posts'] = __( 'Posts', 'buddypress' );

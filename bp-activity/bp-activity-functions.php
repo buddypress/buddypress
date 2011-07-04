@@ -10,6 +10,20 @@
  */
 
 /**
+ * Checks $bp pages global and looks for directory page
+ *
+ * @since 1.3
+ *
+ * @global object $bp Global BuddyPress settings object
+ * @return bool True if set, False if empty
+ */
+function bp_activity_has_directory() {
+	global $bp;
+
+	return (bool) !empty( $bp->pages->activity->id );
+}
+
+/**
  * Searches through the content of an activity item to locate usernames, designated by an @ sign
  *
  * @package BuddyPress Activity

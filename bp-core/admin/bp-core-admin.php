@@ -117,18 +117,6 @@ function bp_core_admin_settings() {
 						</td>
 					</tr>
 
-					<?php if ( bp_is_active( 'forums' ) ) : ?>
-
-						<tr>
-							<th scope="row"><?php _e( 'Disable global forum directory?', 'buddypress' ) ?>:</th>
-							<td>
-								<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( (int)bp_get_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="1" /> <?php _e( 'Yes', 'buddypress' ) ?> &nbsp;
-								<input type="radio" name="bp-admin[bp-disable-forum-directory]"<?php if ( !(int)bp_get_option( 'bp-disable-forum-directory' ) ) : ?> checked="checked"<?php endif; ?> id="bp-disable-forum-directory" value="0" /> <?php _e( 'No', 'buddypress' ) ?>
-							</td>
-						</tr>
-
-					<?php endif; ?>
-
 					<?php if ( bp_is_active( 'activity' ) ) : ?>
 
 						<tr>

@@ -18,9 +18,8 @@ function bp_core_exclude_pages( $pages ) {
 	if ( !empty( $bp->pages->register ) )
 		$pages[] = $bp->pages->register->id;
 
-	if ( !bp_is_active( 'forums' ) || ( bp_is_active( 'forums' ) && !bp_forums_is_installed_correctly() ) )
-		if ( !empty( $bp->pages->forums ) )
-			$pages[] = $bp->pages->forums->id;
+	if ( !bp_is_active( 'forums' ) || ( bp_is_active( 'forums' ) && bp_forums_has_directory() && !bp_forums_is_installed_correctly() ) )
+		$pages[] = $bp->pages->forums->id;
 
 	return apply_filters( 'bp_core_exclude_pages', $pages );
 }

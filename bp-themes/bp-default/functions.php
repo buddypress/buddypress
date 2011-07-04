@@ -552,14 +552,6 @@ function bp_dtheme_main_nav( $args ) {
 		'exclude'    => '',
 		'title_li'   => ''
 	);
-
-	if ( ( !bp_is_active( 'forums' ) || bp_forum_directory_is_disabled() ) && !empty( $bp->pages->forums->id ) ) {
-		if ( !empty( $pages_args['exclude'] ) )
-				$pages_args['exclude'] .= ',';
-
-		$pages_args['exclude'] .= $bp->pages->forums->id;
-	}
-
 	$menu = wp_page_menu( $pages_args );
 	$menu = str_replace( array( '<div class="menu"><ul>', '</ul></div>' ), array( '<ul id="nav">', '</ul><!-- #nav -->' ), $menu );
 	echo $menu;

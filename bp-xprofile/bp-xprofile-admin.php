@@ -1,6 +1,32 @@
 <?php
 
 /**
+ * Creates the administration interface menus and checks to see if the DB
+ * tables are set up.
+ *
+ * @package BuddyPress XProfile
+ * @global object $bp Global BuddyPress settings object
+ * @global $wpdb WordPress DB access object.
+ * @uses is_super_admin() returns true if the current user is a site admin, false if not
+ * @uses bp_xprofile_install() runs the installation of DB tables for the xprofile component
+ * @uses wp_enqueue_script() Adds a JS file to the JS queue ready for output
+ * @uses add_submenu_page() Adds a submenu tab to a top level tab in the admin area
+ * @uses xprofile_install() Runs the DB table installation function
+ * @return
+ */
+function xprofile_add_admin_menu() {
+	global $wpdb, $bp;
+
+	if ( !is_super_admin() )
+		return false;
+
+	$hook = add_options_page( __( 'Profiles Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
+	
+	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
+}
+add_action( bp_core_admin_hook(), 'xprofile_add_admin_menu' );
+
+/**
  * Handles all actions for the admin area for creating, editing and deleting
  * profile groups and fields.
  */

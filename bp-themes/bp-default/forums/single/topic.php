@@ -37,7 +37,7 @@
 									<a href="#post-topic-reply" class="show-hide-new"><?php _e( 'New Reply', 'buddypress' ) ?></a>
 								</li>
 
-								<?php if ( !bp_forum_directory_is_disabled() ) : ?>
+								<?php if ( bp_forums_has_directory() ) : ?>
 
 									<li>
 										<a href="<?php bp_forum_directory_permalink() ?>"><?php _e( 'Forum Directory', 'buddypress') ?></a>

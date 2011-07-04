@@ -7,6 +7,20 @@
  * true or false on success or failure.
  */
 
+/**
+ * Checks $bp pages global and looks for directory page
+ *
+ * @since 1.3
+ *
+ * @global object $bp Global BuddyPress settings object
+ * @return bool True if set, False if empty
+ */
+function bp_groups_has_directory() {
+	global $bp;
+
+	return (bool) !empty( $bp->pages->groups->id );
+}
+
 function groups_get_group( $args = '' ) {
 	$defaults = array(
 		'group_id'   => false,

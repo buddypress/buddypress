@@ -1,11 +1,18 @@
 <?php
 
-/*******************************************************************************
- * Business functions are where all the magic happens in BuddyPress. They will
- * handle the actual saving or manipulation of information. Usually they will
- * hand off to a database class for data access, then return
- * true or false on success or failure.
+/**
+ * Checks $bp pages global and looks for directory page
+ *
+ * @since 1.3
+ *
+ * @global object $bp Global BuddyPress settings object
+ * @return bool True if set, False if empty
  */
+function bp_blogs_has_directory() {
+	global $bp;
+
+	return (bool) !empty( $bp->pages->blogs->id );
+}
 
 function bp_blogs_get_blogs( $args = '' ) {
 	global $bp;

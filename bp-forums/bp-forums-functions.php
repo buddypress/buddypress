@@ -11,17 +11,17 @@ function bp_forums_is_installed_correctly() {
 }
 
 /**
- * Convenience function to determine if the forum directory has been disabled
- * by the site admin.
+ * Checks $bp pages global and looks for directory page
+ *
+ * @since 1.3
  *
  * @global object $bp Global BuddyPress settings object
- * @return bool True if forum is disabled
- * @since 1.3
+ * @return bool True if set, False if empty
  */
-function bp_forum_directory_is_disabled() {
+function bp_forums_has_directory() {
 	global $bp;
 
-	return !empty( $bp->site_options['bp-disable-forum-directory'] );
+	return (bool) !empty( $bp->pages->forums->id );
 }
 
 /** Forum Functions ***********************************************************/

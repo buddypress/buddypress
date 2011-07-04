@@ -280,8 +280,7 @@ function bp_core_add_admin_menu() {
 	$hooks = array();
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
-	$hooks[] = add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup', '', 4 );
-
+	$hooks[] = add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup', '' );
 	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Components', 'buddypress' ), __( 'Components', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup'  );
 	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Settings',   'buddypress' ), __( 'Settings',   'buddypress' ), 'manage_options', 'bp-settings',         'bp_core_admin_settings'         );
 
@@ -996,7 +995,6 @@ function bp_core_get_root_options() {
         'bp-disable-profile-sync'         => '0',
         'bp-disable-avatar-uploads'       => '0',
         'bp-disable-account-deletion'     => '0',
-        'bp-disable-forum-directory'      => '0',
         'bp-disable-blogforum-comments'   => '0',
         'bb-config-location'              => ABSPATH,
         'hide-loggedout-adminbar'         => '0',
