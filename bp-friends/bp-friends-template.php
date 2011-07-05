@@ -115,13 +115,24 @@ function bp_friends_random_friends() {
 <?php
 }
 
+/**
+ * Pull up a group of random members, and display some profile data about them
+ *
+ * This function is no longer used by BuddyPress core.
+ *
+ * @package BuddyPress
+ *
+ * @param int $total_members The number of members to retrieve
+ */
 function bp_friends_random_members( $total_members = 5 ) {
 	global $bp;
 
 	if ( !$user_ids = wp_cache_get( 'friends_random_users', 'bp' ) ) {
 		$user_ids = BP_Core_User::get_users( 'random', $total_members );
 		wp_cache_set( 'friends_random_users', $user_ids, 'bp' );
-	} ?>
+	}
+	
+	?>
 
 	<?php if ( $user_ids['users'] ) { ?>
 
@@ -130,12 +141,12 @@ function bp_friends_random_members( $total_members = 5 ) {
 		<?php for ( $i = 0; $i < count( $user_ids['users'] ); $i++ ) { ?>
 
 			<li>
-				<a href="<?php echo bp_core_get_user_domain( $user_ids['users'][$i]->user_id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->user_id, 'type' => 'thumb' ) ) ?></a>
-				<h5><?php echo bp_core_get_userlink( $user_ids['users'][$i]->user_id ) ?></h5>
+				<a href="<?php echo bp_core_get_user_domain( $user_ids['users'][$i]->id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->id, 'type' => 'thumb' ) ) ?></a>
+				<h5><?php echo bp_core_get_userlink( $user_ids['users'][$i]->id ) ?></h5>
 
 				<?php if ( bp_is_active( 'xprofile' ) ) { ?>
 
-					<?php $random_data = xprofile_get_random_profile_data( $user_ids['users'][$i]->user_id, true ); ?>
+					<?php $random_data = xprofile_get_random_profile_data( $user_ids['users'][$i]->id, true ); ?>
 
 					<div class="profile-data">
 						<p class="field-name"><?php echo $random_data[0]->name ?></p>
@@ -150,7 +161,7 @@ function bp_friends_random_members( $total_members = 5 ) {
 
 					<?php if ( bp_is_active( 'friends' ) ) { ?>
 
-						<?php bp_add_friend_button( $user_ids['users'][$i]->user_id ) ?>
+						<?php bp_add_friend_button( $user_ids['users'][$i]->id ) ?>
 
 					<?php } ?>
 

@@ -290,6 +290,10 @@ function xprofile_get_field_id_from_name( $field_name ) {
  */
 function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) {
 	$field_data           = BP_XProfile_ProfileData::get_random( $user_id, $exclude_fullname );
+	
+	if ( !$field_data )
+		return false;
+	
 	$field_data[0]->value = xprofile_format_profile_field( $field_data[0]->type, $field_data[0]->value );
 
 	if ( !$field_data[0]->value || empty( $field_data[0]->value ) )
