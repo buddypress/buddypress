@@ -128,8 +128,12 @@ Class BP_Activity_Activity {
 
 		// The specific ids to which you want to limit the query
 		if ( !empty( $in ) ) {
-			if ( is_array( $in ) )
-				$in = implode( ',', $in );
+			if ( is_array( $in ) ) {
+				$in = implode ( ',', array_map( 'absint', $in ) );
+			} else {
+				$in = implode ( ',', array_map( 'absint', explode ( ',', $in ) ) );
+			}
+
 			$where_conditions['in'] = "a.id IN ({$in})";
 		}
 
@@ -323,10 +327,10 @@ Class BP_Activity_Activity {
 	function delete_activity_item_comments( $activity_ids ) {
 		global $bp, $wpdb;
 
-		if ( is_array($activity_ids) )
-			$activity_ids = implode( ',', $activity_ids );
-
-		$activity_ids = $wpdb->escape( $activity_ids );
+		if ( is_array( $activity_ids ) )
+			$activity_ids = implode ( ',', array_map( 'absint', $activity_ids ) );
+		else
+			$activity_ids = implode ( ',', array_map( 'absint', explode ( ',', $activity_ids ) ) );
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
 	}
@@ -334,10 +338,10 @@ Class BP_Activity_Activity {
 	function delete_activity_meta_entries( $activity_ids ) {
 		global $bp, $wpdb;
 
-		if ( is_array($activity_ids) )
-			$activity_ids = implode( ',', $activity_ids );
-
-		$activity_ids = $wpdb->escape( $activity_ids );
+		if ( is_array( $activity_ids ) )
+			$activity_ids = implode ( ',', array_map( 'absint', $activity_ids ) );
+		else
+			$activity_ids = implode ( ',', array_map( 'absint', explode ( ',', $activity_ids ) ) );
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" ) );
 	}
