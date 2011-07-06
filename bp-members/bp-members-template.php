@@ -780,7 +780,7 @@ function bp_loggedin_user_link() {
 	function bp_get_loggedin_user_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_loggedin_user_link', $bp->loggedin_user->domain );
+		return apply_filters( 'bp_get_loggedin_user_link', bp_core_get_userlink( $bp->loggedin_user->id ) );
 	}
 
 function bp_displayed_user_link() {
@@ -789,7 +789,7 @@ function bp_displayed_user_link() {
 	function bp_get_displayed_user_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_displayed_user_link', $bp->displayed_user->domain );
+		return apply_filters( 'bp_get_displayed_user_link', bp_core_get_userlink( $bp->displayed_user->id ) );
 	}
 	function bp_user_link() { bp_displayed_user_link(); } // Deprecated.
 

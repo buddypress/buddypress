@@ -192,7 +192,7 @@ function bp_is_member() {
 }
 
 function bp_loggedinuser_link() {
-	_deprecated_function( __FUNCTION__, '1.3', 'bp_loggedin_user_link' );
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_logged_in_user_link' );
 	bp_loggedin_user_link();
 }
 
