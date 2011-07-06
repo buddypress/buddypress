@@ -51,12 +51,23 @@ function friends_register_activity_actions() {
 }
 add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' );
 
+/**
+ * Format the BuddyBar/admin bar notifications for the Friends component
+ *
+ * @package BuddyPress
+ *
+ * @param str $action The kind of notification being rendered
+ * @param int $item_id The primary item id
+ * @param int $secondary_item_id The secondary item id
+ * @param int $total_items The total number of messaging-related notifications waiting for the user
+ * @param str $format 'string' for BuddyBar-compatible notifications; 'array' for WP Admin Bar
+ */
 function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 	global $bp;
 
 	switch ( $action ) {
 		case 'friendship_accepted':
-			$link = bp_loggedin_user_domain() . $bp->friends->slug . '/my-friends/newest';
+			$link = bp_loggedin_user_domain() . bp_get_friends_slug() . '/my-friends/newest';
 			
 			// Set up the string and the filter
 			if ( (int)$total_items > 1 ) {

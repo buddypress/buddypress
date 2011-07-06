@@ -243,8 +243,8 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	} else {
 		$return = apply_filters( $filter, array(
 			'text' => $text,
-			'link' => $at_mention_link
-		), $at_mention_link, (int)$total_items, $text, $link );
+			'link' => $link
+		), $link, (int)$total_items, $text, $link );
 	}
 
 	do_action( 'messages_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
