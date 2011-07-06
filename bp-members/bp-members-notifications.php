@@ -56,8 +56,8 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 
 	if ( empty( $grouped_notifications ) )
 		return false;
-
-	// Calculated a renderable outcome for each notification type
+		
+	// Calculate a renderable output for each notification type
 	foreach ( (array)$grouped_notifications as $component_name => $action_arrays ) {
 		if ( !$action_arrays )
 			continue;

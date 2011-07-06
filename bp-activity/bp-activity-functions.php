@@ -112,12 +112,13 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
  * Formats notifications related to activity
  *
  * @package BuddyPress Activity
- * @param $action The type of activity item. Just 'new_at_mention' for now
- * @param $item_id The activity id
- * @param $secondary_item_id In the case of at-mentions, this is the mentioner's id
- * @param $total_items The total number of notifications to format
+ * @param str $action The type of activity item. Just 'new_at_mention' for now
+ * @param int $item_id The activity id
+ * @param int $secondary_item_id In the case of at-mentions, this is the mentioner's id
+ * @param int $total_items The total number of notifications to format
+ * @param str $format 'string' to get a BuddyBar-compatible notification, 'array' otherwise 
  */
-function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
+function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 	global $bp;
 
 	switch ( $action ) {
@@ -128,18 +129,28 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 			$at_mention_title = sprintf( __( '@%s Mentions', 'buddypress' ), $bp->loggedin_user->userdata->user_nicename );
 
 			if ( (int)$total_items > 1 ) {
-				return apply_filters( 'bp_activity_multiple_at_mentions_notification', '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . sprintf( __( 'You have %1$d new activity mentions', 'buddypress' ), (int)$total_items ) . '</a>', $at_mention_link, $total_items, $activity_id, $poster_user_id );
+				$text = sprintf( __( 'You have %1$d new activity mentions', 'buddypress' ), (int)$total_items );
+				$filter = 'bp_activity_multiple_at_mentions_notification';
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $poster_user_id );
-
-				return apply_filters( 'bp_activity_single_at_mentions_notification', '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . sprintf( __( '%1$s mentioned you in an activity update', 'buddypress' ), $user_fullname ) . '</a>', $at_mention_link, $total_items, $activity_id, $poster_user_id );
+				$text =  sprintf( __( '%1$s mentioned you in an activity update', 'buddypress' ), $user_fullname );
+				$filter = 'bp_activity_single_at_mentions_notification';
 			}
 		break;
+	}
+				
+	if ( 'string' == $format ) {
+		$return = apply_filters( $filter, '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . $text . '</a>', $at_mention_link, (int)$total_items, $activity_id, $poster_user_id );
+	} else {
+		$return = apply_filters( $filter, array(
+			'text' => $text,
+			'link' => $at_mention_link
+		), $at_mention_link, (int)$total_items, $activity_id, $poster_user_id );
 	}
 
 	do_action( 'activity_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 
-	return false;
+	return $return;
 }
 
 /** Actions *******************************************************************/
