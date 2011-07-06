@@ -791,7 +791,7 @@ function bp_displayed_user_link() {
 
 		return apply_filters( 'bp_get_displayed_user_link', bp_core_get_userlink( $bp->displayed_user->id ) );
 	}
-	function bp_user_link() { bp_displayed_user_link(); } // Deprecated.
+	function bp_user_link() { bp_displayed_user_domain(); } // Deprecated.
 
 function bp_displayed_user_id() {
 	global $bp;
