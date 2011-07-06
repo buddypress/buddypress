@@ -211,18 +211,44 @@ function messages_is_valid_thread( $thread_id ) {
  * notifications for the user and for this specific component.
  */
 
-function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
+/**
+ * Format the BuddyBar/admin bar notifications for the Messages component
+ *
+ * @package BuddyPress
+ *
+ * @param str $action The kind of notification being rendered
+ * @param int $item_id The primary item id
+ * @param int $secondary_item_id The secondary item id
+ * @param int $total_items The total number of messaging-related notifications waiting for the user
+ * @param str $format 'string' for BuddyBar-compatible notifications; 'array' for WP Admin Bar
+ */
+function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 	global $bp;
 
 	if ( 'new_message' == $action ) {
-		if ( (int)$total_items > 1 )
-			return apply_filters( 'bp_messages_multiple_new_message_notification', '<a href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/inbox" title="' . __( 'Inbox', 'buddypress' ) . '">' . sprintf( __('You have %d new messages', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );
-		else
-			return apply_filters( 'bp_messages_single_new_message_notification', '<a href="' . $bp->loggedin_user->domain . $bp->messages->slug . '/inbox" title="' . __( 'Inbox', 'buddypress' ) . '">' . sprintf( __('You have %d new message', 'buddypress' ), (int)$total_items ) . '</a>', $total_items );
+		$link  = bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox';
+		$title = __( 'Inbox', 'buddypress' );
+		
+		if ( (int)$total_items > 1 ) {
+			$text = sprintf( __('You have %d new messages', 'buddypress' ), (int)$total_items );
+			$filter = 'bp_messages_multiple_new_message_notification';
+		} else {
+			$text = sprintf( __('You have %d new message', 'buddypress' ), (int)$total_items );
+			$filter = 'bp_messages_single_new_message_notification';
+		}
+	}
+
+	if ( 'string' == $format ) {
+		$return = apply_filters( $filter, '<a href="' . $link . '" title="' . $title . '">' . $text . '</a>', (int)$total_items, $text, $link );
+	} else {
+		$return = apply_filters( $filter, array(
+			'text' => $text,
+			'link' => $at_mention_link
+		), $at_mention_link, (int)$total_items, $text, $link );
 	}
 
 	do_action( 'messages_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 
-	return false;
+	return $return;
 }
 ?>

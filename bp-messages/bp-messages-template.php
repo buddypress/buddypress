@@ -495,6 +495,30 @@ function bp_message_activate_deactivate_text() {
 		return apply_filters( 'bp_message_activate_deactivate_text', $text );
 	}
 
+/**
+ * Output the messages component slug
+ *
+ * @package BuddyPress
+ * @subpackage Messages Template
+ * @since BuddyPress 1.3
+ *
+ * @uses bp_get_messages_slug()
+ */
+function bp_messages_slug() {
+	echo bp_get_messages_slug();
+}
+	/**
+	 * Return the messages component slug
+	 *
+	 * @package BuddyPress
+	 * @subpackage Messages Template
+	 * @since BuddyPress 1.3
+	 */
+	function bp_get_messages_slug() {
+		global $bp;
+		return apply_filters( 'bp_get_messages_slug', $bp->messages->slug );
+	}
+
 function bp_message_get_notices() {
 	global $userdata;
 
