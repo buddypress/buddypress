@@ -1062,7 +1062,7 @@ Class BP_Groups_Member {
 		if ( empty( $pag_sql ) )
 			$total_member_count = count( $members );
 		else
-			$total_member_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql}", $group_id ) );
+			$total_member_count = $wpdb->get_var( apply_filters( 'bp_group_members_count_user_join_filter', $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql}", $group_id ) ) );
 
 		/* Fetch whether or not the user is a friend */
 		foreach ( (array)$members as $user ) $user_ids[] = $user->user_id;
