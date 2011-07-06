@@ -72,7 +72,7 @@ add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
  * @package BuddyPress
  * @since 1.3
  */
-function bp_members_user_admin_menu() {
+function bp_members_admin_bar_user_admin_menu() {
 	global $bp, $wp_admin_bar;
 
 	// Only show if viewing a user
@@ -145,7 +145,54 @@ function bp_members_user_admin_menu() {
 		'meta'   => array( 'onclick' => 'confirm(" ' . __( "Are you sure you want to delete this user's account?", 'buddypress' ) . '");' ) 
 	) );
 }
-add_action( 'bp_setup_admin_bar', 'bp_members_user_admin_menu', 99 );
+add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_user_admin_menu', 99 );
+
+/**
+ * Build the "Notifications" dropdown
+ *
+ * @package Buddypress
+ * @since 1.3
+ */
+function bp_members_admin_bar_notifications_menu() {
+	global $bp, $wp_admin_bar;
+
+	if ( !is_user_logged_in() )
+		return false;
+		
+	if ( $notifications = bp_core_get_notifications_for_user( bp_loggedin_user_id(), 'object' ) ) {
+		$menu_title = sprintf( __( 'Notifications <span id="ab-pending-notifications" class="pending-count">%s</span>', 'buddypress' ), count( $notifications ) );
+	} else {
+		$menu_title = __( 'Notifications', 'buddypress' );
+	}
+	
+	// Add the top-level Notifications button
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'notifications',
+		'title' => $menu_title,
+		'href'  => bp_loggedin_user_domain()
+	) );
+	
+	if ( !empty( $notifications ) ) {
+		foreach ( (array)$notifications as $notification ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'notifications',
+				'id'     => 'notification-' . $notification->id,
+				'title'  => $notification->content,
+				'href'   => $notification->href
+			) );
+		}
+	} else {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'notifications',
+			'id'	 => 'no-notifications',
+			'title'  => __( 'No new notifications', 'buddypress' ),
+			'href'	 => bp_loggedin_user_domain()
+		) );
+	}
+	
+	return;
+}
+add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_notifications_menu', 999 );
 
 /**
  * Make sure the logout link is at the bottom of the "My Account" menu
