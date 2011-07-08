@@ -223,7 +223,7 @@ function bp_activity_screen_single_activity_permalink() {
 		return false;
 
 	/* Get the activity details */
-	$activity = bp_activity_get_specific( array( 'activity_ids' => $bp->current_action ) );
+	$activity = bp_activity_get_specific( array( 'activity_ids' => $bp->current_action, 'show_hidden' => true ) );
 
 	if ( !$activity = $activity['activities'][0] )
 		bp_core_redirect( $bp->root_domain );
@@ -312,7 +312,7 @@ function bp_activity_action_permalink_router() {
 		return false;
 
 	/* Get the activity details */
-	$activity = bp_activity_get_specific( array( 'activity_ids' => $bp->action_variables[0] ) );
+	$activity = bp_activity_get_specific( array( 'activity_ids' => $bp->action_variables[0], 'show_hidden' => true ) );
 
 	if ( !$activity = $activity['activities'][0] )
 		bp_core_redirect( $bp->root_domain );
