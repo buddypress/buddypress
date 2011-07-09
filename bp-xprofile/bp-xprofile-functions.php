@@ -348,13 +348,13 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = 0 ) {
 	if ( empty( $directory ) )
 		$directory = 'avatars';
 
-	$path    = BP_AVATAR_UPLOAD_PATH . '/avatars/' . $user_id;
+	$path    = bp_core_avatar_upload_path() . '/avatars/' . $user_id;
 	$newbdir = $path;
 
 	if ( !file_exists( $path ) )
 		@wp_mkdir_p( $path );
 
-	$newurl    = BP_AVATAR_URL . '/avatars/' . $user_id;
+	$newurl    = bp_core_avatar_url() . '/avatars/' . $user_id;
 	$newburl   = $newurl;
 	$newsubdir = '/avatars/' . $user_id;
 

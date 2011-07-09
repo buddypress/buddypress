@@ -72,12 +72,12 @@ function bp_core_add_jquery_cropper() {
 function bp_core_add_cropper_inline_js() {
 	global $bp;
 
-	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( BP_AVATAR_UPLOAD_PATH . $bp->avatar_admin->image->dir ) );
+	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( bp_core_avatar_upload_path() . $bp->avatar_admin->image->dir ) );
 	$aspect_ratio = 1;
 	
-	$full_height = (int) constant( 'BP_AVATAR_FULL_HEIGHT' );
-	$full_width  = (int) constant( 'BP_AVATAR_FULL_WIDTH'  );
-
+	$full_height = bp_core_avatar_full_height();
+	$full_width  = bp_core_avatar_full_width();
+	
 	// Calculate Aspect Ratio
 	if ( $full_height && ( $full_width != $full_height ) )
 		$aspect_ratio = $full_width / $full_height;
@@ -145,7 +145,7 @@ function bp_core_add_cropper_inline_css() {
 		.jcrop-tracker { width: 100%; height: 100%; }
 		.custom .jcrop-vline, .custom .jcrop-hline { background: yellow; }
 		.custom .jcrop-handle { border-color: black; background-color: #C7BB00; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
-		#avatar-crop-pane { width: <?php echo BP_AVATAR_FULL_WIDTH ?>px; height: <?php echo BP_AVATAR_FULL_HEIGHT ?>px; overflow: hidden; }
+		#avatar-crop-pane { width: <?php echo bp_core_avatar_full_width() ?>px; height: <?php echo bp_core_avatar_full_height() ?>px; overflow: hidden; }
 		#avatar-crop-submit { margin: 20px 0; }
 		#avatar-upload-form img, #create-group-form img, #group-settings-form img { border: none !important; }
 	</style>

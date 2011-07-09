@@ -994,7 +994,7 @@ function bp_signup_avatar( $args = '' ) {
 		global $bp;
 
 		$defaults = array(
-			'size' => BP_AVATAR_FULL_WIDTH,
+			'size' => bp_core_avatar_full_width(),
 			'class' => 'avatar',
 			'alt' => __( 'Your Avatar', 'buddypress' )
 		);

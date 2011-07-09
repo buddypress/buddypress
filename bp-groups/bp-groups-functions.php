@@ -423,13 +423,13 @@ function groups_avatar_upload_dir( $group_id = 0 ) {
 	if ( !$group_id )
 		$group_id = $bp->groups->current_group->id;
 
-	$path    = BP_AVATAR_UPLOAD_PATH . '/group-avatars/' . $group_id;
+	$path    = bp_core_avatar_upload_path() . '/group-avatars/' . $group_id;
 	$newbdir = $path;
 
 	if ( !file_exists( $path ) )
 		@wp_mkdir_p( $path );
 
-	$newurl    = BP_AVATAR_URL . '/group-avatars/' . $group_id;
+	$newurl    = bp_core_avatar_url() . '/group-avatars/' . $group_id;
 	$newburl   = $newurl;
 	$newsubdir = '/group-avatars/' . $group_id;
 

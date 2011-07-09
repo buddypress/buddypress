@@ -190,8 +190,8 @@ function bp_core_screen_activation() {
 
 		// Check if the avatar folder exists. If it does, move rename it, move
 		// it and delete the signup avatar dir
-		if ( file_exists( BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $hashed_key ) )
-			@rename( BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $hashed_key, BP_AVATAR_UPLOAD_PATH . '/avatars/' . $user );
+		if ( file_exists( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key ) )
+			@rename( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key, bp_core_avatar_upload_path() . '/avatars/' . $user );
 
 		bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
 
@@ -549,13 +549,13 @@ function bp_core_signup_avatar_upload_dir() {
 	if ( !$bp->signup->avatar_dir )
 		return false;
 
-	$path  = BP_AVATAR_UPLOAD_PATH . '/avatars/signups/' . $bp->signup->avatar_dir;
+	$path  = bp_core_avatar_upload_path() . '/avatars/signups/' . $bp->signup->avatar_dir;
 	$newbdir = $path;
 
 	if ( !file_exists( $path ) )
 		@wp_mkdir_p( $path );
 
-	$newurl = BP_AVATAR_URL . '/avatars/signups/' . $bp->signup->avatar_dir;
+	$newurl = bp_core_avatar_url() . '/avatars/signups/' . $bp->signup->avatar_dir;
 	$newburl = $newurl;
 	$newsubdir = '/avatars/signups/' . $bp->signup->avatar_dir;
 

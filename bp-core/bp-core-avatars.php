@@ -11,13 +11,7 @@
  */
 function bp_core_set_avatar_constants() {
 	global $bp;
-
-	if ( !defined( 'BP_AVATAR_UPLOAD_PATH' ) )
-		define( 'BP_AVATAR_UPLOAD_PATH', bp_core_avatar_upload_path() );
-
-	if ( !defined( 'BP_AVATAR_URL' ) )
-		define( 'BP_AVATAR_URL', bp_core_avatar_url() );
-
+	
 	if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
 		define( 'BP_AVATAR_THUMB_WIDTH', 50 );
 
@@ -47,6 +41,31 @@ function bp_core_set_avatar_constants() {
 		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . '/bp-core/images/mystery-man-50.jpg' );
 }
 add_action( 'bp_init', 'bp_core_set_avatar_constants', 3 );
+
+function bp_core_set_avatar_globals() {
+	global $bp;
+	
+	// Dimensions
+	$bp->avatar->thumb->width  	   = BP_AVATAR_THUMB_WIDTH;
+	$bp->avatar->thumb->height 	   = BP_AVATAR_THUMB_HEIGHT;
+	$bp->avatar->full->width 	   = BP_AVATAR_FULL_WIDTH;
+	$bp->avatar->full->height 	   = BP_AVATAR_FULL_HEIGHT;
+	
+	// Upload maximums
+	$bp->avatar->original_max_width    = BP_AVATAR_ORIGINAL_MAX_WIDTH;
+	$bp->avatar->original_max_filesize = BP_AVATAR_ORIGINAL_MAX_FILESIZE;
+	
+	// Defaults
+	$bp->avatar->thumb->default 	   = BP_AVATAR_DEFAULT_THUMB;
+	$bp->avatar->full->default 	   = BP_AVATAR_DEFAULT;
+	
+	// These have to be set on page load in order to avoid infinite filter loops at runtime
+	$bp->avatar->upload_path	   = bp_core_avatar_upload_path();
+	$bp->avatar->url	   	   = bp_core_avatar_url();
+	
+	do_action( 'bp_core_set_avatar_globals' );
+}
+add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
 
 /**
  * bp_core_fetch_avatar()
@@ -148,17 +167,17 @@ function bp_core_fetch_avatar( $args = '' ) {
 	if ( $width )
 		$html_width = " width='{$width}'";
 	else
-		$html_width = ( 'thumb' == $type ) ? ' width="' . BP_AVATAR_THUMB_WIDTH . '"' : ' width="' . BP_AVATAR_FULL_WIDTH . '"';
+		$html_width = ( 'thumb' == $type ) ? ' width="' . bp_core_avatar_thumb_width() . '"' : ' width="' . bp_core_avatar_full_width() . '"';
 
 	// Set avatar height
 	if ( $height )
 		$html_height = " height='{$height}'";
 	else
-		$html_height = ( 'thumb' == $type ) ? ' height="' . BP_AVATAR_THUMB_HEIGHT . '"' : ' height="' . BP_AVATAR_FULL_HEIGHT . '"';
+		$html_height = ( 'thumb' == $type ) ? ' height="' . bp_core_avatar_thumb_height() . '"' : ' height="' . bp_core_avatar_full_height() . '"';
 
 	// Set avatar URL and DIR based on prepopulated constants
-	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', BP_AVATAR_URL . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
-	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', BP_AVATAR_UPLOAD_PATH . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', bp_core_avatar_url() . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', bp_core_avatar_upload_path() . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 
 	/****
 	 * Look for uploaded avatar first. Use it if it exists.
@@ -236,15 +255,15 @@ function bp_core_fetch_avatar( $args = '' ) {
 		if ( $width )
 			$grav_size = $width;
 		else if ( 'full' == $type )
-			$grav_size = BP_AVATAR_FULL_WIDTH;
+			$grav_size = bp_core_avatar_full_width();
 		else if ( 'thumb' == $type )
-			$grav_size = BP_AVATAR_THUMB_WIDTH;
+			$grav_size = bp_core_avatar_thumb_width();
 
 		// Set gravatar type
 		if ( empty( $bp->grav_default->{$object} ) )
 			$default_grav = 'wavatar';
 		else if ( 'mystery' == $bp->grav_default->{$object} )
-			$default_grav = apply_filters( 'bp_core_mysteryman_src', BP_AVATAR_DEFAULT, $grav_size );
+			$default_grav = apply_filters( 'bp_core_mysteryman_src', bp_core_avatar_default(), $grav_size );
 		else
 			$default_grav = $bp->grav_default->{$object};
 
@@ -328,7 +347,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		if ( !$avatar_dir ) return false;
 	}
 
-	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', BP_AVATAR_UPLOAD_PATH . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', bp_core_avatar_upload_path() . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 
 	if ( !file_exists( $avatar_folder_dir ) )
 		return false;
@@ -377,8 +396,8 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 
 	$uploadErrors = array(
 		0 => __("There is no error, the file uploaded with success", 'buddypress'),
-		1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
-		2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE),
+		1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format( bp_core_avatar_original_max_filesize() ),
+		2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format( bp_core_avatar_original_max_filesize() ),
 		3 => __("The uploaded file was only partially uploaded", 'buddypress'),
 		4 => __("No file was uploaded", 'buddypress'),
 		6 => __("Missing a temporary folder", 'buddypress')
@@ -390,7 +409,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	}
 
 	if ( !bp_core_check_avatar_size( $file ) ) {
-		bp_core_add_message( sprintf( __( 'The file you uploaded is too big. Please upload a file under %s', 'buddypress'), size_format(BP_AVATAR_ORIGINAL_MAX_FILESIZE) ), 'error' );
+		bp_core_add_message( sprintf( __( 'The file you uploaded is too big. Please upload a file under %s', 'buddypress'), size_format( bp_core_avatar_original_max_filesize() ) ), 'error' );
 		return false;
 	}
 
@@ -414,8 +433,8 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	$size = @getimagesize( $bp->avatar_admin->original['file'] );
 
 	// Check image size and shrink if too large
-	if ( $size[0] > BP_AVATAR_ORIGINAL_MAX_WIDTH ) {
-		$thumb = wp_create_thumbnail( $bp->avatar_admin->original['file'], BP_AVATAR_ORIGINAL_MAX_WIDTH );
+	if ( $size[0] > bp_core_avatar_original_max_width() ) {
+		$thumb = wp_create_thumbnail( $bp->avatar_admin->original['file'], bp_core_avatar_original_max_width() );
 
 		// Check for thumbnail creation errors
 		if ( is_wp_error( $thumb ) ) {
@@ -429,9 +448,9 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 
 	// We only want to handle one image after resize.
 	if ( empty( $bp->avatar_admin->resized ) )
-		$bp->avatar_admin->image->dir = str_replace( BP_AVATAR_UPLOAD_PATH, '', $bp->avatar_admin->original['file'] );
+		$bp->avatar_admin->image->dir = str_replace( bp_core_avatar_upload_path(), '', $bp->avatar_admin->original['file'] );
 	else {
-		$bp->avatar_admin->image->dir = str_replace( BP_AVATAR_UPLOAD_PATH, '', $bp->avatar_admin->resized );
+		$bp->avatar_admin->image->dir = str_replace( bp_core_avatar_upload_path(), '', $bp->avatar_admin->resized );
 		@unlink( $bp->avatar_admin->original['file'] );
 	}
 
@@ -442,7 +461,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	}
 
 	// Set the url value for the image
-	$bp->avatar_admin->image->url = BP_AVATAR_URL . $bp->avatar_admin->image->dir;
+	$bp->avatar_admin->image->url = bp_core_avatar_url() . $bp->avatar_admin->image->dir;
 
 	return true;
 }
@@ -472,8 +491,8 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 		'avatar_dir'    => 'avatars',
 		'item_id'       => false,
 		'original_file' => false,
-		'crop_w'        => BP_AVATAR_FULL_WIDTH,
-		'crop_h'        => BP_AVATAR_FULL_HEIGHT,
+		'crop_w'        => bp_core_avatar_full_width(),
+		'crop_h'        => bp_core_avatar_full_height(),
 		'crop_x'        => 0,
 		'crop_y'        => 0
 	);
@@ -492,7 +511,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	if ( !$original_file )
 		return false;
 
-	$original_file = BP_AVATAR_UPLOAD_PATH . $original_file;
+	$original_file = bp_core_avatar_upload_path() . $original_file;
 
 	if ( !file_exists( $original_file ) )
 		return false;
@@ -500,7 +519,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	if ( !$item_id )
 		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', dirname( $original_file ), $item_id, $object, $avatar_dir );
 	else
-		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', BP_AVATAR_UPLOAD_PATH . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', bp_core_avatar_upload_path() . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 
 	if ( !file_exists( $avatar_folder_dir ) )
 		return false;
@@ -523,8 +542,8 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	$thumb_filename = wp_hash( $original_file . time() ) . '-bpthumb.jpg';
 
 	// Crop the image
-	$full_cropped  = wp_crop_image( $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, BP_AVATAR_FULL_WIDTH, BP_AVATAR_FULL_HEIGHT, false, $avatar_folder_dir . '/' . $full_filename );
-	$thumb_cropped = wp_crop_image( $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, BP_AVATAR_THUMB_WIDTH, BP_AVATAR_THUMB_HEIGHT, false, $avatar_folder_dir . '/' . $thumb_filename );
+	$full_cropped  = wp_crop_image( $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, bp_core_avatar_full_width(), bp_core_avatar_full_height(), false, $avatar_folder_dir . '/' . $full_filename );
+	$thumb_cropped = wp_crop_image( $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, bp_core_avatar_thumb_width(), bp_core_avatar_thumb_height(), false, $avatar_folder_dir . '/' . $thumb_filename );
 
 	// Remove the original
 	@unlink( $original_file );
@@ -600,7 +619,7 @@ function bp_core_check_avatar_upload( $file ) {
  * @return bool
  */
 function bp_core_check_avatar_size( $file ) {
-	if ( $file['file']['size'] > BP_AVATAR_ORIGINAL_MAX_FILESIZE )
+	if ( $file['file']['size'] > bp_core_avatar_original_max_filesize() )
 		return false;
 
 	return true;
@@ -630,21 +649,36 @@ function bp_core_check_avatar_type($file) {
  * @return string Absolute path to WP upload directory
  */
 function bp_core_avatar_upload_path() {
-	// Get upload directory information from current site
-	$upload_dir = wp_upload_dir();
-
-	// Directory does not exist and cannot be created
-	if ( !empty( $upload_dir['error'] ) ) {
-		$basedir = '';
-
+	global $bp;
+	
+	// See if the value has already been calculated and stashed in the $bp global
+	if ( isset( $bp->avatar->upload_path ) ) {
+		$basedir = $bp->avatar->upload_path;
 	} else {
-		$basedir = $upload_dir['basedir'];
-
-		// If multisite, and current blog does not match root blog, make adjustments
-		if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
-			$basedir = get_blog_option( bp_get_root_blog_id(), 'upload_path' );
+		// If this value has been set in a constant, just use that
+		if ( defined( 'BP_AVATAR_UPLOAD_PATH' ) ) {
+			$basedir = BP_AVATAR_UPLOAD_PATH;
+		} else {
+			// Get upload directory information from current site
+			$upload_dir = wp_upload_dir();
+		
+			// Directory does not exist and cannot be created
+			if ( !empty( $upload_dir['error'] ) ) {
+				$basedir = '';
+		
+			} else {
+				$basedir = $upload_dir['basedir'];
+		
+				// If multisite, and current blog does not match root blog, make adjustments
+				if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
+					$basedir = get_blog_option( bp_get_root_blog_id(), 'upload_path' );
+			}
+		}
+		
+		// Stash in $bp for later use
+		$bp->avatar->upload_path = $basedir;
 	}
-
+	
 	return apply_filters( 'bp_core_avatar_upload_path', $basedir );
 }
 
@@ -657,21 +691,160 @@ function bp_core_avatar_upload_path() {
  * @return string Full URL to current upload location
  */
 function bp_core_avatar_url() {
-	// Get upload directory information from current site
-	$upload_dir = wp_upload_dir();
-
-	// Directory does not exist and cannot be created
-	if ( !empty( $upload_dir['error'] ) ) {
-		$baseurl = '';
-
+	global $bp;
+	
+	// See if the value has already been calculated and stashed in the $bp global
+	if ( isset( $bp->avatar->url ) ) {
+		$baseurl = $bp->avatar->url;
 	} else {
-		$baseurl = $upload_dir['baseurl'];
-
-		// If multisite, and current blog does not match root blog, make adjustments
-		if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
-			$baseurl = trailingslashit( get_blog_option( bp_get_root_blog_id(), 'home' ) ) . get_blog_option( bp_get_root_blog_id(), 'upload_path' );
+		// If this value has been set in a constant, just use that
+		if ( defined( 'BP_AVATAR_URL' ) ) {
+			$baseurl = BP_AVATAR_URL;
+		} else {
+			// Get upload directory information from current site
+			$upload_dir = wp_upload_dir();
+		
+			// Directory does not exist and cannot be created
+			if ( !empty( $upload_dir['error'] ) ) {
+				$baseurl = '';
+		
+			} else {
+				$baseurl = $upload_dir['baseurl'];
+		
+				// If multisite, and current blog does not match root blog, make adjustments
+				if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
+					$baseurl = trailingslashit( get_blog_option( bp_get_root_blog_id(), 'home' ) ) . get_blog_option( bp_get_root_blog_id(), 'upload_path' );
+			}
+		}
+		
+		// Stash in $bp for later use
+		$bp->avatar->url = $baseurl;
 	}
 
 	return apply_filters( 'bp_core_avatar_url', $baseurl );
 }
+
+/**
+ * Utility function for fetching an avatar dimension setting
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param str $type 'thumb' for thumbs, otherwise full
+ * @param str $h_or_w 'height' for height, otherwise width
+ * @return int $dim The dimension
+ */
+function bp_core_avatar_dimension( $type = 'thumb', $h_or_w = 'height' ) {
+	global $bp;
+	
+	$dim = isset( $bp->avatar->{$type}->{$h_or_w} ) ? (int)$bp->avatar->{$type}->{$h_or_w} : false;
+	
+	return apply_filters( 'bp_core_avatar_dimension', $dim, $type, $h_or_w );
+}
+
+/**
+ * Get the avatar thumb width setting
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return int The thumb width
+ */
+function bp_core_avatar_thumb_width() {
+	return apply_filters( 'bp_core_avatar_thumb_width', bp_core_avatar_dimension( 'thumb', 'width' ) );
+}
+
+/**
+ * Get the avatar thumb height setting
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return int The thumb height
+ */
+function bp_core_avatar_thumb_height() {
+	return apply_filters( 'bp_core_avatar_thumb_height', bp_core_avatar_dimension( 'thumb', 'height' ) );
+}
+
+/**
+ * Get the avatar full width setting
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return int The full width
+ */
+function bp_core_avatar_full_width() {
+	return apply_filters( 'bp_core_avatar_full_width', bp_core_avatar_dimension( 'full', 'width' ) );
+}
+
+/**
+ * Get the avatar full height setting
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return int The full height
+ */
+function bp_core_avatar_full_height() {
+	return apply_filters( 'bp_core_avatar_full_height', bp_core_avatar_dimension( 'full', 'height' ) );
+}
+
+/**
+ * Get the max width for original avatar uploads
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return int The width
+ */
+function bp_core_avatar_original_max_width() {
+	global $bp;
+	
+	return apply_filters( 'bp_core_avatar_original_max_width', (int)$bp->avatar->original_max_width );
+}
+
+/**
+ * Get the max filesize for original avatar uploads
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return int The filesize
+ */
+function bp_core_avatar_original_max_filesize() {
+	global $bp;
+	
+	return apply_filters( 'bp_core_avatar_original_max_filesize', (int)$bp->avatar->original_max_filesize );
+}
+
+/**
+ * Get the default avatar
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return int The URL of the default avatar
+ */
+function bp_core_avatar_default() {
+	global $bp;
+	
+	return apply_filters( 'bp_core_avatar_default', $bp->avatar->full->default );
+}
+
+/**
+ * Get the default avatar thumb
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return int The URL of the default avatar thumb
+ */
+function bp_core_avatar_default_thumb() {
+	global $bp;
+	
+	return apply_filters( 'bp_core_avatar_thumb', $bp->avatar->thumb->default );
+}
+
+
 ?>
