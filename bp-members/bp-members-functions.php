@@ -641,7 +641,7 @@ function bp_core_ucfirst( $str ) {
 function bp_core_strip_username_spaces( $username ) {
 	// Don't alter the user_login of existing users, as it causes user_nicename problems.
 	// See http://trac.buddypress.org/ticket/2642
-	if ( username_exists( $username ) && ( !defined( 'BP_ENABLE_USER_COMPATIBILITY_MODE' ) || !BP_ENABLE_USER_COMPATIBILITY_MODE ) )
+	if ( username_exists( $username ) && ( !bp_is_username_compatibility_mode() ) )
 		return $username;
 
 	return str_replace( ' ', '-', $username );
