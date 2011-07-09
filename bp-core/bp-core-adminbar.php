@@ -9,7 +9,7 @@
  * @subpackage Core
  */
 
-if ( !defined( 'BP_USE_WP_ADMIN_BAR' ) || defined( 'DOING_AJAX' ) )
+if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
 	return;
 
 /**

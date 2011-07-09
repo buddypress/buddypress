@@ -250,8 +250,8 @@ class BP_Component {
 		if ( defined( 'DOING_AJAX' ) )
 			return;
 
-		// Do not proceed if constant is not set or is false
-		if ( !defined( 'BP_USE_WP_ADMIN_BAR' ) || !BP_USE_WP_ADMIN_BAR )
+		// Do not proceed if BP_USE_WP_ADMIN_BAR constant is not set or is false
+		if ( !bp_use_wp_admin_bar() )
 			return;
 
 		// Do we have admin bar menus to add?

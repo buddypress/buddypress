@@ -509,11 +509,11 @@ function bp_core_load_admin_bar() {
 	global $wp_version;
 
 	// Show the WordPress admin bar
-	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) && BP_USE_WP_ADMIN_BAR && $wp_version >= 3.1 ) {
+	if ( bp_use_wp_admin_bar() && $wp_version >= 3.1 ) {
 		show_admin_bar( true );
 
 	// Hide the WordPress admin bar
-	} elseif ( !defined( 'BP_DISABLE_ADMIN_BAR' ) || !BP_DISABLE_ADMIN_BAR ) {
+	} elseif ( !bp_use_wp_admin_bar() ) {
 
 		// Keep the WP admin bar from loading
 		show_admin_bar( false );

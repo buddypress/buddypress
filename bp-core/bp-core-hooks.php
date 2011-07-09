@@ -63,7 +63,7 @@ function bp_setup_nav() {
  * Set up BuddyPress implementation of the WP admin bar
  */
 function bp_setup_admin_bar() {
-	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) && BP_USE_WP_ADMIN_BAR )
+	if ( bp_use_wp_admin_bar() )
 		do_action( 'bp_setup_admin_bar' );
 }
 
