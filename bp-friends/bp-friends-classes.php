@@ -271,7 +271,7 @@ class BP_Friends_Friendship {
 		if ( !bp_is_active( 'xprofile' ) )
 			return false;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$bp->profile->table_name_data} pd, {$bp->profile->table_name_fields} pf WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} ) ORDER BY pd.value ASC", BP_XPROFILE_FULLNAME_FIELD_NAME ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$bp->profile->table_name_data} pd, {$bp->profile->table_name_fields} pf WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} ) ORDER BY pd.value ASC", bp_xprofile_fullname_field_name() ) );
 	}
 
 	function get_random_friends( $user_id, $total_friends = 5 ) {

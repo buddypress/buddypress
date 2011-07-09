@@ -385,7 +385,7 @@ function xprofile_sync_wp_profile( $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		return false;
 
-	$fullname = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
+	$fullname = xprofile_get_field_data( bp_xprofile_fullname_field_name(), $user_id );
 	$space    = strpos( $fullname, ' ' );
 
 	if ( false === $space ) {
@@ -418,7 +418,7 @@ function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
 	if ( ( !empty( $bp->site_options['bp-disable-profile-sync'] ) && (int)$bp->site_options['bp-disable-profile-sync'] ) || !$update || $errors->get_error_codes() )
 		return;
 
-	xprofile_set_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user->ID, $user->display_name );
+	xprofile_set_field_data( bp_xprofile_fullname_field_name(), $user->ID, $user->display_name );
 }
 add_action( 'user_profile_update_errors', 'xprofile_sync_bp_profile', 10, 3 );
 
@@ -578,4 +578,17 @@ function bp_xprofile_update_field_meta( $field_id, $meta_key, $meta_value ) {
 function bp_xprofile_update_fielddata_meta( $field_data_id, $meta_key, $meta_value ) {
 	return bp_xprofile_update_meta( $field_data_id, 'data', $meta_key, $meta_value );
 }
+
+/**
+ * Return the field name for the Full Name xprofile field
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return str The field name
+ */
+function bp_xprofile_fullname_field_name() {
+	return apply_filters( 'bp_xprofile_fullname_field_name', BP_XPROFILE_FULLNAME_FIELD_NAME );
+}
+
 ?>

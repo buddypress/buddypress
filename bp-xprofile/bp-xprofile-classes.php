@@ -983,9 +983,11 @@ Class BP_XProfile_ProfileData {
 		if ( !$user_id )
 			$user_id = $bp->displayed_user->id;
 
-		$data = xprofile_get_field_data( BP_XPROFILE_FULLNAME_FIELD_NAME, $user_id );
+		$field_name = bp_xprofile_fullname_field_name();
 
-		return $data[BP_XPROFILE_FULLNAME_FIELD_NAME];
+		$data = xprofile_get_field_data( $field_name, $user_id );
+
+		return $data[$field_name];
 	}
 }
 
