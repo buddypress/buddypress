@@ -80,10 +80,8 @@ function bp_core_get_page_meta() {
 	$page_ids = bp_get_option( 'bp-pages' );
   
   	// Upgrading from an earlier version of BP pre-1.3
-	if ( !isset( $page_ids['members'] ) && $ms_page_ids = get_site_option( 'bp-pages' ) ) {
-		$is_enable_multiblog = is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? true : false;
-  
-		$page_blog_id = $is_enable_multiblog ? get_current_blog_id() : bp_get_root_blog_id();
+	if ( !isset( $page_ids['members'] ) && $ms_page_ids = get_site_option( 'bp-pages' ) ) {  
+		$page_blog_id = bp_is_multiblog_mode() ? get_current_blog_id() : bp_get_root_blog_id();
 
 		if ( isset( $ms_page_ids[$page_blog_id] ) ) {
 			$page_ids = $ms_page_ids[$page_blog_id];
@@ -127,7 +125,7 @@ function bp_core_get_page_names() {
 	// Get pages and IDs
 	if ( $page_ids = bp_core_get_page_meta() ) {
 
-		$posts_table_name = is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ? $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts' : $wpdb->posts;
+		$posts_table_name = bp_is_multiblog_mode() ? $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts' : $wpdb->posts;
 		$page_ids_sql     = implode( ',', (array)$page_ids );
 		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " ) );
 
@@ -190,7 +188,7 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
 function bp_core_do_network_admin() {
 	$do_network_admin = false;
 
-	if ( is_multisite() && ( !defined( 'BP_ENABLE_MULTIBLOG' ) || !BP_ENABLE_MULTIBLOG ) )
+	if ( is_multisite() && !bp_is_multiblog_mode() )
 		$do_network_admin = true;
 
 	return apply_filters( 'bp_core_do_network_admin', $do_network_admin );
@@ -1090,12 +1088,12 @@ function bp_get_root_blog_id( $blog_id = false ) {
 	if ( !defined( 'BP_ROOT_BLOG' ) ) {
 
 		// Root blog is the main site on this network
-		if ( is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+		if ( is_multisite() && !bp_is_multiblog_mode() ) {
 			$current_site = get_current_site();
 			$root_blog_id = $current_site->blog_id;
 
-		// Root blog is every site on this network
-		} elseif ( is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) ) {
+		// Root blog is whatever the current site is (could be any site on the network)
+		} elseif ( is_multisite() && bp_is_multiblog_mode() ) {
 			$root_blog_id = get_current_blog_id();
 
 		// Root blog is the only blog on this network
@@ -1210,6 +1208,30 @@ function bp_delete_user_meta( $user_id, $key, $value = '' ) {
  */
 function bp_is_username_compatibility_mode() {
 	return apply_filters( 'bp_is_username_compatibility_mode', defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) && BP_ENABLE_USERNAME_COMPATIBILITY_MODE );
+}
+
+/**
+ * Are we running multiblog mode?
+ *
+ * Note that BP_ENABLE_MULTIBLOG is different from (but dependent on) WP Multisite. "Multiblog" is
+ * a BP setup that allows BP content to be viewed in the theme, and with the URL, of every blog
+ * on the network. Thus, instead of having all 'boonebgorges' links go to 
+ *   http://example.com/members/boonebgorges
+ * on the root blog, each blog will have its own version of the same profile content, eg
+ *   http://site2.example.com/members/boonebgorges (for subdomains)
+ *   http://example.com/site2/members/boonebgorges (for subdirectories)
+ *
+ * Multiblog mode is disabled by default, meaning that all BP content must be viewed on the root
+ * blog.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @uses apply_filters() Filter 'bp_is_multiblog_mode' to alter
+ * @return bool False when multiblog mode is disabled (default); true when enabled 
+ */
+function bp_is_multiblog_mode() {
+	return apply_filters( 'bp_is_multiblog_mode', is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG );
 }
 
 /** Global Manipulators *******************************************************/
