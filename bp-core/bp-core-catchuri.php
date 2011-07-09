@@ -237,7 +237,7 @@ function bp_core_set_uri_globals() {
 			if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
 				
 				// Switch the displayed_user based on compatbility mode
-				if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+				if ( bp_is_username_compatibility_mode() )
 					$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
 				else
 					$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( urldecode( $bp_uri[$uri_offset + 1] ) );

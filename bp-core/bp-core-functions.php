@@ -1199,6 +1199,18 @@ function bp_delete_user_meta( $user_id, $key, $value = '' ) {
 	return delete_user_meta( $user_id, bp_get_user_meta_key( $key ), $value );
 }
 
+/**
+ * Are we running username compatibility mode?
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @uses apply_filters() Filter 'bp_is_username_compatibility_mode' to alter
+ * @return bool False when compatibility mode is disabled (default); true when enabled 
+ */
+function bp_is_username_compatibility_mode() {
+	return apply_filters( 'bp_is_username_compatibility_mode', defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) && BP_ENABLE_USERNAME_COMPATIBILITY_MODE );
+}
 
 /** Global Manipulators *******************************************************/
 

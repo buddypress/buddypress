@@ -20,7 +20,7 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 		return false;
 
 	foreach( (array)$usernames as $username ) {
-		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+		if ( bp_is_username_compatibility_mode() )
 			$receiver_user_id = bp_core_get_userid( $username );
 		else
 			$receiver_user_id = bp_core_get_userid_from_nicename( $username );

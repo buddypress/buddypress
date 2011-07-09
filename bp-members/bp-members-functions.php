@@ -104,7 +104,7 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 	if ( !$domain = wp_cache_get( 'bp_user_domain_' . $user_id, 'bp' ) ) {
 		$username = bp_core_get_username( $user_id, $user_nicename, $user_login );
 
-		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+		if ( bp_is_username_compatibility_mode() )
 			$username = rawurlencode( $username );
 
 		// If we are using a members slug, include it.
@@ -241,7 +241,7 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 		}
 
 		// Pull an audible and use the login over the nicename
-		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+		if ( bp_is_username_compatibility_mode() )
 			$username = $user_login;
 		else
 			$username = $user_nicename;
@@ -458,7 +458,7 @@ function bp_core_get_userlink_by_email( $email ) {
  * @return str The link to the users home base. False on no match.
  */
 function bp_core_get_userlink_by_username( $username ) {
-	if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+	if ( bp_is_username_compatibility_mode() )
 		$user_id = bp_core_get_userid( $username );
 	else
 		$user_id = bp_core_get_userid_from_nicename( $username );

@@ -66,7 +66,7 @@ function messages_new_message( $args = '' ) {
 					$recipient_ids[] = (int) $recipient;
 
 			} else {
-				if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ) 
+				if ( bp_is_username_compatibility_mode() ) 
 					$recipient_id = bp_core_get_userid( $recipient ); 
 				else
 					$recipient_id = bp_core_get_userid_from_nicename( $recipient );

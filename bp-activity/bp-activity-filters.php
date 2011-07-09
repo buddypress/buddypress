@@ -122,7 +122,7 @@ function bp_activity_at_name_filter( $activity ) {
 	$usernames = bp_activity_find_mentions( $content );
 
 	foreach( (array)$usernames as $username ) {
-		if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+		if ( bp_is_username_compatibility_mode() )
 			$user_id = username_exists( $username );
 		else
 			$user_id = bp_core_get_userid_from_nicename( $username );

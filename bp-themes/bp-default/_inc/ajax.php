@@ -657,7 +657,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 			if ( !$ud )
 				continue;
 
-			if ( defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) )
+			if ( bp_is_username_compatibility_mode() )
 				$username = $ud->user_login;
 			else
 				$username = $ud->user_nicename;
