@@ -109,6 +109,9 @@ function bp_loader_activate() {
 	if ( !function_exists( 'get_blog_option' ) )
 		require ( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-wpabstraction.php' );
 
+	if ( !function_exists( 'bp_get_root_blog_id' ) )
+		require ( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-functions.php' );
+
 	// Switch the user to the new bp-default if they are using the old
 	// bp-default on activation.
 	if ( 'bp-sn-parent' == get_blog_option( bp_get_root_blog_id(), 'template' ) && 'bp-default' == get_blog_option( bp_get_root_blog_id(), 'stylesheet' ) )
