@@ -33,7 +33,7 @@
 		<p id="login-text">
 			<?php _e( 'To start connecting please log in first.', 'buddypress' ) ?>
 			<?php if ( bp_get_signup_allowed() ) : ?>
-				<?php printf( __( ' You can also <a href="%s" title="Create an account">create an account</a>.', 'buddypress' ), site_url( BP_REGISTER_SLUG . '/' ) ) ?>
+				<?php printf( __( ' You can also <a href="%s" title="Create an account">create an account</a>.', 'buddypress' ), site_url( bp_get_signup_slug() . '/' ) ) ?>
 			<?php endif; ?>
 		</p>
 
