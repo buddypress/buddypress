@@ -807,7 +807,7 @@ function bp_core_add_illegal_names() {
 function bp_core_action_search_site( $slug = '' ) {
 	global $bp;
 
-	if ( BP_SEARCH_SLUG != $bp->current_component )
+	if ( !bp_is_current_component( bp_get_search_slug() ) )
 		return;
 
 	if ( empty( $_POST['search-terms'] ) ) {

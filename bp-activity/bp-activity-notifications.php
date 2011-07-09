@@ -38,7 +38,7 @@ function bp_activity_at_message_notification( $content, $poster_user_id, $activi
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );
 
 			$message_link = bp_activity_get_permalink( $activity_id );
-			$settings_link = bp_core_get_user_domain( $receiver_user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
+			$settings_link = bp_core_get_user_domain( $receiver_user_id ) . bp_get_settings_slug() . '/notifications/';
 
 			$poster_name = stripslashes( $poster_name );
 			$content = bp_activity_filter_kses( stripslashes($content) );
@@ -84,7 +84,7 @@ function bp_activity_new_comment_notification( $comment_id, $commenter_id, $para
 	if ( $original_activity->user_id != $commenter_id && 'no' != bp_get_user_meta( $original_activity->user_id, 'notification_activity_new_reply', true ) ) {
 		$poster_name = bp_core_get_user_displayname( $commenter_id );
 		$thread_link = bp_activity_get_permalink( $activity_id );
-		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
+		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) . bp_get_settings_slug() . '/notifications/';
 
 		$poster_name = stripslashes( $poster_name );
 		$content = bp_activity_filter_kses( stripslashes($content) );
@@ -129,7 +129,7 @@ To view your original update and all comments, log in and visit: %3$s
 	if ( $parent_comment->user_id != $commenter_id && $original_activity->user_id != $parent_comment->user_id && 'no' != bp_get_user_meta( $parent_comment->user_id, 'notification_activity_new_reply', true ) ) {
 		$poster_name = bp_core_get_user_displayname( $commenter_id );
 		$thread_link = bp_activity_get_permalink( $activity_id );
-		$settings_link = bp_core_get_user_domain( $parent_comment->user_id ) .  BP_SETTINGS_SLUG . '/notifications/';
+		$settings_link = bp_core_get_user_domain( $parent_comment->user_id ) . bp_get_settings_slug() . '/notifications/';
 
 		// Set up and send the message
 		$ud       = bp_core_get_core_userdata( $parent_comment->user_id );

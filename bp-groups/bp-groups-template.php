@@ -2677,7 +2677,7 @@ function bp_group_invite_user_remove_invite_url() {
 	function bp_get_group_invite_user_remove_invite_url() {
 		global $invites_template;
 
-		return wp_nonce_url( site_url( BP_GROUPS_SLUG . '/' . $invites_template->invite->group_id . '/invites/remove/' . $invites_template->invite->user->id ), 'groups_invite_uninvite_user' );
+		return wp_nonce_url( site_url( bp_get_groups_slug() . '/' . $invites_template->invite->group_id . '/invites/remove/' . $invites_template->invite->user->id ), 'groups_invite_uninvite_user' );
 	}
 
 /***

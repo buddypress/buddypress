@@ -221,9 +221,7 @@ function bp_styles() {
 /** Search Form ***************************************************************/
 
 function bp_search_form_action() {
-	global $bp;
-
-	return apply_filters( 'bp_search_form_action', bp_get_root_domain() . '/' . BP_SEARCH_SLUG );
+	return apply_filters( 'bp_search_form_action', bp_get_root_domain() . '/' . bp_get_search_slug() );
 }
 
 /**
@@ -592,6 +590,29 @@ function bp_user_has_access() {
 
 	return apply_filters( 'bp_user_has_access', $has_access );
 }
+
+/**
+ * Output the search slug
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @uses bp_get_search_slug()
+ */
+function bp_search_slug() {
+	echo bp_get_search_slug();
+}
+	/**
+	 * Return the search slug
+	 *
+	 * @package BuddyPress
+	 * @since 1.3
+	 */
+	function bp_get_search_slug() {
+		global $bp;
+
+		return apply_filters( 'bp_get_search_slug', BP_SEARCH_SLUG );
+	}
 
 /** is_() functions to determine the current page *****************************/
 

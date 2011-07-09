@@ -453,7 +453,7 @@ add_action( 'bp_screens', 'groups_screen_group_activity_permalink' );
 function groups_screen_group_admin() {
 	global $bp;
 
-	if ( !bp_is_current_component( BP_GROUPS_SLUG ) || !bp_is_current_action( 'admin' ) )
+	if ( !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'admin' ) )
 		return false;
 
 	if ( !empty( $bp->action_variables[0] ) )

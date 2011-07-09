@@ -64,7 +64,7 @@ function bp_members_root_slug() {
  * @subpackage Members Template
  * @since BuddyPress {unknown}
  *
- * @uses bp_get_members_slug()
+ * @uses bp_get_signup_slug()
  */
 function bp_signup_slug() {
 	echo bp_get_signup_slug();
@@ -96,7 +96,7 @@ function bp_signup_slug() {
  * @subpackage Members Template
  * @since BuddyPress {unknown}
  *
- * @uses bp_get_members_slug()
+ * @uses bp_get_activate_slug()
  */
 function bp_activate_slug() {
 	echo bp_get_activate_slug();

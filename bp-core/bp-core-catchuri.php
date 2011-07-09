@@ -197,11 +197,11 @@ function bp_core_set_uri_globals() {
 	}
 
 	// Search doesn't have an associated page, so we check for it separately
-	if ( !empty( $bp_uri[0] ) && ( BP_SEARCH_SLUG == $bp_uri[0] ) ) {
+	if ( !empty( $bp_uri[0] ) && ( bp_get_search_slug() == $bp_uri[0] ) ) {
 		$matches[]   = 1;
 		$match       = new stdClass;
 		$match->key  = 'search';
-		$match->slug = BP_SEARCH_SLUG;
+		$match->slug = bp_get_search_slug();
 	}
 
 	// This is not a BuddyPress page, so just return.
