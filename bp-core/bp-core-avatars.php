@@ -532,10 +532,10 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 
 	// Make sure we at least have a width and height for cropping
 	if ( !(int)$crop_w )
-		$crop_w = BP_AVATAR_FULL_WIDTH;
+		$crop_w = bp_core_avatar_full_width();
 
 	if ( !(int)$crop_h )
-		$crop_h = BP_AVATAR_FULL_HEIGHT;
+		$crop_h = bp_core_avatar_full_height();
 
 	// Set the full and thumb filenames
 	$full_filename  = wp_hash( $original_file . time() ) . '-bpfull.jpg';
