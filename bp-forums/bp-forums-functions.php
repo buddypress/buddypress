@@ -37,7 +37,7 @@ function bp_forums_new_forum( $args = '' ) {
 	$defaults = array(
 		'forum_name'        => '',
 		'forum_desc'        => '',
-		'forum_parent_id'   => BP_FORUMS_PARENT_FORUM_ID,
+		'forum_parent_id'   => bp_forums_parent_forum_id(),
 		'forum_order'       => false,
 		'forum_is_category' => 0
 	);
@@ -56,7 +56,7 @@ function bp_forums_update_forum( $args = '' ) {
 		'forum_name'		=> '',
 		'forum_desc'		=> '',
 		'forum_slug'		=> '',
-		'forum_parent_id'	=> BP_FORUMS_PARENT_FORUM_ID,
+		'forum_parent_id'	=> bp_forums_parent_forum_id(),
 		'forum_order'		=> false,
 		'forum_is_category'	=> 0
 	);
@@ -488,6 +488,18 @@ function bp_forums_filter_caps( $allcaps ) {
 	return array_merge( (array) $allcaps, (array) $bb_cap );
 }
 add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
+
+/**
+ * Returs the parent forum id for the bbPress abstraction layer
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return int
+ */
+function bp_forums_parent_forum_id() {
+	return apply_filters( 'bp_forums_parent_forum_id', BP_FORUMS_PARENT_FORUM_ID );
+}
 
 
 /********************************************************************************
