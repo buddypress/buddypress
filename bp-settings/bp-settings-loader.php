@@ -162,7 +162,7 @@ class BP_Settings_Component extends BP_Component {
 			if ( !is_super_admin() && empty( $bp->site_options['bp-disable-account-deletion'] ) ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
-					'title'  => __( 'Compose', 'buddypress' ),
+					'title'  => __( 'Delete Account', 'buddypress' ),
 					'href'   => trailingslashit( $settings_link . 'delete-account' )
 				);
 			}
