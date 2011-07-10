@@ -167,7 +167,7 @@ function bp_members_admin_bar_notifications_menu() {
 	
 	// Add the top-level Notifications button
 	$wp_admin_bar->add_menu( array(
-		'id'    => 'notifications',
+		'id'    => 'bp-notifications',
 		'title' => $menu_title,
 		'href'  => bp_loggedin_user_domain()
 	) );
@@ -175,7 +175,7 @@ function bp_members_admin_bar_notifications_menu() {
 	if ( !empty( $notifications ) ) {
 		foreach ( (array)$notifications as $notification ) {
 			$wp_admin_bar->add_menu( array(
-				'parent' => 'notifications',
+				'parent' => 'bp-notifications',
 				'id'     => 'notification-' . $notification->id,
 				'title'  => $notification->content,
 				'href'   => $notification->href
@@ -183,7 +183,7 @@ function bp_members_admin_bar_notifications_menu() {
 		}
 	} else {
 		$wp_admin_bar->add_menu( array(
-			'parent' => 'notifications',
+			'parent' => 'bp-notifications',
 			'id'	 => 'no-notifications',
 			'title'  => __( 'No new notifications', 'buddypress' ),
 			'href'	 => bp_loggedin_user_domain()
