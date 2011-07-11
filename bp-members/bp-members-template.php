@@ -778,9 +778,7 @@ function bp_loggedin_user_link() {
 	echo bp_get_loggedin_user_link();
 }
 	function bp_get_loggedin_user_link() {
-		global $bp;
-
-		return apply_filters( 'bp_get_loggedin_user_link', bp_core_get_userlink( $bp->loggedin_user->id ) );
+		return apply_filters( 'bp_get_loggedin_user_link', bp_loggedin_user_domain() );
 	}
 
 function bp_displayed_user_link() {
