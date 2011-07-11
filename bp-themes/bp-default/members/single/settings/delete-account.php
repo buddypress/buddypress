@@ -49,7 +49,7 @@
 
 				<h3><?php _e( 'Delete Account', 'buddypress' ); ?></h3>
 
-				<form action="<?php echo bp_displayed_user_email() . bp_get_settings_slug() . '/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
+				<form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
 
 					<div id="message" class="info">
 						<p><?php _e( 'WARNING: Deleting your account will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'buddypress' ); ?></p>
