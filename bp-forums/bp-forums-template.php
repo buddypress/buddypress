@@ -688,7 +688,7 @@ function bp_my_forum_topics_link() {
 	function bp_get_my_forum_topics_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_my_forum_topics_link', bp_get_root_domain() . '/' . $bp->forums->slug . '/personal/' );
+		return apply_filters( 'bp_get_my_forum_topics_link', bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/personal/' );
 	}
 
 function bp_unreplied_forum_topics_link() {
@@ -697,7 +697,7 @@ function bp_unreplied_forum_topics_link() {
 	function bp_get_unreplied_forum_topics_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_unreplied_forum_topics_link', bp_get_root_domain() . '/' . $bp->forums->slug . '/unreplied/' );
+		return apply_filters( 'bp_get_unreplied_forum_topics_link', bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/unreplied/' );
 	}
 
 
@@ -707,7 +707,7 @@ function bp_popular_forum_topics_link() {
 	function bp_get_popular_forum_topics_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_popular_forum_topics_link', bp_get_root_domain() . '/' . $bp->forums->slug . '/popular/' );
+		return apply_filters( 'bp_get_popular_forum_topics_link', bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/popular/' );
 	}
 
 function bp_newest_forum_topics_link() {
@@ -716,7 +716,7 @@ function bp_newest_forum_topics_link() {
 	function bp_get_newest_forum_topics_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_newest_forum_topics_link', bp_get_root_domain() . '/' . $bp->forums->slug . '/' );
+		return apply_filters( 'bp_get_newest_forum_topics_link', bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/' );
 	}
 
 function bp_forum_topic_type() {
@@ -725,11 +725,10 @@ function bp_forum_topic_type() {
 	function bp_get_forum_topic_type() {
 		global $bp;
 
-		if ( !bp_is_directory() || !$bp->current_action )
+		if ( !bp_is_directory() || !bp_current_action() )
 			return 'newest';
 
-
-		return apply_filters( 'bp_get_forum_topic_type', $bp->current_action );
+		return apply_filters( 'bp_get_forum_topic_type', bp_current_action() );
 	}
 
 function bp_forums_tag_name() {
@@ -738,8 +737,12 @@ function bp_forums_tag_name() {
 	function bp_get_forums_tag_name() {
 		global $bp;
 
-		if ( bp_is_directory() && $bp->forums->slug == $bp->current_component )
-			return apply_filters( 'bp_get_forums_tag_name', $bp->action_variables[0] );
+		if ( bp_is_directory() && bp_is_forums_component() && !empty( $bp->action_variables[0] ) )
+			$tag_name = $bp->action_variables[0];
+		else
+			$tag_name = false;
+
+		return apply_filters( 'bp_get_forums_tag_name', $tag_name );
 	}
 
 function bp_forum_pagination() {
@@ -1176,7 +1179,7 @@ function bp_forum_directory_permalink() {
 	function bp_get_forum_directory_permalink() {
 		global $bp;
 
-		return apply_filters( 'bp_get_forum_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . $bp->forums->root_slug ) );
+		return apply_filters( 'bp_get_forum_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) );
 	}
 
 function bp_forums_tag_heat_map( $args = '' ) {

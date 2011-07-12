@@ -831,7 +831,7 @@ function bp_core_action_search_site( $slug = '' ) {
 				break;
 
 			case 'forums':
-				$slug = bp_is_active( 'forums' ) ? $bp->forums->root_slug : '';
+				$slug = bp_is_active( 'forums' ) ? bp_get_groups_root_slug() : '';
 				$query_string = '/?fs=';
 				break;
 
