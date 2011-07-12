@@ -16,7 +16,7 @@ function bp_activity_action_permalink_router() {
 	global $bp;
 
 	// Not viewing activity
-	if ( ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'p' ) )
+	if ( ( bp_is_activity_component() ) || !bp_is_current_action( 'p' ) )
 		return false;
 
 	// No activity to display
@@ -43,20 +43,20 @@ function bp_activity_action_permalink_router() {
 
 		// Activity is a user update
 		if ( !empty( $activity->user_id ) ) {
-			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id . '/';
+			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 
 		// Activity is something else
 		} else {
 
 			// Set redirect to group activity stream
 			if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) ) {
-				$redirect = bp_get_group_permalink( $group ) . $bp->activity->slug . '/' . $activity->id . '/';
+				$redirect = bp_get_group_permalink( $group ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 			}
 		}
 
 	// Set redirect to users' activity stream
 	} else {
-		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . $bp->activity->slug . '/' . $activity->id;
+		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id;
 	}
 
 	// Allow redirect to be filtered
@@ -125,7 +125,7 @@ function bp_activity_action_post_update() {
 	global $bp;
 
 	// Do not proceed if user is not logged in, not viewing activity, or not posting
-	if ( !is_user_logged_in() || ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'post' ) )
+	if ( !is_user_logged_in() || bp_is_activity_component() || !bp_is_current_action( 'post' ) )
 		return false;
 
 	// Check the nonce
@@ -171,7 +171,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_update' );
 function bp_activity_action_post_comment() {
 	global $bp;
 
-	if ( !is_user_logged_in() || ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'reply' ) )
+	if ( !is_user_logged_in() || ( bp_is_activity_component() ) || !bp_is_current_action( 'reply' ) )
 		return false;
 
 	// Check the nonce
@@ -203,7 +203,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_comment' );
 function bp_activity_action_mark_favorite() {
 	global $bp;
 
-	if ( !is_user_logged_in() || ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'favorite' ) )
+	if ( !is_user_logged_in() || ( bp_is_activity_component() ) || !bp_is_current_action( 'favorite' ) )
 		return false;
 
 	// Check the nonce
@@ -221,7 +221,7 @@ add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
 function bp_activity_action_remove_favorite() {
 	global $bp;
 
-	if ( !is_user_logged_in() || ( $bp->activity->slug != bp_current_component() ) || !bp_is_current_action( 'unfavorite' ) )
+	if ( !is_user_logged_in() || ( bp_is_activity_component() ) || !bp_is_current_action( 'unfavorite' ) )
 		return false;
 
 	// Check the nonce

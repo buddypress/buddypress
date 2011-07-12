@@ -21,7 +21,7 @@ header('Status: 200 OK');
 <channel>
 	<title><?php bp_site_name() ?> | <?php _e( 'Site Wide Activity', 'buddypress' ) ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
-	<link><?php echo site_url() . '/' . $bp->activity->slug . '/feed' ?></link>
+	<link><?php echo bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/feed' ?></link>
 	<description><?php _e( 'Site Wide Activity Feed', 'buddypress' ) ?></description>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_activity_get_last_updated(), false); ?></pubDate>
 	<generator>http://buddypress.org/?v=<?php echo BP_VERSION ?></generator>

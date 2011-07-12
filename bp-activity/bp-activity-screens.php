@@ -146,7 +146,7 @@ function bp_activity_screen_single_activity_permalink() {
 		// Redirect based on logged in status
 		is_user_logged_in() ?
 			bp_core_redirect( $bp->loggedin_user->domain ) :
-			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . esc_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/p/' . $bp->current_action ) ) );
+			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . esc_url( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $bp->current_action ) ) );
 	}
 
 	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );

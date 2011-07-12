@@ -125,7 +125,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 		case 'new_at_mention':
 			$activity_id      = $item_id;
 			$poster_user_id   = $secondary_item_id;
-			$at_mention_link  = $bp->loggedin_user->domain . $bp->activity->slug . '/mentions/';
+			$at_mention_link  = bp_displayed_user_domain() . bp_get_activity_slug() . '/mentions/';
 			$at_mention_title = sprintf( __( '@%s Mentions', 'buddypress' ), $bp->loggedin_user->userdata->user_nicename );
 
 			if ( (int)$total_items > 1 ) {

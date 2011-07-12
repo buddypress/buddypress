@@ -248,7 +248,7 @@ function bp_has_activities( $args = '' ) {
 		$scope = $bp->current_action;
 
 	// Support for permalinks on single item pages: /groups/my-group/activity/124/
-	if ( $bp->current_action == $bp->activity->slug )
+	if ( bp_is_current_action( bp_get_activity_slug() ) )
 		$include = $bp->action_variables[0];
 
 	// Note: any params used for filtering can be a single value, or multiple values comma separated.
@@ -1031,7 +1031,7 @@ function bp_activity_comment_delete_link() {
 	function bp_get_activity_comment_delete_link() {
 		global $bp;
 		
-		$link = wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/?cid=' . bp_get_activity_comment_id(), 'bp_activity_delete_link' );
+		$link = wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_slug() . '/delete/?cid=' . bp_get_activity_comment_id(), 'bp_activity_delete_link' );
 		
 		return apply_filters( 'bp_activity_comment_delete_link', $link );
 	}
@@ -1363,7 +1363,7 @@ function bp_send_public_message_link() {
 		if ( bp_is_my_profile() || !is_user_logged_in() )
 			return false;
 
-		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->activity->slug . '/?r=' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
+		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_activity_slug() . '/?r=' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
 	}
 
 function bp_mentioned_user_display_name( $user_id_or_username ) {
@@ -1439,16 +1439,16 @@ function bp_activities_member_rss_link() {
 	function bp_get_member_activity_feed_link() {
 		global $bp;
 
-		if ( $bp->current_component == $bp->profile->slug || 'just-me' == $bp->current_action )
-			$link = $bp->displayed_user->domain . $bp->activity->slug . '/feed/';
-		elseif ( bp_is_active( 'friends' ) && $bp->friends->slug == $bp->current_action )
-			$link = $bp->displayed_user->domain . $bp->activity->slug . '/' . $bp->friends->slug . '/feed/';
-		elseif ( bp_is_active( 'groups' ) && $bp->groups->slug == $bp->current_action )
-			$link = $bp->displayed_user->domain . $bp->activity->slug . '/' . $bp->groups->slug . '/feed/';
+		if ( bp_is_profile_component() || bp_is_current_action( 'just-me' ) )
+			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/feed/';
+		elseif ( bp_is_active( 'friends' ) && bp_is_current_action( bp_get_friends_slug() ) )
+			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() . '/feed/';
+		elseif ( bp_is_active( 'groups'  ) && bp_is_current_action( bp_get_groups_slug()  ) )
+			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_groups_slug() . '/feed/';
 		elseif ( 'favorites' == $bp->current_action )
-			$link = $bp->displayed_user->domain . $bp->activity->slug . '/favorites/feed/';
+			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/favorites/feed/';
 		elseif ( 'mentions' == $bp->current_action )
-			$link = $bp->displayed_user->domain . $bp->activity->slug . '/mentions/feed/';
+			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/mentions/feed/';
 		else
 			$link = '';
 

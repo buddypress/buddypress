@@ -20,7 +20,7 @@ header('Status: 200 OK');
 <channel>
 	<title><?php bp_site_name() ?> | <?php echo $bp->groups->current_group->name ?> | <?php _e( 'Group Activity', 'buddypress' ) ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
-	<link><?php echo bp_get_group_permalink( $bp->groups->current_group ) . $bp->activity->slug . '/feed' ?></link>
+	<link><?php echo bp_get_group_permalink( $bp->groups->current_group ) . bp_get_activity_slug() . '/feed' ?></link>
 	<description><?php printf( __( '%s - Group Activity Feed', 'buddypress' ), $bp->groups->current_group->name  ) ?></description>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_activity_get_last_updated(), false); ?></pubDate>
 	<generator>http://buddypress.org/?v=<?php echo BP_VERSION ?></generator>

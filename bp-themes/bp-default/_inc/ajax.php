@@ -223,7 +223,7 @@ function bp_dtheme_new_activity_comment() {
 
 					<?php if ( bp_activity_user_can_delete() ) : ?>
 						<div class="acomment-options">
-							<a href="<?php echo wp_nonce_url( bp_get_root_domain() . '/' . $bp->activity->slug . '/delete/' . bp_get_activity_id() . '?cid=' . $comment_id, 'bp_activity_delete_link' ) ?>" class="delete acomment-delete confirm bp-secondary-action" rel="nofollow"><?php _e( 'Delete', 'buddypress' ); ?></a>
+							<a href="<?php echo wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/delete/' . bp_get_activity_id() . '?cid=' . $comment_id, 'bp_activity_delete_link' ) ?>" class="delete acomment-delete confirm bp-secondary-action" rel="nofollow"><?php _e( 'Delete', 'buddypress' ); ?></a>
 						</div>
 					<?php endif; ?>
 				</div>

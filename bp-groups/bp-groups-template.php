@@ -677,9 +677,8 @@ function bp_group_show_no_groups_message() {
 }
 
 function bp_group_is_activity_permalink() {
-	global $bp;
 
-	if ( !bp_is_single_item() || !bp_is_current_component( 'groups' ) || !bp_is_current_action( $bp->activity->slug ) )
+	if ( !bp_is_single_item() || !bp_is_current_component( 'groups' ) || !bp_is_current_action( bp_get_activity_slug() ) )
 		return false;
 
 	return true;
@@ -714,8 +713,8 @@ function bp_groups_auto_join() {
 	return apply_filters( 'bp_groups_auto_join', (bool)$bp->groups->auto_join );
 }
 
-function bp_group_total_members() {
-	echo bp_get_group_total_members();
+function bp_group_total_members( $group = false ) {
+	echo bp_get_group_total_members( $group );
 }
 	function bp_get_group_total_members( $group = false ) {
 		global $groups_template;
