@@ -102,16 +102,16 @@ class BP_Friends_Component extends BP_Component {
 			'item_css_id'         => $bp->friends->id
 		);
 
-		$friends_link = trailingslashit( $bp->loggedin_user->domain . $bp->friends->slug );
+		$friends_link = trailingslashit( $bp->loggedin_user->domain . bp_get_friends_slug() );
 
 		// Add the subnav items to the friends nav item
 		$sub_nav[] = array(
-			'name' => __( 'Friendships', 'buddypress' ),
-			'slug' => 'my-friends',
-			'parent_url' => $friends_link,
-			'parent_slug' => $bp->friends->slug,
+			'name'            => __( 'Friendships', 'buddypress' ),
+			'slug'            => 'my-friends',
+			'parent_url'      => $friends_link,
+			'parent_slug'     => bp_get_friends_slug(),
 			'screen_function' => 'friends_screen_my_friends',
-			'position' => 10,
+			'position'        => 10,
 			'item_css_id'     => 'friends-my-friends'
 		);
 
@@ -119,7 +119,7 @@ class BP_Friends_Component extends BP_Component {
 			'name'            => __( 'Requests',   'buddypress' ),
 			'slug'            => 'requests',
 			'parent_url'      => $friends_link,
-			'parent_slug'     => $bp->friends->slug,
+			'parent_slug'     => bp_get_friends_slug(),
 			'screen_function' => 'friends_screen_requests',
 			'position'        => 20,
 			'user_has_access' => bp_is_my_profile()

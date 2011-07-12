@@ -267,7 +267,7 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 function bp_activity_action_friends_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_active( 'friends' ) || !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( $bp->friends->slug ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
+	if ( !bp_is_active( 'friends' ) || !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( bp_get_friends_slug() ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
 		return false;
 
 	$wp_query->is_404 = false;

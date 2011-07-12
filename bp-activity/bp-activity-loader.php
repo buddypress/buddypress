@@ -151,7 +151,7 @@ class BP_Activity_Component extends BP_Component {
 		if ( bp_is_active( 'friends' ) ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Friends', 'buddypress' ),
-				'slug'            => $bp->friends->slug,
+				'slug'            => bp_get_friends_slug(),
 				'parent_url'      => $activity_link,
 				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_activity_screen_friends',

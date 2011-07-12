@@ -180,7 +180,7 @@ function bp_members_adminbar_admin_menu() {
 			<?php if ( bp_is_active( 'friends' ) ) : ?>
 
 				<li>
-					<a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->friends->slug ); ?>"><?php _e( 'Friends', 'buddypress' ); ?></a>
+					<a href="<?php echo trailingslashit( $bp->displayed_user->domain . bp_get_friends_slug() ); ?>"><?php _e( 'Friends', 'buddypress' ); ?></a>
 					<ul>
 						<li><a href="<?php bp_members_component_link( 'friends', 'admin', array( 'clear' => 'friendships' ), true ); ?>" class="confirm"><?php printf( __( "Remove %s's Friendships", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
 						<li><a href="<?php bp_members_component_link( 'friends', 'admin', array( 'clear' => 'requests' ), true ); ?>" class="confirm"><?php printf( __( "Clear %s's Friend Requests", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>

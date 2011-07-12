@@ -412,7 +412,7 @@ function bp_dtheme_ajax_addremove_friend() {
 		if ( !friends_remove_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
 			echo __("Friendship could not be canceled.", 'buddypress');
 		} else {
-			echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __( 'Add Friend', 'buddypress' ) . '" href="' . wp_nonce_url( $bp->loggedin_user->domain . $bp->friends->slug . '/add-friend/' . $_POST['fid'], 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
+			echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __( 'Add Friend', 'buddypress' ) . '" href="' . wp_nonce_url( $bp->loggedin_user->domain . bp_get_friends_slug() . '/add-friend/' . $_POST['fid'], 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
 		}
 
 	} else if ( 'not_friends' == BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
@@ -422,7 +422,7 @@ function bp_dtheme_ajax_addremove_friend() {
 		if ( !friends_add_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
 			echo __("Friendship could not be requested.", 'buddypress');
 		} else {
-			echo '<a href="' . $bp->loggedin_user->domain . $bp->friends->slug . '/requests" class="requested">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
+			echo '<a href="' . $bp->loggedin_user->domain . bp_get_friends_slug() . '/requests" class="requested">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
 		}
 	} else {
 		echo __( 'Request Pending', 'buddypress' );

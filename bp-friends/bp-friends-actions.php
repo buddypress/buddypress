@@ -9,7 +9,7 @@
 function friends_action_add_friend() {
 	global $bp;
 
-	if ( $bp->current_component != $bp->friends->slug || $bp->current_action != 'add-friend' )
+	if ( !bp_is_friends_component() || !bp_is_current_action( 'add-friend' ) )
 		return false;
 
 	$potential_friend_id = $bp->action_variables[0];
@@ -48,7 +48,7 @@ add_action( 'bp_init', 'friends_action_add_friend' );
 function friends_action_remove_friend() {
 	global $bp;
 
-	if ( $bp->current_component != $bp->friends->slug || $bp->current_action != 'remove-friend' )
+	if ( !bp_is_friends_component() || !bp_is_current_action( 'remove-friend' ) )
 		return false;
 
 	$potential_friend_id = $bp->action_variables[0];

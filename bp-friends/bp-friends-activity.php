@@ -81,7 +81,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 			break;
 
 		case 'friendship_request':
-			$link = bp_loggedin_user_domain() . $bp->friends->slug . '/requests?new';
+			$link = bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests?new';
 			
 			// Set up the string and the filter
 			if ( (int)$total_items > 1 ) {
