@@ -481,7 +481,7 @@ function bp_adminbar_random_menu() {
 
 			<?php if ( bp_is_active( 'groups' ) ) : ?>
 
-				<li class="alt"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->groups->root_slug ) . '?random-group' ?>"  rel="nofollow"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
+				<li class="alt"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) . '?random-group' ?>"  rel="nofollow"><?php _e( 'Random Group', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
 

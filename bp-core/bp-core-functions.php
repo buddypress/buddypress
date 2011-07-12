@@ -836,7 +836,7 @@ function bp_core_action_search_site( $slug = '' ) {
 				break;
 
 			case 'groups':
-				$slug = bp_is_active( 'groups' ) ? $bp->groups->root_slug : '';
+				$slug = bp_is_active( 'groups' ) ? bp_get_groups_root_slug() : '';
 				break;
 
 			case 'members':
