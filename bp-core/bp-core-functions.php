@@ -827,7 +827,7 @@ function bp_core_action_search_site( $slug = '' ) {
 				break;
 
 			case 'blogs':
-				$slug = bp_is_active( 'blogs' )  ? $bp->blogs->root_slug  : '';
+				$slug = bp_is_active( 'blogs' )  ? bp_get_blogs_root_slug()  : '';
 				break;
 
 			case 'forums':

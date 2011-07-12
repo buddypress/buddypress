@@ -535,7 +535,7 @@ function bp_create_blog_link() {
 	global $bp;
 
 	if ( bp_is_my_profile() )
-		echo apply_filters( 'bp_create_blog_link', '<a href="' . bp_get_root_domain() . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
+		echo apply_filters( 'bp_create_blog_link', '<a href="' . bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create/">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
 }
 
 function bp_blogs_blog_tabs() {
@@ -545,12 +545,12 @@ function bp_blogs_blog_tabs() {
 	if ( bp_is_my_profile() )
 		return false;
 
-	$current_tab = $bp->current_action; ?>
+	?>
 
 	<ul class="content-header-nav">
-		<li<?php if ( 'my-blogs' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/my-blogs' ); ?>"><?php printf( __( "%s's Sites", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
-		<li<?php if ( 'recent-posts' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/recent-posts' ); ?>"><?php printf( __( "%s's Recent Posts", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
-		<li<?php if ( 'recent-comments' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . $bp->blogs->slug . '/recent-comments' );?>"><?php printf( __( "%s's Recent Comments", 'buddypress' ), $bp->displayed_user->fullname ); ?></a></li>
+		<li<?php if ( bp_is_current_action( 'my-blogs'        ) || !bp_current_action() ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/my-blogs'        ); ?>"><?php printf( __( "%s's Sites", 'buddypress' ),           bp_get_displayed_user_fullname() ); ?></a></li>
+		<li<?php if ( bp_is_current_action( 'recent-posts'    )                         ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/recent-posts'    ); ?>"><?php printf( __( "%s's Recent Posts", 'buddypress' ),    bp_get_displayed_user_fullname() ); ?></a></li>
+		<li<?php if ( bp_is_current_action( 'recent-comments' )                         ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/recent-comments' ); ?>"><?php printf( __( "%s's Recent Comments", 'buddypress' ), bp_get_displayed_user_fullname() ); ?></a></li>
 	</ul>
 
 <?php

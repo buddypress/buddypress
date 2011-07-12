@@ -18,7 +18,7 @@ function bp_adminbar_blogs_menu() {
 	$counter = 0;
 	if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
 
-		echo '<li id="bp-adminbar-blogs-menu"><a href="' . trailingslashit( $bp->loggedin_user->domain . $bp->blogs->slug ) . '">';
+		echo '<li id="bp-adminbar-blogs-menu"><a href="' . trailingslashit( $bp->loggedin_user->domain . bp_get_blogs_slug() ) . '">';
 
 		_e( 'My Sites', 'buddypress' );
 
@@ -48,7 +48,7 @@ function bp_adminbar_blogs_menu() {
 
 		if ( bp_blog_signup_enabled() ) {
 			echo '<li' . $alt . '>';
-			echo '<a href="' . bp_get_root_domain() . '/' . $bp->blogs->root_slug . '/create/">' . __( 'Create a Site!', 'buddypress' ) . '</a>';
+			echo '<a href="' . bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create/">' . __( 'Create a Site!', 'buddypress' ) . '</a>';
 			echo '</li>';
 		}
 

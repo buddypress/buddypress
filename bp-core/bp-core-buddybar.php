@@ -487,7 +487,7 @@ function bp_adminbar_random_menu() {
 
 			<?php if ( is_multisite() && bp_is_active( 'blogs' ) ) : ?>
 
-				<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . $bp->blogs->root_slug ) . '?random-blog' ?>"  rel="nofollow"><?php _e( 'Random Site', 'buddypress' ) ?></a></li>
+				<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() ) . '?random-blog' ?>"  rel="nofollow"><?php _e( 'Random Site', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
 
