@@ -109,7 +109,7 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 
 		// If we are using a members slug, include it.
 		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
-			$domain = bp_get_root_domain() . '/' . $bp->members->root_slug . '/' . $username;
+			$domain = bp_get_root_domain() . '/' . bp_get_members_root_slug() . '/' . $username;
 		else
 			$domain = bp_get_root_domain() . '/' . $username;
 

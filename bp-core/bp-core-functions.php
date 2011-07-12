@@ -841,7 +841,7 @@ function bp_core_action_search_site( $slug = '' ) {
 
 			case 'members':
 			default:
-				$slug = $bp->members->root_slug;
+				$slug = bp_get_members_root_slug();
 				break;
 		}
 

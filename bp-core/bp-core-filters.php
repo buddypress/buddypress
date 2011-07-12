@@ -290,7 +290,7 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	// An index or directory
 	} elseif ( bp_is_directory() ) {
 		if ( !bp_current_component() )
-			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug( $bp->members->slug ) );
+			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug( bp_members_slug() ) );
 		else
 			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug() );
 
@@ -314,7 +314,8 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	return apply_filters( 'bp_modify_page_title', $title . " $sep ", $title, $sep, $seplocation );
 }
 add_filter( 'wp_title', 'bp_modify_page_title', 10, 3 );
-add_filter( 'bp_modify_page_title', 'wptexturize'   );
-add_filter( 'bp_modify_page_title', 'convert_chars' );
-add_filter( 'bp_modify_page_title', 'esc_html'      );
+add_filter( 'bp_modify_page_title', 'wptexturize'     );
+add_filter( 'bp_modify_page_title', 'convert_chars'   );
+add_filter( 'bp_modify_page_title', 'esc_html'        );
+
 ?>
