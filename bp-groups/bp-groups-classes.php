@@ -1179,19 +1179,19 @@ class BP_Group_Extension {
 		// When we are viewing a single group, add the group extension nav item
 		if ( $this->visibility == 'public' || ( $this->visibility != 'public' && $bp->groups->current_group->user_has_access ) ) {
 			if ( $this->enable_nav_item ) {
-				if ( bp_is_current_component( 'groups' ) && $bp->is_single_item ) {
+				if ( bp_is_groups_component() && $bp->is_single_item ) {
 					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => $bp->groups->current_group->slug, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
 				}
 
 				// When we are viewing the extension display page, set the title and options title
-				if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && $bp->current_action == $this->slug ) {
+				if ( bp_is_groups_component() && $bp->is_single_item && $bp->current_action == $this->slug ) {
 					add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
 			 		add_action( 'bp_template_title', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
 				}
 			}
 
 			// Hook the group home widget
-			if ( bp_is_current_component( 'groups' ) && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
+			if ( bp_is_groups_component() && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
 				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 		}
 		
@@ -1200,7 +1200,7 @@ class BP_Group_Extension {
 			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', '$selected = ""; if ( "' . esc_attr( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . bp_get_root_domain() . '/' . $bp->groups->root_slug . '/{$group_slug}/admin/' . esc_attr( $this->slug ) . '\">' . esc_attr( $this->name ) . '</a></li>";' ), 10, 2 );
 
 			// Catch the edit screen and forward it to the plugin template
-			if ( bp_is_current_component( 'groups' ) && bp_is_current_action( 'admin' ) && !empty( $bp->action_variables[0] ) && $this->slug == $bp->action_variables[0] ) {
+			if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && !empty( $bp->action_variables[0] ) && $this->slug == $bp->action_variables[0] ) {
 				// Check whether the user is saving changes
 				$this->edit_screen_save();
 

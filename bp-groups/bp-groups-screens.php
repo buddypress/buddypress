@@ -453,7 +453,7 @@ add_action( 'bp_screens', 'groups_screen_group_activity_permalink' );
 function groups_screen_group_admin() {
 	global $bp;
 
-	if ( !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'admin' ) )
+	if ( !bp_is_groups_component() || !bp_is_current_action( 'admin' ) )
 		return false;
 
 	if ( !empty( $bp->action_variables[0] ) )
@@ -465,7 +465,7 @@ function groups_screen_group_admin() {
 function groups_screen_group_admin_edit_details() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'edit-details' == $bp->action_variables[0] ) {
+	if ( bp_is_groups_component() && isset( $bp->action_variables[0] ) && 'edit-details' == $bp->action_variables[0] ) {
 
 		if ( $bp->is_item_admin || $bp->is_item_mod  ) {
 
@@ -497,7 +497,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_edit_details' );
 function groups_screen_group_admin_settings() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'group-settings' == $bp->action_variables[0] ) {
+	if ( bp_is_groups_component() && isset( $bp->action_variables[0] ) && 'group-settings' == $bp->action_variables[0] ) {
 
 		if ( !$bp->is_item_admin )
 			return false;
@@ -539,7 +539,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_settings' );
 function groups_screen_group_admin_avatar() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'group-avatar' == $bp->action_variables[0] ) {
+	if ( bp_is_groups_component() && isset( $bp->action_variables[0] ) && 'group-avatar' == $bp->action_variables[0] ) {
 
 		if ( !$bp->is_item_admin )
 			return false;
@@ -597,7 +597,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_avatar' );
 function groups_screen_group_admin_manage_members() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'manage-members' == $bp->action_variables[0] ) {
+	if ( bp_is_groups_component() && isset( $bp->action_variables[0] ) && 'manage-members' == $bp->action_variables[0] ) {
 
 		if ( !$bp->is_item_admin )
 			return false;
@@ -707,7 +707,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_manage_members' );
 function groups_screen_group_admin_requests() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'membership-requests' == $bp->action_variables[0] ) {
+	if ( bp_is_groups_component() && isset( $bp->action_variables[0] ) && 'membership-requests' == $bp->action_variables[0] ) {
 
 		// Ask for a login if the user is coming here via an email notification
 		if ( !is_user_logged_in() )
@@ -760,7 +760,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_requests' );
 function groups_screen_group_admin_delete_group() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && isset( $bp->action_variables[0] ) && 'delete-group' == $bp->action_variables[0] ) {
+	if ( bp_is_groups_component() && isset( $bp->action_variables[0] ) && 'delete-group' == $bp->action_variables[0] ) {
 
 		if ( !$bp->is_item_admin && !is_super_admin() )
 			return false;
@@ -780,7 +780,7 @@ function groups_screen_group_admin_delete_group() {
 
 				do_action( 'groups_group_deleted', $bp->groups->current_group->id );
 
-				bp_core_redirect( $bp->loggedin_user->domain . $bp->groups->slug . '/' );
+				bp_core_redirect( $bp->loggedin_user->domain . bp_get_groups_slug() . '/' );
 			}
 
 			bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component );

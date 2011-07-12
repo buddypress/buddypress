@@ -164,7 +164,7 @@ class BP_Activity_Component extends BP_Component {
 		if ( bp_is_active( 'groups' ) ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Groups', 'buddypress' ),
-				'slug'            => $bp->groups->slug,
+				'slug'            => bp_get_groups_slug(),
 				'parent_url'      => $activity_link,
 				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_activity_screen_groups',

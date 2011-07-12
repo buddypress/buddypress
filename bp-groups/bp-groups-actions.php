@@ -13,7 +13,7 @@ function groups_action_create_group() {
 	global $bp;
 
 	// If we're not at domain.org/groups/create/ then return false
-	if ( !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'create' ) )
+	if ( !bp_is_groups_component() || !bp_is_current_action( 'create' ) )
 		return false;
 
 	if ( !is_user_logged_in() )
@@ -198,7 +198,7 @@ add_action( 'bp_actions', 'groups_action_create_group' );
 function groups_action_join_group() {
 	global $bp;
 
-	if ( !bp_is_single_item() || !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'join' ) )
+	if ( !bp_is_single_item() || !bp_is_groups_component() || !bp_is_current_action( 'join' ) )
 		return false;
 
 	// Nonce check
@@ -233,7 +233,7 @@ add_action( 'bp_actions', 'groups_action_join_group' );
 function groups_action_leave_group() {
 	global $bp;
 
-	if ( !bp_is_single_item() || !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'leave-group' ) )
+	if ( !bp_is_single_item() || !bp_is_groups_component() || !bp_is_current_action( 'leave-group' ) )
 		return false;
 
 	// Nonce check
@@ -258,7 +258,7 @@ add_action( 'bp_actions', 'groups_action_leave_group' );
 function groups_action_sort_creation_steps() {
 	global $bp;
 
-	if ( !bp_is_current_component( 'groups' ) || !bp_is_current_action( 'create' ) )
+	if ( !bp_is_groups_component() || !bp_is_current_action( 'create' ) )
 		return false;
 
 	if ( !is_array( $bp->groups->group_creation_steps ) )
@@ -282,10 +282,10 @@ function groups_action_sort_creation_steps() {
 function groups_action_redirect_to_random_group() {
 	global $bp, $wpdb;
 
-	if ( bp_is_current_component( $bp->groups->slug ) && isset( $_GET['random-group'] ) ) {
+	if ( bp_is_groups_component() && isset( $_GET['random-group'] ) ) {
 		$group = groups_get_groups( array( 'type' => 'random', 'per_page' => 1 ) );
 
-		bp_core_redirect( bp_get_root_domain() . '/' . $bp->groups->slug . '/' . $group['groups'][0]->slug . '/' );
+		bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group['groups'][0]->slug . '/' );
 	}
 }
 add_action( 'bp_actions', 'groups_action_redirect_to_random_group' );
@@ -293,7 +293,7 @@ add_action( 'bp_actions', 'groups_action_redirect_to_random_group' );
 function groups_action_group_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_active( 'activity' ) || !bp_is_current_component( 'groups' ) || !isset( $bp->groups->current_group ) || !bp_is_current_action( 'feed' ) )
+	if ( !bp_is_active( 'activity' ) || !bp_is_groups_component() || !isset( $bp->groups->current_group ) || !bp_is_current_action( 'feed' ) )
 		return false;
 
 	$wp_query->is_404 = false;

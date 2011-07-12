@@ -1021,7 +1021,7 @@ function bp_is_user_friend_requests() {
 function bp_is_group() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && isset( $bp->groups->current_group ) && $bp->groups->current_group )
+	if ( bp_is_groups_component() && isset( $bp->groups->current_group ) && $bp->groups->current_group )
 		return true;
 
 	return false;
@@ -1030,7 +1030,7 @@ function bp_is_group() {
 function bp_is_group_home() {
 	global $bp;
 
-	if ( bp_is_single_item() && bp_is_current_component( 'groups' ) && ( !bp_current_action() || bp_is_current_action( 'home' ) ) )
+	if ( bp_is_single_item() && bp_is_groups_component() && ( !bp_current_action() || bp_is_current_action( 'home' ) ) )
 		return true;
 
 	return false;
@@ -1039,7 +1039,7 @@ function bp_is_group_home() {
 function bp_is_group_create() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && bp_is_current_action( 'create' ) )
+	if ( bp_is_groups_component() && bp_is_current_action( 'create' ) )
 		return true;
 
 	return false;
@@ -1048,7 +1048,7 @@ function bp_is_group_create() {
 function bp_is_group_admin_page() {
 	global $bp;
 
-	if ( bp_is_single_item() && bp_is_current_component( 'groups' ) && bp_is_current_action( 'admin' ) )
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'admin' ) )
 		return true;
 
 	return false;
@@ -1057,7 +1057,7 @@ function bp_is_group_admin_page() {
 function bp_is_group_forum() {
 	global $bp;
 
-	if ( bp_is_single_item() && bp_is_current_component( 'groups' ) && bp_is_current_action( 'forum' ) )
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) )
 		return true;
 
 	return false;
@@ -1066,7 +1066,7 @@ function bp_is_group_forum() {
 function bp_is_group_activity() {
 	global $bp;
 
-	if ( bp_is_single_item() && bp_is_current_component( 'groups' ) && bp_is_current_action( 'activity' ) )
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'activity' ) )
 		return true;
 
 	return false;
@@ -1075,7 +1075,7 @@ function bp_is_group_activity() {
 function bp_is_group_forum_topic() {
 	global $bp;
 
-	if ( bp_is_single_item() && bp_is_current_component( 'groups' ) && bp_is_current_action( 'forum' ) && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] )
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] )
 		return true;
 
 	return false;
@@ -1084,7 +1084,7 @@ function bp_is_group_forum_topic() {
 function bp_is_group_forum_topic_edit() {
 	global $bp;
 
-	if ( bp_is_single_item() && bp_is_current_component( 'groups' ) && bp_is_current_action( 'forum' ) && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] )
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] )
 		return true;
 
 	return false;
@@ -1093,7 +1093,7 @@ function bp_is_group_forum_topic_edit() {
 function bp_is_group_members() {
 	global $bp;
 
-	if ( bp_is_single_item() && bp_is_current_component( 'groups' ) && bp_is_current_action( 'members' ) )
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'members' ) )
 		return true;
 
 	return false;
@@ -1102,7 +1102,7 @@ function bp_is_group_members() {
 function bp_is_group_invites() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && bp_is_current_action( 'send-invites' ) )
+	if ( bp_is_groups_component() && bp_is_current_action( 'send-invites' ) )
 		return true;
 
 	return false;
@@ -1111,7 +1111,7 @@ function bp_is_group_invites() {
 function bp_is_group_membership_request() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && bp_is_current_action( 'request-membership' ) )
+	if ( bp_is_groups_component() && bp_is_current_action( 'request-membership' ) )
 		return true;
 
 	return false;
@@ -1120,7 +1120,7 @@ function bp_is_group_membership_request() {
 function bp_is_group_leave() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && bp_is_single_item() && bp_is_current_action( 'leave-group' ) )
+	if ( bp_is_groups_component() && bp_is_single_item() && bp_is_current_action( 'leave-group' ) )
 		return true;
 
 	return false;
@@ -1129,7 +1129,7 @@ function bp_is_group_leave() {
 function bp_is_group_single() {
 	global $bp;
 
-	if ( bp_is_current_component( 'groups' ) && bp_is_single_item() )
+	if ( bp_is_groups_component() && bp_is_single_item() )
 		return true;
 
 	return false;

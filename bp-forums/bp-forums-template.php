@@ -930,7 +930,7 @@ function bp_has_forum_topic_posts( $args = '' ) {
 		$topic_template = new BP_Forums_Template_Topic( (int) $topic_id, $per_page, $max, $order );
 
 		// Current topic forum_id needs to match current_group forum_id
-		if ( bp_is_current_component( 'groups' ) && $topic_template->forum_id != groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) )
+		if ( bp_is_groups_component() && $topic_template->forum_id != groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) )
 			return false;
 	}
 	
