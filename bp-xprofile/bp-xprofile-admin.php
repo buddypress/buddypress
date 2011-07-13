@@ -20,8 +20,8 @@ function xprofile_add_admin_menu() {
 	if ( !is_super_admin() )
 		return false;
 
-	$hook = add_options_page( __( 'Profiles Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
-	
+	$hook = add_submenu_page( 'bp-general-settings', __( 'Profile Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
+
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
 add_action( bp_core_admin_hook(), 'xprofile_add_admin_menu' );
