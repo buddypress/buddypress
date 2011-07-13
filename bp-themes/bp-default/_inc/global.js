@@ -156,7 +156,7 @@ jq(document).ready( function() {
 
 		/* Favoriting activity stream items */
 		if ( target.hasClass('fav') || target.hasClass('unfav') ) {
-			var type = target.attr('class')
+			var type = target.hasClass('fav') ? 'fav' : 'unfav';
 			var parent = target.parent().parent().parent();
 			var parent_id = parent.attr('id').substr( 9, parent.attr('id').length );
 
