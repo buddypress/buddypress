@@ -4,7 +4,7 @@
 function bp_forums_is_installed_correctly() {
 	global $bp;
 
-	if ( isset( $bp->forums->bbconfig ) && file_exists( $bp->forums->bbconfig ) )
+	if ( isset( $bp->forums->bbconfig ) && is_file( $bp->forums->bbconfig ) )
 		return true;
 
 	return false;
