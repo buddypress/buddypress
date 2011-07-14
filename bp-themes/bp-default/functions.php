@@ -439,7 +439,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 			<div class="comment-meta">
 				<p>
 					<?php
-						if ( current_user_can( 'edit_comment', get_comment_ID() ) )
+						if ( comments_open() )
 							$links = get_comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) );
 						else
 							$links = '';
@@ -449,7 +449,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 					?>
 				</p>
 
-				<?php if ( comments_open() ) : ?>
+				<?php if ( current_user_can( 'edit_comment', $comment->comment_ID ) ) : ?>
 					<div class="comment-options"><?php printf( '<a class="comment-edit-link bp-secondary-action" href="%1$s" title="%2$s">%3$s</a> ', get_edit_comment_link( $comment->comment_ID ), esc_attr__( 'Edit comment', 'buddypress' ), __( 'Edit', 'buddypress' ) ) ?></div>
 				<?php endif; ?>
 			</div>
