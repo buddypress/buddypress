@@ -181,13 +181,29 @@ function bp_core_admin_component_setup_handler() {
 			require_once( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-update.php' );
 			$bp->active_components = stripslashes_deep( $_POST['bp_components'] );
 			bp_core_install( $bp->active_components );
-			
+
 			bp_update_option( 'bp-active-components', $bp->active_components );
 		}
 
+		$base_url = bp_get_admin_url(  add_query_arg( array( 'page' => 'bp-general-settings', 'updated' => 'true' ), 'admin.php' ) );
+
+		wp_redirect( $base_url );
+	}
+}
+add_action( 'admin_init', 'bp_core_admin_component_setup_handler' );
+
+function bp_core_admin_pages_setup_handler() {
+	global $wpdb, $bp;
+
+	if ( isset( $_POST['bp-admin-pages-submit'] ) ) {
+		if ( !check_admin_referer('bp-admin-pages-setup') )
+			return false;
+
 		// Then, update the directory pages
 		if ( isset( $_POST['bp_pages'] ) ) {
+
 			$directory_pages = array();
+
 			foreach ( (array)$_POST['bp_pages'] as $key => $value ) {
 				if ( !empty( $value ) ) {
 					$directory_pages[$key] = (int)$value;
@@ -196,12 +212,12 @@ function bp_core_admin_component_setup_handler() {
 			bp_core_update_page_meta( $directory_pages );
 		}
 
-		$base_url = bp_get_admin_url( 'admin.php' );
+		$base_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings', 'updated' => 'true' ), 'admin.php' ) );
 
-		wp_redirect( add_query_arg( array( 'page' => 'bp-general-settings', 'updated' => 'true' ), $base_url ) );
+		wp_redirect( $base_url );
 	}
 }
-add_action( 'admin_init', 'bp_core_admin_component_setup_handler' );
+add_action( 'admin_init', 'bp_core_admin_pages_setup_handler' );
 
 /**
  * Renders the Component Setup admin panel.
@@ -290,10 +306,10 @@ function bp_core_admin_page_setup() {
 			<?php bp_core_admin_page_options(); ?>
 
 			<p class="submit clear">
-				<input class="button-primary" type="submit" name="bp-admin-page-submit" id="bp-admin-page-submit" value="<?php _e( 'Save Settings', 'buddypress' ) ?>"/>
+				<input class="button-primary" type="submit" name="bp-admin-page-submit" id="bp-admin-page-submit" value="<?php _e( 'Save All', 'buddypress' ) ?>"/>
 			</p>
 
-			<?php wp_nonce_field( 'bp-admin-page-setup' ); ?>
+			<?php wp_nonce_field( 'bp-admin-pages-setup' ); ?>
 
 		</form>
 	</div>
@@ -498,7 +514,7 @@ function bp_core_admin_page_options() {
 						) ); ?>
 
 						<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
-
+						<input class="button-primary" type="submit" value="<?php _e( 'Save', 'buddypress' ) ?>" />
 					</td>
 				</tr>
 
@@ -541,7 +557,7 @@ function bp_core_admin_page_options() {
 						) ) ?>
 
 						<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
-
+						<input class="button-primary" type="submit" value="<?php _e( 'Save', 'buddypress' ) ?>" />
 					</td>
 				</tr>
 
