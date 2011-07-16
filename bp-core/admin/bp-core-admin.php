@@ -465,10 +465,10 @@ function bp_core_admin_page_options() {
 
 	// An array of strings looped over to create component setup markup
 	$directory_pages = array(
-		'members'  => __( 'Members Directory',  'buddypress' ),
-		'activity' => __( 'Activity Directory', 'buddypress' ),
-		'groups'   => __( 'Groups Directory',   'buddypress' ),
-		'forums'   => __( 'Forums Directory',   'buddypress' ),
+		'members'  => __( 'Community Members', 'buddypress' ),
+		'activity' => __( 'Activity Streams',  'buddypress' ),
+		'groups'   => __( 'User Groups',       'buddypress' ),
+		'forums'   => __( 'Discussion Forums', 'buddypress' ),
 	);
 	
 	if ( is_multisite() )
@@ -514,8 +514,8 @@ function bp_core_admin_page_options() {
 
 	// Static pages
 	$static_pages = array(
-		'register' => __( 'Sign up Page',    'buddypress' ),
-		'activate' => __( 'Activation Page', 'buddypress' ),
+		'register' => __( 'Sign-up',    'buddypress' ),
+		'activate' => __( 'Activation', 'buddypress' ),
 	); ?>
 
 	<h3><?php _e( 'Registration', 'buddypress' ); ?></h3>
