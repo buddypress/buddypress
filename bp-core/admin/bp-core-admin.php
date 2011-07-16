@@ -393,7 +393,7 @@ function bp_core_admin_component_options() {
 	<?php /* The setup wizard uses different, more descriptive text here */ ?>
 	<?php if ( empty( $bp_wizard ) ) : ?>
 
-		<h3><?php _e( 'Active Components', 'buddypress' ); ?></h3>
+		<h3><?php _e( 'Available Components', 'buddypress' ); ?></h3>
 				
 		<p><?php _e( 'Each component has a unique purpose, and your community may not need each one.', 'buddypress' ); ?></p>
 
