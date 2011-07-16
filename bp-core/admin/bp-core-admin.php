@@ -195,8 +195,8 @@ add_action( 'admin_init', 'bp_core_admin_component_setup_handler' );
 function bp_core_admin_pages_setup_handler() {
 	global $wpdb, $bp;
 
-	if ( isset( $_POST['bp-admin-pages-submit'] ) ) {
-		if ( !check_admin_referer('bp-admin-pages-setup') )
+	if ( isset( $_POST['bp-admin-pages-submit'] ) || isset( $_POST['bp-admin-pages-single'] ) ) {
+		if ( !check_admin_referer( 'bp-admin-pages-setup' ) )
 			return false;
 
 		// Then, update the directory pages
@@ -306,7 +306,7 @@ function bp_core_admin_page_setup() {
 			<?php bp_core_admin_page_options(); ?>
 
 			<p class="submit clear">
-				<input class="button-primary" type="submit" name="bp-admin-page-submit" id="bp-admin-page-submit" value="<?php _e( 'Save All', 'buddypress' ) ?>"/>
+				<input class="button-primary" type="submit" name="bp-admin-pages-submit" id="bp-admin-pages-submit" value="<?php _e( 'Save All', 'buddypress' ) ?>"/>
 			</p>
 
 			<?php wp_nonce_field( 'bp-admin-pages-setup' ); ?>
@@ -486,7 +486,7 @@ function bp_core_admin_page_options() {
 		'groups'   => __( 'User Groups',       'buddypress' ),
 		'forums'   => __( 'Discussion Forums', 'buddypress' ),
 	);
-	
+
 	if ( is_multisite() )
 		$directory_pages['blogs'] = __( "Site Directory", 'buddypress' ); ?>
 	
@@ -514,7 +514,14 @@ function bp_core_admin_page_options() {
 						) ); ?>
 
 						<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
-						<input class="button-primary" type="submit" value="<?php _e( 'Save', 'buddypress' ) ?>" />
+						<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php _e( 'Save', 'buddypress' ) ?>" />
+
+						<?php if ( !empty( $existing_pages[$name] ) ) : ?>
+
+							<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View' ); ?></a>
+
+						<?php endif; ?>
+
 					</td>
 				</tr>
 
@@ -557,7 +564,14 @@ function bp_core_admin_page_options() {
 						) ) ?>
 
 						<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
-						<input class="button-primary" type="submit" value="<?php _e( 'Save', 'buddypress' ) ?>" />
+						<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php _e( 'Save', 'buddypress' ) ?>" />
+
+						<?php if ( !empty( $existing_pages[$name] ) ) : ?>
+
+							<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View' ); ?></a>
+
+						<?php endif; ?>
+
 					</td>
 				</tr>
 
