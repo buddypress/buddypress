@@ -15,15 +15,21 @@ add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
 function bp_forums_bbpress_admin() {
 	global $bp; 
 	
-	$base_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' );
-	
-	$action = add_query_arg( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), $base_url );
-	
+	$base_url = bp_get_admin_url( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), 'admin.php' );
+
 	?>
 
 	<div class="wrap">
 		<?php screen_icon( 'buddypress' ); ?>
-		<h2><?php _e( 'Forums Setup', 'buddypress' ) ?></h2>
+
+		<h2 class="nav-tab-wrapper">
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Components', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Pages', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Settings', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
+
+			<?php do_action( 'bp_admin_tabs' ); ?>
+		</h2>
 
 		<?php if ( isset( $_POST['submit'] ) ) : ?>
 

@@ -238,6 +238,7 @@ function bp_core_add_admin_menu() {
 	// Add the administration tab under the "Site Admin" tab for site administrators
 	$hooks[] = add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup', '' );
 	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Components', 'buddypress' ), __( 'Components', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup'  );
+	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Pages',      'buddypress' ), __( 'Pages',      'buddypress' ), 'manage_options', 'bp-page-settings',    'bp_core_admin_page_setup'       );
 	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Settings',   'buddypress' ), __( 'Settings',   'buddypress' ), 'manage_options', 'bp-settings',         'bp_core_admin_settings'         );
 
 	// Add a hook for css/js
@@ -399,13 +400,11 @@ function bp_core_activation_notice() {
 
 		// Create the string of links to the Edit Page screen for the pages
 		$edit_pages_links = array();
-		foreach( $orphaned_pages as $op ) {
+		foreach( $orphaned_pages as $op )
 			$edit_pages_links[] = sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'post.php?action=edit&post=' . $op['id'] ), $op['title'] );
-		}
 
-		$admin_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php?page=bp-general-settings' ) : admin_url( 'admin.php?page=bp-general-settings' );
-
-		$notice = sprintf( __( 'Some of your WordPress pages are linked to BuddyPress components that have been disabled. These pages may continue to show up in your site navigation. Consider <a href="%1$s">reactivating the components</a>, or unpublishing the pages: <strong>%2$s</strong>', 'buddypress' ), $admin_url, implode( ', ', $edit_pages_links ) );
+		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
+		$notice    = sprintf( __( 'Some of your WordPress pages are linked to BuddyPress Components that are disabled: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $edit_pages_links ) . '</strong>' );
 
 		bp_core_add_admin_notice( $notice );
 	}
@@ -448,9 +447,8 @@ function bp_core_activation_notice() {
 	}
 
 	if ( !empty( $orphaned_components ) ) {
-		$admin_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php?page=bp-general-settings' ) : admin_url( 'admin.php?page=bp-general-settings' );
-
-		$notice = sprintf( __( 'Some BuddyPress components must be associated with WordPress pages for your site to work properly. The following components are missing their required WP pages: <strong>%1$s</strong>. Visit the <a href="%2$s">BuddyPress Components</a> panel, where you can either deactivate unused components or complete the page setup.', 'buddypress' ), implode( ', ', $orphaned_components ), $admin_url );
+		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
+		$notice    = sprintf( __( 'The following BuddyPress Components do not have associated WordPress Pages: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $orphaned_components ) . '</strong>' );
 
 		bp_core_add_admin_notice( $notice );
 	}
@@ -1252,6 +1250,46 @@ function bp_is_multiblog_mode() {
 function bp_use_wp_admin_bar() {
 	return apply_filters( 'bp_use_wp_admin_bar', defined( 'BP_USE_WP_ADMIN_BAR' ) && BP_USE_WP_ADMIN_BAR );
 }
+
+/**
+ * Output the correct URL based on BuddyPress and WordPress configuration
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param string $path
+ * @param string $scheme
+ *
+ * @uses bp_get_admin_url()
+ */
+function bp_admin_url( $path = '', $scheme = 'admin' ) {
+	echo bp_get_admin_url( $path, $scheme );
+}
+	/**
+	 * Return the correct URL based on BuddyPress and WordPress configuration
+	 *
+	 * @package BuddyPress
+	 * @since 1.3
+	 *
+	 * @param string $path
+	 * @param string $scheme
+	 *
+	 * @uses bp_core_do_network_admin()
+	 * @uses network_admin_url()
+	 * @uses admin_url()
+	 */
+	function bp_get_admin_url( $path = '', $scheme = 'admin' ) {
+
+		// Links belong in network admin
+		if ( bp_core_do_network_admin() )
+			$url = network_admin_url( $path, $scheme );
+
+		// Links belong in site admin
+		else
+			$url = admin_url( $path, $scheme );
+
+		return $url;
+	}
 
 /** Global Manipulators *******************************************************/
 

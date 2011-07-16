@@ -17,10 +17,10 @@ add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update
  * @since {@internal Unknown}}
  */
 function bp_core_admin_dashboard() { 
-	$base_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' );
-	
-	$action = add_query_arg( array( 'page' => 'bp-general-settings' ), $base_url );
+	$base_url = bp_get_admin_url( 'admin.php' );
+	$action   = add_query_arg( array( 'page' => 'bp-general-settings' ), $base_url );
 	?>
+
 	<div class="wrap" id="bp-admin">
 
 		<div id="bp-admin-header">
@@ -66,7 +66,14 @@ function bp_core_admin_settings() {
 
 		<?php screen_icon( 'buddypress' ); ?>
 
-		<h2><?php _e( 'BuddyPress General Settings', 'buddypress' ); ?></h2>
+		<h2 class="nav-tab-wrapper">
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Components', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Pages', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Settings', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
+
+			<?php do_action( 'bp_admin_tabs' ); ?>
+		</h2>
 
 		<?php if ( isset( $_POST['bp-admin'] ) ) : ?>
 
@@ -189,7 +196,7 @@ function bp_core_admin_component_setup_handler() {
 			bp_core_update_page_meta( $directory_pages );
 		}
 
-		$base_url = bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' );
+		$base_url = bp_get_admin_url( 'admin.php' );
 
 		wp_redirect( add_query_arg( array( 'page' => 'bp-general-settings', 'updated' => 'true' ), $base_url ) );
 	}
@@ -210,7 +217,14 @@ function bp_core_admin_component_setup() {
 
 		<?php screen_icon( 'buddypress'); ?>
 
-		<h2><?php _e( 'BuddyPress Component Settings', 'buddypress' ); ?></h2>
+		<h2 class="nav-tab-wrapper">
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Components', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Pages', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Settings', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
+
+			<?php do_action( 'bp_admin_tabs' ); ?>
+		</h2>
 
 		<?php if ( isset( $_GET['updated'] ) && 'true' === $_GET['updated'] ) : ?>
 
@@ -224,18 +238,62 @@ function bp_core_admin_component_setup() {
 
 		<form action="" method="post" id="bp-admin-component-form">
 
-			<?php
-
-				bp_core_admin_component_options();
-				bp_core_admin_page_options();
-
-			?>
+			<?php bp_core_admin_component_options(); ?>
 
 			<p class="submit clear">
 				<input class="button-primary" type="submit" name="bp-admin-component-submit" id="bp-admin-component-submit" value="<?php _e( 'Save Settings', 'buddypress' ) ?>"/>
 			</p>
 
 			<?php wp_nonce_field( 'bp-admin-component-setup' ); ?>
+
+		</form>
+	</div>
+
+<?php
+}
+
+/**
+ * Renders the Component Setup admin panel.
+ *
+ * @package BuddyPress Core
+ * @since {@internal Unknown}}
+ * @uses bp_core_admin_component_options()
+ */
+function bp_core_admin_page_setup() {
+?>
+
+	<div class="wrap">
+
+		<?php screen_icon( 'buddypress'); ?>
+
+		<h2 class="nav-tab-wrapper">
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Components', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Pages', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Settings', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
+
+			<?php do_action( 'bp_admin_tabs' ); ?>
+		</h2>
+
+		<?php if ( isset( $_GET['updated'] ) && 'true' === $_GET['updated'] ) : ?>
+
+			<div id="message" class="updated fade">
+
+				<p><?php _e( 'Settings Saved', 'buddypress' ); ?></p>
+
+			</div>
+
+		<?php endif; ?>
+
+		<form action="" method="post" id="bp-admin-page-form">
+
+			<?php bp_core_admin_page_options(); ?>
+
+			<p class="submit clear">
+				<input class="button-primary" type="submit" name="bp-admin-page-submit" id="bp-admin-page-submit" value="<?php _e( 'Save Settings', 'buddypress' ) ?>"/>
+			</p>
+
+			<?php wp_nonce_field( 'bp-admin-page-setup' ); ?>
 
 		</form>
 	</div>
@@ -260,7 +318,7 @@ function bp_core_admin_component_options() {
 	$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 	
 	// An array of strings looped over to create component setup markup
-	$optional_components = array(
+	$optional_components = apply_filters( 'bp_admin_optional_components', array(
 		'xprofile' => array(
 			'title'       => __( 'Extended Profiles', 'buddypress' ),
 			'description' => __( 'Customize your community with fully editable profile fields that allow your users use to uniquely describe themselves.', 'buddypress' )
@@ -289,8 +347,8 @@ function bp_core_admin_component_options() {
 			'title'       => __( 'Discussion Forums', 'buddypress' ),
 			'description' => __( 'Full powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step.', 'buddypress' )
 		)
-	);
-	
+	) );
+
 	if ( is_multisite() ) {
 		$optional_components['blogs'] = array(
 			'title'	      => __( 'Site Tracking', 'buddypress' ),
@@ -298,6 +356,18 @@ function bp_core_admin_component_options() {
 		);
 	}
 
+	// Required components
+	$required_components = apply_filters( 'bp_admin_required_components', array(
+		'core' => array(
+			'title'       => __( 'BuddyPress Core', 'buddypress' ),
+			'description' => __( 'It&#8216;s what makes <del>time travel</del> BuddyPress possible!', 'buddypress' )
+		),
+		'members' => array(
+			'title'       => __( 'Community Members', 'buddypress' ),
+			'description' => __( 'Everything in BuddyPress revolves around the members. This component cannot be turned off.', 'buddypress' )
+		),
+	) );
+	
 	// On new install, set all components to be active by default
 	if ( !empty( $bp_wizard ) && 'install' == $bp_wizard->setup_type && empty( $active_components ) )
 		$active_components = $optional_components;
@@ -309,7 +379,7 @@ function bp_core_admin_component_options() {
 
 		<h3><?php _e( 'Active Components', 'buddypress' ); ?></h3>
 				
-		<p><?php _e( 'Choose which BuddyPress components you would like to use.', 'buddypress' ); ?></p>
+		<p><?php _e( 'Each component has a unique purpose, and your community may not need each one.', 'buddypress' ); ?></p>
 
 	<?php endif ?>
 	
@@ -325,7 +395,41 @@ function bp_core_admin_component_options() {
 						<label for="bp_components[<?php echo esc_attr( $name ); ?>]">
 							<input type="checkbox" id="bp_components[<?php echo esc_attr( $name ); ?>]" name="bp_components[<?php echo esc_attr( $name ); ?>]" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> />
 
-							<?php echo esc_html( $labels['description'] ); ?>
+							<?php echo $labels['description']; ?>
+
+						</label>
+
+					</td>
+				</tr>
+
+			<?php endforeach ?>
+
+			<?php do_action( 'bp_active_external_components' ); ?>
+
+		</tbody>
+	</table>
+
+	<?php if ( empty( $bp_wizard ) ) : ?>
+
+		<h3><?php _e( 'Required Components', 'buddypress' ); ?></h3>
+
+		<p><?php _e( 'The following components are required by BuddyPress and cannot be turned off.', 'buddypress' ); ?></p>
+
+	<?php endif ?>
+
+	<table class="form-table">
+		<tbody>
+
+			<?php foreach ( $required_components as $name => $labels ) : ?>
+
+				<tr valign="top">
+					<th scope="row"><?php echo esc_html( $labels['title'] ); ?></th>
+
+					<td>
+						<label for="bp_components[<?php echo esc_attr( $name ); ?>]">
+							<input type="checkbox" id="bp_components[<?php echo esc_attr( $name ); ?>]" name="" disabled="disabled" value="1"<?php checked( true ); ?> />
+
+							<?php echo $labels['description']; ?>
 
 						</label>
 
@@ -370,9 +474,9 @@ function bp_core_admin_page_options() {
 	if ( is_multisite() )
 		$directory_pages['blogs'] = __( "Site Directory", 'buddypress' ); ?>
 	
-	<h3><?php _e( 'Directory Pages', 'buddypress' ); ?></h3>
+	<h3><?php _e( 'Directories', 'buddypress' ); ?></h3>
 	
-	<p><?php _e( 'Choose a WordPress Page to associate with each BuddyPress component directory. Deactivated components should be set to "None".', 'buddypress' ); ?></p>
+	<p><?php _e( 'Choose a WordPress Page to associate with each available BuddyPress Component directory.', 'buddypress' ); ?></p>
 
 	<table class="form-table">
 		<tbody>
@@ -414,9 +518,9 @@ function bp_core_admin_page_options() {
 		'activate' => __( 'Activation Page', 'buddypress' ),
 	); ?>
 
-	<h3><?php _e( 'Other Pages', 'buddypress' ); ?></h3>
+	<h3><?php _e( 'Registration', 'buddypress' ); ?></h3>
 
-	<p><?php _e( 'Associate WordPress Pages with the following BuddyPress pages. Setting to "None" will render that page inaccessible.', 'buddypress' ); ?></p>
+	<p><?php _e( 'Associate WordPress Pages with the following BuddyPress Registration pages.', 'buddypress' ); ?></p>
 
 	<table class="form-table">
 		<tbody>
