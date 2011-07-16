@@ -391,7 +391,10 @@ function bp_core_admin_page_options() {
 							'echo'             => false,
 							'show_option_none' => __( '- None -', 'buddypress' ),
 							'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
-						) ) ?>
+						) ); ?>
+
+						<a href="<?php echo site_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
+
 					</td>
 				</tr>
 
@@ -432,6 +435,9 @@ function bp_core_admin_page_options() {
 							'show_option_none' => __( '- None -', 'buddypress' ),
 							'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
 						) ) ?>
+
+						<a href="<?php echo site_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
+
 					</td>
 				</tr>
 
