@@ -364,7 +364,7 @@ function bp_core_admin_component_options() {
 		),
 		'members' => array(
 			'title'       => __( 'Community Members', 'buddypress' ),
-			'description' => __( 'Everything in BuddyPress revolves around the members. This component cannot be turned off.', 'buddypress' )
+			'description' => __( 'Everything in a BuddyPress community revolves around its members.', 'buddypress' )
 		),
 	) );
 	
