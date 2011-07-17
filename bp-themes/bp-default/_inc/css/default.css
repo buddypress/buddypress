@@ -1907,19 +1907,17 @@ span.activity {
 	padding: 1px 8px;
 }
 span.user-nicename {
-	display: inline-block;
-	padding: 1px 8px;
-	font-size: 11px;
-	font-family: Consolas, Monaco, monospace;
 	background: #f4f4f4;
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
-	color: #aaa;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	font-weight: normal;
+	color: #aaa;
+	display: inline-block;
+	font: normal 11px Consolas, Monaco, monospace;
 	margin-top: 6px;
+	padding: 1px 8px;
 	text-decoration: none;
 }
 span.activity,
