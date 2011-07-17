@@ -208,7 +208,7 @@ function bp_dtheme_new_activity_comment() {
 
 	global $activities_template;
 
-	// Load the nem activity item into the $activities_template global
+	// Load the new activity item into the $activities_template global
 	bp_has_activities( 'display_comments=stream&include=' . $comment_id );
 
 	// Swap the current comment with the activity item we just loaded
