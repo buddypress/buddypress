@@ -177,7 +177,7 @@ add_action( 'wp_ajax_post_update', 'bp_dtheme_post_update' );
 function bp_dtheme_new_activity_comment() {
 	global $bp;
 
-	/* Check the nonce */
+	// Check the nonce
 	check_admin_referer( 'new_activity_comment', '_wpnonce_new_activity_comment' );
 
 	if ( !is_user_logged_in() ) {
@@ -197,43 +197,36 @@ function bp_dtheme_new_activity_comment() {
 
 	$comment_id = bp_activity_new_comment( array(
 		'activity_id' => $_POST['form_id'],
-		'content' => $_POST['content'],
-		'parent_id' => $_POST['comment_id']
-	));
+		'content'     => $_POST['content'],
+		'parent_id'   => $_POST['comment_id']
+	) );
 
 	if ( !$comment_id ) {
 		echo '-1<div id="message" class="error"><p>' . __( 'There was an error posting that reply, please try again.', 'buddypress' ) . '</p></div>';
 		return false;
 	}
 
-	if ( bp_has_activities ( 'display_comments=stream&include=' . $comment_id ) ) : ?>
-		<?php while ( bp_activities() ) : bp_the_activity(); ?>
-			<li id="acomment-<?php bp_activity_id() ?>">
-				<div class="acomment-avatar">
-					<a href="<?php echo bp_core_get_userlink( bp_get_activity_user_id(), false, true ); ?>"><?php bp_activity_avatar( array( 'height' => 30, 'width' => 30 ) ); ?></a>
-				</div>
+	global $activities_template;
 
-				<div class="acomment-meta">
-					<?php
-					/* translators: 1: user profile link + username, 2: activity item permalink, 3: activity item timestamp */
-					printf( __( '%1$s replied <a href="%2$s">%3$s ago</a>', 'buddypress' ), bp_core_get_userlink( bp_get_activity_user_id() ), bp_get_activity_thread_permalink(), bp_core_time_since( bp_core_current_time() ) );
-					?>
+	// Load the nem activity item into the $activities_template global
+	bp_has_activities( 'display_comments=stream&include=' . $comment_id );
 
-					<a class="acomment-reply bp-primary-action" href="#acomment-<?php bp_activity_id() ?>" id="acomment-reply-<?php echo esc_attr( $_POST['form_id'] ) ?>"><?php _e( 'Reply', 'buddypress' ); ?></a>
+	// Swap the current comment with the activity item we just loaded
+	$activities_template->activity->id              = $activities_template->activities[0]->item_id;
+	$activities_template->activity->current_comment = $activities_template->activities[0];
 
-					<?php if ( bp_activity_user_can_delete() ) : ?>
-						<div class="acomment-options">
-							<a href="<?php echo wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/delete/' . bp_get_activity_id() . '?cid=' . $comment_id, 'bp_activity_delete_link' ) ?>" class="delete acomment-delete confirm bp-secondary-action" rel="nofollow"><?php _e( 'Delete', 'buddypress' ); ?></a>
-						</div>
-					<?php endif; ?>
-				</div>
+	$template = locate_template( 'activity/comment.php', false, false );
 
-				<div class="acomment-content">
-					<?php bp_activity_content_body(); ?>
-				</div>
-			</li>
-		<?php endwhile; ?>
-	 <?php endif;
+	// Backward compatibility. In older versions of BP, the markup was
+	// generated in the PHP instead of a template. This ensures that
+	// older themes (which are not children of bp-default and won't
+	// have the new template) will still work.
+	if ( empty( $template ) )
+		$template = BP_PLUGIN_DIR . '/bp-themes/bp-default/activity/comment.php';
+
+	load_template( $template, false );
+
+	unset( $activities_template );
 }
 add_action( 'wp_ajax_new_activity_comment', 'bp_dtheme_new_activity_comment' );
 
