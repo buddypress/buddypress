@@ -223,7 +223,7 @@ class BP_Groups_Component extends BP_Component {
 
 		// Add 'Groups' to the main navigation
 		$main_nav = array(
-			'name'                => sprintf( __( 'Groups <span>(%d)</span>', 'buddypress' ), groups_total_groups_for_user() ),
+			'name'                => sprintf( __( 'Groups <span>%d</span>', 'buddypress' ), groups_total_groups_for_user() ),
 			'slug'                => $this->slug,
 			'position'            => 70,
 			'screen_function'     => 'groups_screen_my_groups',
@@ -330,7 +330,7 @@ class BP_Groups_Component extends BP_Component {
 			}
 
 			$sub_nav[] = array(
-				'name'            => sprintf( __( 'Members (%s)', 'buddypress' ), number_format( $this->current_group->total_member_count ) ),
+				'name'            => sprintf( __( 'Members <span>%s</span>', 'buddypress' ), number_format( $this->current_group->total_member_count ) ),
 				'slug'            => 'members',
 				'parent_url'      => $group_link,
 				'parent_slug'     => $this->current_group->slug,
@@ -385,7 +385,7 @@ class BP_Groups_Component extends BP_Component {
 
 			if ( !empty( $count->total ) ) {
 				$title   = sprintf( __( 'Groups <strong>(%s)</strong>',          'buddypress' ), $count->total );
-				$pending = sprintf( __( 'Pending Invites <strong>(%s)</strong>', 'buddypress' ), $count->total );
+				$pending = sprintf( __( 'Pending Invites <span>%s</span>', 'buddypress' ), $count->total );
 			} else {
 				$title   = __( 'Groups',             'buddypress' );
 				$pending = __( 'No Pending Invites', 'buddypress' );

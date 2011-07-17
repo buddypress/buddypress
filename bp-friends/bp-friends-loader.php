@@ -94,7 +94,7 @@ class BP_Friends_Component extends BP_Component {
 
 		// Add 'Friends' to the main navigation
 		$main_nav = array(
-			'name'                => sprintf( __( 'Friends <span>(%d)</span>', 'buddypress' ), friends_get_total_friend_count() ),
+			'name'                => sprintf( __( 'Friends <span>%d</span>', 'buddypress' ), friends_get_total_friend_count() ),
 			'slug'                => $this->slug,
 			'position'            => 60,
 			'screen_function'     => 'friends_screen_my_friends',
@@ -148,8 +148,8 @@ class BP_Friends_Component extends BP_Component {
 
 			// Pending friend requests
 			if ( $count = count( friends_get_friendship_request_user_ids( $bp->loggedin_user->id ) ) ) {
-				$title   = sprintf( __( 'Friends <strong>(%s)</strong>',          'buddypress' ), $count );
-				$pending = sprintf( __( 'Pending Requests <strong>(%s)</strong>', 'buddypress' ), $count );
+				$title   = sprintf( __( 'Friends <span>%s</span>',          'buddypress' ), $count );
+				$pending = sprintf( __( 'Pending Requests <span>%s</span>', 'buddypress' ), $count );
 			} else {
 				$title   = __( 'Friends',             'buddypress' );
 				$pending = __( 'No Pending Requests', 'buddypress' );

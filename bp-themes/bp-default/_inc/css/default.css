@@ -1288,9 +1288,23 @@ a.bp-primary-action,
 	margin-right: 10px;
 	text-decoration: none;
 }
-a.bp-primary-action:hover,
-.comment-reply-link:hover,
-#reply-title small a:hover {
+a.bp-primary-action span,
+.comment-reply-link span,
+#reply-title small a span {
+	background: #999;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	color: #fff;
+	font-size: 90%; 
+	margin-left: 2px;
+	padding: 0 5px;
+}
+a.bp-primary-action:hover span,
+.comment-reply-link:hover span,
+#reply-title small a:hover span {
+	background: #555;
+	color: #fff;
 }
 div.activity-comments {
 	margin: 0 0 0 70px;
@@ -2118,9 +2132,15 @@ div.item-list-tabs ul li span {
 	color: #aaa;
 }
 div.item-list-tabs ul li a span {
-	color: inherit;
+	background: #1fb3dd; 
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	color: #fff;
 	display: inline;
-	padding: 0;
+	font-size: 90%; 
+	margin-left: 2px;
+	padding: 1px 6px;
 }
 div.item-list-tabs ul li.selected a,
 div.item-list-tabs ul li.current a {
@@ -2133,6 +2153,11 @@ div.item-list-tabs ul li.current a {
 	border-top-right-radius: 3px;
 	color: #555;
 	font-weight: bold;
+}
+div.item-list-tabs ul li.selected a span,
+div.item-list-tabs ul li.current a span,
+div.item-list-tabs ul li a:hover span {
+	background-color: #999;
 }
 ul li.loading a {
 	background-image: url( ../images/ajax-loader.gif );
