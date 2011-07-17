@@ -1915,7 +1915,7 @@ span.user-nicename {
 	border-radius: 3px;
 	color: #aaa;
 	display: inline-block;
-	font: normal 11px Consolas, Monaco, monospace;
+	font: normal 11px/20px Consolas, Monaco, monospace;
 	margin-top: 6px;
 	padding: 1px 8px;
 	text-decoration: none;
