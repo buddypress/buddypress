@@ -922,6 +922,10 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	if ( !$activity_obj )
 		$activity_obj = new BP_Activity_Activity( $activity_id );
 
+	if ( isset( $activity_obj->current_comment ) ) {
+		$activity_obj = $activity_obj->current_comment;
+	}
+	
 	if ( 'new_blog_post' == $activity_obj->type || 'new_blog_comment' == $activity_obj->type || 'new_forum_topic' == $activity_obj->type || 'new_forum_post' == $activity_obj->type )
 		$link = $activity_obj->primary_link;
 	else {
