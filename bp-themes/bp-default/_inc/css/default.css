@@ -1473,7 +1473,7 @@ div.dir-search {
 }
 div.dir-search input[type=text] {
 	font-size: 12px;
-	padding: 0 3px;
+	padding: 1px 3px;
 }
 
 
@@ -1686,18 +1686,26 @@ input[type=button],
 input[type=reset],
 ul.button-nav li a,
 div.generic-button a {
-	background: url( ../images/white-grad.png ) top left repeat-x;
-	border: 1px solid #ddd;
+	border: 1px solid #ccc;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	color: #888;
+	color: #777;
 	cursor: pointer;
 	font-size: 12px;
 	font-weight: normal;
-	padding: 3px 10px;
+	font-family: Arial, Tahoma, Verdana, sans-serif;
 	text-decoration: none;
 	vertical-align: bottom;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	padding: 4px 10px;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(white), to(#ededed));
+	background: -moz-linear-gradient(top, white, #ededed);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
 }
 button:hover,
 a.button:hover,
@@ -1708,11 +1716,15 @@ input[type=reset]:hover,
 ul.button-nav li a:hover,
 ul.button-nav li.current a,
 div.generic-button a:hover {
-	border-color: #aaa;
+	border: 1px solid #bbb;
 	color: #555;
 	outline: none;
+	text-decoration: none;
+	background: #ededed;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+	background: -moz-linear-gradient(top,  #fff,  #e0e0e0);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc');
 }
-
 
 /*--------------------------------------------------------------
 6.7 - Forums, Tables and Topics
