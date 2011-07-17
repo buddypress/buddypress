@@ -77,7 +77,7 @@
 					<?php do_action( 'bp_after_message_reply_box' ) ?>
 
 					<div class="submit">
-						<input type="submit" name="send" value="<?php _e( 'Send Reply', 'buddypress' ) ?> &rarr;" id="send_reply_button"/>
+						<input type="submit" name="send" value="<?php _e( 'Send Reply', 'buddypress' ) ?>" id="send_reply_button"/>
 						<span class="ajax-loader"></span>
 					</div>
 

@@ -277,21 +277,21 @@
 						<?php /* Next Button */ ?>
 						<?php if ( !bp_is_last_group_creation_step() && !bp_is_first_group_creation_step() ) : ?>
 
-							<input type="submit" value="<?php _e( 'Next Step', 'buddypress' ); ?> &rarr;" id="group-creation-next" name="save" />
+							<input type="submit" value="<?php _e( 'Next Step', 'buddypress' ); ?>" id="group-creation-next" name="save" />
 
 						<?php endif;?>
 
 						<?php /* Create Button */ ?>
 						<?php if ( bp_is_first_group_creation_step() ) : ?>
 
-							<input type="submit" value="<?php _e( 'Create Group and Continue', 'buddypress' ); ?> &rarr;" id="group-creation-create" name="save" />
+							<input type="submit" value="<?php _e( 'Create Group and Continue', 'buddypress' ); ?>" id="group-creation-create" name="save" />
 
 						<?php endif; ?>
 
 						<?php /* Finish Button */ ?>
 						<?php if ( bp_is_last_group_creation_step() ) : ?>
 
-							<input type="submit" value="<?php _e( 'Finish', 'buddypress' ); ?> &rarr;" id="group-creation-finish" name="save" />
+							<input type="submit" value="<?php _e( 'Finish', 'buddypress' ); ?>" id="group-creation-finish" name="save" />
 
 						<?php endif; ?>
 					</div>

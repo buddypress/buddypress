@@ -216,7 +216,7 @@
 				<?php do_action( 'bp_before_registration_submit_buttons' ) ?>
 
 				<div class="submit">
-					<input type="submit" name="signup_submit" id="signup_submit" value="<?php _e( 'Complete Sign Up', 'buddypress' ) ?> &rarr;" />
+					<input type="submit" name="signup_submit" id="signup_submit" value="<?php _e( 'Complete Sign Up', 'buddypress' ) ?>" />
 				</div>
 
 				<?php do_action( 'bp_after_registration_submit_buttons' ) ?>

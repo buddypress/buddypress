@@ -29,7 +29,7 @@
 
 	<?php do_action( 'bp_after_group_details_admin' ); ?>
 
-	<p><input type="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?> &rarr;" id="save" name="save" /></p>
+	<p><input type="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="save" name="save" /></p>
 	<?php wp_nonce_field( 'groups_edit_group_details' ) ?>
 
 <?php endif; ?>
@@ -114,7 +114,7 @@
 
 	<?php do_action( 'bp_after_group_settings_admin' ); ?>
 
-	<p><input type="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?> &rarr;" id="save" name="save" /></p>
+	<p><input type="submit" value="<?php _e( 'Save Changes', 'buddypress' ) ?>" id="save" name="save" /></p>
 	<?php wp_nonce_field( 'groups_edit_group_settings' ) ?>
 
 <?php endif; ?>
@@ -355,7 +355,7 @@
 	<?php do_action( 'bp_after_group_delete_admin' ); ?>
 
 	<div class="submit">
-		<input type="submit" disabled="disabled" value="<?php _e( 'Delete Group', 'buddypress' ) ?> &rarr;" id="delete-group-button" name="delete-group-button" />
+		<input type="submit" disabled="disabled" value="<?php _e( 'Delete Group', 'buddypress' ) ?>" id="delete-group-button" name="delete-group-button" />
 	</div>
 
 	<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id() ?>" />

@@ -183,13 +183,13 @@ class BP_Core_Setup_Wizard {
 					<?php if ( __( 'Finish', 'buddypress' ) == $this->steps[$this->current_step] ) : ?>
 
 						<div class="prev-next submit clear">
-							<input type="submit" value="<?php _e( 'Finish &amp; Activate &rarr;', 'buddypress' ); ?>" name="submit" />
+							<input type="submit" value="<?php _e( 'Finish &amp; Activate', 'buddypress' ); ?>" name="submit" />
 						</div>
 
 					<?php else : ?>
 
 						<div class="prev-next submit clear">
-							<input type="submit" value="<?php _e( 'Save &amp; Next &rarr;', 'buddypress' ); ?>" name="submit" />
+							<input type="submit" value="<?php _e( 'Save &amp; Next', 'buddypress' ); ?>" name="submit" />
 						</div>
 
 					<?php endif; ?>
@@ -1180,7 +1180,7 @@ function bp_core_wizard_thickbox() {
 			jQuery('#wpwrap').css( 'min-height', '30px' );
 			jQuery('a').removeClass( 'thickbox thickbox-preview onclick' );
 			jQuery('body.update-php div.wrap p:last').hide();
-			jQuery('body.update-php div.wrap p:last').after( '<p><a class="button" target="_parent" href="<?php echo $form_action; ?>"><?php _e( 'Finish', 'buddypress' ) ?> &rarr;</a></p>' );
+			jQuery('body.update-php div.wrap p:last').after( '<p><a class="button" target="_parent" href="<?php echo $form_action; ?>"><?php _e( 'Finish', 'buddypress' ) ?></a></p>' );
 		}
 	</script>
 
