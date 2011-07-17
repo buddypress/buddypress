@@ -13,12 +13,6 @@
 
 	<?php do_action( 'bp_before_activity_post_form' ); ?>
 
-	<?php if ( isset( $_GET['r'] ) ) : ?>
-		<div id="message" class="info">
-			<p><?php printf( __( 'You are mentioning %s in a new update, this user will be sent a notification of your message.', 'buddypress' ), bp_get_mentioned_user_display_name( $_GET['r'] ) ); ?></p>
-		</div>
-	<?php endif; ?>
-
 	<div id="whats-new-avatar">
 		<a href="<?php echo bp_loggedin_user_domain(); ?>">
 			<?php bp_loggedin_user_avatar( 'width=' . bp_core_avatar_thumb_width() . '&height=' . bp_core_avatar_thumb_height() ); ?>

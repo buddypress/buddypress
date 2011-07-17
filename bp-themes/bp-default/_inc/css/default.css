@@ -1894,6 +1894,22 @@ span.activity {
 	font-size: 11px;
 	padding: 1px 8px;
 }
+span.user-nicename {
+	display: inline-block;
+	padding: 1px 8px;
+	font-size: 11px;
+	font-family: Consolas, Monaco, monospace;
+	background: #f4f4f4;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	color: #aaa;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font-weight: normal;
+	margin-top: 6px;
+	text-decoration: none;
+}
 span.activity,
 div#message p {
 	background: #fff9db;

@@ -1399,8 +1399,8 @@ function bp_send_public_message_button( $args = '' ) {
 			'block_self'        => true,
 			'wrapper_id'        => 'post-mention',
 			'link_href'         => bp_get_send_public_message_link(),
-			'link_title'        => __( 'Mention this user in a new public message, this will send the user a notification to get their attention.', 'buddypress' ),
-			'link_text'         => __( 'Mention this User', 'buddypress' ),
+			'link_title'        => __( 'Send a public message on your activity stream.', 'buddypress' ),
+			'link_text'         => __( 'Public Message', 'buddypress' ),
 			'link_class'        => 'activity-button mention'
 		);
 
