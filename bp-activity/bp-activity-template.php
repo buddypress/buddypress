@@ -707,13 +707,13 @@ function bp_activity_content() {
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
 		// Insert the time since.
-		$time_since = apply_filters_ref_array( 'bp_activity_time_since', array( '<span class="time-since">' . sprintf( __( ' %s ago ', 'buddypress' ), bp_core_time_since( $activities_template->activity->date_recorded ) ) . '</span>', &$activities_template->activity ) );
+		$time_since = apply_filters_ref_array( 'bp_activity_time_since', array( '<span class="time-since">' . bp_core_time_since( $activities_template->activity->date_recorded ) . '</span>', &$activities_template->activity ) );
 	
 		// Insert the permalink
 		if ( !bp_is_single_activity() )
 			$content = apply_filters_ref_array( 'bp_activity_permalink', array( sprintf( '%1$s <a href="%2$s" class="view" title="%3$s">%4$s</a>', $content, bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ), esc_attr__( 'View Discussion', 'buddypress' ), $time_since ), &$activities_template->activity ) );
 		else
-			$content .= $time_since;
+			$content .= str_pad( $time_since, strlen( $time_since ) + 2, ' ', STR_PAD_BOTH );
 
 		return apply_filters( 'bp_insert_activity_meta', $content );
 	}
