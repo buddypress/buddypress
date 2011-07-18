@@ -488,7 +488,7 @@ body.activity-permalink .activity-list li.mini .activity-meta {
 	margin-left: 0;
 }
 .activity-list li.new_forum_post .activity-content .activity-inner,
-.activity-list li.new_forum_post .activity-content blockquote {
+.activity-list li.new_forum_topic .activity-content .activity-inner {
 	border-left: none;
 	margin-left: 0;
 	padding-left: 0;
