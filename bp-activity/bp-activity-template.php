@@ -1008,7 +1008,7 @@ function bp_activity_comment_date_recorded() {
 		if ( empty( $activities_template->activity->current_comment->date_recorded ) )
 			return false;
 		
-		$date_recorded = sprintf( __( '%s ago', 'buddypress' ), bp_core_time_since( $activities_template->activity->current_comment->date_recorded ) );
+		$date_recorded = bp_core_time_since( $activities_template->activity->current_comment->date_recorded );
 		
 		return apply_filters( 'bp_activity_comment_date_recorded', $date_recorded );
 	}

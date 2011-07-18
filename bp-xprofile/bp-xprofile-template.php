@@ -713,7 +713,7 @@ function bp_profile_last_updated() {
 		$last_updated = bp_get_user_meta( $bp->displayed_user->id, 'profile_last_updated', true );
 
 		if ( $last_updated )
-			return apply_filters( 'bp_get_profile_last_updated', sprintf( __('Profile updated %s ago', 'buddypress'), bp_core_time_since( strtotime( $last_updated ) ) ) );
+			return apply_filters( 'bp_get_profile_last_updated', sprintf( __('Profile updated %s', 'buddypress'), bp_core_time_since( strtotime( $last_updated ) ) ) );
 
 		return false;
 	}

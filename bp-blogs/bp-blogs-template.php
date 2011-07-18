@@ -314,7 +314,7 @@ function bp_blog_last_active() {
 	function bp_get_blog_last_active() {
 		global $blogs_template;
 
-		return apply_filters( 'bp_blog_last_active', bp_core_get_last_activity( $blogs_template->blog->last_activity, __( 'active %s ago', 'buddypress' ) ) );
+		return apply_filters( 'bp_blog_last_active', bp_core_get_last_activity( $blogs_template->blog->last_activity, __( 'active %s', 'buddypress' ) ) );
 	}
 
 function bp_blog_latest_post() {

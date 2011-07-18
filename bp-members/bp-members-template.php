@@ -494,7 +494,7 @@ function bp_member_last_active() {
 		global $members_template;
 
 		if ( isset( $members_template->member->last_activity ) )
-			$last_activity = bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s ago', 'buddypress' ) );
+			$last_activity = bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s', 'buddypress' ) );
 		else
 			$last_activity = __( 'Never active', 'buddypress' );
 
@@ -556,7 +556,7 @@ function bp_member_registered() {
 	function bp_get_member_registered() {
 		global $members_template;
 
-		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, __( 'registered %s ago', 'buddypress' ) ) );
+		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, __( 'registered %s', 'buddypress' ) ) );
 
 		return apply_filters( 'bp_member_last_active', $registered );
 	}
@@ -750,7 +750,7 @@ function bp_last_activity( $user_id = 0 ) {
 		if ( empty( $user_id ) )
 			$user_id = $bp->displayed_user->id;
 
-		$last_activity = bp_core_get_last_activity( bp_get_user_meta( $user_id, 'last_activity', true ), __('active %s ago', 'buddypress') );
+		$last_activity = bp_core_get_last_activity( bp_get_user_meta( $user_id, 'last_activity', true ), __('active %s', 'buddypress') );
 
 		return apply_filters( 'bp_get_last_activity', $last_activity );
 	}	

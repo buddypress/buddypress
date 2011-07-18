@@ -1022,7 +1022,7 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 
 				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?></h5>
 				<span class="activity">
-					<?php echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s ago', 'buddypress') ); ?>
+					<?php echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s', 'buddypress') ); ?>
 				</span>
 
 				<?php if ( bp_is_active( 'friends' ) ) : ?>
@@ -1087,7 +1087,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 
 				<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?></h5>
 
-				<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s ago', 'buddypress') ); ?></span>
+				<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s', 'buddypress') ); ?></span>
 
 				<?php if ( bp_is_active( 'friends' ) ) : ?>
 
@@ -1852,7 +1852,7 @@ function bp_group_member_joined_since() {
 	function bp_get_group_member_joined_since() {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_joined_since', bp_core_get_last_activity( $members_template->member->date_modified, __( 'joined %s ago', 'buddypress') ) );
+		return apply_filters( 'bp_get_group_member_joined_since', bp_core_get_last_activity( $members_template->member->date_modified, __( 'joined %s', 'buddypress') ) );
 	}
 
 function bp_group_member_id() {
@@ -2508,7 +2508,7 @@ function bp_group_request_user_link() {
 function bp_group_request_time_since_requested() {
 	global $requests_template;
 
-	echo apply_filters( 'bp_group_request_time_since_requested', sprintf( __( 'requested %s ago', 'buddypress' ), bp_core_time_since( strtotime( $requests_template->request->date_modified ) ) ) );
+	echo apply_filters( 'bp_group_request_time_since_requested', sprintf( __( 'requested %s', 'buddypress' ), bp_core_time_since( strtotime( $requests_template->request->date_modified ) ) ) );
 }
 
 function bp_group_request_comment() {

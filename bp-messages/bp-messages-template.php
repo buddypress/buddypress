@@ -847,7 +847,7 @@ function bp_the_thread_message_time_since() {
 	function bp_get_the_thread_message_time_since() {
 		global $thread_template;
 
-		return apply_filters( 'bp_get_the_thread_message_time_since', sprintf( __( 'Sent %s ago', 'buddypress' ), bp_core_time_since( strtotime( $thread_template->message->date_sent ) ) ) );
+		return apply_filters( 'bp_get_the_thread_message_time_since', sprintf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( strtotime( $thread_template->message->date_sent ) ) ) );
 	}
 
 function bp_the_thread_message_content() {

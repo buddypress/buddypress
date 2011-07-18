@@ -597,15 +597,20 @@ function bp_core_number_format( $number, $decimals = false ) {
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
 
+	// Setup the strings
+	$unknown_text   = apply_filters( 'bp_core_time_since_unknown_text',   __( 'sometime',  'buddypress' ) );
+	$right_now_text = apply_filters( 'bp_core_time_since_right_now_text', __( 'right now', 'buddypress' ) );
+	$ago_text       = apply_filters( 'bp_core_time_since_ago_text',       __( '%s ago',    'buddypress' ) );
+	
 	// array of time period chunks
 	$chunks = array(
-		array( 60 * 60 * 24 * 365 , __( 'year', 'buddypress' ), __( 'years', 'buddypress' ) ),
-		array( 60 * 60 * 24 * 30 , __( 'month', 'buddypress' ), __( 'months', 'buddypress' ) ),
-		array( 60 * 60 * 24 * 7, __( 'week', 'buddypress' ), __( 'weeks', 'buddypress' ) ),
-		array( 60 * 60 * 24 , __( 'day', 'buddypress' ), __( 'days', 'buddypress' ) ),
-		array( 60 * 60 , __( 'hour', 'buddypress' ), __( 'hours', 'buddypress' ) ),
-		array( 60 , __( 'minute', 'buddypress' ), __( 'minutes', 'buddypress' ) ),
-		array( 1, __( 'second', 'buddypress' ), __( 'seconds', 'buddypress' ) )
+		array( 60 * 60 * 24 * 365 , __( 'year',   'buddypress' ), __( 'years',   'buddypress' ) ),
+		array( 60 * 60 * 24 * 30 ,  __( 'month',  'buddypress' ), __( 'months',  'buddypress' ) ),
+		array( 60 * 60 * 24 * 7,    __( 'week',   'buddypress' ), __( 'weeks',   'buddypress' ) ),
+		array( 60 * 60 * 24 ,       __( 'day',    'buddypress' ), __( 'days',    'buddypress' ) ),
+		array( 60 * 60 ,            __( 'hour',   'buddypress' ), __( 'hours',   'buddypress' ) ),
+		array( 60 ,                 __( 'minute', 'buddypress' ), __( 'minutes', 'buddypress' ) ),
+		array( 1,                   __( 'second', 'buddypress' ), __( 'seconds', 'buddypress' ) )
 	);
 
 	if ( !empty( $older_date ) && !is_numeric( $older_date ) ) {
@@ -625,45 +630,58 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	$since = $newer_date - $older_date;
 
 	// Something went wrong with date calculation and we ended up with a negative date.
-	if ( 0 > $since )
-		return __( 'sometime', 'buddypress' );
-
+	if ( 0 > $since ) {
+		$output = $unknown_text;
+		
 	/**
 	 * We only want to output two chunks of time here, eg:
 	 * x years, xx months
 	 * x days, xx hours
 	 * so there's only two bits of calculation below:
 	 */
+	} else {
 
-	// Step one: the first chunk
-	for ( $i = 0, $j = count($chunks); $i < $j; $i++) {
-		$seconds = $chunks[$i][0];
+		// Step one: the first chunk
+		for ( $i = 0, $j = count($chunks); $i < $j; $i++) {
+			$seconds = $chunks[$i][0];
 
-		// Finding the biggest chunk (if the chunk fits, break)
-		if ( ( $count = floor($since / $seconds) ) != 0 )
-			break;
-	}
+			// Finding the biggest chunk (if the chunk fits, break)
+			if ( ( $count = floor($since / $seconds) ) != 0 ) {
+				break;
+			}
+		}
 
-	// If $i iterates all the way to $j, then the event happened 0 seconds ago
-	if ( !isset( $chunks[$i] ) )
-		return '0 ' . __( 'seconds', 'buddypress' );
+		// If $i iterates all the way to $j, then the event happened 0 seconds ago
+		if ( !isset( $chunks[$i] ) ) {
+			$output = $right_now_text;
 
-	// Set output var
-	$output = ( 1 == $count ) ? '1 '. $chunks[$i][1] : $count . ' ' . $chunks[$i][2];
+		} else {
 
-	// Step two: the second chunk
-	if ( $i + 2 < $j ) {
-		$seconds2 = $chunks[$i + 1][0];
-		$name2 = $chunks[$i + 1][1];
+			// Set output var
+			$output = ( 1 == $count ) ? '1 '. $chunks[$i][1] : $count . ' ' . $chunks[$i][2];
 
-		if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
-			// Add to output var
-			$output .= ( 1 == $count2 ) ? _x( ',', 'Separator in time since', 'buddypress' ) . ' 1 '. $chunks[$i + 1][1] : _x( ',', 'Separator in time since', 'buddypress' ) . ' ' . $count2 . ' ' . $chunks[$i + 1][2];
+			// Step two: the second chunk
+			if ( $i + 2 < $j ) {
+				$seconds2 = $chunks[$i + 1][0];
+				$name2 = $chunks[$i + 1][1];
+
+				if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
+					// Add to output var
+					$output .= ( 1 == $count2 ) ? _x( ',', 'Separator in time since', 'buddypress' ) . ' 1 '. $chunks[$i + 1][1] : _x( ',', 'Separator in time since', 'buddypress' ) . ' ' . $count2 . ' ' . $chunks[$i + 1][2];
+				}
+			}
+
+			// No output, so happened right now
+			if ( !(int)trim( $output ) ) {
+				$output = $right_now_text;
+			}
 		}
 	}
 
-	if ( !(int)trim( $output ) )
-		$output = '0 ' . __( 'seconds', 'buddypress' );
+	// Append 'ago' to the end of time-since if not 'right now'
+	if ( $output != $right_now_text ) {
+		$output = sprintf( $ago_text, $output );
+	}
 
 	return $output;
 }

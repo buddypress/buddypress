@@ -10,7 +10,7 @@
 
 <div id="item-header-content">
 	<h2><a href="<?php bp_forum_permalink(); ?>" title="<?php bp_forum_name(); ?>"><?php bp_forum_name(); ?></a></h2>
-	<span class="highlight"><?php //bp_forum_type(); ?></span> <span class="activity"><?php printf( __( 'active %s ago', 'buddypress' ), '' ); //bp_get_forum_last_active() ); ?></span>
+	<span class="highlight"><?php //bp_forum_type(); ?></span> <span class="activity"><?php printf( __( 'active %s', 'buddypress' ), '' ); //bp_get_forum_last_active() ); ?></span>
 
 	<?php do_action( 'bp_before_forum_header_meta' ); ?>
 
