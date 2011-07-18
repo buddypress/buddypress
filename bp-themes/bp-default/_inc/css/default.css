@@ -1706,26 +1706,22 @@ input[type=button],
 input[type=reset],
 ul.button-nav li a,
 div.generic-button a {
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(white), to(#ededed));
+	background: -moz-linear-gradient(top, white, #ededed);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
 	border: 1px solid #ccc;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	color: #777;
 	cursor: pointer;
-	font-size: 12px;
-	font-weight: normal;
-	font-family: Arial, Tahoma, Verdana, sans-serif;
-	text-decoration: none;
-	vertical-align: bottom;
+	font: normal 12px/20px Arial, Tahoma, Verdana, sans-serif;
 	outline: none;
-	cursor: pointer;
+	padding: 4px 10px;
 	text-align: center;
 	text-decoration: none;
-	padding: 4px 10px;
-	background: #fff;
-	background: -webkit-gradient(linear, left top, left bottom, from(white), to(#ededed));
-	background: -moz-linear-gradient(top, white, #ededed);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
+	vertical-align: bottom;
 }
 button:hover,
 a.button:hover,
@@ -1736,14 +1732,14 @@ input[type=reset]:hover,
 ul.button-nav li a:hover,
 ul.button-nav li.current a,
 div.generic-button a:hover {
-	border: 1px solid #bbb;
-	color: #555;
-	outline: none;
-	text-decoration: none;
 	background: #ededed;
 	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
 	background: -moz-linear-gradient(top,  #fff,  #e0e0e0);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc');
+	border: 1px solid #bbb;
+	color: #555;
+	outline: none;
+	text-decoration: none;
 }
 
 /*--------------------------------------------------------------
