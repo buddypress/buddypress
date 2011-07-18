@@ -18,7 +18,7 @@
  */
 function bp_get_option( $option_name, $default = '' ) {
 	$value = get_blog_option( bp_get_root_blog_id(), $option_name, $default );
-	
+
 	return apply_filters( 'bp_get_option', $value );
 }
 
@@ -78,9 +78,9 @@ function bp_core_get_table_prefix() {
  */
 function bp_core_get_page_meta() {
 	$page_ids = bp_get_option( 'bp-pages' );
-  
+
   	// Upgrading from an earlier version of BP pre-1.3
-	if ( !isset( $page_ids['members'] ) && $ms_page_ids = get_site_option( 'bp-pages' ) ) {  
+	if ( !isset( $page_ids['members'] ) && $ms_page_ids = get_site_option( 'bp-pages' ) ) {
 		$page_blog_id = bp_is_multiblog_mode() ? get_current_blog_id() : bp_get_root_blog_id();
 
 		if ( isset( $ms_page_ids[$page_blog_id] ) ) {
@@ -89,7 +89,7 @@ function bp_core_get_page_meta() {
 			bp_update_option( 'bp-pages', $page_ids );
 		}
   	}
-  	
+
 	return apply_filters( 'bp_core_get_page_meta', $page_ids );
 }
 
@@ -697,12 +697,12 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
  */
 function bp_core_record_activity() {
 	global $bp;
-	
+
 	if ( !is_user_logged_in() )
 		return false;
-	
+
 	$user_id = $bp->loggedin_user->id;
-	
+
 	if ( bp_core_is_user_spammer( $user_id ) || bp_core_is_user_deleted( $user_id ) )
 		return false;
 
@@ -913,6 +913,21 @@ function bp_core_add_ajax_hook() {
 add_action( 'bp_init', 'bp_core_add_ajax_hook' );
 
 /**
+ * Initializes {@link BP_Embed} after everything is loaded.
+ *
+ * @global object $bp BuddyPress global settings
+ * @package BuddyPress Core
+ * @since 1.3
+ */
+function bp_embed_init() {
+	global $bp;
+
+	if ( empty( $bp->embed ) )
+		$bp->embed = new BP_Embed();
+}
+add_action( 'bp_init', 'bp_embed_init' );
+
+/**
  * When switching from single to multisite we need to copy blog options to
  * site options.
  *
@@ -1074,7 +1089,6 @@ function bp_core_create_root_component_page() {
  * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
  */
 function bp_is_root_blog( $blog_id = 0 ) {
-	
 	// Assume false
 	$is_root_blog = false;
 
@@ -1118,7 +1132,7 @@ function bp_get_root_blog_id( $blog_id = false ) {
 		}
 
 		define( 'BP_ROOT_BLOG', $root_blog_id );
-		
+
 	// Root blog is defined
 	} else {
 		$root_blog_id = BP_ROOT_BLOG;
@@ -1220,7 +1234,7 @@ function bp_delete_user_meta( $user_id, $key, $value = '' ) {
  * @since 1.3
  *
  * @uses apply_filters() Filter 'bp_is_username_compatibility_mode' to alter
- * @return bool False when compatibility mode is disabled (default); true when enabled 
+ * @return bool False when compatibility mode is disabled (default); true when enabled
  */
 function bp_is_username_compatibility_mode() {
 	return apply_filters( 'bp_is_username_compatibility_mode', defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) && BP_ENABLE_USERNAME_COMPATIBILITY_MODE );
@@ -1231,7 +1245,7 @@ function bp_is_username_compatibility_mode() {
  *
  * Note that BP_ENABLE_MULTIBLOG is different from (but dependent on) WP Multisite. "Multiblog" is
  * a BP setup that allows BP content to be viewed in the theme, and with the URL, of every blog
- * on the network. Thus, instead of having all 'boonebgorges' links go to 
+ * on the network. Thus, instead of having all 'boonebgorges' links go to
  *   http://example.com/members/boonebgorges
  * on the root blog, each blog will have its own version of the same profile content, eg
  *   http://site2.example.com/members/boonebgorges (for subdomains)
@@ -1244,7 +1258,7 @@ function bp_is_username_compatibility_mode() {
  * @since 1.3
  *
  * @uses apply_filters() Filter 'bp_is_multiblog_mode' to alter
- * @return bool False when multiblog mode is disabled (default); true when enabled 
+ * @return bool False when multiblog mode is disabled (default); true when enabled
  */
 function bp_is_multiblog_mode() {
 	return apply_filters( 'bp_is_multiblog_mode', is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG );
@@ -1263,10 +1277,40 @@ function bp_is_multiblog_mode() {
  * @since 1.3
  *
  * @uses apply_filters() Filter 'bp_use_wp_admin_bar' to alter
- * @return bool False when WP Admin Bar support is disabled (default); true when enabled 
+ * @return bool False when WP Admin Bar support is disabled (default); true when enabled
  */
 function bp_use_wp_admin_bar() {
 	return apply_filters( 'bp_use_wp_admin_bar', defined( 'BP_USE_WP_ADMIN_BAR' ) && BP_USE_WP_ADMIN_BAR );
+}
+
+/**
+ * Are oembeds allowed in activity items?
+ *
+ * @return bool False when activity embed support is disabled; true when enabled (default)
+ * @since 1.3
+ */
+function bp_use_embed_in_activity() {
+	return apply_filters( 'bp_use_oembed_in_activity', !defined( 'BP_EMBED_DISABLE_ACTIVITY' ) || !BP_EMBED_DISABLE_ACTIVITY );
+}
+
+/**
+ * Are oembeds allwoed in acitivity replies?
+ *
+ * @return bool False when activity replies embed support is disabled; true when enabled (default)
+ * @since 1.3
+ */
+function bp_use_embed_in_activity_replies() {
+	return apply_filters( 'bp_use_embed_in_activity_replies', !defined( 'BP_EMBED_DISABLE_ACTIVITY_REPLIES' ) || !BP_EMBED_DISABLE_ACTIVITY_REPLIES );
+}
+
+/**
+ * Are oembeds allowed on forum posts?
+ *
+ * @return bool False when form post embed support is disabled; true when enabled (default)
+ * @since 1.3
+ */
+function bp_use_embed_in_forum_posts() {
+	return apply_filters( 'bp_use_embed_in_forum_posts', !defined( 'BP_EMBED_DISABLE_FORUM_POSTS' ) || !BP_EMBED_DISABLE_FORUM_POSTS );
 }
 
 /**
@@ -1372,8 +1416,8 @@ function bp_do_404( $redirect = 'remove_canonical_direct' ) {
 
 	do_action( 'bp_do_404', $redirect );
 
-	$wp_query->set_404(); 
-	status_header( 404 ); 
+	$wp_query->set_404();
+	status_header( 404 );
 	nocache_headers();
 
 	if ( 'remove_canonical_direct' == $redirect )

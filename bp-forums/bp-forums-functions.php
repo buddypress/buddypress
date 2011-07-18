@@ -514,4 +514,45 @@ add_action( 'bp_forums_new_forum', 'bp_core_clear_cache' );
 add_action( 'bp_forums_new_topic', 'bp_core_clear_cache' );
 add_action( 'bp_forums_new_post',  'bp_core_clear_cache' );
 
+
+/** Embeds *******************************************************************/
+
+/**
+ * Grabs the topic post ID and attempts to retrieve the oEmbed cache (if it exists)
+ * during the forum topic loop.  If no cache and link is embeddable, cache it.
+ *
+ * @see BP_Embed
+ * @see bp_embed_forum_cache()
+ * @see bp_embed_forum_save_cache()
+ * @package BuddyPress_Forums
+ * @since 1.3
+ */
+function bp_forums_embed() {
+	add_filter( 'embed_post_id',         'bp_get_the_topic_post_id'         );
+	add_filter( 'bp_embed_get_cache',    'bp_embed_forum_cache',      10, 3 );
+	add_action( 'bp_embed_update_cache', 'bp_embed_forum_save_cache', 10, 3 );
+}
+add_action( 'topic_loop_start', 'bp_forums_embed' );
+
+/**
+ * Wrapper function for {@link bb_get_postmeta()}.
+ * Used during {@link BP_Embed::parse_oembed()} via {@link bp_forums_embed()}.
+ *
+ * @package BuddyPress_Forums
+ * @since 1.3
+ */
+function bp_embed_forum_cache( $cache, $id, $cachekey ) {
+	return bb_get_postmeta( $id, $cachekey );
+}
+
+/**
+ * Wrapper function for {@link bb_update_postmeta()}.
+ * Used during {@link BP_Embed::parse_oembed()} via {@link bp_forums_embed()}.
+ *
+ * @package BuddyPress_Forums
+ * @since 1.3
+ */
+function bp_embed_forum_save_cache( $cache, $cachekey, $id ) {
+	bb_update_postmeta( $id, $cachekey, $cache );
+}
 ?>

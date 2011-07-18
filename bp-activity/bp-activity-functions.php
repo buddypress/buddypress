@@ -116,7 +116,7 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
  * @param int $item_id The activity id
  * @param int $secondary_item_id In the case of at-mentions, this is the mentioner's id
  * @param int $total_items The total number of notifications to format
- * @param str $format 'string' to get a BuddyBar-compatible notification, 'array' otherwise 
+ * @param str $format 'string' to get a BuddyBar-compatible notification, 'array' otherwise
  */
 function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 	global $bp;
@@ -138,7 +138,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 			}
 		break;
 	}
-				
+
 	if ( 'string' == $format ) {
 		$return = apply_filters( $filter, '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . $text . '</a>', $at_mention_link, (int)$total_items, $activity_id, $poster_user_id );
 	} else {
@@ -993,4 +993,44 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
 	return apply_filters( 'bp_activity_thumbnail_content_images', $content, $matches );
 }
 
+/** Embeds *******************************************************************/
+
+/**
+ * Grabs the activity ID and attempts to retrieve the oEmbed cache (if it exists)
+ * during the activity loop.  If no cache and link is embeddable, cache it.
+ *
+ * @see BP_Embed
+ * @see bp_embed_activity_cache()
+ * @see bp_embed_activity_save_cache()
+ * @package BuddyPress Activity
+ * @since 1.3
+ */
+function bp_activity_embed() {
+	add_filter( 'embed_post_id',         'bp_get_activity_id'                  );
+	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
+	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
+}
+add_action( 'activity_loop_start', 'bp_activity_embed' );
+
+/**
+ * Wrapper function for {@link bp_activity_get_meta()}.
+ * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
+ *
+ * @package BuddyPress Activity
+ * @since 1.3
+ */
+function bp_embed_activity_cache( $cache, $id, $cachekey ) {
+	return bp_activity_get_meta( $id, $cachekey );
+}
+
+/**
+ * Wrapper function for {@link bp_activity_update_meta()}.
+ * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
+ *
+ * @package BuddyPress Activity
+ * @since 1.3
+ */
+function bp_embed_activity_save_cache( $cache, $cachekey, $id ) {
+	bp_activity_update_meta( $id, $cachekey, $cache );
+}
 ?>
