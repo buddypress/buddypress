@@ -15,8 +15,7 @@ add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
 function bp_forums_bbpress_admin() {
 	global $bp; 
 	
-	$base_url = bp_get_admin_url( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), 'admin.php' );
-
+	$action = bp_get_admin_url( 'admin.php?page=bb-forums-setup&reinstall=1' );
 	?>
 
 	<div class="wrap">
@@ -48,7 +47,7 @@ function bp_forums_bbpress_admin() {
 		else : ?>
 
 			<p><?php printf( __( 'bbPress forum integration in BuddyPress has been set up correctly. If you are having problems you can <a href="%s" title="Reinstall bbPress">re-install</a>.', 'buddypress' ), $action ); ?>
-			<p><?php _e( 'NOTE: The forums directory will only work if your bbPress tables are in the same database as your WordPress tables. If you are not using an existing bbPress install you can ignore this message.', 'buddypress' ) ?></p>
+			<p><?php _e( 'NOTE: The forums directory will only work if your bbPress tables are in the same database as your WordPress tables. If you are not using an existing bbPress install you can ignore this message.', 'buddypress' ); ?></p>
 
 		<?php endif; ?>
 
