@@ -1278,7 +1278,7 @@ body.activity-permalink .activity-content blockquote {
 --------------------------------------------------------------*/
 div.activity-meta {
 	float: left;
-	margin: 10px 0;
+	margin: 10px 0 15px;
 	clear: both;
 }
 div.activity-meta a {
