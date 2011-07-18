@@ -1151,8 +1151,8 @@ body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
 	background: url( ../images/replyto_arrow.gif ) 7px 0 no-repeat;
 	color: #bbb;
 	font-size: 11px;
-	margin-left: 0;
-	margin-bottom: 15px;
+	margin-left: 5px;
+	margin-top: 5px;
 	padding-left: 25px;
 }
 .activity-list li .activity-inreplyto > p {
