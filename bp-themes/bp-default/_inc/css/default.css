@@ -1281,6 +1281,9 @@ div.activity-meta {
 	margin: 10px 0 15px;
 	clear: both;
 }
+div.activity-meta a {
+	color: #999;
+}
 div.activity-meta a:hover {
 	color: inherit;
 }
@@ -1703,21 +1706,26 @@ input[type=button],
 input[type=reset],
 ul.button-nav li a,
 div.generic-button a {
-	background: #ededed;
-	border: 1px solid #bbb;
+	border: 1px solid #ccc;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	color: #777;
 	cursor: pointer;
-	font: normal 11px/20px Arial, Tahoma, Verdana, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: Arial, Tahoma, Verdana, sans-serif;
 	text-decoration: none;
 	vertical-align: bottom;
 	outline: none;
 	cursor: pointer;
 	text-align: center;
 	text-decoration: none;
-	padding: 4px 8px;
+	padding: 4px 10px;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(white), to(#ededed));
+	background: -moz-linear-gradient(top, white, #ededed);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
 }
 button:hover,
 a.button:hover,
@@ -1728,15 +1736,15 @@ input[type=reset]:hover,
 ul.button-nav li a:hover,
 ul.button-nav li.current a,
 div.generic-button a:hover {
-	background-image: -webkit-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: -moz-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: -ms-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: -o-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	border: 1px solid #555;
+	border: 1px solid #bbb;
 	color: #555;
+	outline: none;
+	text-decoration: none;
+	background: #ededed;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+	background: -moz-linear-gradient(top,  #fff,  #e0e0e0);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc');
 }
-
 
 /*--------------------------------------------------------------
 6.7 - Forums, Tables and Topics
@@ -1926,12 +1934,6 @@ span.user-nicename {
 }
 span.activity,
 div#message p {
-	background: #ffeaa6;
-	background-image: -webkit-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: -moz-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: -ms-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: -o-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
 	border: 1px solid #e1ca82;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1939,6 +1941,12 @@ div#message p {
 	font-weight: normal;
 	margin-top: 3px;
 	text-decoration: none;
+	background: #ffeaa6;
+	background-image: -webkit-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
+	background-image: -moz-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
+	background-image: -ms-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
+	background-image: -o-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
+	background-image: linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
 	opacity: 0.8;
 }
 div#item-header {
