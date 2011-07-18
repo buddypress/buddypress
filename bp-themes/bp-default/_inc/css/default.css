@@ -1222,7 +1222,7 @@ a.bp-secondary-action,
 span.highlight {
 	font-size: 11px;
 	padding: 0;
-	margin-right: 10px;
+	margin-right: 5px;
 	text-decoration: none;
 }
 .activity-list .activity-content .activity-inner,
@@ -1278,7 +1278,7 @@ body.activity-permalink .activity-content blockquote {
 --------------------------------------------------------------*/
 div.activity-meta {
 	float: left;
-	margin: 5px 0 10px 0;
+	margin: 10px 0;
 	clear: both;
 }
 div.activity-meta a {
@@ -1291,7 +1291,7 @@ a.bp-primary-action,
 .comment-reply-link,
 #reply-title small a {
 	font-size: 11px;
-	margin-right: 10px;
+	margin-right: 5px;
 	text-decoration: none;
 }
 a.bp-primary-action span,
