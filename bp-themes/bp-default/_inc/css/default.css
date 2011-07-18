@@ -738,26 +738,14 @@ div.comment-avatar-box img {
 div.comment-content {
 	overflow: hidden;
 }
-.comment-entry {
-	float: left;
-}
 ul.children .comment-entry {
 	margin-bottom: 10px;
 }
 div.comment-meta {
 	color: #888;
-	float: left; 
 	font-size: 11px;
 	margin: 15px 0;
 	width: 100%;
-}
-div.comment-meta p {
-	float: left;
-	margin-bottom: 0;
-}
-div.comment-meta .comment-options {
-	float: right;
-	margin-right: 10px;
 }
 div.comment-meta em {
 	font-style: normal;
@@ -794,9 +782,6 @@ div.comment-meta em {
 .commentlist ul.children div.comment-meta {
 	font-size: 11px;
 	margin: 0 0 10px 0;
-}
-.commentlist ul.children div.comment-options {
-	margin-right: 0;
 }
 .commentlist ul.children li {
 	border-top: 2px solid #fffeff;
@@ -849,6 +834,19 @@ h3#reply .comments-header {
 	margin: 0 0 15px;
 	padding: 0;
 }
+.comment-options {
+	margin: 10px 0 1px;
+}
+.comment-options .comment-reply-link,
+.comment-options .comment-edit-link {
+	font: normal 11px/20px Arial, Tahoma, Verdana, sans-serif;
+	margin-right: 5px;
+	padding: 4px 8px;
+}
+.commentlist ul.children div.comment-options {
+	margin-bottom: 10px;
+}
+
 
 /*--------------------------------------------------------------
 5.3 - Gallery
@@ -1286,14 +1284,12 @@ div.activity-meta a {
 	padding: 4px 8px;
 }
 a.bp-primary-action,
-.comment-reply-link,
 #reply-title small a {
 	font-size: 11px;
 	margin-right: 5px;
 	text-decoration: none;
 }
 a.bp-primary-action span,
-.comment-reply-link span,
 #reply-title small a span {
 	background: #999;
 	-moz-border-radius: 3px;
@@ -1305,7 +1301,6 @@ a.bp-primary-action span,
 	padding: 0 5px;
 }
 a.bp-primary-action:hover span,
-.comment-reply-link:hover span,
 #reply-title small a:hover span {
 	background: #555;
 	color: #fff;
@@ -1703,7 +1698,8 @@ input[type=submit],
 input[type=button],
 input[type=reset],
 ul.button-nav li a,
-div.generic-button a {
+div.generic-button a,
+.comment-reply-link {
 	background: #fff;
 	background: -webkit-gradient(linear, left top, left bottom, from(white), to(#ededed));
 	background: -moz-linear-gradient(top, white, #ededed);
@@ -1729,7 +1725,8 @@ input[type=button]:hover,
 input[type=reset]:hover,
 ul.button-nav li a:hover,
 ul.button-nav li.current a,
-div.generic-button a:hover {
+div.generic-button a:hover,
+.comment-reply-link:hover {
 	background: #ededed;
 	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
 	background: -moz-linear-gradient(top,  #fff,  #e0e0e0);

@@ -334,29 +334,8 @@ ol.commentlist div.comment-avatar-box {
 	float: right;
 	margin: 0 0 0 10px;
 }
-.commentlist ul.children div.comment-options {
-	margin-right: auto;
-	margin-left: 0;
-}
 #comments ol.commentlist ol {
 	margin: 0 2.5em 18px 0;
-}
-div.comment-meta {
-	float: right;
-}
-div.comment-meta em {
-	float: left;
-}
-div.comment-meta p {
-	float: right;
-}
-div.comment-meta .comment-options {
-	float: left;
-	margin-right: auto;
-	margin-left: 10px;
-}
-.comment-entry {
-	float: right;
 }
 #reply-title small {
 	float: left;
@@ -373,6 +352,11 @@ div.comment-meta .comment-options {
 	float: right;
 	margin-right: 30px;
 	margin-left: auto;
+}
+.comment-options .comment-reply-link,
+.comment-options .comment-edit-link {
+	margin-left: 5px;
+	margin-right: auto;
 }
 
 

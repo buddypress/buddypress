@@ -433,19 +433,10 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 			<div class="comment-meta">
 				<p>
 					<?php
-						if ( comments_open() )
-							$links = get_comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) );
-						else
-							$links = '';
-
-						/* translators: 1: comment author url, 2: comment author name, 3: comment permalink, 4: comment date/timestamp, 5: view/reply & edit comment links */
-						printf( __( '<a href="%1$s" rel="nofollow">%2$s</a> said on <a href="%3$s"><span class="time-since">%4$s</span></a> %5$s', 'buddypress' ), get_comment_author_url(), get_comment_author(), get_comment_link(), get_comment_date(), $links );
+						/* translators: 1: comment author url, 2: comment author name, 3: comment permalink, 4: comment date/timestamp*/
+						printf( __( '<a href="%1$s" rel="nofollow">%2$s</a> said on <a href="%3$s"><span class="time-since">%4$s</span></a>', 'buddypress' ), get_comment_author_url(), get_comment_author(), get_comment_link(), get_comment_date() );
 					?>
 				</p>
-
-				<?php if ( current_user_can( 'edit_comment', $comment->comment_ID ) ) : ?>
-					<div class="comment-options"><?php printf( '<a class="comment-edit-link bp-secondary-action" href="%1$s" title="%2$s">%3$s</a> ', get_edit_comment_link( $comment->comment_ID ), esc_attr__( 'Edit comment', 'buddypress' ), __( 'Edit', 'buddypress' ) ) ?></div>
-				<?php endif; ?>
 			</div>
 
 			<div class="comment-entry">
@@ -454,6 +445,17 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 				<?php endif; ?>
 
 				<?php comment_text() ?>
+			</div>
+
+			<div class="comment-options">
+					<?php if ( comments_open() ) : ?>
+						<?php comment_reply_link( array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ); ?>
+					<?php endif; ?>
+
+					<?php if ( current_user_can( 'edit_comment', $comment->comment_ID ) ) : ?>
+						<?php printf( '<a class="button comment-edit-link bp-secondary-action" href="%1$s" title="%2$s">%3$s</a> ', get_edit_comment_link( $comment->comment_ID ), esc_attr__( 'Edit comment', 'buddypress' ), __( 'Edit', 'buddypress' ) ) ?>
+					<?php endif; ?>
+
 			</div>
 
 		</div>
