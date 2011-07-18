@@ -2162,6 +2162,10 @@ div.item-list-tabs ul li.current a span,
 div.item-list-tabs ul li a:hover span {
 	background-color: #999;
 }
+div.item-list-tabs ul li.selected a span,
+div.item-list-tabs ul li.current a span {
+	background-color: #555;
+}
 ul li.loading a {
 	background-image: url( ../images/ajax-loader.gif );
 	background-position: 92% 50%;
