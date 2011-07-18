@@ -52,17 +52,23 @@ jQuery.fn.autoCompletefb = function(options)
 		var f = settings.foundClass.replace(/\./,'');
 		var d = String(d).split(' (');
 		var un = d[1].substr(0, d[1].length-1);
-		var ln = '#link-' + un;
-		var l = jQuery(ln).attr('href');
-		var v = '<li class="'+f+'" id="un-'+un+'"><span><a href="'+l+'">'+d[0]+'</a></span> <span class="p">X</span></li>';
-		var x = jQuery(settings.inputClass,tmp).before(v);
-
-		jQuery('#send-to-usernames').addClass(un);
-
-		jQuery('.p',x[0].previousSibling).click(function(){
-			acfb.removeFind(this);
-		});
+		
+		/* Don't add the same user multiple times */
+		if( 0 === jQuery(settings.inputClass).siblings('#un-' + un).length ) {		
+			var ln = '#link-' + un;
+			var l = jQuery(ln).attr('href');
+			var v = '<li class="'+f+'" id="un-'+un+'"><span><a href="'+l+'">'+d[0]+'</a></span> <span class="p">X</span></li>';
+			
+			var x = jQuery(settings.inputClass,tmp).before(v);
+			jQuery('#send-to-usernames').addClass(un);
+				
+			jQuery('.p',x[0].previousSibling).click(function(){
+				acfb.removeFind(this);
+			});
+		} 
+			
 		jQuery(settings.inputClass,tmp).val('');
+
 	});
 
 	jQuery(settings.inputClass,tmp).focus();
