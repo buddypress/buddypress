@@ -1927,18 +1927,9 @@ span.activity {
 	padding: 1px 8px;
 }
 span.user-nicename {
-	background: #f4f4f4;
-	border-bottom: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	color: #aaa;
 	display: inline-block;
-	font: normal 11px/20px Consolas, Monaco, monospace;
-	margin-top: 6px;
-	padding: 1px 8px;
-	text-decoration: none;
+	font-size: 16px;
+	font-weight: bold;
 }
 span.activity,
 div#message p {
@@ -1950,7 +1941,7 @@ div#message p {
 	border-radius: 3px;
 	color: #ffa200;
 	font-weight: normal;
-	margin-top: 6px;
+	margin-top: 3px;
 	text-decoration: none;
 }
 div#item-header {
