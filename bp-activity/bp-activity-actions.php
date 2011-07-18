@@ -16,7 +16,7 @@ function bp_activity_action_permalink_router() {
 	global $bp;
 
 	// Not viewing activity
-	if ( ( bp_is_activity_component() ) || !bp_is_current_action( 'p' ) )
+	if ( !bp_is_activity_component() || !bp_is_current_action( 'p' ) )
 		return false;
 
 	// No activity to display
