@@ -487,6 +487,15 @@ body.activity-permalink .activity-list li.mini .activity-meta {
 	margin-right: 70px;
 	margin-left: 0;
 }
+.activity-list li.new_forum_post .activity-content .activity-inner,
+.activity-list li.new_forum_post .activity-content blockquote {
+	border-left: none;
+	margin-left: 0;
+	padding-left: 0;
+	border-right: 2px solid #EAEAEA;
+	margin-right: 5px;
+	padding-right: 10px;
+}
 body.activity-permalink .activity-list li .activity-content {
 	margin-right: 135px;
 	margin-left: 0;

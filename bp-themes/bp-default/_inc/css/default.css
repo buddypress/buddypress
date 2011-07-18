@@ -1230,6 +1230,12 @@ span.highlight {
 	margin: 10px 10px 5px 0;
 	overflow: hidden;
 }
+.activity-list li.new_forum_post .activity-content .activity-inner,
+.activity-list li.new_forum_post .activity-content blockquote {
+	border-left: 2px solid #EAEAEA;
+	margin-left: 5px;
+	padding-left: 10px;
+}
 body.activity-permalink .activity-content .activity-inner,
 body.activity-permalink .activity-content blockquote {
 	margin-left: 0;
