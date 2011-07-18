@@ -270,7 +270,7 @@
 						<?php /* Previous Button */ ?>
 						<?php if ( !bp_is_first_group_creation_step() ) : ?>
 
-							<input type="button" value="&larr; <?php _e( 'Previous Step', 'buddypress' ); ?>" id="group-creation-previous" name="previous" onclick="location.href='<?php bp_group_creation_previous_link(); ?>'" />
+							<input type="button" value="<?php _e( 'Back to Previous Step', 'buddypress' ); ?>" id="group-creation-previous" name="previous" onclick="location.href='<?php bp_group_creation_previous_link(); ?>'" />
 
 						<?php endif; ?>
 
