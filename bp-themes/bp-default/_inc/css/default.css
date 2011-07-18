@@ -1282,20 +1282,8 @@ div.activity-meta {
 	clear: both;
 }
 div.activity-meta a {
-	background: #ededed;
-	border: 1px solid #bbb;
-	filter: none;
 	font: normal 11px/20px Arial, Tahoma, Verdana, sans-serif;
 	padding: 4px 8px;
-}
-div.activity-meta a:hover {
-	background: #ededed;
-	background-image: -webkit-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: -moz-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: -ms-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: -o-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	background-image: linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	border: 1px solid #555;
 }
 a.bp-primary-action,
 .comment-reply-link,
