@@ -370,9 +370,9 @@ div.comment-meta .comment-options {
 	margin: 0 0 0 15px;
 }
 .acomment-options {
-	float: left;
-	margin-left: 10px;
-	margin-right: auto;
+	float: right;
+	margin-right: 30px;
+	margin-left: auto;
 }
 
 
@@ -528,6 +528,7 @@ span.highlight,
 div.activity-meta {
 	margin: 0 0 20px 10px;
 	clear: right;
+	float: right;
 }
 div.activity-comments {
 	margin: 0 70px 0 0;
