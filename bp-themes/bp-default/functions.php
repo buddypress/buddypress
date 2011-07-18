@@ -130,13 +130,10 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
 /**
  * Enqueue theme javascript safely
  *
- * @global object $bp Global BuddyPress settings object
  * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
  * @since 1.3
  */
 function bp_dtheme_enqueue_scripts() {
-	global $bp;
-
 	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ), BP_VERSION );
 
 	// Add words that we need to use in JS to the end of the page so they can be translated and still used.
@@ -149,9 +146,6 @@ function bp_dtheme_enqueue_scripts() {
 		'comments'          => __( 'comments', 'buddypress' ),
 		'close'             => __( 'Close', 'buddypress' )
 	);
-
-	if ( !empty( $bp->displayed_user->id ) )
-		$params['mention_explain'] = sprintf( __( '%1$s is a unique identifier for %2$s that you can type into any message on this site. %2$s will be sent a notification and a link to your message any time you use it.', 'buddypress' ), '@' . bp_get_displayed_user_username(), bp_get_user_firstname( bp_get_displayed_user_fullname() ) );
 
 	wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
 }
