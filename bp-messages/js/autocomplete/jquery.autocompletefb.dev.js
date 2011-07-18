@@ -53,7 +53,7 @@ jQuery.fn.autoCompletefb = function(options)
 		var d = String(d).split(' (');
 		var un = d[1].substr(0, d[1].length-1);
 		var ln = '#link-' + un;
-		var l = jQuery(ln).attr('value');
+		var l = jQuery(ln).attr('href');
 		var v = '<li class="'+f+'" id="un-'+un+'"><span><a href="'+l+'">'+d[0]+'</a></span> <span class="p">X</span></li>';
 		var x = jQuery(settings.inputClass,tmp).before(v);
 
