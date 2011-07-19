@@ -313,16 +313,6 @@ function bp_search_form() {
 	echo apply_filters( 'bp_search_form', $form );
 }
 
-function bp_log_out_link() {
-	global $bp;
-	if ( function_exists('wp_logout_url') )
-		$logout_link = '<a href="' . wp_logout_url( bp_get_root_domain() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
-	else
-		$logout_link = '<a href="' . bp_get_root_domain() . '/wp-login.php?action=logout&amp;redirect_to=' . bp_get_root_domain() . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
-
-	echo apply_filters( 'bp_logout_link', $logout_link );
-}
-
 function bp_custom_profile_boxes() {
 	do_action( 'bp_custom_profile_boxes' );
 }

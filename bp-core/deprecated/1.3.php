@@ -235,6 +235,21 @@ function bp_page_title() {
 		return apply_filters( 'bp_get_page_title', $title );
 	}
 
+/**
+ * Generate a link to log out. Last used in BP 1.2-beta. You should be using wp_logout_url().
+ *
+ * @deprecated 1.3
+ * @deprecated Use wp_logout_url()
+ * @since 1.0
+ */
+function bp_log_out_link() {
+	_deprecated_function( __FUNCTION__, '1.3', 'wp_logout_url()' );
+
+	$logout_link = '<a href="' . wp_logout_url( bp_get_root_domain() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
+	echo apply_filters( 'bp_logout_link', $logout_link );
+}
+
+
 /** Theme *********************************************************************/
 
 /**
