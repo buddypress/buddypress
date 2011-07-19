@@ -351,7 +351,7 @@ jq(document).ready( function() {
 
 			/* Hide any error messages */
 			jq( 'form#' + form + ' div.error').hide();
-			form.addClass('loading');
+			target.addClass('loading');
 			target.css('disabled', 'disabled');
 
 			jq.post( ajaxurl, {
@@ -364,7 +364,7 @@ jq(document).ready( function() {
 			},
 			function(response)
 			{
-				form.removeClass('loading');
+				target.removeClass('loading');
 
 				/* Check for errors and append if found. */
 				if ( response[0] + response[1] == '-1' ) {
