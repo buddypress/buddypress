@@ -601,7 +601,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	$unknown_text   = apply_filters( 'bp_core_time_since_unknown_text',   __( 'sometime',  'buddypress' ) );
 	$right_now_text = apply_filters( 'bp_core_time_since_right_now_text', __( 'right now', 'buddypress' ) );
 	$ago_text       = apply_filters( 'bp_core_time_since_ago_text',       __( '%s ago',    'buddypress' ) );
-	
+
 	// array of time period chunks
 	$chunks = array(
 		array( 60 * 60 * 24 * 365 , __( 'year',   'buddypress' ), __( 'years',   'buddypress' ) ),
@@ -632,7 +632,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	// Something went wrong with date calculation and we ended up with a negative date.
 	if ( 0 > $since ) {
 		$output = $unknown_text;
-		
+
 	/**
 	 * We only want to output two chunks of time here, eg:
 	 * x years, xx months
@@ -925,7 +925,7 @@ function bp_embed_init() {
 	if ( empty( $bp->embed ) )
 		$bp->embed = new BP_Embed();
 }
-add_action( 'bp_init', 'bp_embed_init' );
+add_action( 'bp_init', 'bp_embed_init', 9 );
 
 /**
  * When switching from single to multisite we need to copy blog options to

@@ -91,8 +91,16 @@ jq(document).ready( function() {
 					var l = jq("ul#activity-stream li.new-update .activity-content .activity-inner p").html();
 					var v = jq("ul#activity-stream li.new-update .activity-content .activity-header p a.view").attr('href');
 
+					var ltext = jq("ul#activity-stream li.new-update .activity-content .activity-inner p").text();
+
+					var u = '';
+					if ( ltext != '' )
+						u = l + '&middot; ';
+
+					u += '<a href="' + v + '" rel="nofollow">' + BP_DTheme.view + '</a>';
+
 					jq("div#latest-update").slideUp(300,function(){
-						jq("div#latest-update").html('"' + l + '" &middot; <a href="' + v + '" rel="nofollow">View</a>');
+						jq("div#latest-update").html( u );
 						jq("div#latest-update").slideDown(300);
 					});
 				}

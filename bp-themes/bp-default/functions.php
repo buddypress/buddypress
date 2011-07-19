@@ -144,7 +144,8 @@ function bp_dtheme_enqueue_scripts() {
 		'show_all_comments' => __( 'Show all comments for this thread', 'buddypress' ),
 		'show_all'          => __( 'Show all', 'buddypress' ),
 		'comments'          => __( 'comments', 'buddypress' ),
-		'close'             => __( 'Close', 'buddypress' )
+		'close'             => __( 'Close', 'buddypress' ),
+		'view'              => __( 'View', 'buddypress' )
 	);
 
 	wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
@@ -160,7 +161,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  * @since 1.3
  */
 function bp_dtheme_enqueue_styles() {
-	
+
 	// Default CSS
 	wp_enqueue_style( 'bp-default-main',  get_template_directory_uri() . '/_inc/css/default.css', array(), BP_VERSION );
 
@@ -515,11 +516,11 @@ if ( !function_exists( 'bp_dtheme_show_notice' ) ) :
  */
 function bp_dtheme_show_notice() {
 	global $pagenow;
-	
+
 	// Bail if bp-default theme was not just activated
 	if ( empty( $_GET['activated'] ) || ( 'themes.php' != $pagenow ) || !is_admin() )
 		return;
-	
+
 	?>
 
 	<div id="message" class="updated fade">
