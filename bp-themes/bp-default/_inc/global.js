@@ -40,10 +40,9 @@ jq(document).ready( function() {
 				jq(this).prop( 'disabled', true );
 		});
 
-		button.addClass('loading');
-
 		/* Remove any errors */
 		jq('div.error').remove();
+		button.addClass('loading');
 		button.prop('disabled', true);
 
 		/* Default POST values */
@@ -66,7 +65,7 @@ jq(document).ready( function() {
 		},
 		function(response)
 		{
-			button.addClass('loading');
+			button.removeClass('loading');
 
 			form.children().each( function() {
 				if ( jq.nodeName(this, "textarea") || jq.nodeName(this, "input") )
