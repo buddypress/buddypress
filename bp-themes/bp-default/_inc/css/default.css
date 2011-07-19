@@ -327,7 +327,7 @@ div#sidebar div.item-content {
 div#sidebar div.tags div#tag-text {
 	font-size: 1.4em;
 	line-height: 140%;
-	padding-top: 10px;
+	padding: 10px 0 15px;
 }
 
 
@@ -1716,6 +1716,7 @@ div.generic-button a,
 	text-align: center;
 	text-decoration: none;
 	vertical-align: bottom;
+	line-height: 14px;
 }
 button:hover,
 a.button:hover,
