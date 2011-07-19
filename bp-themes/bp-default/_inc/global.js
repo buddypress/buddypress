@@ -486,17 +486,6 @@ jq(document).ready( function() {
 		}
 	});
 
-	/**** @mention username help tooltip **************************************/
-
-	jq('span.highlight span').click( function() {
-		if ( !jq('div.help').length ) {
-			jq(this).parent().after( '<div id="message" class="info help"><p>' + BP_DTheme.mention_explain + '</p></div>' );
-			jq('div.help').hide().slideDown(200);
-		} else {
-			jq('div.help').hide().remove();
-		}
-	})
-
 	/**** Directory Search ****************************************************/
 
 	/* The search form on all directory pages */
