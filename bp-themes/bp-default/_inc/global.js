@@ -40,7 +40,7 @@ jq(document).ready( function() {
 				jq(this).prop( 'disabled', true );
 		});
 
-		jq( 'form#' + form.attr('id') + ' span.ajax-loader' ).show();
+		button.addClass('loading');
 
 		/* Remove any errors */
 		jq('div.error').remove();
@@ -66,7 +66,7 @@ jq(document).ready( function() {
 		},
 		function(response)
 		{
-			jq( 'form#' + form.attr('id') + ' span.ajax-loader' ).hide();
+			button.addClass('loading');
 
 			form.children().each( function() {
 				if ( jq.nodeName(this, "textarea") || jq.nodeName(this, "input") )
