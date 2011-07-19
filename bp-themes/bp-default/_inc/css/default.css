@@ -1470,7 +1470,8 @@ div.activity-comments form div.ac-reply-content {
 	display: none;
 	padding: 8px 8px 3px 8px;
 }
-a.loading {
+a.loading,
+input.loading {
 	background-image: url( ../images/ajax-loader.gif ) !important;
 	background-position: 95% 50% !important;
 	background-repeat: no-repeat !important;
