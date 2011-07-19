@@ -537,7 +537,8 @@ a:focus {
 }
 #nav li.selected a,
 #nav > li.current-menu-item a,
-#nav > li.current_page_item a {
+#nav > li.current_page_item a,
+#nav > li.current_page_ancestor a {
 	background: #f5f5f5;
 	color: #4D4D4D;
 }
