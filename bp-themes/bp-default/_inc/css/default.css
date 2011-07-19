@@ -1072,7 +1072,7 @@ form#whats-new-form textarea {
 	font-family: inherit;
 	font-size: 14px;
 	height: 50px;
-	padding: 1%;
+	padding: 6px;
 	width: 98%;
 }
 form#whats-new-form #whats-new-options select {
