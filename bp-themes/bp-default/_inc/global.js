@@ -352,7 +352,7 @@ jq(document).ready( function() {
 			/* Hide any error messages */
 			jq( 'form#' + form + ' div.error').hide();
 			target.addClass('loading');
-			target.css('disabled', 'disabled');
+			target.prop('disabled', true);
 
 			jq.post( ajaxurl, {
 				action: 'new_activity_comment',
