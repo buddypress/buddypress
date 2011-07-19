@@ -309,7 +309,10 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	// Blog creation page
 	} elseif ( bp_is_create_blog() ) {
 		$title = __( 'Create a Site', 'buddypress' );
-	}
+	}	
+
+	// Some BP nav items contain item counts. Remove them
+	$title = preg_replace( '|<span>[0-9]+</span>|', '', $title );
 
 	return apply_filters( 'bp_modify_page_title', $title . " $sep ", $title, $sep, $seplocation );
 }
