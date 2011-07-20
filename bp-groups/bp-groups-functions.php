@@ -415,6 +415,22 @@ function groups_total_groups_for_user( $user_id = 0 ) {
 	return $count;
 }
 
+/**
+ * Returns the group object for the group currently being viewed
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return obj The current group object
+ */
+function groups_get_current_group() {
+	global $bp;
+	
+	$current_group = isset( $bp->groups->current_group ) ? $bp->groups->current_group : false;
+	
+	return apply_filters( 'groups_get_current_group', $current_group );
+}
+
 /*** Group Avatars *************************************************************/
 
 function groups_avatar_upload_dir( $group_id = 0 ) {

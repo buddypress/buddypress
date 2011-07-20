@@ -2707,9 +2707,75 @@ function bp_group_activity_feed_link() {
 		return apply_filters( 'bp_get_group_activity_feed_link', bp_get_group_permalink( $bp->groups->current_group ) . 'feed/' );
 	}
 
+/**
+ * Echoes the output of bp_get_current_group_id()
+ *
+ * @package BuddyPress
+ * @since 1.3
+ */
+function bp_current_group_id() {
+	echo bp_get_current_group_id();
+}	
+	/**
+	 * Returns the ID of the current group
+	 *
+	 * @package BuddyPress
+	 * @since 1.3
+	 * @uses apply_filters() Filter bp_get_current_group_id to modify this output
+	 *
+	 * @return int $current_group_id The id of the current group, if there is one 
+	 */
+	function bp_get_current_group_id() {
+		$current_group = groups_get_current_group();
+		
+		$current_group_id = isset( $current_group->id ) ? (int)$current_group->id : 0;
+		
+		return apply_filters( 'bp_get_current_group_id', $current_group_id, $current_group );
+	}
+
+/**
+ * Echoes the output of bp_get_current_group_slug()
+ *
+ * @package BuddyPress
+ * @since 1.3
+ */
+function bp_current_group_slug() {
+	echo bp_get_current_group_slug();
+}	
+	/**
+	 * Returns the slug of the current group
+	 *
+	 * @package BuddyPress
+	 * @since 1.3
+	 * @uses apply_filters() Filter bp_get_current_group_slug to modify this output
+	 *
+	 * @return str $current_group_slug The slug of the current group, if there is one 
+	 */
+	function bp_get_current_group_slug() {
+		$current_group = groups_get_current_group();
+		
+		$current_group_slug = isset( $current_group->slug ) ? $current_group->slug : '';
+		
+		return apply_filters( 'bp_get_current_group_slug', $current_group_slug, $current_group );
+	}
+
+/**
+ * Echoes the output of bp_get_current_group_name()
+ *
+ * @package BuddyPress
+ */
 function bp_current_group_name() {
 	echo bp_get_current_group_name();
 }
+	/**
+	 * Returns the name of the current group
+	 *
+	 * @package BuddyPress
+	 * @since 1.3
+	 * @uses apply_filters() Filter bp_get_current_group_name to modify this output
+	 *
+	 * @return str The name of the current group, if there is one 
+	 */
 	function bp_get_current_group_name() {
 		global $bp;
 
