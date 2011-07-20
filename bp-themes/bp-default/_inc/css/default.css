@@ -389,6 +389,8 @@ code p {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	padding: 15px;
+	max-width: 80%;
+	overflow: scroll;
 }
 code {
 	font-family: "Monaco", courier, sans-serif;
