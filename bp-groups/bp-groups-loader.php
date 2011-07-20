@@ -94,7 +94,8 @@ class BP_Groups_Component extends BP_Component {
 		if ( bp_is_groups_component() && $group_id = BP_Groups_Group::group_exists( bp_current_action() ) ) {
 
 			$bp->is_single_item  = true;
-			$this->current_group = new BP_Groups_Group( $group_id );
+			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' ); 
+			$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
 
 			// When in a single group, the first action is bumped down one because of the
 			// group name, so we need to adjust this and set the group name to current_item.
