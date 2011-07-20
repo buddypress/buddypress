@@ -249,6 +249,74 @@ function bp_log_out_link() {
 	echo apply_filters( 'bp_logout_link', $logout_link );
 }
 
+/**
+ * Send an email and a BP notification on receipt of an @-mention in a group
+ *
+ * @deprecated 1.3
+ * @deprecated Deprecated in favor of the more general bp_activity_at_message_notification()
+ */
+function groups_at_message_notification( $content, $poster_user_id, $group_id, $activity_id ) {
+	global $bp;
+	
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_activity_at_message_notification()' );
+
+	/* Scan for @username strings in an activity update. Notify each user. */
+	$pattern = '/[@]+([A-Za-z0-9-_\.@]+)/';
+	preg_match_all( $pattern, $content, $usernames );
+
+	/* Make sure there's only one instance of each username */
+	if ( !$usernames = array_unique( $usernames[1] ) )
+		return false;
+
+	$group = new BP_Groups_Group( $group_id );
+
+	foreach( (array)$usernames as $username ) {
+		if ( !$receiver_user_id = bp_core_get_userid( $username ) )
+			continue;
+
+		/* Check the user is a member of the group before sending the update. */
+		if ( !groups_is_user_member( $receiver_user_id, $group_id ) )
+			continue;
+
+		// Now email the user with the contents of the message (if they have enabled email notifications)
+		if ( 'no' != bp_get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
+			$poster_name = bp_core_get_user_displayname( $poster_user_id );
+
+			$message_link = bp_activity_get_permalink( $activity_id );
+			$settings_link = bp_core_get_user_domain( $receiver_user_id ) . bp_get_settings_slug() . '/notifications/';
+
+			$poster_name = stripslashes( $poster_name );
+			$content = bp_groups_filter_kses( stripslashes( $content ) );
+
+			// Set up and send the message
+			$ud = bp_core_get_core_userdata( $receiver_user_id );
+			$to = $ud->user_email;
+			$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
+			$subject  = '[' . $sitename . '] ' . sprintf( __( '%1$s mentioned you in the group "%2$s"', 'buddypress' ), $poster_name, $group->name );
+
+$message = sprintf( __(
+'%1$s mentioned you in the group "%2$s":
+
+"%3$s"
+
+To view and respond to the message, log in and visit: %4$s
+
+---------------------
+', 'buddypress' ), $poster_name, $group->name, $content, $message_link );
+
+			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+
+			/* Send the message */
+			$to = apply_filters( 'groups_at_message_notification_to', $to );
+			$subject = apply_filters( 'groups_at_message_notification_subject', $subject, $group, $poster_name );
+			$message = apply_filters( 'groups_at_message_notification_message', $message, $group, $poster_name, $content, $message_link, $settings_link );
+
+			wp_mail( $to, $subject, $message );
+		}
+	}
+
+	do_action( 'bp_groups_sent_mention_email', $usernames, $subject, $message, $content, $poster_user_id, $group_id, $activity_id );
+}
 
 /** Theme *********************************************************************/
 

@@ -71,7 +71,11 @@ add_filter( 'bp_get_activity_latest_update',         'bp_activity_make_nofollow_
 add_filter( 'bp_get_activity_latest_update_excerpt', 'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_make_nofollow_filter' );
 
-add_filter( 'bp_get_activity_parent_content', 'bp_create_excerpt' );
+add_filter( 'pre_comment_content',                   'bp_activity_at_name_filter' ); 
+add_filter( 'group_forum_topic_text_before_save',    'bp_activity_at_name_filter' ); 
+add_filter( 'group_forum_post_text_before_save',     'bp_activity_at_name_filter' ); 
+
+add_filter( 'bp_get_activity_parent_content',        'bp_create_excerpt' );
 
 function bp_activity_filter_kses( $content ) {
 	global $allowedtags;
@@ -101,20 +105,15 @@ function bp_activity_filter_kses( $content ) {
 }
 
 /**
- * bp_activity_at_name_filter()
- *
- * Finds and links @-mentioned users in activity updates
+ * Finds and links @-mentioned users in the contents of activity items
  *
  * @package BuddyPress Activity
  *
  * @param string $content The activity content
+ * @param int $activity_id When $adjust_mention_count is true, you must provide an $activity_id, 
+ *   which will be added to the list of the user's unread mentions
  */
-function bp_activity_at_name_filter( $activity ) {
-	// Only run this function once for a given activity item
-	remove_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter' );
-
-	$content = $activity->content;
-
+function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 	$usernames = bp_activity_find_mentions( $content );
 
 	foreach( (array)$usernames as $username ) {
@@ -126,17 +125,40 @@ function bp_activity_at_name_filter( $activity ) {
 		if ( empty( $user_id ) )
 			continue;
 
-		// Increase the number of new @ mentions for the user
-		bp_activity_adjust_mention_count( $activity->id, 'add' );
+		// If an activity_id is provided, we can send email and BP notifications
+		if ( $activity_id ) {
+			bp_activity_at_message_notification( $activity_id, $user_id );
+		}
 
 		$content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( $user_id ) . "' rel='nofollow'>@$username</a>", $content );
 	}
 
-	// Resave the activity item with the linked usernames
-	$activity->content = $content;
+	// Adjust the activity count for this item	
+	if ( $activity_id )
+		bp_activity_adjust_mention_count( $activity_id, 'add' );
+
+	return $content;
+} 
+
+/**
+ * Catch mentions in saved activity items
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param obj $activity
+ */
+function bp_activity_at_name_filter_updates( $activity ) {
+	// Only run this function once for a given activity item
+	remove_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter_updates' );
+	
+	// Run the content through the linking filter, making sure to increment mention count
+	$activity->content = bp_activity_at_name_filter( $activity->content, $activity->id );
+	
+	// Resave the activity with the new content
 	$activity->save();
 }
-add_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter' );
+add_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter_updates' );
 
 function bp_activity_make_nofollow_filter( $text ) {
 	return preg_replace_callback( '|<a (.+?)>|i', 'bp_activity_make_nofollow_filter_callback', $text );
