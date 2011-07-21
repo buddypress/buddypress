@@ -1179,7 +1179,7 @@ function bp_forum_directory_permalink() {
 	function bp_get_forum_directory_permalink() {
 		global $bp;
 
-		return apply_filters( 'bp_get_forum_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) );
+		return apply_filters( 'bp_get_forum_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() ) );
 	}
 
 function bp_forums_tag_heat_map( $args = '' ) {
