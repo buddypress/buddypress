@@ -1525,15 +1525,15 @@ div#message p {
 	padding: 10px 15px;
 }
 div#message.error p {
-	background-color: #e41717;
+	background-color: #db1717;
 	border-color: #a71a1a;
 	clear: left;
 	color: #fff;
 }
 div#message.updated p {
-	background-color: #dffcd9;
-	border-color: #c4e9bd;
-	color: #1a9b00;
+	background-color: #8ff57a;
+	border-color: #80cf70;
+	color: #1a6a00;
 }
 .standard-form#signup_form div div.error {
 	background: #e41717;
