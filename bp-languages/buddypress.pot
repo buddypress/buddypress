@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-21 15:30:52+00:00\n"
+"POT-Creation-Date: 2011-07-21 23:30:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4229,15 +4229,19 @@ msgstr ""
 msgid "Permalink"
 msgstr ""
 
+#. translators: "started by [poster] in [forum]"
+
 #: bp-themes/bp-default/forums/forums-loop.php:61
-msgid "Started by: %1$s"
+msgid "Started by %1$s"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:71
-msgid "in: %1$s"
+#. translators: "started by [poster] in [forum]"
+
+#: bp-themes/bp-default/forums/forums-loop.php:72
+msgid "in %1$s"
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:121
+#: bp-themes/bp-default/forums/forums-loop.php:122
 msgid "Sorry, there were no forum topics found."
 msgstr ""
 
