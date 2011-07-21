@@ -20,7 +20,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	}
 
 	function __construct() {
-		parent::__construct( false, $name = __( 'Recent Site Wide Posts', 'buddypress' ) );
+		parent::__construct( false, $name = __( 'Recent Networkwide Posts', 'buddypress' ) );
 	}
 
 	function widget($args, $instance) {
