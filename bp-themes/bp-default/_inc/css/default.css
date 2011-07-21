@@ -1287,10 +1287,11 @@ div.activity-meta a {
 	padding: 4px 8px;
 }
 a.activity-time-since {
-	color: #888;
+	color: #aaa;
 	text-decoration: none;
 }
 a.activity-time-since:hover {
+	color: #888;
 	text-decoration: underline;
 }
 a.bp-primary-action,
