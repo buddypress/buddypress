@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-20 23:30:58+00:00\n"
+"POT-Creation-Date: 2011-07-21 07:30:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -777,7 +777,7 @@ msgstr ""
 #: bp-groups/bp-groups-loader.php:391 bp-groups/bp-groups-widgets.php:18
 #: bp-groups/bp-groups-widgets.php:39 bp-groups/bp-groups-widgets.php:106
 #: bp-groups/bp-groups-screens.php:821 bp-activity/bp-activity-loader.php:166
-#: bp-activity/bp-activity-loader.php:239
+#: bp-activity/bp-activity-loader.php:246
 msgid "Groups"
 msgstr ""
 
@@ -1330,16 +1330,16 @@ msgid "Requests"
 msgstr ""
 
 #: bp-friends/bp-friends-loader.php:151
-msgid "Friends <span>%s</span>"
+msgid "Friends <span class=\"count\">%s</span>"
 msgstr ""
 
 #: bp-friends/bp-friends-loader.php:152
-msgid "Pending Requests <span>%s</span>"
+msgid "Pending Requests <span class=\"count\">%s</span>"
 msgstr ""
 
 #: bp-friends/bp-friends-loader.php:154 bp-friends/bp-friends-screens.php:68
 #: bp-activity/bp-activity-loader.php:153
-#: bp-activity/bp-activity-loader.php:230
+#: bp-activity/bp-activity-loader.php:237
 msgid "Friends"
 msgstr ""
 
@@ -1728,11 +1728,11 @@ msgid "Send Invites"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:388
-msgid "Groups <strong>(%s)</strong>"
+msgid "Groups <span class=\"count\">%s</strong>"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:389
-msgid "Pending Invites <span>%s</span>"
+msgid "Pending Invites <span class=\"count\">%s</span>"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:392
@@ -2887,7 +2887,7 @@ msgstr ""
 msgid "Search Messages..."
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:96 bp-messages/bp-messages-loader.php:181
+#: bp-messages/bp-messages-loader.php:96
 msgid "Messages <span>%s</span>"
 msgstr ""
 
@@ -2915,8 +2915,12 @@ msgstr ""
 msgid "Notices"
 msgstr ""
 
+#: bp-messages/bp-messages-loader.php:181
+msgid "Messages <span class=\"count\">%s</span>"
+msgstr ""
+
 #: bp-messages/bp-messages-loader.php:182
-msgid "Inbox <span>%s</span>"
+msgid "Inbox <span class=\"count\">%s</span>"
 msgstr ""
 
 #: bp-messages/bp-messages-loader.php:184
@@ -4647,30 +4651,34 @@ msgstr ""
 msgid "Search Activity..."
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:95 bp-activity/bp-activity-loader.php:201
+#: bp-activity/bp-activity-loader.php:95 bp-activity/bp-activity-loader.php:208
 #: bp-activity/feeds/bp-activity-personal-feed.php:21
 #: bp-activity/bp-activity-screens.php:169
 msgid "Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-loader.php:120
-#: bp-activity/bp-activity-loader.php:215
+#: bp-activity/bp-activity-loader.php:222
 msgid "Personal"
 msgstr ""
 
 #: bp-activity/bp-activity-loader.php:130
-#: bp-activity/bp-activity-loader.php:208
+#: bp-activity/bp-activity-loader.php:201
 #: bp-activity/feeds/bp-activity-mentions-feed.php:21
 #: bp-activity/feeds/bp-activity-mentions-feed.php:24
 msgid "Mentions"
 msgstr ""
 
 #: bp-activity/bp-activity-loader.php:141
-#: bp-activity/bp-activity-loader.php:222
+#: bp-activity/bp-activity-loader.php:229
 msgid "Favorites"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:259
+#: bp-activity/bp-activity-loader.php:199
+msgid "Mentions <span class=\"count\">%s</span>"
+msgstr ""
+
+#: bp-activity/bp-activity-loader.php:266
 msgid "My Activity"
 msgstr ""
 
