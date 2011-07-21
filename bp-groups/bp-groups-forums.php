@@ -244,9 +244,21 @@ function groups_delete_group_forum_post( $post_id, $topic_id ) {
 	return false;
 }
 
-
 function groups_total_public_forum_topic_count( $type = 'newest' ) {
 	return apply_filters( 'groups_total_public_forum_topic_count', BP_Groups_Group::get_global_forum_topic_count( $type ) );
+}
+
+/**
+ * Get a total count of all topics of a given status, across groups/forums
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param str $status 'public', 'private', 'hidden', 'all' Which group types to count
+ * @return int The topic count
+ */
+function groups_total_forum_topic_count( $status = 'public' ) {
+	return apply_filters( 'groups_total_forum_topic_count', BP_Groups_Group::get_global_topic_count( $status ) );
 }
 
 ?>

@@ -68,22 +68,24 @@ class BP_Forums_Template_Forum {
 	var $sort_by;
 	var $order;
 
-	function BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms ) {
-		$this->__construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms );
+	function BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset = false, $number = false ) {
+		$this->__construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset, $number );
 	}
 
-	function __construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms ) {	
+	function __construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset = false, $number = false ) {	
 		global $bp;
 
-		$this->pag_page     = isset( $_REQUEST['p'] ) ? intval( $_REQUEST['p'] ) : $page;
-		$this->pag_num      = isset( $_REQUEST['n'] ) ? intval( $_REQUEST['n'] ) : $per_page;
+		$this->pag_page     = $page;
+		$this->pag_num      = $per_page;
 		$this->type         = $type;
 		$this->search_terms = $search_terms;
 		$this->forum_id     = $forum_id;
+		$this->offset	    = $offset;
+		$this->number	    = $number;
 
 		switch ( $type ) {
-			case 'newest': default:
-				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'forum_id' => $forum_id, 'filter' => $search_terms, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies ) );
+			case 'newest': default:				
+				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'forum_id' => $forum_id, 'filter' => $search_terms, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies, 'offset' => $offset, 'number' => $number ) );
 				break;
 
 			case 'popular':
@@ -111,7 +113,9 @@ class BP_Forums_Template_Forum {
 			} else if ( !empty( $bp->groups->current_group ) ) {
 				$topic_count = (int)groups_total_public_forum_topic_count( $type );
 			} else {
-				$topic_count = count( $this->topics );
+				// For forum directories, get a true count
+				$status = is_super_admin() ? 'all' : 'public'; // todo: member-of
+				$topic_count = (int)groups_total_forum_topic_count( $status );
 			}
 
 			if ( !$max || $max >= $topic_count ) {
@@ -119,7 +123,7 @@ class BP_Forums_Template_Forum {
 			} else {
 				$this->total_topic_count = (int)$max;
 			}
-
+			
 			if ( $max ) {
 				if ( $max >= count($this->topics) ) {
 					$this->topic_count = count( $this->topics );
@@ -133,22 +137,6 @@ class BP_Forums_Template_Forum {
 
 		$this->topic_count       = apply_filters_ref_array( 'bp_forums_template_topic_count',                                 array( $this->topic_count, &$this->topics, $type, $forum_id, $per_page, $max, $no_stickies ) );
 		$this->total_topic_count = apply_filters_ref_array( 'bp_forums_template_total_topic_count', array( $this->total_topic_count, $this->topic_count, &$this->topics, $type, $forum_id, $per_page, $max, $no_stickies ) );
-
-		if ( !$no_stickies ) {
-			$stickies = array();
-			$standard = array();
-
-			// Place stickies at the top - not sure why bbPress doesn't do this?
-			foreach( (array)$this->topics as $topic ) {
-				if ( isset( $topic->topic_sticky ) && 1 == (int)$topic->topic_sticky ) {
-					$stickies[] = $topic;
-				} else {
-					$standard[] = $topic;
-				}
-			}
-
-			$this->topics = array_merge( (array)$stickies, (array)$standard );
-		}
 
 		// Fetch extra information for topics, so we don't have to query inside the loop
 		$this->topics = bp_forums_get_topic_extras( $this->topics );
@@ -212,6 +200,20 @@ class BP_Forums_Template_Forum {
 	}
 }
 
+/**
+ * Initiate the forum topics loop.
+ *
+ * Like other BuddyPress custom loops, the default arguments for this function are determined
+ * dynamically, depending on your current page. All of these $defaults can be overridden in the
+ * $args parameter.
+ *
+ * @package BuddyPress
+ * @uses apply_filters() Filter bp_has_topics to manipulate the $forums_template global before
+ *   it's rendered, or to modify the value of has_topics().
+ *
+ * @param array $args See inline definition of $defaults for explanation of arguments
+ * @return bool Returns true when forum topics are found corresponding to the args, false otherwise.
+ */
 function bp_has_forum_topics( $args = '' ) {
 	global $forum_template, $bp;
 
@@ -224,7 +226,7 @@ function bp_has_forum_topics( $args = '' ) {
 	$user_id      = 0;
 	$forum_id     = false;
 	$search_terms = false;
-	$no_stickies  = 'all';
+	$do_stickies  = true;
 
 	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
@@ -254,20 +256,26 @@ function bp_has_forum_topics( $args = '' ) {
 	// If $_GET['fs'] is set, let's auto populate the search_terms var
 	if ( bp_is_directory() && !empty( $_GET['fs'] ) )
 		$search_terms = $_GET['fs'];
-
-	// Show stickies on a group forum
-	if ( isset( $bp->groups->current_group ) )
-		$no_stickies = null;
+	
+	// Get the pagination arguments from $_REQUEST
+	$page     = isset( $_REQUEST['p'] ) ? intval( $_REQUEST['p'] ) : 1;
+	$per_page = isset( $_REQUEST['n'] ) ? intval( $_REQUEST['n'] ) : 20;
+	
+	// Unless set otherwise, stickies appear in normal order on the global forum directory
+	if ( bp_is_directory() && bp_is_forums_component() && !bp_forums_enable_global_directory_stickies() )
+		$do_stickies = false;
 
 	$defaults = array(
 		'type'         => $type,
 		'forum_id'     => $forum_id,
 		'user_id'      => $user_id,
-		'page'         => 1,
-		'per_page'     => 20,
+		'page'         => $page,
+		'per_page'     => $per_page,
 		'max'          => false,
-		'no_stickies'  => $no_stickies,
-		'search_terms' => $search_terms
+		'number'       => false,
+		'offset'       => false,
+		'search_terms' => $search_terms,
+		'do_stickies'  => $do_stickies
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -279,8 +287,97 @@ function bp_has_forum_topics( $args = '' ) {
 		$search_terms = $bp->action_variables[0];
 		$type = 'tags';
 	}
-
-	$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms );
+	
+	/** Sticky logic ******************************************************************/
+	
+	if ( $do_stickies ) {
+		// Fetch the stickies
+		$stickies_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, 0, 0, $max, 'sticky', $search_terms );
+		
+		// If stickies are found, try merging them
+		if ( $stickies_template->has_topics() ) {
+		
+			// If stickies are for current $page		
+			$page_start_num = ( ( $page - 1 ) * $per_page ) + 1;
+			$page_end_num 	= $page * $per_page <= $stickies_template->total_topic_count ? $page * $per_page : $stickies_template->total_topic_count;
+			
+			// Calculate the number of sticky topics that will be shown on this page
+			if ( $stickies_template->topic_count < $page_start_num ) {
+				$this_page_stickies = 0;
+			} else {			
+				$this_page_stickies = $stickies_template->topic_count - $per_page * floor( $stickies_template->topic_count / $per_page ) * ( $page - 1 ); // Total stickies minus sticky count through this page
+				
+				// $this_page_stickies cannot be more than $per_page or less than 0
+				if ( $this_page_stickies > $per_page )
+					$this_page_stickies = $per_page;
+				else if ( $this_page_stickies < 0 )
+					$this_page_stickies = 0;
+			}
+			
+			// Calculate the total number of topics that will be shown on this page
+			$this_page_topics = $stickies_template->total_topic_count >= ( $page * $per_page ) ? $per_page : $page_end_num - ( $page_start_num - 1 );
+			
+			// If the number of stickies to be shown is less than $per_page, fetch some
+			// non-stickies to fill in the rest
+			if ( $this_page_stickies < $this_page_topics ) {
+				// How many non-stickies do we need?
+				$non_sticky_number = $this_page_topics - $this_page_stickies;
+				
+				// Calculate the non-sticky offset			
+				// How many non-stickies on all pages up to this point?
+				$non_sticky_total = $page_end_num - $stickies_template->topic_count;
+				
+				// The offset is the number of total non-stickies, less the number
+				// to be shown on this page
+				$non_sticky_offset = $non_sticky_total - $non_sticky_number;
+				
+				// Fetch the non-stickies
+				$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, 1, $per_page, $max, 'no', $search_terms, $non_sticky_offset, $non_sticky_number );
+				
+				// If there are stickies to merge on this page, do it now
+				if ( $this_page_stickies ) {
+					// Correct the topic_count
+					$forum_template->topic_count += (int)$this_page_stickies;
+					
+					// Figure out which stickies need to be included
+					$this_page_sticky_topics = array_slice( $stickies_template->topics, 0 - $this_page_stickies );
+					
+					// Merge these topics into the forum template
+					$forum_template->topics = array_merge( $this_page_sticky_topics, (array)$forum_template->topics );
+				}
+			} else {
+				// This page has no non-stickies
+				$forum_template = $stickies_template;
+				
+				// Adjust the topic count and trim the topics
+				$forum_template->topic_count = $this_page_stickies;
+				$forum_template->topics      = array_slice( $forum_template->topics, $page - 1 );	
+			}
+					
+			// Because we're using a manual offset and number for the topic query, we
+			// must set the page number manually, and recalculate the pagination links
+			$forum_template->pag_num     = $per_page;
+			$forum_template->pag_page    = $page;
+			
+			$forum_template->pag_links = paginate_links( array(
+				'base'      => add_query_arg( array( 'p' => '%#%', 'n' => $forum_template->pag_num ) ),
+				'format'    => '',
+				'total'     => ceil( (int)$forum_template->total_topic_count / (int)$forum_template->pag_num ),
+				'current'   => $forum_template->pag_page,
+				'prev_text' => '&larr;',
+				'next_text' => '&rarr;',
+				'mid_size'  => 1
+			) );
+			
+		} else {
+			// Fetch the non-sticky topics if no stickies were found
+			$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, 'all', $search_terms );
+		}
+	} else {
+		// When skipping the sticky logic, just pull up the forum topics like usual
+		$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, 'all', $search_terms );
+	}
+		
 	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), $forum_template );
 }
 

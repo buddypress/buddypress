@@ -80,6 +80,8 @@ function bp_forums_get_forum_topics( $args = '' ) {
 		'user_id'       => false,
 		'page'          => 1,
 		'per_page'      => 15,
+		'offset'	=> false,
+		'number'	=> false,
 		'exclude'       => false,
 		'show_stickies' => 'all',
 		'filter'        => false // if $type = tag then filter is the tag name, otherwise it's terms to search on.
@@ -91,7 +93,7 @@ function bp_forums_get_forum_topics( $args = '' ) {
 	if ( class_exists( 'BB_Query' ) ) {
 		switch ( $type ) {
 			case 'newest':
-				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'number' => $per_page, 'exclude' => $exclude, 'topic_title' => $filter, 'sticky' => $show_stickies ), 'get_latest_topics' );
+				$query = new BB_Query( 'topic', array( 'forum_id' => $forum_id, 'topic_author_id' => $user_id, 'per_page' => $per_page, 'page' => $page, 'number' => $per_page, 'exclude' => $exclude, 'topic_title' => $filter, 'sticky' => $show_stickies, 'offset' => $offset, 'number' => $number ), 'get_latest_topics' );
 				$topics =& $query->results;
 				break;
 
@@ -490,7 +492,7 @@ function bp_forums_filter_caps( $allcaps ) {
 add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
 
 /**
- * Returs the parent forum id for the bbPress abstraction layer
+ * Returns the parent forum id for the bbPress abstraction layer
  *
  * @package BuddyPress
  * @since 1.3
@@ -499,6 +501,22 @@ add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
  */
 function bp_forums_parent_forum_id() {
 	return apply_filters( 'bp_forums_parent_forum_id', BP_FORUMS_PARENT_FORUM_ID );
+}
+
+/**
+ * Should sticky topics be broken out of regular topic order on forum directories?
+ *
+ * Defaults to false. Define BP_FORUMS_ENABLE_GLOBAL_DIRECTORY_STICKIES, or filter
+ * bp_forums_enable_global_directory_stickies, to change this behavior.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @return bool True if stickies should be displayed at the top of the global directory, false
+ *    otherwise.
+ */
+function bp_forums_enable_global_directory_stickies() {
+	return apply_filters( 'bp_forums_enable_global_directory_stickies', defined( 'BP_FORUMS_ENABLE_GLOBAL_DIRECTORY_STICKIES' ) && BP_FORUMS_ENABLE_GLOBAL_DIRECTORY_STICKIES );
 }
 
 

@@ -595,6 +595,41 @@ Class BP_Groups_Group {
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0", $group_id ) );
 	}
+	
+	
+	/**
+	 * Get a total count of all topics of a given status, across groups/forums
+	 *
+	 * @package BuddyPress
+	 * @since 1.3
+	 *
+	 * @param str $status 'public', 'private', 'hidden', 'all' Which group types to count
+	 * @return int The topic count
+	 */
+	function get_global_topic_count( $status = 'public' ) {
+		global $bbdb, $wpdb, $bp;
+		
+		switch ( $status ) {
+			case 'all' :
+				$status_sql = '';
+				break;
+				
+			case 'hidden' :
+				$status_sql = $wpdb->prepare( "AND g.status = 'hidden'" );
+				break;
+				
+			case 'private' :
+				$status_sql = $wpdb->prepare( "AND g.status = 'private'" );
+				break;
+				
+			case 'public' :
+			default :
+				$status_sql = $wpdb->prepare( "AND g.status = 'public'" );
+				break;
+		}
+		
+		return $wpdb->get_var( "SELECT COUNT(t.topic_id) FROM {$bbdb->topics} AS t INNER JOIN {$bp->groups->table_name_groupmeta} AS gm ON t.forum_id = gm.meta_value INNER JOIN {$bp->groups->table_name} AS g ON gm.group_id = g.id WHERE gm.meta_key = 'forum_id' {$status_sql} AND t.topic_status = '0' AND t.topic_sticky != '2' " );
+	}
 }
 
 Class BP_Groups_Member {
