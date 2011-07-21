@@ -1923,7 +1923,10 @@ table.forum th#th-title {
 table.forum th#th-postcount {
 	width: 50px;
 }
-
+table.forum p.topic-meta {
+	font-size: 11px;
+	margin-bottom: 0;
+}
 
 /*--------------------------------------------------------------
 6.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums

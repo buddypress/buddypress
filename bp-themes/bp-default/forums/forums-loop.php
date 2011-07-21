@@ -36,15 +36,7 @@
 	<table class="forum">
 		<thead>
 			<tr>
-				<th id="th-title"><?php _e( 'Topic Title', 'buddypress' ); ?></th>
-
-				<?php if ( bp_is_directory() || bp_is_user_forums() ) : ?>
-
-					<th id="th-group"><?php _e( 'Forum', 'buddypress' ); ?></th>
-
-				<?php endif; ?>
-
-				<th id="th-poster"><?php _e( 'Latest Poster', 'buddypress' ); ?></th>
+				<th id="th-title"><?php _e( 'Topic', 'buddypress' ); ?></th>
 				<th id="th-postcount"><?php _e( 'Posts', 'buddypress' ); ?></th>
 				<th id="th-freshness"><?php _e( 'Freshness', 'buddypress' ); ?></th>
 
@@ -64,28 +56,33 @@
 						<?php bp_the_topic_title(); ?>
 
 					</a>
-				</td>
 
-				<?php if ( bp_is_directory() || bp_is_user_forums() ) : ?>
+					<?php if ( bp_is_directory() || bp_is_user_forums() ) : ?>
 
-					<td class="td-group">
-						<a href="<?php bp_the_topic_object_permalink(); ?>"><?php bp_the_topic_object_avatar( 'type=thumb&width=20&height=20' ); ?></a>
-						<div class="object-name"><a href="<?php bp_the_topic_object_permalink(); ?>" title="<?php bp_the_topic_object_name(); ?>"><?php bp_the_topic_object_name(); ?></a></div>
-					</td>
+						<p class="topic-meta">
+							<span class="topic-in">
 
-				<?php endif; ?>
+								<?php _e( 'in', 'buddypress' ); ?>
 
-				<td class="td-poster">
-					<a href="<?php bp_the_topic_permalink(); ?>"><?php bp_the_topic_last_poster_avatar( 'type=thumb&width=20&height=20' ); ?></a>
-					<div class="poster-name"><?php bp_the_topic_last_poster_name(); ?></div>
+								<a href="<?php bp_the_topic_object_permalink(); ?>"><?php bp_the_topic_object_avatar( 'type=thumb&width=20&height=20' ); ?></a>
+								<a href="<?php bp_the_topic_object_permalink(); ?>" title="<?php bp_the_topic_object_name(); ?>"><?php bp_the_topic_object_name(); ?></a></div>
+							</span>
+						</p>
+
+					<?php endif; ?>
+
 				</td>
 				<td class="td-postcount">
-
 					<?php bp_the_topic_total_posts(); ?>
-
 				</td>
 				<td class="td-freshness">
 					<?php bp_the_topic_time_since_last_post(); ?>
+					<p class="topic-meta">
+						<span class="freshness-author">
+							<a href="<?php bp_the_topic_permalink(); ?>"><?php bp_the_topic_last_poster_avatar( 'type=thumb&width=20&height=20' ); ?></a>
+							<?php bp_the_topic_last_poster_name(); ?>
+						</span>
+					</p>
 				</td>
 
 				<?php do_action( 'bp_directory_forums_extra_cell' ); ?>
