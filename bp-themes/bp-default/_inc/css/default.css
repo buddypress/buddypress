@@ -1871,6 +1871,7 @@ table.notification-settings .no {
 }
 table.forum {
 	margin: 0 -19px;
+	width: auto;
 }
 table.forum tr.sticky td {
 	font-size: 1.3em;
@@ -1904,17 +1905,14 @@ table.forum td.td-group,
 table.forum td.td-title {
 	text-align: left;
 }
-table.forum tr th#th-title {
-	width: 100%;
-}
 table.forum tr td.td-title a.topic-title {
 	font-size: 14px;
 }
 table.forum td.td-freshness {
-	font-size: 11px;
+	font-size: 1.0em;
 	color: #888;
 	white-space: nowrap;
-	width: 200px;
+	width: 25%;
 }
 table.forum td img.avatar {
 	float: none;
@@ -1925,14 +1923,14 @@ table.forum td.td-group {
 	min-width: 140px;
 }
 table.forum th#th-title {
-	width: 100%;
+	width: 70%;
 }
 table.forum th#th-postcount {
-	width: 100px;
+	width: 15%;
 }
 table.forum p.topic-meta {
-	font-size: 11px;
-	margin-bottom: 0;
+	font-size: 0.9em;
+	margin: 0;
 }
 
 /*--------------------------------------------------------------
