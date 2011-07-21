@@ -541,7 +541,7 @@ Class BP_Groups_Group {
 
 		/* Fetch the logged in users status within each group */
 		$user_status = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_confirmed = 1 AND is_banned = 0", $bp->loggedin_user->id ) );
-		for ( $i = 0; $i < count( $paged_groups ); $i++ ) {
+		for ( $i = 0, $count = count( $paged_groups ); $i < $count; ++$i ) {
 			$paged_groups[$i]->is_member = false;
 
 			foreach ( (array)$user_status as $group_id ) {
@@ -551,7 +551,7 @@ Class BP_Groups_Group {
 		}
 
 		$user_banned = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE is_banned = 1 AND user_id = %d AND group_id IN ( {$group_ids} )", $bp->loggedin_user->id ) );
-		for ( $i = 0; $i < count( $paged_groups ); $i++ ) {
+		for ( $i = 0, $count = count( $paged_groups ); $i < $count; ++$i ) {
 			$paged_groups[$i]->is_banned = false;
 
 			foreach ( (array)$user_banned as $group_id ) {
@@ -1105,7 +1105,7 @@ Class BP_Groups_Member {
 
 		if ( bp_is_active( 'friends' ) ) {
 			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", $bp->loggedin_user->id, $bp->loggedin_user->id ) );
-			for ( $i = 0; $i < count( $members ); $i++ ) {
+			for ( $i = 0, $count = count( $members ); $i < $count; ++$i ) {
 				foreach ( (array)$friend_status as $status ) {
 					if ( $status->initiator_user_id == $members[$i]->user_id || $status->friend_user_id == $members[$i]->user_id )
 						$members[$i]->is_friend = $status->is_confirmed;

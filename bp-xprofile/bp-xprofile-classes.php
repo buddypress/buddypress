@@ -72,7 +72,7 @@ Class BP_XProfile_Group {
 			/* Remove the group's fields. */
 			if ( BP_XProfile_Field::delete_for_group( $this->id ) ) {
 				/* Remove profile data for the groups fields */
-				for ( $i = 0; $i < count( $this->fields ); $i++ ) {
+				for ( $i = 0, $count = count( $this->fields ); $i < $count; ++$i ) {
 					BP_XProfile_ProfileData::delete_for_field( $this->fields[$i]->id );
 				}
 			}
@@ -586,12 +586,12 @@ Class BP_XProfile_Field {
 									$_POST["isDefault_{$type}_option"][$i]
 						);
 
-						$i++;
+						++$i;
 					}
 				}
 
 				if ( !empty( $options ) ) {
-					for ( $i = 0; $i < count( $options ); $i++ ) {
+					for ( $i = 0, $count = count( $options ); $i < $count; ++$i ) {
 						$j = $i + 1;
 
 						if ( 'multiselectbox' == $type || 'checkbox' == $type )
@@ -910,7 +910,7 @@ Class BP_XProfile_ProfileData {
 		$field_sql = '';
 
 		if ( is_array( $fields ) ) {
-			for ( $i = 0; $i < count( $fields ); $i++ ) {
+			for ( $i = 0, $count = count( $fields ); $i < $count; ++$i ) {
 				if ( $i == 0 )
 					$field_sql .= $wpdb->prepare( "AND ( f.name = %s ", $fields[$i] );
 				else
@@ -930,7 +930,7 @@ Class BP_XProfile_ProfileData {
 		$new_values = array();
 
 		if ( is_array( $fields ) ) {
-			for ( $i = 0; $i < count( $values ); $i++ ) {
+			for ( $i = 0, $count = count( $values ); $i < $count; ++$i ) {
 				for ( $j = 0; $j < count( $fields ); $j++ ) {
 					if ( $values[$i]->name == $fields[$j] )
 						$new_values[$fields[$j]] = $values[$i]->value;

@@ -320,7 +320,7 @@ function bp_forums_get_topic_extras( $topics ) {
 
 	// Fetch the topic's last poster details
 	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, t.topic_last_poster, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u, {$bbdb->topics} t WHERE u.ID = t.topic_last_poster AND t.topic_id IN ( {$topic_ids} )" ) );
-	for ( $i = 0; $i < count( $topics ); $i++ ) {
+	for ( $i = 0, $count = count( $topics ); $i < $count; ++$i ) {
 		foreach ( (array)$poster_details as $poster ) {
 			if ( $poster->topic_id == $topics[$i]->topic_id ) {
 				$topics[$i]->topic_last_poster_email       = $poster->user_email;
@@ -334,7 +334,7 @@ function bp_forums_get_topic_extras( $topics ) {
 	// Fetch fullname for the topic's last poster
 	if ( bp_is_active( 'xprofile' ) ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, pd.value FROM {$bp->profile->table_name_data} pd, {$bbdb->topics} t WHERE pd.user_id = t.topic_last_poster AND pd.field_id = 1 AND t.topic_id IN ( {$topic_ids} )" ) );
-		for ( $i = 0; $i < count( $topics ); $i++ ) {
+		for ( $i = 0, $count = count( $topics ); $i < $count; ++$i ) {
 			foreach ( (array)$poster_names as $name ) {
 				if ( $name->topic_id == $topics[$i]->topic_id )
 					$topics[$i]->topic_last_poster_displayname = $name->value;
@@ -438,7 +438,7 @@ function bp_forums_get_post_extras( $posts ) {
 	// Fetch the poster's user_email, user_nicename and user_login
 	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u WHERE u.ID IN ( {$user_ids} )" ) );
 
-	for ( $i = 0; $i < count( $posts ); $i++ ) {
+	for ( $i = 0, $count = count( $posts ); $i < $count; ++$i ) {
 		foreach ( (array)$poster_details as $poster ) {
 			if ( $poster->user_id == $posts[$i]->poster_id ) {
 				$posts[$i]->poster_email    = $poster->user_email;
@@ -452,7 +452,7 @@ function bp_forums_get_post_extras( $posts ) {
 	// Fetch fullname for each poster.
 	if ( bp_is_active( 'xprofile' ) ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id, pd.value FROM {$bp->profile->table_name_data} pd WHERE pd.user_id IN ( {$user_ids} )" ) );
-		for ( $i = 0; $i < count( $posts ); $i++ ) {
+		for ( $i = 0, $count = count( $posts ); $i < $count; ++$i ) {
 			foreach ( (array)$poster_names as $name ) {
 				if ( isset( $topics[$i] ) && $name->user_id == $topics[$i]->user_id )
 				$posts[$i]->poster_name = $poster->value;

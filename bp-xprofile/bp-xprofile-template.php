@@ -102,7 +102,7 @@ Class BP_XProfile_Data_Template {
 	function has_fields() {
 		$has_data = false;
 
-		for ( $i = 0; $i < count( $this->group->fields ); $i++ ) {
+		for ( $i = 0, $count = count( $this->group->fields ); $i < $count; ++$i ) {
 			$field = &$this->group->fields[$i];
 
 			if ( !empty( $field->data ) && $field->data->value != null ) {
@@ -547,7 +547,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					case 'day':
 						$html .= '<option value=""' . selected( $day, '', false ) . '>--</option>';
 
-						for ( $i = 1; $i < 32; $i++ ) {
+						for ( $i = 1; $i < 32; ++$i ) {
 							$html .= '<option value="' . $i .'"' . selected( $day, $i, false ) . '>' . $i . '</option>';
 						}
 						break;
@@ -563,7 +563,7 @@ function bp_the_profile_field_options( $args = '' ) {
 
 						$html .= '<option value=""' . selected( $month, '', false ) . '>------</option>';
 
-						for ( $i = 0; $i < 12; $i++ ) {
+						for ( $i = 0; $i < 12; ++$i ) {
 							$html .= '<option value="' . $eng_months[$i] . '"' . selected( $month, $eng_months[$i], false ) . '>' . $months[$i] . '</option>';
 						}
 						break;
@@ -633,7 +633,7 @@ function bp_profile_group_tabs() {
 		$group_name = bp_profile_group_name(false);
 
 	$tabs = array();
-	for ( $i = 0, $count = count( $groups ); $i < $count; $i++ ) {
+	for ( $i = 0, $count = count( $groups ); $i < $count; ++$i ) {
 		if ( $group_name == $groups[$i]->name )
 			$selected = ' class="current"';
 		else

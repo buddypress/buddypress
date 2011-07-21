@@ -20,7 +20,7 @@ function bp_adminbar_notifications_menu() {
 
 	if ( $notifications ) {
 		$counter = 0;
-		for ( $i = 0; $i < count($notifications); $i++ ) {
+		for ( $i = 0, $count = count( $notifications ); $i < $count; ++$i ) {
 			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : ''; ?>
 
 			<li<?php echo $alt ?>><?php echo $notifications[$i] ?></li>

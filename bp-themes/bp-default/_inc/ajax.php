@@ -558,7 +558,7 @@ function bp_dtheme_ajax_message_markunread() {
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 
-		for ( $i = 0; $i < count($thread_ids); $i++ ) {
+		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i ) {
 			BP_Messages_Thread::mark_as_unread($thread_ids[$i]);
 		}
 	}
@@ -574,7 +574,7 @@ function bp_dtheme_ajax_message_markread() {
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 
-		for ( $i = 0; $i < count($thread_ids); $i++ ) {
+		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i ) {
 			BP_Messages_Thread::mark_as_read($thread_ids[$i]);
 		}
 	}
@@ -590,10 +590,10 @@ function bp_dtheme_ajax_messages_delete() {
 	} else {
 		$thread_ids = explode( ',', $_POST['thread_ids'] );
 
-		for ( $i = 0; $i < count($thread_ids); $i++ )
+		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i )
 			BP_Messages_Thread::delete($thread_ids[$i]);
 
-		_e('Messages deleted.', 'buddypress');
+		_e( 'Messages deleted.', 'buddypress' );
 	}
 }
 add_action( 'wp_ajax_messages_delete', 'bp_dtheme_ajax_messages_delete' );

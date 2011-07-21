@@ -445,7 +445,7 @@ Class BP_Activity_Activity {
 
 		$activities = bp_activity_get_sitewide( array( 'max' => $limit ) );
 
-		for ( $i = 0; $i < count($activities); $i++ ) {
+		for ( $i = 0, $count = count( $activities ); $i < $count; ++$i ) {
 				$title = explode( '<span', $activities[$i]['content'] );
 
 				$activity_feed[$i]['title'] = trim( strip_tags( $title[0] ) );

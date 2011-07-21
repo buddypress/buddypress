@@ -509,7 +509,7 @@ class BP_Core_User {
 		// Fetch the user's full name
 		if ( bp_is_active( 'xprofile' ) && 'alphabetical' != $type ) {
 			$names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id as id, pd.value as fullname FROM {$bp->profile->table_name_fields} pf, {$bp->profile->table_name_data} pd WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} )", bp_xprofile_fullname_field_name() ) );
-			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
+			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array)$names as $name ) {
 					if ( $name->id == $paged_users[$i]->id )
 						$paged_users[$i]->fullname = $name->fullname;
@@ -520,7 +520,7 @@ class BP_Core_User {
 		// Fetch the user's total friend count
 		if ( 'popular' != $type ) {
 			$friend_count = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as total_friend_count FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'total_friend_count' ) ) );
-			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
+			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array)$friend_count as $count ) {
 					if ( $count->id == $paged_users[$i]->id )
 						$paged_users[$i]->total_friend_count = (int)$count->total_friend_count;
@@ -531,7 +531,7 @@ class BP_Core_User {
 		// Fetch whether or not the user is a friend
 		if ( bp_is_active( 'friends' ) ) {
 			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", $bp->loggedin_user->id, $bp->loggedin_user->id ) );
-			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
+			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array)$friend_status as $status ) {
 					if ( $status->initiator_user_id == $paged_users[$i]->id || $status->friend_user_id == $paged_users[$i]->id )
 						$paged_users[$i]->is_friend = $status->is_confirmed;
@@ -541,7 +541,7 @@ class BP_Core_User {
 
 		if ( 'active' != $type ) {
 			$user_activity = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as last_activity FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'last_activity' ) ) );
-			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
+			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array)$user_activity as $activity ) {
 					if ( $activity->id == $paged_users[$i]->id )
 						$paged_users[$i]->last_activity = $activity->last_activity;
@@ -552,7 +552,7 @@ class BP_Core_User {
 		// Fetch the user's last_activity
 		if ( 'active' != $type ) {
 			$user_activity = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as last_activity FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'last_activity' ) ) );
-			for ( $i = 0; $i < count( $paged_users ); $i++ ) {
+			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array)$user_activity as $activity ) {
 					if ( $activity->id == $paged_users[$i]->id )
 						$paged_users[$i]->last_activity = $activity->last_activity;
@@ -562,7 +562,7 @@ class BP_Core_User {
 
 		// Fetch the user's latest update
 		$user_update = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as latest_update FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'bp_latest_update' ) ) );
-		for ( $i = 0; $i < count( $paged_users ); $i++ ) {
+		for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 			foreach ( (array)$user_update as $update ) {
 				if ( $update->id == $paged_users[$i]->id )
 					$paged_users[$i]->latest_update = $update->latest_update;

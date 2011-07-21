@@ -135,7 +135,7 @@ function messages_delete_thread( $thread_ids ) {
 
 	if ( is_array( $thread_ids ) ) {
 		$error = 0;
-		for ( $i = 0; $i < count( $thread_ids ); $i++ ) {
+		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i ) {
 			if ( !$status = BP_Messages_Thread::delete( $thread_ids[$i]) )
 				$error = 1;
 		}

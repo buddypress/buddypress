@@ -250,7 +250,7 @@ Class BP_Blogs_Blog {
 		if ( empty( $blog_ids ) )
 			return $paged_blogs;
 
-		for ( $i = 0; $i < count( $paged_blogs ); $i++ ) {
+		for ( $i = 0, $count = count( $paged_blogs ); $i < $count; ++$i ) {
 			$blog_prefix = $wpdb->get_blog_prefix( $paged_blogs[$i]->blog_id );
 			$paged_blogs[$i]->latest_post = $wpdb->get_row( "SELECT post_title, guid FROM {$blog_prefix}posts WHERE post_status = 'publish' AND post_type = 'post' AND id != 1 ORDER BY id DESC LIMIT 1" );
 		}
@@ -258,7 +258,7 @@ Class BP_Blogs_Blog {
 		/* Fetch the blog description for each blog (as it may be empty we can't fetch it in the main query). */
 		$blog_descs = $wpdb->get_results( $wpdb->prepare( "SELECT blog_id, meta_value as description FROM {$bp->blogs->table_name_blogmeta} WHERE meta_key = 'description' AND blog_id IN ( {$blog_ids} )" ) );
 
-		for ( $i = 0; $i < count( $paged_blogs ); $i++ ) {
+		for ( $i = 0, $count = count( $paged_blogs ); $i < $count; ++$i ) {
 			foreach ( (array)$blog_descs as $desc ) {
 				if ( $desc->blog_id == $paged_blogs[$i]->blog_id )
 					$paged_blogs[$i]->description = $desc->description;

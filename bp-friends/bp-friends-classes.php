@@ -98,7 +98,7 @@ class BP_Friends_Friendship {
 		$friends = $wpdb->get_results( $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} $friend_sql $oc_sql ORDER BY date_created DESC" ) );
 		$fids = array();
 
-		for ( $i = 0; $i < count($friends); $i++ ) {
+		for ( $i = 0, $count = count( $friends ); $i < $count; ++$i ) {
 			if ( $assoc_arr )
 				$fids[] = array( 'user_id' => ( $friends[$i]->friend_user_id == $user_id ) ? $friends[$i]->initiator_user_id : $friends[$i]->friend_user_id );
 			else
@@ -280,12 +280,12 @@ class BP_Friends_Friendship {
 		$sql = $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} WHERE (friend_user_id = %d || initiator_user_id = %d) && is_confirmed = 1 ORDER BY rand() LIMIT %d", $user_id, $user_id, $total_friends );
 		$results = $wpdb->get_results($sql);
 
-		for ( $i = 0; $i < count($results); $i++ ) {
+		for ( $i = 0, $count = count( $results ); $i < $count; ++$i ) {
 			$fids[] = ( $results[$i]->friend_user_id == $user_id ) ? $results[$i]->initiator_user_id : $results[$i]->friend_user_id;
 		}
 
 		// remove duplicates
-		if ( count($fids) > 0 )
+		if ( count( $fids ) > 0 )
 			return array_flip(array_flip($fids));
 		else
 			return false;
@@ -297,7 +297,7 @@ class BP_Friends_Friendship {
 		$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
 
 		$invitable_count = 0;
-		for ( $i = 0; $i < count($friend_ids); $i++ ) {
+		for ( $i = 0, $count = count( $friend_ids ); $i < $count; ++$i ) {
 
 			if ( BP_Groups_Member::check_is_member( (int)$friend_ids[$i], $group_id ) )
 				continue;

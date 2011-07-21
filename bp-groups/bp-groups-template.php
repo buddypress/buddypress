@@ -2199,7 +2199,7 @@ function bp_new_group_invite_friend_list() {
 		if ( $friends = friends_get_friends_invite_list( $bp->loggedin_user->id, $group_id ) ) {
 			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_id );
 
-			for ( $i = 0; $i < count( $friends ); $i++ ) {
+			for ( $i = 0, $count = count( $friends ); $i < $count; ++$i ) {
 				$checked = '';
 
 				if ( !empty( $invites ) ) {

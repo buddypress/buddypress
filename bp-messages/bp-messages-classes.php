@@ -175,7 +175,7 @@ Class BP_Messages_Thread {
 			return false;
 
 		$count = 0;
-		for ( $i = 0; $i < count( $unread_counts ); $i++ ) {
+		for ( $i = 0, $count = count( $unread_counts ); $i < $count; ++$i ) {
 			$count += $unread_counts[$i]->unread_count;
 		}
 
@@ -341,7 +341,7 @@ Class BP_Messages_Message {
 			return false;
 
 		if ( is_array( $recipient_usernames ) ) {
-			for ( $i = 0; $i < count($recipient_usernames); $i++ ) {
+			for ( $i = 0, $count = count( $recipient_usernames ); $i < $count; ++$i ) {
 				if ( $rid = bp_core_get_userid( trim($recipient_usernames[$i]) ) )
 					$recipient_ids[] = $rid;
 			}

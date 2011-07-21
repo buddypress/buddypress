@@ -642,7 +642,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	} else {
 
 		// Step one: the first chunk
-		for ( $i = 0, $j = count($chunks); $i < $j; $i++) {
+		for ( $i = 0, $j = count( $chunks ); $i < $j; ++$i ) {
 			$seconds = $chunks[$i][0];
 
 			// Finding the biggest chunk (if the chunk fits, break)

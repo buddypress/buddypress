@@ -644,7 +644,7 @@ function groups_send_invites( $user_id, $group_id ) {
 	$invited_users = groups_get_invites_for_group( $user_id, $group_id );
 	$group = new BP_Groups_Group( $group_id );
 
-	for ( $i = 0; $i < count( $invited_users ); $i++ ) {
+	for ( $i = 0, $count = count( $invited_users ); $i < $count; ++$i ) {
 		$member = new BP_Groups_Member( $invited_users[$i], $group_id );
 
 		// Send the actual invite
@@ -778,7 +778,7 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 		require_once ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
 
 		// Saved okay, now send the email notification
-		for ( $i = 0; $i < count( $admins ); $i++ )
+		for ( $i = 0, $count = count( $admins ); $i < $count; ++$i )
 			groups_notification_new_membership_request( $requesting_user_id, $admins[$i]->user_id, $group_id, $requesting_user->id );
 
 		do_action( 'groups_membership_requested', $requesting_user_id, $admins, $group_id, $requesting_user->id );
