@@ -1282,6 +1282,11 @@ div.activity-meta {
 	margin: 10px 0 15px;
 	clear: both;
 }
+body.activity-permalink div.activity-meta {
+	float: none;
+	margin: 10px 0 5px;
+	clear: none;
+}
 div.activity-meta a {
 	font: normal 11px/20px Arial, Tahoma, Verdana, sans-serif;
 	padding: 4px 8px;
