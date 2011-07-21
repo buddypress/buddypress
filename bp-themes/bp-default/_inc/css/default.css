@@ -1906,7 +1906,7 @@ table.forum td.td-title {
 	text-align: left;
 }
 table.forum tr td.td-title a.topic-title {
-	font-size: 14px;
+	font-size: 1.0em;
 }
 table.forum td.td-freshness {
 	white-space: nowrap;
@@ -1934,7 +1934,7 @@ table.forum th#th-postcount {
 }
 table.forum p.topic-meta {
 	font-size: 0.9em;
-	margin: 0;
+	margin: 5px 0 0 0;
 }
 
 /*--------------------------------------------------------------
