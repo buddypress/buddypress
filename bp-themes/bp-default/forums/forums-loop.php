@@ -76,7 +76,7 @@
 					<?php bp_the_topic_total_posts(); ?>
 				</td>
 				<td class="td-freshness">
-					<?php bp_the_topic_time_since_last_post(); ?>
+					<span class="time-since"><?php bp_the_topic_time_since_last_post(); ?></span>
 					<p class="topic-meta">
 						<span class="freshness-author">
 							<a href="<?php bp_the_topic_permalink(); ?>"><?php bp_the_topic_last_poster_avatar( 'type=thumb&width=20&height=20' ); ?></a>

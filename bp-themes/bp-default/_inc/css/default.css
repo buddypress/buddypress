@@ -1909,10 +1909,11 @@ table.forum tr td.td-title a.topic-title {
 	font-size: 14px;
 }
 table.forum td.td-freshness {
-	font-size: 1.0em;
-	color: #888;
 	white-space: nowrap;
-	width: 25%;
+}
+table.forum td.td-freshness span.time-since {
+	font-size: 0.9em;
+	color: #888;
 }
 table.forum td img.avatar {
 	float: none;
@@ -1924,6 +1925,9 @@ table.forum td.td-group {
 }
 table.forum th#th-title {
 	width: 70%;
+}
+table.forum th#th-freshness {
+	width: 25%;
 }
 table.forum th#th-postcount {
 	width: 15%;
