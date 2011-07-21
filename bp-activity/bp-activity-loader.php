@@ -194,6 +194,13 @@ class BP_Activity_Component extends BP_Component {
 			$user_domain   = $bp->loggedin_user->domain;
 			$activity_link = trailingslashit( $user_domain . $this->slug );
 
+			// Unread message count
+			if ( $count = bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) {
+				$title = sprintf( __( 'Mentions <span class="count">%s</span>', 'buddypress' ), $count );
+			} else {
+				$title = __( 'Mentions', 'buddypress' );
+			}
+
 			// Add the "Activity" sub menu
 			$wp_admin_nav[] = array(
 				'parent' => $bp->my_account_menu_id,
@@ -205,7 +212,7 @@ class BP_Activity_Component extends BP_Component {
 			// Mentions
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
-				'title'  => __( 'Mentions', 'buddypress' ),
+				'title'  => $title,
 				'href'   => trailingslashit( $activity_link . 'mentions' )
 			);
 

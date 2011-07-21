@@ -385,8 +385,8 @@ class BP_Groups_Component extends BP_Component {
 			$count = groups_get_invites_for_user( $bp->loggedin_user->id );
 
 			if ( !empty( $count->total ) ) {
-				$title   = sprintf( __( 'Groups <strong>(%s)</strong>',          'buddypress' ), $count->total );
-				$pending = sprintf( __( 'Pending Invites <span>%s</span>', 'buddypress' ), $count->total );
+				$title   = sprintf( __( 'Groups <span class="count">%s</strong>',          'buddypress' ), $count->total );
+				$pending = sprintf( __( 'Pending Invites <span class="count">%s</span>', 'buddypress' ), $count->total );
 			} else {
 				$title   = __( 'Groups',             'buddypress' );
 				$pending = __( 'No Pending Invites', 'buddypress' );

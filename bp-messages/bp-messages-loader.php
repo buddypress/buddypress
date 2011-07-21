@@ -178,8 +178,8 @@ class BP_Messages_Component extends BP_Component {
 
 			// Unread message count
 			if ( $count = messages_get_unread_count() ) {
-				$title = sprintf( __( 'Messages <span>%s</span>', 'buddypress' ), $count );
-				$inbox = sprintf( __( 'Inbox <span>%s</span>',    'buddypress' ), $count );
+				$title = sprintf( __( 'Messages <span class="count">%s</span>', 'buddypress' ), $count );
+				$inbox = sprintf( __( 'Inbox <span class="count">%s</span>',    'buddypress' ), $count );
 			} else {
 				$title = __( 'Messages', 'buddypress' );
 				$inbox = __( 'Inbox',    'buddypress' );

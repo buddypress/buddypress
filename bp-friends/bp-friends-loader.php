@@ -148,8 +148,8 @@ class BP_Friends_Component extends BP_Component {
 
 			// Pending friend requests
 			if ( $count = count( friends_get_friendship_request_user_ids( $bp->loggedin_user->id ) ) ) {
-				$title   = sprintf( __( 'Friends <span>%s</span>',          'buddypress' ), $count );
-				$pending = sprintf( __( 'Pending Requests <span>%s</span>', 'buddypress' ), $count );
+				$title   = sprintf( __( 'Friends <span class="count">%s</span>',          'buddypress' ), $count );
+				$pending = sprintf( __( 'Pending Requests <span class="count">%s</span>', 'buddypress' ), $count );
 			} else {
 				$title   = __( 'Friends',             'buddypress' );
 				$pending = __( 'No Pending Requests', 'buddypress' );

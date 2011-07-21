@@ -122,6 +122,8 @@ End extra bits */
  	left: 0; 
 }
 
+#wpadminbar .quicklinks li#wp-admin-bar-my-account a span.count,
+#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar a span.count,
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications {
 	background: #eee;
 	color: #333;
