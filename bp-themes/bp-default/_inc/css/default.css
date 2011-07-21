@@ -1871,10 +1871,9 @@ table.notification-settings .no {
 }
 table.forum {
 	margin: 0 -19px;
-	width: auto;
-	table-layout: fixed;
 }
 table.forum tr.sticky td {
+	font-size: 1.3em;
 	background: #fff9db;
 	border-top: 1px solid #ffe8c4;
 	border-bottom: 1px solid #ffe8c4;
@@ -1906,7 +1905,7 @@ table.forum td.td-title {
 	text-align: left;
 }
 table.forum tr th#th-title {
-	width: 60%;
+	width: 100%;
 }
 table.forum tr td.td-title a.topic-title {
 	font-size: 14px;
