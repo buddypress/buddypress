@@ -34,7 +34,8 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		if ( empty( $instance['max_posts'] ) || !$instance['max_posts'] )
 			$instance['max_posts'] = 10; ?>
 
-		<?php if ( bp_has_activities( 'action=new_blog_post&max=' . $instance['max_posts'] . '&per_page=' . $instance['max_posts'] ) ) : ?>
+		<?php /* Override some of the contextually set parameters for bp_has_activities() */ ?>
+		<?php if ( bp_has_activities( array( 'action' => 'new_blog_post', 'max' => $instance['max_posts'], 'per_page' => $instance['max_posts'], 'user_id' => 0, 'scope' => false, 'object' => false, 'primary_id' => false ) ) ) : ?>
 
 			<ul id="blog-post-list" class="activity-list item-list">
 
