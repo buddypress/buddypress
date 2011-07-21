@@ -1284,7 +1284,7 @@ div.activity-meta {
 }
 body.activity-permalink div.activity-meta {
 	float: none;
-	margin: 10px 0 5px;
+	margin: 10px 0 0;
 	clear: none;
 }
 div.activity-meta a {
