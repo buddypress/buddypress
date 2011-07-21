@@ -1286,6 +1286,13 @@ div.activity-meta a {
 	font: normal 11px/20px Arial, Tahoma, Verdana, sans-serif;
 	padding: 4px 8px;
 }
+a.activity-time-since {
+	color: #888;
+	text-decoration: none;
+}
+a.activity-time-since:hover {
+	text-decoration: underline;
+}
 a.bp-primary-action,
 #reply-title small a {
 	font-size: 11px;
