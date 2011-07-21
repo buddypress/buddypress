@@ -1917,7 +1917,7 @@ table.forum td.td-freshness span.time-since {
 }
 table.forum td img.avatar {
 	float: none;
-	margin: 0 0 -8px 0;
+	margin: 0 5px -8px 0;
 }
 table.forum td.td-poster,
 table.forum td.td-group {

@@ -57,20 +57,25 @@
 
 					</a>
 
-					<?php if ( bp_is_directory() || bp_is_user_forums() ) : ?>
+					<p class="topic-meta">
+						<span class="topic-by"><?php printf( __( 'Started by: %1$s', 'buddypress' ), bp_get_the_topic_poster_avatar( 'height=20&width=20') . bp_get_the_topic_poster_name() ); ?></span>
 
-						<p class="topic-meta">
+						<?php if ( bp_is_directory() || bp_is_user_forums() ) : ?>
+
 							<span class="topic-in">
 
-								<?php _e( 'in', 'buddypress' ); ?>
+								<?php
+									$topic_in = '<a href="' . bp_get_the_topic_object_permalink() . '">' . bp_get_the_topic_object_avatar( 'type=thumb&width=20&height=20' ) . '</a>' .
+													'<a href="' . bp_get_the_topic_object_permalink() . '" title="' . bp_get_the_topic_object_name() . '">' . bp_get_the_topic_object_name() .'</a>';
 
-								<a href="<?php bp_the_topic_object_permalink(); ?>"><?php bp_the_topic_object_avatar( 'type=thumb&width=20&height=20' ); ?></a>
-								<a href="<?php bp_the_topic_object_permalink(); ?>" title="<?php bp_the_topic_object_name(); ?>"><?php bp_the_topic_object_name(); ?></a></div>
+									printf( __( 'in: %1$s', 'buddypress' ), $topic_in );
+								?>
+
 							</span>
-						</p>
 
-					<?php endif; ?>
+						<?php endif; ?>
 
+					</p>
 				</td>
 				<td class="td-postcount">
 					<?php bp_the_topic_total_posts(); ?>
