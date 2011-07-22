@@ -704,9 +704,6 @@ function bp_activity_post_update( $args = '' ) {
 	// Add this update to the "latest update" usermeta so it can be fetched anywhere.
 	bp_update_user_meta( $bp->loggedin_user->id, 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
 
- 	// Require the notifications code so email notifications can be set on the 'bp_activity_posted_update' action.
-	require( BP_PLUGIN_DIR . '/bp-activity/bp-activity-notifications.php' );
-
 	do_action( 'bp_activity_posted_update', $content, $user_id, $activity_id );
 
 	return $activity_id;
@@ -750,7 +747,6 @@ function bp_activity_new_comment( $args = '' ) {
 	) );
 
 	// Send an email notification if settings allow
-	require( BP_PLUGIN_DIR . '/bp-activity/bp-activity-notifications.php' );
 	bp_activity_new_comment_notification( $comment_id, $user_id, $params );
 
 	// Clear the comment cache for this activity
