@@ -1152,7 +1152,7 @@ body.activity-permalink li.mini .activity-meta {
 }
 .activity-list li .activity-inreplyto {
 	background: url( ../images/replyto_arrow.gif ) 7px 0 no-repeat;
-	color: #bbb;
+	color: #888;
 	font-size: 11px;
 	margin-left: 5px;
 	margin-top: 5px;
@@ -2145,9 +2145,6 @@ div.item-list-tabs ul li span {
 	display: block;
 	padding: 5px 10px;
 	text-decoration: none;
-}
-div.item-list-tabs ul li span {
-	color: #aaa;
 }
 div.item-list-tabs ul li a span {
 	background: #1fb3dd; 
