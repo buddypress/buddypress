@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-22 16:30:54+00:00\n"
+"POT-Creation-Date: 2011-07-22 17:30:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -74,12 +74,12 @@ msgstr ""
 msgid "Viewing site %1$s to %2$s (of %3$s sites)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:281 bp-activity/bp-activity-template.php:643
+#: bp-blogs/bp-blogs-template.php:280 bp-activity/bp-activity-template.php:643
 msgid "Site authored by %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:344 bp-core/bp-core-classes.php:171
-#: bp-groups/bp-groups-widgets.php:69 bp-groups/bp-groups-widgets.php:169
+#: bp-blogs/bp-blogs-template.php:343 bp-core/bp-core-classes.php:171
+#: bp-groups/bp-groups-widgets.php:68 bp-groups/bp-groups-widgets.php:168
 #: bp-members/bp-members-template.php:524
 #: bp-members/bp-members-template.php:779
 #: bp-themes/bp-default/forums/single/forum-header.php:13
@@ -88,64 +88,64 @@ msgstr ""
 msgid "active %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:356
+#: bp-blogs/bp-blogs-template.php:355
 msgid "Latest Post: %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:420
+#: bp-blogs/bp-blogs-template.php:419
 msgid "There was a problem, please correct the form below and try again."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:423
+#: bp-blogs/bp-blogs-template.php:422
 msgid "By filling out the form below, you can <strong>add a site to your account</strong>. There is no limit to the number of sites that you can have, so create to your heart's content, but blog responsibly!"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:425
+#: bp-blogs/bp-blogs-template.php:424
 msgid "If you&#8217;re not going to use a great domain, leave it for a new user. Now have at it!"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:434
+#: bp-blogs/bp-blogs-template.php:433
 msgid "Create Site"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:448
+#: bp-blogs/bp-blogs-template.php:447
 msgid "Site Name:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:450
+#: bp-blogs/bp-blogs-template.php:449
 msgid "Site Domain:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:464
+#: bp-blogs/bp-blogs-template.php:463
 msgid "Your address will be "
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:467
+#: bp-blogs/bp-blogs-template.php:466
 msgid "blogname"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:469
+#: bp-blogs/bp-blogs-template.php:468
 msgid "domain."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:472
+#: bp-blogs/bp-blogs-template.php:471
 msgid "Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:478
+#: bp-blogs/bp-blogs-template.php:477
 msgid "Site Title:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:489
+#: bp-blogs/bp-blogs-template.php:488
 msgid "Privacy:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:490
+#: bp-blogs/bp-blogs-template.php:489
 #: bp-themes/bp-default/registration/register.php:202
 msgid "I would like my site to appear in search engines, and in public listings around this network."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:494 bp-core/admin/bp-core-admin.php:96
+#: bp-blogs/bp-blogs-template.php:493 bp-core/admin/bp-core-admin.php:96
 #: bp-core/admin/bp-core-admin.php:106 bp-core/admin/bp-core-admin.php:114
 #: bp-core/admin/bp-core-admin.php:122 bp-core/admin/bp-core-admin.php:132
 #: bp-core/admin/bp-core-admin.php:144 bp-friends/bp-friends-screens.php:69
@@ -156,7 +156,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:498 bp-core/admin/bp-core-admin.php:97
+#: bp-blogs/bp-blogs-template.php:497 bp-core/admin/bp-core-admin.php:97
 #: bp-core/admin/bp-core-admin.php:107 bp-core/admin/bp-core-admin.php:115
 #: bp-core/admin/bp-core-admin.php:123 bp-core/admin/bp-core-admin.php:133
 #: bp-core/admin/bp-core-admin.php:145 bp-friends/bp-friends-screens.php:70
@@ -167,40 +167,40 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:552
+#: bp-blogs/bp-blogs-template.php:551
 msgid "Congratulations! You have successfully registered a new site."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:554
+#: bp-blogs/bp-blogs-template.php:553
 msgid "<a href=\"%1$s\">%2$s</a> is your new site.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:565 bp-core/bp-core-filters.php:311
+#: bp-blogs/bp-blogs-template.php:564 bp-core/bp-core-filters.php:311
 #: bp-themes/bp-default/blogs/index.php:21
 #: bp-themes/bp-default/blogs/create.php:21
 msgid "Create a Site"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:578
+#: bp-blogs/bp-blogs-template.php:577
 msgid "%s's Sites"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:579
+#: bp-blogs/bp-blogs-template.php:578
 msgid "%s's Recent Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:580
+#: bp-blogs/bp-blogs-template.php:579
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:595 bp-core/bp-core-template.php:308
-#: bp-groups/bp-groups-template.php:2255 bp-forums/bp-forums-template.php:1252
+#: bp-blogs/bp-blogs-template.php:594 bp-core/bp-core-template.php:308
+#: bp-groups/bp-groups-template.php:2255 bp-forums/bp-forums-template.php:1249
 #: bp-members/bp-members-template.php:620 bp-themes/bp-default/header.php:36
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:628 bp-blogs/bp-blogs-template.php:629
+#: bp-blogs/bp-blogs-template.php:627 bp-blogs/bp-blogs-template.php:628
 #: bp-core/bp-core-adminbar.php:122
 msgid "Visit Site"
 msgstr ""
@@ -241,37 +241,37 @@ msgstr ""
 msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:21 bp-core/bp-core-widgets.php:110
+#: bp-core/bp-core-widgets.php:21 bp-core/bp-core-widgets.php:108
 #: bp-core/admin/bp-core-update.php:428 bp-core/bp-core-template.php:240
 #: bp-groups/bp-groups-template.php:1279 bp-members/bp-members-loader.php:22
 #: bp-themes/bp-default/groups/single/admin.php:229
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:46 bp-core/bp-core-widgets.php:128
+#: bp-core/bp-core-widgets.php:46 bp-core/bp-core-widgets.php:126
 #: bp-friends/bp-friends-template.php:55 bp-friends/bp-friends-template.php:72
-#: bp-groups/bp-groups-widgets.php:48 bp-groups/bp-groups-widgets.php:124
+#: bp-groups/bp-groups-widgets.php:48 bp-groups/bp-groups-widgets.php:123
 #: bp-themes/bp-default/members/single/blogs.php:22
 #: bp-themes/bp-default/blogs/index.php:54
 msgid "Newest"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:47 bp-core/bp-core-widgets.php:129
-#: bp-groups/bp-groups-widgets.php:49 bp-groups/bp-groups-widgets.php:125
+#: bp-core/bp-core-widgets.php:47 bp-core/bp-core-widgets.php:127
+#: bp-groups/bp-groups-widgets.php:49 bp-groups/bp-groups-widgets.php:124
 msgid "Active"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:51 bp-core/bp-core-widgets.php:130
-#: bp-groups/bp-groups-widgets.php:50 bp-groups/bp-groups-widgets.php:126
+#: bp-core/bp-core-widgets.php:51 bp-core/bp-core-widgets.php:128
+#: bp-groups/bp-groups-widgets.php:50 bp-groups/bp-groups-widgets.php:125
 msgid "Popular"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:90
+#: bp-core/bp-core-widgets.php:88
 msgid "No one has signed up yet!"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:121 bp-core/bp-core-widgets.php:201
-#: bp-core/bp-core-widgets.php:270 bp-groups/bp-groups-widgets.php:117
+#: bp-core/bp-core-widgets.php:119 bp-core/bp-core-widgets.php:199
+#: bp-core/bp-core-widgets.php:268 bp-groups/bp-groups-widgets.php:116
 #: bp-themes/bp-default/forums/index.php:102
 #: bp-themes/bp-default/forums/single/edit.php:49
 #: bp-themes/bp-default/groups/single/forum/edit.php:49
@@ -279,47 +279,47 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:123
+#: bp-core/bp-core-widgets.php:121
 msgid "Max members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:126
+#: bp-core/bp-core-widgets.php:124
 msgid "Default members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:148
+#: bp-core/bp-core-widgets.php:146
 msgid "Avatars of users who are currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:149
+#: bp-core/bp-core-widgets.php:147
 msgid "Who's Online Avatars"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:173
+#: bp-core/bp-core-widgets.php:171
 msgid "There are no users currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:192
+#: bp-core/bp-core-widgets.php:190
 msgid "Who's Online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:203 bp-core/bp-core-widgets.php:272
+#: bp-core/bp-core-widgets.php:201 bp-core/bp-core-widgets.php:270
 msgid "Max Members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:217
+#: bp-core/bp-core-widgets.php:215
 msgid "Avatars of recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:218
+#: bp-core/bp-core-widgets.php:216
 msgid "Recently Active Member Avatars"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:242
+#: bp-core/bp-core-widgets.php:240
 msgid "There are no recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:328
+#: bp-core/bp-core-widgets.php:326
 msgid "There were no members found, please try another filter."
 msgstr ""
 
@@ -772,7 +772,7 @@ msgstr ""
 #: bp-groups/bp-groups-activity.php:133 bp-groups/bp-groups-activity.php:169
 #: bp-groups/bp-groups-activity.php:205 bp-groups/bp-groups-activity.php:241
 #: bp-groups/bp-groups-loader.php:387 bp-groups/bp-groups-widgets.php:18
-#: bp-groups/bp-groups-widgets.php:39 bp-groups/bp-groups-widgets.php:106
+#: bp-groups/bp-groups-widgets.php:39 bp-groups/bp-groups-widgets.php:105
 #: bp-groups/bp-groups-screens.php:821 bp-activity/bp-activity-loader.php:166
 #: bp-activity/bp-activity-loader.php:246
 msgid "Groups"
@@ -794,7 +794,7 @@ msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:510 bp-core/bp-core-functions.php:435
-#: bp-messages/bp-messages-template.php:493
+#: bp-messages/bp-messages-template.php:492
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
@@ -1587,7 +1587,7 @@ msgstr ""
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:248 bp-groups/bp-groups-functions.php:279
+#: bp-groups/bp-groups-actions.php:248 bp-groups/bp-groups-functions.php:278
 msgid "You successfully left the group."
 msgstr ""
 
@@ -1877,23 +1877,23 @@ msgstr ""
 msgid "A dynamic list of recently active, popular, and newest groups"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:67 bp-groups/bp-groups-widgets.php:167
+#: bp-groups/bp-groups-widgets.php:66 bp-groups/bp-groups-widgets.php:166
 msgid "created %s"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:86
+#: bp-groups/bp-groups-widgets.php:85
 msgid "There are no groups to display."
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:119
+#: bp-groups/bp-groups-widgets.php:118
 msgid "Max groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:122
+#: bp-groups/bp-groups-widgets.php:121
 msgid "Default groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:186
+#: bp-groups/bp-groups-widgets.php:185
 msgid "No groups matched the current filter."
 msgstr ""
 
@@ -1913,8 +1913,8 @@ msgstr ""
 msgid "Group invite accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:59 bp-groups/bp-groups-functions.php:323
-#: bp-groups/bp-groups-functions.php:816
+#: bp-groups/bp-groups-screens.php:59 bp-groups/bp-groups-functions.php:322
+#: bp-groups/bp-groups-functions.php:807
 msgid "%1$s joined the group %2$s"
 msgstr ""
 
@@ -2348,11 +2348,11 @@ msgstr ""
 msgid "Group Activity RSS Feed"
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:254
+#: bp-groups/bp-groups-functions.php:253
 msgid "As the only Admin, you cannot leave the group."
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:512
+#: bp-groups/bp-groups-functions.php:511
 msgid "%1$s posted an update in the group %2$s"
 msgstr ""
 
@@ -2932,60 +2932,60 @@ msgstr ""
 msgid "Viewing message %1$s to %2$s (of %3$s messages)"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:396
+#: bp-messages/bp-messages-template.php:395
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:399
+#: bp-messages/bp-messages-template.php:398
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:400
+#: bp-messages/bp-messages-template.php:399
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:401
+#: bp-messages/bp-messages-template.php:400
 msgid "All"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:404
+#: bp-messages/bp-messages-template.php:403
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:405
+#: bp-messages/bp-messages-template.php:404
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:407
+#: bp-messages/bp-messages-template.php:406
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:416
+#: bp-messages/bp-messages-template.php:415
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:491
+#: bp-messages/bp-messages-template.php:490
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:542
+#: bp-messages/bp-messages-template.php:541
 #: bp-themes/bp-default/functions.php:147
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:586
+#: bp-messages/bp-messages-template.php:585
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:587
+#: bp-messages/bp-messages-template.php:586
 msgid "Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:775
+#: bp-messages/bp-messages-template.php:774
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:850
+#: bp-messages/bp-messages-template.php:849
 #: bp-themes/bp-default/_inc/ajax.php:530
 msgid "Sent %s"
 msgstr ""
