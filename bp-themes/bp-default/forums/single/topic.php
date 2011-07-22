@@ -67,13 +67,13 @@
 
 						<div class="pagination no-ajax">
 
-							<div id="post-count" class="pag-count">
+							<div id="post-count-top" class="pag-count">
 
 								<?php bp_the_topic_pagination_count() ?>
 
 							</div>
 
-							<div class="pagination-links" id="topic-pag">
+							<div class="pagination-links" id="topic-pag-top">
 
 								<?php bp_the_topic_pagination() ?>
 
@@ -125,13 +125,13 @@
 
 						<div class="pagination no-ajax">
 
-							<div id="post-count" class="pag-count">
+							<div id="post-count-bottom" class="pag-count">
 
 								<?php bp_the_topic_pagination_count() ?>
 
 							</div>
 
-							<div class="pagination-links" id="topic-pag">
+							<div class="pagination-links" id="topic-pag-bottom">
 
 								<?php bp_the_topic_pagination() ?>
 
