@@ -318,6 +318,18 @@ To view and respond to the message, log in and visit: %4$s
 	do_action( 'bp_groups_sent_mention_email', $usernames, $subject, $message, $content, $poster_user_id, $group_id, $activity_id );
 }
 
+/**
+ * In BP 1.3, these functions were renamed for greater consistency
+ */
+function bp_forum_directory_permalink() { 
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_forums_directory_permalink()' );
+	bp_forums_directory_permalink();
+} 
+	function bp_get_forum_directory_permalink() { 
+		_deprecated_function( __FUNCTION__, '1.3', 'bp_get_forums_directory_permalink()' );
+		return bp_get_forums_directory_permalink();
+	}
+	
 /** Theme *********************************************************************/
 
 /**

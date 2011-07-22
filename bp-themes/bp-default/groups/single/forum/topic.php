@@ -13,7 +13,7 @@
 				<?php if ( bp_forums_has_directory() ) : ?>
 
 					<li>
-						<a href="<?php bp_forum_directory_permalink() ?>"><?php _e( 'Forum Directory', 'buddypress') ?></a>
+						<a href="<?php bp_forums_directory_permalink() ?>"><?php _e( 'Forum Directory', 'buddypress') ?></a>
 					</li>
 
 				<?php endif; ?>
