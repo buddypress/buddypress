@@ -544,10 +544,10 @@ function bp_member_latest_update( $args = '' ) {
 		if ( !isset( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
 			return false;
 
-		$update_content = apply_filters( 'bp_get_activity_latest_update', strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
+		$update_content = apply_filters( 'bp_get_activity_latest_update', '&quot;' . trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ) . '&quot;' );
 
 		if ( !empty( $update['id'] ) && bp_is_active( 'activity' ) )
-			$update_content .= ' &middot; <a href="' . bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
+			$update_content .= ' <a href="' . bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_member_latest_update', $update_content );
 	}

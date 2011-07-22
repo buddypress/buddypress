@@ -95,7 +95,7 @@ jq(document).ready( function() {
 
 					var u = '';
 					if ( ltext != '' )
-						u = l + '&middot; ';
+						u = '&quot;' + l + '&quot; ';
 
 					u += '<a href="' + v + '" rel="nofollow">' + BP_DTheme.view + '</a>';
 

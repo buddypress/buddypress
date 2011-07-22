@@ -1150,7 +1150,7 @@ function bp_activity_comment_form_action() {
 	function bp_get_activity_comment_form_action() {
 		global $bp;
 
-		return apply_filters( 'bp_get_activity_comment_form_action', home_url( $bp->activity->root_slug . '/reply/' ) );
+		return apply_filters( 'bp_get_activity_comment_form_action', home_url( bp_get_activity_root_slug() . '/reply/' ) );
 	}
 
 function bp_activity_permalink_id() {
@@ -1178,7 +1178,7 @@ function bp_activity_favorite_link() {
 }
 	function bp_get_activity_favorite_link() {
 		global $bp, $activities_template;
-		return apply_filters( 'bp_get_activity_favorite_link', wp_nonce_url( home_url( $bp->activity->root_slug . '/favorite/' . $activities_template->activity->id . '/' ), 'mark_favorite' ) );
+		return apply_filters( 'bp_get_activity_favorite_link', wp_nonce_url( home_url( bp_get_activity_root_slug() . '/favorite/' . $activities_template->activity->id . '/' ), 'mark_favorite' ) );
 	}
 
 function bp_activity_unfavorite_link() {
@@ -1186,7 +1186,7 @@ function bp_activity_unfavorite_link() {
 }
 	function bp_get_activity_unfavorite_link() {
 		global $bp, $activities_template;
-		return apply_filters( 'bp_get_activity_unfavorite_link', wp_nonce_url( home_url( $bp->activity->root_slug . '/unfavorite/' . $activities_template->activity->id . '/' ), 'unmark_favorite' ) );
+		return apply_filters( 'bp_get_activity_unfavorite_link', wp_nonce_url( home_url( bp_get_activity_root_slug() . '/unfavorite/' . $activities_template->activity->id . '/' ), 'unmark_favorite' ) );
 	}
 
 function bp_activity_css_class() {
@@ -1267,8 +1267,8 @@ function bp_activity_latest_update( $user_id = 0 ) {
 		if ( !$update = bp_get_user_meta( $user_id, 'bp_latest_update', true ) )
 			return false;
 
-		$latest_update = '&quot;' . apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 358 ) ) ) ) . '&quot;';
-		$latest_update .= ' &middot; <a href="' . bp_get_root_domain() . '/' . $bp->activity->root_slug . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
+		$latest_update = apply_filters( 'bp_get_activity_latest_update_excerpt', '&quot;' . trim( strip_tags( bp_create_excerpt( $update['content'], 358 ) ) ) . '&quot;' );
+		$latest_update .= ' <a href="' . bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_activity_latest_update', $latest_update  );
 	}
