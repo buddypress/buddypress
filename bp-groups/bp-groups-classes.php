@@ -606,7 +606,7 @@ Class BP_Groups_Group {
 	 * @param str $status 'public', 'private', 'hidden', 'all' Which group types to count
 	 * @return int The topic count
 	 */
-	function get_global_topic_count( $status = 'public' ) {
+	function get_global_topic_count( $status = 'public', $search_terms = false ) {
 		global $bbdb, $wpdb, $bp;
 		
 		switch ( $status ) {
@@ -628,7 +628,20 @@ Class BP_Groups_Group {
 				break;
 		}
 		
-		return $wpdb->get_var( "SELECT COUNT(t.topic_id) FROM {$bbdb->topics} AS t INNER JOIN {$bp->groups->table_name_groupmeta} AS gm ON t.forum_id = gm.meta_value INNER JOIN {$bp->groups->table_name} AS g ON gm.group_id = g.id WHERE gm.meta_key = 'forum_id' {$status_sql} AND t.topic_status = '0' AND t.topic_sticky != '2' " );
+		$sql = array();
+		
+		$sql['select'] = "SELECT COUNT(t.topic_id)";
+		
+		$sql['from'] = "FROM {$bbdb->topics} AS t INNER JOIN {$bp->groups->table_name_groupmeta} AS gm ON t.forum_id = gm.meta_value INNER JOIN {$bp->groups->table_name} AS g ON gm.group_id = g.id";
+		
+		$sql['where'] = "WHERE gm.meta_key = 'forum_id' {$status_sql} AND t.topic_status = '0' AND t.topic_sticky != '2'";
+		
+		if ( $search_terms ) {
+			$st = like_escape( $search_terms );
+			$sql['where'] .= " AND (  t.topic_title LIKE '%{$st}%' )";
+		}
+		
+		return $wpdb->get_var( implode( ' ', $sql ) );
 	}
 }
 

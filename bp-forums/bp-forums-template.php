@@ -142,7 +142,7 @@ class BP_Forums_Template_Forum {
 			} else {
 				// For forum directories, get a true count
 				$status = is_super_admin() ? 'all' : 'public'; // todo: member-of
-				$topic_count = (int)groups_total_forum_topic_count( $status );
+				$topic_count = (int)groups_total_forum_topic_count( $status, $search_terms );
 			}
 
 			if ( !$max || $max >= $topic_count ) {
