@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-22 14:30:54+00:00\n"
+"POT-Creation-Date: 2011-07-22 16:30:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1468,8 +1468,8 @@ msgstr ""
 msgid "You have a pending friendship request with this user"
 msgstr ""
 
-#: bp-friends/bp-friends-functions.php:94
-#: bp-friends/bp-friends-functions.php:103
+#: bp-friends/bp-friends-functions.php:93
+#: bp-friends/bp-friends-functions.php:102
 msgid "%1$s and %2$s are now friends"
 msgstr ""
 
