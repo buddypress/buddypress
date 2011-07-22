@@ -521,9 +521,9 @@ class BP_Core_User {
 		if ( 'popular' != $type ) {
 			$friend_count = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as total_friend_count FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'total_friend_count' ) ) );
 			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
-				foreach ( (array)$friend_count as $count ) {
-					if ( $count->id == $paged_users[$i]->id )
-						$paged_users[$i]->total_friend_count = (int)$count->total_friend_count;
+				foreach ( (array)$friend_count as $fcount ) {
+					if ( $fcount->id == $paged_users[$i]->id )
+						$paged_users[$i]->total_friend_count = (int)$fcount->total_friend_count;
 				}
 			}
 		}
