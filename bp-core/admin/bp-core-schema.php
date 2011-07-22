@@ -1,10 +1,9 @@
 <?php
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
- 
+
 function bp_core_set_charset() {
 	global $wpdb;
 
-	require( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 	/* BuddyPress component DB schema */
 	if ( !empty($wpdb->charset) )

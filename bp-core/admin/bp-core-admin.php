@@ -328,8 +328,10 @@ function bp_core_admin_page_setup() {
  */
 function bp_core_admin_component_options() {
 	global $bp_wizard;
-			
-	require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
+	
+	// Load core functions, if needed
+	if ( !function_exists( 'bp_get_option' ) )
+		require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 	$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 	

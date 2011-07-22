@@ -16,8 +16,9 @@ class BP_Core_Setup_Wizard {
 	function __construct() {
 		global $bp;
 
-		// Ensure that we have access to some utility functions
-		require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
+		// Ensure that we have access to some utility functions. Must use require_once()
+		// because BP Core is loaded during incremental upgrades
+		require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 		// Get current DB version
 		$this->database_version = !empty( $bp->database_version ) ? (int) $bp->database_version : 0;
@@ -584,7 +585,6 @@ class BP_Core_Setup_Wizard {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
-		require( ABSPATH . WPINC . '/plugin.php' );
 		$installed_plugins = get_plugins();
 		$installed_themes  = get_themes();
 
@@ -1018,7 +1018,6 @@ class BP_Core_Setup_Wizard {
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
 			// Load BP and hook the admin menu, so that the redirect is successful
-			require( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
 			require( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' );
 			bp_core_add_admin_menu();
 
@@ -1260,9 +1259,7 @@ add_action( 'admin_head', 'bp_core_update_add_admin_menu_styles' );
  *
  * @return array $page_ids
  */
-function bp_core_update_get_page_meta() {			
-	require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
-	
+function bp_core_update_get_page_meta() {
 	if ( !$page_ids = bp_get_option( 'bp-pages' ) )
 		$page_ids = array();
 
