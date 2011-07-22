@@ -84,8 +84,8 @@ jq(document).ready( function() {
 					jq("div.activity").append( '<ul id="activity-stream" class="activity-list item-list">' );
 				}
 
-				jq("ul.activity-list").prepend(response);
-				jq("ul.activity-list li:first").addClass('new-update');
+				jq("ul#activity-stream").prepend(response);
+				jq("ul#activity-stream li:first").addClass('new-update');
 
 				if ( 0 != jq("div#latest-update").length ) {
 					var l = jq("ul#activity-stream li.new-update .activity-content .activity-inner p").html();
