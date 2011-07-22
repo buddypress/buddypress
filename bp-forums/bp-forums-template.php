@@ -48,6 +48,33 @@ function bp_forums_root_slug() {
 		return apply_filters( 'bp_get_forums_root_slug', $bp->forums->root_slug );
 	}
 
+/**
+ * Output forum directory permalink
+ *
+ * @package BuddyPress
+ * @subpackage Forums Template
+ * @since 1.3
+ * @uses bp_get_forums_directory_permalink()
+ */
+function bp_forums_directory_permalink() {
+	echo bp_get_forums_directory_permalink();
+}
+	/**
+	 * Return forum directory permalink
+	 *
+	 * @package BuddyPress
+	 * @subpackage Forums Template
+	 * @since 1.3
+	 * @uses apply_filters()
+	 * @uses traisingslashit()
+	 * @uses bp_get_root_domain()
+	 * @uses bp_get_forums_root_slug()
+	 * @return string
+	 */
+	function bp_get_forums_directory_permalink() {
+		return apply_filters( 'bp_get_forums_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() ) );
+	}
+
 class BP_Forums_Template_Forum {
 	var $current_topic = -1;
 	var $topic_count;
@@ -1268,15 +1295,6 @@ function bp_forum_name( $forum_id = 0 ) {
 			return apply_filters( 'bp_get_forum_name', $forum->forum_name, $forum->forum_id );
 		else
 			return false;
-	}
-
-function bp_forum_directory_permalink() {
-	echo bp_get_forum_directory_permalink();
-}
-	function bp_get_forum_directory_permalink() {
-		global $bp;
-
-		return apply_filters( 'bp_get_forum_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() ) );
 	}
 
 function bp_forums_tag_heat_map( $args = '' ) {

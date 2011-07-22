@@ -48,6 +48,33 @@ function bp_groups_root_slug() {
 		return apply_filters( 'bp_get_groups_root_slug', $bp->groups->root_slug );
 	}
 
+/**
+ * Output group directory permalink
+ *
+ * @package BuddyPress
+ * @subpackage Groups Template
+ * @since 1.3
+ * @uses bp_get_groups_directory_permalink()
+ */
+function bp_groups_directory_permalink() {
+	echo bp_get_groups_directory_permalink();
+}
+	/**
+	 * Return group directory permalink
+	 *
+	 * @package BuddyPress
+	 * @subpackage Groups Template
+	 * @since 1.3
+	 * @uses apply_filters()
+	 * @uses traisingslashit()
+	 * @uses bp_get_root_domain()
+	 * @uses bp_get_groups_root_slug()
+	 * @return string
+	 */
+	function bp_get_groups_directory_permalink() {
+		return apply_filters( 'bp_get_groups_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) );
+	}
+
 /*****************************************************************************
  * Groups Template Class/Tags
  **/

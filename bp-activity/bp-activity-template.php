@@ -56,6 +56,33 @@ function bp_activity_root_slug() {
 	}
 
 /**
+ * Output member directory permalink
+ *
+ * @package BuddyPress
+ * @subpackage Activity Template
+ * @since 1.3
+ * @uses bp_get_activity_directory_permalink()
+ */
+function bp_activity_directory_permalink() {
+	echo bp_get_activity_directory_permalink();
+}
+	/**
+	 * Return member directory permalink
+	 *
+	 * @package BuddyPress
+	 * @subpackage Activity Template
+	 * @since 1.3
+	 * @uses apply_filters()
+	 * @uses traisingslashit()
+	 * @uses bp_get_root_domain()
+	 * @uses bp_get_activity_root_slug()
+	 * @return string
+	 */
+	function bp_get_activity_directory_permalink() {
+		return apply_filters( 'bp_get_activity_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() ) );
+	}
+
+/**
  * The main activity template loop
  *
  * This is responsible for loading a group of activity items and displaying them

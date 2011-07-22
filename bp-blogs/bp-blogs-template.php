@@ -48,6 +48,33 @@ function bp_blogs_root_slug() {
 		return apply_filters( 'bp_get_blogs_root_slug', $bp->blogs->root_slug );
 	}
 
+/**
+ * Output blog directory permalink
+ *
+ * @package BuddyPress
+ * @subpackage Blogs Template
+ * @since 1.3
+ * @uses bp_get_blogs_directory_permalink()
+ */
+function bp_blogs_directory_permalink() {
+	echo bp_get_blogs_directory_permalink();
+}
+	/**
+	 * Return blog directory permalink
+	 *
+	 * @package BuddyPress
+	 * @subpackage Blogs Template
+	 * @since 1.3
+	 * @uses apply_filters()
+	 * @uses traisingslashit()
+	 * @uses bp_get_root_domain()
+	 * @uses bp_get_blogs_root_slug()
+	 * @return string
+	 */
+	function bp_get_blogs_directory_permalink() {
+		return apply_filters( 'bp_get_blogs_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() ) );
+	}
+
 /**********************************************************************
  * Blog listing template class.
  */
