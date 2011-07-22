@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-21 23:30:54+00:00\n"
+"POT-Creation-Date: 2011-07-22 07:30:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,8 +12,9 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: bp-blogs/bp-blogs-loader.php:26
-msgid "Site Streams"
+#: bp-blogs/bp-blogs-loader.php:26 bp-core/admin/bp-core-admin.php:370
+#: bp-core/admin/bp-core-update.php:316
+msgid "Site Tracking"
 msgstr ""
 
 #: bp-blogs/bp-blogs-loader.php:59
@@ -522,10 +523,6 @@ msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:364
 msgid "Full powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step."
-msgstr ""
-
-#: bp-core/admin/bp-core-admin.php:370 bp-core/admin/bp-core-update.php:316
-msgid "Site Tracking"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:371 bp-core/admin/bp-core-update.php:325
