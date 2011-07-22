@@ -12,7 +12,7 @@
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_activity_slug()
  */
@@ -24,7 +24,7 @@ function bp_activity_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_activity_slug() {
 		global $bp;
@@ -36,7 +36,7 @@ function bp_activity_slug() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_activity_root_slug()
  */
@@ -48,7 +48,7 @@ function bp_activity_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_activity_root_slug() {
 		global $bp;
@@ -89,7 +89,7 @@ function bp_activity_directory_permalink() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since {unknown}
+ * @since 1.3
  */
 class BP_Activity_Template {
 	var $current_activity = -1;

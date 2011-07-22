@@ -14,7 +14,7 @@ class BP_Members_Component extends BP_Component {
 	/**
 	 * Start the members component creation process
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function __construct() {
 		parent::start(
@@ -50,7 +50,7 @@ class BP_Members_Component extends BP_Component {
 	 * The BP_MEMBERS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 * @global obj $bp
 	 */
 	function setup_globals() {

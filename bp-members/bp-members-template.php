@@ -14,7 +14,7 @@
  *
  * @package BuddyPress
  * @subpackage Members Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_members_slug()
  */
@@ -26,7 +26,7 @@ function bp_members_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Members Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_members_slug() {
 		global $bp;
@@ -38,7 +38,7 @@ function bp_members_slug() {
  *
  * @package BuddyPress
  * @subpackage Members Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_members_root_slug()
  */
@@ -50,7 +50,7 @@ function bp_members_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Members Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_members_root_slug() {
 		global $bp;
@@ -89,7 +89,7 @@ function bp_members_directory_permalink() {
  *
  * @package BuddyPress
  * @subpackage Members Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_signup_slug()
  */
@@ -101,7 +101,7 @@ function bp_signup_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Members Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_signup_slug() {
 		global $bp;
@@ -121,7 +121,7 @@ function bp_signup_slug() {
  *
  * @package BuddyPress
  * @subpackage Members Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_activate_slug()
  */
@@ -133,7 +133,7 @@ function bp_activate_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Members Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_activate_slug() {
 		global $bp;

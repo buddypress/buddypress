@@ -12,7 +12,7 @@
  *
  * @package BuddyPress
  * @subpackage Settings Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_settings_slug()
  */
@@ -24,7 +24,7 @@ function bp_settings_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Settings Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_settings_slug() {
 		global $bp;
@@ -36,7 +36,7 @@ function bp_settings_slug() {
  *
  * @package BuddyPress
  * @subpackage Settings Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_settings_root_slug()
  */
@@ -48,7 +48,7 @@ function bp_settings_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Settings Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_settings_root_slug() {
 		global $bp;

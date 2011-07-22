@@ -5,7 +5,7 @@
  *
  * @package BuddyPress
  * @subpackage Forums Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_forums_slug()
  */
@@ -17,7 +17,7 @@ function bp_forums_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Forums Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_forums_slug() {
 		global $bp;
@@ -29,7 +29,7 @@ function bp_forums_slug() {
  *
  * @package BuddyPress
  * @subpackage Forums Template
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  *
  * @uses bp_get_forums_root_slug()
  */
@@ -41,7 +41,7 @@ function bp_forums_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Forums Template
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 */
 	function bp_get_forums_root_slug() {
 		global $bp;

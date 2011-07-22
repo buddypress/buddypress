@@ -12,7 +12,7 @@ if ( !class_exists( 'BP_Component' ) ) :
  * @package BuddyPress
  * @subpackage Component
  *
- * @since BuddyPress {unknown}
+ * @since BuddyPress 1.3
  */
 class BP_Component {
 
@@ -60,7 +60,7 @@ class BP_Component {
 	/**
 	 * Component loader
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 *
 	 * @param mixed $args Required. Supports these args:
 	 *  - name: Unique name (for internal identification)
@@ -89,7 +89,7 @@ class BP_Component {
 	/**
 	 * Component global variables
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 * @access private
 	 *
 	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_id'
@@ -140,7 +140,7 @@ class BP_Component {
 	/**
 	 * Include required files
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 * @access private
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}includes'
@@ -173,7 +173,7 @@ class BP_Component {
 	/**
 	 * Setup the actions
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 * @access private
 	 *
 	 * @uses add_action() To add various actions
@@ -275,7 +275,7 @@ class BP_Component {
 	/**
 	 * Setup the component title
 	 *
-	 * @since Buddypress {unknown}
+	 * @since Buddypress 1.3
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}setup_title'
 	 */
@@ -286,7 +286,7 @@ class BP_Component {
 	/**
 	 * Setup the component post types
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_post_types'
 	 */
@@ -297,7 +297,7 @@ class BP_Component {
 	/**
 	 * Register component specific taxonomies
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_taxonomies'
 	 */
@@ -308,7 +308,7 @@ class BP_Component {
 	/**
 	 * Add any additional rewrite tags
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_tags'
 	 */
@@ -319,7 +319,7 @@ class BP_Component {
 	/**
 	 * Generate any additional rewrite rules
 	 *
-	 * @since BuddyPress {unknown}
+	 * @since BuddyPress 1.3
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_generate_rewrite_rules'
 	 */
