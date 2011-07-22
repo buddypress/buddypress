@@ -166,20 +166,19 @@ Class BP_Messages_Thread {
 		return bp_core_get_userlink( $sender_id, true );
 	}
 
-	function get_inbox_count() {
+	function get_inbox_count( $user_id = 0 ) {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "SELECT unread_count FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0 AND sender_only = 0", $bp->loggedin_user->id );
+		if ( empty( $user_id ) )
+			$user_id = $bp->loggedin_user->id;
 
-		if ( !$unread_counts = $wpdb->get_results($sql) )
-			return false;
+		$sql = $wpdb->prepare( "SELECT SUM(unread_count) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0 AND sender_only = 0", $user_id );
+		$unread_count = $wpdb->get_var( $sql );
 
-		$count = 0;
-		for ( $i = 0, $count = count( $unread_counts ); $i < $count; ++$i ) {
-			$count += $unread_counts[$i]->unread_count;
-		}
+		if ( empty( $unread_count ) || is_wp_error( $unread_count ) )
+			return 0;
 
-		return $count;
+		return (int) $unread_count;
 	}
 
 	function check_access( $thread_id, $user_id = 0 ) {
