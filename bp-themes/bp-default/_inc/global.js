@@ -277,7 +277,7 @@ jq(document).ready( function() {
 		var type = link_id[0]; /* activity or acomment */
 
 		var inner_class = type == 'acomment' ? 'acomment-content' : 'activity-inner';
-		var a_inner = jq('li#' + type + '-' + a_id + ' .' + inner_class );
+		var a_inner = jq('li#' + type + '-' + a_id + ' .' + inner_class + ':first' );
 		target.parent().children('.ajax-loader').show();
 
 		jq.post( ajaxurl, {
