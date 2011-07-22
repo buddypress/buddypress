@@ -338,9 +338,10 @@ function bp_core_activation_notice() {
 
 	/**
 	 * Check to make sure that the blog setup routine has run. This can't happen during the
-	 * wizard because of the order which the components are loaded
+	 * wizard because of the order which the components are loaded. We check for multisite here
+	 * on the off chance that someone has activated the blogs component and then disabled MS
 	 */
-	if ( bp_is_active( 'blogs' ) ) {
+	if ( is_multisite() && bp_is_active( 'blogs' ) ) {
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$bp->blogs->table_name}" ) );
 
 		if ( !$count )
