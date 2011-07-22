@@ -1,7 +1,8 @@
 jQuery(document).ready( function() {
 	jQuery(".widget div#groups-list-options a").live('click',
 		function() {
-			jQuery('#ajax-loader-groups').toggle();
+			var link = this;
+			jQuery(link).addClass('loading');
 
 			jQuery(".widget div#groups-list-options a").removeClass("selected");
 			jQuery(this).addClass('selected');
@@ -15,7 +16,7 @@ jQuery(document).ready( function() {
 			},
 			function(response)
 			{
-				jQuery('#ajax-loader-groups').toggle();
+				jQuery(link).removeClass('loading');
 				groups_wiget_response(response);
 			});
 

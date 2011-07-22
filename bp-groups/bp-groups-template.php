@@ -731,7 +731,7 @@ function bp_groups_pagination_count() {
 		$to_num = bp_core_number_format( ( $start_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $start_num + ( $groups_template->pag_num - 1 ) );
 		$total = bp_core_number_format( $groups_template->total_group_count );
 
-		return apply_filters( 'bp_get_groups_pagination_count', sprintf( __( 'Viewing group %1$s to %2$s (of %3$s groups)', 'buddypress' ), $from_num, $to_num, $total ) . '<span class="ajax-loader"></span>' );
+		return apply_filters( 'bp_get_groups_pagination_count', sprintf( __( 'Viewing group %1$s to %2$s (of %3$s groups)', 'buddypress' ), $from_num, $to_num, $total ) );
 	}
 
 function bp_groups_auto_join() {

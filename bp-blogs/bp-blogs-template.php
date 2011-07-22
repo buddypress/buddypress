@@ -253,8 +253,7 @@ function bp_blogs_pagination_count() {
 	$to_num    = bp_core_number_format( ( $start_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $start_num + ( $blogs_template->pag_num - 1 ) );
 	$total     = bp_core_number_format( $blogs_template->total_blog_count );
 
-	echo sprintf( __( 'Viewing site %1$s to %2$s (of %3$s sites)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
-	<span class="ajax-loader"></span><?php
+	echo sprintf( __( 'Viewing site %1$s to %2$s (of %3$s sites)', 'buddypress' ), $from_num, $to_num, $total );
 }
 
 function bp_blogs_pagination_links() {

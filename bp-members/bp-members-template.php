@@ -357,7 +357,7 @@ function bp_members_pagination_count() {
 		else
 			$pag = sprintf( __( 'Viewing member %1$s to %2$s (of %3$s members)', 'buddypress' ), $from_num, $to_num, $total );
 
-		return apply_filters( 'bp_members_pagination_count', $pag . '<span class="ajax-loader"></span>' );
+		return apply_filters( 'bp_members_pagination_count', $pag );
 	}
 
 function bp_members_pagination_links() {

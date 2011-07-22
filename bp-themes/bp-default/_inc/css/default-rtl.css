@@ -575,9 +575,6 @@ body.activity-permalink div.activity-comments > ul {
 /*--------------------------------------------------------------
 5.3 - Ajax Loading
 --------------------------------------------------------------*/
-.ajax-loader {
-	background-position: right center !important;
-}
 a.loading {
 	background-position: 5% 50% !important;
 	padding-left: 25px !important;

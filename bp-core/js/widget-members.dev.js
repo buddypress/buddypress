@@ -1,7 +1,8 @@
 jQuery(document).ready( function() {
 	jQuery(".widget div#members-list-options a").live('click',
 		function() {
-			jQuery('#ajax-loader-members').toggle();
+			var link = this;
+			jQuery(link).addClass('loading');
 
 			jQuery(".widget div#members-list-options a").removeClass("selected");
 			jQuery(this).addClass('selected');
@@ -15,7 +16,7 @@ jQuery(document).ready( function() {
 			},
 			function(response)
 			{
-				jQuery('#ajax-loader-members').toggle();
+				jQuery(link).removeClass('loading');
 				member_wiget_response(response);
 			});
 

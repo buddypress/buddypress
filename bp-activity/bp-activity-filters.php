@@ -191,7 +191,7 @@ function bp_activity_truncate_entry( $text ) {
 	$id = !empty( $activities_template->activity->current_comment->id ) ? 'acomment-read-more-' . $activities_template->activity->current_comment->id : 'activity-read-more-' . bp_get_activity_id();
 
 	if ( strlen( $excerpt ) > $excerpt_length )
-		$excerpt = sprintf( '%1$s<span class="activity-read-more" id="%2$s"><a href="%3$s" rel="nofollow">%4$s</a>&nbsp;<span class="ajax-loader"></span></span>', bp_create_excerpt( $excerpt, $excerpt_length, true, '&hellip;' ), $id, bp_get_activity_thread_permalink(), $append_text );
+		$excerpt = sprintf( '%1$s<span class="activity-read-more" id="%2$s"><a href="%3$s" rel="nofollow">%4$s</a></span>', bp_create_excerpt( $excerpt, $excerpt_length, true, '&hellip;' ), $id, bp_get_activity_thread_permalink(), $append_text );
 
 	return apply_filters( 'bp_activity_truncate_entry', $excerpt, $text, $append_text );
 }

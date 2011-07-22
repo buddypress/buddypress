@@ -1480,11 +1480,6 @@ div.activity-comments form div.ac-reply-content {
 /*--------------------------------------------------------------
 6.3 - Ajax Loading
 --------------------------------------------------------------*/
-.ajax-loader {
-	background: url( ../images/ajax-loader.gif ) center left no-repeat !important;
-	display: none;
-	padding: 8px 8px 3px 8px;
-}
 a.loading,
 input.loading {
 	background-image: url( ../images/ajax-loader.gif ) !important;

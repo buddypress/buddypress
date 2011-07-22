@@ -278,7 +278,7 @@ jq(document).ready( function() {
 
 		var inner_class = type == 'acomment' ? 'acomment-content' : 'activity-inner';
 		var a_inner = jq('li#' + type + '-' + a_id + ' .' + inner_class + ':first' );
-		target.parent().children('.ajax-loader').show();
+		jq(target).addClass('loading');
 
 		jq.post( ajaxurl, {
 			action: 'get_single_activity_content',

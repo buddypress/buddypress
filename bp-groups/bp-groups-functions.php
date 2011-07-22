@@ -123,7 +123,6 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 		return false;
 
 	if ( $notify_members ) {
-		require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
 		groups_notification_group_updated( $group->id );
 	}
 
@@ -520,10 +519,6 @@ function groups_post_update( $args = '' ) {
 		'item_id' => $group_id
 	) );
 
- 	// Require the notifications code so email notifications can be set on
-	// the 'bp_activity_posted_update' action.
-	require( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
-
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 	do_action( 'bp_groups_posted_update', $content, $user_id, $group_id, $activity_id );
 
@@ -773,8 +768,6 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	if ( $requesting_user->save() ) {
 		$admins = groups_get_group_admins( $group_id );
 
-		require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
-
 		// Saved okay, now send the email notification
 		for ( $i = 0, $count = count( $admins ); $i < $count; ++$i )
 			groups_notification_new_membership_request( $requesting_user_id, $admins[$i]->user_id, $group_id, $requesting_user->id );
@@ -818,7 +811,6 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
 	) );
 
 	// Send a notification to the user.
-	require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, true );
 
 	do_action( 'groups_membership_accepted', $membership->user_id, $membership->group_id );
@@ -831,7 +823,6 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
 		return false;
 
 	// Send a notification to the user.
-	require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
 	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, false );
 
 	do_action( 'groups_membership_rejected', $membership->user_id, $membership->group_id );

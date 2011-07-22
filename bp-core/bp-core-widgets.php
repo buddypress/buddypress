@@ -51,8 +51,6 @@ class BP_Core_Members_Widget extends WP_Widget {
 					| <a href="<?php echo site_url( bp_get_members_root_slug() ); ?>" id="popular-members" <?php if ( $instance['member_default'] == 'popular' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Popular', 'buddypress' ) ?></a>
 
 				<?php endif; ?>
-
-				<span class="ajax-loader" id="ajax-loader-members"></span>
 			</div>
 
 			<ul id="members-list" class="item-list">

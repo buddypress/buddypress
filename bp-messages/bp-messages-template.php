@@ -339,8 +339,7 @@ function bp_messages_pagination_count() {
 	$to_num = bp_core_number_format( ( $start_num + ( $messages_template->pag_num - 1 ) > $messages_template->total_thread_count ) ? $messages_template->total_thread_count : $start_num + ( $messages_template->pag_num - 1 ) );
 	$total = bp_core_number_format( $messages_template->total_thread_count );
 
-	echo sprintf( __( 'Viewing message %1$s to %2$s (of %3$s messages)', 'buddypress' ), $from_num, $to_num, $total ); ?> &nbsp;
-	<span class="ajax-loader"></span><?php
+	echo sprintf( __( 'Viewing message %1$s to %2$s (of %3$s messages)', 'buddypress' ), $from_num, $to_num, $total ); ?><?php
 }
 
 function bp_messages_form_action() {
