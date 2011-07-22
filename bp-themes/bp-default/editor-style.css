@@ -55,10 +55,10 @@ a:focus {
 	outline: 1px dotted #ccc;
 }
 p {
-	margin-bottom: 15px;
+	margin-top: 15px;
 }
-p:last-child {
-	margin-bottom: 0;
+p:first-child {
+	margin-top: 0;
 }
 hr {
 	background-color: #e7e7e7;

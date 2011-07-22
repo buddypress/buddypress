@@ -335,10 +335,10 @@ div#sidebar div.tags div#tag-text {
 3.0 - Non-structural
 --------------------------------------------------------------*/
 p {
-	margin-bottom: 15px;
+	margin-top: 15px;
 }
-p:last-child {
-	margin-bottom: 0;
+p:first-child {
+	margin-top: 0;
 }
 .accessibly-hidden {
 	left: -999em;
