@@ -23,7 +23,7 @@ class BP_Blogs_Component extends BP_Component {
 	function __construct() {
 		parent::start(
 			'blogs',
-			__( 'Site Streams', 'buddypress' ),
+			__( 'Site Tracking', 'buddypress' ),
 			BP_PLUGIN_DIR
 		);
 	}
