@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-22 17:30:56+00:00\n"
+"POT-Creation-Date: 2011-07-22 20:30:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -592,7 +592,7 @@ msgstr ""
 #: bp-xprofile/bp-xprofile-loader.php:182
 #: bp-members/bp-members-template.php:550
 #: bp-themes/bp-default/functions.php:148
-#: bp-themes/bp-default/activity/entry.php:38
+#: bp-themes/bp-default/activity/entry.php:37
 #: bp-activity/bp-activity-template.php:1271
 msgid "View"
 msgstr ""
@@ -3477,12 +3477,12 @@ msgid "There was a problem when deleting. Please try again."
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:312
-#: bp-themes/bp-default/activity/entry.php:73
+#: bp-themes/bp-default/activity/entry.php:72
 msgid "Remove Favorite"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:321
-#: bp-themes/bp-default/activity/entry.php:69
+#: bp-themes/bp-default/activity/entry.php:68
 msgid "Favorite"
 msgstr ""
 
@@ -4117,30 +4117,26 @@ msgid "Post in"
 msgstr ""
 
 #: bp-themes/bp-default/activity/entry.php:37
-#: bp-activity/feeds/bp-activity-friends-feed.php:48
-#: bp-activity/feeds/bp-activity-mentions-feed.php:47
-#: bp-activity/feeds/bp-activity-personal-feed.php:47
-#: bp-activity/feeds/bp-activity-favorites-feed.php:54
-msgid "In reply to"
+msgid "In reply to: "
 msgstr ""
 
-#: bp-themes/bp-default/activity/entry.php:38
+#: bp-themes/bp-default/activity/entry.php:37
 msgid "View Thread / Permalink"
 msgstr ""
 
-#: bp-themes/bp-default/activity/entry.php:61
+#: bp-themes/bp-default/activity/entry.php:60
 msgid "Comment <span>%s</span>"
 msgstr ""
 
-#: bp-themes/bp-default/activity/entry.php:69
+#: bp-themes/bp-default/activity/entry.php:68
 msgid "Mark as Favorite"
 msgstr ""
 
-#: bp-themes/bp-default/activity/entry.php:105
+#: bp-themes/bp-default/activity/entry.php:104
 msgid "Post"
 msgstr ""
 
-#: bp-themes/bp-default/activity/entry.php:105
+#: bp-themes/bp-default/activity/entry.php:104
 msgid "or press esc to cancel."
 msgstr ""
 
@@ -4778,6 +4774,13 @@ msgstr ""
 #: bp-activity/feeds/bp-activity-sitewide-feed.php:44
 #: bp-activity/feeds/bp-activity-mygroups-feed.php:48
 msgid "Comments: %s"
+msgstr ""
+
+#: bp-activity/feeds/bp-activity-friends-feed.php:48
+#: bp-activity/feeds/bp-activity-mentions-feed.php:47
+#: bp-activity/feeds/bp-activity-personal-feed.php:47
+#: bp-activity/feeds/bp-activity-favorites-feed.php:54
+msgid "In reply to"
 msgstr ""
 
 #: bp-activity/feeds/bp-activity-personal-feed.php:24
