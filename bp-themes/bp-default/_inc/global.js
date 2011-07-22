@@ -923,19 +923,21 @@ jq(document).ready( function() {
 
 					jq('tr#m-' + jq(this).attr('value') + ' td span.unread-count').html(unreadCount);
 					jq('tr#m-' + jq(this).attr('value') + ' td span.unread-count').css('display', unreadCountDisplay);
-					var inboxcount = jq('a#user-messages strong').html().substr( 1, jq('a#user-messages strong').html().length );
+
+					var inboxcount = jq('a#user-messages span').html().substr( 1, jq('a#user-messages span').html().length );
 					var inboxcount = inboxcount.substr( 0, inboxcount.length - 1 );
 
 					if ( !inboxcount.length )
 						inboxcount = 0;
+
 					if ( parseInt(inboxcount) == inboxCount ) {
-						jq('a#user-messages strong').css('display', unreadCountDisplay);
-						jq('a#user-messages strong').html( '(' + unreadCount + ')' );
+						jq('a#user-messages span').css('display', unreadCountDisplay);
+						jq('a#user-messages span').html( unreadCount );
 					} else {
 						if ( 'read' == currentClass )
-							jq('a#user-messages strong').html('(' + ( parseInt(inboxcount) + 1 ) + ')');
+							jq('a#user-messages span').html( ( parseInt(inboxcount) + 1 ) );
 						else
-							jq('a#user-messages strong').html('(' + ( parseInt(inboxcount) - thread_count ) + ')');
+							jq('a#user-messages span').html( ( parseInt(inboxcount) - thread_count ) );
 					}
 
 					if ( i != checkboxes.length - 1 ) {
