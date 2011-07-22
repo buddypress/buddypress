@@ -354,9 +354,9 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		if ( isset( $this->current_group->user_has_access ) )
-			do_action( 'groupssetup_nav', $this->current_group->user_has_access );
+			do_action( 'groups_setup_nav', $this->current_group->user_has_access );
 		else
-			do_action( 'groupssetup_nav');
+			do_action( 'groups_setup_nav');
 	}
 
 	/**

@@ -193,7 +193,7 @@ class BP_Core extends BP_Component {
 		// Is the logged in user is a mod for the current item?
 		bp_update_is_item_mod( false,                  'core' );
 
-		do_action( 'bp_coresetup_globals' );
+		do_action( 'bp_core_setup_globals' );
 	}
 
 	function setup_nav() {
