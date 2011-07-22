@@ -58,6 +58,33 @@ function bp_members_root_slug() {
 	}
 
 /**
+ * Output member directory permalink
+ *
+ * @package BuddyPress
+ * @subpackage Members Template
+ * @since 1.3
+ * @uses bp_get_members_directory_permalink()
+ */
+function bp_members_directory_permalink() {
+	echo bp_get_members_directory_permalink();
+}
+	/**
+	 * Return member directory permalink
+	 *
+	 * @package BuddyPress
+	 * @subpackage Members Template
+	 * @since 1.3
+	 * @uses apply_filters()
+	 * @uses traisingslashit()
+	 * @uses bp_get_root_domain()
+	 * @uses bp_get_members_root_slug()
+	 * @return string
+	 */
+	function bp_get_members_directory_permalink() {
+		return apply_filters( 'bp_get_members_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) );
+	}
+
+/**
  * Output the sign-up slug
  *
  * @package BuddyPress
@@ -602,7 +629,6 @@ function bp_total_site_member_count() {
 	function bp_get_total_site_member_count() {
 		return apply_filters( 'bp_get_total_site_member_count', bp_core_number_format( bp_core_get_total_member_count() ) );
 	}
-
 
 /** Navigation and other misc template tags **/
 
