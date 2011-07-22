@@ -16,27 +16,27 @@ function bp_forums_load_bbpress() {
 	define( 'BB_URL', BP_PLUGIN_URL . '/bp-forums/bbpress/' );
 	define( 'BB_INC', 'bb-includes/' );
 
-	require_once( BB_PATH . BB_INC . 'class.bb-query.php' );
-	require_once( BB_PATH . BB_INC . 'class.bb-walker.php' );
+	require( BB_PATH . BB_INC . 'class.bb-query.php' );
+	require( BB_PATH . BB_INC . 'class.bb-walker.php' );
 
-	require_once( BB_PATH . BB_INC . 'functions.bb-core.php' );
-	require_once( BB_PATH . BB_INC . 'functions.bb-forums.php' );
-	require_once( BB_PATH . BB_INC . 'functions.bb-topics.php' );
-	require_once( BB_PATH . BB_INC . 'functions.bb-posts.php' );
-	require_once( BB_PATH . BB_INC . 'functions.bb-topic-tags.php' );
-	require_once( BB_PATH . BB_INC . 'functions.bb-capabilities.php' );
-	require_once( BB_PATH . BB_INC . 'functions.bb-meta.php' );
-	require_once( BB_PATH . BB_INC . 'functions.bb-pluggable.php' );
-	require_once( BB_PATH . BB_INC . 'functions.bb-formatting.php' );
-	require_once( BB_PATH . BB_INC . 'functions.bb-template.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-core.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-forums.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-topics.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-posts.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-topic-tags.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-capabilities.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-meta.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-pluggable.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-formatting.php' );
+	require( BB_PATH . BB_INC . 'functions.bb-template.php' );
 
-	require_once( BACKPRESS_PATH . 'class.wp-taxonomy.php' );
-	require_once( BB_PATH . BB_INC . 'class.bb-taxonomy.php' );
+	require( BACKPRESS_PATH . 'class.wp-taxonomy.php' );
+	require( BB_PATH . BB_INC . 'class.bb-taxonomy.php' );
 
-	require_once( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
+	require( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
 
 	$bb = new stdClass();
-	require_once( $bp->forums->bbconfig );
+	require( $bp->forums->bbconfig );
 
 	// Setup the global database connection
 	$bbdb = new BPDB ( BBDB_USER, BBDB_PASSWORD, BBDB_NAME, BBDB_HOST );
@@ -87,12 +87,12 @@ function bp_forums_load_bbpress() {
 
 	// Check if the tables are installed, if not, install them
 	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) ) {
-		require_once( BB_PATH . 'bb-admin/includes/defaults.bb-schema.php' );
+		require( BB_PATH . 'bb-admin/includes/defaults.bb-schema.php' );
 
 		// Backticks and "IF NOT EXISTS" break the dbDelta function.
 		bp_bb_dbDelta( str_replace( ' IF NOT EXISTS', '', str_replace( '`', '', $bb_queries ) ) );
 
-		require_once( BB_PATH . 'bb-admin/includes/functions.bb-upgrade.php' );
+		require( BB_PATH . 'bb-admin/includes/functions.bb-upgrade.php' );
 		bb_update_db_version();
 
 		// Set the site admins as the keymasters
@@ -144,7 +144,7 @@ class BPDB extends WPDB {
 		parent::__construct( $dbuser, $dbpassword, $dbname, $dbhost );
 
 		$args = func_get_args();
-		$args = call_user_func_array( array( &$this, '_init' ), $args );
+		$args = call_user_func_array( array( &$this, 'init' ), $args );
 
 		if ( $args['host'] )
 			$this->db_servers['dbh_global'] = $args;
@@ -168,8 +168,7 @@ class BPDB extends WPDB {
 	 * Initialises the class variables based on provided arguments.
 	 * Based on, and taken from, the BackPress class in turn taken from the 1.0 branch of bbPress.
 	 */
-	function _init( $args )
-	{
+	function init( $args ) {
 		if ( 4 == func_num_args() ) {
 			$args = array(
 				'user'     => $args,

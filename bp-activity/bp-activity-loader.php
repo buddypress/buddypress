@@ -31,7 +31,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Include files
 	 */
-	function _includes() {
+	function includes() {
 		// Files to include
 		$includes = array(
 			'actions',
@@ -43,7 +43,7 @@ class BP_Activity_Component extends BP_Component {
 			'notifications',
 		);
 
-		parent::_includes( $includes );
+		parent::includes( $includes );
 	}
 
 	/**
@@ -55,7 +55,7 @@ class BP_Activity_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 * @global obj $bp
 	 */
-	function _setup_globals() {
+	function setup_globals() {
 		global $bp;
 
 		// Define a slug, if necessary
@@ -79,7 +79,7 @@ class BP_Activity_Component extends BP_Component {
 			'notification_callback' => 'bp_activity_format_notifications',
 		);
 
-		parent::_setup_globals( $globals );
+		parent::setup_globals( $globals );
 	}
 
 	/**
@@ -87,7 +87,7 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_nav() {
+	function setup_nav() {
 		global $bp;
 
 		// Add 'Activity' to the main navigation
@@ -173,7 +173,7 @@ class BP_Activity_Component extends BP_Component {
 			);
 		}
 
-		parent::_setup_nav( $main_nav, $sub_nav );
+		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
 	/**
@@ -181,7 +181,7 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_admin_bar() {
+	function setup_admin_bar() {
 		global $bp;
 
 		// Prevent debug notices
@@ -249,7 +249,7 @@ class BP_Activity_Component extends BP_Component {
 			}
 		}
 
-		parent::_setup_admin_bar( $wp_admin_nav );
+		parent::setup_admin_bar( $wp_admin_nav );
 	}
 
 	/**
@@ -257,7 +257,7 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_title() {
+	function setup_title() {
 		global $bp;
 
 		// Adjust title based on view
@@ -273,7 +273,7 @@ class BP_Activity_Component extends BP_Component {
 			}
 		}
 
-		parent::_setup_title();
+		parent::setup_title();
 	}
 }
 // Create the activity component

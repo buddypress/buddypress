@@ -608,7 +608,7 @@ function bp_total_site_member_count() {
 
 /**
  * Uses the $bp->bp_nav global to render out the navigation within a BuddyPress install.
- * Each component adds to this navigation array within its own [component_name]_setup_nav() function.
+ * Each component adds to this navigation array within its own [component_name]setup_nav() function.
  *
  * This navigation array is the top level navigation, so it contains items such as:
  *      [Blog, Profile, Messages, Groups, Friends] ...

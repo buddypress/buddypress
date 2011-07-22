@@ -19,10 +19,6 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @since BuddyPress {unknown}
 	 */
-	function BP_Groups_Component() {
-		$this->__construct();
-	}
-
 	function __construct() {
 		parent::start(
 			'groups',
@@ -34,7 +30,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Include files
 	 */
-	function _includes() {
+	function includes() {
 		$includes = array(
 			'cache',
 			'forums',
@@ -50,7 +46,7 @@ class BP_Groups_Component extends BP_Component {
 			'functions',
 			'notifications'
 		);
-		parent::_includes( $includes );
+		parent::includes( $includes );
 	}
 
 	/**
@@ -62,7 +58,7 @@ class BP_Groups_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 * @global obj $bp
 	 */
-	function _setup_globals() {
+	function setup_globals() {
 		global $bp;
 
 		// Define a slug, if necessary
@@ -86,7 +82,7 @@ class BP_Groups_Component extends BP_Component {
 			'global_tables'         => $global_tables
 		);
 
-		parent::_setup_globals( $globals );
+		parent::setup_globals( $globals );
 
 		/** Single Group Globals **********************************************/
 
@@ -219,7 +215,7 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_nav() {
+	function setup_nav() {
 		global $bp;
 
 		// Add 'Groups' to the main navigation
@@ -256,7 +252,7 @@ class BP_Groups_Component extends BP_Component {
 			'position'        => 30
 		);
 
-		parent::_setup_nav( $main_nav, $sub_nav );
+		parent::setup_nav( $main_nav, $sub_nav );
 
 		if ( bp_is_groups_component() && bp_is_single_item() ) {
 
@@ -354,13 +350,13 @@ class BP_Groups_Component extends BP_Component {
 				);
 			}
 
-			parent::_setup_nav( $main_nav, $sub_nav );
+			parent::setup_nav( $main_nav, $sub_nav );
 		}
 
 		if ( isset( $this->current_group->user_has_access ) )
-			do_action( 'groups_setup_nav', $this->current_group->user_has_access );
+			do_action( 'groupssetup_nav', $this->current_group->user_has_access );
 		else
-			do_action( 'groups_setup_nav');
+			do_action( 'groupssetup_nav');
 	}
 
 	/**
@@ -368,7 +364,7 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_admin_bar() {
+	function setup_admin_bar() {
 		global $bp;
 
 		// Prevent debug notices
@@ -415,7 +411,7 @@ class BP_Groups_Component extends BP_Component {
 			);
 		}
 
-		parent::_setup_admin_bar( $wp_admin_nav );
+		parent::setup_admin_bar( $wp_admin_nav );
 	}
 
 	/**
@@ -423,7 +419,7 @@ class BP_Groups_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_title() {
+	function setup_title() {
 		global $bp;
 
 		if ( bp_is_groups_component() ) {
@@ -456,7 +452,7 @@ class BP_Groups_Component extends BP_Component {
 			}
 		}
 
-		parent::_setup_title();
+		parent::setup_title();
 	}
 }
 // Create the groups component

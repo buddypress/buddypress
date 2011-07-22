@@ -68,9 +68,9 @@ class BP_Component {
 	 *  - slug: Unique slug (used in query string and permalinks)
 	 *  - query: The loop for this component (WP_Query)
 	 *  - current_id: The current ID of the queried object
-	 * @uses bp_Component::_setup_globals() Setup the globals needed
-	 * @uses bp_Component::_includes() Include the required files
-	 * @uses bp_Component::_setup_actions() Setup the hooks and actions
+	 * @uses bp_Component::setup_globals() Setup the globals needed
+	 * @uses bp_Component::includes() Include the required files
+	 * @uses bp_Component::setup_actions() Setup the hooks and actions
 	 */
 	function start( $id, $name, $path ) {
 		// Internal identifier of component
@@ -83,7 +83,7 @@ class BP_Component {
 		$this->path = $path;
 
 		// Move on to the next step
-		$this->_setup_actions();
+		$this->setup_actions();
 	}
 
 	/**
@@ -97,7 +97,7 @@ class BP_Component {
 	 *
 	 * @param arr $args Used to
 	 */
-	function _setup_globals( $args = '' ) {
+	function setup_globals( $args = '' ) {
 		global $bp;
 
 		/** Slugs *************************************************************/
@@ -134,7 +134,7 @@ class BP_Component {
 		$bp->loaded_components[$this->slug] = $this->id;
 
 		// Call action
-		do_action( 'bp_' . $this->id . '_setup_globals' );
+		do_action( 'bp_' . $this->id . 'setup_globals' );
 	}
 
 	/**
@@ -143,9 +143,9 @@ class BP_Component {
 	 * @since BuddyPress {unknown}
 	 * @access private
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_includes'
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}includes'
 	 */
-	function _includes( $includes = '' ) {
+	function includes( $includes = '' ) {
 		if ( empty( $includes ) )
 			return;
 
@@ -154,20 +154,20 @@ class BP_Component {
 
 			// Check path + file
 			if ( @is_file( $this->path . '/' . $file ) )
-				require_once( $this->path . '/' . $file );
+				require( $this->path . '/' . $file );
 
 			// Check path + /bp-component/ + file
 			elseif ( @is_file( $this->path . '/bp-' . $this->id . '/' . $file ) )
-				require_once( $this->path . '/bp-' . $this->id . '/' . $file );
+				require( $this->path . '/bp-' . $this->id . '/' . $file );
 
 			// Check buddypress/bp-component/bp-component-$file.php
 			elseif ( @is_file( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php' ) )
-				require_once( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file . '.php' );
+				require( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file . '.php' );
 
 		}
 
 		// Call action
-		do_action( 'bp_' . $this->id . '_includes' );
+		do_action( 'bp_' . $this->id . 'includes' );
 	}
 
 	/**
@@ -177,26 +177,26 @@ class BP_Component {
 	 * @access private
 	 *
 	 * @uses add_action() To add various actions
-	 * @uses do_action() Calls 'bp_{@link BP_Component::name}_setup_actions'
+	 * @uses do_action() Calls 'bp_{@link BP_Component::name}setup_actions'
 	 */
-	function _setup_actions() {
+	function setup_actions() {
 		// Register post types
-		add_action( 'bp_setup_globals',            array ( $this, '_setup_globals'           ), 10 );
+		add_action( 'bp_setup_globals',            array ( $this, 'setup_globals'            ), 10 );
 
 		// Include required files. Called early to ensure that BP core components are
 		// loaded before plugins that hook their loader functions to bp_include with
 		// the default priority of 10. This is for backwards compatibility; henceforth,
 		// plugins should register themselves by extending this base class.
-		add_action( 'bp_include',                  array ( $this, '_includes'                ), 8 );
+		add_action( 'bp_include',                  array ( $this, 'includes'                 ), 8 );
 
 		// Register post types
-		add_action( 'bp_setup_nav',                array ( $this, '_setup_nav'               ), 10 );
+		add_action( 'bp_setup_nav',                array ( $this, 'setup_nav'                ), 10 );
 
 		// Register post types
-		add_action( 'bp_setup_admin_bar',          array ( $this, '_setup_admin_bar'         ), 10 );
+		add_action( 'bp_setup_admin_bar',          array ( $this, 'setup_admin_bar'          ), 10 );
 
 		// Register post types
-		add_action( 'bp_setup_title',              array ( $this, '_setup_title'             ), 10 );
+		add_action( 'bp_setup_title',              array ( $this, 'setup_title'              ), 10 );
 
 		// Register post types
 		add_action( 'bp_register_post_types',      array ( $this, 'register_post_types'      ), 10 );
@@ -211,7 +211,7 @@ class BP_Component {
 		add_action( 'bp_generate_rewrite_rules',   array ( $this, 'generate_rewrite_rules'   ), 10 );
 
 		// Additional actions can be attached here
-		do_action( 'bp_' . $this->id . '_setup_actions' );
+		do_action( 'bp_' . $this->id . 'setup_actions' );
 	}
 
 	/**
@@ -220,7 +220,7 @@ class BP_Component {
 	 * @param arr $main_nav Optional
 	 * @param arr $sub_nav Optional
 	 */
-	function _setup_nav( $main_nav = '', $sub_nav = '' ) {
+	function setup_nav( $main_nav = '', $sub_nav = '' ) {
 
 		// No sub nav items without a main nav item
 		if ( !empty( $main_nav ) ) {
@@ -235,7 +235,7 @@ class BP_Component {
 		}
 
 		// Call action
-		do_action( 'bp_' . $this->id . '_setup_nav' );
+		do_action( 'bp_' . $this->id . 'setup_nav' );
 	}
 
 	/**
@@ -244,7 +244,7 @@ class BP_Component {
 	 * @global obj $wp_admin_bar
 	 * @param array $wp_admin_menus
 	 */
-	function _setup_admin_bar( $wp_admin_nav = '' ) {
+	function setup_admin_bar( $wp_admin_nav = '' ) {
 
 		// Bail if this is an ajax request
 		if ( defined( 'DOING_AJAX' ) )
@@ -269,7 +269,7 @@ class BP_Component {
 		}
 
 		// Call action
-		do_action( 'bp_' . $this->id . '_setup_admin_bar' );
+		do_action( 'bp_' . $this->id . 'setup_admin_bar' );
 	}
 
 	/**
@@ -277,10 +277,10 @@ class BP_Component {
 	 *
 	 * @since Buddypress {unknown}
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_setup_title'
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}setup_title'
 	 */
-	function _setup_title( ) {
-		do_action(  'bp_' . $this->id . '_setup_title' );
+	function setup_title( ) {
+		do_action(  'bp_' . $this->id . 'setup_title' );
 	}
 
 	/**

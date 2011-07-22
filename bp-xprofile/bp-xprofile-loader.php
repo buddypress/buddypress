@@ -17,10 +17,6 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @since BuddyPress {unknown}
 	 */
-	function BP_XProfile_Component() {
-		$this->__construct();
-	}
-
 	function __construct() {
 		parent::start(
 			'xprofile',
@@ -32,7 +28,7 @@ class BP_XProfile_Component extends BP_Component {
 	/**
 	 * Include files
 	 */
-	function _includes() {
+	function includes() {
 		$includes = array(
 			'cssjs',
 			'cache',
@@ -49,7 +45,7 @@ class BP_XProfile_Component extends BP_Component {
 		if ( is_admin() )
 			$includes[] = 'admin';
 
-		parent::_includes( $includes );
+		parent::includes( $includes );
 	}
 
 	/**
@@ -61,7 +57,7 @@ class BP_XProfile_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 * @global obj $bp
 	 */
-	function _setup_globals() {
+	function setup_globals() {
 		global $bp;
 
 		// Define a slug, if necessary
@@ -99,7 +95,7 @@ class BP_XProfile_Component extends BP_Component {
 			'global_tables'         => $global_tables
 		);
 
-		parent::_setup_globals( $globals );
+		parent::setup_globals( $globals );
 	}
 
 	/**
@@ -107,7 +103,7 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_nav() {
+	function setup_nav() {
 		global $bp;
 
 		// Add 'Profile' to the main navigation
@@ -152,7 +148,7 @@ class BP_XProfile_Component extends BP_Component {
 			'position'        => 30
 		);
 
-		parent::_setup_nav( $main_nav, $sub_nav );
+		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
 	/**
@@ -160,7 +156,7 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_admin_bar() {
+	function setup_admin_bar() {
 		global $bp;
 
 		// Prevent debug notices
@@ -203,7 +199,7 @@ class BP_XProfile_Component extends BP_Component {
 
 		}
 
-		parent::_setup_admin_bar( $wp_admin_nav );
+		parent::setup_admin_bar( $wp_admin_nav );
 	}
 
 	/**
@@ -211,7 +207,7 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_title() {
+	function setup_title() {
 		global $bp;
 
 		if ( bp_is_profile_component() ) {
@@ -226,7 +222,7 @@ class BP_XProfile_Component extends BP_Component {
 			}
 		}
 
-		parent::_setup_title();
+		parent::setup_title();
 	}
 }
 // Create the xprofile component

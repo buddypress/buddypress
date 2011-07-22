@@ -23,7 +23,7 @@ if ( !defined( 'BP_DB_VERSION' ) )
 // Place your custom code (actions/filters) in a file called
 // '/plugins/bp-custom.php' and it will be loaded before anything else.
 if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
-	require_once( WP_PLUGIN_DIR . '/bp-custom.php' );
+	require( WP_PLUGIN_DIR . '/bp-custom.php' );
 
 // Define on which blog ID BuddyPress should run
 if ( !defined( 'BP_ROOT_BLOG' ) ) {
@@ -62,7 +62,7 @@ register_theme_directory( WP_PLUGIN_DIR . '/buddypress/bp-themes' );
 /** Loader ********************************************************************/
 
 // Load the WP abstraction file so BuddyPress can run on all WordPress setups.
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
 
 // Test to see whether this is a new installation or an upgraded version of BuddyPress
 if ( !$bp->database_version = get_site_option( 'bp-db-version' ) ) {
@@ -76,17 +76,17 @@ if ( !$bp->database_version = get_site_option( 'bp-db-version' ) ) {
 // This is a new installation.
 if ( empty( $bp->database_version ) ) {
 	$bp->maintenance_mode = 'install';
-	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
+	require( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
 
 // There is a previous installation
 } else {
 	// Load core
-	require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
+	require( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
 
 	// Check if an update is required
 	if ( (int)$bp->database_version < (int)constant( 'BP_DB_VERSION' ) || isset( $bp->is_network_activate ) ) {
 		$bp->maintenance_mode = 'update';
-		require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
+		require( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-update.php' );
 	}
 }
 

@@ -1,25 +1,25 @@
 <?php
 
 // Require all of the BuddyPress core libraries
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-cache.php'     );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'     );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'     );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'   );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'   );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'   );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'   );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-template.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-buddybar.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'  );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php' );
-require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-cache.php'     );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'     );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'     );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'   );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'   );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'   );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'   );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-template.php'  );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-buddybar.php'  );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'  );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php' );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 // Load deprecated functions
-require_once( BP_PLUGIN_DIR . '/bp-core/deprecated/1.3.php'    );
+require( BP_PLUGIN_DIR . '/bp-core/deprecated/1.3.php'    );
 
 // Load the WP admin bar.
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
-	require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php'  );
+	require( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php'  );
 
 // Move active components from sitemeta, if necessary
 // Provides backpat with earlier versions of BP 
@@ -30,10 +30,6 @@ if ( is_multisite() && $active_components = get_site_option( 'bp-active-componen
 
 class BP_Core extends BP_Component {
 
-	function BP_Core() {
-		$this->__construct();
-	}
-
 	function __construct() {
 		parent::start(
 			'_core',
@@ -41,10 +37,10 @@ class BP_Core extends BP_Component {
 			, BP_PLUGIN_DIR
 		);
 
-		$this->_bootstrap();
+		$this->bootstrap();
 	}
 
-	function _bootstrap() {
+	private function bootstrap() {
 		global $bp;
 
 		/**
@@ -122,7 +118,7 @@ class BP_Core extends BP_Component {
 		$bp->required_components[] = 'core';
 	}
 
-	function _setup_globals() {
+	function setup_globals() {
 		global $bp;
 
 		/** Database **********************************************************/
@@ -197,10 +193,10 @@ class BP_Core extends BP_Component {
 		// Is the logged in user is a mod for the current item?
 		bp_update_is_item_mod( false,                  'core' );
 
-		do_action( 'bp_core_setup_globals' );
+		do_action( 'bp_coresetup_globals' );
 	}
 
-	function _setup_nav() {
+	function setup_nav() {
 		global $bp;
 
 		/***

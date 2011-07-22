@@ -61,7 +61,7 @@ function bp_dtheme_setup() {
 	global $bp;
 
 	// Load the AJAX functions for the theme
-	require_once( TEMPLATEPATH . '/_inc/ajax.php' );
+	require( TEMPLATEPATH . '/_inc/ajax.php' );
 
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();

@@ -2,7 +2,7 @@
 
 /**
  * Uses the $bp->bp_options_nav global to render out the sub navigation for the current component.
- * Each component adds to its sub navigation array within its own [component_name]_setup_nav() function.
+ * Each component adds to its sub navigation array within its own setup_nav() function.
  *
  * This sub navigation array is the secondary level navigation, so for profile it contains:
  *      [Public, Edit Profile, Change Avatar]

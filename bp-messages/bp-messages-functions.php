@@ -93,7 +93,7 @@ function messages_new_message( $args = '' ) {
 	}
 
 	if ( $message->send() ) {
-		require_once( BP_PLUGIN_DIR . '/bp-messages/bp-messages-notifications.php' );
+		require( BP_PLUGIN_DIR . '/bp-messages/bp-messages-notifications.php' );
 
 		// Send screen notifications to the recipients
 		foreach ( (array)$message->recipients as $recipient )

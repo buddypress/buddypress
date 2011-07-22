@@ -17,7 +17,7 @@ class BP_Core_Setup_Wizard {
 		global $bp;
 
 		// Ensure that we have access to some utility functions
-		require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
+		require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 		// Get current DB version
 		$this->database_version = !empty( $bp->database_version ) ? (int) $bp->database_version : 0;
@@ -584,7 +584,7 @@ class BP_Core_Setup_Wizard {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
-		require_once( ABSPATH . WPINC . '/plugin.php' );
+		require( ABSPATH . WPINC . '/plugin.php' );
 		$installed_plugins = get_plugins();
 		$installed_themes  = get_themes();
 
@@ -971,7 +971,7 @@ class BP_Core_Setup_Wizard {
 				case 'manual_wp' :
 
 					// Include
-					require_once( ABSPATH . WPINC . '/plugin.php' );
+					require( ABSPATH . WPINC . '/plugin.php' );
 					$installed_plugins = get_plugins();
 
 					foreach ( $installed_plugins as $key => $plugin ) {
@@ -1018,8 +1018,8 @@ class BP_Core_Setup_Wizard {
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
 			// Load BP and hook the admin menu, so that the redirect is successful
-			require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
-			require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' );
+			require( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-loader.php' );
+			require( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' );
 			bp_core_add_admin_menu();
 
 			// Redirect to the BuddyPress dashboard
@@ -1082,7 +1082,7 @@ function bp_core_install( $active_components = false ) {
 	if ( empty( $active_components ) )
 		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
-	require_once( dirname( __FILE__ ) . '/bp-core-schema.php' );
+	require( dirname( __FILE__ ) . '/bp-core-schema.php' );
 
 	// Core DB Tables
 	bp_core_install_notifications();
@@ -1115,7 +1115,7 @@ function bp_core_install( $active_components = false ) {
 function bp_core_update( $disabled ) {
 	global $wpdb;
 
-	require_once( dirname( __FILE__ ) . '/bp-core-schema.php' );
+	require( dirname( __FILE__ ) . '/bp-core-schema.php' );
 }
 
 function bp_update_db_stuff() {
@@ -1261,7 +1261,7 @@ add_action( 'admin_head', 'bp_core_update_add_admin_menu_styles' );
  * @return array $page_ids
  */
 function bp_core_update_get_page_meta() {			
-	require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
+	require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 	
 	if ( !$page_ids = bp_get_option( 'bp-pages' ) )
 		$page_ids = array();

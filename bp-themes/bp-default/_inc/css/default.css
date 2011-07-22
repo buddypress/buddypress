@@ -2224,9 +2224,6 @@ table#message-threads tr.unread td {
 	border-bottom: 1px solid #ffe8c4;
 	font-weight: bold;
 }
-table#message-threads tr.unread td span.activity {
-	background: #fff;
-}
 li span.unread-count,
 tr.unread span.unread-count {
 	background: #dd0000;

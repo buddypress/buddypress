@@ -604,17 +604,17 @@ function bp_core_delete_account( $user_id = 0 ) {
 	// Specifically handle multi-site environment
 	if ( is_multisite() ) {
 		if ( $wp_version >= '3.0' )
-			require_once( ABSPATH . '/wp-admin/includes/ms.php' );
+			require( ABSPATH . '/wp-admin/includes/ms.php' );
 		else
-			require_once( ABSPATH . '/wp-admin/includes/mu.php' );
+			require( ABSPATH . '/wp-admin/includes/mu.php' );
 
-		require_once( ABSPATH . '/wp-admin/includes/user.php' );
+		require( ABSPATH . '/wp-admin/includes/user.php' );
 
 		return wpmu_delete_user( $user_id );
 
 	// Single site user deletion
 	} else {
-		require_once( ABSPATH . '/wp-admin/includes/user.php' );
+		require( ABSPATH . '/wp-admin/includes/user.php' );
 		return wp_delete_user( $user_id );
 	}
 }

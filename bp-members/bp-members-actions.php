@@ -36,7 +36,7 @@ function bp_core_action_set_spammer_status() {
 
 		// Get the functions file
 		if ( is_multisite() )
-			require_once( ABSPATH . 'wp-admin/includes/ms.php' );
+			require( ABSPATH . 'wp-admin/includes/ms.php' );
 
 		if ( 'mark-spammer' == $bp->current_action )
 			$is_spam = 1;

@@ -16,10 +16,6 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @since BuddyPress {unknown}
 	 */
-	function BP_Friends_Component() {
-		$this->__construct();
-	}
-
 	function __construct() {
 		parent::start(
 			'friends',
@@ -31,7 +27,7 @@ class BP_Friends_Component extends BP_Component {
 	/**
 	 * Include files
 	 */
-	function _includes() {
+	function includes() {
 		// Files to include
 		$includes = array(
 			'actions',
@@ -44,7 +40,7 @@ class BP_Friends_Component extends BP_Component {
 			'notifications',
 		);
 
-		parent::_includes( $includes );
+		parent::includes( $includes );
 	}
 
 	/**
@@ -56,7 +52,7 @@ class BP_Friends_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 * @global obj $bp
 	 */
-	function _setup_globals() {
+	function setup_globals() {
 		global $bp;
 
 		define ( 'BP_FRIENDS_DB_VERSION', '1800' );
@@ -81,7 +77,7 @@ class BP_Friends_Component extends BP_Component {
 			'global_tables'         => $global_tables
 		);
 
-		parent::_setup_globals( $globals );
+		parent::setup_globals( $globals );
 	}
 
 	/**
@@ -89,7 +85,7 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_nav() {
+	function setup_nav() {
 		global $bp;
 
 		// Add 'Friends' to the main navigation
@@ -125,7 +121,7 @@ class BP_Friends_Component extends BP_Component {
 			'user_has_access' => bp_is_my_profile()
 		);
 
-		parent::_setup_nav( $main_nav, $sub_nav );
+		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
 	/**
@@ -133,7 +129,7 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_admin_bar() {
+	function setup_admin_bar() {
 		global $bp;
 
 		// Prevent debug notices
@@ -178,7 +174,7 @@ class BP_Friends_Component extends BP_Component {
 			);
 		}
 
-		parent::_setup_admin_bar( $wp_admin_nav );
+		parent::setup_admin_bar( $wp_admin_nav );
 	}
 
 	/**
@@ -186,7 +182,7 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_title() {
+	function setup_title() {
 		global $bp;
 
 		// Adjust title
@@ -202,7 +198,7 @@ class BP_Friends_Component extends BP_Component {
 			}
 		}
 
-		parent::_setup_title();
+		parent::setup_title();
 	}
 }
 // Create the friends component

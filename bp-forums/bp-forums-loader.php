@@ -16,10 +16,6 @@ class BP_Forums_Component extends BP_Component {
 	 *
 	 * @since BuddyPress {unknown}
 	 */
-	function BP_Forums_Component() {
-		$this->__construct();
-	}
-
 	function __construct() {
 		parent::start(
 			'forums',
@@ -37,7 +33,7 @@ class BP_Forums_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 * @global obj $bp
 	 */
-	function _setup_globals() {
+	function setup_globals() {
 		global $bp;
 
 		// Define the parent forum ID
@@ -61,13 +57,13 @@ class BP_Forums_Component extends BP_Component {
 			'search_string'         => __( 'Search Forums...', 'buddypress' ),
 		);
 
-		parent::_setup_globals( $globals );
+		parent::setup_globals( $globals );
 	}
 
 	/**
 	 * Include files
 	 */
-	function _includes() {
+	function includes() {
 
 		// Files to include
 		$includes = array(
@@ -87,7 +83,7 @@ class BP_Forums_Component extends BP_Component {
 		if ( !defined( 'BB_PATH' ) )
 			$includes[] = 'bbpress-sa';
 
-		parent::_includes( $includes );
+		parent::includes( $includes );
 	}
 
 	/**
@@ -95,7 +91,7 @@ class BP_Forums_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_nav() {
+	function setup_nav() {
 		global $bp;
 
 		// Stop if forums haven't been set up yet
@@ -165,7 +161,7 @@ class BP_Forums_Component extends BP_Component {
 		);
 		*/
 
-		parent::_setup_nav( $main_nav, $sub_nav );
+		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
 	/**
@@ -173,7 +169,7 @@ class BP_Forums_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_admin_bar() {
+	function setup_admin_bar() {
 		global $bp;
 
 		// Prevent debug notices
@@ -217,7 +213,7 @@ class BP_Forums_Component extends BP_Component {
 			);
 		}
 
-		parent::_setup_admin_bar( $wp_admin_nav );
+		parent::setup_admin_bar( $wp_admin_nav );
 	}
 
 	/**
@@ -225,7 +221,7 @@ class BP_Forums_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_title() {
+	function setup_title() {
 		global $bp;
 
 		// Adjust title based on view
@@ -241,7 +237,7 @@ class BP_Forums_Component extends BP_Component {
 			}
 		}
 
-		parent::_setup_title();
+		parent::setup_title();
 	}
 }
 // Create the forums component

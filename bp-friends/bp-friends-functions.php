@@ -34,7 +34,7 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 			bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, $bp->friends->id, 'friendship_request' );
 
 			// Send the email notification
-			require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
+			require( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
 			friends_notification_new_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 
 			do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
@@ -107,7 +107,7 @@ function friends_accept_friendship( $friendship_id ) {
 		) );
 
 		// Send the email notification
-		require_once( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
+		require( BP_PLUGIN_DIR . '/bp-friends/bp-friends-notifications.php' );
 		friends_notification_accepted_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 
 		do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );

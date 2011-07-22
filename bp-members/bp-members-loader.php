@@ -16,10 +16,6 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @since BuddyPress {unknown}
 	 */
-	function BP_Members_Component() {
-		$this->__construct();
-	}
-
 	function __construct() {
 		parent::start(
 			'members',
@@ -33,7 +29,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _includes() {
+	function includes() {
 		$includes = array(
 			'signup',
 			'actions',
@@ -45,7 +41,7 @@ class BP_Members_Component extends BP_Component {
 			'functions',
 			'notifications',
 		);
-		parent::_includes( $includes );
+		parent::includes( $includes );
 	}
 
 	/**
@@ -57,7 +53,7 @@ class BP_Members_Component extends BP_Component {
 	 * @since BuddyPress {unknown}
 	 * @global obj $bp
 	 */
-	function _setup_globals() {
+	function setup_globals() {
 		global $bp, $current_user, $displayed_user_id;
 
 		// Define a slug, if necessary
@@ -70,7 +66,7 @@ class BP_Members_Component extends BP_Component {
 			'search_string' => __( 'Search Members...', 'buddypress' ),
 		);
 
-		parent::_setup_globals( $globals );
+		parent::setup_globals( $globals );
 
 		/** Logged in user ****************************************************/
 
@@ -128,7 +124,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_nav() {
+	function setup_nav() {
 		global $bp;
 
 		// Add 'Profile' to the main navigation
@@ -157,7 +153,7 @@ class BP_Members_Component extends BP_Component {
 				'position'        => 10
 			);
 
-			parent::_setup_nav( $main_nav, $sub_nav );
+			parent::setup_nav( $main_nav, $sub_nav );
 		}
 	}
 
@@ -166,7 +162,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @global obj $bp
 	 */
-	function _setup_title() {
+	function setup_title() {
 		global $bp;
 
 		if ( bp_is_my_profile() ) {
@@ -179,7 +175,7 @@ class BP_Members_Component extends BP_Component {
 			$bp->bp_options_title  = $bp->displayed_user->fullname;
 		}
 
-		parent::_setup_title();
+		parent::setup_title();
 	}
 
 }
