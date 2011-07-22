@@ -1146,7 +1146,9 @@ body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
 .activity-list li.mini .activity-comments {
 	clear: both;
 	font-size: 12px;
-	margin-top: 30px;
+}
+body.activity-permalink li.mini .activity-meta {
+	margin-top: 4px;
 }
 .activity-list li .activity-inreplyto {
 	background: url( ../images/replyto_arrow.gif ) 7px 0 no-repeat;
@@ -1179,6 +1181,7 @@ body.activity-permalink .activity-list .activity-avatar img {
 }
 .activity-list .activity-content {
 	margin-left: 70px;
+	margin-bottom: 15px;
 }
 body.activity-permalink .activity-list li .activity-content {
 	background: #fff;
@@ -1278,14 +1281,10 @@ body.activity-permalink .activity-content blockquote {
 6.1.2 - Activity Comments
 --------------------------------------------------------------*/
 div.activity-meta {
-	float: left;
-	margin: 10px 0 15px;
-	clear: both;
+	margin: 18px 0;
 }
 body.activity-permalink div.activity-meta {
-	float: none;
-	margin: 10px 0 0;
-	clear: none;
+	margin-bottom: 6px;
 }
 div.activity-meta a {
 	font: normal 11px/20px Arial, Tahoma, Verdana, sans-serif;
@@ -1405,7 +1404,7 @@ div.activity-comments form.ac-form {
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	display: none;
-	margin: 10px 0 10px 33px;
+	margin: 0 0 15px 33px;
 	padding: 8px;
 }
 div.activity-comments li form.ac-form {
