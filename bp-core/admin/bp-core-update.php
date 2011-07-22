@@ -1018,7 +1018,8 @@ class BP_Core_Setup_Wizard {
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
 			// Load BP and hook the admin menu, so that the redirect is successful
-			require( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' );
+			if ( !function_exists( 'bp_core_update_message' ) )
+				require( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' );
 			bp_core_add_admin_menu();
 
 			// Redirect to the BuddyPress dashboard
