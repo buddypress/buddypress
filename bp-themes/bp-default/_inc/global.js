@@ -854,7 +854,8 @@ jq(document).ready( function() {
 			var order = jq('#messages_order').val() || 'ASC',
 				offset = jq('#message-recipients').offset();
 
-			jq('form#send-reply span.ajax-loader').toggle();
+			var button = jq("input#send_reply_button");
+			jq(button).addClass('loading');
 
 			jq.post( ajaxurl, {
 				action: 'messages_send_reply',
@@ -885,7 +886,7 @@ jq(document).ready( function() {
 						jq('div.new-message').removeClass('new-message');
 					});
 				}
-				jq('form#send-reply span.ajax-loader').toggle();
+				jq(button).removeClass('loading');
 			});
 
 			return false;
