@@ -635,8 +635,6 @@ function groups_delete_invite( $user_id, $group_id ) {
 function groups_send_invites( $user_id, $group_id ) {
 	global $bp;
 
-	require ( BP_PLUGIN_DIR . '/bp-groups/bp-groups-notifications.php' );
-
 	if ( !$user_id )
 		$user_id = $bp->loggedin_user->id;
 
