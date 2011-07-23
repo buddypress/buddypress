@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_groups_adminbar_admin_menu() {
 	global $bp, $groups_template;

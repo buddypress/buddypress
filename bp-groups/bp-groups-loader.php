@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * BuddyPress Groups Loader
  *
@@ -11,6 +9,9 @@
  * @package BuddyPress
  * @subpackage Groups Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Groups_Component extends BP_Component {
 

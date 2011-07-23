@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Caching
  *
@@ -9,6 +8,9 @@
  * @package BuddyPress
  * @subpackage Groups
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function groups_clear_group_object_cache( $group_id ) {
 	wp_cache_delete( 'bp_total_group_count', 'bp' );

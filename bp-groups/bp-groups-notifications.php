@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function groups_notification_group_updated( $group_id ) {
 	global $bp;

@@ -1,6 +1,4 @@
 <?php
-
-
 /********************************************************************************
  * Action Functions
  *
@@ -8,6 +6,9 @@
  * have a template screen associated with them. Usually they will send the user
  * back to the default screen after execution.
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function groups_action_create_group() {
 	global $bp;

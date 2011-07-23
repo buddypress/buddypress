@@ -1,5 +1,4 @@
 <?php
-
 /********************************************************************************
  * Screen Functions
  *
@@ -7,6 +6,9 @@
  * specific URL is caught. They will first save or manipulate data using business
  * functions, then pass on the user to a template file.
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function groups_directory_groups_setup() {
 	if ( bp_is_groups_component() && !bp_current_action() && !bp_current_item() ) {

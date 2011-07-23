@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Admin Bar
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Groups
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Adds the Group Admin top-level menu to group pages

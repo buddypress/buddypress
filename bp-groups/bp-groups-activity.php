@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Activity & Notification Functions
  *
@@ -9,6 +8,9 @@
  * @package BuddyPress
  * @subpackage Groups
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function groups_register_activity_actions() {
 	global $bp;

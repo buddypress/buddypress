@@ -1,6 +1,8 @@
 <?php
-
 /*** Group Forums **************************************************************/
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = '' ) {
 	global $bp;

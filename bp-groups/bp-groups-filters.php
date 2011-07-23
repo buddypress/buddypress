@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /* Apply WordPress defined filters */
 add_filter( 'bp_get_group_description',         'wptexturize' );
