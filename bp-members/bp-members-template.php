@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Member Template Tags
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Members
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Output the members component slug

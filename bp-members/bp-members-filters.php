@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Members Filters
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Member Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Load additional sign-up sanitization filters on bp_loaded. These are used

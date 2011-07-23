@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Member Notifications
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Members
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false ) {
 	global $bp;

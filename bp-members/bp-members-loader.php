@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Member Loader
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Members
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Members_Component extends BP_Component {
 

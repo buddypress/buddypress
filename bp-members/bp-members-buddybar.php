@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 // **** "Notifications" Menu *********
 function bp_adminbar_notifications_menu() {

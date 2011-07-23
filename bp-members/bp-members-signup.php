@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Member Sign-up
  *
@@ -9,6 +8,8 @@
  * @subpackage Members
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_core_screen_signup() {
 	global $bp, $wpdb;

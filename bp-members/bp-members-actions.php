@@ -7,6 +7,9 @@
  * back to the default screen after execution.
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 /**
  * Listens to the $bp component and action variables to determine if the user is viewing the members
  * directory page. If they are, it will set up the directory and load the members directory template.

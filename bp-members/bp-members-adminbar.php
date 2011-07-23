@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Members Admin Bar
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Add the "My Account" menu and all submenus.

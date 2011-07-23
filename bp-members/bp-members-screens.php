@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Member Screens
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Members
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Handles the display of the profile page by loading the correct template file.
