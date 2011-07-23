@@ -1297,7 +1297,7 @@ function bp_use_embed_in_activity() {
 }
 
 /**
- * Are oembeds allwoed in acitivity replies?
+ * Are oembeds allwoed in activity replies?
  *
  * @return bool False when activity replies embed support is disabled; true when enabled (default)
  * @since 1.3
@@ -1307,13 +1307,23 @@ function bp_use_embed_in_activity_replies() {
 }
 
 /**
- * Are oembeds allowed on forum posts?
+ * Are oembeds allowed in forum posts?
  *
  * @return bool False when form post embed support is disabled; true when enabled (default)
  * @since 1.3
  */
 function bp_use_embed_in_forum_posts() {
 	return apply_filters( 'bp_use_embed_in_forum_posts', !defined( 'BP_EMBED_DISABLE_FORUM_POSTS' ) || !BP_EMBED_DISABLE_FORUM_POSTS );
+}
+
+/**
+ * Are oembeds allowed in private messages?
+ *
+ * @return bool False when form post embed support is disabled; true when enabled (default)
+ * @since 1.3
+ */
+function bp_use_embed_in_private_messages() {
+	return apply_filters( 'bp_use_embed_in_private_messages', !defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) || !BP_EMBED_DISABLE_PRIVATE_MESSAGES );
 }
 
 /**

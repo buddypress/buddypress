@@ -859,4 +859,19 @@ function bp_the_thread_message_content() {
 		return apply_filters( 'bp_get_the_thread_message_content', $thread_template->message->message );
 	}
 
+/** Embeds *******************************************************************/
+
+/**
+ * Enable oembed support for Messages.
+ *
+ * There's no caching as BP 1.3 does not have a Messages meta API.
+ *
+ * @see BP_Embed
+ * @since 1.3
+ * @todo Add Messages meta?
+ */
+function bp_messages_embed() {
+	add_filter( 'embed_post_id', 'bp_get_message_thread_id' );
+}
+add_action( 'messages_box_loop_start', 'bp_messages_embed' );
 ?>
