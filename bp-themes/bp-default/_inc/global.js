@@ -21,14 +21,15 @@ jq(document).ready( function() {
 	bp_init_objects( objects );
 
 	/* @mention Compose Scrolling */
-	if ( jq.query.get('r') ) {
-		if ( jq('textarea#whats-new').length ) {
-			jq.scrollTo( jq('textarea#whats-new'), 500, { offset:-125, easing:'easeOutQuad' } );
-			jq('textarea#whats-new').focus();
-		}
+	if ( jq.query.get('r') && jq('textarea#whats-new').length ) {
+		jq.scrollTo( jq('textarea#whats-new'), 500, { offset:-125, easing:'easeOutQuad' } );
+		jq('textarea#whats-new').focus();
 	}
 
 	/**** Activity Posting ********************************************************/
+
+	/* Textarea focus */
+	jq('#whats-new').focus( function(){ jq("#aw-whats-new-submit").fadeIn(300); });
 
 	/* New posts */
 	jq("input#aw-whats-new-submit").click( function() {
@@ -76,7 +77,6 @@ jq(document).ready( function() {
 			if ( response[0] + response[1] == '-1' ) {
 				form.prepend( response.substr( 2, response.length ) );
 				jq( 'form#' + form.attr('id') + ' div.error').hide().fadeIn( 200 );
-				button.prop("disabled", false);
 			} else {
 				if ( 0 == jq("ul.activity-list").length ) {
 					jq("div.error").slideUp(100).remove();
@@ -108,10 +108,9 @@ jq(document).ready( function() {
 				jq("li.new-update").hide().slideDown( 300 );
 				jq("li.new-update").removeClass( 'new-update' );
 				jq("textarea#whats-new").val('');
-
-				/* Re-enable the submit button after 8 seconds. */
-				setTimeout( function() { button.prop("disabled", false); }, 8000 );
 			}
+
+			button.fadeOut(100, function(){ button.prop("disabled", false); });
 		});
 
 		return false;
@@ -359,8 +358,7 @@ jq(document).ready( function() {
 
 			/* Hide any error messages */
 			jq( 'form#' + form + ' div.error').hide();
-			target.addClass('loading');
-			target.prop('disabled', true);
+			target.addClass('loading').prop('disabled', true);
 
 			jq.post( ajaxurl, {
 				action: 'new_activity_comment',
@@ -397,10 +395,9 @@ jq(document).ready( function() {
 
 					/* Increase the "Reply (X)" button count */
 					jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
-
-					/* Re-enable the submit button after 5 seconds. */
-					setTimeout( function() { target.prop("disabled", false); }, 5000 );
 				}
+
+				target.fadeOut(100, function(){ target.prop("disabled", false); });
 			});
 
 			return false;

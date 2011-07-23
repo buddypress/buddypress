@@ -1089,7 +1089,16 @@ form#whats-new-form #whats-new-submit {
 	margin-bottom: 18px;
 	overflow: auto;
 }
-
+#aw-whats-new-submit {
+	display: none;
+}
+#whats-new:focus {
+	border-color: rgba(31, 179, 221, 0.9) !important;
+	outline-color: rgba(31, 179, 221, 0.9);
+	box-shadow: 0 0 7px         rgba(31, 179, 221, 0.7);
+	-moz-box-shadow: 0 0 7px    rgba(31, 179, 221, 0.7);
+	-webkit-box-shadow: 0 0 7px rgba(31, 179, 221, 0.7);
+}
 
 /*--------------------------------------------------------------
 6.1.1 - Activity Listing
@@ -1539,6 +1548,12 @@ div#message.updated p {
 	padding: 6px;
 	width: 90%;
 }
+input[type="submit"].pending,
+input[type="button"].pending,
+input[type="reset"].pending,
+input[type="submit"].disabled,
+input[type="button"].disabled,
+input[type="reset"].disabled,
 button.pending,
 button.disabled,
 div.pending a,
@@ -1547,6 +1562,12 @@ a.disabled {
 	color: #bbb;
 	cursor: default;
 }
+input[type="submit"]:hover.pending,
+input[type="button"]:hover.pending,
+input[type="reset"]:hover.pending,
+input[type="submit"]:hover.disabled,
+input[type="button"]:hover.disabled,
+input[type="reset"]:hover.disabled,
 button.pending:hover,
 button.disabled:hover,
 div.pending a:hover,
