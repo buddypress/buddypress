@@ -1841,7 +1841,7 @@ div#sidebar table td,
 table.forum td {
 	text-align: center;
 }
-table tr.alt {
+table tr.alt td {
 	background: #f8f8f8;
 }
 table.notification-settings {
