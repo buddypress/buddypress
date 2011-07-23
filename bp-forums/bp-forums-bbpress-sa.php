@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 function bp_forums_load_bbpress() {
 	global $bp, $wpdb, $wp_roles, $current_user, $wp_users_object;
 	global $bb, $bbdb, $bb_table_prefix, $bb_current_user;

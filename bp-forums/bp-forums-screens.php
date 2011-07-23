@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 function bp_forums_directory_forums_setup() {
 	global $bp;
 

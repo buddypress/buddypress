@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /* Apply WordPress defined filters */
 add_filter( 'bp_forums_bbconfig_location', 'wp_filter_kses', 1 );

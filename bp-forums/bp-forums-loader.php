@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Forums Loader
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Forums Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Forums_Component extends BP_Component {
 

@@ -1,5 +1,6 @@
 <?php
-
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_forums_is_installed_correctly() {
 	global $bp;
