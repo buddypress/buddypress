@@ -1,9 +1,11 @@
 <?php
-
 /**
  * These functions handle the recording, deleting and formatting of activity and
  * notifications for the user and for this specific component.
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function friends_record_activity( $args = '' ) {
 	global $bp;

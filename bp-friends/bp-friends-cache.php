@@ -1,9 +1,11 @@
 <?php
-
 /**
  * Caching functions handle the clearing of cached objects and pages on specific
  * actions throughout BuddyPress.
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function friends_clear_friend_object_cache( $friendship_id ) {
 	if ( !$friendship = new BP_Friends_Friendship( $friendship_id ) )

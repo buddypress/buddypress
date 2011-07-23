@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Friends Streams Loader
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Friends Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Friends_Component extends BP_Component {
 

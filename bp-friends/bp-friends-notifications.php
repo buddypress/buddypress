@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function friends_notification_new_request( $friendship_id, $initiator_id, $friend_id ) {
 	global $bp;
