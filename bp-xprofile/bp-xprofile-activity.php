@@ -9,6 +9,9 @@
  * @subpackage XProfile
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 function xprofile_register_activity_actions() {
 	global $bp;
 

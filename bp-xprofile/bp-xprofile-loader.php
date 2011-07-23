@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress XProfile Loader
  *
@@ -9,6 +8,9 @@
  * @package BuddyPress
  * @subpackage XProfile Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_XProfile_Component extends BP_Component {
 

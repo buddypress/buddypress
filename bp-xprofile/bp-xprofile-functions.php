@@ -8,6 +8,9 @@
  * true or false on success or failure.
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 /*** Field Group Management **************************************************/
 
 function xprofile_insert_field_group( $args = '' ) {
