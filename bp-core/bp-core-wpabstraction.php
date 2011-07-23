@@ -9,6 +9,9 @@
  * the 3.0 WordPress version merge takes place.
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 /**
  * Only add abstraction functions if WordPress is not in multisite mode
  */

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Core Admin Bar
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
 	return;

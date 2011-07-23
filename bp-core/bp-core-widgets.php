@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /* Register widgets for the core component */
 function bp_core_register_widgets() {

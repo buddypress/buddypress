@@ -6,6 +6,9 @@
  * Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 /***
  * Set up the constants we need for avatar support
  */

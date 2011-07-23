@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 /*
 Based on contributions from: Chris Taylor - http://www.stillbreathing.co.uk/
 Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/

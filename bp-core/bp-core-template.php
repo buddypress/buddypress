@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Uses the $bp->bp_options_nav global to render out the sub navigation for the current component.

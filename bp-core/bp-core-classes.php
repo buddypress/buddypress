@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 /**
  * BP_Core_User class can be used by any component. It will fetch useful
  * details for any user when provided with a user_id.

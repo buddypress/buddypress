@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 // Require all of the BuddyPress core libraries
 require( BP_PLUGIN_DIR . '/bp-core/bp-core-cache.php'     );
