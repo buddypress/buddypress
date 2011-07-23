@@ -601,9 +601,9 @@ function bp_core_admin_page_options() {
  */
 function bp_core_add_admin_menu_styles() {
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', BP_PLUGIN_URL . '/bp-core/css/admin.dev.css' ), array(), BP_VERSION );
+		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', BP_PLUGIN_URL . '/bp-core/css/admin.dev.css' ), array(), '20110723' );
 	else
-		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', BP_PLUGIN_URL . '/bp-core/css/admin.css' ), array(), BP_VERSION );
+		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', BP_PLUGIN_URL . '/bp-core/css/admin.css' ), array(), '20110723' );
 
 	wp_enqueue_script( 'thickbox' );
 	wp_enqueue_style( 'thickbox' );

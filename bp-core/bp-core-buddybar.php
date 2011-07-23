@@ -529,7 +529,7 @@ function bp_core_load_admin_bar() {
 		else
 			$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar.css';
 
-		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array(), BP_VERSION );
+		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array(), '20110723' );
 
 		// Actions used to build the BP admin bar
 		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
@@ -560,7 +560,7 @@ function bp_core_load_buddybar_rtl_stylesheet() {
 	else
 		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar-rtl.css';
 
-	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), BP_VERSION );
+	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), '20110723' );
 }
 add_action( 'wp', 'bp_core_load_buddybar_rtl_stylesheet' );
 ?>

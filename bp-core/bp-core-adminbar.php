@@ -230,7 +230,7 @@ function bp_core_load_admin_bar_css() {
 	else
 		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/admin-bar.css';
 
-	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array( 'admin-bar' ), BP_VERSION );
+	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array( 'admin-bar' ), '20110723' );
 
 	if ( !is_rtl() )
 		return;
@@ -240,7 +240,7 @@ function bp_core_load_admin_bar_css() {
 	else
 		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/admin_bar-rtl.css';
 
-	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_admin_bar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), BP_VERSION );
+	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_admin_bar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), '20110723' );
 }
 add_action( 'bp_init', 'bp_core_load_admin_bar_css' );
 
