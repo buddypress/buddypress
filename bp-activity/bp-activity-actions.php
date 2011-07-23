@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /*******************************************************************************
  * Action functions are exactly the same as screen functions, however they do

@@ -9,6 +9,9 @@
  * Network:     true
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 /** Constants *****************************************************************/
 global $wpdb;
 

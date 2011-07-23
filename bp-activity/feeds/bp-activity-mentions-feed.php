@@ -4,6 +4,10 @@
  *
  * @package BuddyPress
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 header('Status: 200 OK');
 ?>

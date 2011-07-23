@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Activity Streams Loader
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Activity Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Activity_Component extends BP_Component {
 
