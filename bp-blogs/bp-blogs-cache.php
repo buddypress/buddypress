@@ -1,11 +1,13 @@
 <?php
-
 /*******************************************************************************
  * Caching
  *
  * Caching functions handle the clearing of cached objects and pages on specific
  * actions throughout BuddyPress.
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 	wp_cache_delete( 'bp_blogs_of_user_' . $user_id, 'bp' );

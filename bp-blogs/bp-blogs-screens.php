@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_blogs_screen_my_blogs() {
 	if ( !is_multisite() )

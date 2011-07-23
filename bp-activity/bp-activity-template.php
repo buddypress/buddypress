@@ -1,13 +1,13 @@
 <?php
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
-
 /**
  * BuddyPress Activity Template Functions
  *
  * @package BuddyPress
  * @subpackage Activity Template
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Output the activity component slug

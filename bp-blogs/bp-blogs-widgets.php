@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /***
  * The recent blogs widget is actually just the activity feed filtered on "new_blog_post".

@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_blogs_redirect_to_random_blog() {
 	global $bp, $wpdb;

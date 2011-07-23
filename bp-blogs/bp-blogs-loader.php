@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Blogs Streams Loader
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Blogs Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Blogs_Component extends BP_Component {
 

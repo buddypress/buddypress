@@ -1,12 +1,12 @@
 <?php
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
-
 /*******************************************************************************
  * Action functions are exactly the same as screen functions, however they do
  * not have a template screen associated with them. Usually they will send the
  * user back to the default screen after execution.
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 // Allow core components and dependent plugins to register activity actions
 function bp_register_activity_actions() {

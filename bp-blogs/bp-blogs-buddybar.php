@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 // *** "My Blogs" Menu ********
 function bp_adminbar_blogs_menu() {

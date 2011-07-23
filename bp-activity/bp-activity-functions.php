@@ -1,7 +1,4 @@
 <?php
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
-
 /**
  * BuddyPress Activity Functions
  *
@@ -10,6 +7,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package BuddyPress
  * @subpackage Activity Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Checks $bp pages global and looks for directory page

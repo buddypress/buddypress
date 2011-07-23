@@ -1,9 +1,12 @@
 <?php
-
 /******************************************************************************
  * These functions handle the recording, deleting and formatting of activity and
  * notifications for the user and for this specific component.
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 
 function bp_blogs_register_activity_actions() {
 	global $bp;
