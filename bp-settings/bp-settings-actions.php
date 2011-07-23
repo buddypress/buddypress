@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
 /** General *******************************************************************/
 
 function bp_core_screen_general_settings() {

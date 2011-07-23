@@ -1,7 +1,4 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 ?>

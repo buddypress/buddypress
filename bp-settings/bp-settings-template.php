@@ -1,11 +1,13 @@
 <?php
-
 /**
  * BuddyPress Settings Template Functions
  *
  * @package BuddyPress
  * @subpackage Settings Template
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Output the settings component slug
