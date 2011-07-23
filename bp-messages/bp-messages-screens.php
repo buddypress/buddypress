@@ -1,10 +1,12 @@
 <?php
-
 /*******************************************************************************
  * Screen functions are the controllers of BuddyPress. They will execute when their
  * specific URL is caught. They will first save or manipulate data using business
  * functions, then pass on the user to a template file.
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function messages_screen_inbox() {
 	global $bp;

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Private Messages Loader
  *
@@ -8,6 +7,9 @@
  * @package BuddyPress
  * @subpackage Messages Core
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Messages_Component extends BP_Component {
 

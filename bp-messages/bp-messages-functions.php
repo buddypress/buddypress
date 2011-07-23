@@ -1,11 +1,13 @@
 <?php
-
 /*******************************************************************************
  * Business functions are where all the magic happens in BuddyPress. They will
  * handle the actual saving or manipulation of information. Usually they will
  * hand off to a database class for data access, then return
  * true or false on success or failure.
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function messages_new_message( $args = '' ) {
 	global $bp;

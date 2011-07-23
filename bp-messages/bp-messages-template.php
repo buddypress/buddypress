@@ -1,9 +1,10 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /*****************************************************************************
  * Message Box Template Class
  **/
-
 Class BP_Messages_Box_Template {
 	var $current_thread = -1;
 	var $current_thread_count;
