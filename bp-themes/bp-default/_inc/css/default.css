@@ -2132,6 +2132,7 @@ div.item-list-tabs {
 }
 div.item-list-tabs ul li a {
 	text-decoration: none;
+	height: 20px;
 }
 div.item-list-tabs ul {
 	width: 100%;
