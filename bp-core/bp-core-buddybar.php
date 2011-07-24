@@ -70,7 +70,7 @@ function bp_core_new_nav_item( $args = '' ) {
 			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
 
 		if ( !empty( $default_subnav_slug ) )
-			$bp->current_action = $default_subnav_slug;
+			$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
 
 	// Look for current item
 	} elseif ( bp_is_current_item( $slug ) && !bp_current_action() ) {
@@ -80,8 +80,10 @@ function bp_core_new_nav_item( $args = '' ) {
 			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
 
 		if ( !empty( $default_subnav_slug ) )
-			$bp->current_action = $default_subnav_slug;
+			$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
 	}
+	
+	do_action( 'bp_core_new_nav_item', $r, $args, $defaults );
 }
 
 /**
