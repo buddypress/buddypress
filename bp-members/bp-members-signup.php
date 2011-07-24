@@ -313,7 +313,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 	$illegal_names = get_site_option( 'illegal_names' );
 
-	if ( !validate_username( $user_name ) || in_array( $user_name, (array)$illegal_names ) || $user_name != $maybe[0] )
+	if ( !validate_username( $user_name ) || in_array( $user_name, (array)$illegal_names ) || ( !empty( $maybe[0] ) && $user_name != $maybe[0] ) )
 		$errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
 
 	if( strlen( $user_name ) < 4 )
