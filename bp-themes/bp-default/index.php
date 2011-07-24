@@ -22,6 +22,10 @@
 						<div class="author-box">
 							<?php echo get_avatar( get_the_author_meta( 'user_email' ), '50' ); ?>
 							<p><?php printf( _x( 'by %s', 'Post written by...', 'buddypress' ), bp_core_get_userlink( $post->post_author ) ) ?></p>
+
+							<?php if ( is_sticky() ) : ?>
+								<span class="activity sticky-post"><?php echo _x( 'Featured', 'Sticky post', 'buddypress' ); ?></span>
+							<?php endif; ?>
 						</div>
 
 						<div class="post-content">

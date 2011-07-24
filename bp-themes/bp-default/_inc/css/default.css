@@ -927,13 +927,6 @@ img.alignleft {
 /*--------------------------------------------------------------
 5.5 - Posts
 --------------------------------------------------------------*/
-.sticky .date {
-	background: #fff9db;
-	border-top: 1px solid #ffe8c4;
-	border-bottom: 1px solid #ffe8c4;
-	color: #ffa200;
-	padding: 5px;
-}
 div.page,
 div.post,
 div.attachment {
@@ -1028,6 +1021,9 @@ p.postmetadata {
 }
 .tags {
 	float: left;
+}
+span.sticky-post {
+	font-style: normal;
 }
 
 
