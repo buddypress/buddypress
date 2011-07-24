@@ -694,18 +694,6 @@ function bp_profile_group_tabs() {
 }
 
 function bp_profile_group_name( $deprecated = true ) {
-	global $bp;
-
-	$group_id = !empty( $bp->action_variables[1] ) ? $bp->action_variables[1] : 1;
-
-	if ( !is_numeric( $group_id ) )
-		$group_id = 1;
-
-	if ( !$group = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
-		$group = new BP_XProfile_Group($group_id);
-		wp_cache_set( 'xprofile_group_' . $group_id, $group, 'bp' );
-	}
-
 	if ( !$deprecated ) {
 		return bp_get_profile_group_name();
 	} else {
@@ -713,10 +701,9 @@ function bp_profile_group_name( $deprecated = true ) {
 	}
 }
 	function bp_get_profile_group_name() {
-		global $bp;
-
-		$group_id = !empty( $bp->action_variables[1] ) ? $bp->action_variables[1] : 1;
-
+		if ( !$group_id = bp_action_variable( 1 ) )
+			$group_id = 1;
+			
 		if ( !is_numeric( $group_id ) )
 			$group_id = 1;
 
@@ -763,9 +750,7 @@ function bp_current_profile_group_id() {
 	echo bp_get_current_profile_group_id();
 }
 	function bp_get_current_profile_group_id() {
-		global $bp;
-
-		if ( empty( $bp->action_variables[1] ) || !$profile_group_id = $bp->action_variables[1] )
+		if ( !$profile_group_id = bp_action_variable( 1 ) )
 			$profile_group_id = 1;
 
 		return apply_filters( 'bp_get_current_profile_group_id', $profile_group_id ); // admin/profile/edit/[group-id]

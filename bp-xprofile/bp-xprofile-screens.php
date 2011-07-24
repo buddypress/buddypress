@@ -36,11 +36,11 @@ function xprofile_screen_edit_profile() {
 		return false;
 
 	// Make sure a group is set.
-	if ( empty( $bp->action_variables[1] ) )
-		bp_core_redirect( $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/1' );
+	if ( !bp_action_variable( 1 ) )
+		bp_core_redirect( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/1' );
 
 	// Check the field group exists
-	if ( ( !empty( $bp->action_variables[0] ) && 'group' != $bp->action_variables[0] ) || !xprofile_get_field_group( $bp->action_variables[1] ) ) {
+	if ( !bp_is_action_variable( 'group' ) || !xprofile_get_field_group( bp_action_variable( 1 ) ) ) {
 		bp_do_404();
 		return;
 	}
@@ -53,7 +53,7 @@ function xprofile_screen_edit_profile() {
 
 		// Check we have field ID's
 		if ( empty( $_POST['field_ids'] ) )
-			bp_core_redirect( trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $bp->action_variables[1] ) );
+			bp_core_redirect( trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . bp_action_variable( 1 ) ) );
 
 		// Explode the posted field IDs into an array so we know which
 		// fields have been submitted
@@ -67,9 +67,7 @@ function xprofile_screen_edit_profile() {
 
 				if ( !empty( $_POST['field_' . $field_id . '_day'] ) && is_numeric( $_POST['field_' . $field_id . '_day'] ) ) {
 					// Concatenate the values
-					$date_value =   $_POST['field_' . $field_id . '_day'] . ' ' .
-									$_POST['field_' . $field_id . '_month'] . ' ' .
-									$_POST['field_' . $field_id . '_year'];
+					$date_value =   $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
 
 					// Turn the concatenated value into a timestamp
 					$_POST['field_' . $field_id] = strtotime( $date_value );
@@ -115,7 +113,7 @@ function xprofile_screen_edit_profile() {
 				bp_core_add_message( __( 'Changes saved.', 'buddypress' ) );
 
 			// Redirect back to the edit screen to display the updates and message
-			bp_core_redirect( trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $bp->action_variables[1] ) );
+			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/' . bp_action_variable( 1 ) ) );
 		}
 	}
 
@@ -136,7 +134,7 @@ function xprofile_screen_change_avatar() {
 	if ( !bp_is_my_profile() && !is_super_admin() )
 		return false;
 
-	if ( !empty( $bp->action_variables ) ) {
+	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
 	}

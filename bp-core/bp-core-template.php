@@ -470,10 +470,34 @@ function bp_current_item() {
 	return apply_filters( 'bp_current_item', $current_item );
 }
 
+/**
+ * Return the value of $bp->action_variables
+ *
+ * @package BuddyPress
+ *
+ * @param mixed $action_variables The action variables array, or false if the array is empty
+ */
 function bp_action_variables() {
 	global $bp;
 	$action_variables = !empty( $bp->action_variables ) ? $bp->action_variables : false;
 	return apply_filters( 'bp_action_variables', $action_variables );
+}
+
+/**
+ * Return the value of a given action variable
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param int $position The key of the action_variables array that you want
+ * @return str $action_variable The value of that position in the array
+ */
+function bp_action_variable( $position = 0 ) {
+	$action_variables = bp_action_variables();
+	
+	$action_variable = isset( $action_variables[$position] ) ? $action_variables[$position] : false;
+	
+	return apply_filters( 'bp_action_variable', $action_variable, $position );
 }
 
 function bp_root_domain() {
@@ -676,6 +700,23 @@ function bp_is_current_component( $component ) {
  	return apply_filters( 'bp_is_current_component', $is_current_component, $component );
 }
 
+/**
+ * Check to see whether the current page matches a given action.
+ *
+ * Along with bp_is_current_component() and bp_is_action_variable(), this function is mostly used
+ * to help determine when to use a given screen function.
+ *
+ * In BP parlance, the current_action is the URL chunk that comes directly after the
+ * current item slug. E.g., in
+ *   http://example.com/groups/my-group/members
+ * the current_action is 'members'.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param str $action The action being tested against
+ * @return bool True if the current action matches $action
+ */
 function bp_is_current_action( $action = '' ) {
 	global $bp;
 
@@ -683,6 +724,46 @@ function bp_is_current_action( $action = '' ) {
 		return true;
 
 	return false;
+}
+
+/**
+ * Check to see whether the current page matches a given action_variable.
+ *
+ * Along with bp_is_current_component() and bp_is_current_action(), this function is mostly used
+ * to help determine when to use a given screen function.
+ *
+ * In BP parlance, action_variables are an array made up of the URL chunks appearing after the
+ * current_action in a URL. For example,
+ *   http://example.com/groups/my-group/admin/group-settings
+ * $action_variables[0] is 'group-settings'.
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param str $action_variable The action_variable being tested against
+ * @param int $position The array key you're testing against. If you don't provide a $position,
+ *   the function will return true if the $action_variable is found *anywhere* in the action
+ *   variables array.
+ * @return bool 
+ */
+function bp_is_action_variable( $action_variable = '', $position = false ) {
+	$is_action_variable = false;
+	
+	if ( false !== $position ) {
+		// When a $position is specified, check that slot in the action_variables array		
+		if ( $action_variable ) {
+			$is_action_variable = $action_variable == bp_action_variable( $position );
+		} else {
+			// If no $action_variable is provided, we are essentially checking to see
+			// whether the slot is empty
+			$is_action_variable = !bp_action_variable( $position );
+		}
+	} else {
+		// When no $position is specified, check the entire array
+		$is_action_variable = in_array( $action_variable, bp_action_variables() );
+	}
+	
+	return apply_filters( 'bp_is_action_variable', $is_action_variable, $action_variable, $position );
 }
 
 function bp_is_current_item( $item = '' ) {

@@ -22,8 +22,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function xprofile_action_delete_avatar() {
 	global $bp;
-
-	if ( $bp->profile->id != $bp->current_component || 'change-avatar' != $bp->current_action || !isset( $bp->action_variables[0] ) || 'delete-avatar' != $bp->action_variables[0] )
+	
+	if ( !bp_is_current_component( 'profile' ) || !bp_is_current_action( 'change-avatar' ) || !bp_is_action_variable( 'delete-avatar', 0 ) )
 		return false;
 
 	// Check the nonce
