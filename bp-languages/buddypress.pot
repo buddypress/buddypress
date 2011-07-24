@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-24 19:30:52+00:00\n"
+"POT-Creation-Date: 2011-07-24 22:30:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1531,7 +1531,7 @@ msgstr ""
 
 #: bp-settings/bp-settings-actions.php:96
 #: bp-settings/bp-settings-actions.php:135
-#: bp-xprofile/bp-xprofile-screens.php:115
+#: bp-xprofile/bp-xprofile-screens.php:113
 msgid "Changes saved."
 msgstr ""
 
@@ -2368,19 +2368,19 @@ msgstr ""
 msgid "Change Avatar"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-screens.php:87
+#: bp-xprofile/bp-xprofile-screens.php:85
 msgid "Please make sure you fill in all required fields in this profile field group before saving."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-screens.php:113
+#: bp-xprofile/bp-xprofile-screens.php:111
 msgid "There was a problem updating some of your profile information, please try again."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-screens.php:167
+#: bp-xprofile/bp-xprofile-screens.php:165
 msgid "There was a problem cropping your avatar, please try uploading it again"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-screens.php:169
+#: bp-xprofile/bp-xprofile-screens.php:167
 msgid "Your new avatar was uploaded successfully!"
 msgstr ""
 
@@ -2705,20 +2705,20 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:737
+#: bp-xprofile/bp-xprofile-template.php:724
 msgid "Avatar uploads are currently disabled. Why not use a <a href=\"http://gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:746
+#: bp-xprofile/bp-xprofile-template.php:733
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:757
+#: bp-xprofile/bp-xprofile-template.php:744
 msgid "Profile updated %s"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:802
-#: bp-xprofile/bp-xprofile-template.php:803
+#: bp-xprofile/bp-xprofile-template.php:787
+#: bp-xprofile/bp-xprofile-template.php:788
 #: bp-members/bp-members-adminbar.php:110
 msgid "Edit Profile"
 msgstr ""
