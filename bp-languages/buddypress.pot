@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-23 18:30:55+00:00\n"
+"POT-Creation-Date: 2011-07-24 13:30:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2650,68 +2650,75 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:561
+#. translators: no option picked in select box
+
+#: bp-xprofile/bp-xprofile-template.php:426
+#: bp-themes/bp-default/forums/index.php:114
+msgid "----"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-template.php:599
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:561
+#: bp-xprofile/bp-xprofile-template.php:599
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:561
+#: bp-xprofile/bp-xprofile-template.php:599
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:562
+#: bp-xprofile/bp-xprofile-template.php:600
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:562
+#: bp-xprofile/bp-xprofile-template.php:600
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:562
+#: bp-xprofile/bp-xprofile-template.php:600
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:563
+#: bp-xprofile/bp-xprofile-template.php:601
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:563
+#: bp-xprofile/bp-xprofile-template.php:601
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:563
+#: bp-xprofile/bp-xprofile-template.php:601
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:564
+#: bp-xprofile/bp-xprofile-template.php:602
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:564
+#: bp-xprofile/bp-xprofile-template.php:602
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:564
+#: bp-xprofile/bp-xprofile-template.php:602
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:699
+#: bp-xprofile/bp-xprofile-template.php:737
 msgid "Avatar uploads are currently disabled. Why not use a <a href=\"http://gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:708
+#: bp-xprofile/bp-xprofile-template.php:746
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:719
+#: bp-xprofile/bp-xprofile-template.php:757
 msgid "Profile updated %s"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:764
-#: bp-xprofile/bp-xprofile-template.php:765
+#: bp-xprofile/bp-xprofile-template.php:802
+#: bp-xprofile/bp-xprofile-template.php:803
 #: bp-members/bp-members-adminbar.php:110
 msgid "Edit Profile"
 msgstr ""
