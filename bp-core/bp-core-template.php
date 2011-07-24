@@ -740,7 +740,7 @@ function bp_is_directory() {
  */
 function bp_is_root_component( $component_name ) {
 	global $bp;
-
+	
 	if ( !isset( $bp->active_components ) )
 		return false;
 
@@ -776,16 +776,24 @@ function bp_is_component_front_page( $component = '' ) {
 	return apply_filters( 'bp_is_component_front_page', ( $bp->pages->{$component}->id == get_option( 'page_on_front' ) ), $component );
 }
 
+/**
+ * Is this a blog page, ie a non-BP page?
+ *
+ * You can tell if a page is displaying BP content by whether the current_component has been defined
+ *
+ * @package BuddyPress
+ *
+ * @return bool True if it's a non-BP page, false otherwise
+ */
 function bp_is_blog_page() {
 	global $bp, $wp_query;
 
-	if ( $wp_query->is_home && !bp_is_directory() )
-		return true;
+	$is_blog_page = false;
 
-	if ( !bp_is_user() && !bp_is_single_item() && !bp_is_directory() && !bp_is_root_component( $bp->current_component ) )
-		return true;
+	if ( !bp_current_component() )
+		$is_blog_page = true;
 
-	return false;
+	return apply_filters( 'bp_is_blog_page', $is_blog_page );
 }
 
 function bp_is_page( $page ) {
@@ -1213,6 +1221,10 @@ function bp_is_register_page() {
  *
  * @package BuddyPress
  * @subpackage Core Template
+ *
+ * @param array $wp_classes The body classes coming from WP
+ * @param array $custom_classes Classes that were passed to get_body_class()
+ * @return array $classes The BP-adjusted body classes
  */
 function bp_the_body_class() {
 	echo bp_get_the_body_class();
@@ -1387,5 +1399,5 @@ function bp_the_body_class() {
 
 		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
 	}
-	add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 )
+add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 )
 ?>
