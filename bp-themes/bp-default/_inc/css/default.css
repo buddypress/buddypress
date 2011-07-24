@@ -143,7 +143,6 @@ div#content .main-column {
 	background: -webkit-linear-gradient(top, #1fb3dd 0%,#1fb3dd 15%,#394c79 100%); /* Chrome10+,Safari5.1+ */
 	background: -o-linear-gradient(top, #1fb3dd 0%,#1fb3dd 15%,#394c79 100%); /* Opera11.10+ */
 	background: -ms-linear-gradient(top, #1fb3dd 0%,#1fb3dd 15%,#394c79 100%); /* IE10+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1fb3dd', endColorstr='#394c79',GradientType=0 ); /* IE6-9 */
 	background: linear-gradient(top, #1fb3dd 0%,#1fb3dd 15%,#394c79 100%); /* W3C */
 	-moz-border-radius-bottomleft: 6px;
 	-webkit-border-bottom-left-radius: 6px;
