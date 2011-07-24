@@ -11,7 +11,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function messages_screen_inbox() {
 	global $bp;
 
-	if ( !empty( $bp->action_variables ) ) {
+	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
 	}
@@ -23,7 +23,7 @@ function messages_screen_inbox() {
 function messages_screen_sentbox() {
 	global $bp;
 
-	if ( !empty( $bp->action_variables ) ) {
+	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
 	}
@@ -35,7 +35,7 @@ function messages_screen_sentbox() {
 function messages_screen_compose() {
 	global $bp;
 
-	if ( !empty( $bp->action_variables ) ) {
+	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
 	}
@@ -85,39 +85,39 @@ function messages_screen_compose() {
 }
 
 function messages_screen_notices() {
-	global $bp, $notice_id;
+	global $notice_id;
 
 	if ( !is_super_admin() )
 		return false;
 
-	$notice_id = isset( $bp->action_variables[1] ) ? $bp->action_variables[1] : 0;
-
+	$notice_id = (int)bp_action_variable( 1 );
+	
 	if ( !empty( $notice_id ) && is_numeric( $notice_id ) ) {
 		$notice = new BP_Messages_Notice( $notice_id );
 
-		if ( 'deactivate' == $bp->action_variables[0] ) {
+		if ( bp_is_action_variable( 'deactivate', 0 ) ) {
 			if ( !$notice->deactivate() ) {
 				bp_core_add_message( __('There was a problem deactivating that notice.', 'buddypress'), 'error' );
 			} else {
 				bp_core_add_message( __('Notice deactivated.', 'buddypress') );
 			}
-		} else if ( 'activate' == $bp->action_variables[0] ) {
+		} else if ( bp_is_action_variable( 'activate', 0 ) ) {
 			if ( !$notice->activate() ) {
 				bp_core_add_message( __('There was a problem activating that notice.', 'buddypress'), 'error' );
 			} else {
 				bp_core_add_message( __('Notice activated.', 'buddypress') );
 			}
-		} else if ( 'delete' == $bp->action_variables[0] ) {
+		} else if ( bp_is_action_variable( 'delete' ) ) {
 			if ( !$notice->delete() ) {
 				bp_core_add_message( __('There was a problem deleting that notice.', 'buddypress'), 'buddypress' );
 			} else {
 				bp_core_add_message( __('Notice deleted.', 'buddypress') );
 			}
 		}
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->messages->slug . '/notices' );
+		bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices' );
 	}
 
-	if ( !empty( $bp->action_variables ) ) {
+	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
 	}
@@ -130,7 +130,7 @@ function messages_screen_notices() {
 function messages_screen_notification_settings() {
 	global $bp;
 
-	if ( !empty( $bp->action_variables ) ) {
+	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
 	}

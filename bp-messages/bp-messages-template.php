@@ -343,18 +343,23 @@ function bp_messages_pagination_count() {
 	echo sprintf( __( 'Viewing message %1$s to %2$s (of %3$s messages)', 'buddypress' ), $from_num, $to_num, $total ); ?><?php
 }
 
+/**
+ * Echoes the form action for Messages HTML forms
+ *
+ * @package BuddyPress
+ */
 function bp_messages_form_action() {
 	echo bp_get_messages_form_action();
 }
+	/**
+	 * Returns the form action for Messages HTML forms
+	 *
+	 * @package BuddyPress
+	 *
+	 * @return str The form action
+	 */
 	function bp_get_messages_form_action() {
-		global $bp;
-
-		if ( isset( $bp->action_variables[0] ) )
-			$av = $bp->action_variables[0];
-		else
-			$av = '';
-
-		return apply_filters( 'bp_get_messages_form_action', trailingslashit( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/' . $av . '/' ) );
+		return apply_filters( 'bp_get_messages_form_action', trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/' . bp_action_variable( 0 ) ) );
 	}
 
 function bp_messages_username_value() {
@@ -718,7 +723,7 @@ function bp_thread_has_messages( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	if ( !$thread_id && bp_is_current_component( 'messages' ) && bp_is_current_action( 'view' ) )
-		$thread_id = (int)$bp->action_variables[0];
+		$thread_id = (int)bp_action_variable( 0 );
 
 	$thread_template = new BP_Messages_Thread_Template( $thread_id, $order );
 	return $thread_template->has_messages();

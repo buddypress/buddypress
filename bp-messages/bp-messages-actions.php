@@ -9,17 +9,15 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function messages_action_view_message() {
-	global $bp, $thread_id;
+	global $thread_id;
 
-	if ( $bp->current_component != $bp->messages->slug || $bp->current_action != 'view' )
+	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) )
 		return false;
 
-	$thread_id = 0;
-	if ( !empty( $bp->action_variables[0] ) )
-		$thread_id = $bp->action_variables[0];
-
-	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access($thread_id) && !is_super_admin() ) )
-		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component );
+	$thread_id = (int)bp_action_variable( 0 );
+	
+	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access( $thread_id ) && !is_super_admin() ) )
+		bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() );
 
 	// Check if a new reply has been submitted
 	if ( isset( $_POST['send'] ) ) {
@@ -33,7 +31,7 @@ function messages_action_view_message() {
 		else
 			bp_core_add_message( __( 'There was a problem sending your reply, please try again', 'buddypress' ), 'error' );
 
-		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component . '/view/' . $thread_id . '/' );
+		bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id . '/' );
 	}
 
 	// Mark message read
@@ -49,12 +47,12 @@ function messages_action_view_message() {
 	bp_core_new_subnav_item( array(
 		'name'            => sprintf( __( 'From: %s', 'buddypress' ), BP_Messages_Thread::get_last_sender( $thread_id ) ),
 		'slug'            => 'view',
-		'parent_url'      => $bp->loggedin_user->domain . $bp->messages->slug . '/',
-		'parent_slug'     => $bp->messages->slug,
+		'parent_url'      => trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ),
+		'parent_slug'     => bp_get_messages_slug(),
 		'screen_function' => true,
 		'position'        => 40,
 		'user_has_access' => bp_is_my_profile(),
-		'link'            => $bp->loggedin_user->domain . $bp->messages->slug . '/view/' . (int) $thread_id
+		'link'            => bp_displayed_user_domain() . bp_get_messages_slug() . '/view/' . (int) $thread_id
 	) );
 
 	bp_core_load_template( apply_filters( 'messages_template_view_message', 'members/single/home' ) );
@@ -62,40 +60,40 @@ function messages_action_view_message() {
 add_action( 'bp_actions', 'messages_action_view_message' );
 
 function messages_action_delete_message() {
-	global $bp, $thread_id;
+	global $thread_id;
 
-	if ( $bp->current_component != $bp->messages->slug || 'notices' == $bp->current_action || empty( $bp->action_variables[0] ) || 'delete' != $bp->action_variables[0] )
+	if ( !bp_is_messages_component() || bp_is_current_action( 'notices' ) || !bp_is_action_variable( 'delete', 0 ) )
 		return false;
 
-	$thread_id = $bp->action_variables[1];
-
-	if ( !$thread_id || !is_numeric($thread_id) || !messages_check_thread_access($thread_id) ) {
-		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component . '/' . $bp->current_action );
+	$thread_id = bp_action_variable( 1 );
+	
+	if ( !$thread_id || !is_numeric( $thread_id ) || !messages_check_thread_access( $thread_id ) ) {
+		bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() );
 	} else {
 		if ( !check_admin_referer( 'messages_delete_thread' ) )
 			return false;
 
 		// Delete message
-		if ( !messages_delete_thread($thread_id) ) {
+		if ( !messages_delete_thread( $thread_id ) ) {
 			bp_core_add_message( __('There was an error deleting that message.', 'buddypress'), 'error' );
 		} else {
 			bp_core_add_message( __('Message deleted.', 'buddypress') );
 		}
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
+		bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() );
 	}
 }
 add_action( 'bp_actions', 'messages_action_delete_message' );
 
 function messages_action_bulk_delete() {
-	global $bp, $thread_ids;
+	global $thread_ids;
 
-	if ( $bp->current_component != $bp->messages->slug || empty( $bp->action_variables[0] ) || 'bulk-delete' != $bp->action_variables[0] )
+	if ( !bp_is_messages_component() || !bp_is_action_variable( 'bulk-delete', 0 ) )
 		return false;
 
 	$thread_ids = $_POST['thread_ids'];
 
-	if ( !$thread_ids || !messages_check_thread_access($thread_ids) ) {
-		bp_core_redirect( $bp->displayed_user->domain . $bp->current_component . '/' . $bp->current_action );
+	if ( !$thread_ids || !messages_check_thread_access( $thread_ids ) ) {
+		bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() );
 	} else {
 		if ( !check_admin_referer( 'messages_delete_thread' ) )
 			return false;
@@ -105,7 +103,7 @@ function messages_action_bulk_delete() {
 		else
 			bp_core_add_message( __('Messages deleted.', 'buddypress') );
 
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
+		bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() );
 	}
 }
 add_action( 'bp_actions', 'messages_action_bulk_delete' );
