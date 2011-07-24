@@ -325,9 +325,14 @@ function bp_the_profile_field_edit_value() {
 		 * Check to see if the posted value is different, if it is re-display this
 		 * value as long as it's not empty and a required field.
 		 */
-		if ( isset( $_POST['field_' . $field->id] ) && isset( $field->data->value ) && $field->data->value != $_POST['field_' . $field->id] ) {
+		if ( !isset( $field->data->value ) )
+			$field->data->value = '';
+
+		if ( isset( $_POST['field_' . $field->id] ) && $field->data->value != $_POST['field_' . $field->id] ) {
 			if ( !empty( $_POST['field_' . $field->id] ) )
 				$field->data->value = $_POST['field_' . $field->id];
+			else
+				$field->data->value = '';
 		}
 
 		$field_value = isset( $field->data->value ) ? bp_unserialize_profile_field( $field->data->value ) : '';
@@ -416,15 +421,19 @@ function bp_the_profile_field_options( $args = '' ) {
 		$selected = '';
 
 		switch ( $field->type ) {
+			case 'selectbox':
+				if ( !$field->is_required )
+					$html .= '<option value="">' . /* translators: no option picked in select box */ __( '----', 'buddypress' ) . '</option>';
 
-			case 'selectbox': case 'multiselectbox':
-				if ( 'multiselectbox' != $field->type )
-					$html .= '<option value="">--------</option>';
-
+				$original_option_values = '';
 				$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field->id ) );
+
+				if ( empty( $original_option_values ) && !empty( $_POST['field_' . $field->id] ) )
+					$original_option_values = $_POST['field_' . $field->id];
+
 				$option_values = (array) $original_option_values;
 
-				for ( $k = 0; $k < count( $options ); $k++ ) {
+				for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 					// Check for updated posted values, but errors preventing them from being saved first time
 					foreach( $option_values as $i => $option_value ) {
 						if ( isset( $_POST['field_' . $field->id] ) && $_POST['field_' . $field->id] != $option_value ) {
@@ -432,24 +441,54 @@ function bp_the_profile_field_options( $args = '' ) {
 								$option_values[$i] = $_POST['field_' . $field->id];
 						}
 					}
-
 					$selected = '';
 
-					// Run the allowed option name through the before_save
-					// filter, so we'll be sure to get a match
+					// Run the allowed option name through the before_save filter, so we'll be sure to get a match
 					$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 
-					// First, check to see whether the user-entered value
-					// matches
+					// First, check to see whether the user-entered value matches
 					if ( in_array( $allowed_options, (array) $option_values ) )
 						$selected = ' selected="selected"';
 
-					// Then, if the user has not provided a value, check for
-					// defaults
-					if ( !is_array( $original_option_values ) && empty( $option_values ) & $options[$k]->is_default_option )
+					// Then, if the user has not provided a value, check for defaults
+					if ( !is_array( $original_option_values ) && empty( $option_values ) && $options[$k]->is_default_option )
 						$selected = ' selected="selected"';
 
 					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '">' . esc_attr( stripslashes( $options[$k]->name ) ) . '</option>', $options[$k] );
+				}
+				break;
+
+			case 'multiselectbox':
+				$original_option_values = '';
+				$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field->id ) );
+
+				if ( empty( $original_option_values ) && !empty( $_POST['field_' . $field->id] ) )
+					$original_option_values = $_POST['field_' . $field->id];
+
+				$option_values = (array) $original_option_values;
+
+				for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
+					// Check for updated posted values, but errors preventing them from being saved first time
+					foreach( $option_values as $i => $option_value ) {
+						if ( isset( $_POST['field_' . $field->id] ) && $_POST['field_' . $field->id][$i] != $option_value ) {
+							if ( !empty( $_POST['field_' . $field->id][$i] ) )
+								$option_values[] = $_POST['field_' . $field->id][$i];
+						}
+					}
+					$selected = '';
+
+					// Run the allowed option name through the before_save filter, so we'll be sure to get a match
+					$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
+
+					// First, check to see whether the user-entered value matches
+					if ( in_array( $allowed_options, (array) $option_values ) )
+						$selected = ' selected="selected"';
+
+					// Then, if the user has not provided a value, check for defaults
+					if ( !is_array( $original_option_values ) && empty( $option_values ) && $options[$k]->is_default_option )
+						$selected = ' selected="selected"';
+
+					$html .= apply_filters( 'bp_get_the_profile_field_options_multiselect', '<option' . $selected . ' value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '">' . esc_attr( stripslashes( $options[$k]->name ) ) . '</option>', $options[$k] );
 				}
 				break;
 
@@ -457,7 +496,7 @@ function bp_the_profile_field_options( $args = '' ) {
 				$html .= '<div id="field_' . $field->id . '">';
 				$option_value = BP_XProfile_ProfileData::get_value_byid( $field->id );
 
-				for ( $k = 0; $k < count( $options ); $k++ ) {
+				for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 					// Check for updated posted values, but errors preventing them from being saved first time
 					if ( isset( $_POST['field_' . $field->id] ) && $option_value != $_POST['field_' . $field->id] ) {
 						if ( !empty( $_POST['field_' . $field->id] ) )
@@ -488,16 +527,15 @@ function bp_the_profile_field_options( $args = '' ) {
 						$option_values = $_POST['field_' . $field->id];
 				}
 
-				for ( $k = 0; $k < count( $options ); $k++ ) {
+				for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 					$selected = '';
 
 					// First, check to see whether the user's saved values
 					// match the option
-					for ( $j = 0; $j < count( $option_values ); $j++ ) {
+					for ( $j = 0, $count = count( $option_values ); $j < $count; ++$j ) {
 
 						// Run the allowed option name through the
-						// before_save filter, so we'll be sure to get a
-						// match
+						// before_save filter, so we'll be sure to get a match
 						$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 
 						if ( $option_values[$j] == $allowed_options || @in_array( $allowed_options, $value ) ) {
