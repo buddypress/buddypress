@@ -938,10 +938,12 @@ div.post:last-child,
 #trackbacklist {
 	margin-bottom: 0;
 }
-h2.pagetitle,
 h2.posttitle {
 	line-height: 120%;
 	margin: 0;
+}
+h2.pagetitle {
+	line-height: 120%;
 }
 h2.pagetitle a,
 h2.posttitle a {
