@@ -417,16 +417,6 @@ form#whats-new-form #whats-new-submit {
 	margin-right: 30px;
 	margin-left: 0;
 }
-.activity-list li.activity_comment .activity-avatar img.avatar,
-.activity-list li.activity_comment .activity-avatar img.FB_profile_pic {
-	margin-right: 10px;
-	margin-left: 0;
-}
-body.activity-permalink .activity-list li .activity-avatar img.avatar,
-body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
-	margin-left: auto;
-	margin-right: 0;
-}
 body.activity-permalink .activity-list li .activity-header > p {
 	margin-left: auto;
 	margin-right: -35px;

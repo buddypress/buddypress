@@ -1126,20 +1126,8 @@ body.activity-permalink ul.activity-list li.has-comments {
 	margin-left: 30px;
 	width: 20px;
 }
-.activity-list li.activity_comment .activity-avatar img.avatar,
-.activity-list li.activity_comment .activity-avatar img.FB_profile_pic {
-	height: 40px;
-	margin-left: 20px;
-	width: 40px;
-}
 body.activity-permalink .activity-list > li:first-child {
 	padding-top: 0;
-}
-body.activity-permalink .activity-list li .activity-avatar img.avatar,
-body.activity-permalink .activity-list li .activity-avatar img.FB_profile_pic {
-	height: 100px;
-	margin-left: 0;
-	width: 100px;
 }
 .activity-list li .activity-content {
 	position: relative;
@@ -1174,14 +1162,6 @@ body.activity-permalink li.mini .activity-meta {
 	margin: 0;
 	overflow: hidden;
 	padding: 0;
-}
-.activity-list .activity-avatar img {
-	width: 50px;
-	height: 50px;
-}
-body.activity-permalink .activity-list .activity-avatar img {
-	width: 100px;
-	height: 100px;
 }
 .activity-list .activity-content {
 	margin-left: 70px;
@@ -1383,7 +1363,9 @@ body.activity-permalink div.activity-comments > ul {
 div.activity-comments div.acomment-avatar img {
 	border-width: 2px !important;
 	float: left;
+	height: 25px;
 	margin-right: 10px;
+	width: 25px;
 }
 div.activity-comments div.acomment-content {
 	font-size: 11px;

@@ -562,20 +562,36 @@ function bp_activity_avatar( $args = '' ) {
 	 * @return string
 	 */
 	function bp_get_activity_avatar( $args = '' ) {
-		global $bp, $activities_template;
+		global $activities_template, $bp;
 
 		$defaults = array(
-			'type'    => 'thumb',
-			'width'   => 20,
-			'height'  => 20,
-			'class'   => 'avatar',
 			'alt'     => __( 'Profile picture of %s', 'buddypress' ),
+			'class'   => 'avatar',
 			'email'   => false,
+			'type'    => 'thumb',
 			'user_id' => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
+
+		if ( !isset( $height ) && !isset( $width ) ) {  // Backpat
+			if ( 'full' == $type ) {
+				$height = $bp->avatar->full->height;
+				$width  = $bp->avatar->full->width;
+
+			} elseif ( 'thumb' == $type ) {
+				$height = $bp->avatar->thumb->height;
+				$width  = $bp->avatar->thumb->width;
+			}
+		}
+
+		// Backpat
+		if ( !isset( $width ) )
+			$width = 20;
+
+		if ( !isset( $height ) )
+			$height = 20;
 
 		// Within the loop, we the current activity should be set first to the
 		// current_comment, if available
