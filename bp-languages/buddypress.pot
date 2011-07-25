@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-25 20:30:53+00:00\n"
+"POT-Creation-Date: 2011-07-25 22:30:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -81,7 +81,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-template.php:345 bp-core/bp-core-classes.php:174
 #: bp-groups/bp-groups-widgets.php:70 bp-groups/bp-groups-widgets.php:170
 #: bp-members/bp-members-template.php:526
-#: bp-members/bp-members-template.php:781
+#: bp-members/bp-members-template.php:782
 #: bp-themes/bp-default/forums/single/forum-header.php:13
 #: bp-themes/bp-default/groups/groups-loop.php:47
 #: bp-themes/bp-default/groups/single/group-header.php:42
@@ -195,7 +195,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:596 bp-core/bp-core-template.php:310
 #: bp-groups/bp-groups-template.php:2257 bp-forums/bp-forums-template.php:1255
-#: bp-members/bp-members-template.php:622 bp-themes/bp-default/header.php:36
+#: bp-members/bp-members-template.php:623 bp-themes/bp-default/header.php:36
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -590,7 +590,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:528 bp-core/admin/bp-core-admin.php:581
 #: bp-xprofile/bp-xprofile-loader.php:184
-#: bp-members/bp-members-template.php:552
+#: bp-members/bp-members-template.php:553
 #: bp-themes/bp-default/functions.php:148
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-activity/bp-activity-template.php:1289
@@ -1131,7 +1131,7 @@ msgstr ""
 
 #: bp-core/deprecated/1.3.php:250 bp-core/bp-core-buddybar.php:453
 #: bp-members/bp-members-adminbar.php:218
-#: bp-members/bp-members-template.php:682 bp-themes/bp-default/sidebar.php:18
+#: bp-members/bp-members-template.php:683 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -2190,8 +2190,8 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:1809 bp-groups/bp-groups-template.php:2515
 #: bp-forums/bp-forums-template.php:478 bp-forums/bp-forums-template.php:592
 #: bp-forums/bp-forums-template.php:1134 bp-members/bp-members-template.php:484
-#: bp-members/bp-members-template.php:728
-#: bp-members/bp-members-template.php:748
+#: bp-members/bp-members-template.php:729
+#: bp-members/bp-members-template.php:749
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:210
 #: bp-activity/bp-activity-template.php:568
@@ -3282,15 +3282,20 @@ msgstr ""
 msgid "Never active"
 msgstr ""
 
-#: bp-members/bp-members-template.php:588
+#: bp-members/bp-members-template.php:550
+msgctxt "member latest update in member directory"
+msgid "- &quot;%s&quot;"
+msgstr ""
+
+#: bp-members/bp-members-template.php:589
 msgid "registered %s"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1025
+#: bp-members/bp-members-template.php:1026
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1093
+#: bp-members/bp-members-template.php:1094
 msgid "Activity RSS Feed"
 msgstr ""
 
@@ -3699,24 +3704,19 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:605
-#: bp-themes/bp-default/activity/comment.php:37
-msgid "Comment"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:607
-msgid "Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\">Log out?</a>"
-msgstr ""
-
 #: bp-themes/bp-default/functions.php:608
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:691
-msgid "&larr; Previous Entries"
+#: bp-themes/bp-default/functions.php:609
+msgid "Leave a reply"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:692
+msgid "&larr; Previous Entries"
+msgstr ""
+
+#: bp-themes/bp-default/functions.php:693
 msgid "Next Entries &rarr;"
 msgstr ""
 
@@ -4110,6 +4110,10 @@ msgstr ""
 
 #: bp-themes/bp-default/activity/comment.php:27
 msgid "<a href=\"%1$s\">%2$s</a> replied <a href=\"%3$s\" class=\"activity-time-since\"><span class=\"time-since\">%4$s</span></a>"
+msgstr ""
+
+#: bp-themes/bp-default/activity/comment.php:37
+msgid "Comment"
 msgstr ""
 
 #: bp-themes/bp-default/activity/post-form.php:23
