@@ -1697,8 +1697,8 @@ div#invite-list {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	height: 400px;
-	margin: 10px 0;
-	overflow: scroll;
+	margin: 0 0 10px;
+	overflow: auto;
 	padding: 5px;
 	width: 160px;
 }
