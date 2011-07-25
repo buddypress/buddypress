@@ -308,7 +308,7 @@ div#sidebar ul.item-list div.item-title {
 }
 #footer-widget-area div.item-options,
 div#sidebar div.item-options {
-	background: #f8f8f8;
+	background: #f5f5f5;
 	font-size: 11px;
 	margin: -10px -20px 0 -19px;
 	padding: 5px 15px;
@@ -1758,7 +1758,7 @@ ul#topic-post-list li {
 	position: relative;
 }
 ul#topic-post-list li.alt {
-	background: #f8f8f8;
+	background: #f5f5f5;
 }
 ul#topic-post-list li div.poster-meta {
 	color: #888;
@@ -1840,7 +1840,7 @@ table.forum td {
 	text-align: center;
 }
 table tr.alt td {
-	background: #f8f8f8;
+	background: #f5f5f5;
 }
 table.notification-settings {
 	margin-bottom: 20px;

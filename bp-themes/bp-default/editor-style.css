@@ -223,8 +223,8 @@ table tr th {
 	padding: 8px;
 	vertical-align: middle;
 }
-table tr.alt {
-	background: #f8f8f8;
+table tr.alt td {
+	background: #f5f5f5;
 }
 html .mceContentBody ul,
 html .mceContentBody ol,
