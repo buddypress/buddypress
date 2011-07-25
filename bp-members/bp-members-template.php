@@ -534,10 +534,11 @@ function bp_member_latest_update( $args = '' ) {
 	echo bp_get_member_latest_update( $args );
 }
 	function bp_get_member_latest_update( $args = '' ) {
-		global $members_template, $bp;
+		global $bp, $members_template;
 
 		$defaults = array(
-			'length' => 70
+			'length'    => 70,
+			'view_link' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -546,9 +547,9 @@ function bp_member_latest_update( $args = '' ) {
 		if ( !isset( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
 			return false;
 
-		$update_content = apply_filters( 'bp_get_activity_latest_update', '&quot;' . trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ) . '&quot;' );
+		$update_content = apply_filters( 'bp_get_activity_latest_update', sprintf( _x( '- &quot; %s &quot;', 'member latest update in member directory', 'buddypress' ), trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ) ) );
 
-		if ( !empty( $update['id'] ) && bp_is_active( 'activity' ) )
+		if ( $view_link && !empty( $update['id'] ) && bp_is_active( 'activity' ) )
 			$update_content .= ' <a href="' . bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_member_latest_update', $update_content );
