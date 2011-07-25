@@ -9,27 +9,23 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function friends_action_add_friend() {
-	global $bp;
-
 	if ( !bp_is_friends_component() || !bp_is_current_action( 'add-friend' ) )
 		return false;
 
-	$potential_friend_id = $bp->action_variables[0];
-
-	if ( !is_numeric( $potential_friend_id ) || !isset( $potential_friend_id ) )
+	if ( !$potential_friend_id = (int)bp_action_variable( 0 ) )
 		return false;
 
-	if ( $potential_friend_id == $bp->loggedin_user->id )
+	if ( $potential_friend_id == bp_loggedin_user_id() )
 		return false;
 
-	$friendship_status = BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $potential_friend_id );
+	$friendship_status = BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $potential_friend_id );
 
 	if ( 'not_friends' == $friendship_status ) {
 
 		if ( !check_admin_referer( 'friends_add_friend' ) )
 			return false;
 
-		if ( !friends_add_friend( $bp->loggedin_user->id, $potential_friend_id ) ) {
+		if ( !friends_add_friend( bp_loggedin_user_id(), $potential_friend_id ) ) {
 			bp_core_add_message( __( 'Friendship could not be requested.', 'buddypress' ), 'error' );
 		} else {
 			bp_core_add_message( __( 'Friendship requested', 'buddypress' ) );
@@ -48,27 +44,23 @@ function friends_action_add_friend() {
 add_action( 'bp_init', 'friends_action_add_friend' );
 
 function friends_action_remove_friend() {
-	global $bp;
-
 	if ( !bp_is_friends_component() || !bp_is_current_action( 'remove-friend' ) )
 		return false;
 
-	$potential_friend_id = $bp->action_variables[0];
-
-	if ( !is_numeric( $potential_friend_id ) || !isset( $potential_friend_id ) )
+	if ( !$potential_friend_id = (int)bp_action_variable( 0 ) )
 		return false;
 
-	if ( $potential_friend_id == $bp->loggedin_user->id )
+	if ( $potential_friend_id == bp_loggedin_user_id() )
 		return false;
 
-	$friendship_status = BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $potential_friend_id );
+	$friendship_status = BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $potential_friend_id );
 
 	if ( 'is_friend' == $friendship_status ) {
 
 		if ( !check_admin_referer( 'friends_remove_friend' ) )
 			return false;
 
-		if ( !friends_remove_friend( $bp->loggedin_user->id, $potential_friend_id ) ) {
+		if ( !friends_remove_friend( bp_loggedin_user_id(), $potential_friend_id ) ) {
 			bp_core_add_message( __( 'Friendship could not be canceled.', 'buddypress' ), 'error' );
 		} else {
 			bp_core_add_message( __( 'Friendship canceled', 'buddypress' ) );

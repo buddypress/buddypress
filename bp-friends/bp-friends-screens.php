@@ -20,35 +20,33 @@ function friends_screen_my_friends() {
 }
 
 function friends_screen_requests() {
-	global $bp;
-
-	if ( isset( $bp->action_variables[0] ) && isset( $bp->action_variables[1] ) && 'accept' == $bp->action_variables[0] && is_numeric( $bp->action_variables[1] ) ) {
+	if ( bp_is_action_variable( 'accept', 0 ) && is_numeric( bp_action_variable( 1 ) ) ) {
 		// Check the nonce
 		check_admin_referer( 'friends_accept_friendship' );
 
-		if ( friends_accept_friendship( $bp->action_variables[1] ) )
+		if ( friends_accept_friendship( bp_action_variable( 1 ) ) )
 			bp_core_add_message( __( 'Friendship accepted', 'buddypress' ) );
 		else
 			bp_core_add_message( __( 'Friendship could not be accepted', 'buddypress' ), 'error' );
 
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
+		bp_core_redirect( bp_loggedin_user_domain() . bp_current_component() . '/' . bp_current_action() );
 
-	} elseif ( isset( $bp->action_variables[0] ) && isset( $bp->action_variables[1] ) && 'reject' == $bp->action_variables[0] && is_numeric( $bp->action_variables[1] ) ) {
+	} elseif ( bp_is_action_variable( 'reject', 0 ) && is_numeric( bp_action_variable( 1 ) ) ) {
 		// Check the nonce
 		check_admin_referer( 'friends_reject_friendship' );
 
-		if ( friends_reject_friendship( $bp->action_variables[1] ) )
+		if ( friends_reject_friendship( bp_action_variable( 1 ) ) )
 			bp_core_add_message( __( 'Friendship rejected', 'buddypress' ) );
 		else
 			bp_core_add_message( __( 'Friendship could not be rejected', 'buddypress' ), 'error' );
 
-		bp_core_redirect( $bp->loggedin_user->domain . $bp->current_component . '/' . $bp->current_action );
+		bp_core_redirect( bp_loggedin_user_domain() . bp_current_component() . '/' . bp_current_action() );
 	}
 
 	do_action( 'friends_screen_requests' );
 
 	if ( isset( $_GET['new'] ) )
-		bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_request' );
+		bp_core_delete_notifications_by_type( bp_loggedin_user_id(), 'friends', 'friendship_request' );
 
 	bp_core_load_template( apply_filters( 'friends_template_requests', 'members/single/home' ) );
 }

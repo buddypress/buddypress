@@ -50,22 +50,32 @@ function bp_friends_root_slug() {
 		return apply_filters( 'bp_get_friends_root_slug', $bp->friends->root_slug );
 	}
 
+/**
+ * Displays Friends header tabs
+ *
+ * @package BuddyPress
+ * @todo Deprecate?
+ */
 function bp_friends_header_tabs() {
 	global $bp; ?>
 
-	<li<?php if ( !isset($bp->action_variables[0]) || 'recently-active' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_friends_slug() ?>/my-friends/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'newest' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_friends_slug() ?>/my-friends/newest"><?php _e( 'Newest', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'alphabetically' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_friends_slug() ?>/my-friends/alphabetically"><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_friends_slug() ?>/my-friends/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'newest', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_friends_slug() ?>/my-friends/newest"><?php _e( 'Newest', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'alphabetically', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_friends_slug() ?>/my-friends/alphabetically"><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
 
 <?php
 	do_action( 'friends_header_tabs' );
 }
 
+/**
+ * Filters the title for the Friends component
+ *
+ * @package BuddyPress
+ * @todo Deprecate?
+ */
 function bp_friends_filter_title() {
-	global $bp;
-
-	$current_filter = $bp->action_variables[0];
-
+	$current_filter = bp_action_variable( 0 );
+	
 	switch ( $current_filter ) {
 		case 'recently-active': default:
 			_e( 'Recently Active', 'buddypress' );
