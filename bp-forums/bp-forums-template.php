@@ -312,8 +312,7 @@ function bp_has_forum_topics( $args = '' ) {
 
 	// If we're viewing a tag URL in the directory, let's override the type and
 	// set it to tags and the filter to the tag name
-	if ( 'tag' == $bp->current_action && !empty( $bp->action_variables[0] ) ) {
-		$search_terms = $bp->action_variables[0];
+	if ( bp_is_current_action( 'tag' ) && $search_terms = bp_action_variable( 0 ) ) {
 		$type = 'tags';
 	}
 	
@@ -857,17 +856,24 @@ function bp_forum_topic_type() {
 		return apply_filters( 'bp_get_forum_topic_type', bp_current_action() );
 	}
 
+/**
+ * Echoes the output of bp_get_forums_tag_name()
+ *
+ * @package BuddyPress
+ * @todo Deprecate?
+ */
 function bp_forums_tag_name() {
 	echo bp_get_forums_tag_name();
-}
+}	
+	/**
+	 * Outputs the currently viewed tag name
+	 *
+	 * @package BuddyPress
+	 * @todo Deprecate? Seems unused
+	 */
 	function bp_get_forums_tag_name() {
-		global $bp;
-
-		if ( bp_is_directory() && bp_is_forums_component() && !empty( $bp->action_variables[0] ) )
-			$tag_name = $bp->action_variables[0];
-		else
-			$tag_name = false;
-
+		$tag_name = bp_is_directory() && bp_is_forums_component() ? bp_action_variable( 0 ) : false;
+		
 		return apply_filters( 'bp_get_forums_tag_name', $tag_name );
 	}
 
@@ -901,7 +907,7 @@ function bp_forum_pagination_count() {
 function bp_is_edit_topic() {
 	global $bp;
 
-	if ( in_array( 'post', (array)$bp->action_variables ) && in_array( 'edit', (array)$bp->action_variables ) )
+	if ( bp_is_action_variable( 'post' ) && bp_is_action_variable( 'edit' ) )
 		return false;
 
 	return true;
@@ -1035,7 +1041,7 @@ class BP_Forums_Template_Topic {
 }
 
 function bp_has_forum_topic_posts( $args = '' ) {
-	global $topic_template, $bp;
+	global $topic_template;
 
 	$defaults = array(
 		'topic_id' => false,
@@ -1047,10 +1053,10 @@ function bp_has_forum_topic_posts( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( empty( $topic_id ) && bp_is_current_component( 'groups') && bp_is_current_action( 'forum' ) && !empty( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] && !empty( $bp->action_variables[1] ) )
-		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[1] );
-	elseif ( empty( $topic_id ) && bp_is_current_component( 'forums') && bp_is_current_action( 'topic' ) && !empty( $bp->action_variables[0] ) )
-		$topic_id = bp_forums_get_topic_id_from_slug( $bp->action_variables[0] );
+	if ( empty( $topic_id ) && bp_is_current_component( 'groups') && bp_is_current_action( 'forum' ) && bp_is_action_variable( 'topic', 0 ) && bp_action_variable( 1 ) )
+		$topic_id = bp_forums_get_topic_id_from_slug( bp_action_variable( 1 ) );
+	elseif ( empty( $topic_id ) && bp_is_current_component( 'forums') && bp_is_current_action( 'topic' ) && bp_action_variable( 0 ) )
+		$topic_id = bp_forums_get_topic_id_from_slug( bp_action_variable( 0 ) );
 
 	if ( empty( $topic_id ) ) {
 		return false;
@@ -1059,7 +1065,7 @@ function bp_has_forum_topic_posts( $args = '' ) {
 		$topic_template = new BP_Forums_Template_Topic( (int) $topic_id, $per_page, $max, $order );
 
 		// Current topic forum_id needs to match current_group forum_id
-		if ( bp_is_groups_component() && $topic_template->forum_id != groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' ) )
+		if ( bp_is_groups_component() && $topic_template->forum_id != groups_get_groupmeta( bp_get_current_group_id(), 'forum_id' ) )
 			return false;
 	}
 	
@@ -1205,9 +1211,7 @@ function bp_the_topic_post_edit_text() {
 	echo bp_get_the_topic_post_edit_text();
 }
 	function bp_get_the_topic_post_edit_text() {
-		global $bp;
-
-		$post = bp_forums_get_post( $bp->action_variables[4] );
+		$post = bp_forums_get_post( bp_action_variable( 4 ) );
 		return apply_filters( 'bp_get_the_topic_post_edit_text', esc_attr( $post->post_text ) );
 	}
 

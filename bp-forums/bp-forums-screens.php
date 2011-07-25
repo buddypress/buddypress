@@ -104,7 +104,7 @@ function bp_member_forums_screen_favorites() {
 function bp_forums_screen_single_forum() {
 	global $bp;
 
-	if ( !bp_is_forums_component() || !bp_is_current_action( 'forum' ) || empty( $bp->action_variables[0] ) )
+	if ( !bp_is_forums_component() || !bp_is_current_action( 'forum' ) || !bp_action_variable( 0 ) )
 		return false;
 
 	do_action( 'bp_forums_screen_single_forum' );
@@ -116,7 +116,7 @@ add_action( 'bp_screens', 'bp_forums_screen_single_forum' );
 function bp_forums_screen_single_topic() {
 	global $bp;
 
-	if ( !bp_is_forums_component() || !bp_is_current_action( 'topic' ) || empty( $bp->action_variables[0] ) )
+	if ( !bp_is_forums_component() || !bp_is_current_action( 'topic' ) || !bp_action_variable( 0 ) )
 		return false;
 
 	do_action( 'bp_forums_screen_single_topic' );

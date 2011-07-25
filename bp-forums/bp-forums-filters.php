@@ -106,7 +106,7 @@ function bp_forums_make_nofollow_filter( $text ) {
 function bp_forums_add_forum_topic_to_page_title( $title, $original_title, $sep, $seplocation  ) {
 	global $bp;
 
-	if ( $bp->current_action == 'forum' && !empty( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] )
+	if ( bp_is_current_action( 'forum' ) && bp_is_action_variable( 'topic', 0 ) )
 		if ( bp_has_forum_topic_posts() )
 			$title .= bp_get_the_topic_title() . " $sep ";
 
