@@ -1266,7 +1266,7 @@ function bp_group_admin_tabs( $group = false ) {
 	if ( !$group )
 		$group = ( $groups_template->group ) ? $groups_template->group : $bp->groups->current_group;
 
-	$current_tab = $bp->action_variables[0];
+	$current_tab = bp_action_variable( 0 );
 ?>
 	<?php if ( $bp->is_item_admin || $bp->is_item_mod ) { ?>
 		<li<?php if ( 'edit-details' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug ?>/admin/edit-details"><?php _e( 'Details', 'buddypress' ); ?></a></li>
@@ -1313,24 +1313,24 @@ function bp_group_admin_form_action( $page = false ) {
 	echo bp_get_group_admin_form_action( $page );
 }
 	function bp_get_group_admin_form_action( $page = false, $group = false ) {
-		global $bp, $groups_template;
+		global $groups_template;
 
 		if ( !$group )
 			$group =& $groups_template->group;
 
 		if ( !$page )
-			$page = $bp->action_variables[0];
+			$page = bp_action_variable( 0 );
 
 		return apply_filters( 'bp_group_admin_form_action', bp_get_group_permalink( $group ) . 'admin/' . $page );
 	}
 
 function bp_group_has_requested_membership( $group = false ) {
-	global $bp, $groups_template;
+	global $groups_template;
 
 	if ( !$group )
 		$group =& $groups_template->group;
 
-	if ( groups_check_for_membership_request( $bp->loggedin_user->id, $group->id ) )
+	if ( groups_check_for_membership_request( bp_loggedin_user_id(), $group->id ) )
 		return true;
 
 	return false;
@@ -2014,10 +2014,10 @@ function bp_group_creation_form_action() {
 	function bp_get_group_creation_form_action() {
 		global $bp;
 
-		if ( empty( $bp->action_variables[1] ) )
+		if ( !bp_action_variable( 1 ) )
 			$bp->action_variables[1] = array_shift( array_keys( $bp->groups->group_creation_steps ) );
 
-		return apply_filters( 'bp_get_group_creation_form_action', bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . $bp->action_variables[1] );
+		return apply_filters( 'bp_get_group_creation_form_action', bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . bp_action_variable( 1 ) );
 	}
 
 function bp_is_group_creation_step( $step_slug ) {
@@ -2028,7 +2028,7 @@ function bp_is_group_creation_step( $step_slug ) {
 		return false;
 
 	/* If this the first step, we can just accept and return true */
-	if ( !$bp->action_variables[1] && array_shift( array_keys( $bp->groups->group_creation_steps ) ) == $step_slug )
+	if ( !bp_action_variable( 1 ) && array_shift( array_keys( $bp->groups->group_creation_steps ) ) == $step_slug )
 		return true;
 
 	/* Before allowing a user to see a group creation step we must make sure previous steps are completed */
@@ -2038,7 +2038,7 @@ function bp_is_group_creation_step( $step_slug ) {
 	}
 
 	/* Check the current step against the step parameter */
-	if ( $bp->action_variables[1] == $step_slug )
+	if ( bp_is_action_variable( $step_slug ) )
 		return true;
 
 	return false;
@@ -2174,13 +2174,13 @@ function bp_group_creation_previous_link() {
 		global $bp;
 
 		foreach ( (array)$bp->groups->group_creation_steps as $slug => $name ) {
-			if ( $slug == $bp->action_variables[1] )
+			if ( bp_is_action_variable( $slug ) )
 				break;
 
 			$previous_steps[] = $slug;
 		}
 
-		return apply_filters( 'bp_get_group_creation_previous_link', $bp->loggedin_user->domain . bp_get_groups_slug() . '/create/step/' . array_pop( $previous_steps ) );
+		return apply_filters( 'bp_get_group_creation_previous_link', bp_get_root_domain() . bp_get_groups_slug() . '/create/step/' . array_pop( $previous_steps ) );
 	}
 
 function bp_is_last_group_creation_step() {
@@ -2260,23 +2260,33 @@ function bp_directory_groups_search_form() {
 <?php
 }
 
+/**
+ * Displays group header tabs
+ *
+ * @package BuddyPress
+ * @todo Deprecate?
+ */
 function bp_groups_header_tabs() {
-	global $bp, $create_group_step, $completed_to_step;
+	global $create_group_step, $completed_to_step;
 ?>
-	<li<?php if ( !isset($bp->action_variables[0]) || 'recently-active' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'recently-joined' == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/recently-joined"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'most-popular'    == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/most-popular"><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'admin-of'        == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/admin-of"><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'mod-of'          == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/mod-of"><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( 'alphabetically'  == $bp->action_variables[0] ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/alphabetically"><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/recently-active"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/recently-joined"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'most-popular', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/most-popular"><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'admin-of', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/admin-of"><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'mod-of', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/mod-of"><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'alphabetically' ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo $bp->displayed_user->domain . bp_get_groups_slug() ?>/my-groups/alphabetically"><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
 <?php
 	do_action( 'groups_header_tabs' );
 }
 
+/**
+ * Displays group filter titles
+ *
+ * @package BuddyPress
+ * @todo Deprecate?
+ */
 function bp_groups_filter_title() {
-	global $bp;
-
-	$current_filter = $bp->action_variables[0];
+	$current_filter = bp_action_variable( 0 );
 
 	switch ( $current_filter ) {
 		case 'recently-active': default:
@@ -2302,12 +2312,10 @@ function bp_groups_filter_title() {
 }
 
 function bp_is_group_admin_screen( $slug ) {
-	global $bp;
-
 	if ( !bp_is_groups_component() || !bp_is_current_action( 'admin' ) )
 		return false;
 
-	if ( $bp->action_variables[0] == $slug )
+	if ( bp_is_action_variable( $slug ) )
 		return true;
 
 	return false;

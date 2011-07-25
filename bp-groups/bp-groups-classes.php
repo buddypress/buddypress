@@ -1250,7 +1250,7 @@ class BP_Group_Extension {
 			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', '$selected = ""; if ( "' . esc_attr( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $this->slug ) . '\">' . esc_attr( $this->name ) . '</a></li>";' ), 10, 2 );
 
 			// Catch the edit screen and forward it to the plugin template
-			if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && !empty( $bp->action_variables[0] ) && $this->slug == $bp->action_variables[0] ) {
+			if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $this->slug, 0 ) ) {
 				// Check whether the user is saving changes
 				$this->edit_screen_save();
 

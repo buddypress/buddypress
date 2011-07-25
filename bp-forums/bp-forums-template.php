@@ -1379,9 +1379,7 @@ function bp_forum_topic_action() {
 	echo bp_get_forum_topic_action();
 }
 	function bp_get_forum_topic_action() {
-		global $bp;
-
-		return apply_filters( 'bp_get_forum_topic_action', bp_get_root_domain() . esc_attr( $_SERVER['REQUEST_URI'] ) );
+		return apply_filters( 'bp_get_forum_topic_action', $_SERVER['REQUEST_URI'] );
 	}
 
 function bp_forum_topic_count_for_user( $user_id = 0 ) {

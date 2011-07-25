@@ -760,7 +760,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 		}
 	} else {
 		// When no $position is specified, check the entire array
-		$is_action_variable = in_array( $action_variable, bp_action_variables() );
+		$is_action_variable = in_array( $action_variable, (array)bp_action_variables() );
 	}
 	
 	return apply_filters( 'bp_is_action_variable', $is_action_variable, $action_variable, $position );

@@ -96,8 +96,8 @@ class BP_Groups_Component extends BP_Component {
 
 			// When in a single group, the first action is bumped down one because of the
 			// group name, so we need to adjust this and set the group name to current_item.
-			$bp->current_item   = isset( $bp->current_action )      ? $bp->current_action      : false;
-			$bp->current_action = isset( $bp->action_variables[0] ) ? $bp->action_variables[0] : false;
+			$bp->current_item   = bp_current_action();
+			$bp->current_action = bp_action_variable( 0 );
 			array_shift( $bp->action_variables );
 
 			// Using "item" not "group" for generic support in other components.
