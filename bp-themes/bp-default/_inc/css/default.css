@@ -334,10 +334,10 @@ div#sidebar div.tags div#tag-text {
 3.0 - Non-structural
 --------------------------------------------------------------*/
 p {
-	margin-top: 15px;
+	margin-bottom: 15px;
 }
-p:first-child {
-	margin-top: 0;
+p:last-child {
+	margin-bottom: 0;
 }
 .accessibly-hidden {
 	left: -999em;
@@ -1812,6 +1812,12 @@ table.profile-fields {
 }
 table.profile-fields:last-child {
 	margin-bottom: 0;
+}
+table.profile-fields p {
+	margin-top: 15px;
+}
+table.profile-fields p:last-child {
+	margin-top: 0;
 }
 div#sidebar table {
 	margin: 0 -16px;
