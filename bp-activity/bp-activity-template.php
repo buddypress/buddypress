@@ -274,12 +274,12 @@ function bp_has_activities( $args = '' ) {
 	if ( array_key_exists( $bp->current_action, (array)$bp->active_components ) )
 		$scope = $bp->active_components[$bp->current_action];
 	else
-		$scope = $bp->current_action;
+		$scope = bp_current_action();
 
 	// Support for permalinks on single item pages: /groups/my-group/activity/124/
 	if ( bp_is_current_action( bp_get_activity_slug() ) )
-		$include = $bp->action_variables[0];
-
+		$include = bp_action_variable( 0 );
+		
 	// Note: any params used for filtering can be a single value, or multiple values comma separated.
 	$defaults = array(
 		'display_comments' => 'threaded',   // false for none, stream/threaded - show comments in the stream or threaded under items

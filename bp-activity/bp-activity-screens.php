@@ -98,7 +98,7 @@ function bp_activity_screen_single_activity_permalink() {
 	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action(), 'show_hidden' => true ) );
 
 	// 404 if activity does not exist
-	if ( empty( $activity['activities'][0] ) || !empty( $bp->action_variables ) ) {
+	if ( empty( $activity['activities'][0] ) || bp_action_variables() ) {
 		bp_do_404();
 		return;
 

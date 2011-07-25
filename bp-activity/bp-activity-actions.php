@@ -22,11 +22,11 @@ function bp_activity_action_permalink_router() {
 		return false;
 
 	// No activity to display
-	if ( empty( $bp->action_variables[0] ) || !is_numeric( $bp->action_variables[0] ) )
+	if ( !bp_action_variable( 0 ) || !is_numeric( bp_action_variable( 0 ) ) )
 		return false;
 
 	// Get the activity details
-	$activity = bp_activity_get_specific( array( 'activity_ids' => $bp->action_variables[0], 'show_hidden' => true ) );
+	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_action_variable( 0 ), 'show_hidden' => true ) );
 
 	// 404 if activity does not exist
 	if ( empty( $activity['activities'][0] ) ) {
@@ -87,8 +87,8 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	if ( !bp_is_activity_component() || !bp_is_current_action( 'delete' ) )
 		return false;
 
-	if ( empty( $activity_id ) && !empty( $bp->action_variables[0] ) && is_numeric( $bp->action_variables[0] ) )
-		$activity_id = (int) $bp->action_variables[0];
+	if ( empty( $activity_id ) && bp_action_variable( 0 ) )
+		$activity_id = (int) bp_action_variable( 0 );
 
 	// Not viewing a specific activity item
 	if ( empty( $activity_id ) )
@@ -211,12 +211,12 @@ function bp_activity_action_mark_favorite() {
 	// Check the nonce
 	check_admin_referer( 'mark_favorite' );
 
-	if ( bp_activity_add_user_favorite( $bp->action_variables[0] ) )
+	if ( bp_activity_add_user_favorite( bp_action_variable( 0 ) ) )
 		bp_core_add_message( __( 'Activity marked as favorite.', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was an error marking that activity as a favorite, please try again.', 'buddypress' ), 'error' );
 
-	bp_core_redirect( wp_get_referer() . '#activity-' . $bp->action_variables[0] );
+	bp_core_redirect( wp_get_referer() . '#activity-' . bp_action_variable( 0 ) );
 }
 add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
 
@@ -229,12 +229,12 @@ function bp_activity_action_remove_favorite() {
 	// Check the nonce
 	check_admin_referer( 'unmark_favorite' );
 
-	if ( bp_activity_remove_user_favorite( $bp->action_variables[0] ) )
+	if ( bp_activity_remove_user_favorite( bp_action_variable( 0 ) ) )
 		bp_core_add_message( __( 'Activity removed as favorite.', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was an error removing that activity as a favorite, please try again.', 'buddypress' ), 'error' );
 
-	bp_core_redirect( wp_get_referer() . '#activity-' . $bp->action_variables[0] );
+	bp_core_redirect( wp_get_referer() . '#activity-' . bp_action_variable( 0 ) );
 }
 add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
 
@@ -269,7 +269,7 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 function bp_activity_action_friends_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_active( 'friends' ) || !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( bp_get_friends_slug() ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
+	if ( !bp_is_active( 'friends' ) || !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( bp_get_friends_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -283,7 +283,7 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
 function bp_activity_action_my_groups_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_active( 'groups' ) || !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( bp_get_groups_slug() ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
+	if ( !bp_is_active( 'groups' ) || !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( bp_get_groups_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -297,7 +297,7 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
 function bp_activity_action_mentions_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( 'mentions' ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
+	if ( !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( 'mentions' ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -311,7 +311,7 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
 function bp_activity_action_favorites_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( 'favorites' ) || !isset( $bp->action_variables[0] ) || $bp->action_variables[0] != 'feed' )
+	if ( !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( 'favorites' ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
 
 	$wp_query->is_404 = false;

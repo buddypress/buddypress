@@ -1154,9 +1154,7 @@ function bp_is_group_activity() {
 }
 
 function bp_is_group_forum_topic() {
-	global $bp;
-
-	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] )
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) && bp_is_action_variable( 'topic', 0 ) )
 		return true;
 
 	return false;
@@ -1165,7 +1163,7 @@ function bp_is_group_forum_topic() {
 function bp_is_group_forum_topic_edit() {
 	global $bp;
 
-	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) && isset( $bp->action_variables[0] ) && 'topic' == $bp->action_variables[0] && isset( $bp->action_variables[2] ) && 'edit' == $bp->action_variables[2] )
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) && bp_is_action_variable( 'topic', 0 ) && bp_is_action_variable( 'edit', 2 ) )
 		return true;
 
 	return false;
