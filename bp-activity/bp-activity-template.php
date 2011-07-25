@@ -1285,7 +1285,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
 		if ( !$update = bp_get_user_meta( $user_id, 'bp_latest_update', true ) )
 			return false;
 
-		$latest_update = apply_filters( 'bp_get_activity_latest_update_excerpt', '&quot;' . trim( strip_tags( bp_create_excerpt( $update['content'], 358 ) ) ) . '&quot;' );
+		$latest_update = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 358 ) ) ) );
 		$latest_update .= ' <a href="' . bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $update['id'] . '/"> ' . __( 'View', 'buddypress' ) . '</a>';
 
 		return apply_filters( 'bp_get_activity_latest_update', $latest_update  );
