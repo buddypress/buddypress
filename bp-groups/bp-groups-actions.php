@@ -29,8 +29,8 @@ function groups_action_create_group() {
 	groups_action_sort_creation_steps();
 
 	// If no current step is set, reset everything so we can start a fresh group creation
-	if ( !bp_action_variable( 1 ) ) {
-
+	$bp->groups->current_create_step = bp_action_variable( 1 );
+	if ( !$bp->groups->current_create_step ) {
 		unset( $bp->groups->current_create_step );
 		unset( $bp->groups->completed_create_steps );
 
@@ -42,7 +42,7 @@ function groups_action_create_group() {
 	}
 
 	// If this is a creation step that is not recognized, just redirect them back to the first screen
-	if ( $step = bp_action_variable( 1 ) && !$bp->groups->group_creation_steps[$step] ) {
+	if ( !empty( $bp->groups->current_create_step ) && empty( $bp->groups->group_creation_steps[$bp->groups->current_create_step] ) ) {
 		bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
 		bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/' );
 	}
