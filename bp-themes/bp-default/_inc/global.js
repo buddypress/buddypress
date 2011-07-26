@@ -373,7 +373,6 @@ jq(document).ready( function() {
 				/* Check for errors and append if found. */
 				if ( response[0] + response[1] == '-1' ) {
 					form.append( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
-					target.prop("disabled", false);
 				} else {
 					form.fadeOut( 200,
 						function() {
@@ -395,7 +394,7 @@ jq(document).ready( function() {
 					jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
 				}
 
-				target.fadeOut(100, function(){ target.prop("disabled", false); });
+				jq(target).prop("disabled", false);
 			});
 
 			return false;
