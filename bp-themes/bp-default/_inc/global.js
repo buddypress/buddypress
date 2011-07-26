@@ -315,8 +315,6 @@ jq(document).ready( function() {
 			var c_id = target.attr('href').substr( 10, target.attr('href').length );
 			var form = jq( '#ac-form-' + a_id );
 
-			var form = jq( '#ac-form-' + ids[2] );
-
 			form.css( 'display', 'none' );
 			form.removeClass('root');
 			jq('.ac-form').hide();
