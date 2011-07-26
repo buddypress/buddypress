@@ -56,13 +56,10 @@
 	<?php endif; ?>
 
 	<?php /* Show forum tags on the forums directory */
-	if ( bp_is_current_component( 'forums' ) && bp_is_directory() ) : ?>
+	if ( bp_is_active( 'forums' ) && bp_is_current_component( 'forums' ) && bp_is_directory() ) : ?>
 		<div id="forum-directory-tags" class="widget tags">
-
 			<h3 class="widgettitle"><?php _e( 'Forum Topic Tags', 'buddypress' ) ?></h3>
-			<?php if ( bp_is_active( 'forums' ) ) : ?>
-				<div id="tag-text"><?php bp_forums_tag_heat_map(); ?></div>
-			<?php endif; ?>
+			<div id="tag-text"><?php bp_forums_tag_heat_map(); ?></div>
 		</div>
 	<?php endif; ?>
 
