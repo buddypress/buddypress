@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-26 17:30:53+00:00\n"
+"POT-Creation-Date: 2011-07-26 21:30:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3577,7 +3577,7 @@ msgstr ""
 msgid "Remember Me"
 msgstr ""
 
-#: bp-themes/bp-default/sidebar.php:62
+#: bp-themes/bp-default/sidebar.php:61
 msgid "Forum Topic Tags"
 msgstr ""
 
