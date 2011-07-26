@@ -650,6 +650,10 @@ function bp_is_current_component( $component ) {
 
 	$is_current_component = false;
 
+	// Backward compatibility: 'xprofile' should be read as 'profile'
+	if ( 'xprofile' == $component )
+		$component = 'profile';
+
 	if ( !empty( $bp->current_component ) ) {
 
 		// First, check to see whether $component_name and the current
@@ -1022,7 +1026,7 @@ function bp_is_user_profile_edit() {
 
 	if ( bp_is_current_component( 'xprofile' ) && bp_is_current_action( 'edit' ) )
 		return true;
-
+		
 	return false;
 }
 

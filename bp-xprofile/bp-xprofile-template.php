@@ -20,15 +20,16 @@ Class BP_XProfile_Data_Template {
 	var $in_the_loop;
 	var $user_id;
 
-	function bp_xprofile_data_template( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false ) {
-		$this->__construct( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields );
+	function bp_xprofile_data_template( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false ) {
+		$this->__construct( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields, $hide_empty_fields );
 	}
 
-	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false ) {
+	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false ) {
 		$this->groups = BP_XProfile_Group::get( array(
 			'profile_group_id'  => $profile_group_id,
 			'user_id'           => $user_id,
 			'hide_empty_groups' => $hide_empty_groups,
+			'hide_empty_fields' => $hide_empty_fields,
 			'fetch_fields'      => $fetch_fields,
 			'fetch_field_data'  => $fetch_field_data,
 			'exclude_groups'    => $exclude_groups,
@@ -152,10 +153,14 @@ function xprofile_get_profile() {
 function bp_has_profile( $args = '' ) {
 	global $bp, $profile_template;
 
+	// Only show empty fields if we're on the Dashboard, or on a user's profile edit page
+	$hide_empty_fields = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() );
+
 	$defaults = array(
 		'user_id' => $bp->displayed_user->id,
 		'profile_group_id'  => false,
 		'hide_empty_groups' => true,
+		'hide_empty_fields' => $hide_empty_fields,
 		'fetch_fields'      => true,
 		'fetch_field_data'  => true,
 		'exclude_groups'    => false, // Comma-separated list of profile field group IDs to exclude
@@ -165,7 +170,7 @@ function bp_has_profile( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields );
+	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields, $hide_empty_fields );
 	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), $profile_template );
 }
 
@@ -189,7 +194,7 @@ function bp_field_css_class( $class = false ) {
 }
 	function bp_get_field_css_class( $class = false ) {
 		global $profile_template;
-
+		
 		$css_classes = array();
 
 		if ( $class )

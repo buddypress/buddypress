@@ -99,6 +99,7 @@ Class BP_XProfile_Group {
 	 *		'profile_group_id' - Limit results to a single profile group
 	 *		'user_id' - Required if you want to load a specific user's data
 	 *		'hide_empty_groups' - Hide groups without any fields
+	 *		'hide_empty_fields' - Hide fields where the user has not provided data
 	 *		'fetch_fields' - Load each group's fields
 	 *		'fetch_field_data' - Load each field's data. Requires a user_id
 	 *		'exclude_groups' - Comma-separated list of groups to exclude
@@ -113,6 +114,7 @@ Class BP_XProfile_Group {
 			'profile_group_id'  => false,
 			'user_id'           => $bp->displayed_user->id,
 			'hide_empty_groups' => false,
+			'hide_empty_fields' => false,
 			'fetch_fields'      => false,
 			'fetch_field_data'  => false,
 			'exclude_groups'    => false,
@@ -161,27 +163,66 @@ Class BP_XProfile_Group {
 			foreach( (array)$fields as $field )
 				$field_ids[] = $field->id;
 
-			$field_ids = implode( ',', (array) $field_ids );
+			$field_ids_sql = implode( ',', (array) $field_ids );
 
 			if ( !empty( $field_ids ) )
-				$field_data = $wpdb->get_results( $wpdb->prepare( "SELECT field_id, value FROM {$bp->profile->table_name_data} WHERE field_id IN ( {$field_ids} ) AND user_id = %d", $user_id ) );
-
-			if ( !empty( $field_data ) ) {
-				foreach( (array)$fields as $field_key => $field ) {
-					foreach( (array)$field_data as $data ) {
-						if ( $field->id == $data->field_id )
-							$fields[$field_key]->data->value = $data->value;
+				$field_data = $wpdb->get_results( $wpdb->prepare( "SELECT field_id, value FROM {$bp->profile->table_name_data} WHERE field_id IN ( {$field_ids_sql} ) AND user_id = %d", $user_id ) );
+				
+			// Remove data-less fields, if necessary
+			if ( $hide_empty_fields ) {
+			
+				// Loop through the results and find the fields that have data.
+				foreach( (array)$field_data as $data ) {
+					if ( false !== $key = array_search( $data->field_id, $field_ids ) ) {
+						// Fields that have data get removed from the list
+						unset( $field_ids[$key] );
 					}
 				}
+				
+				// The remaining members of $field_ids are empty. Remove them.
+				foreach( $fields as $field_key => $field ) {
+					if ( in_array( $field->id, $field_ids ) ) {
+						unset( $fields[$field_key] );
+					}
+				}
+				
+				// Reset indexes
+				$fields = array_values( $fields );
+				
+			}
+			
+			// Field data was found
+			if ( !empty( $field_data ) && !is_wp_error( $field_data ) ) {
+				
+				// Loop through fields
+				foreach( (array)$fields as $field_key => $field ) {
+					
+					// Loop throught the data in each field
+					foreach( (array)$field_data as $data ) {
+					
+						// Assign correct data value to the field
+						if ( $field->id == $data->field_id )
+							$fields[$field_key]->data->value = $data->value;
+					}	
+				}	
 			}
 		}
 
 		// Merge the field array back in with the group array
-		foreach( (array)$groups as $group_key => $group ) {
-			foreach( (array)$fields as $field ) {
+		foreach( (array) $groups as $group_key => $group ) {
+			foreach( (array) $fields as $field ) {
 				if ( $group->id == $field->group_id )
 					$groups[$group_key]->fields[] = $field;
 			}
+			
+			// When we unset fields above, we may have created empty groups.
+			// Remove them, if necessary.
+			if ( empty( $group->fields ) && $hide_empty_groups ) {
+				unset( $groups[$group_key] );
+			}
+			
+			// Reset indexes
+			$groups = array_values( $groups );
 		}
 
 		return $groups;
