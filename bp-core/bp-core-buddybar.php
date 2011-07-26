@@ -284,6 +284,26 @@ add_action( 'wp_head',    'bp_core_sort_subnav_items' );
 add_action( 'admin_head', 'bp_core_sort_subnav_items' );
 
 /**
+ * Determines whether a given nav item has subnav items
+ *
+ * @package BuddyPress
+ * @since 1.3
+ *
+ * @param str $nav_item The id of the top-level nav item whose nav items you're checking
+ * @return bool $has_subnav True if the nav item is found and has subnav items; false otherwise
+ */
+function bp_nav_item_has_subnav( $nav_item = '' ) {
+	global $bp;
+	
+	if ( !$nav_item )
+		$nav_item = bp_current_component();
+	
+	$has_subnav = isset( $bp->bp_options_nav[$nav_item] ) && count( $bp->bp_options_nav[$nav_item] ) > 0;
+	
+	return apply_filters( 'bp_nav_item_has_subnav', $has_subnav, $nav_item );
+}
+
+/**
  * Removes a navigation item from the sub navigation array used in BuddyPress themes.
  *
  * @package BuddyPress Core
