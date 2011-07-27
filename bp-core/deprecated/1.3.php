@@ -321,6 +321,19 @@ To view and respond to the message, log in and visit: %4$s
 }
 
 /**
+ * BP 1.3 simplified notification functions a bit
+ */
+function bp_core_delete_notifications_for_user_by_type( $user_id, $component_name, $component_action ) {
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_core_delete_notifications_by_type()' );
+	return BP_Core_Notification::delete_for_user_by_type( $user_id, $component_name, $component_action );
+}
+
+function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
+	_deprecated_function( __FUNCTION__, '1.3', 'bp_core_delete_notifications_by_item_id()' );
+	return BP_Core_Notification::delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
+}
+
+/**
  * In BP 1.3, these functions were renamed for greater consistency
  */
 function bp_forum_directory_permalink() { 
