@@ -269,10 +269,11 @@ function bp_has_activities( $args = '' ) {
 		if ( 'public' != $bp->groups->current_group->status && ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) || $bp->loggedin_user->is_super_admin ) )
 			$show_hidden = true;
 	}
-
+	
 	// The default scope should recognize custom slugs
-	if ( array_key_exists( $bp->current_action, (array)$bp->active_components ) )
-		$scope = $bp->active_components[$bp->current_action];
+	if ( array_key_exists( $bp->current_action, (array)$bp->loaded_components ) ) {
+		$scope = $bp->loaded_components[$bp->current_action];
+	}
 	else
 		$scope = bp_current_action();
 
