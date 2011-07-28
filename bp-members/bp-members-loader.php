@@ -109,7 +109,7 @@ class BP_Members_Component extends BP_Component {
 		/** Default Profile Component *****************************************/
 		if ( !defined( 'BP_DEFAULT_COMPONENT' ) ) {
 			if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) )
-				$bp->default_component = $bp->activity->id;
+				$bp->default_component = bp_get_activity_slug();
 			else
 				$bp->default_component = ( 'xprofile' == $bp->profile->id ) ? 'profile' : $bp->profile->id;
 

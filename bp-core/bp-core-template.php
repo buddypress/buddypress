@@ -655,7 +655,6 @@ function bp_is_current_component( $component ) {
 		$component = 'profile';
 
 	if ( !empty( $bp->current_component ) ) {
-
 		// First, check to see whether $component_name and the current
 		// component are a simple match
 		if ( $bp->current_component == $component ) {
@@ -666,6 +665,10 @@ function bp_is_current_component( $component ) {
 		} elseif ( isset( $bp->{$component}->root_slug ) && $bp->{$component}->root_slug == $bp->current_component ) {
 			$is_current_component = true;
 
+		// Because slugs can differ from root_slugs, we should check them too
+		} elseif ( isset( $bp->{$component}->slug ) && $bp->{$component}->slug == $bp->current_component ) {
+			$is_current_component = true;
+			
 		// Next, check to see whether $component is a canonical,
 		// non-translatable component name. If so, we can return its
 		// corresponding slug from $bp->active_components.
@@ -673,8 +676,8 @@ function bp_is_current_component( $component ) {
 			if ( strstr( $bp->current_component, $key ) )
 				$is_current_component = true;
 
-		// If we haven't found a match yet, check against the root_slugs
-		// created by $bp->pages
+		// If we haven't found a match yet, check against the root_slugs 
+		// created by $bp->pages, as well as the regular slugs
 		} else {
 			foreach ( $bp->active_components as $key => $id ) {
 				// If the $component parameter does not match the current_component,
