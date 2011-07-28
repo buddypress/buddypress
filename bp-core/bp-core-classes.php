@@ -222,8 +222,13 @@ class BP_Core_User {
 
 		$sql['from'] = "FROM $wpdb->users u LEFT JOIN $wpdb->usermeta um ON um.user_id = u.ID";
 
-		if ( $search_terms && bp_is_active( 'xprofile' ) || 'alphabetical' == $type )
-			$sql['join_profiledata'] = "LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id";
+		// We search against xprofile fields, so we must join the table
+		if ( $search_terms && bp_is_active( 'xprofile' ) )
+			$sql['join_profiledata_search'] = "LEFT JOIN {$bp->profile->table_name_data} spd ON u.ID = spd.user_id";
+
+		// Alphabetical sorting is done by the xprofile Full Name field
+		if ( 'alphabetical' == $type )
+			$sql['join_profiledata_alpha'] = "LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id";
 
 		if ( $meta_key )
 			$sql['join_meta'] = "LEFT JOIN {$wpdb->usermeta} umm ON umm.user_id = u.ID";
@@ -270,7 +275,7 @@ class BP_Core_User {
 
 		if ( $search_terms && bp_is_active( 'xprofile' ) ) {
 			$search_terms             = like_escape( $wpdb->escape( $search_terms ) );
-			$sql['where_searchterms'] = "AND pd.value LIKE '%%$search_terms%%'";
+			$sql['where_searchterms'] = "AND spd.value LIKE '%%$search_terms%%'";
 		}
 
 		if ( $meta_key ) {
