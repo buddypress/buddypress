@@ -501,14 +501,47 @@ function bp_member_permalink() {
 	function bp_member_link() { echo bp_get_member_permalink(); }
 	function bp_get_member_link() { return bp_get_member_permalink(); }
 
+/**
+ * Echoes bp_get_member_name()
+ *
+ * @package BuddyPress
+ */
 function bp_member_name() {
 	echo apply_filters( 'bp_member_name', bp_get_member_name() );
 }
+	/**
+	 * Used inside a bp_has_members() loop, this function returns a user's full name
+	 *
+	 * Full name is, by default, pulled from xprofile's Full Name field. When this field is
+	 * empty, we try to get an alternative name from the WP users table, in the following order
+	 * of preference: display_name, user_nicename, user_login.
+	 *
+	 * @package BuddyPress
+	 *
+	 * @uses apply_filters() Filter bp_get_the_member_name() to alter the function's output
+	 * @return str The user's fullname for display
+	 */
 	function bp_get_member_name() {
 		global $members_template;
+		
+		// Generally, this only fires when xprofile is disabled
+		if ( empty( $members_template->member->fullname ) ) {
+			// Our order of preference for alternative fullnames
+			$name_stack = array(
+				'display_name',
+				'user_nicename',
+				'user_login'
+			);
 
-		if ( empty($members_template->member->fullname) )
-			$members_template->member->fullname = $members_template->member->display_name;
+			foreach ( $name_stack as $source ) {
+				if ( !empty( $members_template->member->{$source} ) ) {
+					// When a value is found, set it as fullname and be done
+					// with it
+					$members_template->member->fullname = $members_template->member->{$source};
+					break;
+				}
+			}
+		}
 
 		return apply_filters( 'bp_get_member_name', $members_template->member->fullname );
 	}
