@@ -22,9 +22,10 @@ jq(document).ready( function() {
 
 	/* @mention Compose Scrolling */
 	if ( jq.query.get('r') && jq('textarea#whats-new').length ) {
+		jq('#whats-new-options').animate({height:'40px'});
+		jq("form#whats-new-form textarea").animate({height:'50px'});
 		jq.scrollTo( jq('textarea#whats-new'), 500, { offset:-125, easing:'easeOutQuad' } );
 		jq('textarea#whats-new').focus();
-		jq('form#whats-new-form input[type="submit"]').show();
 	}
 
 	/**** Activity Posting ********************************************************/
