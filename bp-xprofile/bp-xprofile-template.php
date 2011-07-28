@@ -153,8 +153,9 @@ function xprofile_get_profile() {
 function bp_has_profile( $args = '' ) {
 	global $bp, $profile_template;
 
-	// Only show empty fields if we're on the Dashboard, or on a user's profile edit page
-	$hide_empty_fields = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() );
+	// Only show empty fields if we're on the Dashboard, or we're on a user's profile edit page,
+	// or this is a registration page
+	$hide_empty_fields = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() && !bp_is_register_page() );
 
 	$defaults = array(
 		'user_id' => $bp->displayed_user->id,
