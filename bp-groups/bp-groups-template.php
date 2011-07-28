@@ -1755,7 +1755,7 @@ function bp_group_has_members( $args = '' ) {
 	global $bp, $members_template;
 
 	$defaults = array(
-		'group_id' => $bp->groups->current_group->id,
+		'group_id' => bp_get_current_group_id(),
 		'per_page' => 20,
 		'max' => false,
 		'exclude' => false,
