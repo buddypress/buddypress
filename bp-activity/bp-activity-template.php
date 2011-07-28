@@ -577,7 +577,7 @@ function bp_activity_avatar( $args = '' ) {
 		extract( $r, EXTR_SKIP );
 
 		if ( !isset( $height ) && !isset( $width ) ) {  // Backpat
-			if ( 'full' == $type ) {
+			if ( 'full' == $type || ( 'thumb' == $type && bp_is_single_activity() ) ) {
 				$height = $bp->avatar->full->height;
 				$width  = $bp->avatar->full->width;
 

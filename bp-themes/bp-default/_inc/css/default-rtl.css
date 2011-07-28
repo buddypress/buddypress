@@ -462,7 +462,7 @@ body.activity-permalink .activity-list li.mini .activity-meta {
 	padding-right: 10px;
 }
 body.activity-permalink .activity-list li .activity-content {
-	margin-right: 135px;
+	margin-right: 185px;
 	margin-left: 0;
 }
 body.activity-permalink .activity-list li .activity-content > p {
@@ -503,7 +503,7 @@ div.activity-comments {
 	margin: 0 70px 0 0;
 }
 body.activity-permalink div.activity-comments {
-	margin-right: 135px;
+	margin-right: 185px;
 	margin-left: 0;
 }
 div.activity-comments ul {
