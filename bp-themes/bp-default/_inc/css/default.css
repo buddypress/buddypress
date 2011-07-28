@@ -27,10 +27,10 @@ Hello, this is the BuddyPress Default theme stylesheet.
 		6.1.1 - Activity Listing
 		6.1.2 - Activity Comments
 	6.2 - Admin Bar
-	6.3 - Ajax Loading
-	6.4 - Directories - Members, Groups, Blogs, Forums
-	6.5 - Error / Success Messages
-	6.6 - Forms
+	6.3 - Directories - Members, Groups, Blogs, Forums
+	6.4 - Error / Success Messages
+	6.5 - Forms
+	6.6 - Ajax Loading
 	6.7 - Topics and Tables - Forums and General
 	6.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
 	6.9 - Private Messaging Threads
@@ -1041,6 +1041,7 @@ span.sticky-post {
 #item-body form#whats-new-form {
 	border-bottom: 1px solid #ddd;
 	margin: 20px 0 10px;
+	padding-bottom: 20px;
 }
 .home-page form#whats-new-form {
 	border-bottom: none;
@@ -1070,7 +1071,7 @@ form#whats-new-form textarea {
 	color: #555;
 	font-family: inherit;
 	font-size: 14px;
-	height: 50px;
+	height: 20px;
 	padding: 6px;
 	width: 98%;
 }
@@ -1083,11 +1084,8 @@ form#whats-new-form #whats-new-submit {
 	margin-top: 12px;
 }
 #whats-new-options {
-	margin-bottom: 18px;
 	overflow: auto;
-}
-#aw-whats-new-submit {
-	display: none;
+	height: 0;
 }
 #whats-new:focus {
 	border-color: rgba(31, 179, 221, 0.9) !important;
@@ -1465,19 +1463,7 @@ div.activity-comments form div.ac-reply-content {
 
 
 /*--------------------------------------------------------------
-6.3 - Ajax Loading
---------------------------------------------------------------*/
-a.loading,
-input.loading {
-	background-image: url( ../images/ajax-loader.gif ) !important;
-	background-position: 95% 50% !important;
-	background-repeat: no-repeat !important;
-	padding-right: 25px !important;
-}
-
-
-/*--------------------------------------------------------------
-6.4 - Directories - Members, Groups, Blogs, Forums
+6.3 - Directories - Members, Groups, Blogs, Forums
 --------------------------------------------------------------*/
 div.dir-search {
 	float: right;
@@ -1490,7 +1476,7 @@ div.dir-search input[type=text] {
 
 
 /*--------------------------------------------------------------
-6.5 - Errors / Success Messages
+6.4 - Errors / Success Messages
 --------------------------------------------------------------*/
 div#message {
 	margin: 0 0 15px;
@@ -1527,33 +1513,6 @@ div#message.updated p {
 	padding: 6px;
 	width: 90%;
 }
-input[type="submit"].pending,
-input[type="button"].pending,
-input[type="reset"].pending,
-input[type="submit"].disabled,
-input[type="button"].disabled,
-input[type="reset"].disabled,
-button.pending,
-button.disabled,
-div.pending a,
-a.disabled {
-	border-color: #eee;
-	color: #bbb;
-	cursor: default;
-}
-input[type="submit"]:hover.pending,
-input[type="button"]:hover.pending,
-input[type="reset"]:hover.pending,
-input[type="submit"]:hover.disabled,
-input[type="button"]:hover.disabled,
-input[type="reset"]:hover.disabled,
-button.pending:hover,
-button.disabled:hover,
-div.pending a:hover,
-a.disabled:hover {
-	border-color: #eee;
-	color: #bbb;
-}
 div.accept,
 div.reject {
 	float: left;
@@ -1569,7 +1528,7 @@ ul.button-nav li.current a {
 
 
 /*--------------------------------------------------------------
-6.6 - Forms
+6.5 - Forms
 --------------------------------------------------------------*/
 .standard-form textarea,
 .standard-form input[type=text],
@@ -1747,6 +1706,57 @@ div.generic-button a:hover,
 	outline: none;
 	text-decoration: none;
 }
+
+/*--------------------------------------------------------------
+6.6 - Ajax Loading
+--------------------------------------------------------------*/
+a.loading,
+input.loading {
+    background-image: url( ../images/ajax-loader.gif ), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+	background-image: url( ../images/ajax-loader.gif ), -moz-linear-gradient(top,  #fff,  #e0e0e0);
+    background-position: 95% 50%;
+    background-repeat: no-repeat;
+    padding-right: 25px;
+}
+a.loading:hover,
+input.loading:hover {
+    background-image: url( ../images/ajax-loader.gif ), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+    background-image: url( ../images/ajax-loader.gif ), -moz-linear-gradient(top,  #fff,  #e0e0e0);
+    background-position: 95% 50%;
+    background-repeat: no-repeat;
+    padding-right: 25px;
+    border: 1px solid #ccc;
+    color: #777;
+}
+input[type="submit"].pending,
+input[type="button"].pending,
+input[type="reset"].pending,
+input[type="submit"].disabled,
+input[type="button"].disabled,
+input[type="reset"].disabled,
+button.pending,
+button.disabled,
+div.pending a,
+a.disabled {
+    border-color: #eee;
+    color: #bbb;
+    cursor: default;
+}
+input[type="submit"]:hover.pending,
+input[type="button"]:hover.pending,
+input[type="reset"]:hover.pending,
+input[type="submit"]:hover.disabled,
+input[type="button"]:hover.disabled,
+input[type="reset"]:hover.disabled,
+button.pending:hover,
+button.disabled:hover,
+div.pending a:hover,
+a.disabled:hover {
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#ededed));
+    border-color: #eee;
+    color: #bbb;
+}
+
 
 /*--------------------------------------------------------------
 6.7 - Forums, Tables and Topics

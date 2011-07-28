@@ -30,7 +30,11 @@ jq(document).ready( function() {
 	/**** Activity Posting ********************************************************/
 
 	/* Textarea focus */
-	jq('#whats-new').focus( function(){ jq("#aw-whats-new-submit").fadeIn(300); });
+	jq('#whats-new').focus( function(){
+		jq("#whats-new-options").animate({height:'40px'});
+		jq("form#whats-new-form textarea").animate({height:'50px'});
+		jq("#aw-whats-new-submit").prop("disabled", false);
+	});
 
 	/* New posts */
 	jq("input#aw-whats-new-submit").click( function() {
@@ -65,13 +69,12 @@ jq(document).ready( function() {
 			'object': object,
 			'item_id': item_id
 		},
-		function(response)
-		{
-			button.removeClass('loading');
+		function(response) {
 
 			form.children().each( function() {
-				if ( jq.nodeName(this, "textarea") || jq.nodeName(this, "input") )
+				if ( jq.nodeName(this, "textarea") || jq.nodeName(this, "input") ) {
 					jq(this).prop( 'disabled', false );
+				}
 			});
 
 			/* Check for errors and append if found. */
@@ -111,7 +114,9 @@ jq(document).ready( function() {
 				jq("textarea#whats-new").val('');
 			}
 
-			button.fadeOut(100, function(){ button.prop("disabled", false); });
+			jq("#whats-new-options").animate({height:'0px'});
+			jq("form#whats-new-form textarea").animate({height:'20px'});
+			jq("#aw-whats-new-submit").prop("disabled", true).removeClass('loading');
 		});
 
 		return false;
@@ -213,12 +218,12 @@ jq(document).ready( function() {
 
 		/* Delete activity stream items */
 		if ( target.hasClass('delete-activity') ) {
-			var li = target.parents('div.activity ul li');
-			var id = li.attr('id').substr( 9, li.attr('id').length );
+			var li        = target.parents('div.activity ul li');
+			var id        = li.attr('id').substr( 9, li.attr('id').length );
 			var link_href = target.attr('href');
+			var nonce     = link_href.split('_wpnonce=');
 
-			var nonce = link_href.split('_wpnonce=');
-				nonce = nonce[1];
+			nonce = nonce[1];
 
 			target.addClass('loading');
 
@@ -229,13 +234,12 @@ jq(document).ready( function() {
 				'_wpnonce': nonce
 			},
 			function(response) {
-				target.removeClass('loading');
 
 				if ( response[0] + response[1] == '-1' ) {
 					li.prepend( response.substr( 2, response.length ) );
-					li.children('div#message').hide().fadeIn(200);
+					li.children('div#message').hide().fadeIn(300);
 				} else {
-					li.slideUp(200);
+					li.slideUp(300);
 				}
 			});
 
