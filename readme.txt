@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
-Requires at least: 3.1
+Requires at least: 3.2
 Tested up to: 3.2
-Stable tag: 1.2.7
+Stable tag: 1.5-beta-1
 
 == Description ==
 
@@ -65,11 +65,11 @@ The documentation codex can be found here: http://codex.buddypress.org/
 
 = Where can I report a bug? =
 
-Bugs can be reported here: http://trac.buddypress.org/newticket/
+Bugs can be reported here: http://buddypress.trac.wordpress.org/newticket/
 
 = Where can checkout the latest bleeding edge? =
 
-BuddyPress subversion trunk can be found at: http://svn.buddypress.org/trunk/
+BuddyPress subversion trunk can be found at: http://buddypress.svn.wordpress.org/trunk/
 
 == Screenshots ==
 
@@ -80,6 +80,7 @@ BuddyPress subversion trunk can be found at: http://svn.buddypress.org/trunk/
 5. **Private Messaging** - Private messaging will allow your users to talk to each other directly, and in private. Not just limited to one on one discussions, your users can send messages to multiple recipients.
 6. **Discussion Forums** - Full powered discussion forums built directly into groups allow for more conventional in-depth conversations.
 7. **WordPress Blogging** - Start a blog built on the best blogging software in the world. Even allow each of your users to start their own full powered WordPress blog (with WordPress MU). Track new posts and comments across your site.
+8. **User Settings** - Allow your users to adjust their profile and notification settings right from within their accounts, with full theme integration and the ability to disable it.
 
 == Languages ==
 
@@ -109,7 +110,18 @@ The <a href="http://i18n.svn.buddypress.org/">BuddyPress langauge file repositor
 
 == Upgrade Notice ==
 
-= 1.2.7 =
+
+= 1.5-beta-1 =
+792 tickets closed
+494 confirmed bug fixes
+2,161 total code changes since
+484 pizzas consumed
+
+= 1.2.9 =
+Compatibility with WordPress 3.2
+
+= 1.2.8 =
+Compatibility with WordPress 3.1= 1.2.7 =
 Fixes over 10 bugs.
 
 == Changelog ==
