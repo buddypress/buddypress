@@ -95,6 +95,7 @@ class BP_Core_User {
 	 * The total number of blog posts posted by the user
 	 *
 	 * @var integer
+	 * @deprecated No longer used
 	 */
 	var $total_blogs;
 
