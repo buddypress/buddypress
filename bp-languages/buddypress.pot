@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-07-28 23:30:56+00:00\n"
+"POT-Creation-Date: 2011-07-29 21:30:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -78,7 +78,7 @@ msgstr ""
 msgid "Site authored by %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:345 bp-core/bp-core-classes.php:174
+#: bp-blogs/bp-blogs-template.php:345 bp-core/bp-core-classes.php:175
 #: bp-groups/bp-groups-widgets.php:70 bp-groups/bp-groups-widgets.php:170
 #: bp-members/bp-members-template.php:559
 #: bp-members/bp-members-template.php:815
@@ -1087,7 +1087,7 @@ msgstr ""
 msgid "Are you sure?"
 msgstr ""
 
-#: bp-core/bp-core-classes.php:190
+#: bp-core/bp-core-classes.php:191
 msgid "%d group"
 msgid_plural "%d groups"
 msgstr[0] ""
