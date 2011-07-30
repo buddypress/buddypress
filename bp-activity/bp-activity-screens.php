@@ -74,7 +74,7 @@ add_action( 'bp_activity_screen_mentions',                  'bp_activity_remove_
  * Reset the logged-in user's new mentions data when he visits his mentions screen
  *
  * @package BuddyPress Activity
- * @since 1.3
+ * @since 1.5
  * @uses bp_activity_clear_new_mentions()
  * @uses bp_is_my_profile()
  */

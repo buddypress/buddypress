@@ -505,7 +505,7 @@ function bp_message_activate_deactivate_text() {
  *
  * @package BuddyPress
  * @subpackage Messages Template
- * @since BuddyPress 1.3
+ * @since 1.5
  *
  * @uses bp_get_messages_slug()
  */
@@ -517,7 +517,7 @@ function bp_messages_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Messages Template
-	 * @since BuddyPress 1.3
+	 * @since 1.5
 	 */
 	function bp_get_messages_slug() {
 		global $bp;
@@ -869,10 +869,10 @@ function bp_the_thread_message_content() {
 /**
  * Enable oembed support for Messages.
  *
- * There's no caching as BP 1.3 does not have a Messages meta API.
+ * There's no caching as BP 1.5 does not have a Messages meta API.
  *
  * @see BP_Embed
- * @since 1.3
+ * @since 1.5
  * @todo Add Messages meta?
  */
 function bp_messages_embed() {

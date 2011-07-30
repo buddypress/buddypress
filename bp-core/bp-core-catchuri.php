@@ -357,7 +357,7 @@ function bp_core_catch_profile_uri() {
  * Catches invalid access to BuddyPress pages and redirects them accordingly.
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  */
 function bp_core_catch_no_access() {
 	global $bp, $bp_no_status_set, $wp_query;
@@ -390,7 +390,7 @@ add_action( 'wp', 'bp_core_catch_no_access' );
  * If authenticated, redirects user back to requested content by default.
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  */
 function bp_core_no_access( $args = '' ) {
 	global $bp;
@@ -447,7 +447,7 @@ function bp_core_no_access( $args = '' ) {
  *
  * @package BuddyPress Core
  * @global $error
- * @since 1.3
+ * @since 1.5
  */
 function bp_core_no_access_wp_login_error() {
 	global $error;

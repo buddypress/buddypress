@@ -7,7 +7,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @package BuddyPress
  * @subpackage Forums Template
- * @since BuddyPress 1.3
+ * @since 1.5
  *
  * @uses bp_get_forums_slug()
  */
@@ -19,7 +19,7 @@ function bp_forums_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Forums Template
-	 * @since BuddyPress 1.3
+	 * @since 1.5
 	 */
 	function bp_get_forums_slug() {
 		global $bp;
@@ -31,7 +31,7 @@ function bp_forums_slug() {
  *
  * @package BuddyPress
  * @subpackage Forums Template
- * @since BuddyPress 1.3
+ * @since 1.5
  *
  * @uses bp_get_forums_root_slug()
  */
@@ -43,7 +43,7 @@ function bp_forums_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Forums Template
-	 * @since BuddyPress 1.3
+	 * @since 1.5
 	 */
 	function bp_get_forums_root_slug() {
 		global $bp;
@@ -55,7 +55,7 @@ function bp_forums_root_slug() {
  *
  * @package BuddyPress
  * @subpackage Forums Template
- * @since 1.3
+ * @since 1.5
  * @uses bp_get_forums_directory_permalink()
  */
 function bp_forums_directory_permalink() {
@@ -66,7 +66,7 @@ function bp_forums_directory_permalink() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Forums Template
-	 * @since 1.3
+	 * @since 1.5
 	 * @uses apply_filters()
 	 * @uses traisingslashit()
 	 * @uses bp_get_root_domain()
@@ -1318,7 +1318,7 @@ function bp_forums_tag_heat_map( $args = '' ) {
  * Echo the current topic's tag list, comma-separated
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  */
 function bp_forum_topic_tag_list() {
 	echo bp_get_forum_topic_tag_list();
@@ -1327,7 +1327,7 @@ function bp_forum_topic_tag_list() {
 	 * Get the current topic's tag list
 	 *
 	 * @package BuddyPress
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @param str $format 'string' returns comma-separated string; otherwise returns array
 	 * @return mixed $tags
@@ -1355,7 +1355,7 @@ function bp_forum_topic_tag_list() {
  * Returns true if the current topic has tags
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @return bool
  */

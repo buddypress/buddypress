@@ -731,7 +731,7 @@ function bp_core_avatar_url() {
  * Utility function for fetching an avatar dimension setting
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @param str $type 'thumb' for thumbs, otherwise full
  * @param str $h_or_w 'height' for height, otherwise width
@@ -749,7 +749,7 @@ function bp_core_avatar_dimension( $type = 'thumb', $h_or_w = 'height' ) {
  * Get the avatar thumb width setting
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @return int The thumb width
  */
@@ -761,7 +761,7 @@ function bp_core_avatar_thumb_width() {
  * Get the avatar thumb height setting
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @return int The thumb height
  */
@@ -773,7 +773,7 @@ function bp_core_avatar_thumb_height() {
  * Get the avatar full width setting
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @return int The full width
  */
@@ -785,7 +785,7 @@ function bp_core_avatar_full_width() {
  * Get the avatar full height setting
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @return int The full height
  */
@@ -797,7 +797,7 @@ function bp_core_avatar_full_height() {
  * Get the max width for original avatar uploads
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @return int The width
  */
@@ -811,7 +811,7 @@ function bp_core_avatar_original_max_width() {
  * Get the max filesize for original avatar uploads
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @return int The filesize
  */
@@ -825,7 +825,7 @@ function bp_core_avatar_original_max_filesize() {
  * Get the default avatar
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @return int The URL of the default avatar
  */
@@ -839,7 +839,7 @@ function bp_core_avatar_default() {
  * Get the default avatar thumb
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @return int The URL of the default avatar thumb
  */

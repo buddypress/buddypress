@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Checks $bp pages global and looks for directory page
  *
- * @since 1.3
+ * @since 1.5
  *
  * @global object $bp Global BuddyPress settings object
  * @return bool True if set, False if empty
@@ -269,7 +269,7 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
  * used for linking to user profiles and anywhere else a sanitized and unique
  * slug to a user is needed.
  *
- * @since BuddyPress (1.3)
+ * @since BuddyPress (1.5)
  *
  * @package BuddyPress Core
  * @param $uid int User ID to check.

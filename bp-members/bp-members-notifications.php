@@ -72,7 +72,7 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 			if ( $action_item_count < 1 )
 				continue;
 
-			// @deprecated format_notification_function - 1.3
+			// @deprecated format_notification_function - 1.5
 			if ( isset( $bp->{$component_name}->format_notification_function ) && function_exists( $bp->{$component_name}->format_notification_function ) ) {
 				$renderable[] = call_user_func( $bp->{$component_name}->format_notification_function, $component_action_name, $component_action_items[0]->item_id, $component_action_items[0]->secondary_item_id, $action_item_count );
 			} elseif ( isset( $bp->{$component_name}->notification_callback ) && function_exists( $bp->{$component_name}->notification_callback ) ) { 

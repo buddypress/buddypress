@@ -6,7 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage BP_Default
- * @since 1.3
+ * @since 1.5
  */
 
 get_header() ?>

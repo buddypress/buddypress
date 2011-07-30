@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Checks $bp pages global and looks for directory page
  *
- * @since 1.3
+ * @since 1.5
  *
  * @global object $bp Global BuddyPress settings object
  * @return bool True if set, False if empty
@@ -29,7 +29,7 @@ function bp_activity_has_directory() {
  * Searches through the content of an activity item to locate usernames, designated by an @ sign
  *
  * @package BuddyPress Activity
- * @since 1.3
+ * @since 1.5
  *
  * @param str $content The content of the activity, usually found in $activity->content
  * @return array $usernames Array of the found usernames that match existing users
@@ -49,7 +49,7 @@ function bp_activity_find_mentions( $content ) {
  * Resets a user's unread mentions list and count
  *
  * @package BuddyPress Activity
- * @since 1.3
+ * @since 1.5
  *
  * @param int $user_id The id of the user whose unread mentions are being reset
  */
@@ -62,7 +62,7 @@ function bp_activity_clear_new_mentions( $user_id ) {
  * Adjusts new mention count for mentioned users when activity items are deleted or created
  *
  * @package BuddyPress Activity
- * @since 1.3
+ * @since 1.5
  *
  * @param int $activity_id The unique id for the activity item
  */
@@ -1001,7 +1001,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
  * @see bp_embed_activity_cache()
  * @see bp_embed_activity_save_cache()
  * @package BuddyPress Activity
- * @since 1.3
+ * @since 1.5
  */
 function bp_activity_embed() {
 	add_filter( 'embed_post_id',         'bp_get_activity_id'                  );
@@ -1015,7 +1015,7 @@ add_action( 'activity_loop_start', 'bp_activity_embed' );
  * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
  *
  * @package BuddyPress Activity
- * @since 1.3
+ * @since 1.5
  */
 function bp_embed_activity_cache( $cache, $id, $cachekey ) {
 	return bp_activity_get_meta( $id, $cachekey );
@@ -1026,7 +1026,7 @@ function bp_embed_activity_cache( $cache, $id, $cachekey ) {
  * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
  *
  * @package BuddyPress Activity
- * @since 1.3
+ * @since 1.5
  */
 function bp_embed_activity_save_cache( $cache, $cachekey, $id ) {
 	bp_activity_update_meta( $id, $cachekey, $cache );

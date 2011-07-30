@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since BuddyPress 1.3
+ * @since 1.5
  *
  * @uses bp_get_activity_slug()
  */
@@ -26,7 +26,7 @@ function bp_activity_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since BuddyPress 1.3
+	 * @since 1.5
 	 */
 	function bp_get_activity_slug() {
 		global $bp;
@@ -38,7 +38,7 @@ function bp_activity_slug() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since BuddyPress 1.3
+ * @since 1.5
  *
  * @uses bp_get_activity_root_slug()
  */
@@ -50,7 +50,7 @@ function bp_activity_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since BuddyPress 1.3
+	 * @since 1.5
 	 */
 	function bp_get_activity_root_slug() {
 		global $bp;
@@ -62,7 +62,7 @@ function bp_activity_root_slug() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  * @uses bp_get_activity_directory_permalink()
  */
 function bp_activity_directory_permalink() {
@@ -73,7 +73,7 @@ function bp_activity_directory_permalink() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since 1.3
+	 * @since 1.5
 	 * @uses apply_filters()
 	 * @uses traisingslashit()
 	 * @uses bp_get_root_domain()
@@ -91,7 +91,7 @@ function bp_activity_directory_permalink() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  */
 class BP_Activity_Template {
 	var $current_activity = -1;
@@ -417,7 +417,7 @@ function bp_activity_pagination_links() {
  * Returns true when there are more activity items to be shown than currently appear
  *
  * @package BuddyPress Activity
- * @since 1.3
+ * @since 1.5
  *
  * @global $activities_template The activity data loop object created in bp_has_activities()
  */
@@ -908,7 +908,7 @@ function bp_activity_comments( $args = '' ) {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  *
  * @return obj $current_comment The activity comment currently being displayed
  */
@@ -926,7 +926,7 @@ function bp_activity_current_comment() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  */
 function bp_activity_comment_id() {
 	echo bp_get_activity_comment_id();
@@ -936,7 +936,7 @@ function bp_activity_comment_id() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @return int $comment_id The id of the activity comment currently being displayed
 	 */
@@ -953,7 +953,7 @@ function bp_activity_comment_id() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  */
 function bp_activity_comment_user_id() {
 	echo bp_get_activity_comment_user_id();
@@ -963,7 +963,7 @@ function bp_activity_comment_user_id() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @return int $user_id The user_id of the author of the displayed activity comment
 	 */
@@ -980,7 +980,7 @@ function bp_activity_comment_user_id() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  */
 function bp_activity_comment_user_link() {
 	echo bp_get_activity_comment_user_link();
@@ -990,7 +990,7 @@ function bp_activity_comment_user_link() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @return str $user_link The URL of the activity comment author's profile
 	 */
@@ -1005,7 +1005,7 @@ function bp_activity_comment_user_link() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  */
 function bp_activity_comment_name() {
 	echo bp_get_activity_comment_name();
@@ -1017,7 +1017,7 @@ function bp_activity_comment_name() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @return str $name The full name of the activity comment author
 	 */
@@ -1034,7 +1034,7 @@ function bp_activity_comment_name() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  */
 function bp_activity_comment_date_recorded() {
 	echo bp_get_activity_comment_date_recorded();
@@ -1044,7 +1044,7 @@ function bp_activity_comment_date_recorded() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @return str $date_recorded Time since the activity was recorded, of the form "%s ago"
 	 */
@@ -1064,7 +1064,7 @@ function bp_activity_comment_date_recorded() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  */
 function bp_activity_comment_delete_link() {
 	echo bp_get_activity_comment_delete_link();
@@ -1074,7 +1074,7 @@ function bp_activity_comment_delete_link() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @return str $link The nonced URL for deleting the current activity comment
 	 */
@@ -1091,7 +1091,7 @@ function bp_activity_comment_delete_link() {
  *
  * @package BuddyPress
  * @subpackage Activity Template
- * @since 1.3
+ * @since 1.5
  */
 function bp_activity_comment_content() {
 	echo bp_get_activity_comment_content();
@@ -1105,7 +1105,7 @@ function bp_activity_comment_content() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Activity Template
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @return str $content The content of the current activity comment
 	 */
@@ -1576,7 +1576,7 @@ function bp_activity_feed_item_description() {
 /**
  * Template tag so we can hook activity feed to <head>
  *
- * @since 1.3
+ * @since 1.5
  */
 function bp_activity_sitewide_feed() {
 ?>

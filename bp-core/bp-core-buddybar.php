@@ -287,7 +287,7 @@ add_action( 'admin_head', 'bp_core_sort_subnav_items' );
  * Determines whether a given nav item has subnav items
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @param str $nav_item The id of the top-level nav item whose nav items you're checking
  * @return bool $has_subnav True if the nav item is found and has subnav items; false otherwise
@@ -573,7 +573,7 @@ function bp_core_load_admin_bar() {
  *
  * This can't be done in bp_core_load_admin_bar() because that function is called before locale.php is included.
  *
- * @since 1.3
+ * @since 1.5
  */
 function bp_core_load_buddybar_rtl_stylesheet() {
 	if ( !is_rtl() )

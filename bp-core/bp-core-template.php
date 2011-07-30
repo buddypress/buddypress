@@ -270,7 +270,7 @@ function bp_search_form_type_select() {
  *
  * @global object $bp BuddyPress global settings
  * @return string
- * @since 1.3
+ * @since 1.5
  */
 function bp_search_default_text( $component = '' ) {
 	echo bp_get_search_default_text( $component );
@@ -487,7 +487,7 @@ function bp_action_variables() {
  * Return the value of a given action variable
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @param int $position The key of the action_variables array that you want
  * @return str $action_variable The value of that position in the array
@@ -520,7 +520,7 @@ function bp_root_domain() {
  * Echoes the output of bp_get_root_slug()
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  */
 function bp_root_slug( $component = '' ) {
 	echo bp_get_root_slug( $component );
@@ -541,7 +541,7 @@ function bp_root_slug( $component = '' ) {
 	 * $bp->groups->root_slug.
 	 *
 	 * @package BuddyPress Core
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @global object $bp Global BuddyPress settings object
 	 * @param string $component Optional. Defaults to the current component
@@ -611,7 +611,7 @@ function bp_user_has_access() {
  * Output the search slug
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses bp_get_search_slug()
  */
@@ -622,7 +622,7 @@ function bp_search_slug() {
 	 * Return the search slug
 	 *
 	 * @package BuddyPress
-	 * @since 1.3
+	 * @since 1.5
 	 */
 	function bp_get_search_slug() {
 		global $bp;
@@ -642,7 +642,7 @@ function bp_search_slug() {
  * - the component's id, or 'canonical' name
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  * @return bool Returns true if the component matches, or else false.
  */
 function bp_is_current_component( $component ) {
@@ -719,7 +719,7 @@ function bp_is_current_component( $component ) {
  * the current_action is 'members'.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @param str $action The action being tested against
  * @return bool True if the current action matches $action
@@ -745,7 +745,7 @@ function bp_is_current_action( $action = '' ) {
  * $action_variables[0] is 'group-settings'.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @param str $action_variable The action_variable being tested against
  * @param int $position The array key you're testing against. If you don't provide a $position,
@@ -848,7 +848,7 @@ function bp_is_root_component( $component_name ) {
  * @global $current_blog WordPress global for the current blog
  * @param string $component Optional; Name of the component to check for.
  * @return bool True If the specified component is set to be the site's front page.
- * @since 1.3
+ * @since 1.5
  */
 function bp_is_component_front_page( $component = '' ) {
 	global $bp, $current_blog;

@@ -17,7 +17,7 @@ require( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php' );
 require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 // Load deprecated functions
-require( BP_PLUGIN_DIR . '/bp-core/deprecated/1.3.php'    );
+require( BP_PLUGIN_DIR . '/bp-core/deprecated/1.5.php'    );
 
 // Load the WP admin bar.
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
@@ -73,7 +73,7 @@ class BP_Core extends BP_Component {
 			$bp->active_components      = apply_filters( 'bp_active_components', $active_components );
 			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', array_values( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_keys( $bp->active_components ) ) ) );
 
-		// Pre 1.3 Backwards compatibility
+		// Pre 1.5 Backwards compatibility
 		} elseif ( $deactivated_components = bp_get_option( 'bp-deactivated-components' ) ) {
 			// Trim off namespace and filename
 			foreach ( (array) $deactivated_components as $component => $value )

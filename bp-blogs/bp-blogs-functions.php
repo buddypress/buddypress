@@ -5,7 +5,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Checks $bp pages global and looks for directory page
  *
- * @since 1.3
+ * @since 1.5
  *
  * @global object $bp Global BuddyPress settings object
  * @return bool True if set, False if empty

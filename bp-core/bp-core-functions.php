@@ -11,7 +11,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * The 'bp_get_option' filter is primarily for backward-compatibility.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses bp_get_root_blog_id()
  * @param str $option_name The option to be retrieved
@@ -31,7 +31,7 @@ function bp_get_option( $option_name, $default = '' ) {
  * on the appropriate blog, given your current setup.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses bp_get_root_blog_id()
  * @param str $option_name The option key to be set
@@ -48,7 +48,7 @@ function bp_update_option( $option_name, $value ) {
  * bp-pages) on the appropriate blog, given your current setup.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses bp_get_root_blog_id()
  * @param str $option_name The option key to be set
@@ -73,15 +73,15 @@ function bp_core_get_table_prefix() {
  * Fetches BP pages from the meta table, depending on setup
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  *
- * @todo Remove the "Upgrading from an earlier version of BP pre-1.3" block. Temporary measure for
+ * @todo Remove the "Upgrading from an earlier version of BP pre-1.5" block. Temporary measure for
  *       people running trunk installations. Leave for a version or two, then remove.
  */
 function bp_core_get_page_meta() {
 	$page_ids = bp_get_option( 'bp-pages' );
 
-  	// Upgrading from an earlier version of BP pre-1.3
+  	// Upgrading from an earlier version of BP pre-1.5
 	if ( !isset( $page_ids['members'] ) && $ms_page_ids = get_site_option( 'bp-pages' ) ) {
 		$page_blog_id = bp_is_multiblog_mode() ? get_current_blog_id() : bp_get_root_blog_id();
 
@@ -102,7 +102,7 @@ function bp_core_get_page_meta() {
  * blog_id. This allows you to change your bp_get_root_blog_id() and go through the setup process again.
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  *
  * @param array $blog_page_ids The IDs of the WP pages corresponding to BP component directories
  */
@@ -114,7 +114,7 @@ function bp_core_update_page_meta( $blog_page_ids ) {
  * Get bp-pages names and slugs
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  *
  * @return obj $pages Page names, IDs, and slugs
  */
@@ -160,7 +160,7 @@ function bp_core_get_page_names() {
 /**
  * Creates a default component slug from a WP page root_slug
  *
- * Since 1.3, BP components get their root_slug (the slug used immediately
+ * Since 1.5, BP components get their root_slug (the slug used immediately
  * following the root domain) from the slug of a corresponding WP page.
  *
  * E.g. if your BP installation at example.com has its members page at
@@ -175,7 +175,7 @@ function bp_core_get_page_names() {
  * to override specific component slugs.
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  *
  * @param str $root_slug The root slug, which comes from $bp->pages->[component]->slug
  * @return str $slug The short slug for use in the middle of URLs
@@ -255,7 +255,7 @@ function bp_core_add_admin_menu() {
  * boxes.
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  *
  * @global object $bp Global BuddyPress settings object
  * @uses is_super_admin() to check current user permissions before showing the notices
@@ -295,7 +295,7 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  * loaded in time.
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  *
  * @global object $bp Global BuddyPress settings object
  * @param string $notice The notice you are adding to the queue
@@ -920,7 +920,7 @@ add_action( 'bp_init', 'bp_core_add_ajax_hook' );
  *
  * @global object $bp BuddyPress global settings
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  */
 function bp_embed_init() {
 	global $bp;
@@ -1100,7 +1100,7 @@ function bp_core_create_root_component_page() {
  * Is this the root blog ID?
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @param int $blog_id Optional. Defaults to the current blog id.
  * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
@@ -1124,7 +1124,7 @@ function bp_is_root_blog( $blog_id = 0 ) {
  * Is this bp_get_root_blog_id()?
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @param int $blog_id Optional. Defaults to the current blog id.
  * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
@@ -1172,7 +1172,7 @@ function bp_get_root_blog_id( $blog_id = false ) {
  * If using the WP functions, do not not hardcode your meta keys.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses apply_filters() Filter bp_get_user_meta_key to modify keys individually
  * @param str $key
@@ -1189,7 +1189,7 @@ function bp_get_user_meta_key( $key = false ) {
  * increasing compatibility with non-standard BP setups.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses bp_get_user_meta_key() For a filterable version of the meta key
  * @uses get_user_meta() See get_user_meta() docs for more details on parameters
@@ -1210,7 +1210,7 @@ function bp_get_user_meta( $user_id, $key, $single = false ) {
  * thereby increasing compatibility with non-standard BP setups.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses bp_get_user_meta_key() For a filterable version of the meta key
  * @uses update_user_meta() See update_user_meta() docs for more details on parameters
@@ -1231,7 +1231,7 @@ function bp_update_user_meta( $user_id, $key, $value, $prev_value = '' ) {
  * thereby increasing compatibility with non-standard BP setups.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses bp_get_user_meta_key() For a filterable version of the meta key
  * @uses delete_user_meta() See delete_user_meta() docs for more details on parameters
@@ -1248,7 +1248,7 @@ function bp_delete_user_meta( $user_id, $key, $value = '' ) {
  * Are we running username compatibility mode?
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses apply_filters() Filter 'bp_is_username_compatibility_mode' to alter
  * @return bool False when compatibility mode is disabled (default); true when enabled
@@ -1272,7 +1272,7 @@ function bp_is_username_compatibility_mode() {
  * blog.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses apply_filters() Filter 'bp_is_multiblog_mode' to alter
  * @return bool False when multiblog mode is disabled (default); true when enabled
@@ -1284,14 +1284,14 @@ function bp_is_multiblog_mode() {
 /**
  * Should we use the WP admin bar?
  *
- * The WP Admin Bar, introduced in WP 3.1, is fully supported in BuddyPress as of BP 1.3.
+ * The WP Admin Bar, introduced in WP 3.1, is fully supported in BuddyPress as of BP 1.5.
  *
- * For the BP 1.3 development cycle, the BuddyBar will remain the default navigation for BP
+ * For the BP 1.5 development cycle, the BuddyBar will remain the default navigation for BP
  * installations. In the future, this behavior will be changed, so that the WP Admin Bar is the
  * default.
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @uses apply_filters() Filter 'bp_use_wp_admin_bar' to alter
  * @return bool False when WP Admin Bar support is disabled (default); true when enabled
@@ -1304,7 +1304,7 @@ function bp_use_wp_admin_bar() {
  * Are oembeds allowed in activity items?
  *
  * @return bool False when activity embed support is disabled; true when enabled (default)
- * @since 1.3
+ * @since 1.5
  */
 function bp_use_embed_in_activity() {
 	return apply_filters( 'bp_use_oembed_in_activity', !defined( 'BP_EMBED_DISABLE_ACTIVITY' ) || !BP_EMBED_DISABLE_ACTIVITY );
@@ -1314,7 +1314,7 @@ function bp_use_embed_in_activity() {
  * Are oembeds allwoed in activity replies?
  *
  * @return bool False when activity replies embed support is disabled; true when enabled (default)
- * @since 1.3
+ * @since 1.5
  */
 function bp_use_embed_in_activity_replies() {
 	return apply_filters( 'bp_use_embed_in_activity_replies', !defined( 'BP_EMBED_DISABLE_ACTIVITY_REPLIES' ) || !BP_EMBED_DISABLE_ACTIVITY_REPLIES );
@@ -1324,7 +1324,7 @@ function bp_use_embed_in_activity_replies() {
  * Are oembeds allowed in forum posts?
  *
  * @return bool False when form post embed support is disabled; true when enabled (default)
- * @since 1.3
+ * @since 1.5
  */
 function bp_use_embed_in_forum_posts() {
 	return apply_filters( 'bp_use_embed_in_forum_posts', !defined( 'BP_EMBED_DISABLE_FORUM_POSTS' ) || !BP_EMBED_DISABLE_FORUM_POSTS );
@@ -1334,7 +1334,7 @@ function bp_use_embed_in_forum_posts() {
  * Are oembeds allowed in private messages?
  *
  * @return bool False when form post embed support is disabled; true when enabled (default)
- * @since 1.3
+ * @since 1.5
  */
 function bp_use_embed_in_private_messages() {
 	return apply_filters( 'bp_use_embed_in_private_messages', !defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) || !BP_EMBED_DISABLE_PRIVATE_MESSAGES );
@@ -1344,7 +1344,7 @@ function bp_use_embed_in_private_messages() {
  * Output the correct URL based on BuddyPress and WordPress configuration
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @param string $path
  * @param string $scheme
@@ -1358,7 +1358,7 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
 	 * Return the correct URL based on BuddyPress and WordPress configuration
 	 *
 	 * @package BuddyPress
-	 * @since 1.3
+	 * @since 1.5
 	 *
 	 * @param string $path
 	 * @param string $scheme
@@ -1436,7 +1436,7 @@ function bp_update_is_item_mod( $is_item_mod = false, $component = '' ) {
  * @global object $bp Global BuddyPress settings object
  * @global WP_Query $wp_query WordPress query object
  * @param string $redirect If 'remove_canonical_direct', remove WordPress' "helpful" redirect_canonical action.
- * @since 1.3
+ * @since 1.5
  */
 function bp_do_404( $redirect = 'remove_canonical_direct' ) {
 	global $bp, $wp_query;

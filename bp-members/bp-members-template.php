@@ -16,7 +16,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @package BuddyPress
  * @subpackage Members Template
- * @since BuddyPress 1.3
+ * @since 1.5
  *
  * @uses bp_get_members_slug()
  */
@@ -28,7 +28,7 @@ function bp_members_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Members Template
-	 * @since BuddyPress 1.3
+	 * @since 1.5
 	 */
 	function bp_get_members_slug() {
 		global $bp;
@@ -40,7 +40,7 @@ function bp_members_slug() {
  *
  * @package BuddyPress
  * @subpackage Members Template
- * @since BuddyPress 1.3
+ * @since 1.5
  *
  * @uses bp_get_members_root_slug()
  */
@@ -52,7 +52,7 @@ function bp_members_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Members Template
-	 * @since BuddyPress 1.3
+	 * @since 1.5
 	 */
 	function bp_get_members_root_slug() {
 		global $bp;
@@ -64,7 +64,7 @@ function bp_members_root_slug() {
  *
  * @package BuddyPress
  * @subpackage Members Template
- * @since 1.3
+ * @since 1.5
  * @uses bp_get_members_directory_permalink()
  */
 function bp_members_directory_permalink() {
@@ -75,7 +75,7 @@ function bp_members_directory_permalink() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Members Template
-	 * @since 1.3
+	 * @since 1.5
 	 * @uses apply_filters()
 	 * @uses traisingslashit()
 	 * @uses bp_get_root_domain()
@@ -91,7 +91,7 @@ function bp_members_directory_permalink() {
  *
  * @package BuddyPress
  * @subpackage Members Template
- * @since BuddyPress 1.3
+ * @since 1.5
  *
  * @uses bp_get_signup_slug()
  */
@@ -103,7 +103,7 @@ function bp_signup_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Members Template
-	 * @since BuddyPress 1.3
+	 * @since 1.5
 	 */
 	function bp_get_signup_slug() {
 		global $bp;
@@ -123,7 +123,7 @@ function bp_signup_slug() {
  *
  * @package BuddyPress
  * @subpackage Members Template
- * @since BuddyPress 1.3
+ * @since 1.5
  *
  * @uses bp_get_activate_slug()
  */
@@ -135,7 +135,7 @@ function bp_activate_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Members Template
-	 * @since BuddyPress 1.3
+	 * @since 1.5
 	 */
 	function bp_get_activate_slug() {
 		global $bp;
@@ -1118,7 +1118,7 @@ function bp_signup_allowed() {
 /**
  * Hook member activity feed to <head>
  *
- * @since 1.3
+ * @since 1.5
  */
 function bp_members_activity_feed() {
 	if ( !bp_is_active( 'activity' ) || !bp_is_user() )

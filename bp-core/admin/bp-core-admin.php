@@ -326,7 +326,7 @@ function bp_core_admin_page_setup() {
  * when BP has been fully installed.
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  */
 function bp_core_admin_component_options() {
 	global $bp_wizard;
@@ -475,7 +475,7 @@ function bp_core_admin_component_options() {
  * when BP has been fully installed.
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  */
 function bp_core_admin_page_options() {
 	global $bp;

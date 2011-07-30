@@ -55,7 +55,7 @@ if ( !function_exists( 'bp_dtheme_setup' ) ) :
  * functions.php file.
  *
  * @global object $bp Global BuddyPress settings object
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_setup() {
 	global $bp;
@@ -131,7 +131,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
  * Enqueue theme javascript safely
  *
  * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_enqueue_scripts() {
 	
@@ -163,7 +163,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  * Enqueue theme CSS safely
  *
  * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_enqueue_styles() {
 
@@ -246,7 +246,7 @@ if ( !function_exists( 'bp_dtheme_custom_background_style' ) ) :
  * Referenced via add_custom_background() in bp_dtheme_setup().
  *
  * @see _custom_background_cb()
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_custom_background_style() {
 	$background = get_background_image();
@@ -336,7 +336,7 @@ if ( !function_exists( 'bp_dtheme_widgets_init' ) ) :
  * To override bp_dtheme_widgets_init() in a child theme, remove the action hook and add your own
  * function tied to the init hook.
  *
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_widgets_init() {
 	// Register the widget columns
@@ -551,7 +551,7 @@ if ( !function_exists( 'bp_dtheme_main_nav' ) ) :
  * @global object $bp Global BuddyPress settings object
  * @param array Menu arguments from wp_nav_menu()
  * @see wp_nav_menu()
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_main_nav( $args ) {
 	global $bp;
@@ -576,7 +576,7 @@ if ( !function_exists( 'bp_dtheme_page_menu_args' ) ) :
  *
  * @param array $args Default values for wp_page_menu()
  * @see wp_page_menu()
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_page_menu_args( $args ) {
 	$args['show_home'] = true;
@@ -592,7 +592,7 @@ if ( !function_exists( 'bp_dtheme_comment_form' ) ) :
  * @global string $user_identity The display name of the user
  * @param array $default_labels The default options for strings, fields etc in the form
  * @see comment_form()
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_comment_form( $default_labels ) {
 	global $user_identity;
@@ -630,7 +630,7 @@ if ( !function_exists( 'bp_dtheme_before_comment_form' ) ) :
  * so that the nested comments comment-reply javascript moves the entirety of the comment reply area.
  *
  * @see comment_form()
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_before_comment_form() {
 ?>
@@ -658,7 +658,7 @@ if ( !function_exists( 'bp_dtheme_after_comment_form' ) ) :
  *
  * @see bp_dtheme_before_comment_form()
  * @see comment_form()
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_after_comment_form() {
 ?>
@@ -674,7 +674,7 @@ if ( !function_exists( 'bp_dtheme_sidebar_login_redirect_to' ) ) :
 /**
  * Adds a hidden "redirect_to" input field to the sidebar login form.
  *
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_sidebar_login_redirect_to() {
 	$redirect_to = apply_filters( 'bp_no_access_redirect', !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '' );
@@ -690,7 +690,7 @@ endif;
  *
  * @global unknown $wp_query
  * @param string $nav_id DOM ID for this navigation
- * @since 1.3
+ * @since 1.5
  */
 function bp_dtheme_content_nav( $nav_id ) {
 	global $wp_query;

@@ -196,9 +196,9 @@ Class BP_Activity_Activity {
 
 	/**
 	 * In BuddyPress 1.2.x, this was used to retrieve specific activity stream items (for example, on an activity's permalink page).
-	 * As of 1.3.x, use BP_Activity_Activity::get( ..., $in ) instead.
+	 * As of 1.5.x, use BP_Activity_Activity::get( ..., $in ) instead.
 	 *
-	 * @deprecated 1.3
+	 * @deprecated 1.5
 	 * @deprecated Use BP_Activity_Activity::get( ..., $in ) instead.
 	 * @param mixed $activity_ids Array or comma-separated string of activity IDs to retrieve
 	 * @param int $max Maximum number of results to return. (Optional; default is no maximum)
@@ -210,7 +210,7 @@ Class BP_Activity_Activity {
 	 * @since 1.2
 	 */
 	function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
-		_deprecated_function( __FUNCTION__, '1.3', 'Use BP_Activity_Activity::get( ..., $in ) instead.' );
+		_deprecated_function( __FUNCTION__, '1.5', 'Use BP_Activity_Activity::get( ..., $in ) instead.' );
 		return BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, false, false, $activity_ids );
 	}
 

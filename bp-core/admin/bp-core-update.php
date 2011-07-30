@@ -1258,7 +1258,7 @@ add_action( 'admin_head', 'bp_core_update_add_admin_menu_styles' );
  * Fetches BP pages from the meta table
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  *
  * @return array $page_ids
  */
@@ -1288,7 +1288,7 @@ function bp_core_update_admin_hook() {
  * Adds an admin nag about running the BP upgrade/install wizard
  *
  * @package BuddyPress Core
- * @since 1.3
+ * @since 1.5
  * @global $pagenow The current admin page
  */
 function bp_core_update_nag() {

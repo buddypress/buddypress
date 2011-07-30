@@ -55,7 +55,7 @@ function bp_blogs_root_slug() {
  *
  * @package BuddyPress
  * @subpackage Blogs Template
- * @since 1.3
+ * @since 1.5
  * @uses bp_get_blogs_directory_permalink()
  */
 function bp_blogs_directory_permalink() {
@@ -66,7 +66,7 @@ function bp_blogs_directory_permalink() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Blogs Template
-	 * @since 1.3
+	 * @since 1.5
 	 * @uses apply_filters()
 	 * @uses traisingslashit()
 	 * @uses bp_get_root_domain()
@@ -291,7 +291,7 @@ function bp_blog_avatar( $args = '' ) {
 		 * Right now you can use a filter with the ID of the blog to change it if you wish.
 		 * By default it will return the avatar for the primary blog admin.
 		 *
-		 * This filter is deprecated as of BuddyPress 1.3 and may be removed in a future version.
+		 * This filter is deprecated as of BuddyPress 1.5 and may be removed in a future version.
 		 * Use the 'bp_get_blog_avatar' filter instead.
 		 */
 		$avatar = apply_filters( 'bp_get_blog_avatar_' . $blogs_template->blog->blog_id, bp_core_fetch_avatar( array( 'item_id' => $blogs_template->blog->admin_user_id, 'type' => $type, 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class, 'email' => $blogs_template->blog->admin_user_email ) ) );

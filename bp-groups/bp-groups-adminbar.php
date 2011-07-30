@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Adds the Group Admin top-level menu to group pages
  *
  * @package BuddyPress
- * @since 1.3
+ * @since 1.5
  *
  * @todo Add dynamic menu items for group extensions
  */
