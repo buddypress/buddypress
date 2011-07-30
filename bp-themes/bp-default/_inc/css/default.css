@@ -1721,21 +1721,33 @@ div.generic-button a:hover,
 --------------------------------------------------------------*/
 a.loading,
 input.loading {
-    background-image: url( ../images/ajax-loader.gif ), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
-	background-image: url( ../images/ajax-loader.gif ), -moz-linear-gradient(top,  #fff,  #e0e0e0);
+    background-image: url( ../images/ajax-loader.gif );
     background-position: 95% 50%;
     background-repeat: no-repeat;
     padding-right: 25px;
 }
 a.loading:hover,
 input.loading:hover {
-    background-image: url( ../images/ajax-loader.gif ), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
-    background-image: url( ../images/ajax-loader.gif ), -moz-linear-gradient(top,  #fff,  #e0e0e0);
+    background-image: url( ../images/ajax-loader.gif );
     background-position: 95% 50%;
     background-repeat: no-repeat;
     padding-right: 25px;
-    border: 1px solid #ccc;
     color: #777;
+}
+a.button.loading,
+input[type="submit"].loading,
+input[type="button"].loading,
+input[type="reset"].loading {
+    background-image: url( ../images/ajax-loader.gif ), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+	background-image: url( ../images/ajax-loader.gif ), -moz-linear-gradient(top,  #fff,  #e0e0e0);
+}
+a.button.loading:hover,
+input[type="submit"].loading:hover,
+input[type="button"].loading:hover,
+input[type="reset"].loading:hover {
+    background-image: url( ../images/ajax-loader.gif ), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+    background-image: url( ../images/ajax-loader.gif ), -moz-linear-gradient(top,  #fff,  #e0e0e0);
+    border: 1px solid #ccc;
 }
 input[type="submit"].pending,
 input[type="button"].pending,
