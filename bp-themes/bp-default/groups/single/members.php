@@ -27,7 +27,7 @@
 		</ul>
 	</div>
 
-	<div id="pag-top" class="pagination">
+	<div id="pag-top" class="pagination no-ajax">
 
 		<div class="pag-count" id="member-count-top">
 
