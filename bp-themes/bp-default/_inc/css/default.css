@@ -1238,6 +1238,9 @@ body.activity-permalink .activity-content blockquote {
 	margin-left: 0;
 	margin-top: 5px;
 }
+.activity-inner > p {
+	word-wrap: break-word;
+}
 .activity-inner > .activity-inner {
 	margin: 0 !important;
 }
