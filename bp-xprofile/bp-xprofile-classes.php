@@ -814,6 +814,10 @@ Class BP_XProfile_ProfileData {
 			$this->field_id     = $profiledata->field_id;
 			$this->value        = stripslashes( $profiledata->value );
 			$this->last_updated = $profiledata->last_updated;
+		} else {
+			// When no row is found, we'll need to set these properties manually
+			$this->field_id	    = $field_id;
+			$this->user_id	    = $user_id;
 		}
 	}
 
