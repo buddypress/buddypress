@@ -149,9 +149,9 @@ Class BP_Activity_Activity {
 
 		if ( $per_page && $page ) {
 			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
-			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) ) );
+			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ), $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
 		} else {
-			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort ) ) );
+			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}" ), $select_sql, $from_sql, $where_sql, $sort ) );
 		}
 
 		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$where_sql} ORDER BY a.date_recorded {$sort}" ), $where_sql, $sort );
