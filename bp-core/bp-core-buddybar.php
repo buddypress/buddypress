@@ -82,7 +82,7 @@ function bp_core_new_nav_item( $args = '' ) {
 		if ( !empty( $default_subnav_slug ) )
 			$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
 	}
-	
+
 	do_action( 'bp_core_new_nav_item', $r, $args, $defaults );
 }
 
@@ -204,7 +204,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'user_has_access' => $user_has_access,
 		'screen_function' => &$screen_function
 	);
-	
+
 	/**
 	 * The last step is to hook the screen function for the added subnav item. But this only
 	 * needs to be done if this subnav item is the current view, and the user has access to the
@@ -221,14 +221,14 @@ function bp_core_new_subnav_item( $args = '' ) {
 	 *	     parent nav item in $bp->bp_nav). This condition only arises when viewing a
 	 *	     user, since groups should always have an action set.
 	 */
-	
+
 	// If we *don't* meet condition (1), return
 	if ( $bp->current_component != $parent_slug && $bp->current_item != $parent_slug )
 		return;
-		
+
 	// If we *do* meet condition (2), then the added subnav item is currently being requested
 	if ( ( !empty( $bp->current_action ) && $slug == $bp->current_action ) || ( bp_is_user() && empty( $bp->current_action ) && $screen_function == $bp->bp_nav[$parent_slug]['screen_function'] ) ) {
-	
+
 		// Before hooking the screen function, check user access
 		if ( $user_has_access ) {
 			if ( !is_object( $screen_function[0] ) )
@@ -239,7 +239,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 			// When the content is off-limits, we handle the situation differently
 			// depending on whether the current user is logged in
 			if ( is_user_logged_in() ) {
-				// Off-limits to this user. Throw an error and redirect to the displayed user's domain			
+				// Off-limits to this user. Throw an error and redirect to the displayed user's domain
 				bp_core_no_access( array(
 					'message'	=> __( 'You do not have access to this page.', 'buddypress' ),
 					'root'		=> bp_displayed_user_domain(),
@@ -294,12 +294,12 @@ add_action( 'admin_head', 'bp_core_sort_subnav_items' );
  */
 function bp_nav_item_has_subnav( $nav_item = '' ) {
 	global $bp;
-	
+
 	if ( !$nav_item )
 		$nav_item = bp_current_component();
-	
+
 	$has_subnav = isset( $bp->bp_options_nav[$nav_item] ) && count( $bp->bp_options_nav[$nav_item] ) > 0;
-	
+
 	return apply_filters( 'bp_nav_item_has_subnav', $has_subnav, $nav_item );
 }
 
@@ -341,7 +341,7 @@ function bp_core_remove_nav_item( $parent_id ) {
 function bp_core_remove_subnav_item( $parent_id, $slug ) {
 	global $bp;
 
-	$screen_function = $bp->bp_options_nav[$parent_id][$slug]['screen_function'];
+	$screen_function = ( isset( $bp->bp_options_nav[$parent_id][$slug]['screen_function'] ) ) ? $bp->bp_options_nav[$parent_id][$slug]['screen_function'] : false;
 
 	if ( $screen_function ) {
 		if ( !is_object( $screen_function[0] ) )
@@ -352,7 +352,7 @@ function bp_core_remove_subnav_item( $parent_id, $slug ) {
 
 	unset( $bp->bp_options_nav[$parent_id][$slug] );
 
-	if ( !count( $bp->bp_options_nav[$parent_id] ) )
+	if ( isset( $bp->bp_options_nav[$parent_id] ) && !count( $bp->bp_options_nav[$parent_id] ) )
 		unset($bp->bp_options_nav[$parent_id]);
 }
 
