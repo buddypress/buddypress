@@ -1977,6 +1977,7 @@ table.forum p.topic-meta {
 span.activity {
 	display: inline-block;
 	font-size: 11px;
+	opacity: 0.8;
 	padding: 1px 8px;
 }
 span.user-nicename {
@@ -2000,7 +2001,6 @@ div#message p {
 	background-image: -ms-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
 	background-image: -o-linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
 	background-image: linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
-	opacity: 0.8;
 }
 div#item-header {
 	overflow: hidden;
