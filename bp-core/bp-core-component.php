@@ -136,7 +136,7 @@ class BP_Component {
 		$bp->loaded_components[$this->slug] = $this->id;
 
 		// Call action
-		do_action( 'bp_' . $this->id . 'setup_globals' );
+		do_action( 'bp_' . $this->id . '_setup_globals' );
 	}
 
 	/**
@@ -169,7 +169,7 @@ class BP_Component {
 		}
 
 		// Call action
-		do_action( 'bp_' . $this->id . 'includes' );
+		do_action( 'bp_' . $this->id . '_includes' );
 	}
 
 	/**
@@ -213,7 +213,7 @@ class BP_Component {
 		add_action( 'bp_generate_rewrite_rules',   array ( $this, 'generate_rewrite_rules'   ), 10 );
 
 		// Additional actions can be attached here
-		do_action( 'bp_' . $this->id . 'setup_actions' );
+		do_action( 'bp_' . $this->id . '_setup_actions' );
 	}
 
 	/**
@@ -237,7 +237,7 @@ class BP_Component {
 		}
 
 		// Call action
-		do_action( 'bp_' . $this->id . 'setup_nav' );
+		do_action( 'bp_' . $this->id . '_setup_nav' );
 	}
 
 	/**
@@ -271,7 +271,7 @@ class BP_Component {
 		}
 
 		// Call action
-		do_action( 'bp_' . $this->id . 'setup_admin_bar' );
+		do_action( 'bp_' . $this->id . '_setup_admin_bar' );
 	}
 
 	/**
@@ -282,7 +282,7 @@ class BP_Component {
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}setup_title'
 	 */
 	function setup_title( ) {
-		do_action(  'bp_' . $this->id . 'setup_title' );
+		do_action(  'bp_' . $this->id . '_setup_title' );
 	}
 
 	/**
