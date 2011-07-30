@@ -853,23 +853,23 @@ function bp_displayed_user_link() {
 
 function bp_displayed_user_id() {
 	global $bp;
-	return apply_filters( 'bp_displayed_user_id', $bp->displayed_user->id );
+	return apply_filters( 'bp_displayed_user_id', isset( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0 );
 }
 	function bp_current_user_id() { return bp_displayed_user_id(); }
 
 function bp_loggedin_user_id() {
 	global $bp;
-	return apply_filters( 'bp_loggedin_user_id', $bp->loggedin_user->id );
+	return apply_filters( 'bp_loggedin_user_id', isset( $bp->displayed_user->id ) ? $bp->loggedin_user->id : 0 );
 }
 
 function bp_displayed_user_domain() {
 	global $bp;
-	return apply_filters( 'bp_displayed_user_domain', $bp->displayed_user->domain );
+	return apply_filters( 'bp_displayed_user_domain', isset( $bp->displayed_user->domain ) ? $bp->displayed_user->domain : '' );
 }
 
 function bp_loggedin_user_domain() {
 	global $bp;
-	return apply_filters( 'bp_loggedin_user_domain', $bp->loggedin_user->domain );
+	return apply_filters( 'bp_loggedin_user_domain', isset( $bp->loggedin_user->domain ) ? $bp->loggedin_user->domain : '' );
 }
 
 function bp_displayed_user_fullname() {
