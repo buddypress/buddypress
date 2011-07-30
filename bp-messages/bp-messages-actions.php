@@ -9,7 +9,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function messages_action_view_message() {
-	global $thread_id;
+	global $thread_id, $bp;
 
 	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) )
 		return false;
