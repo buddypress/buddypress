@@ -133,7 +133,7 @@ function bp_core_login_redirect( $redirect_to ) {
 		return $redirect_to;
 
 	// If the redirect doesn't contain 'wp-admin', it's OK
-	if ( isset( $_REQUEST['redirect_to'] ) && false === strpos( $_REQUEST['redirect_to'], 'wp-admin' ) )
+	if ( !empty( $_REQUEST['redirect_to'] ) && false === strpos( $_REQUEST['redirect_to'], 'wp-admin' ) )
 		return $redirect_to;
 
 	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && false === strpos( wp_get_referer(), 'activate' ) && empty( $_REQUEST['nr'] ) )
