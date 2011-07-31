@@ -468,8 +468,7 @@ class BP_Core_User {
 	function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
 		global $bp, $wpdb;
 
-		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		$pag_sql = $limit && $page ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
 
 		$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 		$status_sql   = bp_core_get_status_sql( 'u.' );
