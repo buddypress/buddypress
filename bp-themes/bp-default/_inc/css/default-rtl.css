@@ -350,7 +350,7 @@ ol.commentlist div.comment-avatar-box {
 }
 .acomment-options {
 	float: right;
-	margin-right: 30px;
+	margin-right: 40px;
 	margin-left: auto;
 }
 .comment-options .comment-reply-link,
@@ -437,10 +437,6 @@ body.activity-permalink .activity-list li.mini .activity-meta {
 .activity-list li.mini .activity-comments {
 	clear: right;
 }
-.activity-list li .activity-meta {
-	left: 0;
-	right: auto;
-}
 .activity-list li .activity-inreplyto {
 	margin-right: 5px;
 	margin-left: 0;
@@ -490,15 +486,16 @@ span.highlight {
 	margin-left: 5px;
 	margin-right: auto;
 }
+.activity-list .activity-content .activity-inner,
+.activity-list .activity-content blockquote {
+	margin-left: 10px;
+	margin-right: 0;
+}
 
 
 /*--------------------------------------------------------------
 5.1.2 - Activity Comments
 --------------------------------------------------------------*/
-div.activity-meta {
-	clear: right;
-	float: right;
-}
 div.activity-comments {
 	margin: 0 70px 0 0;
 }
@@ -514,7 +511,7 @@ div.activity-comments > ul {
 }
 div.activity-comments ul li > ul {
 	margin-left: 0;
-	margin-right: 25px;
+	margin-right: 30px;
 	padding-left: 0;
 	padding-right: 10px;
 }
@@ -524,8 +521,8 @@ div.activity-comments div.acomment-avatar img {
 	margin-right: 0;
 }
 div.activity-comments div.acomment-content {
-	margin-right: 39px;
-	margin-right: 0;
+	margin-left: 0;
+	margin-right: 40px;
 }
 div.activity-comments form.ac-form {
 	margin: 10px 33px 10px 0;
@@ -546,14 +543,10 @@ div.activity-comments form div.ac-reply-avatar {
 	float: right;
 }
 div.activity-comments form div.ac-reply-content {
-	margin-right: 25px;
+	margin-right: 50px;
 	margin-left: 0;
 	padding-right: 15px;
 	padding-left: 0;
-}
-body.activity-permalink .activity-list .activity-meta {
-	left: 10px;
-	right: auto;
 }
 body.activity-permalink div.activity-comments > ul {
 	padding: 0 15px 0 10px;

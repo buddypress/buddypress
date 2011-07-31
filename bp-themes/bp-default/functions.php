@@ -168,7 +168,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
 function bp_dtheme_enqueue_styles() {
 
 	// Bump this when changes are made to bust cache
-	$version = '20110729';
+	$version = '20110731';
 	
 	// Default CSS
 	wp_enqueue_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), $version );

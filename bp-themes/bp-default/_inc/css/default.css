@@ -1362,7 +1362,7 @@ div.activity-comments ul li:last-child {
 	margin-bottom: 0;
 }
 div.activity-comments ul li > ul {
-	margin-left: 25px;
+	margin-left: 30px;
 	margin-top: 0;
 	padding-left: 10px;
 }
@@ -1381,7 +1381,7 @@ div.activity-comments div.acomment-avatar img {
 }
 div.activity-comments div.acomment-content {
 	font-size: 11px;
-	margin: 5px 20px 0 40px;
+	margin: 5px 0 0 40px;
 }
 div.acomment-content .time-since,
 div.acomment-content .activity-delete-link,
