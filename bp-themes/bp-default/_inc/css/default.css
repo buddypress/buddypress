@@ -244,7 +244,6 @@ div#fourth ul.xoxo { margin-right: 0; }
 2.4 - Sidebar
 --------------------------------------------------------------*/
 div#sidebar {
-	background: url( ../images/sidebar_back.gif ) top left repeat-x;
 	border-left: 1px solid #ddd;
 	-moz-border-radius-topright: 3px;
 	-webkit-border-top-right-radius: 3px;

@@ -138,7 +138,6 @@ div#sidebar {
 	-webkit-border-top-left-radius: 3px;
 	-moz-border-radius-topright: 0;
 	-webkit-border-top-right-radius: 0;
-	background: url( ../images/sidebar_back.gif ) top right repeat-x;
 }
 div#sidebar div#sidebar-me img.avatar {
 	float: right;
