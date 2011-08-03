@@ -63,8 +63,10 @@ class BP_Members_Component extends BP_Component {
 			define( 'BP_MEMBERS_SLUG', 'members' );
 
 		$globals = array(
+			'path'          => BP_PLUGIN_DIR,
 			'slug'          => BP_MEMBERS_SLUG,
 			'root_slug'     => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : BP_MEMBERS_SLUG,
+			'has_directory' => true,
 			'search_string' => __( 'Search Members...', 'buddypress' ),
 		);
 

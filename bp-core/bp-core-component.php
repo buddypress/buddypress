@@ -33,6 +33,11 @@ class BP_Component {
 	 * @var string Unique slug (used in query string and permalinks)
 	 */
 	var $slug;
+	
+	/**
+	 * @var bool Does this component need a top-level directory? 
+	 */
+	var $has_directory;
 
 	/**
 	 * @var string The path to the plugins files
@@ -107,17 +112,21 @@ class BP_Component {
 		$defaults = array(
 			'slug'                  => '',
 			'root_slug'             => '',
+			'has_directory'         => false,
 			'notification_callback' => '',
 			'search_string'         => '',
 			'global_tables'         => ''
 		);
 		$r = wp_parse_args( $args, $defaults );
 
-		// Slug used for permalinks
+		// Slug used for permalink URI chunk after root
 		$this->slug          = apply_filters( 'bp_' . $this->id . '_slug',          $r['slug']          );
 
 		// Slug used for root directory
 		$this->root_slug     = apply_filters( 'bp_' . $this->id . '_root_slug',     $r['root_slug']     );
+
+		// Does this component have a top-level directory?
+		$this->has_directory = apply_filters( 'bp_' . $this->id . '_has_directory', $r['has_directory'] );
 
 		// Search string
 		$this->search_string = apply_filters( 'bp_' . $this->id . '_search_string', $r['search_string'] );
@@ -132,7 +141,7 @@ class BP_Component {
 		
 		/** BuddyPress ********************************************************/
 
-		// Register this component in the active components array
+		// Register this component in the loaded components array
 		$bp->loaded_components[$this->slug] = $this->id;
 
 		// Call action
@@ -182,35 +191,37 @@ class BP_Component {
 	 * @uses do_action() Calls 'bp_{@link BP_Component::name}setup_actions'
 	 */
 	function setup_actions() {
-		// Register post types
-		add_action( 'bp_setup_globals',            array ( $this, 'setup_globals'            ), 10 );
-
-		// Include required files. Called early to ensure that BP core components are
-		// loaded before plugins that hook their loader functions to bp_include with
-		// the default priority of 10. This is for backwards compatibility; henceforth,
-		// plugins should register themselves by extending this base class.
-		add_action( 'bp_include',                  array ( $this, 'includes'                 ), 8 );
 
 		// Register post types
-		add_action( 'bp_setup_nav',                array ( $this, 'setup_nav'                ), 10 );
+		add_action( 'bp_setup_globals',          array ( $this, 'setup_globals'          ), 10 );
+
+		// Include required files. Called early to ensure that BP core
+		// components are loaded before plugins that hook their loader functions
+		// to bp_include with the default priority of 10. This is for backwards
+		// compatibility; henceforth, plugins should register themselves by
+		// extending this base class.
+		add_action( 'bp_include',                array ( $this, 'includes'               ), 8 );
 
 		// Register post types
-		add_action( 'bp_setup_admin_bar',          array ( $this, 'setup_admin_bar'          ), 10 );
+		add_action( 'bp_setup_nav',              array ( $this, 'setup_nav'              ), 10 );
 
 		// Register post types
-		add_action( 'bp_setup_title',              array ( $this, 'setup_title'              ), 10 );
+		add_action( 'bp_setup_admin_bar',        array ( $this, 'setup_admin_bar'        ), 10 );
 
 		// Register post types
-		add_action( 'bp_register_post_types',      array ( $this, 'register_post_types'      ), 10 );
+		add_action( 'bp_setup_title',            array ( $this, 'setup_title'            ), 10 );
+
+		// Register post types
+		add_action( 'bp_register_post_types',    array ( $this, 'register_post_types'    ), 10 );
 
 		// Register taxonomies
-		add_action( 'bp_register_taxonomies',      array ( $this, 'register_taxonomies'      ), 10 );
+		add_action( 'bp_register_taxonomies',    array ( $this, 'register_taxonomies'    ), 10 );
 
 		// Add the rewrite tags
-		add_action( 'bp_add_rewrite_tags',         array ( $this, 'add_rewrite_tags'         ), 10 );
+		add_action( 'bp_add_rewrite_tags',       array ( $this, 'add_rewrite_tags'       ), 10 );
 
 		// Generate rewrite rules
-		add_action( 'bp_generate_rewrite_rules',   array ( $this, 'generate_rewrite_rules'   ), 10 );
+		add_action( 'bp_generate_rewrite_rules', array ( $this, 'generate_rewrite_rules' ), 10 );
 
 		// Additional actions can be attached here
 		do_action( 'bp_' . $this->id . '_setup_actions' );

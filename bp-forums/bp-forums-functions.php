@@ -53,13 +53,13 @@ function bp_forums_update_forum( $args = '' ) {
 	do_action( 'bbpress_init' );
 
 	$defaults = array(
-		'forum_id'			=> '',
-		'forum_name'		=> '',
-		'forum_desc'		=> '',
-		'forum_slug'		=> '',
-		'forum_parent_id'	=> bp_forums_parent_forum_id(),
-		'forum_order'		=> false,
-		'forum_is_category'	=> 0
+		'forum_id'          => '',
+		'forum_name'        => '',
+		'forum_desc'        => '',
+		'forum_slug'        => '',
+		'forum_parent_id'   => bp_forums_parent_forum_id(),
+		'forum_order'       => false,
+		'forum_is_category' => 0
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -81,8 +81,8 @@ function bp_forums_get_forum_topics( $args = '' ) {
 		'user_id'       => false,
 		'page'          => 1,
 		'per_page'      => 15,
-		'offset'	=> false,
-		'number'	=> false,
+		'offset'        => false,
+		'number'        => false,
 		'exclude'       => false,
 		'show_stickies' => 'all',
 		'filter'        => false // if $type = tag then filter is the tag name, otherwise it's terms to search on.

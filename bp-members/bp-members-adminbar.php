@@ -186,9 +186,9 @@ function bp_members_admin_bar_notifications_menu() {
 	} else {
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'bp-notifications',
-			'id'	 => 'no-notifications',
+			'id'     => 'no-notifications',
 			'title'  => __( 'No new notifications', 'buddypress' ),
-			'href'	 => bp_loggedin_user_domain()
+			'href'   => bp_loggedin_user_domain()
 		) );
 	}
 	

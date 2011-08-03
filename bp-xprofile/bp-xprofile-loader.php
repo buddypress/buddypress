@@ -87,12 +87,12 @@ class BP_XProfile_Component extends BP_Component {
 			'table_name_data'   => $bp->table_prefix . 'bp_xprofile_data',
 			'table_name_groups' => $bp->table_prefix . 'bp_xprofile_groups',
 			'table_name_fields' => $bp->table_prefix . 'bp_xprofile_fields',
-			'table_name_meta'	=> $bp->table_prefix . 'bp_xprofile_meta',
+			'table_name_meta'   => $bp->table_prefix . 'bp_xprofile_meta',
 		);
 
 		$globals = array(
 			'slug'                  => BP_XPROFILE_SLUG,
-			'root_slug'             => isset( $bp->pages->xprofile->slug ) ? $bp->pages->xprofile->slug : BP_XPROFILE_SLUG,
+			'has_directory'         => false,
 			'notification_callback' => 'xprofile_format_notifications',
 			'global_tables'         => $global_tables
 		);

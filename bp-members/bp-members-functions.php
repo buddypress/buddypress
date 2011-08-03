@@ -75,8 +75,8 @@ function bp_core_get_users( $args = '' ) {
 		'user_id'         => false,    // Pass a user_id to limit to only friend connections for this user
 		'exclude'         => false,    // Users to exclude from results
 		'search_terms'    => false,    // Limit to users that match these search terms
-		'meta_key'	  => false,    // Limit to users who have this piece of usermeta
-		'meta_value'	  => false,    // With meta_key, limit to users where usermeta matches this value
+		'meta_key'        => false,    // Limit to users who have this piece of usermeta
+		'meta_value'      => false,    // With meta_key, limit to users where usermeta matches this value
 
 		'include'         => false,    // Pass comma separated list of user_ids to limit to only these users
 		'per_page'        => 20,       // The number of results to return per page

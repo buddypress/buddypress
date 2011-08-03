@@ -241,9 +241,9 @@ function bp_core_new_subnav_item( $args = '' ) {
 			if ( is_user_logged_in() ) {
 				// Off-limits to this user. Throw an error and redirect to the displayed user's domain
 				bp_core_no_access( array(
-					'message'	=> __( 'You do not have access to this page.', 'buddypress' ),
-					'root'		=> bp_displayed_user_domain(),
-					'redirect'	=> false
+					'message'  => __( 'You do not have access to this page.', 'buddypress' ),
+					'root'     => bp_displayed_user_domain(),
+					'redirect' => false
 				) );
 			} else {
 				// Not logged in. Allow the user to log in, and attempt to redirect

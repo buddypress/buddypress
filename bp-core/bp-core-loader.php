@@ -57,7 +57,7 @@ class BP_Core extends BP_Component {
 		/** Components ********************************************************/
 
 		// Set the included and optional components.
-		$bp->optional_components = array( 'activity', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile', );
+		$bp->optional_components = array( 'activity', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile' );
 
 		// Blogs component only available for multisite
 		if ( is_multisite() )
@@ -139,7 +139,7 @@ class BP_Core extends BP_Component {
 
 		// The names of the core WordPress pages used to display BuddyPress content
 		if ( empty( $bp->pages ) )
-			$bp->pages = bp_core_get_page_names();
+			$bp->pages = bp_core_get_directory_pages();
 
 		/** Admin Bar *********************************************************/
 

@@ -74,6 +74,7 @@ class BP_Friends_Component extends BP_Component {
 		$globals = array(
 			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_FRIENDS_SLUG,
+			'has_directory'         => false,
 			'search_string'         => __( 'Search Friends...', 'buddypress' ),
 			'notification_callback' => 'friends_format_notifications',
 			'global_tables'         => $global_tables
@@ -196,7 +197,7 @@ class BP_Friends_Component extends BP_Component {
 					'item_id' => $bp->displayed_user->id,
 					'type'    => 'thumb'
 				) );
-				$bp->bp_options_title   = $bp->displayed_user->fullname;
+				$bp->bp_options_title  = $bp->displayed_user->fullname;
 			}
 		}
 

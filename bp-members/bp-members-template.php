@@ -297,8 +297,8 @@ function bp_has_members( $args = '' ) {
 		'user_id'         => $user_id,      // Pass a user_id to only show friends of this user
 		'search_terms'    => $search_terms, // Pass search_terms to filter users by their profile data
 		
-		'meta_key'	  => false,	    // Only return users with this usermeta
-		'meta_value'	  => false,	    // Only return users where the usermeta value matches. Requires meta_key
+		'meta_key'        => false,	        // Only return users with this usermeta
+		'meta_value'	  => false,	        // Only return users where the usermeta value matches. Requires meta_key
 
 		'populate_extras' => true           // Fetch usermeta? Friend count, last active etc.
 	);

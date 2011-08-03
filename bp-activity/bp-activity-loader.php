@@ -76,6 +76,7 @@ class BP_Activity_Component extends BP_Component {
 			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_ACTIVITY_SLUG,
 			'root_slug'             => isset( $bp->pages->activity->slug ) ? $bp->pages->activity->slug : BP_ACTIVITY_SLUG,
+			'has_directory'         => true,
 			'search_string'         => __( 'Search Activity...', 'buddypress' ),
 			'global_tables'         => $global_tables,
 			'notification_callback' => 'bp_activity_format_notifications',

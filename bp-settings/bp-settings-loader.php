@@ -52,7 +52,8 @@ class BP_Settings_Component extends BP_Component {
 
 		// All globals for settings component.
 		$globals = array(
-			'slug'      => BP_SETTINGS_SLUG,
+			'slug'          => BP_SETTINGS_SLUG,
+			'has_directory' => false,
 		);
 
 		parent::setup_globals( $globals );

@@ -330,8 +330,8 @@ add_action( 'wp_ajax_activity_mark_unfav', 'bp_dtheme_unmark_activity_favorite' 
  */
 function bp_dtheme_get_single_activity_content() {
 	$activity_array = bp_activity_get_specific( array(
-		'activity_ids' 		=> $_POST['activity_id'],
-		'display_comments' 	=> 'stream'
+		'activity_ids'     => $_POST['activity_id'],
+		'display_comments' => 'stream'
 	) );
 
 	$activity = !empty( $activity_array['activities'][0] ) ? $activity_array['activities'][0] : false;

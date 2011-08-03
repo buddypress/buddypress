@@ -76,8 +76,10 @@ class BP_Groups_Component extends BP_Component {
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(
+			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_GROUPS_SLUG,
 			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
+			'has_directory'         => true,
 			'notification_callback' => 'groups_format_notifications',
 			'search_string'         => __( 'Search Groups...', 'buddypress' ),
 			'global_tables'         => $global_tables
@@ -167,9 +169,9 @@ class BP_Groups_Component extends BP_Component {
 				// Off-limits to this user. Throw an error and redirect to the
 				// group's home page			
 				bp_core_no_access( array(
-					'message'	=> __( 'You do not have access to this group.', 'buddypress' ),
-					'root'		=> bp_get_group_permalink( $bp->groups->current_group ),
-					'redirect'	=> false
+					'message'  => __( 'You do not have access to this group.', 'buddypress' ),
+					'root'     => bp_get_group_permalink( $bp->groups->current_group ),
+					'redirect' => false
 				) );
 			} else {
 				// Allow the user to log in

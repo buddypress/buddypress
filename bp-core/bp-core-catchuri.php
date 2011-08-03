@@ -37,13 +37,12 @@ function bp_core_set_uri_globals() {
 	$bp->action_variables = $bp->displayed_user->id = '';
 
 	// Don't catch URIs on non-root blogs unless multiblog mode is on
-	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() ) {
+	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )
 		return false;
-	}
 
 	// Fetch all the WP page names for each component
 	if ( empty( $bp->pages ) )
-		$bp->pages = bp_core_get_page_names();
+		$bp->pages = bp_core_get_directory_pages();
 
 	// Ajax or not?
 	if ( strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
@@ -77,8 +76,9 @@ function bp_core_set_uri_globals() {
 			foreach( $chunks as $key => $chunk ) {
 				$bkey = array_search( $chunk, $bp_uri );
 
-				if ( $bkey !== false )
+				if ( $bkey !== false ) {
 					unset( $bp_uri[$bkey] );
+				}
 
 				$bp_uri = array_values( $bp_uri );
 			}
@@ -114,8 +114,9 @@ function bp_core_set_uri_globals() {
 	// so that $current_component is populated
 	if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && empty( $bp_uri ) ) {
 		$post = get_post( get_option( 'page_on_front' ) );
-		if ( !empty( $post ) )
+		if ( !empty( $post ) ) {
 			$bp_uri[0] = $post->post_name;
+		}
 	}
 
 	// Keep the unfiltered URI safe
@@ -310,8 +311,9 @@ function bp_core_load_template( $templates ) {
 	// Set the root object as the current wp_query-ied item
 	$object_id = 0;
 	foreach ( (array)$bp->pages as $page ) {
-		if ( isset( $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) && $page->name == $bp_unfiltered_uri[$bp_unfiltered_uri_offset] )
+		if ( isset( $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) && $page->name == $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) {
 			$object_id = $page->id;
+		}
 	}
 
 	// Make the queried/post object an actual valid page
@@ -396,10 +398,10 @@ function bp_core_no_access( $args = '' ) {
 	global $bp;
 
 	$defaults = array(
-		'mode'		=> '1',			// 1 = $root, 2 = wp-login.php
-		'message'	=> __( 'You must log in to access the page you requested.', 'buddypress' ),
-		'redirect'	=> wp_guess_url(),	// the URL you get redirected to when a user successfully logs in
-		'root'		=> $bp->root_domain	// the landing page you get redirected to when a user doesn't have access
+		'mode'     => '1',			    // 1 = $root, 2 = wp-login.php
+		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' ),
+		'redirect' => wp_guess_url(),	// the URL you get redirected to when a user successfully logs in
+		'root'     => $bp->root_domain	// the landing page you get redirected to when a user doesn't have access
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -420,7 +422,8 @@ function bp_core_no_access( $args = '' ) {
 			} else {
 				bp_core_redirect( $root );
 			}
-		break;
+
+			break;
 
 		// Redirect to root with "redirect_to" parameter
 		// Error message is displayed with bp_core_add_message()
@@ -437,7 +440,8 @@ function bp_core_no_access( $args = '' ) {
 			}
 
 			bp_core_redirect( $url );
-		break;
+
+			break;
 	}
 }
 

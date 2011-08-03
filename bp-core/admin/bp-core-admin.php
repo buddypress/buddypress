@@ -211,7 +211,7 @@ function bp_core_admin_pages_setup_handler() {
 					$directory_pages[$key] = (int)$value;
 				}
 			}
-			bp_core_update_page_meta( $directory_pages );
+			bp_core_update_directory_page_ids( $directory_pages );
 		}
 
 		$base_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings', 'updated' => 'true' ), 'admin.php' ) );
@@ -352,7 +352,7 @@ function bp_core_admin_component_options() {
 			'description' => __( 'Let your users make connections so they can track the activity of others and focus on the people they care about the most.', 'buddypress' )
 		),
 		'messages' => array(
-			'title'	      => __( 'Private Messaging', 'buddypress' ),
+			'title'       => __( 'Private Messaging', 'buddypress' ),
 			'description' => __( 'Allow your users to talk to each other directly and in private. They are not just limited to one-on-one discussions, and can send messages to multiple recipients.', 'buddypress' )
 		),
 		'activity' => array(
@@ -371,7 +371,7 @@ function bp_core_admin_component_options() {
 
 	if ( is_multisite() ) {
 		$optional_components['blogs'] = array(
-			'title'	      => __( 'Site Tracking', 'buddypress' ),
+			'title'       => __( 'Site Tracking', 'buddypress' ),
 			'description' => __( 'Track new sites, new posts and new comments across your entire network.', 'buddypress' )
 		);
 	}
@@ -481,22 +481,31 @@ function bp_core_admin_page_options() {
 	global $bp;
 	
 	// Get the existing WP pages
-	$existing_pages = bp_core_get_page_meta();
+	$existing_pages = bp_core_get_directory_page_ids();
 
-	// An array of strings looped over to create component setup markup
-	$directory_pages = array(
-		'members'  => __( 'Community Members', 'buddypress' ),
-		'activity' => __( 'Activity Streams',  'buddypress' ),
-		'groups'   => __( 'User Groups',       'buddypress' ),
-		'forums'   => __( 'Discussion Forums', 'buddypress' ),
-	);
+	// Set up an array of components (along with component names) that have
+	// directory pages.
+	$directory_pages = array();
 
-	if ( is_multisite() )
-		$directory_pages['blogs'] = __( "Site Directory", 'buddypress' ); ?>
+	foreach( $bp->loaded_components as $component_id => $data ) {
+
+		// Only components that need directories should be listed here
+		if ( isset( $bp->{$component_id} ) && !empty( $bp->{$component_id}->has_directory ) ) {
+			
+			// component->name was introduced in BP 1.5, so we must provide a fallback
+			$component_name = !empty( $bp->{$component_id}->name ) ? $bp->{$component_id}->name : ucwords( $component_id );
+			
+			$directory_pages[$component_id] = $component_name;
+		}
+	}
+	
+	$directory_pages = apply_filters( 'bp_directory_pages', $directory_pages );
+	
+	?>
 	
 	<h3><?php _e( 'Directories', 'buddypress' ); ?></h3>
 	
-	<p><?php _e( 'Choose a WordPress Page to associate with each available BuddyPress Component directory.', 'buddypress' ); ?></p>
+	<p><?php _e( 'Associate a WordPress Page with each BuddyPress component directory.', 'buddypress' ); ?></p>
 
 	<table class="form-table">
 		<tbody>

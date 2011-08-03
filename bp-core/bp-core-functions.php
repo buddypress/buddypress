@@ -78,7 +78,7 @@ function bp_core_get_table_prefix() {
  * @todo Remove the "Upgrading from an earlier version of BP pre-1.5" block. Temporary measure for
  *       people running trunk installations. Leave for a version or two, then remove.
  */
-function bp_core_get_page_meta() {
+function bp_core_get_directory_page_ids() {
 	$page_ids = bp_get_option( 'bp-pages' );
 
   	// Upgrading from an earlier version of BP pre-1.5
@@ -92,7 +92,13 @@ function bp_core_get_page_meta() {
 		}
   	}
 
-	return apply_filters( 'bp_core_get_page_meta', $page_ids );
+	foreach( $page_ids as $component_name => $page_id ) {
+		if ( empty( $component_name ) || empty( $page_id ) ) {
+			unset( $page_ids[$component_name] );
+		}
+	}
+
+	return apply_filters( 'bp_core_get_directory_page_ids', $page_ids );
 }
 
 /**
@@ -106,7 +112,7 @@ function bp_core_get_page_meta() {
  *
  * @param array $blog_page_ids The IDs of the WP pages corresponding to BP component directories
  */
-function bp_core_update_page_meta( $blog_page_ids ) {
+function bp_core_update_directory_page_ids( $blog_page_ids ) {
 	bp_update_option( 'bp-pages', $blog_page_ids );
 }
 
@@ -118,26 +124,26 @@ function bp_core_update_page_meta( $blog_page_ids ) {
  *
  * @return obj $pages Page names, IDs, and slugs
  */
-function bp_core_get_page_names() {
+function bp_core_get_directory_pages() {
 	global $wpdb, $bp;
 
-	// Set pages as standard class
-	$pages = new stdClass;
-
 	// Get pages and IDs
-	if ( $page_ids = bp_core_get_page_meta() ) {
+	if ( $page_ids = bp_core_get_directory_page_ids() ) {
+
+		// Set pages as standard class
+		$pages = new stdClass;
 
 		$posts_table_name = bp_is_multiblog_mode() ? $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts' : $wpdb->posts;
 		$page_ids_sql     = implode( ',', (array)$page_ids );
 		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " ) );
 
-		foreach ( (array)$page_ids as $key => $page_id ) {
+		foreach ( (array)$page_ids as $component_id => $page_id ) {
 			foreach ( (array)$page_names as $page_name ) {
 				if ( $page_name->ID == $page_id ) {
-					$pages->{$key}->name  = $page_name->post_name;
-					$pages->{$key}->id    = $page_name->ID;
-					$pages->{$key}->title = $page_name->post_title;
-					$slug[]               = $page_name->post_name;
+					$pages->{$component_id}->name  = $page_name->post_name;
+					$pages->{$component_id}->id    = $page_name->ID;
+					$pages->{$component_id}->title = $page_name->post_title;
+					$slug[]                        = $page_name->post_name;
 
 					// Get the slug
 					while ( $page_name->post_parent != 0 ) {
@@ -146,7 +152,7 @@ function bp_core_get_page_names() {
 						$page_name->post_parent = $parent[0]->post_parent;
 					}
 
-					$pages->{$key}->slug = implode( '/', array_reverse( (array)$slug ) );
+					$pages->{$component_id}->slug = implode( '/', array_reverse( (array)$slug ) );
 				}
 
 				unset( $slug );
@@ -154,7 +160,7 @@ function bp_core_get_page_names() {
 		}
 	}
 
-	return apply_filters( 'bp_core_get_page_names', $pages );
+	return apply_filters( 'bp_core_get_directory_pages', $pages );
 }
 
 /**
@@ -391,8 +397,8 @@ function bp_core_activation_notice() {
 			$page_data = get_post( $page->id );
 
 			$orphaned_pages[] = array(
-				'id'	=> $page_data->ID,
-				'title'	=> $page_data->post_title
+				'id'    => $page_data->ID,
+				'title' => $page_data->post_title
 			);
 		}
 
@@ -419,12 +425,12 @@ function bp_core_activation_notice() {
 	$orphaned_components = array();
 	$wp_page_components  = array();
 
-	// Only some BP components require a WP page to function - those with a non-empty root_slug
-	foreach( $bp->active_components as $component_id => $is_active ) {
-		if ( !empty( $bp->{$component_id}->root_slug ) ) {
+	// Only components with 'has_directory' require a WP page to function
+	foreach( $bp->loaded_components as $component_id => $is_active ) {
+		if ( !empty( $bp->{$component_id}->has_directory ) ) {
 			$wp_page_components[] = array(
-				'id'	=> $component_id,
-				'name'	=> $bp->{$component_id}->name
+				'id'   => $component_id,
+				'name' => isset( $bp->{$component_id}->name ) ? $bp->{$component_id}->name : ucwords( $bp->{$component_id}->id )
 			);
 		}
 	}
@@ -433,13 +439,13 @@ function bp_core_activation_notice() {
 	// If user registration is disabled, we can skip this step.
 	if ( isset( $bp->site_options['registration'] ) && ( 'user' == $bp->site_options['registration'] || ( 'all' == $bp->site_options['registration'] ) ) ) {
 		$wp_page_components[] = array(
-			'id'	=> 'activate',
-			'name'	=> __( 'Activate', 'buddypress' )
+			'id'   => 'activate',
+			'name' => __( 'Activate', 'buddypress' )
 		);
 
 		$wp_page_components[] = array(
-			'id'	=> 'register',
-			'name'	=> __( 'Register', 'buddypress' )
+			'id'   => 'register',
+			'name' => __( 'Register', 'buddypress' )
 		);
 	}
 
@@ -999,7 +1005,7 @@ function bp_core_get_root_options() {
 	// On Multisite installations, some options must always be fetched from sitemeta
 	if ( is_multisite() ) {
 		$network_options = apply_filters( 'bp_core_network_options', array(
-			'tags_blog_id'	  => '0',
+			'tags_blog_id'    => '0',
 			'registration'    => '0',
 			'fileupload_maxk' => '1500'
 		) );
@@ -1067,7 +1073,7 @@ function bp_core_add_root_component( $slug ) {
 	global $bp;
 
 	if ( empty( $bp->pages ) )
-		$bp->pages = bp_core_get_page_names();
+		$bp->pages = bp_core_get_directory_pages();
 
 	$match = false;
 
@@ -1080,7 +1086,12 @@ function bp_core_add_root_component( $slug ) {
 	// If there was no match, add a page for this root component
 	if ( empty( $match ) ) {
 		$bp->add_root[] = $slug;
-		add_action( 'bp_init', 'bp_core_create_root_component_page' );
+	}
+	
+	// Make sure that this component is registered as requiring a top-level directory
+	if ( isset( $bp->{$slug} ) ) {
+		$bp->loaded_components[$bp->{$slug}->slug] = $bp->{$slug}->id;
+		$bp->{$slug}->has_directory = true;
 	}
 }
 
@@ -1092,8 +1103,8 @@ function bp_core_create_root_component_page() {
 	foreach ( (array)$bp->add_root as $slug )
 		$new_page_ids[$slug] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 
-	$page_ids = array_merge( (array) $new_page_ids, (array) bp_core_get_page_meta() );
-	bp_core_update_page_meta( $page_ids );
+	$page_ids = array_merge( (array) $new_page_ids, (array) bp_core_get_directory_page_ids() );
+	bp_core_update_directory_page_ids( $page_ids );
 }
 
 /**

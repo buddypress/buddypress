@@ -84,7 +84,7 @@ class BP_Core_Setup_Wizard {
 			if ( $this->database_version < (int) $this->new_version )
 				$steps[] = __( 'Database Update', 'buddypress' );
 
-			if ( $this->database_version < 1801 || !bp_core_get_page_meta() )
+			if ( $this->database_version < 1801 || !bp_core_get_directory_page_ids() )
 				$steps[] = __( 'Pages', 'buddypress' );
 
 			$steps[] = __( 'Finish', 'buddypress' );

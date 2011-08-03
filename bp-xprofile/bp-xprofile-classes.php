@@ -917,11 +917,11 @@ Class BP_XProfile_ProfileData {
 
 			foreach( (array) $results as $field ) {
 				$profile_data[$field->field_name] = array(
-					'field_group_id'	=> $field->field_group_id,
-					'field_group_name'	=> $field->field_group_name,
-					'field_id'			=> $field->field_id,
-					'field_type'		=> $field->field_type,
-					'field_data'		=> $field->field_data
+					'field_group_id'   => $field->field_group_id,
+					'field_group_name' => $field->field_group_name,
+					'field_id'         => $field->field_id,
+					'field_type'       => $field->field_type,
+					'field_data'       => $field->field_data
 				);
 			}
 		}

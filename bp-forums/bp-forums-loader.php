@@ -53,8 +53,10 @@ class BP_Forums_Component extends BP_Component {
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(
+			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_FORUMS_SLUG,
 			'root_slug'             => isset( $bp->pages->forums->slug ) ? $bp->pages->forums->slug : BP_FORUMS_SLUG,
+			'has_directory'         => true,
 			'notification_callback' => 'messages_format_notifications',
 			'search_string'         => __( 'Search Forums...', 'buddypress' ),
 		);
