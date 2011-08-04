@@ -782,7 +782,7 @@ class BP_Core_Notification {
 	 * @param integer $secondary_item_id (optional) The secondary item id of the notifications that we wish to use to delete.
 	 * @static
 	 */
-	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id ) {
+	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 		global $bp, $wpdb;
 
 		$secondary_item_sql = !empty( $secondary_item_id ) ? $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id ) : '';
