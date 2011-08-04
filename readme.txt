@@ -37,7 +37,7 @@ Activate BuddyPress in the "Plugins" admin panel using the "Activate" link.
 
 You will need to enable permalink support in your WordPress installation for BuddyPress pages to function correctly. You can set this up using the "Settings > Permalinks" menu in your WordPress admin area.
 
-Finally, you will need to activate a BuddyPress compatible theme. Two BuddyPress themes are bundled with the plugin, you can activate these using the "Appearance > Themes" menu in your WordPress admin area. To install other BuddyPress compatible themes, use the "Appearance > Add New Themes" menu and select the "buddypress" checkbox before hitting the "Find Themes" button.
+Finally, you will need to activate a BuddyPress compatible theme. BuddyPress comes with one, and you can activate it using the "Appearance > Themes" menu in your WordPress admin area. To install other BuddyPress compatible themes, use the "Appearance > Add New Themes" menu and select the "buddypress" checkbox before hitting the "Find Themes" button.
 
 --- Forums Support ---
 
@@ -109,6 +109,16 @@ BuddyPress is available in more than 20 languages. For more information about Bu
 The <a href="http://i18n.svn.buddypress.org/">BuddyPress langauge file repository</a> includes some language that have not yet set up a localization site.
 
 == Upgrade Notice ==
+
+= 1.5-beta-2 =
+Fixed debug notices
+Fixed bp-pages issues
+Fixed group extension messages
+Fixed login redirect handling
+Fixed incorrect BP_Component action names
+Fixed references to 1.2 in PHPDoc
+RTL improvements
+Removed sidebar gradient from bp-default
 
 
 = 1.5-beta-1 =
