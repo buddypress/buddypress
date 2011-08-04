@@ -38,7 +38,7 @@
 
 					<?php endif; ?>
 
-					<?php do_action( 'bp_groups_directory_group_types' ); ?>
+					<?php do_action( 'bp_groups_directory_group_filter' ); ?>
 
 				</ul>
 			</div><!-- .item-list-tabs -->
