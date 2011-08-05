@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-05 19:30:57+00:00\n"
+"POT-Creation-Date: 2011-08-05 20:30:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4109,7 +4109,9 @@ msgid "<a href=\"%1$s\">%2$s</a> replied <a href=\"%3$s\" class=\"activity-time-
 msgstr ""
 
 #: bp-themes/bp-default/activity/comment.php:37
-msgid "Comment"
+#: bp-themes/bp-default/forums/single/edit.php:10
+#: bp-themes/bp-default/groups/single/forum/edit.php:10
+msgid "Reply"
 msgstr ""
 
 #: bp-themes/bp-default/activity/post-form.php:23
@@ -4253,11 +4255,6 @@ msgstr ""
 #: bp-themes/bp-default/groups/single/forum/topic.php:16
 #: bp-themes/bp-default/groups/single/forum.php:23
 msgid "Forum Directory"
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/edit.php:10
-#: bp-themes/bp-default/groups/single/forum/edit.php:10
-msgid "Reply"
 msgstr ""
 
 #: bp-themes/bp-default/forums/single/edit.php:25
