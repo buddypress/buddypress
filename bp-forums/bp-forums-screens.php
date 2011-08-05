@@ -26,7 +26,7 @@ function bp_forums_directory_forums_setup() {
 			if ( !empty( $bp->groups->current_group->id ) ) {
 				// Auto join this user if they are not yet a member of this group
 				if ( !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
-					groups_join_group( $bp->groups->current_group->id, $bp->groups->current_group->id );
+					groups_join_group( $bp->groups->current_group->id );
 
 				$error_message = '';
 
