@@ -92,7 +92,7 @@ function bp_core_get_directory_page_ids() {
 		}
   	}
 
-	foreach( $page_ids as $component_name => $page_id ) {
+	foreach( (array)$page_ids as $component_name => $page_id ) {
 		if ( empty( $component_name ) || empty( $page_id ) ) {
 			unset( $page_ids[$component_name] );
 		}
