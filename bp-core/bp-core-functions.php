@@ -92,9 +92,12 @@ function bp_core_get_directory_page_ids() {
 		}
   	}
 
-	foreach( (array)$page_ids as $component_name => $page_id ) {
-		if ( empty( $component_name ) || empty( $page_id ) ) {
-			unset( $page_ids[$component_name] );
+	// Ensure that empty indexes are unset. Should only matter in edge cases
+	if ( $page_ids && is_array( $page_ids ) ) {
+		foreach( (array)$page_ids as $component_name => $page_id ) {
+			if ( empty( $component_name ) || empty( $page_id ) ) {
+				unset( $page_ids[$component_name] );
+			}
 		}
 	}
 
@@ -126,12 +129,12 @@ function bp_core_update_directory_page_ids( $blog_page_ids ) {
  */
 function bp_core_get_directory_pages() {
 	global $wpdb, $bp;
+	
+	// Set pages as standard class
+	$pages = new stdClass;
 
 	// Get pages and IDs
 	if ( $page_ids = bp_core_get_directory_page_ids() ) {
-
-		// Set pages as standard class
-		$pages = new stdClass;
 
 		$posts_table_name = bp_is_multiblog_mode() ? $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts' : $wpdb->posts;
 		$page_ids_sql     = implode( ',', (array)$page_ids );
