@@ -227,7 +227,7 @@ class BP_Friends_Friendship {
 		$users_table = $wpdb->base_prefix . 'users';
 
 		if ( $limit && $page )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) );
 
 		// filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
