@@ -212,6 +212,9 @@ function xprofile_admin_manage_group( $group_id = null ) {
 				$message = __( 'The group was saved successfully.', 'buddypress' );
 				$type    = 'success';
 
+				if ( 1 == $group_id )
+					bp_update_option( 'bp-xprofile-base-group-name', $group->name );
+
 				do_action( 'xprofile_groups_saved_group', $group );
 			}
 
@@ -290,6 +293,9 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			} else {
 				$message = __( 'The field was saved successfully.', 'buddypress' );
 				$type = 'success';
+
+				if ( 1 == $field_id )
+					bp_update_option( 'bp-xprofile-fullname-field-name', $field->name );
 
 				unset( $_GET['mode'] );
 
