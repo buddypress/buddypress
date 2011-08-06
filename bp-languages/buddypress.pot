@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-05 20:30:52+00:00\n"
+"POT-Creation-Date: 2011-08-06 13:30:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -398,13 +398,13 @@ msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administ
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:29 bp-core/admin/bp-core-update.php:1218
-#: bp-core/bp-core-functions.php:247 bp-members/bp-members-signup.php:570
+#: bp-core/bp-core-functions.php:250 bp-members/bp-members-signup.php:570
 msgid "BuddyPress"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:72 bp-core/admin/bp-core-admin.php:239
 #: bp-core/admin/bp-core-admin.php:288 bp-core/admin/bp-core-update.php:72
-#: bp-core/admin/bp-core-update.php:217 bp-core/bp-core-functions.php:248
+#: bp-core/admin/bp-core-update.php:217 bp-core/bp-core-functions.php:251
 #: bp-forums/bp-forums-admin.php:27
 msgid "Components"
 msgstr ""
@@ -412,12 +412,12 @@ msgstr ""
 #: bp-core/admin/bp-core-admin.php:73 bp-core/admin/bp-core-admin.php:240
 #: bp-core/admin/bp-core-admin.php:289 bp-core/admin/bp-core-update.php:73
 #: bp-core/admin/bp-core-update.php:88 bp-core/admin/bp-core-update.php:221
-#: bp-core/bp-core-functions.php:249 bp-forums/bp-forums-admin.php:28
+#: bp-core/bp-core-functions.php:252 bp-forums/bp-forums-admin.php:28
 msgid "Pages"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:74 bp-core/admin/bp-core-admin.php:241
-#: bp-core/admin/bp-core-admin.php:290 bp-core/bp-core-functions.php:250
+#: bp-core/admin/bp-core-admin.php:290 bp-core/bp-core-functions.php:253
 #: bp-settings/bp-settings-loader.php:15 bp-settings/bp-settings-loader.php:72
 #: bp-settings/bp-settings-loader.php:142 bp-groups/bp-groups-loader.php:189
 #: bp-groups/bp-groups-template.php:1279 bp-forums/bp-forums-admin.php:29
@@ -780,7 +780,7 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:501 bp-core/bp-core-functions.php:448
+#: bp-core/admin/bp-core-update.php:501 bp-core/bp-core-functions.php:451
 #: bp-members/bp-members-adminbar.php:63
 msgid "Register"
 msgstr ""
@@ -789,7 +789,7 @@ msgstr ""
 msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:512 bp-core/bp-core-functions.php:443
+#: bp-core/admin/bp-core-update.php:512 bp-core/bp-core-functions.php:446
 #: bp-messages/bp-messages-template.php:498
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
@@ -1160,96 +1160,96 @@ msgstr ""
 msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:366
+#: bp-core/bp-core-functions.php:369
 msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update your permalink structure</a> to something other than the default for it to work."
 msgstr ""
 
-#: bp-core/bp-core-functions.php:379
+#: bp-core/bp-core-functions.php:382
 msgid "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>."
 msgstr ""
 
-#: bp-core/bp-core-functions.php:416
+#: bp-core/bp-core-functions.php:419
 msgid "Some of your WordPress pages are linked to BuddyPress Components that are disabled: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:460
+#: bp-core/bp-core-functions.php:463
 msgid "The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:610
+#: bp-core/bp-core-functions.php:613
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:611
+#: bp-core/bp-core-functions.php:614
 msgid "right now"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:612
+#: bp-core/bp-core-functions.php:615
 msgid "%s ago"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:616
+#: bp-core/bp-core-functions.php:619
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:616
+#: bp-core/bp-core-functions.php:619
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:617
+#: bp-core/bp-core-functions.php:620
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:617
+#: bp-core/bp-core-functions.php:620
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:618
+#: bp-core/bp-core-functions.php:621
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:618
+#: bp-core/bp-core-functions.php:621
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:619
+#: bp-core/bp-core-functions.php:622
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:619
+#: bp-core/bp-core-functions.php:622
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:620
+#: bp-core/bp-core-functions.php:623
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:620
+#: bp-core/bp-core-functions.php:623
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:621
+#: bp-core/bp-core-functions.php:624
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:621
+#: bp-core/bp-core-functions.php:624
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:622
+#: bp-core/bp-core-functions.php:625
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:622
+#: bp-core/bp-core-functions.php:625
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:679
+#: bp-core/bp-core-functions.php:682
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:742
+#: bp-core/bp-core-functions.php:745
 msgid "not recently active"
 msgstr ""
 
