@@ -923,7 +923,7 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	if ( isset( $activity_obj->current_comment ) ) {
 		$activity_obj = $activity_obj->current_comment;
 	}
-	
+
 	if ( 'new_blog_post' == $activity_obj->type || 'new_blog_comment' == $activity_obj->type || 'new_forum_topic' == $activity_obj->type || 'new_forum_post' == $activity_obj->type )
 		$link = $activity_obj->primary_link;
 	else {
@@ -994,8 +994,11 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
 /** Embeds *******************************************************************/
 
 /**
- * Grabs the activity ID and attempts to retrieve the oEmbed cache (if it exists)
+ * Grabs the activity update ID and attempts to retrieve the oEmbed cache (if it exists)
  * during the activity loop.  If no cache and link is embeddable, cache it.
+ *
+ * This does not cover recursive activity comments, as they do not use a real loop.
+ * For that, see {@link bp_activity_comment_embed()}.
  *
  * @see BP_Embed
  * @see bp_embed_activity_cache()
@@ -1009,6 +1012,57 @@ function bp_activity_embed() {
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }
 add_action( 'activity_loop_start', 'bp_activity_embed' );
+
+/**
+ * Grabs the activity comment ID and attempts to retrieve the oEmbed cache (if it exists)
+ * when BP is recursing through activity comments {@link bp_activity_recurse_comments()}.
+ * If no cache and link is embeddable, cache it.
+ *
+ * @see BP_Embed
+ * @see bp_embed_activity_cache()
+ * @see bp_embed_activity_save_cache()
+ * @package BuddyPress Activity
+ * @since 1.5
+ */
+function bp_activity_comment_embed() {
+	add_filter( 'embed_post_id',         'bp_get_activity_comment_id'          );
+	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
+	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
+}
+add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
+
+/**
+ * When a user clicks on a "Read More" item, make sure embeds are correctly parsed and shown for the expanded content.
+ *
+ * @global object $bp BuddyPress global settings
+ * @param BP_Activity_Activity $activity The activity that is being expanded
+ * @see BP_Embed
+ * @since 1.5
+ */
+function bp_dtheme_embed_read_more( $activity ) {
+	global $bp;
+
+	$bp->activity->read_more_id = $activity->id;
+
+	add_filter( 'embed_post_id',            create_function( '', 'global $bp; return $bp->activity->read_more_id;' ) ); 
+	add_filter( 'bp_embed_get_cache',       'bp_embed_activity_cache',      10, 3 );
+	add_action( 'bp_embed_update_cache',    'bp_embed_activity_save_cache', 10, 3 );
+}
+add_action( 'bp_dtheme_get_single_activity_content', 'bp_dtheme_embed_read_more' );
+
+/**
+ * Removes the 'embed_post_id' filter after {@link bp_activity_recurse_comments()}
+ * is rendered to avoid conflict with the 'embed_post_id' filter in
+ * {@link bp_activity_embed()} or any other component embeds.
+ *
+ * @see bp_activity_comment_embed()
+ * @package BuddyPress Activity
+ * @since 1.5
+ */
+function bp_activity_comment_embed_after_recurse() {
+	remove_filter( 'embed_post_id', 'bp_get_activity_comment_id' );
+}
+add_action( 'bp_after_activity_comment', 'bp_activity_comment_embed_after_recurse' );
 
 /**
  * Wrapper function for {@link bp_activity_get_meta()}.

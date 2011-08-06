@@ -1168,7 +1168,7 @@ class BP_Embed extends WP_Embed {
 		// Look for known internal handlers
 		ksort( $this->handlers );
 		foreach ( $this->handlers as $priority => $handlers ) {
-			foreach ( $handlers as $id => $handler ) {
+			foreach ( $handlers as $hid => $handler ) {
 				if ( preg_match( $handler['regex'], $url, $matches ) && is_callable( $handler['callback'] ) ) {
 					if ( false !== $return = call_user_func( $handler['callback'], $matches, $attr, $url, $rawattr ) )
 						return apply_filters( 'embed_handler_html', $return, $url, $attr );
@@ -1177,7 +1177,7 @@ class BP_Embed extends WP_Embed {
 		}
 
 		// Get object ID
-		$id = apply_filters( 'embed_post_id', $id );
+		$id = apply_filters( 'embed_post_id', 0 );
 
 		// Is oEmbed discovery on?
 		$attr['discover'] = ( apply_filters( 'bp_embed_oembed_discover', false ) && current_user_can( 'unfiltered_html' ) );
@@ -1219,6 +1219,8 @@ class BP_Embed extends WP_Embed {
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	function parse_oembed( $id, $url, $attr, $rawattr ) {
+		$id = intval( $id );
+
 		if ( $id ) {
 			// Setup the cachekey
 			$cachekey = '_oembed_' . md5( $url . serialize( $attr ) );
@@ -1229,7 +1231,7 @@ class BP_Embed extends WP_Embed {
 
 			// Grab cache and return it if available
 			if ( !empty( $cache ) ) {
-				return apply_filters( 'embed_oembed_html', $cache, $url, $attr, $rawattr );
+				return apply_filters( 'bp_embed_oembed_html', $cache, $url, $attr, $rawattr );
 
 			// If no cache, ping the oEmbed provider and cache the result
 			} else {

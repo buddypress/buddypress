@@ -339,13 +339,13 @@ function bp_dtheme_get_single_activity_content() {
 	if ( !$activity )
 		exit(); // todo: error?
 
-	// Activity content retrieved through AJAX should run through normal filters, but not be
-	// truncated
+	do_action_ref_array( 'bp_dtheme_get_single_activity_content', array( &$activity ) );
+
+	// Activity content retrieved through AJAX should run through normal filters, but not be truncated
 	remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 	$content = apply_filters( 'bp_get_activity_content_body', $activity->content );
 
 	echo $content;
-
 	exit();
 }
 add_action( 'wp_ajax_get_single_activity_content', 'bp_dtheme_get_single_activity_content' );
