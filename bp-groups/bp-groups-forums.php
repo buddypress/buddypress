@@ -228,7 +228,17 @@ function groups_delete_group_forum_topic( $topic_id ) {
 	return false;
 }
 
-function groups_delete_group_forum_post( $post_id, $topic_id ) {
+/**
+ * Delete a forum post
+ *
+ * @package BuddyPress
+ *
+ * @param int $post_id The id of the post you want to delete
+ * @param int $topic_id Optional. The topic to which the post belongs. This value isn't used in the
+ *   function but is passed along to do_action() hooks.
+ * @return bool True on success.
+ */
+function groups_delete_group_forum_post( $post_id, $topic_id = false ) {
 	global $bp;
 
 	if ( bp_forums_delete_post( array( 'post_id' => $post_id ) ) ) {
