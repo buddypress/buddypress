@@ -922,10 +922,11 @@ function bp_signup_page() {
 	function bp_get_signup_page() {
 		global $bp;
 
-		if ( bp_has_custom_signup_page() )
-			$page = trailingslashit( bp_get_root_domain() . '/' . $bp->pages->register->slug );
-		else
+		if ( bp_has_custom_signup_page() ) {
+			$page = trailingslashit( bp_get_root_domain() . '/' . bp_get_signup_slug() );
+		} else {
 			$page = bp_get_root_domain() . '/wp-signup.php';
+		}
 
 		return apply_filters( 'bp_get_signup_page', $page );
 	}
