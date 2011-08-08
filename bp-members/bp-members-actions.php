@@ -60,7 +60,7 @@ function bp_core_action_set_spammer_status() {
 
 		// Finally, mark this user as a spammer
 		if ( is_multisite() )
-			update_user_status( $bp->displayed_user->id, 'spam', 1 );
+			update_user_status( $bp->displayed_user->id, 'spam', $is_spam );
 
 		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
 
