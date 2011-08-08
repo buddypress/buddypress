@@ -25,61 +25,89 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Must be a site admin for this function to run.
  *
  * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
+ * @param int $user_id Optional user ID to mark as spam
+ * @global object $wpdb Global WordPress Database object
  */
-function bp_core_action_set_spammer_status() {
-	global $bp, $wpdb, $wp_version;
+function bp_core_action_set_spammer_status( $user_id = 0 ) {
+	global $wpdb;
 
-	if ( !is_super_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
-		return false;
+	// Only super admins can currently spam users
+	if ( !is_super_admin() || bp_is_my_profile() )
+		return;
 
-	if ( 'admin' == $bp->current_component && ( 'mark-spammer' == $bp->current_action || 'unmark-spammer' == $bp->current_action ) ) {
+	// Use displayed user if it's not yourself
+	if ( empty( $user_id ) && bp_is_user() )
+		$user_id = bp_displayed_user_id();
+
+	// Bail if no user ID
+	if ( empty( $user_id ) )
+		return;
+
+	// Bail if user ID is super admin
+	if ( is_super_admin( $user_id ) )
+		return;
+
+	if ( bp_is_current_component( 'admin' ) && ( in_array( bp_current_action(), array( 'mark-spammer', 'unmark-spammer' ) ) ) ) {
+
 		// Check the nonce
 		check_admin_referer( 'mark-unmark-spammer' );
 
 		// Get the functions file
-		if ( is_multisite() )
+		if ( is_multisite() ) {
 			require( ABSPATH . 'wp-admin/includes/ms.php' );
+		}
 
-		if ( 'mark-spammer' == $bp->current_action )
-			$is_spam = 1;
-		else
-			$is_spam = 0;
+		// To spam or not to spam
+		$is_spam = bp_is_current_action( 'mark-spammer' ) ? 1 : 0;
 
 		// Get the blogs for the user
-		$blogs = get_blogs_of_user( $bp->displayed_user->id, true );
+		$blogs = get_blogs_of_user( $user_id, true );
 
 		foreach ( (array) $blogs as $key => $details ) {
+
 			// Do not mark the main or current root blog as spam
-			if ( 1 == $details->userblog_id || bp_get_root_blog_id() == $details->userblog_id )
+			if ( 1 == $details->userblog_id || bp_get_root_blog_id() == $details->userblog_id ) {
 				continue;
+			}
 
 			// Update the blog status
 			update_blog_status( $details->userblog_id, 'spam', $is_spam );
 		}
 
 		// Finally, mark this user as a spammer
-		if ( is_multisite() )
-			update_user_status( $bp->displayed_user->id, 'spam', $is_spam );
+		if ( is_multisite() ) {
+			update_user_status( $user_id, 'spam', $is_spam );
+		}
 
-		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $bp->displayed_user->id ) );
+		// Always set single site status
+		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $user_id ) );
 
-		if ( $is_spam )
+		// Add feedback message
+		if ( $is_spam ) {
 			bp_core_add_message( __( 'User marked as spammer. Spam users are visible only to site admins.', 'buddypress' ) );
-		else
+		} else {
 			bp_core_add_message( __( 'User removed as spammer.', 'buddypress' ) );
+		}
 
 		// Hide this user's activity
-		if ( $is_spam && bp_is_active( 'activity' ) )
-			bp_activity_hide_user_activity( $bp->displayed_user->id );
+		if ( $is_spam && bp_is_active( 'activity' ) ) {
+			bp_activity_hide_user_activity( $user_id );
+		}
 
 		// We need a special hook for is_spam so that components can delete data at spam time
-		if ( $is_spam )
-			do_action( 'bp_make_spam_user', $bp->displayed_user->id );
-		else
-			do_action( 'bp_make_ham_user',  $bp->displayed_user->id );
+		$bp_action = $is_spam ? 'bp_make_spam_user' : 'bp_make_ham_user';
+		do_action( $bp_action, bp_displayed_user_id() );
 
-		do_action( 'bp_core_action_set_spammer_status', $bp->displayed_user->id, $is_spam );
+		// Call multisite actions in single site mode for good measure
+		if ( !is_multisite() ) {
+			$wp_action = $is_spam ? 'make_spam_user' : 'make_ham_user';
+			do_action( $wp_action, bp_displayed_user_id() );
+		}
+
+		// Allow plugins to do neat things
+		do_action( 'bp_core_action_set_spammer_status', bp_displayed_user_id(), $is_spam );
+		
+		// Redirect back to where we came from
 		bp_core_redirect( wp_get_referer() );
 	}
 }
