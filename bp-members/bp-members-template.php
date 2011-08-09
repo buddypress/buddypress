@@ -853,13 +853,13 @@ function bp_displayed_user_link() {
 
 function bp_displayed_user_id() {
 	global $bp;
-	return apply_filters( 'bp_displayed_user_id', isset( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0 );
+	return apply_filters( 'bp_displayed_user_id', !empty( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0 );
 }
 	function bp_current_user_id() { return bp_displayed_user_id(); }
 
 function bp_loggedin_user_id() {
 	global $bp;
-	return apply_filters( 'bp_loggedin_user_id', isset( $bp->displayed_user->id ) ? $bp->loggedin_user->id : 0 );
+	return apply_filters( 'bp_loggedin_user_id', !empty( $bp->displayed_user->id ) ? $bp->loggedin_user->id : 0 );
 }
 
 function bp_displayed_user_domain() {
@@ -877,8 +877,7 @@ function bp_displayed_user_fullname() {
 }
 	function bp_get_displayed_user_fullname() {
 		global $bp;
-
-		return apply_filters( 'bp_displayed_user_fullname', $bp->displayed_user->fullname );
+		return apply_filters( 'bp_displayed_user_fullname', isset( $bp->displayed_user->fullname ) ? $bp->displayed_user->fullname : '' );
 	}
 	function bp_user_fullname() { echo bp_get_displayed_user_fullname(); }
 
@@ -888,7 +887,7 @@ function bp_loggedin_user_fullname() {
 }
 	function bp_get_loggedin_user_fullname() {
 		global $bp;
-		return apply_filters( 'bp_get_loggedin_user_fullname', $bp->loggedin_user->fullname );
+		return apply_filters( 'bp_get_loggedin_user_fullname', isset( $bp->loggedin_user->fullname ) ? $bp->loggedin_user->fullname : '' );
 	}
 
 function bp_displayed_user_username() {
@@ -896,7 +895,14 @@ function bp_displayed_user_username() {
 }
 	function bp_get_displayed_user_username() {
 		global $bp;
-		return apply_filters( 'bp_get_displayed_user_username', bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) );
+		
+		if ( !empty( $bp->displayed_user->id ) ) {
+			$username = bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login );
+		} else {
+			$username = '';
+		}
+		
+		return apply_filters( 'bp_get_displayed_user_username', $username );
 	}
 
 function bp_loggedin_user_username() {
@@ -904,7 +910,14 @@ function bp_loggedin_user_username() {
 }
 	function bp_get_loggedin_user_username() {
 		global $bp;
-		return apply_filters( 'bp_get_loggedin_user_username', bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login ) );
+		
+		if ( !empty( $bp->loggedin_user->id ) ) {
+			$username = bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
+		} else {
+			$username = '';
+		}
+		
+		return apply_filters( 'bp_get_loggedin_user_username', $username );
 	}
 
 /** Signup Form ***************************************************************/
