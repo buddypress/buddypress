@@ -205,14 +205,13 @@ add_action( 'save_post', 'bp_blogs_record_post', 10, 2 );
  * Record blog comment activity. Checks if blog is public and post is not
  * password protected.
  *
- * @global object $wpdb
  * @global $bp $bp
  * @param int $comment_id
  * @param bool $is_approved
  * @return mixed
  */
 function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
-	global $wpdb, $bp;
+	global $bp;
 
 	// Get the users comment
 	$recorded_comment = get_comment( $comment_id );
@@ -234,11 +233,18 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		return false;
 
 	// Get blog and post data
-	$blog_id                = (int)$wpdb->blogid;
+	$blog_id                = get_current_blog_id();
 	$recorded_comment->post = get_post( $recorded_comment->comment_post_ID );
+
+	if ( empty( $recorded_comment->post ) || is_wp_error( $recorded_comment->post ) )
+		return false;
 
 	// If this is a password protected post, don't record the comment
 	if ( !empty( $recorded_comment->post->post_password ) )
+		return false;
+
+	// Don't record activity if the comment's associated post isn't a WordPress Post
+	if ( 'post' != $recorded_comment->post->post_type )
 		return false;
 
 	$is_blog_public = apply_filters( 'bp_is_blog_public', (int)get_blog_option( $blog_id, 'blog_public' ) );
