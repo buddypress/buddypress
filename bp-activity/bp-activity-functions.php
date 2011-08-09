@@ -600,6 +600,14 @@ function bp_activity_get( $args = '' ) {
 	return apply_filters_ref_array( 'bp_activity_get', array( &$activity, &$r ) );
 }
 
+/**
+ * Fetch specific activity items
+ *
+ * @package BuddyPress
+ *
+ * @param array $args See docs for $defaults for details
+ * @return array The array returned by BP_Activity_Activity::get()
+ */
 function bp_activity_get_specific( $args = '' ) {
 	$defaults = array(
 		'activity_ids'     => false,  // A single activity_id or array of IDs.
@@ -608,7 +616,7 @@ function bp_activity_get_specific( $args = '' ) {
 		'max'              => false,  // Maximum number of results to return
 		'sort'             => 'DESC', // sort ASC or DESC
 		'display_comments' => false,  // true or false to display threaded comments for these specific activity items
-		'show_hidden'      => false
+		'show_hidden'      => true    // When fetching specific items, show all
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
