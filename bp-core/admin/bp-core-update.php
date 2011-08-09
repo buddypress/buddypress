@@ -973,7 +973,7 @@ class BP_Core_Setup_Wizard {
 				case 'manual_wp' :
 
 					// Include
-					require( ABSPATH . WPINC . '/plugin.php' );
+					require_once( ABSPATH . WPINC . '/plugin.php' );
 					$installed_plugins = get_plugins();
 
 					foreach ( $installed_plugins as $key => $plugin ) {
