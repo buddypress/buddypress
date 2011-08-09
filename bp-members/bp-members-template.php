@@ -859,7 +859,7 @@ function bp_displayed_user_id() {
 
 function bp_loggedin_user_id() {
 	global $bp;
-	return apply_filters( 'bp_loggedin_user_id', !empty( $bp->displayed_user->id ) ? $bp->loggedin_user->id : 0 );
+	return apply_filters( 'bp_loggedin_user_id', !empty( $bp->loggedin_user->id ) ? $bp->loggedin_user->id : 0 );
 }
 
 function bp_displayed_user_domain() {
