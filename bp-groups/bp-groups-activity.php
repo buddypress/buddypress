@@ -106,7 +106,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$user_fullname = bp_core_get_user_displayname( $requesting_user_id );
 				$text = sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname );
 				$filter = 'bp_groups_single_new_membership_request_notification';
-				$notification_link = $group_link . '?n=1';
+				$notification_link = $group_link . 'admin/membership-requests/?n=1';
 				
 				if ( 'string' == $format ) {
 					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname ) . '">' . $text . '</a>', $group_link, $user_fullname, $group->name, $text, $notification_link );
