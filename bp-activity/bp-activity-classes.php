@@ -254,8 +254,6 @@ Class BP_Activity_Activity {
 	function delete( $args ) {
 		global $wpdb, $bp;
 
-		extract( $args );
-
 		$defaults = array(
 			'id'                => false,
 			'action'            => false,
@@ -269,6 +267,8 @@ Class BP_Activity_Activity {
 			'date_recorded'     => false,
 			'hide_sitewide'     => false
 		);
+		$params = wp_parse_args( $args, $defaults );
+		extract( $params );
 
 		$where_args = false;
 

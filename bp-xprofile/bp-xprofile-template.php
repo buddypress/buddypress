@@ -155,13 +155,13 @@ function bp_has_profile( $args = '' ) {
 
 	// Only show empty fields if we're on the Dashboard, or we're on a user's profile edit page,
 	// or this is a registration page
-	$hide_empty_fields = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() && !bp_is_register_page() );
+	$hide_empty_fields_default = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() && !bp_is_register_page() );
 
 	$defaults = array(
-		'user_id' => $bp->displayed_user->id,
+		'user_id'           => $bp->displayed_user->id,
 		'profile_group_id'  => false,
 		'hide_empty_groups' => true,
-		'hide_empty_fields' => $hide_empty_fields,
+		'hide_empty_fields' => $hide_empty_fields_default,
 		'fetch_fields'      => true,
 		'fetch_field_data'  => true,
 		'exclude_groups'    => false, // Comma-separated list of profile field group IDs to exclude
