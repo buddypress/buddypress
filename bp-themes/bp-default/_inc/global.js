@@ -142,7 +142,7 @@ jq(document).ready( function() {
 		if ( scope == 'mentions' )
 			jq( 'li#' + target.attr('id') + ' a strong' ).remove();
 
-		bp_activity_request(scope, filter, target);
+		bp_activity_request(scope, filter);
 
 		return false;
 	});
