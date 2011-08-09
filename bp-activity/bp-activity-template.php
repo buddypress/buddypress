@@ -174,8 +174,8 @@ class BP_Activity_Template {
 				'format'    => '',
 				'total'     => ceil( (int)$this->total_activity_count / (int)$this->pag_num ),
 				'current'   => (int)$this->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
+				'prev_text' => _x( '&larr;', 'Activity pagination previous text', 'buddypress' ),
+				'next_text' => _x( '&rarr;', 'Activity pagination next text', 'buddypress' ),
 				'mid_size'  => 1
 			) );
 		}
@@ -269,7 +269,7 @@ function bp_has_activities( $args = '' ) {
 		if ( 'public' != $bp->groups->current_group->status && ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) || $bp->loggedin_user->is_super_admin ) )
 			$show_hidden = true;
 	}
-	
+
 	// The default scope should recognize custom slugs
 	if ( array_key_exists( $bp->current_action, (array)$bp->loaded_components ) ) {
 		$scope = $bp->loaded_components[$bp->current_action];
@@ -280,7 +280,7 @@ function bp_has_activities( $args = '' ) {
 	// Support for permalinks on single item pages: /groups/my-group/activity/124/
 	if ( bp_is_current_action( bp_get_activity_slug() ) )
 		$include = bp_action_variable( 0 );
-		
+
 	// Note: any params used for filtering can be a single value, or multiple values comma separated.
 	$defaults = array(
 		'display_comments' => 'threaded',   // false for none, stream/threaded - show comments in the stream or threaded under items
@@ -754,7 +754,7 @@ function bp_activity_content() {
 
 		// Insert the time since.
 		$time_since = apply_filters_ref_array( 'bp_activity_time_since', array( '<span class="time-since">' . bp_core_time_since( $activities_template->activity->date_recorded ) . '</span>', &$activities_template->activity ) );
-	
+
 		// Insert the permalink
 		if ( !bp_is_single_activity() )
 			$content = apply_filters_ref_array( 'bp_activity_permalink', array( sprintf( '%1$s <a href="%2$s" class="view activity-time-since" title="%3$s">%4$s</a>', $content, bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ), esc_attr__( 'View Discussion', 'buddypress' ), $time_since ), &$activities_template->activity ) );
@@ -769,7 +769,7 @@ function bp_activity_user_can_delete( $activity = false ) {
 
 	if ( !$activity )
 		$activity = $activities_template->activity;
-	
+
 	if ( isset( $activity->current_comment ) )
 		$activity = $activity->current_comment;
 
@@ -860,7 +860,7 @@ function bp_activity_comments( $args = '' ) {
 
 		bp_activity_recurse_comments( $activities_template->activity );
 	}
-	
+
 		/**
 		 * Loops through a level of activity comments and loads the template for each
 		 *
@@ -874,10 +874,10 @@ function bp_activity_comments( $args = '' ) {
 		 */
 		function bp_activity_recurse_comments( $comment ) {
 			global $activities_template, $bp, $counter;
-			
+
 			if ( !$comment )
 				return false;
-				
+
 			if ( empty( $comment->children ) )
 				return false;
 
@@ -887,7 +887,7 @@ function bp_activity_comments( $args = '' ) {
 				$activities_template->activity->current_comment = $comment_child;
 
 				$template = locate_template( 'activity/comment.php', false, false );
-				
+
 				// Backward compatibility. In older versions of BP, the markup was
 				// generated in the PHP instead of a template. This ensures that
 				// older themes (which are not children of bp-default and won't
@@ -895,9 +895,9 @@ function bp_activity_comments( $args = '' ) {
 				if ( !$template ) {
 					$template = BP_PLUGIN_DIR . '/bp-themes/bp-default/activity/comment.php';
 				}
-				
+
 				load_template( $template, false );
-				
+
 				unset( $activities_template->activity->current_comment );
 			}
 			echo '</ul>';
@@ -914,9 +914,9 @@ function bp_activity_comments( $args = '' ) {
  */
 function bp_activity_current_comment() {
 	global $activities_template;
-	
+
 	$current_comment = !empty( $activities_template->activity->current_comment ) ? $activities_template->activity->current_comment : false;
-	
+
 	return apply_filters( 'bp_activity_current_comment', $current_comment );
 }
 
@@ -942,9 +942,9 @@ function bp_activity_comment_id() {
 	 */
 	function bp_get_activity_comment_id() {
 		global $activities_template;
-		
+
 		$comment_id = isset( $activities_template->activity->current_comment->id ) ? $activities_template->activity->current_comment->id : false;
-	
+
 		return apply_filters( 'bp_activity_comment_id', $comment_id );
 	}
 
@@ -969,9 +969,9 @@ function bp_activity_comment_user_id() {
 	 */
 	function bp_get_activity_comment_user_id() {
 		global $activities_template;
-		
+
 		$user_id = isset( $activities_template->activity->current_comment->user_id ) ? $activities_template->activity->current_comment->user_id : false;
-		
+
 		return apply_filters( 'bp_activity_comment_user_id', $user_id );
 	}
 
@@ -996,7 +996,7 @@ function bp_activity_comment_user_link() {
 	 */
 	function bp_get_activity_comment_user_link() {
 		$user_link = bp_core_get_user_domain( bp_get_activity_comment_user_id() );
-	
+
 		return apply_filters( 'bp_activity_comment_user_link', $user_link );
 	}
 
@@ -1023,9 +1023,9 @@ function bp_activity_comment_name() {
 	 */
 	function bp_get_activity_comment_name() {
 		global $activities_template;
-		
+
 		$name = apply_filters( 'bp_acomment_name', $activities_template->activity->current_comment->user_fullname, $activities_template->activity->current_comment ); // backward compatibility
-		
+
 		return apply_filters( 'bp_activity_comment_name', $name );
 	}
 
@@ -1050,12 +1050,12 @@ function bp_activity_comment_date_recorded() {
 	 */
 	function bp_get_activity_comment_date_recorded() {
 		global $activities_template;
-		
+
 		if ( empty( $activities_template->activity->current_comment->date_recorded ) )
 			return false;
-		
+
 		$date_recorded = bp_core_time_since( $activities_template->activity->current_comment->date_recorded );
-		
+
 		return apply_filters( 'bp_activity_comment_date_recorded', $date_recorded );
 	}
 
@@ -1080,9 +1080,9 @@ function bp_activity_comment_delete_link() {
 	 */
 	function bp_get_activity_comment_delete_link() {
 		global $bp;
-		
+
 		$link = wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_slug() . '/delete/?cid=' . bp_get_activity_comment_id(), 'bp_activity_delete_link' );
-		
+
 		return apply_filters( 'bp_activity_comment_delete_link', $link );
 	}
 
@@ -1111,9 +1111,9 @@ function bp_activity_comment_content() {
 	 */
 	function bp_get_activity_comment_content() {
 		global $activities_template;
-		
+
 		$content = apply_filters( 'bp_get_activity_content', $activities_template->activity->current_comment->content );
-		
+
 		return apply_filters( 'bp_activity_comment_content', $content );
 	}
 

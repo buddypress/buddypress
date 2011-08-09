@@ -101,7 +101,7 @@ class BP_Forums_Template_Forum {
 		$this->__construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset, $number );
 	}
 
-	function __construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset = false, $number = false ) {	
+	function __construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset = false, $number = false ) {
 		global $bp;
 
 		$this->pag_page     = $page;
@@ -113,7 +113,7 @@ class BP_Forums_Template_Forum {
 		$this->number	    = $number;
 
 		switch ( $type ) {
-			case 'newest': default:				
+			case 'newest': default:
 				$this->topics = bp_forums_get_forum_topics( array( 'user_id' => $user_id, 'forum_id' => $forum_id, 'filter' => $search_terms, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'show_stickies' => $no_stickies, 'offset' => $offset, 'number' => $number ) );
 				break;
 
@@ -152,7 +152,7 @@ class BP_Forums_Template_Forum {
 			} else {
 				$this->total_topic_count = (int)$max;
 			}
-			
+
 			if ( $max ) {
 				if ( $max >= count($this->topics) ) {
 					$this->topic_count = count( $this->topics );
@@ -176,8 +176,8 @@ class BP_Forums_Template_Forum {
 				'format'    => '',
 				'total'     => ceil( (int)$this->total_topic_count / (int)$this->pag_num),
 				'current'   => $this->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
+				'prev_text' => _x( '&larr;', 'Forum topic pagination previous text', 'buddypress' ),
+				'next_text' => _x( '&rarr;', 'Forum topic pagination next text', 'buddypress' ),
 				'mid_size'  => 1
 			) );
 		}
@@ -260,11 +260,11 @@ function bp_has_forum_topics( $args = '' ) {
 	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
 		$user_id = $bp->displayed_user->id;
-	
+
 	// "Replied" query must be manually modified
 	if ( 'replies' == bp_current_action() ) {
 		$user_id = 0; // User id must be handled manually by the filter, not by BB_Query
-		
+
 		add_filter( 'get_topics_distinct',   'bp_forums_add_replied_distinct_sql', 20 );
 		add_filter( 'get_topics_join', 	     'bp_forums_add_replied_join_sql', 20 );
 		add_filter( 'get_topics_where',      'bp_forums_add_replied_where_sql', 20  );
@@ -285,11 +285,11 @@ function bp_has_forum_topics( $args = '' ) {
 	// If $_GET['fs'] is set, let's auto populate the search_terms var
 	if ( bp_is_directory() && !empty( $_GET['fs'] ) )
 		$search_terms = $_GET['fs'];
-	
+
 	// Get the pagination arguments from $_REQUEST
 	$page     = isset( $_REQUEST['p'] ) ? intval( $_REQUEST['p'] ) : 1;
 	$per_page = isset( $_REQUEST['n'] ) ? intval( $_REQUEST['n'] ) : 20;
-	
+
 	// Unless set otherwise, stickies appear in normal order on the global forum directory
 	if ( bp_is_directory() && bp_is_forums_component() && !bp_forums_enable_global_directory_stickies() )
 		$do_stickies = false;
@@ -315,88 +315,88 @@ function bp_has_forum_topics( $args = '' ) {
 	if ( bp_is_current_action( 'tag' ) && $search_terms = bp_action_variable( 0 ) ) {
 		$type = 'tags';
 	}
-	
+
 	/** Sticky logic ******************************************************************/
-	
+
 	if ( $do_stickies ) {
 		// Fetch the stickies
 		$stickies_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, 0, 0, $max, 'sticky', $search_terms );
-		
+
 		// If stickies are found, try merging them
 		if ( $stickies_template->has_topics() ) {
-		
-			// If stickies are for current $page		
+
+			// If stickies are for current $page
 			$page_start_num = ( ( $page - 1 ) * $per_page ) + 1;
 			$page_end_num 	= $page * $per_page <= $stickies_template->total_topic_count ? $page * $per_page : $stickies_template->total_topic_count;
-			
+
 			// Calculate the number of sticky topics that will be shown on this page
 			if ( $stickies_template->topic_count < $page_start_num ) {
 				$this_page_stickies = 0;
-			} else {			
+			} else {
 				$this_page_stickies = $stickies_template->topic_count - $per_page * floor( $stickies_template->topic_count / $per_page ) * ( $page - 1 ); // Total stickies minus sticky count through this page
-				
+
 				// $this_page_stickies cannot be more than $per_page or less than 0
 				if ( $this_page_stickies > $per_page )
 					$this_page_stickies = $per_page;
 				else if ( $this_page_stickies < 0 )
 					$this_page_stickies = 0;
 			}
-			
+
 			// Calculate the total number of topics that will be shown on this page
 			$this_page_topics = $stickies_template->total_topic_count >= ( $page * $per_page ) ? $per_page : $page_end_num - ( $page_start_num - 1 );
-			
+
 			// If the number of stickies to be shown is less than $per_page, fetch some
 			// non-stickies to fill in the rest
 			if ( $this_page_stickies < $this_page_topics ) {
 				// How many non-stickies do we need?
 				$non_sticky_number = $this_page_topics - $this_page_stickies;
-				
-				// Calculate the non-sticky offset			
+
+				// Calculate the non-sticky offset
 				// How many non-stickies on all pages up to this point?
 				$non_sticky_total = $page_end_num - $stickies_template->topic_count;
-				
+
 				// The offset is the number of total non-stickies, less the number
 				// to be shown on this page
 				$non_sticky_offset = $non_sticky_total - $non_sticky_number;
-				
+
 				// Fetch the non-stickies
 				$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, 1, $per_page, $max, 'no', $search_terms, $non_sticky_offset, $non_sticky_number );
-				
+
 				// If there are stickies to merge on this page, do it now
 				if ( $this_page_stickies ) {
 					// Correct the topic_count
 					$forum_template->topic_count += (int)$this_page_stickies;
-					
+
 					// Figure out which stickies need to be included
 					$this_page_sticky_topics = array_slice( $stickies_template->topics, 0 - $this_page_stickies );
-					
+
 					// Merge these topics into the forum template
 					$forum_template->topics = array_merge( $this_page_sticky_topics, (array)$forum_template->topics );
 				}
 			} else {
 				// This page has no non-stickies
 				$forum_template = $stickies_template;
-				
+
 				// Adjust the topic count and trim the topics
 				$forum_template->topic_count = $this_page_stickies;
-				$forum_template->topics      = array_slice( $forum_template->topics, $page - 1 );	
+				$forum_template->topics      = array_slice( $forum_template->topics, $page - 1 );
 			}
-					
+
 			// Because we're using a manual offset and number for the topic query, we
 			// must set the page number manually, and recalculate the pagination links
 			$forum_template->pag_num     = $per_page;
 			$forum_template->pag_page    = $page;
-			
+
 			$forum_template->pag_links = paginate_links( array(
 				'base'      => add_query_arg( array( 'p' => '%#%', 'n' => $forum_template->pag_num ) ),
 				'format'    => '',
 				'total'     => ceil( (int)$forum_template->total_topic_count / (int)$forum_template->pag_num ),
 				'current'   => $forum_template->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
+				'prev_text' => _x( '&larr;', 'Forum topic pagination previous text', 'buddypress' ),
+				'next_text' => _x( '&rarr;', 'Forum topic pagination next text', 'buddypress' ),
 				'mid_size'  => 1
 			) );
-			
+
 		} else {
 			// Fetch the non-sticky topics if no stickies were found
 			$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, 'all', $search_terms );
@@ -405,7 +405,7 @@ function bp_has_forum_topics( $args = '' ) {
 		// When skipping the sticky logic, just pull up the forum topics like usual
 		$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, 'all', $search_terms );
 	}
-		
+
 	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), $forum_template );
 }
 
@@ -864,7 +864,7 @@ function bp_forum_topic_type() {
  */
 function bp_forums_tag_name() {
 	echo bp_get_forums_tag_name();
-}	
+}
 	/**
 	 * Outputs the currently viewed tag name
 	 *
@@ -873,7 +873,7 @@ function bp_forums_tag_name() {
 	 */
 	function bp_get_forums_tag_name() {
 		$tag_name = bp_is_directory() && bp_is_forums_component() ? bp_action_variable( 0 ) : false;
-		
+
 		return apply_filters( 'bp_get_forums_tag_name', $tag_name );
 	}
 
@@ -939,7 +939,7 @@ class BP_Forums_Template_Topic {
 	function BP_Forums_Template_Topic( $topic_id, $per_page, $max, $order ) {
 		$this->__construct( $topic_id, $per_page, $max, $order );
 	}
-		
+
 	function __construct( $topic_id, $per_page, $max, $order ) {
 		global $bp, $current_user, $forum_template;
 
@@ -973,7 +973,7 @@ class BP_Forums_Template_Topic {
 				$this->post_count = count( $this->posts );
 			}
 		}
-		
+
 		// Load topic tags
 		$this->topic_tags = bb_get_topic_tags( $this->topic_id );
 
@@ -983,8 +983,8 @@ class BP_Forums_Template_Topic {
 				'format'    => '',
 				'total'     => ceil( (int)$this->total_post_count / (int)$this->pag_num ),
 				'current'   => $this->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
+				'prev_text' => _x( '&larr;', 'Forum thread pagination previous text', 'buddypress' ),
+				'next_text' => _x( '&rarr;', 'Forum thread pagination next text', 'buddypress' ),
 				'mid_size'  => 1
 			) );
 
@@ -1068,7 +1068,7 @@ function bp_has_forum_topic_posts( $args = '' ) {
 		if ( bp_is_groups_component() && $topic_template->forum_id != groups_get_groupmeta( bp_get_current_group_id(), 'forum_id' ) )
 			return false;
 	}
-	
+
 	return apply_filters( 'bp_has_topic_posts', $topic_template->has_posts(), $topic_template );
 }
 
@@ -1334,20 +1334,20 @@ function bp_forum_topic_tag_list() {
 	 */
 	function bp_get_forum_topic_tag_list( $format = 'string' ) {
 		global $topic_template;
-		
+
 		$tags_data = !empty( $topic_template->topic_tags ) ? $topic_template->topic_tags : false;
-		
+
 		$tags = array();
-		
+
 		if ( $tags_data ) {
 			foreach( $tags_data as $tag_data ) {
 				$tags[] = $tag_data->name;
 			}
 		}
-		
+
 		if ( 'string' == $format )
 			$tags = implode( ', ', $tags );
-			
+
 		return apply_filters( 'bp_forum_topic_tag_list', $tags, $format );
 	}
 
@@ -1361,12 +1361,12 @@ function bp_forum_topic_tag_list() {
  */
 function bp_forum_topic_has_tags() {
 	global $topic_template;
-	
+
 	$has_tags = false;
-	
+
 	if ( !empty( $topic_template->topic_tags ) )
 		$has_tags = true;
-	
+
 	return apply_filters( 'bp_forum_topic_has_tags', $has_tags );
 }
 

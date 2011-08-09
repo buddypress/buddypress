@@ -168,8 +168,8 @@ class BP_Groups_Template {
 				'format'    => '',
 				'total'     => ceil( (int)$this->total_group_count / (int)$this->pag_num ),
 				'current'   => $this->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
+				'prev_text' => _x( '&larr;', 'Group pagination previous text', 'buddypress' ),
+				'next_text' => _x( '&rarr;', 'Group pagination next text', 'buddypress' ),
 				'mid_size'  => 1
 			) );
 		}
@@ -625,15 +625,15 @@ function bp_group_admin_ids( $group = false, $format = 'string' ) {
 
 	$admin_ids = array();
 
-	if ( $group->admins ) { 
+	if ( $group->admins ) {
 		foreach( $group->admins as $admin ) {
 			$admin_ids[] = $admin->user_id;
 		}
 	}
-			
-	if ( 'string' == $format ) 
+
+	if ( 'string' == $format )
 		$admin_ids = implode( ',', $admin_ids );
-	
+
 	return apply_filters( 'bp_group_admin_ids', $admin_ids );
 }
 
@@ -655,15 +655,15 @@ function bp_group_mod_ids( $group = false, $format = 'string' ) {
 
 	$mod_ids = array();
 
-	if ( $group->mods ) { 
+	if ( $group->mods ) {
 		foreach( $group->mods as $mod ) {
 			$mod_ids[] = $mod->user_id;
 		}
 	}
-	
-	if ( 'string' == $format ) 
+
+	if ( 'string' == $format )
 		$mod_ids = implode( ',', $mod_ids );
-	
+
 	return apply_filters( 'bp_group_mod_ids', $mod_ids );
 }
 
@@ -896,11 +896,11 @@ function bp_group_show_status_setting( $setting, $group = false ) {
  * @param str $setting The setting you want to check against ('members', 'mods', or 'admins')
  * @param obj $group (optional) The group whose status you want to check
  */
-function bp_group_show_invite_status_setting( $setting, $group = false ) { 
+function bp_group_show_invite_status_setting( $setting, $group = false ) {
 	$group_id = isset( $group->id ) ? $group->id : false;
-	
+
 	$invite_status = bp_group_get_invite_status( $group_id );
-	
+
 	if ( $setting == $invite_status )
 		echo ' checked="checked"';
 }
@@ -924,7 +924,7 @@ function bp_group_show_invite_status_setting( $setting, $group = false ) {
  */
 function bp_group_get_invite_status( $group_id = false ) {
 	global $bp, $groups_template;
-		
+
 	if ( !$group_id ) {
 		if ( isset( $bp->groups->current_group->id ) ) {
 			// Default to the current group first
@@ -936,7 +936,7 @@ function bp_group_get_invite_status( $group_id = false ) {
 			return false;
 		}
 	}
-	
+
 	$invite_status = groups_get_groupmeta( $group_id, 'invite_status' );
 
 	// Backward compatibility. When 'invite_status' is not set, fall back to a default value
@@ -957,15 +957,15 @@ function bp_group_get_invite_status( $group_id = false ) {
  * @param int $group_id (optional) The id of the group whose status you want to check
  * @return bool $can_send_invites
  */
-function bp_groups_user_can_send_invites( $group_id = false ) { 
-	global $bp; 
+function bp_groups_user_can_send_invites( $group_id = false ) {
+	global $bp;
 
 	$can_send_invites = false;
 	$invite_status    = false;
-	
+
 	if ( is_user_logged_in() ) {
-		if ( is_super_admin() ) { 
-			// Super admins can always send invitations 
+		if ( is_super_admin() ) {
+			// Super admins can always send invitations
 			$can_send_invites = true;
 
 		} else {
@@ -982,8 +982,8 @@ function bp_groups_user_can_send_invites( $group_id = false ) {
 				return false;
 
 			switch ( $invite_status ) {
-				case 'admins' : 
-					if ( groups_is_user_admin( bp_loggedin_user_id(), $group_id ) ) 
+				case 'admins' :
+					if ( groups_is_user_admin( bp_loggedin_user_id(), $group_id ) )
 						$can_send_invites = true;
 					break;
 
@@ -1001,7 +1001,7 @@ function bp_groups_user_can_send_invites( $group_id = false ) {
 	}
 
 	return apply_filters( 'bp_groups_user_can_send_invites', $can_send_invites, $group_id, $invite_status );
-} 
+}
 
 /**
  * Since BuddyPress 1.0, this generated the group settings admin/member screen.
@@ -1668,9 +1668,9 @@ class BP_Groups_Group_Members_Template {
 	var $total_group_count;
 
 	function bp_groups_group_members_template( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude ) {
-		$this->__construct( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude );	
+		$this->__construct( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude );
 	}
-	
+
 	function __construct( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude ) {
 		global $bp;
 
@@ -2398,10 +2398,10 @@ class BP_Groups_Membership_Requests_Template {
 	function bp_groups_membership_requests_template( $group_id, $per_page, $max ) {
 		$this->__construct( $group_id, $per_page, $max );
 	}
-	
-	
+
+
 	function __construct( $group_id, $per_page, $max ) {
-		
+
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : 1;
@@ -2572,13 +2572,13 @@ class BP_Groups_Invite_Template {
 	var $total_invite_count;
 
 	function bp_groups_invite_template( $user_id, $group_id ) {
-		$this->__construct( $user_id, $group_id ); 
+		$this->__construct( $user_id, $group_id );
 	}
-		
+
 	function __construct( $user_id, $group_id ) {
 
 		global $bp;
-		
+
 		$this->invites = groups_get_invites_for_group( $user_id, $group_id );
 		$this->invite_count = count( $this->invites );
 
@@ -2752,7 +2752,7 @@ function bp_group_activity_feed_link() {
  */
 function bp_current_group_id() {
 	echo bp_get_current_group_id();
-}	
+}
 	/**
 	 * Returns the ID of the current group
 	 *
@@ -2760,13 +2760,13 @@ function bp_current_group_id() {
 	 * @since 1.5
 	 * @uses apply_filters() Filter bp_get_current_group_id to modify this output
 	 *
-	 * @return int $current_group_id The id of the current group, if there is one 
+	 * @return int $current_group_id The id of the current group, if there is one
 	 */
 	function bp_get_current_group_id() {
 		$current_group = groups_get_current_group();
-		
+
 		$current_group_id = isset( $current_group->id ) ? (int)$current_group->id : 0;
-		
+
 		return apply_filters( 'bp_get_current_group_id', $current_group_id, $current_group );
 	}
 
@@ -2778,7 +2778,7 @@ function bp_current_group_id() {
  */
 function bp_current_group_slug() {
 	echo bp_get_current_group_slug();
-}	
+}
 	/**
 	 * Returns the slug of the current group
 	 *
@@ -2786,13 +2786,13 @@ function bp_current_group_slug() {
 	 * @since 1.5
 	 * @uses apply_filters() Filter bp_get_current_group_slug to modify this output
 	 *
-	 * @return str $current_group_slug The slug of the current group, if there is one 
+	 * @return str $current_group_slug The slug of the current group, if there is one
 	 */
 	function bp_get_current_group_slug() {
 		$current_group = groups_get_current_group();
-		
+
 		$current_group_slug = isset( $current_group->slug ) ? $current_group->slug : '';
-		
+
 		return apply_filters( 'bp_get_current_group_slug', $current_group_slug, $current_group );
 	}
 
@@ -2811,7 +2811,7 @@ function bp_current_group_name() {
 	 * @since 1.5
 	 * @uses apply_filters() Filter bp_get_current_group_name to modify this output
 	 *
-	 * @return str The name of the current group, if there is one 
+	 * @return str The name of the current group, if there is one
 	 */
 	function bp_get_current_group_name() {
 		global $bp;

@@ -72,8 +72,8 @@ Class BP_Messages_Box_Template {
 				'format'    => '',
 				'total'     => ceil( (int)$this->total_thread_count / (int)$this->pag_num ),
 				'current'   => $this->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
+				'prev_text' => _x( '&larr;', 'Message pagination previous text', 'buddypress' ),
+				'next_text' => _x( '&rarr;', 'Message pagination next text', 'buddypress' ),
 				'mid_size'  => 1
 			) );
 		}

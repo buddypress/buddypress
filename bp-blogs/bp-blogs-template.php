@@ -132,8 +132,8 @@ class BP_Blogs_Template {
 				'format'    => '',
 				'total'     => ceil( (int)$this->total_blog_count / (int)$this->pag_num ),
 				'current'   => (int)$this->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
+				'prev_text' => _x( '&larr;', 'Blog pagination previous text', 'buddypress' ),
+				'next_text' => _x( '&rarr;', 'Blog pagination next text', 'buddypress' ),
 				'mid_size'  => 1
 			) );
 		}
@@ -588,7 +588,7 @@ function bp_blogs_blog_tabs() {
 function bp_directory_blogs_search_form() {
 	global $bp;
 
-	$default_search_value = bp_get_search_default_text(); 
+	$default_search_value = bp_get_search_default_text();
 	$search_value = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
 
 	<form action="" method="get" id="search-blogs-form">

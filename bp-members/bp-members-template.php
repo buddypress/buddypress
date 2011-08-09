@@ -174,7 +174,7 @@ class BP_Core_Members_Template {
 
 	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value ) {
 		global $bp;
-		
+
 		$this->pag_page  = !empty( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : (int)$page_number;
 		$this->pag_num   = !empty( $_REQUEST['num'] )   ? intval( $_REQUEST['num'] )   : (int)$per_page;
 		$this->type      = $type;
@@ -209,8 +209,8 @@ class BP_Core_Members_Template {
 				'format'    => '',
 				'total'     => ceil( (int)$this->total_member_count / (int)$this->pag_num ),
 				'current'   => (int) $this->pag_page,
-				'prev_text' => '&larr;',
-				'next_text' => '&rarr;',
+				'prev_text' => _x( '&larr;', 'Member pagination previous text', 'buddypress' ),
+				'next_text' => _x( '&rarr;', 'Member pagination next text', 'buddypress' ),
 				'mid_size'   => 1
 			) );
 		}
@@ -296,7 +296,7 @@ function bp_has_members( $args = '' ) {
 
 		'user_id'         => $user_id,      // Pass a user_id to only show friends of this user
 		'search_terms'    => $search_terms, // Pass search_terms to filter users by their profile data
-		
+
 		'meta_key'        => false,	        // Only return users with this usermeta
 		'meta_value'	  => false,	        // Only return users where the usermeta value matches. Requires meta_key
 
@@ -523,7 +523,7 @@ function bp_member_name() {
 	 */
 	function bp_get_member_name() {
 		global $members_template;
-		
+
 		// Generally, this only fires when xprofile is disabled
 		if ( empty( $members_template->member->fullname ) ) {
 			// Our order of preference for alternative fullnames
@@ -815,7 +815,7 @@ function bp_last_activity( $user_id = 0 ) {
 		$last_activity = bp_core_get_last_activity( bp_get_user_meta( $user_id, 'last_activity', true ), __('active %s', 'buddypress') );
 
 		return apply_filters( 'bp_get_last_activity', $last_activity );
-	}	
+	}
 
 function bp_user_firstname() {
 	echo bp_get_user_firstname();
