@@ -341,7 +341,7 @@ function bp_core_admin_component_options() {
 	$optional_components = apply_filters( 'bp_admin_optional_components', array(
 		'xprofile' => array(
 			'title'       => __( 'Extended Profiles', 'buddypress' ),
-			'description' => __( 'Customize your community with fully editable profile fields that allow your users use to uniquely describe themselves.', 'buddypress' )
+			'description' => __( 'Customize your community with fully editable profile fields that allow your users to describe themselves.', 'buddypress' )
 		),
 		'settings' => array(
 			'title'       => __( 'Account Settings', 'buddypress' ),
@@ -353,7 +353,7 @@ function bp_core_admin_component_options() {
 		),
 		'messages' => array(
 			'title'       => __( 'Private Messaging', 'buddypress' ),
-			'description' => __( 'Allow your users to talk to each other directly and in private. They are not just limited to one-on-one discussions, and can send messages to multiple recipients.', 'buddypress' )
+			'description' => __( 'Allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, messages can be sent between any number of members.', 'buddypress' )
 		),
 		'activity' => array(
 			'title'       => __( 'Activity Streams', 'buddypress' ),
@@ -361,11 +361,11 @@ function bp_core_admin_component_options() {
 		),
 		'groups' => array(
 			'title'       => __( 'User Groups', 'buddypress' ),
-			'description' => __( 'Groups allow your users to organize themselves into specific public, private or hidden sections with a separate activity stream and member listing.', 'buddypress' )
+			'description' => __( 'Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings.', 'buddypress' )
 		),
 		'forums' => array(
 			'title'       => __( 'Discussion Forums', 'buddypress' ),
-			'description' => __( 'Full powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step.', 'buddypress' )
+			'description' => __( 'Full-powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step.', 'buddypress' )
 		)
 	) );
 
