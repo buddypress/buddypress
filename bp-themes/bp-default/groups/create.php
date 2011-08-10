@@ -107,29 +107,29 @@
 					</div>
 
 					<hr />
-					
-					<h4><?php _e( 'Group Invitations', 'buddypress' ); ?></h4> 
 
-					<p><?php _e( 'Which members of this group are allowed to invite others?', 'buddypress' ) ?></p> 
-				
-					<div class="radio"> 
-						<label> 
-							<input type="radio" name="group-invite-status" value="members"<?php bp_group_show_invite_status_setting( 'members' ) ?> /> 
-							<strong><?php _e( 'All group members', 'buddypress' ) ?></strong> 
-						</label> 
-				
-						<label> 
-							<input type="radio" name="group-invite-status" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ) ?> /> 
-							<strong><?php _e( 'Group admins and mods only', 'buddypress' ) ?></strong> 
+					<h4><?php _e( 'Group Invitations', 'buddypress' ); ?></h4>
+
+					<p><?php _e( 'Which members of this group are allowed to invite others?', 'buddypress' ) ?></p>
+
+					<div class="radio">
+						<label>
+							<input type="radio" name="group-invite-status" value="members"<?php bp_group_show_invite_status_setting( 'members' ) ?> />
+							<strong><?php _e( 'All group members', 'buddypress' ) ?></strong>
 						</label>
-						
-						<label> 
-							<input type="radio" name="group-invite-status" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ) ?> /> 
-							<strong><?php _e( 'Group admins only', 'buddypress' ) ?></strong> 
-						</label> 
-					</div> 
-				
-					<hr /> 
+
+						<label>
+							<input type="radio" name="group-invite-status" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ) ?> />
+							<strong><?php _e( 'Group admins and mods only', 'buddypress' ) ?></strong>
+						</label>
+
+						<label>
+							<input type="radio" name="group-invite-status" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ) ?> />
+							<strong><?php _e( 'Group admins only', 'buddypress' ) ?></strong>
+						</label>
+					</div>
+
+					<hr />
 
 					<?php do_action( 'bp_after_group_settings_creation_step' ); ?>
 

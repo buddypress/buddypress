@@ -94,7 +94,7 @@ Class BP_Messages_Thread {
 			$type_sql = $wpdb->prepare( " AND r.unread_count != 0 " );
 		elseif ( $type == 'read' )
 			$type_sql = $wpdb->prepare( " AND r.unread_count = 0 " );
-		
+
 		if ( 'sentbox' == $box ) {
 			$thread_ids = $wpdb->get_results( $wpdb->prepare( "SELECT m.thread_id, MAX(m.date_sent) AS date_sent FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_messages} m WHERE m.thread_id = r.thread_id AND m.sender_id = r.user_id AND m.sender_id = %d AND r.is_deleted = 0 GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}", $user_id ) );
 			$total_threads = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( DISTINCT m.thread_id ) FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_messages} m WHERE m.thread_id = r.thread_id AND m.sender_id = r.user_id AND m.sender_id = %d AND r.is_deleted = 0 ", $user_id ) );
@@ -253,7 +253,7 @@ Class BP_Messages_Message {
 	function bp_messages_message( $id = null ) {
 		$this->__construct( $id );
 	}
-	
+
 	function __construct( $id = null ) {
 		global $bp;
 
@@ -378,7 +378,7 @@ Class BP_Messages_Notice {
 	function bp_messages_notice( $id = null ) {
 		$this->__construct($id);
 	}
-	
+
 	function __construct( $id = null ) {
 		if ( $id ) {
 			$this->id = $id;

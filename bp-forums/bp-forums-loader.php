@@ -105,7 +105,7 @@ class BP_Forums_Component extends BP_Component {
 		// Stop if there is no user displayed or logged in
 		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
 			return;
-		
+
 		// Add 'Forums' to the main navigation
 		$main_nav = array(
 			'name'                => __( 'Forums', 'buddypress' ),

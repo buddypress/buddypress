@@ -93,7 +93,7 @@ class BP_Groups_Component extends BP_Component {
 		if ( bp_is_groups_component() && $group_id = BP_Groups_Group::group_exists( bp_current_action() ) ) {
 
 			$bp->is_single_item  = true;
-			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' ); 
+			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' );
 			$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
 
 			// When in a single group, the first action is bumped down one because of the
@@ -162,12 +162,12 @@ class BP_Groups_Component extends BP_Component {
 			bp_do_404();
 			return;
 		}
-		
+
 		// Group access control
 		if ( bp_is_groups_component() && !empty( $this->current_group ) && !empty( $bp->current_action ) && !$this->current_group->user_has_access ) {
 			if ( is_user_logged_in() ) {
 				// Off-limits to this user. Throw an error and redirect to the
-				// group's home page			
+				// group's home page
 				bp_core_no_access( array(
 					'message'  => __( 'You do not have access to this group.', 'buddypress' ),
 					'root'     => bp_get_group_permalink( $bp->groups->current_group ),

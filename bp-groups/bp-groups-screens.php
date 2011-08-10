@@ -508,11 +508,11 @@ function groups_screen_group_admin_settings() {
 		// If the edit form has been submitted, save the edited details
 		if ( isset( $_POST['save'] ) ) {
 			$enable_forum   = ( isset($_POST['group-show-forum'] ) ) ? 1 : 0;
-			
+
 			// Checked against a whitelist for security
 			$allowed_status = apply_filters( 'groups_allowed_status', array( 'public', 'private', 'hidden' ) );
 			$status         = ( in_array( $_POST['group-status'], (array)$allowed_status ) ) ? $_POST['group-status'] : 'public';
-			
+
 			// Checked against a whitelist for security
 			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
 			$invite_status	       = in_array( $_POST['group-invite-status'], (array)$allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
@@ -614,7 +614,7 @@ function groups_screen_group_admin_manage_members() {
 			if ( bp_is_action_variable( 'promote', 1 ) && ( bp_is_action_variable( 'mod', 2 ) || bp_is_action_variable( 'admin', 2 ) ) && is_numeric( bp_action_variable( 3 ) ) ) {
 				$user_id = bp_action_variable( 3 );
 				$status  = bp_action_variable( 2 );
-				
+
 				// Check the nonce first.
 				if ( !check_admin_referer( 'groups_promote_member' ) )
 					return false;
@@ -652,7 +652,7 @@ function groups_screen_group_admin_manage_members() {
 
 			if ( bp_is_action_variable( 'ban', 1 ) && is_numeric( bp_action_variable( 2 ) ) ) {
 				$user_id = bp_action_variable( 2 );
-				
+
 				// Check the nonce first.
 				if ( !check_admin_referer( 'groups_ban_member' ) )
 					return false;
@@ -670,7 +670,7 @@ function groups_screen_group_admin_manage_members() {
 
 			if ( bp_is_action_variable( 'unban', 1 ) && is_numeric( bp_action_variable( 2 ) ) ) {
 				$user_id = bp_action_variable( 2 );
-				
+
 				// Check the nonce first.
 				if ( !check_admin_referer( 'groups_unban_member' ) )
 					return false;
@@ -688,7 +688,7 @@ function groups_screen_group_admin_manage_members() {
 
 			if ( bp_is_action_variable( 'remove', 1 ) && is_numeric( bp_action_variable( 2 ) ) ) {
 				$user_id = bp_action_variable( 2 );
-				
+
 				// Check the nonce first.
 				if ( !check_admin_referer( 'groups_remove_member' ) )
 					return false;

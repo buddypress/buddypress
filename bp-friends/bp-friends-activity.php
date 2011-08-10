@@ -70,7 +70,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 	switch ( $action ) {
 		case 'friendship_accepted':
 			$link = bp_loggedin_user_domain() . bp_get_friends_slug() . '/my-friends/newest';
-			
+
 			// Set up the string and the filter
 			if ( (int)$total_items > 1 ) {
 				$text = sprintf( __( '%d friends accepted your friendship requests', 'buddypress' ), (int)$total_items );
@@ -79,12 +79,12 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 				$text = sprintf( __( '%s accepted your friendship request', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
 				$filter = 'bp_friends_single_friendship_accepted_notification';
 			}
-			
+
 			break;
 
 		case 'friendship_request':
 			$link = bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests?new';
-			
+
 			// Set up the string and the filter
 			if ( (int)$total_items > 1 ) {
 				$text = sprintf( __( 'You have %d pending friendship requests', 'buddypress' ), (int)$total_items );
@@ -93,10 +93,10 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 				$text = sprintf( __( 'You have a friendship request from %s', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
 				$filter = 'bp_friends_single_friendship_request_notification';
 			}
-		
+
 			break;
 	}
-		
+
 	// Return either an HTML link or an array, depending on the requested format
 	if ( 'string' == $format ) {
 		$return = apply_filters( $filter, '<a href="' . $link . '">' . $text . '</a>', (int)$total_items );

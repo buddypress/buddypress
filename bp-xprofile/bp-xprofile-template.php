@@ -195,7 +195,7 @@ function bp_field_css_class( $class = false ) {
 }
 	function bp_get_field_css_class( $class = false ) {
 		global $profile_template;
-		
+
 		$css_classes = array();
 
 		if ( $class )
@@ -709,7 +709,7 @@ function bp_profile_group_name( $deprecated = true ) {
 	function bp_get_profile_group_name() {
 		if ( !$group_id = bp_action_variable( 1 ) )
 			$group_id = 1;
-			
+
 		if ( !is_numeric( $group_id ) )
 			$group_id = 1;
 

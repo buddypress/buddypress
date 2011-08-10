@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------
 Hello, this is the BuddyPress Default rtl stylesheet.
-Right to left styles. This will transform the theme to read from 
+Right to left styles. This will transform the theme to read from
 right to left for languages that support this method.
 ----------------------------------------------------------------
 >>> TABLE OF CONTENTS:
@@ -33,7 +33,7 @@ right to left for languages that support this method.
 	5.6 - Forms
 	5.7 - Topics and Tables - Forums and General
 	5.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
-	5.9 - Private Messaging Threads	
+	5.9 - Private Messaging Threads
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
 1.0 - Structure
@@ -238,9 +238,9 @@ dl {
 	margin-right: 5px;
 	float: right;
 }
-#nav li li { 
+#nav li li {
 	margin-left: auto;
-	margin-right: 0; 
+	margin-right: 0;
 }
 #nav ul,
 #nav .sfhover ul ul,

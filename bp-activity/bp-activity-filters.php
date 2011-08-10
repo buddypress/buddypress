@@ -73,9 +73,9 @@ add_filter( 'bp_get_activity_latest_update',         'bp_activity_make_nofollow_
 add_filter( 'bp_get_activity_latest_update_excerpt', 'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_make_nofollow_filter' );
 
-add_filter( 'pre_comment_content',                   'bp_activity_at_name_filter' ); 
-add_filter( 'group_forum_topic_text_before_save',    'bp_activity_at_name_filter' ); 
-add_filter( 'group_forum_post_text_before_save',     'bp_activity_at_name_filter' ); 
+add_filter( 'pre_comment_content',                   'bp_activity_at_name_filter' );
+add_filter( 'group_forum_topic_text_before_save',    'bp_activity_at_name_filter' );
+add_filter( 'group_forum_post_text_before_save',     'bp_activity_at_name_filter' );
 
 add_filter( 'bp_get_activity_parent_content',        'bp_create_excerpt' );
 
@@ -112,7 +112,7 @@ function bp_activity_filter_kses( $content ) {
  * @package BuddyPress Activity
  *
  * @param string $content The activity content
- * @param int $activity_id When $adjust_mention_count is true, you must provide an $activity_id, 
+ * @param int $activity_id When $adjust_mention_count is true, you must provide an $activity_id,
  *   which will be added to the list of the user's unread mentions
  */
 function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
@@ -135,12 +135,12 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 		$content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( $user_id ) . "' rel='nofollow'>@$username</a>", $content );
 	}
 
-	// Adjust the activity count for this item	
+	// Adjust the activity count for this item
 	if ( $activity_id )
 		bp_activity_adjust_mention_count( $activity_id, 'add' );
 
 	return $content;
-} 
+}
 
 /**
  * Catch mentions in saved activity items
@@ -153,10 +153,10 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 function bp_activity_at_name_filter_updates( $activity ) {
 	// Only run this function once for a given activity item
 	remove_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter_updates' );
-	
+
 	// Run the content through the linking filter, making sure to increment mention count
 	$activity->content = bp_activity_at_name_filter( $activity->content, $activity->id );
-	
+
 	// Resave the activity with the new content
 	$activity->save();
 }

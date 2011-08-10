@@ -262,7 +262,7 @@ class BP_Core_Setup_Wizard {
 	<?php
 	}
 
-	function step_ms_update() {		
+	function step_ms_update() {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
@@ -370,14 +370,14 @@ class BP_Core_Setup_Wizard {
 			return false;
 
 		$existing_pages = bp_core_update_get_page_meta();
-		
+
 		// Provide empty indexes to avoid PHP errors with wp_dropdown_pages()
 		$indexes = array( 'members', 'activity', 'groups', 'forums', 'blogs', 'register', 'activate' );
 		foreach ( $indexes as $index ) {
 			if ( !isset( $existing_pages[$index] ) )
 				$existing_pages[$index] = '';
 		}
-		
+
 		if ( !empty( $existing_pages['blogs'] ) )
 			$existing_blog_page = '&selected=' . $existing_pages['blogs'];
 		else
@@ -1271,16 +1271,16 @@ function bp_core_update_get_page_meta() {
 
 function bp_core_update_do_network_admin() {
 	$do_network_admin = false;
-	
+
 	if ( is_multisite() && ( !defined( 'BP_ENABLE_MULTIBLOG' ) || !BP_ENABLE_MULTIBLOG ) )
 		$do_network_admin = true;
-	
+
 	return apply_filters( 'bp_core_do_network_admin', $do_network_admin );
 }
 
 function bp_core_update_admin_hook() {
 	$hook = bp_core_update_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
-	
+
 	return apply_filters( 'bp_core_admin_hook', $hook );
 }
 

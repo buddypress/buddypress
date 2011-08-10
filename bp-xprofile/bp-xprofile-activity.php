@@ -115,7 +115,7 @@ function xprofile_register_activity_action( $key, $value ) {
  */
 function bp_xprofile_new_avatar_activity() {
 	global $bp;
-	
+
 	if ( !bp_is_active( 'activity' ) )
 		return false;
 

@@ -1306,7 +1306,7 @@ a.bp-primary-action span,
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	color: #fff;
-	font-size: 90%; 
+	font-size: 90%;
 	margin-left: 2px;
 	padding: 0 5px;
 }
@@ -2187,13 +2187,13 @@ div.item-list-tabs ul li span {
 	text-decoration: none;
 }
 div.item-list-tabs ul li a span {
-	background: #1fb3dd; 
+	background: #1fb3dd;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	color: #fff;
 	display: inline;
-	font-size: 90%; 
+	font-size: 90%;
 	margin-left: 2px;
 	padding: 1px 6px;
 }

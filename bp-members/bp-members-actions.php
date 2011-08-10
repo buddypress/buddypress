@@ -106,7 +106,7 @@ function bp_core_action_set_spammer_status( $user_id = 0 ) {
 
 		// Allow plugins to do neat things
 		do_action( 'bp_core_action_set_spammer_status', bp_displayed_user_id(), $is_spam );
-		
+
 		// Redirect back to where we came from
 		bp_core_redirect( wp_get_referer() );
 	}

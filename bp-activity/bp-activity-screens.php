@@ -78,7 +78,7 @@ add_action( 'bp_activity_screen_mentions',                  'bp_activity_remove_
  * @uses bp_activity_clear_new_mentions()
  * @uses bp_is_my_profile()
  */
-function bp_activity_reset_my_new_mentions() {	
+function bp_activity_reset_my_new_mentions() {
 	if ( bp_is_my_profile() )
 		bp_activity_clear_new_mentions( bp_loggedin_user_id() );
 }
@@ -90,10 +90,10 @@ function bp_activity_screen_single_activity_permalink() {
 	// No displayed user or not viewing activity component
 	if ( !bp_is_activity_component() )
 		return false;
-	
-	if ( empty( $bp->current_action ) || !is_numeric( $bp->current_action ) ) 
-		return false; 
-	
+
+	if ( empty( $bp->current_action ) || !is_numeric( $bp->current_action ) )
+		return false;
+
 	// Get the activity details
 	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action(), 'show_hidden' => true ) );
 

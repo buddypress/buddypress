@@ -99,7 +99,7 @@ function bp_members_adminbar_admin_menu() {
 		return false; ?>
 
 	<li id="bp-adminbar-adminoptions-menu">
-		
+
 		<a href=""><?php _e( 'Admin Options', 'buddypress' ) ?></a>
 
 		<ul>
@@ -108,9 +108,9 @@ function bp_members_adminbar_admin_menu() {
 				<li><a href="<?php bp_members_component_link( 'profile', 'edit' ); ?>"><?php printf( __( "Edit %s's Profile", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
 
 			<?php endif ?>
-			
+
 			<li><a href="<?php bp_members_component_link( 'profile', 'change-avatar' ); ?>"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
-			
+
 			<?php if ( !bp_core_is_user_spammer( $bp->displayed_user->id ) ) : ?>
 
 				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/mark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php printf( __( "Mark as Spammer", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ); ?></a></li>
@@ -119,8 +119,8 @@ function bp_members_adminbar_admin_menu() {
 
 				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/unmark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Not a Spammer", 'buddypress' ) ?></a></li>
 
-			<?php endif; ?>			
-	
+			<?php endif; ?>
+
 			<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/delete-user/', 'delete-user' ) ?>" class="confirm"><?php printf( __( "Delete %s's Account", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ); ?></a></li>
 
 			<?php do_action( 'bp_members_adminbar_admin_menu' ) ?>

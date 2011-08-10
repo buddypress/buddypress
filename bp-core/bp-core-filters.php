@@ -76,7 +76,7 @@ function bp_core_allow_default_theme( $themes ) {
 	if ( $wpdb->blogid == bp_get_root_blog_id() ) {
 		$themes['bp-default'] = 1;
 	}
-	
+
 	return $themes;
 }
 add_filter( 'allowed_themes', 'bp_core_allow_default_theme' );
@@ -278,7 +278,7 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	// Displayed user
 	if ( !empty( $bp->displayed_user->fullname ) && !is_404() ) {
 		// translators: "displayed user's name | canonicalised component name"
-		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), ucwords( bp_current_component() ) ) ); 
+		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), ucwords( bp_current_component() ) ) );
 
 	// A single group
 	} elseif ( bp_is_active( 'groups' ) && !empty( $bp->groups->current_group ) && !empty( $bp->bp_options_nav[$bp->groups->current_group->slug] ) ) {
@@ -313,7 +313,7 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	// Blog creation page
 	} elseif ( bp_is_create_blog() ) {
 		$title = __( 'Create a Site', 'buddypress' );
-	}	
+	}
 
 	// Some BP nav items contain item counts. Remove them
 	$title = preg_replace( '|<span>[0-9]+</span>|', '', $title );

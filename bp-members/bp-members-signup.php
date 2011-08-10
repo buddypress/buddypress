@@ -373,7 +373,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 	// Multisite installs have their own install procedure
 	if ( is_multisite() ) {
 		wpmu_signup_user( $user_login, $user_email, $usermeta );
-		
+
 		// On multisite, the user id is not created until the user activates the account
 		// but we need to cast $user_id to pass to the filters
 		$user_id = false;

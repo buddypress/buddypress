@@ -9,7 +9,7 @@
  * @package BuddyPress
  * @subpackage bp-default
  */
- 
+
 ?>
 
 <?php do_action( 'bp_before_activity_comment' ); ?>

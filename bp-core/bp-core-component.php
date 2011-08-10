@@ -33,9 +33,9 @@ class BP_Component {
 	 * @var string Unique slug (used in query string and permalinks)
 	 */
 	var $slug;
-	
+
 	/**
-	 * @var bool Does this component need a top-level directory? 
+	 * @var bool Does this component need a top-level directory?
 	 */
 	var $has_directory;
 
@@ -138,7 +138,7 @@ class BP_Component {
 		if ( !empty( $r['global_tables'] ) )
 			foreach ( $r['global_tables'] as $global_name => $table_name )
 				$this->$global_name = $table_name;
-		
+
 		/** BuddyPress ********************************************************/
 
 		// Register this component in the loaded components array

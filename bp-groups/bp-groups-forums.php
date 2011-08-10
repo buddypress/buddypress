@@ -213,7 +213,7 @@ function groups_delete_group_forum_topic( $topic_id ) {
 		if ( bp_is_active( 'activity' ) ) {
 			// The activity item for the initial topic
 			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
-			
+
 			// The activity item for each post
 			foreach ( (array)$posts as $post ) {
 				bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post->post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );

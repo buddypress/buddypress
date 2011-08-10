@@ -217,7 +217,7 @@ function bp_search_form_enabled() {
  * @since 1.0
  */
 function bp_page_title() {
-	echo bp_get_page_title(); 
+	echo bp_get_page_title();
 }
 	/**
 	 * Prior to BuddyPress 1.5, this was used to generate the page's <title> text.
@@ -259,7 +259,7 @@ function bp_log_out_link() {
  */
 function groups_at_message_notification( $content, $poster_user_id, $group_id, $activity_id ) {
 	global $bp;
-	
+
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_activity_at_message_notification()' );
 
 	/* Scan for @username strings in an activity update. Notify each user. */
@@ -336,15 +336,15 @@ function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $
 /**
  * In BP 1.5, these functions were renamed for greater consistency
  */
-function bp_forum_directory_permalink() { 
+function bp_forum_directory_permalink() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_forums_directory_permalink()' );
 	bp_forums_directory_permalink();
-} 
-	function bp_get_forum_directory_permalink() { 
+}
+	function bp_get_forum_directory_permalink() {
 		_deprecated_function( __FUNCTION__, '1.5', 'bp_get_forums_directory_permalink()' );
 		return bp_get_forums_directory_permalink();
 	}
-	
+
 /** Theme *********************************************************************/
 
 /**

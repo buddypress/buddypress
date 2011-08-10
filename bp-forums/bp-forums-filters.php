@@ -156,9 +156,9 @@ add_filter( 'bp_get_the_topic_text', 'bp_forums_strip_mentions_on_post_edit' );
  */
 function bp_forums_add_replied_distinct_sql( $sql ) {
 	global $wpdb;
-	
+
 	$sql = $wpdb->prepare( "DISTINCT t.topic_id, " );
-	
+
 	return $sql;
 }
 
@@ -177,9 +177,9 @@ function bp_forums_add_replied_distinct_sql( $sql ) {
  */
 function bp_forums_add_replied_join_sql( $sql ) {
 	global $bbdb, $wpdb;
-	
+
 	$sql .= $wpdb->prepare( " LEFT JOIN $bbdb->posts p ON p.topic_id = t.topic_id " );
-	
+
 	return $sql;
 }
 
@@ -197,7 +197,7 @@ function bp_forums_add_replied_join_sql( $sql ) {
  */
 function bp_forums_add_replied_where_sql( $sql ) {
 	global $wpdb;
-	
+
 	$sql .= $wpdb->prepare( " AND p.poster_id = %s ", bp_displayed_user_id() );
 
 	return $sql;

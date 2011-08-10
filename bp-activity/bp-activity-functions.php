@@ -1052,7 +1052,7 @@ function bp_dtheme_embed_read_more( $activity ) {
 
 	$bp->activity->read_more_id = $activity->id;
 
-	add_filter( 'embed_post_id',            create_function( '', 'global $bp; return $bp->activity->read_more_id;' ) ); 
+	add_filter( 'embed_post_id',            create_function( '', 'global $bp; return $bp->activity->read_more_id;' ) );
 	add_filter( 'bp_embed_get_cache',       'bp_embed_activity_cache',      10, 3 );
 	add_action( 'bp_embed_update_cache',    'bp_embed_activity_save_cache', 10, 3 );
 }

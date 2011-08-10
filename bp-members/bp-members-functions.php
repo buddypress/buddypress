@@ -509,7 +509,7 @@ function bp_core_is_user_spammer( $user_id = 0 ) {
 	// No user found
 	if ( empty( $user ) ) {
 		$is_spammer = false;
-		
+
 	// User found
 	} else {
 
@@ -547,7 +547,7 @@ function bp_core_is_user_deleted( $user_id = 0 ) {
 	// No user found
 	if ( empty( $user ) ) {
 		$is_deleted = true;
-		
+
 	// User found
 	} else {
 

@@ -18,7 +18,7 @@ add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update
  * @package BuddyPress Core
  * @since {@internal Unknown}}
  */
-function bp_core_admin_dashboard() { 
+function bp_core_admin_dashboard() {
 	$base_url = bp_get_admin_url( 'admin.php' );
 	$action   = add_query_arg( array( 'page' => 'bp-general-settings' ), $base_url );
 	?>
@@ -330,13 +330,13 @@ function bp_core_admin_page_setup() {
  */
 function bp_core_admin_component_options() {
 	global $bp_wizard;
-	
+
 	// Load core functions, if needed
 	if ( !function_exists( 'bp_get_option' ) )
 		require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 	$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
-	
+
 	// An array of strings looped over to create component setup markup
 	$optional_components = apply_filters( 'bp_admin_optional_components', array(
 		'xprofile' => array(
@@ -387,22 +387,22 @@ function bp_core_admin_component_options() {
 			'description' => __( 'Everything in a BuddyPress community revolves around its members.', 'buddypress' )
 		),
 	) );
-	
+
 	// On new install, set all components to be active by default
 	if ( !empty( $bp_wizard ) && 'install' == $bp_wizard->setup_type && empty( $active_components ) )
 		$active_components = $optional_components;
 
 	?>
-	
+
 	<?php /* The setup wizard uses different, more descriptive text here */ ?>
 	<?php if ( empty( $bp_wizard ) ) : ?>
 
 		<h3><?php _e( 'Available Components', 'buddypress' ); ?></h3>
-				
+
 		<p><?php _e( 'Each component has a unique purpose, and your community may not need each one.', 'buddypress' ); ?></p>
 
 	<?php endif ?>
-	
+
 	<table class="form-table">
 		<tbody>
 
@@ -479,7 +479,7 @@ function bp_core_admin_component_options() {
  */
 function bp_core_admin_page_options() {
 	global $bp;
-	
+
 	// Get the existing WP pages
 	$existing_pages = bp_core_get_directory_page_ids();
 
@@ -491,20 +491,20 @@ function bp_core_admin_page_options() {
 
 		// Only components that need directories should be listed here
 		if ( isset( $bp->{$component_id} ) && !empty( $bp->{$component_id}->has_directory ) ) {
-			
+
 			// component->name was introduced in BP 1.5, so we must provide a fallback
 			$component_name = !empty( $bp->{$component_id}->name ) ? $bp->{$component_id}->name : ucwords( $component_id );
-			
+
 			$directory_pages[$component_id] = $component_name;
 		}
 	}
-	
+
 	$directory_pages = apply_filters( 'bp_directory_pages', $directory_pages );
-	
+
 	?>
-	
+
 	<h3><?php _e( 'Directories', 'buddypress' ); ?></h3>
-	
+
 	<p><?php _e( 'Associate a WordPress Page with each BuddyPress component directory.', 'buddypress' ); ?></p>
 
 	<table class="form-table">
@@ -512,16 +512,16 @@ function bp_core_admin_page_options() {
 
 			<?php foreach ( $directory_pages as $name => $label ) : ?>
 				<?php $disabled = !bp_is_active( $name ) ? ' disabled="disabled"' : ''; ?>
-				
+
 				<tr valign="top">
 					<th scope="row">
 						<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?><?php if ( !bp_is_active( $name ) ) : ?> <span class="description">(deactivated)</span><?php endif ?></label>
 					</th>
 
 					<td>
-						<?php if ( !bp_is_root_blog() ) 
+						<?php if ( !bp_is_root_blog() )
 							switch_to_blog( bp_get_root_blog_id() ) ?>
-						
+
 						<?php echo wp_dropdown_pages( array(
 							'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
 							'echo'             => false,
@@ -537,8 +537,8 @@ function bp_core_admin_page_options() {
 							<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View' ); ?></a>
 
 						<?php endif; ?>
-						
-						<?php if ( !bp_is_root_blog() ) 
+
+						<?php if ( !bp_is_root_blog() )
 							restore_current_blog() ?>
 
 					</td>
@@ -551,7 +551,7 @@ function bp_core_admin_page_options() {
 
 		</tbody>
 	</table>
-	
+
 	<?php
 
 	// Static pages

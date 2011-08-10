@@ -256,7 +256,7 @@ function friends_is_friendship_confirmed( $friendship_id ) {
 
 function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $status = 'add' ) {
 	global $bp;
-	
+
 	if ( 'add' == $status ) {
 		bp_update_user_meta( $initiator_user_id, 'total_friend_count', (int)bp_get_user_meta( $initiator_user_id, 'total_friend_count', true ) + 1 );
 		bp_update_user_meta( $friend_user_id, 'total_friend_count', (int)bp_get_user_meta( $friend_user_id, 'total_friend_count', true ) + 1 );

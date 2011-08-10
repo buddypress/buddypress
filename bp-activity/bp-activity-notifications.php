@@ -6,7 +6,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Sends an email notification and a BP notification when someone mentions you in an update
  *
  * @package BuddyPress Activity
- * @param str $content The content of the activity update 
+ * @param str $content The content of the activity update
  * @param int $poster_user_id The unique user_id of the user who sent the update
  * @param int $activity_id The id of the activity update
  */
@@ -17,10 +17,10 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 
 	$subject = '';
 	$message = '';
-	
+
 	// Add the BP notification
 	bp_core_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $activity->user_id );
-			
+
 	// Now email the user with the contents of the message (if they have enabled email notifications)
 	if ( 'no' != bp_get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
 		$poster_name = bp_core_get_user_displayname( $activity->user_id );
@@ -68,7 +68,7 @@ To view and respond to the message, log in and visit: %3$s
 
 		wp_mail( $to, $subject, $message );
 	}
-	
+
 	do_action( 'bp_activity_sent_mention_email', $activity, $subject, $message, $content );
 }
 

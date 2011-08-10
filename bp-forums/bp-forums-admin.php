@@ -15,8 +15,8 @@ function bp_forums_add_admin_menu() {
 add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
 
 function bp_forums_bbpress_admin() {
-	global $bp; 
-	
+	global $bp;
+
 	$action = bp_get_admin_url( 'admin.php?page=bb-forums-setup&reinstall=1' );
 	?>
 
@@ -99,7 +99,7 @@ function bp_forums_bbpress_install_wizard() {
 					default:
 						// Just write the contents to screen
 						_e( '<p>A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.</p>', 'buddypress' ); ?>
-					
+
 						<textarea style="display:block; margin-top: 30px; width: 80%;" rows="50"><?php echo htmlspecialchars( $result ); ?></textarea>
 
 					<?php

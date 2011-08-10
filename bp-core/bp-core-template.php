@@ -494,9 +494,9 @@ function bp_action_variables() {
  */
 function bp_action_variable( $position = 0 ) {
 	$action_variables = bp_action_variables();
-	
+
 	$action_variable = isset( $action_variables[$position] ) ? $action_variables[$position] : false;
-	
+
 	return apply_filters( 'bp_action_variable', $action_variable, $position );
 }
 
@@ -668,7 +668,7 @@ function bp_is_current_component( $component ) {
 		// Because slugs can differ from root_slugs, we should check them too
 		} elseif ( isset( $bp->{$component}->slug ) && $bp->{$component}->slug == $bp->current_component ) {
 			$is_current_component = true;
-			
+
 		// Next, check to see whether $component is a canonical,
 		// non-translatable component name. If so, we can return its
 		// corresponding slug from $bp->active_components.
@@ -676,7 +676,7 @@ function bp_is_current_component( $component ) {
 			if ( strstr( $bp->current_component, $key ) )
 				$is_current_component = true;
 
-		// If we haven't found a match yet, check against the root_slugs 
+		// If we haven't found a match yet, check against the root_slugs
 		// created by $bp->pages, as well as the regular slugs
 		} else {
 			foreach ( $bp->active_components as $key => $id ) {
@@ -751,13 +751,13 @@ function bp_is_current_action( $action = '' ) {
  * @param int $position The array key you're testing against. If you don't provide a $position,
  *   the function will return true if the $action_variable is found *anywhere* in the action
  *   variables array.
- * @return bool 
+ * @return bool
  */
 function bp_is_action_variable( $action_variable = '', $position = false ) {
 	$is_action_variable = false;
-	
+
 	if ( false !== $position ) {
-		// When a $position is specified, check that slot in the action_variables array		
+		// When a $position is specified, check that slot in the action_variables array
 		if ( $action_variable ) {
 			$is_action_variable = $action_variable == bp_action_variable( $position );
 		} else {
@@ -769,7 +769,7 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 		// When no $position is specified, check the entire array
 		$is_action_variable = in_array( $action_variable, (array)bp_action_variables() );
 	}
-	
+
 	return apply_filters( 'bp_is_action_variable', $is_action_variable, $action_variable, $position );
 }
 
@@ -828,7 +828,7 @@ function bp_is_directory() {
  */
 function bp_is_root_component( $component_name ) {
 	global $bp;
-	
+
 	if ( !isset( $bp->active_components ) )
 		return false;
 
@@ -1029,7 +1029,7 @@ function bp_is_user_profile_edit() {
 
 	if ( bp_is_current_component( 'xprofile' ) && bp_is_current_action( 'edit' ) )
 		return true;
-		
+
 	return false;
 }
 

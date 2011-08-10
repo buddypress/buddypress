@@ -51,7 +51,7 @@
 
 					<label for="topic_text"><?php _e( 'Content:', 'buddypress' ); ?></label>
 					<textarea name="topic_text" id="topic_text"><?php bp_the_topic_text(); ?></textarea>
-					
+
 					<label><?php _e( 'Tags (comma separated):', 'buddypress' ) ?></label>
 					<input type="text" name="topic_tags" id="topic_tags" value="<?php bp_forum_topic_tag_list() ?>" />
 

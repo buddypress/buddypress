@@ -97,7 +97,7 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $re
 			$kses_field_value       = xprofile_filter_kses( $value );
 			$filtered_value 	= wp_rel_nofollow( force_balance_tags( $kses_field_value ) );
 			$filtered_values[] = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_value, $value );
-			
+
 		}
 
 		if ( $reserialize )

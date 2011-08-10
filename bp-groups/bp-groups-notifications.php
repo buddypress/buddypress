@@ -246,7 +246,7 @@ To view %5$s\'s profile visit: %6$s
 		$message = apply_filters_ref_array( 'groups_notification_group_invites_message', array( $message, &$group, $inviter_name, $inviter_link, $invites_link, $group_link, $settings_link ) );
 
 		wp_mail( $to, $subject, $message );
-				
+
 		do_action( 'bp_groups_sent_invited_email', $invited_user_id, $subject, $message, $group );
 	}
 }

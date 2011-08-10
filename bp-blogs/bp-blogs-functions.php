@@ -34,7 +34,7 @@ function bp_blogs_get_blogs( $args = '' ) {
 }
 
 /**
- * Populates the BP blogs table with existing blogs. 
+ * Populates the BP blogs table with existing blogs.
  *
  * @package BuddyPress Blogs
  *
@@ -55,7 +55,7 @@ function bp_blogs_record_existing_blogs() {
 		foreach( (array)$blog_ids as $blog_id ) {
 			$users 		= get_users( array( 'blog_id' => $blog_id ) );
 			$subscribers 	= get_users( array( 'blog_id' => $blog_id, 'role' => 'subscriber' ) );
-			
+
 			if ( $users ) {
 				foreach ( (array)$users as $user ) {
 					// Don't record blogs for subscribers
@@ -102,7 +102,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', bp_core_current_time() );
 
 	$is_private = !empty( $_POST['blog_public'] ) && (int)$_POST['blog_public'] ? false : true;
-	$is_private = !apply_filters( 'bp_is_new_blog_public', !$is_private ); 
+	$is_private = !apply_filters( 'bp_is_new_blog_public', !$is_private );
 
 	// Only record this activity if the blog is public
 	if ( !$is_private && !$no_activity ) {
@@ -165,7 +165,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 	if ( 'post' != $post->post_type )
 		return false;
 
-	$is_blog_public = apply_filters( 'bp_is_blog_public', (int)get_blog_option( $blog_id, 'blog_public' ) ); 
+	$is_blog_public = apply_filters( 'bp_is_blog_public', (int)get_blog_option( $blog_id, 'blog_public' ) );
 
 	if ( 'publish' == $post->post_status && empty( $post->post_password ) ) {
 		if ( $is_blog_public || !is_multisite() ) {

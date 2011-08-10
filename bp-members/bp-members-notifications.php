@@ -58,9 +58,9 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 
 	if ( empty( $grouped_notifications ) )
 		return false;
-	
+
 	$renderable = array();
-	
+
 	// Calculate a renderable output for each notification type
 	foreach ( (array)$grouped_notifications as $component_name => $action_arrays ) {
 		if ( !$action_arrays )
@@ -75,12 +75,12 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 			// @deprecated format_notification_function - 1.5
 			if ( isset( $bp->{$component_name}->format_notification_function ) && function_exists( $bp->{$component_name}->format_notification_function ) ) {
 				$renderable[] = call_user_func( $bp->{$component_name}->format_notification_function, $component_action_name, $component_action_items[0]->item_id, $component_action_items[0]->secondary_item_id, $action_item_count );
-			} elseif ( isset( $bp->{$component_name}->notification_callback ) && function_exists( $bp->{$component_name}->notification_callback ) ) { 
+			} elseif ( isset( $bp->{$component_name}->notification_callback ) && function_exists( $bp->{$component_name}->notification_callback ) ) {
 				if ( 'object' == $format ) {
 					$content = call_user_func( $bp->{$component_name}->notification_callback, $component_action_name, $component_action_items[0]->item_id, $component_action_items[0]->secondary_item_id, $action_item_count, 'array' );
-					
+
 					$notification_object = new stdClass;
-					
+
 					// Minimal backpat with non-compatible notification
 					// callback functions
 					if ( is_string( $content ) ) {
@@ -90,9 +90,9 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 						$notification_object->content = $content['text'];
 						$notification_object->href    = $content['link'];
 					}
-					
+
 					$notification_object->id = $component_action_items[0]->id;
-					
+
 					$renderable[] 	  = $notification_object;
 				} else {
 					$content = call_user_func( $bp->{$component_name}->notification_callback, $component_action_name, $component_action_items[0]->item_id, $component_action_items[0]->secondary_item_id, $action_item_count );

@@ -30,16 +30,16 @@ if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 
 // Define on which blog ID BuddyPress should run
 if ( !defined( 'BP_ROOT_BLOG' ) ) {
-	
+
 	// Root blog is the main site on this network
 	if ( is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ) {
 		$current_site = get_current_site();
 		$root_blog_id = $current_site->blog_id;
-		
+
 	// Root blog is every site on this network
 	} elseif ( is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) ) {
 		$root_blog_id = get_current_blog_id();
-		
+
 	// Root blog is the only blog on this network
 	} elseif( !is_multisite() ) {
 		$root_blog_id = 1;
@@ -97,14 +97,14 @@ if ( empty( $bp->database_version ) ) {
 
 if ( !function_exists( 'bp_loader_activate' ) ) :
 /**
- * Defines BP's activation routine. 
- * 
- * Most of BP's crucial setup is handled by the setup wizard. This function takes care of some 
- * issues with incompatible legacy themes, and provides a hook for other functions to know that 
- * BP has been activated. 
- * 
- * @package BuddyPress Core 
-*/ 
+ * Defines BP's activation routine.
+ *
+ * Most of BP's crucial setup is handled by the setup wizard. This function takes care of some
+ * issues with incompatible legacy themes, and provides a hook for other functions to know that
+ * BP has been activated.
+ *
+ * @package BuddyPress Core
+*/
 function bp_loader_activate() {
 	// Force refresh theme roots.
 	delete_site_transient( 'theme_roots' );

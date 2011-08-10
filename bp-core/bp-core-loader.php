@@ -24,7 +24,7 @@ if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 	require( BP_PLUGIN_DIR . '/bp-core/bp-core-adminbar.php'  );
 
 // Move active components from sitemeta, if necessary
-// Provides backpat with earlier versions of BP 
+// Provides backpat with earlier versions of BP
 if ( is_multisite() && $active_components = get_site_option( 'bp-active-components' ) )
 	bp_update_option( 'bp-active-components', $active_components );
 

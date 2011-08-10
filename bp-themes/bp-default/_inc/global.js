@@ -928,7 +928,7 @@ jq(document).ready( function() {
 					var inboxcount = jq('tr.unread').length;
 
 					jq('a#user-messages span').html( inboxcount );
-					
+
 					if ( i != checkboxes.length - 1 ) {
 						checkboxes_tosend += ','
 					}

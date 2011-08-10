@@ -91,7 +91,7 @@ function messages_screen_notices() {
 		return false;
 
 	$notice_id = (int)bp_action_variable( 1 );
-	
+
 	if ( !empty( $notice_id ) && is_numeric( $notice_id ) ) {
 		$notice = new BP_Messages_Notice( $notice_id );
 

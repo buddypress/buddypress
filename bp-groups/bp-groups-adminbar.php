@@ -49,7 +49,7 @@ function bp_groups_group_admin_menu() {
 		'title' => $avatar . bp_get_current_group_name(),
 		'href'  => bp_get_group_permalink( $bp->groups->current_group )
 	) );
-	
+
 	// Group Admin > Edit details
 	$wp_admin_bar->add_menu( array(
 		'parent' => $bp->group_admin_menu_id,
@@ -57,7 +57,7 @@ function bp_groups_group_admin_menu() {
 		'title'  => __( 'Edit Details', 'buddypress' ),
 		'href'   =>  bp_get_groups_action_link( 'admin/edit-details' )
 	) );
-	
+
 	// Group Admin > Group settings
 	$wp_admin_bar->add_menu( array(
 		'parent' => $bp->group_admin_menu_id,
@@ -65,7 +65,7 @@ function bp_groups_group_admin_menu() {
 		'title'  => __( 'Edit Settings', 'buddypress' ),
 		'href'   =>  bp_get_groups_action_link( 'admin/group-settings' )
 	) );
-	
+
 	// Group Admin > Group avatar
 	$wp_admin_bar->add_menu( array(
 		'parent' => $bp->group_admin_menu_id,
@@ -73,7 +73,7 @@ function bp_groups_group_admin_menu() {
 		'title'  => __( 'Edit Avatar', 'buddypress' ),
 		'href'   =>  bp_get_groups_action_link( 'admin/group-avatar' )
 	) );
-	
+
 	// Group Admin > Manage invitations
 	if ( bp_is_active( 'friends' ) ) {
 		$wp_admin_bar->add_menu( array(
@@ -83,7 +83,7 @@ function bp_groups_group_admin_menu() {
 			'href'   =>  bp_get_groups_action_link( 'send-invites' )
 		) );
 	}
-	
+
 	// Group Admin > Manage members
 	$wp_admin_bar->add_menu( array(
 		'parent' => $bp->group_admin_menu_id,
@@ -91,7 +91,7 @@ function bp_groups_group_admin_menu() {
 		'title'  => __( 'Manage Members', 'buddypress' ),
 		'href'   =>  bp_get_groups_action_link( 'admin/manage-members' )
 	) );
-	
+
 	// Group Admin > Membership Requests
 	if ( bp_get_group_status( $bp->groups->current_group ) == 'private' ) {
 		$wp_admin_bar->add_menu( array(
@@ -100,8 +100,8 @@ function bp_groups_group_admin_menu() {
 			'title'  => __( 'Membership Requests', 'buddypress' ),
 			'href'   =>  bp_get_groups_action_link( 'admin/membership-requests' )
 		) );
-	}	
-	
+	}
+
 	// Delete Group
 	$wp_admin_bar->add_menu( array(
 		'parent' => $bp->group_admin_menu_id,

@@ -293,7 +293,7 @@ Class BP_Groups_Group {
 		if ( !empty( $include ) ) {
 			if ( is_array( $include ) )
 				$include = implode( ',', $include );
-				
+
 			$include = $wpdb->escape( $include );
 			$sql['include'] = " AND g.id IN ({$include})";
 		}
@@ -301,7 +301,7 @@ Class BP_Groups_Group {
 		if ( !empty( $exclude ) ) {
 			if ( is_array( $exclude ) )
 				$exclude = implode( ',', $exclude );
-				
+
 			$exclude = $wpdb->escape( $exclude );
 			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
 		}
@@ -597,8 +597,8 @@ Class BP_Groups_Group {
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0", $group_id ) );
 	}
-	
-	
+
+
 	/**
 	 * Get a total count of all topics of a given status, across groups/forums
 	 *
@@ -610,39 +610,39 @@ Class BP_Groups_Group {
 	 */
 	function get_global_topic_count( $status = 'public', $search_terms = false ) {
 		global $bbdb, $wpdb, $bp;
-		
+
 		switch ( $status ) {
 			case 'all' :
 				$status_sql = '';
 				break;
-				
+
 			case 'hidden' :
 				$status_sql = $wpdb->prepare( "AND g.status = 'hidden'" );
 				break;
-				
+
 			case 'private' :
 				$status_sql = $wpdb->prepare( "AND g.status = 'private'" );
 				break;
-				
+
 			case 'public' :
 			default :
 				$status_sql = $wpdb->prepare( "AND g.status = 'public'" );
 				break;
 		}
-		
+
 		$sql = array();
-		
+
 		$sql['select'] = "SELECT COUNT(t.topic_id)";
-		
+
 		$sql['from'] = "FROM {$bbdb->topics} AS t INNER JOIN {$bp->groups->table_name_groupmeta} AS gm ON t.forum_id = gm.meta_value INNER JOIN {$bp->groups->table_name} AS g ON gm.group_id = g.id";
-		
+
 		$sql['where'] = "WHERE gm.meta_key = 'forum_id' {$status_sql} AND t.topic_status = '0' AND t.topic_sticky != '2'";
-		
+
 		if ( $search_terms ) {
 			$st = like_escape( $search_terms );
 			$sql['where'] .= " AND (  t.topic_title LIKE '%{$st}%' )";
 		}
-		
+
 		return $wpdb->get_var( implode( ' ', $sql ) );
 	}
 }
@@ -666,7 +666,7 @@ Class BP_Groups_Member {
 	function bp_groups_member( $user_id = 0, $group_id = 0, $id = false, $populate = true ) {
 		$this->__construct($user_id,$group_id,$id,$populate);
 	}
-	
+
 	function __construct( $user_id = 0, $group_id = 0, $id = false, $populate = true ) {
 		if ( $user_id && $group_id && !$id ) {
 			$this->user_id = $user_id;
@@ -771,7 +771,7 @@ Class BP_Groups_Member {
 
 	function ban() {
 		global $bp;
-		
+
 		if ( $this->is_admin )
 			return false;
 
@@ -789,7 +789,7 @@ Class BP_Groups_Member {
 
 	function unban() {
 		global $bp;
-		
+
 		if ( $this->is_admin )
 			return false;
 
@@ -803,7 +803,7 @@ Class BP_Groups_Member {
 
 	function accept_invite() {
 		global $bp;
-		
+
 		$this->inviter_id    = 0;
 		$this->is_confirmed  = 1;
 		$this->date_modified = bp_core_current_time();
@@ -813,7 +813,7 @@ Class BP_Groups_Member {
 
 	function accept_request() {
 		global $bp;
-		
+
 		$this->is_confirmed = 1;
 		$this->date_modified = bp_core_current_time();
 
@@ -957,9 +957,9 @@ Class BP_Groups_Member {
 
 		if ( !$user_id )
 			return false;
-		
+
 		$sql = "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0";
-		
+
 		if ( 'sent' == $type )
 			$sql .= " AND invite_sent = 1";
 
@@ -1214,7 +1214,7 @@ class BP_Group_Extension {
 
 	function _register() {
 		global $bp;
-		
+
 		if ( !empty( $this->enable_create_step ) ) {
 			// Insert the group creation step for the new group extension
 			$bp->groups->group_creation_steps[$this->slug] = array( 'name' => $this->name, 'slug' => $this->slug, 'position' => $this->create_step_position );
@@ -1244,7 +1244,7 @@ class BP_Group_Extension {
 			if ( bp_is_groups_component() && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
 				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 		}
-		
+
 		// Construct the admin edit tab for the new group extension
 		if ( !empty( $this->enable_edit_item ) && !empty( $bp->is_item_admin ) ) {
 			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', '$selected = ""; if ( "' . esc_attr( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $this->slug ) . '\">' . esc_attr( $this->name ) . '</a></li>";' ), 10, 2 );

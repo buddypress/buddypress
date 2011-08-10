@@ -467,7 +467,7 @@ Class BP_Activity_Activity {
 
 		// array of prepared integers or quoted strings
 		$items_prepared = array();
-		
+
 		// clean up and format each item
 		foreach ( $items_dirty as $item ) {
 			// clean up the string

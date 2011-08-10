@@ -22,7 +22,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function xprofile_action_delete_avatar() {
 	global $bp;
-	
+
 	if ( !bp_is_current_component( 'profile' ) || !bp_is_current_action( 'change-avatar' ) || !bp_is_action_variable( 'delete-avatar', 0 ) )
 		return false;
 

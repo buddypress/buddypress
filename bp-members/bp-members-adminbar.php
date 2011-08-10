@@ -110,7 +110,7 @@ function bp_members_admin_bar_user_admin_menu() {
 		'title'  => __( "Edit Profile", 'buddypress' ),
 		'href'   => bp_get_members_component_link( 'profile', 'edit' )
 	) );
-	
+
 	// User Admin > Edit this user's avatar
 	$wp_admin_bar->add_menu( array(
 		'parent' => $bp->user_admin_menu_id,
@@ -118,7 +118,7 @@ function bp_members_admin_bar_user_admin_menu() {
 		'title'  => __( "Edit Avatar", 'buddypress' ),
 		'href'   => bp_get_members_component_link( 'profile', 'change-avatar' )
 	) );
-	
+
 	// User Admin > Spam/unspam
 	if ( !bp_core_is_user_spammer( bp_displayed_user_id() ) ) {
 		$wp_admin_bar->add_menu( array(
@@ -126,25 +126,25 @@ function bp_members_admin_bar_user_admin_menu() {
 			'id'     => 'spam-user',
 			'title'  => __( 'Mark as Spammer', 'buddypress' ),
 			'href'   => wp_nonce_url( bp_displayed_user_domain() . 'admin/mark-spammer/', 'mark-unmark-spammer' ),
-			'meta'   => array( 'onclick' => 'confirm(" ' . __( 'Are you sure you want to mark this user as a spammer?', 'buddypress' ) . '");' ) 
-		) );	
+			'meta'   => array( 'onclick' => 'confirm(" ' . __( 'Are you sure you want to mark this user as a spammer?', 'buddypress' ) . '");' )
+		) );
 	} else {
 		$wp_admin_bar->add_menu( array(
 			'parent' => $bp->user_admin_menu_id,
 			'id'     => 'unspam-user',
 			'title'  => __( 'Not a Spammer', 'buddypress' ),
 			'href'   => wp_nonce_url( bp_displayed_user_domain() . 'admin/unmark-spammer/', 'mark-unmark-spammer' ),
-			'meta'   => array( 'onclick' => 'confirm(" ' . __( 'Are you sure you want to mark this user as not a spammer?', 'buddypress' ) . '");' ) 
+			'meta'   => array( 'onclick' => 'confirm(" ' . __( 'Are you sure you want to mark this user as not a spammer?', 'buddypress' ) . '");' )
 		) );
 	}
-	
+
 	// User Admin > Delete Account
 	$wp_admin_bar->add_menu( array(
 		'parent' => $bp->user_admin_menu_id,
 		'id'     => 'delete-user',
 		'title'  => __( 'Delete Account', 'buddypress' ),
 		'href'   => wp_nonce_url( bp_displayed_user_domain() . 'admin/delete-user/', 'delete-user' ),
-		'meta'   => array( 'onclick' => 'confirm(" ' . __( "Are you sure you want to delete this user's account?", 'buddypress' ) . '");' ) 
+		'meta'   => array( 'onclick' => 'confirm(" ' . __( "Are you sure you want to delete this user's account?", 'buddypress' ) . '");' )
 	) );
 }
 add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_user_admin_menu', 99 );
@@ -160,20 +160,20 @@ function bp_members_admin_bar_notifications_menu() {
 
 	if ( !is_user_logged_in() )
 		return false;
-		
+
 	if ( $notifications = bp_core_get_notifications_for_user( bp_loggedin_user_id(), 'object' ) ) {
 		$menu_title = sprintf( __( 'Notifications <span id="ab-pending-notifications" class="pending-count">%s</span>', 'buddypress' ), count( $notifications ) );
 	} else {
 		$menu_title = __( 'Notifications', 'buddypress' );
 	}
-	
+
 	// Add the top-level Notifications button
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'bp-notifications',
 		'title' => $menu_title,
 		'href'  => bp_loggedin_user_domain()
 	) );
-	
+
 	if ( !empty( $notifications ) ) {
 		foreach ( (array)$notifications as $notification ) {
 			$wp_admin_bar->add_menu( array(
@@ -191,7 +191,7 @@ function bp_members_admin_bar_notifications_menu() {
 			'href'   => bp_loggedin_user_domain()
 		) );
 	}
-	
+
 	return;
 }
 add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_notifications_menu', 999 );

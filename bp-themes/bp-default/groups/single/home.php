@@ -38,7 +38,7 @@
 				elseif ( bp_is_group_invites() && bp_group_is_visible() ) :
 					locate_template( array( 'groups/single/send-invites.php' ), true );
 
-					elseif ( bp_is_group_forum() && bp_group_is_visible() && bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() ) : 
+					elseif ( bp_is_group_forum() && bp_group_is_visible() && bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() ) :
 						locate_template( array( 'groups/single/forum.php' ), true );
 
 				elseif ( bp_is_group_membership_request() ) :

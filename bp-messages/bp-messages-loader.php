@@ -68,7 +68,7 @@ class BP_Messages_Component extends BP_Component {
 			'table_name_messages'   => $bp->table_prefix . 'bp_messages_messages',
 			'table_name_recipients' => $bp->table_prefix . 'bp_messages_recipients'
 		);
-		
+
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(

@@ -56,7 +56,7 @@ function messages_new_message( $args = '' ) {
 			$message->subject = __( 'No Subject', 'buddypress' );
 
 		$recipient_ids 	    = array();
-		
+
 		// Invalid recipients are added to an array, for future enhancements
 		$invalid_recipients = array();
 
@@ -71,12 +71,12 @@ function messages_new_message( $args = '' ) {
 					$recipient_id = (int) $recipient;
 
 			} else {
-				if ( bp_is_username_compatibility_mode() ) 
-					$recipient_id = bp_core_get_userid( $recipient ); 
+				if ( bp_is_username_compatibility_mode() )
+					$recipient_id = bp_core_get_userid( $recipient );
 				else
 					$recipient_id = bp_core_get_userid_from_nicename( $recipient );
 			}
-			
+
 			if ( !$recipient_id )
 				$invalid_recipients[] = $recipient;
 			else
@@ -235,7 +235,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	if ( 'new_message' == $action ) {
 		$link  = bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox';
 		$title = __( 'Inbox', 'buddypress' );
-		
+
 		if ( (int)$total_items > 1 ) {
 			$text = sprintf( __('You have %d new messages', 'buddypress' ), (int)$total_items );
 			$filter = 'bp_messages_multiple_new_message_notification';

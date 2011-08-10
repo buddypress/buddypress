@@ -75,7 +75,7 @@ function bp_friends_header_tabs() {
  */
 function bp_friends_filter_title() {
 	$current_filter = bp_action_variable( 0 );
-	
+
 	switch ( $current_filter ) {
 		case 'recently-active': default:
 			_e( 'Recently Active', 'buddypress' );
@@ -143,7 +143,7 @@ function bp_friends_random_members( $total_members = 5 ) {
 		$user_ids = BP_Core_User::get_users( 'random', $total_members );
 		wp_cache_set( 'friends_random_users', $user_ids, 'bp' );
 	}
-	
+
 	?>
 
 	<?php if ( $user_ids['users'] ) { ?>

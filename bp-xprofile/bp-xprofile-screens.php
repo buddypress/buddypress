@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package BuddyPress XProfile
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
-function xprofile_screen_display_profile() {	
+function xprofile_screen_display_profile() {
 	$new = isset( $_GET['new'] ) ? $_GET['new'] : '';
 
 	do_action( 'xprofile_screen_display_profile', $new );
