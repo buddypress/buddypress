@@ -1289,7 +1289,7 @@ function bp_is_single( $component, $callback ) {
 /** Registration **************************************************************/
 
 function bp_is_activation_page() {
-	if ( bp_is_current_component( 'activation' ) )
+	if ( bp_is_current_component( 'activate' ) )
 		return true;
 
 	return false;
