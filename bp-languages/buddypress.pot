@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-09 20:30:56+00:00\n"
+"POT-Creation-Date: 2011-08-10 13:30:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -481,7 +481,7 @@ msgid "Extended Profiles"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:344
-msgid "Customize your community with fully editable profile fields that allow your users use to uniquely describe themselves."
+msgid "Customize your community with fully editable profile fields that allow your users to describe themselves."
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:347
@@ -505,7 +505,7 @@ msgid "Private Messaging"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:356
-msgid "Allow your users to talk to each other directly and in private. They are not just limited to one-on-one discussions, and can send messages to multiple recipients."
+msgid "Allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, messages can be sent between any number of members."
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:359 bp-activity/bp-activity-loader.php:28
@@ -521,7 +521,7 @@ msgid "User Groups"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:364
-msgid "Groups allow your users to organize themselves into specific public, private or hidden sections with a separate activity stream and member listing."
+msgid "Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings."
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:367 bp-forums/bp-forums-loader.php:24
@@ -529,7 +529,7 @@ msgid "Discussion Forums"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:368
-msgid "Full powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step."
+msgid "Full-powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step."
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:375 bp-core/admin/bp-core-update.php:328
