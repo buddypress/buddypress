@@ -301,7 +301,7 @@ class BP_Core_Setup_Wizard {
 			<tr valign="top">
 				<th scope="row">
 					<h5><?php _e( 'Sites', 'buddypress' ); ?></h5>
-					<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ); ?></p>
+					<p><?php _e( 'Displays a directory of the sites in your network.', 'buddypress' ); ?></p>
 				</th>
 				<td>
 					<p><input type="radio" name="bp_pages[blogs]" checked="checked" value="<?php echo $blogs_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo site_url( $blogs_slug ); ?>/</p>
@@ -311,7 +311,7 @@ class BP_Core_Setup_Wizard {
 
 		</table>
 
-		<p><?php _e( 'Would you like to enable site tracking, which tracks activity across all of your network?', 'buddypress' ); ?></p>
+		<p><?php _e( 'Would you like to enable site tracking, which tracks blog posts and comments from across your network?', 'buddypress' ); ?></p>
 
 		<div class="left-col">
 
@@ -427,7 +427,7 @@ class BP_Core_Setup_Wizard {
 
 			<tr valign="top">
 				<th scope="row">
-					<h5><?php _e( 'Members', 'buddypres' ); ?></h5>
+					<h5><?php _e( 'Members', 'buddypress' ); ?></h5>
 					<p><?php _e( 'Displays member profiles, and a directory of all site members.', 'buddypress' ); ?></p>
 				</th>
 				<td>
@@ -471,7 +471,7 @@ class BP_Core_Setup_Wizard {
 				<tr valign="top">
 					<th scope="row">
 						<h5><?php _e( 'Forums', 'buddypress' ); ?></h5>
-						<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ); ?></p>
+						<p><?php _e( 'Displays a directory of public forum topics.', 'buddypress' ); ?></p>
 					</th>
 					<td>
 						<p><label><input type="radio" name="bp_pages[forums]" <?php checked( empty( $existing_pages['forums'] ) ); ?>  value="<?php echo $forums_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo home_url( $forums_slug ); ?>/</label></p>
@@ -481,12 +481,13 @@ class BP_Core_Setup_Wizard {
 
 			<?php endif; ?>
 
+			<?php /* The Blogs component only needs a directory page when Multisite is enabled */ ?>
 			<?php if ( is_multisite() && isset( $active_components['blogs'] ) ) : ?>
 
 				<tr valign="top">
 					<th scope="row">
 						<h5><?php _e( 'Sites', 'buddypress' ); ?></h5>
-						<p><?php _e( 'Displays individual groups as well as a directory of groups.', 'buddypress' ); ?></p>
+						<p><?php _e( 'Displays a directory of the sites in your network.', 'buddypress' ); ?></p>
 					</th>
 					<td>
 						<p><label><input type="radio" name="bp_pages[blogs]" <?php checked( empty( $existing_pages['blogs'] ) ); ?>  value="<?php echo $blogs_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo home_url( $blogs_slug ); ?>/</label></p>
@@ -1022,6 +1023,7 @@ class BP_Core_Setup_Wizard {
 			// Load BP and hook the admin menu, so that the redirect is successful
 			if ( !function_exists( 'bp_core_update_message' ) )
 				require( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' );
+
 			bp_core_add_admin_menu();
 
 			// Redirect to the BuddyPress dashboard
@@ -1109,8 +1111,8 @@ function bp_core_install( $active_components = false ) {
 	if ( !empty( $active_components['xprofile'] ) )
 		bp_core_install_extended_profiles();
 
-	// Only install blog tables if this is a multisite installation
-	if ( is_multisite() && !empty( $active_components['blogs'] ) )
+	// Blog tracking
+	if ( !empty( $active_components['blogs'] ) )
 		bp_core_install_blog_tracking();
 }
 
@@ -1136,7 +1138,7 @@ function bp_update_db_stuff() {
 	}
 
 	// On first installation - record all existing blogs in the system.
-	if ( !(int)$bp->site_options['bp-blogs-first-install'] && is_multisite() ) {
+	if ( !(int)$bp->site_options['bp-blogs-first-install'] ) {
 		bp_blogs_record_existing_blogs();
 		bp_update_option( 'bp-blogs-first-install', 1 );
 	}

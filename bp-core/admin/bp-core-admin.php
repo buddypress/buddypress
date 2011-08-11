@@ -13,37 +13,6 @@ function bp_core_update_message() {
 add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update_message' );
 
 /**
- * Renders the main admin panel.
- *
- * @package BuddyPress Core
- * @since {@internal Unknown}}
- */
-function bp_core_admin_dashboard() {
-	$base_url = bp_get_admin_url( 'admin.php' );
-	$action   = add_query_arg( array( 'page' => 'bp-general-settings' ), $base_url );
-	?>
-
-	<div class="wrap" id="bp-admin">
-
-		<div id="bp-admin-header">
-			<h3><?php _e( 'BuddyPress', 'buddypress' ); ?></h3>
-			<h2><?php _e( 'Dashboard',  'buddypress' ); ?></h2>
-		</div>
-
-		<?php do_action( 'bp_admin_notices' ); ?>
-
-		<form action="<?php echo $action ?>" method="post" id="bp-admin-form">
-			<div id="bp-admin-content">
-				<p>[TODO: All sorts of awesome things will go here. Latest plugins and themes, stats, version check, support topics, news, tips]</p>
-			</div>
-		</form>
-
-	</div>
-
-<?php
-}
-
-/**
  * Renders the Settings admin panel.
  *
  * @package BuddyPress Core
@@ -347,7 +316,7 @@ function bp_core_admin_component_options() {
 			'title'       => __( 'Account Settings', 'buddypress' ),
 			'description' => __( 'Allow your users to modify their account and notification settings directly from within their profiles.', 'buddypress' )
 		),
-		'friends' => array(
+		'friends'  => array(
 			'title'       => __( 'Friend Connections', 'buddypress' ),
 			'description' => __( 'Let your users make connections so they can track the activity of others and focus on the people they care about the most.', 'buddypress' )
 		),
@@ -359,22 +328,22 @@ function bp_core_admin_component_options() {
 			'title'       => __( 'Activity Streams', 'buddypress' ),
 			'description' => __( 'Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support.', 'buddypress' )
 		),
-		'groups' => array(
+		'groups'   => array(
 			'title'       => __( 'User Groups', 'buddypress' ),
 			'description' => __( 'Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings.', 'buddypress' )
 		),
-		'forums' => array(
+		'forums'   => array(
 			'title'       => __( 'Discussion Forums', 'buddypress' ),
 			'description' => __( 'Full-powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step.', 'buddypress' )
+		),
+		'blogs'    => array(
+			'title'       => __( 'Site Tracking', 'buddypress' ),
+			'description' => __( 'Make BuddyPress aware of new posts and new comments from your site.', 'buddypress' )
 		)
 	) );
 
-	if ( is_multisite() ) {
-		$optional_components['blogs'] = array(
-			'title'       => __( 'Site Tracking', 'buddypress' ),
-			'description' => __( 'Track new sites, new posts and new comments across your entire network.', 'buddypress' )
-		);
-	}
+	if ( is_multisite() ) 
+		$optional_components['blogs']['description'] = __( 'Make BuddyPress aware of new sites, new posts and new comments from across your entire network.', 'buddypress' ); 
 
 	// Required components
 	$required_components = apply_filters( 'bp_admin_required_components', array(

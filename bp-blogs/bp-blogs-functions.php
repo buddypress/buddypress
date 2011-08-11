@@ -49,14 +49,17 @@ function bp_blogs_record_existing_blogs() {
 	// Truncate user blogs table and re-record.
 	$wpdb->query( "TRUNCATE TABLE {$bp->blogs->table_name}" );
 
-	$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0" ) );
+	if ( is_multisite() )
+		$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0" ) );
+	else
+		$blog_ids = 1;
 
 	if ( $blog_ids ) {
 		foreach( (array)$blog_ids as $blog_id ) {
 			$users 		= get_users( array( 'blog_id' => $blog_id ) );
 			$subscribers 	= get_users( array( 'blog_id' => $blog_id, 'role' => 'subscriber' ) );
 
-			if ( $users ) {
+			if ( !empty( $users ) ) {
 				foreach ( (array)$users as $user ) {
 					// Don't record blogs for subscribers
 					if ( !in_array( $user, $subscribers ) )
@@ -460,7 +463,7 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
 function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false ) {
 	global $wpdb, $bp;
 
-	if ( !is_numeric( $blog_id ) || !is_multisite() )
+	if ( !is_numeric( $blog_id ) )
 		return false;
 
 	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
@@ -487,7 +490,7 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 
 	$blog_id = (int) $blog_id;
 
-	if ( !$blog_id || !is_multisite() )
+	if ( !$blog_id )
 		return false;
 
 	if ( !empty($meta_key) ) {
@@ -519,7 +522,7 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 	global $wpdb, $bp;
 
-	if ( !is_numeric( $blog_id ) || !is_multisite() )
+	if ( !is_numeric( $blog_id ) )
 		return false;
 
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );

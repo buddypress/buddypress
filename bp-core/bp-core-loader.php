@@ -57,16 +57,10 @@ class BP_Core extends BP_Component {
 		/** Components ********************************************************/
 
 		// Set the included and optional components.
-		$bp->optional_components = array( 'activity', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile' );
-
-		// Blogs component only available for multisite
-		if ( is_multisite() )
-			$bp->optional_components[] = 'blogs';
-
-		$bp->optional_components    = apply_filters( 'bp_optional_components', $bp->optional_components );
+		$bp->optional_components = apply_filters( 'bp_optional_components', array( 'activity', 'blogs', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile' ) );
 
 		// Set the required components
-		$bp->required_components    = apply_filters( 'bp_required_components', array( 'members' ) );
+		$bp->required_components = apply_filters( 'bp_required_components', array( 'members' ) );
 
 		// Get a list of activated components
 		if ( $active_components = bp_get_option( 'bp-active-components' ) ) {
