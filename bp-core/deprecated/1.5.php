@@ -61,23 +61,45 @@ function bp_core_is_main_site( $blog_id = '' ) {
  * @since 1.1
  */
 function bp_core_add_admin_menu_page( $args = '' ) {
+	global $_registered_pages, $admin_page_hooks, $menu;
+
+	_deprecated_function( __FUNCTION__, '1.5', 'Use add_menu_page()' );
+
 	$defaults = array(
-		'page_title'   => '',
+		'access_level' => 2,
+		'file'         => false,
+		'function'     => false,
+		'icon_url'     => false,
 		'menu_title'   => '',
-		'capability'   => 'manage_options',
-		'file'         => '',
-		'function'     => '',
-		'icon_url'     => '',
+		'page_title'   => '',
 		'position'     => 100
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	_deprecated_function( __FUNCTION__, '1.5', 'Use add_menu_page()' );
-	return add_menu_page( $page_title, $menu_title, $capability, $file, $function, $icon_url, $position );
-}
+	$file     = plugin_basename( $file );
+	$hookname = get_plugin_page_hookname( $file, '' );
+	
+	$admin_page_hooks[$file] = sanitize_title( $menu_title );
 
+	if ( !empty( $function ) && !empty ( $hookname ) )
+		add_action( $hookname, $function );
+
+	if ( empty( $icon_url ) )
+		$icon_url = 'images/generic.png';
+	elseif ( is_ssl() && 0 === strpos( $icon_url, 'http://' ) )
+		$icon_url = 'https://' . substr( $icon_url, 7 );
+
+	do {
+		$position++;
+	} while ( !empty( $menu[$position] ) );
+
+	$menu[$position] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
+	$_registered_pages[$hookname] = true;
+
+	return $hookname;
+}
 /** Activity ******************************************************************/
 
 function bp_is_activity_permalink() {
