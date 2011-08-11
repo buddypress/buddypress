@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-10 13:30:58+00:00\n"
+"POT-Creation-Date: 2011-08-11 21:30:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: bp-blogs/bp-blogs-loader.php:24 bp-core/admin/bp-core-admin.php:374
+#: bp-blogs/bp-blogs-loader.php:24 bp-core/admin/bp-core-admin.php:340
 #: bp-core/admin/bp-core-update.php:319
 msgid "Site Tracking"
 msgstr ""
@@ -26,7 +26,7 @@ msgid "Sites <span>%d</span>"
 msgstr ""
 
 #: bp-blogs/bp-blogs-loader.php:139 bp-core/admin/bp-core-update.php:303
-#: bp-core/admin/bp-core-update.php:488
+#: bp-core/admin/bp-core-update.php:489
 msgid "Sites"
 msgstr ""
 
@@ -48,7 +48,7 @@ msgid "New post comment posted"
 msgstr ""
 
 #: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-adminbar.php:117
-#: bp-core/admin/bp-core-admin.php:30 bp-core/bp-core-buddybar.php:481
+#: bp-core/bp-core-buddybar.php:481
 msgid "Dashboard"
 msgstr ""
 
@@ -155,10 +155,10 @@ msgstr ""
 msgid "I would like my site to appear in search engines, and in public listings around this network."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:495 bp-core/admin/bp-core-admin.php:98
-#: bp-core/admin/bp-core-admin.php:108 bp-core/admin/bp-core-admin.php:116
-#: bp-core/admin/bp-core-admin.php:124 bp-core/admin/bp-core-admin.php:134
-#: bp-core/admin/bp-core-admin.php:146 bp-friends/bp-friends-screens.php:69
+#: bp-blogs/bp-blogs-template.php:495 bp-core/admin/bp-core-admin.php:67
+#: bp-core/admin/bp-core-admin.php:77 bp-core/admin/bp-core-admin.php:85
+#: bp-core/admin/bp-core-admin.php:93 bp-core/admin/bp-core-admin.php:103
+#: bp-core/admin/bp-core-admin.php:115 bp-friends/bp-friends-screens.php:69
 #: bp-groups/bp-groups-screens.php:826 bp-messages/bp-messages-screens.php:150
 #: bp-themes/bp-default/registration/register.php:205
 #: bp-themes/bp-default/groups/single/admin.php:26
@@ -166,10 +166,10 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:499 bp-core/admin/bp-core-admin.php:99
-#: bp-core/admin/bp-core-admin.php:109 bp-core/admin/bp-core-admin.php:117
-#: bp-core/admin/bp-core-admin.php:125 bp-core/admin/bp-core-admin.php:135
-#: bp-core/admin/bp-core-admin.php:147 bp-friends/bp-friends-screens.php:70
+#: bp-blogs/bp-blogs-template.php:499 bp-core/admin/bp-core-admin.php:68
+#: bp-core/admin/bp-core-admin.php:78 bp-core/admin/bp-core-admin.php:86
+#: bp-core/admin/bp-core-admin.php:94 bp-core/admin/bp-core-admin.php:104
+#: bp-core/admin/bp-core-admin.php:116 bp-friends/bp-friends-screens.php:70
 #: bp-groups/bp-groups-screens.php:827 bp-messages/bp-messages-screens.php:151
 #: bp-themes/bp-default/registration/register.php:206
 #: bp-themes/bp-default/groups/single/admin.php:27
@@ -215,23 +215,23 @@ msgstr ""
 msgid "Visit Site"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:112
+#: bp-blogs/bp-blogs-functions.php:115
 msgid "%s created the site %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:176
+#: bp-blogs/bp-blogs-functions.php:179
 msgid "%1$s wrote a new post, %2$s, on the site %3$s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:178
+#: bp-blogs/bp-blogs-functions.php:181
 msgid "%1$s wrote a new post, %2$s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:261
+#: bp-blogs/bp-blogs-functions.php:264
 msgid "%1$s commented on the post, %2$s, on the site %3$s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-functions.php:263
+#: bp-blogs/bp-blogs-functions.php:266
 msgid "%1$s commented on the post, %2$s"
 msgstr ""
 
@@ -407,189 +407,188 @@ msgstr ""
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:29 bp-core/admin/bp-core-update.php:1218
-#: bp-core/bp-core-functions.php:250 bp-members/bp-members-signup.php:570
-msgid "BuddyPress"
-msgstr ""
-
-#: bp-core/admin/bp-core-admin.php:72 bp-core/admin/bp-core-admin.php:239
-#: bp-core/admin/bp-core-admin.php:288 bp-core/admin/bp-core-update.php:72
+#: bp-core/admin/bp-core-admin.php:41 bp-core/admin/bp-core-admin.php:208
+#: bp-core/admin/bp-core-admin.php:257 bp-core/admin/bp-core-update.php:72
 #: bp-core/admin/bp-core-update.php:217 bp-core/bp-core-functions.php:251
 #: bp-forums/bp-forums-admin.php:27
 msgid "Components"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:73 bp-core/admin/bp-core-admin.php:240
-#: bp-core/admin/bp-core-admin.php:289 bp-core/admin/bp-core-update.php:73
+#: bp-core/admin/bp-core-admin.php:42 bp-core/admin/bp-core-admin.php:209
+#: bp-core/admin/bp-core-admin.php:258 bp-core/admin/bp-core-update.php:73
 #: bp-core/admin/bp-core-update.php:88 bp-core/admin/bp-core-update.php:221
 #: bp-core/bp-core-functions.php:252 bp-forums/bp-forums-admin.php:28
 msgid "Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:74 bp-core/admin/bp-core-admin.php:241
-#: bp-core/admin/bp-core-admin.php:290 bp-core/bp-core-functions.php:253
+#: bp-core/admin/bp-core-admin.php:43 bp-core/admin/bp-core-admin.php:210
+#: bp-core/admin/bp-core-admin.php:259 bp-core/bp-core-functions.php:253
 #: bp-settings/bp-settings-loader.php:15 bp-settings/bp-settings-loader.php:72
 #: bp-settings/bp-settings-loader.php:142 bp-groups/bp-groups-loader.php:189
 #: bp-groups/bp-groups-template.php:1279 bp-forums/bp-forums-admin.php:29
 msgid "Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:75 bp-core/admin/bp-core-admin.php:242
-#: bp-core/admin/bp-core-admin.php:291 bp-forums/bp-forums-admin.php:30
+#: bp-core/admin/bp-core-admin.php:44 bp-core/admin/bp-core-admin.php:211
+#: bp-core/admin/bp-core-admin.php:260 bp-forums/bp-forums-admin.php:30
 msgid "Forum Setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:83 bp-core/admin/bp-core-admin.php:251
-#: bp-core/admin/bp-core-admin.php:300
+#: bp-core/admin/bp-core-admin.php:52 bp-core/admin/bp-core-admin.php:220
+#: bp-core/admin/bp-core-admin.php:269
 msgid "Settings Saved"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:96
+#: bp-core/admin/bp-core-admin.php:65
 msgid "Disable BuddyPress to WordPress profile syncing?"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:106
+#: bp-core/admin/bp-core-admin.php:75
 msgid "Hide admin bar for logged out users?"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:114
+#: bp-core/admin/bp-core-admin.php:83
 msgid "Disable avatar uploads? (Gravatars will still work)"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:122
+#: bp-core/admin/bp-core-admin.php:91
 msgid "Disable user account deletion?"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:132
+#: bp-core/admin/bp-core-admin.php:101
 msgid "Disable activity stream commenting on blog and forum posts?"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:144
+#: bp-core/admin/bp-core-admin.php:113
 msgid "Restrict group creation to Site Admins?"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:161 bp-core/admin/bp-core-admin.php:262
+#: bp-core/admin/bp-core-admin.php:130 bp-core/admin/bp-core-admin.php:231
 msgid "Save Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:311
+#: bp-core/admin/bp-core-admin.php:280
 msgid "Save All"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:343 bp-xprofile/bp-xprofile-loader.php:25
+#: bp-core/admin/bp-core-admin.php:312 bp-xprofile/bp-xprofile-loader.php:25
 msgid "Extended Profiles"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:344
+#: bp-core/admin/bp-core-admin.php:313
 msgid "Customize your community with fully editable profile fields that allow your users to describe themselves."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:347
+#: bp-core/admin/bp-core-admin.php:316
 msgid "Account Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:348
+#: bp-core/admin/bp-core-admin.php:317
 msgid "Allow your users to modify their account and notification settings directly from within their profiles."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:351 bp-friends/bp-friends-loader.php:24
+#: bp-core/admin/bp-core-admin.php:320 bp-friends/bp-friends-loader.php:24
 msgid "Friend Connections"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:352
+#: bp-core/admin/bp-core-admin.php:321
 msgid "Let your users make connections so they can track the activity of others and focus on the people they care about the most."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:355
+#: bp-core/admin/bp-core-admin.php:324
 msgid "Private Messaging"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:356
+#: bp-core/admin/bp-core-admin.php:325
 msgid "Allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, messages can be sent between any number of members."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:359 bp-activity/bp-activity-loader.php:28
+#: bp-core/admin/bp-core-admin.php:328 bp-activity/bp-activity-loader.php:28
 msgid "Activity Streams"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:360
+#: bp-core/admin/bp-core-admin.php:329
 msgid "Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:363 bp-groups/bp-groups-loader.php:26
+#: bp-core/admin/bp-core-admin.php:332 bp-groups/bp-groups-loader.php:26
 msgid "User Groups"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:364
+#: bp-core/admin/bp-core-admin.php:333
 msgid "Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:367 bp-forums/bp-forums-loader.php:24
+#: bp-core/admin/bp-core-admin.php:336 bp-forums/bp-forums-loader.php:24
 msgid "Discussion Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:368
+#: bp-core/admin/bp-core-admin.php:337
 msgid "Full-powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:375 bp-core/admin/bp-core-update.php:328
-msgid "Track new sites, new posts and new comments across your entire network."
+#: bp-core/admin/bp-core-admin.php:341
+msgid "Make BuddyPress aware of new posts and new comments from your site."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:382 bp-core/bp-core-loader.php:38
+#: bp-core/admin/bp-core-admin.php:346
+msgid "Make BuddyPress aware of new sites, new posts and new comments from across your entire network."
+msgstr ""
+
+#: bp-core/admin/bp-core-admin.php:351 bp-core/bp-core-loader.php:38
 msgid "BuddyPress Core"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:383
+#: bp-core/admin/bp-core-admin.php:352
 msgid "It&#8216;s what makes <del>time travel</del> BuddyPress possible!"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:386
+#: bp-core/admin/bp-core-admin.php:355
 msgid "Community Members"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:387
+#: bp-core/admin/bp-core-admin.php:356
 msgid "Everything in a BuddyPress community revolves around its members."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:400
+#: bp-core/admin/bp-core-admin.php:369
 msgid "Available Components"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:402
+#: bp-core/admin/bp-core-admin.php:371
 msgid "Each component has a unique purpose, and your community may not need each one."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:434
+#: bp-core/admin/bp-core-admin.php:403
 msgid "Required Components"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:436
+#: bp-core/admin/bp-core-admin.php:405
 msgid "The following components are required by BuddyPress and cannot be turned off."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:506
+#: bp-core/admin/bp-core-admin.php:475
 msgid "Directories"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:508
+#: bp-core/admin/bp-core-admin.php:477
 msgid "Associate a WordPress Page with each BuddyPress component directory."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:528 bp-core/admin/bp-core-admin.php:581
+#: bp-core/admin/bp-core-admin.php:497 bp-core/admin/bp-core-admin.php:550
 msgid "- None -"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:532 bp-core/admin/bp-core-admin.php:585
+#: bp-core/admin/bp-core-admin.php:501 bp-core/admin/bp-core-admin.php:554
 msgid "New Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:533 bp-core/admin/bp-core-admin.php:586
+#: bp-core/admin/bp-core-admin.php:502 bp-core/admin/bp-core-admin.php:555
 #: bp-xprofile/bp-xprofile-classes.php:750
 msgid "Save"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:537 bp-core/admin/bp-core-admin.php:590
+#: bp-core/admin/bp-core-admin.php:506 bp-core/admin/bp-core-admin.php:559
 #: bp-xprofile/bp-xprofile-loader.php:184
 #: bp-members/bp-members-template.php:586
 #: bp-themes/bp-default/functions.php:152
@@ -598,19 +597,19 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:559
+#: bp-core/admin/bp-core-admin.php:528
 msgid "Sign-up"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:560
+#: bp-core/admin/bp-core-admin.php:529
 msgid "Activation"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:563
+#: bp-core/admin/bp-core-admin.php:532
 msgid "Registration"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:565
+#: bp-core/admin/bp-core-admin.php:534
 msgid "Associate WordPress Pages with the following BuddyPress Registration pages."
 msgstr ""
 
@@ -624,7 +623,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-update.php:76 bp-core/admin/bp-core-update.php:90
 #: bp-core/admin/bp-core-update.php:186 bp-core/admin/bp-core-update.php:233
-#: bp-core/admin/bp-core-update.php:1186
+#: bp-core/admin/bp-core-update.php:1188
 #: bp-themes/bp-default/groups/create.php:294
 msgid "Finish"
 msgstr ""
@@ -637,11 +636,11 @@ msgstr ""
 msgid "Database Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:143 bp-core/admin/bp-core-update.php:1215
+#: bp-core/admin/bp-core-update.php:143 bp-core/admin/bp-core-update.php:1217
 msgid "Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:143 bp-core/admin/bp-core-update.php:1213
+#: bp-core/admin/bp-core-update.php:143 bp-core/admin/bp-core-update.php:1215
 msgid "Setup"
 msgstr ""
 
@@ -682,34 +681,33 @@ msgstr ""
 msgid "If you have manually added BuddyPress navigation links in your theme you may need to remove these from your header.php to avoid duplicate links."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:304 bp-core/admin/bp-core-update.php:459
-#: bp-core/admin/bp-core-update.php:474 bp-core/admin/bp-core-update.php:489
-msgid "Displays individual groups as well as a directory of groups."
+#: bp-core/admin/bp-core-update.php:304 bp-core/admin/bp-core-update.php:490
+msgid "Displays a directory of the sites in your network."
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:307 bp-core/admin/bp-core-update.php:434
 #: bp-core/admin/bp-core-update.php:447 bp-core/admin/bp-core-update.php:462
-#: bp-core/admin/bp-core-update.php:477 bp-core/admin/bp-core-update.php:492
-#: bp-core/admin/bp-core-update.php:505 bp-core/admin/bp-core-update.php:516
+#: bp-core/admin/bp-core-update.php:477 bp-core/admin/bp-core-update.php:493
+#: bp-core/admin/bp-core-update.php:506 bp-core/admin/bp-core-update.php:517
 msgid "Automatically create a page at:"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:308 bp-core/admin/bp-core-update.php:435
 #: bp-core/admin/bp-core-update.php:448 bp-core/admin/bp-core-update.php:463
-#: bp-core/admin/bp-core-update.php:478 bp-core/admin/bp-core-update.php:493
-#: bp-core/admin/bp-core-update.php:506 bp-core/admin/bp-core-update.php:517
+#: bp-core/admin/bp-core-update.php:478 bp-core/admin/bp-core-update.php:494
+#: bp-core/admin/bp-core-update.php:507 bp-core/admin/bp-core-update.php:518
 msgid "Use an existing page:"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:308 bp-core/admin/bp-core-update.php:435
 #: bp-core/admin/bp-core-update.php:448 bp-core/admin/bp-core-update.php:463
-#: bp-core/admin/bp-core-update.php:478 bp-core/admin/bp-core-update.php:493
-#: bp-core/admin/bp-core-update.php:506 bp-core/admin/bp-core-update.php:517
+#: bp-core/admin/bp-core-update.php:478 bp-core/admin/bp-core-update.php:494
+#: bp-core/admin/bp-core-update.php:507 bp-core/admin/bp-core-update.php:518
 msgid "- Select -"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:314
-msgid "Would you like to enable site tracking, which tracks activity across all of your network?"
+msgid "Would you like to enable site tracking, which tracks blog posts and comments from across your network?"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:322
@@ -718,6 +716,10 @@ msgstr ""
 
 #: bp-core/admin/bp-core-update.php:323
 msgid "Disabled"
+msgstr ""
+
+#: bp-core/admin/bp-core-update.php:328
+msgid "Track new sites, new posts and new comments across your entire network."
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:351
@@ -784,176 +786,189 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
+#: bp-core/admin/bp-core-update.php:459
+msgid "Displays individual groups as well as a directory of groups."
+msgstr ""
+
 #: bp-core/admin/bp-core-update.php:473 bp-core/bp-core-template.php:251
 #: bp-forums/bp-forums-admin.php:199 bp-forums/bp-forums-loader.php:111
 #: bp-forums/bp-forums-loader.php:194 bp-forums/bp-forums-loader.php:234
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:501 bp-core/bp-core-functions.php:451
+#: bp-core/admin/bp-core-update.php:474
+msgid "Displays a directory of public forum topics."
+msgstr ""
+
+#: bp-core/admin/bp-core-update.php:502 bp-core/bp-core-functions.php:451
 #: bp-members/bp-members-adminbar.php:63
 msgid "Register"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:502
+#: bp-core/admin/bp-core-update.php:503
 msgid "Displays a site registration page where users can create new accounts."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:512 bp-core/bp-core-functions.php:446
+#: bp-core/admin/bp-core-update.php:513 bp-core/bp-core-functions.php:446
 #: bp-messages/bp-messages-template.php:498
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:513
+#: bp-core/admin/bp-core-update.php:514
 msgid "The page users will visit to activate their account once they have registered."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:544
+#: bp-core/admin/bp-core-update.php:545
 msgid "Congratulations! You are already using pretty permalinks, which BuddyPress requires. If you'd like to change your settings, you may do so now. If you're happy with your current settings, click Save &amp; Next to continue."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:546
+#: bp-core/admin/bp-core-update.php:547
 msgid "To make sure the pages created in the previous step work correctly, pretty permalinks must be active on your site."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:552
+#: bp-core/admin/bp-core-update.php:553
 msgid "Please select the permalink setting you would like to use. For more advanced options please visit the <a href=\"%s\">permalink settings page</a> first, and complete this setup wizard later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:556
+#: bp-core/admin/bp-core-update.php:557
 msgid "Day and name"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:560
+#: bp-core/admin/bp-core-update.php:561
 msgid "Month and name"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:564
+#: bp-core/admin/bp-core-update.php:565
 msgid "Numeric"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:629
+#: bp-core/admin/bp-core-update.php:630
 msgid "BuddyPress introduces a whole range of new screens to display content. To display these screens, you need to decide how you want to handle them in your current theme."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:634
+#: bp-core/admin/bp-core-update.php:635
 msgid "Use BuddyPress Default"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:635
+#: bp-core/admin/bp-core-update.php:636
 msgid "BuddyPress Default"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:638
+#: bp-core/admin/bp-core-update.php:639
 msgid "BuddyPress Default contains everything you need to get up and running out of the box. It supports all features and is highly customizable."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:639
+#: bp-core/admin/bp-core-update.php:640
 msgid "This is the best choice if you do not have an existing WordPress theme, or want to start using BuddyPress immediately."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:640
+#: bp-core/admin/bp-core-update.php:641
 msgid "Yes, please!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:647
+#: bp-core/admin/bp-core-update.php:648
 msgid "Other themes"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:648
+#: bp-core/admin/bp-core-update.php:649
 msgid "A BuddyPress theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:651
+#: bp-core/admin/bp-core-update.php:652
 msgid "We've found that you already have some other BuddyPress-compatible themes available. To use one of those, pick it from this list."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:654
+#: bp-core/admin/bp-core-update.php:655
 msgid "Use this theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:670
+#: bp-core/admin/bp-core-update.php:671
 msgid "Manually update current theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:672
+#: bp-core/admin/bp-core-update.php:673
 msgid "Your existing theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:676
+#: bp-core/admin/bp-core-update.php:677
 msgid "The BuddyPress Template Pack plugin will guide you through the process of manually upgrading your existing WordPress theme. This usually involves following the step-by-step instructions and copying the BuddyPress template files into your theme. This option requires a working knowledge of CSS and HTML, as you will need to tweak the new templates to match your existing theme."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:680
+#: bp-core/admin/bp-core-update.php:681
 msgid "Install BuddyPress Template Pack"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:684
+#: bp-core/admin/bp-core-update.php:685
 msgid "Choose this option (go to Appearance &rarr; BP Compatibility after setup is complete)"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:685
+#: bp-core/admin/bp-core-update.php:686
 msgid "Plugin Installed"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:694
+#: bp-core/admin/bp-core-update.php:695
 msgid "Do not change theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:697
+#: bp-core/admin/bp-core-update.php:698
 msgid "You are happy with your current theme and plan on changing it later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:698
+#: bp-core/admin/bp-core-update.php:699
 msgid "This is the best choice if you have a highly customized theme on your site already, and want to later manually integrate BuddyPress into your site."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:700
+#: bp-core/admin/bp-core-update.php:701
 msgid "Don't change my current theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:722
+#: bp-core/admin/bp-core-update.php:723
 msgid "setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:722
+#: bp-core/admin/bp-core-update.php:723
 msgid "update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:724
+#: bp-core/admin/bp-core-update.php:725
 msgid "The BuddyPress %1$s is complete, and your site is ready to go!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:904
+#: bp-core/admin/bp-core-update.php:905
 msgid "Oops, there was a problem creating a configuration file. "
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:910
+#: bp-core/admin/bp-core-update.php:911
 msgid "If your <code>web.config</code> file were <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:919
+#: bp-core/admin/bp-core-update.php:920
 msgid "Permalink structure updated. Remove write access on web.config file now!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:924
+#: bp-core/admin/bp-core-update.php:925
 msgid "If your <code>.htaccess</code> file were <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:936
+#: bp-core/admin/bp-core-update.php:937
 msgid "Paste all these rules into a new <code>.htaccess</code> file in the root of your WordPress installation and save the file. Once you're done, please hit the \"Save and Next\" button to continue."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1159
+#: bp-core/admin/bp-core-update.php:1161
 msgid "Installation was successful. The available options have now been updated, please continue with your selection."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1310
+#: bp-core/admin/bp-core-update.php:1220 bp-core/bp-core-functions.php:250
+#: bp-members/bp-members-signup.php:570
+msgid "BuddyPress"
+msgstr ""
+
+#: bp-core/admin/bp-core-update.php:1312
 msgid "BuddyPress has been updated! Please run the <a href=\"%s\">update wizard</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1315
+#: bp-core/admin/bp-core-update.php:1317
 msgid "BuddyPress was successfully installed! Please run the <a href=\"%s\">installation wizard</a>."
 msgstr ""
 
@@ -1099,53 +1114,53 @@ msgid_plural "%d groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/deprecated/1.5.php:98 bp-xprofile/bp-xprofile-loader.php:217
+#: bp-core/deprecated/1.5.php:120 bp-xprofile/bp-xprofile-loader.php:217
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:45
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:105 bp-themes/bp-default/functions.php:602
+#: bp-core/deprecated/1.5.php:127 bp-themes/bp-default/functions.php:602
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:114
+#: bp-core/deprecated/1.5.php:136
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:24
 msgid "About Me"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:123 bp-themes/bp-default/functions.php:606
+#: bp-core/deprecated/1.5.php:145 bp-themes/bp-default/functions.php:606
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:132
+#: bp-core/deprecated/1.5.php:154
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:42
 msgid "Jabber"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:141
+#: bp-core/deprecated/1.5.php:163
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:51
 msgid "AOL Messenger"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:150
+#: bp-core/deprecated/1.5.php:172
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:60
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:250 bp-core/bp-core-buddybar.php:473
+#: bp-core/deprecated/1.5.php:272 bp-core/bp-core-buddybar.php:473
 #: bp-members/bp-members-adminbar.php:218
 #: bp-members/bp-members-template.php:716 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:297
+#: bp-core/deprecated/1.5.php:319
 msgid "%1$s mentioned you in the group \"%2$s\""
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:299 bp-activity/bp-activity-notifications.php:41
+#: bp-core/deprecated/1.5.php:321 bp-activity/bp-activity-notifications.php:41
 msgid ""
 "%1$s mentioned you in the group \"%2$s\":\n"
 "\n"
@@ -1156,7 +1171,7 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:309 bp-friends/bp-friends-notifications.php:36
+#: bp-core/deprecated/1.5.php:331 bp-friends/bp-friends-notifications.php:36
 #: bp-friends/bp-friends-notifications.php:76
 #: bp-groups/bp-groups-notifications.php:32
 #: bp-groups/bp-groups-notifications.php:83
@@ -1303,12 +1318,12 @@ msgstr ""
 msgid "Random Site"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:216 bp-xprofile/bp-xprofile-loader.php:113
+#: bp-core/bp-core-loader.php:210 bp-xprofile/bp-xprofile-loader.php:113
 #: bp-xprofile/bp-xprofile-loader.php:177 bp-members/bp-members-loader.php:137
 msgid "Profile"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:227 bp-groups/bp-groups-template.php:520
+#: bp-core/bp-core-loader.php:221 bp-groups/bp-groups-template.php:520
 #: bp-xprofile/bp-xprofile-loader.php:125 bp-members/bp-members-loader.php:152
 msgid "Public"
 msgstr ""
