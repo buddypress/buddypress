@@ -367,6 +367,25 @@ function bp_forum_directory_permalink() {
 		return bp_get_forums_directory_permalink();
 	}
 
+/**
+ * Last used by core in BP 1.1. The markup was merged into DTheme's header.php template.
+ */
+function bp_search_form() {
+	_deprecated_function( __FUNCTION__, '1.1', 'No longer required.' );
+
+	$form = '
+		<form action="' . bp_search_form_action() . '" method="post" id="search-form">
+			<input type="text" id="search-terms" name="search-terms" value="" />
+			' . bp_search_form_type_select() . '
+
+			<input type="submit" name="search-submit" id="search-submit" value="' . __( 'Search', 'buddypress' ) . '" />
+			' . wp_nonce_field( 'bp_search_form' ) . '
+		</form>
+	';
+
+	echo apply_filters( 'bp_search_form', $form );
+}
+
 /** Theme *********************************************************************/
 
 /**
