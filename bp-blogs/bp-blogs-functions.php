@@ -165,7 +165,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 		return false;
 
 	// Don't record this if it's not a post
-	if ( 'post' != $post->post_type )
+	if ( !in_array( $post->post_type, apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) ) ) )
 		return false;
 
 	$is_blog_public = apply_filters( 'bp_is_blog_public', (int)get_blog_option( $blog_id, 'blog_public' ) );
@@ -247,7 +247,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		return false;
 
 	// Don't record activity if the comment's associated post isn't a WordPress Post
-	if ( 'post' != $recorded_comment->post->post_type )
+	if ( !in_array( $recorded_comment->post->post_type, apply_filters( 'bp_blogs_record_comment_post_types', array( 'post' ) ) ) )
 		return false;
 
 	$is_blog_public = apply_filters( 'bp_is_blog_public', (int)get_blog_option( $blog_id, 'blog_public' ) );
