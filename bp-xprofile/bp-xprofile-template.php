@@ -538,7 +538,7 @@ function bp_the_profile_field_options( $args = '' ) {
 
 					// First, check to see whether the user's saved values
 					// match the option
-					for ( $j = 0, $count = count( $option_values ); $j < $count; ++$j ) {
+					for ( $j = 0, $count_values = count( $option_values ); $j < $count_values; ++$j ) {
 
 						// Run the allowed option name through the
 						// before_save filter, so we'll be sure to get a match
