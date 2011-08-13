@@ -307,7 +307,7 @@ function bp_core_admin_component_options() {
 	$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
 	// An array of strings looped over to create component setup markup
-	$optional_components = apply_filters( 'bp_admin_optional_components', array(
+	$optional_components = array(
 		'xprofile' => array(
 			'title'       => __( 'Extended Profiles', 'buddypress' ),
 			'description' => __( 'Customize your community with fully editable profile fields that allow your users to describe themselves.', 'buddypress' )
@@ -340,13 +340,13 @@ function bp_core_admin_component_options() {
 			'title'       => __( 'Site Tracking', 'buddypress' ),
 			'description' => __( 'Make BuddyPress aware of new posts and new comments from your site.', 'buddypress' )
 		)
-	) );
+	);
 
 	if ( is_multisite() ) 
 		$optional_components['blogs']['description'] = __( 'Make BuddyPress aware of new sites, new posts and new comments from across your entire network.', 'buddypress' ); 
 
 	// Required components
-	$required_components = apply_filters( 'bp_admin_required_components', array(
+	$required_components = array(
 		'core' => array(
 			'title'       => __( 'BuddyPress Core', 'buddypress' ),
 			'description' => __( 'It&#8216;s what makes <del>time travel</del> BuddyPress possible!', 'buddypress' )
@@ -355,7 +355,7 @@ function bp_core_admin_component_options() {
 			'title'       => __( 'Community Members', 'buddypress' ),
 			'description' => __( 'Everything in a BuddyPress community revolves around its members.', 'buddypress' )
 		),
-	) );
+	);
 
 	// On new install, set all components to be active by default
 	if ( !empty( $bp_wizard ) && 'install' == $bp_wizard->setup_type && empty( $active_components ) )
@@ -393,8 +393,6 @@ function bp_core_admin_component_options() {
 
 			<?php endforeach ?>
 
-			<?php do_action( 'bp_active_external_components' ); ?>
-
 		</tbody>
 	</table>
 
@@ -426,8 +424,6 @@ function bp_core_admin_component_options() {
 				</tr>
 
 			<?php endforeach ?>
-
-			<?php do_action( 'bp_active_external_components' ); ?>
 
 		</tbody>
 	</table>
