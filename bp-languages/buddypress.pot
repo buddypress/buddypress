@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-12 18:30:57+00:00\n"
+"POT-Creation-Date: 2011-08-13 18:30:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -559,36 +559,36 @@ msgstr ""
 msgid "Each component has a unique purpose, and your community may not need each one."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:403
+#: bp-core/admin/bp-core-admin.php:401
 msgid "Required Components"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:405
+#: bp-core/admin/bp-core-admin.php:403
 msgid "The following components are required by BuddyPress and cannot be turned off."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:475
+#: bp-core/admin/bp-core-admin.php:471
 msgid "Directories"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:477
+#: bp-core/admin/bp-core-admin.php:473
 msgid "Associate a WordPress Page with each BuddyPress component directory."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:497 bp-core/admin/bp-core-admin.php:550
+#: bp-core/admin/bp-core-admin.php:493 bp-core/admin/bp-core-admin.php:546
 msgid "- None -"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:501 bp-core/admin/bp-core-admin.php:554
+#: bp-core/admin/bp-core-admin.php:497 bp-core/admin/bp-core-admin.php:550
 msgid "New Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:502 bp-core/admin/bp-core-admin.php:555
+#: bp-core/admin/bp-core-admin.php:498 bp-core/admin/bp-core-admin.php:551
 #: bp-xprofile/bp-xprofile-classes.php:750
 msgid "Save"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:506 bp-core/admin/bp-core-admin.php:559
+#: bp-core/admin/bp-core-admin.php:502 bp-core/admin/bp-core-admin.php:555
 #: bp-xprofile/bp-xprofile-loader.php:184
 #: bp-members/bp-members-template.php:586
 #: bp-themes/bp-default/functions.php:152
@@ -597,19 +597,19 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:528
+#: bp-core/admin/bp-core-admin.php:524
 msgid "Sign-up"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:529
+#: bp-core/admin/bp-core-admin.php:525
 msgid "Activation"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:532
+#: bp-core/admin/bp-core-admin.php:528
 msgid "Registration"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:534
+#: bp-core/admin/bp-core-admin.php:530
 msgid "Associate WordPress Pages with the following BuddyPress Registration pages."
 msgstr ""
 
