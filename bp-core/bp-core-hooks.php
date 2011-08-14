@@ -8,9 +8,9 @@ add_action( 'plugins_loaded', 'bp_loaded',  10 );
 
 add_action( 'bp_loaded',      'bp_include', 2  );
 
-add_action( 'wp',             'bp_actions', 2  );
+add_action( 'wp',             'bp_actions', 3  );
 
-add_action( 'wp',             'bp_screens', 2  );
+add_action( 'wp',             'bp_screens', 4  );
 
 /** Init **********************************************************************/
 
