@@ -80,29 +80,7 @@ BuddyPress subversion trunk can be found at: http://buddypress.svn.wordpress.org
 
 == Languages ==
 
-BuddyPress is available in more than 20 languages. For more information about BuddyPress in your language please select a langauge site from the list below. Is your language missing? Please send a message to the <a href="http://lists.automattic.com/mailman/listinfo/wp-polyglots">WP-Polygots</a> mailing list and request for your language to be set up.
-
-*	<a href="http://br.buddypress.org/">Brasil</a>
-*	<a href="http://ca.buddypress.org/">Català</a>
-*	<a href="http://de.buddypress.org/">Deutsch</a>
-*	<a href="http://es.buddypress.org/">Español</a>
-*	<a href="http://fr.buddypress.org/">Français</a>
-*	<a href="http://id.buddypress.org/">Indonesia</a>
-*	<a href="http://it.buddypress.org/">Italia</a>
-*	<a href="http://lv.buddypress.org/">Latviešu valodā</a>
-*	<a href="http://nl.buddypress.org/">Nederland</a>
-*	<a href="http://pl.buddypress.org/">Polska</a>
-*	<a href="http://pt.buddypress.org/">Portugal</a>
-*	<a href="http://ru.buddypress.org/">Русский</a>
-*	<a href="http://fi.buddypress.org/">Suomi</a>
-*	<a href="http://th.buddypress.org/">Thai</a>
-*	<a href="http://uk.buddypress.org/">Україна</a>
-*	<a href="http://ja.buddypress.org/">日本語</a>
-*	<a href="http://cn.buddypress.org/">简体中文</a>
-*	<a href="http://ko.buddypress.org/">한국어</a>
-*	<a href="http://tw.buddypress.org/">正體中文</a>
-
-The <a href="http://i18n.svn.buddypress.org/">BuddyPress langauge file repository</a> includes some language that have not yet set up a localization site.
+BuddyPress is available in more than 20 languages. For more information, check out the <a href="http://codex.buddypress.org/getting-started/translations/">translation page</a> on the BuddyPress Codex.
 
 == Upgrade Notice ==
 
