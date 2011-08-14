@@ -765,7 +765,7 @@ class BP_Core_Setup_Wizard {
 		if ( isset( $_POST['submit'] ) ) {
 			check_admin_referer( 'bpwizard_ms_update' );
 
-			if ( !$active_components = get_site_option( 'bp-active-components' ) )
+			if ( !$active_components = bp_get_option( 'bp-active-components' ) )
 				$active_components = array();
 
 			// Transfer important settings from blog options to site options
@@ -789,7 +789,7 @@ class BP_Core_Setup_Wizard {
 				$bp_pages       = $this->setup_pages( (array)$_POST['bp_pages'] );
 				$bp_pages       = array_merge( (array)$existing_pages, (array)$bp_pages );
 
-				bp_update_option( 'bp-pages', $existing_pages );
+				bp_update_option( 'bp-pages', $bp_pages );
 
 				if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != bp_get_root_blog_id() ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
 					restore_current_blog();
