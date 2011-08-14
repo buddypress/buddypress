@@ -545,16 +545,6 @@ function bp_core_load_admin_bar() {
 		if ( (int)bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
 			return;
 
-		// Admin bar styles
-		if ( file_exists( get_stylesheet_directory() . '/_inc/css/adminbar.css' ) ) // Backwards compatibility
-			$stylesheet = get_stylesheet_directory_uri() . '/_inc/css/adminbar.css';
-		elseif ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-			$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar.dev.css';
-		else
-			$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar.css';
-
-		wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array(), '20110723' );
-
 		// Actions used to build the BP admin bar
 		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
 		add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',         2   );
@@ -569,13 +559,21 @@ function bp_core_load_admin_bar() {
 }
 
 /**
- * Load the buddybar's RTL stylesheet if appropriate.
- *
- * This can't be done in bp_core_load_admin_bar() because that function is called before locale.php is included.
- *
- * @since 1.5
+ * Handle the BuddyBar CSS
  */
-function bp_core_load_buddybar_rtl_stylesheet() {
+function bp_core_load_buddybar_css() {
+	if ( bp_use_wp_admin_bar() )
+		return;
+
+	if ( file_exists( get_stylesheet_directory() . '/_inc/css/adminbar.css' ) ) // Backwards compatibility
+		$stylesheet = get_stylesheet_directory_uri() . '/_inc/css/adminbar.css';
+	elseif ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
+		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar.dev.css';
+	else
+		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar.css';
+
+	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array(), '20110723' );
+
 	if ( !is_rtl() )
 		return;
 
@@ -586,5 +584,5 @@ function bp_core_load_buddybar_rtl_stylesheet() {
 
 	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), '20110723' );
 }
-add_action( 'wp', 'bp_core_load_buddybar_rtl_stylesheet' );
+add_action( 'bp_init', 'bp_core_load_buddybar_css' );
 ?>

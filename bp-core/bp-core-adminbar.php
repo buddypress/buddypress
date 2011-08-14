@@ -226,6 +226,9 @@ add_action( 'bp_setup_admin_bar', 'bp_admin_bar_updates_menu', 3 );
 function bp_core_load_admin_bar_css() {
 	global $wp_version;
 
+	if ( !bp_use_wp_admin_bar() )
+		return;
+
 	// Admin bar styles
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
 		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/admin-bar.dev.css';
@@ -238,12 +241,11 @@ function bp_core_load_admin_bar_css() {
 		return;
 
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/admin_bar-rtl.dev.css';
+		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/admin-bar-rtl.dev.css';
 	else
-		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/admin_bar-rtl.css';
+		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/admin-bar-rtl.css';
 
 	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_admin_bar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), '20110723' );
 }
 add_action( 'bp_init', 'bp_core_load_admin_bar_css' );
-
 ?>

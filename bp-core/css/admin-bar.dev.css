@@ -4,74 +4,11 @@
 	right: auto;
 }
 
-/* These extra bits move the user links to the right side
-
-#wpadminbar .quicklinks #wp-admin-bar-bp-register,
-#wpadminbar .quicklinks #wp-admin-bar-bp-login {
-	float: right;
-}
-#wpadminbar .quicklinks li#wp-admin-bar-my-account,
-#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar {
-	float: right;
-}
-
-#wpadminbar .quicklinks li#wp-admin-bar-my-account ul,
-#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar ul {
-
-}
-
-#wpadminbar .quicklinks li#wp-admin-bar-my-account ul li,
-#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar ul li {
-	float: right;
-}
-
-#wpadminbar .quicklinks li#wp-admin-bar-my-account ul,
-#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar ul {
-	left: auto;
-	right: 0;
-}
-
-#wpadminbar .quicklinks li#wp-admin-bar-my-account ul ul,
-#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar ul ul {
-	right: 0;
-	left: auto;
-}
-
-#wpadminbar .quicklinks li#wp-admin-bar-my-account.menupop li:hover > ul,
-#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar.menupop li.hover > ul {
-	margin-right: 100%;
-	margin-left: 0;
-}
-
-
-#wpadminbar .quicklinks li#wp-admin-bar-my-account.menupop ul li a > span,
-#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar.menupop ul li a > span {
-	background: url(../images/admin-bar-sprite-rtl.png?d=11122010) left -29px no-repeat;
-	padding-right: 0;
-	padding-left: 1.5em;
-}
-
-#wpadminbar .quicklinks li#wp-admin-bar.menupop li a img.blavatar,
-#wpadminbar .quicklinks li#wp-admin-bar-my-account.menupop li a img.blavatar {
-	margin-right: 0;
-	margin-left: 8px;
-}
-
-#wpadminbar .quicklinks li#wp-admin-bar-my-account > a,
-#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar > a {
-	border-right: none;
-	border-left: 1px solid #686868;
-}
-
-End extra bits */
-
 /* Displayed User */
-
 #wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar > a {
 	border-left: none;
 	background: url(../images/admin-bar-sprite.png?d=11122010) top left no-repeat;
 }
-
 #wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar > a img,
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar > a img {
 	width: 16px;
@@ -84,44 +21,26 @@ End extra bits */
 	background: #eee;
 	float: none;
 }
-
 #wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar ul,
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul {
 	left: 30px;
 }
-
 #wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar ul ul,
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul ul {
  	left: 0;
 }
 
 /* Displayed Group */
-
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar > a {
 	border-left: none;
 	background: url(../images/admin-bar-sprite.png?d=11122010) top left no-repeat;
 }
-
-#wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar > a img {
-	width: 16px;
-	height: 16px;
-	display: inline;
-	border: 1px solid #999;
-	vertical-align: middle;
-	margin: -2px 23px 0 -5px;
-	padding: 0;
-	background: #eee;
-	float: none;
-}
-
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul {
 	left: 0;
 }
-
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul ul {
  	left: 0;
 }
-
 #wpadminbar .quicklinks li#wp-admin-bar-my-account a span.count,
 #wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar a span.count,
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications {
