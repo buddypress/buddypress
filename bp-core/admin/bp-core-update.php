@@ -747,7 +747,7 @@ class BP_Core_Setup_Wizard {
 			bp_core_install();
 
 			if ( $this->database_version < 1801 )
-				$this->update_1_3();
+				$this->update_1_5();
 
 			// Update the active components option early if we're updating
 			if ( 'update' == $this->setup_type )
@@ -1055,7 +1055,7 @@ class BP_Core_Setup_Wizard {
 	}
 
 	// Database update methods based on version numbers
-	function update_1_3() {
+	function update_1_5() {
 		// Delete old database version options
 		delete_site_option( 'bp-activity-db-version' );
 		delete_site_option( 'bp-blogs-db-version'    );
