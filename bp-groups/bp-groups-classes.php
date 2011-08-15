@@ -1227,22 +1227,22 @@ class BP_Group_Extension {
 		}
 
 		// When we are viewing a single group, add the group extension nav item
-		if ( $this->visibility == 'public' || ( $this->visibility != 'public' && $bp->groups->current_group->user_has_access ) ) {
-			if ( $this->enable_nav_item ) {
-				if ( bp_is_groups_component() && $bp->is_single_item ) {
+		if ( bp_is_group() ) {
+			if ( $this->visibility == 'public' || ( $this->visibility != 'public' && $bp->groups->current_group->user_has_access ) ) {
+				if ( $this->enable_nav_item ) {
 					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => $bp->groups->current_group->slug, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
+
+					// When we are viewing the extension display page, set the title and options title
+					if ( bp_is_current_action( $this->slug ) ) {
+						add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
+						add_action( 'bp_template_title', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
+					}
 				}
 
-				// When we are viewing the extension display page, set the title and options title
-				if ( bp_is_groups_component() && $bp->is_single_item && $bp->current_action == $this->slug ) {
-					add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
-			 		add_action( 'bp_template_title', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
-				}
+				// Hook the group home widget
+				if ( !bp_current_action() && bp_is_current_action( 'home' ) )
+					add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 			}
-
-			// Hook the group home widget
-			if ( bp_is_groups_component() && $bp->is_single_item && ( !$bp->current_action || 'home' == $bp->current_action ) )
-				add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 		}
 
 		// Construct the admin edit tab for the new group extension
