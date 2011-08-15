@@ -99,11 +99,11 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 
-	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude, $show_hidden ) {
+	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude = false, $show_hidden = false ) {
 		$this->__construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude, $show_hidden );
 	}
 
-	function __construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude, $show_hidden ){
+	function __construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude = false, $show_hidden = false ){
 
 		global $bp;
 
