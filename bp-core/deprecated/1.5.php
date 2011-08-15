@@ -80,7 +80,7 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 
 	$file     = plugin_basename( $file );
 	$hookname = get_plugin_page_hookname( $file, '' );
-	
+
 	$admin_page_hooks[$file] = sanitize_title( $menu_title );
 
 	if ( !empty( $function ) && !empty ( $hookname ) )
@@ -384,6 +384,14 @@ function bp_search_form() {
 	';
 
 	echo apply_filters( 'bp_search_form', $form );
+}
+
+/**
+ * Some _is_ function had their names normalized
+ */
+function bp_is_profile_edit() {
+	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user_profile_edit()' );
+	return bp_is_user_profile_edit();
 }
 
 /** Theme *********************************************************************/
