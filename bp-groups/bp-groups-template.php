@@ -99,11 +99,11 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 
-	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude = false, $show_hidden = false ) {
+	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $populate_extras, $include = false, $exclude = false, $show_hidden = false ) {
 		$this->__construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude, $show_hidden );
 	}
 
-	function __construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude = false, $show_hidden = false ){
+	function __construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $populate_extras, $include = false, $exclude = false, $show_hidden = false ){
 
 		global $bp;
 
@@ -282,7 +282,7 @@ function bp_has_groups( $args = '' ) {
 			$search_terms = false;
 	}
 
-	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, $include, (bool)$populate_extras, $exclude, $show_hidden );
+	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, (bool)$populate_extras, $include, $exclude, $show_hidden );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template );
 }
 
