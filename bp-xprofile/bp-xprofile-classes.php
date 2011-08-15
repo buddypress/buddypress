@@ -139,6 +139,7 @@ Class BP_XProfile_Group {
 			return $groups;
 
 		// Get the group ids
+		$group_ids = array();
 		foreach( (array)$groups as $group ) {
 			$group_ids[] = $group->id;
 		}
