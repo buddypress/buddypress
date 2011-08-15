@@ -394,6 +394,11 @@ function bp_is_profile_edit() {
 	return bp_is_user_profile_edit();
 }
 
+function bp_is_change_avatar() {
+	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user_change_avatar()' );
+	return bp_is_user_change_avatar();
+}
+
 /** Theme *********************************************************************/
 
 /**
