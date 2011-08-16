@@ -346,36 +346,142 @@ function bp_button( $args = '' ) {
 		return apply_filters( 'bp_get_button', $button->contents, $args, $button );
 	}
 
+
 /**
- * bp_create_excerpt()
+ * Truncates text.
  *
- * Fakes an excerpt on any content. Will not truncate words.
+ * Cuts a string to the length of $length and replaces the last characters
+ * with the ending if the text is longer than length.
  *
- * @package BuddyPress Core
- * @param $text str The text to create the excerpt from
- * @param $excerpt_length Minimum excerpt length, in characters
- * @param $filter_shortcodes When true, registered shortcodes (in square brackets) will be stripped
- * @param $append_text Be sure to include a leading space
- * @return str The excerpt text
+ * This function is borrowed from CakePHP v2.0, under the MIT license. See
+ * http://book.cakephp.org/view/1469/Text#truncate-1625
+ *
+ * ### Options:
+ *
+ * - `ending` Will be used as Ending and appended to the trimmed string
+ * - `exact` If false, $text will not be cut mid-word
+ * - `html` If true, HTML tags would be handled correctly
+ * - `filter_shortcodes` If true, shortcodes will be stripped before truncating
+ *
+ * @package BuddyPress
+ *
+ * @param string  $text String to truncate.
+ * @param integer $length Length of returned string, including ellipsis.
+ * @param array $options An array of html attributes and options.
+ * @return string Trimmed string.
  */
-function bp_create_excerpt( $text, $excerpt_length = 225, $filter_shortcodes = true, $append_text = ' [&hellip;]' ) { // Fakes an excerpt if needed
+function bp_create_excerpt( $text, $length = 225, $options = array() ) {
+	// Backward compatibility. The third argument used to be a boolean $filter_shortcodes
+	$filter_shortcodes_default = is_bool( $options ) ? $options : true;
+
+	$defaults = array(
+		'ending'            => __( ' [&hellip;]', 'buddypress' ),
+		'exact'             => false,
+		'html'              => true,
+		'filter_shortcodes' => $filter_shortcodes_default
+	);
+	$r = wp_parse_args( $options, $defaults );
+	extract( $r );
+
+	// Save the original text, to be passed along to the filter
 	$original_text = $text;
-	$text = str_replace( ']]>', ']]&gt;', $text );
 
-	$excerpt_length = apply_filters( 'bp_excerpt_length', $excerpt_length );
-	$append_text = apply_filters( 'bp_excerpt_append_text', $append_text );
+	// Allow plugins to modify these values globally
+	$length = apply_filters( 'bp_excerpt_length', $length );
+	$ending = apply_filters( 'bp_excerpt_append_text', $ending );
 
+	// Remove shortcodes if necessary
 	if ( $filter_shortcodes )
 		$text = strip_shortcodes( $text );
 
-	preg_match( "%\s*((?:<[^>]+>)+\S*)\s*|\s+%s", $text, $matches, PREG_OFFSET_CAPTURE, $excerpt_length );
+	// When $html is true, the excerpt should be created without including HTML tags in the
+	// excerpt length
+	if ( $html ) {
+		// The text is short enough. No need to truncate
+		if ( mb_strlen( preg_replace( '/<.*?>/', '', $text ) ) <= $length ) {
+			return $text;
+		}
 
-	if ( !empty( $matches ) ) {
-		$pos = array_pop( array_pop( $matches ) );
-		$text = substr( $text, 0, $pos ) . $append_text;
+		$totalLength = mb_strlen( strip_tags( $ending ) );
+		$openTags    = array();
+		$truncate    = '';
+
+		// Find all the tags and put them in a stack for later use
+		preg_match_all( '/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
+		foreach ( $tags as $tag ) {
+			// Process tags that need to be closed
+			if ( !preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s',  $tag[2] ) ) {
+				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
+					array_unshift( $openTags, $tag[2] );
+				} else if ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
+					$pos = array_search( $closeTag[1], $openTags );
+					if ( $pos !== false ) {
+						array_splice( $openTags, $pos, 1 );
+					}
+				}
+			}
+			$truncate .= $tag[1];
+
+			$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
+			if ( $contentLength + $totalLength > $length ) {
+				$left = $length - $totalLength;
+				$entitiesLength = 0;
+				if ( preg_match_all( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE ) ) {
+					foreach ( $entities[0] as $entity ) {
+						if ( $entity[1] + 1 - $entitiesLength <= $left ) {
+							$left--;
+							$entitiesLength += mb_strlen( $entity[0] );
+						} else {
+							break;
+						}
+					}
+				}
+
+				$truncate .= mb_substr( $tag[3], 0 , $left + $entitiesLength );
+				break;
+			} else {
+				$truncate .= $tag[3];
+				$totalLength += $contentLength;
+			}
+			if ( $totalLength >= $length ) {
+				break;
+			}
+		}
+	} else {
+		if ( mb_strlen( $text ) <= $length ) {
+			return $text;
+		} else {
+			$truncate = mb_substr( $text, 0, $length - mb_strlen( $ending ) );
+		}
 	}
 
-	return apply_filters( 'bp_create_excerpt', $text, $original_text, $excerpt_length, $filter_shortcodes, $append_text );
+	// If $exact is false, we can't break on words
+	if ( !$exact ) {
+		$spacepos = mb_strrpos( $truncate, ' ' );
+		if ( isset( $spacepos ) ) {
+			if ( $html ) {
+				$bits = mb_substr( $truncate, $spacepos );
+				preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
+				if ( !empty( $droppedTags ) ) {
+					foreach ( $droppedTags as $closingTag ) {
+						if ( !in_array( $closingTag[1], $openTags ) ) {
+							array_unshift( $openTags, $closingTag[1] );
+						}
+					}
+				}
+			}
+			$truncate = mb_substr( $truncate, 0, $spacepos );
+		}
+	}
+	$truncate .= $ending;
+
+	if ( $html ) {
+		foreach ( $openTags as $tag ) {
+			$truncate .= '</' . $tag . '>';
+		}
+	}
+
+	return apply_filters( 'bp_create_excerpt', $truncate, $original_text, $length, $options );
 }
 add_filter( 'bp_create_excerpt', 'wp_trim_excerpt' );
 add_filter( 'bp_create_excerpt', 'stripslashes_deep' );

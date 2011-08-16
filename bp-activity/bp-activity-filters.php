@@ -188,12 +188,18 @@ function bp_activity_truncate_entry( $text ) {
 
 	$append_text    = apply_filters( 'bp_activity_excerpt_append_text', __( '[Read more]', 'buddypress' ) );
 	$excerpt_length = apply_filters( 'bp_activity_excerpt_length', 358 );
-	$excerpt        = $text;
 
-	$id = !empty( $activities_template->activity->current_comment->id ) ? 'acomment-read-more-' . $activities_template->activity->current_comment->id : 'activity-read-more-' . bp_get_activity_id();
+	// Run the text through the excerpt function. If it's too short, the original text will be
+	// returned.
+	$excerpt        = bp_create_excerpt( $text, $excerpt_length, array( 'ending' => __( '&hellip;', 'buddypress' ) ) );
 
-	if ( strlen( $excerpt ) > $excerpt_length )
-		$excerpt = sprintf( '%1$s<span class="activity-read-more" id="%2$s"><a href="%3$s" rel="nofollow">%4$s</a></span>', bp_create_excerpt( $excerpt, $excerpt_length, true, '&hellip;' ), $id, bp_get_activity_thread_permalink(), $append_text );
+	// If the text returned by bp_create_excerpt() is different from the original text (ie it's
+	// been truncated), add the "Read More" link.
+	if ( $excerpt != $text ) {
+		$id = !empty( $activities_template->activity->current_comment->id ) ? 'acomment-read-more-' . $activities_template->activity->current_comment->id : 'activity-read-more-' . bp_get_activity_id();
+
+		$excerpt = sprintf( '%1$s<span class="activity-read-more" id="%2$s"><a href="%3$s" rel="nofollow">%4$s</a></span>', $excerpt, $id, bp_get_activity_thread_permalink(), $append_text );
+	}
 
 	return apply_filters( 'bp_activity_truncate_entry', $excerpt, $text, $append_text );
 }
