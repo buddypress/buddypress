@@ -342,8 +342,27 @@ function bp_core_admin_component_options() {
 		)
 	);
 
-	if ( is_multisite() ) 
-		$optional_components['blogs']['description'] = __( 'Make BuddyPress aware of new sites, new posts and new comments from across your entire network.', 'buddypress' ); 
+	if ( is_multisite() )
+		$optional_components['blogs']['description'] = __( 'Make BuddyPress aware of new sites, new posts and new comments from across your entire network.', 'buddypress' );
+
+	// If this is an upgrade from before BuddyPress 1.5, we'll have to convert deactivated
+	// components into activated ones
+	if ( empty( $active_components ) ) {
+		$deactivated_components = bp_get_option( 'bp-deactivated-components' );
+
+		// Trim off namespace and filename
+		$trimmed = array();
+		foreach ( (array) $deactivated_components as $component => $value ) {
+			$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $component ) );
+		}
+
+		// Loop through the optional components to create an active component array
+		foreach ( (array) $optional_components as $ocomponent => $ovalue ) {
+			if ( !in_array( $ocomponent, $trimmed ) ) {
+				$active_components[$ocomponent] = 1;
+			}
+		}
+	}
 
 	// Required components
 	$required_components = array(
