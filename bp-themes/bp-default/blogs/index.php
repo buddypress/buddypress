@@ -11,14 +11,18 @@
 
 <?php get_header( 'buddypress' ); ?>
 
-	<?php do_action( 'bp_before_directory_blogs_content' ); ?>
+	<?php do_action( 'bp_before_directory_blogs_page' ); ?>
 
 	<div id="content">
 		<div class="padder">
 
+		<?php do_action( 'bp_before_directory_blogs' ); ?>
+
 		<form action="" method="post" id="blogs-directory-form" class="dir-form">
 
 			<h3><?php _e( 'Site Directory', 'buddypress' ); ?><?php if ( is_user_logged_in() && bp_blog_signup_enabled() ) : ?> &nbsp;<a class="button" href="<?php echo bp_get_root_domain() . '/' . bp_get_blogs_slug() . '/create/' ?>"><?php _e( 'Create a Site', 'buddypress' ); ?></a><?php endif; ?></h3>
+
+			<?php do_action( 'bp_before_directory_blogs_content' ); ?>
 
 			<div id="blog-dir-search" class="dir-search" role="search">
 
@@ -70,13 +74,17 @@
 			<?php do_action( 'bp_directory_blogs_content' ); ?>
 
 			<?php wp_nonce_field( 'directory_blogs', '_wpnonce-blogs-filter' ); ?>
+			
+			<?php do_action( 'bp_after_directory_blogs_content' ); ?>
 
 		</form><!-- #blogs-directory-form -->
+
+		<?php do_action( 'bp_after_directory_blogs' ); ?>
 
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
-	<?php do_action( 'bp_after_directory_blogs_content' ); ?>
+	<?php do_action( 'bp_after_directory_blogs_page' ); ?>
 
 <?php get_sidebar( 'buddypress' ); ?>
 <?php get_footer( 'buddypress' ); ?>

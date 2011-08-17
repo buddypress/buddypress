@@ -11,14 +11,18 @@
 
 <?php get_header( 'buddypress' ); ?>
 
-	<?php do_action( 'bp_before_directory_members_content' ); ?>
+	<?php do_action( 'bp_before_directory_members_page' ); ?>
 
 	<div id="content">
 		<div class="padder">
 
+		<?php do_action( 'bp_before_directory_members' ); ?>
+
 		<form action="" method="post" id="members-directory-form" class="dir-form">
 
 			<h3><?php _e( 'Members Directory', 'buddypress' ); ?></h3>
+
+			<?php do_action( 'bp_before_directory_members_content' ); ?>
 
 			<div id="members-dir-search" class="dir-search" role="search">
 
@@ -76,12 +80,16 @@
 
 			<?php wp_nonce_field( 'directory_members', '_wpnonce-member-filter' ); ?>
 
+			<?php do_action( 'bp_after_directory_members_content' ); ?>
+
 		</form><!-- #members-directory-form -->
+
+		<?php do_action( 'bp_after_directory_members' ); ?>
 
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
-	<?php do_action( 'bp_after_directory_members_content' ); ?>
+	<?php do_action( 'bp_after_directory_members_page' ); ?>
 
 <?php get_sidebar( 'buddypress' ); ?>
 <?php get_footer( 'buddypress' ); ?>
