@@ -179,7 +179,7 @@ function bp_forums_bbpress_install() {
 			"define( 'BB_LOGGED_I"  => array( "'put your unique phrase here'",  "'" . addslashes( LOGGED_IN_KEY ) . "'" ),
 			"define( 'BB_NONCE_KE"  => array( "'put your unique phrase here'",  "'" . addslashes( NONCE_KEY ) . "'" ),
 			"\$bb_table_prefix = '" => array( "'bb_'",                          "'" . $bp->table_prefix . "bb_'" ),
-			"define( 'BB_LANG', '"  => array( "''",                          	"'" . WPLANG . "'" )
+			"define( 'BB_LANG', '"  => array( "''",                             "'" . get_locale() . "'" )
 		)
 	);
 
