@@ -72,6 +72,10 @@ function bp_dtheme_setup() {
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
 
+	// Add responsive layout support to bp-default without forcing child
+	// themes to inherit it if they don't want to
+	add_theme_support( 'bp-default-responsive' );
+
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
 		'primary' => __( 'Primary Navigation', 'buddypress' ),
@@ -86,8 +90,8 @@ function bp_dtheme_setup() {
 
 		// The height and width of your custom header. You can hook into the theme's own filters to change these values.
 		// Add a filter to bp_dtheme_header_image_width and bp_dtheme_header_image_height to change these values.
-		define( 'HEADER_IMAGE_WIDTH', apply_filters( 'bp_dtheme_header_image_width', 1250 ) );
-		define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'bp_dtheme_header_image_height', 125 ) );
+		define( 'HEADER_IMAGE_WIDTH',  apply_filters( 'bp_dtheme_header_image_width',  1250 ) );
+		define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'bp_dtheme_header_image_height', 125  ) );
 
 		// We'll be using post thumbnails for custom header images on posts and pages. We want them to be 1250 pixels wide by 125 pixels tall.
 		// Larger images will be auto-cropped to fit, smaller ones will be ignored.
@@ -135,7 +139,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
  */
 function bp_dtheme_enqueue_scripts() {
 	// Bump this when changes are made to bust cache
-	$version = '20110804';
+	$version = '20110818';
 
 	// Enqueue the global JS - Ajax will not work without it
 	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ), $version );
@@ -166,14 +170,20 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  */
 function bp_dtheme_enqueue_styles() {
 	// Bump this when changes are made to bust cache
-	$version = '20110804';
+	$version = '20110818';
 
 	// Default CSS
 	wp_enqueue_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), $version );
 
+	// Responsive Layout
+	if ( current_theme_supports( 'bp-default-responsive' ) ) {
+		wp_enqueue_style( 'bp-default-responsive', get_template_directory_uri() . '/_inc/css/responsive.css', array( 'bp-default-main' ), $version );
+	}
+
 	// Right to left CSS
-	if ( is_rtl() )
+	if ( is_rtl() ) {
 		wp_enqueue_style( 'bp-default-main-rtl',  get_template_directory_uri() . '/_inc/css/default-rtl.css', array( 'bp-default-main' ), $version );
+	}
 }
 add_action( 'wp_print_styles', 'bp_dtheme_enqueue_styles' );
 endif;

@@ -72,10 +72,9 @@ body {
 	font-size: 12px;
 	font-family: Arial, Tahoma, Verdana, sans-serif;
 	line-height: 170%;
-	min-width: 960px;
 	max-width: 1250px;
 	margin: 0 auto;
-	width: 90%;
+	width: 95%;
 }
 .padder {
 	padding: 19px;
@@ -151,7 +150,7 @@ div#content .main-column {
 	-webkit-border-bottom-right-radius: 6px;
 	border-bottom-right-radius: 6px;
 	color: #fff;
-	height: 100px;
+	height: auto;
 	margin-bottom: 20px;
 	padding-top: 25px;
 	position: relative;
@@ -164,6 +163,7 @@ div#content .main-column {
 }
 #header #search-bar .padder {
 	padding: 10px 15px 0 20px;
+	height: auto;
 }
 #header #search-bar input[type=text] {
 	border: 1px inset #888;
@@ -503,13 +503,17 @@ a:active {
 a:focus {
 	outline: 1px dotted #ccc;
 }
+#navigation {
+	position: relative;
+	text-align: right;
+	width: 100%;
+}
 #nav {
-	margin: 0;
+	margin: 40px 20px 0 0;
 	list-style: none;
-	max-width: 95%;
 	padding: 0;
-	position: absolute;
-	right: 15px;
+	position: relative;
+	right: auto;
 	bottom: 0;
 }
 #nav li a {
@@ -518,10 +522,11 @@ a:focus {
 	display: block;
 	padding: 5px 15px;
 	text-decoration: none;
+	text-align: left;
 }
 #nav li {
 	margin-left: 5px;
-	float: left;
+	display: inline-block;
 }
 #nav li li {
 	margin-left: 0;
