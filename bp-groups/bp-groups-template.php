@@ -1509,7 +1509,7 @@ function bp_group_join_button( $group = false ) {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		if ( !is_user_logged_in() || bp_group_is_user_banned() )
+		if ( !is_user_logged_in() || bp_group_is_user_banned( $group ) )
 			return false;
 
 		// Group creation was not completed or status is unknown
