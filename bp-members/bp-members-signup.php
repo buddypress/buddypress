@@ -613,6 +613,5 @@ function bp_core_wpsignup_redirect() {
 	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
 		bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->register->slug ) );
 }
-add_action( 'bp_screens', 'bp_core_wpsignup_redirect' );
-
+add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
 ?>
