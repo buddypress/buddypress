@@ -30,12 +30,15 @@
 
 		<?php do_action( 'bp_before_sidebar_login_form' ) ?>
 
-		<p id="login-text">
-			<?php _e( 'To start connecting please log in first.', 'buddypress' ) ?>
-			<?php if ( bp_get_signup_allowed() ) : ?>
-				<?php printf( __( ' You can also <a href="%s" title="Create an account">create an account</a>.', 'buddypress' ), site_url( bp_get_signup_slug() . '/' ) ) ?>
-			<?php endif; ?>
-		</p>
+		<?php if ( bp_get_signup_allowed() ) : ?>
+		
+			<p id="login-text">
+
+				<?php printf( __( 'Please <a href="%s" title="Create an account">create an account</a> to get started.', 'buddypress' ), site_url( bp_get_signup_slug() . '/' ) ) ?>
+
+			</p>
+
+		<?php endif; ?>
 
 		<form name="login-form" id="sidebar-login-form" class="standard-form" action="<?php echo site_url( 'wp-login.php', 'login_post' ) ?>" method="post">
 			<label><?php _e( 'Username', 'buddypress' ) ?><br />
