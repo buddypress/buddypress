@@ -77,6 +77,7 @@ class BP_Blogs_Component extends BP_Component {
 			'template',
 			'activity',
 			'functions',
+			'buddybar'
 		);
 
 		if ( is_multisite() )
