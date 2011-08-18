@@ -255,8 +255,6 @@
 
 	<?php get_sidebar( 'buddypress' ) ?>
 
-	<?php do_action( 'bp_after_directory_activity_content' ) ?>
-
 	<script type="text/javascript">
 		jQuery(document).ready( function() {
 			if ( jQuery('div#blog-details').length && !jQuery('div#blog-details').hasClass('show') )
