@@ -562,7 +562,7 @@ function bp_core_load_admin_bar() {
  * Handle the BuddyBar CSS
  */
 function bp_core_load_buddybar_css() {
-	if ( bp_use_wp_admin_bar() )
+	if ( bp_use_wp_admin_bar() || ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) )
 		return;
 
 	if ( file_exists( get_stylesheet_directory() . '/_inc/css/adminbar.css' ) ) // Backwards compatibility
