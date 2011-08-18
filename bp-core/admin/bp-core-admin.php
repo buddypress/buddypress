@@ -41,7 +41,7 @@ function bp_core_admin_settings() {
 			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Components', 'buddypress' ); ?></a>
 			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Pages', 'buddypress' ); ?></a>
 			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Settings', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
 
 			<?php do_action( 'bp_admin_tabs' ); ?>
 		</h2>
@@ -208,7 +208,7 @@ function bp_core_admin_component_setup() {
 			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Components', 'buddypress' ); ?></a>
 			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Pages', 'buddypress' ); ?></a>
 			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Settings', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
 
 			<?php do_action( 'bp_admin_tabs' ); ?>
 		</h2>
@@ -257,7 +257,7 @@ function bp_core_admin_page_setup() {
 			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Components', 'buddypress' ); ?></a>
 			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Pages', 'buddypress' ); ?></a>
 			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Settings', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup', 'reinstall' => '1' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
+			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
 
 			<?php do_action( 'bp_admin_tabs' ); ?>
 		</h2>
