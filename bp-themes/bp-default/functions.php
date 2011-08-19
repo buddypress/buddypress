@@ -170,19 +170,21 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  */
 function bp_dtheme_enqueue_styles() {
 	// Bump this when changes are made to bust cache
-	$version = '20110818';
+	$version = '20110819';
 
 	// Default CSS
 	wp_enqueue_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), $version );
 
-	// Responsive Layout
+	// Default CSS RTL
+	if ( is_rtl() )
+		wp_enqueue_style( 'bp-default-main-rtl',  get_template_directory_uri() . '/_inc/css/default-rtl.css', array( 'bp-default-main' ), $version );
+
+	// Responsive layout
 	if ( current_theme_supports( 'bp-default-responsive' ) ) {
 		wp_enqueue_style( 'bp-default-responsive', get_template_directory_uri() . '/_inc/css/responsive.css', array( 'bp-default-main' ), $version );
-	}
 
-	// Right to left CSS
-	if ( is_rtl() ) {
-		wp_enqueue_style( 'bp-default-main-rtl',  get_template_directory_uri() . '/_inc/css/default-rtl.css', array( 'bp-default-main' ), $version );
+		if ( is_rtl() )
+			wp_enqueue_style( 'bp-default-responsive-rtl', get_template_directory_uri() . '/_inc/css/responsive-rtl.css', array( 'bp-default-responsive' ), $version );
 	}
 }
 add_action( 'wp_print_styles', 'bp_dtheme_enqueue_styles' );

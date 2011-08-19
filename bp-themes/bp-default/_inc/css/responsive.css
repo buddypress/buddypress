@@ -57,8 +57,9 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 	}
 }
 
+
 /*--------------------------------------------------------------
-1.1 - iPad Portrait
+1.2 - iPad Portrait
 --------------------------------------------------------------*/
 @media only screen and (max-width: 640px) {
 	div.dir-search {
@@ -74,6 +75,7 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 		margin-bottom: 1.25em;
 	}
 }
+
 
 /*--------------------------------------------------------------
 2.0 - Smartphone (any)
@@ -137,6 +139,7 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 		width: 100%;
 	}
 }
+
 
 /*--------------------------------------------------------------
 3.0 - iPhone
