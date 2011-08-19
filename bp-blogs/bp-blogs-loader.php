@@ -125,6 +125,14 @@ class BP_Blogs_Component extends BP_Component {
 	function setup_admin_bar() {
 		global $bp;
 
+		/**
+		 * Blog/post/comment menus should not appear on single WordPress setups.
+		 * Although comments and posts made by users will still show on their
+		 * activity stream.
+		 */
+		if ( !is_multisite() )
+			return false;
+
 		// Prevent debug notices
 		$wp_admin_nav = array();
 
