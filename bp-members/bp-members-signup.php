@@ -600,9 +600,6 @@ add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 2 );
 
 // Kill the wp-signup.php if custom registration signup templates are present
 function bp_core_wpsignup_redirect() {
-	global $bp;
-
-	// Get action
 	$action = !empty( $_GET['action'] ) ? $_GET['action'] : '';
 
 	// Not at the WP core signup page and action is not register
