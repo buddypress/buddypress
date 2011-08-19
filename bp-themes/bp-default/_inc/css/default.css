@@ -73,8 +73,8 @@ body {
 	font-family: Arial, Tahoma, Verdana, sans-serif;
 	line-height: 170%;
 	max-width: 1250px;
-	margin: 0 20px;
-	width: auto;
+	margin: 0 auto;
+	width: 95%;
 	-webkit-text-size-adjust: none;
 }
 .padder {
