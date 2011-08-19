@@ -383,45 +383,6 @@ function bp_core_activation_notice() {
 	}
 
 	/**
-	 * Check for orphaned directory pages (BP component is disabled, WP page exists)
-	 */
-
-	$orphaned_pages = array();
-	foreach( $bp->pages as $component_id => $page ) {
-
-		// Some members of $bp->pages will not have corresponding $bp->{component}, so we
-		// skip them. Plugins can add themselves here if necessary.
-		$exceptions = apply_filters( 'bp_pages_without_components', array( 'register', 'activate' ) );
-		if ( in_array( $component_id, $exceptions ) )
-			continue;
-
-		if ( !isset( $bp->{$component_id} ) ) {
-			// We'll need to get some more information about the page for the notice
-			$page_data = get_post( $page->id );
-
-			$orphaned_pages[] = array(
-				'id'    => $page_data->ID,
-				'title' => $page_data->post_title
-			);
-		}
-
-	}
-
-	// If orphaned pages are found, post a notice about them.
-	if ( !empty( $orphaned_pages ) ) {
-
-		// Create the string of links to the Edit Page screen for the pages
-		$edit_pages_links = array();
-		foreach( $orphaned_pages as $op )
-			$edit_pages_links[] = sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'post.php?action=edit&post=' . $op['id'] ), $op['title'] );
-
-		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
-		$notice    = sprintf( __( 'Some of your WordPress pages are linked to BuddyPress Components that are disabled: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $edit_pages_links ) . '</strong>' );
-
-		bp_core_add_admin_notice( $notice );
-	}
-
-	/**
 	 * Check for orphaned BP components (BP component is enabled, no WP page exists)
 	 */
 

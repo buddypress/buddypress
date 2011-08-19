@@ -499,7 +499,7 @@ function bp_core_admin_page_options() {
 
 				<tr valign="top">
 					<th scope="row">
-						<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?><?php if ( !bp_is_active( $name ) ) : ?> <span class="description">(deactivated)</span><?php endif ?></label>
+						<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?></label>
 					</th>
 
 					<td>
