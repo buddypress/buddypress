@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-18 22:30:55+00:00\n"
+"POT-Creation-Date: 2011-08-19 02:30:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,12 +25,12 @@ msgstr ""
 msgid "Sites <span>%d</span>"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:140 bp-core/admin/bp-core-update.php:305
+#: bp-blogs/bp-blogs-loader.php:148 bp-core/admin/bp-core-update.php:305
 #: bp-core/admin/bp-core-update.php:491
 msgid "Sites"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:147 bp-blogs/bp-blogs-loader.php:168
+#: bp-blogs/bp-blogs-loader.php:155 bp-blogs/bp-blogs-loader.php:176
 #: bp-blogs/bp-blogs-buddybar.php:25 bp-core/bp-core-adminbar.php:105
 msgid "My Sites"
 msgstr ""
