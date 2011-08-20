@@ -565,34 +565,36 @@ function bp_activity_avatar( $args = '' ) {
 	function bp_get_activity_avatar( $args = '' ) {
 		global $activities_template, $bp;
 
+		// On activity permalink pages, default to the full-size avatar
+		$type_default = bp_is_single_activity() ? 'full' : 'thumb';
+
 		$defaults = array(
 			'alt'     => __( 'Profile picture of %s', 'buddypress' ),
 			'class'   => 'avatar',
 			'email'   => false,
-			'type'    => 'thumb',
+			'type'    => $type_default,
 			'user_id' => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		if ( !isset( $height ) && !isset( $width ) ) {  // Backpat
-			if ( 'full' == $type || ( 'thumb' == $type && bp_is_single_activity() ) ) {
-				$height = $bp->avatar->full->height;
-				$width  = $bp->avatar->full->width;
-
-			} elseif ( 'thumb' == $type ) {
-				$height = $bp->avatar->thumb->height;
-				$width  = $bp->avatar->thumb->width;
+		if ( !isset( $height ) && !isset( $width ) ) {
+			// Backpat
+			if ( isset( $bp->avatar->full->height ) || isset( $bp->avatar->thumb->height ) ) {
+				$height = ( 'full' == $type ) ? $bp->avatar->full->height : $bp->avatar->thumb->height;
+			} else {
+				$height = 20;
 			}
+
+			// Backpat
+			if ( isset( $bp->avatar->full->width ) || isset( $bp->avatar->thumb->width ) ) {
+				$width = ( 'full' == $type ) ? $bp->avatar->full->width : $bp->avatar->thumb->width;
+			} else {
+				$width = 20;
+			}
+
 		}
-
-		// Backpat
-		if ( !isset( $width ) )
-			$width = 20;
-
-		if ( !isset( $height ) )
-			$height = 20;
 
 		// Within the loop, we the current activity should be set first to the
 		// current_comment, if available

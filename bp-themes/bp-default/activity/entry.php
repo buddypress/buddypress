@@ -18,7 +18,7 @@
 	<div class="activity-avatar">
 		<a href="<?php bp_activity_user_link(); ?>">
 
-			<?php bp_activity_avatar( 'type=thumb' ); ?>
+			<?php bp_activity_avatar(); ?>
 
 		</a>
 	</div>
