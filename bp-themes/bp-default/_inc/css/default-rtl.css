@@ -230,14 +230,18 @@ dl {
 /*--------------------------------------------------------------
 3.0 - Navigation
 --------------------------------------------------------------*/
+#navigation {
+	text-align: left;
+}
 #nav {
-	left: 15px;
-	right: auto;
+	margin: 40px 0 0 20px;
 }
 #nav li {
 	margin-left: auto;
 	margin-right: 5px;
-	float: right;
+}
+#nav li a {
+	text-align: right;
 }
 #nav li li {
 	margin-left: auto;
