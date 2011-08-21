@@ -21,7 +21,6 @@ body.wp-admin {
 	height: 25px;
 }
 body#bp-default #wp-admin-bar .padder {
-	min-width: 960px;
 	max-width: 1250px;
 }
 #wp-admin-bar * {

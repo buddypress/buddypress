@@ -1476,7 +1476,7 @@ div.activity-comments form div.ac-reply-content {
 6.2 - Admin Bar
 --------------------------------------------------------------*/
 #wp-admin-bar .padder {
-	width: 90% !important; /* Line up the admin bar with the content body in this theme */
+	width: 95% !important; /* Line up the admin bar with the content body in this theme */
 }
 
 
