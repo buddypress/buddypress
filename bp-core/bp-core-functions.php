@@ -976,7 +976,8 @@ function bp_core_get_root_options() {
 
 		$network_option_keys    = array_keys( $network_options );
 		$sitemeta_options_keys  = implode( "','", (array) $network_option_keys );
-		$sitemeta_options_query = sprintf( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ('%s')", $sitemeta_options_keys );
+		$current_site 		= get_current_site();
+		$sitemeta_options_query = sprintf( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ('%s') AND site_id = %d", $sitemeta_options_keys, $current_site->id );
 		$network_options_meta   = $wpdb->get_results( $sitemeta_options_query );
 
 		// Sitemeta comes second in the merge, so that network 'registration' value wins
