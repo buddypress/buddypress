@@ -201,7 +201,7 @@ class BP_Messages_Component extends BP_Component {
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'title'  => __( 'Sent', 'buddypress' ),
-				'href'   => trailingslashit( $messages_link . 'sent' )
+				'href'   => trailingslashit( $messages_link . 'sentbox' )
 			);
 
 			// Compose Message
