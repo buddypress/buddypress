@@ -943,27 +943,27 @@ function bp_core_get_root_options() {
 	// These options come from the root blog options table
 	$root_blog_options = apply_filters( 'bp_core_site_options', array(
 
-	// BuddyPress core settings
-	'bp-deactivated-components'       => serialize( array( ) ),
-	'bp-blogs-first-install'          => '0',
-	'bp-disable-blog-forum-comments'  => '0',
-	'bp-xprofile-base-group-name'     => 'Base',
-	'bp-xprofile-fullname-field-name' => 'Name',
-	'bp-disable-profile-sync'         => '0',
-	'bp-disable-avatar-uploads'       => '0',
-	'bp-disable-account-deletion'     => '0',
-	'bp-disable-blogforum-comments'   => '0',
-	'bb-config-location'              => ABSPATH,
-	'hide-loggedout-adminbar'         => '0',
+		// BuddyPress core settings
+		'bp-deactivated-components'       => serialize( array( ) ),
+		'bp-blogs-first-install'          => '0',
+		'bp-disable-blog-forum-comments'  => '0',
+		'bp-xprofile-base-group-name'     => 'Base',
+		'bp-xprofile-fullname-field-name' => 'Name',
+		'bp-disable-profile-sync'         => '0',
+		'bp-disable-avatar-uploads'       => '0',
+		'bp-disable-account-deletion'     => '0',
+		'bp-disable-blogforum-comments'   => '0',
+		'bb-config-location'              => ABSPATH,
+		'hide-loggedout-adminbar'         => '0',
 
-	// Useful WordPress settings
-	'registration'                    => '0',
-	'avatar_default'                  => 'mysteryman'
+		// Useful WordPress settings
+		'registration'                    => '0',
+		'avatar_default'                  => 'mysteryman'
 	) );
 
 	$root_blog_option_keys  = array_keys( $root_blog_options );
-	$blog_options_keys      = implode( "', '", (array) $root_blog_option_keys );
-	$blog_options_query     = sprintf( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ('%s')", $blog_options_keys );
+	$blog_options_keys      = "'" . join( "', '", (array) $root_blog_option_keys ) . "'";
+	$blog_options_query     = $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$wpdb->options} WHERE option_name IN ( {$blog_options_keys} )" );
 	$root_blog_options_meta = $wpdb->get_results( $blog_options_query );
 
 	// On Multisite installations, some options must always be fetched from sitemeta
@@ -974,10 +974,10 @@ function bp_core_get_root_options() {
 			'fileupload_maxk' => '1500'
 		) );
 
+		$current_site           = get_current_site();
 		$network_option_keys    = array_keys( $network_options );
-		$sitemeta_options_keys  = implode( "','", (array) $network_option_keys );
-		$current_site 		= get_current_site();
-		$sitemeta_options_query = sprintf( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ('%s') AND site_id = %d", $sitemeta_options_keys, $current_site->id );
+		$sitemeta_options_keys  = "'" . join( "', '", (array) $network_option_keys ) . "'";
+		$sitemeta_options_query = $wpdb->prepare( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ( {$sitemeta_options_keys} ) AND site_id = %d", $current_site->id );
 		$network_options_meta   = $wpdb->get_results( $sitemeta_options_query );
 
 		// Sitemeta comes second in the merge, so that network 'registration' value wins
