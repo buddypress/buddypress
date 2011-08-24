@@ -326,7 +326,7 @@ function bp_core_add_admin_notice( $notice ) {
  *   - that pretty permalinks are enabled
  *   - that a BP-compatible theme is activated
  *   - that every BP component that needs a WP page for a directory has one
- *   - that no directory WP pages are published for deactivated components
+ *   - that no WP page has multiple BP components associated with it
  * The administrator will be shown a notice for each check that fails.
  *
  * @package BuddyPress Core
@@ -422,6 +422,31 @@ function bp_core_activation_notice() {
 	if ( !empty( $orphaned_components ) ) {
 		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
 		$notice    = sprintf( __( 'The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $orphaned_components ) . '</strong>' );
+
+		bp_core_add_admin_notice( $notice );
+	}
+
+	/**
+	 * BP components cannot share a single WP page. Check for duplicate assignments, and post
+	 * a message if found.
+	 */
+	$dupe_names = array();
+	$page_ids   = (array)bp_core_get_directory_page_ids();
+	$dupes      = array_diff_assoc( $page_ids, array_unique( $page_ids ) );
+
+	if ( !empty( $dupes ) ) {
+		foreach( $dupes as $dupe_component => $dupe_id ) {
+			$dupe_names[] = $bp->pages->{$dupe_component}->title;
+		}
+
+		// Make sure that there are no duplicate duplicates :)
+		$dupe_names = array_unique( $dupe_names );
+	}
+
+	// If there are duplicates, post a message about them
+	if ( !empty( $dupe_names ) ) {
+		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
+		$notice    = sprintf( __( 'Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $dupe_names ) . '</strong>' );
 
 		bp_core_add_admin_notice( $notice );
 	}
