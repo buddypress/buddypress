@@ -503,7 +503,7 @@ function bp_group_description_excerpt() {
 		if ( !$group )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_description_excerpt', bp_create_excerpt( $group->description, 20 ) );
+		return apply_filters( 'bp_get_group_description_excerpt', bp_create_excerpt( $group->description ) );
 	}
 
 

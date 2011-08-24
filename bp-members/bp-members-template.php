@@ -570,20 +570,25 @@ function bp_member_latest_update( $args = '' ) {
 		global $bp, $members_template;
 
 		$defaults = array(
-			'length'    => 70,
+			'length'    => 225,
 			'view_link' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
+		extract( $r );
 
-		if ( !isset( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
+		if ( empty( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
 			return false;
 
-		$update_content = apply_filters( 'bp_get_activity_latest_update', sprintf( _x( '- &quot;%s&quot;', 'member latest update in member directory', 'buddypress' ), trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ) ) );
+		$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', sprintf( _x( '- &quot;%s &quot;', 'member latest update in member directory', 'buddypress' ), trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ) ) );
 
-		if ( $view_link && !empty( $update['id'] ) && bp_is_active( 'activity' ) )
-			$update_content .= ' <a href="' . bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $update['id'] . '">' . __( 'View', 'buddypress' ) . '</a>';
+		// If $view_link is true and the text returned by bp_create_excerpt() is different from the original text (ie it's
+		// been truncated), add the "View" link.
+		if ( $view_link && ( $update_content != $update['content'] ) ) {
+			$view = __( 'View', 'buddypress' );
+
+			$update_content .= '<span class="activity-read-more"><a href="' . bp_activity_get_permalink( $update['id'] ) . '" rel="nofollow">' . $view . '</a></span>';
+		}
 
 		return apply_filters( 'bp_get_member_latest_update', $update_content );
 	}

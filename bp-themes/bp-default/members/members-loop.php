@@ -48,7 +48,7 @@
 
 					<?php if ( bp_get_member_latest_update() ) : ?>
 
-						<span class="update"> <?php bp_member_latest_update( array( 'length' => 10, 'view_link' => false ) ); ?></span>
+						<span class="update"> <?php bp_member_latest_update(); ?></span>
 
 					<?php endif; ?>
 

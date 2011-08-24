@@ -482,8 +482,8 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	}
 
 	return apply_filters( 'bp_create_excerpt', $truncate, $original_text, $length, $options );
+
 }
-add_filter( 'bp_create_excerpt', 'wp_trim_excerpt' );
 add_filter( 'bp_create_excerpt', 'stripslashes_deep' );
 add_filter( 'bp_create_excerpt', 'force_balance_tags' );
 

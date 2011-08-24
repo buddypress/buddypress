@@ -723,7 +723,7 @@ function bp_the_topic_latest_post_excerpt( $args = '' ) {
 		global $forum_template;
 
 		$defaults = array(
-			'length' => 45
+			'length' => 225
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -731,12 +731,11 @@ function bp_the_topic_latest_post_excerpt( $args = '' ) {
 
 		$post = bp_forums_get_post( $forum_template->topic->topic_last_post_id );
 		$post = bp_create_excerpt( $post->post_text, $length );
-		return apply_filters( 'bp_get_the_topic_latest_post_excerpt', $post );
+
+		return apply_filters( 'bp_get_the_topic_latest_post_excerpt', $post, $length );
 	}
 
 function bp_the_topic_time_since_last_post() {
-	global $forum_template;
-
 	echo bp_get_the_topic_time_since_last_post();
 }
 	function bp_get_the_topic_time_since_last_post() {
