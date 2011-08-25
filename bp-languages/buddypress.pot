@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-24 19:30:57+00:00\n"
+"POT-Creation-Date: 2011-08-25 20:30:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1057,6 +1057,19 @@ msgstr ""
 
 #: bp-core/bp-core-filters.php:161 bp-core/bp-core-filters.php:185
 msgid "[User Set]"
+msgstr ""
+
+#: bp-core/bp-core-filters.php:204
+msgid ""
+"Thanks for registering! To complete the activation of your account and blog, please click the following link:\n"
+"\n"
+"%1$s\n"
+"\n"
+"\n"
+"\n"
+"After you activate, you can visit your blog here:\n"
+"\n"
+"%2$s"
 msgstr ""
 
 #: bp-core/bp-core-filters.php:205
