@@ -173,10 +173,10 @@ function xprofile_get_field_data( $field, $user_id = 0 ) {
 	if ( is_array( $values ) ) {
 		$data = array();
 		foreach( (array)$values as $value ) {
-			$data[] = apply_filters( 'xprofile_get_field_data', $value );
+			$data[] = apply_filters( 'xprofile_get_field_data', $value, $field_id, $user_id );
 		}
 	} else {
-		$data = apply_filters( 'xprofile_get_field_data', $values );
+		$data = apply_filters( 'xprofile_get_field_data', $values, $field_id, $user_id );
 	}
 
 	return $data;
@@ -293,10 +293,10 @@ function xprofile_get_field_id_from_name( $field_name ) {
  */
 function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) {
 	$field_data           = BP_XProfile_ProfileData::get_random( $user_id, $exclude_fullname );
-	
+
 	if ( !$field_data )
 		return false;
-	
+
 	$field_data[0]->value = xprofile_format_profile_field( $field_data[0]->type, $field_data[0]->value );
 
 	if ( !$field_data[0]->value || empty( $field_data[0]->value ) )
