@@ -115,15 +115,15 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 		else
 			$domain = bp_get_root_domain() . '/' . $username;
 
-		// Add a slash at the end
-		$domain = trailingslashit( $domain );
+		// Add a slash at the end, and filter before caching
+		$domain = apply_filters( 'bp_core_get_user_domain_pre_cache', trailingslashit( $domain ), $user_id, $user_nicename, $user_login );
 
 		// Cache the link
 		if ( !empty( $domain ) )
 			wp_cache_set( 'bp_user_domain_' . $user_id, $domain, 'bp' );
 	}
 
-	return apply_filters( 'bp_core_get_user_domain', $domain );
+	return apply_filters( 'bp_core_get_user_domain', $domain, $user_id, $user_nicename, $user_login );
 }
 
 /**
