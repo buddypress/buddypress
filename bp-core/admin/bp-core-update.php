@@ -298,13 +298,27 @@ class BP_Core_Setup_Wizard {
 
 		<p><strong><?php _e( 'Please Note:', 'buddypress' ) ?></strong> <?php _e( "If you have manually added BuddyPress navigation links in your theme you may need to remove these from your header.php to avoid duplicate links.", 'buddypress' ) ?></p>
 
+		<p><?php _e( 'Would you like to enable site tracking, which tracks blog posts and comments from across your network?', 'buddypress' ); ?></p>
+
 		<table class="form-table">
 
 			<tr valign="top">
-				<th scope="row">
-					<h5><?php _e( 'Sites', 'buddypress' ); ?></h5>
-					<p><?php _e( 'Displays a directory of the sites in your network.', 'buddypress' ); ?></p>
-				</th>
+				<th scope="row"><?php _e( "Enable Site Tracking?", 'buddypress' ) ?></th>
+
+				<td>
+					<label for="bp_components[blogs]">
+						<input id="site-tracking-enabled" type="checkbox" id="bp_components[blogs]" name="bp_components[blogs]" value="1"<?php checked( isset( $active_components[blogs] ) ); ?> />
+
+						<?php _e( "Track new sites, new posts and new comments across your entire network.", 'buddypress' ) ?>
+
+					</label>
+
+				</td>
+			</tr>
+
+			<tr valign="top" id="site-tracking-page-selector">
+				<th scope="row"><?php _e( 'Select a WordPress page for the Sites directory.', 'buddypress' ); ?></th>
+
 				<td>
 					<p><input type="radio" name="bp_pages[blogs]" checked="checked" value="<?php echo $blogs_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo site_url( $blogs_slug ); ?>/</p>
 					<p><input type="radio" name="bp_pages[blogs]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_blog_page ); ?></p>
@@ -313,24 +327,6 @@ class BP_Core_Setup_Wizard {
 
 		</table>
 
-		<p><?php _e( 'Would you like to enable site tracking, which tracks blog posts and comments from across your network?', 'buddypress' ); ?></p>
-
-		<div class="left-col">
-
-			<div class="component">
-				<h5><?php _e( "Site Tracking", 'buddypress' ); ?></h5>
-
-				<div class="radio">
-					<input type="radio" name="bp_components[blogs]" value="1"<?php if ( isset( $active_components['blogs'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Enabled', 'buddypress' ) ?> &nbsp;
-					<input type="radio" name="bp_components[blogs]" value="0"<?php if ( !isset( $active_components['blogs'] ) ) : ?> checked="checked" <?php endif; ?>/> <?php _e( 'Disabled', 'buddypress' ) ?>
-				</div>
-
-				<img src="<?php echo plugins_url( 'buddypress/screenshot-7.gif' ) ?>" alt="Activity Streams" />
-
-				<p><?php _e( "Track new sites, new posts and new comments across your entire network.", 'buddypress' ) ?></p>
-
-			</div>
-		</div>
 
 		<div class="submit clear">
 			<input type="hidden" name="save" value="ms_update" />
@@ -1228,10 +1224,14 @@ function bp_core_update_add_admin_menu() {
 add_action( bp_core_update_admin_hook(),  'bp_core_update_add_admin_menu', 9 );
 
 function bp_core_update_add_admin_menu_styles() {
-	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
+	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
 		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', plugins_url( '/buddypress' ) . '/bp-core/css/admin.dev.css' ), array(), '20110723' );
-	else
+		wp_enqueue_script( 'bp-update-js', apply_filters( 'bp_core_update_js', plugins_url( '/buddypress' ) . '/bp-core/js/update.dev.js' ), array( 'jquery' ), '20110723' );
+	} else {
 		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', plugins_url( '/buddypress' ) . '/bp-core/css/admin.css' ), array(), '20110723' );
+		wp_enqueue_script( 'bp-update-js', apply_filters( 'bp_core_update_js', plugins_url( '/buddypress' ) . '/bp-core/js/update.js' ), array( 'jquery' ), '20110723' );
+
+	}
 
 	wp_enqueue_script( 'thickbox' );
 	wp_enqueue_style( 'thickbox' ); ?>
