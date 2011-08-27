@@ -471,7 +471,7 @@ function bp_core_admin_page_options() {
 	// directory pages.
 	$directory_pages = array();
 
-	foreach( $bp->loaded_components as $component_id => $data ) {
+	foreach( $bp->loaded_components as $component_slug => $component_id ) {
 
 		// Only components that need directories should be listed here
 		if ( isset( $bp->{$component_id} ) && !empty( $bp->{$component_id}->has_directory ) ) {
