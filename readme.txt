@@ -2,7 +2,7 @@
 Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.2
-Tested up to: 3.2
+Tested up to: 3.2.1
 Stable tag: 1.5-beta-2
 
 Social networking in a box. Build a social network for your company, school, sports team or niche community.
@@ -13,7 +13,7 @@ BuddyPress lets users register on your site and start creating profiles, posting
 
 <h4>Try the Demo</h4>
 
-If you're interested in seeing what a default installation of BuddyPress has to offer, try out the BuddyPress test drive! This site is a community of BuddyPress users looking to try out and discuss the latest features of BuddyPress.
+If you're interested in seeing what a default installation of BuddyPress has to offer, try out the BuddyPress Test Drive! This site is a community of BuddyPress users looking to try out and discuss the latest features of BuddyPress.
 
 <a href="http://testbp.org/">BuddyPress Test Drive</a>
 
@@ -23,7 +23,7 @@ More and more BuddyPress powered sites are popping up. You can take a look at so
 
 <h4>Plugins: Adding So Much More</h4>
 
-BuddyPress boasts an ever growing array of new features developed by the awesome plugin development community. There are more than 330 BuddyPress plugins available, and the list is growing every day. For a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can also install any of these plugins automatically through the plugin installer menu inside of your WordPress installation.
+BuddyPress boasts an ever growing array of new features developed by an awesome plugin development community. There are more than 330 BuddyPress plugins available, and the list is growing every day. For a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can install any of these plugins automatically, using the plugin installer on your WordPress Dashboard.
 
 <h4>More Information</h4>
 
@@ -33,19 +33,19 @@ Visit the <a href="http://buddypress.org/">BuddyPress website</a> for more infor
 
 You can download and install BuddyPress using the built in WordPress plugin installer. If you download BuddyPress manually, make sure it is uploaded to "/wp-content/plugins/buddypress/".
 
-Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. You'll then see a message asking you to complete the BuddyPress Installation Wizard. This will guide you through configuring your site for BuddyPress.
+Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. You'll then see a message asking you to complete the BuddyPress Installation Wizard, which will guide you through configuring your site for BuddyPress.
 
---- Forums Support ---
+--- Discussion Forums ---
 
-BuddyPress also includes support for discussion forums. Each group created on your site can have its own discussion forum. If you'd like to enable this feature, after completing the Installation Wizard, please use the "BuddyPress > Forums Setup" menu in your WordPress admin area and follow the on-screen instructions.
+BuddyPress includes full support for discussion forums. Each group created on your site can have its own forum. If you'd like to enable this feature, after completing the Installation Wizard, visit the "Forums Setup" item under the "BuddyPress" menu in your WordPress admin area, and follow the on-screen instructions.
 
 == Frequently Asked Questions ==
 
 = Can I use my existing WordPress theme? =
 
-Of course! Once you've installed and activated BuddyPress, the Installation Wizard will guide you through the available theme options. You'll be given the option of installing the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">template extension pack</a>, which will help you add BuddyPress compatibility to your existing theme.
+Of course! Once you've installed and activated BuddyPress, the Installation Wizard will guide you through the available theme options. You'll be given the option of installing the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">BuddyPress Template Pack</a>, which will help you add BuddyPress compatibility to your existing theme.
 
-Be sure to also try out the default theme bundled with BuddyPress. It provides all the awesome features of a standard WordPress blog, but also integrates BuddyPress' features both seamlessly and beautfully. It's also really easy to modify with custom header and background support, widgets and via a <a href="http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/">child theme</a>.
+Be sure to also try out the default theme bundled with BuddyPress. It provides all the awesome features of a standard WordPress blog, but also integrates BuddyPress's features in a seamless and beautiful way. The BuddyPress Default theme is a snap to customize, with full support for custom headers and backgrounds and multiple widget areas. It also makes a great starting point for your own  <a href="http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/">child theme</a>.
 
 = Will this work on WordPress multisite? =
 
@@ -53,30 +53,30 @@ Yes! If your WordPress site has multisite enabled, BuddyPress will support the g
 
 = Where can I get support? =
 
-The support forums can be found here: http://buddypress.org/forums/
+The support forums can be found at <a href="http://buddypress.org/forums/">http://buddypress.org/forums/</a>.
 
 = Where can I find documentation? =
 
-The documentation codex can be found here: http://codex.buddypress.org/
+The documentation codex can be found at <a href="http://codex.buddypress.org/">http://codex.buddypress.org/</a>.
 
 = Where can I report a bug? =
 
-Bugs can be reported here: http://buddypress.trac.wordpress.org/newticket/
+Report bugs and participate in development at <a href="http://buddypress.trac.wordpress.org/">http://buddypress.trac.wordpress.org</a>.
 
-= Where can checkout the latest bleeding edge? =
+= Where can I get the bleeding edge version of BuddyPress? =
 
-BuddyPress subversion trunk can be found at: http://buddypress.svn.wordpress.org/trunk/
+Check out the development trunk of BuddyPress via Subversion, from <a href="http://buddypress.svn.wordpress.org/trunk/">http://buddypress.svn.wordpress.org/trunk/</a>
 
 == Screenshots ==
 
-1. **Activity Streams** - Global, personal and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feed and email notification support.
-2. **Extended Profiles** - Fully editable profile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience.
+1. **Activity Streams** - Global, personal and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feeds and email notification support.
+2. **Extended Profiles** - Fully editable rofile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience.
 3. **Extensible Groups** - Powerful public, private or hidden groups allow your users to break the discussion down into specific topics. Extend groups with your own custom features using the group extension API.
 4. **Friend Connections** - Let your users make connections so they can track the activity of others, or filter on only those users they care about the most.
-5. **Private Messaging** - Private messaging will allow your users to talk to each other directly, and in private. Not just limited to one on one discussions, your users can send messages to multiple recipients.
+5. **Private Messaging** - Private messaging will allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, your users can send messages to multiple recipients.
 6. **Discussion Forums** - Full powered discussion forums built directly into groups allow for more conventional in-depth conversations.
-7. **WordPress Blogging** - Start a blog built on the best blogging software in the world. Even allow each of your users to start their own full powered WordPress blog (with WordPress MU). Track new posts and comments across your site.
-8. **User Settings** - Allow your users to adjust their profile and notification settings right from within their accounts, with full theme integration and the ability to disable it.
+7. **WordPress Blogging** - Allow your users to start their own WordPress sites (using WordPress's Multisite feature), and track posts and comments from across your blog network in the activity stream.
+8. **User Settings** - Give your users complete control over profile and notification settings. Settings are fully integrated into your theme, and can be disabled by the administrator.
 
 == Languages ==
 
@@ -94,7 +94,6 @@ Fixed references to 1.3 in PHPDoc
 RTL improvements
 Removed sidebar gradient from bp-default
 
-
 = 1.5-beta-1 =
 792 tickets closed
 494 confirmed bug fixes
@@ -105,7 +104,9 @@ Removed sidebar gradient from bp-default
 Compatibility with WordPress 3.2
 
 = 1.2.8 =
-Compatibility with WordPress 3.1= 1.2.7 =
+Compatibility with WordPress 3.1
+
+= 1.2.7 =
 Fixes over 10 bugs.
 
 == Changelog ==
