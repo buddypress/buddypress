@@ -76,6 +76,7 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 5. **Private Messaging** - Private messaging will allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, your users can send messages to multiple recipients.
 6. **Discussion Forums** - Full powered discussion forums built directly into groups allow for more conventional in-depth conversations.
 7. **WordPress Blogging** - Allow your users to start their own WordPress sites (using WordPress's Multisite feature), and track posts and comments from across your blog network in the activity stream.
+8. **User Settings** - Give your users complete control over profile and notification settings. Settings are fully integrated into your theme, and can be disabled by the administrator.
 
 == Languages ==
 
