@@ -1215,7 +1215,7 @@ function bp_core_update_add_admin_menu() {
 		$status = __( 'Update', 'buddypress' );
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
-	add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-wizard', '', '', 3 );
+	add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-wizard', '' );
 	$hook = add_submenu_page( 'bp-wizard', $status, $status, 'manage_options', 'bp-wizard', array( $bp_wizard, 'html' ) );
 
 	// Add a hook for css/js
