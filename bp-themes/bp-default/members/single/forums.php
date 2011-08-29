@@ -36,7 +36,7 @@ if ( bp_is_current_action( 'favorites' ) ) :
 else :
 	do_action( 'bp_before_member_forums_content' ); ?>
 
-	<div class="groups mygroups">
+	<div class="forums myforums">
 
 		<?php locate_template( array( 'forums/forums-loop.php' ), true ); ?>
 

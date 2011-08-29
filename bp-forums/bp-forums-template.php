@@ -141,6 +141,10 @@ class BP_Forums_Template_Forum {
 				$topic_count = (int)$topic_count->topics;
 			} else if ( !empty( $bp->groups->current_group ) ) {
 				$topic_count = (int)groups_total_public_forum_topic_count( $type );
+			} else if ( bp_is_user_forums_started() ) {
+				$topic_count = bp_forums_total_topic_count_for_user( bp_displayed_user_id() );
+			} else if ( bp_is_user_forums_replied_to() ) {
+				$topic_count = bp_forums_total_replied_count_for_user( bp_displayed_user_id() );
 			} else {
 				// For forum directories, get a true count
 				$status = is_super_admin() ? 'all' : 'public'; // todo: member-of

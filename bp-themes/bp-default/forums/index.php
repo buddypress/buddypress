@@ -7,7 +7,7 @@
  * @subpackage bp-default
  */
 
-?>
+?>htnshtsn
 
 <?php get_header( 'buddypress' ); ?>
 
@@ -150,9 +150,9 @@
 
 				<?php endif; ?>
 			</div><!-- #new-topic-post -->
-			
+
 			<?php do_action( 'bp_after_new_topic_form' ); ?>
-			
+
 			<?php do_action( 'bp_after_directory_forums_content' ); ?>
 
 		</div><!-- .padder -->

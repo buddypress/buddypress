@@ -1134,10 +1134,45 @@ function bp_is_user_change_avatar() {
 	return false;
 }
 
+/**
+ * Is this a user's forums page?
+ *
+ * @package BuddyPress
+ *
+ * @return bool
+ */
 function bp_is_user_forums() {
-	global $bp;
-
 	if ( bp_is_current_component( 'forums' ) )
+		return true;
+
+	return false;
+}
+
+/**
+ * Is this a user's "Topics Started" page?
+ *
+ * @package BuddyPress
+ * @since 1.5
+ *
+ * @return bool
+ */
+function bp_is_user_forums_started() {
+	if ( bp_is_current_component( 'forums' ) && bp_is_current_action( 'topics' ) )
+		return true;
+
+	return false;
+}
+
+/**
+ * Is this a user's "Replied To" page?
+ *
+ * @package BuddyPress
+ * @since 1.5
+ *
+ * @return bool
+ */
+function bp_is_user_forums_replied_to() {
+	if ( bp_is_current_component( 'forums' ) && bp_is_current_action( 'replies' ) )
 		return true;
 
 	return false;

@@ -309,6 +309,46 @@ function bp_forums_total_topic_count_for_user( $user_id = 0 ) {
 	return $count;
 }
 
+/**
+ * Return the total number of topics replied to by a given user
+ *
+ * Uses an unfortunate technique to count unique topics, due to limitations in BB_Query.
+ *
+ * @package BuddyPress
+ * @since 1.5
+ *
+ * @param int $user_id Defaults to displayed user, then to logged-in user
+ * @return int $count
+ */
+function bp_forums_total_replied_count_for_user( $user_id = 0 ) {
+	global $bp;
+
+	do_action( 'bbpress_init' );
+
+	if ( !$user_id )
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+
+	if ( !$user_id )
+		return 0;
+
+	if ( class_exists( 'BB_Query' ) ) {
+		$query = new BB_Query( 'post', array( 'post_author_id' => $user_id, 'page' => 1, 'per_page' => -1, 'count' => true ) );
+
+		// Count the unique topics. No better way to do this in the bbPress query API
+		$topics = array();
+		foreach( $query->results as $result ) {
+			if ( !in_array( $result->topic_id, $topics ) )
+				$topics[] = $result->topic_id;
+		}
+		$count = count( $topics );
+		$query = null;
+	} else {
+		$count = 0;
+	}
+
+	return apply_filters( 'bp_forums_total_replied_count_for_user', $count, $user_id );
+}
+
 function bp_forums_get_topic_extras( $topics ) {
 	global $bp, $wpdb, $bbdb;
 
