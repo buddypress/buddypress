@@ -1765,6 +1765,8 @@ input[type="reset"].loading {
 	background-image: url( ../images/ajax-loader.gif ), -ms-linear-gradient(top, #ffffff 0%,#e0e0e0 100%); /* IE10+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e0e0e0',GradientType=0 ); /* IE6-9 */
 	background-image: url( ../images/ajax-loader.gif ), linear-gradient(top, #ffffff 0%,#e0e0e0 100%); /* W3C */
+	background-position: 95% 50%;
+	background-repeat: no-repeat;
 	padding-right: 25px;
 }
 a.button.loading:hover,
