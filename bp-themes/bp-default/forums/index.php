@@ -7,7 +7,7 @@
  * @subpackage bp-default
  */
 
-?>htnshtsn
+?>
 
 <?php get_header( 'buddypress' ); ?>
 
