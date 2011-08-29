@@ -30,7 +30,6 @@
 Name: Andy Peatling
 Title: Founding Developer
 Twitter: apeatling
-Favorite Food:
 
 Name: John James Jacoby
 Title: Lead Developer
@@ -38,9 +37,9 @@ Twitter: johnjamesjacoby
 Favorite Food: Pizza
 
 Name: Boone B. Gorges
-Title:
+Title: Developer
 Twitter: boone
-Favorite Food:
+Favorite Pudgy Pie Filling: Cherry
 
 Name: Paul Gibbs
 Title:
