@@ -20,7 +20,11 @@ function bp_groups_adminbar_admin_menu() {
 
 			<li><a href="<?php bp_groups_action_link( 'admin/group-settings' );  ?>"><?php _e( 'Group Settings', 'buddypress' ); ?></a></li>
 
-			<li><a href="<?php bp_groups_action_link( 'admin/group-avatar' ); ?>"><?php _e( 'Group Avatar', 'buddypress' ); ?></a></li>
+			<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
+
+				<li><a href="<?php bp_groups_action_link( 'admin/group-avatar' ); ?>"><?php _e( 'Group Avatar', 'buddypress' ); ?></a></li>
+
+			<?php endif; ?>
 
 			<?php if ( bp_is_active( 'friends' ) ) : ?>
 

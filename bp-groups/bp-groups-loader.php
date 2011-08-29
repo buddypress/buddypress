@@ -188,11 +188,16 @@ class BP_Groups_Component extends BP_Component {
 			'group-settings' => array(
 				'name'       => __( 'Settings', 'buddypress' ),
 				'position'   => 10
-			),
-			'group-avatar'   => array(
-				'name'       => __( 'Avatar',   'buddypress' ),
-				'position'   => 20 ),
+			)
 		) );
+
+		// If avatar uploads are not disabled, add avatar option
+		if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) {
+			$this->group_creation_steps['group-avatar'] = array(
+				'name'     => __( 'Avatar',   'buddypress' ),
+				'position' => 20
+			);
+		}
 
 		// If friends component is active, add invitations
 		if ( bp_is_active( 'friends' ) ) {

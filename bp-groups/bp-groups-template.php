@@ -1277,7 +1277,11 @@ function bp_group_admin_tabs( $group = false ) {
 			return false;
 	?>
 	<li<?php if ( 'group-settings' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug ?>/admin/group-settings"><?php _e( 'Settings', 'buddypress' ); ?></a></li>
-	<li<?php if ( 'group-avatar'   == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug ?>/admin/group-avatar"><?php _e( 'Avatar', 'buddypress' ); ?></a></li>
+
+	<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
+		<li<?php if ( 'group-avatar'   == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug ?>/admin/group-avatar"><?php _e( 'Avatar', 'buddypress' ); ?></a></li>
+	<?php endif; ?>
+
 	<li<?php if ( 'manage-members' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug ?>/admin/manage-members"><?php _e( 'Members', 'buddypress' ); ?></a></li>
 
 	<?php if ( $groups_template->group->status == 'private' ) : ?>

@@ -544,7 +544,8 @@ function groups_screen_group_admin_avatar() {
 
 	if ( bp_is_groups_component() && bp_is_action_variable( 'group-avatar', 0 ) ) {
 
-		if ( !$bp->is_item_admin )
+		// If the logged-in user doesn't have permission or if avatar uploads are disabled, then stop here
+		if ( !$bp->is_item_admin || (int)bp_get_option( 'bp-disable-avatar-uploads' ) )
 			return false;
 
 		// If the group admin has deleted the admin avatar

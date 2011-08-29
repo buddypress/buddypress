@@ -67,12 +67,14 @@ function bp_groups_group_admin_menu() {
 	) );
 
 	// Group Admin > Group avatar
-	$wp_admin_bar->add_menu( array(
-		'parent' => $bp->group_admin_menu_id,
-		'id'     => 'group-avatar',
-		'title'  => __( 'Edit Avatar', 'buddypress' ),
-		'href'   =>  bp_get_groups_action_link( 'admin/group-avatar' )
-	) );
+	if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => $bp->group_admin_menu_id,
+			'id'     => 'group-avatar',
+			'title'  => __( 'Edit Avatar', 'buddypress' ),
+			'href'   =>  bp_get_groups_action_link( 'admin/group-avatar' )
+		) );
+	}
 
 	// Group Admin > Manage invitations
 	if ( bp_is_active( 'friends' ) ) {
