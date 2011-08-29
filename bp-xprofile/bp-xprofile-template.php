@@ -460,7 +460,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					if ( !is_array( $original_option_values ) && empty( $option_values ) && $options[$k]->is_default_option )
 						$selected = ' selected="selected"';
 
-					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '">' . esc_attr( stripslashes( $options[$k]->name ) ) . '</option>', $options[$k] );
+					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '">' . esc_attr( stripslashes( $options[$k]->name ) ) . '</option>', $options[$k], $field->id, $selected, $k );
 				}
 				break;
 
@@ -494,7 +494,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					if ( !is_array( $original_option_values ) && empty( $option_values ) && $options[$k]->is_default_option )
 						$selected = ' selected="selected"';
 
-					$html .= apply_filters( 'bp_get_the_profile_field_options_multiselect', '<option' . $selected . ' value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '">' . esc_attr( stripslashes( $options[$k]->name ) ) . '</option>', $options[$k] );
+					$html .= apply_filters( 'bp_get_the_profile_field_options_multiselect', '<option' . $selected . ' value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '">' . esc_attr( stripslashes( $options[$k]->name ) ) . '</option>', $options[$k], $field->id, $selected, $k );
 				}
 				break;
 
@@ -517,7 +517,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					if ( $option_value == $allowed_options || !empty( $value ) && $value == $allowed_options || ( empty( $option_value ) && $options[$k]->is_default_option ) )
 						$selected = ' checked="checked"';
 
-					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '"> ' . esc_attr( stripslashes( $options[$k]->name ) ) . '</label>', $options[$k] );
+					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '"> ' . esc_attr( stripslashes( $options[$k]->name ) ) . '</label>', $options[$k], $field->id, $selected, $k );
 				}
 
 				$html .= '</div>';
@@ -556,7 +556,7 @@ function bp_the_profile_field_options( $args = '' ) {
 						$selected = ' checked="checked"';
 					}
 
-					$html .= apply_filters( 'bp_get_the_profile_field_options_checkbox', '<label><input' . $selected . ' type="checkbox" name="field_' . $field->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '"> ' . esc_attr( stripslashes( $options[$k]->name ) ) . '</label>', $options[$k] );
+					$html .= apply_filters( 'bp_get_the_profile_field_options_checkbox', '<label><input' . $selected . ' type="checkbox" name="field_' . $field->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '"> ' . esc_attr( stripslashes( $options[$k]->name ) ) . '</label>', $options[$k], $field->id, $selected, $k );
 				}
 				break;
 
@@ -624,7 +624,7 @@ function bp_the_profile_field_options( $args = '' ) {
 						break;
 				}
 
-				$html = apply_filters( 'bp_get_the_profile_field_datebox', $html, $type, $day, $month, $year );
+				$html = apply_filters( 'bp_get_the_profile_field_datebox', $html, $type, $day, $month, $year, $field->id, $date );
 
 				break;
 		}
