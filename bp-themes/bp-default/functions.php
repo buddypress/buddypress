@@ -165,12 +165,20 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
 /**
  * Enqueue theme CSS safely
  *
+ * For maximum flexibility, BuddyPress Default's stylesheet is enqueued in the following fashion.
+ * If you're building a child theme of bp-default, you can prevent this enqueuing by overriding
+ * this function in your child theme's functions.php:
+ *   if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
+ *       function bp_dtheme_enqueue_styles() {}
+ *   endif;
+ *
  * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+ * @see http://codex.buddypress.org/releases/1-5-developer-and-designer-information/
  * @since 1.5
  */
 function bp_dtheme_enqueue_styles() {
 	// Bump this when changes are made to bust cache
-	$version = '20110819';
+	$version = '20110829';
 
 	// Default CSS
 	wp_enqueue_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), $version );
