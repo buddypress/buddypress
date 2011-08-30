@@ -970,7 +970,10 @@ function bp_is_blog_page() {
 
 	$is_blog_page = false;
 
-	if ( !bp_current_component() )
+	// Generally, we can just check to see that there's no current component. The one exception
+	// is single user home tabs, where $bp->current_component is unset. Thus the addition
+	// of the bp_is_user() check.
+	if ( !bp_current_component() && !bp_is_user() )
 		$is_blog_page = true;
 
 	return apply_filters( 'bp_is_blog_page', $is_blog_page );
