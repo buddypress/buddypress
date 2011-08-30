@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-29 23:30:58+00:00\n"
+"POT-Creation-Date: 2011-08-30 05:30:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,7 +89,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-template.php:345 bp-core/bp-core-classes.php:175
 #: bp-groups/bp-groups-widgets.php:70 bp-groups/bp-groups-widgets.php:170
 #: bp-members/bp-members-template.php:559
-#: bp-members/bp-members-template.php:820
+#: bp-members/bp-members-template.php:833
 #: bp-themes/bp-default/forums/single/forum-header.php:13
 #: bp-themes/bp-default/groups/groups-loop.php:47
 #: bp-themes/bp-default/groups/single/group-header.php:42
@@ -203,7 +203,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:596 bp-core/deprecated/1.5.php:381
 #: bp-groups/bp-groups-template.php:2261 bp-forums/bp-forums-template.php:1258
-#: bp-members/bp-members-template.php:661 bp-themes/bp-default/header.php:35
+#: bp-members/bp-members-template.php:674 bp-themes/bp-default/header.php:35
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -1167,7 +1167,7 @@ msgstr ""
 
 #: bp-core/deprecated/1.5.php:272 bp-core/bp-core-buddybar.php:473
 #: bp-members/bp-members-adminbar.php:218
-#: bp-members/bp-members-template.php:721 bp-themes/bp-default/sidebar.php:18
+#: bp-members/bp-members-template.php:734 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -2236,8 +2236,8 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:1813 bp-groups/bp-groups-template.php:2519
 #: bp-forums/bp-forums-template.php:482 bp-forums/bp-forums-template.php:596
 #: bp-forums/bp-forums-template.php:1137 bp-members/bp-members-template.php:484
-#: bp-members/bp-members-template.php:767
-#: bp-members/bp-members-template.php:787
+#: bp-members/bp-members-template.php:780
+#: bp-members/bp-members-template.php:800
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:210
 #: bp-activity/bp-activity-template.php:572
@@ -3373,15 +3373,15 @@ msgctxt "member latest update in member directory"
 msgid "- &quot;%s &quot;"
 msgstr ""
 
-#: bp-members/bp-members-template.php:627
+#: bp-members/bp-members-template.php:640
 msgid "registered %s"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1078
+#: bp-members/bp-members-template.php:1091
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1146
+#: bp-members/bp-members-template.php:1159
 msgid "Activity RSS Feed"
 msgstr ""
 
