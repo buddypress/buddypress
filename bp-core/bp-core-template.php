@@ -1104,7 +1104,16 @@ function bp_is_user_activity() {
 function bp_is_user_friends_activity() {
 	global $bp;
 
-	if ( bp_is_current_component( 'activity' ) && bp_is_current_action( 'my-friends' ) )
+	if ( bp_is_current_component( 'activity' ) && bp_is_current_action( bp_get_friends_slug() ) )
+		return true;
+
+	return false;
+}
+
+function bp_is_user_groups_activity() {
+	global $bp;
+
+	if ( bp_is_current_component( 'activity' ) && bp_is_current_action( bp_get_groups_slug() ) )
 		return true;
 
 	return false;
@@ -1525,6 +1534,9 @@ function bp_the_body_class() {
 
 		if ( bp_is_user_friends_activity() )
 			$bp_classes[] = 'friends-activity';
+
+		if ( bp_is_user_groups_activity() )
+			$bp_classes[] = 'groups-activity';
 
 		if ( is_user_logged_in() )
 			$bp_classes[] = 'logged-in';
