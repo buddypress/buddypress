@@ -22,35 +22,34 @@ header('Status: 200 OK');
 >
 
 <channel>
-	<title><?php bp_site_name() ?> | <?php echo $bp->displayed_user->fullname; ?> | <?php _e( 'Friends Activity', 'buddypress' ) ?></title>
+	<title><?php bp_site_name() ?> | <?php bp_displayed_user_fullname(); ?> | <?php _e( 'Friends Activity', 'buddypress' ); ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
-	<link><?php echo bp_displayed_user_domain() . bp_get_activity_slug() . '/my-friends/feed' ?></link>
-	<description><?php printf( __( '%s - Friends Activity Feed', 'buddypress' ), $bp->displayed_user->fullname ) ?></description>
+	<link><?php echo bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() . '/feed'; ?></link>
+	<description><?php printf( __( '%s - Friends Activity Feed', 'buddypress' ), bp_get_displayed_user_fullname() ); ?></description>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_activity_get_last_updated(), false); ?></pubDate>
-	<generator>http://buddypress.org/?v=<?php echo BP_VERSION ?></generator>
+	<generator>http://buddypress.org/?v=<?php echo BP_VERSION; ?></generator>
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('bp_activity_friends_feed_head'); ?>
 
-	<?php $friend_ids = implode( ',', friends_get_friend_user_ids( $bp->displayed_user->id ) ); ?>
-	<?php if ( bp_has_activities( 'user_id=' . $friend_ids . '&max=50&display_comments=stream' ) ) : ?>
+	<?php if ( bp_has_activities( 'scope=friends&max=50&display_comments=stream' ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
-				<guid><?php bp_activity_thread_permalink() ?></guid>
-				<title><?php bp_activity_feed_item_title() ?></title>
-				<link><?php echo bp_activity_thread_permalink() ?></link>
+				<guid><?php bp_activity_thread_permalink(); ?></guid>
+				<title><?php bp_activity_feed_item_title(); ?></title>
+				<link><?php echo bp_activity_thread_permalink(); ?></link>
 				<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false); ?></pubDate>
 
 				<description>
 					<![CDATA[
-					<?php bp_activity_feed_item_description() ?>
+					<?php bp_activity_feed_item_description(); ?>
 
 					<?php if ( bp_activity_can_comment() ) : ?>
 						<p><?php printf( __( 'Comments: %s', 'buddypress' ), bp_activity_get_comment_count() ); ?></p>
 					<?php endif; ?>
 
 					<?php if ( 'activity_comment' == bp_get_activity_action_name() ) : ?>
-						<br /><strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> -
-						<?php bp_activity_parent_content() ?>
+						<br /><strong><?php _e( 'In reply to', 'buddypress' ); ?></strong> -
+						<?php bp_activity_parent_content(); ?>
 					<?php endif; ?>
 					]]>
 				</description>
