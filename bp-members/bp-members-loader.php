@@ -133,6 +133,10 @@ class BP_Members_Component extends BP_Component {
 
 		// Add 'Profile' to the main navigation
 		if ( !bp_is_active( 'xprofile' ) ) {
+			// Don't set up navigation if there's no user
+			if ( !is_user_logged_in() && !bp_is_user() )
+				return;
+
 			$main_nav = array(
 				'name'                => __( 'Profile', 'buddypress' ),
 				'slug'                => $bp->profile->slug,
