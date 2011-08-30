@@ -307,7 +307,7 @@ class BP_Core_Setup_Wizard {
 
 				<td>
 					<label for="bp_components[blogs]">
-						<input id="site-tracking-enabled" type="checkbox" id="bp_components[blogs]" name="bp_components[blogs]" value="1"<?php checked( isset( $active_components[blogs] ) ); ?> />
+						<input id="site-tracking-enabled" type="checkbox" id="bp_components[blogs]" name="bp_components[blogs]" value="1"<?php checked( isset( $active_components['blogs'] ) ); ?> />
 
 						<?php _e( "Track new sites, new posts and new comments across your entire network.", 'buddypress' ) ?>
 
