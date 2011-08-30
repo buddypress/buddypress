@@ -3,7 +3,7 @@ Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.2
 Tested up to: 3.2.1
-Stable tag: 1.5-beta-2
+Stable tag: 1.5-beta-3
 
 Social networking in a box. Build a social network for your company, school, sports team or niche community.
 
@@ -83,6 +83,15 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 BuddyPress is available in more than 20 languages. For more information, check out the <a href="http://codex.buddypress.org/getting-started/translations/">translation page</a> on the BuddyPress Codex.
 
 == Upgrade Notice ==
+
+= 1.5-beta-3 =
+Fixed debug notices
+Fixed user spam/unspam issues
+Fixed single-site activity stream actions
+Added responsive CSS to bp-default
+Refreshed screenshots
+Updated readme.txt
+RTL improvements
 
 = 1.5-beta-2 =
 Fixed debug notices

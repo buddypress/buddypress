@@ -139,7 +139,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
  */
 function bp_dtheme_enqueue_scripts() {
 	// Bump this when changes are made to bust cache
-	$version = '20110818';
+	$version = '20110830';
 
 	// Enqueue the global JS - Ajax will not work without it
 	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ), $version );
@@ -178,7 +178,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  */
 function bp_dtheme_enqueue_styles() {
 	// Bump this when changes are made to bust cache
-	$version = '20110829';
+	$version = '20110830';
 
 	// Default CSS
 	wp_enqueue_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), $version );
