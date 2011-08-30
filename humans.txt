@@ -44,7 +44,7 @@ Favorite Pudgy Pie Filling: Cherry
 Name: Paul Gibbs
 Title: Developer
 Twitter: pgibbs
-Favuorite Food: Pizza
+Favourite Food: Pizza
 
 /* THANKS */
 r-a-y, hnla, mercime, modemlooper, cnorris23
