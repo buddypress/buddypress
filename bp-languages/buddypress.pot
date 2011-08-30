@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-30 07:30:57+00:00\n"
+"POT-Creation-Date: 2011-08-30 13:30:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1334,12 +1334,12 @@ msgid "Random Site"
 msgstr ""
 
 #: bp-core/bp-core-loader.php:210 bp-xprofile/bp-xprofile-loader.php:113
-#: bp-xprofile/bp-xprofile-loader.php:177 bp-members/bp-members-loader.php:137
+#: bp-xprofile/bp-xprofile-loader.php:177 bp-members/bp-members-loader.php:141
 msgid "Profile"
 msgstr ""
 
 #: bp-core/bp-core-loader.php:221 bp-groups/bp-groups-template.php:520
-#: bp-xprofile/bp-xprofile-loader.php:125 bp-members/bp-members-loader.php:152
+#: bp-xprofile/bp-xprofile-loader.php:125 bp-members/bp-members-loader.php:156
 msgid "Public"
 msgstr ""
 
@@ -3262,7 +3262,7 @@ msgstr ""
 msgid "Search Members..."
 msgstr ""
 
-#: bp-members/bp-members-loader.php:173
+#: bp-members/bp-members-loader.php:177
 msgid "You"
 msgstr ""
 
