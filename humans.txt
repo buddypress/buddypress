@@ -42,9 +42,9 @@ Twitter: boone
 Favorite Pudgy Pie Filling: Cherry
 
 Name: Paul Gibbs
-Title:
+Title: Developer
 Twitter: pgibbs
-Favorite Food:
+Favuorite Food: Pizza
 
 /* THANKS */
 r-a-y, hnla, mercime, modemlooper, cnorris23
