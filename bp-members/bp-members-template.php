@@ -597,13 +597,24 @@ function bp_member_profile_data( $args = '' ) {
 	echo bp_get_member_profile_data( $args );
 }
 	function bp_get_member_profile_data( $args = '' ) {
-		global $members_template;
+		global $bp, $members_template;
 
 		if ( !bp_is_active( 'xprofile' ) )
 			return false;
 
+		// Declare local variables
+		$data    = false;
+		$user_id = 0;
+
+		// Guess at default $user_id
+		if ( !empty( $members_template->member->id ) )
+			$user_id = $members_template->member->id;
+		elseif ( !empty( $bp->displayed_user->id ) )
+			$user_id = $bp->displayed_user->id;
+
 		$defaults = array(
-			'field' => false, // Field name
+			'field'   => false,   // Field name
+			'user_id' => $user_id
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -611,9 +622,11 @@ function bp_member_profile_data( $args = '' ) {
 
 		// Populate the user if it hasn't been already.
 		if ( empty( $members_template->member->profile_data ) && method_exists( 'BP_XProfile_ProfileData', 'get_all_for_user' ) )
-			$members_template->member->profile_data = BP_XProfile_ProfileData::get_all_for_user( $members_template->member->id );
+			$members_template->member->profile_data = BP_XProfile_ProfileData::get_all_for_user( $user_id );
 
-		$data = xprofile_format_profile_field( $members_template->member->profile_data[$field]['field_type'], $members_template->member->profile_data[$field]['field_data'] );
+		// Get the field data if there is data to get
+		if ( !empty( $members_template->member->profile_data ) )
+			$data = xprofile_format_profile_field( $members_template->member->profile_data[$field]['field_type'], $members_template->member->profile_data[$field]['field_data'] );
 
 		return apply_filters( 'bp_get_member_profile_data', $data );
 	}
