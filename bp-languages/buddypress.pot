@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-08-30 06:30:57+00:00\n"
+"POT-Creation-Date: 2011-08-30 07:30:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4875,7 +4875,7 @@ msgstr ""
 msgid "%s - Friends Activity Feed"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:48
+#: bp-activity/feeds/bp-activity-friends-feed.php:47
 #: bp-activity/feeds/bp-activity-mentions-feed.php:47
 #: bp-activity/feeds/bp-activity-personal-feed.php:47
 #: bp-activity/feeds/bp-activity-favorites-feed.php:54
@@ -4885,7 +4885,7 @@ msgstr ""
 msgid "Comments: %s"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:52
+#: bp-activity/feeds/bp-activity-friends-feed.php:51
 #: bp-activity/feeds/bp-activity-mentions-feed.php:51
 #: bp-activity/feeds/bp-activity-personal-feed.php:51
 #: bp-activity/feeds/bp-activity-favorites-feed.php:58
