@@ -1,0 +1,77 @@
+#wp-admin-bar {
+	right: 0;
+	left: auto;
+}
+#wp-admin-bar div#admin-bar-logo {
+	right: 10px;
+	left: auto;
+}
+#wp-admin-bar li {
+	text-align: right;
+}
+#wp-admin-bar li.no-arrow a {
+	padding-left: 15px;
+	padding-right: 0;
+}
+#admin-bar-logo {
+	float: right;
+}
+
+#wp-admin-bar ul li {/* all list items */
+	float: right;
+	background: url( _inc/images/admin-menu-arrow.gif ) 12% 53% no-repeat;
+	padding-left: 11px;
+	padding-right: 0;
+}
+#wp-admin-bar ul li.no-arrow {
+	padding-left: 0;
+}
+#wp-admin-bar ul li.align-right {
+	left: 0;
+	right: auto;
+}
+
+/* second-level lists */
+#wp-admin-bar ul li ul {
+	right: -999em;
+	left: auto;
+	margin-right: 0;
+}
+#wp-admin-bar ul li ul li {
+	float: right;
+}
+
+/* third-and-above-level lists */
+#wp-admin-bar ul li ul ul {
+	margin: -25px 184px 0 0;
+}
+#wp-admin-bar ul li:hover ul,
+#wp-admin-bar ul li li:hover ul,
+#wp-admin-bar ul li.sfhover ul,
+#wp-admin-bar ul li ul li.sfhover ul {/* lists nested under hovered list items */
+	right: auto;
+}
+#wp-admin-bar ul li.align-right:hover ul {
+	left: 0;
+	right: auto;
+}
+#wp-admin-bar ul li:hover ul ul,
+#wp-admin-bar li.sfhover ul li ul {
+	right: -999em;
+	left: auto;
+}
+
+/* Menu item css */
+#wp-admin-bar img.avatar {
+	float: right;
+	margin-left: 8px;
+	margin-right: 0;
+}
+#wp-admin-bar span.activity {
+	margin-right: 34px;
+	margin-left: 0;
+}
+#wp-admin-bar ul li#bp-adminbar-notifications-menu a span {
+	margin-right: 2px;
+	margin-left: 0;
+}
