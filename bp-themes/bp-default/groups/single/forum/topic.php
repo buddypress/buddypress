@@ -7,7 +7,7 @@
 		<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 			<ul>
 				<li>
-					<a href="#post-topic-reply" class="show-hide-new"><?php _e( 'New Reply', 'buddypress' ) ?></a>
+					<a href="#post-topic-reply" class="new-reply-link"><?php _e( 'New Reply', 'buddypress' ) ?></a>
 				</li>
 
 				<?php if ( bp_forums_has_directory() ) : ?>
