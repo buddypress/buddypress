@@ -1104,7 +1104,10 @@ function bp_is_user_activity() {
 function bp_is_user_friends_activity() {
 	global $bp;
 
-	if ( bp_is_current_component( 'activity' ) && bp_is_current_action( bp_get_friends_slug() ) )
+	if ( !bp_is_active( 'friends' ) )
+		return false;
+
+	if ( bp_is_activity_component() && bp_is_current_action( bp_get_friends_slug() ) )
 		return true;
 
 	return false;
@@ -1113,7 +1116,10 @@ function bp_is_user_friends_activity() {
 function bp_is_user_groups_activity() {
 	global $bp;
 
-	if ( bp_is_current_component( 'activity' ) && bp_is_current_action( bp_get_groups_slug() ) )
+	if ( !bp_is_active( 'groups' ) )
+		return false;
+
+	if ( bp_is_activity_component() && bp_is_current_action( bp_get_groups_slug() ) )
 		return true;
 
 	return false;
@@ -1122,7 +1128,7 @@ function bp_is_user_groups_activity() {
 function bp_is_user_profile() {
 	global $bp;
 
-	if ( bp_is_current_component( 'xprofile' ) || bp_is_current_component( 'profile' ) )
+	if ( bp_is_profile_component() || bp_is_current_component( 'profile' ) )
 		return true;
 
 	return false;
@@ -1131,7 +1137,7 @@ function bp_is_user_profile() {
 function bp_is_user_profile_edit() {
 	global $bp;
 
-	if ( bp_is_current_component( 'xprofile' ) && bp_is_current_action( 'edit' ) )
+	if ( bp_is_profile_component() && bp_is_current_action( 'edit' ) )
 		return true;
 
 	return false;
