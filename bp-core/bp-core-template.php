@@ -586,8 +586,7 @@ function bp_action_variables() {
  */
 function bp_action_variable( $position = 0 ) {
 	$action_variables = bp_action_variables();
-
-	$action_variable = isset( $action_variables[$position] ) ? $action_variables[$position] : false;
+	$action_variable  = isset( $action_variables[$position] ) ? $action_variables[$position] : false;
 
 	return apply_filters( 'bp_action_variable', $action_variable, $position );
 }
@@ -653,8 +652,9 @@ function bp_root_slug( $component = '' ) {
 			$component_name = $bp->active_components[$component];
 
 			// Component has specific root slug
-			if ( !empty( $bp->{$component_name}->root_slug ) )
+			if ( !empty( $bp->{$component_name}->root_slug ) ) {
 				$root_slug = $bp->{$component_name}->root_slug;
+			}
 		}
 
 		// No specific root slug, so fall back to component slug
@@ -717,8 +717,6 @@ function bp_search_slug() {
 	 * @since 1.5
 	 */
 	function bp_get_search_slug() {
-		global $bp;
-
 		return apply_filters( 'bp_get_search_slug', BP_SEARCH_SLUG );
 	}
 
@@ -966,7 +964,7 @@ function bp_is_component_front_page( $component = '' ) {
  * @return bool True if it's a non-BP page, false otherwise
  */
 function bp_is_blog_page() {
-	global $bp, $wp_query;
+	global $wp_query;
 
 	$is_blog_page = false;
 
@@ -980,8 +978,6 @@ function bp_is_blog_page() {
 }
 
 function bp_is_page( $page ) {
-	global $bp;
-
 	if ( !bp_is_user() && bp_is_current_component( $page )  )
 		return true;
 
@@ -997,6 +993,13 @@ function bp_is_active( $component ) {
 	global $bp;
 
 	if ( isset( $bp->active_components[$component] ) )
+		return true;
+
+	return false;
+}
+
+function bp_is_members_component() {
+	if ( bp_is_current_component( 'members' ) )
 		return true;
 
 	return false;
@@ -1031,7 +1034,6 @@ function bp_is_messages_component() {
 }
 
 function bp_is_friends_component() {
-
 	if ( bp_is_current_component( 'friends' ) )
 		return true;
 
@@ -1064,7 +1066,7 @@ function bp_is_settings_component() {
 function bp_is_single_activity() {
 	global $bp;
 
-	if ( bp_is_current_component( 'activity' ) && is_numeric( $bp->current_action ) )
+	if ( bp_is_activity_component() && is_numeric( $bp->current_action ) )
 		return true;
 
 	return false;
@@ -1093,41 +1095,45 @@ function bp_is_user() {
 }
 
 function bp_is_user_activity() {
-	global $bp;
-
-	if ( bp_is_current_component( 'activity' ) )
+	if ( bp_is_user() && bp_is_activity_component() )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_friends_activity() {
-	global $bp;
 
 	if ( !bp_is_active( 'friends' ) )
 		return false;
 
-	if ( bp_is_activity_component() && bp_is_current_action( bp_get_friends_slug() ) )
+	$slug = bp_get_friends_slug();
+
+	if ( empty( $slug ) )
+		$slug = 'friends';
+
+	if ( bp_is_user_activity() && bp_is_current_action( $slug ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_groups_activity() {
-	global $bp;
 
 	if ( !bp_is_active( 'groups' ) )
 		return false;
 
-	if ( bp_is_activity_component() && bp_is_current_action( bp_get_groups_slug() ) )
+	$slug = bp_get_groups_slug();
+
+	if ( empty( $slug ) )
+		$slug = 'groups';
+
+	if ( bp_is_user_activity() && bp_is_current_action( $slug ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_profile() {
-	global $bp;
-
 	if ( bp_is_profile_component() || bp_is_current_component( 'profile' ) )
 		return true;
 
@@ -1135,8 +1141,6 @@ function bp_is_user_profile() {
 }
 
 function bp_is_user_profile_edit() {
-	global $bp;
-
 	if ( bp_is_profile_component() && bp_is_current_action( 'edit' ) )
 		return true;
 
@@ -1144,9 +1148,7 @@ function bp_is_user_profile_edit() {
 }
 
 function bp_is_user_change_avatar() {
-	global $bp;
-
-	if ( bp_is_current_component( 'xprofile' ) && bp_is_current_action( 'change-avatar' ) )
+	if ( bp_is_profile_component() && bp_is_current_action( 'change-avatar' ) )
 		return true;
 
 	return false;
@@ -1160,7 +1162,7 @@ function bp_is_user_change_avatar() {
  * @return bool
  */
 function bp_is_user_forums() {
-	if ( bp_is_current_component( 'forums' ) )
+	if ( bp_is_user() && bp_is_forums_component() )
 		return true;
 
 	return false;
@@ -1175,7 +1177,7 @@ function bp_is_user_forums() {
  * @return bool
  */
 function bp_is_user_forums_started() {
-	if ( bp_is_current_component( 'forums' ) && bp_is_current_action( 'topics' ) )
+	if ( bp_is_user_forums && bp_is_current_action( 'topics' ) )
 		return true;
 
 	return false;
@@ -1190,60 +1192,49 @@ function bp_is_user_forums_started() {
  * @return bool
  */
 function bp_is_user_forums_replied_to() {
-	if ( bp_is_current_component( 'forums' ) && bp_is_current_action( 'replies' ) )
+	if ( bp_is_user_forums && bp_is_current_action( 'replies' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_groups() {
-	global $bp;
-
-	if ( bp_is_current_component( 'groups' ) )
+	if ( bp_is_user() && bp_is_groups_component() )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_blogs() {
-	global $bp;
-
-	if ( is_multisite() && bp_is_current_component( 'blogs' ) )
+	if ( bp_is_user() && bp_is_blogs_component() )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_recent_posts() {
-	global $bp;
-
-	if ( is_multisite() && bp_is_current_component( 'blogs' ) && bp_is_current_action( 'recent-posts' ) )
+	if ( bp_is_user_blogs() && bp_is_current_action( 'recent-posts' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_recent_commments() {
-	global $bp;
-
-	if ( is_multisite() && bp_is_current_component( 'blogs' ) && bp_is_current_action( 'recent-comments' ) )
+	if ( bp_is_user_blogs() && bp_is_current_action( 'recent-comments' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_friends() {
-
-	if ( bp_is_current_component( 'friends' ) )
+	if ( bp_is_user() && bp_is_friends_component() )
 		return true;
 
 	return false;
 }
 
 function bp_is_user_friend_requests() {
-	global $bp;
-
-	if ( bp_is_current_component( 'friends' ) && bp_is_current_action( 'requests' ) )
+	if ( bp_is_user_friends() && bp_is_current_action( 'requests' ) )
 		return true;
 
 	return false;
@@ -1261,8 +1252,6 @@ function bp_is_group() {
 }
 
 function bp_is_group_home() {
-	global $bp;
-
 	if ( bp_is_single_item() && bp_is_groups_component() && ( !bp_current_action() || bp_is_current_action( 'home' ) ) )
 		return true;
 
@@ -1270,8 +1259,6 @@ function bp_is_group_home() {
 }
 
 function bp_is_group_create() {
-	global $bp;
-
 	if ( bp_is_groups_component() && bp_is_current_action( 'create' ) )
 		return true;
 
@@ -1279,8 +1266,6 @@ function bp_is_group_create() {
 }
 
 function bp_is_group_admin_page() {
-	global $bp;
-
 	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'admin' ) )
 		return true;
 
@@ -1288,8 +1273,6 @@ function bp_is_group_admin_page() {
 }
 
 function bp_is_group_forum() {
-	global $bp;
-
 	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) )
 		return true;
 
@@ -1297,8 +1280,6 @@ function bp_is_group_forum() {
 }
 
 function bp_is_group_activity() {
-	global $bp;
-
 	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'activity' ) )
 		return true;
 
@@ -1313,8 +1294,6 @@ function bp_is_group_forum_topic() {
 }
 
 function bp_is_group_forum_topic_edit() {
-	global $bp;
-
 	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) && bp_is_action_variable( 'topic', 0 ) && bp_is_action_variable( 'edit', 2 ) )
 		return true;
 
@@ -1322,8 +1301,6 @@ function bp_is_group_forum_topic_edit() {
 }
 
 function bp_is_group_members() {
-	global $bp;
-
 	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'members' ) )
 		return true;
 
@@ -1331,8 +1308,6 @@ function bp_is_group_members() {
 }
 
 function bp_is_group_invites() {
-	global $bp;
-
 	if ( bp_is_groups_component() && bp_is_current_action( 'send-invites' ) )
 		return true;
 
@@ -1340,8 +1315,6 @@ function bp_is_group_invites() {
 }
 
 function bp_is_group_membership_request() {
-	global $bp;
-
 	if ( bp_is_groups_component() && bp_is_current_action( 'request-membership' ) )
 		return true;
 
@@ -1349,7 +1322,6 @@ function bp_is_group_membership_request() {
 }
 
 function bp_is_group_leave() {
-	global $bp;
 
 	if ( bp_is_groups_component() && bp_is_single_item() && bp_is_current_action( 'leave-group' ) )
 		return true;
@@ -1358,8 +1330,6 @@ function bp_is_group_leave() {
 }
 
 function bp_is_group_single() {
-	global $bp;
-
 	if ( bp_is_groups_component() && bp_is_single_item() )
 		return true;
 
@@ -1367,9 +1337,7 @@ function bp_is_group_single() {
 }
 
 function bp_is_create_blog() {
-	global $bp;
-
-	if ( is_multisite() && bp_is_current_component( 'blogs' ) && bp_is_current_action( 'create' ) )
+	if ( bp_is_blogs_component() && bp_is_current_action( 'create' ) )
 		return true;
 
 	return false;
@@ -1378,44 +1346,35 @@ function bp_is_create_blog() {
 /** Messages ******************************************************************/
 
 function bp_is_user_messages() {
-
-	if ( bp_is_current_component( 'messages' ) )
+	if ( bp_is_user() && bp_is_messages_component() )
 		return true;
 
 	return false;
 }
 
 function bp_is_messages_inbox() {
-	global $bp;
-
-	if ( bp_is_current_component( 'messages' ) && ( !bp_current_action() || bp_is_current_action( 'inbox' ) ) )
+	if ( bp_is_user_messages() && ( !bp_current_action() || bp_is_current_action( 'inbox' ) ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_messages_sentbox() {
-	global $bp;
-
-	if ( bp_is_current_component( 'messages' ) && bp_is_current_action( 'sentbox' ) )
+	if ( bp_is_user_messages() && bp_is_current_action( 'sentbox' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_messages_compose_screen() {
-	global $bp;
-
-	if ( bp_is_current_component( 'messages' ) && bp_is_current_action( 'compose' ) )
+	if ( bp_is_user_messages() && bp_is_current_action( 'compose' ) )
 		return true;
 
 	return false;
 }
 
 function bp_is_notices() {
-	global $bp;
-
-	if ( bp_is_current_component( 'messages' ) && bp_is_current_action( 'notices' ) )
+	if ( bp_is_user_messages() && bp_is_current_action( 'notices' ) )
 		return true;
 
 	return false;
@@ -1423,8 +1382,6 @@ function bp_is_notices() {
 
 
 function bp_is_single( $component, $callback ) {
-	global $bp;
-
 	if ( bp_is_current_component( $component ) && ( true === call_user_func( $callback ) ) )
 		return true;
 
@@ -1461,7 +1418,6 @@ function bp_the_body_class() {
 	echo bp_get_the_body_class();
 }
 	function bp_get_the_body_class( $wp_classes, $custom_classes = false ) {
-		global $bp;
 
 		$bp_classes = array();
 
@@ -1618,11 +1574,13 @@ function bp_the_body_class() {
 
 		// We don't want WordPress blog classes to appear on non-blog pages.
 		if ( !bp_is_blog_page() ) {
+
 			// Preserve any custom classes already set
-			if ( !empty( $custom_classes ) )
+			if ( !empty( $custom_classes ) ) {
 				$wp_classes = (array) $custom_classes;
-			else
+			} else {
 				$wp_classes = array();
+			}
 		}
 
 		// Merge WP classes with BP classes
@@ -1633,5 +1591,6 @@ function bp_the_body_class() {
 
 		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
 	}
-add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 )
+	add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 );
+
 ?>

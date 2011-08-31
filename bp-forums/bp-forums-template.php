@@ -1056,9 +1056,9 @@ function bp_has_forum_topic_posts( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( empty( $topic_id ) && bp_is_current_component( 'groups') && bp_is_current_action( 'forum' ) && bp_is_action_variable( 'topic', 0 ) && bp_action_variable( 1 ) )
+	if ( empty( $topic_id ) && bp_is_groups_component() && bp_is_current_action( 'forum' ) && bp_is_action_variable( 'topic', 0 ) && bp_action_variable( 1 ) )
 		$topic_id = bp_forums_get_topic_id_from_slug( bp_action_variable( 1 ) );
-	elseif ( empty( $topic_id ) && bp_is_current_component( 'forums') && bp_is_current_action( 'topic' ) && bp_action_variable( 0 ) )
+	elseif ( empty( $topic_id ) && bp_is_forums_component() && bp_is_current_action( 'topic' ) && bp_action_variable( 0 ) )
 		$topic_id = bp_forums_get_topic_id_from_slug( bp_action_variable( 0 ) );
 
 	if ( empty( $topic_id ) ) {

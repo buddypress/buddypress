@@ -722,7 +722,7 @@ function bp_thread_has_messages( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !$thread_id && bp_is_current_component( 'messages' ) && bp_is_current_action( 'view' ) )
+	if ( !$thread_id && bp_is_messages_component() && bp_is_current_action( 'view' ) )
 		$thread_id = (int)bp_action_variable( 0 );
 
 	$thread_template = new BP_Messages_Thread_Template( $thread_id, $order );

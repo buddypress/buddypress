@@ -241,7 +241,7 @@ add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_current_component( 'activity' ) || !bp_is_current_action( 'feed' ) || bp_is_user() || !empty( $bp->groups->current_group ) )
+	if ( !bp_is_activity_component() || !bp_is_current_action( 'feed' ) || bp_is_user() || !empty( $bp->groups->current_group ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -255,7 +255,7 @@ add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
 function bp_activity_action_personal_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( 'feed' ) )
+	if ( !bp_is_user_activity() || !bp_is_current_action( 'feed' ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -269,7 +269,7 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 function bp_activity_action_friends_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_active( 'friends' ) || !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( bp_get_friends_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
+	if ( !bp_is_active( 'friends' ) || !bp_is_user_activity() || !bp_is_current_action( bp_get_friends_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -283,7 +283,7 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
 function bp_activity_action_my_groups_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_active( 'groups' ) || !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( bp_get_groups_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
+	if ( !bp_is_active( 'groups' ) || !bp_is_user_activity() || !bp_is_current_action( bp_get_groups_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -297,7 +297,7 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
 function bp_activity_action_mentions_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( 'mentions' ) || !bp_is_action_variable( 'feed', 0 ) )
+	if ( !bp_is_user_activity() || !bp_is_current_action( 'mentions' ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
 
 	$wp_query->is_404 = false;
@@ -311,7 +311,7 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
 function bp_activity_action_favorites_feed() {
 	global $bp, $wp_query;
 
-	if ( !bp_is_current_component( 'activity' ) || !bp_is_user() || !bp_is_current_action( 'favorites' ) || !bp_is_action_variable( 'feed', 0 ) )
+	if ( !bp_is_user_activity() || !bp_is_current_action( 'favorites' ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
 
 	$wp_query->is_404 = false;
