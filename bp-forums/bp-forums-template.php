@@ -860,6 +860,42 @@ function bp_forum_topic_type() {
 	}
 
 /**
+ * Echoes the output of bp_get_forum_topic_new_reply_link()
+ *
+ * @package BuddyPress
+ * @since 1.5
+ */
+function bp_forum_topic_new_reply_link() {
+	echo bp_get_forum_topic_new_reply_link();
+}
+	/**
+	 * Returns the permalink for the New Reply button at the top of forum topics
+	 *
+	 * @package BuddyPress
+	 * @since 1.5
+	 *
+	 * @uses apply_filters() Filter bp_get_forum_topic_new_reply_link to modify
+	 * @return str The URL for the New Reply link
+	 */
+	function bp_get_forum_topic_new_reply_link() {
+		global $topic_template;
+
+		if ( $topic_template->pag->total_pages == $topic_template->pag_page ) {
+			// If we are on the last page, no need for a URL base
+			$link = '';
+		} else {
+			// Create a link to the last page for the topic
+			$link = add_query_arg( array(
+				'topic_page' =>	$topic_template->pag->total_pages,
+				'num'        => $topic_template->pag_num
+			), bp_get_the_topic_permalink() );
+		}
+
+		// Tack on the #post-topic-reply anchor before returning
+		return apply_filters( 'bp_get_forum_topic_new_reply_link', $link . '#post-topic-reply', $link );
+	}
+
+/**
  * Echoes the output of bp_get_forums_tag_name()
  *
  * @package BuddyPress
