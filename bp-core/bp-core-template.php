@@ -1177,7 +1177,7 @@ function bp_is_user_forums() {
  * @return bool
  */
 function bp_is_user_forums_started() {
-	if ( bp_is_user_forums && bp_is_current_action( 'topics' ) )
+	if ( bp_is_user_forums() && bp_is_current_action( 'topics' ) )
 		return true;
 
 	return false;
@@ -1192,7 +1192,7 @@ function bp_is_user_forums_started() {
  * @return bool
  */
 function bp_is_user_forums_replied_to() {
-	if ( bp_is_user_forums && bp_is_current_action( 'replies' ) )
+	if ( bp_is_user_forums() && bp_is_current_action( 'replies' ) )
 		return true;
 
 	return false;
