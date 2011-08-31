@@ -9,7 +9,7 @@ function bp_forums_add_admin_menu() {
 		return false;
 
 	// Add the administration tab under the "Site Admin" tab for site administrators
-	$hook = add_submenu_page( 'bp-general-settings', __( 'Forums Setup', 'buddypress' ), __( 'Forums Setup', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
+	$hook = add_submenu_page( 'bp-general-settings', __( 'Forums', 'buddypress' ), __( 'Forums', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 }
 add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
@@ -17,8 +17,7 @@ add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
 function bp_forums_bbpress_admin() {
 	global $bp;
 
-	$action = bp_get_admin_url( 'admin.php?page=bb-forums-setup&reinstall=1' );
-	?>
+	$action = bp_get_admin_url( 'admin.php?page=bb-forums-setup&reinstall=1' ); ?>
 
 	<div class="wrap">
 		<?php screen_icon( 'buddypress' ); ?>
