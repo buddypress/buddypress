@@ -286,8 +286,8 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 
 	// A single item from a component other than groups
 	} elseif ( bp_is_single_item() ) {
-		// translators: "root component name | component item name | component nav section name"
-		$title = sprintf( __( '%1$s | %2$s | %3$s', 'buddypress' ), bp_get_name_from_root_slug(), $bp->bp_options_title, $bp->bp_options_nav[$bp->current_component][$bp->current_action]['name'] );
+		// translators: "component item name | component nav section name | root component name"
+		$title = sprintf( __( '%1$s | %2$s | %3$s', 'buddypress' ), $bp->bp_options_title, $bp->bp_options_nav[$bp->current_item][$bp->current_action]['name'], bp_get_name_from_root_slug( bp_get_root_slug() ) );
 
 	// An index or directory
 	} elseif ( bp_is_directory() ) {
