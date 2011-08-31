@@ -13,6 +13,57 @@ function bp_core_update_message() {
 add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update_message' );
 
 /**
+ * Output the tabs in the admin area
+ *
+ * @since 1.5
+ * @param string $active_tab Name of the tab that is active
+ */
+function bp_core_admin_tabs( $active_tab = '' ) {
+
+	// Declare local variables
+	$tabs_html    = '';
+	$idle_class   = 'nav-tab';
+	$active_class = 'nav-tab nav-tab-active';
+
+	// Setup core admin tabs
+	$tabs = array(
+		'0' => array(
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-general-settings' ), 'admin.php' ) ),
+			'name' => __( 'Components', 'buddypress' )
+		),
+		'1' => array(
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'    ), 'admin.php' ) ),
+			'name' => __( 'Pages', 'buddypress' )
+		),
+		'2' => array(
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings'         ), 'admin.php' ) ),
+			'name' => __( 'Settings', 'buddypress' )
+		)
+	);
+
+	// If forums component is active, add additional tab
+	if ( bp_is_active( 'forums' ) ) {
+		$tabs['3'] = array(
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup'     ), 'admin.php' ) ),
+			'name' => __( 'Forums', 'buddypress' )
+		);
+	}
+
+	// Loop through tabs and build navigation
+	foreach( $tabs as $tab_id => $tab_data ) {
+		$is_current = (bool) ( $tab_data['name'] == $active_tab );
+		$tab_class  = $is_current ? $active_class : $idle_class;
+		$tabs_html .= '<a href="' . $tab_data['href'] . '" class="' . $tab_class . '">' . $tab_data['name'] . '</a>';
+	}
+
+	// Output the tabs
+	echo $tabs_html;
+
+	// Do other fun things
+	do_action( 'bp_admin_tabs' );
+}
+
+/**
  * Renders the Settings admin panel.
  *
  * @package BuddyPress Core
@@ -37,14 +88,7 @@ function bp_core_admin_settings() {
 
 		<?php screen_icon( 'buddypress' ); ?>
 
-		<h2 class="nav-tab-wrapper">
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Components', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Pages', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Settings', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
-
-			<?php do_action( 'bp_admin_tabs' ); ?>
-		</h2>
+		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Settings', 'buddypress' ) ); ?></h2>
 
 		<?php if ( isset( $_POST['bp-admin'] ) ) : ?>
 
@@ -204,14 +248,7 @@ function bp_core_admin_component_setup() {
 
 		<?php screen_icon( 'buddypress'); ?>
 
-		<h2 class="nav-tab-wrapper">
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Components', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Pages', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Settings', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
-
-			<?php do_action( 'bp_admin_tabs' ); ?>
-		</h2>
+		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Components', 'buddypress' ) ); ?></h2>
 
 		<?php if ( isset( $_GET['updated'] ) && 'true' === $_GET['updated'] ) : ?>
 
@@ -253,14 +290,7 @@ function bp_core_admin_page_setup() {
 
 		<?php screen_icon( 'buddypress'); ?>
 
-		<h2 class="nav-tab-wrapper">
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-general-settings'                 ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Components', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'                    ), 'admin.php' ) ); ?>" class="nav-tab nav-tab-active"><?php _e( 'Pages', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bp-settings'                         ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Settings', 'buddypress' ); ?></a>
-			<a href="<?php bp_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup' ), 'admin.php' ) ); ?>" class="nav-tab"><?php _e( 'Forum Setup', 'buddypress' ); ?></a>
-
-			<?php do_action( 'bp_admin_tabs' ); ?>
-		</h2>
+		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Pages', 'buddypress' ) ); ?></h2>
 
 		<?php if ( isset( $_GET['updated'] ) && 'true' === $_GET['updated'] ) : ?>
 
