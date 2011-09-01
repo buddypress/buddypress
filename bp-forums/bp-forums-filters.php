@@ -77,7 +77,7 @@ function bp_forums_filter_kses( $content ) {
 function bp_forums_filter_tag_link( $link, $tag, $page, $context ) {
 	global $bp;
 
-	return apply_filters( 'bp_forums_filter_tag_link', bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/tag/' . $tag . '/' );
+	return apply_filters( 'bp_forums_filter_tag_link', bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/tag/' . $tag . '/' );
 }
 add_filter( 'bb_get_tag_link', 'bp_forums_filter_tag_link', 10, 4);
 
