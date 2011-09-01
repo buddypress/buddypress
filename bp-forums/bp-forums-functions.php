@@ -383,6 +383,22 @@ function bp_forums_get_topic_extras( $topics ) {
 		}
 	}
 
+	// Loop through to make sure that each topic has the proper values set. This covers the
+	// case of deleted users
+	foreach ( (array)$topics as $key => $topic ) {
+		if ( !isset( $topic->topic_last_poster_email ) )
+			$topics[$key]->topic_last_poster_email = '';
+
+		if ( !isset( $topic->topic_last_poster_nicename ) )
+			$topics[$key]->topic_last_poster_nicename = '';
+
+		if ( !isset( $topic->topic_last_poster_login ) )
+			$topics[$key]->topic_last_poster_login = '';
+
+		if ( !isset( $topic->topic_last_poster_displayname ) )
+			$topics[$key]->topic_last_poster_displayname = '';
+	}
+
 	return $topics;
 }
 

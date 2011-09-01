@@ -554,7 +554,11 @@ function bp_the_topic_last_poster_name() {
 	function bp_get_the_topic_last_poster_name() {
 		global $forum_template;
 
-		if ( !$domain = bp_core_get_user_domain( $forum_template->topic->topic_last_poster, $forum_template->topic->topic_last_poster_nicename, $forum_template->topic->topic_last_poster_login ) )
+		$domain = bp_core_get_user_domain( $forum_template->topic->topic_last_poster, $forum_template->topic->topic_last_poster_nicename, $forum_template->topic->topic_last_poster_login ) ;
+
+		// In the case where no user is found, bp_core_get_user_domain() may return the URL
+		// of the Members directory
+		if ( !$domain || $domain == bp_core_get_root_domain() . '/' . bp_get_members_root_slug() . '/' )
 			return __( 'Deleted User', 'buddypress' );
 
 		return apply_filters( 'bp_get_the_topic_last_poster_name', '<a href="' . $domain . '">' . $forum_template->topic->topic_last_poster_displayname . '</a>' );
