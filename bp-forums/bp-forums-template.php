@@ -259,7 +259,7 @@ function bp_has_forum_topics( $args = '' ) {
 	$user_id      = 0;
 	$forum_id     = false;
 	$search_terms = false;
-	$do_stickies  = true;
+	$do_stickies  = false;
 
 	// User filtering
 	if ( !empty( $bp->displayed_user->id ) )
@@ -294,10 +294,9 @@ function bp_has_forum_topics( $args = '' ) {
 	$page     = isset( $_REQUEST['p'] ) ? intval( $_REQUEST['p'] ) : 1;
 	$per_page = isset( $_REQUEST['n'] ) ? intval( $_REQUEST['n'] ) : 20;
 
-	// Unless set otherwise, stickies appear in normal order on the global forum directory and
-	// on individual user topic pages
-	if ( ( bp_is_directory() && bp_is_forums_component() && !bp_forums_enable_global_directory_stickies() ) || bp_is_user() )
-		$do_stickies = false;
+	// By default, stickies are only pushed to the top of the order on individual group forums
+	if ( bp_is_group_forum() )
+		$do_stickies = true;
 
 	$defaults = array(
 		'type'         => $type,
