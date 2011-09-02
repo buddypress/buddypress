@@ -210,16 +210,21 @@ Class BP_XProfile_Group {
 		}
 
 		// Merge the field array back in with the group array
-		foreach( (array) $groups as $group_key => $group ) {
+		foreach( (array) $groups as $group ) {
+
+			// Indexes may have been shifted after previous deletions, so we get a
+			// fresh one each time through the loop
+			$index = array_search( $group, $groups );
+
 			foreach( (array) $fields as $field ) {
 				if ( $group->id == $field->group_id )
-					$groups[$group_key]->fields[] = $field;
+					$groups[$index]->fields[] = $field;
 			}
 
 			// When we unset fields above, we may have created empty groups.
 			// Remove them, if necessary.
 			if ( empty( $group->fields ) && $hide_empty_groups ) {
-				unset( $groups[$group_key] );
+				unset( $groups[$index] );
 			}
 
 			// Reset indexes
