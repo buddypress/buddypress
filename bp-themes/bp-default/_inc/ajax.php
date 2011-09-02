@@ -83,13 +83,26 @@ add_filter( 'bp_ajax_querystring', 'bp_dtheme_ajax_querystring', 10, 2 );
 
 /* This function will simply load the template loop for the current object. On an AJAX request */
 function bp_dtheme_object_template_loader() {
+
+ 	/**
+	 * AJAX requests happen too early to be seen by bp_update_is_directory()
+	 * so we do it manually here to ensure templates load with the correct
+	 * context. Without this check, templates will load the 'single' version
+	 * of themselves rather than the directory version.
+	 */
+	if ( !bp_current_action() )
+		bp_update_is_directory( true, bp_current_component() );
+
+	// Sanitize the post object
 	$object = esc_attr( $_POST['object'] );
+
+	// Locate the object template
 	locate_template( array( "$object/$object-loop.php" ), true );
 }
 add_action( 'wp_ajax_members_filter', 'bp_dtheme_object_template_loader' );
-add_action( 'wp_ajax_groups_filter', 'bp_dtheme_object_template_loader' );
-add_action( 'wp_ajax_blogs_filter', 'bp_dtheme_object_template_loader' );
-add_action( 'wp_ajax_forums_filter', 'bp_dtheme_object_template_loader' );
+add_action( 'wp_ajax_groups_filter',  'bp_dtheme_object_template_loader' );
+add_action( 'wp_ajax_blogs_filter',   'bp_dtheme_object_template_loader' );
+add_action( 'wp_ajax_forums_filter',  'bp_dtheme_object_template_loader' );
 
 // This function will load the activity loop template when activity is requested via AJAX
 function bp_dtheme_activity_template_loader() {

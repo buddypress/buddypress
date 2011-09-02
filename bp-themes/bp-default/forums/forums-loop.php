@@ -60,7 +60,7 @@
 					<p class="topic-meta">
 						<span class="topic-by"><?php /* translators: "started by [poster] in [forum]" */ printf( __( 'Started by %1$s', 'buddypress' ), bp_get_the_topic_poster_avatar( 'height=20&width=20') . bp_get_the_topic_poster_name() ); ?></span>
 
-						<?php if ( bp_is_directory() || bp_is_user_forums() ) : ?>
+						<?php if ( !bp_is_group_forum() ) : ?>
 
 							<span class="topic-in">
 
