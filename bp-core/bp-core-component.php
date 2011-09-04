@@ -192,7 +192,7 @@ class BP_Component {
 	 */
 	function setup_actions() {
 
-		// Register post types
+		// Setup globals 
 		add_action( 'bp_setup_globals',          array ( $this, 'setup_globals'          ), 10 );
 
 		// Include required files. Called early to ensure that BP core
@@ -202,13 +202,13 @@ class BP_Component {
 		// extending this base class.
 		add_action( 'bp_include',                array ( $this, 'includes'               ), 8 );
 
-		// Register post types
+		// Setup navigation
 		add_action( 'bp_setup_nav',              array ( $this, 'setup_nav'              ), 10 );
 
-		// Register post types
+		// Setup WP Admin Bar menus
 		add_action( 'bp_setup_admin_bar',        array ( $this, 'setup_admin_bar'        ), 10 );
 
-		// Register post types
+		// Setup component title
 		add_action( 'bp_setup_title',            array ( $this, 'setup_title'            ), 10 );
 
 		// Register post types
