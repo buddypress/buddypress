@@ -60,7 +60,7 @@ class BP_Members_Component extends BP_Component {
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_MEMBERS_SLUG' ) )
-			define( 'BP_MEMBERS_SLUG', 'members' );
+			define( 'BP_MEMBERS_SLUG', $this->id );
 
 		$globals = array(
 			'path'          => BP_PLUGIN_DIR,
