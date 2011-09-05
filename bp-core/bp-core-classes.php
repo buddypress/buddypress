@@ -147,12 +147,12 @@ class BP_Core_User {
 	function populate() {
 		global $bp;
 
-		$full_name_field_name = bp_xprofile_fullname_field_name();
-
 		if ( bp_is_active( 'xprofile' ) )
 			$this->profile_data = $this->get_profile_data();
 
-		if ( $this->profile_data ) {
+		if ( !empty( $this->profile_data ) ) {
+			$full_name_field_name = bp_xprofile_fullname_field_name();
+
 			$this->user_url  = bp_core_get_user_domain( $this->id, $this->profile_data['user_nicename'], $this->profile_data['user_login'] );
 			$this->fullname  = esc_attr( $this->profile_data[$full_name_field_name]['field_data'] );
 			$this->user_link = "<a href='{$this->user_url}' title='{$this->fullname}'>{$this->fullname}</a>";
