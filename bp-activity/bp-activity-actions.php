@@ -1,19 +1,49 @@
 <?php
-/*******************************************************************************
+
+/**
  * Action functions are exactly the same as screen functions, however they do
  * not have a template screen associated with them. Usually they will send the
  * user back to the default screen after execution.
+ *
+ * @package BuddyPress
+ * @subpackage ActivityActions
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-// Allow core components and dependent plugins to register activity actions
+/**
+ * Allow core components and dependent plugins to register activity actions
+ *
+ * @since 1.2.0
+ *
+ * @uses do_action() To call 'bp_register_activity_actions' hook.
+ */
 function bp_register_activity_actions() {
 	do_action( 'bp_register_activity_actions' );
 }
 add_action( 'bp_init', 'bp_register_activity_actions', 8 );
 
+/**
+ * Allow core components and dependent plugins to register activity actions
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses bp_is_activity_component()
+ * @uses bp_is_current_action()
+ * @uses bp_action_variable()
+ * @uses bp_activity_get_specific()
+ * @uses bp_is_active()
+ * @uses bp_core_get_user_domain()
+ * @uses groups_get_group()
+ * @uses bp_get_group_permalink()
+ * @uses apply_filters_ref_array() To call the 'bp_activity_permalink_redirect_url' hook
+ * @uses bp_core_redirect()
+ * @uses bp_get_root_domain()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_permalink_router() {
 	global $bp;
 
@@ -71,14 +101,25 @@ function bp_activity_action_permalink_router() {
 add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
 
 /**
- * bp_activity_action_delete_activity()
- *
  * Delete specific activity item and redirect to previous page.
  *
- * @global object $bp
- * @since 1.1
- * @uses do_action() Calls 'bp_activity_action_delete_activity' hook to allow actions to be taken after the activity is deleted.
+ * @since 1.1.0
+ *
+ * @param int $activity_id Activity id to be deleted. Defaults to 0.
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses bp_is_activity_component()
+ * @uses bp_is_current_action()
+ * @uses bp_action_variable()
+ * @uses check_admin_referer()
+ * @uses bp_activity_user_can_delete()
  * @uses do_action() Calls 'bp_activity_before_action_delete_activity' hook to allow actions to be taken before the activity is deleted.
+ * @uses bp_activity_delete()
+ * @uses bp_core_add_message()
+ * @uses do_action() Calls 'bp_activity_action_delete_activity' hook to allow actions to be taken after the activity is deleted.
+ * @uses bp_core_redirect()
+ *
+ * @return bool False on failure
  */
 function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	global $bp;
@@ -123,6 +164,28 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 }
 add_action( 'bp_actions', 'bp_activity_action_delete_activity' );
 
+/**
+ * Post user/group activity update.
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses is_user_logged_in()
+ * @uses bp_is_activity_component()
+ * @uses bp_is_current_action()
+ * @uses check_admin_referer()
+ * @uses apply_filters() To call 'bp_activity_post_update_content' hook.
+ * @uses apply_filters() To call 'bp_activity_post_update_object' hook.
+ * @uses apply_filters() To call 'bp_activity_post_update_item_id' hook.
+ * @uses bp_core_add_message()
+ * @uses bp_core_redirect()
+ * @uses bp_activity_post_update()
+ * @uses groups_post_update()
+ * @uses bp_core_redirect()
+ * @uses apply_filters() To call 'bp_activity_custom_update' hook.
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_post_update() {
 	global $bp;
 
@@ -170,6 +233,25 @@ function bp_activity_action_post_update() {
 }
 add_action( 'bp_actions', 'bp_activity_action_post_update' );
 
+/**
+ * Post new activity comment.
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses is_user_logged_in()
+ * @uses bp_is_activity_component()
+ * @uses bp_is_current_action()
+ * @uses check_admin_referer()
+ * @uses apply_filters() To call 'bp_activity_post_comment_activity_id' hook.
+ * @uses apply_filters() To call 'bp_activity_post_comment_content' hook.
+ * @uses bp_core_add_message()
+ * @uses bp_core_redirect()
+ * @uses bp_activity_new_comment()
+ * @uses wp_get_referer()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_post_comment() {
 	global $bp;
 
@@ -202,6 +284,24 @@ function bp_activity_action_post_comment() {
 }
 add_action( 'bp_actions', 'bp_activity_action_post_comment' );
 
+/**
+ * Mark activity as favorite.
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses is_user_logged_in()
+ * @uses bp_is_activity_component()
+ * @uses bp_is_current_action()
+ * @uses check_admin_referer()
+ * @uses bp_activity_add_user_favorite()
+ * @uses bp_action_variable()
+ * @uses bp_core_add_message()
+ * @uses bp_core_redirect()
+ * @uses wp_get_referer()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_mark_favorite() {
 	global $bp;
 
@@ -220,6 +320,24 @@ function bp_activity_action_mark_favorite() {
 }
 add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
 
+/**
+ * Remove activity from favorites.
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses is_user_logged_in()
+ * @uses bp_is_activity_component()
+ * @uses bp_is_current_action()
+ * @uses check_admin_referer()
+ * @uses bp_activity_remove_user_favorite()
+ * @uses bp_action_variable()
+ * @uses bp_core_add_message()
+ * @uses bp_core_redirect()
+ * @uses wp_get_referer()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_remove_favorite() {
 	global $bp;
 
@@ -238,6 +356,20 @@ function bp_activity_action_remove_favorite() {
 }
 add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
 
+/**
+ * Load the sitewide feed.
+ *
+ * @since 1.0.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @global object $wp_query
+ * @uses bp_is_activity_component()
+ * @uses bp_is_current_action()
+ * @uses bp_is_user()
+ * @uses status_header()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_sitewide_feed() {
 	global $bp, $wp_query;
 
@@ -252,6 +384,19 @@ function bp_activity_action_sitewide_feed() {
 }
 add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
 
+/**
+ * Load a user's personal feed.
+ *
+ * @since 1.0.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @global object $wp_query
+ * @uses bp_is_user_activity()
+ * @uses bp_is_current_action()
+ * @uses status_header()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_personal_feed() {
 	global $bp, $wp_query;
 
@@ -266,6 +411,22 @@ function bp_activity_action_personal_feed() {
 }
 add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 
+/**
+ * Load a user's friends feed.
+ *
+ * @since 1.0.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @global object $wp_query
+ * @uses bp_is_active()
+ * @uses bp_is_user_activity()
+ * @uses bp_is_current_action()
+ * @uses bp_get_friends_slug()
+ * @uses bp_is_action_variable()
+ * @uses status_header()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_friends_feed() {
 	global $bp, $wp_query;
 
@@ -280,6 +441,22 @@ function bp_activity_action_friends_feed() {
 }
 add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
 
+/**
+ * Load a user's my groups feed.
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @global object $wp_query
+ * @uses bp_is_active()
+ * @uses bp_is_user_activity()
+ * @uses bp_is_current_action()
+ * @uses bp_get_groups_slug()
+ * @uses bp_is_action_variable()
+ * @uses status_header()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_my_groups_feed() {
 	global $bp, $wp_query;
 
@@ -294,6 +471,20 @@ function bp_activity_action_my_groups_feed() {
 }
 add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
 
+/**
+ * Load a user's @mentions feed.
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @global object $wp_query
+ * @uses bp_is_user_activity()
+ * @uses bp_is_current_action()
+ * @uses bp_is_action_variable()
+ * @uses status_header()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_mentions_feed() {
 	global $bp, $wp_query;
 
@@ -308,6 +499,20 @@ function bp_activity_action_mentions_feed() {
 }
 add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
 
+/**
+ * Load a user's favorites feed.
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @global object $wp_query
+ * @uses bp_is_user_activity()
+ * @uses bp_is_current_action()
+ * @uses bp_is_action_variable()
+ * @uses status_header()
+ *
+ * @return bool False on failure
+ */
 function bp_activity_action_favorites_feed() {
 	global $bp, $wp_query;
 

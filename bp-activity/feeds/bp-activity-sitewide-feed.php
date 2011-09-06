@@ -1,8 +1,10 @@
 <?php
+
 /**
  * RSS2 Feed Template for displaying the site wide activity stream.
  *
  * @package BuddyPress
+ * @subpackage ActivityFeeds
  */
 
 // Exit if accessed directly

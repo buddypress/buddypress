@@ -1,22 +1,28 @@
 <?php
+
 /**
  * BuddyPress Activity Streams Loader
  *
  * An activity stream component, for users, groups, and blog tracking.
  *
  * @package BuddyPress
- * @subpackage Activity Core
+ * @subpackage ActivityCore
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Main Activity Class
+ *
+ * @since 1.5.0
+ */
 class BP_Activity_Component extends BP_Component {
 
 	/**
 	 * Start the activity component creation process
 	 *
-	 * @since 1.5
+	 * @since 1.5.0
 	 */
 	function BP_Activity_Component() {
 		$this->__construct();
@@ -32,6 +38,8 @@ class BP_Activity_Component extends BP_Component {
 
 	/**
 	 * Include files
+	 *
+	 * @since 1.5.0
 	 */
 	function includes() {
 		// Files to include
@@ -54,8 +62,9 @@ class BP_Activity_Component extends BP_Component {
 	 * The BP_ACTIVITY_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since 1.5
-	 * @global obj $bp
+	 * @since 1.5.0
+	 *
+	 * @global object $bp BuddyPress global settings
 	 */
 	function setup_globals() {
 		global $bp;
@@ -88,7 +97,13 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Setup BuddyBar navigation
 	 *
-	 * @global obj $bp
+	 * @since 1.5.0
+	 *
+	 * @global object $bp BuddyPress global settings
+	 * @uses bp_is_active()
+	 * @uses is_user_logged_in()
+	 * @uses bp_get_friends_slug()
+	 * @uses bp_get_groups_slug()
 	 */
 	function setup_nav() {
 		global $bp;
@@ -182,7 +197,16 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Set up the admin bar
 	 *
-	 * @global obj $bp
+	 * @since 1.5.0
+	 *
+	 * @global object $bp BuddyPress global settings
+	 * @uses is_user_logged_in()
+	 * @uses trailingslashit()
+	 * @uses bp_get_total_mention_count_for_user()
+	 * @uses bp_loggedin_user_id()
+	 * @uses bp_is_active()
+	 * @uses bp_get_friends_slug()
+	 * @uses bp_get_groups_slug()
 	 */
 	function setup_admin_bar() {
 		global $bp;
@@ -258,7 +282,12 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Sets up the title for pages and <title>
 	 *
-	 * @global obj $bp
+	 * @since 1.5.0
+	 *
+	 * @global object $bp BuddyPress global settings
+	 * @uses bp_is_activity_component()
+	 * @uses bp_is_my_profile()
+	 * @uses bp_core_fetch_avatar()
 	 */
 	function setup_title() {
 		global $bp;
@@ -279,6 +308,7 @@ class BP_Activity_Component extends BP_Component {
 		parent::setup_title();
 	}
 }
+
 // Create the activity component
 $bp->activity = new BP_Activity_Component();
 

@@ -1,14 +1,42 @@
 <?php
+
+/**
+ * BuddyPress Activity Notifications
+ *
+ * @package BuddyPress
+ * @subpackage ActivityNotifications
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Sends an email notification and a BP notification when someone mentions you in an update
  *
- * @package BuddyPress Activity
- * @param str $content The content of the activity update
- * @param int $poster_user_id The unique user_id of the user who sent the update
+ * @since 1.2.0
+ *
  * @param int $activity_id The id of the activity update
+ * @param int $receiver_user_id The unique user_id of the user who is receiving the update
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses bp_core_add_notification()
+ * @uses bp_get_user_meta()
+ * @uses bp_core_get_user_displayname()
+ * @uses bp_activity_get_permalink()
+ * @uses bp_core_get_user_domain()
+ * @uses bp_get_settings_slug()
+ * @uses bp_activity_filter_kses()
+ * @uses bp_core_get_core_userdata()
+ * @uses wp_specialchars_decode()
+ * @uses get_blog_option()
+ * @uses bp_is_active()
+ * @uses bp_is_group()
+ * @uses bp_get_current_group_name()
+ * @uses apply_filters() To call the 'bp_activity_at_message_notification_to' hook
+ * @uses apply_filters() To call the 'bp_activity_at_message_notification_subject' hook
+ * @uses apply_filters() To call the 'bp_activity_at_message_notification_message' hook
+ * @uses wp_mail()
+ * @uses do_action() To call the 'bp_activity_sent_mention_email' hook
  */
 function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) {
 	global $bp;
@@ -72,6 +100,36 @@ To view and respond to the message, log in and visit: %3$s
 	do_action( 'bp_activity_sent_mention_email', $activity, $subject, $message, $content );
 }
 
+/**
+ * Sends an email notification and a BP notification when someone mentions you in an update
+ *
+ * @since 1.2.0
+ *
+ * @param int $comment_id The comment id
+ * @param int $commenter_id The unique user_id of the user who posted the comment
+ * @param array $params {@link bp_activity_new_comment()}
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses bp_get_user_meta()
+ * @uses bp_core_get_user_displayname()
+ * @uses bp_activity_get_permalink()
+ * @uses bp_core_get_user_domain()
+ * @uses bp_get_settings_slug()
+ * @uses bp_activity_filter_kses()
+ * @uses bp_core_get_core_userdata()
+ * @uses wp_specialchars_decode()
+ * @uses get_blog_option()
+ * @uses bp_get_root_blog_id()
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_to' hook
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_subject' hook
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_message' hook
+ * @uses wp_mail()
+ * @uses do_action() To call the 'bp_activity_sent_reply_to_update_email' hook
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_to' hook
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_subject' hook
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_message' hook
+ * @uses do_action() To call the 'bp_activity_sent_reply_to_reply_email' hook
+ */
 function bp_activity_new_comment_notification( $comment_id, $commenter_id, $params ) {
 	global $bp;
 

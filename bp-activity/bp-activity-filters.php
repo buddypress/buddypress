@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * The Activity filters
+ *
+ * @package BuddyPress
+ * @subpackage ActivityFilters
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -79,6 +87,18 @@ add_filter( 'group_forum_post_text_before_save',     'bp_activity_at_name_filter
 
 add_filter( 'bp_get_activity_parent_content',        'bp_create_excerpt' );
 
+/**
+ * Custom kses filtering for activity content
+ *
+ * @since 1.1.0
+ *
+ * @param string $content The activity content
+ *
+ * @uses apply_filters() To call the 'bp_activity_allowed_tags' hook.
+ * @uses wp_kses()
+ *
+ * @return string $content Filtered activity content
+ */
 function bp_activity_filter_kses( $content ) {
 	global $allowedtags;
 
@@ -109,11 +129,19 @@ function bp_activity_filter_kses( $content ) {
 /**
  * Finds and links @-mentioned users in the contents of activity items
  *
- * @package BuddyPress Activity
+ * @since 1.2.0
  *
  * @param string $content The activity content
- * @param int $activity_id When $adjust_mention_count is true, you must provide an $activity_id,
- *   which will be added to the list of the user's unread mentions
+ * @param int $activity_id The activity id
+ *
+ * @uses bp_activity_find_mentions()
+ * @uses bp_is_username_compatibility_mode()
+ * @uses bp_core_get_userid_from_nicename()
+ * @uses bp_activity_at_message_notification()
+ * @uses bp_core_get_user_domain()
+ * @uses bp_activity_adjust_mention_count()
+ *
+ * @return string $content Content filtered for mentions
  */
 function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 	$usernames = bp_activity_find_mentions( $content );
@@ -145,10 +173,13 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 /**
  * Catch mentions in saved activity items
  *
- * @package BuddyPress
- * @since 1.5
+ * @since 1.5.0
  *
  * @param obj $activity
+ *
+ * @uses remove_filter() To remove the 'bp_activity_at_name_filter_updates' hook.
+ * @uses bp_activity_at_name_filter()
+ * @uses BP_Activity_Activity::save() {@link BP_Activity_Activity}
  */
 function bp_activity_at_name_filter_updates( $activity ) {
 	// Only run this function once for a given activity item
@@ -162,9 +193,28 @@ function bp_activity_at_name_filter_updates( $activity ) {
 }
 add_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter_updates' );
 
+/**
+ * Catches links in activity text so rel=nofollow can be added
+ *
+ * @since 1.2.0
+ *
+ * @param string $text Activity text
+ *
+ * @return string $text Text with rel=nofollow added to any links
+ */
 function bp_activity_make_nofollow_filter( $text ) {
 	return preg_replace_callback( '|<a (.+?)>|i', 'bp_activity_make_nofollow_filter_callback', $text );
 }
+
+	/**
+	 * Adds rel=nofollow to a link
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param array $matches
+	 *
+	 * @return string $text Link with rel=nofollow added
+	 */
 	function bp_activity_make_nofollow_filter_callback( $matches ) {
 		$text = $matches[1];
 		$text = str_replace( array( ' rel="nofollow"', " rel='nofollow'"), '', $text );
@@ -174,10 +224,19 @@ function bp_activity_make_nofollow_filter( $text ) {
 /**
  * Truncates long activity entries when viewed in activity streams
  *
- * @package BuddyPress Activity
- * @since 1.5
+ * @since 1.5.0
+ *
  * @param $text The original activity entry text
- * @return $excerpt The truncated text
+ *
+ * @uses bp_is_single_activity()
+ * @uses apply_filters() To call the 'bp_activity_excerpt_append_text' hook
+ * @uses apply_filters() To call the 'bp_activity_excerpt_length' hook
+ * @uses bp_create_excerpt()
+ * @uses bp_get_activity_id()
+ * @uses bp_get_activity_thread_permalink()
+ * @uses apply_filters() To call the 'bp_activity_truncate_entry' hook
+ *
+ * @return string $excerpt The truncated text
  */
 function bp_activity_truncate_entry( $text ) {
 	global $activities_template;
@@ -205,4 +264,5 @@ function bp_activity_truncate_entry( $text ) {
 }
 add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 add_filter( 'bp_get_activity_content', 'bp_activity_truncate_entry', 5 );
+
 ?>

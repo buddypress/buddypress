@@ -1,11 +1,27 @@
 <?php
+
+/**
+ * BuddyPress Activity Screens
+ *
+ * @package BuddyPress
+ * @subpackage ActivityScreens
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Activity index
+ * Activity screen index
  *
- * @global obj $bp
+ * @since 1.5.0
+ *
+ * @uses bp_displayed_user_id()
+ * @uses bp_is_activity_component()
+ * @uses bp_current_action()
+ * @uses bp_update_is_directory()
+ * @uses do_action() To call the 'bp_activity_screen_index' hook
+ * @uses bp_core_load_template()
+ * @uses apply_filters() To call the 'bp_activity_screen_index' hook
  */
 function bp_activity_screen_index() {
 	if ( !bp_displayed_user_id() && bp_is_activity_component() && !bp_current_action() ) {
@@ -18,11 +34,32 @@ function bp_activity_screen_index() {
 }
 add_action( 'bp_screens', 'bp_activity_screen_index' );
 
+/**
+ * Activity screen 'my activity' index
+ *
+ * @since 1.0.0
+ *
+ * @uses do_action() To call the 'bp_activity_screen_my_activity' hook
+ * @uses bp_core_load_template()
+ * @uses apply_filters() To call the 'bp_activity_template_my_activity' hook
+ */
 function bp_activity_screen_my_activity() {
 	do_action( 'bp_activity_screen_my_activity' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'members/single/home' ) );
 }
 
+/**
+ * Activity screen 'friends' index
+ *
+ * @since 1.0.0
+ *
+ * @uses bp_is_active()
+ * @uses bp_update_is_item_admin()
+ * @uses is_super_admin()
+ * @uses do_action() To call the 'bp_activity_screen_friends' hook
+ * @uses bp_core_load_template()
+ * @uses apply_filters() To call the 'bp_activity_template_friends_activity' hook
+ */
 function bp_activity_screen_friends() {
 	if ( !bp_is_active( 'friends' ) )
 		return false;
@@ -32,6 +69,18 @@ function bp_activity_screen_friends() {
 	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'members/single/home' ) );
 }
 
+/**
+ * Activity screen 'groups' index
+ *
+ * @since 1.2.0
+ *
+ * @uses bp_is_active()
+ * @uses bp_update_is_item_admin()
+ * @uses is_super_admin()
+ * @uses do_action() To call the 'bp_activity_screen_groups' hook
+ * @uses bp_core_load_template()
+ * @uses apply_filters() To call the 'bp_activity_template_groups_activity' hook
+ */
 function bp_activity_screen_groups() {
 	if ( !bp_is_active( 'groups' ) )
 		return false;
@@ -41,12 +90,34 @@ function bp_activity_screen_groups() {
 	bp_core_load_template( apply_filters( 'bp_activity_template_groups_activity', 'members/single/home' ) );
 }
 
+/**
+ * Activity screen 'favorites' index
+ *
+ * @since 1.2.0
+ *
+ * @uses bp_update_is_item_admin()
+ * @uses is_super_admin()
+ * @uses do_action() To call the 'bp_activity_screen_favorites' hook
+ * @uses bp_core_load_template()
+ * @uses apply_filters() To call the 'bp_activity_template_favorite_activity' hook
+ */
 function bp_activity_screen_favorites() {
 	bp_update_is_item_admin( is_super_admin(), 'activity' );
 	do_action( 'bp_activity_screen_favorites' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_favorite_activity', 'members/single/home' ) );
 }
 
+/**
+ * Activity screen 'mentions' index
+ *
+ * @since 1.2.0
+ *
+ * @uses bp_update_is_item_admin()
+ * @uses is_super_admin()
+ * @uses do_action() To call the 'bp_activity_screen_mentions' hook
+ * @uses bp_core_load_template()
+ * @uses apply_filters() To call the 'bp_activity_template_mention_activity' hook
+ */
 function bp_activity_screen_mentions() {
 	bp_update_is_item_admin( is_super_admin(), 'activity' );
 	do_action( 'bp_activity_screen_mentions' );
@@ -54,12 +125,13 @@ function bp_activity_screen_mentions() {
 }
 
 /**
- * bp_activity_remove_screen_notifications()
- *
  * Removes activity notifications from the notification menu when a user clicks on them and
  * is taken to a specific screen.
  *
- * @package BuddyPress Activity
+ * @since 1.5.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses bp_core_delete_notifications_by_type()
  */
 function bp_activity_remove_screen_notifications() {
 	global $bp;
@@ -73,10 +145,11 @@ add_action( 'bp_activity_screen_mentions',                  'bp_activity_remove_
 /**
  * Reset the logged-in user's new mentions data when he visits his mentions screen
  *
- * @package BuddyPress Activity
- * @since 1.5
- * @uses bp_activity_clear_new_mentions()
+ * @since 1.5.0
+ *
  * @uses bp_is_my_profile()
+ * @uses bp_activity_clear_new_mentions()
+ * @uses bp_loggedin_user_id()
  */
 function bp_activity_reset_my_new_mentions() {
 	if ( bp_is_my_profile() )
@@ -84,6 +157,32 @@ function bp_activity_reset_my_new_mentions() {
 }
 add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' );
 
+/**
+ * Reset the logged-in user's new mentions data when he visits his mentions screen
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses bp_is_activity_component()
+ * @uses bp_activity_get_specific()
+ * @uses bp_current_action()
+ * @uses bp_action_variables()
+ * @uses bp_do_404()
+ * @uses bp_is_active()
+ * @uses groups_get_group()
+ * @uses groups_is_user_member()
+ * @uses apply_filters_ref_array() To call the 'bp_activity_permalink_access' hook
+ * @uses do_action() To call the 'bp_activity_screen_single_activity_permalink' hook
+ * @uses bp_core_add_message()
+ * @uses is_user_logged_in()
+ * @uses bp_core_redirect()
+ * @uses site_url()
+ * @uses esc_url()
+ * @uses bp_get_root_domain()
+ * @uses bp_get_activity_root_slug()
+ * @uses bp_core_load_template()
+ * @uses apply_filters() To call the 'bp_activity_template_profile_activity_permalink' hook
+ */
 function bp_activity_screen_single_activity_permalink() {
 	global $bp;
 
@@ -155,6 +254,16 @@ function bp_activity_screen_single_activity_permalink() {
 }
 add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
 
+/**
+ * Add activity notifications settings to the notifications settings page
+ *
+ * @since 1.2.0
+ *
+ * @global object $bp BuddyPress global settings
+ * @uses bp_get_user_meta()
+ * @uses bp_core_get_username()
+ * @uses do_action() To call the 'bp_activity_screen_notification_settings' hook
+ */
 function bp_activity_screen_notification_settings() {
 	global $bp;
 

@@ -1,8 +1,10 @@
 <?php
+
 /**
  * RSS2 Feed Template for displaying a group activity stream
  *
  * @package BuddyPress
+ * @subpackage ActivityFeeds
  */
 
 // Exit if accessed directly
