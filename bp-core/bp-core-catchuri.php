@@ -147,7 +147,7 @@ function bp_core_set_uri_globals() {
 		foreach ( (array) $bp->pages as $page_key => $bp_page ) {
 
 			// Skip page if component is inactive
-			if ( !bp_is_active( $page_key ) )
+			if ( !bp_is_active( $page_key ) && in_array( $page_key, array( 'activate', 'register') ) )
 				continue;
 
 			// Look for a match (check members first)
