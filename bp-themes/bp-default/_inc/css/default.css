@@ -255,6 +255,9 @@ div#sidebar {
 	margin-top: 1px;
 	width: 224px;
 }
+div#sidebar div#sidebar-me {
+	margin-bottom: 15px;
+}
 div#sidebar div#sidebar-me img.avatar {
 	float: left;
 	margin: 0 10px 15px 0;
