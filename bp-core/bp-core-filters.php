@@ -52,7 +52,7 @@ add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 function bp_core_email_from_address_filter() {
 	$domain = (array) explode( '/', site_url() );
 
-	return apply_filters( 'bp_core_email_from_address_filter', __( 'noreply', 'buddypress' ) . '@' . $domain[2] );
+	return apply_filters( 'bp_core_email_from_address_filter', 'noreply@' . $domain[2] );
 }
 add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
 
