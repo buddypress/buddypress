@@ -165,12 +165,13 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
 /**
  * Enqueue theme CSS safely
  *
- * For maximum flexibility, BuddyPress Default's stylesheet is enqueued in the following fashion.
- * If you're building a child theme of bp-default, you can prevent this enqueuing by overriding
- * this function in your child theme's functions.php:
- *   if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
- *       function bp_dtheme_enqueue_styles() {}
- *   endif;
+ * For maximum flexibility, BuddyPress Default's stylesheet is enqueued, using wp_enqueue_style().
+ * If you're building a child theme of bp-default, your stylesheet will also be enqueued,
+ * automatically, as dependent on bp-default's CSS. For this reason, bp-default child themes are
+ * not recommended to include bp-default's stylesheet using @import.
+ *
+ * If you would prefer to use @import, or would like to change the way in which stylesheets are
+ * enqueued, you can override bp_dtheme_enqueue_styles() in your theme's functions.php file.
  *
  * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
  * @see http://codex.buddypress.org/releases/1-5-developer-and-designer-information/
@@ -180,8 +181,16 @@ function bp_dtheme_enqueue_styles() {
 	// Bump this when changes are made to bust cache
 	$version = '20110830';
 
-	// Default CSS
-	wp_enqueue_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), $version );
+	// Register our main stylesheet
+	wp_register_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), $version );
+
+	// If the current theme is a child of bp-default, enqueue its stylesheet
+	if ( is_child_theme() && 'bp-default' == get_template() ) {
+		wp_enqueue_style( get_stylesheet(), get_stylesheet_uri(), array( 'bp-default-main' ), $version );
+	}
+
+	// Enqueue the main stylesheet
+	wp_enqueue_style( 'bp-default-main' );
 
 	// Default CSS RTL
 	if ( is_rtl() )
