@@ -526,11 +526,27 @@ function bp_adminbar_random_menu() {
 /**
  * Handle the Admin Bar/BuddyBar business
  *
- * @global num $wp_version
- * @todo Clean up global constants
+ * @since 1.2.0
+ *
+ * @global string $wp_version
+ * @uses bp_get_option()
+ * @uses is_user_logged_in()
+ * @uses bp_use_wp_admin_bar()
+ * @uses show_admin_bar()
+ * @uses add_action() To hook 'bp_adminbar_logo' to 'bp_adminbar_logo'
+ * @uses add_action() To hook 'bp_adminbar_login_menu' to 'bp_adminbar_menus'
+ * @uses add_action() To hook 'bp_adminbar_account_menu' to 'bp_adminbar_menus'
+ * @uses add_action() To hook 'bp_adminbar_thisblog_menu' to 'bp_adminbar_menus'
+ * @uses add_action() To hook 'bp_adminbar_random_menu' to 'bp_adminbar_menus'
+ * @uses add_action() To hook 'bp_core_admin_bar' to 'wp_footer'
+ * @uses add_action() To hook 'bp_core_admin_bar' to 'admin_footer'
  */
 function bp_core_load_admin_bar() {
 	global $wp_version;
+
+	// Don't show if admin bar is disabled for non-logged in users
+	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
+		return;
 
 	// Show the WordPress admin bar
 	if ( bp_use_wp_admin_bar() && $wp_version >= 3.1 ) {
@@ -541,9 +557,6 @@ function bp_core_load_admin_bar() {
 
 		// Keep the WP admin bar from loading
 		show_admin_bar( false );
-
-		if ( (int)bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
-			return;
 
 		// Actions used to build the BP admin bar
 		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
