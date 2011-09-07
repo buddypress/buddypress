@@ -151,6 +151,23 @@ class BP_Component {
 	/**
 	 * Include required files
 	 *
+	 * Please note that, by default, this method is fired on the bp_include hook, with priority
+	 * 8. This is necessary so that core components are loaded in time to be available to
+	 * third-party plugins. However, this load order means that third-party plugins whose main
+	 * files are loaded at bp_include with priority 10 (as recommended), will not be loaded in
+	 * time for their includes() method to fire automatically.
+	 *
+	 * For this reason, it is recommended that your plugin has its own method or function for
+	 * requiring necessary files. If you must use this method, you will have to call it manually
+	 * in your constructor class, ie
+	 *   $this->includes();
+	 *
+	 * Note that when you pass an array value like 'actions' to includes, it looks for the
+	 * following three files (assuming your component is called 'my_component'):
+	 *   - ./actions
+	 *   - ./bp-my_component/actions
+	 *   - ./bp-my_component/bp-my_component-actions.php
+	 *
 	 * @since 1.5
 	 * @access private
 	 *
@@ -192,7 +209,7 @@ class BP_Component {
 	 */
 	function setup_actions() {
 
-		// Setup globals 
+		// Setup globals
 		add_action( 'bp_setup_globals',          array ( $this, 'setup_globals'          ), 10 );
 
 		// Include required files. Called early to ensure that BP core
