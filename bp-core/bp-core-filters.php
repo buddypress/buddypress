@@ -268,7 +268,12 @@ if ( !is_admin() || ( is_admin() && empty( $_POST['noconfirmation'] ) ) )
 function bp_modify_page_title( $title, $sep, $seplocation ) {
 	global $bp, $post, $wp_query;
 
+	// If this is not a BP page, just return the title produced by WP
 	if ( bp_is_blog_page() )
+		return $title;
+
+	// If this is the front page of the site, return WP's title
+	if ( is_front_page() || is_home() )
 		return $title;
 
 	$title = '';
