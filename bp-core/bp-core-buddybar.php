@@ -524,6 +524,28 @@ function bp_adminbar_random_menu() {
 }
 
 /**
+ * Retrieve the admin bar display preference of a user based on context.
+ *
+ * This is a direct copy of WP's private _get_admin_bar_pref()
+ *
+ * @since 1.5.0
+ *
+ * @param string $context Context of this preference check, either 'admin' or 'front'.
+ * @param int $user Optional. ID of the user to check, defaults to 0 for current user.
+ *
+ * @uses get_user_option()
+ *
+ * @return bool Whether the admin bar should be showing for this user.
+ */
+function bp_get_admin_bar_pref( $context, $user = 0 ) {
+	$pref = get_user_option( "show_admin_bar_{$context}", $user );
+	if ( false === $pref )
+		return true;
+
+	return 'true' === $pref;
+}
+
+/**
  * Handle the Admin Bar/BuddyBar business
  *
  * @since 1.2.0
@@ -550,6 +572,10 @@ function bp_core_load_admin_bar() {
 
 	// Show the WordPress admin bar
 	if ( bp_use_wp_admin_bar() && $wp_version >= 3.1 ) {
+		// Respect user's admin bar display preferences
+		if ( bp_get_admin_bar_pref( 'front', bp_loggedin_user_id() ) || bp_get_admin_bar_pref( 'admin', bp_loggedin_user_id() ) )
+			return;
+
 		show_admin_bar( true );
 
 	// Hide the WordPress admin bar
