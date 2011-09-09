@@ -399,6 +399,11 @@ function bp_is_change_avatar() {
 	return bp_is_user_change_avatar();
 }
 
+function bp_is_friend_requests() {
+	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user_friend_requests()' );
+	return bp_is_user_friend_requests();
+}
+
 /** Theme *********************************************************************/
 
 /**
