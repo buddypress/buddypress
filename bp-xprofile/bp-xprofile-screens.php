@@ -70,7 +70,7 @@ function xprofile_screen_edit_profile() {
 					$date_value =   $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
 
 					// Turn the concatenated value into a timestamp
-					$_POST['field_' . $field_id] = strtotime( $date_value );
+					$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
 				}
 
 			}

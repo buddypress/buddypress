@@ -76,7 +76,7 @@ function bp_core_screen_signup() {
 				foreach ( (array) $profile_field_ids as $field_id ) {
 					if ( !isset( $_POST['field_' . $field_id] ) ) {
 						if ( isset( $_POST['field_' . $field_id . '_day'] ) )
-							$_POST['field_' . $field_id] = strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] );
+							$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] ) );
 					}
 
 					// Create errors for required fields without values
@@ -127,7 +127,7 @@ function bp_core_screen_signup() {
 				foreach ( (array) $profile_field_ids as $field_id ) {
 					if ( !isset( $_POST['field_' . $field_id] ) ) {
 						if ( isset( $_POST['field_' . $field_id . '_day'] ) )
-							$_POST['field_' . $field_id] = strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] );
+							$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] ) );
 					}
 
 					if ( !empty( $_POST['field_' . $field_id] ) )

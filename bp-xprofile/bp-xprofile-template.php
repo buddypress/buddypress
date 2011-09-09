@@ -569,9 +569,18 @@ function bp_the_profile_field_options( $args = '' ) {
 				$year  = '';
 
 				if ( !empty( $date ) ) {
-					$day   = date( 'j', $date );
-					$month = date( 'F', $date );
-					$year  = date( 'Y', $date );
+					// If Unix timestamp
+					if ( is_numeric( $date ) ) {
+						$day   = date( 'j', $date );
+						$month = date( 'F', $date );
+						$year  = date( 'Y', $date );
+
+					// If MySQL timestamp
+					} else {
+						$day   = mysql2date( 'j', $date );
+						$month = mysql2date( 'F', $date );
+						$year  = mysql2date( 'Y', $date );
+					}
 				}
 
 				// Check for updated posted values, but errors preventing them from being saved first time

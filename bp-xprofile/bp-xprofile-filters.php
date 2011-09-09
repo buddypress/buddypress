@@ -109,14 +109,38 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $re
 	return $filtered_field_value;
 }
 
+/**
+ * xprofile_filter_format_field_value()
+ *
+ * Runs stripslashes on XProfile fields. If is field_type is 'datebox'
+ * then the date will be formatted by bp_format_time().
+ *
+ * @since 1.0.0
+ *
+ * @param string $field_value XProfile field_value to be filtered.
+ * @param string $field_type XProfile field_type to be filtered.
+ *
+ * @uses bp_format_time()
+ *
+ * @return string $field_value Filtered XProfile field_value. False on failure.
+ */
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 	if ( !isset( $field_value ) || empty( $field_value ) )
 		return false;
 
-	if ( 'datebox' == $field_type )
-		$field_value = bp_format_time( $field_value, true, false );
-	else
+	if ( 'datebox' == $field_type ) {
+
+		// If Unix timestamp
+		if ( is_numeric( $field_value ) )
+			$field_value = bp_format_time( $field_value, true, false );
+
+		// If MySQL timestamp
+		else
+			$field_value = bp_format_time( strtotime( $field_value ), true, false );
+
+	} else {
 		$field_value = str_replace(']]>', ']]&gt;', $field_value );
+	}
 
 	return stripslashes( $field_value );
 }
