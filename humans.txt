@@ -1,0 +1,54 @@
+               .$$$$$$$Z$.
+          .~$$7...........$$$.
+        .$$...?$$$$$$$$$$Z....$Z.
+      .Z$..Z$$$$$$$$$$$$$$$$Z:..$$.
+     ,$..$$$$$$$$$$$$$7...$$$$$?..$.
+   .$Z .$$$$$$$$$$..?$$.....$$$$$..Z:
+  .$$.$$$$$$$$$........$$....Z$$$$..Z,
+  :$.7$$$$$$$$..........$$....$$$$$..$.
+ .$. $$$$$$$$$...........$....$$$$$$..$.
+.$$.$$$$$$$$$$...........$...$$$$$$$$.$.
+.$. $$$$$$$$$$ ..........Z..$$$$$$$$$.$$.
+.$.,$$$$$$$$$$$.........$$$$Z$$$$$$$$..$.
+.Z $$$$$$$$$$$$$$....+$$$$$,,,,~$$$$$..$.
+.$.=$$$$$$Z,,,,,?$$$$$,,,,,Z$,,,,$$$$..$.
+.$..$$$$$$,,,,,,,,Z$$,,,,,,,,$:,,~$$$.:$.
+.$$.$$$$$,,,,,,,,,,,,,,,,,,,,:$,,:$$$.Z.
+ .$..$$$$,,,,,,,,,,,,,,,,,,,,:$,,,$$..$.
+ .$$.$$$:,,,,,,,,,,,,,,,,,,,,,Z$$$$+.$.
+  .$= $$~,,,,,,:::,:,,:,,::,:,$$$$Z.$Z.
+   .$+.$$$$$$$$$$$$$$$$$$$$$$$$$$:.$$.
+    .$$..Z$$$$$$$$$$$$$$$$$$$$$Z..$7.
+      .$...$$$$$$$$$$$$$$$$$$$..Z$.
+        .Z$=..?Z$$$$$$$$$$$Z...$$.
+          .$$7.............Z$$.
+             .7Z$$$$$$$$$$~
+
+   We are the humans behind BuddyPress
+
+/* TEAM */
+Name: Andy Peatling
+Title: Founding Developer
+Twitter: apeatling
+
+Name: John James Jacoby
+Title: Lead Developer
+Twitter: johnjamesjacoby
+Favorite Food: Pizza
+
+Name: Boone B. Gorges
+Title: Developer
+Twitter: boone
+Favorite Pudgy Pie Filling: Cherry
+
+Name: Paul Gibbs
+Title: Developer
+Twitter: pgibbs
+Favourite Food: Pizza
+
+/* THANKS */
+r-a-y, hnla, mercime, modemlooper, cnorris23
+
+/* META */
+Updated: 2011/08/29
+See: http://humanstxt.org/

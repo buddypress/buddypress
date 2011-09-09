@@ -1,0 +1,58 @@
+#wpadminbar .quicklinks li#wp-admin-bar-my-account ul,
+#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar ul {
+	left: 0;
+	right: auto;
+}
+
+/* Displayed User */
+#wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar > a {
+	border-left: none;
+	background: url(../images/admin-bar-sprite.png?d=11122010) top left no-repeat;
+}
+#wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar > a img,
+#wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar > a img {
+	width: 16px;
+	height: 16px;
+	display: inline;
+	border: 1px solid #999;
+	vertical-align: middle;
+	margin: -2px 23px 0 -5px;
+	padding: 0;
+	background: #eee;
+	float: none;
+}
+#wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar ul,
+#wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul {
+	left: 30px;
+}
+#wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar ul ul,
+#wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul ul {
+ 	left: 0;
+}
+
+/* Displayed Group */
+#wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar > a {
+	border-left: none;
+	background: url(../images/admin-bar-sprite.png?d=11122010) top left no-repeat;
+}
+#wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul {
+	left: 0;
+}
+#wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul ul {
+ 	left: 0;
+}
+#wpadminbar .quicklinks li#wp-admin-bar-my-account a span.count,
+#wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar a span.count,
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications {
+	background: #eee;
+	color: #333;
+	text-shadow: none;
+	display: inline;
+	padding: 2px 5px;
+	font-size: 10px;
+	font-weight: bold;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
