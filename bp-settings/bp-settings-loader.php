@@ -77,7 +77,15 @@ class BP_Settings_Component extends BP_Component {
 			'default_subnav_slug'     => 'general'
 		);
 
-		$settings_link = trailingslashit( $bp->displayed_user->domain . $this->slug );
+		// Determine user to use
+		if ( isset( $bp->displayed_user->domain ) )
+			$user_domain = $bp->displayed_user->domain;
+		elseif ( isset( $bp->loggedin_user->domain ) )
+			$user_domain = $bp->loggedin_user->domain;
+		else
+			return;
+
+		$settings_link = trailingslashit( $user_domain . $this->slug );
 
 		// Add General Settings nav item
 		$sub_nav[] = array(

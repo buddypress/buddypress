@@ -1243,6 +1243,66 @@ function bp_is_user_friend_requests() {
 	return false;
 }
 
+/**
+ * Is this a user's settings page?
+ *
+ * @package BuddyPress
+ *
+ * @return bool
+ */
+function bp_is_user_settings() {
+	if ( bp_is_user() && bp_is_settings_component() )
+		return true;
+
+	return false;
+}
+
+/**
+ * Is this a user's General Settings page?
+ *
+ * @package BuddyPress
+ * @since 1.5
+ *
+ * @return bool
+ */
+function bp_is_user_settings_general() {
+	if ( bp_is_user_settings() && bp_is_current_action( 'general' ) )
+		return true;
+
+	return false;
+}
+
+/**
+ * Is this a user's Notification Settings page?
+ *
+ * @package BuddyPress
+ * @since 1.5
+ *
+ * @return bool
+ */
+function bp_is_user_settings_notifications() {
+	if ( bp_is_user_settings() && bp_is_current_action( 'notifications' ) )
+		return true;
+
+	return false;
+}
+
+/**
+ * Is this a user's Account Deletion page?
+ *
+ * @package BuddyPress
+ * @since 1.5
+ *
+ * @return bool
+ */
+function bp_is_user_settings_account_delete() {
+	if ( bp_is_user_settings() && bp_is_current_action( 'delete-account' ) )
+		return true;
+
+	return false;
+}
+
+
 /** Groups ******************************************************************/
 
 function bp_is_group() {
