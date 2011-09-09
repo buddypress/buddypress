@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-09-09 15:31:03+00:00\n"
+"POT-Creation-Date: 2011-09-09 18:31:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2692,68 +2692,68 @@ msgstr ""
 msgid "----"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:605
+#: bp-xprofile/bp-xprofile-template.php:614
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:605
+#: bp-xprofile/bp-xprofile-template.php:614
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:605
+#: bp-xprofile/bp-xprofile-template.php:614
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:606
+#: bp-xprofile/bp-xprofile-template.php:615
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:606
+#: bp-xprofile/bp-xprofile-template.php:615
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:606
+#: bp-xprofile/bp-xprofile-template.php:615
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:607
+#: bp-xprofile/bp-xprofile-template.php:616
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:607
+#: bp-xprofile/bp-xprofile-template.php:616
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:607
+#: bp-xprofile/bp-xprofile-template.php:616
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:608
+#: bp-xprofile/bp-xprofile-template.php:617
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:608
+#: bp-xprofile/bp-xprofile-template.php:617
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:608
+#: bp-xprofile/bp-xprofile-template.php:617
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:730
+#: bp-xprofile/bp-xprofile-template.php:739
 msgid "Avatar uploads are currently disabled. Why not use a <a href=\"http://gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:739
+#: bp-xprofile/bp-xprofile-template.php:748
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:750
+#: bp-xprofile/bp-xprofile-template.php:759
 msgid "Profile updated %s"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:793
-#: bp-xprofile/bp-xprofile-template.php:794
+#: bp-xprofile/bp-xprofile-template.php:802
+#: bp-xprofile/bp-xprofile-template.php:803
 #: bp-members/bp-members-adminbar.php:110
 msgid "Edit Profile"
 msgstr ""
