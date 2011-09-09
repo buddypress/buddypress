@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-09-09 18:31:03+00:00\n"
+"POT-Creation-Date: 2011-09-09 21:31:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -419,7 +419,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:40 bp-core/admin/bp-core-admin.php:91
 #: bp-core/bp-core-functions.php:253 bp-settings/bp-settings-loader.php:15
-#: bp-settings/bp-settings-loader.php:72 bp-settings/bp-settings-loader.php:142
+#: bp-settings/bp-settings-loader.php:72 bp-settings/bp-settings-loader.php:150
 #: bp-groups/bp-groups-loader.php:189 bp-groups/bp-groups-template.php:1279
 msgid "Settings"
 msgstr ""
@@ -1539,17 +1539,18 @@ msgstr ""
 msgid "You have a friendship request from %s"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:84 bp-settings/bp-settings-loader.php:149
+#: bp-settings/bp-settings-loader.php:92 bp-settings/bp-settings-loader.php:157
 msgid "General"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:95 bp-settings/bp-settings-loader.php:156
+#: bp-settings/bp-settings-loader.php:103
+#: bp-settings/bp-settings-loader.php:164
 #: bp-members/bp-members-adminbar.php:167 bp-members/bp-members-buddybar.php:13
 msgid "Notifications"
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:107
-#: bp-settings/bp-settings-loader.php:164
+#: bp-settings/bp-settings-loader.php:115
+#: bp-settings/bp-settings-loader.php:172
 #: bp-members/bp-members-adminbar.php:145
 #: bp-themes/bp-default/members/single/settings/delete-account.php:50
 msgid "Delete Account"
