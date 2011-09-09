@@ -136,17 +136,23 @@ class BP_Forums_Template_Forum {
 			$this->topic_count       = 0;
 			$this->total_topic_count = 0;
 		} else {
+			// Get a total topic count, for use in pagination. This value will differ
+			// depending on scope
 			if ( !empty( $forum_id ) ) {
+				// Group forums
 				$topic_count = bp_forums_get_forum( $forum_id );
 				$topic_count = (int)$topic_count->topics;
 			} else if ( !empty( $bp->groups->current_group ) ) {
 				$topic_count = (int)groups_total_public_forum_topic_count( $type );
-			} else if ( bp_is_user_forums_started() ) {
-				$topic_count = bp_forums_total_topic_count_for_user( bp_displayed_user_id() );
+			} else if ( bp_is_user_forums_started() || ( bp_is_directory() && $user_id ) ) {
+				// This covers the case of Profile > Forums > Topics Started, as
+				// well as Forum Directory > My Topics
+				$topic_count = bp_forums_total_topic_count_for_user( bp_displayed_user_id(), $type );
 			} else if ( bp_is_user_forums_replied_to() ) {
-				$topic_count = bp_forums_total_replied_count_for_user( bp_displayed_user_id() );
+				// Profile > Forums > Replied To
+				$topic_count = bp_forums_total_replied_count_for_user( bp_displayed_user_id(), $type );
 			} else {
-				// For forum directories, get a true count
+				// For forum directories (All Topics), get a true count
 				$status = is_super_admin() ? 'all' : 'public'; // todo: member-of
 				$topic_count = (int)groups_total_forum_topic_count( $status, $search_terms );
 			}

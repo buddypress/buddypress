@@ -290,7 +290,16 @@ function bp_forums_total_topic_count() {
 	return apply_filters( 'bp_forums_total_topic_count', $count );
 }
 
-function bp_forums_total_topic_count_for_user( $user_id = 0 ) {
+/**
+ * Get a total "Topics Started" count for a given user
+ *
+ * @package BuddyPress
+ *
+ * @param int $user_id ID of the user being queried. Falls back on displayed user, then loggedin
+ * @param str $type The current filter/sort type. 'active', 'popular', 'unreplied'
+ * @return int $count The topic count
+ */
+function bp_forums_total_topic_count_for_user( $user_id = 0, $type = 'active' ) {
 	global $bp;
 
 	do_action( 'bbpress_init' );
@@ -299,7 +308,17 @@ function bp_forums_total_topic_count_for_user( $user_id = 0 ) {
 		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
 
 	if ( class_exists( 'BB_Query' ) ) {
-		$query = new BB_Query( 'topic', array( 'topic_author_id' => $user_id, 'page' => 1, 'per_page' => -1, 'count' => true ) );
+		$args = array(
+			'topic_author_id' => $user_id,
+			'page' 		  => 1,
+			'per_page'	  => -1,
+			'count'		  => true
+		);
+
+		if ( 'unreplied' == $type )
+			$args['post_count'] = 1;
+
+		$query = new BB_Query( 'topic', $args );
 		$count = $query->count;
 		$query = null;
 	} else {
@@ -320,7 +339,7 @@ function bp_forums_total_topic_count_for_user( $user_id = 0 ) {
  * @param int $user_id Defaults to displayed user, then to logged-in user
  * @return int $count
  */
-function bp_forums_total_replied_count_for_user( $user_id = 0 ) {
+function bp_forums_total_replied_count_for_user( $user_id = 0, $type = 'active' ) {
 	global $bp;
 
 	do_action( 'bbpress_init' );
@@ -340,7 +359,15 @@ function bp_forums_total_replied_count_for_user( $user_id = 0 ) {
 			if ( !in_array( $result->topic_id, $topics ) )
 				$topics[] = $result->topic_id;
 		}
-		$count = count( $topics );
+
+		// Even more unfortunate. If this is filtered by 'unreplied', we have to requery
+		if ( 'unreplied' == $type ) {
+			$topic_ids = implode( ',', $topics );
+			$topics_query = new BB_Query( 'topic', array( 'topic_id' => $topic_ids, 'page' => 1, 'per_page' => -1, 'post_count' => 1 ) );
+			$count = count( $topics_query->results );
+		} else {
+			$count = count( $topics );
+		}
 		$query = null;
 	} else {
 		$count = 0;

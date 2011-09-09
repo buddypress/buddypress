@@ -200,6 +200,9 @@ function bp_forums_add_replied_where_sql( $sql ) {
 
 	$sql .= $wpdb->prepare( " AND p.poster_id = %s ", bp_displayed_user_id() );
 
+	// Remove any topic_author information
+	$sql = str_replace( " AND t.topic_poster = '" . bp_displayed_user_id() . "'", '', $sql );
+
 	return $sql;
 }
 
