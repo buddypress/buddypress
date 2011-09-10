@@ -2,8 +2,8 @@
 Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, mingle, social, community, networks, networking, cms
 Requires at least: 3.2
-Tested up to: 3.2
-Stable tag: 1.2.9
+Tested up to: 3.2.1
+Stable tag: 1.2.10
 
 == Description ==
 
@@ -120,6 +120,11 @@ BuddyPress is available in more than 20 languages. For more information about Bu
 The <a href="http://i18n.svn.buddypress.org/">BuddyPress language file repository</a> includes some language that have not yet set up a localization site.
 
 == Upgrade Notice ==
+
+= 1.2.10 =
+Some security fixes
+Removed deprecated function calls
+Fixes activity permalinks for private and hidden groups
 
 = 1.2.9 =
 Compatibility with WordPress 3.2
