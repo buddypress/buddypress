@@ -649,7 +649,7 @@ function groups_send_invites( $user_id, $group_id ) {
 		$member->save();
 	}
 
-	do_action( 'groups_send_invites', $bp->groups->current_group->id, $invited_users );
+	do_action( 'groups_send_invites', $group_id, $invited_users );
 }
 
 function groups_get_invites_for_group( $user_id, $group_id ) {
