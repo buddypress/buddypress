@@ -869,6 +869,8 @@ Class BP_Groups_Member {
 	function get_recently_joined( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
+		$pag_sql = $hidden_sql = $filter_sql = '';
+
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
@@ -889,6 +891,8 @@ Class BP_Groups_Member {
 	function get_is_admin_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
+		$pag_sql = $hidden_sql = $filter_sql = '';
+
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
@@ -908,6 +912,8 @@ Class BP_Groups_Member {
 
 	function get_is_mod_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
+
+		$pag_sql = $hidden_sql = $filter_sql = '';
 
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
