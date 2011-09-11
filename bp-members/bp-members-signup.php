@@ -232,7 +232,7 @@ function bp_core_flush_illegal_names() {
  * @param array|string $oldvalue The value as it is currently
  * @return array Merged and unique array of illegal names
  */
-function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
+function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 
 	// Make sure $value is array
 	if ( empty( $value ) )
@@ -286,7 +286,7 @@ function bp_core_illegal_names( $value = '', $oldvalue = '' ) {
 
 	return apply_filters( 'bp_core_illegal_names', $illegal_names );
 }
-add_filter( 'pre_update_site_option_illegal_names', 'bp_core_illegal_names', 10, 2 );
+add_filter( 'pre_update_site_option_illegal_names', 'bp_core_get_illegal_names', 10, 2 );
 
 /**
  * Validate a user name and email address when creating a new user.
