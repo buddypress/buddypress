@@ -174,7 +174,9 @@ Class BP_XProfile_Group {
 
 				// Loop through the results and find the fields that have data.
 				foreach( (array)$field_data as $data ) {
-					if ( false !== $key = array_search( $data->field_id, $field_ids ) ) {
+					// Empty fields may contain a serialized empty array
+					$maybe_value = maybe_unserialize( $data->value );
+					if ( !empty( $maybe_value ) && false !== $key = array_search( $data->field_id, $field_ids ) ) {
 						// Fields that have data get removed from the list
 						unset( $field_ids[$key] );
 					}
