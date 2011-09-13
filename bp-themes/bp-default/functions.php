@@ -338,13 +338,13 @@ function bp_dtheme_header_style() {
 	} else {
 		$header_image = get_header_image();
 	}
-
-	if ( empty( $header_image ) )
-		return;
 ?>
 
 	<style type="text/css">
-		#header { background-image: url(<?php echo $header_image ?>); }
+		<?php if ( !empty( $header_image ) ) : ?>
+			#header { background-image: url(<?php echo $header_image ?>); }
+		<?php endif; ?>
+
 		<?php if ( 'blank' == get_header_textcolor() ) { ?>
 		#header h1, #header #desc { display: none; }
 		<?php } else { ?>
