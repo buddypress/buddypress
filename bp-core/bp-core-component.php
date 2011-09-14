@@ -40,7 +40,7 @@ class BP_Component {
 	var $has_directory;
 
 	/**
-	 * @var string The path to the plugins files
+	 * @var string The path to the component's files
 	 */
 	var $path;
 
@@ -70,13 +70,9 @@ class BP_Component {
 	 * @since 1.5
 	 *
 	 * @param mixed $args Required. Supports these args:
-	 *  - name: Unique name (for internal identification)
-	 *  - id: Unique ID (normally for custom post type)
-	 *  - slug: Unique slug (used in query string and permalinks)
-	 *  - query: The loop for this component (WP_Query)
-	 *  - current_id: The current ID of the queried object
-	 * @uses bp_Component::setup_globals() Setup the globals needed
-	 * @uses bp_Component::includes() Include the required files
+	 *  - id: Unique ID (for internal identification). Letters, numbers, and underscores only
+	 *  - name: Unique name. This should be a translatable name, eg __( 'Groups', 'buddypress' )
+	 *  - path: The file path for the component's files. Used by BP_Component::includes()
 	 * @uses bp_Component::setup_actions() Setup the hooks and actions
 	 */
 	function start( $id, $name, $path ) {
