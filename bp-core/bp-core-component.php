@@ -110,7 +110,7 @@ class BP_Component {
 		/** Slugs *************************************************************/
 
 		$defaults = array(
-			'slug'                  => '',
+			'slug'                  => $this->id,
 			'root_slug'             => '',
 			'has_directory'         => false,
 			'notification_callback' => '',
