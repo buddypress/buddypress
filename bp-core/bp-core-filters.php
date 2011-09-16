@@ -299,7 +299,7 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 		if ( !bp_current_component() )
 			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug( bp_members_slug() ) );
 		else
-			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug() );
+			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug( bp_get_root_slug() ) );
 
 	// Sign up page
 	} elseif ( bp_is_register_page() ) {
