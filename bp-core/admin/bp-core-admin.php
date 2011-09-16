@@ -570,8 +570,8 @@ function bp_core_admin_page_options() {
 
 	// Static pages
 	$static_pages = array(
-		'register' => __( 'Sign-up',    'buddypress' ),
-		'activate' => __( 'Activation', 'buddypress' ),
+		'register' => __( 'Register', 'buddypress' ),
+		'activate' => __( 'Activate', 'buddypress' ),
 	); ?>
 
 	<h3><?php _e( 'Registration', 'buddypress' ); ?></h3>
