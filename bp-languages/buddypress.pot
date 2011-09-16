@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-09-15 22:31:04+00:00\n"
+"POT-Creation-Date: 2011-09-16 18:31:04+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -595,12 +595,15 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:573
-msgid "Sign-up"
+#: bp-core/admin/bp-core-admin.php:573 bp-core/admin/bp-core-update.php:500
+#: bp-core/bp-core-functions.php:412 bp-members/bp-members-adminbar.php:63
+msgid "Register"
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:574
-msgid "Activation"
+#: bp-core/admin/bp-core-admin.php:574 bp-core/admin/bp-core-update.php:511
+#: bp-core/bp-core-functions.php:407 bp-messages/bp-messages-template.php:498
+#: bp-themes/bp-default/registration/activate.php:36
+msgid "Activate"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:577
@@ -792,19 +795,8 @@ msgstr ""
 msgid "Displays a directory of the sites in your network."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:500 bp-core/bp-core-functions.php:412
-#: bp-members/bp-members-adminbar.php:63
-msgid "Register"
-msgstr ""
-
 #: bp-core/admin/bp-core-update.php:501
 msgid "Displays a site registration page where users can create new accounts."
-msgstr ""
-
-#: bp-core/admin/bp-core-update.php:511 bp-core/bp-core-functions.php:407
-#: bp-messages/bp-messages-template.php:498
-#: bp-themes/bp-default/registration/activate.php:36
-msgid "Activate"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:512
