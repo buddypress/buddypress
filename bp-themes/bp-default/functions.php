@@ -91,9 +91,9 @@ function bp_dtheme_setup() {
 		// The height and width of your custom header. You can hook into the theme's own filters to change these values.
 		// Add a filter to bp_dtheme_header_image_width and bp_dtheme_header_image_height to change these values.
 		define( 'HEADER_IMAGE_WIDTH',  apply_filters( 'bp_dtheme_header_image_width',  1250 ) );
-		define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'bp_dtheme_header_image_height', 125  ) );
+		define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'bp_dtheme_header_image_height', 133  ) );
 
-		// We'll be using post thumbnails for custom header images on posts and pages. We want them to be 1250 pixels wide by 125 pixels tall.
+		// We'll be using post thumbnails for custom header images on posts and pages. We want them to be 1250 pixels wide by 133 pixels tall.
 		// Larger images will be auto-cropped to fit, smaller ones will be ignored.
 		set_post_thumbnail_size( HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT, true );
 
@@ -227,7 +227,7 @@ function bp_dtheme_admin_header_style() {
 			-moz-border-radius-bottomright: 6px;
 			-webkit-border-bottom-right-radius: 6px;
 			margin-bottom: 20px;
-			height: 125px;
+			height: 133px;
 		}
 
 		#headimg h1{
