@@ -278,7 +278,8 @@ function bp_core_set_uri_globals() {
 	$bp->action_variables = $bp_uri;
 
 	// Remove the username from action variables if this is not a VHOST install
-	if ( defined( 'VHOST' ) && 'no' == VHOST && empty( $is_root_component ) )
+	// @todo - move or remove this all together
+	if ( defined( 'VHOST' ) && ( 'no' == VHOST ) && empty( $bp->current_component ) )
 		array_shift( $bp_uri );
 
 	// Reset the keys by merging with an empty array
