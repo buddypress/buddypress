@@ -266,7 +266,7 @@ function xprofile_check_is_required_field( $field_id ) {
 	$retval = false;
 
 	// Super admins can skip required check
-	if ( is_super_admin() )
+	if ( is_super_admin() && !is_admin() )
 		$retval = false;
 
 	// All other users will use the field's setting
