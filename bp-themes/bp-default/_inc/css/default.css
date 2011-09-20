@@ -76,7 +76,6 @@ body {
 	max-width: 1250px;
 	margin: 0 auto;
 	width: 95%;
-	-webkit-text-size-adjust: none;
 }
 .padder {
 	padding: 19px;

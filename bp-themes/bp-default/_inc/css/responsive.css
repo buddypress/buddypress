@@ -80,6 +80,10 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 /*--------------------------------------------------------------
 2.0 - Smartphone (any)
 --------------------------------------------------------------*/
+@media screen and (max-device-width: 480px), screen and (-webkit-min-device-pixel-ratio: 2) {
+	-webkit-text-size-adjust: none;
+}
+
 @media only screen and (max-width: 480px) {
 	body {
 		width: 100%;
