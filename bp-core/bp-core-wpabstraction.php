@@ -33,6 +33,12 @@ if ( !is_multisite() ) {
 		}
 	}
 
+	if ( !function_exists( 'delete_blog_option' ) ) {
+		function delete_blog_option( $blog_id, $option_name ) {
+			return delete_option( $option_name );
+		}
+	}
+
 	if ( !function_exists( 'switch_to_blog' ) ) {
 		function switch_to_blog() {
 			return bp_get_root_blog_id();
