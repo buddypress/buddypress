@@ -42,7 +42,7 @@ function bp_forums_bbpress_admin() {
 
 		else : ?>
 
-			<div style="width: 45%; float: left;">
+			<div style="width: 45%; float: left; margin-top: 20px;">
 				<h3><?php _e( '(Installed)', 'buddypress' ); ?> <?php _e( 'Forums for Groups', 'buddypress' ) ?></h3>
 
 				<p><?php _e( 'Each individual Group can have it\'s own discussion forum. Choose this if you\'d like to isolate the conversations your members have into distinctly separate areas.' , 'buddypress' ); ?></p>
@@ -61,7 +61,7 @@ function bp_forums_bbpress_admin() {
 				</div>
 			</div>
 
-			<div style="width: 45%; float: left; margin-left: 20px; padding: 0 20px 20px 20px; border: 1px solid #ddd; background-color: #fff;">
+			<div style="width: 45%; float: left; margin: 20px 0 20px 20px; padding: 0 20px 20px 20px; border: 1px solid #ddd; background-color: #fff;">
 				<h3><?php _e( 'New! Site Wide Forums', 'buddypress' ) ?></h3>
 				<p><?php _e( 'Your site will have central forums that are not isolated to any specific group. Choose this if you\'d like to have a central forum area for your members.', 'buddypress' ) ?></p>
 				<p class="description"><?php _e( 'You may activate both Group and Site Wide forums, but this may create a poor experience for your members.', 'buddypress' ) ?></p>
@@ -159,7 +159,7 @@ function bp_forums_bbpress_install_wizard() {
 				wp_admin_css( 'plugin-install' );
 			?>
 
-				<div style="width: 45%; float: left;">
+				<div style="width: 45%; float: left;  margin-top: 20px;">
 					<h3><?php _e( 'Forums for Groups', 'buddypress' ) ?></h3>
 
 					<p><?php _e( 'Each individual Group can have it\'s own discussion forum. Choose this if you\'d like to isolate the conversations your members have into distinctly separate areas.' , 'buddypress' ); ?></p>
@@ -179,7 +179,7 @@ function bp_forums_bbpress_install_wizard() {
 					</div>
 				</div>
 
-				<div style="width: 45%; float: left; margin-left: 20px; padding: 0 20px 20px 20px; border: 1px solid #ddd; background-color: #fff;">
+				<div style="width: 45%; float: left; margin: 20px 0 20px 20px; padding: 0 20px 20px 20px; border: 1px solid #ddd; background-color: #fff;">
 					<h3><?php _e( 'New! Site Wide Forums', 'buddypress' ) ?></h3>
 					<p><?php _e( 'Your site will have central forums that are not isolated to any specific group. Choose this if you\'d like to have a central forum area for your members.', 'buddypress' ) ?></p>
 					<p class="description"><?php _e( 'You may activate both Group and Site Wide forums, but this may create a poor experience for your members.', 'buddypress' ) ?></p>
