@@ -45,7 +45,7 @@ function bp_forums_bbpress_admin() {
 			<div style="width: 45%; float: left; margin-top: 20px;">
 				<h3><?php _e( '(Installed)', 'buddypress' ); ?> <?php _e( 'Forums for Groups', 'buddypress' ) ?></h3>
 
-				<p><?php _e( 'Each individual Group can have it\'s own discussion forum. Choose this if you\'d like to isolate the conversations your members have into distinctly separate areas.' , 'buddypress' ); ?></p>
+				<p><?php _e( 'Give each individual group its own discussion forum. Choose this if you\'d like to keep your members\' conversations separated into distinct areas.' , 'buddypress' ); ?></p>
 				<p class="description"><?php _e( 'You may use an existing bbPress installation if you have one.', 'buddypress' ); ?></p>
 
 				<h4 style="margin-bottom: 10px;"><?php _e( 'Features', 'buddypress' ); ?></h4>
