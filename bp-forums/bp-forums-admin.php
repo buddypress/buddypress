@@ -77,7 +77,7 @@ function bp_forums_bbpress_admin() {
 					<a class="button thickbox button-primary" href="<?php bp_admin_url( add_query_arg( array( 'tab' => 'plugin-information', 'plugin' => 'bbpress', 'TB_iframe' => 'true', 'width' => '640', 'height' => '500' ), 'plugin-install.php' ) ); ?>"><?php _e( 'Install Site Wide Forums', 'buddypress' ) ?></a> &nbsp;
 				</div>
 			</div>
-		
+
 		<?php endif; ?>
 
 	</div>
@@ -151,8 +151,8 @@ function bp_forums_bbpress_install_wizard() {
 				</div>
 
 			<?php } else {
-				
-				// Include the plugin install 
+
+				// Include the plugin install
 
 				add_thickbox();
 				wp_enqueue_script( 'plugin-install' );
@@ -162,7 +162,7 @@ function bp_forums_bbpress_install_wizard() {
 				<div style="width: 45%; float: left;  margin-top: 20px;">
 					<h3><?php _e( 'Forums for Groups', 'buddypress' ) ?></h3>
 
-					<p><?php _e( 'Each individual Group can have it\'s own discussion forum. Choose this if you\'d like to isolate the conversations your members have into distinctly separate areas.' , 'buddypress' ); ?></p>
+					<p><?php _e( 'Give each individual group its own discussion forum. Choose this if you\'d like to keep your members\' conversations separated into distinct areas.' , 'buddypress' ); ?></p>
 					<p class="description"><?php _e( 'You may use an existing bbPress installation if you have one.', 'buddypress' ); ?></p>
 
 					<h4 style="margin-bottom: 10px;"><?php _e( 'Features', 'buddypress' ); ?></h4>
