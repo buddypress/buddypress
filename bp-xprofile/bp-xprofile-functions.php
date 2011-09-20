@@ -262,10 +262,18 @@ function xprofile_delete_field_data( $field, $user_id ) {
 function xprofile_check_is_required_field( $field_id ) {
 	$field = new BP_Xprofile_Field( $field_id );
 
-	if ( (int)$field->is_required )
-		return true;
+	// Define locale variable(s)
+	$retval = false;
 
-	return false;
+	// Super admins can skip required check
+	if ( is_super_admin() )
+		$retval = false;
+
+	// All other users will use the field's setting
+	elseif ( isset( $field->is_required ) )
+		$retval = $field->is_required;
+
+	return (bool) $retval;
 }
 
 /**

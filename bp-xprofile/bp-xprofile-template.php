@@ -647,7 +647,18 @@ function bp_the_profile_field_is_required() {
 	function bp_get_the_profile_field_is_required() {
 		global $field;
 
-		return apply_filters( 'bp_get_the_profile_field_is_required', (int)$field->is_required );
+		// Define locale variable(s)
+		$retval = false;
+
+		// Super admins can skip required check
+		if ( is_super_admin() )
+			$retval = false;
+
+		// All other users will use the field's setting
+		elseif ( isset( $field->is_required ) )
+			$retval = $field->is_required;
+
+		return apply_filters( 'bp_get_the_profile_field_is_required', (bool) $retval );
 	}
 
 function bp_unserialize_profile_field( $value ) {
