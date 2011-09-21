@@ -3,7 +3,7 @@ Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.2
 Tested up to: 3.2.1
-Stable tag: 1.5-rc-1
+Stable tag: 1.5
 
 Social networking in a box. Build a social network for your company, school, sports team or niche community.
 
@@ -84,42 +84,8 @@ BuddyPress is available in more than 20 languages. For more information, check o
 
 == Upgrade Notice ==
 
-= 1.5-rc-1 =
-Fixed debug notices
-Fixed pagination on certain forum directory filters
-Fixed some forum sticky logic
-Fixed some hook placement
-Fixed bugs with the display of empty profile fields
-Fixed some forum AJAX
-Fixed some issues with localizing times and email addresses
-Added template tags for settings component
-Improved theme backward compatibility
-Added PHPDoc
-
-= 1.5-beta-3 =
-Fixed debug notices
-Fixed user spam/unspam issues
-Fixed single-site activity stream actions
-Added responsive CSS to bp-default
-Refreshed screenshots
-Updated readme.txt
-RTL improvements
-
-= 1.5-beta-2 =
-Fixed debug notices
-Fixed bp-pages issues
-Fixed group extension messages
-Fixed login redirect handling
-Fixed incorrect BP_Component action names
-Fixed references to 1.3 in PHPDoc
-RTL improvements
-Removed sidebar gradient from bp-default
-
-= 1.5-beta-1 =
-792 tickets closed
-494 confirmed bug fixes
-2,161 total code changes since
-484 pizzas consumed
+= 1.5 =
+See: http://codex.buddypress.org/releases/version-1-5/
 
 = 1.2.9 =
 Compatibility with WordPress 3.2
@@ -132,4 +98,5 @@ Fixes over 10 bugs.
 
 == Changelog ==
 
-See http://buddypress.org/about/release-history/ for a list of changes.
+See http://codex.buddypress.org/releases/version-1-5/ for 1.5.
+See http://buddypress.org/about/release-history/ for all other versions.
