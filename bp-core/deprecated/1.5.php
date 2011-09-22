@@ -58,9 +58,11 @@ function bp_core_is_main_site( $blog_id = '' ) {
  * @param int $user_id Optional. Defaults to logged-in user
  * @return bool True if is super admin
  */
-function is_site_admin( $user_id = false ) {
-	_deprecated_function( __FUNCTION__, '1.5', 'is_super_admin()' );
-	return is_super_admin( $user_id );
+if ( !function_exists( 'is_site_admin' ) ) {
+	function is_site_admin( $user_id = false ) {
+		_deprecated_function( __FUNCTION__, '1.5', 'is_super_admin()' );
+		return is_super_admin( $user_id );
+	}
 }
 
 /** Admin ******************************************************************/
