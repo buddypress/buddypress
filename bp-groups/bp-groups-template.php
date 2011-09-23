@@ -2184,7 +2184,7 @@ function bp_group_creation_previous_link() {
 			$previous_steps[] = $slug;
 		}
 
-		return apply_filters( 'bp_get_group_creation_previous_link', trailingslashit( bp_get_root_domain() ) . bp_get_groups_slug() . '/create/step/' . array_pop( $previous_steps ) );
+		return apply_filters( 'bp_get_group_creation_previous_link', trailingslashit( bp_get_root_domain() ) . bp_get_groups_root_slug() . '/create/step/' . array_pop( $previous_steps ) );
 	}
 
 function bp_is_last_group_creation_step() {
