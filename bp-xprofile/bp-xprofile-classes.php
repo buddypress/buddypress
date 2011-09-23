@@ -748,6 +748,8 @@ Class BP_XProfile_Field {
 					</select>
 				</div>
 
+				<?php do_action( 'xprofile_field_additional_options', &$this ) ?>
+
 				<?php $this->render_admin_form_children(); ?>
 <?php	} else { ?>
 				<input type="hidden" name="required" id="required" value="1" />
