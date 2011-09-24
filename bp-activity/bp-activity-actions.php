@@ -190,7 +190,7 @@ function bp_activity_action_post_update() {
 	global $bp;
 
 	// Do not proceed if user is not logged in, not viewing activity, or not posting
-	if ( !is_user_logged_in() || bp_is_activity_component() || !bp_is_current_action( 'post' ) )
+	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'post' ) )
 		return false;
 
 	// Check the nonce
