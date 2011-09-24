@@ -215,7 +215,7 @@ class BP_Groups_Component extends BP_Component {
 		) );
 
 		// Auto join group when non group member performs group activity
-		$this->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' );
+		$this->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) && BP_DISABLE_AUTO_GROUP_JOIN ? false : true;
 	}
 
 	/**
