@@ -13,9 +13,13 @@ else : ?>
 	<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 		<ul>
 
-			<li>
-				<a href="#post-new" class="show-hide-new"><?php _e( 'New Topic', 'buddypress' ) ?></a>
-			</li>
+			<?php if ( is_user_logged_in() ) : ?>
+
+				<li>
+					<a href="#post-new" class="show-hide-new"><?php _e( 'New Topic', 'buddypress' ) ?></a>
+				</li>
+
+			<?php endif; ?>
 
 			<?php if ( bp_forums_has_directory() ) : ?>
 

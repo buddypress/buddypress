@@ -6,9 +6,13 @@
 
 		<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 			<ul>
-				<li>
-					<a href="<?php bp_forum_topic_new_reply_link() ?>" class="new-reply-link"><?php _e( 'New Reply', 'buddypress' ) ?></a>
-				</li>
+				<?php if ( is_user_logged_in() ) : ?>
+
+					<li>
+						<a href="<?php bp_forum_topic_new_reply_link() ?>" class="new-reply-link"><?php _e( 'New Reply', 'buddypress' ) ?></a>
+					</li>
+
+				<?php endif; ?>
 
 				<?php if ( bp_forums_has_directory() ) : ?>
 
