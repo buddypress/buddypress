@@ -273,7 +273,7 @@ function bp_has_groups( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
-	if ( is_null( $search_terms ) ) {
+	if ( empty( $search_terms ) ) {
 		if ( isset( $_REQUEST['group-filter-box'] ) && !empty( $_REQUEST['group-filter-box'] ) )
 			$search_terms = $_REQUEST['group-filter-box'];
 		elseif ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
