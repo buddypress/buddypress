@@ -243,11 +243,17 @@ function groups_action_leave_group() {
 
 	// User wants to leave any group
 	if ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
-		if ( !groups_leave_group( $bp->groups->current_group->id ) ) {
+
+		// Stop sole admins from abandoning their group
+		$group_admins = groups_get_group_admins( $bp->groups->current_group->id );
+	 	if ( 1 == count( $group_admins ) && $group_admins[0]->user_id == $bp->loggedin_user->id )
+			bp_core_add_message( __( 'This group must have at least one admin', 'buddypress' ), 'error' );
+
+		elseif ( !groups_leave_group( $bp->groups->current_group->id ) )
 			bp_core_add_message( __( 'There was an error leaving the group.', 'buddypress' ), 'error' );
-		} else {
+		else
 			bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
-		}
+
 		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 	}
 
