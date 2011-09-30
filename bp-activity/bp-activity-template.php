@@ -2439,7 +2439,7 @@ function bp_sitewide_activity_feed_link() {
 	 * @return string The sitewide activity feed link
 	 */
 	function bp_get_sitewide_activity_feed_link() {
-		return apply_filters( 'bp_get_sitewide_activity_feed_link', home_url( bp_get_activity_root_slug() . '/feed/' ) );
+		return apply_filters( 'bp_get_sitewide_activity_feed_link', bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/feed/' );
 	}
 
 /**
