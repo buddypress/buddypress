@@ -265,6 +265,13 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_ms_update() {
+		global $wpdb;
+
+		// Make sure that page info is pulled from bp_get_root_blog_id() (except when in
+		// multisite mode)
+		if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != bp_get_root_blog_id() ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
+			switch_to_blog( bp_get_root_blog_id() );
+
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
@@ -336,7 +343,9 @@ class BP_Core_Setup_Wizard {
 
 		</div>
 
-	<?php
+		<?php
+
+		restore_current_blog();
 	}
 
 	function step_components() {
@@ -362,7 +371,12 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_pages() {
-		global $bp;
+		global $bp, $wpdb;
+
+		// Make sure that page info is pulled from bp_get_root_blog_id() (except when in
+		// multisite mode)
+		if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != bp_get_root_blog_id() ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
+			switch_to_blog( bp_get_root_blog_id() );
 
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
@@ -526,7 +540,9 @@ class BP_Core_Setup_Wizard {
 
 		</div>
 
-	<?php
+		<?php
+
+		restore_current_blog();
 	}
 
 	function step_permalinks() {
