@@ -22,7 +22,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		$widget_ops = array( 'description' => __( 'A dynamic list of recently active, popular, and newest members', 'buddypress' ) );
 		parent::__construct( false, $name = __( 'Members', 'buddypress' ), $widget_ops );
 
-		if ( is_active_widget( false, false, $this->id_base ) ) {
+		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {
 			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
 				wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.dev.js', array( 'jquery' ), '20110723' );
 			else
