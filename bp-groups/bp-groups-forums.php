@@ -23,11 +23,26 @@ function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = 
 	do_action( 'groups_new_group_forum', $forum_id, $group_id );
 }
 
+/**
+ * Updates group forum metadata (title, description, slug) when the group's details are edited
+ *
+ * @package BuddyPress
+ * @subpackage Groups
+ *
+ * @param int $group_id Group id, passed from groups_details_updated
+ */
 function groups_update_group_forum( $group_id ) {
 
 	$group = new BP_Groups_Group( $group_id );
 
-	if ( empty( $group->enable_forum ) || !bp_is_active( 'forums' ) )
+	/**
+	 * Bail in the following three situations:
+	 *  1. Forums are not enabled for this group
+	 *  2. The BP Forum component is not enabled
+	 *  3. The built-in bbPress forums are not correctly installed (usually means they've been
+	 *     uninstalled)
+	 */
+	if ( empty( $group->enable_forum ) || !bp_is_active( 'forums' ) || ( function_exists( 'bp_forums_is_installed_correctly' ) && !bp_forums_is_installed_correctly() ) )
 		return false;
 
 	$args = array(
