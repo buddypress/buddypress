@@ -1323,7 +1323,7 @@ function bp_forum_permalink( $forum_id = 0 ) {
 		global $bp;
 
 		if ( bp_is_groups_component() ) {
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . bp_current_item() . 'forum' );
+			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . bp_current_item() . '/forum' );
 		} else {
 			if ( empty( $forum_id ) ) {
 				global $topic_template;
