@@ -511,7 +511,7 @@ Class BP_XProfile_Field {
 	function get_children( $for_editing = false ) {
 		global $wpdb, $bp;
 
-		/* This is done here so we don't have problems with sql injection */
+		// This is done here so we don't have problems with sql injection
 		if ( 'asc' == $this->order_by && !$for_editing )
 			$sort_sql = 'ORDER BY name ASC';
 		else if ( 'desc' == $this->order_by && !$for_editing )
@@ -519,7 +519,7 @@ Class BP_XProfile_Field {
 		else
 			$sort_sql = 'ORDER BY option_order ASC';
 
-		/* This eliminates a problem with getting all fields when there is no id for the object */
+		// This eliminates a problem with getting all fields when there is no id for the object
 		if ( !$this->id )
 			$parent_id = -1;
 		else
@@ -530,7 +530,7 @@ Class BP_XProfile_Field {
 		if ( !$children = $wpdb->get_results( $sql ) )
 			return false;
 
-		return $children;
+		return apply_filters( 'bp_xprofile_field_get_children', $children );
 	}
 
 	function delete_children() {
