@@ -23,7 +23,7 @@ More and more BuddyPress powered sites are popping up. You can take a look at so
 
 <h4>Plugins: Adding So Much More</h4>
 
-BuddyPress boasts an ever growing array of new features developed by an awesome plugin development community. There are more than 330 BuddyPress plugins available, and the list is growing every day. For a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can install any of these plugins automatically, using the plugin installer on your WordPress Dashboard.
+BuddyPress boasts an ever growing array of new features developed by an awesome plugin development community. There are more than 330 BuddyPress plugins available, and the list is growing every day. Check out our list of <a href="http://buddypress.org/extend/recommended-plugins/">popular and recommended plugins</a>; for a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can install any of these plugins automatically, using the plugin installer on your WordPress Dashboard.
 
 <h4>More Information</h4>
 
