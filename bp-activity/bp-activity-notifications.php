@@ -211,7 +211,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 		/* Send the message */
 		$to = apply_filters( 'bp_activity_new_comment_notification_comment_author_to', $to );
 		$subject = apply_filters( 'bp_activity_new_comment_notification_comment_author_subject', $subject, $poster_name );
-		$message = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $message, $poster_name, $content, $settings_link );
+		$message = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $message, $poster_name, $content, $settings_link, $thread_link );
 
 		wp_mail( $to, $subject, $message );
 
