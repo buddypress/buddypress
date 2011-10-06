@@ -15,9 +15,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Add the "My Account" menu and all submenus.
  *
  * @since BuddyPress (r4151)
+ * @todo Deprecate WP 3.2 admin bar compatibility when we drop 3.2 support
  */
 function bp_members_admin_bar_my_account_menu() {
-	global $bp, $wp_admin_bar;
+	global $bp, $wp_admin_bar, $wp_version;
 
 	// Bail if this is an ajax request
 	if ( defined( 'DOING_AJAX' ) )
@@ -34,14 +35,33 @@ function bp_members_admin_bar_my_account_menu() {
 			'height'  => 16
 		) );
 
-		// Unique ID for the 'My Account' menu
-		$bp->my_account_menu_id = ( ! empty( $avatar ) ) ? 'my-account-with-avatar' : 'my-account';
+		// Some admin bar setup in WP 3.2 differs from WP 3.3+.
+		// Backward-compatibility will be deprecated at some point.
+		if ( version_compare( (float)$wp_version, '3.3', '>=' ) ) {
+			// Stored in the global so we can add menus easily later on
+			$bp->my_account_menu_id = 'my-account';
+
+			$title = bp_get_loggedin_user_fullname() . $avatar;
+
+			$class = 'opposite';
+			if ( !empty( $avatar ) )
+				$class .= ' with-avatar';
+
+			$meta  = array(
+				'class' => $class
+			);
+		} else {
+			$bp->my_account_menu_id = ( ! empty( $avatar ) ) ? 'my-account-with-avatar' : 'my-account';
+			$title = $avatar . bp_get_loggedin_user_fullname();
+			$meta  = array();
+		}
 
 		// Create the main 'My Account' menu
 		$wp_admin_bar->add_menu( array(
 			'id'    => $bp->my_account_menu_id,
-			'title' => $avatar . bp_get_loggedin_user_fullname(),
-			'href'  => $bp->loggedin_user->domain
+			'title' => $title,
+			'href'  => $bp->loggedin_user->domain,
+			'meta'  => $meta
 		) );
 
 	// Show login and sign-up links
