@@ -41,7 +41,7 @@ To view the group: %2$s
 		unset( $message, $to );
 	}
 
-	do_action( 'bp_groups_sent_updated_email', $user_ids, $subject, $message, $group_id );
+	do_action( 'bp_groups_sent_updated_email', $user_ids, $subject, '', $group_id );
 }
 
 function groups_notification_new_membership_request( $requesting_user_id, $admin_id, $group_id, $membership_id ) {
