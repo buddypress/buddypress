@@ -25,23 +25,40 @@ if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
  */
 function bp_admin_bar_remove_wp_menus() {
 
+	/**
+	 * WP 3.2 hooks
+	 */
 	remove_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
 	remove_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
 	remove_action( 'admin_bar_menu', 'wp_admin_bar_dashboard_view_site_menu', 25 );
+	remove_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );
 
 	// Don't show the 'Edit Page' menu on BP pages
 	if ( !bp_is_blog_page() )
 		remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 30 );
 
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
-
 	if ( !is_network_admin() && !is_user_admin() ) {
 		remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 50 );
 		remove_action( 'admin_bar_menu', 'wp_admin_bar_appearance_menu', 60 );
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
 	}
 
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
+	/**
+	 * WP 3.3+
+	 */
+	remove_action( 'admin_bar_menu', 'wp_admin_bar_blog_front_menu', 30 );
+	remove_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );
+
+	// Menus specific to blog posts shouldn't show on BP pages
+	if ( !bp_is_blog_page() && !is_network_admin() && !is_admin() ) {
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 50 );
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
+	}
+
+	// Don't show the Updates menu on the front end
+	if ( !is_network_admin() && !is_admin() ) {
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 40 );
+	}
 }
 add_action( 'bp_init', 'bp_admin_bar_remove_wp_menus', 2 );
 
