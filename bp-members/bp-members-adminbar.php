@@ -167,7 +167,7 @@ function bp_members_admin_bar_user_admin_menu() {
 		'meta'   => array( 'onclick' => 'confirm(" ' . __( "Are you sure you want to delete this user's account?", 'buddypress' ) . '");' )
 	) );
 }
-add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_user_admin_menu', 99 );
+add_action( 'admin_bar_menu', 'bp_members_admin_bar_user_admin_menu', 99 );
 
 /**
  * Build the "Notifications" dropdown
@@ -214,7 +214,7 @@ function bp_members_admin_bar_notifications_menu() {
 
 	return;
 }
-add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_notifications_menu', 999 );
+add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu', 90 );
 
 /**
  * Make sure the logout link is at the bottom of the "My Account" menu
@@ -240,6 +240,6 @@ function bp_members_admin_bar_my_account_logout() {
 		) );
 	}
 }
-add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_logout', 9999 );
+add_action( 'admin_bar_menu', 'bp_members_admin_bar_my_account_logout', 9999 );
 
 ?>

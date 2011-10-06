@@ -107,7 +107,7 @@ function bp_admin_bar_root_site() {
 		}
 	}
 }
-add_action( 'bp_setup_admin_bar', 'bp_admin_bar_root_site', 3 );
+add_action( 'admin_bar_menu', 'bp_admin_bar_root_site', 15 );
 
 /**
  * Add the "My Sites/[Site Name]" menu and all submenus.
@@ -141,7 +141,7 @@ function bp_admin_bar_my_sites_menu() {
 		$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Visit Site' ), 'href' => get_home_url( $blog->userblog_id ) ) );
 	}
 }
-add_action( 'bp_setup_admin_bar', 'bp_admin_bar_my_sites_menu', 3 );
+add_action( 'admin_bar_menu', 'bp_admin_bar_my_sites_menu', 17 );
 
 /**
  * Add edit comments link with awaiting moderation count bubble

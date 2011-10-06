@@ -112,6 +112,6 @@ function bp_groups_group_admin_menu() {
 		'href'   =>  bp_get_groups_action_link( 'admin/delete-group' )
 	) );
 }
-add_action( 'bp_setup_admin_bar', 'bp_groups_group_admin_menu', 99 );
+add_action( 'admin_bar_menu', 'bp_groups_group_admin_menu', 99 );
 
 ?>
