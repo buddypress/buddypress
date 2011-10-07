@@ -1089,6 +1089,9 @@ form#whats-new-form textarea {
 	padding: 6px;
 	width: 98%;
 }
+body.no-js form#whats-new-form textarea {
+	height: 50px;
+}
 form#whats-new-form #whats-new-options select {
 	max-width: 200px;
 	margin-top: 12px;
@@ -1100,6 +1103,9 @@ form#whats-new-form #whats-new-submit {
 #whats-new-options {
 	overflow: auto;
 	height: 0;
+}
+body.no-js #whats-new-options {
+	height: auto;
 }
 #whats-new:focus {
 	border-color: rgba(31, 179, 221, 0.9) !important;
