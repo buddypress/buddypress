@@ -973,7 +973,7 @@ function bp_core_get_root_options() {
 		// BuddyPress core settings
 		'bp-deactivated-components'       => serialize( array( ) ),
 		'bp-blogs-first-install'          => '0',
-		'bp-disable-blog-forum-comments'  => '0',
+		'bp-disable-blogforum-comments'  => '0',
 		'bp-xprofile-base-group-name'     => 'Base',
 		'bp-xprofile-fullname-field-name' => 'Name',
 		'bp-disable-profile-sync'         => '0',
