@@ -78,6 +78,14 @@ function bp_core_admin_settings() {
 		if ( !check_admin_referer('bp-admin') )
 			return false;
 
+		// "Switch to Admin Bar" is an optional option, so handle it here
+		if ( !empty( $_POST['bp-admin']['bp-force-buddybar'] ) ) {
+			unset( $_POST['bp-admin']['bp-force-buddybar'] );
+
+			// Switch to the WP Admin Bar by removing the BuddyBar override
+			bp_delete_option( 'bp-force-buddybar' );
+		}
+
 		// Settings form submitted, now save the settings.
 		foreach ( (array)$_POST['bp-admin'] as $key => $value )
 			bp_update_option( $key, $value );
@@ -161,6 +169,15 @@ function bp_core_admin_settings() {
 							</td>
 						</tr>
 
+					<?php endif; ?>
+
+ 					<?php if ( (bool) bp_get_option( 'bp-force-buddybar', false ) ) : ?>
+						<tr>
+							<th scope="row"><?php _e( 'Switch the site to the WordPress Admin Bar?', 'buddypress' ); ?></th>
+							<td>
+								<input type="checkbox" name="bp-admin[bp-force-buddybar]" value="1" id="bp-switch-to-admin-bar" />
+							</td>
+						</tr>
 					<?php endif; ?>
 
 					<?php do_action( 'bp_core_admin_screen_fields' ) ?>

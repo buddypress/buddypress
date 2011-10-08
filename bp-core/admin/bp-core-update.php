@@ -84,10 +84,15 @@ class BP_Core_Setup_Wizard {
 			if ( $this->database_version < (int) $this->new_version )
 				$steps[] = __( 'Database Update', 'buddypress' );
 
+			// New for BP 1.5
 			if ( $this->database_version < 1801 || !bp_core_get_directory_page_ids() ) {
 				$steps[] = __( 'Components', 'buddypress' );
 				$steps[] = __( 'Pages', 'buddypress' );
 			}
+
+			// New for BP 1.6
+			if ( $this->database_version < 5222 && !defined( 'BP_USE_WP_ADMIN_BAR' ) )
+				$steps[] = __( 'Admin Bar', 'buddypress' );
 
 			$steps[] = __( 'Finish', 'buddypress' );
 		}
@@ -99,35 +104,40 @@ class BP_Core_Setup_Wizard {
 
 		// Save any posted values
 		switch ( $step_name ) {
-			case 'db_update': default:
+			case 'db_update':
 				$result = $this->step_db_update_save();
 				break;
 
-			case 'ms_update': default:
+			case 'ms_update':
 				$result = $this->step_ms_update_save();
 				break;
 
-			case 'ms_pages': default:
+			case 'ms_pages':
 				$result = $this->step_ms_update_save();
 				break;
 
-			case 'components': default:
+			case 'components':
 				$result = $this->step_components_save();
 				break;
 
-			case 'pages': default:
+			case 'pages':
 				$result = $this->step_pages_save();
 				break;
 
-			case 'permalinks': default:
+			case 'permalinks':
 				$result = $this->step_permalinks_save();
 				break;
 
-			case 'theme': default:
+			case 'theme':
 				$result = $this->step_theme_save();
 				break;
 
-			case 'finish': default:
+			case 'admin_bar':
+				$result = $this->step_admin_bar_save();
+				break;
+
+			case 'finish':
+			default:
 				$result = $this->step_finish_save();
 				break;
 		}
@@ -232,10 +242,13 @@ class BP_Core_Setup_Wizard {
 							$this->step_theme();
 							break;
 
+						case __( 'Admin Bar', 'buddypress' ) :
+							$this->step_admin_bar();
+							break;
+
 						case __( 'Finish', 'buddypress') :
 							$this->step_finish();
 							break;
-
 					} ?>
 
 				</div>
@@ -729,6 +742,37 @@ class BP_Core_Setup_Wizard {
 	<?php
 	}
 
+	/**
+	 * When upgrading to BP 1.6, prompt the admin to switch to WordPress' admin bar.
+	 *
+	 * @since 1.6
+	 */
+	function step_admin_bar() {
+		if ( !current_user_can( 'activate_plugins' ) )
+			return false;
+		?>
+
+		<p><?php _e( "BuddyPress now uses WordPress' Admin Bar; this sits at the top of your site and contains various links to useful admin screens. We've turbo-charged the Admin Bar by adding social items to help your users explore your site, and manage their content.", 'buddypress' ); ?></p>
+
+		<p><?php _e( "We've noticed that your site uses the old bar from earlier versions of BuddyPress.", 'buddypress' ); ?></p>
+
+		<p>
+			<label>
+				<input type="checkbox" name="keep_buddybar" value="1" />
+				<?php _e( "If you'd prefer to not switch to the WordPress Admin bar just yet, check this box. Don't worry, you can change your mind later.", 'buddypress' ); ?>
+			</label>
+		</p>
+
+		<div class="submit clear">
+			<input type="hidden" name="save" value="admin_bar" />
+			<input type="hidden" name="step" value="<?php echo esc_attr( $this->current_step ); ?>" />
+
+			<?php wp_nonce_field( 'bpwizard_admin_bar' ) ?>
+		</div>
+
+		<?php
+	}
+
 	function step_finish() {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
@@ -1015,6 +1059,25 @@ class BP_Core_Setup_Wizard {
 
 			if ( is_multisite() )
 				restore_current_blog();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * When upgrading to BP 1.6, the admin is prompted to switch to WordPress' admin bar.
+	 * If they choose not to, record that preference in the options table.
+	 *
+	 * @since 1.6
+	 */
+	function step_admin_bar_save() {
+		if ( isset( $_POST['submit'] ) ) {
+			check_admin_referer( 'bpwizard_admin_bar' );
+
+			if ( !empty( $_POST['keep_buddybar'] ) )
+				bp_update_option( 'bp-force-buddybar', 1 );
 
 			return true;
 		}

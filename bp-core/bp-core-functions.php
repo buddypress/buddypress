@@ -1288,19 +1288,24 @@ function bp_is_multiblog_mode() {
  * Should we use the WP admin bar?
  *
  * The WP Admin Bar, introduced in WP 3.1, is fully supported in BuddyPress as of BP 1.5.
+ * For BP 1.6, the WP Admin Bar is the default.
  *
- * For the BP 1.5 development cycle, the BuddyBar will remain the default navigation for BP
- * installations. In the future, this behavior will be changed, so that the WP Admin Bar is the
- * default.
- *
- * @package BuddyPress
+ * @return bool False when WP Admin Bar support is disabled; true when enabled (default)
  * @since 1.5
- *
  * @uses apply_filters() Filter 'bp_use_wp_admin_bar' to alter
- * @return bool False when WP Admin Bar support is disabled (default); true when enabled
  */
 function bp_use_wp_admin_bar() {
-	return apply_filters( 'bp_use_wp_admin_bar', defined( 'BP_USE_WP_ADMIN_BAR' ) && BP_USE_WP_ADMIN_BAR );
+	$use_admin_bar = true;
+
+	// Has the WP Admin Bar constant been explicity set?
+	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) && ! BP_USE_WP_ADMIN_BAR )
+		$use_admin_bar = false;
+
+	// Has the admin chosen to use the BuddyBar during an upgrade?
+	elseif ( (bool) bp_get_option( 'bp-force-buddybar', false ) )
+		$use_admin_bar = false;
+
+	return apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
 }
 
 /**
