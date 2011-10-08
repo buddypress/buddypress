@@ -840,6 +840,16 @@ function bp_core_action_search_site( $slug = '' ) {
 			case 'posts':
 				$slug = '';
 				$var  = '/?s=';
+
+				// If posts aren't displayed on the front page, find the post page's slug.
+				if ( 'page' == get_option( 'show_on_front' ) ) {
+					$page = get_post( get_option( 'page_for_posts' ) );
+
+					if ( !is_wp_error( $page ) && !empty( $page->post_name ) ) {
+						$slug = $page->post_name;
+						$var  = '?s=';
+					}
+				}
 				break;
 
 			case 'blogs':
