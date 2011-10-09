@@ -330,8 +330,8 @@ function bp_core_load_template( $templates ) {
 	if ( $located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates ) ) {
 		// Template was located, lets set this as a valid page and not a 404.
 		status_header( 200 );
-		$wp_query->is_page = true;
-		$wp_query->is_404 = false;
+		$wp_query->is_page = $wp_query->is_singular = true;
+		$wp_query->is_404  = false;
 
 		load_template( apply_filters( 'bp_load_template', $located_template ) );
 	}
