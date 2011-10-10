@@ -445,11 +445,11 @@ add_filter( 'bp_core_get_user_displayname', 'stripslashes'  );
  * @package BuddyPress Core
  * @param $email str The email address for the user.
  * @uses bp_core_get_userlink() BuddyPress function to get a userlink by user ID.
- * @uses get_user_by_email() WordPress function to get userdata via an email address
+ * @uses get_user_by() WordPress function to get userdata via an email address
  * @return str The link to the users home base. False on no match.
  */
 function bp_core_get_userlink_by_email( $email ) {
-	$user = get_user_by_email( $email );
+	$user = get_user_by( 'email', $email );
 	return apply_filters( 'bp_core_get_userlink_by_email', bp_core_get_userlink( $user->ID, false, false, true ) );
 }
 
