@@ -578,7 +578,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					// If MySQL timestamp
 					} else {
 						$day   = mysql2date( 'j', $date );
-						$month = mysql2date( 'F', $date );
+						$month = mysql2date( 'F', $date, false ); // Not localized, so that selected() works below
 						$year  = mysql2date( 'Y', $date );
 					}
 				}
@@ -611,11 +611,20 @@ function bp_the_profile_field_options( $args = '' ) {
 					case 'month':
 						$eng_months = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );
 
-						$months = array( __( 'January', 'buddypress' ), __( 'February', 'buddypress' ), __( 'March', 'buddypress' ),
-								 __( 'April', 'buddypress' ), __( 'May', 'buddypress' ), __( 'June', 'buddypress' ),
-								 __( 'July', 'buddypress' ), __( 'August', 'buddypress' ), __( 'September', 'buddypress' ),
-								 __( 'October', 'buddypress' ), __( 'November', 'buddypress' ), __( 'December', 'buddypress' )
-								);
+						$months = array(
+							__( 'January', 'buddypress' ),
+							__( 'February', 'buddypress' ),
+							__( 'March', 'buddypress' ),
+							__( 'April', 'buddypress' ),
+							__( 'May', 'buddypress' ),
+							__( 'June', 'buddypress' ),
+							__( 'July', 'buddypress' ),
+							__( 'August', 'buddypress' ),
+							__( 'September', 'buddypress' ),
+							__( 'October', 'buddypress' ),
+							__( 'November', 'buddypress' ),
+							__( 'December', 'buddypress' )
+						);
 
 						$html .= '<option value=""' . selected( $month, '', false ) . '>------</option>';
 
