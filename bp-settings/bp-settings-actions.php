@@ -92,7 +92,7 @@ function bp_core_screen_general_settings() {
 		}
 
 		// Add user feedback messages
-		if ( empty( $pass_error ) && empty( $pwd_error ) )
+		if ( empty( $pass_error ) && empty( $pwd_error ) && ( empty( $email_error ) ) )
 			bp_core_add_message( __( 'Changes saved.', 'buddypress' ), 'success' );
 
 		elseif ( !empty( $pass_error ) )
