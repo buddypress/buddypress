@@ -250,6 +250,17 @@ function bp_core_set_uri_globals() {
 					return;
 				}
 
+				// If the displayed user is marked as a spammer, 404 (unless logged-
+				// in user is a super admin)
+				if ( !empty( $bp->displayed_user->id ) && bp_core_is_user_spammer( $bp->displayed_user->id ) ) {
+					if ( is_super_admin() ) {
+						bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'error' );
+					} else {
+						bp_do_404();
+						return;
+					}
+				}
+
 				// Bump the offset
 				if ( isset( $bp_uri[$uri_offset + 2] ) ) {
 					$bp_uri                = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
@@ -367,17 +378,6 @@ function bp_core_catch_no_access() {
 	// we are redirecting to an accessible page, so skip this check.
 	if ( $bp_no_status_set )
 		return false;
-
-	// If the displayed user was marked as a spammer and the logged-in user is not a super admin, 404.
-	if ( isset( $bp->displayed_user->id ) && bp_core_is_user_spammer( $bp->displayed_user->id ) ) {
-		if ( !$bp->loggedin_user->is_super_admin ) {
-			bp_do_404();
-			return;
-
-		} else {
-			bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'error' );
-		}
-	}
 
 	if ( !isset( $wp_query->queried_object ) && !bp_is_blog_page() ) {
 		bp_do_404();
