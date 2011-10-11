@@ -23,9 +23,11 @@ function bp_core_screen_signup() {
 	// If the user is logged in, redirect away from here
 	if ( is_user_logged_in() ) {
 		if ( bp_is_component_front_page( 'register' ) )
-			bp_core_redirect( bp_get_root_domain() . '/' . bp_get_members_root_slug() );
+			$redirect_to = bp_get_root_domain() . '/' . bp_get_members_root_slug();
 		else
-			bp_core_redirect( bp_get_root_domain() );
+			$redirect_to = bp_get_root_domain();
+
+		bp_core_redirect( apply_filters( 'bp_loggedin_register_page_redirect_to', $redirect_to ) );
 
 		return;
 	}
