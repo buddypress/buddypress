@@ -990,7 +990,7 @@ function bp_core_get_root_options() {
 		'bp-disable-avatar-uploads'       => '0',
 		'bp-disable-account-deletion'     => '0',
 		'bp-disable-blogforum-comments'   => '0',
-		'bb-config-location'              => ABSPATH,
+		'bb-config-location'              => ABSPATH . 'bb-config.php',
 		'hide-loggedout-adminbar'         => '0',
 
 		// Useful WordPress settings
