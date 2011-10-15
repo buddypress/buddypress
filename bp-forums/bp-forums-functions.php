@@ -165,6 +165,12 @@ function bp_forums_new_topic( $args = '' ) {
 	if ( empty( $topic_title ) || !strlen( trim( $topic_title ) ) )
 		return false;
 
+	if ( empty( $topic_poster ) )
+		return false;
+
+	if ( bp_core_is_user_spammer( $topic_poster ) || bp_core_is_user_deleted( $topic_poster ) )
+		return false;
+
 	if ( empty( $topic_slug ) )
 		$topic_slug = sanitize_title( $topic_title );
 
@@ -500,6 +506,12 @@ function bp_forums_insert_post( $args = '' ) {
 
 	if ( !isset( $post_position ) )
 		$post_position = $post->post_position;
+
+	if ( empty( $poster_id ) )
+		return false;
+
+	if ( bp_core_is_user_spammer( $poster_id ) || bp_core_is_user_deleted( $poster_id ) )
+		return false;
 
 	$post_id = bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( trim( $post_text ) ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
 
