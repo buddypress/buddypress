@@ -201,6 +201,10 @@ function bp_forums_update_topic( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
+	// Check if the user is a spammer 
+	if ( bp_core_is_user_spammer( $bp->loggedin_user->id ) || bp_core_is_user_deleted( $bp->loggedin_user->id ) ) 
+		return false;
+
 	// bb_insert_topic() will append tags, but not remove them. So we remove all existing tags.
 	bb_remove_topic_tags( $topic_id );
 
@@ -510,7 +514,7 @@ function bp_forums_insert_post( $args = '' ) {
 	if ( empty( $poster_id ) )
 		return false;
 
-	if ( bp_core_is_user_spammer( $poster_id ) || bp_core_is_user_deleted( $poster_id ) )
+	if ( bp_core_is_user_spammer( $bp->loggedin_user->id ) || bp_core_is_user_deleted( $bp->loggedin_user->id ) )
 		return false;
 
 	$post_id = bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( trim( $post_text ) ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
