@@ -391,9 +391,9 @@ function bp_blogs_remove_comment( $comment_id ) {
 	global $wpdb, $bp;
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $wpdb->blogid , 'secondary_item_id' => $comment_id, 'type' => 'new_blog_comment' ) );
+	bp_blogs_delete_activity( array( 'item_id' => $wpdb->blogid, 'secondary_item_id' => $comment_id, 'type' => 'new_blog_comment' ) );
 
-	do_action( 'bp_blogs_remove_comment', $blog_id, $comment_id, $bp->loggedin_user->id );
+	do_action( 'bp_blogs_remove_comment', $wpdb->blogid, $comment_id, $bp->loggedin_user->id );
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 
