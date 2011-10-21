@@ -334,6 +334,8 @@ function bp_dtheme_header_style() {
 		// $src, $width, $height
 		if ( !empty( $image ) && $image[1] >= HEADER_IMAGE_WIDTH )
 			$header_image = $image[0];
+		else
+			$header_image = get_header_image();
 
 	} else {
 		$header_image = get_header_image();
