@@ -23,7 +23,7 @@
 
 	<div class="acomment-meta">
 		<?php
-		/* translators: 1: user profile link, 2: user name, 3: activity permalink, 3: activity timestamp */
+		/* translators: 1: user profile link, 2: user name, 3: activity permalink, 4: activity timestamp */
 		printf( __( '<a href="%1$s">%2$s</a> replied <a href="%3$s" class="activity-time-since"><span class="time-since">%4$s</span></a>', 'buddypress' ), bp_get_activity_comment_user_link(), bp_get_activity_comment_name(), bp_get_activity_thread_permalink(), bp_get_activity_comment_date_recorded() );
 		?>
 	</div>
@@ -43,6 +43,8 @@
 			<a href="<?php bp_activity_comment_delete_link(); ?>" class="delete acomment-delete confirm bp-secondary-action" rel="nofollow"><?php _e( 'Delete', 'buddypress' ); ?></a>
 
 		<?php endif; ?>
+
+		<?php do_action( 'bp_activity_comment_options' ); ?>
 
 	</div>
 
