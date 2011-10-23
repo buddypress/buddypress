@@ -1601,7 +1601,7 @@ function bp_activity_comment_delete_link() {
 	function bp_get_activity_comment_delete_link() {
 		global $bp;
 
-		$link = wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_slug() . '/delete/?cid=' . bp_get_activity_comment_id(), 'bp_activity_delete_link' );
+		$link = wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_slug() . '/delete/' . bp_get_activity_comment_id() . '?cid=' . bp_get_activity_comment_id(), 'bp_activity_delete_link' );
 
 		return apply_filters( 'bp_activity_comment_delete_link', $link );
 	}
