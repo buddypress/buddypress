@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-10-23 14:31:01+00:00\n"
+"POT-Creation-Date: 2011-10-23 17:31:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4245,7 +4245,7 @@ msgstr ""
 msgid "New Members"
 msgstr ""
 
-#. translators: 1: user profile link, 2: user name, 3: activity permalink, 3:
+#. translators: 1: user profile link, 2: user name, 3: activity permalink, 4:
 #. activity timestamp
 
 #: bp-themes/bp-default/activity/comment.php:27
