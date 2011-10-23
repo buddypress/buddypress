@@ -1,5 +1,7 @@
 <?php get_header( 'buddypress' ) ?>
 
+<?php do_action( 'template_notices' ); ?>
+
 <div class="activity no-ajax" role="main">
 	<?php if ( bp_has_activities( 'display_comments=threaded&show_hidden=true&include=' . bp_current_action() ) ) : ?>
 
