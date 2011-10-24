@@ -222,7 +222,7 @@ function bp_dtheme_new_activity_comment() {
 	global $activities_template;
 
 	// Load the new activity item into the $activities_template global
-	bp_has_activities( 'display_comments=stream&include=' . $comment_id );
+	bp_has_activities( 'display_comments=stream&hide_spam=false&include=' . $comment_id );
 
 	// Swap the current comment with the activity item we just loaded
 	$activities_template->activity->id              = $activities_template->activities[0]->item_id;
@@ -316,6 +316,54 @@ function bp_dtheme_delete_activity_comment() {
 	return true;
 }
 add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity_comment' );
+
+/**
+ * AJAX spam an activity item or an activity comment
+ *
+ * @global object $bp BuddyPress global settings
+ * @since 1.6
+ */
+function bp_dtheme_spam_activity() {
+	global $bp;
+
+	// Check that user is logged in, Activity Streams are enabled, and Akismet is present.
+	if ( !is_user_logged_in() || !bp_is_active( 'activity' ) || empty( $bp->activity->akismet ) ) {
+		echo '-1';
+		return false;
+	}
+
+	// Check an item ID was passed
+	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) ) {
+		echo '-1';
+		return false;
+	}
+
+	// Is the current user allowed to spam items?
+	if ( !BP_Akismet::user_can_mark_spam() )
+		return false;
+
+	// Load up the activity item
+	$activity = new BP_Activity_Activity( (int) $_POST['id'] );
+	if ( empty( $activity->id ) ) {
+		echo '-1';
+		return false;
+	}
+
+	// Check nonce
+	check_admin_referer( 'bp_activity_akismet_spam_' . $activity->id );
+
+	// Call an action before the spamming so plugins can modify things if they want to
+	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
+
+	// Mark as spam
+	$bp->activity->akismet->mark_as_spam( $activity );
+	$activity->save();
+
+	do_action( 'bp_activity_action_spam_activity', $activity->id, $activity->user_id );
+	return true;
+}
+add_action( 'wp_ajax_spam_activity',         'bp_dtheme_spam_activity' );
+add_action( 'wp_ajax_spam_activity_comment', 'bp_dtheme_spam_activity' );
 
 /* AJAX mark an activity as a favorite */
 function bp_dtheme_mark_activity_favorite() {

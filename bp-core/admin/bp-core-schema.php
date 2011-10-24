@@ -48,7 +48,7 @@ function bp_core_install_activity_streams() {
 	$bp_prefix = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_activity (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				user_id bigint(20) NOT NULL,
 				component varchar(75) NOT NULL,
 				type varchar(75) NOT NULL,
@@ -61,6 +61,7 @@ function bp_core_install_activity_streams() {
 				hide_sitewide bool DEFAULT 0,
 				mptt_left int(11) NOT NULL DEFAULT 0,
 				mptt_right int(11) NOT NULL DEFAULT 0,
+				is_spam tinyint(1) NOT NULL DEFAULT 0,
 				KEY date_recorded (date_recorded),
 				KEY user_id (user_id),
 				KEY item_id (item_id),
@@ -69,8 +70,9 @@ function bp_core_install_activity_streams() {
 				KEY type (type),
 				KEY mptt_left (mptt_left),
 				KEY mptt_right (mptt_right),
-				KEY hide_sitewide (hide_sitewide)
-		 	   ) {$charset_collate};";
+				KEY hide_sitewide (hide_sitewide),
+				KEY is_spam (is_spam)
+			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_activity_meta (
 				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,

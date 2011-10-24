@@ -172,6 +172,60 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 add_action( 'bp_actions', 'bp_activity_action_delete_activity' );
 
 /**
+ * Mark specific activity item as spam and redirect to previous page
+ *
+ * @global object $bp BuddyPress global settings
+ * @param int $activity_id Activity id to be deleted. Defaults to 0.
+ * @return bool False on failure
+ * @since 1.6
+ */
+function bp_activity_action_spam_activity( $activity_id = 0 ) {
+	global $bp;
+
+	// Not viewing activity, or action is not spam, or Akismet isn't present
+	if ( !bp_is_activity_component() || !bp_is_current_action( 'spam' ) || empty( $bp->activity->akismet ) )
+		return false;
+
+	if ( empty( $activity_id ) && bp_action_variable( 0 ) )
+		$activity_id = (int) bp_action_variable( 0 );
+
+	// Not viewing a specific activity item
+	if ( empty( $activity_id ) )
+		return false;
+
+	// Is the current user allowed to spam items?
+	if ( !BP_Akismet::user_can_mark_spam() )
+		return false;
+
+	// Load up the activity item
+	$activity = new BP_Activity_Activity( $activity_id );
+	if ( empty( $activity->id ) )
+		return false;
+
+	// Check nonce
+	check_admin_referer( 'bp_activity_akismet_spam_' . $activity->id );
+
+	// Call an action before the spamming so plugins can modify things if they want to
+	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
+
+	// Mark as spam
+	$bp->activity->akismet->mark_as_spam( $activity );
+	$activity->save();
+
+	// Tell the user the spamming has been succesful
+	bp_core_add_message( __( 'The activity item has been marked as spam and is no longer visible.', 'buddypress' ) );
+
+	do_action( 'bp_activity_action_spam_activity', $activity_id, $activity->user_id );
+
+	// Check for the redirect query arg, otherwise let WP handle things
+ 	if ( !empty( $_GET['redirect_to'] ) )
+		bp_core_redirect( esc_url( $_GET['redirect_to'] ) );
+	else
+		bp_core_redirect( wp_get_referer() );
+}
+add_action( 'bp_actions', 'bp_activity_action_spam_activity' );
+
+/**
  * Post user/group activity update.
  *
  * @since 1.2.0
@@ -534,4 +588,23 @@ function bp_activity_action_favorites_feed() {
 }
 add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
 
+
+/**
+ * Loads Akismet
+ *
+ * @global object $bp BuddyPress global settings
+ * @since 1.6
+ */
+function bp_activity_setup_akismet() {
+	global $bp;
+
+	$akismet_key = bp_get_option( 'wordpress_api_key' );
+
+	// Load Akismet support if Akismet is configured
+	if ( !defined( 'AKISMET_VERSION' ) || ( empty( $akismet_key ) && !defined( 'WPCOM_API_KEY' ) ) )
+		return;
+
+	// Instantiate Akismet for BuddyPress
+	$bp->activity->akismet = new BP_Akismet();
+}
 ?>

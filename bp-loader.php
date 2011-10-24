@@ -21,7 +21,7 @@ if ( !defined( 'BP_VERSION' ) )
 
 // Define the database version
 if ( !defined( 'BP_DB_VERSION' ) )
-	define( 'BP_DB_VERSION', 5222 );
+	define( 'BP_DB_VERSION', 5249 );
 
 // Place your custom code (actions/filters) in a file called
 // '/plugins/bp-custom.php' and it will be loaded before anything else.

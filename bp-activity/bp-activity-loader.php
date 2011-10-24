@@ -24,10 +24,6 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 */
-	function BP_Activity_Component() {
-		$this->__construct();
-	}
-
 	function __construct() {
 		parent::start(
 			'activity',
@@ -52,6 +48,11 @@ class BP_Activity_Component extends BP_Component {
 			'functions',
 			'notifications',
 		);
+
+		// Load Akismet support if Akismet is configured
+		$akismet_key = bp_get_option( 'wordpress_api_key' );
+		if ( defined( 'AKISMET_VERSION' ) && ( !empty( $akismet_key ) || defined( 'WPCOM_API_KEY' ) ) )
+			$includes[] = 'akismet';
 
 		parent::includes( $includes );
 	}
@@ -307,9 +308,20 @@ class BP_Activity_Component extends BP_Component {
 
 		parent::setup_title();
 	}
+
+	/**
+	 * Setup the actions
+	 *
+	 * @since 1.6
+	 */
+	 function setup_actions() {
+		// Spam prevention
+		add_action( 'bp_include', 'bp_activity_setup_akismet' );
+
+		parent::setup_actions();
+	}
 }
 
 // Create the activity component
 $bp->activity = new BP_Activity_Component();
-
 ?>

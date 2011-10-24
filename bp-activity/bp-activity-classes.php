@@ -1,10 +1,9 @@
 <?php
-
 /**
  * BuddyPress Activity Classes
  *
  * @package BuddyPress
- * @subpackage ActivityClasses
+ * @subpackage Activity
  */
 
 // Exit if accessed directly
@@ -24,14 +23,9 @@ Class BP_Activity_Activity {
 	var $hide_sitewide = false;
 	var $mptt_left;
 	var $mptt_right;
-
-	function bp_activity_activity( $id = false ) {
-		$this->__construct( $id );
-	}
+	var $is_spam;
 
 	function __construct( $id = false ) {
-		global $bp;
-
 		if ( !empty( $id ) ) {
 			$this->id = $id;
 			$this->populate();
@@ -55,6 +49,7 @@ Class BP_Activity_Activity {
 			$this->hide_sitewide     = $row->hide_sitewide;
 			$this->mptt_left         = $row->mptt_left;
 			$this->mptt_right        = $row->mptt_right;
+			$this->is_spam           = $row->is_spam;
 		}
 	}
 
@@ -74,6 +69,7 @@ Class BP_Activity_Activity {
 		$this->hide_sitewide     = apply_filters_ref_array( 'bp_activity_hide_sitewide_before_save',     array( $this->hide_sitewide,     &$this ) );
 		$this->mptt_left         = apply_filters_ref_array( 'bp_activity_mptt_left_before_save',         array( $this->mptt_left,         &$this ) );
 		$this->mptt_right        = apply_filters_ref_array( 'bp_activity_mptt_right_before_save',        array( $this->mptt_right,        &$this ) );
+		$this->is_spam           = apply_filters_ref_array( 'bp_activity_is_spam_before_save',           array( $this->is_spam,           &$this ) );
 
 		// Use this, not the filters above
 		do_action_ref_array( 'bp_activity_before_save', array( &$this ) );
@@ -86,9 +82,9 @@ Class BP_Activity_Activity {
 
 		// If we have an existing ID, update the activity item, otherwise insert it.
 		if ( $this->id )
-			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component = %s, type = %s, action = %s, content = %s, primary_link = %s, date_recorded = %s, item_id = %s, secondary_item_id = %s, hide_sitewide = %d WHERE id = %d", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->id );
+			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component = %s, type = %s, action = %s, content = %s, primary_link = %s, date_recorded = %s, item_id = %s, secondary_item_id = %s, hide_sitewide = %d, is_spam = %d WHERE id = %d", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam, $this->id );
 		else
-			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component, type, action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide ) VALUES ( %d, %s, %s, %s, %s, %s, %s, %s, %s, %d )", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide );
+			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component, type, action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide, is_spam ) VALUES ( %d, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d )", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam );
 
 		if ( !$wpdb->query( $q ) )
 			return false;
@@ -102,8 +98,7 @@ Class BP_Activity_Activity {
 	}
 
 	// Static Functions
-
-	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false, $exclude = false, $in = false ) {
+	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false, $exclude = false, $in = false, $hide_spam = true ) {
 		global $wpdb, $bp;
 
 		// Select conditions
@@ -113,6 +108,10 @@ Class BP_Activity_Activity {
 
 		// Where conditions
 		$where_conditions = array();
+
+		// Spam
+		if ( $hide_spam )
+			$where_conditions['spam_sql'] = 'a.is_spam = 0';
 
 		// Searching
 		if ( $search_terms ) {
@@ -191,7 +190,7 @@ Class BP_Activity_Activity {
 		}
 
 		if ( $activities && $display_comments )
-			$activities = BP_Activity_Activity::append_comments( $activities );
+			$activities = BP_Activity_Activity::append_comments( $activities, $hide_spam );
 
 		// If $max is set, only return up to the max results
 		if ( !empty( $max ) ) {
@@ -356,7 +355,17 @@ Class BP_Activity_Activity {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" ) );
 	}
 
-	function append_comments( $activities ) {
+	/**
+	 * Append activity comments to their associated activity items
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param array $activities
+	 * @param bool $hide_spam Optional. Defaults to true (don't retrieve spammed items).
+	 * @return array The updated activities with nested comments
+	 * @since 1.2
+	 */
+	function append_comments( $activities, $hide_spam = true ) {
 		global $bp, $wpdb;
 
 		$activity_comments = array();
@@ -364,7 +373,7 @@ Class BP_Activity_Activity {
 		/* Now fetch the activity comments and parse them into the correct position in the activities array. */
 		foreach( (array)$activities as $activity ) {
 			if ( 'activity_comment' != $activity->type && $activity->mptt_left && $activity->mptt_right )
-				$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right );
+				$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right, $hide_spam );
 		}
 
 		/* Merge the comments with the activity items */
@@ -375,7 +384,19 @@ Class BP_Activity_Activity {
 		return $activities;
 	}
 
-	function get_activity_comments( $activity_id, $left, $right ) {
+	/**
+	 * Get activity comments that are associated with a specific activity ID
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @param int $activity_id Activity ID to fetch comments for
+	 * @param int $left Left-most node boundary
+	 * @param into $right Right-most node boundary
+	 * @param bool $hide_spam Optional. Defaults to true (don't retrieve spammed items).
+	 * @return array The updated activities with nested comments
+	 * @since 1.2
+	 */
+	function get_activity_comments( $activity_id, $left, $right, $hide_spam = true ) {
 		global $wpdb, $bp;
 
 		if ( !$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id ) ) {
@@ -390,8 +411,16 @@ Class BP_Activity_Activity {
 				$fullname_select = $fullname_from = $fullname_where = '';
 			}
 
+			// Don't retrieve activity comments marked as spam
+			if ( $hide_spam )
+				$spam_sql = 'AND a.is_spam = 0';
+			else
+				$spam_sql = '';
+
+			$sql = apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' ${spam_sql} AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ), $activity_id, $left, $right, $hide_spam );
+
 			// Retrieve all descendants of the $root node
-			$descendants = $wpdb->get_results( apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ), $activity_id, $left, $right ) );
+			$descendants = $wpdb->get_results( $sql );
 
 			// Loop descendants and build an assoc array
 			foreach ( (array)$descendants as $d ) {

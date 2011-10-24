@@ -701,6 +701,7 @@ function bp_activity_get( $args = '' ) {
 		'show_hidden'      => false,  // Show activity items that are hidden site-wide?
 		'exclude'          => false,  // Comma-separated list of activity IDs to exclude
 		'in'               => false,  // Comma-separated list or array of activity IDs to which you want to limit the query
+		'hide_spam'        => true,   // Don't retrieve items marked as spam?
 
 		/**
 		 * Pass filters as an array -- all filter items can be multiple values comma separated:
@@ -720,11 +721,13 @@ function bp_activity_get( $args = '' ) {
 	// Attempt to return a cached copy of the first page of sitewide activity.
 	if ( 1 == (int)$page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && 'DESC' == $sort && empty( $exclude ) ) {
 		if ( !$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' ) ) {
-			$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden );
+			$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, false, false, $hide_spam );
 			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
 		}
-	} else
-		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, $exclude, $in );
+
+	} else {
+		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, $exclude, $in, $hide_spam );
+	}
 
 	return apply_filters_ref_array( 'bp_activity_get', array( &$activity, &$r ) );
 }
@@ -745,17 +748,18 @@ function bp_activity_get( $args = '' ) {
 function bp_activity_get_specific( $args = '' ) {
 	$defaults = array(
 		'activity_ids'     => false,  // A single activity_id or array of IDs.
+		'display_comments' => false,  // true or false to display threaded comments for these specific activity items
+		'hide_spam'        => false,  // Retrieve items marked as spam
+		'max'              => false,  // Maximum number of results to return
 		'page'             => 1,      // page 1 without a per_page will result in no pagination.
 		'per_page'         => false,  // results per page
-		'max'              => false,  // Maximum number of results to return
+		'show_hidden'      => true,   // When fetching specific items, show all
 		'sort'             => 'DESC', // sort ASC or DESC
-		'display_comments' => false,  // true or false to display threaded comments for these specific activity items
-		'show_hidden'      => true    // When fetching specific items, show all
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, $show_hidden, false, $activity_ids ) );
+	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, $show_hidden, false, $activity_ids, $hide_spam ) );
 }
 
 /**
@@ -791,7 +795,8 @@ function bp_activity_add( $args = '' ) {
 		'item_id'           => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id
 		'secondary_item_id' => false, // Optional: A second ID used to further filter e.g. a comment_id
 		'recorded_time'     => bp_core_current_time(), // The GMT time that this activity was recorded
-		'hide_sitewide'     => false  // Should this be hidden on the sitewide activity stream?
+		'hide_sitewide'     => false, // Should this be hidden on the sitewide activity stream?
+		'is_spam'           => false, // Is this activity item to be marked as spam?
 	);
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
@@ -815,6 +820,7 @@ function bp_activity_add( $args = '' ) {
 	$activity->secondary_item_id = $secondary_item_id;
 	$activity->date_recorded     = $recorded_time;
 	$activity->hide_sitewide     = $hide_sitewide;
+	$activity->is_spam           = $is_spam;
 
 	if ( !$activity->save() )
 		return false;

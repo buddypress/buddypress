@@ -68,7 +68,8 @@ jq(document).ready( function() {
 			'_wpnonce_post_update': jq("input#_wpnonce_post_update").val(),
 			'content': content,
 			'object': object,
-			'item_id': item_id
+			'item_id': item_id,
+			'_bp_as_nonce': jq('#_bp_as_nonce').val() || ''
 		},
 		function(response) {
 
@@ -247,6 +248,30 @@ jq(document).ready( function() {
 			return false;
 		}
 
+		// Spam activity stream items
+		if ( target.hasClass( 'spam-activity' ) ) {
+			var li = target.parents( 'div.activity ul li' );
+			target.addClass( 'loading' );
+
+			jq.post( ajaxurl, {
+				action: 'spam_activity',
+				'cookie': encodeURIComponent( document.cookie ),
+				'id': li.attr( 'id' ).substr( 9, li.attr( 'id' ).length ),
+				'_wpnonce': target.attr( 'href' ).split( '_wpnonce=' )[1]
+			},
+
+			function(response) {
+				if ( response[0] + response[1] === '-1' ) {
+					li.prepend( response.substr( 2, response.length ) );
+					li.children( 'div#message' ).hide().fadeIn(300);
+				} else {
+					li.slideUp( 300 );
+				}
+			});
+
+			return false;
+		}
+
 		/* Load more updates at the end of the page */
 		if ( target.parent().hasClass('load-more') ) {
 			jq("#content li.load-more").addClass('loading');
@@ -364,14 +389,22 @@ jq(document).ready( function() {
 			jq( 'form#' + form + ' div.error').hide();
 			target.addClass('loading').prop('disabled', true);
 
-			jq.post( ajaxurl, {
+			var ajaxdata = {
 				action: 'new_activity_comment',
 				'cookie': encodeURIComponent(document.cookie),
 				'_wpnonce_new_activity_comment': jq("input#_wpnonce_new_activity_comment").val(),
 				'comment_id': comment_id,
 				'form_id': form_id[2],
 				'content': jq('form#' + form.attr('id') + ' textarea').val()
-			},
+			};
+
+			// Akismet
+			var ak_nonce = jq('#_bp_as_nonce_' + comment_id).val();
+			if ( ak_nonce ) {
+				ajaxdata['_bp_as_nonce_' + comment_id] = ak_nonce;
+			}
+
+			jq.post( ajaxurl, ajaxdata,
 			function(response)
 			{
 				target.removeClass('loading');
@@ -450,6 +483,50 @@ jq(document).ready( function() {
 					/* Decrease the "Reply (X)" button count */
 					var parent_li = comment_li.parents('ul#activity-stream > li');
 					jq('li#' + parent_li.attr('id') + ' a.acomment-reply span').html( jq('li#' + parent_li.attr('id') + ' a.acomment-reply span').html() - ( 1 + child_count ) );
+				}
+			});
+
+			return false;
+		}
+
+		// Spam an activity stream comment
+		if ( target.hasClass( 'spam-activity-comment' ) ) {
+			var link_href  = target.attr( 'href' );
+			var comment_li = target.parent().parent();
+
+			target.addClass('loading');
+
+			// Remove any error messages
+			jq( 'div.activity-comments ul div.error' ).remove();
+
+			// Reset the form position
+			comment_li.parents( 'div.activity-comments' ).append( comment_li.parents( 'div.activity-comments' ).children( 'form' ) );
+
+			jq.post( ajaxurl, {
+				action: 'spam_activity_comment',
+				'cookie': encodeURIComponent( document.cookie ),
+				'_wpnonce': link_href.split( '_wpnonce=' )[1],
+				'id': link_href.split( 'cid=' )[1].split( '&' )[0]
+			},
+
+			function ( response ) {
+				// Check for errors and append if found.
+				if ( response[0] + response[1] == '-1' ) {
+					comment_li.prepend( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
+
+				} else {
+					var children = jq( 'li#' + comment_li.attr( 'id' ) + ' ul' ).children( 'li' );
+					var child_count = 0;
+					jq(children).each( function() {
+						if ( !jq( this ).is( ':hidden' ) ) {
+							child_count++;
+						}
+					});
+					comment_li.fadeOut( 200 );
+
+					// Decrease the "Reply (X)" button count
+					var parent_li = comment_li.parents( 'ul#activity-stream > li' );
+					jq( 'li#' + parent_li.attr( 'id' ) + ' a.acomment-reply span' ).html( jq( 'li#' + parent_li.attr( 'id' ) + ' a.acomment-reply span' ).html() - ( 1 + child_count ) );
 				}
 			});
 

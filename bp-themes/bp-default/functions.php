@@ -139,7 +139,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
  */
 function bp_dtheme_enqueue_scripts() {
 	// Bump this when changes are made to bust cache
-	$version = '20110921';
+	$version = '20111023';
 
 	// Enqueue the global JS - Ajax will not work without it
 	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ), $version );

@@ -194,7 +194,7 @@ function bp_activity_screen_single_activity_permalink() {
 		return false;
 
 	// Get the activity details
-	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action(), 'show_hidden' => true ) );
+	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action(), 'hide_spam' => true, 'show_hidden' => true ) );
 
 	// 404 if activity does not exist
 	if ( empty( $activity['activities'][0] ) || bp_action_variables() ) {

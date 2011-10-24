@@ -104,11 +104,7 @@ class BP_Activity_Template {
 
 	var $full_name;
 
-	function bp_activity_template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude = false, $in = false ) {
-		$this->__construct( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude, $in );
-	}
-
-	function __construct( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude = false, $in = false ) {
+	function __construct( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude = false, $in = false, $hide_spam = true ) {
 		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : $page;
@@ -122,10 +118,11 @@ class BP_Activity_Template {
 
 		// Fetch specific activity items based on ID's
 		if ( !empty( $include ) )
-			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments, 'show_hidden' => $show_hidden ) );
+			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments, 'show_hidden' => $show_hidden, 'hide_spam' => $hide_spam ) );
+
 		// Fetch all activity items
 		else
-			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden, 'exclude' => $exclude, 'in' => $in ) );
+			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden, 'exclude' => $exclude, 'in' => $in, 'hide_spam' => $hide_spam ) );
 
 		if ( !$max || $max >= (int)$this->activities['total'] )
 			$this->total_activity_count = (int)$this->activities['total'];
@@ -301,6 +298,7 @@ function bp_has_activities( $args = '' ) {
 		'per_page'         => 20,           // number of items per page
 		'max'              => false,        // max number to return
 		'show_hidden'      => $show_hidden, // Show activity items that are hidden site-wide?
+		'hide_spam'        => true,         // Don't retrieve items marked as spam?
 
 		// Scope - pre-built activity filters for a user (friends/groups/favorites/mentions)
 		'scope'            => $scope,
@@ -384,7 +382,11 @@ function bp_has_activities( $args = '' ) {
 	else
 		$filter = false;
 
-	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude, $in );
+	// If specific activity items have been requested, override the $hide_spam argument. This prevents backpat errors with AJAX.
+	if ( !empty( $include ) && $hide_spam )
+		$hide_spam = false;
+
+	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude, $in, $hide_spam );
 
 	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), $activities_template );
 }
