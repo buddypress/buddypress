@@ -17,9 +17,9 @@ div#bp-admin-nav {
 	margin: 15px -10px 10px;
 	padding: 10px 10px 0 10px;
 	height: 30px;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
 }
 div#bp-admin-nav div.submit {
 	position: relative;
@@ -42,13 +42,13 @@ div#bp-admin-nav div.submit input {
 			div#bp-admin-nav ol li {
 				padding: 8px 12px;
 				display: block;
-				-moz-border-radius: 3px;
-				-webkit-border-radius: 3px;
-				border-radius: 3px;
+				-moz-border-radius: 2px;
+				-webkit-border-radius: 2px;
+				border-radius: 2px;
 				text-decoration: none;
 			}
 				div#bp-admin-nav ol li.current {
-					background: #f9f9f9;
+					background: #fff;
 					color: #555;
 				}
 	div#bp-admin-nav ol li span.complete {
@@ -65,9 +65,9 @@ div.component {
 		position: relative;
 		background: #e0e0e0;
 		padding: 5px 10px;
-		-moz-border-radius: 6px;
-		-webkit-border-radius: 6px;
-		border-radius: 6px;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
 		top: -6px;
 	}
 
