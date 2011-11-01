@@ -98,7 +98,7 @@ Class BP_Activity_Activity {
 	}
 
 	// Static Functions
-	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false, $exclude = false, $in = false, $hide_spam = true ) {
+	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false, $exclude = false, $in = false, $spam = 'ham_only' ) {
 		global $wpdb, $bp;
 
 		// Select conditions
@@ -110,8 +110,10 @@ Class BP_Activity_Activity {
 		$where_conditions = array();
 
 		// Spam
-		if ( $hide_spam )
+		if ( 'ham_only' == $spam )
 			$where_conditions['spam_sql'] = 'a.is_spam = 0';
+		elseif ( 'spam_only' == $spam )
+			$where_conditions['spam_sql'] = 'a.is_spam = 1';
 
 		// Searching
 		if ( $search_terms ) {
@@ -190,7 +192,7 @@ Class BP_Activity_Activity {
 		}
 
 		if ( $activities && $display_comments )
-			$activities = BP_Activity_Activity::append_comments( $activities, $hide_spam );
+			$activities = BP_Activity_Activity::append_comments( $activities, $spam );
 
 		// If $max is set, only return up to the max results
 		if ( !empty( $max ) ) {
@@ -361,11 +363,11 @@ Class BP_Activity_Activity {
 	 * @global object $bp Global BuddyPress settings object
 	 * @global wpdb $wpdb WordPress database object
 	 * @param array $activities
-	 * @param bool $hide_spam Optional. Defaults to true (don't retrieve spammed items).
+	 * @param bool $spam Optional; 'ham_only' (default), 'spam_only' or 'all'.
 	 * @return array The updated activities with nested comments
 	 * @since 1.2
 	 */
-	function append_comments( $activities, $hide_spam = true ) {
+	function append_comments( $activities, $spam = 'ham_only' ) {
 		global $bp, $wpdb;
 
 		$activity_comments = array();
@@ -373,7 +375,7 @@ Class BP_Activity_Activity {
 		/* Now fetch the activity comments and parse them into the correct position in the activities array. */
 		foreach( (array)$activities as $activity ) {
 			if ( 'activity_comment' != $activity->type && $activity->mptt_left && $activity->mptt_right )
-				$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right, $hide_spam );
+				$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right, $spam );
 		}
 
 		/* Merge the comments with the activity items */
@@ -392,11 +394,11 @@ Class BP_Activity_Activity {
 	 * @param int $activity_id Activity ID to fetch comments for
 	 * @param int $left Left-most node boundary
 	 * @param into $right Right-most node boundary
-	 * @param bool $hide_spam Optional. Defaults to true (don't retrieve spammed items).
+	 * @param bool $spam Optional; 'ham_only' (default), 'spam_only' or 'all'.
 	 * @return array The updated activities with nested comments
 	 * @since 1.2
 	 */
-	function get_activity_comments( $activity_id, $left, $right, $hide_spam = true ) {
+	function get_activity_comments( $activity_id, $left, $right, $spam = 'ham_only' ) {
 		global $wpdb, $bp;
 
 		if ( !$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id ) ) {
@@ -412,12 +414,14 @@ Class BP_Activity_Activity {
 			}
 
 			// Don't retrieve activity comments marked as spam
-			if ( $hide_spam )
+			if ( 'ham_only' == $spam )
 				$spam_sql = 'AND a.is_spam = 0';
+			elseif ( 'spam_only' == $spam )
+				$spam_sql = 'AND a.is_spam = 1';
 			else
 				$spam_sql = '';
 
-			$sql = apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' ${spam_sql} AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ), $activity_id, $left, $right, $hide_spam );
+			$sql = apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' ${spam_sql} AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $activity_id, $left, $right ), $activity_id, $left, $right, $spam_sql );
 
 			// Retrieve all descendants of the $root node
 			$descendants = $wpdb->get_results( $sql );

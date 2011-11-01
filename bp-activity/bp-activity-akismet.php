@@ -46,11 +46,15 @@ class BP_Akismet {
 		// Check activity for spam
 		add_action( 'bp_activity_before_save',     array( $this, 'check_activity' ), 1, 1 );
 
-		// Update activity meta after a spam check
-		add_action( 'bp_activity_after_save',      array( $this, 'update_activity_meta' ), 1, 1 );
-
 		// Tidy up member's latest (activity) update
 		add_action( 'bp_activity_posted_update',   array( $this, 'check_member_activity_update' ), 1, 3 );
+
+		// Hooks to extend Activity core spam/ham functions for Akismet
+		add_action( 'bp_activity_mark_as_spam',    array( $this, 'mark_as_spam' ), 10, 2 );
+		add_action( 'bp_activity_mark_as_ham',     array( $this, 'mark_as_ham' ),  10, 2 );
+
+		// Hook into the Activity wp-admin screen
+		//add_action( 'bp_activity_admin_comment_row_actions', array( $this, 'add_activity_status_row' ), 10, 2 );
 	}
 
 	/**
@@ -89,8 +93,8 @@ class BP_Akismet {
 		if ( empty( $this->last_activity ) || !in_array( $this->last_activity->type, BP_Akismet::get_activity_types() ) )
 			return;
 
-		// Was this $activity_id just marked as spam?
-		if ( !$this->last_activity->id || $activity_id != $this->last_activity->id )
+		// Was this $activity_id just marked as spam? If not, bail out.
+		if ( !$this->last_activity->id || $activity_id != $this->last_activity->id || 'false' == $this->last_activity->akismet_submission['bp_as_result'] )
 			return;
 
 		// It was, so delete the member's latest activity update.
@@ -102,10 +106,10 @@ class BP_Akismet {
 	 *
 	 * This function is intended to be used inside the activity stream loop.
 	 *
-	 * @since 1.2
+	 * @since 1.6
 	 */
 	public function add_activity_spam_button() {
-		if ( !BP_Akismet::user_can_mark_spam() )
+		if ( !bp_activity_user_can_mark_spam() )
 			return;
 
 		// By default, only handle activity updates and activity comments.
@@ -130,10 +134,10 @@ class BP_Akismet {
 	 *
 	 * This function is intended to be used inside the activity stream loop.
 	 *
-	 * @since 1.2
+	 * @since 1.6
 	 */
 	public function add_activity_comment_spam_button() {
-		if ( !BP_Akismet::user_can_mark_spam() )
+		if ( !bp_activity_user_can_mark_spam() )
 			return;
 
 		// By default, only handle activity updates and activity comments.
@@ -155,19 +159,6 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Convenience function to control whether the current user is allowed to mark activity items as spam
-	 *
-	 * @global object $bp BuddyPress global settings
-	 * @return bool True if user is allowed to mark activity items as spam
-	 * @since 1.6
-	 * @static
-	 */
-	public static function user_can_mark_spam() {
-		global $bp;
-		return apply_filters( 'bp_activity_akismet_user_can_mark_spam', $bp->loggedin_user->is_site_admin );
-	}
-
-	/**
 	 * Get a list of filterable types of activity item that we want Akismet to automatically check for spam.
 	 *
 	 * @return array List of activity types
@@ -182,62 +173,40 @@ class BP_Akismet {
 	 * Mark activity item as spam
 	 *
 	 * @param BP_Activity_Activity $activity
+	 * @param string $source Either "by_a_person" (e.g. a person has manually marked the activity as spam) or "by_akismet" (automatically spammed).
 	 * @since 1.6
 	 */
-	public function mark_as_spam( &$activity ) {
-		$activity->is_spam = 1;
-
+	public function mark_as_spam( $activity, $source ) {
 		// Record this item so we can do some tidyup in BP_Akismet::check_member_activity_update()
 		$this->last_activity = $activity;
 
-		// Clear the activity stream first page cache
-		wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
-
-		// Clear the activity comment cache for this activity item
-		wp_cache_delete( 'bp_activity_comments_' . $activity->id, 'bp' );
-
-		do_action( 'bp_activity_akismet_mark_as_spam', $activity );
+		do_action( 'bp_activity_akismet_mark_as_spam', $activity, $source );
 	}
 
 	/**
 	 * Mark activity item as ham
 	 *
 	 * @param BP_Activity_Activity $activity
+	 * @param string $source Either "by_a_person" (e.g. a person has manually marked the activity as spam) or "by_akismet" (automatically spammed).
 	 * @since 1.6
 	 */
-	public function mark_as_ham( &$activity ) {
-		$activity->is_spam = 0;
-
-		// Clear the activity stream first page cache
-		wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
-
-		// Clear the activity comment cache for this activity item
-		wp_cache_delete( 'bp_activity_comments_' . $activity->id, 'bp' );
-
-		//bp_activity_delete_meta( $activity->id, 'bpla_spam' );
-		do_action( 'bp_activity_akismet_mark_as_ham', $activity );
-
+	public function mark_as_ham( $activity, $source ) {
 		//DJPAULTODO: Run bp_activity_at_name_filter() somehow... but not twice, if we can help it. Maybe check if it was auto-spammed by Akismet?
+
+		do_action( 'bp_activity_akismet_mark_as_ham', $activity, $source );
 	} 
 
 	/**
-	 * Check if the activity item is spam or ham
+	 * Build a data package for the Akismet service to inspect
 	 *
-	 * @param BP_Activity_Activity $activity The activity item to check
-	 * @see http://akismet.com/development/api/
+	 * @param BP_Activity_Activity $activity
+	 * @see http://akismet.com/development/api/#comment-check
 	 * @since 1.6
-	 * @todo Spam counter?
-	 * @todo Auto-delete old spam?
+	 * @static
 	 */
-	public function check_activity( $activity ) {
-		// By default, only handle activity updates and activity comments.
-		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
-			return;
+	public static function build_akismet_data_package( $activity ) {
+		$userdata = get_userdata( $activity->user_id );
 
-		$this->last_activity = null;
-		$userdata            = get_userdata( $activity->user_id );
-
-		// Build up a data package for the Akismet service to inspect
 		$activity_data                          = array();
 		$activity_data['akismet_comment_nonce'] = 'inactive';
 		$activity_data['comment_author']        = $userdata->display_name;
@@ -263,8 +232,31 @@ class BP_Akismet {
 		elseif ( !empty( $activity->secondary_item_id ) && !empty( $_POST['_bp_as_nonce_' . $activity->secondary_item_id] ) )
 			$activity_data['akismet_comment_nonce'] = wp_verify_nonce( $_POST["_bp_as_nonce_{$activity->secondary_item_id}"], "_bp_as_nonce_{$userdata->ID}_{$activity->secondary_item_id}" ) ? 'passed' : 'failed';
 
+		return apply_filters( 'bp_akismet_build_akismet_data_package', $activity_data, $activity );
+	}
+
+	/**
+	 * Check if the activity item is spam or ham
+	 *
+	 * @param BP_Activity_Activity $activity The activity item to check
+	 * @see http://akismet.com/development/api/
+	 * @since 1.6
+	 * @todo Spam counter?
+	 * @todo Auto-delete old spam?
+	 */
+	public function check_activity( $activity ) {
+		// By default, only handle activity updates and activity comments.
+		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
+			return;
+
+		// Make sure last_activity is clear to avoid any confusion
+		$this->last_activity = null;
+
+		// Build data package for Akismet
+		$activity_data = BP_Akismet::build_akismet_data_package( $activity );
+
 		// Check with Akismet to see if this is spam
-		$activity_data = $this->maybe_spam( $activity_data );
+		$activity_data = $this->send_akismet_request( $activity_data, 'check', 'spam' );
 
 		// Record this item
 		$this->last_activity = $activity;
@@ -278,17 +270,58 @@ class BP_Akismet {
 			do_action_ref_array( 'bp_activity_akismet_spam_caught', array( &$activity, $activity_data ) );
 
 			// Mark as spam
-			$this->mark_as_spam( $activity );
+			bp_activity_mark_as_spam( $activity, 'by_akismet' );
 		}
+
+		// Update activity meta after a spam check
+		add_action( 'bp_activity_after_save', array( $this, 'update_activity_akismet_meta' ), 1, 1 );
 	}
 
 	/**
-	 * Update activity meta after a spam check
+	 * Update activity meta after a manual spam change (user initiated)
+	 *
+	 * @global object $bp BuddyPress global settings
+	 * @param BP_Activity_Activity $activity The activity to check
+	 * @since 1.6
+	 */
+	public function update_activity_spam_meta( $activity ) {
+		global $bp;
+
+		// By default, only handle activity updates and activity comments.
+		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
+			return;
+
+		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as spam', 'buddypress' ), $bp->loggedin_user->fullname ), 'report-spam' );
+		bp_activity_update_meta( $activity->id, '_bp_akismet_user_result', 'true' );
+		bp_activity_update_meta( $activity->id, '_bp_akismet_user', $bp->loggedin_user->fullname );
+	}
+
+	/**
+	 * Update activity meta after a manual ham change (user initiated)
+	 *
+	 * @global object $bp BuddyPress global settings
+	 * @param BP_Activity_Activity $activity The activity to check
+	 * @since 1.6
+	 */
+	public function update_activity_ham_meta( $activity ) {
+		global $bp;
+
+		// By default, only handle activity updates and activity comments.
+		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
+			return;
+
+		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as not spam', 'buddypress' ), $bp->loggedin_user->fullname ), 'report-ham' );
+		bp_activity_update_meta( $activity->id, '_bp_akismet_user_result', 'false' );
+		bp_activity_update_meta( $activity->id, '_bp_akismet_user', $bp->loggedin_user->fullname );
+	}
+
+	/**
+	 * Update activity meta after an automatic spam check (not user initiated)
 	 *
 	 * @param BP_Activity_Activity $activity The activity to check
 	 * @since 1.6
 	 */
-	public function update_activity_meta( $activity ) {
+	public function update_activity_akismet_meta( $activity ) {
 		// Check we're dealing with what was last updated by Akismet
 		if ( empty( $this->last_activity ) || !empty( $this->last_activity ) && $activity->id != $this->last_activity->id )
 			return;
@@ -329,7 +362,7 @@ class BP_Akismet {
 	 * @param string $spam "spam" or "ham"
 	 * @since 1.6
 	 */
-	protected function maybe_spam( $activity_data, $check = 'check', $spam = 'spam' ) {
+	public function send_akismet_request( $activity_data, $check = 'check', $spam = 'spam' ) {
 		global $akismet_api_host, $akismet_api_port;
 
 		$query_string = $path = $response = '';
@@ -480,7 +513,7 @@ class BP_Akismet {
 	 * @param string $event The type of check we were carrying out
 	 * @since 1.6
 	 */
-	private function update_activity_history( $activity_id = 0, $message = '', $event = '' ) {
+	public function update_activity_history( $activity_id = 0, $message = '', $event = '' ) {
 		$event = array(
 			'event'   => $event,
 			'message' => $message,

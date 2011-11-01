@@ -194,7 +194,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 		return false;
 
 	// Is the current user allowed to spam items?
-	if ( !BP_Akismet::user_can_mark_spam() )
+	if ( !bp_activity_user_can_mark_spam() )
 		return false;
 
 	// Load up the activity item
@@ -209,7 +209,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
 
 	// Mark as spam
-	$bp->activity->akismet->mark_as_spam( $activity );
+	bp_activity_mark_as_spam( $activity );
 	$activity->save();
 
 	// Tell the user the spamming has been succesful

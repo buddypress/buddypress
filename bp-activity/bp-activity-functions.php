@@ -691,17 +691,17 @@ add_action( 'bp_register_activity_actions', 'updates_register_activity_actions' 
  */
 function bp_activity_get( $args = '' ) {
 	$defaults = array(
-		'max'              => false,  // Maximum number of results to return
-		'page'             => 1,      // page 1 without a per_page will result in no pagination.
-		'per_page'         => false,  // results per page
-		'sort'             => 'DESC', // sort ASC or DESC
-		'display_comments' => false,  // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
+		'max'              => false,        // Maximum number of results to return
+		'page'             => 1,            // page 1 without a per_page will result in no pagination.
+		'per_page'         => false,        // results per page
+		'sort'             => 'DESC',       // sort ASC or DESC
+		'display_comments' => false,        // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
 
-		'search_terms'     => false,  // Pass search terms as a string
-		'show_hidden'      => false,  // Show activity items that are hidden site-wide?
-		'exclude'          => false,  // Comma-separated list of activity IDs to exclude
-		'in'               => false,  // Comma-separated list or array of activity IDs to which you want to limit the query
-		'hide_spam'        => true,   // Don't retrieve items marked as spam?
+		'search_terms'     => false,        // Pass search terms as a string
+		'show_hidden'      => false,        // Show activity items that are hidden site-wide?
+		'exclude'          => false,        // Comma-separated list of activity IDs to exclude
+		'in'               => false,        // Comma-separated list or array of activity IDs to which you want to limit the query
+		'spam'             => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
 
 		/**
 		 * Pass filters as an array -- all filter items can be multiple values comma separated:
@@ -719,14 +719,14 @@ function bp_activity_get( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	// Attempt to return a cached copy of the first page of sitewide activity.
-	if ( 1 == (int)$page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && 'DESC' == $sort && empty( $exclude ) ) {
+	if ( 1 == (int)$page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && empty( $exclude ) && empty( $in ) && 'DESC' == $sort && empty( $exclude ) && 'ham_only' == $spam ) {
 		if ( !$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' ) ) {
-			$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, false, false, $hide_spam );
+			$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, false, false, $spam );
 			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
 		}
 
 	} else {
-		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, $exclude, $in, $hide_spam );
+		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, $exclude, $in, $spam );
 	}
 
 	return apply_filters_ref_array( 'bp_activity_get', array( &$activity, &$r ) );
@@ -747,19 +747,19 @@ function bp_activity_get( $args = '' ) {
  */
 function bp_activity_get_specific( $args = '' ) {
 	$defaults = array(
-		'activity_ids'     => false,  // A single activity_id or array of IDs.
-		'display_comments' => false,  // true or false to display threaded comments for these specific activity items
-		'hide_spam'        => false,  // Retrieve items marked as spam
-		'max'              => false,  // Maximum number of results to return
-		'page'             => 1,      // page 1 without a per_page will result in no pagination.
-		'per_page'         => false,  // results per page
-		'show_hidden'      => true,   // When fetching specific items, show all
-		'sort'             => 'DESC', // sort ASC or DESC
+		'activity_ids'     => false,       // A single activity_id or array of IDs.
+		'display_comments' => false,       // true or false to display threaded comments for these specific activity items
+		'max'              => false,       // Maximum number of results to return
+		'page'             => 1,           // page 1 without a per_page will result in no pagination.
+		'per_page'         => false,       // results per page
+		'show_hidden'      => true,        // When fetching specific items, show all
+		'sort'             => 'DESC',      // sort ASC or DESC
+		'spam'             => 'ham_only',  // Retrieve items marked as spam
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, $show_hidden, false, $activity_ids, $hide_spam ) );
+	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, $show_hidden, false, $activity_ids, $spam ) );
 }
 
 /**
@@ -1325,6 +1325,93 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
 
 	return apply_filters( 'bp_activity_thumbnail_content_images', $content, $matches );
 }
+
+/**
+ * Convenience function to control whether the current user is allowed to mark activity items as spam
+ *
+ * @global object $bp BuddyPress global settings
+ * @return bool True if user is allowed to mark activity items as spam
+ * @since 1.6
+ * @static
+ */
+function bp_activity_user_can_mark_spam() {
+	global $bp;
+	return apply_filters( 'bp_activity_user_can_mark_spam', $bp->loggedin_user->is_site_admin );
+}
+
+/**
+ * Mark activity item as spam
+ *
+ * @global object $bp BuddyPress global settings
+ * @param BP_Activity_Activity $activity
+ * @param string $source Optional; default is "by_a_person" (e.g. a person has manually marked the activity as spam).
+ * @since 1.6
+ */
+function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
+	global $bp;
+
+	$activity->is_spam = 1;
+
+	// Clear the activity stream first page cache
+	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
+
+	// Clear the activity comment cache for this activity item
+	wp_cache_delete( 'bp_activity_comments_' . $activity->id, 'bp' );
+
+	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity
+	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
+		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 1, 1 );
+
+		// Build data package for Akismet
+		$activity_data = BP_Akismet::build_akismet_data_package( $activity );
+
+		// Tell Akismet this is spam
+		$activity_data = $bp->activity->akismet->send_akismet_request( $activity_data, 'submit', 'spam' );
+
+		// Update meta
+		add_action( 'bp_activity_after_save', array( $bp->activity->akismet, 'update_activity_spam_meta' ), 1, 1 );
+	}
+
+	do_action( 'bp_activity_mark_as_spam', $activity, $source );
+}
+
+/**
+ * Mark activity item as ham
+ *
+ * @global object $bp BuddyPress global settings
+ * @param BP_Activity_Activity $activity
+ * @param string $source Optional; default is "by_a_person" (e.g. a person has manually marked the activity as spam).
+ * @since 1.6
+ */
+function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
+	global $bp;
+
+	$activity->is_spam = 0;
+
+	// Clear the activity stream first page cache
+	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
+
+	// Clear the activity comment cache for this activity item
+	wp_cache_delete( 'bp_activity_comments_' . $activity->id, 'bp' );
+
+	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity
+	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
+		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 1, 1 );
+
+		// Build data package for Akismet
+		$activity_data = BP_Akismet::build_akismet_data_package( $activity );
+
+		// Tell Akismet this is spam
+		$activity_data = $bp->activity->akismet->send_akismet_request( $activity_data, 'submit', 'ham' );
+
+		// Update meta
+		add_action( 'bp_activity_after_save', array( $bp->activity->akismet, 'update_activity_ham_meta' ), 1, 1 );
+	}
+
+	//DJPAULTODO: Run bp_activity_at_name_filter() somehow... but not twice, if we can help it. Maybe check if it was auto-spammed by Akismet?
+	do_action( 'bp_activity_mark_as_ham', $activity, $source );
+} 
+
 
 /** Embeds *******************************************************************/
 

@@ -54,6 +54,9 @@ class BP_Activity_Component extends BP_Component {
 		if ( defined( 'AKISMET_VERSION' ) && ( !empty( $akismet_key ) || defined( 'WPCOM_API_KEY' ) ) )
 			$includes[] = 'akismet';
 
+		if ( is_admin() )
+			$includes[] = 'admin';
+
 		parent::includes( $includes );
 	}
 
