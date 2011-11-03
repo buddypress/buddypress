@@ -463,7 +463,7 @@ function bp_core_activate_signup( $key ) {
 				$profile_field_ids = explode( ',', $user['meta']['profile_field_ids'] );
 
 				foreach( (array)$profile_field_ids as $field_id ) {
-					$current_field = $user['meta']["field_{$field_id}"];
+					$current_field = isset( $user['meta']["field_{$field_id}"] ) ? $user['meta']["field_{$field_id}"] : false;
 
 					if ( !empty( $current_field ) )
 						xprofile_set_field_data( $field_id, $user_id, $current_field );
