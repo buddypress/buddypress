@@ -577,7 +577,7 @@ function bp_member_latest_update( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
 
-		if ( empty( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
+		if ( !bp_is_active( 'activity' ) || empty( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
 			return false;
 
 		$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', sprintf( _x( '- &quot;%s &quot;', 'member latest update in member directory', 'buddypress' ), trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ) ) );
