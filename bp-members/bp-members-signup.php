@@ -77,7 +77,7 @@ function bp_core_screen_signup() {
 				// Loop through the posted fields formatting any datebox values then validate the field
 				foreach ( (array) $profile_field_ids as $field_id ) {
 					if ( !isset( $_POST['field_' . $field_id] ) ) {
-						if ( isset( $_POST['field_' . $field_id . '_day'] ) )
+						if ( !empty( $_POST['field_' . $field_id . '_day'] ) && !empty( $_POST['field_' . $field_id . '_month'] ) && !empty( $_POST['field_' . $field_id . '_year'] ) )
 							$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] ) );
 					}
 
