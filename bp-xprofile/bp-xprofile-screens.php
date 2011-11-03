@@ -65,7 +65,7 @@ function xprofile_screen_edit_profile() {
 		foreach ( (array)$posted_field_ids as $field_id ) {
 			if ( !isset( $_POST['field_' . $field_id] ) ) {
 
-				if ( !empty( $_POST['field_' . $field_id . '_day'] ) && is_numeric( $_POST['field_' . $field_id . '_day'] ) ) {
+				if ( !empty( $_POST['field_' . $field_id . '_day'] ) && !empty( $_POST['field_' . $field_id . '_month'] ) && !empty( $_POST['field_' . $field_id . '_year'] ) ) {
 					// Concatenate the values
 					$date_value =   $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
 
