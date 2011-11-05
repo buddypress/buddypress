@@ -3,18 +3,19 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 // Require all of the BuddyPress core libraries
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-cache.php'     );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'     );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'     );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'   );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'   );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'   );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'   );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-template.php'  );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-buddybar.php'  );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'  );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php' );
-require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-cache.php'      );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'      );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'      );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'    );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'    );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'    );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-widgets.php'    );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-template.php'   );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-buddybar.php'   );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-catchuri.php'   );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-component.php'  );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php'  );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-moderation.php' );
 
 // Load deprecated functions
 require( BP_PLUGIN_DIR . '/bp-core/deprecated/1.5.php'    );
