@@ -252,7 +252,7 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' )
 function bp_core_current_user_ip() {
 	$retval = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
 
-	return apply_filters( 'bp_current_user_ip', $retval );
+	return apply_filters( 'bp_core_current_user_ip', $retval );
 }
 
 /**
@@ -270,7 +270,7 @@ function bp_core_current_user_ua() {
 	else
 		$retval = '';
 
-	return apply_filters( 'bp_current_user_ua', $retval );
+	return apply_filters( 'bp_core_current_user_ua', $retval );
 }
 
 ?>
