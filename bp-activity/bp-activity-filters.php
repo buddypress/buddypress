@@ -10,6 +10,8 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/** Filters *******************************************************************/
+
 // Apply WordPress defined filters
 add_filter( 'bp_get_activity_action',                'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_content_body',          'bp_activity_filter_kses', 1 );
@@ -86,6 +88,70 @@ add_filter( 'group_forum_topic_text_before_save',    'bp_activity_at_name_filter
 add_filter( 'group_forum_post_text_before_save',     'bp_activity_at_name_filter' );
 
 add_filter( 'bp_get_activity_parent_content',        'bp_create_excerpt' );
+
+add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
+add_filter( 'bp_get_activity_content',      'bp_activity_truncate_entry', 5 );
+
+/** Actions *******************************************************************/
+
+// At-name filter
+add_action( 'bp_activity_after_save', 'bp_activity_at_name_filter_updates' );
+
+// Activity stream moderation
+add_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2, 1 );
+add_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys',  2, 1 );
+
+/** Functions *****************************************************************/
+
+/**
+ * Types of activity stream items to check against
+ *
+ * @since BuddyPress (1.6)
+ */
+function bp_activity_get_moderated_activity_types() {
+	$types = array(
+		'activity_comment',
+		'activity_update'
+	);
+	return apply_filters( 'bp_activity_check_activity_types', $types );
+}
+
+/**
+ * Check activity stream for moderation keys
+ *
+ * @since BuddyPress (1.6)
+ * @param BP_Activity_Activity $activity
+ * @return If activity type is not an update or comment
+ */
+function bp_activity_check_moderation_keys( $activity ) {
+
+	// Only check specific types of activity updates
+	if ( !in_array( $activity->type, bp_activity_get_moderated_activity_types() ) )
+		return;
+
+	// Unset the activity component so activity stream update fails
+	// @todo This is temporary until some kind of moderation is built
+	if ( !bp_core_check_for_moderation( $activity->user_id, '', $activity->content ) )
+		$activity->component = false;
+}
+
+/**
+ * Check activity stream for blacklisted keys
+ *
+ * @since BuddyPress (1.6)
+ * @param BP_Activity_Activity $activity
+ * @return If activity type is not an update or comment
+ */
+function bp_activity_check_blacklist_keys( $activity ) {
+
+	// Only check specific types of activity updates
+	if ( !in_array( $activity->type, bp_activity_get_moderated_activity_types() ) )
+		return;
+
+	// Unset the activity component so activity stream update fails
+	if ( !bp_core_check_for_blacklist( $activity->user_id, '', $activity->content ) )
+		$activity->component = false;
+}
 
 /**
  * Custom kses filtering for activity content
@@ -198,7 +264,6 @@ function bp_activity_at_name_filter_updates( $activity ) {
 	// Resave the activity with the new content
 	$activity->save();
 }
-add_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter_updates' );
 
 /**
  * Catches links in activity text so rel=nofollow can be added
@@ -269,7 +334,5 @@ function bp_activity_truncate_entry( $text ) {
 
 	return apply_filters( 'bp_activity_truncate_entry', $excerpt, $text, $append_text );
 }
-add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
-add_filter( 'bp_get_activity_content', 'bp_activity_truncate_entry', 5 );
 
 ?>
