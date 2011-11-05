@@ -31,7 +31,7 @@ function bp_activity_add_admin_menu() {
 		return;
 
 	// Add our screen
-	$hook = add_menu_page( __( 'Activity', 'buddypress' ), __( 'Activity', 'buddypress' ), 'manage_options', 'bp-activity-settings', 'bp_activity_admin' );
+	$hook = add_menu_page( __( 'Activity', 'buddypress' ), __( 'Activity', 'buddypress' ), 'manage_options', 'bp-activity', 'bp_activity_admin' );
 
 	// Hook into early actions to load custom CSS and our init handler.
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
@@ -520,6 +520,6 @@ class BP_Activity_List_Table extends WP_List_Table {
 			return;
 
 		/* translators: 1: activity admin screen permalink, 2: activity ID */
-		printf( __( '<a href="%1$s">Activity ID #%2$d</a>', 'buddypress' ), network_admin_url( 'admin.php?page=bp-activity-settings&a=' . $item['secondary_item_id'] ), $item['secondary_item_id'] );
+		printf( __( '<a href="%1$s">Activity ID #%2$d</a>', 'buddypress' ), network_admin_url( 'admin.php?page=bp-activity&a=' . $item['secondary_item_id'] ), $item['secondary_item_id'] );
 	}
 }?>

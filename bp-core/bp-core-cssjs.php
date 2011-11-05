@@ -30,10 +30,10 @@ function bp_core_admin_menu_icon_css() {
 		}
 
 		/* Activity Icon */
-		ul#adminmenu li.toplevel_page_bp-activity-settings .wp-menu-image a img { display: none; }
-		ul#adminmenu li.toplevel_page_bp-activity-settings .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-activity-settings:hover .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-activity-settings.wp-has-current-submenu .wp-menu-image a {
+		ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a img { display: none; }
+		ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image a,
+		ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image a {
 			background-position: -1px 0;
 		}
 	</style>

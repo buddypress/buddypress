@@ -54,8 +54,60 @@ class BP_Akismet {
 		add_action( 'bp_activity_mark_as_ham',     array( $this, 'mark_as_ham' ),  10, 2 );
 
 		// Hook into the Activity wp-admin screen
-		//add_action( 'bp_activity_admin_comment_row_actions', array( $this, 'add_activity_status_row' ), 10, 2 );
+		add_action( 'bp_activity_admin_comment_row_actions', array( $this, 'comment_row_action' ), 10, 2 );
 	}
+
+	/**
+	 * Add a history item to the hover links in an activity's row.
+	 *
+	 * This function lifted with love from the Akismet WordPress plugin's
+	 * akismet_comment_row_action() function. Thanks!
+	 *
+	 * @param array $actions The hover links
+	 * @param array $activity The activity for the current row being processed
+	 * @return array The hover links
+	 * @since 1.6
+	 */
+	function comment_row_action( $actions, $activity ) {
+		$akismet_result = bp_activity_get_meta( $activity['id'], '_bp_akismet_result' );
+		$user_result    = bp_activity_get_meta( $activity['id'], '_bp_akismet_user_result' );
+		$desc           = '';
+
+		if ( !$user_result || $user_result == $akismet_result ) {
+			// Show the original Akismet result if the user hasn't overridden it, or if their decision was the same
+			if ( $akismet_result == 'true' && $activity['is_spam'] )
+				$desc = __( 'Flagged as spam by Akismet', 'buddypress' );
+
+			elseif ( $akismet_result == 'false' && !$activity['is_spam'] )
+				$desc = __( 'Cleared by Akismet', 'buddypress' );
+
+		} else {
+			$who = bp_activity_get_meta( $activity['id'], '_bp_akismet_user' );
+
+			if ( $user_result == 'true' )
+				$desc = sprintf( __( 'Flagged as spam by %s', 'buddypress' ), $who );
+			else
+				$desc = sprintf( __( 'Un-spammed by %s', 'buddypress' ), $who );
+		}
+
+		// add a History item to the hover links, just after Edit
+		if ( $akismet_result ) {
+			$b = array();
+			foreach ( $actions as $k => $item ) {
+				$b[ $k ] = $item;
+				if ( $k == 'edit' )
+					$b['history'] = '<a href="#"> '. __( 'History', 'buddypress' ) . '</a>';
+			}
+
+			$actions = $b;
+		}
+
+		if ( $desc )
+			echo '<span class="akismet-status"><a href="#">' . htmlspecialchars( $desc ) . '</a></span>';
+
+		return apply_filters( 'bp_akismet_comment_row_action', $actions );
+	}
+
 
 	/**
 	 * Adds a nonce to the member profile status form, and to the reply form of each activity stream item.
@@ -371,8 +423,8 @@ class BP_Akismet {
 		$activity_data['blog_charset'] = bp_get_option( 'blog_charset' );
 		$activity_data['blog_lang']    = get_locale();
 		$activity_data['referrer']     = $_SERVER['HTTP_REFERER'];
-		$activity_data['user_agent']   = $_SERVER['HTTP_USER_AGENT'];
-		$activity_data['user_ip']      = $_SERVER['REMOTE_ADDR'];
+		$activity_data['user_agent']   = bp_core_current_user_ua();
+		$activity_data['user_ip']      = bp_core_current_user_ip();
 
 		if ( akismet_test_mode() )
 			$activity_data['is_test'] = 'true';
