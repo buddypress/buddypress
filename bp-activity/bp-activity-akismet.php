@@ -175,7 +175,7 @@ class BP_Akismet {
 				'id'         => 'activity_make_spam_' . bp_get_activity_id(),
 				'link_class' => 'bp-secondary-action spam-activity confirm button item-button',
 				'link_href'  => wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_slug() . '/spam/' . bp_get_activity_id(), 'bp_activity_akismet_spam_' . bp_get_activity_id() ),
-				'link_text'  => __( 'Spam This!', 'buddypress' ),
+				'link_text'  => __( 'Spam', 'buddypress' ),
 				'wrapper'    => false,
 			)
 		);
@@ -204,7 +204,7 @@ class BP_Akismet {
 				'id'         => 'activity_make_spam_' . bp_get_activity_comment_id(),
 				'link_class' => 'bp-secondary-action spam-activity-comment confirm',
 				'link_href'  => wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_slug() . '/spam/' . bp_get_activity_comment_id() . '?cid=' . bp_get_activity_comment_id(), 'bp_activity_akismet_spam_' . bp_get_activity_comment_id() ),
-				'link_text'  => __( 'Spam This!', 'buddypress' ),
+				'link_text'  => __( 'Spam', 'buddypress' ),
 				'wrapper'    => false,
 			)
 		);
