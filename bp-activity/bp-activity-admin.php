@@ -388,40 +388,45 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function extra_tablenav( $which ) {
 		if ( 'bottom' == $which )
 			return;
-	?>
+
+		$selected = !empty( $_REQUEST['activity_type'] ) ? $_REQUEST['activity_type'] : '';
+		?>
+
 		<div class="alignleft actions">
 			<select name="activity_type">
-				<option value=""><?php _e( 'Show all activity types', 'buddypress' ); ?></option>
-				<option value="activity_update"><?php _e( 'Status Updates', 'buddypress' ); ?></option>
-				<option value="activity_comment"><?php _e( 'Status Update Comments', 'buddypress' ); ?></option>
+				<option value="" <?php selected( !$selected ); ?>><?php _e( 'Show all activity types', 'buddypress' ); ?></option>
+				<option value="activity_update"  <?php selected( 'activity_update',  $selected ); ?>><?php _e( 'Status Updates', 'buddypress' ); ?></option>
+				<option value="activity_comment" <?php selected( 'activity_comment', $selected ); ?>><?php _e( 'Status Update Comments', 'buddypress' ); ?></option>
 
 				<?php if ( bp_is_active( 'blogs' ) ) : ?>
-					<option value="new_blog_post"><?php _e( 'Posts', 'buddypress' ); ?></option>
-					<option value="new_blog_comment"><?php _e( 'Comments', 'buddypress' ); ?></option>
+					<option value="new_blog_post"    <?php selected( 'new_blog_post',    $selected ); ?>><?php _e( 'Posts', 'buddypress' ); ?></option>
+					<option value="new_blog_comment" <?php selected( 'new_blog_comment', $selected ); ?>><?php _e( 'Comments', 'buddypress' ); ?></option>
 				<?php endif; ?>
 
 				<?php if ( bp_is_active( 'forums' ) ) : ?>
-					<option value="new_forum_topic"><?php _e( 'Forum Topics', 'buddypress' ); ?></option>
-					<option value="new_forum_post"><?php _e( 'Forum Replies', 'buddypress' ); ?></option>
+					<option value="new_forum_topic" <?php selected( 'new_forum_topic', $selected ); ?>><?php _e( 'Forum Topics', 'buddypress' ); ?></option>
+					<option value="new_forum_post"  <?php selected( 'new_forum_post',  $selected ); ?>><?php _e( 'Forum Replies', 'buddypress' ); ?></option>
 				<?php endif; ?>
 
 				<?php if ( bp_is_active( 'groups' ) ) : ?>
-					<option value="created_group"><?php _e( 'New Groups', 'buddypress' ); ?></option>
-					<option value="joined_group"><?php _e( 'Group Memberships', 'buddypress' ); ?></option>
+					<option value="created_group" <?php selected( 'created_group', $selected ); ?>><?php _e( 'New Groups', 'buddypress' ); ?></option>
+					<option value="joined_group"  <?php selected( 'joined_group',  $selected ); ?>><?php _e( 'Group Memberships', 'buddypress' ); ?></option>
 				<?php endif; ?>
 
 				<?php if ( bp_is_active( 'friends' ) ) : ?>
-					<option value="friendship_accepted"><?php _e( 'Friendships Accepted', 'buddypress' ); ?></option>
-					<option value="friendship_created"><?php _e( 'New Friendships', 'buddypress' ); ?></option>
+					<option value="friendship_accepted" <?php selected( 'friendship_accepted', $selected ); ?>><?php _e( 'Friendships Accepted', 'buddypress' ); ?></option>
+					<option value="friendship_created"  <?php selected( 'friendship_created',  $selected ); ?>><?php _e( 'New Friendships', 'buddypress' ); ?></option>
 				<?php endif; ?>
 
-				<option value="new_member"><?php _e( 'New Members', 'buddypress' ); ?></option>
-				<option value="new_avatar"><?php _e( 'New Member Avatar', 'buddypress' ); ?></option>
+				<option value="new_member" <?php selected( 'new_member', $selected ); ?>><?php _e( 'New Members', 'buddypress' ); ?></option>
+				<option value="new_avatar" <?php selected( 'new_avatar', $selected ); ?>><?php _e( 'New Member Avatar', 'buddypress' ); ?></option>
 
 				<?php do_action( 'bp_activity_filter_options' ); ?>
+
 			</select>
 
 			<?php submit_button( __( 'Filter', 'buddypress' ), 'secondary', false, false, array( 'id' => 'post-query-submit' ) ); ?>
+
 		</div>
 	<?php
 	}
