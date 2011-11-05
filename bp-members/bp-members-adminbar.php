@@ -215,6 +215,7 @@ function bp_members_admin_bar_my_account_logout() {
 		// Log out
 		$wp_admin_bar->add_menu( array(
 			'parent' => $bp->my_account_menu_id,
+			'id'     => $bp->my_account_menu_id . '-logout',
 			'title'  => __( 'Log Out', 'buddypress' ),
 			'href'   => wp_logout_url()
 		) );

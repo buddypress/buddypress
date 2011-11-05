@@ -152,6 +152,7 @@ class BP_Blogs_Component extends BP_Component {
 			// My Blogs
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-my-sites',
 				'title'  => __( 'My Sites', 'buddypress' ),
 				'href'   => trailingslashit( $blogs_link )
 			);

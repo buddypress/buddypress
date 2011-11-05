@@ -239,6 +239,7 @@ class BP_Activity_Component extends BP_Component {
 			// Mentions
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-mentions',
 				'title'  => $title,
 				'href'   => trailingslashit( $activity_link . 'mentions' )
 			);
@@ -246,6 +247,7 @@ class BP_Activity_Component extends BP_Component {
 			// Personal
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-personal',
 				'title'  => __( 'Personal', 'buddypress' ),
 				'href'   => trailingslashit( $activity_link )
 			);
@@ -253,6 +255,7 @@ class BP_Activity_Component extends BP_Component {
 			// Favorites
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-favorites',
 				'title'  => __( 'Favorites', 'buddypress' ),
 				'href'   => trailingslashit( $activity_link . 'favorites' )
 			);
@@ -261,6 +264,7 @@ class BP_Activity_Component extends BP_Component {
 			if ( bp_is_active( 'friends' ) ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
+					'id'     => 'my-account-' . $this->id . '-friends',
 					'title'  => __( 'Friends', 'buddypress' ),
 					'href'   => trailingslashit( $activity_link . bp_get_friends_slug() )
 				);
@@ -270,6 +274,7 @@ class BP_Activity_Component extends BP_Component {
 			if ( bp_is_active( 'groups' ) ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
+					'id'     => 'my-account-' . $this->id . '-groups',
 					'title'  => __( 'Groups', 'buddypress' ),
 					'href'   => trailingslashit( $activity_link . bp_get_groups_slug() )
 				);

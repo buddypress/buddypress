@@ -198,6 +198,7 @@ class BP_Forums_Component extends BP_Component {
 			// Topics
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-topics-started',
 				'title'  => __( 'Topics Started', 'buddypress' ),
 				'href'   => trailingslashit( $forums_link . 'topics' )
 			);
@@ -205,6 +206,7 @@ class BP_Forums_Component extends BP_Component {
 			// Replies
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-replies',
 				'title'  => __( 'Replies', 'buddypress' ),
 				'href'   => trailingslashit( $forums_link . 'replies' )
 			);
@@ -212,6 +214,7 @@ class BP_Forums_Component extends BP_Component {
 			// Favorites
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-favorite-topics',
 				'title'  => __( 'Favorite Topics', 'buddypress' ),
 				'href'   => trailingslashit( $forums_link . 'favorites' )
 			);

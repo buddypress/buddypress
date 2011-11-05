@@ -165,6 +165,7 @@ class BP_Friends_Component extends BP_Component {
 			// My Groups
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-friendships',
 				'title'  => __( 'Friendships', 'buddypress' ),
 				'href'   => trailingslashit( $friends_link )
 			);
@@ -172,6 +173,7 @@ class BP_Friends_Component extends BP_Component {
 			// Requests
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-requests',
 				'title'  => $pending,
 				'href'   => trailingslashit( $friends_link . 'requests' )
 			);

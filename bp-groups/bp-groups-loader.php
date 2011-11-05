@@ -407,6 +407,7 @@ class BP_Groups_Component extends BP_Component {
 			// My Groups
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-memberships',
 				'title'  => __( 'Memberships', 'buddypress' ),
 				'href'   => trailingslashit( $groups_link )
 			);
@@ -414,6 +415,7 @@ class BP_Groups_Component extends BP_Component {
 			// Invitations
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-invites',
 				'title'  => $pending,
 				'href'   => trailingslashit( $groups_link . 'invites' )
 			);
