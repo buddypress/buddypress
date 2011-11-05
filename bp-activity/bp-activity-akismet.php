@@ -417,6 +417,10 @@ class BP_Akismet {
 	public function send_akismet_request( $activity_data, $check = 'check', $spam = 'spam' ) {
 		global $akismet_api_host, $akismet_api_port;
 
+		// Check that host and port are set, if not, set them
+		if ( function_exists( 'akismet_init' ) && ( empty( $akismet_api_host ) || empty( $akismet_api_port ) ) )
+			akismet_init();
+
 		$query_string = $path = $response = '';
 
 		$activity_data['blog']         = bp_get_option( 'home' );
