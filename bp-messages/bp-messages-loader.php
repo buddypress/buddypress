@@ -193,6 +193,7 @@ class BP_Messages_Component extends BP_Component {
 			// Inbox
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-inbox',
 				'title'  => $inbox,
 				'href'   => trailingslashit( $messages_link . 'inbox' )
 			);
@@ -200,6 +201,7 @@ class BP_Messages_Component extends BP_Component {
 			// Sent Messages
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-sentbox',
 				'title'  => __( 'Sent', 'buddypress' ),
 				'href'   => trailingslashit( $messages_link . 'sentbox' )
 			);
@@ -207,6 +209,7 @@ class BP_Messages_Component extends BP_Component {
 			// Compose Message
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-compose',
 				'title'  => __( 'Compose', 'buddypress' ),
 				'href'   => trailingslashit( $messages_link . 'compose' )
 			);
@@ -215,6 +218,7 @@ class BP_Messages_Component extends BP_Component {
 			if ( is_super_admin() ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
+					'id'     => 'my-account-' . $this->id . '-notices',
 					'title'  => __( 'All Member Notices', 'buddypress' ),
 					'href'   => trailingslashit( $messages_link . 'notices' )
 				);
