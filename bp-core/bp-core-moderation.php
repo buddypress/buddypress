@@ -93,8 +93,8 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
 	}
 
 	// Current user IP and user agent
-	$post['user_ip'] = bp_current_user_ip();
-	$post['user_ua'] = bp_current_user_ua();
+	$post['user_ip'] = bp_core_current_user_ip();
+	$post['user_ua'] = bp_core_current_user_ua();
 
 	// Post title and content
 	$post['title']   = $title;
@@ -200,8 +200,8 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' )
 	}
 
 	// Current user IP and user agent
-	$post['user_ip'] = bp_current_user_ip();
-	$post['user_ua'] = bp_current_user_ua();
+	$post['user_ip'] = bp_core_current_user_ip();
+	$post['user_ua'] = bp_core_current_user_ua();
 
 	// Post title and content
 	$post['title']   = $title;
