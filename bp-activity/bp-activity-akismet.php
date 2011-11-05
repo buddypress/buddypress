@@ -44,7 +44,7 @@ class BP_Akismet {
 		add_action( 'bp_activity_comment_options', array( $this, 'add_activity_comment_spam_button' ) );
 
 		// Check activity for spam
-		add_action( 'bp_activity_before_save',     array( $this, 'check_activity' ), 1, 1 );
+		add_action( 'bp_activity_before_save',     array( $this, 'check_activity' ), 4, 1 );
 
 		// Tidy up member's latest (activity) update
 		add_action( 'bp_activity_posted_update',   array( $this, 'check_member_activity_update' ), 1, 3 );

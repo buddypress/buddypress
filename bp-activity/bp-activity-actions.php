@@ -598,10 +598,12 @@ add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
 function bp_activity_setup_akismet() {
 	global $bp;
 
-	$akismet_key = bp_get_option( 'wordpress_api_key' );
+	// Bail if Akismet is not active
+	if ( !defined( 'AKISMET_VERSION' ) )
+		return;
 
-	// Load Akismet support if Akismet is configured
-	if ( !defined( 'AKISMET_VERSION' ) || ( empty( $akismet_key ) && !defined( 'WPCOM_API_KEY' ) ) )
+	// Bail if no Akismet key is set
+	if ( !bp_get_option( 'wordpress_api_key' ) && !defined( 'WPCOM_API_KEY' ) )
 		return;
 
 	// Instantiate Akismet for BuddyPress
