@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-11-05 22:31:04+00:00\n"
+"POT-Creation-Date: 2011-11-05 23:31:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1040,7 +1040,7 @@ msgstr ""
 #: bp-themes/bp-default/members/single/activity.php:27
 #: bp-themes/bp-default/activity/index.php:101
 #: bp-themes/bp-default/forums/forums-loop.php:40
-#: bp-activity/bp-activity-admin.php:399
+#: bp-activity/bp-activity-admin.php:402
 msgid "Posts"
 msgstr ""
 
@@ -2413,7 +2413,7 @@ msgstr ""
 #: bp-xprofile/bp-xprofile-loader.php:135
 #: bp-xprofile/bp-xprofile-loader.php:193 bp-xprofile/bp-xprofile-admin.php:463
 #: bp-forums/bp-forums-template.php:1262 bp-themes/bp-default/functions.php:499
-#: bp-activity/bp-activity-admin.php:481
+#: bp-activity/bp-activity-admin.php:486
 msgid "Edit"
 msgstr ""
 
@@ -4167,34 +4167,34 @@ msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:28
 #: bp-themes/bp-default/activity/index.php:102
-#: bp-activity/bp-activity-admin.php:400
+#: bp-activity/bp-activity-admin.php:403
 msgid "Comments"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:43
 #: bp-themes/bp-default/activity/index.php:108
 #: bp-themes/bp-default/groups/single/activity.php:14
-#: bp-activity/bp-activity-admin.php:404
+#: bp-activity/bp-activity-admin.php:407
 msgid "Forum Topics"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:44
 #: bp-themes/bp-default/activity/index.php:109
 #: bp-themes/bp-default/groups/single/activity.php:15
-#: bp-activity/bp-activity-admin.php:405
+#: bp-activity/bp-activity-admin.php:408
 msgid "Forum Replies"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:50
 #: bp-themes/bp-default/activity/index.php:115
-#: bp-activity/bp-activity-admin.php:409
+#: bp-activity/bp-activity-admin.php:412
 msgid "New Groups"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:51
 #: bp-themes/bp-default/activity/index.php:116
 #: bp-themes/bp-default/groups/single/activity.php:18
-#: bp-activity/bp-activity-admin.php:410
+#: bp-activity/bp-activity-admin.php:413
 msgid "Group Memberships"
 msgstr ""
 
@@ -4250,7 +4250,7 @@ msgid "RSS"
 msgstr ""
 
 #: bp-themes/bp-default/activity/index.php:126
-#: bp-activity/bp-activity-admin.php:418
+#: bp-activity/bp-activity-admin.php:421
 msgid "New Members"
 msgstr ""
 
@@ -4264,7 +4264,7 @@ msgstr ""
 #: bp-themes/bp-default/activity/comment.php:37
 #: bp-themes/bp-default/forums/single/edit.php:10
 #: bp-themes/bp-default/groups/single/forum/edit.php:10
-#: bp-activity/bp-activity-admin.php:478
+#: bp-activity/bp-activity-admin.php:483
 msgid "Reply"
 msgstr ""
 
@@ -4822,11 +4822,11 @@ msgstr ""
 msgid "Mark as Spam"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:345 bp-activity/bp-activity-admin.php:485
+#: bp-activity/bp-activity-admin.php:345 bp-activity/bp-activity-admin.php:490
 msgid "Not Spam"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:346 bp-activity/bp-activity-admin.php:490
+#: bp-activity/bp-activity-admin.php:346 bp-activity/bp-activity-admin.php:495
 msgid "Delete Permanently"
 msgstr ""
 
@@ -4838,35 +4838,35 @@ msgstr ""
 msgid "In Response To"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:394
+#: bp-activity/bp-activity-admin.php:397
 msgid "Show all activity types"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:395
+#: bp-activity/bp-activity-admin.php:398
 msgid "Status Updates"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:396
+#: bp-activity/bp-activity-admin.php:399
 msgid "Status Update Comments"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:414
+#: bp-activity/bp-activity-admin.php:417
 msgid "Friendships Accepted"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:415
+#: bp-activity/bp-activity-admin.php:418
 msgid "New Friendships"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:419
+#: bp-activity/bp-activity-admin.php:422
 msgid "New Member Avatar"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:424
+#: bp-activity/bp-activity-admin.php:428
 msgid "Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:487
+#: bp-activity/bp-activity-admin.php:492
 #: bp-activity/bp-activity-akismet.php:178
 #: bp-activity/bp-activity-akismet.php:207
 msgid "Spam"
@@ -4874,13 +4874,13 @@ msgstr ""
 
 #. translators: 2: activity admin ui date/time
 
-#: bp-activity/bp-activity-admin.php:499
+#: bp-activity/bp-activity-admin.php:504
 msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
 msgstr ""
 
 #. translators: 1: activity admin screen permalink, 2: activity ID
 
-#: bp-activity/bp-activity-admin.php:523
+#: bp-activity/bp-activity-admin.php:528
 msgid "<a href=\"%1$s\">Activity ID #%2$d</a>"
 msgstr ""
 
