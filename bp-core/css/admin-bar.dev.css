@@ -39,7 +39,8 @@
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications {
-	background: #eee;
+	background: #ddd;
+	color: #333;
 	margin: 0
 }
 
