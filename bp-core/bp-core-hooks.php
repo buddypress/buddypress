@@ -15,28 +15,28 @@ add_action( 'wp',             'bp_screens', 4  );
 /** Init **********************************************************************/
 
 // Attach bp_init to WordPress init
-add_action( 'init',       'bp_init'                    );
+add_action( 'init',           'bp_init'                     );
 
 // Parse the URI and set globals
-add_action( 'bp_init',    'bp_core_set_uri_globals', 2 );
+add_action( 'bp_init',        'bp_core_set_uri_globals',  2 );
 
 // Setup component globals
-add_action( 'bp_init',    'bp_setup_globals',        4 );
+add_action( 'bp_init',        'bp_setup_globals',         4 );
 
 // Setup the navigation menu
-add_action( 'bp_init',    'bp_setup_nav',            7 );
+add_action( 'bp_init',        'bp_setup_nav',             7 );
 
 // Setup the navigation menu
-add_action( 'admin_bar_menu',    'bp_setup_admin_bar'  );
+add_action( 'admin_bar_menu', 'bp_setup_admin_bar',      11 );
 
 // Setup the title
-add_action( 'bp_init',    'bp_setup_title',          9 );
+add_action( 'bp_init',        'bp_setup_title',           9 );
 
 // Setup widgets
-add_action( 'bp_loaded',  'bp_setup_widgets'           );
+add_action( 'bp_loaded',      'bp_setup_widgets'            );
 
 // Setup admin bar
-add_action( 'bp_loaded',  'bp_core_load_admin_bar'     );
+add_action( 'bp_loaded',      'bp_core_load_admin_bar'      );
 
 /** The hooks *****************************************************************/
 

@@ -38,8 +38,9 @@ function bp_members_admin_bar_my_account_menu() {
 		// Some admin bar setup in WP 3.2 differs from WP 3.3+.
 		// Backward-compatibility will be deprecated at some point.
 		if ( version_compare( (float)$wp_version, '3.3', '>=' ) ) {
+
 			// Stored in the global so we can add menus easily later on
-			$bp->my_account_menu_id = 'my-account';
+			$bp->my_account_menu_id = 'my-account-buddypress';
 
 			$title = bp_get_loggedin_user_fullname() . $avatar;
 
@@ -181,17 +182,19 @@ function bp_members_admin_bar_notifications_menu() {
 	if ( !is_user_logged_in() )
 		return false;
 
-	if ( $notifications = bp_core_get_notifications_for_user( bp_loggedin_user_id(), 'object' ) ) {
-		$menu_title = sprintf( __( 'Notifications <span id="ab-pending-notifications" class="pending-count">%s</span>', 'buddypress' ), count( $notifications ) );
-	} else {
-		$menu_title = __( 'Notifications', 'buddypress' );
-	}
+	$notifications = bp_core_get_notifications_for_user( bp_loggedin_user_id(), 'object' );
+	$count         = !empty( $notifications ) ? count( $notifications ) : '0';
+	$alert_class   = (int) $count > 0 ? 'pending-count alert' : 'count no-alert';
+	$menu_title    = '<span id="ab-pending-notifications" class="' . $alert_class . '">' . $count . '</span>';
 
 	// Add the top-level Notifications button
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'bp-notifications',
 		'title' => $menu_title,
-		'href'  => bp_loggedin_user_domain()
+		'href'  => bp_loggedin_user_domain(),
+		'meta'  => array(
+			'class' => 'opposite',
+		)
 	) );
 
 	if ( !empty( $notifications ) ) {
@@ -215,32 +218,5 @@ function bp_members_admin_bar_notifications_menu() {
 	return;
 }
 add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu', 90 );
-
-/**
- * Make sure the logout link is at the bottom of the "My Account" menu
- *
- * @since BuddyPress (r4151)
- *
- * @global obj $bp
- * @global obj $wp_admin_bar
- */
-function bp_members_admin_bar_my_account_logout() {
-	global $bp, $wp_admin_bar;
-
-	// Bail if this is an ajax request
-	if ( defined( 'DOING_AJAX' ) )
-		return;
-
-	if ( is_user_logged_in() ) {
-		// Log out
-		$wp_admin_bar->add_menu( array(
-			'parent' => $bp->my_account_menu_id,
-			'id'     => $bp->my_account_menu_id . '-logout',
-			'title'  => __( 'Log Out', 'buddypress' ),
-			'href'   => wp_logout_url()
-		) );
-	}
-}
-add_action( 'admin_bar_menu', 'bp_members_admin_bar_my_account_logout', 9999 );
 
 ?>
