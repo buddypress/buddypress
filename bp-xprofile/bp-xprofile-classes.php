@@ -748,7 +748,7 @@ Class BP_XProfile_Field {
 					</select>
 				</div>
 
-				<?php do_action( 'xprofile_field_additional_options', &$this ) ?>
+				<?php do_action_ref_array( 'xprofile_field_additional_options', array( &$this ) ); ?>
 
 				<?php $this->render_admin_form_children(); ?>
 <?php	} else { ?>
