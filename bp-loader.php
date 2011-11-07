@@ -59,9 +59,6 @@ if ( !defined( 'BP_PLUGIN_URL' ) )
 if ( !defined( 'BP_SEARCH_SLUG' ) )
 	define( 'BP_SEARCH_SLUG', 'search' );
 
-// Setup the BuddyPress theme directory
-register_theme_directory( BP_PLUGIN_DIR . '/bp-themes' );
-
 /** Loader ********************************************************************/
 
 // Load the WP abstraction file so BuddyPress can run on all WordPress setups.
@@ -83,6 +80,10 @@ if ( empty( $bp->database_version ) ) {
 
 // There is a previous installation
 } else {
+
+	// Setup the BuddyPress theme directory
+	register_theme_directory( BP_PLUGIN_DIR . '/bp-themes' );
+
 	// Load core
 	require( BP_PLUGIN_DIR . '/bp-core/bp-core-loader.php' );
 
