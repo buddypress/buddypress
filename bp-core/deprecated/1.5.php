@@ -227,7 +227,7 @@ function bp_is_activity_front_page() {
 
 function bp_is_member() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user' );
-	bp_is_user();
+	return bp_is_user();
 }
 
 function bp_loggedinuser_link() {
@@ -533,4 +533,5 @@ function bp_dtheme_deprecated() {
 	endif;
 }
 add_action( 'after_setup_theme', 'bp_dtheme_deprecated', 15 );
+
 ?>
