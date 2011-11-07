@@ -567,13 +567,13 @@ function bp_core_load_admin_bar() {
 	global $wp_version;
 
 	// Don't show if admin bar is disabled for non-logged in users
-	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
+	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) )
 		return;
 
 	// Show the WordPress admin bar
 	if ( bp_use_wp_admin_bar() && $wp_version >= 3.1 ) {
 		// Respect user's admin bar display preferences
-		if ( bp_get_admin_bar_pref( 'front', bp_loggedin_user_id() ) || bp_get_admin_bar_pref( 'admin', bp_loggedin_user_id() ) )
+		if ( is_user_logged_in() && ( bp_get_admin_bar_pref( 'front', bp_loggedin_user_id() ) || bp_get_admin_bar_pref( 'admin', bp_loggedin_user_id() ) ) )
 			return;
 
 		show_admin_bar( true );
