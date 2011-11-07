@@ -18,8 +18,9 @@ function groups_notification_group_updated( $group_id ) {
 		// Set up and send the message
 		$to = $ud->user_email;
 
-		$group_link = site_url( bp_get_groups_root_slug(). '/' . $group->slug );
-		$settings_link = bp_core_get_user_domain( $user_id ) . bp_get_settings_slug() . '/notifications/';
+		$group_link    = site_url( bp_get_groups_root_slug(). '/' . $group->slug );
+		$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+		$settings_link = bp_core_get_user_domain( $user_id ) . $settings_slug . '/notifications/';
 
 		$message = sprintf( __(
 'Group details for the group "%1$s" were updated:
@@ -59,8 +60,9 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	$requesting_ud = bp_core_get_core_userdata($requesting_user_id);
 
 	$group_requests = bp_get_group_permalink( $group ) . 'admin/membership-requests';
-	$profile_link = bp_core_get_user_domain( $requesting_user_id );
-	$settings_link = bp_core_get_user_domain( $requesting_user_id ) . bp_get_settings_slug() . '/notifications/';
+	$profile_link   = bp_core_get_user_domain( $requesting_user_id );
+	$settings_slug  = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+	$settings_link  = bp_core_get_user_domain( $requesting_user_id ) . $settings_slug . '/notifications/';
 
 	// Set up and send the message
 	$to       = $ud->user_email;
@@ -108,8 +110,9 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 
 	$ud = bp_core_get_core_userdata($requesting_user_id);
 
-	$group_link = bp_get_group_permalink( $group );
-	$settings_link = bp_core_get_user_domain( $requesting_user_id ) . bp_get_settings_slug() . '/notifications/';
+	$group_link   = bp_get_group_permalink( $group );
+	$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+	$settings_link = bp_core_get_user_domain( $requesting_user_id ) . $settings_slug . '/notifications/';
 
 	// Set up and send the message
 	$to       = $ud->user_email;
@@ -165,11 +168,11 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	if ( 'no' == bp_get_user_meta( $user_id, 'notification_groups_admin_promotion', true ) )
 		return false;
 
-	$group = new BP_Groups_Group( $group_id );
-	$ud = bp_core_get_core_userdata($user_id);
-
-	$group_link = bp_get_group_permalink( $group );
-	$settings_link = bp_core_get_user_domain( $user_id ) . bp_get_settings_slug() . '/notifications/';
+	$group         = new BP_Groups_Group( $group_id );
+	$ud            = bp_core_get_core_userdata($user_id);
+	$group_link    = bp_get_group_permalink( $group );
+	$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+	$settings_link = bp_core_get_user_domain( $user_id ) . $settings_slug . '/notifications/';
 
 	// Set up and send the message
 	$to       = $ud->user_email;
