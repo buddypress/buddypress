@@ -366,7 +366,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_comment' );
 function bp_activity_action_mark_favorite() {
 	global $bp;
 
-	if ( !is_user_logged_in() || ( bp_is_activity_component() ) || !bp_is_current_action( 'favorite' ) )
+	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'favorite' ) )
 		return false;
 
 	// Check the nonce
@@ -609,4 +609,5 @@ function bp_activity_setup_akismet() {
 	// Instantiate Akismet for BuddyPress
 	$bp->activity->akismet = new BP_Akismet();
 }
+
 ?>
