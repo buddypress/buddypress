@@ -32,7 +32,7 @@ function xprofile_action_delete_avatar() {
 	if ( !bp_is_my_profile() && !is_super_admin() )
 		return false;
 
-	if ( bp_core_delete_existing_avatar( array( 'item_id' => $bp->displayed_user->id ) ) )
+	if ( bp_core_delete_existing_avatar( array( 'item_id' => bp_displayed_user_id() ) ) )
 		bp_core_add_message( __( 'Your avatar was deleted successfully!', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was a problem deleting that avatar, please try again.', 'buddypress' ), 'error' );

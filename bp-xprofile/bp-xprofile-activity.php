@@ -119,7 +119,7 @@ function bp_xprofile_new_avatar_activity() {
 	if ( !bp_is_active( 'activity' ) )
 		return false;
 
-	$user_id = apply_filters( 'bp_xprofile_new_avatar_user_id', $bp->displayed_user->id );
+	$user_id = apply_filters( 'bp_xprofile_new_avatar_user_id', bp_displayed_user_id() );
 
 	$userlink = bp_core_get_userlink( $user_id );
 

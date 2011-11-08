@@ -268,8 +268,8 @@ function bp_has_forum_topics( $args = '' ) {
 	$do_stickies  = false;
 
 	// User filtering
-	if ( !empty( $bp->displayed_user->id ) )
-		$user_id = $bp->displayed_user->id;
+	if ( bp_displayed_user_id() )
+		$user_id = bp_displayed_user_id();
 
 	// "Replied" query must be manually modified
 	if ( 'replies' == bp_current_action() ) {

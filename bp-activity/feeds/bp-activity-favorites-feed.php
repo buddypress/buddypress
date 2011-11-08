@@ -35,7 +35,7 @@ header('Status: 200 OK');
 	<?php do_action('bp_activity_favorites_feed_head'); ?>
 
 	<?php
-		$favs = bp_activity_get_user_favorites( $bp->displayed_user->id );
+		$favs = bp_activity_get_user_favorites( bp_displayed_user_id() );
 		$fav_ids = implode( ',', (array)$favs );
 	?>
 

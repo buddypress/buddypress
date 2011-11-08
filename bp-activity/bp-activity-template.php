@@ -264,8 +264,8 @@ function bp_has_activities( $args = '' ) {
 	$primary_id  = false;
 
 	// User filtering
-	if ( !empty( $bp->displayed_user->id ) )
-		$user_id = $bp->displayed_user->id;
+	if ( bp_displayed_user_id() )
+		$user_id = bp_displayed_user_id();
 
 	// Group filtering
 	if ( !empty( $bp->groups->current_group ) ) {
@@ -324,7 +324,7 @@ function bp_has_activities( $args = '' ) {
 
 		// determine which user_id applies
 		if ( empty( $user_id ) )
-			$user_id = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
 
 		// are we displaying user specific activity?
 		if ( is_numeric( $user_id ) ) {
@@ -360,8 +360,8 @@ function bp_has_activities( $args = '' ) {
 					$display_comments = true;
 					break;
 				case 'mentions':
-					$user_nicename    = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_nicename : $bp->loggedin_user->userdata->user_nicename;
-					$user_login       = ( !empty( $bp->displayed_user->id ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
+					$user_nicename    = ( bp_displayed_user_id() ) ? $bp->displayed_user->userdata->user_nicename : $bp->loggedin_user->userdata->user_nicename;
+					$user_login       = ( bp_displayed_user_id() ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
 					$search_terms     = '@' . bp_core_get_username( $user_id, $user_nicename, $user_login ) . '<'; // Start search at @ symbol and stop search at closing tag delimiter.
 					$display_comments = 'stream';
 					$user_id = 0;
@@ -2043,7 +2043,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
 		global $bp;
 
 		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		if ( bp_core_is_user_spammer( $user_id ) || bp_core_is_user_deleted( $user_id ) )
 			return false;
@@ -2309,7 +2309,7 @@ function bp_send_public_message_link() {
 		if ( bp_is_my_profile() || !is_user_logged_in() )
 			return false;
 
-		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_activity_slug() . '/?r=' . bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
+		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_activity_slug() . '/?r=' . bp_core_get_username( bp_displayed_user_id(), $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
 	}
 
 /**

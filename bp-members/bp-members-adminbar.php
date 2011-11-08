@@ -108,7 +108,7 @@ function bp_members_admin_bar_user_admin_menu() {
 
 	// User avatar
 	$avatar = bp_core_fetch_avatar( array(
-		'item_id' => $bp->displayed_user->id,
+		'item_id' => bp_displayed_user_id(),
 		'email'   => $bp->displayed_user->userdata->user_email,
 		'width'   => 16,
 		'height'  => 16

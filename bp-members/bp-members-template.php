@@ -281,8 +281,8 @@ function bp_has_members( $args = '' ) {
 	$search_terms = null;
 
 	// User filtering
-	if ( !empty( $bp->displayed_user->id ) )
-		$user_id = $bp->displayed_user->id;
+	if ( bp_displayed_user_id() )
+		$user_id = bp_displayed_user_id();
 
 	// type: active ( default ) | random | newest | popular | online | alphabetical
 	$defaults = array(
@@ -609,8 +609,8 @@ function bp_member_profile_data( $args = '' ) {
 		// Guess at default $user_id
 		if ( !empty( $members_template->member->id ) )
 			$user_id = $members_template->member->id;
-		elseif ( !empty( $bp->displayed_user->id ) )
-			$user_id = $bp->displayed_user->id;
+		elseif ( bp_displayed_user_id() )
+			$user_id = bp_displayed_user_id();
 
 		$defaults = array(
 			'field'   => false,   // Field name
@@ -715,12 +715,12 @@ function bp_get_loggedin_user_nav() {
 		/* If we are viewing another person (current_userid does not equal loggedin_user->id)
 		   then check to see if the two users are friends. if they are, add a highlight CSS class
 		   to the friends nav item if it exists. */
-		if ( !bp_is_my_profile() && $bp->displayed_user->id ) {
+		if ( !bp_is_my_profile() && bp_displayed_user_id() ) {
 			$selected = '';
 
 			if ( bp_is_active( 'friends' ) ) {
 				if ( $nav_item['css_id'] == $bp->friends->id ) {
-					if ( friends_check_friendship( $bp->loggedin_user->id, $bp->displayed_user->id ) )
+					if ( friends_check_friendship( $bp->loggedin_user->id, bp_displayed_user_id() ) )
 						$selected = ' class="current selected"';
 				}
 			}
@@ -803,7 +803,7 @@ function bp_displayed_user_avatar( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html, 'alt' => $alt ) ) );
+		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( array( 'item_id' => bp_displayed_user_id(), 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html, 'alt' => $alt ) ) );
 	}
 
 function bp_displayed_user_email() {
@@ -828,7 +828,7 @@ function bp_last_activity( $user_id = 0 ) {
 		global $bp;
 
 		if ( empty( $user_id ) )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		$last_activity = bp_core_get_last_activity( bp_get_user_meta( $user_id, 'last_activity', true ), __('active %s', 'buddypress') );
 
@@ -870,14 +870,28 @@ function bp_displayed_user_link() {
 	function bp_user_link() { bp_displayed_user_domain(); } // Deprecated.
 
 function bp_displayed_user_id() {
-	global $bp;
-	return apply_filters( 'bp_displayed_user_id', !empty( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0 );
+	
+	static $id = 0;
+	
+	if ( empty( $id ) ) {
+		global $bp;
+		$id = !empty( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0;
+	}
+
+	return apply_filters( 'bp_displayed_user_id', $id );
 }
 	function bp_current_user_id() { return bp_displayed_user_id(); }
 
 function bp_loggedin_user_id() {
-	global $bp;
-	return apply_filters( 'bp_loggedin_user_id', !empty( $bp->loggedin_user->id ) ? $bp->loggedin_user->id : 0 );
+
+	static $id = 0;
+	
+	if ( empty( $id ) ) {
+		global $bp;
+		$id = !empty( $bp->loggedin_user->id ) ? $bp->loggedin_user->id : 0;
+	}
+
+	return apply_filters( 'bp_loggedin_user_id', $id );
 }
 
 function bp_displayed_user_domain() {
@@ -914,8 +928,8 @@ function bp_displayed_user_username() {
 	function bp_get_displayed_user_username() {
 		global $bp;
 
-		if ( !empty( $bp->displayed_user->id ) ) {
-			$username = bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login );
+		if ( bp_displayed_user_id() ) {
+			$username = bp_core_get_username( bp_displayed_user_id(), $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login );
 		} else {
 			$username = '';
 		}
@@ -1170,7 +1184,7 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 		global $bp;
 
 		// Must be displayed user
-		if ( empty( $bp->displayed_user->id ) )
+		if ( !bp_displayed_user_id() )
 			return;
 
 		// Append $action to $url if there is no $type

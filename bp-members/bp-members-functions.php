@@ -217,7 +217,7 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 				$userdata = &$bp->loggedin_user->userdata;
 
 			// User ID matches displayed in user
-			} elseif ( isset( $bp->displayed_user->id ) && $bp->displayed_user->id == $user_id ) {
+			} elseif ( bp_displayed_user_id() == $user_id ) {
 				$userdata = &$bp->displayed_user->userdata;
 
 			// No user ID match
@@ -289,7 +289,7 @@ function bp_members_get_user_nicename( $user_id ) {
 			$userdata = &$bp->loggedin_user->userdata;
 
 		// User ID matches displayed in user
-		} elseif ( isset( $bp->displayed_user->id ) && $bp->displayed_user->id == $user_id ) {
+		} elseif ( bp_displayed_user_id() == $user_id ) {
 			$userdata = &$bp->displayed_user->userdata;
 
 		// No user ID match
@@ -575,7 +575,7 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
 	global $bp, $wpdb;
 
 	if ( empty( $user_id ) )
-		$user_id = $bp->displayed_user->id;
+		$user_id = bp_displayed_user_id();
 
 	return apply_filters( 'bp_core_get_all_posts_for_user', $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) ) );
 }

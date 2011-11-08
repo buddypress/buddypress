@@ -112,7 +112,7 @@ Class BP_XProfile_Group {
 
 		$defaults = array(
 			'profile_group_id'  => false,
-			'user_id'           => $bp->displayed_user->id,
+			'user_id'           => bp_displayed_user_id(),
 			'hide_empty_groups' => false,
 			'hide_empty_fields' => false,
 			'fetch_fields'      => false,
@@ -944,7 +944,7 @@ Class BP_XProfile_ProfileData {
 		global $wpdb, $bp;
 
 		if ( !$user_ids )
-			$user_ids = $bp->displayed_user->id;
+			$user_ids = bp_displayed_user_id();
 
 		if ( is_array( $user_ids ) ) {
 			$user_ids = implode( ',', (array) $user_ids );
@@ -963,7 +963,7 @@ Class BP_XProfile_ProfileData {
 			return false;
 
 		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		$field_sql = '';
 
@@ -1039,7 +1039,7 @@ Class BP_XProfile_ProfileData {
 		global $bp;
 
 		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		$field_name = bp_xprofile_fullname_field_name();
 

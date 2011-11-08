@@ -158,7 +158,7 @@ function bp_has_profile( $args = '' ) {
 	$hide_empty_fields_default = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() && !bp_is_register_page() );
 
 	$defaults = array(
-		'user_id'           => $bp->displayed_user->id,
+		'user_id'           => bp_displayed_user_id(),
 		'profile_group_id'  => false,
 		'hide_empty_groups' => true,
 		'hide_empty_fields' => $hide_empty_fields_default,
@@ -688,7 +688,7 @@ function bp_profile_field_data( $args = '' ) {
 
 		$defaults = array(
 			'field'   => false, // Field name or ID.
-			'user_id' => $bp->displayed_user->id
+			'user_id' => bp_displayed_user_id()
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -773,7 +773,7 @@ function bp_profile_last_updated() {
 	function bp_get_profile_last_updated() {
 		global $bp;
 
-		$last_updated = bp_get_user_meta( $bp->displayed_user->id, 'profile_last_updated', true );
+		$last_updated = bp_get_user_meta( bp_displayed_user_id(), 'profile_last_updated', true );
 
 		if ( $last_updated )
 			return apply_filters( 'bp_get_profile_last_updated', sprintf( __('Profile updated %s', 'buddypress'), bp_core_time_since( strtotime( $last_updated ) ) ) );
@@ -803,7 +803,7 @@ function bp_avatar_delete_link() {
 function bp_get_user_has_avatar() {
 	global $bp;
 
-	if ( !bp_core_fetch_avatar( array( 'item_id' => $bp->displayed_user->id, 'no_grav' => true ) ) )
+	if ( !bp_core_fetch_avatar( array( 'item_id' => bp_displayed_user_id(), 'no_grav' => true ) ) )
 		return false;
 
 	return true;

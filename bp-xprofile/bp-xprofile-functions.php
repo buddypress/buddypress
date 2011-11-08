@@ -155,7 +155,7 @@ function xprofile_get_field_data( $field, $user_id = 0 ) {
 	global $bp;
 
 	if ( empty( $user_id ) )
-		$user_id = $bp->displayed_user->id;
+		$user_id = bp_displayed_user_id();
 
 	if ( empty( $user_id ) )
 		return false;
@@ -354,7 +354,7 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = 0 ) {
 	global $bp;
 
 	if ( empty( $user_id ) )
-		$user_id = $bp->displayed_user->id;
+		$user_id = bp_displayed_user_id();
 
 	if ( empty( $directory ) )
 		$directory = 'avatars';

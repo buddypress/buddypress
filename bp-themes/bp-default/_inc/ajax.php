@@ -39,10 +39,10 @@ function bp_dtheme_ajax_querystring( $query_string, $object ) {
 
 	if ( !empty( $_BP_COOKIE['bp-' . $object . '-scope'] ) ) {
 		if ( 'personal' == $_BP_COOKIE['bp-' . $object . '-scope'] ) {
-			$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
 			$qs[] = 'user_id=' . $user_id;
 		}
-		if ( 'all' != $_BP_COOKIE['bp-' . $object . '-scope'] && empty( $bp->displayed_user->id ) && !$bp->is_single_item )
+		if ( 'all' != $_BP_COOKIE['bp-' . $object . '-scope'] && !bp_displayed_user_id() && !$bp->is_single_item )
 			$qs[] = 'scope=' . $_BP_COOKIE['bp-' . $object . '-scope']; // Activity stream scope only on activity directory.
 	}
 

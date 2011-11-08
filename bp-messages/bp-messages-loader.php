@@ -241,7 +241,7 @@ class BP_Messages_Component extends BP_Component {
 				$bp->bp_options_title = __( 'My Messages', 'buddypress' );
 			} else {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => $bp->displayed_user->id,
+					'item_id' => bp_displayed_user_id(),
 					'type'    => 'thumb'
 				) );
 				$bp->bp_options_title = $bp->displayed_user->fullname;

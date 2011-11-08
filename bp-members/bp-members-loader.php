@@ -88,19 +88,14 @@ class BP_Members_Component extends BP_Component {
 
 		/** Displayed user ****************************************************/
 
-		// The user id of the user currently being viewed:
-		// $bp->displayed_user->id is set in /bp-core/bp-core-catchuri.php
-		if ( empty( $bp->displayed_user->id ) )
-			$bp->displayed_user->id = 0;
-
 		// The domain for the user currently being displayed
-		$bp->displayed_user->domain   = bp_core_get_user_domain( $bp->displayed_user->id );
+		$bp->displayed_user->domain   = bp_core_get_user_domain( bp_displayed_user_id() );
 
 		// The core userdata of the user who is currently being displayed
-		$bp->displayed_user->userdata = bp_core_get_core_userdata( $bp->displayed_user->id );
+		$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
 
 		// Fetch the full name displayed user
-		$bp->displayed_user->fullname = bp_core_get_user_displayname( $bp->displayed_user->id );
+		$bp->displayed_user->fullname = bp_core_get_user_displayname( bp_displayed_user_id() );
 
 		/** Profiles Fallback *************************************************/
 		if ( !bp_is_active( 'xprofile' ) ) {
@@ -119,7 +114,7 @@ class BP_Members_Component extends BP_Component {
 			$bp->default_component = BP_DEFAULT_COMPONENT;
 		}
 
-		if ( !$bp->current_component && $bp->displayed_user->id )
+		if ( !$bp->current_component && bp_displayed_user_id() )
 			$bp->current_component = $bp->default_component;
 	}
 
@@ -177,7 +172,7 @@ class BP_Members_Component extends BP_Component {
 			$bp->bp_options_title = __( 'You', 'buddypress' );
 		} elseif( bp_is_user() ) {
 			$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-				'item_id' => $bp->displayed_user->id,
+				'item_id' => bp_displayed_user_id(),
 				'type'    => 'thumb'
 			) );
 			$bp->bp_options_title  = $bp->displayed_user->fullname;

@@ -196,7 +196,7 @@ class BP_Friends_Component extends BP_Component {
 				$bp->bp_options_title = __( 'Friendships', 'buddypress' );
 			} else {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => $bp->displayed_user->id,
+					'item_id' => bp_displayed_user_id(),
 					'type'    => 'thumb'
 				) );
 				$bp->bp_options_title  = $bp->displayed_user->fullname;

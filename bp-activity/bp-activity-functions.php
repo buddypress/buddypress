@@ -250,7 +250,7 @@ function bp_activity_get_user_favorites( $user_id = 0 ) {
 
 	// Fallback to logged in user if no user_id is passed
 	if ( empty( $user_id ) )
-		$user_id = $bp->displayed_user->id;
+		$user_id = bp_displayed_user_id();
 
 	// Get favorites for user
 	$favs = bp_get_user_meta( $user_id, 'bp_favorite_activities', true );
@@ -430,7 +430,7 @@ function bp_activity_total_favorites_for_user( $user_id = 0 ) {
 
 	// Fallback on displayed user, and then logged in user
 	if ( empty( $user_id ) )
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
 
 	return BP_Activity_Activity::total_favorite_count( $user_id );
 }

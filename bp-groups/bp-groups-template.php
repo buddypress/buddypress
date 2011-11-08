@@ -237,8 +237,8 @@ function bp_has_groups( $args = '' ) {
 	$order   = '';
 
 	// User filtering
-	if ( !empty( $bp->displayed_user->id ) )
-		$user_id = $bp->displayed_user->id;
+	if ( bp_displayed_user_id() )
+		$user_id = bp_displayed_user_id();
 
 	// Type
 	if ( 'my-groups' == $bp->current_action ) {
@@ -697,9 +697,7 @@ function bp_group_search_form() {
 }
 
 function bp_group_show_no_groups_message() {
-	global $bp;
-
-	if ( !groups_total_groups_for_user( $bp->displayed_user->id ) )
+	if ( !groups_total_groups_for_user( bp_displayed_user_id() ) )
 		return true;
 
 	return false;

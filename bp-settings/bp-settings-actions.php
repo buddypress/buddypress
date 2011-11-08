@@ -21,9 +21,9 @@ function bp_core_screen_general_settings() {
 		check_admin_referer('bp_settings_general');
 
 		// Validate the user again for the current password when making a big change
-		if ( is_super_admin() || ( !empty( $_POST['pwd'] ) && $_POST['pwd'] != '' && wp_check_password( $_POST['pwd'], $bp->displayed_user->userdata->user_pass, $bp->displayed_user->id ) ) ) {
+		if ( is_super_admin() || ( !empty( $_POST['pwd'] ) && $_POST['pwd'] != '' && wp_check_password( $_POST['pwd'], $bp->displayed_user->userdata->user_pass, bp_displayed_user_id() ) ) ) {
 
-			$update_user = get_userdata( $bp->displayed_user->id );
+			$update_user = get_userdata( bp_displayed_user_id() );
 
 			// Make sure changing an email address does not already exist
 			if ( $_POST['email'] != '' ) {
@@ -82,7 +82,7 @@ function bp_core_screen_general_settings() {
 
 			// Make sure these changes are in $bp for the current page load
 			if ( ( false === $email_error ) && ( false === $pass_error ) && ( wp_update_user( get_object_vars( $update_user ) ) ) ) {
-				$bp->displayed_user->userdata = bp_core_get_core_userdata( $bp->displayed_user->id );
+				$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
 				$bp_settings_updated = true;
 			}
 
@@ -128,7 +128,7 @@ function bp_core_screen_notification_settings() {
 		if ( isset( $_POST['notifications'] ) ) {
 			foreach ( (array)$_POST['notifications'] as $key => $value ) {
 				if ( $meta_key = bp_get_user_meta_key( $key ) )
-					bp_update_user_meta( (int)$bp->displayed_user->id, $meta_key, $value );
+					bp_update_user_meta( (int)bp_displayed_user_id(), $meta_key, $value );
 			}
 		}
 
@@ -155,7 +155,7 @@ function bp_core_screen_delete_account() {
 		check_admin_referer( 'delete-account' );
 
 		// delete the users account
-		if ( bp_core_delete_account( $bp->displayed_user->id ) ) {
+		if ( bp_core_delete_account( bp_displayed_user_id() ) ) {
 			bp_core_redirect( home_url() );
 		}
 	}

@@ -123,7 +123,7 @@ class BP_Activity_Component extends BP_Component {
 		);
 
 		// Stop if there is no user displayed or logged in
-		if ( !is_user_logged_in() && !isset( $bp->displayed_user->id ) )
+		if ( !is_user_logged_in() && !bp_displayed_user_id() )
 			return;
 
 		// Determine user to use
@@ -307,7 +307,7 @@ class BP_Activity_Component extends BP_Component {
 				$bp->bp_options_title = __( 'My Activity', 'buddypress' );
 			} else {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => $bp->displayed_user->id,
+					'item_id' => bp_displayed_user_id(),
 					'type'    => 'thumb'
 				) );
 				$bp->bp_options_title  = $bp->displayed_user->fullname;

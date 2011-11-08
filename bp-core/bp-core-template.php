@@ -199,7 +199,7 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 	if ( $capitalize )
 		$youtext = bp_core_ucfirst($youtext);
 
-	if ( $bp->displayed_user->id == $bp->loggedin_user->id ) {
+	if ( bp_displayed_user_id() == $bp->loggedin_user->id ) {
 		if ( $echo )
 			echo apply_filters( 'bp_word_or_name', $youtext );
 		else
@@ -1082,7 +1082,7 @@ function bp_is_single_activity() {
 function bp_is_my_profile() {
 	global $bp;
 
-	if ( is_user_logged_in() && $bp->loggedin_user->id == $bp->displayed_user->id )
+	if ( is_user_logged_in() && $bp->loggedin_user->id == bp_displayed_user_id() )
 		$my_profile = true;
 	else
 		$my_profile = false;
@@ -1093,7 +1093,7 @@ function bp_is_my_profile() {
 function bp_is_user() {
 	global $bp;
 
-	if ( !empty( $bp->displayed_user->id ) )
+	if ( bp_displayed_user_id() )
 		return true;
 
 	return false;

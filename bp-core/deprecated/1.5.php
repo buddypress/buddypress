@@ -129,7 +129,7 @@ function bp_core_get_wp_profile() {
 
 	global $bp;
 
-	$ud = get_userdata( $bp->displayed_user->id ); ?>
+	$ud = get_userdata( bp_displayed_user_id() ); ?>
 
 <div class="bp-widget wp-profile">
 	<h4><?php _e( 'My Profile' ) ?></h4>

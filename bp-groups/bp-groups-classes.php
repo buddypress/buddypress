@@ -175,7 +175,7 @@ Class BP_Groups_Group {
 		global $wpdb, $bp;
 
 		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		$filter = like_escape( $wpdb->escape( $filter ) );
 
@@ -936,7 +936,7 @@ Class BP_Groups_Member {
 		global $bp, $wpdb;
 
 		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		if ( $user_id != $bp->loggedin_user->id && !is_super_admin() ) {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );

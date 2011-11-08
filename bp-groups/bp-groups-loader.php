@@ -447,7 +447,7 @@ class BP_Groups_Component extends BP_Component {
 			} else if ( !bp_is_my_profile() && !bp_is_single_item() ) {
 
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => $bp->displayed_user->id,
+					'item_id' => bp_displayed_user_id(),
 					'type'    => 'thumb'
 				) );
 				$bp->bp_options_title  = $bp->displayed_user->fullname;

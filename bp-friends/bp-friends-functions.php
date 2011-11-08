@@ -57,7 +57,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	do_action( 'friends_before_friendship_delete', $friendship_id, $initiator_userid, $friend_userid );
 
 	// Remove the activity stream item for the user who canceled the friendship
-	friends_delete_activity( array( 'item_id' => $friendship_id, 'type' => 'friendship_accepted', 'user_id' => $bp->displayed_user->id ) );
+	friends_delete_activity( array( 'item_id' => $friendship_id, 'type' => 'friendship_accepted', 'user_id' => bp_displayed_user_id() ) );
 
 	do_action( 'friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
 
@@ -151,7 +151,7 @@ function friends_get_total_friend_count( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
 
 	if ( !$count = wp_cache_get( 'bp_total_friend_count_' . $user_id, 'bp' ) ) {
 		$count = bp_get_user_meta( $user_id, 'total_friend_count', true );

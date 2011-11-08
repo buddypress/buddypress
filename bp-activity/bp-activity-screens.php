@@ -267,10 +267,10 @@ add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
 function bp_activity_screen_notification_settings() {
 	global $bp;
 
-	if ( !$mention = bp_get_user_meta( $bp->displayed_user->id, 'notification_activity_new_mention', true ) )
+	if ( !$mention = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_mention', true ) )
 		$mention = 'yes';
 
-	if ( !$reply = bp_get_user_meta( $bp->displayed_user->id, 'notification_activity_new_reply', true ) )
+	if ( !$reply = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_reply', true ) )
 		$reply = 'yes'; ?>
 
 	<table class="notification-settings" id="activity-notification-settings">
@@ -286,7 +286,7 @@ function bp_activity_screen_notification_settings() {
 		<tbody>
 			<tr id="activity-notification-settings-mentions">
 				<td>&nbsp;</td>
-				<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( $bp->displayed_user->id, $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) ?></td>
+				<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( bp_displayed_user_id(), $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php checked( $mention, 'yes', true ) ?>/></td>
 				<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php checked( $mention, 'no', true ) ?>/></td>
 			</tr>

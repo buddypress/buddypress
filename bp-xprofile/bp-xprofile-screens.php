@@ -98,13 +98,13 @@ function xprofile_screen_edit_profile() {
 				else
 					$value = $_POST['field_' . $field_id];
 
-				if ( !xprofile_set_field_data( $field_id, $bp->displayed_user->id, $value, $is_required[$field_id] ) )
+				if ( !xprofile_set_field_data( $field_id, bp_displayed_user_id(), $value, $is_required[$field_id] ) )
 					$errors = true;
 				else
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $value );
 			}
 
-			do_action( 'xprofile_updated_profile', $bp->displayed_user->id, $posted_field_ids, $errors );
+			do_action( 'xprofile_updated_profile', bp_displayed_user_id(), $posted_field_ids, $errors );
 
 			// Set the feedback messages
 			if ( $errors )
@@ -161,7 +161,7 @@ function xprofile_screen_change_avatar() {
 		// Check the nonce
 		check_admin_referer( 'bp_avatar_cropstore' );
 
-		if ( !bp_core_avatar_handle_crop( array( 'item_id' => $bp->displayed_user->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
+		if ( !bp_core_avatar_handle_crop( array( 'item_id' => bp_displayed_user_id(), 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
 			bp_core_add_message( __( 'There was a problem cropping your avatar, please try uploading it again', 'buddypress' ), 'error' );
 		else {
 			bp_core_add_message( __( 'Your new avatar was uploaded successfully!', 'buddypress' ) );

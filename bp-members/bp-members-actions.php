@@ -122,7 +122,7 @@ add_action( 'bp_actions', 'bp_core_action_set_spammer_status' );
 function bp_core_action_delete_user() {
 	global $bp;
 
-	if ( !is_super_admin() || bp_is_my_profile() || !$bp->displayed_user->id )
+	if ( !is_super_admin() || bp_is_my_profile() || !bp_displayed_user_id() )
 		return false;
 
 	if ( 'admin' == $bp->current_component && 'delete-user' == $bp->current_action ) {
@@ -132,7 +132,7 @@ function bp_core_action_delete_user() {
 		$errors = false;
 		do_action( 'bp_core_before_action_delete_user', $errors );
 
-		if ( bp_core_delete_account( $bp->displayed_user->id ) ) {
+		if ( bp_core_delete_account( bp_displayed_user_id() ) ) {
 			bp_core_add_message( sprintf( __( '%s has been deleted from the system.', 'buddypress' ), $bp->displayed_user->fullname ) );
 		} else {
 			bp_core_add_message( sprintf( __( 'There was an error deleting %s from the system. Please try again.', 'buddypress' ), $bp->displayed_user->fullname ), 'error' );

@@ -397,7 +397,7 @@ function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = $bp->displayed_user->id;
+		$user_id = bp_displayed_user_id();
 
 	return BP_Groups_Member::get_group_ids( $user_id, $pag_num, $pag_page );
 }
@@ -406,7 +406,7 @@ function groups_total_groups_for_user( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
 
 	if ( !$count = wp_cache_get( 'bp_total_groups_for_user_' . $user_id, 'bp' ) ) {
 		$count = BP_Groups_Member::total_group_count( $user_id );

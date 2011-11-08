@@ -14,7 +14,7 @@ Class BP_Blogs_Blog {
 	function __construct( $id = null ) {
 		global $bp, $wpdb;
 
-		$user_id = $bp->displayed_user->id;
+		$user_id = bp_displayed_user_id();
 
 		if ( $id ) {
 			$this->id = $id;
@@ -150,7 +150,7 @@ Class BP_Blogs_Blog {
 		global $bp, $wpdb;
 
 		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		// Show logged in users their hidden blogs.
 		if ( !bp_is_my_profile() && !$show_hidden )
@@ -176,7 +176,7 @@ Class BP_Blogs_Blog {
 		global $bp, $wpdb;
 
 		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		return $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$bp->blogs->table_name} WHERE user_id = %d", $user_id ) );
 	}
@@ -191,7 +191,7 @@ Class BP_Blogs_Blog {
 		global $bp, $wpdb;
 
 		if ( !$user_id )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		// If the user is logged in return the blog count including their hidden blogs.
 		if ( ( is_user_logged_in() && $user_id == $bp->loggedin_user->id ) || is_super_admin() )

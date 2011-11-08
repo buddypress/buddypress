@@ -114,7 +114,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	// Set item_id if not passed
 	if ( !$item_id ) {
 		if ( 'user' == $object )
-			$item_id = $bp->displayed_user->id;
+			$item_id = bp_displayed_user_id();
 		else if ( bp_is_active( 'groups' ) && 'group' == $object )
 			$item_id = $bp->groups->current_group->id;
 		else if ( 'blog' == $object )
@@ -326,7 +326,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 
 	if ( !$item_id ) {
 		if ( 'user' == $object )
-			$item_id = $bp->displayed_user->id;
+			$item_id = bp_displayed_user_id();
 		else if ( 'group' == $object )
 			$item_id = $bp->groups->current_group->id;
 		else if ( 'blog' == $object )

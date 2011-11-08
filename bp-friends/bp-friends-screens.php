@@ -54,10 +54,10 @@ function friends_screen_requests() {
 function friends_screen_notification_settings() {
 	global $bp;
 
-	if ( !$send_requests = bp_get_user_meta( $bp->displayed_user->id, 'notification_friends_friendship_request', true ) )
+	if ( !$send_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_request', true ) )
 		$send_requests   = 'yes';
 
-	if ( !$accept_requests = bp_get_user_meta( $bp->displayed_user->id, 'notification_friends_friendship_accepted', true ) )
+	if ( !$accept_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_accepted', true ) )
 		$accept_requests = 'yes';
 ?>
 

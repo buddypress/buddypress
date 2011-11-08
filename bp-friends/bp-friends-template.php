@@ -92,13 +92,13 @@ function bp_friends_filter_title() {
 function bp_friends_random_friends() {
 	global $bp;
 
-	if ( !$friend_ids = wp_cache_get( 'friends_friend_ids_' . $bp->displayed_user->id, 'bp' ) ) {
-		$friend_ids = BP_Friends_Friendship::get_random_friends( $bp->displayed_user->id );
-		wp_cache_set( 'friends_friend_ids_' . $bp->displayed_user->id, $friend_ids, 'bp' );
+	if ( !$friend_ids = wp_cache_get( 'friends_friend_ids_' . bp_displayed_user_id(), 'bp' ) ) {
+		$friend_ids = BP_Friends_Friendship::get_random_friends( bp_displayed_user_id() );
+		wp_cache_set( 'friends_friend_ids_' . bp_displayed_user_id(), $friend_ids, 'bp' );
 	} ?>
 
 	<div class="info-group">
-		<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?>  (<?php echo BP_Friends_Friendship::total_friend_count( $bp->displayed_user->id ) ?>) <span><a href="<?php echo $bp->displayed_user->domain . bp_get_friends_slug() ?>"><?php _e('See All', 'buddypress') ?></a></span></h4>
+		<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?>  (<?php echo BP_Friends_Friendship::total_friend_count( bp_displayed_user_id() ) ?>) <span><a href="<?php echo $bp->displayed_user->domain . bp_get_friends_slug() ?>"><?php _e('See All', 'buddypress') ?></a></span></h4>
 
 		<?php if ( $friend_ids ) { ?>
 
@@ -207,7 +207,7 @@ function bp_friend_search_form() {
 
 			<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>
 
-			<input type="hidden" name="initiator" id="initiator" value="<?php echo esc_attr( $bp->displayed_user->id ) ?>" />
+			<input type="hidden" name="initiator" id="initiator" value="<?php echo esc_attr( bp_displayed_user_id() ) ?>" />
 
 		</form>
 
@@ -267,7 +267,7 @@ function bp_potential_friend_id( $user_id = 0 ) {
 		if ( empty( $user_id ) && isset( $friends_template->friendship->friend ) )
 			$user_id = $friends_template->friendship->friend->id;
 		else if ( empty( $user_id ) && !isset( $friends_template->friendship->friend ) )
-			$user_id = $bp->displayed_user->id;
+			$user_id = bp_displayed_user_id();
 
 		return apply_filters( 'bp_get_potential_friend_id', (int)$user_id );
 	}
@@ -369,7 +369,7 @@ function bp_get_friend_ids( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
 
 	$friend_ids = friends_get_friend_user_ids( $user_id );
 

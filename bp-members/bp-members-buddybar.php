@@ -91,7 +91,7 @@ function bp_members_adminbar_admin_menu() {
 	global $bp;
 
 	// Only show if viewing a user
-	if ( !$bp->displayed_user->id )
+	if ( !bp_displayed_user_id() )
 		return false;
 
 	// Don't show this menu to non site admins or if you're viewing your own profile
@@ -111,7 +111,7 @@ function bp_members_adminbar_admin_menu() {
 
 			<li><a href="<?php bp_members_component_link( 'profile', 'change-avatar' ); ?>"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ) ?></a></li>
 
-			<?php if ( !bp_core_is_user_spammer( $bp->displayed_user->id ) ) : ?>
+			<?php if ( !bp_core_is_user_spammer( bp_displayed_user_id() ) ) : ?>
 
 				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/mark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php printf( __( "Mark as Spammer", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ); ?></a></li>
 

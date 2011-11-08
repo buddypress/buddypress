@@ -410,7 +410,7 @@ function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
 
 	if ( !$count = wp_cache_get( 'bp_total_blogs_for_user_' . $user_id, 'bp' ) ) {
 		$count = BP_Blogs_Blog::total_blog_count_for_user( $user_id );

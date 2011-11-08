@@ -41,11 +41,11 @@ class BP_Friends_Friendship {
 		}
 
 		// if running from ajax.
-		if ( !$bp->displayed_user->id )
+		if ( !bp_displayed_user_id() )
 			$bp->displayed_user->id = $creds['current_userid'];
 
 		if ( $this->populate_friend_details ) {
-			if ( $this->friend_user_id == $bp->displayed_user->id ) {
+			if ( $this->friend_user_id == bp_displayed_user_id() ) {
 				$this->friend = new BP_Core_User( $this->initiator_user_id );
 			} else {
 				$this->friend = new BP_Core_User( $this->friend_user_id );
@@ -126,7 +126,7 @@ class BP_Friends_Friendship {
 		global $wpdb, $bp;
 
 		if ( !$user_id )
-			$user_id = ( $bp->displayed_user->id ) ? $bp->displayed_user->id : $bp->loggedin_user->id;
+			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
 
 		/* This is stored in 'total_friend_count' usermeta.
 		   This function will recalculate, update and return. */

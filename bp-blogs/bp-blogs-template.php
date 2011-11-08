@@ -203,8 +203,8 @@ function bp_has_blogs( $args = '' ) {
 	$search_terms = null;
 
 	/* User filtering */
-	if ( !empty( $bp->displayed_user->id ) )
-		$user_id = $bp->displayed_user->id;
+	if ( bp_displayed_user_id() )
+		$user_id = bp_displayed_user_id();
 
 	$defaults = array(
 		'type'         => $type,

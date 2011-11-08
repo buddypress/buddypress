@@ -237,12 +237,14 @@ function bp_core_set_uri_globals() {
 			if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
 
 				// Switch the displayed_user based on compatbility mode
-				if ( bp_is_username_compatibility_mode() )
+				if ( bp_is_username_compatibility_mode() ) {
 					$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
-				else
+				} else {
 					$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( urldecode( $bp_uri[$uri_offset + 1] ) );
+				}
 
-				if ( empty( $bp->displayed_user->id ) ) {
+				if ( !bp_displayed_user_id() ) {
+
 					// Prevent components from loading their templates
 					$bp->current_component = '';
 
@@ -252,7 +254,7 @@ function bp_core_set_uri_globals() {
 
 				// If the displayed user is marked as a spammer, 404 (unless logged-
 				// in user is a super admin)
-				if ( !empty( $bp->displayed_user->id ) && bp_core_is_user_spammer( $bp->displayed_user->id ) ) {
+				if ( bp_displayed_user_id() && bp_core_is_user_spammer( bp_displayed_user_id() ) ) {
 					if ( is_super_admin() ) {
 						bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'error' );
 					} else {
