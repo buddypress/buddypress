@@ -109,12 +109,23 @@ class BP_Blogs_Component extends BP_Component {
 			'slug'                => $this->slug,
 			'position'            => 30,
 			'screen_function'     => 'bp_blogs_screen_my_blogs',
-			'default_subnav_slug' => 'my-blogs',
+			'default_subnav_slug' => 'my-sites',
 			'item_css_id'         => $this->id
+		);
+		
+		$parent_url = trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() );
+		
+		$sub_nav[] = array(
+			'name'            => __( 'My Sites', 'buddypress' ),
+			'slug'            => 'my-sites',
+			'parent_url'      => $parent_url,
+			'parent_slug'     => $bp->blogs->slug,
+			'screen_function' => 'bp_blogs_screen_my_blogs',
+			'position'        => 10
 		);
 
 		// Setup navigation
-		parent::setup_nav( $main_nav );
+		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
 	/**

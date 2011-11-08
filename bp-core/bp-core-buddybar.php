@@ -69,8 +69,18 @@ function bp_core_new_nav_item( $args = '' ) {
 		else
 			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
 
-		if ( !empty( $default_subnav_slug ) )
-			$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+		if ( !empty( $default_subnav_slug ) ) {
+			/**
+			 * BuddyPress will attempt to resolve to the most specific URL possible,
+			 * to avoid search-engine-unfriendly content reduplication. Filter
+			 * bp_guarantee_unique_uris (and return false) to avoid this behavior
+			 */
+			if ( apply_filters( 'bp_guarantee_unique_uris', true ) ) {
+				bp_core_redirect( bp_displayed_user_domain() . $slug . '/' . apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r ) );
+			} else {
+				 $bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+			}
+		}
 
 	// Look for current item
 	} elseif ( bp_is_current_item( $slug ) && !bp_current_action() ) {
@@ -79,8 +89,18 @@ function bp_core_new_nav_item( $args = '' ) {
 		else
 			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
 
-		if ( !empty( $default_subnav_slug ) )
-			$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+		if ( !empty( $default_subnav_slug ) ) {
+			/**
+			 * BuddyPress will attempt to resolve to the most specific URL possible,
+			 * to avoid search-engine-unfriendly content reduplication. Filter
+			 * bp_guarantee_unique_uris (and return false) to avoid this behavior
+			 */
+			if ( apply_filters( 'bp_guarantee_unique_uris', true ) ) {
+				bp_core_redirect( bp_get_root_domain() . '/' . bp_get_root_slug( bp_current_component() ) . '/' . $slug . '/' . apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r ) );
+			} else {
+				 $bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+			}
+		}
 	}
 
 	do_action( 'bp_core_new_nav_item', $r, $args, $defaults );
