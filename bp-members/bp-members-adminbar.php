@@ -141,7 +141,7 @@ function bp_members_admin_bar_user_admin_menu() {
 	) );
 
 	// User Admin > Spam/unspam
-	if ( !bp_core_is_user_spammer( bp_displayed_user_id() ) ) {
+	if ( !bp_is_user_spammer( bp_displayed_user_id() ) ) {
 		$wp_admin_bar->add_menu( array(
 			'parent' => $bp->user_admin_menu_id,
 			'id'     => 'spam-user',

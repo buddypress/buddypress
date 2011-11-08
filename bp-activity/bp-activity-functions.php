@@ -844,8 +844,7 @@ function bp_activity_add( $args = '' ) {
  *
  * @global object $bp BuddyPress global settings
  * @uses wp_parse_args()
- * @uses bp_core_is_user_spammer()
- * @uses bp_core_is_user_deleted()
+ * @uses bp_is_user_inactive()
  * @uses bp_core_get_userlink()
  * @uses bp_activity_add()
  * @uses apply_filters() To call the 'bp_activity_new_update_action' hook

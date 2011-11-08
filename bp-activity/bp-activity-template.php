@@ -2028,7 +2028,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
 	 * @param int $user_id Defaults to 0
 	 *
 	 * @global object $bp BuddyPress global settings
-	 * @uses bp_core_is_user_spammer()
+	 * @uses bp_is_user_inactive()
 	 * @uses bp_core_is_user_deleted()
 	 * @uses bp_get_user_meta()
 	 * @uses apply_filters() To call the 'bp_get_activity_latest_update_excerpt' hook
