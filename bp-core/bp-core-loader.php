@@ -19,7 +19,8 @@ require( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php'  );
 require( BP_PLUGIN_DIR . '/bp-core/bp-core-moderation.php' );
 
 // Load deprecated functions
-require( BP_PLUGIN_DIR . '/bp-core/deprecated/1.5.php'    );
+require( BP_PLUGIN_DIR . '/bp-core/deprecated/1.5.php' );
+//require( BP_PLUGIN_DIR . '/bp-core/deprecated/1.6.php' );
 
 // Load the WP admin bar.
 if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
