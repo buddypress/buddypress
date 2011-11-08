@@ -33,8 +33,8 @@ function bp_core_set_uri_globals() {
 	global $current_blog, $wpdb;
 
 	// Create global component, action, and item variables
-	$bp->current_component = $bp->current_action = $bp->current_item ='';
-	$bp->action_variables = $bp->displayed_user->id = '';
+	$bp->current_component = $bp->current_item     = '';
+	$bp->current_action    = $bp->action_variables = '';
 
 	// Don't catch URIs on non-root blogs unless multiblog mode is on
 	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )
@@ -256,7 +256,7 @@ function bp_core_set_uri_globals() {
 				// in user is a super admin)
 				if ( bp_displayed_user_id() && bp_is_user_spammer( bp_displayed_user_id() ) ) {
 					if ( is_super_admin() ) {
-						bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'error' );
+						bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'warning' );
 					} else {
 						bp_do_404();
 						return;

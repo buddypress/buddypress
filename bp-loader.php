@@ -110,12 +110,12 @@ class BuddyPress {
 	/**
 	 * @var object Current user
 	 */
-	public $current_user = array();
+	public $current_user = false;
 
 	/**
 	 * @var object Displayed user
 	 */
-	public $displayed_user = array();
+	public $displayed_user = false;
 
 	/** Errors ****************************************************************/
 
@@ -331,6 +331,11 @@ class BuddyPress {
 		$this->user_id            = apply_filters( 'bp_user_id', 'bp_user' );
 		$this->edit_id            = apply_filters( 'bp_edit_id', 'edit'     );
 
+		/** Users *************************************************************/
+		
+		$this->current_user       = new stdClass();
+		$this->displayed_user     = new stdClass();
+
 		/** Misc **************************************************************/
 
 		// Errors
@@ -431,7 +436,7 @@ class BuddyPress {
 }
 
 // "And now for something completely different"
-$_GLOBALS['bp'] = new BuddyPress;
+$GLOBALS['bp'] = new BuddyPress;
 
 endif;
 
