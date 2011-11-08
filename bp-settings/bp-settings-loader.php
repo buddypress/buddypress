@@ -181,7 +181,11 @@ class BP_Settings_Component extends BP_Component {
 		parent::setup_admin_bar( $wp_admin_nav );
 	}
 }
-// Create the settingss component
-$bp->settings = new BP_Settings_Component();
+
+function bp_setup_settings() {
+	global $bp;
+	$bp->settings = new BP_Settings_Component();
+}
+add_action( 'bp_setup_components', 'bp_setup_settings', 6 );
 
 ?>

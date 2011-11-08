@@ -251,7 +251,11 @@ class BP_Messages_Component extends BP_Component {
 		parent::setup_title();
 	}
 }
-// Create the messages component
-$bp->messages = new BP_Messages_Component();
+
+function bp_setup_messages() {
+	global $bp;
+	$bp->messages = new BP_Messages_Component();
+}
+add_action( 'bp_setup_components', 'bp_setup_messages', 6 );
 
 ?>

@@ -185,9 +185,12 @@ class BP_Members_Component extends BP_Component {
 
 		parent::setup_title();
 	}
-
 }
-// Create the users component
-$bp->members = new BP_Members_Component();
+
+function bp_setup_members() {
+	global $bp;
+	$bp->members = new BP_Members_Component();
+}
+add_action( 'bp_setup_components', 'bp_setup_members', 1 );
 
 ?>

@@ -230,8 +230,13 @@ class BP_XProfile_Component extends BP_Component {
 		parent::setup_title();
 	}
 }
-// Create the xprofile component
-if ( !isset( $bp->profile->id ) )
-	$bp->profile = new BP_XProfile_Component();
+
+function bp_setup_xprofile() {
+	global $bp;
+
+	if ( !isset( $bp->profile->id ) )
+		$bp->profile = new BP_XProfile_Component();
+}
+add_action( 'bp_setup_components', 'bp_setup_xprofile', 6 );
 
 ?>

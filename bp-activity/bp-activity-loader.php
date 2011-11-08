@@ -330,6 +330,11 @@ class BP_Activity_Component extends BP_Component {
 	}
 }
 
-// Create the activity component
-$bp->activity = new BP_Activity_Component();
+function bp_setup_activity() {
+	global $bp;
+
+	$bp->activity = new BP_Activity_Component();
+}
+add_action( 'bp_setup_components', 'bp_setup_activity', 6 );
+
 ?>

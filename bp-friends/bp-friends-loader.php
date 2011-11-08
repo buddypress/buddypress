@@ -206,7 +206,11 @@ class BP_Friends_Component extends BP_Component {
 		parent::setup_title();
 	}
 }
-// Create the friends component
-$bp->friends = new BP_Friends_Component();
+
+function bp_setup_friends() {
+	global $bp;
+	$bp->friends = new BP_Friends_Component();
+}
+add_action( 'bp_setup_components', 'bp_setup_friends', 6 );
 
 ?>

@@ -247,7 +247,12 @@ class BP_Forums_Component extends BP_Component {
 		parent::setup_title();
 	}
 }
-// Create the forums component
-$bp->forums = new BP_Forums_Component();
+
+function bp_setup_forums() {
+	global $bp;
+
+	$bp->forums = new BP_Forums_Component();
+}
+add_action( 'bp_setup_components', 'bp_setup_forums', 6 );
 
 ?>

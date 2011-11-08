@@ -191,7 +191,11 @@ class BP_Blogs_Component extends BP_Component {
 		parent::setup_title();
 	}
 }
-// Create the blogs component
-$bp->blogs = new BP_Blogs_Component();
+
+function bp_setup_blogs() {
+	global $bp;
+	$bp->blogs = new BP_Blogs_Component();
+}
+add_action( 'bp_setup_components', 'bp_setup_blogs', 6 );
 
 ?>

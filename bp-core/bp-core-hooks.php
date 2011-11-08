@@ -2,41 +2,75 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-/** Loaded ********************************************************************/
+/**
+ * BuddyPress Filters & Actions
+ *
+ * @package BuddyPress
+ * @subpackage Hooks
+ *
+ * This file contains the actions and filters that are used through-out BuddyPress.
+ * They are consolidated here to make searching for them easier, and to help
+ * developers understand at a glance the order in which things occur.
+ *
+ */
 
-add_action( 'plugins_loaded', 'bp_loaded',  10 );
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
-add_action( 'bp_loaded',      'bp_include', 2  );
+/** ACTIONS *******************************************************************/
 
-add_action( 'wp',             'bp_actions', 3  );
+/**
+ * Attach BuddyPress to WordPress
+ *
+ * BuddyPress uses its own internal actions to help aid in additional plugin
+ * development, and to limit the amount of potential future code changes when
+ * updates to WordPress occur.
+ */
+add_action( 'plugins_loaded',         'bp_loaded',                 10 );
+add_action( 'init',                   'bp_init',                   10 );
+add_action( 'wp',                     'bp_ready',                  10 );
+//add_action( 'generate_rewrite_rules', 'bp_generate_rewrite_rules', 10 );
+//add_action( 'wp_enqueue_scripts',     'bp_enqueue_scripts',        10 );
+//add_filter( 'template_include',       'bp_template_include',       10 );
 
-add_action( 'wp',             'bp_screens', 4  );
+/**
+ * bp_loaded - Attached to 'plugins_loaded' above
+ *
+ * Attach various loader actions to the bp_loaded action.
+ * The load order helps to execute code at the correct time.
+ *                                                 v---Load order
+ */
+add_action( 'bp_loaded', 'bp_setup_components',    2  );
+add_action( 'bp_loaded', 'bp_include',             4  );
+add_action( 'bp_loaded', 'bp_setup_widgets',       6  );
+add_action( 'bp_loaded', 'bp_core_load_admin_bar', 10 );
 
-/** Init **********************************************************************/
+/**
+ * bp_init - Attached to 'init' above
+ *
+ * Attach various initialization actions to the bp_init action.
+ * The load order helps to execute code at the correct time.
+ *                                                 v---Load order
+ */
+add_action( 'bp_init', 'bp_core_set_uri_globals',  2 );
+add_action( 'bp_init', 'bp_setup_globals',         4 );
+add_action( 'bp_init', 'bp_setup_nav',             6 );
+add_action( 'bp_init', 'bp_setup_title',           8 );
 
-// Attach bp_init to WordPress init
-add_action( 'init',           'bp_init'                     );
+/**
+ * bp_ready - Attached to 'wp' above
+ *
+ * Attach various initialization actions to the bp_init action.
+ * The load order helps to execute code at the correct time.
+ *                                    v---Load order
+ */
+add_action( 'bp_ready', 'bp_actions', 2 );
+add_action( 'bp_ready', 'bp_screens', 4 );
 
-// Parse the URI and set globals
-add_action( 'bp_init',        'bp_core_set_uri_globals',  2 );
-
-// Setup component globals
-add_action( 'bp_init',        'bp_setup_globals',         4 );
-
-// Setup the navigation menu
-add_action( 'bp_init',        'bp_setup_nav',             7 );
+/** Admin Bar *****************************************************************/
 
 // Setup the navigation menu
 add_action( 'admin_bar_menu', 'bp_setup_admin_bar',      11 );
-
-// Setup the title
-add_action( 'bp_init',        'bp_setup_title',           9 );
-
-// Setup widgets
-add_action( 'bp_loaded',      'bp_setup_widgets'            );
-
-// Setup admin bar
-add_action( 'bp_loaded',      'bp_core_load_admin_bar'      );
 
 /** The hooks *****************************************************************/
 
@@ -45,6 +79,13 @@ add_action( 'bp_loaded',      'bp_core_load_admin_bar'      );
  */
 function bp_include() {
 	do_action( 'bp_include' );
+}
+
+/**
+ * Include files on this action
+ */
+function bp_setup_components() {
+	do_action( 'bp_setup_components' );
 }
 
 /**
@@ -95,6 +136,13 @@ function bp_init() {
  */
 function bp_loaded() {
 	do_action( 'bp_loaded' );
+}
+
+/**
+ * Attached to wp
+ */
+function bp_ready() {
+	do_action( 'bp_ready' );
 }
 
 /**

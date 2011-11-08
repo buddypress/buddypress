@@ -229,7 +229,10 @@ class BP_Core extends BP_Component {
 	}
 }
 
-// Initialize the BuddyPress Core
-$bp->core = new BP_Core();
+function bp_setup_core() {
+	global $bp;
+	$bp->core = new BP_Core();
+}
+add_action( 'bp_setup_components', 'bp_setup_core', 2 );
 
 ?>

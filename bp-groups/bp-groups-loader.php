@@ -471,7 +471,13 @@ class BP_Groups_Component extends BP_Component {
 		parent::setup_title();
 	}
 }
-// Create the groups component
-$bp->groups = new BP_Groups_Component();
+
+
+function bp_setup_groups() {
+	global $bp;
+
+	$bp->groups = new BP_Groups_Component();
+}
+add_action( 'bp_setup_components', 'bp_setup_groups', 6 );
 
 ?>
