@@ -1,6 +1,60 @@
 <?php
+
+/**
+ * BuddyPress Common Functions
+ *
+ * @package BuddyPress
+ * @subpackage Functions
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
+
+/** Versions ******************************************************************/
+
+/**
+ * Output the BuddyPress version
+ *
+ * @since BuddyPress (1.6)
+ * @uses bp_get_version() To get the BuddyPress version
+ */
+function bp_version() {
+	echo bp_get_version();
+}
+	/**
+	 * Return the BuddyPress version
+	 *
+	 * @since BuddyPress (1.6)
+	 * @global BuddyPress $bp
+	 * @retrun string The BuddyPress version
+	 */
+	function bp_get_version() {
+		global $bp;
+		return $bp->version;
+	}
+
+/**
+ * Output the BuddyPress database version
+ *
+ * @since BuddyPress (1.6)
+ * @uses bp_get_version() To get the BuddyPress version
+ */
+function bp_db_version() {
+	echo bp_get_db_version();
+}
+	/**
+	 * Return the BuddyPress database version
+	 *
+	 * @since BuddyPress (1.6)
+	 * @global BuddyPress $bp
+	 * @retrun string The BuddyPress version
+	 */
+	function bp_get_db_version() {
+		global $bp;
+		return $bp->db_version;
+	}
+
+/** Functions *****************************************************************/
 
 /**
  * Retrieve an option
@@ -1119,6 +1173,7 @@ function bp_core_create_root_component_page() {
  * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
  */
 function bp_is_root_blog( $blog_id = 0 ) {
+
 	// Assume false
 	$is_root_blog = false;
 
@@ -1139,10 +1194,12 @@ function bp_is_root_blog( $blog_id = 0 ) {
  * @package BuddyPress
  * @since 1.5
  *
- * @param int $blog_id Optional. Defaults to the current blog id.
  * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
  */
-function bp_get_root_blog_id( $blog_id = false ) {
+function bp_get_root_blog_id() {
+
+	// Default to 1
+	$root_blog_id = 1;
 
 	// Define on which blog ID BuddyPress should run
 	if ( !defined( 'BP_ROOT_BLOG' ) ) {
@@ -1155,10 +1212,6 @@ function bp_get_root_blog_id( $blog_id = false ) {
 		// Root blog is whatever the current site is (could be any site on the network)
 		} elseif ( is_multisite() && bp_is_multiblog_mode() ) {
 			$root_blog_id = get_current_blog_id();
-
-		// Root blog is the only blog on this network
-		} elseif( !is_multisite() ) {
-			$root_blog_id = 1;
 		}
 
 		define( 'BP_ROOT_BLOG', $root_blog_id );

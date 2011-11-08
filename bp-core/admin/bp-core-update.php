@@ -3,13 +3,39 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Core_Setup_Wizard {
+
+	/**
+	 * @var int The current step of the updater
+	 */
 	var $current_step;
+
+	/**
+	 *
+	 * @var array The total steps to be completed
+	 */
 	var $steps;
 
-	var $database_version;
+	/**
+	 * @var int Database version of current BuddyPress files
+	 */
+	var $db_version;
+
+	/**
+	 * @var int Database version raw from the database connection
+	 */
+	var $db_version_raw;
+
+	/**
+	 * @var int Are we currently network activated
+	 */
 	var $is_network_activate;
-	var $new_version;
+
+	/**
+	 * @var string What kind of setup/update are we performing
+	 */
 	var $setup_type;
+
+	/** Functions *************************************************************/
 
 	function bp_core_setup_wizard() {
 		$this->__construct();
@@ -23,7 +49,7 @@ class BP_Core_Setup_Wizard {
 		require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 		// Get current DB version
-		$this->database_version = !empty( $bp->database_version ) ? (int) $bp->database_version : 0;
+		$this->db_version_raw = !empty( $bp->db_version_raw ) ? (int) $bp->db_version_raw : 0;
 
 		if ( !empty( $bp->is_network_activate ) ) {
 			$this->is_network_activate = $bp->is_network_activate;
@@ -33,7 +59,7 @@ class BP_Core_Setup_Wizard {
 			$_COOKIE['bp-wizard-step'] = 0;
 		}
 
-		$this->new_version  = constant( 'BP_DB_VERSION' );
+		$this->db_version   = bp_get_db_version();
 		$this->setup_type   = !empty( $bp->maintenance_mode ) ? $bp->maintenance_mode : '';
 		$this->current_step = $this->current_step();
 
@@ -81,17 +107,17 @@ class BP_Core_Setup_Wizard {
 			if ( $this->is_network_activate )
 				$steps[] = __( 'Multisite Update', 'buddypress' );
 
-			if ( $this->database_version < (int) $this->new_version )
+			if ( $this->db_version_raw < (int) $this->db_version )
 				$steps[] = __( 'Database Update', 'buddypress' );
 
 			// New for BP 1.5
-			if ( $this->database_version < 1801 || !bp_core_get_directory_page_ids() ) {
+			if ( $this->db_version_raw < 1801 || !bp_core_get_directory_page_ids() ) {
 				$steps[] = __( 'Components', 'buddypress' );
 				$steps[] = __( 'Pages', 'buddypress' );
 			}
 
 			// New for BP 1.6
-			if ( $this->database_version < 5222 && !defined( 'BP_USE_WP_ADMIN_BAR' ) )
+			if ( $this->db_version_raw < 5222 && !defined( 'BP_USE_WP_ADMIN_BAR' ) )
 				$steps[] = __( 'Admin Bar', 'buddypress' );
 
 			$steps[] = __( 'Finish', 'buddypress' );
@@ -804,7 +830,7 @@ class BP_Core_Setup_Wizard {
 			// Run the schema install to update tables
 			bp_core_install();
 
-			if ( $this->database_version < 1801 )
+			if ( $this->db_version_raw < 1801 )
 				$this->update_1_5();
 
 			// Update the active components option early if we're updating
@@ -828,7 +854,7 @@ class BP_Core_Setup_Wizard {
 
 			// Transfer important settings from blog options to site options
 			$options = array(
-				'bp-db-version'        => $this->database_version,
+				'_bp_db_version'       => $this->db_version,
 				'bp-active-components' => $active_components,
 				'avatar-default'       => get_option( 'avatar-default' )
 			);
@@ -843,7 +869,6 @@ class BP_Core_Setup_Wizard {
 
 				// Move bp-pages data from the blog options table to site options
 				$existing_pages	= bp_get_option( 'bp-pages' );
-
 				$bp_pages       = $this->setup_pages( (array)$_POST['bp_pages'] );
 				$bp_pages       = array_merge( (array)$existing_pages, (array)$bp_pages );
 
@@ -855,6 +880,10 @@ class BP_Core_Setup_Wizard {
 				bp_core_install( $active_components );
 			}
 
+			// Delete the old site option
+			delete_site_option( 'bp-db-version' );
+
+			// Update the active components
 			bp_update_option( 'bp-active-components', $active_components );
 
 			return true;
@@ -1091,7 +1120,7 @@ class BP_Core_Setup_Wizard {
 
 			// Update the DB version in the database
 			// Stored in sitemeta. Do not use bp_update_option()
-			update_site_option( 'bp-db-version', $this->new_version );
+			update_site_option( 'bp-db-version', $this->db_version );
 			delete_site_option( 'bp-core-db-version' );
 
 			// Delete the setup cookie

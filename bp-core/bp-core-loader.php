@@ -6,6 +6,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 require( BP_PLUGIN_DIR . '/bp-core/bp-core-cache.php'      );
 require( BP_PLUGIN_DIR . '/bp-core/bp-core-hooks.php'      );
 require( BP_PLUGIN_DIR . '/bp-core/bp-core-cssjs.php'      );
+require( BP_PLUGIN_DIR . '/bp-core/bp-core-update.php'     );
 require( BP_PLUGIN_DIR . '/bp-core/bp-core-classes.php'    );
 require( BP_PLUGIN_DIR . '/bp-core/bp-core-filters.php'    );
 require( BP_PLUGIN_DIR . '/bp-core/bp-core-avatars.php'    );
@@ -28,8 +29,6 @@ if ( !defined( 'BP_DISABLE_ADMIN_BAR' ) )
 // Provides backpat with earlier versions of BP
 if ( is_multisite() && $active_components = get_site_option( 'bp-active-components' ) )
 	bp_update_option( 'bp-active-components', $active_components );
-
-/** "And now for something completely different" ******************************/
 
 class BP_Core extends BP_Component {
 
