@@ -106,14 +106,14 @@ class BP_Groups_Component extends BP_Component {
 			if ( is_super_admin() )
 				bp_update_is_item_admin( true, 'groups' );
 			else
-				bp_update_is_item_admin( groups_is_user_admin( $bp->loggedin_user->id, $this->current_group->id ), 'groups' );
+				bp_update_is_item_admin( groups_is_user_admin( bp_loggedin_user_id(), $this->current_group->id ), 'groups' );
 
 			// If the user is not an admin, check if they are a moderator
 			if ( !bp_is_item_admin() )
-				bp_update_is_item_mod  ( groups_is_user_mod  ( $bp->loggedin_user->id, $this->current_group->id ), 'groups' );
+				bp_update_is_item_mod  ( groups_is_user_mod  ( bp_loggedin_user_id(), $this->current_group->id ), 'groups' );
 
 			// Is the logged in user a member of the group?
-			if ( ( is_user_logged_in() && groups_is_user_member( $bp->loggedin_user->id, $this->current_group->id ) ) )
+			if ( ( is_user_logged_in() && groups_is_user_member( bp_loggedin_user_id(), $this->current_group->id ) ) )
 				$this->current_group->is_user_member = true;
 			else
 				$this->current_group->is_user_member = false;
@@ -313,7 +313,7 @@ class BP_Groups_Component extends BP_Component {
 			if ( is_user_logged_in() &&
 				 !is_super_admin() &&
 				 !$this->current_group->is_user_member &&
-				 !groups_check_for_membership_request( $bp->loggedin_user->id, $this->current_group->id ) &&
+				 !groups_check_for_membership_request( bp_loggedin_user_id(), $this->current_group->id ) &&
 				 $this->current_group->status == 'private'
 				) {
 				$sub_nav[] = array(
@@ -392,7 +392,7 @@ class BP_Groups_Component extends BP_Component {
 			$groups_link = trailingslashit( $user_domain . $this->slug );
 
 			// Pending group invites
-			$count = groups_get_invites_for_user( $bp->loggedin_user->id );
+			$count = groups_get_invites_for_user( bp_loggedin_user_id() );
 
 			if ( !empty( $count->total ) ) {
 				$title   = sprintf( __( 'Groups <span class="count">%s</span>',          'buddypress' ), $count->total );

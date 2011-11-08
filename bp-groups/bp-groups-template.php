@@ -110,7 +110,7 @@ class BP_Groups_Template {
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		if ( $bp->loggedin_user->is_super_admin || ( is_user_logged_in() && $user_id == $bp->loggedin_user->id ) )
+		if ( $bp->loggedin_user->is_super_admin || ( is_user_logged_in() && $user_id == bp_loggedin_user_id() ) )
 			$show_hidden = true;
 
 		if ( 'invites' == $type ) {
@@ -308,7 +308,7 @@ function bp_group_is_visible( $group = false ) {
 	if ( 'public' == $group->status ) {
 		return true;
 	} else {
-		if ( groups_is_user_member( $bp->loggedin_user->id, $group->id ) ) {
+		if ( groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {
 			return true;
 		}
 	}
@@ -1393,7 +1393,7 @@ function bp_group_is_user_banned( $group = false, $user_id = 0 ) {
 	}
 
 	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	return apply_filters( 'bp_group_is_user_banned', groups_is_user_banned( $user_id, $group->id ) );
 }
@@ -1467,7 +1467,7 @@ function bp_has_friends_to_invite( $group = false ) {
 	if ( !$group )
 		$group =& $groups_template->group;
 
-	if ( !friends_check_user_has_friends( $bp->loggedin_user->id ) || !friends_count_invitable_friends( $bp->loggedin_user->id, $group->id ) )
+	if ( !friends_check_user_has_friends( bp_loggedin_user_id() ) || !friends_count_invitable_friends( bp_loggedin_user_id(), $group->id ) )
 		return false;
 
 	return true;
@@ -1523,7 +1523,7 @@ function bp_group_join_button( $group = false ) {
 
 			// Stop sole admins from abandoning their group
 	 		$group_admins = groups_get_group_admins( $group->id );
-		 	if ( 1 == count( $group_admins ) && $group_admins[0]->user_id == $bp->loggedin_user->id )
+		 	if ( 1 == count( $group_admins ) && $group_admins[0]->user_id == bp_loggedin_user_id() )
 				return false;
 
 			$button = array(
@@ -2227,8 +2227,8 @@ function bp_new_group_invite_friend_list() {
 		if ( empty( $group_id ) )
 			$group_id = !empty( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
 
-		if ( $friends = friends_get_friends_invite_list( $bp->loggedin_user->id, $group_id ) ) {
-			$invites = groups_get_invites_for_group( $bp->loggedin_user->id, $group_id );
+		if ( $friends = friends_get_friends_invite_list( bp_loggedin_user_id(), $group_id ) ) {
+			$invites = groups_get_invites_for_group( bp_loggedin_user_id(), $group_id );
 
 			for ( $i = 0, $count = count( $friends ); $i < $count; ++$i ) {
 				$checked = '';
@@ -2639,7 +2639,7 @@ function bp_group_has_invites( $args = '' ) {
 
 	$defaults = array(
 		'group_id' => false,
-		'user_id' => $bp->loggedin_user->id
+		'user_id' => bp_loggedin_user_id()
 	);
 
 	$r = wp_parse_args( $args, $defaults );

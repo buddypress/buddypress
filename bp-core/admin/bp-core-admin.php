@@ -72,7 +72,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 function bp_core_admin_settings() {
 	global $wpdb, $bp;
 
-	$ud = get_userdata( $bp->loggedin_user->id );
+	$ud = get_userdata( bp_loggedin_user_id() );
 
 	if ( isset( $_POST['bp-admin-submit'] ) && isset( $_POST['bp-admin'] ) ) {
 		if ( !check_admin_referer('bp-admin') )

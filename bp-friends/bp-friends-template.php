@@ -290,10 +290,10 @@ function bp_is_friend( $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = bp_get_potential_friend_id( $user_id );
 
-	if ( $bp->loggedin_user->id == $user_id )
+	if ( bp_loggedin_user_id() == $user_id )
 		return false;
 
-	return apply_filters( 'bp_is_friend', friends_check_friendship_status( $bp->loggedin_user->id, $user_id ), $user_id );
+	return apply_filters( 'bp_is_friend', friends_check_friendship_status( bp_loggedin_user_id(), $user_id ), $user_id );
 }
 
 function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
@@ -369,7 +369,7 @@ function bp_get_friend_ids( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 	$friend_ids = friends_get_friend_user_ids( $user_id );
 
@@ -381,7 +381,7 @@ function bp_get_friend_ids( $user_id = 0 ) {
 function bp_get_friendship_requests() {
 	global $bp;
 
-	return apply_filters( 'bp_get_friendship_requests', implode( ',', (array) friends_get_friendship_request_user_ids( $bp->loggedin_user->id ) ) );
+	return apply_filters( 'bp_get_friendship_requests', implode( ',', (array) friends_get_friendship_request_user_ids( bp_loggedin_user_id() ) ) );
 }
 
 function bp_friend_friendship_id() {
@@ -390,9 +390,9 @@ function bp_friend_friendship_id() {
 	function bp_get_friend_friendship_id() {
 		global $members_template, $bp;
 
-		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . $bp->loggedin_user->id ) ) {
-			$friendship_id = friends_get_friendship_id( $members_template->member->id, $bp->loggedin_user->id );
-			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . $bp->loggedin_user->id, $friendship_id, 'bp' );
+		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id() ) ) {
+			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
+			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
 
 		return apply_filters( 'bp_get_friend_friendship_id', $friendship_id );
@@ -404,9 +404,9 @@ function bp_friend_accept_request_link() {
 	function bp_get_friend_accept_request_link() {
 		global $members_template, $bp;
 
-		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . $bp->loggedin_user->id ) ) {
-			$friendship_id = friends_get_friendship_id( $members_template->member->id, $bp->loggedin_user->id );
-			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . $bp->loggedin_user->id, $friendship_id, 'bp' );
+		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id() ) ) {
+			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
+			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
 
 		return apply_filters( 'bp_get_friend_accept_request_link', wp_nonce_url( $bp->loggedin_user->domain . bp_get_friends_slug() . '/requests/accept/' . $friendship_id, 'friends_accept_friendship' ) );
@@ -418,9 +418,9 @@ function bp_friend_reject_request_link() {
 	function bp_get_friend_reject_request_link() {
 		global $members_template, $bp;
 
-		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . $bp->loggedin_user->id ) ) {
-			$friendship_id = friends_get_friendship_id( $members_template->member->id, $bp->loggedin_user->id );
-			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . $bp->loggedin_user->id, $friendship_id, 'bp' );
+		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id() ) ) {
+			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
+			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
 
 		return apply_filters( 'bp_get_friend_reject_request_link', wp_nonce_url( $bp->loggedin_user->domain . bp_get_friends_slug() . '/requests/reject/' . $friendship_id, 'friends_reject_friendship' ) );
@@ -441,7 +441,7 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
 		global $bp;
 
 		if ( empty( $user_id ) )
-			$user_id = $bp->loggedin_user->id;
+			$user_id = bp_loggedin_user_id();
 
 		return apply_filters( 'bp_friend_get_total_requests_count', count( BP_Friends_Friendship::get_friend_user_ids( $user_id, true ) ) );
 	}

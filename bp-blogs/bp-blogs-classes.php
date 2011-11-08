@@ -77,7 +77,7 @@ Class BP_Blogs_Blog {
 	function get( $type, $limit = false, $page = false, $user_id = 0, $search_terms = false ) {
 		global $bp, $wpdb;
 
-		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != $bp->loggedin_user->id ) ) )
+		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != bp_loggedin_user_id() ) ) )
 			$hidden_sql = "AND wb.public = 1";
 		else
 			$hidden_sql = '';
@@ -132,7 +132,7 @@ Class BP_Blogs_Blog {
 		global $wpdb, $bp;
 
 		if ( !$user_id )
-			$user_id = $bp->loggedin_user->id;
+			$user_id = bp_loggedin_user_id();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE user_id = %d AND blog_id = %d", $user_id, $blog_id ) );
 	}
@@ -141,7 +141,7 @@ Class BP_Blogs_Blog {
 		global $wpdb, $bp;
 
 		if ( !$user_id )
-			$user_id = $bp->loggedin_user->id;
+			$user_id = bp_loggedin_user_id();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE user_id = %d", $user_id ) );
 	}
@@ -194,7 +194,7 @@ Class BP_Blogs_Blog {
 			$user_id = bp_displayed_user_id();
 
 		// If the user is logged in return the blog count including their hidden blogs.
-		if ( ( is_user_logged_in() && $user_id == $bp->loggedin_user->id ) || is_super_admin() )
+		if ( ( is_user_logged_in() && $user_id == bp_loggedin_user_id() ) || is_super_admin() )
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id) );
 		else
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.public = 1 AND wb.deleted = 0 AND wb.spam = 0 AND wb.mature = 0 AND wb.archived = '0' AND user_id = %d", $user_id) );

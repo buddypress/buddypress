@@ -29,7 +29,7 @@ function bp_members_admin_bar_my_account_menu() {
 
 		// User avatar
 		$avatar = bp_core_fetch_avatar( array(
-			'item_id' => $bp->loggedin_user->id,
+			'item_id' => bp_loggedin_user_id(),
 			'email'   => $bp->loggedin_user->userdata->user_email,
 			'width'   => 16,
 			'height'  => 16

@@ -213,7 +213,7 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 		if ( empty( $user_nicename ) && empty( $user_login ) ) {
 
 			// User ID matches logged in user
-			if ( isset( $bp->loggedin_user->id ) && $bp->loggedin_user->id == $user_id ) {
+			if ( bp_loggedin_user_id() == $user_id ) {
 				$userdata = &$bp->loggedin_user->userdata;
 
 			// User ID matches displayed in user
@@ -285,7 +285,7 @@ function bp_members_get_user_nicename( $user_id ) {
 		$update_cache = true;
 
 		// User ID matches logged in user
-		if ( isset( $bp->loggedin_user->id ) && $bp->loggedin_user->id == $user_id ) {
+		if ( bp_loggedin_user_id() == $user_id ) {
 			$userdata = &$bp->loggedin_user->userdata;
 
 		// User ID matches displayed in user
@@ -593,7 +593,7 @@ function bp_core_delete_account( $user_id = 0 ) {
 	global $bp, $wp_version;
 
 	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	// Make sure account deletion is not disabled
 	if ( !empty( $bp->site_options['bp-disable-account-deletion'] ) && !$bp->loggedin_user->is_super_admin )

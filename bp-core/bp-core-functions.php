@@ -701,7 +701,7 @@ function bp_core_record_activity() {
 	if ( !is_user_logged_in() )
 		return false;
 
-	$user_id = $bp->loggedin_user->id;
+	$user_id = bp_loggedin_user_id();
 
 	if ( bp_core_is_user_spammer( $user_id ) || bp_core_is_user_deleted( $user_id ) )
 		return false;

@@ -286,10 +286,10 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 
 	// Fallback to logged in user if no user_id is passed
 	if ( empty( $user_id ) )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	// Update the user's personal favorites
-	$my_favs   = bp_get_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', true );
+	$my_favs   = bp_get_user_meta( bp_loggedin_user_id(), 'bp_favorite_activities', true );
 	$my_favs[] = $activity_id;
 
 	// Update the total number of users who have favorited this activity
@@ -297,7 +297,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 	$fav_count = !empty( $fav_count ) ? (int)$fav_count + 1 : 1;
 
 	// Update user meta
-	bp_update_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', $my_favs );
+	bp_update_user_meta( bp_loggedin_user_id(), 'bp_favorite_activities', $my_favs );
 
 	// Update activity meta counts
 	if ( true === bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count ) ) {
@@ -344,7 +344,7 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 
 	// Fallback to logged in user if no user_id is passed
 	if ( empty( $user_id ) )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	// Remove the fav from the user's favs
 	$my_favs = bp_get_user_meta( $user_id, 'bp_favorite_activities', true );
@@ -430,7 +430,7 @@ function bp_activity_total_favorites_for_user( $user_id = 0 ) {
 
 	// Fallback on displayed user, and then logged in user
 	if ( empty( $user_id ) )
-		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 	return BP_Activity_Activity::total_favorite_count( $user_id );
 }
@@ -791,7 +791,7 @@ function bp_activity_add( $args = '' ) {
 		'type'              => false, // The activity type e.g. activity_update, profile_updated
 		'primary_link'      => '',    // Optional: The primary URL for this item in RSS feeds (defaults to activity permalink)
 
-		'user_id'           => $bp->loggedin_user->id, // Optional: The user to record the activity for, can be false if this activity is not for a user.
+		'user_id'           => bp_loggedin_user_id(), // Optional: The user to record the activity for, can be false if this activity is not for a user.
 		'item_id'           => false, // Optional: The ID of the specific item being recorded, e.g. a blog_id
 		'secondary_item_id' => false, // Optional: A second ID used to further filter e.g. a comment_id
 		'recorded_time'     => bp_core_current_time(), // The GMT time that this activity was recorded
@@ -862,7 +862,7 @@ function bp_activity_post_update( $args = '' ) {
 
 	$defaults = array(
 		'content' => false,
-		'user_id' => $bp->loggedin_user->id
+		'user_id' => bp_loggedin_user_id()
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
@@ -890,7 +890,7 @@ function bp_activity_post_update( $args = '' ) {
 	) );
 
 	// Add this update to the "latest update" usermeta so it can be fetched anywhere.
-	bp_update_user_meta( $bp->loggedin_user->id, 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
+	bp_update_user_meta( bp_loggedin_user_id(), 'bp_latest_update', array( 'id' => $activity_id, 'content' => wp_filter_kses( $content ) ) );
 
 	do_action( 'bp_activity_posted_update', $content, $user_id, $activity_id );
 
@@ -921,7 +921,7 @@ function bp_activity_new_comment( $args = '' ) {
 	$defaults = array(
 		'id'          => false,
 		'content'     => false,
-		'user_id'     => $bp->loggedin_user->id,
+		'user_id'     => bp_loggedin_user_id(),
 		'activity_id' => false, // ID of the root activity item
 		'parent_id'   => false  // ID of a parent comment (optional)
 	);
@@ -1052,7 +1052,7 @@ function bp_activity_delete( $args = '' ) {
 
 	// Check if the user's latest update has been deleted
 	if ( empty( $args['user_id'] ) )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 	else
 		$user_id = $args['user_id'];
 

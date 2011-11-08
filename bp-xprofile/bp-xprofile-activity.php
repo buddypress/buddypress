@@ -42,7 +42,7 @@ function xprofile_record_activity( $args = '' ) {
 		return false;
 
 	$defaults = array (
-		'user_id'           => $bp->loggedin_user->id,
+		'user_id'           => bp_loggedin_user_id(),
 		'action'            => '',
 		'content'           => '',
 		'primary_link'      => '',

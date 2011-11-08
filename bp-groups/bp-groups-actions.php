@@ -112,7 +112,7 @@ function groups_action_create_group() {
 		}
 
 		if ( 'group-invites' == $bp->groups->current_create_step )
-			groups_send_invites( $bp->loggedin_user->id, $bp->groups->new_group_id );
+			groups_send_invites( bp_loggedin_user_id(), $bp->groups->new_group_id );
 
 		do_action( 'groups_create_group_step_save_' . $bp->groups->current_create_step );
 		do_action( 'groups_create_group_step_complete' ); // Mostly for clearing cache on a generic action name
@@ -138,7 +138,7 @@ function groups_action_create_group() {
 
 			// Once we compelete all steps, record the group creation in the activity stream.
 			groups_record_activity( array(
-				'action' => apply_filters( 'groups_activity_created_group_action', sprintf( __( '%1$s created the group %2$s', 'buddypress'), bp_core_get_userlink( $bp->loggedin_user->id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' ) ),
+				'action' => apply_filters( 'groups_activity_created_group_action', sprintf( __( '%1$s created the group %2$s', 'buddypress'), bp_core_get_userlink( bp_loggedin_user_id() ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' ) ),
 				'type' => 'created_group',
 				'item_id' => $bp->groups->new_group_id
 			) );
@@ -207,11 +207,11 @@ function groups_action_join_group() {
 		return false;
 
 	// Skip if banned or already a member
-	if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) && !groups_is_user_banned( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+	if ( !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) && !groups_is_user_banned( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
 
 		// User wants to join a group that is not public
 		if ( $bp->groups->current_group->status != 'public' ) {
-			if ( !groups_check_user_has_invite( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+			if ( !groups_check_user_has_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
 				bp_core_add_message( __( 'There was an error joining the group.', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 			}
@@ -242,11 +242,11 @@ function groups_action_leave_group() {
 		return false;
 
 	// User wants to leave any group
-	if ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) ) {
+	if ( groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
 
 		// Stop sole admins from abandoning their group
 		$group_admins = groups_get_group_admins( $bp->groups->current_group->id );
-	 	if ( 1 == count( $group_admins ) && $group_admins[0]->user_id == $bp->loggedin_user->id )
+	 	if ( 1 == count( $group_admins ) && $group_admins[0]->user_id == bp_loggedin_user_id() )
 			bp_core_add_message( __( 'This group must have at least one admin', 'buddypress' ), 'error' );
 
 		elseif ( !groups_leave_group( $bp->groups->current_group->id ) )
@@ -307,7 +307,7 @@ function groups_action_group_feed() {
 	status_header( 200 );
 
 	if ( 'public' != $bp->groups->current_group->status ) {
-		if ( !groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) )
+		if ( !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
 			return false;
 	}
 

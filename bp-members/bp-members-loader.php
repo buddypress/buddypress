@@ -75,16 +75,16 @@ class BP_Members_Component extends BP_Component {
 		/** Logged in user ****************************************************/
 
 		// Fetch the full name for the logged in user
-		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $bp->loggedin_user->id );
+		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( bp_loggedin_user_id() );
 
 		// Hits the DB on single WP installs so get this separately
 		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin();
 
 		// The domain for the user currently logged in. eg: http://domain.com/members/andy
-		$bp->loggedin_user->domain         = bp_core_get_user_domain( $bp->loggedin_user->id );
+		$bp->loggedin_user->domain         = bp_core_get_user_domain( bp_loggedin_user_id() );
 
 		// The core userdata of the user who is currently logged in.
-		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( $bp->loggedin_user->id );
+		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( bp_loggedin_user_id() );
 
 		/** Displayed user ****************************************************/
 

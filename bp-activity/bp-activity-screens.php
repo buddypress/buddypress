@@ -136,7 +136,7 @@ function bp_activity_screen_mentions() {
 function bp_activity_remove_screen_notifications() {
 	global $bp;
 
-	bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->activity->id, 'new_at_mention' );
+	bp_core_delete_notifications_by_type( bp_loggedin_user_id(), $bp->activity->id, 'new_at_mention' );
 }
 add_action( 'bp_activity_screen_my_activity',               'bp_activity_remove_screen_notifications' );
 add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_screen_notifications' );
@@ -225,7 +225,7 @@ function bp_activity_screen_single_activity_permalink() {
 			if ( 'public' != $group->status ) {
 
 				// User is not a member of group
-				if ( !groups_is_user_member( $bp->loggedin_user->id, $group->id ) ) {
+				if ( !groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {
 					$has_access = false;
 				}
 			}

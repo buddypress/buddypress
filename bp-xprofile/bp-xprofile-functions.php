@@ -391,7 +391,7 @@ function xprofile_sync_wp_profile( $user_id = 0 ) {
 		return true;
 
 	if ( empty( $user_id ) )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	if ( empty( $user_id ) )
 		return false;

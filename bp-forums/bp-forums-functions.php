@@ -146,9 +146,9 @@ function bp_forums_new_topic( $args = '' ) {
 		'topic_title'            => '',
 		'topic_slug'             => '',
 		'topic_text'             => '',
-		'topic_poster'           => $bp->loggedin_user->id,       // accepts ids
+		'topic_poster'           => bp_loggedin_user_id(),       // accepts ids
 		'topic_poster_name'      => $bp->loggedin_user->fullname, // accept names
-		'topic_last_poster'      => $bp->loggedin_user->id,       // accepts ids
+		'topic_last_poster'      => bp_loggedin_user_id(),       // accepts ids
 		'topic_last_poster_name' => $bp->loggedin_user->fullname, // accept names
 		'topic_start_time'       => bp_core_current_time(),
 		'topic_time'             => bp_core_current_time(),
@@ -202,7 +202,7 @@ function bp_forums_update_topic( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	// Check if the user is a spammer 
-	if ( bp_core_is_user_spammer( $bp->loggedin_user->id ) || bp_core_is_user_deleted( $bp->loggedin_user->id ) ) 
+	if ( bp_core_is_user_spammer( bp_loggedin_user_id() ) || bp_core_is_user_deleted( bp_loggedin_user_id() ) ) 
 		return false;
 
 	// bb_insert_topic() will append tags, but not remove them. So we remove all existing tags.
@@ -315,7 +315,7 @@ function bp_forums_total_topic_count_for_user( $user_id = 0, $type = 'active' ) 
 	do_action( 'bbpress_init' );
 
 	if ( !$user_id )
-		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 	if ( class_exists( 'BB_Query' ) ) {
 		$args = array(
@@ -487,7 +487,7 @@ function bp_forums_insert_post( $args = '' ) {
 		'topic_id'      => false,
 		'post_text'     => '',
 		'post_time'     => bp_core_current_time(),
-		'poster_id'     => $bp->loggedin_user->id, // accepts ids or names
+		'poster_id'     => bp_loggedin_user_id(), // accepts ids or names
 		'poster_ip'     => $_SERVER['REMOTE_ADDR'],
 		'post_status'   => 0, // use bb_delete_post() instead
 		'post_position' => false
@@ -514,7 +514,7 @@ function bp_forums_insert_post( $args = '' ) {
 	if ( empty( $poster_id ) )
 		return false;
 
-	if ( bp_core_is_user_spammer( $bp->loggedin_user->id ) || bp_core_is_user_deleted( $bp->loggedin_user->id ) )
+	if ( bp_core_is_user_spammer( bp_loggedin_user_id() ) || bp_core_is_user_deleted( bp_loggedin_user_id() ) )
 		return false;
 
 	$post_id = bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( trim( $post_text ) ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );
@@ -575,10 +575,10 @@ function bp_forums_get_forum_topicpost_count( $forum_id ) {
 function bp_forums_filter_caps( $allcaps ) {
 	global $bp, $wp_roles, $bb_table_prefix;
 
-	if ( !isset( $bp->loggedin_user->id ) )
+	if ( !bp_loggedin_user_id() )
 		return $allcaps;
 
-	$bb_cap = get_user_meta( $bp->loggedin_user->id, $bb_table_prefix . 'capabilities', true );
+	$bb_cap = get_user_meta( bp_loggedin_user_id(), $bb_table_prefix . 'capabilities', true );
 
 	if ( empty( $bb_cap ) )
 		return $allcaps;

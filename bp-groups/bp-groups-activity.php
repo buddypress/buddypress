@@ -41,7 +41,7 @@ function groups_record_activity( $args = '' ) {
 
 	$defaults = array (
 		'id'                => false,
-		'user_id'           => $bp->loggedin_user->id,
+		'user_id'           => bp_loggedin_user_id(),
 		'action'            => '',
 		'content'           => '',
 		'primary_link'      => '',

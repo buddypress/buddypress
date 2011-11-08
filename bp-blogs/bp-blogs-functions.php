@@ -84,7 +84,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	$name = get_blog_option( $blog_id, 'blogname' );
 	$description = get_blog_option( $blog_id, 'blogdescription' );
@@ -376,7 +376,7 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 		$blog_id = (int)$wpdb->blogid;
 
 	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	do_action( 'bp_blogs_before_remove_post', $blog_id, $post_id, $user_id );
 
@@ -393,7 +393,7 @@ function bp_blogs_remove_comment( $comment_id ) {
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $wpdb->blogid, 'secondary_item_id' => $comment_id, 'type' => 'new_blog_comment' ) );
 
-	do_action( 'bp_blogs_remove_comment', $wpdb->blogid, $comment_id, $bp->loggedin_user->id );
+	do_action( 'bp_blogs_remove_comment', $wpdb->blogid, $comment_id, bp_loggedin_user_id() );
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 
@@ -410,7 +410,7 @@ function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 	if ( !$count = wp_cache_get( 'bp_total_blogs_for_user_' . $user_id, 'bp' ) ) {
 		$count = BP_Blogs_Blog::total_blog_count_for_user( $user_id );

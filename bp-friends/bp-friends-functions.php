@@ -151,7 +151,7 @@ function friends_get_total_friend_count( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 	if ( !$count = wp_cache_get( 'bp_total_friend_count_' . $user_id, 'bp' ) ) {
 		$count = bp_get_user_meta( $user_id, 'total_friend_count', true );
@@ -210,7 +210,7 @@ function friends_get_friends_invite_list( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	if ( bp_has_members( 'user_id=' . $user_id . '&type=alphabetical&per_page=0' ) ) {
 		while ( bp_members() ) : bp_the_member();

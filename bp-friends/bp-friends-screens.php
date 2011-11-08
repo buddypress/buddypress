@@ -12,7 +12,7 @@ function friends_screen_my_friends() {
 	global $bp;
 
 	// Delete any friendship acceptance notifications for the user when viewing a profile
-	bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->friends->id, 'friendship_accepted' );
+	bp_core_delete_notifications_by_type( bp_loggedin_user_id(), $bp->friends->id, 'friendship_accepted' );
 
 	do_action( 'friends_screen_my_friends' );
 

@@ -13,7 +13,7 @@ function messages_new_message( $args = '' ) {
 	global $bp;
 
 	$defaults = array (
-		'sender_id'  => $bp->loggedin_user->id,
+		'sender_id'  => bp_loggedin_user_id(),
 		'thread_id'  => false, // false for a new message, thread id for a reply to a thread.
 		'recipients' => false, // Can be an array of usernames, user_ids or mixed.
 		'subject'    => false,
@@ -167,7 +167,7 @@ function messages_check_thread_access( $thread_id, $user_id = 0 ) {
 	global $bp;
 
 	if ( empty( $user_id ) )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	return BP_Messages_Thread::check_access( $thread_id, $user_id );
 }
@@ -196,7 +196,7 @@ function messages_get_unread_count( $user_id = 0 ) {
 	global $bp;
 
 	if ( empty( $user_id ) )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	return BP_Messages_Thread::get_inbox_count( $user_id );
 }

@@ -39,7 +39,7 @@ function bp_dtheme_ajax_querystring( $query_string, $object ) {
 
 	if ( !empty( $_BP_COOKIE['bp-' . $object . '-scope'] ) ) {
 		if ( 'personal' == $_BP_COOKIE['bp-' . $object . '-scope'] ) {
-			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
+			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 			$qs[] = 'user_id=' . $user_id;
 		}
 		if ( 'all' != $_BP_COOKIE['bp-' . $object . '-scope'] && !bp_displayed_user_id() && !$bp->is_single_item )
@@ -125,7 +125,7 @@ function bp_dtheme_activity_template_loader() {
 			break;
 		case 'mentions':
 			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/mentions/feed/';
-			bp_activity_clear_new_mentions( $bp->loggedin_user->id );
+			bp_activity_clear_new_mentions( bp_loggedin_user_id() );
 			break;
 		default:
 			$feed_url = home_url( bp_get_activity_root_slug() . '/feed/' );
@@ -297,7 +297,7 @@ function bp_dtheme_delete_activity_comment() {
 	$comment = new BP_Activity_Activity( $_POST['id'] );
 
 	/* Check access */
-	if ( !is_super_admin() && $comment->user_id != $bp->loggedin_user->id )
+	if ( !is_super_admin() && $comment->user_id != bp_loggedin_user_id() )
 		return false;
 
 	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) )
@@ -423,7 +423,7 @@ function bp_dtheme_ajax_invite_user() {
 	if ( !bp_groups_user_can_send_invites( $_POST['group_id'] ) )
 		return false;
 
-	if ( !friends_check_friendship( $bp->loggedin_user->id, $_POST['friend_id'] ) )
+	if ( !friends_check_friendship( bp_loggedin_user_id(), $_POST['friend_id'] ) )
 		return false;
 
 	if ( 'invite' == $_POST['friend_action'] ) {
@@ -459,21 +459,21 @@ add_action( 'wp_ajax_groups_invite_user', 'bp_dtheme_ajax_invite_user' );
 function bp_dtheme_ajax_addremove_friend() {
 	global $bp;
 
-	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
+	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $_POST['fid'] ) ) {
 
 		check_ajax_referer('friends_remove_friend');
 
-		if ( !friends_remove_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
+		if ( !friends_remove_friend( bp_loggedin_user_id(), $_POST['fid'] ) ) {
 			echo __("Friendship could not be canceled.", 'buddypress');
 		} else {
 			echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __( 'Add Friend', 'buddypress' ) . '" href="' . wp_nonce_url( $bp->loggedin_user->domain . bp_get_friends_slug() . '/add-friend/' . $_POST['fid'], 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
 		}
 
-	} else if ( 'not_friends' == BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
+	} else if ( 'not_friends' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $_POST['fid'] ) ) {
 
 		check_ajax_referer('friends_add_friend');
 
-		if ( !friends_add_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
+		if ( !friends_add_friend( bp_loggedin_user_id(), $_POST['fid'] ) ) {
 			echo __("Friendship could not be requested.", 'buddypress');
 		} else {
 			echo '<a href="' . $bp->loggedin_user->domain . bp_get_friends_slug() . '/requests" class="requested">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
@@ -512,13 +512,13 @@ add_action( 'wp_ajax_reject_friendship', 'bp_dtheme_ajax_reject_friendship' );
 function bp_dtheme_ajax_joinleave_group() {
 	global $bp;
 
-	if ( groups_is_user_banned( $bp->loggedin_user->id, $_POST['gid'] ) )
+	if ( groups_is_user_banned( bp_loggedin_user_id(), $_POST['gid'] ) )
 		return false;
 
 	if ( !$group = new BP_Groups_Group( $_POST['gid'], false, false ) )
 		return false;
 
-	if ( !groups_is_user_member( $bp->loggedin_user->id, $group->id ) ) {
+	if ( !groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {
 
 		if ( 'public' == $group->status ) {
 
@@ -534,7 +534,7 @@ function bp_dtheme_ajax_joinleave_group() {
 
 			check_ajax_referer( 'groups_request_membership' );
 
-			if ( !groups_send_membership_request( $bp->loggedin_user->id, $group->id ) ) {
+			if ( !groups_send_membership_request( bp_loggedin_user_id(), $group->id ) ) {
 				_e( 'Error requesting membership', 'buddypress' );
 			} else {
 				echo '<a id="group-' . esc_attr( $group->id ) . '" class="membership-requested" rel="membership-requested" title="' . __( 'Membership Requested', 'buddypress' ) . '" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Membership Requested', 'buddypress' ) . '</a>';
@@ -687,7 +687,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 			// Build an array with the correct format
 			$user_ids = array();
 			foreach( $users['users'] as $user ) {
-				if ( $user->id != $bp->loggedin_user->id )
+				if ( $user->id != bp_loggedin_user_id() )
 					$user_ids[] = $user->id;
 			}
 
@@ -695,7 +695,7 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 		}
 	} else {
 		if ( bp_is_active( 'friends' ) ) {
-			$users = friends_search_friends( $_GET['q'], $bp->loggedin_user->id, $limit, 1 );
+			$users = friends_search_friends( $_GET['q'], bp_loggedin_user_id(), $limit, 1 );
 
 			// Keeping the bp_friends_autocomplete_list filter for backward compatibility
 			$users = apply_filters( 'bp_friends_autocomplete_list', $users, $_GET['q'], $limit );

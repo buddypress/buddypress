@@ -38,8 +38,8 @@ Class BP_Messages_Thread {
 		$this->recipients = $this->get_recipients();
 
 		// Get the unread count for the logged in user
-		if ( isset( $this->recipients[$bp->loggedin_user->id] ) )
-			$this->unread_count = $this->recipients[$bp->loggedin_user->id]->unread_count;
+		if ( isset( $this->recipients[bp_loggedin_user_id()] ) )
+			$this->unread_count = $this->recipients[bp_loggedin_user_id()]->unread_count;
 	}
 
 	function mark_read() {
@@ -66,7 +66,7 @@ Class BP_Messages_Thread {
 	function delete( $thread_id ) {
 		global $wpdb, $bp;
 
-		$delete_for_user = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, $bp->loggedin_user->id ) );
+		$delete_for_user = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, bp_loggedin_user_id() ) );
 
 		// Check to see if any more recipients remain for this message
 		// if not, then delete the message from the database.
@@ -122,14 +122,14 @@ Class BP_Messages_Thread {
 	function mark_as_read( $thread_id ) {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", $bp->loggedin_user->id, $thread_id );
+		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
 	}
 
 	function mark_as_unread( $thread_id ) {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", $bp->loggedin_user->id, $thread_id );
+		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
 	}
 
@@ -156,7 +156,7 @@ Class BP_Messages_Thread {
 		if ( !$sender_ids )
 			return false;
 
-		return in_array( $bp->loggedin_user->id, $sender_ids );
+		return in_array( bp_loggedin_user_id(), $sender_ids );
 	}
 
 	function get_last_sender( $thread_id ) {
@@ -172,7 +172,7 @@ Class BP_Messages_Thread {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
-			$user_id = $bp->loggedin_user->id;
+			$user_id = bp_loggedin_user_id();
 
 		$sql = $wpdb->prepare( "SELECT SUM(unread_count) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0 AND sender_only = 0", $user_id );
 		$unread_count = $wpdb->get_var( $sql );
@@ -187,7 +187,7 @@ Class BP_Messages_Thread {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
-			$user_id = $bp->loggedin_user->id;
+			$user_id = bp_loggedin_user_id();
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
 	}
@@ -258,7 +258,7 @@ Class BP_Messages_Message {
 		global $bp;
 
 		$this->date_sent = bp_core_current_time();
-		$this->sender_id = $bp->loggedin_user->id;
+		$this->sender_id = bp_loggedin_user_id();
 
 		if ( !empty( $id ) )
 			$this->populate( $id );
@@ -354,7 +354,7 @@ Class BP_Messages_Message {
 	function get_last_sent_for_user( $thread_id ) {
 		global $wpdb, $bp;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND thread_id = %d ORDER BY date_sent DESC LIMIT 1", $bp->loggedin_user->id, $thread_id ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND thread_id = %d ORDER BY date_sent DESC LIMIT 1", bp_loggedin_user_id(), $thread_id ) );
 	}
 
 	function is_user_sender( $user_id, $message_id ) {
@@ -421,7 +421,7 @@ Class BP_Messages_Notice {
 		// Now deactivate all notices apart from the new one.
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_notices} SET is_active = 0 WHERE id != %d", $id ) );
 
-		bp_update_user_meta( $bp->loggedin_user->id, 'last_activity', bp_core_current_time() );
+		bp_update_user_meta( bp_loggedin_user_id(), 'last_activity', bp_core_current_time() );
 
 		do_action_ref_array( 'messages_notice_after_save', array( &$this ) );
 

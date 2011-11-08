@@ -34,7 +34,7 @@ header('Status: 200 OK');
 	<?php do_action('bp_activity_mygroups_feed_head'); ?>
 
 	<?php
-		$groups = groups_get_user_groups( $bp->loggedin_user->id );
+		$groups = groups_get_user_groups( bp_loggedin_user_id() );
 		$group_ids = implode( ',', $groups['groups'] );
 	?>
 

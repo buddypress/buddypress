@@ -126,7 +126,7 @@ class BP_Friends_Friendship {
 		global $wpdb, $bp;
 
 		if ( !$user_id )
-			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
+			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 		/* This is stored in 'total_friend_count' usermeta.
 		   This function will recalculate, update and return. */
@@ -147,7 +147,7 @@ class BP_Friends_Friendship {
 		// TODO: Optimize this function.
 
 		if ( !$user_id )
-			$user_id = $bp->loggedin_user->id;
+			$user_id = bp_loggedin_user_id();
 
 		$filter = like_escape( $wpdb->escape( $filter ) );
 
@@ -209,13 +209,13 @@ class BP_Friends_Friendship {
 	function accept($friendship_id) {
 		global $wpdb, $bp;
 
-	 	return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->friends->table_name} SET is_confirmed = 1, date_created = %s WHERE id = %d AND friend_user_id = %d", bp_core_current_time(), $friendship_id, $bp->loggedin_user->id ) );
+	 	return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->friends->table_name} SET is_confirmed = 1, date_created = %s WHERE id = %d AND friend_user_id = %d", bp_core_current_time(), $friendship_id, bp_loggedin_user_id() ) );
 	}
 
 	function reject($friendship_id) {
 		global $wpdb, $bp;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE id = %d AND friend_user_id = %d", $friendship_id, $bp->loggedin_user->id ) );
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE id = %d AND friend_user_id = %d", $friendship_id, bp_loggedin_user_id() ) );
 	}
 
 	function search_users( $filter, $user_id, $limit = null, $page = null ) {

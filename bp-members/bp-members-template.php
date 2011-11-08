@@ -466,7 +466,7 @@ function bp_member_user_email() {
 
 function bp_member_is_loggedin_user() {
 	global $bp, $members_template;
-	return apply_filters( 'bp_member_is_loggedin_user', $bp->loggedin_user->id == $members_template->member->id ? true : false );
+	return apply_filters( 'bp_member_is_loggedin_user', bp_loggedin_user_id() == $members_template->member->id ? true : false );
 }
 
 function bp_member_avatar( $args = '' ) {
@@ -720,7 +720,7 @@ function bp_get_loggedin_user_nav() {
 
 			if ( bp_is_active( 'friends' ) ) {
 				if ( $nav_item['css_id'] == $bp->friends->id ) {
-					if ( friends_check_friendship( $bp->loggedin_user->id, bp_displayed_user_id() ) )
+					if ( friends_check_friendship( bp_loggedin_user_id(), bp_displayed_user_id() ) )
 						$selected = ' class="current selected"';
 				}
 			}
@@ -783,7 +783,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->loggedin_user->id, 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html, 'alt' => $alt ) ) );
+		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( array( 'item_id' => bp_loggedin_user_id(), 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html, 'alt' => $alt ) ) );
 	}
 
 function bp_displayed_user_avatar( $args = '' ) {
@@ -880,7 +880,6 @@ function bp_displayed_user_id() {
 
 	return apply_filters( 'bp_displayed_user_id', $id );
 }
-	function bp_current_user_id() { return bp_displayed_user_id(); }
 
 function bp_loggedin_user_id() {
 
@@ -893,6 +892,8 @@ function bp_loggedin_user_id() {
 
 	return apply_filters( 'bp_loggedin_user_id', $id );
 }
+
+function bp_current_user_id() { return bp_loggedin_user_id(); }
 
 function bp_displayed_user_domain() {
 	global $bp;
@@ -943,8 +944,8 @@ function bp_loggedin_user_username() {
 	function bp_get_loggedin_user_username() {
 		global $bp;
 
-		if ( !empty( $bp->loggedin_user->id ) ) {
-			$username = bp_core_get_username( $bp->loggedin_user->id, $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
+		if ( bp_loggedin_user_id() ) {
+			$username = bp_core_get_username( bp_loggedin_user_id(), $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
 		} else {
 			$username = '';
 		}

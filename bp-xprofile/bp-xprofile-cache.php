@@ -16,7 +16,7 @@ function xprofile_clear_profile_groups_object_cache( $group_obj ) {
 
 function xprofile_clear_profile_data_object_cache( $group_id ) {
 	global $bp;
-	wp_cache_delete( 'bp_user_fullname_' . $bp->loggedin_user->id, 'bp' );
+	wp_cache_delete( 'bp_user_fullname_' . bp_loggedin_user_id(), 'bp' );
 }
 
 // List actions to clear object caches on

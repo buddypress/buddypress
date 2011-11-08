@@ -114,7 +114,7 @@ class BP_Activity_Template {
 		$this->disable_blogforum_replies = isset( $bp->site_options['bp-disable-blogforum-comments'] ) ? $bp->site_options['bp-disable-blogforum-comments'] : false;
 
 		// Get an array of the logged in user's favorite activities
-		$this->my_favs = maybe_unserialize( bp_get_user_meta( $bp->loggedin_user->id, 'bp_favorite_activities', true ) );
+		$this->my_favs = maybe_unserialize( bp_get_user_meta( bp_loggedin_user_id(), 'bp_favorite_activities', true ) );
 
 		// Fetch specific activity items based on ID's
 		if ( !empty( $include ) )
@@ -272,7 +272,7 @@ function bp_has_activities( $args = '' ) {
 		$object = $bp->groups->id;
 		$primary_id = $bp->groups->current_group->id;
 
-		if ( 'public' != $bp->groups->current_group->status && ( groups_is_user_member( $bp->loggedin_user->id, $bp->groups->current_group->id ) || $bp->loggedin_user->is_super_admin ) )
+		if ( 'public' != $bp->groups->current_group->status && ( groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) || $bp->loggedin_user->is_super_admin ) )
 			$show_hidden = true;
 	}
 
@@ -324,11 +324,11 @@ function bp_has_activities( $args = '' ) {
 
 		// determine which user_id applies
 		if ( empty( $user_id ) )
-			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
+			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 		// are we displaying user specific activity?
 		if ( is_numeric( $user_id ) ) {
-			$show_hidden = ( $user_id == $bp->loggedin_user->id && $scope != 'friends' ) ? 1 : 0;
+			$show_hidden = ( $user_id == bp_loggedin_user_id() && $scope != 'friends' ) ? 1 : 0;
 
 			switch ( $scope ) {
 				case 'friends':
@@ -1224,7 +1224,7 @@ function bp_activity_user_can_delete( $activity = false ) {
 	if ( $bp->loggedin_user->is_super_admin )
 		$can_delete = true;
 
-	if ( $activity->user_id == $bp->loggedin_user->id )
+	if ( $activity->user_id == bp_loggedin_user_id() )
 		$can_delete = true;
 
 	if ( $bp->is_item_admin && $bp->is_single_item )

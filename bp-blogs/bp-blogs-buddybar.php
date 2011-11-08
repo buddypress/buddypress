@@ -12,9 +12,9 @@ function bp_adminbar_blogs_menu() {
 	if ( !is_multisite() )
 		return false;
 
-	if ( !$blogs = wp_cache_get( 'bp_blogs_of_user_' . $bp->loggedin_user->id . '_inc_hidden', 'bp' ) ) {
-		$blogs = bp_blogs_get_blogs_for_user( $bp->loggedin_user->id, true );
-		wp_cache_set( 'bp_blogs_of_user_' . $bp->loggedin_user->id . '_inc_hidden', $blogs, 'bp' );
+	if ( !$blogs = wp_cache_get( 'bp_blogs_of_user_' . bp_loggedin_user_id() . '_inc_hidden', 'bp' ) ) {
+		$blogs = bp_blogs_get_blogs_for_user( bp_loggedin_user_id(), true );
+		wp_cache_set( 'bp_blogs_of_user_' . bp_loggedin_user_id() . '_inc_hidden', $blogs, 'bp' );
 	}
 
 	$counter = 0;

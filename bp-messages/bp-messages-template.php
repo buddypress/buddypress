@@ -127,7 +127,7 @@ Class BP_Messages_Box_Template {
 			if ( count($this->thread->messages) > 1 ) {
 				if ( 'inbox' == $this->box ) {
 					foreach ( (array)$this->thread->messages as $key => $message ) {
-						if ( $bp->loggedin_user->id != $message->sender_id ) {
+						if ( bp_loggedin_user_id() != $message->sender_id ) {
 							$last_message_index = $key;
 							break;
 						}
@@ -135,7 +135,7 @@ Class BP_Messages_Box_Template {
 
 				} elseif ( 'sentbox' == $this->box ) {
 					foreach ( (array)$this->thread->messages as $key => $message ) {
-						if ( $bp->loggedin_user->id == $message->sender_id ) {
+						if ( bp_loggedin_user_id() == $message->sender_id ) {
 							$last_message_index = $key;
 							break;
 						}
@@ -159,7 +159,7 @@ function bp_has_message_threads( $args = '' ) {
 	global $bp, $messages_template;
 
 	$defaults = array(
-		'user_id' => $bp->loggedin_user->id,
+		'user_id' => bp_loggedin_user_id(),
 		'box' => 'inbox',
 		'per_page' => 10,
 		'max' => false,
@@ -173,7 +173,7 @@ function bp_has_message_threads( $args = '' ) {
 		wp_redirect( bp_displayed_user_id() );
 	} else {
 		if ( 'inbox' == $bp->current_action )
-			bp_core_delete_notifications_by_type( $bp->loggedin_user->id, $bp->messages->id, 'new_message' );
+			bp_core_delete_notifications_by_type( bp_loggedin_user_id(), $bp->messages->id, 'new_message' );
 
 		if ( 'sentbox' == $bp->current_action )
 			$box = 'sentbox';
@@ -780,7 +780,7 @@ function bp_the_thread_recipients() {
 			return apply_filters( 'bp_get_the_thread_recipients', sprintf( __( '%d Recipients', 'buddypress' ), count($thread_template->thread->recipients) ) );
 
 		foreach( (array)$thread_template->thread->recipients as $recipient ) {
-			if ( $recipient->user_id !== $bp->loggedin_user->id )
+			if ( $recipient->user_id !== bp_loggedin_user_id() )
 				$recipient_links[] = bp_core_get_userlink( $recipient->user_id );
 		}
 

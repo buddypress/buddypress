@@ -62,7 +62,7 @@ function groups_create_group( $args = '' ) {
 	if ( isset( $creator_id ) && $creator_id )
 		$group->creator_id = $creator_id;
 	else
-		$group->creator_id = $bp->loggedin_user->id;
+		$group->creator_id = bp_loggedin_user_id();
 
 	if ( isset( $name ) )
 		$group->name = $name;
@@ -247,7 +247,7 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	// Don't let single admins leave the group.
 	if ( count( groups_get_group_admins( $group_id ) ) < 2 ) {
@@ -288,7 +288,7 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	// Check if the user has an outstanding invite, is so delete it.
 	if ( groups_check_user_has_invite( $user_id, $group_id ) )
@@ -406,7 +406,7 @@ function groups_total_groups_for_user( $user_id = 0 ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : $bp->loggedin_user->id;
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 	if ( !$count = wp_cache_get( 'bp_total_groups_for_user_' . $user_id, 'bp' ) ) {
 		$count = BP_Groups_Member::total_group_count( $user_id );
@@ -490,7 +490,7 @@ function groups_post_update( $args = '' ) {
 
 	$defaults = array(
 		'content'  => false,
-		'user_id'  => $bp->loggedin_user->id,
+		'user_id'  => bp_loggedin_user_id(),
 		'group_id' => 0
 	);
 
@@ -533,7 +533,7 @@ function groups_get_invites_for_user( $user_id = 0, $limit = false, $page = fals
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	return BP_Groups_Member::get_invites( $user_id, $limit, $page, $exclude );
 }
@@ -544,7 +544,7 @@ function groups_invite_user( $args = '' ) {
 	$defaults = array(
 		'user_id'       => false,
 		'group_id'      => false,
-		'inviter_id'    => $bp->loggedin_user->id,
+		'inviter_id'    => bp_loggedin_user_id(),
 		'date_modified' => bp_core_current_time(),
 		'is_confirmed'  => 0
 	);
@@ -633,7 +633,7 @@ function groups_send_invites( $user_id, $group_id ) {
 	global $bp;
 
 	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+		$user_id = bp_loggedin_user_id();
 
 	// Send friend invites.
 	$invited_users = groups_get_invites_for_group( $user_id, $group_id );

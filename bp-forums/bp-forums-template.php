@@ -773,7 +773,7 @@ function bp_the_topic_is_mine() {
 	function bp_get_the_topic_is_mine() {
 		global $bp, $forum_template;
 
-		return $bp->loggedin_user->id == $forum_template->topic->topic_poster;
+		return bp_loggedin_user_id() == $forum_template->topic->topic_poster;
 	}
 
 function bp_the_topic_admin_links( $args = '' ) {
@@ -1234,7 +1234,7 @@ function bp_the_topic_post_is_mine() {
 	function bp_get_the_topic_post_is_mine() {
 		global $bp, $topic_template;
 
-		return $bp->loggedin_user->id == $topic_template->post->poster_id;
+		return bp_loggedin_user_id() == $topic_template->post->poster_id;
 	}
 
 function bp_the_topic_post_admin_links( $args = '' ) {
