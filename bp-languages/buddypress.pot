@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-11-08 21:31:10+00:00\n"
+"POT-Creation-Date: 2011-11-08 22:31:04+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,13 +24,13 @@ msgstr ""
 msgid "Sites <span>%d</span>"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:148 bp-core/admin/bp-core-update.php:540
-msgid "Sites"
+#: bp-blogs/bp-blogs-loader.php:119 bp-blogs/bp-blogs-loader.php:167
+#: bp-blogs/bp-blogs-loader.php:188 bp-blogs/bp-blogs-buddybar.php:25
+msgid "My Sites"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:156 bp-blogs/bp-blogs-loader.php:177
-#: bp-blogs/bp-blogs-buddybar.php:25
-msgid "My Sites"
+#: bp-blogs/bp-blogs-loader.php:159 bp-core/admin/bp-core-update.php:540
+msgid "Sites"
 msgstr ""
 
 #: bp-blogs/bp-blogs-activity.php:17
@@ -45,19 +45,19 @@ msgstr ""
 msgid "New post comment posted"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-buddybar.php:481
+#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-buddybar.php:501
 msgid "Dashboard"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-buddybar.php:485
+#: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-buddybar.php:505
 msgid "New Post"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:39 bp-core/bp-core-buddybar.php:486
+#: bp-blogs/bp-blogs-buddybar.php:39 bp-core/bp-core-buddybar.php:506
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:40 bp-core/bp-core-buddybar.php:487
+#: bp-blogs/bp-blogs-buddybar.php:40 bp-core/bp-core-buddybar.php:507
 msgid "Manage Comments"
 msgstr ""
 
@@ -1104,7 +1104,7 @@ msgstr ""
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:287 bp-core/bp-core-buddybar.php:473
+#: bp-core/deprecated/1.5.php:287 bp-core/bp-core-buddybar.php:493
 #: bp-members/bp-members-template.php:734 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
@@ -1239,45 +1239,45 @@ msgstr ""
 msgid "You must log in to access the page you requested."
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:244
+#: bp-core/bp-core-buddybar.php:264
 msgid "You do not have access to this page."
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:415 bp-themes/bp-default/sidebar.php:53
+#: bp-core/bp-core-buddybar.php:435 bp-themes/bp-default/sidebar.php:53
 msgid "Log In"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:419
+#: bp-core/bp-core-buddybar.php:439
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:431
+#: bp-core/bp-core-buddybar.php:451
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:502
+#: bp-core/bp-core-buddybar.php:522
 msgid "Visit"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:504
+#: bp-core/bp-core-buddybar.php:524
 msgid "Random Member"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:508
+#: bp-core/bp-core-buddybar.php:528
 msgid "Random Group"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:514
+#: bp-core/bp-core-buddybar.php:534
 msgid "Random Site"
 msgstr ""
 
 #: bp-core/bp-core-loader.php:211 bp-xprofile/bp-xprofile-loader.php:113
-#: bp-xprofile/bp-xprofile-loader.php:177 bp-members/bp-members-loader.php:136
+#: bp-xprofile/bp-xprofile-loader.php:177 bp-members/bp-members-loader.php:146
 msgid "Profile"
 msgstr ""
 
 #: bp-core/bp-core-loader.php:222 bp-groups/bp-groups-template.php:520
-#: bp-xprofile/bp-xprofile-loader.php:125 bp-members/bp-members-loader.php:151
+#: bp-xprofile/bp-xprofile-loader.php:125 bp-members/bp-members-loader.php:161
 msgid "Public"
 msgstr ""
 
@@ -3252,7 +3252,7 @@ msgstr ""
 msgid "Search Members..."
 msgstr ""
 
-#: bp-members/bp-members-loader.php:172
+#: bp-members/bp-members-loader.php:182
 msgid "You"
 msgstr ""
 
