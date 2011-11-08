@@ -168,7 +168,7 @@ function bp_forums_new_topic( $args = '' ) {
 	if ( empty( $topic_poster ) )
 		return false;
 
-	if ( bp_core_is_user_spammer( $topic_poster ) || bp_core_is_user_deleted( $topic_poster ) )
+	if ( bp_is_user_inactive( $topic_poster ) )
 		return false;
 
 	if ( empty( $topic_slug ) )
@@ -202,7 +202,7 @@ function bp_forums_update_topic( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	// Check if the user is a spammer 
-	if ( bp_core_is_user_spammer( bp_loggedin_user_id() ) || bp_core_is_user_deleted( bp_loggedin_user_id() ) ) 
+	if ( bp_is_user_inactive( bp_loggedin_user_id() ) ) 
 		return false;
 
 	// bb_insert_topic() will append tags, but not remove them. So we remove all existing tags.
@@ -514,7 +514,7 @@ function bp_forums_insert_post( $args = '' ) {
 	if ( empty( $poster_id ) )
 		return false;
 
-	if ( bp_core_is_user_spammer( bp_loggedin_user_id() ) || bp_core_is_user_deleted( bp_loggedin_user_id() ) )
+	if ( bp_is_user_inactive( bp_loggedin_user_id() ) )
 		return false;
 
 	$post_id = bb_insert_post( array( 'post_id' => $post_id, 'topic_id' => $topic_id, 'post_text' => stripslashes( trim( $post_text ) ), 'post_time' => $post_time, 'poster_id' => $poster_id, 'poster_ip' => $poster_ip, 'post_status' => $post_status, 'post_position' => $post_position ) );

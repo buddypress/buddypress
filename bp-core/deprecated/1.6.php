@@ -38,4 +38,13 @@ function bp_members_admin_bar_my_account_logout() {
 	_deprecated_function( __FUNCTION__, '1.6' );
 }
 
+function bp_core_is_user_deleted( $user_id = 0 ) {
+	_deprecated_function( __FUNCTION__, '1.6' );
+	bp_is_user_deleted( $user_id );
+}
+
+function bp_core_is_user_spammer( $user_id = 0 ) {
+	_deprecated_function( __FUNCTION__, '1.6' );
+	bp_is_user_spammer( $user_id );
+}
 ?>

@@ -870,7 +870,7 @@ function bp_activity_post_update( $args = '' ) {
 	if ( empty( $content ) || !strlen( trim( $content ) ) )
 		return false;
 
-	if ( bp_core_is_user_spammer( $user_id ) || bp_core_is_user_deleted( $user_id ) )
+	if ( bp_is_user_inactive( $user_id ) )
 		return false;
 
 	// Record this on the user's profile

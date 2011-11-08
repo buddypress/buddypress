@@ -703,7 +703,7 @@ function bp_core_record_activity() {
 
 	$user_id = bp_loggedin_user_id();
 
-	if ( bp_core_is_user_spammer( $user_id ) || bp_core_is_user_deleted( $user_id ) )
+	if ( bp_is_user_inactive( $user_id ) )
 		return false;
 
 	$activity = bp_get_user_meta( $user_id, 'last_activity', true );

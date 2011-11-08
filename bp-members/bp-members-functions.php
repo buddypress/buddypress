@@ -493,7 +493,7 @@ function bp_core_get_total_member_count() {
  * @param int $user_id int The id for the user.
  * @return bool True if spammer, False if not.
  */
-function bp_core_is_user_spammer( $user_id = 0 ) {
+function bp_is_user_spammer( $user_id = 0 ) {
 	global $wpdb;
 
 	// No user to check
@@ -521,7 +521,7 @@ function bp_core_is_user_spammer( $user_id = 0 ) {
 			$is_spammer = true;
 	}
 
-	return apply_filters( 'bp_core_is_user_spammer', (bool) $is_spammer );
+	return apply_filters( 'bp_is_user_spammer', (bool) $is_spammer );
 }
 
 /**
@@ -531,7 +531,7 @@ function bp_core_is_user_spammer( $user_id = 0 ) {
  * @param int $user_id int The id for the user.
  * @return bool True if deleted, False if not.
  */
-function bp_core_is_user_deleted( $user_id = 0 ) {
+function bp_is_user_deleted( $user_id = 0 ) {
 	global $wpdb;
 
 	// No user to check
@@ -560,7 +560,68 @@ function bp_core_is_user_deleted( $user_id = 0 ) {
 
 	}
 
-	return apply_filters( 'bp_core_is_user_deleted', (bool) $is_deleted );
+	return apply_filters( 'bp_is_user_deleted', (bool) $is_deleted );
+}
+
+/**
+ * Checks if user is active
+ * 
+ * @since BuddyPress (1.6)
+ * 
+ * @uses is_user_logged_in() To check if user is logged in
+ * @uses bbp_get_displayed_user_id() To get current user ID
+ * @uses bbp_is_user_spammer() To check if user is spammer
+ * @uses bbp_is_user_deleted() To check if user is deleted
+ *
+ * @param int $user_id The user ID to check
+ * @return bool True if public, false if not
+ */
+function bp_is_user_active( $user_id = 0 ) {
+
+	// Default to current user
+	if ( empty( $user_id ) && is_user_logged_in() )
+		$user_id = bp_loggedin_user_id();
+
+	// No user to check
+	if ( empty( $user_id ) )
+		return false;
+
+	// Check spam
+	if ( bp_is_user_spammer( $user_id ) )
+		return false;
+
+	// Check deleted
+	if ( bp_is_user_deleted( $user_id ) )
+		return false;
+
+	// Assume true if not spam or deleted
+	return true;
+}
+
+/**
+ * Checks if user is not active.
+ * 
+ * @since BuddyPress (1.6)
+ * 
+ * @uses is_user_logged_in() To check if user is logged in
+ * @uses bp_get_displayed_user_id() To get current user ID
+ * @uses bp_is_user_active() To check if user is active
+ *
+ * @param int $user_id The user ID to check
+ * @return bool True if inactive, false if active
+ */
+function bp_is_user_inactive( $user_id = 0 ) {
+
+	// Default to current user
+	if ( empty( $user_id ) && is_user_logged_in() )
+		$user_id = bp_loggedin_user_id();
+
+	// No user to check
+	if ( empty( $user_id ) )
+		return false;
+
+	// Return the inverse of active
+	return !bp_is_user_active( $user_id );
 }
 
 /**
