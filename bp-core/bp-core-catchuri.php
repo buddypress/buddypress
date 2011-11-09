@@ -1,18 +1,26 @@
 <?php
+
+/**
+ * BuddyPress URI catcher
+ *
+ * Functions for parsing the URI and determining which BuddyPress template file
+ * to use on-screen.
+ *
+ * Based on contributions from: Chris Taylor - http://www.stillbreathing.co.uk/
+ * Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
+ *
+ * @package BuddyPress
+ * @subpackage Core
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-/*
-Based on contributions from: Chris Taylor - http://www.stillbreathing.co.uk/
-Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
-*/
-
 /**
  * Analyzes the URI structure and breaks it down into parts for use in code.
- * The idea is that BuddyPress can use complete custom friendly URI's without the
- * user having to add new re-write rules.
- *
- * Future custom components would then be able to use their own custom URI structure.
+ * BuddyPress can use complete custom friendly URI's without the user having to
+ * add new re-write rules. Custom components are able to use their own custom
+ * URI structures with very little work.
  *
  * @package BuddyPress Core
  * @since BuddyPress (r100)
@@ -35,6 +43,10 @@ function bp_core_set_uri_globals() {
 	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )
 		return false;
 
+	// Define local variables
+	$root_profile = $match   = false;
+	$key_slugs    = $matches = $uri_chunks = array();
+
 	// Fetch all the WP page names for each component
 	if ( empty( $bp->pages ) )
 		$bp->pages = bp_core_get_directory_pages();
@@ -48,30 +60,39 @@ function bp_core_set_uri_globals() {
 	// Filter the path
 	$path = apply_filters( 'bp_uri', $path );
 
-	// Take GET variables off the URL to avoid problems,
-	// they are still registered in the global $_GET variable
-	if ( $noget = substr( $path, 0, strpos( $path, '?' ) ) )
-		$path = $noget;
+	// Take GET variables off the URL to avoid problems
+	$path = strtok( $path, '?' );
 
-	// Fetch the current URI and explode each part separated by '/' into an array
+	// Fetch current URI and explode each part separated by '/' into an array
 	$bp_uri = explode( '/', $path );
 
 	// Loop and remove empties
-	foreach ( (array)$bp_uri as $key => $uri_chunk )
-		if ( empty( $bp_uri[$key] ) ) unset( $bp_uri[$key] );
+	foreach ( (array)$bp_uri as $key => $uri_chunk ) {
+		if ( empty( $bp_uri[$key] ) ) {
+			unset( $bp_uri[$key] );
+		}
+	}
 
-	// Running off blog other than root
+	// If running off blog other than root, any subdirectory names must be
+	// removed from $bp_uri. This includes two cases:
+	// 
+	//    1. when WP is installed in a subdirectory,
+	//    2. when BP is running on secondary blog of a subdirectory
+	//       multisite installation. Phew!
 	if ( is_multisite() && !is_subdomain_install() && ( bp_is_multiblog_mode() || 1 != bp_get_root_blog_id() ) ) {
 
-		// Any subdirectory names must be removed from $bp_uri.
-		// This includes two cases: (1) when WP is installed in a subdirectory,
-		// and (2) when BP is running on secondary blog of a subdirectory
-		// multisite installation. Phew!
-		if ( $chunks = explode( '/', $current_blog->path ) ) {
+		// Blow chunks
+		$chunks = explode( '/', $current_blog->path );
+
+		// If chunks exist...
+		if ( !empty( $chunks ) ) {
+
+			// ...loop through them...
 			foreach( $chunks as $key => $chunk ) {
 				$bkey = array_search( $chunk, $bp_uri );
 
-				if ( $bkey !== false ) {
+				// ...and unset offending keys
+				if ( false !== $bkey ) {
 					unset( $bp_uri[$bkey] );
 				}
 
@@ -79,10 +100,6 @@ function bp_core_set_uri_globals() {
 			}
 		}
 	}
-
-	// Set the indexes, these are incresed by one if we are not on a VHOST install
-	$component_index = 0;
-	$action_index    = $component_index + 1;
 
 	// Get site path items
 	$paths = explode( '/', bp_core_get_site_path() );
@@ -177,7 +194,7 @@ function bp_core_set_uri_globals() {
 	}
 
 	// URLs with BP_ENABLE_ROOT_PROFILES enabled won't be caught above
-	if ( empty( $matches ) && defined( 'BP_ENABLE_ROOT_PROFILES' ) && BP_ENABLE_ROOT_PROFILES ) {
+	if ( empty( $matches ) && bp_core_enable_root_profiles() ) {
 
 		// Make sure there's a user corresponding to $bp_uri[0]
 		if ( !empty( $bp->pages->members ) && !empty( $bp_uri[0] ) && $root_profile = get_user_by( 'login', $bp_uri[0] ) ) {
@@ -295,6 +312,22 @@ function bp_core_set_uri_globals() {
 }
 
 /**
+ * Are root profiles enabled and allowed
+ * 
+ * @since BuddyPress (1.6)
+ * @return bool True if yes, false if no
+ */
+function bp_core_enable_root_profiles() {
+	
+	$retval = false;
+
+	if ( defined( 'BP_ENABLE_ROOT_PROFILES' ) && ( true == BP_ENABLE_ROOT_PROFILES ) )
+		$retval = true;
+	
+	return apply_filters( 'bp_core_enable_root_profiles', $retval );
+}
+
+/**
  * bp_core_load_template()
  *
  * Load a specific template file with fallback support.
@@ -309,16 +342,20 @@ function bp_core_set_uri_globals() {
  * @return false|int The user ID of the matched user, or false.
  */
 function bp_core_load_template( $templates ) {
-	global $post, $bp, $wpdb, $wp_query;
+	global $post, $bp, $wp_query;
 
-	// Determine if the root object WP page exists for this request (TODO: is there an API function for this?
-	if ( !empty( $bp->unfiltered_uri_offset ) && !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) ) )
+	// Bail if there is no offset
+	if ( empty( $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) )
+		return false;
+
+	// Determine if the root object WP page exists for this request
+	if ( !get_page_by_path( $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) )
 		return false;
 
 	// Set the root object as the current wp_query-ied item
 	$object_id = 0;
-	foreach ( (array)$bp->pages as $page ) {
-		if ( isset( $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) && ( $page->name == $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) ) {
+	foreach ( (array) $bp->pages as $page ) {
+		if ( $page->name == $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) {
 			$object_id = $page->id;
 		}
 	}
@@ -330,12 +367,18 @@ function bp_core_load_template( $templates ) {
 		$post                        = $wp_query->queried_object;
 	}
 
+	// Define local variables
+	$located_template   = false;
+	$filtered_templates = array();
+
 	// Fetch each template and add the php suffix
-	foreach ( (array)$templates as $template )
+	foreach ( (array) $templates as $template )
 		$filtered_templates[] = $template . '.php';
 
 	// Filter the template locations so that plugins can alter where they are located
-	if ( $located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates ) ) {
+	$located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates );
+	if ( !empty( $located_template ) ) {
+
 		// Template was located, lets set this as a valid page and not a 404.
 		status_header( 200 );
 		$wp_query->is_page = $wp_query->is_singular = true;
@@ -404,10 +447,11 @@ function bp_core_no_access( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	// Apply filters to these variables
-	$mode		= apply_filters( 'bp_no_access_mode', $mode, $root, $redirect, $message );
-	$redirect	= apply_filters( 'bp_no_access_redirect', $redirect, $root, $message, $mode );
-	$root		= trailingslashit( apply_filters( 'bp_no_access_root', $root, $redirect, $message, $mode ) );
-	$message	= apply_filters( 'bp_no_access_message', $message, $root, $redirect, $mode );
+	$mode		= apply_filters( 'bp_no_access_mode',     $mode,     $root,     $redirect, $message );
+	$redirect	= apply_filters( 'bp_no_access_redirect', $redirect, $root,     $message,  $mode    );
+	$root		= apply_filters( 'bp_no_access_root',     $root,     $redirect, $message,  $mode    );
+	$message	= apply_filters( 'bp_no_access_message',  $message,  $root,     $redirect, $mode    );
+	$root       = trailingslashit( $root );
 
 	switch ( $mode ) {
 		// Option to redirect to wp-login.php

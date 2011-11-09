@@ -109,18 +109,14 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
 		if ( bp_is_username_compatibility_mode() )
 			$username = rawurlencode( $username );
 
-		// If we are using a members slug, include it.
-		if ( !defined( 'BP_ENABLE_ROOT_PROFILES' ) )
-			$domain = bp_get_root_domain() . '/' . bp_get_members_root_slug() . '/' . $username;
-		else
-			$domain = bp_get_root_domain() . '/' . $username;
-
-		// Add a slash at the end, and filter before caching
-		$domain = apply_filters( 'bp_core_get_user_domain_pre_cache', trailingslashit( $domain ), $user_id, $user_nicename, $user_login );
+		$after_domain = bp_core_enable_root_profiles() ? $username : bp_get_members_root_slug() . '/' . $username;
+		$domain       = trailingslashit( bp_get_root_domain() . '/' . $after_domain );
+		$domain       = apply_filters( 'bp_core_get_user_domain_pre_cache', $domain, $user_id, $user_nicename, $user_login );
 
 		// Cache the link
-		if ( !empty( $domain ) )
+		if ( !empty( $domain ) ) {
 			wp_cache_set( 'bp_user_domain_' . $user_id, $domain, 'bp' );
+		}
 	}
 
 	return apply_filters( 'bp_core_get_user_domain', $domain, $user_id, $user_nicename, $user_login );
