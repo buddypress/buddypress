@@ -154,7 +154,12 @@ class BuddyPress {
 	 * @see bp_core_set_uri_globals()
 	 */
 	public $unfiltered_uri_offset = 0;
-	
+
+	/**
+	 * @var bool Are status headers already sent?
+	 */
+	public $no_status_set = false;
+
 	/** Components ************************************************************/
 
 	/**

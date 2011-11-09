@@ -399,10 +399,9 @@ function bp_core_load_template( $templates ) {
  *
  */
 function bp_core_catch_profile_uri() {
-	global $bp;
-
-	if ( !bp_is_active( 'xprofile' ) )
+	if ( !bp_is_active( 'xprofile' ) ) {
 		bp_core_load_template( apply_filters( 'bp_core_template_display_profile', 'members/single/home' ) );
+	}
 }
 
 /**
@@ -412,11 +411,11 @@ function bp_core_catch_profile_uri() {
  * @since 1.5
  */
 function bp_core_catch_no_access() {
-	global $bp, $bp_no_status_set, $wp_query;
+	global $bp, $wp_query;
 
-	// If bp_core_redirect() and $bp_no_status_set is true,
-	// we are redirecting to an accessible page, so skip this check.
-	if ( $bp_no_status_set )
+	// If coming from bp_core_redirect() and $bp_no_status_set is true,
+	// we are redirecting to an accessible page so skip this check.
+	if ( !empty( $bp->no_status_set ) )
 		return false;
 
 	if ( !isset( $wp_query->queried_object ) && !bp_is_blog_page() ) {
@@ -434,19 +433,21 @@ add_action( 'wp', 'bp_core_catch_no_access' );
  * @since 1.5
  */
 function bp_core_no_access( $args = '' ) {
-	global $bp;
 
 	$defaults = array(
 		'mode'     => '1',			    // 1 = $root, 2 = wp-login.php
 		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' ),
 		'redirect' => wp_guess_url(),	// the URL you get redirected to when a user successfully logs in
-		'root'     => $bp->root_domain	// the landing page you get redirected to when a user doesn't have access
+		'root'     => bp_get_root_domain()	// the landing page you get redirected to when a user doesn't have access
 	);
 
 	$r = wp_parse_args( $args, $defaults );
+	$r = apply_filters_ref_array( 'bp_core_no_access', $r );
 	extract( $r, EXTR_SKIP );
 
-	// Apply filters to these variables
+	/**
+	 * @ignore Ignore these filters and use 'bp_core_no_access' above
+	 */
 	$mode		= apply_filters( 'bp_no_access_mode',     $mode,     $root,     $redirect, $message );
 	$redirect	= apply_filters( 'bp_no_access_redirect', $redirect, $root,     $message,  $mode    );
 	$root		= apply_filters( 'bp_no_access_root',     $root,     $redirect, $message,  $mode    );
@@ -469,13 +470,12 @@ function bp_core_no_access( $args = '' ) {
 		// Error message is displayed with bp_core_add_message()
 		case 1 :
 		default :
-			if ( $redirect ) {
-				$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $root );
-			} else {
-				$url = $root;
-			}
 
-			if ( $message ) {
+			$url = $root;
+			if ( !empty( $redirect ) )
+				$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $root );
+
+			if ( !empty( $message ) ) {
 				bp_core_add_message( $message, 'error' );
 			}
 

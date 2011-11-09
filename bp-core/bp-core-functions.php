@@ -830,16 +830,16 @@ function bp_core_get_site_path() {
  * Performs a status safe wp_redirect() that is compatible with bp_catch_uri()
  *
  * @package BuddyPress Core
- * @global $bp_no_status_set Makes sure that there are no conflicts with status_header() called in bp_core_do_catch_uri()
- * @uses get_themes()
- * @return An array containing all of the themes.
+ * @global BuddyPress $bp Makes sure that there are no conflicts with
+ *                         status_header() called in bp_core_do_catch_uri()
+ * @uses wp_redirect()
  */
 function bp_core_redirect( $location, $status = 302 ) {
-	global $bp_no_status_set;
+	global $bp;
 
 	// Make sure we don't call status_header() in bp_core_do_catch_uri()
 	// as this conflicts with wp_redirect()
-	$bp_no_status_set = true;
+	$bp->no_status_set = true;
 
 	wp_redirect( $location, $status );
 	die;
