@@ -71,6 +71,11 @@ class BuddyPress {
 	 */
 	public $maintenance_mode = '';
 
+	/**
+	 * @var bool Include deprecated BuddyPress files or not
+	 */
+	public $load_deprecated = true;
+
 	/** Paths *****************************************************************/
 
 	/**
@@ -116,6 +121,66 @@ class BuddyPress {
 	 * @var object Displayed user
 	 */
 	public $displayed_user = false;
+
+	/** Navigation ************************************************************/
+	
+	/**
+	 * @var array Primary BuddyPress navigation
+	 */
+	public $bp_nav = array();
+
+	/**
+	 * @var array Secondary BuddyPress navigation to $bp_nav
+	 */
+	public $bp_options_nav = array();
+
+	/** Toolbar ***************************************************************/
+
+	/**
+	 * @var string The primary toolbar ID
+	 */
+	public $my_account_menu_id = '';
+
+	/** URI's *****************************************************************/
+
+	/**
+	 * @var array The unfiltered URI broken down into chunks
+	 * @see bp_core_set_uri_globals()
+	 */
+	public $unfiltered_uri = array();
+
+	/**
+	 * @var int The current offset of the URI
+	 * @see bp_core_set_uri_globals()
+	 */
+	public $unfiltered_uri_offset = 0;
+	
+	/** Components ************************************************************/
+
+	/**
+	 * @var string Name of the current BuddyPress component (primary)
+	 */
+	public $current_component = '';
+
+	/**
+	 * @var string Name of the current BuddyPress item (secondary)
+	 */
+	public $current_item = '';
+
+	/**
+	 * @var string Name of the current BuddyPress action (tertiary)
+	 */
+	public $current_action = '';
+
+	/**
+	 * @var array() Additional navigation elements (supplemental)
+	 */
+	public $action_variables = array();
+
+	/**
+	 * @var bool Displaying custom 2nd level navigation menu (I.E a group)
+	 */
+	public $is_single_item = false;
 
 	/** Errors ****************************************************************/
 
@@ -329,7 +394,7 @@ class BuddyPress {
 
 		// Other identifiers
 		$this->user_id            = apply_filters( 'bp_user_id', 'bp_user' );
-		$this->edit_id            = apply_filters( 'bp_edit_id', 'edit'     );
+		$this->edit_id            = apply_filters( 'bp_edit_id', 'edit'    );
 
 		/** Users *************************************************************/
 		
@@ -385,13 +450,41 @@ class BuddyPress {
 			// Setup the BuddyPress theme directory
 			register_theme_directory( $this->themes_dir );
 
-			// Load core
-			require( $this->plugin_dir . '/bp-core/bp-core-loader.php' );
+			// Require all of the BuddyPress core libraries
+			require( $this->plugin_dir . '/bp-core/bp-core-caps.php'       );
+			require( $this->plugin_dir . '/bp-core/bp-core-cache.php'      );
+			require( $this->plugin_dir . '/bp-core/bp-core-hooks.php'      );
+			require( $this->plugin_dir . '/bp-core/bp-core-cssjs.php'      );
+			require( $this->plugin_dir . '/bp-core/bp-core-update.php'     );
+			require( $this->plugin_dir . '/bp-core/bp-core-classes.php'    );
+			require( $this->plugin_dir . '/bp-core/bp-core-filters.php'    );
+			require( $this->plugin_dir . '/bp-core/bp-core-avatars.php'    );
+			require( $this->plugin_dir . '/bp-core/bp-core-widgets.php'    );
+			require( $this->plugin_dir . '/bp-core/bp-core-template.php'   );
+			require( $this->plugin_dir . '/bp-core/bp-core-buddybar.php'   );
+			require( $this->plugin_dir . '/bp-core/bp-core-catchuri.php'   );
+			require( $this->plugin_dir . '/bp-core/bp-core-component.php'  );
+			require( $this->plugin_dir . '/bp-core/bp-core-functions.php'  );
+			require( $this->plugin_dir . '/bp-core/bp-core-moderation.php' );
+			require( $this->plugin_dir . '/bp-core/bp-core-adminbar.php'   );
+			require( $this->plugin_dir . '/bp-core/bp-core-loader.php'     );
+
+			// Skip or load deprecated content
+			if ( false === $this->load_deprecated ) {
+				require( $this->plugin_dir . '/bp-core/deprecated/1.5.php' );
+				require( $this->plugin_dir . '/bp-core/deprecated/1.6.php' );
+			}
 
 			// Check if an update is required
-			if ( (int) $this->db_version_raw < (int) $this->db_version || ( !empty( $this->is_network_activate ) ) ) {
+			if ( ( (int) $this->db_version_raw < (int) $this->db_version ) || ( !empty( $this->is_network_activate ) ) ) {
+
+				// BuddyPress needs an update
 				$this->maintenance_mode = 'update';
-				require( $this->plugin_dir . '/bp-core/admin/bp-core-update.php' );
+
+				// Only include core updater if in the admin area
+				if ( is_admin() ) {
+					require( $this->plugin_dir . '/bp-core/admin/bp-core-update.php' );
+				}
 			}
 		}		
 	}

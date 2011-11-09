@@ -29,12 +29,7 @@ Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  *
  */
 function bp_core_set_uri_globals() {
-	global $bp, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
-	global $current_blog, $wpdb;
-
-	// Create global component, action, and item variables
-	$bp->current_component = $bp->current_item     = '';
-	$bp->current_action    = $bp->action_variables = '';
+	global $bp, $current_blog, $wpdb;
 
 	// Don't catch URIs on non-root blogs unless multiblog mode is on
 	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )
@@ -120,7 +115,7 @@ function bp_core_set_uri_globals() {
 	}
 
 	// Keep the unfiltered URI safe
-	$bp_unfiltered_uri = $bp_uri;
+	$bp->unfiltered_uri = $bp_uri;
 
 	// Get slugs of pages into array
 	foreach ( (array) $bp->pages as $page_key => $bp_page )
@@ -222,7 +217,7 @@ function bp_core_set_uri_globals() {
 
 	// Global the unfiltered offset to use in bp_core_load_template().
 	// To avoid PHP warnings in bp_core_load_template(), it must always be >= 0
-	$bp_unfiltered_uri_offset = $uri_offset >= 0 ? $uri_offset : 0;
+	$bp->unfiltered_uri_offset = $uri_offset >= 0 ? $uri_offset : 0;
 
 	// We have an exact match
 	if ( isset( $match->key ) ) {
@@ -314,16 +309,16 @@ function bp_core_set_uri_globals() {
  * @return false|int The user ID of the matched user, or false.
  */
 function bp_core_load_template( $templates ) {
-	global $post, $bp, $wpdb, $wp_query, $bp_unfiltered_uri, $bp_unfiltered_uri_offset;
+	global $post, $bp, $wpdb, $wp_query;
 
 	// Determine if the root object WP page exists for this request (TODO: is there an API function for this?
-	if ( !empty( $bp_unfiltered_uri_offset ) && !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) ) )
+	if ( !empty( $bp->unfiltered_uri_offset ) && !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) ) )
 		return false;
 
 	// Set the root object as the current wp_query-ied item
 	$object_id = 0;
 	foreach ( (array)$bp->pages as $page ) {
-		if ( isset( $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) && $page->name == $bp_unfiltered_uri[$bp_unfiltered_uri_offset] ) {
+		if ( isset( $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) && ( $page->name == $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) ) {
 			$object_id = $page->id;
 		}
 	}
