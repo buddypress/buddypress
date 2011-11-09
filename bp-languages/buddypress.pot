@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-11-08 22:31:04+00:00\n"
+"POT-Creation-Date: 2011-11-09 06:31:04+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -473,7 +473,7 @@ msgstr ""
 msgid "Make BuddyPress aware of new sites, new posts and new comments from across your entire network."
 msgstr ""
 
-#: bp-core/admin/bp-core-admin.php:417 bp-core/bp-core-loader.php:39
+#: bp-core/admin/bp-core-admin.php:417 bp-core/bp-core-loader.php:27
 msgid "BuddyPress Core"
 msgstr ""
 
@@ -1231,11 +1231,11 @@ msgstr ""
 msgid "not recently active"
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:259
+#: bp-core/bp-core-catchuri.php:254
 msgid "This user has been marked as a spammer. Only site admins can view this profile."
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:403 bp-core/bp-core-catchuri.php:460
+#: bp-core/bp-core-catchuri.php:398 bp-core/bp-core-catchuri.php:455
 msgid "You must log in to access the page you requested."
 msgstr ""
 
@@ -1271,12 +1271,12 @@ msgstr ""
 msgid "Random Site"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:211 bp-xprofile/bp-xprofile-loader.php:113
+#: bp-core/bp-core-loader.php:208 bp-xprofile/bp-xprofile-loader.php:113
 #: bp-xprofile/bp-xprofile-loader.php:177 bp-members/bp-members-loader.php:146
 msgid "Profile"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:222 bp-groups/bp-groups-template.php:520
+#: bp-core/bp-core-loader.php:219 bp-groups/bp-groups-template.php:520
 #: bp-xprofile/bp-xprofile-loader.php:125 bp-members/bp-members-loader.php:161
 msgid "Public"
 msgstr ""
