@@ -437,7 +437,8 @@ class BuddyPress {
 		$this->db_version_raw      = (int) max( $versions );
 
 		// Are we network activated?
-		$this->is_network_activate = !empty( $versions['1.5-multi'] );
+		if ( is_multisite() )
+			$this->is_network_activate = !empty( $versions['1.5-multi'] );
 			
 		// This is a new installation
 		if ( empty( $this->db_version_raw ) ) {
