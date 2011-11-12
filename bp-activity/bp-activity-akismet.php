@@ -75,16 +75,16 @@ class BP_Akismet {
 
 		if ( !$user_result || $user_result == $akismet_result ) {
 			// Show the original Akismet result if the user hasn't overridden it, or if their decision was the same
-			if ( $akismet_result == 'true' && $activity['is_spam'] )
+			if ( 'true' == $akismet_result && $activity['is_spam'] )
 				$desc = __( 'Flagged as spam by Akismet', 'buddypress' );
 
-			elseif ( $akismet_result == 'false' && !$activity['is_spam'] )
+			elseif ( 'false' == $akismet_result && !$activity['is_spam'] )
 				$desc = __( 'Cleared by Akismet', 'buddypress' );
 
 		} else {
 			$who = bp_activity_get_meta( $activity['id'], '_bp_akismet_user' );
 
-			if ( $user_result == 'true' )
+			if ( 'true' == $user_result )
 				$desc = sprintf( __( 'Flagged as spam by %s', 'buddypress' ), $who );
 			else
 				$desc = sprintf( __( 'Un-spammed by %s', 'buddypress' ), $who );
@@ -96,14 +96,14 @@ class BP_Akismet {
 			foreach ( $actions as $k => $item ) {
 				$b[ $k ] = $item;
 				if ( $k == 'edit' )
-					$b['history'] = '<a href="#"> '. __( 'History', 'buddypress' ) . '</a>';
+					$b['history'] = '<a href="' . network_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) . '#history"> '. __( 'History', 'buddypress' ) . '</a>';
 			}
 
 			$actions = $b;
 		}
 
 		if ( $desc )
-			echo '<span class="akismet-status"><a href="#">' . htmlspecialchars( $desc ) . '</a></span>';
+			echo '<span class="akismet-status"><a href="' . network_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) . '#history">' . htmlspecialchars( $desc ) . '</a></span>';
 
 		return apply_filters( 'bp_akismet_comment_row_action', $actions );
 	}
@@ -239,11 +239,13 @@ class BP_Akismet {
 	 * Mark activity item as ham
 	 *
 	 * @param BP_Activity_Activity $activity
-	 * @param string $source Either "by_a_person" (e.g. a person has manually marked the activity as spam) or "by_akismet" (automatically spammed).
+	 * @param string $source Either "by_a_person" (e.g. a person has manually marked the activity as ham) or "by_akismet" (automatically hammed).
 	 * @since 1.6
 	 */
 	public function mark_as_ham( $activity, $source ) {
-		//DJPAULTODO: Run bp_activity_at_name_filter() somehow... but not twice, if we can help it. Maybe check if it was auto-spammed by Akismet?
+		// If the activity was, originally, automatically marked as spam by Akismet, run the @mentions filter as it would have been skipped.
+		if ( 'true' == bp_activity_get_meta( $activity->id, '_bp_akismet_result' ) && !bp_activity_get_meta( $activity->id, '_bp_akismet_user_result' ) )
+			$activity->content = bp_activity_at_name_filter( $activity->content, $activity->id );
 
 		do_action( 'bp_activity_akismet_mark_as_ham', $activity, $source );
 	} 
@@ -332,39 +334,33 @@ class BP_Akismet {
 	/**
 	 * Update activity meta after a manual spam change (user initiated)
 	 *
-	 * @global object $bp BuddyPress global settings
 	 * @param BP_Activity_Activity $activity The activity to check
 	 * @since 1.6
 	 */
 	public function update_activity_spam_meta( $activity ) {
-		global $bp;
-
 		// By default, only handle activity updates and activity comments.
 		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
 			return;
 
-		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as spam', 'buddypress' ), $bp->loggedin_user->fullname ), 'report-spam' );
+		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as spam', 'buddypress' ), bp_get_loggedin_user_fullname() ), 'report-spam' );
 		bp_activity_update_meta( $activity->id, '_bp_akismet_user_result', 'true' );
-		bp_activity_update_meta( $activity->id, '_bp_akismet_user', $bp->loggedin_user->fullname );
+		bp_activity_update_meta( $activity->id, '_bp_akismet_user', bp_get_loggedin_user_fullname() );
 	}
 
 	/**
 	 * Update activity meta after a manual ham change (user initiated)
 	 *
-	 * @global object $bp BuddyPress global settings
 	 * @param BP_Activity_Activity $activity The activity to check
 	 * @since 1.6
 	 */
 	public function update_activity_ham_meta( $activity ) {
-		global $bp;
-
 		// By default, only handle activity updates and activity comments.
 		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
 			return;
 
-		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as not spam', 'buddypress' ), $bp->loggedin_user->fullname ), 'report-ham' );
+		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as not spam', 'buddypress' ), bp_get_loggedin_user_fullname() ), 'report-ham' );
 		bp_activity_update_meta( $activity->id, '_bp_akismet_user_result', 'false' );
-		bp_activity_update_meta( $activity->id, '_bp_akismet_user', $bp->loggedin_user->fullname );
+		bp_activity_update_meta( $activity->id, '_bp_akismet_user', bp_get_loggedin_user_fullname() );
 	}
 
 	/**
@@ -491,7 +487,7 @@ class BP_Akismet {
 		$response       = '';
 
 		// Unique User Agent
-		$akismet_ua     = 'BuddyPress/' . constant( 'BP_VERSION' ) . ' | Akismet/'. constant( 'AKISMET_VERSION' );
+		$akismet_ua     = 'BuddyPress/' . bp_get_version() . ' | Akismet/'. constant( 'AKISMET_VERSION' );
 
 		// Use specific IP (if provided)
 		if ( !empty( $ip ) && long2ip( ip2long( $ip ) ) )

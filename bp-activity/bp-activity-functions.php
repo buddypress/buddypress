@@ -1359,7 +1359,7 @@ function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity
 	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
-		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 1, 1 );
+		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 4, 1 );
 
 		// Build data package for Akismet
 		$activity_data = BP_Akismet::build_akismet_data_package( $activity );
@@ -1395,7 +1395,7 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity
 	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
-		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 1, 1 );
+		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 4, 1 );
 
 		// Build data package for Akismet
 		$activity_data = BP_Akismet::build_akismet_data_package( $activity );
@@ -1407,7 +1407,6 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
 		add_action( 'bp_activity_after_save', array( $bp->activity->akismet, 'update_activity_ham_meta' ), 1, 1 );
 	}
 
-	//DJPAULTODO: Run bp_activity_at_name_filter() somehow... but not twice, if we can help it. Maybe check if it was auto-spammed by Akismet?
 	do_action( 'bp_activity_mark_as_ham', $activity, $source );
 } 
 
