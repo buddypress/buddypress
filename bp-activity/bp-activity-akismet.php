@@ -342,9 +342,9 @@ class BP_Akismet {
 		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
 			return;
 
-		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as spam', 'buddypress' ), bp_get_loggedin_user_fullname() ), 'report-spam' );
+		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as spam', 'buddypress' ), bp_get_loggedin_user_username() ), 'report-spam' );
 		bp_activity_update_meta( $activity->id, '_bp_akismet_user_result', 'true' );
-		bp_activity_update_meta( $activity->id, '_bp_akismet_user', bp_get_loggedin_user_fullname() );
+		bp_activity_update_meta( $activity->id, '_bp_akismet_user', bp_get_loggedin_user_username() );
 	}
 
 	/**
@@ -358,9 +358,9 @@ class BP_Akismet {
 		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
 			return;
 
-		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as not spam', 'buddypress' ), bp_get_loggedin_user_fullname() ), 'report-ham' );
+		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as not spam', 'buddypress' ), bp_get_loggedin_user_username() ), 'report-ham' );
 		bp_activity_update_meta( $activity->id, '_bp_akismet_user_result', 'false' );
-		bp_activity_update_meta( $activity->id, '_bp_akismet_user', bp_get_loggedin_user_fullname() );
+		bp_activity_update_meta( $activity->id, '_bp_akismet_user', bp_get_loggedin_user_username() );
 	}
 
 	/**
