@@ -47,4 +47,17 @@ function bp_core_is_user_spammer( $user_id = 0 ) {
 	_deprecated_function( __FUNCTION__, '1.6' );
 	bp_is_user_spammer( $user_id );
 }
+
+
+/**
+ * Blogs functions
+ */
+
+/*
+ * @deprecated 1.6
+ * @deprecated No longer used; see bp_blogs_transition_activity_status()
+ */
+function bp_blogs_manage_comment( $comment_id, $comment_status ) {
+	_deprecated_function( __FUNCTION__, '1.6', 'No longer used' );
+}
 ?>

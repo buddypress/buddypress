@@ -344,7 +344,7 @@ function bp_dtheme_spam_activity() {
 
 	// Load up the activity item
 	$activity = new BP_Activity_Activity( (int) $_POST['id'] );
-	if ( empty( $activity->id ) ) {
+	if ( empty( $activity->component ) ) {
 		echo '-1';
 		return false;
 	}

@@ -288,14 +288,6 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
 add_action( 'edit_comment', 'bp_blogs_record_comment', 10    );
 
-function bp_blogs_manage_comment( $comment_id, $comment_status ) {
-	if ( 'spam' == $comment_status || 'hold' == $comment_status || 'delete' == $comment_status || 'trash' == $comment_status )
-		return bp_blogs_remove_comment( $comment_id );
-
-	return bp_blogs_record_comment( $comment_id, true );
-}
-add_action( 'wp_set_comment_status', 'bp_blogs_manage_comment', 10, 2 );
-
 function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	global $wpdb;
 
@@ -396,6 +388,79 @@ function bp_blogs_remove_comment( $comment_id ) {
 	do_action( 'bp_blogs_remove_comment', $wpdb->blogid, $comment_id, bp_loggedin_user_id() );
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
+
+
+/**
+ * When a blog comment status transition occurs, update the relevant activity's status.
+ *
+ * @global object $bp BuddyPress global settings
+ * @param string $new_status New comment status.
+ * @param string $old_status Previous comment status.
+ * @param object $comment Comment data.
+ * @since 1.6
+ */
+function bp_blogs_transition_activity_status( $new_status, $old_status, $comment ) {
+	global $bp;
+
+	// Check the Activity component is active
+	if ( ! bp_is_active( 'activity' ) )
+		return;
+
+	/**
+	 * Activity currently doesn't have any concept of a trash, or an unapproved/approved state.
+	 *
+	 * If a blog comment transitions to a "delete" or "hold" status, delete the activity item.
+	 * If a blog comment transitions to trashed, or spammed, mark the activity as spam.
+	 * If a blog comment transitions to approved (and the activity exists), mark the activity as ham.
+	 * Otherwise, record the comment into the activity stream.
+	 */
+
+	// This clause was moved in from bp_blogs_remove_comment() in BuddyPress 1.6. It handles delete/hold.
+	if ( in_array( $new_status, array( 'delete', 'hold' ) ) )
+		return bp_blogs_remove_comment( $comment->comment_ID );
+
+	// These clauses handle trash, spam, and un-spams.
+	elseif ( in_array( $new_status, array( 'trash', 'spam' ) ) )
+		$action = 'spam_activity';
+	elseif ( 'approved' == $new_status )
+		$action = 'ham_activity';
+
+	// Get the activity
+	$activity_id = bp_activity_get_activity_id( array( 'component' => $bp->blogs->id, 'item_id' => get_current_blog_id(), 'secondary_item_id' => $comment->comment_ID, 'type' => 'new_blog_comment', ) );
+
+	// Check activity item exists
+	if ( ! $activity_id ) {
+
+		// If no activity exists, but the comment has been approved, record it into the activity table.
+		if ( 'approved' == $new_status )
+			return bp_blogs_record_comment( $comment->comment_ID, true );
+
+		return;
+	}
+
+	// Create an activity object
+	$activity = new BP_Activity_Activity( $activity_id );
+	if ( empty( $activity->component ) )
+		return;
+
+	// Spam/ham the activity if it's not already in that state
+	if ( 'spam_activity' == $action && ! $activity->is_spam ) {
+		bp_activity_mark_as_spam( $activity );
+	} elseif ( 'ham_activity' == $action) {
+		bp_activity_mark_as_ham( $activity );
+	}
+
+	// Add "new_blog_comment" to the whitelisted activity types, so that the activity's Akismet history is generated
+	$comment_akismet_history = create_function( '$t', '$t[] = "new_blog_comment"; return $t;' );
+	add_filter( 'bp_akismet_get_activity_types', $comment_akismet_history );
+
+	// Save the updated activity
+	$activity->save();
+
+	// Remove the "new_blog_comment" activity type whitelist so we don't break anything
+	remove_filter( 'bp_akismet_get_activity_types', $comment_akismet_history );
+}
+add_action( 'transition_comment_status', 'bp_blogs_transition_activity_status', 10, 3 );
 
 function bp_blogs_total_blogs() {
 	if ( !$count = wp_cache_get( 'bp_total_blogs', 'bp' ) ) {
