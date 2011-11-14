@@ -1335,7 +1335,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
  */
 function bp_activity_user_can_mark_spam() {
 	global $bp;
-	return apply_filters( 'bp_activity_user_can_mark_spam', $bp->loggedin_user->is_site_admin );
+	return apply_filters( 'bp_activity_user_can_mark_spam', bp_current_user_can( 'bp_moderate' ) );
 }
 
 /**

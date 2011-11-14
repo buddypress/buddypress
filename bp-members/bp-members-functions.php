@@ -653,11 +653,11 @@ function bp_core_delete_account( $user_id = 0 ) {
 		$user_id = bp_loggedin_user_id();
 
 	// Make sure account deletion is not disabled
-	if ( !empty( $bp->site_options['bp-disable-account-deletion'] ) && !$bp->loggedin_user->is_super_admin )
+	if ( !empty( $bp->site_options['bp-disable-account-deletion'] ) && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	// Site admins cannot be deleted
-	if ( is_super_admin( bp_core_get_username( $user_id ) ) )
+	if ( is_super_admin( $user_id ) )
 		return false;
 
 	// Specifically handle multi-site environment

@@ -110,7 +110,7 @@ class BP_Groups_Template {
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		if ( $bp->loggedin_user->is_super_admin || ( is_user_logged_in() && $user_id == bp_loggedin_user_id() ) )
+		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id == bp_loggedin_user_id() ) )
 			$show_hidden = true;
 
 		if ( 'invites' == $type ) {
@@ -299,7 +299,7 @@ function bp_the_group() {
 function bp_group_is_visible( $group = false ) {
 	global $bp, $groups_template;
 
-	if ( $bp->loggedin_user->is_super_admin )
+	if ( bp_current_user_can( 'bp_moderate' ) )
 		return true;
 
 	if ( !$group )
@@ -1343,7 +1343,7 @@ function bp_group_has_requested_membership( $group = false ) {
  *
  * Checks if current user is member of a group.
  *
- * @uses is_super_admin Check if current user is super admin
+ * @uses bp_current_user_can() Check if current user is super admin
  * @uses apply_filters Creates bp_group_is_member filter and passes $is_member
  * @usedby groups/activity.php, groups/single/forum/edit.php, groups/single/forum/topic.php to determine template part visibility
  * @global array $bp BuddyPress Master global
@@ -1355,7 +1355,7 @@ function bp_group_is_member( $group = false ) {
 	global $bp, $groups_template;
 
 	// Site admins always have access
-	if ( $bp->loggedin_user->is_super_admin )
+	if ( bp_current_user_can( 'bp_moderate' ) )
 		return true;
 
 	if ( !$group )
@@ -1371,7 +1371,6 @@ function bp_group_is_member( $group = false ) {
  * check $groups_template->group->is_banned instead of making another SQL query.
  * However, if used in a single group's pages, we must use groups_is_user_banned().
  *
- * @global object $bp BuddyPress global settings
  * @global BP_Groups_Template $groups_template Group template loop object
  * @param object $group Group to check if user is banned from the group
  * @param int $user_id
@@ -1379,10 +1378,10 @@ function bp_group_is_member( $group = false ) {
  * @since 1.5
  */
 function bp_group_is_user_banned( $group = false, $user_id = 0 ) {
-	global $bp, $groups_template;
+	global $groups_template;
 
 	// Site admins always have access
-	if ( $bp->loggedin_user->is_super_admin )
+	if ( bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	if ( !$group ) {

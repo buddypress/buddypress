@@ -28,7 +28,7 @@ add_filter( 'set-screen-option', 'bp_activity_admin_screen_options', 10, 3 );
 function bp_activity_add_admin_menu() {
 	global $bp;
 
-	if ( !$bp->loggedin_user->is_super_admin )
+	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return;
 
 	// Add our screen
