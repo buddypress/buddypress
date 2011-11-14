@@ -196,9 +196,9 @@ function bp_get_caps_for_role( $role = '' ) {
 			$caps = array(
 
 				// Misc
-				'moderate',
-				'throttle',
-				'view_trash'
+				'bp_moderate',
+				'bp_throttle',
+				'bp_view_trash'
 			);
 
 			break;
@@ -209,9 +209,9 @@ function bp_get_caps_for_role( $role = '' ) {
 			$caps = array(
 
 				// Misc
-				'moderate',
-				'throttle',
-				'view_trash',
+				'bp_moderate',
+				'bp_throttle',
+				'bp_view_trash',
 			);
 
 			break;
@@ -388,6 +388,10 @@ function bp_global_access_role_mask() {
  * @return bool
  */
 function bp_current_user_can( $capability, $blog_id = 0 ) {
+
+	// @todo: remove this when implemented
+	if ( is_super_admin() )
+		return true;
 
 	// Use root blog if no ID passed
 	if ( empty( $blog_id ) )
