@@ -140,7 +140,7 @@ class BP_Messages_Component extends BP_Component {
 			'user_has_access' => bp_is_my_profile()
 		);
 
-		if ( is_super_admin() ) {
+		if ( bp_current_user_can( 'bp_moderate' ) ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Notices', 'buddypress' ),
 				'slug'            => 'notices',
@@ -148,7 +148,7 @@ class BP_Messages_Component extends BP_Component {
 				'parent_slug'     => $this->slug,
 				'screen_function' => 'messages_screen_notices',
 				'position'        => 90,
-				'user_has_access' => is_super_admin()
+				'user_has_access' => bp_current_user_can( 'bp_moderate' )
 			);
 		}
 
@@ -215,7 +215,7 @@ class BP_Messages_Component extends BP_Component {
 			);
 
 			// Site Wide Notices
-			if ( is_super_admin() ) {
+			if ( bp_current_user_can( 'bp_moderate' ) ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
 					'id'     => 'my-account-' . $this->id . '-notices',

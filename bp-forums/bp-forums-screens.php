@@ -25,7 +25,7 @@ function bp_forums_directory_forums_setup() {
 			$bp->groups->current_group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) );
 			if ( !empty( $bp->groups->current_group->id ) ) {
 				// Auto join this user if they are not yet a member of this group
-				if ( !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
+				if ( !bp_current_user_can( 'bp_moderate' ) && 'public' == $bp->groups->current_group->status && !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id );
 
 				$error_message = '';

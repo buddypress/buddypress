@@ -104,7 +104,7 @@ function groups_add_forum_where_sql( $sql = '' ) {
 		unset( $parts['private'] );
 
 	// Are we a super admin?
-	elseif ( is_super_admin() )
+	elseif ( bp_current_user_can( 'bp_moderate' ) )
 		unset( $parts['private'] );
 
 	// No need to filter on a single item
@@ -128,7 +128,7 @@ function groups_add_forum_where_sql( $sql = '' ) {
 function groups_filter_bbpress_caps( $value, $cap, $args ) {
 	global $bp;
 
-	if ( is_super_admin() )
+	if ( bp_current_user_can( 'bp_moderate' ) )
 		return true;
 
 	if ( 'add_tag_to' == $cap )

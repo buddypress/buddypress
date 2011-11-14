@@ -1409,7 +1409,7 @@ function bp_core_update_nag() {
 	if ( empty( $bp_wizard->setup_type ) )
 		return;
 
-	if ( !is_super_admin() )
+	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return;
 
 	if ( 'admin.php' == $pagenow && ( empty( $_GET['page'] ) || 'bp-wizard' == $_GET['page'] ) )

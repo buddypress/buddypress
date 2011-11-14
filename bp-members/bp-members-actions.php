@@ -32,7 +32,7 @@ function bp_core_action_set_spammer_status( $user_id = 0 ) {
 	global $wpdb;
 
 	// Only super admins can currently spam users
-	if ( !is_super_admin() || bp_is_my_profile() )
+	if ( !bp_current_user_can( 'bp_moderate' ) || bp_is_my_profile() )
 		return;
 
 	// Use displayed user if it's not yourself
@@ -122,7 +122,7 @@ add_action( 'bp_actions', 'bp_core_action_set_spammer_status' );
 function bp_core_action_delete_user() {
 	global $bp;
 
-	if ( !is_super_admin() || bp_is_my_profile() || !bp_displayed_user_id() )
+	if ( !bp_current_user_can( 'bp_moderate' ) || bp_is_my_profile() || !bp_displayed_user_id() )
 		return false;
 
 	if ( 'admin' == $bp->current_component && 'delete-user' == $bp->current_action ) {

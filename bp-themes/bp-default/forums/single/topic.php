@@ -53,7 +53,7 @@
 						<div id="topic-meta">
 							<h3><?php bp_the_topic_title() ?> (<?php bp_the_topic_total_post_count() ?>)</h3>
 
-							<?php if ( is_super_admin() || current_user_can( 'moderate' ) ) : ?>
+							<?php if ( bp_current_user_can( 'bp_moderate' ) || current_user_can( 'moderate' ) ) : ?>
 
 								<div class="last admin-links">
 
@@ -108,7 +108,7 @@
 
 									<div class="admin-links">
 
-										<?php if ( is_super_admin() || current_user_can( 'moderate' ) ) : ?>
+										<?php if ( bp_current_user_can( 'bp_moderate' ) || current_user_can( 'moderate' ) ) : ?>
 
 											<?php bp_the_topic_post_admin_links() ?>
 

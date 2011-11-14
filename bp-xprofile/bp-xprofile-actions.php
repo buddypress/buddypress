@@ -29,7 +29,7 @@ function xprofile_action_delete_avatar() {
 	// Check the nonce
 	check_admin_referer( 'bp_delete_avatar_link' );
 
-	if ( !bp_is_my_profile() && !is_super_admin() )
+	if ( !bp_is_my_profile() && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	if ( bp_core_delete_existing_avatar( array( 'item_id' => bp_displayed_user_id() ) ) )

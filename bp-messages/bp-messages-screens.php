@@ -87,7 +87,7 @@ function messages_screen_compose() {
 function messages_screen_notices() {
 	global $notice_id;
 
-	if ( !is_super_admin() )
+	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	$notice_id = (int)bp_action_variable( 1 );

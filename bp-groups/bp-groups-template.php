@@ -962,7 +962,7 @@ function bp_groups_user_can_send_invites( $group_id = false ) {
 	$invite_status    = false;
 
 	if ( is_user_logged_in() ) {
-		if ( is_super_admin() ) {
+		if ( bp_current_user_can( 'bp_moderate' ) ) {
 			// Super admins can always send invitations
 			$can_send_invites = true;
 
@@ -1959,13 +1959,13 @@ function bp_group_member_admin_pagination() {
  *
  * @uses apply_filters() To call 'bp_user_can_create_groups'.
  * @uses bp_get_option() To retrieve value of 'bp_restrict_group_creation'. Defaults to 0.
- * @uses is_super_admin() To determine if current user if super admin.
+ * @uses bp_current_user_can() To determine if current user if super admin.
  *
  * @return bool True if user can create groups. False otherwise.
  */
 function bp_user_can_create_groups() {
 	// Super admin can always create groups
-	if ( is_super_admin() )
+	if ( bp_current_user_can( 'bp_moderate' ) )
 		return true;
 
 	// Get group creation option, default to 0 (allowed)

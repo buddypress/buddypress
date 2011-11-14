@@ -129,7 +129,7 @@ function groups_screen_group_forum() {
 		$forum_id       = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
 		$user_is_banned = false;
 
-		if ( !is_super_admin() && groups_is_user_banned( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
+		if ( !bp_current_user_can( 'bp_moderate' ) && groups_is_user_banned( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
 			$user_is_banned = true;
 
 		if ( !empty( $topic_slug ) && !empty( $topic_id ) ) {
@@ -140,7 +140,7 @@ function groups_screen_group_forum() {
 				check_admin_referer( 'bp_forums_new_reply' );
 
 				// Auto join this user if they are not yet a member of this group
-				if ( bp_groups_auto_join() && !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
+				if ( bp_groups_auto_join() && !bp_current_user_can( 'bp_moderate' ) && 'public' == $bp->groups->current_group->status && !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id, bp_loggedin_user_id() );
 
 				$topic_page = isset( $_GET['topic_page'] ) ? $_GET['topic_page'] : false;
@@ -337,7 +337,7 @@ function groups_screen_group_forum() {
 				if ( $user_is_banned ) {
 				 	$error_message = __( "You have been banned from this group.", 'buddypress' );
 
-				} elseif ( bp_groups_auto_join() && !is_super_admin() && 'public' == $bp->groups->current_group->status && !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
+				} elseif ( bp_groups_auto_join() && !bp_current_user_can( 'bp_moderate' ) && 'public' == $bp->groups->current_group->status && !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
 					// Auto join this user if they are not yet a member of this group
 					groups_join_group( $bp->groups->current_group->id, bp_loggedin_user_id() );
 				}
@@ -772,7 +772,7 @@ function groups_screen_group_admin_delete_group() {
 
 	if ( bp_is_groups_component() && bp_is_action_variable( 'delete-group', 0 ) ) {
 
-		if ( !$bp->is_item_admin && !is_super_admin() )
+		if ( !$bp->is_item_admin && !bp_current_user_can( 'bp_moderate' ) )
 			return false;
 
 		if ( isset( $_REQUEST['delete-group-button'] ) && isset( $_REQUEST['delete-group-understand'] ) ) {

@@ -53,7 +53,7 @@ function bp_core_check_for_flood( $user_id = 0 ) {
  * @since 1.6
  * @uses bp_current_author_ip() To get current user IP address
  * @uses bp_current_author_ua() To get current user agent
- * @uses is_super_admin() Allow super admins to bypass blacklist
+ * @uses bp_current_user_can() Allow super admins to bypass blacklist
  */
 function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' ) {
 
@@ -158,7 +158,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
  * @return bool True if test is passed, false if fail
  * @uses bp_current_author_ip() To get current user IP address
  * @uses bp_current_author_ua() To get current user agent
- * @uses is_super_admin() Allow super admins to bypass blacklist
+ * @uses bp_current_user_can() Allow super admins to bypass blacklist
  * @since 1.6
  */
 function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' ) {

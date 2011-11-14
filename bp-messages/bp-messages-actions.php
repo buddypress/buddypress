@@ -16,7 +16,7 @@ function messages_action_view_message() {
 
 	$thread_id = (int)bp_action_variable( 0 );
 
-	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access( $thread_id ) && !is_super_admin() ) )
+	if ( !$thread_id || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access( $thread_id ) && !bp_current_user_can( 'bp_moderate' ) ) )
 		bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() );
 
 	// Check if a new reply has been submitted

@@ -271,10 +271,10 @@ function bp_core_admin_hook() {
  * Initializes the wp-admin area "BuddyPress" menus and sub menus.
  *
  * @package BuddyPress Core
- * @uses is_super_admin() returns true if the current user is a site admin, false if not
+ * @uses bp_current_user_can() returns true if the current user is a site admin, false if not
  */
 function bp_core_admin_menu_init() {
-	if ( !is_super_admin() )
+	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	add_action( bp_core_admin_hook(), 'bp_core_add_admin_menu', 9 );
@@ -288,11 +288,11 @@ add_action( 'bp_init', 'bp_core_admin_menu_init' );
  *
  * @package BuddyPress Core
  * @global object $bp Global BuddyPress settings object
- * @uses is_super_admin() returns true if the current user is a site admin, false if not
+ * @uses bp_current_user_can() returns true if the current user is a site admin, false if not
  * @uses add_submenu_page() WP function to add a submenu item
  */
 function bp_core_add_admin_menu() {
-	if ( !is_super_admin() )
+	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	// Don't add this version of the admin menu if a BP upgrade is in progress
@@ -323,14 +323,14 @@ function bp_core_add_admin_menu() {
  * @since 1.5
  *
  * @global object $bp Global BuddyPress settings object
- * @uses is_super_admin() to check current user permissions before showing the notices
+ * @uses bp_current_user_can() to check current user permissions before showing the notices
  * @uses bp_is_root_blog()
  */
 function bp_core_print_admin_notices() {
 	global $bp;
 
 	// Only the super admin should see messages
-	if ( !is_super_admin() )
+	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return;
 
 	// On multisite installs, don't show on the Site Admin of a non-root blog, unless
@@ -391,7 +391,7 @@ function bp_core_activation_notice() {
 	global $wp_rewrite, $wpdb, $bp;
 
 	// Only the super admin gets warnings
-	if ( !is_super_admin() )
+	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return;
 
 	// On multisite installs, don't load on a non-root blog, unless do_network_admin is

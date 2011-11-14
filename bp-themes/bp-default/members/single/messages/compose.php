@@ -10,7 +10,7 @@
 		</li>
 	</ul>
 
-	<?php if ( is_super_admin() ) : ?>
+	<?php if ( bp_current_user_can( 'bp_moderate' ) ) : ?>
 		<input type="checkbox" id="send-notice" name="send-notice" value="1" /> <?php _e( "This is a notice to all users.", "buddypress" ) ?>
 	<?php endif; ?>
 

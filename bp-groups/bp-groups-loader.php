@@ -103,7 +103,7 @@ class BP_Groups_Component extends BP_Component {
 			array_shift( $bp->action_variables );
 
 			// Using "item" not "group" for generic support in other components.
-			if ( is_super_admin() )
+			if ( bp_current_user_can( 'bp_moderate' ) )
 				bp_update_is_item_admin( true, 'groups' );
 			else
 				bp_update_is_item_admin( groups_is_user_admin( bp_loggedin_user_id(), $this->current_group->id ), 'groups' );
@@ -126,7 +126,7 @@ class BP_Groups_Component extends BP_Component {
 
 			// If this is a private or hidden group, does the user have access?
 			if ( 'private' == $this->current_group->status || 'hidden' == $this->current_group->status ) {
-				if ( $this->current_group->is_user_member && is_user_logged_in() || is_super_admin() )
+				if ( $this->current_group->is_user_member && is_user_logged_in() || bp_current_user_can( 'bp_moderate' ) )
 					$this->current_group->user_has_access = true;
 				else
 					$this->current_group->user_has_access = false;
@@ -311,7 +311,7 @@ class BP_Groups_Component extends BP_Component {
 
 			// If this is a private group, and the user is not a member, show a "Request Membership" nav item.
 			if ( is_user_logged_in() &&
-				 !is_super_admin() &&
+				 !bp_current_user_can( 'bp_moderate' ) &&
 				 !$this->current_group->is_user_member &&
 				 !groups_check_for_membership_request( bp_loggedin_user_id(), $this->current_group->id ) &&
 				 $this->current_group->status == 'private'

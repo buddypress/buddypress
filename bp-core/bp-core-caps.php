@@ -377,4 +377,25 @@ function bp_global_access_role_mask() {
 	}
 }
 
+/**
+ * Whether current user has a capability or role. Can be passed blog ID, or will
+ * use the root blod by default
+ *
+ * @since BuddyPress (1.6)
+ *
+ * @param string $capability Capability or role name.
+ * @param int $blog_id Blog ID
+ * @return bool
+ */
+function bp_current_user_can( $capability, $blog_id = 0 ) {
+
+	// Use root blog if no ID passed
+	if ( empty( $blog_id ) )
+		$blog_id = bp_get_root_blog_id();
+
+	$retval = current_user_can_for_blog( $blog_id, $capability );
+
+	return (bool) apply_filters( 'bp_current_user_can', $retval, $capability, $blog_id );
+}
+
 ?>

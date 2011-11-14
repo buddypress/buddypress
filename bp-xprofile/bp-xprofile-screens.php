@@ -32,7 +32,7 @@ function xprofile_screen_display_profile() {
 function xprofile_screen_edit_profile() {
 	global $bp;
 
-	if ( !bp_is_my_profile() && !is_super_admin() )
+	if ( !bp_is_my_profile() && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	// Make sure a group is set.
@@ -131,7 +131,7 @@ function xprofile_screen_edit_profile() {
 function xprofile_screen_change_avatar() {
 	global $bp;
 
-	if ( !bp_is_my_profile() && !is_super_admin() )
+	if ( !bp_is_my_profile() && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	if ( bp_action_variables() ) {

@@ -169,7 +169,7 @@ function bp_has_message_threads( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( 'notices' == $bp->current_action && !is_super_admin() ) {
+	if ( 'notices' == $bp->current_action && !bp_current_user_can( 'bp_moderate' ) ) {
 		wp_redirect( bp_displayed_user_id() );
 	} else {
 		if ( 'inbox' == $bp->current_action )

@@ -9,7 +9,7 @@ function bp_groups_adminbar_admin_menu() {
 		return false;
 
 	// Don't show this menu to non site admins or if you're viewing your own profile
-	if ( !current_user_can( 'edit_users' ) || !is_super_admin() || ( !$bp->is_item_admin && !$bp->is_item_mod ) )
+	if ( !current_user_can( 'edit_users' ) || !bp_current_user_can( 'bp_moderate' ) || ( !$bp->is_item_admin && !$bp->is_item_mod ) )
 		return false; ?>
 
 	<li id="bp-adminbar-adminoptions-menu">

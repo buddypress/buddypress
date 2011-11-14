@@ -210,7 +210,7 @@ Class BP_Groups_Group {
 			$order_sql = "ORDER BY $sort_by $order";
 		}
 
-		if ( !is_super_admin() )
+		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = "AND status != 'hidden'";
 
 		$paged_groups = $wpdb->get_results( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE ( name LIKE '%%$filter%%' OR description LIKE '%%$filter%%' ) {$hidden_sql} {$order_sql} {$pag_sql}" );
@@ -386,7 +386,7 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 
-		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != bp_loggedin_user_id() ) ) )
+		if ( !is_user_logged_in() || ( !bp_current_user_can( 'bp_moderate' ) && ( $user_id != bp_loggedin_user_id() ) ) )
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
@@ -427,7 +427,7 @@ Class BP_Groups_Group {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 
-		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != bp_loggedin_user_id() ) ) )
+		if ( !is_user_logged_in() || ( !bp_current_user_can( 'bp_moderate' ) && ( $user_id != bp_loggedin_user_id() ) ) )
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
@@ -477,7 +477,7 @@ Class BP_Groups_Group {
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		}
 
-		if ( !is_super_admin() )
+		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = $wpdb->prepare( " AND status != 'hidden'");
 
 		$letter = like_escape( $wpdb->escape( $letter ) );
@@ -504,7 +504,7 @@ Class BP_Groups_Group {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
-		if ( !is_user_logged_in() || ( !is_super_admin() && ( $user_id != bp_loggedin_user_id() ) ) )
+		if ( !is_user_logged_in() || ( !bp_current_user_can( 'bp_moderate' ) && ( $user_id != bp_loggedin_user_id() ) ) )
 			$hidden_sql = "AND g.status != 'hidden'";
 
 		if ( $search_terms ) {
@@ -575,7 +575,7 @@ Class BP_Groups_Group {
 		global $wpdb, $bp;
 
 		$hidden_sql = '';
-		if ( !is_super_admin() )
+		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = "WHERE status != 'hidden'";
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} {$hidden_sql}" ) );
@@ -938,7 +938,7 @@ Class BP_Groups_Member {
 		if ( !$user_id )
 			$user_id = bp_displayed_user_id();
 
-		if ( $user_id != bp_loggedin_user_id() && !is_super_admin() ) {
+		if ( $user_id != bp_loggedin_user_id() && !bp_current_user_can( 'bp_moderate' ) ) {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );
 		} else {
 			return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id ) );

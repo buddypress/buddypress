@@ -153,7 +153,7 @@ class BP_Forums_Template_Forum {
 				$topic_count = bp_forums_total_replied_count_for_user( bp_displayed_user_id(), $type );
 			} else {
 				// For forum directories (All Topics), get a true count
-				$status = is_super_admin() ? 'all' : 'public'; // todo: member-of
+				$status = bp_current_user_can( 'bp_moderate' ) ? 'all' : 'public'; // todo: member-of
 				$topic_count = (int)groups_total_forum_topic_count( $status, $search_terms );
 			}
 
@@ -791,7 +791,7 @@ function bp_the_topic_admin_links( $args = '' ) {
 
 		$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'edit', 'bp_forums_edit_topic' ) . '">' . __( 'Edit Topic', 'buddypress' ) . '</a>';
 
-		if ( $bp->is_item_admin || $bp->is_item_mod || is_super_admin() ) {
+		if ( $bp->is_item_admin || $bp->is_item_mod || bp_current_user_can( 'bp_moderate' ) ) {
 			if ( 0 == (int)$forum_template->topic->topic_sticky )
 				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'stick', 'bp_forums_stick_topic' ) . '">' . __( 'Sticky Topic', 'buddypress' ) . '</a>';
 			else

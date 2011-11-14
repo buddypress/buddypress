@@ -119,7 +119,7 @@ function messages_new_message( $args = '' ) {
 
 
 function messages_send_notice( $subject, $message ) {
-	if ( !is_super_admin() || empty( $subject ) || empty( $message ) ) {
+	if ( !bp_current_user_can( 'bp_moderate' ) || empty( $subject ) || empty( $message ) ) {
 		return false;
 
 	// Has access to send notices, lets do it.

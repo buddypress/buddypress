@@ -55,7 +55,7 @@ function bp_activity_screen_my_activity() {
  *
  * @uses bp_is_active()
  * @uses bp_update_is_item_admin()
- * @uses is_super_admin()
+ * @uses bp_current_user_can()
  * @uses do_action() To call the 'bp_activity_screen_friends' hook
  * @uses bp_core_load_template()
  * @uses apply_filters() To call the 'bp_activity_template_friends_activity' hook
@@ -64,7 +64,7 @@ function bp_activity_screen_friends() {
 	if ( !bp_is_active( 'friends' ) )
 		return false;
 
-	bp_update_is_item_admin( is_super_admin(), 'activity' );
+	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
 	do_action( 'bp_activity_screen_friends' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'members/single/home' ) );
 }
@@ -76,7 +76,7 @@ function bp_activity_screen_friends() {
  *
  * @uses bp_is_active()
  * @uses bp_update_is_item_admin()
- * @uses is_super_admin()
+ * @uses bp_current_user_can()
  * @uses do_action() To call the 'bp_activity_screen_groups' hook
  * @uses bp_core_load_template()
  * @uses apply_filters() To call the 'bp_activity_template_groups_activity' hook
@@ -85,7 +85,7 @@ function bp_activity_screen_groups() {
 	if ( !bp_is_active( 'groups' ) )
 		return false;
 
-	bp_update_is_item_admin( is_super_admin(), 'activity' );
+	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
 	do_action( 'bp_activity_screen_groups' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_groups_activity', 'members/single/home' ) );
 }
@@ -96,13 +96,13 @@ function bp_activity_screen_groups() {
  * @since 1.2.0
  *
  * @uses bp_update_is_item_admin()
- * @uses is_super_admin()
+ * @uses bp_current_user_can()
  * @uses do_action() To call the 'bp_activity_screen_favorites' hook
  * @uses bp_core_load_template()
  * @uses apply_filters() To call the 'bp_activity_template_favorite_activity' hook
  */
 function bp_activity_screen_favorites() {
-	bp_update_is_item_admin( is_super_admin(), 'activity' );
+	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
 	do_action( 'bp_activity_screen_favorites' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_favorite_activity', 'members/single/home' ) );
 }
@@ -113,13 +113,13 @@ function bp_activity_screen_favorites() {
  * @since 1.2.0
  *
  * @uses bp_update_is_item_admin()
- * @uses is_super_admin()
+ * @uses bp_current_user_can()
  * @uses do_action() To call the 'bp_activity_screen_mentions' hook
  * @uses bp_core_load_template()
  * @uses apply_filters() To call the 'bp_activity_template_mention_activity' hook
  */
 function bp_activity_screen_mentions() {
-	bp_update_is_item_admin( is_super_admin(), 'activity' );
+	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
 	do_action( 'bp_activity_screen_mentions' );
 	bp_core_load_template( apply_filters( 'bp_activity_template_mention_activity', 'members/single/home' ) );
 }

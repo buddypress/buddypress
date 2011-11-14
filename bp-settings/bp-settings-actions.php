@@ -21,7 +21,7 @@ function bp_core_screen_general_settings() {
 		check_admin_referer('bp_settings_general');
 
 		// Validate the user again for the current password when making a big change
-		if ( is_super_admin() || ( !empty( $_POST['pwd'] ) && $_POST['pwd'] != '' && wp_check_password( $_POST['pwd'], $bp->displayed_user->userdata->user_pass, bp_displayed_user_id() ) ) ) {
+		if ( bp_current_user_can( 'bp_moderate' ) || ( !empty( $_POST['pwd'] ) && $_POST['pwd'] != '' && wp_check_password( $_POST['pwd'], $bp->displayed_user->userdata->user_pass, bp_displayed_user_id() ) ) ) {
 
 			$update_user = get_userdata( bp_displayed_user_id() );
 

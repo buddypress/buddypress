@@ -642,7 +642,7 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
  *
  * @package BuddyPress Core
  * @global object $bp Global BuddyPress settings object
- * @uses is_super_admin() Checks to see if the user is a site administrator.
+ * @uses bp_current_user_can() Checks to see if the user is a site administrator.
  * @uses wpmu_delete_user() Deletes a user from the system on multisite installs.
  * @uses wp_delete_user() Deletes a user from the system on singlesite installs.
  */
@@ -753,7 +753,7 @@ function bp_core_can_edit_settings() {
 	if ( bp_is_my_profile() )
 		return true;
 
-	if ( is_super_admin() || current_user_can( 'edit_users' ) )
+	if ( bp_current_user_can( 'bp_moderate' ) || current_user_can( 'edit_users' ) )
 		return true;
 
 	return false;

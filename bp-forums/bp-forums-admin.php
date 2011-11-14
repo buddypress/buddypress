@@ -5,7 +5,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function bp_forums_add_admin_menu() {
 	global $bp;
 
-	if ( !is_super_admin() )
+	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	// Add the administration tab under the "Site Admin" tab for site administrators

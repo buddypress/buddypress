@@ -297,7 +297,7 @@ function bp_dtheme_delete_activity_comment() {
 	$comment = new BP_Activity_Activity( $_POST['id'] );
 
 	/* Check access */
-	if ( !is_super_admin() && $comment->user_id != bp_loggedin_user_id() )
+	if ( !bp_current_user_can( 'bp_moderate' ) && $comment->user_id != bp_loggedin_user_id() )
 		return false;
 
 	if ( empty( $_POST['id'] ) || !is_numeric( $_POST['id'] ) )

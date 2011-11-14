@@ -9,7 +9,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package BuddyPress XProfile
  * @global object $bp Global BuddyPress settings object
  * @global $wpdb WordPress DB access object.
- * @uses is_super_admin() returns true if the current user is a site admin, false if not
+ * @uses bp_current_user_can() returns true if the current user is a site admin, false if not
  * @uses bp_xprofile_install() runs the installation of DB tables for the xprofile component
  * @uses wp_enqueue_script() Adds a JS file to the JS queue ready for output
  * @uses add_submenu_page() Adds a submenu tab to a top level tab in the admin area
@@ -19,7 +19,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function xprofile_add_admin_menu() {
 	global $wpdb, $bp;
 
-	if ( !is_super_admin() )
+	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	$hook = add_submenu_page( 'bp-general-settings', __( 'Profile Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );

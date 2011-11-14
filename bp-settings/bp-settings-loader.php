@@ -110,7 +110,7 @@ class BP_Settings_Component extends BP_Component {
 		);
 
 		// Add Delete Account nav item
-		if ( !is_super_admin() && empty( $bp->site_options['bp-disable-account-deletion'] ) ) {
+		if ( !bp_current_user_can( 'bp_moderate' ) && empty( $bp->site_options['bp-disable-account-deletion'] ) ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Delete Account', 'buddypress' ),
 				'slug'            => 'delete-account',
@@ -168,7 +168,7 @@ class BP_Settings_Component extends BP_Component {
 			);
 
 			// Delete Account
-			if ( !is_super_admin() && empty( $bp->site_options['bp-disable-account-deletion'] ) ) {
+			if ( !bp_current_user_can( 'bp_moderate' ) && empty( $bp->site_options['bp-disable-account-deletion'] ) ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
 					'id'     => 'my-account-' . $this->id . '-delete-account',

@@ -63,7 +63,7 @@
 							</div>
 
 						<?php else : ?>
-							<?php if ( is_super_admin() ) : ?>
+							<?php if ( bp_current_user_can( 'bp_moderate' ) ) : ?>
 
 								<div class="checkbox">
 									<label><input type="checkbox" disabled="disabled" name="disabled" id="disabled" value="0" /> <?php printf( __( '<strong>Attention Site Admin:</strong> Group forums require the <a href="%s">correct setup and configuration</a> of a bbPress installation.', 'buddypress' ), bp_get_root_domain() . '/wp-admin/admin.php?page=bb-forums-setup' ); ?></label>

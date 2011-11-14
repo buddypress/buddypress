@@ -27,7 +27,7 @@ function bp_groups_group_admin_menu() {
 		return false;
 
 	// Only show this menu to group admins and super admins
-	if ( !is_super_admin() && !bp_group_is_admin() )
+	if ( !bp_current_user_can( 'bp_moderate' ) && !bp_group_is_admin() )
 		return false;
 
 	// Group avatar

@@ -462,7 +462,7 @@ function bp_dtheme_deprecated() {
 	 */
 	function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
-		if ( !is_admin() || !is_super_admin() )
+		if ( !is_admin() || !bp_current_user_can( 'bp_moderate' ) )
 			return false;
 
 		return $oldvalue;

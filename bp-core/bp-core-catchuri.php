@@ -267,7 +267,7 @@ function bp_core_set_uri_globals() {
 				// If the displayed user is marked as a spammer, 404 (unless logged-
 				// in user is a super admin)
 				if ( bp_displayed_user_id() && bp_is_user_spammer( bp_displayed_user_id() ) ) {
-					if ( is_super_admin() ) {
+					if ( bp_current_user_can( 'bp_moderate' ) ) {
 						bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'warning' );
 					} else {
 						bp_do_404();
