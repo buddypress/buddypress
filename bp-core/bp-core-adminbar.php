@@ -12,9 +12,6 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
-	return;
-
 /**
  * Adds the secondary BuddyPress area to the my-account menu
  *
@@ -26,7 +23,7 @@ function bp_admin_bar_my_account_secondary() {
 	global $wp_admin_bar;
 
 	// Bail if this is an ajax request
-	if ( defined( 'DOING_AJAX' ) )
+	if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
 		return;
 
 	// Only add menu for logged in user
@@ -54,7 +51,7 @@ function bp_core_load_admin_bar_css() {
 
 	$version = '2011116';
 
-	if ( !bp_use_wp_admin_bar() )
+	if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
 		return;
 
 	// Admin bar styles
