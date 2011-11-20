@@ -41,6 +41,77 @@ function bp_activity_add_admin_menu() {
 add_action( bp_core_admin_hook(), 'bp_activity_add_admin_menu' );
 
 /**
+ * AJAX receiver for Activity replies via the admin screen. Adds a new activity
+ * comment, and returns HTML for a new table row.
+ *
+ * @since 1.6
+ */
+function bp_activity_admin_reply() {
+	// Check nonce
+	check_ajax_referer( 'bp-activity-admin-reply', '_ajax_nonce-bp-activity-admin-reply' );
+
+	$parent_id = ! empty( $_REQUEST['parent_id'] ) ? (int) $_REQUEST['parent_id'] : 0;
+	$root_id   = ! empty( $_REQUEST['root_id'] )   ? (int) $_REQUEST['root_id']   : 0;
+
+	// $parent_id is required
+	if ( empty( $parent_id ) )
+		die( '-1' );
+
+	// If $root_id not set (e.g. for root items), use $parent_id
+	if ( empty( $root_id ) )
+		$root_id = $parent_id;
+
+	// Check that a reply has been entered
+	if ( empty( $_REQUEST['content'] ) )
+		die( __( 'ERROR: Please type a reply.', 'buddypress' ) );
+
+	// Check parent activity exists
+	$parent_activity = new BP_Activity_Activity( $parent_id );
+	if ( empty( $parent_activity->component ) )
+		die( __( 'ERROR: The item you are trying to reply to cannot be found, or it has been deleted.', 'buddypress' ) );
+
+	// @todo: Check if user is allowed to create new activity items
+	// if ( ! current_user_can( 'bp_new_activity' ) )
+	if ( ! is_super_admin() )
+		die( '-1' );
+
+	// Add new activity comment
+	$new_activity_id = bp_activity_new_comment( array(
+		'activity_id' => $root_id,              // ID of the root activity item
+		'content'     => $_REQUEST['content'],
+		'parent_id'   => $parent_id,            // ID of a parent comment
+	) );
+
+	// Fetch the new activity item, as we need it to create table markup to return
+	$new_activity = new BP_Activity_Activity( $new_activity_id );
+
+	// This needs to be set for the BP_Activity_List_Table constructor to work
+	set_current_screen( 'toplevel_page_bp-activity' );
+
+	// Set up an output buffer
+	ob_start();
+	$list_table = new BP_Activity_List_Table();
+	$list_table->single_row( (array) $new_activity );
+
+	// Get table markup
+	$response =  array(
+		'data'     => ob_get_contents(),
+		'id'       => $new_activity_id,
+		'position' => -1,
+		'what'     => 'bp_activity',
+	);
+	ob_end_clean();
+
+	// Send response
+	$r = new WP_Ajax_Response();
+	$r->add( $response );
+	$r->send();
+
+	exit();
+}
+add_action( 'wp_ajax_bp-activity-admin-reply', 'bp_activity_admin_reply' );
+
+/**
  * Handle save/update of screen options for the Activity component admin screen
  *
  * @param string $value Will always be false unless another plugin filters it first.
@@ -87,6 +158,16 @@ function bp_activity_admin_load() {
 		'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 	);
 
+	// Enqueue CSS and JavaScript
+	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+		wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . 'bp-activity/admin/js/admin.dev.js', array( 'jquery', 'wp-ajax-response' ), '20111120' );
+		wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . 'bp-activity/admin/css/admin.dev.css', array(), '20111120' );
+
+	} else {
+		wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . 'bp-activity/admin/js/admin.js', array( 'jquery', 'wp-ajax-response' ), '20111120' );
+		wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . 'bp-activity/admin/css/admin.css', array(), '20111120' );
+	}
+
 	// Create the Activity screen list table
 	$bp_activity_list_table = new BP_Activity_List_Table();
 
@@ -95,7 +176,7 @@ function bp_activity_admin_load() {
 	if ( $doaction && 'edit' != $doaction ) {
 
 		// Build redirection URL
-		$redirect_to = remove_query_arg( array( 'aid', 'deleted', 'spammed', 'unspammed', ), wp_get_referer() );
+		$redirect_to = remove_query_arg( array( 'aid', 'deleted', 'error', 'spammed', 'unspammed', ), wp_get_referer() );
 		$redirect_to = add_query_arg( 'paged', $bp_activity_list_table->get_pagenum(), $redirect_to );
 
 		// Get activity IDs
@@ -118,6 +199,9 @@ function bp_activity_admin_load() {
 
 		// Initialise counters for how many of each type of item we perform an action on
 		$deleted = $spammed = $unspammed = 0;
+
+		// Store any error that occurs when updating the database item
+		$error = 0;
 
 		// "We'd like to shoot the monster, could you move, please?"
 		foreach ( $activity_ids as $activity_id ) {
@@ -142,13 +226,26 @@ function bp_activity_admin_load() {
 
 				case 'ham' :
 					bp_activity_mark_as_ham( $activity );
-					$activity->save();
+					$result = $activity->save();
 
+					// Check for any error during activity save
+					if ( ! $result ) {
+						$error = $activity->id;
+						break;
+					}
+
+					$unspammed++;
 					break;
 
 				case 'spam' :
 					bp_activity_mark_as_spam( $activity );
-					$activity->save();
+					$result = $activity->save();
+
+					// Check for any error during activity save
+					if ( ! $result ) {
+						$error = $activity->id;
+						break;
+					}
 
 					$spammed++;
 					break;
@@ -156,6 +253,10 @@ function bp_activity_admin_load() {
 				default:
 					break;
 			}
+
+			// If an error occured, don't bother looking at the other activities. Bail out of the foreach.
+			if ( $error )
+				break;
 
 			// Release memory
 			unset( $activity );
@@ -170,6 +271,10 @@ function bp_activity_admin_load() {
 
 		if ( $deleted )
 			$redirect_to = add_query_arg( 'deleted', $deleted, $redirect_to );
+
+		// If an error occured, pass back the activity ID that failed
+		if ( $error )
+			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
 
 		// Redirect
 		wp_redirect( $redirect_to );
@@ -194,13 +299,17 @@ function bp_activity_admin() {
 	$messages = array();
 
 	// If the user has just made a change to an activity item, build status messages
-	if ( !empty( $_REQUEST['deleted'] ) || !empty( $_REQUEST['spammed'] ) || !empty( $_REQUEST['unspammed'] ) ) {
+	if ( !empty( $_REQUEST['deleted'] ) || !empty( $_REQUEST['spammed'] ) || !empty( $_REQUEST['unspammed'] ) || !empty( $_REQUEST['error'] ) ) {
 		$deleted   = !empty( $_REQUEST['deleted']   ) ? (int) $_REQUEST['deleted']   : 0;
+		$error     = !empty( $_REQUEST['error']     ) ? (int) $_REQUEST['error']     : 0;
 		$spammed   = !empty( $_REQUEST['spammed']   ) ? (int) $_REQUEST['spammed']   : 0;
 		$unspammed = !empty( $_REQUEST['unspammed'] ) ? (int) $_REQUEST['unspammed'] : 0;
 
 		if ( $deleted > 0 )
 			$messages[] = sprintf( _n( '%s activity was permanently deleted.', '%s activities were permanently deleted.', $deleted, 'buddypress' ), $deleted );
+
+		if ( $error > 0 )
+			$messages[] = sprintf( __( 'An error occured when updating Activity ID #%d.', 'buddypress' ), $error );
 
 		if ( $spammed > 0 )
 			$messages[] = sprintf( _n( '%s activity marked as spam.', '%s activities marked as spam.', $spammed, 'buddypress' ), $spammed );
@@ -234,7 +343,7 @@ function bp_activity_admin() {
 
 		<?php // If the user has just made a change to an activity item, display the status messages ?>
 		<?php if ( !empty( $messages ) ) : ?>
-			<div id="moderated" class="updated"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
+			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
 		<?php endif; ?>
 
 		<?php $bp_activity_list_table->views(); ?>
@@ -245,6 +354,30 @@ function bp_activity_admin() {
 			<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>" />
 			<?php $bp_activity_list_table->display(); ?>
 		</form>
+
+		<table style="display: none;">
+			<tr id="bp-activities-container" style="display: none;">
+				<td colspan="4">
+					<form method="get" action="">
+
+						<h5 id="bp-replyhead"><?php _e( 'Reply to Activity', 'buddypress' ); ?></h5>
+						<?php wp_editor( '', 'bp-activities', array( 'dfw' => false, 'media_buttons' => false, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), 'tinymce' => false, ) ); ?>
+
+						<p id="bp-replysubmit" class="submit">
+							<a href="#" class="cancel button-secondary alignleft"><?php _e( 'Cancel', 'tmggc' ); ?></a>
+							<a href="#" class="save button-primary alignright"><?php _e( 'Reply', 'tmggc' ); ?></a>
+
+							<img class="waiting" style="display:none;" src="<?php echo esc_url( network_admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+							<span class="error" style="display:none;"></span>
+							<br class="clear" />
+						</p>
+
+						<?php wp_nonce_field( 'bp-activity-admin-reply', '_ajax_nonce-bp-activity-admin-reply', false ); ?>
+
+					</form>
+				</td>
+			</tr>
+		</table>
 	</div>
 
 <?php
@@ -436,6 +569,21 @@ class BP_Activity_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Generates content for a single row of the table
+	 *
+	 * @param object $item The current item
+	 * @since 1.6
+	 */
+	function single_row( $item ) {
+		static $row_class = '';
+		$row_class = ( $row_class == '' ? ' class="alternate"' : '' );
+
+		echo '<tr' . $row_class . ' id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['item_id'] ) . '">';
+		echo $this->single_row_columns( $item );
+		echo '</tr>';
+	}
+
+	/**
 	 * Get the list of views available on this table (e.g. "all", "spam").
 	 *
 	 * @since 1.6
@@ -450,7 +598,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	<?php
 	}
 
-	/**
+		/**
 	 * Get bulk actions
 	 *
 	 * @return array Key/value pairs for the bulk actions dropdown
@@ -598,19 +746,20 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$base_url   = network_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $item['id'] );
 		$spam_nonce = esc_html( '_wpnonce=' . wp_create_nonce( 'spam-activity_' . $item['id'] ) );
 
-		$delete_url = $base_url . "&amp;action=delete&$spam_nonce";
+		$delete_url = $base_url . "&amp;action=delete&amp;$spam_nonce";
 		$edit_url   = $base_url . '&amp;action=edit';
-		$ham_url    = $base_url . "&amp;action=ham&$spam_nonce";
-		$spam_url   = $base_url . "&amp;action=spam&$spam_nonce";
+		$ham_url    = $base_url . "&amp;action=ham&amp;$spam_nonce";
+		$spam_url   = $base_url . "&amp;action=spam&amp;$spam_nonce";
 
 		// Rollover actions
 
 		// Reply - javascript only; implemented by AJAX.
-		if ( 'spam' != $item_status )
-			$actions['reply'] = sprintf( '<a href="%s" class="reply hide-if-no-js">%s</a>', $base_url, __( 'Reply', 'buddypress' ) );
+		if ( 'spam' != $item_status ) {
+			$actions['reply'] = sprintf( '<a href="#" class="reply hide-if-no-js">%s</a>', __( 'Reply', 'buddypress' ) );
 
-		// Edit
-		$actions['edit'] = sprintf( '<a href="%s">%s</a>', $edit_url, __( 'Edit', 'buddypress' ) );
+			// Edit
+			$actions['edit'] = sprintf( '<a href="%s">%s</a>', $edit_url, __( 'Edit', 'buddypress' ) );
+		}
 
 		// Spam/unspam
 		if ( 'spam' == $item_status )

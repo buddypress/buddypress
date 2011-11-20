@@ -1,8 +1,8 @@
 === Plugin Name ===
 Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
-Requires at least: 3.2
-Tested up to: 3.2.1
+Requires at least: 3.3
+Tested up to: 3.3
 Stable tag: 1.5
 
 Social networking in a box. Build a social network for your company, school, sports team or niche community.
