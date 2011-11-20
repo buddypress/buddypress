@@ -290,11 +290,10 @@ add_action( 'edit_comment', 'bp_blogs_record_comment', 10    );
 
 function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	global $wpdb;
-
-	if ( empty( $blog_id ) && isset( $wpdb->blogid ) )
-		$blog_id = $wpdb->blogid;
-	else
-		$blog_id = bp_get_root_blog_id();
+	
+	if ( empty( $blog_id ) ) {
+		$blog_id = isset( $wpdb->blogid ) ? $wpdb->blogid : bp_get_root_blog_id();
+	}
 
 	if ( empty( $role ) ) {
 		$key = $wpdb->get_blog_prefix( $blog_id ). 'capabilities';
@@ -306,6 +305,8 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 		else
 			return false;
 	}
+	
+	
 
 	if ( $role != 'subscriber' )
 		bp_blogs_record_blog( $blog_id, $user_id, true );
