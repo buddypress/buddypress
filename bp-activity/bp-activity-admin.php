@@ -825,9 +825,16 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		// $item is not the root activity (it is probably an activity_comment).
 		} else {
-			echo '<br />';
+			$comment_count = count( BP_Activity_Activity::get_child_comments( $item['id'] ) );
 
-			// @todo Get comment count from a specific node ($root_activity_id) in the tree, not $root_activity_id's root.
+			/// If a non-root activity has zero (child) comments, then don't show a zero bubble to keep the UI tidy
+			if ( 0 == $comment_count ) {
+				echo '<br />';
+
+			} else {
+				// Display a link to the root activity's permalink, with the current activity's (child) comment count in a speech bubble
+				printf( '<br /><a href="%1$s" title="%2$s" class="post-com-count"><span class="comment-count">%3$d</span></a>',  network_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $root_activity_id ), esc_attr( sprintf( __( '%d related activities', 'buddypress' ), $comment_count ) ), $comment_count );
+			}
 		}
 
 		// Link to the activity permalink
