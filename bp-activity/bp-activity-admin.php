@@ -158,15 +158,11 @@ function bp_activity_admin_load() {
 		'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 	);
 
-	// Enqueue CSS and JavaScript
-	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-		wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . 'bp-activity/admin/js/admin.dev.js', array( 'jquery', 'wp-ajax-response' ), '20111120' );
-		wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . 'bp-activity/admin/css/admin.dev.css', array(), '20111120' );
+	$dev = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'dev.' : '';
 
-	} else {
-		wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . 'bp-activity/admin/js/admin.js', array( 'jquery', 'wp-ajax-response' ), '20111120' );
-		wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . 'bp-activity/admin/css/admin.css', array(), '20111120' );
-	}
+	// Enqueue CSS and JavaScript
+	wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . "bp-activity/admin/js/admin.{$dev}js", array( 'jquery', 'wp-ajax-response' ), '20111120' );
+	wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(), '20111120' );
 
 	// Create the Activity screen list table
 	$bp_activity_list_table = new BP_Activity_List_Table();
@@ -306,16 +302,16 @@ function bp_activity_admin() {
 		$unspammed = !empty( $_REQUEST['unspammed'] ) ? (int) $_REQUEST['unspammed'] : 0;
 
 		if ( $deleted > 0 )
-			$messages[] = sprintf( _n( '%s activity was permanently deleted.', '%s activities were permanently deleted.', $deleted, 'buddypress' ), $deleted );
+			$messages[] = sprintf( _n( '%s activity was permanently deleted.', '%s activities were permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
 
 		if ( $error > 0 )
-			$messages[] = sprintf( __( 'An error occured when updating Activity ID #%d.', 'buddypress' ), $error );
+			$messages[] = sprintf( __( 'An error occured when updating Activity ID #%s.', 'buddypress' ), number_format_i18n( $error ) );
 
 		if ( $spammed > 0 )
-			$messages[] = sprintf( _n( '%s activity marked as spam.', '%s activities marked as spam.', $spammed, 'buddypress' ), $spammed );
+			$messages[] = sprintf( _n( '%s activity marked as spam.', '%s activities marked as spam.', $spammed, 'buddypress' ), number_format_i18n( $spammed ) );
 
 		if ( $unspammed > 0 )
-			$messages[] = sprintf( _n( '%s activity restored from the spam.', '%s activities restored from the spam.', $unspammed, 'buddypress' ), $unspammed );
+			$messages[] = sprintf( _n( '%s activity restored from the spam.', '%s activities restored from the spam.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
 
 	// Handle the edit screen
 	} elseif ( 'edit' == $bp_activity_list_table->current_action() && !empty( $_GET['aid'] ) ) {
@@ -331,7 +327,7 @@ function bp_activity_admin() {
 		<?php screen_icon( 'buddypress' ); ?>
 		<h2>
 			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
-				<?php printf( __( 'Activity (ID #%d)', 'buddypress' ), (int) $_REQUEST['aid'] ); ?>
+				<?php printf( __( 'Activity (ID #%s)', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?>
 			<?php else : ?>
 				<?php _e( 'Activity', 'buddypress' ); ?>
 			<?php endif; ?>
@@ -351,7 +347,7 @@ function bp_activity_admin() {
 		<form id="bp-activities-form" action="" method="get">
 			<?php $bp_activity_list_table->search_box( __( 'Search Activities', 'buddypress' ), 'bp-activity' ); ?>
 
-			<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>" />
+			<input type="hidden" name="page" value="<?php echo esc_attr( (int) $_REQUEST['page'] ); ?>" />
 			<?php $bp_activity_list_table->display(); ?>
 		</form>
 
@@ -593,7 +589,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	?>
 		<ul class="subsubsub">
 			<li class="all"><a href="<?php echo esc_attr( esc_url( $redirect_to ) ); ?>" class="<?php if ( 'spam' != $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
-			<li class="spam"><a href="<?php echo esc_attr( esc_url( add_query_arg( 'activity_status', 'spam', $redirect_to ) ) ); ?>" class="<?php if ( 'spam' == $this->view ) echo 'current'; ?>"><?php printf( __( 'Spam <span class="count">(%d)</span>', 'buddypress' ), $this->spam_count ); ?></a></li>
+			<li class="spam"><a href="<?php echo esc_attr( esc_url( add_query_arg( 'activity_status', 'spam', $redirect_to ) ) ); ?>" class="<?php if ( 'spam' == $this->view ) echo 'current'; ?>"><?php printf( __( 'Spam <span class="count">(%s)</span>', 'buddypress' ), number_format_i18n( $this->spam_count ) ); ?></a></li>
 		</ul>
 	<?php
 	}
@@ -811,29 +807,34 @@ class BP_Activity_List_Table extends WP_List_Table {
 		if ( empty( $root_activity_id[1] ) )
 			return;
 
-		$root_activity_id = (int) $root_activity_id[1];
+		$root_activity_id  = (int) $root_activity_id[1];
+		$root_activity_url = network_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $root_activity_id );
 
 		// Is $item the root activity?
 		if ( (int) $item['id'] == $root_activity_id ) {
 			$root_activity = (object) $item;
 
 			// Get root activity comment count
-			$comment_count = !empty( $root_activity->children ) ? bp_activity_recurse_comment_count( $root_activity ) : 0;
+			$comment_count = !empty( $root_activity->children ) ? number_format_i18n( bp_activity_recurse_comment_count( $root_activity ) ) : 0;
+			$title_attr    = sprintf( __( '%s related activities', 'buddypress' ), $comment_count );
 
 			// Display a link to the root activity's permalink, with its comment count in a speech bubble
-			printf( '<br /><a href="%1$s" title="%2$s" class="post-com-count"><span class="comment-count">%3$d</span></a>',  network_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $root_activity_id ), esc_attr( sprintf( __( '%d related activities', 'buddypress' ), $comment_count ) ), $comment_count );
+			printf( '<br /><a href="%1$s" title="%2$s" class="post-com-count"><span class="comment-count">%3$s</span></a>', $root_activity_url, esc_attr( $title_attr ), number_format_i18n( $comment_count ) );
 
 		// $item is not the root activity (it is probably an activity_comment).
 		} else {
 			$comment_count = count( BP_Activity_Activity::get_child_comments( $item['id'] ) );
 
-			/// If a non-root activity has zero (child) comments, then don't show a zero bubble to keep the UI tidy
+			// If a non-root activity has zero (child) comments, then don't show a zero bubble to keep the UI tidy
 			if ( 0 == $comment_count ) {
 				echo '<br />';
 
 			} else {
+				$comment_count = number_format_i18n( $comment_count );
+				$title_attr    = sprintf( __( '%s related activities', 'buddypress' ), $comment_count );
+
 				// Display a link to the root activity's permalink, with the current activity's (child) comment count in a speech bubble
-				printf( '<br /><a href="%1$s" title="%2$s" class="post-com-count"><span class="comment-count">%3$d</span></a>',  network_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $root_activity_id ), esc_attr( sprintf( __( '%d related activities', 'buddypress' ), $comment_count ) ), $comment_count );
+				printf( '<br /><a href="%1$s" title="%2$s" class="post-com-count"><span class="comment-count">%3$s</span></a>', $root_activity_url, esc_attr( $title_attr ), number_format_i18n( $comment_count ) );
 			}
 		}
 
