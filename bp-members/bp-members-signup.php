@@ -604,6 +604,9 @@ add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 2 );
 function bp_core_wpsignup_redirect() {
 	$action = !empty( $_GET['action'] ) ? $_GET['action'] : '';
 
+	if ( is_admin() || is_network_admin() )
+		return;
+	
 	// Not at the WP core signup page and action is not register
 	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) )
 		return;
