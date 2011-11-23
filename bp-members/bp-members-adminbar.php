@@ -189,12 +189,10 @@ function bp_members_admin_bar_notifications_menu() {
 
 	// Add the top-level Notifications button
 	$wp_admin_bar->add_menu( array(
-		'id'    => 'bp-notifications',
-		'title' => $menu_title,
-		'href'  => bp_loggedin_user_domain(),
-		'meta'  => array(
-			'class' => 'opposite',
-		)
+		'parent'    => 'top-secondary',
+		'id'        => 'bp-notifications',
+		'title'     => $menu_title,
+		'href'      => bp_loggedin_user_domain(),
 	) );
 
 	if ( !empty( $notifications ) ) {

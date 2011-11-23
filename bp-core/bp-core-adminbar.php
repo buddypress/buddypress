@@ -19,7 +19,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @global WP_Admin_Bar $wp_admin_bar
  * @return If doing ajax
  */
-function bp_admin_bar_my_account_secondary() {
+function bp_admin_bar_my_account_root() {
 	global $wp_admin_bar;
 
 	// Bail if this is an ajax request
@@ -31,16 +31,17 @@ function bp_admin_bar_my_account_secondary() {
 
 		// Add secondary parent item for all BuddyPress components
 		$wp_admin_bar->add_menu( array(
-			'parent' => 'my-account',
-			'id'     => 'my-account-buddypress',
-			'title'  => '&nbsp;',
-			'meta'   => array(
-				'class' => 'secondary',
+			'parent'    => 'my-account',
+			'id'        => 'my-account-buddypress',
+			'title'     => __( 'My Account' ),
+			'group'     => true,
+			'meta'      => array(
+				'class' => 'ab-sub-secondary'
 			)
 		) );
 	}
 }
-add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_secondary', 9999 );
+add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
 
 /**
  * Handle the Admin Bar CSS
