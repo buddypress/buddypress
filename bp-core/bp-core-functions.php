@@ -1080,28 +1080,28 @@ function bp_core_get_root_options() {
 	// Missing some options, so do some one-time fixing
 	if ( empty( $root_blog_options_meta ) || ( count( $root_blog_options_meta ) < count( $root_blog_option_keys ) ) ) {
 
-	// Unset the query - We'll be resetting it soon
-	unset( $root_blog_options_meta );
-
-	// Loop through options
-	foreach ( $root_blog_options as $old_meta_key => $old_meta_default ) {
-		// Clear out the value from the last time around
-		unset( $old_meta_value );
-
-		// Get old site option
-		if ( is_multisite() )
-			$old_meta_value = get_site_option( $old_meta_key );
-
-		// No site option so look in root blog
-		if ( empty( $old_meta_value ) )
-			$old_meta_value = bp_get_option( $old_meta_key, $old_meta_default );
-
-		// Update the root blog option
-		bp_update_option( $old_meta_key, $old_meta_value );
-
-		// Update the global array
-		$root_blog_options_meta[$old_meta_key] = $old_meta_value;
-	}
+		// Unset the query - We'll be resetting it soon
+		unset( $root_blog_options_meta );
+	
+		// Loop through options
+		foreach ( $root_blog_options as $old_meta_key => $old_meta_default ) {
+			// Clear out the value from the last time around
+			unset( $old_meta_value );
+	
+			// Get old site option
+			if ( is_multisite() )
+				$old_meta_value = get_site_option( $old_meta_key );
+	
+			// No site option so look in root blog
+			if ( empty( $old_meta_value ) )
+				$old_meta_value = bp_get_option( $old_meta_key, $old_meta_default );
+	
+			// Update the root blog option
+			bp_update_option( $old_meta_key, $old_meta_value );
+	
+			// Update the global array
+			$root_blog_options_meta[$old_meta_key] = $old_meta_value;
+		}
 
 	// We're all matched up
 	} else {
