@@ -481,8 +481,14 @@ jq(document).ready( function() {
 					comment_li.fadeOut(200);
 
 					/* Decrease the "Reply (X)" button count */
-					var parent_li = comment_li.parents('ul#activity-stream > li');
-					jq('li#' + parent_li.attr('id') + ' a.acomment-reply span').html( jq('li#' + parent_li.attr('id') + ' a.acomment-reply span').html() - ( 1 + child_count ) );
+					var count_span = jq('li#' + comment_li.parents('ul#activity-stream > li').attr('id') + ' a.acomment-reply span');
+					var new_count = count_span.html() - ( 1 + child_count );
+					count_span.html(new_count);
+
+					/* If that was the last comment for the item, remove the has-comments class to clean up the styling */
+					if ( 0 == new_count ) {
+						jq(comment_li.parents('ul#activity-stream > li')).removeClass('has-comments');
+					}
 				}
 			});
 
