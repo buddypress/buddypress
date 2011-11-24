@@ -185,6 +185,7 @@ jq(document).ready( function() {
 
 				target.fadeOut( 100, function() {
 					jq(this).html(response);
+					jq(this).attr('title', 'fav' == type ? BP_DTheme.remove_fav : BP_DTheme.mark_as_fav);
 					jq(this).fadeIn(100);
 				});
 
