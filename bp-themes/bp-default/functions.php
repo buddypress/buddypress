@@ -153,7 +153,9 @@ function bp_dtheme_enqueue_scripts() {
 		'show_all'          => __( 'Show all', 'buddypress' ),
 		'comments'          => __( 'comments', 'buddypress' ),
 		'close'             => __( 'Close', 'buddypress' ),
-		'view'              => __( 'View', 'buddypress' )
+		'view'              => __( 'View', 'buddypress' ),
+		'mark_as_fav'	    => __( 'Favorite', 'buddypress' ),
+		'remove_fav'	    => __( 'Remove Favorite', 'buddypress' )
 	);
 
 	wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
