@@ -281,7 +281,7 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	// Displayed user
 	if ( !empty( $bp->displayed_user->fullname ) && !is_404() ) {
 		// translators: "displayed user's name | canonicalised component name"
-		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), ucwords( bp_current_component() ) ) );
+		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), __( ucwords( bp_current_component() ), 'buddypress' ) ) );
 
 	// A single group
 	} elseif ( bp_is_active( 'groups' ) && !empty( $bp->groups->current_group ) && !empty( $bp->bp_options_nav[$bp->groups->current_group->slug] ) ) {
@@ -297,9 +297,9 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	// An index or directory
 	} elseif ( bp_is_directory() ) {
 		if ( !bp_current_component() )
-			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug( bp_members_slug() ) );
+			$title = sprintf( __( '%s Directory', 'buddypress' ), __( bp_get_name_from_root_slug(), 'buddypress' ) );
 		else
-			$title = sprintf( __( '%s Directory', 'buddypress' ), bp_get_name_from_root_slug( bp_get_root_slug() ) );
+			$title = sprintf( __( '%s Directory', 'buddypress' ), __( bp_get_name_from_root_slug(), 'buddypress' ) );
 
 	// Sign up page
 	} elseif ( bp_is_register_page() ) {
