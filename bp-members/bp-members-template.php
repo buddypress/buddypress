@@ -977,20 +977,14 @@ function bp_signup_page() {
 		return apply_filters( 'bp_get_signup_page', $page );
 	}
 
-function bp_has_custom_activation_page() {
-	if ( locate_template( array( 'activate.php' ), false ) || locate_template( array( '/registration/activate.php' ), false ) )
-		return true;
-
-	return false;
-}
-
 function bp_activation_page() {
 	echo bp_get_activation_page();
 }
 	function bp_get_activation_page() {
 		global $bp;
 
-		if ( bp_has_custom_activation_page() )
+		// Check the global directly to make sure the WP page exists in $bp->pages
+		if ( !empty( $bp->pages->activate->slug ) )
 			$page = trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug );
 		else
 			$page = trailingslashit( bp_get_root_domain() ) . 'wp-activate.php';

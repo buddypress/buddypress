@@ -60,4 +60,17 @@ function bp_core_is_user_spammer( $user_id = 0 ) {
 function bp_blogs_manage_comment( $comment_id, $comment_status ) {
 	_deprecated_function( __FUNCTION__, '1.6', 'No longer used' );
 }
+
+/**
+ * Members functions
+ */
+
+/**
+ * @deprecated 1.6
+ * @deprecated No longer used. Check for $bp->pages->activate->slug instead.
+ */
+function bp_has_custom_activation_page() {
+	_deprecated_function( __FUNCTION__, '1.6' );
+}
+
 ?>
