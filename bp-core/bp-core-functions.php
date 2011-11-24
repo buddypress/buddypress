@@ -1008,9 +1008,10 @@ function bp_core_get_root_options() {
 	// On Multisite installations, some options must always be fetched from sitemeta
 	if ( is_multisite() ) {
 		$network_options = apply_filters( 'bp_core_network_options', array(
-			'tags_blog_id'    => '0',
-			'registration'    => '0',
-			'fileupload_maxk' => '1500'
+			'tags_blog_id'       => '0',
+			'sitewide_tags_blog' => '',
+			'registration'       => '0',
+			'fileupload_maxk'    => '1500'
 		) );
 
 		$current_site           = get_current_site();
