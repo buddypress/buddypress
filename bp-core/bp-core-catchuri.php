@@ -111,8 +111,9 @@ function bp_core_set_uri_globals() {
 	$bp_uri = array_merge( array(), $bp_uri );
 
 	// If a component is set to the front page, force its name into $bp_uri
-	// so that $current_component is populated
-	if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && empty( $bp_uri ) ) {
+	// so that $current_component is populated (unless a specific WP post is being requested
+	// via a URL parameter, usually signifying Preview mode)
+	if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && empty( $bp_uri ) && empty( $_GET['p'] ) ) {
 		$post = get_post( get_option( 'page_on_front' ) );
 		if ( !empty( $post ) ) {
 			$bp_uri[0] = $post->post_name;
