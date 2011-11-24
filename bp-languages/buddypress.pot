@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-11-23 21:31:05+00:00\n"
+"POT-Creation-Date: 2011-11-24 02:31:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -278,7 +278,7 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:270 bp-groups/bp-groups-widgets.php:118
 #: bp-themes/bp-default/forums/index.php:104
 #: bp-themes/bp-default/forums/single/edit.php:49
-#: bp-themes/bp-default/groups/single/forum/edit.php:49
+#: bp-themes/bp-default/groups/single/forum/edit.php:47
 #: bp-themes/bp-default/groups/single/forum.php:75
 msgid "Title:"
 msgstr ""
@@ -2395,8 +2395,8 @@ msgstr ""
 #: bp-themes/bp-default/members/single/profile/edit.php:126
 #: bp-themes/bp-default/forums/single/edit.php:57
 #: bp-themes/bp-default/forums/single/edit.php:73
-#: bp-themes/bp-default/groups/single/forum/edit.php:60
-#: bp-themes/bp-default/groups/single/forum/edit.php:76
+#: bp-themes/bp-default/groups/single/forum/edit.php:58
+#: bp-themes/bp-default/groups/single/forum/edit.php:74
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:117
 msgid "Save Changes"
@@ -4281,13 +4281,13 @@ msgstr ""
 
 #: bp-themes/bp-default/forums/index.php:107
 #: bp-themes/bp-default/forums/single/edit.php:52
-#: bp-themes/bp-default/groups/single/forum/edit.php:52
+#: bp-themes/bp-default/groups/single/forum/edit.php:50
 #: bp-themes/bp-default/groups/single/forum.php:78
 msgid "Content:"
 msgstr ""
 
 #: bp-themes/bp-default/forums/index.php:110
-#: bp-themes/bp-default/groups/single/forum/edit.php:55
+#: bp-themes/bp-default/groups/single/forum/edit.php:53
 #: bp-themes/bp-default/groups/single/forum.php:81
 msgid "Tags (comma separated):"
 msgstr ""
@@ -4348,7 +4348,7 @@ msgid "Edit:"
 msgstr ""
 
 #: bp-themes/bp-default/forums/single/edit.php:88
-#: bp-themes/bp-default/groups/single/forum/edit.php:91
+#: bp-themes/bp-default/groups/single/forum/edit.php:87
 msgid "This topic does not exist."
 msgstr ""
 
