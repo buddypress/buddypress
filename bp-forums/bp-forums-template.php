@@ -1309,7 +1309,7 @@ function bp_directory_forums_search_form() {
 	$search_value = !empty( $_REQUEST['fs'] ) ? stripslashes( $_REQUEST['fs'] ) : $default_search_value;  ?>
 
 	<form action="" method="get" id="search-forums-form">
-		<label><input type="text" name="s" id="forums_search" value="<?php echo esc_attr( $search_value ); ?>"  onfocus="if (this.value == '<?php echo $default_search_value ?>') {this.value = '';}" onblur="if (this.value == '') {this.value = '<?php echo $default_search_value ?>';}" /></label>
+		<label><input type="text" name="s" id="forums_search" placeholder="<?php echo esc_attr( $search_value ); ?>" /></label>
 		<input type="submit" id="forums_search_submit" name="forums_search_submit" value="<?php _e( 'Search', 'buddypress' ); ?>" />
 	</form>
 
