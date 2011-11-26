@@ -98,7 +98,7 @@ function bp_core_new_nav_item( $args = '' ) {
 			if ( apply_filters( 'bp_guarantee_unique_uris', true ) ) {
 				bp_core_redirect( bp_get_root_domain() . '/' . bp_get_root_slug( bp_current_component() ) . '/' . $slug . '/' . apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r ) );
 			} else {
-				 $bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+				$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
 			}
 		}
 	}
