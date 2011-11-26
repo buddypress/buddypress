@@ -635,7 +635,7 @@ function bp_the_topic_forum_id() {
 	function bp_get_the_topic_forum_id() {
 		global $forum_template;
 
-		return apply_filters( 'bp_get_the_topic_forum_id', $forum_template->topic->topic_forum_id );
+		return apply_filters( 'bp_get_the_topic_forum_id', $forum_template->topic->forum_id );
 	}
 
 function bp_the_topic_status() {
