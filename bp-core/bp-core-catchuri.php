@@ -444,7 +444,7 @@ function bp_core_no_access( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	$r = apply_filters_ref_array( 'bp_core_no_access', $r );
+	$r = apply_filters( 'bp_core_no_access', $r );
 	extract( $r, EXTR_SKIP );
 
 	/**
