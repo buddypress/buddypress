@@ -259,10 +259,25 @@ function bp_core_new_subnav_item( $args = '' ) {
 			// When the content is off-limits, we handle the situation differently
 			// depending on whether the current user is logged in
 			if ( is_user_logged_in() ) {
+				if ( !bp_is_my_profile() && !$bp->bp_nav[$bp->default_component]['show_for_displayed_user'] ) {
+					// This covers the edge case where the default component is
+					// a non-public tab, like 'messages'
+					if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
+						$redirect_to = bp_displayed_user_domain() . bp_get_activity_slug();
+					} else {
+						$redirect_to = bp_displayed_user_domain() . ( 'xprofile' == $bp->profile->id ? 'profile' : $bp->profile->id );
+					}
+					
+					$message     = '';
+				} else {
+					$message     = __( 'You do not have access to this page.', 'buddypress' );
+					$redirect_to = bp_displayed_user_domain();
+				}
+				
 				// Off-limits to this user. Throw an error and redirect to the displayed user's domain
 				bp_core_no_access( array(
-					'message'  => __( 'You do not have access to this page.', 'buddypress' ),
-					'root'     => bp_displayed_user_domain(),
+					'message'  => $message,
+					'root'     => $redirect_to,
 					'redirect' => false
 				) );
 			} else {
