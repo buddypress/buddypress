@@ -24,10 +24,12 @@ header('Status: 200 OK');
 >
 
 <channel>
-	<title><?php bp_site_name() ?> | <?php echo $bp->displayed_user->fullname; ?> | <?php _e( 'My Groups - Public Activity', 'buddypress' ) ?></title>
+	<?php /* translators: Member groups activity RSS title - "[Site Name] | [Displayed User Name] | My Groups - Public Activity" */ ?>
+	<title><?php printf( '%1$s | %2$s | %3$s', bp_get_site_name(), bp_get_displayed_user_fullname(), __( 'My Groups - Public Activity', 'buddypress' ) ) ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php echo home_url( bp_get_activity_root_slug() . '/#my-groups/' ) ?></link>
-	<description><?php echo $bp->displayed_user->fullname; ?> - <?php _e( 'My Groups - Public Activity', 'buddypress' ) ?></description>
+	<?php /* translators: Member groups activity RSS description - "[Displayed user name] - My Groups - Public Activity" */ ?>
+	<description><?php printf( __( '%1$s - My Groups - Public Activity', 'buddypress' ), bp_get_displayed_user_fullname() ) ?></description>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_activity_get_last_updated(), false); ?></pubDate>
 	<generator>http://buddypress.org/?v=<?php echo BP_VERSION ?></generator>
 	<language><?php echo get_option('rss_language'); ?></language>

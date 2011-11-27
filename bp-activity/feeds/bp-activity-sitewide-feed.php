@@ -24,7 +24,8 @@ header('Status: 200 OK');
 >
 
 <channel>
-	<title><?php bp_site_name() ?> | <?php _e( 'Site Wide Activity', 'buddypress' ) ?></title>
+	<?php /* translators: Sitewide activity RSS title - "[Site Name] | Site Wide Activity" */ ?>
+	<title><?php printf( '%1$s | %2$s', bp_get_site_name(), __( 'Site Wide Activity', 'buddypress' ) ) ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php echo bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/feed' ?></link>
 	<description><?php _e( 'Site Wide Activity Feed', 'buddypress' ) ?></description>

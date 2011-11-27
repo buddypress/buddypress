@@ -151,9 +151,20 @@ function bp_avatar_cropper() {
 	echo '<img id="avatar-to-crop" class="avatar" src="' . $bp->avatar_admin->image . '" />';
 }
 
+/**
+ * Echoes bp_get_site_name()
+ */
 function bp_site_name() {
-	echo apply_filters( 'bp_site_name', get_bloginfo( 'name', 'display' ) );
+	echo bp_get_site_name();
 }
+	/**
+	 * Returns the name of the BP site. Used in RSS headers
+	 *
+	 * @since 1.6
+	 */
+	function bp_get_site_name() {
+		return apply_filters( 'bp_site_name', get_bloginfo( 'name', 'display' ) );
+	}
 
 function bp_get_profile_header() {
 	locate_template( array( '/profile/profile-header.php' ), true );

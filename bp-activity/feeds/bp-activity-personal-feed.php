@@ -24,7 +24,8 @@ header('Status: 200 OK');
 >
 
 <channel>
-	<title><?php bp_site_name() ?> | <?php echo $bp->displayed_user->fullname; ?> | <?php _e( 'Activity', 'buddypress' ) ?></title>
+	<?php /* translators: Personal activity RSS title - "[Site Name] | [Displayed User Name] | Activity" */ ?>
+	<title><?php printf( '%1$s | %2$s | %3$s', bp_get_site_name(), bp_get_displayed_user_fullname(), __( 'Activity', 'buddypress' ) ) ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php echo bp_displayed_user_domain() . bp_get_activity_slug() . '/feed' ?></link>
 	<description><?php printf( __( '%s - Activity Feed', 'buddypress' ), $bp->displayed_user->fullname ) ?></description>

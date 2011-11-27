@@ -24,6 +24,7 @@ header('Status: 200 OK');
 >
 
 <channel>
+	<?php /* translators: Member friends activity RSS title - "[Site Name] | Friends Activity" */ ?>
 	<title><?php bp_site_name() ?> | <?php bp_displayed_user_fullname(); ?> | <?php _e( 'Friends Activity', 'buddypress' ); ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php echo bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() . '/feed'; ?></link>
