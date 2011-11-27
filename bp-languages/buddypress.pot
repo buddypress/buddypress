@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-11-27 16:31:03+00:00\n"
+"POT-Creation-Date: 2011-11-27 17:31:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -246,7 +246,7 @@ msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:23 bp-core/bp-core-widgets.php:110
-#: bp-core/admin/bp-core-update.php:481 bp-core/bp-core-template.php:245
+#: bp-core/admin/bp-core-update.php:481 bp-core/bp-core-template.php:256
 #: bp-groups/bp-groups-template.php:1283 bp-members/bp-members-loader.php:24
 #: bp-themes/bp-default/groups/single/admin.php:229
 msgid "Members"
@@ -360,12 +360,12 @@ msgstr ""
 #: bp-core/admin/bp-core-admin.php:40 bp-core/admin/bp-core-admin.php:99
 #: bp-core/bp-core-functions.php:309 bp-settings/bp-settings-loader.php:15
 #: bp-settings/bp-settings-loader.php:72 bp-settings/bp-settings-loader.php:150
-#: bp-groups/bp-groups-loader.php:205 bp-groups/bp-groups-template.php:1277
+#: bp-groups/bp-groups-loader.php:204 bp-groups/bp-groups-template.php:1277
 msgid "Settings"
 msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:48 bp-core/admin/bp-core-update.php:524
-#: bp-core/bp-core-template.php:254 bp-forums/bp-forums-admin.php:12
+#: bp-core/bp-core-template.php:265 bp-forums/bp-forums-admin.php:12
 #: bp-forums/bp-forums-admin.php:25 bp-forums/bp-forums-admin.php:265
 #: bp-forums/bp-forums-loader.php:111 bp-forums/bp-forums-loader.php:194
 #: bp-forums/bp-forums-loader.php:237
@@ -721,10 +721,10 @@ msgstr ""
 msgid "Displays the activity for the entire site, a member's friends, groups and @mentions."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:509 bp-core/bp-core-template.php:248
+#: bp-core/admin/bp-core-update.php:509 bp-core/bp-core-template.php:259
 #: bp-groups/bp-groups-activity.php:135 bp-groups/bp-groups-activity.php:171
 #: bp-groups/bp-groups-activity.php:207 bp-groups/bp-groups-activity.php:243
-#: bp-groups/bp-groups-loader.php:411 bp-groups/bp-groups-widgets.php:20
+#: bp-groups/bp-groups-loader.php:410 bp-groups/bp-groups-widgets.php:20
 #: bp-groups/bp-groups-widgets.php:41 bp-groups/bp-groups-widgets.php:107
 #: bp-groups/bp-groups-screens.php:831 bp-activity/bp-activity-loader.php:188
 #: bp-activity/bp-activity-loader.php:282
@@ -968,15 +968,15 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-template.php:190
+#: bp-core/bp-core-template.php:201
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: bp-core/bp-core-template.php:251
+#: bp-core/bp-core-template.php:262
 msgid "Blogs"
 msgstr ""
 
-#: bp-core/bp-core-template.php:256
+#: bp-core/bp-core-template.php:267
 #: bp-themes/bp-default/members/single/activity.php:27
 #: bp-themes/bp-default/activity/index.php:101
 #: bp-themes/bp-default/forums/forums-loop.php:40
@@ -984,15 +984,15 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: bp-core/bp-core-template.php:259
+#: bp-core/bp-core-template.php:270
 msgid "Search these:"
 msgstr ""
 
-#: bp-core/bp-core-template.php:287
+#: bp-core/bp-core-template.php:298
 msgid "Search anything..."
 msgstr ""
 
-#: bp-core/bp-core-template.php:381
+#: bp-core/bp-core-template.php:392
 msgid " [&hellip;]"
 msgstr ""
 
@@ -1645,75 +1645,75 @@ msgstr ""
 msgid "Search Groups..."
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:182
+#: bp-groups/bp-groups-loader.php:185
 msgid "You do not have access to this group."
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:201 bp-groups/bp-groups-template.php:1270
+#: bp-groups/bp-groups-loader.php:200 bp-groups/bp-groups-template.php:1270
 msgid "Details"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:213 bp-groups/bp-groups-template.php:1280
+#: bp-groups/bp-groups-loader.php:212 bp-groups/bp-groups-template.php:1280
 msgid "Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:221
+#: bp-groups/bp-groups-loader.php:220
 msgid "Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:247
+#: bp-groups/bp-groups-loader.php:246
 msgid "Groups <span>%d</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:259 bp-groups/bp-groups-loader.php:287
-#: bp-groups/bp-groups-loader.php:427 bp-groups/bp-groups-loader.php:455
+#: bp-groups/bp-groups-loader.php:258 bp-groups/bp-groups-loader.php:286
+#: bp-groups/bp-groups-loader.php:426 bp-groups/bp-groups-loader.php:454
 msgid "Memberships"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:270
+#: bp-groups/bp-groups-loader.php:269
 msgid "Invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:299
+#: bp-groups/bp-groups-loader.php:298
 msgctxt "Group home navigation title"
 msgid "Home"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:311
+#: bp-groups/bp-groups-loader.php:310
 msgid "Admin"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:330 bp-groups/bp-groups-template.php:1577
+#: bp-groups/bp-groups-loader.php:329 bp-groups/bp-groups-template.php:1577
 #: bp-groups/bp-groups-template.php:1578 bp-themes/bp-default/_inc/ajax.php:554
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:342
+#: bp-groups/bp-groups-loader.php:341
 msgid "Forum"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:354
+#: bp-groups/bp-groups-loader.php:353
 msgid "Members <span>%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:366
+#: bp-groups/bp-groups-loader.php:365
 #: bp-themes/bp-default/groups/single/send-invites.php:60
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:408
+#: bp-groups/bp-groups-loader.php:407
 msgid "Groups <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:409
+#: bp-groups/bp-groups-loader.php:408
 msgid "Pending Invites <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:412
+#: bp-groups/bp-groups-loader.php:411
 msgid "No Pending Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:474 bp-groups/bp-groups-buddybar.php:25
+#: bp-groups/bp-groups-loader.php:473 bp-groups/bp-groups-buddybar.php:25
 #: bp-groups/bp-groups-template.php:2334
 msgid "Group Avatar"
 msgstr ""
@@ -4160,11 +4160,13 @@ msgstr ""
 msgid "Activity that I have been mentioned in."
 msgstr ""
 
+#. translators: Mentions RSS title - "[Site Name] | [Displayed User Name] |
+#. Mentions"
+
 #: bp-themes/bp-default/activity/index.php:79
 #: bp-activity/bp-activity-loader.php:152
 #: bp-activity/bp-activity-loader.php:232
-#: bp-activity/feeds/bp-activity-mentions-feed.php:27
-#: bp-activity/feeds/bp-activity-mentions-feed.php:30
+#: bp-activity/feeds/bp-activity-mentions-feed.php:28
 msgid "Mentions"
 msgstr ""
 
@@ -4698,10 +4700,13 @@ msgstr ""
 msgid "Sorry, no posts matched your criteria."
 msgstr ""
 
+#. translators: Personal activity RSS title - "[Site Name] | [Displayed User
+#. Name] | Activity"
+
 #: bp-activity/bp-activity-admin.php:35 bp-activity/bp-activity-admin.php:332
 #: bp-activity/bp-activity-admin.php:623 bp-activity/bp-activity-loader.php:117
 #: bp-activity/bp-activity-loader.php:239
-#: bp-activity/feeds/bp-activity-personal-feed.php:27
+#: bp-activity/feeds/bp-activity-personal-feed.php:28
 #: bp-activity/bp-activity-screens.php:280
 msgid "Activity"
 msgstr ""
@@ -5054,59 +5059,90 @@ msgstr ""
 msgid "Akismet was unable to check this item (response: %s), will automatically retry again later."
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:27
+#. translators: Member friends activity RSS title - "[Site Name] | Friends
+#. Activity"
+
+#: bp-activity/feeds/bp-activity-friends-feed.php:28
 msgid "Friends Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:30
+#: bp-activity/feeds/bp-activity-friends-feed.php:31
 msgid "%s - Friends Activity Feed"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:49
-#: bp-activity/feeds/bp-activity-mentions-feed.php:49
-#: bp-activity/feeds/bp-activity-personal-feed.php:49
-#: bp-activity/feeds/bp-activity-favorites-feed.php:56
-#: bp-activity/feeds/bp-activity-group-feed.php:49
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:49
-#: bp-activity/feeds/bp-activity-mygroups-feed.php:54
+#: bp-activity/feeds/bp-activity-friends-feed.php:50
+#: bp-activity/feeds/bp-activity-mentions-feed.php:51
+#: bp-activity/feeds/bp-activity-personal-feed.php:50
+#: bp-activity/feeds/bp-activity-favorites-feed.php:57
+#: bp-activity/feeds/bp-activity-group-feed.php:50
+#: bp-activity/feeds/bp-activity-sitewide-feed.php:50
+#: bp-activity/feeds/bp-activity-mygroups-feed.php:56
 msgid "Comments: %s"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:53
-#: bp-activity/feeds/bp-activity-mentions-feed.php:53
-#: bp-activity/feeds/bp-activity-personal-feed.php:53
-#: bp-activity/feeds/bp-activity-favorites-feed.php:60
+#: bp-activity/feeds/bp-activity-friends-feed.php:54
+#: bp-activity/feeds/bp-activity-mentions-feed.php:55
+#: bp-activity/feeds/bp-activity-personal-feed.php:54
+#: bp-activity/feeds/bp-activity-favorites-feed.php:61
 msgid "In reply to"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-personal-feed.php:30
+#. translators: Mentions RSS title - "[Site Name] | [Displayed User Name] |
+#. Mentions"
+
+#: bp-activity/feeds/bp-activity-mentions-feed.php:32
+msgid "%s - Mentions"
+msgstr ""
+
+#: bp-activity/feeds/bp-activity-personal-feed.php:31
 msgid "%s - Activity Feed"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-favorites-feed.php:27
-#: bp-activity/feeds/bp-activity-favorites-feed.php:30
+#. translators: Favorited activity RSS title - "[Site Name] | [Displayed User
+#. Name] | Favorite Activity"
+
+#: bp-activity/feeds/bp-activity-favorites-feed.php:28
 msgid "Favorite Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-group-feed.php:27
+#: bp-activity/feeds/bp-activity-favorites-feed.php:31
+msgid "%s - Favorite Activity"
+msgstr ""
+
+#. translators: Single group activity RSS title - "[Site Name] | [Group Name] |
+#. Group Activity"
+
+#: bp-activity/feeds/bp-activity-group-feed.php:28
 msgid "Group Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-group-feed.php:30
+#: bp-activity/feeds/bp-activity-group-feed.php:31
 msgid "%s - Group Activity Feed"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:27
+#. translators: Sitewide activity RSS title - "[Site Name] | Site Wide
+#. Activity"
+
+#: bp-activity/feeds/bp-activity-sitewide-feed.php:28
 msgid "Site Wide Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:30
+#: bp-activity/feeds/bp-activity-sitewide-feed.php:31
 msgid "Site Wide Activity Feed"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-mygroups-feed.php:27
-#: bp-activity/feeds/bp-activity-mygroups-feed.php:30
+#. translators: Member groups activity RSS title - "[Site Name] | [Displayed
+#. User Name] | My Groups - Public Activity"
+
+#: bp-activity/feeds/bp-activity-mygroups-feed.php:28
 msgid "My Groups - Public Activity"
+msgstr ""
+
+#. translators: Member groups activity RSS description - "[Displayed user name]
+#. - My Groups - Public Activity"
+
+#: bp-activity/feeds/bp-activity-mygroups-feed.php:32
+msgid "%1$s - My Groups - Public Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-screens.php:245
