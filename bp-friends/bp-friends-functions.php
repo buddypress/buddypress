@@ -39,6 +39,9 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 
 			do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 		} else {
+			// Update friend totals
+			friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id, 'add' );
+
 			do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
 		}
 
