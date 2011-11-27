@@ -112,13 +112,17 @@ function bp_core_set_uri_globals() {
 	if ( empty( $paths[0] ) )
 		array_shift( $paths );
 
+	// Reset indexes
+	$bp_uri = array_values( $bp_uri );
+	$paths  = array_values( $paths );
+
 	// Unset URI indices if they intersect with the paths
 	foreach ( (array) $bp_uri as $key => $uri_chunk ) {
-		if ( in_array( $uri_chunk, $paths ) ) {
+		if ( isset( $paths[$key] ) && $uri_chunk == $paths[$key] ) {
 			unset( $bp_uri[$key] );
 		}
 	}
-
+	
 	// Reset the keys by merging with an empty array
 	$bp_uri = array_merge( array(), $bp_uri );
 
