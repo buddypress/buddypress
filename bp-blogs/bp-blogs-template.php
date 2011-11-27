@@ -459,7 +459,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	if ( !is_subdomain_install() )
 		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span> <input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /><br />';
 	else
-		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /> <span class="suffix_address">.' . preg_replace( '|^www\.|', '', $current_site->domain ) . $current_site->path . '</span><br />';
+		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="50" /> <span class="suffix_address">.' . bp_blogs_get_subdomain_base() . '</span><br />';
 
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' , 'buddypress');
@@ -503,6 +503,27 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	<?php
 	do_action('signup_blogform', $errors);
 }
+
+/**
+ * Echo the value of bp_blogs_get_subdomain_base()
+ *
+ * @since 1.6
+ */
+function bp_blogs_subdomain_base() {
+	echo bp_blogs_get_subdomain_base();
+}
+	/**
+	 * Return the base URL to be displayed when a user chooses an address for a new blog, on
+	 * a subdomain installation of WordPress MS
+	 *
+	 * @since 1.6
+	 * @return str The base URL - eg, 'example.com' for site_url() example.com or www.example.com
+	 */
+	function bp_blogs_get_subdomain_base() {
+		global $current_site;
+		
+		return apply_filters( 'bp_blogs_subdomain_base', preg_replace( '|^www\.|', '', $current_site->domain ) . $current_site->path );
+	}
 
 function bp_blogs_validate_blog_signup() {
 	global $wpdb, $current_user, $blogname, $blog_title, $errors, $domain, $path, $current_site;

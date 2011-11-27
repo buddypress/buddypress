@@ -190,7 +190,7 @@
 							<?php do_action( 'bp_signup_blog_url_errors' ) ?>
 
 							<?php if ( is_subdomain_install() ) : ?>
-								http:// <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value() ?>" /> .<?php echo preg_replace( '|^https?://(?:www\.)|', '', site_url() ) ?>
+								http:// <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value() ?>" /> .<?php bp_blogs_subdomain_base() ?>
 							<?php else : ?>
 								<?php echo site_url() ?>/ <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value() ?>" />
 							<?php endif; ?>
