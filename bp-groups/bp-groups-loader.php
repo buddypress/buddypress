@@ -163,7 +163,7 @@ class BP_Groups_Component extends BP_Component {
 			return;
 		}
 		
-		if ( !bp_current_action() ) {
+		if ( bp_is_groups_component() && !empty( $this->current_group ) && !bp_current_action() ) {
 			$bp->current_action = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
 		}
 
