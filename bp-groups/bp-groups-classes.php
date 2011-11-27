@@ -1186,6 +1186,14 @@ Class BP_Groups_Member {
 class BP_Group_Extension {
 	var $name = false;
 	var $slug = false;
+	
+	/* The name/slug of the Group Admin tab for this extension */
+	var $admin_name = '';
+	var $admin_slug = '';
+
+	/* The name/slug of the Group Creation tab for this extension */
+	var $create_name = '';
+	var $create_slug = '';
 
 	/* Will this extension be visible to non-members of a group? Options: public/private */
 	var $visibility = 'public';
@@ -1220,16 +1228,34 @@ class BP_Group_Extension {
 
 	function _register() {
 		global $bp;
+		
+		// If admin/create names and slugs are not provided, they fall back on the main
+		// name and slug for the extension
+		if ( !$this->admin_name ) {
+			$this->admin_name = $this->name;
+		}
+		
+		if ( !$this->admin_slug ) {
+			$this->admin_slug = $this->slug;
+		}
+		
+		if ( !$this->create_name ) {
+			$this->create_name = $this->name;
+		}
+		
+		if ( !$this->create_slug ) {
+			$this->create_slug = $this->slug;
+		}
 
 		if ( !empty( $this->enable_create_step ) ) {
 			// Insert the group creation step for the new group extension
-			$bp->groups->group_creation_steps[$this->slug] = array( 'name' => $this->name, 'slug' => $this->slug, 'position' => $this->create_step_position );
+			$bp->groups->group_creation_steps[$this->create_slug] = array( 'name' => $this->create_name, 'slug' => $this->create_slug, 'position' => $this->create_step_position );
 
 			// Attach the group creation step display content action
 			add_action( 'groups_custom_create_steps', array( &$this, 'create_screen' ) );
 
 			// Attach the group creation step save content action
-			add_action( 'groups_create_group_step_save_' . $this->slug, array( &$this, 'create_screen_save' ) );
+			add_action( 'groups_create_group_step_save_' . $this->create_slug, array( &$this, 'create_screen_save' ) );
 		}
 
 		// When we are viewing a single group, add the group extension nav item
@@ -1253,10 +1279,10 @@ class BP_Group_Extension {
 
 		// Construct the admin edit tab for the new group extension
 		if ( !empty( $this->enable_edit_item ) && !empty( $bp->is_item_admin ) ) {
-			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', '$selected = ""; if ( "' . esc_attr( $this->slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $this->slug ) . '\">' . esc_attr( $this->name ) . '</a></li>";' ), 10, 2 );
+			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', '$selected = ""; if ( "' . esc_attr( $this->admin_slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $this->admin_slug ) . '\">' . esc_attr( $this->admin_name ) . '</a></li>";' ), 10, 2 );
 
 			// Catch the edit screen and forward it to the plugin template
-			if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $this->slug, 0 ) ) {
+			if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $this->admin_slug, 0 ) ) {
 				// Check whether the user is saving changes
 				$this->edit_screen_save();
 
