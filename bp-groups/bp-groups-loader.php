@@ -162,10 +162,13 @@ class BP_Groups_Component extends BP_Component {
 			bp_do_404();
 			return;
 		}
+		
+		if ( !bp_current_action() ) {
+			$bp->current_action = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
+		}
 
 		// Group access control
 		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
-
 			if ( !$this->current_group->user_has_access ) {
 				if ( 'hidden' == $this->current_group->status ) {
 					// Hidden groups should return a 404 for non-members.
@@ -175,7 +178,7 @@ class BP_Groups_Component extends BP_Component {
 					$bp->is_single_item  = false;
 					bp_do_404();
 					return;
-				} else {
+				} elseif ( !bp_is_current_action( 'home' ) ) {
 					if ( is_user_logged_in() ) {
 						// Off-limits to this user. Throw an error and redirect to the group's home page
 						bp_core_no_access( array(
@@ -188,10 +191,6 @@ class BP_Groups_Component extends BP_Component {
 						bp_core_no_access();
 					}
 				}
-
-			// User has access. Default to a particular group extension if not specified on the URL
-			} elseif ( !bp_current_action() ) {
-				$bp->current_action = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION :  'home' );
 			}
 		}
 
