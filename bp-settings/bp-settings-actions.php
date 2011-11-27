@@ -106,6 +106,8 @@ function bp_core_screen_general_settings() {
 
 		// Execute additional code
 		do_action( 'bp_core_general_settings_after_save' );
+		
+		bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/general/' );
 	}
 
 	// Load the template
@@ -135,6 +137,8 @@ function bp_core_screen_notification_settings() {
 		bp_core_add_message( __( 'Changes saved.', 'buddypress' ), 'success' );
 
 		do_action( 'bp_core_notification_settings_after_save' );
+		
+		bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/notifications/' );
 	}
 
 	bp_core_load_template( apply_filters( 'bp_core_screen_notification_settings', 'members/single/settings/notifications' ) );
