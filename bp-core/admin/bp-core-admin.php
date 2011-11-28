@@ -28,7 +28,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	// Setup core admin tabs
 	$tabs = array(
 		'0' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-general-settings' ), 'admin.php' ) ),
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-general-config' ), 'admin.php' ) ),
 			'name' => __( 'Components', 'buddypress' )
 		),
 		'1' => array(
@@ -61,6 +61,27 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 
 	// Do other fun things
 	do_action( 'bp_admin_tabs' );
+}
+
+/**
+ * Generates markup for a fallback top-level BuddyPress menu page, if the site is running
+ * a legacy plugin which hasn't been updated. If the site is up to date, this page
+ * will never appear.
+ *
+ * @see bp_core_admin_backpat_menu()
+ * @since 1.6
+ * @todo Add convenience links into the markup once new positions are finalised.
+ */
+function bp_core_admin_backpat_page() {
+?>
+	<div class="wrap">
+		<?php screen_icon( 'buddypress'); ?>
+		<h2><?php _e( 'Why have all my BuddyPress menus disappeared?', 'buddypress' ); ?></h2>
+
+		<p><?php _e( "Don't worry! We've moved the BuddyPress options into more convenient and easier to find locations. You're seeing this page because you are running a legacy BuddyPress plugin which has not been updated.", 'buddypress' ); ?></p>
+		<p><?php printf( __( 'Components, Pages, Settings, and Forums, have been moved to <a href="%s">Settings &gt; BuddyPress</a>. Profile Fields has been moved into the <a href="%s">Users</a> menu.', 'buddpress' ), network_admin_url( 'options-general.php?page=bp-general-config' ), network_admin_url( 'users.php?page=bp-profile-setup' ) ); ?></p>
+	</div>
+<?php
 }
 
 /**
@@ -217,7 +238,7 @@ function bp_core_admin_component_setup_handler() {
 			bp_update_option( 'bp-active-components', $bp->active_components );
 		}
 
-		$base_url = bp_get_admin_url(  add_query_arg( array( 'page' => 'bp-general-settings', 'updated' => 'true' ), 'admin.php' ) );
+		$base_url = bp_get_admin_url(  add_query_arg( array( 'page' => 'bp-general-config', 'updated' => 'true' ), 'admin.php' ) );
 
 		wp_redirect( $base_url );
 	}

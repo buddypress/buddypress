@@ -22,9 +22,19 @@ function bp_core_admin_menu_icon_css() {
 		}
 
 		/* Settings Icon */
-		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img { display: none; }
-		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-general-config .wp-menu-image a img,
+		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img {
+			display: none;
+		}
+
+		ul#adminmenu li.toplevel_page_bp-general-config .wp-menu-image a,
+		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a {
+			background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px;
+		}
+
+		ul#adminmenu li.toplevel_page_bp-general-config:hover .wp-menu-image a,
 		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a,
+		ul#adminmenu li.toplevel_page_bp-general-config.wp-has-current-submenu .wp-menu-image a,
 		ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a {
 			background-position: -1px 0;
 		}

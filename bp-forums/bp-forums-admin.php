@@ -5,12 +5,17 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function bp_forums_add_admin_menu() {
 	global $bp;
 
-	if ( !bp_current_user_can( 'bp_moderate' ) )
-		return false;
+	if ( ! bp_current_user_can( 'bp_moderate' ) )
+		return;
 
-	// Add the administration tab under the "Site Admin" tab for site administrators
-	$hook = add_submenu_page( 'bp-general-settings', __( 'Forums', 'buddypress' ), __( 'Forums', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
+	// Add the option pages
+	$hook = add_options_page( __( 'BuddyPress Forums', 'buddypress' ), __( 'BuddyPress Forums', 'buddypress' ), 'manage_options', 'bb-forums-setup', 'bp_forums_bbpress_admin' );
+
+	// Add a hook for common BP admin CSS/JS scripts
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
+
+	// Fudge the highlighted subnav item when on a BuddyPress admin page
+	add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 }
 add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
 

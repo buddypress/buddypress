@@ -192,7 +192,7 @@ class BP_Core_Setup_Wizard {
 				do_action( 'bp_admin_notices' );
 
 				$step_count  = count( $this->steps ) - 1;
-				$wiz_or_set  = $this->current_step >= $step_count ? 'bp-general-settings' : 'bp-wizard';
+				$wiz_or_set  = $this->current_step >= $step_count ? 'bp-general-config' : 'bp-wizard';
 				$form_action = bp_core_update_do_network_admin() ? network_admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) ) : admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) );
 			?>
 
@@ -1133,7 +1133,7 @@ class BP_Core_Setup_Wizard {
 			bp_core_add_admin_menu();
 
 			// Redirect to the BuddyPress dashboard
-			$redirect = bp_core_update_do_network_admin() ? add_query_arg( array( 'page' => 'bp-general-settings' ), network_admin_url( 'admin.php' ) ) : add_query_arg( array( 'page' => 'bp-general-settings' ), admin_url( 'admin.php' ) );
+			$redirect = bp_core_update_do_network_admin() ? add_query_arg( array( 'page' => 'bp-general-config' ), network_admin_url( 'admin.php' ) ) : add_query_arg( array( 'page' => 'bp-general-config' ), admin_url( 'admin.php' ) );
 
 			wp_redirect( $redirect );
 
@@ -1354,10 +1354,10 @@ function bp_core_update_add_admin_menu_styles() {
 		}
 
 		/* Settings Icon */
-		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img { display: none; }
-		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a {
+		ul#adminmenu li.toplevel_page_bp-general-config .wp-menu-image a img { display: none; }
+		ul#adminmenu li.toplevel_page_bp-general-config .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
+		ul#adminmenu li.toplevel_page_bp-general-config:hover .wp-menu-image a,
+		ul#adminmenu li.toplevel_page_bp-general-config.wp-has-current-submenu .wp-menu-image a {
 			background-position: -1px 0;
 		}
 	</style>

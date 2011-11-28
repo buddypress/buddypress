@@ -284,33 +284,109 @@ function bp_core_admin_menu_init() {
 add_action( 'bp_init', 'bp_core_admin_menu_init' );
 
 /**
- * Adds the "BuddyPress" admin submenu item to the Site Admin tab.
+ * In BP 1.6, the top-level admin menu was removed. For backpat, this function
+ * keeps the top-level menu if a plugin has registered a menu into the old
+ * 'bp-general-settings' menu.
  *
- * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
- * @uses bp_current_user_can() returns true if the current user is a site admin, false if not
- * @uses add_submenu_page() WP function to add a submenu item
+ * The old "bp-general-settings" page was renamed "bp-general-config".
+ *
+ * @global array $_parent_pages
+ * @global array $_registered_pages
+ * @global array $submenu
+ * @since 1.6
+ */
+function bp_core_admin_backpat_menu() {
+	global $_parent_pages, $_registered_pages, $submenu;
+
+	if ( ! is_super_admin() )
+		return;
+
+	// Don't do anything if a BP upgrade is in progress, or if the bp-wizard is in progress.
+	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE || empty( $submenu['bp-general-settings'] ) )
+		return;
+
+	/**
+	 * By default, only the core "Help" submenu is added under the top-level BuddyPress menu.
+	 * This means that if no third-party plugins have registered their admin pages into the
+	 * 'bp-general-settings' menu, it will only contain one item. Kill it.
+	 */
+	if ( 1 == count( $submenu['bp-general-settings'] ) ) {
+		// This removes the top-level menu
+		remove_submenu_page( 'bp-general-settings', 'bp-general-settings' );
+		remove_menu_page( 'bp-general-settings' );
+
+		// These stop people accessing the URL directly
+		unset( $_parent_pages['bp-general-settings'] );
+		unset( $_registered_pages['toplevel_page_bp-general-settings'] );
+	}
+}
+add_action( bp_core_admin_hook(), 'bp_core_admin_backpat_menu', 999 );
+
+/**
+ * Registers BuddyPress' admin menus.
+ *
+ * @since 1.0
  */
 function bp_core_add_admin_menu() {
-	if ( !bp_current_user_can( 'bp_moderate' ) )
-		return false;
+	if ( ! bp_current_user_can( 'bp_moderate' ) )
+		return;
 
-	// Don't add this version of the admin menu if a BP upgrade is in progress
- 	// See bp_core_update_add_admin_menu()
+	/**
+	 * Don't add this version of the admin menu if a BP upgrade is in progress.
+	 * See bp_core_update_add_admin_menu().
+	 */
 	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE )
- 		return false;
+ 		return;
 
 	$hooks = array();
 
-	// Add the administration tab under the "Site Admin" tab for site administrators
-	$hooks[] = add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup', '' );
-	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Components', 'buddypress' ), __( 'Components', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_component_setup'  );
-	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Pages',      'buddypress' ), __( 'Pages',      'buddypress' ), 'manage_options', 'bp-page-settings',    'bp_core_admin_page_setup'       );
-	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'Settings',   'buddypress' ), __( 'Settings',   'buddypress' ), 'manage_options', 'bp-settings',         'bp_core_admin_settings'         );
+	// Changed in BP 1.6 . See bp_core_admin_backpat_menu()
+	$hooks[] = add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_backpat_menu', '' );
+	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'BuddyPress Help', 'buddypress' ), __( 'Help', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_backpat_page' );
 
-	// Add a hook for css/js
-	foreach( $hooks as $hook )
+	// Add the option pages
+	$hooks[] = add_options_page( __( 'BuddyPress Components', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-config', 'bp_core_admin_component_setup' );
+	$hooks[] = add_options_page( __( 'BuddyPress Pages', 'buddypress' ),      __( 'BuddyPress Pages', 'buddypress' ),      'manage_options', 'bp-page-settings',  'bp_core_admin_page_setup'      );
+	$hooks[] = add_options_page( __( 'BuddyPress Settings', 'buddypress' ),   __( 'BuddyPress Settings', 'buddypress' ),   'manage_options', 'bp-settings',       'bp_core_admin_settings'        );
+
+	foreach( $hooks as $hook ) {
+		// Add a hook for common BP admin CSS/JS scripts
 		add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
+
+		// Fudge the highlighted subnav item when on a BuddyPress admin page
+		add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
+	}
+}
+
+/**
+ * Tweak the Settings subnav menu to show only one BuddyPress menu item (Settings > BuddyPress).
+ *
+ * @since 1.6
+ */
+function bp_core_modify_admin_menu() {
+	remove_submenu_page( 'options-general.php', 'bb-forums-setup' );
+	remove_submenu_page( 'options-general.php', 'bp-page-settings' );
+	remove_submenu_page( 'options-general.php', 'bp-settings' );
+}
+add_action( "admin_head", 'bp_core_modify_admin_menu', 999 );
+
+/**
+ * This tells WP to highlight the Settings > BuddyPress menu item,
+ * regardless of which actual BuddyPress admin screen we are on.
+ *
+ * The conditional prevents the behaviour when the user is viewing the
+ * backpat "Help" page, the Activity page, or any third-party plugins.
+ *
+ * @global string $plugin_page
+ * @global array $submenu
+ * @since 1.6
+ */
+function bp_core_modify_admin_menu_highlight() {
+	global $plugin_page, $submenu_file;
+
+	// This tweaks the Settings subnav menu to show only one BuddyPress menu item
+	if ( ! in_array( $plugin_page, array( 'bp-activity', 'bp-general-settings', ) ) )
+		$submenu_file = 'bp-general-config';
 }
 
 /**
