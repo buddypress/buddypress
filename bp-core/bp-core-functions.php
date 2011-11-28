@@ -400,7 +400,7 @@ function bp_core_activation_notice() {
 		return;
 
 	// Don't show these messages during setup or upgrade
-	if ( isset( $bp->maintenance_mode ) )
+	if ( !empty( $bp->maintenance_mode ) )
 		return;
 
 	/**
