@@ -88,7 +88,7 @@ function groups_action_create_group() {
 				$group_enable_forum = 0;
 			} else {
 				// Create the forum if enable_forum = 1
-				if ( bp_is_active( 'forums' ) && '' == groups_get_groupmeta( $bp->groups->new_group_id, 'forum_id' ) ) {
+				if ( bp_is_active( 'forums' ) && !groups_get_groupmeta( $bp->groups->new_group_id, 'forum_id' ) ) {
 					groups_new_group_forum();
 				}
 			}

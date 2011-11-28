@@ -937,9 +937,6 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 
 	$meta_value = maybe_serialize( $meta_value );
 
-	if ( empty( $meta_value ) )
-		return groups_delete_groupmeta( $group_id, $meta_key );
-
 	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
 
 	if ( !$cur )
