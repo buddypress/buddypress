@@ -441,8 +441,8 @@ class BuddyPress {
 		$this->db_version_raw = !empty( $versions ) ? (int) max( $versions ) : 0;
 
 		// Are we network activated?
-		if ( is_multisite() )
-			$this->is_network_activate = !empty( $versions['1.5-multi'] );
+		if ( is_multisite() && empty( $versions['1.5-multi'] ) )
+			$this->is_network_activate = true;
 
 		// Require all of the BuddyPress core libraries
 		require( $this->plugin_dir . 'bp-core/bp-core-caps.php'       );
