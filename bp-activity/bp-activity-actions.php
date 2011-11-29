@@ -88,7 +88,7 @@ function bp_activity_action_permalink_router() {
 
 	// Set redirect to users' activity stream
 	} else {
-		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id;
+		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 	}
 
 	// If set, add the original query string back onto the redirect URL
