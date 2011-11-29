@@ -809,7 +809,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$activity_link = bp_activity_get_permalink( $item['id'], (object) $item );
 
 		// Get the root activity ID; this may be not be the same as $item['id'] for nested items (e.g. activity_comments)
-		$is_root_activity  = empty( $item['item_id'] );
+		if ( empty( $item['item_id'] ) || ! in_array( $item['type'], apply_filters( 'bp_activity_admin_root_activity_types', array( 'activity_comment' ), $item ) ) )
+			$is_root_activity  = true;
+		else
+			$is_root_activity  = false;
+
 		$root_activity_id  = $is_root_activity ? $item['id'] : $item['item_id'];
 		$root_activity_url = network_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $root_activity_id );
 
