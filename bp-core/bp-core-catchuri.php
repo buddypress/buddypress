@@ -367,7 +367,7 @@ function bp_core_load_template( $templates ) {
 		$wp_query->queried_object_id = $object_id;
 		$post                        = $wp_query->queried_object;
 	}
-
+	
 	// Define local variables
 	$located_template   = false;
 	$filtered_templates = array();
@@ -385,7 +385,11 @@ function bp_core_load_template( $templates ) {
 		$wp_query->is_page = $wp_query->is_singular = true;
 		$wp_query->is_404  = false;
 
+		do_action( 'bp_core_pre_load_template', $located_template );
+
 		load_template( apply_filters( 'bp_load_template', $located_template ) );
+	
+		do_action( 'bp_core_post_load_template', $located_template );
 	}
 
 	// Kill any other output after this.

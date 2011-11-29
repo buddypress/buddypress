@@ -1600,4 +1600,58 @@ function bp_do_404( $redirect = 'remove_canonical_direct' ) {
 	if ( 'remove_canonical_direct' == $redirect )
 		remove_action( 'template_redirect', 'redirect_canonical' );
 }
+
+/**
+ * Canonicalizes BuddyPress URLs
+ *
+ * This function ensures that requests for BuddyPress content are always redirected to their
+ * most specific, trailingslashed versions.
+ *
+ * @since 1.6
+ * @see BP_Members_Component::setup_globals() where $bp->redirect_stack['base_url'] and
+ *   ['component'] may be set
+ * @see bp_core_new_nav_item() where $bp->redirect_stack['action'] may be set
+ */
+function bp_redirect_canonical() {
+	global $bp;
+	
+	if ( !bp_is_blog_page() && apply_filters( 'bp_do_redirect_canonical', true ) ) {
+		// build the URL in the address bar
+		$requested_url  = is_ssl() ? 'https://' : 'http://';
+		$requested_url .= $_SERVER['HTTP_HOST'];
+		$requested_url .= $_SERVER['REQUEST_URI'];
+		
+		// Stash query args
+		$url_stack      = explode( '?', $requested_url );
+		$req_url_clean  = $url_stack[0];
+		
+		// Process the redirect stack
+		if ( isset( $bp->redirect_stack['base_url'] ) ) {
+			$url_stack[0] = $bp->redirect_stack['base_url'];
+		}
+				
+		if ( isset( $bp->redirect_stack['component'] ) ) {
+			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->redirect_stack['component'] );
+		}
+				
+		if ( isset( $bp->redirect_stack['action'] ) ) {
+			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->redirect_stack['action'] );
+		}
+					
+		if ( !empty( $bp->redirect_stack['action_variables'] ) ) {
+			foreach( (array)$bp->redirect_stack['action_variables'] as $av ) {
+				$url_stack[0] = trailingslashit( $url_stack[0] . $av );	
+			}
+		}
+		
+		// Add trailing slash
+		$url_stack[0] = trailingslashit( $url_stack[0] );
+		
+		// Only redirect if we've assembled a URL different from the request
+		if ( $url_stack[0] !== $req_url_clean ) {
+			bp_core_redirect( implode( '?', $url_stack ) );
+		}
+	}
+}
+add_action( 'bp_core_pre_load_template', 'bp_redirect_canonical' );
 ?>

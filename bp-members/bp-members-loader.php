@@ -115,16 +115,11 @@ class BP_Members_Component extends BP_Component {
 		}
 
 		if ( !bp_current_component() && bp_displayed_user_id() ) {
-			/**
-			 * BuddyPress will attempt to resolve to the most specific URL possible,
-			 * to avoid search-engine-unfriendly content reduplication. Filter
-			 * bp_guarantee_unique_uris (and return false) to avoid this behavior
-			 */
-			if ( apply_filters( 'bp_guarantee_unique_uris', true ) ) {
-				bp_core_redirect( bp_displayed_user_domain() . $bp->default_component );
-			} else {
-				$bp->current_component = $bp->default_component;
-			}
+			$bp->current_component 		 = $bp->default_component;
+			
+			// Prepare for a redirect to the canonical URL
+			$bp->redirect_stack['base_url']  = bp_displayed_user_domain();
+			$bp->redirect_stack['component'] = $bp->default_component;
 		}
 	}
 

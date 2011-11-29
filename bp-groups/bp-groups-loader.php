@@ -164,7 +164,11 @@ class BP_Groups_Component extends BP_Component {
 		}
 		
 		if ( bp_is_groups_component() && !empty( $this->current_group ) && !bp_current_action() ) {
-			$bp->current_action = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
+			$bp->current_action 	         = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
+			
+			// Prepare for a redirect to the canonical URL
+			$bp->redirect_stack['base_url']  = bp_get_group_permalink( $this->current_group );
+			$bp->redirect_stack['action'] 	 = $bp->current_action;
 		}
 
 		// Group access control
