@@ -39,7 +39,7 @@ function bp_core_new_nav_item( $args = '' ) {
 	$bp->bp_nav[$slug] = array(
 		'name'                    => $name,
 		'slug'                    => $slug,
-		'link'                    => $bp->loggedin_user->domain . $slug . '/',
+		'link'                    => trailingslashit( $bp->loggedin_user->domain . $slug ),
 		'css_id'                  => $item_css_id,
 		'show_for_displayed_user' => $show_for_displayed_user,
 		'position'                => $position,
@@ -247,9 +247,9 @@ function bp_core_new_subnav_item( $args = '' ) {
 					// This covers the edge case where the default component is
 					// a non-public tab, like 'messages'
 					if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
-						$redirect_to = bp_displayed_user_domain() . bp_get_activity_slug();
+						$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() );
 					} else {
-						$redirect_to = bp_displayed_user_domain() . ( 'xprofile' == $bp->profile->id ? 'profile' : $bp->profile->id );
+						$redirect_to = trailingslashit( bp_displayed_user_domain() . ( 'xprofile' == $bp->profile->id ? 'profile' : $bp->profile->id ) );
 					}
 					
 					$message     = '';

@@ -237,7 +237,7 @@ function bp_styles() {
 /** Search Form ***************************************************************/
 
 function bp_search_form_action() {
-	return apply_filters( 'bp_search_form_action', bp_get_root_domain() . '/' . bp_get_search_slug() );
+	return apply_filters( 'bp_search_form_action', trailingslashit( bp_get_root_domain() . '/' . bp_get_search_slug() ) );
 }
 
 /**
