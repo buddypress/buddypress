@@ -1279,7 +1279,7 @@ class BP_Group_Extension {
 
 		// Construct the admin edit tab for the new group extension
 		if ( !empty( $this->enable_edit_item ) && !empty( $bp->is_item_admin ) ) {
-			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', '$selected = ""; if ( "' . esc_attr( $this->admin_slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $this->admin_slug ) . '\">' . esc_attr( $this->admin_name ) . '</a></li>";' ), 10, 2 );
+			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', '$selected = ""; if ( "' . esc_attr( $this->admin_slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $this->admin_slug ) ) . '\">' . esc_attr( $this->admin_name ) . '</a></li>";' ), 10, 2 );
 
 			// Catch the edit screen and forward it to the plugin template
 			if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $this->admin_slug, 0 ) ) {

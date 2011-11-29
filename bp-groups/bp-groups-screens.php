@@ -60,7 +60,7 @@ function groups_screen_group_invites() {
 			) );
 		}
 
-		bp_core_redirect( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
+		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() ) );
 
 	} else if ( bp_is_action_variable( 'reject' ) && is_numeric( $group_id ) ) {
 		// Check the nonce
@@ -72,7 +72,7 @@ function groups_screen_group_invites() {
 		else
 			bp_core_add_message( __('Group invite rejected', 'buddypress') );
 
-		bp_core_redirect( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
+		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() ) );
 	}
 
 	// Remove notifications
@@ -790,10 +790,10 @@ function groups_screen_group_admin_delete_group() {
 
 				do_action( 'groups_group_deleted', $bp->groups->current_group->id );
 
-				bp_core_redirect( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' );
+				bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) );
 			}
 
-			bp_core_redirect( bp_loggedin_user_domain() . bp_get_groups_slug() );
+			bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) );
 		}
 
 		do_action( 'groups_screen_group_admin_delete_group', $bp->groups->current_group->id );

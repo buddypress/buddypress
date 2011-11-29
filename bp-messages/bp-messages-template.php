@@ -254,7 +254,7 @@ function bp_message_thread_delete_link() {
 }
 	function bp_get_message_thread_delete_link() {
 		global $messages_template, $bp;
-		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id, 'messages_delete_thread' ) );
+		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( trailingslashit( $bp->loggedin_user->domain . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id ), 'messages_delete_thread' ) );
 	}
 
 function bp_message_css_class() {
@@ -479,9 +479,9 @@ function bp_message_activate_deactivate_link() {
 		global $messages_template, $bp;
 
 		if ( 1 == (int)$messages_template->thread->is_active ) {
-			$link = wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/deactivate/' . $messages_template->thread->id, 'messages_deactivate_notice' );
+			$link = wp_nonce_url( trailingslashit( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/deactivate/' . $messages_template->thread->id ), 'messages_deactivate_notice' );
 		} else {
-			$link = wp_nonce_url( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/activate/' . $messages_template->thread->id, 'messages_activate_notice' );
+			$link = wp_nonce_url( trailingslashit( $bp->loggedin_user->domain . $bp->messages->slug . '/notices/activate/' . $messages_template->thread->id ), 'messages_activate_notice' );
 		}
 		return apply_filters( 'bp_get_message_activate_deactivate_link', $link );
 	}

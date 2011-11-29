@@ -18,7 +18,7 @@ function groups_notification_group_updated( $group_id ) {
 		// Set up and send the message
 		$to = $ud->user_email;
 
-		$group_link    = site_url( bp_get_groups_root_slug(). '/' . $group->slug );
+		$group_link    = bp_get_group_permalink( $group );
 		$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
 		$settings_link = bp_core_get_user_domain( $user_id ) . $settings_slug . '/notifications/';
 
@@ -222,7 +222,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 		$settings_link = bp_core_get_user_domain( $invited_user_id ) . bp_get_settings_slug() . '/notifications/';
 		$invited_link = bp_core_get_user_domain( $invited_user_id );
-		$invites_link = $invited_link . bp_get_groups_slug() . '/invites';
+		$invites_link = trailingslashit( $invited_link . bp_get_groups_slug() . '/invites' );
 
 		// Set up and send the message
 		$to       = $invited_ud->user_email;

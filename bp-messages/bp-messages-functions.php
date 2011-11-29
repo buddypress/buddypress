@@ -233,7 +233,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	global $bp;
 
 	if ( 'new_message' == $action ) {
-		$link  = bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox';
+		$link  = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox' );
 		$title = __( 'Inbox', 'buddypress' );
 
 		if ( (int)$total_items > 1 ) {

@@ -758,7 +758,7 @@ function bp_get_displayed_user_nav() {
 		if ( $bp->loggedin_user->domain )
 			$link = str_replace( $bp->loggedin_user->domain, $bp->displayed_user->domain, $user_nav_item['link'] );
 		else
-			$link = $bp->displayed_user->domain . $user_nav_item['link'];
+			$link = trailingslashit( $bp->displayed_user->domain . $user_nav_item['link'] );
 
 		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], array( '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item ) );
 	}

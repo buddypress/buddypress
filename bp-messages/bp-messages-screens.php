@@ -114,7 +114,7 @@ function messages_screen_notices() {
 				bp_core_add_message( __('Notice deleted.', 'buddypress') );
 			}
 		}
-		bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices' );
+		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices' ) );
 	}
 
 	if ( bp_action_variables() ) {
