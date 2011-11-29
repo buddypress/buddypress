@@ -69,7 +69,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 
 	switch ( $action ) {
 		case 'friendship_accepted':
-			$link = bp_loggedin_user_domain() . bp_get_friends_slug() . '/my-friends/newest';
+			$link = trailingslashit( bp_loggedin_user_domain() . bp_get_friends_slug() . '/my-friends/newest' );
 
 			// Set up the string and the filter
 			if ( (int)$total_items > 1 ) {
@@ -83,7 +83,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 			break;
 
 		case 'friendship_request':
-			$link = bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests?new';
+			$link = bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/?new';
 
 			// Set up the string and the filter
 			if ( (int)$total_items > 1 ) {

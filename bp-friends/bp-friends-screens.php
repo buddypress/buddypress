@@ -29,7 +29,7 @@ function friends_screen_requests() {
 		else
 			bp_core_add_message( __( 'Friendship could not be accepted', 'buddypress' ), 'error' );
 
-		bp_core_redirect( bp_loggedin_user_domain() . bp_current_component() . '/' . bp_current_action() );
+		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_current_component() . '/' . bp_current_action() ) );
 
 	} elseif ( bp_is_action_variable( 'reject', 0 ) && is_numeric( bp_action_variable( 1 ) ) ) {
 		// Check the nonce
@@ -40,7 +40,7 @@ function friends_screen_requests() {
 		else
 			bp_core_add_message( __( 'Friendship could not be rejected', 'buddypress' ), 'error' );
 
-		bp_core_redirect( bp_loggedin_user_domain() . bp_current_component() . '/' . bp_current_action() );
+		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_current_component() . '/' . bp_current_action() ) );
 	}
 
 	do_action( 'friends_screen_requests' );
