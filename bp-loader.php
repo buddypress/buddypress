@@ -464,7 +464,7 @@ class BuddyPress {
 		require( $this->plugin_dir . 'bp-core/bp-core-loader.php'     );
 
 		// Skip or load deprecated content
-		if ( false === $this->load_deprecated ) {
+		if ( false !== $this->load_deprecated ) {
 			require( $this->plugin_dir . 'bp-core/deprecated/1.5.php' );
 			require( $this->plugin_dir . 'bp-core/deprecated/1.6.php' );
 		}
