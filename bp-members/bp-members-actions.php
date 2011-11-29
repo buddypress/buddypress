@@ -89,11 +89,6 @@ function bp_core_action_set_spammer_status( $user_id = 0 ) {
 			bp_core_add_message( __( 'User removed as spammer.', 'buddypress' ) );
 		}
 
-		// Hide this user's activity
-		if ( $is_spam && bp_is_active( 'activity' ) ) {
-			bp_activity_hide_user_activity( $user_id );
-		}
-
 		// We need a special hook for is_spam so that components can delete data at spam time
 		$bp_action = $is_spam ? 'bp_make_spam_user' : 'bp_make_ham_user';
 		do_action( $bp_action, bp_displayed_user_id() );

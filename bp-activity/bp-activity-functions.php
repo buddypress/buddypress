@@ -660,7 +660,7 @@ function bp_activity_spam_all_user_data( $user_id = 0 ) {
 	global $bp, $wpdb;
 
 	// Do not delete user data unless a logged in user says so
-	if ( empty( $user_id ) || !is_user_logged_in() )
+	if ( empty( $user_id ) || ! is_user_logged_in() )
 		return false;
 
 	// Get all the user's activities.
@@ -698,6 +698,57 @@ function bp_activity_spam_all_user_data( $user_id = 0 ) {
 	do_action( 'bp_activity_spam_all_user_data', $user_id, $activities['activities'] );
 }
 add_action( 'bp_make_spam_user', 'bp_activity_spam_all_user_data' );
+
+/**
+ * Mark all of the user's activity as ham (not spam)
+ *
+ * @global object $wpdb
+ * @global object $bp BuddyPress global settings
+ * @param int $user_id
+ * @since 1.6
+ */
+function bp_activity_ham_all_user_data( $user_id = 0 ) {
+	global $bp, $wpdb;
+
+	// Do not delete user data unless a logged in user says so
+	if ( empty( $user_id ) || ! is_user_logged_in() )
+		return false;
+
+	// Get all the user's activities.
+	$activities = bp_activity_get( array( 'display_comments' => 'stream', 'filter' => array( 'user_id' => $user_id ), 'show_hidden' => true, 'spam' => 'all', ) );
+
+	// Mark each as not spam
+	foreach ( (array) $activities['activities'] as $activity ) {
+
+		// Create an activity object
+		$activity_obj = new BP_Activity_Activity;
+		foreach ( $activity as $k => $v )
+			$activity_obj->$k = $v;
+
+		// Mark as not spam	
+		bp_activity_mark_as_ham( $activity_obj );
+
+		/*
+		 * If Akismet is present, update the activity history meta.
+		 *
+		 * This is usually taken care of when BP_Activity_Activity::save() happens, but
+		 * as we're going to be updating all the activity statuses directly, for efficency,
+		 * we need to update manually.
+		 */
+		if ( ! empty( $bp->activity->akismet ) )
+			$bp->activity->akismet->update_activity_ham_meta( $activity_obj );
+
+		// Tidy up
+		unset( $activity_obj );
+	}
+
+	// Mark all of this user's activities as spam
+	$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET is_spam = 0 WHERE user_id = %d", $user_id ) );
+
+	// Call an action for plugins to use
+	do_action( 'bp_activity_ham_all_user_data', $user_id, $activities['activities'] );
+}
+add_action( 'bp_make_ham_user', 'bp_activity_ham_all_user_data' );
 
 /**
  * Register the activity stream actions for updates
