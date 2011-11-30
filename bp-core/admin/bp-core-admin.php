@@ -122,7 +122,7 @@ function bp_core_admin_settings() {
 		<?php if ( isset( $_POST['bp-admin'] ) ) : ?>
 
 			<div id="message" class="updated fade">
-				<p><?php _e( 'Settings Saved', 'buddypress' ); ?></p>
+				<p><strong><?php _e( 'Settings Saved', 'buddypress' ); ?></strong></p>
 			</div>
 
 		<?php endif; ?>
@@ -283,21 +283,9 @@ function bp_core_admin_component_setup() {
 ?>
 
 	<div class="wrap">
-
 		<?php screen_icon( 'buddypress'); ?>
 
 		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Components', 'buddypress' ) ); ?></h2>
-
-		<?php if ( isset( $_GET['updated'] ) && 'true' === $_GET['updated'] ) : ?>
-
-			<div id="message" class="updated fade">
-
-				<p><?php _e( 'Settings Saved', 'buddypress' ); ?></p>
-
-			</div>
-
-		<?php endif; ?>
-
 		<form action="" method="post" id="bp-admin-component-form">
 
 			<?php bp_core_admin_component_options(); ?>
@@ -325,21 +313,9 @@ function bp_core_admin_page_setup() {
 ?>
 
 	<div class="wrap">
-
 		<?php screen_icon( 'buddypress'); ?>
 
 		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Pages', 'buddypress' ) ); ?></h2>
-
-		<?php if ( isset( $_GET['updated'] ) && 'true' === $_GET['updated'] ) : ?>
-
-			<div id="message" class="updated fade">
-
-				<p><?php _e( 'Settings Saved', 'buddypress' ); ?></p>
-
-			</div>
-
-		<?php endif; ?>
-
 		<form action="" method="post" id="bp-admin-page-form">
 
 			<?php bp_core_admin_page_options(); ?>
