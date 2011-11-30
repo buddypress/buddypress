@@ -491,6 +491,15 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'spam'             => $spam,
 		) );
 
+		// If we're viewing a specific activity, flatten all activites into a single array.
+		if ( $include_id ) {
+			$activities['activities'] = BP_Activity_List_Table::flatten_activity_array( $activities['activities'] );
+			$activities['total']      = count( $activities['activities'] );
+
+			// Sort the array by the activity object's date_recorded value
+			usort( $activities['activities'], create_function( '$a, $b', 'return $a->date_recorded > $b->date_recorded;' ) );
+		}
+
 		// bp_activity_get returns an array of objects; cast these to arrays for WP_List_Table.
 		$new_activities = array();
 		foreach ( $activities['activities'] as $activity_item ) {
@@ -499,10 +508,6 @@ class BP_Activity_List_Table extends WP_List_Table {
 			// Build an array of activity-to-user ID mappings for better efficency in the In Response To column
 			$this->activity_user_id[$activity_item->id] = $activity_item->user_id;
 		}
-
-		// @todo If we're viewing a specific activity, check/merge $activity->children into the main list (recursive).
-		/*if ( $include_id ) {
-		}*/
 
 		// Set raw data to display
 		$this->items       = $new_activities;
@@ -869,6 +874,28 @@ class BP_Activity_List_Table extends WP_List_Table {
 			// Return the user ID
 			return $activity['activities'][0]->user_id;
 		}
+	}
+
+	/**
+	 * Helper function to flatten all activites returned from bp_activity_get() into a single array.
+	 *
+	 * @param array $tree Source array
+	 * @return array Flattened array
+	 * @since 1.6
+	 */
+	public static function flatten_activity_array( $tree ){
+		foreach ( (array) $tree as $node ) {
+			if ( isset( $node->children ) ) {
+
+				foreach ( BP_Activity_List_Table::flatten_activity_array( $node->children ) as $child ) {
+					$tree[] = $child;
+				}
+
+				unset( $node->children );
+			}
+		}
+
+		return $tree;
 	}
 }
 ?>
