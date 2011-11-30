@@ -286,10 +286,11 @@ function bp_activity_admin_load() {
  * Outputs the Activity component admin screens
  *
  * @global BP_Activity_List_Table $bp_activity_list_table Activity screen list table
+ * @global string $plugin_page
  * @since 1.6
  */
 function bp_activity_admin() {
-	global $bp_activity_list_table;
+	global $bp_activity_list_table, $plugin_page;
 
 	$messages = array();
 
@@ -345,8 +346,7 @@ function bp_activity_admin() {
 
 		<form id="bp-activities-form" action="" method="get">
 			<?php $bp_activity_list_table->search_box( __( 'Search Activities', 'buddypress' ), 'bp-activity' ); ?>
-
-			<input type="hidden" name="page" value="<?php echo esc_attr( (int) $_REQUEST['page'] ); ?>" />
+			<input type="hidden" name="page" value="<?php echo esc_attr( $plugin_page ); ?>" />
 			<?php $bp_activity_list_table->display(); ?>
 		</form>
 
