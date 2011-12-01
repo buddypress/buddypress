@@ -150,7 +150,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	if ( 'user' == $object )
 		$item_name = bp_core_get_user_displayname( $item_id );
 	elseif ( 'group' == $object )
-		$item_name = bp_get_group_name( new BP_Groups_Group( $item_id ) );
+		$item_name = bp_get_group_name( groups_get_group( array( 'group_id' => $item_id ) ) );
 	elseif ( 'blog' == $object )
 		$item_name = get_blog_option( $item_id, 'blogname' );
 

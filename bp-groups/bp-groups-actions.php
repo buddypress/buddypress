@@ -54,7 +54,7 @@ function groups_action_create_group() {
 	// Set the ID of the new group, if it has already been created in a previous step
 	if ( isset( $_COOKIE['bp_new_group_id'] ) ) {
 		$bp->groups->new_group_id = $_COOKIE['bp_new_group_id'];
-		$bp->groups->current_group = new BP_Groups_Group( $bp->groups->new_group_id );
+		$bp->groups->current_group = groups_get_group( array( 'group_id' => $bp->groups->new_group_id ) );
 	}
 
 	// If the save, upload or skip button is hit, lets calculate what we need to save

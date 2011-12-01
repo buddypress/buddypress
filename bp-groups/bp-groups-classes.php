@@ -119,6 +119,8 @@ Class BP_Groups_Group {
 			$this->id = $wpdb->insert_id;
 
 		do_action_ref_array( 'groups_group_after_save', array( &$this ) );
+		
+		wp_cache_delete( 'bp_groups_group_' . $this->id, 'bp' );
 
 		return true;
 	}
@@ -140,6 +142,8 @@ Class BP_Groups_Group {
 		BP_Groups_Member::delete_all( $this->id );
 
 		do_action_ref_array( 'bp_groups_delete_group', array( &$this ) );
+
+		wp_cache_delete( 'bp_groups_group_' . $this->id, 'bp' );
 
 		// Finally remove the group entry from the DB
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name} WHERE id = %d", $this->id ) ) )

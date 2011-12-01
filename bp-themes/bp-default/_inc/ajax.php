@@ -515,7 +515,7 @@ function bp_dtheme_ajax_joinleave_group() {
 	if ( groups_is_user_banned( bp_loggedin_user_id(), $_POST['gid'] ) )
 		return false;
 
-	if ( !$group = new BP_Groups_Group( $_POST['gid'], false, false ) )
+	if ( !$group = groups_get_group( array( 'group_id' => $_POST['gid'] ) ) )
 		return false;
 
 	if ( !groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {

@@ -23,6 +23,16 @@ function bp_groups_has_directory() {
 	return (bool) !empty( $bp->pages->groups->id );
 }
 
+/**
+ * Pulls up the database object corresponding to a group
+ *
+ * When calling up a group object, you should always use this function instead
+ * of instantiating BP_Groups_Group directly, so that you will inherit cache
+ * support and pass through the groups_get_group filter.
+ *
+ * @param $args The load_users parameter is deprecated and does nothing.
+ * @return obj $group The group object
+ */
 function groups_get_group( $args = '' ) {
 	$defaults = array(
 		'group_id'   => false,
@@ -31,8 +41,15 @@ function groups_get_group( $args = '' ) {
 
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args, EXTR_SKIP );
+	
+	$cache_key = 'bp_groups_group_' . $group_id . ( $load_users ? '_load_users' : '_noload_users' );
+	
+	if ( !$group = wp_cache_get( $cache_key, 'bp' ) ) {
+		$group = new BP_Groups_Group( $group_id, true, $load_users );
+		wp_cache_set( $cache_key, $group, 'bp' );
+	}
 
-	return apply_filters( 'groups_get_group', new BP_Groups_Group( $group_id, true, $load_users ) );
+	return apply_filters( 'groups_get_group', $group );
 }
 
 /*** Group Creation, Editing & Deletion *****************************************/
@@ -55,7 +72,7 @@ function groups_create_group( $args = '' ) {
 	 */
 
 	if ( isset( $group_id ) && $group_id )
-		$group = new BP_Groups_Group( $group_id );
+		$group = groups_get_group( array( 'group_id' => $group_id ) );
 	else
 		$group = new BP_Groups_Group;
 
@@ -117,7 +134,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 	if ( empty( $group_name ) || empty( $group_desc ) )
 		return false;
 
-	$group              = new BP_Groups_Group( $group_id );
+	$group              = groups_get_group( array( 'group_id' => $group_id ) );
 	$group->name        = $group_name;
 	$group->description = $group_desc;
 
@@ -136,7 +153,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false ) {
 	global $bp;
 
-	$group = new BP_Groups_Group( $group_id );
+	$group = groups_get_group( array( 'group_id' => $group_id ) );
 	$group->enable_forum = $enable_forum;
 
 	/***
@@ -184,7 +201,7 @@ function groups_delete_group( $group_id ) {
 		return false;
 
 	// Get the group object
-	$group = new BP_Groups_Group( $group_id );
+	$group = groups_get_group( array( 'group_id' => $group_id ) );
 	if ( !$group->delete() )
 		return false;
 
@@ -237,7 +254,7 @@ function groups_check_slug( $slug ) {
 }
 
 function groups_get_slug( $group_id ) {
-	$group = new BP_Groups_Group( $group_id );
+	$group = groups_get_group( array( 'group_id' => $group_id ) );
 	return $group->slug;
 }
 
@@ -315,7 +332,7 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 		return false;
 
 	if ( !isset( $bp->groups->current_group ) || !$bp->groups->current_group || $group_id != $bp->groups->current_group->id )
-		$group = new BP_Groups_Group( $group_id );
+		$group = groups_get_group( array( 'group_id' => $group_id ) );
 	else
 		$group = $bp->groups->current_group;
 
@@ -503,7 +520,7 @@ function groups_post_update( $args = '' ) {
 	if ( empty( $content ) || !strlen( trim( $content ) ) || empty( $user_id ) || empty( $group_id ) )
 		return false;
 
-	$bp->groups->current_group = new BP_Groups_Group( $group_id );
+	$bp->groups->current_group = groups_get_group( array( 'group_id' => $group_id ) );
 
 	// Be sure the user is a member of the group before posting.
 	if ( !bp_current_user_can( 'bp_moderate' ) && !groups_is_user_member( $user_id, $group_id ) )
@@ -637,7 +654,7 @@ function groups_send_invites( $user_id, $group_id ) {
 
 	// Send friend invites.
 	$invited_users = groups_get_invites_for_group( $user_id, $group_id );
-	$group = new BP_Groups_Group( $group_id );
+	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
 	for ( $i = 0, $count = count( $invited_users ); $i < $count; ++$i ) {
 		$member = new BP_Groups_Member( $invited_users[$i], $group_id );
@@ -803,7 +820,7 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
 	groups_update_groupmeta( $membership->group_id, 'total_member_count', (int) groups_get_groupmeta( $membership->group_id, 'total_member_count') + 1 );
 
 	// Record this in activity streams
-	$group = new BP_Groups_Group( $membership->group_id );
+	$group = groups_get_group( array( 'group_id' => $membership->group_id ) );
 
 	groups_record_activity( array(
 		'action'  => apply_filters_ref_array( 'groups_activity_membership_accepted_action', array( sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $membership->user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( $group->name ) . '</a>' ), $membership->user_id, &$group ) ),

@@ -216,7 +216,7 @@ class BP_Groups_Template {
 		$this->group = $this->next_group();
 
 		if ( $this->single_group )
-			$this->group = new BP_Groups_Group( $this->group->group_id );
+			$this->group = groups_get_group( array( 'group_id' => $this->group->group_id ) );
 
 		if ( 0 == $this->current_group ) // loop has just started
 			do_action('group_loop_start');

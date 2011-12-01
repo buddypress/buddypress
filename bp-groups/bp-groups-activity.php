@@ -83,7 +83,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $secondary_item_id;
 			$requesting_user_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id );
+			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
 
 			// Set up the string and the filter
@@ -123,7 +123,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_accepted':
 			$group_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id );
+			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
@@ -159,7 +159,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_rejected':
 			$group_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id );
+			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
@@ -195,7 +195,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_admin':
 			$group_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id );
+			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
@@ -231,7 +231,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_mod':
 			$group_id = $item_id;
 
-			$group = new BP_Groups_Group( $group_id );
+			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
 
 			if ( (int)$total_items > 1 ) {
@@ -266,7 +266,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 		case 'group_invite':
 			$group_id = $item_id;
-			$group = new BP_Groups_Group( $group_id );
+			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
 
 			$notification_link = bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/?n=1';

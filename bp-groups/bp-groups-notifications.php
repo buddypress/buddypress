@@ -5,7 +5,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function groups_notification_group_updated( $group_id ) {
 	global $bp;
 
-	$group    = new BP_Groups_Group( $group_id );
+	$group    = groups_get_group( array( 'group_id' => $group_id ) );
 	$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
 	$subject  = '[' . $sitename . '] ' . __( 'Group Details Updated', 'buddypress' );
 
@@ -54,7 +54,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 		return false;
 
 	$requesting_user_name = bp_core_get_user_displayname( $requesting_user_id );
-	$group = new BP_Groups_Group( $group_id );
+	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
 	$ud = bp_core_get_core_userdata($admin_id);
 	$requesting_ud = bp_core_get_core_userdata($requesting_user_id);
@@ -106,7 +106,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 	if ( 'no' == bp_get_user_meta( $requesting_user_id, 'notification_membership_request_completed', true ) )
 		return false;
 
-	$group = new BP_Groups_Group( $group_id );
+	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
 	$ud = bp_core_get_core_userdata($requesting_user_id);
 
@@ -168,7 +168,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 	if ( 'no' == bp_get_user_meta( $user_id, 'notification_groups_admin_promotion', true ) )
 		return false;
 
-	$group         = new BP_Groups_Group( $group_id );
+	$group         = groups_get_group( array( 'group_id' => $group_id ) );
 	$ud            = bp_core_get_core_userdata($user_id);
 	$group_link    = bp_get_group_permalink( $group );
 	$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
