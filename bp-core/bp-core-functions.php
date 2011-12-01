@@ -339,15 +339,16 @@ function bp_core_add_admin_menu() {
  		return;
 
 	$hooks = array();
+ 	$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 
 	// Changed in BP 1.6 . See bp_core_admin_backpat_menu()
 	$hooks[] = add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_backpat_menu', '' );
 	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'BuddyPress Help', 'buddypress' ), __( 'Help', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_backpat_page' );
 
 	// Add the option pages
-	$hooks[] = add_options_page( __( 'BuddyPress Components', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-config', 'bp_core_admin_component_setup' );
-	$hooks[] = add_options_page( __( 'BuddyPress Pages', 'buddypress' ),      __( 'BuddyPress Pages', 'buddypress' ),      'manage_options', 'bp-page-settings',  'bp_core_admin_page_setup'      );
-	$hooks[] = add_options_page( __( 'BuddyPress Settings', 'buddypress' ),   __( 'BuddyPress Settings', 'buddypress' ),   'manage_options', 'bp-settings',       'bp_core_admin_settings'        );
+	$hooks[] = add_submenu_page( $page, __( 'BuddyPress Components', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-config', 'bp_core_admin_component_setup' );
+	$hooks[] = add_submenu_page( $page, __( 'BuddyPress Pages', 'buddypress' ),      __( 'BuddyPress Pages', 'buddypress' ),      'manage_options', 'bp-page-settings',  'bp_core_admin_page_setup'      );
+	$hooks[] = add_submenu_page( $page, __( 'BuddyPress Settings', 'buddypress' ),   __( 'BuddyPress Settings', 'buddypress' ),   'manage_options', 'bp-settings',       'bp_core_admin_settings'        );
 
 	foreach( $hooks as $hook ) {
 		// Add a hook for common BP admin CSS/JS scripts
@@ -364,9 +365,11 @@ function bp_core_add_admin_menu() {
  * @since 1.6
  */
 function bp_core_modify_admin_menu() {
-	remove_submenu_page( 'options-general.php', 'bb-forums-setup' );
-	remove_submenu_page( 'options-general.php', 'bp-page-settings' );
-	remove_submenu_page( 'options-general.php', 'bp-settings' );
+ 	$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
+
+	remove_submenu_page( $page, 'bb-forums-setup' );
+	remove_submenu_page( $page, 'bp-page-settings' );
+	remove_submenu_page( $page, 'bp-settings' );
 }
 add_action( "admin_head", 'bp_core_modify_admin_menu', 999 );
 

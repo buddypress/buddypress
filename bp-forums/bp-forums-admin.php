@@ -9,7 +9,8 @@ function bp_forums_add_admin_menu() {
 		return;
 
 	// Add the option pages
-	$hook = add_options_page( __( 'BuddyPress Forums', 'buddypress' ), __( 'BuddyPress Forums', 'buddypress' ), 'manage_options', 'bb-forums-setup', 'bp_forums_bbpress_admin' );
+	$page = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
+	$hook = add_submenu_page( $page, __( 'BuddyPress Forums', 'buddypress' ), __( 'BuddyPress Forums', 'buddypress' ), 'manage_options', 'bb-forums-setup', 'bp_forums_bbpress_admin' );
 
 	// Add a hook for common BP admin CSS/JS scripts
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
