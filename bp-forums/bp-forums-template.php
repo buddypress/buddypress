@@ -151,6 +151,9 @@ class BP_Forums_Template_Forum {
 			} else if ( bp_is_user_forums_replied_to() ) {
 				// Profile > Forums > Replied To
 				$topic_count = bp_forums_total_replied_count_for_user( bp_displayed_user_id(), $type );
+			} else if ( 'tags' == $type ) {
+				$tag         = bb_get_tag( $search_terms );
+				$topic_count = $tag->count;
 			} else {
 				// For forum directories (All Topics), get a true count
 				$status = bp_current_user_can( 'bp_moderate' ) ? 'all' : 'public'; // todo: member-of
@@ -415,7 +418,7 @@ function bp_has_forum_topics( $args = '' ) {
 		// When skipping the sticky logic, just pull up the forum topics like usual
 		$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, 'all', $search_terms );
 	}
-
+	
 	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), $forum_template );
 }
 
@@ -970,7 +973,6 @@ function bp_is_edit_topic() {
 
 	return true;
 }
-
 
 class BP_Forums_Template_Topic {
 	var $current_post = -1;
