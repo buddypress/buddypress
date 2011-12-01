@@ -197,7 +197,7 @@ function bp_activity_admin_load() {
 		$activity_ids = array_map( 'absint', (array) $_REQUEST['aid'] );
 
 		// Is this a bulk request?
-		if ( 'bulk_' == substr( $doaction, 0, 5 ) && !empty( $_REQUEST['aid'] ) ) {
+		if ( 'bulk_' == substr( $doaction, 0, 5 ) && ! empty( $_REQUEST['aid'] ) ) {
 			// Check this is a valid form submission
 			check_admin_referer( 'bulk-activities' );
 
@@ -854,7 +854,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	function column_response( $item ) {
 		// Is $item is a root activity?
-		if ( empty( $item['item_id'] ) ) {
+		if ( empty( $item['item_id'] ) || ! in_array( $item['type'], apply_filters( 'bp_activity_admin_root_activity_types', array( 'activity_comment' ), $item ) ) ) {
 			$comment_count     = !empty( $item['children'] ) ? bp_activity_recurse_comment_count( (object) $item ) : 0;
 			$root_activity_url = network_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $item['id'] );
 
