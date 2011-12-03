@@ -17,7 +17,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 if ( !class_exists( 'WP_List_Table' ) ) require( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 
 // per_page screen option. Has to be hooked in extremely early.
-add_filter( 'set-screen-option', 'bp_activity_admin_screen_options', 10, 3 );
+if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-activity' == $_REQUEST['page'] )
+	add_filter( 'set-screen-option', 'bp_activity_admin_screen_options', 10, 3 );
 
 /**
  * Registers the Activity component admin screen
@@ -121,7 +122,7 @@ add_action( 'wp_ajax_bp-activity-admin-reply', 'bp_activity_admin_reply' );
  * @since 1.6
  */
 function bp_activity_admin_screen_options( $value, $option, $new_value ) {
-	if ( 'toplevel_page_bp_activity_settings_per_page' != $option )
+	if ( 'toplevel_page_bp_activity_per_page' != $option )
 		return $value;
 
 	// Per page
@@ -141,15 +142,38 @@ function bp_activity_admin_screen_options( $value, $option, $new_value ) {
 function bp_activity_admin_load() {
 	global $bp_activity_list_table;
 
-	// Create the Activity screen list table
-	$bp_activity_list_table = new BP_Activity_List_Table();
+	// Decide whether to load the dev version of the CSS and JavaScript
+	$dev = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'dev.' : '';
+
+	// Decide whether to load the index or edit screen
+	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 
 	// Edit screen
-	if ( 'edit' == $bp_activity_list_table->current_action() && !empty( $_GET['aid'] ) ) {
-		// @todo Contextual help for the edit screen
+	if ( 'edit' == $doaction && ! empty( $_GET['aid'] ) ) {
+		get_current_screen()->add_help_tab( array(
+			'id'      => 'bp-activity-edit-overview',
+			'title'   => __( 'Overview', 'buddypress' ),
+			'content' =>
+				'<p>' . __( 'You can edit activities made on your site similar to the way you edit a comment. This is useful if you need to change which page the activity links to, or when you notice that the author has made a typographical error.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'You can also moderate the activity from this screen using the Status box, where you can also change the timestamp of the activity.', 'buddypress' ) . '</p>'
+		) );
+
+		// Register metaboxes for the edit screen.
+		add_meta_box( 'submitdiv', _x( 'Status', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_status', 'toplevel_page_bp-activity', 'side', 'core' );
+
+		// Enqueue javascripts
+		wp_enqueue_script( 'postbox' );
+		wp_enqueue_script( 'dashboard' );
+		wp_enqueue_script( 'comment' );
+
+		// Enqueue CSS
+		wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(), '20111203' );
 
 	// Index screen
 	} else {
+		// Create the Activity screen list table
+		$bp_activity_list_table = new BP_Activity_List_Table();
+
 		// per_page screen option
 		add_screen_option( 'per_page', array( 'label' => _x( 'Activities', 'Activity items per page (screen options)', 'buddypress' )) );
 
@@ -162,7 +186,7 @@ function bp_activity_admin_load() {
 				'<p>' . __( 'There are many different types of activities. Some are generated automatically by BuddyPress and other plugins, and some are entered directly by a user in the form of status update. To help manage the different activity types, use the filter dropdown box to switch between them.', 'buddypress' ) . '</p>'
 		) );
 
-	// Help panel - moderation text
+		// Help panel - moderation text
 		get_current_screen()->add_help_tab( array(
 			'id'		=> 'bp-activity-moderating',
 			'title'		=> __( 'Moderating Activities', 'buddypress' ),
@@ -174,9 +198,8 @@ function bp_activity_admin_load() {
 		) );
 
 		// Enqueue CSS and JavaScript
-		$dev = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'dev.' : '';
 		wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . "bp-activity/admin/js/admin.{$dev}js", array( 'jquery', 'wp-ajax-response' ), '20111120' );
-		wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(), '20111126' );
+		wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(), '20111203' );
 	}
 
 	// Help panel - sidebar links
@@ -186,8 +209,7 @@ function bp_activity_admin_load() {
 	);
 
 	// Handle spam/un-spam/delete of activities
-	$doaction = $bp_activity_list_table->current_action();
-	if ( $doaction && 'edit' != $doaction ) {
+	if ( $doaction && ! in_array( $doaction, array( '-1', 'edit', 'save', ) ) ) {
 
 		// Build redirection URL
 		$redirect_to = remove_query_arg( array( 'aid', 'deleted', 'error', 'spammed', 'unspammed', ), wp_get_referer() );
@@ -294,6 +316,109 @@ function bp_activity_admin_load() {
 		wp_redirect( $redirect_to );
 		exit;
 
+
+	// Save the edit
+	} elseif ( $doaction && 'save' == $doaction ) {
+		// Build redirection URL
+		$redirect_to = remove_query_arg( array( 'action', 'aid', 'deleted', 'error', 'spammed', 'unspammed', ), $_SERVER['REQUEST_URI'] );
+
+		// Get activity ID
+		$activity_id = (int) $_REQUEST['aid'];
+
+		// Check this is a valid form submission
+		check_admin_referer( 'edit-activity_' . $activity_id );
+
+		// Get the activity from the database
+		$activity = new BP_Activity_Activity( $activity_id );
+
+		// If the activity doesn't exist, just redirect back to the index
+		if ( empty( $activity->component ) ) {
+			wp_redirect( $redirect_to );
+			exit;
+		}
+
+		// Check the form for the updated properties
+
+		// Store any error that occurs when updating the database item
+		$error = 0;
+
+		// Set tainted if a new form value is different from the object's old value
+		$tainted = false;
+		
+		// Activity spam status
+		if ( ! empty( $_REQUEST['activity_status'] ) ) {
+			$prev_spam_status = $activity->is_spam;
+			$new_spam_status  = ( 'spam' == $_REQUEST['activity_status'] ) ? 1 : 0;
+		}
+
+		// Activity action
+		if ( ! empty( $_REQUEST['bp-activities-action'] ) && stripslashes( $activity->action ) != stripslashes( $_REQUEST['bp-activities-action'] ) ) {
+			$activity->action = $_REQUEST['bp-activities-action'];
+			$tainted = true;
+		}
+
+		// Activity content
+		if ( ! empty( $_REQUEST['bp-activities-content'] ) && stripslashes( $activity->content ) != stripslashes( $_REQUEST['bp-activities-content'] ) ) {
+			$activity->content = $_REQUEST['bp-activities-content'];
+			$tainted = true;
+		}
+
+		// Activity timestamp
+		if ( ! empty( $_REQUEST['aa'] ) && ! empty( $_REQUEST['mm'] ) && ! empty( $_REQUEST['jj'] ) && ! empty( $_REQUEST['hh'] ) && ! empty( $_REQUEST['mn'] ) && ! empty( $_REQUEST['ss'] ) ) {
+			$aa = $_REQUEST['aa'];
+			$mm = $_REQUEST['mm'];
+			$jj = $_REQUEST['jj'];
+			$hh = $_REQUEST['hh'];
+			$mn = $_REQUEST['mn'];
+			$ss = $_REQUEST['ss'];
+			$aa = ( $aa <= 0 ) ? date( 'Y' ) : $aa;
+			$mm = ( $mm <= 0 ) ? date( 'n' ) : $mm;
+			$jj = ( $jj > 31 ) ? 31 : $jj;
+			$jj = ( $jj <= 0 ) ? date( 'j' ) : $jj;
+			$hh = ( $hh > 23 ) ? $hh -24 : $hh;
+			$mn = ( $mn > 59 ) ? $mn -60 : $mn;
+			$ss = ( $ss > 59 ) ? $ss -60 : $ss;
+
+			// Reconstruct the date into a timestamp. Convert it to GMT.
+			$gmt_date = get_gmt_from_date( sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss ) );
+
+			if ( $activity->date_recorded != $gmt_date ) {
+				$activity->date_recorded = $gmt_date;
+				$tainted = true;
+			}
+		}
+
+		// Has the spam status has changed?
+		if ( $prev_spam_status != $new_spam_status ) {
+			if ( 1 == $new_spam_status)
+				bp_activity_mark_as_spam( $activity );
+			else
+				bp_activity_mark_as_ham( $activity );
+
+			$tainted = true;
+		}
+
+		// Save
+		$result = $activity->save();
+
+		// Clear the activity stream first page cache, in case this activity's timestamp was changed
+		wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
+
+		// Check for any error during activity save
+		if ( ! $result && $tainted )
+			$error = $activity->id;
+
+		// If an error occured, pass back the activity ID that failed
+		if ( $error )
+			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
+		else
+			$redirect_to = add_query_arg( 'updated', (int) $activity->id, $redirect_to );
+
+		// Redirect
+		wp_redirect( $redirect_to );
+		exit;
+
+
 	// If a referrer and a nonce is supplied, but no action, redirect back.
 	} elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
 		wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );
@@ -304,14 +429,14 @@ function bp_activity_admin_load() {
 /**
  * Outputs the Activity component admin screens
  *
- * @global BP_Activity_List_Table $bp_activity_list_table Activity screen list table
  * @since 1.6
  */
 function bp_activity_admin() {
-	global $bp_activity_list_table;
+	// Decide whether to load the index or edit screen
+	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 
 	// Display the single activity edit screen
-	if ( 'edit' == $bp_activity_list_table->current_action() && !empty( $_GET['aid'] ) )
+	if ( 'edit' == $doaction && ! empty( $_GET['aid'] ) )
 		bp_activity_admin_edit();
 
 	// Otherwise, display the Activity index screen
@@ -322,11 +447,129 @@ function bp_activity_admin() {
 /**
  * Display the single activity edit screen
  *
- * @global BP_Activity_List_Table $bp_activity_list_table Activity screen list table
  * @since 1.6
  */
 function bp_activity_admin_edit() {
-	global $bp_activity_list_table;
+	// @todo: Check if user is allowed to edit activity items
+	// if ( ! current_user_can( 'bp_edit_activity' ) )
+	if ( ! is_super_admin() )
+		die( '-1' );
+
+	// Get the activity from the database
+	$activity = bp_activity_get( array(
+		'in'          => ! empty( $_REQUEST['aid'] ) ? (int) $_REQUEST['aid'] : 0,
+		'max'         => 1,
+		'show_hidden' => true,
+		'spam'        => 'all',
+	) );
+
+	if ( ! empty( $activity['activities'][0] ) ) {
+		$activity = $activity['activities'][0];
+
+		// Workaround to use WP's touch_time() without duplicating that function
+		$GLOBALS['comment'] = new stdClass;
+		$GLOBALS['comment']->comment_date = $activity->date_recorded;
+	} else {
+		$activity = '';
+	}
+
+	// Construct URL for form
+	$form_url = remove_query_arg( array( 'action', 'deleted', 'error', 'spammed', 'unspammed', ), $_SERVER['REQUEST_URI'] );
+	$form_url = add_query_arg( 'action', 'save', $form_url );
+?>
+
+	<div class="wrap">
+		<?php screen_icon( 'buddypress' ); ?>
+		<h2><?php printf( __( 'Editing Activity (ID #%s)', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?></h2>
+
+		<?php if ( ! empty( $activity ) ) : ?>
+
+			<form action="<?php echo esc_attr( $form_url ); ?>" id="bp-activities-edit-form" method="post">
+				<div id="poststuff" class="metabox-holder has-right-sidebar">
+					<div id="side-info-column" class="inner-sidebar">
+						<?php do_meta_boxes( 'toplevel_page_bp-activity', 'side', $activity ); ?>
+					</div>
+
+					<div id="post-body" class="has-sidebar">
+						<div id="post-body-content" class="has-sidebar-content">
+							<div id="postdiv" class="postarea">
+								<?php wp_editor( stripslashes( $activity->action ), 'bp-activities-action', array( 'media_buttons' => false, 'textarea_rows' => 7, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), ) ); ?>
+
+								<?php wp_editor( stripslashes( $activity->content ), 'bp-activities-content', array( 'media_buttons' => false, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), ) ); ?>
+							</div>
+
+							<?php do_meta_boxes( 'toplevel_page_bp-activity', 'advanced', $activity ); ?>
+						</div>
+					</div>
+				</div>
+
+				<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+				<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
+				<?php wp_nonce_field( 'edit-activity_' . $activity->id ); ?>
+			</form>
+
+		<?php else : ?>
+			<p><?php printf( __( 'No activity found with this ID. <a href="%s">Go back and try again</a>.', 'buddypress' ), network_admin_url( 'admin.php?page=bp-activity' ) ); ?></p>
+		<?php endif; ?>
+
+	</div>
+
+<?php
+}
+
+/**
+ * Status metabox for the Activity admin edit screen
+ *
+ * @param object $item Activity item
+ * @since 1.6
+ */
+function bp_activity_admin_edit_metabox_status( $item ) {
+?>
+
+	<div class="submitbox" id="submitcomment">
+
+		<div id="minor-publishing">
+			<div id="minor-publishing-actions">
+				<div id="preview-action">
+					<a class="button preview" href="<?php echo esc_attr( bp_activity_get_permalink( $item->id, $item ) ); ?>" target="_blank"><?php _e( 'View Activity', 'buddypress' ); ?></a>
+				</div>
+
+				<div class="clear"></div>
+			</div><!-- #minor-publishing-actions -->
+
+			<div id="misc-publishing-actions">
+				<div class="misc-pub-section" id="comment-status-radio">
+					<label class="approved"><input type="radio" name="activity_status" value="ham" <?php checked( $item->is_spam, 0 ); ?>><?php _e( 'Approved', 'buddypress' ); ?></label><br />
+					<label class="spam"><input type="radio" name="activity_status" value="spam" <?php checked( $item->is_spam, 1 ); ?>><?php _e( 'Spam', 'buddypress' ); ?></label>
+				</div>
+
+				<div class="misc-pub-section curtime misc-pub-section-last">
+					<?php
+					// translators: Publish box date format, see http://php.net/date
+					$datef = __( 'M j, Y @ G:i', 'buddypress' );
+					$date  = date_i18n( $datef, strtotime( $item->date_recorded ) );
+					?>
+					<span id="timestamp"><?php printf( __( 'Submitted on: <strong>%1$s</strong>', 'buddypress' ), $date ); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e( 'Edit', 'buddypress' ); ?></a>
+
+					<div id='timestampdiv' class='hide-if-js'>
+						<?php touch_time( 1, 0, 5 ); ?>
+					</div><!-- #timestampdiv -->
+				</div>
+			</div> <!-- #misc-publishing-actions -->
+
+			<div class="clear"></div>
+		</div><!-- #minor-publishing -->
+
+		<div id="major-publishing-actions">
+			<div id="publishing-action">
+				<?php submit_button( __( 'Update', 'buddypress' ), 'primary', 'save', false, array( 'tabindex' => '4' ) ); ?>
+			</div>
+			<div class="clear"></div>
+		</div><!-- #major-publishing-actions -->
+
+	</div><!-- #submitcomment -->
+
+<?php
 }
 
 /**
@@ -342,11 +585,12 @@ function bp_activity_admin_index() {
 	$messages = array();
 
 	// If the user has just made a change to an activity item, build status messages
-	if ( !empty( $_REQUEST['deleted'] ) || !empty( $_REQUEST['spammed'] ) || !empty( $_REQUEST['unspammed'] ) || !empty( $_REQUEST['error'] ) ) {
+	if ( ! empty( $_REQUEST['deleted'] ) || ! empty( $_REQUEST['spammed'] ) || ! empty( $_REQUEST['unspammed'] ) || ! empty( $_REQUEST['error'] ) || ! empty( $_REQUEST['updated'] ) ) {
 		$deleted   = !empty( $_REQUEST['deleted']   ) ? (int) $_REQUEST['deleted']   : 0;
 		$error     = !empty( $_REQUEST['error']     ) ? (int) $_REQUEST['error']     : 0;
 		$spammed   = !empty( $_REQUEST['spammed']   ) ? (int) $_REQUEST['spammed']   : 0;
 		$unspammed = !empty( $_REQUEST['unspammed'] ) ? (int) $_REQUEST['unspammed'] : 0;
+		$updated   = !empty( $_REQUEST['updated'] )   ? (int) $_REQUEST['updated']   : 0;
 
 		if ( $deleted > 0 )
 			$messages[] = sprintf( _n( '%s activity was permanently deleted.', '%s activities were permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
@@ -360,6 +604,8 @@ function bp_activity_admin_index() {
 		if ( $unspammed > 0 )
 			$messages[] = sprintf( _n( '%s activity restored from the spam.', '%s activities restored from the spam.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
 
+		if ( $updated > 0 )
+			$messages[] = __( 'The activity has been updated succesfully.', 'buddypress' );
 	}
 
 	// Prepare the activity items for display
@@ -562,6 +808,9 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'total_items' => $activities['total'],
 			'total_pages' => ceil( $activities['total'] / $per_page )
 		) );
+
+		// Don't truncate activity items; bp_activity_truncate_entry() needs to be used inside a BP_Activity_Template loop.
+		remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 	}
 
 	/**
@@ -837,7 +1086,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		echo '</div>';
 
 		// Get activity content - if not set, use the action
-		if ( !empty( $item['content'] ) )
+		if ( ! empty( $item['content'] ) )
 			$content = apply_filters_ref_array( 'bp_get_activity_content_body', array( $item['content'] ) );
 		else
 			$content = apply_filters_ref_array( 'bp_get_activity_action', array( $item['action'] ) );
