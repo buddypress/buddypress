@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-03 16:31:06+00:00\n"
+"POT-Creation-Date: 2011-12-04 17:31:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -991,7 +991,6 @@ msgstr ""
 #: bp-themes/bp-default/members/single/activity.php:27
 #: bp-themes/bp-default/activity/index.php:101
 #: bp-themes/bp-default/forums/forums-loop.php:40
-#: bp-activity/bp-activity-admin.php:970
 msgid "Posts"
 msgstr ""
 
@@ -1073,7 +1072,7 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-cssjs.php:67 bp-activity/bp-activity-admin.php:1074
+#: bp-core/bp-core-cssjs.php:67 bp-activity/bp-activity-admin.php:1068
 msgid "Are you sure?"
 msgstr ""
 
@@ -1365,7 +1364,7 @@ msgid ""
 msgstr ""
 
 #: bp-friends/bp-friends-notifications.php:67
-#: bp-friends/bp-friends-activity.php:79
+#: bp-friends/bp-friends-activity.php:84
 msgid "%s accepted your friendship request"
 msgstr ""
 
@@ -1502,19 +1501,27 @@ msgstr ""
 msgid "A member accepts your friendship request"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:50
+#: bp-friends/bp-friends-activity.php:51
+msgid "Friendships accepted"
+msgstr ""
+
+#: bp-friends/bp-friends-activity.php:52
+msgid "New friendships"
+msgstr ""
+
+#: bp-friends/bp-friends-activity.php:55
 msgid "New friendship created"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:76
+#: bp-friends/bp-friends-activity.php:81
 msgid "%d friends accepted your friendship requests"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:90
+#: bp-friends/bp-friends-activity.php:95
 msgid "You have %d pending friendship requests"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:93
+#: bp-friends/bp-friends-activity.php:98
 msgid "You have a friendship request from %s"
 msgstr ""
 
@@ -2378,7 +2385,7 @@ msgstr ""
 #: bp-xprofile/bp-xprofile-loader.php:135
 #: bp-xprofile/bp-xprofile-loader.php:193 bp-xprofile/bp-xprofile-admin.php:463
 #: bp-forums/bp-forums-template.php:1264 bp-themes/bp-default/functions.php:501
-#: bp-activity/bp-activity-admin.php:552 bp-activity/bp-activity-admin.php:1064
+#: bp-activity/bp-activity-admin.php:552 bp-activity/bp-activity-admin.php:1058
 msgid "Edit"
 msgstr ""
 
@@ -2739,15 +2746,19 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:22
+#: bp-xprofile/bp-xprofile-activity.php:19
+msgid "Member changed profile picture"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-activity.php:20
 msgid "New member registered"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:23
+#: bp-xprofile/bp-xprofile-activity.php:21
 msgid "Updated Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:128
+#: bp-xprofile/bp-xprofile-activity.php:126
 msgid "%s changed their profile picture"
 msgstr ""
 
@@ -4131,34 +4142,29 @@ msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:28
 #: bp-themes/bp-default/activity/index.php:102
-#: bp-activity/bp-activity-admin.php:971
 msgid "Comments"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:43
 #: bp-themes/bp-default/activity/index.php:108
 #: bp-themes/bp-default/groups/single/activity.php:14
-#: bp-activity/bp-activity-admin.php:975
 msgid "Forum Topics"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:44
 #: bp-themes/bp-default/activity/index.php:109
 #: bp-themes/bp-default/groups/single/activity.php:15
-#: bp-activity/bp-activity-admin.php:976
 msgid "Forum Replies"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:50
 #: bp-themes/bp-default/activity/index.php:115
-#: bp-activity/bp-activity-admin.php:980
 msgid "New Groups"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/activity.php:51
 #: bp-themes/bp-default/activity/index.php:116
 #: bp-themes/bp-default/groups/single/activity.php:18
-#: bp-activity/bp-activity-admin.php:981
 msgid "Group Memberships"
 msgstr ""
 
@@ -4216,7 +4222,6 @@ msgid "RSS"
 msgstr ""
 
 #: bp-themes/bp-default/activity/index.php:126
-#: bp-activity/bp-activity-admin.php:989
 msgid "New Members"
 msgstr ""
 
@@ -4230,7 +4235,7 @@ msgstr ""
 #: bp-themes/bp-default/activity/comment.php:37
 #: bp-themes/bp-default/forums/single/edit.php:10
 #: bp-themes/bp-default/groups/single/forum/edit.php:10
-#: bp-activity/bp-activity-admin.php:652 bp-activity/bp-activity-admin.php:1061
+#: bp-activity/bp-activity-admin.php:652 bp-activity/bp-activity-admin.php:1055
 msgid "Reply"
 msgstr ""
 
@@ -4813,7 +4818,7 @@ msgstr ""
 msgid "Approved"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:543 bp-activity/bp-activity-admin.php:1071
+#: bp-activity/bp-activity-admin.php:543 bp-activity/bp-activity-admin.php:1065
 #: bp-activity/bp-activity-akismet.php:178
 #: bp-activity/bp-activity-akismet.php:207
 msgid "Spam"
@@ -4883,11 +4888,11 @@ msgstr ""
 msgid "Mark as Spam"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:913 bp-activity/bp-activity-admin.php:1069
+#: bp-activity/bp-activity-admin.php:913 bp-activity/bp-activity-admin.php:1063
 msgid "Not Spam"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:914 bp-activity/bp-activity-admin.php:1074
+#: bp-activity/bp-activity-admin.php:914 bp-activity/bp-activity-admin.php:1068
 msgid "Delete Permanently"
 msgstr ""
 
@@ -4909,47 +4914,27 @@ msgstr ""
 msgid "In Response To"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:965
+#: bp-activity/bp-activity-admin.php:983
 msgid "Show all activity types"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:966
-msgid "Status Updates"
-msgstr ""
-
-#: bp-activity/bp-activity-admin.php:967
-msgid "Status Update Comments"
-msgstr ""
-
-#: bp-activity/bp-activity-admin.php:985
-msgid "Friendships Accepted"
-msgstr ""
-
-#: bp-activity/bp-activity-admin.php:986
-msgid "New Friendships"
-msgstr ""
-
 #: bp-activity/bp-activity-admin.php:990
-msgid "New Member Avatar"
-msgstr ""
-
-#: bp-activity/bp-activity-admin.php:996
 msgid "Filter"
 msgstr ""
 
 #. translators: 2: activity admin ui date/time
 
-#: bp-activity/bp-activity-admin.php:1083
+#: bp-activity/bp-activity-admin.php:1077
 msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1112
+#: bp-activity/bp-activity-admin.php:1106
 msgid "%s related activity"
 msgid_plural "%s related activities"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:1122
+#: bp-activity/bp-activity-admin.php:1116
 msgid "<a href=\"%1$s\">View Activity</a>"
 msgstr ""
 
@@ -5094,19 +5079,23 @@ msgstr ""
 msgid "%1$s mentioned you in an activity update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:765
-msgid "Posted an update"
+#: bp-activity/bp-activity-functions.php:762
+msgid "Posted a status update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:978
+#: bp-activity/bp-activity-functions.php:763
+msgid "Replied to a status update"
+msgstr ""
+
+#: bp-activity/bp-activity-functions.php:979
 msgid "%s posted an update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1045
+#: bp-activity/bp-activity-functions.php:1046
 msgid "%s posted a new activity comment"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1416
+#: bp-activity/bp-activity-functions.php:1417
 msgid "Thumbnail"
 msgstr ""
 
