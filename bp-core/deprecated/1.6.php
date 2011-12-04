@@ -73,4 +73,15 @@ function bp_has_custom_activation_page() {
 	_deprecated_function( __FUNCTION__, '1.6' );
 }
 
+/**
+ * Activity functions
+ */
+
+/**
+ * @deprecated 1.6
+ * @deprecated No longer used. Renamed to bp_activity_register_activity_actions().
+ */
+function updates_register_activity_actions() {
+	_deprecated_function( __FUNCTION__, '1.6' );
+}
 ?>

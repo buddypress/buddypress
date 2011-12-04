@@ -753,20 +753,21 @@ add_action( 'bp_make_ham_user', 'bp_activity_ham_all_user_data' );
 /**
  * Register the activity stream actions for updates
  *
- * @since 1.2.0
- *
  * @global object $bp BuddyPress global settings
- * @uses bp_activity_set_action()
- * @uses do_action() To call the 'updates_register_activity_actions' hook
+ * @since 1.6
  */
-function updates_register_activity_actions() {
+function bp_activity_register_activity_actions() {
 	global $bp;
 
-	bp_activity_set_action( $bp->activity->id, 'activity_update', __( 'Posted an update', 'buddypress' ) );
+	bp_activity_set_action( $bp->activity->id, 'activity_update', __( 'Posted a status update', 'buddypress' ) );
+	bp_activity_set_action( $bp->activity->id, 'activity_comment', __( 'Replied to a status update', 'buddypress' ) );
 
+	do_action( 'bp_activity_register_activity_actions' );
+
+	// Backpat. Don't use this.
 	do_action( 'updates_register_activity_actions' );
 }
-add_action( 'bp_register_activity_actions', 'updates_register_activity_actions' );
+add_action( 'bp_register_activity_actions', 'bp_activity_register_activity_actions' );
 
 /******************************************************************************
  * Business functions are where all the magic happens in BuddyPress. They will

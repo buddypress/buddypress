@@ -47,6 +47,11 @@ function friends_register_activity_actions() {
 	if ( !bp_is_active( 'activity' ) )
 		return false;
 
+	// These two added in BP 1.6
+	bp_activity_set_action( $bp->friends->id, 'friendship_accepted', __( 'Friendships accepted', 'buddypress' ) );
+	bp_activity_set_action( $bp->friends->id, 'friendship_created', __( 'New friendships', 'buddypress' ) );
+
+	// < BP 1.6 backpat
 	bp_activity_set_action( $bp->friends->id, 'friends_register_activity_action', __( 'New friendship created', 'buddypress' ) );
 
 	do_action( 'friends_register_activity_actions' );

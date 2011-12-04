@@ -950,52 +950,46 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Markup for the "filter" part of the form (i.e. which activity type to display)
 	 *
+	 * @global object $bp BuddyPress global settings
 	 * @param string $which 'top' or 'bottom'
 	 * @since 1.6
 	 */
 	function extra_tablenav( $which ) {
+		global $bp;
+
 		if ( 'bottom' == $which )
 			return;
 
+		$actions  = array();
 		$selected = !empty( $_REQUEST['activity_type'] ) ? $_REQUEST['activity_type'] : '';
-		?>
+
+		// Walk through the registered actions, and build an array of actions/values.
+		foreach ( $bp->activity->actions as $action ) {
+			$action = array_values( (array) $action );
+
+			for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ )
+				$actions[ $action[$i]['key'] ] = $action[$i]['value'];
+		}
+
+		// This was a mis-named activity type from before BP 1.6
+		unset( $actions['friends_register_activity_action'] );
+
+		// Sort array by the human-readable value
+		natsort( $actions );
+	?>
 
 		<div class="alignleft actions">
 			<select name="activity_type">
 				<option value="" <?php selected( !$selected ); ?>><?php _e( 'Show all activity types', 'buddypress' ); ?></option>
-				<option value="activity_update"  <?php selected( 'activity_update',  $selected ); ?>><?php _e( 'Status Updates', 'buddypress' ); ?></option>
-				<option value="activity_comment" <?php selected( 'activity_comment', $selected ); ?>><?php _e( 'Status Update Comments', 'buddypress' ); ?></option>
 
-				<?php if ( bp_is_active( 'blogs' ) ) : ?>
-					<option value="new_blog_post"    <?php selected( 'new_blog_post',    $selected ); ?>><?php _e( 'Posts', 'buddypress' ); ?></option>
-					<option value="new_blog_comment" <?php selected( 'new_blog_comment', $selected ); ?>><?php _e( 'Comments', 'buddypress' ); ?></option>
-				<?php endif; ?>
-
-				<?php if ( bp_is_active( 'forums' ) ) : ?>
-					<option value="new_forum_topic" <?php selected( 'new_forum_topic', $selected ); ?>><?php _e( 'Forum Topics', 'buddypress' ); ?></option>
-					<option value="new_forum_post"  <?php selected( 'new_forum_post',  $selected ); ?>><?php _e( 'Forum Replies', 'buddypress' ); ?></option>
-				<?php endif; ?>
-
-				<?php if ( bp_is_active( 'groups' ) ) : ?>
-					<option value="created_group" <?php selected( 'created_group', $selected ); ?>><?php _e( 'New Groups', 'buddypress' ); ?></option>
-					<option value="joined_group"  <?php selected( 'joined_group',  $selected ); ?>><?php _e( 'Group Memberships', 'buddypress' ); ?></option>
-				<?php endif; ?>
-
-				<?php if ( bp_is_active( 'friends' ) ) : ?>
-					<option value="friendship_accepted" <?php selected( 'friendship_accepted', $selected ); ?>><?php _e( 'Friendships Accepted', 'buddypress' ); ?></option>
-					<option value="friendship_created"  <?php selected( 'friendship_created',  $selected ); ?>><?php _e( 'New Friendships', 'buddypress' ); ?></option>
-				<?php endif; ?>
-
-				<option value="new_member" <?php selected( 'new_member', $selected ); ?>><?php _e( 'New Members', 'buddypress' ); ?></option>
-				<option value="new_avatar" <?php selected( 'new_avatar', $selected ); ?>><?php _e( 'New Member Avatar', 'buddypress' ); ?></option>
-
-				<?php do_action( 'bp_activity_filter_options' ); ?>
-
+				<?php foreach ( $actions as $k => $v ) : ?>
+					<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k,  $selected ); ?>><?php echo esc_html( $v ); ?></option>
+				<?php endforeach; ?>
 			</select>
 
 			<?php submit_button( __( 'Filter', 'buddypress' ), 'secondary', false, false, array( 'id' => 'post-query-submit' ) ); ?>
-
 		</div>
+
 	<?php
 	}
 

@@ -15,12 +15,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function xprofile_register_activity_actions() {
 	global $bp;
 
-	if ( bp_is_active( 'activity' ) )
-		return false;
-
 	// Register the activity stream actions for this component
+	bp_activity_set_action( $bp->profile->id, 'new_avatar',      __( 'Member changed profile picture', 'buddypress' ) );
 	bp_activity_set_action( $bp->profile->id, 'new_member',      __( 'New member registered', 'buddypress' ) );
-	bp_activity_set_action( $bp->profile->id, 'updated_profile', __( 'Updated Profile',       'buddypress' ) );
+	bp_activity_set_action( $bp->profile->id, 'updated_profile', __( 'Updated Profile', 'buddypress' ) );
 
 	do_action( 'xprofile_register_activity_actions' );
 }
