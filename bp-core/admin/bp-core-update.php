@@ -1133,7 +1133,7 @@ class BP_Core_Setup_Wizard {
 			bp_core_add_admin_menu();
 
 			// Redirect to the BuddyPress dashboard
-			$redirect = bp_core_update_do_network_admin() ? add_query_arg( array( 'page' => 'bp-general-config' ), network_admin_url( 'admin.php' ) ) : add_query_arg( array( 'page' => 'bp-general-config' ), admin_url( 'admin.php' ) );
+			$redirect = bp_core_update_do_network_admin() ? add_query_arg( array( 'page' => 'bp-general-config' ), network_admin_url( 'settings.php' ) ) : add_query_arg( array( 'page' => 'bp-general-config' ), admin_url( 'options-general.php' ) );
 
 			wp_redirect( $redirect );
 

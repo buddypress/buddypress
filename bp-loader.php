@@ -430,9 +430,10 @@ class BuddyPress {
 		// Get the possible DB versions
 		$versions               = array();
 		$versions['1.2']        = get_site_option( 'bp-core-db-version' );
-		$versions['1.5-single'] = get_site_option( 'bp-db-version'      );
-		$versions['1.5-multi']  = get_option     ( 'bp-db-version'      );
-		$versions['1.6']        = get_option     ( '_bp_db_version'     );
+		$versions['1.5-multi']  = get_site_option( 'bp-db-version'      );
+		$versions['1.5-single'] = get_option     ( 'bp-db-version'      );
+		$versions['1.6-multi']  = get_site_option( '_bp_db_version'     );
+		$versions['1.6-single'] = get_option     ( '_bp_db_version'     );
 
 		// Remove empty array items
 		$versions = array_filter( $versions );
@@ -440,8 +441,9 @@ class BuddyPress {
 		// Get the largest version
 		$this->db_version_raw = !empty( $versions ) ? (int) max( $versions ) : 0;
 
-		// Are we network activated?
-		if ( is_multisite() && empty( $versions['1.5-multi'] ) )
+		// Is this an upgrade to WordPress Network Mode?
+		// We know by checking to see whether the db version is saved in sitemeta
+		if ( is_multisite() && ( empty( $versions['1.5-multi'] ) && empty( $versions['1.6-multi'] ) ) )
 			$this->is_network_activate = true;
 
 		// Require all of the BuddyPress core libraries
