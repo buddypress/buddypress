@@ -1068,6 +1068,8 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_theme_save() {
+		global $bp;
+		
 		if ( isset( $_POST['submit'] ) && isset( $_POST['theme'] ) ) {
 			check_admin_referer( 'bpwizard_theme' );
 
@@ -1078,6 +1080,7 @@ class BP_Core_Setup_Wizard {
 
 				// Activate the bp-default theme
 				case 'bp_default' :
+					register_theme_directory( $bp->themes_dir );
 					switch_theme( 'bp-default', 'bp-default' );
 					break;
 
