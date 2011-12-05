@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-05 19:31:09+00:00\n"
+"POT-Creation-Date: 2011-12-05 20:31:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,7 +79,7 @@ msgstr ""
 msgid "Viewing site %1$s to %2$s (of %3$s sites)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:282 bp-activity/bp-activity-template.php:1002
+#: bp-blogs/bp-blogs-template.php:282 bp-activity/bp-activity-template.php:1004
 msgid "Site authored by %s"
 msgstr ""
 
@@ -545,7 +545,7 @@ msgstr ""
 #: bp-members/bp-members-template.php:588
 #: bp-themes/bp-default/functions.php:156
 #: bp-themes/bp-default/activity/entry.php:37
-#: bp-activity/bp-activity-template.php:2055
+#: bp-activity/bp-activity-template.php:2057
 msgid "View"
 msgstr ""
 
@@ -687,7 +687,7 @@ msgid "members"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:447
-#: bp-activity/bp-activity-template.php:2144
+#: bp-activity/bp-activity-template.php:2146
 msgid "groups"
 msgstr ""
 
@@ -2197,7 +2197,7 @@ msgid "Group"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:389
-#: bp-activity/bp-activity-template.php:994
+#: bp-activity/bp-activity-template.php:996
 msgid "Group logo of %s"
 msgstr ""
 
@@ -2220,9 +2220,9 @@ msgstr ""
 #: bp-members/bp-members-template.php:800
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:210
-#: bp-activity/bp-activity-template.php:899
-#: bp-activity/bp-activity-template.php:1010
-#: bp-activity/bp-activity-template.php:1019
+#: bp-activity/bp-activity-template.php:901
+#: bp-activity/bp-activity-template.php:1012
+#: bp-activity/bp-activity-template.php:1021
 msgid "Profile picture of %s"
 msgstr ""
 
@@ -2297,7 +2297,7 @@ msgstr ""
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:24
 #: bp-themes/bp-default/activity/comment.php:43
-#: bp-activity/bp-activity-template.php:2006
+#: bp-activity/bp-activity-template.php:2008
 msgid "Delete"
 msgstr ""
 
@@ -4948,47 +4948,47 @@ msgctxt "Activity pagination next text"
 msgid "&rarr;"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:455
+#: bp-activity/bp-activity-template.php:457
 msgid "Viewing item %1$s to %2$s (of %3$s items)"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1193
+#: bp-activity/bp-activity-template.php:1195
 msgid "View Discussion"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2144
+#: bp-activity/bp-activity-template.php:2146
 msgid "xprofile"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2144
+#: bp-activity/bp-activity-template.php:2146
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2144
+#: bp-activity/bp-activity-template.php:2146
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2144
+#: bp-activity/bp-activity-template.php:2146
 msgid "sites"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2152
+#: bp-activity/bp-activity-template.php:2154
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2342
+#: bp-activity/bp-activity-template.php:2344
 msgid "a user"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2382
+#: bp-activity/bp-activity-template.php:2384
 msgid "Send a public message on your activity stream."
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2383
+#: bp-activity/bp-activity-template.php:2385
 msgid "Public Message"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2692
+#: bp-activity/bp-activity-template.php:2694
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
