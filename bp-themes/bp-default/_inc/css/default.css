@@ -2014,9 +2014,9 @@ table.forum p.topic-meta {
 	margin: 5px 0 0 0;
 }
 
-/*--------------------------------------------------------------
-6.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
---------------------------------------------------------------*/
+/*-------------------------------------------------------------------------
+6.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums, Profiles
+-------------------------------------------------------------------------*/
 .item-body {
 	margin: 20px 0;
 }
@@ -2288,6 +2288,10 @@ div.item-list-tabs ul li.feed a {
 }
 #admins-list li {
 	overflow: auto;
+}
+div.profile h4 {
+	margin-bottom: auto;
+	margin-top: 15px;
 }
 
 
