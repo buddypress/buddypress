@@ -307,15 +307,12 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	if ( empty( $user_name ) )
 		$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
 
-	$maybe = array();
-	preg_match( "/[a-z0-9]+/", $user_name, $maybe );
-
 	// Make sure illegal names include BuddyPress slugs and values
 	bp_core_flush_illegal_names();
 
 	$illegal_names = get_site_option( 'illegal_names' );
 
-	if ( !validate_username( $user_name ) || in_array( $user_name, (array)$illegal_names ) || ( !empty( $maybe[0] ) && $user_name != $maybe[0] ) )
+	if ( !validate_username( $user_name ) || in_array( $user_name, (array)$illegal_names ) )
 		$errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
 
 	if( strlen( $user_name ) < 4 )
