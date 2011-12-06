@@ -4,13 +4,10 @@ div#icon-buddypress {
 }
 
 #tabs-bottom {
-	background: #DFDFDF url(../../../../../wp-admin/images/gray-grad.png) repeat-x scroll 0% 0%;
+	background: #f9f9f9;
 	height: 32px;
-	border: 1px solid #ccc;
-	-moz-border-radius: 0 0 6px 6px;
-	-khtml-border-radius: 0 0 6px 6px;
-	-webkit-border-radius: 0 0 6px 6px;
-	border-radius: 0 0 6px 6px;
+	border: 1px solid #dfdfdf;
+	border-radius: 0 0 3px 3px;
 }
 
 #tabs {
@@ -24,6 +21,7 @@ div#icon-buddypress {
 	ul#field-group-tabs {
 		float: left;
 		padding: 0 0 0 15px;
+		margin: 0;
 		display: none;
 	}
 		ul#field-group-tabs li {
@@ -36,8 +34,8 @@ div#icon-buddypress {
 			background-color: #fafafa;
 		}
 		ul#field-group-tabs li.ui-state-hover a.ui-tab {
-			border-color: #bbb #bbb #ccc #bbb;
-			color: #888;
+			border-color: #dfdfdf #dfdfdf #f9f9f9 #dfdfdf;
+			color: #d54e21;
 		}
 		ul#field-group-tabs li.ui-state-acceptable a.ui-tab {
 			border-color: #5a5 #5a5 #ccc #5a5;
@@ -46,7 +44,7 @@ div#icon-buddypress {
 			background-color: #efe;
 		}
 			ul#field-group-tabs li.ui-tabs-selected.ui-state-acceptable a.ui-tab {
-				background-color: #ECECEC;
+				background-color: #f9f9f9;
 				background-image: url(../images/cross.gif);
 			}
 		ul#field-group-tabs li.drop-candidate a.ui-tab {
@@ -55,68 +53,57 @@ div#icon-buddypress {
 			color: #aa8;
 		}
 		ul#field-group-tabs li a.ui-tab {
+			font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+			font-size: 14px;
 			display: block;
 			margin-top: 3px;
 			padding: 5px 10px 5px 28px;
-			border: 1px solid #ccc;
+			border: 1px solid #dfdfdf;
 			border-bottom: none;
-			-moz-border-radius: 6px 6px 0 0;
-			-khtml-border-radius: 6px 6px 0 0;
-			-webkit-border-radius: 6px 6px 0 0;
-			border-radius: 6px 6px 0 0;
+			border-radius: 3px 3px 0 0;
 			text-decoration: none;
-			background: #F4F4F4 url(../images/move-x.gif) 7px 55% no-repeat;
-			color: #888;
+			background: #f9f9f9 url(../images/move-x.gif) 7px 55% no-repeat;
+			color: #aaa;
 		}
 
 		/* Selected tab */
 		ul#field-group-tabs li.ui-tabs-selected a.ui-tab {
-			background-color: #ECECEC;
+			background-color: #f9f9f9;
 			margin-top: -1px;
 			padding: 7px 10px 7px 28px;
-			border: 1px solid #ccc;
+			border: 1px solid #dfdfdf;
 			border-bottom: 1px solid transparent;
 			color: #000;
-			font-weight: bold;
 		}
 
 	/* Toolbar */
 	.tab-toolbar {
-		background: #ddd url(../../../../../wp-admin/images/gray-grad.png) repeat-x scroll 0% 0%;
+		background: #f9f9f9;
 		border-width: 1px 1px 0px;
-		-moz-border-radius: 6px 6px 0 0;
-		-khtml-border-radius: 6px 6px 0 0;
-		-webkit-border-radius: 6px 6px 0 0;
-		border-radius: 6px 6px 0 0;
+		border-radius: 3px 3px 0 0;
 		margin: -20px -21px 20px -21px;
 		clear: left;
 		padding: 10px;
-		border: 1px solid #ccc;
+		border: 1px solid #dfdfdf;
 	}
 
-	.tab-toolbar a.button {
-		padding: 5px 10px;
-	}
-
+	.field-wrapper a.deletion,
 	.tab-toolbar a.deletion {
 		color: #f00;
 		border-bottom: 1px solid #f00;
-		font-size: 11px;
+		font-size: 12px;
 		text-decoration: none;
-		padding: 0 2px;
-		margin-top: -2px;
+		padding: 0;
+		margin: -2px 0 0 5px;
 	}
 
 	div.tab-wrapper {
-		background-color: #f9f9f9;
+		background-color: #fff;
 		clear: left;
 		padding: 20px;
 		border-left: 1px solid #ccc;
 		border-right: 1px solid #ccc;
-		-moz-border-radius: 6px 6px 0 0;
-		-khtml-border-radius: 6px 6px 0 0;
-		-webkit-border-radius: 6px 6px 0 0;
-		border-radius: 6px 6px 0 0;
+		border-radius: 3px 3px 0 0;
 	}
 
 	.tab-wrapper fieldset {
@@ -140,7 +127,7 @@ div#icon-buddypress {
 		border-radius: 5px;
 		margin: 10px 0 0 0;
 		cursor: move !important;
-		background: #fcfcfc url(../../../../../wp-admin/images/gray-grad.png) repeat-x scroll 0% 0%;
+		background: #f9f9f9;
 	}
 	.tab-wrapper fieldset fieldset legend {
 		position: absolute !important;
@@ -179,8 +166,8 @@ div#icon-buddypress {
 	}
 	.field-group div.actions {
 		position: absolute;
-		right: 10px;
-		top: 6px;
+		right: 8px;
+		top: 10px;
 	}
 	.field-group fieldset:hover div.actions {
 		display: block;
