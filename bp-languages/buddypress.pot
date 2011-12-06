@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-05 20:31:07+00:00\n"
+"POT-Creation-Date: 2011-12-06 05:31:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4736,12 +4736,15 @@ msgstr ""
 msgid "Sorry, no posts matched your criteria."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:36
-msgid "BuddyPress Activities"
-msgstr ""
+#. translators: Personal activity RSS title - "[Site Name] | [Displayed User
+#. Name] | Activity"
 
 #: bp-activity/bp-activity-admin.php:36 bp-activity/bp-activity-admin.php:621
-msgid "Activities"
+#: bp-activity/bp-activity-admin.php:930 bp-activity/bp-activity-loader.php:117
+#: bp-activity/bp-activity-loader.php:239
+#: bp-activity/feeds/bp-activity-personal-feed.php:28
+#: bp-activity/bp-activity-screens.php:280
+msgid "Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:67
@@ -4771,7 +4774,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-admin.php:178
 msgctxt "Activity items per page (screen options)"
-msgid "Activities"
+msgid "Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:185
@@ -4783,7 +4786,7 @@ msgid "There are many different types of activities. Some are generated automati
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:192
-msgid "Moderating Activities"
+msgid "Moderating Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:195
@@ -4861,7 +4864,7 @@ msgid "The activity has been updated succesfully."
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:619
-msgid "Activities related to ID #%s"
+msgid "Activity related to ID #%s"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:625
@@ -4869,7 +4872,7 @@ msgid "Search results for &#8220;%s&#8221;"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:637
-msgid "Search Activities"
+msgid "Search all Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:647
@@ -4898,16 +4901,6 @@ msgstr ""
 
 #: bp-activity/bp-activity-admin.php:929
 msgid "Author"
-msgstr ""
-
-#. translators: Personal activity RSS title - "[Site Name] | [Displayed User
-#. Name] | Activity"
-
-#: bp-activity/bp-activity-admin.php:930 bp-activity/bp-activity-loader.php:117
-#: bp-activity/bp-activity-loader.php:239
-#: bp-activity/feeds/bp-activity-personal-feed.php:28
-#: bp-activity/bp-activity-screens.php:280
-msgid "Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:931
