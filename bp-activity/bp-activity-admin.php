@@ -33,7 +33,7 @@ function bp_activity_add_admin_menu() {
 		return;
 
 	// Add our screen
-	$hook = add_menu_page( __( 'BuddyPress Activities', 'buddypress' ), __( 'Activities', 'buddypress' ), 'manage_options', 'bp-activity', 'bp_activity_admin' );
+	$hook = add_menu_page( __( 'Activity', 'buddypress' ), __( 'Activity', 'buddypress' ), 'manage_options', 'bp-activity', 'bp_activity_admin' );
 
 	// Hook into early actions to load custom CSS and our init handler.
 	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
@@ -175,7 +175,7 @@ function bp_activity_admin_load() {
 		$bp_activity_list_table = new BP_Activity_List_Table();
 
 		// per_page screen option
-		add_screen_option( 'per_page', array( 'label' => _x( 'Activities', 'Activity items per page (screen options)', 'buddypress' )) );
+		add_screen_option( 'per_page', array( 'label' => _x( 'Activity', 'Activity items per page (screen options)', 'buddypress' )) );
 
 		// Help panel - overview text
 		get_current_screen()->add_help_tab( array(
@@ -189,7 +189,7 @@ function bp_activity_admin_load() {
 		// Help panel - moderation text
 		get_current_screen()->add_help_tab( array(
 			'id'		=> 'bp-activity-moderating',
-			'title'		=> __( 'Moderating Activities', 'buddypress' ),
+			'title'		=> __( 'Moderating Activity', 'buddypress' ),
 			'content'	=>
 				'<ul>' .
 					'<li>' . __( 'In the <strong>Activity</strong> column, above each activity it says &#8220;Submitted on,&#8221; followed by the date and time the activity item was generated on your site. Clicking on the date/time link will take you to that activity on your live site. Hovering over any activity gives you options to reply, edit, spam mark, or delete that activity.', 'buddypress' ) . '</li>' .
@@ -616,9 +616,9 @@ function bp_activity_admin_index() {
 		<?php screen_icon( 'buddypress' ); ?>
 		<h2>
 			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
-				<?php printf( __( 'Activities related to ID #%s', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?>
+				<?php printf( __( 'Activity related to ID #%s', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?>
 			<?php else : ?>
-				<?php _e( 'Activities', 'buddypress' ); ?>
+				<?php _e( 'Activity', 'buddypress' ); ?>
 			<?php endif; ?>
 
 			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
@@ -634,7 +634,7 @@ function bp_activity_admin_index() {
 		<?php $bp_activity_list_table->views(); ?>
 
 		<form id="bp-activities-form" action="" method="get">
-			<?php $bp_activity_list_table->search_box( __( 'Search Activities', 'buddypress' ), 'bp-activity' ); ?>
+			<?php $bp_activity_list_table->search_box( __( 'Search all Activity', 'buddypress' ), 'bp-activity' ); ?>
 			<input type="hidden" name="page" value="<?php echo esc_attr( $plugin_page ); ?>" />
 			<?php $bp_activity_list_table->display(); ?>
 		</form>
