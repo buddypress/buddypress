@@ -40,12 +40,10 @@ div#icon-buddypress {
 		ul#field-group-tabs li.ui-state-acceptable a.ui-tab {
 			border-color: #5a5 #5a5 #ccc #5a5;
 			color: #8a8;
-			background-image: url(../images/plus.gif);
 			background-color: #efe;
 		}
 			ul#field-group-tabs li.ui-tabs-selected.ui-state-acceptable a.ui-tab {
 				background-color: #f9f9f9;
-				background-image: url(../images/cross.gif);
 			}
 		ul#field-group-tabs li.drop-candidate a.ui-tab {
 			background-color: #ffc;
@@ -57,12 +55,11 @@ div#icon-buddypress {
 			font-size: 14px;
 			display: block;
 			margin-top: 3px;
-			padding: 5px 10px 5px 28px;
+			padding: 5px 10px 5px;
 			border: 1px solid #dfdfdf;
 			border-bottom: none;
 			border-radius: 3px 3px 0 0;
 			text-decoration: none;
-			background: #f9f9f9 url(../images/move-x.gif) 7px 55% no-repeat;
 			color: #aaa;
 		}
 
@@ -70,7 +67,7 @@ div#icon-buddypress {
 		ul#field-group-tabs li.ui-tabs-selected a.ui-tab {
 			background-color: #f9f9f9;
 			margin-top: -1px;
-			padding: 7px 10px 7px 28px;
+			padding: 7px 10px 7px;
 			border: 1px solid #dfdfdf;
 			border-bottom: 1px solid transparent;
 			color: #000;
@@ -121,10 +118,7 @@ div#icon-buddypress {
 	.tab-wrapper fieldset fieldset {
 		position: relative;
 		border: 1px solid #ddd;
-		-moz-border-radius: 6px;
-		-khtml-border-radius: 6px;
-		-webkit-border-radius: 6px;
-		border-radius: 5px;
+		border-radius: 3px;
 		margin: 10px 0 0 0;
 		cursor: move !important;
 		background: #f9f9f9;
@@ -139,7 +133,7 @@ div#icon-buddypress {
 	.tab-wrapper fieldset fieldset legend span {
 		position: absolute;
 		top: 6px;
-		left: 30px;
+		left: 10px;
 		font-weight: bold;
 		width: 100%;
 	}
@@ -148,9 +142,7 @@ div#icon-buddypress {
 			border-color: #ccc;
 		}
 		fieldset div.field-wrapper {
-			padding-left: 30px;
-			padding: 40px 10px 10px 10px;
-			background: url(../images/move.gif) 6px 6px no-repeat transparent;
+			padding: 40px 10px 10px;
 		}
 	fieldset.radio div div,
 	fieldset.checkbox div {
