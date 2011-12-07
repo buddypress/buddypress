@@ -918,7 +918,8 @@ function groups_get_groupmeta( $group_id, $meta_key = '') {
 	if ( !empty($meta_key) ) {
 		$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
-		if ( !$metas = wp_cache_get( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, 'bp' ) ) {
+		$metas = wp_cache_get( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, 'bp' );		
+		if ( false === $metas ) {
 			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key) );
 			wp_cache_set( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, $metas, 'bp' );
 		}
