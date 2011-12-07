@@ -88,7 +88,6 @@ function bp_core_fetch_avatar( $args = '' ) {
 	$def_object = 'user';
 	$def_type   = 'thumb';
 	$def_class  = 'avatar';
-	$def_alt    = __( 'Avatar Image', 'buddypress' );
 
 	// Set the default variables array
 	$defaults = array(
@@ -100,7 +99,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		'height'     => false,       // Custom height (int)
 		'class'      => $def_class,  // Custom <img> class (string)
 		'css_id'     => false,       // Custom <img> ID (string)
-		'alt'        => $def_alt,    // Custom <img> alt (string)
+		'alt'        => '',    	     // Custom <img> alt (string)
 		'email'      => false,       // Pass the user email (for gravatar) to prevent querying the DB for it
 		'no_grav'    => false,       // If there is no avatar found, return false instead of a grav?
 		'html'       => true,        // Wrap the return img URL in <img />
@@ -147,14 +146,21 @@ function bp_core_fetch_avatar( $args = '' ) {
 	// Get item name for alt/title tags
 	$item_name = '';
 
-	if ( 'user' == $object )
-		$item_name = bp_core_get_user_displayname( $item_id );
-	elseif ( 'group' == $object )
-		$item_name = bp_get_group_name( groups_get_group( array( 'group_id' => $item_id ) ) );
-	elseif ( 'blog' == $object )
-		$item_name = get_blog_option( $item_id, 'blogname' );
+	// Don't do this query if we don't have to
+	if ( !$alt || !$title ) {
+		if ( 'user' == $object )
+			$item_name = bp_core_get_user_displayname( $item_id );
+		elseif ( 'group' == $object )
+			$item_name = bp_get_group_name( groups_get_group( array( 'group_id' => $item_id ) ) );
+		elseif ( 'blog' == $object )
+			$item_name = get_blog_option( $item_id, 'blogname' );
+	}
 
-	$alt = sprintf( $alt, apply_filters( 'bp_core_avatar_alt', $item_name, $item_id, $object ) );
+	if ( !$alt && $item_name ) {
+		$alt = sprintf( __( "Avatar Image: %s", 'buddypress' ), apply_filters( 'bp_core_avatar_alt', $item_name, $item_id, $object ) );
+	} elseif ( !$alt ) {
+		$alt = __( 'Avatar Image', 'buddypress' );
+	}
 
 	// Set title tag
 	if ( $title )
