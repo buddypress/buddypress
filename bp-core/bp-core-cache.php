@@ -48,4 +48,82 @@ function bp_core_clear_user_object_cache( $user_id ) {
 add_action( 'wp_login',              'bp_core_clear_cache' );
 add_action( 'bp_core_render_notice', 'bp_core_clear_cache' );
 
+/**
+ * Update the metadata cache for the specified objects.
+ *
+ * @since 1.6
+ * @uses $wpdb WordPress database object for queries.
+ * @uses $bp BuddyPress global object.
+ *
+ * @param array $args See $defaults definition for more details
+ * @return mixed Metadata cache for the specified objects, or false on failure.
+ */
+function bp_update_meta_cache( $args = array() ) {
+	global $bp, $wpdb;
+	
+	$defaults = array(
+		'object_ids' 	   => array(), // Comma-separated list or array of item ids
+		'object_type' 	   => '',      // Canonical component id: groups, members, etc
+		'meta_table' 	   => '',      // Name of the table containing the metadata
+		'object_column'    => '',      // DB column for the object ids (group_id, etc)
+		'cache_key_prefix' => ''       // Prefix to use when creating cache key names. Eg
+					       //    'bp_groups_groupmeta'
+	);
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
+		
+	if ( empty( $object_ids ) || empty( $object_type ) || empty( $meta_table ) ) {
+		return false;
+	}
+	
+	if ( empty( $cache_key_prefix ) ) {
+		$cache_key_prefix = $meta_table;
+	}
+	
+	if ( empty( $object_column ) ) {
+		$object_column = $object_type . '_id';
+	}
+
+	if ( !is_array( $object_ids ) ) {
+		$object_ids = preg_replace( '|[^0-9,]|', '', $object_ids );
+		$object_ids = explode( ',', $object_ids );
+	}
+
+	$object_ids = array_map( 'intval', $object_ids );
+
+	$cache = array();
+	
+	// Get meta info
+	$id_list   = join( ',', $object_ids );
+	$meta_list = $wpdb->get_results( $wpdb->prepare( "SELECT $object_column, meta_key, meta_value FROM $meta_table WHERE group_id IN ($id_list)" ), ARRAY_A );
+
+	if ( !empty( $meta_list ) ) {
+		foreach ( $meta_list as $metarow ) {
+			$mpid = intval( $metarow[$object_column] );
+			$mkey = $metarow['meta_key'];
+			$mval = $metarow['meta_value'];
+
+			// Force subkeys to be array type:
+			if ( !isset( $cache[$mpid] ) || !is_array( $cache[$mpid] ) )
+				$cache[$mpid] = array();
+			if ( !isset( $cache[$mpid][$mkey] ) || !is_array( $cache[$mpid][$mkey] ) )
+				$cache[$mpid][$mkey] = array();
+
+			// Add a value to the current pid/key:
+			$cache[$mpid][$mkey][] = $mval;
+		}
+	}
+	
+	foreach ( $object_ids as $id ) {
+		if ( ! isset($cache[$id]) )
+			$cache[$id] = array();
+	
+		foreach( $cache[$id] as $meta_key => $meta_value ) {
+			wp_cache_set( $cache_key_prefix . '_' . $id . '_' . $meta_key, $meta_value, 'bp' );
+		}
+	}
+
+	return $cache;
+}
+
 ?>

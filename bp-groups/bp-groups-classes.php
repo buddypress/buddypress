@@ -30,7 +30,9 @@ Class BP_Groups_Group {
 	function populate() {
 		global $wpdb, $bp;
 
-		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.*, gm.meta_value as last_activity, gm2.meta_value as total_member_count FROM {$bp->groups->table_name} g, {$bp->groups->table_name_groupmeta} gm, {$bp->groups->table_name_groupmeta} gm2 WHERE g.id = gm.group_id AND g.id = gm2.group_id AND gm.meta_key = 'last_activity' AND gm2.meta_key = 'total_member_count' AND g.id = %d", $this->id ) ) ) {
+		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {			
+			bp_groups_update_meta_cache( $this->id );
+						
 			$this->id                 = $group->id;
 			$this->creator_id         = $group->creator_id;
 			$this->name               = stripslashes($group->name);
@@ -39,8 +41,8 @@ Class BP_Groups_Group {
 			$this->status             = $group->status;
 			$this->enable_forum       = $group->enable_forum;
 			$this->date_created       = $group->date_created;
-			$this->last_activity      = $group->last_activity;
-			$this->total_member_count = $group->total_member_count;
+			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
+			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 			$this->is_member          = BP_Groups_Member::check_is_member( bp_loggedin_user_id(), $this->id );
 
 			// Get group admins and mods
@@ -367,13 +369,19 @@ Class BP_Groups_Group {
 		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', join( ' ', (array)$t_sql ), $t_sql );
 		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
+		$group_ids = array();
+		foreach ( (array)$paged_groups as $group ) {
+			$group_ids[] = $group->id;
+		}
+		
 		/* Populate some extra information instead of querying each time in the loop */
 		if ( !empty( $populate_extras ) ) {
-			$group_ids = array();
-			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
 			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $type );
 		}
+		
+		// Grab all groupmeta
+		bp_groups_update_meta_cache( $group_ids );
 
 		unset( $sql, $total_sql );
 

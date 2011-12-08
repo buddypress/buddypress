@@ -12,6 +12,33 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Slurps up groupmeta
+ *
+ * This function is called in two places in the BP_Groups_Group class:
+ *   - in the populate() method, when single group objects are populated
+ *   - in the get() method, when multiple groups are queried
+ *
+ * It grabs all groupmeta associated with all of the groups passed in $group_ids and adds it to
+ * the WP cache. This improves efficiency when using groupmeta inline
+ *
+ * @param int|str|array $group_ids Accepts a single group_id, or a comma-separated list or array of
+ *    group ids
+ */
+function bp_groups_update_meta_cache( $group_ids = false ) {
+	global $bp;
+	
+	$cache_args = array(
+		'object_ids' 	   => $group_ids,
+		'object_type' 	   => $bp->groups->id,
+		'object_column'    => 'group_id',
+		'meta_table' 	   => $bp->groups->table_name_groupmeta,
+		'cache_key_prefix' => 'bp_groups_groupmeta'
+	);
+	
+	bp_update_meta_cache( $cache_args );
+}
+
 function groups_clear_group_object_cache( $group_id ) {
 	wp_cache_delete( 'bp_total_group_count', 'bp' );
 }
