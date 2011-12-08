@@ -916,6 +916,12 @@ function bp_core_get_site_path() {
 function bp_core_redirect( $location, $status = 302 ) {
 	global $bp;
 
+	// On some setups, passing the value of wp_get_referer() may result in an empty value for
+	// $location, which results in an error. Ensure that we have a valid URL.
+	if ( empty( $location ) ) {
+		$location = bp_get_root_domain();
+	}
+
 	// Make sure we don't call status_header() in bp_core_do_catch_uri()
 	// as this conflicts with wp_redirect()
 	$bp->no_status_set = true;
