@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-08 02:31:08+00:00\n"
+"POT-Creation-Date: 2011-12-08 03:31:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -359,7 +359,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-admin.php:40 bp-core/admin/bp-core-admin.php:121
 #: bp-settings/bp-settings-loader.php:15 bp-settings/bp-settings-loader.php:72
-#: bp-settings/bp-settings-loader.php:150 bp-groups/bp-groups-loader.php:208
+#: bp-settings/bp-settings-loader.php:150 bp-groups/bp-groups-loader.php:217
 #: bp-groups/bp-groups-template.php:1277
 msgid "Settings"
 msgstr ""
@@ -735,7 +735,7 @@ msgstr ""
 #: bp-core/admin/bp-core-update.php:518 bp-core/bp-core-template.php:259
 #: bp-groups/bp-groups-activity.php:135 bp-groups/bp-groups-activity.php:171
 #: bp-groups/bp-groups-activity.php:207 bp-groups/bp-groups-activity.php:243
-#: bp-groups/bp-groups-loader.php:414 bp-groups/bp-groups-widgets.php:20
+#: bp-groups/bp-groups-loader.php:423 bp-groups/bp-groups-widgets.php:20
 #: bp-groups/bp-groups-widgets.php:41 bp-groups/bp-groups-widgets.php:107
 #: bp-groups/bp-groups-screens.php:831 bp-activity/bp-activity-loader.php:188
 #: bp-activity/bp-activity-loader.php:282
@@ -1691,80 +1691,84 @@ msgstr ""
 msgid "You do not have access to this group."
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:204 bp-groups/bp-groups-template.php:1270
+#: bp-groups/bp-groups-loader.php:203
+msgid "You are not an admin of this group."
+msgstr ""
+
+#: bp-groups/bp-groups-loader.php:213 bp-groups/bp-groups-template.php:1270
 msgid "Details"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:216 bp-groups/bp-groups-template.php:1280
+#: bp-groups/bp-groups-loader.php:225 bp-groups/bp-groups-template.php:1280
 msgid "Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:224
+#: bp-groups/bp-groups-loader.php:233
 msgid "Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:250
+#: bp-groups/bp-groups-loader.php:259
 msgid "Groups <span>%d</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:262 bp-groups/bp-groups-loader.php:290
-#: bp-groups/bp-groups-loader.php:430 bp-groups/bp-groups-loader.php:458
+#: bp-groups/bp-groups-loader.php:271 bp-groups/bp-groups-loader.php:299
+#: bp-groups/bp-groups-loader.php:439 bp-groups/bp-groups-loader.php:467
 msgid "Memberships"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:273
+#: bp-groups/bp-groups-loader.php:282
 msgid "Invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:302
+#: bp-groups/bp-groups-loader.php:311
 msgctxt "Group home navigation title"
 msgid "Home"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:314
+#: bp-groups/bp-groups-loader.php:323
 msgid "Admin"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:333 bp-groups/bp-groups-template.php:1577
+#: bp-groups/bp-groups-loader.php:342 bp-groups/bp-groups-template.php:1577
 #: bp-groups/bp-groups-template.php:1578 bp-themes/bp-default/_inc/ajax.php:554
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:345
+#: bp-groups/bp-groups-loader.php:354
 msgid "Forum"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:357
+#: bp-groups/bp-groups-loader.php:366
 msgid "Members <span>%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:369
+#: bp-groups/bp-groups-loader.php:378
 #: bp-themes/bp-default/groups/single/send-invites.php:60
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:411
+#: bp-groups/bp-groups-loader.php:420
 msgid "Groups <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:412
+#: bp-groups/bp-groups-loader.php:421
 msgid "Pending Invites <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:415
+#: bp-groups/bp-groups-loader.php:424
 msgid "No Pending Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:477 bp-groups/bp-groups-buddybar.php:25
+#: bp-groups/bp-groups-loader.php:486 bp-groups/bp-groups-buddybar.php:25
 #: bp-groups/bp-groups-template.php:2334
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:756
+#: bp-groups/bp-groups-classes.php:764
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:762 bp-groups/bp-groups-functions.php:115
+#: bp-groups/bp-groups-classes.php:770 bp-groups/bp-groups-functions.php:115
 msgid "Group Admin"
 msgstr ""
 
