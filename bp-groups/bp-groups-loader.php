@@ -196,6 +196,15 @@ class BP_Groups_Component extends BP_Component {
 					}
 				}
 			}
+			
+			// Protect the admin tab from non-admins
+			if ( bp_is_current_action( 'admin' ) && !bp_is_item_admin() ) {
+				bp_core_no_access( array(
+					'message'  => __( 'You are not an admin of this group.', 'buddypress' ),
+					'root'     => bp_get_group_permalink( $bp->groups->current_group ),
+					'redirect' => false
+				) );
+			}
 		}
 
 		// Preconfigured group creation steps
