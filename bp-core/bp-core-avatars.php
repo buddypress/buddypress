@@ -228,12 +228,13 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$html_height = ( 'thumb' == $type ) ? ' height="' . bp_core_avatar_thumb_height() . '"' : ' height="' . bp_core_avatar_full_height() . '"';
 
 	// Set img URL and DIR based on prepopulated constants
-	$avatar_loc        = array();
-	$avatar_loc[]      = trailingslashit( bp_core_avatar_upload_path() );
-	$avatar_loc[]      = trailingslashit( bp_core_avatar_url() );
-	$avatar_loc[]      = trailingslashit( $avatar_dir );
-	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', ( $avatar_loc[1] . $avatar_loc[2] . $item_id ), $item_id, $object, $avatar_dir );
-	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', ( $avatar_loc[0] . $avatar_loc[2] . $item_id ), $item_id, $object, $avatar_dir );
+	$avatar_loc        = new stdClass();
+	$avatar_loc->path  = trailingslashit( bp_core_avatar_upload_path() );
+	$avatar_loc->url   = trailingslashit( bp_core_avatar_url() );
+	$avatar_loc->dir   = trailingslashit( $avatar_dir );
+	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', ( $avatar_loc->url  . $avatar_loc->dir . $item_id ), $item_id, $object, $avatar_dir );
+	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', ( $avatar_loc->path . $avatar_loc->dir . $item_id ), $item_id, $object, $avatar_dir );
+
 	// Add an identifying class
 	$class .= ' ' . $object . '-' . $item_id . '-avatar';
 
