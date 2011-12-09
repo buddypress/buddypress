@@ -32,7 +32,8 @@ function bp_members_admin_bar_my_account_menu() {
 			'item_id' => bp_loggedin_user_id(),
 			'email'   => $bp->loggedin_user->userdata->user_email,
 			'width'   => 16,
-			'height'  => 16
+			'height'  => 16,
+			'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_loggedin_user_fullname() )
 		) );
 
 		// Some admin bar setup in WP 3.2 differs from WP 3.3+.
@@ -111,7 +112,8 @@ function bp_members_admin_bar_user_admin_menu() {
 		'item_id' => bp_displayed_user_id(),
 		'email'   => $bp->displayed_user->userdata->user_email,
 		'width'   => 16,
-		'height'  => 16
+		'height'  => 16,
+		'alt'	  => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 	) );
 
 	// Unique ID for the 'My Account' menu

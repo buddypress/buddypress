@@ -145,28 +145,28 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	// Get item name for alt/title tags
 	$item_name = '';
-
-	// Don't do this query if we don't have to
-	if ( !$alt || !$title ) {
+	
+	// Backpat for the 'alt' parameter, which used to encourage sprintf()-style values
+	if ( false !== strpos( $alt, '%s' ) || false !== strpos( $alt, '%1$s' ) ) {
+		var_dump( 'yes' );
 		if ( 'user' == $object )
 			$item_name = bp_core_get_user_displayname( $item_id );
 		elseif ( 'group' == $object )
 			$item_name = bp_get_group_name( groups_get_group( array( 'group_id' => $item_id ) ) );
 		elseif ( 'blog' == $object )
 			$item_name = get_blog_option( $item_id, 'blogname' );
+		
+		$alt = sprintf( $alt, apply_filters( 'bp_core_avatar_alt', $item_name, $item_id, $object ) );
 	}
 
-	if ( !$alt && $item_name ) {
-		$alt = sprintf( __( "Avatar Image: %s", 'buddypress' ), apply_filters( 'bp_core_avatar_alt', $item_name, $item_id, $object ) );
-	} elseif ( !$alt ) {
+	// Get a fallback for the 'alt' parameter	
+	if ( !$alt ) {
 		$alt = __( 'Avatar Image', 'buddypress' );
 	}
 
-	// Set title tag
+	// Set title tag, if it's been provided
 	if ( $title )
 		$title = " title='" . esc_attr( apply_filters( 'bp_core_avatar_title', $title, $item_id, $object ) ) . "'";
-	elseif ( $item_name )
-		$title = " title='" . esc_attr( apply_filters( 'bp_core_avatar_title', $item_name, $item_id, $object ) ) . "'";
 
 	// Set CSS ID if passed
 	if ( !empty( $css_id ) )

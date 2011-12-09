@@ -479,7 +479,7 @@ function bp_member_avatar( $args = '' ) {
 			'height' => false,
 			'class' => 'avatar',
 			'id' => false,
-			'alt' => __( 'Profile picture of %s', 'buddypress' )
+			'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->fullname )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -775,7 +775,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
 			'width'  => false,
 			'height' => false,
 			'html'   => true,
-			'alt'    => __( 'Profile picture of %s', 'buddypress' )
+			'alt'    => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_loggedin_user_fullname() )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -795,7 +795,7 @@ function bp_displayed_user_avatar( $args = '' ) {
 			'width'  => false,
 			'height' => false,
 			'html'   => true,
-			'alt'    => __( 'Profile picture of %s', 'buddypress' )
+			'alt'    => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
