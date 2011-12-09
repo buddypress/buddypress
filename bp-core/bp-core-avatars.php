@@ -110,83 +110,132 @@ function bp_core_fetch_avatar( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	// Set item_id if not passed
-	if ( !$item_id ) {
-		if ( 'user' == $object )
-			$item_id = bp_displayed_user_id();
-		else if ( bp_is_active( 'groups' ) && 'group' == $object )
-			$item_id = $bp->groups->current_group->id;
-		else if ( 'blog' == $object )
-			$item_id = $current_blog->id;
+	/** Set item_id ***********************************************************/
+	
+	if ( empty( $item_id ) ) {
+
+		switch ( $object ) {
+
+			case 'blog'  :
+				$item_id = $current_blog->id;
+				break;
+
+			case 'group' :
+				if ( bp_is_active( 'groups' ) ) {
+					$item_id = $bp->groups->current_group->id;
+				} else {
+					$item_id = false;
+				}
+
+				break;
+			
+			case 'user'  :
+			default      :
+				$item_id = bp_displayed_user_id();
+				break;
+		}
 
 		$item_id = apply_filters( 'bp_core_avatar_item_id', $item_id, $object );
 
-		if ( !$item_id )
+		if ( empty( $item_id ) ) {
 			return false;
+		}
 	}
 
-	// Set avatar_dir if not passed (uses $object)
-	if ( !$avatar_dir ) {
-		if ( 'user' == $object )
-			$avatar_dir = 'avatars';
-		else if ( bp_is_active( 'groups' ) && 'group' == $object )
-			$avatar_dir = 'group-avatars';
-		else if ( 'blog' == $object )
-			$avatar_dir = 'blog-avatars';
+	/** Set avatar_dir ********************************************************/
+
+	if ( empty( $avatar_dir ) ) {
+
+		switch ( $object ) {
+
+			case 'blog'  :
+				$avatar_dir = 'blog-avatars';
+				break;
+
+			case 'group' :
+				if ( bp_is_active( 'groups' ) ) {
+					$avatar_dir = 'group-avatars';
+				} else {
+					$avatar_dir = false;
+				}
+
+				break;
+			
+			case 'user'  :
+			default      :
+				$avatar_dir = 'avatars';
+				break;
+		}
 
 		$avatar_dir = apply_filters( 'bp_core_avatar_dir', $avatar_dir, $object );
 
-		if ( !$avatar_dir )
+		if ( empty( $avatar_dir ) ) {
 			return false;
+		}
 	}
 
-	// Add an identifying class to each item
-	$class .= ' ' . $object . '-' . $item_id . '-avatar';
+	/** <img> alt *************************************************************/
 
-	// Get item name for alt/title tags
-	$item_name = '';
-	
-	// Backpat for the 'alt' parameter, which used to encourage sprintf()-style values
 	if ( false !== strpos( $alt, '%s' ) || false !== strpos( $alt, '%1$s' ) ) {
-		var_dump( 'yes' );
-		if ( 'user' == $object )
-			$item_name = bp_core_get_user_displayname( $item_id );
-		elseif ( 'group' == $object )
-			$item_name = bp_get_group_name( groups_get_group( array( 'group_id' => $item_id ) ) );
-		elseif ( 'blog' == $object )
-			$item_name = get_blog_option( $item_id, 'blogname' );
 		
-		$alt = sprintf( $alt, apply_filters( 'bp_core_avatar_alt', $item_name, $item_id, $object ) );
+		// Get item name for alt/title tags
+		$item_name = '';
+
+		switch ( $object ) {
+
+			case 'blog'  :
+				$item_name = get_blog_option( $item_id, 'blogname' );
+				break;
+
+			case 'group' :
+				$item_name = bp_get_group_name( groups_get_group( array( 'group_id' => $item_id ) ) );
+				break;
+			
+			case 'user'  :
+			default :
+				$item_name = bp_core_get_user_displayname( $item_id );
+				break;
+		}
+
+		$item_name = apply_filters( 'bp_core_avatar_alt', $item_name, $item_id, $object );
+		$alt       = sprintf( $alt, $item_name );
 	}
+
+	/** Sanity Checks *********************************************************/
 
 	// Get a fallback for the 'alt' parameter	
-	if ( !$alt ) {
+	if ( empty( $alt ) )
 		$alt = __( 'Avatar Image', 'buddypress' );
-	}
 
 	// Set title tag, if it's been provided
-	if ( $title )
+	if ( !empty( $title ) )
 		$title = " title='" . esc_attr( apply_filters( 'bp_core_avatar_title', $title, $item_id, $object ) ) . "'";
 
 	// Set CSS ID if passed
 	if ( !empty( $css_id ) )
-		$css_id = " id='{$css_id}'";
+		$css_id = ' id="' . $css_id . '"';
 
-	// Set avatar width
-	if ( $width )
-		$html_width = " width='{$width}'";
+	// Set image width
+	if ( false !== $width )
+		$html_width = ' width="' . $width . '"';
 	else
 		$html_width = ( 'thumb' == $type ) ? ' width="' . bp_core_avatar_thumb_width() . '"' : ' width="' . bp_core_avatar_full_width() . '"';
 
-	// Set avatar height
-	if ( $height )
-		$html_height = " height='{$height}'";
+	// Set image height
+	if ( false !== $height )
+		$html_height = ' height="' . $height . '"';
 	else
 		$html_height = ( 'thumb' == $type ) ? ' height="' . bp_core_avatar_thumb_height() . '"' : ' height="' . bp_core_avatar_full_height() . '"';
 
-	// Set avatar URL and DIR based on prepopulated constants
-	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', bp_core_avatar_url() . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
-	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', bp_core_avatar_upload_path() . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	// Set img URL and DIR based on prepopulated constants
+	$avatar_loc        = array();
+	$avatar_loc[]      = trailingslashit( bp_core_avatar_upload_path() );
+	$avatar_loc[]      = trailingslashit( bp_core_avatar_url() );
+	$avatar_loc[]      = trailingslashit( $avatar_dir );
+	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', ( $avatar_loc[1] . $avatar_loc[2] . $item_id ), $item_id, $object, $avatar_dir );
+	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', ( $avatar_loc[0] . $avatar_loc[2] . $item_id ), $item_id, $object, $avatar_dir );
+	// Add an identifying class
+	$class .= ' ' . $object . '-' . $item_id . '-avatar';
 
 	/****
 	 * Look for uploaded avatar first. Use it if it exists.
@@ -205,10 +254,11 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 			// Stash files in an array once to check for one that matches
 			$avatar_files = array();
-			while ( false !== ( $avatar_file = readdir($av_dir) ) ) {
+			while ( false !== ( $avatar_file = readdir( $av_dir ) ) ) {
 				// Only add files to the array (skip directories)
-				if ( 2 < strlen( $avatar_file ) )
+				if ( 2 < strlen( $avatar_file ) ) {
 					$avatar_files[] = $avatar_file;
+				}
 			}
 
 			// Check for array
@@ -216,22 +266,25 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 				// Check for current avatar
 				foreach( $avatar_files as $key => $value ) {
-					if ( strpos ( $value, $avatar_size )!== false )
+					if ( strpos ( $value, $avatar_size )!== false ) {
 						$avatar_url = $avatar_folder_url . '/' . $avatar_files[$key];
+					}
 				}
 
 				// Legacy avatar check
 				if ( !isset( $avatar_url ) ) {
 					foreach( $avatar_files as $key => $value ) {
-						if ( strpos ( $value, $legacy_user_avatar_name )!== false )
+						if ( strpos ( $value, $legacy_user_avatar_name )!== false ) {
 							$avatar_url = $avatar_folder_url . '/' . $avatar_files[$key];
+						}
 					}
 
 					// Legacy group avatar check
 					if ( !isset( $avatar_url ) ) {
 						foreach( $avatar_files as $key => $value ) {
-							if ( strpos ( $value, $legacy_group_avatar_name )!== false )
+							if ( strpos ( $value, $legacy_group_avatar_name )!== false ) {
 								$avatar_url = $avatar_folder_url . '/' . $avatar_files[$key];
+							}
 						}
 					}
 				}
@@ -261,20 +314,22 @@ function bp_core_fetch_avatar( $args = '' ) {
 	if ( ! apply_filters( 'bp_core_fetch_avatar_no_grav', $no_grav ) ) {
 
 		// Set gravatar size
-		if ( $width )
+		if ( false !== $width ) {
 			$grav_size = $width;
-		else if ( 'full' == $type )
+		} else if ( 'full' == $type ) {
 			$grav_size = bp_core_avatar_full_width();
-		else if ( 'thumb' == $type )
+		} else if ( 'thumb' == $type ) {
 			$grav_size = bp_core_avatar_thumb_width();
+		}
 
 		// Set gravatar type
-		if ( empty( $bp->grav_default->{$object} ) )
+		if ( empty( $bp->grav_default->{$object} ) ) {
 			$default_grav = 'wavatar';
-		else if ( 'mystery' == $bp->grav_default->{$object} )
+		} else if ( 'mystery' == $bp->grav_default->{$object} ) {
 			$default_grav = apply_filters( 'bp_core_mysteryman_src', bp_core_avatar_default(), $grav_size );
-		else
+		} else {
 			$default_grav = $bp->grav_default->{$object};
+		}
 
 		// Set gravatar object
 		if ( empty( $email ) ) {
@@ -286,17 +341,17 @@ function bp_core_fetch_avatar( $args = '' ) {
 		}
 
 		// Set host based on if using ssl
-		if ( is_ssl() )
+		$host = 'http://www.gravatar.com/avatar/';
+		if ( is_ssl() ) {
 			$host = 'https://secure.gravatar.com/avatar/';
-		else
-			$host = 'http://www.gravatar.com/avatar/';
+		}
 
 		// Filter gravatar vars
 		$email    = apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );
 		$gravatar = apply_filters( 'bp_gravatar_url', $host ) . md5( strtolower( $email ) ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
+	// No avatar was found, and we've been told not to use a gravatar.
 	} else {
-		// No avatar was found, and we've been told not to use a gravatar.
 		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg', $params );
 	}
 
