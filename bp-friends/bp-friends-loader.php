@@ -72,7 +72,6 @@ class BP_Friends_Component extends BP_Component {
 		// All globals for the friends component.
 		// Note that global_tables is included in this array.
 		$globals = array(
-			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_FRIENDS_SLUG,
 			'has_directory'         => false,
 			'search_string'         => __( 'Search Friends...', 'buddypress' ),

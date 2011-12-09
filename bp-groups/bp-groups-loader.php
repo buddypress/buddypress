@@ -76,7 +76,6 @@ class BP_Groups_Component extends BP_Component {
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(
-			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_GROUPS_SLUG,
 			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
 			'has_directory'         => true,

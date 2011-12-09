@@ -86,7 +86,6 @@ class BP_Activity_Component extends BP_Component {
 		// All globals for activity component.
 		// Note that global_tables is included in this array.
 		$globals = array(
-			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_ACTIVITY_SLUG,
 			'root_slug'             => isset( $bp->pages->activity->slug ) ? $bp->pages->activity->slug : BP_ACTIVITY_SLUG,
 			'has_directory'         => true,

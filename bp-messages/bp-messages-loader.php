@@ -72,7 +72,6 @@ class BP_Messages_Component extends BP_Component {
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(
-			'path'                  => BP_PLUGIN_DIR,
 			'slug'                  => BP_MESSAGES_SLUG,
 			'has_directory'         => false,
 			'notification_callback' => 'messages_format_notifications',
