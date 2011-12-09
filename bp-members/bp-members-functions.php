@@ -39,28 +39,33 @@ function bp_core_define_slugs() {
 	global $bp;
 
 	// No custom members slug
-	if ( !defined( 'BP_MEMBERS_SLUG' ) )
-		if ( !empty( $bp->pages->members ) )
+	if ( !defined( 'BP_MEMBERS_SLUG' ) ) {
+		if ( !empty( $bp->pages->members ) ) {
 			define( 'BP_MEMBERS_SLUG', $bp->pages->members->slug );
-		else
+		} else {
 			define( 'BP_MEMBERS_SLUG', 'members' );
+		}
+	}
 
 	// No custom registration slug
-	if ( !defined( 'BP_REGISTER_SLUG' ) )
-		if ( !empty( $bp->pages->register ) )
+	if ( !defined( 'BP_REGISTER_SLUG' ) ) {
+		if ( !empty( $bp->pages->register ) ) {
 			define( 'BP_REGISTER_SLUG', $bp->pages->register->slug );
-		else
+		} else {
 			define( 'BP_REGISTER_SLUG', 'register' );
+		}
+	}
 
 	// No custom activation slug
-	if ( !defined( 'BP_ACTIVATION_SLUG' ) )
-		if ( !empty( $bp->pages->activate ) )
+	if ( !defined( 'BP_ACTIVATION_SLUG' ) ) {
+		if ( !empty( $bp->pages->activate ) ) {
 			define( 'BP_ACTIVATION_SLUG', $bp->pages->activate->slug );
-		else
+		} else {
 			define( 'BP_ACTIVATION_SLUG', 'activate' );
-
+		}
+	}
 }
-add_action( 'bp_setup_globals', 'bp_core_define_slugs' );
+add_action( 'bp_setup_late_globals', 'bp_core_define_slugs' );
 
 /**
  * Return an array of users IDs based on the parameters passed.

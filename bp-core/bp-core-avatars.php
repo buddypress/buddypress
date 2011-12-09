@@ -31,10 +31,11 @@ function bp_core_set_avatar_constants() {
 		define( 'BP_AVATAR_ORIGINAL_MAX_WIDTH', 450 );
 
 	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
-		if ( !isset( $bp->site_options['fileupload_maxk'] ) )
+		if ( !isset( $bp->site_options['fileupload_maxk'] ) ) {
 			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', 5120000 ); // 5mb
-		else
+		} else {
 			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', $bp->site_options['fileupload_maxk'] * 1024 );
+		}
 	}
 
 	if ( !defined( 'BP_AVATAR_DEFAULT' ) )
@@ -47,25 +48,25 @@ add_action( 'bp_init', 'bp_core_set_avatar_constants', 3 );
 
 function bp_core_set_avatar_globals() {
 	global $bp;
-	
+
 	// Dimensions
 	$bp->avatar->thumb->width  	   = BP_AVATAR_THUMB_WIDTH;
 	$bp->avatar->thumb->height 	   = BP_AVATAR_THUMB_HEIGHT;
 	$bp->avatar->full->width 	   = BP_AVATAR_FULL_WIDTH;
 	$bp->avatar->full->height 	   = BP_AVATAR_FULL_HEIGHT;
-	
+
 	// Upload maximums
 	$bp->avatar->original_max_width    = BP_AVATAR_ORIGINAL_MAX_WIDTH;
 	$bp->avatar->original_max_filesize = BP_AVATAR_ORIGINAL_MAX_FILESIZE;
-	
+
 	// Defaults
-	$bp->avatar->thumb->default 	   = BP_AVATAR_DEFAULT_THUMB;
-	$bp->avatar->full->default 	   = BP_AVATAR_DEFAULT;
-	
+	$bp->avatar->thumb->default = BP_AVATAR_DEFAULT_THUMB;
+	$bp->avatar->full->default 	= BP_AVATAR_DEFAULT;
+
 	// These have to be set on page load in order to avoid infinite filter loops at runtime
-	$bp->avatar->upload_path	   = bp_core_avatar_upload_path();
-	$bp->avatar->url	   	   = bp_core_avatar_url();
-	
+	$bp->avatar->upload_path = bp_core_avatar_upload_path();
+	$bp->avatar->url	   	 = bp_core_avatar_url();
+
 	do_action( 'bp_core_set_avatar_globals' );
 }
 add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
