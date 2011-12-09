@@ -173,21 +173,30 @@ class BP_Component {
 		if ( empty( $includes ) )
 			return;
 
+		$slashed_path = trailingslashit( $this->path );
+
 		// Loop through files to be included
 		foreach ( $includes as $file ) {
 
-			// Check path + file
-			if ( @is_file( $this->path . '/' . $file ) )
-				require( $this->path . '/' . $file );
+			$paths = array(
 
-			// Check path + /bp-component/ + file
-			elseif ( @is_file( $this->path . '/bp-' . $this->id . '/' . $file ) )
-				require( $this->path . '/bp-' . $this->id . '/' . $file );
+				// Passed with no extension
+				'bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php',
+				'bp-' . $this->id . '-' . $file . '.php',
+				'bp-' . $this->id . '/' . $file . '.php',
 
-			// Check buddypress/bp-component/bp-component-$file.php
-			elseif ( @is_file( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php' ) )
-				require( $this->path . '/bp-' . $this->id . '/bp-' . $this->id . '-' . $file . '.php' );
+				// Passed with extension
+				$file,
+				'bp-' . $this->id . '-' . $file,
+				'bp-' . $this->id . '/' . $file,
+			);
 
+			foreach ( $paths as $path ) {
+				if ( @is_file( $slashed_path . $path ) ) {
+					require( $slashed_path . $path );
+					continue;
+				}
+			}
 		}
 
 		// Call action
