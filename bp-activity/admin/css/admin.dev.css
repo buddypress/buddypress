@@ -39,3 +39,9 @@
 	position: inherit;
 	margin-top: -2px;
 }
+#bp_activity_link input {
+	width: 99%;
+}
+#bp-activities-primaryid {
+	margin-bottom: 1em;
+}

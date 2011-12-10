@@ -86,7 +86,7 @@ Class BP_Activity_Activity {
 		else
 			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component, type, action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide, is_spam ) VALUES ( %d, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d )", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam );
 
-		if ( !$wpdb->query( $q ) )
+		if ( false === $wpdb->query( $q ) )
 			return false;
 
 		if ( empty( $this->id ) )
