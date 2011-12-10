@@ -65,7 +65,7 @@ function bp_core_define_slugs() {
 		}
 	}
 }
-add_action( 'bp_setup_late_globals', 'bp_core_define_slugs' );
+add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
 
 /**
  * Return an array of users IDs based on the parameters passed.
