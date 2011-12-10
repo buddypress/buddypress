@@ -15,6 +15,21 @@ if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
 	return;
 
 /**
+ * Adjust the admin bar menus based on which WordPress version this is
+ *
+ * @since BuddyPress (1.5.2)
+ */
+function bp_core_admin_bar_version_check() {
+	if ( '3.2' == bp_get_major_wp_version() ) {
+		add_action( 'bp_setup_admin_bar', 'bp_admin_bar_root_site',       3 );
+		add_action( 'bp_setup_admin_bar', 'bp_admin_bar_comments_menu',   3 );
+		add_action( 'bp_setup_admin_bar', 'bp_admin_bar_appearance_menu', 3 );
+		add_action( 'bp_setup_admin_bar', 'bp_admin_bar_updates_menu',    3 );
+	}
+}
+add_action( 'admin_bar_menu', 'bp_core_admin_bar_version_check', 4 );
+
+/**
  * Unhook the WordPress core menus.
  *
  * @since BuddyPress (r4151)
@@ -25,23 +40,25 @@ if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
  */
 function bp_admin_bar_remove_wp_menus() {
 
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_dashboard_view_site_menu', 25 );
+	if ( '3.2' == bp_get_major_wp_version() ) {
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_dashboard_view_site_menu', 25 );
 
-	// Don't show the 'Edit Page' menu on BP pages
-	if ( !bp_is_blog_page() )
-		remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 30 );
+		// Don't show the 'Edit Page' menu on BP pages
+		if ( !bp_is_blog_page() )
+			remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 30 );
 
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_shortlink_menu', 80 );
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
 
-	if ( !is_network_admin() && !is_user_admin() ) {
-		remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 50 );
-		remove_action( 'admin_bar_menu', 'wp_admin_bar_appearance_menu', 60 );
+		if ( !is_network_admin() && !is_user_admin() ) {
+			remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 50 );
+			remove_action( 'admin_bar_menu', 'wp_admin_bar_appearance_menu', 60 );
+		}
+
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
 	}
-
-	remove_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 70 );
 }
 add_action( 'bp_init', 'bp_admin_bar_remove_wp_menus', 2 );
 
@@ -90,7 +107,6 @@ function bp_admin_bar_root_site() {
 		}
 	}
 }
-add_action( 'bp_setup_admin_bar', 'bp_admin_bar_root_site', 3 );
 
 /**
  * Add the "My Sites/[Site Name]" menu and all submenus.
@@ -124,7 +140,6 @@ function bp_admin_bar_my_sites_menu() {
 		$wp_admin_bar->add_menu( array( 'parent' => 'blog-' . $blog->userblog_id, 'id' => 'blog-' . $blog->userblog_id . '-v', 'title' => __( 'Visit Site' ), 'href' => get_home_url( $blog->userblog_id ) ) );
 	}
 }
-add_action( 'bp_setup_admin_bar', 'bp_admin_bar_my_sites_menu', 3 );
 
 /**
  * Add edit comments link with awaiting moderation count bubble
@@ -141,7 +156,6 @@ function bp_admin_bar_comments_menu( $wp_admin_bar ) {
 	$awaiting_mod = $awaiting_mod ? "<span id='ab-awaiting-mod' class='pending-count'>" . number_format_i18n( $awaiting_mod ) . "</span>" : '';
 	$wp_admin_bar->add_menu( array( 'parent' => 'dashboard', 'id' => 'comments', 'title' => sprintf( __( 'Comments %s' ), $awaiting_mod ), 'href' => admin_url( 'edit-comments.php' ) ) );
 }
-add_action( 'bp_setup_admin_bar', 'bp_admin_bar_comments_menu', 3 );
 
 /**
  * Add "Appearance" menu with widget and nav menu submenu
@@ -173,7 +187,6 @@ function bp_admin_bar_appearance_menu() {
 	if ( current_theme_supports( 'custom-header' ) )
 		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'header', 'title' => __( 'Header' ), 'href' => admin_url( 'themes.php?page=custom-header' ) ) );
 }
-add_action( 'bp_setup_admin_bar', 'bp_admin_bar_appearance_menu', 3 );
 
 /**
  * Provide an update link if theme/plugin/core updates are available
@@ -218,7 +231,6 @@ function bp_admin_bar_updates_menu() {
 
 	$wp_admin_bar->add_menu( array( 'parent' => 'dashboard', 'id' => 'updates', 'title' => $update_title, 'href' => network_admin_url( 'update-core.php' ) ) );
 }
-add_action( 'bp_setup_admin_bar', 'bp_admin_bar_updates_menu', 3 );
 
 /**
  * Handle the Admin Bar CSS
@@ -227,6 +239,9 @@ function bp_core_load_admin_bar_css() {
 	global $wp_version;
 
 	if ( !bp_use_wp_admin_bar() )
+		return;
+
+	if ( '3.3' == bp_get_major_wp_version() )
 		return;
 
 	// Admin bar styles
@@ -248,4 +263,5 @@ function bp_core_load_admin_bar_css() {
 	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_admin_bar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), '20110723' );
 }
 add_action( 'bp_init', 'bp_core_load_admin_bar_css' );
+
 ?>

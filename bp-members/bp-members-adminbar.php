@@ -12,12 +12,32 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Adjust the admin bar menus based on which WordPress version this is
+ *
+ * @since BuddyPress (1.5.2)
+ */
+function bp_members_admin_bar_version_check() {
+	
+	if ( '3.2' == bp_get_major_wp_version() ) {
+		add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu',    4    );
+		add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_notifications_menu', 5    );
+		add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_user_admin_menu',    99   );
+		add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_logout',  9999 );
+	} elseif ( '3.3' == bp_get_major_wp_version() ) {
+		add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu',    4   );
+		add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_notifications_menu', 5   );
+		add_action( 'admin_bar_menu',     'bp_members_admin_bar_user_admin_menu',    400 );
+	}
+}
+add_action( 'admin_bar_menu', 'bp_members_admin_bar_version_check', 4 );
+
+/**
  * Add the "My Account" menu and all submenus.
  *
  * @since BuddyPress (r4151)
  */
 function bp_members_admin_bar_my_account_menu() {
-	global $bp, $wp_admin_bar;
+	global $bp, $wp_admin_bar, $wp_version;
 
 	// Bail if this is an ajax request
 	if ( defined( 'DOING_AJAX' ) )
@@ -26,23 +46,40 @@ function bp_members_admin_bar_my_account_menu() {
 	// Logged in user
 	if ( is_user_logged_in() ) {
 
-		// User avatar
-		$avatar = bp_core_fetch_avatar( array(
-			'item_id' => $bp->loggedin_user->id,
-			'email'   => $bp->loggedin_user->userdata->user_email,
-			'width'   => 16,
-			'height'  => 16
-		) );
+		if ( '3.2' == bp_get_major_wp_version() ) {
 
-		// Unique ID for the 'My Account' menu
-		$bp->my_account_menu_id = ( ! empty( $avatar ) ) ? 'my-account-with-avatar' : 'my-account';
+			// User avatar
+			$avatar = bp_core_fetch_avatar( array(
+				'item_id' => $bp->loggedin_user->id,
+				'email'   => $bp->loggedin_user->userdata->user_email,
+				'width'   => 16,
+				'height'  => 16
+			) );
 
-		// Create the main 'My Account' menu
-		$wp_admin_bar->add_menu( array(
-			'id'    => $bp->my_account_menu_id,
-			'title' => $avatar . bp_get_loggedin_user_fullname(),
-			'href'  => $bp->loggedin_user->domain
-		) );
+			// Unique ID for the 'My Account' menu
+			$bp->my_account_menu_id = ( ! empty( $avatar ) ) ? 'my-account-with-avatar' : 'my-account';
+
+			// Create the main 'My Account' menu
+			$wp_admin_bar->add_menu( array(
+				'id'    => $bp->my_account_menu_id,
+				'title' => $avatar . bp_get_loggedin_user_fullname(),
+				'href'  => $bp->loggedin_user->domain
+			) );
+
+		} else {
+
+			// Unique ID for the 'My Account' menu
+			$bp->my_account_menu_id = 'my-account-buddypress';
+
+			// Create the main 'My Account' menu
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'my-account',
+				'id'     => $bp->my_account_menu_id,
+				'href'   => $bp->loggedin_user->domain,
+				'group'  => true,
+				'meta'   => array( 'class' => 'ab-sub-secondary' )
+			) );
+		}
 
 	// Show login and sign-up links
 	} elseif ( !empty( $wp_admin_bar ) ) {
@@ -66,7 +103,6 @@ function bp_members_admin_bar_my_account_menu() {
 		}
 	}
 }
-add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
 
 /**
  * Adds the User Admin top-level menu to user pages
@@ -85,23 +121,38 @@ function bp_members_admin_bar_user_admin_menu() {
 	if ( !current_user_can( 'edit_users' ) || bp_is_my_profile() )
 		return false;
 
-	// User avatar
-	$avatar = bp_core_fetch_avatar( array(
-		'item_id' => $bp->displayed_user->id,
-		'email'   => $bp->displayed_user->userdata->user_email,
-		'width'   => 16,
-		'height'  => 16
-	) );
+	if ( '3.2' == bp_get_major_wp_version() ) {
 
-	// Unique ID for the 'My Account' menu
-	$bp->user_admin_menu_id = ( ! empty( $avatar ) ) ? 'user-admin-with-avatar' : 'user-admin';
+		// User avatar
+		$avatar = bp_core_fetch_avatar( array(
+			'item_id' => $bp->displayed_user->id,
+			'email'   => $bp->displayed_user->userdata->user_email,
+			'width'   => 16,
+			'height'  => 16
+		) );
 
-	// Add the top-level User Admin button
-	$wp_admin_bar->add_menu( array(
-		'id'    => $bp->user_admin_menu_id,
-		'title' => $avatar . bp_get_displayed_user_fullname(),
-		'href'  => bp_displayed_user_domain()
-	) );
+		// Unique ID for the 'My Account' menu
+		$bp->user_admin_menu_id = ( ! empty( $avatar ) ) ? 'user-admin-with-avatar' : 'user-admin';
+
+		// Add the top-level User Admin button
+		$wp_admin_bar->add_menu( array(
+			'id'    => $bp->user_admin_menu_id,
+			'title' => $avatar . bp_get_displayed_user_fullname(),
+			'href'  => bp_displayed_user_domain()
+		) );
+
+	} elseif ( '3.3' == bp_get_major_wp_version() ) {
+		
+		// Unique ID for the 'My Account' menu
+		$bp->user_admin_menu_id = 'user-admin';
+
+		// Add the top-level User Admin button
+		$wp_admin_bar->add_menu( array(
+			'id'    => $bp->user_admin_menu_id,
+			'title' => __( 'Edit Member', 'buddypress' ),
+			'href'  => bp_displayed_user_domain()
+		) );
+	}
 
 	// User Admin > Edit this user's profile
 	$wp_admin_bar->add_menu( array(
@@ -147,7 +198,6 @@ function bp_members_admin_bar_user_admin_menu() {
 		'meta'   => array( 'onclick' => 'confirm(" ' . __( "Are you sure you want to delete this user's account?", 'buddypress' ) . '");' )
 	) );
 }
-add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_user_admin_menu', 99 );
 
 /**
  * Build the "Notifications" dropdown
@@ -167,12 +217,25 @@ function bp_members_admin_bar_notifications_menu() {
 		$menu_title = __( 'Notifications', 'buddypress' );
 	}
 
-	// Add the top-level Notifications button
-	$wp_admin_bar->add_menu( array(
-		'id'    => 'bp-notifications',
-		'title' => $menu_title,
-		'href'  => bp_loggedin_user_domain()
-	) );
+	if ( '3.2' == bp_get_major_wp_version() ) {
+
+		// Add the top-level Notifications button
+		$wp_admin_bar->add_menu( array(
+			'id'    => 'bp-notifications',
+			'title' => $menu_title,
+			'href'  => bp_loggedin_user_domain()
+		) );
+
+	} elseif ( '3.3' == bp_get_major_wp_version() ) {
+		
+		// Add the top-level Notifications button
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'top-secondary',
+			'id'     => 'bp-notifications',
+			'title'  => $menu_title,
+			'href'   => bp_loggedin_user_domain()
+		) );
+	}
 
 	if ( !empty( $notifications ) ) {
 		foreach ( (array)$notifications as $notification ) {
@@ -194,7 +257,6 @@ function bp_members_admin_bar_notifications_menu() {
 
 	return;
 }
-add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_notifications_menu', 999 );
 
 /**
  * Make sure the logout link is at the bottom of the "My Account" menu
@@ -221,6 +283,5 @@ function bp_members_admin_bar_my_account_logout() {
 		) );
 	}
 }
-add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_logout', 9999 );
 
 ?>

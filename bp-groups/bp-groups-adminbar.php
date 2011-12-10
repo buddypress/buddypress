@@ -12,6 +12,21 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Adjust the admin bar menus based on which WordPress version this is
+ *
+ * @since BuddyPress (1.5.2)
+ */
+function bp_groups_admin_bar_version_check() {
+	if ( '3.2' == bp_get_major_wp_version() ) {
+		add_action( 'bp_setup_admin_bar', 'bp_groups_group_admin_menu', 99 );
+	} elseif ( '3.3' == bp_get_major_wp_version() ) {
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu',  80  );
+		add_action( 'admin_bar_menu', 'bp_groups_group_admin_menu', 400 );
+	}
+}
+add_action( 'admin_bar_menu', 'bp_groups_admin_bar_version_check', 4 );
+
+/**
  * Adds the Group Admin top-level menu to group pages
  *
  * @package BuddyPress
@@ -30,25 +45,40 @@ function bp_groups_group_admin_menu() {
 	if ( !is_super_admin() && !bp_group_is_admin() )
 		return false;
 
-	// Group avatar
-	$avatar = bp_core_fetch_avatar( array(
-		'object'     => 'group',
-		'type'       => 'thumb',
-		'avatar_dir' => 'group-avatars',
-		'item_id'    => $bp->groups->current_group->id,
-		'width'      => 16,
-		'height'     => 16
-	) );
+	if ( '3.2' == bp_get_major_wp_version() ) {
 
-	// Unique ID for the 'My Account' menu
-	$bp->group_admin_menu_id = ( ! empty( $avatar ) ) ? 'group-admin-with-avatar' : 'group-admin';
+		// Group avatar
+		$avatar = bp_core_fetch_avatar( array(
+			'object'     => 'group',
+			'type'       => 'thumb',
+			'avatar_dir' => 'group-avatars',
+			'item_id'    => $bp->groups->current_group->id,
+			'width'      => 16,
+			'height'     => 16
+		) );
 
-	// Add the top-level Group Admin button
-	$wp_admin_bar->add_menu( array(
-		'id'    => $bp->group_admin_menu_id,
-		'title' => $avatar . bp_get_current_group_name(),
-		'href'  => bp_get_group_permalink( $bp->groups->current_group )
-	) );
+		// Unique ID for the 'My Account' menu
+		$bp->group_admin_menu_id = ( ! empty( $avatar ) ) ? 'group-admin-with-avatar' : 'group-admin';
+
+		// Add the top-level Group Admin button
+		$wp_admin_bar->add_menu( array(
+			'id'    => $bp->group_admin_menu_id,
+			'title' => $avatar . bp_get_current_group_name(),
+			'href'  => bp_get_group_permalink( $bp->groups->current_group )
+		) );
+
+	} elseif ( '3.3' == bp_get_major_wp_version() ) {
+		
+		// Unique ID for the 'My Account' menu
+		$bp->group_admin_menu_id = 'group-admin';
+
+		// Add the top-level Group Admin button
+		$wp_admin_bar->add_menu( array(
+			'id'    => $bp->group_admin_menu_id,
+			'title' => __( 'Edit Group', 'buddypress' ),
+			'href'  => bp_get_group_permalink( $bp->groups->current_group )
+		) );
+	}
 
 	// Group Admin > Edit details
 	$wp_admin_bar->add_menu( array(
@@ -112,6 +142,5 @@ function bp_groups_group_admin_menu() {
 		'href'   =>  bp_get_groups_action_link( 'admin/delete-group' )
 	) );
 }
-add_action( 'bp_setup_admin_bar', 'bp_groups_group_admin_menu', 99 );
 
 ?>
