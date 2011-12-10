@@ -460,8 +460,8 @@ function bp_activity_admin_load() {
 			$mn = ( $mn > 59 ) ? $mn -60 : $mn;
 			$ss = ( $ss > 59 ) ? $ss -60 : $ss;
 
-			// Reconstruct the date into a timestamp. Convert it to GMT.
-			$gmt_date = get_gmt_from_date( sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss ) );
+			// Reconstruct the date into a timestamp
+			$gmt_date = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss );
 
 			$activity->date_recorded = $gmt_date;
 		}
