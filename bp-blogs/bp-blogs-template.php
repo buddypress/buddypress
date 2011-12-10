@@ -272,14 +272,14 @@ function bp_blog_avatar( $args = '' ) {
 }
 	function bp_get_blog_avatar( $args = '' ) {
 		global $blogs_template, $bp;
-
+		
 		$defaults = array(
 			'type'    => 'full',
 			'width'   => false,
 			'height'  => false,
 			'class'   => 'avatar',
 			'id'      => false,
-			'alt'     => __( 'Site authored by %s', 'buddypress' ),
+			'alt'     => sprintf( __( 'Profile picture of site author %s', 'buddypress' ), bp_core_get_user_displayname( $blogs_template->blog->admin_user_id ) ),
 			'no_grav' => true
 		);
 
