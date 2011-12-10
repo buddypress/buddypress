@@ -655,7 +655,7 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 		return !empty( $avatar ) ? $avatar : $default;
 
 	if ( !$alt )
-		$alt = __( 'Avatar of %s', 'buddypress' );
+		$alt = sprintf( __( 'Avatar of %s', 'buddypress' ), bp_core_get_user_displayname( $id ) );
 
 	// Let BuddyPress handle the fetching of the avatar
 	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $id, 'width' => $size, 'height' => $size, 'alt' => $alt ) );

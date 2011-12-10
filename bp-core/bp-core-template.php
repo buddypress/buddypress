@@ -94,7 +94,7 @@ function bp_comment_author_avatar() {
 	global $comment;
 
 	if ( function_exists( 'bp_core_fetch_avatar' ) )
-		echo apply_filters( 'bp_comment_author_avatar', bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'type' => 'thumb' ) ) );
+		echo apply_filters( 'bp_comment_author_avatar', bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Avatar of %s', 'buddypress' ), bp_core_get_user_displayname( $comment->user_id ) ) ) ) );
 	else if ( function_exists('get_avatar') )
 		get_avatar();
 }
@@ -103,7 +103,7 @@ function bp_post_author_avatar() {
 	global $post;
 
 	if ( function_exists( 'bp_core_fetch_avatar' ) )
-		echo apply_filters( 'bp_post_author_avatar', bp_core_fetch_avatar( array( 'item_id' => $post->post_author, 'type' => 'thumb' ) ) );
+		echo apply_filters( 'bp_post_author_avatar', bp_core_fetch_avatar( array( 'item_id' => $post->post_author, 'type' => 'thumb', 'alt' => sprintf( __( 'Avatar of %s', 'buddypress' ), bp_core_get_user_displayname( $post->post_author ) ) ) ) );
 	else if ( function_exists('get_avatar') )
 		get_avatar();
 }
