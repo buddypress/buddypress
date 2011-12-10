@@ -483,12 +483,12 @@ function bp_the_topic_poster_avatar( $args = '' ) {
 }
 	function bp_get_the_topic_poster_avatar( $args = '' ) {
 		global $forum_template;
-
+		
 		$defaults = array(
 			'type'   => 'thumb',
 			'width'  => false,
 			'height' => false,
-			'alt'    => __( 'Profile picture of %s', 'buddypress' )
+			'alt'    => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $forum_template->topic->topic_poster ) )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -578,7 +578,7 @@ function bp_the_topic_object_avatar( $args = '' ) {
 }
 	function bp_get_the_topic_object_avatar( $args = '' ) {
 		global $forum_template;
-
+		
 		if ( !isset( $forum_template->topic->object_id ) )
 			return false;
 
