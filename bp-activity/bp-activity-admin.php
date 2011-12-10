@@ -579,9 +579,19 @@ function bp_activity_admin_edit() {
 					<div id="post-body" class="has-sidebar">
 						<div id="post-body-content" class="has-sidebar-content">
 							<div id="postdiv" class="postarea">
-								<?php wp_editor( stripslashes( $activity->action ), 'bp-activities-action', array( 'media_buttons' => false, 'textarea_rows' => 7, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), ) ); ?>
+								<div id="bp_activity_action" class="postbox">
+									<h3><?php _e( 'Action', 'buddypress' ); ?></h3>
+									<div class="inside">
+										<?php wp_editor( stripslashes( $activity->action ), 'bp-activities-action', array( 'media_buttons' => false, 'textarea_rows' => 7, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
+									</div>
+								</div>
 
-								<?php wp_editor( stripslashes( $activity->content ), 'bp-activities-content', array( 'media_buttons' => false, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), ) ); ?>
+								<div id="bp_activity_content" class="postbox">
+									<h3><?php _e( 'Content', 'buddypress' ); ?></h3>
+									<div class="inside">
+										<?php wp_editor( stripslashes( $activity->content ), 'bp-activities-content', array( 'media_buttons' => false, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
+									</div>
+								</div>
 							</div>
 
 							<?php do_meta_boxes( 'toplevel_page_bp-activity', 'advanced', $activity ); ?>
