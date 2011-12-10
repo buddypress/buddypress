@@ -35,7 +35,10 @@
 #bp_activity_content div.inside {
 	line-height: 0;
 }
-
+#bp_activity_action td.mceIframeContainer,
+#bp_activity_content td.mceIframeContainer {
+	background-color: white;
+}
 #post-body #bp-activities-action_resize,
 #post-body #bp-activities-content_resize {
 	position: inherit;
