@@ -898,7 +898,7 @@ function bp_activity_avatar( $args = '' ) {
 		$type_default = bp_is_single_activity() ? 'full' : 'thumb';
 
 		$defaults = array(
-			'alt'     => __( 'Profile picture of %s', 'buddypress' ),
+			'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name ),
 			'class'   => 'avatar',
 			'email'   => false,
 			'type'    => $type_default,
@@ -989,36 +989,45 @@ function bp_activity_secondary_avatar( $args = '' ) {
 		// Set item_id and object (default to user)
 		switch ( $activities_template->activity->component ) {
 			case 'groups' :
-				$object = 'group';
+				$object  = 'group';
 				$item_id = $activities_template->activity->item_id;
-
-				if ( empty( $alt ) )
-					$alt = __( 'Group logo of %s', 'buddypress' );
+				
+				if ( empty( $alt ) ) {
+					$group = groups_get_group( $item_id );
+					if ( isset( $group->name ) ) {
+						$alt = sprintf( __( 'Group logo of %s', 'buddypress' ), $group->name );
+					} else {
+						$alt = __( 'Group logo', 'buddypress' );
+					}
+				}
 
 				break;
 			case 'blogs' :
-				$object = 'blog';
+				$object  = 'blog';
 				$item_id = $activities_template->activity->item_id;
 
-				if ( !$alt )
-					$alt = sprintf( __( 'Site authored by %s', 'buddypress' ), get_blog_option( $item_id, 'blogname' ) );
+				if ( !$alt ) {
+					$alt = sprintf( __( 'Profile picture of the author of the site %s', 'buddypress' ), get_blog_option( $item_id, 'blogname' ) );
+				}
 
 				break;
 			case 'friends' :
 				$object  = 'user';
 				$item_id = $activities_template->activity->secondary_item_id;
 
-				if ( empty( $alt ) )
-					$alt = __( 'Profile picture of %s', 'buddypress' );
+				if ( empty( $alt ) ) {
+					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $activities_template->activity->secondary_item_id ) );
+				}
 
 				break;
 			default :
 				$object  = 'user';
 				$item_id = $activities_template->activity->user_id;
-				$email = $activities_template->activity->user_email;
+				$email   = $activities_template->activity->user_email;
 
-				if ( !$alt )
-					$alt = __( 'Profile picture of %s', 'buddypress' );
+				if ( !$alt ) {
+					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name );
+				}
 
 				break;
 		}
