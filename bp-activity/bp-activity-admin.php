@@ -539,10 +539,11 @@ function bp_activity_admin_edit() {
 
 	// Get the activity from the database
 	$activity = bp_activity_get( array(
-		'in'          => ! empty( $_REQUEST['aid'] ) ? (int) $_REQUEST['aid'] : 0,
-		'max'         => 1,
-		'show_hidden' => true,
-		'spam'        => 'all',
+		'in'               => ! empty( $_REQUEST['aid'] ) ? (int) $_REQUEST['aid'] : 0,
+		'max'              => 1,
+		'show_hidden'      => true,
+		'spam'             => 'all',
+		'display_comments' => 0
 	) );
 
 	if ( ! empty( $activity['activities'][0] ) ) {
