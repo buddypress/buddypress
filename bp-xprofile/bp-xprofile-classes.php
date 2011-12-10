@@ -717,9 +717,7 @@ Class BP_XProfile_Field {
 						<input type="text" name="title" id="title" value="<?php echo esc_attr( $this->name ); ?>" style="width:50%" />
 					</div>
 				</div>
-<?php
-		if ( '0' != $this->can_delete ) {
-?>
+
 				<div id="titlediv">
 					<h3><label for="description"><?php _e("Field Description", 'buddypress'); ?></label></h3>
 					<div id="titlewrap">
@@ -727,6 +725,9 @@ Class BP_XProfile_Field {
 					</div>
 				</div>
 
+<?php
+		if ( '0' != $this->can_delete ) {
+?>
 				<div id="titlediv">
 					<h3><label for="required"><?php _e( "Is This Field Required?", 'buddypress' ); ?> *</label></h3>
 					<select name="required" id="required" style="width: 30%">
