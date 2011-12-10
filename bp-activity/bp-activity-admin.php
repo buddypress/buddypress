@@ -151,7 +151,6 @@ function bp_activity_admin_edit_hidden_metaboxes( $hidden, $screen ) {
 }
 add_filter( 'default_hidden_meta_boxes', 'bp_activity_admin_edit_hidden_metaboxes', 10, 2 );
 
-
 /**
  * Set up the admin page before any output is sent. Register contextual help and screen options for this admin page.
  *
@@ -167,6 +166,9 @@ function bp_activity_admin_load() {
 
 	// Decide whether to load the index or edit screen
 	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
+
+	// Call an action for plugins to hook in early
+	do_action( 'bp_activity_admin_load', $doaction );
 
 	// Edit screen
 	if ( 'edit' == $doaction && ! empty( $_GET['aid'] ) ) {
@@ -261,6 +263,9 @@ function bp_activity_admin_load() {
 		// Get activity IDs
 		$activity_ids = array_map( 'absint', (array) $_REQUEST['aid'] );
 
+		// Call a filter for plugins to modify the requested activities to load
+		$activity_ids = apply_filters( 'bp_activity_admin_action_activity_ids', $activity_ids );
+
 		// Is this a bulk request?
 		if ( 'bulk_' == substr( $doaction, 0, 5 ) && ! empty( $_REQUEST['aid'] ) ) {
 			// Check this is a valid form submission
@@ -341,6 +346,9 @@ function bp_activity_admin_load() {
 			unset( $activity );
 		}
 
+		// Call actions for plugins to do something before we redirect
+		do_action( 'bp_activity_admin_action_after', array( $spammed, $unspammed, $deleted, $error ), $redirect_to, $activity_ids );
+
 		// Add arguments to the redirect URL so that on page reload, we can easily display what we've just done.
 		if ( $spammed )
 			$redirect_to = add_query_arg( 'spammed', $spammed, $redirect_to );
@@ -356,7 +364,7 @@ function bp_activity_admin_load() {
 			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
 
 		// Redirect
-		wp_redirect( $redirect_to );
+		wp_redirect( apply_filters( 'bp_activity_admin_action_redirect', $redirect_to ) );
 		exit;
 
 
@@ -476,6 +484,9 @@ function bp_activity_admin_load() {
 		if ( false === $result )
 			$error = $activity->id;
 
+		// Call actions for plugins to do something before we redirect
+		do_action_ref_array( 'bp_activity_admin_edit_after', array( &$activity, $error ) );
+
 		// If an error occured, pass back the activity ID that failed
 		if ( $error )
 			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
@@ -483,7 +494,7 @@ function bp_activity_admin_load() {
 			$redirect_to = add_query_arg( 'updated', (int) $activity->id, $redirect_to );
 
 		// Redirect
-		wp_redirect( $redirect_to );
+		wp_redirect( apply_filters( 'bp_activity_admin_edit_redirect', $redirect_to ) );
 		exit;
 
 
@@ -547,6 +558,9 @@ function bp_activity_admin_edit() {
 	// Construct URL for form
 	$form_url = remove_query_arg( array( 'action', 'deleted', 'error', 'spammed', 'unspammed', ), $_SERVER['REQUEST_URI'] );
 	$form_url = add_query_arg( 'action', 'save', $form_url );
+
+	// Call an action for plugins to modify the activity before we display the edit form
+	do_action_ref_array( 'bp_activity_admin_edit', array( &$activity ) );
 ?>
 
 	<div class="wrap">
@@ -770,6 +784,9 @@ function bp_activity_admin_index() {
 
 	// Prepare the activity items for display
 	$bp_activity_list_table->prepare_items();
+
+	// Call an action for plugins to modify the activity before we display the edit form
+	do_action( 'bp_activity_admin_index', $messages );
 ?>
 
 	<div class="wrap">
@@ -791,6 +808,7 @@ function bp_activity_admin_index() {
 			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
 		<?php endif; ?>
 
+		<?php // Display each activity on its own row ?>
 		<?php $bp_activity_list_table->views(); ?>
 
 		<form id="bp-activities-form" action="" method="get">
@@ -799,6 +817,7 @@ function bp_activity_admin_index() {
 			<?php $bp_activity_list_table->display(); ?>
 		</form>
 
+		<?php // This markup is used for the reply form ?>
 		<table style="display: none;">
 			<tr id="bp-activities-container" style="display: none;">
 				<td colspan="4">
@@ -1057,6 +1076,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		<ul class="subsubsub">
 			<li class="all"><a href="<?php echo esc_attr( esc_url( $redirect_to ) ); ?>" class="<?php if ( 'spam' != $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
 			<li class="spam"><a href="<?php echo esc_attr( esc_url( add_query_arg( 'activity_status', 'spam', $redirect_to ) ) ); ?>" class="<?php if ( 'spam' == $this->view ) echo 'current'; ?>"><?php printf( __( 'Spam <span class="count">(%s)</span>', 'buddypress' ), number_format_i18n( $this->spam_count ) ); ?></a></li>
+
+			<?php do_action( 'bp_activity_list_table_get_views', $redirect_to, $this->view ); ?>
 		</ul>
 	<?php
 	}
@@ -1073,7 +1094,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$actions['bulk_ham']    = __( 'Not Spam', 'buddypress' );
 		$actions['bulk_delete'] = __( 'Delete Permanently', 'buddypress' );
 
-		return $actions;
+		return apply_filters( 'bp_activity_list_table_get_bulk_actions', $actions );
 	}
 
 	/**
