@@ -316,20 +316,6 @@ class BP_Groups_Component extends BP_Component {
 				'item_css_id'     => 'home'
 			);
 
-			// If the user is a group mod or more, then show the group admin nav item
-			if ( bp_is_item_admin() || bp_is_item_mod() ) {
-				$sub_nav[] = array(
-					'name'            => __( 'Admin', 'buddypress' ),
-					'slug'            => 'admin',
-					'parent_url'      => $group_link,
-					'parent_slug'     => $this->current_group->slug,
-					'screen_function' => 'groups_screen_group_admin',
-					'position'        => 20,
-					'user_has_access' => ( $bp->is_item_admin + (int)$bp->is_item_mod ),
-					'item_css_id'     => 'admin'
-				);
-			}
-
 			// If this is a private group, and the user is not a member, show a "Request Membership" nav item.
 			if ( is_user_logged_in() &&
 				 !bp_current_user_can( 'bp_moderate' ) &&
@@ -382,6 +368,20 @@ class BP_Groups_Component extends BP_Component {
 					'item_css_id'     => 'invite',
 					'position'        => 70,
 					'user_has_access' => $this->current_group->user_has_access
+				);
+			}
+
+			// If the user is a group mod or more, then show the group admin nav item
+			if ( bp_is_item_admin() || bp_is_item_mod() ) {
+				$sub_nav[] = array(
+					'name'            => __( 'Admin', 'buddypress' ),
+					'slug'            => 'admin',
+					'parent_url'      => $group_link,
+					'parent_slug'     => $this->current_group->slug,
+					'screen_function' => 'groups_screen_group_admin',
+					'position'        => 20,
+					'user_has_access' => ( $bp->is_item_admin + (int)$bp->is_item_mod ),
+					'item_css_id'     => 'admin'
 				);
 			}
 
