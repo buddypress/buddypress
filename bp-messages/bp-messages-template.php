@@ -307,8 +307,8 @@ function bp_message_thread_avatar() {
 }
 	function bp_get_message_thread_avatar() {
 		global $messages_template, $bp;
-
-		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => 'thumb' ) ) );
+		
+		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $messages_template->thread->last_sender_id ) ) ) ) );
 	}
 
 function bp_message_thread_view() {
@@ -816,7 +816,7 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_the_thread_message_sender_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $thread_template->message->sender_id, 'type' => $type, 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_the_thread_message_sender_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $thread_template->message->sender_id, 'type' => $type, 'width' => $width, 'height' => $height, 'alt' => bp_core_get_user_displayname( $thread_template->message->sender_id ) ) ) );
 	}
 
 function bp_the_thread_message_sender_link() {
