@@ -253,6 +253,9 @@ class BP_Groups_Component extends BP_Component {
 	function setup_nav() {
 		global $bp;
 
+		// Define local variables
+		$main_nav = $sub_nav = array();
+
 		// Add 'Groups' to the main navigation
 		$main_nav = array(
 			'name'                => sprintf( __( 'Groups <span>%d</span>', 'buddypress' ), groups_total_groups_for_user() ),
@@ -413,14 +416,13 @@ class BP_Groups_Component extends BP_Component {
 			$groups_link = trailingslashit( $user_domain . $this->slug );
 
 			// Pending group invites
-			$count = groups_get_invites_for_user( bp_loggedin_user_id() );
+			$count   = groups_get_invites_for_user( bp_loggedin_user_id() );
+			$title   = __( 'Groups',             'buddypress' );
+			$pending = __( 'No Pending Invites', 'buddypress' );
 
 			if ( !empty( $count->total ) ) {
 				$title   = sprintf( __( 'Groups <span class="count">%s</span>',          'buddypress' ), $count->total );
 				$pending = sprintf( __( 'Pending Invites <span class="count">%s</span>', 'buddypress' ), $count->total );
-			} else {
-				$title   = __( 'Groups',             'buddypress' );
-				$pending = __( 'No Pending Invites', 'buddypress' );
 			}
 
 			// Add the "My Account" sub menus
