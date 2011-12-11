@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-11 19:31:05+00:00\n"
+"POT-Creation-Date: 2011-12-11 21:31:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1748,26 +1748,26 @@ msgctxt "Group home navigation title"
 msgid "Home"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:322
-msgid "Admin"
-msgstr ""
-
-#: bp-groups/bp-groups-loader.php:341 bp-groups/bp-groups-template.php:1577
+#: bp-groups/bp-groups-loader.php:327 bp-groups/bp-groups-template.php:1577
 #: bp-groups/bp-groups-template.php:1578 bp-themes/bp-default/_inc/ajax.php:554
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:353
+#: bp-groups/bp-groups-loader.php:339
 msgid "Forum"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:365
+#: bp-groups/bp-groups-loader.php:351
 msgid "Members <span>%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:377
+#: bp-groups/bp-groups-loader.php:363
 #: bp-themes/bp-default/groups/single/send-invites.php:60
 msgid "Send Invites"
+msgstr ""
+
+#: bp-groups/bp-groups-loader.php:377
+msgid "Admin"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:419
