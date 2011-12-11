@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-10 23:31:09+00:00\n"
+"POT-Creation-Date: 2011-12-11 00:31:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -618,7 +618,7 @@ msgid "Admin Bar"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:181 bp-core/admin/bp-core-update.php:1350
-#: bp-activity/bp-activity-admin.php:661
+#: bp-activity/bp-activity-admin.php:658
 msgid "Update"
 msgstr ""
 
@@ -1096,7 +1096,7 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-cssjs.php:67 bp-activity/bp-activity-admin.php:1260
+#: bp-core/bp-core-cssjs.php:67 bp-activity/bp-activity-admin.php:1257
 msgid "Are you sure?"
 msgstr ""
 
@@ -2396,7 +2396,7 @@ msgstr ""
 #: bp-xprofile/bp-xprofile-loader.php:135
 #: bp-xprofile/bp-xprofile-loader.php:193 bp-xprofile/bp-xprofile-admin.php:464
 #: bp-forums/bp-forums-template.php:1264 bp-themes/bp-default/functions.php:501
-#: bp-activity/bp-activity-admin.php:648 bp-activity/bp-activity-admin.php:1250
+#: bp-activity/bp-activity-admin.php:645 bp-activity/bp-activity-admin.php:1247
 msgid "Edit"
 msgstr ""
 
@@ -2472,7 +2472,7 @@ msgstr ""
 #: bp-xprofile/bp-xprofile-classes.php:311
 #: bp-xprofile/bp-xprofile-classes.php:762
 #: bp-themes/bp-default/forums/index.php:134
-#: bp-activity/bp-activity-admin.php:841
+#: bp-activity/bp-activity-admin.php:838
 msgid "Cancel"
 msgstr ""
 
@@ -3075,7 +3075,7 @@ msgid "Unread"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:406
-#: bp-activity/bp-activity-admin.php:1088
+#: bp-activity/bp-activity-admin.php:1085
 msgid "All"
 msgstr ""
 
@@ -4246,7 +4246,7 @@ msgstr ""
 #: bp-themes/bp-default/activity/comment.php:37
 #: bp-themes/bp-default/forums/single/edit.php:10
 #: bp-themes/bp-default/groups/single/forum/edit.php:10
-#: bp-activity/bp-activity-admin.php:842 bp-activity/bp-activity-admin.php:1247
+#: bp-activity/bp-activity-admin.php:839 bp-activity/bp-activity-admin.php:1244
 msgid "Reply"
 msgstr ""
 
@@ -4750,8 +4750,8 @@ msgstr ""
 #. translators: Personal activity RSS title - "[Site Name] | [Displayed User
 #. Name] | Activity"
 
-#: bp-activity/bp-activity-admin.php:36 bp-activity/bp-activity-admin.php:809
-#: bp-activity/bp-activity-admin.php:1122
+#: bp-activity/bp-activity-admin.php:36 bp-activity/bp-activity-admin.php:806
+#: bp-activity/bp-activity-admin.php:1119
 #: bp-activity/bp-activity-loader.php:116
 #: bp-activity/bp-activity-loader.php:238
 #: bp-activity/feeds/bp-activity-personal-feed.php:28
@@ -4767,7 +4767,7 @@ msgstr ""
 msgid "ERROR: The item you are trying to reply to cannot be found, or it has been deleted."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:180 bp-activity/bp-activity-admin.php:230
+#: bp-activity/bp-activity-admin.php:180 bp-activity/bp-activity-admin.php:227
 msgid "Overview"
 msgstr ""
 
@@ -4803,7 +4803,7 @@ msgstr ""
 msgid "For information about when and how BuddyPress uses all of these settings, see the Managing Activity link in the panel to the side."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:199 bp-activity/bp-activity-admin.php:247
+#: bp-activity/bp-activity-admin.php:199 bp-activity/bp-activity-admin.php:244
 msgid "For more information:"
 msgstr ""
 
@@ -4811,7 +4811,7 @@ msgstr ""
 msgid "<a href=\"http://codex.buddypress.org/buddypress-site-administration/managing-activity/\">Managing Activity</a>"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:201 bp-activity/bp-activity-admin.php:248
+#: bp-activity/bp-activity-admin.php:201 bp-activity/bp-activity-admin.php:245
 msgid "<a href=\"http://buddypress.org/support/\">Support Forums</a>"
 msgstr ""
 
@@ -4840,56 +4840,56 @@ msgctxt "activity admin edit screen"
 msgid "Author ID"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:225
+#: bp-activity/bp-activity-admin.php:222
 msgctxt "Activity items per page (screen options)"
 msgid "Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:232
+#: bp-activity/bp-activity-admin.php:229
 msgid "You can manage activities made on your site similar to the way you manage comments and other content. This screen is customizable in the same ways as other management screens, and you can act on activities using the on-hover action links or the Bulk Actions."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:233
+#: bp-activity/bp-activity-admin.php:230
 msgid "There are many different types of activities. Some are generated automatically by BuddyPress and other plugins, and some are entered directly by a user in the form of status update. To help manage the different activity types, use the filter dropdown box to switch between them."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:239
+#: bp-activity/bp-activity-admin.php:236
 msgid "Moderating Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:241
+#: bp-activity/bp-activity-admin.php:238
 msgid "In the <strong>Activity</strong> column, above each activity it says &#8220;Submitted on,&#8221; followed by the date and time the activity item was generated on your site. Clicking on the date/time link will take you to that activity on your live site. Hovering over any activity gives you options to reply, edit, spam mark, or delete that activity."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:242
+#: bp-activity/bp-activity-admin.php:239
 msgid "In the <strong>In Response To</strong> column, if the activity was in reply to another activity, it shows that activity's author's picture and name, and a link to that activity on your live site. If there is a small bubble, the number in it shows how many other activities are related to this one; these are usually comments. Clicking the bubble will filter the activity screen to show only related activity items."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:569
+#: bp-activity/bp-activity-admin.php:566
 msgid "Editing Activity (ID #%s)"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:583
+#: bp-activity/bp-activity-admin.php:580
 msgid "Action"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:590
+#: bp-activity/bp-activity-admin.php:587
 msgid "Content"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:608
+#: bp-activity/bp-activity-admin.php:605
 msgid "No activity found with this ID. <a href=\"%s\">Go back and try again</a>."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:630
+#: bp-activity/bp-activity-admin.php:627
 msgid "View Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:638
+#: bp-activity/bp-activity-admin.php:635
 msgid "Approved"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:639 bp-activity/bp-activity-admin.php:1257
+#: bp-activity/bp-activity-admin.php:636 bp-activity/bp-activity-admin.php:1254
 #: bp-activity/bp-activity-akismet.php:178
 #: bp-activity/bp-activity-akismet.php:207
 msgid "Spam"
@@ -4897,131 +4897,131 @@ msgstr ""
 
 #. translators: Publish box date format, see http:php.net/date
 
-#: bp-activity/bp-activity-admin.php:645
+#: bp-activity/bp-activity-admin.php:642
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:648
+#: bp-activity/bp-activity-admin.php:645
 msgid "Submitted on: <strong>%1$s</strong>"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:680
+#: bp-activity/bp-activity-admin.php:677
 msgid "Link"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:682
+#: bp-activity/bp-activity-admin.php:679
 msgid "Activity generated by blog posts and comments, forum topics and replies, and some plugins, uses the link field for a permalink back to the content item."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:696
+#: bp-activity/bp-activity-admin.php:693
 msgid "Author ID"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:748
+#: bp-activity/bp-activity-admin.php:745
 msgid "Primary Item ID"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:752
+#: bp-activity/bp-activity-admin.php:749
 msgid "Secondary Item ID"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:755
+#: bp-activity/bp-activity-admin.php:752
 msgid "These identify the object that created this activity. For example, the fields could reference a pair of site and comment IDs."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:781
+#: bp-activity/bp-activity-admin.php:778
 msgid "%s activity was permanently deleted."
 msgid_plural "%s activities were permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:784
+#: bp-activity/bp-activity-admin.php:781
 msgid "An error occurred when updating Activity ID #%s."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:787
+#: bp-activity/bp-activity-admin.php:784
 msgid "%s activity marked as spam."
 msgid_plural "%s activities marked as spam."
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:790
+#: bp-activity/bp-activity-admin.php:787
 msgid "%s activity restored from the spam."
 msgid_plural "%s activities restored from the spam."
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:793
+#: bp-activity/bp-activity-admin.php:790
 msgid "The activity has been updated succesfully."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:807
+#: bp-activity/bp-activity-admin.php:804
 msgid "Activity related to ID #%s"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:813
+#: bp-activity/bp-activity-admin.php:810
 msgid "Search results for &#8220;%s&#8221;"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:826
+#: bp-activity/bp-activity-admin.php:823
 msgid "Search all Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:837
+#: bp-activity/bp-activity-admin.php:834
 msgid "Reply to Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1028
+#: bp-activity/bp-activity-admin.php:1025
 msgid "No activities found."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1089
+#: bp-activity/bp-activity-admin.php:1086
 msgid "Spam <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1104
+#: bp-activity/bp-activity-admin.php:1101
 msgid "Mark as Spam"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1105
-#: bp-activity/bp-activity-admin.php:1255
+#: bp-activity/bp-activity-admin.php:1102
+#: bp-activity/bp-activity-admin.php:1252
 msgid "Not Spam"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1106
-#: bp-activity/bp-activity-admin.php:1260
+#: bp-activity/bp-activity-admin.php:1103
+#: bp-activity/bp-activity-admin.php:1257
 msgid "Delete Permanently"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1121
+#: bp-activity/bp-activity-admin.php:1118
 msgid "Author"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1123
+#: bp-activity/bp-activity-admin.php:1120
 msgid "In Response To"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1175
+#: bp-activity/bp-activity-admin.php:1172
 msgid "Show all activity types"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1182
+#: bp-activity/bp-activity-admin.php:1179
 msgid "Filter"
 msgstr ""
 
 #. translators: 2: activity admin ui date/time
 
-#: bp-activity/bp-activity-admin.php:1269
+#: bp-activity/bp-activity-admin.php:1266
 msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1298
+#: bp-activity/bp-activity-admin.php:1295
 msgid "%s related activity"
 msgid_plural "%s related activities"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:1308
+#: bp-activity/bp-activity-admin.php:1305
 msgid "<a href=\"%1$s\">View Activity</a>"
 msgstr ""
 
