@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-11 16:31:07+00:00\n"
+"POT-Creation-Date: 2011-12-11 17:31:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,9 +39,10 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:1048 bp-groups/bp-groups-template.php:1097
 #: bp-groups/bp-groups-template.php:1113 bp-groups/bp-groups-template.php:1792
 #: bp-groups/bp-groups-template.php:1801 bp-groups/bp-groups-template.php:1810
-#: bp-groups/bp-groups-template.php:2516 bp-forums/bp-forums-loader.php:241
-#: bp-forums/bp-forums-template.php:491 bp-forums/bp-forums-template.php:608
-#: bp-forums/bp-forums-template.php:1194 bp-messages/bp-messages-loader.php:245
+#: bp-groups/bp-groups-template.php:2516 bp-xprofile/bp-xprofile-loader.php:225
+#: bp-forums/bp-forums-loader.php:241 bp-forums/bp-forums-template.php:491
+#: bp-forums/bp-forums-template.php:608 bp-forums/bp-forums-template.php:1194
+#: bp-messages/bp-messages-loader.php:245
 #: bp-messages/bp-messages-template.php:311
 #: bp-members/bp-members-adminbar.php:36 bp-members/bp-members-adminbar.php:116
 #: bp-members/bp-members-buddybar.php:77 bp-members/bp-members-loader.php:181
@@ -53,7 +54,7 @@ msgstr ""
 #: bp-activity/bp-activity-template.php:901
 #: bp-activity/bp-activity-template.php:1019
 #: bp-activity/bp-activity-template.php:1029
-#: bp-activity/bp-activity-loader.php:311
+#: bp-activity/bp-activity-loader.php:312
 msgid "Profile picture of %s"
 msgstr ""
 
@@ -761,8 +762,8 @@ msgstr ""
 #: bp-groups/bp-groups-activity.php:207 bp-groups/bp-groups-activity.php:243
 #: bp-groups/bp-groups-loader.php:422 bp-groups/bp-groups-widgets.php:20
 #: bp-groups/bp-groups-widgets.php:41 bp-groups/bp-groups-widgets.php:107
-#: bp-groups/bp-groups-screens.php:831 bp-activity/bp-activity-loader.php:187
-#: bp-activity/bp-activity-loader.php:281
+#: bp-groups/bp-groups-screens.php:831 bp-activity/bp-activity-loader.php:188
+#: bp-activity/bp-activity-loader.php:282
 msgid "Groups"
 msgstr ""
 
@@ -1365,8 +1366,8 @@ msgid "Pending Requests <span class=\"count\">%s</span>"
 msgstr ""
 
 #: bp-friends/bp-friends-loader.php:152 bp-friends/bp-friends-screens.php:68
-#: bp-activity/bp-activity-loader.php:174
-#: bp-activity/bp-activity-loader.php:271
+#: bp-activity/bp-activity-loader.php:175
+#: bp-activity/bp-activity-loader.php:272
 msgid "Friends"
 msgstr ""
 
@@ -4214,8 +4215,8 @@ msgstr ""
 #. Mentions"
 
 #: bp-themes/bp-default/activity/index.php:79
-#: bp-activity/bp-activity-loader.php:151
-#: bp-activity/bp-activity-loader.php:231
+#: bp-activity/bp-activity-loader.php:152
+#: bp-activity/bp-activity-loader.php:232
 #: bp-activity/feeds/bp-activity-mentions-feed.php:28
 msgid "Mentions"
 msgstr ""
@@ -4754,8 +4755,8 @@ msgstr ""
 
 #: bp-activity/bp-activity-admin.php:36 bp-activity/bp-activity-admin.php:806
 #: bp-activity/bp-activity-admin.php:1119
-#: bp-activity/bp-activity-loader.php:116
-#: bp-activity/bp-activity-loader.php:238
+#: bp-activity/bp-activity-loader.php:117
+#: bp-activity/bp-activity-loader.php:239
 #: bp-activity/feeds/bp-activity-personal-feed.php:28
 #: bp-activity/bp-activity-screens.php:280
 msgid "Activity"
@@ -5089,25 +5090,25 @@ msgstr ""
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:92
+#: bp-activity/bp-activity-loader.php:93
 msgid "Search Activity..."
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:141
-#: bp-activity/bp-activity-loader.php:254
+#: bp-activity/bp-activity-loader.php:142
+#: bp-activity/bp-activity-loader.php:255
 msgid "Personal"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:162
-#: bp-activity/bp-activity-loader.php:262
+#: bp-activity/bp-activity-loader.php:163
+#: bp-activity/bp-activity-loader.php:263
 msgid "Favorites"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:229
+#: bp-activity/bp-activity-loader.php:230
 msgid "Mentions <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-activity/bp-activity-loader.php:306
+#: bp-activity/bp-activity-loader.php:307
 msgid "My Activity"
 msgstr ""
 
@@ -5176,23 +5177,23 @@ msgstr ""
 msgid "%1$s mentioned you in an activity update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:762
+#: bp-activity/bp-activity-functions.php:761
 msgid "Posted a status update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:763
+#: bp-activity/bp-activity-functions.php:762
 msgid "Replied to a status update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:979
+#: bp-activity/bp-activity-functions.php:978
 msgid "%s posted an update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1046
+#: bp-activity/bp-activity-functions.php:1045
 msgid "%s posted a new activity comment"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1417
+#: bp-activity/bp-activity-functions.php:1416
 msgid "Thumbnail"
 msgstr ""
 
