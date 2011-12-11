@@ -24,110 +24,37 @@ function bp_get_default_options() {
 
 		/** DB Version ********************************************************/
 
-		'_bp_db_version'            => '155',
+		'_bp_db_version'                => '155',
 
 		/** Settings **********************************************************/
 
-		// Lock post editing after 5 minutes
-		'_bp_edit_lock'             => '5',
+		// Disable the WP to BP profile sync
+		'bp-disable-profile-sync'       => false,
 
-		// Throttle post time to 10 seconds
-		'_bp_throttle_time'         => '10',
+		// Hide the admin bar for logged out users
+		'hide-loggedout-adminbar'       => false,
 
-		// Favorites
-		'_bp_enable_favorites'      => true,
+		// Avatar uploads
+		'bp-disable-avatar-uploads'     => false,
 
-		// Subscriptions
-		'_bp_enable_subscriptions'  => true,
+		// Allow users to delete their own accounts
+		'bp-disable-account-deletion'   => true,
 
 		// Allow anonymous posting
-		'_bp_allow_anonymous'       => false,
+		'bp-disable-blogforum-comments' => true,
 
-		// Users from all sites can post
-		'_bp_allow_global_access'   => false,
+		// Use the WordPress editor when possible
+		'_bp_use_wp_editor'             => false,
 
-		// Use the WordPress editor if available
-		'_bp_use_wp_editor'         => true,
+		/** Groups ************************************************************/
 
-		/** Per Page **********************************************************/
+		// @todo Move this into the groups component
 
-		// Topics per page
-		'_bp_topics_per_page'       => '15',
+		// Restrict group creation to super admins
+		'bp_restrict_group_creation'    => false,
 
-		// Replies per page
-		'_bp_replies_per_page'      => '15',
-
-		// Forums per page
-		'_bp_forums_per_page'       => '50',
-
-		// Topics per RSS page
-		'_bp_topics_per_rss_page'   => '25',
-
-		// Replies per RSS page
-		'_bp_replies_per_rss_page'  => '25',
-
-		/** Page For **********************************************************/
-
-		// Page for forums
-		'_bp_page_for_forums'       => '0',
-
-		// Page for forums
-		'_bp_page_for_topics'       => '0',
-
-		// Page for login
-		'_bp_page_for_login'        => '0',
-
-		// Page for register
-		'_bp_page_for_register'     => '0',
-
-		// Page for lost-pass
-		'_bp_page_for_lost_pass'    => '0',
-
-		/** Archive Slugs *****************************************************/
-
-		// Forum archive slug
-		'_bp_root_slug'             => 'forums',
-
-		// Topic archive slug
-		'_bp_topic_archive_slug'    => 'topics',
-
-		/** Single Slugs ******************************************************/
-
-		// Include Forum archive before single slugs
-		'_bp_include_root'          => true,
-
-		// Forum slug
-		'_bp_forum_slug'            => 'forum',
-
-		// Topic slug
-		'_bp_topic_slug'            => 'topic',
-
-		// Reply slug
-		'_bp_reply_slug'            => 'reply',
-
-		// Topic tag slug
-		'_bp_topic_tag_slug'        => 'topic-tag',
-
-		/** Other Slugs *******************************************************/
-
-		// User profile slug
-		'_bp_user_slug'             => 'users',
-
-		// View slug
-		'_bp_view_slug'             => 'view',
-
-		/** Topics ************************************************************/
-
-		// Title Max Length
-		'_bp_title_max_length'      => '80',
-
-		/** BuddyPress ********************************************************/
-
-		// Enable BuddyPress Group Extension
-		'_bbp_enable_group_forums'  => true,
-
-		// Group Forums parent forum id
-		'_bbp_group_forums_root_id' => '0',
+		// Root forum ID for groups
+		'_bbp_group_forums_root_id'     => 0,
 
 		/** Akismet ***********************************************************/
 
@@ -162,6 +89,7 @@ function bp_add_options() {
 	// Allow previously activated plugins to append their own options.
 	do_action( 'bp_add_options' );
 }
+
 /**
  * Delete default options
  *
@@ -189,7 +117,7 @@ function bp_delete_options() {
 
 /**
  * Add filters to each BuddyPress option and allow them to be overloaded from
- * inside the $bbp->options array.
+ * inside the $bp->options array.
  *
  * @since BuddyPress (1.6)
  *
@@ -212,16 +140,16 @@ function bp_setup_option_filters() {
 
 /**
  * Filter default options and allow them to be overloaded from inside the
- * $bbp->options array.
+ * $bp->options array.
  *
  * @since BuddyPress (1.6)
  *
- * @global BuddyPress $bbp
+ * @global BuddyPress $bp
  * @param bool $value Optional. Default value false
  * @return mixed false if not overloaded, mixed if set
  */
 function bp_pre_get_option( $value = false ) {
-	global $bbp;
+	global $bp;
 
 	// Get the name of the current filter so we can manipulate it
 	$filter = current_filter();
@@ -230,8 +158,8 @@ function bp_pre_get_option( $value = false ) {
 	$option = str_replace( 'pre_option_', '', $filter );
 
 	// Check the options global for preset value
-	if ( !empty( $bbp->options[$option] ) )
-		$value = $bbp->options[$option];
+	if ( !empty( $bp->options[$option] ) )
+		$value = $bp->options[$option];
 
 	// Always return a value, even if false
 	return $value;
@@ -240,73 +168,103 @@ function bp_pre_get_option( $value = false ) {
 /** Active? *******************************************************************/
 
 /**
- * Checks if favorites feature is enabled.
+ * Is profile sycing disabled?
  *
  * @since BuddyPress (1.6)
  *
  * @param $default bool Optional.Default value true
  *
- * @uses get_option() To get the favorites option
- * @return bool Is favorites enabled or not
+ * @uses get_option() To get the profile sync option
+ * @return bool Is profile sync enabled or not
  */
-function bp_is_favorites_active( $default = true ) {
-	return (bool) apply_filters( 'bp_is_favorites_active', (bool) get_option( '_bp_enable_favorites', $default ) );
+function bp_disable_profile_sync( $default = true ) {
+	return (bool) apply_filters( 'bp_disable_profile_sync', (bool) get_option( 'bp-disable-profile-sync', $default ) );
 }
 
 /**
- * Checks if subscription feature is enabled.
+ * Is the admin bar hidden for logged out users?
  *
  * @since BuddyPress (1.6)
  *
  * @param $default bool Optional.Default value true
  *
- * @uses get_option() To get the subscriptions option
- * @return bool Is subscription enabled or not
+ * @uses get_option() To get the logged out admin bar option
+ * @return bool Is logged out admin bar enabled or not
  */
-function bp_is_subscriptions_active( $default = true ) {
-	return (bool) apply_filters( 'bp_is_subscriptions_active', (bool) get_option( '_bp_enable_subscriptions', $default ) );
+function bp_hide_loggedout_adminbar( $default = true ) {
+	return (bool) apply_filters( 'bp_hide_loggedout_adminbar', (bool) get_option( 'hide-loggedout-adminbar', $default ) );
 }
 
 /**
- * Are topic and reply revisions allowed
+ * Are members able to upload their own avatars?
  *
  * @since BuddyPress (r3412)
  *
  * @param $default bool Optional. Default value true
  *
- * @uses get_option() To get the allow revisions
- * @return bool Are revisions allowed?
+ * @uses get_option() To get the avatar uploads option
+ * @return bool Are avatar uploads allowed?
  */
-function bp_allow_revisions( $default = true ) {
-	return (bool) apply_filters( 'bp_allow_revisions', (bool) get_option( '_bp_allow_revisions', $default ) );
+function bp_disable_avatar_uploads( $default = true ) {
+	return (bool) apply_filters( 'bp_disable_avatar_uploads', (bool) get_option( 'bp-disable-avatar-uploads', $default ) );
 }
 
 /**
- * Is the anonymous posting allowed?
+ * Are members able to delete their own accounts
  *
  * @since BuddyPress (1.6)
  *
  * @param $default bool Optional. Default value
  *
- * @uses get_option() To get the allow anonymous option
- * @return bool Is anonymous posting allowed?
+ * @uses get_option() To get the account deletion option
+ * @return bool Is account deletion allowed?
  */
-function bp_allow_anonymous( $default = false ) {
-	return apply_filters( 'bp_allow_anonymous', (bool) get_option( '_bp_allow_anonymous', $default ) );
+function bp_disable_account_deletion( $default = false ) {
+	return apply_filters( 'bp_disable_account_deletion', (bool) get_option( 'bp-disable-account-deletion', $default ) );
 }
 
 /**
- * Is this community available to all users on all sites in this installation?
+ * Are blog and forum activity stream comments disabled
  *
  * @since BuddyPress (1.6)
  *
  * @param $default bool Optional. Default value false
- *
- * @uses get_option() To get the global access option
- * @return bool Is global access allowed?
+ * @todo split and move into blog and forum components
+ * @uses get_option() To get the blog/forum comments option
+ * @return bool Is blog/forum comments allowed?
  */
-function bp_allow_global_access( $default = false ) {
-	return (bool) apply_filters( 'bp_allow_global_access', (bool) get_option( '_bp_allow_global_access', $default ) );
+function bp_disable_blogforum_comments( $default = false ) {
+	return (bool) apply_filters( 'bp_disable_blogforum_comments', (bool) get_option( 'bp-disable-blogforum-comments', $default ) );
+}
+
+/**
+ * Is group creation turned off?
+ *
+ * @since BuddyPress (r3386)
+ *
+ * @param $default bool Optional. Default value true
+ *
+ * @todo Move into groups component
+ * @uses get_option() To get the group creation
+ * @return bool Allow group creation?
+ */
+function bp_restrict_group_creation( $default = true ) {
+	return (bool) apply_filters( 'bp_restrict_group_creation', (bool) get_option( 'bp_restrict_group_creation', $default ) );
+}
+
+/**
+ * Have we migrated to using the WordPress admin bar?
+ *
+ * @since BuddyPress (r3386)
+ *
+ * @param $default bool Optional. Default value true
+ *
+ * @todo Move into groups component
+ * @uses get_option() To get the WP editor option
+ * @return bool Use WP editor?
+ */
+function bp_force_buddybar( $default = true ) {
+	return (bool) apply_filters( 'bp_force_buddybar', (bool) get_option( 'bp-force-buddybar', $default ) );
 }
 
 /**
@@ -324,30 +282,6 @@ function bp_use_wp_editor( $default = true ) {
 }
 
 /**
- * Output the maximum length of a title
- *
- * @since BuddyPress (r3246)
- *
- * @param $default bool Optional. Default value 80
- */
-function bp_title_max_length( $default = '80' ) {
-	echo bp_get_title_max_length( $default );
-}
-	/**
-	 * Return the maximum length of a title
-	 *
-	 * @since BuddyPress (1.6)
-	 *
-	 * @param $default bool Optional. Default value 80
-	 *
-	 * @uses get_option() To get the maximum title length
-	 * @return int Is anonymous posting allowed?
-	 */
-	function bp_get_title_max_length( $default = '80' ) {
-		return (int) apply_filters( 'bp_get_title_max_length', (int) get_option( '_bp_title_max_length', $default ) );
-	}
-
-/**
  * Output the group forums root parent forum id
  *
  * @since BuddyPress (1.6)
@@ -358,7 +292,7 @@ function bp_group_forums_root_id( $default = '0' ) {
 	echo bp_get_group_forums_root_id( $default );
 }
 	/**
-	 * Return the grop forums root parent forum id
+	 * Return the group forums root parent forum id
 	 *
 	 * @since BuddyPress (1.6)
 	 *
