@@ -35,6 +35,10 @@
 #bp_activity_content div.inside {
 	line-height: 0;
 }
+#bp_activity_action h3,
+#bp_activity_content h3 {
+	cursor: auto;
+}
 #bp_activity_action td.mceIframeContainer,
 #bp_activity_content td.mceIframeContainer {
 	background-color: white;

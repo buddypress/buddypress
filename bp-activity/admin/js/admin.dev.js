@@ -1,7 +1,7 @@
 (function( $ ) {
 
 /**
- * Activity reply object for the admin screen
+ * Activity reply object for the activity index screen
  *
  * @since 1.6
  */
@@ -156,6 +156,12 @@ activityReply = {
 	}
 };
 
-// Create the Activity reply object after domready event
-$(document).ready( activityReply.init );
+$(document).ready( function () {
+	// Create the Activity reply object after domready event
+	activityReply.init();
+
+	// On the edit screen, unload the close/open toggle js for the action & content metaboxes
+	$( '#bp_activity_action h3, #bp_activity_content h3' ).unbind( 'click' );
+});
+
 })(jQuery);

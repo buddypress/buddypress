@@ -213,9 +213,6 @@ function bp_activity_admin_load() {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'comment' );
 
-		// Enqueue CSS
-		wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(), '20111210' );
-
 	// Index screen
 	} else {
 		// Create the Activity screen list table
@@ -247,11 +244,11 @@ function bp_activity_admin_load() {
 			'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 			'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 		);
-
-		// Enqueue CSS and JavaScript
-		wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . "bp-activity/admin/js/admin.{$dev}js", array( 'jquery', 'wp-ajax-response' ), '20111120' );
-		wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(), '20111203' );
 	}
+
+	// Enqueue CSS and JavaScript
+	wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . "bp-activity/admin/js/admin.{$dev}js", array( 'jquery', 'wp-ajax-response' ), '20111211', true );
+	wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(), '20111211' );
 
 	// Handle spam/un-spam/delete of activities
 	if ( $doaction && ! in_array( $doaction, array( '-1', 'edit', 'save', ) ) ) {
