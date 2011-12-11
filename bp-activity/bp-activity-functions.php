@@ -524,8 +524,6 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '' ) {
 
 		// Check cache
 		if ( !$metas = wp_cache_get( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, 'bp' ) ) {
-			var_dump( 'miss' );
-
 			// No cache so hit the DB
 			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
 
