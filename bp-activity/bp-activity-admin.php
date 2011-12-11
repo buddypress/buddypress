@@ -392,37 +392,37 @@ function bp_activity_admin_load() {
 
 		// Activity spam status
 		$prev_spam_status = $new_spam_status = false;
-		if ( ! empty( $_REQUEST['activity_status'] ) ) {
+		if ( ! empty( $_POST['activity_status'] ) ) {
 			$prev_spam_status = $activity->is_spam;
-			$new_spam_status  = ( 'spam' == $_REQUEST['activity_status'] ) ? true : false;
+			$new_spam_status  = ( 'spam' == $_POST['activity_status'] ) ? true : false;
 		}
 
 		// Activity action
-		if ( ! empty( $_REQUEST['bp-activities-action'] ) )
-			$activity->action = $_REQUEST['bp-activities-action'];
+		if ( isset( $_POST['bp-activities-action'] ) )
+			$activity->action = $_POST['bp-activities-action'];
 
 		// Activity content
-		if ( ! empty( $_REQUEST['bp-activities-content'] ) )
-			$activity->content = $_REQUEST['bp-activities-content'];
+		if ( isset( $_POST['bp-activities-content'] ) )
+			$activity->content = $_POST['bp-activities-content'];
 
 		// Activity primary link
-		if ( ! empty( $_REQUEST['bp-activities-link'] ) )
-			$activity->primary_link = $_REQUEST['bp-activities-link'];
+		if ( ! empty( $_POST['bp-activities-link'] ) )
+			$activity->primary_link = $_POST['bp-activities-link'];
 
 		// Activity user ID
-		if ( ! empty( $_REQUEST['bp-activities-userid'] ) )
-			$activity->user_id = (int) $_REQUEST['bp-activities-userid'];
+		if ( ! empty( $_POST['bp-activities-userid'] ) )
+			$activity->user_id = (int) $_POST['bp-activities-userid'];
 
 		// Activity item primary ID
-		if ( ! empty( $_REQUEST['bp-activities-primaryid'] ) )
-			$activity->item_id = (int) $_REQUEST['bp-activities-primaryid'];
+		if ( isset( $_POST['bp-activities-primaryid'] ) )
+			$activity->item_id = (int) $_POST['bp-activities-primaryid'];
 
 		// Activity item secondary ID
-		if ( ! empty( $_REQUEST['bp-activities-secondaryid'] ) )
-			$activity->secondary_item_id = (int) $_REQUEST['bp-activities-secondaryid'];
+		if ( isset( $_POST['bp-activities-secondaryid'] ) )
+			$activity->secondary_item_id = (int) $_POST['bp-activities-secondaryid'];
 
 		// Activity type
-		if ( ! empty( $_REQUEST['bp-activities-type'] ) ) {
+		if ( ! empty( $_POST['bp-activities-type'] ) ) {
 			$actions  = array();
 
 			// Walk through the registered actions, and build an array of actions/values.
@@ -437,18 +437,18 @@ function bp_activity_admin_load() {
 			unset( $actions['friends_register_activity_action'] );
 
 			// Check that the new type is a registered activity type
-			if ( in_array( $_REQUEST['bp-activities-type'], $actions ) )
-				$activity->type = $_REQUEST['bp-activities-type'];
+			if ( in_array( $_POST['bp-activities-type'], $actions ) )
+				$activity->type = $_POST['bp-activities-type'];
 		}
 
 		// Activity timestamp
-		if ( ! empty( $_REQUEST['aa'] ) && ! empty( $_REQUEST['mm'] ) && ! empty( $_REQUEST['jj'] ) && ! empty( $_REQUEST['hh'] ) && ! empty( $_REQUEST['mn'] ) && ! empty( $_REQUEST['ss'] ) ) {
-			$aa = $_REQUEST['aa'];
-			$mm = $_REQUEST['mm'];
-			$jj = $_REQUEST['jj'];
-			$hh = $_REQUEST['hh'];
-			$mn = $_REQUEST['mn'];
-			$ss = $_REQUEST['ss'];
+		if ( ! empty( $_POST['aa'] ) && ! empty( $_POST['mm'] ) && ! empty( $_POST['jj'] ) && ! empty( $_POST['hh'] ) && ! empty( $_POST['mn'] ) && ! empty( $_POST['ss'] ) ) {
+			$aa = $_POST['aa'];
+			$mm = $_POST['mm'];
+			$jj = $_POST['jj'];
+			$hh = $_POST['hh'];
+			$mn = $_POST['mn'];
+			$ss = $_POST['ss'];
 			$aa = ( $aa <= 0 ) ? date( 'Y' ) : $aa;
 			$mm = ( $mm <= 0 ) ? date( 'n' ) : $mm;
 			$jj = ( $jj > 31 ) ? 31 : $jj;
@@ -743,11 +743,11 @@ function bp_activity_admin_edit_metabox_itemids( $item ) {
 ?>
 
 	<label for="bp-activities-primaryid"><?php _e( 'Primary Item ID', 'buddypress' ); ?></label>
-	<input type="number" name="bp-activities-primaryid" id="bp-activities-primaryid" value="<?php echo esc_attr( $item->item_id ); ?>" />
+	<input type="number" name="bp-activities-primaryid" id="bp-activities-primaryid" value="<?php echo esc_attr( $item->item_id ); ?>" min="0" />
 	<br />
 
 	<label for="bp-activities-secondaryid"><?php _e( 'Secondary Item ID', 'buddypress' ); ?></label>
-	<input type="number" name="bp-activities-secondaryid" id="bp-activities-secondaryid" value="<?php echo esc_attr( $item->secondary_item_id ); ?>" />
+	<input type="number" name="bp-activities-secondaryid" id="bp-activities-secondaryid" value="<?php echo esc_attr( $item->secondary_item_id ); ?>" min="0" />
 
 	<p><?php _e( 'These identify the object that created this activity. For example, the fields could reference a pair of site and comment IDs.', 'buddypress' ); ?></p>
 
