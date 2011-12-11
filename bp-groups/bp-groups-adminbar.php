@@ -37,7 +37,8 @@ function bp_groups_group_admin_menu() {
 		'avatar_dir' => 'group-avatars',
 		'item_id'    => $bp->groups->current_group->id,
 		'width'      => 16,
-		'height'     => 16
+		'height'     => 16,
+		'alt'	     => sprintf( __( 'Group logo of %s', 'buddypress' ), $bp->groups->current_group->name )
 	) );
 
 	// Unique ID for the 'My Account' menu

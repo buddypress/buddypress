@@ -469,7 +469,8 @@ class BP_Groups_Component extends BP_Component {
 
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 					'item_id' => bp_displayed_user_id(),
-					'type'    => 'thumb'
+					'type'    => 'thumb',
+					'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 				) );
 				$bp->bp_options_title  = $bp->displayed_user->fullname;
 
