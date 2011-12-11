@@ -27,44 +27,19 @@ function bp_members_admin_bar_my_account_menu() {
 	// Logged in user
 	if ( is_user_logged_in() ) {
 
-		// User avatar
-		$avatar = bp_core_fetch_avatar( array(
-			'item_id' => bp_loggedin_user_id(),
-			'email'   => $bp->loggedin_user->userdata->user_email,
-			'width'   => 16,
-			'height'  => 16,
-			'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_loggedin_user_fullname() )
-		) );
-
-		// Some admin bar setup in WP 3.2 differs from WP 3.3+.
-		// Backward-compatibility will be deprecated at some point.
-		if ( version_compare( (float)$wp_version, '3.3', '>=' ) ) {
-
-			// Stored in the global so we can add menus easily later on
-			$bp->my_account_menu_id = 'my-account-buddypress';
-
-			$title = bp_get_loggedin_user_fullname() . $avatar;
-
-			$class = 'opposite';
-			if ( !empty( $avatar ) )
-				$class .= ' with-avatar';
-
-			$meta  = array(
-				'class' => $class
-			);
-		} else {
-			$bp->my_account_menu_id = ( ! empty( $avatar ) ) ? 'my-account-with-avatar' : 'my-account';
-			$title = $avatar . bp_get_loggedin_user_fullname();
-			$meta  = array();
-		}
+		// Stored in the global so we can add menus easily later on
+		$bp->my_account_menu_id = 'my-account-buddypress';
 
 		// Create the main 'My Account' menu
 		$wp_admin_bar->add_menu( array(
-			'id'    => $bp->my_account_menu_id,
-			'title' => $title,
-			'href'  => $bp->loggedin_user->domain,
-			'meta'  => $meta
-		) );
+			//'parent' => 'my-account',
+			'id'     => $bp->my_account_menu_id,
+			'group'  => true,
+			'title'  => __( 'Edit My Profile', 'buddypress' ),
+			'href'   => $bp->loggedin_user->domain,
+			'meta'   => array(
+			'class'  => 'ab-sub-secondary'
+		) ) );
 
 	// Show login and sign-up links
 	} elseif ( !empty( $wp_admin_bar ) ) {
@@ -107,22 +82,13 @@ function bp_members_admin_bar_user_admin_menu() {
 	if ( !current_user_can( 'edit_users' ) || bp_is_my_profile() )
 		return false;
 
-	// User avatar
-	$avatar = bp_core_fetch_avatar( array(
-		'item_id' => bp_displayed_user_id(),
-		'email'   => $bp->displayed_user->userdata->user_email,
-		'width'   => 16,
-		'height'  => 16,
-		'alt'	  => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
-	) );
-
 	// Unique ID for the 'My Account' menu
-	$bp->user_admin_menu_id = ( ! empty( $avatar ) ) ? 'user-admin-with-avatar' : 'user-admin';
+	$bp->user_admin_menu_id = 'user-admin';
 
 	// Add the top-level User Admin button
 	$wp_admin_bar->add_menu( array(
 		'id'    => $bp->user_admin_menu_id,
-		'title' => $avatar . bp_get_displayed_user_fullname(),
+		'title' => __( 'Edit Member', 'buddypress' ),
 		'href'  => bp_displayed_user_domain()
 	) );
 
@@ -218,5 +184,17 @@ function bp_members_admin_bar_notifications_menu() {
 	return;
 }
 add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu', 90 );
+
+/**
+ * Remove rogue WP core edit menu when viewing a single user
+ *
+ * @since BuddyPress (1.6)
+ */
+function bp_members_remove_edit_page_menu() {
+	if ( bp_is_user() ) {
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 80 );
+	}
+}
+add_action( 'bp_init', 'bp_members_remove_edit_page_menu', 99 );
 
 ?>
