@@ -247,17 +247,6 @@ dl {
 	margin-left: auto;
 	margin-right: 0;
 }
-#nav ul,
-#nav .sfhover ul ul,
-#nav :hover ul ul {
-	left: auto;
-	right: -9999px;
-}
-#nav .sfhover ul,
-#nav :hover ul {
-	left: auto;
-	right: 0;
-}
 #nav .sfhover ul .sfhover > ul,
 #nav :hover ul :hover > ul {
 	left: auto;
@@ -267,6 +256,11 @@ dl {
 .paged-navigation,
 .comment-navigation {
 	font-family: sans-serif;
+}
+#nav .sfhover ul li a,
+#nav :hover ul li a {
+	padding-left: 0;
+	padding-right: 10px;
 }
 
 

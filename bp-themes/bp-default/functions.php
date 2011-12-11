@@ -186,7 +186,7 @@ function bp_dtheme_enqueue_styles() {
 		return;
 
 	// Bump this when changes are made to bust cache
-	$version = '20110921';
+	$version = '20111211';
 
 	// Register our main stylesheet
 	wp_register_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), $version );
