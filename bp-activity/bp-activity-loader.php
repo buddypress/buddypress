@@ -47,6 +47,7 @@ class BP_Activity_Component extends BP_Component {
 			'template',
 			'functions',
 			'notifications',
+			'cache'
 		);
 
 		// Load Akismet support if Akismet is configured

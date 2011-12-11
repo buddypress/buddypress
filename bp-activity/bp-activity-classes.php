@@ -50,6 +50,8 @@ Class BP_Activity_Activity {
 			$this->mptt_left         = $row->mptt_left;
 			$this->mptt_right        = $row->mptt_right;
 			$this->is_spam           = $row->is_spam;
+			
+			bp_activity_update_meta_cache( $this->id );
 		}
 	}
 
@@ -189,6 +191,16 @@ Class BP_Activity_Activity {
 					unset( $tmp_names );
 				}
 			}
+		}
+		
+		// Get activity meta
+		$activity_ids = array();
+		foreach ( (array)$activities as $activity ) {
+			$activity_ids[] = $activity->id;
+		}
+		
+		if ( !empty( $activity_ids ) ) {
+			bp_activity_update_meta_cache( $activity_ids );
 		}
 
 		if ( $activities && $display_comments )

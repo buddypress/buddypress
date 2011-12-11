@@ -482,7 +482,7 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
 		$retval = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
 
 	// Delete cache entry
-	wp_cache_delete( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, 'bp' );
+	wp_cache_delete( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, 'bp' );
 
 	// Success
 	if ( !is_wp_error( $retval ) )
@@ -523,13 +523,14 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '' ) {
 		$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 		// Check cache
-		if ( !$metas = wp_cache_get( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, 'bp' ) ) {
+		if ( !$metas = wp_cache_get( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, 'bp' ) ) {
+			var_dump( 'miss' );
 
 			// No cache so hit the DB
 			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
 
 			// Set cache
-			wp_cache_set( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, $metas, 'bp' );
+			wp_cache_set( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, $metas, 'bp' );
 		}
 
 	// No key so get all for activity_id
@@ -605,7 +606,7 @@ function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
 		return false;
 
 	// Set cache
-	wp_cache_set( 'bp_activity_meta_' . $meta_key . '_' . $activity_id, $meta_value, 'bp' );
+	wp_cache_set( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, $meta_value, 'bp' );
 
 	// Victory is ours!
 	return true;

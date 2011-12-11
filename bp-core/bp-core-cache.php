@@ -95,7 +95,7 @@ function bp_update_meta_cache( $args = array() ) {
 	
 	// Get meta info
 	$id_list   = join( ',', $object_ids );
-	$meta_list = $wpdb->get_results( $wpdb->prepare( "SELECT $object_column, meta_key, meta_value FROM $meta_table WHERE group_id IN ($id_list)" ), ARRAY_A );
+	$meta_list = $wpdb->get_results( $wpdb->prepare( "SELECT $object_column, meta_key, meta_value FROM $meta_table WHERE $object_column IN ($id_list)" ), ARRAY_A );
 
 	if ( !empty( $meta_list ) ) {
 		foreach ( $meta_list as $metarow ) {
