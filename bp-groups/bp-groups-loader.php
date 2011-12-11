@@ -379,7 +379,7 @@ class BP_Groups_Component extends BP_Component {
 					'parent_url'      => $group_link,
 					'parent_slug'     => $this->current_group->slug,
 					'screen_function' => 'groups_screen_group_admin',
-					'position'        => 20,
+					'position'        => 1000,
 					'user_has_access' => ( $bp->is_item_admin + (int)$bp->is_item_mod ),
 					'item_css_id'     => 'admin'
 				);
