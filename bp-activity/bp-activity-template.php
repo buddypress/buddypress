@@ -897,8 +897,16 @@ function bp_activity_avatar( $args = '' ) {
 		// On activity permalink pages, default to the full-size avatar
 		$type_default = bp_is_single_activity() ? 'full' : 'thumb';
 
+		if ( !empty( $activities_template->activity->display_name ) ) {
+			$dn_default = $activities_template->activity->display_name;
+		} else if ( !empty( $activities_template->current_comment->display_name ) ) {
+			$dn_default = $activities_template->current_comment->display_name;
+		}
+		
+		$alt_default = isset( $dn_default ) ? sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name ) : __( 'Profile picture', 'buddypress' );
+		
 		$defaults = array(
-			'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name ),
+			'alt'     => $alt_default,
 			'class'   => 'avatar',
 			'email'   => false,
 			'type'    => $type_default,
