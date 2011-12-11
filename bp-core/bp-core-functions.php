@@ -274,6 +274,12 @@ function bp_core_admin_hook() {
  * @uses bp_current_user_can() returns true if the current user is a site admin, false if not
  */
 function bp_core_admin_menu_init() {
+
+	// Bail if not in admin
+	if ( !is_admin() )
+		return false;
+
+	// Bail if user cannot moderate
 	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
