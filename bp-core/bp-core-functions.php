@@ -252,348 +252,6 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
  	return apply_filters( 'bp_core_component_slug_from_root_slug', $slug, $root_slug );
 }
 
-function bp_core_do_network_admin() {
-	$do_network_admin = false;
-
-	if ( is_multisite() && !bp_is_multiblog_mode() )
-		$do_network_admin = true;
-
-	return apply_filters( 'bp_core_do_network_admin', $do_network_admin );
-}
-
-function bp_core_admin_hook() {
-	$hook = bp_core_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
-
-	return apply_filters( 'bp_core_admin_hook', $hook );
-}
-
-/**
- * Initializes the wp-admin area "BuddyPress" menus and sub menus.
- *
- * @package BuddyPress Core
- * @uses bp_current_user_can() returns true if the current user is a site admin, false if not
- */
-function bp_core_admin_menu_init() {
-
-	// Bail if not in admin
-	if ( !is_admin() )
-		return false;
-
-	// Bail if user cannot moderate
-	if ( !bp_current_user_can( 'bp_moderate' ) )
-		return false;
-
-	add_action( bp_core_admin_hook(), 'bp_core_add_admin_menu', 9 );
-
-	require ( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin.php' );
-}
-add_action( 'bp_init', 'bp_core_admin_menu_init' );
-
-/**
- * In BP 1.6, the top-level admin menu was removed. For backpat, this function
- * keeps the top-level menu if a plugin has registered a menu into the old
- * 'bp-general-settings' menu.
- *
- * The old "bp-general-settings" page was renamed "bp-general-config".
- *
- * @global array $_parent_pages
- * @global array $_registered_pages
- * @global array $submenu
- * @since 1.6
- */
-function bp_core_admin_backpat_menu() {
-	global $_parent_pages, $_registered_pages, $submenu;
-
-	if ( ! is_super_admin() )
-		return;
-
-	// Don't do anything if a BP upgrade is in progress, or if the bp-wizard is in progress.
-	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE || empty( $submenu['bp-general-settings'] ) )
-		return;
-
-	/**
-	 * By default, only the core "Help" submenu is added under the top-level BuddyPress menu.
-	 * This means that if no third-party plugins have registered their admin pages into the
-	 * 'bp-general-settings' menu, it will only contain one item. Kill it.
-	 */
-	if ( 1 == count( $submenu['bp-general-settings'] ) ) {
-		// This removes the top-level menu
-		remove_submenu_page( 'bp-general-settings', 'bp-general-settings' );
-		remove_menu_page( 'bp-general-settings' );
-
-		// These stop people accessing the URL directly
-		unset( $_parent_pages['bp-general-settings'] );
-		unset( $_registered_pages['toplevel_page_bp-general-settings'] );
-	}
-}
-add_action( bp_core_admin_hook(), 'bp_core_admin_backpat_menu', 999 );
-
-/**
- * Registers BuddyPress' admin menus.
- *
- * @since 1.0
- */
-function bp_core_add_admin_menu() {
-	if ( ! bp_current_user_can( 'bp_moderate' ) )
-		return;
-
-	/**
-	 * Don't add this version of the admin menu if a BP upgrade is in progress.
-	 * See bp_core_update_add_admin_menu().
-	 */
-	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE )
- 		return;
-
-	$hooks = array();
- 	$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
-
-	// Changed in BP 1.6 . See bp_core_admin_backpat_menu()
-	$hooks[] = add_menu_page( __( 'BuddyPress', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_backpat_menu', '' );
-	$hooks[] = add_submenu_page( 'bp-general-settings', __( 'BuddyPress Help', 'buddypress' ), __( 'Help', 'buddypress' ), 'manage_options', 'bp-general-settings', 'bp_core_admin_backpat_page' );
-
-	// Add the option pages
-	$hooks[] = add_submenu_page( $page, __( 'BuddyPress Components', 'buddypress' ), __( 'BuddyPress', 'buddypress' ), 'manage_options', 'bp-general-config', 'bp_core_admin_component_setup' );
-	$hooks[] = add_submenu_page( $page, __( 'BuddyPress Pages', 'buddypress' ),      __( 'BuddyPress Pages', 'buddypress' ),      'manage_options', 'bp-page-settings',  'bp_core_admin_page_setup'      );
-	$hooks[] = add_submenu_page( $page, __( 'BuddyPress Settings', 'buddypress' ),   __( 'BuddyPress Settings', 'buddypress' ),   'manage_options', 'bp-settings',       'bp_core_admin_settings'        );
-
-	foreach( $hooks as $hook ) {
-		// Add a hook for common BP admin CSS/JS scripts
-		add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
-
-		// Fudge the highlighted subnav item when on a BuddyPress admin page
-		add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
-	}
-}
-
-/**
- * Tweak the Settings subnav menu to show only one BuddyPress menu item (Settings > BuddyPress).
- *
- * @since 1.6
- */
-function bp_core_modify_admin_menu() {
- 	$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
-
-	remove_submenu_page( $page, 'bb-forums-setup' );
-	remove_submenu_page( $page, 'bp-page-settings' );
-	remove_submenu_page( $page, 'bp-settings' );
-}
-add_action( "admin_head", 'bp_core_modify_admin_menu', 999 );
-
-/**
- * This tells WP to highlight the Settings > BuddyPress menu item,
- * regardless of which actual BuddyPress admin screen we are on.
- *
- * The conditional prevents the behaviour when the user is viewing the
- * backpat "Help" page, the Activity page, or any third-party plugins.
- *
- * @global string $plugin_page
- * @global array $submenu
- * @since 1.6
- */
-function bp_core_modify_admin_menu_highlight() {
-	global $plugin_page, $submenu_file;
-
-	// This tweaks the Settings subnav menu to show only one BuddyPress menu item
-	if ( ! in_array( $plugin_page, array( 'bp-activity', 'bp-general-settings', ) ) )
-		$submenu_file = 'bp-general-config';
-}
-
-/**
- * Print admin messages to admin_notices or network_admin_notices
- *
- * BuddyPress combines all its messages into a single notice, to avoid a preponderance of yellow
- * boxes.
- *
- * @package BuddyPress Core
- * @since 1.5
- *
- * @global object $bp Global BuddyPress settings object
- * @uses bp_current_user_can() to check current user permissions before showing the notices
- * @uses bp_is_root_blog()
- */
-function bp_core_print_admin_notices() {
-	global $bp;
-
-	// Only the super admin should see messages
-	if ( !bp_current_user_can( 'bp_moderate' ) )
-		return;
-
-	// On multisite installs, don't show on the Site Admin of a non-root blog, unless
-	// do_network_admin is overridden
-	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() )
-		return;
-
-	// Show the messages
-	if ( !empty( $bp->admin->notices ) ) {
-	?>
-		<div id="message" class="updated fade">
-			<?php foreach( $bp->admin->notices as $notice ) : ?>
-				<p><?php echo $notice ?></p>
-			<?php endforeach ?>
-		</div>
-	<?php
-	}
-}
-add_action( 'admin_notices', 'bp_core_print_admin_notices' );
-add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
-
-/**
- * Add an admin notice to the BP queue
- *
- * Messages added with this function are displayed in BuddyPress's general purpose admin notices
- * box. It is recommended that you hook this function to admin_init, so that your messages are
- * loaded in time.
- *
- * @package BuddyPress Core
- * @since 1.5
- *
- * @global object $bp Global BuddyPress settings object
- * @param string $notice The notice you are adding to the queue
- */
-function bp_core_add_admin_notice( $notice ) {
-	global $bp;
-
-	if ( empty( $bp->admin->notices ) ) {
-		$bp->admin->notices = array();
-	}
-
-	$bp->admin->notices[] = $notice;
-}
-
-/**
- * Verify that some BP prerequisites are set up properly, and notify the admin if not
- *
- * On every Dashboard page, this function checks the following:
- *   - that pretty permalinks are enabled
- *   - that a BP-compatible theme is activated
- *   - that every BP component that needs a WP page for a directory has one
- *   - that no WP page has multiple BP components associated with it
- * The administrator will be shown a notice for each check that fails.
- *
- * @package BuddyPress Core
- */
-function bp_core_activation_notice() {
-	global $wp_rewrite, $wpdb, $bp;
-
-	// Only the super admin gets warnings
-	if ( !bp_current_user_can( 'bp_moderate' ) )
-		return;
-
-	// On multisite installs, don't load on a non-root blog, unless do_network_admin is
-	// overridden
-	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() )
-		return;
-
-	// Don't show these messages during setup or upgrade
-	if ( !empty( $bp->maintenance_mode ) )
-		return;
-
-	/**
-	 * Check to make sure that the blog setup routine has run. This can't happen during the
-	 * wizard because of the order which the components are loaded. We check for multisite here
-	 * on the off chance that someone has activated the blogs component and then disabled MS
-	 */
-	if ( bp_is_active( 'blogs' ) ) {
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$bp->blogs->table_name}" ) );
-
-		if ( !$count )
-			bp_blogs_record_existing_blogs();
-	}
-
-	/**
-	 * Are pretty permalinks enabled?
-	 */
-	if ( isset( $_POST['permalink_structure'] ) )
-		return false;
-
-	if ( empty( $wp_rewrite->permalink_structure ) ) {
-		bp_core_add_admin_notice( sprintf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) );
-	}
-
-	/**
-	 * Are you using a BP-compatible theme?
-	 */
-
-	// Get current theme info
-	$ct = current_theme_info();
-
-	// The best way to remove this notice is to add a "buddypress" tag to
-	// your active theme's CSS header.
-	if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', (array)$ct->tags ) ) {
-		bp_core_add_admin_notice( sprintf( __( "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), network_admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), network_admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) );
-	}
-
-	/**
-	 * Check for orphaned BP components (BP component is enabled, no WP page exists)
-	 */
-
-	$orphaned_components = array();
-	$wp_page_components  = array();
-
-	// Only components with 'has_directory' require a WP page to function
-	foreach( $bp->loaded_components as $component_id => $is_active ) {
-		if ( !empty( $bp->{$component_id}->has_directory ) ) {
-			$wp_page_components[] = array(
-				'id'   => $component_id,
-				'name' => isset( $bp->{$component_id}->name ) ? $bp->{$component_id}->name : ucwords( $bp->{$component_id}->id )
-			);
-		}
-	}
-
-	// Activate and Register are special cases. They are not components but they need WP pages.
-	// If user registration is disabled, we can skip this step.
-	if ( bp_get_signup_allowed() ) {
-		$wp_page_components[] = array(
-			'id'   => 'activate',
-			'name' => __( 'Activate', 'buddypress' )
-		);
-
-		$wp_page_components[] = array(
-			'id'   => 'register',
-			'name' => __( 'Register', 'buddypress' )
-		);
-	}
-
-	foreach( $wp_page_components as $component ) {
-		if ( !isset( $bp->pages->{$component['id']} ) ) {
-			$orphaned_components[] = $component['name'];
-		}
-	}
-
-	if ( !empty( $orphaned_components ) ) {
-		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
-		$notice    = sprintf( __( 'The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $orphaned_components ) . '</strong>' );
-
-		bp_core_add_admin_notice( $notice );
-	}
-
-	/**
-	 * BP components cannot share a single WP page. Check for duplicate assignments, and post
-	 * a message if found.
-	 */
-	$dupe_names = array();
-	$page_ids   = (array)bp_core_get_directory_page_ids();
-	$dupes      = array_diff_assoc( $page_ids, array_unique( $page_ids ) );
-
-	if ( !empty( $dupes ) ) {
-		foreach( $dupes as $dupe_component => $dupe_id ) {
-			$dupe_names[] = $bp->pages->{$dupe_component}->title;
-		}
-
-		// Make sure that there are no duplicate duplicates :)
-		$dupe_names = array_unique( $dupe_names );
-	}
-
-	// If there are duplicates, post a message about them
-	if ( !empty( $dupe_names ) ) {
-		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
-		$notice    = sprintf( __( 'Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $dupe_names ) . '</strong>' );
-
-		bp_core_add_admin_notice( $notice );
-	}
-}
-add_action( 'admin_init', 'bp_core_activation_notice' );
-
 /**
  * Returns the domain for the root blog.
  * eg: http://domain.com/ OR https://domain.com
@@ -1083,135 +741,6 @@ function bp_embed_init() {
 add_action( 'bp_init', 'bp_embed_init', 9 );
 
 /**
- * When switching from single to multisite we need to copy blog options to
- * site options.
- *
- * @package BuddyPress Core
- * @todo Does this need to be here anymore after the introduction of bp_get_option etc?
- */
-function bp_core_activate_site_options( $keys = array() ) {
-	global $bp;
-
-	if ( !empty( $keys ) && is_array( $keys ) ) {
-		$errors = false;
-
-		foreach ( $keys as $key => $default ) {
-			if ( empty( $bp->site_options[ $key ] ) ) {
-				$bp->site_options[ $key ] = bp_get_option( $key, $default );
-
-				if ( !bp_update_option( $key, $bp->site_options[ $key ] ) )
-					$errors = true;
-			}
-		}
-
-		if ( empty( $errors ) )
-			return true;
-	}
-
-	return false;
-}
-
-/**
- * BuddyPress uses common options to store configuration settings. Many of these
- * settings are needed at run time. Instead of fetching them all and adding many
- * initial queries to each page load, let's fetch them all in one go.
- *
- * @package BuddyPress Core
- * @todo Use settings API and audit these methods
- */
-function bp_core_get_root_options() {
-	global $wpdb;
-
-	// These options come from the root blog options table
-	$root_blog_options = apply_filters( 'bp_core_site_options', array(
-
-		// BuddyPress core settings
-		'bp-deactivated-components'       => serialize( array( ) ),
-		'bp-blogs-first-install'          => '0',
-		'bp-disable-blogforum-comments'  => '0',
-		'bp-xprofile-base-group-name'     => 'Base',
-		'bp-xprofile-fullname-field-name' => 'Name',
-		'bp-disable-profile-sync'         => '0',
-		'bp-disable-avatar-uploads'       => '0',
-		'bp-disable-account-deletion'     => '0',
-		'bp-disable-blogforum-comments'   => '0',
-		'bb-config-location'              => ABSPATH . 'bb-config.php',
-		'hide-loggedout-adminbar'         => '0',
-
-		// Useful WordPress settings
-		'registration'                    => '0',
-		'avatar_default'                  => 'mysteryman'
-	) );
-
-	$root_blog_option_keys  = array_keys( $root_blog_options );
-	$blog_options_keys      = "'" . join( "', '", (array) $root_blog_option_keys ) . "'";
-	$blog_options_table	= bp_is_multiblog_mode() ? $wpdb->options : $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'options';
-
-	$blog_options_query     = $wpdb->prepare( "SELECT option_name AS name, option_value AS value FROM {$blog_options_table} WHERE option_name IN ( {$blog_options_keys} )" );
-	$root_blog_options_meta = $wpdb->get_results( $blog_options_query );
-
-	// On Multisite installations, some options must always be fetched from sitemeta
-	if ( is_multisite() ) {
-		$network_options = apply_filters( 'bp_core_network_options', array(
-			'tags_blog_id'       => '0',
-			'sitewide_tags_blog' => '',
-			'registration'       => '0',
-			'fileupload_maxk'    => '1500'
-		) );
-
-		$current_site           = get_current_site();
-		$network_option_keys    = array_keys( $network_options );
-		$sitemeta_options_keys  = "'" . join( "', '", (array) $network_option_keys ) . "'";
-		$sitemeta_options_query = $wpdb->prepare( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ( {$sitemeta_options_keys} ) AND site_id = %d", $current_site->id );
-		$network_options_meta   = $wpdb->get_results( $sitemeta_options_query );
-
-		// Sitemeta comes second in the merge, so that network 'registration' value wins
-		$root_blog_options_meta = array_merge( $root_blog_options_meta, $network_options_meta );
-	}
-
-	// Missing some options, so do some one-time fixing
-	if ( empty( $root_blog_options_meta ) || ( count( $root_blog_options_meta ) < count( $root_blog_option_keys ) ) ) {
-
-		// Unset the query - We'll be resetting it soon
-		unset( $root_blog_options_meta );
-	
-		// Loop through options
-		foreach ( $root_blog_options as $old_meta_key => $old_meta_default ) {
-			// Clear out the value from the last time around
-			unset( $old_meta_value );
-	
-			// Get old site option
-			if ( is_multisite() )
-				$old_meta_value = get_site_option( $old_meta_key );
-	
-			// No site option so look in root blog
-			if ( empty( $old_meta_value ) )
-				$old_meta_value = bp_get_option( $old_meta_key, $old_meta_default );
-	
-			// Update the root blog option
-			bp_update_option( $old_meta_key, $old_meta_value );
-	
-			// Update the global array
-			$root_blog_options_meta[$old_meta_key] = $old_meta_value;
-		}
-
-	// We're all matched up
-	} else {
-		// Loop through our results and make them usable
-		foreach ( $root_blog_options_meta as $root_blog_option )
-			$root_blog_options[$root_blog_option->name] = $root_blog_option->value;
-
-		// Copy the options no the return val
-		$root_blog_options_meta = $root_blog_options;
-
-		// Clean up our temporary copy
-		unset( $root_blog_options );
-	}
-
-	return apply_filters( 'bp_core_get_root_options', $root_blog_options_meta );
-}
-
-/**
  * This function originally let plugins add support for pages in the root of the install.
  * These root level pages are now handled by actual WordPress pages and this function is now
  * a convenience for compatibility with the new method.
@@ -1465,6 +994,8 @@ function bp_use_wp_admin_bar() {
 	return apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
 }
 
+/** Embeds ********************************************************************/
+
 /**
  * Are oembeds allowed in activity items?
  *
@@ -1505,6 +1036,8 @@ function bp_use_embed_in_private_messages() {
 	return apply_filters( 'bp_use_embed_in_private_messages', !defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) || !BP_EMBED_DISABLE_PRIVATE_MESSAGES );
 }
 
+/** Admin *********************************************************************/
+
 /**
  * Output the correct URL based on BuddyPress and WordPress configuration
  *
@@ -1544,6 +1077,21 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
 
 		return $url;
 	}
+
+function bp_core_do_network_admin() {
+	$do_network_admin = false;
+
+	if ( is_multisite() && !bp_is_multiblog_mode() )
+		$do_network_admin = true;
+
+	return apply_filters( 'bp_core_do_network_admin', $do_network_admin );
+}
+
+function bp_core_admin_hook() {
+	$hook = bp_core_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
+
+	return apply_filters( 'bp_core_admin_hook', $hook );
+}
 
 /** Global Manipulators *******************************************************/
 

@@ -23,7 +23,7 @@ class BP_Core extends BP_Component {
 	 */
 	function __construct() {
 		parent::start(
-			'_core',
+			'core',
 			__( 'BuddyPress Core', 'buddypress' )
 			, BP_PLUGIN_DIR
 		);
@@ -118,6 +118,18 @@ class BP_Core extends BP_Component {
 
 		// Add Core to required components
 		$bp->required_components[] = 'core';
+	}
+
+	function includes() {
+
+		if ( !is_admin() )
+			return;
+
+		$includes = array(
+			'admin'
+		);
+
+		parent::includes( $includes );
 	}
 
 	/**

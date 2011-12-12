@@ -394,12 +394,12 @@ class BP_Core_Setup_Wizard {
 		if ( !current_user_can( 'activate_plugins' ) )
 			return false;
 
-		if ( !function_exists( 'bp_core_admin_component_options' ) )
-			require ( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' ); ?>
+		if ( !function_exists( 'bp_core_admin_components_options' ) )
+			require ( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-components.php' ); ?>
 
 		<p><?php _e( "BuddyPress bundles several individual social components together, each one adding a distinct feature. This first step decides which features are enabled on your site; all features are enabled by default. Don't worry, you can change your mind at any point in the future.", 'buddypress' ); ?></p>
 
-		<?php bp_core_admin_component_options(); ?>
+		<?php bp_core_admin_components_options(); ?>
 
 		<div class="submit clear">
 			<input type="hidden" name="save" value="components" />

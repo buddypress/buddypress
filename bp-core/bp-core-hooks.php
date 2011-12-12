@@ -194,4 +194,26 @@ function bp_uninstall() {
 	do_action( 'bp_uninstall' );
 }
 
+/** Admin *********************************************************************/
+
+if ( is_admin() ) {
+
+	/** Actions ***************************************************************/
+
+	add_action( 'bp_loaded',         'bp_admin'                   );
+	//add_action( 'bp_admin_init',     'bp_admin_settings_help'     );
+	//add_action( 'admin_menu',        'bp_admin_separator'         );
+	//add_action( 'custom_menu_order', 'bp_admin_custom_menu_order' );
+	//add_action( 'menu_order',        'bp_admin_menu_order'        );
+
+	/**
+	 * Run the updater late on 'bp_admin_init' to ensure that all alterations
+	 * to the permalink structure have taken place. This fixes the issue of
+	 * permalinks not being flushed properly when a bbPress update occurs.
+	 */
+	//add_action( 'bp_admin_init',    'bp_setup_updater', 999 );
+
+	/** Filters ***************************************************************/
+}
+
 ?>
