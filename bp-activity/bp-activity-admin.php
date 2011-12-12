@@ -281,8 +281,8 @@ function bp_activity_admin_load() {
 		// Initialise counters for how many of each type of item we perform an action on
 		$deleted = $spammed = $unspammed = 0;
 
-		// Store any error that occurs when updating the database item
-		$error = 0;
+		// Store any errors that occurs when updating the database items
+		$errors = array();
 
 		// "We'd like to shoot the monster, could you move, please?"
 		foreach ( $activity_ids as $activity_id ) {
@@ -292,8 +292,10 @@ function bp_activity_admin_load() {
 
 			// Get the activity from the database
 			$activity = new BP_Activity_Activity( $activity_id );
-			if ( empty( $activity->component ) )
+			if ( empty( $activity->component ) ) {
+				$errors[] = $activity_id;
 				continue;
+			}
 
 			switch ( $doaction ) {
 				case 'delete' :
@@ -310,12 +312,10 @@ function bp_activity_admin_load() {
 					$result = $activity->save();
 
 					// Check for any error during activity save
-					if ( ! $result ) {
-						$error = $activity->id;
-						break;
-					}
-
-					$unspammed++;
+					if ( ! $result )
+						$errors[] = $activity->id;
+					else
+						$unspammed++;
 					break;
 
 				case 'spam' :
@@ -323,28 +323,22 @@ function bp_activity_admin_load() {
 					$result = $activity->save();
 
 					// Check for any error during activity save
-					if ( ! $result ) {
-						$error = $activity->id;
-						break;
-					}
-
-					$spammed++;
+					if ( ! $result )
+						$errors[] = $activity->id;
+					else
+						$spammed++;
 					break;
 
 				default:
 					break;
 			}
 
-			// If an error occured, don't bother looking at the other activities. Bail out of the foreach.
-			if ( $error )
-				break;
-
 			// Release memory
 			unset( $activity );
 		}
 
 		// Call actions for plugins to do something before we redirect
-		do_action( 'bp_activity_admin_action_after', array( $spammed, $unspammed, $deleted, $error ), $redirect_to, $activity_ids );
+		do_action( 'bp_activity_admin_action_after', array( $spammed, $unspammed, $deleted, $errors ), $redirect_to, $activity_ids );
 
 		// Add arguments to the redirect URL so that on page reload, we can easily display what we've just done.
 		if ( $spammed )
@@ -357,8 +351,8 @@ function bp_activity_admin_load() {
 			$redirect_to = add_query_arg( 'deleted', $deleted, $redirect_to );
 
 		// If an error occured, pass back the activity ID that failed
-		if ( $error )
-			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
+		if ( ! empty( $errors ) )
+			$redirect_to = add_query_arg( 'error', implode ( ',', array_map( 'absint', $errors ) ), $redirect_to );
 
 		// Redirect
 		wp_redirect( apply_filters( 'bp_activity_admin_action_redirect', $redirect_to ) );
@@ -768,23 +762,41 @@ function bp_activity_admin_index() {
 
 	// If the user has just made a change to an activity item, build status messages
 	if ( ! empty( $_REQUEST['deleted'] ) || ! empty( $_REQUEST['spammed'] ) || ! empty( $_REQUEST['unspammed'] ) || ! empty( $_REQUEST['error'] ) || ! empty( $_REQUEST['updated'] ) ) {
-		$deleted   = !empty( $_REQUEST['deleted']   ) ? (int) $_REQUEST['deleted']   : 0;
-		$error     = !empty( $_REQUEST['error']     ) ? (int) $_REQUEST['error']     : 0;
-		$spammed   = !empty( $_REQUEST['spammed']   ) ? (int) $_REQUEST['spammed']   : 0;
-		$unspammed = !empty( $_REQUEST['unspammed'] ) ? (int) $_REQUEST['unspammed'] : 0;
-		$updated   = !empty( $_REQUEST['updated']   ) ? (int) $_REQUEST['updated']   : 0;
+		$deleted   = ! empty( $_REQUEST['deleted']   ) ? (int) $_REQUEST['deleted']   : 0;
+		$errors    = ! empty( $_REQUEST['error']     ) ? $_REQUEST['error']           : '';
+		$spammed   = ! empty( $_REQUEST['spammed']   ) ? (int) $_REQUEST['spammed']   : 0;
+		$unspammed = ! empty( $_REQUEST['unspammed'] ) ? (int) $_REQUEST['unspammed'] : 0;
+		$updated   = ! empty( $_REQUEST['updated']   ) ? (int) $_REQUEST['updated']   : 0;
+
+		$errors = array_map( 'absint', explode( ',', $errors ) );
 
 		if ( $deleted > 0 )
 			$messages[] = sprintf( _n( '%s activity was permanently deleted.', '%s activities were permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
 
-		if ( $error > 0 )
-			$messages[] = sprintf( __( 'An error occurred when updating Activity ID #%s.', 'buddypress' ), number_format_i18n( $error ) );
+		if ( ! empty( $errors ) ) {
+			if ( 1 == count( $errors ) ) {
+				$error_msg = __( 'An error occurred when updating activity ID #%s.', 'buddypress' );
+
+			} else {
+				$error_msg  = __( 'Errors occurred when updating activity IDs:', 'buddypress' );
+				$error_msg .= '<ul class="activity-errors">';
+
+				// Display each error as a list item
+				foreach ( $errors as $error ) {
+					// Translators: This is a bulleted list of item IDs
+					$error_msg .= '<li>' . sprintf( __( '#%s', 'buddypress' ), number_format_i18n( $error ) ) . '</li>';
+				}
+
+				$error_msg  .= '</ul>';
+				$messages[] = $error_msg;
+			}
+		}
 
 		if ( $spammed > 0 )
-			$messages[] = sprintf( _n( '%s activity marked as spam.', '%s activities marked as spam.', $spammed, 'buddypress' ), number_format_i18n( $spammed ) );
+			$messages[] = sprintf( _n( '%s activity has been marked as spam.', '%s activities have been marked as spam.', $spammed, 'buddypress' ), number_format_i18n( $spammed ) );
 
 		if ( $unspammed > 0 )
-			$messages[] = sprintf( _n( '%s activity restored from the spam.', '%s activities restored from the spam.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
+			$messages[] = sprintf( _n( '%s activity has been restored from the spam.', '%s activities have been restored from the spam.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
 
 		if ( $updated > 0 )
 			$messages[] = __( 'The activity has been updated succesfully.', 'buddypress' );
@@ -813,7 +825,7 @@ function bp_activity_admin_index() {
 
 		<?php // If the user has just made a change to an activity item, display the status messages ?>
 		<?php if ( !empty( $messages ) ) : ?>
-			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
+			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['errors'] ) ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
 		<?php endif; ?>
 
 		<?php // Display each activity on its own row ?>

@@ -30,6 +30,10 @@
 	margin-right: 10px;
 	margin-top: 1px;
 }
+.activity-errors {
+	list-style-type: disc;
+	margin-left: 2em;
+}
 
 #bp_activity_action div.inside,
 #bp_activity_content div.inside {
