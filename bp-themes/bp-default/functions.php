@@ -180,6 +180,10 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  * @since 1.5
  */
 function bp_dtheme_enqueue_styles() {
+	if ( is_admin() ) {
+		return;
+	}
+	
 	// Bump this when changes are made to bust cache
 	$version = '20111013';
 
