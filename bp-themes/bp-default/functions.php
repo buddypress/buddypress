@@ -180,9 +180,6 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  * @since 1.5
  */
 function bp_dtheme_enqueue_styles() {
-	if ( is_admin() ) {
-		return;
-	}
 	
 	// Bump this when changes are made to bust cache
 	$version = '20111013';
@@ -210,7 +207,7 @@ function bp_dtheme_enqueue_styles() {
 			wp_enqueue_style( 'bp-default-responsive-rtl', get_template_directory_uri() . '/_inc/css/responsive-rtl.css', array( 'bp-default-responsive' ), $version );
 	}
 }
-add_action( 'wp_print_styles', 'bp_dtheme_enqueue_styles' );
+add_action( 'wp_enqueue_styles', 'bp_dtheme_enqueue_styles' );
 endif;
 
 if ( !function_exists( 'bp_dtheme_admin_header_style' ) ) :
