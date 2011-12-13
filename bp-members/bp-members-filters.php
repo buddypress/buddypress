@@ -45,4 +45,31 @@ function bp_members_signup_sanitization() {
 }
 add_action( 'bp_loaded', 'bp_members_signup_sanitization' );
 
+/**
+ * Filter the user profile URL to point to BuddyPress profile edit
+ *
+ * @since BuddyPress 1.5.2
+ *
+ * @global BuddyPress $bp
+ * @param string $url
+ * @param int $user_id
+ * @param string $scheme
+ * @return string
+ */
+function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
+	global $bp;
+
+	// Default to $url
+	$profile_link = $url;
+
+	// If xprofile is active, use profile domain link
+	if ( bp_is_active( 'xprofile' ) ) {
+		$user_domain  = bp_core_get_user_domain( $user_id );
+		$profile_link = trailingslashit( $user_domain . $bp->profile->slug . '/edit' );
+	}
+	
+	return apply_filters( 'bp_members_edit_profile_url', $profile_link, $url, $user_id, $scheme );
+}
+add_filter( 'edit_profile_url', 'bp_members_edit_profile_url', 10, 3 );
+
 ?>
