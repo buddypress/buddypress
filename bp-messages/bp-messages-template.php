@@ -607,7 +607,9 @@ function bp_message_get_recipient_tabs() {
 	$recipients = explode( ' ', bp_get_message_get_recipient_usernames() );
 
 	foreach ( $recipients as $recipient ) {
-		if ( $user_id = bp_core_get_userid( $recipient ) ) : ?>
+		$user_id = bp_is_username_compatibility_mode() ? bp_core_get_userid( $recipient ) : bp_core_get_userid_from_nicename( $recipient );
+
+		if ( $user_id ) : ?>
 
 			<li id="un-<?php echo esc_attr( $recipient ); ?>" class="friend-tab">
 				<span><?php
