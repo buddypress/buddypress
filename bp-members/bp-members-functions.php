@@ -657,14 +657,14 @@ add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );
  * @package BuddyPress Core
  * @param $auth_obj The WP authorization object
  * @param $username The username of the user logging in.
- * @uses get_userdatabylogin() Get the userdata object for a user based on their username
+ * @uses get_user_by() Get the userdata object for a user based on their username
  * @uses bp_core_redirect() Safe redirect to a page
  * @return $auth_obj If the user is not a spammer, return the authorization object
  */
 function bp_core_boot_spammer( $auth_obj, $username ) {
 	global $bp;
 
-	if ( !$user = get_userdatabylogin( $username ) )
+	if ( !$user = get_user_by( 'login',  $username ) )
 		return $auth_obj;
 
 	if ( ( is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
