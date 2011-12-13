@@ -37,7 +37,7 @@ function bp_activity_has_directory() {
  * @return bool|array $usernames Array of the found usernames that match existing users. False if no matches
  */
 function bp_activity_find_mentions( $content ) {
-	$pattern = '/[@]+([A-Za-z0-9-_\.@]+)/';
+	$pattern = '/[@]+([A-Za-z0-9-_\.@]+)\b/';
 	preg_match_all( $pattern, $content, $usernames );
 
 	// Make sure there's only one instance of each username
