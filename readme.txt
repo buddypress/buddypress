@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
-Requires at least: 3.2
-Tested up to: 3.2.1
-Stable tag: 1.5.1
+Requires at least: 3.3
+Tested up to: 3.3
+Stable tag: 1.5.2
 
 Social networking in a box. Build a social network for your company, school, sports team or niche community.
 
@@ -84,20 +84,24 @@ BuddyPress is available in more than 20 languages. For more information, check o
 
 == Upgrade Notice ==
 
+= 1.5.2 =
+* Compatibility with WordPress 3.3
+* Fixes 10 minor bugs/notices
+
 = 1.5.1 =
-Fixes over 25 issues
+* Fixes over 25 issues
 
 = 1.5 =
 See: http://codex.buddypress.org/releases/version-1-5/
 
 = 1.2.9 =
-Compatibility with WordPress 3.2
+* Compatibility with WordPress 3.2
 
 = 1.2.8 =
-Compatibility with WordPress 3.1
+* Compatibility with WordPress 3.1
 
 = 1.2.7 =
-Fixes over 10 bugs.
+* Fixes over 10 bugs.
 
 == Changelog ==
 
