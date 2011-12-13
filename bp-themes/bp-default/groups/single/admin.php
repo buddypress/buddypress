@@ -185,9 +185,11 @@
 				<?php echo bp_core_fetch_avatar( array( 'item_id' => bp_get_member_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_member_name() ) ) ) ?>
 				<h5>
 					<a href="<?php bp_member_permalink(); ?>"> <?php bp_member_name(); ?></a>
+					<?php if ( count( bp_group_admin_ids( false, 'array' ) ) > 1 ) : ?>
 					<span class="small">
 						<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
 					</span>			
+					<?php endif; ?>
 				</h5>		
 			</li>
 			<?php endwhile; ?>
