@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-13 01:31:27+00:00\n"
+"POT-Creation-Date: 2011-12-13 02:31:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1117,7 +1117,7 @@ msgstr[1] ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:142 bp-themes/bp-default/functions.php:637
+#: bp-core/deprecated/1.5.php:142 bp-themes/bp-default/functions.php:634
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
@@ -1127,7 +1127,7 @@ msgstr ""
 msgid "About Me"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:160 bp-themes/bp-default/functions.php:641
+#: bp-core/deprecated/1.5.php:160 bp-themes/bp-default/functions.php:638
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
@@ -2395,7 +2395,7 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-loader.php:135
 #: bp-xprofile/bp-xprofile-loader.php:193 bp-xprofile/bp-xprofile-admin.php:463
-#: bp-forums/bp-forums-template.php:1262 bp-themes/bp-default/functions.php:498
+#: bp-forums/bp-forums-template.php:1262 bp-themes/bp-default/functions.php:495
 msgid "Edit"
 msgstr ""
 
@@ -3770,78 +3770,78 @@ msgstr ""
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:380
+#: bp-themes/bp-default/functions.php:377
 msgid "The sidebar widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:389
+#: bp-themes/bp-default/functions.php:386
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:391
+#: bp-themes/bp-default/functions.php:388
 msgid "The first footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:400
+#: bp-themes/bp-default/functions.php:397
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:402
+#: bp-themes/bp-default/functions.php:399
 msgid "The second footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:411
+#: bp-themes/bp-default/functions.php:408
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:413
+#: bp-themes/bp-default/functions.php:410
 msgid "The third footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:422
+#: bp-themes/bp-default/functions.php:419
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:424
+#: bp-themes/bp-default/functions.php:421
 msgid "The fourth footer widget area"
 msgstr ""
 
 #. translators: 1: comment author url, 2: comment author name, 3: comment
 #. permalink, 4: comment date/timestamp
 
-#: bp-themes/bp-default/functions.php:479
+#: bp-themes/bp-default/functions.php:476
 msgid "<a href=\"%1$s\" rel=\"nofollow\">%2$s</a> said on <a href=\"%3$s\"><span class=\"time-since\">%4$s</span></a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:486
+#: bp-themes/bp-default/functions.php:483
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:498
+#: bp-themes/bp-default/functions.php:495
 msgid "Edit comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:568
+#: bp-themes/bp-default/functions.php:565
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:639
+#: bp-themes/bp-default/functions.php:636
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:649
+#: bp-themes/bp-default/functions.php:646
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:650
+#: bp-themes/bp-default/functions.php:647
 msgid "Leave a reply"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:734
+#: bp-themes/bp-default/functions.php:731
 msgid "&larr; Previous Entries"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:735
+#: bp-themes/bp-default/functions.php:732
 msgid "Next Entries &rarr;"
 msgstr ""
 
