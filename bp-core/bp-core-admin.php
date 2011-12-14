@@ -296,7 +296,7 @@ class BP_Admin {
 		if ( bp_is_active( 'activity' ) && ( is_plugin_active( 'akismet/akismet.php' ) && defined( 'AKISMET_VERSION' ) ) ) {
 
 			// Add the main section
-			add_settings_section( 'bp_activity',      __( 'Actvity Settings', 'buddypress' ), 'bp_admin_setting_callback_activity_section', 'buddypress'                );
+			add_settings_section( 'bp_activity',      __( 'Activity Settings', 'buddypress' ), 'bp_admin_setting_callback_activity_section', 'buddypress'                );
 
 			// Allow subscriptions setting
 			add_settings_field( '_bp_enable_akismet', __( 'Akismet',          'buddypress' ), 'bp_admin_setting_callback_activity_akismet', 'buddypress', 'bp_activity' );
