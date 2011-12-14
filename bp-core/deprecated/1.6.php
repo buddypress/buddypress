@@ -84,4 +84,18 @@ function bp_has_custom_activation_page() {
 function updates_register_activity_actions() {
 	_deprecated_function( __FUNCTION__, '1.6' );
 }
+
+/**
+ * Sets the "From" address in emails sent
+ *
+ * @deprecated 1.6
+ * @deprecated No longer used.
+ * @return noreply@sitedomain email address
+ */
+function bp_core_email_from_address_filter() {
+	_deprecated_function( __FUNCTION__, '1.6' );
+
+	$domain = (array) explode( '/', site_url() );
+	return apply_filters( 'bp_core_email_from_address_filter', 'noreply@' . $domain[2] );
+}
 ?>

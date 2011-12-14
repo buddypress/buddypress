@@ -42,21 +42,6 @@ function bp_core_email_from_name_filter() {
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
 /**
- * bp_core_email_from_name_filter()
- *
- * Sets the "From" address in emails sent
- *
- * @package BuddyPress Core
- * @return noreply@sitedomain email address
- */
-function bp_core_email_from_address_filter() {
-	$domain = (array) explode( '/', site_url() );
-
-	return apply_filters( 'bp_core_email_from_address_filter', 'noreply@' . $domain[2] );
-}
-add_filter( 'wp_mail_from', 'bp_core_email_from_address_filter' );
-
-/**
  * bp_core_allow_default_theme()
  *
  * On multiblog installations you must first allow themes to be activated and show
