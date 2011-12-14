@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-14 03:31:08+00:00\n"
+"POT-Creation-Date: 2011-12-14 20:31:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1248,7 +1248,7 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-cssjs.php:17 bp-activity/bp-activity-admin.php:1269
+#: bp-core/bp-core-cssjs.php:17 bp-activity/bp-activity-admin.php:1278
 msgid "Are you sure?"
 msgstr ""
 
@@ -2572,7 +2572,7 @@ msgstr ""
 #: bp-xprofile/bp-xprofile-loader.php:135
 #: bp-xprofile/bp-xprofile-loader.php:193 bp-xprofile/bp-xprofile-admin.php:464
 #: bp-forums/bp-forums-template.php:1264 bp-themes/bp-default/functions.php:497
-#: bp-activity/bp-activity-admin.php:639 bp-activity/bp-activity-admin.php:1259
+#: bp-activity/bp-activity-admin.php:639 bp-activity/bp-activity-admin.php:1268
 msgid "Edit"
 msgstr ""
 
@@ -2635,7 +2635,7 @@ msgstr ""
 #: bp-xprofile/bp-xprofile-classes.php:311
 #: bp-xprofile/bp-xprofile-classes.php:762
 #: bp-themes/bp-default/forums/index.php:134
-#: bp-activity/bp-activity-admin.php:850
+#: bp-activity/bp-activity-admin.php:859
 msgid "Cancel"
 msgstr ""
 
@@ -2845,73 +2845,73 @@ msgstr ""
 
 #. translators: no option picked in select box
 
-#: bp-xprofile/bp-xprofile-template.php:432
+#: bp-xprofile/bp-xprofile-template.php:436
 #: bp-themes/bp-default/forums/index.php:116
 msgid "----"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:615
+#: bp-xprofile/bp-xprofile-template.php:619
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:616
+#: bp-xprofile/bp-xprofile-template.php:620
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:617
+#: bp-xprofile/bp-xprofile-template.php:621
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:618
+#: bp-xprofile/bp-xprofile-template.php:622
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:619
+#: bp-xprofile/bp-xprofile-template.php:623
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:620
+#: bp-xprofile/bp-xprofile-template.php:624
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:621
+#: bp-xprofile/bp-xprofile-template.php:625
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:622
+#: bp-xprofile/bp-xprofile-template.php:626
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:623
+#: bp-xprofile/bp-xprofile-template.php:627
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:624
+#: bp-xprofile/bp-xprofile-template.php:628
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:625
+#: bp-xprofile/bp-xprofile-template.php:629
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:626
+#: bp-xprofile/bp-xprofile-template.php:630
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:759
+#: bp-xprofile/bp-xprofile-template.php:763
 msgid "Avatar uploads are currently disabled. Why not use a <a href=\"http://gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:768
+#: bp-xprofile/bp-xprofile-template.php:772
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:779
+#: bp-xprofile/bp-xprofile-template.php:783
 msgid "Profile updated %s"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:822
-#: bp-xprofile/bp-xprofile-template.php:823
+#: bp-xprofile/bp-xprofile-template.php:826
+#: bp-xprofile/bp-xprofile-template.php:827
 #: bp-members/bp-members-adminbar.php:99
 msgid "Edit Profile"
 msgstr ""
@@ -3234,7 +3234,7 @@ msgid "Unread"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:406
-#: bp-activity/bp-activity-admin.php:1097
+#: bp-activity/bp-activity-admin.php:1106
 msgid "All"
 msgstr ""
 
@@ -4413,7 +4413,7 @@ msgstr ""
 #: bp-themes/bp-default/activity/comment.php:37
 #: bp-themes/bp-default/forums/single/edit.php:10
 #: bp-themes/bp-default/groups/single/forum/edit.php:10
-#: bp-activity/bp-activity-admin.php:851 bp-activity/bp-activity-admin.php:1256
+#: bp-activity/bp-activity-admin.php:860 bp-activity/bp-activity-admin.php:1265
 msgid "Reply"
 msgstr ""
 
@@ -4917,8 +4917,8 @@ msgstr ""
 #. translators: Personal activity RSS title - "[Site Name] | [Displayed User
 #. Name] | Activity"
 
-#: bp-activity/bp-activity-admin.php:36 bp-activity/bp-activity-admin.php:818
-#: bp-activity/bp-activity-admin.php:1131
+#: bp-activity/bp-activity-admin.php:36 bp-activity/bp-activity-admin.php:827
+#: bp-activity/bp-activity-admin.php:1140
 #: bp-activity/bp-activity-loader.php:117
 #: bp-activity/bp-activity-loader.php:239
 #: bp-activity/feeds/bp-activity-personal-feed.php:28
@@ -5056,7 +5056,7 @@ msgstr ""
 msgid "Approved"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:630 bp-activity/bp-activity-admin.php:1266
+#: bp-activity/bp-activity-admin.php:630 bp-activity/bp-activity-admin.php:1275
 #: bp-activity/bp-activity-akismet.php:178
 #: bp-activity/bp-activity-akismet.php:207
 msgid "Spam"
@@ -5096,107 +5096,107 @@ msgstr ""
 msgid "These identify the object that created this activity. For example, the fields could reference a pair of site and comment IDs."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:774
-msgid "%s activity was permanently deleted."
-msgid_plural "%s activities were permanently deleted."
+#: bp-activity/bp-activity-admin.php:783
+msgid "%s activity has been permanently deleted."
+msgid_plural "%s activity items have been permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:778
-msgid "An error occurred when updating activity ID #%s."
-msgstr ""
-
-#: bp-activity/bp-activity-admin.php:781
-msgid "Errors occurred when updating activity IDs:"
-msgstr ""
-
 #: bp-activity/bp-activity-admin.php:787
-msgid "#%s"
+msgid "An error occurred when trying to update activity ID #%s."
+msgstr ""
+
+#: bp-activity/bp-activity-admin.php:790
+msgid "Errors occurred when trying to update these activity items:"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:796
-msgid "%s activity has been marked as spam."
-msgid_plural "%s activities have been marked as spam."
+msgid "#%s"
+msgstr ""
+
+#: bp-activity/bp-activity-admin.php:805
+msgid "%s activity has been successfully spammed."
+msgid_plural "%s activity items have been successfully spammed."
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:799
-msgid "%s activity has been restored from the spam."
-msgid_plural "%s activities have been restored from the spam."
+#: bp-activity/bp-activity-admin.php:808
+msgid "%s activity has been successfully unspammed."
+msgid_plural "%s activity items have been successfully unspammed."
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:802
+#: bp-activity/bp-activity-admin.php:811
 msgid "The activity has been updated succesfully."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:816
+#: bp-activity/bp-activity-admin.php:825
 msgid "Activity related to ID #%s"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:822
+#: bp-activity/bp-activity-admin.php:831
 msgid "Search results for &#8220;%s&#8221;"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:835
+#: bp-activity/bp-activity-admin.php:844
 msgid "Search all Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:846
+#: bp-activity/bp-activity-admin.php:855
 msgid "Reply to Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1037
+#: bp-activity/bp-activity-admin.php:1046
 msgid "No activities found."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1098
+#: bp-activity/bp-activity-admin.php:1107
 msgid "Spam <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1113
+#: bp-activity/bp-activity-admin.php:1122
 msgid "Mark as Spam"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1114
-#: bp-activity/bp-activity-admin.php:1264
+#: bp-activity/bp-activity-admin.php:1123
+#: bp-activity/bp-activity-admin.php:1273
 msgid "Not Spam"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1115
-#: bp-activity/bp-activity-admin.php:1269
+#: bp-activity/bp-activity-admin.php:1124
+#: bp-activity/bp-activity-admin.php:1278
 msgid "Delete Permanently"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1130
+#: bp-activity/bp-activity-admin.php:1139
 msgid "Author"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1132
+#: bp-activity/bp-activity-admin.php:1141
 msgid "In Response To"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1184
+#: bp-activity/bp-activity-admin.php:1193
 msgid "Show all activity types"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1191
+#: bp-activity/bp-activity-admin.php:1200
 msgid "Filter"
 msgstr ""
 
 #. translators: 2: activity admin ui date/time
 
-#: bp-activity/bp-activity-admin.php:1278
+#: bp-activity/bp-activity-admin.php:1287
 msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1307
+#: bp-activity/bp-activity-admin.php:1316
 msgid "%s related activity"
 msgid_plural "%s related activities"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:1317
+#: bp-activity/bp-activity-admin.php:1326
 msgid "<a href=\"%1$s\">View Activity</a>"
 msgstr ""
 
