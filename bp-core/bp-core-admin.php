@@ -95,7 +95,7 @@ class BP_Admin {
 		add_action( 'admin_head',         array( $this, 'admin_head'                 ) );
 
 		// Add menu item to settings menu
-		add_action( bp_core_admin_hook(), array( $this, 'admin_menus'                ) );
+		add_action( bp_core_admin_hook(), array( $this, 'admin_menus'                ), 5 );
 
 		// Add notice if not using a BuddyPress theme
 		add_action( 'admin_notices',      array( $this, 'activation_notice'          ) );
