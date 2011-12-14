@@ -350,7 +350,7 @@ function bp_activity_admin_load() {
 		if ( $deleted )
 			$redirect_to = add_query_arg( 'deleted', $deleted, $redirect_to );
 
-		// If an error occured, pass back the activity ID that failed
+		// If an error occurred, pass back the activity ID that failed
 		if ( ! empty( $errors ) )
 			$redirect_to = add_query_arg( 'error', implode ( ',', array_map( 'absint', $errors ) ), $redirect_to );
 
@@ -478,7 +478,7 @@ function bp_activity_admin_load() {
 		// Call actions for plugins to do something before we redirect
 		do_action_ref_array( 'bp_activity_admin_edit_after', array( &$activity, $error ) );
 
-		// If an error occured, pass back the activity ID that failed
+		// If an error occurred, pass back the activity ID that failed
 		if ( $error )
 			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
 		else
@@ -770,15 +770,24 @@ function bp_activity_admin_index() {
 
 		$errors = array_map( 'absint', explode( ',', $errors ) );
 
+		// Make sure we don't get any empty values in $errors
+		for ( $i = 0, $errors_count = count( $errors ); $i < $errors_count; $i++ ) {
+			if ( 0 === $errors[$i] )
+				unset( $errors[$i] );
+		}
+
+		// Reindex array
+		$errors = array_values( $errors );
+
 		if ( $deleted > 0 )
-			$messages[] = sprintf( _n( '%s activity was permanently deleted.', '%s activities were permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
+			$messages[] = sprintf( _n( '%s activity has been permanently deleted.', '%s activity items have been permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
 
 		if ( ! empty( $errors ) ) {
 			if ( 1 == count( $errors ) ) {
-				$error_msg = __( 'An error occurred when updating activity ID #%s.', 'buddypress' );
+				$messages[] = sprintf( __( 'An error occurred when trying to update activity ID #%s.', 'buddypress' ), number_format_i18n( $errors[0] ) );
 
 			} else {
-				$error_msg  = __( 'Errors occurred when updating activity IDs:', 'buddypress' );
+				$error_msg  = __( 'Errors occurred when trying to update these activity items:', 'buddypress' );
 				$error_msg .= '<ul class="activity-errors">';
 
 				// Display each error as a list item
@@ -793,10 +802,10 @@ function bp_activity_admin_index() {
 		}
 
 		if ( $spammed > 0 )
-			$messages[] = sprintf( _n( '%s activity has been marked as spam.', '%s activities have been marked as spam.', $spammed, 'buddypress' ), number_format_i18n( $spammed ) );
+			$messages[] = sprintf( _n( '%s activity has been successfully spammed.', '%s activity items have been successfully spammed.', $spammed, 'buddypress' ), number_format_i18n( $spammed ) );
 
 		if ( $unspammed > 0 )
-			$messages[] = sprintf( _n( '%s activity has been restored from the spam.', '%s activities have been restored from the spam.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
+			$messages[] = sprintf( _n( '%s activity has been successfully unspammed.', '%s activity items have been successfully unspammed.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
 
 		if ( $updated > 0 )
 			$messages[] = __( 'The activity has been updated succesfully.', 'buddypress' );
@@ -825,7 +834,7 @@ function bp_activity_admin_index() {
 
 		<?php // If the user has just made a change to an activity item, display the status messages ?>
 		<?php if ( !empty( $messages ) ) : ?>
-			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['errors'] ) ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
+			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
 		<?php endif; ?>
 
 		<?php // Display each activity on its own row ?>
