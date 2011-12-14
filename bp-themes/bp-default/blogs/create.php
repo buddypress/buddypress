@@ -15,6 +15,8 @@
 
 	<div id="content">
 		<div class="padder" role="main">
+		
+		<?php do_action( 'bp_before_create_blog_content_template' ); ?>
 
 		<?php do_action( 'template_notices' ); ?>
 
@@ -35,6 +37,8 @@
 		<?php endif; ?>
 
 		<?php do_action( 'bp_after_create_blog_content' ); ?>
+		
+		<?php do_action( 'bp_after_create_blog_content_template' ); ?>
 
 		</div><!-- .padder -->
 	</div><!-- #content -->
