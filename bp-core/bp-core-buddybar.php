@@ -43,7 +43,8 @@ function bp_core_new_nav_item( $args = '' ) {
 		'css_id'                  => $item_css_id,
 		'show_for_displayed_user' => $show_for_displayed_user,
 		'position'                => $position,
-		'screen_function'         => &$screen_function
+		'screen_function'         => &$screen_function,
+		'default_subnav_slug'	  => $default_subnav_slug
 	);
 
  	/***
@@ -117,14 +118,22 @@ function bp_core_new_nav_default( $args = '' ) {
 
 	$bp->bp_nav[$parent_slug]['screen_function'] = &$screen_function;
 
+	// If the current_action has been set to the default_subnav_slug, it will be reflected
+	// in the redirect_stack. Unset the action manually so that the new nav default can be set
+	if ( !empty( $bp->redirect_stack['action'] ) && $bp->redirect_stack['action'] == $bp->bp_nav[$parent_slug]['default_subnav_slug'] ) {
+		$bp->current_action = '';
+	}
+
 	if ( $bp->current_component == $parent_slug && !$bp->current_action ) {
 		if ( !is_object( $screen_function[0] ) )
 			add_action( 'bp_screens', $screen_function );
 		else
 			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
 
-		if ( $subnav_slug )
-			$bp->current_action = $subnav_slug;
+		if ( $subnav_slug ) {
+			$bp->current_action 	      = $subnav_slug;
+			$bp->redirect_stack['action'] = $bp->current_action;
+		}
 	}
 }
 
