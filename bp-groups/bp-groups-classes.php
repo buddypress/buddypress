@@ -44,6 +44,16 @@ Class BP_Groups_Group {
 			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 			$this->is_member          = BP_Groups_Member::check_is_member( bp_loggedin_user_id(), $this->id );
+			
+			// If this is a private or hidden group, does the current user have access?
+			if ( 'private' == $this->status || 'hidden' == $this->status ) {
+				if ( $this->is_member && is_user_logged_in() || bp_current_user_can( 'bp_moderate' ) )
+					$this->user_has_access = true;
+				else
+					$this->user_has_access = false;
+			} else {
+				$this->user_has_access = true;
+			}
 
 			// Get group admins and mods
 			$admin_mods = $wpdb->get_results( apply_filters( 'bp_group_admin_mods_user_join_filter', $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) ) );

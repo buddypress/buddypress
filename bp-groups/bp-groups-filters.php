@@ -130,7 +130,7 @@ function groups_filter_bbpress_caps( $value, $cap, $args ) {
 
 	if ( bp_current_user_can( 'bp_moderate' ) )
 		return true;
-
+	
 	if ( 'add_tag_to' == $cap )
 		if ( $bp->groups->current_group->user_has_access ) return true;
 
