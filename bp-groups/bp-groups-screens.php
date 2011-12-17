@@ -144,16 +144,26 @@ function groups_screen_group_forum() {
 					groups_join_group( $bp->groups->current_group->id, bp_loggedin_user_id() );
 
 				$topic_page = isset( $_GET['topic_page'] ) ? $_GET['topic_page'] : false;
+				
+				// Don't allow reply flooding
+				if ( bp_forums_reply_exists( $_POST['reply_text'], $topic_id, bp_loggedin_user_id() ) ) {
+					bp_core_add_message( __( 'It looks like you\'ve already said that!', 'buddypress' ), 'error' );
+				} else {	
+					if ( !$post_id = groups_new_group_forum_post( $_POST['reply_text'], $topic_id, $topic_page ) )
+						bp_core_add_message( __( 'There was an error when replying to that topic', 'buddypress'), 'error' );
+					else
+						bp_core_add_message( __( 'Your reply was posted successfully', 'buddypress') );
+				}
 
-				if ( !$post_id = groups_new_group_forum_post( $_POST['reply_text'], $topic_id, $topic_page ) )
-					bp_core_add_message( __( 'There was an error when replying to that topic', 'buddypress'), 'error' );
-				else
-					bp_core_add_message( __( 'Your reply was posted successfully', 'buddypress') );
+				$query_vars = isset( $_SERVER['QUERY_STRING'] ) ? '?' . $_SERVER['QUERY_STRING'] : '';
+				
+				$redirect = bp_get_group_permalink( groups_get_current_group() ) . 'forum/topic/' . $topic_slug . '/' . $query_vars;
 
-				if ( isset( $_SERVER['QUERY_STRING'] ) )
-					$query_vars = '?' . $_SERVER['QUERY_STRING'];
+				if ( !empty( $post_id ) ) {
+					$redirect .= '#post-' . $post_id;
+				}
 
-				bp_core_redirect( bp_get_group_permalink( groups_get_current_group() ) . 'forum/topic/' . $topic_slug . '/' . $query_vars . '#post-' . $post_id );
+				bp_core_redirect( $redirect );
 			}
 
 			// Sticky a topic

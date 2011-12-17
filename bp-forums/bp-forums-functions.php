@@ -301,6 +301,38 @@ function bp_forums_total_topic_count() {
 }
 
 /**
+ * Check to see whether a user has already left this particular reply on a given post.
+ * Prevents dupes.
+ *
+ * @since 1.6
+ *
+ * @param str $text The text of the comment
+ * @param int $topic_id The topic id
+ * @param int $user_id The user id
+ */
+function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
+	$reply_exists = false;
+	
+	if ( $text && $topic_id && $user_id ) {
+		do_action( 'bbpress_init' );
+		
+		$args = array(
+			'post_author_id' => $user_id,
+			'topic_id'       => $topic_id
+		);
+		
+		// BB_Query's post_text parameter does a MATCH, while we need exact matches
+		add_filter( 'get_posts_where', create_function( '$q', 'return $q . " AND p.post_text = \'' . $text . '\'";' ) );
+		
+		$query = new BB_Query( 'post', $args );
+		
+		$reply_exists = !empty( $query->results );
+	}
+	
+	return apply_filters( 'bp_forums_reply_exists', $reply_exists, $text, $topic_id, $user_id );
+}
+
+/**
  * Get a total "Topics Started" count for a given user
  *
  * @package BuddyPress
