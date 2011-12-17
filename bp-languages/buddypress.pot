@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-16 21:31:08+00:00\n"
+"POT-Creation-Date: 2011-12-17 14:31:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -108,7 +108,7 @@ msgid "Profile picture of site author %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:345 bp-core/bp-core-classes.php:175
-#: bp-groups/bp-groups-widgets.php:70 bp-groups/bp-groups-widgets.php:170
+#: bp-groups/bp-groups-widgets.php:73 bp-groups/bp-groups-widgets.php:179
 #: bp-members/bp-members-template.php:557
 #: bp-members/bp-members-template.php:831
 #: bp-themes/bp-default/forums/single/forum-header.php:13
@@ -263,37 +263,37 @@ msgstr ""
 msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:23 bp-core/bp-core-widgets.php:110
+#: bp-core/bp-core-widgets.php:23 bp-core/bp-core-widgets.php:115
 #: bp-core/admin/bp-core-update.php:484 bp-core/bp-core-template.php:256
 #: bp-groups/bp-groups-template.php:1283 bp-members/bp-members-loader.php:24
 #: bp-themes/bp-default/groups/single/admin.php:231
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:48 bp-core/bp-core-widgets.php:128
+#: bp-core/bp-core-widgets.php:51 bp-core/bp-core-widgets.php:137
 #: bp-friends/bp-friends-template.php:63 bp-friends/bp-friends-template.php:84
-#: bp-groups/bp-groups-widgets.php:50 bp-groups/bp-groups-widgets.php:125
+#: bp-groups/bp-groups-widgets.php:53 bp-groups/bp-groups-widgets.php:134
 #: bp-themes/bp-default/members/single/blogs.php:22
 #: bp-themes/bp-default/blogs/index.php:58
 msgid "Newest"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:49 bp-core/bp-core-widgets.php:129
-#: bp-groups/bp-groups-widgets.php:51 bp-groups/bp-groups-widgets.php:126
+#: bp-core/bp-core-widgets.php:52 bp-core/bp-core-widgets.php:138
+#: bp-groups/bp-groups-widgets.php:54 bp-groups/bp-groups-widgets.php:135
 msgid "Active"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:53 bp-core/bp-core-widgets.php:130
-#: bp-groups/bp-groups-widgets.php:52 bp-groups/bp-groups-widgets.php:127
+#: bp-core/bp-core-widgets.php:56 bp-core/bp-core-widgets.php:139
+#: bp-groups/bp-groups-widgets.php:55 bp-groups/bp-groups-widgets.php:136
 msgid "Popular"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:90
+#: bp-core/bp-core-widgets.php:93
 msgid "No one has signed up yet!"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:121 bp-core/bp-core-widgets.php:201
-#: bp-core/bp-core-widgets.php:270 bp-groups/bp-groups-widgets.php:118
+#: bp-core/bp-core-widgets.php:128 bp-core/bp-core-widgets.php:210
+#: bp-core/bp-core-widgets.php:279 bp-groups/bp-groups-widgets.php:125
 #: bp-themes/bp-default/forums/index.php:104
 #: bp-themes/bp-default/forums/single/edit.php:49
 #: bp-themes/bp-default/groups/single/forum/edit.php:47
@@ -301,47 +301,51 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:123
+#: bp-core/bp-core-widgets.php:130
+msgid "Link widget title to Members directory"
+msgstr ""
+
+#: bp-core/bp-core-widgets.php:132
 msgid "Max members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:126
+#: bp-core/bp-core-widgets.php:135
 msgid "Default members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:148
+#: bp-core/bp-core-widgets.php:157
 msgid "Avatars of users who are currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:149
+#: bp-core/bp-core-widgets.php:158
 msgid "Who's Online Avatars"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:173
+#: bp-core/bp-core-widgets.php:182
 msgid "There are no users currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:192
+#: bp-core/bp-core-widgets.php:201
 msgid "Who's Online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:203 bp-core/bp-core-widgets.php:272
+#: bp-core/bp-core-widgets.php:212 bp-core/bp-core-widgets.php:281
 msgid "Max Members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:217
+#: bp-core/bp-core-widgets.php:226
 msgid "Avatars of recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:218
+#: bp-core/bp-core-widgets.php:227
 msgid "Recently Active Member Avatars"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:242
+#: bp-core/bp-core-widgets.php:251
 msgid "There are no recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:328
+#: bp-core/bp-core-widgets.php:337
 msgid "There were no members found, please try another filter."
 msgstr ""
 
@@ -743,7 +747,7 @@ msgstr ""
 #: bp-groups/bp-groups-activity.php:135 bp-groups/bp-groups-activity.php:171
 #: bp-groups/bp-groups-activity.php:207 bp-groups/bp-groups-activity.php:243
 #: bp-groups/bp-groups-loader.php:420 bp-groups/bp-groups-widgets.php:20
-#: bp-groups/bp-groups-widgets.php:41 bp-groups/bp-groups-widgets.php:107
+#: bp-groups/bp-groups-widgets.php:41 bp-groups/bp-groups-widgets.php:112
 #: bp-groups/bp-groups-screens.php:831 bp-activity/bp-activity-loader.php:188
 #: bp-activity/bp-activity-loader.php:282
 msgid "Groups"
@@ -2097,23 +2101,27 @@ msgstr ""
 msgid "A dynamic list of recently active, popular, and newest groups"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:68 bp-groups/bp-groups-widgets.php:168
+#: bp-groups/bp-groups-widgets.php:71 bp-groups/bp-groups-widgets.php:177
 msgid "created %s"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:87
+#: bp-groups/bp-groups-widgets.php:90
 msgid "There are no groups to display."
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:120
+#: bp-groups/bp-groups-widgets.php:127
+msgid "Link widget title to Groups directory"
+msgstr ""
+
+#: bp-groups/bp-groups-widgets.php:129
 msgid "Max groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:123
+#: bp-groups/bp-groups-widgets.php:132
 msgid "Default groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:187
+#: bp-groups/bp-groups-widgets.php:196
 msgid "No groups matched the current filter."
 msgstr ""
 
