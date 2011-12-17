@@ -39,8 +39,11 @@ class BP_Core_Members_Widget extends WP_Widget {
 			$instance['member_default'] = 'active';
 
 		echo $before_widget;
+		
+		$title = $instance['link_title'] ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) . '">' . $instance['title'] . '</a>' : $instance['title'];
+		
 		echo $before_title
-		   . $instance['title']
+		   . $title
 		   . $after_title; ?>
 
 		<?php if ( bp_has_members( 'user_id=0&type=' . $instance['member_default'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
@@ -98,27 +101,33 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
-		$instance['title'] = strip_tags( $new_instance['title'] );
-		$instance['max_members'] = strip_tags( $new_instance['max_members'] );
+		
+		$instance['title'] 	    = strip_tags( $new_instance['title'] );
+		$instance['max_members']    = strip_tags( $new_instance['max_members'] );
 		$instance['member_default'] = strip_tags( $new_instance['member_default'] );
+		$instance['link_title']	    = (bool)$new_instance['link_title'];
 
 		return $instance;
 	}
 
 	function form( $instance ) {
 		$defaults = array(
-			'title' => __( 'Members', 'buddypress' ),
-			'max_members' => 5,
-			'member_default' => 'active'
+			'title' 	 => __( 'Members', 'buddypress' ),
+			'max_members' 	 => 5,
+			'member_default' => 'active',
+			'link_title' 	 => false
 		);
 		$instance = wp_parse_args( (array) $instance, $defaults );
 
-		$title = strip_tags( $instance['title'] );
-		$max_members = strip_tags( $instance['max_members'] );
+		$title 		= strip_tags( $instance['title'] );
+		$max_members 	= strip_tags( $instance['max_members'] );
 		$member_default = strip_tags( $instance['member_default'] );
+		$link_title	= (bool)$instance['link_title'];
 		?>
 
 		<p><label for="bp-core-widget-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" /></label></p>
+		
+		<p><label for="<?php echo $this->get_field_name('link_title') ?>"><input type="checkbox" name="<?php echo $this->get_field_name('link_title') ?>" value="1" <?php checked( $link_title ) ?> /> <?php _e( 'Link widget title to Members directory', 'buddypress' ) ?></label></p>
 
 		<p><label for="bp-core-widget-members-max"><?php _e('Max members to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" /></label></p>
 

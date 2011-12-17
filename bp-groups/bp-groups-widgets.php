@@ -41,8 +41,11 @@ class BP_Groups_Widget extends WP_Widget {
 			$instance['title'] = __( 'Groups', 'buddypress' );
 
 		echo $before_widget;
+		
+		$title = $instance['link_title'] ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) . '">' . $instance['title'] . '</a>' : $instance['title'];
+		
 		echo $before_title
-		   . $instance['title']
+		   . $title
 		   . $after_title; ?>
 
 		<?php if ( bp_has_groups( 'user_id=' . $user_id . '&type=' . $instance['group_default'] . '&max=' . $instance['max_groups'] ) ) : ?>
@@ -95,9 +98,11 @@ class BP_Groups_Widget extends WP_Widget {
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
-		$instance['title'] = strip_tags( $new_instance['title'] );
-		$instance['max_groups'] = strip_tags( $new_instance['max_groups'] );
+		
+		$instance['title']         = strip_tags( $new_instance['title'] );
+		$instance['max_groups']    = strip_tags( $new_instance['max_groups'] );
 		$instance['group_default'] = strip_tags( $new_instance['group_default'] );
+		$instance['link_title']    = (bool)$new_instance['link_title'];
 
 		return $instance;
 	}
@@ -106,16 +111,20 @@ class BP_Groups_Widget extends WP_Widget {
 		$defaults = array(
 			'title'         => __( 'Groups', 'buddypress' ),
 			'max_groups'    => 5,
-			'group_default' => 'active'
+			'group_default' => 'active',
+			'link_title'    => false
 		);
 		$instance = wp_parse_args( (array) $instance, $defaults );
 
-		$title = strip_tags( $instance['title'] );
-		$max_groups = strip_tags( $instance['max_groups'] );
+		$title 	       = strip_tags( $instance['title'] );
+		$max_groups    = strip_tags( $instance['max_groups'] );
 		$group_default = strip_tags( $instance['group_default'] );
+		$link_title    = (bool)$instance['link_title'];
 		?>
 
 		<p><label for="bp-groups-widget-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" /></label></p>
+		
+		<p><label for="<?php echo $this->get_field_name('link_title') ?>"><input type="checkbox" name="<?php echo $this->get_field_name('link_title') ?>" value="1" <?php checked( $link_title ) ?> /> <?php _e( 'Link widget title to Groups directory', 'buddypress' ) ?></label></p>
 
 		<p><label for="bp-groups-widget-groups-max"><?php _e('Max groups to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_groups' ); ?>" name="<?php echo $this->get_field_name( 'max_groups' ); ?>" type="text" value="<?php echo esc_attr( $max_groups ); ?>" style="width: 30%" /></label></p>
 
