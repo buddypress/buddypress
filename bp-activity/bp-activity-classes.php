@@ -170,6 +170,7 @@ Class BP_Activity_Activity {
 		$total_activities = $wpdb->get_var( $total_activities_sql );
 
 		// Get the fullnames of users so we don't have to query in the loop
+		$activity_user_ids = array();
 		if ( bp_is_active( 'xprofile' ) && $activities ) {
 			foreach ( (array)$activities as $activity ) {
 				if ( (int)$activity->user_id )
