@@ -16,7 +16,7 @@ function bp_forums_load_bbpress() {
 
 	define( 'BB_PATH', BP_PLUGIN_DIR . '/bp-forums/bbpress/' );
 	define( 'BACKPRESS_PATH', BP_PLUGIN_DIR . '/bp-forums/bbpress/bb-includes/backpress/' );
-	define( 'BB_URL', BP_PLUGIN_URL . '/bp-forums/bbpress/' );
+	define( 'BB_URL', BP_PLUGIN_URL . 'bp-forums/bbpress/' );
 	define( 'BB_INC', 'bb-includes/' );
 
 	require( BB_PATH . BB_INC . 'class.bb-query.php' );

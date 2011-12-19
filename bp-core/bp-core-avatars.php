@@ -39,10 +39,10 @@ function bp_core_set_avatar_constants() {
 	}
 
 	if ( !defined( 'BP_AVATAR_DEFAULT' ) )
-		define( 'BP_AVATAR_DEFAULT', BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg' );
+		define( 'BP_AVATAR_DEFAULT', BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg' );
 
 	if ( !defined( 'BP_AVATAR_DEFAULT_THUMB' ) )
-		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . '/bp-core/images/mystery-man-50.jpg' );
+		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . 'bp-core/images/mystery-man-50.jpg' );
 }
 add_action( 'bp_init', 'bp_core_set_avatar_constants', 3 );
 
@@ -354,7 +354,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	// No avatar was found, and we've been told not to use a gravatar.
 	} else {
-		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . '/bp-core/images/mystery-man.jpg', $params );
+		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg', $params );
 	}
 
 	if ( true === $html )

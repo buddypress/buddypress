@@ -635,9 +635,9 @@ function bp_core_load_buddybar_css() {
 	if ( file_exists( get_stylesheet_directory() . '/_inc/css/adminbar.css' ) ) // Backwards compatibility
 		$stylesheet = get_stylesheet_directory_uri() . '/_inc/css/adminbar.css';
 	elseif ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar.dev.css';
+		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar.dev.css';
 	else
-		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar.css';
+		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar.css';
 
 	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array(), '20110723' );
 
@@ -645,9 +645,9 @@ function bp_core_load_buddybar_css() {
 		return;
 
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar-rtl.dev.css';
+		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar-rtl.dev.css';
 	else
-		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/buddybar-rtl.css';
+		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar-rtl.css';
 
 	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), '20110723' );
 }

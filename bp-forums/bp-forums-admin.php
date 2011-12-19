@@ -267,7 +267,7 @@ function bp_forums_bbpress_install() {
 
 	$file .= "\n" .   '$bb->custom_user_table = \'' . $wpdb->users . '\';';
 	$file .= "\n" .   '$bb->custom_user_meta_table = \'' . $wpdb->usermeta . '\';';
-	$file .= "\n\n" . '$bb->uri = \'' . BP_PLUGIN_URL . '/bp-forums/bbpress/\';';
+	$file .= "\n\n" . '$bb->uri = \'' . BP_PLUGIN_URL . 'bp-forums/bbpress/\';';
 	$file .= "\n" .   '$bb->name = \'' . get_blog_option( bp_get_root_blog_id(), 'blogname' ) . ' ' . __( 'Forums', 'buddypress' ) . '\';';
 
 	if ( is_multisite() )

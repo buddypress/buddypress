@@ -24,9 +24,9 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {
 			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-				wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.dev.js', array( 'jquery' ), '20110723' );
+				wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . 'bp-core/js/widget-members.dev.js', array( 'jquery' ), '20110723' );
 			else
-				wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . '/bp-core/js/widget-members.js', array( 'jquery' ), '20110723' );
+				wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . 'bp-core/js/widget-members.js', array( 'jquery' ), '20110723' );
 		}
 	}
 

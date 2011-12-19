@@ -21,9 +21,9 @@ class BP_Groups_Widget extends WP_Widget {
 
 		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {
 			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . '/bp-groups/js/widget-groups.dev.js', array( 'jquery' ) );
+				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . 'bp-groups/js/widget-groups.dev.js', array( 'jquery' ) );
 			else
-				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . '/bp-groups/js/widget-groups.js', array( 'jquery' ) );
+				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . 'bp-groups/js/widget-groups.js', array( 'jquery' ) );
 		}
 	}
 
