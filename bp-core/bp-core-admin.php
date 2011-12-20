@@ -215,7 +215,7 @@ class BP_Admin {
 			__( 'BuddyPress Pages', 'buddypress' ),
 			__( 'BuddyPress Pages', 'buddypress' ),
 			'manage_options',
-			'bp-slugs',
+			'bp-page-settings',
 			'bp_core_admin_slugs_settings'
 		);
 

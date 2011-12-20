@@ -192,7 +192,7 @@ class BP_Core_Setup_Wizard {
 				do_action( 'bp_admin_notices' );
 
 				$step_count  = count( $this->steps ) - 1;
-				$wiz_or_set  = $this->current_step >= $step_count ? 'bp-general-config' : 'bp-wizard';
+				$wiz_or_set  = $this->current_step >= $step_count ? 'bp-components' : 'bp-wizard';
 				$form_action = bp_core_update_do_network_admin() ? network_admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) ) : admin_url( add_query_arg( array( 'page' => $wiz_or_set ), 'admin.php' ) );
 			?>
 
@@ -1160,7 +1160,7 @@ class BP_Core_Setup_Wizard {
 			bp_core_add_admin_menu();
 
 			// Redirect to the BuddyPress dashboard
-			$redirect = bp_core_update_do_network_admin() ? add_query_arg( array( 'page' => 'bp-general-config' ), network_admin_url( 'settings.php' ) ) : add_query_arg( array( 'page' => 'bp-general-config' ), admin_url( 'options-general.php' ) );
+			$redirect = bp_core_update_do_network_admin() ? add_query_arg( array( 'page' => 'bp-components' ), network_admin_url( 'settings.php' ) ) : add_query_arg( array( 'page' => 'bp-components' ), admin_url( 'options-general.php' ) );
 
 			wp_redirect( $redirect );
 

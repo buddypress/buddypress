@@ -206,7 +206,7 @@ function bp_core_admin_slugs_setup_handler() {
 			bp_core_update_directory_page_ids( $directory_pages );
 		}
 
-		$base_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-slugs', 'updated' => 'true' ), 'admin.php' ) );
+		$base_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings', 'updated' => 'true' ), 'admin.php' ) );
 
 		wp_redirect( $base_url );
 	}

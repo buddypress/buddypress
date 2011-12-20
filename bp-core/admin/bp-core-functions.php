@@ -71,7 +71,7 @@ function bp_core_modify_admin_menu() {
  	$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 
 	remove_submenu_page( $page, 'bb-forums-setup' );
-	remove_submenu_page( $page, 'bp-slugs'        );
+	remove_submenu_page( $page, 'bp-page-settings' );
 	remove_submenu_page( $page, 'bp-settings'     );
 }
 add_action( 'admin_head', 'bp_core_modify_admin_menu', 999 );
@@ -285,7 +285,7 @@ function bp_core_activation_notice() {
 	}
 
 	if ( !empty( $orphaned_components ) ) {
-		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-slugs' ), 'admin.php' ) );
+		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
 		$notice    = sprintf( __( 'The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $orphaned_components ) . '</strong>' );
 
 		bp_core_add_admin_notice( $notice );
@@ -310,7 +310,7 @@ function bp_core_activation_notice() {
 
 	// If there are duplicates, post a message about them
 	if ( !empty( $dupe_names ) ) {
-		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-slugs' ), 'admin.php' ) );
+		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
 		$notice    = sprintf( __( 'Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $dupe_names ) . '</strong>' );
 
 		bp_core_add_admin_notice( $notice );
@@ -351,19 +351,19 @@ function bp_core_admin_menu_icon_css() {
 
 		/* Settings Icon */
 		ul#adminmenu li.toplevel_page_bp-components .wp-menu-image a img,
-		ul#adminmenu li.toplevel_page_bp-settings .wp-menu-image a img {
+		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img {
 			display: none;
 		}
 
 		ul#adminmenu li.toplevel_page_bp-components .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-settings .wp-menu-image a {
+		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a {
 			background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px;
 		}
 
 		ul#adminmenu li.toplevel_page_bp-components:hover .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-settings:hover .wp-menu-image a,
+		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a,
 		ul#adminmenu li.toplevel_page_bp-components.wp-has-current-submenu .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-settings.wp-has-current-submenu .wp-menu-image a {
+		ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a {
 			background-position: -1px 0;
 		}
 
@@ -416,7 +416,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 			'name' => __( 'Components', 'buddypress' )
 		),
 		'1' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-slugs'      ), 'admin.php' ) ),
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'      ), 'admin.php' ) ),
 			'name' => __( 'Permalinks', 'buddypress' )
 		),
 		'2' => array(
@@ -428,7 +428,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	// If forums component is active, add additional tab
 	if ( bp_is_active( 'forums' ) ) {
 		$tabs['3'] = array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-forums'     ), 'admin.php' ) ),
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup' ), 'admin.php' ) ),
 			'name' => __( 'Forums', 'buddypress' )
 		);
 	}
