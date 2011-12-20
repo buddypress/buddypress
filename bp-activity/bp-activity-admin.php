@@ -1323,7 +1323,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		}
 
 		// Activity permalink
-		printf( __( '<a href="%1$s">View Activity</a>', 'buddypress' ), bp_activity_get_permalink( $item['id'], (object) $item ) );
+		if ( ! $item['is_spam'] )
+			printf( __( '<a href="%1$s">View Activity</a>', 'buddypress' ), bp_activity_get_permalink( $item['id'], (object) $item ) );
 	}
 
 	/**
