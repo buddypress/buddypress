@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-17 18:31:18+00:00\n"
+"POT-Creation-Date: 2011-12-22 18:31:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -90,7 +90,6 @@ msgstr ""
 #: bp-groups/bp-groups-widgets.php:70 bp-groups/bp-groups-widgets.php:170
 #: bp-members/bp-members-template.php:559
 #: bp-members/bp-members-template.php:833
-#: bp-themes/bp-default/forums/single/forum-header.php:13
 #: bp-themes/bp-default/groups/groups-loop.php:47
 #: bp-themes/bp-default/groups/single/group-header.php:42
 msgid "active %s"
@@ -281,7 +280,6 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:121 bp-core/bp-core-widgets.php:201
 #: bp-core/bp-core-widgets.php:270 bp-groups/bp-groups-widgets.php:118
 #: bp-themes/bp-default/forums/index.php:104
-#: bp-themes/bp-default/forums/single/edit.php:49
 #: bp-themes/bp-default/groups/single/forum/edit.php:49
 #: bp-themes/bp-default/groups/single/forum.php:75
 msgid "Title:"
@@ -2314,7 +2312,6 @@ msgstr ""
 
 #: bp-groups/bp-groups-template.php:1499 bp-groups/bp-groups-template.php:1500
 #: bp-themes/bp-default/forums/index.php:23
-#: bp-themes/bp-default/forums/single/forum.php:19
 #: bp-themes/bp-default/groups/single/forum.php:19
 msgid "New Topic"
 msgstr ""
@@ -2441,8 +2438,6 @@ msgstr ""
 #: bp-themes/bp-default/members/single/settings/notifications.php:62
 #: bp-themes/bp-default/members/single/settings/general.php:69
 #: bp-themes/bp-default/members/single/profile/edit.php:126
-#: bp-themes/bp-default/forums/single/edit.php:57
-#: bp-themes/bp-default/forums/single/edit.php:73
 #: bp-themes/bp-default/groups/single/forum/edit.php:60
 #: bp-themes/bp-default/groups/single/forum/edit.php:76
 #: bp-themes/bp-default/groups/single/admin.php:32
@@ -2486,7 +2481,6 @@ msgstr ""
 #: bp-themes/bp-default/members/single/blogs.php:19
 #: bp-themes/bp-default/blogs/index.php:55
 #: bp-themes/bp-default/forums/index.php:60
-#: bp-themes/bp-default/forums/single/forum.php:34
 #: bp-themes/bp-default/groups/index.php:57
 #: bp-themes/bp-default/groups/single/forum.php:36
 msgid "Order By:"
@@ -3883,7 +3877,6 @@ msgstr ""
 #: bp-themes/bp-default/members/single/blogs.php:21
 #: bp-themes/bp-default/blogs/index.php:57
 #: bp-themes/bp-default/forums/index.php:62
-#: bp-themes/bp-default/forums/single/forum.php:36
 #: bp-themes/bp-default/groups/index.php:59
 #: bp-themes/bp-default/groups/single/forum.php:38
 msgid "Last Active"
@@ -4032,14 +4025,12 @@ msgstr ""
 
 #: bp-themes/bp-default/members/single/forums.php:21
 #: bp-themes/bp-default/forums/index.php:63
-#: bp-themes/bp-default/forums/single/forum.php:37
 #: bp-themes/bp-default/groups/single/forum.php:39
 msgid "Most Posts"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/forums.php:22
 #: bp-themes/bp-default/forums/index.php:64
-#: bp-themes/bp-default/forums/single/forum.php:38
 #: bp-themes/bp-default/groups/single/forum.php:40
 msgid "Unreplied"
 msgstr ""
@@ -4239,7 +4230,6 @@ msgid "<a href=\"%1$s\">%2$s</a> replied <a href=\"%3$s\" class=\"activity-time-
 msgstr ""
 
 #: bp-themes/bp-default/activity/comment.php:37
-#: bp-themes/bp-default/forums/single/edit.php:10
 #: bp-themes/bp-default/groups/single/forum/edit.php:10
 msgid "Reply"
 msgstr ""
@@ -4325,7 +4315,6 @@ msgid "Create New Topic:"
 msgstr ""
 
 #: bp-themes/bp-default/forums/index.php:107
-#: bp-themes/bp-default/forums/single/edit.php:52
 #: bp-themes/bp-default/groups/single/forum/edit.php:52
 #: bp-themes/bp-default/groups/single/forum.php:78
 msgid "Content:"
@@ -4378,59 +4367,6 @@ msgstr ""
 msgid "Sorry, there were no forum topics found."
 msgstr ""
 
-#: bp-themes/bp-default/forums/single/forum.php:25
-#: bp-themes/bp-default/forums/single/edit.php:16
-#: bp-themes/bp-default/forums/single/topic.php:45
-#: bp-themes/bp-default/groups/single/forum/edit.php:16
-#: bp-themes/bp-default/groups/single/forum/topic.php:20
-#: bp-themes/bp-default/groups/single/forum.php:27
-msgid "Forum Directory"
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/edit.php:25
-#: bp-themes/bp-default/groups/single/forum/edit.php:25
-msgid "Edit:"
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/edit.php:88
-#: bp-themes/bp-default/groups/single/forum/edit.php:91
-msgid "This topic does not exist."
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/topic.php:38
-#: bp-themes/bp-default/groups/single/forum/topic.php:12
-msgid "New Reply"
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/topic.php:99
-msgid "%s said %s ago:"
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/topic.php:119
-#: bp-themes/bp-default/groups/single/forum/topic.php:95
-msgid "Permanent link to this post"
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/topic.php:155
-#: bp-themes/bp-default/groups/single/forum/topic.php:131
-msgid "Add a reply:"
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/topic.php:160
-#: bp-themes/bp-default/groups/single/forum/topic.php:136
-msgid "Post Reply"
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/topic.php:171
-#: bp-themes/bp-default/groups/single/forum/topic.php:147
-msgid "This topic is closed, replies are no longer accepted."
-msgstr ""
-
-#: bp-themes/bp-default/forums/single/topic.php:186
-#: bp-themes/bp-default/groups/single/forum/topic.php:161
-msgid "There are no posts for this topic."
-msgstr ""
-
 #: bp-themes/bp-default/groups/index.php:23
 #: bp-themes/bp-default/groups/create.php:18
 msgid "Groups Directory"
@@ -4449,6 +4385,24 @@ msgstr ""
 msgid "This group has no members."
 msgstr ""
 
+#: bp-themes/bp-default/groups/single/forum/edit.php:16
+#: bp-themes/bp-default/groups/single/forum/topic.php:20
+#: bp-themes/bp-default/groups/single/forum.php:27
+msgid "Forum Directory"
+msgstr ""
+
+#: bp-themes/bp-default/groups/single/forum/edit.php:25
+msgid "Edit:"
+msgstr ""
+
+#: bp-themes/bp-default/groups/single/forum/edit.php:91
+msgid "This topic does not exist."
+msgstr ""
+
+#: bp-themes/bp-default/groups/single/forum/topic.php:12
+msgid "New Reply"
+msgstr ""
+
 #: bp-themes/bp-default/groups/single/forum/topic.php:35
 msgid "Topic tags:"
 msgstr ""
@@ -4457,8 +4411,28 @@ msgstr ""
 msgid "%1$s said %2$s:"
 msgstr ""
 
+#: bp-themes/bp-default/groups/single/forum/topic.php:95
+msgid "Permanent link to this post"
+msgstr ""
+
 #: bp-themes/bp-default/groups/single/forum/topic.php:126
 msgid "You will auto join this group when you reply to this topic."
+msgstr ""
+
+#: bp-themes/bp-default/groups/single/forum/topic.php:131
+msgid "Add a reply:"
+msgstr ""
+
+#: bp-themes/bp-default/groups/single/forum/topic.php:136
+msgid "Post Reply"
+msgstr ""
+
+#: bp-themes/bp-default/groups/single/forum/topic.php:147
+msgid "This topic is closed, replies are no longer accepted."
+msgstr ""
+
+#: bp-themes/bp-default/groups/single/forum/topic.php:161
+msgid "There are no posts for this topic."
 msgstr ""
 
 #: bp-themes/bp-default/groups/single/request-membership.php:4
