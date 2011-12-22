@@ -599,15 +599,18 @@ function bp_activity_setup_akismet() {
 	global $bp;
 
 	// Bail if Akismet is not active
-	if ( !defined( 'AKISMET_VERSION' ) )
+	if ( ! defined( 'AKISMET_VERSION' ) )
 		return;
 
 	// Bail if no Akismet key is set
-	if ( !bp_get_option( 'wordpress_api_key' ) && !defined( 'WPCOM_API_KEY' ) )
+	if ( ! bp_get_option( 'wordpress_api_key' ) && ! defined( 'WPCOM_API_KEY' ) )
+		return;
+
+	// Bail if BuddyPress Activity Akismet support has been disabled by another plugin
+	if ( ! apply_filters( 'bp_activity_use_akismet', true ) )
 		return;
 
 	// Instantiate Akismet for BuddyPress
 	$bp->activity->akismet = new BP_Akismet();
 }
-
 ?>
