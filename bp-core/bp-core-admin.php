@@ -422,7 +422,8 @@ class BP_Admin {
 		global $bp;
 
 		if ( plugin_basename( $bp->file ) == $file ) {
-			$settings_link = '<a href="' . add_query_arg( array( 'page' => 'buddypress' ), admin_url( 'options-general.php' ) ) . '">' . __( 'Settings', 'buddypress' ) . '</a>';
+			$url           = bp_core_do_network_admin() ? network_admin_url( 'settings.php' ) : admin_url( 'options-general.php' );
+			$settings_link = '<a href="' . add_query_arg( array( 'page' => 'bp-components' ), $url ) . '">' . __( 'Settings', 'buddypress' ) . '</a>';
 			array_unshift( $links, $settings_link );
 		}
 
