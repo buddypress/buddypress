@@ -167,7 +167,7 @@ class BP_Core extends BP_Component {
 		$current_user            = wp_get_current_user();
 
 		// The user ID of the user who is currently logged in.
-		$bp->loggedin_user->id   = $current_user->ID;
+		$bp->loggedin_user->id   = isset( $current_user->ID ) ? $current_user->ID : 0;
 
 		/** Avatars ***********************************************************/
 
