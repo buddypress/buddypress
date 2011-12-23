@@ -93,6 +93,10 @@ div#icon-buddypress {
 		padding: 0;
 		margin: -2px 0 0 5px;
 	}
+		
+	div.tab-toolbar a.button-primary {
+		color: #fff !important; /* Overriding a WP !important */
+	}
 
 	div.tab-wrapper {
 		background-color: #fff;
@@ -243,3 +247,4 @@ textarea#description {
 	border: 1px solid #ddd;
 	width: 85%;
 }
+
