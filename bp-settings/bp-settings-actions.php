@@ -80,6 +80,12 @@ function bp_core_screen_general_settings() {
 				unset( $update_user->user_pass );
 			}
 
+			// The structure of the $update_user object changed in WP 3.3, but
+			// wp_update_user() still expects the old format
+			if ( isset( $update_user->data ) && is_object( $update_user->data ) ) {
+				$update_user = $update_user->data;
+			}
+
 			// Make sure these changes are in $bp for the current page load
 			if ( ( false === $email_error ) && ( false === $pass_error ) && ( wp_update_user( get_object_vars( $update_user ) ) ) ) {
 				$bp->displayed_user->userdata = bp_core_get_core_userdata( $bp->displayed_user->id );
