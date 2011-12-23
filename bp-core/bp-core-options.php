@@ -62,7 +62,7 @@ function bp_get_default_options() {
 		// Allow users to delete their own accounts
 		'bp-disable-account-deletion'     => true,
 
-		// Allow anonymous posting
+		// Allow comments on blog and forum activity items
 		'bp-disable-blogforum-comments'   => true,
 
 		// Use the WordPress editor when possible

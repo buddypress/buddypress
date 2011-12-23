@@ -65,7 +65,7 @@ function bp_admin_setting_callback_admin_bar() {
 function bp_admin_setting_callback_avatar_uploads() {
 ?>
 
-	<input id="_bp_enable_favorites" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( !bp_disable_avatar_uploads( true ) ); ?> />
+	<input id="bp-disable-avatar-uploads" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( !bp_disable_avatar_uploads( true ) ); ?> />
 	<label for="bp-disable-avatar-uploads"><?php _e( 'Allow members to upload avatars', 'buddypress' ); ?></label>
 
 <?php
@@ -81,7 +81,7 @@ function bp_admin_setting_callback_avatar_uploads() {
 function bp_admin_setting_callback_account_deletion() {
 ?>
 
-	<input id="bp-disable-account-deletion" name="bp-disable-account-deletion" type="checkbox" value="1" <?php checked( bp_disable_account_deletion( true ) ); ?> />
+	<input id="bp-disable-account-deletion" name="bp-disable-account-deletion" type="checkbox" value="1" <?php checked( !bp_disable_account_deletion( true ) ); ?> />
 	<label for="bp-disable-account-deletion"><?php _e( 'Allow members to delete their own accounts', 'buddypress' ); ?></label>
 
 <?php
@@ -177,6 +177,43 @@ function bp_admin_setting_callback_group_creation() {
  * @uses do_settings_sections() To output the settings sections
  */
 function bp_core_admin_settings() {
+	global $wp_settings_fields;
+	
+	// We're saving our own options, until the WP Settings API is updated to work with Multisite
+	$form_action = add_query_arg( 'page', 'bp-settings', bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
+
+	if ( !empty( $_POST['submit'] ) ) {
+		check_admin_referer( 'buddypress-options' );
+		
+		// Because many settings are saved with checkboxes, and thus will have no values
+		// in the $_POST array when unchecked, we loop through the registered settings
+		if ( isset( $wp_settings_fields['buddypress'] ) ) {
+			foreach( (array)$wp_settings_fields['buddypress'] as $section => $settings ) {
+				foreach( $settings as $setting_name => $setting ) {
+					$value = isset( $_POST[$setting_name] ) ? $_POST[$setting_name] : '';
+					
+					bp_update_option( $setting_name, $value );
+				}
+			}
+		}
+		
+		// Some legacy options are not registered with the Settings API
+		$legacy_options = array(
+			'bp-disable-profile-sync',
+			'hide-loggedout-adminbar',
+			'bp-disable-avatar-uploads',
+			'bp-disable-account-deletion',
+			'bp_restrict_group_creation'
+		);
+		
+		foreach( $legacy_options as $legacy_option ) {
+			// Note: Each of these options is represented by its opposite in the UI
+			// Ie, the Profile Syncing option reads "Enable Sync", so when it's checked,
+			// the corresponding option should be unset
+			$value = isset( $_POST[$legacy_option] ) ? '' : 1;
+			bp_update_option( $legacy_option, $value );
+		}
+	}
 ?>
 
 	<div class="wrap">
@@ -185,7 +222,7 @@ function bp_core_admin_settings() {
 
 		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Settings', 'buddypress' ) ); ?></h2>
 
-		<form action="options.php" method="post">
+		<form action="<?php echo $form_action ?>" method="post">
 
 			<?php settings_fields( 'buddypress' ); ?>
 
