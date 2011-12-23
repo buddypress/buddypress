@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-22 17:31:07+00:00\n"
+"POT-Creation-Date: 2011-12-23 07:31:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -561,7 +561,7 @@ msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administ
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:424
-#: bp-core/admin/bp-core-settings.php:186 bp-core/bp-core-admin.php:425
+#: bp-core/admin/bp-core-settings.php:186 bp-core/bp-core-admin.php:426
 #: bp-settings/bp-settings-loader.php:15 bp-settings/bp-settings-loader.php:72
 #: bp-settings/bp-settings-loader.php:150 bp-groups/bp-groups-loader.php:216
 #: bp-groups/bp-groups-template.php:1277
