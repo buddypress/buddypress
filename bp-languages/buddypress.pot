@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-24 15:31:07+00:00\n"
+"POT-Creation-Date: 2011-12-24 16:31:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1303,7 +1303,7 @@ msgstr ""
 msgid "%1$s mentioned you in the group \"%2$s\""
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:337 bp-activity/bp-activity-notifications.php:70
+#: bp-core/deprecated/1.5.php:337 bp-activity/bp-activity-notifications.php:79
 msgid ""
 "%1$s mentioned you in the group \"%2$s\":\n"
 "\n"
@@ -1322,9 +1322,9 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:190
 #: bp-groups/bp-groups-notifications.php:244
 #: bp-messages/bp-messages-notifications.php:45
-#: bp-activity/bp-activity-notifications.php:91
-#: bp-activity/bp-activity-notifications.php:166
-#: bp-activity/bp-activity-notifications.php:212
+#: bp-activity/bp-activity-notifications.php:100
+#: bp-activity/bp-activity-notifications.php:175
+#: bp-activity/bp-activity-notifications.php:221
 msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
 
@@ -5274,11 +5274,11 @@ msgstr ""
 msgid "My Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:67
+#: bp-activity/bp-activity-notifications.php:76
 msgid "%s mentioned you in an update"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:80
+#: bp-activity/bp-activity-notifications.php:89
 msgid ""
 "%1$s mentioned you in an update:\n"
 "\n"
@@ -5289,11 +5289,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:154
+#: bp-activity/bp-activity-notifications.php:163
 msgid "%s replied to one of your updates"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:156
+#: bp-activity/bp-activity-notifications.php:165
 msgid ""
 "%1$s replied to one of your updates:\n"
 "\n"
@@ -5304,11 +5304,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:197
+#: bp-activity/bp-activity-notifications.php:206
 msgid "%s replied to one of your comments"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:202
+#: bp-activity/bp-activity-notifications.php:211
 msgid ""
 "%1$s replied to one of your comments:\n"
 "\n"
