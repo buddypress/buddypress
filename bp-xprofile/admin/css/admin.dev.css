@@ -148,10 +148,6 @@ div#icon-buddypress {
 		fieldset div.field-wrapper {
 			padding: 40px 10px 10px;
 		}
-	fieldset.radio div div,
-	fieldset.checkbox div {
-		float: left;
-	}
 	fieldset.radio div div label,
 	fieldset.checkbox div label {
 		margin-right: 20px;
@@ -161,9 +157,15 @@ div#icon-buddypress {
 		margin-left: 10px;
 	}
 	.field-group div.actions {
-		position: absolute;
-		right: 8px;
-		top: 10px;
+		float: none;
+		border-top: 1px solid #ddd;
+		margin: 20px 0 0;
+		padding-top: 10px;
+	}
+	.field-group div.actions a,
+	.field-group div.actions button,
+	.field-group div.actions input {
+		float: none;
 	}
 	.field-group fieldset:hover div.actions {
 		display: block;
