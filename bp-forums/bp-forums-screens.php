@@ -59,7 +59,7 @@ function bp_forums_directory_forums_setup() {
 
 			}	 else {
 				bp_core_add_message( __( 'Please pick the group forum where you would like to post this topic.', 'buddypress' ), 'error' );
-				bp_core_redirect( add_query_arg( 'new', '', bp_get_forum_directory_permalink() ) );
+				bp_core_redirect( add_query_arg( 'new', '', bp_get_forums_directory_permalink() ) );
 			}
 		}
 
