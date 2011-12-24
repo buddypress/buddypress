@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-23 20:31:09+00:00\n"
+"POT-Creation-Date: 2011-12-24 15:31:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -45,9 +45,9 @@ msgstr ""
 #: bp-messages/bp-messages-loader.php:245
 #: bp-messages/bp-messages-template.php:311
 #: bp-members/bp-members-buddybar.php:77 bp-members/bp-members-loader.php:181
-#: bp-members/bp-members-template.php:482
-#: bp-members/bp-members-template.php:778
-#: bp-members/bp-members-template.php:798
+#: bp-members/bp-members-template.php:484
+#: bp-members/bp-members-template.php:780
+#: bp-members/bp-members-template.php:800
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:212
 #: bp-activity/bp-activity-template.php:906
@@ -109,8 +109,8 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:345 bp-core/bp-core-classes.php:175
 #: bp-groups/bp-groups-widgets.php:73 bp-groups/bp-groups-widgets.php:179
-#: bp-members/bp-members-template.php:557
-#: bp-members/bp-members-template.php:831
+#: bp-members/bp-members-template.php:559
+#: bp-members/bp-members-template.php:833
 #: bp-themes/bp-default/groups/groups-loop.php:47
 #: bp-themes/bp-default/groups/single/group-header.php:42
 msgid "active %s"
@@ -217,7 +217,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:617 bp-core/deprecated/1.5.php:397
 #: bp-groups/bp-groups-template.php:2258 bp-forums/bp-forums-template.php:1315
-#: bp-members/bp-members-template.php:672 bp-themes/bp-default/header.php:35
+#: bp-members/bp-members-template.php:674 bp-themes/bp-default/header.php:35
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -501,7 +501,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-slugs.php:110 bp-core/admin/bp-core-slugs.php:163
 #: bp-xprofile/bp-xprofile-loader.php:185
-#: bp-members/bp-members-template.php:586
+#: bp-members/bp-members-template.php:588
 #: bp-themes/bp-default/functions.php:156
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-activity/bp-activity-template.php:2074
@@ -1295,7 +1295,7 @@ msgid "Yahoo Messenger"
 msgstr ""
 
 #: bp-core/deprecated/1.5.php:287 bp-core/bp-core-buddybar.php:501
-#: bp-members/bp-members-template.php:732 bp-themes/bp-default/sidebar.php:18
+#: bp-members/bp-members-template.php:734 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -3581,24 +3581,24 @@ msgstr ""
 msgid "Viewing member %1$s to %2$s (of %3$s members)"
 msgstr ""
 
-#: bp-members/bp-members-template.php:559
+#: bp-members/bp-members-template.php:561
 msgid "Never active"
 msgstr ""
 
-#: bp-members/bp-members-template.php:581
+#: bp-members/bp-members-template.php:583
 msgctxt "member latest update in member directory"
 msgid "- &quot;%s &quot;"
 msgstr ""
 
-#: bp-members/bp-members-template.php:638
+#: bp-members/bp-members-template.php:640
 msgid "registered %s"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1098
+#: bp-members/bp-members-template.php:1100
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1166
+#: bp-members/bp-members-template.php:1168
 msgid "Activity RSS Feed"
 msgstr ""
 
