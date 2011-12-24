@@ -473,13 +473,15 @@ function bp_member_avatar( $args = '' ) {
 	function bp_get_member_avatar( $args = '' ) {
 		global $bp, $members_template;
 
+		$fullname = !empty( $members_template->member->fullname ) ? $members_template->member->fullname : $members_template->member->display_name;
+
 		$defaults = array(
 			'type' => 'thumb',
 			'width' => false,
 			'height' => false,
 			'class' => 'avatar',
 			'id' => false,
-			'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->fullname )
+			'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
