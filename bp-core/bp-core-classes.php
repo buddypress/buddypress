@@ -745,13 +745,16 @@ class BP_Core_Notification {
 	 * @global object $bp Global BuddyPress settings object
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id User ID
+	 * @param str $status 'is_new' or 'all'
 	 * @return array Associative array
 	 * @static
 	 */
-	function get_all_for_user( $user_id ) {
+	function get_all_for_user( $user_id, $status = 'is_new' ) {
 		global $bp, $wpdb;
 
- 		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND is_new = 1", $user_id ) );
+		$is_new = 'is_new' == $status ? ' AND is_new = 1 ' : '';
+
+ 		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d {$is_new}", $user_id ) );
 	}
 
 	/**

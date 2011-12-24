@@ -40,6 +40,15 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) {
 	global $bp;
+	
+	// Don't leave multiple notifications for the same activity item
+	$notifications = BP_Core_Notification::get_all_for_user( $receiver_user_id, 'all' );
+	
+	foreach( $notifications as $notification ) {
+		if ( $activity_id == $notification->item_id ) {
+			return;
+		}
+	}
 
 	$activity = new BP_Activity_Activity( $activity_id );
 
