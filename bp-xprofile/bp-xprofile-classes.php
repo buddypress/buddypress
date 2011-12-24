@@ -373,21 +373,21 @@ Class BP_XProfile_Field {
 		}
 	}
 
-	function delete() {
+	function delete( $delete_data = false ) {
 		global $wpdb, $bp;
 
-		if ( !$this->id ||
-			/* Prevent deletion by url when can_delete is false. */
-			!$this->can_delete ||
-			/* Prevent deletion of option 1 since this invalidates fields with options. */
-			( $this->parent_id && $this->option_order == 1 ) )
+		// Prevent deletion if no ID is present
+		// Prevent deletion by url when can_delete is false.
+		// Prevent deletion of option 1 since this invalidates fields with options.
+		if ( !$this->id || !$this->can_delete || ( $this->parent_id && $this->option_order == 1 ) )
 			return false;
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE id = %d OR parent_id = %d", $this->id, $this->id ) ) )
 			return false;
 
-		/* delete the data in the DB for this field */
-		BP_XProfile_ProfileData::delete_for_field( $this->id );
+		// delete the data in the DB for this field
+		if ( true === $delete_data )
+			BP_XProfile_ProfileData::delete_for_field( $this->id );
 
 		return true;
 	}

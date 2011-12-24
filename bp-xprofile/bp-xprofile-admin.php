@@ -312,27 +312,31 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 	}
 }
 
-/**************************************************************************
- xprofile_admin_delete_field()
-
- Handles the deletion of a profile field [or option].
-**************************************************************************/
-function xprofile_admin_delete_field( $field_id, $type = 'field' ) {
+/**
+ * Handles the deletion of a profile field (or field option)
+ *
+ * @since BuddyPress (1.0)
+ * @global string $message The feedback message to show
+ * @global $type The type of feedback message to show
+ * @param int $field_id The field to delete
+ * @param string $field_type The type of field being deleted
+ * @param bool $delete_data Should the field data be deleted too?
+ */
+function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_data = false ) {
 	global $message, $type;
 
-	if ( 'field' == $type )
-		$type = __('field', 'buddypress');
-	else
-		$type = __('option', 'buddypress');
+	// Switch type to 'option' if type is not 'field'
+	// @todo trust this param
+	$field_type  = ( 'field' == $field_type ) ? __( 'field', 'buddypress' ) : __( 'option', 'buddypress' );
 
 	$field = new BP_XProfile_Field( $field_id );
 
-	if ( !$field->delete() ) {
-		$message = sprintf( __('There was an error deleting the %s. Please try again', 'buddypress' ), $type );
-		$type = 'error';
+	if ( !$field->delete( (bool) $delete_data ) ) {
+		$message = sprintf( __( 'There was an error deleting the %s. Please try again', 'buddypress' ), $field_type );
+		$type    = 'error';
 	} else {
-		$message = sprintf( __('The %s was deleted successfully!', 'buddypress' ), $type );
-		$type = 'success';
+		$message = sprintf( __( 'The %s was deleted successfully!', 'buddypress' ), $field_type );
+		$type    = 'success';
 
 		do_action( 'xprofile_fields_deleted_field', $field );
 	}
@@ -459,10 +463,6 @@ function xprofile_admin_field( $admin_field, $admin_group, $class='' ) {
 <?php	do_action( 'xprofile_admin_field', $field, 1 ); ?>
 
 <?php } ?>
-								<div class="actions">
-									<?php if ( !$field->can_delete ) : ?>&nbsp;<?php else : ?><a class="submit-delete deletion ajax-option-delete" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a><?php endif; ?>
-									<a class="button edit" href="admin.php?page=bp-profile-setup&amp;group_id=<?php echo esc_attr( $admin_group->id ); ?>&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ); ?></a>
-								</div>
 
 <?php if ( $field->description ) : ?>
 
@@ -470,6 +470,15 @@ function xprofile_admin_field( $admin_field, $admin_group, $class='' ) {
 
 <?php endif; ?>
 
+								<div class="actions">
+									<a class="button edit" href="admin.php?page=bp-profile-setup&amp;group_id=<?php echo esc_attr( $admin_group->id ); ?>&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ); ?></a>
+
+									<?php if ( $field->can_delete ) : ?>
+
+										<a class="submit-delete deletion" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a>
+
+									<?php endif; ?>
+								</div>
 							</div>
 						</fieldset>
 <?php
