@@ -309,7 +309,7 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	// Some BP nav items contain item counts. Remove them
 	$title = preg_replace( '|<span>[0-9]+</span>|', '', $title );
 
-	return apply_filters( 'bp_modify_page_title', $title . ' ' . $sep, $title, $sep, $seplocation );
+	return apply_filters( 'bp_modify_page_title', $title . ' ' . $sep . ' ', $title, $sep, $seplocation );
 }
 add_filter( 'wp_title', 'bp_modify_page_title', 10, 3 );
 add_filter( 'bp_modify_page_title', 'wptexturize'     );
