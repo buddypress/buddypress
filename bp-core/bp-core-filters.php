@@ -268,7 +268,7 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	// Displayed user
 	if ( !empty( $bp->displayed_user->fullname ) && !is_404() ) {
 		// translators: "displayed user's name | canonicalised component name"
-		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), __( ucwords( bp_current_component() ), 'buddypress' ) ) );
+		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), ucwords( bp_current_component() ) ) );
 
 	// A single group
 	} elseif ( bp_is_active( 'groups' ) && !empty( $bp->groups->current_group ) && !empty( $bp->bp_options_nav[$bp->groups->current_group->slug] ) ) {
@@ -309,7 +309,7 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	// Some BP nav items contain item counts. Remove them
 	$title = preg_replace( '|<span>[0-9]+</span>|', '', $title );
 
-	return apply_filters( 'bp_modify_page_title', $title . " $sep ", $title, $sep, $seplocation );
+	return apply_filters( 'bp_modify_page_title', $title . ' ' . $sep, $title, $sep, $seplocation );
 }
 add_filter( 'wp_title', 'bp_modify_page_title', 10, 3 );
 add_filter( 'bp_modify_page_title', 'wptexturize'     );
