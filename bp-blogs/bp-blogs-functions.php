@@ -190,17 +190,19 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 				$activity_action  = sprintf( __( '%1$s wrote a new post, %2$s', 'buddypress' ), bp_core_get_userlink( (int)$post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
 
 			// Make sure there's not an existing entry for this post (prevent bumping)
-			$existing = bp_activity_get( array(
-				'filter' => array(
-					'user_id'      => (int)$post->post_author,
-					'action'       => 'new_blog_post',
-					'primary_id'   => $blog_id,
-					'secondary_id' => $post_id,
-				)
-			) );
-			
-			if ( !empty( $existing['activities'] ) ) {
-				return;
+			if ( bp_is_active( 'activity' ) ) {
+				$existing = bp_activity_get( array(
+					'filter' => array(
+						'user_id'      => (int)$post->post_author,
+						'action'       => 'new_blog_post',
+						'primary_id'   => $blog_id,
+						'secondary_id' => $post_id,
+					)
+				) );
+				
+				if ( !empty( $existing['activities'] ) ) {
+					return;
+				}
 			}
 
 			$activity_content = $post->post_content;
