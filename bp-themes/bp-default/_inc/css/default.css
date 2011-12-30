@@ -616,13 +616,13 @@ a:focus {
 }
 #nav .sfhover ul li,
 #nav :hover ul li {
-	height: 30px;
-	line-height: 30px;
+	min-height: 30px;
+	line-height: 20px;
 	width: 128px;
 }
 #nav .sfhover ul li a,
 #nav :hover ul li a {
-	padding: 0 0 0 10px;
+	padding: 5px 5px 5px 10px;
 }
 
 
