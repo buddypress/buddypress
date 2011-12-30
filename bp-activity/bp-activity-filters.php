@@ -88,6 +88,7 @@ add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_make_nofollow_
 add_filter( 'pre_comment_content',                   'bp_activity_at_name_filter' );
 add_filter( 'group_forum_topic_text_before_save',    'bp_activity_at_name_filter' );
 add_filter( 'group_forum_post_text_before_save',     'bp_activity_at_name_filter' );
+add_filter( 'the_content', 			     'bp_activity_at_name_filter' );
 
 add_filter( 'bp_get_activity_parent_content',        'bp_create_excerpt' );
 
