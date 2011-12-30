@@ -523,6 +523,14 @@ function bp_redirect_canonical() {
 	global $bp;
 	
 	if ( !bp_is_blog_page() && apply_filters( 'bp_do_redirect_canonical', true ) ) {
+		// If this is a POST request, don't do a canonical redirect.
+		// This is for backward compatibility with plugins that submit form requests to
+		// non-canonical URLs. Plugin authors should do their best to use canonical URLs in
+		// their form actions.
+		if ( !empty( $_POST ) ) {
+			return;
+		}
+		
 		// build the URL in the address bar
 		$requested_url  = is_ssl() ? 'https://' : 'http://';
 		$requested_url .= $_SERVER['HTTP_HOST'];
