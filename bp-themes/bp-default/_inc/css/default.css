@@ -653,6 +653,9 @@ div.pagination .pagination-links a {
 div.pagination .pagination-links a:hover {
 	font-weight: bold;
 }
+noscript div.pagination {
+	margin-bottom: 15px;
+}
 div#pag-bottom {
 	margin-top: -1px;
 }
