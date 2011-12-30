@@ -533,9 +533,17 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '' ) {
 
 	// No key so get all for activity_id
 	} else {
-		$metas = $wpdb->get_col( $wpdb->prepare( "SELECT meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
+		$metas = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
+				
+		if ( !empty( $metas ) ) {
+			$metas = array_map( 'maybe_unserialize', (array)$metas );
+			
+			foreach( $metas as $mkey => $mvalue ) {
+				wp_cache_set( 'bp_activity_meta_' . $activity_id . '_' . $mkey, $mvalue, 'bp' );
+			}
+		}
 	}
-
+	
 	// No result so return false
 	if ( empty( $metas ) )
 		return false;
