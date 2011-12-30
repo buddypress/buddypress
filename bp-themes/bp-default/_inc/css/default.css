@@ -2293,6 +2293,9 @@ div.profile h4 {
 	margin-bottom: auto;
 	margin-top: 15px;
 }
+#profile-edit-form ul.button-nav {
+	margin-top: 15px;
+}
 
 
 /*--------------------------------------------------------------
