@@ -1117,11 +1117,11 @@ jq(document).ready( function() {
 	});
 
 	/* Admin Bar & wp_list_pages Javascript IE6 hover class */
-	jq("#wp-admin-bar ul.main-nav li, #nav li").mouseover( function() {
+	jq("#nav li").mouseover( function() {
 		jq(this).addClass('sfhover');
 	});
 
-	jq("#wp-admin-bar ul.main-nav li, #nav li").mouseout( function() {
+	jq("#nav li").mouseout( function() {
 		jq(this).removeClass('sfhover');
 	});
 
