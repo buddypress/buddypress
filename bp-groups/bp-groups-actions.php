@@ -106,7 +106,7 @@ function groups_action_create_group() {
 			// Set the invite status
 			// Checked against a whitelist for security
 			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
-			$invite_status	       = in_array( $_POST['group-invite-status'], (array)$allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
+			$invite_status	       = !empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array)$allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
 
 			groups_update_groupmeta( $bp->groups->new_group_id, 'invite_status', $invite_status );
 		}
