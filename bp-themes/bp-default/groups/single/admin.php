@@ -178,7 +178,7 @@
 
 		<?php if ( bp_has_members( '&include='. bp_group_admin_ids() ) ) : ?>
 		
-		<ul id="admins-list" class="item-list single-line>">
+		<ul id="admins-list" class="item-list single-line">
 			
 			<?php while ( bp_members() ) : bp_the_member(); ?>
 			<li>
