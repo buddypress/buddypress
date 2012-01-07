@@ -1,3 +1,10 @@
+.akismet-status {
+	float: right;
+}
+.akismet-status a {
+	color: #AAA;
+	font-style: italic;
+}
 #wp-bp-activities-wrap {
 	padding: 5px 0;
 }

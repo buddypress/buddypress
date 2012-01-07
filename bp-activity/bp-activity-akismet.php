@@ -459,102 +459,23 @@ class BP_Akismet {
 			$path = '/1.1/submit-' . $spam;
 
 		// Send to Akismet
-		$response                      = $this->http_post( $query_string, $akismet_api_host, $path, $akismet_api_port );
+		add_filter( 'akismet_ua', array( $this, 'buddypress_ua' ) );
+		$response = akismet_http_post( $query_string, $akismet_api_host, $path, $akismet_api_port );
+		remove_filter( 'akismet_ua', array( $this, 'buddypress_ua' ) );
+
 		$activity_data['bp_as_result'] = $response[1];
 
 		return $activity_data;
 	}
 
 	/**
-	 * Submit data to the Akismet service with a unique user agent.
+	 * Filters user agent when sending to Akismet.
 	 *
-	 * Props to WordPress core Akismet plugin, and bbPress, for alot of this
-	 *
-	 * @param string $request The request we are sending
-	 * @param string $host The host to send our request to
-	 * @param string $path The path from the host
-	 * @param string $port The port to use
-	 * @param string $ip Optional Override $host with an IP address
-	 * @return mixed WP_Error on error, array on success, empty on failure
-	 * @since 1.6
+	 * @param string $user_agent
+	 * @since 1.0
 	 */
-	private function http_post( $request, $host, $path, $port = 80, $ip = '' ) {
-		$blog_charset   = bp_get_option( 'blog_charset' );
-		$content_length = strlen( $request );
-		$errno          = null;
-		$errstr         = null;
-		$http_host      = $host;
-		$response       = '';
-
-		// Unique User Agent
-		$akismet_ua     = 'BuddyPress/' . bp_get_version() . ' | Akismet/'. constant( 'AKISMET_VERSION' );
-
-		// Use specific IP (if provided)
-		if ( !empty( $ip ) && long2ip( ip2long( $ip ) ) )
-			$http_host = $ip;
-
-		// WP HTTP class is available
-		if ( function_exists( 'wp_remote_post' ) ) {
-
-			// Setup the arguments
-			$http_args = array(
-				'body'             => $request,
-				'headers'          => array(
-					'Content-Type' => 'application/x-www-form-urlencoded; charset=' . $blog_charset,
-					'Host'         => $host,
-					'User-Agent'   => $akismet_ua
-				),
-				'httpversion'      => '1.0',
-				'timeout'          => 15
-			);
-
-			// Where we are sending our request
-			$akismet_url = 'http://' . $http_host . $path;
-
-			// Send the request
-			$response    = wp_remote_post( $akismet_url, $http_args );
-
-			// Bail if the response is an error
-			if ( is_wp_error( $response ) )
-				return '';
-
-			// No errors so return response
-			return array( $response['headers'], $response['body'] );
-
-		// WP HTTP class is not available (Why not?)
-		} else {
-
-			// Header info to use with our socket
-			$http_request  = "POST {$path} HTTP/1.0\r\n";
-			$http_request .= "Host: {$host}\r\n";
-			$http_request .= "Content-Type: application/x-www-form-urlencoded; charset={$blog_charset}\r\n";
-			$http_request .= "Content-Length: {$content_length}\r\n";
-			$http_request .= "User-Agent: {$akismet_ua}\r\n";
-			$http_request .= "\r\n";
-			$http_request .= $request;
-
-			// Open a socket connection
-			if ( false != ( $fs = @fsockopen( $http_host, $port, $errno, $errstr, 10 ) ) ) {
-
-				// Write our request to the pointer
-				fwrite( $fs, $http_request );
-
-				// Loop through pointer and compile a response
-				while ( !feof( $fs ) ) {
-					// One TCP-IP packet at a time
-					$response .= fgets( $fs, 1160 );
-				}
-
-				// Close our socket
-				fclose( $fs );
-
-				// Explode the response into usable data
-				$response = explode( "\r\n\r\n", $response, 2 );
-			}
-
-			// Return the response ('' if error/empty)
-			return $response;
-		}
+	public function buddypress_ua( $user_agent ) {
+		return 'BuddyPress/' . bp_get_version() . ' | Akismet/'. constant( 'AKISMET_VERSION' );
 	}
 
 	/**
