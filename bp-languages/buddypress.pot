@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-30 16:31:06+00:00\n"
+"POT-Creation-Date: 2012-01-07 20:31:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5359,23 +5359,23 @@ msgstr ""
 msgid "Thumbnail"
 msgstr ""
 
-#: bp-activity/bp-activity-akismet.php:79
+#: bp-activity/bp-activity-akismet.php:80
 msgid "Flagged as spam by Akismet"
 msgstr ""
 
-#: bp-activity/bp-activity-akismet.php:82
+#: bp-activity/bp-activity-akismet.php:83
 msgid "Cleared by Akismet"
 msgstr ""
 
-#: bp-activity/bp-activity-akismet.php:88
+#: bp-activity/bp-activity-akismet.php:89
 msgid "Flagged as spam by %s"
 msgstr ""
 
-#: bp-activity/bp-activity-akismet.php:90
+#: bp-activity/bp-activity-akismet.php:91
 msgid "Un-spammed by %s"
 msgstr ""
 
-#: bp-activity/bp-activity-akismet.php:99
+#: bp-activity/bp-activity-akismet.php:100
 msgid "History"
 msgstr ""
 
@@ -5397,6 +5397,15 @@ msgstr ""
 
 #: bp-activity/bp-activity-akismet.php:394
 msgid "Akismet was unable to check this item (response: %s), will automatically retry again later."
+msgstr ""
+
+#: bp-activity/bp-activity-akismet.php:498
+msgid "Activity History"
+msgstr ""
+
+#: bp-activity/bp-activity-akismet.php:516
+msgctxt "x hours ago - akismet cleared this item"
+msgid "<span>%1$s</span> &mdash; %2$s"
 msgstr ""
 
 #. translators: Member friends activity RSS title - "[Site Name] | Friends
