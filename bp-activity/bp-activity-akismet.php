@@ -463,7 +463,12 @@ class BP_Akismet {
 		$response = akismet_http_post( $query_string, $akismet_api_host, $path, $akismet_api_port );
 		remove_filter( 'akismet_ua', array( $this, 'buddypress_ua' ) );
 
+		// Get the response
 		$activity_data['bp_as_result'] = $response[1];
+
+		// Perform a daily tidy up
+		if ( ! wp_next_scheduled( 'bp_activity_akismet_delete_old_metadata' ) )
+			wp_schedule_event( time(), 'daily', 'bp_activity_akismet_delete_old_metadata' );
 
 		return $activity_data;
 	}
@@ -472,7 +477,7 @@ class BP_Akismet {
 	 * Filters user agent when sending to Akismet.
 	 *
 	 * @param string $user_agent
-	 * @since 1.0
+	 * @since 1.6
 	 */
 	public function buddypress_ua( $user_agent ) {
 		return 'BuddyPress/' . bp_get_version() . ' | Akismet/'. constant( 'AKISMET_VERSION' );
@@ -512,6 +517,31 @@ class BP_Akismet {
 		usort( $history, 'akismet_cmp_time' );
 
 		return $history;
+	}
+}
+
+/**
+ * Deletes old spam activity meta data, as _bp_akismet_submission meta can be large.
+ *
+ * @global object $bp BuddyPress global settings
+ * @global wpdb $wpdb WordPress database object
+ * @since 1.6
+ */
+function bp_activity_akismet_delete_old_metadata() {
+	global $bp, $wpdb;
+
+	$interval = apply_filters( 'bp_activity_akismet_delete_meta_interval', 15 );
+
+	// Enforce a minimum of 1 day
+	$interval = max( 1, absint( $interval ) );
+
+	// _bp_akismet_submission meta values are large, so expire them after $interval days regardless of the activity status 
+	$sql          = $wpdb->prepare( "SELECT a.id FROM {$bp->activity->table_name} a LEFT JOIN {$bp->activity->table_name_meta} m ON a.id = m.activity_id WHERE m.meta_key = %s AND DATE_SUB(%s, INTERVAL {$interval} DAY) > a.date_recorded LIMIT 10000", '_bp_akismet_submission', current_time( 'mysql', 1 ) );
+	$activity_ids = $wpdb->get_col( $sql );
+
+	if ( ! empty( $activity_ids ) ) {
+		foreach ( $activity_ids as $activity_id )
+			bp_activity_delete_meta( $activity_id, '_bp_akismet_submission' );
 	}
 }
 ?>
