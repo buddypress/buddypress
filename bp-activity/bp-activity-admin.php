@@ -1100,7 +1100,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since 1.6
 	 */
 	function get_views() {
-		$redirect_to = remove_query_arg( array( 'activity_status', 'aid', 'deleted', 'spammed', 'unspammed', ), $_SERVER['REQUEST_URI'] );
+		$redirect_to = remove_query_arg( array( 'activity_status', 'aid', 'deleted', 'error', 'spammed', 'unspammed', 'updated', ), $_SERVER['REQUEST_URI'] );
 	?>
 		<ul class="subsubsub">
 			<li class="all"><a href="<?php echo esc_attr( esc_url( $redirect_to ) ); ?>" class="<?php if ( 'spam' != $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>

@@ -55,6 +55,7 @@ class BP_Akismet {
 
 		// Hook into the Activity wp-admin screen
 		add_action( 'bp_activity_admin_comment_row_actions', array( $this, 'comment_row_action' ), 10, 2 );
+		add_action( 'bp_activity_admin_load',                array( $this, 'add_history_metabox' ) );
 	}
 
 	/**
@@ -96,18 +97,17 @@ class BP_Akismet {
 			foreach ( $actions as $k => $item ) {
 				$b[ $k ] = $item;
 				if ( $k == 'edit' )
-					$b['history'] = '<a href="' . network_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) . '#history"> '. __( 'History', 'buddypress' ) . '</a>';
+					$b['history'] = '<a href="' . network_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) . '#bp_activity_history"> '. __( 'History', 'buddypress' ) . '</a>';
 			}
 
 			$actions = $b;
 		}
 
 		if ( $desc )
-			echo '<span class="akismet-status"><a href="' . network_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) . '#history">' . htmlspecialchars( $desc ) . '</a></span>';
+			echo '<span class="akismet-status"><a href="' . network_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) . '#bp_activity_history">' . htmlspecialchars( $desc ) . '</a></span>';
 
 		return apply_filters( 'bp_akismet_comment_row_action', $actions );
 	}
-
 
 	/**
 	 * Adds a nonce to the member profile status form, and to the reply form of each activity stream item.
@@ -481,6 +481,40 @@ class BP_Akismet {
 	 */
 	public function buddypress_ua( $user_agent ) {
 		return 'BuddyPress/' . bp_get_version() . ' | Akismet/'. constant( 'AKISMET_VERSION' );
+	}
+
+	/**
+	 * Adds a "History" meta box to the activity edit screen.
+	 *
+	 * @param string $screen_action The type of screen that has been requested
+	 * @since 1.6
+	 */
+	function add_history_metabox( $screen_action ) {
+		// Only proceed if we're on the edit screen
+		if ( 'edit' != $screen_action )
+			return;
+
+		// Display meta box with a low priority (low position on screen by default)
+		add_meta_box( 'bp_activity_history',  __( 'Activity History', 'buddypress' ), array( $this, 'history_metabox' ), 'toplevel_page_bp-activity', 'advanced', 'low' );
+	}
+
+	/**
+	 * History meta box for the Activity admin edit screen
+	 *
+	 * @param object $item Activity item
+	 * @since 1.6
+	 * @todo Update activity meta to allow >1 record with the same key (iterate through $history).
+	 * @see http://buddypress.trac.wordpress.org/ticket/3907
+	 */
+	function history_metabox( $item ) {
+		$history = BP_Akismet::get_activity_history( $item->id );
+
+		if ( empty( $history ) )
+			return;
+
+		echo '<div class="akismet-history"><div>';
+		printf( '<span>%1$s</span> &mdash; %2$s', bp_core_time_since( $history[2] ), esc_html( $history[1] ) );
+		echo '</div></div>';
 	}
 
 	/**

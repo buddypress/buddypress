@@ -5,6 +5,16 @@
 	color: #AAA;
 	font-style: italic;
 }
+.akismet-history {
+	margin: 13px;
+}
+.akismet-history div {
+	margin-bottom: 13px;
+}
+.akismet-history span {
+	color: #999;
+}
+
 #wp-bp-activities-wrap {
 	padding: 5px 0;
 }
