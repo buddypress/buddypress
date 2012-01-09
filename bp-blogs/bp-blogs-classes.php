@@ -14,7 +14,7 @@ Class BP_Blogs_Blog {
 	function __construct( $id = null ) {
 		global $bp, $wpdb;
 
-		$user_id = $bp->displayed_user->id;
+		$user_id = bp_displayed_user_id();
 
 		if ( $id ) {
 			$this->id = $id;
