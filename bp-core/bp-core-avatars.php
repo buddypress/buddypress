@@ -584,7 +584,7 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 		$id = $user;
 
 	// If passed a string and that string returns a user, get the $id
-	else if ( is_string( $user ) && ( $user_by_email = get_user_by_email( $user ) ) )
+	else if ( is_string( $user ) && ( $user_by_email = get_user_by( 'email', $user ) ) )
 		$id = $user_by_email->ID;
 
 	// If somehow $id hasn't been assigned, return the result of get_avatar

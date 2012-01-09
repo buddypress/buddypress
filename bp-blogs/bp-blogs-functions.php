@@ -236,7 +236,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		return false;
 
 	// Get the user_id from the comment author email.
-	$user    = get_user_by_email( $recorded_comment->comment_author_email );
+	$user    = get_user_by( 'email', $recorded_comment->comment_author_email );
 	$user_id = (int)$user->ID;
 
 	// If there's no registered user id, don't record activity
