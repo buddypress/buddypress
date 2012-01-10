@@ -241,9 +241,6 @@ function bp_core_load_admin_bar_css() {
 	if ( !bp_use_wp_admin_bar() )
 		return;
 
-	if ( '3.3' == bp_get_major_wp_version() )
-		return;
-
 	// Admin bar styles
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
 		$stylesheet = BP_PLUGIN_URL . '/bp-core/css/admin-bar.dev.css';

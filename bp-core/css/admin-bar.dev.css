@@ -3,6 +3,10 @@
 	left: 0;
 	right: auto;
 }
+#wp-admin-bar-user-info img.avatar {
+	height: 64px;
+	width: 64px;
+}
 
 /* Displayed User */
 #wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar > a {
