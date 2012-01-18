@@ -782,7 +782,7 @@ function bp_the_thread_recipients() {
 			return apply_filters( 'bp_get_the_thread_recipients', sprintf( __( '%d Recipients', 'buddypress' ), count($thread_template->thread->recipients) ) );
 
 		foreach( (array)$thread_template->thread->recipients as $recipient ) {
-			if ( $recipient->user_id !== bp_loggedin_user_id() )
+			if ( (int) $recipient->user_id !== bp_loggedin_user_id() )
 				$recipient_links[] = bp_core_get_userlink( $recipient->user_id );
 		}
 
