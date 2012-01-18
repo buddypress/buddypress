@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2012-01-07 20:31:08+00:00\n"
+"POT-Creation-Date: 2012-01-18 07:31:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -504,7 +504,7 @@ msgstr ""
 #: bp-members/bp-members-template.php:588
 #: bp-themes/bp-default/functions.php:156
 #: bp-themes/bp-default/activity/entry.php:37
-#: bp-activity/bp-activity-template.php:2074
+#: bp-activity/bp-activity-template.php:2077
 msgid "View"
 msgstr ""
 
@@ -696,7 +696,7 @@ msgid "members"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:447
-#: bp-activity/bp-activity-template.php:2163
+#: bp-activity/bp-activity-template.php:2166
 msgid "groups"
 msgstr ""
 
@@ -2492,7 +2492,7 @@ msgstr ""
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:50
 #: bp-themes/bp-default/members/single/messages/single.php:24
 #: bp-themes/bp-default/activity/comment.php:43
-#: bp-activity/bp-activity-template.php:2025
+#: bp-activity/bp-activity-template.php:2028
 msgid "Delete"
 msgstr ""
 
@@ -5216,39 +5216,39 @@ msgstr ""
 msgid "View Discussion"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2163
+#: bp-activity/bp-activity-template.php:2166
 msgid "xprofile"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2163
+#: bp-activity/bp-activity-template.php:2166
 msgid "friends"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2163
+#: bp-activity/bp-activity-template.php:2166
 msgid "status"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2163
+#: bp-activity/bp-activity-template.php:2166
 msgid "sites"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2171
+#: bp-activity/bp-activity-template.php:2174
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2361
+#: bp-activity/bp-activity-template.php:2364
 msgid "a user"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2401
+#: bp-activity/bp-activity-template.php:2404
 msgid "Send a public message on your activity stream."
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2402
+#: bp-activity/bp-activity-template.php:2405
 msgid "Public Message"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2711
+#: bp-activity/bp-activity-template.php:2714
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
