@@ -1556,7 +1556,10 @@ function bp_activity_comment_name() {
 	function bp_get_activity_comment_name() {
 		global $activities_template;
 
-		$name = apply_filters( 'bp_acomment_name', $activities_template->activity->current_comment->user_fullname, $activities_template->activity->current_comment ); // backward compatibility
+		if ( isset( $activities_template->activity->current_comment->user_fullname ) )
+			$name = apply_filters( 'bp_acomment_name', $activities_template->activity->current_comment->user_fullname, $activities_template->activity->current_comment );  // backward compatibility
+		else
+			$name = $activities_template->activity->current_comment->display_name;
 
 		return apply_filters( 'bp_activity_comment_name', $name );
 	}
