@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2012-01-18 07:31:06+00:00\n"
+"POT-Creation-Date: 2012-01-21 11:31:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1956,11 +1956,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:774
+#: bp-groups/bp-groups-classes.php:777
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:780 bp-groups/bp-groups-functions.php:115
+#: bp-groups/bp-groups-classes.php:783 bp-groups/bp-groups-functions.php:115
 msgid "Group Admin"
 msgstr ""
 
@@ -2121,11 +2121,11 @@ msgstr ""
 msgid "No groups matched the current filter."
 msgstr ""
 
-#: bp-groups/bp-groups-forums.php:71 bp-groups/bp-groups-forums.php:175
+#: bp-groups/bp-groups-forums.php:71 bp-groups/bp-groups-forums.php:183
 msgid "%1$s replied to the forum topic %2$s in the group %3$s"
 msgstr ""
 
-#: bp-groups/bp-groups-forums.php:110 bp-groups/bp-groups-forums.php:142
+#: bp-groups/bp-groups-forums.php:110 bp-groups/bp-groups-forums.php:149
 msgid "%1$s started the forum topic %2$s in the group %3$s"
 msgstr ""
 
