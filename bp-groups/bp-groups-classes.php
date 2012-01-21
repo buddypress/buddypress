@@ -343,7 +343,7 @@ Class BP_Groups_Group {
 		if ( $per_page && $page )
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page), intval( $per_page ) );
 
-		/* Get paginated results */
+		// Get paginated results
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array)$sql ), $sql );
 		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
 
@@ -361,10 +361,13 @@ Class BP_Groups_Group {
 		if ( !empty( $user_id ) )
 			$total_sql['where'][] = "m.group_id = g.id AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0";
 
-		if ( !empty( $exclude ) ) {
-			$exclude = $wpdb->escape( $exclude );
-			$total_sql['where'][] = " g.id NOT IN ({$exclude})";
-		}
+		// Already escaped in the paginated results block
+		if ( ! empty( $include ) )
+			$total_sql['where'][] = "g.id IN ({$include})";
+
+		// Already escaped in the paginated results block
+		if ( ! empty( $exclude ) )
+			$total_sql['where'][] = "g.id NOT IN ({$exclude})";
 
 		$total_sql['where'][] = "g.id = gm1.group_id";
 		$total_sql['where'][] = "g.id = gm2.group_id";
