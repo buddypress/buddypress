@@ -889,7 +889,7 @@ Class BP_XProfile_ProfileData {
 				$this->id = $wpdb->insert_id;
 			}
 
-			if ( !$result )
+			if ( false === $result )
 				return false;
 
 			do_action_ref_array( 'xprofile_data_after_save', array( $this ) );
