@@ -135,15 +135,23 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, 
 	$topic_text  = apply_filters( 'group_forum_topic_text_before_save',  $topic_text  );
 
 	if ( $topic = bp_forums_update_topic( array( 'topic_title' => $topic_title, 'topic_text' => $topic_text, 'topic_id' => $topic_id, 'topic_tags' => $topic_tags ) ) ) {
-		// Update the activity stream item
-		if ( bp_is_active( 'activity' ) )
-			bp_activity_delete_by_item_id( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
+
+		// Get the corresponding activity item
+		if ( bp_is_active( 'activity' ) ) {
+			$id = bp_activity_get_activity_id( array(
+					'item_id'           => $bp->groups->current_group->id,
+					'secondary_item_id' => $topic_id,
+					'component'         => $bp->groups->id,
+					'type'              => 'new_forum_topic'
+			) );
+		}
 
 		$activity_action = sprintf( __( '%1$s started the forum topic %2$s in the group %3$s', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug .'/">' . esc_attr( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' );
 		$activity_content = bp_create_excerpt( $topic_text );
 
 		// Record this in activity streams
 		groups_record_activity( array(
+			'id'                => $id,
 			'action'            => apply_filters_ref_array( 'groups_activity_new_forum_topic_action',  array( $activity_action,  $topic_text, &$topic ) ),
 			'content'           => apply_filters_ref_array( 'groups_activity_new_forum_topic_content', array( $activity_content, $topic_text, &$topic ) ),
 			'primary_link'      => apply_filters( 'groups_activity_new_forum_topic_primary_link', bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/' ),
