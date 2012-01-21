@@ -625,7 +625,7 @@ function bp_member_profile_data( $args = '' ) {
 			$members_template->member->profile_data = BP_XProfile_ProfileData::get_all_for_user( $user_id );
 
 		// Get the field data if there is data to get
-		if ( !empty( $members_template->member->profile_data ) )
+		if ( ! empty( $members_template->member->profile_data ) && ! empty( $members_template->member->profile_data[$field]['field_type'] ) && ! empty( $members_template->member->profile_data[$field]['field_data'] ) )
 			$data = xprofile_format_profile_field( $members_template->member->profile_data[$field]['field_type'], $members_template->member->profile_data[$field]['field_data'] );
 
 		return apply_filters( 'bp_get_member_profile_data', $data );
