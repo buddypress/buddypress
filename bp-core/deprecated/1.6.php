@@ -62,6 +62,19 @@ function bp_blogs_manage_comment( $comment_id, $comment_status ) {
 }
 
 /**
+ * Core functions
+ */
+
+/*
+ * @deprecated 1.6
+ * @deprecated No longer used; see BP_Admin::admin_menus()
+ */
+function bp_core_add_admin_menu() {
+	_deprecated_function( __FUNCTION__, '1.6', 'No longer used' );
+}
+
+
+/**
  * Members functions
  */
 
