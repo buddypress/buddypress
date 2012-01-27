@@ -175,7 +175,7 @@ class BP_Admin {
 
 		// Don't add this version of the admin menu if a BP upgrade is in progress.
 		// @see bp_core_update_add_admin_menu().
-		if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE )
+		if ( bp_is_update() || ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE ) )
 			return;
 
 		$hooks = array();
