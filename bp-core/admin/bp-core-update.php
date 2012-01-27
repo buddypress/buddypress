@@ -1155,6 +1155,7 @@ class BP_Core_Setup_Wizard {
 
 			// Load BP and hook the admin menu, so that the redirect is successful
 			require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-admin.php' );
+			require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-template.php' );
 			bp_admin();
 
 			// Redirect to the BuddyPress dashboard

@@ -497,6 +497,9 @@ function bp_core_record_activity() {
 
 	if ( !is_user_logged_in() )
 		return false;
+		
+	if ( bp_is_update() )
+		return false;
 
 	$user_id = bp_loggedin_user_id();
 
