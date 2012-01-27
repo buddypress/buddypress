@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-01-27 20:31:08+00:00\n"
+"POT-Creation-Date: 2012-01-27 21:31:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -586,7 +586,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-update.php:102 bp-core/admin/bp-core-update.php:123
 #: bp-core/admin/bp-core-update.php:224 bp-core/admin/bp-core-update.php:275
-#: bp-core/admin/bp-core-update.php:1321
+#: bp-core/admin/bp-core-update.php:1319
 #: bp-themes/bp-default/groups/create.php:296
 msgid "Finish"
 msgstr ""
@@ -604,12 +604,12 @@ msgstr ""
 msgid "Admin Bar"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:181 bp-core/admin/bp-core-update.php:1350
+#: bp-core/admin/bp-core-update.php:181 bp-core/admin/bp-core-update.php:1348
 #: bp-activity/bp-activity-admin.php:652
 msgid "Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:181 bp-core/admin/bp-core-update.php:1348
+#: bp-core/admin/bp-core-update.php:181 bp-core/admin/bp-core-update.php:1346
 msgid "Setup"
 msgstr ""
 
@@ -919,21 +919,21 @@ msgstr ""
 msgid "Paste all these rules into a new <code>.htaccess</code> file in the root of your WordPress installation and save the file. Once you're done, please hit the \"Save and Next\" button to continue."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1294
+#: bp-core/admin/bp-core-update.php:1292
 msgid "Installation was successful. The available options have now been updated, please continue with your selection."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1353 bp-core/bp-core-admin.php:186
+#: bp-core/admin/bp-core-update.php:1351 bp-core/bp-core-admin.php:186
 #: bp-core/bp-core-admin.php:187 bp-core/bp-core-admin.php:207
 #: bp-members/bp-members-signup.php:569
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1449
+#: bp-core/admin/bp-core-update.php:1447
 msgid "BuddyPress has been updated! Please run the <a href=\"%s\">update wizard</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1454
+#: bp-core/admin/bp-core-update.php:1452
 msgid "BuddyPress was successfully installed! Please run the <a href=\"%s\">installation wizard</a>."
 msgstr ""
 
