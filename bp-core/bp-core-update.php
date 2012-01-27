@@ -115,7 +115,7 @@ function bp_is_deactivation( $basename = '' ) {
  * @uses bp_get_db_version() To get BuddyPress's database version
  */
 function bp_version_bump() {
-	$db_version = bbp_get_db_version();
+	$db_version = bp_get_db_version();
 	update_option( '_bp_db_version', $db_version );
 }
 
