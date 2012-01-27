@@ -44,10 +44,6 @@ function bp_core_clear_user_object_cache( $user_id ) {
 	wp_cache_delete( 'bp_user_' . $user_id, 'bp' );
 }
 
-// List actions to clear super cached pages on, if super cache is installed
-add_action( 'wp_login',              'bp_core_clear_cache' );
-add_action( 'bp_core_render_notice', 'bp_core_clear_cache' );
-
 /**
  * Update the metadata cache for the specified objects.
  *
