@@ -130,10 +130,10 @@ class BP_Admin {
 	private function includes() {
 
 		// Include the files
-		require( $this->admin_dir . 'bp-core-settings.php'   );
-		require( $this->admin_dir . 'bp-core-functions.php'  );
-		require( $this->admin_dir . 'bp-core-components.php' );
-		require( $this->admin_dir . 'bp-core-slugs.php'      );
+		require_once( $this->admin_dir . 'bp-core-settings.php'   );
+		require_once( $this->admin_dir . 'bp-core-functions.php'  );
+		require_once( $this->admin_dir . 'bp-core-components.php' );
+		require_once( $this->admin_dir . 'bp-core-slugs.php'      );
 		//require( $this->admin_dir . 'bp-metaboxes.php'       );
 	}
 

@@ -1154,10 +1154,8 @@ class BP_Core_Setup_Wizard {
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );
 
 			// Load BP and hook the admin menu, so that the redirect is successful
-			if ( !function_exists( 'bp_core_update_message' ) )
-				require( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-admin.php' );
-
-			bp_core_add_admin_menu();
+			require_once( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-admin.php' );
+			bp_admin();
 
 			// Redirect to the BuddyPress dashboard
 			$redirect = bp_core_update_do_network_admin() ? add_query_arg( array( 'page' => 'bp-components' ), network_admin_url( 'settings.php' ) ) : add_query_arg( array( 'page' => 'bp-components' ), admin_url( 'options-general.php' ) );

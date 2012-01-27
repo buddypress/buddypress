@@ -446,37 +446,17 @@ class BuddyPress {
 		if ( is_multisite() && ( empty( $versions['1.5-multi'] ) && empty( $versions['1.6-multi'] ) ) )
 			$this->is_network_activate = true;
 
-		// Require all of the BuddyPress core libraries
-		require( $this->plugin_dir . 'bp-core/bp-core-caps.php'       );
-		require( $this->plugin_dir . 'bp-core/bp-core-cache.php'      );
-		require( $this->plugin_dir . 'bp-core/bp-core-hooks.php'      );
-		require( $this->plugin_dir . 'bp-core/bp-core-cssjs.php'      );
-		require( $this->plugin_dir . 'bp-core/bp-core-update.php'     );
-		require( $this->plugin_dir . 'bp-core/bp-core-options.php'    );
-		require( $this->plugin_dir . 'bp-core/bp-core-classes.php'    );
-		require( $this->plugin_dir . 'bp-core/bp-core-filters.php'    );
-		require( $this->plugin_dir . 'bp-core/bp-core-avatars.php'    );
-		require( $this->plugin_dir . 'bp-core/bp-core-widgets.php'    );
-		require( $this->plugin_dir . 'bp-core/bp-core-template.php'   );
-		require( $this->plugin_dir . 'bp-core/bp-core-adminbar.php'   );
-		require( $this->plugin_dir . 'bp-core/bp-core-buddybar.php'   );
-		require( $this->plugin_dir . 'bp-core/bp-core-catchuri.php'   );
-		require( $this->plugin_dir . 'bp-core/bp-core-component.php'  );
-		require( $this->plugin_dir . 'bp-core/bp-core-functions.php'  );
-		require( $this->plugin_dir . 'bp-core/bp-core-moderation.php' );
-		require( $this->plugin_dir . 'bp-core/bp-core-loader.php'     );
-
-		// Skip or load deprecated content
-		if ( false !== $this->load_deprecated ) {
-			require( $this->plugin_dir . 'bp-core/deprecated/1.5.php' );
-			require( $this->plugin_dir . 'bp-core/deprecated/1.6.php' );
-		}
-
 		/** Update/Install ****************************************************/
 
 		// This is a new installation
 		if ( empty( $this->db_version_raw ) ) {
 			$this->maintenance_mode = 'install';
+			
+			// The installation process requires a few BuddyPress core libraries
+			require( $this->plugin_dir . 'bp-core/bp-core-functions.php'    );
+			require( $this->plugin_dir . 'bp-core/bp-core-update.php'       );
+			require( $this->plugin_dir . 'bp-core/bp-core-caps.php'         );
+			
 			require( $this->plugin_dir . 'bp-core/admin/bp-core-update.php' );
 
 		// There is a previous installation
@@ -484,6 +464,32 @@ class BuddyPress {
 
 			// Setup the BuddyPress theme directory
 			register_theme_directory( $this->themes_dir );
+			
+			// Require all of the BuddyPress core libraries
+			require( $this->plugin_dir . 'bp-core/bp-core-caps.php'       );
+			require( $this->plugin_dir . 'bp-core/bp-core-cache.php'      );
+			require( $this->plugin_dir . 'bp-core/bp-core-hooks.php'      );
+			require( $this->plugin_dir . 'bp-core/bp-core-cssjs.php'      );
+			require( $this->plugin_dir . 'bp-core/bp-core-update.php'     );
+			require( $this->plugin_dir . 'bp-core/bp-core-options.php'    );
+			require( $this->plugin_dir . 'bp-core/bp-core-classes.php'    );
+			require( $this->plugin_dir . 'bp-core/bp-core-filters.php'    );
+			require( $this->plugin_dir . 'bp-core/bp-core-avatars.php'    );
+			require( $this->plugin_dir . 'bp-core/bp-core-widgets.php'    );
+			require( $this->plugin_dir . 'bp-core/bp-core-template.php'   );
+			require( $this->plugin_dir . 'bp-core/bp-core-adminbar.php'   );
+			require( $this->plugin_dir . 'bp-core/bp-core-buddybar.php'   );
+			require( $this->plugin_dir . 'bp-core/bp-core-catchuri.php'   );
+			require( $this->plugin_dir . 'bp-core/bp-core-component.php'  );
+			require( $this->plugin_dir . 'bp-core/bp-core-functions.php'  );
+			require( $this->plugin_dir . 'bp-core/bp-core-moderation.php' );
+			require( $this->plugin_dir . 'bp-core/bp-core-loader.php'     );
+	
+			// Skip or load deprecated content
+			if ( false !== $this->load_deprecated ) {
+				require( $this->plugin_dir . 'bp-core/deprecated/1.5.php' );
+				require( $this->plugin_dir . 'bp-core/deprecated/1.6.php' );
+			}
 
 			// Check if an update is required
 			if ( ( (int) $this->db_version_raw < (int) $this->db_version ) || ( !empty( $this->is_network_activate ) ) ) {
