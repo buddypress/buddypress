@@ -136,13 +136,15 @@ function bp_core_fetch_avatar( $args = '' ) {
 				break;
 		}
 
-		$item_id = apply_filters( 'bp_core_avatar_item_id', $item_id, $object );
+		$item_id = apply_filters( 'bp_core_avatar_item_id', $item_id, $object, $params );
 
 		if ( empty( $item_id ) ) {
 			return false;
 		}
 	}
 
+	$class = apply_filters( 'bp_core_avatar_class', $class, $item_id, $object, $params );
+	
 	/** Set avatar_dir ********************************************************/
 
 	if ( empty( $avatar_dir ) ) {
@@ -168,7 +170,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 				break;
 		}
 
-		$avatar_dir = apply_filters( 'bp_core_avatar_dir', $avatar_dir, $object );
+		$avatar_dir = apply_filters( 'bp_core_avatar_dir', $avatar_dir, $object, $params );
 
 		if ( empty( $avatar_dir ) ) {
 			return false;
@@ -198,7 +200,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 				break;
 		}
 
-		$item_name = apply_filters( 'bp_core_avatar_alt', $item_name, $item_id, $object );
+		$item_name = apply_filters( 'bp_core_avatar_alt', $item_name, $item_id, $object, $params );
 		$alt       = sprintf( $alt, $item_name );
 	}
 
@@ -210,7 +212,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	// Set title tag, if it's been provided
 	if ( !empty( $title ) )
-		$title = " title='" . esc_attr( apply_filters( 'bp_core_avatar_title', $title, $item_id, $object ) ) . "'";
+		$title = " title='" . esc_attr( apply_filters( 'bp_core_avatar_title', $title, $item_id, $object, $params ) ) . "'";
 
 	// Set CSS ID if passed
 	if ( !empty( $css_id ) )
