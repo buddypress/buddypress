@@ -613,6 +613,10 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	$full_cropped  = wp_crop_image( $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, bp_core_avatar_full_width(), bp_core_avatar_full_height(), false, $avatar_folder_dir . '/' . $full_filename );
 	$thumb_cropped = wp_crop_image( $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, bp_core_avatar_thumb_width(), bp_core_avatar_thumb_height(), false, $avatar_folder_dir . '/' . $thumb_filename );
 
+	// Check for errors
+	if ( ! $full_cropped || ! $thumb_cropped || is_wp_error( $full_cropped ) || is_wp_error( $thumb_cropped ) )
+		return false;
+
 	// Remove the original
 	@unlink( $original_file );
 
