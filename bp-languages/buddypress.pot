@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-01-27 22:31:09+00:00\n"
+"POT-Creation-Date: 2012-01-28 10:31:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3772,7 +3772,7 @@ msgid "You have successfully created your account! Please log in using the usern
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:160
-#: bp-activity/bp-activity-actions.php:267
+#: bp-activity/bp-activity-actions.php:265
 msgid "Please enter some content to post."
 msgstr ""
 
@@ -3781,13 +3781,13 @@ msgid "There was a problem posting your update, please try again."
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:202
-#: bp-activity/bp-activity-actions.php:329
+#: bp-activity/bp-activity-actions.php:325
 msgid "Please do not leave the comment area blank."
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:207
 #: bp-themes/bp-default/_inc/ajax.php:218
-#: bp-activity/bp-activity-actions.php:342
+#: bp-activity/bp-activity-actions.php:338
 msgid "There was an error posting that reply, please try again."
 msgstr ""
 
@@ -5518,30 +5518,30 @@ msgstr ""
 msgid "The activity item has been marked as spam and is no longer visible."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:288
+#: bp-activity/bp-activity-actions.php:286
 msgid "Update Posted!"
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:290
+#: bp-activity/bp-activity-actions.php:288
 msgid "There was an error when posting your update, please try again."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:340
+#: bp-activity/bp-activity-actions.php:336
 msgid "Reply Posted!"
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:376
+#: bp-activity/bp-activity-actions.php:372
 msgid "Activity marked as favorite."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:378
+#: bp-activity/bp-activity-actions.php:374
 msgid "There was an error marking that activity as a favorite, please try again."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:412
+#: bp-activity/bp-activity-actions.php:408
 msgid "Activity removed as favorite."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:414
+#: bp-activity/bp-activity-actions.php:410
 msgid "There was an error removing that activity as a favorite, please try again."
 msgstr ""
