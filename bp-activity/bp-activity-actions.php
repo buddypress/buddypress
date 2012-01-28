@@ -230,7 +230,6 @@ add_action( 'bp_actions', 'bp_activity_action_spam_activity' );
  *
  * @since 1.2.0
  *
- * @global object $bp BuddyPress global settings
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
@@ -248,7 +247,6 @@ add_action( 'bp_actions', 'bp_activity_action_spam_activity' );
  * @return bool False on failure
  */
 function bp_activity_action_post_update() {
-	global $bp;
 
 	// Do not proceed if user is not logged in, not viewing activity, or not posting
 	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'post' ) )
@@ -299,7 +297,6 @@ add_action( 'bp_actions', 'bp_activity_action_post_update' );
  *
  * @since 1.2.0
  *
- * @global object $bp BuddyPress global settings
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
@@ -314,9 +311,8 @@ add_action( 'bp_actions', 'bp_activity_action_post_update' );
  * @return bool False on failure
  */
 function bp_activity_action_post_comment() {
-	global $bp;
 
-	if ( !is_user_logged_in() || ( bp_is_activity_component() ) || !bp_is_current_action( 'reply' ) )
+	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'reply' ) )
 		return false;
 
 	// Check the nonce
