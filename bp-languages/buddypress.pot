@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-01-28 18:31:13+00:00\n"
+"POT-Creation-Date: 2012-01-29 05:31:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -263,7 +263,7 @@ msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:23 bp-core/bp-core-widgets.php:115
-#: bp-core/admin/bp-core-update.php:484 bp-core/bp-core-template.php:256
+#: bp-core/admin/bp-core-update.php:484 bp-core/bp-core-template.php:255
 #: bp-groups/bp-groups-template.php:1283 bp-members/bp-members-loader.php:24
 #: bp-themes/bp-default/groups/single/admin.php:231
 msgid "Members"
@@ -569,7 +569,7 @@ msgid "Settings"
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:432 bp-core/admin/bp-core-update.php:536
-#: bp-core/bp-core-template.php:265 bp-forums/bp-forums-admin.php:31
+#: bp-core/bp-core-template.php:264 bp-forums/bp-forums-admin.php:31
 #: bp-forums/bp-forums-admin.php:271 bp-forums/bp-forums-loader.php:110
 #: bp-forums/bp-forums-loader.php:193 bp-forums/bp-forums-loader.php:236
 msgid "Forums"
@@ -741,7 +741,7 @@ msgstr ""
 msgid "Displays the activity for the entire site, a member's friends, groups and @mentions."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:518 bp-core/bp-core-template.php:259
+#: bp-core/admin/bp-core-update.php:518 bp-core/bp-core-template.php:258
 #: bp-groups/bp-groups-activity.php:135 bp-groups/bp-groups-activity.php:171
 #: bp-groups/bp-groups-activity.php:207 bp-groups/bp-groups-activity.php:243
 #: bp-groups/bp-groups-loader.php:420 bp-groups/bp-groups-widgets.php:20
@@ -1041,7 +1041,7 @@ msgstr ""
 msgid "<a href=\"http://buddypress.org/forums/\">BuddyPress Support Forums</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:353 bp-core/bp-core-template.php:267
+#: bp-core/admin/bp-core-settings.php:353 bp-core/bp-core-template.php:266
 #: bp-themes/bp-default/members/single/activity.php:27
 #: bp-themes/bp-default/activity/index.php:101
 #: bp-themes/bp-default/forums/forums-loop.php:40
@@ -1152,33 +1152,33 @@ msgstr ""
 msgid "Upload failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:664 bp-core/bp-core-template.php:97
-#: bp-core/bp-core-template.php:106 bp-core/bp-core-classes.php:172
+#: bp-core/bp-core-avatars.php:664 bp-core/bp-core-template.php:98
+#: bp-core/bp-core-template.php:107 bp-core/bp-core-classes.php:172
 #: bp-core/bp-core-classes.php:173 bp-core/bp-core-classes.php:174
 msgid "Avatar of %s"
 msgstr ""
 
-#: bp-core/bp-core-template.php:64
+#: bp-core/bp-core-template.php:65
 msgid "Options"
 msgstr ""
 
-#: bp-core/bp-core-template.php:201
+#: bp-core/bp-core-template.php:202
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: bp-core/bp-core-template.php:262
+#: bp-core/bp-core-template.php:261
 msgid "Blogs"
 msgstr ""
 
-#: bp-core/bp-core-template.php:270
+#: bp-core/bp-core-template.php:269
 msgid "Search these:"
 msgstr ""
 
-#: bp-core/bp-core-template.php:298
+#: bp-core/bp-core-template.php:297
 msgid "Search anything..."
 msgstr ""
 
-#: bp-core/bp-core-template.php:392
+#: bp-core/bp-core-template.php:391
 msgid " [&hellip;]"
 msgstr ""
 
