@@ -1,4 +1,5 @@
 <?php
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -243,12 +244,10 @@ function bp_search_form_action() {
 /**
  * Generates the basic search form as used in BP-Default's header.
  *
- * @global object $bp BuddyPress global settings
  * @return string HTML <select> element
  * @since 1.0
  */
 function bp_search_form_type_select() {
-	global $bp;
 
 	$options = array();
 
@@ -405,12 +404,12 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	$ending = apply_filters( 'bp_excerpt_append_text', $ending );
 
 	// Remove shortcodes if necessary
-	if ( $filter_shortcodes )
+	if ( !empty( $filter_shortcodes ) )
 		$text = strip_shortcodes( $text );
 
 	// When $html is true, the excerpt should be created without including HTML tags in the
 	// excerpt length
-	if ( $html ) {
+	if ( !empty( $html ) ) {
 		// The text is short enough. No need to truncate
 		if ( mb_strlen( preg_replace( '/<.*?>/', '', $text ) ) <= $length ) {
 			return $text;
@@ -470,7 +469,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	}
 
 	// If $exact is false, we can't break on words
-	if ( !$exact ) {
+	if ( empty( $exact ) ) {
 		$spacepos = mb_strrpos( $truncate, ' ' );
 		if ( isset( $spacepos ) ) {
 			if ( $html ) {
@@ -980,7 +979,6 @@ function bp_is_component_front_page( $component = '' ) {
  * @return bool True if it's a non-BP page, false otherwise
  */
 function bp_is_blog_page() {
-	global $wp_query;
 
 	$is_blog_page = false;
 
@@ -1091,8 +1089,6 @@ function bp_is_single_activity() {
 /** User **********************************************************************/
 
 function bp_is_my_profile() {
-	global $bp;
-
 	if ( is_user_logged_in() && bp_loggedin_user_id() == bp_displayed_user_id() )
 		$my_profile = true;
 	else
@@ -1102,8 +1098,6 @@ function bp_is_my_profile() {
 }
 
 function bp_is_user() {
-	global $bp;
-
 	if ( bp_displayed_user_id() )
 		return true;
 
