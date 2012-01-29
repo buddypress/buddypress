@@ -243,8 +243,6 @@ if ( !is_admin() || ( is_admin() && empty( $_POST['noconfirmation'] ) ) )
  * Filter the page title for BuddyPress pages
  *
  * @global object $bp BuddyPress global settings
- * @global unknown $post
- * @global WP_Query $wp_query WordPress query object
  * @param string $title Original page title
  * @param string $sep How to separate the various items within the page title.
  * @param string $seplocation Direction to display title
@@ -253,7 +251,7 @@ if ( !is_admin() || ( is_admin() && empty( $_POST['noconfirmation'] ) ) )
  * @since 1.5
  */
 function bp_modify_page_title( $title, $sep, $seplocation ) {
-	global $bp, $post, $wp_query;
+	global $bp;
 
 	// If this is not a BP page, just return the title produced by WP
 	if ( bp_is_blog_page() )
@@ -267,8 +265,21 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 
 	// Displayed user
 	if ( !empty( $bp->displayed_user->fullname ) && !is_404() ) {
+
+		// Get the component's ID to try and get it's name
+		$component_id = $component_name = bp_current_component();
+		
+		// Use the actual component name
+		if ( !empty( $bp->{$component_id}->name ) ) {
+			$component_name = $bp->{$component_id}->name;
+			
+		// Fall back on the component ID (probably same as current_component)
+		} elseif ( !empty( $bp->{$component_id}->id ) ) {
+			$component_name = $bp->{$component_id}->id;
+		}
+
 		// translators: "displayed user's name | canonicalised component name"
-		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), ucwords( bp_current_component() ) ) );
+		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), ucwords( $component_name ) ) );
 
 	// A single group
 	} elseif ( bp_is_active( 'groups' ) && !empty( $bp->groups->current_group ) && !empty( $bp->bp_options_nav[$bp->groups->current_group->slug] ) ) {
