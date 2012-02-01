@@ -1603,23 +1603,36 @@ function bp_group_join_button( $group = false ) {
 		return bp_get_button( apply_filters( 'bp_get_group_join_button', $button ) );
 	}
 
-function bp_group_status_message( $group = false ) {
+/**
+ * Prints a message if the group is not visible to the current user (it is a
+ * hidden or private group, and the user does not have access).
+ *
+ * @global BP_Groups_Template $groups_template Groups template object
+ * @param object $group Group to get status message for. Optional; defaults to current group.
+ * @since 1.0
+ */
+function bp_group_status_message( $group = null ) {
 	global $groups_template;
 
-	if ( !$group )
+	if ( ! $group )
 		$group =& $groups_template->group;
 
 	if ( 'private' == $group->status ) {
-		if ( !bp_group_has_requested_membership() )
+ 		if ( ! bp_group_has_requested_membership() ) {
 			if ( is_user_logged_in() )
-				_e( 'This is a private group and you must request group membership in order to join.', 'buddypress' );
+				$message = __( 'This is a private group and you must request group membership in order to join.', 'buddypress' );
 			else
-				_e( 'This is a private group. To join you must be a registered site member and request group membership.', 'buddypress' );
-		else
-			_e( 'This is a private group. Your membership request is awaiting approval from the group administrator.', 'buddypress' );
+				$message = __( 'This is a private group. To join you must be a registered site member and request group membership.', 'buddypress' );
+
+		} else {
+			$message = __( 'This is a private group. Your membership request is awaiting approval from the group administrator.', 'buddypress' );
+		}
+
 	} else {
-		_e( 'This is a hidden group and only invited members can join.', 'buddypress' );
+		$message = __( 'This is a hidden group and only invited members can join.', 'buddypress' );
 	}
+
+	echo apply_filters( 'bp_group_status_message', $message, $group );
 }
 
 function bp_group_hidden_fields() {
