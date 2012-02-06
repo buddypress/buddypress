@@ -17,7 +17,6 @@
  * Version:     1.6-bleeding
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
- * Network:     true
  */
 
 // Exit if accessed directly
