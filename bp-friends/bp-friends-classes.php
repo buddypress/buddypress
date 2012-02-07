@@ -294,17 +294,24 @@ class BP_Friends_Friendship {
 	}
 
 	function get_invitable_friend_count( $user_id, $group_id ) {
-		global $wpdb, $bp;
 
-		$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
-
+		// Setup some data we'll use below
+		$is_group_admin  = BP_Groups_Member::check_is_admin( $user_id, $group_id );
+		$friend_ids      = BP_Friends_Friendship::get_friend_user_ids( $user_id );
 		$invitable_count = 0;
+
 		for ( $i = 0, $count = count( $friend_ids ); $i < $count; ++$i ) {
 
-			if ( BP_Groups_Member::check_is_member( (int)$friend_ids[$i], $group_id ) )
+			// If already a member, they cannot be invited again
+			if ( BP_Groups_Member::check_is_member( (int) $friend_ids[$i], $group_id ) )
 				continue;
 
-			if ( BP_Groups_Member::check_has_invite( (int)$friend_ids[$i], $group_id )  )
+			// If user already has invite, they cannot be added
+			if ( BP_Groups_Member::check_has_invite( (int) $friend_ids[$i], $group_id )  )
+				continue;
+
+			// If user is not group admin and friend is banned, they cannot be invited
+			if ( ( false === $is_group_admin ) && BP_Groups_Member::check_is_banned( (int) $friend_ids[$i], $group_id ) )
 				continue;
 
 			$invitable_count++;

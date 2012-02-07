@@ -206,25 +206,78 @@ function friends_get_bulk_last_active( $friend_ids ) {
 	return BP_Friends_Friendship::get_bulk_last_active( $friend_ids );
 }
 
-function friends_get_friends_invite_list( $user_id = 0 ) {
-	global $bp;
+/**
+ * Get a list of friends that a user can invite into this group.
+ * 
+ * Excludes friends that are already in the group, and banned friends if the
+ * user is not a group admin.
+ *
+ * @since 1.0
+ * @param int $user_id User ID whose friends to see can be invited
+ * @param int $group_id Group to check possible invitations against
+ * @return mixed False if no friends, array of users if friends
+ */
+function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
 
-	if ( !$user_id )
-		$user_id = $bp->loggedin_user->id;
+	// Default to logged in user id
+	if ( empty( $user_id ) )
+		$user_id = bp_loggedin_user_id();
 
-	if ( bp_has_members( 'user_id=' . $user_id . '&type=alphabetical&per_page=0' ) ) {
-		while ( bp_members() ) : bp_the_member();
+	// Only group admins can invited previously banned users
+	$user_is_admin = (bool) groups_is_user_admin( $user_id, $group_id );
+
+	// Assume no friends
+	$friends = array();
+
+	// Default args
+	$args = apply_filters( 'bp_friends_pre_get_invite_list', array(
+		'user_id'  => $user_id,
+		'type'     => 'alphabetical',
+		'per_page' => 0
+	) );
+
+	// User has friends
+	if ( bp_has_members( $args ) ) {
+
+		/**
+		 * Loop through all friends and try to add them to the invitation list.
+		 *
+		 * Exclude friends that:
+		 *     1. are already members of the group
+		 *     2. are banned from this group if the current user is also not a
+		 *        group admin.
+		 */
+		while ( bp_members() ) :
+
+			// Load the member
+			bp_the_member();
+
+			// Get the user ID of the friend
+			$friend_user_id = bp_get_member_user_id();
+
+			// Skip friend if already in the group
+			if ( groups_is_user_member( $friend_user_id, $group_id ) )
+				continue;
+
+			// Skip friend if not group admin and user banned from group
+			if ( ( false === $user_is_admin ) && groups_is_user_banned( $friend_user_id, $group_id ) )
+				continue;
+
+			// Friend is safe, so add it to the array of possible friends
 			$friends[] = array(
-				'id' => bp_get_member_user_id(),
+				'id'        => $friend_user_id,
 				'full_name' => bp_get_member_name()
 			);
+
 		endwhile;
 	}
 
-	if ( empty($friends) )
-		return false;
+	// If no friends, explicitly set to false
+	if ( empty( $friends ) )
+		$friends = false;
 
-	return $friends;
+	// Allow friends to be filtered
+	return apply_filters( 'bp_friends_get_invite_list', $friends, $user_id, $group_id );
 }
 
 function friends_count_invitable_friends( $user_id, $group_id ) {
