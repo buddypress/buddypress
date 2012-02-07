@@ -17,11 +17,16 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @since BuddyPress (1.5.2)
  */
 function bp_groups_admin_bar_version_check() {
-	if ( '3.2' == bp_get_major_wp_version() ) {
-		add_action( 'bp_setup_admin_bar', 'bp_groups_group_admin_menu', 99 );
-	} elseif ( '3.3' == bp_get_major_wp_version() ) {
-		remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu',  80  );
-		add_action( 'admin_bar_menu', 'bp_groups_group_admin_menu', 400 );
+	switch( bp_get_major_wp_version() ) {
+		case 3.2 :
+			add_action( 'bp_setup_admin_bar', 'bp_groups_group_admin_menu', 99 );
+			break;
+		case 3.3 :
+		case 3.4 :
+		default  :
+			remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu',  80  );
+			add_action( 'admin_bar_menu', 'bp_groups_group_admin_menu', 400 );
+			break;		
 	}
 }
 add_action( 'admin_bar_menu', 'bp_groups_admin_bar_version_check', 4 );

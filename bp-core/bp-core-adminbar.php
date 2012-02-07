@@ -65,12 +65,11 @@ add_action( 'bp_init', 'bp_admin_bar_remove_wp_menus', 2 );
 /**
  * Add a menu for the root site of this BuddyPress network
  *
- * @global type $bp
  * @global type $wp_admin_bar
  * @return If in ajax
  */
 function bp_admin_bar_root_site() {
-	global $bp, $wp_admin_bar;
+	global $wp_admin_bar;
 
 	// Create the root blog menu
 	$wp_admin_bar->add_menu( array(
@@ -112,7 +111,7 @@ function bp_admin_bar_root_site() {
  * Add the "My Sites/[Site Name]" menu and all submenus.
  */
 function bp_admin_bar_my_sites_menu() {
-	global $wpdb, $wp_admin_bar;
+	global $wp_admin_bar;
 
 	/* Add the 'My Sites' menu if the user has more than one site. */
 	if ( count( $wp_admin_bar->user->blogs ) <= 1 )
@@ -216,7 +215,7 @@ function bp_admin_bar_updates_menu() {
 		return;
 
 	$update_title = array( );
-	if ( $wordpress_update_count )
+	if ( !empty( $wordpress_update_count ) )
 		$update_title[] = sprintf( __( '%d WordPress Update' ), $wordpress_update_count );
 	if ( $plugin_update_count )
 		$update_title[] = sprintf( _n( '%d Plugin Update', '%d Plugin Updates', $plugin_update_count ), $plugin_update_count );
@@ -236,7 +235,6 @@ function bp_admin_bar_updates_menu() {
  * Handle the Admin Bar CSS
  */
 function bp_core_load_admin_bar_css() {
-	global $wp_version;
 
 	if ( !bp_use_wp_admin_bar() )
 		return;

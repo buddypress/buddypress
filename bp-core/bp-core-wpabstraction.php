@@ -22,7 +22,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function bp_get_major_wp_version() {
 	global $wp_version;
 	
-	return substr( $wp_version, 0, ( strpos( $wp_version, '.' ) + 2 ) );
+	return (float) $wp_version;
 }
 
 /**
