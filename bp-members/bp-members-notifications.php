@@ -84,7 +84,7 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 
 	$notifications         = BP_Core_Notification::get_all_for_user( $user_id );
 	$grouped_notifications = array(); // Notification groups
-	$renderable            = array(); // Nederable notifications
+	$renderable            = array(); // Renderable notifications
 
 	// Group notifications by component and component_action and provide totals
 	for ( $i = 0, $count = count( $notifications ); $i < $count; ++$i ) {
