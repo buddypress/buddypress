@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-01 19:31:09+00:00\n"
+"POT-Creation-Date: 2012-02-09 21:31:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -509,7 +509,7 @@ msgid "View"
 msgstr ""
 
 #: bp-core/admin/bp-core-slugs.php:132 bp-core/admin/bp-core-functions.php:277
-#: bp-core/admin/bp-core-update.php:571 bp-members/bp-members-adminbar.php:60
+#: bp-core/admin/bp-core-update.php:571 bp-members/bp-members-adminbar.php:59
 msgid "Register"
 msgstr ""
 
@@ -1732,7 +1732,7 @@ msgstr ""
 
 #: bp-settings/bp-settings-loader.php:115
 #: bp-settings/bp-settings-loader.php:175
-#: bp-members/bp-members-adminbar.php:134
+#: bp-members/bp-members-adminbar.php:133
 #: bp-themes/bp-default/members/single/settings/delete-account.php:50
 msgid "Delete Account"
 msgstr ""
@@ -2071,7 +2071,7 @@ msgstr ""
 msgid "Edit Settings"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:64 bp-members/bp-members-adminbar.php:107
+#: bp-groups/bp-groups-adminbar.php:64 bp-members/bp-members-adminbar.php:106
 msgid "Edit Avatar"
 msgstr ""
 
@@ -2918,7 +2918,7 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-template.php:826
 #: bp-xprofile/bp-xprofile-template.php:827
-#: bp-members/bp-members-adminbar.php:99
+#: bp-members/bp-members-adminbar.php:98
 msgid "Edit Profile"
 msgstr ""
 
@@ -3401,41 +3401,41 @@ msgstr ""
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:38
+#: bp-members/bp-members-adminbar.php:37
 msgid "Edit My Profile"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:52
+#: bp-members/bp-members-adminbar.php:51
 msgid "Log in"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:91
+#: bp-members/bp-members-adminbar.php:90
 msgid "Edit Member"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:116
+#: bp-members/bp-members-adminbar.php:115
 #: bp-members/bp-members-buddybar.php:122
 msgid "Mark as Spammer"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:118
+#: bp-members/bp-members-adminbar.php:117
 msgid "Are you sure you want to mark this user as a spammer?"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:124
+#: bp-members/bp-members-adminbar.php:123
 #: bp-members/bp-members-buddybar.php:126
 msgid "Not a Spammer"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:126
+#: bp-members/bp-members-adminbar.php:125
 msgid "Are you sure you want to mark this user as not a spammer?"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:136
+#: bp-members/bp-members-adminbar.php:135
 msgid "Are you sure you want to delete this user's account?"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:179
+#: bp-members/bp-members-adminbar.php:178
 msgid "No new notifications"
 msgstr ""
 
