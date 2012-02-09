@@ -23,11 +23,9 @@ if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-activity' == $_REQUEST['p
 /**
  * Registers the Activity component admin screen
  *
- * @global object $bp Global BuddyPress settings object
  * @since 1.6
  */
 function bp_activity_add_admin_menu() {
-	global $bp;
 
 	if ( ! bp_current_user_can( 'bp_moderate' ) )
 		return;
@@ -905,11 +903,9 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Constructor
 	 *
-	 * @global $bp BuddyPress global settings
 	 * @since 1.6
 	 */
 	public function __construct() {
-		global $bp;
 
 		// Define singular and plural labels, as well as whether we support AJAX.
 		parent::__construct( array(

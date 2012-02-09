@@ -239,14 +239,12 @@ function bp_activity_get_action( $component_id, $key ) {
  *
  * @param int $user_id
  *
- * @global object $bp BuddyPress global settings
  * @uses bp_get_user_meta()
  * @uses apply_filters() To call the 'bp_activity_get_user_favorites' hook
  *
  * @return array Array of users favorite activity stream ID's
  */
 function bp_activity_get_user_favorites( $user_id = 0 ) {
-	global $bp;
 
 	// Fallback to logged in user if no user_id is passed
 	if ( empty( $user_id ) )
@@ -266,7 +264,6 @@ function bp_activity_get_user_favorites( $user_id = 0 ) {
  * @param int $activity_id
  * @param int $user_id
  *
- * @global object $bp BuddyPress global settings
  * @uses is_user_logged_in()
  * @uses bp_get_user_meta()
  * @uses bp_activity_get_meta()
@@ -278,7 +275,6 @@ function bp_activity_get_user_favorites( $user_id = 0 ) {
  * @return bool True on success, false on failure
  */
 function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
-	global $bp;
 
 	// Favorite activity stream items are for logged in users only
 	if ( !is_user_logged_in() )
@@ -325,7 +321,6 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
  * @param int $activity_id
  * @param int $user_id
  *
- * @global object $bp BuddyPress global settings
  * @uses is_user_logged_in()
  * @uses bp_get_user_meta()
  * @uses bp_activity_get_meta()
@@ -336,7 +331,6 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
  * @return bool True on success, false on failure
  */
 function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
-	global $bp;
 
 	// Favorite activity stream items are for logged in users only
 	if ( !is_user_logged_in() )
@@ -420,13 +414,11 @@ function bp_activity_get_last_updated() {
  *
  * @param int $user_id
  *
- * @global object $bp BuddyPress global settings
  * @uses BP_Activity_Activity::total_favorite_count() {@link BP_Activity_Activity}
  *
  * @return int Total favorite count
  */
 function bp_activity_total_favorites_for_user( $user_id = 0 ) {
-	global $bp;
 
 	// Fallback on displayed user, and then logged in user
 	if ( empty( $user_id ) )
@@ -878,7 +870,6 @@ function bp_activity_get_specific( $args = '' ) {
  *
  * @param array $args See docs for $defaults for details
  *
- * @global object $bp BuddyPress global settings
  * @uses wp_parse_args()
  * @uses BP_Activity_Activity::save() {@link BP_Activity_Activity}
  * @uses BP_Activity_Activity::rebuild_activity_comment_tree() {@link BP_Activity_Activity}
@@ -888,7 +879,6 @@ function bp_activity_get_specific( $args = '' ) {
  * @return int The activity id
  */
 function bp_activity_add( $args = '' ) {
-	global $bp;
 
 	$defaults = array(
 		'id'                => false, // Pass an existing activity ID to update an existing entry.
@@ -1037,10 +1027,10 @@ function bp_activity_new_comment( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	if ( empty($content) || empty($user_id) || empty($activity_id) )
+	if ( empty( $content ) || empty( $user_id ) || empty( $activity_id ) )
 		return false;
 
-	if ( empty($parent_id) )
+	if ( empty( $parent_id ) )
 		$parent_id = $activity_id;
 
 	// Check to see if the parent activity is hidden, and if so, hide this comment publically.
@@ -1049,15 +1039,15 @@ function bp_activity_new_comment( $args = '' ) {
 
 	// Insert the activity comment
 	$comment_id = bp_activity_add( array(
-		'id' => $id,
-		'action' => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
-		'content' => apply_filters( 'bp_activity_comment_content', $content ),
-		'component' => $bp->activity->id,
-		'type' => 'activity_comment',
-		'user_id' => $user_id,
-		'item_id' => $activity_id,
+		'id'                => $id,
+		'action'            => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
+		'content'           => apply_filters( 'bp_activity_comment_content', $content ),
+		'component'         => $bp->activity->id,
+		'type'              => 'activity_comment',
+		'user_id'           => $user_id,
+		'item_id'           => $activity_id,
 		'secondary_item_id' => $parent_id,
-		'hide_sitewide' => $is_hidden
+		'hide_sitewide'     => $is_hidden
 	) );
 
 	// Send an email notification if settings allow
@@ -1119,7 +1109,6 @@ function bp_activity_get_activity_id( $args = '' ) {
  *
  * @param array $args See docs for $defaults for details
  *
- * @global object $bp BuddyPress global settings
  * @uses wp_parse_args()
  * @uses bp_activity_adjust_mention_count()
  * @uses BP_Activity_Activity::delete() {@link BP_Activity_Activity}
@@ -1133,7 +1122,6 @@ function bp_activity_get_activity_id( $args = '' ) {
  * @return bool True on success, false on failure
  */
 function bp_activity_delete( $args = '' ) {
-	global $bp;
 
 	// Pass one or more the of following variables to delete by those variables
 	$defaults = array(
@@ -1168,8 +1156,9 @@ function bp_activity_delete( $args = '' ) {
 
 	$latest_update = bp_get_user_meta( $user_id, 'bp_latest_update', true );
 	if ( !empty( $latest_update ) ) {
-		if ( in_array( (int)$latest_update['id'], (array)$activity_ids_deleted ) )
+		if ( in_array( (int)$latest_update['id'], (array)$activity_ids_deleted ) ) {
 			bp_delete_user_meta( $user_id, 'bp_latest_update' );
+		}
 	}
 
 	do_action( 'bp_activity_delete', $args );
@@ -1190,16 +1179,20 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * @param array $args See docs for $defaults for details
 	 *
-	 * @global object $bp BuddyPress global settings
 	 * @uses wp_parse_args()
 	 * @uses bp_activity_delete()
 	 *
 	 * @return bool True on success, false on failure
 	 */
 	function bp_activity_delete_by_item_id( $args = '' ) {
-		global $bp;
 
-		$defaults = array( 'item_id' => false, 'component' => false, 'type' => false, 'user_id' => false, 'secondary_item_id' => false );
+		$defaults = array(
+			'item_id'           => false,
+			'component'         => false,
+			'type'              => false,
+			'user_id'           => false,
+			'secondary_item_id' => false
+		);
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
@@ -1336,7 +1329,6 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
  * @param int $activity_id The unique id of the activity object
  * @param object $activity_obj (optional) The activity object
  *
- * @global object $bp BuddyPress global settings
  * @uses bp_get_root_domain()
  * @uses bp_get_activity_root_slug()
  * @uses apply_filters_ref_array() To call the 'bp_activity_get_permalink' hook
@@ -1344,22 +1336,22 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
  * @return string $link Permalink for the activity item
  */
 function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
-	global $bp;
 
-	if ( !$activity_obj )
+	if ( empty( $activity_obj ) )
 		$activity_obj = new BP_Activity_Activity( $activity_id );
 
 	if ( isset( $activity_obj->current_comment ) ) {
 		$activity_obj = $activity_obj->current_comment;
 	}
 
-	if ( 'new_blog_post' == $activity_obj->type || 'new_blog_comment' == $activity_obj->type || 'new_forum_topic' == $activity_obj->type || 'new_forum_post' == $activity_obj->type )
+	if ( 'new_blog_post' == $activity_obj->type || 'new_blog_comment' == $activity_obj->type || 'new_forum_topic' == $activity_obj->type || 'new_forum_post' == $activity_obj->type ) {
 		$link = $activity_obj->primary_link;
-	else {
-		if ( 'activity_comment' == $activity_obj->type )
+	} else {
+		if ( 'activity_comment' == $activity_obj->type ) {
 			$link = bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $activity_obj->item_id . '/';
-		else
+		} else {
 			$link = bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $activity_obj->id . '/';
+		}
 	}
 
 	return apply_filters_ref_array( 'bp_activity_get_permalink', array( $link, &$activity_obj ) );
@@ -1394,7 +1386,6 @@ function bp_activity_hide_user_activity( $user_id ) {
  * @return string $content The content with images stripped and replaced with a single thumb.
  */
 function bp_activity_thumbnail_content_images( $content, $link = false ) {
-	global $post;
 
 	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
 	$content = preg_replace('|(\[caption(.*?)\])?<img[^>]*>(\[/caption\])?|', '', $content );
@@ -1405,21 +1396,21 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
 
 		// Get the width and height
 		preg_match( '/<img.*?(height\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $height );
-		preg_match( '/<img.*?(width\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $width );
+		preg_match( '/<img.*?(width\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i',  $matches[0][0], $width  );
 
 		if ( !empty( $src ) ) {
-			$src = substr( substr( str_replace( 'src=', '', $src[1] ), 0, -1 ), 1 );
+			$src    = substr( substr( str_replace( 'src=', '', $src[1] ), 0, -1 ), 1 );
 			$height = substr( substr( str_replace( 'height=', '', $height[1] ), 0, -1 ), 1 );
-			$width = substr( substr( str_replace( 'width=', '', $width[1] ), 0, -1 ), 1 );
+			$width  = substr( substr( str_replace( 'width=', '', $width[1] ), 0, -1 ), 1 );
 
 			if ( empty( $width ) || empty( $height ) ) {
-				$width = 100;
+				$width  = 100;
 				$height = 100;
 			}
 
-			$ratio = (int)$width / (int)$height;
+			$ratio      = (int)$width / (int)$height;
 			$new_height = (int)$height >= 100 ? 100 : $height;
-			$new_width = $new_height * $ratio;
+			$new_width  = $new_height * $ratio;
 
 			$image = '<img src="' . esc_attr( $src ) . '" width="' . $new_width . '" height="' . $new_height . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />';
 
@@ -1437,13 +1428,11 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
 /**
  * Convenience function to control whether the current user is allowed to mark activity items as spam
  *
- * @global object $bp BuddyPress global settings
  * @return bool True if user is allowed to mark activity items as spam
  * @since 1.6
  * @static
  */
 function bp_activity_user_can_mark_spam() {
-	global $bp;
 	return apply_filters( 'bp_activity_user_can_mark_spam', bp_current_user_can( 'bp_moderate' ) );
 }
 

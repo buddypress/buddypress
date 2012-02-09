@@ -1,9 +1,13 @@
 <?php
+
 /**
  * Functions related to the BuddyPress Activity component and the WP Cache
  *
  * @since 1.6
  */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Slurps up activitymeta

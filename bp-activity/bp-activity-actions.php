@@ -114,7 +114,6 @@ add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
  *
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
  *
- * @global object $bp BuddyPress global settings
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
  * @uses bp_action_variable()
@@ -129,7 +128,6 @@ add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
  * @return bool False on failure
  */
 function bp_activity_action_delete_activity( $activity_id = 0 ) {
-	global $bp;
 
 	// Not viewing activity or action is not delete
 	if ( !bp_is_activity_component() || !bp_is_current_action( 'delete' ) )
@@ -346,7 +344,6 @@ add_action( 'bp_actions', 'bp_activity_action_post_comment' );
  *
  * @since 1.2.0
  *
- * @global object $bp BuddyPress global settings
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
@@ -360,7 +357,6 @@ add_action( 'bp_actions', 'bp_activity_action_post_comment' );
  * @return bool False on failure
  */
 function bp_activity_action_mark_favorite() {
-	global $bp;
 
 	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'favorite' ) )
 		return false;
@@ -382,7 +378,6 @@ add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
  *
  * @since 1.2.0
  *
- * @global object $bp BuddyPress global settings
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
@@ -396,7 +391,6 @@ add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
  * @return bool False on failure
  */
 function bp_activity_action_remove_favorite() {
-	global $bp;
 
 	if ( !is_user_logged_in() || ( bp_is_activity_component() ) || !bp_is_current_action( 'unfavorite' ) )
 		return false;
@@ -446,7 +440,6 @@ add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
  *
  * @since 1.0.0
  *
- * @global object $bp BuddyPress global settings
  * @global object $wp_query
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
@@ -455,7 +448,7 @@ add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_personal_feed() {
-	global $bp, $wp_query;
+	global $wp_query;
 
 	if ( !bp_is_user_activity() || !bp_is_current_action( 'feed' ) )
 		return false;
@@ -473,7 +466,6 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
  *
  * @since 1.0.0
  *
- * @global object $bp BuddyPress global settings
  * @global object $wp_query
  * @uses bp_is_active()
  * @uses bp_is_user_activity()
@@ -485,7 +477,7 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_friends_feed() {
-	global $bp, $wp_query;
+	global $wp_query;
 
 	if ( !bp_is_active( 'friends' ) || !bp_is_user_activity() || !bp_is_current_action( bp_get_friends_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
@@ -503,7 +495,6 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
  *
  * @since 1.2.0
  *
- * @global object $bp BuddyPress global settings
  * @global object $wp_query
  * @uses bp_is_active()
  * @uses bp_is_user_activity()
@@ -515,7 +506,7 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_my_groups_feed() {
-	global $bp, $wp_query;
+	global $wp_query;
 
 	if ( !bp_is_active( 'groups' ) || !bp_is_user_activity() || !bp_is_current_action( bp_get_groups_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
@@ -533,7 +524,6 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
  *
  * @since 1.2.0
  *
- * @global object $bp BuddyPress global settings
  * @global object $wp_query
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
@@ -543,7 +533,7 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_mentions_feed() {
-	global $bp, $wp_query;
+	global $wp_query;
 
 	if ( !bp_is_user_activity() || !bp_is_current_action( 'mentions' ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
@@ -561,7 +551,6 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
  *
  * @since 1.2.0
  *
- * @global object $bp BuddyPress global settings
  * @global object $wp_query
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
@@ -571,7 +560,7 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_favorites_feed() {
-	global $bp, $wp_query;
+	global $wp_query;
 
 	if ( !bp_is_user_activity() || !bp_is_current_action( 'favorites' ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
@@ -583,7 +572,6 @@ function bp_activity_action_favorites_feed() {
 	die;
 }
 add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
-
 
 /**
  * Loads Akismet
@@ -609,4 +597,5 @@ function bp_activity_setup_akismet() {
 	// Instantiate Akismet for BuddyPress
 	$bp->activity->akismet = new BP_Akismet();
 }
+
 ?>

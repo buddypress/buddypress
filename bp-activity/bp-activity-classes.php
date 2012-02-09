@@ -373,7 +373,6 @@ Class BP_Activity_Activity {
 	/**
 	 * Append activity comments to their associated activity items
 	 *
-	 * @global object $bp Global BuddyPress settings object
 	 * @global wpdb $wpdb WordPress database object
 	 * @param array $activities
 	 * @param bool $spam Optional; 'ham_only' (default), 'spam_only' or 'all'.
@@ -381,7 +380,7 @@ Class BP_Activity_Activity {
 	 * @since 1.2
 	 */
 	function append_comments( $activities, $spam = 'ham_only' ) {
-		global $bp, $wpdb;
+		global $wpdb;
 
 		$activity_comments = array();
 
@@ -497,17 +496,17 @@ Class BP_Activity_Activity {
 	}
 
 	function get_sitewide_items_for_feed( $limit = 35 ) {
-		global $wpdb, $bp;
+		global $bp;
 
-		$activities = bp_activity_get_sitewide( array( 'max' => $limit ) );
+		$activities    = bp_activity_get_sitewide( array( 'max' => $limit ) );
+		$activity_feed = array();
 
 		for ( $i = 0, $count = count( $activities ); $i < $count; ++$i ) {
-				$title = explode( '<span', $activities[$i]['content'] );
-
-				$activity_feed[$i]['title'] = trim( strip_tags( $title[0] ) );
-				$activity_feed[$i]['link'] = $activities[$i]['primary_link'];
+				$title                            = explode( '<span', $activities[$i]['content'] );
+				$activity_feed[$i]['title']       = trim( strip_tags( $title[0] ) );
+				$activity_feed[$i]['link']        = $activities[$i]['primary_link'];
 				$activity_feed[$i]['description'] = @sprintf( $activities[$i]['content'], '' );
-				$activity_feed[$i]['pubdate'] = $activities[$i]['date_recorded'];
+				$activity_feed[$i]['pubdate']     = $activities[$i]['date_recorded'];
 		}
 
 		return $activity_feed;
@@ -538,7 +537,8 @@ Class BP_Activity_Activity {
 	}
 
 	function get_filter_sql( $filter_array ) {
-		global $wpdb;
+
+		$filter_sql = array();
 
 		if ( !empty( $filter_array['user_id'] ) ) {
 			$user_sql = BP_Activity_Activity::get_in_operator_sql( 'a.user_id', $filter_array['user_id'] );
@@ -570,7 +570,7 @@ Class BP_Activity_Activity {
 				$filter_sql[] = $sid_sql;
 		}
 
-		if ( empty($filter_sql) )
+		if ( empty( $filter_sql ) )
 			return false;
 
 		return join( ' AND ', $filter_sql );

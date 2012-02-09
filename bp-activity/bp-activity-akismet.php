@@ -480,7 +480,8 @@ class BP_Akismet {
 	 * @since 1.6
 	 */
 	public function buddypress_ua( $user_agent ) {
-		return 'BuddyPress/' . bp_get_version() . ' | Akismet/'. constant( 'AKISMET_VERSION' );
+		$user_agent = 'BuddyPress/' . bp_get_version() . ' | Akismet/'. constant( 'AKISMET_VERSION' );
+		return $user_agent;
 	}
 
 	/**
