@@ -112,7 +112,7 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
  * @package BuddyPress Core
  */
 function bp_core_login_redirect( $redirect_to ) {
-	global $bp, $wpdb;
+	global $wpdb;
 
 	// Don't mess with the redirect if this is not the root blog
 	if ( is_multisite() && $wpdb->blogid != bp_get_root_blog_id() )

@@ -210,12 +210,11 @@ function bp_core_admin_components_options() {
  *
  * @since BuddyPress (1.6)
  * @todo Use settings API
- * @global WPDB $wpdb
  * @global BuddyPress $bp
  * @return false On failure
  */
 function bp_core_admin_components_settings_handler() {
-	global $wpdb, $bp;
+	global $bp;
 
 	if ( isset( $_POST['bp-admin-component-submit'] ) ) {
 		if ( !check_admin_referer('bp-admin-component-setup') )

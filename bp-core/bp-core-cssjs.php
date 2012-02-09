@@ -132,7 +132,6 @@ function bp_core_add_cropper_inline_css() {
  * @package BuddyPress Core
  */
 function bp_core_add_ajax_url_js() {
-	global $bp;
 ?>
 
 	<script type="text/javascript">var ajaxurl = "<?php echo site_url( 'wp-load.php' ); ?>";</script>

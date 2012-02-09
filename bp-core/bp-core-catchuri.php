@@ -37,7 +37,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  */
 function bp_core_set_uri_globals() {
-	global $bp, $current_blog, $wpdb;
+	global $bp, $current_blog;
 
 	// Don't catch URIs on non-root blogs unless multiblog mode is on
 	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )

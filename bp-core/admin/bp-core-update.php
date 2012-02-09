@@ -88,7 +88,6 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function add_steps() {
-		global $wp_rewrite;
 
 		// Setup wizard steps
 		$steps = array();
@@ -1170,6 +1169,9 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function setup_pages( $pages ) {
+
+		$bp_pages = array();
+
 		foreach ( $pages as $key => $value ) {
 			if ( 'page' == $value ) {
 				// Check for the selected page
@@ -1213,7 +1215,6 @@ function bp_core_setup_wizard_init() {
 add_action( bp_core_update_admin_hook(), 'bp_core_setup_wizard_init', 7 );
 
 function bp_core_install( $active_components = false ) {
-	global $wpdb;
 
 	if ( empty( $active_components ) )
 		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
@@ -1249,8 +1250,6 @@ function bp_core_install( $active_components = false ) {
 }
 
 function bp_core_update( $disabled ) {
-	global $wpdb;
-
 	require( dirname( __FILE__ ) . '/bp-core-schema.php' );
 }
 

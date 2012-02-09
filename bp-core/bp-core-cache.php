@@ -48,14 +48,12 @@ function bp_core_clear_user_object_cache( $user_id ) {
  * Update the metadata cache for the specified objects.
  *
  * @since 1.6
- * @uses $wpdb WordPress database object for queries.
- * @uses $bp BuddyPress global object.
- *
+ * @global $wpdb WordPress database object for queries.
  * @param array $args See $defaults definition for more details
  * @return mixed Metadata cache for the specified objects, or false on failure.
  */
 function bp_update_meta_cache( $args = array() ) {
-	global $bp, $wpdb;
+	global $wpdb;
 	
 	$defaults = array(
 		'object_ids' 	   => array(), // Comma-separated list or array of item ids

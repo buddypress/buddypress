@@ -182,12 +182,9 @@ function bp_core_admin_slugs_options() {
  *
  * @since BuddyPress (1.6)
  * @todo Use settings API
- * @global WPDB $wpdb
- * @global BuddyPress $bp
- * @return type
+ * @return False if referer does not check out
  */
 function bp_core_admin_slugs_setup_handler() {
-	global $wpdb, $bp;
 
 	if ( isset( $_POST['bp-admin-pages-submit'] ) || isset( $_POST['bp-admin-pages-single'] ) ) {
 		if ( !check_admin_referer( 'bp-admin-pages-setup' ) )

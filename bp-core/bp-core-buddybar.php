@@ -428,14 +428,11 @@ function bp_core_admin_bar() {
 
 // **** Default BuddyPress admin bar logo ********
 function bp_adminbar_logo() {
-	global $bp;
-
 	echo '<a href="' . bp_get_root_domain() . '" id="admin-bar-logo">' . get_blog_option( bp_get_root_blog_id(), 'blogname' ) . '</a>';
 }
 
 // **** "Log In" and "Sign Up" links (Visible when not logged in) ********
 function bp_adminbar_login_menu() {
-	global $bp;
 
 	if ( is_user_logged_in() )
 		return false;
@@ -524,7 +521,7 @@ function bp_adminbar_thisblog_menu() {
 
 // **** "Random" Menu (visible when not logged in) ********
 function bp_adminbar_random_menu() {
-	global $bp; ?>
+?>
 
 	<li class="align-right" id="bp-adminbar-visitrandom-menu">
 		<a href="#"><?php _e( 'Visit', 'buddypress' ) ?></a>
@@ -652,4 +649,5 @@ function bp_core_load_buddybar_css() {
 	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), '20110723' );
 }
 add_action( 'bp_init', 'bp_core_load_buddybar_css' );
+
 ?>

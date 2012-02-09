@@ -15,10 +15,10 @@ function bp_core_set_charset() {
 }
 
 function bp_core_install_notifications() {
-	global $wpdb;
 
+	$sql             = array();
 	$charset_collate = bp_core_set_charset();
-	$bp_prefix = bp_core_get_table_prefix();
+	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_notifications (
 	  		    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -38,14 +38,14 @@ function bp_core_install_notifications() {
 			    KEY useritem (user_id,is_new)
 		       ) {$charset_collate};";
 
-	dbDelta($sql);
+	dbDelta( $sql );
 }
 
 function bp_core_install_activity_streams() {
-	global $wpdb;
 
+	$sql             = array();
 	$charset_collate = bp_core_set_charset();
-	$bp_prefix = bp_core_get_table_prefix();
+	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_activity (
 				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -83,14 +83,14 @@ function bp_core_install_activity_streams() {
 				KEY meta_key (meta_key)
 		   	   ) {$charset_collate};";
 
-	dbDelta($sql);
+	dbDelta( $sql );
 }
 
 function bp_core_install_friends() {
-	global $wpdb;
 
+	$sql             = array();
 	$charset_collate = bp_core_set_charset();
-	$bp_prefix = bp_core_get_table_prefix();
+	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_friends (
 	  		    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -103,14 +103,14 @@ function bp_core_install_friends() {
 		        KEY friend_user_id (friend_user_id)
 	 	       ) {$charset_collate};";
 
-	dbDelta($sql);
+	dbDelta( $sql );
 }
 
 function bp_core_install_groups() {
-	global $wpdb;
 
+	$sql             = array();
 	$charset_collate = bp_core_set_charset();
-	$bp_prefix = bp_core_get_table_prefix();
+	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_groups (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -155,14 +155,14 @@ function bp_core_install_groups() {
 				KEY meta_key (meta_key)
 			   ) {$charset_collate};";
 
-	dbDelta($sql);
+	dbDelta( $sql );
 }
 
 function bp_core_install_private_messaging() {
-	global $wpdb;
 
+	$sql             = array();
 	$charset_collate = bp_core_set_charset();
-	$bp_prefix = bp_core_get_table_prefix();
+	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_messages (
 		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -198,14 +198,15 @@ function bp_core_install_private_messaging() {
 			    KEY is_active (is_active)
 		 	   ) {$charset_collate};";
 
-	dbDelta($sql);
+	dbDelta( $sql );
 }
 
 function bp_core_install_extended_profiles() {
 	global $wpdb;
 
+	$sql             = array();
 	$charset_collate = bp_core_set_charset();
-	$bp_prefix = bp_core_get_table_prefix();
+	$bp_prefix       = bp_core_get_table_prefix();
 
 	bp_update_option( 'bp-xprofile-base-group-name', _x( 'Base', 'First XProfile group name', 'buddypress' ) );
 	bp_update_option( 'bp-xprofile-fullname-field-name', _x( 'Name', 'XProfile fullname field name', 'buddypress' ) );
@@ -274,10 +275,10 @@ function bp_core_install_extended_profiles() {
 }
 
 function bp_core_install_blog_tracking() {
-	global $wpdb;
 
+	$sql             = array();
 	$charset_collate = bp_core_set_charset();
-	$bp_prefix = bp_core_get_table_prefix();
+	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_user_blogs (
 	  		    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -296,7 +297,7 @@ function bp_core_install_blog_tracking() {
 				KEY meta_key (meta_key)
 		       ) {$charset_collate};";
 
-	dbDelta($sql);
+	dbDelta( $sql );
 }
 
 ?>

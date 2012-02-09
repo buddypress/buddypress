@@ -389,7 +389,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args, EXTR_SKIP );
 
-	if ( !$item_id ) {
+	if ( empty( $item_id ) ) {
 		if ( 'user' == $object )
 			$item_id = bp_displayed_user_id();
 		else if ( 'group' == $object )
@@ -402,7 +402,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		if ( !$item_id ) return false;
 	}
 
-	if ( !$avatar_dir ) {
+	if ( empty( $avatar_dir ) ) {
 		if ( 'user' == $object )
 			$avatar_dir = 'avatars';
 		else if ( 'group' == $object )
@@ -547,12 +547,10 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
  *  crop_x - The horizontal starting point of the crop
  *  crop_y - The vertical starting point of the crop
  *
- * @global object $bp BuddyPress global settings
  * @param mixed $args
  * @return bool Success/failure
  */
 function bp_core_avatar_handle_crop( $args = '' ) {
-	global $bp;
 
 	$defaults = array(
 		'object'        => 'user',

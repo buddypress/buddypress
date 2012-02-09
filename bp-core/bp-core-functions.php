@@ -182,7 +182,7 @@ function bp_core_update_directory_page_ids( $blog_page_ids ) {
  * @return obj $pages Page names, IDs, and slugs
  */
 function bp_core_get_directory_pages() {
-	global $wpdb, $bp;
+	global $wpdb;
 
 	// Set pages as standard class
 	$pages = new stdClass;
@@ -261,7 +261,6 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
  * @return $domain The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
-	global $wpdb;
 
 	$domain = get_home_url( bp_get_root_blog_id() );
 
@@ -493,7 +492,6 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
  * @uses bp_update_user_meta() BP function to update user metadata in the usermeta table.
  */
 function bp_core_record_activity() {
-	global $bp;
 
 	if ( !is_user_logged_in() )
 		return false;
@@ -542,12 +540,11 @@ function bp_core_get_last_activity( $last_activity_date, $string ) {
  *
  * @package BuddyPress Core
  *
- * @global $bp $bp
  * @global object $current_site
  * @return string
  */
 function bp_core_get_site_path() {
-	global $bp, $current_site;
+	global $current_site;
 
 	if ( is_multisite() )
 		$site_path = $current_site->path;
@@ -623,11 +620,9 @@ function bp_core_add_illegal_names() {
  * A javascript free implementation of the search functions in BuddyPress
  *
  * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
  * @param string $slug The slug to redirect to for searching.
  */
 function bp_core_action_search_site( $slug = '' ) {
-	global $bp;
 
 	if ( !bp_is_current_component( bp_get_search_slug() ) )
 		return;
@@ -1155,7 +1150,7 @@ function bp_update_is_item_mod( $is_item_mod = false, $component = '' ) {
  * @since 1.5
  */
 function bp_do_404( $redirect = 'remove_canonical_direct' ) {
-	global $bp, $wp_query;
+	global $wp_query;
 
 	do_action( 'bp_do_404', $redirect );
 

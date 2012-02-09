@@ -31,7 +31,6 @@ class BP_Core_Members_Widget extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		global $bp;
 
 		extract( $args );
 
@@ -159,7 +158,6 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	}
 
 	function widget($args, $instance) {
-		global $bp;
 
 	    extract( $args );
 
@@ -227,8 +225,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		parent::__construct( false, $name = __( 'Recently Active Member Avatars', 'buddypress' ), $widget_ops );
 	}
 
-	function widget($args, $instance) {
-		global $bp;
+	function widget( $args, $instance ) {
 
 		extract( $args );
 
@@ -286,7 +283,6 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 /** Widget AJAX ******************/
 
 function bp_core_ajax_widget_members() {
-	global $bp;
 
 	check_ajax_referer( 'bp_core_widget_members' );
 
