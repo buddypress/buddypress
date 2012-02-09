@@ -774,7 +774,7 @@ function bp_the_topic_is_mine() {
 	echo bp_get_the_topic_is_mine();
 }
 	function bp_get_the_topic_is_mine() {
-		global $bp, $forum_template;
+		global $forum_template;
 
 		return bp_loggedin_user_id() == $forum_template->topic->topic_poster;
 	}
@@ -783,7 +783,7 @@ function bp_the_topic_admin_links( $args = '' ) {
 	echo bp_get_the_topic_admin_links( $args );
 }
 	function bp_get_the_topic_admin_links( $args = '' ) {
-		global $bp, $forum_template;
+		global $forum_template;
 
 		$defaults = array(
 			'seperator' => '|'
@@ -794,7 +794,7 @@ function bp_the_topic_admin_links( $args = '' ) {
 
 		$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'edit', 'bp_forums_edit_topic' ) . '">' . __( 'Edit Topic', 'buddypress' ) . '</a>';
 
-		if ( $bp->is_item_admin || $bp->is_item_mod || bp_current_user_can( 'bp_moderate' ) ) {
+		if ( bp_is_item_admin() || bp_is_item_mod() || bp_current_user_can( 'bp_moderate' ) ) {
 			if ( 0 == (int)$forum_template->topic->topic_sticky )
 				$links[] = '<a href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'stick', 'bp_forums_stick_topic' ) . '">' . __( 'Sticky Topic', 'buddypress' ) . '</a>';
 			else

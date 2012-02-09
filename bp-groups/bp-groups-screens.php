@@ -167,7 +167,7 @@ function groups_screen_group_forum() {
 			}
 
 			// Sticky a topic
-			else if ( bp_is_action_variable( 'stick', 2 ) && ( isset( $bp->is_item_admin ) || isset( $bp->is_item_mod ) ) ) {
+			else if ( bp_is_action_variable( 'stick', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
 				// Check the nonce
 				check_admin_referer( 'bp_forums_stick_topic' );
 
@@ -181,7 +181,7 @@ function groups_screen_group_forum() {
 			}
 
 			// Un-Sticky a topic
-			else if ( bp_is_action_variable( 'unstick', 2 ) && ( isset( $bp->is_item_admin ) || isset( $bp->is_item_mod ) ) ) {
+			else if ( bp_is_action_variable( 'unstick', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
 				// Check the nonce
 				check_admin_referer( 'bp_forums_unstick_topic' );
 
@@ -195,7 +195,7 @@ function groups_screen_group_forum() {
 			}
 
 			// Close a topic
-			else if ( bp_is_action_variable( 'close', 2 ) && ( isset( $bp->is_item_admin ) || isset( $bp->is_item_mod ) ) ) {
+			else if ( bp_is_action_variable( 'close', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
 				// Check the nonce
 				check_admin_referer( 'bp_forums_close_topic' );
 
@@ -209,7 +209,7 @@ function groups_screen_group_forum() {
 			}
 
 			// Open a topic
-			else if ( bp_is_action_variable( 'open', 2 ) && ( isset( $bp->is_item_admin ) || isset( $bp->is_item_mod ) ) ) {
+			else if ( bp_is_action_variable( 'open', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
 				// Check the nonce
 				check_admin_referer( 'bp_forums_open_topic' );
 
@@ -228,7 +228,7 @@ function groups_screen_group_forum() {
 				$topic = bp_forums_get_topic_details( $topic_id );
 
 				/* Check the logged in user can delete this topic */
-				if ( !$bp->is_item_admin && !$bp->is_item_mod && (int)bp_loggedin_user_id() != (int)$topic->topic_poster )
+				if ( ! bp_is_item_admin() && ! bp_is_item_mod() && ( (int) bp_loggedin_user_id() != (int) $topic->topic_poster ) )
 					bp_core_redirect( wp_get_referer() );
 
 				// Check the nonce
@@ -251,7 +251,7 @@ function groups_screen_group_forum() {
 				$topic = bp_forums_get_topic_details( $topic_id );
 
 				// Check the logged in user can edit this topic
-				if ( !$bp->is_item_admin && !$bp->is_item_mod && (int)bp_loggedin_user_id() != (int)$topic->topic_poster )
+				if ( ! bp_is_item_admin() && ! bp_is_item_mod() && ( (int) bp_loggedin_user_id() != (int) $topic->topic_poster ) )
 					bp_core_redirect( wp_get_referer() );
 
 				if ( isset( $_POST['save_changes'] ) ) {
@@ -278,7 +278,7 @@ function groups_screen_group_forum() {
 				$post = bp_forums_get_post( $post_id );
 
 				// Check the logged in user can edit this topic
-				if ( !$bp->is_item_admin && !$bp->is_item_mod && (int)bp_loggedin_user_id() != (int)$post->poster_id )
+				if ( ! bp_is_item_admin() && ! bp_is_item_mod() && ( (int) bp_loggedin_user_id() != (int) $post->poster_id ) )
 					bp_core_redirect( wp_get_referer() );
 
 				// Check the nonce
@@ -301,7 +301,7 @@ function groups_screen_group_forum() {
 				$post = bp_forums_get_post( $post_id );
 
 				// Check the logged in user can edit this topic
-				if ( !$bp->is_item_admin && !$bp->is_item_mod && (int)bp_loggedin_user_id() != (int)$post->poster_id )
+				if ( ! bp_is_item_admin() && ! bp_is_item_mod() && ( (int) bp_loggedin_user_id() != (int) $post->poster_id ) )
 					bp_core_redirect( wp_get_referer() );
 
 				if ( isset( $_POST['save_changes'] ) ) {
@@ -480,7 +480,7 @@ function groups_screen_group_admin_edit_details() {
 
 	if ( bp_is_groups_component() && bp_is_action_variable( 'edit-details', 0 ) ) {
 
-		if ( $bp->is_item_admin || $bp->is_item_mod  ) {
+		if ( bp_is_item_admin() || bp_is_item_mod() ) {
 
 			// If the edit form has been submitted, save the edited details
 			if ( isset( $_POST['save'] ) ) {
@@ -512,7 +512,7 @@ function groups_screen_group_admin_settings() {
 
 	if ( bp_is_groups_component() && bp_is_action_variable( 'group-settings', 0 ) ) {
 
-		if ( !$bp->is_item_admin )
+		if ( ! bp_is_item_admin() )
 			return false;
 
 		// If the edit form has been submitted, save the edited details
@@ -555,7 +555,7 @@ function groups_screen_group_admin_avatar() {
 	if ( bp_is_groups_component() && bp_is_action_variable( 'group-avatar', 0 ) ) {
 
 		// If the logged-in user doesn't have permission or if avatar uploads are disabled, then stop here
-		if ( !$bp->is_item_admin || (int)bp_get_option( 'bp-disable-avatar-uploads' ) )
+		if ( ! bp_is_item_admin() || (int) bp_get_option( 'bp-disable-avatar-uploads' ) )
 			return false;
 
 		// If the group admin has deleted the admin avatar
@@ -618,7 +618,7 @@ function groups_screen_group_admin_manage_members() {
 
 	if ( bp_is_groups_component() && bp_is_action_variable( 'manage-members', 0 ) ) {
 
-		if ( !$bp->is_item_admin )
+		if ( ! bp_is_item_admin() )
 			return false;
 
 		if ( bp_action_variable( 1 ) && bp_action_variable( 2 ) && bp_action_variable( 3 ) ) {
@@ -733,7 +733,7 @@ function groups_screen_group_admin_requests() {
 
 	if ( bp_is_groups_component() && bp_is_action_variable( 'membership-requests', 0 ) ) {
 
-		if ( !$bp->is_item_admin || 'public' == $bp->groups->current_group->status )
+		if ( ! bp_is_item_admin() || ( 'public' == $bp->groups->current_group->status ) )
 			return false;
 
 		// Remove any screen notifications
@@ -782,7 +782,7 @@ function groups_screen_group_admin_delete_group() {
 
 	if ( bp_is_groups_component() && bp_is_action_variable( 'delete-group', 0 ) ) {
 
-		if ( !$bp->is_item_admin && !bp_current_user_can( 'bp_moderate' ) )
+		if ( ! bp_is_item_admin() && !bp_current_user_can( 'bp_moderate' ) )
 			return false;
 
 		if ( isset( $_REQUEST['delete-group-button'] ) && isset( $_REQUEST['delete-group-understand'] ) ) {

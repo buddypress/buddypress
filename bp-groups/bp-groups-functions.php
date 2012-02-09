@@ -197,7 +197,7 @@ function groups_delete_group( $group_id ) {
 	global $bp;
 
 	// Check the user is the group admin.
-	if ( !$bp->is_item_admin )
+	if ( ! bp_is_item_admin() )
 		return false;
 
 	// Get the group object
@@ -698,9 +698,8 @@ function groups_delete_all_group_invites( $group_id ) {
 /*** Group Promotion & Banning *************************************************/
 
 function groups_promote_member( $user_id, $group_id, $status ) {
-	global $bp;
 
-	if ( !$bp->is_item_admin )
+	if ( ! bp_is_item_admin() )
 		return false;
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
@@ -721,9 +720,8 @@ function groups_demote_member( $user_id, $group_id ) {
 }
 
 function groups_ban_member( $user_id, $group_id ) {
-	global $bp;
 
-	if ( !$bp->is_item_admin )
+	if ( ! bp_is_item_admin() )
 		return false;
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
@@ -734,9 +732,8 @@ function groups_ban_member( $user_id, $group_id ) {
 }
 
 function groups_unban_member( $user_id, $group_id ) {
-	global $bp;
 
-	if ( !$bp->is_item_admin )
+	if ( ! bp_is_item_admin() )
 		return false;
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
@@ -749,9 +746,8 @@ function groups_unban_member( $user_id, $group_id ) {
 /*** Group Removal *******************************************************/
 
 function groups_remove_member( $user_id, $group_id ) {
-	global $bp;
 
-	if ( !$bp->is_item_admin )
+	if ( ! bp_is_item_admin() )
 		return false;
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
