@@ -17,7 +17,6 @@ function bp_blogs_has_directory() {
 }
 
 function bp_blogs_get_blogs( $args = '' ) {
-	global $bp;
 
 	$defaults = array(
 		'type'         => 'active', // active, alphabetical, newest, or random
@@ -73,17 +72,15 @@ function bp_blogs_record_existing_blogs() {
 /**
  * Makes BuddyPress aware of a new site so that it can track its activity.
  *
- * @global object $bp BuddyPress global settings
+ * @since BuddyPress (1.0)
  * @param int $blog_id
  * @param int $user_id
  * @param $bool $no_activity ; optional.
- * @since 1.0
  * @uses BP_Blogs_Blog
  */
 function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
-	global $bp;
 
-	if ( !$user_id )
+	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
 	$name = get_blog_option( $blog_id, 'blogname' );
@@ -95,10 +92,8 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	$recorded_blog          = new BP_Blogs_Blog;
 	$recorded_blog->user_id = $user_id;
 	$recorded_blog->blog_id = $blog_id;
-
-	$recorded_blog_id = $recorded_blog->save();
-
-	$is_recorded = !empty( $recorded_blog_id ) ? true : false;
+	$recorded_blog_id       = $recorded_blog->save();
+	$is_recorded            = !empty( $recorded_blog_id ) ? true : false;
 
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
@@ -233,13 +228,11 @@ add_action( 'save_post', 'bp_blogs_record_post', 10, 2 );
  * Record blog comment activity. Checks if blog is public and post is not
  * password protected.
  *
- * @global $bp $bp
  * @param int $comment_id
  * @param bool $is_approved
  * @return mixed
  */
 function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
-	global $bp;
 
 	// Get the users comment
 	$recorded_comment = get_comment( $comment_id );
@@ -364,17 +357,21 @@ function bp_blogs_remove_blog( $blog_id ) {
 add_action( 'delete_blog', 'bp_blogs_remove_blog' );
 
 function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
-	global $bp, $current_user;
+	global $bp;
 
-	$blog_id = (int)$blog_id;
-	$user_id = (int)$user_id;
+	$blog_id = (int) $blog_id;
+	$user_id = (int) $user_id;
 
 	do_action( 'bp_blogs_before_remove_blog_for_user', $blog_id, $user_id );
 
 	BP_Blogs_Blog::delete_blog_for_user( $blog_id, $user_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->id, 'type' => 'new_blog' ) );
+	bp_blogs_delete_activity( array(
+		'item_id'   => $blog_id,
+		'component' => $bp->blogs->id,
+		'type'      => 'new_blog'
+	) );
 
 	do_action( 'bp_blogs_remove_blog_for_user', $blog_id, $user_id );
 }
@@ -404,7 +401,7 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 add_action( 'delete_post', 'bp_blogs_remove_post' );
 
 function bp_blogs_remove_comment( $comment_id ) {
-	global $wpdb, $bp;
+	global $wpdb;
 
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $wpdb->blogid, 'secondary_item_id' => $comment_id, 'type' => 'new_blog_comment' ) );
@@ -496,9 +493,8 @@ function bp_blogs_total_blogs() {
 }
 
 function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
-	global $bp;
 
-	if ( !$user_id )
+	if ( empty( $user_id ) )
 		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 	if ( !$count = wp_cache_get( 'bp_total_blogs_for_user_' . $user_id, 'bp' ) ) {
@@ -652,4 +648,5 @@ function bp_blogs_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user',  'bp_blogs_remove_data' );
 add_action( 'delete_user',       'bp_blogs_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_blogs_remove_data' );
+
 ?>

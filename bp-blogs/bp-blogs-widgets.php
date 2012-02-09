@@ -1,16 +1,20 @@
 <?php
+
+/**
+ * BuddyPress Blogs Widgets
+ *
+ * @package BuddyPress
+ * @subpackage BlogsWidgets
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-/***
- * The recent blogs widget is actually just the activity feed filtered on "new_blog_post".
- * Why not make some of your own widgets using a filtered activity stream?
- */
-
+// @todo not use create_function()
 function bp_blogs_register_widgets() {
-	global $wpdb, $bp;
+	global $wpdb;
 
-	if ( bp_is_active( 'activity' ) && (int)$wpdb->blogid == bp_get_root_blog_id() )
+	if ( bp_is_active( 'activity' ) && (int) $wpdb->blogid == bp_get_root_blog_id() )
 		add_action('widgets_init', create_function('', 'return register_widget("BP_Blogs_Recent_Posts_Widget");') );
 }
 add_action( 'bp_register_widgets', 'bp_blogs_register_widgets' );
@@ -26,7 +30,6 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	}
 
 	function widget($args, $instance) {
-		global $bp;
 
 		extract( $args );
 

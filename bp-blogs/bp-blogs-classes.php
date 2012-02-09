@@ -1,8 +1,23 @@
 <?php
+
+/**
+ * BuddyPress Blogs Classes
+ *
+ * @package BuddyPress
+ * @subpackage BlogsClasses
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-Class BP_Blogs_Blog {
+/**
+ * The main BuddyPress blog class
+ *
+ * @since BuddyPress (1.0)
+ * @package BuddyPress
+ * @subpackage BlogsClasses
+ */
+class BP_Blogs_Blog {
 	var $id;
 	var $user_id;
 	var $blog_id;
@@ -12,11 +27,7 @@ Class BP_Blogs_Blog {
 	}
 
 	function __construct( $id = null ) {
-		global $bp, $wpdb;
-
-		$user_id = bp_displayed_user_id();
-
-		if ( $id ) {
+		if ( !empty( $id ) ) {
 			$this->id = $id;
 			$this->populate();
 		}
@@ -279,4 +290,5 @@ Class BP_Blogs_Blog {
 		return false;
 	}
 }
+
 ?>

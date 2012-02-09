@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BuddyPress Blogs Streams Loader
  *

@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * BuddyPress Blogs Template Tags
+ *
+ * @package BuddyPress
+ * @subpackage BlogsTemplate
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -6,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Output the blogs component slug
  *
  * @package BuddyPress
- * @subpackage Blogs Template
+ * @subpackage BlogsTemplate
  * @since BuddyPress (r4100)
  *
  * @uses bp_get_blogs_slug()
@@ -18,7 +26,7 @@ function bp_blogs_slug() {
 	 * Return the blogs component slug
 	 *
 	 * @package BuddyPress
-	 * @subpackage Blogs Template
+	 * @subpackage BlogsTemplate
 	 * @since BuddyPress (r4100)
 	 */
 	function bp_get_blogs_slug() {
@@ -30,7 +38,7 @@ function bp_blogs_slug() {
  * Output the blogs component root slug
  *
  * @package BuddyPress
- * @subpackage Blogs Template
+ * @subpackage BlogsTemplate
  * @since BuddyPress (r4100)
  *
  * @uses bp_get_blogs_root_slug()
@@ -42,7 +50,7 @@ function bp_blogs_root_slug() {
 	 * Return the blogs component root slug
 	 *
 	 * @package BuddyPress
-	 * @subpackage Blogs Template
+	 * @subpackage BlogsTemplate
 	 * @since BuddyPress (r4100)
 	 */
 	function bp_get_blogs_root_slug() {
@@ -54,7 +62,7 @@ function bp_blogs_root_slug() {
  * Output blog directory permalink
  *
  * @package BuddyPress
- * @subpackage Blogs Template
+ * @subpackage BlogsTemplate
  * @since 1.5
  * @uses bp_get_blogs_directory_permalink()
  */
@@ -65,7 +73,7 @@ function bp_blogs_directory_permalink() {
 	 * Return blog directory permalink
 	 *
 	 * @package BuddyPress
-	 * @subpackage Blogs Template
+	 * @subpackage BlogsTemplate
 	 * @since 1.5
 	 * @uses apply_filters()
 	 * @uses traisingslashit()
@@ -99,7 +107,6 @@ class BP_Blogs_Template {
 	}
 
 	function __construct( $type, $page, $per_page, $max, $user_id, $search_terms ) {
-		global $bp;
 
 		$this->pag_page = isset( $_REQUEST['bpage'] ) ? intval( $_REQUEST['bpage'] ) : $page;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
@@ -174,7 +181,6 @@ class BP_Blogs_Template {
 	}
 
 	function the_blog() {
-		global $blog;
 
 		$this->in_the_loop = true;
 		$this->blog        = $this->next_blog();
@@ -191,7 +197,7 @@ function bp_rewind_blogs() {
 }
 
 function bp_has_blogs( $args = '' ) {
-	global $bp, $blogs_template;
+	global $blogs_template;
 
 	/***
 	 * Set the defaults based on the current page. Any of these will be overridden
@@ -227,8 +233,9 @@ function bp_has_blogs( $args = '' ) {
 	}
 
 	if ( $max ) {
-		if ( $per_page > $max )
+		if ( $per_page > $max ) {
 			$per_page = $max;
+		}
 	}
 
 	$blogs_template = new BP_Blogs_Template( $type, $page, $per_page, $max, $user_id, $search_terms );
@@ -248,7 +255,7 @@ function bp_the_blog() {
 }
 
 function bp_blogs_pagination_count() {
-	global $bp, $blogs_template;
+	global $blogs_template;
 
 	$start_num = intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1;
 	$from_num  = bp_core_number_format( $start_num );
@@ -271,7 +278,7 @@ function bp_blog_avatar( $args = '' ) {
 	echo bp_get_blog_avatar( $args );
 }
 	function bp_get_blog_avatar( $args = '' ) {
-		global $blogs_template, $bp;
+		global $blogs_template;
 		
 		$defaults = array(
 			'type'    => 'full',
@@ -401,8 +408,7 @@ function bp_blog_signup_enabled() {
 }
 
 function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = '') {
-	global $current_user, $current_site;
-	global $bp;
+	global $current_user;
 
 	if ( isset($_POST['submit']) ) {
 		bp_blogs_validate_blog_signup();
@@ -581,14 +587,11 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 }
 
 function bp_create_blog_link() {
-	global $bp;
-
 	if ( bp_is_my_profile() )
 		echo apply_filters( 'bp_create_blog_link', '<a href="' . bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create/">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
 }
 
 function bp_blogs_blog_tabs() {
-	global $bp, $groups_template;
 
 	// Don't show these tabs on a user's own profile
 	if ( bp_is_my_profile() )
@@ -607,10 +610,9 @@ function bp_blogs_blog_tabs() {
 }
 
 function bp_directory_blogs_search_form() {
-	global $bp;
 
 	$default_search_value = bp_get_search_default_text();
-	$search_value = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
+	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
 
 	<form action="" method="get" id="search-blogs-form">
 		<label><input type="text" name="s" id="blogs_search" placeholder="<?php echo esc_attr( $search_value ) ?>" /></label>

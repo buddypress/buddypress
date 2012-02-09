@@ -1,17 +1,29 @@
 <?php
-/******************************************************************************
- * These functions handle the recording, deleting and formatting of activity and
- * notifications for the user and for this specific component.
+
+/**
+ * BuddyPress Blogs Activity
+ *
+ * @package BuddyPress
+ * @subpackage BlogsActivity
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-
+/**
+ * Register activity actions for the blogs component
+ *
+ * @since BuddyPress (1.0)
+ * @package BuddyPress
+ * @subpackage BlogsActivity
+ * @global type $bp
+ * @return boolean 
+ */
 function bp_blogs_register_activity_actions() {
 	global $bp;
 
-	if ( !bp_is_active( 'activity' ) )
+	// Bail if activity is not active
+	if ( ! bp_is_active( 'activity' ) )
 		return false;
 
 	bp_activity_set_action( $bp->blogs->id, 'new_blog',         __( 'New site created',        'buddypress' ) );
@@ -22,10 +34,21 @@ function bp_blogs_register_activity_actions() {
 }
 add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions' );
 
+/**
+ * Record the activity to the actvity stream
+ *
+ * @since BuddyPress (1.0)
+ * @package BuddyPress
+ * @subpackage BlogsActivity
+ * @global BuddyPress $bp
+ * @param array $args
+ * @return boolean 
+ */
 function bp_blogs_record_activity( $args = '' ) {
 	global $bp;
 
-	if ( !bp_is_active( 'activity' ) )
+	// Bail if activity is not active
+	if ( ! bp_is_active( 'activity' ) )
 		return false;
 
 	$defaults = array(
@@ -45,7 +68,7 @@ function bp_blogs_record_activity( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	// Remove large images and replace them with just one image thumbnail
- 	if ( bp_is_active( 'activity' ) && !empty( $content ) )
+ 	if ( !empty( $content ) )
 		$content = bp_activity_thumbnail_content_images( $content, $primary_link );
 
 	if ( !empty( $action ) )
@@ -66,29 +89,41 @@ function bp_blogs_record_activity( $args = '' ) {
 	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
+/**
+ * Delete a blogs activity stream item
+ *
+ * @since BuddyPress (1.0)
+ * @package BuddyPress
+ * @subpackage BlogsActivity
+ * @global BuddyPress $bp
+ * @param array $args
+ * @return If activity is not active
+ */
 function bp_blogs_delete_activity( $args = true ) {
 	global $bp;
 
-	if ( bp_is_active( 'activity' ) ) {
-		$defaults = array(
-			'item_id'           => false,
-			'component'         => $bp->blogs->id,
-			'type'              => false,
-			'user_id'           => false,
-			'secondary_item_id' => false
-		);
+	// Bail if activity is not active
+	if ( ! bp_is_active( 'activity' ) )
+		return false;
 
-		$params = wp_parse_args( $args, $defaults );
-		extract( $params, EXTR_SKIP );
+	$defaults = array(
+		'item_id'           => false,
+		'component'         => $bp->blogs->id,
+		'type'              => false,
+		'user_id'           => false,
+		'secondary_item_id' => false
+	);
 
-		bp_activity_delete_by_item_id( array(
-			'item_id'           => $item_id,
-			'component'         => $component,
-			'type'              => $type,
-			'user_id'           => $user_id,
-			'secondary_item_id' => $secondary_item_id
-		) );
-	}
+	$params = wp_parse_args( $args, $defaults );
+	extract( $params, EXTR_SKIP );
+
+	bp_activity_delete_by_item_id( array(
+		'item_id'           => $item_id,
+		'component'         => $component,
+		'type'              => $type,
+		'user_id'           => $user_id,
+		'secondary_item_id' => $secondary_item_id
+	) );
 }
 
 ?>
