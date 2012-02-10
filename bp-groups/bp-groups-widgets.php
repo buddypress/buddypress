@@ -28,8 +28,6 @@ class BP_Groups_Widget extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		global $bp;
-
 		$user_id = apply_filters( 'bp_group_widget_user_id', '0' );
 
 		extract( $args );
@@ -142,7 +140,6 @@ class BP_Groups_Widget extends WP_Widget {
 }
 
 function groups_ajax_widget_groups_list() {
-	global $bp;
 
 	check_ajax_referer('groups_widget_groups_list');
 
@@ -199,4 +196,5 @@ function groups_ajax_widget_groups_list() {
 
 }
 add_action( 'wp_ajax_widget_groups_list', 'groups_ajax_widget_groups_list' );
+
 ?>

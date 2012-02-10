@@ -3,7 +3,6 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function groups_notification_group_updated( $group_id ) {
-	global $bp;
 
 	$group    = groups_get_group( array( 'group_id' => $group_id ) );
 	$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
@@ -46,7 +45,6 @@ To view the group: %2$s
 }
 
 function groups_notification_new_membership_request( $requesting_user_id, $admin_id, $group_id, $membership_id ) {
-	global $bp;
 
 	bp_core_add_notification( $requesting_user_id, $admin_id, 'groups', 'new_membership_request', $group_id );
 
@@ -54,11 +52,10 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 		return false;
 
 	$requesting_user_name = bp_core_get_user_displayname( $requesting_user_id );
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group                = groups_get_group( array( 'group_id' => $group_id ) );
 
-	$ud = bp_core_get_core_userdata($admin_id);
-	$requesting_ud = bp_core_get_core_userdata($requesting_user_id);
-
+	$ud             = bp_core_get_core_userdata( $admin_id );
+	$requesting_ud  = bp_core_get_core_userdata( $requesting_user_id );
 	$group_requests = bp_get_group_permalink( $group ) . 'admin/membership-requests';
 	$profile_link   = bp_core_get_user_domain( $requesting_user_id );
 	$settings_slug  = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
@@ -95,7 +92,6 @@ To view %4$s\'s profile: %5$s
 }
 
 function groups_notification_membership_request_completed( $requesting_user_id, $group_id, $accepted = true ) {
-	global $bp;
 
 	// Post a screen notification first.
 	if ( $accepted )
@@ -152,7 +148,6 @@ To submit another request please log in and visit: %2$s
 }
 
 function groups_notification_promoted_member( $user_id, $group_id ) {
-	global $bp;
 
 	if ( groups_is_user_admin( $user_id, $group_id ) ) {
 		$promoted_to = __( 'an administrator', 'buddypress' );
@@ -201,9 +196,9 @@ To view the group please visit: %3$s
 add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
 
 function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
-	global $bp;
 
-	$inviter_ud = bp_core_get_core_userdata( $inviter_user_id );
+	// @todo $inviter_up may be used for caching, test without it
+	$inviter_ud   = bp_core_get_core_userdata( $inviter_user_id );
 	$inviter_name = bp_core_get_userlink( $inviter_user_id, true, false, true );
 	$inviter_link = bp_core_get_user_domain( $inviter_user_id );
 
@@ -218,11 +213,10 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		if ( 'no' == bp_get_user_meta( $invited_user_id, 'notification_groups_invite', true ) )
 			return false;
 
-		$invited_ud = bp_core_get_core_userdata($invited_user_id);
-
+		$invited_ud    = bp_core_get_core_userdata($invited_user_id);
 		$settings_link = bp_core_get_user_domain( $invited_user_id ) . bp_get_settings_slug() . '/notifications/';
-		$invited_link = bp_core_get_user_domain( $invited_user_id );
-		$invites_link = trailingslashit( $invited_link . bp_get_groups_slug() . '/invites' );
+		$invited_link  = bp_core_get_user_domain( $invited_user_id );
+		$invites_link  = trailingslashit( $invited_link . bp_get_groups_slug() . '/invites' );
 
 		// Set up and send the message
 		$to       = $invited_ud->user_email;

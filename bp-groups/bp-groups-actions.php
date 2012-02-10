@@ -1,10 +1,14 @@
 <?php
-/********************************************************************************
- * Action Functions
+
+/**
+ * BuddyPress Groups Activity & Notification Functions
  *
  * Action functions are exactly the same as screen functions, however they do not
  * have a template screen associated with them. Usually they will send the user
  * back to the default screen after execution.
+ *
+ * @package BuddyPress
+ * @subpackage GroupsActions
  */
 
 // Exit if accessed directly
@@ -287,7 +291,6 @@ function groups_action_sort_creation_steps() {
 }
 
 function groups_action_redirect_to_random_group() {
-	global $bp, $wpdb;
 
 	if ( bp_is_groups_component() && isset( $_GET['random-group'] ) ) {
 		$group = groups_get_groups( array( 'type' => 'random', 'per_page' => 1 ) );
@@ -315,4 +318,5 @@ function groups_action_group_feed() {
 	die;
 }
 add_action( 'bp_actions', 'groups_action_group_feed' );
+
 ?>

@@ -105,8 +105,6 @@ class BP_Groups_Template {
 
 	function __construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $populate_extras, $include = false, $exclude = false, $show_hidden = false ){
 
-		global $bp;
-
 		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
@@ -162,7 +160,7 @@ class BP_Groups_Template {
 		}
 
 		// Build pagination links
-		if ( (int)$this->total_group_count && (int)$this->pag_num ) {
+		if ( (int) $this->total_group_count && (int)$this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( array( 'grpage' => '%#%', 'num' => $this->pag_num, 's' => $search_terms, 'sortby' => $this->sort_by, 'order' => $this->order ) ),
 				'format'    => '',
@@ -210,10 +208,8 @@ class BP_Groups_Template {
 	}
 
 	function the_group() {
-		global $group;
-
 		$this->in_the_loop = true;
-		$this->group = $this->next_group();
+		$this->group       = $this->next_group();
 
 		if ( $this->single_group )
 			$this->group = groups_get_group( array( 'group_id' => $this->group->group_id ) );
@@ -297,7 +293,7 @@ function bp_the_group() {
 }
 
 function bp_group_is_visible( $group = false ) {
-	global $bp, $groups_template;
+	global $groups_template;
 
 	if ( bp_current_user_can( 'bp_moderate' ) )
 		return true;
@@ -381,12 +377,12 @@ function bp_group_avatar( $args = '' ) {
 		global $bp, $groups_template;
 
 		$defaults = array(
-			'type' => 'full',
-			'width' => false,
+			'type'   => 'full',
+			'width'  => false,
 			'height' => false,
-			'class' => 'avatar',
-			'id' => false,
-			'alt' => sprintf( __( 'Group logo of %s', 'buddypress' ), $groups_template->group->name )
+			'class'  => 'avatar',
+			'id'     => false,
+			'alt'    => sprintf( __( 'Group logo of %s', 'buddypress' ), $groups_template->group->name )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -438,7 +434,7 @@ function bp_group_permalink() {
 	echo bp_get_group_permalink();
 }
 	function bp_get_group_permalink( $group = false ) {
-		global $groups_template, $bp;
+		global $groups_template;
 
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
@@ -450,7 +446,7 @@ function bp_group_admin_permalink() {
 	echo bp_get_group_admin_permalink();
 }
 	function bp_get_group_admin_permalink( $group = false ) {
-		global $groups_template, $bp;
+		global $groups_template;
 
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
@@ -667,7 +663,7 @@ function bp_group_all_members_permalink() {
 	echo bp_get_group_all_members_permalink();
 }
 	function bp_get_group_all_members_permalink( $group = false ) {
-		global $groups_template, $bp;
+		global $groups_template;
 
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
@@ -676,7 +672,7 @@ function bp_group_all_members_permalink() {
 	}
 
 function bp_group_search_form() {
-	global $groups_template, $bp;
+	global $bp;
 
 	$action = $bp->displayed_user->domain . bp_get_groups_slug() . '/my-groups/search/';
 	$label = __('Filter Groups', 'buddypress');
@@ -720,12 +716,12 @@ function bp_groups_pagination_count() {
 	echo bp_get_groups_pagination_count();
 }
 	function bp_get_groups_pagination_count() {
-		global $bp, $groups_template;
+		global $groups_template;
 
 		$start_num = intval( ( $groups_template->pag_page - 1 ) * $groups_template->pag_num ) + 1;
-		$from_num = bp_core_number_format( $start_num );
-		$to_num = bp_core_number_format( ( $start_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $start_num + ( $groups_template->pag_num - 1 ) );
-		$total = bp_core_number_format( $groups_template->total_group_count );
+		$from_num  = bp_core_number_format( $start_num );
+		$to_num    = bp_core_number_format( ( $start_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $start_num + ( $groups_template->pag_num - 1 ) );
+		$total     = bp_core_number_format( $groups_template->total_group_count );
 
 		return apply_filters( 'bp_get_groups_pagination_count', sprintf( __( 'Viewing group %1$s to %2$s (of %3$s groups)', 'buddypress' ), $from_num, $to_num, $total ) );
 	}
@@ -1075,7 +1071,7 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 }
 
 function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
-	global $groups_template, $group_mods;
+	global $groups_template;
 
 	if ( empty( $group ) )
 		$group =& $groups_template->group;
@@ -1137,7 +1133,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 }
 
 function bp_group_has_moderators( $group = false ) {
-	global $group_mods, $groups_template;
+	global $groups_template;
 
 	if ( empty( $group ) )
 		$group =& $groups_template->group;
@@ -1149,7 +1145,7 @@ function bp_group_member_promote_mod_link( $args = '' ) {
 	echo bp_get_group_member_promote_mod_link( $args );
 }
 	function bp_get_group_member_promote_mod_link( $args = '' ) {
-		global $members_template, $groups_template, $bp;
+		global $members_template, $groups_template;
 
 		$defaults = array(
 			'user_id' => $members_template->member->user_id,
@@ -1166,7 +1162,7 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 	echo bp_get_group_member_promote_admin_link( $args );
 }
 	function bp_get_group_member_promote_admin_link( $args = '' ) {
-		global $members_template, $groups_template, $bp;
+		global $members_template, $groups_template;
 
 		$defaults = array(
 			'user_id' => !empty( $members_template->member->user_id ) ? $members_template->member->user_id : false,
@@ -1188,7 +1184,7 @@ function bp_group_member_demote_link( $user_id = 0 ) {
 	echo bp_get_group_member_demote_link( $user_id );
 }
 	function bp_get_group_member_demote_link( $user_id = 0, $group = false ) {
-		global $members_template, $groups_template, $bp;
+		global $members_template, $groups_template;
 
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
@@ -1208,7 +1204,7 @@ function bp_group_member_ban_link( $user_id = 0 ) {
 	echo bp_get_group_member_ban_link( $user_id );
 }
 	function bp_get_group_member_ban_link( $user_id = 0, $group = false ) {
-		global $members_template, $groups_template, $bp;
+		global $groups_template;
 
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
@@ -1246,7 +1242,7 @@ function bp_group_member_remove_link( $user_id = 0 ) {
 	echo bp_get_group_member_remove_link( $user_id );
 }
 	function bp_get_group_member_remove_link( $user_id = 0, $group = false ) {
-		global $members_template, $groups_template;
+		global $groups_template;
 
 		if ( empty( $group ) )
 			$group =& $groups_template->group;

@@ -819,7 +819,6 @@ add_action( 'bp_screens', 'groups_screen_group_admin_delete_group' );
  * @package BuddyPress
  */
 function groups_screen_notification_settings() {
-	global $bp;
 
 	if ( !$group_invite = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_invite', true ) )
 		$group_invite  = 'yes';
@@ -878,4 +877,5 @@ function groups_screen_notification_settings() {
 <?php
 }
 add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
+
 ?>

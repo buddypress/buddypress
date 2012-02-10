@@ -1,7 +1,22 @@
 <?php
+
+/**
+ * BuddyPress Groups BuddyBar
+ *
+ * @package BuddyPress
+ * @subpackage GroupsBuddyBar
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Adds menu items to the BuddyBar
+ *
+ * @since BuddyPress (1.0)
+ * @global BuddyPress $bp
+ * @return False if no menu
+ */
 function bp_groups_adminbar_admin_menu() {
 	global $bp;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BuddyPress Groups Activity & Notification Functions
  *
@@ -62,21 +63,20 @@ function groups_record_activity( $args = '' ) {
 function groups_update_last_activity( $group_id = 0 ) {
 	global $bp;
 
-	if ( !$group_id )
+	if ( empty( $group_id ) )
 		$group_id = $bp->groups->current_group->id;
 
-	if ( !$group_id )
+	if ( empty( $group_id ) )
 		return false;
 
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 }
-add_action( 'groups_leave_group', 'groups_update_last_activity' );
-add_action( 'groups_created_group', 'groups_update_last_activity' );
-add_action( 'groups_new_forum_topic', 'groups_update_last_activity' );
+add_action( 'groups_leave_group',          'groups_update_last_activity' );
+add_action( 'groups_created_group',        'groups_update_last_activity' );
+add_action( 'groups_new_forum_topic',      'groups_update_last_activity' );
 add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
 
 function groups_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
-	global $bp;
 
 	switch ( $action ) {
 		case 'new_membership_request':
@@ -304,4 +304,5 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 	return false;
 }
+
 ?>

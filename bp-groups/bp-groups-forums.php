@@ -1,5 +1,15 @@
 <?php
-/*** Group Forums **************************************************************/
+
+/**
+ * BuddyPress Groups Forums
+ *
+ * Action functions are exactly the same as screen functions, however they do not
+ * have a template screen associated with them. Usually they will send the user
+ * back to the default screen after execution.
+ *
+ * @package BuddyPress
+ * @subpackage GroupsForums
+ */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;

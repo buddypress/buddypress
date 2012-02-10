@@ -56,25 +56,26 @@ function bp_groups_filter_kses( $content ) {
 	$groups_allowedtags['img']['class']  = array();
 	$groups_allowedtags['img']['id']     = array();
 	$groups_allowedtags['code']          = array();
-
 	$groups_allowedtags = apply_filters( 'bp_groups_filter_kses', $groups_allowedtags );
+
 	return wp_kses( $content, $groups_allowedtags );
 }
 
-/**** Filters for group forums ****/
+/** Group forums **************************************************************/
 
+/**
+ * Only filter the forum SQL on group pages or on the forums directory 
+ */
 function groups_add_forum_privacy_sql() {
-	global $bp;
-
-	// Only filter the forum SQL on group pages or on the forums directory
-	add_filter( 'get_topics_fields',     'groups_add_forum_fields_sql' );
-	add_filter( 'get_topics_join', 	     'groups_add_forum_tables_sql' );
-	add_filter( 'get_topics_where',      'groups_add_forum_where_sql'  );
+	add_filter( 'get_topics_fields', 'groups_add_forum_fields_sql' );
+	add_filter( 'get_topics_join', 	 'groups_add_forum_tables_sql' );
+	add_filter( 'get_topics_where',  'groups_add_forum_where_sql'  );
 }
 add_filter( 'bbpress_init', 'groups_add_forum_privacy_sql' );
 
 function groups_add_forum_fields_sql( $sql = '' ) {
-	return 't.*, g.id as object_id, g.name as object_name, g.slug as object_slug';
+	$sql = 't.*, g.id as object_id, g.name as object_name, g.slug as object_slug';
+	return $sql;
 }
 
 function groups_add_forum_tables_sql( $sql = '' ) {
@@ -87,6 +88,9 @@ function groups_add_forum_tables_sql( $sql = '' ) {
 
 function groups_add_forum_where_sql( $sql = '' ) {
 	global $bp;
+
+	// Define locale variable
+	$parts = array();
 
 	// Set this for groups
 	$parts['groups'] = "(gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id)";
@@ -152,4 +156,5 @@ function groups_filter_forums_root_page_sql( $sql ) {
 	return apply_filters( 'groups_filter_bbpress_root_page_sql', 't.topic_id' );
 }
 add_filter( 'get_latest_topics_fields', 'groups_filter_forums_root_page_sql' );
+
 ?>
