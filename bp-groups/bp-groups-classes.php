@@ -2,7 +2,7 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-Class BP_Groups_Group {
+class BP_Groups_Group {
 	var $id;
 	var $creator_id;
 	var $name;
@@ -672,7 +672,7 @@ Class BP_Groups_Group {
 	}
 }
 
-Class BP_Groups_Member {
+class BP_Groups_Member {
 	var $id;
 	var $group_id;
 	var $user_id;

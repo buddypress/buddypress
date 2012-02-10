@@ -9,7 +9,7 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-Class BP_Activity_Activity {
+class BP_Activity_Activity {
 	var $id;
 	var $item_id;
 	var $secondary_item_id;

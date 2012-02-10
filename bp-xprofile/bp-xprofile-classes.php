@@ -2,7 +2,7 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-Class BP_XProfile_Group {
+class BP_XProfile_Group {
 	var $id = null;
 	var $name;
 	var $description;
@@ -318,7 +318,7 @@ Class BP_XProfile_Group {
 }
 
 
-Class BP_XProfile_Field {
+class BP_XProfile_Field {
 	var $id;
 	var $group_id;
 	var $parent_id;
@@ -798,7 +798,7 @@ Class BP_XProfile_Field {
 }
 
 
-Class BP_XProfile_ProfileData {
+class BP_XProfile_ProfileData {
 	var $id;
 	var $user_id;
 	var $field_id;

@@ -370,7 +370,7 @@ class BP_Messages_Message {
 	}
 }
 
-Class BP_Messages_Notice {
+class BP_Messages_Notice {
 	var $id = null;
 	var $subject;
 	var $message;

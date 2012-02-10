@@ -6,7 +6,7 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-Class BP_XProfile_Data_Template {
+class BP_XProfile_Data_Template {
 	var $current_group = -1;
 	var $group_count;
 	var $groups;
