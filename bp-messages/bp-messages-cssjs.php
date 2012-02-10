@@ -1,9 +1,18 @@
 <?php
+
+/**
+ * BuddyPress Messages CSS and JS
+ *
+ * Apply WordPress defined filters to private messages
+ *
+ * @package BuddyPress
+ * @subpackage MessagesScripts
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function messages_add_autocomplete_js() {
-	global $bp;
 
 	// Include the autocomplete JS for composing a message.
 	if ( bp_is_messages_component() && bp_is_current_action( 'compose' ) ) {
@@ -26,13 +35,13 @@ function messages_add_autocomplete_js() {
 add_action( 'bp_actions', 'messages_add_autocomplete_js' );
 
 function messages_add_autocomplete_css() {
-	global $bp;
 
 	if ( bp_is_messages_component() && bp_is_current_action( 'compose' ) ) {
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
 			wp_enqueue_style( 'bp-messages-autocomplete', BP_PLUGIN_URL . 'bp-messages/css/autocomplete/jquery.autocompletefb.dev.css', array(), '20110723' );
-		else
+		} else {
 			wp_enqueue_style( 'bp-messages-autocomplete', BP_PLUGIN_URL . 'bp-messages/css/autocomplete/jquery.autocompletefb.css', array(), '20110723' );
+		}
 
 		wp_print_styles();
 	}
@@ -41,6 +50,7 @@ add_action( 'wp_head', 'messages_add_autocomplete_css' );
 
 function messages_autocomplete_init_jsblock() {
 ?>
+
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			var acfb =
@@ -52,5 +62,8 @@ function messages_autocomplete_init_jsblock() {
 			});
 		});
 	</script>
+
 <?php
 }
+
+?>

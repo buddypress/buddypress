@@ -1,18 +1,22 @@
 <?php
+
+/**
+ * BuddyPress Messages Classes
+ *
+ * @package BuddyPress
+ * @subpackage MessagesClasses
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-Class BP_Messages_Thread {
+class BP_Messages_Thread {
 	var $thread_id;
 	var $messages;
 	var $recipients;
 	var $sender_ids;
 
 	var $unread_count;
-
-	function bp_messages_thread ( $thread_id = false, $order = 'ASC' ) {
-		$this->__construct( $thread_id, $order);
-	}
 
 	function __construct( $thread_id = false, $order = 'ASC' ) {
 		if ( $thread_id )
@@ -53,9 +57,10 @@ Class BP_Messages_Thread {
 	function get_recipients() {
 		global $wpdb, $bp;
 
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
+		$recipients = array();
+		$results    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
 
-		foreach ( (array)$results as $recipient )
+		foreach ( (array) $results as $recipient )
 			$recipients[$recipient->user_id] = $recipient;
 
 		return $recipients;
@@ -202,6 +207,8 @@ Class BP_Messages_Thread {
 		if ( count($recipients) >= 5 )
 			return count( $recipients ) . __(' Recipients', 'buddypress');
 
+		$recipient_links = array();
+
 		foreach ( (array)$recipients as $recipient )
 			$recipient_links[] = bp_core_get_userlink( $recipient->user_id );
 
@@ -240,7 +247,7 @@ Class BP_Messages_Thread {
 	}
 }
 
-Class BP_Messages_Message {
+class BP_Messages_Message {
 	var $id;
 	var $thread_id;
 	var $sender_id;
@@ -250,13 +257,7 @@ Class BP_Messages_Message {
 
 	var $recipients = false;
 
-	function bp_messages_message( $id = null ) {
-		$this->__construct( $id );
-	}
-
 	function __construct( $id = null ) {
-		global $bp;
-
 		$this->date_sent = bp_core_current_time();
 		$this->sender_id = bp_loggedin_user_id();
 
@@ -343,8 +344,9 @@ Class BP_Messages_Message {
 
 		if ( is_array( $recipient_usernames ) ) {
 			for ( $i = 0, $count = count( $recipient_usernames ); $i < $count; ++$i ) {
-				if ( $rid = bp_core_get_userid( trim($recipient_usernames[$i]) ) )
+				if ( $rid = bp_core_get_userid( trim($recipient_usernames[$i]) ) ) {
 					$recipient_ids[] = $rid;
+				}
 			}
 		}
 
@@ -374,10 +376,6 @@ Class BP_Messages_Notice {
 	var $message;
 	var $date_sent;
 	var $is_active;
-
-	function bp_messages_notice( $id = null ) {
-		$this->__construct($id);
-	}
 
 	function __construct( $id = null ) {
 		if ( $id ) {
@@ -479,4 +477,5 @@ Class BP_Messages_Notice {
 		return new BP_Messages_Notice( $notice_id );
 	}
 }
+
 ?>

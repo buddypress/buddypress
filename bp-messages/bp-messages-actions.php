@@ -1,8 +1,14 @@
 <?php
-/*******************************************************************************
+
+/**
+ * BuddyPress Messages Actions
+ *
  * Action functions are exactly the same as screen functions, however they do not
  * have a template screen associated with them. Usually they will send the user
  * back to the default screen after execution.
+ *
+ * @package BuddyPress
+ * @subpackage SettingsLoader
  */
 
 // Exit if accessed directly
@@ -107,4 +113,5 @@ function messages_action_bulk_delete() {
 	}
 }
 add_action( 'bp_actions', 'messages_action_bulk_delete' );
+
 ?>

@@ -1,11 +1,19 @@
 <?php
+
+/**
+ * BuddyPress Messages Template Tags
+ *
+ * @package BuddyPress
+ * @subpackage MessagesTemplate
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-/*****************************************************************************
+/**
  * Message Box Template Class
- **/
-Class BP_Messages_Box_Template {
+ */
+class BP_Messages_Box_Template {
 	var $current_thread = -1;
 	var $current_thread_count;
 	var $total_thread_count;
@@ -210,7 +218,7 @@ function bp_message_thread_subject() {
 	echo bp_get_message_thread_subject();
 }
 	function bp_get_message_thread_subject() {
-		global $messages_template, $message_template_subject;
+		global $messages_template;
 
 		return apply_filters( 'bp_get_message_thread_subject', stripslashes_deep( $messages_template->thread->last_message_subject ) );
 	}
@@ -306,7 +314,7 @@ function bp_message_thread_avatar() {
 	echo bp_get_message_thread_avatar();
 }
 	function bp_get_message_thread_avatar() {
-		global $messages_template, $bp;
+		global $messages_template;
 		
 		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $messages_template->thread->last_sender_id ) ) ) ) );
 	}
@@ -396,20 +404,26 @@ function bp_messages_content_value() {
 	}
 
 function bp_messages_options() {
-	global $bp;
-?>
+	global $bp; ?>
+
 	<?php _e( 'Select:', 'buddypress' ) ?>
+
 	<select name="message-type-select" id="message-type-select">
 		<option value=""></option>
 		<option value="read"><?php _e('Read', 'buddypress') ?></option>
 		<option value="unread"><?php _e('Unread', 'buddypress') ?></option>
 		<option value="all"><?php _e('All', 'buddypress') ?></option>
 	</select> &nbsp;
+
 	<?php if ( $bp->current_action != 'sentbox' && $bp->current_action != 'notices' ) : ?>
+
 		<a href="#" id="mark_as_read"><?php _e('Mark as Read', 'buddypress') ?></a> &nbsp;
 		<a href="#" id="mark_as_unread"><?php _e('Mark as Unread', 'buddypress') ?></a> &nbsp;
+
 	<?php endif; ?>
+
 	<a href="#" id="delete_<?php echo $bp->current_action ?>_messages"><?php _e('Delete Selected', 'buddypress') ?></a> &nbsp;
+
 <?php
 }
 
@@ -650,14 +664,8 @@ class BP_Messages_Thread_Template {
 	var $pag_links;
 	var $total_message_count;
 
-	function bp_messages_thread_template( $thread_id, $order ) {
-		$this->__construct( $thread_id, $order );
-	}
-
 	function __construct( $thread_id, $order ) {
-		global $bp;
-
-		$this->thread = new BP_Messages_Thread( $thread_id, $order );
+		$this->thread        = new BP_Messages_Thread( $thread_id, $order );
 		$this->message_count = count( $this->thread->messages );
 
 		$last_message_index = $this->message_count - 1;
@@ -703,29 +711,28 @@ class BP_Messages_Thread_Template {
 	}
 
 	function the_message() {
-		global $message;
-
 		$this->in_the_loop = true;
-		$this->message = $this->next_message();
+		$this->message     = $this->next_message();
 
-		if ( 0 == $this->current_message ) // loop has just started
+		// loop has just started
+		if ( 0 == $this->current_message )
 			do_action('thread_loop_start');
 	}
 }
 
 function bp_thread_has_messages( $args = '' ) {
-	global $bp, $thread_template, $group_id;
+	global $thread_template;
 
 	$defaults = array(
 		'thread_id' => false,
-		'order' => 'ASC'
+		'order'     => 'ASC'
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !$thread_id && bp_is_messages_component() && bp_is_current_action( 'view' ) )
-		$thread_id = (int)bp_action_variable( 0 );
+	if ( empty( $thread_id ) && bp_is_messages_component() && bp_is_current_action( 'view' ) )
+		$thread_id = (int) bp_action_variable( 0 );
 
 	$thread_template = new BP_Messages_Thread_Template( $thread_id, $order );
 	return $thread_template->has_messages();
@@ -774,7 +781,7 @@ function bp_the_thread_recipients() {
 	echo bp_get_the_thread_recipients();
 }
 	function bp_get_the_thread_recipients() {
-		global $thread_template, $bp;
+		global $thread_template;
 
 		$recipient_links = array();
 
@@ -810,8 +817,8 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 		global $thread_template;
 
 		$defaults = array(
-			'type' => 'thumb',
-			'width' => false,
+			'type'   => 'thumb',
+			'width'  => false,
 			'height' => false,
 		);
 
@@ -881,4 +888,5 @@ function bp_messages_embed() {
 	add_filter( 'embed_post_id', 'bp_get_message_thread_id' );
 }
 add_action( 'messages_box_loop_start', 'bp_messages_embed' );
+
 ?>

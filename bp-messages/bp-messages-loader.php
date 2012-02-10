@@ -1,11 +1,12 @@
 <?php
+
 /**
- * BuddyPress Private Messages Loader
+ * BuddyPress Messages Loader
  *
  * A private messages component, for users to send messages to each other
  *
  * @package BuddyPress
- * @subpackage Messages Core
+ * @subpackage MessagesLoader
  */
 
 // Exit if accessed directly
@@ -92,7 +93,8 @@ class BP_Messages_Component extends BP_Component {
 	function setup_nav() {
 		global $bp;
 
-		$name = sprintf( __( 'Messages <span>%s</span>', 'buddypress' ), bp_get_total_unread_messages_count() );
+		$sub_nav = array();
+		$name    = sprintf( __( 'Messages <span>%s</span>', 'buddypress' ), bp_get_total_unread_messages_count() );
 
 		// Add 'Messages' to the main navigation
 		$main_nav = array(
@@ -173,9 +175,10 @@ class BP_Messages_Component extends BP_Component {
 			$messages_link = trailingslashit( $user_domain . $this->slug );
 
 			// Unread message count
-			if ( $count = messages_get_unread_count() ) {
-				$title = sprintf( __( 'Messages <span class="count">%s</span>', 'buddypress' ), $count );
-				$inbox = sprintf( __( 'Inbox <span class="count">%s</span>',    'buddypress' ), $count );
+			$count = messages_get_unread_count();
+			if ( !empty( $count ) ) {
+				$title = sprintf( __( 'Messages <span class="count">%s</span>', 'buddypress' ), number_format_i18n( $count ) );
+				$inbox = sprintf( __( 'Inbox <span class="count">%s</span>',    'buddypress' ), number_format_i18n( $count ) );
 			} else {
 				$title = __( 'Messages', 'buddypress' );
 				$inbox = __( 'Inbox',    'buddypress' );

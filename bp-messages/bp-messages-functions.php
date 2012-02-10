@@ -1,16 +1,21 @@
 <?php
-/*******************************************************************************
+
+/**
+ * BuddyPress Messages Functions
+ *
  * Business functions are where all the magic happens in BuddyPress. They will
  * handle the actual saving or manipulation of information. Usually they will
  * hand off to a database class for data access, then return
  * true or false on success or failure.
+ *
+ * @package BuddyPress
+ * @subpackage MessagesFunctions
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function messages_new_message( $args = '' ) {
-	global $bp;
 
 	$defaults = array (
 		'sender_id'  => bp_loggedin_user_id(),
@@ -143,8 +148,9 @@ function messages_delete_thread( $thread_ids ) {
 	if ( is_array( $thread_ids ) ) {
 		$error = 0;
 		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i ) {
-			if ( !$status = BP_Messages_Thread::delete( $thread_ids[$i]) )
+			if ( !$status = BP_Messages_Thread::delete( $thread_ids[$i]) ) {
 				$error = 1;
+			}
 		}
 
 		if ( !empty( $error ) )
@@ -164,8 +170,6 @@ function messages_delete_thread( $thread_ids ) {
 }
 
 function messages_check_thread_access( $thread_id, $user_id = 0 ) {
-	global $bp;
-
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
@@ -193,8 +197,6 @@ function messages_remove_callback_values() {
 }
 
 function messages_get_unread_count( $user_id = 0 ) {
-	global $bp;
-
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
@@ -213,11 +215,6 @@ function messages_is_valid_thread( $thread_id ) {
 	return BP_Messages_Thread::is_valid( $thread_id );
 }
 
-/*******************************************************************************
- * These functions handle the recording, deleting and formatting of activity and
- * notifications for the user and for this specific component.
- */
-
 /**
  * Format the BuddyBar/admin bar notifications for the Messages component
  *
@@ -230,13 +227,12 @@ function messages_is_valid_thread( $thread_id ) {
  * @param str $format 'string' for BuddyBar-compatible notifications; 'array' for WP Admin Bar
  */
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
-	global $bp;
 
 	if ( 'new_message' == $action ) {
 		$link  = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox' );
 		$title = __( 'Inbox', 'buddypress' );
 
-		if ( (int)$total_items > 1 ) {
+		if ( (int) $total_items > 1 ) {
 			$text = sprintf( __('You have %d new messages', 'buddypress' ), (int)$total_items );
 			$filter = 'bp_messages_multiple_new_message_notification';
 		} else {
@@ -251,11 +247,12 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		$return = apply_filters( $filter, array(
 			'text' => $text,
 			'link' => $link
-		), $link, (int)$total_items, $text, $link );
+		), $link, (int) $total_items, $text, $link );
 	}
 
 	do_action( 'messages_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 
 	return $return;
 }
+
 ?>

@@ -1,16 +1,20 @@
 <?php
-/*******************************************************************************
+
+/**
+ * BuddyPress Messages Screens
+ *
  * Screen functions are the controllers of BuddyPress. They will execute when their
  * specific URL is caught. They will first save or manipulate data using business
  * functions, then pass on the user to a template file.
+ *
+ * @package BuddyPress
+ * @subpackage MessagesScreens
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function messages_screen_inbox() {
-	global $bp;
-
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
@@ -21,8 +25,6 @@ function messages_screen_inbox() {
 }
 
 function messages_screen_sentbox() {
-	global $bp;
-
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
@@ -128,8 +130,6 @@ function messages_screen_notices() {
 }
 
 function messages_screen_notification_settings() {
-	global $bp;
-
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
@@ -139,8 +139,7 @@ function messages_screen_notification_settings() {
 		$new_messages = 'yes';
 
 	if ( !$new_notices = bp_get_user_meta( bp_displayed_user_id(), 'notification_messages_new_notice', true ) )
-		$new_notices  = 'yes';
-?>
+		$new_notices  = 'yes'; ?>
 
 	<table class="notification-settings" id="messages-notification-settings">
 		<thead>
