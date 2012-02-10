@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-10 18:36:23+00:00\n"
+"POT-Creation-Date: 2012-02-10 21:36:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -330,7 +330,7 @@ msgid "No activities found."
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:1102
-#: bp-messages/bp-messages-template.php:406
+#: bp-messages/bp-messages-template.php:415
 msgid "All"
 msgstr ""
 
@@ -546,8 +546,8 @@ msgstr ""
 #: bp-members/bp-members-template.php:484
 #: bp-members/bp-members-template.php:780
 #: bp-members/bp-members-template.php:800
-#: bp-messages/bp-messages-loader.php:245
-#: bp-messages/bp-messages-template.php:311
+#: bp-messages/bp-messages-loader.php:248
+#: bp-messages/bp-messages-template.php:319
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:212
 #: bp-xprofile/bp-xprofile-loader.php:225
@@ -590,7 +590,7 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:138
 #: bp-groups/bp-groups-notifications.php:185
 #: bp-groups/bp-groups-notifications.php:238
-#: bp-messages/bp-messages-notifications.php:45
+#: bp-messages/bp-messages-notifications.php:60
 msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
 
@@ -630,7 +630,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-screens.php:281 bp-blogs/bp-blogs-template.php:501
 #: bp-friends/bp-friends-screens.php:69 bp-groups/bp-groups-screens.php:841
-#: bp-messages/bp-messages-screens.php:150
+#: bp-messages/bp-messages-screens.php:149
 #: bp-themes/bp-default/groups/single/admin.php:26
 #: bp-themes/bp-default/registration/register.php:205
 msgid "Yes"
@@ -638,7 +638,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-screens.php:282 bp-blogs/bp-blogs-template.php:505
 #: bp-friends/bp-friends-screens.php:70 bp-groups/bp-groups-screens.php:842
-#: bp-messages/bp-messages-screens.php:151
+#: bp-messages/bp-messages-screens.php:150
 #: bp-themes/bp-default/groups/single/admin.php:27
 #: bp-themes/bp-default/registration/register.php:206
 msgid "No"
@@ -1142,7 +1142,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:272 bp-core/admin/bp-core-slugs.php:133
 #: bp-core/admin/bp-core-update.php:584
-#: bp-messages/bp-messages-template.php:498
+#: bp-messages/bp-messages-template.php:512
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
@@ -3666,113 +3666,113 @@ msgstr ""
 msgid "Activity RSS Feed"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:30
+#: bp-messages/bp-messages-actions.php:36
 msgid "Your reply was sent successfully"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:32
+#: bp-messages/bp-messages-actions.php:38
 msgid "There was a problem sending your reply, please try again"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:41 bp-messages/bp-messages-loader.php:95
+#: bp-messages/bp-messages-actions.php:47 bp-messages/bp-messages-loader.php:97
 msgid "Messages <span>%s</span>"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:48
+#: bp-messages/bp-messages-actions.php:54
 msgid "From: %s"
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:78
+#: bp-messages/bp-messages-actions.php:84
 msgid "There was an error deleting that message."
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:80
+#: bp-messages/bp-messages-actions.php:86
 msgid "Message deleted."
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:102
+#: bp-messages/bp-messages-actions.php:108
 msgid "There was an error deleting messages."
 msgstr ""
 
-#: bp-messages/bp-messages-actions.php:104
+#: bp-messages/bp-messages-actions.php:110
 #: bp-themes/bp-default/_inc/ajax.php:657
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages/bp-messages-classes.php:203
+#: bp-messages/bp-messages-classes.php:208
 msgid " Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-functions.php:48
+#: bp-messages/bp-messages-functions.php:53
 msgid "Re: %s"
 msgstr ""
 
-#: bp-messages/bp-messages-functions.php:56
+#: bp-messages/bp-messages-functions.php:61
 msgid "No Subject"
 msgstr ""
 
-#: bp-messages/bp-messages-functions.php:237
-#: bp-messages/bp-messages-loader.php:113
-#: bp-messages/bp-messages-loader.php:181
+#: bp-messages/bp-messages-functions.php:233
+#: bp-messages/bp-messages-loader.php:115
+#: bp-messages/bp-messages-loader.php:184
 msgid "Inbox"
 msgstr ""
 
-#: bp-messages/bp-messages-functions.php:240
+#: bp-messages/bp-messages-functions.php:236
 msgid "You have %d new messages"
 msgstr ""
 
-#: bp-messages/bp-messages-functions.php:243
+#: bp-messages/bp-messages-functions.php:239
 msgid "You have %d new message"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:24
+#: bp-messages/bp-messages-loader.php:25
 msgid "Private Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:78
+#: bp-messages/bp-messages-loader.php:79
 msgid "Search Messages..."
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:123
-#: bp-messages/bp-messages-loader.php:204
+#: bp-messages/bp-messages-loader.php:125
+#: bp-messages/bp-messages-loader.php:207
 msgid "Sent"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:133
-#: bp-messages/bp-messages-loader.php:212
+#: bp-messages/bp-messages-loader.php:135
+#: bp-messages/bp-messages-loader.php:215
 msgid "Compose"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:144
+#: bp-messages/bp-messages-loader.php:146
 msgid "Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:177
+#: bp-messages/bp-messages-loader.php:180
 msgid "Messages <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:178
+#: bp-messages/bp-messages-loader.php:181
 msgid "Inbox <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:180
-#: bp-messages/bp-messages-screens.php:149
+#: bp-messages/bp-messages-loader.php:183
+#: bp-messages/bp-messages-screens.php:148
 msgid "Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:221
+#: bp-messages/bp-messages-loader.php:224
 msgid "All Member Notices"
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:240
+#: bp-messages/bp-messages-loader.php:243
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-notifications.php:31
+#: bp-messages/bp-messages-notifications.php:46
 msgid "New message from %s"
 msgstr ""
 
-#: bp-messages/bp-messages-notifications.php:33
+#: bp-messages/bp-messages-notifications.php:48
 msgid ""
 "%1$s sent you a new message:\n"
 "\n"
@@ -3785,119 +3785,119 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:54
-#: bp-messages/bp-messages-screens.php:76
+#: bp-messages/bp-messages-screens.php:56
+#: bp-messages/bp-messages-screens.php:78
 msgid "There was an error sending that message, please try again"
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:59
+#: bp-messages/bp-messages-screens.php:61
 msgid "Notice sent successfully!"
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:62
+#: bp-messages/bp-messages-screens.php:64
 msgid "There was an error sending that notice, please try again"
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:73
+#: bp-messages/bp-messages-screens.php:75
 msgid "Message sent successfully!"
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:100
+#: bp-messages/bp-messages-screens.php:102
 msgid "There was a problem deactivating that notice."
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:102
+#: bp-messages/bp-messages-screens.php:104
 msgid "Notice deactivated."
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:106
+#: bp-messages/bp-messages-screens.php:108
 msgid "There was a problem activating that notice."
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:108
+#: bp-messages/bp-messages-screens.php:110
 msgid "Notice activated."
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:112
+#: bp-messages/bp-messages-screens.php:114
 msgid "There was a problem deleting that notice."
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:114
+#: bp-messages/bp-messages-screens.php:116
 msgid "Notice deleted."
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:158
+#: bp-messages/bp-messages-screens.php:157
 msgid "A member sends you a new message"
 msgstr ""
 
-#: bp-messages/bp-messages-screens.php:164
+#: bp-messages/bp-messages-screens.php:163
 msgid "A new site notice is posted"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:75
+#: bp-messages/bp-messages-template.php:83
 msgctxt "Message pagination previous text"
 msgid "&larr;"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:76
+#: bp-messages/bp-messages-template.php:84
 msgctxt "Message pagination next text"
 msgid "&rarr;"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:343
+#: bp-messages/bp-messages-template.php:351
 msgid "Viewing message %1$s to %2$s (of %3$s messages)"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:401
+#: bp-messages/bp-messages-template.php:409
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:404
+#: bp-messages/bp-messages-template.php:413
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:405
+#: bp-messages/bp-messages-template.php:414
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:409
+#: bp-messages/bp-messages-template.php:420
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:410
+#: bp-messages/bp-messages-template.php:421
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:412
+#: bp-messages/bp-messages-template.php:425
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:421
+#: bp-messages/bp-messages-template.php:435
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:496
+#: bp-messages/bp-messages-template.php:510
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:547
+#: bp-messages/bp-messages-template.php:561
 #: bp-themes/bp-default/functions.php:155
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:591
+#: bp-messages/bp-messages-template.php:605
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:592
+#: bp-messages/bp-messages-template.php:606
 msgid "Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:782
+#: bp-messages/bp-messages-template.php:789
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:857
+#: bp-messages/bp-messages-template.php:864
 #: bp-themes/bp-default/_inc/ajax.php:591
 msgid "Sent %s"
 msgstr ""
