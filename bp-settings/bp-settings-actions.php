@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * BuddyPress Settings Actions
+ *
+ * @todo split actions into separate screen functions
+ * @package BuddyPress
+ * @subpackage SettingsActions
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -123,7 +132,6 @@ function bp_core_screen_general_settings() {
 /** Notifications *************************************************************/
 
 function bp_core_screen_notification_settings() {
-	global $bp;
 
 	if ( bp_action_variables() ) {
 		bp_do_404();
@@ -153,7 +161,6 @@ function bp_core_screen_notification_settings() {
 /** Delete Account ************************************************************/
 
 function bp_core_screen_delete_account() {
-	global $bp;
 
 	if ( bp_action_variables() ) {
 		bp_do_404();

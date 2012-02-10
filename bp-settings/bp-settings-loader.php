@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * BuddyPress Settings Loader
+ *
+ * @package BuddyPress
+ * @subpackage SettingsLoader
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -44,7 +52,6 @@ class BP_Settings_Component extends BP_Component {
 	 * @global obj $bp
 	 */
 	function setup_globals() {
-		global $bp;
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_SETTINGS_SLUG' ) )
@@ -66,6 +73,9 @@ class BP_Settings_Component extends BP_Component {
 	 */
 	function setup_nav() {
 		global $bp;
+
+		// Define local variable
+		$sub_nav = array();
 
 		// Add the settings navigation item
 		$main_nav = array(
