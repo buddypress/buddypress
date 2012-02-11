@@ -484,9 +484,6 @@ class BuddyPress {
 		// Not in maintenance made
 		if ( empty( $this->maintenance_mode ) ) {
 
-			// Setup the BuddyPress theme directory
-			register_theme_directory( $this->themes_dir );
-			
 			// Require all of the BuddyPress core libraries
 			require( $this->plugin_dir . 'bp-core/bp-core-caps.php'       );
 			require( $this->plugin_dir . 'bp-core/bp-core-cache.php'      );
@@ -551,6 +548,9 @@ class BuddyPress {
 		// Add the actions
 		foreach( $actions as $class_action )
 			add_action( 'bp_' . $class_action, array( $this, $class_action ), 5 );
+		
+		// Setup the BuddyPress theme directory
+		register_theme_directory( $this->themes_dir );
 	}
 }
 
