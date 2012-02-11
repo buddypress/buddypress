@@ -1,6 +1,6 @@
 <?php do_action( 'bp_before_member_friend_requests_content' ) ?>
 
-<?php if ( bp_has_members( 'include=' . bp_get_friendship_requests() ) ) : ?>
+<?php if ( bp_has_members( 'type=alphabetical&include=' . bp_get_friendship_requests() ) ) : ?>
 
 	<div id="pag-top" class="pagination no-ajax">
 
