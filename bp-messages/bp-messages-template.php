@@ -236,7 +236,7 @@ function bp_message_thread_from() {
 	echo bp_get_message_thread_from();
 }
 	function bp_get_message_thread_from() {
-		global $messages_template, $bp;
+		global $messages_template;
 
 		return apply_filters( 'bp_get_message_thread_from', bp_core_get_userlink( $messages_template->thread->last_sender_id ) );
 	}
@@ -570,12 +570,11 @@ function bp_send_private_message_link() {
 	echo bp_get_send_private_message_link();
 }
 	function bp_get_send_private_message_link() {
-		global $bp;
 
 		if ( bp_is_my_profile() || !is_user_logged_in() )
 			return false;
 
-		return apply_filters( 'bp_get_send_private_message_link', wp_nonce_url( bp_loggedin_user_domain() . $bp->messages->slug . '/compose/?r=' . bp_core_get_username( bp_displayed_user_id(), $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
+		return apply_filters( 'bp_get_send_private_message_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_messages_slug() . '/compose/?r=' . bp_core_get_username( bp_displayed_user_id() ) ) );
 	}
 
 /**

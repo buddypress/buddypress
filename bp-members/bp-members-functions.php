@@ -243,11 +243,8 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 			$user_login    = $userdata->user_login;
 		}
 
-		// Pull an audible and use the login over the nicename
-		if ( bp_is_username_compatibility_mode() )
-			$username = $user_login;
-		else
-			$username = $user_nicename;
+		// Pull an audible and maybe use the login over the nicename
+		$username = bp_is_username_compatibility_mode() ? $user_login : $user_nicename;
 
 	// Username found in cache so don't update it again
 	} else {

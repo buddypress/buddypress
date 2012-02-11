@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BuddyPress Forums Loader
  *
@@ -118,10 +119,8 @@ class BP_Forums_Component extends BP_Component {
 		// Determine user to use
 		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
-			$user_login  = $bp->displayed_user->userdata->user_login;
 		} elseif ( bp_loggedin_user_domain() ) {
 			$user_domain = bp_loggedin_user_domain();
-			$user_login  = $bp->loggedin_user->userdata->user_login;
 		} else {
 			return;
 		}
@@ -182,9 +181,7 @@ class BP_Forums_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
-			$user_domain = bp_loggedin_user_domain();
-			$user_login  = $bp->loggedin_user->userdata->user_login;
-			$forums_link = trailingslashit( $user_domain . $this->slug );
+			$forums_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
 
 			// Add the "My Account" sub menus
 			$wp_admin_nav[] = array(
@@ -240,7 +237,7 @@ class BP_Forums_Component extends BP_Component {
 					'type'    => 'thumb',
 					'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 				) );
-				$bp->bp_options_title  = $bp->displayed_user->fullname;
+				$bp->bp_options_title  = bp_get_displayed_user_fullname();
 			}
 		}
 

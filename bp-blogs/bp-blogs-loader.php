@@ -103,6 +103,8 @@ class BP_Blogs_Component extends BP_Component {
 		if ( !is_multisite() )
 			return false;
 
+		$sub_nav = array();
+
 		// Add 'Sites' to the main navigation
 		$main_nav =  array(
 			'name'                => sprintf( __( 'Sites <span>%d</span>', 'buddypress' ), bp_blogs_total_blogs_for_user() ),
@@ -196,7 +198,7 @@ class BP_Blogs_Component extends BP_Component {
 					'type'    => 'thumb',
 					'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 				) );
-				$bp->bp_options_title = $bp->displayed_user->fullname;
+				$bp->bp_options_title = bp_get_displayed_user_fullname();
 			}
 		}
 

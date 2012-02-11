@@ -130,7 +130,6 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
  * @param int $total_items The total number of notifications to format
  * @param string $format 'string' to get a BuddyBar-compatible notification, 'array' otherwise
  *
- * @global object $bp BuddyPress global settings
  * @uses bp_loggedin_user_domain()
  * @uses bp_get_activity_slug()
  * @uses bp_core_get_user_displayname()
@@ -141,17 +140,16 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
  * @return string $return Formatted @mention notification
  */
 function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
-	global $bp;
 
 	switch ( $action ) {
 		case 'new_at_mention':
 			$activity_id      = $item_id;
 			$poster_user_id   = $secondary_item_id;
 			$at_mention_link  = bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/';
-			$at_mention_title = sprintf( __( '@%s Mentions', 'buddypress' ), $bp->loggedin_user->userdata->user_nicename );
+			$at_mention_title = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );
 
 			if ( (int)$total_items > 1 ) {
-				$text = sprintf( __( 'You have %1$d new activity mentions', 'buddypress' ), (int)$total_items );
+				$text = sprintf( __( 'You have %1$d new activity mentions', 'buddypress' ), (int) $total_items );
 				$filter = 'bp_activity_multiple_at_mentions_notification';
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $poster_user_id );
@@ -1311,8 +1309,9 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	function bp_activity_delete_children( $activity_id, $comment_id) {
 		// Recursively delete all children of this comment.
 		if ( $children = BP_Activity_Activity::get_child_comments( $comment_id ) ) {
-			foreach( (array)$children as $child )
+			foreach( (array)$children as $child ) {
 				bp_activity_delete_children( $activity_id, $child->id );
+			}
 		}
 		bp_activity_delete( array( 'secondary_item_id' => $comment_id, 'type' => 'activity_comment', 'item_id' => $activity_id ) );
 	}
@@ -1623,4 +1622,5 @@ function bp_embed_activity_cache( $cache, $id, $cachekey ) {
 function bp_embed_activity_save_cache( $cache, $cachekey, $id ) {
 	bp_activity_update_meta( $id, $cachekey, $cache );
 }
+
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -54,7 +55,7 @@ add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
  * @package BuddyPress Core
  */
 function bp_core_allow_default_theme( $themes ) {
-	global $bp, $wpdb;
+	global $wpdb;
 
 	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return $themes;
@@ -140,7 +141,8 @@ add_filter( 'login_redirect', 'bp_core_login_redirect' );
  * @return string Filtered $welcome_email with 'PASSWORD' replaced by [User Set]
  */
 function bp_core_filter_user_welcome_email( $welcome_email ) {
-	/* Don't touch the email if we don't have a custom registration template */
+
+	// Don't touch the email if we don't have a custom registration template
 	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
 		return $welcome_email;
 
@@ -164,7 +166,8 @@ if ( !is_admin() && empty( $_GET['e'] ) )
  * @return string Filtered $welcome_email with $password replaced by [User Set]
  */
 function bp_core_filter_blog_welcome_email( $welcome_email, $blog_id, $user_id, $password ) {
-	/* Don't touch the email if we don't have a custom registration template */
+
+	// Don't touch the email if we don't have a custom registration template
 	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
 		return $welcome_email;
 
@@ -264,7 +267,7 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	$title = '';
 
 	// Displayed user
-	if ( !empty( $bp->displayed_user->fullname ) && !is_404() ) {
+	if ( bp_get_displayed_user_fullname() && !is_404() ) {
 
 		// Get the component's ID to try and get it's name
 		$component_id = $component_name = bp_current_component();

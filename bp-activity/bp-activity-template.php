@@ -141,7 +141,7 @@ class BP_Activity_Template {
 			$this->activity_count = count( $this->activities );
 		}
 
-		$this->full_name = $bp->displayed_user->fullname;
+		$this->full_name = bp_get_displayed_user_fullname();
 
 		// Fetch parent content for activity comments so we do not have to query in the loop
 		foreach ( (array)$this->activities as $activity ) {
@@ -323,7 +323,7 @@ function bp_has_activities( $args = '' ) {
 
 		// determine which user_id applies
 		if ( empty( $user_id ) )
-			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+			$user_id = bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 		// are we displaying user specific activity?
 		if ( is_numeric( $user_id ) ) {
@@ -359,9 +359,9 @@ function bp_has_activities( $args = '' ) {
 					$display_comments = true;
 					break;
 				case 'mentions':
-					$user_nicename    = ( bp_displayed_user_id() ) ? $bp->displayed_user->userdata->user_nicename : $bp->loggedin_user->userdata->user_nicename;
-					$user_login       = ( bp_displayed_user_id() ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
-					$search_terms     = '@' . bp_core_get_username( $user_id, $user_nicename, $user_login ) . '<'; // Start search at @ symbol and stop search at closing tag delimiter.
+
+					// Start search at @ symbol and stop search at closing tag delimiter.
+					$search_terms     = '@' . bp_core_get_username( $user_id ) . '<';
 					$display_comments = 'stream';
 					$user_id = 0;
 					break;
@@ -370,7 +370,7 @@ function bp_has_activities( $args = '' ) {
 	}
 
 	// Do not exceed the maximum per page
-	if ( !empty( $max ) && ( (int)$per_page > (int)$max ) )
+	if ( !empty( $max ) && ( (int) $per_page > (int) $max ) )
 		$per_page = $max;
 
 	// Support for basic filters in earlier BP versions is disabled by default. To enable, put
@@ -384,7 +384,7 @@ function bp_has_activities( $args = '' ) {
 		$filter = false;
 
 	// If specific activity items have been requested, override the $hide_spam argument. This prevents backpat errors with AJAX.
-	if ( !empty( $include ) && 'ham_only' == $spam )
+	if ( !empty( $include ) && ( 'ham_only' == $spam ) )
 		$spam = 'all';
 
 	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude, $in, $spam );
@@ -2289,7 +2289,7 @@ function bp_send_public_message_link() {
 		if ( bp_is_my_profile() || !is_user_logged_in() )
 			return false;
 
-		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_activity_slug() . '/?r=' . bp_core_get_username( bp_displayed_user_id(), $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login ) ) );
+		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_activity_slug() . '/?r=' . bp_core_get_username( bp_displayed_user_id(), bp_get_displayed_user_username(), $bp->displayed_user->userdata->user_login ) ) );
 	}
 
 /**

@@ -836,17 +836,16 @@ function bp_user_firstname() {
 	echo bp_get_user_firstname();
 }
 	function bp_get_user_firstname( $name = false ) {
-		global $bp;
 
 		// Try to get displayed user
 		if ( empty( $name ) )
-			$name = $bp->displayed_user->fullname;
+			$name = bp_get_displayed_user_fullname();
 
 		// Fall back on logged in user
 		if ( empty( $name ) )
-			$name = $bp->loggedin_user->fullname;
+			$name = bp_get_loggedin_user_fullname();
 
-		$fullname = (array)explode( ' ', $name );
+		$fullname = (array) explode( ' ', $name );
 
 		return apply_filters( 'bp_get_user_firstname', $fullname[0], $fullname );
 	}

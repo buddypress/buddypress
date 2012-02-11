@@ -251,10 +251,9 @@ class BP_Groups_Component extends BP_Component {
 	 * @global obj $bp
 	 */
 	function setup_nav() {
-		global $bp;
 
 		// Define local variables
-		$main_nav = $sub_nav = array();
+		$sub_nav = array();
 
 		// Add 'Groups' to the main navigation
 		$main_nav = array(
@@ -294,7 +293,8 @@ class BP_Groups_Component extends BP_Component {
 
 		if ( bp_is_groups_component() && bp_is_single_item() ) {
 
-			unset( $main_nav ); unset( $sub_nav );
+			// Reset sub nav
+			$sub_nav = array();
 
 			// Add 'Groups' to the main navigation
 			$main_nav = array(
@@ -474,7 +474,7 @@ class BP_Groups_Component extends BP_Component {
 					'type'    => 'thumb',
 					'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 				) );
-				$bp->bp_options_title  = $bp->displayed_user->fullname;
+				$bp->bp_options_title = bp_get_displayed_user_fullname();
 
 			// We are viewing a single group, so set up the
 			// group navigation menu using the $this->current_group global.
@@ -487,8 +487,9 @@ class BP_Groups_Component extends BP_Component {
 					'avatar_dir' => 'group-avatars',
 					'alt'        => __( 'Group Avatar', 'buddypress' )
 				) );
-				if ( empty( $bp->bp_options_avatar ) )
+				if ( empty( $bp->bp_options_avatar ) ) {
 					$bp->bp_options_avatar = '<img src="' . esc_attr( $group->avatar_full ) . '" class="avatar" alt="' . esc_attr( $group->name ) . '" />';
+				}
 			}
 		}
 

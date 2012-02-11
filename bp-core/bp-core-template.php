@@ -206,23 +206,25 @@ function bp_format_time( $time, $just_date = false, $localize_time = true ) {
 }
 
 function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true ) {
-	global $bp;
 
-	if ( $capitalize )
-		$youtext = bp_core_ucfirst($youtext);
+	if ( !empty( $capitalize ) )
+		$youtext = bp_core_ucfirst( $youtext );
 
 	if ( bp_displayed_user_id() == bp_loggedin_user_id() ) {
-		if ( $echo )
+		if ( true == $echo ) {
 			echo apply_filters( 'bp_word_or_name', $youtext );
-		else
+		} else {
 			return apply_filters( 'bp_word_or_name', $youtext );
+		}
 	} else {
-		$fullname = (array)explode( ' ', $bp->displayed_user->fullname );
+		$fullname = bp_get_displayed_user_fullname();
+		$fullname = (array) explode( ' ', $fullname );
 		$nametext = sprintf( $nametext, $fullname[0] );
-		if ( $echo )
+		if ( true == $echo ) {
 			echo apply_filters( 'bp_word_or_name', $nametext );
-		else
+		} else {
 			return apply_filters( 'bp_word_or_name', $nametext );
+		}
 	}
 }
 

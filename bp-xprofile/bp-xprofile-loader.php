@@ -107,7 +107,6 @@ class BP_XProfile_Component extends BP_Component {
 	 * @global obj $bp
 	 */
 	function setup_nav() {
-		global $bp;
 
 		$sub_nav = array();
 
@@ -227,7 +226,7 @@ class BP_XProfile_Component extends BP_Component {
 					'type'    => 'thumb',
 					'alt'	  => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 				) );
-				$bp->bp_options_title = $bp->displayed_user->fullname;
+				$bp->bp_options_title = bp_get_displayed_user_fullname();
 			}
 		}
 

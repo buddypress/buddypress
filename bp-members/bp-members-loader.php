@@ -181,7 +181,7 @@ class BP_Members_Component extends BP_Component {
 				'type'    => 'thumb',
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 			) );
-			$bp->bp_options_title  = $bp->displayed_user->fullname;
+			$bp->bp_options_title = bp_get_displayed_user_fullname();
 		}
 
 		parent::setup_title();

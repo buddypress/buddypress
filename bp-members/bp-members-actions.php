@@ -116,15 +116,14 @@ add_action( 'bp_actions', 'bp_core_action_set_spammer_status' );
  * Allows a site admin to delete a user from the adminbar menu.
  *
  * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
  */
 function bp_core_action_delete_user() {
-	global $bp;
 
 	if ( !bp_current_user_can( 'bp_moderate' ) || bp_is_my_profile() || !bp_displayed_user_id() )
 		return false;
 
-	if ( 'admin' == $bp->current_component && 'delete-user' == $bp->current_action ) {
+	if ( bp_is_current_component( 'admin' ) && bp_is_current_action( 'delete-user' ) ) {
+
 		// Check the nonce
 		check_admin_referer( 'delete-user' );
 
@@ -132,9 +131,9 @@ function bp_core_action_delete_user() {
 		do_action( 'bp_core_before_action_delete_user', $errors );
 
 		if ( bp_core_delete_account( bp_displayed_user_id() ) ) {
-			bp_core_add_message( sprintf( __( '%s has been deleted from the system.', 'buddypress' ), $bp->displayed_user->fullname ) );
+			bp_core_add_message( sprintf( __( '%s has been deleted from the system.', 'buddypress' ), bp_get_displayed_user_fullname() ) );
 		} else {
-			bp_core_add_message( sprintf( __( 'There was an error deleting %s from the system. Please try again.', 'buddypress' ), $bp->displayed_user->fullname ), 'error' );
+			bp_core_add_message( sprintf( __( 'There was an error deleting %s from the system. Please try again.', 'buddypress' ), bp_get_displayed_user_fullname() ), 'error' );
 			$errors = true;
 		}
 
