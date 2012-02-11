@@ -193,6 +193,61 @@ function bp_pre_get_option( $value = false ) {
 }
 
 /**
+ * Retrieve an option
+ *
+ * This is a wrapper for get_blog_option(), which in turn stores settings data (such as bp-pages)
+ * on the appropriate blog, given your current setup.
+ *
+ * The 'bp_get_option' filter is primarily for backward-compatibility.
+ *
+ * @package BuddyPress
+ * @since 1.5
+ *
+ * @uses bp_get_root_blog_id()
+ * @param str $option_name The option to be retrieved
+ * @param str $default Optional. Default value to be returned if the option isn't set
+ * @return mixed The value for the option
+ */
+function bp_get_option( $option_name, $default = '' ) {
+	$value = get_blog_option( bp_get_root_blog_id(), $option_name, $default );
+
+	return apply_filters( 'bp_get_option', $value );
+}
+
+/**
+ * Save an option
+ *
+ * This is a wrapper for update_blog_option(), which in turn stores settings data (such as bp-pages)
+ * on the appropriate blog, given your current setup.
+ *
+ * @package BuddyPress
+ * @since 1.5
+ *
+ * @uses bp_get_root_blog_id()
+ * @param str $option_name The option key to be set
+ * @param str $value The value to be set
+ */
+function bp_update_option( $option_name, $value ) {
+	update_blog_option( bp_get_root_blog_id(), $option_name, $value );
+}
+
+/**
+ * Delete an option
+ *
+ * This is a wrapper for delete_blog_option(), which in turn deletes settings data (such as
+ * bp-pages) on the appropriate blog, given your current setup.
+ *
+ * @package BuddyPress
+ * @since 1.5
+ *
+ * @uses bp_get_root_blog_id()
+ * @param str $option_name The option key to be set
+ */
+function bp_delete_option( $option_name ) {
+	delete_blog_option( bp_get_root_blog_id(), $option_name );
+}
+
+/**
  * When switching from single to multisite we need to copy blog options to
  * site options.
  * 
