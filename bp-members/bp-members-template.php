@@ -171,11 +171,11 @@ class BP_Core_Members_Template {
 
 	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value ) {
 
-		$this->pag_page = !empty( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : (int)$page_number;
-		$this->pag_num  = !empty( $_REQUEST['num'] )   ? intval( $_REQUEST['num'] )   : (int)$per_page;
+		$this->pag_page = !empty( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : (int) $page_number;
+		$this->pag_num  = !empty( $_REQUEST['num'] )   ? intval( $_REQUEST['num'] )   : (int) $per_page;
 		$this->type     = $type;
 
-		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] )
+		if ( !empty( $_REQUEST['letter'] ) )
 			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras, $exclude );
 		else
 			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras, 'exclude' => $exclude, 'meta_key' => $meta_key, 'meta_value' => $meta_value ) );
