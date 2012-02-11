@@ -20,7 +20,7 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 
 	$friendship = new BP_Friends_Friendship;
 
-	if ( (int)$friendship->is_confirmed )
+	if ( (int) $friendship->is_confirmed )
 		return true;
 
 	$friendship->initiator_user_id = $initiator_userid;
@@ -172,7 +172,7 @@ function friends_check_user_has_friends( $user_id ) {
 	if ( empty( $friend_count ) )
 		return false;
 
-	if ( !(int)$friend_count )
+	if ( !(int) $friend_count )
 		return false;
 
 	return true;

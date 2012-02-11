@@ -56,7 +56,7 @@ function bp_dtheme_ajax_querystring( $query_string, $object ) {
 		$qs[] = 'search_terms=' . $_POST['search_terms'];
 
 	/* Now pass the querystring to override default values. */
-	$query_string = empty( $qs ) ? '' : join( '&', (array)$qs );
+	$query_string = empty( $qs ) ? '' : join( '&', (array) $qs );
 
 	$object_filter = '';
 	if ( isset( $_BP_COOKIE['bp-' . $object . '-filter'] ) )

@@ -71,7 +71,7 @@ function xprofile_screen_edit_profile() {
 
 		// Loop through the posted fields formatting any datebox values
 		// then validate the field
-		foreach ( (array)$posted_field_ids as $field_id ) {
+		foreach ( (array) $posted_field_ids as $field_id ) {
 			if ( !isset( $_POST['field_' . $field_id] ) ) {
 
 				if ( !empty( $_POST['field_' . $field_id . '_day'] ) && !empty( $_POST['field_' . $field_id . '_month'] ) && !empty( $_POST['field_' . $field_id . '_year'] ) ) {
@@ -101,7 +101,7 @@ function xprofile_screen_edit_profile() {
 			$errors = false;
 
 			// Now we've checked for required fields, lets save the values.
-			foreach ( (array)$posted_field_ids as $field_id ) {
+			foreach ( (array) $posted_field_ids as $field_id ) {
 
 				// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.
 				if ( empty( $_POST['field_' . $field_id] ) )

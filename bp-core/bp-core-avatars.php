@@ -597,10 +597,10 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	bp_core_delete_existing_avatar( array( 'object' => $object, 'avatar_path' => $avatar_folder_dir ) );
 
 	// Make sure we at least have a width and height for cropping
-	if ( !(int)$crop_w )
+	if ( !(int) $crop_w )
 		$crop_w = bp_core_avatar_full_width();
 
-	if ( !(int)$crop_h )
+	if ( !(int) $crop_h )
 		$crop_h = bp_core_avatar_full_height();
 
 	// Set the full and thumb filenames
@@ -608,8 +608,8 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	$thumb_filename = wp_hash( $original_file . time() ) . '-bpthumb.jpg';
 
 	// Crop the image
-	$full_cropped  = wp_crop_image( $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, bp_core_avatar_full_width(), bp_core_avatar_full_height(), false, $avatar_folder_dir . '/' . $full_filename );
-	$thumb_cropped = wp_crop_image( $original_file, (int)$crop_x, (int)$crop_y, (int)$crop_w, (int)$crop_h, bp_core_avatar_thumb_width(), bp_core_avatar_thumb_height(), false, $avatar_folder_dir . '/' . $thumb_filename );
+	$full_cropped  = wp_crop_image( $original_file, (int) $crop_x, (int) $crop_y, (int) $crop_w, (int) $crop_h, bp_core_avatar_full_width(), bp_core_avatar_full_height(), false, $avatar_folder_dir . '/' . $full_filename );
+	$thumb_cropped = wp_crop_image( $original_file, (int) $crop_x, (int) $crop_y, (int) $crop_w, (int) $crop_h, bp_core_avatar_thumb_width(), bp_core_avatar_thumb_height(), false, $avatar_folder_dir . '/' . $thumb_filename );
 
 	// Check for errors
 	if ( ! $full_cropped || ! $thumb_cropped || is_wp_error( $full_cropped ) || is_wp_error( $thumb_cropped ) )
@@ -807,7 +807,7 @@ function bp_core_avatar_url() {
 function bp_core_avatar_dimension( $type = 'thumb', $h_or_w = 'height' ) {
 	global $bp;
 	
-	$dim = isset( $bp->avatar->{$type}->{$h_or_w} ) ? (int)$bp->avatar->{$type}->{$h_or_w} : false;
+	$dim = isset( $bp->avatar->{$type}->{$h_or_w} ) ? (int) $bp->avatar->{$type}->{$h_or_w} : false;
 	
 	return apply_filters( 'bp_core_avatar_dimension', $dim, $type, $h_or_w );
 }
@@ -871,7 +871,7 @@ function bp_core_avatar_full_height() {
 function bp_core_avatar_original_max_width() {
 	global $bp;
 	
-	return apply_filters( 'bp_core_avatar_original_max_width', (int)$bp->avatar->original_max_width );
+	return apply_filters( 'bp_core_avatar_original_max_width', (int) $bp->avatar->original_max_width );
 }
 
 /**
@@ -885,7 +885,7 @@ function bp_core_avatar_original_max_width() {
 function bp_core_avatar_original_max_filesize() {
 	global $bp;
 	
-	return apply_filters( 'bp_core_avatar_original_max_filesize', (int)$bp->avatar->original_max_filesize );
+	return apply_filters( 'bp_core_avatar_original_max_filesize', (int) $bp->avatar->original_max_filesize );
 }
 
 /**

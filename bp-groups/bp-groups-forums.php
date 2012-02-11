@@ -166,8 +166,8 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, 
 			'content'           => apply_filters_ref_array( 'groups_activity_new_forum_topic_content', array( $activity_content, $topic_text, &$topic ) ),
 			'primary_link'      => apply_filters( 'groups_activity_new_forum_topic_primary_link', bp_get_group_permalink( $bp->groups->current_group ) . 'forum/topic/' . $topic->topic_slug . '/' ),
 			'type'              => 'new_forum_topic',
-			'item_id'           => (int)$bp->groups->current_group->id,
-			'user_id'           => (int)$topic->topic_poster,
+			'item_id'           => (int) $bp->groups->current_group->id,
+			'user_id'           => (int) $topic->topic_poster,
 			'secondary_item_id' => $topic->topic_id,
 			'recorded_time '    => $topic->topic_time
 		) );
@@ -208,8 +208,8 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
 			'content'           => apply_filters_ref_array( 'groups_activity_new_forum_post_content', array( $activity_content, $post_text, &$topic, &$forum_post ) ),
 			'primary_link'      => apply_filters( 'groups_activity_new_forum_post_primary_link', $primary_link . "#post-" . $post_id ),
 			'type'              => 'new_forum_post',
-			'item_id'           => (int)$bp->groups->current_group->id,
-			'user_id'           => (int)$post->poster_id,
+			'item_id'           => (int) $bp->groups->current_group->id,
+			'user_id'           => (int) $post->poster_id,
 			'secondary_item_id' => $post_id,
 			'recorded_time'     => $post->post_time
 		) );
@@ -248,7 +248,7 @@ function groups_delete_group_forum_topic( $topic_id ) {
 			bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $topic_id, 'component' => $bp->groups->id, 'type' => 'new_forum_topic' ) );
 
 			// The activity item for each post
-			foreach ( (array)$posts as $post ) {
+			foreach ( (array) $posts as $post ) {
 				bp_activity_delete( array( 'item_id' => $bp->groups->current_group->id, 'secondary_item_id' => $post->post_id, 'component' => $bp->groups->id, 'type' => 'new_forum_post' ) );
 			}
 		}

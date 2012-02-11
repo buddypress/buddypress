@@ -270,7 +270,7 @@ function bp_activity_action_post_update() {
 
 	// Post to groups object
 	} else if ( 'groups' == $object && bp_is_active( 'groups' ) ) {
-		if ( (int)$item_id ) {
+		if ( (int) $item_id ) {
 			$activity_id = groups_post_update( array( 'content' => $content, 'group_id' => $item_id ) );
 		}
 

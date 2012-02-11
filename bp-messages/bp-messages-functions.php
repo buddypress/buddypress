@@ -89,17 +89,17 @@ function messages_new_message( $args = '' ) {
 		}
 
 		// Strip the sender from the recipient list if they exist
-		if ( $key = array_search( $sender_id, (array)$recipient_ids ) )
+		if ( $key = array_search( $sender_id, (array) $recipient_ids ) )
 			unset( $recipient_ids[$key] );
 
 		// Remove duplicates
-		$recipient_ids = array_unique( (array)$recipient_ids );
+		$recipient_ids = array_unique( (array) $recipient_ids );
 
 		if ( empty( $recipient_ids ) )
 			return false;
 
 		// Format this to match existing recipients
-		foreach( (array)$recipient_ids as $i => $recipient_id ) {
+		foreach( (array) $recipient_ids as $i => $recipient_id ) {
 			$message->recipients[$i]          = new stdClass;
 			$message->recipients[$i]->user_id = $recipient_id;
 		}
@@ -108,7 +108,7 @@ function messages_new_message( $args = '' ) {
 	if ( $message->send() ) {
 
 		// Send screen notifications to the recipients
-		foreach ( (array)$message->recipients as $recipient )
+		foreach ( (array) $message->recipients as $recipient )
 			bp_core_add_notification( $message->id, $recipient->user_id, 'messages', 'new_message' );
 
 		// Send email notifications to the recipients
@@ -233,16 +233,16 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		$title = __( 'Inbox', 'buddypress' );
 
 		if ( (int) $total_items > 1 ) {
-			$text = sprintf( __('You have %d new messages', 'buddypress' ), (int)$total_items );
+			$text = sprintf( __('You have %d new messages', 'buddypress' ), (int) $total_items );
 			$filter = 'bp_messages_multiple_new_message_notification';
 		} else {
-			$text = sprintf( __('You have %d new message', 'buddypress' ), (int)$total_items );
+			$text = sprintf( __('You have %d new message', 'buddypress' ), (int) $total_items );
 			$filter = 'bp_messages_single_new_message_notification';
 		}
 	}
 
 	if ( 'string' == $format ) {
-		$return = apply_filters( $filter, '<a href="' . $link . '" title="' . $title . '">' . $text . '</a>', (int)$total_items, $text, $link );
+		$return = apply_filters( $filter, '<a href="' . $link . '" title="' . $title . '">' . $text . '</a>', (int) $total_items, $text, $link );
 	} else {
 		$return = apply_filters( $filter, array(
 			'text' => $text,

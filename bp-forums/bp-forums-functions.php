@@ -65,7 +65,7 @@ function bp_forums_update_forum( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return bb_update_forum( array( 'forum_id' => (int)$forum_id, 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_slug' => stripslashes( $forum_slug ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
+	return bb_update_forum( array( 'forum_id' => (int) $forum_id, 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_slug' => stripslashes( $forum_slug ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
 }
 
 /** Topic Functions ***********************************************************/
@@ -174,7 +174,7 @@ function bp_forums_new_topic( $args = '' ) {
 	if ( empty( $topic_slug ) )
 		$topic_slug = sanitize_title( $topic_title );
 
-	if ( !$topic_id = bb_insert_topic( array( 'topic_title' => stripslashes( $topic_title ), 'topic_slug' => $topic_slug, 'topic_poster' => $topic_poster, 'topic_poster_name' => $topic_poster_name, 'topic_last_poster' => $topic_last_poster, 'topic_last_poster_name' => $topic_last_poster_name, 'topic_start_time' => $topic_start_time, 'topic_time' => $topic_time, 'topic_open' => $topic_open, 'forum_id' => (int)$forum_id, 'tags' => $topic_tags ) ) )
+	if ( !$topic_id = bb_insert_topic( array( 'topic_title' => stripslashes( $topic_title ), 'topic_slug' => $topic_slug, 'topic_poster' => $topic_poster, 'topic_poster_name' => $topic_poster_name, 'topic_last_poster' => $topic_last_poster, 'topic_last_poster_name' => $topic_last_poster_name, 'topic_start_time' => $topic_start_time, 'topic_time' => $topic_time, 'topic_open' => $topic_open, 'forum_id' => (int) $forum_id, 'tags' => $topic_tags ) ) )
 		return false;
 
 	// Now insert the first post.
@@ -292,7 +292,7 @@ function bp_forums_total_topic_count() {
 			$groups_where_sql = "t.topic_status = 0";
 		}
 		$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t {$groups_table_sql} WHERE {$groups_where_sql}" ) );
-		$count = count( (array)$count );
+		$count = count( (array) $count );
 	} else {
 		$count = 0;
 	}
@@ -425,13 +425,13 @@ function bp_forums_get_topic_extras( $topics ) {
 		return $topics;
 
 	// Get the topic ids
-	foreach ( (array)$topics as $topic ) $topic_ids[] = $topic->topic_id;
-	$topic_ids = $wpdb->escape( join( ',', (array)$topic_ids ) );
+	foreach ( (array) $topics as $topic ) $topic_ids[] = $topic->topic_id;
+	$topic_ids = $wpdb->escape( join( ',', (array) $topic_ids ) );
 
 	// Fetch the topic's last poster details
 	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, t.topic_last_poster, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u, {$bbdb->topics} t WHERE u.ID = t.topic_last_poster AND t.topic_id IN ( {$topic_ids} )" ) );
 	for ( $i = 0, $count = count( $topics ); $i < $count; ++$i ) {
-		foreach ( (array)$poster_details as $poster ) {
+		foreach ( (array) $poster_details as $poster ) {
 			if ( $poster->topic_id == $topics[$i]->topic_id ) {
 				$topics[$i]->topic_last_poster_email       = $poster->user_email;
 				$topics[$i]->topic_last_poster_nicename    = $poster->user_nicename;
@@ -445,7 +445,7 @@ function bp_forums_get_topic_extras( $topics ) {
 	if ( bp_is_active( 'xprofile' ) ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT t.topic_id, pd.value FROM {$bp->profile->table_name_data} pd, {$bbdb->topics} t WHERE pd.user_id = t.topic_last_poster AND pd.field_id = 1 AND t.topic_id IN ( {$topic_ids} )" ) );
 		for ( $i = 0, $count = count( $topics ); $i < $count; ++$i ) {
-			foreach ( (array)$poster_names as $name ) {
+			foreach ( (array) $poster_names as $name ) {
 				if ( $name->topic_id == $topics[$i]->topic_id )
 					$topics[$i]->topic_last_poster_displayname = $name->value;
 			}
@@ -454,7 +454,7 @@ function bp_forums_get_topic_extras( $topics ) {
 
 	// Loop through to make sure that each topic has the proper values set. This covers the
 	// case of deleted users
-	foreach ( (array)$topics as $key => $topic ) {
+	foreach ( (array) $topics as $key => $topic ) {
 		if ( !isset( $topic->topic_last_poster_email ) )
 			$topics[$key]->topic_last_poster_email = '';
 
@@ -564,14 +564,14 @@ function bp_forums_get_post_extras( $posts ) {
 		return $posts;
 
 	// Get the user ids
-	foreach ( (array)$posts as $post ) $user_ids[] = $post->poster_id;
-	$user_ids = $wpdb->escape( join( ',', (array)$user_ids ) );
+	foreach ( (array) $posts as $post ) $user_ids[] = $post->poster_id;
+	$user_ids = $wpdb->escape( join( ',', (array) $user_ids ) );
 
 	// Fetch the poster's user_email, user_nicename and user_login
 	$poster_details = $wpdb->get_results( $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u WHERE u.ID IN ( {$user_ids} )" ) );
 
 	for ( $i = 0, $count = count( $posts ); $i < $count; ++$i ) {
-		foreach ( (array)$poster_details as $poster ) {
+		foreach ( (array) $poster_details as $poster ) {
 			if ( $poster->user_id == $posts[$i]->poster_id ) {
 				$posts[$i]->poster_email    = $poster->user_email;
 				$posts[$i]->poster_login    = $poster->user_nicename;
@@ -585,7 +585,7 @@ function bp_forums_get_post_extras( $posts ) {
 	if ( bp_is_active( 'xprofile' ) ) {
 		$poster_names = $wpdb->get_results( $wpdb->prepare( "SELECT pd.user_id, pd.value FROM {$bp->profile->table_name_data} pd WHERE pd.user_id IN ( {$user_ids} )" ) );
 		for ( $i = 0, $count = count( $posts ); $i < $count; ++$i ) {
-			foreach ( (array)$poster_names as $name ) {
+			foreach ( (array) $poster_names as $name ) {
 				if ( isset( $topics[$i] ) && $name->user_id == $topics[$i]->user_id )
 				$posts[$i]->poster_name = $poster->value;
 			}

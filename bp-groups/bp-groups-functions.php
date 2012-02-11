@@ -235,7 +235,7 @@ function groups_delete_group( $group_id ) {
 function groups_is_valid_status( $status ) {
 	global $bp;
 
-	return in_array( $status, (array)$bp->groups->valid_status );
+	return in_array( $status, (array) $bp->groups->valid_status );
 }
 
 function groups_check_slug( $slug ) {
@@ -244,7 +244,7 @@ function groups_check_slug( $slug ) {
 	if ( 'wp' == substr( $slug, 0, 2 ) )
 		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
 
-	if ( in_array( $slug, (array)$bp->groups->forbidden_names ) )
+	if ( in_array( $slug, (array) $bp->groups->forbidden_names ) )
 		$slug = $slug . '-' . rand();
 
 	if ( BP_Groups_Group::check_slug( $slug ) ) {
@@ -926,7 +926,7 @@ function groups_get_groupmeta( $group_id, $meta_key = '') {
 			return '';
 	}
 
-	$metas = array_map( 'maybe_unserialize', (array)$metas );
+	$metas = array_map( 'maybe_unserialize', (array) $metas );
 
 	if ( 1 == count( $metas ) )
 		return $metas[0];

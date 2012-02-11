@@ -20,7 +20,7 @@ function groups_notification_group_updated( $group_id ) {
 	$subject  = '[' . $sitename . '] ' . __( 'Group Details Updated', 'buddypress' );
 
 	$user_ids = BP_Groups_Member::get_group_member_ids( $group->id );
-	foreach ( (array)$user_ids as $user_id ) {
+	foreach ( (array) $user_ids as $user_id ) {
 		if ( 'no' == bp_get_user_meta( $user_id, 'notification_groups_group_updated', true ) ) continue;
 
 		$ud = bp_core_get_core_userdata( $user_id );

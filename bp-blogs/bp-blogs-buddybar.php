@@ -36,7 +36,7 @@ function bp_adminbar_blogs_menu() {
 	}
 
 	$counter = 0;
-	if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
+	if ( is_array( $blogs['blogs'] ) && (int) $blogs['count'] ) {
 
 		echo '<li id="bp-adminbar-blogs-menu"><a href="' . trailingslashit( bp_loggedin_user_domain() . bp_get_blogs_slug() ) . '">';
 
@@ -45,7 +45,7 @@ function bp_adminbar_blogs_menu() {
 		echo '</a>';
 		echo '<ul>';
 
-		foreach ( (array)$blogs['blogs'] as $blog ) {
+		foreach ( (array) $blogs['blogs'] as $blog ) {
 			$alt      = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 			$site_url = esc_attr( $blog->siteurl );
 

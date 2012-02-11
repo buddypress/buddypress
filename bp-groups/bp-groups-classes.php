@@ -61,7 +61,7 @@ class BP_Groups_Group {
 
 			// Get group admins and mods
 			$admin_mods = $wpdb->get_results( apply_filters( 'bp_group_admin_mods_user_join_filter', $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) ) );
-			foreach( (array)$admin_mods as $user ) {
+			foreach( (array) $admin_mods as $user ) {
 				if ( (int) $user->is_admin )
 					$this->admins[] = $user;
 				else
@@ -149,7 +149,7 @@ class BP_Groups_Group {
 
 		// Fetch the user IDs of all the members of the group
 		$user_ids = BP_Groups_Member::get_group_member_ids( $this->id );
-		$user_ids = implode( ',', (array)$user_ids );
+		$user_ids = implode( ',', (array) $user_ids );
 
 		// Modify group count usermeta for members
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->usermeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_ids} )" ) );
@@ -349,7 +349,7 @@ class BP_Groups_Group {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page), intval( $per_page ) );
 
 		// Get paginated results
-		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array)$sql ), $sql );
+		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array) $sql ), $sql );
 		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
 
 		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g, {$bp->groups->table_name_members} gm1, {$bp->groups->table_name_groupmeta} gm2";
@@ -381,20 +381,20 @@ class BP_Groups_Group {
 		$t_sql = $total_sql['select'];
 
 		if ( !empty( $total_sql['where'] ) )
-			$t_sql .= " WHERE " . join( ' AND ', (array)$total_sql['where'] );
+			$t_sql .= " WHERE " . join( ' AND ', (array) $total_sql['where'] );
 
 		// Get total group results
-		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', join( ' ', (array)$t_sql ), $t_sql );
+		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', join( ' ', (array) $t_sql ), $t_sql );
 		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
 		$group_ids = array();
-		foreach ( (array)$paged_groups as $group ) {
+		foreach ( (array) $paged_groups as $group ) {
 			$group_ids[] = $group->id;
 		}
 		
 		// Populate some extra information instead of querying each time in the loop
 		if ( !empty( $populate_extras ) ) {
-			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
+			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $type );
 		}
 		
@@ -439,8 +439,8 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $populate_extras ) ) {
-			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
+			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
+			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -480,8 +480,8 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $populate_extras ) ) {
-			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
+			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
+			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -520,8 +520,8 @@ class BP_Groups_Group {
 		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.name LIKE '$letter%%' {$hidden_sql} {$search_sql} {$exclude_sql} ORDER BY g.name ASC {$pag_sql}"  ) );
 
 		if ( !empty( $populate_extras ) ) {
-			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
+			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
+			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -557,8 +557,8 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $populate_extras ) ) {
-			foreach ( (array)$paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = $wpdb->escape( join( ',', (array)$group_ids ) );
+			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
+			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -576,7 +576,7 @@ class BP_Groups_Group {
 		for ( $i = 0, $count = count( $paged_groups ); $i < $count; ++$i ) {
 			$paged_groups[$i]->is_member = false;
 
-			foreach ( (array)$user_status as $group_id ) {
+			foreach ( (array) $user_status as $group_id ) {
 				if ( $group_id == $paged_groups[$i]->id ) {
 					$paged_groups[$i]->is_member = true;
 				}
@@ -587,7 +587,7 @@ class BP_Groups_Group {
 		for ( $i = 0, $count = count( $paged_groups ); $i < $count; ++$i ) {
 			$paged_groups[$i]->is_banned = false;
 
-			foreach ( (array)$user_banned as $group_id ) {
+			foreach ( (array) $user_banned as $group_id ) {
 				if ( $group_id == $paged_groups[$i]->id ) {
 					$paged_groups[$i]->is_banned = true;
 				}
@@ -1148,7 +1148,7 @@ class BP_Groups_Member {
 			$total_member_count = $wpdb->get_var( apply_filters( 'bp_group_members_count_user_join_filter', $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql}", $group_id ) ) );
 
 		// Fetch whether or not the user is a friend
-		foreach ( (array)$members as $user )
+		foreach ( (array) $members as $user )
 			$user_ids[] = $user->user_id;
 
 		$user_ids = $wpdb->escape( join( ',', (array) $user_ids ) );
@@ -1156,7 +1156,7 @@ class BP_Groups_Member {
 		if ( bp_is_active( 'friends' ) ) {
 			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", bp_loggedin_user_id(), bp_loggedin_user_id() ) );
 			for ( $i = 0, $count = count( $members ); $i < $count; ++$i ) {
-				foreach ( (array)$friend_status as $status ) {
+				foreach ( (array) $friend_status as $status ) {
 					if ( $status->initiator_user_id == $members[$i]->user_id || $status->friend_user_id == $members[$i]->user_id ) {
 						$members[$i]->is_friend = $status->is_confirmed;
 					}

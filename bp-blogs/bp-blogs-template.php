@@ -116,10 +116,10 @@ class BP_Blogs_Template {
 		else
 			$this->blogs = bp_blogs_get_blogs( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms ) );
 
-		if ( !$max || $max >= (int)$this->blogs['total'] )
-			$this->total_blog_count = (int)$this->blogs['total'];
+		if ( !$max || $max >= (int) $this->blogs['total'] )
+			$this->total_blog_count = (int) $this->blogs['total'];
 		else
-			$this->total_blog_count = (int)$max;
+			$this->total_blog_count = (int) $max;
 
 		$this->blogs = $this->blogs['blogs'];
 
@@ -127,18 +127,18 @@ class BP_Blogs_Template {
 			if ( $max >= count($this->blogs) ) {
 				$this->blog_count = count( $this->blogs );
 			} else {
-				$this->blog_count = (int)$max;
+				$this->blog_count = (int) $max;
 			}
 		} else {
 			$this->blog_count = count( $this->blogs );
 		}
 
-		if ( (int)$this->total_blog_count && (int)$this->pag_num ) {
+		if ( (int) $this->total_blog_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( 'bpage', '%#%' ),
 				'format'    => '',
-				'total'     => ceil( (int)$this->total_blog_count / (int)$this->pag_num ),
-				'current'   => (int)$this->pag_page,
+				'total'     => ceil( (int) $this->total_blog_count / (int) $this->pag_num ),
+				'current'   => (int) $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Blog pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Blog pagination next text', 'buddypress' ),
 				'mid_size'  => 1

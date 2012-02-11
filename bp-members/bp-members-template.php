@@ -180,10 +180,10 @@ class BP_Core_Members_Template {
 		else
 			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras, 'exclude' => $exclude, 'meta_key' => $meta_key, 'meta_value' => $meta_value ) );
 
-		if ( !$max || $max >= (int)$this->members['total'] )
-			$this->total_member_count = (int)$this->members['total'];
+		if ( !$max || $max >= (int) $this->members['total'] )
+			$this->total_member_count = (int) $this->members['total'];
 		else
-			$this->total_member_count = (int)$max;
+			$this->total_member_count = (int) $max;
 
 		$this->members = $this->members['users'];
 
@@ -191,17 +191,17 @@ class BP_Core_Members_Template {
 			if ( $max >= count( $this->members ) ) {
 				$this->member_count = count( $this->members );
 			} else {
-				$this->member_count = (int)$max;
+				$this->member_count = (int) $max;
 			}
 		} else {
 			$this->member_count = count( $this->members );
 		}
 
-		if ( (int)$this->total_member_count && (int)$this->pag_num ) {
+		if ( (int) $this->total_member_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( 'upage', '%#%' ),
 				'format'    => '',
-				'total'     => ceil( (int)$this->total_member_count / (int)$this->pag_num ),
+				'total'     => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
 				'current'   => (int) $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Member pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Member pagination next text', 'buddypress' ),
@@ -745,7 +745,7 @@ function bp_get_loggedin_user_nav() {
 function bp_get_displayed_user_nav() {
 	global $bp;
 
-	foreach ( (array)$bp->bp_nav as $user_nav_item ) {
+	foreach ( (array) $bp->bp_nav as $user_nav_item ) {
 		if ( !$user_nav_item['show_for_displayed_user'] && !bp_is_my_profile() )
 			continue;
 

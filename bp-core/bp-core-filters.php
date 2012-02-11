@@ -78,7 +78,7 @@ add_filter( 'allowed_themes', 'bp_core_allow_default_theme' );
 function bp_core_filter_comments( $comments, $post_id ) {
 	global $wpdb;
 
-	foreach( (array)$comments as $comment ) {
+	foreach( (array) $comments as $comment ) {
 		if ( $comment->user_id )
 			$user_ids[] = $comment->user_id;
 	}
@@ -91,10 +91,10 @@ function bp_core_filter_comments( $comments, $post_id ) {
 	if ( !$userdata = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) ) )
 		return $comments;
 
-	foreach( (array)$userdata as $user )
+	foreach( (array) $userdata as $user )
 		$users[$user->user_id] = bp_core_get_user_domain( $user->user_id, $user->user_nicename, $user->user_login );
 
-	foreach( (array)$comments as $i => $comment ) {
+	foreach( (array) $comments as $i => $comment ) {
 		if ( !empty( $comment->user_id ) ) {
 			if ( !empty( $users[$comment->user_id] ) )
 				$comments[$i]->comment_author_url = $users[$comment->user_id];

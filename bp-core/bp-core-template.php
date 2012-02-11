@@ -39,7 +39,7 @@ function bp_get_options_nav() {
 	}
 
 	// Loop through each navigation item
-	foreach ( (array)$bp->bp_options_nav[$the_index] as $subnav_item ) {
+	foreach ( (array) $bp->bp_options_nav[$the_index] as $subnav_item ) {
 		if ( !$subnav_item['user_has_access'] )
 			continue;
 
@@ -272,7 +272,7 @@ function bp_search_form_type_select() {
 	$selection_box .= '<select name="search-which" id="search-which" style="width: auto">';
 
 	$options = apply_filters( 'bp_search_form_type_select_options', $options );
-	foreach( (array)$options as $option_value => $option_title )
+	foreach( (array) $options as $option_value => $option_title )
 		$selection_box .= sprintf( '<option value="%s">%s</option>', $option_value, $option_title );
 
 	$selection_box .= '</select>';

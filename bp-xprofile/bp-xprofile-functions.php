@@ -174,7 +174,7 @@ function xprofile_get_field_data( $field, $user_id = 0 ) {
 
 	if ( is_array( $values ) ) {
 		$data = array();
-		foreach( (array)$values as $value ) {
+		foreach( (array) $values as $value ) {
 			$data[] = apply_filters( 'xprofile_get_field_data', $value, $field_id, $user_id );
 		}
 	} else {
@@ -390,7 +390,7 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = 0 ) {
 function xprofile_sync_wp_profile( $user_id = 0 ) {
 	global $bp, $wpdb;
 
-	if ( !empty( $bp->site_options['bp-disable-profile-sync'] ) && (int)$bp->site_options['bp-disable-profile-sync'] )
+	if ( !empty( $bp->site_options['bp-disable-profile-sync'] ) && (int) $bp->site_options['bp-disable-profile-sync'] )
 		return true;
 
 	if ( empty( $user_id ) )
@@ -429,7 +429,7 @@ add_action( 'bp_core_signup_user', 'xprofile_sync_wp_profile' );
 function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
 	global $bp;
 
-	if ( ( !empty( $bp->site_options['bp-disable-profile-sync'] ) && (int)$bp->site_options['bp-disable-profile-sync'] ) || !$update || $errors->get_error_codes() )
+	if ( ( !empty( $bp->site_options['bp-disable-profile-sync'] ) && (int) $bp->site_options['bp-disable-profile-sync'] ) || !$update || $errors->get_error_codes() )
 		return;
 
 	xprofile_set_field_data( bp_xprofile_fullname_field_name(), $user->ID, $user->display_name );
@@ -534,7 +534,7 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '') {
 		}
 	}
 
-	$metas = array_map( 'maybe_unserialize', (array)$metas );
+	$metas = array_map( 'maybe_unserialize', (array) $metas );
 
 	if ( 1 == count( $metas ) )
 		return $metas[0];

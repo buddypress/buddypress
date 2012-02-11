@@ -125,7 +125,7 @@ function bp_core_get_directory_pages() {
 		// Always get page data from the root blog, except on multiblog mode, when it comes
 		// from the current blog
 		$posts_table_name = bp_is_multiblog_mode() ? $wpdb->posts : $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts';
-		$page_ids_sql     = implode( ',', (array)$page_ids );
+		$page_ids_sql     = implode( ',', (array) $page_ids );
 		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " ) );
 
 		foreach ( (array) $page_ids as $component_id => $page_id ) {
@@ -344,7 +344,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	if ( !empty( $older_date ) && !is_numeric( $older_date ) ) {
 		$time_chunks = explode( ':', str_replace( ' ', ':', $older_date ) );
 		$date_chunks = explode( '-', str_replace( ' ', '-', $older_date ) );
-		$older_date  = gmmktime( (int)$time_chunks[1], (int)$time_chunks[2], (int)$time_chunks[3], (int)$date_chunks[1], (int)$date_chunks[2], (int)$date_chunks[0] );
+		$older_date  = gmmktime( (int) $time_chunks[1], (int) $time_chunks[2], (int) $time_chunks[3], (int) $date_chunks[1], (int) $date_chunks[2], (int) $date_chunks[0] );
 	}
 
 	/**
@@ -687,7 +687,7 @@ function bp_core_add_root_component( $slug ) {
 	$match = false;
 
 	// Check if the slug is registered in the $bp->pages global
-	foreach ( (array)$bp->pages as $key => $page ) {
+	foreach ( (array) $bp->pages as $key => $page ) {
 		if ( $key == $slug || $page->slug == $slug )
 			$match = true;
 	}
@@ -709,7 +709,7 @@ function bp_core_create_root_component_page() {
 
 	$new_page_ids = array();
 
-	foreach ( (array)$bp->add_root as $slug )
+	foreach ( (array) $bp->add_root as $slug )
 		$new_page_ids[$slug] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 
 	$page_ids = array_merge( (array) $new_page_ids, (array) bp_core_get_directory_page_ids() );

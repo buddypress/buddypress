@@ -17,7 +17,7 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 
 	$initiator_name = bp_core_get_user_displayname( $initiator_id );
 
-	if ( 'no' == bp_get_user_meta( (int)$friend_id, 'notification_friends_friendship_request', true ) )
+	if ( 'no' == bp_get_user_meta( (int) $friend_id, 'notification_friends_friendship_request', true ) )
 		return false;
 
 	$ud                = get_userdata( $friend_id );

@@ -11,7 +11,7 @@
 	if ( have_comments() ) :
 		$num_comments = 0;
 		$num_trackbacks = 0;
-		foreach ( (array)$comments as $comment ) {
+		foreach ( (array) $comments as $comment ) {
 			if ( 'comment' != get_comment_type() )
 				$num_trackbacks++;
 			else
@@ -62,7 +62,7 @@
 		<h3><?php printf( _n( '1 trackback', '%d trackbacks', $num_trackbacks, 'buddypress' ), number_format_i18n( $num_trackbacks ) ) ?></h3>
 
 		<ul id="trackbacklist">
-			<?php foreach ( (array)$comments as $comment ) : ?>
+			<?php foreach ( (array) $comments as $comment ) : ?>
 
 				<?php if ( 'comment' != get_comment_type() ) : ?>
 					<li>

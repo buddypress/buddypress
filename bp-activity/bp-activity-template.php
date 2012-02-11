@@ -124,10 +124,10 @@ class BP_Activity_Template {
 		else
 			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden, 'exclude' => $exclude, 'in' => $in, 'spam' => $spam ) );
 
-		if ( !$max || $max >= (int)$this->activities['total'] )
-			$this->total_activity_count = (int)$this->activities['total'];
+		if ( !$max || $max >= (int) $this->activities['total'] )
+			$this->total_activity_count = (int) $this->activities['total'];
 		else
-			$this->total_activity_count = (int)$max;
+			$this->total_activity_count = (int) $max;
 
 		$this->activities = $this->activities['activities'];
 
@@ -135,7 +135,7 @@ class BP_Activity_Template {
 			if ( $max >= count($this->activities) ) {
 				$this->activity_count = count( $this->activities );
 			} else {
-				$this->activity_count = (int)$max;
+				$this->activity_count = (int) $max;
 			}
 		} else {
 			$this->activity_count = count( $this->activities );
@@ -144,7 +144,7 @@ class BP_Activity_Template {
 		$this->full_name = bp_get_displayed_user_fullname();
 
 		// Fetch parent content for activity comments so we do not have to query in the loop
-		foreach ( (array)$this->activities as $activity ) {
+		foreach ( (array) $this->activities as $activity ) {
 			if ( 'activity_comment' != $activity->type )
 				continue;
 
@@ -161,12 +161,12 @@ class BP_Activity_Template {
 			unset( $activity_parents );
 		}
 
-		if ( (int)$this->total_activity_count && (int)$this->pag_num ) {
+		if ( (int) $this->total_activity_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( 'acpage', '%#%' ),
 				'format'    => '',
-				'total'     => ceil( (int)$this->total_activity_count / (int)$this->pag_num ),
-				'current'   => (int)$this->pag_page,
+				'total'     => ceil( (int) $this->total_activity_count / (int) $this->pag_num ),
+				'current'   => (int) $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Activity pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Activity pagination next text', 'buddypress' ),
 				'mid_size'  => 1
@@ -276,7 +276,7 @@ function bp_has_activities( $args = '' ) {
 	}
 
 	// The default scope should recognize custom slugs
-	if ( array_key_exists( $bp->current_action, (array)$bp->loaded_components ) ) {
+	if ( array_key_exists( $bp->current_action, (array) $bp->loaded_components ) ) {
 		$scope = $bp->loaded_components[$bp->current_action];
 	}
 	else
@@ -336,7 +336,7 @@ function bp_has_activities( $args = '' ) {
 						if ( empty( $friends ) )
 							return false;
 
-						$user_id = implode( ',', (array)$friends );
+						$user_id = implode( ',', (array) $friends );
 					break;
 				case 'groups':
 					if ( bp_is_active( 'groups' ) ) {
@@ -345,7 +345,7 @@ function bp_has_activities( $args = '' ) {
 							return false;
 
 						$object = $bp->groups->id;
-						$primary_id = implode( ',', (array)$groups['groups'] );
+						$primary_id = implode( ',', (array) $groups['groups'] );
 
 						$user_id = 0;
 					}
@@ -355,7 +355,7 @@ function bp_has_activities( $args = '' ) {
 					if ( empty( $favs ) )
 						return false;
 
-					$include          = implode( ',', (array)$favs );
+					$include          = implode( ',', (array) $favs );
 					$display_comments = true;
 					break;
 				case 'mentions':
@@ -496,7 +496,7 @@ function bp_activity_has_more_items() {
 	global $activities_template;
 
 	$remaining_pages = floor( ( $activities_template->total_activity_count - 1 ) / ( $activities_template->pag_num * $activities_template->pag_page ) );
-	$has_more_items  = (int)$remaining_pages ? true : false;
+	$has_more_items  = (int) $remaining_pages ? true : false;
 
 	return apply_filters( 'bp_activity_has_more_items', $has_more_items );
 }
@@ -525,7 +525,7 @@ function bp_activity_count() {
 	function bp_get_activity_count() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_count', (int)$activities_template->activity_count );
+		return apply_filters( 'bp_get_activity_count', (int) $activities_template->activity_count );
 	}
 
 /**
@@ -552,7 +552,7 @@ function bp_activity_per_page() {
 	function bp_get_activity_per_page() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_per_page', (int)$activities_template->pag_num );
+		return apply_filters( 'bp_get_activity_per_page', (int) $activities_template->pag_num );
 	}
 
 /**
@@ -1322,7 +1322,7 @@ function bp_activity_is_favorite() {
 	function bp_get_activity_is_favorite() {
 		global $activities_template;
 
- 		return apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array)$activities_template->my_favs ) );
+ 		return apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array) $activities_template->my_favs ) );
 	}
 
 /**
@@ -1387,7 +1387,7 @@ function bp_activity_comments( $args = '' ) {
 				return false;
 
 			echo '<ul>';
-			foreach ( (array)$comment->children as $comment_child ) {
+			foreach ( (array) $comment->children as $comment_child ) {
 				// Put the comment into the global so it's available to filters
 				$activities_template->activity->current_comment = $comment_child;
 
@@ -1681,7 +1681,7 @@ function bp_activity_comment_count() {
 
 		$count = bp_activity_recurse_comment_count( $activities_template->activity );
 
-		return apply_filters( 'bp_activity_get_comment_count', (int)$count );
+		return apply_filters( 'bp_activity_get_comment_count', (int) $count );
 	}
 
 		/**
@@ -1946,7 +1946,7 @@ function bp_activity_css_class() {
 		) );
 
 		$class = '';
-		if ( in_array( $activities_template->activity->type, (array)$mini_activity_actions ) || empty( $activities_template->activity->content ) )
+		if ( in_array( $activities_template->activity->type, (array) $mini_activity_actions ) || empty( $activities_template->activity->content ) )
 			$class = ' mini';
 
 		if ( bp_activity_get_comment_count() && bp_activity_can_comment() )
@@ -2157,7 +2157,7 @@ function bp_activity_can_comment() {
 
 	$can_comment = true;
 
-	if ( false === $activities_template->disable_blogforum_replies || (int)$activities_template->disable_blogforum_replies ) {
+	if ( false === $activities_template->disable_blogforum_replies || (int) $activities_template->disable_blogforum_replies ) {
 		if ( 'new_blog_post' == bp_get_activity_action_name() || 'new_blog_comment' == bp_get_activity_action_name() || 'new_forum_topic' == bp_get_activity_action_name() || 'new_forum_post' == bp_get_activity_action_name() )
 			$can_comment = false;
 	}

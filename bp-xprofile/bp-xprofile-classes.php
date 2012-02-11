@@ -143,7 +143,7 @@ class BP_XProfile_Group {
 
 		// Get the group ids
 		$group_ids = array();
-		foreach( (array)$groups as $group ) {
+		foreach( (array) $groups as $group ) {
 			$group_ids[] = $group->id;
 		}
 
@@ -178,7 +178,7 @@ class BP_XProfile_Group {
 			if ( !empty( $hide_empty_fields ) ) {
 
 				// Loop through the results and find the fields that have data.
-				foreach( (array)$field_data as $data ) {
+				foreach( (array) $field_data as $data ) {
 
 					// Empty fields may contain a serialized empty array
 					$maybe_value = maybe_unserialize( $data->value );
@@ -204,10 +204,10 @@ class BP_XProfile_Group {
 			if ( !empty( $field_data ) && !is_wp_error( $field_data ) ) {
 
 				// Loop through fields
-				foreach( (array)$fields as $field_key => $field ) {
+				foreach( (array) $fields as $field_key => $field ) {
 
 					// Loop throught the data in each field
-					foreach( (array)$field_data as $data ) {
+					foreach( (array) $field_data as $data ) {
 
 						// Assign correct data value to the field
 						if ( $field->id == $data->field_id )
@@ -489,7 +489,7 @@ class BP_XProfile_Field {
 
 				$counter = 1;
 				if ( !empty( $options ) ) {
-					foreach ( (array)$options as $option_key => $option_value ) {
+					foreach ( (array) $options as $option_key => $option_value ) {
 						$is_default = 0;
 
 						if ( is_array( $defaults ) ) {

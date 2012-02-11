@@ -100,7 +100,7 @@ function bp_forums_load_bbpress() {
 
 		// Set the site admins as the keymasters
 		$site_admins = get_site_option( 'site_admins', array('admin') );
-		foreach ( (array)$site_admins as $site_admin )
+		foreach ( (array) $site_admins as $site_admin )
 			update_user_meta( bp_core_get_userid( $site_admin ), $bb_table_prefix . 'capabilities', array( 'keymaster' => true ) );
 
 		// Create the first forum.

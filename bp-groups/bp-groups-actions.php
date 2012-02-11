@@ -110,7 +110,7 @@ function groups_action_create_group() {
 			// Set the invite status
 			// Checked against a whitelist for security
 			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
-			$invite_status	       = !empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array)$allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
+			$invite_status	       = !empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
 
 			groups_update_groupmeta( $bp->groups->new_group_id, 'invite_status', $invite_status );
 		}
@@ -155,7 +155,7 @@ function groups_action_create_group() {
 			 * Since we don't know what the next step is going to be (any plugin can insert steps)
 			 * we need to loop the step array and fetch the next step that way.
 			 */
-			foreach ( (array)$bp->groups->group_creation_steps as $key => $value ) {
+			foreach ( (array) $bp->groups->group_creation_steps as $key => $value ) {
 				if ( $key == $bp->groups->current_create_step ) {
 					$next = 1;
 					continue;
@@ -275,7 +275,7 @@ function groups_action_sort_creation_steps() {
 	if ( !is_array( $bp->groups->group_creation_steps ) )
 		return false;
 
-	foreach ( (array)$bp->groups->group_creation_steps as $slug => $step ) {
+	foreach ( (array) $bp->groups->group_creation_steps as $slug => $step ) {
 		while ( !empty( $temp[$step['position']] ) )
 			$step['position']++;
 
@@ -286,7 +286,7 @@ function groups_action_sort_creation_steps() {
 	ksort($temp);
 	unset($bp->groups->group_creation_steps);
 
-	foreach( (array)$temp as $position => $step )
+	foreach( (array) $temp as $position => $step )
 		$bp->groups->group_creation_steps[$step['slug']] = array( 'name' => $step['name'], 'position' => $position );
 }
 

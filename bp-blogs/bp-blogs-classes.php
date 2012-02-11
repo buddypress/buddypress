@@ -122,11 +122,11 @@ class BP_Blogs_Blog {
 		}
 
 		$blog_ids = array();
-		foreach ( (array)$paged_blogs as $blog ) {
+		foreach ( (array) $paged_blogs as $blog ) {
 			$blog_ids[] = $blog->blog_id;
 		}
 
-		$blog_ids = $wpdb->escape( join( ',', (array)$blog_ids ) );
+		$blog_ids = $wpdb->escape( join( ',', (array) $blog_ids ) );
 		$paged_blogs = BP_Blogs_Blog::get_blog_extras( $paged_blogs, $blog_ids, $type );
 
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
@@ -172,7 +172,7 @@ class BP_Blogs_Blog {
 		$total_blog_count = BP_Blogs_Blog::total_blog_count_for_user( $user_id );
 
 		$user_blogs = array();
-		foreach ( (array)$blogs as $blog ) {
+		foreach ( (array) $blogs as $blog ) {
 			$user_blogs[$blog->blog_id] = new stdClass;
 			$user_blogs[$blog->blog_id]->id = $blog->id;
 			$user_blogs[$blog->blog_id]->blog_id = $blog->blog_id;
@@ -272,7 +272,7 @@ class BP_Blogs_Blog {
 		$blog_descs = $wpdb->get_results( $wpdb->prepare( "SELECT blog_id, meta_value as description FROM {$bp->blogs->table_name_blogmeta} WHERE meta_key = 'description' AND blog_id IN ( {$blog_ids} )" ) );
 
 		for ( $i = 0, $count = count( $paged_blogs ); $i < $count; ++$i ) {
-			foreach ( (array)$blog_descs as $desc ) {
+			foreach ( (array) $blog_descs as $desc ) {
 				if ( $desc->blog_id == $paged_blogs[$i]->blog_id )
 					$paged_blogs[$i]->description = $desc->description;
 			}
@@ -284,7 +284,7 @@ class BP_Blogs_Blog {
 	function is_hidden( $blog_id ) {
 		global $wpdb;
 
-		if ( !(int)$wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT public FROM {$wpdb->base_prefix}blogs WHERE blog_id = %d", $blog_id ) ) )
+		if ( !(int) $wpdb->get_var( $wpdb->prepare( "SELECT DISTINCT public FROM {$wpdb->base_prefix}blogs WHERE blog_id = %d", $blog_id ) ) )
 			return true;
 
 		return false;

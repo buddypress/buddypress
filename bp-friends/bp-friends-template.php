@@ -273,7 +273,7 @@ function bp_potential_friend_id( $user_id = 0 ) {
 		else if ( empty( $user_id ) && !isset( $friends_template->friendship->friend ) )
 			$user_id = bp_displayed_user_id();
 
-		return apply_filters( 'bp_get_potential_friend_id', (int)$user_id );
+		return apply_filters( 'bp_get_potential_friend_id', (int) $user_id );
 	}
 
 /**

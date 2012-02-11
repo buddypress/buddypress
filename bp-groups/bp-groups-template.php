@@ -140,18 +140,18 @@ class BP_Groups_Template {
 		}
 
 		if ( 'invites' == $type ) {
-			$this->total_group_count = (int)$this->groups['total'];
-			$this->group_count       = (int)$this->groups['total'];
+			$this->total_group_count = (int) $this->groups['total'];
+			$this->group_count       = (int) $this->groups['total'];
 			$this->groups            = $this->groups['groups'];
 		} else if ( 'single-group' == $type ) {
 			$this->single_group      = true;
 			$this->total_group_count = 1;
 			$this->group_count       = 1;
 		} else {
-			if ( empty( $max ) || $max >= (int)$this->groups['total'] ) {
-				$this->total_group_count = (int)$this->groups['total'];
+			if ( empty( $max ) || $max >= (int) $this->groups['total'] ) {
+				$this->total_group_count = (int) $this->groups['total'];
 			} else {
-				$this->total_group_count = (int)$max;
+				$this->total_group_count = (int) $max;
 			}
 
 			$this->groups = $this->groups['groups'];
@@ -160,7 +160,7 @@ class BP_Groups_Template {
 				if ( $max >= count( $this->groups ) ) {
 					$this->group_count = count( $this->groups );
 				} else {
-					$this->group_count = (int)$max;
+					$this->group_count = (int) $max;
 				}
 			} else {
 				$this->group_count = count( $this->groups );
@@ -168,11 +168,11 @@ class BP_Groups_Template {
 		}
 
 		// Build pagination links
-		if ( (int) $this->total_group_count && (int)$this->pag_num ) {
+		if ( (int) $this->total_group_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( array( 'grpage' => '%#%', 'num' => $this->pag_num, 's' => $search_terms, 'sortby' => $this->sort_by, 'order' => $this->order ) ),
 				'format'    => '',
-				'total'     => ceil( (int)$this->total_group_count / (int)$this->pag_num ),
+				'total'     => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
 				'current'   => $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Group pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Group pagination next text', 'buddypress' ),
@@ -286,7 +286,7 @@ function bp_has_groups( $args = '' ) {
 			$search_terms = false;
 	}
 
-	$groups_template = new BP_Groups_Template( (int)$user_id, $type, (int)$page, (int)$per_page, (int)$max, $slug, $search_terms, (bool)$populate_extras, $include, $exclude, $show_hidden );
+	$groups_template = new BP_Groups_Template( (int) $user_id, $type, (int) $page, (int) $per_page, (int) $max, $slug, $search_terms, (bool)$populate_extras, $include, $exclude, $show_hidden );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template );
 }
 
@@ -567,7 +567,7 @@ function bp_group_list_admins( $group = false ) {
 
 	if ( !empty( $group->admins ) ) { ?>
 		<ul id="group-admins">
-			<?php foreach( (array)$group->admins as $admin ) { ?>
+			<?php foreach( (array) $group->admins as $admin ) { ?>
 				<li>
 					<a href="<?php echo bp_core_get_user_domain( $admin->user_id, $admin->user_nicename, $admin->user_login ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'email' => $admin->user_email, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $admin->user_id ) ) ) ) ?></a>
 				</li>
@@ -589,7 +589,7 @@ function bp_group_list_mods( $group = false ) {
 
 		<ul id="group-mods">
 
-			<?php foreach( (array)$group->mods as $mod ) { ?>
+			<?php foreach( (array) $group->mods as $mod ) { ?>
 
 				<li>
 					<a href="<?php echo bp_core_get_user_domain( $mod->user_id, $mod->user_nicename, $mod->user_login ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'email' => $mod->user_email, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $mod->user_id ) ) ) ) ?></a>
@@ -796,7 +796,7 @@ function bp_group_forum_topic_count( $args = '' ) {
 			return false;
 
 		if ( !$groups_template->group->forum_counts )
-			$groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int)$forum_id );
+			$groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int) $forum_id );
 
 		if ( (bool) $showtext ) {
 			if ( 1 == (int) $groups_template->group->forum_counts[0]->topics )
@@ -830,7 +830,7 @@ function bp_group_forum_post_count( $args = '' ) {
 			return false;
 
 		if ( !$groups_template->group->forum_counts )
-			$groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int)$forum_id );
+			$groups_template->group->forum_counts = bp_forums_get_forum_topicpost_count( (int) $forum_id );
 
 		if ( (bool) $showtext ) {
 			if ( 1 == (int) $groups_template->group->forum_counts[0]->posts )
@@ -1023,7 +1023,7 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 
 		<ul id="admins-list" class="item-list<?php if ( !empty( $admin_list ) ) : ?> single-line<?php endif; ?>">
 
-		<?php foreach ( (array)$admins as $admin ) { ?>
+		<?php foreach ( (array) $admins as $admin ) { ?>
 
 			<?php if ( !empty( $admin_list ) ) : ?>
 
@@ -1088,7 +1088,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 
 		<ul id="mods-list" class="item-list<?php if ( $admin_list ) { ?> single-line<?php } ?>">
 
-		<?php foreach ( (array)$group_mods as $mod ) { ?>
+		<?php foreach ( (array) $group_mods as $mod ) { ?>
 
 			<?php if ( !empty( $admin_list ) ) { ?>
 
@@ -1696,10 +1696,10 @@ class BP_Groups_Group_Members_Template {
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		$this->members  = BP_Groups_Member::get_all_for_group( $group_id, $this->pag_num, $this->pag_page, $exclude_admins_mods, $exclude_banned, $exclude );
 
-		if ( !$max || $max >= (int)$this->members['count'] )
-			$this->total_member_count = (int)$this->members['count'];
+		if ( !$max || $max >= (int) $this->members['count'] )
+			$this->total_member_count = (int) $this->members['count'];
 		else
-			$this->total_member_count = (int)$max;
+			$this->total_member_count = (int) $max;
 
 		$this->members = $this->members['members'];
 
@@ -1707,7 +1707,7 @@ class BP_Groups_Group_Members_Template {
 			if ( $max >= count($this->members) )
 				$this->member_count = count($this->members);
 			else
-				$this->member_count = (int)$max;
+				$this->member_count = (int) $max;
 		} else {
 			$this->member_count = count($this->members);
 		}
@@ -1782,7 +1782,7 @@ function bp_group_has_members( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$members_template = new BP_Groups_Group_Members_Template( $group_id, $per_page, $max, (int)$exclude_admins_mods, (int)$exclude_banned, $exclude );
+	$members_template = new BP_Groups_Group_Members_Template( $group_id, $per_page, $max, (int) $exclude_admins_mods, (int) $exclude_banned, $exclude );
 	return apply_filters( 'bp_group_has_members', $members_template->has_members(), $members_template );
 }
 
@@ -2004,7 +2004,7 @@ function bp_group_creation_tabs() {
 
 	$counter = 1;
 
-	foreach ( (array)$bp->groups->group_creation_steps as $slug => $step ) {
+	foreach ( (array) $bp->groups->group_creation_steps as $slug => $step ) {
 		$is_enabled = bp_are_previous_group_creation_steps_complete( $slug ); ?>
 
 		<li<?php if ( $bp->groups->current_create_step == $slug ) : ?> class="current"<?php endif; ?>><?php if ( $is_enabled ) : ?><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() ?>/create/step/<?php echo $slug ?>/"><?php else: ?><span><?php endif; ?><?php echo $counter ?>. <?php echo $step['name'] ?><?php if ( $is_enabled ) : ?></a><?php else: ?></span><?php endif ?></li><?php
@@ -2067,7 +2067,7 @@ function bp_is_group_creation_step_complete( $step_slugs ) {
 	if ( is_array( $step_slugs ) ) {
 		$found = true;
 
-		foreach ( (array)$step_slugs as $step_slug ) {
+		foreach ( (array) $step_slugs as $step_slug ) {
 			if ( !in_array( $step_slug, $bp->groups->completed_create_steps ) )
 				$found = false;
 		}
@@ -2091,7 +2091,7 @@ function bp_are_previous_group_creation_steps_complete( $step_slug ) {
 	unset( $previous_steps );
 
 	/* Get previous steps */
-	foreach ( (array)$bp->groups->group_creation_steps as $slug => $name ) {
+	foreach ( (array) $bp->groups->group_creation_steps as $slug => $name ) {
 		if ( $slug == $step_slug )
 			break;
 
@@ -2187,7 +2187,7 @@ function bp_group_creation_previous_link() {
 	function bp_get_group_creation_previous_link() {
 		global $bp;
 
-		foreach ( (array)$bp->groups->group_creation_steps as $slug => $name ) {
+		foreach ( (array) $bp->groups->group_creation_steps as $slug => $name ) {
 			if ( bp_is_action_variable( $slug ) )
 				break;
 
@@ -2255,7 +2255,7 @@ function bp_new_group_invite_friend_list() {
 		}
 
 		if ( !empty( $items ) )
-			return implode( "\n", (array)$items );
+			return implode( "\n", (array) $items );
 
 		return false;
 	}
@@ -2420,10 +2420,10 @@ class BP_Groups_Membership_Requests_Template {
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 		$this->requests = BP_Groups_Group::get_membership_requests( $group_id, $this->pag_num, $this->pag_page );
 
-		if ( !$max || $max >= (int)$this->requests['total'] )
-			$this->total_request_count = (int)$this->requests['total'];
+		if ( !$max || $max >= (int) $this->requests['total'] )
+			$this->total_request_count = (int) $this->requests['total'];
 		else
-			$this->total_request_count = (int)$max;
+			$this->total_request_count = (int) $max;
 
 		$this->requests = $this->requests['requests'];
 
@@ -2431,7 +2431,7 @@ class BP_Groups_Membership_Requests_Template {
 			if ( $max >= count($this->requests) )
 				$this->request_count = count($this->requests);
 			else
-				$this->request_count = (int)$max;
+				$this->request_count = (int) $max;
 		} else {
 			$this->request_count = count($this->requests);
 		}
@@ -2769,7 +2769,7 @@ function bp_current_group_id() {
 	function bp_get_current_group_id() {
 		$current_group = groups_get_current_group();
 
-		$current_group_id = isset( $current_group->id ) ? (int)$current_group->id : 0;
+		$current_group_id = isset( $current_group->id ) ? (int) $current_group->id : 0;
 
 		return apply_filters( 'bp_get_current_group_id', $current_group_id, $current_group );
 	}

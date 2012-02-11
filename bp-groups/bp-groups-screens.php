@@ -409,7 +409,7 @@ function groups_screen_group_invite() {
 				return false;
 
 			if ( !empty( $_POST['friends'] ) ) {
-				foreach( (array)$_POST['friends'] as $friend ) {
+				foreach( (array) $_POST['friends'] as $friend ) {
 					groups_invite_user( array( 'user_id' => $friend, 'group_id' => $bp->groups->current_group->id ) );
 				}
 			}
@@ -492,7 +492,7 @@ function groups_screen_group_admin_edit_details() {
 				if ( !check_admin_referer( 'groups_edit_group_details' ) )
 					return false;
 
-				if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], (int)$_POST['group-notify-members'] ) ) {
+				if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], (int) $_POST['group-notify-members'] ) ) {
 					bp_core_add_message( __( 'There was an error updating group details, please try again.', 'buddypress' ), 'error' );
 				} else {
 					bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );
@@ -525,11 +525,11 @@ function groups_screen_group_admin_settings() {
 
 			// Checked against a whitelist for security
 			$allowed_status = apply_filters( 'groups_allowed_status', array( 'public', 'private', 'hidden' ) );
-			$status         = ( in_array( $_POST['group-status'], (array)$allowed_status ) ) ? $_POST['group-status'] : 'public';
+			$status         = ( in_array( $_POST['group-status'], (array) $allowed_status ) ) ? $_POST['group-status'] : 'public';
 
 			// Checked against a whitelist for security
 			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
-			$invite_status	       = in_array( $_POST['group-invite-status'], (array)$allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
+			$invite_status	       = in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
 
 			// Check the nonce
 			if ( !check_admin_referer( 'groups_edit_group_settings' ) )

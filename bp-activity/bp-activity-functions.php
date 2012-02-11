@@ -79,7 +79,7 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
 	$activity = new BP_Activity_Activity( $activity_id );
 
 	if ( $usernames = bp_activity_find_mentions( strip_tags( $activity->content ) ) ) {
-		foreach( (array)$usernames as $username ) {
+		foreach( (array) $usernames as $username ) {
 			if ( bp_is_username_compatibility_mode() )
 				$user_id = username_exists( $username );
 			else
@@ -104,7 +104,7 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
 				case 'add' :
 				default :
 					if ( !in_array( $activity_id, $new_mentions ) ) {
-						$new_mentions[] = (int)$activity_id;
+						$new_mentions[] = (int) $activity_id;
 					}
 					break;
 			}
@@ -148,7 +148,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 			$at_mention_link  = bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/';
 			$at_mention_title = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );
 
-			if ( (int)$total_items > 1 ) {
+			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( 'You have %1$d new activity mentions', 'buddypress' ), (int) $total_items );
 				$filter = 'bp_activity_multiple_at_mentions_notification';
 			} else {
@@ -160,12 +160,12 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 	}
 
 	if ( 'string' == $format ) {
-		$return = apply_filters( $filter, '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . $text . '</a>', $at_mention_link, (int)$total_items, $activity_id, $poster_user_id );
+		$return = apply_filters( $filter, '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . $text . '</a>', $at_mention_link, (int) $total_items, $activity_id, $poster_user_id );
 	} else {
 		$return = apply_filters( $filter, array(
 			'text' => $text,
 			'link' => $at_mention_link
-		), $at_mention_link, (int)$total_items, $activity_id, $poster_user_id );
+		), $at_mention_link, (int) $total_items, $activity_id, $poster_user_id );
 	}
 
 	do_action( 'activity_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
@@ -288,7 +288,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 
 	// Update the total number of users who have favorited this activity
 	$fav_count = bp_activity_get_meta( $activity_id, 'favorite_count' );
-	$fav_count = !empty( $fav_count ) ? (int)$fav_count + 1 : 1;
+	$fav_count = !empty( $fav_count ) ? (int) $fav_count + 1 : 1;
 
 	// Update user meta
 	bp_update_user_meta( bp_loggedin_user_id(), 'bp_favorite_activities', $my_favs );
@@ -348,7 +348,7 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 	if ( $fav_count = bp_activity_get_meta( $activity_id, 'favorite_count' ) ) {
 
 		// Deduct from total favorites
-		if ( bp_activity_update_meta( $activity_id, 'favorite_count', (int)$fav_count - 1 ) ) {
+		if ( bp_activity_update_meta( $activity_id, 'favorite_count', (int) $fav_count - 1 ) ) {
 
 			// Update users favorites
 			if ( bp_update_user_meta( $user_id, 'bp_favorite_activities', $my_favs ) ) {
@@ -526,7 +526,7 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '' ) {
 		$metas = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
 				
 		if ( !empty( $metas ) ) {
-			$metas = array_map( 'maybe_unserialize', (array)$metas );
+			$metas = array_map( 'maybe_unserialize', (array) $metas );
 			
 			foreach( $metas as $mkey => $mvalue ) {
 				wp_cache_set( 'bp_activity_meta_' . $activity_id . '_' . $mkey, $mvalue, 'bp' );
@@ -539,7 +539,7 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '' ) {
 		return false;
 
 	// Maybe, just maybe... unserialize
-	$metas = array_map( 'maybe_unserialize', (array)$metas );
+	$metas = array_map( 'maybe_unserialize', (array) $metas );
 
 	// Return first item in array if only 1, else return all metas found
 	$retval = ( 1 == count( $metas ) ? $metas[0] : $metas );
@@ -818,7 +818,7 @@ function bp_activity_get( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	// Attempt to return a cached copy of the first page of sitewide activity.
-	if ( 1 == (int)$page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && empty( $exclude ) && empty( $in ) && 'DESC' == $sort && empty( $exclude ) && 'ham_only' == $spam ) {
+	if ( 1 == (int) $page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && empty( $exclude ) && empty( $in ) && 'DESC' == $sort && empty( $exclude ) && 'ham_only' == $spam ) {
 		if ( !$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' ) ) {
 			$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, false, false, $spam );
 			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
@@ -1033,7 +1033,7 @@ function bp_activity_new_comment( $args = '' ) {
 
 	// Check to see if the parent activity is hidden, and if so, hide this comment publically.
 	$activity = new BP_Activity_Activity( $activity_id );
-	$is_hidden = ( (int)$activity->hide_sitewide ) ? 1 : 0;
+	$is_hidden = ( (int) $activity->hide_sitewide ) ? 1 : 0;
 
 	// Insert the activity comment
 	$comment_id = bp_activity_add( array(
@@ -1154,7 +1154,7 @@ function bp_activity_delete( $args = '' ) {
 
 	$latest_update = bp_get_user_meta( $user_id, 'bp_latest_update', true );
 	if ( !empty( $latest_update ) ) {
-		if ( in_array( (int)$latest_update['id'], (array)$activity_ids_deleted ) ) {
+		if ( in_array( (int) $latest_update['id'], (array) $activity_ids_deleted ) ) {
 			bp_delete_user_meta( $user_id, 'bp_latest_update' );
 		}
 	}
@@ -1309,7 +1309,7 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	function bp_activity_delete_children( $activity_id, $comment_id) {
 		// Recursively delete all children of this comment.
 		if ( $children = BP_Activity_Activity::get_child_comments( $comment_id ) ) {
-			foreach( (array)$children as $child ) {
+			foreach( (array) $children as $child ) {
 				bp_activity_delete_children( $activity_id, $child->id );
 			}
 		}
@@ -1407,8 +1407,8 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
 				$height = 100;
 			}
 
-			$ratio      = (int)$width / (int)$height;
-			$new_height = (int)$height >= 100 ? 100 : $height;
+			$ratio      = (int) $width / (int) $height;
+			$new_height = (int) $height >= 100 ? 100 : $height;
 			$new_width  = $new_height * $ratio;
 
 			$image = '<img src="' . esc_attr( $src ) . '" width="' . $new_width . '" height="' . $new_height . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />';

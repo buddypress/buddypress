@@ -779,7 +779,7 @@ function bp_profile_group_name( $deprecated = true ) {
 function bp_avatar_upload_form() {
 	global $bp;
 
-	if ( !(int)$bp->site_options['bp-disable-avatar-uploads'] )
+	if ( !(int) $bp->site_options['bp-disable-avatar-uploads'] )
 		bp_core_avatar_admin( null, bp_loggedin_user_domain() . $bp->profile->slug . '/change-avatar/', bp_loggedin_user_domain() . $bp->profile->slug . '/delete-avatar/' );
 	else
 		_e( 'Avatar uploads are currently disabled. Why not use a <a href="http://gravatar.com" target="_blank">gravatar</a> instead?', 'buddypress' );

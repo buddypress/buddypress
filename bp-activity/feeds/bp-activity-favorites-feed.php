@@ -37,7 +37,7 @@ header('Status: 200 OK');
 
 	<?php
 		$favs = bp_activity_get_user_favorites( bp_displayed_user_id() );
-		$fav_ids = implode( ',', (array)$favs );
+		$fav_ids = implode( ',', (array) $favs );
 	?>
 
 	<?php if ( bp_has_activities( 'include=' . $fav_ids . '&max=50&display_comments=stream' ) ) : ?>

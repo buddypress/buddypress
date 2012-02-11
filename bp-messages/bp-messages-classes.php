@@ -35,7 +35,7 @@ class BP_Messages_Thread {
 		if ( !$this->messages = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE thread_id = %d ORDER BY date_sent " . $order, $this->thread_id ) ) )
 			return false;
 
-		foreach ( (array)$this->messages as $key => $message )
+		foreach ( (array) $this->messages as $key => $message )
 			$this->sender_ids[$message->sender_id] = $message->sender_id;
 
 		// Fetch the recipients
@@ -112,16 +112,16 @@ class BP_Messages_Thread {
 			return false;
 
 		// Sort threads by date_sent
-		foreach( (array)$thread_ids as $thread )
+		foreach( (array) $thread_ids as $thread )
 			$sorted_threads[$thread->thread_id] = strtotime( $thread->date_sent );
 
 		arsort( $sorted_threads );
 
 		$threads = false;
-		foreach ( (array)$sorted_threads as $thread_id => $date_sent )
+		foreach ( (array) $sorted_threads as $thread_id => $date_sent )
 			$threads[] = new BP_Messages_Thread( $thread_id );
 
-		return array( 'threads' => &$threads, 'total' => (int)$total_threads );
+		return array( 'threads' => &$threads, 'total' => (int) $total_threads );
 	}
 
 	function mark_as_read( $thread_id ) {
@@ -209,7 +209,7 @@ class BP_Messages_Thread {
 
 		$recipient_links = array();
 
-		foreach ( (array)$recipients as $recipient )
+		foreach ( (array) $recipients as $recipient )
 			$recipient_links[] = bp_core_get_userlink( $recipient->user_id );
 
 		return implode( ', ', (array) $recipient_links );
@@ -228,7 +228,7 @@ class BP_Messages_Thread {
 		if ( empty( $threads ) )
 			return true;
 
-		foreach( (array)$threads as $thread ) {
+		foreach( (array) $threads as $thread ) {
 			$message_ids = maybe_unserialize( $thread->message_ids );
 
 			if ( !empty( $message_ids ) ) {
@@ -297,7 +297,7 @@ class BP_Messages_Message {
 
 		// If we have no thread_id then this is the first message of a new thread.
 		if ( empty( $this->thread_id ) ) {
-			$this->thread_id = (int)$wpdb->get_var( $wpdb->prepare( "SELECT MAX(thread_id) FROM {$bp->messages->table_name_messages}" ) ) + 1;
+			$this->thread_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT MAX(thread_id) FROM {$bp->messages->table_name_messages}" ) ) + 1;
 			$new_thread = true;
 		}
 
@@ -309,7 +309,7 @@ class BP_Messages_Message {
 
 		if ( $new_thread ) {
 			// Add an recipient entry for all recipients
-			foreach ( (array)$this->recipients as $recipient ) {
+			foreach ( (array) $this->recipients as $recipient ) {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count ) VALUES ( %d, %d, 1 )", $recipient->user_id, $this->thread_id ) );
 				$recipient_ids[] = $recipient->user_id;
 			}

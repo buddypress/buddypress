@@ -55,30 +55,30 @@ class BP_Messages_Box_Template {
 		} else {
 			$total_notice_count = BP_Messages_Notice::get_total_notice_count();
 
-			if ( !$max || $max >= (int)$total_notice_count ) {
+			if ( !$max || $max >= (int) $total_notice_count ) {
 				if ( 'notices' == $this->box ) {
-					$this->total_thread_count = (int)$total_notice_count;
+					$this->total_thread_count = (int) $total_notice_count;
 				}
 			} else {
-				$this->total_thread_count = (int)$max;
+				$this->total_thread_count = (int) $max;
 			}
 
 			if ( $max ) {
 				if ( $max >= count( $this->threads ) ) {
 					$this->thread_count = count( $this->threads );
 				} else {
-					$this->thread_count = (int)$max;
+					$this->thread_count = (int) $max;
 				}
 			} else {
 				$this->thread_count = count( $this->threads );
 			}
 		}
 
-		if ( (int)$this->total_thread_count && (int)$this->pag_num ) {
+		if ( (int) $this->total_thread_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( 'mpage', '%#%' ),
 				'format'    => '',
-				'total'     => ceil( (int)$this->total_thread_count / (int)$this->pag_num ),
+				'total'     => ceil( (int) $this->total_thread_count / (int) $this->pag_num ),
 				'current'   => $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Message pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Message pagination next text', 'buddypress' ),
@@ -129,12 +129,12 @@ class BP_Messages_Box_Template {
 
 		if ( 'notices' != $bp->current_action ) {
 			$last_message_index = count( $this->thread->messages ) - 1;
-			$this->thread->messages = array_reverse( (array)$this->thread->messages );
+			$this->thread->messages = array_reverse( (array) $this->thread->messages );
 
 			// Set up the last message data
 			if ( count($this->thread->messages) > 1 ) {
 				if ( 'inbox' == $this->box ) {
-					foreach ( (array)$this->thread->messages as $key => $message ) {
+					foreach ( (array) $this->thread->messages as $key => $message ) {
 						if ( bp_loggedin_user_id() != $message->sender_id ) {
 							$last_message_index = $key;
 							break;
@@ -142,7 +142,7 @@ class BP_Messages_Box_Template {
 					}
 
 				} elseif ( 'sentbox' == $this->box ) {
-					foreach ( (array)$this->thread->messages as $key => $message ) {
+					foreach ( (array) $this->thread->messages as $key => $message ) {
 						if ( bp_loggedin_user_id() == $message->sender_id ) {
 							$last_message_index = $key;
 							break;
@@ -295,7 +295,7 @@ function bp_message_thread_unread_count() {
 	function bp_get_message_thread_unread_count() {
 		global $messages_template;
 
-		if ( (int)$messages_template->thread->unread_count )
+		if ( (int) $messages_template->thread->unread_count )
 			return apply_filters( 'bp_get_message_thread_unread_count', $messages_template->thread->unread_count );
 
 		return false;
@@ -492,7 +492,7 @@ function bp_message_activate_deactivate_link() {
 	function bp_get_message_activate_deactivate_link() {
 		global $messages_template, $bp;
 
-		if ( 1 == (int)$messages_template->thread->is_active ) {
+		if ( 1 == (int) $messages_template->thread->is_active ) {
 			$link = wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . $bp->messages->slug . '/notices/deactivate/' . $messages_template->thread->id ), 'messages_deactivate_notice' );
 		} else {
 			$link = wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . $bp->messages->slug . '/notices/activate/' . $messages_template->thread->id ), 'messages_activate_notice' );
@@ -506,7 +506,7 @@ function bp_message_activate_deactivate_text() {
 	function bp_get_message_activate_deactivate_text() {
 		global $messages_template;
 
-		if ( 1 == (int)$messages_template->thread->is_active  ) {
+		if ( 1 == (int) $messages_template->thread->is_active  ) {
 			$text = __('Deactivate', 'buddypress');
 		} else {
 			$text = __('Activate', 'buddypress');
@@ -787,7 +787,7 @@ function bp_the_thread_recipients() {
 		if ( count( $thread_template->thread->recipients ) >= 5 )
 			return apply_filters( 'bp_get_the_thread_recipients', sprintf( __( '%d Recipients', 'buddypress' ), count($thread_template->thread->recipients) ) );
 
-		foreach( (array)$thread_template->thread->recipients as $recipient ) {
+		foreach( (array) $thread_template->thread->recipients as $recipient ) {
 			if ( (int) $recipient->user_id !== bp_loggedin_user_id() )
 				$recipient_links[] = bp_core_get_userlink( $recipient->user_id );
 		}

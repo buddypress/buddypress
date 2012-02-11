@@ -51,7 +51,7 @@ function bp_core_screen_general_settings() {
 				if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
 					$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
 
-					if ( in_array( $emaildomain, (array)$limited_email_domains ) == false ) {
+					if ( in_array( $emaildomain, (array) $limited_email_domains ) == false ) {
 						$email_error = true;
 					}
 				}
@@ -142,7 +142,7 @@ function bp_core_screen_notification_settings() {
 		check_admin_referer('bp_settings_notifications');
 
 		if ( isset( $_POST['notifications'] ) ) {
-			foreach ( (array)$_POST['notifications'] as $key => $value ) {
+			foreach ( (array) $_POST['notifications'] as $key => $value ) {
 				if ( $meta_key = bp_get_user_meta_key( $key ) )
 					bp_update_user_meta( (int)bp_displayed_user_id(), $meta_key, $value );
 			}

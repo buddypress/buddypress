@@ -132,7 +132,7 @@ class BP_Friends_Friendship {
 		if ( empty( $count ) && !bp_get_user_meta( $user_id, 'total_friend_count', true ) )
 			return 0;
 
-		bp_update_user_meta( $user_id, 'total_friend_count', (int)$count );
+		bp_update_user_meta( $user_id, 'total_friend_count', (int) $count );
 		return (int) $count;
 	}
 
@@ -173,7 +173,7 @@ class BP_Friends_Friendship {
 		if ( empty( $filtered_friend_ids ) )
 			return false;
 
-		return array( 'friends' => $filtered_friend_ids, 'total' => (int)$total_friend_ids );
+		return array( 'friends' => $filtered_friend_ids, 'total' => (int) $total_friend_ids );
 	}
 
 	public static function check_is_friend( $loggedin_userid, $possible_friend_userid ) {
@@ -335,7 +335,7 @@ class BP_Friends_Friendship {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE component_name = 'friends' AND ( component_action = 'friendship_request' OR component_action = 'friendship_accepted' ) AND item_id = %d", $user_id ) );
 
 		// Loop through friend_ids and update their counts
-		foreach ( (array)$friend_ids as $friend_id ) {
+		foreach ( (array) $friend_ids as $friend_id ) {
 			BP_Friends_Friendship::total_friend_count( $friend_id );
 		}
 	}

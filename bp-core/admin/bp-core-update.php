@@ -66,7 +66,7 @@ class BP_Core_Setup_Wizard {
 
 	function current_step() {
 		if ( isset( $_POST['step'] ) ) {
-			$current_step = (int)$_POST['step'] + 1;
+			$current_step = (int) $_POST['step'] + 1;
 		} else {
 			if ( !empty( $_COOKIE['bp-wizard-step'] ) ) {
 				$current_step = $_COOKIE['bp-wizard-step'];
@@ -152,7 +152,7 @@ class BP_Core_Setup_Wizard {
 			$this->current_step--;
 
 		if ( 'finish' != $step_name )
-			setcookie( 'bp-wizard-step', (int)$this->current_step, time() + 60 * 60 * 24, COOKIEPATH );
+			setcookie( 'bp-wizard-step', (int) $this->current_step, time() + 60 * 60 * 24, COOKIEPATH );
 	}
 
 	function html() {
@@ -180,7 +180,7 @@ class BP_Core_Setup_Wizard {
 				<div id="bp-admin-nav">
 					<ol>
 
-						<?php foreach( (array)$this->steps as $i => $name ) : ?>
+						<?php foreach( (array) $this->steps as $i => $name ) : ?>
 
 							<li<?php if ( $this->current_step == $i ) : ?> class="current"<?php endif; ?>>
 								<?php if ( $this->current_step > $i ) : ?>
@@ -557,14 +557,14 @@ class BP_Core_Setup_Wizard {
 		$template_pack_installed = false;
 		$bp_theme_installed      = false;
 
-		foreach ( (array)$installed_plugins as $plugin ) {
+		foreach ( (array) $installed_plugins as $plugin ) {
 			if ( 'BuddyPress Template Pack' == $plugin['Name'] ) {
 				$template_pack_installed = true;
 			}
 		}
 
-		foreach ( (array)$installed_themes as $theme ) {
-			foreach ( (array)$theme['Tags'] as $tag ) {
+		foreach ( (array) $installed_themes as $theme ) {
+			foreach ( (array) $theme['Tags'] as $tag ) {
 				if ( ( 'BuddyPress Default' != $theme['Name'] ) && ( 'buddypress' == $tag ) ) {
 					$bp_theme_installed = true;
 					$bp_themes[] = $theme;
@@ -797,7 +797,7 @@ class BP_Core_Setup_Wizard {
 				wp_delete_post( $page_id, true );
 			}
 
-			$blog_pages   = $this->setup_pages( (array)$_POST['bp_pages'] );
+			$blog_pages   = $this->setup_pages( (array) $_POST['bp_pages'] );
 			bp_update_option( 'bp-pages', $blog_pages );
 
 			if ( !empty( $wpdb->blogid ) && ( $wpdb->blogid != bp_get_root_blog_id() ) && ( !defined( 'BP_ENABLE_MULTIBLOG' ) ) )
@@ -1034,7 +1034,7 @@ class BP_Core_Setup_Wizard {
 			if ( 'page' == $value ) {
 				// Check for the selected page
 				if ( !empty( $_POST['bp-' . $key . '-page'] ) )
-					$bp_pages[$key] = (int)$_POST['bp-' . $key . '-page'];
+					$bp_pages[$key] = (int) $_POST['bp-' . $key . '-page'];
 				else
 					$bp_pages[$key] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $key ), 'post_status' => 'publish', 'post_type' => 'page' ) );
 			} else {
@@ -1127,7 +1127,7 @@ function bp_update_db_stuff() {
 	}
 
 	// On first installation - record all existing blogs in the system.
-	if ( !(int)$bp->site_options['bp-blogs-first-install'] ) {
+	if ( !(int) $bp->site_options['bp-blogs-first-install'] ) {
 		bp_blogs_record_existing_blogs();
 		bp_update_option( 'bp-blogs-first-install', 1 );
 	}

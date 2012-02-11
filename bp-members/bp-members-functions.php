@@ -723,7 +723,7 @@ function bp_core_boot_spammer( $auth_obj, $username ) {
 	if ( !$user = get_user_by( 'login', $username ) )
 		return $auth_obj;
 
-	if ( ( is_multisite() && (int)$user->spam ) || 1 == (int)$user->user_status )
+	if ( ( is_multisite() && (int) $user->spam ) || 1 == (int) $user->user_status )
 		return new WP_Error( 'invalid_username', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
 	else
 		return $auth_obj;
@@ -824,10 +824,10 @@ function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array_merge( array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' ), $bp_component_slugs ) );
 
 	// Merge the arrays together
-	$merged_names           = array_merge( (array)$filtered_illegal_names, (array)$db_illegal_names );
+	$merged_names           = array_merge( (array) $filtered_illegal_names, (array) $db_illegal_names );
 
 	// Remove duplicates
-	$illegal_names          = array_unique( (array)$merged_names );
+	$illegal_names          = array_unique( (array) $merged_names );
 
 	return apply_filters( 'bp_core_illegal_names', $illegal_names );
 }
@@ -853,7 +853,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 	$illegal_names = get_site_option( 'illegal_names' );
 
-	if ( !validate_username( $user_name ) || in_array( $user_name, (array)$illegal_names ) )
+	if ( !validate_username( $user_name ) || in_array( $user_name, (array) $illegal_names ) )
 		$errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
 
 	if( strlen( $user_name ) < 4 )
@@ -880,7 +880,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
 		$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
 
-		if ( in_array( $emaildomain, (array)$limited_email_domains ) == false )
+		if ( in_array( $emaildomain, (array) $limited_email_domains ) == false )
 			$errors->add( 'user_email', __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
 	}
 
@@ -941,7 +941,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 			if ( !empty( $usermeta['profile_field_ids'] ) ) {
 				$profile_field_ids = explode( ',', $usermeta['profile_field_ids'] );
 
-				foreach( (array)$profile_field_ids as $field_id ) {
+				foreach( (array) $profile_field_ids as $field_id ) {
 					if ( empty( $usermeta["field_{$field_id}"] ) )
 						continue;
 
@@ -1000,7 +1000,7 @@ function bp_core_activate_signup( $key ) {
 			if ( !empty( $user['meta']['profile_field_ids'] ) ) {
 				$profile_field_ids = explode( ',', $user['meta']['profile_field_ids'] );
 
-				foreach( (array)$profile_field_ids as $field_id ) {
+				foreach( (array) $profile_field_ids as $field_id ) {
 					$current_field = isset( $user['meta']["field_{$field_id}"] ) ? $user['meta']["field_{$field_id}"] : false;
 
 					if ( !empty( $current_field ) )

@@ -76,7 +76,7 @@ function bp_adminbar_authors_menu() {
 		echo '</a>';
 
 		echo '<ul class="author-list">';
-		foreach( (array)$authors as $author ) {
+		foreach( (array) $authors as $author ) {
 			$caps = maybe_unserialize( $author->caps );
 			if ( isset( $caps['subscriber'] ) || isset( $caps['contributor'] ) ) continue;
 

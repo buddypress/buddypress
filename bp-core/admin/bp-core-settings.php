@@ -188,7 +188,7 @@ function bp_core_admin_settings() {
 		// Because many settings are saved with checkboxes, and thus will have no values
 		// in the $_POST array when unchecked, we loop through the registered settings
 		if ( isset( $wp_settings_fields['buddypress'] ) ) {
-			foreach( (array)$wp_settings_fields['buddypress'] as $section => $settings ) {
+			foreach( (array) $wp_settings_fields['buddypress'] as $section => $settings ) {
 				foreach( $settings as $setting_name => $setting ) {
 					$value = isset( $_POST[$setting_name] ) ? $_POST[$setting_name] : '';
 					

@@ -150,7 +150,7 @@ function bp_core_sort_nav_items() {
 	if ( empty( $bp->bp_nav ) || !is_array( $bp->bp_nav ) )
 		return false;
 
-	foreach ( (array)$bp->bp_nav as $slug => $nav_item ) {
+	foreach ( (array) $bp->bp_nav as $slug => $nav_item ) {
 		if ( empty( $temp[$nav_item['position']]) )
 			$temp[$nav_item['position']] = $nav_item;
 		else {
@@ -287,11 +287,11 @@ function bp_core_sort_subnav_items() {
 	if ( empty( $bp->bp_options_nav ) || !is_array( $bp->bp_options_nav ) )
 		return false;
 
-	foreach ( (array)$bp->bp_options_nav as $parent_slug => $subnav_items ) {
+	foreach ( (array) $bp->bp_options_nav as $parent_slug => $subnav_items ) {
 		if ( !is_array( $subnav_items ) )
 			continue;
 
-		foreach ( (array)$subnav_items as $subnav_item ) {
+		foreach ( (array) $subnav_items as $subnav_item ) {
 			if ( empty( $temp[$subnav_item['position']]) )
 				$temp[$subnav_item['position']] = $subnav_item;
 			else {
@@ -343,7 +343,7 @@ function bp_core_remove_nav_item( $parent_id ) {
 
 	// Unset subnav items for this nav item
 	if ( isset( $bp->bp_options_nav[$parent_id] ) && is_array( $bp->bp_options_nav[$parent_id] ) ) {
-		foreach( (array)$bp->bp_options_nav[$parent_id] as $subnav_item ) {
+		foreach( (array) $bp->bp_options_nav[$parent_id] as $subnav_item ) {
 			bp_core_remove_subnav_item( $parent_id, $subnav_item['slug'] );
 		}
 	}
@@ -458,7 +458,7 @@ function bp_adminbar_account_menu() {
 
 	// Loop through each navigation item
 	$counter = 0;
-	foreach( (array)$bp->bp_nav as $nav_item ) {
+	foreach( (array) $bp->bp_nav as $nav_item ) {
 		$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 
 		if ( -1 == $nav_item['position'] )
@@ -471,7 +471,7 @@ function bp_adminbar_account_menu() {
 			echo '<ul>';
 			$sub_counter = 0;
 
-			foreach( (array)$bp->bp_options_nav[$nav_item['slug']] as $subnav_item ) {
+			foreach( (array) $bp->bp_options_nav[$nav_item['slug']] as $subnav_item ) {
 				$link = $subnav_item['link'];
 				$name = $subnav_item['name'];
 

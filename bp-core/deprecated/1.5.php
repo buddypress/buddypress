@@ -309,7 +309,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 
 	$group = new BP_Groups_Group( $group_id );
 
-	foreach( (array)$usernames as $username ) {
+	foreach( (array) $usernames as $username ) {
 		if ( !$receiver_user_id = bp_core_get_userid( $username ) )
 			continue;
 

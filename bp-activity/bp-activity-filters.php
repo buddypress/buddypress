@@ -219,7 +219,7 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 	}
 
 	$usernames = bp_activity_find_mentions( $content );
-	foreach( (array)$usernames as $username ) {
+	foreach( (array) $usernames as $username ) {
 		if ( bp_is_username_compatibility_mode() )
 			$user_id = username_exists( $username );
 		else

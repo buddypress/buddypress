@@ -67,7 +67,7 @@ function bp_core_set_uri_globals() {
 	$bp_uri = explode( '/', $path );
 
 	// Loop and remove empties
-	foreach ( (array)$bp_uri as $key => $uri_chunk ) {
+	foreach ( (array) $bp_uri as $key => $uri_chunk ) {
 		if ( empty( $bp_uri[$key] ) ) {
 			unset( $bp_uri[$key] );
 		}
@@ -554,7 +554,7 @@ function bp_redirect_canonical() {
 		}
 					
 		if ( !empty( $bp->redirect_stack['action_variables'] ) ) {
-			foreach( (array)$bp->redirect_stack['action_variables'] as $av ) {
+			foreach( (array) $bp->redirect_stack['action_variables'] as $av ) {
 				$url_stack[0] = trailingslashit( $url_stack[0] . $av );	
 			}
 		}

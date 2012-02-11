@@ -195,9 +195,9 @@ function bp_core_admin_slugs_setup_handler() {
 
 			$directory_pages = array();
 
-			foreach ( (array)$_POST['bp_pages'] as $key => $value ) {
+			foreach ( (array) $_POST['bp_pages'] as $key => $value ) {
 				if ( !empty( $value ) ) {
-					$directory_pages[$key] = (int)$value;
+					$directory_pages[$key] = (int) $value;
 				}
 			}
 			bp_core_update_directory_page_ids( $directory_pages );
