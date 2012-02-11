@@ -108,14 +108,7 @@ class BP_Core_User {
 	 */
 	var $total_groups;
 
-	/**
-	 * PHP4 constructor.
-	 *
-	 * @see BP_Core_User::__construct()
-	 */
-	function bp_core_user( $user_id, $populate_extras = false ) {
-		$this->__construct( $user_id, $populate_extras );
-	}
+	/** Public Method*s *******************************************************/
 
 	/**
 	 * Class constructor.
@@ -123,15 +116,18 @@ class BP_Core_User {
 	 * @param integer $user_id The ID for the user
 	 * @param boolean $populate_extras Whether to fetch extra information such as group/friendship counts or not.
 	 */
-	function __construct( $user_id, $populate_extras = false ) {
-		if ( $user_id ) {
+	public function __construct( $user_id, $populate_extras = false ) {
+		if ( !empty( $user_id ) ) {
 			$this->id = $user_id;
 			$this->populate();
 
-			if ( $populate_extras )
+			if ( !empty( $populate_extras ) ) {
 				$this->populate_extras();
+			}
 		}
 	}
+
+	/** Private Methods *******************************************************/
 
 	/**
 	 * Populate the instantiated class with data based on the User ID provided.
@@ -143,7 +139,7 @@ class BP_Core_User {
 	 * @uses bp_core_fetch_avatar() Returns HTML formatted avatar for a user
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
-	function populate() {
+	private function populate() {
 
 		if ( bp_is_active( 'xprofile' ) )
 			$this->profile_data = $this->get_profile_data();
@@ -176,7 +172,7 @@ class BP_Core_User {
 	/**
 	 * Populates extra fields such as group and friendship counts.
 	 */
-	function populate_extras() {
+	private function populate_extras() {
 
 		if ( bp_is_active( 'friends' ) ) {
 			$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
@@ -188,13 +184,13 @@ class BP_Core_User {
 		}
 	}
 
-	function get_profile_data() {
+	private function get_profile_data() {
 		return BP_XProfile_ProfileData::get_all_for_user( $this->id );
 	}
 
-	/** Static Functions ******************************************************/
+	/** Static Methods ********************************************************/
 
-	function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
+	public static function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
 		global $wpdb, $bp;
 
 		$sql = array();
@@ -221,7 +217,7 @@ class BP_Core_User {
 			}
 		}
 
-		$sql['from'] = "FROM $wpdb->users u LEFT JOIN $wpdb->usermeta um ON um.user_id = u.ID";
+		$sql['from'] = "FROM {$wpdb->users} u LEFT JOIN {$wpdb->usermeta} um ON um.user_id = u.ID";
 
 		// We search against xprofile fields, so we must join the table
 		if ( $search_terms && bp_is_active( 'xprofile' ) ) {
@@ -259,7 +255,7 @@ class BP_Core_User {
 			$sql['where_exclude'] = "AND u.ID NOT IN ({$exclude})";
 		}
 
-		if ( $include ) {
+		if ( !empty( $include ) ) {
 			if ( is_array( $include ) ) {
 				$uids = $wpdb->escape( implode( ',', (array)$include ) );
 			} else {
@@ -269,7 +265,7 @@ class BP_Core_User {
 			if ( !empty( $uids ) ) {
 				$sql['where_users'] = "AND u.ID IN ({$uids})";
 			}
-		} elseif ( $user_id && bp_is_active( 'friends' ) ) {
+		} elseif ( !empty( $user_id ) && bp_is_active( 'friends' ) ) {
 			$friend_ids = friends_get_friend_user_ids( $user_id );
 			$friend_ids = $wpdb->escape( implode( ',', (array)$friend_ids ) );
 
@@ -282,12 +278,12 @@ class BP_Core_User {
 			}
 		}
 
-		if ( $search_terms && bp_is_active( 'xprofile' ) ) {
+		if ( !empty( $search_terms ) && bp_is_active( 'xprofile' ) ) {
 			$search_terms             = like_escape( $wpdb->escape( $search_terms ) );
 			$sql['where_searchterms'] = "AND spd.value LIKE '%%$search_terms%%'";
 		}
 
-		if ( $meta_key ) {
+		if ( !empty( $meta_key ) ) {
 			$sql['where_meta'] = $wpdb->prepare( " AND umm.meta_key = %s", $meta_key );
 
 			// If a meta value is provided, match it
@@ -314,7 +310,7 @@ class BP_Core_User {
 				break;
 		}
 
-		if ( $limit && $page ) {
+		if ( !empty( $limit ) && !empty( $page ) ) {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 
@@ -381,7 +377,7 @@ class BP_Core_User {
 	 * @return mixed False on error, otherwise associative array of results.
 	 * @static
 	 */
-	function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
+	public static function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
 		global $bp, $wpdb;
 
 		$pag_sql = '';
@@ -443,7 +439,7 @@ class BP_Core_User {
 	 * @return array Associative array
 	 * @static
 	 */
-	function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
+	public static function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
 		global $wpdb;
 
 		$pag_sql = '';
@@ -488,7 +484,7 @@ class BP_Core_User {
 	 * @return array Associative array
 	 * @static
 	 */
-	function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
+	public static function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
 		global $bp, $wpdb;
 
 		$pag_sql = $limit && $page ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) ) : '';
@@ -531,7 +527,7 @@ class BP_Core_User {
 	 * @return mixed False on error, otherwise associative array of results.
 	 * @static
 	 */
-	function get_user_extras( &$paged_users, &$user_ids, $type = false ) {
+	public static function get_user_extras( &$paged_users, &$user_ids, $type = false ) {
 		global $bp, $wpdb;
 
 		if ( empty( $user_ids ) )
@@ -611,7 +607,7 @@ class BP_Core_User {
 	 * @return array Associative array
 	 * @static
 	 */
-	function get_core_userdata( $user_id ) {
+	public static function get_core_userdata( $user_id ) {
 		global $wpdb;
 
 		if ( !$user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id ) ) )
@@ -687,27 +683,48 @@ class BP_Core_Notification {
 	 */
 	var $is_new;
 
-
-	/**
-	 * PHP4 constructor
-	 *
-	 * @param integer $id
-	 */
-	function bp_core_notification( $id = 0 ) {
-		$this->__construct($id);
-	}
+	/** Public Methods ********************************************************/
 
 	/**
 	 * Constructor
 	 *
 	 * @param integer $id
 	 */
-	function __construct( $id = 0 ) {
-		if ( $id ) {
+	public function __construct( $id = 0 ) {
+		if ( !empty( $id ) ) {
 			$this->id = $id;
 			$this->populate();
 		}
 	}
+
+	/**
+	 * Update or insert notification details into the database.
+	 *
+	 * @global object $bp Global BuddyPress settings object
+	 * @global wpdb $wpdb WordPress database object
+	 * @return bool Success or failure
+	 */
+	public function save() {
+		global $bp, $wpdb;
+
+		// Update
+		if ( !empty( $this->id ) ) {
+			$sql = $wpdb->prepare( "UPDATE {$bp->core->table_name_notifications} SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = %s, is_new = %d ) WHERE id = %d", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
+
+		// Save
+		} else {
+			$sql = $wpdb->prepare( "INSERT INTO {$bp->core->table_name_notifications} ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %d, %s, %s, %s, %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
+		}
+
+		if ( !$result = $wpdb->query( $sql ) )
+			return false;
+
+		$this->id = $wpdb->insert_id;
+
+		return true;
+	}
+
+	/** Private Methods *******************************************************/
 
 	/**
 	 * Fetches the notification data from the database.
@@ -715,7 +732,7 @@ class BP_Core_Notification {
 	 * @global object $bp Global BuddyPress settings object
 	 * @global wpdb $wpdb WordPress database object
 	 */
-	function populate() {
+	private function populate() {
 		global $bp, $wpdb;
 
 		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE id = %d", $this->id ) ) ) {
@@ -729,34 +746,9 @@ class BP_Core_Notification {
 		}
 	}
 
-	/**
-	 * Update or insert notification details into the database.
-	 *
-	 * @global object $bp Global BuddyPress settings object
-	 * @global wpdb $wpdb WordPress database object
-	 * @return bool Success or failure
-	 */
-	function save() {
-		global $bp, $wpdb;
+	/** Static Methods ********************************************************/
 
-		// Update
-		if ( $this->id )
-			$sql = $wpdb->prepare( "UPDATE {$bp->core->table_name_notifications} SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = %s, is_new = %d ) WHERE id = %d", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
-
-		// Save
-		else
-			$sql = $wpdb->prepare( "INSERT INTO {$bp->core->table_name_notifications} ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %d, %s, %s, %s, %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
-
-		if ( !$result = $wpdb->query( $sql ) )
-			return false;
-
-		$this->id = $wpdb->insert_id;
-		return true;
-	}
-
-	/** Static functions ******************************************************/
-
-	function check_access( $user_id, $notification_id ) {
+	public static function check_access( $user_id, $notification_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->core->table_name_notifications} WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
@@ -772,7 +764,7 @@ class BP_Core_Notification {
 	 * @return array Associative array
 	 * @static
 	 */
-	function get_all_for_user( $user_id, $status = 'is_new' ) {
+	public static function get_all_for_user( $user_id, $status = 'is_new' ) {
 		global $bp, $wpdb;
 
 		$is_new = 'is_new' == $status ? ' AND is_new = 1 ' : '';
@@ -790,7 +782,7 @@ class BP_Core_Notification {
 	 * @param string $component_action
 	 * @static
 	 */
-	function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
+	public static function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
 		global $bp, $wpdb;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
@@ -808,7 +800,7 @@ class BP_Core_Notification {
 	 * @param integer $secondary_item_id (optional) The secondary item id of the notifications that we wish to use to delete.
 	 * @static
 	 */
-	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
+	public static function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 		global $bp, $wpdb;
 
 		$secondary_item_sql = !empty( $secondary_item_id ) ? $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id ) : '';
@@ -826,7 +818,7 @@ class BP_Core_Notification {
 	 * @param string $component_action The action of the component the notification was sent from.
 	 * @static
 	 */
-	function delete_from_user_by_type( $user_id, $component_name, $component_action ) {
+	public static function delete_from_user_by_type( $user_id, $component_name, $component_action ) {
 		global $bp, $wpdb;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
@@ -843,7 +835,7 @@ class BP_Core_Notification {
 	 * @param string $secondary_item_id Optional secondary item id that the notifications are to have.
 	 * @static
 	 */
-	function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
+	public static function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
 		global $bp, $wpdb;
 
 		if ( $component_action )
@@ -995,11 +987,7 @@ class BP_Button {
 	 * @param array $args
 	 * @return bool False if not allowed
 	 */
-	function bp_button( $args = '' ) {
-		$this->__construct($args);
-	}
-
-	function __construct( $args = '' ) {
+	public function __construct( $args = '' ) {
 
 		// Default arguments
 		$defaults = array(
@@ -1103,7 +1091,7 @@ class BP_Button {
 	 *
 	 * @return string
 	 */
-	function contents() {
+	public function contents() {
 		return $this->contents;
 	}
 
@@ -1112,7 +1100,7 @@ class BP_Button {
 	 *
 	 * Output contents of button
 	 */
-	function display() {
+	public function display() {
 		if ( !empty( $this->contents ) )
 			echo $this->contents;
 	}
@@ -1128,12 +1116,13 @@ class BP_Button {
  * @see WP_Embed
  */
 class BP_Embed extends WP_Embed {
+
 	/**
 	 * Constructor
 	 *
 	 * @global unknown $wp_embed
 	 */
-	function __construct() {
+	public function __construct() {
 		global $wp_embed;
 
 		// Make sure we populate the WP_Embed handlers array.
@@ -1182,7 +1171,7 @@ class BP_Embed extends WP_Embed {
 	 * @param string $url The URL attempting to be embeded.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
-	function shortcode( $attr, $url = '' ) {
+	public function shortcode( $attr, $url = '' ) {
 		if ( empty( $url ) )
 			return '';
 
@@ -1247,7 +1236,7 @@ class BP_Embed extends WP_Embed {
 	 * @param array $rawattr Untouched shortcode attributes from {@link WP_Embed::shortcode()}.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
-	function parse_oembed( $id, $url, $attr, $rawattr ) {
+	public function parse_oembed( $id, $url, $attr, $rawattr ) {
 		$id = intval( $id );
 
 		if ( $id ) {
@@ -1280,4 +1269,5 @@ class BP_Embed extends WP_Embed {
 		return $this->maybe_make_link( $url );
 	}
 }
+
 ?>
