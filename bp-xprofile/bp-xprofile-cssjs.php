@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * BuddyPress XProfile CSS and JS
+ *
+ * @package BuddyPress
+ * @subpackage XProfileScripts
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 

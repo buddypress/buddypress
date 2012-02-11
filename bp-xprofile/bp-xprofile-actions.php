@@ -1,8 +1,14 @@
 <?php
-/*******************************************************************************
- * Action functions are exactly the same as screen functions, however they do
- * not have a template screen associated with them. Usually they will send the
- * user back to the default screen after execution.
+
+/**
+ * BuddyPress XProfile Actions
+ *
+ * Action functions are exactly the same as screen functions, however they do not
+ * have a template screen associated with them. Usually they will send the user
+ * back to the default screen after execution.
+ *
+ * @package BuddyPress
+ * @subpackage XProfileActions
  */
 
 // Exit if accessed directly
@@ -15,13 +21,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * The function will delete the active avatar for a user.
  *
  * @package BuddyPress Xprofile
- * @global object $bp Global BuddyPress settings object
  * @uses bp_core_delete_avatar() Deletes the active avatar for the logged in user.
  * @uses add_action() Runs a specific function for an action when it fires.
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_action_delete_avatar() {
-	global $bp;
 
 	if ( !bp_is_user_change_avatar() || !bp_is_action_variable( 'delete-avatar', 0 ) )
 		return false;

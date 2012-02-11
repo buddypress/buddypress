@@ -1,11 +1,15 @@
 <?php
-/********************************************************************************
- * Business Functions
+
+/**
+ * BuddyPress XProfile Filters
  *
  * Business functions are where all the magic happens in BuddyPress. They will
  * handle the actual saving or manipulation of information. Usually they will
  * hand off to a database class for data access, then return
  * true or false on success or failure.
+ *
+ * @package BuddyPress
+ * @subpackage XProfileFilters
  */
 
 // Exit if accessed directly
@@ -24,7 +28,7 @@ function xprofile_insert_field_group( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( !$name )
+	if ( empty( $name ) )
 		return false;
 
 	$field_group              = new BP_XProfile_Group( $field_group_id );
@@ -78,7 +82,7 @@ function xprofile_insert_field( $args = '' ) {
 	 */
 
 	// Check we have the minimum details
-	if ( !$field_group_id )
+	if ( empty( $field_group_id ) )
 		return false;
 
 	// Check this is a valid field type
@@ -86,7 +90,7 @@ function xprofile_insert_field( $args = '' ) {
 		return false;
 
 	// Instantiate a new field object
-	if ( $field_id )
+	if ( !empty( $field_id ) )
 		$field = new BP_XProfile_Field( $field_id );
 	else
 		$field = new BP_XProfile_Field;
@@ -147,12 +151,10 @@ function xprofile_delete_field( $field_id ) {
  * @package BuddyPress Core
  * @param mixed $field The ID of the field, or the $name of the field.
  * @param int $user_id The ID of the user
- * @global object $bp Global BuddyPress settings object
  * @uses BP_XProfile_ProfileData::get_value_byid() Fetches the value based on the params passed.
  * @return mixed The profile field data.
  */
 function xprofile_get_field_data( $field, $user_id = 0 ) {
-	global $bp;
 
 	if ( empty( $user_id ) )
 		$user_id = bp_displayed_user_id();
@@ -215,6 +217,8 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 		return true;
 	}
 
+	$possible_values = array();
+
 	// Check the value is an acceptable value
 	if ( 'checkbox' == $field->type || 'radio' == $field->type || 'selectbox' == $field->type || 'multiselectbox' == $field->type ) {
 		$options = $field->get_children();
@@ -224,7 +228,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 
 		if ( is_array( $value ) ) {
 			foreach( $value as $i => $single ) {
-				if ( !in_array( $single, (array)$possible_values ) ) {
+				if ( !in_array( $single, $possible_values ) ) {
 					unset( $value[$i] );
 				}
 			}
@@ -232,7 +236,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 			// Reset the keys by merging with an empty array
 			$value = array_merge( array(), $value );
 		} else {
-			if ( !in_array( $value, (array)$possible_values ) ) {
+			if ( !in_array( $value, $possible_values ) ) {
 				return false;
 			}
 		}
@@ -300,14 +304,14 @@ function xprofile_get_field_id_from_name( $field_name ) {
  * @return $field_data The fetched random data for the user.
  */
 function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) {
-	$field_data           = BP_XProfile_ProfileData::get_random( $user_id, $exclude_fullname );
+	$field_data = BP_XProfile_ProfileData::get_random( $user_id, $exclude_fullname );
 
-	if ( !$field_data )
+	if ( empty( $field_data ) )
 		return false;
 
 	$field_data[0]->value = xprofile_format_profile_field( $field_data[0]->type, $field_data[0]->value );
 
-	if ( !$field_data[0]->value || empty( $field_data[0]->value ) )
+	if ( empty( $field_data[0]->value ) )
 		return false;
 
 	return apply_filters( 'xprofile_get_random_profile_data', $field_data );
@@ -351,7 +355,6 @@ function xprofile_update_field_position( $field_id, $position, $field_group_id )
  * @return array() containing the path and URL plus some other settings.
  */
 function xprofile_avatar_upload_dir( $directory = false, $user_id = 0 ) {
-	global $bp;
 
 	if ( empty( $user_id ) )
 		$user_id = bp_displayed_user_id();

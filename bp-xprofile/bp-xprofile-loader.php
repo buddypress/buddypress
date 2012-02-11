@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BuddyPress XProfile Loader
  *
@@ -6,7 +7,7 @@
  * groups of fields for users to enter information about themselves.
  *
  * @package BuddyPress
- * @subpackage XProfile Core
+ * @subpackage XProfileLoader
  */
 
 // Exit if accessed directly
@@ -107,6 +108,8 @@ class BP_XProfile_Component extends BP_Component {
 	 */
 	function setup_nav() {
 		global $bp;
+
+		$sub_nav = array();
 
 		// Add 'Profile' to the main navigation
 		$main_nav = array(

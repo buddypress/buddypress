@@ -1,50 +1,56 @@
 <?php
+
+/**
+ * BuddyPress XProfile Filters
+ *
+ * Apply WordPress defined filters
+ *
+ * @package BuddyPress
+ * @subpackage XProfileFilters
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-/* Apply WordPress defined filters */
+add_filter( 'bp_get_the_profile_group_name',            'wp_filter_kses',       1 );
+add_filter( 'bp_get_the_profile_group_description',     'wp_filter_kses',       1 );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_kses', 1 );
+add_filter( 'bp_get_the_profile_field_name',            'wp_filter_kses',       1 );
+add_filter( 'bp_get_the_profile_field_edit_value',      'wp_filter_kses',       1 );
+add_filter( 'bp_get_the_profile_field_description',     'wp_filter_kses',       1 );
 
-add_filter( 'bp_get_the_profile_group_name',          'wp_filter_kses',       1 );
-add_filter( 'bp_get_the_profile_group_description',   'wp_filter_kses',       1 );
-add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_kses', 1 );
-add_filter( 'bp_get_the_profile_field_name',          'wp_filter_kses',       1 );
-add_filter( 'bp_get_the_profile_field_edit_value',    'wp_filter_kses',       1 );
-add_filter( 'bp_get_the_profile_field_description',   'wp_filter_kses',       1 );
+add_filter( 'bp_get_the_profile_field_value',           'wptexturize'        );
+add_filter( 'bp_get_the_profile_field_value',           'convert_smilies', 2 );
+add_filter( 'bp_get_the_profile_field_value',           'convert_chars'      );
+add_filter( 'bp_get_the_profile_field_value',           'wpautop'            );
+add_filter( 'bp_get_the_profile_field_value',           'make_clickable', 8  );
+add_filter( 'bp_get_the_profile_field_value',           'force_balance_tags' );
 
-add_filter( 'bp_get_the_profile_field_value',         'wptexturize'        );
-add_filter( 'bp_get_the_profile_field_value',         'convert_smilies', 2 );
-add_filter( 'bp_get_the_profile_field_value',         'convert_chars'      );
-add_filter( 'bp_get_the_profile_field_value',         'wpautop'            );
-add_filter( 'bp_get_the_profile_field_value',         'make_clickable', 8  );
-add_filter( 'bp_get_the_profile_field_value',         'force_balance_tags' );
+add_filter( 'bp_get_the_profile_field_edit_value',      'force_balance_tags' );
+add_filter( 'bp_get_the_profile_field_edit_value',      'esc_html'           );
 
-add_filter( 'bp_get_the_profile_field_edit_value',    'force_balance_tags' );
-add_filter( 'bp_get_the_profile_field_edit_value',    'esc_html'           );
+add_filter( 'bp_get_the_profile_group_name',            'stripslashes' );
+add_filter( 'bp_get_the_profile_group_description',     'stripslashes' );
+add_filter( 'bp_get_the_profile_field_value',           'stripslashes' );
+add_filter( 'bp_get_the_profile_field_edit_value',      'stripslashes' );
+add_filter( 'bp_get_the_profile_field_name',            'stripslashes' );
+add_filter( 'bp_get_the_profile_field_description',     'stripslashes' );
 
-add_filter( 'bp_get_the_profile_group_name',          'stripslashes' );
-add_filter( 'bp_get_the_profile_group_description',   'stripslashes' );
-add_filter( 'bp_get_the_profile_field_value',         'stripslashes' );
-add_filter( 'bp_get_the_profile_field_edit_value',    'stripslashes' );
-add_filter( 'bp_get_the_profile_field_name',          'stripslashes' );
-add_filter( 'bp_get_the_profile_field_description',   'stripslashes' );
+add_filter( 'xprofile_get_field_data',                  'wp_filter_kses', 1 );
+add_filter( 'xprofile_field_name_before_save',          'wp_filter_kses', 1 );
+add_filter( 'xprofile_field_description_before_save',   'wp_filter_kses', 1 );
 
-add_filter( 'xprofile_get_field_data',                'wp_filter_kses', 1 );
-add_filter( 'xprofile_field_name_before_save',        'wp_filter_kses', 1 );
-add_filter( 'xprofile_field_description_before_save', 'wp_filter_kses', 1 );
+add_filter( 'xprofile_get_field_data',                  'force_balance_tags' );
+add_filter( 'xprofile_field_name_before_save',          'force_balance_tags' );
+add_filter( 'xprofile_field_description_before_save',   'force_balance_tags' );
 
-add_filter( 'xprofile_get_field_data',                'force_balance_tags' );
-add_filter( 'xprofile_field_name_before_save',        'force_balance_tags' );
-add_filter( 'xprofile_field_description_before_save', 'force_balance_tags' );
+add_filter( 'xprofile_get_field_data',                  'stripslashes' );
 
-add_filter( 'xprofile_get_field_data',                'stripslashes' );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value', 1, 2 );
+add_filter( 'bp_get_the_site_member_profile_data',      'xprofile_filter_format_field_value', 1, 2 );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data', 9, 2 );
 
-/* Custom BuddyPress filters */
-
-add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_format_field_value', 1, 2 );
-add_filter( 'bp_get_the_site_member_profile_data',    'xprofile_filter_format_field_value', 1, 2 );
-add_filter( 'bp_get_the_profile_field_value',         'xprofile_filter_link_profile_data', 9, 2 );
-
-add_filter( 'xprofile_data_value_before_save',        'xprofile_sanitize_data_value_before_save', 1, 2 );
+add_filter( 'xprofile_data_value_before_save',          'xprofile_sanitize_data_value_before_save', 1, 2 );
 add_filter( 'xprofile_filtered_data_value_before_save', 'trim', 2 );
 
 /**
@@ -100,7 +106,7 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $re
 
 		}
 
-		if ( $reserialize )
+		if ( !empty( $reserialize ) )
 			$filtered_field_value = serialize( $filtered_values );
 		else
 			$filtered_field_value = $filtered_values;
@@ -131,12 +137,13 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 	if ( 'datebox' == $field_type ) {
 
 		// If Unix timestamp
-		if ( is_numeric( $field_value ) )
+		if ( is_numeric( $field_value ) ) {
 			$field_value = bp_format_time( $field_value, true, false );
 
 		// If MySQL timestamp
-		else
+		} else {
 			$field_value = bp_format_time( strtotime( $field_value ), true, false );
+		}
 
 	} else {
 		$field_value = str_replace(']]>', ']]&gt;', $field_value );
@@ -154,7 +161,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 
 	$values = explode( ',', $field_value );
 
-	if ( $values ) {
+	if ( !empty( $values ) ) {
 		foreach ( (array)$values as $value ) {
 			$value = trim( $value );
 

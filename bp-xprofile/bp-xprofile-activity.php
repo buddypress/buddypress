@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BuddyPress XProfile Activity & Notification Functions
  *
@@ -6,7 +7,7 @@
  * notifications for the user and for this specific component.
  *
  * @package BuddyPress
- * @subpackage XProfile
+ * @subpackage XProfileActivity
  */
 
 // Exit if accessed directly
@@ -28,16 +29,18 @@ add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions'
  * Records activity for the logged in user within the profile component so that
  * it will show in the users activity stream (if installed)
  *
- * @package BuddyPress XProfile
+ * @package BuddyPress
+ * @subpackage XProfileActivity
  * @param $args Array containing all variables used after extract() call
  * @global $bp The global BuddyPress settings variable created in bp_core_current_times()
  * @uses bp_activity_record() Adds an entry to the activity component tables for a specific activity
  */
 function xprofile_record_activity( $args = '' ) {
-	global $bp;
 
 	if ( !bp_is_active( 'activity' ) )
 		return false;
+
+	global $bp;
 
 	$defaults = array (
 		'user_id'           => bp_loggedin_user_id(),
@@ -79,20 +82,21 @@ function xprofile_record_activity( $args = '' ) {
  * @uses bp_activity_delete() Deletes an entry to the activity component tables for a specific activity
  */
 function xprofile_delete_activity( $args = '' ) {
+
+	if ( ! bp_is_active( 'activity' ) )
+		return false;
+
 	global $bp;
 
-	if ( bp_is_active( 'activity' ) ) {
+	extract( $args );
 
-		extract( $args );
-
-		bp_activity_delete_by_item_id( array(
-			'item_id'           => $item_id,
-			'component'         => $bp->profile->id,
-			'type'              => $type,
-			'user_id'           => $user_id,
-			'secondary_item_id' => $secondary_item_id
-		) );
-	}
+	bp_activity_delete_by_item_id( array(
+		'item_id'           => $item_id,
+		'component'         => $bp->profile->id,
+		'type'              => $type,
+		'user_id'           => $user_id,
+		'secondary_item_id' => $secondary_item_id
+	) );
 }
 
 function xprofile_register_activity_action( $key, $value ) {
@@ -112,7 +116,6 @@ function xprofile_register_activity_action( $key, $value ) {
  * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity
  */
 function bp_xprofile_new_avatar_activity() {
-	global $bp;
 
 	if ( !bp_is_active( 'activity' ) )
 		return false;
@@ -129,4 +132,5 @@ function bp_xprofile_new_avatar_activity() {
 	) );
 }
 add_action( 'xprofile_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
+
 ?>
