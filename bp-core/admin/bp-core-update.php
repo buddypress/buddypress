@@ -368,7 +368,9 @@ class BP_Core_Setup_Wizard {
 					<p><input type="radio" name="bp_pages[blogs]" checked="checked" value="<?php echo $blogs_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo site_url( $blogs_slug ); ?>/</p>
 					
 					<?php if ( $page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_blog_page ) ) : ?>					
+
 						<p><input type="radio" name="bp_pages[blogs]" value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?><?php echo $page_dropdown ?></p>
+
 					<?php endif ?>
 				</td>
 			</tr>
@@ -486,8 +488,10 @@ class BP_Core_Setup_Wizard {
 				<td>
 					<p><label><input type="radio" name="bp_pages[members]" <?php checked( empty( $existing_pages['members'] ) ); ?>  value="<?php echo $members_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $members_slug ); ?>/</label></p>
 					
-					<?php if ( $members_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_pages['members'] ) ) : ?>
+					<?php if ( $members_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&selected={$existing_pages['members']}&show_option_none=" . __( '- Select -', 'buddypress' ) ) ) : ?>
+
 						<p><label><input type="radio" name="bp_pages[members]" <?php checked( !empty( $existing_pages['members'] ) ); ?> value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo $members_page_dropdown ?></label></p>
+
 					<?php endif ?>
 				</td>
 			</tr>
@@ -502,7 +506,7 @@ class BP_Core_Setup_Wizard {
 					<td>
 						<p><label><input type="radio" name="bp_pages[activity]" <?php checked( empty( $existing_pages['activity'] ) ); ?>  value="<?php echo $activity_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo home_url( $activity_slug ); ?>/</label></p>
 						
-						<?php if ( $activity_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_pages['activity'] ) ) : ?>
+						<?php if ( $activity_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&selected={$existing_pages['activity']}&show_option_none=" . __( '- Select -', 'buddypress' ) ) ) : ?>
 							<p><label><input type="radio" name="bp_pages[activity]" <?php checked( !empty( $existing_pages['activity'] ) ); ?> value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo $activity_page_dropdown ?></label></p>
 						<?php endif ?>
 					</td>
@@ -520,7 +524,7 @@ class BP_Core_Setup_Wizard {
 					<td>
 						<p><label><input type="radio" name="bp_pages[groups]" <?php checked( empty( $existing_pages['groups'] ) ); ?>  value="<?php echo $groups_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo home_url( $groups_slug ); ?>/</label></p>
 						
-						<?php if ( $groups_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_pages['groups'] ) ) : ?>
+						<?php if ( $groups_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&selected={$existing_pages['groups']}&show_option_none=" . __( '- Select -', 'buddypress' ) ) ) : ?>
 							<p><label><input type="radio" name="bp_pages[groups]" <?php checked( !empty( $existing_pages['groups'] ) ); ?> value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo $groups_page_dropdown ?></label></p>
 						<?php endif ?>
 					</td>
@@ -538,7 +542,7 @@ class BP_Core_Setup_Wizard {
 					<td>
 						<p><label><input type="radio" name="bp_pages[forums]" <?php checked( empty( $existing_pages['forums'] ) ); ?>  value="<?php echo $forums_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo home_url( $forums_slug ); ?>/</label></p>
 						
-						<?php if ( $forums_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_pages['forums'] ) ) : ?>
+						<?php if ( $forums_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&selected={$existing_pages['forums']}&show_option_none=" . __( '- Select -', 'buddypress' ) ) ) : ?>
 							<p><label><input type="radio" name="bp_pages[forums]" <?php checked( !empty( $existing_pages['forums'] ) ); ?> value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo $forums_page_dropdown ?></label></p>
 						<?php endif ?>
 					</td>
@@ -557,7 +561,7 @@ class BP_Core_Setup_Wizard {
 					<td>
 						<p><label><input type="radio" name="bp_pages[blogs]" <?php checked( empty( $existing_pages['blogs'] ) ); ?>  value="<?php echo $blogs_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo home_url( $blogs_slug ); ?>/</label></p>
 						
-						<?php if ( $blogs_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_pages['blogs'] ) ) : ?>
+						<?php if ( $blogs_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&selected={$existing_pages['blogs']}&show_option_none=" . __( '- Select -', 'buddypress' ) ) ) : ?>
 							<p><label><input type="radio" name="bp_pages[blogs]" <?php checked( !empty( $existing_pages['blogs'] ) ); ?> value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo $blogs_page_dropdown ?></label></p>
 						<?php endif ?>
 					</td>
@@ -573,7 +577,7 @@ class BP_Core_Setup_Wizard {
 				<td>
 					<p><label><input type="radio" name="bp_pages[register]" <?php checked( empty( $existing_pages['register'] ) ); ?>  value="<?php echo $register_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ) ?> <?php echo home_url( $register_slug ) ?>/</label></p>
 					
-					<?php if ( $register_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_pages['register'] ) ) : ?>
+					<?php if ( $register_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&selected={$existing_pages['register']}&show_option_none=" . __( '- Select -', 'buddypress' ) ) ) : ?>
 						<p><label><input type="radio" name="bp_pages[register]" <?php checked( !empty( $existing_pages['register'] ) ); ?> value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo $register_page_dropdown ?></label></p>
 					<?php endif ?>
 				</td>
@@ -587,7 +591,7 @@ class BP_Core_Setup_Wizard {
 				<td>
 					<p><label><input type="radio" name="bp_pages[activate]" <?php checked( empty( $existing_pages['activate'] ) ); ?>  value="<?php echo $activation_slug; ?>" /> <?php _e( 'Automatically create a page at:', 'buddypress' ); ?> <?php echo home_url( $activation_slug ); ?>/</label></p>
 					
-					<?php if ( $activate_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&show_option_none=" . __( '- Select -', 'buddypress' ) . $existing_pages['activate'] ) ) : ?>
+					<?php if ( $activate_page_dropdown = wp_dropdown_pages( "name=bp-blogs-page&echo=0&selected={$existing_pages['activate']}&show_option_none=" . __( '- Select -', 'buddypress' ) ) ) : ?>
 						<p><label><input type="radio" name="bp_pages[activate]" <?php checked( !empty( $existing_pages['activate'] ) ); ?> value="page" /> <?php _e( 'Use an existing page:', 'buddypress' ); ?> <?php echo $activate_page_dropdown ?></label></p>
 					<?php endif ?>
 				</td>
@@ -613,11 +617,10 @@ class BP_Core_Setup_Wizard {
 
 		$prefix              = '';
 		$permalink_structure = get_option( 'permalink_structure' );
-		$using_permalinks    = ( !empty( $permalink_structure ) ) ? true : false;
 		$structures          = array( '', $prefix . '/%year%/%monthnum%/%day%/%postname%/', $prefix . '/%year%/%monthnum%/%postname%/', $prefix . '/archives/%post_id%' );
 
 		// If we're using permalinks already, adjust text accordingly
-		if ( $permalink_structure )
+		if ( !empty( $permalink_structure ) )
 			$permalink_setup_text = __( 'Congratulations! You are already using pretty permalinks, which BuddyPress requires. If you\'d like to change your settings, you may do so now. If you\'re happy with your current settings, click Save &amp; Next to continue.', 'buddypress' );
 		else
 			$permalink_setup_text = __( 'To make sure the pages created in the previous step work correctly, pretty permalinks must be active on your site.', 'buddypress' );
@@ -666,9 +669,9 @@ class BP_Core_Setup_Wizard {
 
 		$installed_plugins = get_plugins();
 		$installed_themes  = get_themes();
+		$bp_themes         = array();
 
 		$template_pack_installed = false;
-		$bp_autotheme_installed  = false;
 		$bp_theme_installed      = false;
 
 		foreach ( (array)$installed_plugins as $plugin ) {
@@ -691,9 +694,9 @@ class BP_Core_Setup_Wizard {
 		$screenshot    = '';
 		$themes        = get_themes();
 
-		if ( !empty( $themes[$current_theme]['Screenshot'] ) )
+		if ( !empty( $themes[$current_theme]['Screenshot'] ) ) {
 			$screenshot = trailingslashit( get_stylesheet_directory_uri() ) . $themes[$current_theme]['Screenshot'];
-	?>
+		} ?>
 
 		<script type="text/javascript">
 			jQuery( document ).ready( function() {
@@ -917,14 +920,17 @@ class BP_Core_Setup_Wizard {
 
 
 	function step_components_save() {
+
 		if ( isset( $_POST['submit'] ) && isset( $_POST['bp_components'] ) ) {
+
 			check_admin_referer( 'bpwizard_components' );
 
 			$active_components = array();
 
 			// Settings form submitted, now save the settings.
-			foreach ( (array)$_POST['bp_components'] as $key => $value )
+			foreach ( (array) $_POST['bp_components'] as $key => $value ) {
 				$active_components[$key] = 1;
+			}
 
 			bp_update_option( 'bp-active-components', $active_components );
 
@@ -950,8 +956,9 @@ class BP_Core_Setup_Wizard {
 			// Delete any existing pages
 			$existing_pages = bp_core_update_get_page_meta( 'bp-pages' );
 
-			foreach ( (array)$existing_pages as $page_id )
+			foreach ( (array) $existing_pages as $page_id ) {
 				wp_delete_post( $page_id, true );
+			}
 
 			$blog_pages   = $this->setup_pages( (array)$_POST['bp_pages'] );
 			bp_update_option( 'bp-pages', $blog_pages );
@@ -1363,7 +1370,6 @@ function bp_core_update_add_admin_menu_styles() {
 	} else {
 		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', plugins_url( '/buddypress' ) . '/bp-core/css/admin.css' ), array(), '20110723' );
 		wp_enqueue_script( 'bp-update-js', apply_filters( 'bp_core_update_js', plugins_url( '/buddypress' ) . '/bp-core/js/update.js' ), array( 'jquery' ), '20110723' );
-
 	}
 
 	wp_enqueue_script( 'thickbox' );
