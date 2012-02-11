@@ -295,7 +295,7 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 	 *
 	 * @since BuddyPress (r3203)
 	 *
-	 * @uses get_option()
+	 * @uses bp_get_option()
 	 * @uses esc_attr()
 	 * @uses apply_filters()
 	 *
@@ -306,7 +306,7 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 	function bp_get_form_option( $option, $default = '', $slug = false ) {
 
 		// Get the option and sanitize it
-		$value = get_option( $option, $default );
+		$value = bp_get_option( $option, $default );
 
 		// Slug?
 		if ( true === $slug )

@@ -499,7 +499,7 @@ class BP_Core_Setup_Wizard {
 			return false;
 
 		$prefix              = '';
-		$permalink_structure = get_option( 'permalink_structure' );
+		$permalink_structure = bp_get_option( 'permalink_structure' );
 		$structures          = array( '', $prefix . '/%year%/%monthnum%/%day%/%postname%/', $prefix . '/%year%/%monthnum%/%postname%/', $prefix . '/archives/%post_id%' );
 
 		// If we're using permalinks already, adjust text accordingly

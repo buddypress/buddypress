@@ -477,6 +477,7 @@ class BuddyPress {
 				require( $this->plugin_dir . 'bp-core/bp-core-functions.php'    );
 				require( $this->plugin_dir . 'bp-core/bp-core-update.php'       );
 				require( $this->plugin_dir . 'bp-core/bp-core-caps.php'         );
+				require( $this->plugin_dir . 'bp-core/bp-core-options.php'      );
 				require( $this->plugin_dir . 'bp-core/admin/bp-core-update.php' );
 			}
 		}

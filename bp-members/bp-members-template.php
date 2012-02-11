@@ -1140,12 +1140,14 @@ function bp_signup_allowed() {
 		$signup_allowed = false;
 
 		if ( is_multisite() ) {
-			if ( in_array( $bp->site_options['registration'], array( 'all', 'user' ) ) )
+			if ( in_array( $bp->site_options['registration'], array( 'all', 'user' ) ) ) {
 				$signup_allowed = true;
+			}
 
 		} else {
-			if ( get_option( 'users_can_register') )
+			if ( bp_get_option( 'users_can_register') ) {
 				$signup_allowed = true;
+			}
 		}
 
 		return apply_filters( 'bp_get_signup_allowed', $signup_allowed );

@@ -929,7 +929,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		) );
 
 		if ( empty( $user_id ) ) {
-			$errors->add( 'registerfail', sprintf( __('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !', 'buddypress' ), get_option( 'admin_email' ) ) );
+			$errors->add( 'registerfail', sprintf( __('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !', 'buddypress' ), bp_get_option( 'admin_email' ) ) );
 			return $errors;
 		}
 
@@ -1108,7 +1108,7 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	$activate_url = bp_get_activation_page() ."?key=$key";
 	$activate_url = esc_url( $activate_url );
 
-	$from_name = ( '' == get_option( 'blogname' ) ) ? __( 'BuddyPress', 'buddypress' ) : esc_html( get_option( 'blogname' ) );
+	$from_name = ( '' == bp_get_option( 'blogname' ) ) ? __( 'BuddyPress', 'buddypress' ) : esc_html( bp_get_option( 'blogname' ) );
 
 	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%1\$s\n\n", 'buddypress' ), $activate_url );
 	$subject = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );

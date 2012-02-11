@@ -66,7 +66,6 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	$group                = groups_get_group( array( 'group_id' => $group_id ) );
 
 	$ud             = bp_core_get_core_userdata( $admin_id );
-	$requesting_ud  = bp_core_get_core_userdata( $requesting_user_id );
 	$group_requests = bp_get_group_permalink( $group ) . 'admin/membership-requests';
 	$profile_link   = bp_core_get_user_domain( $requesting_user_id );
 	$settings_slug  = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
@@ -74,7 +73,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	// Set up and send the message
 	$to       = $ud->user_email;
-	$sitename = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+	$sitename = wp_specialchars_decode( bp_get_option( 'blogname' ), ENT_QUOTES );
 	$subject  = '[' . $sitename . '] ' . sprintf( __( 'Membership request for group: %s', 'buddypress' ), $group->name );
 
 $message = sprintf( __(
