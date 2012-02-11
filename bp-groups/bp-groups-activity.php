@@ -1,13 +1,13 @@
 <?php
 
 /**
- * BuddyPress Groups Activity & Notification Functions
+ * BuddyPress Groups Activity Functions
  *
- * These functions handle the recording, deleting and formatting of activity and
- * notifications for the user and for this specific component.
+ * These functions handle the recording, deleting and formatting of activity
+ * for the user and for this specific component.
  *
  * @package BuddyPress
- * @subpackage Groups
+ * @subpackage GroupsActivity
  */
 
 // Exit if accessed directly

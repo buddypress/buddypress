@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Groups Activity & Notification Functions
+ * BuddyPress Groups Actions
  *
  * Action functions are exactly the same as screen functions, however they do not
  * have a template screen associated with them. Usually they will send the user

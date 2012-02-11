@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BuddyPress Groups Loader
  *
@@ -7,7 +8,7 @@
  * Comes preconfigured with an activity stream, discussion forums, and settings.
  *
  * @package BuddyPress
- * @subpackage Groups Core
+ * @subpackage GroupsLoader
  */
 
 // Exit if accessed directly

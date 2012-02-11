@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * BuddyPress Groups Notification Functions
+ *
+ * These functions handle the recording, deleting and formatting of notifications
+ * for the user and for this specific component.
+ *
+ * @package BuddyPress
+ * @subpackage GroupsActivity
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 

@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * BuddyPress Groups Classes
+ *
+ * @package BuddyPress
+ * @subpackage GroupsClasses
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
