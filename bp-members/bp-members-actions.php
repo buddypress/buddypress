@@ -1,10 +1,14 @@
 <?php
-/*******************************************************************************
- * Action Functions
+
+/**
+ * BuddyPress Members Actions
  *
  * Action functions are exactly the same as screen functions, however they do not
  * have a template screen associated with them. Usually they will send the user
  * back to the default screen after execution.
+ *
+ * @package BuddyPress
+ * @subpackage MembersActions
  */
 
 // Exit if accessed directly
@@ -153,12 +157,12 @@ add_action( 'bp_actions', 'bp_core_action_delete_user' );
  * @return int the user ID of the matched user.
  */
 function bp_core_get_random_member() {
-	global $bp;
+	if ( ! isset( $_GET['random-member'] ) )
+		return;
 
-	if ( isset( $_GET['random-member'] ) ) {
-		$user = bp_core_get_users( array( 'type' => 'random', 'per_page' => 1 ) );
-		bp_core_redirect( bp_core_get_user_domain( $user['users'][0]->id ) );
-	}
+	$user = bp_core_get_users( array( 'type' => 'random', 'per_page' => 1 ) );
+	bp_core_redirect( bp_core_get_user_domain( $user['users'][0]->id ) );
 }
 add_action( 'bp_actions', 'bp_core_get_random_member' );
+
 ?>

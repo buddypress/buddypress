@@ -1,11 +1,12 @@
 <?php
+
 /**
  * BuddyPress Members Filters
  *
  * Member specific filters
  *
  * @package BuddyPress
- * @subpackage Member Core
+ * @subpackage MembersFilters
  */
 
 // Exit if accessed directly

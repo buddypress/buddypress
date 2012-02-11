@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BuddyPress Member Template Tags
  *
@@ -168,16 +169,11 @@ class BP_Core_Members_Template {
 	var $pag_links;
 	var $total_member_count;
 
-	function bp_core_members_template( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value ) {
-		$this->__construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value );
-	}
-
 	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value ) {
-		global $bp;
 
-		$this->pag_page  = !empty( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : (int)$page_number;
-		$this->pag_num   = !empty( $_REQUEST['num'] )   ? intval( $_REQUEST['num'] )   : (int)$per_page;
-		$this->type      = $type;
+		$this->pag_page = !empty( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : (int)$page_number;
+		$this->pag_num  = !empty( $_REQUEST['num'] )   ? intval( $_REQUEST['num'] )   : (int)$per_page;
+		$this->type     = $type;
 
 		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] )
 			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras, $exclude );
@@ -249,13 +245,13 @@ class BP_Core_Members_Template {
 	}
 
 	function the_member() {
-		global $member, $bp;
 
 		$this->in_the_loop = true;
-		$this->member = $this->next_member();
+		$this->member      = $this->next_member();
 
-		if ( 0 == $this->current_member ) // loop has just started
-			do_action('member_loop_start');
+		// loop has just started
+		if ( 0 == $this->current_member )
+			do_action( 'member_loop_start' );
 	}
 }
 
@@ -266,7 +262,7 @@ function bp_rewind_members() {
 }
 
 function bp_has_members( $args = '' ) {
-	global $bp, $members_template;
+	global $members_template;
 
 	/***
 	 * Set the defaults based on the current page. Any of these will be overridden
@@ -338,7 +334,7 @@ function bp_members_pagination_count() {
 	echo bp_get_members_pagination_count();
 }
 	function bp_get_members_pagination_count() {
-		global $bp, $members_template;
+		global $members_template;
 
 		if ( empty( $members_template->type ) )
 			$members_template->type = '';
@@ -463,7 +459,7 @@ function bp_member_user_email() {
 	}
 
 function bp_member_is_loggedin_user() {
-	global $bp, $members_template;
+	global $members_template;
 	return apply_filters( 'bp_member_is_loggedin_user', bp_loggedin_user_id() == $members_template->member->id ? true : false );
 }
 
@@ -471,17 +467,17 @@ function bp_member_avatar( $args = '' ) {
 	echo apply_filters( 'bp_member_avatar', bp_get_member_avatar( $args ) );
 }
 	function bp_get_member_avatar( $args = '' ) {
-		global $bp, $members_template;
+		global $members_template;
 
 		$fullname = !empty( $members_template->member->fullname ) ? $members_template->member->fullname : $members_template->member->display_name;
 
 		$defaults = array(
-			'type' => 'thumb',
-			'width' => false,
+			'type'   => 'thumb',
+			'width'  => false,
 			'height' => false,
-			'class' => 'avatar',
-			'id' => false,
-			'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname )
+			'class'  => 'avatar',
+			'id'     => false,
+			'alt'    => sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname )
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -567,7 +563,7 @@ function bp_member_latest_update( $args = '' ) {
 	echo bp_get_member_latest_update( $args );
 }
 	function bp_get_member_latest_update( $args = '' ) {
-		global $bp, $members_template;
+		global $members_template;
 
 		$defaults = array(
 			'length'    => 225,
@@ -597,7 +593,7 @@ function bp_member_profile_data( $args = '' ) {
 	echo bp_get_member_profile_data( $args );
 }
 	function bp_get_member_profile_data( $args = '' ) {
-		global $bp, $members_template;
+		global $members_template;
 
 		if ( !bp_is_active( 'xprofile' ) )
 			return false;
@@ -664,7 +660,6 @@ function bp_member_hidden_fields() {
 }
 
 function bp_directory_members_search_form() {
-	global $bp;
 
 	$default_search_value = bp_get_search_default_text( 'members' );
 	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
@@ -706,22 +701,26 @@ function bp_get_loggedin_user_nav() {
 
 	// Loop through each navigation item
 	foreach( (array) $bp->bp_nav as $nav_item ) {
-		// If the current component matches the nav item id, then add a highlight CSS class.
-		if ( !bp_is_directory() && $bp->active_components[$bp->current_component] == $nav_item['css_id'] )
-			$selected = ' class="current selected"';
-		else
-			$selected = '';
 
-		/* If we are viewing another person (current_userid does not equal loggedin_user->id)
-		   then check to see if the two users are friends. if they are, add a highlight CSS class
-		   to the friends nav item if it exists. */
+		$selected = '';
+
+		// If the current component matches the nav item id, then add a highlight CSS class.
+		if ( !bp_is_directory() && $bp->active_components[$bp->current_component] == $nav_item['css_id'] ) {
+			$selected = ' class="current selected"';
+		}
+
+		// If we are viewing another person (current_userid does not equal
+		// loggedin_user->id then check to see if the two users are friends.
+		// if they are, add a highlight CSS class to the friends nav item
+		// if it exists.
 		if ( !bp_is_my_profile() && bp_displayed_user_id() ) {
 			$selected = '';
 
 			if ( bp_is_active( 'friends' ) ) {
 				if ( $nav_item['css_id'] == $bp->friends->id ) {
-					if ( friends_check_friendship( bp_loggedin_user_id(), bp_displayed_user_id() ) )
+					if ( friends_check_friendship( bp_loggedin_user_id(), bp_displayed_user_id() ) ) {
 						$selected = ' class="current selected"';
+					}
 				}
 			}
 		}
@@ -750,15 +749,16 @@ function bp_get_displayed_user_nav() {
 		if ( !$user_nav_item['show_for_displayed_user'] && !bp_is_my_profile() )
 			continue;
 
-		if ( $bp->current_component == $user_nav_item['slug'] )
+		$selected = '';
+		if ( $bp->current_component == $user_nav_item['slug'] ) {
 			$selected = ' class="current selected"';
-		else
-			$selected = '';
+		}
 
-		if ( $bp->loggedin_user->domain )
+		if ( $bp->loggedin_user->domain ) {
 			$link = str_replace( $bp->loggedin_user->domain, $bp->displayed_user->domain, $user_nav_item['link'] );
-		else
+		} else {
 			$link = trailingslashit( $bp->displayed_user->domain . $user_nav_item['link'] );
+		}
 
 		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], array( '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item ) );
 	}
@@ -770,7 +770,6 @@ function bp_loggedin_user_avatar( $args = '' ) {
 	echo bp_get_loggedin_user_avatar( $args );
 }
 	function bp_get_loggedin_user_avatar( $args = '' ) {
-		global $bp;
 
 		$defaults = array(
 			'type'   => 'thumb',
@@ -790,7 +789,6 @@ function bp_displayed_user_avatar( $args = '' ) {
 	echo bp_get_displayed_user_avatar( $args );
 }
 	function bp_get_displayed_user_avatar( $args = '' ) {
-		global $bp;
 
 		$defaults = array(
 			'type'   => 'thumb',
@@ -825,7 +823,6 @@ function bp_last_activity( $user_id = 0 ) {
 	echo apply_filters( 'bp_last_activity', bp_get_last_activity( $user_id ) );
 }
 	function bp_get_last_activity( $user_id = 0 ) {
-		global $bp;
 
 		if ( empty( $user_id ) )
 			$user_id = bp_displayed_user_id();
@@ -966,7 +963,6 @@ function bp_signup_page() {
 	echo bp_get_signup_page();
 }
 	function bp_get_signup_page() {
-		global $bp;
 
 		if ( bp_has_custom_signup_page() ) {
 			$page = trailingslashit( bp_get_root_domain() . '/' . bp_get_signup_slug() );

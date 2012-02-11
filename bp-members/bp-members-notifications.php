@@ -1,11 +1,12 @@
 <?php
+
 /**
  * BuddyPress Member Notifications
  *
  * Functions and filters used for member notification
  *
  * @package BuddyPress
- * @subpackage Members
+ * @subpackage MembersNotifications
  */
 
 // Exit if accessed directly

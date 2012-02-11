@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * BuddyPress Members BuddyBar
+ *
+ * Handles the member functions related to the BuddyBar
+ *
+ * @package BuddyPress
+ * @subpackage MembersBuddyBar
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -41,9 +51,11 @@ function bp_adminbar_notifications_menu() {
 }
 add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8 );
 
-// **** "Blog Authors" Menu (visible when not logged in) ********
+/**
+ * Blog Authors Menu (visible when not logged in)
+ */
 function bp_adminbar_authors_menu() {
-	global $bp, $wpdb;
+	global $wpdb;
 
 	// Only for multisite
 	if ( !is_multisite() )

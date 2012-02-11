@@ -1,11 +1,12 @@
 <?php
+
 /**
  * BuddyPress Members Admin Bar
  *
  * Handles the member functions related to the WordPress Admin Bar
  *
  * @package BuddyPress
- * @subpackage Core
+ * @subpackage MembersAdminBar
  */
 
 // Exit if accessed directly

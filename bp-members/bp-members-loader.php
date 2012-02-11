@@ -33,7 +33,6 @@ class BP_Members_Component extends BP_Component {
 	 */
 	function includes() {
 		$includes = array(
-			'signup',
 			'actions',
 			'filters',
 			'screens',
@@ -56,7 +55,7 @@ class BP_Members_Component extends BP_Component {
 	 * @global obj $bp
 	 */
 	function setup_globals() {
-		global $bp, $current_user, $displayed_user_id;
+		global $bp;
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_MEMBERS_SLUG' ) )
@@ -132,10 +131,12 @@ class BP_Members_Component extends BP_Component {
 
 		// Add 'Profile' to the main navigation
 		if ( !bp_is_active( 'xprofile' ) ) {
+
 			// Don't set up navigation if there's no user
 			if ( !is_user_logged_in() && !bp_is_user() )
 				return;
 
+			$sub_nav  = array();
 			$main_nav = array(
 				'name'                => __( 'Profile', 'buddypress' ),
 				'slug'                => $bp->profile->slug,
@@ -147,7 +148,6 @@ class BP_Members_Component extends BP_Component {
 
 			// User links
 			$user_domain   = ( isset( $bp->displayed_user->domain ) )               ? $bp->displayed_user->domain               : $bp->loggedin_user->domain;
-			$user_login    = ( isset( $bp->displayed_user->userdata->user_login ) ) ? $bp->displayed_user->userdata->user_login : $bp->loggedin_user->userdata->user_login;
 			$profile_link  = trailingslashit( $user_domain . $bp->profile->slug );
 
 			// Add the subnav items to the profile
