@@ -74,6 +74,13 @@ class BuddyPress {
 	 */
 	public $load_deprecated = true;
 
+	/** Root ******************************************************************/
+
+	/**
+	 * @var int The root blog ID
+	 */
+	public $root_blog_id = 1;
+
 	/** Paths *****************************************************************/
 
 	/**
@@ -368,6 +375,11 @@ class BuddyPress {
 	 */
 	private function setup_globals() {
 
+		/** Root **************************************************************/
+
+		// BuddyPress Root blog ID
+		$this->root_blog_id = (int) apply_filters( 'bp_get_root_blog_id', BP_ROOT_BLOG );
+
 		/** Paths *************************************************************/
 
 		// BuddyPress root directory
@@ -428,17 +440,22 @@ class BuddyPress {
 
 		// Get the possible DB versions
 		$versions               = array();
-		$versions['1.2']        = get_site_option( 'bp-core-db-version' );
-		$versions['1.5-multi']  = get_site_option( 'bp-db-version'      );
-		$versions['1.5-single'] = get_option     ( 'bp-db-version'      );
-		$versions['1.6-multi']  = get_site_option( '_bp_db_version'     );
-		$versions['1.6-single'] = get_option     ( '_bp_db_version'     );
+		$versions['1.2']        = get_site_option(                      'bp-core-db-version' );
+		$versions['1.5-multi']  = get_site_option(                           'bp-db-version' );
+		$versions['1.6-multi']  = get_site_option(                          '_bp_db_version' );
+		$versions['1.5-single'] = get_blog_option( $this->root_blog_id,     'bp-db-version'  );
+		$versions['1.6-single'] = get_blog_option( $this->root_blog_id,     '_bp_db_version' );
 
 		// Remove empty array items
 		$versions = array_filter( $versions );
 
-		// Get the largest version
-		$this->db_version_raw = !empty( $versions ) ? (int) max( $versions ) : 0;
+		// If no 1.6-single exists, use the max of the others
+		if ( empty( $versions['1.6-single'] ) )
+			$this->db_version_raw = !empty( $versions ) ? (int) max( $versions ) : 0;
+
+		// 1.6-single exists, so trust it
+		else
+			$this->db_version_raw = $versions['1.6-single'];
 
 		// Is this an upgrade to WordPress Network Mode?
 		// We know by checking to see whether the db version is saved in sitemeta

@@ -527,8 +527,9 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  * @uses bp_core_time_since() This function will return an English representation of the time elapsed.
  */
 function bp_core_get_last_activity( $last_activity_date, $string ) {
-	if ( !$last_activity_date || empty( $last_activity_date ) )
-		$last_active = __( 'not recently active', 'buddypress' );
+
+	if ( empty( $last_activity_date ) )
+		$last_active = __( 'Not recently active', 'buddypress' );
 	else
 		$last_active = sprintf( $string, bp_core_time_since( $last_activity_date ) );
 
@@ -806,43 +807,21 @@ function bp_is_root_blog( $blog_id = 0 ) {
 	if ( $blog_id == bp_get_root_blog_id() )
 		$is_root_blog = true;
 
-	return apply_filters( 'bp_is_root_blog', (bool) $is_root_blog );
+	return (bool) apply_filters( 'bp_is_root_blog', (bool) $is_root_blog );
 }
 
 /**
  * Is this bp_get_root_blog_id()?
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
- * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
+ * @return int Return the root site ID
  */
 function bp_get_root_blog_id() {
+	global $bp;
 
-	// Default to 1
-	$root_blog_id = 1;
-
-	// Define on which blog ID BuddyPress should run
-	if ( !defined( 'BP_ROOT_BLOG' ) ) {
-
-		// Root blog is the main site on this network
-		if ( is_multisite() && !bp_is_multiblog_mode() ) {
-			$current_site = get_current_site();
-			$root_blog_id = $current_site->blog_id;
-
-		// Root blog is whatever the current site is (could be any site on the network)
-		} elseif ( is_multisite() && bp_is_multiblog_mode() ) {
-			$root_blog_id = get_current_blog_id();
-		}
-
-		define( 'BP_ROOT_BLOG', $root_blog_id );
-
-	// Root blog is defined
-	} else {
-		$root_blog_id = BP_ROOT_BLOG;
-	}
-
-	return apply_filters( 'bp_get_root_blog_id', (int) $root_blog_id );
+	return (int) apply_filters( 'bp_get_root_blog_id', (int) $bp->root_blog_id );
 }
 
 /**
