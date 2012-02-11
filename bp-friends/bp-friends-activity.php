@@ -1,7 +1,13 @@
 <?php
+
 /**
- * These functions handle the recording, deleting and formatting of activity and
- * notifications for the user and for this specific component.
+ * BuddyPress Friends Activity Functions
+ *
+ * These functions handle the recording, deleting and formatting of activity 
+ * for the user and for this specific component.
+ *
+ * @package BuddyPress
+ * @subpackage FriendsActivity
  */
 
 // Exit if accessed directly
@@ -36,7 +42,7 @@ function friends_delete_activity( $args ) {
 	global $bp;
 
 	if ( bp_is_active( 'activity' ) ) {
-		extract( (array)$args );
+		extract( (array) $args );
 		bp_activity_delete_by_item_id( array( 'item_id' => $item_id, 'component' => $bp->friends->id, 'type' => $type, 'user_id' => $user_id ) );
 	}
 }
@@ -70,7 +76,6 @@ add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' 
  * @param str $format 'string' for BuddyBar-compatible notifications; 'array' for WP Admin Bar
  */
 function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
-	global $bp;
 
 	switch ( $action ) {
 		case 'friendship_accepted':
@@ -109,7 +114,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 		$return = apply_filters( $filter, array(
 			'link' => $link,
 			'text' => $text
-		), (int)$total_items );
+		), (int) $total_items );
 	}
 
 	do_action( 'friends_format_notifications', $action, $item_id, $secondary_item_id, $total_items, $return );

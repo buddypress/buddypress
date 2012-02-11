@@ -1,8 +1,14 @@
 <?php
+
 /**
+ * BuddyPress Friends Screen Functions
+ *
  * Screen functions are the controllers of BuddyPress. They will execute when their
  * specific URL is caught. They will first save or manipulate data using business
  * functions, then pass on the user to a template file.
+ *
+ * @package BuddyPress
+ * @subpackage FriendsScreens
  */
 
 // Exit if accessed directly
@@ -52,14 +58,12 @@ function friends_screen_requests() {
 }
 
 function friends_screen_notification_settings() {
-	global $bp;
 
 	if ( !$send_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_request', true ) )
 		$send_requests   = 'yes';
 
 	if ( !$accept_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_accepted', true ) )
-		$accept_requests = 'yes';
-?>
+		$accept_requests = 'yes'; ?>
 
 	<table class="notification-settings" id="friends-notification-settings">
 		<thead>

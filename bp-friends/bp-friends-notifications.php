@@ -1,22 +1,30 @@
 <?php
+
+/**
+ * BuddyPress Friends Activity Functions
+ *
+ * These functions handle the recording, deleting and formatting of activity
+ * for the user and for this specific component.
+ *
+ * @package BuddyPress
+ * @subpackage FriendsActivity
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function friends_notification_new_request( $friendship_id, $initiator_id, $friend_id ) {
-	global $bp;
 
 	$initiator_name = bp_core_get_user_displayname( $initiator_id );
 
 	if ( 'no' == bp_get_user_meta( (int)$friend_id, 'notification_friends_friendship_request', true ) )
 		return false;
 
-	$ud = get_userdata( $friend_id );
-	$initiator_ud = get_userdata( $initiator_id );
-
+	$ud                = get_userdata( $friend_id );
 	$all_requests_link = bp_core_get_user_domain( $friend_id ) . bp_get_friends_slug() . '/requests/';
-	$settings_slug    = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
-	$settings_link    = trailingslashit( bp_core_get_user_domain( $friend_id ) .  $settings_slug . '/notifications' );
-	$initiator_link   = bp_core_get_user_domain( $initiator_id );
+	$settings_slug     = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+	$settings_link     = trailingslashit( bp_core_get_user_domain( $friend_id ) .  $settings_slug . '/notifications' );
+	$initiator_link    = bp_core_get_user_domain( $initiator_id );
 
 	// Set up and send the message
 	$to       = $ud->user_email;
@@ -46,17 +54,13 @@ To view %3$s\'s profile: %4$s
 }
 
 function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
-	global $bp;
-
-	$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
 
 	$friend_name = bp_core_get_user_displayname( $friend_id );
 
-	if ( 'no' == bp_get_user_meta( (int)$initiator_id, 'notification_friends_friendship_accepted', true ) )
+	if ( 'no' == bp_get_user_meta( (int) $initiator_id, 'notification_friends_friendship_accepted', true ) )
 		return false;
 
-	$ud = get_userdata( $initiator_id );
-
+	$ud            = get_userdata( $initiator_id );
 	$friend_link   = bp_core_get_user_domain( $friend_id );
 	$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
 	$settings_link = trailingslashit( bp_core_get_user_domain( $initiator_id ) . $settings_slug . '/notifications' );

@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * BuddyPress Friends Template Functions
+ *
+ * @package BuddyPress
+ * @subpackage FriendsTemplate
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -57,7 +65,7 @@ function bp_friends_root_slug() {
  * @todo Deprecate?
  */
 function bp_friends_header_tabs() {
-	global $bp; ?>
+?>
 
 	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() . '/my-friends/recently-active' ) ?>"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
 	<li<?php if ( bp_is_action_variable( 'newest', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() . '/my-friends/newest' ) ?>"><?php _e( 'Newest', 'buddypress' ) ?></a></li>
@@ -90,7 +98,6 @@ function bp_friends_filter_title() {
 }
 
 function bp_friends_random_friends() {
-	global $bp;
 
 	if ( !$friend_ids = wp_cache_get( 'friends_friend_ids_' . bp_displayed_user_id(), 'bp' ) ) {
 		$friend_ids = BP_Friends_Friendship::get_random_friends( bp_displayed_user_id() );
@@ -122,8 +129,10 @@ function bp_friends_random_friends() {
 			</div>
 
 		<?php } ?>
+
 		<div class="clear"></div>
 	</div>
+
 <?php
 }
 
@@ -137,7 +146,6 @@ function bp_friends_random_friends() {
  * @param int $total_members The number of members to retrieve
  */
 function bp_friends_random_members( $total_members = 5 ) {
-	global $bp;
 
 	if ( !$user_ids = wp_cache_get( 'friends_random_users', 'bp' ) ) {
 		$user_ids = BP_Core_User::get_users( 'random', $total_members );
@@ -195,10 +203,9 @@ function bp_friends_random_members( $total_members = 5 ) {
 }
 
 function bp_friend_search_form() {
-	global $friends_template, $bp;
 
 	$action = bp_displayed_user_domain() . bp_get_friends_slug() . '/my-friends/search/';
-	$label = __( 'Filter Friends', 'buddypress' ); ?>
+	$label  = __( 'Filter Friends', 'buddypress' ); ?>
 
 		<form action="<?php echo $action ?>" id="friend-search-form" method="post">
 
@@ -227,8 +234,6 @@ function bp_member_add_friend_button() {
 add_action( 'bp_directory_members_actions', 'bp_member_add_friend_button' );
 
 function bp_member_total_friend_count() {
-	global $members_template;
-
 	echo bp_get_member_total_friend_count();
 }
 	function bp_get_member_total_friend_count() {
@@ -256,13 +261,12 @@ function bp_potential_friend_id( $user_id = 0 ) {
 	 *
 	 * Returns the ID of the potential friend
 	 *
-	 * @global object $bp
 	 * @global object $friends_template
 	 * @param int $user_id
 	 * @return int ID of potential friend
 	 */
 	function bp_get_potential_friend_id( $user_id = 0 ) {
-		global $bp, $friends_template;
+		global $friends_template;
 
 		if ( empty( $user_id ) && isset( $friends_template->friendship->friend ) )
 			$user_id = $friends_template->friendship->friend->id;
@@ -277,12 +281,10 @@ function bp_potential_friend_id( $user_id = 0 ) {
  *
  * Returns - 'is_friend', 'not_friends', 'pending'
  *
- * @global object $bp
  * @param int $potential_friend_id
  * @return string
  */
 function bp_is_friend( $user_id = 0 ) {
-	global $bp;
 
 	if ( !is_user_logged_in() )
 		return false;
@@ -300,7 +302,6 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 	echo bp_get_add_friend_button( $potential_friend_id, $friend_status );
 }
 	function bp_get_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
-		global $bp, $friends_template;
 
 		if ( empty( $potential_friend_id ) )
 			$potential_friend_id = bp_get_potential_friend_id( $potential_friend_id );
@@ -366,9 +367,8 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 	}
 
 function bp_get_friend_ids( $user_id = 0 ) {
-	global $bp;
 
-	if ( !$user_id )
+	if ( empty( $user_id ) )
 		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
 	$friend_ids = friends_get_friend_user_ids( $user_id );
@@ -379,8 +379,6 @@ function bp_get_friend_ids( $user_id = 0 ) {
 	return implode( ',', friends_get_friend_user_ids( $user_id ) );
 }
 function bp_get_friendship_requests() {
-	global $bp;
-
 	return apply_filters( 'bp_get_friendship_requests', implode( ',', (array) friends_get_friendship_request_user_ids( bp_loggedin_user_id() ) ) );
 }
 
@@ -388,7 +386,7 @@ function bp_friend_friendship_id() {
 	echo bp_get_friend_friendship_id();
 }
 	function bp_get_friend_friendship_id() {
-		global $members_template, $bp;
+		global $members_template;
 
 		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id() ) ) {
 			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
@@ -402,7 +400,7 @@ function bp_friend_accept_request_link() {
 	echo bp_get_friend_accept_request_link();
 }
 	function bp_get_friend_accept_request_link() {
-		global $members_template, $bp;
+		global $members_template;
 
 		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id() ) ) {
 			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
@@ -416,7 +414,7 @@ function bp_friend_reject_request_link() {
 	echo bp_get_friend_reject_request_link();
 }
 	function bp_get_friend_reject_request_link() {
-		global $members_template, $bp;
+		global $members_template;
 
 		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id() ) ) {
 			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
@@ -438,8 +436,6 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
 	echo bp_friend_get_total_requests_count( $user_id );
 }
 	function bp_friend_get_total_requests_count( $user_id = 0 ) {
-		global $bp;
-
 		if ( empty( $user_id ) )
 			$user_id = bp_loggedin_user_id();
 
