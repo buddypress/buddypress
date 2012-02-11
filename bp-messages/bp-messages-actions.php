@@ -8,7 +8,7 @@
  * back to the default screen after execution.
  *
  * @package BuddyPress
- * @subpackage SettingsLoader
+ * @subpackage SettingsActions
  */
 
 // Exit if accessed directly
