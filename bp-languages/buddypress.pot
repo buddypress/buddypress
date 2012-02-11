@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-11 20:36:05+00:00\n"
+"POT-Creation-Date: 2012-02-11 21:36:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -586,10 +586,10 @@ msgstr ""
 #: bp-friends/bp-friends-notifications.php:44
 #: bp-friends/bp-friends-notifications.php:81
 #: bp-groups/bp-groups-notifications.php:43
-#: bp-groups/bp-groups-notifications.php:93
-#: bp-groups/bp-groups-notifications.php:149
-#: bp-groups/bp-groups-notifications.php:196
-#: bp-groups/bp-groups-notifications.php:249
+#: bp-groups/bp-groups-notifications.php:92
+#: bp-groups/bp-groups-notifications.php:148
+#: bp-groups/bp-groups-notifications.php:195
+#: bp-groups/bp-groups-notifications.php:248
 #: bp-messages/bp-messages-notifications.php:60
 msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
@@ -1935,80 +1935,80 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:397
+#: bp-core/bp-core-functions.php:329
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:398
+#: bp-core/bp-core-functions.php:330
 msgid "right now"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:399
+#: bp-core/bp-core-functions.php:331
 msgid "%s ago"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:403
+#: bp-core/bp-core-functions.php:335
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:403
+#: bp-core/bp-core-functions.php:335
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:404
+#: bp-core/bp-core-functions.php:336
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:404
+#: bp-core/bp-core-functions.php:336
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:405
+#: bp-core/bp-core-functions.php:337
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:405
+#: bp-core/bp-core-functions.php:337
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:406
+#: bp-core/bp-core-functions.php:338
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:406
+#: bp-core/bp-core-functions.php:338
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:407
+#: bp-core/bp-core-functions.php:339
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:407
+#: bp-core/bp-core-functions.php:339
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:408
+#: bp-core/bp-core-functions.php:340
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:408
+#: bp-core/bp-core-functions.php:340
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:409
+#: bp-core/bp-core-functions.php:341
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:409
+#: bp-core/bp-core-functions.php:341
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:466
+#: bp-core/bp-core-functions.php:400
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:529
+#: bp-core/bp-core-functions.php:463
 msgid "Not recently active"
 msgstr ""
 
@@ -2905,11 +2905,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:78
+#: bp-groups/bp-groups-notifications.php:77
 msgid "Membership request for group: %s"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:80
+#: bp-groups/bp-groups-notifications.php:79
 msgid ""
 "%1$s wants to join the group \"%2$s\".\n"
 "\n"
@@ -2923,11 +2923,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:129
+#: bp-groups/bp-groups-notifications.php:128
 msgid "Membership request for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:130
+#: bp-groups/bp-groups-notifications.php:129
 msgid ""
 "Your membership request for the group \"%1$s\" has been accepted.\n"
 "\n"
@@ -2936,11 +2936,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:139
+#: bp-groups/bp-groups-notifications.php:138
 msgid "Membership request for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:140
+#: bp-groups/bp-groups-notifications.php:139
 msgid ""
 "Your membership request for the group \"%1$s\" has been rejected.\n"
 "\n"
@@ -2949,19 +2949,19 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:164
+#: bp-groups/bp-groups-notifications.php:163
 msgid "an administrator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:167
+#: bp-groups/bp-groups-notifications.php:166
 msgid "a moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:186
+#: bp-groups/bp-groups-notifications.php:185
 msgid "You have been promoted in the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:188
+#: bp-groups/bp-groups-notifications.php:187
 msgid ""
 "You have been promoted to %1$s for the group: \"%2$s\".\n"
 "\n"
@@ -2970,11 +2970,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:235
+#: bp-groups/bp-groups-notifications.php:234
 msgid "You have an invitation to the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:237
+#: bp-groups/bp-groups-notifications.php:236
 msgid ""
 "One of your friends %1$s has invited you to the group: \"%2$s\".\n"
 "\n"
@@ -3620,7 +3620,7 @@ msgstr ""
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1163
+#: bp-members/bp-members-template.php:1165
 msgid "Activity RSS Feed"
 msgstr ""
 
