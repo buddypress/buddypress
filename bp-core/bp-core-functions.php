@@ -962,7 +962,7 @@ function bp_use_wp_admin_bar() {
 		$use_admin_bar = false;
 
 	// Has the admin chosen to use the BuddyBar during an upgrade?
-	elseif ( (bool) bp_get_option( 'bp-force-buddybar', false ) )
+	elseif ( (bool) bp_get_option( '_bp_force_buddybar', false ) )
 		$use_admin_bar = false;
 
 	return apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );

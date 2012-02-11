@@ -82,6 +82,11 @@ function bp_get_default_options() {
 
 		// Users from all sites can post
 		'_bp_enable_akismet'              => true,
+		
+		/** BuddyBar **********************************************************/
+
+		// Force the BuddyBar
+		'_bp_force_buddybar'              => false
 	);
 
 	return apply_filters( 'bp_get_default_options', $options );
@@ -190,9 +195,11 @@ function bp_pre_get_option( $value = false ) {
 /**
  * When switching from single to multisite we need to copy blog options to
  * site options.
+ * 
+ * This function is no longer used
  *
  * @package BuddyPress Core
- * @todo Does this need to be here anymore after the introduction of bp_get_option etc?
+ * @deprecated Since BuddyPress (1.6)
  */
 function bp_core_activate_site_options( $keys = array() ) {
 	global $bp;
@@ -204,13 +211,15 @@ function bp_core_activate_site_options( $keys = array() ) {
 			if ( empty( $bp->site_options[ $key ] ) ) {
 				$bp->site_options[ $key ] = bp_get_option( $key, $default );
 
-				if ( !bp_update_option( $key, $bp->site_options[ $key ] ) )
+				if ( !bp_update_option( $key, $bp->site_options[ $key ] ) ) {
 					$errors = true;
+				}
 			}
 		}
 
-		if ( empty( $errors ) )
+		if ( empty( $errors ) ) {
 			return true;
+		}
 	}
 
 	return false;
@@ -309,11 +318,11 @@ function bp_core_get_root_options() {
  *
  * @param $default bool Optional.Default value true
  *
- * @uses get_option() To get the profile sync option
+ * @uses bp_get_option() To get the profile sync option
  * @return bool Is profile sync enabled or not
  */
 function bp_disable_profile_sync( $default = true ) {
-	return (bool) apply_filters( 'bp_disable_profile_sync', (bool) get_option( 'bp-disable-profile-sync', $default ) );
+	return (bool) apply_filters( 'bp_disable_profile_sync', (bool) bp_get_option( 'bp-disable-profile-sync', $default ) );
 }
 
 /**
@@ -323,11 +332,11 @@ function bp_disable_profile_sync( $default = true ) {
  *
  * @param $default bool Optional.Default value true
  *
- * @uses get_option() To get the logged out admin bar option
+ * @uses bp_get_option() To get the logged out admin bar option
  * @return bool Is logged out admin bar enabled or not
  */
 function bp_hide_loggedout_adminbar( $default = true ) {
-	return (bool) apply_filters( 'bp_hide_loggedout_adminbar', (bool) get_option( 'hide-loggedout-adminbar', $default ) );
+	return (bool) apply_filters( 'bp_hide_loggedout_adminbar', (bool) bp_get_option( 'hide-loggedout-adminbar', $default ) );
 }
 
 /**
@@ -337,11 +346,11 @@ function bp_hide_loggedout_adminbar( $default = true ) {
  *
  * @param $default bool Optional. Default value true
  *
- * @uses get_option() To get the avatar uploads option
+ * @uses bp_get_option() To get the avatar uploads option
  * @return bool Are avatar uploads allowed?
  */
 function bp_disable_avatar_uploads( $default = true ) {
-	return (bool) apply_filters( 'bp_disable_avatar_uploads', (bool) get_option( 'bp-disable-avatar-uploads', $default ) );
+	return (bool) apply_filters( 'bp_disable_avatar_uploads', (bool) bp_get_option( 'bp-disable-avatar-uploads', $default ) );
 }
 
 /**
@@ -351,11 +360,11 @@ function bp_disable_avatar_uploads( $default = true ) {
  *
  * @param $default bool Optional. Default value
  *
- * @uses get_option() To get the account deletion option
+ * @uses bp_get_option() To get the account deletion option
  * @return bool Is account deletion allowed?
  */
 function bp_disable_account_deletion( $default = false ) {
-	return apply_filters( 'bp_disable_account_deletion', (bool) get_option( 'bp-disable-account-deletion', $default ) );
+	return apply_filters( 'bp_disable_account_deletion', (bool) bp_get_option( 'bp-disable-account-deletion', $default ) );
 }
 
 /**
@@ -365,11 +374,11 @@ function bp_disable_account_deletion( $default = false ) {
  *
  * @param $default bool Optional. Default value false
  * @todo split and move into blog and forum components
- * @uses get_option() To get the blog/forum comments option
+ * @uses bp_get_option() To get the blog/forum comments option
  * @return bool Is blog/forum comments allowed?
  */
 function bp_disable_blogforum_comments( $default = false ) {
-	return (bool) apply_filters( 'bp_disable_blogforum_comments', (bool) get_option( 'bp-disable-blogforum-comments', $default ) );
+	return (bool) apply_filters( 'bp_disable_blogforum_comments', (bool) bp_get_option( 'bp-disable-blogforum-comments', $default ) );
 }
 
 /**
@@ -380,11 +389,11 @@ function bp_disable_blogforum_comments( $default = false ) {
  * @param $default bool Optional. Default value true
  *
  * @todo Move into groups component
- * @uses get_option() To get the group creation
+ * @uses bp_get_option() To get the group creation
  * @return bool Allow group creation?
  */
 function bp_restrict_group_creation( $default = true ) {
-	return (bool) apply_filters( 'bp_restrict_group_creation', (bool) get_option( 'bp_restrict_group_creation', $default ) );
+	return (bool) apply_filters( 'bp_restrict_group_creation', (bool) bp_get_option( 'bp_restrict_group_creation', $default ) );
 }
 
 /**
@@ -395,11 +404,11 @@ function bp_restrict_group_creation( $default = true ) {
  * @param $default bool Optional. Default value true
  *
  * @todo Move into groups component
- * @uses get_option() To get the WP editor option
+ * @uses bp_get_option() To get the WP editor option
  * @return bool Use WP editor?
  */
 function bp_force_buddybar( $default = true ) {
-	return (bool) apply_filters( 'bp_force_buddybar', (bool) get_option( 'bp-force-buddybar', $default ) );
+	return (bool) apply_filters( 'bp_force_buddybar', (bool) bp_get_option( '_bp_force_buddybar', $default ) );
 }
 
 /**
@@ -409,11 +418,11 @@ function bp_force_buddybar( $default = true ) {
  *
  * @param $default bool Optional. Default value true
  *
- * @uses get_option() To get the WP editor option
+ * @uses bp_get_option() To get the WP editor option
  * @return bool Use WP editor?
  */
 function bp_use_wp_editor( $default = true ) {
-	return (bool) apply_filters( 'bp_use_wp_editor', (bool) get_option( '_bp_use_wp_editor', $default ) );
+	return (bool) apply_filters( 'bp_use_wp_editor', (bool) bp_get_option( '_bp_use_wp_editor', $default ) );
 }
 
 /**
@@ -433,11 +442,11 @@ function bp_group_forums_root_id( $default = '0' ) {
 	 *
 	 * @param $default bool Optional. Default value 0
 	 *
-	 * @uses get_option() To get the maximum title length
+	 * @uses bp_get_option() To get the maximum title length
 	 * @return int Is anonymous posting allowed?
 	 */
 	function bp_get_group_forums_root_id( $default = '0' ) {
-		return (int) apply_filters( 'bp_get_group_forums_root_id', (int) get_option( '_bbp_group_forums_root_id', $default ) );
+		return (int) apply_filters( 'bp_get_group_forums_root_id', (int) bp_get_option( '_bbp_group_forums_root_id', $default ) );
 	}
 
 /**
@@ -447,11 +456,11 @@ function bp_group_forums_root_id( $default = '0' ) {
  *
  * @param $default bool Optional. Default value true
  *
- * @uses get_option() To get the group forums option
+ * @uses bp_get_option() To get the group forums option
  * @return bool Is group forums enabled or not
  */
 function bp_is_group_forums_active( $default = true ) {
-	return (bool) apply_filters( 'bp_is_group_forums_active', (bool) get_option( '_bbp_enable_group_forums', $default ) );
+	return (bool) apply_filters( 'bp_is_group_forums_active', (bool) bp_get_option( '_bbp_enable_group_forums', $default ) );
 }
 
 /**
@@ -461,11 +470,11 @@ function bp_is_group_forums_active( $default = true ) {
  *
  * @param $default bool Optional. Default value true
  *
- * @uses get_option() To get the Akismet option
+ * @uses bp_get_option() To get the Akismet option
  * @return bool Is Akismet enabled or not
  */
 function bp_is_akismet_active( $default = true ) {
-	return (bool) apply_filters( 'bp_is_akismet_active', (bool) get_option( '_bp_enable_akismet', $default ) );
+	return (bool) apply_filters( 'bp_is_akismet_active', (bool) bp_get_option( '_bp_enable_akismet', $default ) );
 }
 
 ?>

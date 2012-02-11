@@ -67,7 +67,7 @@ class BuddyPress {
 	/**
 	 * @var string State of BuddyPress installation
 	 */
-	public $maintenance_mode = '';
+	public $maintenance_mode = false;
 
 	/**
 	 * @var bool Include deprecated BuddyPress files or not
@@ -438,45 +438,51 @@ class BuddyPress {
 		// Load the WP abstraction file so BuddyPress can run on all WordPress setups.
 		require( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
 
-		// Get the possible DB versions
+		// Get the possible DB versions (boy is this gross)
 		$versions               = array();
-		$versions['1.2']        = get_site_option(                      'bp-core-db-version' );
-		$versions['1.5-multi']  = get_site_option(                           'bp-db-version' );
-		$versions['1.6-multi']  = get_site_option(                          '_bp_db_version' );
-		$versions['1.5-single'] = get_blog_option( $this->root_blog_id,     'bp-db-version'  );
-		$versions['1.6-single'] = get_blog_option( $this->root_blog_id,     '_bp_db_version' );
-
-		// Remove empty array items
-		$versions = array_filter( $versions );
-
-		// If no 1.6-single exists, use the max of the others
-		if ( empty( $versions['1.6-single'] ) )
-			$this->db_version_raw = !empty( $versions ) ? (int) max( $versions ) : 0;
+		$versions['1.6-single'] = get_blog_option( $this->root_blog_id, '_bp_db_version' );
 
 		// 1.6-single exists, so trust it
-		else
-			$this->db_version_raw = $versions['1.6-single'];
+		if ( !empty( $versions['1.6-single'] ) ) {
+			$this->db_version_raw = (int) $versions['1.6-single'];
 
-		// Is this an upgrade to WordPress Network Mode?
-		// We know by checking to see whether the db version is saved in sitemeta
-		if ( is_multisite() && ( empty( $versions['1.5-multi'] ) && empty( $versions['1.6-multi'] ) ) )
-			$this->is_network_activate = true;
+		// If no 1.6-single exists, use the max of the others
+		} else {
+			$versions['1.2']        = get_site_option(                      'bp-core-db-version' );
+			$versions['1.5-multi']  = get_site_option(                           'bp-db-version' );
+			$versions['1.6-multi']  = get_site_option(                          '_bp_db_version' );
+			$versions['1.5-single'] = get_blog_option( $this->root_blog_id,     'bp-db-version'  );
+
+			// Remove empty array items
+			$versions             = array_filter( $versions );
+			$this->db_version_raw = (int) ( !empty( $versions ) ) ? (int) max( $versions ) : 0;
+		}
 
 		/** Update/Install ****************************************************/
 
 		// This is a new installation
-		if ( empty( $this->db_version_raw ) ) {
-			$this->maintenance_mode = 'install';
-			
-			// The installation process requires a few BuddyPress core libraries
-			require( $this->plugin_dir . 'bp-core/bp-core-functions.php'    );
-			require( $this->plugin_dir . 'bp-core/bp-core-update.php'       );
-			require( $this->plugin_dir . 'bp-core/bp-core-caps.php'         );
-			
-			require( $this->plugin_dir . 'bp-core/admin/bp-core-update.php' );
+		if ( is_admin() ) {
 
-		// There is a previous installation
-		} else {
+			// New installation
+			if ( empty( $this->db_version_raw ) ) {
+				$this->maintenance_mode = 'install';
+
+			// Update
+			} elseif ( (int) $this->db_version_raw < (int) $this->db_version ) {
+				$this->maintenance_mode = 'update';
+			}
+
+			// The installation process requires a few BuddyPress core libraries
+			if ( !empty( $this->maintenance_mode ) ) {
+				require( $this->plugin_dir . 'bp-core/bp-core-functions.php'    );
+				require( $this->plugin_dir . 'bp-core/bp-core-update.php'       );
+				require( $this->plugin_dir . 'bp-core/bp-core-caps.php'         );
+				require( $this->plugin_dir . 'bp-core/admin/bp-core-update.php' );
+			}
+		}
+
+		// Not in maintenance made
+		if ( empty( $this->maintenance_mode ) ) {
 
 			// Setup the BuddyPress theme directory
 			register_theme_directory( $this->themes_dir );
@@ -505,18 +511,6 @@ class BuddyPress {
 			if ( false !== $this->load_deprecated ) {
 				require( $this->plugin_dir . 'bp-core/deprecated/1.5.php' );
 				require( $this->plugin_dir . 'bp-core/deprecated/1.6.php' );
-			}
-
-			// Check if an update is required
-			if ( ( (int) $this->db_version_raw < (int) $this->db_version ) || ( !empty( $this->is_network_activate ) ) ) {
-
-				// BuddyPress needs an update
-				$this->maintenance_mode = 'update';
-
-				// Only include core updater if in the admin area
-				if ( is_admin() ) {
-					require( $this->plugin_dir . 'bp-core/admin/bp-core-update.php' );
-				}
 			}
 		}		
 	}

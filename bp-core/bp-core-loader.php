@@ -55,11 +55,6 @@ class BP_Core extends BP_Component {
 
 		/** Components ********************************************************/
 
-		// Move active components from sitemeta, if necessary
-		// Provides backpat with earlier versions of BP
-		if ( is_multisite() && $active_components = get_site_option( 'bp-active-components' ) )
-			bp_update_option( 'bp-active-components', $active_components );
-
 		// Set the included and optional components.
 		$bp->optional_components = apply_filters( 'bp_optional_components', array( 'activity', 'blogs', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile' ) );
 
