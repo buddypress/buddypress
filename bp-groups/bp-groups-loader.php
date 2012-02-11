@@ -266,7 +266,7 @@ class BP_Groups_Component extends BP_Component {
 			'item_css_id'         => $this->id
 		);
 
-		$groups_link = trailingslashit( $bp->loggedin_user->domain . $this->slug );
+		$groups_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
 
 		// Add the My Groups nav item
 		$sub_nav[] = array(
@@ -412,7 +412,7 @@ class BP_Groups_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
-			$user_domain = $bp->loggedin_user->domain;
+			$user_domain = bp_loggedin_user_domain();
 			$groups_link = trailingslashit( $user_domain . $this->slug );
 
 			// Pending group invites

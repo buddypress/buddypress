@@ -224,7 +224,7 @@ class BP_Core extends BP_Component {
 				'default_subnav_slug' => 'public'
 			);
 
-			$profile_link = trailingslashit( $bp->loggedin_user->domain . '/' . $bp->core->profile->slug );
+			$profile_link = trailingslashit( bp_loggedin_user_domain() . '/' . $bp->core->profile->slug );
 
 			// Add the subnav items to the profile
 			$sub_nav[] = array(

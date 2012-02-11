@@ -96,6 +96,7 @@ class BP_Members_Component extends BP_Component {
 		$bp->displayed_user->fullname = bp_core_get_user_displayname( bp_displayed_user_id() );
 
 		/** Profiles Fallback *************************************************/
+
 		if ( !bp_is_active( 'xprofile' ) ) {
 			$bp->profile->slug = 'profile';
 			$bp->profile->id   = 'profile';
@@ -113,7 +114,7 @@ class BP_Members_Component extends BP_Component {
 		}
 
 		if ( !bp_current_component() && bp_displayed_user_id() ) {
-			$bp->current_component 		 = $bp->default_component;
+			$bp->current_component = $bp->default_component;
 			
 			// Prepare for a redirect to the canonical URL
 			$bp->redirect_stack['base_url']  = bp_displayed_user_domain();
@@ -147,7 +148,7 @@ class BP_Members_Component extends BP_Component {
 			);
 
 			// User links
-			$user_domain   = ( isset( $bp->displayed_user->domain ) )               ? $bp->displayed_user->domain               : $bp->loggedin_user->domain;
+			$user_domain   = bp_displayed_user_domain() ? bp_displayed_user_domain() : bp_loggedin_user_domain();
 			$profile_link  = trailingslashit( $user_domain . $bp->profile->slug );
 
 			// Add the subnav items to the profile

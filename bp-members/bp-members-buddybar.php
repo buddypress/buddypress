@@ -19,7 +19,7 @@ function bp_adminbar_notifications_menu() {
 	if ( !is_user_logged_in() )
 		return false;
 
-	echo '<li id="bp-adminbar-notifications-menu"><a href="' . $bp->loggedin_user->domain . '">';
+	echo '<li id="bp-adminbar-notifications-menu"><a href="' . bp_loggedin_user_domain() . '">';
 	_e( 'Notifications', 'buddypress' );
 
 	if ( $notifications = bp_core_get_notifications_for_user( bp_loggedin_user_id() ) ) { ?>
@@ -41,7 +41,7 @@ function bp_adminbar_notifications_menu() {
 		}
 	} else { ?>
 
-		<li><a href="<?php echo $bp->loggedin_user->domain ?>"><?php _e( 'No new notifications.', 'buddypress' ); ?></a></li>
+		<li><a href="<?php echo bp_loggedin_user_domain() ?>"><?php _e( 'No new notifications.', 'buddypress' ); ?></a></li>
 
 	<?php
 	}
@@ -131,15 +131,15 @@ function bp_members_adminbar_admin_menu() {
 
 			<?php if ( !bp_is_user_spammer( bp_displayed_user_id() ) ) : ?>
 
-				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/mark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php printf( __( "Mark as Spammer", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ); ?></a></li>
+				<li><a href="<?php echo wp_nonce_url( bp_displayed_user_domain() . 'admin/mark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php printf( __( "Mark as Spammer", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ); ?></a></li>
 
 			<?php else : ?>
 
-				<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/unmark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Not a Spammer", 'buddypress' ) ?></a></li>
+				<li><a href="<?php echo wp_nonce_url( bp_displayed_user_domain() . 'admin/unmark-spammer/', 'mark-unmark-spammer' ) ?>" class="confirm"><?php _e( "Not a Spammer", 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
 
-			<li><a href="<?php echo wp_nonce_url( $bp->displayed_user->domain . 'admin/delete-user/', 'delete-user' ) ?>" class="confirm"><?php printf( __( "Delete %s's Account", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ); ?></a></li>
+			<li><a href="<?php echo wp_nonce_url( bp_displayed_user_domain() . 'admin/delete-user/', 'delete-user' ) ?>" class="confirm"><?php printf( __( "Delete %s's Account", 'buddypress' ), esc_attr( $bp->displayed_user->fullname ) ); ?></a></li>
 
 			<?php do_action( 'bp_members_adminbar_admin_menu' ) ?>
 

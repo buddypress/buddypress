@@ -108,7 +108,7 @@ class BP_Messages_Component extends BP_Component {
 		);
 
 		// Link to user messages
-		$messages_link = trailingslashit( $bp->loggedin_user->domain . $this->slug );
+		$messages_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
 
 		// Add the subnav items to the profile
 		$sub_nav[] = array(
@@ -171,7 +171,7 @@ class BP_Messages_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
-			$user_domain   = $bp->loggedin_user->domain;
+			$user_domain   = bp_loggedin_user_domain();
 			$messages_link = trailingslashit( $user_domain . $this->slug );
 
 			// Unread message count

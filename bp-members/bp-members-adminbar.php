@@ -36,7 +36,7 @@ function bp_members_admin_bar_my_account_menu() {
 			'id'     => $bp->my_account_menu_id,
 			'group'  => true,
 			'title'  => __( 'Edit My Profile', 'buddypress' ),
-			'href'   => $bp->loggedin_user->domain,
+			'href'   => bp_loggedin_user_domain(),
 			'meta'   => array(
 			'class'  => 'ab-sub-secondary'
 		) ) );

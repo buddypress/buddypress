@@ -39,7 +39,7 @@ function bp_core_new_nav_item( $args = '' ) {
 	$bp->bp_nav[$slug] = array(
 		'name'                    => $name,
 		'slug'                    => $slug,
-		'link'                    => trailingslashit( $bp->loggedin_user->domain . $slug ),
+		'link'                    => trailingslashit( bp_loggedin_user_domain() . $slug ),
 		'css_id'                  => $item_css_id,
 		'show_for_displayed_user' => $show_for_displayed_user,
 		'position'                => $position,
@@ -475,8 +475,8 @@ function bp_adminbar_account_menu() {
 				$link = $subnav_item['link'];
 				$name = $subnav_item['name'];
 
-				if ( isset( $bp->displayed_user->domain ) )
-					$link = str_replace( $bp->displayed_user->domain, $bp->loggedin_user->domain, $subnav_item['link'] );
+				if ( bp_displayed_user_domain() )
+					$link = str_replace( bp_displayed_user_domain(), bp_loggedin_user_domain(), $subnav_item['link'] );
 
 				if ( isset( $bp->displayed_user->userdata->user_login ) )
 					$name = str_replace( $bp->displayed_user->userdata->user_login, $bp->loggedin_user->userdata->user_login, $subnav_item['name'] );

@@ -88,10 +88,10 @@ class BP_Settings_Component extends BP_Component {
 		);
 
 		// Determine user to use
-		if ( isset( $bp->displayed_user->domain ) )
-			$user_domain = $bp->displayed_user->domain;
-		elseif ( isset( $bp->loggedin_user->domain ) )
-			$user_domain = $bp->loggedin_user->domain;
+		if ( bp_displayed_user_domain() )
+			$user_domain = bp_displayed_user_domain();
+		elseif ( bp_loggedin_user_domain() )
+			$user_domain = bp_loggedin_user_domain();
 		else
 			return;
 
@@ -150,7 +150,7 @@ class BP_Settings_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
-			$user_domain   = $bp->loggedin_user->domain;
+			$user_domain   = bp_loggedin_user_domain();
 			$settings_link = trailingslashit( $user_domain . $this->slug );
 
 			// Add main Settings menu

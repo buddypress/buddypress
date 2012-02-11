@@ -115,16 +115,16 @@ function bp_dtheme_activity_template_loader() {
 	// We need to calculate and return the feed URL for each scope
 	switch ( $scope ) {
 		case 'friends':
-			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/friends/feed/';
+			$feed_url = bp_loggedin_user_domain() . bp_get_activity_slug() . '/friends/feed/';
 			break;
 		case 'groups':
-			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/groups/feed/';
+			$feed_url = bp_loggedin_user_domain() . bp_get_activity_slug() . '/groups/feed/';
 			break;
 		case 'favorites':
-			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/favorites/feed/';
+			$feed_url = bp_loggedin_user_domain() . bp_get_activity_slug() . '/favorites/feed/';
 			break;
 		case 'mentions':
-			$feed_url = $bp->loggedin_user->domain . bp_get_activity_slug() . '/mentions/feed/';
+			$feed_url = bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/feed/';
 			bp_activity_clear_new_mentions( bp_loggedin_user_id() );
 			break;
 		default:
@@ -438,7 +438,7 @@ function bp_dtheme_ajax_invite_user() {
 		echo '<h4>' . $user->user_link . '</h4>';
 		echo '<span class="activity">' . esc_attr( $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="button remove" href="' . wp_nonce_url( $bp->loggedin_user->domain . bp_get_groups_slug() . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . esc_attr( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
+				<a class="button remove" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . esc_attr( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
 			  </div>';
 		echo '</li>';
 
@@ -466,7 +466,7 @@ function bp_dtheme_ajax_addremove_friend() {
 		if ( !friends_remove_friend( bp_loggedin_user_id(), $_POST['fid'] ) ) {
 			echo __("Friendship could not be canceled.", 'buddypress');
 		} else {
-			echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __( 'Add Friend', 'buddypress' ) . '" href="' . wp_nonce_url( $bp->loggedin_user->domain . bp_get_friends_slug() . '/add-friend/' . $_POST['fid'], 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
+			echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __( 'Add Friend', 'buddypress' ) . '" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/add-friend/' . $_POST['fid'], 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
 		}
 
 	} else if ( 'not_friends' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $_POST['fid'] ) ) {
@@ -476,7 +476,7 @@ function bp_dtheme_ajax_addremove_friend() {
 		if ( !friends_add_friend( bp_loggedin_user_id(), $_POST['fid'] ) ) {
 			echo __("Friendship could not be requested.", 'buddypress');
 		} else {
-			echo '<a href="' . $bp->loggedin_user->domain . bp_get_friends_slug() . '/requests" class="requested">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
+			echo '<a href="' . bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests" class="requested">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
 		}
 	} else {
 		echo __( 'Request Pending', 'buddypress' );
@@ -588,7 +588,7 @@ function bp_dtheme_ajax_messages_send_reply() {
 				<?php do_action( 'bp_before_message_meta' ) ?>
 				<?php echo bp_loggedin_user_avatar( 'type=thumb&width=30&height=30' ); ?>
 
-				<strong><a href="<?php echo $bp->loggedin_user->domain ?>"><?php echo $bp->loggedin_user->fullname ?></a> <span class="activity"><?php printf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ) ?></span></strong>
+				<strong><a href="<?php echo bp_loggedin_user_domain() ?>"><?php echo $bp->loggedin_user->fullname ?></a> <span class="activity"><?php printf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ) ?></span></strong>
 
 				<?php do_action( 'bp_after_message_meta' ) ?>
 			</div>

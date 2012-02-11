@@ -267,7 +267,7 @@ function bp_the_profile_group_edit_form_action() {
 	function bp_get_the_profile_group_edit_form_action() {
 		global $bp, $group;
 
-		return apply_filters( 'bp_get_the_profile_group_edit_form_action', trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $group->id ) );
+		return apply_filters( 'bp_get_the_profile_group_edit_form_action', trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/' . $group->id ) );
 	}
 
 function bp_the_profile_group_field_ids() {
@@ -742,7 +742,7 @@ function bp_profile_group_tabs() {
 			$selected = '';
 
 		if ( !empty( $groups[$i]->fields ) ) {
-			$link = trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . $groups[$i]->id );
+			$link = trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/' . $groups[$i]->id );
 			$tabs[] = sprintf( '<li %1$s><a href="%2$s">%3$s</a></li>', $selected, $link, esc_html( $groups[$i]->name ) );
 		}
 	}
@@ -780,7 +780,7 @@ function bp_avatar_upload_form() {
 	global $bp;
 
 	if ( !(int)$bp->site_options['bp-disable-avatar-uploads'] )
-		bp_core_avatar_admin( null, $bp->loggedin_user->domain . $bp->profile->slug . '/change-avatar/', $bp->loggedin_user->domain . $bp->profile->slug . '/delete-avatar/' );
+		bp_core_avatar_admin( null, bp_loggedin_user_domain() . $bp->profile->slug . '/change-avatar/', bp_loggedin_user_domain() . $bp->profile->slug . '/delete-avatar/' );
 	else
 		_e( 'Avatar uploads are currently disabled. Why not use a <a href="http://gravatar.com" target="_blank">gravatar</a> instead?', 'buddypress' );
 }
@@ -821,7 +821,7 @@ function bp_avatar_delete_link() {
 	function bp_get_avatar_delete_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( $bp->displayed_user->domain . $bp->profile->slug . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
+		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( bp_displayed_user_domain() . $bp->profile->slug . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
 	}
 
 function bp_get_user_has_avatar() {
@@ -840,7 +840,7 @@ function bp_edit_profile_button() {
 		'component'         => 'xprofile',
 		'must_be_logged_in' => true,
 		'block_self'        => true,
-		'link_href'         => trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit' ),
+		'link_href'         => trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit' ),
 		'link_class'        => 'edit',
 		'link_text'         => __( 'Edit Profile', 'buddypress' ),
 		'link_title'        => __( 'Edit Profile', 'buddypress' ),

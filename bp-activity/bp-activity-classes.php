@@ -80,7 +80,7 @@ class BP_Activity_Activity {
 			return false;
 
 		if ( !$this->primary_link )
-			$this->primary_link = $bp->loggedin_user->domain;
+			$this->primary_link = bp_loggedin_user_domain();
 
 		// If we have an existing ID, update the activity item, otherwise insert it.
 		if ( $this->id )

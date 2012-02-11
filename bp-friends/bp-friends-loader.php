@@ -100,7 +100,7 @@ class BP_Friends_Component extends BP_Component {
 			'item_css_id'         => $bp->friends->id
 		);
 
-		$friends_link = trailingslashit( $bp->loggedin_user->domain . bp_get_friends_slug() );
+		$friends_link = trailingslashit( bp_loggedin_user_domain() . bp_get_friends_slug() );
 
 		// Add the subnav items to the friends nav item
 		$sub_nav[] = array(
@@ -141,7 +141,7 @@ class BP_Friends_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
-			$user_domain  = $bp->loggedin_user->domain;
+			$user_domain  = bp_loggedin_user_domain();
 			$friends_link = trailingslashit( $user_domain . $this->slug );
 
 			// Pending friend requests

@@ -141,9 +141,9 @@ function bp_core_action_delete_user() {
 		do_action( 'bp_core_action_delete_user', $errors );
 
 		if ( $errors )
-			bp_core_redirect( $bp->displayed_user->domain );
+			bp_core_redirect( bp_displayed_user_domain() );
 		else
-			bp_core_redirect( $bp->loggedin_user->domain );
+			bp_core_redirect( bp_loggedin_user_domain() );
 	}
 }
 add_action( 'bp_actions', 'bp_core_action_delete_user' );

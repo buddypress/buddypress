@@ -38,7 +38,7 @@ function bp_adminbar_blogs_menu() {
 	$counter = 0;
 	if ( is_array( $blogs['blogs'] ) && (int)$blogs['count'] ) {
 
-		echo '<li id="bp-adminbar-blogs-menu"><a href="' . trailingslashit( $bp->loggedin_user->domain . bp_get_blogs_slug() ) . '">';
+		echo '<li id="bp-adminbar-blogs-menu"><a href="' . trailingslashit( bp_loggedin_user_domain() . bp_get_blogs_slug() ) . '">';
 
 		_e( 'My Sites', 'buddypress' );
 

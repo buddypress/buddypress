@@ -62,7 +62,7 @@ function xprofile_screen_edit_profile() {
 
 		// Check we have field ID's
 		if ( empty( $_POST['field_ids'] ) )
-			bp_core_redirect( trailingslashit( $bp->displayed_user->domain . $bp->profile->slug . '/edit/group/' . bp_action_variable( 1 ) ) );
+			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/' . bp_action_variable( 1 ) ) );
 
 		// Explode the posted field IDs into an array so we know which
 		// fields have been submitted

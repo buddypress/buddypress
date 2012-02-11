@@ -754,10 +754,10 @@ function bp_get_displayed_user_nav() {
 			$selected = ' class="current selected"';
 		}
 
-		if ( $bp->loggedin_user->domain ) {
-			$link = str_replace( $bp->loggedin_user->domain, $bp->displayed_user->domain, $user_nav_item['link'] );
+		if ( bp_loggedin_user_domain() ) {
+			$link = str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $user_nav_item['link'] );
 		} else {
-			$link = trailingslashit( $bp->displayed_user->domain . $user_nav_item['link'] );
+			$link = trailingslashit( bp_displayed_user_domain() . $user_nav_item['link'] );
 		}
 
 		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], array( '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item ) );
@@ -1180,9 +1180,9 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 
 		// Append $action to $url if there is no $type
 		if ( !empty( $action ) )
-			$url = $bp->displayed_user->domain . $bp->{$component}->slug . '/' . $action;
+			$url = bp_displayed_user_domain() . $bp->{$component}->slug . '/' . $action;
 		else
-			$url = $bp->displayed_user->domain . $bp->{$component}->slug;
+			$url = bp_displayed_user_domain() . $bp->{$component}->slug;
 
 		// Add a slash at the end of our user url
 		$url = trailingslashit( $url );

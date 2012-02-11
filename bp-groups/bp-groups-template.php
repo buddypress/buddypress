@@ -674,7 +674,7 @@ function bp_group_all_members_permalink() {
 function bp_group_search_form() {
 	global $bp;
 
-	$action = $bp->displayed_user->domain . bp_get_groups_slug() . '/my-groups/search/';
+	$action = bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/search/';
 	$label = __('Filter Groups', 'buddypress');
 	$name = 'group-filter-box';
 
@@ -1403,7 +1403,7 @@ function bp_group_accept_invite_link() {
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( trailingslashit( $bp->loggedin_user->domain . bp_get_groups_slug() . '/invites/accept/' . $group->id ), 'groups_accept_invite' ) );
+		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/accept/' . $group->id ), 'groups_accept_invite' ) );
 	}
 
 function bp_group_reject_invite_link() {
@@ -1415,7 +1415,7 @@ function bp_group_reject_invite_link() {
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( trailingslashit( $bp->loggedin_user->domain . bp_get_groups_slug() . '/invites/reject/' . $group->id ), 'groups_reject_invite' ) );
+		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/reject/' . $group->id ), 'groups_reject_invite' ) );
 	}
 
 function bp_group_leave_confirm_link() {
@@ -2274,12 +2274,12 @@ function bp_directory_groups_search_form() {
 function bp_groups_header_tabs() {
 	global $bp;?>
 
-	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . bp_get_groups_slug() . '/my-groups/recently-active' ) ?>"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . bp_get_groups_slug() . '/my-groups/recently-joined' ) ?>"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'most-popular', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . bp_get_groups_slug() . '/my-groups/most-popular' ) ?>"><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'admin-of', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . bp_get_groups_slug() . '/my-groups/admin-of' ) ?>"><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'mod-of', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . bp_get_groups_slug() . '/my-groups/mod-of' ) ?>"><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'alphabetically' ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $bp->displayed_user->domain . bp_get_groups_slug() . '/my-groups/alphabetically' ) ?>"><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/recently-active' ) ?>"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/recently-joined' ) ?>"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'most-popular', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/most-popular' ) ?>"><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'admin-of', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/admin-of' ) ?>"><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'mod-of', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/mod-of' ) ?>"><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'alphabetically' ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/alphabetically' ) ?>"><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
 
 <?php
 	do_action( 'groups_header_tabs' );

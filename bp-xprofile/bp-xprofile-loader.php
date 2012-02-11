@@ -121,7 +121,7 @@ class BP_XProfile_Component extends BP_Component {
 			'item_css_id'         => $this->id
 		);
 
-		$profile_link = trailingslashit( $bp->loggedin_user->domain . $this->slug );
+		$profile_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
 
 		// Add the subnav items to the profile
 		$sub_nav[] = array(
@@ -171,7 +171,7 @@ class BP_XProfile_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Profile link
-			$profile_link = trailingslashit( $bp->loggedin_user->domain . $this->slug );
+			$profile_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
 
 			// Add the "Profile" sub menu
 			$wp_admin_nav[] = array(

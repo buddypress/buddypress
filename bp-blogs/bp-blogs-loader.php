@@ -150,7 +150,7 @@ class BP_Blogs_Component extends BP_Component {
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
 
-			$blogs_link = trailingslashit( $bp->loggedin_user->domain . $this->slug );
+			$blogs_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
 
 			// Add the "Blogs" sub menu
 			$wp_admin_nav[] = array(
