@@ -128,27 +128,13 @@ function bp_core_get_table_prefix() {
  *
  * @package BuddyPress Core
  * @since 1.5
- *
- * @todo Remove the "Upgrading from an earlier version of BP pre-1.5" block. Temporary measure for
- *       people running trunk installations. Leave for a version or two, then remove.
  */
 function bp_core_get_directory_page_ids() {
 	$page_ids = bp_get_option( 'bp-pages' );
 
-  	// Upgrading from an earlier version of BP pre-1.5
-	if ( !isset( $page_ids['members'] ) && $ms_page_ids = get_site_option( 'bp-pages' ) ) {
-		$page_blog_id = bp_is_multiblog_mode() ? get_current_blog_id() : bp_get_root_blog_id();
-
-		if ( isset( $ms_page_ids[$page_blog_id] ) ) {
-			$page_ids = $ms_page_ids[$page_blog_id];
-
-			bp_update_option( 'bp-pages', $page_ids );
-		}
-  	}
-
 	// Ensure that empty indexes are unset. Should only matter in edge cases
-	if ( $page_ids && is_array( $page_ids ) ) {
-		foreach( (array)$page_ids as $component_name => $page_id ) {
+	if ( !empty( $page_ids ) && is_array( $page_ids ) ) {
+		foreach( (array) $page_ids as $component_name => $page_id ) {
 			if ( empty( $component_name ) || empty( $page_id ) ) {
 				unset( $page_ids[$component_name] );
 			}
@@ -188,7 +174,8 @@ function bp_core_get_directory_pages() {
 	$pages = new stdClass;
 
 	// Get pages and IDs
-	if ( $page_ids = bp_core_get_directory_page_ids() ) {
+	$page_ids = bp_core_get_directory_page_ids();
+	if ( !empty( $page_ids ) ) {
 
 		// Always get page data from the root blog, except on multiblog mode, when it comes
 		// from the current blog
@@ -196,8 +183,8 @@ function bp_core_get_directory_pages() {
 		$page_ids_sql     = implode( ',', (array)$page_ids );
 		$page_names       = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " ) );
 
-		foreach ( (array)$page_ids as $component_id => $page_id ) {
-			foreach ( (array)$page_names as $page_name ) {
+		foreach ( (array) $page_ids as $component_id => $page_id ) {
+			foreach ( (array) $page_names as $page_name ) {
 				if ( $page_name->ID == $page_id ) {
 					$pages->{$component_id}->name  = $page_name->post_name;
 					$pages->{$component_id}->id    = $page_name->ID;
@@ -211,7 +198,7 @@ function bp_core_get_directory_pages() {
 						$page_name->post_parent = $parent[0]->post_parent;
 					}
 
-					$pages->{$component_id}->slug = implode( '/', array_reverse( (array)$slug ) );
+					$pages->{$component_id}->slug = implode( '/', array_reverse( (array) $slug ) );
 				}
 
 				unset( $slug );
@@ -442,7 +429,8 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 			$seconds = $chunks[$i][0];
 
 			// Finding the biggest chunk (if the chunk fits, break)
-			if ( ( $count = floor($since / $seconds) ) != 0 ) {
+			$count = floor( $since / $seconds );
+			if ( 0 != $count ) {
 				break;
 			}
 		}
@@ -459,16 +447,17 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 			// Step two: the second chunk
 			if ( $i + 2 < $j ) {
 				$seconds2 = $chunks[$i + 1][0];
-				$name2 = $chunks[$i + 1][1];
+				$name2    = $chunks[$i + 1][1];
+				$count2   = floor( ( $since - ( $seconds * $count ) ) / $seconds2 );
 
-				if ( ( $count2 = floor( ( $since - ( $seconds * $count ) ) / $seconds2 ) ) != 0 ) {
-					// Add to output var
-					$output .= ( 1 == $count2 ) ? _x( ',', 'Separator in time since', 'buddypress' ) . ' 1 '. $chunks[$i + 1][1] : _x( ',', 'Separator in time since', 'buddypress' ) . ' ' . $count2 . ' ' . $chunks[$i + 1][2];
+				// Add to output var
+				if ( 0 != $count ) {
+					$output .= ( 1 == $count2 ) ? _x( ',', 'Separator in time since', 'buddypress' ) . ' 1 '. $name2 : _x( ',', 'Separator in time since', 'buddypress' ) . ' ' . $count2 . ' ' . $chunks[$i + 1][2];
 				}
 			}
 
 			// No output, so happened right now
-			if ( !(int)trim( $output ) ) {
+			if ( ! (int) trim( $output ) ) {
 				$output = $right_now_text;
 			}
 		}
