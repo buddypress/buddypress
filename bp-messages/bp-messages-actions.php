@@ -8,7 +8,7 @@
  * back to the default screen after execution.
  *
  * @package BuddyPress
- * @subpackage SettingsActions
+ * @subpackage MessagesActions
  */
 
 // Exit if accessed directly
