@@ -22,7 +22,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function bp_is_update() {
 
 	// Current DB version of this site (per site in a multisite network)
-	$current_db   = get_option( '_bp_db_version' );
+	$current_db   = bp_get_option( '_bp_db_version' );
 	$current_live = bp_get_db_version();
 
 	// Compare versions (cast as int and bool to be safe)
