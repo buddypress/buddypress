@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-12 20:36:08+00:00\n"
+"POT-Creation-Date: 2012-02-12 22:36:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1018,7 +1018,7 @@ msgid "Max posts to show:"
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:26
-#: bp-core/admin/bp-core-functions.php:416 bp-core/admin/bp-core-update.php:88
+#: bp-core/admin/bp-core-functions.php:366 bp-core/admin/bp-core-update.php:88
 #: bp-core/admin/bp-core-update.php:103 bp-core/admin/bp-core-update.php:227
 msgid "Components"
 msgstr ""
@@ -1164,12 +1164,12 @@ msgstr ""
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:420 bp-core/admin/bp-core-slugs.php:26
+#: bp-core/admin/bp-core-functions.php:370 bp-core/admin/bp-core-slugs.php:26
 #: bp-core/admin/bp-core-update.php:90 bp-core/admin/bp-core-update.php:235
 msgid "Permalinks"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:424
+#: bp-core/admin/bp-core-functions.php:374
 #: bp-core/admin/bp-core-settings.php:223 bp-core/bp-core-admin.php:426
 #: bp-groups/bp-groups-loader.php:217 bp-groups/bp-groups-template.php:1278
 #: bp-settings/bp-settings-loader.php:23 bp-settings/bp-settings-loader.php:82
@@ -1177,7 +1177,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:432 bp-core/admin/bp-core-update.php:441
+#: bp-core/admin/bp-core-functions.php:382 bp-core/admin/bp-core-update.php:441
 #: bp-core/bp-core-template.php:266 bp-forums/bp-forums-admin.php:31
 #: bp-forums/bp-forums-admin.php:271 bp-forums/bp-forums-loader.php:111
 #: bp-forums/bp-forums-loader.php:190 bp-forums/bp-forums-loader.php:233
@@ -1691,19 +1691,19 @@ msgstr ""
 msgid "Installation was successful. The available options have now been updated, please continue with your selection."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1269
+#: bp-core/admin/bp-core-update.php:1249
 msgid "BuddyPress Setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1271
+#: bp-core/admin/bp-core-update.php:1251
 msgid "Update BuddyPress"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1330
+#: bp-core/admin/bp-core-update.php:1310
 msgid "BuddyPress has been updated! Please run the <a href=\"%s\">update wizard</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:1335
+#: bp-core/admin/bp-core-update.php:1315
 msgid "BuddyPress was successfully activated! Please run the <a href=\"%s\">installation wizard</a>."
 msgstr ""
 
