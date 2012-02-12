@@ -42,7 +42,7 @@
 
 					<?php if ( is_user_logged_in() ) : ?>
 
-						<?php do_action( 'bp_before_activity_type_tab_friends' ) ?>
+						<?php do_action( 'bp_before_activity_type_tab_friends' ); ?>
 
 						<?php if ( bp_is_active( 'friends' ) ) : ?>
 
@@ -54,7 +54,7 @@
 
 						<?php endif; ?>
 
-						<?php do_action( 'bp_before_activity_type_tab_groups' ) ?>
+						<?php do_action( 'bp_before_activity_type_tab_groups' ); ?>
 
 						<?php if ( bp_is_active( 'groups' ) ) : ?>
 
@@ -86,7 +86,7 @@
 
 			<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
 				<ul>
-					<li class="feed"><a href="<?php bp_sitewide_activity_feed_link() ?>" title="<?php _e( 'RSS Feed', 'buddypress' ); ?>"><?php _e( 'RSS', 'buddypress' ); ?></a></li>
+					<li class="feed"><a href="<?php bp_sitewide_activity_feed_link(); ?>" title="<?php _e( 'RSS Feed', 'buddypress' ); ?>"><?php _e( 'RSS', 'buddypress' ); ?></a></li>
 
 					<?php do_action( 'bp_activity_syndication_options' ); ?>
 

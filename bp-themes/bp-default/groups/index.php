@@ -26,7 +26,7 @@
 
 			<div id="group-dir-search" class="dir-search" role="search">
 
-				<?php bp_directory_groups_search_form() ?>
+				<?php bp_directory_groups_search_form(); ?>
 
 			</div><!-- #group-dir-search -->
 

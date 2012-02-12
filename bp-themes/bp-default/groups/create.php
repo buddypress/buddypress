@@ -41,7 +41,7 @@
 					<label for="group-name"><?php _e( 'Group Name (required)', 'buddypress' ); ?></label>
 					<input type="text" name="group-name" id="group-name" aria-required="true" value="<?php bp_new_group_name(); ?>" />
 
-					<label for="group-desc"><?php _e( 'Group Description (required)', 'buddypress' ) ?></label>
+					<label for="group-desc"><?php _e( 'Group Description (required)', 'buddypress' ); ?></label>
 					<textarea name="group-desc" id="group-desc" aria-required="true"><?php bp_new_group_description(); ?></textarea>
 
 					<?php
@@ -112,22 +112,22 @@
 
 					<h4><?php _e( 'Group Invitations', 'buddypress' ); ?></h4>
 
-					<p><?php _e( 'Which members of this group are allowed to invite others?', 'buddypress' ) ?></p>
+					<p><?php _e( 'Which members of this group are allowed to invite others?', 'buddypress' ); ?></p>
 
 					<div class="radio">
 						<label>
-							<input type="radio" name="group-invite-status" value="members"<?php bp_group_show_invite_status_setting( 'members' ) ?> />
-							<strong><?php _e( 'All group members', 'buddypress' ) ?></strong>
+							<input type="radio" name="group-invite-status" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> />
+							<strong><?php _e( 'All group members', 'buddypress' ); ?></strong>
 						</label>
 
 						<label>
-							<input type="radio" name="group-invite-status" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ) ?> />
-							<strong><?php _e( 'Group admins and mods only', 'buddypress' ) ?></strong>
+							<input type="radio" name="group-invite-status" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> />
+							<strong><?php _e( 'Group admins and mods only', 'buddypress' ); ?></strong>
 						</label>
 
 						<label>
-							<input type="radio" name="group-invite-status" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ) ?> />
-							<strong><?php _e( 'Group admins only', 'buddypress' ) ?></strong>
+							<input type="radio" name="group-invite-status" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> />
+							<strong><?php _e( 'Group admins only', 'buddypress' ); ?></strong>
 						</label>
 					</div>
 

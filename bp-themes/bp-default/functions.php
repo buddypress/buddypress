@@ -228,7 +228,7 @@ function bp_dtheme_admin_header_style() {
 		#headimg {
 			position: relative;
 			color: #fff;
-			background: url(<?php header_image() ?>);
+			background: url(<?php header_image(); ?>);
 			-moz-border-radius-bottomleft: 6px;
 			-webkit-border-bottom-left-radius: 6px;
 			-moz-border-radius-bottomright: 6px;
@@ -246,12 +246,12 @@ function bp_dtheme_admin_header_style() {
 			font-family: Arial, Tahoma, sans-serif;
 		}
 		#headimg h1 a{
-			color:#<?php header_textcolor() ?>;
+			color:#<?php header_textcolor(); ?>;
 			text-decoration: none;
 			border-bottom: none;
 		}
 		#headimg #desc{
-			color:#<?php header_textcolor() ?>;
+			color:#<?php header_textcolor(); ?>;
 			font-size:1em;
 			margin-top:-0.5em;
 		}
@@ -265,7 +265,7 @@ function bp_dtheme_admin_header_style() {
 			display: none;
 		}
 		#headimg h1 a, #headimg #desc {
-			color:#<?php echo HEADER_TEXTCOLOR ?>;
+			color:#<?php echo HEADER_TEXTCOLOR; ?>;
 		}
 		<?php } ?>
 	</style>
@@ -357,7 +357,7 @@ function bp_dtheme_header_style() {
 		<?php if ( 'blank' == get_header_textcolor() ) { ?>
 		#header h1, #header #desc { display: none; }
 		<?php } else { ?>
-		#header h1 a, #desc { color:#<?php header_textcolor() ?>; }
+		#header h1 a, #desc { color:#<?php header_textcolor(); ?>; }
 		<?php } ?>
 	</style>
 
@@ -461,14 +461,14 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 		$avatar_size = 25;
 	?>
 
-	<li <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
+	<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
 		<div class="comment-avatar-box">
 			<div class="avb">
-				<a href="<?php echo get_comment_author_url() ?>" rel="nofollow">
+				<a href="<?php echo get_comment_author_url(); ?>" rel="nofollow">
 					<?php if ( $comment->user_id ) : ?>
-						<?php echo bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => $avatar_size, 'height' => $avatar_size, 'email' => $comment->comment_author_email ) ) ?>
+						<?php echo bp_core_fetch_avatar( array( 'item_id' => $comment->user_id, 'width' => $avatar_size, 'height' => $avatar_size, 'email' => $comment->comment_author_email ) ); ?>
 					<?php else : ?>
-						<?php echo get_avatar( $comment, $avatar_size ) ?>
+						<?php echo get_avatar( $comment, $avatar_size ); ?>
 					<?php endif; ?>
 				</a>
 			</div>
@@ -489,7 +489,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 				 	<em class="moderate"><?php _e( 'Your comment is awaiting moderation.', 'buddypress' ); ?></em>
 				<?php endif; ?>
 
-				<?php comment_text() ?>
+				<?php comment_text(); ?>
 			</div>
 
 			<div class="comment-options">
@@ -498,7 +498,7 @@ function bp_dtheme_blog_comments( $comment, $args, $depth ) {
 					<?php endif; ?>
 
 					<?php if ( current_user_can( 'edit_comment', $comment->comment_ID ) ) : ?>
-						<?php printf( '<a class="button comment-edit-link bp-secondary-action" href="%1$s" title="%2$s">%3$s</a> ', get_edit_comment_link( $comment->comment_ID ), esc_attr__( 'Edit comment', 'buddypress' ), __( 'Edit', 'buddypress' ) ) ?>
+						<?php printf( '<a class="button comment-edit-link bp-secondary-action" href="%1$s" title="%2$s">%3$s</a> ', get_edit_comment_link( $comment->comment_ID ), esc_attr__( 'Edit comment', 'buddypress' ), __( 'Edit', 'buddypress' ) ); ?>
 					<?php endif; ?>
 
 			</div>
@@ -568,7 +568,7 @@ function bp_dtheme_show_notice() {
 	?>
 
 	<div id="message" class="updated fade">
-		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">custom header image</a> support and <a href="%s">sidebar widgets</a>.', 'buddypress' ), admin_url( 'themes.php?page=custom-header' ), admin_url( 'widgets.php' ) ) ?></p>
+		<p><?php printf( __( 'Theme activated! This theme contains <a href="%s">custom header image</a> support and <a href="%s">sidebar widgets</a>.', 'buddypress' ), admin_url( 'themes.php?page=custom-header' ), admin_url( 'widgets.php' ) ); ?></p>
 	</div>
 
 	<style type="text/css">#message2, #message0 { display: none; }</style>
@@ -673,11 +673,11 @@ function bp_dtheme_before_comment_form() {
 	<div class="comment-avatar-box">
 		<div class="avb">
 			<?php if ( bp_loggedin_user_id() ) : ?>
-				<a href="<?php echo bp_loggedin_user_domain() ?>">
-					<?php echo get_avatar( bp_loggedin_user_id(), 50 ) ?>
+				<a href="<?php echo bp_loggedin_user_domain(); ?>">
+					<?php echo get_avatar( bp_loggedin_user_id(), 50 ); ?>
 				</a>
 			<?php else : ?>
-				<?php echo get_avatar( 0, 50 ) ?>
+				<?php echo get_avatar( 0, 50 ); ?>
 			<?php endif; ?>
 		</div>
 	</div>

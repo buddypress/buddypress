@@ -179,7 +179,7 @@ function bp_dtheme_post_update() {
 
 	if ( bp_has_activities ( 'include=' . $activity_id ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
-			<?php locate_template( array( 'activity/entry.php' ), true ) ?>
+			<?php locate_template( array( 'activity/entry.php' ), true ); ?>
 		<?php endwhile; ?>
 	 <?php endif;
 }
@@ -576,21 +576,21 @@ function bp_dtheme_ajax_messages_send_reply() {
 	if ( $result ) { ?>
 		<div class="message-box new-message">
 			<div class="message-metadata">
-				<?php do_action( 'bp_before_message_meta' ) ?>
+				<?php do_action( 'bp_before_message_meta' ); ?>
 				<?php echo bp_loggedin_user_avatar( 'type=thumb&width=30&height=30' ); ?>
 
-				<strong><a href="<?php echo bp_loggedin_user_domain() ?>"><?php echo $bp->loggedin_user->fullname ?></a> <span class="activity"><?php printf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ) ?></span></strong>
+				<strong><a href="<?php echo bp_loggedin_user_domain(); ?>"><?php echo $bp->loggedin_user->fullname ?></a> <span class="activity"><?php printf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ); ?></span></strong>
 
-				<?php do_action( 'bp_after_message_meta' ) ?>
+				<?php do_action( 'bp_after_message_meta' ); ?>
 			</div>
 
-			<?php do_action( 'bp_before_message_content' ) ?>
+			<?php do_action( 'bp_before_message_content' ); ?>
 
 			<div class="message-content">
-				<?php echo stripslashes( apply_filters( 'bp_get_the_thread_message_content', $_REQUEST['content'] ) ) ?>
+				<?php echo stripslashes( apply_filters( 'bp_get_the_thread_message_content', $_REQUEST['content'] ) ); ?>
 			</div>
 
-			<?php do_action( 'bp_after_message_content' ) ?>
+			<?php do_action( 'bp_after_message_content' ); ?>
 
 			<div class="clear"></div>
 		</div>

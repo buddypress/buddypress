@@ -17,7 +17,7 @@ do_action( 'bp_before_group_header' );
 		if ( bp_group_has_moderators() ) :
 			do_action( 'bp_before_group_menu_mods' ); ?>
 
-			<h3><?php _e( 'Group Mods' , 'buddypress' ) ?></h3>
+			<h3><?php _e( 'Group Mods' , 'buddypress' ); ?></h3>
 
 			<?php bp_group_list_mods();
 

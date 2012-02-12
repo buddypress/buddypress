@@ -9,12 +9,12 @@
  * @since 1.5
  */
 
-get_header() ?>
+get_header(); ?>
 
 	<div id="content">
 		<div class="padder one-column">
 
-		<?php do_action( 'bp_before_blog_page' ) ?>
+		<?php do_action( 'bp_before_blog_page' ); ?>
 
 		<div class="page" id="blog-page" role="main">
 
@@ -41,7 +41,7 @@ get_header() ?>
 
 		</div><!-- .page -->
 
-		<?php do_action( 'bp_after_blog_page' ) ?>
+		<?php do_action( 'bp_after_blog_page' ); ?>
 
 		</div><!-- .padder -->
 	</div><!-- #content -->

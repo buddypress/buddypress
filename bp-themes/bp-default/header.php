@@ -11,9 +11,9 @@
 
 	</head>
 
-	<body <?php body_class() ?> id="bp-default">
+	<body <?php body_class(); ?> id="bp-default">
 
-		<?php do_action( 'bp_before_header' ) ?>
+		<?php do_action( 'bp_before_header' ); ?>
 
 		<div id="header">
 			<div id="search-bar" role="search">

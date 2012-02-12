@@ -39,7 +39,7 @@
 
 				<div id="whats-new-post-in-box">
 
-					<?php _e( 'Post in', 'buddypress' ) ?>:
+					<?php _e( 'Post in', 'buddypress' ); ?>:
 
 					<select id="whats-new-post-in" name="whats-new-post-in">
 						<option selected="selected" value="0"><?php _e( 'My Profile', 'buddypress' ); ?></option>

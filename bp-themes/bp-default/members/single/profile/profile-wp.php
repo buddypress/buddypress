@@ -1,8 +1,8 @@
-<?php do_action( 'bp_before_profile_loop_content' ) ?>
+<?php do_action( 'bp_before_profile_loop_content' ); ?>
 
 <?php $ud = get_userdata( bp_displayed_user_id() ); ?>
 
-<?php do_action( 'bp_before_profile_field_content' ) ?>
+<?php do_action( 'bp_before_profile_field_content' ); ?>
 
 	<div class="bp-widget wp-profile">
 		<h4><?php bp_is_my_profile() ? _e( 'My Profile', 'buddypress' ) : printf( __( "%s's Profile", 'buddypress' ), bp_get_displayed_user_fullname() ); ?></h4>
@@ -66,8 +66,8 @@
 		</table>
 	</div>
 
-<?php do_action( 'bp_after_profile_field_content' ) ?>
+<?php do_action( 'bp_after_profile_field_content' ); ?>
 
-<?php do_action( 'bp_profile_field_buttons' ) ?>
+<?php do_action( 'bp_profile_field_buttons' ); ?>
 
-<?php do_action( 'bp_after_profile_loop_content' ) ?>
+<?php do_action( 'bp_after_profile_loop_content' ); ?>

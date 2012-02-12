@@ -24,7 +24,7 @@
 					<option value="newest"><?php _e( 'Newly Created', 'buddypress' ); ?></option>
 					<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
 
-					<?php do_action( 'bp_member_group_order_options' ) ?>
+					<?php do_action( 'bp_member_group_order_options' ); ?>
 
 				</select>
 			</li>

@@ -9,7 +9,7 @@
 
 				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-					<?php do_action( 'bp_before_blog_post' ) ?>
+					<?php do_action( 'bp_before_blog_post' ); ?>
 
 					<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
@@ -19,7 +19,7 @@
 						</div>
 
 						<div class="post-content">
-							<h2 class="posttitle"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php _e( 'Permanent Link to', 'buddypress' ) ?> <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+							<h2 class="posttitle"><a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php _e( 'Permanent Link to', 'buddypress' ); ?> <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
 
 							<p class="date">
 								<?php the_date(); ?>
@@ -53,19 +53,19 @@
 
 					</div>
 
-					<?php do_action( 'bp_after_blog_post' ) ?>
+					<?php do_action( 'bp_after_blog_post' ); ?>
 
 					<?php comments_template(); ?>
 
 				<?php endwhile; else: ?>
 
-					<p><?php _e( 'Sorry, no attachments matched your criteria.', 'buddypress' ) ?></p>
+					<p><?php _e( 'Sorry, no attachments matched your criteria.', 'buddypress' ); ?></p>
 
 				<?php endif; ?>
 
 			</div>
 
-		<?php do_action( 'bp_after_attachment' ) ?>
+		<?php do_action( 'bp_after_attachment' ); ?>
 
 		</div><!-- .padder -->
 	</div><!-- #content -->

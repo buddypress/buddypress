@@ -1,4 +1,4 @@
-<?php get_header() ?>
+<?php get_header(); ?>
 
 	<div id="content">
 		<div class="padder one-column">
@@ -12,8 +12,8 @@
 				<?php do_action( 'bp_404' ); ?>
 			</div>
 
-			<?php do_action( 'bp_after_404' ) ?>
+			<?php do_action( 'bp_after_404' ); ?>
 		</div><!-- .padder -->
 	</div><!-- #content -->
 
-<?php get_footer() ?>
+<?php get_footer(); ?>
