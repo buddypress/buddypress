@@ -331,56 +331,6 @@ add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update
 /** UI/Styling ****************************************************************/
 
 /**
- * bp_core_admin_menu_icon_css()
- *
- * Add a hover-able icon to the "BuddyPress" wp-admin area menu.
- *
- * @package BuddyPress Core
- */
-function bp_core_admin_menu_icon_css() {
-	global $bp; ?>
-
-	<style type="text/css">
-		/* Wizard Icon */
-		ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a img { display: none; }
-		ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-wizard.wp-has-current-submenu .wp-menu-image a {
-			background-position: -1px 0;
-		}
-
-		/* Settings Icon */
-		ul#adminmenu li.toplevel_page_bp-components .wp-menu-image a img,
-		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img {
-			display: none;
-		}
-
-		ul#adminmenu li.toplevel_page_bp-components .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a {
-			background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px;
-		}
-
-		ul#adminmenu li.toplevel_page_bp-components:hover .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-components.wp-has-current-submenu .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a {
-			background-position: -1px 0;
-		}
-
-		/* Activity Icon */
-		ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a img { display: none; }
-		ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image a {
-			background-position: -1px 0;
-		}
-	</style>
-
-<?php
-}
-add_action( 'admin_head', 'bp_core_admin_menu_icon_css' );
-
-/**
  * Loads admin panel styles and scripts.
  *
  * @package BuddyPress Core

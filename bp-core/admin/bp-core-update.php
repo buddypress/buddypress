@@ -1192,27 +1192,7 @@ function bp_core_update_add_admin_menu_styles() {
 	}
 
 	wp_enqueue_script( 'thickbox' );
-	wp_enqueue_style( 'thickbox' ); ?>
-
-	<style type="text/css">
-		/* Wizard Icon */
-		ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a img { display: none; }
-		ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-wizard.wp-has-current-submenu .wp-menu-image a {
-			background-position: -1px 0;
-		}
-
-		/* Settings Icon */
-		ul#adminmenu li.toplevel_page_bp-general-config .wp-menu-image a img { display: none; }
-		ul#adminmenu li.toplevel_page_bp-general-config .wp-menu-image a { background-image: url( <?php echo plugins_url( 'buddypress/bp-core/images/admin_menu_icon.png' ) ?> ) !important; background-position: -1px -32px; }
-		ul#adminmenu li.toplevel_page_bp-general-config:hover .wp-menu-image a,
-		ul#adminmenu li.toplevel_page_bp-general-config.wp-has-current-submenu .wp-menu-image a {
-			background-position: -1px 0;
-		}
-	</style>
-
-<?php
+	wp_enqueue_style( 'thickbox' );
 }
 add_action( 'admin_head', 'bp_core_update_add_admin_menu_styles' );
 

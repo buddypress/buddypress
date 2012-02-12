@@ -554,7 +554,7 @@ function bp_activity_admin_edit() {
 ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress' ); ?>
+		<?php screen_icon( 'buddypress-activity' ); ?>
 		<h2><?php printf( __( 'Editing Activity (ID #%s)', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?></h2>
 
 		<?php if ( ! empty( $activity ) ) : ?>
@@ -817,7 +817,7 @@ function bp_activity_admin_index() {
 ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress' ); ?>
+		<?php screen_icon( 'buddypress-activity' ); ?>
 		<h2>
 			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
 				<?php printf( __( 'Activity related to ID #%s', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?>

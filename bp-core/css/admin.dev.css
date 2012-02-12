@@ -1,12 +1,73 @@
+
+/* Icon 32
+------------------------------------------------------------------------------*/
+
 div#icon-buddypress {
-	background: url( ../images/icons32.png ) no-repeat -4px 0px;
+	background: url( ../images/icons32.png ) no-repeat -370px -6px;
 }
+
+div#icon-buddypress-activity {
+	background: url( ../images/icons32.png ) no-repeat -10px -6px;
+}
+
+/* Menu Icons
+------------------------------------------------------------------------------*/
+
+ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a img {
+	display: none;
+}
+ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a {
+	background-image: url( '../images/menu.png' ) !important;
+	background-position: -178pxpx -34px;
+}
+ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-wizard.wp-has-current-submenu .wp-menu-image a {
+	background-position: -178px -2px;
+}
+
+/* Backpat Icon */
+ul#adminmenu li.toplevel_page_bp-components .wp-menu-image a img,
+ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img {
+	display: none;
+}
+
+ul#adminmenu li.toplevel_page_bp-components .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a {
+	background-image: url( '../images/menu.png' ) !important;
+	background-position: -178px -34px;
+}
+
+ul#adminmenu li.toplevel_page_bp-components:hover .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-components.wp-has-current-submenu .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a {
+	background-position: -178px -2px;
+}
+
+/* Activity Icon */
+ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a img {
+	display: none;
+}
+ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a {
+	background-image: url( '../images/menu.png' ) !important;
+	background-position: 0px -34px;
+}
+ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-activity.current .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image a {
+	background-position: 0 -2px;
+}
+
+/* General Admin Styling
+------------------------------------------------------------------------------*/
 
 div#bp-admin {
 	color: #555;
 	min-width: 680px;
-	}
-	div#bp-admin p { line-height: 170%; }
+}
+div#bp-admin p {
+	line-height: 170%;
+}
 
 form#bp-admin-form {
 	margin: 0 10px;
@@ -51,6 +112,7 @@ div#bp-admin-nav div.submit input {
 					background: #fff;
 					color: #555;
 				}
+
 	div#bp-admin-nav ol li span.complete {
 		background: url( ../images/completed.gif ) center left no-repeat;
 		padding: 6px;
