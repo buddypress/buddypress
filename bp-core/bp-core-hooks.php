@@ -67,10 +67,16 @@ add_action( 'bp_init', 'bp_setup_title',           8 );
 add_action( 'bp_ready', 'bp_actions', 2 );
 add_action( 'bp_ready', 'bp_screens', 4 );
 
+/** Theme *********************************************************************/
+
+// Piggy back WordPress theme actions
+add_action( 'wp_head',   'bp_head'   );
+add_action( 'wp_footer', 'bp_footer' );
+
 /** Admin Bar *****************************************************************/
 
 // Setup the navigation menu
-add_action( 'admin_bar_menu', 'bp_setup_admin_bar',      11 );
+add_action( 'admin_bar_menu', 'bp_setup_admin_bar', 11 );
 
 /** The hooks *****************************************************************/
 
@@ -214,6 +220,30 @@ if ( is_admin() ) {
 	//add_action( 'bp_admin_init',    'bp_setup_updater', 999 );
 
 	/** Filters ***************************************************************/
+}
+
+/** Theme *********************************************************************/
+
+/**
+ * Piggy-back action for BuddyPress specific <head> actions in a theme
+ *
+ * @since BuddyPress (1.6)
+ * 
+ * @uses do_action() Calls 'bp_head' hook
+ */
+function bp_head() {
+	do_action( 'bp_head' );
+}
+
+/**
+ * Piggy-back action for BuddyPress specific footer actions in a theme
+ *
+ * @since BuddyPress (1.6)
+ * 
+ * @uses do_action() Calls 'bp_footer' hook
+ */
+function bp_footer() {
+	do_action( 'bp_footer' );
 }
 
 ?>

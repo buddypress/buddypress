@@ -138,6 +138,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
  * @since 1.5
  */
 function bp_dtheme_enqueue_scripts() {
+
 	// Bump this when changes are made to bust cache
 	$version = '20111023';
 
@@ -157,8 +158,11 @@ function bp_dtheme_enqueue_scripts() {
 		'mark_as_fav'	    => __( 'Favorite', 'buddypress' ),
 		'remove_fav'	    => __( 'Remove Favorite', 'buddypress' )
 	);
-
 	wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
+
+	// Maybe enqueue comment reply JS
+	if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) )
+		wp_enqueue_script( 'comment-reply' );
 }
 add_action( 'wp_enqueue_scripts', 'bp_dtheme_enqueue_scripts' );
 endif;
