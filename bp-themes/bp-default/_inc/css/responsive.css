@@ -55,6 +55,23 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 		border-radius: 0.25em;
 		margin-bottom: 0;
 	}
+	.wp-caption {
+		width: 99%!important;
+	}
+	.entry {
+		width: 100%;
+	}
+	.entry img {
+		width: 100%;
+		height: auto;
+	}
+	.wp-caption img {
+		width: 99%;
+		height: auto;
+	}
+	#footer-widgets {
+		padding: 19px 10px;
+	}
 }
 
 
@@ -73,6 +90,27 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 		text-align: left;
 		top: 1em;
 		margin-bottom: 1.25em;
+	}
+	.wp-caption {
+		width: 99% !important;
+	}
+	.entry {
+		width: 100%;
+	}
+	.entry img {
+		width: 100%;
+		height: auto;
+	}
+	.wp-caption img {
+		width: 99%;
+		height: auto;
+	}
+	#footer-widget-area div.widget-area > ul {
+		float: left;
+		width: 100%;
+	}
+	#footer-widgets {
+		padding: 19px 10px;
 	}
 }
 
@@ -142,6 +180,27 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 		float: none;
 		width: 100%;
 	}
+ 	.wp-caption {
+		width: 99% !important;
+ 	}
+ 	.entry {
+		width: 100%;
+ 	}
+ 	.entry img {
+		width: 100%;
+		height: auto;
+ 	}
+ 	.wp-caption img {
+		width: 99%;
+		height: auto;
+ 	}
+	#footer-widget-area div.widget-area > ul {
+		float: left;
+		width: 100%;
+	}
+	#footer-widgets {
+		padding: 19px 10px;
+	}
 }
 
 
@@ -196,5 +255,29 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 	}
 	body.activity-permalink .activity-list li.mini .activity-meta {
 		left: 0;
+	}
+ 	div.post .entry {
+		width: 100%;
+ 	}
+ 	.wp-caption {
+		width: 99%!important;
+ 	}
+ 	.entry {
+		width: 100%;
+ 	}
+ 	.entry img {
+		width: 100%;
+		height: auto;
+ 	}
+ 	.wp-caption img {
+		width: 99%;
+		height: auto;
+ 	}
+ 	#footer-widget-area div.widget-area > ul {
+		float: left;
+		width: 100%;
+ 	}
+ 	#footer-widgets {
+		padding: 19px 10px;
 	}
 }
