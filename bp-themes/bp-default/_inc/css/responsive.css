@@ -56,17 +56,17 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 		margin-bottom: 0;
 	}
 	.wp-caption {
-		width: 99%!important;
+		width: 99% !important;
 	}
 	.entry {
 		width: 100%;
 	}
 	.entry img {
-		width: 100%;
+		max-width: 100%;
 		height: auto;
 	}
 	.wp-caption img {
-		width: 99%;
+		max-width: 99%;
 		height: auto;
 	}
 	#footer-widgets {
@@ -98,11 +98,11 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 		width: 100%;
 	}
 	.entry img {
-		width: 100%;
+		max-width: 100%;
 		height: auto;
 	}
 	.wp-caption img {
-		width: 99%;
+		max-width: 99%;
 		height: auto;
 	}
 	#footer-widget-area div.widget-area > ul {
@@ -187,11 +187,11 @@ Hello, this is the BuddyPress Responsive theme stylesheet
 		width: 100%;
  	}
  	.entry img {
-		width: 100%;
+		max-width: 100%;
 		height: auto;
  	}
  	.wp-caption img {
-		width: 99%;
+		max-width: 99%;
 		height: auto;
  	}
 	#footer-widget-area div.widget-area > ul {
