@@ -349,11 +349,12 @@ function bp_core_render_message() {
  * @return str
  */
 function bp_core_number_format( $number, $decimals = false ) {
-	// Check we actually have a number first.
-	if ( empty( $number ) )
-		return $number;
 
-	return apply_filters( 'bp_core_number_format', number_format( $number, $decimals ), $number, $decimals );
+	// Force number to 0 if needed
+	if ( empty( $number ) )
+		$number = 0;
+
+	return apply_filters( 'bp_core_number_format', number_format_i18n( $number, $decimals ), $number, $decimals );
 }
 
 /**
