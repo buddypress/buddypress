@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-13 04:36:08+00:00\n"
+"POT-Creation-Date: 2012-02-13 05:36:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1018,8 +1018,8 @@ msgid "Max posts to show:"
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:26
-#: bp-core/admin/bp-core-functions.php:350 bp-core/admin/bp-core-update.php:59
-#: bp-core/admin/bp-core-update.php:74 bp-core/admin/bp-core-update.php:203
+#: bp-core/admin/bp-core-functions.php:350 bp-core/admin/bp-core-update.php:57
+#: bp-core/admin/bp-core-update.php:73 bp-core/admin/bp-core-update.php:203
 msgid "Components"
 msgstr ""
 
@@ -1165,7 +1165,7 @@ msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administ
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:354 bp-core/admin/bp-core-slugs.php:26
-#: bp-core/admin/bp-core-update.php:61 bp-core/admin/bp-core-update.php:211
+#: bp-core/admin/bp-core-update.php:59 bp-core/admin/bp-core-update.php:211
 msgid "Permalinks"
 msgstr ""
 
@@ -1305,8 +1305,8 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:354 bp-core/admin/bp-core-update.php:60
-#: bp-core/admin/bp-core-update.php:75 bp-core/admin/bp-core-update.php:207
+#: bp-core/admin/bp-core-settings.php:354 bp-core/admin/bp-core-update.php:58
+#: bp-core/admin/bp-core-update.php:74 bp-core/admin/bp-core-update.php:207
 msgid "Pages"
 msgstr ""
 
@@ -1403,21 +1403,21 @@ msgstr ""
 msgid "Associate WordPress Pages with the following BuddyPress Registration pages."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:62 bp-core/admin/bp-core-update.php:215
+#: bp-core/admin/bp-core-update.php:60 bp-core/admin/bp-core-update.php:215
 msgid "Theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:63 bp-core/admin/bp-core-update.php:82
+#: bp-core/admin/bp-core-update.php:61 bp-core/admin/bp-core-update.php:82
 #: bp-core/admin/bp-core-update.php:180 bp-core/admin/bp-core-update.php:223
 #: bp-themes/bp-default/groups/create.php:296
 msgid "Finish"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:70 bp-core/admin/bp-core-update.php:199
+#: bp-core/admin/bp-core-update.php:68 bp-core/admin/bp-core-update.php:199
 msgid "Database Update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:80 bp-core/admin/bp-core-update.php:219
+#: bp-core/admin/bp-core-update.php:79 bp-core/admin/bp-core-update.php:219
 #: bp-core/bp-core-admin.php:314
 msgid "Admin Bar"
 msgstr ""
@@ -1930,80 +1930,80 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:376
+#: bp-core/bp-core-functions.php:377
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:377
+#: bp-core/bp-core-functions.php:378
 msgid "right now"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:378
+#: bp-core/bp-core-functions.php:379
 msgid "%s ago"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:382
+#: bp-core/bp-core-functions.php:383
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:382
+#: bp-core/bp-core-functions.php:383
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:383
+#: bp-core/bp-core-functions.php:384
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:383
+#: bp-core/bp-core-functions.php:384
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:384
+#: bp-core/bp-core-functions.php:385
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:384
+#: bp-core/bp-core-functions.php:385
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:385
+#: bp-core/bp-core-functions.php:386
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:385
+#: bp-core/bp-core-functions.php:386
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:386
+#: bp-core/bp-core-functions.php:387
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:386
+#: bp-core/bp-core-functions.php:387
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:387
+#: bp-core/bp-core-functions.php:388
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:387
+#: bp-core/bp-core-functions.php:388
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:388
+#: bp-core/bp-core-functions.php:389
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:388
+#: bp-core/bp-core-functions.php:389
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:447
+#: bp-core/bp-core-functions.php:448
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:510
+#: bp-core/bp-core-functions.php:511
 msgid "Not recently active"
 msgstr ""
 
