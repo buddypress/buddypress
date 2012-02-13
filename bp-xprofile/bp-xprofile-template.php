@@ -824,14 +824,6 @@ function bp_avatar_delete_link() {
 		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( bp_displayed_user_domain() . $bp->profile->slug . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
 	}
 
-function bp_get_user_has_avatar() {
-
-	if ( !bp_core_fetch_avatar( array( 'item_id' => bp_displayed_user_id(), 'no_grav' => true ) ) )
-		return false;
-
-	return true;
-}
-
 function bp_edit_profile_button() {
 	global $bp;
 
