@@ -68,7 +68,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 	<div class="wrap">
 
-		<?php screen_icon( 'buddypress' ); ?>
+		<?php screen_icon( 'users' ); ?>
 
 		<h2>
 			<?php _e( 'Profile Fields', 'buddypress'); ?>
