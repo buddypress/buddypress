@@ -22,7 +22,7 @@ function bp_get_options_nav() {
 
 	// If we are looking at a member profile, then the we can use the current component as an
 	// index. Otherwise we need to use the component's root_slug
-	$component_index = !empty( $bp->displayed_user ) ? $bp->current_component : bp_get_root_slug( $bp->current_component );
+	$component_index = !empty( $bp->displayed_user ) ? bp_current_component() : bp_get_root_slug( bp_current_component() );
 
 	if ( !bp_is_single_item() ) {
 		if ( !isset( $bp->bp_options_nav[$component_index] ) || count( $bp->bp_options_nav[$component_index] ) < 1 ) {
@@ -31,10 +31,10 @@ function bp_get_options_nav() {
 			$the_index = $component_index;
 		}
 	} else {
-		if ( !isset( $bp->bp_options_nav[$bp->current_item] ) || count( $bp->bp_options_nav[$bp->current_item] ) < 1 ) {
+		if ( !isset( $bp->bp_options_nav[bp_current_item()] ) || count( $bp->bp_options_nav[bp_current_item()] ) < 1 ) {
 			return false;
 		} else {
-			$the_index = $bp->current_item;
+			$the_index = bp_current_item();
 		}
 	}
 
@@ -44,7 +44,7 @@ function bp_get_options_nav() {
 			continue;
 
 		// If the current action or an action variable matches the nav item id, then add a highlight CSS class.
-		if ( $subnav_item['slug'] == $bp->current_action ) {
+		if ( $subnav_item['slug'] == bp_current_action() ) {
 			$selected = ' class="current selected"';
 		} else {
 			$selected = '';
@@ -660,7 +660,7 @@ function bp_root_slug( $component = '' ) {
 
 		// Use current global component if none passed
 		if ( empty( $component ) )
-			$component = $bp->current_component;
+			$component = bp_current_component();
 
 		// Component is active
 		if ( !empty( $bp->active_components[$component] ) ) {
@@ -694,7 +694,7 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 
 	// If no slug is passed, look at current_component
 	if ( empty( $root_slug ) )
-		$root_slug = $bp->current_component;
+		$root_slug = bp_current_component();
 
 	// No current component or root slug, so flee
 	if ( empty( $root_slug ) )
@@ -762,6 +762,7 @@ function bp_is_current_component( $component ) {
 		$component = 'profile';
 
 	if ( !empty( $bp->current_component ) ) {
+
 		// First, check to see whether $component_name and the current
 		// component are a simple match
 		if ( $bp->current_component == $component ) {
@@ -780,8 +781,9 @@ function bp_is_current_component( $component ) {
 		// non-translatable component name. If so, we can return its
 		// corresponding slug from $bp->active_components.
 		} else if ( $key = array_search( $component, $bp->active_components ) ) {
-			if ( strstr( $bp->current_component, $key ) )
+			if ( strstr( $bp->current_component, $key ) ) {
 				$is_current_component = true;
+			}
 
 		// If we haven't found a match yet, check against the root_slugs
 		// created by $bp->pages, as well as the regular slugs
@@ -789,8 +791,9 @@ function bp_is_current_component( $component ) {
 			foreach ( $bp->active_components as $id ) {
 				// If the $component parameter does not match the current_component,
 				// then move along, these are not the droids you are looking for
-				if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug != $bp->current_component )
+				if ( empty( $bp->{$id}->root_slug ) || $bp->{$id}->root_slug != $bp->current_component ) {
 					continue;
+				}
 
 				if ( $id == $component ) {
 					$is_current_component = true;
@@ -807,8 +810,9 @@ function bp_is_current_component( $component ) {
 		$page_template = $custom_fields[0];
 
 		// Component name is in the page template name
-		if ( !empty( $page_template ) && strstr( strtolower( $page_template ), strtolower( $component ) ) )
+		if ( !empty( $page_template ) && strstr( strtolower( $page_template ), strtolower( $component ) ) ) {
 			$is_current_component = true;
+		}
 	}
 
  	return apply_filters( 'bp_is_current_component', $is_current_component, $component );
@@ -832,9 +836,7 @@ function bp_is_current_component( $component ) {
  * @return bool True if the current action matches $action
  */
 function bp_is_current_action( $action = '' ) {
-	global $bp;
-
-	if ( $action == $bp->current_action )
+	if ( $action == bp_current_action() )
 		return true;
 
 	return false;
@@ -1080,9 +1082,7 @@ function bp_is_settings_component() {
 /** Activity ******************************************************************/
 
 function bp_is_single_activity() {
-	global $bp;
-
-	if ( bp_is_activity_component() && is_numeric( $bp->current_action ) )
+	if ( bp_is_activity_component() && is_numeric( bp_current_action() ) )
 		return true;
 
 	return false;

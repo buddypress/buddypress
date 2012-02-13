@@ -158,7 +158,7 @@ class BP_Groups_Component extends BP_Component {
 		) );
 
 		// If the user was attempting to access a group, but no group by that name was found, 404
-		if ( bp_is_groups_component() && empty( $this->current_group ) && !empty( $bp->current_action ) && !in_array( $bp->current_action, $this->forbidden_names ) ) {
+		if ( bp_is_groups_component() && empty( $this->current_group ) && bp_current_action() && !in_array( bp_current_action(), $this->forbidden_names ) ) {
 			bp_do_404();
 			return;
 		}
@@ -168,7 +168,7 @@ class BP_Groups_Component extends BP_Component {
 			
 			// Prepare for a redirect to the canonical URL
 			$bp->redirect_stack['base_url']  = bp_get_group_permalink( $this->current_group );
-			$bp->redirect_stack['action'] 	 = $bp->current_action;
+			$bp->redirect_stack['action'] 	 = bp_current_action();
 		}
 
 		// Group access control

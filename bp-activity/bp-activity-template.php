@@ -276,8 +276,8 @@ function bp_has_activities( $args = '' ) {
 	}
 
 	// The default scope should recognize custom slugs
-	if ( array_key_exists( $bp->current_action, (array) $bp->loaded_components ) ) {
-		$scope = $bp->loaded_components[$bp->current_action];
+	if ( array_key_exists( bp_current_action(), (array) $bp->loaded_components ) ) {
+		$scope = $bp->loaded_components[bp_current_action()];
 	}
 	else
 		$scope = bp_current_action();
@@ -1811,15 +1811,12 @@ function bp_activity_permalink_id() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $bp BuddyPress global settings
 	 * @uses apply_filters() To call the 'bp_get_activity_permalink_id' hook
 	 *
 	 * @return string The activity permalink id
 	 */
 	function bp_get_activity_permalink_id() {
-		global $bp;
-
-		return apply_filters( 'bp_get_activity_permalink_id', $bp->current_action );
+		return apply_filters( 'bp_get_activity_permalink_id', bp_current_action() );
 	}
 
 /**

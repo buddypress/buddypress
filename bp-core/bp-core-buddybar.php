@@ -124,11 +124,12 @@ function bp_core_new_nav_default( $args = '' ) {
 		$bp->current_action = '';
 	}
 
-	if ( $bp->current_component == $parent_slug && !$bp->current_action ) {
-		if ( !is_object( $screen_function[0] ) )
+	if ( bp_is_current_component( $parent_slug ) && !bp_current_action() ) {
+		if ( !is_object( $screen_function[0] ) ) {
 			add_action( 'bp_screens', $screen_function );
-		else
+		} else {
 			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
+		}
 
 		if ( $subnav_slug ) {
 			$bp->current_action 	      = $subnav_slug;
@@ -236,18 +237,19 @@ function bp_core_new_subnav_item( $args = '' ) {
 	 */
 
 	// If we *don't* meet condition (1), return
-	if ( $bp->current_component != $parent_slug && $bp->current_item != $parent_slug )
+	if ( ! bp_is_current_component( $parent_slug ) && ! bp_is_current_item( $parent_slug ) )
 		return;
 
 	// If we *do* meet condition (2), then the added subnav item is currently being requested
-	if ( ( !empty( $bp->current_action ) && $slug == $bp->current_action ) || ( bp_is_user() && empty( $bp->current_action ) && $screen_function == $bp->bp_nav[$parent_slug]['screen_function'] ) ) {
+	if ( ( bp_current_action() && bp_is_current_action( $slug ) ) || ( bp_is_user() && ! bp_current_action() && ( $screen_function == $bp->bp_nav[$parent_slug]['screen_function'] ) ) ) {
 
 		// Before hooking the screen function, check user access
-		if ( $user_has_access ) {
-			if ( !is_object( $screen_function[0] ) )
+		if ( !empty( $user_has_access ) ) {
+			if ( !is_object( $screen_function[0] ) ) {
 				add_action( 'bp_screens', $screen_function );
-			else
+			} else {
 				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
+			}
 		} else {
 			// When the content is off-limits, we handle the situation differently
 			// depending on whether the current user is logged in

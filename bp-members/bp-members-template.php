@@ -705,7 +705,7 @@ function bp_get_loggedin_user_nav() {
 		$selected = '';
 
 		// If the current component matches the nav item id, then add a highlight CSS class.
-		if ( !bp_is_directory() && $bp->active_components[$bp->current_component] == $nav_item['css_id'] ) {
+		if ( !bp_is_directory() && $bp->active_components[bp_current_component()] == $nav_item['css_id'] ) {
 			$selected = ' class="current selected"';
 		}
 
@@ -750,7 +750,7 @@ function bp_get_displayed_user_nav() {
 			continue;
 
 		$selected = '';
-		if ( $bp->current_component == $user_nav_item['slug'] ) {
+		if ( bp_is_current_component( $user_nav_item['slug'] ) ) {
 			$selected = ' class="current selected"';
 		}
 

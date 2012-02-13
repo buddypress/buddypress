@@ -127,7 +127,7 @@ class BP_Messages_Box_Template {
 		$this->in_the_loop = true;
 		$this->thread = $this->next_thread();
 
-		if ( 'notices' != $bp->current_action ) {
+		if ( ! bp_is_current_action( 'notices' ) ) {
 			$last_message_index = count( $this->thread->messages ) - 1;
 			$this->thread->messages = array_reverse( (array) $this->thread->messages );
 
@@ -167,26 +167,27 @@ function bp_has_message_threads( $args = '' ) {
 	global $bp, $messages_template;
 
 	$defaults = array(
-		'user_id' => bp_loggedin_user_id(),
-		'box' => 'inbox',
+		'user_id'  => bp_loggedin_user_id(),
+		'box'      => 'inbox',
 		'per_page' => 10,
-		'max' => false,
-		'type' => 'all'
+		'max'      => false,
+		'type'     => 'all'
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	if ( 'notices' == $bp->current_action && !bp_current_user_can( 'bp_moderate' ) ) {
+	if ( bp_is_current_action( 'notices' ) && !bp_current_user_can( 'bp_moderate' ) ) {
 		wp_redirect( bp_displayed_user_id() );
 	} else {
-		if ( 'inbox' == $bp->current_action )
+		if ( bp_is_current_action( 'inbox' ) ) {
 			bp_core_delete_notifications_by_type( bp_loggedin_user_id(), $bp->messages->id, 'new_message' );
+		}
 
-		if ( 'sentbox' == $bp->current_action )
+		if ( bp_is_current_action( 'sentbox' ) )
 			$box = 'sentbox';
 
-		if ( 'notices' == $bp->current_action )
+		if ( bp_is_current_action( 'notices' ) )
 			$box = 'notices';
 
 		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type );
@@ -246,7 +247,7 @@ function bp_message_thread_to() {
 }
 	function bp_get_message_thread_to() {
 		global $messages_template;
-		return apply_filters( 'bp_message_thread_to', BP_Messages_Thread::get_recipient_links($messages_template->thread->recipients) );
+		return apply_filters( 'bp_message_thread_to', BP_Messages_Thread::get_recipient_links($messages_template->thread->recipients ) );
 	}
 
 function bp_message_thread_view_link() {
@@ -262,7 +263,7 @@ function bp_message_thread_delete_link() {
 }
 	function bp_get_message_thread_delete_link() {
 		global $messages_template, $bp;
-		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . $bp->messages->slug . '/' . $bp->current_action . '/delete/' . $messages_template->thread->thread_id ), 'messages_delete_thread' ) );
+		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . $bp->messages->slug . '/' . bp_current_action() . '/delete/' . $messages_template->thread->thread_id ), 'messages_delete_thread' ) );
 	}
 
 function bp_message_css_class() {
@@ -415,14 +416,14 @@ function bp_messages_options() {
 		<option value="all"><?php _e('All', 'buddypress') ?></option>
 	</select> &nbsp;
 
-	<?php if ( $bp->current_action != 'sentbox' && $bp->current_action != 'notices' ) : ?>
+	<?php if ( ! bp_is_current_action( 'sentbox' ) && bp_is_current_action( 'notices' ) ) : ?>
 
 		<a href="#" id="mark_as_read"><?php _e('Mark as Read', 'buddypress') ?></a> &nbsp;
 		<a href="#" id="mark_as_unread"><?php _e('Mark as Unread', 'buddypress') ?></a> &nbsp;
 
 	<?php endif; ?>
 
-	<a href="#" id="delete_<?php echo $bp->current_action ?>_messages"><?php _e('Delete Selected', 'buddypress') ?></a> &nbsp;
+	<a href="#" id="delete_<?php echo bp_current_action(); ?>_messages"><?php _e( 'Delete Selected', 'buddypress' ); ?></a> &nbsp;
 
 <?php
 }

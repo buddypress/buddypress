@@ -245,13 +245,13 @@ function bp_has_groups( $args = '' ) {
 		$user_id = bp_displayed_user_id();
 
 	// Type
-	if ( 'my-groups' == $bp->current_action ) {
+	if ( bp_is_current_action( 'my-groups' ) ) {
 		if ( 'most-popular' == $order ) {
 			$type = 'popular';
 		} elseif ( 'alphabetically' == $order ) {
 			$type = 'alphabetical';
 		}
-	} elseif ( 'invites' == $bp->current_action ) {
+	} elseif ( bp_is_current_action( 'invites' ) ) {
 		$type = 'invites';
 	} elseif ( isset( $bp->groups->current_group->slug ) && $bp->groups->current_group->slug ) {
 		$type = 'single-group';

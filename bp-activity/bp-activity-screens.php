@@ -190,7 +190,7 @@ function bp_activity_screen_single_activity_permalink() {
 	if ( !bp_is_activity_component() )
 		return false;
 
-	if ( empty( $bp->current_action ) || !is_numeric( $bp->current_action ) )
+	if ( ! bp_current_action() || !is_numeric( bp_current_action() ) )
 		return false;
 
 	// Get the activity details
@@ -247,7 +247,7 @@ function bp_activity_screen_single_activity_permalink() {
 		// Redirect based on logged in status
 		is_user_logged_in() ?
 			bp_core_redirect( bp_loggedin_user_domain() ) :
-			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . esc_url( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $bp->current_action . '/' ) ) );
+			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . esc_url( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . bp_current_action() . '/' ) ) );
 	}
 
 	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );
@@ -259,13 +259,11 @@ add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
  *
  * @since 1.2.0
  *
- * @global object $bp BuddyPress global settings
  * @uses bp_get_user_meta()
  * @uses bp_core_get_username()
  * @uses do_action() To call the 'bp_activity_screen_notification_settings' hook
  */
 function bp_activity_screen_notification_settings() {
-	global $bp;
 
 	if ( !$mention = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_mention', true ) )
 		$mention = 'yes';
