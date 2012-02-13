@@ -1,4 +1,5 @@
 <?php
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -18,10 +19,6 @@ class BP_Core_Setup_Wizard {
 	/** Methods ***************************************************************/
 
 	function __construct() {
-
-		// Ensure that we have access to some utility functions. Must use require_once()
-		// because BP Core is loaded during incremental upgrades
-		require_once( BP_PLUGIN_DIR . '/bp-core/bp-core-functions.php' );
 
 		// Set/reset the wizard cookie
 		setcookie( 'bp-wizard-step', 0, time() + 60 * 60 * 24, COOKIEPATH );
@@ -54,6 +51,7 @@ class BP_Core_Setup_Wizard {
 		// Setup wizard steps
 		$steps = array();
 
+		// This is a first time installation
 		if ( bp_get_maintenance_mode() == 'install' ) {
 			$steps = array(
 				__( 'Components', 'buddypress' ),
@@ -63,11 +61,12 @@ class BP_Core_Setup_Wizard {
 				__( 'Finish',     'buddypress' )
 			);
 
-		// Update wizard steps
+		// This is an update to an existing install
 		} else {
 
-			if ( bp_get_db_version_raw() < (int) bp_get_db_version() )
+			if ( bp_get_db_version_raw() < (int) bp_get_db_version() ) {
 				$steps[] = __( 'Database Update', 'buddypress' );
+			}
 
 			// New for BP 1.5
 			if ( bp_get_db_version_raw() < 1801 || !bp_core_get_directory_page_ids() ) {
@@ -76,8 +75,9 @@ class BP_Core_Setup_Wizard {
 			}
 
 			// New for BP 1.6
-			if ( bp_get_db_version_raw() < 5222 && !defined( 'BP_USE_WP_ADMIN_BAR' ) )
+			if ( bp_get_db_version_raw() < 5222 && !defined( 'BP_USE_WP_ADMIN_BAR' ) ) {
 				$steps[] = __( 'Admin Bar', 'buddypress' );
+			}
 
 			$steps[] = __( 'Finish', 'buddypress' );
 		}
@@ -961,8 +961,7 @@ class BP_Core_Setup_Wizard {
 			check_admin_referer( 'bpwizard_finish' );
 
 			// Update the DB version in the database
-			// Stored in sitemeta. Do not use bp_update_option()
-			update_blog_option( bp_get_root_blog_id(), '_bp_db_version', bp_get_db_version() );
+			bp_version_bump();
 
 			// Delete the setup cookie
 			@setcookie( 'bp-wizard-step', '', time() - 3600, COOKIEPATH );

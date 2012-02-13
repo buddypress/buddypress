@@ -165,41 +165,6 @@ function bp_screens() {
 	do_action( 'bp_screens' );
 }
 
-/** Activation Actions ********************************************************/
-
-/**
- * Runs on BuddyPress activation
- *
- * @since BuddyPress (1.6)
- *
- * @uses do_action() Calls 'bp_activation' hook
- */
-function bp_activation() {
-	do_action( 'bp_activation' );
-}
-
-/**
- * Runs on BuddyPress deactivation
- *
- * @since BuddyPress (1.6)
- *
- * @uses do_action() Calls 'bp_deactivation' hook
- */
-function bp_deactivation() {
-	do_action( 'bp_deactivation' );
-}
-
-/**
- * Runs when uninstalling BuddyPress
- *
- * @since BuddyPress (1.6)
- *
- * @uses do_action() Calls 'bp_uninstall' hook
- */
-function bp_uninstall() {
-	do_action( 'bp_uninstall' );
-}
-
 /** Admin *********************************************************************/
 
 if ( is_admin() ) {

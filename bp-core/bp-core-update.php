@@ -143,4 +143,55 @@ function bp_setup_updater() {
 	}
 }
 
+/** Activation Actions ********************************************************/
+
+/**
+ * Runs on BuddyPress activation
+ *
+ * @since BuddyPress (1.6)
+ *
+ * @uses do_action() Calls 'bp_activation' hook
+ */
+function bp_activation() {
+
+	// Force refresh theme roots.
+	delete_site_transient( 'theme_roots' );
+
+	// Use as of (1.6)
+	do_action( 'bp_activation' );
+
+	// @deprecated as of (1.6)
+	do_action( 'bp_loader_activate' );
+}
+
+/**
+ * Runs on BuddyPress deactivation
+ *
+ * @since BuddyPress (1.6)
+ *
+ * @uses do_action() Calls 'bp_deactivation' hook
+ */
+function bp_deactivation() {
+
+	// Force refresh theme roots.
+	delete_site_transient( 'theme_roots' );
+
+	// Use as of (1.6)
+	do_action( 'bp_deactivation' );
+
+	// @deprecated as of (1.6)
+	do_action( 'bp_loader_deactivate' );
+}
+
+/**
+ * Runs when uninstalling BuddyPress
+ *
+ * @since BuddyPress (1.6)
+ *
+ * @uses do_action() Calls 'bp_uninstall' hook
+ */
+function bp_uninstall() {
+	do_action( 'bp_uninstall' );
+}
+
 ?>

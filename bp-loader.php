@@ -564,46 +564,4 @@ $GLOBALS['bp'] = new BuddyPress;
 
 endif;
 
-/** Activation ****************************************************************/
-
-// @todo Move this code into bp-core-update.php
-
-if ( !function_exists( 'bp_loader_activate' ) ) :
-/**
- * Defines BP's activation routine.
- *
- * Most of BP's crucial setup is handled by the setup wizard. This function takes care of some
- * issues with incompatible legacy themes, and provides a hook for other functions to know that
- * BP has been activated.
- *
- * @package BuddyPress Core
-*/
-function bp_loader_activate() {
-	// Force refresh theme roots.
-	delete_site_transient( 'theme_roots' );
-
-	if ( !function_exists( 'get_blog_option' ) )
-		require ( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-wpabstraction.php' );
-
-	if ( !function_exists( 'bp_get_root_blog_id' ) )
-		require ( WP_PLUGIN_DIR . '/buddypress/bp-core/bp-core-functions.php' );
-
-	// Switch the user to the new bp-default if they are using the old
-	// bp-default on activation.
-	if ( 'bp-sn-parent' == get_blog_option( bp_get_root_blog_id(), 'template' ) && 'bp-default' == get_blog_option( bp_get_root_blog_id(), 'stylesheet' ) )
-		switch_theme( 'bp-default', 'bp-default' );
-
-	do_action( 'bp_loader_activate' );
-}
-register_activation_hook( 'buddypress/bp-loader.php', 'bp_loader_activate' );
-endif;
-
-if ( !function_exists( 'bp_loader_deactivate' ) ) :
-// Deactivation Function
-function bp_loader_deactivate() {
-	do_action( 'bp_loader_deactivate' );
-}
-register_deactivation_hook( 'buddypress/bp-loader.php', 'bp_loader_deactivate' );
-endif;
-
 ?>
