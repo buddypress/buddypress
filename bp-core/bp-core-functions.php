@@ -54,6 +54,32 @@ function bp_db_version() {
 		return $bp->db_version;
 	}
 
+/**
+ * Output the BuddyPress database version
+ *
+ * @since BuddyPress (1.6)
+ * @uses bp_get_version() To get the current BuddyPress version
+ */
+function bp_db_version_raw() {
+	echo bp_get_db_version_raw();
+}
+	/**
+	 * Return the BuddyPress database version
+	 *
+	 * @since BuddyPress (1.6)
+	 * @global BuddyPress $bp
+	 * @retrun string The BuddyPress version direct from the database
+	 */
+	function bp_get_db_version_raw() {
+		global $bp;
+
+		$retval = 0;
+		if ( !empty( $bp->db_version_raw ) )
+			$retval = $bp->db_version_raw;
+		
+		return $retval;
+	}
+
 /** Functions *****************************************************************/
 
 /**
