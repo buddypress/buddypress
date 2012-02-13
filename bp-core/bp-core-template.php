@@ -1100,7 +1100,7 @@ function bp_is_my_profile() {
 }
 
 function bp_is_user() {
-	if ( bp_displayed_user_id() )
+	if ( bp_displayed_user_id() && !is_404() )
 		return true;
 
 	return false;
