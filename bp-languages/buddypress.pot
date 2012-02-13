@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-13 16:36:06+00:00\n"
+"POT-Creation-Date: 2012-02-13 21:36:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1184,12 +1184,12 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-schema.php:245
+#: bp-core/admin/bp-core-schema.php:247
 msgctxt "First XProfile group name"
 msgid "Base"
 msgstr ""
 
-#: bp-core/admin/bp-core-schema.php:246
+#: bp-core/admin/bp-core-schema.php:251
 msgctxt "XProfile fullname field name"
 msgid "Name"
 msgstr ""
