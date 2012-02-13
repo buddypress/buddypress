@@ -20,15 +20,20 @@
 	<table id="message-threads" class="messages-notices">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
 			<tr id="notice-<?php bp_message_notice_id(); ?>" class="<?php bp_message_css_class(); ?>">
-				<td width="1%">
-				</td>
+				<td width="1%"></td>
 				<td width="38%">
 					<strong><?php bp_message_notice_subject(); ?></strong>
 					<?php bp_message_notice_text(); ?>
 				</td>
 				<td width="21%">
-					<strong><?php bp_message_is_active_notice(); ?></strong>
-					<span class="activity"><?php _e("Sent:", "buddypress"); ?> <?php bp_message_notice_post_date(); ?></span>
+
+					<?php if ( bp_messages_is_active_notice() ) : ?>
+
+						<strong><?php bp_messages_is_active_notice(); ?></strong>
+
+					<?php endif; ?>
+
+					<span class="activity"><?php _e( 'Sent:', 'buddypress' ); ?> <?php bp_message_notice_post_date(); ?></span>
 				</td>
 
 				<?php do_action( 'bp_notices_list_item' ); ?>

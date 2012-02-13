@@ -122,13 +122,12 @@ class BP_Messages_Box_Template {
 	}
 
 	function the_message_thread() {
-		global $bp;
 
 		$this->in_the_loop = true;
-		$this->thread = $this->next_thread();
+		$this->thread      = $this->next_thread();
 
 		if ( ! bp_is_current_action( 'notices' ) ) {
-			$last_message_index = count( $this->thread->messages ) - 1;
+			$last_message_index     = count( $this->thread->messages ) - 1;
 			$this->thread->messages = array_reverse( (array) $this->thread->messages );
 
 			// Set up the last message data
@@ -151,15 +150,17 @@ class BP_Messages_Box_Template {
 				}
 			}
 
-			$this->thread->last_message_id = $this->thread->messages[$last_message_index]->id;
-			$this->thread->last_message_date = $this->thread->messages[$last_message_index]->date_sent;
-			$this->thread->last_sender_id = $this->thread->messages[$last_message_index]->sender_id;
+			$this->thread->last_message_id      = $this->thread->messages[$last_message_index]->id;
+			$this->thread->last_message_date    = $this->thread->messages[$last_message_index]->date_sent;
+			$this->thread->last_sender_id       = $this->thread->messages[$last_message_index]->sender_id;
 			$this->thread->last_message_subject = $this->thread->messages[$last_message_index]->subject;
 			$this->thread->last_message_content = $this->thread->messages[$last_message_index]->message;
 		}
 
-		if ( 0 == $this->current_thread ) // loop has just started
+		// loop has just started
+		if ( 0 == $this->current_thread ) {
 			do_action('messages_box_loop_start');
+		}
 	}
 }
 
@@ -184,11 +185,13 @@ function bp_has_message_threads( $args = '' ) {
 			bp_core_delete_notifications_by_type( bp_loggedin_user_id(), $bp->messages->id, 'new_message' );
 		}
 
-		if ( bp_is_current_action( 'sentbox' ) )
+		if ( bp_is_current_action( 'sentbox' ) ) {
 			$box = 'sentbox';
+		}
 
-		if ( bp_is_current_action( 'notices' ) )
+		if ( bp_is_current_action( 'notices' ) ) {
 			$box = 'notices';
+		}
 
 		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type );
 	}
@@ -405,7 +408,7 @@ function bp_messages_content_value() {
 	}
 
 function bp_messages_options() {
-	global $bp; ?>
+?>
 
 	<?php _e( 'Select:', 'buddypress' ) ?>
 
@@ -428,22 +431,49 @@ function bp_messages_options() {
 <?php
 }
 
-function bp_message_is_active_notice() {
+/**
+ * Return whether or not the notice is currently active
+ *
+ * @since BuddyPress (1.6)
+ * @uses bp_get_messages_is_active_notice()
+ */
+function bp_messages_is_active_notice() {
 	global $messages_template;
 
-	if ( $messages_template->thread->is_active ) {
-		echo "<strong>";
-		_e( 'Currently Active', 'buddypress' );
-		echo "</strong>";
-	}
+	if ( $messages_template->thread->is_active )
+		return true;
+
+	return false;
 }
+
+/**
+ * Output a string for the active notice
+ *
+ * Since 1.6 this function has been deprecated in favor of text in the theme
+ *
+ * @since BuddyPress (1.0)
+ * @deprecated BuddyPress (1.6)
+ * @uses bp_get_message_is_active_notice()
+ */
+function bp_message_is_active_notice() {
+	echo bp_get_message_is_active_notice();
+}
+	/**
+	 * Returns a string for the active notice
+	 *
+	 * Since 1.6 this function has been deprecated in favor of text in the theme
+	 *
+	 * @since BuddyPress (1.0)
+	 * @deprecated BuddyPress (1.6)
+	 * @uses bp_messages_is_active_notice()
+	 */
 	function bp_get_message_is_active_notice() {
-		global $messages_template;
 
-		if ( $messages_template->thread->is_active )
-			return true;
+		$string = '';
+		if ( bp_messages_is_active_notice() )
+			$string = __( 'Currently Active', 'buddypress' );
 
-		return false;
+		return apply_filters( 'bp_get_message_is_active_notice', $string );
 	}
 
 function bp_message_notice_id() {
