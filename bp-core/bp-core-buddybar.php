@@ -636,7 +636,7 @@ function bp_core_load_buddybar_css() {
 	else
 		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar.css';
 
-	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array(), '20110723' );
+	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array(), bp_get_version() );
 
 	if ( !is_rtl() )
 		return;
@@ -646,7 +646,7 @@ function bp_core_load_buddybar_css() {
 	else
 		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar-rtl.css';
 
-	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), '20110723' );
+	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), bp_get_version() );
 }
 add_action( 'bp_init', 'bp_core_load_buddybar_css' );
 

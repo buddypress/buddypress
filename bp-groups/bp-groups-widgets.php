@@ -28,10 +28,11 @@ class BP_Groups_Widget extends WP_Widget {
 		parent::__construct( false, __( 'Groups', 'buddypress' ), $widget_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {
-			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . 'bp-groups/js/widget-groups.dev.js', array( 'jquery' ) );
-			else
-				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . 'bp-groups/js/widget-groups.js', array( 'jquery' ) );
+			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . 'bp-groups/js/widget-groups.dev.js', array( 'jquery' ), bp_get_version() );
+			} else {
+				wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . 'bp-groups/js/widget-groups.js', array( 'jquery' ),     bp_get_version() );
+			}
 		}
 	}
 

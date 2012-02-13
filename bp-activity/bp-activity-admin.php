@@ -244,11 +244,11 @@ function bp_activity_admin_load() {
 	}
 
 	// Enqueue CSS and JavaScript
-	wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . "bp-activity/admin/js/admin.{$dev}js", array( 'jquery', 'wp-ajax-response' ), '20111211', true );
-	wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(), '20111211' );
+	wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . "bp-activity/admin/js/admin.{$dev}js",   array( 'jquery', 'wp-ajax-response' ), bp_get_version(), true );
+	wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(),                               bp_get_version()       );
 
 	// Handle spam/un-spam/delete of activities
-	if ( $doaction && ! in_array( $doaction, array( '-1', 'edit', 'save', ) ) ) {
+	if ( !empty( $doaction ) && ! in_array( $doaction, array( '-1', 'edit', 'save', ) ) ) {
 
 		// Build redirection URL
 		$redirect_to = remove_query_arg( array( 'aid', 'deleted', 'error', 'spammed', 'unspammed', ), wp_get_referer() );

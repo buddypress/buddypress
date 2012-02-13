@@ -15,15 +15,6 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Listens to the $bp component and action variables to determine if the user is viewing the members
- * directory page. If they are, it will set up the directory and load the members directory template.
- *
- * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
- * @uses wp_enqueue_script() Loads a JS script into the header of the page.
- * @uses bp_core_load_template() Loads a specific template file.
- */
-/**
  * When a site admin selects "Mark as Spammer/Not Spammer" from the admin menu
  * this action will fire and mark or unmark the user and their blogs as spam.
  * Must be a site admin for this function to run.

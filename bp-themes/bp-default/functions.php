@@ -141,11 +141,8 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
  */
 function bp_dtheme_enqueue_scripts() {
 
-	// Bump this when changes are made to bust cache
-	$version = '20111023';
-
 	// Enqueue the global JS - Ajax will not work without it
-	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ), $version );
+	wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ), bp_get_version() );
 
 	// Add words that we need to use in JS to the end of the page so they can be translated and still used.
 	$params = array(
@@ -187,15 +184,12 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  */
 function bp_dtheme_enqueue_styles() {
 
-	// Bump this when changes are made to bust cache
-	$version = '20111211';
-
 	// Register our main stylesheet
-	wp_register_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), $version );
+	wp_register_style( 'bp-default-main', get_template_directory_uri() . '/_inc/css/default.css', array(), bp_get_version() );
 
 	// If the current theme is a child of bp-default, enqueue its stylesheet
 	if ( is_child_theme() && 'bp-default' == get_template() ) {
-		wp_enqueue_style( get_stylesheet(), get_stylesheet_uri(), array( 'bp-default-main' ), $version );
+		wp_enqueue_style( get_stylesheet(), get_stylesheet_uri(), array( 'bp-default-main' ), bp_get_version() );
 	}
 
 	// Enqueue the main stylesheet
@@ -203,14 +197,14 @@ function bp_dtheme_enqueue_styles() {
 
 	// Default CSS RTL
 	if ( is_rtl() )
-		wp_enqueue_style( 'bp-default-main-rtl',  get_template_directory_uri() . '/_inc/css/default-rtl.css', array( 'bp-default-main' ), $version );
+		wp_enqueue_style( 'bp-default-main-rtl',  get_template_directory_uri() . '/_inc/css/default-rtl.css', array( 'bp-default-main' ), bp_get_version() );
 
 	// Responsive layout
 	if ( current_theme_supports( 'bp-default-responsive' ) ) {
-		wp_enqueue_style( 'bp-default-responsive', get_template_directory_uri() . '/_inc/css/responsive.css', array( 'bp-default-main' ), $version );
+		wp_enqueue_style( 'bp-default-responsive', get_template_directory_uri() . '/_inc/css/responsive.css', array( 'bp-default-main' ), bp_get_version() );
 
 		if ( is_rtl() ) {
-			wp_enqueue_style( 'bp-default-responsive-rtl', get_template_directory_uri() . '/_inc/css/responsive-rtl.css', array( 'bp-default-responsive' ), $version );
+			wp_enqueue_style( 'bp-default-responsive-rtl', get_template_directory_uri() . '/_inc/css/responsive-rtl.css', array( 'bp-default-responsive' ), bp_get_version() );
 		}
 	}
 }
