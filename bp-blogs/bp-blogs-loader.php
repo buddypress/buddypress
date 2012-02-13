@@ -75,6 +75,7 @@ class BP_Blogs_Component extends BP_Component {
 			'screens',
 			'classes',
 			'template',
+			'filters',
 			'activity',
 			'functions',
 			'buddybar'
