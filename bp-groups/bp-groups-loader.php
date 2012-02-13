@@ -174,24 +174,29 @@ class BP_Groups_Component extends BP_Component {
 		// Group access control
 		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
 			if ( !$this->current_group->user_has_access ) {
+
+				// Hidden groups should return a 404 for non-members.
+				// Unset the current group so that you're not redirected
+				// to the default group tab
 				if ( 'hidden' == $this->current_group->status ) {
-					// Hidden groups should return a 404 for non-members.
-					// Unset the current group so that you're not redirected
-					// to the default group tab
 					$this->current_group = 0;
 					$bp->is_single_item  = false;
 					bp_do_404();
 					return;
-				} elseif ( !bp_is_current_action( 'home' ) ) {
+
+				// Skip the no_access check on home and membership request pages
+				} elseif ( !bp_is_current_action( 'home' ) && !bp_is_current_action( 'request-membership' ) ) {
+
+					// Off-limits to this user. Throw an error and redirect to the group's home page
 					if ( is_user_logged_in() ) {
-						// Off-limits to this user. Throw an error and redirect to the group's home page
 						bp_core_no_access( array(
 							'message'  => __( 'You do not have access to this group.', 'buddypress' ),
 							'root'     => bp_get_group_permalink( $bp->groups->current_group ),
 							'redirect' => false
 						) );
+
+					// User does not have access, and does not get a message
 					} else {
-						// Allow the user to log in
 						bp_core_no_access();
 					}
 				}
