@@ -37,7 +37,7 @@ function bp_version() {
  * Output the BuddyPress database version
  *
  * @since BuddyPress (1.6)
- * @uses bp_get_version() To get the BuddyPress version
+ * @uses bp_get_db_version() To get the BuddyPress version
  */
 function bp_db_version() {
 	echo bp_get_db_version();
@@ -58,7 +58,7 @@ function bp_db_version() {
  * Output the BuddyPress database version
  *
  * @since BuddyPress (1.6)
- * @uses bp_get_version() To get the current BuddyPress version
+ * @uses bp_get_db_version_raw() To get the current BuddyPress version
  */
 function bp_db_version_raw() {
 	echo bp_get_db_version_raw();
@@ -78,6 +78,27 @@ function bp_db_version_raw() {
 			$retval = $bp->db_version_raw;
 		
 		return $retval;
+	}
+
+/**
+ * Output the BuddyPress maintenance mode
+ *
+ * @since BuddyPress (1.6)
+ * @uses bp_get_maintenance_mode() To get the BuddyPress maintenance mode
+ */
+function bp_maintenance_mode() {
+	echo bp_get_maintenance_mode();
+}
+	/**
+	 * Return the BuddyPress database version
+	 *
+	 * @since BuddyPress (1.6)
+	 * @global BuddyPress $bp
+	 * @retrun string The BuddyPress maintenance mode
+	 */
+	function bp_get_maintenance_mode() {
+		global $bp;
+		return $bp->maintenance_mode;
 	}
 
 /** Functions *****************************************************************/
