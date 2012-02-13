@@ -26,7 +26,7 @@ function bp_version() {
 	 *
 	 * @since BuddyPress (1.6)
 	 * @global BuddyPress $bp
-	 * @retrun string The BuddyPress version
+	 * @return string The BuddyPress version
 	 */
 	function bp_get_version() {
 		global $bp;
@@ -47,7 +47,7 @@ function bp_db_version() {
 	 *
 	 * @since BuddyPress (1.6)
 	 * @global BuddyPress $bp
-	 * @retrun string The BuddyPress version
+	 * @return string The BuddyPress version
 	 */
 	function bp_get_db_version() {
 		global $bp;
@@ -68,7 +68,7 @@ function bp_db_version_raw() {
 	 *
 	 * @since BuddyPress (1.6)
 	 * @global BuddyPress $bp
-	 * @retrun string The BuddyPress version direct from the database
+	 * @return string The BuddyPress version direct from the database
 	 */
 	function bp_get_db_version_raw() {
 		global $bp;
@@ -90,11 +90,11 @@ function bp_maintenance_mode() {
 	echo bp_get_maintenance_mode();
 }
 	/**
-	 * Return the BuddyPress database version
+	 * Return the BuddyPress maintenance mode
 	 *
 	 * @since BuddyPress (1.6)
 	 * @global BuddyPress $bp
-	 * @retrun string The BuddyPress maintenance mode
+	 * @return string The BuddyPress maintenance mode
 	 */
 	function bp_get_maintenance_mode() {
 		global $bp;
