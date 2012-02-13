@@ -341,6 +341,21 @@ function bp_blogs_remove_user_from_blog( $user_id, $blog_id = 0 ) {
 }
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
 
+/**
+ * Rehooks WP's maybe_add_existing_user_to_blog with a later priority
+ *
+ * WordPress catches add-user-to-blog requests at init:10. In some cases, this can precede BP's
+ * Blogs component. This function bumps the priority of the core function, so that we can be sure
+ * that the Blogs component is loaded first. See http://buddypress.trac.wordpress.org/ticket/3916
+ *
+ * @since 1.6
+ */
+function bp_blogs_maybe_add_user_to_blog() {
+	remove_action( 'init', 'maybe_add_existing_user_to_blog' );
+	add_action( 'init', 'maybe_add_existing_user_to_blog', 20 );
+}
+add_action( 'init', 'bp_blogs_maybe_add_user_to_blog', 1 );
+
 function bp_blogs_remove_blog( $blog_id ) {
 	global $bp;
 
