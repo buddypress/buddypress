@@ -27,9 +27,7 @@ function xprofile_add_admin_menu() {
 	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
-	$hook = add_users_page( __( 'Profile Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
-
-	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
+	add_users_page( __( 'Profile Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
 }
 add_action( bp_core_admin_hook(), 'xprofile_add_admin_menu' );
 

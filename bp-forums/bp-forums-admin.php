@@ -3,7 +3,6 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_forums_add_admin_menu() {
-	global $bp;
 
 	if ( ! bp_current_user_can( 'bp_moderate' ) )
 		return;
@@ -12,16 +11,12 @@ function bp_forums_add_admin_menu() {
 	$page = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 	$hook = add_submenu_page( $page, __( 'BuddyPress Forums', 'buddypress' ), __( 'BuddyPress Forums', 'buddypress' ), 'manage_options', 'bb-forums-setup', 'bp_forums_bbpress_admin' );
 
-	// Add a hook for common BP admin CSS/JS scripts
-	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
-
 	// Fudge the highlighted subnav item when on a BuddyPress admin page
 	add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 }
 add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
 
 function bp_forums_bbpress_admin() {
-	global $bp;
 
 	$action = bp_get_admin_url( 'admin.php?page=bb-forums-setup&reinstall=1' ); ?>
 
@@ -208,7 +203,6 @@ function bp_forums_bbpress_install_wizard() {
 }
 
 function bp_forums_configure_existing_install() {
-	global $wpdb, $bbdb;
 
 	check_admin_referer( 'bp_forums_existing_install_init' );
 
@@ -231,7 +225,7 @@ function bp_forums_configure_existing_install() {
 }
 
 function bp_forums_bbpress_install() {
-	global $wpdb, $bbdb, $bp;
+	global $wpdb, $bp;
 
 	check_admin_referer( 'bp_forums_new_install_init' );
 

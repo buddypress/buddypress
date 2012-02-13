@@ -314,7 +314,7 @@ class BuddyPress {
 	 * @uses plugin_dir_path()
 	 * @uses plugin_dir_url()
 	 */
-	public function constants() {
+	private function constants() {
 
 		// Define the BuddyPress version
 		if ( !defined( 'BP_VERSION' ) )
@@ -474,11 +474,15 @@ class BuddyPress {
 
 			// The installation process requires a few BuddyPress core libraries
 			if ( !empty( $this->maintenance_mode ) ) {
-				require( $this->plugin_dir . 'bp-core/bp-core-functions.php'    );
-				require( $this->plugin_dir . 'bp-core/bp-core-update.php'       );
-				require( $this->plugin_dir . 'bp-core/bp-core-caps.php'         );
-				require( $this->plugin_dir . 'bp-core/bp-core-options.php'      );
-				require( $this->plugin_dir . 'bp-core/admin/bp-core-update.php' );
+				require( $this->plugin_dir . 'bp-core/bp-core-admin.php'     );
+				require( $this->plugin_dir . 'bp-core/bp-core-functions.php' );
+				require( $this->plugin_dir . 'bp-core/bp-core-template.php'  );
+				require( $this->plugin_dir . 'bp-core/bp-core-update.php'    );
+				require( $this->plugin_dir . 'bp-core/bp-core-caps.php'      );
+				require( $this->plugin_dir . 'bp-core/bp-core-options.php'   );
+
+				// Load up BuddyPress's admin
+				add_action( 'plugins_loaded', 'bp_admin' );
 			}
 		}
 

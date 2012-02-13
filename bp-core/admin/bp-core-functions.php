@@ -331,22 +331,6 @@ add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update
 /** UI/Styling ****************************************************************/
 
 /**
- * Loads admin panel styles and scripts.
- *
- * @package BuddyPress Core
- * @since {@internal Unknown}}
- */
-function bp_core_add_admin_menu_styles() {
-	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', BP_PLUGIN_URL . 'bp-core/css/admin.dev.css' ), array(), '20110723' );
-	else
-		wp_enqueue_style( 'bp-admin-css', apply_filters( 'bp_core_admin_css', BP_PLUGIN_URL . 'bp-core/css/admin.css' ), array(), '20110723' );
-
-	wp_enqueue_script( 'thickbox' );
-	wp_enqueue_style( 'thickbox' );
-}
-
-/**
  * Output the tabs in the admin area
  *
  * @since 1.5
@@ -362,15 +346,15 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	// Setup core admin tabs
 	$tabs = array(
 		'0' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) ),
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components'    ), 'admin.php' ) ),
 			'name' => __( 'Components', 'buddypress' )
 		),
 		'1' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings'      ), 'admin.php' ) ),
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) ),
 			'name' => __( 'Permalinks', 'buddypress' )
 		),
 		'2' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings'   ), 'admin.php' ) ),
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings'      ), 'admin.php' ) ),
 			'name' => __( 'Settings',   'buddypress' )
 		)
 	);
@@ -378,7 +362,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	// If forums component is active, add additional tab
 	if ( bp_is_active( 'forums' ) ) {
 		$tabs['3'] = array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup' ), 'admin.php' ) ),
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup'  ), 'admin.php' ) ),
 			'name' => __( 'Forums', 'buddypress' )
 		);
 	}

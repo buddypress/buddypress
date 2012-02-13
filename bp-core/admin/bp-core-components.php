@@ -51,7 +51,6 @@ function bp_core_admin_components_settings() {
  * @todo Use settings API
  */
 function bp_core_admin_components_options() {
-	global $bp_wizard;
 
 	// Load core functions, if needed
 	if ( !function_exists( 'bp_get_option' ) )
@@ -130,13 +129,11 @@ function bp_core_admin_components_options() {
 	);
 
 	// On new install, set all components to be active by default
-	if ( !empty( $bp_wizard ) && 'install' == $bp_wizard->setup_type && empty( $active_components ) )
+	if ( empty( $active_components ) && ( bp_get_maintenance_mode() == 'install' ) )
 		$active_components = $optional_components;
 
-	?>
-
-	<?php /* The setup wizard uses different, more descriptive text here */ ?>
-	<?php if ( empty( $bp_wizard ) ) : ?>
+	// The setup wizard uses different, more descriptive text
+	if ( bp_get_maintenance_mode() ) : ?>
 
 		<h3><?php _e( 'Available Components', 'buddypress' ); ?></h3>
 
@@ -168,7 +165,7 @@ function bp_core_admin_components_options() {
 		</tbody>
 	</table>
 
-	<?php if ( empty( $bp_wizard ) ) : ?>
+	<?php if ( bp_get_maintenance_mode() ) : ?>
 
 		<h3><?php _e( 'Required Components', 'buddypress' ); ?></h3>
 

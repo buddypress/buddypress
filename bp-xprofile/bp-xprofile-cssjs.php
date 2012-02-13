@@ -26,7 +26,7 @@ function xprofile_add_admin_css() {
 		}
 	}
 }
-add_action( bp_core_admin_hook(), 'xprofile_add_admin_css' );
+add_action( 'admin_enqueue_scripts', 'xprofile_add_admin_css' );
 
 /**
  * Enqueue the jQuery libraries for handling drag/drop/sort
@@ -51,6 +51,6 @@ function xprofile_add_admin_js() {
 		}
 	}
 }
-add_action( bp_core_admin_hook(), 'xprofile_add_admin_js', 1 );
+add_action( 'admin_enqueue_scripts', 'xprofile_add_admin_js', 1 );
 
 ?>

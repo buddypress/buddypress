@@ -34,7 +34,6 @@ function bp_activity_add_admin_menu() {
 	$hook = add_menu_page( __( 'Activity', 'buddypress' ), __( 'Activity', 'buddypress' ), 'manage_options', 'bp-activity', 'bp_activity_admin' );
 
 	// Hook into early actions to load custom CSS and our init handler.
-	add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
 	add_action( "load-$hook", 'bp_activity_admin_load' );
 }
 add_action( bp_core_admin_hook(), 'bp_activity_add_admin_menu' );

@@ -44,6 +44,16 @@ class BP_Admin {
 	 */
 	public $styles_url = '';
 
+	/**
+	 * @var string URL to the BuddyPress admin CSS directory
+	 */
+	public $css_url = '';
+
+	/**
+	 * @var string URL to the BuddyPress admin JS directory
+	 */
+	public $js_url = '';
+
 	/** Recounts **************************************************************/
 
 	/**
@@ -58,7 +68,7 @@ class BP_Admin {
 	 */
 	public $content_depth = 0;
 
-	/** Functions *************************************************************/
+	/** Methods ***************************************************************/
 
 	/**
 	 * The main BuddyPress admin loader
@@ -76,68 +86,6 @@ class BP_Admin {
 	}
 
 	/**
-	 * Setup the admin hooks, actions and filters
-	 *
-	 * @since BuddyPress (1.6)
-	 * @access private
-	 *
-	 * @uses add_action() To add various actions
-	 * @uses add_filter() To add various filters
-	 */
-	private function setup_actions() {
-
-		/** General Actions ***************************************************/
-
-		// Attach the BuddyPress admin_init action to the WordPress admin_init action.
-		add_action( 'admin_init',         array( $this, 'admin_init'                 ) );
-
-		// Add some general styling to the admin area
-		add_action( 'admin_head',         array( $this, 'admin_head'                 ) );
-
-		// Add menu item to settings menu
-		add_action( bp_core_admin_hook(), array( $this, 'admin_menus'                ), 5 );
-
-		// Add notice if not using a BuddyPress theme
-		add_action( 'admin_notices',      array( $this, 'activation_notice'          ) );
-
-		// Add importers
-		//add_action( 'bp_admin_init',      array( $this, 'register_importers'         ) );
-
-		// Add green admin style
-		//add_action( 'bp_admin_init',      array( $this, 'register_admin_style'       ) );
-
-		// Add settings
-		add_action( 'bp_admin_init',      array( $this, 'register_admin_settings'    ) );
-
-		// Forums 'Right now' Dashboard widget
-		//add_action( 'wp_dashboard_setup', array( $this, 'dashboard_widget_right_now' ) );
-
-		/** Filters ***********************************************************/
-
-		// Add link to settings page
-		add_filter( 'plugin_action_links', array( $this, 'add_settings_link' ), 10, 2 );
-
-		// Add sample permalink filter
-		//add_filter( 'post_type_link',     'bp_filter_sample_permalink',         10, 4 );
-	}
-
-	/**
-	 * Include required files
-	 *
-	 * @since BuddyPress (1.6)
-	 * @access private
-	 */
-	private function includes() {
-
-		// Include the files
-		require_once( $this->admin_dir . 'bp-core-settings.php'   );
-		require_once( $this->admin_dir . 'bp-core-functions.php'  );
-		require_once( $this->admin_dir . 'bp-core-components.php' );
-		require_once( $this->admin_dir . 'bp-core-slugs.php'      );
-		//require( $this->admin_dir . 'bp-metaboxes.php'       );
-	}
-
-	/**
 	 * Admin globals
 	 *
 	 * @since BuddyPress (1.6)
@@ -150,13 +98,101 @@ class BP_Admin {
 		$this->admin_dir  = trailingslashit( $bp->plugin_dir . 'bp-core/admin' );
 
 		// Admin url
-		$this->admin_url  = trailingslashit( $bp->plugin_url . 'bp-core/bp-admin' );
+		$this->admin_url  = trailingslashit( $bp->plugin_url . 'bp-core/admin' );
 
 		// Admin images URL
 		$this->images_url = trailingslashit( $this->admin_url . 'images' );
 
+		// Admin css URL
+		$this->css_url    = trailingslashit( $this->admin_url . 'css'    );
+
+		// Admin css URL
+		$this->js_url     = trailingslashit( $this->admin_url . 'js'     );
+
 		// Admin images URL
 		$this->styles_url = trailingslashit( $this->admin_url . 'styles' );
+	}
+
+	/**
+	 * Include required files
+	 *
+	 * @since BuddyPress (1.6)
+	 * @access private
+	 */
+	private function includes() {
+
+		// If in maintenance mode, only include updater and schema
+		if ( bp_get_maintenance_mode() ) {
+			require( $this->admin_dir . 'bp-core-schema.php' );
+			require( $this->admin_dir . 'bp-core-update.php' );
+
+		// No update needed so proceed with loading everything
+		} else {
+			require( $this->admin_dir . 'bp-core-settings.php'   );
+			require( $this->admin_dir . 'bp-core-functions.php'  );
+			require( $this->admin_dir . 'bp-core-components.php' );
+			require( $this->admin_dir . 'bp-core-slugs.php'      );
+		}
+	}
+
+	/**
+	 * Setup the admin hooks, actions and filters
+	 *
+	 * @since BuddyPress (1.6)
+	 * @access private
+	 *
+	 * @uses add_action() To add various actions
+	 * @uses add_filter() To add various filters
+	 */
+	private function setup_actions() {
+
+		// Start the wizard if in maintenance mode
+		if ( bp_get_maintenance_mode() ) {
+			add_action( bp_core_admin_hook(), array( $this, 'start_wizard' ), 2 );
+		}
+
+		/** General Actions ***************************************************/
+
+		// Attach the BuddyPress admin_init action to the WordPress admin_init action.
+		add_action( 'admin_init',            array( $this, 'admin_init'  ) );
+
+		// Add some page specific output to the <head>
+		add_action( 'admin_head',            array( $this, 'admin_head'  ) );
+
+		// Add menu item to settings menu
+		add_action( bp_core_admin_hook(),    array( $this, 'admin_menus' ), 5 );
+
+		// Add notice if not using a BuddyPress theme
+		add_action( 'admin_notices',         array( $this, 'admin_notices' ) );
+
+		// Enqueue all admin JS and CSS
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts'   ) );
+
+		// Forums 'Right now' Dashboard widget
+		//add_action( 'wp_dashboard_setup', array( $this, 'dashboard_widget_right_now' ) );
+
+		/** BuddyPress Actions ************************************************/
+
+		// Add importers
+		//add_action( 'bp_admin_init',      array( $this, 'register_importers'      ) );
+
+		// Add red admin style
+		//add_action( 'bp_admin_init',      array( $this, 'register_admin_style'    ) );
+
+		// Add settings
+		add_action( 'bp_admin_init',      array( $this, 'register_admin_settings' ) );
+
+		/** Filters ***********************************************************/
+
+		// Add link to settings page
+		add_filter( 'plugin_action_links', array( $this, 'add_settings_link' ), 10, 2 );
+
+		// Add sample permalink filter
+		//add_filter( 'post_type_link',     'bp_filter_sample_permalink',         10, 4 );
+	}
+
+	public function start_wizard() {
+		$this->wizard = new BP_Core_Setup_Wizard;
 	}
 
 	/**
@@ -170,71 +206,86 @@ class BP_Admin {
 	 */
 	public function admin_menus() {
 
-		if ( ! bp_current_user_can( 'bp_moderate' ) )
-			return;
+		// In maintenance mode
+		if ( bp_get_maintenance_mode() ) {
 
-		// Don't add this version of the admin menu if a BP upgrade is in progress.
-		// @see bp_core_update_add_admin_menu().
-		if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE )
-			return;
+			if ( !current_user_can( 'manage_options' ) )
+				return;
 
-		$hooks = array();
-		$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
+			if ( bp_get_maintenance_mode() == 'install' )
+				$status = __( 'BuddyPress Setup', 'buddypress' );
+			else
+				$status = __( 'Update BuddyPress',  'buddypress' );
 
-		// Changed in BP 1.6 . See bp_core_admin_backpat_menu()
-		$hooks[] = add_menu_page(
-			__( 'BuddyPress', 'buddypress' ),
-			__( 'BuddyPress', 'buddypress' ),
-			'manage_options',
-			'bp-general-settings',
-			'bp_core_admin_backpat_menu',
-			''
-		);
+			if ( bp_get_wizard() ) {
+				if ( ! is_multisite() || bp_is_multiblog_mode() ) {
+					$hook = add_dashboard_page( $status, $status, 'manage_options', 'bp-wizard', array( bp_get_wizard(), 'html' ) );
+				} else {
+					$hook = add_submenu_page( 'update-core.php', $status, $status, 'manage_options', 'bp-wizard', array( bp_get_wizard(), 'html' ) );
+				}
+			}
 
-		$hooks[] = add_submenu_page(
-			'bp-general-settings',
-			__( 'BuddyPress Help', 'buddypress' ),
-			__( 'Help', 'buddypress' ),
-			'manage_options',
-			'bp-general-settings',
-			'bp_core_admin_backpat_page'
-		);
+		// Not in maintenance mode
+		} else {
+	
+			// Bail if user cannot moderate
+			if ( ! bp_current_user_can( 'manage_options' ) )
+				return;
 
-		// Add the option pages
-		$hooks[] = add_submenu_page(
-			$page,
-			__( 'BuddyPress Components', 'buddypress' ),
-			__( 'BuddyPress', 'buddypress' ),
-			'manage_options',
-			'bp-components',
-			'bp_core_admin_components_settings'
-		);
+			$hooks = array();
+			$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 
-		$hooks[] = add_submenu_page(
-			$page,
-			__( 'BuddyPress Pages', 'buddypress' ),
-			__( 'BuddyPress Pages', 'buddypress' ),
-			'manage_options',
-			'bp-page-settings',
-			'bp_core_admin_slugs_settings'
-		);
+			// Changed in BP 1.6 . See bp_core_admin_backpat_menu()
+			$hooks[] = add_menu_page(
+				__( 'BuddyPress', 'buddypress' ),
+				__( 'BuddyPress', 'buddypress' ),
+				'manage_options',
+				'bp-general-settings',
+				'bp_core_admin_backpat_menu',
+				''
+			);
 
-		$hooks[] = add_submenu_page(
-			$page,
-			__( 'BuddyPress Settings', 'buddypress' ),
-			__( 'BuddyPress Settings', 'buddypress' ),
-			'manage_options',
-			'bp-settings',
-			'bp_core_admin_settings'
-		);
+			$hooks[] = add_submenu_page(
+				'bp-general-settings',
+				__( 'BuddyPress Help', 'buddypress' ),
+				__( 'Help', 'buddypress' ),
+				'manage_options',
+				'bp-general-settings',
+				'bp_core_admin_backpat_page'
+			);
 
-		foreach( $hooks as $hook ) {
+			// Add the option pages
+			$hooks[] = add_submenu_page(
+				$page,
+				__( 'BuddyPress Components', 'buddypress' ),
+				__( 'BuddyPress', 'buddypress' ),
+				'manage_options',
+				'bp-components',
+				'bp_core_admin_components_settings'
+			);
 
-			// Add a hook for common BP admin CSS/JS scripts
-			add_action( "admin_print_styles-$hook", 'bp_core_add_admin_menu_styles' );
+			$hooks[] = add_submenu_page(
+				$page,
+				__( 'BuddyPress Pages', 'buddypress' ),
+				__( 'BuddyPress Pages', 'buddypress' ),
+				'manage_options',
+				'bp-page-settings',
+				'bp_core_admin_slugs_settings'
+			);
+
+			$hooks[] = add_submenu_page(
+				$page,
+				__( 'BuddyPress Settings', 'buddypress' ),
+				__( 'BuddyPress Settings', 'buddypress' ),
+				'manage_options',
+				'bp-settings',
+				'bp_core_admin_settings'
+			);
 
 			// Fudge the highlighted subnav item when on a BuddyPress admin page
-			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
+			foreach( $hooks as $hook ) {
+				add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
+			}
 		}
 	}
 
@@ -397,19 +448,6 @@ class BP_Admin {
 	}
 
 	/**
-	 * Admin area activation notice
-	 *
-	 * Shows a nag message in admin area about the theme not supporting BuddyPress
-	 *
-	 * @since BuddyPress (1.6)
-	 *
-	 * @uses current_user_can() To check notice should be displayed.
-	 */
-	public function activation_notice() {
-		// @todo - something fun
-	}
-
-	/**
 	 * Add Settings link to plugins area
 	 *
 	 * @since BuddyPress (1.6)
@@ -456,192 +494,42 @@ class BP_Admin {
 	 * Add some general styling to the admin area
 	 *
 	 * @since BuddyPress (1.6)
-	 *
-	 * @uses bp_get_forum_post_type() To get the forum post type
-	 * @uses bp_get_topic_post_type() To get the topic post type
-	 * @uses bp_get_reply_post_type() To get the reply post type
-	 * @uses sanitize_html_class() To sanitize the classes
-	 * @uses do_action() Calls 'bp_admin_head'
 	 */
-	public function admin_head() {
+	public function admin_head() { }
 
-		// Icons for top level admin menus
-		$menu_icon_url = $this->images_url . 'menu.png';
-		$icon32_url    = $this->images_url . 'icons32.png'; ?>
+	/**
+	 * Add some general styling to the admin area
+	 *
+	 * @since BuddyPress (1.6)
+	 */
+	public function enqueue_scripts() {
 
-		<style type="text/css" media="screen">
-		/*<![CDATA[*/
+		$maybe_dev = '';
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
+			$maybe_dev = '.dev';
 
-			#bp-dashboard-right-now p.sub,
-			#bp-dashboard-right-now .table,
-			#bp-dashboard-right-now .versions {
-				margin: -12px;
-			}
+		$file = $this->css_url . "common{$maybe_dev}.css";
+		$file = apply_filters( 'bp_core_admin_common_css', $file );
+		wp_enqueue_style( 'bp-admin-common-css', $file, array(), bp_get_version() );
 
-			#bp-dashboard-right-now .inside {
-				font-size: 12px;
-				padding-top: 20px;
-				margin-bottom: 0;
-			}
+		// Extra bits for the installation wizard
+		if ( bp_get_maintenance_mode() ) {
 
-			#bp-dashboard-right-now p.sub {
-				padding: 5px 0 15px;
-				color: #8f8f8f;
-				font-size: 14px;
-				position: absolute;
-				top: -17px;
+			// Styling
+			$file = $this->css_url . "wizard{$maybe_dev}.css";
+			$file = apply_filters( 'bp_core_admin_wizard_css', $file );
+			wp_enqueue_style( 'bp-admin-wizard-css', $file, array(), bp_get_version() );
 
-				<?php if ( is_rtl() ) : ?>
+			// JS
+			$file = $this->js_url . "wizard{$maybe_dev}.js";
+			$file = apply_filters( 'bp_core_admin_wizard_js', $file );
+			wp_enqueue_script( 'bp-admin-wizard-js', $file, array(), bp_get_version() );
 
-					right: 15px;
+			// We'll need the thickbox too
+			wp_enqueue_script( 'thickbox' );
+			wp_enqueue_style( 'thickbox' );
+		}
 
-				<?php else : ?>
-
-					left: 15px;
-
-				<?php endif; ?>
-
-			}
-
-			#bp-dashboard-right-now .table {
-				margin: 0;
-				padding: 0;
-				position: relative;
-			}
-
-			#bp-dashboard-right-now .table_content {
-
-				<?php if ( is_rtl() ) : ?>
-
-					float: right;
-
-				<?php else : ?>
-
-					float: left;
-
-				<?php endif; ?>
-
-				border-top: #ececec 1px solid;
-				width: 45%;
-			}
-
-			#bp-dashboard-right-now .table_discussion {
-
-				<?php if ( is_rtl() ) : ?>
-
-					float: left;
-
-				<?php else : ?>
-
-					float: right;
-
-				<?php endif; ?>
-
-				border-top: #ececec 1px solid;
-				width: 45%;
-			}
-
-			#bp-dashboard-right-now table td {
-				padding: 3px 0;
-				white-space: nowrap;
-			}
-
-			#bp-dashboard-right-now table tr.first td {
-				border-top: none;
-			}
-
-			#bp-dashboard-right-now td.b {
-
-				<?php if ( is_rtl() ) : ?>
-
-					padding-left: 6px;
-
-				<?php else : ?>
-
-					padding-right: 6px;
-
-				<?php endif; ?>
-
-				text-align: right;
-				font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-				font-size: 14px;
-				width: 1%;
-			}
-
-			#bp-dashboard-right-now td.b a {
-				font-size: 18px;
-			}
-
-			#bp-dashboard-right-now td.b a:hover {
-				color: #d54e21;
-			}
-
-			#bp-dashboard-right-now .t {
-				font-size: 12px;
-
-				<?php if ( is_rtl() ) : ?>
-
-					padding-left: 12px;
-
-				<?php else : ?>
-
-					padding-right: 12px;
-
-				<?php endif; ?>
-
-				padding-top: 6px;
-				color: #777;
-			}
-
-			#bp-dashboard-right-now .t a {
-				white-space: nowrap;
-			}
-
-			#bp-dashboard-right-now .spam {
-				color: red;
-			}
-
-			#bp-dashboard-right-now .waiting {
-				color: #e66f00;
-			}
-
-			#bp-dashboard-right-now .approved {
-				color: green;
-			}
-
-			#bp-dashboard-right-now .versions {
-				padding: 6px 10px 12px;
-				clear: both;
-			}
-
-			#bp-dashboard-right-now .versions .b {
-				font-weight: bold;
-			}
-
-			#bp-dashboard-right-now a.button {
-
-				<?php if ( is_rtl() ) : ?>
-
-					float: left;
-					clear: left;
-
-				<?php else : ?>
-
-					float: right;
-					clear: right;
-
-				<?php endif; ?>
-
-				position: relative;
-				top: -5px;
-			}
-
-		/*]]>*/
-		</style>
-
-		<?php
-
-		// Add extra actions to BuddyPress admin header area
 		do_action( 'bp_admin_head' );
 	}
 
@@ -672,6 +560,67 @@ class BP_Admin {
 
 		// Load the admin CSS styling
 		//wp_admin_css_color( 'buddypress', __( 'Green', 'buddypress' ), $css_file, array( '#222222', '#006600', '#deece1', '#6eb469' ) );
+	}
+
+	/**
+	 * Add any admin notices we might need, mostly for update or new installs
+	 *
+	 * @since BuddyPress (1.6)
+	 *
+	 * @global string $pagenow
+	 * @return If no notice is needed 
+	 */
+	public function admin_notices() {
+		global $pagenow;
+
+		// Bail if not in maintenance mode
+		if ( ! bp_get_maintenance_mode() )
+			return;
+
+		// Bail if user cannot manage options
+		if ( ! current_user_can( 'manage_options' ) )
+			return;
+
+		// Are we looking at a network?
+		if ( bp_core_do_network_admin() ) {
+
+			// Bail if looking at wizard page
+			if ( ( 'admin.php' == $pagenow ) && ( !empty( $_GET['page'] ) && ( 'bp-wizard' == $_GET['page'] ) ) ) {
+				return;
+			}
+
+			// Set the url for the nag
+			$url = network_admin_url( 'admin.php?page=bp-wizard' );
+
+		// Single site
+		} else {
+
+			// Bail if looking at wizard page
+			if ( ( 'index.php' == $pagenow ) && ( !empty( $_GET['page'] ) && ( 'bp-wizard' == $_GET['page'] ) ) ) {
+				return;
+			}
+
+			// Set the url for the nag
+			$url = admin_url( 'index.php?page=bp-wizard' );
+		}
+
+		// What does the nag say?
+		switch ( bp_get_maintenance_mode() ) {
+
+			// Update text
+			case 'update' :
+				$msg = sprintf( __( 'BuddyPress has been updated! Please run the <a href="%s">update wizard</a>.', 'buddypress' ), $url );
+				break;
+
+			// First install text
+			case 'install' : default :
+				$msg = sprintf( __( 'BuddyPress was successfully activated! Please run the <a href="%s">installation wizard</a>.', 'buddypress' ), $url );
+				break;
+		} ?>
+
+		<div class="update-nag"><?php echo $msg; ?></div>
+
+		<?php
 	}
 }
 endif; // class_exists check

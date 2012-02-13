@@ -1,4 +1,5 @@
 <?php
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -12,6 +13,39 @@ function bp_core_set_charset() {
 		return "DEFAULT CHARACTER SET $wpdb->charset";
 
 	return '';
+}
+
+function bp_core_install( $active_components = false ) {
+
+	if ( empty( $active_components ) )
+		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
+
+	// Core DB Tables
+	bp_core_install_notifications();
+
+	// Activity Streams
+	if ( !empty( $active_components['activity'] ) )
+		bp_core_install_activity_streams();
+
+	// Friend Connections
+	if ( !empty( $active_components['friends'] ) )
+		bp_core_install_friends();
+
+	// Extensible Groups
+	if ( !empty( $active_components['groups'] ) )
+		bp_core_install_groups();
+
+	// Private Messaging
+	if ( !empty( $active_components['messages'] ) )
+		bp_core_install_private_messaging();
+
+	// Extended Profiles
+	if ( !empty( $active_components['xprofile'] ) )
+		bp_core_install_extended_profiles();
+
+	// Blog tracking
+	if ( !empty( $active_components['blogs'] ) )
+		bp_core_install_blog_tracking();
 }
 
 function bp_core_install_notifications() {
@@ -298,6 +332,53 @@ function bp_core_install_blog_tracking() {
 		       ) {$charset_collate};";
 
 	dbDelta( $sql );
+}
+
+/**
+ * I don't appear to be used anymore, but I'm here anyways. I was originally
+ * used in olden days to update pre-1.1 schemas, but that was before we had
+ * a legitimate update process. Keep me around just incase.
+ *
+ * @global WPDB $wpdb
+ * @global BuddyPress $bp 
+ */
+function bp_update_db_stuff() {
+	global $wpdb, $bp;
+
+	$bp_prefix = bp_core_get_table_prefix();
+
+	// Rename the old user activity cached table if needed.
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp_prefix}bp_activity_user_activity_cached%'" ) )
+		$wpdb->query( "RENAME TABLE {$bp_prefix}bp_activity_user_activity_cached TO {$bp->activity->table_name}" );
+
+	// Rename fields from pre BP 1.2
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->activity->table_name}%'" ) ) {
+		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->activity->table_name} LIKE 'component_action'" ) ) {
+			$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE component_action type varchar(75) NOT NULL" );
+		}
+
+		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->activity->table_name} LIKE 'component_name'" ) ) {
+			$wpdb->query( "ALTER TABLE {$bp->activity->table_name} CHANGE component_name component varchar(75) NOT NULL" );
+		}
+	}
+
+	// On first installation - record all existing blogs in the system.
+	if ( !(int) $bp->site_options['bp-blogs-first-install'] ) {
+		bp_blogs_record_existing_blogs();
+		bp_update_option( 'bp-blogs-first-install', 1 );
+	}
+
+	if ( is_multisite() ) {
+		bp_core_add_illegal_names();
+	}
+
+	// Update and remove the message threads table if it exists
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp_prefix}bp_messages_threads%'" ) ) {
+		if ( BP_Messages_Thread::update_tables() ) {
+			$wpdb->query( "DROP TABLE {$bp_prefix}bp_messages_threads" );
+		}
+	}
+
 }
 
 ?>
