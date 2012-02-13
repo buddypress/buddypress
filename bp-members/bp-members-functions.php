@@ -566,9 +566,9 @@ function bp_is_user_deleted( $user_id = 0 ) {
  * @since BuddyPress (1.6)
  * 
  * @uses is_user_logged_in() To check if user is logged in
- * @uses bbp_get_displayed_user_id() To get current user ID
- * @uses bbp_is_user_spammer() To check if user is spammer
- * @uses bbp_is_user_deleted() To check if user is deleted
+ * @uses bp_loggedin_user_id() To get current user ID
+ * @uses bp_is_user_spammer() To check if user is spammer
+ * @uses bp_is_user_deleted() To check if user is deleted
  *
  * @param int $user_id The user ID to check
  * @return bool True if public, false if not
