@@ -438,11 +438,16 @@ add_action( 'wp', 'bp_core_catch_no_access' );
  */
 function bp_core_no_access( $args = '' ) {
 
+ 	// Build the redirect URL 
+ 	$redirect_url  = is_ssl() ? 'https://' : 'http://';
+ 	$redirect_url .= $_SERVER['HTTP_HOST'];
+ 	$redirect_url .= $_SERVER['REQUEST_URI'];
+
 	$defaults = array(
-		'mode'     => '1',			    // 1 = $root, 2 = wp-login.php
-		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' ),
-		'redirect' => wp_guess_url(),	// the URL you get redirected to when a user successfully logs in
-		'root'     => bp_get_root_domain()	// the landing page you get redirected to when a user doesn't have access
+		'mode'     => '1',                  // 1 = $root, 2 = wp-login.php
+		'redirect' => $redirect_url,        // the URL you get redirected to when a user successfully logs in
+		'root'     => bp_get_root_domain(),	// the landing page you get redirected to when a user doesn't have access
+		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' )
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -459,11 +464,12 @@ function bp_core_no_access( $args = '' ) {
 	$root       = trailingslashit( $root );
 
 	switch ( $mode ) {
+
 		// Option to redirect to wp-login.php
 		// Error message is displayed with bp_core_no_access_wp_login_error()
 		case 2 :
-			if ( $redirect ) {
-				bp_core_redirect( wp_login_url( $redirect ) . '&action=bpnoaccess' );
+			if ( !empty( $redirect ) ) {
+				bp_core_redirect( add_query_arg( array( 'action' => 'bpnoaccess' ), wp_login_url( $redirect ) ) );
 			} else {
 				bp_core_redirect( $root );
 			}
