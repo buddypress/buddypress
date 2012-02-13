@@ -205,8 +205,14 @@ function bp_core_install_extended_profiles() {
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix = bp_core_get_table_prefix();
 
-	bp_update_option( 'bp-xprofile-base-group-name', _x( 'Base', 'First XProfile group name', 'buddypress' ) );
-	bp_update_option( 'bp-xprofile-fullname-field-name', _x( 'Name', 'XProfile fullname field name', 'buddypress' ) );
+	// These values should only be updated if they are not already present
+	if ( !$base_group_name = bp_get_option( 'bp-xprofile-base-group-name' ) ) {
+		bp_update_option( 'bp-xprofile-base-group-name', _x( 'Base', 'First XProfile group name', 'buddypress' ) );
+	}
+
+	if ( !$fullname_field_name = bp_get_option( 'bp-xprofile-fullname-field-name' ) ) {
+		bp_update_option( 'bp-xprofile-fullname-field-name', _x( 'Name', 'XProfile fullname field name', 'buddypress' ) );
+	}
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_xprofile_groups (
 			    id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
