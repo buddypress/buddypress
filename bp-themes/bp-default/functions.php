@@ -58,13 +58,15 @@ if ( !function_exists( 'bp_dtheme_setup' ) ) :
  * @since 1.5
  */
 function bp_dtheme_setup() {
-	global $bp;
 
 	// Load the AJAX functions for the theme
 	require( TEMPLATEPATH . '/_inc/ajax.php' );
 
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
+
+	// This theme comes with all the BuddyPress goodies
+	add_theme_support( 'buddypress' );
 
 	// This theme uses post thumbnails
 	add_theme_support( 'post-thumbnails' );
@@ -207,8 +209,9 @@ function bp_dtheme_enqueue_styles() {
 	if ( current_theme_supports( 'bp-default-responsive' ) ) {
 		wp_enqueue_style( 'bp-default-responsive', get_template_directory_uri() . '/_inc/css/responsive.css', array( 'bp-default-main' ), $version );
 
-		if ( is_rtl() )
+		if ( is_rtl() ) {
 			wp_enqueue_style( 'bp-default-responsive-rtl', get_template_directory_uri() . '/_inc/css/responsive-rtl.css', array( 'bp-default-responsive' ), $version );
+		}
 	}
 }
 add_action( 'wp_enqueue_scripts', 'bp_dtheme_enqueue_styles' );
@@ -375,7 +378,7 @@ if ( !function_exists( 'bp_dtheme_widgets_init' ) ) :
  * @since 1.5
  */
 function bp_dtheme_widgets_init() {
-	// Register the widget columns
+
 	// Area 1, located in the sidebar. Empty by default.
 	register_sidebar( array(
 		'name'          => 'Sidebar',
@@ -584,14 +587,11 @@ if ( !function_exists( 'bp_dtheme_main_nav' ) ) :
  *
  * Used when the custom menus haven't been configured.
  *
- * @global object $bp Global BuddyPress settings object
  * @param array Menu arguments from wp_nav_menu()
  * @see wp_nav_menu()
  * @since 1.5
  */
 function bp_dtheme_main_nav( $args ) {
-	global $bp;
-
 	$pages_args = array(
 		'depth'      => 0,
 		'echo'       => false,
@@ -625,18 +625,16 @@ if ( !function_exists( 'bp_dtheme_comment_form' ) ) :
 /**
  * Applies BuddyPress customisations to the post comment form.
  *
- * @global string $user_identity The display name of the user
  * @param array $default_labels The default options for strings, fields etc in the form
  * @see comment_form()
  * @since 1.5
  */
 function bp_dtheme_comment_form( $default_labels ) {
-	global $user_identity;
 
 	$commenter = wp_get_current_commenter();
-	$req = get_option( 'require_name_email' );
-	$aria_req = ( $req ? " aria-required='true'" : '' );
-	$fields =  array(
+	$req       = get_option( 'require_name_email' );
+	$aria_req  = ( $req ? " aria-required='true'" : '' );
+	$fields    =  array(
 		'author' => '<p class="comment-form-author">' . '<label for="author">' . __( 'Name', 'buddypress' ) . ( $req ? '<span class="required"> *</span>' : '' ) . '</label> ' .
 		            '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /></p>',
 		'email'  => '<p class="comment-form-email"><label for="email">' . __( 'Email', 'buddypress' ) . ( $req ? '<span class="required"> *</span>' : '' ) . '</label> ' .
@@ -713,9 +711,11 @@ if ( !function_exists( 'bp_dtheme_sidebar_login_redirect_to' ) ) :
  * @since 1.5
  */
 function bp_dtheme_sidebar_login_redirect_to() {
-	$redirect_to = apply_filters( 'bp_no_access_redirect', !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '' );
-?>
+	$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
+	$redirect_to = apply_filters( 'bp_no_access_redirect', $redirect_to ); ?>
+
 	<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
+
 <?php
 }
 add_action( 'bp_sidebar_login_form', 'bp_dtheme_sidebar_login_redirect_to' );
@@ -725,18 +725,20 @@ if ( !function_exists( 'bp_dtheme_content_nav' ) ) :
 /**
  * Display navigation to next/previous pages when applicable
  *
- * @global unknown $wp_query
+ * @global WP_Query $wp_query
  * @param string $nav_id DOM ID for this navigation
  * @since 1.5
  */
 function bp_dtheme_content_nav( $nav_id ) {
 	global $wp_query;
 
-	if ( $wp_query->max_num_pages > 1 ) : ?>
+	if ( !empty( $wp_query->max_num_pages ) && $wp_query->max_num_pages > 1 ) : ?>
+
 		<div id="<?php echo $nav_id; ?>" class="navigation">
 			<div class="alignleft"><?php next_posts_link( __( '&larr; Previous Entries', 'buddypress' ) ); ?></div>
 			<div class="alignright"><?php previous_posts_link( __( 'Next Entries &rarr;', 'buddypress' ) ); ?></div>
 		</div><!-- #<?php echo $nav_id; ?> -->
+
 	<?php endif;
 }
 endif;
