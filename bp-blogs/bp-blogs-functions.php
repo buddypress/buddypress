@@ -351,6 +351,9 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
  * @since 1.6
  */
 function bp_blogs_maybe_add_user_to_blog() {
+	if ( ! is_multisite() )
+		return;
+
 	remove_action( 'init', 'maybe_add_existing_user_to_blog' );
 	add_action( 'init', 'maybe_add_existing_user_to_blog', 20 );
 }
