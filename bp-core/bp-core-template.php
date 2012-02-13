@@ -567,7 +567,7 @@ function bp_current_component() {
 
 function bp_current_action() {
 	global $bp;
-	$current_action = !empty( $bp->current_action ) ? $bp->current_action : false;
+	$current_action = !empty( $bp->current_action ) ? $bp->current_action : '';
 	return apply_filters( 'bp_current_action', $current_action );
 }
 
