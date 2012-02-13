@@ -15,7 +15,7 @@
 			</a>
 
 			<h4><?php echo bp_core_get_userlink( bp_loggedin_user_id() ); ?></h4>
-			<a class="button logout" href="<?php echo wp_logout_url( bp_get_root_domain() ); ?>"><?php _e( 'Log Out', 'buddypress' ); ?></a>
+			<a class="button logout" href="<?php echo wp_logout_url( wp_guess_url() ); ?>"><?php _e( 'Log Out', 'buddypress' ); ?></a>
 
 			<?php do_action( 'bp_sidebar_me' ); ?>
 		</div>
