@@ -1,4 +1,4 @@
-/*
+/*!
  * jQuery plugin: autoCompletefb(AutoComplete Facebook)
  * @requires jQuery v1.2.2 or later
  * using plugin:jquery.autocomplete.js

@@ -1,4 +1,4 @@
-/* Copyright (c) 2010 Brandon Aaron (http://brandonaaron.net)
+/*! Copyright (c) 2010 Brandon Aaron (http://brandonaaron.net)
  * Licensed under the MIT License (license.bgiframe.txt).
  *
  * Version 2.1.2

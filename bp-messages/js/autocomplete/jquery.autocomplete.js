@@ -1,4 +1,4 @@
-/*
+/*!
  * Autocomplete - jQuery plugin 1.0 Beta
  *
  * Copyright (c) 2007 Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Jörn Zaefferer
