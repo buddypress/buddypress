@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-13 21:36:06+00:00\n"
+"POT-Creation-Date: 2012-02-14 19:36:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3855,21 +3855,21 @@ msgstr ""
 msgid "Sent %s"
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:111
-#: bp-settings/bp-settings-actions.php:151
+#: bp-settings/bp-settings-actions.php:112
+#: bp-settings/bp-settings-actions.php:152
 #: bp-xprofile/bp-xprofile-screens.php:124
 msgid "Changes saved."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:114
+#: bp-settings/bp-settings-actions.php:115
 msgid "Your new passwords did not match."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:117
+#: bp-settings/bp-settings-actions.php:118
 msgid "Your existing password is incorrect."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:120
+#: bp-settings/bp-settings-actions.php:121
 msgid "Sorry, that email address is already used or is invalid."
 msgstr ""
 
