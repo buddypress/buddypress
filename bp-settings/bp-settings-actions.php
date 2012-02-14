@@ -83,7 +83,8 @@ function bp_core_screen_general_settings() {
 
 			// Not a password change attempt so empty the user_pass
 			} else {
-				unset( $update_user->user_pass );
+				// unset( $update_user->user_pass ); // WP_User has no __unset()
+				$update_user->user_pass = null;
 			}
 
 			// Make sure these changes are in $bp for the current page load
