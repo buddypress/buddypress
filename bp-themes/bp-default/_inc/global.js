@@ -809,7 +809,7 @@ jq(document).ready( function() {
 
 	/** Profile Privacy Settings *********************************/
 	
-	jq('.privacy-toggle-link').click( function() {
+	jq('.privacy-toggle-link').on( 'click', function() {
 		var toggle_div = jq(this).parent();
 		
 		jq(toggle_div).slideUp( 200, function(){
@@ -819,7 +819,7 @@ jq(document).ready( function() {
 		return false;
 	} );
 
-	jq('.field-privacy-settings-close').click( function() {
+	jq('.field-privacy-settings-close').on( 'click', function() {
 		var settings_div = jq(this).parent();
 		
 		jq(settings_div).slideUp( 200, function(){
