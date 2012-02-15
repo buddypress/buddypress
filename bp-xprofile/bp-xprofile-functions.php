@@ -263,13 +263,6 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
 		return false;
 	}
 	
-	// Get the fielddata id
-	$fielddata_id = BP_XProfile_ProfileData::get_fielddataid_byid( $field_id, $user_id );
-	
-	if ( empty( $fielddata_id ) ) {
-		return false;
-	}
-	
 	// Check against a whitelist
 	$allowed_values = bp_xprofile_get_visibility_levels();
 	if ( !array_key_exists( $visibility_level, $allowed_values ) ) {
