@@ -2371,20 +2371,20 @@ div.profile h4 {
 #profile-edit-form ul.button-nav {
 	margin-top: 15px;
 }
-body.no-js .field-privacy-settings-toggle,
-body.no-js .field-privacy-settings-close {
+body.no-js .field-visibility-settings-toggle,
+body.no-js .field-visibility-settings-close {
 	display: none;
 }
-.field-privacy-settings {
+.field-visibility-settings {
 	display: none;
 }
-	body.no-js .field-privacy-settings {
+	body.no-js .field-visibility-settings {
 		display: block;
 	}
-.current-privacy-level {
+.current-visibility-level {
 	font-weight: bold;
 }
-.field-privacy-settings-toggle a,
-.field-privacy-settings a {
+.field-visibility-settings-toggle a,
+.field-visibility-settings a {
 	font-size: .9em;
 }

@@ -807,23 +807,23 @@ jq(document).ready( function() {
 		return false;
 	});
 
-	/** Profile Privacy Settings *********************************/
+	/** Profile Visibility Settings *********************************/
 	
-	jq('.privacy-toggle-link').on( 'click', function() {
+	jq('.visibility-toggle-link').on( 'click', function() {
 		var toggle_div = jq(this).parent();
 		
 		jq(toggle_div).slideUp( 200, function(){
-			jq(toggle_div).siblings('.field-privacy-settings').slideDown(200);
+			jq(toggle_div).siblings('.field-visibility-settings').slideDown(200);
 		});
 		
 		return false;
 	} );
 
-	jq('.field-privacy-settings-close').on( 'click', function() {
+	jq('.field-visibility-settings-close').on( 'click', function() {
 		var settings_div = jq(this).parent();
 		
 		jq(settings_div).slideUp( 200, function(){
-			jq(settings_div).siblings('.field-privacy-settings-toggle').slideDown(200);
+			jq(settings_div).siblings('.field-visibility-settings-toggle').slideDown(200);
 		});
 		
 		return false;

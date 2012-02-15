@@ -120,7 +120,7 @@ class BP_XProfile_Group {
 			'hide_empty_fields'   => false,
 			'fetch_fields'        => false,
 			'fetch_field_data'    => false,
-			'fetch_privacy_level' => false,
+			'fetch_visibility_level' => false,
 			'exclude_groups'      => false,
 			'exclude_fields'      => false
 		);
@@ -167,7 +167,7 @@ class BP_XProfile_Group {
 			}
 		}
 		
-		// Privacy - Handled here so as not to be overridden by sloppy use of the
+		// Visibility - Handled here so as not to be overridden by sloppy use of the
 		// exclude_fields parameter. See bp_xprofile_get_hidden_fields_for_user()
 		$exclude_fields_cs = array_merge( $exclude_fields_cs, bp_xprofile_get_hidden_fields_for_user( $user_id ) );
 		
@@ -240,8 +240,8 @@ class BP_XProfile_Group {
 					}
 				}
 						
-				if ( $fetch_privacy_level ) {
-					$fields = self::fetch_privacy_level( $user_id, $fields );
+				if ( $fetch_visibility_level ) {
+					$fields = self::fetch_visibility_level( $user_id, $fields );
 				}
 			}
 		}
@@ -294,49 +294,49 @@ class BP_XProfile_Group {
 	}
 	
 	/**
-	 * Fetch the field privacy level for the returned fielddata
+	 * Fetch the field visibility level for the returned fielddata
 	 */
-	function fetch_privacy_level( $user_id, $fields ) {
+	function fetch_visibility_level( $user_id, $fields ) {
 		global $wpdb, $bp;
 		
-		// Get the user's privacy level preferences
-		$privacy_levels = get_user_meta( $user_id, 'bp_xprofile_privacy_levels', true );
+		// Get the user's visibility level preferences
+		$visibility_levels = get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 		
 		foreach( (array)$fields as $key => $field ) {
-			// Look to see if the user has set the privacy for this field
-			if ( isset( $privacy_levels[$field->id] ) ) {
-				$field_privacy = $privacy_levels[$field->id];
+			// Look to see if the user has set the visibility for this field
+			if ( isset( $visibility_levels[$field->id] ) ) {
+				$field_visibility = $visibility_levels[$field->id];
 			} else {
 				// If not, bring up the admin-set defaults
-				if ( !isset( $default_privacy_levels ) ) {
-					$default_privacy_levels = self::fetch_default_privacy_levels();
+				if ( !isset( $default_visibility_levels ) ) {
+					$default_visibility_levels = self::fetch_default_visibility_levels();
 				}
 				
 				// If no admin-set default is saved, fall back on a global default
-				$field_privacy = !empty( $default_privacy_levels[$field->id] ) ? $default_privacy_levels[$field->id] : apply_filters( 'bp_xprofile_default_privacy_level', 'public' );
+				$field_visibility = !empty( $default_visibility_levels[$field->id] ) ? $default_visibility_levels[$field->id] : apply_filters( 'bp_xprofile_default_visibility_level', 'public' );
 			}
 			
-			$fields[$key]->privacy_level = $field_privacy;
+			$fields[$key]->visibility_level = $field_visibility;
 		}
 		
 		return $fields;
 	}
 	
 	/**
-	 * Fetch the admin-set default privacy levels for all fields
+	 * Fetch the admin-set default visibility levels for all fields
 	 */
-	function fetch_default_privacy_levels() {
+	function fetch_default_visibility_levels() {
 		global $wpdb, $bp;
 		
-		$levels = $wpdb->get_results( $wpdb->prepare( "SELECT object_id, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND meta_key = 'default_privacy'" ) );
+		$levels = $wpdb->get_results( $wpdb->prepare( "SELECT object_id, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND meta_key = 'default_visibility'" ) );
 		
-		// Arrange so that the field id is the key and the privacy level the value
-		$default_privacy_levels = array();
+		// Arrange so that the field id is the key and the visibility level the value
+		$default_visibility_levels = array();
 		foreach( $levels as $level ) {
-			$default_privacy_levels[$level->object_id] = $level->meta_value;
+			$default_visibility_levels[$level->object_id] = $level->meta_value;
 		}
 		
-		return $default_privacy_levels;
+		return $default_visibility_levels;
 	}
 	
 	/* ADMIN AREA HTML.
@@ -418,7 +418,7 @@ class BP_XProfile_Field {
 	var $option_order;
 	var $order_by;
 	var $is_default_option;
-	var $default_privacy;
+	var $default_visibility;
 
 	var $data;
 	var $message = null;
@@ -457,10 +457,10 @@ class BP_XProfile_Field {
 				$this->data          = $this->get_field_data( $user_id );
 			}
 			
-			$this->default_privacy = bp_xprofile_get_meta( $id, 'field', 'default_privacy' );
+			$this->default_visibility = bp_xprofile_get_meta( $id, 'field', 'default_visibility' );
 			
-			if ( empty( $this->default_privacy ) ) {
-				$this->default_privacy = 'public';
+			if ( empty( $this->default_visibility ) ) {
+				$this->default_visibility = 'public';
 			}
 		}
 	}
@@ -722,8 +722,8 @@ class BP_XProfile_Field {
 				$class = 'display: none;';
 			}
 			
-			if ( empty( $this->default_privacy ) ) {
-				$this->default_privacy = 'public';
+			if ( empty( $this->default_visibility ) ) {
+				$this->default_visibility = 'public';
 			}
 
 			?>
@@ -877,11 +877,11 @@ class BP_XProfile_Field {
 					<?php if ( 1 != $this->id ) : ?>
 
 						<div id="titlediv">
-							<h3><label for="default-privacy"><?php _e( "Default Privacy Level", 'buddypress' ); ?></label></h3>
+							<h3><label for="default-visibility"><?php _e( "Default Visibility Level", 'buddypress' ); ?></label></h3>
 							<div id="titlewrap">
 								<ul>
-								<?php foreach( bp_xprofile_get_privacy_levels() as $level ) : ?>
-									<li><input type="radio" name="default-privacy" value="<?php echo esc_attr( $level['id'] ) ?>" <?php checked( $this->default_privacy, $level['id'] ) ?>> <?php echo esc_html( $level['label'] ) ?></li> 
+								<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
+									<li><input type="radio" name="default-visibility" value="<?php echo esc_attr( $level['id'] ) ?>" <?php checked( $this->default_visibility, $level['id'] ) ?>> <?php echo esc_html( $level['label'] ) ?></li> 
 								<?php endforeach ?>
 								</ul>
 							</div>

@@ -115,16 +115,16 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 				
 				<?php /* The fullname field is always public */ ?>
 				<?php if ( 1 != bp_get_the_profile_field_id() ) : ?>
-					<div class="field-privacy-settings-toggle" id="field-privacy-settings-toggle-<?php bp_the_profile_field_id() ?>">
-						<?php printf( __( 'This field can be seen by: <span class="current-privacy-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_privacy_level_label() ) ?> <a href="#" class="privacy-toggle-link">Change</a>
+					<div class="field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
+						<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?> <a href="#" class="visibility-toggle-link">Change</a>
 					</div>
 					
-					<div class="field-privacy-settings" id="field-privacy-settings-<?php bp_the_profile_field_id() ?>">
-						<label for="field-privacy"><?php _e( 'Who can see this field?', 'buddypress' ) ?></label>
+					<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
+						<label for="field-visibility"><?php _e( 'Who can see this field?', 'buddypress' ) ?></label>
 						
-						<?php bp_profile_privacy_radio_buttons() ?>
+						<?php bp_profile_visibility_radio_buttons() ?>
 						
-						<a class="field-privacy-settings-close" href="#"><?php _e( 'Close', 'buddypress' ) ?></a>
+						<a class="field-visibility-settings-close" href="#"><?php _e( 'Close', 'buddypress' ) ?></a>
 					</div>
 				<?php endif ?>
 
