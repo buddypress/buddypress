@@ -24,16 +24,17 @@ class BP_XProfile_Data_Template {
 	var $in_the_loop;
 	var $user_id;
 
-	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false ) {
+	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false, $fetch_privacy_level = false ) {
 		$this->groups = BP_XProfile_Group::get( array(
-			'profile_group_id'  => $profile_group_id,
-			'user_id'           => $user_id,
-			'hide_empty_groups' => $hide_empty_groups,
-			'hide_empty_fields' => $hide_empty_fields,
-			'fetch_fields'      => $fetch_fields,
-			'fetch_field_data'  => $fetch_field_data,
-			'exclude_groups'    => $exclude_groups,
-			'exclude_fields'    => $exclude_fields
+			'profile_group_id'    => $profile_group_id,
+			'user_id'             => $user_id,
+			'hide_empty_groups'   => $hide_empty_groups,
+			'hide_empty_fields'   => $hide_empty_fields,
+			'fetch_fields'        => $fetch_fields,
+			'fetch_field_data'    => $fetch_field_data,
+			'fetch_privacy_level' => $fetch_privacy_level,
+			'exclude_groups'      => $exclude_groups,
+			'exclude_fields'      => $exclude_fields
 		) );
 
 		$this->group_count = count($this->groups);
@@ -156,22 +157,30 @@ function bp_has_profile( $args = '' ) {
 	// Only show empty fields if we're on the Dashboard, or we're on a user's profile edit page,
 	// or this is a registration page
 	$hide_empty_fields_default = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() && !bp_is_register_page() );
-
+	
+	// We only need to fetch privacy levels when viewing your own profile
+	if ( bp_is_my_profile() || bp_current_user_can( 'bp_moderate' ) ) {
+		$fetch_privacy_level_default = true;
+	} else {
+		$fetch_privacy_level_default = false;
+	}
+	
 	$defaults = array(
-		'user_id'           => bp_displayed_user_id(),
-		'profile_group_id'  => false,
-		'hide_empty_groups' => true,
-		'hide_empty_fields' => $hide_empty_fields_default,
-		'fetch_fields'      => true,
-		'fetch_field_data'  => true,
-		'exclude_groups'    => false, // Comma-separated list of profile field group IDs to exclude
-		'exclude_fields'    => false  // Comma-separated list of profile field IDs to exclude
+		'user_id'             => bp_displayed_user_id(),
+		'profile_group_id'    => false,
+		'hide_empty_groups'   => true,
+		'hide_empty_fields'   => $hide_empty_fields_default,
+		'fetch_fields'        => true,
+		'fetch_field_data'    => true,
+		'fetch_privacy_level' => $fetch_privacy_level_default,
+		'exclude_groups'      => false, // Comma-separated list of profile field group IDs to exclude
+		'exclude_fields'      => false  // Comma-separated list of profile field IDs to exclude
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields, $hide_empty_fields );
+	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields, $hide_empty_fields, $fetch_privacy_level );
 	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), $profile_template );
 }
 
@@ -697,6 +706,42 @@ function bp_the_profile_field_is_required() {
 		return apply_filters( 'bp_get_the_profile_field_is_required', (bool) $retval );
 	}
 
+/**
+ * Echo the privacy level of this field
+ */
+function bp_the_profile_field_privacy_level() {
+	echo bp_get_the_profile_field_privacy_level();
+}
+	/**
+	 * Return the privacy level of this field
+	 */
+	function bp_get_the_profile_field_privacy_level() {
+		global $field;
+		
+		$retval = !empty( $field->privacy_level ) ? $field->privacy_level : 'public';
+		
+		return apply_filters( 'bp_get_the_profile_field_privacy_level', $retval );
+	}
+
+/**
+ * Echo the privacy level label of this field
+ */
+function bp_the_profile_field_privacy_level_label() {
+	echo bp_get_the_profile_field_privacy_level_label();
+}
+	/**
+	 * Return the privacy level label of this field
+	 */
+	function bp_get_the_profile_field_privacy_level_label() {
+		global $field;
+		
+		$level  = !empty( $field->privacy_level ) ? $field->privacy_level : 'public';
+		$fields = bp_xprofile_get_privacy_levels();
+		
+		return apply_filters( 'bp_get_the_profile_field_privacy_level_label', $fields[$level]['label'] );
+	}
+
+
 function bp_unserialize_profile_field( $value ) {
 	if ( is_serialized($value) ) {
 		$field_value = maybe_unserialize($value);
@@ -839,4 +884,26 @@ function bp_edit_profile_button() {
 	) );
 }
 
+/**
+ * Echo the field privacy radio buttons
+ */
+function bp_profile_privacy_radio_buttons() {
+	echo bp_profile_get_privacy_radio_buttons();
+}
+	/**
+	 * Return the field privacy radio buttons
+	 */
+	function bp_profile_get_privacy_radio_buttons() {		
+		$html = '<ul class="radio">';
+		
+		foreach( bp_xprofile_get_privacy_levels() as $level ) {
+			$checked = $level['id'] == bp_get_the_profile_field_privacy_level() ? ' checked="checked" ' : '';
+			
+			$html .= '<li><input type="radio" name="field_' . bp_get_the_profile_field_id() . '_privacy" value="' . esc_attr( $level['id'] ) . '"' . $checked . '> ' . esc_html( $level['label'] ) . '</li>';
+		}
+		
+		$html .= '</ul>';
+		
+		return apply_filters( 'bp_profile_get_privacy_radio_buttons', $html );
+	}
 ?>

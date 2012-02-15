@@ -14,6 +14,12 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_XProfile_Component extends BP_Component {
+	/**
+	 * The acceptable privacy levels for xprofile fields.
+	 * @since 1.6
+	 * @see bp_xprofile_get_privacy_levels()
+	 */
+	var $privacy_levels = array();
 
 	/**
 	 * Start the xprofile component creation process
@@ -82,6 +88,25 @@ class BP_XProfile_Component extends BP_Component {
 			'multiselectbox',
 			'datebox'
 		) );
+		
+		// Register the privacy levels. See bp_xprofile_get_privacy_levels() to filter		
+		$this->privacy_levels = array(
+			'public'  => array(
+				'id'	=> 'public',
+				'label' => __( 'Anyone', 'buddypress' )
+			),
+			'loggedin' => array(
+				'id'	=> 'loggedin',
+				'label' => __( 'Logged In Users', 'buddypress' )
+			)
+		);
+		
+		if ( bp_is_active( 'friends' ) ) {
+			$this->privacy_levels['friends'] = array(
+				'id'	=> 'friends',
+				'label'	=> __( 'My Friends', 'buddypress' )
+			);
+		}
 
 		// Tables
 		$global_tables = array(

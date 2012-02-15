@@ -113,6 +113,10 @@ function xprofile_screen_edit_profile() {
 					$errors = true;
 				else
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $value );
+				
+				// Save the privacy level
+				$privacy_level = !empty( $_POST['field_' . $field_id . '_privacy'] ) ? $_POST['field_' . $field_id . '_privacy'] : 'public';
+				xprofile_set_field_privacy_level( $field_id, bp_displayed_user_id(), $privacy_level );
 			}
 
 			do_action( 'xprofile_updated_profile', bp_displayed_user_id(), $posted_field_ids, $errors );

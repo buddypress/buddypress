@@ -250,6 +250,44 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	return $field->save();
 }
 
+/**
+ * Set the privacy level for this field
+ *
+ * @param int $field_id The ID of the xprofile field
+ * @param int $user_id The ID of the user to whom the data belongs
+ * @param string $privacy_level
+ * @return bool True on success
+ */
+function xprofile_set_field_privacy_level( $field_id = 0, $user_id = 0, $privacy_level = '' ) {
+	if ( empty( $field_id ) || empty( $user_id ) || empty( $privacy_level ) ) {
+		return false;
+	}
+	
+	// Get the fielddata id
+	$fielddata_id = BP_XProfile_ProfileData::get_fielddataid_byid( $field_id, $user_id );
+	
+	if ( empty( $fielddata_id ) ) {
+		return false;
+	}
+	
+	// Check against a whitelist
+	$allowed_values = bp_xprofile_get_privacy_levels();
+	if ( !array_key_exists( $privacy_level, $allowed_values ) ) {
+		return false;
+	}
+	
+	// Stored in an array in usermeta
+	$current_privacy_levels = get_user_meta( $user_id, 'bp_xprofile_privacy_levels', true );
+	
+	if ( !$current_privacy_levels ) {
+		$current_privacy_levels = array();
+	}
+	
+	$current_privacy_levels[$field_id] = $privacy_level;
+	
+	return update_user_meta( $user_id, 'bp_xprofile_privacy_levels', $current_privacy_levels );
+}
+
 function xprofile_delete_field_data( $field, $user_id ) {
 	if ( is_numeric( $field ) )
 		$field_id = $field;
@@ -604,5 +642,108 @@ function bp_xprofile_update_fielddata_meta( $field_data_id, $meta_key, $meta_val
 function bp_xprofile_fullname_field_name() {
 	return apply_filters( 'bp_xprofile_fullname_field_name', BP_XPROFILE_FULLNAME_FIELD_NAME );
 }
+
+/**
+ * Get privacy levels out of the $bp global
+ *
+ * @return array
+ */
+function bp_xprofile_get_privacy_levels() {
+	global $bp;
+	
+	return apply_filters( 'bp_xprofile_get_privacy_levels', $bp->profile->privacy_levels );
+}
+
+/**
+ * Get the ids of fields that are hidden for this displayed/loggedin user pair
+ *
+ * This is the function primarily responsible for profile field privacy. It works by determining
+ * the relationship between the displayed_user (ie the profile owner) and the current_user (ie the
+ * profile viewer). Then, based on that relationship, we query for the set of fields that should
+ * be excluded from the profile loop.
+ *
+ * @since 1.6
+ * @see BP_XProfile_Group::get()
+ * @uses apply_filters() Filter bp_xprofile_get_hidden_fields_for_user to modify privacy levels,
+ *   or if you have added your own custom levels
+ *
+ * @param int $displayed_user_id The id of the user the profile fields belong to
+ * @param int $current_user_id The id of the user viewing the profile
+ * @return array An array of field ids that should be excluded from the profile query
+ */
+function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $current_user_id = 0 ) {
+	if ( !$displayed_user_id ) {
+		$displayed_user_id = bp_displayed_user_id();
+	}
+	
+	if ( !$displayed_user_id ) {
+		return array();
+	}
+	
+	if ( !$current_user_id ) {
+		$current_user_id = bp_loggedin_user_id();
+	}
+	
+	// @todo - This is where you'd swap out for current_user_can() checks
+	
+	if ( $current_user_id ) {
+		// Current user is logged in
+		if ( $displayed_user_id == $current_user_id ) {
+			// If you're viewing your own profile, nothing's private
+			$hidden_fields = array();	
+			
+		} else if ( bp_is_active( 'friends' ) && friends_check_friendship( $displayed_user_id, $current_user_id ) ) {
+			// If the current user and displayed user are friends, show all
+			$hidden_fields = array();
+			
+		} else {
+			// current user is logged-in but not friends, so exclude friends-only	
+			$hidden_levels = array( 'friends' );			
+			$hidden_fields = bp_xprofile_get_fields_by_privacy_levels( $displayed_user_id, $hidden_levels );
+		}
+		
+	} else {
+		// Current user is not logged in, so exclude friends-only and loggedin
+		$hidden_levels = array( 'friends', 'loggedin' );
+		$hidden_fields = bp_xprofile_get_fields_by_privacy_levels( $displayed_user_id, $hidden_levels );
+	}
+	
+	return apply_filters( 'bp_xprofile_get_hidden_fields_for_user', $hidden_fields, $displayed_user_id, $current_user_id );
+}
+
+/**
+ * Fetch an array of the xprofile fields that a given user has marked with certain privacy levels
+ *
+ * @since 1.6
+ * @see bp_xprofile_get_hidden_fields_for_user()
+ *
+ * @param int $user_id The id of the profile owner
+ * @param array $levels An array of privacy levels ('public', 'friends', 'loggedin', etc) to be
+ *    checked against
+ * @return array $field_ids The fields that match the requested privacy levels for the given user
+ */
+function bp_xprofile_get_fields_by_privacy_levels( $user_id, $levels = array() ) {
+	if ( !is_array( $levels ) ) {
+		$levels = (array)$levels;
+	}
+	
+	$user_privacy_levels = get_user_meta( $user_id, 'bp_xprofile_privacy_levels', true );
+	
+	$field_ids = array();
+	foreach( (array)$user_privacy_levels as $field_id => $field_privacy ) {
+		if ( in_array( $field_privacy, $levels ) ) {
+			$field_ids[] = $field_id;
+		}
+	}
+	
+	// Never allow the fullname field to be excluded
+	if ( in_array( 1, $field_ids ) ) {
+		$key = array_search( 1, $field_ids );
+		unset( $field_ids[$key] );
+	}
+	
+	return $field_ids;
+}
+
 
 ?>

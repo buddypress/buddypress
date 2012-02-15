@@ -114,14 +114,15 @@ class BP_XProfile_Group {
 		global $wpdb, $bp;
 
 		$defaults = array(
-			'profile_group_id'  => false,
-			'user_id'           => bp_displayed_user_id(),
-			'hide_empty_groups' => false,
-			'hide_empty_fields' => false,
-			'fetch_fields'      => false,
-			'fetch_field_data'  => false,
-			'exclude_groups'    => false,
-			'exclude_fields'    => false
+			'profile_group_id'    => false,
+			'user_id'             => bp_displayed_user_id(),
+			'hide_empty_groups'   => false,
+			'hide_empty_fields'   => false,
+			'fetch_fields'        => false,
+			'fetch_field_data'    => false,
+			'fetch_privacy_level' => false,
+			'exclude_groups'      => false,
+			'exclude_fields'      => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -151,10 +152,32 @@ class BP_XProfile_Group {
 
 		if ( empty( $group_ids ) )
 			return $groups;
-
-		$exclude_fields_sql = '';
-		if ( !empty( $exclude_fields ) )
-			$exclude_fields_sql = $wpdb->prepare( "AND id NOT IN ({$exclude_fields})" );
+		
+		// Support arrays and comma-separated strings
+		if ( !empty( $exclude_fields ) && !is_array( $exclude_fields ) ) {
+			$exclude_fields = explode( ',', $exclude_fields );
+		}
+		
+		// Sanitization - ensure that each field_id passed is an integer
+		$exclude_fields_cs = array();
+		foreach( (array)$exclude_fields as $exclude_field ) {
+			$efint = (int)$exclude_field;
+			if ( !empty( $efint ) ) {
+				$exclude_fields_cs[] = $efint;
+			}
+		}
+		
+		// Privacy - Handled here so as not to be overridden by sloppy use of the
+		// exclude_fields parameter. See bp_xprofile_get_hidden_fields_for_user()
+		$exclude_fields_cs = array_merge( $exclude_fields_cs, bp_xprofile_get_hidden_fields_for_user( $user_id ) );
+		
+		$exclude_fields_cs = implode( ',', $exclude_fields_cs );
+		
+		if ( !empty( $exclude_fields_cs ) ) {
+			$exclude_fields_sql = $wpdb->prepare( "AND id NOT IN ({$exclude_fields_cs})" ); 
+		} else {
+			$exclude_fields_sql = '';
+		}
 
 		// Fetch the fields
 		$fields = $wpdb->get_results( $wpdb->prepare( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" ) );
@@ -172,7 +195,7 @@ class BP_XProfile_Group {
 			$field_ids_sql = implode( ',', (array) $field_ids );
 
 			if ( !empty( $field_ids ) )
-				$field_data = $wpdb->get_results( $wpdb->prepare( "SELECT field_id, value FROM {$bp->profile->table_name_data} WHERE field_id IN ( {$field_ids_sql} ) AND user_id = %d", $user_id ) );
+				$field_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, field_id, value FROM {$bp->profile->table_name_data} WHERE field_id IN ( {$field_ids_sql} ) AND user_id = %d", $user_id ) );
 
 			// Remove data-less fields, if necessary
 			if ( !empty( $hide_empty_fields ) ) {
@@ -210,9 +233,15 @@ class BP_XProfile_Group {
 					foreach( (array) $field_data as $data ) {
 
 						// Assign correct data value to the field
-						if ( $field->id == $data->field_id )
+						if ( $field->id == $data->field_id ) {
 							$fields[$field_key]->data->value = $data->value;
+							$fields[$field_key]->data->id = $data->id;
+						}
 					}
+				}
+						
+				if ( $fetch_privacy_level ) {
+					$fields = self::fetch_privacy_level( $user_id, $fields );
 				}
 			}
 		}
@@ -263,7 +292,53 @@ class BP_XProfile_Group {
 
 		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET group_order = %d WHERE id = %d", $position, $field_group_id ) );
 	}
-
+	
+	/**
+	 * Fetch the field privacy level for the returned fielddata
+	 */
+	function fetch_privacy_level( $user_id, $fields ) {
+		global $wpdb, $bp;
+		
+		// Get the user's privacy level preferences
+		$privacy_levels = get_user_meta( $user_id, 'bp_xprofile_privacy_levels', true );
+		
+		foreach( (array)$fields as $key => $field ) {
+			// Look to see if the user has set the privacy for this field
+			if ( isset( $privacy_levels[$field->id] ) ) {
+				$field_privacy = $privacy_levels[$field->id];
+			} else {
+				// If not, bring up the admin-set defaults
+				if ( !isset( $default_privacy_levels ) ) {
+					$default_privacy_levels = self::fetch_default_privacy_levels();
+				}
+				
+				// If no admin-set default is saved, fall back on a global default
+				$field_privacy = !empty( $default_privacy_levels[$field->id] ) ? $default_privacy_levels[$field->id] : apply_filters( 'bp_xprofile_default_privacy_level', 'public' );
+			}
+			
+			$fields[$key]->privacy_level = $field_privacy;
+		}
+		
+		return $fields;
+	}
+	
+	/**
+	 * Fetch the admin-set default privacy levels for all fields
+	 */
+	function fetch_default_privacy_levels() {
+		global $wpdb, $bp;
+		
+		$levels = $wpdb->get_results( $wpdb->prepare( "SELECT object_id, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND meta_key = 'default_privacy'" ) );
+		
+		// Arrange so that the field id is the key and the privacy level the value
+		$default_privacy_levels = array();
+		foreach( $levels as $level ) {
+			$default_privacy_levels[$level->object_id] = $level->meta_value;
+		}
+		
+		return $default_privacy_levels;
+	}
+	
 	/* ADMIN AREA HTML.
 	* TODO: Get this out of here and replace with standard loops
 	*/
@@ -343,6 +418,7 @@ class BP_XProfile_Field {
 	var $option_order;
 	var $order_by;
 	var $is_default_option;
+	var $default_privacy;
 
 	var $data;
 	var $message = null;
@@ -379,6 +455,12 @@ class BP_XProfile_Field {
 
 			if ( $get_data && $user_id ) {
 				$this->data          = $this->get_field_data( $user_id );
+			}
+			
+			$this->default_privacy = bp_xprofile_get_meta( $id, 'field', 'default_privacy' );
+			
+			if ( empty( $this->default_privacy ) ) {
+				$this->default_privacy = 'public';
 			}
 		}
 	}
@@ -639,6 +721,10 @@ class BP_XProfile_Field {
 			if ( $this->type != $type ) { 
 				$class = 'display: none;';
 			}
+			
+			if ( empty( $this->default_privacy ) ) {
+				$this->default_privacy = 'public';
+			}
 
 			?>
 
@@ -786,6 +872,22 @@ class BP_XProfile_Field {
 						<input type="hidden" name="fieldtype" id="fieldtype" value="textbox" />
 
 					<?php } ?>
+
+					<?php /* The fullname field cannot be hidden */ ?>
+					<?php if ( 1 != $this->id ) : ?>
+
+						<div id="titlediv">
+							<h3><label for="default-privacy"><?php _e( "Default Privacy Level", 'buddypress' ); ?></label></h3>
+							<div id="titlewrap">
+								<ul>
+								<?php foreach( bp_xprofile_get_privacy_levels() as $level ) : ?>
+									<li><input type="radio" name="default-privacy" value="<?php echo esc_attr( $level['id'] ) ?>" <?php checked( $this->default_privacy, $level['id'] ) ?>> <?php echo esc_html( $level['label'] ) ?></li> 
+								<?php endforeach ?>
+								</ul>
+							</div>
+						</div>
+					
+					<?php endif ?>
 
 					<p class="submit">
 						<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
@@ -966,6 +1068,25 @@ class BP_XProfile_ProfileData {
 		}
 
 		return $profile_data;
+	}
+	
+	/**
+	 * Get the user's field data id by the id of the xprofile field
+	 *
+	 * @param int $field_id
+	 * @param int $user_id
+	 * @return int $fielddata_id
+	 */
+	function get_fielddataid_byid( $field_id, $user_id ) {
+		global $wpdb, $bp;
+		
+		if ( empty( $field_id ) || empty( $user_id ) ) {
+			$fielddata_id = 0;
+		} else {
+			$fielddata_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id ) );	
+		}
+		
+		return $fielddata_id;
 	}
 
 	function get_value_byid( $field_id, $user_ids = null ) {

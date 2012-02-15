@@ -112,6 +112,21 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 					</div>
 
 				<?php endif; ?>
+				
+				<?php /* The fullname field is always public */ ?>
+				<?php if ( 1 != bp_get_the_profile_field_id() ) : ?>
+					<div class="field-privacy-settings-toggle" id="field-privacy-settings-toggle-<?php bp_the_profile_field_id() ?>">
+						<?php printf( __( 'This field can be seen by: <span class="current-privacy-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_privacy_level_label() ) ?> <a href="#" class="privacy-toggle-link">Change</a>
+					</div>
+					
+					<div class="field-privacy-settings" id="field-privacy-settings-<?php bp_the_profile_field_id() ?>">
+						<label for="field-privacy"><?php _e( 'Who can see this field?', 'buddypress' ) ?></label>
+						
+						<?php bp_profile_privacy_radio_buttons() ?>
+						
+						<a class="field-privacy-settings-close" href="#"><?php _e( 'Close', 'buddypress' ) ?></a>
+					</div>
+				<?php endif ?>
 
 				<?php do_action( 'bp_custom_profile_edit_fields' ); ?>
 

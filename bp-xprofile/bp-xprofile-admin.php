@@ -262,6 +262,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				$type = 'error';
 
 				unset( $_GET['mode'] );
+				
 				xprofile_admin( $message, $type );
 			} else {
 				$message = __( 'The field was saved successfully.', 'buddypress' );
@@ -269,6 +270,10 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 				if ( 1 == $field_id )
 					bp_update_option( 'bp-xprofile-fullname-field-name', $field->name );
+
+				if ( !empty( $_POST['default-privacy'] ) ) {
+					bp_xprofile_update_field_meta( $field_id, 'default_privacy', $_POST['default-privacy'] );
+				}
 
 				unset( $_GET['mode'] );
 

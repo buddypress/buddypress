@@ -34,6 +34,7 @@ Hello, this is the BuddyPress Default theme stylesheet.
 	6.7 - Topics and Tables - Forums and General
 	6.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
 	6.9 - Private Messaging Threads
+	6.10 - Extended Profiles
 --------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
@@ -2292,13 +2293,6 @@ div.item-list-tabs ul li.feed a {
 #admins-list li {
 	overflow: auto;
 }
-div.profile h4 {
-	margin-bottom: auto;
-	margin-top: 15px;
-}
-#profile-edit-form ul.button-nav {
-	margin-top: 15px;
-}
 
 
 /*--------------------------------------------------------------
@@ -2364,4 +2358,33 @@ div#message-thread div.message-content {
 }
 div#message-thread div.message-options {
 	text-align: right;
+}
+
+/*--------------------------------------------------------------
+6.9 - Extended Profiles
+--------------------------------------------------------------*/
+
+div.profile h4 {
+	margin-bottom: auto;
+	margin-top: 15px;
+}
+#profile-edit-form ul.button-nav {
+	margin-top: 15px;
+}
+body.no-js .field-privacy-settings-toggle,
+body.no-js .field-privacy-settings-close {
+	display: none;
+}
+.field-privacy-settings {
+	display: none;
+}
+	body.no-js .field-privacy-settings {
+		display: block;
+	}
+.current-privacy-level {
+	font-weight: bold;
+}
+.field-privacy-settings-toggle a,
+.field-privacy-settings a {
+	font-size: .9em;
 }
