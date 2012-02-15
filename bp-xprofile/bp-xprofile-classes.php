@@ -154,18 +154,7 @@ class BP_XProfile_Group {
 			return $groups;
 		
 		// Support arrays and comma-separated strings
-		if ( !empty( $exclude_fields ) && !is_array( $exclude_fields ) ) {
-			$exclude_fields = explode( ',', $exclude_fields );
-		}
-		
-		// Sanitization - ensure that each field_id passed is an integer
-		$exclude_fields_cs = array();
-		foreach( (array)$exclude_fields as $exclude_field ) {
-			$efint = (int)$exclude_field;
-			if ( !empty( $efint ) ) {
-				$exclude_fields_cs[] = $efint;
-			}
-		}
+		$exclude_fields_cs = wp_parse_id_list( $exclude_fields );
 		
 		// Visibility - Handled here so as not to be overridden by sloppy use of the
 		// exclude_fields parameter. See bp_xprofile_get_hidden_fields_for_user()
