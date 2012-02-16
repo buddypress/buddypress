@@ -44,6 +44,7 @@ class BP_XProfile_Component extends BP_Component {
 			'actions',
 			'activity',
 			'screens',
+			'caps',
 			'classes',
 			'filters',
 			'template',

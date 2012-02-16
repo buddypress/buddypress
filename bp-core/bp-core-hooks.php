@@ -76,6 +76,11 @@ add_action( 'wp_footer', 'bp_footer' );
 // Setup the navigation menu
 add_action( 'admin_bar_menu', 'bp_setup_admin_bar', 11 );
 
+/** Roles and Capabilities ****************************************************/
+
+// Map our custom capabilities onto WP's
+add_filter( 'map_meta_cap', 'bp_map_meta_caps', 10, 4 );
+
 /** The hooks *****************************************************************/
 
 /**

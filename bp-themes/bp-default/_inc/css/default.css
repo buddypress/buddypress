@@ -2384,6 +2384,11 @@ body.no-js .field-visibility-settings-close {
 .current-visibility-level {
 	font-weight: bold;
 }
+.field-visibility-settings,
+.field-visibility-settings-toggle,
+.field-visibility-settings-notoggle {
+	color: #888;
+}
 .field-visibility-settings-toggle a,
 .field-visibility-settings a {
 	font-size: .9em;

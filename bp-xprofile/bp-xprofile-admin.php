@@ -274,6 +274,10 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				if ( !empty( $_POST['default-visibility'] ) ) {
 					bp_xprofile_update_field_meta( $field_id, 'default_visibility', $_POST['default-visibility'] );
 				}
+				
+				if ( !empty( $_POST['allow-custom-visibility'] ) ) {
+					bp_xprofile_update_field_meta( $field_id, 'allow_custom_visibility', $_POST['allow-custom-visibility'] );
+				}
 
 				unset( $_GET['mode'] );
 

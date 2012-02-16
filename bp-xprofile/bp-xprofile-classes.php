@@ -283,7 +283,13 @@ class BP_XProfile_Group {
 	}
 	
 	/**
-	 * Fetch the field visibility level for the returned fielddata
+	 * Fetch the field visibility level for the fields returned by the query
+	 *
+	 * @since 1.6
+	 *
+	 * @param int $user_id The profile owner's user_id
+	 * @param array $fields The database results returned by the get() query
+	 * @return array $fields The database results, with field_visibility added
 	 */
 	function fetch_visibility_level( $user_id, $fields ) {
 		global $wpdb, $bp;
@@ -291,18 +297,19 @@ class BP_XProfile_Group {
 		// Get the user's visibility level preferences
 		$visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 		
+		// Get the admin-set preferences
+		$admin_set_levels  = self::fetch_default_visibility_levels();
+		
 		foreach( (array)$fields as $key => $field ) {
+			// Does the admin allow this field to be customized?
+			$allow_custom = !empty( $admin_set_levels[$field->id]['allow_custom'] ) && 'disabled' != $admin_set_levels[$field->id]['allow_custom'];
+			
 			// Look to see if the user has set the visibility for this field
-			if ( isset( $visibility_levels[$field->id] ) ) {
+			if ( $allow_custom && isset( $visibility_levels[$field->id] ) ) {
 				$field_visibility = $visibility_levels[$field->id];
-			} else {
-				// If not, bring up the admin-set defaults
-				if ( !isset( $default_visibility_levels ) ) {
-					$default_visibility_levels = self::fetch_default_visibility_levels();
-				}
-				
+			} else {				
 				// If no admin-set default is saved, fall back on a global default
-				$field_visibility = !empty( $default_visibility_levels[$field->id] ) ? $default_visibility_levels[$field->id] : apply_filters( 'bp_xprofile_default_visibility_level', 'public' );
+				$field_visibility = !empty( $admin_set_levels[$field->id]['default'] ) ? $admin_set_levels[$field->id]['default'] : apply_filters( 'bp_xprofile_default_visibility_level', 'public' );
 			}
 			
 			$fields[$key]->visibility_level = $field_visibility;
@@ -312,17 +319,26 @@ class BP_XProfile_Group {
 	}
 	
 	/**
-	 * Fetch the admin-set default visibility levels for all fields
+	 * Fetch the admin-set preferences for all fields
+	 *
+	 * @since 1.6
+	 *
+	 * @return array $default_visibility_levels An array, keyed by field_id, of default
+	 *   visibility level + allow_custom (whether the admin allows this field to be set by user)
 	 */
 	function fetch_default_visibility_levels() {
 		global $wpdb, $bp;
 		
-		$levels = $wpdb->get_results( $wpdb->prepare( "SELECT object_id, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND meta_key = 'default_visibility'" ) );
+		$levels = $wpdb->get_results( $wpdb->prepare( "SELECT object_id, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND ( meta_key = 'default_visibility' OR meta_key = 'allow_custom_visibility' )" ) );
 		
 		// Arrange so that the field id is the key and the visibility level the value
 		$default_visibility_levels = array();
 		foreach( $levels as $level ) {
-			$default_visibility_levels[$level->object_id] = $level->meta_value;
+			if ( 'default_visibility' == $level->meta_key ) {
+				$default_visibility_levels[$level->object_id]['default'] = $level->meta_value;		
+			} else if ( 'allow_custom_visibility' == $level->meta_key ) {
+				$default_visibility_levels[$level->object_id]['allow_custom'] = $level->meta_value;		
+			}
 		}
 		
 		return $default_visibility_levels;
@@ -408,6 +424,7 @@ class BP_XProfile_Field {
 	var $order_by;
 	var $is_default_option;
 	var $default_visibility;
+	var $allow_custom_visibility;
 
 	var $data;
 	var $message = null;
@@ -451,6 +468,8 @@ class BP_XProfile_Field {
 			if ( empty( $this->default_visibility ) ) {
 				$this->default_visibility = 'public';
 			}
+			
+			$this->allow_custom_visibility = 'disabled' == bp_xprofile_get_meta( $id, 'field', 'allow_custom_visibility' ) ? 'disabled' : 'allowed';
 		}
 	}
 
@@ -866,12 +885,22 @@ class BP_XProfile_Field {
 					<?php if ( 1 != $this->id ) : ?>
 
 						<div id="titlediv">
-							<h3><label for="default-visibility"><?php _e( "Default Visibility Level", 'buddypress' ); ?></label></h3>
+							
 							<div id="titlewrap">
+								<h3><label for="default-visibility"><?php _e( "Default Visibility", 'buddypress' ); ?></label></h3>
 								<ul>
 								<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
 									<li><input type="radio" name="default-visibility" value="<?php echo esc_attr( $level['id'] ) ?>" <?php checked( $this->default_visibility, $level['id'] ) ?>> <?php echo esc_html( $level['label'] ) ?></li> 
 								<?php endforeach ?>
+								</ul>
+							</div>
+							
+							<div id="titlewrap">
+								<h3><label for="allow-custom-visibility"><?php _e( "Per-Member Visibility", 'buddypress' ); ?></label></h3>
+								<ul>
+									<li><input type="radio" name="allow-custom-visibility" value="allowed" <?php checked( $this->allow_custom_visibility, 'allowed' ) ?>> <?php _e( "Let members change the this field's visibility", 'buddypress' ) ?></li>
+									
+									<li><input type="radio" name="allow-custom-visibility" value="disabled" <?php checked( $this->allow_custom_visibility, 'disabled' ) ?>> <?php _e( 'Enforce the default visibility for all members', 'buddypress' ) ?></li>
 								</ul>
 							</div>
 						</div>

@@ -211,4 +211,6 @@ function xprofile_filter_comments( $comments, $post_id ) {
 }
 add_filter( 'comments_array', 'xprofile_filter_comments', 10, 2 );
 
+
+
 ?>
