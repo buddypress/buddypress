@@ -289,7 +289,7 @@ class BP_XProfile_Group {
 		global $wpdb, $bp;
 		
 		// Get the user's visibility level preferences
-		$visibility_levels = get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
+		$visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 		
 		foreach( (array)$fields as $key => $field ) {
 			// Look to see if the user has set the visibility for this field

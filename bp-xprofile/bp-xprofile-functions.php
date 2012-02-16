@@ -270,7 +270,7 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
 	}
 	
 	// Stored in an array in usermeta
-	$current_visibility_levels = get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
+	$current_visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 	
 	if ( !$current_visibility_levels ) {
 		$current_visibility_levels = array();
@@ -278,7 +278,7 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
 	
 	$current_visibility_levels[$field_id] = $visibility_level;
 	
-	return update_user_meta( $user_id, 'bp_xprofile_visibility_levels', $current_visibility_levels );
+	return bp_update_user_meta( $user_id, 'bp_xprofile_visibility_levels', $current_visibility_levels );
 }
 
 function xprofile_delete_field_data( $field, $user_id ) {
@@ -441,9 +441,9 @@ function xprofile_sync_wp_profile( $user_id = 0 ) {
 		$lastname = trim( substr( $fullname, $space, strlen( $fullname ) ) );
 	}
 
-	update_user_meta( $user_id, 'nickname',   $fullname  );
-	update_user_meta( $user_id, 'first_name', $firstname );
-	update_user_meta( $user_id, 'last_name',  $lastname  );
+	bp_update_user_meta( $user_id, 'nickname',   $fullname  );
+	bp_update_user_meta( $user_id, 'first_name', $firstname );
+	bp_update_user_meta( $user_id, 'last_name',  $lastname  );
 
 	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET display_name = %s WHERE ID = %d", $fullname, $user_id ) );
 }
@@ -475,22 +475,22 @@ add_action( 'user_profile_update_errors', 'xprofile_sync_bp_profile', 10, 3 );
  *
  * @package BuddyPress XProfile
  * @param $user_id The ID of the deleted user
- * @uses get_user_meta() Get a user meta value based on meta key from wp_usermeta
- * @uses delete_user_meta() Delete user meta value based on meta key from wp_usermeta
+ * @uses bp_get_user_meta() Get a user meta value based on meta key from wp_usermeta
+ * @uses bp_delete_user_meta() Delete user meta value based on meta key from wp_usermeta
  * @uses delete_data_for_user() Removes all profile data from the xprofile tables for the user
  */
 function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
 
 	// delete any avatar files.
-	@unlink( get_user_meta( $user_id, 'bp_core_avatar_v1_path', true ) );
-	@unlink( get_user_meta( $user_id, 'bp_core_avatar_v2_path', true ) );
+	@unlink( bp_get_user_meta( $user_id, 'bp_core_avatar_v1_path', true ) );
+	@unlink( bp_get_user_meta( $user_id, 'bp_core_avatar_v2_path', true ) );
 
 	// unset the usermeta for avatars from the usermeta table.
-	delete_user_meta( $user_id, 'bp_core_avatar_v1'      );
-	delete_user_meta( $user_id, 'bp_core_avatar_v1_path' );
-	delete_user_meta( $user_id, 'bp_core_avatar_v2'      );
-	delete_user_meta( $user_id, 'bp_core_avatar_v2_path' );
+	bp_delete_user_meta( $user_id, 'bp_core_avatar_v1'      );
+	bp_delete_user_meta( $user_id, 'bp_core_avatar_v1_path' );
+	bp_delete_user_meta( $user_id, 'bp_core_avatar_v2'      );
+	bp_delete_user_meta( $user_id, 'bp_core_avatar_v2_path' );
 }
 add_action( 'wpmu_delete_user',  'xprofile_remove_data' );
 add_action( 'delete_user',       'xprofile_remove_data' );
@@ -720,7 +720,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 		$levels = (array)$levels;
 	}
 	
-	$user_visibility_levels = get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
+	$user_visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 	
 	$field_ids = array();
 	foreach( (array)$user_visibility_levels as $field_id => $field_visibility ) {

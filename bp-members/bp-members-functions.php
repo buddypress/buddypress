@@ -1073,12 +1073,12 @@ function bp_core_map_user_registration( $user_id ) {
 
 	// Add the user's fullname to Xprofile
 	if ( bp_is_active( 'xprofile' ) ) {
-		$firstname = get_user_meta( $user_id, 'first_name', true );
-		$lastname = ' ' . get_user_meta( $user_id, 'last_name', true );
+		$firstname = bp_get_user_meta( $user_id, 'first_name', true );
+		$lastname = ' ' . bp_get_user_meta( $user_id, 'last_name', true );
 		$name = $firstname . $lastname;
 
 		if ( empty( $name ) || ' ' == $name )
-			$name = get_user_meta( $user_id, 'nickname', true );
+			$name = bp_get_user_meta( $user_id, 'nickname', true );
 
 		xprofile_set_field_data( 1, $user_id, $name );
 	}

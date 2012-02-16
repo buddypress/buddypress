@@ -610,7 +610,7 @@ function bp_forums_filter_caps( $allcaps ) {
 	if ( !bp_loggedin_user_id() )
 		return $allcaps;
 
-	$bb_cap = get_user_meta( bp_loggedin_user_id(), $bb_table_prefix . 'capabilities', true );
+	$bb_cap = bp_get_user_meta( bp_loggedin_user_id(), $bb_table_prefix . 'capabilities', true );
 
 	if ( empty( $bb_cap ) )
 		return $allcaps;
