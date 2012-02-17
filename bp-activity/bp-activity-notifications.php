@@ -53,8 +53,9 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 	if ( 'no' != bp_get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
 		$poster_name = bp_core_get_user_displayname( $activity->user_id );
 
-		$message_link = bp_activity_get_permalink( $activity_id );
-		$settings_link = bp_core_get_user_domain( $receiver_user_id ) . bp_get_settings_slug() . '/notifications/';
+		$message_link  = bp_activity_get_permalink( $activity_id );
+		$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+		$settings_link = bp_core_get_user_domain( $receiver_user_id ) . $settings_slug . '/notifications/';
 
 		$poster_name = stripslashes( $poster_name );
 		$content = bp_activity_filter_kses( strip_tags( stripslashes( $activity->content ) ) );
@@ -138,9 +139,10 @@ function bp_activity_new_comment_notification( $comment_id, $commenter_id, $para
 	$original_activity = new BP_Activity_Activity( $activity_id );
 
 	if ( $original_activity->user_id != $commenter_id && 'no' != bp_get_user_meta( $original_activity->user_id, 'notification_activity_new_reply', true ) ) {
-		$poster_name = bp_core_get_user_displayname( $commenter_id );
-		$thread_link = bp_activity_get_permalink( $activity_id );
-		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) . bp_get_settings_slug() . '/notifications/';
+		$poster_name   = bp_core_get_user_displayname( $commenter_id );
+		$thread_link   = bp_activity_get_permalink( $activity_id );
+		$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+		$settings_link = bp_core_get_user_domain( $original_activity->user_id ) . $settings_slug . '/notifications/';
 
 		$poster_name = stripslashes( $poster_name );
 		$content = bp_activity_filter_kses( stripslashes($content) );
@@ -183,9 +185,10 @@ To view your original update and all comments, log in and visit: %3$s
 	$parent_comment = new BP_Activity_Activity( $parent_id );
 
 	if ( $parent_comment->user_id != $commenter_id && $original_activity->user_id != $parent_comment->user_id && 'no' != bp_get_user_meta( $parent_comment->user_id, 'notification_activity_new_reply', true ) ) {
-		$poster_name = bp_core_get_user_displayname( $commenter_id );
-		$thread_link = bp_activity_get_permalink( $activity_id );
-		$settings_link = bp_core_get_user_domain( $parent_comment->user_id ) . bp_get_settings_slug() . '/notifications/';
+		$poster_name   = bp_core_get_user_displayname( $commenter_id );
+		$thread_link   = bp_activity_get_permalink( $activity_id );
+		$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+		$settings_link = bp_core_get_user_domain( $parent_comment->user_id ) . $settings_slug . '/notifications/';
 
 		// Set up and send the message
 		$ud       = bp_core_get_core_userdata( $parent_comment->user_id );

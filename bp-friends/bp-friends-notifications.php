@@ -14,9 +14,9 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$initiator_ud = get_userdata( $initiator_id );
 
 	$all_requests_link = bp_core_get_user_domain( $friend_id ) . bp_get_friends_slug() . '/requests/';
-	$settings_link = bp_core_get_user_domain( $friend_id ) .  bp_get_settings_slug() . '/notifications';
-
-	$initiator_link = bp_core_get_user_domain( $initiator_id );
+	$settings_slug    = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+	$settings_link    = bp_core_get_user_domain( $friend_id ) .  $settings_slug . '/notifications';
+	$initiator_link   = bp_core_get_user_domain( $initiator_id );
 
 	// Set up and send the message
 	$to       = $ud->user_email;
@@ -57,8 +57,9 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 
 	$ud = get_userdata( $initiator_id );
 
-	$friend_link = bp_core_get_user_domain( $friend_id );
-	$settings_link = bp_core_get_user_domain( $initiator_id ) . bp_get_settings_slug() . '/notifications';
+	$friend_link   = bp_core_get_user_domain( $friend_id );
+	$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+	$settings_link = bp_core_get_user_domain( $initiator_id ) . $settings_slug . '/notifications';
 
 	// Set up and send the message
 	$to       = $ud->user_email;

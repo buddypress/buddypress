@@ -17,7 +17,8 @@ function messages_notification_new_message( $args ) {
 		// User data and links
 		$ud            = get_userdata( $recipient->user_id );
 		$message_link  = bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() .'/';
-		$settings_link = bp_core_get_user_domain( $recipient->user_id ) . bp_get_settings_slug() . '/notifications/';
+		$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+		$settings_link = bp_core_get_user_domain( $recipient->user_id ) . $settings_slug . '/notifications/';
 
 		// Sender info
 		$sender_name   = stripslashes( $sender_name );
