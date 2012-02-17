@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-17 16:36:23+00:00\n"
+"POT-Creation-Date: 2012-02-17 22:36:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2872,19 +2872,19 @@ msgstr ""
 msgid "No groups matched the current filter."
 msgstr ""
 
-#: bp-members/bp-members-actions.php:87
+#: bp-members/bp-members-actions.php:41
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: bp-members/bp-members-actions.php:89
+#: bp-members/bp-members-actions.php:43
 msgid "User removed as spammer."
 msgstr ""
 
-#: bp-members/bp-members-actions.php:136
+#: bp-members/bp-members-actions.php:76
 msgid "%s has been deleted from the system."
 msgstr ""
 
-#: bp-members/bp-members-actions.php:138
+#: bp-members/bp-members-actions.php:78
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
@@ -2965,7 +2965,7 @@ msgstr ""
 msgid "Delete %s's Account"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:671
+#: bp-members/bp-members-functions.php:780
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
