@@ -220,7 +220,7 @@ function bp_core_admin_components_settings_handler() {
 		// Settings form submitted, now save the settings. First, set active components
 		if ( isset( $_POST['bp_components'] ) ) {
 			// Save settings and upgrade schema
-			require( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-update.php' );
+			require_once( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-schema.php' );
 			$bp->active_components = stripslashes_deep( $_POST['bp_components'] );
 			bp_core_install( $bp->active_components );
 
