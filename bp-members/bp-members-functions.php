@@ -487,6 +487,115 @@ function bp_core_get_total_member_count() {
 }
 
 /**
+ * Processes a spammed or unspammed user
+ *
+ * This function is called in two ways:
+ *  - in bp_core_action_set_spammer_status() (when spamming from the front-end)
+ *  - by bp_core_mark_user_spam_admin() or bp_core_mark_user_ham_admin() (when spamming from the
+ *    Dashboard)
+ *
+ * @since 1.5.5
+ *
+ * @param int $user_id The user being spammed/hammed
+ * @param string $status 'spam' if being marked as spam, 'ham' otherwise
+ */
+function bp_core_process_spammer_status( $user_id, $status ) {
+	global $wpdb;
+	
+	// Only super admins can currently spam users
+	if ( !is_super_admin() || bp_is_my_profile() )
+		return;
+
+	// Bail if no user ID
+	if ( empty( $user_id ) )
+		return;
+		
+	// Bail if user ID is super admin
+	if ( is_super_admin( $user_id ) )
+		return;
+	
+	// Get the functions file
+	if ( is_multisite() ) {
+		require_once( ABSPATH . 'wp-admin/includes/ms.php' );
+	}
+
+	$is_spam = 'spam' == $status;
+
+	// Only you can prevent infinite loops
+	remove_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
+	remove_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
+
+	// When marking as spam in the Dashboard, these actions are handled by WordPress
+	if ( !is_admin() ) {
+		// Get the blogs for the user
+		$blogs = get_blogs_of_user( $user_id, true );
+		
+		foreach ( (array) $blogs as $key => $details ) {
+		
+			// Do not mark the main or current root blog as spam
+			if ( 1 == $details->userblog_id || bp_get_root_blog_id() == $details->userblog_id ) {
+				continue;
+			}
+		
+			// Update the blog status
+			update_blog_status( $details->userblog_id, 'spam', $is_spam );
+		}
+		
+		// Finally, mark this user as a spammer
+		if ( is_multisite() ) {
+			update_user_status( $user_id, 'spam', $is_spam );
+		}
+		
+		// Always set single site status
+		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $user_id ) );
+				
+		// Call multisite actions in single site mode for good measure
+		if ( !is_multisite() ) {
+			$wp_action = $is_spam ? 'make_spam_user' : 'make_ham_user';
+			do_action( $wp_action, bp_displayed_user_id() );
+		}
+	}
+
+	// Hide this user's activity
+	if ( $is_spam && bp_is_active( 'activity' ) ) {
+		bp_activity_hide_user_activity( $user_id );
+	}
+
+	// We need a special hook for is_spam so that components can delete data at spam time
+	$bp_action = $is_spam ? 'bp_make_spam_user' : 'bp_make_ham_user';
+	do_action( $bp_action, $user_id );
+
+	// Allow plugins to do neat things
+	do_action( 'bp_core_process_spammer_status', $user_id, $is_spam );
+	
+	return true;
+}
+
+/**
+ * Hook to WP's make_spam_user and run our custom BP spam functions
+ *
+ * @since 1.5.5
+ * 
+ * @param int $user_id The user id passed from the make_spam_user hook
+ */
+function bp_core_mark_user_spam_admin( $user_id ) {
+	bp_core_process_spammer_status( $user_id, 'spam' );
+}
+add_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
+
+/**
+ * Hook to WP's make_ham_user and run our custom BP spam functions
+ *
+ * @since 1.5.5
+ * 
+ * @param int $user_id The user id passed from the make_ham_user hook
+ */
+function bp_core_mark_user_ham_admin( $user_id ) {
+	bp_core_process_spammer_status( $user_id, 'ham' );
+}
+add_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
+
+/**
  * Checks if the user has been marked as a spammer.
  *
  * @package BuddyPress Core
