@@ -87,6 +87,19 @@ function bp_has_custom_activation_page() {
 }
 
 /**
+ * Groups functions
+ */
+
+/**
+ * @deprecated 1.6
+ * @deprecated Renamed to groups_get_id() for greater consistency
+ */
+function groups_check_group_exists( $group_slug ) {
+	_deprecated_function( __FUNCTION__, '1.6', 'groups_get_id()' );
+	return groups_get_id( $group_slug );
+}
+
+/**
  * Activity functions
  */
 

@@ -257,9 +257,27 @@ function groups_check_slug( $slug ) {
 	return $slug;
 }
 
+/**
+ * Get a group slug by its ID
+ *
+ * @param int $group_id The numeric ID of the group
+ * @return string The group's slug
+ */
 function groups_get_slug( $group_id ) {
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
-	return $group->slug;
+	return !empty( $group->slug ) ? $group->slug : '';
+}
+
+/**
+ * Get a group ID by its slug
+ *
+ * @since 1.6
+ *
+ * @param string $group_slug The group's slug
+ * @return int The ID
+ */
+function groups_get_id( $group_slug ) {
+	return (int)BP_Groups_Group::group_exists( $group_slug );
 }
 
 /*** User Actions ***************************************************************/
@@ -358,10 +376,6 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 }
 
 /*** General Group Functions ****************************************************/
-
-function groups_check_group_exists( $group_id ) {
-	return BP_Groups_Group::group_exists( $group_id );
-}
 
 function groups_get_group_admins( $group_id ) {
 	return BP_Groups_Member::get_group_administrator_ids( $group_id );
