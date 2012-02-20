@@ -201,8 +201,11 @@ function bp_core_set_uri_globals() {
 	// URLs with BP_ENABLE_ROOT_PROFILES enabled won't be caught above
 	if ( empty( $matches ) && bp_core_enable_root_profiles() ) {
 
+		// Switch field based on compat
+		$field = bp_is_username_compatibility_mode() ? 'login' : 'slug';
+
 		// Make sure there's a user corresponding to $bp_uri[0]
-		if ( !empty( $bp->pages->members ) && !empty( $bp_uri[0] ) && $root_profile = get_user_by( 'login', $bp_uri[0] ) ) {
+		if ( !empty( $bp->pages->members ) && !empty( $bp_uri[0] ) && $root_profile = get_user_by( $field, $bp_uri[0] ) ) {
 
 			// Force BP to recognize that this is a members page
 			$matches[]  = 1;
