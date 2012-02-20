@@ -342,16 +342,16 @@ function bp_core_enable_root_profiles() {
  * @return false|int The user ID of the matched user, or false.
  */
 function bp_core_load_template( $templates ) {
-	global $post, $bp, $wp_query;
+	global $post, $bp, $wp_query, $wpdb;
 
-	// Bail if there is a uri offset but not a page in its place.
-	// * Possibly root profiles are enabled
- 	if ( !empty( $bp->unfiltered_uri_offset ) ) {		
-		if ( ! get_page_by_path( $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) ) {
+	// Determine if the root object WP page exists for this request
+	// note: get_page_by_path() breaks non-root pages
+	if ( !empty( $bp->unfiltered_uri_offset ) ) {
+		if ( !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) ) ) {
 			return false;
 		}
 	}
-
+		
 	// Set the root object as the current wp_query-ied item
 	$object_id = 0;
 	foreach ( (array) $bp->pages as $page ) {
