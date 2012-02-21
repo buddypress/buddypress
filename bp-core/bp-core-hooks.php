@@ -20,20 +20,29 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Attach BuddyPress to WordPress
  *
- * BuddyPress uses its own internal actions to help aid in additional plugin
+ * BuddyPress uses its own internal actions to help aid in third-party plugin
  * development, and to limit the amount of potential future code changes when
- * updates to WordPress occur.
- */
-add_action( 'plugins_loaded',     'bp_loaded',            10    );
-add_action( 'init',               'bp_init',              10    );
-add_action( 'wp',                 'bp_ready',             10    );
-add_action( 'admin_bar_menu',     'bp_setup_admin_bar',   20    ); // After WP core
-add_action( 'template_redirect',  'bp_template_redirect', 10    );
-add_action( 'wp_enqueue_scripts', 'bp_enqueue_scripts',   10    );
-add_action( 'template_redirect',  'bp_template_redirect', 10    );
-add_filter( 'template_include',   'bp_template_include',  10    );
-add_filter( 'after_theme_setup',  'bp_after_theme_setup', 10    );
-add_filter( 'map_meta_cap',       'bp_map_meta_caps',     10, 4 );
+ * updates to WordPress core occur.
+ *
+ * These actions exist to create the concept of 'plugin dependencies'. They
+ * provide a safe way for plugins to execute code *only* when BuddyPress is
+ * installed and activated, without needing to do complicated guesswork.
+ *
+ * For more information on how this works, see the 'Plugin Dependency' section
+ * near the bottom of this file.
+ *
+ *           v--WordPress Actions       v--BuddyPress Sub-actions
+  */
+add_action( 'plugins_loaded',          'bp_loaded',                 10    );
+add_action( 'init',                    'bp_init',                   10    );
+add_action( 'wp',                      'bp_ready',                  10    );
+add_action( 'admin_bar_menu',          'bp_setup_admin_bar',        20    ); // After WP core
+add_action( 'template_redirect',       'bp_template_redirect',      10    );
+add_action( 'wp_enqueue_scripts',      'bp_enqueue_scripts',        10    );
+add_action( 'template_redirect',       'bp_template_redirect',      10    );
+add_filter( 'template_include',        'bp_template_include',       10    );
+add_filter( 'after_theme_setup',       'bp_after_theme_setup',      10    );
+add_filter( 'map_meta_cap',            'bp_map_meta_caps',          10, 4 );
 
 // Piggy back WordPress theme actions
 add_action( 'wp_head',   'bp_head',   10 );
@@ -78,6 +87,21 @@ add_action( 'bp_init', 'bp_setup_title',           8 );
  */
 add_action( 'bp_template_redirect', 'bp_actions', 2 );
 add_action( 'bp_template_redirect', 'bp_screens', 4 );
+
+/**
+ * Plugin Dependency
+ *
+ * The purpose of the following actions is to mimic the behavior of something
+ * called 'plugin dependency' which enables a plugin to have plugins of their
+ * own in a safe and reliable way.
+ *
+ * We do this in BuddyPress by mirroring existing WordPress actions in many places
+ * allowing dependant plugins to hook into the BuddyPress specific ones, thus
+ * guaranteeing proper code execution only whenBuddyPresss is active.
+ *
+ * The following functions are wrappers for their actions, allowing them to be
+ * manually called and/or piggy-backed on top of other actions if needed.
+ */
 
 /** The hooks *****************************************************************/
 
@@ -181,7 +205,7 @@ if ( is_admin() ) {
 	/**
 	 * Run the updater late on 'bp_admin_init' to ensure that all alterations
 	 * to the permalink structure have taken place. This fixes the issue of
-	 * permalinks not being flushed properly when a bbPress update occurs.
+	 * permalinks not being flushed properly when a BuddyPress update occurs.
 	 */
 	//add_action( 'bp_admin_init',    'bp_setup_updater', 999 );
 
@@ -215,7 +239,7 @@ function bp_footer() {
 /**
  * Enqueue BuddyPress specific CSS and JS
  *
- * @since bbPress (r5812)
+ * @since BuddyPress (r5812)
  *
  * @uses do_action() Calls 'bp_enqueue_scripts'
  */
@@ -227,7 +251,7 @@ function bp_enqueue_scripts() {
  * Piggy back action for BuddyPress sepecific theme actions once the theme has
  * been setup and the theme's functions.php has loaded.
  *
- * @since bbPress (r5812)
+ * @since BuddyPress (r5812)
  *
  * @uses do_action() Calls 'bp_after_theme_setup'
  */
