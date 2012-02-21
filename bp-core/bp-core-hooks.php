@@ -36,12 +36,12 @@ if ( !defined( 'ABSPATH' ) ) exit;
 add_action( 'plugins_loaded',          'bp_loaded',                 10    );
 add_action( 'init',                    'bp_init',                   10    );
 add_action( 'wp',                      'bp_ready',                  10    );
+add_action( 'setup_theme',             'bp_setup_theme',            10    );
+add_action( 'after_theme_setup',       'bp_after_theme_setup',      10    );
+add_action( 'wp_enqueue_scripts',      'bp_enqueue_scripts',        10    );
 add_action( 'admin_bar_menu',          'bp_setup_admin_bar',        20    ); // After WP core
 add_action( 'template_redirect',       'bp_template_redirect',      10    );
-add_action( 'wp_enqueue_scripts',      'bp_enqueue_scripts',        10    );
-add_action( 'template_redirect',       'bp_template_redirect',      10    );
 add_filter( 'template_include',        'bp_template_include',       10    );
-add_filter( 'after_theme_setup',       'bp_after_theme_setup',      10    );
 add_filter( 'map_meta_cap',            'bp_map_meta_caps',          10, 4 );
 
 // Piggy back WordPress theme actions
@@ -245,6 +245,18 @@ function bp_footer() {
  */
 function bp_enqueue_scripts() {
 	do_action ( 'bp_enqueue_scripts' );
+}
+
+/**
+ * Piggy back action for BuddyPress sepecific theme actions before the theme has
+ * been setup and the theme's functions.php has loaded.
+ *
+ * @since BuddyPress (r5812)
+ *
+ * @uses do_action() Calls 'bp_setup_theme'
+ */
+function bp_setup_theme() {
+	do_action ( 'bp_setup_theme' );
 }
 
 /**
