@@ -34,7 +34,7 @@
 		
 			<p id="login-text">
 
-				<?php printf( __( 'Please <a href="%s" title="Create an account">create an account</a> to get started.', 'buddypress' ), site_url( bp_get_signup_slug() . '/' ) ); ?>
+				<?php printf( __( 'Please <a href="%s" title="Create an account">create an account</a> to get started.', 'buddypress' ), bp_get_signup_page() ); ?>
 
 			</p>
 

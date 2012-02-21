@@ -958,11 +958,18 @@ function bp_has_custom_signup_page() {
 	return false;
 }
 
+/**
+ * Echoes the URL to the signup page
+ */
 function bp_signup_page() {
 	echo bp_get_signup_page();
 }
+	/**
+	 * Returns the URL to the signup page
+	 *
+	 * @return string
+	 */
 	function bp_get_signup_page() {
-
 		if ( bp_has_custom_signup_page() ) {
 			$page = trailingslashit( bp_get_root_domain() . '/' . bp_get_signup_slug() );
 		} else {
