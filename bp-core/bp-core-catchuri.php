@@ -588,4 +588,21 @@ function bp_redirect_canonical() {
 }
 add_action( 'bp_core_pre_load_template', 'bp_redirect_canonical' );
 
+/**
+ * Remove WordPress's really awesome canonical redirect if we are trying to load
+ * BuddyPress specific content. Avoids issues with WordPress thinking that a
+ * BuddyPress URL might actually be a blog post or page.
+ *
+ * This function should be considered temporary, and may be removed without
+ * notice in future versions of BuddyPress.
+ *
+ * @since BuddyPress (1.6)
+ * @uses bp_is_blog_page() 
+ */
+function _bp_maybe_remove_redirect_canonical() {
+	if ( ! bp_is_blog_page() )
+		remove_action( 'template_redirect', 'redirect_canonical' );
+}
+add_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
+
 ?>
