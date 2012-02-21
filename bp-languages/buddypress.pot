@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-21 21:36:09+00:00\n"
+"POT-Creation-Date: 2012-02-21 23:36:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3613,11 +3613,11 @@ msgstr ""
 msgid "registered %s"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1095
+#: bp-members/bp-members-template.php:1102
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1165
+#: bp-members/bp-members-template.php:1172
 msgid "Activity RSS Feed"
 msgstr ""
 
