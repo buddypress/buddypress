@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-20 18:36:12+00:00\n"
+"POT-Creation-Date: 2012-02-21 02:36:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -497,7 +497,7 @@ msgstr ""
 #: bp-activity/bp-activity-loader.php:153
 #: bp-activity/bp-activity-loader.php:234
 #: bp-activity/feeds/bp-activity-mentions-feed.php:28
-#: bp-themes/bp-default/activity/index.php:79
+#: bp-themes/bp-default/activity/index.php:77
 msgid "Mentions"
 msgstr ""
 
@@ -1299,7 +1299,7 @@ msgid "<a href=\"http://buddypress.org/forums/\">BuddyPress Support Forums</a>"
 msgstr ""
 
 #: bp-core/admin/bp-core-settings.php:353 bp-core/bp-core-template.php:268
-#: bp-themes/bp-default/activity/index.php:101
+#: bp-themes/bp-default/activity/index.php:99
 #: bp-themes/bp-default/forums/forums-loop.php:40
 #: bp-themes/bp-default/members/single/activity.php:27
 msgid "Posts"
@@ -2483,7 +2483,7 @@ msgstr ""
 
 #: bp-friends/bp-friends-loader.php:109 bp-friends/bp-friends-loader.php:171
 #: bp-friends/bp-friends-loader.php:198
-#: bp-themes/bp-default/activity/index.php:122
+#: bp-themes/bp-default/activity/index.php:120
 #: bp-themes/bp-default/members/single/activity.php:35
 msgid "Friendships"
 msgstr ""
@@ -4002,110 +4002,110 @@ msgstr ""
 msgid "or press esc to cancel."
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:23
+#: bp-themes/bp-default/activity/index.php:21
 msgid "Site Activity"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:41
+#: bp-themes/bp-default/activity/index.php:39
 msgid "The public activity for everyone on this site."
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:41
+#: bp-themes/bp-default/activity/index.php:39
 #: bp-themes/bp-default/members/index.php:35
 msgid "All Members <span>%s</span>"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:51
+#: bp-themes/bp-default/activity/index.php:49
 msgid "The activity of my friends only."
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:51
+#: bp-themes/bp-default/activity/index.php:49
 #: bp-themes/bp-default/members/index.php:39
 msgid "My Friends <span>%s</span>"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:63
+#: bp-themes/bp-default/activity/index.php:61
 msgid "The activity of groups I am a member of."
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:63
+#: bp-themes/bp-default/activity/index.php:61
 #: bp-themes/bp-default/groups/index.php:41
 msgid "My Groups <span>%s</span>"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:73
+#: bp-themes/bp-default/activity/index.php:71
 msgid "The activity I've marked as a favorite."
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:73
+#: bp-themes/bp-default/activity/index.php:71
 msgid "My Favorites <span>%s</span>"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:79
+#: bp-themes/bp-default/activity/index.php:77
 msgid "Activity that I have been mentioned in."
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:79
+#: bp-themes/bp-default/activity/index.php:77
 msgid "<span>%s new</span>"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:89
+#: bp-themes/bp-default/activity/index.php:87
 #: bp-themes/bp-default/groups/single/activity.php:3
 msgid "RSS Feed"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:89
+#: bp-themes/bp-default/activity/index.php:87
 #: bp-themes/bp-default/groups/single/activity.php:3
 msgid "RSS"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:94
+#: bp-themes/bp-default/activity/index.php:92
 #: bp-themes/bp-default/groups/single/activity.php:8
 #: bp-themes/bp-default/members/single/activity.php:18
 msgid "Show:"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:96
+#: bp-themes/bp-default/activity/index.php:94
 #: bp-themes/bp-default/groups/single/activity.php:10
 #: bp-themes/bp-default/members/single/activity.php:20
 msgid "Everything"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:97
+#: bp-themes/bp-default/activity/index.php:95
 #: bp-themes/bp-default/groups/single/activity.php:11
 #: bp-themes/bp-default/members/single/activity.php:21
 msgid "Updates"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:102
+#: bp-themes/bp-default/activity/index.php:100
 #: bp-themes/bp-default/members/single/activity.php:28
 msgid "Comments"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:108
+#: bp-themes/bp-default/activity/index.php:106
 #: bp-themes/bp-default/groups/single/activity.php:14
 #: bp-themes/bp-default/members/single/activity.php:43
 msgid "Forum Topics"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:109
+#: bp-themes/bp-default/activity/index.php:107
 #: bp-themes/bp-default/groups/single/activity.php:15
 #: bp-themes/bp-default/members/single/activity.php:44
 msgid "Forum Replies"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:115
+#: bp-themes/bp-default/activity/index.php:113
 #: bp-themes/bp-default/members/single/activity.php:50
 msgid "New Groups"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:116
+#: bp-themes/bp-default/activity/index.php:114
 #: bp-themes/bp-default/groups/single/activity.php:18
 #: bp-themes/bp-default/members/single/activity.php:51
 msgid "Group Memberships"
 msgstr ""
 
-#: bp-themes/bp-default/activity/index.php:126
+#: bp-themes/bp-default/activity/index.php:124
 msgid "New Members"
 msgstr ""
 
