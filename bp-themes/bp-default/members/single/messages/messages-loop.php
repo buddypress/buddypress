@@ -1,6 +1,6 @@
 <?php do_action( 'bp_before_member_messages_loop' ); ?>
 
-<?php if ( bp_has_message_threads() ) : ?>
+<?php if ( bp_has_message_threads( bp_ajax_querystring( 'messages' ) ) ) : ?>
 
 	<div class="pagination no-ajax" id="user-pag">
 
@@ -15,7 +15,8 @@
 	</div><!-- .pagination -->
 
 	<?php do_action( 'bp_after_member_messages_pagination' ); ?>
-	<?php do_action( 'bp_before_member_messages_threads' ); ?>
+
+	<?php do_action( 'bp_before_member_messages_threads'   ); ?>
 
 	<table id="message-threads" class="messages-notices">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>

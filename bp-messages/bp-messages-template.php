@@ -27,23 +27,25 @@ class BP_Messages_Box_Template {
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;
+	var $search_terms;
 
 	function bp_messages_box_template( $user_id, $box, $per_page, $max, $type ) {
 		$this->__construct( $user_id, $box, $per_page, $max, $type );
 	}
 
-	function __construct( $user_id, $box, $per_page, $max, $type ) {
+	function __construct( $user_id, $box, $per_page, $max, $type, $search_terms ) {
 		$this->pag_page = isset( $_GET['mpage'] ) ? intval( $_GET['mpage'] ) : 1;
-		$this->pag_num  = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $per_page;
+		$this->pag_num  = isset( $_GET['num'] )   ? intval( $_GET['num'] )   : $per_page;
 
-		$this->user_id  = $user_id;
-		$this->box      = $box;
-		$this->type     = $type;
-
+		$this->user_id      = $user_id;
+		$this->box          = $box;
+		$this->type         = $type;
+		$this->search_terms = $search_terms;
+		
 		if ( 'notices' == $this->box ) {
 			$this->threads = BP_Messages_Notice::get_notices();
 		} else {
-			$threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->type, $this->pag_num, $this->pag_page );
+			$threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->type, $this->pag_num, $this->pag_page, $this->search_terms );
 
 			$this->threads            = $threads['threads'];
 			$this->total_thread_count = $threads['total'];
@@ -168,11 +170,12 @@ function bp_has_message_threads( $args = '' ) {
 	global $bp, $messages_template;
 
 	$defaults = array(
-		'user_id'  => bp_loggedin_user_id(),
-		'box'      => 'inbox',
-		'per_page' => 10,
-		'max'      => false,
-		'type'     => 'all'
+		'user_id'      => bp_loggedin_user_id(),
+		'box'          => 'inbox',
+		'per_page'     => 10,
+		'max'          => false,
+		'type'         => 'all',
+		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : ''
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -193,7 +196,7 @@ function bp_has_message_threads( $args = '' ) {
 			$box = 'notices';
 		}
 
-		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type );
+		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type, $search_terms );
 	}
 
 	return apply_filters( 'bp_has_message_threads', $messages_template->has_threads(), $messages_template );
@@ -353,6 +356,24 @@ function bp_messages_pagination_count() {
 	$total = bp_core_number_format( $messages_template->total_thread_count );
 
 	echo sprintf( __( 'Viewing message %1$s to %2$s (of %3$s messages)', 'buddypress' ), $from_num, $to_num, $total ); ?><?php
+}
+
+/**
+ * Output the Private Message search form
+ *
+ * @since BuddyPress (1.6)
+ */
+function bp_message_search_form() {
+
+	$default_search_value = bp_get_search_default_text( 'messages' );
+	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
+
+	<form action="" method="get" id="search-message-form">
+		<label><input type="text" name="s" id="messages_search" <?php if ( $search_value === $default_search_value ) : ?>placeholder="<?php echo esc_html( $search_value ); ?>"<?php endif; ?> <?php if ( $search_value !== $default_search_value ) : ?>value="<?php echo esc_html( $search_value ); ?>"<?php endif; ?> /></label>
+		<input type="submit" id="messages_search_submit" name="messages_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
+	</form>
+
+<?php
 }
 
 /**

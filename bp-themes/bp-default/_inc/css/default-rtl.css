@@ -761,3 +761,6 @@ div#message-thread div.message-content {
 div#message-thread div.message-options {
 	text-align: left;
 }
+div.message-search {
+	float: left;
+}

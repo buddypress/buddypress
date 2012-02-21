@@ -100,10 +100,19 @@ function bp_dtheme_object_template_loader() {
 	// Locate the object template
 	locate_template( array( "$object/$object-loop.php" ), true );
 }
-add_action( 'wp_ajax_members_filter', 'bp_dtheme_object_template_loader' );
-add_action( 'wp_ajax_groups_filter',  'bp_dtheme_object_template_loader' );
-add_action( 'wp_ajax_blogs_filter',   'bp_dtheme_object_template_loader' );
-add_action( 'wp_ajax_forums_filter',  'bp_dtheme_object_template_loader' );
+add_action( 'wp_ajax_members_filter',  'bp_dtheme_object_template_loader'   );
+add_action( 'wp_ajax_groups_filter',   'bp_dtheme_object_template_loader'   );
+add_action( 'wp_ajax_blogs_filter',    'bp_dtheme_object_template_loader'   );
+add_action( 'wp_ajax_forums_filter',   'bp_dtheme_object_template_loader'   );
+add_action( 'wp_ajax_messages_filter', 'bp_dtheme_messages_template_loader' );
+
+/*
+ * Load messages when searched on the private message page
+ */
+
+function bp_dtheme_messages_template_loader(){
+    locate_template( array( 'members/single/messages/messages-loop.php' ), true );
+}
 
 // This function will load the activity loop template when activity is requested via AJAX
 function bp_dtheme_activity_template_loader() {

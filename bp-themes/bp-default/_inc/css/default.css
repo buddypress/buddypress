@@ -2360,6 +2360,11 @@ div#message-thread div.message-options {
 	text-align: right;
 }
 
+div.message-search {
+	float: right;
+	margin: 0 20px;
+}
+
 /*--------------------------------------------------------------
 6.9 - Extended Profiles
 --------------------------------------------------------------*/

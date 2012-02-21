@@ -1452,6 +1452,12 @@ function bp_is_notices() {
 	return false;
 }
 
+function bp_is_messages_conversation() {
+	if ( bp_is_user_messages() && ( bp_is_current_action( 'view' ) ) )
+		return true;
+
+	return false;
+}
 
 function bp_is_single( $component, $callback ) {
 	if ( bp_is_current_component( $component ) && ( true === call_user_func( $callback ) ) )

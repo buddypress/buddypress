@@ -981,6 +981,23 @@ jq(document).ready( function() {
 
 	/** Private Messaging ******************************************/
 
+	/** Message search*/
+	jq('.message-search').click( function(event) {
+		if ( jq(this).hasClass('no-ajax') )
+			return;
+
+		var target = jq(event.target);
+
+		if ( target.attr('type') == 'submit' ) {
+			//var css_id = jq('.item-list-tabs li.selected').attr('id').split( '-' );
+			var object = 'messages';
+
+			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, jq.cookie('bp-' + object + '-extras') );
+
+			return false;
+		}
+	});
+
 	/* AJAX send reply functionality */
 	jq("input#send_reply_button").click(
 		function() {
