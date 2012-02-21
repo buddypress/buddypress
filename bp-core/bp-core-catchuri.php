@@ -429,7 +429,7 @@ function bp_core_catch_no_access() {
 		bp_do_404();
 	}
 }
-add_action( 'wp', 'bp_core_catch_no_access' );
+add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
 
 /**
  * Redirects a user to login for BP pages that require access control and adds an error message (if

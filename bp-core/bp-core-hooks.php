@@ -24,12 +24,22 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * development, and to limit the amount of potential future code changes when
  * updates to WordPress occur.
  */
-add_action( 'plugins_loaded',         'bp_loaded',                 10 );
-add_action( 'init',                   'bp_init',                   10 );
-add_action( 'wp',                     'bp_ready',                  10 );
+add_action( 'plugins_loaded',     'bp_loaded',            10    );
+add_action( 'init',               'bp_init',              10    );
+add_action( 'wp',                 'bp_ready',             10    );
+add_action( 'template_redirect',  'bp_template_redirect', 10    );
+add_action( 'wp_enqueue_scripts', 'bp_enqueue_scripts',   10    );
+add_action( 'admin_bar_menu',     'bp_setup_admin_bar',   10    );
+add_action( 'template_redirect',  'bp_template_redirect', 10    );
+add_filter( 'template_include',   'bp_template_include',  10    );
+add_filter( 'after_theme_setup',  'bp_after_theme_setup', 10    );
+add_filter( 'map_meta_cap',       'bp_map_meta_caps',     10, 4 );
+
+// Piggy back WordPress theme actions
+add_action( 'wp_head',   'bp_head',   10 );
+add_action( 'wp_footer', 'bp_footer', 10 );
+
 //add_action( 'generate_rewrite_rules', 'bp_generate_rewrite_rules', 10 );
-//add_action( 'wp_enqueue_scripts',     'bp_enqueue_scripts',        10 );
-//add_filter( 'template_include',       'bp_template_include',       10 );
 
 /**
  * bp_loaded - Attached to 'plugins_loaded' above
@@ -56,30 +66,18 @@ add_action( 'bp_init', 'bp_setup_nav',             6 );
 add_action( 'bp_init', 'bp_setup_title',           8 );
 
 /**
- * bp_ready - Attached to 'wp' above
+ * bp_template_redirect - Attached to 'template_redirect' above
  *
- * Attach various initialization actions to the bp_init action.
+ * Attach various template actions to the bp_template_redirect action.
  * The load order helps to execute code at the correct time.
- *                                    v---Load order
+ * 
+ * Note that we currently use template_redirect versus template include because
+ * BuddyPress is a bully and overrides the existing themes output in many
+ * places. This won't always be this way, we promise.
+ *                                                v---Load order
  */
-add_action( 'bp_ready', 'bp_actions', 2 );
-add_action( 'bp_ready', 'bp_screens', 4 );
-
-/** Theme *********************************************************************/
-
-// Piggy back WordPress theme actions
-add_action( 'wp_head',   'bp_head'   );
-add_action( 'wp_footer', 'bp_footer' );
-
-/** Admin Bar *****************************************************************/
-
-// Setup the navigation menu
-add_action( 'admin_bar_menu', 'bp_setup_admin_bar', 11 );
-
-/** Roles and Capabilities ****************************************************/
-
-// Map our custom capabilities onto WP's
-add_filter( 'map_meta_cap', 'bp_map_meta_caps', 10, 4 );
+add_action( 'bp_template_redirect', 'bp_actions', 2 );
+add_action( 'bp_template_redirect', 'bp_screens', 4 );
 
 /** The hooks *****************************************************************/
 
@@ -212,6 +210,60 @@ function bp_head() {
  */
 function bp_footer() {
 	do_action( 'bp_footer' );
+}
+
+/**
+ * Enqueue BuddyPress specific CSS and JS
+ *
+ * @since bbPress (r5812)
+ *
+ * @uses do_action() Calls 'bp_enqueue_scripts'
+ */
+function bp_enqueue_scripts() {
+	do_action ( 'bp_enqueue_scripts' );
+}
+
+/**
+ * Piggy back action for BuddyPress sepecific theme actions once the theme has
+ * been setup and the theme's functions.php has loaded.
+ *
+ * @since bbPress (r5812)
+ *
+ * @uses do_action() Calls 'bp_after_theme_setup'
+ */
+function bp_after_theme_setup() {
+	do_action ( 'bp_after_theme_setup' );
+}
+
+/** Theme Compatibility Filter ************************************************/
+
+/**
+ * The main filter used for theme compatibility and displaying custom BuddyPress
+ * theme files.
+ *
+ * @since BuddyPress (r5812)
+ *
+ * @uses apply_filters()
+ *
+ * @param string $template
+ * @return string Template file to use
+ */
+function bp_template_include( $template = '' ) {
+	return apply_filters( 'bp_template_include', $template );
+}
+
+/** Theme Permissions *********************************************************/
+
+/**
+ * The main action used for redirecting BuddyPress theme actions that are not
+ * permitted by the current_user
+ *
+ * @since BuddyPress (r5812)
+ *
+ * @uses do_action()
+ */
+function bp_template_redirect() {
+	do_action( 'bp_template_redirect' );
 }
 
 ?>
