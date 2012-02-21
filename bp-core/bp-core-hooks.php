@@ -27,9 +27,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 add_action( 'plugins_loaded',     'bp_loaded',            10    );
 add_action( 'init',               'bp_init',              10    );
 add_action( 'wp',                 'bp_ready',             10    );
+add_action( 'admin_bar_menu',     'bp_setup_admin_bar',   20    ); // After WP core
 add_action( 'template_redirect',  'bp_template_redirect', 10    );
 add_action( 'wp_enqueue_scripts', 'bp_enqueue_scripts',   10    );
-add_action( 'admin_bar_menu',     'bp_setup_admin_bar',   10    );
 add_action( 'template_redirect',  'bp_template_redirect', 10    );
 add_filter( 'template_include',   'bp_template_include',  10    );
 add_filter( 'after_theme_setup',  'bp_after_theme_setup', 10    );
