@@ -75,7 +75,7 @@ function bp_core_set_uri_globals() {
 
 	// If running off blog other than root, any subdirectory names must be
 	// removed from $bp_uri. This includes two cases:
-	// 
+	//
 	//    1. when WP is installed in a subdirectory,
 	//    2. when BP is running on secondary blog of a subdirectory
 	//       multisite installation. Phew!
@@ -122,7 +122,7 @@ function bp_core_set_uri_globals() {
 			unset( $bp_uri[$key] );
 		}
 	}
-	
+
 	// Reset the keys by merging with an empty array
 	$bp_uri = array_merge( array(), $bp_uri );
 
@@ -316,17 +316,17 @@ function bp_core_set_uri_globals() {
 
 /**
  * Are root profiles enabled and allowed
- * 
+ *
  * @since BuddyPress (1.6)
  * @return bool True if yes, false if no
  */
 function bp_core_enable_root_profiles() {
-	
+
 	$retval = false;
 
 	if ( defined( 'BP_ENABLE_ROOT_PROFILES' ) && ( true == BP_ENABLE_ROOT_PROFILES ) )
 		$retval = true;
-	
+
 	return apply_filters( 'bp_core_enable_root_profiles', $retval );
 }
 
@@ -354,7 +354,7 @@ function bp_core_load_template( $templates ) {
 			return false;
 		}
 	}
-		
+
 	// Set the root object as the current wp_query-ied item
 	$object_id = 0;
 	foreach ( (array) $bp->pages as $page ) {
@@ -369,7 +369,7 @@ function bp_core_load_template( $templates ) {
 		$wp_query->queried_object_id = $object_id;
 		$post                        = $wp_query->queried_object;
 	}
-	
+
 	// Define local variables
 	$located_template   = false;
 	$filtered_templates = array();
@@ -390,7 +390,7 @@ function bp_core_load_template( $templates ) {
 		do_action( 'bp_core_pre_load_template', $located_template );
 
 		load_template( apply_filters( 'bp_load_template', $located_template ) );
-	
+
 		do_action( 'bp_core_post_load_template', $located_template );
 	}
 
@@ -441,7 +441,7 @@ add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
  */
 function bp_core_no_access( $args = '' ) {
 
- 	// Build the redirect URL 
+ 	// Build the redirect URL
  	$redirect_url  = is_ssl() ? 'https://' : 'http://';
  	$redirect_url .= $_SERVER['HTTP_HOST'];
  	$redirect_url .= $_SERVER['REQUEST_URI'];
@@ -529,7 +529,7 @@ add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
  */
 function bp_redirect_canonical() {
 	global $bp;
-	
+
 	if ( !bp_is_blog_page() && apply_filters( 'bp_do_redirect_canonical', true ) ) {
 		// If this is a POST request, don't do a canonical redirect.
 		// This is for backward compatibility with plugins that submit form requests to
@@ -538,50 +538,50 @@ function bp_redirect_canonical() {
 		if ( !empty( $_POST ) ) {
 			return;
 		}
-		
+
 		// build the URL in the address bar
 		$requested_url  = is_ssl() ? 'https://' : 'http://';
 		$requested_url .= $_SERVER['HTTP_HOST'];
 		$requested_url .= $_SERVER['REQUEST_URI'];
-		
+
 		// Stash query args
 		$url_stack      = explode( '?', $requested_url );
 		$req_url_clean  = $url_stack[0];
-		
+
 		// Process the redirect stack
 		if ( isset( $bp->redirect_stack['base_url'] ) ) {
 			$url_stack[0] = $bp->redirect_stack['base_url'];
 		}
-				
+
 		if ( isset( $bp->redirect_stack['component'] ) ) {
 			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->redirect_stack['component'] );
 		}
-				
+
 		if ( isset( $bp->redirect_stack['action'] ) ) {
 			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->redirect_stack['action'] );
 		}
-					
+
 		if ( !empty( $bp->redirect_stack['action_variables'] ) ) {
 			foreach( (array) $bp->redirect_stack['action_variables'] as $av ) {
-				$url_stack[0] = trailingslashit( $url_stack[0] . $av );	
+				$url_stack[0] = trailingslashit( $url_stack[0] . $av );
 			}
 		}
-		
+
 		// Add trailing slash
 		$url_stack[0] = trailingslashit( $url_stack[0] );
-		
+
 		// Only redirect if we've assembled a URL different from the request
 		if ( $url_stack[0] !== $req_url_clean ) {
-			
+
 			// Template messages have been deleted from the cookie by this point, so
 			// they must be readded before redirecting
 			if ( isset( $bp->template_message ) ) {
 				$message      = stripslashes( $bp->template_message );
 				$message_type = isset( $bp->template_message_type ) ? $bp->template_message_type : 'success';
-				
+
 				bp_core_add_message( $message, $message_type );
 			}
-			
+
 			bp_core_redirect( implode( '?', $url_stack ) );
 		}
 	}
@@ -597,7 +597,7 @@ add_action( 'bp_core_pre_load_template', 'bp_redirect_canonical' );
  * notice in future versions of BuddyPress.
  *
  * @since BuddyPress (1.6)
- * @uses bp_is_blog_page() 
+ * @uses bp_is_blog_page()
  */
 function _bp_maybe_remove_redirect_canonical() {
 	if ( ! bp_is_blog_page() )
