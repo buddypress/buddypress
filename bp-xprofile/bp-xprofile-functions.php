@@ -470,27 +470,14 @@ add_action( 'user_profile_update_errors', 'xprofile_sync_bp_profile', 10, 3 );
 
 /**
  * When a user is deleted, we need to clean up the database and remove all the
- * profile data from each table. Also we need to clean anything up in the usermeta table
- * that this component uses.
+ * profile data from each table. Also we need to clean anything up in the
+ * usermeta table that this component uses.
  *
  * @package BuddyPress XProfile
  * @param $user_id The ID of the deleted user
- * @uses bp_get_user_meta() Get a user meta value based on meta key from wp_usermeta
- * @uses bp_delete_user_meta() Delete user meta value based on meta key from wp_usermeta
- * @uses delete_data_for_user() Removes all profile data from the xprofile tables for the user
  */
 function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
-
-	// delete any avatar files.
-	@unlink( bp_get_user_meta( $user_id, 'bp_core_avatar_v1_path', true ) );
-	@unlink( bp_get_user_meta( $user_id, 'bp_core_avatar_v2_path', true ) );
-
-	// unset the usermeta for avatars from the usermeta table.
-	bp_delete_user_meta( $user_id, 'bp_core_avatar_v1'      );
-	bp_delete_user_meta( $user_id, 'bp_core_avatar_v1_path' );
-	bp_delete_user_meta( $user_id, 'bp_core_avatar_v2'      );
-	bp_delete_user_meta( $user_id, 'bp_core_avatar_v2_path' );
 }
 add_action( 'wpmu_delete_user',  'xprofile_remove_data' );
 add_action( 'delete_user',       'xprofile_remove_data' );
