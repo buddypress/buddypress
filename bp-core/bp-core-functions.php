@@ -327,7 +327,7 @@ add_action( 'bp_actions', 'bp_core_setup_message', 5 );
 function bp_core_render_message() {
 	global $bp;
 
-	if ( isset( $bp->template_message ) && $bp->template_message ) :
+	if ( !empty( $bp->template_message ) ) :
 		$type    = ( 'success' == $bp->template_message_type ) ? 'updated' : 'error';
 		$content = apply_filters( 'bp_core_render_message_content', $bp->template_message, $type ); ?>
 
