@@ -109,31 +109,19 @@ function bp_members_admin_bar_user_admin_menu() {
 	) );
 
 	// User Admin > Spam/unspam
-	if ( !bp_is_user_spammer( bp_displayed_user_id() ) ) {
-		$wp_admin_bar->add_menu( array(
-			'parent' => $bp->user_admin_menu_id,
-			'id'     => $bp->user_admin_menu_id . '-spam-user',
-			'title'  => __( 'Mark as Spammer', 'buddypress' ),
-			'href'   => wp_nonce_url( bp_displayed_user_domain() . 'admin/mark-spammer/', 'mark-unmark-spammer' ),
-			'meta'   => array( 'onclick' => 'confirm(" ' . __( 'Are you sure you want to mark this user as a spammer?', 'buddypress' ) . '");' )
-		) );
-	} else {
-		$wp_admin_bar->add_menu( array(
-			'parent' => $bp->user_admin_menu_id,
-			'id'     => $bp->user_admin_menu_id . '-unspam-user',
-			'title'  => __( 'Not a Spammer', 'buddypress' ),
-			'href'   => wp_nonce_url( bp_displayed_user_domain() . 'admin/unmark-spammer/', 'mark-unmark-spammer' ),
-			'meta'   => array( 'onclick' => 'confirm(" ' . __( 'Are you sure you want to mark this user as not a spammer?', 'buddypress' ) . '");' )
-		) );
-	}
+	$wp_admin_bar->add_menu( array(
+		'parent' => $bp->user_admin_menu_id,
+		'id'     => $bp->user_admin_menu_id . '-user-capabilities',
+		'title'  => __( 'User Capabilities', 'buddypress' ),
+		'href'   => bp_displayed_user_domain() . 'settings/capabilities/'
+	) );
 
 	// User Admin > Delete Account
 	$wp_admin_bar->add_menu( array(
 		'parent' => $bp->user_admin_menu_id,
 		'id'     => $bp->user_admin_menu_id . '-delete-user',
 		'title'  => __( 'Delete Account', 'buddypress' ),
-		'href'   => wp_nonce_url( bp_displayed_user_domain() . 'admin/delete-user/', 'delete-user' ),
-		'meta'   => array( 'onclick' => 'confirm(" ' . __( "Are you sure you want to delete this user's account?", 'buddypress' ) . '");' )
+		'href'   => bp_displayed_user_domain() . 'settings/delete-account/'
 	) );
 }
 add_action( 'admin_bar_menu', 'bp_members_admin_bar_user_admin_menu', 99 );

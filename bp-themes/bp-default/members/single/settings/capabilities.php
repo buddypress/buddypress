@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Notification Settings
+ * BuddyPress Delete Account
  *
  * @package BuddyPress
  * @subpackage bp-default
@@ -46,24 +46,24 @@ get_header( 'buddypress' ); ?>
 					</ul>
 				</div><!-- .item-list-tabs -->
 
-				<h3><?php _e( 'Email Notification', 'buddypress' ); ?></h3>
+				<h3><?php _e( 'Capabilities', 'buddypress' ); ?></h3>
 
-				<?php do_action( 'bp_template_content' ); ?>
+				<form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/capabilities/'; ?>" name="account-capabilities-form" id="account-capabilities-form" class="standard-form" method="post">
 
-				<form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/notifications'; ?>" method="post" class="standard-form" id="settings-form">
-					<p><?php _e( 'Send a notification by email when:', 'buddypress' ); ?></p>
+					<?php do_action( 'bp_members_capabilities_account_before_submit' ); ?>
 
-					<?php do_action( 'bp_notification_settings' ); ?>
-
-					<?php do_action( 'bp_members_notification_settings_before_submit' ); ?>
+					<label>
+						<input type="checkbox" name="user-spammer" id="user-spammer" value="1" <?php checked( bp_is_user_spammer( bp_displayed_user_id() ) ); ?> />
+						 <?php _e( 'This user is a spammer.', 'buddypress' ); ?>
+					</label>
 
 					<div class="submit">
-						<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ); ?>" id="submit" class="auto" />
+						<input type="submit" value="<?php _e( 'Save', 'buddypress' ); ?>" id="capabilities-submit" name="capabilities-submit" />
 					</div>
 
-					<?php do_action( 'bp_members_notification_settings_after_submit' ); ?>
+					<?php do_action( 'bp_members_capabilities_account_after_submit' ); ?>
 
-					<?php wp_nonce_field('bp_settings_notifications'); ?>
+					<?php wp_nonce_field( 'capabilities' ); ?>
 
 				</form>
 

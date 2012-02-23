@@ -488,12 +488,12 @@ function bp_core_get_total_member_count() {
 /**
  * Processes a spammed or unspammed user
  *
- * This function is called in two ways:
- *  - in bp_core_action_set_spammer_status() (when spamming from the front-end)
- *  - by bp_core_mark_user_spam_admin() or bp_core_mark_user_ham_admin() (when spamming from the
- *    Dashboard)
+ * This function is called in three ways:
+ *  - in bp_settings_action_capabilities() (from the front-end)
+ *  - by bp_core_mark_user_spam_admin()    (from wp-admin)
+ *  - bp_core_mark_user_ham_admin()        (from wp-admin)
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  *
  * @param int $user_id The user being spammed/hammed
  * @param string $status 'spam' if being marked as spam, 'ham' otherwise
@@ -518,14 +518,15 @@ function bp_core_process_spammer_status( $user_id, $status ) {
 		require_once( ABSPATH . 'wp-admin/includes/ms.php' );
 	}
 
-	$is_spam = 'spam' == $status;
+	$is_spam = ( 'spam' == $status );
 
 	// Only you can prevent infinite loops
 	remove_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
-	remove_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
+	remove_action( 'make_ham_user',  'bp_core_mark_user_ham_admin'  );
 
 	// When marking as spam in the Dashboard, these actions are handled by WordPress
 	if ( !is_admin() ) {
+
 		// Get the blogs for the user
 		$blogs = get_blogs_of_user( $user_id, true );
 		
@@ -550,18 +551,18 @@ function bp_core_process_spammer_status( $user_id, $status ) {
 				
 		// Call multisite actions in single site mode for good measure
 		if ( !is_multisite() ) {
-			$wp_action = $is_spam ? 'make_spam_user' : 'make_ham_user';
+			$wp_action = ( true === $is_spam ) ? 'make_spam_user' : 'make_ham_user';
 			do_action( $wp_action, bp_displayed_user_id() );
 		}
 	}
 
 	// Hide this user's activity
-	if ( $is_spam && bp_is_active( 'activity' ) ) {
+	if ( ( true === $is_spam ) && bp_is_active( 'activity' ) ) {
 		bp_activity_hide_user_activity( $user_id );
 	}
 
 	// We need a special hook for is_spam so that components can delete data at spam time
-	$bp_action = $is_spam ? 'bp_make_spam_user' : 'bp_make_ham_user';
+	$bp_action = ( true === $is_spam ) ? 'bp_make_spam_user' : 'bp_make_ham_user';
 	do_action( $bp_action, $user_id );
 
 	// Allow plugins to do neat things
@@ -573,7 +574,7 @@ function bp_core_process_spammer_status( $user_id, $status ) {
 /**
  * Hook to WP's make_spam_user and run our custom BP spam functions
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  * 
  * @param int $user_id The user id passed from the make_spam_user hook
  */
@@ -585,7 +586,7 @@ add_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
 /**
  * Hook to WP's make_ham_user and run our custom BP spam functions
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  * 
  * @param int $user_id The user id passed from the make_ham_user hook
  */
@@ -750,19 +751,16 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
  * Allows a user to completely remove their account from the system
  *
  * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
- * @uses bp_current_user_can() Checks to see if the user is a site administrator.
  * @uses wpmu_delete_user() Deletes a user from the system on multisite installs.
  * @uses wp_delete_user() Deletes a user from the system on singlesite installs.
  */
 function bp_core_delete_account( $user_id = 0 ) {
-	global $bp, $wp_version;
 
-	if ( !$user_id )
+	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
 	// Make sure account deletion is not disabled
-	if ( !empty( $bp->site_options['bp-disable-account-deletion'] ) && !bp_current_user_can( 'bp_moderate' ) )
+	if ( bp_disable_account_deletion() )
 		return false;
 
 	// Site admins cannot be deleted
@@ -771,11 +769,7 @@ function bp_core_delete_account( $user_id = 0 ) {
 
 	// Specifically handle multi-site environment
 	if ( is_multisite() ) {
-		if ( $wp_version >= '3.0' )
-			require( ABSPATH . '/wp-admin/includes/ms.php' );
-		else
-			require( ABSPATH . '/wp-admin/includes/mu.php' );
-
+		require( ABSPATH . '/wp-admin/includes/ms.php'   );
 		require( ABSPATH . '/wp-admin/includes/user.php' );
 
 		return wpmu_delete_user( $user_id );

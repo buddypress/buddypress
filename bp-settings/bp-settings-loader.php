@@ -49,7 +49,6 @@ class BP_Settings_Component extends BP_Component {
 	 * backwards compatibility.
 	 *
 	 * @since 1.5
-	 * @global obj $bp
 	 */
 	function setup_globals() {
 
@@ -68,11 +67,8 @@ class BP_Settings_Component extends BP_Component {
 
 	/**
 	 * Setup BuddyBar navigation
-	 *
-	 * @global obj $bp
 	 */
 	function setup_nav() {
-		global $bp;
 
 		// Define local variable
 		$sub_nav = array();
@@ -83,7 +79,7 @@ class BP_Settings_Component extends BP_Component {
 			'slug'                    => $this->slug,
 			'position'                => 100,
 			'show_for_displayed_user' => bp_core_can_edit_settings(),
-			'screen_function'         => 'bp_core_screen_general_settings',
+			'screen_function'         => 'bp_settings_screen_general',
 			'default_subnav_slug'     => 'general'
 		);
 
@@ -103,7 +99,7 @@ class BP_Settings_Component extends BP_Component {
 			'slug'            => 'general',
 			'parent_url'      => $settings_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_core_screen_general_settings',
+			'screen_function' => 'bp_settings_screen_general',
 			'position'        => 10,
 			'user_has_access' => bp_core_can_edit_settings()
 		);
@@ -114,21 +110,34 @@ class BP_Settings_Component extends BP_Component {
 			'slug'            => 'notifications',
 			'parent_url'      => $settings_link,
 			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_core_screen_notification_settings',
+			'screen_function' => 'bp_settings_screen_notification',
 			'position'        => 20,
 			'user_has_access' => bp_core_can_edit_settings()
 		);
 
+		// Add Spam Account nav item
+		if ( bp_current_user_can( 'bp_moderate' ) ) {
+			$sub_nav[] = array(
+				'name'            => __( 'Capabilities', 'buddypress' ),
+				'slug'            => 'capabilities',
+				'parent_url'      => $settings_link,
+				'parent_slug'     => $this->slug,
+				'screen_function' => 'bp_settings_screen_capabilities',
+				'position'        => 80,
+				'user_has_access' => ! bp_is_my_profile()
+			);
+		}
+
 		// Add Delete Account nav item
-		if ( !bp_current_user_can( 'bp_moderate' ) && empty( $bp->site_options['bp-disable-account-deletion'] ) ) {
+		if ( ! bp_disable_account_deletion() ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Delete Account', 'buddypress' ),
 				'slug'            => 'delete-account',
 				'parent_url'      => $settings_link,
 				'parent_slug'     => $this->slug,
-				'screen_function' => 'bp_core_screen_delete_account',
+				'screen_function' => 'bp_settings_screen_delete_account',
 				'position'        => 90,
-				'user_has_access' => bp_is_my_profile()
+				'user_has_access' => bp_is_my_profile() || !is_super_admin( bp_displayed_user_id() )
 			);
 		}
 

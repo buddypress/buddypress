@@ -55,7 +55,8 @@ function bp_core_action_set_spammer_status( $user_id = 0 ) {
 		bp_core_redirect( wp_get_referer() );
 	}
 }
-add_action( 'bp_actions', 'bp_core_action_set_spammer_status' );
+// Unhooked in BuddyPress (1.6) - moved to settings
+//add_action( 'bp_actions', 'bp_core_action_set_spammer_status' );
 
 /**
  * Allows a site admin to delete a user from the adminbar menu.
@@ -90,7 +91,8 @@ function bp_core_action_delete_user() {
 			bp_core_redirect( bp_loggedin_user_domain() );
 	}
 }
-add_action( 'bp_actions', 'bp_core_action_delete_user' );
+// Unhooked in BuddyPress (1.6) - moved to settings
+//add_action( 'bp_actions', 'bp_core_action_delete_user' );
 
 /**
  * Returns the user_id for a user based on their username.
