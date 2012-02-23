@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-23 06:36:10+00:00\n"
+"POT-Creation-Date: 2012-02-23 07:36:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3850,55 +3850,55 @@ msgstr ""
 msgid "Sent %s"
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:160
+#: bp-settings/bp-settings-actions.php:161
 msgid "That email address is invalid. Check the formatting and try again."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:163
+#: bp-settings/bp-settings-actions.php:164
 msgid "That email address is currently unavailable for use."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:166
+#: bp-settings/bp-settings-actions.php:167
 msgid "That email address is already taken."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:169
+#: bp-settings/bp-settings-actions.php:170
 msgid "Email address cannot be empty."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:179
+#: bp-settings/bp-settings-actions.php:180
 msgid "Your current password is invalid."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:182
+#: bp-settings/bp-settings-actions.php:183
 msgid "The new password fields did not match."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:185
+#: bp-settings/bp-settings-actions.php:186
 msgid "One of the password fields was empty."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:194
+#: bp-settings/bp-settings-actions.php:195
 msgid "Your settings have been saved."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:200
+#: bp-settings/bp-settings-actions.php:201
 msgid "No changes were made to your account."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:202
+#: bp-settings/bp-settings-actions.php:203
 msgid "No changes were made to this account."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:252
+#: bp-settings/bp-settings-actions.php:253
 msgid "Your notification settings have been saved."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:254
+#: bp-settings/bp-settings-actions.php:255
 msgid "This user's notification settings have been saved."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:345
+#: bp-settings/bp-settings-actions.php:346
 msgid "%s was successfully deleted."
 msgstr ""
 
