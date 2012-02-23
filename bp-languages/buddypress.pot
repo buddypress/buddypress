@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-23 03:36:11+00:00\n"
+"POT-Creation-Date: 2012-02-23 06:36:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1173,8 +1173,8 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:358
 #: bp-core/admin/bp-core-settings.php:223 bp-core/bp-core-admin.php:464
 #: bp-groups/bp-groups-loader.php:222 bp-groups/bp-groups-template.php:1278
-#: bp-settings/bp-settings-loader.php:23 bp-settings/bp-settings-loader.php:82
-#: bp-settings/bp-settings-loader.php:160
+#: bp-settings/bp-settings-loader.php:23 bp-settings/bp-settings-loader.php:78
+#: bp-settings/bp-settings-loader.php:169
 msgid "Settings"
 msgstr ""
 
@@ -1241,8 +1241,8 @@ msgstr ""
 #: bp-themes/bp-default/groups/single/forum/edit.php:58
 #: bp-themes/bp-default/groups/single/forum/edit.php:74
 #: bp-themes/bp-default/members/single/profile/edit.php:144
-#: bp-themes/bp-default/members/single/settings/general.php:69
-#: bp-themes/bp-default/members/single/settings/notifications.php:62
+#: bp-themes/bp-default/members/single/settings/general.php:72
+#: bp-themes/bp-default/members/single/settings/notifications.php:61
 #: bp-xprofile/bp-xprofile-classes.php:361
 msgid "Save Changes"
 msgstr ""
@@ -1392,6 +1392,7 @@ msgid "New Page"
 msgstr ""
 
 #: bp-core/admin/bp-core-slugs.php:106 bp-core/admin/bp-core-slugs.php:159
+#: bp-themes/bp-default/members/single/settings/capabilities.php:61
 #: bp-xprofile/bp-xprofile-classes.php:912
 msgid "Save"
 msgstr ""
@@ -1696,7 +1697,7 @@ msgid "Update BuddyPress"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:240 bp-core/bp-core-admin.php:241
-#: bp-core/bp-core-admin.php:261 bp-members/bp-members-functions.php:1220
+#: bp-core/bp-core-admin.php:261 bp-members/bp-members-functions.php:1214
 msgid "BuddyPress"
 msgstr ""
 
@@ -1886,7 +1887,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:234 bp-members/bp-members-functions.php:1222
+#: bp-core/bp-core-filters.php:234 bp-members/bp-members-functions.php:1216
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1894,7 +1895,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:235 bp-members/bp-members-functions.php:1223
+#: bp-core/bp-core-filters.php:235 bp-members/bp-members-functions.php:1217
 msgid "Activate Your Account"
 msgstr ""
 
@@ -3408,11 +3409,11 @@ msgstr ""
 msgid "User removed as spammer."
 msgstr ""
 
-#: bp-members/bp-members-actions.php:79
+#: bp-members/bp-members-actions.php:80
 msgid "%s has been deleted from the system."
 msgstr ""
 
-#: bp-members/bp-members-actions.php:81
+#: bp-members/bp-members-actions.php:82
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
@@ -3434,41 +3435,24 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:116
-#: bp-members/bp-members-buddybar.php:133
-msgid "Mark as Spammer"
+#: bp-members/bp-members-adminbar.php:115
+msgid "User Capabilities"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:118
-msgid "Are you sure you want to mark this user as a spammer?"
-msgstr ""
-
-#: bp-members/bp-members-adminbar.php:124
-#: bp-members/bp-members-buddybar.php:137
-msgid "Not a Spammer"
-msgstr ""
-
-#: bp-members/bp-members-adminbar.php:126
-msgid "Are you sure you want to mark this user as not a spammer?"
-msgstr ""
-
-#: bp-members/bp-members-adminbar.php:134
-#: bp-settings/bp-settings-loader.php:125
-#: bp-settings/bp-settings-loader.php:185
+#: bp-members/bp-members-adminbar.php:123
+#: bp-settings/bp-settings-loader.php:134
+#: bp-settings/bp-settings-loader.php:194
 #: bp-themes/bp-default/members/single/settings/delete-account.php:50
+#: bp-themes/bp-default/members/single/settings/delete-account.php:76
 msgid "Delete Account"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:136
-msgid "Are you sure you want to delete this user's account?"
-msgstr ""
-
-#: bp-members/bp-members-adminbar.php:179
+#: bp-members/bp-members-adminbar.php:167
 msgid "No new notifications"
 msgstr ""
 
-#: bp-members/bp-members-buddybar.php:24 bp-settings/bp-settings-loader.php:113
-#: bp-settings/bp-settings-loader.php:176
+#: bp-members/bp-members-buddybar.php:24 bp-settings/bp-settings-loader.php:109
+#: bp-settings/bp-settings-loader.php:185
 msgid "Notifications"
 msgstr ""
 
@@ -3488,65 +3472,73 @@ msgstr ""
 msgid "Edit %s's Avatar"
 msgstr ""
 
+#: bp-members/bp-members-buddybar.php:133
+msgid "Mark as Spammer"
+msgstr ""
+
+#: bp-members/bp-members-buddybar.php:137
+msgid "Not a Spammer"
+msgstr ""
+
 #: bp-members/bp-members-buddybar.php:141
 msgid "Delete %s's Account"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:836
+#: bp-members/bp-members-functions.php:830
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:958
+#: bp-members/bp-members-functions.php:952
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:966
+#: bp-members/bp-members-functions.php:960
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:969
+#: bp-members/bp-members-functions.php:963
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:972
+#: bp-members/bp-members-functions.php:966
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:979
+#: bp-members/bp-members-functions.php:973
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:982
+#: bp-members/bp-members-functions.php:976
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:985
-#: bp-members/bp-members-functions.php:993
+#: bp-members/bp-members-functions.php:979
+#: bp-members/bp-members-functions.php:987
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:998
+#: bp-members/bp-members-functions.php:992
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1002
+#: bp-members/bp-members-functions.php:996
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1041
+#: bp-members/bp-members-functions.php:1035
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1126
-#: bp-members/bp-members-functions.php:1130
+#: bp-members/bp-members-functions.php:1120
+#: bp-members/bp-members-functions.php:1124
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1170
+#: bp-members/bp-members-functions.php:1164
 msgid "%s became a registered member"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1245
+#: bp-members/bp-members-functions.php:1239
 msgid "<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link."
 msgstr ""
 
@@ -3858,27 +3850,65 @@ msgstr ""
 msgid "Sent %s"
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:112
-#: bp-settings/bp-settings-actions.php:152
-#: bp-xprofile/bp-xprofile-screens.php:128
-msgid "Changes saved."
+#: bp-settings/bp-settings-actions.php:160
+msgid "That email address is invalid. Check the formatting and try again."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:115
-msgid "Your new passwords did not match."
+#: bp-settings/bp-settings-actions.php:163
+msgid "That email address is currently unavailable for use."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:118
-msgid "Your existing password is incorrect."
+#: bp-settings/bp-settings-actions.php:166
+msgid "That email address is already taken."
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:121
-msgid "Sorry, that email address is already used or is invalid."
+#: bp-settings/bp-settings-actions.php:169
+msgid "Email address cannot be empty."
 msgstr ""
 
-#: bp-settings/bp-settings-loader.php:102
-#: bp-settings/bp-settings-loader.php:168
+#: bp-settings/bp-settings-actions.php:179
+msgid "Your current password is invalid."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:182
+msgid "The new password fields did not match."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:185
+msgid "One of the password fields was empty."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:194
+msgid "Your settings have been saved."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:200
+msgid "No changes were made to your account."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:202
+msgid "No changes were made to this account."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:252
+msgid "Your notification settings have been saved."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:254
+msgid "This user's notification settings have been saved."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:345
+msgid "%s was successfully deleted."
+msgstr ""
+
+#: bp-settings/bp-settings-loader.php:98 bp-settings/bp-settings-loader.php:177
 msgid "General"
+msgstr ""
+
+#: bp-settings/bp-settings-loader.php:121
+#: bp-themes/bp-default/members/single/settings/capabilities.php:49
+msgid "Capabilities"
 msgstr ""
 
 #: bp-themes/bp-default/404.php:7
@@ -5011,55 +5041,59 @@ msgstr ""
 msgid "%s's Profile"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/delete-account.php:55
-msgid "WARNING: Deleting your account will completely remove ALL content associated with it. There is no way back, please be careful with this option."
+#: bp-themes/bp-default/members/single/settings/capabilities.php:57
+msgid "This user is a spammer."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/delete-account.php:58
-msgid "I understand the consequences of deleting my account."
+#: bp-themes/bp-default/members/single/settings/delete-account.php:56
+msgid "Deleting your account will delete all of the content you have created. It will be completely irrecoverable."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/delete-account.php:63
-msgid "Delete My Account"
+#: bp-themes/bp-default/members/single/settings/delete-account.php:60
+msgid "Deleting this account will delete all of the content it has created. It will be completely irrecoverable."
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:50
+#: bp-themes/bp-default/members/single/settings/delete-account.php:72
+msgid "I understand the consequences."
+msgstr ""
+
+#: bp-themes/bp-default/members/single/settings/general.php:49
 msgid "General Settings"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:56
+#: bp-themes/bp-default/members/single/settings/general.php:57
 msgid "Current Password <span>(required to update email or change current password)</span>"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:57
+#: bp-themes/bp-default/members/single/settings/general.php:58
 msgid "Password Lost and Found"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:57
+#: bp-themes/bp-default/members/single/settings/general.php:58
 msgid "Lost your password?"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:59
+#: bp-themes/bp-default/members/single/settings/general.php:62
 msgid "Account Email"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:62
+#: bp-themes/bp-default/members/single/settings/general.php:65
 msgid "Change Password <span>(leave blank for no change)</span>"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:63
+#: bp-themes/bp-default/members/single/settings/general.php:66
 msgid "New Password"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:64
+#: bp-themes/bp-default/members/single/settings/general.php:67
 msgid "Repeat New Password"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/notifications.php:50
+#: bp-themes/bp-default/members/single/settings/notifications.php:49
 msgid "Email Notification"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/notifications.php:55
+#: bp-themes/bp-default/members/single/settings/notifications.php:54
 msgid "Send a notification by email when:"
 msgstr ""
 
@@ -5457,6 +5491,10 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-screens.php:126
 msgid "There was a problem updating some of your profile information, please try again."
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-screens.php:128
+msgid "Changes saved."
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-screens.php:180
