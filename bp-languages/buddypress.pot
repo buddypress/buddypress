@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-17 22:36:19+00:00\n"
+"POT-Creation-Date: 2012-02-23 07:36:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -583,7 +583,7 @@ msgstr ""
 msgid "<a href=\"%1$s\">%2$s</a> is your new site.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:587 bp-core/bp-core-filters.php:320
+#: bp-blogs/bp-blogs-template.php:587 bp-core/bp-core-filters.php:327
 #: bp-themes/bp-default/blogs/create.php:21
 #: bp-themes/bp-default/blogs/index.php:23
 msgid "Create a Site"
@@ -1334,11 +1334,11 @@ msgstr[1] ""
 msgid "Are you sure?"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:163 bp-core/bp-core-filters.php:187
+#: bp-core/bp-core-filters.php:170 bp-core/bp-core-filters.php:194
 msgid "[User Set]"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:206
+#: bp-core/bp-core-filters.php:213
 msgid ""
 "Thanks for registering! To complete the activation of your account and blog, please click the following link:\n"
 "\n"
@@ -1351,11 +1351,11 @@ msgid ""
 "%2$s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:207
+#: bp-core/bp-core-filters.php:214
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:239 bp-members/bp-members-signup.php:574
+#: bp-core/bp-core-filters.php:246 bp-members/bp-members-signup.php:574
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1363,39 +1363,39 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:240 bp-members/bp-members-signup.php:575
+#: bp-core/bp-core-filters.php:247 bp-members/bp-members-signup.php:575
 msgid "Activate Your Account"
 msgstr ""
 
 #. translators: "displayed user's name | canonicalised component name"
 #. translators: "group name | group nav section name"
 
-#: bp-core/bp-core-filters.php:286 bp-core/bp-core-filters.php:292
+#: bp-core/bp-core-filters.php:293 bp-core/bp-core-filters.php:299
 msgid "%1$s | %2$s"
 msgstr ""
 
 #. translators: "component item name | component nav section name | root
 #. component name"
 
-#: bp-core/bp-core-filters.php:297
+#: bp-core/bp-core-filters.php:304
 msgid "%1$s | %2$s | %3$s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:302 bp-core/bp-core-filters.php:304
+#: bp-core/bp-core-filters.php:309 bp-core/bp-core-filters.php:311
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:308
+#: bp-core/bp-core-filters.php:315
 #: bp-themes/bp-default/registration/register.php:23
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:312
+#: bp-core/bp-core-filters.php:319
 #: bp-themes/bp-default/registration/activate.php:24
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:316 bp-themes/bp-default/groups/create.php:18
+#: bp-core/bp-core-filters.php:323 bp-themes/bp-default/groups/create.php:18
 #: bp-themes/bp-default/groups/index.php:23
 msgid "Create a Group"
 msgstr ""
@@ -1416,80 +1416,80 @@ msgstr ""
 msgid "Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:601
+#: bp-core/bp-core-functions.php:604
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:602
+#: bp-core/bp-core-functions.php:605
 msgid "right now"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:603
+#: bp-core/bp-core-functions.php:606
 msgid "%s ago"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:607
+#: bp-core/bp-core-functions.php:610
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:607
+#: bp-core/bp-core-functions.php:610
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:608
+#: bp-core/bp-core-functions.php:611
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:608
+#: bp-core/bp-core-functions.php:611
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:609
+#: bp-core/bp-core-functions.php:612
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:609
+#: bp-core/bp-core-functions.php:612
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:610
+#: bp-core/bp-core-functions.php:613
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:610
+#: bp-core/bp-core-functions.php:613
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:611
+#: bp-core/bp-core-functions.php:614
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:611
+#: bp-core/bp-core-functions.php:614
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:612
+#: bp-core/bp-core-functions.php:615
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:612
+#: bp-core/bp-core-functions.php:615
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:613
+#: bp-core/bp-core-functions.php:616
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:613
+#: bp-core/bp-core-functions.php:616
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:670
+#: bp-core/bp-core-functions.php:673
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:733
+#: bp-core/bp-core-functions.php:736
 msgid "not recently active"
 msgstr ""
 
@@ -3332,22 +3332,49 @@ msgstr ""
 msgid "Sent %s"
 msgstr ""
 
-#: bp-settings/bp-settings-actions.php:102
-#: bp-settings/bp-settings-actions.php:143
+#: bp-settings/bp-settings-actions.php:151
+msgid "That email address is invalid. Check the formatting and try again."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:154
+msgid "That email address is currently unavailable for use."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:157
+msgid "That email address is already taken."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:160
+msgid "Email address cannot be empty."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:170
+msgid "Your current password is invalid."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:173
+msgid "The new password fields did not match."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:176
+msgid "One of the password fields was empty."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:185
+msgid "Your settings have been saved."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:191
+msgid "No changes were made to your account."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:193
+msgid "No changes were made to this account."
+msgstr ""
+
+#: bp-settings/bp-settings-actions.php:232
 #: bp-xprofile/bp-xprofile-screens.php:113
 msgid "Changes saved."
-msgstr ""
-
-#: bp-settings/bp-settings-actions.php:105
-msgid "Your new passwords did not match."
-msgstr ""
-
-#: bp-settings/bp-settings-actions.php:108
-msgid "Your existing password is incorrect."
-msgstr ""
-
-#: bp-settings/bp-settings-actions.php:111
-msgid "Sorry, that email address is already used or is invalid."
 msgstr ""
 
 #: bp-settings/bp-settings-loader.php:92 bp-settings/bp-settings-loader.php:158
@@ -4145,7 +4172,7 @@ msgstr ""
 #: bp-themes/bp-default/groups/single/forum/edit.php:60
 #: bp-themes/bp-default/groups/single/forum/edit.php:76
 #: bp-themes/bp-default/members/single/profile/edit.php:126
-#: bp-themes/bp-default/members/single/settings/general.php:69
+#: bp-themes/bp-default/members/single/settings/general.php:73
 #: bp-themes/bp-default/members/single/settings/notifications.php:62
 #: bp-xprofile/bp-xprofile-classes.php:274
 msgid "Save Changes"
@@ -4504,31 +4531,31 @@ msgstr ""
 msgid "General Settings"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:56
+#: bp-themes/bp-default/members/single/settings/general.php:58
 msgid "Current Password <span>(required to update email or change current password)</span>"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:57
+#: bp-themes/bp-default/members/single/settings/general.php:59
 msgid "Password Lost and Found"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:57
+#: bp-themes/bp-default/members/single/settings/general.php:59
 msgid "Lost your password?"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:59
+#: bp-themes/bp-default/members/single/settings/general.php:63
 msgid "Account Email"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:62
+#: bp-themes/bp-default/members/single/settings/general.php:66
 msgid "Change Password <span>(leave blank for no change)</span>"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:63
+#: bp-themes/bp-default/members/single/settings/general.php:67
 msgid "New Password"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:64
+#: bp-themes/bp-default/members/single/settings/general.php:68
 msgid "Repeat New Password"
 msgstr ""
 
