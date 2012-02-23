@@ -2,6 +2,13 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+// Add some filters to feedback messages
+add_filter( 'bp_core_render_message_content', 'wptexturize'       );
+add_filter( 'bp_core_render_message_content', 'convert_smilies'   );
+add_filter( 'bp_core_render_message_content', 'convert_chars'     );
+add_filter( 'bp_core_render_message_content', 'wpautop'           );
+add_filter( 'bp_core_render_message_content', 'shortcode_unautop' );
+
 /**
  * bp_core_exclude_pages()
  *
