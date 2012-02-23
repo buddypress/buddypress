@@ -46,10 +46,10 @@ function bp_settings_action_general() {
 	$email_error   = false;   // invalid|blocked|taken|empty|nochange
 	$pass_error    = false;   // invalid|mismatch|empty|nochange
 	$pass_changed  = false;   // true if the user changes their password
+	$email_changed = false;   // true if the user changes their email
 	$feedback_type = 'error'; // success|error
 	$feedback      = array(); // array of strings for feedback
 
-	/** Handle Form ***********************************************************/
 
 	if ( isset( $_POST['submit'] ) ) {
 
@@ -68,7 +68,7 @@ function bp_settings_action_general() {
 				// What is missing from the profile page vs signup - lets double check the goodies
 				$user_email = sanitize_email( esc_html( trim( $_POST['email'] ) ) );
 
-				// Skip this if no change to email
+				// User is changing email address
 				if ( $bp->displayed_user->userdata->user_email != $user_email ) {
 
 					// Is email valid
@@ -92,14 +92,15 @@ function bp_settings_action_general() {
 						$email_error = 'taken';
 					}
 
+					// Yay we made it!
+					if ( false === $email_error ) {
+						$update_user->user_email = $user_email;
+						$email_changed = true;
+					}
+
 				// No change
 				} else {
-					$email_error = 'nochange';
-				}
-
-				// Yay we made it!
-				if ( false === $email_error ) {
-					$update_user->user_email = $user_email;
+					$email_error = false;
 				}
 
 			// Email address cannot be empty
@@ -123,7 +124,7 @@ function bp_settings_action_general() {
 
 			// Both password fields were empty
 			} elseif ( empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) {
-				$pass_error = 'nochange';
+				$pass_error = false;
 
 			// One of the password boxes was left empty
 			} elseif ( ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) ) || ( !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) ) {
@@ -168,8 +169,8 @@ function bp_settings_action_general() {
 			case 'empty' :
 				$feedback['email_empty']    = __( 'Email address cannot be empty.', 'buddypress' );
 				break;
-			case 'nochange' :
-				$email_error = false;
+			case false :
+				// No change
 				break;
 		}
 
@@ -184,18 +185,18 @@ function bp_settings_action_general() {
 			case 'empty' :
 				$feedback['pass_empty']    = __( 'One of the password fields was empty.', 'buddypress' );
 				break;
-			case 'nochange' :
-				$pass_error = false;
+			case false :
+				// No change
 				break;
 		}
 
 		// No errors so show a simple success message
-		if ( ( false === $email_error ) && ( ( false == $pass_error ) && ( true === $pass_changed ) ) ) {
+		if ( ( ( false === $email_error ) || ( false == $pass_error ) ) && ( ( true === $pass_changed ) || ( true === $email_changed ) ) ) {
 			$feedback[]    = __( 'Your settings have been saved.', 'buddypress' );
 			$feedback_type = 'success';
 
 		// Some kind of errors occurred
-		} elseif ( ( false === $email_error ) && ( ( false == $pass_error ) && ( false === $pass_changed ) ) ) {
+		} elseif ( ( ( false === $email_error ) || ( false === $pass_error ) ) && ( ( false === $pass_changed ) || ( false === $email_changed ) ) ) {
 			if ( bp_is_my_profile() ) {
 				$feedback['nochange'] = __( 'No changes were made to your account.', 'buddypress' );
 			} else {
