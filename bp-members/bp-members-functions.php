@@ -1050,6 +1050,10 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 
 					$current_field = $usermeta["field_{$field_id}"];
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
+					
+					// Save the visibility level
+					$visibility_level = !empty( $usermeta['field_' . $field_id . '_visibility'] ) ? $usermeta['field_' . $field_id . '_visibility'] : 'public';
+					xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
 				}
 			}
 		}
@@ -1108,6 +1112,10 @@ function bp_core_activate_signup( $key ) {
 
 					if ( !empty( $current_field ) )
 						xprofile_set_field_data( $field_id, $user_id, $current_field );
+					
+					// Save the visibility level
+					$visibility_level = !empty( $user['meta']['field_' . $field_id . '_visibility'] ) ? $user['meta']['field_' . $field_id . '_visibility'] : 'public';
+					xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
 				}
 			}
 		}

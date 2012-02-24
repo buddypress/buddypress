@@ -2398,3 +2398,6 @@ body.no-js .field-visibility-settings-close {
 .field-visibility-settings a {
 	font-size: .9em;
 }
+body.register div.page ul {
+	list-style: none;
+}

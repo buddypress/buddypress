@@ -228,10 +228,10 @@ class BP_XProfile_Group {
 						}
 					}
 				}
-						
-				if ( $fetch_visibility_level ) {
-					$fields = self::fetch_visibility_level( $user_id, $fields );
-				}
+			}
+								
+			if ( $fetch_visibility_level ) {
+				$fields = self::fetch_visibility_level( $user_id, $fields );
 			}
 		}
 

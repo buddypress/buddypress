@@ -169,6 +169,9 @@ function bp_core_screen_signup() {
 
 					if ( !empty( $_POST['field_' . $field_id] ) )
 						$usermeta['field_' . $field_id] = $_POST['field_' . $field_id];
+					
+					if ( !empty( $_POST['field_' . $field_id . '_visibility'] ) )
+						$usermeta['field_' . $field_id . '_visibility'] = $_POST['field_' . $field_id . '_visibility'];
 				}
 
 				// Store the profile field ID's in usermeta

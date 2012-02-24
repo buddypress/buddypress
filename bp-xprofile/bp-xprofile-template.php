@@ -159,7 +159,7 @@ function bp_has_profile( $args = '' ) {
 	$hide_empty_fields_default = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() && !bp_is_register_page() );
 	
 	// We only need to fetch visibility levels when viewing your own profile
-	if ( bp_is_my_profile() || bp_current_user_can( 'bp_moderate' ) ) {
+	if ( bp_is_my_profile() || bp_current_user_can( 'bp_moderate' ) || bp_is_register_page() ) {
 		$fetch_visibility_level_default = true;
 	} else {
 		$fetch_visibility_level_default = false;

@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 	switch ( $cap ) {
 		case 'bp_xprofile_change_field_visibility' :
-			$caps = array( 'read' );
+			$caps = array( 'exist' ); // Must allow for logged-out users during registration
 
 			// You may pass args manually: $field_id, $profile_user_id
 			$field_id        = isset( $args[0] ) ? (int)$args[0] : bp_get_the_profile_field_id();
@@ -47,7 +47,6 @@ function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 			}
 
 			// Friends don't let friends edit each other's visibility
-			// @todo - This would be a proper map if we used CPTs?
 			if ( $profile_user_id != bp_displayed_user_id() && !bp_current_user_can( 'bp_moderate' ) ) {
 				$caps[] = 'do_not_allow'; 
 				break;
