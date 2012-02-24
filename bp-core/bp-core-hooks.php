@@ -41,6 +41,7 @@ add_action( 'after_theme_setup',       'bp_after_theme_setup',      10    );
 add_action( 'wp_enqueue_scripts',      'bp_enqueue_scripts',        10    );
 add_action( 'admin_bar_menu',          'bp_setup_admin_bar',        20    ); // After WP core
 add_action( 'template_redirect',       'bp_template_redirect',      10    );
+add_action( 'widgets_init',            'bp_widgets_init',           10    );
 add_filter( 'template_include',        'bp_template_include',       10    );
 add_filter( 'map_meta_cap',            'bp_map_meta_caps',          10, 4 );
 
@@ -189,6 +190,14 @@ function bp_actions() {
 function bp_screens() {
 	do_action( 'bp_screens' );
 }
+
+/**
+ * Initialize widgets
+ */
+function bp_widgets_init() {
+	do_action ( 'bp_widgets_init' );
+}
+
 
 /** Admin *********************************************************************/
 
