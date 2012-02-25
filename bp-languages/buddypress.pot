@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-24 22:36:12+00:00\n"
+"POT-Creation-Date: 2012-02-25 18:36:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1697,7 +1697,7 @@ msgid "Update BuddyPress"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:240 bp-core/bp-core-admin.php:241
-#: bp-core/bp-core-admin.php:261 bp-members/bp-members-functions.php:1222
+#: bp-core/bp-core-admin.php:261 bp-members/bp-members-functions.php:1225
 msgid "BuddyPress"
 msgstr ""
 
@@ -1887,7 +1887,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:234 bp-members/bp-members-functions.php:1224
+#: bp-core/bp-core-filters.php:234 bp-members/bp-members-functions.php:1227
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1895,7 +1895,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:235 bp-members/bp-members-functions.php:1225
+#: bp-core/bp-core-filters.php:235 bp-members/bp-members-functions.php:1228
 msgid "Activate Your Account"
 msgstr ""
 
@@ -3488,57 +3488,57 @@ msgstr ""
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:952
+#: bp-members/bp-members-functions.php:955
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:960
+#: bp-members/bp-members-functions.php:963
 msgid "Only lowercase letters and numbers allowed"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:963
+#: bp-members/bp-members-functions.php:966
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:966
+#: bp-members/bp-members-functions.php:969
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:973
+#: bp-members/bp-members-functions.php:976
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:976
+#: bp-members/bp-members-functions.php:979
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:979
-#: bp-members/bp-members-functions.php:987
+#: bp-members/bp-members-functions.php:982
+#: bp-members/bp-members-functions.php:990
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:992
+#: bp-members/bp-members-functions.php:995
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:996
+#: bp-members/bp-members-functions.php:999
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1035
+#: bp-members/bp-members-functions.php:1038
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1128
-#: bp-members/bp-members-functions.php:1132
+#: bp-members/bp-members-functions.php:1131
+#: bp-members/bp-members-functions.php:1135
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1172
+#: bp-members/bp-members-functions.php:1175
 msgid "%s became a registered member"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1247
+#: bp-members/bp-members-functions.php:1250
 msgid "<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link."
 msgstr ""
 
@@ -3562,7 +3562,7 @@ msgstr ""
 msgid "This is a required field"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:237
+#: bp-members/bp-members-screens.php:242
 msgid "Your account is now active!"
 msgstr ""
 
