@@ -948,6 +948,9 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	$errors = new WP_Error();
 	$user_email = sanitize_email( $user_email );
 
+	// Apply any user_login filters added by BP or other plugins before validating
+	$user_name = apply_filters( 'pre_user_login', $user_name );
+
 	if ( empty( $user_name ) )
 		$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
 
@@ -1031,7 +1034,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 			'user_email' => $user_email
 		) );
 
-		if ( empty( $user_id ) ) {
+		if ( is_wp_error( $user_id ) || empty( $user_id ) ) {
 			$errors->add( 'registerfail', sprintf( __('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !', 'buddypress' ), bp_get_option( 'admin_email' ) ) );
 			return $errors;
 		}

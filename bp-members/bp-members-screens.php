@@ -188,11 +188,16 @@ function bp_core_screen_signup() {
 
 				// Finally, sign up the user and/or blog
 				if ( isset( $_POST['signup_with_blog'] ) && is_multisite() )
-					bp_core_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
+					$wp_user_id = bp_core_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
 				else
-					bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
+					$wp_user_id = bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
 
-				$bp->signup->step = 'completed-confirmation';
+				if ( is_wp_error( $wp_user_id ) ) {					
+					$bp->signup->step = 'request-details';
+					bp_core_add_message( $wp_user_id->get_error_message(), 'error' ); 
+				} else {
+					$bp->signup->step = 'completed-confirmation';
+				}
 			}
 
 			do_action( 'bp_complete_signup' );
