@@ -513,16 +513,20 @@ a:focus {
 }
 #navigation {
 	position: relative;
-	text-align: right;
 	width: 100%;
+}
+#navigation:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
 }
 #nav {
 	margin: 40px 20px 0 0;
 	list-style: none;
 	padding: 0;
-	position: relative;
-	right: auto;
-	bottom: 0;
+	float: right;
 }
 #nav li a {
 	background: url( ../images/60pc_black.png );
@@ -535,6 +539,7 @@ a:focus {
 #nav li {
 	margin-left: 5px;
 	display: inline-block;
+	float: left;
 }
 #nav li li {
 	margin-left: 0;
