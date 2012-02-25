@@ -150,11 +150,16 @@ function bp_core_screen_signup() {
 
 				// Finally, sign up the user and/or blog
 				if ( isset( $_POST['signup_with_blog'] ) && is_multisite() )
-					bp_core_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
+					$wp_user_id = bp_core_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
 				else
-					bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
+					$wp_user_id = bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
 
-				$bp->signup->step = 'completed-confirmation';
+				if ( is_wp_error( $wp_user_id ) ) {                                   
+					$bp->signup->step = 'request-details';
+					bp_core_add_message( strip_tags( $wp_user_id->get_error_message() ), 'error' );
+				} else {
+					$bp->signup->step = 'completed-confirmation';
+				} 
 			}
 
 			do_action( 'bp_complete_signup' );
@@ -304,6 +309,9 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	$errors = new WP_Error();
 	$user_email = sanitize_email( $user_email );
 
+	// Apply any user_login filters added by BP or other plugins before validating 
+ 	$user_name = apply_filters( 'pre_user_login', $user_name ); 
+
 	if ( empty( $user_name ) )
 		$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
 
@@ -390,7 +398,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 			'user_email' => $user_email
 		) );
 
-		if ( empty( $user_id ) ) {
+		if ( is_wp_error( $user_id ) || empty( $user_id ) ) {
 			$errors->add( 'registerfail', sprintf( __('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !', 'buddypress' ), get_option( 'admin_email' ) ) );
 			return $errors;
 		}
