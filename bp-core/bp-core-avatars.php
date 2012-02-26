@@ -354,6 +354,11 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$email    = apply_filters( 'bp_core_gravatar_email', $email, $item_id, $object );
 		$gravatar = apply_filters( 'bp_gravatar_url', $host ) . md5( strtolower( $email ) ) . '?d=' . $default_grav . '&amp;s=' . $grav_size;
 
+		// Gravatar rating; http://bit.ly/89QxZA
+		$rating = get_option( 'avatar_rating' );
+		if ( ! empty( $rating ) )
+			$gravatar .= "&amp;r={$rating}";
+
 	// No avatar was found, and we've been told not to use a gravatar.
 	} else {
 		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg', $params );
