@@ -979,7 +979,11 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 /*** Group Cleanup Functions ****************************************************/
 
 function groups_remove_data_for_user( $user_id ) {
+	global $bp;
+
 	BP_Groups_Member::delete_all_for_user( $user_id );
+
+	bp_core_delete_notifications_from_user( $user_id, $bp->groups->id, 'new_membership_request' );
 
 	do_action( 'groups_remove_data_for_user', $user_id );
 }
