@@ -65,6 +65,66 @@ ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image 
 }
 
 
+/* Components
+------------------------------------------------------------------------------*/
+
+td.plugin-title span {
+	float: left;
+	width: 18px;
+	height: 18px;
+	background-image: url( ../images/menu.png );
+	background-position: -4px -40px;
+	background-repeat: no-repeat;
+	margin-right: 5px;
+}
+
+tr.active td.plugin-title span {
+	background-position-y: -7px;
+}
+
+tr.activity td.plugin-title span {
+	background-position-x: -4px;
+}
+
+tr.xprofile td.plugin-title span {
+	background-image: url( ../images/menu-wp.png );
+	background-position-x: -305px;
+}
+
+tr.settings td.plugin-title span {
+	background-image: url( ../images/menu-wp.png );
+	background-position-x: -334px;
+}
+
+tr.groups td.plugin-title span {
+	background-position-x: -66px;
+}
+
+tr.messages td.plugin-title span {
+	background-position-x: -154px;
+}
+
+tr.forums td.plugin-title span {
+	background-image: url( ../images/menu-wp.png );
+	background-position-x: -36px;
+}
+
+tr.blogs td.plugin-title span {
+	background-position-x: -125px;
+}
+
+tr.friends td.plugin-title span {
+	background-position-x: -95px;
+}
+
+tr.core td.plugin-title span {
+	background-position-x: -184px;
+}
+
+tr.members td.plugin-title span {
+	background-position-x: -36px;
+}
+
 /* Dashboard Widget
 ------------------------------------------------------------------------------*/
 
