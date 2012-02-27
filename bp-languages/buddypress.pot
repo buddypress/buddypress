@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-27 03:36:10+00:00\n"
+"POT-Creation-Date: 2012-02-27 06:36:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -478,7 +478,7 @@ msgid "Thumbnail"
 msgstr ""
 
 #: bp-activity/bp-activity-loader.php:30
-#: bp-core/admin/bp-core-components.php:80
+#: bp-core/admin/bp-core-components.php:83
 msgid "Activity Streams"
 msgstr ""
 
@@ -868,7 +868,7 @@ msgstr ""
 msgid "%1$s commented on the post, %2$s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:25 bp-core/admin/bp-core-components.php:92
+#: bp-blogs/bp-blogs-loader.php:25 bp-core/admin/bp-core-components.php:95
 msgid "Site Tracking"
 msgstr ""
 
@@ -1028,97 +1028,132 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:64
+#: bp-core/admin/bp-core-components.php:67
 #: bp-xprofile/bp-xprofile-loader.php:32
 msgid "Extended Profiles"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:65
+#: bp-core/admin/bp-core-components.php:68
 msgid "Customize your community with fully editable profile fields that allow your users to describe themselves."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:68
+#: bp-core/admin/bp-core-components.php:71
 msgid "Account Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:69
+#: bp-core/admin/bp-core-components.php:72
 msgid "Allow your users to modify their account and notification settings directly from within their profiles."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:72 bp-friends/bp-friends-loader.php:24
+#: bp-core/admin/bp-core-components.php:75 bp-friends/bp-friends-loader.php:24
 msgid "Friend Connections"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:73
+#: bp-core/admin/bp-core-components.php:76
 msgid "Let your users make connections so they can track the activity of others and focus on the people they care about the most."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:76
+#: bp-core/admin/bp-core-components.php:79
 msgid "Private Messaging"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:77
+#: bp-core/admin/bp-core-components.php:80
 msgid "Allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, messages can be sent between any number of members."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:81
+#: bp-core/admin/bp-core-components.php:84
 msgid "Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:84 bp-groups/bp-groups-loader.php:27
+#: bp-core/admin/bp-core-components.php:87 bp-groups/bp-groups-loader.php:27
 msgid "User Groups"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:85
+#: bp-core/admin/bp-core-components.php:88
 msgid "Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:88 bp-forums/bp-forums-loader.php:25
+#: bp-core/admin/bp-core-components.php:91 bp-forums/bp-forums-loader.php:25
 msgid "Discussion Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:89
+#: bp-core/admin/bp-core-components.php:92
 msgid "Full-powered discussion forums built directly into groups allow for more conventional in-depth conversations. NOTE: This will require an extra (but easy) setup step."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:93
+#: bp-core/admin/bp-core-components.php:96
 msgid "Make BuddyPress aware of new posts and new comments from your site."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:98
+#: bp-core/admin/bp-core-components.php:102
 msgid "Make BuddyPress aware of new sites, new posts and new comments from across your entire network."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:122 bp-core/bp-core-loader.php:27
+#: bp-core/admin/bp-core-components.php:108 bp-core/bp-core-loader.php:27
 msgid "BuddyPress Core"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:123
+#: bp-core/admin/bp-core-components.php:109
 msgid "It&#8216;s what makes <del>time travel</del> BuddyPress possible!"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:126
+#: bp-core/admin/bp-core-components.php:112
 msgid "Community Members"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:127
+#: bp-core/admin/bp-core-components.php:113
 msgid "Everything in a BuddyPress community revolves around its members."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:138
+#: bp-core/admin/bp-core-components.php:179
 msgid "Available Components"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:140
+#: bp-core/admin/bp-core-components.php:181
 msgid "Each component has a unique purpose, and your community may not need each one."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:170
-msgid "Required Components"
+#: bp-core/admin/bp-core-components.php:186
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: bp-core/admin/bp-core-components.php:187
+msgid "Active <span class=\"count\">(%s)</span>"
+msgid_plural "Active <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: bp-core/admin/bp-core-components.php:188
+msgid "Inactive <span class=\"count\">(%s)</span>"
+msgid_plural "Inactive <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: bp-core/admin/bp-core-components.php:189
+msgid "Must-Use <span class=\"count\">(%s)</span>"
+msgid_plural "Must-Use <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: bp-core/admin/bp-core-components.php:196
+#: bp-core/admin/bp-core-components.php:204
+msgid "Component"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:172
-msgid "The following components are required by BuddyPress and cannot be turned off."
+#: bp-core/admin/bp-core-components.php:197
+#: bp-core/admin/bp-core-components.php:205
+msgid "Description"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:230
+msgid "Select %s"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:254
+msgid "No components found."
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:113
