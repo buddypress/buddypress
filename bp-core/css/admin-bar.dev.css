@@ -1,4 +1,3 @@
-
 /* Displayed User */
 #wpadminbar .quicklinks li#wp-admin-bar-user-admin-with-avatar > a img,
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar > a img {
@@ -51,4 +50,9 @@
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications > a {
 	padding: 0 .5em;
+}
+
+#wp-admin-bar-user-info img.avatar {
+	height: 64px;
+	width: 64px;
 }
