@@ -68,7 +68,7 @@ ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image 
 /* Components
 ------------------------------------------------------------------------------*/
 
-td.plugin-title span {
+.settings_page_bp-components td.plugin-title span {
 	float: left;
 	width: 18px;
 	height: 18px;
@@ -78,50 +78,50 @@ td.plugin-title span {
 	margin-right: 5px;
 }
 
-tr.active td.plugin-title span {
+.settings_page_bp-components tr.active td.plugin-title span {
 	background-position-y: -7px;
 }
 
-tr.activity td.plugin-title span {
+.settings_page_bp-components tr.activity td.plugin-title span {
 	background-position-x: -4px;
 }
 
-tr.xprofile td.plugin-title span {
+.settings_page_bp-components tr.xprofile td.plugin-title span {
 	background-image: url( ../images/menu-wp.png );
 	background-position-x: -305px;
 }
 
-tr.settings td.plugin-title span {
+.settings_page_bp-components tr.settings td.plugin-title span {
 	background-image: url( ../images/menu-wp.png );
 	background-position-x: -334px;
 }
 
-tr.groups td.plugin-title span {
+.settings_page_bp-components tr.groups td.plugin-title span {
 	background-position-x: -66px;
 }
 
-tr.messages td.plugin-title span {
+.settings_page_bp-components tr.messages td.plugin-title span {
 	background-position-x: -154px;
 }
 
-tr.forums td.plugin-title span {
+.settings_page_bp-components tr.forums td.plugin-title span {
 	background-image: url( ../images/menu-wp.png );
 	background-position-x: -36px;
 }
 
-tr.blogs td.plugin-title span {
+.settings_page_bp-components tr.blogs td.plugin-title span {
 	background-position-x: -125px;
 }
 
-tr.friends td.plugin-title span {
+.settings_page_bp-components tr.friends td.plugin-title span {
 	background-position-x: -95px;
 }
 
-tr.core td.plugin-title span {
+.settings_page_bp-components tr.core td.plugin-title span {
 	background-position-x: -184px;
 }
 
-tr.members td.plugin-title span {
+.settings_page_bp-components tr.members td.plugin-title span {
 	background-position-x: -36px;
 }
 
