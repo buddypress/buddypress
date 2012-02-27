@@ -15,8 +15,6 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-/** ACTIONS *******************************************************************/
-
 /**
  * Attach BuddyPress to WordPress
  *
@@ -105,7 +103,7 @@ if ( is_admin() ) {
  * manually called and/or piggy-backed on top of other actions if needed.
  */
 
-/** The hooks *****************************************************************/
+/** Sub-actions ***************************************************************/
 
 /**
  * Include files on this action

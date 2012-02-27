@@ -490,9 +490,9 @@ class BuddyPress {
 		if ( empty( $this->maintenance_mode ) ) {
 
 			// Require all of the BuddyPress core libraries
+			require( $this->plugin_dir . 'bp-core/bp-core-actions.php'    );
 			require( $this->plugin_dir . 'bp-core/bp-core-caps.php'       );
 			require( $this->plugin_dir . 'bp-core/bp-core-cache.php'      );
-			require( $this->plugin_dir . 'bp-core/bp-core-hooks.php'      );
 			require( $this->plugin_dir . 'bp-core/bp-core-cssjs.php'      );
 			require( $this->plugin_dir . 'bp-core/bp-core-update.php'     );
 			require( $this->plugin_dir . 'bp-core/bp-core-options.php'    );
