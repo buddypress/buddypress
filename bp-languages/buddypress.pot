@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-02-27 06:36:12+00:00\n"
+"POT-Creation-Date: 2012-02-27 07:36:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1152,7 +1152,7 @@ msgstr ""
 msgid "Select %s"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:254
+#: bp-core/admin/bp-core-components.php:255
 msgid "No components found."
 msgstr ""
 
