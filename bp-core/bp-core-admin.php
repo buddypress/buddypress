@@ -354,56 +354,6 @@ class BP_Admin {
 			register_setting  ( 'buddypress',         '_bp_group_creation',   'intval'                                                                                  );
 		}
 
-		/** Front Slugs *******************************************************/
-
-		// Add the per page section
-		//add_settings_section( 'bp_root_slug',       __( 'Archive Slugs', 'buddypress' ), 'bp_admin_setting_callback_root_slug_section',   'buddypress'                  );
-
-		// Root slug setting
-		//add_settings_field  ( '_bp_root_slug',          __( 'Forums base',   'buddypress' ), 'bp_admin_setting_callback_root_slug',           'buddypress', 'bp_root_slug' );
-	 	//register_setting    ( 'buddypress',                '_bp_root_slug',                  'esc_sql'                                                                    );
-
-		// Topic archive setting
-		//add_settings_field  ( '_bp_topic_archive_slug', __( 'Topics base',   'buddypress' ), 'bp_admin_setting_callback_topic_archive_slug',  'buddypress', 'bp_root_slug' );
-	 	//register_setting    ( 'buddypress',                 '_bp_topic_archive_slug',        'esc_sql'                                                                    );
-
-		/** Single slugs ******************************************************/
-
-		// Add the per page section
-		//add_settings_section( 'bp_single_slugs',   __( 'Single Slugs',  'buddypress' ), 'bp_admin_setting_callback_single_slug_section', 'buddypress'                     );
-
-		// Include root setting
-		//add_settings_field( '_bp_include_root',    __( 'Forum Prefix', 'buddypress' ),  'bp_admin_setting_callback_include_root',        'buddypress', 'bp_single_slugs' );
-	 	//register_setting  ( 'buddypress',              '_bp_include_root',              'intval'                                                                        );
-
-		// Forum slug setting
-		//add_settings_field( '_bp_forum_slug',      __( 'Forum slug',    'buddypress' ), 'bp_admin_setting_callback_forum_slug',          'buddypress', 'bp_single_slugs' );
-	 	//register_setting  ( 'buddypress',             '_bp_forum_slug',                 'sanitize_title'                                                                );
-
-		// Topic slug setting
-		//add_settings_field( '_bp_topic_slug',      __( 'Topic slug',    'buddypress' ), 'bp_admin_setting_callback_topic_slug',          'buddypress', 'bp_single_slugs' );
-	 	//register_setting  ( 'buddypress',             '_bp_topic_slug',                 'sanitize_title'                                                                );
-
-		// Topic tag slug setting
-		//add_settings_field( '_bp_topic_tag_slug', __( 'Topic tag slug', 'buddypress' ), 'bp_admin_setting_callback_topic_tag_slug',      'buddypress', 'bp_single_slugs' );
-	 	//register_setting  ( 'buddypress',             '_bp_topic_tag_slug',             'sanitize_title'                                                                );
-
-		// Reply slug setting
-		//add_settings_field( '_bp_reply_slug',      __( 'Reply slug',    'buddypress' ), 'bp_admin_setting_callback_reply_slug',          'buddypress', 'bp_single_slugs' );
-	 	//register_setting  ( 'buddypress',             '_bp_reply_slug',                 'sanitize_title'                                                                );
-
-		/** Other slugs *******************************************************/
-
-		// User slug setting
-		//add_settings_field( '_bp_user_slug',       __( 'User base',     'buddypress' ), 'bp_admin_setting_callback_user_slug',           'buddypress', 'bp_single_slugs' );
-	 	//register_setting  ( 'buddypress',              '_bp_user_slug',                 'sanitize_title'                                                                );
-
-		// View slug setting
-		//add_settings_field( '_bp_view_slug',       __( 'View base',     'buddypress' ), 'bp_admin_setting_callback_view_slug',           'buddypress', 'bp_single_slugs' );
-	 	//register_setting  ( 'buddypress',              '_bp_view_slug',                 'sanitize_title'                                                                );
-
-		/** Akismet ***********************************************************/
-
 		do_action( 'bp_register_admin_settings' );
 	}
 
