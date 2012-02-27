@@ -36,6 +36,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 add_action( 'plugins_loaded',          'bp_loaded',                 10    );
 add_action( 'init',                    'bp_init',                   10    );
 add_action( 'wp',                      'bp_ready',                  10    );
+add_action( 'wp_head',                 'bp_head',                   10    );
+add_action( 'wp_footer',               'bp_footer',                 10    );
 add_action( 'setup_theme',             'bp_setup_theme',            10    );
 add_action( 'after_theme_setup',       'bp_after_theme_setup',      10    );
 add_action( 'wp_enqueue_scripts',      'bp_enqueue_scripts',        10    );
@@ -44,12 +46,6 @@ add_action( 'template_redirect',       'bp_template_redirect',      10    );
 add_action( 'widgets_init',            'bp_widgets_init',           10    );
 add_filter( 'template_include',        'bp_template_include',       10    );
 add_filter( 'map_meta_cap',            'bp_map_meta_caps',          10, 4 );
-
-// Piggy back WordPress theme actions
-add_action( 'wp_head',   'bp_head',   10 );
-add_action( 'wp_footer', 'bp_footer', 10 );
-
-//add_action( 'generate_rewrite_rules', 'bp_generate_rewrite_rules', 10 );
 
 /**
  * bp_loaded - Attached to 'plugins_loaded' above
@@ -88,6 +84,11 @@ add_action( 'bp_init', 'bp_setup_title',           8 );
  */
 add_action( 'bp_template_redirect', 'bp_actions', 2 );
 add_action( 'bp_template_redirect', 'bp_screens', 4 );
+
+// Load the admin
+if ( is_admin() ) {
+	add_action( 'bp_loaded', 'bp_admin' );
+}
 
 /**
  * Plugin Dependency
@@ -196,29 +197,6 @@ function bp_screens() {
  */
 function bp_widgets_init() {
 	do_action ( 'bp_widgets_init' );
-}
-
-
-/** Admin *********************************************************************/
-
-if ( is_admin() ) {
-
-	/** Actions ***************************************************************/
-
-	add_action( 'bp_loaded',         'bp_admin'                   );
-	//add_action( 'bp_admin_init',     'bp_admin_settings_help'     );
-	//add_action( 'admin_menu',        'bp_admin_separator'         );
-	//add_action( 'custom_menu_order', 'bp_admin_custom_menu_order' );
-	//add_action( 'menu_order',        'bp_admin_menu_order'        );
-
-	/**
-	 * Run the updater late on 'bp_admin_init' to ensure that all alterations
-	 * to the permalink structure have taken place. This fixes the issue of
-	 * permalinks not being flushed properly when a BuddyPress update occurs.
-	 */
-	//add_action( 'bp_admin_init',    'bp_setup_updater', 999 );
-
-	/** Filters ***************************************************************/
 }
 
 /** Theme *********************************************************************/
