@@ -216,7 +216,7 @@ function messages_is_valid_thread( $thread_id ) {
 }
 
 /**
- * Format the BuddyBar/admin bar notifications for the Messages component
+ * Format the BuddyBar/Toolbar notifications for the Messages component
  *
  * @package BuddyPress
  *
@@ -224,7 +224,7 @@ function messages_is_valid_thread( $thread_id ) {
  * @param int $item_id The primary item id
  * @param int $secondary_item_id The secondary item id
  * @param int $total_items The total number of messaging-related notifications waiting for the user
- * @param str $format 'string' for BuddyBar-compatible notifications; 'array' for WP Admin Bar
+ * @param str $format 'string' for BuddyBar-compatible notifications; 'array' for WP Toolbar
  */
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 

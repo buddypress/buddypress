@@ -428,7 +428,7 @@ function bp_core_admin_bar() {
 	$bp->doing_admin_bar = false;
 }
 
-// **** Default BuddyPress admin bar logo ********
+// **** Default BuddyPress Toolbar logo ********
 function bp_adminbar_logo() {
 	echo '<a href="' . bp_get_root_domain() . '" id="admin-bar-logo">' . get_blog_option( bp_get_root_blog_id(), 'blogname' ) . '</a>';
 }
@@ -551,7 +551,7 @@ function bp_adminbar_random_menu() {
 }
 
 /**
- * Retrieve the admin bar display preference of a user based on context.
+ * Retrieve the Toolbar display preference of a user based on context.
  *
  * This is a direct copy of WP's private _get_admin_bar_pref()
  *
@@ -562,7 +562,7 @@ function bp_adminbar_random_menu() {
  *
  * @uses get_user_option()
  *
- * @return bool Whether the admin bar should be showing for this user.
+ * @return bool Whether the Toolbar should be showing for this user.
  */
 function bp_get_admin_bar_pref( $context, $user = 0 ) {
 	$pref = get_user_option( "show_admin_bar_{$context}", $user );
@@ -573,7 +573,7 @@ function bp_get_admin_bar_pref( $context, $user = 0 ) {
 }
 
 /**
- * Handle the Admin Bar/BuddyBar business
+ * Handle the Toolbar/BuddyBar business
  *
  * @since 1.2.0
  *
@@ -593,32 +593,32 @@ function bp_get_admin_bar_pref( $context, $user = 0 ) {
 function bp_core_load_admin_bar() {
 	global $wp_version;
 
-	// Don't show if admin bar is disabled for non-logged in users
+	// Don't show if Toolbar is disabled for non-logged in users
 	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) )
 		return;
 
-	// Show the WordPress admin bar
+	// Show the WordPress Toolbar
 	if ( bp_use_wp_admin_bar() && $wp_version >= 3.1 ) {
-		// Respect user's admin bar display preferences
+		// Respect user's Toolbar display preferences
 		if ( is_user_logged_in() && ( bp_get_admin_bar_pref( 'front', bp_loggedin_user_id() ) || bp_get_admin_bar_pref( 'admin', bp_loggedin_user_id() ) ) )
 			return;
 
 		show_admin_bar( true );
 
-	// Hide the WordPress admin bar
+	// Hide the WordPress Toolbar
 	} elseif ( !bp_use_wp_admin_bar() ) {
 
-		// Keep the WP admin bar from loading
+		// Keep the WP Toolbar from loading
 		show_admin_bar( false );
 
-		// Actions used to build the BP admin bar
+		// Actions used to build the BP Toolbar
 		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo' );
 		add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',         2   );
 		add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu',       4   );
 		add_action( 'bp_adminbar_menus', 'bp_adminbar_thisblog_menu',      6   );
 		add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu',        100 );
 
-		// Actions used to append BP admin bar to footer
+		// Actions used to append BP Toolbar to footer
 		add_action( 'wp_footer',    'bp_core_admin_bar', 8 );
 		add_action( 'admin_footer', 'bp_core_admin_bar'    );
 	}

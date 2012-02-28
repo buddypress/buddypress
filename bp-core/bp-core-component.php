@@ -60,7 +60,7 @@ class BP_Component {
 	var $notification_callback;
 
 	/**
-	 * @var array WordPress admin bar links
+	 * @var array WordPress Toolbar links
 	 */
 	var $admin_menu;
 
@@ -227,7 +227,7 @@ class BP_Component {
 		// Setup navigation
 		add_action( 'bp_setup_nav',              array ( $this, 'setup_nav'              ), 10 );
 
-		// Setup WP Admin Bar menus
+		// Setup WP Toolbar menus
 		add_action( 'bp_setup_admin_bar',        array ( $this, 'setup_admin_bar'        ), 10 );
 
 		// Setup component title
@@ -274,7 +274,7 @@ class BP_Component {
 	}
 
 	/**
-	 * Setup the admin bar
+	 * Setup the Toolbar
 	 *
 	 * @global obj $wp_admin_bar
 	 * @param array $wp_admin_menus
@@ -289,7 +289,7 @@ class BP_Component {
 		if ( !bp_use_wp_admin_bar() )
 			return;
 
-		// Do we have admin bar menus to add?
+		// Do we have Toolbar menus to add?
 		if ( !empty( $wp_admin_nav ) ) {
 
 			// Set this objects menus

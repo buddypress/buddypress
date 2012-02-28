@@ -26,7 +26,7 @@ Hello, this is the BuddyPress Default theme stylesheet.
 	6.1 - Activity
 		6.1.1 - Activity Listing
 		6.1.2 - Activity Comments
-	6.2 - Admin Bar
+	6.2 - Toolbar
 	6.3 - Directories - Members, Groups, Blogs, Forums
 	6.4 - Error / Success Messages
 	6.5 - Forms
@@ -1493,10 +1493,10 @@ div.activity-comments form div.ac-reply-content {
 
 
 /*--------------------------------------------------------------
-6.2 - Admin Bar
+6.2 - Toolbar
 --------------------------------------------------------------*/
 #wp-admin-bar .padder {
-	width: 95% !important; /* Line up the admin bar with the content body in this theme */
+	width: 95% !important; /* Line up the Toolbar with the content body in this theme */
 }
 
 

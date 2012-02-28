@@ -1,9 +1,9 @@
 <?php
 
 /**
- * BuddyPress Members Admin Bar
+ * BuddyPress Members Toolbar
  *
- * Handles the member functions related to the WordPress Admin Bar
+ * Handles the member functions related to the WordPress Toolbar
  *
  * @package BuddyPress
  * @subpackage MembersAdminBar
@@ -16,7 +16,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Add the "My Account" menu and all submenus.
  *
  * @since BuddyPress (r4151)
- * @todo Deprecate WP 3.2 admin bar compatibility when we drop 3.2 support
+ * @todo Deprecate WP 3.2 Toolbar compatibility when we drop 3.2 support
  */
 function bp_members_admin_bar_my_account_menu() {
 	global $bp, $wp_admin_bar;

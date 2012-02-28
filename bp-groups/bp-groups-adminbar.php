@@ -1,9 +1,9 @@
 <?php
 
 /**
- * BuddyPress Groups Admin Bar
+ * BuddyPress Groups Toolbar
  *
- * Handles the groups functions related to the WordPress Admin Bar
+ * Handles the groups functions related to the WordPress Toolbar
  *
  * @package BuddyPress
  * @subpackage Groups

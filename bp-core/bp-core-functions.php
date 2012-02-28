@@ -930,19 +930,19 @@ function bp_is_multiblog_mode() {
 }
 
 /**
- * Should we use the WP admin bar?
+ * Should we use the WP Toolbar?
  *
- * The WP Admin Bar, introduced in WP 3.1, is fully supported in BuddyPress as of BP 1.5.
- * For BP 1.6, the WP Admin Bar is the default.
+ * The WP Toolbar, introduced in WP 3.1, is fully supported in BuddyPress as of BP 1.5.
+ * For BP 1.6, the WP Toolbar is the default.
  *
- * @return bool False when WP Admin Bar support is disabled; true when enabled (default)
+ * @return bool False when WP Toolbar support is disabled; true when enabled (default)
  * @since 1.5
  * @uses apply_filters() Filter 'bp_use_wp_admin_bar' to alter
  */
 function bp_use_wp_admin_bar() {
 	$use_admin_bar = true;
 
-	// Has the WP Admin Bar constant been explicity set?
+	// Has the WP Toolbar constant been explicity set?
 	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) && ! BP_USE_WP_ADMIN_BAR )
 		$use_admin_bar = false;
 

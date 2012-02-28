@@ -100,7 +100,7 @@ function bp_adminbar_authors_menu() {
 add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu', 12 );
 
 /**
- * Adds an admin bar menu to any profile page providing site moderator actions
+ * Adds an Toolbar menu to any profile page providing site moderator actions
  * that allow capable users to clean up a users account.
  *
  * @package BuddyPress XProfile

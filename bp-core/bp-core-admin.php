@@ -311,7 +311,7 @@ class BP_Admin {
 	 	register_setting  ( 'buddypress',           '_bp_profile_sync',     'intval'                                                                              );
 
 		// Throttle setting
-		add_settings_field( '_bp_admin_bar',        __( 'Admin Bar',        'buddypress' ), 'bp_admin_setting_callback_admin_bar',        'buddypress', 'bp_main' );
+		add_settings_field( '_bp_admin_bar',        __( 'Toolbar',        'buddypress' ), 'bp_admin_setting_callback_admin_bar',        'buddypress', 'bp_main' );
 	 	register_setting  ( 'buddypress',           '_bp_admin_bar',        'intval'                                                                              );
 
 		// Allow topic and reply revisions

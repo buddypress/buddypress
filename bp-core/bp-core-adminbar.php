@@ -1,9 +1,9 @@
 <?php
 
 /**
- * BuddyPress Core Admin Bar
+ * BuddyPress Core Toolbar
  *
- * Handles the core functions related to the WordPress Admin Bar
+ * Handles the core functions related to the WordPress Toolbar
  *
  * @package BuddyPress
  * @subpackage Core
@@ -44,7 +44,7 @@ function bp_admin_bar_my_account_root() {
 add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
 
 /**
- * Handle the Admin Bar CSS
+ * Handle the Toolbar CSS
  *
  * @since BuddyPress 1.5
  */
@@ -53,7 +53,7 @@ function bp_core_load_admin_bar_css() {
 	if ( ! bp_use_wp_admin_bar() || ! is_admin_bar_showing() )
 		return;
 
-	// Admin bar styles
+	// Toolbar styles
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
 		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/admin-bar.dev.css';
 	else

@@ -76,7 +76,7 @@ class BP_Core_Setup_Wizard {
 
 			// New for BP 1.6
 			if ( bp_get_db_version_raw() < 5222 && !defined( 'BP_USE_WP_ADMIN_BAR' ) ) {
-				$steps[] = __( 'Admin Bar', 'buddypress' );
+				$steps[] = __( 'Toolbar', 'buddypress' );
 			}
 
 			$steps[] = __( 'Finish', 'buddypress' );
@@ -216,7 +216,7 @@ class BP_Core_Setup_Wizard {
 							$this->step_theme();
 							break;
 
-						case __( 'Admin Bar', 'buddypress' ) :
+						case __( 'Toolbar', 'buddypress' ) :
 							$this->step_admin_bar();
 							break;
 
@@ -654,21 +654,21 @@ class BP_Core_Setup_Wizard {
 	}
 
 	/**
-	 * When upgrading to BP 1.6, prompt the admin to switch to WordPress' admin bar.
+	 * When upgrading to BP 1.6, prompt the admin to switch to WordPress' Toolbar.
 	 *
 	 * @since 1.6
 	 */
 	function step_admin_bar() {
 	?>
 
-		<p><?php _e( "BuddyPress now uses WordPress' Admin Bar; this sits at the top of your site and contains various links to useful admin screens. We've turbo-charged the Admin Bar by adding social items to help your users explore your site, and manage their content.", 'buddypress' ); ?></p>
+		<p><?php _e( "BuddyPress now uses WordPress' Toolbar; this sits at the top of your site and contains various links to useful admin screens. We've turbo-charged the Toolbar by adding social items to help your users explore your site, and manage their content.", 'buddypress' ); ?></p>
 
 		<p><?php _e( "We've noticed that your site uses the old bar from earlier versions of BuddyPress.", 'buddypress' ); ?></p>
 
 		<p>
 			<label>
 				<input type="checkbox" name="keep_buddybar" value="1" />
-				<?php _e( "If you'd prefer to not switch to the WordPress Admin bar just yet, check this box. Don't worry, you can change your mind later.", 'buddypress' ); ?>
+				<?php _e( "If you'd prefer to not switch to the WordPress Toolbar just yet, check this box. Don't worry, you can change your mind later.", 'buddypress' ); ?>
 			</label>
 		</p>
 
@@ -935,7 +935,7 @@ class BP_Core_Setup_Wizard {
 	}
 
 	/**
-	 * When upgrading to BP 1.6, the admin is prompted to switch to WordPress' admin bar.
+	 * When upgrading to BP 1.6, the admin is prompted to switch to WordPress' Toolbar.
 	 * If they choose not to, record that preference in the options table.
 	 *
 	 * @since 1.6

@@ -134,7 +134,7 @@ function bp_setup_nav() {
 }
 
 /**
- * Set up BuddyPress implementation of the WP admin bar
+ * Set up BuddyPress implementation of the WP Toolbar
  */
 function bp_setup_admin_bar() {
 	if ( bp_use_wp_admin_bar() )

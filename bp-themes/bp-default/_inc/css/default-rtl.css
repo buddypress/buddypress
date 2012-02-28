@@ -27,7 +27,7 @@ right to left for languages that support this method.
 	5.1 - Activity
 		5.1.1 - Activity Listing
 		5.1.2 - Activity Comments
-	5.2 - Admin Bar
+	5.2 - Toolbar
 	5.3 - Ajax Loading
 	5.4 - Directories - Members, Groups, Blogs, Forums
 	5.5 - Error / Success Messages
@@ -552,7 +552,7 @@ body.activity-permalink div.activity-comments > ul {
 
 
 /*--------------------------------------------------------------
-5.2 - Admin Bar
+5.2 - Toolbar
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
 5.3 - Ajax Loading

@@ -53,7 +53,7 @@ function bp_get_default_options() {
 		// Disable the WP to BP profile sync
 		'bp-disable-profile-sync'         => false,
 
-		// Hide the admin bar for logged out users
+		// Hide the Toolbar for logged out users
 		'hide-loggedout-adminbar'         => false,
 
 		// Avatar uploads
@@ -381,14 +381,14 @@ function bp_disable_profile_sync( $default = true ) {
 }
 
 /**
- * Is the admin bar hidden for logged out users?
+ * Is the Toolbar hidden for logged out users?
  *
  * @since BuddyPress (1.6)
  *
  * @param $default bool Optional.Default value true
  *
- * @uses bp_get_option() To get the logged out admin bar option
- * @return bool Is logged out admin bar enabled or not
+ * @uses bp_get_option() To get the logged out Toolbar option
+ * @return bool Is logged out Toolbar enabled or not
  */
 function bp_hide_loggedout_adminbar( $default = true ) {
 	return (bool) apply_filters( 'bp_hide_loggedout_adminbar', (bool) bp_get_option( 'hide-loggedout-adminbar', $default ) );
@@ -452,7 +452,7 @@ function bp_restrict_group_creation( $default = true ) {
 }
 
 /**
- * Have we migrated to using the WordPress admin bar?
+ * Have we migrated to using the WordPress Toolbar?
  *
  * @since BuddyPress (r3386)
  *

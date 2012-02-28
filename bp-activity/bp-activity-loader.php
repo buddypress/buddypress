@@ -200,7 +200,7 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up the admin bar
+	 * Set up the Toolbar
 	 *
 	 * @since 1.5.0
 	 *

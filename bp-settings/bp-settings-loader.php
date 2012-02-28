@@ -145,7 +145,7 @@ class BP_Settings_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up the admin bar
+	 * Set up the Toolbar
 	 *
 	 * @global obj $bp
 	 */
