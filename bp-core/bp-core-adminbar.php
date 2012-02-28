@@ -50,7 +50,7 @@ add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
  */
 function bp_core_load_admin_bar_css() {
 
-	if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
+	if ( ! bp_use_wp_admin_bar() || ! is_admin_bar_showing() )
 		return;
 
 	// Admin bar styles
