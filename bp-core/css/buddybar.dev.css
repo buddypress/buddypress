@@ -199,3 +199,7 @@ body#bp-default #admin-bar-logo {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
+#wp-admin-bar-user-info img.avatar { 
+	height: 64px; 
+	width: 64px; 
+}
