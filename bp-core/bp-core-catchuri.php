@@ -586,7 +586,6 @@ function bp_redirect_canonical() {
 		}
 	}
 }
-add_action( 'bp_core_pre_load_template', 'bp_redirect_canonical' );
 
 /**
  * Remove WordPress's really awesome canonical redirect if we are trying to load

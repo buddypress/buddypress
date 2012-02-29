@@ -74,14 +74,15 @@ add_action( 'bp_init', 'bp_setup_title',           8 );
  *
  * Attach various template actions to the bp_template_redirect action.
  * The load order helps to execute code at the correct time.
- * 
+ *
  * Note that we currently use template_redirect versus template include because
  * BuddyPress is a bully and overrides the existing themes output in many
  * places. This won't always be this way, we promise.
- *                                                v---Load order
+ *                                                	     v---Load order
  */
-add_action( 'bp_template_redirect', 'bp_actions', 2 );
-add_action( 'bp_template_redirect', 'bp_screens', 4 );
+add_action( 'bp_template_redirect', 'bp_redirect_canonical', 2 );
+add_action( 'bp_template_redirect', 'bp_actions', 	     4 );
+add_action( 'bp_template_redirect', 'bp_screens', 	     6 );
 
 // Load the admin
 if ( is_admin() ) {
@@ -203,7 +204,7 @@ function bp_widgets_init() {
  * Piggy-back action for BuddyPress specific <head> actions in a theme
  *
  * @since BuddyPress (1.6)
- * 
+ *
  * @uses do_action() Calls 'bp_head' hook
  */
 function bp_head() {
@@ -214,7 +215,7 @@ function bp_head() {
  * Piggy-back action for BuddyPress specific footer actions in a theme
  *
  * @since BuddyPress (1.6)
- * 
+ *
  * @uses do_action() Calls 'bp_footer' hook
  */
 function bp_footer() {
