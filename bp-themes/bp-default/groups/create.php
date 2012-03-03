@@ -57,26 +57,6 @@
 
 					<?php do_action( 'bp_before_group_settings_creation_step' ); ?>
 
-					<?php if ( bp_is_active( 'forums' ) ) : ?>
-						<?php if ( bp_forums_is_installed_correctly() ) : ?>
-
-							<div class="checkbox">
-								<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php checked( bp_get_new_group_enable_forum(), true, true ); ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ); ?></label>
-							</div>
-
-						<?php else : ?>
-							<?php if ( bp_current_user_can( 'bp_moderate' ) ) : ?>
-
-								<div class="checkbox">
-									<label><input type="checkbox" disabled="disabled" name="disabled" id="disabled" value="0" /> <?php printf( __( '<strong>Attention Site Admin:</strong> Group forums require the <a href="%s">correct setup and configuration</a> of a bbPress installation.', 'buddypress' ), bp_get_root_domain() . '/wp-admin/admin.php?page=bb-forums-setup' ); ?></label>
-								</div>
-
-							<?php endif; ?>
-						<?php endif; ?>
-					<?php endif; ?>
-
-					<hr />
-
 					<h4><?php _e( 'Privacy Options', 'buddypress' ); ?></h4>
 
 					<div class="radio">
@@ -108,8 +88,6 @@
 						</label>
 					</div>
 
-					<hr />
-
 					<h4><?php _e( 'Group Invitations', 'buddypress' ); ?></h4>
 
 					<p><?php _e( 'Which members of this group are allowed to invite others?', 'buddypress' ); ?></p>
@@ -131,7 +109,17 @@
 						</label>
 					</div>
 
-					<hr />
+					<?php if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() ) : ?>
+
+						<h4><?php _e( 'Group Forums', 'buddypress' ); ?></h4>
+
+						<p><?php _e( 'Should this group have a forum?', 'buddypress' ); ?></p>
+
+						<div class="checkbox">
+							<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php checked( bp_get_new_group_enable_forum(), true, true ); ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ); ?></label>
+						</div>
+
+					<?php endif; ?>
 
 					<?php do_action( 'bp_after_group_settings_creation_step' ); ?>
 
