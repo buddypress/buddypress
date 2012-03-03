@@ -93,13 +93,13 @@ function bp_core_admin_components_options() {
 		),
 		'blogs'    => array(
 			'title'       => __( 'Site Tracking', 'buddypress' ),
-			'description' => __( 'Make BuddyPress aware of new posts and new comments from your site.', 'buddypress' )
+			'description' => __( 'Record activity for new posts and comments from your site.', 'buddypress' )
 		)
 	);
 
 	// Add blogs tracking if multisite
 	if ( is_multisite() ) {
-		$optional_components['blogs']['description'] = __( 'Make BuddyPress aware of new sites, new posts and new comments from across your entire network.', 'buddypress' );
+		$optional_components['blogs']['description'] = __( 'Record activity for new sites, posts, and comments across your network.', 'buddypress' );
 	}
 
 	// Required components
