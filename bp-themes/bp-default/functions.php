@@ -27,11 +27,14 @@
  * @since 1.2
  */
 
-if ( !function_exists( 'bp_is_active' ) )
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+if ( ! function_exists( 'bp_is_active' ) )
 	return;
 
 // If BuddyPress is not activated, switch back to the default WP theme
-if ( !defined( 'BP_VERSION' ) )
+if ( ! defined( 'BP_VERSION' ) )
 	switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
 
 /**
@@ -43,7 +46,7 @@ if ( !defined( 'BP_VERSION' ) )
 if ( ! isset( $content_width ) )
 	$content_width = 591;
 
-if ( !function_exists( 'bp_dtheme_setup' ) ) :
+if ( ! function_exists( 'bp_dtheme_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress and BuddyPress features.
  *
