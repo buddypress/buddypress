@@ -68,6 +68,16 @@ function bp_forums_update_forum( $args = '' ) {
 	return bb_update_forum( array( 'forum_id' => (int) $forum_id, 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_slug' => stripslashes( $forum_slug ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
 }
 
+function bp_forums_delete_group_forum( $group_id ) {
+	$forum_id = groups_get_groupmeta( $group_id, 'forum_id' );
+
+	if ( !empty( $forum_id ) && is_int( $forum_id ) ) {
+		do_action( 'bbpress_init' );
+		bb_delete_forum( $forum_id );
+	}
+}
+add_action( 'groups_delete_group', 'bp_forums_delete_group_forum' );
+
 /** Topic Functions ***********************************************************/
 
 function bp_forums_get_forum_topics( $args = '' ) {

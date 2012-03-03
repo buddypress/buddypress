@@ -221,12 +221,6 @@ function groups_delete_group( $group_id ) {
 	// Remove all notifications for any user belonging to this group
 	bp_core_delete_all_notifications_by_type( $group_id, $bp->groups->id );
 
-	// Remove forum if component is active and current group has one
-	if ( bp_is_active( 'forums' ) && $forum_id = groups_get_groupmeta( $group_id, 'forum_id' ) ) {
-		do_action( 'bbpress_init' );
-		bb_delete_forum( $forum_id );
-	}
-
 	do_action( 'groups_delete_group', $group_id);
 
 	return true;
