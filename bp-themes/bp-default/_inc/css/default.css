@@ -2295,7 +2295,9 @@ div.item-list-tabs ul li.feed a {
 	background: url( ../images/rss.png ) center left no-repeat;
 	padding-left: 20px;
 }
-#admins-list li {
+#admins-list li,
+#mods-list li,
+#members-list li {
 	overflow: auto;
 }
 

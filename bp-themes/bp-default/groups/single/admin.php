@@ -205,7 +205,7 @@
 			<h4><?php _e( 'Moderators', 'buddypress' ); ?></h4>		
 			
 			<?php if ( bp_has_members( '&include=' . bp_group_mod_ids() ) ) : ?>
-				<ul id="mods-list" class="item-list">
+				<ul id="mods-list" class="item-list single-line">
 				
 					<?php while ( bp_members() ) : bp_the_member(); ?>					
 					<li>
