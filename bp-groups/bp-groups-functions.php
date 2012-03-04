@@ -715,7 +715,7 @@ function groups_promote_member( $user_id, $group_id, $status ) {
 
 function groups_demote_member( $user_id, $group_id ) {
 
-	if ( ! bp_is_item_admin() || ! bp_is_item_mod() )
+	if ( ! bp_is_item_admin() )
 		return false;
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
