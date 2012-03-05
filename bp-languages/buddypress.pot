@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-03-03 17:36:09+00:00\n"
+"POT-Creation-Date: 2012-03-05 02:36:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1078,7 +1078,7 @@ msgid "Discussion Forums"
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:92
-msgid "Full-powered discussion forums built directly into groups allow for more conventional in-depth conversations."
+msgid "Site-wide and Group forums allow for focused, bulletin-board style conversations. Powered by bbPress."
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:96
