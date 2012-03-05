@@ -1206,7 +1206,7 @@ function bp_the_topic_post_poster_name() {
 	function bp_get_the_topic_post_poster_name() {
 		global $topic_template;
 
-		if ( !$link = bp_core_get_user_domain( $topic_template->post->poster_id, $topic_template->post->poster_nicename, $topic_template->post->poster_login ) )
+		if ( empty( $topic_template->post->poster_name ) || ( !$link = bp_core_get_user_domain( $topic_template->post->poster_id ) ) )
 			return __( 'Deleted User', 'buddypress' );
 
 		return apply_filters( 'bp_get_the_topic_post_poster_name', '<a href="' . $link . '" title="' . $topic_template->post->poster_name . '">' . $topic_template->post->poster_name . '</a>' );
@@ -1218,7 +1218,7 @@ function bp_the_topic_post_poster_link() {
 	function bp_get_the_topic_post_poster_link() {
 		global $topic_template;
 
-		return apply_filters( 'bp_the_topic_post_poster_link', bp_core_get_user_domain( $topic_template->post->poster_id, $topic_template->post->poster_nicename, $topic_template->post->poster_login ) );
+		return apply_filters( 'bp_the_topic_post_poster_link', bp_core_get_user_domain( $topic_template->post->poster_id ) );
 	}
 
 function bp_the_topic_post_time_since() {
