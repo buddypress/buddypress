@@ -39,7 +39,7 @@ function bp_forums_load_bbpress() {
 	require( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
 
 	$bb = new stdClass();
-	require( $bp->forums->bbconfig );
+	require( bp_get_option(	'bb-config-location' ) );
 
 	// Setup the global database connection
 	$bbdb = new BPDB ( BBDB_USER, BBDB_PASSWORD, BBDB_NAME, BBDB_HOST );

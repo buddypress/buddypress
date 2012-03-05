@@ -1,11 +1,40 @@
 <?php
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-function bp_forums_is_installed_correctly() {
-	global $bp;
+/** bbPress 2.x ***************************************************************/
 
-	if ( isset( $bp->forums->bbconfig ) && is_file( $bp->forums->bbconfig ) )
+/**
+ * Used to see if bbPress 2.x is installed and active
+ *
+ * @since BuddyPress (1.6)
+ * @return boolean True if bbPress 2.x is active, false if not
+ */
+function bp_forums_is_bbpress_active() {
+
+	// Single site
+	if ( is_plugin_active( 'bbpress/bbpress.php' ) )
+		return true;
+
+	// Network active
+	if ( is_plugin_active_for_network( 'bbpress/bbpress.php' ) )
+		return true;
+
+	// Nope
+	return false;
+}
+
+/** bbPress 1.x ***************************************************************/
+
+/**
+ * If the bb-config-location option exists, bbPress 1.x was previously installed
+ *
+ * @since BuddyPress (1.2)
+ * @return boolean True if option exists, false if not
+ */
+function bp_forums_is_installed_correctly() {
+	if ( bp_get_option(	'bb-config-location' ) )
 		return true;
 
 	return false;

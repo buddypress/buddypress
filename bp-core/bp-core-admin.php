@@ -306,31 +306,32 @@ class BP_Admin {
 		// Add the main section
 		add_settings_section( 'bp_main',            __( 'Main Settings',    'buddypress' ), 'bp_admin_setting_callback_main_section',     'buddypress'            );
 
-		// Edit lock setting
-		add_settings_field( '_bp_profile_sync',     __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync',     'buddypress', 'bp_main' );
-	 	register_setting  ( 'buddypress',           '_bp_profile_sync',     'intval'                                                                              );
-
 		// Throttle setting
 		add_settings_field( '_bp_admin_bar',        __( 'Toolbar',        'buddypress' ), 'bp_admin_setting_callback_admin_bar',        'buddypress', 'bp_main' );
 	 	register_setting  ( 'buddypress',           '_bp_admin_bar',        'intval'                                                                              );
-
-		// Allow topic and reply revisions
-		add_settings_field( '_bp_avatar_uploads',   __( 'Avatar Uploads',   'buddypress' ), 'bp_admin_setting_callback_avatar_uploads',   'buddypress', 'bp_main' );
-	 	register_setting  ( 'buddypress',           '_bp_avatar_uploads',   'intval'                                                                              );
 
 		// Allow favorites setting
 		add_settings_field( '_bp_account_deletion', __( 'Account Deletion', 'buddypress' ), 'bp_admin_setting_callback_account_deletion', 'buddypress', 'bp_main' );
 	 	register_setting  ( 'buddypress',           '_bp_account_deletion', 'intval'                                                                              );
 
-		// Allow global access setting
-		if ( function_exists( 'wp_editor' ) ) {
-			add_settings_field( '_bp_use_wp_editor', __( 'Fancy Editor',    'buddypress' ), 'bp_admin_setting_callback_use_wp_editor',    'buddypress', 'bp_main' );
-		 	register_setting  ( 'buddypress',        '_bp_use_wp_editor',   'intval'                                                                              );
+		/** XProfile Section **************************************************/
+
+		if ( bp_is_active( 'xprofile' ) ) {
+
+			// Add the main section
+			add_settings_section( 'bp_xprofile',      __( 'Profile Settings', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress'                );
+
+			// Allow topic and reply revisions
+			add_settings_field( '_bp_avatar_uploads', __( 'Avatar Uploads',   'buddypress' ), 'bp_admin_setting_callback_avatar_uploads',   'buddypress', 'bp_xprofile' );
+			register_setting  ( 'buddypress',         '_bp_avatar_uploads',   'intval'                                                                                  );
+
+			// Profile sync setting
+			add_settings_field( '_bp_profile_sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync',     'buddypress', 'bp_xprofile' );
+			register_setting  ( 'buddypress',         '_bp_profile_sync',     'intval'                                                                                  );
 		}
 
 		/** Groups Section ****************************************************/
 
-		// @todo move into groups component
 		if ( bp_is_active( 'groups' ) ) {
 
 			// Add the main section
@@ -338,12 +339,23 @@ class BP_Admin {
 
 			// Allow subscriptions setting
 			add_settings_field( '_bp_group_creation', __( 'Group Creation',   'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
-			register_setting  ( 'buddypress',         '_bp_group_creation',   'intval'                                                                                );
+			register_setting  ( 'buddypress',         '_bp_group_creation',   'intval'                                                                                );			
+		}
+
+		/** Forums ************************************************************/
+
+		if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() ) {
+
+			// Add the main section
+			add_settings_section( 'bp_forums',        __( 'Forums Settings',       'buddypress' ), 'bp_admin_setting_callback_bbpress_section',       'buddypress'              );
+
+			// Allow subscriptions setting
+			add_settings_field( 'bb-config-location', __( 'bbPress Configuration', 'buddypress' ), 'bp_admin_setting_callback_bbpress_configuration', 'buddypress', 'bp_forums' );
+			register_setting  ( 'buddypress',         'bb-config-location',        ''                                                                                           );
 		}
 
 		/** Activity Section **************************************************/
 
-		// @todo move into activity component
 		if ( bp_is_active( 'activity' ) && ( is_plugin_active( 'akismet/akismet.php' ) && defined( 'AKISMET_VERSION' ) ) ) {
 
 			// Add the main section

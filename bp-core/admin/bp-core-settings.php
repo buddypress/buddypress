@@ -15,29 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @since BuddyPress (r2786)
  */
-function bp_admin_setting_callback_main_section() {
-?>
-
-	<p><?php _e( 'Main community settings for enabling features and setting time limits', 'buddypress' ); ?></p>
-
-<?php
-}
-
-/**
- * Edit lock setting field
- *
- * @since BuddyPress (r2737)
- *
- * @uses bp_form_option() To output the option value
- */
-function bp_admin_setting_callback_profile_sync() {
-?>
-
-	<input id="bp-disable-profile-sync" name="bp-disable-profile-sync" type="checkbox" value="1" <?php checked( !bp_disable_profile_sync( false ) ); ?> />
-	<label for="bp-disable-profile-sync"><?php _e( 'Enable BuddyPress to WordPress profile syncing', 'buddypress' ); ?></label>
-
-<?php
-}
+function bp_admin_setting_callback_main_section() { }
 
 /**
  * Throttle setting field
@@ -50,23 +28,7 @@ function bp_admin_setting_callback_admin_bar() {
 ?>
 
 	<input id="hide-loggedout-adminbar" name="hide-loggedout-adminbar" type="checkbox" value="1" <?php checked( !bp_hide_loggedout_adminbar( false ) ); ?> />
-	<label for="hide-loggedout-adminbar"><?php _e( 'Show the admin bar for guest/anonymous users', 'buddypress' ); ?></label>
-
-<?php
-}
-
-/**
- * Allow favorites setting field
- *
- * @since BuddyPress (r2786)
- *
- * @uses checked() To display the checked attribute
- */
-function bp_admin_setting_callback_avatar_uploads() {
-?>
-
-	<input id="bp-disable-avatar-uploads" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( !bp_disable_avatar_uploads( true ) ); ?> />
-	<label for="bp-disable-avatar-uploads"><?php _e( 'Allow members to upload avatars', 'buddypress' ); ?></label>
+	<label for="hide-loggedout-adminbar"><?php _e( 'Show the admin bar for logged out users', 'buddypress' ); ?></label>
 
 <?php
 }
@@ -82,7 +44,7 @@ function bp_admin_setting_callback_account_deletion() {
 ?>
 
 	<input id="bp-disable-account-deletion" name="bp-disable-account-deletion" type="checkbox" value="1" <?php checked( !bp_disable_account_deletion( true ) ); ?> />
-	<label for="bp-disable-account-deletion"><?php _e( 'Allow members to delete their own accounts', 'buddypress' ); ?></label>
+	<label for="bp-disable-account-deletion"><?php _e( 'Allow registered members to delete their own accounts', 'buddypress' ); ?></label>
 
 <?php
 }
@@ -110,13 +72,7 @@ function bp_admin_setting_callback_use_wp_editor() {
  *
  * @since BuddyPress (1.6)
  */
-function bp_admin_setting_callback_activity_section() {
-?>
-
-	<p><?php _e( 'Settings for the Actvity component', 'buddypress' ); ?></p>
-
-<?php
-}
+function bp_admin_setting_callback_activity_section() { }
 
 /**
  * Allow Akismet setting field
@@ -134,6 +90,47 @@ function bp_admin_setting_callback_activity_akismet() {
 <?php
 }
 
+/** XProfile ******************************************************************/
+
+/**
+ * Profile settings section description for the settings page
+ *
+ * @since BuddyPress (1.0)
+ */
+function bp_admin_setting_callback_xprofile_section() { }
+
+/**
+ * Edit lock setting field
+ *
+ * @since BuddyPress (r2737)
+ *
+ * @uses bp_form_option() To output the option value
+ */
+function bp_admin_setting_callback_profile_sync() {
+?>
+
+	<input id="bp-disable-profile-sync" name="bp-disable-profile-sync" type="checkbox" value="1" <?php checked( !bp_disable_profile_sync( false ) ); ?> />
+	<label for="bp-disable-profile-sync"><?php _e( 'Enable BuddyPress to WordPress profile syncing', 'buddypress' ); ?></label>
+
+<?php
+}
+
+/**
+ * Allow favorites setting field
+ *
+ * @since BuddyPress (r2786)
+ *
+ * @uses checked() To display the checked attribute
+ */
+function bp_admin_setting_callback_avatar_uploads() {
+?>
+
+	<input id="bp-disable-avatar-uploads" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( !bp_disable_avatar_uploads( true ) ); ?> />
+	<label for="bp-disable-avatar-uploads"><?php _e( 'Allow registered members to upload avatars', 'buddypress' ); ?></label>
+
+<?php
+}
+
 /** Groups Section ************************************************************/
 
 /**
@@ -141,13 +138,7 @@ function bp_admin_setting_callback_activity_akismet() {
  *
  * @since BuddyPress (1.6)
  */
-function bp_admin_setting_callback_groups_section() {
-?>
-
-	<p><?php _e( 'Settings for the Groups component', 'buddypress' ); ?></p>
-
-<?php
-}
+function bp_admin_setting_callback_groups_section() { }
 
 /**
  * Allow topic and reply revisions
@@ -166,6 +157,42 @@ function bp_admin_setting_callback_group_creation() {
 <?php
 }
 
+/** Forums Section ************************************************************/
+
+/**
+ * Forums settings section description for the settings page
+ *
+ * @since BuddyPress (1.6)
+ */
+function bp_admin_setting_callback_bbpress_section() { }
+
+/**
+ * Allow topic and reply revisions
+ *
+ * @since BuddyPress (1.6)
+ * @uses checked() To display the checked attribute
+ * @uses bp_get_option() To get the config location
+ * @uses bp_form_option() To get the sanitized form option
+ */
+function bp_admin_setting_callback_bbpress_configuration() {
+
+	$config_location = bp_get_option( 'bb-config-location' );
+	$file_exists     = (bool) ( file_exists( $config_location ) || is_file( $config_location ) ); ?>
+
+	<input name="bb-config-location" type="text" id="bb-config-location" value="<?php bp_form_option( 'bb-config-location', '' ); ?>" class="medium-text" style="width: 300px;" />
+
+	<?php if ( false === $file_exists ) : ?>
+
+		<a class="button" href="<?php bp_admin_url( 'admin.php?page=bb-forums-setup&repair=1' ); ?>" title="<?php _e( 'Attempt to save a new config file.', 'buddypress' ); ?>"><?php _e( 'Repair', 'buddypress' ) ?></a>
+		<span class="attention"><?php _e( 'File does not exist', 'buddypress' ); ?></span>
+
+	<?php endif; ?>
+
+	<p class="description"><?php _e( 'Absolute path to your bbPress configuration file.', 'buddypress' ); ?></p>
+
+<?php
+}
+
 /** Settings Page *************************************************************/
 
 /**
@@ -179,25 +206,22 @@ function bp_admin_setting_callback_group_creation() {
  */
 function bp_core_admin_settings() {
 	global $wp_settings_fields;
-	
-	// We're saving our own options, until the WP Settings API is updated to work with Multisite
-	$form_action = add_query_arg( 'page', 'bp-settings', bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
 
 	if ( !empty( $_POST['submit'] ) ) {
 		check_admin_referer( 'buddypress-options' );
-		
+
 		// Because many settings are saved with checkboxes, and thus will have no values
 		// in the $_POST array when unchecked, we loop through the registered settings
 		if ( isset( $wp_settings_fields['buddypress'] ) ) {
 			foreach( (array) $wp_settings_fields['buddypress'] as $section => $settings ) {
 				foreach( $settings as $setting_name => $setting ) {
 					$value = isset( $_POST[$setting_name] ) ? $_POST[$setting_name] : '';
-					
+
 					bp_update_option( $setting_name, $value );
 				}
 			}
 		}
-		
+
 		// Some legacy options are not registered with the Settings API
 		$legacy_options = array(
 			'bp-disable-profile-sync',
@@ -206,7 +230,7 @@ function bp_core_admin_settings() {
 			'bp-disable-account-deletion',
 			'bp_restrict_group_creation'
 		);
-		
+
 		foreach( $legacy_options as $legacy_option ) {
 			// Note: Each of these options is represented by its opposite in the UI
 			// Ie, the Profile Syncing option reads "Enable Sync", so when it's checked,
@@ -215,7 +239,9 @@ function bp_core_admin_settings() {
 			bp_update_option( $legacy_option, $value );
 		}
 	}
-?>
+	
+	// We're saving our own options, until the WP Settings API is updated to work with Multisite
+	$form_action = add_query_arg( 'page', 'bp-settings', bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) ); ?>
 
 	<div class="wrap">
 
@@ -367,7 +393,7 @@ function bp_form_slug_conflict_check( $slug, $default ) {
 
 		/** bbPress Core ******************************************************/
 
-		if ( defined( 'BBP_VERSION' ) ) {
+		if ( bp_forums_is_bbpress_active() ) {
 
 			// Forum archive slug
 			$core_slugs['_bbp_root_slug']          = array( 'name' => __( 'Forums base', 'buddypress' ), 'default' => 'forums', 'context' => 'buddypress' );
