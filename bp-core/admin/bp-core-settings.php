@@ -160,7 +160,8 @@ function bp_admin_setting_callback_group_creation() {
 ?>
 
 	<input id="bp_restrict_group_creation" name="bp_restrict_group_creation" type="checkbox"value="1" <?php checked( !bp_restrict_group_creation( true ) ); ?> />
-	<label for="bp_restrict_group_creation"><?php _e( 'Enable group creation', 'buddypress' ); ?></label>
+	<label for="bp_restrict_group_creation"><?php _e( 'Enable group creation for all users', 'buddypress' ); ?></label>
+	<p class="description"><?php _e( 'Administrators can always create groups, regardless of this setting.', 'buddypress' ); ?></p>
 
 <?php
 }
