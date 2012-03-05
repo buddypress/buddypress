@@ -89,7 +89,7 @@ function bp_core_admin_components_options() {
 		),
 		'forums'   => array(
 			'title'       => __( 'Discussion Forums', 'buddypress' ),
-			'description' => __( 'Full-powered discussion forums built directly into groups allow for more conventional in-depth conversations.', 'buddypress' )
+			'description' => __( 'Site-wide and Group forums allow for focused, bullentin-board style conversations. Powered by bbPress.', 'buddypress' )
 		),
 		'blogs'    => array(
 			'title'       => __( 'Site Tracking', 'buddypress' ),
