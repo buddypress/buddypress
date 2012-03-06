@@ -104,10 +104,10 @@ class BP_Activity_Template {
 
 	var $full_name;
 
-	function __construct( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude = false, $in = false, $spam = 'ham_only' ) {
+	function __construct( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude = false, $in = false, $spam = 'ham_only', $page_arg = 'acpage' ) {
 		global $bp;
 
-		$this->pag_page = isset( $_REQUEST['acpage'] ) ? intval( $_REQUEST['acpage'] ) : $page;
+		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		// Check if blog/forum replies are disabled
@@ -163,7 +163,7 @@ class BP_Activity_Template {
 
 		if ( (int) $this->total_activity_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( 'acpage', '%#%' ),
+				'base'      => add_query_arg( $page_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_activity_count / (int) $this->pag_num ),
 				'current'   => (int) $this->pag_page,
@@ -299,6 +299,8 @@ function bp_has_activities( $args = '' ) {
 		'show_hidden'      => $show_hidden, // Show activity items that are hidden site-wide?
 		'spam'             => 'ham_only',   // Hide spammed items
 
+		'page_arg'         => 'acpage',     // See https://buddypress.trac.wordpress.org/ticket/3679
+
 		// Scope - pre-built activity filters for a user (friends/groups/favorites/mentions)
 		'scope'            => $scope,
 
@@ -387,7 +389,7 @@ function bp_has_activities( $args = '' ) {
 	if ( !empty( $include ) && ( 'ham_only' == $spam ) )
 		$spam = 'all';
 
-	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude, $in, $spam );
+	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude, $in, $spam, $page_arg );
 
 	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), $activities_template );
 }
@@ -896,9 +898,9 @@ function bp_activity_avatar( $args = '' ) {
 		} else if ( !empty( $activities_template->current_comment->display_name ) ) {
 			$dn_default = $activities_template->current_comment->display_name;
 		}
-		
+
 		$alt_default = isset( $dn_default ) ? sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name ) : __( 'Profile picture', 'buddypress' );
-		
+
 		$defaults = array(
 			'alt'     => $alt_default,
 			'class'   => 'avatar',
@@ -992,7 +994,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			case 'groups' :
 				$object  = 'group';
 				$item_id = $activities_template->activity->item_id;
-				
+
 				if ( empty( $alt ) ) {
 					$group = groups_get_group( $item_id );
 					if ( isset( $group->name ) ) {

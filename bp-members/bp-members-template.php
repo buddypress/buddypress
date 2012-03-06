@@ -169,9 +169,9 @@ class BP_Core_Members_Template {
 	var $pag_links;
 	var $total_member_count;
 
-	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value ) {
+	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value, $page_arg = 'upage' ) {
 
-		$this->pag_page = !empty( $_REQUEST['upage'] ) ? intval( $_REQUEST['upage'] ) : (int) $page_number;
+		$this->pag_page = !empty( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : (int) $page_number;
 		$this->pag_num  = !empty( $_REQUEST['num'] )   ? intval( $_REQUEST['num'] )   : (int) $per_page;
 		$this->type     = $type;
 
@@ -199,7 +199,7 @@ class BP_Core_Members_Template {
 
 		if ( (int) $this->total_member_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( 'upage', '%#%' ),
+				'base'      => add_query_arg( $page_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
 				'current'   => (int) $this->pag_page,
@@ -285,6 +285,8 @@ function bp_has_members( $args = '' ) {
 		'per_page'        => 20,
 		'max'             => false,
 
+		'page_arg'        => 'upage',       // See https://buddypress.trac.wordpress.org/ticket/3679
+
 		'include'         => false,         // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
 		'exclude'         => false,         // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
 
@@ -316,7 +318,7 @@ function bp_has_members( $args = '' ) {
 	if ( empty( $include ) && bp_is_friends_component() && bp_is_current_action( 'requests' ) )
 		return false;
 
-	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude, $meta_key, $meta_value );
+	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude, $meta_key, $meta_value, $page_arg );
 	return apply_filters( 'bp_has_members', $members_template->has_members(), $members_template );
 }
 
@@ -866,9 +868,9 @@ function bp_displayed_user_link() {
 	function bp_user_link() { bp_displayed_user_domain(); } // Deprecated.
 
 function bp_displayed_user_id() {
-	
+
 	static $id = 0;
-	
+
 	if ( empty( $id ) ) {
 		global $bp;
 		$id = !empty( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0;
@@ -880,7 +882,7 @@ function bp_displayed_user_id() {
 function bp_loggedin_user_id() {
 
 	static $id = 0;
-	
+
 	if ( empty( $id ) ) {
 		global $bp;
 		$id = !empty( $bp->loggedin_user->id ) ? $bp->loggedin_user->id : 0;

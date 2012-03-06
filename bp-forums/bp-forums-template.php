@@ -97,10 +97,6 @@ class BP_Forums_Template_Forum {
 	var $sort_by;
 	var $order;
 
-	function BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset = false, $number = false ) {
-		$this->__construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset, $number );
-	}
-
 	function __construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset = false, $number = false ) {
 		global $bp;
 

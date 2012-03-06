@@ -107,13 +107,9 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 
-	function bp_groups_template( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $populate_extras, $include = false, $exclude = false, $show_hidden = false ) {
-		$this->__construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $include, $populate_extras, $exclude, $show_hidden );
-	}
+	function __construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $populate_extras, $include = false, $exclude = false, $show_hidden = false, $page_arg = 'grpage' ){
 
-	function __construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $populate_extras, $include = false, $exclude = false, $show_hidden = false ){
-
-		$this->pag_page = isset( $_REQUEST['grpage'] ) ? intval( $_REQUEST['grpage'] ) : $page;
+		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id == bp_loggedin_user_id() ) )
@@ -170,7 +166,7 @@ class BP_Groups_Template {
 		// Build pagination links
 		if ( (int) $this->total_group_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( array( 'grpage' => '%#%', 'num' => $this->pag_num, 's' => $search_terms, 'sortby' => $this->sort_by, 'order' => $this->order ) ),
+				'base'      => add_query_arg( array( $page_arg => '%#%', 'num' => $this->pag_num, 's' => $search_terms, 'sortby' => $this->sort_by, 'order' => $this->order ) ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
 				'current'   => $this->pag_page,
@@ -265,6 +261,8 @@ function bp_has_groups( $args = '' ) {
 		'max'             => false,
 		'show_hidden'     => false,
 
+		'page_arg'        => 'grpage', // See https://buddypress.trac.wordpress.org/ticket/3679
+
 		'user_id'         => $user_id, // Pass a user ID to limit to groups this user has joined
 		'slug'            => $slug,    // Pass a group slug to only return that group
 		'search_terms'    => '',       // Pass search terms to return only matching groups
@@ -286,7 +284,7 @@ function bp_has_groups( $args = '' ) {
 			$search_terms = false;
 	}
 
-	$groups_template = new BP_Groups_Template( (int) $user_id, $type, (int) $page, (int) $per_page, (int) $max, $slug, $search_terms, (bool)$populate_extras, $include, $exclude, $show_hidden );
+	$groups_template = new BP_Groups_Template( (int) $user_id, $type, (int) $page, (int) $per_page, (int) $max, $slug, $search_terms, (bool)$populate_extras, $include, $exclude, $show_hidden, $page_arg );
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template );
 }
 

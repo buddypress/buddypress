@@ -29,19 +29,15 @@ class BP_Messages_Box_Template {
 	var $pag_links;
 	var $search_terms;
 
-	function bp_messages_box_template( $user_id, $box, $per_page, $max, $type ) {
-		$this->__construct( $user_id, $box, $per_page, $max, $type );
-	}
-
-	function __construct( $user_id, $box, $per_page, $max, $type, $search_terms ) {
-		$this->pag_page = isset( $_GET['mpage'] ) ? intval( $_GET['mpage'] ) : 1;
+	function __construct( $user_id, $box, $per_page, $max, $type, $search_terms, $page_arg = 'mpage' ) {
+		$this->pag_page = isset( $_GET[$page_arg] ) ? intval( $_GET[$page_arg] ) : 1;
 		$this->pag_num  = isset( $_GET['num'] )   ? intval( $_GET['num'] )   : $per_page;
 
 		$this->user_id      = $user_id;
 		$this->box          = $box;
 		$this->type         = $type;
 		$this->search_terms = $search_terms;
-		
+
 		if ( 'notices' == $this->box ) {
 			$this->threads = BP_Messages_Notice::get_notices();
 		} else {
@@ -78,7 +74,7 @@ class BP_Messages_Box_Template {
 
 		if ( (int) $this->total_thread_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( 'mpage', '%#%' ),
+				'base'      => add_query_arg( $page_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_thread_count / (int) $this->pag_num ),
 				'current'   => $this->pag_page,
@@ -175,7 +171,8 @@ function bp_has_message_threads( $args = '' ) {
 		'per_page'     => 10,
 		'max'          => false,
 		'type'         => 'all',
-		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : ''
+		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
+		'page_arg'     => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -196,7 +193,7 @@ function bp_has_message_threads( $args = '' ) {
 			$box = 'notices';
 		}
 
-		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type, $search_terms );
+		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type, $search_terms, $page_arg );
 	}
 
 	return apply_filters( 'bp_has_message_threads', $messages_template->has_threads(), $messages_template );
@@ -322,7 +319,7 @@ function bp_message_thread_avatar() {
 }
 	function bp_get_message_thread_avatar() {
 		global $messages_template;
-		
+
 		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $messages_template->thread->last_sender_id ) ) ) ) );
 	}
 
