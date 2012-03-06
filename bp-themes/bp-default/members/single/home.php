@@ -7,9 +7,7 @@
  * @subpackage bp-default
  */
 
-?>
-
-<?php get_header( 'buddypress' ); ?>
+get_header( 'buddypress' ); ?>
 
 	<div id="content">
 		<div class="padder">
