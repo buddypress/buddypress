@@ -7,9 +7,7 @@
  * @subpackage bp-default
  */
 
-?>
-
-<?php get_header( 'buddypress' ); ?>
+get_header( 'buddypress' ); ?>
 
 	<?php do_action( 'bp_before_directory_blogs_content' ); ?>
 
