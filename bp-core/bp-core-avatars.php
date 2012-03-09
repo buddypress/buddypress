@@ -662,6 +662,11 @@ function bp_core_avatar_upload_path() {
 		if ( defined( 'BP_AVATAR_UPLOAD_PATH' ) ) {
 			$basedir = BP_AVATAR_UPLOAD_PATH;
 		} else {
+			if ( !bp_is_root_blog() ) {
+				// Switch dynamically in order to support BP_ENABLE_MULTIBLOG
+				switch_to_blog( bp_get_root_blog_id() );
+			}
+			
 			// Get upload directory information from current site
 			$upload_dir = wp_upload_dir();
 		
@@ -671,11 +676,10 @@ function bp_core_avatar_upload_path() {
 		
 			} else {
 				$basedir = $upload_dir['basedir'];
-		
-				// If multisite, and current blog does not match root blog, make adjustments
-				if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
-					$basedir = get_blog_option( bp_get_root_blog_id(), 'upload_path' );
 			}
+			
+			// Will bail if not switched
+			restore_current_blog();
 		}
 		
 		// Stash in $bp for later use
