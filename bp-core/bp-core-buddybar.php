@@ -64,27 +64,39 @@ function bp_core_new_nav_item( $args = '' ) {
 		return;
 
 	// Look for current component
-	if ( bp_is_current_component( $slug ) && !bp_current_action() ) {
-		if ( !is_object( $screen_function[0] ) )
-			add_action( 'bp_screens', $screen_function );
-		else
-			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
-
-		if ( !empty( $default_subnav_slug ) ) {
-			$bp->current_action 	      = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
-			$bp->redirect_stack['action'] = $bp->current_action;
+	if ( bp_is_current_component( $slug ) ) {
+		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) ) {
+			// The requested URL has explicitly included the default subnav (eg
+			// example.com/members/membername/activity/just-me/). The canonical
+			// version will not contain this subnav slug.
+			unset( $bp->canonical_stack['action'] );
+		} else if ( !bp_current_action() ) {
+			if ( !is_object( $screen_function[0] ) )
+				add_action( 'bp_screens', $screen_function );
+			else
+				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
+	
+			if ( !empty( $default_subnav_slug ) ) {
+				$bp->current_action 	       = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+			}
 		}
 
 	// Look for current item
-	} elseif ( bp_is_current_item( $slug ) && !bp_current_action() ) {
-		if ( !is_object( $screen_function[0] ) )
-			add_action( 'bp_screens', $screen_function );
-		else
-			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
-
-		if ( !empty( $default_subnav_slug ) ) {
-			$bp->current_action 	      = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
-			$bp->redirect_stack['action'] = $bp->current_action;
+	} elseif ( bp_is_current_item( $slug ) ) {
+		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) ) {
+			// The requested URL has explicitly included the default subnav (eg
+			// example.com/members/membername/activity/just-me/). The canonical
+			// version will not contain this subnav slug.
+			unset( $bp->canonical_stack['action'] );
+		} else if ( !bp_current_action() ) {
+			if ( !is_object( $screen_function[0] ) )
+				add_action( 'bp_screens', $screen_function );
+			else
+				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
+	
+			if ( !empty( $default_subnav_slug ) ) {
+				$bp->current_action 	       = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+			}
 		}
 	}
 
@@ -108,7 +120,7 @@ function bp_core_new_nav_default( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
-
+	
 	if ( $function = $bp->bp_nav[$parent_slug]['screen_function'] ) {
 		if ( !is_object( $function[0] ) )
 			remove_action( 'bp_screens', $function, 3 );
@@ -118,24 +130,43 @@ function bp_core_new_nav_default( $args = '' ) {
 
 	$bp->bp_nav[$parent_slug]['screen_function'] = &$screen_function;
 
-	// If the current_action has been set to the default_subnav_slug, it will be reflected
-	// in the redirect_stack. Unset the action manually so that the new nav default can be set
-	if ( !empty( $bp->redirect_stack['action'] ) && $bp->redirect_stack['action'] == $bp->bp_nav[$parent_slug]['default_subnav_slug'] ) {
-		$bp->current_action = '';
-	}
-
-	if ( bp_is_current_component( $parent_slug ) && !bp_current_action() ) {
-		if ( !is_object( $screen_function[0] ) ) {
-			add_action( 'bp_screens', $screen_function );
+	if ( bp_is_current_component( $parent_slug ) ) {
+		
+		// The only way to tell whether to set the subnav is to peek at the unfiltered_uri
+		// Find the component
+		$component_uri_key = array_search( $parent_slug, $bp->unfiltered_uri );
+		
+		if ( false !== $component_uri_key ) {
+			if ( !empty( $bp->unfiltered_uri[$component_uri_key + 1] ) ) {
+				$unfiltered_action = $bp->unfiltered_uri[$component_uri_key + 1];
+			}
+		}
+		
+		if ( empty( $unfiltered_action ) ) {
+			// No subnav item has been requested in the URL, so set a new nav default
+			if ( !bp_is_current_action( $subnav_slug ) ) {
+				if ( !is_object( $screen_function[0] ) ) {
+					add_action( 'bp_screens', $screen_function );
+				} else {
+					add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
+				}
+		
+				$bp->current_action = $subnav_slug;
+				unset( $bp->canonical_stack['action'] );
+			}
+		} else if ( $unfiltered_action == $subnav_slug ) {
+			// The URL is explicitly requesting the new subnav item, but should be
+			// directed to the canonical URL
+			unset( $bp->canonical_stack['action'] );
 		} else {
-			add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
-		}
-
-		if ( $subnav_slug ) {
-			$bp->current_action 	      = $subnav_slug;
-			$bp->redirect_stack['action'] = $bp->current_action;
+			// In all other cases (including the case where the original subnav item
+			// is explicitly called in the URL), the canonical URL will contain the
+			// subnav slug
+			$bp->canonical_stack['action'] = bp_current_action();
 		}
 	}
+	
+	return;
 }
 
 /**

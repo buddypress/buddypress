@@ -163,12 +163,26 @@ class BP_Groups_Component extends BP_Component {
 			return;
 		}
 		
-		if ( bp_is_groups_component() && !empty( $this->current_group ) && !bp_current_action() ) {
-			$bp->current_action 	         = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
-			
+		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
+						
 			// Prepare for a redirect to the canonical URL
-			$bp->redirect_stack['base_url']  = bp_get_group_permalink( $this->current_group );
-			$bp->redirect_stack['action'] 	 = bp_current_action();
+			$bp->canonical_stack['base_url'] = bp_get_group_permalink( $this->current_group );
+			
+			if ( bp_current_action() ) {
+				$bp->canonical_stack['action'] = bp_current_action();
+			}
+			
+			if ( !empty( $bp->action_variables ) ) {
+				$bp->canonical_stack['action_variables'] = bp_action_variables();
+			}
+			
+			$groups_default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
+			
+			if ( !bp_current_action() ) {
+				$bp->current_action = $groups_default_extension;
+			} else if ( bp_is_current_action( $groups_default_extension ) && !empty( $bp->action_variables ) )  {
+				unset( $bp->canonical_stack['action'] );
+			}
 		}
 
 		// Group access control

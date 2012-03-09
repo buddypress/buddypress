@@ -520,12 +520,14 @@ add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
  * Canonicalizes BuddyPress URLs
  *
  * This function ensures that requests for BuddyPress content are always redirected to their
- * most specific, trailingslashed versions.
+ * canonical versions. Canonical versions are always trailingslashed, and are typically the most
+ * general possible versions of the URL - eg, example.com/groups/mygroup/ instead of
+ * example.com/groups/mygroup/home/
  *
  * @since 1.6
- * @see BP_Members_Component::setup_globals() where $bp->redirect_stack['base_url'] and
+ * @see BP_Members_Component::setup_globals() where $bp->canonical_stack['base_url'] and
  *   ['component'] may be set
- * @see bp_core_new_nav_item() where $bp->redirect_stack['action'] may be set
+ * @see bp_core_new_nav_item() where $bp->canonical_stack['action'] may be set
  */
 function bp_redirect_canonical() {
 	global $bp;
@@ -548,28 +550,28 @@ function bp_redirect_canonical() {
 		$url_stack      = explode( '?', $requested_url );
 		$req_url_clean  = $url_stack[0];
 
-		// Process the redirect stack
-		if ( isset( $bp->redirect_stack['base_url'] ) ) {
-			$url_stack[0] = $bp->redirect_stack['base_url'];
+		// Build the canonical URL out of the redirect stack
+		if ( isset( $bp->canonical_stack['base_url'] ) ) {
+			$url_stack[0] = $bp->canonical_stack['base_url'];
 		}
 
-		if ( isset( $bp->redirect_stack['component'] ) ) {
-			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->redirect_stack['component'] );
+		if ( isset( $bp->canonical_stack['component'] ) ) {
+			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['component'] );
 		}
 
-		if ( isset( $bp->redirect_stack['action'] ) ) {
-			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->redirect_stack['action'] );
+		if ( isset( $bp->canonical_stack['action'] ) ) {
+			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['action'] );
 		}
 
-		if ( !empty( $bp->redirect_stack['action_variables'] ) ) {
-			foreach( (array) $bp->redirect_stack['action_variables'] as $av ) {
+		if ( !empty( $bp->canonical_stack['action_variables'] ) ) {
+			foreach( (array) $bp->canonical_stack['action_variables'] as $av ) {
 				$url_stack[0] = trailingslashit( $url_stack[0] . $av );
 			}
 		}
 
 		// Add trailing slash
 		$url_stack[0] = trailingslashit( $url_stack[0] );
-
+		
 		// Only redirect if we've assembled a URL different from the request
 		if ( $url_stack[0] !== $req_url_clean ) {
 

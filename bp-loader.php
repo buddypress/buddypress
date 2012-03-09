@@ -164,6 +164,13 @@ class BuddyPress {
 	 * @var bool Are status headers already sent?
 	 */
 	public $no_status_set = false;
+	
+	/**
+	 * @var array The canonical URI stack
+	 * @see bp_redirect_canonical()
+	 * @see bp_core_new_nav_item()
+	 */
+	public $canonical_stack = array();
 
 	/** Components ************************************************************/
 
