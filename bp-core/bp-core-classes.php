@@ -255,26 +255,32 @@ class BP_Core_User {
 			$sql['where_exclude'] = "AND u.ID NOT IN ({$exclude})";
 		}
 
-		if ( !empty( $include ) ) {
-			if ( is_array( $include ) ) {
-				$uids = $wpdb->escape( implode( ',', (array) $include ) );
-			} else {
-				$uids = $wpdb->escape( $include );
-			}
-
-			if ( !empty( $uids ) ) {
-				$sql['where_users'] = "AND u.ID IN ({$uids})";
-			}
-		} elseif ( !empty( $user_id ) && bp_is_active( 'friends' ) ) {
-			$friend_ids = friends_get_friend_user_ids( $user_id );
-			$friend_ids = $wpdb->escape( implode( ',', (array) $friend_ids ) );
-
-			if ( !empty( $friend_ids ) ) {
-				$sql['where_friends'] = "AND u.ID IN ({$friend_ids})";
-
-			// User has no friends, return false since there will be no users to fetch.
-			} else {
-				return false;
+		// Passing an $include value of 0 or '0' will necessarily result in an empty set
+		// returned. The default value of false will hit the 'else' clause.
+		if ( 0 === $include || '0' === $include ) {
+			$sql['where_users'] = "AND 0 = 1";
+		} else {
+			if ( !empty( $include ) ) {
+				if ( is_array( $include ) ) {
+					$uids = $wpdb->escape( implode( ',', (array) $include ) );
+				} else {
+					$uids = $wpdb->escape( $include );
+				}
+	
+				if ( !empty( $uids ) ) {
+					$sql['where_users'] = "AND u.ID IN ({$uids})";
+				}
+			} elseif ( !empty( $user_id ) && bp_is_active( 'friends' ) ) {
+				$friend_ids = friends_get_friend_user_ids( $user_id );
+				$friend_ids = $wpdb->escape( implode( ',', (array) $friend_ids ) );
+	
+				if ( !empty( $friend_ids ) ) {
+					$sql['where_friends'] = "AND u.ID IN ({$friend_ids})";
+	
+				// User has no friends, return false since there will be no users to fetch.
+				} else {
+					return false;
+				}
 			}
 		}
 

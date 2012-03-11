@@ -378,8 +378,34 @@ function bp_get_friend_ids( $user_id = 0 ) {
 
 	return implode( ',', friends_get_friend_user_ids( $user_id ) );
 }
-function bp_get_friendship_requests() {
-	return apply_filters( 'bp_get_friendship_requests', implode( ',', (array) friends_get_friendship_request_user_ids( bp_loggedin_user_id() ) ) );
+
+/**
+ * Get a user's friendship requests
+ *
+ * Note that we return a 0 if no pending requests are found. This is necessary because of the
+ * structure of the $include parameter in bp_has_members().
+ *
+ * @param int $user_id Defaults to displayed user
+ * @return mixed Returns an array of users if found, or a 0 if none are found
+ */
+function bp_get_friendship_requests( $user_id = 0 ) {
+	if ( !$user_id ) {
+		$user_id = bp_displayed_user_id();
+	}
+	
+	if ( !$user_id ) {
+		return 0;	
+	}
+	
+	$requests = friends_get_friendship_request_user_ids( $user_id );
+	
+	if ( !empty( $requests ) ) {
+		$requests = implode( ',', (array) $requests );
+	} else {
+		$requests = 0;
+	}
+	
+	return apply_filters( 'bp_get_friendship_requests', $requests );
 }
 
 function bp_friend_friendship_id() {
