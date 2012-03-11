@@ -445,7 +445,7 @@ function bp_group_permalink() {
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_permalink', bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' );
+		return apply_filters( 'bp_get_group_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' ) );
 	}
 
 function bp_group_admin_permalink() {
@@ -457,7 +457,7 @@ function bp_group_admin_permalink() {
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_admin_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/admin' ) );
+		return apply_filters( 'bp_get_group_admin_permalink', trailingslashit( bp_get_group_permalink( $group ) . '/admin' ) );
 	}
 
 function bp_group_slug() {
@@ -1266,32 +1266,32 @@ function bp_group_admin_tabs( $group = false ) {
 
 	if ( bp_is_item_admin() || bp_is_item_mod() ) : ?>
 
-		<li<?php if ( 'edit-details' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/admin/edit-details' ) ?>"><?php _e( 'Details', 'buddypress' ); ?></a></li>
+		<li<?php if ( 'edit-details' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/edit-details' ) ?>"><?php _e( 'Details', 'buddypress' ); ?></a></li>
 
 	<?php endif; ?>
 
 	<?php if ( ! bp_is_item_admin() )
 			return false; ?>
 
-	<li<?php if ( 'group-settings' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/admin/group-settings' ) ?>"><?php _e( 'Settings', 'buddypress' ); ?></a></li>
+	<li<?php if ( 'group-settings' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/group-settings' ) ?>"><?php _e( 'Settings', 'buddypress' ); ?></a></li>
 
 	<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
 
-		<li<?php if ( 'group-avatar'   == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/admin/group-avatar' ) ?>"><?php _e( 'Avatar', 'buddypress' ); ?></a></li>
+		<li<?php if ( 'group-avatar'   == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/group-avatar' ) ?>"><?php _e( 'Avatar', 'buddypress' ); ?></a></li>
 
 	<?php endif; ?>
 
-	<li<?php if ( 'manage-members' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/admin/manage-members' ) ?>"><?php _e( 'Members', 'buddypress' ); ?></a></li>
+	<li<?php if ( 'manage-members' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/manage-members' ) ?>"><?php _e( 'Members', 'buddypress' ); ?></a></li>
 
 	<?php if ( $groups_template->group->status == 'private' ) : ?>
 
-		<li<?php if ( 'membership-requests' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/admin/membership-requests' ) ?>"><?php _e( 'Requests', 'buddypress' ); ?></a></li>
+		<li<?php if ( 'membership-requests' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/membership-requests' ) ?>"><?php _e( 'Requests', 'buddypress' ); ?></a></li>
 
 	<?php endif; ?>
 
 	<?php do_action( 'groups_admin_tabs', $current_tab, $group->slug ) ?>
 
-	<li<?php if ( 'delete-group' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/admin/delete-group' ) ?>"><?php _e( 'Delete', 'buddypress' ); ?></a></li>
+	<li<?php if ( 'delete-group' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/delete-group' ) ?>"><?php _e( 'Delete', 'buddypress' ); ?></a></li>
 
 <?php
 }
@@ -1663,7 +1663,7 @@ function bp_total_group_count_for_user( $user_id = 0 ) {
 	echo bp_get_total_group_count_for_user( $user_id );
 }
 	function bp_get_total_group_count_for_user( $user_id = 0 ) {
-		return apply_filters( 'bp_get_total_group_count_for_user', groups_total_groups_for_user( $user_id ) );
+		return apply_filters( 'bp_get_total_group_count_for_user', groups_total_groups_for_user( $user_id ), $user_id );
 	}
 
 
@@ -2828,15 +2828,15 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 	function bp_get_groups_action_link( $action = '', $query_args = '', $nonce = false ) {
 		global $bp;
 
-		// Must be displayed user
+		// Must be a group
 		if ( empty( $bp->groups->current_group->id ) )
 			return;
 
-		// Append $action to $url if there is no $type
+		// Append $action to $url if provided
 		if ( !empty( $action ) )
-			$url = bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $bp->groups->current_group->slug . '/' . $action;
+			$url = bp_get_group_permalink( groups_get_current_group() ) . $action;
 		else
-			$url = bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $bp->groups->current_group->slug;
+			$url = bp_get_group_permalink( groups_get_current_group() );
 
 		// Add a slash at the end of our user url
 		$url = trailingslashit( $url );

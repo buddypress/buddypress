@@ -326,7 +326,7 @@ class BP_Groups_Component extends BP_Component {
 				'item_css_id'         => $this->id
 			);
 
-			$group_link = trailingslashit( bp_get_root_domain() . '/' . $this->root_slug . '/' . $this->current_group->slug );
+			$group_link = bp_get_group_permalink( $this->current_group );
 
 			// Add the "Home" subnav item, as this will always be present
 			$sub_nav[] = array(

@@ -384,7 +384,7 @@ class BP_Groups_Group {
 			$t_sql .= " WHERE " . join( ' AND ', (array) $total_sql['where'] );
 
 		// Get total group results
-		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', join( ' ', (array) $t_sql ), $t_sql );
+		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $t_sql, $total_sql );
 		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
 		$group_ids = array();

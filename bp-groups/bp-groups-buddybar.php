@@ -23,8 +23,8 @@ function bp_groups_adminbar_admin_menu() {
 	if ( empty( $bp->groups->current_group ) )
 		return false;
 
-	// Don't show this menu to non site admins or if you're viewing your own profile
-	if ( !current_user_can( 'edit_users' ) || !bp_current_user_can( 'bp_moderate' ) || ( bp_is_item_admin() && ! bp_is_item_mod() ) )
+	// Only group admins and site admins can see this menu
+	if ( !current_user_can( 'edit_users' ) && !bp_current_user_can( 'bp_moderate' ) && !bp_is_item_admin() )
 		return false; ?>
 
 	<li id="bp-adminbar-adminoptions-menu">
