@@ -245,13 +245,15 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	if ( empty( $recorded_comment->comment_author_email ) )
 		return false;
 
-	// Get the user_id from the comment author email.
-	$user    = get_user_by( 'email', $recorded_comment->comment_author_email );
-	$user_id = (int) $user->ID;
+	// Get the user by the comment author email.
+	$user = get_user_by( 'email', $recorded_comment->comment_author_email );
 
-	// If there's no registered user id, don't record activity
-	if ( empty( $user_id ) )
+	// If user isn't registered, don't record activity
+	if ( empty( $user ) )
 		return false;
+
+	// Get the user_id
+	$user_id = (int) $user->ID;
 
 	// Get blog and post data
 	$blog_id                = get_current_blog_id();
