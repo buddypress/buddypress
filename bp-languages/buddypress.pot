@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-03-11 14:36:12+00:00\n"
+"POT-Creation-Date: 2012-03-11 15:36:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -437,11 +437,11 @@ msgctxt "x hours ago - akismet cleared this item"
 msgid "<span>%1$s</span> &mdash; %2$s"
 msgstr ""
 
-#: bp-activity/bp-activity-filters.php:320
+#: bp-activity/bp-activity-filters.php:321
 msgid "[Read more]"
 msgstr ""
 
-#: bp-activity/bp-activity-filters.php:325
+#: bp-activity/bp-activity-filters.php:326
 msgid "&hellip;"
 msgstr ""
 
@@ -469,11 +469,11 @@ msgstr ""
 msgid "%s posted an update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1041
+#: bp-activity/bp-activity-functions.php:1043
 msgid "%s posted a new activity comment"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1414
+#: bp-activity/bp-activity-functions.php:1416
 msgid "Thumbnail"
 msgstr ""
 
