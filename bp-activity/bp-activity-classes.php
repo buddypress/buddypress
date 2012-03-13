@@ -134,23 +134,13 @@ Class BP_Activity_Activity {
 
 		// Exclude specified items
 		if ( !empty( $exclude ) ) {
-			if ( is_array( $exclude ) ) {
-				$exclude = implode ( ',', array_map( 'absint', $exclude ) );
-			} else {
-				$exclude = implode ( ',', array_map( 'absint', explode ( ',', $exclude ) ) );
-			}
-
+			$exclude = wp_parse_id_list( $exclude );
 			$where_conditions['exclude'] = "a.id NOT IN ({$exclude})";
 		}
 
 		// The specific ids to which you want to limit the query
 		if ( !empty( $in ) ) {
-			if ( is_array( $in ) ) {
-				$in = implode ( ',', array_map( 'absint', $in ) );
-			} else {
-				$in = implode ( ',', array_map( 'absint', explode ( ',', $in ) ) );
-			}
-
+			$in = wp_parse_id_list( $in );
 			$where_conditions['in'] = "a.id IN ({$in})";
 		}
 
