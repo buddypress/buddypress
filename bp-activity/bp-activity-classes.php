@@ -133,8 +133,15 @@ Class BP_Activity_Activity {
 			$where_conditions['hidden_sql'] = "a.hide_sitewide = 0";
 
 		// Exclude specified items
-		if ( $exclude )
+		if ( !empty( $exclude ) ) {
+			if ( is_array( $exclude ) ) {
+				$exclude = implode ( ',', array_map( 'absint', $exclude ) );
+			} else {
+				$exclude = implode ( ',', array_map( 'absint', explode ( ',', $exclude ) ) );
+			}
+
 			$where_conditions['exclude'] = "a.id NOT IN ({$exclude})";
+		}
 
 		// The specific ids to which you want to limit the query
 		if ( !empty( $in ) ) {
