@@ -84,6 +84,10 @@ add_filter( 'bp_ajax_querystring', 'bp_dtheme_ajax_querystring', 10, 2 );
 /* This function will simply load the template loop for the current object. On an AJAX request */
 function bp_dtheme_object_template_loader() {
 
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
+
  	/**
 	 * AJAX requests happen too early to be seen by bp_update_is_directory()
 	 * so we do it manually here to ensure templates load with the correct
@@ -107,6 +111,10 @@ add_action( 'wp_ajax_forums_filter',  'bp_dtheme_object_template_loader' );
 // This function will load the activity loop template when activity is requested via AJAX
 function bp_dtheme_activity_template_loader() {
 	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	$scope = '';
 	if ( !empty( $_POST['scope'] ) )
@@ -135,6 +143,7 @@ function bp_dtheme_activity_template_loader() {
 	/* Buffer the loop in the template to a var for JS to spit out. */
 	ob_start();
 	locate_template( array( 'activity/activity-loop.php' ), true );
+	$result = array();
 	$result['contents'] = ob_get_contents();
 	$result['feed_url'] = apply_filters( 'bp_dtheme_activity_feed_url', $feed_url, $scope );
 	ob_end_clean();
@@ -146,7 +155,10 @@ add_action( 'wp_ajax_activity_get_older_updates', 'bp_dtheme_activity_template_l
 
 /* AJAX update posting */
 function bp_dtheme_post_update() {
-	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	// Check the nonce
 	check_admin_referer( 'post_update', '_wpnonce_post_update' );
@@ -188,7 +200,10 @@ add_action( 'wp_ajax_post_update', 'bp_dtheme_post_update' );
 
 /* AJAX activity comment posting */
 function bp_dtheme_new_activity_comment() {
-	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	// Check the nonce
 	check_admin_referer( 'new_activity_comment', '_wpnonce_new_activity_comment' );
@@ -245,7 +260,10 @@ add_action( 'wp_ajax_new_activity_comment', 'bp_dtheme_new_activity_comment' );
 
 /* AJAX delete an activity */
 function bp_dtheme_delete_activity() {
-	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	// Check the nonce
 	check_admin_referer( 'bp_activity_delete_link' );
@@ -286,6 +304,10 @@ add_action( 'wp_ajax_delete_activity', 'bp_dtheme_delete_activity' );
 function bp_dtheme_delete_activity_comment() {
 	global $bp;
 
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
+
 	/* Check the nonce */
 	check_admin_referer( 'bp_activity_delete_link' );
 
@@ -319,7 +341,10 @@ add_action( 'wp_ajax_delete_activity_comment', 'bp_dtheme_delete_activity_commen
 
 /* AJAX mark an activity as a favorite */
 function bp_dtheme_mark_activity_favorite() {
-	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	bp_activity_add_user_favorite( $_POST['id'] );
 	_e( 'Remove Favorite', 'buddypress' );
@@ -328,7 +353,10 @@ add_action( 'wp_ajax_activity_mark_fav', 'bp_dtheme_mark_activity_favorite' );
 
 /* AJAX mark an activity as not a favorite */
 function bp_dtheme_unmark_activity_favorite() {
-	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	bp_activity_remove_user_favorite( $_POST['id'] );
 	_e( 'Favorite', 'buddypress' );
@@ -366,6 +394,10 @@ add_action( 'wp_ajax_get_single_activity_content', 'bp_dtheme_get_single_activit
 /* AJAX invite a friend to a group functionality */
 function bp_dtheme_ajax_invite_user() {
 	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	check_ajax_referer( 'groups_invite_uninvite_user' );
 
@@ -411,6 +443,10 @@ add_action( 'wp_ajax_groups_invite_user', 'bp_dtheme_ajax_invite_user' );
 function bp_dtheme_ajax_addremove_friend() {
 	global $bp;
 
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
+
 	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
 
 		check_ajax_referer('friends_remove_friend');
@@ -440,6 +476,11 @@ add_action( 'wp_ajax_addremove_friend', 'bp_dtheme_ajax_addremove_friend' );
 
 /* AJAX accept a user as a friend when clicking the "accept" button */
 function bp_dtheme_ajax_accept_friendship() {
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
+
 	check_admin_referer( 'friends_accept_friendship' );
 
 	if ( !friends_accept_friendship( $_POST['id'] ) )
@@ -451,6 +492,11 @@ add_action( 'wp_ajax_accept_friendship', 'bp_dtheme_ajax_accept_friendship' );
 
 /* AJAX reject a user as a friend when clicking the "reject" button */
 function bp_dtheme_ajax_reject_friendship() {
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
+
 	check_admin_referer( 'friends_reject_friendship' );
 
 	if ( !friends_reject_friendship( $_POST['id'] ) )
@@ -463,6 +509,10 @@ add_action( 'wp_ajax_reject_friendship', 'bp_dtheme_ajax_reject_friendship' );
 /* AJAX join or leave a group when clicking the "join/leave" button */
 function bp_dtheme_ajax_joinleave_group() {
 	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	if ( groups_is_user_banned( $bp->loggedin_user->id, $_POST['gid'] ) )
 		return false;
@@ -514,6 +564,10 @@ add_action( 'wp_ajax_joinleave_group', 'bp_dtheme_ajax_joinleave_group' );
 function bp_dtheme_ajax_close_notice() {
 	global $userdata;
 
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
+
 	if ( !isset( $_POST['notice_id'] ) ) {
 		echo "-1<div id='message' class='error'><p>" . __('There was a problem closing the notice.', 'buddypress') . '</p></div>';
 	} else {
@@ -529,6 +583,10 @@ add_action( 'wp_ajax_messages_close_notice', 'bp_dtheme_ajax_close_notice' );
 /* AJAX send a private message reply to a thread */
 function bp_dtheme_ajax_messages_send_reply() {
 	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	check_ajax_referer( 'messages_send_message' );
 
@@ -564,7 +622,10 @@ add_action( 'wp_ajax_messages_send_reply', 'bp_dtheme_ajax_messages_send_reply' 
 
 /* AJAX mark a private message as unread in your inbox */
 function bp_dtheme_ajax_message_markunread() {
-	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	if ( !isset($_POST['thread_ids']) ) {
 		echo "-1<div id='message' class='error'><p>" . __('There was a problem marking messages as unread.', 'buddypress' ) . '</p></div>';
@@ -580,7 +641,10 @@ add_action( 'wp_ajax_messages_markunread', 'bp_dtheme_ajax_message_markunread' )
 
 /* AJAX mark a private message as read in your inbox */
 function bp_dtheme_ajax_message_markread() {
-	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	if ( !isset($_POST['thread_ids']) ) {
 		echo "-1<div id='message' class='error'><p>" . __('There was a problem marking messages as read.', 'buddypress' ) . '</p></div>';
@@ -596,7 +660,10 @@ add_action( 'wp_ajax_messages_markread', 'bp_dtheme_ajax_message_markread' );
 
 /* AJAX delete a private message or array of messages in your inbox */
 function bp_dtheme_ajax_messages_delete() {
-	global $bp;
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		return;
 
 	if ( !isset($_POST['thread_ids']) ) {
 		echo "-1<div id='message' class='error'><p>" . __( 'There was a problem deleting messages.', 'buddypress' ) . '</p></div>';
@@ -626,10 +693,8 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 	if ( $bp->messages->slug == $bp->current_component )
 		$autocomplete_all = $bp->messages->autocomplete_all;
 
-	$friends  = false;
 	$pag_page = 1;
-
-	$limit = $_GET['limit'] ? $_GET['limit'] : apply_filters( 'bp_autocomplete_max_results', 10 );
+	$limit    = !empty( $_GET['limit'] ) ? $_GET['limit'] : apply_filters( 'bp_autocomplete_max_results', 10 );
 
 	// Get the user ids based on the search terms
 	if ( !empty( $autocomplete_all ) ) {
