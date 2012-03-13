@@ -155,8 +155,13 @@ Class BP_Activity_Activity {
 
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
-		if ( $per_page && $page ) {
-			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
+		if ( !empty( $per_page ) && !empty( $page ) ) {
+
+			// Make sure page values are absolute integers
+			$page     = absint( $page     );
+			$per_page = absint( $per_page );
+
+			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
 			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}" ), $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
 		} else {
 			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}" ), $select_sql, $from_sql, $where_sql, $sort ) );
