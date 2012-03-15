@@ -542,8 +542,8 @@ function bp_forums_get_post_extras( $posts ) {
 		foreach ( (array)$poster_details as $poster ) {
 			if ( $poster->user_id == $posts[$i]->poster_id ) {
 				$posts[$i]->poster_email    = $poster->user_email;
-				$posts[$i]->poster_login    = $poster->user_nicename;
-				$posts[$i]->poster_nicename = $poster->user_login;
+				$posts[$i]->poster_login    = $poster->user_login;
+				$posts[$i]->poster_nicename = $poster->user_nicename;
 				$posts[$i]->poster_name     = $poster->display_name;
 			}
 		}
