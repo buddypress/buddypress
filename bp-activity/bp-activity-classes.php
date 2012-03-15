@@ -134,13 +134,13 @@ Class BP_Activity_Activity {
 
 		// Exclude specified items
 		if ( !empty( $exclude ) ) {
-			$exclude = wp_parse_id_list( $exclude );
+			$exclude = implode( ',', wp_parse_id_list( $exclude ) );
 			$where_conditions['exclude'] = "a.id NOT IN ({$exclude})";
 		}
 
 		// The specific ids to which you want to limit the query
 		if ( !empty( $in ) ) {
-			$in = wp_parse_id_list( $in );
+			$in = implode( ',', wp_parse_id_list( $in ) );
 			$where_conditions['in'] = "a.id IN ({$in})";
 		}
 
