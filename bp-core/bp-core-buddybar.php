@@ -73,43 +73,20 @@ function bp_core_new_nav_item( $args = '' ) {
 		return;
 
 	// Look for current component
-	if ( bp_is_current_component( $slug ) ) {
-
-		// The requested URL has explicitly included the default subnav (eg
-		// example.com/members/membername/activity/just-me/). The canonical
-		// version will not contain this subnav slug.
-		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) ) {
-			if ( ! bp_is_action_variable( 'page', 0 ) && ! bp_action_variable( 1 ) ) {
-				unset( $bp->canonical_stack['action'] );
-			}
-		} else if ( !bp_current_action() ) {
-			if ( is_object( $screen_function[0] ) ) {
-				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
-			} else {
-				add_action( 'bp_screens', $screen_function, 3 );
-			}
-	
-			if ( !empty( $default_subnav_slug ) ) {
-				$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
-			}
-		}
-
-	// Look for current item
-	} elseif ( bp_is_current_item( $slug ) ) {
+	if ( bp_is_current_component( $slug ) || bp_is_current_item( $slug ) ) {
 
 		// The requested URL has explicitly included the default subnav
 		// (eg: http://example.com/members/membername/activity/just-me/)
 		// The canonical version will not contain this subnav slug.
 		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) ) {
+
+			// bbPress 2.x uses pretty pagination, so whitelist 'page'
 			if ( ! bp_is_action_variable( 'page', 0 ) && ! bp_action_variable( 1 ) ) {
 				unset( $bp->canonical_stack['action'] );
 			}
-		} else if ( !bp_current_action() ) {
-			if ( is_object( $screen_function[0] ) ) {
-				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
-			} else {
-				add_action( 'bp_screens', $screen_function, 3 );
-			}
+		} elseif ( ! bp_current_action() ) {
+			$func = is_object( $screen_function[0] ) ? array( &$screen_function[0], $screen_function[1] ) : $screen_function;
+			add_action( 'bp_screens', $func, 3 );
 
 			if ( !empty( $default_subnav_slug ) ) {
 				$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
