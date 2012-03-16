@@ -615,7 +615,7 @@ function bp_adminbar_random_menu() {
  *
  * This is a direct copy of WP's private _get_admin_bar_pref()
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @param string $context Context of this preference check, either 'admin' or 'front'.
  * @param int $user Optional. ID of the user to check, defaults to 0 for current user.

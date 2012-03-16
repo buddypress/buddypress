@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Checks $bp pages global and looks for directory page
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @global object $bp BuddyPress global settings
  *
@@ -30,7 +30,7 @@ function bp_activity_has_directory() {
 /**
  * Searches through the content of an activity item to locate usernames, designated by an @ sign
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @param string $content The content of the activity, usually found in $activity->content
  *
@@ -50,7 +50,7 @@ function bp_activity_find_mentions( $content ) {
 /**
  * Resets a user's unread mentions list and count
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @param int $user_id The id of the user whose unread mentions are being reset
  * @uses bp_delete_user_meta()
@@ -63,7 +63,7 @@ function bp_activity_clear_new_mentions( $user_id ) {
 /**
  * Adjusts new mention count for mentioned users when activity items are deleted or created
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @param int $activity_id The unique id for the activity item
  * @param string $action Can be 'delete' or 'add'. Defaults to 'add'
@@ -122,7 +122,7 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
 /**
  * Formats notifications related to activity
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @param string $action The type of activity item. Just 'new_at_mention' for now
  * @param int $item_id The activity id
@@ -613,7 +613,7 @@ function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
 /**
  * Completely remove a user's activity data
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @param int $user_id
  *

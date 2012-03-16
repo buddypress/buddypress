@@ -13,7 +13,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Activity screen index
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @uses bp_displayed_user_id()
  * @uses bp_is_activity_component()
@@ -128,7 +128,7 @@ function bp_activity_screen_mentions() {
  * Removes activity notifications from the notification menu when a user clicks on them and
  * is taken to a specific screen.
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @global object $bp BuddyPress global settings
  * @uses bp_core_delete_notifications_by_type()
@@ -145,7 +145,7 @@ add_action( 'bp_activity_screen_mentions',                  'bp_activity_remove_
 /**
  * Reset the logged-in user's new mentions data when he visits his mentions screen
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @uses bp_is_my_profile()
  * @uses bp_activity_clear_new_mentions()

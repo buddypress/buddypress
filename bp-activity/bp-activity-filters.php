@@ -247,7 +247,7 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 /**
  * Catch mentions in saved activity items
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @param obj $activity
  *
@@ -297,7 +297,7 @@ function bp_activity_make_nofollow_filter( $text ) {
 /**
  * Truncates long activity entries when viewed in activity streams
  *
- * @since BuddyPress (1.5).0
+ * @since BuddyPress (1.5)
  *
  * @param $text The original activity entry text
  *
