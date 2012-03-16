@@ -207,6 +207,12 @@ class BP_Friends_Friendship {
 	 	return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->friends->table_name} SET is_confirmed = 1, date_created = %s WHERE id = %d AND friend_user_id = %d", bp_core_current_time(), $friendship_id, bp_loggedin_user_id() ) );
 	}
 
+	public static function withdraw($friendship_id) {
+		global $wpdb, $bp;
+
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE id = %d AND initiator_user_id = %d", $friendship_id, bp_loggedin_user_id() ) );
+	}
+
 	public static function reject($friendship_id) {
 		global $wpdb, $bp;
 

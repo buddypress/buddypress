@@ -917,7 +917,7 @@ jq(document).ready( function() {
 					function() {
 						parentdiv.removeClass('add_friend');
 						parentdiv.removeClass('loading');
-						parentdiv.addClass('pending');
+						parentdiv.addClass('pending_friend');
 						parentdiv.fadeIn(200).html(response);
 					}
 					);

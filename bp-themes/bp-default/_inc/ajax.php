@@ -525,7 +525,16 @@ function bp_dtheme_ajax_addremove_friend() {
 		if ( !friends_add_friend( bp_loggedin_user_id(), $_POST['fid'] ) ) {
 			echo __("Friendship could not be requested.", 'buddypress');
 		} else {
-			echo '<a href="' . bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests" class="requested">' . __( 'Friendship Requested', 'buddypress' ) . '</a>';
+			echo '<a id="friend-' . $_POST['fid'] . '" class="remove" rel="remove" title="' . __( 'Cancel Friendship Request', 'buddypress' ) . '" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/cancel/' . (int)$_POST['fid'] . '/', 'friends_withdraw_friendship' ) . '" class="requested">' . __( 'Cancel Friendship Request', 'buddypress' ) . '</a>';
+		}
+	} else if( 'pending' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), (int)$_POST['fid'] ) ) {
+		
+		check_ajax_referer('friends_withdraw_friendship');
+		
+		if ( friends_withdraw_friendship( bp_loggedin_user_id(), (int)$_POST['fid'] ) ) {
+			echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __( 'Add Friend', 'buddypress' ) . '" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/add-friend/' . $_POST['fid'], 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
+		} else {
+			echo __("Friendship request could not be cancelled.", 'buddypress');
 		}
 	} else {
 		echo __( 'Request Pending', 'buddypress' );

@@ -318,12 +318,14 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'component'         => 'friends',
 					'must_be_logged_in' => true,
 					'block_self'        => true,
-					'wrapper_class'     => 'friendship-button pending',
+					'wrapper_class'     => 'friendship-button pending_friend',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
-					'link_href'         => trailingslashit( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests' ),
-					'link_text'         => __( 'Friendship Requested', 'buddypress' ),
-					'link_title'        => __( 'Friendship Requested', 'buddypress' ),
-					'link_class'        => 'friendship-button pending requested'
+					'link_href'         => wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/cancel/' . $potential_friend_id . '/', 'friends_withdraw_friendship' ),
+					'link_text'         => __( 'Cancel Friendship Request', 'buddypress' ),
+					'link_title'        => __( 'Cancel Friendship Requested', 'buddypress' ),
+					'link_id'			=> 'friend-' . $potential_friend_id,
+					'link_rel'			=> 'remove',
+					'link_class'        => 'friendship-button pending_friend requested'
 				);
 				break;
 

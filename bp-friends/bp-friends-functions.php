@@ -139,6 +139,23 @@ function friends_reject_friendship( $friendship_id ) {
 	return false;
 }
 
+function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
+	global $bp;
+
+	$friendship_id = BP_Friends_Friendship::get_friendship_id( $initiator_userid, $friend_userid );
+	$friendship    = new BP_Friends_Friendship( $friendship_id, true, false );
+	
+	if ( !$friendship->is_confirmed && BP_Friends_Friendship::withdraw( $friendship_id ) ) {
+		// Remove the friend request notice
+		bp_core_delete_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
+
+		do_action_ref_array( 'friends_friendship_whithdrawn', array( $friendship_id, &$friendship ) );
+		return true;
+	}
+
+	return false;
+}
+
 function friends_check_friendship( $user_id, $possible_friend_id ) {
 
 	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id ) )
