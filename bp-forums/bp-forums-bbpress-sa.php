@@ -144,10 +144,6 @@ if ( ! class_exists( 'BPDB' ) ) :
 	class BPDB extends WPDB {
 		var $db_servers = array();
 
-		function BPDB( $dbuser, $dbpassword, $dbname, $dbhost ) {
-			$this->__construct( $dbuser, $dbpassword, $dbname, $dbhost );
-		}
-
 		function __construct( $dbuser, $dbpassword, $dbname, $dbhost ) {
 			parent::__construct( $dbuser, $dbpassword, $dbname, $dbhost );
 

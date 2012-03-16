@@ -1684,10 +1684,6 @@ class BP_Groups_Group_Members_Template {
 	var $pag_links;
 	var $total_group_count;
 
-	function bp_groups_group_members_template( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude ) {
-		$this->__construct( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude );
-	}
-
 	function __construct( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude ) {
 
 		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : 1;
@@ -2407,11 +2403,6 @@ class BP_Groups_Membership_Requests_Template {
 	var $pag_links;
 	var $total_request_count;
 
-	function bp_groups_membership_requests_template( $group_id, $per_page, $max ) {
-		$this->__construct( $group_id, $per_page, $max );
-	}
-
-
 	function __construct( $group_id, $per_page, $max ) {
 
 		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : 1;
@@ -2577,10 +2568,6 @@ class BP_Groups_Invite_Template {
 	var $pag_num;
 	var $pag_links;
 	var $total_invite_count;
-
-	function bp_groups_invite_template( $user_id, $group_id ) {
-		$this->__construct( $user_id, $group_id );
-	}
 
 	function __construct( $user_id, $group_id ) {
 		$this->invites      = groups_get_invites_for_group( $user_id, $group_id );

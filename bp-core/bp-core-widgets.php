@@ -14,10 +14,6 @@ add_action( 'bp_register_widgets', 'bp_core_register_widgets' );
 
 class BP_Core_Members_Widget extends WP_Widget {
 
-	function bp_core_members_widget() {
-		$this->__construct();
-	}
-
 	function __construct() {
 		$widget_ops = array( 'description' => __( 'A dynamic list of recently active, popular, and newest members', 'buddypress' ) );
 		parent::__construct( false, $name = __( 'Members', 'buddypress' ), $widget_ops );
@@ -149,10 +145,6 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 class BP_Core_Whos_Online_Widget extends WP_Widget {
 
-	function bp_core_whos_online_widget() {
-		$this->__construct();
-	}
-
 	function __construct() {
 		$widget_ops = array( 'description' => __( 'Avatars of users who are currently online', 'buddypress' ) );
 		parent::__construct( false, $name = __( "Who's Online Avatars", 'buddypress' ), $widget_ops );
@@ -216,10 +208,6 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 /*** RECENTLY ACTIVE WIDGET *****************/
 
 class BP_Core_Recently_Active_Widget extends WP_Widget {
-
-	function bp_core_recently_active_widget() {
-		$this->__construct();
-	}
 
 	function __construct() {
 		$widget_ops = array( 'description' => __( 'Avatars of recently active members', 'buddypress' ) );

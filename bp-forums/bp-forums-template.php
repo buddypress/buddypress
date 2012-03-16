@@ -992,10 +992,6 @@ class BP_Forums_Template_Topic {
 	var $sort_by;
 	var $order;
 
-	function BP_Forums_Template_Topic( $topic_id, $per_page, $max, $order ) {
-		$this->__construct( $topic_id, $per_page, $max, $order );
-	}
-
 	function __construct( $topic_id, $per_page, $max, $order ) {
 		global $bp, $current_user, $forum_template;
 

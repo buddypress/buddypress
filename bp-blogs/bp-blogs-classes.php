@@ -22,10 +22,6 @@ class BP_Blogs_Blog {
 	var $user_id;
 	var $blog_id;
 
-	function bp_blogs_blog( $id = null ) {
-		$this->__construct( $id );
-	}
-
 	function __construct( $id = null ) {
 		if ( !empty( $id ) ) {
 			$this->id = $id;
