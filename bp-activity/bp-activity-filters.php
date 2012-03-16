@@ -160,7 +160,7 @@ function bp_activity_check_blacklist_keys( $activity ) {
 /**
  * Custom kses filtering for activity content
  *
- * @since 1.1.0
+ * @since BuddyPress (1.1)
  *
  * @param string $content The activity content
  *
@@ -196,7 +196,7 @@ function bp_activity_filter_kses( $content ) {
 /**
  * Finds and links @-mentioned users in the contents of activity items
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param string $content The activity content
  * @param int $activity_id The activity id
@@ -269,7 +269,7 @@ function bp_activity_at_name_filter_updates( $activity ) {
 /**
  * Catches links in activity text so rel=nofollow can be added
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param string $text Activity text
  *
@@ -282,7 +282,7 @@ function bp_activity_make_nofollow_filter( $text ) {
 	/**
 	 * Adds rel=nofollow to a link
 	 *
-	 * @since 1.2.0
+	 * @since BuddyPress (1.2)
 	 *
 	 * @param array $matches
 	 *

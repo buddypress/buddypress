@@ -635,7 +635,7 @@ function bp_get_admin_bar_pref( $context, $user = 0 ) {
 /**
  * Handle the Toolbar/BuddyBar business
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @global string $wp_version
  * @uses bp_get_option()

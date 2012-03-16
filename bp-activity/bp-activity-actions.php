@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Allow core components and dependent plugins to register activity actions
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @uses do_action() To call 'bp_register_activity_actions' hook.
  */
@@ -27,7 +27,7 @@ add_action( 'bp_init', 'bp_register_activity_actions', 8 );
 /**
  * Allow core components and dependent plugins to register activity actions
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @global object $bp BuddyPress global settings
  * @uses bp_is_activity_component()
@@ -110,7 +110,7 @@ add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
 /**
  * Delete specific activity item and redirect to previous page.
  *
- * @since 1.1.0
+ * @since BuddyPress (1.1)
  *
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
  *
@@ -226,7 +226,7 @@ add_action( 'bp_actions', 'bp_activity_action_spam_activity' );
 /**
  * Post user/group activity update.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
@@ -293,7 +293,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_update' );
 /**
  * Post new activity comment.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
@@ -342,7 +342,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_comment' );
 /**
  * Mark activity as favorite.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
@@ -376,7 +376,7 @@ add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
 /**
  * Remove activity from favorites.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
@@ -410,7 +410,7 @@ add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
 /**
  * Load the sitewide feed.
  *
- * @since 1.0.0
+ * @since BuddyPress (1.0)
  *
  * @global object $bp BuddyPress global settings
  * @global object $wp_query
@@ -438,7 +438,7 @@ add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
 /**
  * Load a user's personal feed.
  *
- * @since 1.0.0
+ * @since BuddyPress (1.0)
  *
  * @global object $wp_query
  * @uses bp_is_user_activity()
@@ -464,7 +464,7 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 /**
  * Load a user's friends feed.
  *
- * @since 1.0.0
+ * @since BuddyPress (1.0)
  *
  * @global object $wp_query
  * @uses bp_is_active()
@@ -493,7 +493,7 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
 /**
  * Load a user's my groups feed.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @global object $wp_query
  * @uses bp_is_active()
@@ -522,7 +522,7 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
 /**
  * Load a user's @mentions feed.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @global object $wp_query
  * @uses bp_is_user_activity()
@@ -549,7 +549,7 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
 /**
  * Load a user's favorites feed.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @global object $wp_query
  * @uses bp_is_user_activity()

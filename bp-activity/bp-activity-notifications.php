@@ -13,7 +13,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Sends an email notification and a BP notification when someone mentions you in an update
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $activity_id The id of the activity update
  * @param int $receiver_user_id The unique user_id of the user who is receiving the update
@@ -111,7 +111,7 @@ To view and respond to the message, log in and visit: %3$s
 /**
  * Sends an email notification and a BP notification when someone mentions you in an update
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $comment_id The comment id
  * @param int $commenter_id The unique user_id of the user who posted the comment

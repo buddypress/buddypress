@@ -178,7 +178,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 /**
  * Sets the current action for a given activity stream location
  *
- * @since 1.1.0
+ * @since BuddyPress (1.1)
  *
  * @param string $component_id
  * @param string $key
@@ -208,7 +208,7 @@ function bp_activity_set_action( $component_id, $key, $value ) {
 /**
  * Retreives the current action from a component and key
  *
- * @since 1.1.0
+ * @since BuddyPress (1.1)
  *
  * @param string $component_id
  * @param string $key
@@ -233,7 +233,7 @@ function bp_activity_get_action( $component_id, $key ) {
 /**
  * Get a users favorite activity stream items
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $user_id
  *
@@ -257,7 +257,7 @@ function bp_activity_get_user_favorites( $user_id = 0 ) {
 /**
  * Add an activity stream item as a favorite for a user
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $activity_id
  * @param int $user_id
@@ -314,7 +314,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 /**
  * Remove an activity stream item as a favorite for a user
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $activity_id
  * @param int $user_id
@@ -378,7 +378,7 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 /**
  * Check if activity exists by scanning content
  *
- * @since 1.1.0
+ * @since BuddyPress (1.1)
  *
  * @param string $content
  *
@@ -394,7 +394,7 @@ function bp_activity_check_exists_by_content( $content ) {
 /**
  * Retrieve the last time activity was updated
  *
- * @since 1.0.0
+ * @since BuddyPress (1.0)
  *
  * @uses BP_Activity_Activity::get_last_updated() {@link BP_Activity_Activity}
  * @uses apply_filters() To call the 'bp_activity_get_last_updated' hook
@@ -408,7 +408,7 @@ function bp_activity_get_last_updated() {
 /**
  * Retrieve the number of favorite activity stream items a user has
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $user_id
  *
@@ -430,7 +430,7 @@ function bp_activity_total_favorites_for_user( $user_id = 0 ) {
 /**
  * Delete a meta entry from the DB for an activity stream item
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $activity_id
  * @param string $meta_key
@@ -486,7 +486,7 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
 /**
  * Get activity meta
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $activity_id
  * @param string $meta_key
@@ -551,7 +551,7 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '' ) {
 /**
  * Update activity meta
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $activity_id
  * @param string $meta_key
@@ -776,7 +776,7 @@ add_action( 'bp_register_activity_actions', 'bp_activity_register_activity_actio
 /**
  * Retrieve an activity or activities
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param array $args
  *
@@ -834,7 +834,7 @@ function bp_activity_get( $args = '' ) {
 /**
  * Fetch specific activity items
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param array $args See docs for $defaults for details
  *
@@ -864,7 +864,7 @@ function bp_activity_get_specific( $args = '' ) {
 /**
  * Add an activity item
  *
- * @since 1.1.0
+ * @since BuddyPress (1.1)
  *
  * @param array $args See docs for $defaults for details
  *
@@ -935,7 +935,7 @@ function bp_activity_add( $args = '' ) {
 /**
  * Post an activity update
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param array $args See docs for $defaults for details
  *
@@ -998,7 +998,7 @@ function bp_activity_post_update( $args = '' ) {
 /**
  * Add an activity comment
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param array $args See docs for $defaults for details
  *
@@ -1064,7 +1064,7 @@ function bp_activity_new_comment( $args = '' ) {
 /**
  * Fetch the activity_id for an existing activity entry in the DB.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param array $args See docs for $defaults for details
  *
@@ -1105,7 +1105,7 @@ function bp_activity_get_activity_id( $args = '' ) {
  *
  * If you are deleting an activity comment please use bp_activity_delete_comment();
  *
- * @since 1.0.0
+ * @since BuddyPress (1.0)
  *
  * @param array $args See docs for $defaults for details
  *
@@ -1174,8 +1174,8 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * You should use bp_activity_delete() instead
 	 *
-	 * @since 1.1.0
-	 * @deprecated 1.2.0
+	 * @since BuddyPress (1.1)
+	 * @deprecated BuddyPress (1.2)
 	 *
 	 * @param array $args See docs for $defaults for details
 	 *
@@ -1204,8 +1204,8 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * You should use bp_activity_delete() instead
 	 *
-	 * @since 1.1.0
-	 * @deprecated 1.2.0
+	 * @since BuddyPress (1.1)
+	 * @deprecated BuddyPress (1.2)
 	 *
 	 * @param int $activity_id The activity id
 	 *
@@ -1222,8 +1222,8 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * You should use bp_activity_delete() instead
 	 *
-	 * @since 1.1.0
-	 * @deprecated 1.2.0
+	 * @since BuddyPress (1.1)
+	 * @deprecated BuddyPress (1.2)
 	 *
 	 * @param int $user_id The user id
 	 * @param string $content The activity id
@@ -1243,8 +1243,8 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * You should use bp_activity_delete() instead
 	 *
-	 * @since 1.1.0
-	 * @deprecated 1.2.0
+	 * @since BuddyPress (1.1)
+	 * @deprecated BuddyPress (1.2)
 	 *
 	 * @param int $user_id The user id
 	 * @param string $component The activity component
@@ -1260,7 +1260,7 @@ function bp_activity_delete( $args = '' ) {
 /**
  * Delete an activity comment
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $activity_id The activity id
  * @param int $comment_id The activity comment id
@@ -1299,7 +1299,7 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	/**
 	 * Delete an activity comment's children
 	 *
-	 * @since 1.2.0
+	 * @since BuddyPress (1.2)
 	 *
 	 * @param int $activity_id The activity id
 	 * @param int $comment_id The activity comment id
@@ -1325,7 +1325,7 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
  * object. To save yourself some processing overhead, be sure to pass the full $activity_obj param
  * as well, if you already have it available.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $activity_id The unique id of the activity object
  * @param object $activity_obj (optional) The activity object
@@ -1361,7 +1361,7 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 /**
  * Hide a user's activity
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param int $user_id The user id
  *
@@ -1376,7 +1376,7 @@ function bp_activity_hide_user_activity( $user_id ) {
 /**
  * Take content, remove all images and replace them with one thumbnail image.
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @param string $content The content to work with
  * @param string $link Optional. The URL that the image should link to

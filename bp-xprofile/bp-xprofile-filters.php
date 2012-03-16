@@ -121,7 +121,7 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $re
  * Runs stripslashes on XProfile fields. If is field_type is 'datebox'
  * then the date will be formatted by bp_format_time().
  *
- * @since 1.0.0
+ * @since BuddyPress (1.0)
  *
  * @param string $field_value XProfile field_value to be filtered.
  * @param string $field_type XProfile field_type to be filtered.

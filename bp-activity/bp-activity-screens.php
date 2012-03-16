@@ -37,7 +37,7 @@ add_action( 'bp_screens', 'bp_activity_screen_index' );
 /**
  * Activity screen 'my activity' index
  *
- * @since 1.0.0
+ * @since BuddyPress (1.0)
  *
  * @uses do_action() To call the 'bp_activity_screen_my_activity' hook
  * @uses bp_core_load_template()
@@ -51,7 +51,7 @@ function bp_activity_screen_my_activity() {
 /**
  * Activity screen 'friends' index
  *
- * @since 1.0.0
+ * @since BuddyPress (1.0)
  *
  * @uses bp_is_active()
  * @uses bp_update_is_item_admin()
@@ -72,7 +72,7 @@ function bp_activity_screen_friends() {
 /**
  * Activity screen 'groups' index
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @uses bp_is_active()
  * @uses bp_update_is_item_admin()
@@ -93,7 +93,7 @@ function bp_activity_screen_groups() {
 /**
  * Activity screen 'favorites' index
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @uses bp_update_is_item_admin()
  * @uses bp_current_user_can()
@@ -110,7 +110,7 @@ function bp_activity_screen_favorites() {
 /**
  * Activity screen 'mentions' index
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @uses bp_update_is_item_admin()
  * @uses bp_current_user_can()
@@ -160,7 +160,7 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' )
 /**
  * Reset the logged-in user's new mentions data when he visits his mentions screen
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @global object $bp BuddyPress global settings
  * @uses bp_is_activity_component()
@@ -257,7 +257,7 @@ add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
 /**
  * Add activity notifications settings to the notifications settings page
  *
- * @since 1.2.0
+ * @since BuddyPress (1.2)
  *
  * @uses bp_get_user_meta()
  * @uses bp_core_get_username()
