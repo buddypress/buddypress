@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-03-16 04:36:06+00:00\n"
+"POT-Creation-Date: 2012-03-16 06:36:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -450,11 +450,11 @@ msgid "@%s Mentions"
 msgstr ""
 
 #: bp-activity/bp-activity-functions.php:152
-msgid "You have %1$d new activity mentions"
+msgid "You have %1$d new mentions"
 msgstr ""
 
 #: bp-activity/bp-activity-functions.php:156
-msgid "%1$s mentioned you in an activity update"
+msgid "%1$s mentioned you"
 msgstr ""
 
 #: bp-activity/bp-activity-functions.php:759
