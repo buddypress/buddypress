@@ -363,7 +363,7 @@ class BP_Admin {
 
 			// Allow subscriptions setting
 			add_settings_field( '_bp_enable_akismet', __( 'Akismet',          'buddypress' ), 'bp_admin_setting_callback_activity_akismet', 'buddypress', 'bp_activity' );
-			register_setting  ( 'buddypress',         '_bp_group_creation',   'intval'                                                                                  );
+			register_setting  ( 'buddypress',         '_bp_enable_akismet',   'intval'                                                                                  );
 		}
 
 		do_action( 'bp_register_admin_settings' );
