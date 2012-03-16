@@ -79,7 +79,9 @@ function bp_core_new_nav_item( $args = '' ) {
 		// example.com/members/membername/activity/just-me/). The canonical
 		// version will not contain this subnav slug.
 		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) ) {
-			unset( $bp->canonical_stack['action'] );
+			if ( ! bp_is_action_variable( 'page', 0 ) && ! bp_action_variable( 1 ) ) {
+				unset( $bp->canonical_stack['action'] );
+			}
 		} else if ( !bp_current_action() ) {
 			if ( is_object( $screen_function[0] ) ) {
 				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
@@ -99,7 +101,9 @@ function bp_core_new_nav_item( $args = '' ) {
 		// (eg: http://example.com/members/membername/activity/just-me/)
 		// The canonical version will not contain this subnav slug.
 		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) ) {
-			unset( $bp->canonical_stack['action'] );
+			if ( ! bp_is_action_variable( 'page', 0 ) && ! bp_action_variable( 1 ) ) {
+				unset( $bp->canonical_stack['action'] );
+			}
 		} else if ( !bp_current_action() ) {
 			if ( is_object( $screen_function[0] ) ) {
 				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
