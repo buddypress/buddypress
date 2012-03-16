@@ -58,7 +58,7 @@ class BP_Groups_Component extends BP_Component {
 	 * backwards compatibility.
 	 *
 	 * @since 1.5
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_globals() {
 		global $bp;
@@ -268,7 +268,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Setup BuddyBar navigation
 	 *
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_nav() {
 
@@ -420,7 +420,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Set up the Toolbar
 	 *
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_admin_bar() {
 		global $bp;
@@ -476,7 +476,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Sets up the title for pages and <title>
 	 *
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_title() {
 		global $bp;

@@ -265,7 +265,7 @@ function bp_core_current_time( $gmt = true ) {
  *
  * @package BuddyPress Core
  *
- * @global obj $bp
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @param str $message Feedback to give to user
  * @param str $type updated|success|error|warning
  */
@@ -1057,7 +1057,7 @@ function bp_core_admin_hook() {
 /**
  * Set the $bp->is_directory global
  *
- * @global obj $bp
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @param bool $is_directory
  * @param str $component
  */
@@ -1073,7 +1073,7 @@ function bp_update_is_directory( $is_directory = false, $component = '' ) {
 /**
  * Set the $bp->is_item_admin global
  *
- * @global obj $bp
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @param bool $is_item_admin
  * @param str $component
  */
@@ -1089,7 +1089,7 @@ function bp_update_is_item_admin( $is_item_admin = false, $component = '' ) {
 /**
  * Set the $bp->is_item_mod global
  *
- * @global obj $bp
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @param bool $is_item_mod
  * @param str $component
  */

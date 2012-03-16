@@ -28,7 +28,7 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Include files
 	 *
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function includes() {
 		// Files to include
@@ -147,7 +147,7 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Set up the Toolbar
 	 *
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_admin_bar() {
 		global $bp;

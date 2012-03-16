@@ -29,7 +29,7 @@ class BP_Members_Component extends BP_Component {
 	/**
 	 * Include files
 	 *
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function includes() {
 		$includes = array(
@@ -52,7 +52,7 @@ class BP_Members_Component extends BP_Component {
 	 * backwards compatibility.
 	 *
 	 * @since 1.5
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_globals() {
 		global $bp;
@@ -140,7 +140,7 @@ class BP_Members_Component extends BP_Component {
 	/**
 	 * Setup BuddyBar navigation
 	 *
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_nav() {
 		global $bp;
@@ -183,7 +183,7 @@ class BP_Members_Component extends BP_Component {
 	/**
 	 * Sets up the title for pages and <title>
 	 *
-	 * @global obj $bp
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_title() {
 		global $bp;
