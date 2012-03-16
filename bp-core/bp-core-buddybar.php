@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * Core BuddyPress Navigational Functions
+ *
+ * @package BuddyPress
+ * @subpackage Core
+ * @todo Deprecate BuddyBar functions
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -30,7 +39,7 @@ function bp_core_new_nav_item( $args = '' ) {
 		return false;
 
 	// If this is for site admins only and the user is not one, don't create the subnav item
-	if ( $site_admin_only && !bp_current_user_can( 'bp_moderate' ) )
+	if ( !empty( $site_admin_only ) && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	if ( empty( $item_css_id ) )
@@ -47,15 +56,15 @@ function bp_core_new_nav_item( $args = '' ) {
 		'default_subnav_slug'	  => $default_subnav_slug
 	);
 
- 	/***
+ 	/**
 	 * If this nav item is hidden for the displayed user, and
 	 * the logged in user is not the displayed user
 	 * looking at their own profile, don't create the nav item.
 	 */
-	if ( !$show_for_displayed_user && !bp_user_has_access() )
+	if ( empty( $show_for_displayed_user ) && !bp_user_has_access() )
 		return false;
 
-	/***
+	/**
  	 * If the nav item is visible, we are not viewing a user, and this is a root
 	 * component, don't attach the default subnav function so we can display a
 	 * directory or something else.
@@ -65,37 +74,41 @@ function bp_core_new_nav_item( $args = '' ) {
 
 	// Look for current component
 	if ( bp_is_current_component( $slug ) ) {
+
+		// The requested URL has explicitly included the default subnav (eg
+		// example.com/members/membername/activity/just-me/). The canonical
+		// version will not contain this subnav slug.
 		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) ) {
-			// The requested URL has explicitly included the default subnav (eg
-			// example.com/members/membername/activity/just-me/). The canonical
-			// version will not contain this subnav slug.
 			unset( $bp->canonical_stack['action'] );
 		} else if ( !bp_current_action() ) {
-			if ( !is_object( $screen_function[0] ) )
-				add_action( 'bp_screens', $screen_function );
-			else
+			if ( is_object( $screen_function[0] ) ) {
 				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
+			} else {
+				add_action( 'bp_screens', $screen_function, 3 );
+			}
 	
 			if ( !empty( $default_subnav_slug ) ) {
-				$bp->current_action 	       = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+				$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
 			}
 		}
 
 	// Look for current item
 	} elseif ( bp_is_current_item( $slug ) ) {
+
+		// The requested URL has explicitly included the default subnav
+		// (eg: http://example.com/members/membername/activity/just-me/)
+		// The canonical version will not contain this subnav slug.
 		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) ) {
-			// The requested URL has explicitly included the default subnav (eg
-			// example.com/members/membername/activity/just-me/). The canonical
-			// version will not contain this subnav slug.
 			unset( $bp->canonical_stack['action'] );
 		} else if ( !bp_current_action() ) {
-			if ( !is_object( $screen_function[0] ) )
-				add_action( 'bp_screens', $screen_function );
-			else
+			if ( is_object( $screen_function[0] ) ) {
 				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
-	
+			} else {
+				add_action( 'bp_screens', $screen_function, 3 );
+			}
+
 			if ( !empty( $default_subnav_slug ) ) {
-				$bp->current_action 	       = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+				$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
 			}
 		}
 	}
@@ -122,10 +135,11 @@ function bp_core_new_nav_default( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 	
 	if ( $function = $bp->bp_nav[$parent_slug]['screen_function'] ) {
-		if ( !is_object( $function[0] ) )
-			remove_action( 'bp_screens', $function, 3 );
-		else
+		if ( is_object( $function[0] ) ) {
 			remove_action( 'bp_screens', array( &$function[0], $function[1] ), 3 );
+		} else {
+			remove_action( 'bp_screens', $function, 3 );
+		}
 	}
 
 	$bp->bp_nav[$parent_slug]['screen_function'] = &$screen_function;
@@ -141,31 +155,33 @@ function bp_core_new_nav_default( $args = '' ) {
 				$unfiltered_action = $bp->unfiltered_uri[$component_uri_key + 1];
 			}
 		}
-		
+
+		// No subnav item has been requested in the URL, so set a new nav default
 		if ( empty( $unfiltered_action ) ) {
-			// No subnav item has been requested in the URL, so set a new nav default
 			if ( !bp_is_current_action( $subnav_slug ) ) {
-				if ( !is_object( $screen_function[0] ) ) {
-					add_action( 'bp_screens', $screen_function );
+				if ( is_object( $screen_function[0] ) ) {
+					add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
 				} else {
-					add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
+					add_action( 'bp_screens', $screen_function, 3 );
 				}
 		
 				$bp->current_action = $subnav_slug;
 				unset( $bp->canonical_stack['action'] );
 			}
-		} else if ( $unfiltered_action == $subnav_slug ) {
-			// The URL is explicitly requesting the new subnav item, but should be
-			// directed to the canonical URL
+
+		// The URL is explicitly requesting the new subnav item, but should be
+		// directed to the canonical URL
+		} elseif ( $unfiltered_action == $subnav_slug ) {
 			unset( $bp->canonical_stack['action'] );
+
+		// In all other cases (including the case where the original subnav item
+		// is explicitly called in the URL), the canonical URL will contain the
+		// subnav slug
 		} else {
-			// In all other cases (including the case where the original subnav item
-			// is explicitly called in the URL), the canonical URL will contain the
-			// subnav slug
 			$bp->canonical_stack['action'] = bp_current_action();
 		}
 	}
-	
+
 	return;
 }
 
@@ -183,9 +199,9 @@ function bp_core_sort_nav_items() {
 		return false;
 
 	foreach ( (array) $bp->bp_nav as $slug => $nav_item ) {
-		if ( empty( $temp[$nav_item['position']]) )
+		if ( empty( $temp[$nav_item['position']]) ) {
 			$temp[$nav_item['position']] = $nav_item;
-		else {
+		} else {
 			// increase numbers here to fit new items in.
 			do {
 				$nav_item['position']++;
@@ -230,11 +246,18 @@ function bp_core_new_subnav_item( $args = '' ) {
 	if ( empty( $name ) || empty( $slug ) || empty( $parent_slug ) || empty( $parent_url ) || empty( $screen_function ) )
 		return false;
 
-	if ( empty( $link ) )
+	// Link was not forced, so create one
+	if ( empty( $link ) ) {
 		$link = $parent_url . $slug;
 
+		// If this sub item is the default for its parent, skip the slug
+		if ( $slug == $bp->bp_nav[$parent_slug]['default_subnav_slug'] ) {
+			$link = $parent_url;
+		}
+	}
+
 	// If this is for site admins only and the user is not one, don't create the subnav item
-	if ( $site_admin_only && !bp_current_user_can( 'bp_moderate' ) )
+	if ( !empty( $site_admin_only ) && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
 	if ( empty( $item_css_id ) )
@@ -256,10 +279,10 @@ function bp_core_new_subnav_item( $args = '' ) {
 	 * subnav item. We figure out whether we're currently viewing this subnav by checking the
 	 * following two conditions:
 	 *   (1) Either:
-	 *	 (a) the parent slug matches the current_component, or
-	 *	 (b) the parent slug matches the current_item
+	 *	     (a) the parent slug matches the current_component, or
+	 *	     (b) the parent slug matches the current_item
 	 *   (2) And either:
-	 * 	 (a) the current_action matches $slug, or
+	 *	     (a) the current_action matches $slug, or
 	 *       (b) there is no current_action (ie, this is the default subnav for the parent nav)
 	 *	     and this subnav item is the default for the parent item (which we check by
 	 *	     comparing this subnav item's screen function with the screen function of the
@@ -276,16 +299,18 @@ function bp_core_new_subnav_item( $args = '' ) {
 
 		// Before hooking the screen function, check user access
 		if ( !empty( $user_has_access ) ) {
-			if ( !is_object( $screen_function[0] ) ) {
-				add_action( 'bp_screens', $screen_function );
+			if ( is_object( $screen_function[0] ) ) {
+				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
 			} else {
-				add_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
+				add_action( 'bp_screens', $screen_function, 3 );
 			}
 		} else {
-			// When the content is off-limits, we handle the situation differently
-			// depending on whether the current user is logged in
+
+			// When the content is off-limits, we handle the situation
+			// differently depending on whether the current user is logged in
 			if ( is_user_logged_in() ) {
-				if ( !bp_is_my_profile() && !$bp->bp_nav[$bp->default_component]['show_for_displayed_user'] ) {
+				if ( !bp_is_my_profile() && empty( $bp->bp_nav[$bp->default_component]['show_for_displayed_user'] ) ) {
+
 					// This covers the edge case where the default component is
 					// a non-public tab, like 'messages'
 					if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
@@ -306,8 +331,9 @@ function bp_core_new_subnav_item( $args = '' ) {
 					'root'     => $redirect_to,
 					'redirect' => false
 				) );
+
+			// Not logged in. Allow the user to log in, and attempt to redirect
 			} else {
-				// Not logged in. Allow the user to log in, and attempt to redirect
 				bp_core_no_access();
 			}
 		}
@@ -382,10 +408,10 @@ function bp_core_remove_nav_item( $parent_id ) {
 	}
 
 	if ( $function = $bp->bp_nav[$parent_id]['screen_function'] ) {
-		if ( !is_object( $function[0] ) ) {
-			remove_action( 'bp_screens', $function );
+		if ( is_object( $function[0] ) ) {
+			remove_action( 'bp_screens', array( &$function[0], $function[1] ), 3 );
 		} else {
-			remove_action( 'bp_screens', array( &$function[0], $function[1] ) );
+			remove_action( 'bp_screens', $function, 3 );
 		}
 	}
 
@@ -402,13 +428,14 @@ function bp_core_remove_nav_item( $parent_id ) {
 function bp_core_remove_subnav_item( $parent_id, $slug ) {
 	global $bp;
 
-	$screen_function = ( isset( $bp->bp_options_nav[$parent_id][$slug]['screen_function'] ) ) ? $bp->bp_options_nav[$parent_id][$slug]['screen_function'] : false;
+	$screen_function = isset( $bp->bp_options_nav[$parent_id][$slug]['screen_function'] ) ? $bp->bp_options_nav[$parent_id][$slug]['screen_function'] : false;
 
-	if ( $screen_function ) {
-		if ( !is_object( $screen_function[0] ) )
-			remove_action( 'bp_screens', $screen_function );
-		else
-			remove_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ) );
+	if ( !empty( $screen_function ) ) {
+		if ( is_object( $screen_function[0] ) ) {
+			remove_action( 'bp_screens', array( &$screen_function[0], $screen_function[1] ), 3 );
+		} else {
+			remove_action( 'bp_screens', $screen_function, 3 );
+		}
 	}
 
 	unset( $bp->bp_options_nav[$parent_id][$slug] );
@@ -438,7 +465,7 @@ function bp_core_admin_bar() {
 	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) && BP_DISABLE_ADMIN_BAR )
 		return false;
 
-	if ( (int)bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
+	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
 		return false;
 
 	$bp->doing_admin_bar = true;

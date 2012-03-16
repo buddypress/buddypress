@@ -744,7 +744,7 @@ function bp_get_displayed_user_nav() {
 	global $bp;
 
 	foreach ( (array) $bp->bp_nav as $user_nav_item ) {
-		if ( !$user_nav_item['show_for_displayed_user'] && !bp_is_my_profile() )
+		if ( empty( $user_nav_item['show_for_displayed_user'] ) && !bp_is_my_profile() )
 			continue;
 
 		$selected = '';
