@@ -149,11 +149,11 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 			$at_mention_title = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );
 
 			if ( (int) $total_items > 1 ) {
-				$text = sprintf( __( 'You have %1$d new activity mentions', 'buddypress' ), (int) $total_items );
+				$text = sprintf( __( 'You have %1$d new mentions', 'buddypress' ), (int) $total_items );
 				$filter = 'bp_activity_multiple_at_mentions_notification';
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $poster_user_id );
-				$text =  sprintf( __( '%1$s mentioned you in an activity update', 'buddypress' ), $user_fullname );
+				$text =  sprintf( __( '%1$s mentioned you', 'buddypress' ), $user_fullname );
 				$filter = 'bp_activity_single_at_mentions_notification';
 			}
 		break;
