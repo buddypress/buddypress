@@ -198,6 +198,8 @@ function bp_core_sort_nav_items() {
 	if ( empty( $bp->bp_nav ) || !is_array( $bp->bp_nav ) )
 		return false;
 
+	$temp = array();
+
 	foreach ( (array) $bp->bp_nav as $slug => $nav_item ) {
 		if ( empty( $temp[$nav_item['position']]) ) {
 			$temp[$nav_item['position']] = $nav_item;
