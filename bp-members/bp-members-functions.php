@@ -17,7 +17,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @since 1.5
  *
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @return bool True if set, False if empty
  */
 function bp_members_has_directory() {
@@ -34,7 +34,7 @@ function bp_members_has_directory() {
  * explicitly defined.
  *
  * @package BuddyPress Core Core
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  */
 function bp_core_define_slugs() {
 	global $bp;
@@ -381,7 +381,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
  * Otherwise, it will fall back to the normal WP display_name, or user_nicename, depending on what has been set.
  *
  * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @uses wp_cache_get() Will try and fetch the value from the cache, rather than querying the DB again.
  * @uses get_userdata() Fetches the WP userdata for a specific user.
  * @uses xprofile_set_field_data() Will update the field data for a user based on field name and user id.

@@ -96,7 +96,7 @@ class BP_XProfile_Group {
 	 * @package BuddyPress XProfile
 	 *
 	 * @global $wpdb WordPress DB access object.
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 *
 	 * @param array $args Takes an array of parameters:
 	 *		'profile_group_id' - Limit results to a single profile group

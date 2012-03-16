@@ -322,7 +322,7 @@ add_action( 'bp_actions', 'bp_core_setup_message', 5 );
  * The hook action 'template_notices' is used to call this function, it is not called directly.
  *
  * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  */
 function bp_core_render_message() {
 	global $bp;
@@ -1105,7 +1105,7 @@ function bp_update_is_item_mod( $is_item_mod = false, $component = '' ) {
 /**
  * Trigger a 404
  *
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @global WP_Query $wp_query WordPress query object
  * @param string $redirect If 'remove_canonical_direct', remove WordPress' "helpful" redirect_canonical action.
  * @since 1.5

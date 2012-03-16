@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * or not to highlight a particular sub nav item.
  *
  * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @uses bp_get_user_nav() Renders the navigation for a profile of a currently viewed user.
  */
 function bp_get_options_nav() {
@@ -74,7 +74,7 @@ function bp_get_options_title() {
  * like a group, or a friend. Basically an avatar that appears in the sub nav options bar.
  *
  * @package BuddyPress Core
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  */
 function bp_has_options_avatar() {
 	global $bp;
@@ -649,7 +649,7 @@ function bp_root_slug( $component = '' ) {
 	 * @package BuddyPress Core
 	 * @since 1.5
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @param string $component Optional. Defaults to the current component
 	 * @return string $root_slug The root slug
 	 */
@@ -685,7 +685,7 @@ function bp_root_slug( $component = '' ) {
  * Return the component name based on the current root slug
  *
  * @since BuddyPress {r3923}
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @param str $root_slug Needle to our active component haystack
  * @return mixed False if none found, component name if found
  */
@@ -953,7 +953,7 @@ function bp_is_root_component( $component_name ) {
  * Checks if the site's front page is set to the specified BuddyPress component
  * page in wp-admin's Settings > Reading screen.
  *
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @global $current_blog WordPress global for the current blog
  * @param string $component Optional; Name of the component to check for.
  * @return bool True If the specified component is set to be the site's front page.

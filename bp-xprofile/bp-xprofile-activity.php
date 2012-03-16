@@ -78,7 +78,7 @@ function xprofile_record_activity( $args = '' ) {
  *
  * @package BuddyPress XProfile
  * @param $args Array containing all variables used after extract() call
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @uses bp_activity_delete() Deletes an entry to the activity component tables for a specific activity
  */
 function xprofile_delete_activity( $args = '' ) {
@@ -112,7 +112,7 @@ function xprofile_register_activity_action( $key, $value ) {
  * Adds an activity stream item when a user has uploaded a new avatar.
  *
  * @package BuddyPress XProfile
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity
  */
 function bp_xprofile_new_avatar_activity() {

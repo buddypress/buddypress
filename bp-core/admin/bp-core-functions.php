@@ -130,7 +130,7 @@ function bp_core_admin_backpat_page() {
  * @package BuddyPress Core
  * @since 1.5
  *
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @uses bp_current_user_can() to check current user permissions before showing the notices
  * @uses bp_is_root_blog()
  */
@@ -170,7 +170,7 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  * @package BuddyPress Core
  * @since 1.5
  *
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @param string $notice The notice you are adding to the queue
  */
 function bp_core_add_admin_notice( $notice ) {

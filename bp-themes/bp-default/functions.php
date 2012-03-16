@@ -57,7 +57,7 @@ if ( ! function_exists( 'bp_dtheme_setup' ) ) :
  * To override bp_dtheme_setup() in a child theme, add your own bp_dtheme_setup to your child theme's
  * functions.php file.
  *
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @since 1.5
  */
 function bp_dtheme_setup() {

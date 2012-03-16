@@ -373,7 +373,7 @@ class BP_Core_User {
 	/**
 	 * Fetches the user details for all the users who username starts with the letter given.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param string $letter The letter the users names are to start with.
 	 * @param integer $limit The number of users we wish to retrive.
@@ -481,7 +481,7 @@ class BP_Core_User {
 	/**
 	 * Find users who match on the value of an xprofile data.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param string $search_terms The terms to search the profile table value column for.
 	 * @param integer $limit The limit of results we want.
@@ -525,7 +525,7 @@ class BP_Core_User {
 	 *
 	 * Accepts multiple user IDs to fetch data for.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param array $paged_users an array of stdClass containing the users
 	 * @param string $user_ids the user ids to select information about
@@ -706,7 +706,7 @@ class BP_Core_Notification {
 	/**
 	 * Update or insert notification details into the database.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @return bool Success or failure
 	 */
@@ -735,7 +735,7 @@ class BP_Core_Notification {
 	/**
 	 * Fetches the notification data from the database.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 */
 	private function populate() {
@@ -763,7 +763,7 @@ class BP_Core_Notification {
 	/**
 	 * Fetches all the notifications in the database for a specific user.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id User ID
 	 * @param str $status 'is_new' or 'all'
@@ -781,7 +781,7 @@ class BP_Core_Notification {
 	/**
 	 * Delete all the notifications for a user based on the component name and action.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id
 	 * @param string $component_name
@@ -797,7 +797,7 @@ class BP_Core_Notification {
 	/**
 	 * Delete all the notifications that have a specific item id, component name and action.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id The ID of the user who the notifications are for.
 	 * @param integer $item_id The item ID of the notifications we wish to delete.
@@ -817,7 +817,7 @@ class BP_Core_Notification {
 	/**
 	 * Deletes all the notifications sent by a specific user, by component and action.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id The ID of the user whose sent notifications we wish to delete.
 	 * @param string $component_name The name of the component the notification was sent from.
@@ -833,7 +833,7 @@ class BP_Core_Notification {
 	/**
 	 * Deletes all the notifications for all users by item id, and optional secondary item id, and component name and action.
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param string $item_id The item id that they notifications are to be for.
 	 * @param string $component_name The component that the notifications are to be from.

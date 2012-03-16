@@ -45,7 +45,7 @@ function bp_forums_is_installed_correctly() {
  *
  * @since 1.5
  *
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @return bool True if set, False if empty
  */
 function bp_forums_has_directory() {

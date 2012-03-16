@@ -403,7 +403,7 @@ class BP_Activity_Activity {
 	/**
 	 * Get activity comments that are associated with a specific activity ID
 	 *
-	 * @global object $bp Global BuddyPress settings object
+	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param int $activity_id Activity ID to fetch comments for
 	 * @param int $left Left-most node boundary

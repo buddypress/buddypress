@@ -20,7 +20,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @since 1.5
  *
- * @global object $bp Global BuddyPress settings object
+ * @global BuddyPress $bp The one true BuddyPress instance
  * @return bool True if set, False if empty
  */
 function bp_groups_has_directory() {
