@@ -18,7 +18,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Checks $bp pages global and looks for directory page
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @global BuddyPress $bp The one true BuddyPress instance
  * @return bool True if set, False if empty
@@ -445,7 +445,7 @@ function groups_total_groups_for_user( $user_id = 0 ) {
  * Returns the group object for the group currently being viewed
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @return obj The current group object
  */

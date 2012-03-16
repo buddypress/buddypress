@@ -426,7 +426,7 @@ function bp_is_friend_requests() {
  * Contains functions which were moved out of BP-Default's functions.php
  * in BuddyPress 1.5.
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_deprecated() {
 	if ( !function_exists( 'bp_dtheme_wp_pages_filter' ) ) :

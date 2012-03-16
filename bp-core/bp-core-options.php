@@ -201,7 +201,7 @@ function bp_pre_get_option( $value = false ) {
  * The 'bp_get_option' filter is primarily for backward-compatibility.
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses bp_get_root_blog_id()
  * @param str $option_name The option to be retrieved
@@ -221,7 +221,7 @@ function bp_get_option( $option_name, $default = '' ) {
  * on the appropriate blog, given your current setup.
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses bp_get_root_blog_id()
  * @param str $option_name The option key to be set
@@ -238,7 +238,7 @@ function bp_update_option( $option_name, $value ) {
  * bp-pages) on the appropriate blog, given your current setup.
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses bp_get_root_blog_id()
  * @param str $option_name The option key to be set

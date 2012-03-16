@@ -69,7 +69,7 @@ add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
  * Adds the User Admin top-level menu to user pages
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_members_admin_bar_user_admin_menu() {
 	global $bp, $wp_admin_bar;
@@ -130,7 +130,7 @@ add_action( 'admin_bar_menu', 'bp_members_admin_bar_user_admin_menu', 99 );
  * Build the "Notifications" dropdown
  *
  * @package Buddypress
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_members_admin_bar_notifications_menu() {
 	global $wp_admin_bar;

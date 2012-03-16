@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @package BuddyPress
  * @subpackage SettingsTemplate
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses bp_get_settings_slug()
  */
@@ -27,7 +27,7 @@ function bp_settings_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage SettingsTemplate
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_settings_slug() {
 		global $bp;
@@ -39,7 +39,7 @@ function bp_settings_slug() {
  *
  * @package BuddyPress
  * @subpackage SettingsTemplate
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses bp_get_settings_root_slug()
  */
@@ -51,7 +51,7 @@ function bp_settings_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage SettingsTemplate
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_settings_root_slug() {
 		global $bp;

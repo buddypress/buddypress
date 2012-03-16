@@ -258,7 +258,7 @@ if ( !is_admin() || ( is_admin() && empty( $_POST['noconfirmation'] ) ) )
  * @param string $seplocation Direction to display title
  * @return string new page title
  * @see wp_title()
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_modify_page_title( $title, $sep, $seplocation ) {
 	global $bp;

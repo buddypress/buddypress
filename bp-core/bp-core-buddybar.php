@@ -376,7 +376,7 @@ add_action( 'admin_head', 'bp_core_sort_subnav_items' );
  * Determines whether a given nav item has subnav items
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @param str $nav_item The id of the top-level nav item whose nav items you're checking
  * @return bool $has_subnav True if the nav item is found and has subnav items; false otherwise
@@ -615,7 +615,7 @@ function bp_adminbar_random_menu() {
  *
  * This is a direct copy of WP's private _get_admin_bar_pref()
  *
- * @since 1.5.0
+ * @since BuddyPress (1.5).0
  *
  * @param string $context Context of this preference check, either 'admin' or 'front'.
  * @param int $user Optional. ID of the user to check, defaults to 0 for current user.

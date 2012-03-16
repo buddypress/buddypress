@@ -16,7 +16,7 @@ class BP_Friends_Component extends BP_Component {
 	/**
 	 * Start the friends component creation process
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 */
 	function __construct() {
 		parent::start(
@@ -51,7 +51,7 @@ class BP_Friends_Component extends BP_Component {
 	 * The BP_FRIENDS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_globals() {

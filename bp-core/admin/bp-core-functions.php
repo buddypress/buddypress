@@ -128,7 +128,7 @@ function bp_core_admin_backpat_page() {
  * boxes.
  *
  * @package BuddyPress Core
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @global BuddyPress $bp The one true BuddyPress instance
  * @uses bp_current_user_can() to check current user permissions before showing the notices
@@ -168,7 +168,7 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  * loaded in time.
  *
  * @package BuddyPress Core
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @global BuddyPress $bp The one true BuddyPress instance
  * @param string $notice The notice you are adding to the queue
@@ -333,7 +333,7 @@ add_action( 'in_plugin_update_message-buddypress/bp-loader.php', 'bp_core_update
 /**
  * Output the tabs in the admin area
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  * @param string $active_tab Name of the tab that is active
  */
 function bp_core_admin_tabs( $active_tab = '' ) {

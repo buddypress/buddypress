@@ -426,7 +426,7 @@ add_action( 'wp_ajax_activity_mark_unfav', 'bp_dtheme_unmark_activity_favorite' 
  * AJAX handler for Read More link on long activity items
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_get_single_activity_content() {
 	// Bail if not a POST action

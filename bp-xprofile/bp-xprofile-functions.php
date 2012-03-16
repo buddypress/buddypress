@@ -615,7 +615,7 @@ function bp_xprofile_update_fielddata_meta( $field_data_id, $meta_key, $meta_val
  * Return the field name for the Full Name xprofile field
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @return str The field name
  */

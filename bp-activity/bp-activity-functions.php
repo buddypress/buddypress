@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Checks $bp pages global and looks for directory page
  *
- * @since 1.5.0
+ * @since BuddyPress (1.5).0
  *
  * @global object $bp BuddyPress global settings
  *
@@ -30,7 +30,7 @@ function bp_activity_has_directory() {
 /**
  * Searches through the content of an activity item to locate usernames, designated by an @ sign
  *
- * @since 1.5.0
+ * @since BuddyPress (1.5).0
  *
  * @param string $content The content of the activity, usually found in $activity->content
  *
@@ -50,7 +50,7 @@ function bp_activity_find_mentions( $content ) {
 /**
  * Resets a user's unread mentions list and count
  *
- * @since 1.5.0
+ * @since BuddyPress (1.5).0
  *
  * @param int $user_id The id of the user whose unread mentions are being reset
  * @uses bp_delete_user_meta()
@@ -63,7 +63,7 @@ function bp_activity_clear_new_mentions( $user_id ) {
 /**
  * Adjusts new mention count for mentioned users when activity items are deleted or created
  *
- * @since 1.5.0
+ * @since BuddyPress (1.5).0
  *
  * @param int $activity_id The unique id for the activity item
  * @param string $action Can be 'delete' or 'add'. Defaults to 'add'
@@ -122,7 +122,7 @@ function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
 /**
  * Formats notifications related to activity
  *
- * @since 1.5.0
+ * @since BuddyPress (1.5).0
  *
  * @param string $action The type of activity item. Just 'new_at_mention' for now
  * @param int $item_id The activity id
@@ -613,7 +613,7 @@ function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
 /**
  * Completely remove a user's activity data
  *
- * @since 1.5.0
+ * @since BuddyPress (1.5).0
  *
  * @param int $user_id
  *
@@ -1519,7 +1519,7 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
  * This does not cover recursive activity comments, as they do not use a real loop.
  * For that, see {@link bp_activity_comment_embed()}.
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @see BP_Embed
  * @see bp_embed_activity_cache()
@@ -1541,7 +1541,7 @@ add_action( 'activity_loop_start', 'bp_activity_embed' );
  * when BP is recursing through activity comments {@link bp_activity_recurse_comments()}.
  * If no cache and link is embeddable, cache it.
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @see BP_Embed
  * @see bp_embed_activity_cache()
@@ -1561,7 +1561,7 @@ add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
 /**
  * When a user clicks on a "Read More" item, make sure embeds are correctly parsed and shown for the expanded content.
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @see BP_Embed
  *
@@ -1588,7 +1588,7 @@ add_action( 'bp_dtheme_get_single_activity_content', 'bp_dtheme_embed_read_more'
  * is rendered to avoid conflict with the 'embed_post_id' filter in
  * {@link bp_activity_embed()} or any other component embeds.
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @see bp_activity_comment_embed()
  *
@@ -1603,7 +1603,7 @@ add_action( 'bp_after_activity_comment', 'bp_activity_comment_embed_after_recurs
  * Wrapper function for {@link bp_activity_get_meta()}.
  * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses bp_activity_get_meta()
  *
@@ -1617,7 +1617,7 @@ function bp_embed_activity_cache( $cache, $id, $cachekey ) {
  * Wrapper function for {@link bp_activity_update_meta()}.
  * Used during {@link BP_Embed::parse_oembed()} via {@link bp_activity_embed()}.
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses bp_activity_update_meta()
  */

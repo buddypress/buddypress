@@ -58,7 +58,7 @@ if ( ! function_exists( 'bp_dtheme_setup' ) ) :
  * functions.php file.
  *
  * @global BuddyPress $bp The one true BuddyPress instance
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_setup() {
 
@@ -140,7 +140,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_scripts' ) ) :
  * Enqueue theme javascript safely
  *
  * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_enqueue_scripts() {
 
@@ -183,7 +183,7 @@ if ( !function_exists( 'bp_dtheme_enqueue_styles' ) ) :
  *
  * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
  * @see http://codex.buddypress.org/releases/1-5-developer-and-designer-information/
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_enqueue_styles() {
 
@@ -280,7 +280,7 @@ if ( !function_exists( 'bp_dtheme_custom_background_style' ) ) :
  * Referenced via add_custom_background() in bp_dtheme_setup().
  *
  * @see _custom_background_cb()
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_custom_background_style() {
 	$background = get_background_image();
@@ -372,7 +372,7 @@ if ( !function_exists( 'bp_dtheme_widgets_init' ) ) :
  * To override bp_dtheme_widgets_init() in a child theme, remove the action hook and add your own
  * function tied to the init hook.
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_widgets_init() {
 
@@ -586,7 +586,7 @@ if ( !function_exists( 'bp_dtheme_main_nav' ) ) :
  *
  * @param array Menu arguments from wp_nav_menu()
  * @see wp_nav_menu()
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_main_nav( $args ) {
 	$pages_args = array(
@@ -609,7 +609,7 @@ if ( !function_exists( 'bp_dtheme_page_menu_args' ) ) :
  *
  * @param array $args Default values for wp_page_menu()
  * @see wp_page_menu()
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_page_menu_args( $args ) {
 	$args['show_home'] = true;
@@ -624,7 +624,7 @@ if ( !function_exists( 'bp_dtheme_comment_form' ) ) :
  *
  * @param array $default_labels The default options for strings, fields etc in the form
  * @see comment_form()
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_comment_form( $default_labels ) {
 
@@ -661,7 +661,7 @@ if ( !function_exists( 'bp_dtheme_before_comment_form' ) ) :
  * so that the nested comments comment-reply javascript moves the entirety of the comment reply area.
  *
  * @see comment_form()
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_before_comment_form() {
 ?>
@@ -689,7 +689,7 @@ if ( !function_exists( 'bp_dtheme_after_comment_form' ) ) :
  *
  * @see bp_dtheme_before_comment_form()
  * @see comment_form()
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_after_comment_form() {
 ?>
@@ -705,7 +705,7 @@ if ( !function_exists( 'bp_dtheme_sidebar_login_redirect_to' ) ) :
 /**
  * Adds a hidden "redirect_to" input field to the sidebar login form.
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_sidebar_login_redirect_to() {
 	$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
@@ -724,7 +724,7 @@ if ( !function_exists( 'bp_dtheme_content_nav' ) ) :
  *
  * @global WP_Query $wp_query
  * @param string $nav_id DOM ID for this navigation
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_dtheme_content_nav( $nav_id ) {
 	global $wp_query;
@@ -750,7 +750,7 @@ endif;
  * The no-js class is removed by the JavaScript created in bp_dtheme_remove_nojs_body_class().
  *
  * @package BuddyPress
- * @since 1.5.1
+ * @since BuddyPress (1.5).1
  * @see bp_dtheme_remove_nojs_body_class()
  */
 function bp_dtheme_add_nojs_body_class( $classes ) {
@@ -771,7 +771,7 @@ add_filter( 'bp_get_the_body_class', 'bp_dtheme_add_nojs_body_class' );
  * This technique is borrowed from WordPress, wp-admin/admin-header.php.
  *
  * @package BuddyPress
- * @since 1.5.1
+ * @since BuddyPress (1.5).1
  * @see bp_dtheme_add_nojs_body_class()
  */
 function bp_dtheme_remove_nojs_body_class() {

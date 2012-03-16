@@ -634,7 +634,7 @@ class BP_Groups_Group {
 	 * Get a total count of all topics of a given status, across groups/forums
 	 *
 	 * @package BuddyPress
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 *
 	 * @param str $status 'public', 'private', 'hidden', 'all' Which group types to count
 	 * @return int The topic count

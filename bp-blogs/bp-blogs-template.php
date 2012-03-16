@@ -63,7 +63,7 @@ function bp_blogs_root_slug() {
  *
  * @package BuddyPress
  * @subpackage BlogsTemplate
- * @since 1.5
+ * @since BuddyPress (1.5)
  * @uses bp_get_blogs_directory_permalink()
  */
 function bp_blogs_directory_permalink() {
@@ -74,7 +74,7 @@ function bp_blogs_directory_permalink() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage BlogsTemplate
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 * @uses apply_filters()
 	 * @uses traisingslashit()
 	 * @uses bp_get_root_domain()

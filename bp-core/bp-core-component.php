@@ -14,7 +14,7 @@ if ( !class_exists( 'BP_Component' ) ) :
  * @package BuddyPress
  * @subpackage Component
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 class BP_Component {
 
@@ -67,7 +67,7 @@ class BP_Component {
 	/**
 	 * Component loader
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 *
 	 * @param mixed $args Required. Supports these args:
 	 *  - id: Unique ID (for internal identification). Letters, numbers, and underscores only
@@ -92,7 +92,7 @@ class BP_Component {
 	/**
 	 * Component global variables
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 * @access private
 	 *
 	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_id'
@@ -164,7 +164,7 @@ class BP_Component {
 	 *   - ./bp-my_component/actions
 	 *   - ./bp-my_component/bp-my_component-actions.php
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 * @access private
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}includes'
@@ -206,7 +206,7 @@ class BP_Component {
 	/**
 	 * Setup the actions
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 * @access private
 	 *
 	 * @uses add_action() To add various actions
@@ -310,7 +310,7 @@ class BP_Component {
 	/**
 	 * Setup the component title
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}setup_title'
 	 */
@@ -321,7 +321,7 @@ class BP_Component {
 	/**
 	 * Setup the component post types
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_post_types'
 	 */
@@ -332,7 +332,7 @@ class BP_Component {
 	/**
 	 * Register component specific taxonomies
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_taxonomies'
 	 */
@@ -343,7 +343,7 @@ class BP_Component {
 	/**
 	 * Add any additional rewrite tags
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_tags'
 	 */
@@ -354,7 +354,7 @@ class BP_Component {
 	/**
 	 * Generate any additional rewrite rules
 	 *
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_generate_rewrite_rules'
 	 */

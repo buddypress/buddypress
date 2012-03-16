@@ -158,7 +158,7 @@ add_filter( 'bb_current_user_can', 'groups_filter_bbpress_caps', 10, 3 );
  * information we aren't going to use. This speeds up the query.
  *
  * @see BB_Query::_filter_sql()
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function groups_filter_forums_root_page_sql( $sql ) {
 	return apply_filters( 'groups_filter_bbpress_root_page_sql', 't.topic_id' );

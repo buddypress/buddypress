@@ -15,14 +15,14 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Main Activity Class
  *
- * @since 1.5.0
+ * @since BuddyPress (1.5).0
  */
 class BP_Activity_Component extends BP_Component {
 
 	/**
 	 * Start the activity component creation process
 	 *
-	 * @since 1.5.0
+	 * @since BuddyPress (1.5).0
 	 */
 	function __construct() {
 		parent::start(
@@ -35,7 +35,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Include files
 	 *
-	 * @since 1.5.0
+	 * @since BuddyPress (1.5).0
 	 */
 	function includes() {
 		// Files to include
@@ -67,7 +67,7 @@ class BP_Activity_Component extends BP_Component {
 	 * The BP_ACTIVITY_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since 1.5.0
+	 * @since BuddyPress (1.5).0
 	 *
 	 * @global object $bp BuddyPress global settings
 	 */
@@ -101,7 +101,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Setup BuddyBar navigation
 	 *
-	 * @since 1.5.0
+	 * @since BuddyPress (1.5).0
 	 *
 	 * @global object $bp BuddyPress global settings
 	 * @uses bp_is_active()
@@ -202,7 +202,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Set up the Toolbar
 	 *
-	 * @since 1.5.0
+	 * @since BuddyPress (1.5).0
 	 *
 	 * @global object $bp BuddyPress global settings
 	 * @uses is_user_logged_in()
@@ -293,7 +293,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Sets up the title for pages and <title>
 	 *
-	 * @since 1.5.0
+	 * @since BuddyPress (1.5).0
 	 *
 	 * @global object $bp BuddyPress global settings
 	 * @uses bp_is_activity_component()

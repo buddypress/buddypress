@@ -1118,7 +1118,7 @@ class BP_Button {
  * Extends WP_Embed class for use with BuddyPress.
  *
  * @package BuddyPress Core
- * @since 1.5
+ * @since BuddyPress (1.5)
  * @see WP_Embed
  */
 class BP_Embed extends WP_Embed {

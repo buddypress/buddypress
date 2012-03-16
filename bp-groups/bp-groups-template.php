@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @package BuddyPress
  * @subpackage Groups Template
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses bp_get_groups_slug()
  */
@@ -27,7 +27,7 @@ function bp_groups_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Groups Template
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_groups_slug() {
 		global $bp;
@@ -39,7 +39,7 @@ function bp_groups_slug() {
  *
  * @package BuddyPress
  * @subpackage Groups Template
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses bp_get_groups_root_slug()
  */
@@ -51,7 +51,7 @@ function bp_groups_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Groups Template
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_groups_root_slug() {
 		global $bp;
@@ -63,7 +63,7 @@ function bp_groups_root_slug() {
  *
  * @package BuddyPress
  * @subpackage Groups Template
- * @since 1.5
+ * @since BuddyPress (1.5)
  * @uses bp_get_groups_directory_permalink()
  */
 function bp_groups_directory_permalink() {
@@ -74,7 +74,7 @@ function bp_groups_directory_permalink() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage Groups Template
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 * @uses apply_filters()
 	 * @uses traisingslashit()
 	 * @uses bp_get_root_domain()
@@ -609,7 +609,7 @@ function bp_group_list_mods( $group = false ) {
  * Return a list of user_ids for a group's admins
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @param obj $group (optional) The group being queried. Defaults to the current group in the loop
  * @param str $format 'string' to get a comma-separated string, 'array' to get an array
@@ -639,7 +639,7 @@ function bp_group_admin_ids( $group = false, $format = 'string' ) {
  * Return a list of user_ids for a group's moderators
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @param obj $group (optional) The group being queried. Defaults to the current group in the loop
  * @param str $format 'string' to get a comma-separated string, 'array' to get an array
@@ -887,7 +887,7 @@ function bp_group_show_status_setting( $setting, $group = false ) {
  *
  * @package BuddyPress
  * @subpackage Groups Template
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @param str $setting The setting you want to check against ('members', 'mods', or 'admins')
  * @param obj $group (optional) The group whose status you want to check
@@ -912,7 +912,7 @@ function bp_group_show_invite_status_setting( $setting, $group = false ) {
  *
  * @package BuddyPress
  * @subpackage Groups Template
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @param int $group_id (optional) The id of the group whose status you want to check
  * @return mixed Returns false when no group can be found. Otherwise returns the group invite
@@ -948,7 +948,7 @@ function bp_group_get_invite_status( $group_id = false ) {
  *
  * @package BuddyPress
  * @subpackage Groups Template
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @param int $group_id (optional) The id of the group whose status you want to check
  * @return bool $can_send_invites
@@ -1378,7 +1378,7 @@ function bp_group_is_member( $group = false ) {
  * @param object $group Group to check if user is banned from the group
  * @param int $user_id
  * @return bool If user is banned from the group or not
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_group_is_user_banned( $group = false, $user_id = 0 ) {
 	global $groups_template;
@@ -1965,7 +1965,7 @@ function bp_group_member_admin_pagination() {
  * Determine if the current logged in user can create groups.
  *
  * @package BuddyPress Groups
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @uses apply_filters() To call 'bp_user_can_create_groups'.
  * @uses bp_get_option() To retrieve value of 'bp_restrict_group_creation'. Defaults to 0.
@@ -2725,7 +2725,7 @@ function bp_group_invite_user_remove_invite_url() {
 /**
  * Hook group activity feed to <head>
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_groups_activity_feed() {
 	if ( !bp_is_active( 'groups' ) || !bp_is_active( 'activity' ) || !bp_is_group() )
@@ -2750,7 +2750,7 @@ function bp_group_activity_feed_link() {
  * Echoes the output of bp_get_current_group_id()
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_current_group_id() {
 	echo bp_get_current_group_id();
@@ -2759,7 +2759,7 @@ function bp_current_group_id() {
 	 * Returns the ID of the current group
 	 *
 	 * @package BuddyPress
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 * @uses apply_filters() Filter bp_get_current_group_id to modify this output
 	 *
 	 * @return int $current_group_id The id of the current group, if there is one
@@ -2776,7 +2776,7 @@ function bp_current_group_id() {
  * Echoes the output of bp_get_current_group_slug()
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_current_group_slug() {
 	echo bp_get_current_group_slug();
@@ -2785,7 +2785,7 @@ function bp_current_group_slug() {
 	 * Returns the slug of the current group
 	 *
 	 * @package BuddyPress
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 * @uses apply_filters() Filter bp_get_current_group_slug to modify this output
 	 *
 	 * @return str $current_group_slug The slug of the current group, if there is one
@@ -2810,7 +2810,7 @@ function bp_current_group_name() {
 	 * Returns the name of the current group
 	 *
 	 * @package BuddyPress
-	 * @since 1.5
+	 * @since BuddyPress (1.5)
 	 * @uses apply_filters() Filter bp_get_current_group_name to modify this output
 	 *
 	 * @return str The name of the current group, if there is one

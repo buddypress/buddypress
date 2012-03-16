@@ -43,7 +43,7 @@ function bp_forums_is_installed_correctly() {
 /**
  * Checks $bp pages global and looks for directory page
  *
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @global BuddyPress $bp The one true BuddyPress instance
  * @return bool True if set, False if empty
@@ -415,7 +415,7 @@ function bp_forums_total_topic_count_for_user( $user_id = 0, $type = 'active' ) 
  * Uses an unfortunate technique to count unique topics, due to limitations in BB_Query.
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @param int $user_id Defaults to displayed user, then to logged-in user
  * @return int $count
@@ -666,7 +666,7 @@ add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
  * Returns the parent forum id for the bbPress abstraction layer
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @return int
  */
@@ -681,7 +681,7 @@ function bp_forums_parent_forum_id() {
  * bp_forums_enable_global_directory_stickies, to change this behavior.
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @return bool True if stickies should be displayed at the top of the global directory, false
  *    otherwise.
@@ -714,7 +714,7 @@ add_action( 'bp_forums_new_post',  'bp_core_clear_cache' );
  * @see bp_embed_forum_cache()
  * @see bp_embed_forum_save_cache()
  * @package BuddyPress_Forums
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_forums_embed() {
 	add_filter( 'embed_post_id',         'bp_get_the_topic_post_id'         );
@@ -728,7 +728,7 @@ add_action( 'topic_loop_start', 'bp_forums_embed' );
  * Used during {@link BP_Embed::parse_oembed()} via {@link bp_forums_embed()}.
  *
  * @package BuddyPress_Forums
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_embed_forum_cache( $cache, $id, $cachekey ) {
 	return bb_get_postmeta( $id, $cachekey );
@@ -739,7 +739,7 @@ function bp_embed_forum_cache( $cache, $id, $cachekey ) {
  * Used during {@link BP_Embed::parse_oembed()} via {@link bp_forums_embed()}.
  *
  * @package BuddyPress_Forums
- * @since 1.5
+ * @since BuddyPress (1.5)
  */
 function bp_embed_forum_save_cache( $cache, $cachekey, $id ) {
 	bb_update_postmeta( $id, $cachekey, $cache );
