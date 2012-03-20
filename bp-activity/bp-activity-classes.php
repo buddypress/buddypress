@@ -106,7 +106,7 @@ class BP_Activity_Activity {
 		// Select conditions
 		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
 
-		$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
+		$from_sql = " FROM {$bp->activity->table_name} a USE INDEX (date_recorded) LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
 
 		// Where conditions
 		$where_conditions = array();
@@ -155,6 +155,22 @@ class BP_Activity_Activity {
 
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
+		// Define the preferred order for indexes
+		$indexes = apply_filters( 'bp_activity_preferred_index_order', array( 'user_id', 'item_id', 'secondary_item_id', 'date_recorded', 'component', 'type', 'hide_sitewide', 'is_spam' ) );
+		
+		foreach( $indexes as $key => $index ) {
+			if ( false !== strpos( $where_sql, $index ) ) {
+				$the_index = $index;
+				break; // Take the first one we find
+			}
+		}
+
+		if ( !empty( $the_index ) ) {
+			$index_hint_sql = $wpdb->prepare( "USE INDEX ({$the_index})" ); 
+		} else {
+			$index_hint_sql = '';
+		}
+
 		if ( !empty( $per_page ) && !empty( $page ) ) {
 
 			// Make sure page values are absolute integers
@@ -167,7 +183,7 @@ class BP_Activity_Activity {
 			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', $wpdb->prepare( "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}" ), $select_sql, $from_sql, $where_sql, $sort ) );
 		}
 
-		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$where_sql} ORDER BY a.date_recorded {$sort}" ), $where_sql, $sort );
+		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', $wpdb->prepare( "SELECT count(a.id) FROM {$bp->activity->table_name} a {$index_hint_sql} {$where_sql} ORDER BY a.date_recorded {$sort}" ), $where_sql, $sort );
 
 		$total_activities = $wpdb->get_var( $total_activities_sql );
 
