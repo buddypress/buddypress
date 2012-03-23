@@ -1624,8 +1624,10 @@ function bp_the_body_class() {
 		if ( bp_is_group_admin_page() )
 			$bp_classes[] = 'group-admin';
 
-		if ( bp_is_group_create() )
+		if ( bp_is_group_create() ) {
 			$bp_classes[] = 'group-create';
+			$bp_classes[] = bp_get_groups_current_create_step();
+		}
 
 		if ( bp_is_group_home() )
 			$bp_classes[] = 'group-home';

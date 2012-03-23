@@ -1993,7 +1993,7 @@ function bp_group_creation_tabs() {
 	if ( !is_array( $bp->groups->group_creation_steps ) )
 		return false;
 
-	if ( !$bp->groups->current_create_step )
+	if ( !bp_get_groups_current_create_step() )
 		$bp->groups->current_create_step = array_shift( array_keys( $bp->groups->group_creation_steps ) );
 
 	$counter = 1;
@@ -2001,7 +2001,7 @@ function bp_group_creation_tabs() {
 	foreach ( (array) $bp->groups->group_creation_steps as $slug => $step ) {
 		$is_enabled = bp_are_previous_group_creation_steps_complete( $slug ); ?>
 
-		<li<?php if ( $bp->groups->current_create_step == $slug ) : ?> class="current"<?php endif; ?>><?php if ( $is_enabled ) : ?><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() ?>/create/step/<?php echo $slug ?>/"><?php else: ?><span><?php endif; ?><?php echo $counter ?>. <?php echo $step['name'] ?><?php if ( $is_enabled ) : ?></a><?php else: ?></span><?php endif ?></li><?php
+		<li<?php if ( bp_get_groups_current_create_step() == $slug ) : ?> class="current"<?php endif; ?>><?php if ( $is_enabled ) : ?><a href="<?php echo bp_get_root_domain() . '/' . bp_get_groups_root_slug() ?>/create/step/<?php echo $slug ?>/"><?php else: ?><span><?php endif; ?><?php echo $counter ?>. <?php echo $step['name'] ?><?php if ( $is_enabled ) : ?></a><?php else: ?></span><?php endif ?></li><?php
 		$counter++;
 	}
 
@@ -2013,7 +2013,7 @@ function bp_group_creation_tabs() {
 function bp_group_creation_stage_title() {
 	global $bp;
 
-	echo apply_filters( 'bp_group_creation_stage_title', '<span>&mdash; ' . $bp->groups->group_creation_steps[$bp->groups->current_create_step]['name'] . '</span>' );
+	echo apply_filters( 'bp_group_creation_stage_title', '<span>&mdash; ' . $bp->groups->group_creation_steps[bp_get_groups_current_create_step()]['name'] . '</span>' );
 }
 
 function bp_group_creation_form_action() {
@@ -2191,12 +2191,40 @@ function bp_group_creation_previous_link() {
 		return apply_filters( 'bp_get_group_creation_previous_link', trailingslashit( bp_get_root_domain() ) . bp_get_groups_root_slug() . '/create/step/' . array_pop( $previous_steps ) );
 	}
 
+/**
+ * Echoes the current group creation step
+ *
+ * @since 1.6
+ */
+function bp_groups_current_create_step() {
+	echo bp_get_groups_current_create_step();
+}
+	/**
+	 * Returns the current group creation step. If none is found, returns an empty string
+	 *
+	 * @since 1.6
+	 *
+	 * @uses apply_filters() Filter bp_get_groups_current_create_step to modify
+	 * @return str $current_create_step
+	 */
+	function bp_get_groups_current_create_step() {
+		global $bp;
+		
+		if ( !empty( $bp->groups->current_create_step ) ) {
+			$current_create_step = $bp->groups->current_create_step;
+		} else {
+			$current_create_step = '';
+		}
+		
+		return apply_filters( 'bp_get_groups_current_create_step', $current_create_step );
+	}
+
 function bp_is_last_group_creation_step() {
 	global $bp;
 
 	$last_step = array_pop( array_keys( $bp->groups->group_creation_steps ) );
 
-	if ( $last_step == $bp->groups->current_create_step )
+	if ( $last_step == bp_get_groups_current_create_step() )
 		return true;
 
 	return false;
@@ -2207,7 +2235,7 @@ function bp_is_first_group_creation_step() {
 
 	$first_step = array_shift( array_keys( $bp->groups->group_creation_steps ) );
 
-	if ( $first_step == $bp->groups->current_create_step )
+	if ( $first_step == bp_get_groups_current_create_step() )
 		return true;
 
 	return false;
