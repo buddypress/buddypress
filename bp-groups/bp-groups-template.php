@@ -1262,7 +1262,7 @@ function bp_group_admin_tabs( $group = false ) {
 	if ( empty( $group ) )
 		$group = ( $groups_template->group ) ? $groups_template->group : $bp->groups->current_group;
 
-	$current_tab = bp_action_variable( 0 );
+	$current_tab = bp_get_group_current_admin_tab();
 
 	if ( bp_is_item_admin() || bp_is_item_mod() ) : ?>
 
@@ -2356,6 +2356,32 @@ function bp_is_group_admin_screen( $slug ) {
 
 	return false;
 }
+
+/**
+ * Echoes the current group admin tab slug
+ *
+ * @since 1.6
+ */
+function bp_group_current_admin_tab() {
+	echo bp_get_group_current_admin_tab();
+}
+	/**
+	 * Returns the current group admin tab slug
+	 *
+	 * @since 1.6
+	 *
+	 * @uses apply_filters() Filter bp_get_current_group_admin_tab to modify return value
+	 * @return str $tab The current tab's slug
+	 */
+	function bp_get_group_current_admin_tab() {
+		if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) ) {
+			$tab = bp_action_variable( 0 );
+		} else {
+			$tab = '';
+		}
+		
+		return apply_filters( 'bp_get_current_group_admin_tab', $tab );
+	}
 
 /************************************************************************************
  * Group Avatar Template Tags

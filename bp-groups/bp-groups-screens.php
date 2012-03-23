@@ -482,7 +482,7 @@ function groups_screen_group_admin() {
 function groups_screen_group_admin_edit_details() {
 	global $bp;
 
-	if ( bp_is_groups_component() && bp_is_action_variable( 'edit-details', 0 ) ) {
+	if ( 'edit-details' == bp_get_group_current_admin_tab() ) {
 
 		if ( bp_is_item_admin() || bp_is_item_mod() ) {
 
@@ -514,7 +514,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_edit_details' );
 function groups_screen_group_admin_settings() {
 	global $bp;
 
-	if ( bp_is_groups_component() && bp_is_action_variable( 'group-settings', 0 ) ) {
+	if ( 'group-settings' == bp_get_group_current_admin_tab() ) {
 
 		if ( ! bp_is_item_admin() )
 			return false;
@@ -556,7 +556,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_settings' );
 function groups_screen_group_admin_avatar() {
 	global $bp;
 
-	if ( bp_is_groups_component() && bp_is_action_variable( 'group-avatar', 0 ) ) {
+	if ( 'group-avatar' == bp_get_group_current_admin_tab() ) {
 
 		// If the logged-in user doesn't have permission or if avatar uploads are disabled, then stop here
 		if ( ! bp_is_item_admin() || (int) bp_get_option( 'bp-disable-avatar-uploads' ) )
@@ -620,7 +620,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_avatar' );
 function groups_screen_group_admin_manage_members() {
 	global $bp;
 
-	if ( bp_is_groups_component() && bp_is_action_variable( 'manage-members', 0 ) ) {
+	if ( 'manage-members' == bp_get_group_current_admin_tab() ) {
 
 		if ( ! bp_is_item_admin() )
 			return false;
@@ -735,7 +735,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_manage_members' );
 function groups_screen_group_admin_requests() {
 	global $bp;
 
-	if ( bp_is_groups_component() && bp_is_action_variable( 'membership-requests', 0 ) ) {
+	if ( 'membership-requests' == bp_get_group_current_admin_tab() ) {
 
 		if ( ! bp_is_item_admin() || ( 'public' == $bp->groups->current_group->status ) )
 			return false;
@@ -784,7 +784,7 @@ add_action( 'bp_screens', 'groups_screen_group_admin_requests' );
 function groups_screen_group_admin_delete_group() {
 	global $bp;
 
-	if ( bp_is_groups_component() && bp_is_action_variable( 'delete-group', 0 ) ) {
+	if ( 'delete-group' == bp_get_group_current_admin_tab() ) {
 
 		if ( ! bp_is_item_admin() && !bp_current_user_can( 'bp_moderate' ) )
 			return false;

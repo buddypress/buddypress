@@ -1621,8 +1621,10 @@ function bp_the_body_class() {
 		if ( bp_is_group_forum() )
 			$bp_classes[] = 'group-forum';
 
-		if ( bp_is_group_admin_page() )
+		if ( bp_is_group_admin_page() ) {
 			$bp_classes[] = 'group-admin';
+			$bp_classes[] = bp_get_group_current_admin_tab();
+		}
 
 		if ( bp_is_group_create() ) {
 			$bp_classes[] = 'group-create';
