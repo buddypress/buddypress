@@ -60,121 +60,132 @@ function bp_core_admin_slugs_options() {
 	// directory pages.
 	$directory_pages = array();
 
-	foreach( $bp->loaded_components as $component_slug => $component_id ) {
+	// Loop through loaded components and collect directories
+	if ( is_array( $bp->loaded_components ) ) {
+		foreach( $bp->loaded_components as $component_slug => $component_id ) {
 
-		// Only components that need directories should be listed here
-		if ( isset( $bp->{$component_id} ) && !empty( $bp->{$component_id}->has_directory ) ) {
+			// Only components that need directories should be listed here
+			if ( isset( $bp->{$component_id} ) && !empty( $bp->{$component_id}->has_directory ) ) {
 
-			// component->name was introduced in BP 1.5, so we must provide a fallback
-			$component_name = !empty( $bp->{$component_id}->name ) ? $bp->{$component_id}->name : ucwords( $component_id );
-
-			$directory_pages[$component_id] = $component_name;
+				// component->name was introduced in BP 1.5, so we must provide a fallback
+				$directory_pages[$component_id] = !empty( $bp->{$component_id}->name ) ? $bp->{$component_id}->name : ucwords( $component_id );
+			}
 		}
 	}
 
+	/** Directory Display *****************************************************/
+
 	$directory_pages = apply_filters( 'bp_directory_pages', $directory_pages );
 
-	?>
+	if ( !empty( $directory_pages ) ) : ?>
 
-	<h3><?php _e( 'Directories', 'buddypress' ); ?></h3>
+		<h3><?php _e( 'Directories', 'buddypress' ); ?></h3>
 
-	<p><?php _e( 'Associate a WordPress Page with each BuddyPress component directory.', 'buddypress' ); ?></p>
+		<p><?php _e( 'Associate a WordPress Page with each BuddyPress component directory.', 'buddypress' ); ?></p>
 
-	<table class="form-table">
-		<tbody>
+		<table class="form-table">
+			<tbody>
 
-			<?php foreach ( $directory_pages as $name => $label ) : ?>
-				<?php $disabled = !bp_is_active( $name ) ? ' disabled="disabled"' : ''; ?>
+				<?php foreach ( $directory_pages as $name => $label ) : ?>
 
-				<tr valign="top">
-					<th scope="row">
-						<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?></label>
-					</th>
+					<tr valign="top">
+						<th scope="row">
+							<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?></label>
+						</th>
 
-					<td>
-						<?php if ( !bp_is_root_blog() )
-							switch_to_blog( bp_get_root_blog_id() ) ?>
+						<td>
+							<?php if ( !bp_is_root_blog() )
+								switch_to_blog( bp_get_root_blog_id() ) ?>
 
-						<?php echo wp_dropdown_pages( array(
-							'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
-							'echo'             => false,
-							'show_option_none' => __( '- None -', 'buddypress' ),
-							'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
-						) ); ?>
+							<?php echo wp_dropdown_pages( array(
+								'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
+								'echo'             => false,
+								'show_option_none' => __( '- None -', 'buddypress' ),
+								'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
+							) ); ?>
 
-						<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
-						<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php _e( 'Save', 'buddypress' ) ?>" />
+							<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
+							<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php _e( 'Save', 'buddypress' ) ?>" />
 
-						<?php if ( !empty( $existing_pages[$name] ) ) : ?>
+							<?php if ( !empty( $existing_pages[$name] ) ) : ?>
 
-							<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View' ); ?></a>
+								<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View' ); ?></a>
 
-						<?php endif; ?>
+							<?php endif; ?>
 
-						<?php if ( !bp_is_root_blog() )
-							restore_current_blog() ?>
+							<?php if ( !bp_is_root_blog() )
+								restore_current_blog() ?>
 
-					</td>
-				</tr>
+						</td>
+					</tr>
 
 
-			<?php endforeach ?>
+				<?php endforeach ?>
 
-			<?php do_action( 'bp_active_external_directories' ); ?>
+				<?php do_action( 'bp_active_external_directories' ); ?>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
 
 	<?php
+
+	endif;
+
+	/** Static Display ********************************************************/
 
 	// Static pages
 	$static_pages = array(
 		'register' => __( 'Register', 'buddypress' ),
 		'activate' => __( 'Activate', 'buddypress' ),
-	); ?>
+	);
+	
+	$static_pages = apply_filters( 'bp_static_pages', $static_pages );
+	
+	if ( !empty( $static_pages ) ) : ?>
 
-	<h3><?php _e( 'Registration', 'buddypress' ); ?></h3>
+		<h3><?php _e( 'Registration', 'buddypress' ); ?></h3>
 
-	<p><?php _e( 'Associate WordPress Pages with the following BuddyPress Registration pages.', 'buddypress' ); ?></p>
+		<p><?php _e( 'Associate WordPress Pages with the following BuddyPress Registration pages.', 'buddypress' ); ?></p>
 
-	<table class="form-table">
-		<tbody>
+		<table class="form-table">
+			<tbody>
 
-			<?php foreach ( $static_pages as $name => $label ) : ?>
+				<?php foreach ( $static_pages as $name => $label ) : ?>
 
-				<tr valign="top">
-					<th scope="row">
-						<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?></label>
-					</th>
+					<tr valign="top">
+						<th scope="row">
+							<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?></label>
+						</th>
 
-					<td>
-						<?php echo wp_dropdown_pages( array(
-							'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
-							'echo'             => false,
-							'show_option_none' => __( '- None -', 'buddypress' ),
-							'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
-						) ) ?>
+						<td>
+							<?php echo wp_dropdown_pages( array(
+								'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
+								'echo'             => false,
+								'show_option_none' => __( '- None -', 'buddypress' ),
+								'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
+							) ) ?>
 
-						<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
-						<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php _e( 'Save', 'buddypress' ) ?>" />
+							<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page' ); ?></a>
+							<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php _e( 'Save', 'buddypress' ) ?>" />
 
-						<?php if ( !empty( $existing_pages[$name] ) ) : ?>
+							<?php if ( !empty( $existing_pages[$name] ) ) : ?>
 
-							<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View' ); ?></a>
+								<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View' ); ?></a>
 
-						<?php endif; ?>
+							<?php endif; ?>
 
-					</td>
-				</tr>
+						</td>
+					</tr>
 
-			<?php endforeach ?>
+				<?php endforeach ?>
 
-			<?php do_action( 'bp_active_external_pages' ); ?>
+				<?php do_action( 'bp_active_external_pages' ); ?>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
 
-	<?php
+		<?php
+	endif;
 }
 
 /**
