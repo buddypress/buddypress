@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-03-23 18:36:08+00:00\n"
+"POT-Creation-Date: 2012-03-24 21:36:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -697,7 +697,7 @@ msgid "Delete"
 msgstr ""
 
 #: bp-activity/bp-activity-template.php:2044
-#: bp-core/admin/bp-core-slugs.php:110 bp-core/admin/bp-core-slugs.php:163
+#: bp-core/admin/bp-core-slugs.php:112 bp-core/admin/bp-core-slugs.php:173
 #: bp-members/bp-members-template.php:582
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-themes/bp-default/functions.php:159
@@ -1176,14 +1176,14 @@ msgstr ""
 msgid "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:272 bp-core/admin/bp-core-slugs.php:133
+#: bp-core/admin/bp-core-functions.php:272 bp-core/admin/bp-core-slugs.php:139
 #: bp-core/admin/bp-core-update.php:441
 #: bp-messages/bp-messages-template.php:561
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:277 bp-core/admin/bp-core-slugs.php:132
+#: bp-core/admin/bp-core-functions.php:277 bp-core/admin/bp-core-slugs.php:138
 #: bp-core/admin/bp-core-update.php:427 bp-members/bp-members-adminbar.php:60
 msgid "Register"
 msgstr ""
@@ -1419,33 +1419,33 @@ msgstr ""
 msgid "Save All"
 msgstr ""
 
-#: bp-core/admin/bp-core-slugs.php:79
+#: bp-core/admin/bp-core-slugs.php:82
 msgid "Directories"
 msgstr ""
 
-#: bp-core/admin/bp-core-slugs.php:81
+#: bp-core/admin/bp-core-slugs.php:84
 msgid "Associate a WordPress Page with each BuddyPress component directory."
 msgstr ""
 
-#: bp-core/admin/bp-core-slugs.php:101 bp-core/admin/bp-core-slugs.php:154
+#: bp-core/admin/bp-core-slugs.php:103 bp-core/admin/bp-core-slugs.php:164
 msgid "- None -"
 msgstr ""
 
-#: bp-core/admin/bp-core-slugs.php:105 bp-core/admin/bp-core-slugs.php:158
+#: bp-core/admin/bp-core-slugs.php:107 bp-core/admin/bp-core-slugs.php:168
 msgid "New Page"
 msgstr ""
 
-#: bp-core/admin/bp-core-slugs.php:106 bp-core/admin/bp-core-slugs.php:159
+#: bp-core/admin/bp-core-slugs.php:108 bp-core/admin/bp-core-slugs.php:169
 #: bp-themes/bp-default/members/single/settings/capabilities.php:61
 #: bp-xprofile/bp-xprofile-classes.php:912
 msgid "Save"
 msgstr ""
 
-#: bp-core/admin/bp-core-slugs.php:136
+#: bp-core/admin/bp-core-slugs.php:146
 msgid "Registration"
 msgstr ""
 
-#: bp-core/admin/bp-core-slugs.php:138
+#: bp-core/admin/bp-core-slugs.php:148
 msgid "Associate WordPress Pages with the following BuddyPress Registration pages."
 msgstr ""
 
