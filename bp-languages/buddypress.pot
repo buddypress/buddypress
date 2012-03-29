@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-03-24 21:36:14+00:00\n"
+"POT-Creation-Date: 2012-03-29 21:36:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -721,7 +721,7 @@ msgstr ""
 msgid "Public Message"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2670
+#: bp-activity/bp-activity-template.php:2669
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
