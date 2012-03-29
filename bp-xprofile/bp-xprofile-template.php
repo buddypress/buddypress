@@ -525,7 +525,7 @@ function bp_the_profile_field_options( $args = '' ) {
 
 			case 'checkbox':
 				$option_values = BP_XProfile_ProfileData::get_value_byid( $field->id );
-				$option_values = maybe_unserialize( $option_values );
+				$option_values = (array) maybe_unserialize( $option_values );
 
 				// Check for updated posted values, but errors preventing them from being saved first time
 				if ( isset( $_POST['field_' . $field->id] ) && $option_values != maybe_serialize( $_POST['field_' . $field->id] ) ) {
@@ -544,7 +544,7 @@ function bp_the_profile_field_options( $args = '' ) {
 						// before_save filter, so we'll be sure to get a match
 						$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 
-						if ( $option_values[$j] == $allowed_options || @in_array( $allowed_options, $value ) ) {
+						if ( $option_values[$j] == $allowed_options || @in_array( $allowed_options, $option_values ) ) {
 							$selected = ' checked="checked"';
 							break;
 						}
