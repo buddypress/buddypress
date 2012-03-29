@@ -584,7 +584,7 @@ function bp_redirect_canonical() {
 				bp_core_add_message( $message, $message_type );
 			}
 
-			bp_core_redirect( implode( '?', $url_stack ) );
+			bp_core_redirect( implode( '?', $url_stack ), 301 );
 		}
 	}
 }
