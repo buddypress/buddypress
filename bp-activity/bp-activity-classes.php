@@ -106,7 +106,7 @@ class BP_Activity_Activity {
 		// Select conditions
 		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
 
-		$from_sql = " FROM {$bp->activity->table_name} a USE INDEX (date_recorded) LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
+		$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
 
 		// Where conditions
 		$where_conditions = array();
