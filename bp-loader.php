@@ -57,7 +57,7 @@ class BuddyPress {
 	/**
 	 * @var int Database version of current BuddyPress files
 	 */
-	public $db_version = 5249;
+	public $db_version = 5250;
 	
 	/**
 	 * @var int Database version raw from database connection
