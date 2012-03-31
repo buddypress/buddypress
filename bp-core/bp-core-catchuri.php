@@ -590,6 +590,42 @@ function bp_redirect_canonical() {
 }
 
 /**
+ * Output rel=canonical header tag for BuddyPress content
+ *
+ * @since 1.6
+ */
+function bp_rel_canonical() {
+	// Build the URL in the address bar
+	$requested_url  = is_ssl() ? 'https://' : 'http://';
+	$requested_url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+	// Stash query args
+	$url_stack      = explode( '?', $requested_url );
+
+	// Build the canonical URL out of the redirect stack
+	if ( isset( $bp->canonical_stack['base_url'] ) )
+		$url_stack[0] = $bp->canonical_stack['base_url'];
+
+	if ( isset( $bp->canonical_stack['component'] ) )
+		$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['component'] );
+
+	if ( isset( $bp->canonical_stack['action'] ) )
+		$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['action'] );
+
+	if ( !empty( $bp->canonical_stack['action_variables'] ) ) {
+		foreach( (array) $bp->canonical_stack['action_variables'] as $av ) {
+			$url_stack[0] = trailingslashit( $url_stack[0] . $av );
+		}
+	}
+
+	// Add trailing slash
+	$url_stack[0] = trailingslashit( $url_stack[0] );
+
+	// Output rel=canonical tag
+	echo "<link rel='canonical' href='" . esc_attr( $url_stack[0] ) . "' />\n";
+}
+
+/**
  * Remove WordPress's really awesome canonical redirect if we are trying to load
  * BuddyPress specific content. Avoids issues with WordPress thinking that a
  * BuddyPress URL might actually be a blog post or page.
@@ -606,4 +642,20 @@ function _bp_maybe_remove_redirect_canonical() {
 }
 add_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
 
+/**
+ * Remove WordPress's rel=canonical HTML tag if we are trying to load BuddyPress
+ * specific content.
+ *
+ * This function should be considered temporary, and may be removed without
+ * notice in future versions of BuddyPress.
+ *
+ * @since 1.6
+ */
+function _bp_maybe_remove_rel_canonical() {
+	if ( ! bp_is_blog_page() && ! is_404() ) {
+		remove_action( 'wp_head', 'rel_canonical' );
+		add_action( 'bp_head', 'bp_rel_canonical' );
+	}
+}
+add_action( 'wp_head', '_bp_maybe_remove_rel_canonical', 8 );
 ?>
