@@ -234,6 +234,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	$avatar_loc        = new stdClass();
 	$avatar_loc->path  = trailingslashit( bp_core_avatar_upload_path() );
 	$avatar_loc->url   = trailingslashit( bp_core_avatar_url() );
+
 	$avatar_loc->dir   = trailingslashit( $avatar_dir );
 	$avatar_folder_url = apply_filters( 'bp_core_avatar_folder_url', ( $avatar_loc->url  . $avatar_loc->dir . $item_id ), $item_id, $object, $avatar_dir );
 	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', ( $avatar_loc->path . $avatar_loc->dir . $item_id ), $item_id, $object, $avatar_dir );
@@ -775,6 +776,7 @@ function bp_core_avatar_url() {
 	// See if the value has already been calculated and stashed in the $bp global
 	if ( isset( $bp->avatar->url ) ) {
 		$baseurl = $bp->avatar->url;
+
 	} else {
 		// If this value has been set in a constant, just use that
 		if ( defined( 'BP_AVATAR_URL' ) ) {
@@ -789,13 +791,17 @@ function bp_core_avatar_url() {
 		
 			} else {
 				$baseurl = $upload_dir['baseurl'];
-		
+
+				// If we're using https, update the protocol. Workaround for WP13941, WP15928, WP19037.
+				if ( is_ssl() )
+					$baseurl = str_replace( 'http://', 'https://', $baseurl );
+
 				// If multisite, and current blog does not match root blog, make adjustments
 				if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
 					$baseurl = trailingslashit( get_blog_option( bp_get_root_blog_id(), 'home' ) ) . get_blog_option( bp_get_root_blog_id(), 'upload_path' );
 			}
 		}
-		
+
 		// Stash in $bp for later use
 		$bp->avatar->url = $baseurl;
 	}

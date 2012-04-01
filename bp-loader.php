@@ -359,8 +359,15 @@ class BuddyPress {
 		if ( !defined( 'BP_PLUGIN_DIR' ) )
 			define( 'BP_PLUGIN_DIR', trailingslashit( WP_PLUGIN_DIR . '/buddypress' ) );
 
-		if ( !defined( 'BP_PLUGIN_URL' ) )
-			define( 'BP_PLUGIN_URL', plugin_dir_url ( __FILE__ ) );
+		if ( !defined( 'BP_PLUGIN_URL' ) ) {
+			$plugin_url = plugin_dir_url( __FILE__ );
+
+			// If we're using https, update the protocol. Workaround for WP13941, WP15928, WP19037.
+			if ( is_ssl() )
+				$plugin_url = str_replace( 'http://', 'https://', $plugin_url );
+
+			define( 'BP_PLUGIN_URL', $plugin_url );
+		}
 
 		// The search slug has to be defined nice and early because of the way
 		// search requests are loaded
