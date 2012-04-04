@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-03-13 21:36:22+00:00\n"
+"POT-Creation-Date: 2012-04-04 13:36:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -432,16 +432,16 @@ msgid "New post comment posted"
 msgstr ""
 
 #: bp-blogs/bp-blogs-buddybar.php:25 bp-blogs/bp-blogs-loader.php:156
-#: bp-blogs/bp-blogs-loader.php:177 bp-core/bp-core-adminbar.php:120
+#: bp-blogs/bp-blogs-loader.php:177 bp-core/bp-core-adminbar.php:124
 msgid "My Sites"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-adminbar.php:132
+#: bp-blogs/bp-blogs-buddybar.php:37 bp-core/bp-core-adminbar.php:136
 #: bp-core/bp-core-buddybar.php:481
 msgid "Dashboard"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-adminbar.php:135
+#: bp-blogs/bp-blogs-buddybar.php:38 bp-core/bp-core-adminbar.php:139
 #: bp-core/bp-core-buddybar.php:485
 msgid "New Post"
 msgstr ""
@@ -450,7 +450,7 @@ msgstr ""
 msgid "Manage Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:40 bp-core/bp-core-adminbar.php:136
+#: bp-blogs/bp-blogs-buddybar.php:40 bp-core/bp-core-adminbar.php:140
 #: bp-core/bp-core-buddybar.php:487
 msgid "Manage Comments"
 msgstr ""
@@ -609,7 +609,7 @@ msgid "Search"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:650 bp-blogs/bp-blogs-template.php:651
-#: bp-core/bp-core-adminbar.php:139
+#: bp-core/bp-core-adminbar.php:143
 msgid "Visit Site"
 msgstr ""
 
@@ -1170,63 +1170,63 @@ msgstr ""
 msgid "BuddyPress was successfully installed! Please run the <a href=\"%s\">installation wizard</a>."
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:91
+#: bp-core/bp-core-adminbar.php:95
 msgid "Admin Dashboard"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:102
+#: bp-core/bp-core-adminbar.php:106
 msgid "Network Dashboard"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:127
+#: bp-core/bp-core-adminbar.php:131
 msgid "Blavatar"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:156
+#: bp-core/bp-core-adminbar.php:160
 msgid "Comments %s"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:169
+#: bp-core/bp-core-adminbar.php:173
 msgid "Appearance"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:175
+#: bp-core/bp-core-adminbar.php:179
 msgid "Themes"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:178
+#: bp-core/bp-core-adminbar.php:182
 msgid "Widgets"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:181
+#: bp-core/bp-core-adminbar.php:185
 msgid "Menus"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:184
+#: bp-core/bp-core-adminbar.php:188
 msgid "Background"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:187
+#: bp-core/bp-core-adminbar.php:191
 msgid "Header"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:219
+#: bp-core/bp-core-adminbar.php:223
 msgid "%d WordPress Update"
 msgstr ""
 
-#: bp-core/bp-core-adminbar.php:221
+#: bp-core/bp-core-adminbar.php:225
 msgid "%d Plugin Update"
 msgid_plural "%d Plugin Updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-adminbar.php:223
+#: bp-core/bp-core-adminbar.php:227
 msgid "%d Theme Update"
 msgid_plural "%d Theme Updates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-adminbar.php:228
+#: bp-core/bp-core-adminbar.php:232
 msgid "Updates %s"
 msgstr ""
 
@@ -2221,35 +2221,35 @@ msgstr ""
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:83 bp-xprofile/bp-xprofile-admin.php:121
+#: bp-groups/bp-groups-adminbar.php:82 bp-xprofile/bp-xprofile-admin.php:121
 msgid "Edit Group"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:92 bp-groups/bp-groups-buddybar.php:19
+#: bp-groups/bp-groups-adminbar.php:91 bp-groups/bp-groups-buddybar.php:19
 msgid "Edit Details"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:100
+#: bp-groups/bp-groups-adminbar.php:99
 msgid "Edit Settings"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:109 bp-members/bp-members-adminbar.php:173
+#: bp-groups/bp-groups-adminbar.php:108 bp-members/bp-members-adminbar.php:173
 msgid "Edit Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:119 bp-groups/bp-groups-buddybar.php:31
+#: bp-groups/bp-groups-adminbar.php:118 bp-groups/bp-groups-buddybar.php:31
 msgid "Manage Invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:128 bp-groups/bp-groups-buddybar.php:35
+#: bp-groups/bp-groups-adminbar.php:127 bp-groups/bp-groups-buddybar.php:35
 msgid "Manage Members"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:137 bp-groups/bp-groups-buddybar.php:39
+#: bp-groups/bp-groups-adminbar.php:136 bp-groups/bp-groups-buddybar.php:39
 msgid "Membership Requests"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:146 bp-groups/bp-groups-buddybar.php:43
+#: bp-groups/bp-groups-adminbar.php:145 bp-groups/bp-groups-buddybar.php:43
 #: bp-themes/bp-default/groups/single/admin.php:358
 #: bp-xprofile/bp-xprofile-admin.php:125
 msgid "Delete Group"
