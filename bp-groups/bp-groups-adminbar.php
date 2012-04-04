@@ -23,8 +23,7 @@ function bp_groups_admin_bar_version_check() {
 			break;
 		case 3.3 :
 		case 3.4 :
-		default  :
-			remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu',  80  );
+		default  :	
 			add_action( 'admin_bar_menu', 'bp_groups_group_admin_menu', 400 );
 			break;		
 	}
