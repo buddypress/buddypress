@@ -151,10 +151,12 @@ function xprofile_delete_field( $field_id ) {
  * @package BuddyPress Core
  * @param mixed $field The ID of the field, or the $name of the field.
  * @param int $user_id The ID of the user
+ * @param string $multi_format How should array data be returned? 'comma' if you want a 
+ *   comma-separated string; 'array' if you want an array
  * @uses BP_XProfile_ProfileData::get_value_byid() Fetches the value based on the params passed.
  * @return mixed The profile field data.
  */
-function xprofile_get_field_data( $field, $user_id = 0 ) {
+function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' ) {
 
 	if ( empty( $user_id ) )
 		$user_id = bp_displayed_user_id();
@@ -176,6 +178,10 @@ function xprofile_get_field_data( $field, $user_id = 0 ) {
 		$data = array();
 		foreach( (array) $values as $value ) {
 			$data[] = apply_filters( 'xprofile_get_field_data', $value, $field_id, $user_id );
+		}
+		
+		if ( 'comma' == $multi_format ) {
+			$data = implode( ', ', $data );
 		}
 	} else {
 		$data = apply_filters( 'xprofile_get_field_data', $values, $field_id, $user_id );
