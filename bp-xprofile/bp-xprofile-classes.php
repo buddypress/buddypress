@@ -44,9 +44,9 @@ class BP_XProfile_Group {
 		$this->name        = apply_filters( 'xprofile_group_name_before_save',        $this->name,        $this->id );
 		$this->description = apply_filters( 'xprofile_group_description_before_save', $this->description, $this->id );
 
-		do_action_ref_array( 'xprofile_group_before_save', array( $this ) );
+		do_action_ref_array( 'xprofile_group_before_save', array( &$this ) );
 
-		if ( !empty( $this->id ) )
+		if ( $this->id )
 			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id );
 		else
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_groups} (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description );
@@ -54,12 +54,13 @@ class BP_XProfile_Group {
 		if ( is_wp_error( $wpdb->query( $sql ) ) )
 			return false;
 
-		do_action_ref_array( 'xprofile_group_after_save', array( $this ) );
+		// If not set, update the ID in the group object
+		if ( ! $this->id )
+			$this->id = $wpdb->insert_id;
 
-		if ( !empty( $this->id ) )
-			return $this->id;
-		else
-			return $wpdb->insert_id;
+		do_action_ref_array( 'xprofile_group_after_save', array( &$this ) );
+
+		return $this->id;
 	}
 
 	function delete() {
