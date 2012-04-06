@@ -164,7 +164,8 @@ class BP_Admin {
 
 		// Add notice if not using a BuddyPress theme
 		add_action( 'admin_notices',         array( $this, 'admin_notices' ) );
-
+		add_action( 'network_admin_notices', array( $this, 'admin_notices' ) );
+		
 		// Enqueue all admin JS and CSS
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts'   ) );
 
