@@ -88,7 +88,7 @@ function bp_core_install_activity_streams() {
 				type varchar(75) NOT NULL,
 				action text NOT NULL,
 				content longtext NOT NULL,
-				primary_link varchar(150) NOT NULL,
+				primary_link varchar(255) NOT NULL,
 				item_id bigint(20) NOT NULL,
 				secondary_item_id bigint(20) DEFAULT NULL,
 				date_recorded datetime NOT NULL,
