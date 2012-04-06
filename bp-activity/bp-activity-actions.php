@@ -392,7 +392,7 @@ add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
  */
 function bp_activity_action_remove_favorite() {
 
-	if ( !is_user_logged_in() || ( bp_is_activity_component() ) || !bp_is_current_action( 'unfavorite' ) )
+	if ( ! is_user_logged_in() || ! bp_is_activity_component() || ! bp_is_current_action( 'unfavorite' ) )
 		return false;
 
 	// Check the nonce
