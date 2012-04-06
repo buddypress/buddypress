@@ -500,7 +500,7 @@ class BuddyPress {
 			}
 		}
 
-		// Not in maintenance made
+		// Not in maintenance mode
 		if ( empty( $this->maintenance_mode ) ) {
 
 			// Require all of the BuddyPress core libraries
