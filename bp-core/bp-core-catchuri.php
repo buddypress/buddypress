@@ -37,8 +37,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  */
 function bp_core_set_uri_globals() {
-	global $bp, $current_blog;
-
+	global $bp, $current_blog, $wp_rewrite;
+	
 	// Don't catch URIs on non-root blogs unless multiblog mode is on
 	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )
 		return false;
@@ -156,7 +156,7 @@ function bp_core_set_uri_globals() {
 			break;
 		}
 	}
-
+	
 	// No exact match, so look for partials
 	if ( empty( $match ) ) {
 
@@ -227,8 +227,10 @@ function bp_core_set_uri_globals() {
 	}
 
 	// This is not a BuddyPress page, so just return.
-	if ( !isset( $matches ) )
+	if ( empty( $matches ) )
 		return false;
+
+	$wp_rewrite->use_verbose_page_rules = false;
 
 	// Find the offset. With $root_profile set, we fudge the offset down so later parsing works
 	$slug       = !empty ( $match ) ? explode( '/', $match->slug ) : '';
