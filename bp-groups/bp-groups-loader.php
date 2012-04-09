@@ -15,6 +15,12 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Groups_Component extends BP_Component {
+	/**
+	 * Default group extension
+	 *
+	 * @since BuddyPress (1.6)
+	 */
+	var $default_component;
 
 	/**
 	 * Start the groups component creation process
@@ -176,11 +182,11 @@ class BP_Groups_Component extends BP_Component {
 				$bp->canonical_stack['action_variables'] = bp_action_variables();
 			}
 			
-			$groups_default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
-			
+			$this->default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
+
 			if ( !bp_current_action() ) {
-				$bp->current_action = $groups_default_extension;
-			} else if ( bp_is_current_action( $groups_default_extension ) && !empty( $bp->action_variables ) )  {
+				$bp->current_action = $this->default_extension;
+			} else if ( bp_is_current_action( $this->default_extension ) && !empty( $bp->action_variables ) )  {
 				unset( $bp->canonical_stack['action'] );
 			}
 		}
@@ -322,7 +328,7 @@ class BP_Groups_Component extends BP_Component {
 				'slug'                => $this->current_group->slug,
 				'position'            => -1, // Do not show in BuddyBar
 				'screen_function'     => 'groups_screen_group_home',
-				'default_subnav_slug' => 'home',
+				'default_subnav_slug' => $this->default_extension,
 				'item_css_id'         => $this->id
 			);
 
