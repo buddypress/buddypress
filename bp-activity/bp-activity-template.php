@@ -1388,7 +1388,7 @@ function bp_activity_comments( $args = '' ) {
 			if ( empty( $comment->children ) )
 				return false;
 
-			echo '<ul>';
+			echo apply_filters( 'bp_activity_recurse_comments_start_ul', '<ul>');
 			foreach ( (array) $comment->children as $comment_child ) {
 				// Put the comment into the global so it's available to filters
 				$activities_template->activity->current_comment = $comment_child;
@@ -1407,7 +1407,7 @@ function bp_activity_comments( $args = '' ) {
 
 				unset( $activities_template->activity->current_comment );
 			}
-			echo '</ul>';
+			echo apply_filters( 'bp_activity_recurse_comments_end_ul', '</ul>');
 		}
 
 /**
