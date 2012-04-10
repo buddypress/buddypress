@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-04-09 22:36:11+00:00\n"
+"POT-Creation-Date: 2012-04-10 19:36:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2854,11 +2854,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:783
+#: bp-groups/bp-groups-classes.php:789
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:789 bp-groups/bp-groups-functions.php:121
+#: bp-groups/bp-groups-classes.php:795 bp-groups/bp-groups-functions.php:121
 msgid "Group Admin"
 msgstr ""
 
