@@ -321,9 +321,15 @@ function bp_core_get_root_options() {
 		// Sitemeta comes second in the merge, so that network 'registration' value wins
 		$root_blog_options_meta = array_merge( $root_blog_options_meta, $network_options_meta );
 	}
-
+	
 	// Missing some options, so do some one-time fixing
 	if ( empty( $root_blog_options_meta ) || ( count( $root_blog_options_meta ) < count( $root_blog_option_keys ) ) ) {
+
+		// Get a list of the keys that are already populated
+		$existing_options = array();
+		foreach( $root_blog_options_meta as $already_option ) {
+			$existing_options[$already_option->name] = $already_option->value;
+		}
 
 		// Unset the query - We'll be resetting it soon
 		unset( $root_blog_options_meta );
@@ -332,6 +338,10 @@ function bp_core_get_root_options() {
 		foreach ( $root_blog_options as $old_meta_key => $old_meta_default ) {
 			// Clear out the value from the last time around
 			unset( $old_meta_value );
+
+			if ( isset( $existing_options[$old_meta_key] ) ) {
+				continue;
+			}
 
 			// Get old site option
 			if ( is_multisite() )
@@ -347,6 +357,9 @@ function bp_core_get_root_options() {
 			// Update the global array
 			$root_blog_options_meta[$old_meta_key] = $old_meta_value;
 		}
+		
+		$root_blog_options_meta = array_merge( $root_blog_options_meta, $existing_options );
+		unset( $existing_options );
 
 	// We're all matched up
 	} else {
