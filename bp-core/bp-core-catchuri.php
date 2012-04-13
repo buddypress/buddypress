@@ -530,6 +530,8 @@ add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
  * @see BP_Members_Component::setup_globals() where $bp->canonical_stack['base_url'] and
  *   ['component'] may be set
  * @see bp_core_new_nav_item() where $bp->canonical_stack['action'] may be set
+ * @uses bp_get_canonical_url()
+ * @uses bp_get_requested_url()
  */
 function bp_redirect_canonical() {
 	global $bp;
@@ -544,38 +546,17 @@ function bp_redirect_canonical() {
 		}
 
 		// build the URL in the address bar
-		$requested_url  = is_ssl() ? 'https://' : 'http://';
-		$requested_url .= $_SERVER['HTTP_HOST'];
-		$requested_url .= $_SERVER['REQUEST_URI'];
+		$requested_url  = bp_get_requested_url();
 
 		// Stash query args
 		$url_stack      = explode( '?', $requested_url );
 		$req_url_clean  = $url_stack[0];
+		$query_args     = isset( $url_stack[1] ) ? $url_stack[1] : '';
 
-		// Build the canonical URL out of the redirect stack
-		if ( isset( $bp->canonical_stack['base_url'] ) ) {
-			$url_stack[0] = $bp->canonical_stack['base_url'];
-		}
-
-		if ( isset( $bp->canonical_stack['component'] ) ) {
-			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['component'] );
-		}
-
-		if ( isset( $bp->canonical_stack['action'] ) ) {
-			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['action'] );
-		}
-
-		if ( !empty( $bp->canonical_stack['action_variables'] ) ) {
-			foreach( (array) $bp->canonical_stack['action_variables'] as $av ) {
-				$url_stack[0] = trailingslashit( $url_stack[0] . $av );
-			}
-		}
-
-		// Add trailing slash
-		$url_stack[0] = trailingslashit( $url_stack[0] );
+		$canonical_url  = bp_get_canonical_url();
 
 		// Only redirect if we've assembled a URL different from the request
-		if ( $url_stack[0] !== $req_url_clean ) {
+		if ( $canonical_url !== $req_url_clean ) {
 
 			// Template messages have been deleted from the cookie by this point, so
 			// they must be readded before redirecting
@@ -586,7 +567,11 @@ function bp_redirect_canonical() {
 				bp_core_add_message( $message, $message_type );
 			}
 
-			bp_core_redirect( implode( '?', $url_stack ), 301 );
+			if ( !empty( $query_args ) ) {
+				$canonical_url .= '?' . $query_args;
+			}
+
+			bp_core_redirect( $canonical_url, 301 );
 		}
 	}
 }
@@ -597,34 +582,88 @@ function bp_redirect_canonical() {
  * @since 1.6
  */
 function bp_rel_canonical() {
-	// Build the URL in the address bar
-	$requested_url  = is_ssl() ? 'https://' : 'http://';
-	$requested_url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-	// Stash query args
-	$url_stack      = explode( '?', $requested_url );
-
-	// Build the canonical URL out of the redirect stack
-	if ( isset( $bp->canonical_stack['base_url'] ) )
-		$url_stack[0] = $bp->canonical_stack['base_url'];
-
-	if ( isset( $bp->canonical_stack['component'] ) )
-		$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['component'] );
-
-	if ( isset( $bp->canonical_stack['action'] ) )
-		$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['action'] );
-
-	if ( !empty( $bp->canonical_stack['action_variables'] ) ) {
-		foreach( (array) $bp->canonical_stack['action_variables'] as $av ) {
-			$url_stack[0] = trailingslashit( $url_stack[0] . $av );
-		}
-	}
-
-	// Add trailing slash
-	$url_stack[0] = trailingslashit( $url_stack[0] );
+	$canonical_url = bp_get_canonical_url();
 
 	// Output rel=canonical tag
-	echo "<link rel='canonical' href='" . esc_attr( $url_stack[0] ) . "' />\n";
+	echo "<link rel='canonical' href='" . esc_attr( $canonical_url ) . "' />\n";
+}
+
+/**
+ * Returns the canonical URL of the current page
+ *
+ * @since BuddyPress (1.6)
+ * @uses apply_filters() Filter bp_get_canonical_url to modify return value
+ * @param array $args
+ * @return string
+ */
+function bp_get_canonical_url( $args = array() ) {
+	global $bp;
+
+	// For non-BP content, return the requested url, and let WP do the work
+	if ( bp_is_blog_page() ) {
+		return bp_get_requested_url();
+	}
+
+	$defaults = array(
+		'include_query_args' => false // Include URL arguments, eg ?foo=bar&foo2=bar2
+	);
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
+
+	if ( empty( $bp->canonical_stack['canonical_url'] ) ) {
+		// Build the URL in the address bar
+		$requested_url  = bp_get_requested_url();
+
+		// Stash query args
+		$url_stack      = explode( '?', $requested_url );
+
+		// Build the canonical URL out of the redirect stack
+		if ( isset( $bp->canonical_stack['base_url'] ) )
+			$url_stack[0] = $bp->canonical_stack['base_url'];
+
+		if ( isset( $bp->canonical_stack['component'] ) )
+			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['component'] );
+
+		if ( isset( $bp->canonical_stack['action'] ) )
+			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['action'] );
+
+		if ( !empty( $bp->canonical_stack['action_variables'] ) ) {
+			foreach( (array) $bp->canonical_stack['action_variables'] as $av ) {
+				$url_stack[0] = trailingslashit( $url_stack[0] . $av );
+			}
+		}
+
+		// Add trailing slash
+		$url_stack[0] = trailingslashit( $url_stack[0] );
+
+		// Stash in the $bp global
+		$bp->canonical_stack['canonical_url'] = implode( '?', $url_stack );
+	}
+
+	$canonical_url = $bp->canonical_stack['canonical_url'];
+
+	if ( !$include_query_args ) {
+		$canonical_url = array_pop( array_reverse( explode( '?', $canonical_url ) ) );
+	}
+
+	return apply_filters( 'bp_get_canonical_url', $canonical_url, $args );
+}
+
+/**
+ * Returns the URL as requested on the current page load by the user agent
+ *
+ * @since BuddyPress (1.6)
+ * @return string
+ */
+function bp_get_requested_url() {
+	global $bp;
+
+	if ( empty( $bp->canonical_stack['requested_url'] ) ) {
+		$bp->canonical_stack['requested_url']  = is_ssl() ? 'https://' : 'http://';
+		$bp->canonical_stack['requested_url'] .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	}
+
+	return $bp->canonical_stack['requested_url'];
 }
 
 /**
