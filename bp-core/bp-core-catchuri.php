@@ -38,7 +38,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function bp_core_set_uri_globals() {
 	global $bp, $current_blog, $wp_rewrite;
-	
+
 	// Don't catch URIs on non-root blogs unless multiblog mode is on
 	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )
 		return false;
@@ -156,7 +156,7 @@ function bp_core_set_uri_globals() {
 			break;
 		}
 	}
-	
+
 	// No exact match, so look for partials
 	if ( empty( $match ) ) {
 
@@ -573,7 +573,7 @@ function bp_redirect_canonical() {
 
 		// Add trailing slash
 		$url_stack[0] = trailingslashit( $url_stack[0] );
-		
+
 		// Only redirect if we've assembled a URL different from the request
 		if ( $url_stack[0] !== $req_url_clean ) {
 
