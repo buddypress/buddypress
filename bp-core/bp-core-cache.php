@@ -54,7 +54,7 @@ function bp_core_clear_user_object_cache( $user_id ) {
  */
 function bp_update_meta_cache( $args = array() ) {
 	global $wpdb;
-	
+
 	$defaults = array(
 		'object_ids' 	   => array(), // Comma-separated list or array of item ids
 		'object_type' 	   => '',      // Canonical component id: groups, members, etc
@@ -65,15 +65,15 @@ function bp_update_meta_cache( $args = array() ) {
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
-		
+
 	if ( empty( $object_ids ) || empty( $object_type ) || empty( $meta_table ) ) {
 		return false;
 	}
-	
+
 	if ( empty( $cache_key_prefix ) ) {
 		$cache_key_prefix = $meta_table;
 	}
-	
+
 	if ( empty( $object_column ) ) {
 		$object_column = $object_type . '_id';
 	}
@@ -86,7 +86,7 @@ function bp_update_meta_cache( $args = array() ) {
 	$object_ids = array_map( 'intval', $object_ids );
 
 	$cache = array();
-	
+
 	// Get meta info
 	$id_list   = join( ',', $object_ids );
 	$meta_list = $wpdb->get_results( $wpdb->prepare( "SELECT $object_column, meta_key, meta_value FROM $meta_table WHERE $object_column IN ($id_list)" ), ARRAY_A );
@@ -107,11 +107,11 @@ function bp_update_meta_cache( $args = array() ) {
 			$cache[$mpid][$mkey][] = $mval;
 		}
 	}
-	
+
 	foreach ( $object_ids as $id ) {
 		if ( ! isset($cache[$id]) )
 			$cache[$id] = array();
-	
+
 		foreach( $cache[$id] as $meta_key => $meta_value ) {
 			wp_cache_set( $cache_key_prefix . '_' . $id . '_' . $meta_key, $meta_value, 'bp' );
 		}

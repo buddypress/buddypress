@@ -500,7 +500,7 @@ function bp_core_get_total_member_count() {
  */
 function bp_core_process_spammer_status( $user_id, $status ) {
 	global $wpdb;
-	
+
 	// Only super admins can currently spam users
 	if ( !is_super_admin() || bp_is_my_profile() )
 		return;
@@ -508,11 +508,11 @@ function bp_core_process_spammer_status( $user_id, $status ) {
 	// Bail if no user ID
 	if ( empty( $user_id ) )
 		return;
-		
+
 	// Bail if user ID is super admin
 	if ( is_super_admin( $user_id ) )
 		return;
-	
+
 	// Get the functions file
 	if ( is_multisite() ) {
 		require_once( ABSPATH . 'wp-admin/includes/ms.php' );
@@ -529,26 +529,26 @@ function bp_core_process_spammer_status( $user_id, $status ) {
 
 		// Get the blogs for the user
 		$blogs = get_blogs_of_user( $user_id, true );
-		
+
 		foreach ( (array) $blogs as $key => $details ) {
-		
+
 			// Do not mark the main or current root blog as spam
 			if ( 1 == $details->userblog_id || bp_get_root_blog_id() == $details->userblog_id ) {
 				continue;
 			}
-		
+
 			// Update the blog status
 			update_blog_status( $details->userblog_id, 'spam', $is_spam );
 		}
-		
+
 		// Finally, mark this user as a spammer
 		if ( is_multisite() ) {
 			update_user_status( $user_id, 'spam', $is_spam );
 		}
-		
+
 		// Always set single site status
 		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $user_id ) );
-				
+
 		// Call multisite actions in single site mode for good measure
 		if ( !is_multisite() ) {
 			$wp_action = ( true === $is_spam ) ? 'make_spam_user' : 'make_ham_user';
@@ -567,7 +567,7 @@ function bp_core_process_spammer_status( $user_id, $status ) {
 
 	// Allow plugins to do neat things
 	do_action( 'bp_core_process_spammer_status', $user_id, $is_spam );
-	
+
 	return true;
 }
 
@@ -575,7 +575,7 @@ function bp_core_process_spammer_status( $user_id, $status ) {
  * Hook to WP's make_spam_user and run our custom BP spam functions
  *
  * @since BuddyPress (1.6)
- * 
+ *
  * @param int $user_id The user id passed from the make_spam_user hook
  */
 function bp_core_mark_user_spam_admin( $user_id ) {
@@ -587,7 +587,7 @@ add_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
  * Hook to WP's make_ham_user and run our custom BP spam functions
  *
  * @since BuddyPress (1.6)
- * 
+ *
  * @param int $user_id The user id passed from the make_ham_user hook
  */
 function bp_core_mark_user_ham_admin( $user_id ) {
@@ -672,9 +672,9 @@ function bp_is_user_deleted( $user_id = 0 ) {
 
 /**
  * Checks if user is active
- * 
+ *
  * @since BuddyPress (1.6)
- * 
+ *
  * @uses is_user_logged_in() To check if user is logged in
  * @uses bp_loggedin_user_id() To get current user ID
  * @uses bp_is_user_spammer() To check if user is spammer
@@ -707,9 +707,9 @@ function bp_is_user_active( $user_id = 0 ) {
 
 /**
  * Checks if user is not active.
- * 
+ *
  * @since BuddyPress (1.6)
- * 
+ *
  * @uses is_user_logged_in() To check if user is logged in
  * @uses bp_get_displayed_user_id() To get current user ID
  * @uses bp_is_user_active() To check if user is active
@@ -1053,7 +1053,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 
 					$current_field = $usermeta["field_{$field_id}"];
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
-					
+
 					// Save the visibility level
 					$visibility_level = !empty( $usermeta['field_' . $field_id . '_visibility'] ) ? $usermeta['field_' . $field_id . '_visibility'] : 'public';
 					xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
@@ -1115,7 +1115,7 @@ function bp_core_activate_signup( $key ) {
 
 					if ( !empty( $current_field ) )
 						xprofile_set_field_data( $field_id, $user_id, $current_field );
-					
+
 					// Save the visibility level
 					$visibility_level = !empty( $user['meta']['field_' . $field_id . '_visibility'] ) ? $user['meta']['field_' . $field_id . '_visibility'] : 'public';
 					xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
@@ -1259,7 +1259,7 @@ function bp_core_wpsignup_redirect() {
 
 	if ( is_admin() || is_network_admin() )
 		return;
-	
+
 	// Not at the WP core signup page and action is not register
 	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) )
 		return;
