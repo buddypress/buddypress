@@ -12,6 +12,19 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Parse the WordPress core version number into the major release
+ *
+ * @since BuddyPress (1.5.2)
+ * @global string $wp_version
+ * @return string
+ */
+function bp_get_major_wp_version() {
+	global $wp_version;
+
+	return (float) $wp_version;
+}
+
+/**
  * Only add MS-specific abstraction functions if WordPress is not in multisite mode
  */
 if ( !is_multisite() ) {
