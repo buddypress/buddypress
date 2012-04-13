@@ -640,7 +640,7 @@ class BP_Core_Setup_Wizard {
 		$screenshot    = '';
 
 		if ( !empty( $installed_themes[$current_theme]['Screenshot'] ) )
-			$screenshot = trailingslashit( get_stylesheet_directory_uri() ) . $themes[$current_theme]['Screenshot'];
+			$screenshot = trailingslashit( get_stylesheet_directory_uri() ) . $installed_themes[$current_theme]['Screenshot'];
 	?>
 
 		<script type="text/javascript">
