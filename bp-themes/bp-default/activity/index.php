@@ -36,7 +36,7 @@ get_header( 'buddypress' ); ?>
 				<ul>
 					<?php do_action( 'bp_before_activity_type_tab_all' ); ?>
 
-					<li class="selected" id="activity-all"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_slug() ); ?>" title="<?php _e( 'The public activity for everyone on this site.', 'buddypress' ); ?>"><?php printf( __( 'All Members <span>%s</span>', 'buddypress' ), bp_get_total_site_member_count() ); ?></a></li>
+					<li class="selected" id="activity-all"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_slug() ); ?>" title="<?php _e( 'The public activity for everyone on this site.', 'buddypress' ); ?>"><?php printf( __( 'All Members <span>%s</span>', 'buddypress' ), bp_get_total_member_count() ); ?></a></li>
 
 					<?php if ( is_user_logged_in() ) : ?>
 
@@ -89,7 +89,7 @@ get_header( 'buddypress' ); ?>
 					<?php do_action( 'bp_activity_syndication_options' ); ?>
 
 					<li id="activity-filter-select" class="last">
-						<label for="activity-filter-by"><?php _e( 'Show:', 'buddypress' ); ?></label> 
+						<label for="activity-filter-by"><?php _e( 'Show:', 'buddypress' ); ?></label>
 						<select id="activity-filter-by">
 							<option value="-1"><?php _e( 'Everything', 'buddypress' ); ?></option>
 							<option value="activity_update"><?php _e( 'Updates', 'buddypress' ); ?></option>

@@ -502,11 +502,25 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 add_filter( 'bp_create_excerpt', 'stripslashes_deep' );
 add_filter( 'bp_create_excerpt', 'force_balance_tags' );
 
+/**
+ * Echoes the output of bp_get_total_member_count()
+ */
 function bp_total_member_count() {
 	echo bp_get_total_member_count();
 }
+	/**
+	 * Returns the total member count in your BP instance
+	 *
+	 * Since BuddyPress 1.6, this function has used bp_core_get_active_member_count(), which
+	 * counts non-spam, non-deleted users who have last_activity. This value will correctly
+	 * match the total member count number used for pagination on member directories.
+	 *
+	 * Before BuddyPress 1.6, this function used bp_core_get_total_member_count(), which did
+	 * not take into account last_activity, and thus often resulted in higher counts than
+	 * shown by member directory pagination.
+	 */
 	function bp_get_total_member_count() {
-		return apply_filters( 'bp_get_total_member_count', bp_core_get_total_member_count() );
+		return apply_filters( 'bp_get_total_member_count', bp_core_get_active_member_count() );
 	}
 	add_filter( 'bp_get_total_member_count', 'bp_core_number_format' );
 

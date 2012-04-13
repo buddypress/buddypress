@@ -45,6 +45,17 @@ function bp_core_clear_user_object_cache( $user_id ) {
 }
 
 /**
+ * Clears member count caches and transients
+ */
+function bp_core_clear_member_count_caches() {
+	wp_cache_delete( 'bp_total_member_count', 'bp' );
+	delete_transient( 'bp_active_member_count' );
+}
+add_action( 'bp_core_activated_user',         'bp_core_clear_member_count_caches' );
+add_action( 'bp_core_process_spammer_status', 'bp_core_clear_member_count_caches' );
+add_action( 'bp_core_deleted_account',        'bp_core_clear_member_count_caches' );
+
+/**
  * Update the metadata cache for the specified objects.
  *
  * @since 1.6

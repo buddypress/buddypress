@@ -486,6 +486,32 @@ function bp_core_get_total_member_count() {
 }
 
 /**
+ * Returns the total number of members, limited to those members with last_activity
+ *
+ * @return int The number of active members
+ */
+function bp_core_get_active_member_count() {
+	global $wpdb;
+
+	if ( !$count = get_transient( 'bp_active_member_count' ) ) {
+		// Avoid a costly join by splitting the lookup
+		if ( is_multisite() ) {
+			$sql = $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE (user_status != 0 OR deleted != 0 OR user_status != 0)" );
+		} else {
+			$sql = $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_status != 0" );
+		}
+
+		$exclude_users = $wpdb->get_col( $sql );
+		$exclude_users_sql = !empty( $exclude_users ) ? $wpdb->prepare( "AND user_id NOT IN (" . implode( ',', wp_parse_id_list( $exclude_users ) ) . ")" ) : '';
+
+		$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM $wpdb->usermeta WHERE meta_key = 'last_activity' {$exclude_users_sql}" ) );
+		set_transient( 'bp_active_member_count', $count );
+	}
+
+	return apply_filters( 'bp_core_get_active_member_count', $count );
+}
+
+/**
  * Processes a spammed or unspammed user
  *
  * This function is called in three ways:
@@ -767,18 +793,24 @@ function bp_core_delete_account( $user_id = 0 ) {
 	if ( is_super_admin( $user_id ) )
 		return false;
 
+	do_action( 'bp_core_pre_delete_account', $user_id );
+
 	// Specifically handle multi-site environment
 	if ( is_multisite() ) {
 		require( ABSPATH . '/wp-admin/includes/ms.php'   );
 		require( ABSPATH . '/wp-admin/includes/user.php' );
 
-		return wpmu_delete_user( $user_id );
+		$retval = wpmu_delete_user( $user_id );
 
 	// Single site user deletion
 	} else {
 		require( ABSPATH . '/wp-admin/includes/user.php' );
-		return wp_delete_user( $user_id );
+		$retval = wp_delete_user( $user_id );
 	}
+
+	do_action( 'bp_core_deleted_account', $user_id );
+
+	return $retval;
 }
 
 /**
@@ -1147,9 +1179,6 @@ function bp_core_activate_signup( $key ) {
 	// Set the password on multisite installs
 	if ( is_multisite() && !empty( $user['meta']['password'] ) )
 		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->users SET user_pass = %s WHERE ID = %d", $user['meta']['password'], $user_id ) );
-
-	// Delete the total member cache
-	wp_cache_delete( 'bp_total_member_count', 'bp' );
 
 	do_action( 'bp_core_activated_user', $user_id, $key, $user );
 
