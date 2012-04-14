@@ -78,12 +78,8 @@ function bp_core_new_nav_item( $args = '' ) {
 		// The requested URL has explicitly included the default subnav
 		// (eg: http://example.com/members/membername/activity/just-me/)
 		// The canonical version will not contain this subnav slug.
-		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) ) {
-
-			// bbPress 2.x uses pretty pagination, so whitelist 'page'
-			if ( ! bp_is_action_variable( 'page', 0 ) && ! bp_action_variable( 1 ) ) {
-				unset( $bp->canonical_stack['action'] );
-			}
+		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) && !bp_action_variable( 0 ) ) {
+			unset( $bp->canonical_stack['action'] );
 		} elseif ( ! bp_current_action() ) {
 			$func = is_object( $screen_function[0] ) ? array( &$screen_function[0], $screen_function[1] ) : $screen_function;
 			add_action( 'bp_screens', $func, 3 );
@@ -114,7 +110,7 @@ function bp_core_new_nav_default( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
-	
+
 	if ( $function = $bp->bp_nav[$parent_slug]['screen_function'] ) {
 		if ( is_object( $function[0] ) ) {
 			remove_action( 'bp_screens', array( &$function[0], $function[1] ), 3 );
@@ -126,11 +122,11 @@ function bp_core_new_nav_default( $args = '' ) {
 	$bp->bp_nav[$parent_slug]['screen_function'] = &$screen_function;
 
 	if ( bp_is_current_component( $parent_slug ) ) {
-		
+
 		// The only way to tell whether to set the subnav is to peek at the unfiltered_uri
 		// Find the component
 		$component_uri_key = array_search( $parent_slug, $bp->unfiltered_uri );
-		
+
 		if ( false !== $component_uri_key ) {
 			if ( !empty( $bp->unfiltered_uri[$component_uri_key + 1] ) ) {
 				$unfiltered_action = $bp->unfiltered_uri[$component_uri_key + 1];
@@ -145,7 +141,7 @@ function bp_core_new_nav_default( $args = '' ) {
 				} else {
 					add_action( 'bp_screens', $screen_function, 3 );
 				}
-		
+
 				$bp->current_action = $subnav_slug;
 				unset( $bp->canonical_stack['action'] );
 			}
@@ -301,13 +297,13 @@ function bp_core_new_subnav_item( $args = '' ) {
 					} else {
 						$redirect_to = trailingslashit( bp_displayed_user_domain() . ( 'xprofile' == $bp->profile->id ? 'profile' : $bp->profile->id ) );
 					}
-					
+
 					$message     = '';
 				} else {
 					$message     = __( 'You do not have access to this page.', 'buddypress' );
 					$redirect_to = bp_displayed_user_domain();
 				}
-				
+
 				// Off-limits to this user. Throw an error and redirect to the displayed user's domain
 				bp_core_no_access( array(
 					'message'  => $message,

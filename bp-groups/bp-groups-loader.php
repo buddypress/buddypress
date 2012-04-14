@@ -171,6 +171,12 @@ class BP_Groups_Component extends BP_Component {
 
 		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
 
+			$this->default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
+
+			if ( !bp_current_action() ) {
+				$bp->current_action = $this->default_extension;
+			}
+
 			// Prepare for a redirect to the canonical URL
 			$bp->canonical_stack['base_url'] = bp_get_group_permalink( $this->current_group );
 
@@ -182,13 +188,13 @@ class BP_Groups_Component extends BP_Component {
 				$bp->canonical_stack['action_variables'] = bp_action_variables();
 			}
 
-			$this->default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
-
-			if ( !bp_current_action() ) {
-				$bp->current_action = $this->default_extension;
-			} else if ( bp_is_current_action( $this->default_extension ) && !empty( $bp->action_variables ) )  {
+			// When viewing the default extension, the canonical URL should not have
+			// that extension's slug, unless more has been tacked onto the URL via
+			// action variables
+			if ( bp_is_current_action( $this->default_extension ) && empty( $bp->action_variables ) )  {
 				unset( $bp->canonical_stack['action'] );
 			}
+
 		}
 
 		// Group access control
