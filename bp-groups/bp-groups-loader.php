@@ -168,20 +168,20 @@ class BP_Groups_Component extends BP_Component {
 			bp_do_404();
 			return;
 		}
-		
+
 		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
-						
+
 			// Prepare for a redirect to the canonical URL
 			$bp->canonical_stack['base_url'] = bp_get_group_permalink( $this->current_group );
-			
+
 			if ( bp_current_action() ) {
 				$bp->canonical_stack['action'] = bp_current_action();
 			}
-			
+
 			if ( !empty( $bp->action_variables ) ) {
 				$bp->canonical_stack['action_variables'] = bp_action_variables();
 			}
-			
+
 			$this->default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
 
 			if ( !bp_current_action() ) {
@@ -221,7 +221,7 @@ class BP_Groups_Component extends BP_Component {
 					}
 				}
 			}
-			
+
 			// Protect the admin tab from non-admins
 			if ( bp_is_current_action( 'admin' ) && !bp_is_item_admin() ) {
 				bp_core_no_access( array(
