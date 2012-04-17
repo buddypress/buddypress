@@ -117,8 +117,8 @@ class BP_Activity_Template {
 
 		// Backward compatibility with old method of passing arguments
 		if ( !is_array( $args ) || func_num_args() > 1 ) {
-			_deprecated_argument( __METHOD__, '1.6', sprintf( __( 'Arguments passed to %s should be in an associative array. See the inline documentation for more details.', 'buddypress' ), __METHOD__ ) );
-		
+			_deprecated_argument( __METHOD__, '1.6', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
 			$old_args_keys = array(
 				0 => 'page',
 				1 => 'per_page',
