@@ -104,9 +104,58 @@ class BP_Activity_Template {
 
 	var $full_name;
 
-	function __construct( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude = false, $in = false, $spam = 'ham_only', $page_arg = 'acpage' ) {
+	/**
+	 * Constructor method
+	 *
+	 * See definition of $defaults below, as well as $defaults in bp_has_activities(), for 
+	 * description of $args array
+	 *
+	 * @param array $args
+	 */
+	function __construct( $args ) {
 		global $bp;
 
+		// Backward compatibility with old method of passing arguments
+		if ( !is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '1.6', sprintf( __( 'Arguments passed to %s should be in an associative array. See the inline documentation for more details.', 'buddypress' ), __METHOD__ ) );
+		
+			$old_args_keys = array(
+				0 => 'page',
+				1 => 'per_page',
+				2 => 'max',
+				3 => 'include',
+				4 => 'sort',
+				5 => 'filter',
+				6 => 'search_terms',
+				7 => 'display_comments',
+				8 => 'show_hidden',
+				9 => 'exclude',
+				10 => 'in',
+				11 => 'spam',
+				12 => 'page_arg'
+			);
+			
+			$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
+		}
+		
+		$defaults = array(
+			'page'             => 1,
+			'per_page'         => 20,
+			'page_arg'         => 'acpage',
+			'max'              => false,
+			'sort'             => false,
+			'include'          => false,
+			'exclude'          => false,
+			'in'               => false,
+			'filter'           => false,
+			'search_terms'     => false,
+			'display_comments' => 'threaded',
+			'show_hidden'      => false,
+			'spam'             => 'ham_only',
+		);
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r );
+		
 		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
@@ -389,9 +438,25 @@ function bp_has_activities( $args = '' ) {
 	if ( !empty( $include ) && ( 'ham_only' == $spam ) )
 		$spam = 'all';
 
-	$activities_template = new BP_Activity_Template( $page, $per_page, $max, $include, $sort, $filter, $search_terms, $display_comments, $show_hidden, $exclude, $in, $spam, $page_arg );
+	$template_args = array(
+		'page'             => $page,
+		'per_page'         => $per_page,
+		'page_arg'         => $page_arg,
+		'max'              => $max,
+		'sort'             => $sort,
+		'include'          => $include,
+		'exclude'          => $exclude,
+		'in'               => $in,
+		'filter'           => $filter,
+		'search_terms'     => $search_terms,
+		'display_comments' => $display_comments,
+		'show_hidden'      => $show_hidden,
+		'spam'             => $spam
+	);
 
-	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), $activities_template );
+	$activities_template = new BP_Activity_Template( $template_args );
+
+	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), $activities_template, $template_args );
 }
 
 /**

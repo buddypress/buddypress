@@ -100,8 +100,52 @@ class BP_Activity_Activity {
 	}
 
 	// Static Functions
-	function get( $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $search_terms = false, $filter = false, $display_comments = false, $show_hidden = false, $exclude = false, $in = false, $spam = 'ham_only' ) {
+
+	/**
+	 * Get activity items, as specified by parameters
+	 *
+	 * @param array $args See $defaults for explanation of arguments
+	 * @return array
+	 */
+	function get( $args = array() ) {
 		global $wpdb, $bp;
+
+		// Backward compatibility with old method of passing arguments
+		if ( !is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '1.6', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+			$old_args_keys = array(
+				0 => 'max',
+				1 => 'page',
+				2 => 'per_page',
+				3 => 'sort',
+				4 => 'search_terms',
+				5 => 'filter',
+				6 => 'display_comments',
+				7 => 'show_hidden',
+				8 => 'exclude',
+				9 => 'in',
+				10 => 'spam'
+			);
+
+			$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
+		}
+
+		$defaults = array(
+			'page'             => 1,          // The current page
+			'per_page'         => 25,         // Activity items per page
+			'max'              => false,      // Max number of items to return
+			'sort'             => 'DESC',     // ASC or DESC
+			'exclude'          => false,      // Array of ids to exclude
+			'in'               => false,      // Array of ids to limit query by (IN)
+			'filter'           => false,      // See self::get_filter_sql()
+			'search_terms'     => false,      // Terms to search by
+			'display_comments' => false,      // Whether to include activity comments
+			'show_hidden'      => false,      // Show items marked hide_sitewide
+			'spam'             => 'ham_only', // Spam status
+		);
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r );
 
 		// Select conditions
 		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
@@ -236,10 +280,10 @@ class BP_Activity_Activity {
 
 	/**
 	 * In BuddyPress 1.2.x, this was used to retrieve specific activity stream items (for example, on an activity's permalink page).
-	 * As of 1.5.x, use BP_Activity_Activity::get( ..., $in ) instead.
+	 * As of 1.5.x, use BP_Activity_Activity::get() with an 'in' parameter instead.
 	 *
 	 * @deprecated 1.5
-	 * @deprecated Use BP_Activity_Activity::get( ..., $in ) instead.
+	 * @deprecated Use BP_Activity_Activity::get() with an 'in' parameter instead.
 	 * @param mixed $activity_ids Array or comma-separated string of activity IDs to retrieve
 	 * @param int $max Maximum number of results to return. (Optional; default is no maximum)
 	 * @param int $page The set of results that the user is viewing. Used in pagination. (Optional; default is 1)
@@ -250,7 +294,7 @@ class BP_Activity_Activity {
 	 * @since 1.2
 	 */
 	function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
-		_deprecated_function( __FUNCTION__, '1.5', 'Use BP_Activity_Activity::get( ..., $in ) instead.' );
+		_deprecated_function( __FUNCTION__, '1.5', 'Use BP_Activity_Activity::get() with the "in" parameter instead.' );
 		return BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, false, false, $activity_ids );
 	}
 

@@ -820,12 +820,36 @@ function bp_activity_get( $args = '' ) {
 	// Attempt to return a cached copy of the first page of sitewide activity.
 	if ( 1 == (int) $page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && empty( $exclude ) && empty( $in ) && 'DESC' == $sort && empty( $exclude ) && 'ham_only' == $spam ) {
 		if ( !$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' ) ) {
-			$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, false, false, $spam );
+			$args = array(
+				'page'             => $page,
+				'per_page'         => $per_page,
+				'max'              => $max,
+				'sort'             => $sort,
+				'search_terms'     => $search_terms,
+				'filter'           => $filter,
+				'display_comments' => $display_comments,
+				'show_hidden'      => $show_hidden,
+				'spam'             => $spam
+			);
+			$activity = BP_Activity_Activity::get( $args );
 			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
 		}
 
 	} else {
-		$activity = BP_Activity_Activity::get( $max, $page, $per_page, $sort, $search_terms, $filter, $display_comments, $show_hidden, $exclude, $in, $spam );
+		$args = array(
+			'page'             => $page,
+			'per_page'         => $per_page,
+			'max'              => $max,
+			'sort'             => $sort,
+			'search_terms'     => $search_terms,
+			'filter'           => $filter,
+			'display_comments' => $display_comments,
+			'show_hidden'      => $show_hidden,
+			'exclude'          => $exclude,
+			'in'               => $in,
+			'spam'             => $spam
+		);
+		$activity = BP_Activity_Activity::get( $args );
 	}
 
 	return apply_filters_ref_array( 'bp_activity_get', array( &$activity, &$r ) );
@@ -858,7 +882,17 @@ function bp_activity_get_specific( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, $show_hidden, false, $activity_ids, $spam ) );
+	$get_args = array(
+		'page'             => $page,
+		'per_page'         => $per_page,
+		'max'              => $max,
+		'sort'             => $sort,
+		'display_comments' => $display_comments,
+		'show_hidden'      => $show_hidden,
+		'in'               => $activity_ids,
+		'spam'             => $spam
+	);
+	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $get_args ), $args, $get_args );
 }
 
 /**

@@ -953,6 +953,53 @@ function bp_use_wp_admin_bar() {
 	return apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
 }
 
+/**
+ * A utility for parsing individual function arguments into an array.
+ *
+ * The purpose of this function is to help with backward compatibility in cases where 
+ *
+ *   function foo( $bar = 1, $baz = false, $barry = array(), $blip = false ) { // ...
+ *
+ * is deprecated in favor of
+ *
+ *   function foo( $args = array() ) {
+ *       $defaults = array(
+ *           'bar'  => 1,
+ *           'arg2' => false,
+ *           'arg3' => array(),
+ *           'arg4' => false,
+ *       );
+ *       $r = wp_parse_args( $args, $defaults ); // ...
+ *
+ * The first argument, $old_args_keys, is an array that matches the parameter positions (keys) to
+ * the new $args keys (values):
+ *
+ *   $old_args_keys = array(
+ *       0 => 'bar', // because $bar was the 0th parameter for foo()
+ *       1 => 'baz', // because $baz was the 1st parameter for foo()
+ *       2 => 'barry', // etc
+ *       3 => 'blip'
+ *   );
+ *
+ * For the second argument, $func_args, you should just pass func_get_args().
+ *
+ * @since BuddyPress (1.6)
+ * @param array $old_args_keys
+ * @param array $func_args
+ * @return array $new_args
+ */
+function bp_core_parse_args_array( $old_args_keys, $func_args ) {
+	$new_args = array();
+
+	foreach( $old_args_keys as $arg_num => $arg_key ) {
+		if ( isset( $func_args[$arg_num] ) ) {
+			$new_args[$arg_key] = $func_args[$arg_num];
+		}
+	}
+
+	return $new_args;
+}
+
 /** Embeds ********************************************************************/
 
 /**
