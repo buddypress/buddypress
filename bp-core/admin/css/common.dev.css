@@ -56,7 +56,7 @@ ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a img {
 }
 ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a {
 	background-image: url( ../images/menu.png ) !important;
-	background-position: 0px -34px;
+	background-position: 0 -34px;
 }
 ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image a,
 ul#adminmenu li.toplevel_page_bp-activity.current .wp-menu-image a,

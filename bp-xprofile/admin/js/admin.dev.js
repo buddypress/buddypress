@@ -31,8 +31,8 @@ function add_option(forWhat) {
 	label1.appendChild( txt1 );
 	label1.setAttribute( 'for', 'isDefault_' + forWhat + '_option[]' );
 
-	toDelete     = document.createElement( 'a' );
-	toDeleteText = document.createTextNode( '[x]' );
+	var toDelete     = document.createElement( 'a' );
+	var toDeleteText = document.createTextNode( '[x]' );
 
 	toDelete.setAttribute( 'href', "javascript:hide('" + forWhat + '_div' + theId + "')" );
 	toDelete.setAttribute( 'class', 'delete' );
@@ -47,7 +47,7 @@ function add_option(forWhat) {
 	holder.appendChild( newDiv );
 
 
-	theId++
+	theId++;
 
 	document.getElementById(forWhat + "_option_number").value = theId;
 }

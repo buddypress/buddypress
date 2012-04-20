@@ -5,7 +5,7 @@
  *
  * @since 1.6
  */
-activityReply = {
+var activityReply = {
 
 	/**
 	 * Attach event handler functions to the relevant elements.

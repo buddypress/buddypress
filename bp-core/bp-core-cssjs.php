@@ -74,7 +74,7 @@ function bp_core_add_cropper_inline_js() {
 			jQuery('#y').val(c.y);
 			jQuery('#w').val(c.w);
 			jQuery('#h').val(c.h);
-		};
+		}
 
 		function showPreview(coords) {
 			if ( parseInt(coords.w) > 0 ) {
