@@ -188,7 +188,7 @@ jq(document).ready( function() {
 		/* Favoriting activity stream items */
 		if ( target.hasClass('fav') || target.hasClass('unfav') ) {
 			var type = target.hasClass('fav') ? 'fav' : 'unfav';
-			var parent = target.parent().parent().parent();
+			var parent = target.closest('.activity_update');
 			var parent_id = parent.attr('id').substr( 9, parent.attr('id').length );
 
 			target.addClass('loading');
