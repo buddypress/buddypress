@@ -20,6 +20,14 @@ if ( !class_exists( 'BP_Admin' ) ) :
  */
 class BP_Admin {
 
+	/**
+	 * Instance of the setup wizard
+	 *
+	 * @since BuddyPress (1.6)
+	 * @var BP_Core_Setup_Wizard
+	 */
+	public $wizard;
+
 	/** Directory *************************************************************/
 
 	/**

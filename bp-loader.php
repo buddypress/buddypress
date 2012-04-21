@@ -84,6 +84,14 @@ class BuddyPress {
 	/** Paths *****************************************************************/
 
 	/**
+	 * The absolute path and filename of this file.
+	 *
+	 * @since BuddyPress (1.6)
+	 * @var string
+	 */
+	public $file;
+
+	/**
 	 * @var string Basename of the BuddyPress plugin directory
 	 */
 	public $basename = '';

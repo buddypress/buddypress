@@ -108,7 +108,15 @@ class BP_Core_User {
 	 */
 	var $total_groups;
 
-	/** Public Method*s *******************************************************/
+	/**
+	 * Profile information for the specific user.
+	 *
+	 * @since BuddyPress (1.2)
+	 * @var array
+	 */
+	public $profile_data;
+
+	/** Public Methods *******************************************************/
 
 	/**
 	 * Class constructor.

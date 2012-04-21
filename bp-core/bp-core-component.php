@@ -65,6 +65,22 @@ class BP_Component {
 	var $admin_menu;
 
 	/**
+	 * Search input box placeholder string for the component
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var string
+	 */
+	public $search_string;
+
+	/**
+	 * Component's root slug
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var string
+	 */
+	public $root_slug;
+
+	/**
 	 * Component loader
 	 *
 	 * @since BuddyPress (1.5)

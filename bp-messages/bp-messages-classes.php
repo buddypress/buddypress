@@ -18,6 +18,54 @@ class BP_Messages_Thread {
 
 	var $unread_count;
 
+	/**
+	 * The content of the last message in this thread
+	 *
+	 * @since BuddyPress (1.2)
+	 * @var string
+	 */
+	public $last_message_content;
+
+	/**
+	 * The date of the last message in this thread
+	 *
+	 * @since BuddyPress (1.2)
+	 * @var string
+	 */
+	public $last_message_date;
+
+	/**
+	 * The ID of the last message in this thread
+	 *
+	 * @since BuddyPress (1.2)
+	 * @var int
+	 */
+	public $last_message_id;
+
+	/**
+	 * The subject of the last message in this thread
+	 *
+	 * @since BuddyPress (1.2)
+	 * @var string
+	 */
+	public $last_message_subject;
+
+	/**
+	 * The user ID of the author of the last message in this thread
+	 *
+	 * @since BuddyPress (1.2)
+	 * @var int
+	 */
+	public $last_sender_id;
+
+	/**
+	 * Sort order of the messages in this thread (ASC or DESC).
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var string
+	 */	
+	public $messages_order;
+
 	function __construct( $thread_id = false, $order = 'ASC' ) {
 		if ( $thread_id )
 			$this->populate( $thread_id, $order );

@@ -24,6 +24,30 @@ class BP_Groups_Group {
 	var $mods;
 	var $total_member_count;
 
+	/**
+	 * Is the current user a member of this group?
+	 *
+	 * @since BuddyPress (1.2)
+	 * @var bool
+	 */
+	public $is_member;
+
+	/**
+	 * Timestamp of the last activity that happened in this group.
+	 *
+	 * @since BuddyPress (1.2)
+	 * @var string
+	 */
+	public $last_activity;
+
+	/**
+	 * If this is a private or hidden group, does the current user have access?
+	 *
+	 * @since BuddyPress (1.6)
+	 * @var bool
+	 */
+	public $user_has_access;
+
 	public function __construct( $id = null ) {
 		if ( !empty( $id ) ) {
 			$this->id = $id;

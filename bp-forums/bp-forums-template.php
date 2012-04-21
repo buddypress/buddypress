@@ -982,6 +982,14 @@ class BP_Forums_Template_Topic {
 
 	var $in_the_loop;
 
+	/**
+	 * Contains a 'total_pages' property holding total number of pages in this loop.
+	 *
+	 * @since BuddyPress (1.2)
+	 * @var stdClass
+	 */
+	public $pag;
+
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;

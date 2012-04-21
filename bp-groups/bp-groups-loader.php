@@ -15,12 +15,62 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Groups_Component extends BP_Component {
+
+	/**
+	 * Auto join group when non group member performs group activity
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var bool
+	 */
+	public $auto_join;
+
+	/**
+	 * The group being currently accessed
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var BP_Groups_Group
+	 */
+	public $current_group;
+
 	/**
 	 * Default group extension
 	 *
 	 * @since BuddyPress (1.6)
+	 * @todo Is this used anywhere? Is this a duplicate of $default_extension?
 	 */
 	var $default_component;
+
+	/**
+	 * Default group extension
+	 *
+	 * @since BuddyPress (1.6)
+	 * @var string
+	 */
+	public $default_extension;
+
+	/**
+	 * Illegal group names/slugs
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var array
+	 */
+	public $forbidden_names;
+
+	/**
+	 * Group creation/edit steps (e.g. Details, Settings, Avatar, Invites)
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var array
+	 */
+	public $group_creation_steps;
+
+	/**
+	 * Types of group statuses (Public, Private, Hidden)
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var array
+	 */
+	public $valid_status;
 
 	/**
 	 * Start the groups component creation process

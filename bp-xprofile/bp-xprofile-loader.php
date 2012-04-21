@@ -15,9 +15,18 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_XProfile_Component extends BP_Component {
 	/**
+	 * Profile field types
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var array
+	 */
+	public $field_types;
+
+	/**
 	 * The acceptable visibility levels for xprofile fields.
-	 * @since 1.6
+	 *
 	 * @see bp_xprofile_get_visibility_levels()
+	 * @since 1.6
 	 */
 	var $visibility_levels = array();
 

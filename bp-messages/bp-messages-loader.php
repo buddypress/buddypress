@@ -13,6 +13,14 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Messages_Component extends BP_Component {
+	/**
+	 * If this is true, the Message autocomplete will return friends only, unless
+	 * this is set to false, in which any matching users will be returned.
+	 *
+	 * @since BuddyPress (1.5)
+	 * @var bool
+	 */
+	public $autocomplete_all;
 
 	/**
 	 * Start the messages component creation process
