@@ -699,13 +699,6 @@ function bp_core_load_buddypress_textdomain() {
 }
 add_action ( 'bp_init', 'bp_core_load_buddypress_textdomain', 2 );
 
-function bp_core_add_ajax_hook() {
-	// Theme only, we already have the wp_ajax_ hook firing in wp-admin
-	if ( !defined( 'WP_ADMIN' ) && isset( $_REQUEST['action'] ) )
-		do_action( 'wp_ajax_' . $_REQUEST['action'] );
-}
-add_action( 'bp_init', 'bp_core_add_ajax_hook', 20 );
-
 /**
  * Initializes {@link BP_Embed} after everything is loaded.
  *

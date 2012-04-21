@@ -272,7 +272,7 @@ jq(document).ready( function() {
 			target.addClass( 'loading' );
 
 			jq.post( ajaxurl, {
-				action: 'spam_activity',
+				action: 'bp_spam_activity',
 				'cookie': encodeURIComponent( document.cookie ),
 				'id': li.attr( 'id' ).substr( 9, li.attr( 'id' ).length ),
 				'_wpnonce': target.attr( 'href' ).split( '_wpnonce=' )[1]
@@ -534,7 +534,7 @@ jq(document).ready( function() {
 			comment_li.parents( '.activity-comments' ).append( comment_li.parents( '.activity-comments' ).children( 'form' ) );
 
 			jq.post( ajaxurl, {
-				action: 'spam_activity_comment',
+				action: 'bp_spam_activity_comment',
 				'cookie': encodeURIComponent( document.cookie ),
 				'_wpnonce': link_href.split( '_wpnonce=' )[1],
 				'id': link_href.split( 'cid=' )[1].split( '&' )[0]
