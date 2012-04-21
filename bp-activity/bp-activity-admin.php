@@ -1003,7 +1003,6 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		// Set raw data to display
 		$this->items       = $new_activities;
-		$this->extra_items = array();
 
 		// Store information needed for handling table pagination
 		$this->set_pagination_args( array(
