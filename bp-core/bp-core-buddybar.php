@@ -230,7 +230,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 		$link = $parent_url . $slug;
 
 		// If this sub item is the default for its parent, skip the slug
-		if ( $slug == $bp->bp_nav[$parent_slug]['default_subnav_slug'] ) {
+		if ( ! empty( $bp->bp_nav[$parent_slug]['default_subnav_slug'] ) && $slug == $bp->bp_nav[$parent_slug]['default_subnav_slug'] ) {
 			$link = $parent_url;
 		}
 	}
