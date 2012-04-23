@@ -457,7 +457,7 @@ function bp_group_admin_permalink() {
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
 
-		return apply_filters( 'bp_get_group_admin_permalink', trailingslashit( bp_get_group_permalink( $group ) . '/admin' ) );
+		return apply_filters( 'bp_get_group_admin_permalink', trailingslashit( bp_get_group_permalink( $group ) . 'admin' ) );
 	}
 
 function bp_group_slug() {
@@ -2416,7 +2416,7 @@ function bp_group_avatar_delete_link() {
 	function bp_get_group_avatar_delete_link() {
 		global $bp;
 
-		return apply_filters( 'bp_get_group_avatar_delete_link', wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . '/admin/group-avatar/delete', 'bp_group_avatar_delete' ) );
+		return apply_filters( 'bp_get_group_avatar_delete_link', wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/group-avatar/delete', 'bp_group_avatar_delete' ) );
 	}
 
 function bp_group_avatar_edit_form() {
@@ -2573,7 +2573,7 @@ function bp_group_request_reject_link() {
 	function bp_get_group_request_reject_link() {
 		global $requests_template, $groups_template;
 
-		return apply_filters( 'bp_get_group_request_reject_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . '/admin/membership-requests/reject/' . $requests_template->request->id, 'groups_reject_membership_request' ) );
+		return apply_filters( 'bp_get_group_request_reject_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . 'admin/membership-requests/reject/' . $requests_template->request->id, 'groups_reject_membership_request' ) );
 	}
 
 function bp_group_request_accept_link() {
@@ -2582,7 +2582,7 @@ function bp_group_request_accept_link() {
 	function bp_get_group_request_accept_link() {
 		global $requests_template, $groups_template;
 
-		return apply_filters( 'bp_get_group_request_accept_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . '/admin/membership-requests/accept/' . $requests_template->request->id, 'groups_accept_membership_request' ) );
+		return apply_filters( 'bp_get_group_request_accept_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . 'admin/membership-requests/accept/' . $requests_template->request->id, 'groups_accept_membership_request' ) );
 	}
 
 function bp_group_request_user_link() {
