@@ -229,11 +229,10 @@ add_action( 'save_post', 'bp_blogs_record_post', 10, 2 );
  * password protected.
  *
  * @param int $comment_id
- * @param bool $is_approved
+ * @param mixed $is_approved
  * @return mixed
  */
 function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
-
 	// Get the users comment
 	$recorded_comment = get_comment( $comment_id );
 
@@ -243,6 +242,10 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 
 	// Don't record activity if no email address has been included
 	if ( empty( $recorded_comment->comment_author_email ) )
+		return false;
+
+	// Don't record activity if the comment has already been marked as spam
+	if ( 'spam' === $is_approved )
 		return false;
 
 	// Get the user by the comment author email.
@@ -429,7 +432,6 @@ function bp_blogs_remove_comment( $comment_id ) {
 	do_action( 'bp_blogs_remove_comment', $wpdb->blogid, $comment_id, bp_loggedin_user_id() );
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
-
 
 /**
  * When a blog comment status transition occurs, update the relevant activity's status.
