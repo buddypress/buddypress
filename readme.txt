@@ -4,6 +4,8 @@ Tags: buddypress, social networking, activity, profiles, messaging, friends, gro
 Requires at least: 3.3
 Tested up to: 3.3
 Stable tag: 1.5
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Social networking in a box. Build a social network for your company, school, sports team or niche community.
 
