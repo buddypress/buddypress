@@ -53,8 +53,7 @@ function messages_autocomplete_init_jsblock() {
 
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
-			var acfb =
-			jQuery("ul.first").autoCompletefb({urlLookup:'<?php echo site_url( 'wp-load.php' ) ?>'});
+			var acfb = jQuery("ul.first").autoCompletefb({urlLookup: ajaxurl});
 
 			jQuery('#send_message_form').submit( function() {
 				var users = document.getElementById('send-to-usernames').className;
