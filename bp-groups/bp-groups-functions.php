@@ -47,12 +47,12 @@ function groups_get_group( $args = '' ) {
 
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args, EXTR_SKIP );
-	
+
 	$cache_key = 'bp_groups_group_' . $group_id . ( $load_users ? '_load_users' : '_noload_users' );
-	
+
 	if ( !$group = wp_cache_get( $cache_key, 'bp' ) ) {
 		$group = new BP_Groups_Group( $group_id, true, $load_users );
-		wp_cache_set( $cache_key, $group, 'bp' );	
+		wp_cache_set( $cache_key, $group, 'bp' );
 	}
 
 	return apply_filters( 'groups_get_group', $group );
