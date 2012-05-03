@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-04-25 21:36:15+00:00\n"
+"POT-Creation-Date: 2012-05-03 14:36:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2879,7 +2879,7 @@ msgstr ""
 msgid "As the only Admin, you cannot leave the group."
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:357 bp-groups/bp-groups-functions.php:826
+#: bp-groups/bp-groups-functions.php:357 bp-groups/bp-groups-functions.php:844
 #: bp-groups/bp-groups-screens.php:61
 msgid "%1$s joined the group %2$s"
 msgstr ""
