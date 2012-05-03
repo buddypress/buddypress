@@ -323,11 +323,11 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
-	// Check if the user has an outstanding invite, is so delete it.
+	// Check if the user has an outstanding invite. If so, delete it.
 	if ( groups_check_user_has_invite( $user_id, $group_id ) )
 		groups_delete_invite( $user_id, $group_id );
 
-	// Check if the user has an outstanding request, is so delete it.
+	// Check if the user has an outstanding request. If so, delete it.
 	if ( groups_check_for_membership_request( $user_id, $group_id ) )
 		groups_delete_membership_request( $user_id, $group_id );
 
@@ -605,11 +605,29 @@ function groups_uninvite_user( $user_id, $group_id ) {
 	return true;
 }
 
+/**
+ * Process the acceptance of a group invitation.
+ *
+ * Returns true if a user is already a member of the group.
+ *
+ * @param int $user_id
+ * @param int $group_id
+ * @return bool True when the user is a member of the group, otherwise false
+ */
 function groups_accept_invite( $user_id, $group_id ) {
 	global $bp;
 
-	if ( groups_is_user_member( $user_id, $group_id ) )
-		return false;
+	// If the user is already a member (because BP at one point allowed two invitations to
+	// slip through), delete all existing invitations/requests and return true
+	if ( groups_is_user_member( $user_id, $group_id ) ) {
+		if ( groups_check_user_has_invite( $user_id, $group_id ) )
+			groups_delete_invite( $user_id, $group_id );
+
+		if ( groups_check_for_membership_request( $user_id, $group_id ) )
+			groups_delete_membership_request( $user_id, $group_id );
+
+		return true;
+	}
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 	$member->accept_invite();
