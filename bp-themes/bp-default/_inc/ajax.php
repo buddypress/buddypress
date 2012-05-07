@@ -474,8 +474,12 @@ function bp_dtheme_mark_activity_favorite() {
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
 		return;
 
-	bp_activity_add_user_favorite( $_POST['id'] );
-	exit( __( 'Remove Favorite', 'buddypress' ) );
+	if ( bp_activity_add_user_favorite( $_POST['id'] ) )
+		_e( 'Remove Favorite', 'buddypress' );
+	else
+		_e( 'Favorite', 'buddypress' );
+
+	exit;
 }
 
 /**
@@ -489,8 +493,12 @@ function bp_dtheme_unmark_activity_favorite() {
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
 		return;
 
-	bp_activity_remove_user_favorite( $_POST['id'] );
-	exit( __( 'Favorite', 'buddypress' ) );
+	if ( bp_activity_remove_user_favorite( $_POST['id'] ) )
+		_e( 'Favorite', 'buddypress' );
+	else
+		_e( 'Remove Favorite', 'buddypress' );
+
+	exit;
 }
 
 /**
