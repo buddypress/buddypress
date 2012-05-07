@@ -30,12 +30,11 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! function_exists( 'bp_is_active' ) )
-	return;
-
-// If BuddyPress is not activated, switch back to the default WP theme
-if ( ! defined( 'BP_VERSION' ) )
+// If BuddyPress is not activated, switch back to the default WP theme and bail out
+if ( ! function_exists( 'bp_is_active' ) ) {
 	switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
+	return;
+}
 
 /**
  * Set the content width based on the theme's design and stylesheet.
