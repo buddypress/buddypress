@@ -688,7 +688,7 @@ function bp_core_load_buddypress_textdomain() {
 	$locale        = apply_filters( 'buddypress_locale', get_locale() );
 	$mofile        = sprintf( 'buddypress-%s.mo', $locale );
 	$mofile_global = WP_LANG_DIR . '/' . $mofile;
-	$mofile_local  = BP_PLUGIN_DIR . '/bp-languages/' . $mofile;
+	$mofile_local  = BP_PLUGIN_DIR . 'bp-languages/' . $mofile;
 
 	if ( file_exists( $mofile_global ) )
 		return load_textdomain( 'buddypress', $mofile_global );
