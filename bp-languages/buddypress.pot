@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-05-07 16:36:14+00:00\n"
+"POT-Creation-Date: 2012-05-07 17:36:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -228,7 +228,7 @@ msgid "Submitted on: <strong>%1$s</strong>"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:636 bp-activity/bp-activity-admin.php:1262
-#: bp-forums/bp-forums-template.php:1264 bp-themes/bp-default/functions.php:518
+#: bp-forums/bp-forums-template.php:1264 bp-themes/bp-default/functions.php:517
 #: bp-xprofile/bp-xprofile-admin.php:452 bp-xprofile/bp-xprofile-loader.php:172
 #: bp-xprofile/bp-xprofile-loader.php:230
 msgid "Edit"
@@ -705,7 +705,7 @@ msgstr ""
 #: bp-core/admin/bp-core-slugs.php:112 bp-core/admin/bp-core-slugs.php:173
 #: bp-members/bp-members-template.php:582
 #: bp-themes/bp-default/activity/entry.php:37
-#: bp-themes/bp-default/functions.php:176
+#: bp-themes/bp-default/functions.php:175
 #: bp-xprofile/bp-xprofile-loader.php:222
 msgid "View"
 msgstr ""
@@ -2186,7 +2186,7 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:142 bp-themes/bp-default/functions.php:652
+#: bp-core/deprecated/1.5.php:142 bp-themes/bp-default/functions.php:651
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
@@ -2196,7 +2196,7 @@ msgstr ""
 msgid "About Me"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:160 bp-themes/bp-default/functions.php:656
+#: bp-core/deprecated/1.5.php:160 bp-themes/bp-default/functions.php:655
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
@@ -2487,7 +2487,7 @@ msgstr ""
 msgid "You already have a pending friendship request with this user"
 msgstr ""
 
-#: bp-friends/bp-friends-actions.php:70 bp-themes/bp-default/_inc/ajax.php:592
+#: bp-friends/bp-friends-actions.php:70 bp-themes/bp-default/_inc/ajax.php:600
 msgid "Friendship could not be canceled."
 msgstr ""
 
@@ -2672,7 +2672,7 @@ msgid "%d friends"
 msgstr ""
 
 #: bp-friends/bp-friends-template.php:324
-#: bp-themes/bp-default/_inc/ajax.php:602
+#: bp-themes/bp-default/_inc/ajax.php:610
 msgid "Cancel Friendship Request"
 msgstr ""
 
@@ -2687,8 +2687,8 @@ msgstr ""
 
 #: bp-friends/bp-friends-template.php:358
 #: bp-friends/bp-friends-template.php:359
-#: bp-themes/bp-default/_inc/ajax.php:594
-#: bp-themes/bp-default/_inc/ajax.php:608
+#: bp-themes/bp-default/_inc/ajax.php:602
+#: bp-themes/bp-default/_inc/ajax.php:616
 msgid "Add Friend"
 msgstr ""
 
@@ -2931,7 +2931,7 @@ msgid "Home"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:412 bp-groups/bp-groups-template.php:1580
-#: bp-groups/bp-groups-template.php:1581 bp-themes/bp-default/_inc/ajax.php:700
+#: bp-groups/bp-groups-template.php:1581 bp-themes/bp-default/_inc/ajax.php:708
 msgid "Request Membership"
 msgstr ""
 
@@ -3382,12 +3382,12 @@ msgid "New Topic"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1539 bp-groups/bp-groups-template.php:1540
-#: bp-themes/bp-default/_inc/ajax.php:681
+#: bp-themes/bp-default/_inc/ajax.php:689
 msgid "Leave Group"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1562 bp-groups/bp-groups-template.php:1563
-#: bp-themes/bp-default/_inc/ajax.php:698
+#: bp-themes/bp-default/_inc/ajax.php:706
 msgid "Join Group"
 msgstr ""
 
@@ -3717,7 +3717,7 @@ msgid "There was an error deleting messages."
 msgstr ""
 
 #: bp-messages/bp-messages-actions.php:110
-#: bp-themes/bp-default/_inc/ajax.php:845
+#: bp-themes/bp-default/_inc/ajax.php:853
 msgid "Messages deleted."
 msgstr ""
 
@@ -3903,7 +3903,7 @@ msgid "Deactivate"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:610
-#: bp-themes/bp-default/functions.php:175
+#: bp-themes/bp-default/functions.php:174
 #: bp-themes/bp-default/members/single/profile/edit.php:126
 #: bp-themes/bp-default/registration/register.php:167
 msgid "Close"
@@ -3922,7 +3922,7 @@ msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:912
-#: bp-themes/bp-default/_inc/ajax.php:752
+#: bp-themes/bp-default/_inc/ajax.php:760
 msgid "Sent %s"
 msgstr ""
 
@@ -4005,76 +4005,78 @@ msgid "There was a problem when deleting. Please try again."
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:478
+#: bp-themes/bp-default/_inc/ajax.php:499
 #: bp-themes/bp-default/activity/entry.php:72
-#: bp-themes/bp-default/functions.php:178
+#: bp-themes/bp-default/functions.php:177
 msgid "Remove Favorite"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:493
+#: bp-themes/bp-default/_inc/ajax.php:480
+#: bp-themes/bp-default/_inc/ajax.php:497
 #: bp-themes/bp-default/activity/entry.php:68
-#: bp-themes/bp-default/functions.php:177
+#: bp-themes/bp-default/functions.php:176
 msgid "Favorite"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:561
+#: bp-themes/bp-default/_inc/ajax.php:569
 #: bp-themes/bp-default/groups/create.php:222
 #: bp-themes/bp-default/groups/single/send-invites.php:42
 msgid "Remove Invite"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:600
+#: bp-themes/bp-default/_inc/ajax.php:608
 msgid " Friendship could not be requested."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:610
+#: bp-themes/bp-default/_inc/ajax.php:618
 msgid "Friendship request could not be cancelled."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:613
+#: bp-themes/bp-default/_inc/ajax.php:621
 msgid "Request Pending"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:633
+#: bp-themes/bp-default/_inc/ajax.php:641
 msgid "There was a problem accepting that request. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:652
+#: bp-themes/bp-default/_inc/ajax.php:660
 msgid "There was a problem rejecting that request. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:679
+#: bp-themes/bp-default/_inc/ajax.php:687
 msgid "Error joining group"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:687
+#: bp-themes/bp-default/_inc/ajax.php:695
 msgid "Error requesting membership"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:689
+#: bp-themes/bp-default/_inc/ajax.php:697
 msgid "Membership Requested"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:696
+#: bp-themes/bp-default/_inc/ajax.php:704
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:718
+#: bp-themes/bp-default/_inc/ajax.php:726
 msgid "There was a problem closing the notice."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:769
+#: bp-themes/bp-default/_inc/ajax.php:777
 msgid "There was a problem sending that reply. Please try again."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:787
+#: bp-themes/bp-default/_inc/ajax.php:795
 msgid "There was a problem marking messages as unread."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:812
+#: bp-themes/bp-default/_inc/ajax.php:820
 msgid "There was a problem marking messages as read."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:837
+#: bp-themes/bp-default/_inc/ajax.php:845
 msgid "There was a problem deleting messages."
 msgstr ""
 
@@ -4487,106 +4489,106 @@ msgstr ""
 msgid "You are not a member of any groups so you don't have any group forums you can post in. To start posting, first find a group that matches the topic subject you'd like to start. If this group does not exist, why not <a href='%s'>create a new group</a>? Once you have joined or created the group you can post your topic in that group's forum."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:86
+#: bp-themes/bp-default/functions.php:85
 msgid "Primary Navigation"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:169
+#: bp-themes/bp-default/functions.php:168
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:170
+#: bp-themes/bp-default/functions.php:169
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:171
+#: bp-themes/bp-default/functions.php:170
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:172
+#: bp-themes/bp-default/functions.php:171
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:173
+#: bp-themes/bp-default/functions.php:172
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:174
+#: bp-themes/bp-default/functions.php:173
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:400
+#: bp-themes/bp-default/functions.php:399
 msgid "The sidebar widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:409
+#: bp-themes/bp-default/functions.php:408
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:411
+#: bp-themes/bp-default/functions.php:410
 msgid "The first footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:420
+#: bp-themes/bp-default/functions.php:419
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:422
+#: bp-themes/bp-default/functions.php:421
 msgid "The second footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:431
+#: bp-themes/bp-default/functions.php:430
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:433
+#: bp-themes/bp-default/functions.php:432
 msgid "The third footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:442
+#: bp-themes/bp-default/functions.php:441
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:444
+#: bp-themes/bp-default/functions.php:443
 msgid "The fourth footer widget area"
 msgstr ""
 
 #. translators: 1: comment author url, 2: comment author name, 3: comment
 #. permalink, 4: comment date/timestamp
 
-#: bp-themes/bp-default/functions.php:499
+#: bp-themes/bp-default/functions.php:498
 msgid "<a href=\"%1$s\" rel=\"nofollow\">%2$s</a> said on <a href=\"%3$s\"><span class=\"time-since\">%4$s</span></a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:506
+#: bp-themes/bp-default/functions.php:505
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:518
+#: bp-themes/bp-default/functions.php:517
 msgid "Edit comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:588
+#: bp-themes/bp-default/functions.php:587
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:654
+#: bp-themes/bp-default/functions.php:653
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:664
+#: bp-themes/bp-default/functions.php:663
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:665
+#: bp-themes/bp-default/functions.php:664
 msgid "Leave a reply"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:752
+#: bp-themes/bp-default/functions.php:751
 msgid "&larr; Previous Entries"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:753
+#: bp-themes/bp-default/functions.php:752
 msgid "Next Entries &rarr;"
 msgstr ""
 
