@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-05-03 14:36:15+00:00\n"
+"POT-Creation-Date: 2012-05-07 16:36:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5121,6 +5121,10 @@ msgstr ""
 #: bp-themes/bp-default/registration/register.php:159
 #: bp-themes/bp-default/registration/register.php:171
 msgid "This field can be seen by: <span class=\"current-visibility-level\">%s</span>"
+msgstr ""
+
+#: bp-themes/bp-default/members/single/profile/edit.php:118
+msgid "Change"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/edit.php:122
