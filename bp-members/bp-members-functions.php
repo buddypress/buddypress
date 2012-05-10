@@ -1290,7 +1290,7 @@ function bp_core_wpsignup_redirect() {
 		return;
 
 	// Not at the WP core signup page and action is not register
-	if ( false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) )
+	if ( ! empty( $_SERVER['SCRIPT_NAME'] ) && false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) )
 		return;
 
 	// Redirect to sign-up page
