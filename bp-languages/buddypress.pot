@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-05-07 17:36:11+00:00\n"
+"POT-Creation-Date: 2012-05-11 18:36:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -228,7 +228,7 @@ msgid "Submitted on: <strong>%1$s</strong>"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:636 bp-activity/bp-activity-admin.php:1262
-#: bp-forums/bp-forums-template.php:1264 bp-themes/bp-default/functions.php:517
+#: bp-forums/bp-forums-template.php:1266 bp-themes/bp-default/functions.php:517
 #: bp-xprofile/bp-xprofile-admin.php:452 bp-xprofile/bp-xprofile-loader.php:172
 #: bp-xprofile/bp-xprofile-loader.php:230
 msgid "Edit"
@@ -462,23 +462,23 @@ msgstr ""
 msgid "%1$s mentioned you"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:759
+#: bp-activity/bp-activity-functions.php:767
 msgid "Posted a status update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:760
+#: bp-activity/bp-activity-functions.php:768
 msgid "Replied to a status update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1008
+#: bp-activity/bp-activity-functions.php:1016
 msgid "%s posted an update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1077
+#: bp-activity/bp-activity-functions.php:1085
 msgid "%s posted a new activity comment"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1450
+#: bp-activity/bp-activity-functions.php:1458
 msgid "Thumbnail"
 msgstr ""
 
@@ -540,7 +540,7 @@ msgstr ""
 #: bp-activity/bp-activity-template.php:1087
 #: bp-activity/bp-activity-template.php:1097 bp-blogs/bp-blogs-loader.php:200
 #: bp-forums/bp-forums-loader.php:234 bp-forums/bp-forums-template.php:487
-#: bp-forums/bp-forums-template.php:604 bp-forums/bp-forums-template.php:1194
+#: bp-forums/bp-forums-template.php:604 bp-forums/bp-forums-template.php:1196
 #: bp-friends/bp-friends-loader.php:203 bp-groups/bp-groups-loader.php:557
 #: bp-groups/bp-groups-template.php:570 bp-groups/bp-groups-template.php:593
 #: bp-groups/bp-groups-template.php:1030 bp-groups/bp-groups-template.php:1046
@@ -693,7 +693,7 @@ msgid "View Discussion"
 msgstr ""
 
 #: bp-activity/bp-activity-template.php:2062
-#: bp-forums/bp-forums-template.php:1265 bp-groups/bp-groups-template.php:1294
+#: bp-forums/bp-forums-template.php:1267 bp-groups/bp-groups-template.php:1294
 #: bp-themes/bp-default/activity/comment.php:43
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:51
 #: bp-themes/bp-default/members/single/messages/single.php:24
@@ -1000,7 +1000,7 @@ msgid "%s's Recent Comments"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:617 bp-core/deprecated/1.5.php:397
-#: bp-forums/bp-forums-template.php:1315 bp-groups/bp-groups-template.php:2292
+#: bp-forums/bp-forums-template.php:1317 bp-groups/bp-groups-template.php:2292
 #: bp-members/bp-members-template.php:667
 #: bp-messages/bp-messages-template.php:370 bp-themes/bp-default/header.php:29
 #: bp-themes/bp-default/searchform.php:5
@@ -1826,51 +1826,51 @@ msgstr ""
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:211
+#: bp-core/bp-core-avatars.php:215
 msgid "Avatar Image"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:472
+#: bp-core/bp-core-avatars.php:476
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:473 bp-core/bp-core-avatars.php:474
+#: bp-core/bp-core-avatars.php:477 bp-core/bp-core-avatars.php:478
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:475
+#: bp-core/bp-core-avatars.php:479
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:476
+#: bp-core/bp-core-avatars.php:480
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:477
+#: bp-core/bp-core-avatars.php:481
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:481
+#: bp-core/bp-core-avatars.php:485
 msgid "Your upload failed, please try again. Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:486
+#: bp-core/bp-core-avatars.php:490
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:491
+#: bp-core/bp-core-avatars.php:495
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:502 bp-core/bp-core-avatars.php:515
+#: bp-core/bp-core-avatars.php:506 bp-core/bp-core-avatars.php:519
 msgid "Upload Failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:533
+#: bp-core/bp-core-avatars.php:537
 msgid "Upload failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:668 bp-core/bp-core-classes.php:174
+#: bp-core/bp-core-avatars.php:672 bp-core/bp-core-classes.php:174
 #: bp-core/bp-core-classes.php:175 bp-core/bp-core-classes.php:176
 #: bp-core/bp-core-template.php:98 bp-core/bp-core-template.php:107
 msgid "Avatar of %s"
@@ -1989,90 +1989,90 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:380
+#: bp-core/bp-core-functions.php:384
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:381
+#: bp-core/bp-core-functions.php:385
 msgid "right now"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:382
+#: bp-core/bp-core-functions.php:386
 msgid "%s ago"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:386
+#: bp-core/bp-core-functions.php:390
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:386
+#: bp-core/bp-core-functions.php:390
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:387
+#: bp-core/bp-core-functions.php:391
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:387
+#: bp-core/bp-core-functions.php:391
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:388
+#: bp-core/bp-core-functions.php:392
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:388
+#: bp-core/bp-core-functions.php:392
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:389
+#: bp-core/bp-core-functions.php:393
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:389
+#: bp-core/bp-core-functions.php:393
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:390
+#: bp-core/bp-core-functions.php:394
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:390
+#: bp-core/bp-core-functions.php:394
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:391
+#: bp-core/bp-core-functions.php:395
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:391
+#: bp-core/bp-core-functions.php:395
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:392
+#: bp-core/bp-core-functions.php:396
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:392
+#: bp-core/bp-core-functions.php:396
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:451
+#: bp-core/bp-core-functions.php:455
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:514
+#: bp-core/bp-core-functions.php:518
 msgid "Not recently active"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:215 bp-members/bp-members-loader.php:157
+#: bp-core/bp-core-loader.php:217 bp-members/bp-members-loader.php:157
 #: bp-xprofile/bp-xprofile-loader.php:150
 #: bp-xprofile/bp-xprofile-loader.php:214
 msgid "Profile"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:226 bp-groups/bp-groups-template.php:522
+#: bp-core/bp-core-loader.php:228 bp-groups/bp-groups-template.php:522
 #: bp-members/bp-members-loader.php:171 bp-xprofile/bp-xprofile-loader.php:162
 msgid "Public"
 msgstr ""
@@ -2292,7 +2292,7 @@ msgid "&rarr;"
 msgstr ""
 
 #: bp-forums/bp-forums-template.php:505 bp-forums/bp-forums-template.php:567
-#: bp-forums/bp-forums-template.php:1210
+#: bp-forums/bp-forums-template.php:1212
 msgid "Deleted User"
 msgstr ""
 
@@ -2340,17 +2340,17 @@ msgstr ""
 msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:1046
+#: bp-forums/bp-forums-template.php:1048
 msgctxt "Forum thread pagination previous text"
 msgid "&larr;"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:1047
+#: bp-forums/bp-forums-template.php:1049
 msgctxt "Forum thread pagination next text"
 msgid "&rarr;"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:1295
+#: bp-forums/bp-forums-template.php:1297
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
 msgstr ""
 
