@@ -49,6 +49,10 @@ add_action( 'bp_init', 'bp_core_set_avatar_constants', 3 );
 function bp_core_set_avatar_globals() {
 	global $bp;
 
+	$bp->avatar        = new stdClass;
+	$bp->avatar->thumb = new stdClass;
+	$bp->avatar->full  = new stdClass;
+
 	// Dimensions
 	$bp->avatar->thumb->width  	   = BP_AVATAR_THUMB_WIDTH;
 	$bp->avatar->thumb->height 	   = BP_AVATAR_THUMB_HEIGHT;

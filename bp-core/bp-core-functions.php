@@ -178,6 +178,10 @@ function bp_core_get_directory_pages() {
 		foreach ( (array) $page_ids as $component_id => $page_id ) {
 			foreach ( (array) $page_names as $page_name ) {
 				if ( $page_name->ID == $page_id ) {
+					if ( !isset( $pages->{$component_id} ) || !is_object( $pages->{$component_id} ) ) {
+						$pages->{$component_id} = new stdClass;
+					}
+
 					$pages->{$component_id}->name  = $page_name->post_name;
 					$pages->{$component_id}->id    = $page_name->ID;
 					$pages->{$component_id}->title = $page_name->post_title;

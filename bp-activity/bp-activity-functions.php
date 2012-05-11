@@ -197,6 +197,14 @@ function bp_activity_set_action( $component_id, $key, $value ) {
 		return false;
 
 	// Set activity action
+	if ( !isset( $bp->activity->actions ) || !is_object( $bp->activity->actions ) ) {
+		$bp->activity->actions = new stdClass;
+	}
+
+	if ( !isset( $bp->activity->actions->{$component_id} ) || !is_object( $bp->activity->actions->{$component_id} ) ) {
+		$bp->activity->actions->{$component_id} = new stdClass;
+	}
+
 	$bp->activity->actions->{$component_id}->{$key} = apply_filters( 'bp_activity_set_action', array(
 		'key'   => $key,
 		'value' => $value

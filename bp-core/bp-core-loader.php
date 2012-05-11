@@ -162,11 +162,13 @@ class BP_Core extends BP_Component {
 		$current_user            = wp_get_current_user();
 
 		// The user ID of the user who is currently logged in.
+		$bp->loggedin_user       = new stdClass;
 		$bp->loggedin_user->id   = isset( $current_user->ID ) ? $current_user->ID : 0;
 
 		/** Avatars ***********************************************************/
 
 		// Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar
+		$bp->grav_default        = new stdClass;
 		$bp->grav_default->user  = apply_filters( 'bp_user_gravatar_default',  $bp->site_options['avatar_default'] );
 		$bp->grav_default->group = apply_filters( 'bp_group_gravatar_default', $bp->grav_default->user );
 		$bp->grav_default->blog  = apply_filters( 'bp_blog_gravatar_default',  $bp->grav_default->user );

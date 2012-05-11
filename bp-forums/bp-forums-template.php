@@ -1037,6 +1037,8 @@ class BP_Forums_Template_Topic {
 		// Load topic tags
 		$this->topic_tags = bb_get_topic_tags( $this->topic_id );
 
+		$this->pag = new stdClass;
+
 		if ( (int) $this->total_post_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( array( 'topic_page' => '%#%', 'num' => (int) $this->pag_num ) ),
