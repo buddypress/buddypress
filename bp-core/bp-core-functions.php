@@ -76,7 +76,7 @@ function bp_db_version_raw() {
 		$retval = 0;
 		if ( !empty( $bp->db_version_raw ) )
 			$retval = $bp->db_version_raw;
-		
+
 		return $retval;
 	}
 
@@ -480,7 +480,7 @@ function bp_core_record_activity() {
 
 	if ( !is_user_logged_in() )
 		return false;
-		
+
 	$user_id = bp_loggedin_user_id();
 
 	if ( bp_is_user_inactive( $user_id ) )
@@ -949,7 +949,7 @@ function bp_use_wp_admin_bar() {
 /**
  * A utility for parsing individual function arguments into an array.
  *
- * The purpose of this function is to help with backward compatibility in cases where 
+ * The purpose of this function is to help with backward compatibility in cases where
  *
  *   function foo( $bar = 1, $baz = false, $barry = array(), $blip = false ) { // ...
  *

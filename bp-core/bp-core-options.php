@@ -82,7 +82,7 @@ function bp_get_default_options() {
 
 		// Users from all sites can post
 		'_bp_enable_akismet'              => true,
-		
+
 		/** BuddyBar **********************************************************/
 
 		// Force the BuddyBar
@@ -124,7 +124,7 @@ function bp_add_options() {
  * This is destructive, so existing settings will be destroyed.
  *
  * @since BuddyPress (1.6)
- * 
+ *
  * @uses bp_get_default_options() To get default options
  * @uses delete_option() Removes default options
  * @uses do_action() Calls 'bp_delete_options'
@@ -250,7 +250,7 @@ function bp_delete_option( $option_name ) {
 /**
  * When switching from single to multisite we need to copy blog options to
  * site options.
- * 
+ *
  * This function is no longer used
  *
  * @package BuddyPress Core
@@ -321,7 +321,7 @@ function bp_core_get_root_options() {
 		// Sitemeta comes second in the merge, so that network 'registration' value wins
 		$root_blog_options_meta = array_merge( $root_blog_options_meta, $network_options_meta );
 	}
-	
+
 	// Missing some options, so do some one-time fixing
 	if ( empty( $root_blog_options_meta ) || ( count( $root_blog_options_meta ) < count( $root_blog_option_keys ) ) ) {
 
@@ -357,7 +357,7 @@ function bp_core_get_root_options() {
 			// Update the global array
 			$root_blog_options_meta[$old_meta_key] = $old_meta_value;
 		}
-		
+
 		$root_blog_options_meta = array_merge( $root_blog_options_meta, $existing_options );
 		unset( $existing_options );
 

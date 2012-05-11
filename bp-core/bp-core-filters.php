@@ -21,14 +21,14 @@ add_filter( 'bp_core_render_message_content', 'shortcode_unautop' );
  */
 function bp_core_exclude_pages( $pages ) {
 	global $bp;
-	
+
 	if ( bp_is_root_blog() ) {
 		if ( !empty( $bp->pages->activate ) )
 			$pages[] = $bp->pages->activate->id;
-	
+
 		if ( !empty( $bp->pages->register ) )
 			$pages[] = $bp->pages->register->id;
-	
+
 		if ( !empty( $bp->pages->forums ) && ( !bp_is_active( 'forums' ) || ( bp_is_active( 'forums' ) && bp_forums_has_directory() && !bp_forums_is_installed_correctly() ) ) )
 			$pages[] = $bp->pages->forums->id;
 	}
@@ -278,11 +278,11 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 
 		// Get the component's ID to try and get it's name
 		$component_id = $component_name = bp_current_component();
-		
+
 		// Use the actual component name
 		if ( !empty( $bp->{$component_id}->name ) ) {
 			$component_name = $bp->{$component_id}->name;
-			
+
 		// Fall back on the component ID (probably same as current_component)
 		} elseif ( !empty( $bp->{$component_id}->id ) ) {
 			$component_name = $bp->{$component_id}->id;

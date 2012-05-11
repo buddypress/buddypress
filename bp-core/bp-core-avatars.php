@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function bp_core_set_avatar_constants() {
 	global $bp;
-	
+
 	if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
 		define( 'BP_AVATAR_THUMB_WIDTH', 50 );
 
@@ -112,7 +112,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	extract( $params, EXTR_SKIP );
 
 	/** Set item_id ***********************************************************/
-	
+
 	if ( empty( $item_id ) ) {
 
 		switch ( $object ) {
@@ -129,7 +129,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 				}
 
 				break;
-			
+
 			case 'user'  :
 			default      :
 				$item_id = bp_displayed_user_id();
@@ -144,7 +144,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	}
 
 	$class = apply_filters( 'bp_core_avatar_class', $class, $item_id, $object, $params );
-	
+
 	/** Set avatar_dir ********************************************************/
 
 	if ( empty( $avatar_dir ) ) {
@@ -163,7 +163,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 				}
 
 				break;
-			
+
 			case 'user'  :
 			default      :
 				$avatar_dir = 'avatars';
@@ -180,7 +180,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	/** <img> alt *************************************************************/
 
 	if ( false !== strpos( $alt, '%s' ) || false !== strpos( $alt, '%1$s' ) ) {
-		
+
 		// Get item name for alt/title tags
 		$item_name = '';
 
@@ -193,7 +193,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 			case 'group' :
 				$item_name = bp_get_group_name( groups_get_group( array( 'group_id' => $item_id ) ) );
 				break;
-			
+
 			case 'user'  :
 			default :
 				$item_name = bp_core_get_user_displayname( $item_id );
@@ -206,7 +206,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	/** Sanity Checks *********************************************************/
 
-	// Get a fallback for the 'alt' parameter	
+	// Get a fallback for the 'alt' parameter
 	if ( empty( $alt ) )
 		$alt = __( 'Avatar Image', 'buddypress' );
 
@@ -726,7 +726,7 @@ function bp_core_check_avatar_type($file) {
  */
 function bp_core_avatar_upload_path() {
 	global $bp;
-	
+
 	// See if the value has already been calculated and stashed in the $bp global
 	if ( isset( $bp->avatar->upload_path ) ) {
 		$basedir = $bp->avatar->upload_path;
@@ -739,26 +739,26 @@ function bp_core_avatar_upload_path() {
 				// Switch dynamically in order to support BP_ENABLE_MULTIBLOG
 				switch_to_blog( bp_get_root_blog_id() );
 			}
-			
+
 			// Get upload directory information from current site
 			$upload_dir = wp_upload_dir();
-		
+
 			// Directory does not exist and cannot be created
 			if ( !empty( $upload_dir['error'] ) ) {
 				$basedir = '';
-		
+
 			} else {
 				$basedir = $upload_dir['basedir'];
 			}
-			
+
 			// Will bail if not switched
 			restore_current_blog();
 		}
-		
+
 		// Stash in $bp for later use
 		$bp->avatar->upload_path = $basedir;
 	}
-	
+
 	return apply_filters( 'bp_core_avatar_upload_path', $basedir );
 }
 
@@ -772,7 +772,7 @@ function bp_core_avatar_upload_path() {
  */
 function bp_core_avatar_url() {
 	global $bp;
-	
+
 	// See if the value has already been calculated and stashed in the $bp global
 	if ( isset( $bp->avatar->url ) ) {
 		$baseurl = $bp->avatar->url;
@@ -784,11 +784,11 @@ function bp_core_avatar_url() {
 		} else {
 			// Get upload directory information from current site
 			$upload_dir = wp_upload_dir();
-		
+
 			// Directory does not exist and cannot be created
 			if ( !empty( $upload_dir['error'] ) ) {
 				$baseurl = '';
-		
+
 			} else {
 				$baseurl = $upload_dir['baseurl'];
 
@@ -840,9 +840,9 @@ function bp_get_user_has_avatar( $user_id = 0 ) {
  */
 function bp_core_avatar_dimension( $type = 'thumb', $h_or_w = 'height' ) {
 	global $bp;
-	
+
 	$dim = isset( $bp->avatar->{$type}->{$h_or_w} ) ? (int) $bp->avatar->{$type}->{$h_or_w} : false;
-	
+
 	return apply_filters( 'bp_core_avatar_dimension', $dim, $type, $h_or_w );
 }
 
@@ -904,7 +904,7 @@ function bp_core_avatar_full_height() {
  */
 function bp_core_avatar_original_max_width() {
 	global $bp;
-	
+
 	return apply_filters( 'bp_core_avatar_original_max_width', (int) $bp->avatar->original_max_width );
 }
 
@@ -918,7 +918,7 @@ function bp_core_avatar_original_max_width() {
  */
 function bp_core_avatar_original_max_filesize() {
 	global $bp;
-	
+
 	return apply_filters( 'bp_core_avatar_original_max_filesize', (int) $bp->avatar->original_max_filesize );
 }
 
@@ -932,7 +932,7 @@ function bp_core_avatar_original_max_filesize() {
  */
 function bp_core_avatar_default() {
 	global $bp;
-	
+
 	return apply_filters( 'bp_core_avatar_default', $bp->avatar->full->default );
 }
 
@@ -946,7 +946,7 @@ function bp_core_avatar_default() {
  */
 function bp_core_avatar_default_thumb() {
 	global $bp;
-	
+
 	return apply_filters( 'bp_core_avatar_thumb', $bp->avatar->thumb->default );
 }
 

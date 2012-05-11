@@ -36,10 +36,10 @@ class BP_Core extends BP_Component {
 	 *
 	 * This involves figuring out the currently required, active, deactive,
 	 * and optional components.
-	 * 
+	 *
 	 * @since BuddyPress (1.5)
 	 *
-	 * @global BuddyPress $bp 
+	 * @global BuddyPress $bp
 	 */
 	private function bootstrap() {
 		global $bp;
@@ -133,7 +133,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @since BuddyPress (1.5)
 	 *
-	 * @global BuddyPress $bp 
+	 * @global BuddyPress $bp
 	 */
 	function setup_globals() {
 		global $bp;
@@ -240,7 +240,7 @@ class BP_Core extends BP_Component {
  *
  * @since BuddyPress (1.6)
  *
- * @global BuddyPress $bp 
+ * @global BuddyPress $bp
  */
 function bp_setup_core() {
 	global $bp;

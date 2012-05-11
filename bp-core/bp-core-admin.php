@@ -173,7 +173,7 @@ class BP_Admin {
 		// Add notice if not using a BuddyPress theme
 		add_action( 'admin_notices',         array( $this, 'admin_notices' ) );
 		add_action( 'network_admin_notices', array( $this, 'admin_notices' ) );
-		
+
 		// Enqueue all admin JS and CSS
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts'   ) );
 
@@ -236,7 +236,7 @@ class BP_Admin {
 
 		// Not in maintenance mode
 		} else {
-	
+
 			// Bail if user cannot moderate
 			if ( ! bp_current_user_can( 'manage_options' ) )
 				return;
@@ -348,7 +348,7 @@ class BP_Admin {
 
 			// Allow subscriptions setting
 			add_settings_field( '_bp_group_creation', __( 'Group Creation',   'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
-			register_setting  ( 'buddypress',         '_bp_group_creation',   'intval'                                                                                );			
+			register_setting  ( 'buddypress',         '_bp_group_creation',   'intval'                                                                                );
 		}
 
 		/** Forums ************************************************************/
@@ -539,7 +539,7 @@ class BP_Admin {
 	 * @since BuddyPress (1.6)
 	 *
 	 * @global string $pagenow
-	 * @return If no notice is needed 
+	 * @return If no notice is needed
 	 */
 	public function admin_notices() {
 		global $pagenow;

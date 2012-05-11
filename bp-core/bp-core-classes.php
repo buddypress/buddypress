@@ -274,17 +274,17 @@ class BP_Core_User {
 				} else {
 					$uids = $wpdb->escape( $include );
 				}
-	
+
 				if ( !empty( $uids ) ) {
 					$sql['where_users'] = "AND u.ID IN ({$uids})";
 				}
 			} elseif ( !empty( $user_id ) && bp_is_active( 'friends' ) ) {
 				$friend_ids = friends_get_friend_user_ids( $user_id );
 				$friend_ids = $wpdb->escape( implode( ',', (array) $friend_ids ) );
-	
+
 				if ( !empty( $friend_ids ) ) {
 					$sql['where_friends'] = "AND u.ID IN ({$friend_ids})";
-	
+
 				// User has no friends, return false since there will be no users to fetch.
 				} else {
 					return false;
