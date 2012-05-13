@@ -132,6 +132,9 @@ div#content .left-menu {
 div#content .main-column {
 	margin-left: 190px;
 }
+textarea {
+	overflow: auto;
+}
 
 
 /*--------------------------------------------------------------
