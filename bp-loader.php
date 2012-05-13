@@ -67,7 +67,7 @@ class BuddyPress {
 	/**
 	 * @var string State of BuddyPress installation
 	 */
-	public $maintenance_mode = false;
+	public $maintenance_mode = '';
 
 	/**
 	 * @var bool Include deprecated BuddyPress files or not
@@ -128,12 +128,12 @@ class BuddyPress {
 	/**
 	 * @var object Current user
 	 */
-	public $current_user = false;
+	public $current_user = null;
 
 	/**
 	 * @var object Displayed user
 	 */
-	public $displayed_user = false;
+	public $displayed_user = null;
 
 	/** Navigation ************************************************************/
 	
@@ -198,7 +198,7 @@ class BuddyPress {
 	public $current_action = '';
 
 	/**
-	 * @var array() Additional navigation elements (supplemental)
+	 * @var array Additional navigation elements (supplemental)
 	 */
 	public $action_variables = array();
 
@@ -210,7 +210,7 @@ class BuddyPress {
 	/** Errors ****************************************************************/
 
 	/**
-	 * @var WP_Error Used to log and display errors
+	 * @var array|WP_Error Used to log and display errors
 	 */
 	public $errors = array();
 
