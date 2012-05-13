@@ -48,11 +48,6 @@ class BP_Admin {
 	public $images_url = '';
 
 	/**
-	 * @var string URL to the BuddyPress admin styles directory
-	 */
-	public $styles_url = '';
-
-	/**
 	 * @var string URL to the BuddyPress admin CSS directory
 	 */
 	public $css_url = '';
@@ -62,19 +57,6 @@ class BP_Admin {
 	 */
 	public $js_url = '';
 
-	/** Recounts **************************************************************/
-
-	/**
-	 * @var bool Enable recounts in Tools area
-	 */
-	public $enable_recounts = false;
-
-	/** Admin Scheme **********************************************************/
-
-	/**
-	 * @var int Depth of custom WP_CONTENT_DIR difference
-	 */
-	public $content_depth = 0;
 
 	/** Methods ***************************************************************/
 
@@ -116,9 +98,6 @@ class BP_Admin {
 
 		// Admin css URL
 		$this->js_url     = trailingslashit( $this->admin_url . 'js'     );
-
-		// Admin images URL
-		$this->styles_url = trailingslashit( $this->admin_url . 'styles' );
 	}
 
 	/**
@@ -177,16 +156,7 @@ class BP_Admin {
 		// Enqueue all admin JS and CSS
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts'   ) );
 
-		// Forums 'Right now' Dashboard widget
-		//add_action( 'wp_dashboard_setup', array( $this, 'dashboard_widget_right_now' ) );
-
 		/** BuddyPress Actions ************************************************/
-
-		// Add importers
-		//add_action( 'bp_admin_init',      array( $this, 'register_importers'      ) );
-
-		// Add red admin style
-		//add_action( 'bp_admin_init',      array( $this, 'register_admin_style'    ) );
 
 		// Add settings
 		add_action( 'bp_admin_init',      array( $this, 'register_admin_settings' ) );
@@ -195,9 +165,6 @@ class BP_Admin {
 
 		// Add link to settings page
 		add_filter( 'plugin_action_links', array( $this, 'add_settings_link' ), 10, 2 );
-
-		// Add sample permalink filter
-		//add_filter( 'post_type_link',     'bp_filter_sample_permalink',         10, 4 );
 	}
 
 	public function start_wizard() {
@@ -379,46 +346,6 @@ class BP_Admin {
 	}
 
 	/**
-	 * Register the importers
-	 *
-	 * @since BuddyPress (1.6)
-	 *
-	 * @uses do_action() Calls 'bp_register_importers'
-	 * @uses apply_filters() Calls 'bp_importer_path' filter to allow plugins
-	 *                        to customize the importer script locations.
-	 */
-	public function register_importers() {
-
-		// Leave if we're not in the import section
-		if ( !defined( 'WP_LOAD_IMPORTERS' ) )
-			return;
-
-		// Load Importer API
-		require_once( ABSPATH . 'wp-admin/includes/import.php' );
-
-		// Load our importers
-		$importers = apply_filters( 'bp_importers', array( 'buddypress' ) );
-
-		// Loop through included importers
-		foreach ( $importers as $importer ) {
-
-			// Allow custom importer directory
-			$import_dir  = apply_filters( 'bp_importer_path', $this->admin_dir . 'importers', $importer );
-
-			// Compile the importer path
-			$import_file = trailingslashit( $import_dir ) . $importer . '.php';
-
-			// If the file exists, include it
-			if ( file_exists( $import_file ) ) {
-				require( $import_file );
-			}
-		}
-
-		// Don't do anything we wouldn't do
-		do_action( 'bp_register_importers' );
-	}
-
-	/**
 	 * Add Settings link to plugins area
 	 *
 	 * @since BuddyPress (1.6)
@@ -448,17 +375,6 @@ class BP_Admin {
 	 */
 	public function admin_init() {
 		do_action( 'bp_admin_init' );
-	}
-
-	/**
-	 * Add the 'Right now in Forums' dashboard widget
-	 *
-	 * @since BuddyPress (1.6)
-	 *
-	 * @uses wp_add_dashboard_widget() To add the dashboard widget
-	 */
-	public function dashboard_widget_right_now() {
-		//wp_add_dashboard_widget( 'bp-dashboard-right-now', __( 'Right Now in Forums', 'buddypress' ), 'bp_dashboard_widget_right_now' );
 	}
 
 	/**
@@ -502,35 +418,6 @@ class BP_Admin {
 		}
 
 		do_action( 'bp_admin_head' );
-	}
-
-	/**
-	 * Registers the BuddyPress admin color scheme
-	 *
-	 * Because wp-content can exist outside of the WordPress root there is no
-	 * way to be certain what the relative path of the admin images is.
-	 * We are including the two most common configurations here, just in case.
-	 *
-	 * @since BuddyPress (1.6)
-	 *
-	 * @uses wp_admin_css_color() To register the color scheme
-	 */
-	public function register_admin_style () {
-
-		// Normal wp-content dir
-		if ( 0 === $this->content_depth )
-			$css_file = $this->styles_url . 'admin.css';
-
-		// Custom wp-content dir is 1 level away
-		elseif ( 1 === $this->content_depth )
-			$css_file = $this->styles_url . 'admin-1.css';
-
-		// Custom wp-content dir is 1 level away
-		elseif ( 2 === $this->content_depth )
-			$css_file = $this->styles_url . 'admin-2.css';
-
-		// Load the admin CSS styling
-		//wp_admin_css_color( 'buddypress', __( 'Green', 'buddypress' ), $css_file, array( '#222222', '#006600', '#deece1', '#6eb469' ) );
 	}
 
 	/**

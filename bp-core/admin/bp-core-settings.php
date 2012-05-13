@@ -265,45 +265,6 @@ function bp_core_admin_settings() {
 }
 
 /**
- * Contextual help for BuddyPress settings page
- *
- * @since BuddyPress (r3119)
- */
-function bp_core_admin_settings_help() {
-
-	$bp_contextual_help[] = __('This screen provides access to basic BuddyPress settings.', 'buddypress' );
-	$bp_contextual_help[] = __('In the Main Settings you have a number of options:',     'buddypress' );
-	$bp_contextual_help[] =
-		'<ul>' .
-			'<li>' . __( 'You can choose to lock a post after a certain number of minutes. "Locking post editing" will prevent the author from editing some amount of time after saving a post.',              'buddypress' ) . '</li>' .
-			'<li>' . __( '"Throttle time" is the amount of time required between posts from a single author. The higher the throttle time, the longer a user will need to wait between posting to the forum.', 'buddypress' ) . '</li>' .
-			'<li>' . __( 'You may choose to allow favorites, which are a way for users to save and later return to topics they favor. This is enabled by default.',                                            'buddypress' ) . '</li>' .
-			'<li>' . __( 'You may choose to allow subscriptions, which allows users to subscribe for notifications to topics that interest them. This is enabled by default.',                                 'buddypress' ) . '</li>' .
-			'<li>' . __( 'You may choose to allow "Anonymous Posting", which will allow guest users who do not have accounts on your site to both create topics as well as replies.',                          'buddypress' ) . '</li>' .
-		'</ul>';
-
-	$bp_contextual_help[] = __( 'Per Page settings allow you to control the number of topics and replies will appear on each of those pages. This is comparable to the WordPress "Reading Settings" page, where you can set the number of posts that should show on blog pages and in feeds.', 'buddypress' );
-	$bp_contextual_help[] = __( 'The Forums section allows you to control the permalink structure for your forums. Each "base" is what will be displayed after your main URL and right before your permalink slug.', 'buddypress' );
-	$bp_contextual_help[] = __( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.', 'buddypress' );
-	$bp_contextual_help[] = __( '<strong>For more information:</strong>', 'buddypress' );
-	$bp_contextual_help[] =
-		'<ul>' .
-			'<li>' . __( '<a href="http://buddypress.org/documentation/">BuddyPress Documentation</a>', 'buddypress' ) . '</li>' .
-			'<li>' . __( '<a href="http://buddypress.org/forums/">BuddyPress Support Forums</a>',       'buddypress' ) . '</li>' .
-		'</ul>' ;
-
-	// Empty the default $contextual_help var
-	$contextual_help = '';
-
-	// Wrap each help item in paragraph tags
-	foreach( $bp_contextual_help as $paragraph )
-		$contextual_help .= '<p>' . $paragraph . '</p>';
-
-	// Add help
-	add_contextual_help( 'settings_page_buddypress', $contextual_help );
-}
-
-/**
  * Output settings API option
  *
  * @since BuddyPress (r3203)
