@@ -192,26 +192,18 @@ function bp_get_caps_for_role( $role = '' ) {
 
 		// Administrator
 		case 'administrator' :
-
 			$caps = array(
-
 				// Misc
 				'bp_moderate',
-				'bp_throttle',
-				'bp_view_trash'
 			);
 
 			break;
 
 		// Moderator
 		case $moderator_role :
-
 			$caps = array(
-
 				// Misc
 				'bp_moderate',
-				'bp_throttle',
-				'bp_view_trash',
 			);
 
 			break;
@@ -225,9 +217,7 @@ function bp_get_caps_for_role( $role = '' ) {
 		// BuddyPress Participant Role
 		case $participant_role :
 		default                :
-
 			$caps = array();
-
 			break;
 	}
 

@@ -207,94 +207,12 @@ class BuddyPress {
 	 */
 	public $is_single_item = false;
 
-	/** Errors ****************************************************************/
-
-	/**
-	 * @var array|WP_Error Used to log and display errors
-	 */
-	public $errors = array();
-
-	/** Forms *****************************************************************/
-
-	/**
-	 * @var int The current tab index for form building
-	 */
-	public $tab_index = 0;
-
-	/** Theme Compat **********************************************************/
-
-	/**
-	 * @var string Theme to use for theme compatibility
-	 */
-	public $theme_compat = '';
-
-	/** Extensions ************************************************************/
-
-	/**
-	 * @var mixed BuddyPress add-ons should append globals to this
-	 */
-	public $extend = false;
-
 	/** Option Overload *******************************************************/
 
 	/**
 	 * @var array Optional Overloads default options retrieved from get_option()
 	 */
 	public $options = array();
-
-	/** Permastructs **********************************************************/
-
-	/**
-	 * @var string User struct
-	 */
-	public $user_id = '';
-
-	/**
-	 * @var string Edit struct
-	 */
-	public $edit_id = '';
-
-	/** Statuses **************************************************************/
-
-	/**
-	 * @var string Public post status id. Used by forums, topics, and replies.
-	 */
-	public $public_status_id = '';
-
-	/**
-	 * @var string Pending post status id. Used by topics and replies
-	 */
-	public $pending_status_id = '';
-
-	/**
-	 * @var string Private post status id. Used by forums and topics.
-	 */
-	public $private_status_id = '';
-
-	/**
-	 * @var string Closed post status id. Used by topics.
-	 */
-	public $closed_status_id = '';
-
-	/**
-	 * @var string Spam post status id. Used by topics and replies.
-	 */
-	public $spam_status_id = '';
-
-	/**
-	 * @var string Trash post status id. Used by topics and replies.
-	 */
-	public $trash_status_id = '';
-
-	/**
-	 * @var string Orphan post status id. Used by topics and replies.
-	 */
-	public $orphan_status_id = '';
-
-	/**
-	 * @var string Hidden post status id. Used by forums.
-	 */
-	public $hidden_status_id = '';
 
 	/** Functions *************************************************************/
 
@@ -417,34 +335,10 @@ class BuddyPress {
 		// Languages
 		$this->lang_dir   = $this->plugin_dir . 'bp-languages';
 
-		/** Identifiers *******************************************************/
-
-		// Status identifiers
-		$this->spam_status_id     = apply_filters( 'bp_spam_post_status',    'spam'    );
-		$this->closed_status_id   = apply_filters( 'bp_closed_post_status',  'closed'  );
-		$this->orphan_status_id   = apply_filters( 'bp_orphan_post_status',  'orphan'  );
-		$this->public_status_id   = apply_filters( 'bp_public_post_status',  'publish' );
-		$this->pending_status_id  = apply_filters( 'bp_pending_post_status', 'pending' );
-		$this->private_status_id  = apply_filters( 'bp_private_post_status', 'private' );
-		$this->hidden_status_id   = apply_filters( 'bp_hidden_post_status',  'hidden'  );
-		$this->trash_status_id    = apply_filters( 'bp_trash_post_status',   'trash'   );
-
-		// Other identifiers
-		$this->user_id            = apply_filters( 'bp_user_id', 'bp_user' );
-		$this->edit_id            = apply_filters( 'bp_edit_id', 'edit'    );
-
 		/** Users *************************************************************/
 		
 		$this->current_user       = new stdClass();
 		$this->displayed_user     = new stdClass();
-
-		/** Misc **************************************************************/
-
-		// Errors
-		$this->errors             = new WP_Error();
-
-		// Tab Index
-		$this->tab_index          = apply_filters( 'bp_default_tab_index', 100 );
 	}
 
 	/**
