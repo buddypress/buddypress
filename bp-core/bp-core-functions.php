@@ -701,7 +701,7 @@ function bp_core_load_buddypress_textdomain() {
 	else
 		return false;
 }
-add_action ( 'bp_init', 'bp_core_load_buddypress_textdomain', 2 );
+add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
 
 /**
  * Initializes {@link BP_Embed} after everything is loaded.
