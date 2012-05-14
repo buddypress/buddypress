@@ -113,29 +113,50 @@ function bp_core_filter_comments( $comments, $post_id ) {
 add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
 
 /**
- * bp_core_login_redirect()
- *
- * When a user logs in, always redirect them back to the previous page. NOT the admin area.
+ * When a user logs in, redirect him in a logical way
  *
  * @package BuddyPress Core
+ *
+ * @uses apply_filters Filter bp_core_login_redirect to modify where users are redirected to on
+ *   login
+ * @param string $redirect_to The URL to be redirected to, sanitized in wp-login.php
+ * @param string $redirect_to_raw The unsanitized redirect_to URL ($_REQUEST['redirect_to'])
+ * @param obj $user The WP_User object corresponding to a successfully logged-in user. Otherwise
+ *   a WP_Error object
+ * @return string The redirect URL
  */
-function bp_core_login_redirect( $redirect_to ) {
-	global $wpdb;
+function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 
-	// Don't mess with the redirect if this is not the root blog
-	if ( is_multisite() && $wpdb->blogid != bp_get_root_blog_id() )
+	// Only modify the redirect if we're on the main BP blog
+	if ( !bp_is_root_blog() ) {
 		return $redirect_to;
+	}
 
-	// If the redirect doesn't contain 'wp-admin', it's OK
-	if ( !empty( $_REQUEST['redirect_to'] ) && false === strpos( $_REQUEST['redirect_to'], 'wp-admin' ) )
+	// Only modify the redirect once the user is logged in
+	if ( !is_a( $user, 'WP_User' ) ) {
 		return $redirect_to;
+	}
 
-	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && false === strpos( wp_get_referer(), 'activate' ) && empty( $_REQUEST['nr'] ) )
+	// Allow plugins to allow or disallow redirects, as desired
+	$maybe_redirect = apply_filters( 'bp_core_login_redirect', false, $redirect_to, $redirect_to_raw, $user );
+	if ( false !== $maybe_redirect ) {
+		return $maybe_redirect;
+	}
+
+	// If a 'redirect_to' parameter has been passed that contains 'wp-admin', verify that the
+	// logged-in user has any business to conduct in the Dashboard before allowing the
+	// redirect to go through
+	if ( !empty( $_REQUEST['redirect_to'] ) && ( false === strpos( $_REQUEST['redirect_to'], 'wp-admin' ) || user_can( $user, 'edit_posts' ) ) ) {
+		return $redirect_to;
+	}
+
+	if ( false === strpos( wp_get_referer(), 'wp-login.php' ) && false === strpos( wp_get_referer(), 'activate' ) && empty( $_REQUEST['nr'] ) ) {
 		return wp_get_referer();
+	}
 
 	return bp_get_root_domain();
 }
-add_filter( 'login_redirect', 'bp_core_login_redirect' );
+add_filter( 'login_redirect', 'bp_core_login_redirect', 10, 3 );
 
 /***
  * bp_core_filter_user_welcome_email()
