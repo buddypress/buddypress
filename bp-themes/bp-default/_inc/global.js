@@ -9,9 +9,9 @@ jq(document).ready( function() {
 
 	/* Hide Forums Post Form */
 	if ( '-1' == window.location.search.indexOf('new') && jq('div.forums').length )
-		jq('div#new-topic-post').hide();
+		jq('#new-topic-post').hide();
 	else
-		jq('div#new-topic-post').show();
+		jq('#new-topic-post').show();
 
 	/* Activity filter and scope set */
 	bp_init_activity();
