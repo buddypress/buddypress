@@ -22,10 +22,6 @@ function bp_get_default_options() {
 	// Default options
 	$options = array (
 
-		/** DB Version ********************************************************/
-
-		'_bp_db_version'                  => '5249',
-
 		/** Components ********************************************************/
 
 		'bp-deactivated-components'       => serialize( array() ),
