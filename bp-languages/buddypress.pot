@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-05-13 17:36:10+00:00\n"
+"POT-Creation-Date: 2012-05-14 13:36:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -981,7 +981,7 @@ msgstr ""
 msgid "<a href=\"%1$s\">%2$s</a> is your new site.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:589 bp-core/bp-core-filters.php:327
+#: bp-blogs/bp-blogs-template.php:589 bp-core/bp-core-filters.php:348
 #: bp-themes/bp-default/blogs/create.php:21
 #: bp-themes/bp-default/blogs/index.php:21
 msgid "Create a Site"
@@ -1871,11 +1871,11 @@ msgid_plural "%d groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-filters.php:157 bp-core/bp-core-filters.php:182
+#: bp-core/bp-core-filters.php:178 bp-core/bp-core-filters.php:203
 msgid "[User Set]"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:201
+#: bp-core/bp-core-filters.php:222
 msgid ""
 "Thanks for registering! To complete the activation of your account and blog, please click the following link:\n"
 "\n"
@@ -1888,11 +1888,11 @@ msgid ""
 "%2$s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:202
+#: bp-core/bp-core-filters.php:223
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:234 bp-members/bp-members-functions.php:1256
+#: bp-core/bp-core-filters.php:255 bp-members/bp-members-functions.php:1256
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1900,39 +1900,39 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:235 bp-members/bp-members-functions.php:1257
+#: bp-core/bp-core-filters.php:256 bp-members/bp-members-functions.php:1257
 msgid "Activate Your Account"
 msgstr ""
 
 #. translators: "displayed user's name | canonicalised component name"
 #. translators: "group name | group nav section name"
 
-#: bp-core/bp-core-filters.php:292 bp-core/bp-core-filters.php:298
+#: bp-core/bp-core-filters.php:313 bp-core/bp-core-filters.php:319
 msgid "%1$s | %2$s"
 msgstr ""
 
 #. translators: "component item name | component nav section name | root
 #. component name"
 
-#: bp-core/bp-core-filters.php:303
+#: bp-core/bp-core-filters.php:324
 msgid "%1$s | %2$s | %3$s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:308 bp-core/bp-core-filters.php:310
+#: bp-core/bp-core-filters.php:329 bp-core/bp-core-filters.php:331
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:315
+#: bp-core/bp-core-filters.php:336
 #: bp-themes/bp-default/registration/register.php:23
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:319
+#: bp-core/bp-core-filters.php:340
 #: bp-themes/bp-default/registration/activate.php:24
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:323 bp-themes/bp-default/groups/create.php:18
+#: bp-core/bp-core-filters.php:344 bp-themes/bp-default/groups/create.php:18
 #: bp-themes/bp-default/groups/index.php:21
 msgid "Create a Group"
 msgstr ""
