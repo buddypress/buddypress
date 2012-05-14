@@ -68,6 +68,7 @@ ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image 
 /* Components
 ------------------------------------------------------------------------------*/
 
+.dashboard_page_bp-wizard td.plugin-title span,
 .settings_page_bp-components td.plugin-title span {
 	float: left;
 	width: 18px;
@@ -78,49 +79,60 @@ ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image 
 	margin-right: 5px;
 }
 
+.dashboard_page_bp-wizard tr.active td.plugin-title span,
 .settings_page_bp-components tr.active td.plugin-title span {
 	background-position-y: -7px;
 }
 
+.dashboard_page_bp-wizard tr.activity td.plugin-title span,
 .settings_page_bp-components tr.activity td.plugin-title span {
 	background-position-x: -4px;
 }
 
+.dashboard_page_bp-wizard tr.xprofile td.plugin-title span,
 .settings_page_bp-components tr.xprofile td.plugin-title span {
 	background-image: url( ../images/menu-wp.png );
 	background-position-x: -305px;
 }
 
+.dashboard_page_bp-wizard tr.settings td.plugin-title span,
 .settings_page_bp-components tr.settings td.plugin-title span {
 	background-image: url( ../images/menu-wp.png );
 	background-position-x: -334px;
 }
 
+.dashboard_page_bp-wizard tr.groups td.plugin-title span,
 .settings_page_bp-components tr.groups td.plugin-title span {
 	background-position-x: -66px;
 }
 
+.dashboard_page_bp-wizard tr.messages td.plugin-title span,
 .settings_page_bp-components tr.messages td.plugin-title span {
 	background-position-x: -154px;
 }
 
+.dashboard_page_bp-wizard tr.forums td.plugin-title span,
 .settings_page_bp-components tr.forums td.plugin-title span {
 	background-image: url( ../images/menu-wp.png );
 	background-position-x: -36px;
 }
 
+.dashboard_page_bp-wizard tr.blogs td.plugin-title span,
 .settings_page_bp-components tr.blogs td.plugin-title span {
 	background-position-x: -125px;
 }
 
+.dashboard_page_bp-wizard tr.friends td.plugin-title span,
 .settings_page_bp-components tr.friends td.plugin-title span {
 	background-position-x: -95px;
 }
 
+.dashboard_page_bp-wizard tr.core td.plugin-title span,
 .settings_page_bp-components tr.core td.plugin-title span {
 	background-position-x: -184px;
 }
 
+.dashboard_page_bp-wizard tr.members td.plugin-title span,
 .settings_page_bp-components tr.members td.plugin-title span {
 	background-position-x: -36px;
 }
