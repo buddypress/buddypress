@@ -146,7 +146,7 @@ function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 	// If a 'redirect_to' parameter has been passed that contains 'wp-admin', verify that the
 	// logged-in user has any business to conduct in the Dashboard before allowing the
 	// redirect to go through
-	if ( !empty( $_REQUEST['redirect_to'] ) && ( false === strpos( $_REQUEST['redirect_to'], 'wp-admin' ) || user_can( $user, 'edit_posts' ) ) ) {
+	if ( !empty( $redirect_to ) && ( false === strpos( $redirect_to, 'wp-admin' ) || user_can( $user, 'edit_posts' ) ) ) {
 		return $redirect_to;
 	}
 
