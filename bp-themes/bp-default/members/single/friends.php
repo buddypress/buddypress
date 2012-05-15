@@ -17,8 +17,8 @@
 
 			<li id="members-order-select" class="last filter">
 
-				<label for="members-all"><?php _e( 'Order By:', 'buddypress' ); ?></label>
-				<select id="members-all">
+				<label for="members-friends"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+				<select id="members-friends">
 					<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
 					<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ); ?></option>
 					<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
