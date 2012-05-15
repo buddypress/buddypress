@@ -107,6 +107,20 @@ function groups_check_group_exists( $group_slug ) {
 }
 
 /**
+ * Admin functions
+ */
+
+/**
+ * Loads admin panel styles and scripts.
+ *
+ * @deprecated 1.6
+ * @deprecated No longer used.
+ */
+function bp_core_add_admin_menu_styles() {
+	_deprecated_function( __FUNCTION__, '1.6' );
+}
+
+/**
  * Activity functions
  */
 
