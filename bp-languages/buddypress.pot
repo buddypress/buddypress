@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-05-14 13:36:09+00:00\n"
+"POT-Creation-Date: 2012-05-18 22:36:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1024,7 +1024,7 @@ msgid "Max posts to show:"
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:26
-#: bp-core/admin/bp-core-functions.php:355 bp-core/admin/bp-core-update.php:57
+#: bp-core/admin/bp-core-functions.php:361 bp-core/admin/bp-core-update.php:57
 #: bp-core/admin/bp-core-update.php:73 bp-core/admin/bp-core-update.php:203
 msgid "Components"
 msgstr ""
@@ -1177,40 +1177,40 @@ msgstr ""
 msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update your permalink structure</a> to something other than the default for it to work."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:252
+#: bp-core/admin/bp-core-functions.php:258
 msgid "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:277 bp-core/admin/bp-core-slugs.php:139
+#: bp-core/admin/bp-core-functions.php:283 bp-core/admin/bp-core-slugs.php:139
 #: bp-core/admin/bp-core-update.php:441
 #: bp-messages/bp-messages-template.php:561
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:282 bp-core/admin/bp-core-slugs.php:138
+#: bp-core/admin/bp-core-functions.php:288 bp-core/admin/bp-core-slugs.php:138
 #: bp-core/admin/bp-core-update.php:427 bp-members/bp-members-adminbar.php:60
 msgid "Register"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:294
+#: bp-core/admin/bp-core-functions.php:300
 msgid "The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:319
+#: bp-core/admin/bp-core-functions.php:325
 msgid "Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:332
+#: bp-core/admin/bp-core-functions.php:338
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:359 bp-core/admin/bp-core-slugs.php:26
+#: bp-core/admin/bp-core-functions.php:365 bp-core/admin/bp-core-slugs.php:26
 #: bp-core/admin/bp-core-update.php:59 bp-core/admin/bp-core-update.php:211
 msgid "Permalinks"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:363
+#: bp-core/admin/bp-core-functions.php:369
 #: bp-core/admin/bp-core-settings.php:250 bp-core/bp-core-admin.php:362
 #: bp-groups/bp-groups-loader.php:298 bp-groups/bp-groups-template.php:1276
 #: bp-settings/bp-settings-loader.php:23 bp-settings/bp-settings-loader.php:78
@@ -1218,7 +1218,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:371 bp-core/admin/bp-core-update.php:411
+#: bp-core/admin/bp-core-functions.php:377 bp-core/admin/bp-core-update.php:411
 #: bp-core/bp-core-template.php:266 bp-forums/bp-forums-admin.php:32
 #: bp-forums/bp-forums-admin.php:167 bp-forums/bp-forums-loader.php:107
 #: bp-forums/bp-forums-loader.php:186 bp-forums/bp-forums-loader.php:229
