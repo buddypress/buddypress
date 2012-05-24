@@ -39,7 +39,10 @@ class BP_Messages_Box_Template {
 		$this->search_terms = $search_terms;
 
 		if ( 'notices' == $this->box ) {
-			$this->threads = BP_Messages_Notice::get_notices();
+			$this->threads = BP_Messages_Notice::get_notices( array(
+				'pag_num'  => $this->pag_num,
+				'pag_page' => $this->pag_page
+			) );
 		} else {
 			$threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->type, $this->pag_num, $this->pag_page, $this->search_terms );
 

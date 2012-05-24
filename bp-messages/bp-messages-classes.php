@@ -508,10 +508,31 @@ class BP_Messages_Notice {
 
 	// Static Functions
 
-	function get_notices() {
+	/**
+	 * Pulls up a list of notices
+	 *
+	 * To get all notices, pass a value of -1 to pag_num
+	 *
+	 * @param array $args See $defaults for explanation of accepted arguments
+	 * @return array $notices
+	 */
+	function get_notices( $args = array() ) {
 		global $wpdb, $bp;
 
-		$notices = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_notices} ORDER BY date_sent DESC" ) );
+		$defaults = array(
+			'pag_num'  => 20, // Number of notices per page
+			'pag_page' => 1   // Page number
+		);
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r );
+
+		$limit_sql = '';
+		if ( (int) $pag_num >= 0 ) {
+			$limit_sql = $wpdb->prepare( "LIMIT %d, %d", (int) ( ( $pag_page - 1 ) * $pag_num ), (int) $pag_num );
+		}
+
+		$notices = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_notices} ORDER BY date_sent DESC {$limit_sql}" ) );
+
 		return $notices;
 	}
 
