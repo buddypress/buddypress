@@ -94,6 +94,53 @@ function bp_has_custom_activation_page() {
 }
 
 /**
+ * Friends functions
+ */
+
+/**
+ * Displays Friends header tabs
+ *
+ * @deprecated 1.6
+ * @deprecated No longer used
+ */
+function bp_friends_header_tabs() {
+	_deprecated_function( __FUNCTION__, '1.6', 'Since BuddyPress 1.2, BP has not supported ordering of friend lists by URL parameters.' );
+?>
+
+	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() . '/my-friends/recently-active' ) ?>"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'newest', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() . '/my-friends/newest' ) ?>"><?php _e( 'Newest', 'buddypress' ) ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'alphabetically', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() . '/my-friends/alphabetically' ) ?>"><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+
+<?php
+	do_action( 'friends_header_tabs' );
+}
+
+/**
+ * Filters the title for the Friends component
+ *
+ * @deprecated 1.6
+ * @deprecated No longer used
+ */
+function bp_friends_filter_title() {
+	_deprecated_function( __FUNCTION__, '1.6', 'Since BuddyPress 1.2, BP has not supported ordering of friend lists by URL parameters.' );
+
+	$current_filter = bp_action_variable( 0 );
+
+	switch ( $current_filter ) {
+		case 'recently-active': default:
+			_e( 'Recently Active', 'buddypress' );
+			break;
+		case 'newest':
+			_e( 'Newest', 'buddypress' );
+			break;
+		case 'alphabetically':
+			_e( 'Alphabetically', 'buddypress' );
+			break;
+	}
+}
+
+
+/**
  * Groups functions
  */
 
