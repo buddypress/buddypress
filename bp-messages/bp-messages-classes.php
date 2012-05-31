@@ -63,7 +63,7 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (1.5)
 	 * @var string
-	 */	
+	 */
 	public $messages_order;
 
 	function __construct( $thread_id = false, $order = 'ASC' ) {
@@ -152,7 +152,7 @@ class BP_Messages_Thread {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$search_sql   = "AND ( subject LIKE '%%$search_terms%%' OR message LIKE '%%$search_terms%%' )";
 		}
-                
+
 		if ( 'sentbox' == $box ) {
 			$thread_ids    = $wpdb->get_results( $wpdb->prepare( "SELECT m.thread_id, MAX(m.date_sent) AS date_sent FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_messages} m WHERE m.thread_id = r.thread_id AND m.sender_id = r.user_id AND m.sender_id = %d AND r.is_deleted = 0 {$search_sql} GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}", $user_id ) );
 			$total_threads = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( DISTINCT m.thread_id ) FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_messages} m WHERE m.thread_id = r.thread_id AND m.sender_id = r.user_id AND m.sender_id = %d AND r.is_deleted = 0 {$search_sql} ", $user_id ) );
@@ -256,9 +256,9 @@ class BP_Messages_Thread {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT thread_id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d LIMIT 1", $thread_id ) );
 	}
 
-	function get_recipient_links($recipients) {
-		if ( count($recipients) >= 5 )
-			return sprintf( __( '%d Recipients', 'buddypress'), count( $recipients ) );
+	function get_recipient_links( $recipients ) {
+		if ( count( $recipients ) >= 5 )
+			return sprintf( __( '%d Recipients', 'buddypress' ), count( $recipients ) );
 
 		$recipient_links = array();
 
@@ -554,7 +554,7 @@ class BP_Messages_Notice {
 	function get_active() {
 		global $wpdb, $bp;
 
-		$notice_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_notices} WHERE is_active = 1") );
+		$notice_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_notices} WHERE is_active = 1" ) );
 		return new BP_Messages_Notice( $notice_id );
 	}
 }
