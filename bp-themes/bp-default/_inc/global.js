@@ -808,12 +808,12 @@ jq(document).ready( function() {
 	});
 
 	/** Profile Visibility Settings *********************************/
-	
+	jq('.field-visibility-settings').hide();
 	jq('.visibility-toggle-link').on( 'click', function() {
 		var toggle_div = jq(this).parent();
 		
-		jq(toggle_div).slideUp( 200, function(){
-			jq(toggle_div).siblings('.field-visibility-settings').slideDown(200);
+		jq(toggle_div).fadeOut( 600, function(){
+			jq(toggle_div).siblings('.field-visibility-settings').slideDown(400);
 		});
 		
 		return false;
@@ -822,8 +822,8 @@ jq(document).ready( function() {
 	jq('.field-visibility-settings-close').on( 'click', function() {
 		var settings_div = jq(this).parent();
 		
-		jq(settings_div).slideUp( 200, function(){
-			jq(settings_div).siblings('.field-visibility-settings-toggle').slideDown(200);
+		jq(settings_div).slideUp( 400, function(){
+			jq(settings_div).siblings('.field-visibility-settings-toggle').fadeIn(800);
 		});
 		
 		return false;
