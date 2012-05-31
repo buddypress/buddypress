@@ -262,8 +262,15 @@ class BP_Messages_Thread {
 
 		$recipient_links = array();
 
-		foreach ( (array) $recipients as $recipient )
-			$recipient_links[] = bp_core_get_userlink( $recipient->user_id );
+		foreach ( (array) $recipients as $recipient ) {
+			$recipient_link = bp_core_get_userlink( $recipient->user_id );
+
+			if ( empty( $recipient_link ) ) {
+				$recipient_link = __( 'Deleted User', 'buddypress' );
+			}
+
+			$recipient_links[] = $recipient_link;
+		}
 
 		return implode( ', ', (array) $recipient_links );
 	}
