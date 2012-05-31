@@ -146,10 +146,16 @@ class BP_Component {
 		// Notifications callback
 		$this->notification_callback = apply_filters( 'bp_' . $this->id . '_notification_callback', $r['notification_callback'] );
 
-		// Setup global table names
-		if ( !empty( $r['global_tables'] ) )
-			foreach ( $r['global_tables'] as $global_name => $table_name )
+		// Set up global table names
+		if ( !empty( $r['global_tables'] ) ) {
+			// This filter allows for component-specific filtering of table names
+			// To filter *all* tables, use the 'bp_core_get_table_prefix' filter instead
+			$r['global_tables'] = apply_filters( 'bp_' . $this->id . '_global_tables', $r['global_tables'] );
+
+			foreach ( $r['global_tables'] as $global_name => $table_name ) {
 				$this->$global_name = $table_name;
+			}
+                }
 
 		/** BuddyPress ********************************************************/
 
