@@ -258,7 +258,7 @@ class BP_Messages_Thread {
 
 	function get_recipient_links( $recipients ) {
 		if ( count( $recipients ) >= 5 )
-			return sprintf( __( '%d Recipients', 'buddypress' ), count( $recipients ) );
+			return sprintf( __( '%s Recipients', 'buddypress' ), number_format_i18n( count( $recipients ) ) );
 
 		$recipient_links = array();
 
