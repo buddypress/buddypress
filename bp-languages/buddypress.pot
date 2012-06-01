@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-05-27 16:36:15+00:00\n"
+"POT-Creation-Date: 2012-06-01 04:36:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -637,7 +637,7 @@ msgstr ""
 #: bp-friends/bp-friends-screens.php:84 bp-groups/bp-groups-screens.php:845
 #: bp-messages/bp-messages-screens.php:149
 #: bp-themes/bp-default/groups/single/admin.php:26
-#: bp-themes/bp-default/registration/register.php:224
+#: bp-themes/bp-default/registration/register.php:227
 msgid "Yes"
 msgstr ""
 
@@ -645,7 +645,7 @@ msgstr ""
 #: bp-friends/bp-friends-screens.php:85 bp-groups/bp-groups-screens.php:846
 #: bp-messages/bp-messages-screens.php:150
 #: bp-themes/bp-default/groups/single/admin.php:27
-#: bp-themes/bp-default/registration/register.php:225
+#: bp-themes/bp-default/registration/register.php:228
 msgid "No"
 msgstr ""
 
@@ -969,7 +969,7 @@ msgid "Privacy:"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:495
-#: bp-themes/bp-default/registration/register.php:221
+#: bp-themes/bp-default/registration/register.php:224
 msgid "I would like my site to appear in search engines, and in public listings around this network."
 msgstr ""
 
@@ -1289,7 +1289,7 @@ msgstr ""
 #: bp-themes/bp-default/groups/single/admin.php:117
 #: bp-themes/bp-default/groups/single/forum/edit.php:58
 #: bp-themes/bp-default/groups/single/forum/edit.php:74
-#: bp-themes/bp-default/members/single/profile/edit.php:144
+#: bp-themes/bp-default/members/single/profile/edit.php:146
 #: bp-themes/bp-default/members/single/settings/general.php:72
 #: bp-themes/bp-default/members/single/settings/notifications.php:61
 #: bp-xprofile/bp-xprofile-classes.php:362
@@ -2251,6 +2251,8 @@ msgstr ""
 
 #: bp-forums/bp-forums-template.php:505 bp-forums/bp-forums-template.php:567
 #: bp-forums/bp-forums-template.php:1212
+#: bp-messages/bp-messages-classes.php:269
+#: bp-messages/bp-messages-template.php:847
 msgid "Deleted User"
 msgstr ""
 
@@ -3669,7 +3671,8 @@ msgid "Messages deleted."
 msgstr ""
 
 #: bp-messages/bp-messages-classes.php:261
-msgid " Recipients"
+#: bp-messages/bp-messages-template.php:840
+msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-functions.php:53
@@ -3851,8 +3854,8 @@ msgstr ""
 
 #: bp-messages/bp-messages-template.php:613
 #: bp-themes/bp-default/functions.php:174
-#: bp-themes/bp-default/members/single/profile/edit.php:126
-#: bp-themes/bp-default/registration/register.php:167
+#: bp-themes/bp-default/members/single/profile/edit.php:128
+#: bp-themes/bp-default/registration/register.php:169
 msgid "Close"
 msgstr ""
 
@@ -3864,11 +3867,7 @@ msgstr ""
 msgid "Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:840
-msgid "%d Recipients"
-msgstr ""
-
-#: bp-messages/bp-messages-template.php:915
+#: bp-messages/bp-messages-template.php:922
 #: bp-themes/bp-default/_inc/ajax.php:760
 msgid "Sent %s"
 msgstr ""
@@ -5053,8 +5052,8 @@ msgstr ""
 #: bp-themes/bp-default/registration/register.php:113
 #: bp-themes/bp-default/registration/register.php:128
 #: bp-themes/bp-default/registration/register.php:139
-#: bp-themes/bp-default/registration/register.php:208
-#: bp-themes/bp-default/registration/register.php:217
+#: bp-themes/bp-default/registration/register.php:211
+#: bp-themes/bp-default/registration/register.php:220
 msgid "(required)"
 msgstr ""
 
@@ -5066,9 +5065,9 @@ msgid "Clear"
 msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/edit.php:118
-#: bp-themes/bp-default/members/single/profile/edit.php:130
+#: bp-themes/bp-default/members/single/profile/edit.php:132
 #: bp-themes/bp-default/registration/register.php:159
-#: bp-themes/bp-default/registration/register.php:171
+#: bp-themes/bp-default/registration/register.php:174
 msgid "This field can be seen by: <span class=\"current-visibility-level\">%s</span>"
 msgstr ""
 
@@ -5076,8 +5075,8 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/profile/edit.php:122
-#: bp-themes/bp-default/registration/register.php:163
+#: bp-themes/bp-default/members/single/profile/edit.php:123
+#: bp-themes/bp-default/registration/register.php:164
 msgid "Who can see this field?"
 msgstr ""
 
@@ -5202,35 +5201,35 @@ msgstr ""
 msgid "Profile Details"
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:202
+#: bp-themes/bp-default/registration/register.php:205
 msgid "Blog Details"
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:204
+#: bp-themes/bp-default/registration/register.php:207
 msgid "Yes, I'd like to create a new site"
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:208
+#: bp-themes/bp-default/registration/register.php:211
 msgid "Blog URL"
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:217
+#: bp-themes/bp-default/registration/register.php:220
 msgid "Site Title"
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:238
+#: bp-themes/bp-default/registration/register.php:241
 msgid "Complete Sign Up"
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:249
+#: bp-themes/bp-default/registration/register.php:252
 msgid "Sign Up Complete!"
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:255
+#: bp-themes/bp-default/registration/register.php:258
 msgid "You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address."
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:257
+#: bp-themes/bp-default/registration/register.php:260
 msgid "You have successfully created your account! Please log in using the username and password you have just created."
 msgstr ""
 
