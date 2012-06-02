@@ -32,7 +32,7 @@ function messages_action_view_message() {
 		check_admin_referer( 'messages_send_message', 'send_message_nonce' );
 
 		// Send the reply
-		if ( messages_new_message( array( 'thread_id' => $thread_id, 'subject' => $_POST['subject'], 'content' => $_POST['content'] ) ) )
+		if ( messages_new_message( array( 'thread_id' => $thread_id, 'subject' => ! empty( $_POST['subject'] ) ? $_POST['subject'] : false, 'content' => $_POST['content'] ) ) )
 			bp_core_add_message( __( 'Your reply was sent successfully', 'buddypress' ) );
 		else
 			bp_core_add_message( __( 'There was a problem sending your reply, please try again', 'buddypress' ), 'error' );
