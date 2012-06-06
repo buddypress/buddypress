@@ -714,9 +714,21 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	}
 	
 	$user_visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
-	
+
+	// Parse the user-provided visibility levels with the default levels, which may take
+	// precedence
+	$default_visibility_levels = BP_XProfile_Group::fetch_default_visibility_levels();
+
+	foreach( (array) $default_visibility_levels as $d_field_id => $defaults ) {
+		// If the admin has forbidden custom visibility levels for this field, replace
+		// the user-provided setting with the default specified by the admin
+		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' == $defaults['allow_custom'] && isset( $user_visibility_levels[$d_field_id] ) ) {
+			$user_visibility_levels[$d_field_id] = $defaults['default'];
+		}
+	}
+
 	$field_ids = array();
-	foreach( (array)$user_visibility_levels as $field_id => $field_visibility ) {
+	foreach( (array) $user_visibility_levels as $field_id => $field_visibility ) {
 		if ( in_array( $field_visibility, $levels ) ) {
 			$field_ids[] = $field_id;
 		}
