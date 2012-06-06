@@ -377,10 +377,10 @@ function bp_core_activation_notice() {
 
 	// Get current theme info
 	// Backward-compatibility with WP < 3.4 will be removed in a future release
-	if ( bp_get_major_wp_version() >= 3.4 ) {
+	if ( function_exists( 'wp_get_theme' ) ) {
 		$ct = wp_get_theme();
 	} else {
-		$ct = get_current_theme();
+		$ct = current_theme_info();
 	}
 
 	// The best way to remove this notice is to add a "buddypress" tag to
