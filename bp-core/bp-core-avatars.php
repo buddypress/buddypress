@@ -71,6 +71,14 @@ function bp_core_set_avatar_globals() {
 	$bp->avatar->upload_path = bp_core_avatar_upload_path();
 	$bp->avatar->url	   	 = bp_core_avatar_url();
 
+	// Backpat for pre-1.5
+	if ( ! defined( 'BP_AVATAR_UPLOAD_PATH' ) )
+		define( 'BP_AVATAR_UPLOAD_PATH', $bp->avatar->upload_path );
+
+	// Backpat for pre-1.5
+	if ( ! defined( 'BP_AVATAR_URL' ) )
+		define( 'BP_AVATAR_URL', $bp->avatar->url );
+
 	do_action( 'bp_core_set_avatar_globals' );
 }
 add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
