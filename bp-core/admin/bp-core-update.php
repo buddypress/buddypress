@@ -1037,6 +1037,30 @@ class BP_Core_Setup_Wizard {
 		delete_blog_option( bp_get_root_blog_id(), 'bp-core-db-version'  );
 		delete_site_option( bp_get_root_blog_id(), '_bp-core-db-version' );
 		delete_site_option( bp_get_root_blog_id(), '_bp_db_version'      );
+
+		// Some legacy options need to be flipped from 1 to 0s
+		$legacy_options = array(
+			'bp-disable-account-deletion',
+			'bp-disable-avatar-uploads',
+			'bp-disable-profile-sync',
+			'bp_restrict_group_creation',
+			'hide-loggedout-adminbar',
+		);
+
+		/**
+		 * Note: Each of these options is represented by its opposite in the UI
+		 * Ie, the Profile Syncing option reads "Enable Sync", so when it's checked,
+		 * the corresponding option should be unset.
+		 */
+		foreach( $legacy_options as $legacy_option ) {
+			$value = bp_get_option( $legacy_option );
+			if ( empty( $value ) )
+				$value = 1;
+			else
+				$value = 0;
+
+			bp_update_option( $legacy_option, $value );
+		}
 	}
 
 	/**

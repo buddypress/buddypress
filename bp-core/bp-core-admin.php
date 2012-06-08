@@ -282,13 +282,13 @@ class BP_Admin {
 		// Add the main section
 		add_settings_section( 'bp_main',            __( 'Main Settings',    'buddypress' ), 'bp_admin_setting_callback_main_section',     'buddypress'            );
 
-		// Throttle setting
-		add_settings_field( '_bp_admin_bar',        __( 'Toolbar',        'buddypress' ), 'bp_admin_setting_callback_admin_bar',        'buddypress', 'bp_main' );
-	 	register_setting  ( 'buddypress',           '_bp_admin_bar',        'intval'                                                                              );
+		// Hide toolbar for logged out users setting
+		add_settings_field( 'hide-loggedout-adminbar',        __( 'Toolbar',        'buddypress' ), 'bp_admin_setting_callback_admin_bar',        'buddypress', 'bp_main' );
+	 	register_setting  ( 'buddypress',           'hide-loggedout-adminbar',        'intval'                                                                              );
 
 		// Allow favorites setting
-		add_settings_field( '_bp_account_deletion', __( 'Account Deletion', 'buddypress' ), 'bp_admin_setting_callback_account_deletion', 'buddypress', 'bp_main' );
-	 	register_setting  ( 'buddypress',           '_bp_account_deletion', 'intval'                                                                              );
+		add_settings_field( 'bp-disable-account-deletion', __( 'Account Deletion', 'buddypress' ), 'bp_admin_setting_callback_account_deletion', 'buddypress', 'bp_main' );
+	 	register_setting  ( 'buddypress',           'bp-disable-account-deletion', 'intval'                                                                              );
 
 		/** XProfile Section **************************************************/
 
@@ -298,12 +298,12 @@ class BP_Admin {
 			add_settings_section( 'bp_xprofile',      __( 'Profile Settings', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress'                );
 
 			// Allow topic and reply revisions
-			add_settings_field( '_bp_avatar_uploads', __( 'Avatar Uploads',   'buddypress' ), 'bp_admin_setting_callback_avatar_uploads',   'buddypress', 'bp_xprofile' );
-			register_setting  ( 'buddypress',         '_bp_avatar_uploads',   'intval'                                                                                  );
+			add_settings_field( 'bp-disable-avatar-uploads', __( 'Avatar Uploads',   'buddypress' ), 'bp_admin_setting_callback_avatar_uploads',   'buddypress', 'bp_xprofile' );
+			register_setting  ( 'buddypress',         'bp-disable-avatar-uploads',   'intval'                                                                                  );
 
 			// Profile sync setting
-			add_settings_field( '_bp_profile_sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync',     'buddypress', 'bp_xprofile' );
-			register_setting  ( 'buddypress',         '_bp_profile_sync',     'intval'                                                                                  );
+			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync',     'buddypress', 'bp_xprofile' );
+			register_setting  ( 'buddypress',         'bp-disable-profile-sync',     'intval'                                                                                  );
 		}
 
 		/** Groups Section ****************************************************/
@@ -314,8 +314,8 @@ class BP_Admin {
 			add_settings_section( 'bp_groups',        __( 'Groups Settings',  'buddypress' ), 'bp_admin_setting_callback_groups_section',   'buddypress'              );
 
 			// Allow subscriptions setting
-			add_settings_field( '_bp_group_creation', __( 'Group Creation',   'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
-			register_setting  ( 'buddypress',         '_bp_group_creation',   'intval'                                                                                );
+			add_settings_field( 'bp_restrict_group_creation', __( 'Group Creation',   'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
+			register_setting  ( 'buddypress',         'bp_restrict_group_creation',   'intval'                                                                                );
 		}
 
 		/** Forums ************************************************************/

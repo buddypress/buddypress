@@ -208,11 +208,11 @@ function bp_core_admin_settings() {
 
 		// Some legacy options are not registered with the Settings API
 		$legacy_options = array(
-			'bp-disable-profile-sync',
-			'hide-loggedout-adminbar',
-			'bp-disable-avatar-uploads',
 			'bp-disable-account-deletion',
-			'bp_restrict_group_creation'
+			'bp-disable-avatar-uploads',
+			'bp-disable-profile-sync',
+			'bp_restrict_group_creation',
+			'hide-loggedout-adminbar',
 		);
 
 		foreach( $legacy_options as $legacy_option ) {
