@@ -49,22 +49,6 @@ function bp_admin_setting_callback_account_deletion() {
 <?php
 }
 
-/**
- * Use the WordPress editor setting field
- *
- * @since BuddyPress (r3586)
- *
- * @uses checked() To display the checked attribute
- */
-function bp_admin_setting_callback_use_wp_editor() {
-?>
-
-	<input id="_bp_use_wp_editor" name="_bp_use_wp_editor" type="checkbox" id="_bp_use_wp_editor" value="1" <?php checked( bp_use_wp_editor( true ) ); ?> />
-	<label for="_bp_use_wp_editor"><?php _e( 'Use the fancy WordPress editor to create and edit topics and replies', 'buddypress' ); ?></label>
-
-<?php
-}
-
 /** Activity *******************************************************************/
 
 /**

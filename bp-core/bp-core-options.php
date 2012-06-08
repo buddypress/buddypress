@@ -24,7 +24,7 @@ function bp_get_default_options() {
 
 		/** Components ********************************************************/
 
-		'bp-deactivated-components'       => serialize( array() ),
+		'bp-deactivated-components'       => array(),
 
 		/** bbPress ***********************************************************/
 
@@ -61,18 +61,12 @@ function bp_get_default_options() {
 		// Allow comments on blog and forum activity items
 		'bp-disable-blogforum-comments'   => true,
 
-		// Use the WordPress editor when possible
-		'_bp_use_wp_editor'               => false,
-
 		/** Groups ************************************************************/
 
 		// @todo Move this into the groups component
 
 		// Restrict group creation to super admins
 		'bp_restrict_group_creation'      => false,
-
-		// Root forum ID for groups
-		'_bbp_group_forums_root_id'       => 0,
 
 		/** Akismet ***********************************************************/
 
@@ -473,20 +467,6 @@ function bp_restrict_group_creation( $default = true ) {
  */
 function bp_force_buddybar( $default = true ) {
 	return (bool) apply_filters( 'bp_force_buddybar', (bool) bp_get_option( '_bp_force_buddybar', $default ) );
-}
-
-/**
- * Use the WordPress editor if available
- *
- * @since BuddyPress (r3386)
- *
- * @param $default bool Optional. Default value true
- *
- * @uses bp_get_option() To get the WP editor option
- * @return bool Use WP editor?
- */
-function bp_use_wp_editor( $default = true ) {
-	return (bool) apply_filters( 'bp_use_wp_editor', (bool) bp_get_option( '_bp_use_wp_editor', $default ) );
 }
 
 /**
