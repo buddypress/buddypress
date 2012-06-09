@@ -151,7 +151,7 @@ function xprofile_delete_field( $field_id ) {
  * @package BuddyPress Core
  * @param mixed $field The ID of the field, or the $name of the field.
  * @param int $user_id The ID of the user
- * @param string $multi_format How should array data be returned? 'comma' if you want a 
+ * @param string $multi_format How should array data be returned? 'comma' if you want a
  *   comma-separated string; 'array' if you want an array
  * @uses BP_XProfile_ProfileData::get_value_byid() Fetches the value based on the params passed.
  * @return mixed The profile field data.
@@ -179,7 +179,7 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
 		foreach( (array) $values as $value ) {
 			$data[] = apply_filters( 'xprofile_get_field_data', $value, $field_id, $user_id );
 		}
-		
+
 		if ( 'comma' == $multi_format ) {
 			$data = implode( ', ', $data );
 		}
@@ -268,22 +268,22 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
 	if ( empty( $field_id ) || empty( $user_id ) || empty( $visibility_level ) ) {
 		return false;
 	}
-	
+
 	// Check against a whitelist
 	$allowed_values = bp_xprofile_get_visibility_levels();
 	if ( !array_key_exists( $visibility_level, $allowed_values ) ) {
 		return false;
 	}
-	
+
 	// Stored in an array in usermeta
 	$current_visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
-	
+
 	if ( !$current_visibility_levels ) {
 		$current_visibility_levels = array();
 	}
-	
+
 	$current_visibility_levels[$field_id] = $visibility_level;
-	
+
 	return bp_update_user_meta( $user_id, 'bp_xprofile_visibility_levels', $current_visibility_levels );
 }
 
@@ -636,7 +636,7 @@ function bp_xprofile_fullname_field_name() {
  */
 function bp_xprofile_get_visibility_levels() {
 	global $bp;
-	
+
 	return apply_filters( 'bp_xprofile_get_visibility_levels', $bp->profile->visibility_levels );
 }
 
@@ -661,39 +661,39 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
 	if ( !$displayed_user_id ) {
 		$displayed_user_id = bp_displayed_user_id();
 	}
-	
+
 	if ( !$displayed_user_id ) {
 		return array();
 	}
-	
+
 	if ( !$current_user_id ) {
 		$current_user_id = bp_loggedin_user_id();
 	}
-	
+
 	// @todo - This is where you'd swap out for current_user_can() checks
-	
+
 	if ( $current_user_id ) {
 		// Current user is logged in
 		if ( $displayed_user_id == $current_user_id ) {
 			// If you're viewing your own profile, nothing's private
-			$hidden_fields = array();	
-			
+			$hidden_fields = array();
+
 		} else if ( bp_is_active( 'friends' ) && friends_check_friendship( $displayed_user_id, $current_user_id ) ) {
 			// If the current user and displayed user are friends, show all
 			$hidden_fields = array();
-			
+
 		} else {
-			// current user is logged-in but not friends, so exclude friends-only	
-			$hidden_levels = array( 'friends' );			
+			// current user is logged-in but not friends, so exclude friends-only
+			$hidden_levels = array( 'friends' );
 			$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
 		}
-		
+
 	} else {
 		// Current user is not logged in, so exclude friends-only and loggedin
 		$hidden_levels = array( 'friends', 'loggedin' );
 		$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
 	}
-	
+
 	return apply_filters( 'bp_xprofile_get_hidden_fields_for_user', $hidden_fields, $displayed_user_id, $current_user_id );
 }
 
@@ -712,7 +712,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	if ( !is_array( $levels ) ) {
 		$levels = (array)$levels;
 	}
-	
+
 	$user_visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 
 	// Parse the user-provided visibility levels with the default levels, which may take
@@ -733,13 +733,13 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 			$field_ids[] = $field_id;
 		}
 	}
-	
+
 	// Never allow the fullname field to be excluded
 	if ( in_array( 1, $field_ids ) ) {
 		$key = array_search( 1, $field_ids );
 		unset( $field_ids[$key] );
 	}
-	
+
 	return $field_ids;
 }
 

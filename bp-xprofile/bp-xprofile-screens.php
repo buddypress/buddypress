@@ -113,7 +113,7 @@ function xprofile_screen_edit_profile() {
 					$errors = true;
 				else
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $value );
-				
+
 				// Save the visibility level
 				$visibility_level = !empty( $_POST['field_' . $field_id . '_visibility'] ) ? $_POST['field_' . $field_id . '_visibility'] : 'public';
 				xprofile_set_field_visibility_level( $field_id, bp_displayed_user_id(), $visibility_level );

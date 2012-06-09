@@ -157,14 +157,14 @@ function bp_has_profile( $args = '' ) {
 	// Only show empty fields if we're on the Dashboard, or we're on a user's profile edit page,
 	// or this is a registration page
 	$hide_empty_fields_default = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() && !bp_is_register_page() );
-	
+
 	// We only need to fetch visibility levels when viewing your own profile
 	if ( bp_is_my_profile() || bp_current_user_can( 'bp_moderate' ) || bp_is_register_page() ) {
 		$fetch_visibility_level_default = true;
 	} else {
 		$fetch_visibility_level_default = false;
 	}
-	
+
 	$defaults = array(
 		'user_id'             => bp_displayed_user_id(),
 		'profile_group_id'    => false,
@@ -424,7 +424,7 @@ function bp_the_profile_field_options( $args = '' ) {
 		// even on required fields.
 		$defaults = array(
 			'type' 		       => false,
-			'null_on_required' => false 
+			'null_on_required' => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -729,9 +729,9 @@ function bp_the_profile_field_visibility_level() {
 	 */
 	function bp_get_the_profile_field_visibility_level() {
 		global $field;
-		
+
 		$retval = !empty( $field->visibility_level ) ? $field->visibility_level : 'public';
-		
+
 		return apply_filters( 'bp_get_the_profile_field_visibility_level', $retval );
 	}
 
@@ -746,10 +746,10 @@ function bp_the_profile_field_visibility_level_label() {
 	 */
 	function bp_get_the_profile_field_visibility_level_label() {
 		global $field;
-		
+
 		$level  = !empty( $field->visibility_level ) ? $field->visibility_level : 'public';
 		$fields = bp_xprofile_get_visibility_levels();
-		
+
 		return apply_filters( 'bp_get_the_profile_field_visibility_level_label', $fields[$level]['label'] );
 	}
 
@@ -905,17 +905,17 @@ function bp_profile_visibility_radio_buttons() {
 	/**
 	 * Return the field visibility radio buttons
 	 */
-	function bp_profile_get_visibility_radio_buttons() {		
+	function bp_profile_get_visibility_radio_buttons() {
 		$html = '<ul class="radio">';
-		
+
 		foreach( bp_xprofile_get_visibility_levels() as $level ) {
 			$checked = $level['id'] == bp_get_the_profile_field_visibility_level() ? ' checked="checked" ' : '';
-			
+
 			$html .= '<li><label for="see-field_' . esc_attr( $level['id'] ) . '"><input type="radio" id="see-field_' . esc_attr( $level['id'] ) . '" name="field_' . bp_get_the_profile_field_id() . '_visibility" value="' . esc_attr( $level['id'] ) . '"' . $checked . ' /> ' . esc_html( $level['label'] ) . '</label></li>';
 		}
-		
+
 		$html .= '</ul>';
-		
+
 		return apply_filters( 'bp_profile_get_visibility_radio_buttons', $html );
 	}
 ?>
