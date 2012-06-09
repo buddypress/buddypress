@@ -430,8 +430,20 @@ function bp_the_profile_field_options( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		if ( !method_exists( $field, 'get_children' ) )
-			$field = new BP_XProfile_Field( $field->id );
+		// In some cases, the $field global is not an instantiation of the BP_XProfile_Field
+		// class. However, we have to make sure that all data originally in $field gets
+		// merged back in, after reinstantiation.
+		if ( !method_exists( $field, 'get_children' ) ) {
+			$field_obj = new BP_XProfile_Field( $field->id );
+
+			foreach( $field as $field_prop => $field_prop_value ) {
+				if ( !isset( $field_obj->{$field_prop} ) ) {
+					$field_obj->{$field_prop} = $field_prop_value;
+				}
+			}
+
+			$field = $field_obj;
+		}
 
 		$options = $field->get_children();
 
