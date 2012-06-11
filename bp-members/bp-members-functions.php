@@ -846,24 +846,25 @@ add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );
  * When a user logs in, check if they have been marked as a spammer. If yes then simply
  * redirect them to the home page and stop them from logging in.
  *
- * @package BuddyPress Core
- * @param $auth_obj The WP authorization object
- * @param $username The username of the user logging in.
- * @uses get_user_by() Get the userdata object for a user based on their username
- * @uses bp_core_redirect() Safe redirect to a page
- * @return $auth_obj If the user is not a spammer, return the authorization object
+ * @param obj $user Either the WP_User object or the WP_Error object
+ * @return obj If the user is not a spammer, return the WP_User object. Otherwise a new WP_Error object.
+ *
+ * @since 1.1.2
  */
-function bp_core_boot_spammer( $auth_obj, $username ) {
+function bp_core_boot_spammer( $user ) {
+	// check to see if the $user has already failed logging in, if so return $user as-is
+	if ( is_wp_error( $user ) || empty( $user ) )
+		return $user;
 
-	if ( !$user = get_user_by( 'login', $username ) )
-		return $auth_obj;
-
-	if ( ( is_multisite() && (int) $user->spam ) || 1 == (int) $user->user_status )
+	// the user exists; now do a check to see if the user is a spammer
+	// if the user is a spammer, stop them in their tracks!
+	if ( is_a( $user, 'WP_User' ) && ( ( is_multisite() && (int) $user->spam ) || 1 == $user->user_status ) )
 		return new WP_Error( 'invalid_username', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
-	else
-		return $auth_obj;
+
+	// user is good to go!
+	return $user;
 }
-add_filter( 'authenticate', 'bp_core_boot_spammer', 30, 2 );
+add_filter( 'authenticate', 'bp_core_boot_spammer', 30 );
 
 /**
  * Deletes usermeta for the user when the user is deleted.
@@ -1271,23 +1272,37 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 	do_action( 'bp_core_sent_user_validation_email', $subject, $message, $user_id, $user_email, $key );
 }
 
-// Stop user accounts logging in that have not been activated (user_status = 2)
-function bp_core_signup_disable_inactive( $auth_obj, $username ) {
-	global $wpdb;
+/**
+ * Stop user accounts logging in that have not been activated yet (user_status = 2).
+ *
+ * Note: This is only applicable for single site WordPress installs.
+ * Multisite has their own DB table - 'wp_signups' - dedicated for unactivated users.
+ * See {@link wpmu_signup_user()} and {@link wpmu_validate_user_signup()}.
+ *
+ * @param obj $user Either the WP_User object or the WP_Error object
+ * @return obj If the user is not a spammer, return the WP_User object. Otherwise a new WP_Error object.
+ *
+ * @since 1.2.2
+ */
+function bp_core_signup_disable_inactive( $user ) {
+	// check to see if the $user has already failed logging in, if so return $user as-is
+	if ( is_wp_error( $user ) || empty( $user ) )
+		return $user;
 
-	if ( !$user_id = bp_core_get_userid( $username ) )
-		return $auth_obj;
-
-	$user_status = (int) $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM $wpdb->users WHERE ID = %d", $user_id ) );
-
-	if ( 2 == $user_status )
+	// the user exists; now do a check to see if the user has activated their account or not
+	// NOTE: this is only applicable for single site WordPress installs!
+	// if unactivated, stop the login now!
+	if ( is_a( $user, 'WP_User' ) && 2 == $user->user_status )
 		return new WP_Error( 'bp_account_not_activated', __( '<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link.', 'buddypress' ) );
-	else
-		return $auth_obj;
-}
-add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 2 );
 
-// Kill the wp-signup.php if custom registration signup templates are present
+	// user has activated their account! all clear!
+	return $user;
+}
+add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30 );
+
+/**
+ * Kill the wp-signup.php if custom registration signup templates are present
+ */
 function bp_core_wpsignup_redirect() {
 	$action = !empty( $_GET['action'] ) ? $_GET['action'] : '';
 
