@@ -2392,12 +2392,14 @@ body.no-js .field-visibility-settings-close {
 }
 .field-visibility-settings {
 	display: none;
+	margin-top: 10px;
 }
 	body.no-js .field-visibility-settings {
 		display: block;
 	}
 .current-visibility-level {
 	font-weight: bold;
+	font-style: normal;
 }
 .field-visibility-settings,
 .field-visibility-settings-toggle,
@@ -2410,4 +2412,12 @@ body.no-js .field-visibility-settings-close {
 }
 body.register div.page ul {
 	list-style: none;
+}
+.standard-form .field-visibility-settings label {
+	margin: 0;
+	font-weight: normal;
+}
+.field-visibility-settings legend,
+.field-visibility-settings-toggle {
+	font-style: italic;
 }
