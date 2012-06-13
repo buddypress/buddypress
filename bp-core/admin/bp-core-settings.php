@@ -74,6 +74,20 @@ function bp_admin_setting_callback_activity_akismet() {
 <?php
 }
 
+/**
+ * Allow activity comments on blog posts and forum posts
+ *
+ * @since BuddyPress (1.6)
+ */
+function bp_admin_setting_callback_blogforum_comments() {
+?>
+
+	<input id="bp-disable-blogforum-comments" name="bp-disable-blogforum-comments" type="checkbox" value="1" <?php checked( bp_disable_blogforum_comments( true ) ); ?> />
+	<label for="bp-disable-blogforum-comments"><?php _e( 'Allow activity stream commenting on blog and forum posts', 'buddypress' ); ?></label>
+
+<?php
+}
+
 /** XProfile ******************************************************************/
 
 /**
@@ -210,6 +224,7 @@ function bp_core_admin_settings() {
 		$legacy_options = array(
 			'bp-disable-account-deletion',
 			'bp-disable-avatar-uploads',
+			'bp_disable_blogforum_comments',
 			'bp-disable-profile-sync',
 			'bp_restrict_group_creation',
 			'hide-loggedout-adminbar',

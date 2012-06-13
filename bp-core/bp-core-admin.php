@@ -297,7 +297,7 @@ class BP_Admin {
 			// Add the main section
 			add_settings_section( 'bp_xprofile',      __( 'Profile Settings', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress'                );
 
-			// Allow topic and reply revisions
+			// Allow avatar uploads
 			add_settings_field( 'bp-disable-avatar-uploads', __( 'Avatar Uploads',   'buddypress' ), 'bp_admin_setting_callback_avatar_uploads',   'buddypress', 'bp_xprofile' );
 			register_setting  ( 'buddypress',         'bp-disable-avatar-uploads',   'intval'                                                                                  );
 
@@ -332,14 +332,20 @@ class BP_Admin {
 
 		/** Activity Section **************************************************/
 
-		if ( bp_is_active( 'activity' ) && ( is_plugin_active( 'akismet/akismet.php' ) && defined( 'AKISMET_VERSION' ) ) ) {
+		if ( bp_is_active( 'activity' ) ) {
 
 			// Add the main section
 			add_settings_section( 'bp_activity',      __( 'Activity Settings', 'buddypress' ), 'bp_admin_setting_callback_activity_section', 'buddypress'                );
 
-			// Allow subscriptions setting
-			add_settings_field( '_bp_enable_akismet', __( 'Akismet',          'buddypress' ), 'bp_admin_setting_callback_activity_akismet', 'buddypress', 'bp_activity' );
-			register_setting  ( 'buddypress',         '_bp_enable_akismet',   'intval'                                                                                  );
+			// Activity commenting on blog and forum posts
+			add_settings_field( 'bp-disable-blogforum-comments', __( 'Blog &amp; Forum Comments', 'buddypress' ), 'bp_admin_setting_callback_blogforum_comments', 'buddypress', 'bp_activity' );
+			register_setting( 'buddypress', 'bp-disable-blogforum-comments', 'intval' );
+
+			// Allow activity akismet
+			if ( is_plugin_active( 'akismet/akismet.php' ) && defined( 'AKISMET_VERSION' ) ) {
+				add_settings_field( '_bp_enable_akismet', __( 'Akismet',          'buddypress' ), 'bp_admin_setting_callback_activity_akismet', 'buddypress', 'bp_activity' );
+				register_setting  ( 'buddypress',         '_bp_enable_akismet',   'intval'                                                                                  );
+			}
 		}
 
 		do_action( 'bp_register_admin_settings' );
