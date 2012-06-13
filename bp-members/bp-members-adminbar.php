@@ -230,7 +230,7 @@ function bp_members_admin_bar_notifications_menu() {
 			'href'  => bp_loggedin_user_domain()
 		) );
 
-	} elseif ( 3.3 == bp_get_major_wp_version() ) {
+	} elseif ( 3.3 <= bp_get_major_wp_version() ) {
 		
 		// Add the top-level Notifications button
 		$wp_admin_bar->add_menu( array(
