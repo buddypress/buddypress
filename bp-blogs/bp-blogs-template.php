@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @package BuddyPress
  * @subpackage BlogsTemplate
- * @since BuddyPress (r4100)
+ * @since BuddyPress (1.5)
  *
  * @uses bp_get_blogs_slug()
  */
@@ -27,7 +27,7 @@ function bp_blogs_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage BlogsTemplate
-	 * @since BuddyPress (r4100)
+	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_blogs_slug() {
 		global $bp;
@@ -39,7 +39,7 @@ function bp_blogs_slug() {
  *
  * @package BuddyPress
  * @subpackage BlogsTemplate
- * @since BuddyPress (r4100)
+ * @since BuddyPress (1.5)
  *
  * @uses bp_get_blogs_root_slug()
  */
@@ -51,7 +51,7 @@ function bp_blogs_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage BlogsTemplate
-	 * @since BuddyPress (r4100)
+	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_blogs_root_slug() {
 		global $bp;

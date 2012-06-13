@@ -23,7 +23,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * URI structures with very little work.
  *
  * @package BuddyPress Core
- * @since BuddyPress (r100)
+ * @since BuddyPress (1.0)
  *
  * The URI's are broken down as follows:
  *   - http:// domain.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...

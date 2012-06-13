@@ -225,7 +225,7 @@ function bp_footer() {
 /**
  * Enqueue BuddyPress specific CSS and JS
  *
- * @since BuddyPress (r5812)
+ * @since BuddyPress (1.6)
  *
  * @uses do_action() Calls 'bp_enqueue_scripts'
  */
@@ -237,7 +237,7 @@ function bp_enqueue_scripts() {
  * Piggy back action for BuddyPress sepecific theme actions before the theme has
  * been setup and the theme's functions.php has loaded.
  *
- * @since BuddyPress (r5812)
+ * @since BuddyPress (1.6)
  *
  * @uses do_action() Calls 'bp_setup_theme'
  */
@@ -249,7 +249,7 @@ function bp_setup_theme() {
  * Piggy back action for BuddyPress sepecific theme actions once the theme has
  * been setup and the theme's functions.php has loaded.
  *
- * @since BuddyPress (r5812)
+ * @since BuddyPress (1.6)
  *
  * @uses do_action() Calls 'bp_after_theme_setup'
  */
@@ -263,7 +263,7 @@ function bp_after_theme_setup() {
  * The main filter used for theme compatibility and displaying custom BuddyPress
  * theme files.
  *
- * @since BuddyPress (r5812)
+ * @since BuddyPress (1.6)
  *
  * @uses apply_filters()
  *
@@ -280,7 +280,7 @@ function bp_template_include( $template = '' ) {
  * The main action used for redirecting BuddyPress theme actions that are not
  * permitted by the current_user
  *
- * @since BuddyPress (r5812)
+ * @since BuddyPress (1.6)
  *
  * @uses do_action()
  */

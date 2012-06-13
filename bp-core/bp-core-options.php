@@ -400,7 +400,7 @@ function bp_hide_loggedout_adminbar( $default = true ) {
 /**
  * Are members able to upload their own avatars?
  *
- * @since BuddyPress (r3412)
+ * @since BuddyPress (1.6)
  *
  * @param $default bool Optional. Default value true
  *
@@ -442,7 +442,7 @@ function bp_disable_blogforum_comments( $default = false ) {
 /**
  * Is group creation turned off?
  *
- * @since BuddyPress (r3386)
+ * @since BuddyPress (1.6)
  *
  * @param $default bool Optional. Default value true
  *
@@ -457,7 +457,7 @@ function bp_restrict_group_creation( $default = true ) {
 /**
  * Have we migrated to using the WordPress Toolbar?
  *
- * @since BuddyPress (r3386)
+ * @since BuddyPress (1.6)
  *
  * @param $default bool Optional. Default value true
  *

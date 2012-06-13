@@ -13,14 +13,14 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Main settings section description for the settings page
  *
- * @since BuddyPress (r2786)
+ * @since BuddyPress (1.6)
  */
 function bp_admin_setting_callback_main_section() { }
 
 /**
- * Throttle setting field
+ * Admin bar for logged out users setting field
  *
- * @since BuddyPress (r2737)
+ * @since BuddyPress (1.6)
  *
  * @uses bp_form_option() To output the option value
  */
@@ -34,9 +34,9 @@ function bp_admin_setting_callback_admin_bar() {
 }
 
 /**
- * Allow subscriptions setting field
+ * Allow members to delete their accounts setting field
  *
- * @since BuddyPress (r2737)
+ * @since BuddyPress (1.6)
  *
  * @uses checked() To display the checked attribute
  */
@@ -61,7 +61,7 @@ function bp_admin_setting_callback_activity_section() { }
 /**
  * Allow Akismet setting field
  *
- * @since BuddyPress (r3575)
+ * @since BuddyPress (1.6)
  *
  * @uses checked() To display the checked attribute
  */
@@ -93,14 +93,14 @@ function bp_admin_setting_callback_blogforum_comments() {
 /**
  * Profile settings section description for the settings page
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.6)
  */
 function bp_admin_setting_callback_xprofile_section() { }
 
 /**
- * Edit lock setting field
+ * Enable BP->WP profile syncing field
  *
- * @since BuddyPress (r2737)
+ * @since BuddyPress (1.6)
  *
  * @uses bp_form_option() To output the option value
  */
@@ -114,9 +114,9 @@ function bp_admin_setting_callback_profile_sync() {
 }
 
 /**
- * Allow favorites setting field
+ * Allow members to upload avatars field
  *
- * @since BuddyPress (r2786)
+ * @since BuddyPress (1.6)
  *
  * @uses checked() To display the checked attribute
  */
@@ -139,7 +139,7 @@ function bp_admin_setting_callback_avatar_uploads() {
 function bp_admin_setting_callback_groups_section() { }
 
 /**
- * Allow topic and reply revisions
+ * Allow all users to create groups field
  *
  * @since BuddyPress (1.6)
  *
@@ -165,7 +165,7 @@ function bp_admin_setting_callback_group_creation() {
 function bp_admin_setting_callback_bbpress_section() { }
 
 /**
- * Allow topic and reply revisions
+ * bb-config.php location field
  *
  * @since BuddyPress (1.6)
  * @uses checked() To display the checked attribute
@@ -196,7 +196,7 @@ function bp_admin_setting_callback_bbpress_configuration() {
 /**
  * The main settings page
  *
- * @since BuddyPress (r2643)
+ * @since BuddyPress (1.6)
  *
  * @uses screen_icon() To display the screen icon
  * @uses settings_fields() To output the hidden fields for the form
@@ -266,7 +266,7 @@ function bp_core_admin_settings() {
 /**
  * Output settings API option
  *
- * @since BuddyPress (r3203)
+ * @since BuddyPress (1.6)
  *
  * @uses bp_get_bp_form_option()
  *
@@ -280,7 +280,7 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 	/**
 	 * Return settings API option
 	 *
-	 * @since BuddyPress (r3203)
+	 * @since BuddyPress (1.6)
 	 *
 	 * @uses bp_get_option()
 	 * @uses esc_attr()
@@ -314,7 +314,7 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 /**
  * Used to check if a BuddyPress slug conflicts with an existing known slug.
  *
- * @since BuddyPress (r3306)
+ * @since BuddyPress (1.6)
  *
  * @param string $slug
  * @param string $default

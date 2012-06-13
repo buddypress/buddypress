@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Add the "My Account" menu and all submenus.
  *
- * @since BuddyPress (r4151)
+ * @since BuddyPress (1.6)
  * @todo Deprecate WP 3.2 Toolbar compatibility when we drop 3.2 support
  */
 function bp_members_admin_bar_my_account_menu() {
