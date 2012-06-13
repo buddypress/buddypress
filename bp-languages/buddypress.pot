@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-06-13 20:36:15+00:00\n"
+"POT-Creation-Date: 2012-06-13 22:36:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -228,7 +228,7 @@ msgid "Submitted on: <strong>%1$s</strong>"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:636 bp-activity/bp-activity-admin.php:1262
-#: bp-forums/bp-forums-template.php:1266 bp-themes/bp-default/functions.php:517
+#: bp-forums/bp-forums-template.php:1266 bp-themes/bp-default/functions.php:507
 #: bp-xprofile/bp-xprofile-admin.php:452 bp-xprofile/bp-xprofile-loader.php:172
 #: bp-xprofile/bp-xprofile-loader.php:230
 msgid "Edit"
@@ -705,7 +705,7 @@ msgstr ""
 #: bp-core/admin/bp-core-slugs.php:112 bp-core/admin/bp-core-slugs.php:173
 #: bp-members/bp-members-template.php:582
 #: bp-themes/bp-default/activity/entry.php:37
-#: bp-themes/bp-default/functions.php:175
+#: bp-themes/bp-default/functions.php:165
 #: bp-xprofile/bp-xprofile-loader.php:222
 msgid "View"
 msgstr ""
@@ -1024,7 +1024,7 @@ msgid "Max posts to show:"
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:26
-#: bp-core/admin/bp-core-functions.php:361 bp-core/admin/bp-core-update.php:57
+#: bp-core/admin/bp-core-functions.php:356 bp-core/admin/bp-core-update.php:57
 #: bp-core/admin/bp-core-update.php:73 bp-core/admin/bp-core-update.php:203
 msgid "Components"
 msgstr ""
@@ -1177,42 +1177,42 @@ msgstr ""
 msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update your permalink structure</a> to something other than the default for it to work."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:258
+#: bp-core/admin/bp-core-functions.php:253
 msgid "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:283 bp-core/admin/bp-core-slugs.php:139
+#: bp-core/admin/bp-core-functions.php:278 bp-core/admin/bp-core-slugs.php:139
 #: bp-core/admin/bp-core-update.php:441
 #: bp-messages/bp-messages-template.php:564
 #: bp-themes/bp-default/registration/activate.php:36
 msgid "Activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:288 bp-core/admin/bp-core-slugs.php:138
+#: bp-core/admin/bp-core-functions.php:283 bp-core/admin/bp-core-slugs.php:138
 #: bp-core/admin/bp-core-update.php:427 bp-members/bp-members-adminbar.php:60
 msgid "Register"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:300
+#: bp-core/admin/bp-core-functions.php:295
 msgid "The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:325
+#: bp-core/admin/bp-core-functions.php:320
 msgid "Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:338
+#: bp-core/admin/bp-core-functions.php:333
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:365
+#: bp-core/admin/bp-core-functions.php:360
 #: bp-core/admin/bp-core-settings.php:341 bp-core/admin/bp-core-slugs.php:26
 #: bp-core/admin/bp-core-update.php:58 bp-core/admin/bp-core-update.php:74
 #: bp-core/admin/bp-core-update.php:207
 msgid "Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:369
+#: bp-core/admin/bp-core-functions.php:364
 #: bp-core/admin/bp-core-settings.php:249 bp-core/bp-core-admin.php:368
 #: bp-groups/bp-groups-loader.php:298 bp-groups/bp-groups-template.php:1276
 #: bp-settings/bp-settings-loader.php:23 bp-settings/bp-settings-loader.php:78
@@ -1220,7 +1220,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:377 bp-core/admin/bp-core-update.php:411
+#: bp-core/admin/bp-core-functions.php:372 bp-core/admin/bp-core-update.php:411
 #: bp-core/bp-core-template.php:266 bp-forums/bp-forums-admin.php:32
 #: bp-forums/bp-forums-admin.php:167 bp-forums/bp-forums-loader.php:107
 #: bp-forums/bp-forums-loader.php:186 bp-forums/bp-forums-loader.php:229
@@ -1566,123 +1566,123 @@ msgstr ""
 msgid "Numeric"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:573
+#: bp-core/admin/bp-core-update.php:560
 msgid "Use BuddyPress Default"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:574
+#: bp-core/admin/bp-core-update.php:561
 msgid "BuddyPress Default"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:577
+#: bp-core/admin/bp-core-update.php:564
 msgid "The default BuddyPress theme comes with the basics, to get up and running out of the box. It supports all features and is highly customizable."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:578
+#: bp-core/admin/bp-core-update.php:565
 msgid "This is the best choice if you want to start using BuddyPress immediately."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:579
+#: bp-core/admin/bp-core-update.php:566
 msgid "Yes, please!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:587
+#: bp-core/admin/bp-core-update.php:574
 msgid "Other themes"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:588
+#: bp-core/admin/bp-core-update.php:575
 msgid "A BuddyPress theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:591
+#: bp-core/admin/bp-core-update.php:578
 msgid "You have some other BuddyPress compatible themes available. Pick one of them from this list to use it."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:594
+#: bp-core/admin/bp-core-update.php:581
 msgid "Use this theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:615
+#: bp-core/admin/bp-core-update.php:602
 msgid "Manually update current theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:619
+#: bp-core/admin/bp-core-update.php:606
 msgid "Your existing theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:625
+#: bp-core/admin/bp-core-update.php:612
 msgid "The BuddyPress Template Pack will guide you through the process of manually editing your existing theme. It comes with a step-by-step guide and involves copying the BuddyPress template files into your theme. <strong>This option requires knowledge of CSS and HTML.</strong> You will need to tweak the new templates to match your existing theme."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:629
+#: bp-core/admin/bp-core-update.php:616
 msgid "Install BuddyPress Template Pack"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:633
+#: bp-core/admin/bp-core-update.php:620
 msgid "Choose this option (go to Appearance &rarr; BP Compatibility after setup is complete)"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:634
+#: bp-core/admin/bp-core-update.php:621
 msgid "Plugin Installed"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:645
+#: bp-core/admin/bp-core-update.php:632
 msgid "Do not change theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:648
+#: bp-core/admin/bp-core-update.php:635
 msgid "You are happy with your current theme and plan on changing it later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:649
+#: bp-core/admin/bp-core-update.php:636
 msgid "This is the best choice if you have a custom theme already and want to manually integrate BuddyPress later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:651
+#: bp-core/admin/bp-core-update.php:638
 msgid "Don't change my current theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:676
+#: bp-core/admin/bp-core-update.php:663
 msgid "BuddyPress now uses WordPress' Toolbar; this sits at the top of your site and contains various links to useful admin screens. We've turbo-charged the Toolbar by adding social items to help your users explore your site, and manage their content."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:678
+#: bp-core/admin/bp-core-update.php:665
 msgid "We've noticed that your site uses the old bar from earlier versions of BuddyPress."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:683
+#: bp-core/admin/bp-core-update.php:670
 msgid "If you'd prefer to not switch to the WordPress Toolbar just yet, check this box. Don't worry, you can change your mind later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:701
+#: bp-core/admin/bp-core-update.php:688
 msgid "setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:701
+#: bp-core/admin/bp-core-update.php:688
 msgid "update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:703
+#: bp-core/admin/bp-core-update.php:690
 msgid "The BuddyPress %1$s is complete, and your site is ready to go!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:840
+#: bp-core/admin/bp-core-update.php:827
 msgid "Oops, there was a problem creating a configuration file. "
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:846
+#: bp-core/admin/bp-core-update.php:833
 msgid "If your <code>web.config</code> file were <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:855
+#: bp-core/admin/bp-core-update.php:842
 msgid "Permalink structure updated. Remove write access on web.config file now!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:860
+#: bp-core/admin/bp-core-update.php:847
 msgid "If your <code>.htaccess</code> file were <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:872
+#: bp-core/admin/bp-core-update.php:859
 msgid "Paste all these rules into a new <code>.htaccess</code> file in the root of your WordPress installation and save the file. Once you're done, please hit the \"Save and Next\" button to continue."
 msgstr ""
 
@@ -2139,7 +2139,7 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:142 bp-themes/bp-default/functions.php:651
+#: bp-core/deprecated/1.5.php:142 bp-themes/bp-default/functions.php:641
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
@@ -2149,7 +2149,7 @@ msgstr ""
 msgid "About Me"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:160 bp-themes/bp-default/functions.php:655
+#: bp-core/deprecated/1.5.php:160 bp-themes/bp-default/functions.php:645
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
@@ -3857,7 +3857,7 @@ msgid "Deactivate"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:613
-#: bp-themes/bp-default/functions.php:174
+#: bp-themes/bp-default/functions.php:164
 #: bp-themes/bp-default/members/single/profile/edit.php:128
 #: bp-themes/bp-default/registration/register.php:169
 msgid "Close"
@@ -3961,14 +3961,14 @@ msgstr ""
 #: bp-themes/bp-default/_inc/ajax.php:478
 #: bp-themes/bp-default/_inc/ajax.php:499
 #: bp-themes/bp-default/activity/entry.php:72
-#: bp-themes/bp-default/functions.php:177
+#: bp-themes/bp-default/functions.php:167
 msgid "Remove Favorite"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:480
 #: bp-themes/bp-default/_inc/ajax.php:497
 #: bp-themes/bp-default/activity/entry.php:68
-#: bp-themes/bp-default/functions.php:176
+#: bp-themes/bp-default/functions.php:166
 msgid "Favorite"
 msgstr ""
 
@@ -4447,102 +4447,102 @@ msgstr ""
 msgid "Primary Navigation"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:168
+#: bp-themes/bp-default/functions.php:158
 msgid "My Favorites"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:169
+#: bp-themes/bp-default/functions.php:159
 msgid "Accepted"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:170
+#: bp-themes/bp-default/functions.php:160
 msgid "Rejected"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:171
+#: bp-themes/bp-default/functions.php:161
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:172
+#: bp-themes/bp-default/functions.php:162
 msgid "Show all"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:173
+#: bp-themes/bp-default/functions.php:163
 msgid "comments"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:399
+#: bp-themes/bp-default/functions.php:389
 msgid "The sidebar widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:408
+#: bp-themes/bp-default/functions.php:398
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:410
+#: bp-themes/bp-default/functions.php:400
 msgid "The first footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:419
+#: bp-themes/bp-default/functions.php:409
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:421
+#: bp-themes/bp-default/functions.php:411
 msgid "The second footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:430
+#: bp-themes/bp-default/functions.php:420
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:432
+#: bp-themes/bp-default/functions.php:422
 msgid "The third footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:441
+#: bp-themes/bp-default/functions.php:431
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:443
+#: bp-themes/bp-default/functions.php:433
 msgid "The fourth footer widget area"
 msgstr ""
 
 #. translators: 1: comment author url, 2: comment author name, 3: comment
 #. permalink, 4: comment date/timestamp
 
-#: bp-themes/bp-default/functions.php:498
+#: bp-themes/bp-default/functions.php:488
 msgid "<a href=\"%1$s\" rel=\"nofollow\">%2$s</a> said on <a href=\"%3$s\"><span class=\"time-since\">%4$s</span></a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:505
+#: bp-themes/bp-default/functions.php:495
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:517
+#: bp-themes/bp-default/functions.php:507
 msgid "Edit comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:587
+#: bp-themes/bp-default/functions.php:577
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:653
+#: bp-themes/bp-default/functions.php:643
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:663
+#: bp-themes/bp-default/functions.php:653
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:664
+#: bp-themes/bp-default/functions.php:654
 msgid "Leave a reply"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:751
+#: bp-themes/bp-default/functions.php:741
 msgid "&larr; Previous Entries"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:752
+#: bp-themes/bp-default/functions.php:742
 msgid "Next Entries &rarr;"
 msgstr ""
 
