@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-06-13 19:36:16+00:00\n"
+"POT-Creation-Date: 2012-06-13 20:36:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1205,9 +1205,11 @@ msgstr ""
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:365 bp-core/admin/bp-core-slugs.php:26
-#: bp-core/admin/bp-core-update.php:59 bp-core/admin/bp-core-update.php:211
-msgid "Permalinks"
+#: bp-core/admin/bp-core-functions.php:365
+#: bp-core/admin/bp-core-settings.php:341 bp-core/admin/bp-core-slugs.php:26
+#: bp-core/admin/bp-core-update.php:58 bp-core/admin/bp-core-update.php:74
+#: bp-core/admin/bp-core-update.php:207
+msgid "Pages"
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:369
@@ -1303,11 +1305,6 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:341 bp-core/admin/bp-core-update.php:58
-#: bp-core/admin/bp-core-update.php:74 bp-core/admin/bp-core-update.php:207
-msgid "Pages"
-msgstr ""
-
 #: bp-core/admin/bp-core-settings.php:342
 msgid "Revisions"
 msgstr ""
@@ -1400,6 +1397,10 @@ msgstr ""
 
 #: bp-core/admin/bp-core-slugs.php:148
 msgid "Associate WordPress Pages with the following BuddyPress Registration pages."
+msgstr ""
+
+#: bp-core/admin/bp-core-update.php:59 bp-core/admin/bp-core-update.php:211
+msgid "Permalinks"
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:60 bp-core/admin/bp-core-update.php:215
@@ -3589,7 +3590,7 @@ msgstr ""
 msgid "This is a required field"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:245
+#: bp-members/bp-members-screens.php:251
 msgid "Your account is now active!"
 msgstr ""
 
