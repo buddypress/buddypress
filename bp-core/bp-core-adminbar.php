@@ -20,7 +20,7 @@ if ( !bp_use_wp_admin_bar() || defined( 'DOING_AJAX' ) )
  * @since BuddyPress (1.5.2)
  */
 function bp_core_admin_bar_version_check() {
-	if ( '3.2' == bp_get_major_wp_version() ) {
+	if ( 3.2 == bp_get_major_wp_version() ) {
 		add_action( 'bp_setup_admin_bar', 'bp_admin_bar_root_site',       3 );
 		add_action( 'bp_setup_admin_bar', 'bp_admin_bar_comments_menu',   3 );
 		add_action( 'bp_setup_admin_bar', 'bp_admin_bar_appearance_menu', 3 );
@@ -40,7 +40,7 @@ add_action( 'admin_bar_menu', 'bp_core_admin_bar_version_check', 4 );
  */
 function bp_admin_bar_remove_wp_menus() {
 
-	if ( '3.2' == bp_get_major_wp_version() ) {
+	if ( 3.2 == bp_get_major_wp_version() ) {
 		remove_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 10 );
 		remove_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
 		remove_action( 'admin_bar_menu', 'wp_admin_bar_dashboard_view_site_menu', 25 );
