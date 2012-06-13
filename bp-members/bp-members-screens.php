@@ -163,11 +163,17 @@ function bp_core_screen_signup() {
 				// Let's compact any profile field info into usermeta
 				$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
 
-				// Loop through the posted fields formatting any datebox values then add to usermeta
+				// Loop through the posted fields formatting any datebox values then add to usermeta - @todo This logic should be shared with the same in xprofile_screen_edit_profile()
 				foreach ( (array) $profile_field_ids as $field_id ) {
-					if ( !isset( $_POST['field_' . $field_id] ) ) {
-						if ( isset( $_POST['field_' . $field_id . '_day'] ) )
-							$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] ) );
+					if ( ! isset( $_POST['field_' . $field_id] ) ) {
+
+						if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
+							// Concatenate the values
+							$date_value = $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
+
+							// Turn the concatenated value into a timestamp
+							$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
+						}
 					}
 
 					if ( !empty( $_POST['field_' . $field_id] ) )
@@ -195,7 +201,7 @@ function bp_core_screen_signup() {
 				else
 					$wp_user_id = bp_core_signup_user( $_POST['signup_username'], $_POST['signup_password'], $_POST['signup_email'], $usermeta );
 
-				if ( is_wp_error( $wp_user_id ) ) {					
+				if ( is_wp_error( $wp_user_id ) ) {
 					$bp->signup->step = 'request-details';
 					bp_core_add_message( $wp_user_id->get_error_message(), 'error' ); 
 				} else {
