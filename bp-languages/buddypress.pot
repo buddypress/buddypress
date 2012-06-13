@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-06-11 21:36:14+00:00\n"
+"POT-Creation-Date: 2012-06-13 19:36:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1211,7 +1211,7 @@ msgid "Permalinks"
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:369
-#: bp-core/admin/bp-core-settings.php:234 bp-core/bp-core-admin.php:362
+#: bp-core/admin/bp-core-settings.php:249 bp-core/bp-core-admin.php:368
 #: bp-groups/bp-groups-loader.php:298 bp-groups/bp-groups-template.php:1276
 #: bp-settings/bp-settings-loader.php:23 bp-settings/bp-settings-loader.php:78
 #: bp-settings/bp-settings-loader.php:169
@@ -1248,39 +1248,43 @@ msgstr ""
 msgid "Allow Akismet to scan for activity stream spam"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:97
+#: bp-core/admin/bp-core-settings.php:86
+msgid "Allow activity stream commenting on blog and forum posts"
+msgstr ""
+
+#: bp-core/admin/bp-core-settings.php:111
 msgid "Enable BuddyPress to WordPress profile syncing"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:113
+#: bp-core/admin/bp-core-settings.php:127
 msgid "Allow registered members to upload avatars"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:138
+#: bp-core/admin/bp-core-settings.php:152
 msgid "Enable group creation for all users"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:139
+#: bp-core/admin/bp-core-settings.php:153
 msgid "Administrators can always create groups, regardless of this setting."
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:170
+#: bp-core/admin/bp-core-settings.php:184
 msgid "Attempt to save a new config file."
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:170
+#: bp-core/admin/bp-core-settings.php:184
 msgid "Repair"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:171
+#: bp-core/admin/bp-core-settings.php:185
 msgid "File does not exist"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:175
+#: bp-core/admin/bp-core-settings.php:189
 msgid "Absolute path to your bbPress configuration file."
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:243
+#: bp-core/admin/bp-core-settings.php:258
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:117
 #: bp-themes/bp-default/groups/single/forum/edit.php:58
@@ -1292,75 +1296,75 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:325 bp-core/bp-core-template.php:268
+#: bp-core/admin/bp-core-settings.php:340 bp-core/bp-core-template.php:268
 #: bp-themes/bp-default/activity/index.php:99
 #: bp-themes/bp-default/forums/forums-loop.php:40
 #: bp-themes/bp-default/members/single/activity.php:27
 msgid "Posts"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:326 bp-core/admin/bp-core-update.php:58
+#: bp-core/admin/bp-core-settings.php:341 bp-core/admin/bp-core-update.php:58
 #: bp-core/admin/bp-core-update.php:74 bp-core/admin/bp-core-update.php:207
 msgid "Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:327
+#: bp-core/admin/bp-core-settings.php:342
 msgid "Revisions"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:328
+#: bp-core/admin/bp-core-settings.php:343
 msgid "Attachments"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:329
+#: bp-core/admin/bp-core-settings.php:344
 msgid "Menus"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:332
+#: bp-core/admin/bp-core-settings.php:347
 msgid "Tag base"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:335
+#: bp-core/admin/bp-core-settings.php:350
 msgid "Category base"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:344
+#: bp-core/admin/bp-core-settings.php:359
 msgid "Forums base"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:347
+#: bp-core/admin/bp-core-settings.php:362
 msgid "Topics base"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:350
+#: bp-core/admin/bp-core-settings.php:365
 msgid "Forum slug"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:353
+#: bp-core/admin/bp-core-settings.php:368
 msgid "Topic slug"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:356
+#: bp-core/admin/bp-core-settings.php:371
 msgid "Reply slug"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:359
+#: bp-core/admin/bp-core-settings.php:374
 msgid "User base"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:362
+#: bp-core/admin/bp-core-settings.php:377
 msgid "View base"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:365
+#: bp-core/admin/bp-core-settings.php:380
 msgid "Topic tag slug"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:376
+#: bp-core/admin/bp-core-settings.php:391
 msgid "%s page"
 msgstr ""
 
-#: bp-core/admin/bp-core-settings.php:394
+#: bp-core/admin/bp-core-settings.php:409
 msgid "Possible %1$s conflict: <strong>%2$s</strong>"
 msgstr ""
 
@@ -1755,14 +1759,18 @@ msgid "Activity Settings"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:341
+msgid "Blog &amp; Forum Comments"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:346
 msgid "Akismet"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:470
+#: bp-core/bp-core-admin.php:476
 msgid "BuddyPress has been updated! Please run the <a href=\"%s\">update wizard</a>."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:475
+#: bp-core/bp-core-admin.php:481
 msgid "BuddyPress was successfully activated! Please run the <a href=\"%s\">installation wizard</a>."
 msgstr ""
 
