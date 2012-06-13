@@ -83,7 +83,7 @@ function bp_dtheme_setup() {
 
 	// This theme allows users to set a custom background
 	// Backward-compatibility with WP < 3.4 will be removed in a future release
-	if ( bp_get_major_wp_version() >= 3.4 ) {
+	if ( 3.4 <= bp_get_major_wp_version() ) {
 		$custom_background_args = array(
 			'wp-head-callback' => 'bp_dtheme_custom_background_style'
 		);
@@ -107,7 +107,7 @@ function bp_dtheme_setup() {
 
 		// Add a way for the custom header to be styled in the admin panel that controls custom headers.
 		// Backward-compatibility with WP < 3.4 will be removed in a future release
-		if ( bp_get_major_wp_version() >= 3.4 ) {
+		if ( 3.4 <= bp_get_major_wp_version() ) {
 			$custom_header_args = array(
 				'wp-head-callback' => 'bp_dtheme_header_style',
 				'admin-head-callback' => 'bp_dtheme_admin_header_style'

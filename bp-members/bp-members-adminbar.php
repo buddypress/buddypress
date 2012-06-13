@@ -50,7 +50,7 @@ function bp_members_admin_bar_my_account_menu() {
 	// Logged in user
 	if ( is_user_logged_in() ) {
 
-		if ( '3.2' == bp_get_major_wp_version() ) {
+		if ( 3.2 == bp_get_major_wp_version() ) {
 
 			// User avatar
 			$avatar = bp_core_fetch_avatar( array(
@@ -125,7 +125,7 @@ function bp_members_admin_bar_user_admin_menu() {
 	if ( !current_user_can( 'edit_users' ) || bp_is_my_profile() )
 		return false;
 
-	if ( '3.2' == bp_get_major_wp_version() ) {
+	if ( 3.2 == bp_get_major_wp_version() ) {
 
 		// User avatar
 		$avatar = bp_core_fetch_avatar( array(
@@ -145,7 +145,7 @@ function bp_members_admin_bar_user_admin_menu() {
 			'href'  => bp_displayed_user_domain()
 		) );
 
-	} elseif ( '3.3' == bp_get_major_wp_version() ) {
+	} elseif ( 3.3 <= bp_get_major_wp_version() ) {
 		
 		// Unique ID for the 'My Account' menu
 		$bp->user_admin_menu_id = 'user-admin';
@@ -221,7 +221,7 @@ function bp_members_admin_bar_notifications_menu() {
 		$menu_title = __( 'Notifications', 'buddypress' );
 	}
 
-	if ( '3.2' == bp_get_major_wp_version() ) {
+	if ( 3.2 == bp_get_major_wp_version() ) {
 
 		// Add the top-level Notifications button
 		$wp_admin_bar->add_menu( array(
@@ -230,7 +230,7 @@ function bp_members_admin_bar_notifications_menu() {
 			'href'  => bp_loggedin_user_domain()
 		) );
 
-	} elseif ( '3.3' == bp_get_major_wp_version() ) {
+	} elseif ( 3.3 == bp_get_major_wp_version() ) {
 		
 		// Add the top-level Notifications button
 		$wp_admin_bar->add_menu( array(
