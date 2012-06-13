@@ -17,11 +17,11 @@ global $wpdb;
 
 // Define the BuddyPress version
 if ( !defined( 'BP_VERSION' ) )
-	define( 'BP_VERSION', '1.5.5' );
+	define( 'BP_VERSION', '1.5.6' );
 
 // Define the database version
 if ( !defined( 'BP_DB_VERSION' ) )
-	define( 'BP_DB_VERSION', 3820 );
+	define( 'BP_DB_VERSION', 3830 );
 
 // Place your custom code (actions/filters) in a file called
 // '/plugins/bp-custom.php' and it will be loaded before anything else.
