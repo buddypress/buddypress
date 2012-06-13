@@ -239,12 +239,7 @@ function bp_core_activation_notice() {
 	 */
 
 	// Get current theme info
-	// Backward-compatibility with WP < 3.4 will be removed in a future release
-	if ( bp_get_major_wp_version() >= 3.4 ) {
-		$ct = wp_get_theme();
-	} else {
-		$ct = current_theme_info();
-	}
+	$ct = current_theme_info();
 
 	// Make sure tags is an array to suppress notices
 	if ( ! isset( $ct->tags ) )

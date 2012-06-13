@@ -517,14 +517,7 @@ class BP_Core_Setup_Wizard {
 	function step_theme() {
 
 		$installed_plugins = get_plugins();
-
-		// Backward-compatibility with WP < 3.4 will be removed in a future release
-		if ( bp_get_major_wp_version() >= 3.4 ) {
-			$installed_themes = wp_get_themes();
-		} else {
-			$installed_themes = get_themes();
-		}
-
+		$installed_themes  = get_themes();
 		$bp_themes         = array();
 
 		$template_pack_installed = false;
@@ -546,13 +539,7 @@ class BP_Core_Setup_Wizard {
 		}
 
 		// Get theme screenshot
-		// Backward-compatibility with WP < 3.4 will be removed in a future release
-		if ( bp_get_major_wp_version() >= 3.4 ) {
-			$current_theme = wp_get_theme();
-		} else {
-			$current_theme = get_current_theme();
-		}
-
+		$current_theme = wp_get_theme();
 		$screenshot    = '';
 
 		if ( !empty( $installed_themes[$current_theme]['Screenshot'] ) ) {
