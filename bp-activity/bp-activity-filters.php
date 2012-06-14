@@ -326,8 +326,9 @@ function bp_activity_truncate_entry( $text ) {
 	$excerpt        = bp_create_excerpt( $text, $excerpt_length, array( 'ending' => __( '&hellip;', 'buddypress' ) ) );
 
 	// If the text returned by bp_create_excerpt() is different from the original text (ie it's
-	// been truncated), add the "Read More" link.
-	if ( $excerpt != $text ) {
+	// been truncated), add the "Read More" link. Note that bp_create_excerpt() is stripping
+	// shortcodes, so we have strip them from the $text before the comparison
+	if ( $excerpt != strip_shortcodes( $text ) ) {
 		$id = !empty( $activities_template->activity->current_comment->id ) ? 'acomment-read-more-' . $activities_template->activity->current_comment->id : 'activity-read-more-' . bp_get_activity_id();
 
 		$excerpt = sprintf( '%1$s<span class="activity-read-more" id="%2$s"><a href="%3$s" rel="nofollow">%4$s</a></span>', $excerpt, $id, bp_get_activity_thread_permalink(), $append_text );
