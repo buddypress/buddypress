@@ -517,7 +517,7 @@ class BP_Core_Setup_Wizard {
 	function step_theme() {
 
 		$installed_plugins = get_plugins();
-		$installed_themes  = get_themes();
+		$installed_themes  = wp_get_themes();
 		$bp_themes         = array();
 
 		$template_pack_installed = false;
