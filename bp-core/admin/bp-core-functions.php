@@ -239,7 +239,7 @@ function bp_core_activation_notice() {
 	 */
 
 	// Get current theme info
-	$ct = current_theme_info();
+	$ct = wp_get_theme();
 
 	// Make sure tags is an array to suppress notices
 	if ( ! isset( $ct->tags ) )
