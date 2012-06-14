@@ -49,8 +49,35 @@ add_action( 'groups_details_updated',            'groups_clear_group_object_cach
 add_action( 'groups_group_avatar_updated',       'groups_clear_group_object_cache' );
 add_action( 'groups_create_group_step_complete', 'groups_clear_group_object_cache' );
 
+/**
+ * Clears caches for the group creator when a group is created
+ *
+ * @param int $group_id
+ * @param BP_Groups_Group $group_obj
+ * @since BuddyPress (1.6)
+ */
+function bp_groups_clear_group_creator_cache( $group_id, $group_obj ) {
+	// Clears the 'total groups' for this user
+	groups_clear_group_user_object_cache( $group_obj->id, $group_obj->creator_id );
+}
+add_action( 'groups_created_group', 'bp_groups_clear_group_creator_cache', 10, 2 );
+
+/**
+ * Clears caches for all members in a group when a group is deleted
+ *
+ * @param BP_Groups_Group $group_obj
+ * @param array User IDs who were in this group
+ * @since BuddyPress (1.6)
+ */
+function bp_groups_clear_group_members_caches( $group_obj, $user_ids ) {
+	// Clears the 'total groups' cache for each member in a group
+	foreach ( (array) $user_ids as $user_id )
+		groups_clear_group_user_object_cache( $group_obj->id, $user_id );
+}
+add_action( 'bp_groups_delete_group', 'bp_groups_clear_group_members_caches', 10, 2 );
+
 function groups_clear_group_user_object_cache( $group_id, $user_id ) {
-	wp_cache_delete( 'bp_total_groups_for_user_' . $user_id );
+	wp_cache_delete( 'bp_total_groups_for_user_' . $user_id, 'bp' );
 }
 add_action( 'groups_join_group',   'groups_clear_group_user_object_cache', 10, 2 );
 add_action( 'groups_leave_group',  'groups_clear_group_user_object_cache', 10, 2 );

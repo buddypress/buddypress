@@ -129,7 +129,7 @@ function groups_create_group( $args = '' ) {
 		do_action( 'groups_update_group', $group->id, $group );
 	}
 
-	do_action( 'groups_created_group', $group->id );
+	do_action( 'groups_created_group', $group->id, $group );
 
 	return $group->id;
 }

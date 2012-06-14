@@ -172,16 +172,16 @@ class BP_Groups_Group {
 		groups_delete_groupmeta( $this->id );
 
 		// Fetch the user IDs of all the members of the group
-		$user_ids = BP_Groups_Member::get_group_member_ids( $this->id );
-		$user_ids = implode( ',', (array) $user_ids );
+		$user_ids    = BP_Groups_Member::get_group_member_ids( $this->id );
+		$user_id_str = implode( ',', (array) $user_ids );
 
 		// Modify group count usermeta for members
-		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->usermeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_ids} )" ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->usermeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_id_str} )" ) );
 
 		// Now delete all group member entries
 		BP_Groups_Member::delete_all( $this->id );
 
-		do_action_ref_array( 'bp_groups_delete_group', array( &$this ) );
+		do_action_ref_array( 'bp_groups_delete_group', array( &$this, $user_ids ) );
 
 		wp_cache_delete( 'bp_groups_group_' . $this->id, 'bp' );
 
