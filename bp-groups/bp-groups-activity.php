@@ -34,11 +34,19 @@ function groups_record_activity( $args = '' ) {
 	if ( !bp_is_active( 'activity' ) )
 		return false;
 
-	// If the group is not public, hide the activity sitewide.
-	if ( isset( $bp->groups->current_group->status ) && 'public' == $bp->groups->current_group->status )
-		$hide_sitewide = false;
-	else
-		$hide_sitewide = true;
+	// Set the default for hide_sitewide by checking the status of the group
+	$hide_sitewide = false;
+	if ( !empty( $args['item_id'] ) ) {
+		if ( bp_get_current_group_id() == $args['item_id'] ) {
+			$group = groups_get_current_group();
+		} else {
+			$group = groups_get_group( array( 'group_id' => $args['item_id'] ) );
+		}
+
+		if ( isset( $group->status ) && 'public' != $group->status ) {
+			$hide_sitewide = true;
+		}
+	}
 
 	$defaults = array (
 		'id'                => false,
