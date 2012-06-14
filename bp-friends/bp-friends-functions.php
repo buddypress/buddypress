@@ -170,15 +170,12 @@ function friends_check_friendship_status( $user_id, $possible_friend_id ) {
 }
 
 function friends_get_total_friend_count( $user_id = 0 ) {
-
 	if ( empty( $user_id ) )
 		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
-	if ( !$count = wp_cache_get( 'bp_total_friend_count_' . $user_id, 'bp' ) ) {
-		$count = bp_get_user_meta( $user_id, 'total_friend_count', true );
-		if ( empty( $count ) ) $count = 0;
-		wp_cache_set( 'bp_total_friend_count_' . $user_id, $count, 'bp' );
-	}
+	$count = bp_get_user_meta( $user_id, 'total_friend_count', true );
+	if ( empty( $count ) )
+		$count = 0;
 
 	return apply_filters( 'friends_get_total_friend_count', $count );
 }

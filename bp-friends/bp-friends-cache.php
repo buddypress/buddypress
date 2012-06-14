@@ -20,8 +20,6 @@ function friends_clear_friend_object_cache( $friendship_id ) {
 
 	wp_cache_delete( 'friends_friend_ids_' .    $friendship->initiator_user_id, 'bp' );
 	wp_cache_delete( 'friends_friend_ids_' .    $friendship->friend_user_id,    'bp' );
-	wp_cache_delete( 'bp_total_friend_count_' . $friendship->initiator_user_id, 'bp' );
-	wp_cache_delete( 'bp_total_friend_count_' . $friendship->friend_user_id,    'bp' );
 }
 
 function friends_clear_friend_notifications() {
