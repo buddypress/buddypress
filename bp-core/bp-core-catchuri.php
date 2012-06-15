@@ -52,7 +52,7 @@ function bp_core_set_uri_globals() {
 		$bp->pages = bp_core_get_directory_pages();
 
 	// Ajax or not?
-	if ( strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX || strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
 		$path = bp_core_referrer();
 	else
 		$path = esc_url( $_SERVER['REQUEST_URI'] );
