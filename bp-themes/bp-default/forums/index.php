@@ -102,7 +102,7 @@
 							<?php do_action( 'template_notices' ); ?>
 
 							<label><?php _e( 'Title:', 'buddypress' ); ?></label>
-							<input type="text" name="topic_title" id="topic_title" value="" />
+							<input type="text" name="topic_title" id="topic_title" value="" maxlength="100" />
 
 							<label><?php _e( 'Content:', 'buddypress' ); ?></label>
 							<textarea name="topic_text" id="topic_text"></textarea>

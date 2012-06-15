@@ -45,7 +45,7 @@
 				<?php do_action( 'bp_group_before_edit_forum_topic' ); ?>
 
 				<label for="topic_title"><?php _e( 'Title:', 'buddypress' ); ?></label>
-				<input type="text" name="topic_title" id="topic_title" value="<?php bp_the_topic_title(); ?>" />
+				<input type="text" name="topic_title" id="topic_title" value="<?php bp_the_topic_title(); ?>" maxlength="100" />
 
 				<label for="topic_text"><?php _e( 'Content:', 'buddypress' ); ?></label>
 				<textarea name="topic_text" id="topic_text"><?php bp_the_topic_text(); ?></textarea>
