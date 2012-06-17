@@ -64,10 +64,6 @@ class BP_Core_Setup_Wizard {
 		// This is an update to an existing install
 		} else {
 
-			if ( bp_get_db_version_raw() < (int) bp_get_db_version() ) {
-				$steps[] = __( 'Database Update', 'buddypress' );
-			}
-
 			// New for BP 1.5
 			if ( bp_get_db_version_raw() < 1801 || !bp_core_get_directory_page_ids() ) {
 				$steps[] = __( 'Components', 'buddypress' );
@@ -75,9 +71,11 @@ class BP_Core_Setup_Wizard {
 			}
 
 			// New for BP 1.6
-			if ( bp_get_db_version_raw() < 5222 && !defined( 'BP_USE_WP_ADMIN_BAR' ) ) {
+			if ( bp_get_db_version_raw() < 5222 && !defined( 'BP_USE_WP_ADMIN_BAR' ) )
 				$steps[] = __( 'Toolbar', 'buddypress' );
-			}
+
+			if ( bp_get_db_version_raw() < (int) bp_get_db_version() )
+				$steps[] = __( 'Database Update', 'buddypress' );
 
 			$steps[] = __( 'Finish', 'buddypress' );
 		}
@@ -237,7 +235,7 @@ class BP_Core_Setup_Wizard {
 	function step_db_update() {
 	?>
 
-		<p><?php _e( 'Before you can continue using BuddyPress, a few minor adjustments need to be made. These changes are not destructive and will not remove or change any existing settings.', 'buddypress' ); ?></p>
+		<p><?php _e( 'To complete the update, a few changes need to be made to your database. These changes are not destructive and will not remove or change any existing settings.', 'buddypress' ); ?></p>
 
 		<div class="submit clear">
 			<input type="hidden" name="save" value="db_update" />
@@ -660,7 +658,7 @@ class BP_Core_Setup_Wizard {
 	function step_admin_bar() {
 	?>
 
-		<p><?php _e( "BuddyPress now uses WordPress' Toolbar; this sits at the top of your site and contains various links to useful admin screens. We've turbo-charged the Toolbar by adding social items to help your users explore your site, and manage their content.", 'buddypress' ); ?></p>
+		<p><?php _e( "BuddyPress now uses the WordPress Toolbar; we've turbo-charged it by adding social items to help your users explore your site and manage their content.", 'buddypress' ); ?></p>
 
 		<p><?php _e( "We've noticed that your site uses the old bar from earlier versions of BuddyPress.", 'buddypress' ); ?></p>
 
