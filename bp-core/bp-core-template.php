@@ -1024,7 +1024,7 @@ function bp_is_page( $page ) {
 function bp_is_active( $component ) {
 	global $bp;
 
-	if ( isset( $bp->active_components[$component] ) )
+	if ( isset( $bp->active_components[$component] ) || 'core' == $component )
 		return true;
 
 	return false;
