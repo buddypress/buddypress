@@ -425,7 +425,7 @@ class BP_XProfile_Field {
 	var $order_by;
 	var $is_default_option;
 	var $default_visibility;
-	var $allow_custom_visibility;
+	var $allow_custom_visibility = 'allowed';
 
 	var $data;
 	var $message = null;
