@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-06-18 20:36:16+00:00\n"
+"POT-Creation-Date: 2012-06-18 21:36:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1566,123 +1566,123 @@ msgstr ""
 msgid "Numeric"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:558
+#: bp-core/admin/bp-core-update.php:559
 msgid "Use BuddyPress Default"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:559
+#: bp-core/admin/bp-core-update.php:560
 msgid "BuddyPress Default"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:562
+#: bp-core/admin/bp-core-update.php:563
 msgid "The default BuddyPress theme comes with the basics, to get up and running out of the box. It supports all features and is highly customizable."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:563
+#: bp-core/admin/bp-core-update.php:564
 msgid "This is the best choice if you want to start using BuddyPress immediately."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:564
+#: bp-core/admin/bp-core-update.php:565
 msgid "Yes, please!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:572
+#: bp-core/admin/bp-core-update.php:573
 msgid "Other themes"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:573
+#: bp-core/admin/bp-core-update.php:574
 msgid "A BuddyPress theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:576
+#: bp-core/admin/bp-core-update.php:577
 msgid "You have some other BuddyPress compatible themes available. Pick one of them from this list to use it."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:579
+#: bp-core/admin/bp-core-update.php:580
 msgid "Use this theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:600
+#: bp-core/admin/bp-core-update.php:601
 msgid "Manually update current theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:604
+#: bp-core/admin/bp-core-update.php:605
 msgid "Your existing theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:610
+#: bp-core/admin/bp-core-update.php:611
 msgid "The BuddyPress Template Pack will guide you through the process of manually editing your existing theme. It comes with a step-by-step guide and involves copying the BuddyPress template files into your theme. <strong>This option requires knowledge of CSS and HTML.</strong> You will need to tweak the new templates to match your existing theme."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:614
+#: bp-core/admin/bp-core-update.php:615
 msgid "Install BuddyPress Template Pack"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:618
+#: bp-core/admin/bp-core-update.php:619
 msgid "Choose this option (go to Appearance &rarr; BP Compatibility after setup is complete)"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:619
+#: bp-core/admin/bp-core-update.php:620
 msgid "Plugin Installed"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:630
+#: bp-core/admin/bp-core-update.php:631
 msgid "Do not change theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:633
+#: bp-core/admin/bp-core-update.php:634
 msgid "You are happy with your current theme and plan on changing it later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:634
+#: bp-core/admin/bp-core-update.php:635
 msgid "This is the best choice if you have a custom theme already and want to manually integrate BuddyPress later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:636
+#: bp-core/admin/bp-core-update.php:637
 msgid "Don't change my current theme"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:661
+#: bp-core/admin/bp-core-update.php:662
 msgid "BuddyPress now uses the WordPress Toolbar; we've turbo-charged it by adding social items to help your users explore your site and manage their content."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:663
+#: bp-core/admin/bp-core-update.php:664
 msgid "We've noticed that your site uses the old bar from earlier versions of BuddyPress."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:668
+#: bp-core/admin/bp-core-update.php:669
 msgid "If you'd prefer to not switch to the WordPress Toolbar just yet, check this box. Don't worry, you can change your mind later."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:686
+#: bp-core/admin/bp-core-update.php:687
 msgid "setup"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:686
+#: bp-core/admin/bp-core-update.php:687
 msgid "update"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:688
+#: bp-core/admin/bp-core-update.php:689
 msgid "The BuddyPress %1$s is complete, and your site is ready to go!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:825
+#: bp-core/admin/bp-core-update.php:826
 msgid "Oops, there was a problem creating a configuration file. "
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:831
+#: bp-core/admin/bp-core-update.php:832
 msgid "If your <code>web.config</code> file were <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:840
+#: bp-core/admin/bp-core-update.php:841
 msgid "Permalink structure updated. Remove write access on web.config file now!"
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:845
+#: bp-core/admin/bp-core-update.php:846
 msgid "If your <code>.htaccess</code> file were <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all."
 msgstr ""
 
-#: bp-core/admin/bp-core-update.php:857
+#: bp-core/admin/bp-core-update.php:858
 msgid "Paste all these rules into a new <code>.htaccess</code> file in the root of your WordPress installation and save the file. Once you're done, please hit the \"Save and Next\" button to continue."
 msgstr ""
 
