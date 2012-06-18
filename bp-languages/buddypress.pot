@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-06-17 21:36:17+00:00\n"
+"POT-Creation-Date: 2012-06-18 13:36:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -539,7 +539,7 @@ msgstr ""
 #: bp-activity/bp-activity-template.php:967
 #: bp-activity/bp-activity-template.php:1087
 #: bp-activity/bp-activity-template.php:1097 bp-blogs/bp-blogs-loader.php:200
-#: bp-forums/bp-forums-loader.php:234 bp-forums/bp-forums-template.php:487
+#: bp-forums/bp-forums-loader.php:238 bp-forums/bp-forums-template.php:487
 #: bp-forums/bp-forums-template.php:604 bp-forums/bp-forums-template.php:1196
 #: bp-friends/bp-friends-loader.php:203 bp-groups/bp-groups-loader.php:557
 #: bp-groups/bp-groups-template.php:570 bp-groups/bp-groups-template.php:593
@@ -1221,10 +1221,10 @@ msgid "Settings"
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:372 bp-core/admin/bp-core-update.php:409
-#: bp-core/bp-core-template.php:266 bp-forums/bp-forums-admin.php:32
-#: bp-forums/bp-forums-admin.php:167 bp-forums/bp-forums-loader.php:107
-#: bp-forums/bp-forums-loader.php:186 bp-forums/bp-forums-loader.php:229
-#: bp-forums/deprecated/1.6.php:24
+#: bp-core/bp-core-template.php:266 bp-forums/bp-forums-admin.php:14
+#: bp-forums/bp-forums-admin.php:29 bp-forums/bp-forums-admin.php:276
+#: bp-forums/bp-forums-loader.php:111 bp-forums/bp-forums-loader.php:190
+#: bp-forums/bp-forums-loader.php:233 bp-forums/deprecated/1.6.php:24
 msgid "Forums"
 msgstr ""
 
@@ -1409,7 +1409,7 @@ msgstr ""
 
 #: bp-core/admin/bp-core-update.php:61 bp-core/admin/bp-core-update.php:80
 #: bp-core/admin/bp-core-update.php:178 bp-core/admin/bp-core-update.php:221
-#: bp-themes/bp-default/groups/create.php:282
+#: bp-themes/bp-default/groups/create.php:289
 msgid "Finish"
 msgstr ""
 
@@ -2183,40 +2183,166 @@ msgstr ""
 msgid "Alphabetically"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:18
-msgid "BuddyPress Forums"
+#: bp-forums/bp-forums-admin.php:34 bp-forums/deprecated/1.6.php:29
+msgid "Settings Saved."
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:34
-msgid "Forum Repair"
+#: bp-forums/bp-forums-admin.php:50
+msgid "(Installed)"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:38
-msgid "The following configuration was successfully saved to: %s"
+#: bp-forums/bp-forums-admin.php:50 bp-forums/bp-forums-admin.php:167
+#: bp-forums/deprecated/1.6.php:45 bp-forums/deprecated/1.6.php:162
+msgid "Forums for Groups"
 msgstr ""
 
-#: bp-forums/bp-forums-admin.php:52 bp-forums/deprecated/1.6.php:76
-#: bp-forums/deprecated/1.6.php:194
+#: bp-forums/bp-forums-admin.php:52 bp-forums/bp-forums-admin.php:169
+#: bp-forums/deprecated/1.6.php:47 bp-forums/deprecated/1.6.php:164
+msgid "Give each individual group its own discussion forum. Choose this if you'd like to keep your members' conversations separated into distinct areas."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:53 bp-forums/bp-forums-admin.php:170
+#: bp-forums/deprecated/1.6.php:48 bp-forums/deprecated/1.6.php:165
+msgid "You may use an existing bbPress installation if you have one."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:55 bp-forums/bp-forums-admin.php:73
+#: bp-forums/bp-forums-admin.php:172 bp-forums/bp-forums-admin.php:191
+#: bp-forums/deprecated/1.6.php:50 bp-forums/deprecated/1.6.php:68
+#: bp-forums/deprecated/1.6.php:167 bp-forums/deprecated/1.6.php:186
+msgid "Features"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:57 bp-forums/bp-forums-admin.php:174
+#: bp-forums/deprecated/1.6.php:52 bp-forums/deprecated/1.6.php:169
+msgid "Group Integration"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:58 bp-forums/bp-forums-admin.php:175
+#: bp-forums/deprecated/1.6.php:53 bp-forums/deprecated/1.6.php:170
+msgid "Member Profile Integration"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:59 bp-forums/bp-forums-admin.php:77
+#: bp-forums/bp-forums-admin.php:176 bp-forums/bp-forums-admin.php:195
+#: bp-forums/deprecated/1.6.php:54 bp-forums/deprecated/1.6.php:72
+#: bp-forums/deprecated/1.6.php:171 bp-forums/deprecated/1.6.php:190
+msgid "Activity Stream Integration"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:60 bp-forums/bp-forums-admin.php:78
+#: bp-forums/bp-forums-admin.php:177 bp-forums/bp-forums-admin.php:196
+#: bp-forums/deprecated/1.6.php:55 bp-forums/deprecated/1.6.php:73
+#: bp-forums/deprecated/1.6.php:172 bp-forums/deprecated/1.6.php:191
+msgid "@ Mention Integration"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:64 bp-forums/deprecated/1.6.php:59
+msgid "Uninstall Group Forums"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:69 bp-forums/bp-forums-admin.php:187
+#: bp-forums/deprecated/1.6.php:64 bp-forums/deprecated/1.6.php:182
+msgid "New! Site Wide Forums"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:70 bp-forums/bp-forums-admin.php:188
+#: bp-forums/deprecated/1.6.php:65 bp-forums/deprecated/1.6.php:183
+msgid "Your site will have central forums that are not isolated to any specific group. Choose this if you'd like to have a central forum area for your members."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:71 bp-forums/bp-forums-admin.php:189
+#: bp-forums/deprecated/1.6.php:66 bp-forums/deprecated/1.6.php:184
+msgid "You may activate both Group and Site Wide forums, but this may create a poor experience for your members."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:75 bp-forums/bp-forums-admin.php:193
+#: bp-forums/deprecated/1.6.php:70 bp-forums/deprecated/1.6.php:188
+msgid "Central Discussion Area"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:76 bp-forums/bp-forums-admin.php:194
+#: bp-forums/deprecated/1.6.php:71 bp-forums/deprecated/1.6.php:189
+msgid "Forum Plugins Available"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:81 bp-forums/bp-forums-admin.php:199
+#: bp-forums/deprecated/1.6.php:76 bp-forums/deprecated/1.6.php:194
 msgid "Install Site Wide Forums"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:57
+#: bp-forums/bp-forums-admin.php:100 bp-forums/deprecated/1.6.php:95
+msgid "The bb-config.php file was not found at that location, please try again."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:103 bp-forums/deprecated/1.6.php:98
+msgid "Forums were set up correctly using your existing bbPress install!"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:104 bp-forums/deprecated/1.6.php:99
+msgid "BuddyPress will now use its internal copy of bbPress to run the forums on your site. If you wish, you can remove your old bbPress installation files, as long as you keep the bb-config.php file in the same location."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:109 bp-forums/deprecated/1.6.php:104
+msgid "Existing bbPress Installation"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:110 bp-forums/deprecated/1.6.php:105
+msgid "BuddyPress can make use of your existing bbPress install. Just provide the location of your <code>bb-config.php</code> file, and BuddyPress will do the rest."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:112 bp-forums/bp-forums-admin.php:144
+#: bp-forums/deprecated/1.6.php:107 bp-forums/deprecated/1.6.php:139
+msgid "Complete Installation"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:128 bp-forums/deprecated/1.6.php:123
+msgid "<p>All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.</p>"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:132 bp-forums/deprecated/1.6.php:127
+msgid "<p>A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.</p>"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:141 bp-forums/deprecated/1.6.php:136
+msgid "New bbPress Installation"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:142 bp-forums/deprecated/1.6.php:137
+msgid ""
+"You've decided to set up a new installation of bbPress for forum management in BuddyPress. This is very simple and is usually just a one click\n"
+"\t\t\t\tprocess. When you're ready, hit the link below."
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:154 bp-forums/deprecated/1.6.php:149
+msgid "bbPress files were not found. To install the forums component you must download a copy of bbPress and make sure it is in the folder: \"%s\""
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:181 bp-forums/deprecated/1.6.php:176
+msgid "Install Group Forums"
+msgstr ""
+
+#: bp-forums/bp-forums-admin.php:182 bp-forums/deprecated/1.6.php:177
+msgid "Use Existing Installation"
+msgstr ""
+
+#: bp-forums/bp-forums-loader.php:61
 msgid "Search Forums..."
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:129 bp-forums/bp-forums-loader.php:194
+#: bp-forums/bp-forums-loader.php:133 bp-forums/bp-forums-loader.php:198
 msgid "Topics Started"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:140
+#: bp-forums/bp-forums-loader.php:144
 msgid "Replied To"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:202
+#: bp-forums/bp-forums-loader.php:206
 msgid "Replies"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:210
+#: bp-forums/bp-forums-loader.php:214
 msgid "Favorite Topics"
 msgstr ""
 
@@ -2317,123 +2443,6 @@ msgstr ""
 
 #: bp-forums/bp-forums-template.php:1297
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:29
-msgid "Settings Saved."
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:45 bp-forums/deprecated/1.6.php:162
-msgid "Forums for Groups"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:47 bp-forums/deprecated/1.6.php:164
-msgid "Give each individual group its own discussion forum. Choose this if you'd like to keep your members' conversations separated into distinct areas."
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:48 bp-forums/deprecated/1.6.php:165
-msgid "You may use an existing bbPress installation if you have one."
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:50 bp-forums/deprecated/1.6.php:68
-#: bp-forums/deprecated/1.6.php:167 bp-forums/deprecated/1.6.php:186
-msgid "Features"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:52 bp-forums/deprecated/1.6.php:169
-msgid "Group Integration"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:53 bp-forums/deprecated/1.6.php:170
-msgid "Member Profile Integration"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:54 bp-forums/deprecated/1.6.php:72
-#: bp-forums/deprecated/1.6.php:171 bp-forums/deprecated/1.6.php:190
-msgid "Activity Stream Integration"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:55 bp-forums/deprecated/1.6.php:73
-#: bp-forums/deprecated/1.6.php:172 bp-forums/deprecated/1.6.php:191
-msgid "@ Mention Integration"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:59
-msgid "Uninstall Group Forums"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:64 bp-forums/deprecated/1.6.php:182
-msgid "New! Site Wide Forums"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:65 bp-forums/deprecated/1.6.php:183
-msgid "Your site will have central forums that are not isolated to any specific group. Choose this if you'd like to have a central forum area for your members."
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:66 bp-forums/deprecated/1.6.php:184
-msgid "You may activate both Group and Site Wide forums, but this may create a poor experience for your members."
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:70 bp-forums/deprecated/1.6.php:188
-msgid "Central Discussion Area"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:71 bp-forums/deprecated/1.6.php:189
-msgid "Forum Plugins Available"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:95
-msgid "The bb-config.php file was not found at that location, please try again."
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:98
-msgid "Forums were set up correctly using your existing bbPress install!"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:99
-msgid "BuddyPress will now use its internal copy of bbPress to run the forums on your site. If you wish, you can remove your old bbPress installation files, as long as you keep the bb-config.php file in the same location."
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:104
-msgid "Existing bbPress Installation"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:105
-msgid "BuddyPress can make use of your existing bbPress install. Just provide the location of your <code>bb-config.php</code> file, and BuddyPress will do the rest."
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:107 bp-forums/deprecated/1.6.php:139
-msgid "Complete Installation"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:123
-msgid "<p>All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.</p>"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:127
-msgid "<p>A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.</p>"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:136
-msgid "New bbPress Installation"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:137
-msgid ""
-"You've decided to set up a new installation of bbPress for forum management in BuddyPress. This is very simple and is usually just a one click\n"
-"\t\t\t\tprocess. When you're ready, hit the link below."
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:149
-msgid "bbPress files were not found. To install the forums component you must download a copy of bbPress and make sure it is in the folder: \"%s\""
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:176
-msgid "Install Group Forums"
-msgstr ""
-
-#: bp-forums/deprecated/1.6.php:177
-msgid "Use Existing Installation"
 msgstr ""
 
 #: bp-friends/bp-friends-actions.php:35
@@ -2813,11 +2822,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:813
+#: bp-groups/bp-groups-classes.php:815
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:819 bp-groups/bp-groups-functions.php:121
+#: bp-groups/bp-groups-classes.php:821 bp-groups/bp-groups-functions.php:121
 msgid "Group Admin"
 msgstr ""
 
@@ -3973,7 +3982,7 @@ msgid "Favorite"
 msgstr ""
 
 #: bp-themes/bp-default/_inc/ajax.php:569
-#: bp-themes/bp-default/groups/create.php:222
+#: bp-themes/bp-default/groups/create.php:229
 #: bp-themes/bp-default/groups/single/send-invites.php:42
 msgid "Remove Invite"
 msgstr ""
@@ -4649,71 +4658,75 @@ msgstr ""
 msgid "Group Forums"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:114
+#: bp-themes/bp-default/groups/create.php:116
 msgid "Should this group have a forum?"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:117
+#: bp-themes/bp-default/groups/create.php:119
 #: bp-themes/bp-default/groups/single/admin.php:47
 msgid "Enable discussion forum"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:142
+#: bp-themes/bp-default/groups/create.php:123
+msgid "<strong>Attention Site Admin:</strong> Group forums require the <a href=\"%s\">correct setup and configuration</a> of a bbPress installation."
+msgstr ""
+
+#: bp-themes/bp-default/groups/create.php:149
 #: bp-themes/bp-default/groups/single/admin.php:127
 msgid "Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results."
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:146
+#: bp-themes/bp-default/groups/create.php:153
 #: bp-themes/bp-default/groups/single/admin.php:131
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:18
 msgid "Upload Image"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:150
+#: bp-themes/bp-default/groups/create.php:157
 msgid "To skip the avatar upload process, hit the \"Next Step\" button."
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:157
+#: bp-themes/bp-default/groups/create.php:164
 msgid "Crop Group Avatar"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:159
+#: bp-themes/bp-default/groups/create.php:166
 #: bp-themes/bp-default/groups/single/admin.php:151
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:33
 msgid "Avatar to crop"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:162
+#: bp-themes/bp-default/groups/create.php:169
 #: bp-themes/bp-default/groups/single/admin.php:154
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:36
 msgid "Avatar preview"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:165
+#: bp-themes/bp-default/groups/create.php:172
 #: bp-themes/bp-default/groups/single/admin.php:157
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:39
 msgid "Crop Image"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:204
+#: bp-themes/bp-default/groups/create.php:211
 #: bp-themes/bp-default/groups/single/send-invites.php:22
 msgid "Select people to invite from your friends list."
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:239
+#: bp-themes/bp-default/groups/create.php:246
 #: bp-themes/bp-default/groups/single/send-invites.php:73
 msgid "Once you have built up friend connections you will be able to invite others to your group. You can send invites any time in the future by selecting the \"Send Invites\" option when viewing your new group."
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:261
+#: bp-themes/bp-default/groups/create.php:268
 msgid "Back to Previous Step"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:268
+#: bp-themes/bp-default/groups/create.php:275
 msgid "Next Step"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:275
+#: bp-themes/bp-default/groups/create.php:282
 msgid "Create Group and Continue"
 msgstr ""
 
