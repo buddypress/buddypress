@@ -555,6 +555,8 @@ class BP_Groups_Group {
 	public static function get_random( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp;
 
+		$pag_sql = $hidden_sql = $search_sql = $exclude_sql = '';
+
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 

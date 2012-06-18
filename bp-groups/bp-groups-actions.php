@@ -290,10 +290,13 @@ function groups_action_sort_creation_steps() {
 		$bp->groups->group_creation_steps[$step['slug']] = array( 'name' => $step['name'], 'position' => $position );
 }
 
+/**
+ * Catches requests for a random group page (example.com/groups/?random-group) and redirects
+ */
 function groups_action_redirect_to_random_group() {
 
 	if ( bp_is_groups_component() && isset( $_GET['random-group'] ) ) {
-		$group = groups_get_groups( array( 'type' => 'random', 'per_page' => 1 ) );
+		$group = BP_Groups_Group::get_random( 1, 1 );
 
 		bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group['groups'][0]->slug . '/' );
 	}
