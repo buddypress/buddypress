@@ -365,8 +365,8 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 		)
 	);
 
-	// If forums component is active and bbPress 1.x is in use add additional tab
-	if ( bp_is_active( 'forums' ) && bp_forums_is_repair() ) {
+	// If forums component is active, add additional tab
+	if ( bp_is_active( 'forums' ) ) {
 		$tabs['3'] = array(
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup'  ), 'admin.php' ) ),
 			'name' => __( 'Forums', 'buddypress' )

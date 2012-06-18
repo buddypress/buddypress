@@ -34,7 +34,9 @@ function bp_forums_is_bbpress_active() {
  * @return boolean True if option exists, false if not
  */
 function bp_forums_is_installed_correctly() {
-	if ( bp_get_option(	'bb-config-location' ) )
+	global $bp;
+
+	if ( isset( $bp->forums->bbconfig ) && is_file( $bp->forums->bbconfig ) )
 		return true;
 
 	return false;

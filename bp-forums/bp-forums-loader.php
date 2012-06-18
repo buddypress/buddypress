@@ -47,6 +47,10 @@ class BP_Forums_Component extends BP_Component {
 		if ( !defined( 'BP_FORUMS_SLUG' ) )
 			define( 'BP_FORUMS_SLUG', $this->id );
 
+		// The location of the bbPress stand-alone config file
+		if ( isset( $bp->site_options['bb-config-location'] ) )
+			$this->bbconfig = $bp->site_options['bb-config-location'];
+
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$globals = array(

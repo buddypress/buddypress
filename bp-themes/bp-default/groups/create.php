@@ -107,15 +107,22 @@ get_header( 'buddypress' ); ?>
 						</label>
 					</div>
 
-					<?php if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() ) : ?>
+					<?php if ( bp_is_active( 'forums' ) ) : ?>
 
 						<h4><?php _e( 'Group Forums', 'buddypress' ); ?></h4>
 
-						<p><?php _e( 'Should this group have a forum?', 'buddypress' ); ?></p>
+						<?php if ( bp_forums_is_installed_correctly() ) : ?>
 
-						<div class="checkbox">
-							<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php checked( bp_get_new_group_enable_forum(), true, true ); ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ); ?></label>
-						</div>
+							<p><?php _e( 'Should this group have a forum?', 'buddypress' ); ?></p>
+
+							<div class="checkbox">
+								<label><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php checked( bp_get_new_group_enable_forum(), true, true ); ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ); ?></label>
+							</div>
+						<?php elseif ( is_super_admin() ) : ?>
+
+							<p><?php printf( __( '<strong>Attention Site Admin:</strong> Group forums require the <a href="%s">correct setup and configuration</a> of a bbPress installation.', 'buddypress' ), bp_core_do_network_admin() ? network_admin_url( 'settings.php?page=bb-forums-setup' ) :  admin_url( 'admin.php?page=bb-forums-setup' ) ); ?></p>
+
+						<?php endif; ?>
 
 					<?php endif; ?>
 
