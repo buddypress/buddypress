@@ -251,7 +251,7 @@ class BP_Core_Setup_Wizard {
 	function step_components() {
 
 		if ( !function_exists( 'bp_core_admin_components_options' ) )
-			require ( WP_PLUGIN_DIR . '/buddypress/bp-core/admin/bp-core-components.php' ); ?>
+			require ( BP_PLUGIN_DIR . 'bp-core/admin/bp-core-components.php' ); ?>
 
 		<p><?php _e( "BuddyPress bundles several individual social components together, each one adding a distinct feature. This first step decides which features are enabled on your site; all features are enabled by default. Don't worry, you can change your mind at any point in the future.", 'buddypress' ); ?></p>
 
@@ -513,6 +513,7 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_theme() {
+		global $bp;
 
 		$installed_plugins = get_plugins();
 		$installed_themes  = wp_get_themes();
@@ -556,7 +557,7 @@ class BP_Core_Setup_Wizard {
 			<tr>
 				<th>
 					<h5><?php _e( 'Use BuddyPress Default', 'buddypress' ); ?></h5>
-					<img src="<?php echo plugins_url( '/buddypress/bp-themes/bp-default/screenshot.png' ); ?>" alt="<?php _e( 'BuddyPress Default', 'buddypress' ); ?>" />
+					<img src="<?php echo plugins_url( 'bp-themes/bp-default/screenshot.png', $bp->file ); ?>" alt="<?php _e( 'BuddyPress Default', 'buddypress' ); ?>" />
 				</th>
 				<td>
 					<p><?php _e( 'The default BuddyPress theme comes with the basics, to get up and running out of the box. It supports all features and is highly customizable.', 'buddypress' ); ?></p>
@@ -570,7 +571,7 @@ class BP_Core_Setup_Wizard {
 				<tr>
 					<th>
 						<h5><?php _e( 'Other themes', 'buddypress' ); ?></h5>
-						<img src="<?php echo plugins_url( '/buddypress/bp-core/admin/images/find.png' ); ?>" alt="<?php _e( 'A BuddyPress theme', 'buddypress' ); ?>" />
+						<img src="<?php echo plugins_url( 'bp-core/admin/images/find.png', $bp->file ); ?>" alt="<?php _e( 'A BuddyPress theme', 'buddypress' ); ?>" />
 					</th>
 					<td>
 						<p><?php _e( "You have some other BuddyPress compatible themes available. Pick one of them from this list to use it.", 'buddypress' ); ?></p>
