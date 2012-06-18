@@ -56,7 +56,7 @@ function bp_forums_bbpress_admin() {
 				</ul>
 
 				<div>
-					<a class="button button-primary" href="<?php echo $action ?>"><?php _e( 'Uninstall Group Forums', 'buddypress' ) ?></a> &nbsp;
+					<a class="button button-primary" href="<?php echo $action ?>"><?php _e( 'Reinstall Group Forums', 'buddypress' ) ?></a> &nbsp;
 				</div>
 			</div>
 
