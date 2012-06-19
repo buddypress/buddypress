@@ -119,7 +119,7 @@ add_action( 'wp_ajax_bp-activity-admin-reply', 'bp_activity_admin_reply' );
  * @since 1.6
  */
 function bp_activity_admin_screen_options( $value, $option, $new_value ) {
-	if ( 'toplevel_page_bp_activity_per_page' != $option )
+	if ( 'toplevel_page_bp_activity_per_page' != $option && 'toplevel_page_bp_activity_network_per_page' != $option )
 		return $value;
 
 	// Per page
