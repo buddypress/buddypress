@@ -1178,6 +1178,9 @@ class BP_Activity_List_Table extends WP_List_Table {
 		// This was a mis-named activity type from before BP 1.6
 		unset( $actions['friends_register_activity_action'] );
 
+		// This type has not been used since BP 1.0.3. It will be re-instated in a future version.
+		unset( $actions['updated_profile'] );
+
 		// Sort array by the human-readable value
 		natsort( $actions );
 	?>
