@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-06-19 12:36:15+00:00\n"
+"POT-Creation-Date: 2012-06-19 19:36:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -211,7 +211,7 @@ msgstr ""
 msgid "Approved"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:627 bp-activity/bp-activity-admin.php:1269
+#: bp-activity/bp-activity-admin.php:627 bp-activity/bp-activity-admin.php:1272
 #: bp-activity/bp-activity-akismet.php:178
 #: bp-activity/bp-activity-akismet.php:207
 msgid "Spam"
@@ -227,7 +227,7 @@ msgstr ""
 msgid "Submitted on: <strong>%1$s</strong>"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:636 bp-activity/bp-activity-admin.php:1262
+#: bp-activity/bp-activity-admin.php:636 bp-activity/bp-activity-admin.php:1265
 #: bp-forums/bp-forums-template.php:1266 bp-themes/bp-default/functions.php:507
 #: bp-xprofile/bp-xprofile-admin.php:456 bp-xprofile/bp-xprofile-loader.php:172
 #: bp-xprofile/bp-xprofile-loader.php:230
@@ -319,7 +319,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:857 bp-activity/bp-activity-admin.php:1259
+#: bp-activity/bp-activity-admin.php:857 bp-activity/bp-activity-admin.php:1262
 #: bp-themes/bp-default/activity/comment.php:37
 #: bp-themes/bp-default/groups/single/forum/edit.php:10
 msgid "Reply"
@@ -343,12 +343,12 @@ msgid "Mark as Spam"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:1117
-#: bp-activity/bp-activity-admin.php:1267
+#: bp-activity/bp-activity-admin.php:1270
 msgid "Not Spam"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:1118
-#: bp-activity/bp-activity-admin.php:1272
+#: bp-activity/bp-activity-admin.php:1275
 msgid "Delete Permanently"
 msgstr ""
 
@@ -360,31 +360,31 @@ msgstr ""
 msgid "In Response To"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1187
+#: bp-activity/bp-activity-admin.php:1190
 msgid "Show all activity types"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1194
+#: bp-activity/bp-activity-admin.php:1197
 msgid "Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1272 bp-core/bp-core-cssjs.php:17
+#: bp-activity/bp-activity-admin.php:1275 bp-core/bp-core-cssjs.php:17
 msgid "Are you sure?"
 msgstr ""
 
 #. translators: 2: activity admin ui date/time
 
-#: bp-activity/bp-activity-admin.php:1281
+#: bp-activity/bp-activity-admin.php:1284
 msgid "Submitted on <a href=\"%1$s\">%2$s at %3$s</a>"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1310
+#: bp-activity/bp-activity-admin.php:1313
 msgid "%s related activity"
 msgid_plural "%s related activities"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-activity/bp-activity-admin.php:1321
+#: bp-activity/bp-activity-admin.php:1324
 msgid "<a href=\"%1$s\">View Activity</a>"
 msgstr ""
 
