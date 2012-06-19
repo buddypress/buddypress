@@ -48,14 +48,14 @@ class BP_Groups_Group {
 	 */
 	public $user_has_access;
 
-	public function __construct( $id = null ) {
+	function __construct( $id = null ) {
 		if ( !empty( $id ) ) {
 			$this->id = $id;
 			$this->populate();
 		}
 	}
 
-	private function populate() {
+	function populate() {
 		global $wpdb, $bp;
 
 		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {			
@@ -94,7 +94,7 @@ class BP_Groups_Group {
 		}
 	}
 
-	public function save() {
+	function save() {
 		global $wpdb, $bp;
 
 		$this->creator_id   = apply_filters( 'groups_group_creator_id_before_save',   $this->creator_id,   $this->id );
@@ -165,7 +165,7 @@ class BP_Groups_Group {
 		return true;
 	}
 
-	public function delete() {
+	function delete() {
 		global $wpdb, $bp;
 
 		// Delete groupmeta for the group
@@ -194,7 +194,7 @@ class BP_Groups_Group {
 
 	/** Static Methods ********************************************************/
 
-	public static function group_exists( $slug, $table_name = false ) {
+	function group_exists( $slug, $table_name = false ) {
 		global $wpdb, $bp;
 
 		if ( empty( $table_name ) )
@@ -206,7 +206,7 @@ class BP_Groups_Group {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table_name} WHERE slug = %s", $slug ) );
 	}
 
-	public static function get_id_from_slug( $slug ) {
+	function get_id_from_slug( $slug ) {
 		return BP_Groups_Group::group_exists( $slug );
 	}
 
@@ -215,7 +215,7 @@ class BP_Groups_Group {
 		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d and is_confirmed = 0 AND inviter_id = %d", $group_id, $user_id ) );
 	}
 
-	public static function filter_user_groups( $filter, $user_id = 0, $order = false, $limit = null, $page = null ) {
+	function filter_user_groups( $filter, $user_id = 0, $order = false, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -240,7 +240,7 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function search_groups( $filter, $limit = null, $page = null, $sort_by = false, $order = false ) {
+	function search_groups( $filter, $limit = null, $page = null, $sort_by = false, $order = false ) {
 		global $wpdb, $bp;
 
 		$filter = like_escape( $wpdb->escape( $filter ) );
@@ -263,19 +263,19 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function check_slug( $slug ) {
+	function check_slug( $slug ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM {$bp->groups->table_name} WHERE slug = %s", $slug ) );
 	}
 
-	public static function get_slug( $group_id ) {
+	function get_slug( $group_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM {$bp->groups->table_name} WHERE id = %d", $group_id ) );
 	}
 
-	public static function has_members( $group_id ) {
+	function has_members( $group_id ) {
 		global $wpdb, $bp;
 
 		$members = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d", $group_id ) );
@@ -286,13 +286,13 @@ class BP_Groups_Group {
 		return true;
 	}
 
-	public static function has_membership_requests( $group_id ) {
+	function has_membership_requests( $group_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0", $group_id ) );
 	}
 
-	public static function get_membership_requests( $group_id, $limit = null, $page = null ) {
+	function get_membership_requests( $group_id, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 
 		if ( !empty( $limit ) && !empty( $page ) ) {
@@ -305,7 +305,7 @@ class BP_Groups_Group {
 		return array( 'requests' => $paged_requests, 'total' => $total_requests );
 	}
 
-	public static function get( $type = 'newest', $per_page = null, $page = null, $user_id = 0, $search_terms = false, $include = false, $populate_extras = true, $exclude = false, $show_hidden = false ) {
+	function get( $type = 'newest', $per_page = null, $page = null, $user_id = 0, $search_terms = false, $include = false, $populate_extras = true, $exclude = false, $show_hidden = false ) {
 		global $wpdb, $bp;
 
 		$sql       = array();
@@ -430,7 +430,7 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function get_by_most_forum_topics( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
+	function get_by_most_forum_topics( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp, $bbdb;
 
 		if ( empty( $bbdb ) )
@@ -471,7 +471,7 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function get_by_most_forum_posts( $limit = null, $page = null, $search_terms = false, $populate_extras = true, $exclude = false ) {
+	function get_by_most_forum_posts( $limit = null, $page = null, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp, $bbdb;
 
 		if ( empty( $bbdb ) )
@@ -512,7 +512,7 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function get_by_letter( $letter, $limit = null, $page = null, $populate_extras = true, $exclude = false ) {
+	function get_by_letter( $letter, $limit = null, $page = null, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp;
 
 		// Multibyte compliance
@@ -552,7 +552,7 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function get_random( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
+	function get_random( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp;
 
 		$pag_sql = $hidden_sql = $search_sql = $exclude_sql = '';
@@ -591,7 +591,7 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function get_group_extras( &$paged_groups, &$group_ids, $type = false ) {
+	function get_group_extras( &$paged_groups, &$group_ids, $type = false ) {
 		global $bp, $wpdb;
 
 		if ( empty( $group_ids ) )
@@ -623,13 +623,13 @@ class BP_Groups_Group {
 		return $paged_groups;
 	}
 
-	public static function delete_all_invites( $group_id ) {
+	function delete_all_invites( $group_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE group_id = %d AND invite_sent = 1", $group_id ) );
 	}
 
-	public static function get_total_group_count() {
+	function get_total_group_count() {
 		global $wpdb, $bp;
 
 		$hidden_sql = '';
@@ -639,7 +639,7 @@ class BP_Groups_Group {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} {$hidden_sql}" ) );
 	}
 
-	public static function get_global_forum_topic_count( $type ) {
+	function get_global_forum_topic_count( $type ) {
 		global $bbdb, $wpdb, $bp;
 
 		if ( 'unreplied' == $type )
@@ -650,7 +650,7 @@ class BP_Groups_Group {
 		return $wpdb->get_var( "SELECT COUNT(t.topic_id) FROM {$bbdb->topics} AS t, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND t.topic_status = '0' AND t.topic_sticky != '2' {$extra_sql} " );
 	}
 
-	public static function get_total_member_count( $group_id ) {
+	function get_total_member_count( $group_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0", $group_id ) );
@@ -665,7 +665,7 @@ class BP_Groups_Group {
 	 * @param str $status 'public', 'private', 'hidden', 'all' Which group types to count
 	 * @return int The topic count
 	 */
-	public static function get_global_topic_count( $status = 'public', $search_terms = false ) {
+	function get_global_topic_count( $status = 'public', $search_terms = false ) {
 		global $bbdb, $wpdb, $bp;
 
 		switch ( $status ) {
@@ -719,8 +719,8 @@ class BP_Groups_Member {
 	var $invite_sent;
 	var $user;
 
-	public function __construct( $user_id = 0, $group_id = 0, $id = false, $populate = true ) {
-		
+	function __construct( $user_id = 0, $group_id = 0, $id = false, $populate = true ) {
+
 		// User and group are not empty, and ID is
 		if ( !empty( $user_id ) && !empty( $group_id ) && empty( $id ) ) {
 			$this->user_id  = $user_id;
@@ -741,7 +741,7 @@ class BP_Groups_Member {
 		}
 	}
 
-	private function populate() {
+	function populate() {
 		global $wpdb, $bp;
 
 		if ( $this->user_id && $this->group_id && !$this->id )
@@ -770,7 +770,7 @@ class BP_Groups_Member {
 		}
 	}
 
-	public function save() {
+	function save() {
 		global $wpdb, $bp;
 
 		$this->user_id       = apply_filters( 'groups_member_user_id_before_save',       $this->user_id,       $this->id );
@@ -808,7 +808,7 @@ class BP_Groups_Member {
 		return true;
 	}
 
-	public function promote( $status = 'mod' ) {
+	function promote( $status = 'mod' ) {
 		if ( 'mod' == $status ) {
 			$this->is_admin   = 0;
 			$this->is_mod     = 1;
@@ -824,7 +824,7 @@ class BP_Groups_Member {
 		return $this->save();
 	}
 
-	public function demote() {
+	function demote() {
 		$this->is_mod     = 0;
 		$this->is_admin   = 0;
 		$this->user_title = false;
@@ -832,7 +832,7 @@ class BP_Groups_Member {
 		return $this->save();
 	}
 
-	public function ban() {
+	function ban() {
 
 		if ( !empty( $this->is_admin ) )
 			return false;
@@ -849,7 +849,7 @@ class BP_Groups_Member {
 		return $this->save();
 	}
 
-	public function unban() {
+	function unban() {
 
 		if ( !empty( $this->is_admin ) )
 			return false;
@@ -862,7 +862,7 @@ class BP_Groups_Member {
 		return $this->save();
 	}
 
-	public function accept_invite() {
+	function accept_invite() {
 
 		$this->inviter_id    = 0;
 		$this->is_confirmed  = 1;
@@ -871,7 +871,7 @@ class BP_Groups_Member {
 		bp_update_user_meta( $this->user_id, 'total_group_count', (int) bp_get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 	}
 
-	public function accept_request() {
+	function accept_request() {
 
 		$this->is_confirmed = 1;
 		$this->date_modified = bp_core_current_time();
@@ -879,7 +879,7 @@ class BP_Groups_Member {
 		bp_update_user_meta( $this->user_id, 'total_group_count', (int) bp_get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 	}
 
-	public function remove() {
+	function remove() {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $this->user_id, $this->group_id );
@@ -898,13 +898,13 @@ class BP_Groups_Member {
 
 	/** Static Methods ********************************************************/
 
-	public static function delete( $user_id, $group_id ) {
+	function delete( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
 	}
 
-	public static function get_group_ids( $user_id, $limit = false, $page = false ) {
+	function get_group_ids( $user_id, $limit = false, $page = false ) {
 		global $wpdb, $bp;
 
 		$pag_sql = '';
@@ -925,7 +925,7 @@ class BP_Groups_Member {
 		return array( 'groups' => $groups, 'total' => (int) $total_groups );
 	}
 
-	public static function get_recently_joined( $user_id, $limit = false, $page = false, $filter = false ) {
+	function get_recently_joined( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
 		$pag_sql = $hidden_sql = $filter_sql = '';
@@ -947,7 +947,7 @@ class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function get_is_admin_of( $user_id, $limit = false, $page = false, $filter = false ) {
+	function get_is_admin_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
 		$pag_sql = $hidden_sql = $filter_sql = '';
@@ -969,7 +969,7 @@ class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function get_is_mod_of( $user_id, $limit = false, $page = false, $filter = false ) {
+	function get_is_mod_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
 		$pag_sql = $hidden_sql = $filter_sql = '';
@@ -991,7 +991,7 @@ class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function total_group_count( $user_id = 0 ) {
+	function total_group_count( $user_id = 0 ) {
 		global $bp, $wpdb;
 
 		if ( empty( $user_id ) )
@@ -1004,7 +1004,7 @@ class BP_Groups_Member {
 		}
 	}
 
-	public static function get_invites( $user_id, $limit = false, $page = false, $exclude = false ) {
+	function get_invites( $user_id, $limit = false, $page = false, $exclude = false ) {
 		global $wpdb, $bp;
 
 		$pag_sql = ( !empty( $limit ) && !empty( $page ) ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
@@ -1017,7 +1017,7 @@ class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	public static function check_has_invite( $user_id, $group_id, $type = 'sent' ) {
+	function check_has_invite( $user_id, $group_id, $type = 'sent' ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1031,7 +1031,7 @@ class BP_Groups_Member {
 		return $wpdb->get_var( $wpdb->prepare( $sql, $user_id, $group_id ) );
 	}
 
-	public static function delete_invite( $user_id, $group_id ) {
+	function delete_invite( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1040,7 +1040,7 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id, $group_id ) );
 	}
 
-	public static function delete_request( $user_id, $group_id ) {
+	function delete_request( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1049,7 +1049,7 @@ class BP_Groups_Member {
  		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id = 0 AND invite_sent = 0", $user_id, $group_id ) );
 	}
 
-	public static function check_is_admin( $user_id, $group_id ) {
+	function check_is_admin( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1058,7 +1058,7 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_admin = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 
-	public static function check_is_mod( $user_id, $group_id ) {
+	function check_is_mod( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1067,7 +1067,7 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_mod = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 
-	public static function check_is_member( $user_id, $group_id ) {
+	function check_is_member( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1076,7 +1076,7 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 
-	public static function check_is_banned( $user_id, $group_id ) {
+	function check_is_banned( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1094,7 +1094,7 @@ class BP_Groups_Member {
 	 * @param int $group_id
 	 * @since 1.2.6
 	 */
-	public static function check_is_creator( $user_id, $group_id ) {
+	function check_is_creator( $user_id, $group_id ) {
 		global $bp, $wpdb;
 
 		if ( empty( $user_id ) )
@@ -1103,7 +1103,7 @@ class BP_Groups_Member {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE creator_id = %d AND id = %d", $user_id, $group_id ) );
 	}
 
-	public static function check_for_membership_request( $user_id, $group_id ) {
+	function check_for_membership_request( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1112,7 +1112,7 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND is_banned = 0 AND inviter_id = 0", $user_id, $group_id ) );
 	}
 
-	public static function get_random_groups( $user_id, $total_groups = 5 ) {
+	function get_random_groups( $user_id, $total_groups = 5 ) {
 		global $wpdb, $bp;
 
 		// If the user is logged in and viewing their random groups, we can show hidden and private groups
@@ -1123,31 +1123,31 @@ class BP_Groups_Member {
 		}
 	}
 
-	public static function get_group_member_ids( $group_id ) {
+	function get_group_member_ids( $group_id ) {
 		global $bp, $wpdb;
 
 		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0", $group_id ) );
 	}
 
-	public static function get_group_administrator_ids( $group_id ) {
+	function get_group_administrator_ids( $group_id ) {
 		global $bp, $wpdb;
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_admin = 1 AND is_banned = 0", $group_id ) );
 	}
 
-	public static function get_group_moderator_ids( $group_id ) {
+	function get_group_moderator_ids( $group_id ) {
 		global $bp, $wpdb;
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_mod = 1 AND is_banned = 0", $group_id ) );
 	}
 
-	public static function get_all_membership_request_user_ids( $group_id ) {
+	function get_all_membership_request_user_ids( $group_id ) {
 		global $bp, $wpdb;
 
 		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0", $group_id ) );
 	}
 
-	public static function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
+	function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
 		global $bp, $wpdb;
 
 		$pag_sql = '';
@@ -1199,7 +1199,7 @@ class BP_Groups_Member {
 		return array( 'members' => $members, 'count' => $total_member_count );
 	}
 
-	public static function delete_all( $group_id ) {
+	function delete_all( $group_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE group_id = %d", $group_id ) );
@@ -1214,7 +1214,7 @@ class BP_Groups_Member {
 	 * @since 1.0
 	 * @uses BP_Groups_Member
 	 */
-	public static function delete_all_for_user( $user_id ) {
+	function delete_all_for_user( $user_id ) {
 		global $bp, $wpdb;
 
 		// Get all the group ids for the current user's groups and update counts
