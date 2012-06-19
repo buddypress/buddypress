@@ -887,7 +887,7 @@ function bp_loggedin_user_id() {
 	return apply_filters( 'bp_loggedin_user_id', $id );
 }
 
-function bp_current_user_id() { return bp_loggedin_user_id(); }
+function bp_current_user_id() { return bp_displayed_user_id(); }
 
 function bp_displayed_user_domain() {
 	global $bp;
