@@ -124,7 +124,7 @@ class BP_Core_User {
 	 * @param integer $user_id The ID for the user
 	 * @param boolean $populate_extras Whether to fetch extra information such as group/friendship counts or not.
 	 */
-	public function __construct( $user_id, $populate_extras = false ) {
+	function __construct( $user_id, $populate_extras = false ) {
 		if ( !empty( $user_id ) ) {
 			$this->id = $user_id;
 			$this->populate();
@@ -147,7 +147,7 @@ class BP_Core_User {
 	 * @uses bp_core_fetch_avatar() Returns HTML formatted avatar for a user
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
-	private function populate() {
+	function populate() {
 
 		if ( bp_is_active( 'xprofile' ) )
 			$this->profile_data = $this->get_profile_data();
@@ -180,7 +180,7 @@ class BP_Core_User {
 	/**
 	 * Populates extra fields such as group and friendship counts.
 	 */
-	private function populate_extras() {
+	function populate_extras() {
 
 		if ( bp_is_active( 'friends' ) ) {
 			$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
@@ -192,13 +192,13 @@ class BP_Core_User {
 		}
 	}
 
-	private function get_profile_data() {
+	function get_profile_data() {
 		return BP_XProfile_ProfileData::get_all_for_user( $this->id );
 	}
 
 	/** Static Methods ********************************************************/
 
-	public static function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
+	function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
 		global $wpdb, $bp;
 
 		$sql = array();
@@ -391,7 +391,7 @@ class BP_Core_User {
 	 * @return mixed False on error, otherwise associative array of results.
 	 * @static
 	 */
-	public static function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
+	function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
 		global $bp, $wpdb;
 
 		$pag_sql = '';
@@ -453,7 +453,7 @@ class BP_Core_User {
 	 * @return array Associative array
 	 * @static
 	 */
-	public static function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
+	function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
 		global $wpdb;
 
 		$pag_sql = '';
@@ -498,7 +498,7 @@ class BP_Core_User {
 	 * @return array Associative array
 	 * @static
 	 */
-	public static function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
+	function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
 		global $bp, $wpdb;
 
 		$user_ids = array();
@@ -542,7 +542,7 @@ class BP_Core_User {
 	 * @return mixed False on error, otherwise associative array of results.
 	 * @static
 	 */
-	public static function get_user_extras( &$paged_users, &$user_ids, $type = false ) {
+	function get_user_extras( &$paged_users, &$user_ids, $type = false ) {
 		global $bp, $wpdb;
 
 		if ( empty( $user_ids ) )
@@ -622,7 +622,7 @@ class BP_Core_User {
 	 * @return array Associative array
 	 * @static
 	 */
-	public static function get_core_userdata( $user_id ) {
+	function get_core_userdata( $user_id ) {
 		global $wpdb;
 
 		if ( !$user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id ) ) )
@@ -705,7 +705,7 @@ class BP_Core_Notification {
 	 *
 	 * @param integer $id
 	 */
-	public function __construct( $id = 0 ) {
+	function __construct( $id = 0 ) {
 		if ( !empty( $id ) ) {
 			$this->id = $id;
 			$this->populate();
@@ -719,7 +719,7 @@ class BP_Core_Notification {
 	 * @global wpdb $wpdb WordPress database object
 	 * @return bool Success or failure
 	 */
-	public function save() {
+	function save() {
 		global $bp, $wpdb;
 
 		// Update
@@ -747,7 +747,7 @@ class BP_Core_Notification {
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 */
-	private function populate() {
+	function populate() {
 		global $bp, $wpdb;
 
 		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE id = %d", $this->id ) ) ) {
@@ -763,7 +763,7 @@ class BP_Core_Notification {
 
 	/** Static Methods ********************************************************/
 
-	public static function check_access( $user_id, $notification_id ) {
+	function check_access( $user_id, $notification_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->core->table_name_notifications} WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
@@ -779,7 +779,7 @@ class BP_Core_Notification {
 	 * @return array Associative array
 	 * @static
 	 */
-	public static function get_all_for_user( $user_id, $status = 'is_new' ) {
+	function get_all_for_user( $user_id, $status = 'is_new' ) {
 		global $bp, $wpdb;
 
 		$is_new = 'is_new' == $status ? ' AND is_new = 1 ' : '';
@@ -797,7 +797,7 @@ class BP_Core_Notification {
 	 * @param string $component_action
 	 * @static
 	 */
-	public static function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
+	function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
 		global $bp, $wpdb;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
@@ -815,7 +815,7 @@ class BP_Core_Notification {
 	 * @param integer $secondary_item_id (optional) The secondary item id of the notifications that we wish to use to delete.
 	 * @static
 	 */
-	public static function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
+	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 		global $bp, $wpdb;
 
 		$secondary_item_sql = !empty( $secondary_item_id ) ? $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id ) : '';
@@ -833,7 +833,7 @@ class BP_Core_Notification {
 	 * @param string $component_action The action of the component the notification was sent from.
 	 * @static
 	 */
-	public static function delete_from_user_by_type( $user_id, $component_name, $component_action ) {
+	function delete_from_user_by_type( $user_id, $component_name, $component_action ) {
 		global $bp, $wpdb;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
@@ -850,7 +850,7 @@ class BP_Core_Notification {
 	 * @param string $secondary_item_id Optional secondary item id that the notifications are to have.
 	 * @static
 	 */
-	public static function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
+	function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
 		global $bp, $wpdb;
 
 		if ( $component_action )
@@ -1002,7 +1002,7 @@ class BP_Button {
 	 * @param array $args
 	 * @return bool False if not allowed
 	 */
-	public function __construct( $args = '' ) {
+	function __construct( $args = '' ) {
 
 		// Default arguments
 		$defaults = array(
@@ -1106,7 +1106,7 @@ class BP_Button {
 	 *
 	 * @return string
 	 */
-	public function contents() {
+	function contents() {
 		return $this->contents;
 	}
 
@@ -1115,7 +1115,7 @@ class BP_Button {
 	 *
 	 * Output contents of button
 	 */
-	public function display() {
+	function display() {
 		if ( !empty( $this->contents ) )
 			echo $this->contents;
 	}
@@ -1137,7 +1137,7 @@ class BP_Embed extends WP_Embed {
 	 *
 	 * @global unknown $wp_embed
 	 */
-	public function __construct() {
+	function __construct() {
 		global $wp_embed;
 
 		// Make sure we populate the WP_Embed handlers array.
@@ -1186,7 +1186,7 @@ class BP_Embed extends WP_Embed {
 	 * @param string $url The URL attempting to be embeded.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
-	public function shortcode( $attr, $url = '' ) {
+	function shortcode( $attr, $url = '' ) {
 		if ( empty( $url ) )
 			return '';
 
@@ -1251,7 +1251,7 @@ class BP_Embed extends WP_Embed {
 	 * @param array $rawattr Untouched shortcode attributes from {@link WP_Embed::shortcode()}.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
-	public function parse_oembed( $id, $url, $attr, $rawattr ) {
+	function parse_oembed( $id, $url, $attr, $rawattr ) {
 		$id = intval( $id );
 
 		if ( $id ) {
