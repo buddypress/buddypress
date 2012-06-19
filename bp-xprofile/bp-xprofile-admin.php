@@ -257,7 +257,11 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				$field->field_order++;
 			}
 
-			if ( !$field->save() ) {
+			// For new profile fields, set the $field_id. For existing profile fields,
+			// this will overwrite $field_id with the same value.
+			$field_id = $field->save();
+
+			if ( !$field_id ) {
 				$message = __( 'There was an error saving the field. Please try again', 'buddypress' );
 				$type = 'error';
 
