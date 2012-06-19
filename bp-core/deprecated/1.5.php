@@ -535,4 +535,132 @@ function bp_dtheme_deprecated() {
 }
 add_action( 'after_setup_theme', 'bp_dtheme_deprecated', 15 );
 
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as the nav structure is set up by the {@link BP_Component} class.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_add_settings_nav() {
+	_deprecated_function( __FUNCTION__, '1.5' );
+}
+
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as new template files for the Settings component were
+ * introduced.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_screen_general_settings() {
+	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
+}
+
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as new template files for the Settings component were
+ * introduced.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_screen_general_settings_title() {
+	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
+}
+
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as new template files for the Settings component were
+ * introduced.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_screen_general_settings_content() {
+	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
+}
+
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as new template files for the Settings component were
+ * introduced.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_screen_notification_settings() {
+	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
+}
+
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as new template files for the Settings component were
+ * introduced.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_screen_notification_settings_title() {
+	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
+}
+
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as new template files for the Settings component were
+ * introduced.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_screen_notification_settings_content() {
+	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
+}
+
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as new template files for the Settings component were
+ * introduced.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_screen_delete_account() {
+	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
+}
+
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as new template files for the Settings component were
+ * introduced.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_screen_delete_account_title() {
+	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
+}
+
+/**
+ * In BP 1.5, the Settings functions were moved out of the Core and Members
+ * components, and moved into a new Settings component. This function is no
+ * longer needed as new template files for the Settings component were
+ * introduced.
+ *
+ * @deprecated BuddyPress (1.5)
+ * @since BuddyPress (1.6)
+ */
+function bp_core_screen_delete_account_content() {
+	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
+}
 ?>
