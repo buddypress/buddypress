@@ -200,10 +200,10 @@ function bp_activity_admin_load() {
 
 		// Register metaboxes for the edit screen.
 		add_meta_box( 'submitdiv',           _x( 'Status', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_status', 'toplevel_page_bp-activity', 'side', 'core' );
-		add_meta_box( 'bp_activity_itemids', _x( 'Primary Item/Secondary Item', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_itemids', 'toplevel_page_bp-activity', 'advanced', 'core' );
-		add_meta_box( 'bp_activity_link',    _x( 'Link', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_link', 'toplevel_page_bp-activity', 'advanced', 'core' );
-		add_meta_box( 'bp_activity_type',    _x( 'Type', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_type', 'toplevel_page_bp-activity', 'advanced', 'core' );
-		add_meta_box( 'bp_activity_userid',  _x( 'Author ID', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_userid', 'toplevel_page_bp-activity', 'advanced', 'core' );
+		add_meta_box( 'bp_activity_itemids', _x( 'Primary Item/Secondary Item', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_itemids', 'toplevel_page_bp-activity', 'normal', 'core' );
+		add_meta_box( 'bp_activity_link',    _x( 'Link', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_link', 'toplevel_page_bp-activity', 'normal', 'core' );
+		add_meta_box( 'bp_activity_type',    _x( 'Type', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_type', 'toplevel_page_bp-activity', 'normal', 'core' );
+		add_meta_box( 'bp_activity_userid',  _x( 'Author ID', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_userid', 'toplevel_page_bp-activity', 'normal', 'core' );
 
 		// Enqueue javascripts
 		wp_enqueue_script( 'postbox' );
@@ -566,13 +566,10 @@ function bp_activity_admin_edit() {
 		<?php if ( ! empty( $activity ) ) : ?>
 
 			<form action="<?php echo esc_attr( $form_url ); ?>" id="bp-activities-edit-form" method="post">
-				<div id="poststuff" class="metabox-holder<?php echo 2 == $screen_layout_columns ? ' has-right-sidebar' : ''; ?>">
-					<div id="side-info-column" class="inner-sidebar">
-						<?php do_meta_boxes( 'toplevel_page_bp-activity', 'side', $activity ); ?>
-					</div>
+				<div id="poststuff">
 
-					<div id="post-body" class="has-sidebar">
-						<div id="post-body-content" class="has-sidebar-content">
+					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>"> 
+						<div id="post-body-content">
 							<div id="postdiv" class="postarea">
 								<div id="bp_activity_action" class="postbox">
 									<h3><?php _e( 'Action', 'buddypress' ); ?></h3>
@@ -588,12 +585,19 @@ function bp_activity_admin_edit() {
 									</div>
 								</div>
 							</div>
+						</div><!-- #post-body-content -->
 
+						<div id="postbox-container-1" class="postbox-container">
+							<?php do_meta_boxes( 'toplevel_page_bp-activity', 'side', $activity ); ?>
+						</div>
+
+						<div id="postbox-container-2" class="postbox-container">
+							<?php do_meta_boxes( 'toplevel_page_bp-activity', 'normal', $activity ); ?>
 							<?php do_meta_boxes( 'toplevel_page_bp-activity', 'advanced', $activity ); ?>
 						</div>
-					</div>
-				</div>
+					</div><!-- #post-body -->
 
+				</div><!-- #poststuff -->
 				<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 				<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 				<?php wp_nonce_field( 'edit-activity_' . $activity->id ); ?>
@@ -603,7 +607,7 @@ function bp_activity_admin_edit() {
 			<p><?php printf( __( 'No activity found with this ID. <a href="%s">Go back and try again</a>.', 'buddypress' ), network_admin_url( 'admin.php?page=bp-activity' ) ); ?></p>
 		<?php endif; ?>
 
-	</div>
+	</div><!-- .wrap -->
 
 <?php
 }
