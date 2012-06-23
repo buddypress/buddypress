@@ -128,7 +128,8 @@ class BP_Activity_Activity {
 				10 => 'spam'
 			);
 
-			$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
+			$func_args = func_get_args();
+			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
 		}
 
 		$defaults = array(

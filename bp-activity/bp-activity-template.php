@@ -134,8 +134,9 @@ class BP_Activity_Template {
 				11 => 'spam',
 				12 => 'page_arg'
 			);
-			
-			$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
+
+			$func_args = func_get_args();
+			$args = bp_core_parse_args_array( $old_args_keys, $func_args );
 		}
 		
 		$defaults = array(

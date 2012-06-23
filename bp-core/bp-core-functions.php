@@ -978,7 +978,7 @@ function bp_use_wp_admin_bar() {
  *       3 => 'blip'
  *   );
  *
- * For the second argument, $func_args, you should just pass func_get_args().
+ * For the second argument, $func_args, you should just pass the value of func_get_args().
  *
  * @since BuddyPress (1.6)
  * @param array $old_args_keys
