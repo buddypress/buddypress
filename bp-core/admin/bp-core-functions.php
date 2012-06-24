@@ -290,6 +290,15 @@ function bp_core_activation_notice() {
 		}
 	}
 
+	// Special case: If the Forums component is orphaned, but the bbPress 1.x installation is
+	// not correctly set up, don't show a nag. (In these cases, it's probably the case that the
+	// user is using bbPress 2.x; see https://buddypress.trac.wordpress.org/ticket/4292
+	if ( isset( $bp->forums->name ) && in_array( $bp->forums->name, $orphaned_components ) && !bp_forums_is_installed_correctly() ) {
+		$forum_key = array_search( $bp->forums->name, $orphaned_components );
+		unset( $orphaned_components[$forum_key] );
+		$orphaned_components = array_values( $orphaned_components );
+	}
+
 	if ( !empty( $orphaned_components ) ) {
 		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
 		$notice    = sprintf( __( 'The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href="%1$s" class="button-secondary">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $orphaned_components ) . '</strong>' );
