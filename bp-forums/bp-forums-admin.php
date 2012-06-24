@@ -18,8 +18,26 @@ function bp_forums_add_admin_menu() {
 }
 add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
 
+/**
+ * Outputs the markup for the bb-forums-admin panel
+ */
 function bp_forums_bbpress_admin() {
 	global $bp;
+
+	// The text and URL of the Site Wide Forums button differs depending on whether bbPress
+	// is running
+	if ( is_plugin_active( 'bbpress/bbpress.php' ) ) {
+		// The bbPress admin page will always be on the root blog. switch_to_blog() will
+		// pass through if we're already there.
+		switch_to_blog( bp_get_root_blog_id() );
+		$button_url = admin_url( add_query_arg( array( 'page' => 'bbpress' ), 'options-general.php' ) );
+		restore_current_blog();
+
+		$button_text = __( 'Configure Site Wide Forums', 'buddypress' );
+	} else {
+		$button_url = bp_get_admin_url( add_query_arg( array( 'tab' => 'plugin-information', 'plugin' => 'bbpress', 'TB_iframe' => 'true', 'width' => '640', 'height' => '500' ), 'plugin-install.php' ) );
+		$button_text = __( 'Install Site Wide Forums', 'buddypress' );
+	}
 
 	$action = bp_get_admin_url( 'admin.php?page=bb-forums-setup&reinstall=1' ); ?>
 
@@ -77,8 +95,9 @@ function bp_forums_bbpress_admin() {
 					<li><?php _e( 'Activity Stream Integration', 'buddypress' ); ?></p></li>
 					<li><?php _e( '@ Mention Integration',       'buddypress' ); ?></p></li>
 				</ul>
+
 				<div>
-					<a class="button thickbox button-primary" href="<?php bp_admin_url( add_query_arg( array( 'tab' => 'plugin-information', 'plugin' => 'bbpress', 'TB_iframe' => 'true', 'width' => '640', 'height' => '500' ), 'plugin-install.php' ) ); ?>"><?php _e( 'Install Site Wide Forums', 'buddypress' ) ?></a> &nbsp;
+					<a class="button thickbox button-primary" href="<?php echo esc_attr( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
 				</div>
 			</div>
 
