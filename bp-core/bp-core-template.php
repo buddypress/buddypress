@@ -1551,6 +1551,9 @@ function bp_the_body_class() {
 
 		/** User **************************************************************/
 
+		if ( bp_is_user() )
+			$bp_classes[] = 'bp-user';
+
 		if ( !bp_is_directory() ) :
 			if ( bp_is_user_blogs() )
 				$bp_classes[] = 'my-blogs';
