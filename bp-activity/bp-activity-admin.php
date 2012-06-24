@@ -138,7 +138,7 @@ function bp_activity_admin_screen_options( $value, $option, $new_value ) {
  * @since 1.0
  */
 function bp_activity_admin_edit_hidden_metaboxes( $hidden, $screen ) {
-	if ( empty( $screen->id ) || 'toplevel_page_bp-activity' != $screen->id )
+	if ( empty( $screen->id ) || 'toplevel_page_bp-activity' != $screen->id && 'toplevel_page_bp-activity_network' != $screen->id )
 		return $hidden;
 
 	// Hide the primary link meta box by default
@@ -199,11 +199,11 @@ function bp_activity_admin_load() {
 		);
 
 		// Register metaboxes for the edit screen.
-		add_meta_box( 'submitdiv',           _x( 'Status', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_status', 'toplevel_page_bp-activity', 'side', 'core' );
-		add_meta_box( 'bp_activity_itemids', _x( 'Primary Item/Secondary Item', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_itemids', 'toplevel_page_bp-activity', 'normal', 'core' );
-		add_meta_box( 'bp_activity_link',    _x( 'Link', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_link', 'toplevel_page_bp-activity', 'normal', 'core' );
-		add_meta_box( 'bp_activity_type',    _x( 'Type', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_type', 'toplevel_page_bp-activity', 'normal', 'core' );
-		add_meta_box( 'bp_activity_userid',  _x( 'Author ID', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_userid', 'toplevel_page_bp-activity', 'normal', 'core' );
+		add_meta_box( 'submitdiv',           _x( 'Status', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_status', get_current_screen()->id, 'side', 'core' );
+		add_meta_box( 'bp_activity_itemids', _x( 'Primary Item/Secondary Item', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_itemids', get_current_screen()->id, 'normal', 'core' );
+		add_meta_box( 'bp_activity_link',    _x( 'Link', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_link', get_current_screen()->id, 'normal', 'core' );
+		add_meta_box( 'bp_activity_type',    _x( 'Type', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_type', get_current_screen()->id, 'normal', 'core' );
+		add_meta_box( 'bp_activity_userid',  _x( 'Author ID', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_userid', get_current_screen()->id, 'normal', 'core' );
 
 		// Enqueue javascripts
 		wp_enqueue_script( 'postbox' );
@@ -588,12 +588,12 @@ function bp_activity_admin_edit() {
 						</div><!-- #post-body-content -->
 
 						<div id="postbox-container-1" class="postbox-container">
-							<?php do_meta_boxes( 'toplevel_page_bp-activity', 'side', $activity ); ?>
+							<?php do_meta_boxes( get_current_screen()->id, 'side', $activity ); ?>
 						</div>
 
 						<div id="postbox-container-2" class="postbox-container">
-							<?php do_meta_boxes( 'toplevel_page_bp-activity', 'normal', $activity ); ?>
-							<?php do_meta_boxes( 'toplevel_page_bp-activity', 'advanced', $activity ); ?>
+							<?php do_meta_boxes( get_current_screen()->id, 'normal', $activity ); ?>
+							<?php do_meta_boxes( get_current_screen()->id, 'advanced', $activity ); ?>
 						</div>
 					</div><!-- #post-body -->
 

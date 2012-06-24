@@ -496,7 +496,7 @@ class BP_Akismet {
 			return;
 
 		// Display meta box with a low priority (low position on screen by default)
-		add_meta_box( 'bp_activity_history',  __( 'Activity History', 'buddypress' ), array( $this, 'history_metabox' ), 'toplevel_page_bp-activity', 'normal', 'low' );
+		add_meta_box( 'bp_activity_history',  __( 'Activity History', 'buddypress' ), array( $this, 'history_metabox' ), get_current_screen()->id, 'normal', 'low' );
 	}
 
 	/**

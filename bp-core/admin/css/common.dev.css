@@ -51,16 +51,21 @@ ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-men
 }
 
 /* Activity */
-ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a img {
+ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a img,
+ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image a img {
 	display: none;
 }
-ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a {
+ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image a {
 	background-image: url( ../images/menu.png ) !important;
 	background-position: 0 -34px;
 }
 ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image a,
 ul#adminmenu li.toplevel_page_bp-activity.current .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image a {
+ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-activity_network:hover .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-activity_network.current .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-activity_network.wp-has-current-submenu .wp-menu-image a {
 	background-position: 0 -2px;
 }
 
