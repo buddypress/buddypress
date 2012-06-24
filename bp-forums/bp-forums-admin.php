@@ -112,6 +112,21 @@ function bp_forums_bbpress_install_wizard() {
 
 	$step = isset( $_REQUEST['step'] ) ? $_REQUEST['step'] : '';
 
+	// The text and URL of the Site Wide Forums button differs depending on whether bbPress
+	// is running
+	if ( is_plugin_active( 'bbpress/bbpress.php' ) ) {
+		// The bbPress admin page will always be on the root blog. switch_to_blog() will
+		// pass through if we're already there.
+		switch_to_blog( bp_get_root_blog_id() );
+		$button_url = admin_url( add_query_arg( array( 'page' => 'bbpress' ), 'options-general.php' ) );
+		restore_current_blog();
+
+		$button_text = __( 'Configure Site Wide Forums', 'buddypress' );
+	} else {
+		$button_url = bp_get_admin_url( add_query_arg( array( 'tab' => 'plugin-information', 'plugin' => 'bbpress', 'TB_iframe' => 'true', 'width' => '640', 'height' => '500' ), 'plugin-install.php' ) );
+		$button_text = __( 'Install Site Wide Forums', 'buddypress' );
+	}
+
 	switch( $step ) {
 		case 'existing':
 			if ( isset( $_REQUEST['doinstall'] ) && ( 1 == (int) $_REQUEST['doinstall'] ) ) {
@@ -215,7 +230,7 @@ function bp_forums_bbpress_install_wizard() {
 						<li><?php _e( '@ Mention Integration',       'buddypress' ); ?></p></li>
 					</ul>
 					<div>
-						<a class="button thickbox button-primary" href="<?php bp_admin_url( add_query_arg( array( 'tab' => 'plugin-information', 'plugin' => 'bbpress', 'TB_iframe' => 'true', 'width' => '640', 'height' => '500' ), 'plugin-install.php' ) ); ?>"><?php _e( 'Install Site Wide Forums', 'buddypress' ) ?></a> &nbsp;
+						<a class="button thickbox button-primary" href="<?php echo esc_attr( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
 					</div>
 				</div>
 
