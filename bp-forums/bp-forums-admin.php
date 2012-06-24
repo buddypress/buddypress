@@ -103,6 +103,7 @@ function bp_forums_bbpress_admin() {
 
 		<?php endif; ?>
 
+		<p class="clear description"><?php printf( __( 'Need help deciding between Group Forums and Site Wide Forums? Visit <a href="%s">the BuddyPress codex</a> for more information.', 'buddypress' ), 'http://codex.buddypress.org/getting-started/installing-group-and-sitewide-forums/' ) ?></p>
 	</div>
 <?php
 }
