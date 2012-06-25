@@ -112,7 +112,7 @@ jq(document).ready( function() {
 
 					var u = '';
 					if ( ltext != '' )
-						u = '&quot;' + l + '&quot; ';
+						u = l + ' ';
 
 					u += '<a href="' + v + '" rel="nofollow">' + BP_DTheme.view + '</a>';
 
