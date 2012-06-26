@@ -56,7 +56,7 @@ function bp_get_default_options() {
 		'bp-disable-avatar-uploads'       => false,
 
 		// Allow users to delete their own accounts
-		'bp-disable-account-deletion'     => true,
+		'bp-disable-account-deletion'     => false,
 
 		// Allow comments on blog and forum activity items
 		'bp-disable-blogforum-comments'   => true,

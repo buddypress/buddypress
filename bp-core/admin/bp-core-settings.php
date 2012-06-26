@@ -43,7 +43,7 @@ function bp_admin_setting_callback_admin_bar() {
 function bp_admin_setting_callback_account_deletion() {
 ?>
 
-	<input id="bp-disable-account-deletion" name="bp-disable-account-deletion" type="checkbox" value="1" <?php checked( !bp_disable_account_deletion( true ) ); ?> />
+	<input id="bp-disable-account-deletion" name="bp-disable-account-deletion" type="checkbox" value="1" <?php checked( !bp_disable_account_deletion( false ) ); ?> />
 	<label for="bp-disable-account-deletion"><?php _e( 'Allow registered members to delete their own accounts', 'buddypress' ); ?></label>
 
 <?php
@@ -123,7 +123,7 @@ function bp_admin_setting_callback_profile_sync() {
 function bp_admin_setting_callback_avatar_uploads() {
 ?>
 
-	<input id="bp-disable-avatar-uploads" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( !bp_disable_avatar_uploads( true ) ); ?> />
+	<input id="bp-disable-avatar-uploads" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( !bp_disable_avatar_uploads( false ) ); ?> />
 	<label for="bp-disable-avatar-uploads"><?php _e( 'Allow registered members to upload avatars', 'buddypress' ); ?></label>
 
 <?php
@@ -148,7 +148,7 @@ function bp_admin_setting_callback_groups_section() { }
 function bp_admin_setting_callback_group_creation() {
 ?>
 
-	<input id="bp_restrict_group_creation" name="bp_restrict_group_creation" type="checkbox"value="1" <?php checked( !bp_restrict_group_creation( true ) ); ?> />
+	<input id="bp_restrict_group_creation" name="bp_restrict_group_creation" type="checkbox"value="1" <?php checked( !bp_restrict_group_creation( false ) ); ?> />
 	<label for="bp_restrict_group_creation"><?php _e( 'Enable group creation for all users', 'buddypress' ); ?></label>
 	<p class="description"><?php _e( 'Administrators can always create groups, regardless of this setting.', 'buddypress' ); ?></p>
 
