@@ -224,7 +224,8 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 			return false;
 
 		$invited_ud    = bp_core_get_core_userdata($invited_user_id);
-		$settings_link = bp_core_get_user_domain( $invited_user_id ) . bp_get_settings_slug() . '/notifications/';
+		$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
+		$settings_link = bp_core_get_user_domain( $invited_user_id ) . $settings_slug . '/notifications/';
 		$invited_link  = bp_core_get_user_domain( $invited_user_id );
 		$invites_link  = trailingslashit( $invited_link . bp_get_groups_slug() . '/invites' );
 
