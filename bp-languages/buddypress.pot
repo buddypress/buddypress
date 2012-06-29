@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-06-24 21:36:18+00:00\n"
+"POT-Creation-Date: 2012-06-29 15:36:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -594,7 +594,7 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:92
 #: bp-groups/bp-groups-notifications.php:148
 #: bp-groups/bp-groups-notifications.php:195
-#: bp-groups/bp-groups-notifications.php:248
+#: bp-groups/bp-groups-notifications.php:249
 #: bp-messages/bp-messages-notifications.php:60
 msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
@@ -3017,11 +3017,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:234
+#: bp-groups/bp-groups-notifications.php:235
 msgid "You have an invitation to the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:236
+#: bp-groups/bp-groups-notifications.php:237
 msgid ""
 "One of your friends %1$s has invited you to the group: \"%2$s\".\n"
 "\n"
