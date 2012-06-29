@@ -703,7 +703,7 @@ function bp_get_loggedin_user_nav() {
 		$selected = '';
 
 		// If the current component matches the nav item id, then add a highlight CSS class.
-		if ( !bp_is_directory() && $bp->active_components[bp_current_component()] == $nav_item['css_id'] ) {
+		if ( !bp_is_directory() && !empty( $bp->active_components[bp_current_component()] ) && $bp->active_components[bp_current_component()] == $nav_item['css_id'] ) {
 			$selected = ' class="current selected"';
 		}
 
