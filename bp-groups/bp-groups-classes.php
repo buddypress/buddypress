@@ -645,7 +645,24 @@ class BP_Groups_Group {
 		if ( 'unreplied' == $type )
 			$bp->groups->filter_sql = ' AND t.topic_posts = 1';
 
-		$extra_sql = apply_filters( 'groups_total_public_forum_topic_count', $bp->groups->filter_sql, $type );
+		/**
+		 * Provide backward-compatibility for the groups_total_public_forum_topic_count SQL filter. 
+		 * Developers: DO NOT use this filter. It will be removed in BP 1.7. Instead, use
+		 * get_global_forum_topic_count_extra_sql. See https://buddypress.trac.wordpress.org/ticket/4306
+		 */
+		$maybe_extra_sql = apply_filters( 'groups_total_public_forum_topic_count', $bp->groups->filter_sql, $type );
+
+		if ( is_int( $maybe_extra_sql ) )
+			$extra_sql = $bp->groups->filter_sql;
+		else
+			$extra_sql = $maybe_extra_sql;
+
+		// Developers: use this filter instead
+		$extra_sql = apply_filters( 'get_global_forum_topic_count_extra_sql', $bp->groups->filter_sql, $type );
+
+		// Make sure the $extra_sql begins with an AND
+		if ( 'AND' != substr( trim( strtoupper( $extra_sql ) ), 0, 3 ) )
+			$extra_sql = ' AND ' . $extra_sql;
 
 		return $wpdb->get_var( "SELECT COUNT(t.topic_id) FROM {$bbdb->topics} AS t, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND t.topic_status = '0' AND t.topic_sticky != '2' {$extra_sql} " );
 	}
