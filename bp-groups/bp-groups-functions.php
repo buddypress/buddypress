@@ -726,7 +726,11 @@ function groups_promote_member( $user_id, $group_id, $status ) {
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
+	// Don't use this action. It's deprecated as of BuddyPress 1.6.
 	do_action( 'groups_premote_member', $group_id, $user_id, $status );
+
+	// Use this action instead.
+	do_action( 'groups_promote_member', $group_id, $user_id, $status );
 
 	return $member->promote( $status );
 }

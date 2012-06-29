@@ -96,7 +96,7 @@ add_action( 'groups_settings_updated',           'bp_core_clear_cache' );
 add_action( 'groups_unban_member',               'bp_core_clear_cache' );
 add_action( 'groups_ban_member',                 'bp_core_clear_cache' );
 add_action( 'groups_demote_member',              'bp_core_clear_cache' );
-add_action( 'groups_premote_member',             'bp_core_clear_cache' );
+add_action( 'groups_promote_member',             'bp_core_clear_cache' );
 add_action( 'groups_membership_rejected',        'bp_core_clear_cache' );
 add_action( 'groups_membership_accepted',        'bp_core_clear_cache' );
 add_action( 'groups_membership_requested',       'bp_core_clear_cache' );
