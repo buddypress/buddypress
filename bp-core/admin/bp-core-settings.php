@@ -82,10 +82,23 @@ function bp_admin_setting_callback_activity_akismet() {
 function bp_admin_setting_callback_blogforum_comments() {
 ?>
 
-	<input id="bp-disable-blogforum-comments" name="bp-disable-blogforum-comments" type="checkbox" value="1" <?php checked( bp_disable_blogforum_comments( true ) ); ?> />
+	<input id="bp-disable-blogforum-comments" name="bp-disable-blogforum-comments" type="checkbox" value="1" <?php checked( !bp_disable_blogforum_comments( false ) ); ?> />
 	<label for="bp-disable-blogforum-comments"><?php _e( 'Allow activity stream commenting on blog and forum posts', 'buddypress' ); ?></label>
 
 <?php
+}
+
+/**
+ * Sanitization for bp-disable-blogforum-comments setting
+ *
+ * In the UI, a checkbox asks whether you'd like to *enable* blog/forum activity comments. For
+ * legacy reasons, the option that we store is 1 if these comments are *disabled*. So we use this
+ * function to flip the boolean before saving the intval.
+ *
+ * @since BuddyPress (1.6)
+ */
+function bp_admin_sanitize_callback_blogforum_comments( $value = false ) {
+	return $value ? 0 : 1;
 }
 
 /** XProfile ******************************************************************/
@@ -203,9 +216,42 @@ function bp_admin_setting_callback_bbpress_configuration() {
  * @uses do_settings_sections() To output the settings sections
  */
 function bp_core_admin_settings() {
+
+	// We're saving our own options, until the WP Settings API is updated to work with Multisite
+	$form_action = add_query_arg( 'page', 'bp-settings', bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
+
+	?>
+
+	<div class="wrap">
+
+		<?php screen_icon( 'buddypress' ); ?>
+
+		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Settings', 'buddypress' ) ); ?></h2>
+
+		<form action="<?php echo $form_action ?>" method="post">
+
+			<?php settings_fields( 'buddypress' ); ?>
+
+			<?php do_settings_sections( 'buddypress' ); ?>
+
+			<p class="submit">
+				<input type="submit" name="submit" class="button-primary" value="<?php _e( 'Save Changes', 'buddypress' ); ?>" />
+			</p>
+		</form>
+	</div>
+
+<?php
+}
+
+/**
+ * Save our settings
+ *
+ * @since BuddyPress (1.6)
+ */
+function bp_core_admin_settings_save() {
 	global $wp_settings_fields;
 
-	if ( !empty( $_POST['submit'] ) ) {
+	if ( isset( $_GET['page'] ) && 'bp-settings' == $_GET['page'] && !empty( $_POST['submit'] ) ) {
 		check_admin_referer( 'buddypress-options' );
 
 		// Because many settings are saved with checkboxes, and thus will have no values
@@ -237,31 +283,11 @@ function bp_core_admin_settings() {
 			$value = isset( $_POST[$legacy_option] ) ? '' : 1;
 			bp_update_option( $legacy_option, $value );
 		}
+
+		bp_core_redirect( add_query_arg( 'page', 'bp-settings', bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) ) );
 	}
-	
-	// We're saving our own options, until the WP Settings API is updated to work with Multisite
-	$form_action = add_query_arg( 'page', 'bp-settings', bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) ); ?>
-
-	<div class="wrap">
-
-		<?php screen_icon( 'buddypress' ); ?>
-
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Settings', 'buddypress' ) ); ?></h2>
-
-		<form action="<?php echo $form_action ?>" method="post">
-
-			<?php settings_fields( 'buddypress' ); ?>
-
-			<?php do_settings_sections( 'buddypress' ); ?>
-
-			<p class="submit">
-				<input type="submit" name="submit" class="button-primary" value="<?php _e( 'Save Changes', 'buddypress' ); ?>" />
-			</p>
-		</form>
-	</div>
-
-<?php
 }
+add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
 
 /**
  * Output settings API option

@@ -339,7 +339,7 @@ class BP_Admin {
 
 			// Activity commenting on blog and forum posts
 			add_settings_field( 'bp-disable-blogforum-comments', __( 'Blog &amp; Forum Comments', 'buddypress' ), 'bp_admin_setting_callback_blogforum_comments', 'buddypress', 'bp_activity' );
-			register_setting( 'buddypress', 'bp-disable-blogforum-comments', 'intval' );
+			register_setting( 'buddypress', 'bp-disable-blogforum-comments', 'bp_admin_sanitize_callback_blogforum_comments' );
 
 			// Allow activity akismet
 			if ( is_plugin_active( 'akismet/akismet.php' ) && defined( 'AKISMET_VERSION' ) ) {
