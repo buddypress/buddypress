@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-06-30 14:36:20+00:00\n"
+"POT-Creation-Date: 2012-06-30 15:36:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1238,7 +1238,7 @@ msgid "Name"
 msgstr ""
 
 #: bp-core/admin/bp-core-settings.php:31
-msgid "Show the admin bar for logged out users"
+msgid "Show the Toolbar for logged out users"
 msgstr ""
 
 #: bp-core/admin/bp-core-settings.php:47
