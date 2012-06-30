@@ -52,7 +52,7 @@ class BuddyPress {
 	/**
 	 * @var string BuddyPress version
 	 */
-	public $version = '1.6-beta1';
+	public $version = '1.6-beta1-6162';
 
 	/**
 	 * @var int Database version of current BuddyPress files
