@@ -1,5 +1,4 @@
-body,
-body.wp-admin {
+body:not(.wp-admin) {
 	padding-top: 25px !important;
 }
 #wp-admin-bar {

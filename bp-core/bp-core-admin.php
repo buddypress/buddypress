@@ -286,7 +286,13 @@ class BP_Admin {
 		add_settings_field( 'hide-loggedout-adminbar',        __( 'Toolbar',        'buddypress' ), 'bp_admin_setting_callback_admin_bar',        'buddypress', 'bp_main' );
 	 	register_setting  ( 'buddypress',           'hide-loggedout-adminbar',        'intval'                                                                              );
 
-		// Allow favorites setting
+		// Only show 'switch to Toolbar' option if the user chose to retain the BuddyBar during the 1.6 upgrade
+		if ( (bool) bp_get_option( '_bp_force_buddybar', false ) ) {
+			add_settings_field( '_bp_force_buddybar', __( 'Toolbar', 'buddypress' ), 'bp_admin_setting_callback_force_buddybar', 'buddypress', 'bp_main' );
+		 	register_setting( 'buddypress', '_bp_force_buddybar', 'bp_admin_sanitize_callback_force_buddybar' );
+		}
+
+		// Allow account deletion
 		add_settings_field( 'bp-disable-account-deletion', __( 'Account Deletion', 'buddypress' ), 'bp_admin_setting_callback_account_deletion', 'buddypress', 'bp_main' );
 	 	register_setting  ( 'buddypress',           'bp-disable-account-deletion', 'intval'                                                                              );
 
