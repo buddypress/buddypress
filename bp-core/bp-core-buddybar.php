@@ -631,11 +631,12 @@ function bp_core_load_admin_bar() {
 	global $wp_version;
 
 	// Don't show if Toolbar is disabled for non-logged in users
-	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) )
+	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && ! is_user_logged_in() )
 		return;
 
 	// Show the WordPress Toolbar
 	if ( bp_use_wp_admin_bar() && $wp_version >= 3.1 ) {
+
 		// Respect user's Toolbar display preferences
 		if ( is_user_logged_in() && ( bp_get_admin_bar_pref( 'front', bp_loggedin_user_id() ) || bp_get_admin_bar_pref( 'admin', bp_loggedin_user_id() ) ) )
 			return;
@@ -644,7 +645,6 @@ function bp_core_load_admin_bar() {
 
 	// Hide the WordPress Toolbar
 	} elseif ( !bp_use_wp_admin_bar() ) {
-
 		// Keep the WP Toolbar from loading
 		show_admin_bar( false );
 
