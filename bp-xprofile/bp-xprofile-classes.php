@@ -303,7 +303,7 @@ class BP_XProfile_Group {
 
 		foreach( (array)$fields as $key => $field ) {
 			// Does the admin allow this field to be customized?
-			$allow_custom = empty( $admin_set_levels[$field->id]['allow_custom'] ) || 'disabled' == $admin_set_levels[$field->id]['allow_custom'];
+			$allow_custom = empty( $admin_set_levels[$field->id]['allow_custom'] ) || 'enabled' == $admin_set_levels[$field->id]['allow_custom'];
 
 			// Look to see if the user has set the visibility for this field
 			if ( $allow_custom && isset( $visibility_levels[$field->id] ) ) {
