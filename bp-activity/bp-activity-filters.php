@@ -230,7 +230,7 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 			continue;
 
 		// If an activity_id is provided, we can send email and BP notifications
-		if ( $activity_id ) {
+		if ( $activity_id && apply_filters( 'bp_activity_at_name_do_notifications', true ) ) {
 			bp_activity_at_message_notification( $activity_id, $user_id );
 		}
 

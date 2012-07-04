@@ -91,8 +91,13 @@ class BP_Activity_Activity {
 		if ( false === $wpdb->query( $q ) )
 			return false;
 
+		// If this is a new activity item, set the $id property
 		if ( empty( $this->id ) )
 			$this->id = $wpdb->insert_id;
+
+		// If an existing activity item, prevent any changes to the content generating new @mention notifications.
+		else
+			add_filter( 'bp_activity_at_name_do_notifications', '__return_false' );
 
 		do_action_ref_array( 'bp_activity_after_save', array( &$this ) );
 
