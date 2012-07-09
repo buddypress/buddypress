@@ -2010,9 +2010,10 @@ function bp_activity_css_class() {
 			'new_member'
 		) );
 
-		$class = '';
+		$class = ' activity-item';
+
 		if ( in_array( $activities_template->activity->type, (array) $mini_activity_actions ) || empty( $activities_template->activity->content ) )
-			$class = ' mini';
+			$class .= ' mini';
 
 		if ( bp_activity_get_comment_count() && bp_activity_can_comment() )
 			$class .= ' has-comments';
