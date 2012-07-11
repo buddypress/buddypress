@@ -1062,11 +1062,12 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$item_id = $activities_template->activity->item_id;
 
 				if ( empty( $alt ) ) {
-					$group = groups_get_group( $item_id );
-					if ( isset( $group->name ) ) {
-						$alt = sprintf( __( 'Group logo of %s', 'buddypress' ), $group->name );
-					} else {
-						$alt = __( 'Group logo', 'buddypress' );
+					$alt = __( 'Group logo', 'buddypress' );
+
+					if ( bp_is_active( 'groups' ) ) {
+						$group = groups_get_group( $item_id );
+						if ( isset( $group->name ) )
+							$alt = sprintf( __( 'Group logo of %s', 'buddypress' ), $group->name );
 					}
 				}
 
