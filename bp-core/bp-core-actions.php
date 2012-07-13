@@ -34,8 +34,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
 add_action( 'plugins_loaded',          'bp_loaded',                 10    );
 add_action( 'init',                    'bp_init',                   10    );
 add_action( 'wp',                      'bp_ready',                  10    );
-add_action( 'wp_head',                 'bp_head',                   10    );
-add_action( 'wp_footer',               'bp_footer',                 10    );
 add_action( 'setup_theme',             'bp_setup_theme',            10    );
 add_action( 'after_theme_setup',       'bp_after_theme_setup',      10    );
 add_action( 'wp_enqueue_scripts',      'bp_enqueue_scripts',        10    );
@@ -199,28 +197,6 @@ function bp_widgets_init() {
 }
 
 /** Theme *********************************************************************/
-
-/**
- * Piggy-back action for BuddyPress specific <head> actions in a theme
- *
- * @since BuddyPress (1.6)
- *
- * @uses do_action() Calls 'bp_head' hook
- */
-function bp_head() {
-	do_action( 'bp_head' );
-}
-
-/**
- * Piggy-back action for BuddyPress specific footer actions in a theme
- *
- * @since BuddyPress (1.6)
- *
- * @uses do_action() Calls 'bp_footer' hook
- */
-function bp_footer() {
-	do_action( 'bp_footer' );
-}
 
 /**
  * Enqueue BuddyPress specific CSS and JS

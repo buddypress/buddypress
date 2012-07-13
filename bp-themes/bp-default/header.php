@@ -7,7 +7,8 @@
 		<title><?php wp_title( '|', true, 'right' ); bloginfo( 'name' ); ?></title>
 		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 
-		<?php wp_head(); // @see bp_head(); ?>
+		<?php do_action( 'bp_head' ); ?>
+		<?php wp_head(); ?>
 
 	</head>
 

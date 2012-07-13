@@ -15,13 +15,13 @@
 				<p><?php printf( __( 'Proudly powered by <a href="%1$s">WordPress</a> and <a href="%2$s">BuddyPress</a>.', 'buddypress' ), 'http://wordpress.org', 'http://buddypress.org' ); ?></p>
 			</div>
 
-			<?php do_action( 'bp_in_footer' ); ?>
+			<?php do_action( 'bp_footer' ); ?>
 
 		</div><!-- #footer -->
 
 		<?php do_action( 'bp_after_footer' ); ?>
 
-		<?php wp_footer(); // @see bp_footer(); ?>
+		<?php wp_footer(); ?>
 
 	</body>
 
