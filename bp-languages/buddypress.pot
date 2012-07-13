@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-07-11 21:36:50+00:00\n"
+"POT-Creation-Date: 2012-07-13 13:36:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1002,7 +1002,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-template.php:617 bp-core/deprecated/1.5.php:397
 #: bp-forums/bp-forums-template.php:1317 bp-groups/bp-groups-template.php:2292
 #: bp-members/bp-members-template.php:667
-#: bp-messages/bp-messages-template.php:373 bp-themes/bp-default/header.php:29
+#: bp-messages/bp-messages-template.php:373 bp-themes/bp-default/header.php:30
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -4866,12 +4866,12 @@ msgstr ""
 msgid "Send Request"
 msgstr ""
 
-#: bp-themes/bp-default/header.php:21
+#: bp-themes/bp-default/header.php:22
 msgctxt "Home page banner link title"
 msgid "Home"
 msgstr ""
 
-#: bp-themes/bp-default/header.php:24
+#: bp-themes/bp-default/header.php:25
 msgid "Search for:"
 msgstr ""
 
