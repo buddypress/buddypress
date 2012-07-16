@@ -129,7 +129,7 @@ class BP_Settings_Component extends BP_Component {
 		}
 
 		// Add Delete Account nav item
-		if ( ! bp_disable_account_deletion() ) {
+		if ( ! bp_disable_account_deletion() || bp_current_user_can( 'delete_users' ) ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Delete Account', 'buddypress' ),
 				'slug'            => 'delete-account',

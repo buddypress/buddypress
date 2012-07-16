@@ -786,7 +786,7 @@ function bp_core_delete_account( $user_id = 0 ) {
 		$user_id = bp_loggedin_user_id();
 
 	// Make sure account deletion is not disabled
-	if ( bp_disable_account_deletion() )
+	if ( !bp_current_user_can( 'delete_users' ) && bp_disable_account_deletion() )
 		return false;
 
 	// Site admins cannot be deleted
