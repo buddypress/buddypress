@@ -498,6 +498,11 @@ function bp_core_record_activity() {
 	// Get current time
 	$current_time = bp_core_current_time();
 
+	// Use this action to detect the very first activity for a given member
+	if ( empty( $activity ) ) {
+		do_action( 'bp_first_activity_for_member', $user_id );
+	}
+
 	if ( empty( $activity ) || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) )
 		bp_update_user_meta( $user_id, 'last_activity', $current_time );
 }

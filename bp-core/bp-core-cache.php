@@ -54,6 +54,7 @@ function bp_core_clear_member_count_caches() {
 add_action( 'bp_core_activated_user',         'bp_core_clear_member_count_caches' );
 add_action( 'bp_core_process_spammer_status', 'bp_core_clear_member_count_caches' );
 add_action( 'bp_core_deleted_account',        'bp_core_clear_member_count_caches' );
+add_action( 'bp_first_activity_for_member',   'bp_core_clear_member_count_caches' );
 
 /**
  * Update the metadata cache for the specified objects.
