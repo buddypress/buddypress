@@ -13,12 +13,12 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Handles the changing and saving of user email addressos and passwords
- * 
+ *
  * We do quite a bit of logic and error handling here to make sure that users
  * do not accidentally lock themselves out of their accounts. We also try to
  * provide as accurate of feedback as possible without exposing anyone else's
  * inforation to them.
- * 
+ *
  * Special considerations are made for super admins that are able to edit any
  * users accounts already, without knowing their existing password.
  *
@@ -256,7 +256,7 @@ function bp_settings_action_notifications() {
 		}
 
 		do_action( 'bp_core_notification_settings_after_save' );
-		
+
 		bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/notifications/' );
 	}
 }

@@ -412,7 +412,7 @@ function bp_disable_avatar_uploads( $default = true ) {
 }
 
 /**
- * Are members able to delete their own accounts
+ * Are members able to delete their own accounts?
  *
  * @since BuddyPress (1.6)
  *
@@ -426,7 +426,7 @@ function bp_disable_account_deletion( $default = false ) {
 }
 
 /**
- * Are blog and forum activity stream comments disabled
+ * Are blog and forum activity stream comments disabled?
  *
  * @since BuddyPress (1.6)
  *
