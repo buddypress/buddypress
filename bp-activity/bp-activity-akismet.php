@@ -464,7 +464,10 @@ class BP_Akismet {
 		remove_filter( 'akismet_ua', array( $this, 'buddypress_ua' ) );
 
 		// Get the response
-		$activity_data['bp_as_result'] = $response[1];
+		if ( ! empty( $response[1] ) && ! is_wp_error( $response[1] ) )
+			$activity_data['bp_as_result'] = $response[1];
+		else
+			$activity_data['bp_as_result'] = false;
 
 		// Perform a daily tidy up
 		if ( ! wp_next_scheduled( 'bp_activity_akismet_delete_old_metadata' ) )
