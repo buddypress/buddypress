@@ -379,10 +379,6 @@ function bp_global_access_role_mask() {
  */
 function bp_current_user_can( $capability, $blog_id = 0 ) {
 
-	// @todo: remove this when implemented
-	if ( is_super_admin() )
-		return true;
-
 	// Use root blog if no ID passed
 	if ( empty( $blog_id ) )
 		$blog_id = bp_get_root_blog_id();
@@ -391,5 +387,40 @@ function bp_current_user_can( $capability, $blog_id = 0 ) {
 
 	return (bool) apply_filters( 'bp_current_user_can', $retval, $capability, $blog_id );
 }
+
+/**
+ * Temporary implementation of 'bp_moderate' cap
+ *
+ * In BuddyPress 1.6, the 'bp_moderate' cap was introduced. In order to enforce that
+ * bp_current_user_can( 'bp_moderate' ) always returns true for Administrators, we must manually
+ * add the 'bp_moderate' cap to the list of user caps for Admins.
+ *
+ * Note that this level of enforcement is only necessary in the case of non-Multisite. This is
+ * because WordPress automatically assigns every capability - and thus 'bp_moderate' - to Super
+ * Admins on a Multisite installation. See WP_User::has_cap().
+ *
+ * This implementation of 'bp_moderate' is temporary, until BuddyPress properly matches caps to
+ * roles and stores them in the database. Plugin authors: Do not use this function.
+ *
+ * @since BuddyPress (1.6)
+ * @see WP_User::has_cap()
+ *
+ * @param array $allcaps The caps that WP associates with the given role
+ * @param array $caps The caps being tested for in WP_User::has_cap()
+ * @param array $args Miscellaneous arguments passed to the user_has_cap filter
+ * @return array $allcaps The user's cap list, with 'bp_moderate' appended, if relevant
+ */
+function _bp_enforce_bp_moderate_cap_for_admins( $allcaps, $caps, $args ) {
+	if ( in_array( 'bp_moderate', $caps ) &&   // We only care if checking for bp_moderate
+	     !in_array( 'do_not_allow', $caps ) && // 'do_not_allow' overrides everything else
+	     !is_multisite() &&                    // Check not necessary on Multisite
+	     isset( $allcaps['delete_users'] ) )   // Mimicking WP's check for Administrator status
+	{
+		$allcaps['bp_moderate'] = true;
+	}
+
+	return $allcaps;
+}
+add_filter( 'user_has_cap', '_bp_enforce_bp_moderate_cap_for_admins', 10, 3 );
 
 ?>
