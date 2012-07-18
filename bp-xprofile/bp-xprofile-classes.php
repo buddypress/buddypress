@@ -175,7 +175,7 @@ class BP_XProfile_Group {
 		if ( empty( $fields ) )
 			return $groups;
 
-		if ( !empty( $fetch_field_data ) ) {
+		if ( ! empty( $fetch_field_data ) && ! empty( $user_id ) ) {
 
 			// Fetch the field data for the user.
 			foreach( (array) $fields as $field ) {
