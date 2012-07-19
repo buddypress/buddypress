@@ -727,9 +727,7 @@ class BP_XProfile_Field {
 				$default_input = 'radio';
 			}
 
-			if ( $this->type != $type ) {
-				$class = 'display: none;';
-			}
+			$class = $this->type != $type ? 'display: none;' : '';
 
 			if ( empty( $this->default_visibility ) ) {
 				$this->default_visibility = 'public';
