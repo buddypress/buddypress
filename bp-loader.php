@@ -42,7 +42,7 @@ class BuddyPress {
 	 *
 	 * Most of them have reference functions located in bp-core-functions.php.
 	 * The ones that don't can be accessed via their respective WordPress API's.
-	 * 
+	 *
 	 * Components are encouraged to store their data in the $bp global rather
 	 * than new globals to keep all BuddyPress data in one place.
 	 */
@@ -58,12 +58,12 @@ class BuddyPress {
 	 * @var int Database version of current BuddyPress files
 	 */
 	public $db_version = 6066;
-	
+
 	/**
 	 * @var int Database version raw from database connection
 	 */
 	public $db_version_raw = 0;
-	
+
 	/**
 	 * @var string State of BuddyPress installation
 	 */
@@ -136,7 +136,7 @@ class BuddyPress {
 	public $displayed_user = null;
 
 	/** Navigation ************************************************************/
-	
+
 	/**
 	 * @var array Primary BuddyPress navigation
 	 */
@@ -172,7 +172,7 @@ class BuddyPress {
 	 * @var bool Are status headers already sent?
 	 */
 	public $no_status_set = false;
-	
+
 	/**
 	 * @var array The canonical URI stack
 	 * @see bp_redirect_canonical()
@@ -235,7 +235,7 @@ class BuddyPress {
 
 	/**
 	 * Legacy BuddyPress constants
-	 * 
+	 *
 	 * Try to avoid using these. Their values have been moved into variables
 	 * in the $bp global, and have matching functions to get/set their value.
 	 *
@@ -267,7 +267,7 @@ class BuddyPress {
 
 			// Default to 1
 			$root_blog_id = 1;
-			
+
 			// Root blog is the main site on this network
 			if ( is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ) {
 				$current_site = get_current_site();
@@ -300,7 +300,7 @@ class BuddyPress {
 		//
 		// @todo Make this better
 		if ( !defined( 'BP_SEARCH_SLUG' ) )
-			define( 'BP_SEARCH_SLUG', 'search' );	
+			define( 'BP_SEARCH_SLUG', 'search' );
 	}
 
 	/**
@@ -336,7 +336,7 @@ class BuddyPress {
 		$this->lang_dir   = $this->plugin_dir . 'bp-languages';
 
 		/** Users *************************************************************/
-		
+
 		$this->current_user       = new stdClass();
 		$this->displayed_user     = new stdClass();
 	}
@@ -424,13 +424,13 @@ class BuddyPress {
 			require( $this->plugin_dir . 'bp-core/bp-core-functions.php'  );
 			require( $this->plugin_dir . 'bp-core/bp-core-moderation.php' );
 			require( $this->plugin_dir . 'bp-core/bp-core-loader.php'     );
-	
+
 			// Skip or load deprecated content
 			if ( false !== $this->load_deprecated ) {
 				require( $this->plugin_dir . 'bp-core/deprecated/1.5.php' );
 				require( $this->plugin_dir . 'bp-core/deprecated/1.6.php' );
 			}
-		}		
+		}
 	}
 
 	/**
@@ -469,7 +469,7 @@ class BuddyPress {
 		// Add the actions
 		foreach( $actions as $class_action )
 			add_action( 'bp_' . $class_action, array( $this, $class_action ), 5 );
-		
+
 		// Setup the BuddyPress theme directory
 		register_theme_directory( $this->themes_dir );
 	}
