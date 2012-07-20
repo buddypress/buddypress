@@ -864,8 +864,8 @@ function bp_activity_admin_index() {
 						<?php wp_editor( '', 'bp-activities', array( 'dfw' => false, 'media_buttons' => false, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), 'tinymce' => false, ) ); ?>
 
 						<p id="bp-replysubmit" class="submit">
-							<a href="#" class="cancel button-secondary alignleft"><?php _e( 'Cancel', 'tmggc' ); ?></a>
-							<a href="#" class="save button-primary alignright"><?php _e( 'Reply', 'tmggc' ); ?></a>
+							<a href="#" class="cancel button-secondary alignleft"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+							<a href="#" class="save button-primary alignright"><?php _e( 'Reply', 'buddypress' ); ?></a>
 
 							<img class="waiting" style="display:none;" src="<?php echo esc_url( network_admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 							<span class="error" style="display:none;"></span>
