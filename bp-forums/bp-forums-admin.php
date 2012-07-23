@@ -109,13 +109,16 @@ function bp_forums_bbpress_admin() {
 }
 
 function bp_forums_bbpress_install_wizard() {
-	$post_url = network_admin_url( 'admin.php?page=bb-forums-setup' );
+	$post_url                 = network_admin_url( 'admin.php?page=bb-forums-setup' );
+	$bbpress_plugin_is_active = false;
 
 	$step = isset( $_REQUEST['step'] ) ? $_REQUEST['step'] : '';
 
 	// The text and URL of the Site Wide Forums button differs depending on whether bbPress
 	// is running
 	if ( is_plugin_active( 'bbpress/bbpress.php' ) ) {
+		$bbpress_plugin_is_active = true;
+
 		// The bbPress admin page will always be on the root blog. switch_to_blog() will
 		// pass through if we're already there.
 		switch_to_blog( bp_get_root_blog_id() );
@@ -231,7 +234,7 @@ function bp_forums_bbpress_install_wizard() {
 						<li><?php _e( '@ Mention Integration',       'buddypress' ); ?></p></li>
 					</ul>
 					<div>
-						<a class="button thickbox button-primary" href="<?php echo esc_attr( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
+						<a class="button button-primary <?php if ( ! $bbpress_plugin_is_active ) { echo esc_attr( 'thickbox' ); }?>" href="<?php echo esc_attr( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
 					</div>
 				</div>
 
