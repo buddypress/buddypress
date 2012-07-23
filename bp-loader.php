@@ -397,6 +397,12 @@ class BuddyPress {
 				require( $this->plugin_dir . 'bp-core/bp-core-caps.php'      );
 				require( $this->plugin_dir . 'bp-core/bp-core-options.php'   );
 
+				/**
+				 * Textdomain is usually loaded via the bp_core_loaded action, but
+				 * that action isn't available when BP is in maintenance mode.
+				 */
+				add_action( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 9 );
+
 				// Load up BuddyPress's admin
 				add_action( 'plugins_loaded', 'bp_admin' );
 			}
