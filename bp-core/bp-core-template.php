@@ -1674,6 +1674,10 @@ function bp_the_body_class() {
 		// We don't want WordPress blog classes to appear on non-blog pages.
 		if ( !bp_is_blog_page() ) {
 
+			// Observe WP custom background body class
+			if ( in_array( 'custom-background', (array) $wp_classes ) )
+				$bp_classes[] = 'custom-background';
+
 			// Preserve any custom classes already set
 			if ( !empty( $custom_classes ) ) {
 				$wp_classes = (array) $custom_classes;
