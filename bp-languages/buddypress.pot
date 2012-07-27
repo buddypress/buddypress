@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-07-23 20:37:08+00:00\n"
+"POT-Creation-Date: 2012-07-27 08:37:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3541,19 +3541,19 @@ msgstr ""
 msgid "You"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:94
+#: bp-members/bp-members-screens.php:90
 msgid "Please make sure you enter your password twice"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:98
+#: bp-members/bp-members-screens.php:94
 msgid "The passwords you entered do not match."
 msgstr ""
 
-#: bp-members/bp-members-screens.php:121
+#: bp-members/bp-members-screens.php:117
 msgid "This is a required field"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:251
+#: bp-members/bp-members-screens.php:247
 msgid "Your account is now active!"
 msgstr ""
 
