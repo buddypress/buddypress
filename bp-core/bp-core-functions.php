@@ -1172,4 +1172,39 @@ function bp_do_404( $redirect = 'remove_canonical_direct' ) {
 		remove_action( 'template_redirect', 'redirect_canonical' );
 }
 
+/** Nonces ********************************************************************/
+
+/**
+ * Makes sure the user requested an action from another page on this site.
+ *
+ * To avoid security exploits within the theme.
+ *
+ * @since BuddyPress (1.6)
+ *
+ * @uses do_action() Calls 'bp_verify_nonce_request' on $action.
+ * @param string $action Action nonce
+ * @param string $query_arg where to look for nonce in $_REQUEST
+ */
+function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
+
+	// Get the home URL
+	$home_url = strtolower( home_url() );
+
+	// Build the currently requested URL
+	$scheme        = is_ssl() ? 'https://' : 'http://';
+	$requested_url = strtolower( $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+
+	// Check the nonce
+	$result = isset( $_REQUEST[$query_arg] ) ? wp_verify_nonce( $_REQUEST[$query_arg], $action ) : false;
+
+	// Nonce check failed
+	if ( empty( $result ) || empty( $action ) || ( strpos( $requested_url, $home_url ) !== 0 ) )
+		$result = false;
+
+	// Do extra things
+	do_action( 'bp_verify_nonce_request', $action, $result );
+
+	return $result;
+}
+
 ?>
