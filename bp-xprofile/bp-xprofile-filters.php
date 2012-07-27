@@ -154,18 +154,25 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 
 	$values = explode( ',', $field_value );
 
-	if ( $values ) {
-		foreach ( (array)$values as $value ) {
+	if ( !empty( $values ) ) {
+		foreach ( (array) $values as $value ) {
 			$value = trim( $value );
 
 			// If the value is a URL, skip it and just make it clickable.
 			if ( preg_match( '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $value ) ) {
 				$new_values[] = make_clickable( $value );
+
+			// Is not clickable
 			} else {
+
+				// More than 5 commas
 				if ( count( explode( ' ', $value ) ) > 5 ) {
-					$new_values[] = esc_html( $value );
+					$new_values[] = $value;
+
+				// Less than 5 commas
 				} else {
-					$new_values[] = '<a href="' . site_url( bp_get_members_root_slug() ) . '/?s=' . esc_url( strip_tags( $value ) ) . '" rel="nofollow">' . esc_html( $value ) . '</a>';
+					$search_url   = add_query_arg( array( 's' => urlencode( $value ) ), bp_get_members_directory_permalink() );
+					$new_values[] = '<a href="' . $search_url . '" rel="nofollow">' . esc_html( $value ) . '</a>';
 				}
 			}
 		}
