@@ -437,7 +437,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 add_filter( 'bp_core_get_user_displayname', 'strip_tags', 1 );
 add_filter( 'bp_core_get_user_displayname', 'trim'          );
 add_filter( 'bp_core_get_user_displayname', 'stripslashes'  );
-
+add_filter( 'bp_core_get_user_displayname', 'esc_html'      );
 
 /**
  * Returns the user link for the user based on user email address
