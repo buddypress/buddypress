@@ -165,11 +165,11 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 			// Is not clickable
 			} else {
 
-				// More than 5 commas
+				// More than 5 spaces
 				if ( count( explode( ' ', $value ) ) > 5 ) {
-					$new_values[] = $value;
+					$new_values[] = esc_html( $value );
 
-				// Less than 5 commas
+				// Less than 5 spaces
 				} else {
 					$search_url   = add_query_arg( array( 's' => urlencode( $value ) ), bp_get_members_directory_permalink() );
 					$new_values[] = '<a href="' . $search_url . '" rel="nofollow">' . esc_html( $value ) . '</a>';
