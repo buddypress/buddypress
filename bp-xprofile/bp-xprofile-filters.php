@@ -163,9 +163,9 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 				$new_values[] = make_clickable( $value );
 			} else {
 				if ( count( explode( ' ', $value ) ) > 5 ) {
-					$new_values[] = $value;
+					$new_values[] = esc_html( $value );
 				} else {
-					$new_values[] = '<a href="' . site_url( bp_get_members_root_slug() ) . '/?s=' . strip_tags( $value ) . '" rel="nofollow">' . $value . '</a>';
+					$new_values[] = '<a href="' . site_url( bp_get_members_root_slug() ) . '/?s=' . esc_url( strip_tags( $value ) ) . '" rel="nofollow">' . esc_html( $value ) . '</a>';
 				}
 			}
 		}
