@@ -174,7 +174,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 
 				// More than 5 commas
 				if ( count( explode( ' ', $value ) ) > 5 ) {
-					$new_values[] = $value;
+					$new_values[] = esc_html( $value );
 
 				// Less than 5 commas
 				} else {
