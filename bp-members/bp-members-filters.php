@@ -12,6 +12,12 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Escape commonly used fullname output functions
+ */
+add_filter( 'bp_displayed_user_fullname',    'esc_html' );
+add_filter( 'bp_get_loggedin_user_fullname', 'esc_html' );
+
+/**
  * Load additional sign-up sanitization filters on bp_loaded. These are used
  * to prevent XSS in the BuddyPress sign-up process. You can unhook these to
  * allow for customization of your registration fields, however it is highly
