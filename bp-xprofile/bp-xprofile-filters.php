@@ -48,7 +48,7 @@ add_filter( 'xprofile_get_field_data',                  'stripslashes' );
 
 add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_site_member_profile_data',      'xprofile_filter_format_field_value', 1, 2 );
-add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data', 9, 2 );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data',  9, 2 );
 
 add_filter( 'xprofile_data_value_before_save',          'xprofile_sanitize_data_value_before_save', 1, 2 );
 add_filter( 'xprofile_filtered_data_value_before_save', 'trim', 2 );
@@ -168,11 +168,18 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 			// If the value is a URL, skip it and just make it clickable.
 			if ( preg_match( '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $value ) ) {
 				$new_values[] = make_clickable( $value );
+
+			// Is not clickable
 			} else {
+
+				// More than 5 commas
 				if ( count( explode( ' ', $value ) ) > 5 ) {
 					$new_values[] = $value;
+
+				// Less than 5 commas
 				} else {
-					$new_values[] = '<a href="' . site_url( bp_get_members_root_slug() ) . '/?s=' . strip_tags( $value ) . '" rel="nofollow">' . $value . '</a>';
+					$search_url   = add_query_arg( array( 's' => urlencode( $value ) ), bp_get_members_directory_permalink() );
+					$new_values[] = '<a href="' . $search_url . '" rel="nofollow">' . esc_html( $value ) . '</a>';
 				}
 			}
 		}
