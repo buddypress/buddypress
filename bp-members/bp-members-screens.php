@@ -71,13 +71,9 @@ function bp_core_screen_signup() {
 
  	if ( !bp_get_signup_allowed() ) {
 		$bp->signup->step = 'registration-disabled';
-	}
 
 	// If the signup page is submitted, validate and save
-	elseif ( isset( $_POST['signup_submit'] ) ) {
-
-		// Check the nonce
-		check_admin_referer( 'bp_new_signup' );
+	} elseif ( isset( $_POST['signup_submit'] ) && bp_verify_nonce_request( 'bp_new_signup' ) ) {
 
 		// Check the base account details for problems
 		$account_details = bp_core_validate_user_signup( $_POST['signup_username'], $_POST['signup_email'] );
