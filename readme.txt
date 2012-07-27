@@ -3,7 +3,7 @@ Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.3
 Tested up to: 3.4
-Stable tag: 1.5.6
+Stable tag: 1.5.7
 
 Social networking in a box. Build a social network for your company, school, sports team or niche community.
 
@@ -83,6 +83,9 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 BuddyPress is available in more than 20 languages. For more information, check out the <a href="http://codex.buddypress.org/getting-started/translations/">translation page</a> on the BuddyPress Codex.
 
 == Upgrade Notice ==
+
+= 1.5.7 =
+* Security upgrade
 
 = 1.5.6 =
 * Compatibility with WordPress 3.4

@@ -4,7 +4,7 @@
  * Plugin URI:  http://buddypress.org
  * Description: Social networking in a box. Build a social network for your company, school, sports team or niche community all based on the power and flexibility of WordPress.
  * Author:      The BuddyPress Community
- * Version:     1.5.6
+ * Version:     1.5.7
  * Author URI:  http://buddypress.org/community/members/
  * Network:     true
  */
@@ -17,7 +17,7 @@ global $wpdb;
 
 // Define the BuddyPress version
 if ( !defined( 'BP_VERSION' ) )
-	define( 'BP_VERSION', '1.5.6' );
+	define( 'BP_VERSION', '1.5.7' );
 
 // Define the database version
 if ( !defined( 'BP_DB_VERSION' ) )
