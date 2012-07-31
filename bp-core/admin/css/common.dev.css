@@ -141,3 +141,8 @@ ul#adminmenu li.toplevel_page_bp-activity_network.wp-has-current-submenu .wp-men
 .settings_page_bp-components tr.members td.plugin-title span {
 	background-position-x: -36px;
 }
+
+#bp-admin-component-form .widefat th {
+    display: table-cell;
+    vertical-align: top;
+}
