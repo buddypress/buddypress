@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-07-27 08:37:27+00:00\n"
+"POT-Creation-Date: 2012-07-31 22:38:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -228,7 +228,7 @@ msgid "Submitted on: <strong>%1$s</strong>"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:647 bp-activity/bp-activity-admin.php:1276
-#: bp-forums/bp-forums-template.php:1266 bp-themes/bp-default/functions.php:507
+#: bp-forums/bp-forums-template.php:1270 bp-themes/bp-default/functions.php:507
 #: bp-xprofile/bp-xprofile-admin.php:456 bp-xprofile/bp-xprofile-loader.php:172
 #: bp-xprofile/bp-xprofile-loader.php:230
 msgid "Edit"
@@ -540,7 +540,7 @@ msgstr ""
 #: bp-activity/bp-activity-template.php:1089
 #: bp-activity/bp-activity-template.php:1099 bp-blogs/bp-blogs-loader.php:200
 #: bp-forums/bp-forums-loader.php:238 bp-forums/bp-forums-template.php:487
-#: bp-forums/bp-forums-template.php:604 bp-forums/bp-forums-template.php:1196
+#: bp-forums/bp-forums-template.php:604 bp-forums/bp-forums-template.php:1200
 #: bp-friends/bp-friends-loader.php:203 bp-groups/bp-groups-loader.php:557
 #: bp-groups/bp-groups-template.php:570 bp-groups/bp-groups-template.php:593
 #: bp-groups/bp-groups-template.php:1030 bp-groups/bp-groups-template.php:1046
@@ -693,7 +693,7 @@ msgid "View Discussion"
 msgstr ""
 
 #: bp-activity/bp-activity-template.php:2065
-#: bp-forums/bp-forums-template.php:1267 bp-groups/bp-groups-template.php:1294
+#: bp-forums/bp-forums-template.php:1271 bp-groups/bp-groups-template.php:1294
 #: bp-themes/bp-default/activity/comment.php:43
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:51
 #: bp-themes/bp-default/members/single/messages/single.php:24
@@ -1000,7 +1000,7 @@ msgid "%s's Recent Comments"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:617 bp-core/deprecated/1.5.php:397
-#: bp-forums/bp-forums-template.php:1317 bp-groups/bp-groups-template.php:2292
+#: bp-forums/bp-forums-template.php:1321 bp-groups/bp-groups-template.php:2292
 #: bp-members/bp-members-template.php:667
 #: bp-messages/bp-messages-template.php:373 bp-themes/bp-default/header.php:30
 #: bp-themes/bp-default/searchform.php:5
@@ -2331,7 +2331,7 @@ msgid "&rarr;"
 msgstr ""
 
 #: bp-forums/bp-forums-template.php:505 bp-forums/bp-forums-template.php:567
-#: bp-forums/bp-forums-template.php:1212
+#: bp-forums/bp-forums-template.php:1216
 #: bp-messages/bp-messages-classes.php:269
 #: bp-messages/bp-messages-template.php:847
 msgid "Deleted User"
@@ -2381,17 +2381,17 @@ msgstr ""
 msgid "Viewing topic %s to %s (of %s total topics%s)"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:1048
+#: bp-forums/bp-forums-template.php:1052
 msgctxt "Forum thread pagination previous text"
 msgid "&larr;"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:1049
+#: bp-forums/bp-forums-template.php:1053
 msgctxt "Forum thread pagination next text"
 msgid "&rarr;"
 msgstr ""
 
-#: bp-forums/bp-forums-template.php:1297
+#: bp-forums/bp-forums-template.php:1301
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
 msgstr ""
 
