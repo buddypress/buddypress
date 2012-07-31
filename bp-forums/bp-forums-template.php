@@ -1003,6 +1003,10 @@ class BP_Forums_Template_Topic {
 	function __construct( $topic_id, $per_page, $max, $order ) {
 		global $bp, $current_user, $forum_template;
 
+                if ( !isset( $forum_template ) ) {
+                        $forum_template = new stdClass;
+                }
+
 		$this->pag_page        = isset( $_REQUEST['topic_page'] ) ? intval( $_REQUEST['topic_page'] ) : 1;
 		$this->pag_num         = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
