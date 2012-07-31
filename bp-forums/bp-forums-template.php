@@ -414,7 +414,7 @@ function bp_has_forum_topics( $args = '' ) {
 		// When skipping the sticky logic, just pull up the forum topics like usual
 		$forum_template = new BP_Forums_Template_Forum( $type, $forum_id, $user_id, $page, $per_page, $max, 'all', $search_terms );
 	}
-	
+
 	return apply_filters( 'bp_has_topics', $forum_template->has_topics(), $forum_template );
 }
 
@@ -479,7 +479,7 @@ function bp_the_topic_poster_avatar( $args = '' ) {
 }
 	function bp_get_the_topic_poster_avatar( $args = '' ) {
 		global $forum_template;
-		
+
 		$defaults = array(
 			'type'   => 'thumb',
 			'width'  => false,
@@ -574,7 +574,7 @@ function bp_the_topic_object_avatar( $args = '' ) {
 }
 	function bp_get_the_topic_object_avatar( $args = '' ) {
 		global $forum_template;
-		
+
 		if ( !isset( $forum_template->topic->object_id ) )
 			return false;
 
