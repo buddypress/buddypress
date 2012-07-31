@@ -51,7 +51,7 @@
 		<?php
 		/***
 		 * If you'd like to show specific profile fields here use:
-		 * bp_profile_field_data( 'field=About Me' ); -- Pass the name of the field
+		 * bp_member_profile_data( 'field=About Me' ); -- Pass the name of the field
 		 */
 		 do_action( 'bp_profile_header_meta' );
 
