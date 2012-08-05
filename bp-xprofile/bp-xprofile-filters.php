@@ -23,8 +23,9 @@ add_filter( 'bp_get_the_profile_field_value',           'wptexturize'        );
 add_filter( 'bp_get_the_profile_field_value',           'convert_smilies', 2 );
 add_filter( 'bp_get_the_profile_field_value',           'convert_chars'      );
 add_filter( 'bp_get_the_profile_field_value',           'wpautop'            );
-add_filter( 'bp_get_the_profile_field_value',           'make_clickable', 8  );
 add_filter( 'bp_get_the_profile_field_value',           'force_balance_tags' );
+add_filter( 'bp_get_the_profile_field_value',           'make_clickable'     );
+add_filter( 'bp_get_the_profile_field_value',           'esc_html',        8 );
 
 add_filter( 'bp_get_the_profile_field_edit_value',      'force_balance_tags' );
 add_filter( 'bp_get_the_profile_field_edit_value',      'esc_html'           );
@@ -174,12 +175,12 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 
 				// More than 5 spaces
 				if ( count( explode( ' ', $value ) ) > 5 ) {
-					$new_values[] = esc_html( $value );
+					$new_values[] = $value;
 
 				// Less than 5 spaces
 				} else {
 					$search_url   = add_query_arg( array( 's' => urlencode( $value ) ), bp_get_members_directory_permalink() );
-					$new_values[] = '<a href="' . $search_url . '" rel="nofollow">' . esc_html( $value ) . '</a>';
+					$new_values[] = '<a href="' . $search_url . '" rel="nofollow">' . $value . '</a>';
 				}
 			}
 		}
