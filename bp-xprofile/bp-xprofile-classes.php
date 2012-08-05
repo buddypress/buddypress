@@ -224,8 +224,9 @@ class BP_XProfile_Group {
 
 						// Assign correct data value to the field
 						if ( $field->id == $data->field_id ) {
-							$fields[$field_key]->data->value = $data->value;
-							$fields[$field_key]->data->id = $data->id;
+                                                        $fields[$field_key]->data = new stdClass;
+                                                        $fields[$field_key]->data->value = $data->value;
+                                                        $fields[$field_key]->data->id = $data->id;
 						}
 					}
 				}
