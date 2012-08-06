@@ -6,9 +6,6 @@
  * Functions for parsing the URI and determining which BuddyPress template file
  * to use on-screen.
  *
- * Based on contributions from: Chris Taylor - http://www.stillbreathing.co.uk/
- * Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
- *
  * @package BuddyPress
  * @subpackage Core
  */

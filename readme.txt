@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: apeatling, johnjamesjacoby, MrMaz, DJPaul, boonebgorges
+Contributors: johnjamesjacoby, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.4
 Tested up to: 3.4.1

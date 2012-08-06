@@ -1,9 +1,7 @@
 <?php
+
 /**
  * BuddyPress Avatars
- *
- * Based on contributions from: Beau Lebens - http://www.dentedreality.com.au/
- * Modified for BuddyPress by: Andy Peatling - http://apeatling.wordpress.com/
  */
 
 // Exit if accessed directly
