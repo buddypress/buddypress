@@ -11,7 +11,7 @@ Social networking in a box. Build a social network for your company, school, spo
 
 == Description ==
 
-BuddyPress lets users register on your site and start creating profiles, posting messages, making connections, creating and interacting in groups and much more. A social network in a box, BuddyPress lets you build a social network for your company, school, sports team or niche community.
+BuddyPress lets users sign-up and start creating profiles, posting messages, making connections, creating and interacting in groups, and much more. A social network in a box, BuddyPress lets you easily build a community for your company, school, sports team, or other niche community.
 
 <h4>Try the Demo</h4>
 
@@ -21,7 +21,7 @@ If you're interested in seeing what a default installation of BuddyPress has to 
 
 <h4>Who's Using BuddyPress?</h4>
 
-More and more BuddyPress powered sites are popping up. You can take a look at some of the best sites on the <a href="http://buddypress.org/showcase/">BuddyPress Showcase</a>.
+Take a look at some of the best sites on the <a href="http://buddypress.org/showcase/">BuddyPress Showcase</a>.
 
 <h4>Plugins: Adding So Much More</h4>
 
@@ -39,7 +39,7 @@ Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. You'
 
 --- Discussion Forums ---
 
-BuddyPress includes full support for discussion forums. Each group created on your site can have its own forum. If you'd like to enable this feature, after completing the Installation Wizard, visit the "Forums Setup" item under the "BuddyPress" menu in your WordPress admin area, and follow the on-screen instructions.
+BuddyPress includes full support for discussion forums. Each group created on your site can have its own forum. If you'd like to enable this feature, after completing the Installation Wizard, visit the "Forums Setup" item under the "BuddyPress" menu in your WordPress admin-area, and follow the on-screen instructions.
 
 == Frequently Asked Questions ==
 
@@ -47,11 +47,11 @@ BuddyPress includes full support for discussion forums. Each group created on yo
 
 Of course! Once you've installed and activated BuddyPress, the Installation Wizard will guide you through the available theme options. You'll be given the option of installing the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">BuddyPress Template Pack</a>, which will help you add BuddyPress compatibility to your existing theme.
 
-Be sure to also try out the default theme bundled with BuddyPress. It provides all the awesome features of a standard WordPress blog, but also integrates BuddyPress's features in a seamless and beautiful way. The BuddyPress Default theme is a snap to customize, with full support for custom headers and backgrounds and multiple widget areas. It also makes a great starting point for your own  <a href="http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/">child theme</a>.
+Be sure to also try out the default theme bundled with BuddyPress. It provides all the awesome features of a standard WordPress blog, but also integrates BuddyPress's features in a seamless and beautiful way. The BuddyPress Default theme is a snap to customize, with full support for custom headers and backgrounds and multiple widget areas. It also makes a great starting point for your own <a href="http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/">child theme</a>.
 
 = Will this work on WordPress multisite? =
 
-Yes! If your WordPress site has multisite enabled, BuddyPress will support the global tracking of blogs, posts and comments.
+Yes! If your WordPress installation has multisite enabled, BuddyPress will support the global tracking of blogs, posts and comments.
 
 = Where can I get support? =
 
@@ -72,12 +72,12 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 == Screenshots ==
 
 1. **Activity Streams** - Global, personal and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feeds and email notification support.
-2. **Extended Profiles** - Fully editable rofile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience.
+2. **Extended Profiles** - Fully editable profile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience.
 3. **Extensible Groups** - Powerful public, private or hidden groups allow your users to break the discussion down into specific topics. Extend groups with your own custom features using the group extension API.
 4. **Friend Connections** - Let your users make connections so they can track the activity of others, or filter on only those users they care about the most.
 5. **Private Messaging** - Private messaging will allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, your users can send messages to multiple recipients.
 6. **Discussion Forums** - Full powered discussion forums built directly into groups allow for more conventional in-depth conversations.
-7. **WordPress Blogging** - Allow your users to start their own WordPress sites (using WordPress's Multisite feature), and track posts and comments from across your blog network in the activity stream.
+7. **WordPress Blogging** - Allow your users to start their own blogs using WordPress's Multisite feature, and track posts and comments from across your blog network in the activity stream.
 8. **User Settings** - Give your users complete control over profile and notification settings. Settings are fully integrated into your theme, and can be disabled by the administrator.
 
 == Languages ==
@@ -85,6 +85,9 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 BuddyPress is available in more than 20 languages. For more information, check out the <a href="http://codex.buddypress.org/getting-started/translations/">translation page</a> on the BuddyPress Codex.
 
 == Upgrade Notice ==
+
+= 1.6 =
+See: http://codex.buddypress.org/releases/version-1-6/
 
 = 1.5 =
 See: http://codex.buddypress.org/releases/version-1-5/
@@ -100,5 +103,6 @@ Fixes over 10 bugs.
 
 == Changelog ==
 
+See http://codex.buddypress.org/releases/version-1-6/ for 1.6.
 See http://codex.buddypress.org/releases/version-1-5/ for 1.5.
 See http://buddypress.org/about/release-history/ for all other versions.
