@@ -67,6 +67,10 @@ function bp_core_screen_signup() {
 		return;
 	}
 
+	if ( !isset( $bp->signup ) ) {
+		$bp->signup = new stdClass;
+	}
+
 	$bp->signup->step = 'request-details';
 
  	if ( !bp_get_signup_allowed() ) {
