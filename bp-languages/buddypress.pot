@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-08-05 21:37:42+00:00\n"
+"POT-Creation-Date: 2012-08-06 01:38:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1715,51 +1715,51 @@ msgstr ""
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:223
+#: bp-core/bp-core-avatars.php:221
 msgid "Avatar Image"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:484
+#: bp-core/bp-core-avatars.php:482
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:485 bp-core/bp-core-avatars.php:486
+#: bp-core/bp-core-avatars.php:483 bp-core/bp-core-avatars.php:484
 msgid "Your image was bigger than the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:487
+#: bp-core/bp-core-avatars.php:485
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:488
+#: bp-core/bp-core-avatars.php:486
 msgid "No file was uploaded"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:489
+#: bp-core/bp-core-avatars.php:487
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:493
+#: bp-core/bp-core-avatars.php:491
 msgid "Your upload failed, please try again. Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:498
+#: bp-core/bp-core-avatars.php:496
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:503
+#: bp-core/bp-core-avatars.php:501
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:514 bp-core/bp-core-avatars.php:527
+#: bp-core/bp-core-avatars.php:512 bp-core/bp-core-avatars.php:525
 msgid "Upload Failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:545
+#: bp-core/bp-core-avatars.php:543
 msgid "Upload failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:680 bp-core/bp-core-classes.php:174
+#: bp-core/bp-core-avatars.php:678 bp-core/bp-core-classes.php:174
 #: bp-core/bp-core-classes.php:175 bp-core/bp-core-classes.php:176
 #: bp-core/bp-core-template.php:98 bp-core/bp-core-template.php:107
 msgid "Avatar of %s"
@@ -1798,11 +1798,11 @@ msgstr ""
 msgid "Random Site"
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:281
+#: bp-core/bp-core-catchuri.php:278
 msgid "This user has been marked as a spammer. Only site admins can view this profile."
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:455 bp-core/bp-core-catchuri.php:514
+#: bp-core/bp-core-catchuri.php:452 bp-core/bp-core-catchuri.php:511
 msgid "You must log in to access the page you requested."
 msgstr ""
 
