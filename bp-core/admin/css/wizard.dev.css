@@ -146,6 +146,11 @@ div#bp-wizard table.form-table th {
 		margin: 3px 0 0 0;
 	}
 
+#bp-wizard .widefat th {
+	vertical-align: top;
+	display: table-cell;
+}
+
 div#bp-wizard code, div#bp-wizard kbd {
 	font-size: 12px;
 	background: #f0f0f0;
