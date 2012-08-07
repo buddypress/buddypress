@@ -203,7 +203,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, 
 			) );
 		}
 
-		$activity_action = sprintf( __( '%1$s started the forum topic %2$s in the group %3$s', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( groups_get_current_group() ) . 'forum/topic/' . $topic->topic_slug .'/">' . esc_attr( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( groups_get_current_group() ) . '">' . esc_attr( bp_get_current_group_name() ) . '</a>' );
+		$activity_action = sprintf( __( '%1$s edited the forum topic %2$s in the group %3$s', 'buddypress'), bp_core_get_userlink( $topic->topic_poster ), '<a href="' . bp_get_group_permalink( groups_get_current_group() ) . 'forum/topic/' . $topic->topic_slug .'/">' . esc_attr( $topic->topic_title ) . '</a>', '<a href="' . bp_get_group_permalink( groups_get_current_group() ) . '">' . esc_attr( bp_get_current_group_name() ) . '</a>' );
 		$activity_content = bp_create_excerpt( $topic_text );
 
 		// Record this in activity streams
