@@ -863,30 +863,6 @@ function bp_displayed_user_link() {
 	}
 	function bp_user_link() { bp_displayed_user_domain(); } // Deprecated.
 
-function bp_displayed_user_id() {
-
-	static $id = 0;
-
-	if ( empty( $id ) ) {
-		global $bp;
-		$id = !empty( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0;
-	}
-
-	return apply_filters( 'bp_displayed_user_id', $id );
-}
-
-function bp_loggedin_user_id() {
-
-	static $id = 0;
-
-	if ( empty( $id ) ) {
-		global $bp;
-		$id = !empty( $bp->loggedin_user->id ) ? $bp->loggedin_user->id : 0;
-	}
-
-	return apply_filters( 'bp_loggedin_user_id', $id );
-}
-
 function bp_current_user_id() { return bp_displayed_user_id(); }
 
 function bp_displayed_user_domain() {

@@ -751,6 +751,42 @@ function bp_search_slug() {
 		return apply_filters( 'bp_get_search_slug', BP_SEARCH_SLUG );
 	}
 
+/**
+ * Get the id of the currently displayed user
+ *
+ * @uses apply_filters() Filter 'bp_displayed_user_id' to change this value
+ * @return int
+ */
+function bp_displayed_user_id() {
+
+	static $id = 0;
+
+	if ( empty( $id ) ) {
+		global $bp;
+		$id = !empty( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0;
+	}
+
+	return apply_filters( 'bp_displayed_user_id', $id );
+}
+
+/**
+ * Get the id of the currently logged-in user
+ *
+ * @uses apply_filters() Filter 'bp_loggedin_user_id' to change this value
+ * @return int
+ */
+function bp_loggedin_user_id() {
+
+	static $id = 0;
+
+	if ( empty( $id ) ) {
+		global $bp;
+		$id = !empty( $bp->loggedin_user->id ) ? $bp->loggedin_user->id : 0;
+	}
+
+	return apply_filters( 'bp_loggedin_user_id', $id );
+}
+
 /** is_() functions to determine the current page *****************************/
 
 /**
