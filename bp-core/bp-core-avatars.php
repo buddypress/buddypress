@@ -313,7 +313,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		if ( isset( $avatar_url ) ) {
 
 			// Return it wrapped in an <img> element
-			if ( !empty( $html ) ) {
+			if ( true === $html ) {
 				return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $avatar_url . '" alt="' . esc_attr( $alt ) . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 
 			// ...or only the URL
@@ -375,7 +375,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg', $params );
 	}
 
-	if ( !empty( $html ) )
+	if ( true === $html )
 		return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" alt="' . esc_attr( $alt ) . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 	else
 		return apply_filters( 'bp_core_fetch_avatar_url', $gravatar );
