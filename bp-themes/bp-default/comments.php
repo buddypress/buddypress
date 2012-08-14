@@ -1,21 +1,28 @@
 <?php
+
+	// Bail if post type doesn't support comments
+	if ( ! post_type_supports( get_post_type(), 'comments' ) )
+		return;
+
+	// Bail if is a page, and comments are not open
+	if ( is_page() && ! have_comments() && ! comments_open() && ! pings_open() )
+		return;
+
 	if ( post_password_required() ) {
 		echo '<h3 class="comments-header">' . __( 'Password Protected', 'buddypress' ) . '</h3>';
 		echo '<p class="alert password-protected">' . __( 'Enter the password to view comments.', 'buddypress' ) . '</p>';
 		return;
 	}
 
-	if ( is_page() && !have_comments() && !comments_open() && !pings_open() )
-		return;
-
 	if ( have_comments() ) :
-		$num_comments = 0;
+		$num_comments   = 0;
 		$num_trackbacks = 0;
 		foreach ( (array) $comments as $comment ) {
-			if ( 'comment' != get_comment_type() )
+			if ( 'comment' != get_comment_type() ) {
 				$num_trackbacks++;
-			else
+			} else {
 				$num_comments++;
+			}
 		}
 ?>
 	<div id="comments">
@@ -39,23 +46,24 @@
 		<?php endif; ?>
 
 	</div><!-- #comments -->
+
 <?php else : ?>
 
-	<?php if ( pings_open() && !comments_open() && ( is_single() || is_page() ) ) : ?>
-		<p class="comments-closed pings-open">
-			<?php printf( __( 'Comments are closed, but <a href="%1$s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'buddypress' ), trackback_url( '0' ) ); ?>
-		</p>
-	<?php elseif ( !comments_open() && ( is_single() || is_page() ) ) : ?>
-		<p class="comments-closed">
-			<?php _e( 'Comments are closed.', 'buddypress' ); ?>
-		</p>
+	<?php if ( ! comments_open() ) : ?>
+		<?php if ( pings_open() ) : ?>
+			<p class="comments-closed pings-open">
+				<?php printf( __( 'Comments are closed, but <a href="%1$s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'buddypress' ), trackback_url( '0' ) ); ?>
+			</p>
+		<?php else : ?>
+			<p class="comments-closed">
+				<?php _e( 'Comments are closed.', 'buddypress' ); ?>
+			</p>
+		<?php endif; ?>
 	<?php endif; ?>
 
 <?php endif; ?>
 
-<?php if ( comments_open() ) : ?>
-	<?php comment_form(); ?>
-<?php endif; ?>
+<?php if ( comments_open() ) comment_form(); ?>
 
 <?php if ( !empty( $num_trackbacks ) ) : ?>
 	<div id="trackbacks">
