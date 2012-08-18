@@ -230,7 +230,7 @@ function friends_get_bulk_last_active( $friend_ids ) {
  * Excludes friends that are already in the group, and banned friends if the
  * user is not a group admin.
  *
- * @since 1.0
+ * @since BuddyPress (1.0)
  * @param int $user_id User ID whose friends to see can be invited
  * @param int $group_id Group to check possible invitations against
  * @return mixed False if no friends, array of users if friends

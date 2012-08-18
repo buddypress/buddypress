@@ -345,7 +345,7 @@ function bp_forums_total_topic_count() {
  * Check to see whether a user has already left this particular reply on a given post.
  * Prevents dupes.
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  *
  * @param str $text The text of the comment
  * @param int $topic_id The topic id

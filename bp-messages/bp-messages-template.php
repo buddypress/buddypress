@@ -635,7 +635,7 @@ function bp_send_private_message_link() {
  * Explicitly named function to avoid confusion with public messages.
  *
  * @uses bp_get_send_message_button()
- * @since 1.2.6
+ * @since BuddyPress (1.2.6)
  */
 function bp_send_private_message_button() {
 	echo bp_get_send_message_button();

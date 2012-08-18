@@ -287,7 +287,7 @@ class BP_XProfile_Group {
 	/**
 	 * Fetch the field visibility level for the fields returned by the query
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 *
 	 * @param int $user_id The profile owner's user_id
 	 * @param array $fields The database results returned by the get() query
@@ -323,7 +323,7 @@ class BP_XProfile_Group {
 	/**
 	 * Fetch the admin-set preferences for all fields
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 *
 	 * @return array $default_visibility_levels An array, keyed by field_id, of default
 	 *   visibility level + allow_custom (whether the admin allows this field to be set by user)

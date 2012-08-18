@@ -460,7 +460,7 @@ add_action( 'bp_core_signup_user', 'xprofile_sync_wp_profile' );
 /**
  * Syncs the standard built in WordPress profile data to XProfile.
  *
- * @since 1.2.4
+ * @since BuddyPress (1.2.4)
  * @package BuddyPress Core
  */
 function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
@@ -648,7 +648,7 @@ function bp_xprofile_get_visibility_levels() {
  * profile viewer). Then, based on that relationship, we query for the set of fields that should
  * be excluded from the profile loop.
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  * @see BP_XProfile_Group::get()
  * @uses apply_filters() Filter bp_xprofile_get_hidden_fields_for_user to modify visibility levels,
  *   or if you have added your own custom levels
@@ -700,7 +700,7 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
 /**
  * Fetch an array of the xprofile fields that a given user has marked with certain visibility levels
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  * @see bp_xprofile_get_hidden_fields_for_user()
  *
  * @param int $user_id The id of the profile owner

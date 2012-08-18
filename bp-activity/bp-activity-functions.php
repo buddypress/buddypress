@@ -659,7 +659,7 @@ add_action( 'delete_user',       'bp_activity_remove_all_user_data' );
  * @global object $wpdb
  * @global object $bp BuddyPress global settings
  * @param int $user_id
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_activity_spam_all_user_data( $user_id = 0 ) {
 	global $bp, $wpdb;
@@ -710,7 +710,7 @@ add_action( 'bp_make_spam_user', 'bp_activity_spam_all_user_data' );
  * @global object $wpdb
  * @global object $bp BuddyPress global settings
  * @param int $user_id
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_activity_ham_all_user_data( $user_id = 0 ) {
 	global $bp, $wpdb;
@@ -759,7 +759,7 @@ add_action( 'bp_make_ham_user', 'bp_activity_ham_all_user_data' );
  * Register the activity stream actions for updates
  *
  * @global object $bp BuddyPress global settings
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_activity_register_activity_actions() {
 	global $bp;
@@ -1472,7 +1472,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
  * Convenience function to control whether the current user is allowed to mark activity items as spam
  *
  * @return bool True if user is allowed to mark activity items as spam
- * @since 1.6
+ * @since BuddyPress (1.6)
  * @static
  */
 function bp_activity_user_can_mark_spam() {
@@ -1485,7 +1485,7 @@ function bp_activity_user_can_mark_spam() {
  * @global object $bp BuddyPress global settings
  * @param BP_Activity_Activity $activity
  * @param string $source Optional; default is "by_a_person" (e.g. a person has manually marked the activity as spam).
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
 	global $bp;
@@ -1521,7 +1521,7 @@ function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
  * @global object $bp BuddyPress global settings
  * @param BP_Activity_Activity $activity
  * @param string $source Optional; default is "by_a_person" (e.g. a person has manually marked the activity as spam).
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
 	global $bp;

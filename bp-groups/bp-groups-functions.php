@@ -195,7 +195,7 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
  *
  * @global object $bp BuddyPress global settings
  * @param int $group_id
- * @since 1.0
+ * @since BuddyPress (1.0)
  */
 function groups_delete_group( $group_id ) {
 	global $bp;
@@ -265,7 +265,7 @@ function groups_get_slug( $group_id ) {
 /**
  * Get a group ID by its slug
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  *
  * @param string $group_slug The group's slug
  * @return int The ID
@@ -501,7 +501,7 @@ function groups_is_user_banned( $user_id, $group_id ) {
  *
  * @param int $user_id
  * @param int $group_id
- * @since 1.2.6
+ * @since BuddyPress (1.2.6)
  * @uses BP_Groups_Member
  */
 function groups_is_user_creator( $user_id, $group_id ) {

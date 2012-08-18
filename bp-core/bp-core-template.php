@@ -161,7 +161,7 @@ function bp_site_name() {
 	/**
 	 * Returns the name of the BP site. Used in RSS headers
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	function bp_get_site_name() {
 		return apply_filters( 'bp_site_name', get_bloginfo( 'name', 'display' ) );
@@ -247,7 +247,7 @@ function bp_search_form_action() {
  * Generates the basic search form as used in BP-Default's header.
  *
  * @return string HTML <select> element
- * @since 1.0
+ * @since BuddyPress (1.0)
  */
 function bp_search_form_type_select() {
 

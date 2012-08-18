@@ -873,7 +873,7 @@ class BP_Core_Notification {
  * API to create BuddyPress buttons
  *
  * @package BuddyPress Core
- * @since 1.2.6
+ * @since BuddyPress (1.2.6)
  */
 class BP_Button {
 	// Button properties

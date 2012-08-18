@@ -849,7 +849,7 @@ add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );
  * @param obj $user Either the WP_User object or the WP_Error object
  * @return obj If the user is not a spammer, return the WP_User object. Otherwise a new WP_Error object.
  *
- * @since 1.1.2
+ * @since BuddyPress (1.1.2)
  */
 function bp_core_boot_spammer( $user ) {
 	// check to see if the $user has already failed logging in, if so return $user as-is
@@ -1282,7 +1282,7 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
  * @param obj $user Either the WP_User object or the WP_Error object
  * @return obj If the user is not a spammer, return the WP_User object. Otherwise a new WP_Error object.
  *
- * @since 1.2.2
+ * @since BuddyPress (1.2.2)
  */
 function bp_core_signup_disable_inactive( $user ) {
 	// check to see if the $user has already failed logging in, if so return $user as-is

@@ -60,7 +60,7 @@ add_action( 'deleted_user',                   'bp_core_clear_member_count_caches
 /**
  * Update the metadata cache for the specified objects.
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  * @global $wpdb WordPress database object for queries.
  * @param array $args See $defaults definition for more details
  * @return mixed Metadata cache for the specified objects, or false on failure.

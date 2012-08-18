@@ -29,7 +29,7 @@ add_action( 'admin_enqueue_scripts', 'xprofile_add_admin_css' );
 /**
  * Enqueue the jQuery libraries for handling drag/drop/sort
  *
- * @since BuddyPres (1.5)
+ * @since BuddyPress (1.5)
  */
 function xprofile_add_admin_js() {
 	if ( !empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {

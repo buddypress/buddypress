@@ -1097,7 +1097,7 @@ class BP_Groups_Member {
 	 * @global wpdb $wpdb WordPress database object
 	 * @param int $user_id
 	 * @param int $group_id
-	 * @since 1.2.6
+	 * @since BuddyPress (1.2.6)
 	 */
 	function check_is_creator( $user_id, $group_id ) {
 		global $bp, $wpdb;
@@ -1216,7 +1216,7 @@ class BP_Groups_Member {
 	 * @global object $bp BuddyPress global settings
 	 * @global wpdb $wpdb WordPress database object
 	 * @param int $user_id
-	 * @since 1.0
+	 * @since BuddyPress (1.0)
 	 * @uses BP_Groups_Member
 	 */
 	function delete_all_for_user( $user_id ) {
@@ -1248,7 +1248,7 @@ class BP_Groups_Member {
  *
  * @package BuddyPress
  * @subpackage Groups
- * @since 1.1
+ * @since BuddyPress (1.1)
  */
 class BP_Group_Extension {
 	var $name = false;

@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Core
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 
 // Exit if accessed directly
@@ -20,7 +20,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @param int $user_id User id to check for flood
  * @return bool True if there is no flooding, true if there is
- * @since 1.6
+ * @since BuddyPress (1.6)
  * @uses current_user_can() To check if the current user can throttle
  * @uses bp_get_option() To get the throttle time
  * @uses get_transient() To get the last posted transient of the ip
@@ -50,7 +50,7 @@ function bp_core_check_for_flood( $user_id = 0 ) {
  * @param string $title The title of the content
  * @param string $content The content being posted
  * @return bool True if test is passed, false if fail
- * @since 1.6
+ * @since BuddyPress (1.6)
  * @uses bp_current_author_ip() To get current user IP address
  * @uses bp_current_author_ua() To get current user agent
  * @uses bp_current_user_can() Allow super admins to bypass blacklist
@@ -159,7 +159,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
  * @uses bp_current_author_ip() To get current user IP address
  * @uses bp_current_author_ua() To get current user agent
  * @uses bp_current_user_can() Allow super admins to bypass blacklist
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' ) {
 
@@ -241,7 +241,7 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' )
  * Get the current-user IP address
  *
  * @return string
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_core_current_user_ip() {
 	$retval = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
@@ -253,7 +253,7 @@ function bp_core_current_user_ip() {
  * Get the current-user user-agent
  *
  * @return string
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_core_current_user_ua() {
 

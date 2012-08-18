@@ -297,7 +297,7 @@ class BP_Activity_Activity {
 	 * @param string MySQL column sort; ASC or DESC. (Optional; default is DESC)
 	 * @param bool $display_comments Retrieve an activity item's associated comments or not. (Optional; default is false)
 	 * @return array
-	 * @since 1.2
+	 * @since BuddyPress (1.2)
 	 */
 	function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
 		_deprecated_function( __FUNCTION__, '1.5', 'Use BP_Activity_Activity::get() with the "in" parameter instead.' );
@@ -445,7 +445,7 @@ class BP_Activity_Activity {
 	 * @param array $activities
 	 * @param bool $spam Optional; 'ham_only' (default), 'spam_only' or 'all'.
 	 * @return array The updated activities with nested comments
-	 * @since 1.2
+	 * @since BuddyPress (1.2)
 	 */
 	function append_comments( $activities, $spam = 'ham_only' ) {
 		global $wpdb;
@@ -476,7 +476,7 @@ class BP_Activity_Activity {
 	 * @param into $right Right-most node boundary
 	 * @param bool $spam Optional; 'ham_only' (default), 'spam_only' or 'all'.
 	 * @return array The updated activities with nested comments
-	 * @since 1.2
+	 * @since BuddyPress (1.2)
 	 */
 	function get_activity_comments( $activity_id, $left, $right, $spam = 'ham_only' ) {
 		global $wpdb, $bp;

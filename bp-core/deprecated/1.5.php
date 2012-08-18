@@ -43,7 +43,7 @@ function bp_core_is_multisite() {
  * @package BuddyPress
  * @param int $blog_id optional blog id to test (default current blog)
  * @return bool True if not multisite or $blog_id is main site
- * @since 1.2.6
+ * @since BuddyPress (1.2.6)
  */
 function bp_core_is_main_site( $blog_id = '' ) {
 	_deprecated_function( __FUNCTION__, '1.5', 'is_main_site()' );
@@ -73,7 +73,7 @@ if ( !function_exists( 'is_site_admin' ) ) {
  *
  * @deprecated 1.5
  * @deprecated Use add_menu_page().
- * @since 1.1
+ * @since BuddyPress (1.1)
  */
 function bp_core_add_admin_menu_page( $args = '' ) {
 	global $_registered_pages, $admin_page_hooks, $menu;
@@ -251,7 +251,7 @@ function bp_search_form_enabled() {
  *
  * @deprecated 1.5
  * @deprecated Use wp_title()
- * @since 1.0
+ * @since BuddyPress (1.0)
  */
 function bp_page_title() {
 	echo bp_get_page_title();
@@ -262,7 +262,7 @@ function bp_page_title() {
 	 *
 	 * @deprecated 1.5
 	 * @deprecated Use wp_title()
-	 * @since 1.0
+	 * @since BuddyPress (1.0)
 	 */
 	function bp_get_page_title() {
 		_deprecated_function( __FUNCTION__, '1.5', 'wp_title()' );
@@ -279,7 +279,7 @@ function bp_page_title() {
  *
  * @deprecated 1.5
  * @deprecated Use wp_logout_url()
- * @since 1.0
+ * @since BuddyPress (1.0)
  */
 function bp_log_out_link() {
 	_deprecated_function( __FUNCTION__, '1.5', 'wp_logout_url()' );
@@ -440,7 +440,7 @@ function bp_dtheme_deprecated() {
 	 * @param string $page_html A list of pages as a dropdown (select list)
 	 * @return string
 	 * @see wp_dropdown_pages()
-	 * @since 1.2
+	 * @since BuddyPress (1.2)
 	 */
 	function bp_dtheme_wp_pages_filter( $page_html ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -458,7 +458,7 @@ function bp_dtheme_deprecated() {
 	 * @param $string $oldvalue Previous value of get_option( 'page_on_front' )
 	 * @param $string $oldvalue New value of get_option( 'page_on_front' )
 	 * @return string
-	 * @since 1.2
+	 * @since BuddyPress (1.2)
 	 */
 	function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -478,7 +478,7 @@ function bp_dtheme_deprecated() {
 	 * @deprecated No longer required.
 	 * @param string $template Absolute path to the page template
 	 * @return string
-	 * @since 1.2
+	 * @since BuddyPress (1.2)
 	 */
 	function bp_dtheme_page_on_front_template( $template ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -493,7 +493,7 @@ function bp_dtheme_deprecated() {
 	 *
 	 * @deprecated 1.5
 	 * @deprecated No longer required.
-	 * @since 1.2
+	 * @since BuddyPress (1.2)
 	 */
 	function bp_dtheme_fix_get_posts_on_activity_front() {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -509,7 +509,7 @@ function bp_dtheme_deprecated() {
 	 * @deprecated No longer required.
 	 * @param array $posts Posts as retrieved by WP_Query
 	 * @return array
-	 * @since 1.2.5
+	 * @since BuddyPress (1.2.5)
 	 */
 	function bp_dtheme_fix_the_posts_on_activity_front( $posts ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -524,7 +524,7 @@ function bp_dtheme_deprecated() {
 	 *
 	 * @deprecated 1.5
 	 * @deprecated Enqueue the comment-reply script in your theme's header.php.
-	 * @since 1.2
+	 * @since BuddyPress (1.2)
 	 */
 	function bp_dtheme_add_blog_comments_js() {
 		_deprecated_function( __FUNCTION__, '1.5', "Enqueue the comment-reply script in your theme's header.php." );

@@ -1005,7 +1005,7 @@ function bp_groups_user_can_send_invites( $group_id = false ) {
  *
  * @deprecated 1.5
  * @deprecated No longer used.
- * @since 1.0
+ * @since BuddyPress (1.0)
  * @todo Remove in 1.4
  */
 function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
@@ -1612,7 +1612,7 @@ function bp_group_join_button( $group = false ) {
  *
  * @global BP_Groups_Template $groups_template Groups template object
  * @param object $group Group to get status message for. Optional; defaults to current group.
- * @since 1.0
+ * @since BuddyPress (1.0)
  */
 function bp_group_status_message( $group = null ) {
 	global $groups_template;
@@ -2194,7 +2194,7 @@ function bp_group_creation_previous_link() {
 /**
  * Echoes the current group creation step
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_groups_current_create_step() {
 	echo bp_get_groups_current_create_step();
@@ -2202,7 +2202,7 @@ function bp_groups_current_create_step() {
 	/**
 	 * Returns the current group creation step. If none is found, returns an empty string
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 *
 	 * @uses apply_filters() Filter bp_get_groups_current_create_step to modify
 	 * @return str $current_create_step
@@ -2360,7 +2360,7 @@ function bp_is_group_admin_screen( $slug ) {
 /**
  * Echoes the current group admin tab slug
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_group_current_admin_tab() {
 	echo bp_get_group_current_admin_tab();
@@ -2368,7 +2368,7 @@ function bp_group_current_admin_tab() {
 	/**
 	 * Returns the current group admin tab slug
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 *
 	 * @uses apply_filters() Filter bp_get_current_group_admin_tab to modify return value
 	 * @return str $tab The current tab's slug

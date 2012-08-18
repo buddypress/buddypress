@@ -254,7 +254,7 @@ function bp_core_get_root_domain() {
  * Get the current GMT time to save into the DB
  *
  * @package BuddyPress Core
- * @since 1.2.6
+ * @since BuddyPress (1.2.6)
  */
 function bp_core_current_time( $gmt = true ) {
 	// Get current time in MYSQL format

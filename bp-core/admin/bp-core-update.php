@@ -657,7 +657,7 @@ class BP_Core_Setup_Wizard {
 	/**
 	 * When upgrading to BP 1.6, prompt the admin to switch to WordPress' Toolbar.
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	function step_admin_bar() {
 	?>
@@ -943,7 +943,7 @@ class BP_Core_Setup_Wizard {
 	 * When upgrading to BP 1.6, the admin is prompted to switch to WordPress' Toolbar.
 	 * If they choose not to, record that preference in the options table.
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	function step_admin_bar_save() {
 		if ( isset( $_POST['submit'] ) ) {

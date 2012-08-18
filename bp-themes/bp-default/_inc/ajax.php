@@ -9,7 +9,7 @@
  * http://codex.wordpress.org/AJAX_in_Plugins.
  *
  * @package BuddyPress
- * @since 1.2
+ * @since BuddyPress (1.2)
  * @subpackage BP-Default
  */
 

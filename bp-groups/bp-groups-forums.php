@@ -23,7 +23,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @param string $group_name The group name
  * @param string $group_description The group description
  *
- * @since 1.0
+ * @since BuddyPress (1.0)
  */
 function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = '' ) {
 	global $bp;
@@ -52,7 +52,7 @@ function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = 
  *
  * @param int $group_id Group id, passed from groups_details_updated
  *
- * @since 1.1
+ * @since BuddyPress (1.1)
  */
 function groups_update_group_forum( $group_id ) {
 
@@ -89,7 +89,7 @@ add_action( 'groups_details_updated', 'groups_update_group_forum' );
  * @param mixed $page The page number where the new forum post should reside. Defaults to boolean false.
  * @return mixed The new forum post ID on success. Boolean false on failure.
  *
- * @since 1.0
+ * @since BuddyPress (1.0)
  */
 function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	if ( empty( $post_text ) )
@@ -137,7 +137,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
  * @param int $forum_id The forum ID this forum topic resides in
  * @return mixed The new topic object on success. Boolean false on failure.
  *
- * @since 1.0
+ * @since BuddyPress (1.0)
  */
 function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) {
 	if ( empty( $topic_title ) || empty( $topic_text ) )
@@ -183,7 +183,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
  * @param mixed $topic_tags A comma-delimited string of topic tags. Defaults to boolean false.
  * @return mixed The topic object on success. Boolean false on failure.
  *
- * @since 1.1
+ * @since BuddyPress (1.1)
  */
 function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, $topic_tags = false ) {
 	global $bp;
@@ -238,7 +238,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, 
  * @param mixed $page The page number where the new forum post should reside. Defaults to boolean false.
  * @return mixed The forum post ID on success. Boolean false on failure.
  *
- * @since 1.1
+ * @since BuddyPress (1.1)
  */
 function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page = false ) {
 	global $bp;
@@ -302,7 +302,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
  * @param int $topic_id The id of the topic to be deleted
  * @return bool True if the delete routine went through properly
  *
- * @since 1.1
+ * @since BuddyPress (1.1)
  */
 function groups_delete_group_forum_topic( $topic_id ) {
 	global $bp;
@@ -354,7 +354,7 @@ function groups_delete_group_forum_topic( $topic_id ) {
  *   function but is passed along to do_action() hooks.
  * @return bool True on success.
  *
- * @since 1.1
+ * @since BuddyPress (1.1)
  */
 function groups_delete_group_forum_post( $post_id, $topic_id = false ) {
 	global $bp;
@@ -383,7 +383,7 @@ function groups_delete_group_forum_post( $post_id, $topic_id = false ) {
  * Get a total count of all public topics of a given type, across groups/forums
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @param string $type Either 'newest', 'popular', 'unreplied', 'tags'.  Defaults to 'newest'.
  * @return int The topic count
@@ -396,7 +396,7 @@ function groups_total_public_forum_topic_count( $type = 'newest' ) {
  * Get a total count of all topics of a given status, across groups/forums
  *
  * @package BuddyPress
- * @since 1.5
+ * @since BuddyPress (1.5)
  *
  * @param str $status 'public', 'private', 'hidden', 'all' Which group types to count
  * @return int The topic count

@@ -323,7 +323,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Setup the actions
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	 function setup_actions() {
 		// Spam prevention

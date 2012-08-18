@@ -511,7 +511,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 /**
  * Echo the value of bp_blogs_get_subdomain_base()
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_blogs_subdomain_base() {
 	echo bp_blogs_get_subdomain_base();
@@ -520,7 +520,7 @@ function bp_blogs_subdomain_base() {
 	 * Return the base URL to be displayed when a user chooses an address for a new blog, on
 	 * a subdomain installation of WordPress MS
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 * @return str The base URL - eg, 'example.com' for site_url() example.com or www.example.com
 	 */
 	function bp_blogs_get_subdomain_base() {

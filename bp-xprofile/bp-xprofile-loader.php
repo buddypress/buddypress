@@ -26,7 +26,7 @@ class BP_XProfile_Component extends BP_Component {
 	 * The acceptable visibility levels for xprofile fields.
 	 *
 	 * @see bp_xprofile_get_visibility_levels()
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	var $visibility_levels = array();
 

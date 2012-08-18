@@ -129,7 +129,7 @@ function bp_core_add_cropper_inline_css() {
  *
  * Adds AJAX target URL so themes can access the WordPress AJAX functionality.
  *
- * @since 1.1
+ * @since BuddyPress (1.1)
  */
 function bp_core_add_ajax_url_js() {
 ?>
