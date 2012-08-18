@@ -7,7 +7,7 @@
  * actions throughout BuddyPress.
  *
  * @package BuddyPress
- * @subpackage BlogsBuddyBar
+ * @subpackage BlogsCache
  */
 
 // Exit if accessed directly
@@ -18,7 +18,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @since BuddyPress (1.0)
  * @package BuddyPress
- * @subpackage BlogsBuddyBar
+ * @subpackage BlogsCache
  * @param int $blog_id
  * @param int $user_id 
  */
@@ -32,7 +32,7 @@ function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
  *
  * @since BuddyPress (1.0)
  * @package BuddyPress
- * @subpackage BlogsBuddyBar
+ * @subpackage BlogsCache
  * @param Blog $recorded_blog_obj 
  */
 function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
