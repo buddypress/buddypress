@@ -205,5 +205,6 @@ function groups_ajax_widget_groups_list() {
 
 }
 add_action( 'wp_ajax_widget_groups_list', 'groups_ajax_widget_groups_list' );
+add_action( 'wp_ajax_nopriv_widget_groups_list', 'groups_ajax_widget_groups_list' );
 
 ?>
