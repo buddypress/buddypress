@@ -485,5 +485,3 @@ class BuddyPress {
 $GLOBALS['bp'] = new BuddyPress;
 
 endif;
-
-?>
