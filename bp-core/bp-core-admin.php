@@ -403,11 +403,9 @@ class BP_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		$maybe_dev = '';
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-			$maybe_dev = '.dev';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		$file = $this->css_url . "common{$maybe_dev}.css";
+		$file = $this->css_url . "common{$min}.css";
 		$file = apply_filters( 'bp_core_admin_common_css', $file );
 		wp_enqueue_style( 'bp-admin-common-css', $file, array(), bp_get_version() );
 
@@ -415,12 +413,12 @@ class BP_Admin {
 		if ( bp_get_maintenance_mode() ) {
 
 			// Styling
-			$file = $this->css_url . "wizard{$maybe_dev}.css";
+			$file = $this->css_url . "wizard{$min}.css";
 			$file = apply_filters( 'bp_core_admin_wizard_css', $file );
 			wp_enqueue_style( 'bp-admin-wizard-css', $file, array(), bp_get_version() );
 
 			// JS
-			$file = $this->js_url . "wizard{$maybe_dev}.js";
+			$file = $this->js_url . "wizard{$min}.js";
 			$file = apply_filters( 'bp_core_admin_wizard_js', $file );
 			wp_enqueue_script( 'bp-admin-wizard-js', $file, array(), bp_get_version() );
 

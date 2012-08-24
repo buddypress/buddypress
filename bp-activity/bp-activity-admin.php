@@ -159,7 +159,7 @@ function bp_activity_admin_load() {
 	global $bp, $bp_activity_list_table;
 
 	// Decide whether to load the dev version of the CSS and JavaScript
-	$dev = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'dev.' : '';
+	$min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : 'min.';
 
 	// Decide whether to load the index or edit screen
 	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
@@ -244,8 +244,8 @@ function bp_activity_admin_load() {
 	}
 
 	// Enqueue CSS and JavaScript
-	wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . "bp-activity/admin/js/admin.{$dev}js",   array( 'jquery', 'wp-ajax-response' ), bp_get_version(), true );
-	wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$dev}css", array(),                               bp_get_version()       );
+	wp_enqueue_script( 'bp_activity_admin_js', BP_PLUGIN_URL . "bp-activity/admin/js/admin.{$min}js",   array( 'jquery', 'wp-ajax-response' ), bp_get_version(), true );
+	wp_enqueue_style( 'bp_activity_admin_css', BP_PLUGIN_URL . "bp-activity/admin/css/admin.{$min}css", array(),                               bp_get_version()       );
 
 	// Handle spam/un-spam/delete of activities
 	if ( !empty( $doaction ) && ! in_array( $doaction, array( '-1', 'edit', 'save', ) ) ) {
@@ -568,7 +568,7 @@ function bp_activity_admin_edit() {
 			<form action="<?php echo esc_attr( $form_url ); ?>" id="bp-activities-edit-form" method="post">
 				<div id="poststuff">
 
-					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>"> 
+					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 						<div id="post-body-content">
 							<div id="postdiv" class="postarea">
 								<div id="bp_activity_action" class="postbox">

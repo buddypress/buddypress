@@ -19,11 +19,8 @@ class BP_Core_Members_Widget extends WP_Widget {
 		parent::__construct( false, $name = __( 'Members', 'buddypress' ), $widget_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {
-			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-				wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . 'bp-core/js/widget-members.dev.js', array( 'jquery' ), bp_get_version() );
-			} else {
-				wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . 'bp-core/js/widget-members.js',     array( 'jquery' ), bp_get_version() );
-			}
+			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . "bp-core/js/widget-members{$min}.js", array( 'jquery' ), bp_get_version() );
 		}
 	}
 

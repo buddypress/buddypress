@@ -49,27 +49,20 @@ add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
  * @since BuddyPress 1.5
  */
 function bp_core_load_admin_bar_css() {
+	global $wp_styles;
 
 	if ( ! bp_use_wp_admin_bar() || ! is_admin_bar_showing() )
 		return;
 
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
 	// Toolbar styles
-	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/admin-bar.dev.css';
-	else
-		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/admin-bar.css';
+	$stylesheet = BP_PLUGIN_URL . "bp-core/css/admin-bar{$min}.css";
 
 	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array( 'admin-bar' ), bp_get_version() );
-
-	if ( !is_rtl() )
-		return;
-
-	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/admin-bar-rtl.dev.css';
-	else
-		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/admin-bar-rtl.css';
-
-	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_admin_bar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), bp_get_version() );
+	$wp_styles->add_data( 'bp-admin-bar', 'rtl', true );
+	if ( $min )
+		$wp_styles->add_data( 'bp-admin-bar', 'suffix', $min );
 }
 add_action( 'bp_init', 'bp_core_load_admin_bar_css' );
 

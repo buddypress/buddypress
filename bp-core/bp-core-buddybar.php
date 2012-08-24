@@ -665,27 +665,22 @@ function bp_core_load_admin_bar() {
  * Handle the BuddyBar CSS
  */
 function bp_core_load_buddybar_css() {
+	global $wp_styles;
+
 	if ( bp_use_wp_admin_bar() || ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) || ( defined( 'BP_DISABLE_ADMIN_BAR' ) && BP_DISABLE_ADMIN_BAR ) )
 		return;
 
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
 	if ( file_exists( get_stylesheet_directory() . '/_inc/css/adminbar.css' ) ) // Backwards compatibility
 		$stylesheet = get_stylesheet_directory_uri() . '/_inc/css/adminbar.css';
-	elseif ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar.dev.css';
 	else
-		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar.css';
+		$stylesheet = BP_PLUGIN_URL . "bp-core/css/buddybar{$min}.css";
 
-	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array(), bp_get_version() );
-
-	if ( !is_rtl() )
-		return;
-
-	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
-		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar-rtl.dev.css';
-	else
-		$stylesheet = BP_PLUGIN_URL . 'bp-core/css/buddybar-rtl.css';
-
-	wp_enqueue_style( 'bp-admin-bar-rtl', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array( 'bp-admin-bar' ), bp_get_version() );
+	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array(), bp_get_version() );
+	$wp_styles->add_data( 'bp-admin-bar', 'rtl', true );
+	if ( $min )
+		$wp_styles->add_data( 'bp-admin-bar', 'suffix', $min );
 }
 add_action( 'bp_init', 'bp_core_load_buddybar_css' );
 
