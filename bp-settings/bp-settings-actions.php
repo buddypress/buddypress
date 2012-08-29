@@ -71,25 +71,21 @@ function bp_settings_action_general() {
 				// User is changing email address
 				if ( $bp->displayed_user->userdata->user_email != $user_email ) {
 
-					// Is email valid
-					if ( !is_email( $user_email ) )
-						$email_error = 'invalid';
+					// Run some tests on the email address
+					$email_checks = bp_core_validate_email_address( $user_email );
 
-					// Get blocked email domains
-					$limited_email_domains = get_site_option( 'limited_email_domains', 'buddypress' );
+					if ( true !== $email_checks ) {
+						if ( isset( $email_checks['invalid'] ) ) {
+							$email_error = 'invalid';
+						}
 
-					// If blocked email domains exist, see if this is one of them
-					if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
-						$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
-
-						if ( in_array( $emaildomain, (array) $limited_email_domains ) == false ) {
+						if ( isset( $email_checks['domain_banned'] ) || isset( $email_checks['domain_not_allowed'] ) ) {
 							$email_error = 'blocked';
 						}
-					}
 
-					// No errors, and email address doesn't match
-					if ( ( false === $email_error ) && email_exists( $user_email ) ) {
-						$email_error = 'taken';
+						if ( isset( $email_checks['in_use'] ) ) {
+							$email_error = 'taken';
+						}
 					}
 
 					// Yay we made it!
