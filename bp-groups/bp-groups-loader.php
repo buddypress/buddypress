@@ -98,6 +98,7 @@ class BP_Groups_Component extends BP_Component {
 			'classes',
 			'widgets',
 			'activity',
+			'admin',
 			'template',
 			'buddybar',
 			'adminbar',

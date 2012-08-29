@@ -1,0 +1,16 @@
+#bp-groups-edit-form input {
+	outline: medium none;
+	padding: 3px 8px;
+}
+#bp-groups-edit-form input#bp-groups-name {
+	font-size: 1.7em;
+	width: 100%;
+}
+#bp-groups-edit-form input#bp-groups-new-members {
+	width: 100%;
+	max-width: 90%;
+	border: 0;
+}
+.bp-groups-settings-section {
+	margin-bottom: 15px;
+}

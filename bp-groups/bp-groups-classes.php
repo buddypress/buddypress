@@ -707,6 +707,29 @@ class BP_Groups_Group {
 
 		return $wpdb->get_var( implode( ' ', $sql ) );
 	}
+
+	/**
+	 * Get an array containing ids for each group type
+	 *
+	 * A bit of a kludge workaround for some issues
+	 * with bp_has_groups()
+	 *
+	 * @since 1.7
+	 *
+	 * @return array
+	 */
+	function get_group_type_ids() {
+		global $wpdb, $bp;
+
+		$ids = array();
+
+		$ids['all']     = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name}" ) );
+		$ids['public']  = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'public'" ) );
+		$ids['private'] = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'private'" ) );
+		$ids['hidden']  = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'hidden'" ) );
+
+		return $ids;
+	}
 }
 
 class BP_Groups_Member {

@@ -15,6 +15,10 @@ div#icon-buddypress-activity {
 	background: url( ../images/icons32.png ) no-repeat -10px -6px;
 }
 
+div#icon-buddypress-groups {
+	background: url( ../images/icons32.png ) no-repeat -250px -6px;
+}
+
 /* Menu Icons
 ------------------------------------------------------------------------------*/
 
@@ -69,6 +73,45 @@ ul#adminmenu li.toplevel_page_bp-activity_network.wp-has-current-submenu .wp-men
 	background-position: 0 -2px;
 }
 
+/* Groups */
+ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image a img,
+ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image a img {
+	display: none;
+}
+ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image a {
+	background-image: url( ../images/menu.png ) !important;
+	background-position: -61px -34px;
+}
+ul#adminmenu li.toplevel_page_bp-groups:hover .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-groups.current .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-groups.wp-has-current-submenu .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-groups_network:hover .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-groups_network.current .wp-menu-image a,
+ul#adminmenu li.toplevel_page_bp-groups_network.wp-has-current-submenu .wp-menu-image a {
+	background-position: -61px -2px;
+}
+th.column-gid {
+	width: 60px;
+}
+td.column-gid {
+	vertical-align: middle;
+}
+table.bp-group-members th,
+table.bp-group-members td {
+	padding: 5px 0;
+}
+table.bp-group-members .uid-column {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+table.bp-group-members .uname-column {
+	width: 70%;
+}
+table.bp-group-members .urole-column {
+	padding-left: 20px;
+	padding-right: 20px;
+}
 
 /* Components
 ------------------------------------------------------------------------------*/
