@@ -55,7 +55,7 @@ div#bp-wizard-nav div.submit input {
 				}
 
 	div#bp-wizard-nav ol li span.complete {
-		background: url( ../images/completed.gif ) center left no-repeat;
+		background: url('../images/completed.gif') center left no-repeat;
 		padding: 6px;
 	}
 
@@ -174,7 +174,7 @@ a.installed:active {
 }
 
 a.installed span {
-	background: url( ../images/installed.gif ) left center no-repeat;
+	background: url('../images/installed.gif') left center no-repeat;
 	padding: 6px 10px 7px 6px;
 	margin-left: -5px;
 }

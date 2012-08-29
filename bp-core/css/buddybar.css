@@ -15,7 +15,7 @@ body:not(.wp-admin) {
 	padding: 0;
 	width: 100%;
 	margin: 0 auto;
-	background: url( ../images/60pc_black.png );
+	background: url('../images/60pc_black.png');
 	height: 25px;
 }
 body#bp-default #wp-admin-bar .padder {
@@ -86,7 +86,7 @@ body#bp-default #admin-bar-logo {
 	padding: 0;
 	float: left;
 	position: relative;
-	background: url( ../images/admin-menu-arrow.gif ) 88% 53% no-repeat;
+	background: url('../images/admin-menu-arrow.gif') 88% 53% no-repeat;
 	padding-right: 11px;
 }
 #wp-admin-bar ul li.no-arrow {

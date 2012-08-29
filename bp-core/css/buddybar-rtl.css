@@ -19,7 +19,7 @@
 
 #wp-admin-bar ul li {/* all list items */
 	float: right;
-	background: url( _inc/images/admin-menu-arrow.gif ) 12% 53% no-repeat;
+	background: url('../images/admin-menu-arrow.gif') 12% 53% no-repeat;
 	padding-left: 11px;
 	padding-right: 0;
 }

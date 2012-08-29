@@ -8,15 +8,15 @@
 ------------------------------------------------------------------------------*/
 
 div#icon-buddypress {
-	background: url( ../images/icons32.png ) no-repeat -370px -6px;
+	background: url('../images/icons32.png') no-repeat -370px -6px;
 }
 
 div#icon-buddypress-activity {
-	background: url( ../images/icons32.png ) no-repeat -10px -6px;
+	background: url('../images/icons32.png') no-repeat -10px -6px;
 }
 
 div#icon-buddypress-groups {
-	background: url( ../images/icons32.png ) no-repeat -250px -6px;
+	background: url('../images/icons32.png') no-repeat -250px -6px;
 }
 
 /* Menu Icons
@@ -27,7 +27,7 @@ ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a img {
 	display: none;
 }
 ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a {
-	background-image: url( ../images/menu.png ) !important;
+	background-image: url('../images/menu.png') !important;
 	background-position: -178pxpx -34px;
 }
 ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image a,
@@ -43,7 +43,7 @@ ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img {
 
 ul#adminmenu li.toplevel_page_bp-components .wp-menu-image a,
 ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a {
-	background-image: url( ../images/menu.png ) !important;
+	background-image: url('../images/menu.png') !important;
 	background-position: -178px -34px;
 }
 
@@ -61,7 +61,7 @@ ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image a img {
 }
 ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a,
 ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image a {
-	background-image: url( ../images/menu.png ) !important;
+	background-image: url('../images/menu.png') !important;
 	background-position: 0 -34px;
 }
 ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image a,
@@ -80,7 +80,7 @@ ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image a img {
 }
 ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image a,
 ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image a {
-	background-image: url( ../images/menu.png ) !important;
+	background-image: url('../images/menu.png') !important;
 	background-position: -61px -34px;
 }
 ul#adminmenu li.toplevel_page_bp-groups:hover .wp-menu-image a,
@@ -121,7 +121,7 @@ table.bp-group-members .urole-column {
 	float: left;
 	width: 18px;
 	height: 18px;
-	background-image: url( ../images/menu.png );
+	background-image: url('../images/menu.png');
 	background-position: -4px -40px;
 	background-repeat: no-repeat;
 	margin-right: 5px;
@@ -139,13 +139,13 @@ table.bp-group-members .urole-column {
 
 .dashboard_page_bp-wizard tr.xprofile td.plugin-title span,
 .settings_page_bp-components tr.xprofile td.plugin-title span {
-	background-image: url( ../images/menu-wp.png );
+	background-image: url('../images/menu-wp.png');
 	background-position-x: -305px;
 }
 
 .dashboard_page_bp-wizard tr.settings td.plugin-title span,
 .settings_page_bp-components tr.settings td.plugin-title span {
-	background-image: url( ../images/menu-wp.png );
+	background-image: url('../images/menu-wp.png');
 	background-position-x: -334px;
 }
 
@@ -161,7 +161,7 @@ table.bp-group-members .urole-column {
 
 .dashboard_page_bp-wizard tr.forums td.plugin-title span,
 .settings_page_bp-components tr.forums td.plugin-title span {
-	background-image: url( ../images/menu-wp.png );
+	background-image: url('../images/menu-wp.png');
 	background-position-x: -36px;
 }
 
