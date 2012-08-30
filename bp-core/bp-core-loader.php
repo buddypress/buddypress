@@ -203,6 +203,9 @@ class BP_Core extends BP_Component {
 			$sub_nav = array();
 
 			// Fallback values if xprofile is disabled
+			if ( ! isset( $bp->core->profile ) ) {
+				$bp->core->profile = new stdClass;
+			}
 			$bp->core->profile->slug = 'profile';
 			$bp->active_components[$bp->core->profile->slug] = $bp->core->profile->slug;
 

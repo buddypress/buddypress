@@ -98,6 +98,7 @@ class BP_Members_Component extends BP_Component {
 		/** Profiles Fallback *************************************************/
 
 		if ( !bp_is_active( 'xprofile' ) ) {
+			$bp->profile       = new stdClass;
 			$bp->profile->slug = 'profile';
 			$bp->profile->id   = 'profile';
 		}
