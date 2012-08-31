@@ -61,7 +61,7 @@ function bp_groups_admin_load() {
 	do_action( 'bp_groups_admin_load', $doaction );
 
 	// Edit screen
-	if ( 'delete' == $doaction && ! empty( $_GET['gid'] ) ) {
+	if ( 'do_delete' == $doaction && ! empty( $_GET['gid'] ) ) {
 
 		check_admin_referer( 'bp-groups-delete' );
 
@@ -371,11 +371,15 @@ function bp_groups_admin() {
 	// Decide whether to load the index or edit screen
 	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 
-	// Display the single activity edit screen
+	// Display the single group edit screen
 	if ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
 		bp_groups_admin_edit();
 
-	// Otherwise, display the Activity index screen
+	// Display the group deletion confirmation screen
+	} else if ( 'delete' == $doaction && ! empty( $_GET['gid'] ) ) {
+		bp_groups_admin_delete();
+
+	// Otherwise, display the groups index screen
 	} else {
 		bp_groups_admin_index();
 	}
@@ -390,8 +394,6 @@ function bp_groups_admin() {
 function bp_groups_admin_edit() {
 	global $screen_layout_columns;
 
-	// @todo: Check if user is allowed to edit activity items
-	// if ( ! current_user_can( 'bp_edit_activity' ) )
 	if ( ! is_super_admin() )
 		die( '-1' );
 
@@ -501,6 +503,56 @@ function bp_groups_admin_edit() {
 	</div><!-- .wrap -->
 
 <?php
+}
+
+/**
+ * Display the Group delete confirmation screen
+ *
+ * We include a separate confirmation because group deletion is truly
+ * irreversible.
+ *
+ * @since (BuddyPress) 1.7
+ */
+function bp_groups_admin_delete() {
+
+	if ( ! is_super_admin() )
+		die( '-1' );
+
+	$group_ids = isset( $_REQUEST['gid'] ) ? $_REQUEST['gid'] : 0;
+	if ( ! is_array( $group_ids ) ) {
+		$group_ids = explode( ',', $group_ids );
+	}
+	$group_ids = wp_parse_id_list( $group_ids );
+	$groups    = groups_get_groups( array( 'include' => $group_ids ) );
+
+	// Create a new list of group ids, based on those that actually exist
+	$gids = array();
+	foreach ( $groups['groups'] as $group ) {
+		$gids[] = $group->id;
+	}
+
+	$base_url  = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'gid' ), $_SERVER['REQUEST_URI'] );
+
+	?>
+
+	<div class="wrap">
+		<?php screen_icon( 'buddypress-groups' ); ?>
+		<h2><?php _e( 'Delete Groups', 'buddypress' ) ?></h2>
+		<p><?php _e( 'You are about to delete the following groups:', 'buddypress' ) ?></p>
+
+		<ul class="bp-group-delete-list">
+		<?php foreach ( $groups['groups'] as $group ) : ?>
+			<li><?php echo esc_html( $group->name ) ?></li>
+		<?php endforeach; ?>
+		</ul>
+
+		<p><strong><?php _e( 'This action cannot be undone.', 'buddypress' ) ?></strong></p>
+
+		<a class="button-primary" href="<?php echo wp_nonce_url( add_query_arg( array( 'action' => 'do_delete', 'gid' => implode( ',', $gids ) ), $base_url ), 'bp-groups-delete' ) ?>"><?php _e( 'Delete Permanently', 'buddypress' ) ?></a>
+		<a class="button" href="<?php echo $base_url ?>"><?php _e( 'Cancel', 'buddypress' ) ?></a>
+	</div>
+
+	<?php
 }
 
 /**
@@ -753,7 +805,7 @@ function bp_groups_admin_edit_metabox_status( $item ) {
 	<div id="submitcomment" class="submitbox">
 		<div id="major-publishing-actions">
 			<div id="delete-action">
-				<a onclick="javascript:return confirm('<?php echo esc_js( __( 'Are you sure?', 'buddypress' ) ) ?>');" class="submitdelete deletion" href="<?php echo wp_nonce_url( add_query_arg( 'action', 'delete', $base_url ), 'bp-groups-delete' ) ?>"><?php _e( 'Delete', 'buddypress' ) ?></a>
+				<a class="submitdelete deletion" href="<?php echo wp_nonce_url( add_query_arg( 'action', 'delete', $base_url ), 'bp-groups-delete' ) ?>"><?php _e( 'Delete Group', 'buddypress' ) ?></a>
 			</div>
 
 			<div id="publishing-action">
@@ -1056,7 +1108,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 */
 	function get_bulk_actions() {
 		$actions = array();
-		$actions['bulk_delete'] = __( 'Delete Permanently', 'buddypress' );
+		$actions['delete'] = __( 'Delete', 'buddypress' );
 
 		return apply_filters( 'bp_groups_list_table_get_bulk_actions', $actions );
 	}
@@ -1103,7 +1155,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since 1.6
 	 */
 	function column_cb( $item ) {
-		printf( '<input type="checkbox" name="aid[]" value="%d" />', (int) $item['id'] );
+		printf( '<input type="checkbox" name="gid[]" value="%d" />', (int) $item['id'] );
 	}
 
 	/**
@@ -1128,7 +1180,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 */
 	function column_comment( $item ) {
 
-		// Preorder items: Visit | Edit | Delete Permanently
+		// Preorder items: Visit | Edit | Delete
 		$actions = array(
 			'visit'  => '',
 			'edit'   => '',
@@ -1140,9 +1192,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		// Build actions URLs
 		$base_url   = network_admin_url( 'admin.php?page=bp-groups&amp;gid=' . $item['id'] );
-		$spam_nonce = esc_html( '_wpnonce=' . wp_create_nonce( 'spam-groups_' . $item['id'] ) );
 
-		$delete_url = $base_url . "&amp;action=delete&amp;$spam_nonce";
+		$delete_url = wp_nonce_url( $base_url . "&amp;action=delete", 'bp-groups-delete' );
 		$edit_url   = $base_url . '&amp;action=edit';
 		$visit_url  = bp_get_group_permalink( $item_obj );
 
@@ -1155,7 +1206,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$actions['edit'] = sprintf( '<a href="%s">%s</a>', $edit_url, __( 'Edit', 'buddypress' ) );
 
 		// Delete
-		$actions['delete'] = sprintf( '<a href="%s" onclick="%s">%s</a>', $delete_url, "javascript:return confirm('" . esc_js( __( 'Are you sure?', 'buddypress' ) ) . "'); ", __( 'Delete Permanently', 'buddypress' ) );
+		$actions['delete'] = sprintf( '<a href="%s">%s</a>', $delete_url, __( 'Delete', 'buddypress' ) );
 
 		// Other plugins can filter which actions are shown
 		$actions = apply_filters( 'bp_activity_admin_comment_row_actions', array_filter( $actions ), $item );
