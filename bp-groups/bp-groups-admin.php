@@ -116,6 +116,8 @@ function bp_groups_admin_load() {
 		add_meta_box( 'bp_group_add_members', _x( 'Add New Members', 'group admin edit screen', 'buddypress' ), 'bp_groups_admin_edit_metabox_add_new_members', get_current_screen()->id, 'normal', 'core' );
 		add_meta_box( 'bp_group_members',     _x( 'Manage Members', 'group admin edit screen', 'buddypress' ), 'bp_groups_admin_edit_metabox_members', get_current_screen()->id, 'normal', 'core' );
 
+		do_action( 'bp_groups_admin_meta_boxes' );
+
 		// Enqueue javascripts
 		wp_enqueue_script( 'postbox' );
 		wp_enqueue_script( 'dashboard' );
@@ -318,7 +320,7 @@ function bp_groups_admin_load() {
 		}
 
 		// Call actions for plugins to do something before we redirect
-		do_action_ref_array( 'bp_group_admin_edit_after', array( &$group, $error, $error_new, $success_new, $error_modified, $success_modified ) );
+		do_action( 'bp_group_admin_edit_after', $group_id );
 
 		// Create the redirect URL
 

@@ -1294,6 +1294,7 @@ class BP_Group_Extension {
 	var $enable_create_step = true;
 	var $enable_nav_item = true;
 	var $enable_edit_item = true;
+	var $enable_admin_item = true;
 
 	var $nav_item_name = false;
 
@@ -1313,6 +1314,10 @@ class BP_Group_Extension {
 	function create_screen() {}
 
 	function create_screen_save() {}
+
+	function admin_screen( $group_id ) {}
+
+	function admin_screen_save( $group_id ) {}
 
 	// Private Methods
 
@@ -1387,11 +1392,41 @@ class BP_Group_Extension {
 				}
 			}
 		}
+
+		// Construct the admin metabox
+		if ( ! empty( $this->enable_admin_item ) ) {
+			// Hook the admin screen markup function to the content hook
+			add_action( 'bp_groups_admin_meta_box_content_' . $this->slug, array( $this, 'admin_screen' ) );
+
+			// Initialize the metabox
+			add_action( 'bp_groups_admin_meta_boxes', array( $this, '_meta_box_display_callback' ) );
+
+			// Catch the metabox save
+			add_action( 'bp_group_admin_edit_after', array( $this, 'admin_screen_save' ), 10 );
+		}
 	}
 
 	function _display_hook() {
 		add_action( 'bp_template_content', array( &$this, 'display' ) );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', $this->template_file ) );
+	}
+
+	/**
+	 * Create the Dashboard meta box for this extension
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	function _meta_box_display_callback() {
+		$group_id = isset( $_GET['gid'] ) ? (int) $_GET['gid'] : 0;
+
+		add_meta_box(
+			$this->slug,
+			$this->name,
+			create_function( '', 'do_action( "bp_groups_admin_meta_box_content_' . $this->slug . '", ' . $group_id . ' );' ),
+			get_current_screen()->id,
+			'normal',
+			'core'
+		);
 	}
 }
 
@@ -1402,7 +1437,11 @@ function bp_register_group_extension( $group_extension_class ) {
 
 	// Register the group extension on the bp_init action so we have access
 	// to all plugins.
-	add_action( 'bp_init', create_function( '', '$extension = new ' . $group_extension_class . '; add_action( "bp_actions", array( &$extension, "_register" ), 8 );' ), 11 );
+	add_action( 'bp_init', create_function( '', '
+		$extension = new ' . $group_extension_class . ';
+		add_action( "bp_actions", array( &$extension, "_register" ), 8 );
+		add_action( "admin_init", array( &$extension, "_register" ) );
+	' ), 11 );
 }
 
 ?>
