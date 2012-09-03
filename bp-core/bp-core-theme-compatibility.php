@@ -97,7 +97,7 @@ function bp_setup_theme_compat( $theme = '' ) {
 
 	// Make sure theme package is available, set to default if not
 	if ( ! isset( $bp->theme_compat->packages[$theme] ) || ! is_a( $bp->theme_compat->packages[$theme], 'BP_Theme_Compat' ) ) {
-		$theme = 'default';
+		$theme = 'legacy';
 	}
 
 	// Set the active theme compat theme
@@ -502,7 +502,7 @@ function bp_replace_the_content( $content = '' ) {
 	if ( !empty( $new_content ) && ( $new_content != $content ) ) {
 
 		// Set the content to be the new content
-		$content = apply_filters( 'bp_replace_the_content', $new_content, $content );
+		$content = $new_content;
 
 		// Clean up after ourselves
 		unset( $new_content );
