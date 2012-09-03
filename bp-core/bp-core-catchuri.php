@@ -330,8 +330,6 @@ function bp_core_enable_root_profiles() {
 }
 
 /**
- * bp_core_load_template()
- *
  * Load a specific template file with fallback support.
  *
  * Example:
@@ -745,4 +743,3 @@ function _bp_maybe_remove_rel_canonical() {
 	}
 }
 add_action( 'wp_head', '_bp_maybe_remove_rel_canonical', 8 );
-?>

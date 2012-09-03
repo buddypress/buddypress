@@ -23,7 +23,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package BuddyPress Xprofile
  * @uses bp_core_delete_avatar() Deletes the active avatar for the logged in user.
  * @uses add_action() Runs a specific function for an action when it fires.
- * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_action_delete_avatar() {
 
@@ -44,5 +43,3 @@ function xprofile_action_delete_avatar() {
 	bp_core_redirect( wp_get_referer() );
 }
 add_action( 'bp_actions', 'xprofile_action_delete_avatar' );
-
-?>

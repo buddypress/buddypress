@@ -196,7 +196,7 @@ function groups_action_create_group() {
 		}
 	}
 
- 	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
+	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
 add_action( 'bp_actions', 'groups_action_create_group' );
 
