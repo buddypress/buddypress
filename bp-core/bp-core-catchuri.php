@@ -381,8 +381,9 @@ function bp_core_load_template( $templates ) {
 
 		// Template was located, lets set this as a valid page and not a 404.
 		status_header( 200 );
-		$wp_query->is_page = $wp_query->is_singular = true;
-		$wp_query->is_404  = false;
+		$wp_query->is_page     = true;
+		$wp_query->is_singular = true;
+		$wp_query->is_404      = false;			
 
 		do_action( 'bp_core_pre_load_template', $located_template );
 
@@ -396,6 +397,16 @@ function bp_core_load_template( $templates ) {
 	// No template found, so setup theme compatability
 	// @todo Some other 404 handling if theme compat doesn't kick in
 	} else {
+
+		// We know where we are, so reset important $wp_query bits here early.
+		// The rest will be done by bp_theme_compat_reset_post() later.
+		if ( is_buddypress() ) {
+			status_header( 200 );
+			$wp_query->is_page     = true;
+			$wp_query->is_singular = true;
+			$wp_query->is_404      = false;			
+		}
+
 		do_action( 'bp_setup_theme_compat' );
 	}
 }
