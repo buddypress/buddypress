@@ -380,7 +380,7 @@ class BP_XProfile_Group {
 			<?php endif; ?>
 
 			<div id="poststuff">
-				<form action="<?php echo esc_erl( $action ); ?>" method="post">
+				<form action="<?php echo esc_url( $action ); ?>" method="post">
 					<div id="titlediv">
 						<h3><label for="group_name"><?php _e( "Field Group Title", 'buddypress') ?> *</label></h3>
 						<div id="titlewrap">
