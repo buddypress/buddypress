@@ -23,72 +23,61 @@ div#icon-buddypress-groups {
 ------------------------------------------------------------------------------*/
 
 /* Wizard */
-ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a img {
-	display: none;
-}
-ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image a {
+ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image {
 	background-image: url('../images/menu.png') !important;
-	background-position: -178pxpx -34px;
+	background-position: -178px -34px;
 }
-ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-wizard.wp-has-current-submenu .wp-menu-image a {
+ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-wizard.wp-has-current-submenu .wp-menu-image {
 	background-position: -178px -2px;
 }
 
 /* Backpat */
-ul#adminmenu li.toplevel_page_bp-components .wp-menu-image a img,
-ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a img {
+ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image {
 	display: none;
 }
 
-ul#adminmenu li.toplevel_page_bp-components .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image a {
+ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image {
 	background-image: url('../images/menu.png') !important;
 	background-position: -178px -34px;
 }
 
-ul#adminmenu li.toplevel_page_bp-components:hover .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-components.wp-has-current-submenu .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image a {
+ul#adminmenu li.toplevel_page_bp-components:hover .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-components.wp-has-current-submenu .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image {
 	background-position: -178px -2px;
 }
 
 /* Activity */
-ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a img,
-ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image a img {
-	display: none;
-}
-ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image a {
-	background-image: url('../images/menu.png') !important;
+ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image {
+	background-image: url('../images/menu.png');
 	background-position: 0 -34px;
 }
-ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-activity.current .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-activity_network:hover .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-activity_network.current .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-activity_network.wp-has-current-submenu .wp-menu-image a {
+ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-activity.current .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-activity_network:hover .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-activity_network.current .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-activity_network.wp-has-current-submenu .wp-menu-image {
 	background-position: 0 -2px;
 }
 
 /* Groups */
-ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image a img,
-ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image a img {
-	display: none;
-}
-ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image a {
-	background-image: url('../images/menu.png') !important;
+ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image {
+	background-image: url('../images/menu.png');
 	background-position: -61px -34px;
 }
-ul#adminmenu li.toplevel_page_bp-groups:hover .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-groups.current .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-groups.wp-has-current-submenu .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-groups_network:hover .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-groups_network.current .wp-menu-image a,
-ul#adminmenu li.toplevel_page_bp-groups_network.wp-has-current-submenu .wp-menu-image a {
+ul#adminmenu li.toplevel_page_bp-groups:hover .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-groups.current .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-groups.wp-has-current-submenu .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-groups_network:hover .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-groups_network.current .wp-menu-image,
+ul#adminmenu li.toplevel_page_bp-groups_network.wp-has-current-submenu .wp-menu-image {
 	background-position: -61px -2px;
 }
 th.column-gid {

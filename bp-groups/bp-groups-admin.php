@@ -31,7 +31,14 @@ function bp_groups_add_admin_menu() {
 		return;
 
 	// Add our screen
-	$hook = add_menu_page( __( 'Groups', 'buddypress' ), __( 'Groups', 'buddypress' ), 'manage_options', 'bp-groups', 'bp_groups_admin' );
+	$hook = add_menu_page(
+		__( 'Groups', 'buddypress' ),
+		__( 'Groups', 'buddypress' ),
+		'manage_options',
+		'bp-groups',
+		'bp_groups_admin',
+		'div'
+	);
 
 	// Hook into early actions to load custom CSS and our init handler.
 	add_action( "load-$hook", 'bp_groups_admin_load' );
