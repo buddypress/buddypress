@@ -76,6 +76,10 @@ class BP_Blogs_Theme_Compat {
 		if ( ! bp_is_blogs_component() )
 			return;
 
+		// Bail if looking at a users sites
+		if ( bp_is_user() )
+			return;
+
 		// Blog Directory
 		if ( is_multisite() && ! bp_current_action() ) {
 			bp_update_is_directory( true, 'blogs' );
