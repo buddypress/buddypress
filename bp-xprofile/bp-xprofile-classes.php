@@ -224,9 +224,9 @@ class BP_XProfile_Group {
 
 						// Assign correct data value to the field
 						if ( $field->id == $data->field_id ) {
-                                                        $fields[$field_key]->data = new stdClass;
-                                                        $fields[$field_key]->data->value = $data->value;
-                                                        $fields[$field_key]->data->id = $data->id;
+							$fields[$field_key]->data = new stdClass;
+							$fields[$field_key]->data->value = $data->value;
+							$fields[$field_key]->data->id = $data->id;
 						}
 					}
 				}
@@ -294,7 +294,6 @@ class BP_XProfile_Group {
 	 * @return array $fields The database results, with field_visibility added
 	 */
 	function fetch_visibility_level( $user_id, $fields ) {
-		global $wpdb, $bp;
 
 		// Get the user's visibility level preferences
 		$visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
@@ -346,10 +345,6 @@ class BP_XProfile_Group {
 		return $default_visibility_levels;
 	}
 
-	/* ADMIN AREA HTML.
-	* TODO: Get this out of here and replace with standard loops
-	*/
-
 	function render_admin_form() {
 		global $message;
 
@@ -358,7 +353,7 @@ class BP_XProfile_Group {
 			$action	= "admin.php?page=bp-profile-setup&amp;mode=add_group";
 			$button	= __( 'Create Field Group', 'buddypress' );
 		} else {
-			$title = __( 'Edit Field Group', 'buddypress' );
+			$title  = __( 'Edit Field Group', 'buddypress' );
 			$action = "admin.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=" . $this->id;
 			$button	= __( 'Save Changes', 'buddypress' );
 		} ?>
@@ -367,45 +362,61 @@ class BP_XProfile_Group {
 
 			<?php screen_icon( 'users' ); ?>
 
-			<h2><?php echo $title; ?></h2>
-			<p><?php _e( 'Fields marked * are required', 'buddypress' ) ?></p>
+			<h2><?php echo esc_html( $title ); ?></h2>
 
 			<?php if ( !empty( $message ) ) :
 					$type = ( 'error' == $type ) ? 'error' : 'updated'; ?>
 
-				<div id="message" class="<?php echo $type; ?> fade">
-					<p><?php echo $message; ?></p>
+				<div id="message" class="<?php echo esc_attr( $type ); ?> fade">
+					<p><?php echo esc_html( $message ); ?></p>
 				</div>
 
 			<?php endif; ?>
 
-			<div id="poststuff">
-				<form action="<?php echo esc_url( $action ); ?>" method="post">
-					<div id="titlediv">
-						<h3><label for="group_name"><?php _e( "Field Group Title", 'buddypress') ?> *</label></h3>
-						<div id="titlewrap">
-							<input type="text" name="group_name" id="title" value="<?php echo esc_attr( $this->name ); ?>" style="width:50%" />
-						</div>
-					</div>
+			<form action="<?php echo esc_url( $action ); ?>" method="post">
+				<div id="poststuff">
+					<div id="post-body" class="metabox-holder columns-2">
+						<div id="post-body-content">
+							<div id="titlediv">
+								<div id="titlewrap">
+									<label class="screen-reader-text" id="title-prompt-text" for=​"title">​<?php _e( 'Field Group Title', 'buddypress') ?></label>
+									<input type="text" name="group_name" id="title" value="<?php echo esc_attr( $this->name ); ?>" />
+								</div>
+							</div>
 
-					<?php if ( '0' != $this->can_delete ) : ?>
-
-						<div id="titlediv">
-							<h3><label for="description"><?php _e( "Group Description", 'buddypress' ); ?></label></h3>
-							<div id="titlewrap">
-								<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo htmlspecialchars( $this->description ); ?></textarea>
+							<div id="postdiv" class="postarea">
+								<div class="postbox">
+									<div id="titlediv"><h3 class="hndle"><?php _e( 'Group Description', 'buddypress' ); ?></h3></div>
+									<div class="inside">
+										<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
+									</div>
+								</div>
 							</div>
 						</div>
-
-					<?php endif; ?>
-
-					<p class="submit">
-						<input type="hidden" name="group_order" id="group_order" value="<?php echo esc_attr( $this->group_order ); ?>" />
-						<input type="submit" name="save_group" value="<?php echo esc_attr( $button ); ?>" class="button-primary"/>
-						<?php _e( 'or', 'buddypress' ); ?> <a href="admin.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
-					</p>
-				</form>
-			</div>
+						<div id="postbox-container-1" class="postbox-container">
+							<div id="side-sortables" class="meta-box-sortables ui-sortable">
+								<div id="submitdiv" class="postbox">
+									<div id="handlediv"><h3 class="hndle"><?php _e( 'Save', 'buddypress' ); ?></h3></div>
+									<div class="inside">
+										<div id="submitcomment" class="submitbox">
+											<div id="major-publishing-actions">
+												<div id="delete-action">
+													<a href="admin.php?page=bp-profile-setup" class="submitdelete deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+												</div>
+												<div id="publishing-action">
+													<input type="submit" name="save_group" value="<?php echo esc_attr( $button ); ?>" class="button-primary"/>
+												</div>
+												<input type="hidden" name="group_order" id="group_order" value="<?php echo esc_attr( $this->group_order ); ?>" />
+												<div class="clear"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
 		</div>
 
 <?php
