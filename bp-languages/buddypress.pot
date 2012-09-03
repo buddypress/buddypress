@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-09-03 00:36:25+00:00\n"
+"POT-Creation-Date: 2012-09-03 01:36:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -920,13 +920,13 @@ msgstr ""
 msgid "Sites"
 msgstr ""
 
-#: bp-blogs/bp-blogs-screens.php:106 bp-blogs/bp-blogs-screens.php:108
-#: bp-blogs/bp-blogs-screens.php:144 bp-blogs/bp-blogs-screens.php:146
+#: bp-blogs/bp-blogs-screens.php:110 bp-blogs/bp-blogs-screens.php:112
+#: bp-blogs/bp-blogs-screens.php:148 bp-blogs/bp-blogs-screens.php:150
 #: bp-core/admin/bp-core-update.php:376 bp-core/bp-core-template.php:263
 msgid "Blogs"
 msgstr ""
 
-#: bp-blogs/bp-blogs-screens.php:106 bp-blogs/bp-blogs-screens.php:144
+#: bp-blogs/bp-blogs-screens.php:110 bp-blogs/bp-blogs-screens.php:148
 msgid "Create a Blog"
 msgstr ""
 
@@ -1068,7 +1068,7 @@ msgid "Max posts to show:"
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:26
-#: bp-core/admin/bp-core-functions.php:365 bp-core/admin/bp-core-update.php:57
+#: bp-core/admin/bp-core-functions.php:345 bp-core/admin/bp-core-update.php:57
 #: bp-core/admin/bp-core-update.php:69 bp-core/admin/bp-core-update.php:204
 msgid "Components"
 msgstr ""
@@ -1221,11 +1221,7 @@ msgstr ""
 msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update your permalink structure</a> to something other than the default for it to work."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:253
-msgid "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>."
-msgstr ""
-
-#: bp-core/admin/bp-core-functions.php:278 bp-core/admin/bp-core-slugs.php:139
+#: bp-core/admin/bp-core-functions.php:258 bp-core/admin/bp-core-slugs.php:139
 #: bp-core/admin/bp-core-update.php:442
 #: bp-messages/bp-messages-template.php:564
 #: bp-themes/bp-default/registration/activate.php:36
@@ -1233,30 +1229,30 @@ msgstr ""
 msgid "Activate"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:283 bp-core/admin/bp-core-slugs.php:138
+#: bp-core/admin/bp-core-functions.php:263 bp-core/admin/bp-core-slugs.php:138
 #: bp-core/admin/bp-core-update.php:428 bp-members/bp-members-adminbar.php:60
 msgid "Register"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:304
+#: bp-core/admin/bp-core-functions.php:284
 msgid "The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:329
+#: bp-core/admin/bp-core-functions.php:309
 msgid "Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:342
+#: bp-core/admin/bp-core-functions.php:322
 msgid "IMPORTANT: <a href=\"http://codex.buddypress.org/buddypress-site-administration/upgrading-buddypress/\">Read this before attempting to update BuddyPress</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:369 bp-core/admin/bp-core-slugs.php:26
+#: bp-core/admin/bp-core-functions.php:349 bp-core/admin/bp-core-slugs.php:26
 #: bp-core/admin/bp-core-update.php:58 bp-core/admin/bp-core-update.php:70
 #: bp-core/admin/bp-core-update.php:208
 msgid "Pages"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:373
+#: bp-core/admin/bp-core-functions.php:353
 #: bp-core/admin/bp-core-settings.php:258 bp-core/bp-core-admin.php:374
 #: bp-groups/bp-groups-loader.php:299 bp-groups/bp-groups-template.php:1276
 #: bp-settings/bp-settings-loader.php:23 bp-settings/bp-settings-loader.php:78
@@ -1264,7 +1260,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:381 bp-core/admin/bp-core-update.php:412
+#: bp-core/admin/bp-core-functions.php:361 bp-core/admin/bp-core-update.php:412
 #: bp-core/bp-core-template.php:266 bp-forums/bp-forums-admin.php:14
 #: bp-forums/bp-forums-admin.php:47 bp-forums/bp-forums-admin.php:314
 #: bp-forums/bp-forums-loader.php:111 bp-forums/bp-forums-loader.php:190
@@ -1846,7 +1842,7 @@ msgstr ""
 msgid "This user has been marked as a spammer. Only site admins can view this profile."
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:455 bp-core/bp-core-catchuri.php:514
+#: bp-core/bp-core-catchuri.php:464 bp-core/bp-core-catchuri.php:523
 msgid "You must log in to access the page you requested."
 msgstr ""
 
@@ -3432,11 +3428,11 @@ msgstr ""
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:572 bp-xprofile/bp-xprofile-actions.php:40
+#: bp-groups/bp-groups-screens.php:572 bp-xprofile/bp-xprofile-actions.php:39
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:574 bp-xprofile/bp-xprofile-actions.php:42
+#: bp-groups/bp-groups-screens.php:574 bp-xprofile/bp-xprofile-actions.php:41
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
