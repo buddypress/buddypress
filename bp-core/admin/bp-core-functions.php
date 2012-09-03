@@ -235,28 +235,8 @@ function bp_core_activation_notice() {
 	}
 
 	/**
-	 * Are you using a BP-compatible theme?
-	 */
-
-	// Get current theme info
-	$ct = wp_get_theme();
-
-	// Make sure tags is an array to suppress notices
-	if ( ! isset( $ct->tags ) )
-		$ct->tags = array();
-	else
-		$ct->tags = (array) $ct->tags;
-
-	// The best way to remove this notice is to add a "buddypress" tag to
-	// your active theme's CSS header.
-	if ( !defined( 'BP_SILENCE_THEME_NOTICE' ) && !in_array( 'buddypress', $ct->tags ) ) {
-		bp_core_add_admin_notice( sprintf( __( "You'll need to <a href='%s'>activate a <strong>BuddyPress-compatible theme</strong></a> to take advantage of all of BuddyPress's features. We've bundled a default theme, but you can always <a href='%s'>install some other compatible themes</a> or <a href='%s'>update your existing WordPress theme</a>.", 'buddypress' ), admin_url( 'themes.php' ), network_admin_url( 'theme-install.php?type=tag&s=buddypress&tab=search' ), network_admin_url( 'plugin-install.php?type=term&tab=search&s=%22bp-template-pack%22' ) ) );
-	}
-
-	/**
 	 * Check for orphaned BP components (BP component is enabled, no WP page exists)
 	 */
-
 	$orphaned_components = array();
 	$wp_page_components  = array();
 
