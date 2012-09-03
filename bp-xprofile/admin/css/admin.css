@@ -26,7 +26,7 @@
 			background-color: transparent;
 			margin-right: 8px;
 		}
-		ul#field-group-tabs li.ui-state-hover {
+		ul#field-group-tabs li.ui-state-hover a {
 			background-color: #fafafa;
 		}
 		ul#field-group-tabs li.ui-state-hover a.ui-tab {
@@ -38,7 +38,7 @@
 			color: #8a8;
 			background-color: #efe;
 		}
-			ul#field-group-tabs li.ui-tabs-selected.ui-state-acceptable a.ui-tab {
+			ul#field-group-tabs li.ui-state-active.ui-state-acceptable a.ui-tab {
 				background-color: #f9f9f9;
 			}
 		ul#field-group-tabs li.drop-candidate a.ui-tab {
@@ -60,7 +60,7 @@
 		}
 
 		/* Selected tab */
-		ul#field-group-tabs li.ui-tabs-selected a.ui-tab {
+		ul#field-group-tabs li.ui-state-active a.ui-tab {
 			background-color: #f9f9f9;
 			margin-top: -1px;
 			padding: 7px 10px 7px;

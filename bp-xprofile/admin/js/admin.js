@@ -3,20 +3,20 @@ function add_option(forWhat) {
 	var theId     = document.getElementById(forWhat + '_option_number').value;
 	var newDiv    = document.createElement('p');
 	var newOption = document.createElement('input');
-	var label     = document.createElement( 'label' );
-	var txt       = document.createTextNode( "Option " + theId + ": " );
+	var span     = document.createElement( 'span' );
+	var txt       = document.createTextNode( "\u00A0\u039E\u00A0" );
 	var isDefault = document.createElement( 'input' );
-	var label1    = document.createElement( 'label' );
+	var span1    = document.createElement( 'span' );
 	var txt1      = document.createTextNode( " Default Value " );
 
 	newDiv.setAttribute('id', forWhat + '_div' + theId);
+	newDiv.setAttribute('class', 'sortable');
 	
 	newOption.setAttribute( 'type', 'text' );
 	newOption.setAttribute( 'name', forWhat + '_option[' + theId + ']' );
 	newOption.setAttribute( 'id', forWhat + '_option' + theId );
 
-	label.setAttribute( 'for', forWhat + '_option' + theId );
-	label.appendChild( txt );
+	span.appendChild( txt );
 
 	if ( forWhat == 'checkbox' || forWhat == 'multiselectbox' ) {
 		isDefault.setAttribute( 'type', 'checkbox' );
@@ -28,8 +28,7 @@ function add_option(forWhat) {
 
 	isDefault.setAttribute( 'value', theId );
 
-	label1.appendChild( txt1 );
-	label1.setAttribute( 'for', 'isDefault_' + forWhat + '_option[]' );
+	span1.appendChild( txt1 );
 
 	var toDelete     = document.createElement( 'a' );
 	var toDeleteText = document.createTextNode( '[x]' );
@@ -38,14 +37,16 @@ function add_option(forWhat) {
 	toDelete.setAttribute( 'class', 'delete' );
 	toDelete.appendChild( toDeleteText );
 
-	newDiv.appendChild( label );
+	newDiv.appendChild( span );
 	newDiv.appendChild( newOption );
 	newDiv.appendChild( document.createTextNode( " " ) );
 	newDiv.appendChild( isDefault );
-	newDiv.appendChild( label1 );
+	newDiv.appendChild( span1 );
 	newDiv.appendChild( toDelete );
 	holder.appendChild( newDiv );
 
+	// re-initialize the sorable ui
+	enableSortableFieldOptions( forWhat );
 
 	theId++;
 
@@ -85,9 +86,27 @@ var fixHelper = function(e, ui) {
 	return ui;
 };
 
-// Set up deleting options ajax
+function enableSortableFieldOptions( forWhat ) {
+	if ( jQuery( '#' + forWhat + ' p.sortable' ).length > 1 ) {
+		jQuery( '.options-box' ).sortable( {
+			items: 'p.sortable',
+			tolerance: 'pointer',
+			axis: 'y',
+			handle: 'span'
+		});
+
+		jQuery( '.sortable span' ).css( 'cursor', 'move' );
+	}
+}
+
+function destroySortableFieldOptions() {
+	jQuery( '.options-box' ).sortable( 'destroy' );
+	jQuery( '.sortable span' ).css( 'cursor', 'default' );
+}
+
 jQuery( document ).ready( function() {
 
+	// Set up deleting options ajax
 	jQuery( 'a.ajax-option-delete' ).click(
 		function() {
 			var theId = this.id.split( '-' );
@@ -102,6 +121,15 @@ jQuery( document ).ready( function() {
 			function( response ) {} );
 		}
 	);
+
+	// 
+	jQuery( '[id^="sort_order_"]' ).change(function() {
+		if ( jQuery( this ).val() != 'custom' ) {
+			destroySortableFieldOptions();
+		} else {
+			enableSortableFieldOptions( jQuery('#fieldtype :selected').val() );
+		}
+	});
 
 	// Show object if JS is enabled
 	jQuery( 'ul#field-group-tabs' ).show();
@@ -149,6 +177,9 @@ jQuery( document ).ready( function() {
 
 	// Change cursor to move if JS is enabled
 	.css( 'cursor', 'move' );
+
+	// Allow reordering of field options
+	enableSortableFieldOptions( jQuery('#fieldtype :selected').val() );
 
 	// tabs init with a custom tab template and an "add" callback filling in the content
 	var $tab_items;
