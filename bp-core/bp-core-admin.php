@@ -65,9 +65,9 @@ class BP_Admin {
 	 *
 	 * @since BuddyPress (1.6)
 	 *
-	 * @uses BBP_Admin::setup_globals() Setup the globals needed
-	 * @uses BBP_Admin::includes() Include the required files
-	 * @uses BBP_Admin::setup_actions() Setup the hooks and actions
+	 * @uses BP_Admin::setup_globals() Setup the globals needed
+	 * @uses BP_Admin::includes() Include the required files
+	 * @uses BP_Admin::setup_actions() Setup the hooks and actions
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -218,7 +218,7 @@ class BP_Admin {
 				'manage_options',
 				'bp-general-settings',
 				'bp_core_admin_backpat_menu',
-				''
+				'div'
 			);
 
 			$hooks[] = add_submenu_page(

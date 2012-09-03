@@ -61,6 +61,9 @@ function bp_get_default_options() {
 		// Allow comments on blog and forum activity items
 		'bp-disable-blogforum-comments'   => true,
 
+		// The ID for the current theme package.
+		'_bp_theme_package_id'            => 'legacy',
+
 		/** Groups ************************************************************/
 
 		// @todo Move this into the groups component
@@ -521,4 +524,15 @@ function bp_is_akismet_active( $default = true ) {
 	return (bool) apply_filters( 'bp_is_akismet_active', (bool) bp_get_option( '_bp_enable_akismet', $default ) );
 }
 
-?>
+/**
+ * Get the current theme package ID
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param $default string Optional. Default value 'default'
+ * @uses get_option() To get the subtheme option
+ * @return string ID of the subtheme
+ */
+function bp_get_theme_package_id( $default = 'legacy' ) {
+	return apply_filters( 'bp_get_theme_package_id', get_option( '_bp_theme_package_id', $default ) );
+}

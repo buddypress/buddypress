@@ -148,11 +148,11 @@ function groups_screen_group_forum() {
 					groups_join_group( $bp->groups->current_group->id, bp_loggedin_user_id() );
 
 				$topic_page = isset( $_GET['topic_page'] ) ? $_GET['topic_page'] : false;
-				
+
 				// Don't allow reply flooding
 				if ( bp_forums_reply_exists( $_POST['reply_text'], $topic_id, bp_loggedin_user_id() ) ) {
 					bp_core_add_message( __( 'It looks like you\'ve already said that!', 'buddypress' ), 'error' );
-				} else {	
+				} else {
 					if ( !$post_id = groups_new_group_forum_post( $_POST['reply_text'], $topic_id, $topic_page ) )
 						bp_core_add_message( __( 'There was an error when replying to that topic', 'buddypress'), 'error' );
 					else
@@ -160,7 +160,7 @@ function groups_screen_group_forum() {
 				}
 
 				$query_vars = isset( $_SERVER['QUERY_STRING'] ) ? '?' . $_SERVER['QUERY_STRING'] : '';
-				
+
 				$redirect = bp_get_group_permalink( groups_get_current_group() ) . 'forum/topic/' . $topic_slug . '/' . $query_vars;
 
 				if ( !empty( $post_id ) ) {
@@ -882,4 +882,164 @@ function groups_screen_notification_settings() {
 }
 add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
 
-?>
+/** Theme Compatability *******************************************************/
+
+/**
+ * The main theme compat class for BuddyPress Groups
+ *
+ * This class sets up the necessary theme compatability actions to safely output
+ * group template parts to the_title and the_content areas of a theme.
+ *
+ * @since BuddyPress (1.7)
+ */
+class BP_Groups_Theme_Compat {
+
+	/**
+	 * Setup the groups component theme compatibility
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function __construct() {
+		add_action( 'bp_setup_theme_compat', array( $this, 'is_group' ) );
+	}
+
+	/**
+	 * Are we looking at something that needs group theme compatability?
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function is_group() {
+
+		// Bail if not looking at a group
+		if ( ! bp_is_groups_component() )
+			return;
+
+		// Group Directory
+		if ( ! bp_current_action() && ! bp_current_item() ) {
+			bp_update_is_directory( true, 'groups' );
+
+			do_action( 'groups_directory_groups_setup' );
+
+			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
+			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
+
+		// Creating a group
+		} elseif ( bp_is_groups_component() && bp_is_current_action( 'create' ) ) {
+			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'create_dummy_post' ) );
+			add_filter( 'bp_replace_the_content',                    array( $this, 'create_content'    ) );
+
+		// Group admin
+		} elseif ( bp_is_single_item() ) {
+			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post' ) );
+			add_filter( 'bp_replace_the_content',                    array( $this, 'single_content'    ) );
+
+		}
+	}
+
+	/** Directory *************************************************************/
+
+	/**
+	 * Update the global $post with directory data
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function directory_dummy_post() {
+
+		// Title based on ability to create groups
+		if ( is_user_logged_in() && bp_user_can_create_groups() ) {
+			$title = __( 'Groups', 'buddypress' ) . '&nbsp;<a class="button" href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create' ) . '">' . __( 'Create a Group', 'buddypress' ) . '</a>';
+		} else {
+			$title = __( 'Groups', 'buddypress' );
+		}
+
+		bp_theme_compat_reset_post( array(
+			'ID'             => 0,
+			'post_title'     => $title,
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_content'   => '',
+			'post_type'      => 'bp_group',
+			'post_status'    => 'publish',
+			'is_archive'     => true,
+			'comment_status' => 'closed'
+		) );
+	}
+
+	/**
+	 * Filter the_content with the groups index template part
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function directory_content() {
+		bp_buffer_template_part( 'groups/index' );
+	}
+
+	/** Create ****************************************************************/
+
+	/**
+	 * Update the global $post with create screen data
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function create_dummy_post() {
+
+		// Title based on ability to create groups
+		if ( is_user_logged_in() && bp_user_can_create_groups() ) {
+			$title = '<a class="button" href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) . '">' . __( 'Groups', 'buddypress' ) . '</a>&nbsp;' . __( 'Create a Group', 'buddypress' );
+		} else {
+			$title = __( 'Groups', 'buddypress' );
+		}
+
+		bp_theme_compat_reset_post( array(
+			'ID'             => 0,
+			'post_title'     => $title,
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_content'   => '',
+			'post_type'      => 'bp_group',
+			'post_status'    => 'publish',
+			'is_archive'     => true,
+			'comment_status' => 'closed'
+		) );
+	}
+
+	/**
+	 * Filter the_content with the create screen template part
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function create_content() {
+		bp_buffer_template_part( 'groups/create' );
+	}
+
+	/** Single ****************************************************************/
+
+	/**
+	 * Update the global $post with single group data
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function single_dummy_post() {
+		bp_theme_compat_reset_post( array(
+			'ID'             => 0,
+			'post_title'     => bp_get_current_group_name(),
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_content'   => '',
+			'post_type'      => 'bp_group',
+			'post_status'    => 'publish',
+			'is_archive'     => true,
+			'comment_status' => 'closed'
+		) );
+	}
+
+	/**
+	 * Filter the_content with the single group template part
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function single_content() {
+		bp_buffer_template_part( 'groups/single/home' );
+	}
+}
+new BP_Groups_Theme_Compat();

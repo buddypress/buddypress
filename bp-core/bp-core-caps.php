@@ -230,7 +230,7 @@ function bp_get_caps_for_role( $role = '' ) {
  *
  * @since BuddyPress (1.6)
  *
- * @global BuddyPress $bbp
+ * @global BuddyPress $bp
  *
  * @uses is_multisite()
  * @uses bp_allow_global_access()
@@ -257,13 +257,13 @@ function bp_global_access_auto_role() {
 
 	// Give the user the 'Forum Participant' role
 	if ( current_user_can( 'bp_masked' ) ) {
-		global $bbp;
+		global $bp;
 
 		// Get the default role
 		$default_role = bp_get_participant_role();
 
 		// Set the current users default role
-		$bbp->current_user->set_role( $default_role );
+		$bp->current_user->set_role( $default_role );
 	}
 }
 
@@ -322,7 +322,7 @@ function bp_get_moderator_role() {
  * @uses get_option()
  * @uses bp_get_caps_for_role()
  *
- * @global BuddyPress $bbp
+ * @global BuddyPress $bp
  * @return If not multisite, not global, or user is deleted/spammed
  */
 function bp_global_access_role_mask() {

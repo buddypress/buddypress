@@ -1055,6 +1055,27 @@ function bp_is_page( $page ) {
 	return false;
 }
 
+/**
+ * Is this a BuddyPress component?
+ *
+ * You can tell if a page is displaying BP content by whether the
+ * current_component has been defined
+ *
+ * Generally, we can just check to see that there's no current component.
+ * The one exception is single user home tabs, where $bp->current_component
+ * is unset. Thus the addition of the bp_is_user() check.
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @package BuddyPress
+ * @return bool True if it's a BuddyPress page, false otherwise
+ */
+function is_buddypress() {
+	$retval = (bool) ( bp_current_component() || bp_is_user() );
+
+	return apply_filters( 'is_buddypress', $retval );
+}
+
 /** Components ****************************************************************/
 
 function bp_is_active( $component ) {

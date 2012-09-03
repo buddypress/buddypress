@@ -10,6 +10,11 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+// Filter bbPress template locations
+
+add_filter( 'bp_groups_get_directory_template', 'bp_add_template_locations' );
+add_filter( 'bp_get_single_group_template',    'bp_add_template_locations' );
+
 /* Apply WordPress defined filters */
 add_filter( 'bp_get_group_description',         'wptexturize' );
 add_filter( 'bp_get_group_description_excerpt', 'wptexturize' );

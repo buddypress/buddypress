@@ -260,4 +260,77 @@ function bp_core_screen_activation() {
 }
 add_action( 'bp_screens', 'bp_core_screen_activation' );
 
-?>
+/** Theme Compatability *******************************************************/
+
+/**
+ * The main theme compat class for BuddyPress Groups
+ *
+ * This class sets up the necessary theme compatability actions to safely output
+ * group template parts to the_title and the_content areas of a theme.
+ *
+ * @since BuddyPress (1.7)
+ */
+class BP_Members_Theme_Compat {
+
+	/**
+	 * Setup the groups component theme compatibility
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function __construct() {
+		add_action( 'bp_setup_theme_compat', array( $this, 'is_members' ) );
+	}
+
+	/**
+	 * Are we looking at something that needs group theme compatability?
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function is_members() {
+
+		// Bail if not looking at a group
+		if ( ! bp_is_members_component() )
+			return;
+
+		// Group Directory
+		if ( ! bp_current_action() && ! bp_current_item() ) {
+			bp_update_is_directory( true, 'members' );
+
+			do_action( 'members_directory_groups_setup' );
+
+			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
+			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
+		}
+	}
+
+	/** Directory *************************************************************/
+
+	/**
+	 * Update the global $post with directory data
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function directory_dummy_post() {
+		bp_theme_compat_reset_post( array(
+			'ID'             => 0,
+			'post_title'     => __( 'Members', 'buddypress' ),
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_content'   => '',
+			'post_type'      => 'bp_members',
+			'post_status'    => 'publish',
+			'is_archive'     => true,
+			'comment_status' => 'closed'
+		) );
+	}
+
+	/**
+	 * Filter the_content with the groups index template part
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function directory_content() {
+		bp_buffer_template_part( 'members/index' );
+	}
+}
+new BP_Members_Theme_Compat();

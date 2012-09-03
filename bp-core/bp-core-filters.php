@@ -1,7 +1,48 @@
 <?php
 
+/**
+ * BuddyPress Filters
+ *
+ * @package BuddyPress
+ * @subpackage Core
+ *
+ * This file contains the filters that are used through-out BuddyPress. They are
+ * consolidated here to make searching for them easier, and to help developers
+ * understand at a glance the order in which things occur.
+ *
+ * There are a few common places that additional filters can currently be found
+ *
+ *  - BuddyPress: In {@link BuddyPress::setup_actions()} in buddypress.php
+ *  - Component: In {@link BP_Component::setup_actions()} in
+ *                bp-core/bp-core-component.php
+ *  - Admin: More in {@link BP_Admin::setup_actions()} in
+ *            bp-core/bp-core-admin.php
+ *
+ * @see bp-core-actions.php
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
+
+/**
+ * Attach BuddyPress to WordPress
+ *
+ * BuddyPress uses its own internal actions to help aid in third-party plugin
+ * development, and to limit the amount of potential future code changes when
+ * updates to WordPress core occur.
+ *
+ * These actions exist to create the concept of 'plugin dependencies'. They
+ * provide a safe way for plugins to execute code *only* when BuddyPress is
+ * installed and activated, without needing to do complicated guesswork.
+ *
+ * For more information on how this works, see the 'Plugin Dependency' section
+ * near the bottom of this file.
+ *
+ *           v--WordPress Actions       v--BuddyPress Sub-actions
+ */
+add_filter( 'request',                 'bp_request',             10    );
+add_filter( 'template_include',        'bp_template_include',    10    );
+add_filter( 'login_redirect',          'bp_login_redirect',      10, 3 );
 
 // Add some filters to feedback messages
 add_filter( 'bp_core_render_message_content', 'wptexturize'       );
@@ -9,6 +50,22 @@ add_filter( 'bp_core_render_message_content', 'convert_smilies'   );
 add_filter( 'bp_core_render_message_content', 'convert_chars'     );
 add_filter( 'bp_core_render_message_content', 'wpautop'           );
 add_filter( 'bp_core_render_message_content', 'shortcode_unautop' );
+
+/**
+ * Template Compatibility
+ *
+ * If you want to completely bypass this and manage your own custom BuddyPress
+ * template hierarchy, start here by removing this filter, then look at how
+ * bp_template_include() works and do something similar. :)
+ */
+add_filter( 'bp_template_include', 'bp_template_include_theme_supports', 2, 1 );
+add_filter( 'bp_template_include', 'bp_template_include_theme_compat',   4, 2 );
+
+// Run all template parts through additional template locations
+add_filter( 'bp_get_template_part', 'bp_add_template_locations' );
+
+// Turn comments off for BuddyPress pages
+add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
 
 /**
  * bp_core_exclude_pages()
@@ -156,7 +213,7 @@ function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 
 	return bp_get_root_domain();
 }
-add_filter( 'login_redirect', 'bp_core_login_redirect', 10, 3 );
+add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
 
 /***
  * bp_core_filter_user_welcome_email()
@@ -357,5 +414,3 @@ add_filter( 'wp_title', 'bp_modify_page_title', 10, 3 );
 add_filter( 'bp_modify_page_title', 'wptexturize'     );
 add_filter( 'bp_modify_page_title', 'convert_chars'   );
 add_filter( 'bp_modify_page_title', 'esc_html'        );
-
-?>

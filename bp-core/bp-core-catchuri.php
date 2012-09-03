@@ -369,13 +369,11 @@ function bp_core_load_template( $templates ) {
 		$post                        = $wp_query->queried_object;
 	}
 
-	// Define local variables
-	$located_template   = false;
-	$filtered_templates = array();
-
 	// Fetch each template and add the php suffix
-	foreach ( (array) $templates as $template )
+	$filtered_templates = array();
+	foreach ( (array) $templates as $template ) {
 		$filtered_templates[] = $template . '.php';
+	}
 
 	// Filter the template locations so that plugins can alter where they are located
 	$located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates );
@@ -391,10 +389,15 @@ function bp_core_load_template( $templates ) {
 		load_template( apply_filters( 'bp_load_template', $located_template ) );
 
 		do_action( 'bp_core_post_load_template', $located_template );
-	}
 
-	// Kill any other output after this.
-	die;
+		// Kill any other output after this.
+		exit();
+
+	// No template found, so setup theme compatability
+	// @todo Some other 404 handling if theme compat doesn't kick in
+	} else {
+		do_action( 'bp_setup_theme_compat' );
+	}
 }
 
 /**
