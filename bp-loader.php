@@ -266,8 +266,8 @@ class BuddyPress {
 
 		/** Versions **********************************************************/
 
-		$this->version        = '1.7-bleeding-6275';
-		$this->db_version     = 6066;
+		$this->version    = '1.7-bleeding-6275';
+		$this->db_version = 6066;
 
 		/** Loading ***********************************************************/
 
