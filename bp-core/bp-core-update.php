@@ -37,22 +37,27 @@ function bp_is_update() {
  *
  * @since BuddyPress (1.6)
  *
- * @global BuddyPress $bp
+ * @uses buddypress()
  * @return bool True if activating BuddyPress, false if not
  */
 function bp_is_activation( $basename = '' ) {
-	global $bp;
+	$bp = buddypress();
 
-	// Baif if action or plugin are empty
-	if ( empty( $_GET['action'] ) || empty( $_GET['plugin'] ) )
-		return false;
+	$action = false;
+	if ( ! empty( $_REQUEST['action'] ) && ( '-1' != $_REQUEST['action'] ) )
+		$action = $_REQUEST['action'];
+	elseif ( ! empty( $_REQUEST['action2'] ) && ( '-1' != $_REQUEST['action2'] ) )
+		$action = $_REQUEST['action2'];
 
 	// Bail if not activating
-	if ( 'activate' !== $_GET['action'] )
+	if ( empty( $action ) || !in_array( $action, array( 'activate', 'activate-selected' ) ) )
 		return false;
 
-	// The plugin being activated
-	$plugin = isset( $_GET['plugin'] ) ? $_GET['plugin'] : '';
+	// The plugin(s) being activated
+	if ( $action == 'activate' )
+		$plugins = isset( $_GET['plugin'] ) ? array( $_GET['plugin'] ) : array();
+	else
+		$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 
 	// Set basename if empty
 	if ( empty( $basename ) && !empty( $bp->basename ) )
@@ -62,11 +67,8 @@ function bp_is_activation( $basename = '' ) {
 	if ( empty( $basename ) )
 		return false;
 
-	// Bail if plugin is not BuddyPress
-	if ( $basename !== $plugin )
-		return false;
-
-	return true;
+	// Is BuddyPress being activated?
+	return in_array( $basename, $plugins );
 }
 
 /**
@@ -74,22 +76,27 @@ function bp_is_activation( $basename = '' ) {
  *
  * @since BuddyPress (1.6)
  *
- * @global BuddyPress $bp
+ * @uses buddypress()
  * @return bool True if deactivating BuddyPress, false if not
  */
 function bp_is_deactivation( $basename = '' ) {
-	global $bp;
+	$bp = buddypress();
 
-	// Baif if action or plugin are empty
-	if ( empty( $_GET['action'] ) || empty( $_GET['plugin'] ) )
-		return false;
+	$action = false;
+	if ( ! empty( $_REQUEST['action'] ) && ( '-1' != $_REQUEST['action'] ) )
+		$action = $_REQUEST['action'];
+	elseif ( ! empty( $_REQUEST['action2'] ) && ( '-1' != $_REQUEST['action2'] ) )
+		$action = $_REQUEST['action2'];
 
 	// Bail if not deactivating
-	if ( 'deactivate' !== $_GET['action'] )
+	if ( empty( $action ) || !in_array( $action, array( 'deactivate', 'deactivate-selected' ) ) )
 		return false;
 
-	// The plugin being deactivated
-	$plugin = isset( $_GET['plugin'] ) ? $_GET['plugin'] : '';
+	// The plugin(s) being deactivated
+	if ( $action == 'deactivate' )
+		$plugins = isset( $_GET['plugin'] ) ? array( $_GET['plugin'] ) : array();
+	else
+		$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 
 	// Set basename if empty
 	if ( empty( $basename ) && !empty( $bp->basename ) )
@@ -99,11 +106,8 @@ function bp_is_deactivation( $basename = '' ) {
 	if ( empty( $basename ) )
 		return false;
 
-	// Bail if plugin is not BuddyPress
-	if ( $basename !== $plugin )
-		return false;
-
-	return true;
+	// Is bbPress being deactivated?
+	return in_array( $basename, $plugins );
 }
 
 /**
@@ -193,5 +197,3 @@ function bp_deactivation() {
 function bp_uninstall() {
 	do_action( 'bp_uninstall' );
 }
-
-?>
