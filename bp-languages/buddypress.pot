@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-09-03 03:36:25+00:00\n"
+"POT-Creation-Date: 2012-09-04 14:36:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1838,6 +1838,11 @@ msgstr ""
 
 #: bp-core/bp-core-buddybar.php:578
 msgid "Random Site"
+msgstr ""
+
+#: bp-core/bp-core-caps.php:243 bp-core/bp-core-caps.php:256
+#: bp-core/bp-core-caps.php:271 bp-core/bp-core-caps.php:282
+msgid "Special community roles no longer exist. Use mapped capabilities instead"
 msgstr ""
 
 #: bp-core/bp-core-catchuri.php:278
