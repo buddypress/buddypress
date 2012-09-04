@@ -11,41 +11,6 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Adds BuddyPress-specific user roles.
- *
- * This is called on plugin activation.
- *
- * @since BuddyPress (1.6)
- *
- * @uses get_option() To get the default role
- * @uses get_role() To get the default role object
- * @uses add_role() To add our own roles
- * @uses do_action() Calls 'bp_add_roles'
- */
-function bp_add_roles() {
-
-	// Get new role names
-	$moderator_role   = bp_get_moderator_role();
-	$participant_role = bp_get_participant_role();
-
-	// Add the Moderator role and add the default role caps.
-	// Mod caps are added by the bp_add_caps() function
-	$default = get_role( get_option( 'default_role' ) );
-
-	// If role does not exist, default to read cap
-	if ( empty( $default->capabilities ) )
-		$default->capabilities = array( 'read' );
-
-	// Moderators are default role + community moderating caps in bp_add_caps()
-	add_role( $moderator_role,   'Community Moderator',   $default->capabilities );
-
-	// Forum Subscribers are auto added to sites with global communities
-	add_role( $participant_role, 'Community Participant', $default->capabilities );
-
-	do_action( 'bp_add_roles' );
-}
-
-/**
  * Adds capabilities to WordPress user roles.
  *
  * This is called on plugin activation.
@@ -63,15 +28,10 @@ function bp_add_caps() {
 	if ( ! isset( $wp_roles ) )
 		$wp_roles = new WP_Roles();
 
-	// Loop through available roles
-	foreach( $wp_roles->roles as $role => $details ) {
-
-		// Load this role
-		$this_role = get_role( $role );
-
-		// Loop through caps for this role and remove them
-		foreach ( bp_get_caps_for_role( $role ) as $cap ) {
-			$this_role->add_cap( $cap );
+	// Loop through available roles and add them
+	foreach( $wp_roles->role_objects as $role ) {
+		foreach ( bp_get_caps_for_role( $role->name ) as $cap ) {
+			$role->add_cap( $cap );
 		}
 	}
 
@@ -96,44 +56,14 @@ function bp_remove_caps() {
 	if ( ! isset( $wp_roles ) )
 		$wp_roles = new WP_Roles();
 
-	// Loop through available roles
-	foreach( $wp_roles->roles as $role => $details ) {
-
-		// Load this role
-		$this_role = get_role( $role );
-
-		// Loop through caps for this role and remove them
-		foreach ( bp_get_caps_for_role( $role ) as $cap ) {
-			$this_role->remove_cap( $cap );
+	// Loop through available roles and remove them
+	foreach( $wp_roles->role_objects as $role ) {
+		foreach ( bp_get_caps_for_role( $role->name ) as $cap ) {
+			$role->remove_cap( $cap );
 		}
 	}
 
 	do_action( 'bp_remove_caps' );
-}
-
-/**
- * Removes BuddyPress-specific user roles.
- *
- * This is called on plugin deactivation.
- *
- * @since BuddyPress (1.6)
- *
- * @uses remove_role() To remove our roles
- * @uses do_action() Calls 'bp_remove_roles'
- */
-function bp_remove_roles() {
-
-	// Get new role names
-	$moderator_role   = bp_get_moderator_role();
-	$participant_role = bp_get_participant_role();
-
-	// Remove the Moderator role
-	remove_role( $moderator_role );
-
-	// Remove the Moderator role
-	remove_role( $participant_role );
-
-	do_action( 'bp_remove_roles' );
 }
 
 /**
@@ -183,10 +113,6 @@ function bp_get_community_caps() {
  */
 function bp_get_caps_for_role( $role = '' ) {
 
-	// Get new role names
-	$moderator_role   = bp_get_moderator_role();
-	$participant_role = bp_get_participant_role();
-
 	// Which role are we looking for?
 	switch ( $role ) {
 
@@ -199,23 +125,10 @@ function bp_get_caps_for_role( $role = '' ) {
 
 			break;
 
-		// Moderator
-		case $moderator_role :
-			$caps = array(
-				// Misc
-				'bp_moderate',
-			);
-
-			break;
-
-		// WordPress Core Roles
 		case 'editor'          :
 		case 'author'          :
 		case 'contributor'     :
 		case 'subscriber'      :
-
-		// BuddyPress Participant Role
-		case $participant_role :
 		default                :
 			$caps = array();
 			break;
@@ -241,130 +154,22 @@ function bp_get_caps_for_role( $role = '' ) {
  *
  * @return If user is not spam/deleted or is already capable
  */
-function bp_global_access_auto_role() {
+function bbp_set_current_user_default_role() {
 
-	// Bail if not multisite or community is not global
-	if ( !is_multisite() || !bp_allow_global_access() )
+	// Bail if not multisite or not root blog
+	if ( ! is_multisite() || ! bp_is_root_blog() )
+		return;
+
+	// Bail if user is not logged in or already a member
+	if ( ! is_user_logged_in() || is_user_member_of_blog() )
 		return;
 
 	// Bail if user is not active
 	if ( bp_is_user_inactive() )
 		return;
 
-	// Bail if user is not logged in
-	if ( !is_user_logged_in() )
-		return;
-
-	// Give the user the 'Forum Participant' role
-	if ( current_user_can( 'bp_masked' ) ) {
-		global $bp;
-
-		// Get the default role
-		$default_role = bp_get_participant_role();
-
-		// Set the current users default role
-		$bp->current_user->set_role( $default_role );
-	}
-}
-
-/**
- * The participant role for registered users without roles
- *
- * This is primarily for multisite compatibility when users without roles on
- * sites that have global communities enabled
- *
- * @since BuddyPress (1.6)
- *
- * @param string $role
- * @uses apply_filters()
- * @return string
- */
-function bp_get_participant_role() {
-
-	// Hardcoded participant role
-	$role = 'bp_participant';
-
-	// Allow override
-	return apply_filters( 'bp_get_participant_role', $role );
-}
-
-/**
- * The moderator role for BuddyPress users
- *
- * @since BuddyPress (1.6)
- *
- * @param string $role
- * @uses apply_filters()
- * @return string
- */
-function bp_get_moderator_role() {
-
-	// Hardcoded moderated user role
-	$role = 'bp_moderator';
-
-	// Allow override
-	return apply_filters( 'bp_get_moderator_role', $role );
-}
-
-/**
- * Add the default role and mapped BuddyPress caps to the current user if needed
- *
- * This function will bail if the community is not global in a multisite
- * installation of WordPress, or if the user is marked as spam or deleted.
- *
- * @since BuddyPress (1.6)
- *
- * @uses is_multisite()
- * @uses bp_allow_global_access()
- * @uses bp_is_user_inactive()
- * @uses is_user_logged_in()
- * @uses current_user_can()
- * @uses get_option()
- * @uses bp_get_caps_for_role()
- *
- * @global BuddyPress $bp
- * @return If not multisite, not global, or user is deleted/spammed
- */
-function bp_global_access_role_mask() {
-
-	// Bail if not multisite or community is not global
-	if ( !is_multisite() || !bp_allow_global_access() )
-		return;
-
-	// Bail if user is marked as spam or is deleted
-	if ( bp_is_user_inactive() )
-		return;
-
-	// Normal user is logged in but has no caps
-	if ( is_user_logged_in() && !current_user_can( 'read' ) ) {
-
-		// Define local variable
-		$mapped_meta_caps = array();
-
-		// Assign user the minimal participant role to map caps to
-		$default_role  = bp_get_participant_role();
-
-		// Get BuddyPress caps for the default role
-		$caps_for_role = bp_get_caps_for_role( $default_role );
-
-		// Set all caps to true
-		foreach ( $caps_for_role as $cap ) {
-			$mapped_meta_caps[$cap] = true;
-		}
-
-		// Add 'read' cap just in case
-		$mapped_meta_caps['read']      = true;
-		$mapped_meta_caps['bp_masked'] = true;
-
-		// Allow global access caps to be manipulated
-		$mapped_meta_caps = apply_filters( 'bp_global_access_mapped_meta_caps', $mapped_meta_caps );
-
-		// Assign the role and mapped caps to the current user
-		global $bp;
-		$bp->current_user->roles[0] = $default_role;
-		$bp->current_user->caps     = $mapped_meta_caps;
-		$bp->current_user->allcaps  = $mapped_meta_caps;
-	}
+	// Set the current users default role
+	buddypress()->current_user->set_role( bp_get_option( 'default_role', 'subscriber' ) );
 }
 
 /**
@@ -423,4 +228,56 @@ function _bp_enforce_bp_moderate_cap_for_admins( $allcaps, $caps, $args ) {
 }
 add_filter( 'user_has_cap', '_bp_enforce_bp_moderate_cap_for_admins', 10, 3 );
 
-?>
+/** Deprecated ****************************************************************/
+
+/**
+ * Adds BuddyPress-specific user roles.
+ *
+ * This is called on plugin activation.
+ *
+ * @since BuddyPress (1.6)
+ *
+ * @deprecated since version 1.7
+ */
+function bp_add_roles() {
+	_doing_it_wrong( 'bp_add_roles', __( 'Special community roles no longer exist. Use mapped capabilities instead', 'buddypress' ), '1.7' );
+}
+
+/**
+ * Removes BuddyPress-specific user roles.
+ *
+ * This is called on plugin deactivation.
+ *
+ * @since BuddyPress (1.6)
+ *
+ * @deprecated since version 1.7
+ */
+function bp_remove_roles() {
+	_doing_it_wrong( 'bp_remove_roles', __( 'Special community roles no longer exist. Use mapped capabilities instead', 'buddypress' ), '1.7' );
+}
+
+
+/**
+ * The participant role for registered users without roles
+ *
+ * This is primarily for multisite compatibility when users without roles on
+ * sites that have global communities enabled
+ *
+ * @since BuddyPress (1.6)
+ *
+ * @deprecated since version 1.7
+ */
+function bp_get_participant_role() {
+	_doing_it_wrong( 'bp_get_participant_role', __( 'Special community roles no longer exist. Use mapped capabilities instead', 'buddypress' ), '1.7' );
+}
+
+/**
+ * The moderator role for BuddyPress users
+ *
+ * @since BuddyPress (1.6)
+ *
+ * @deprecated since version 1.7
+ */
+function bp_get_moderator_role() {
+	_doing_it_wrong( 'bp_get_moderator_role', __( 'Special community roles no longer exist. Use mapped capabilities instead', 'buddypress' ), '1.7' );
+}
