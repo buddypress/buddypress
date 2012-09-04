@@ -272,7 +272,12 @@ function bp_template_include_theme_supports( $template = '' ) {
 function bp_load_theme_functions() {
 	global $pagenow;
 
-	if ( ! defined( 'WP_INSTALLING' ) || ( !empty( $pagenow ) && ( 'wp-activate.php' !== $pagenow ) ) ) {
+	// Do not include on BuddyPress deactivation
+	if ( bp_is_deactivation() )
+		return;
+
+	// Only include if not installing or if activating via wp-activate.php
+	if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
 		bp_locate_template( 'buddypress-functions.php', true );
 	}
 }
