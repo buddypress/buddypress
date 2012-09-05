@@ -98,13 +98,16 @@ class BP_Groups_Component extends BP_Component {
 			'classes',
 			'widgets',
 			'activity',
-			'admin',
 			'template',
 			'buddybar',
 			'adminbar',
 			'functions',
 			'notifications'
 		);
+
+		if ( is_admin() )
+			$includes[] = 'admin';
+
 		parent::includes( $includes );
 	}
 
