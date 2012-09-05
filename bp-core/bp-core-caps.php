@@ -154,7 +154,7 @@ function bp_get_caps_for_role( $role = '' ) {
  *
  * @return If user is not spam/deleted or is already capable
  */
-function bbp_set_current_user_default_role() {
+function bp_set_current_user_default_role() {
 
 	// Bail if not multisite or not root blog
 	if ( ! is_multisite() || ! bp_is_root_blog() )
