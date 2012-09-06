@@ -84,7 +84,7 @@ function bp_forums_bbpress_admin() {
 }
 
 function bp_forums_bbpress_install_wizard() {
-	$post_url = network_admin_url( 'admin.php?page=bb-forums-setup' );
+	$post_url = bp_get_admin_url( 'admin.php?page=bb-forums-setup' );
 
 	$step = isset( $_REQUEST['step'] ) ? $_REQUEST['step'] : '';
 

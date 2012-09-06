@@ -367,9 +367,8 @@ class BP_Admin {
 	 * @return array Processed links
 	 */
 	public function add_settings_link( $links, $file ) {
-		global $bp;
 
-		if ( plugin_basename( $bp->file ) == $file ) {
+		if ( buddypress()->basename == $file ) {
 			$url           = bp_core_do_network_admin() ? network_admin_url( 'settings.php' ) : admin_url( 'options-general.php' );
 			$settings_link = '<a href="' . add_query_arg( array( 'page' => 'bp-components' ), $url ) . '">' . __( 'Settings', 'buddypress' ) . '</a>';
 			array_unshift( $links, $settings_link );

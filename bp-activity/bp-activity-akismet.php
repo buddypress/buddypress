@@ -97,14 +97,14 @@ class BP_Akismet {
 			foreach ( $actions as $k => $item ) {
 				$b[ $k ] = $item;
 				if ( $k == 'edit' )
-					$b['history'] = '<a href="' . network_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) . '#bp_activity_history"> '. __( 'History', 'buddypress' ) . '</a>';
+					$b['history'] = '<a href="' . esc_url( bp_get_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) ) . '#bp_activity_history"> '. __( 'History', 'buddypress' ) . '</a>';
 			}
 
 			$actions = $b;
 		}
 
 		if ( $desc )
-			echo '<span class="akismet-status"><a href="' . network_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) . '#bp_activity_history">' . htmlspecialchars( $desc ) . '</a></span>';
+			echo '<span class="akismet-status"><a href="' . esc_url( bp_get_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) ) . '#bp_activity_history">' . htmlspecialchars( $desc ) . '</a></span>';
 
 		return apply_filters( 'bp_akismet_comment_row_action', $actions );
 	}

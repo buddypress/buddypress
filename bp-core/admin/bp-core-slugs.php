@@ -94,8 +94,8 @@ function bp_core_admin_slugs_options() {
 						</th>
 
 						<td>
-							<?php if ( !bp_is_root_blog() )
-								switch_to_blog( bp_get_root_blog_id() ) ?>
+
+							<?php if ( ! bp_is_root_blog() ) switch_to_blog( bp_get_root_blog_id() ); ?>
 
 							<?php echo wp_dropdown_pages( array(
 								'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
@@ -113,8 +113,7 @@ function bp_core_admin_slugs_options() {
 
 							<?php endif; ?>
 
-							<?php if ( !bp_is_root_blog() )
-								restore_current_blog() ?>
+							<?php if ( ! bp_is_root_blog() ) restore_current_blog(); ?>
 
 						</td>
 					</tr>
@@ -158,6 +157,9 @@ function bp_core_admin_slugs_options() {
 						</th>
 
 						<td>
+							
+							<?php if ( ! bp_is_root_blog() ) switch_to_blog( bp_get_root_blog_id() ); ?>
+
 							<?php echo wp_dropdown_pages( array(
 								'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
 								'echo'             => false,
@@ -173,6 +175,8 @@ function bp_core_admin_slugs_options() {
 								<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View', 'buddypress' ); ?></a>
 
 							<?php endif; ?>
+
+							<?php if ( ! bp_is_root_blog() ) restore_current_blog(); ?>
 
 						</td>
 					</tr>

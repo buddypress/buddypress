@@ -876,38 +876,39 @@ class BP_Core_Notification {
  * @since BuddyPress (1.2.6)
  */
 class BP_Button {
-	// Button properties
+
+	/** Button properties *****************************************************/
 
 	/**
 	 * The button ID
 	 *
 	 * @var integer
 	 */
-	var $id;
+	private $id = '';
 
 	/**
 	 * The component name that button belongs to.
 	 *
 	 * @var string
 	 */
-	var $component;
+	private $component = 'core';
 
 	/**
 	 * Does the user need to be logged in to see this button?
 	 *
 	 * @var boolean
 	 */
-	var $must_be_logged_in;
+	private $must_be_logged_in = true;
 
 	/**
-	 * True or false if the button should not be displayed while viewing your own profile.
+	 * True or false if the button should not be displayed while viewing your
+	 * own profile.
 	 *
 	 * @var boolean
 	 */
-	var $block_self;
+	private $block_self = true;
 
-
-	// Wrapper
+	/** Wrapper ***************************************************************/
 
 	/**
 	 * What type of DOM element to use for a wrapper.
@@ -915,75 +916,71 @@ class BP_Button {
 	 *
 	 * @var mixed div|span|p|li, or false for no wrapper
 	 */
-	var $wrapper;
+	private $wrapper = 'div';
 
 	/**
 	 * The DOM class of the button wrapper
 	 *
 	 * @var string
 	 */
-	var $wrapper_class;
+	private $wrapper_class = '';
 
 	/**
 	 * The DOM ID of the button wrapper
 	 *
 	 * @var string
 	 */
-	var $wrapper_id;
+	private $wrapper_id = '';
 
-
-	// Button
+	/** Button ****************************************************************/
 
 	/**
 	 * The destination link of the button
 	 *
 	 * @var string
 	 */
-	var $link_href;
+	private $link_href = '';
 
 	/**
 	 * The DOM class of the button link
 	 *
 	 * @var string
 	 */
-	var $link_class;
+	private $link_class = '';
 
 	/**
 	 * The DOM ID of the button link
 	 *
 	 * @var string
 	 */
-	var $link_id;
+	private $link_id = '';
 
 	/**
 	 * The DOM rel value of the button link
 	 *
 	 * @var string
 	 */
-	var $link_rel;
+	private $link_rel = '';
 
 	/**
 	 * Title of the button link
 	 *
 	 * @var string
 	 */
-	var $link_title;
+	private $link_title = '';
 
 	/**
 	 * The contents of the button link
 	 *
 	 * @var string
 	 */
-	var $link_text;
+	private $link_text = '';
 
+	/** HTML result ***********************************************************/
 
-	// HTML result
-
-	var $contents;
+	public $contents = '';
 
 	/**
-	 * bp_button()
-	 *
 	 * Builds the button based on passed parameters:
 	 *
 	 * component: Which component this button is for
@@ -1002,28 +999,9 @@ class BP_Button {
 	 * @param array $args
 	 * @return bool False if not allowed
 	 */
-	function __construct( $args = '' ) {
+	public function __construct( $args = '' ) {
 
-		// Default arguments
-		$defaults = array(
-			'id'                => '',
-			'component'         => 'core',
-			'must_be_logged_in' => true,
-			'block_self'        => true,
-
-			'wrapper'           => 'div',
-			'wrapper_id'        => '',
-			'wrapper_class'     => '',
-
-			'link_href'         => '',
-			'link_title'        => '',
-			'link_id'           => '',
-			'link_class'        => '',
-			'link_rel'          => '',
-			'link_text'         => '',
-		);
-
-		$r = wp_parse_args( $args, $defaults );
+		$r = wp_parse_args( $args, get_class_vars( __CLASS__ ) );
 		extract( $r, EXTR_SKIP );
 
 		// Required button properties
@@ -1100,22 +1078,18 @@ class BP_Button {
 	}
 
 	/**
-	 * contents()
-	 *
 	 * Return contents of button
 	 *
 	 * @return string
 	 */
-	function contents() {
+	public function contents() {
 		return $this->contents;
 	}
 
 	/**
-	 * display()
-	 *
 	 * Output contents of button
 	 */
-	function display() {
+	public function display() {
 		if ( !empty( $this->contents ) )
 			echo $this->contents;
 	}

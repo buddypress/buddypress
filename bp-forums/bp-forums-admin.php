@@ -3,7 +3,6 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_forums_add_admin_menu() {
-	global $bp;
 
 	if ( !is_super_admin() )
 		return false;
@@ -22,7 +21,6 @@ add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
  * Outputs the markup for the bb-forums-admin panel
  */
 function bp_forums_bbpress_admin() {
-	global $bp;
 
 	// The text and URL of the Site Wide Forums button differs depending on whether bbPress
 	// is running
@@ -109,7 +107,7 @@ function bp_forums_bbpress_admin() {
 }
 
 function bp_forums_bbpress_install_wizard() {
-	$post_url                 = network_admin_url( 'admin.php?page=bb-forums-setup' );
+	$post_url                 = bp_get_admin_url( 'admin.php?page=bb-forums-setup' );
 	$bbpress_plugin_is_active = false;
 
 	$step = isset( $_REQUEST['step'] ) ? $_REQUEST['step'] : '';

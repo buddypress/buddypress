@@ -247,7 +247,7 @@ function bp_admin_setting_callback_bbpress_configuration() {
 function bp_core_admin_settings() {
 
 	// We're saving our own options, until the WP Settings API is updated to work with Multisite
-	$form_action = add_query_arg( 'page', 'bp-settings', bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
+	$form_action = add_query_arg( 'page', 'bp-settings', bp_get_admin_url( 'admin.php' ) );
 
 	?>
 
@@ -313,7 +313,7 @@ function bp_core_admin_settings_save() {
 			bp_update_option( $legacy_option, $value );
 		}
 
-		bp_core_redirect( add_query_arg( array( 'page' => 'bp-settings', 'updated' => 'true' ), bp_core_do_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) ) );
+		bp_core_redirect( add_query_arg( array( 'page' => 'bp-settings', 'updated' => 'true' ), bp_get_admin_url( 'admin.php' ) ) );
 	}
 }
 add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );

@@ -104,12 +104,11 @@ function bp_core_add_cropper_inline_js() {
  * @package BuddyPress Core
  */
 function bp_core_add_cropper_inline_css() {
-	global $bp;
 ?>
 
 	<style type="text/css">
 		.jcrop-holder { float: left; margin: 0 20px 20px 0; text-align: left; }
-		.jcrop-vline, .jcrop-hline { font-size: 0; position: absolute; background: white top left repeat url( <?php echo BP_PLUGIN_URL ?>/bp-core/images/Jcrop.gif ); }
+		.jcrop-vline, .jcrop-hline { font-size: 0; position: absolute; background: white top left repeat url('<?php echo BP_PLUGIN_URL ?>/bp-core/images/Jcrop.gif'); }
 		.jcrop-vline { height: 100%; width: 1px !important; }
 		.jcrop-hline { width: 100%; height: 1px !important; }
 		.jcrop-handle { font-size: 1px; width: 7px !important; height: 7px !important; border: 1px #eee solid; background-color: #333; *width: 9px; *height: 9px; }

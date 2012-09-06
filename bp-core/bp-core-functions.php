@@ -910,16 +910,25 @@ function bp_is_username_compatibility_mode() {
 /**
  * Are we running multiblog mode?
  *
- * Note that BP_ENABLE_MULTIBLOG is different from (but dependent on) WP Multisite. "Multiblog" is
- * a BP setup that allows BP content to be viewed in the theme, and with the URL, of every blog
- * on the network. Thus, instead of having all 'boonebgorges' links go to
+ * Note that BP_ENABLE_MULTIBLOG is different from (but dependent on) WordPress
+ * Multisite. "Multiblog" is BuddyPress setup that allows BuddyPress components
+ * to be viewed on every blog on the network, each with their own settings.
+ *
+ * Thus, instead of having all 'boonebgorges' links go to
  *   http://example.com/members/boonebgorges
- * on the root blog, each blog will have its own version of the same profile content, eg
+ * on the root blog, each blog will have its own version of the same content, eg
  *   http://site2.example.com/members/boonebgorges (for subdomains)
  *   http://example.com/site2/members/boonebgorges (for subdirectories)
  *
- * Multiblog mode is disabled by default, meaning that all BP content must be viewed on the root
- * blog.
+ * Multiblog mode is disabled by default, meaning that all BuddyPress content
+ * must be viewed on the root blog. It's also recommended not to use the
+ * BP_ENABLE_MULTIBLOG constant beyond 1.7, as BuddyPress can now be activated
+ * on individual sites.
+ *
+ * Why would you want to use this? Originally it was intended to allow
+ * BuddyPress to live in mu-plugins and be visible on mapped domains. This is
+ * a very small use-case with large architectural shortcomings, so do not go
+ * down this road unless you specifically need to.
  *
  * @package BuddyPress
  * @since BuddyPress (1.5)
@@ -928,7 +937,23 @@ function bp_is_username_compatibility_mode() {
  * @return bool False when multiblog mode is disabled (default); true when enabled
  */
 function bp_is_multiblog_mode() {
-	return apply_filters( 'bp_is_multiblog_mode', is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG );
+
+	// Setup some default values
+	$retval         = false;
+	$is_multisite   = is_multisite();
+	$network_active = bp_is_network_activated();
+	$is_multiblog   = defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG;
+
+	// Multisite, Network Activated, and Specifically Multiblog
+	if ( $is_multisite && $network_active && $is_multiblog ) {
+		$retval = true;
+
+	// Multisite, but not network activated
+	} elseif ( $is_multisite && ! $network_active ) {
+		$retval = true;
+	}
+
+	return apply_filters( 'bp_is_multiblog_mode', $retval );
 }
 
 /**
@@ -1076,29 +1101,72 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
 	function bp_get_admin_url( $path = '', $scheme = 'admin' ) {
 
 		// Links belong in network admin
-		if ( bp_core_do_network_admin() )
+		if ( bp_core_do_network_admin() ) {
 			$url = network_admin_url( $path, $scheme );
 
 		// Links belong in site admin
-		else
+		} else {
 			$url = admin_url( $path, $scheme );
+		}
 
 		return $url;
 	}
 
+/**
+ * Should BuddyPress appear in network admin, or site admin?
+ *
+ * Because BuddyPress can be installed in multiple ways and with multiple
+ * configurations, we need to check a few things to be confident about where
+ * to hook into certain areas of WordPress's admin.
+ *
+ * This function defaults to BuddyPress being network activated.
+ * @since BuddyPress (1.5)
+ *
+ * @uses bp_is_network_activated()
+ * @uses bp_is_multiblog_mode()
+ * @return boolean
+ */
 function bp_core_do_network_admin() {
-	$do_network_admin = false;
 
-	if ( is_multisite() && !bp_is_multiblog_mode() )
-		$do_network_admin = true;
+	// Default 
+	$retval = bp_is_network_activated();
 
-	return apply_filters( 'bp_core_do_network_admin', $do_network_admin );
+	if ( bp_is_multiblog_mode() )
+		$retval = false;
+
+	return (bool) apply_filters( 'bp_core_do_network_admin', $retval );
 }
 
 function bp_core_admin_hook() {
 	$hook = bp_core_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
 
 	return apply_filters( 'bp_core_admin_hook', $hook );
+}
+
+/**
+ * Is BuddyPress active at the network level for this network?
+ *
+ * Used to determine admin menu placement, and where settings and options are
+ * stored. If you're being *really* clever and manually pulling BuddyPress in
+ * with an mu-plugin or some other method, you'll want to 
+ *
+ * @since BuddyPress (1.7)
+ * @return boolean
+ */
+function bp_is_network_activated() {
+
+	// Default to is_multisite()
+	$retval  = is_multisite();
+
+	// Check the sitewide plugins array
+	$base    = buddypress()->basename;
+	$plugins = get_site_option( 'active_sitewide_plugins' );
+
+	// Override is_multisite() if not network activated
+	if ( ! is_array( $plugins ) || ! isset( $plugins[$base] ) )
+		$retval = false;
+
+	return (bool) apply_filters( 'bp_is_network_activated', $retval );
 }
 
 /** Global Manipulators *******************************************************/
