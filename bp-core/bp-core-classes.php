@@ -872,6 +872,20 @@ class BP_Core_Notification {
  *
  * API to create BuddyPress buttons
  *
+ * component: Which component this button is for
+ * must_be_logged_in: Button only appears for logged in users
+ * block_self: Button will not appear when viewing your own profile.
+ * wrapper: div|span|p|li|false for no wrapper
+ * wrapper_id: The DOM ID of the button wrapper
+ * wrapper_class: The DOM class of the button wrapper
+ * link_href: The destination link of the button
+ * link_title: Title of the button
+ * link_id: The DOM ID of the button
+ * link_class: The DOM class of the button
+ * link_rel: The DOM rel of the button
+ * link_text: The text of the button
+ * contents: The contents of the button
+ *
  * @package BuddyPress Core
  * @since BuddyPress (1.2.6)
  */
@@ -980,21 +994,12 @@ class BP_Button {
 
 	public $contents = '';
 
+	/** Methods ***************************************************************/
+
 	/**
-	 * Builds the button based on passed parameters:
+	 * Builds the button based on class parameters:
 	 *
-	 * component: Which component this button is for
-	 * must_be_logged_in: Button only appears for logged in users
-	 * block_self: Button will not appear when viewing your own profile.
-	 * wrapper: div|span|p|li|false for no wrapper
-	 * wrapper_id: The DOM ID of the button wrapper
-	 * wrapper_class: The DOM class of the button wrapper
-	 * link_href: The destination link of the button
-	 * link_title: Title of the button
-	 * link_id: The DOM ID of the button
-	 * link_class: The DOM class of the button
-	 * link_rel: The DOM rel of the button
-	 * link_text: The contents of the button
+	 * @since BuddyPress (1.2.6)
 	 *
 	 * @param array $args
 	 * @return bool False if not allowed
@@ -1002,25 +1007,24 @@ class BP_Button {
 	public function __construct( $args = '' ) {
 
 		$r = wp_parse_args( $args, get_class_vars( __CLASS__ ) );
-		extract( $r, EXTR_SKIP );
 
 		// Required button properties
-		$this->id                = $id;
-		$this->component         = $component;
-		$this->must_be_logged_in = (bool)$must_be_logged_in;
-		$this->block_self        = (bool)$block_self;
-		$this->wrapper           = $wrapper;
+		$this->id                = $r['id'];
+		$this->component         = $r['component'];
+		$this->must_be_logged_in = (bool) $r['must_be_logged_in'];
+		$this->block_self        = (bool) $r['block_self'];
+		$this->wrapper           = $r['wrapper'];
 
 		// $id and $component are required
-		if ( empty( $id ) || empty( $component ) )
+		if ( empty( $r['id'] ) || empty( $r['component'] ) )
 			return false;
 
 		// No button if component is not active
-		if ( !bp_is_active( $this->component ) )
+		if ( ! bp_is_active( $this->component ) )
 			return false;
 
 		// No button for guests if must be logged in
-		if ( true == $this->must_be_logged_in && !is_user_logged_in() )
+		if ( true == $this->must_be_logged_in && ! is_user_logged_in() )
 			return false;
 
 		// No button if viewing your own profile
@@ -1031,20 +1035,20 @@ class BP_Button {
 		if ( false !== $this->wrapper ) {
 
 			// Wrapper ID
-			if ( !empty( $wrapper_id ) ) {
-				$this->wrapper_id    = ' id="' . $wrapper_id . '"';
+			if ( !empty( $r['wrapper_id'] ) ) {
+				$this->wrapper_id    = ' id="' . $r['wrapper_id'] . '"';
 			}
 
 			// Wrapper class
-			if ( !empty( $wrapper_class ) ) {
-				$this->wrapper_class = ' class="generic-button ' . $wrapper_class . '"';
+			if ( !empty( $r['wrapper_class'] ) ) {
+				$this->wrapper_class = ' class="generic-button ' . $r['wrapper_class'] . '"';
 			} else {
 				$this->wrapper_class = ' class="generic-button"';
 			}
 
 			// Set before and after
-			$before = '<' . $wrapper . $this->wrapper_class . $this->wrapper_id . '>';
-			$after  = '</' . $wrapper . '>';
+			$before = '<' . $r['wrapper'] . $this->wrapper_class . $this->wrapper_id . '>';
+			$after  = '</' . $r['wrapper'] . '>';
 
 		// No wrapper
 		} else {
@@ -1052,33 +1056,24 @@ class BP_Button {
 		}
 
 		// Link properties
-		if ( !empty( $link_id ) )
-			$this->link_id    = ' id="' . $link_id . '"';
-
-		if ( !empty( $link_href ) )
-			$this->link_href  = ' href="' . $link_href . '"';
-
-		if ( !empty( $link_title ) )
-			$this->link_title = ' title="' . $link_title . '"';
-
-		if ( !empty( $link_rel ) )
-			$this->link_rel   = ' rel="' . $link_rel . '"';
-
-		if ( !empty( $link_class ) )
-			$this->link_class = ' class="' . $link_class . '"';
-
-		if ( !empty( $link_text ) )
-			$this->link_text  = $link_text;
+		if ( !empty( $r['link_id']    ) ) $this->link_id    = ' id="' .    $r['link_id']    . '"';
+		if ( !empty( $r['link_href']  ) ) $this->link_href  = ' href="' .  $r['link_href']  . '"';
+		if ( !empty( $r['link_title'] ) ) $this->link_title = ' title="' . $r['link_title'] . '"';
+		if ( !empty( $r['link_rel']   ) ) $this->link_rel   = ' rel="' .   $r['link_rel']   . '"';
+		if ( !empty( $r['link_class'] ) ) $this->link_class = ' class="' . $r['link_class'] . '"';
+		if ( !empty( $r['link_text']  ) ) $this->link_text  =              $r['link_text'];
 
 		// Build the button
 		$this->contents = $before . '<a'. $this->link_href . $this->link_title . $this->link_id . $this->link_rel . $this->link_class . '>' . $this->link_text . '</a>' . $after;
 
 		// Allow button to be manipulated externally
-		$this->contents = apply_filters( 'bp_button_' . $component . '_' . $id, $this->contents, $this, $before, $after );
+		$this->contents = apply_filters( 'bp_button_' . $this->component . '_' . $this->id, $this->contents, $this, $before, $after );
 	}
 
 	/**
 	 * Return contents of button
+	 *
+	 * @since BuddyPress (1.2.6)
 	 *
 	 * @return string
 	 */
@@ -1088,6 +1083,8 @@ class BP_Button {
 
 	/**
 	 * Output contents of button
+	 *
+	 * @since BuddyPress (1.2.6)
 	 */
 	public function display() {
 		if ( !empty( $this->contents ) )
