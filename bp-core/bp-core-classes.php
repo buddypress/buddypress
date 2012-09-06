@@ -898,21 +898,21 @@ class BP_Button {
 	 *
 	 * @var integer
 	 */
-	private $id = '';
+	public $id = '';
 
 	/**
 	 * The component name that button belongs to.
 	 *
 	 * @var string
 	 */
-	private $component = 'core';
+	public $component = 'core';
 
 	/**
 	 * Does the user need to be logged in to see this button?
 	 *
 	 * @var boolean
 	 */
-	private $must_be_logged_in = true;
+	public $must_be_logged_in = true;
 
 	/**
 	 * True or false if the button should not be displayed while viewing your
@@ -920,7 +920,7 @@ class BP_Button {
 	 *
 	 * @var boolean
 	 */
-	private $block_self = true;
+	public $block_self = true;
 
 	/** Wrapper ***************************************************************/
 
@@ -930,21 +930,21 @@ class BP_Button {
 	 *
 	 * @var mixed div|span|p|li, or false for no wrapper
 	 */
-	private $wrapper = 'div';
+	public $wrapper = 'div';
 
 	/**
 	 * The DOM class of the button wrapper
 	 *
 	 * @var string
 	 */
-	private $wrapper_class = '';
+	public $wrapper_class = '';
 
 	/**
 	 * The DOM ID of the button wrapper
 	 *
 	 * @var string
 	 */
-	private $wrapper_id = '';
+	public $wrapper_id = '';
 
 	/** Button ****************************************************************/
 
@@ -953,42 +953,42 @@ class BP_Button {
 	 *
 	 * @var string
 	 */
-	private $link_href = '';
+	public $link_href = '';
 
 	/**
 	 * The DOM class of the button link
 	 *
 	 * @var string
 	 */
-	private $link_class = '';
+	public $link_class = '';
 
 	/**
 	 * The DOM ID of the button link
 	 *
 	 * @var string
 	 */
-	private $link_id = '';
+	public $link_id = '';
 
 	/**
 	 * The DOM rel value of the button link
 	 *
 	 * @var string
 	 */
-	private $link_rel = '';
+	public $link_rel = '';
 
 	/**
 	 * Title of the button link
 	 *
 	 * @var string
 	 */
-	private $link_title = '';
+	public $link_title = '';
 
 	/**
 	 * The contents of the button link
 	 *
 	 * @var string
 	 */
-	private $link_text = '';
+	public $link_text = '';
 
 	/** HTML result ***********************************************************/
 
