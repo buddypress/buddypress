@@ -611,7 +611,7 @@ function bp_activity_admin_edit() {
 			</form>
 
 		<?php else : ?>
-			<p><?php printf( __( 'No activity found with this ID. <a href="%s">Go back and try again</a>.', 'buddypress' ), network_admin_url( 'admin.php?page=bp-activity' ) ); ?></p>
+			<p><?php printf( __( 'No activity found with this ID. <a href="%s">Go back and try again</a>.', 'buddypress' ), esc_url( bp_get_admin_url( 'admin.php?page=bp-activity' ) ) ); ?></p>
 		<?php endif; ?>
 
 	</div><!-- .wrap -->
@@ -874,7 +874,7 @@ function bp_activity_admin_index() {
 							<a href="#" class="cancel button-secondary alignleft"><?php _e( 'Cancel', 'buddypress' ); ?></a>
 							<a href="#" class="save button-primary alignright"><?php _e( 'Reply', 'buddypress' ); ?></a>
 
-							<img class="waiting" style="display:none;" src="<?php echo esc_url( network_admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+							<img class="waiting" style="display:none;" src="<?php echo esc_url( bp_get_admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 							<span class="error" style="display:none;"></span>
 							<br class="clear" />
 						</p>
@@ -1265,7 +1265,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		);
 
 		// Build actions URLs
-		$base_url   = network_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $item['id'] );
+		$base_url   = bp_get_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $item['id'] );
 		$spam_nonce = esc_html( '_wpnonce=' . wp_create_nonce( 'spam-activity_' . $item['id'] ) );
 
 		$delete_url = $base_url . "&amp;action=delete&amp;$spam_nonce";
@@ -1324,12 +1324,12 @@ class BP_Activity_List_Table extends WP_List_Table {
 		// Is $item is a root activity?
 		if ( empty( $item['item_id'] ) || ! in_array( $item['type'], apply_filters( 'bp_activity_admin_root_activity_types', array( 'activity_comment' ), $item ) ) ) {
 			$comment_count     = !empty( $item['children'] ) ? bp_activity_recurse_comment_count( (object) $item ) : 0;
-			$root_activity_url = network_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $item['id'] );
+			$root_activity_url = bp_get_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $item['id'] );
 
 			// If the activity has comments, display a link to the activity's permalink, with its comment count in a speech bubble
 			if ( $comment_count ) {
 				$title_attr = sprintf( _n( '%s related activity', '%s related activities', $comment_count, 'buddypress' ), number_format_i18n( $comment_count ) );
-				printf( '<a href="%1$s" title="%2$s" class="post-com-count"><span class="comment-count">%3$s</span></a>', esc_attr( $root_activity_url ), esc_attr( $title_attr ), number_format_i18n( $comment_count ) );
+				printf( '<a href="%1$s" title="%2$s" class="post-com-count"><span class="comment-count">%3$s</span></a>', esc_url( $root_activity_url ), esc_attr( $title_attr ), number_format_i18n( $comment_count ) );
 			}
 
 		// For non-root activities, display a link to the replied-to activity's author's profile

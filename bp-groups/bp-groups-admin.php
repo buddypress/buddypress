@@ -506,7 +506,7 @@ function bp_groups_admin_edit() {
 			</form>
 
 		<?php else : ?>
-			<p><?php printf( __( 'No group found with this ID. <a href="%s">Go back and try again</a>.', 'buddypress' ), network_admin_url( 'admin.php?page=bp-groups' ) ); ?></p>
+			<p><?php printf( __( 'No group found with this ID. <a href="%s">Go back and try again</a>.', 'buddypress' ), esc_url( bp_get_admin_url( 'admin.php?page=bp-groups' ) ) ); ?></p>
 		<?php endif; ?>
 
 	</div><!-- .wrap -->
@@ -809,8 +809,8 @@ function bp_groups_admin_edit_metabox_status( $item ) {
 	$base_url = add_query_arg( array(
 		'page' => 'bp-groups',
 		'gid'  => $item->id
-	), is_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' ) );
-?>
+	), bp_get_admin_url( 'admin.php' ) ); ?>
+
 	<div id="submitcomment" class="submitbox">
 		<div id="major-publishing-actions">
 			<div id="delete-action">
@@ -1200,7 +1200,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$item_obj = (object) $item;
 
 		// Build actions URLs
-		$base_url   = network_admin_url( 'admin.php?page=bp-groups&amp;gid=' . $item['id'] );
+		$base_url   = bp_get_admin_url( 'admin.php?page=bp-groups&amp;gid=' . $item['id'] );
 
 		$delete_url = wp_nonce_url( $base_url . "&amp;action=delete", 'bp-groups-delete' );
 		$edit_url   = $base_url . '&amp;action=edit';
@@ -1209,13 +1209,13 @@ class BP_Groups_List_Table extends WP_List_Table {
 		// Rollover actions
 
 		// Visit
-		$actions['visit'] = sprintf( '<a href="%s">%s</a>', $visit_url, __( 'Visit', 'buddypress' ) );
+		$actions['visit'] = sprintf( '<a href="%s">%s</a>', esc_url( $visit_url ), __( 'Visit', 'buddypress' ) );
 
 		// Edit
-		$actions['edit'] = sprintf( '<a href="%s">%s</a>', $edit_url, __( 'Edit', 'buddypress' ) );
+		$actions['edit'] = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), __( 'Edit', 'buddypress' ) );
 
 		// Delete
-		$actions['delete'] = sprintf( '<a href="%s">%s</a>', $delete_url, __( 'Delete', 'buddypress' ) );
+		$actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $delete_url ), __( 'Delete', 'buddypress' ) );
 
 		// Other plugins can filter which actions are shown
 		$actions = apply_filters( 'bp_activity_admin_comment_row_actions', array_filter( $actions ), $item );
