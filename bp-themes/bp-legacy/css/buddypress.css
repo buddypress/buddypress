@@ -94,26 +94,18 @@ Hello, this is the BuddyPress Default theme stylesheet.
 #buddypress #item-body form#whats-new-form {
 	border-bottom: 1px solid #ddd;
 	margin: 20px 0 10px;
-	padding-bottom: 20px;
+	padding: 0 0 20px;
 }
 #buddypress .home-page form#whats-new-form {
 	border-bottom: none;
 	padding-bottom: 0;
 }
-#buddypress form#whats-new-form h5 {
-	font-weight: normal;
-	font-size: 12px;
-	color: #888;
-	margin: 0;
-	margin-left: 76px;
-	padding: 0 0 3px 0;
-}
 #buddypress form#whats-new-form #whats-new-avatar {
 	float: left;
 }
 #buddypress form#whats-new-form #whats-new-content {
-	margin-left: 54px;
-	padding-left: 22px;
+	margin-left: 55px;
+	padding: 0 0 20px 20px;
 }
 #buddypress form#whats-new-form textarea {
 	background: #fff;
