@@ -79,5 +79,3 @@ function bp_settings_screen_capabilities() {
 	// Load the template
 	bp_core_load_template( apply_filters( 'bp_settings_screen_capabilities', 'members/single/settings/capabilities' ) );
 }
-
-?>

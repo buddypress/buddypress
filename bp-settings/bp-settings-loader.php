@@ -17,7 +17,7 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @since BuddyPress (1.5)
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::start(
 			'settings',
 			__( 'Settings', 'buddypress' ),
@@ -30,16 +30,13 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	function includes() {
-		// Files to include
-		$includes = array(
+	public function includes() {
+		parent::includes( array(
 			'actions',
 			'screens',
 			'template',
 			'functions',
-		);
-
-		parent::includes( $includes );
+		) );
 	}
 
 	/**
@@ -50,25 +47,23 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @since BuddyPress (1.5)
 	 */
-	function setup_globals() {
+	public function setup_globals() {
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_SETTINGS_SLUG' ) )
 			define( 'BP_SETTINGS_SLUG', $this->id );
 
 		// All globals for settings component.
-		$globals = array(
+		parent::setup_globals( array(
 			'slug'          => BP_SETTINGS_SLUG,
 			'has_directory' => false,
-		);
-
-		parent::setup_globals( $globals );
+		) );
 	}
 
 	/**
 	 * Setup BuddyBar navigation
 	 */
-	function setup_nav() {
+	public function setup_nav() {
 
 		// Define local variable
 		$sub_nav = array();
@@ -146,11 +141,11 @@ class BP_Settings_Component extends BP_Component {
 
 	/**
 	 * Set up the Toolbar
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	function setup_admin_bar() {
-		global $bp;
+	public function setup_admin_bar() {
+
+		// The instance
+		$bp = buddypress();
 
 		// Prevent debug notices
 		$wp_admin_nav = array();
@@ -202,9 +197,6 @@ class BP_Settings_Component extends BP_Component {
 }
 
 function bp_setup_settings() {
-	global $bp;
-	$bp->settings = new BP_Settings_Component();
+	buddypress()->settings = new BP_Settings_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_settings', 6 );
-
-?>

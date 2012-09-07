@@ -30,8 +30,7 @@ function bp_settings_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_settings_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_settings_slug', $bp->settings->slug );
+		return apply_filters( 'bp_get_settings_slug', buddypress()->settings->slug );
 	}
 
 /**
@@ -54,8 +53,5 @@ function bp_settings_root_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_settings_root_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_settings_root_slug', $bp->settings->root_slug );
+		return apply_filters( 'bp_get_settings_root_slug', buddypress()->settings->root_slug );
 	}
-
-?>
