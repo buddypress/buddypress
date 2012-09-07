@@ -71,28 +71,48 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
 /**
  * Return an array of users IDs based on the parameters passed.
  *
+ * Since BuddyPress 1.7, bp_core_get_users() uses BP_User_Query. If you
+ * need backward compatibility with BP_Core_User::get_users(), filter the
+ * bp_use_legacy_user_query value, returning true.
+ *
  * @package BuddyPress Core
  */
 function bp_core_get_users( $args = '' ) {
 
-	$defaults = array(
-		'type'            => 'active', // active, newest, alphabetical, random or popular
-		'user_id'         => false,    // Pass a user_id to limit to only friend connections for this user
-		'exclude'         => false,    // Users to exclude from results
-		'search_terms'    => false,    // Limit to users that match these search terms
-		'meta_key'        => false,    // Limit to users who have this piece of usermeta
-		'meta_value'      => false,    // With meta_key, limit to users where usermeta matches this value
+	// Parse the user query arguments
+	$params = wp_parse_args( $args, array(
+		'type'            => 'active',     // active, newest, alphabetical, random or popular
+		'user_id'         => false,        // Pass a user_id to limit to only friend connections for this user
+		'exclude'         => false,        // Users to exclude from results
+		'search_terms'    => false,        // Limit to users that match these search terms
+		'meta_key'        => false,        // Limit to users who have this piece of usermeta
+		'meta_value'      => false,        // With meta_key, limit to users where usermeta matches this value
+		'include'         => false,        // Pass comma separated list of user_ids to limit to only these users
+		'per_page'        => 20,           // The number of results to return per page
+		'page'            => 1,            // The page to return if limiting per page
+		'populate_extras' => true,         // Fetch the last active, where the user is a friend, total friend count, latest update
+		'count_total'     => 'count_query' // What kind of total user count to do, if any. 'count_query', 'sql_calc_found_rows', or false
+	) );
 
-		'include'         => false,    // Pass comma separated list of user_ids to limit to only these users
-		'per_page'        => 20,       // The number of results to return per page
-		'page'            => 1,        // The page to return if limiting per page
-		'populate_extras' => true,     // Fetch the last active, where the user is a friend, total friend count, latest update
-	);
+	// For legacy users. Use of BP_Core_User::get_users() is deprecated.
+	if ( apply_filters( 'bp_use_legacy_user_query', false, __FUNCTION__, $params ) ) {
+		extract( $params, EXTR_SKIP );
+		$retval = BP_Core_User::get_users( $type, $per_page, $page, $user_id, $include, $search_terms, $populate_extras, $exclude, $meta_key, $meta_value );
 
-	$params = wp_parse_args( $args, $defaults );
-	extract( $params, EXTR_SKIP );
+	// Default behavior as of BuddyPress 1.7
+	} else {		
 
-	return apply_filters( 'bp_core_get_users', BP_Core_User::get_users( $type, $per_page, $page, $user_id, $include, $search_terms, $populate_extras, $exclude, $meta_key, $meta_value ), $params );
+		// Get users like we were asked to do...
+		$users = new BP_User_Query( $params );
+
+		// ...but reformat the results to match bp_core_get_users() behavior.
+		$retval = array(
+			'users' => array_values( $users->results ),
+			'total' => $users->total_users
+		);
+	}
+
+	return apply_filters( 'bp_core_get_users', $retval, $params );
 }
 
 /**

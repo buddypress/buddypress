@@ -1,6 +1,522 @@
 <?php
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
+
+/**
+ * BuddyPress User Query class
+ *
+ * Used for querying users in a BuddyPress context, in situations where
+ * WP_User_Query won't do the trick: Member directories, the Friends component,
+ * etc.
+ *
+ * Accepted parameters:
+ *   type	     - Determines sort order. Select from 'newest', 'active',
+ *                     'online', 'random', 'popular', 'alphabetical'
+ *   per_page        - Number of results to return
+ *   page            - Page offset (together with per_page)
+ *   user_id         - Pass a single numeric user id to limit results to
+ *                     friends of that user. Requires the Friends component
+ *   search_terms    - Terms to search by. Search happens across xprofile
+ *                     fields. Requires XProfile component
+ *   include         - An array or comma-separated list of user ids. Results
+ *                     will be limited to users in this list
+ *   exclude         - An array or comma-separated list of user ids. Results
+ *                     will not include any users in this list
+ *   user_ids        - An array or comma-separated list of user ids. When
+ *                     this parameter is passed, it will override all other
+ *                     parameters; BP User objects will be constructed using
+ *                     these IDs only
+ *   meta_key        - Limit results to users that have usermeta associated
+ *                     with this meta_key. Usually used with meta_value
+ *   meta_value      - When used with meta_key, limits results to users whose
+ *                     usermeta value associated with meta_key matches
+ *                     meta_value
+ *   populate_extras - Boolean. True if you want to fetch extra metadata about
+ *                     returned users, such as total group and friend counts
+ *   count_total     - Determines how BP_User_Query will do a count of total
+ *                     users matching the other filter criteria. Default value
+ *                     is 'count_query', which does a separate SELECT COUNT
+ *                     query to determine the total. 'sql_count_found_rows'
+ *                     uses SQL_COUNT_FOUND_ROWS and SELECT FOUND_ROWS(). Pass
+ *                     an empty string to skip the total user count query.
+ *
+ * @since BuddyPress (1.7)
+ */
+class BP_User_Query {
+
+	/** Variables *************************************************************/
+
+	/**
+	 * Array of variables to query with
+	 *
+	 * @since BuddyPress (1.7)
+	 * @var array
+	 */
+	public $query_vars = array();
+
+	/**
+	 * List of found users and their respective data
+	 *
+	 * @since BuddyPress (1.7)
+	 * @access public To allow components to manipulate them
+	 * @var array
+	 */
+	public $results = array();
+
+	/**
+	 * Total number of found users for the current query
+	 *
+	 * @since BuddyPress (1.7)
+	 * @access public To allow components to manipulate it
+	 * @var int
+	 */
+	public $total_users = 0;
+
+	/**
+	 * List of found user ID's
+	 *
+	 * @since BuddyPress (1.7)
+	 * @access public To allow components to manipulate it
+	 * @var array
+	 */
+	public $user_ids = array();
+
+	/**
+	 * SQL clauses for the user ID query
+	 *
+	 * @since BuddyPress (1.7)
+	 * @access public To allow components to manipulate it
+	 * @var array()
+	 */
+	public $uid_clauses = array();
+
+	/**
+	 * SQL database column name to order by
+	 *
+	 * @since BuddyPress (1.7)
+	 * @var string
+	 */
+	public $uid_name = '';
+
+	/** Methods ***************************************************************/
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.7
+	 *
+	 * @param string|array $query The query variables
+	 */
+	public function __construct( $query = null ) {
+		if ( ! empty( $query ) ) {
+			$this->query_vars = wp_parse_args( $query, array(
+				'type'            => 'newest',
+				'per_page'        => 0,
+				'page'            => 1,
+				'user_id'         => 0,
+				'search_terms'    => false,
+				'include'         => false,
+				'exclude'         => false,
+				'user_ids'        => false,
+				'meta_key'        => false,
+				'meta_value'      => false,
+				'populate_extras' => true,
+				'count_total'     => 'count_query'
+			) );
+
+			// Plugins can use this filter to modify query args
+			// before the query is constructed
+			do_action_ref_array( 'bp_pre_user_query_construct', array( &$this ) );
+
+			// Get user ids
+			// If the user_ids param is present, we skip the query
+			if ( false !== $this->query_vars['user_ids'] ) {
+				$this->user_ids = wp_parse_id_list( $this->query_vars['user_ids'] );
+			} else {
+				$this->prepare_user_ids_query();
+				$this->do_user_ids_query();
+			}
+		}
+
+		// Bail if no user IDs were found
+		if ( empty( $this->user_ids ) ) {
+			return;
+		}
+
+		// Fetch additional data. First, using WP_User_Query
+		$this->do_wp_user_query();
+
+		// Get BuddyPress specific user data
+		$this->populate_extras();
+	}
+
+	/**
+	 * Prepare the query for user_ids
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function prepare_user_ids_query() {
+		global $wpdb, $bp;
+
+		// Default query variables used here
+		$type         = '';
+		$per_page     = 0;
+		$page         = 1;
+		$user_id      = 0;
+		$include      = false;
+		$search_terms = false;
+		$exclude      = false;
+		$meta_key     = false;
+		$meta_value   = false;
+
+		extract( $this->query_vars );
+
+		// Setup the main SQL query container
+		$sql = array(
+			'select'  => '',
+			'where'   => array(),
+			'orderby' => '',
+			'order'   => '',
+			'limit'   => ''
+		);
+
+		/** TYPE **************************************************************/
+
+		// Determines the sort order, which means it also determines where the
+		// user IDs are drawn from (the SELECT and WHERE statements)
+		switch ( $type ) {
+
+			// 'active', 'online', 'newest', and 'random' queries
+			// all happen against the last_activity usermeta key
+			case 'active' :
+			case 'online' :
+			case 'newest' :
+			case 'random' :
+				$this->uid_name = 'user_id';
+				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
+				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
+
+				if ( 'newest' == $type ) {
+					$sql['orderby'] = "ORDER BY u.user_id";
+					$sql['order'] = "DESC";
+				} else if ( 'random' == $type ) {
+					$sql['orderby'] = "ORDER BY rand()";
+				} else {
+					$sql['orderby'] = "ORDER BY u.meta_value";
+					$sql['order'] = "DESC";
+				}
+
+				break;
+
+			// 'popular' sorts by the 'total_friend_count' usermeta
+			case 'popular' :
+				$this->uid_name = 'user_id';
+				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
+				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'total_friend_count' ) );
+				$sql['orderby'] = "ORDER BY u.meta_value";
+				$sql['order']   = "DESC";
+
+				break;
+
+			// 'alphabetical' sorts depend on the xprofile setup
+			case 'alphabetical' :
+
+				// We prefer to do alphabetical sorts against the display_name field
+				// of wp_users, because the table is smaller and better indexed. We
+				// can do so if xprofile sync is enabled, or if xprofile is inactive.
+				//
+				// @todo remove need for bp_is_active() check
+				if ( ! bp_disable_profile_sync() || ! bp_is_active( 'xprofile' ) ) {
+					$this->uid_name = 'ID';
+					$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->users} u";
+					$sql['orderby'] = "ORDER BY u.display_name";
+					$sql['order']   = "ASC";
+
+				// When profile sync is disabled, alphabetical sorts must happen against
+				// the xprofile table
+				} else {
+					$fullname_field_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", bp_xprofile_fullname_field_name() ) );
+
+					$this->uid_name = 'user_id';
+					$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$bp->profile->table_name_data} u";
+					$sql['where'][] = "u.field_id = {$fullname_field_id}";
+					$sql['orderby'] = "ORDER BY u.value";
+					$sql['order']   = "ASC";
+				}
+
+				break;
+
+			// Any other 'type' falls through
+			default :
+				$this->uid_name = 'ID';
+				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->users} u";
+
+				// In this case, we assume that a plugin is
+				// handling order, so we leave those clauses
+				// blank
+
+				break;
+		}
+
+		/** WHERE *************************************************************/
+
+		// 'include' - User ids to include in the results
+		if ( false !== $include ) {
+			$include        = wp_parse_id_list( $include );
+			$include_ids    = $wpdb->escape( implode( ',', (array) $include ) );
+			$sql['where'][] = "u.{$this->uid_name} IN ({$include_ids})";
+		}
+
+		// 'exclude' - User ids to exclude from the results
+		if ( false !== $exclude ) {
+			$exclude        = wp_parse_id_list( $exclude );
+			$exclude_ids    = $wpdb->escape( implode( ',', (array) $exclude ) );
+			$sql['where'][] = "u.{$this->uid_name} NOT IN ({$exclude_ids})";
+		}
+
+		// 'user_id' - When a user id is passed, limit to the friends of the user
+		// @todo remove need for bp_is_active() check
+		if ( !empty( $user_id ) && bp_is_active( 'friends' ) ) {
+			$friend_ids = friends_get_friend_user_ids( $user_id );
+			$friend_ids = $wpdb->escape( implode( ',', (array) $friend_ids ) );
+
+			if ( !empty( $friend_ids ) ) {
+				$sql['where'][] = "u.{$this->uid_name} NOT IN ({$friend_ids})";
+			} else {
+				// If the user has no friends, make sure the query returns null
+				$sql['where'][] = "0 = 1";
+			}
+		}
+
+		/** Search Terms ******************************************************/
+
+		// 'search_terms' searches the xprofile fields
+		// To avoid global joins, do a separate query
+		// @todo remove need for bp_is_active() check
+		if ( false !== $search_terms && bp_is_active( 'xprofile' ) ) {
+			$found_user_ids = $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s", '%%' . like_escape( $search_terms ) . '%%' ), ARRAY_N );
+
+			if ( ! empty( $found_user_ids ) ) {
+				$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ")";
+			}
+		}
+
+		// 'meta_key', 'meta_value' allow usermeta search
+		// To avoid global joins, do a separate query
+		if ( false !== $meta_key ) {
+			$meta_sql = $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s", $meta_key );
+
+			if ( false !== $meta_value ) {
+				$meta_sql .= $wpdb->prepare( " AND meta_value = %s", $meta_value );
+			}
+
+			$found_user_ids = $wpdb->get_col( $meta_sql );
+
+			if ( ! empty( $found_user_ids ) ) {
+				$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ")";
+			}
+		}
+
+		// 'per_page', 'page' - handles LIMIT
+		if ( !empty( $per_page ) && !empty( $page ) ) {
+			$sql['limit'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
+		} else {
+			$sql['limit'] = '';
+		}
+
+		// Assemble the query chunks
+		$this->uid_clauses['select']  = $sql['select'];
+		$this->uid_clauses['where']   = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
+		$this->uid_clauses['orderby'] = $sql['orderby'];
+		$this->uid_clauses['order']   = $sql['order'];
+		$this->uid_clauses['limit']   = $sql['limit'];
+
+		do_action_ref_array( 'bp_pre_user_query', array( &$this ) );
+	}
+
+	/**
+	 * Perform a database query to specifically get only user IDs, using
+	 * existing query variables set previously in the constructor.
+	 *
+	 * Also used to quickly perform user total counts.
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function do_user_ids_query() {
+		global $wpdb;
+
+		// If counting using SQL_CALC_FOUND_ROWS, set it up here
+		if ( 'sql_calc_found_rows' == $this->query_vars['count_total'] ) {
+			$this->uid_clauses['select'] = str_replace( 'SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $this->uid_clauses['select'] );
+		}
+
+		// Get the specific user ids
+		$this->user_ids = $wpdb->get_col( $wpdb->prepare( "{$this->uid_clauses['select']} {$this->uid_clauses['where']} {$this->uid_clauses['orderby']} {$this->uid_clauses['order']} {$this->uid_clauses['limit']}" ) );
+
+		// Get the total user count
+		if ( 'sql_calc_found_rows' == $this->query_vars['count_total'] ) {
+			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', "SELECT FOUND_ROWS()", $this ) );
+		} elseif ( 'count_query' == $this->query_vars['count_total'] ) {
+			$count_select      = preg_replace( '/^SELECT.*?FROM (\S+) u/', "SELECT COUNT(DISTINCT u.{$this->uid_name}) FROM $1 u", $this->uid_clauses['select'] );
+			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', "{$count_select} {$this->uid_clauses['where']}", $this ) );
+		}
+	}
+
+	/**
+	 * Perform a database query using the WP_User_Query() object, using existing
+	 * fields, variables, and user ID's set previously in this class.
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function do_wp_user_query() {
+		$wp_user_query = new WP_User_Query( apply_filters( 'bp_wp_user_query_args', array(
+
+			// Relevant
+			'fields'      => array( 'ID', 'user_registered', 'user_login', 'user_nicename', 'display_name', 'user_email' ),
+			'include'     => $this->user_ids,
+
+			// Overrides
+			'blog_id'     => 0,    // BP does not require blog roles
+			'count_total' => false // We already have a count
+
+		), $this ) );
+
+		// Reindex for easier matching
+		$r = array();
+		foreach ( $wp_user_query->results as $u ) {
+			$r[ $u->ID ] = $u;
+		}
+
+		// Match up to the user ids from the main query
+		foreach ( $this->user_ids as $uid ) {
+			if ( isset( $r[ $uid ] ) ) {
+				$this->results[ $uid ] = $r[ $uid ];
+
+				// The BP template functions expect an 'id'
+				// (as opposed to 'ID') property
+				$this->results[ $uid ]->id = $uid;
+			}
+		}
+	}
+
+	/**
+	 * Perform a database query to populate any extra metadata we might need.
+	 * Different components will hook into the 'bp_user_query_populate_extras'
+	 * action to loop in the things they want.
+	 *
+	 * @since BuddyPress (1.7)
+	 *
+	 * @global BuddyPress $bp
+	 * @global WPDB $wpdb
+	 * @return
+	 */
+	public function populate_extras() {
+		global $wpdb;
+
+		// Bail if no users
+		if ( empty( $this->user_ids ) || empty( $this->results ) ) {
+			return;
+		}
+
+		// Bail if the populate_extras flag is set to false
+		// In the case of the 'popular' sort type, we force
+		// populate_extras to true, because we need the friend counts
+		if ( 'popular' == $this->query_vars['type'] ) {
+			$this->query_vars['populate_extras'] = 1;
+		}
+
+		if ( ! (bool) $this->query_vars['populate_extras'] ) {
+			return;
+		}
+
+		// Turn user ID's into a query-usable, comma separated value
+		$user_ids_sql = implode( ',', wp_parse_id_list( $this->user_ids ) );
+
+		/**
+		 * Use this action to independently populate your own custom extras.
+		 *
+		 * Note that anything you add here should query using $user_ids_sql, to
+		 * avoid running multiple queries per user in the loop.
+		 *
+		 * Two BuddyPress components currently do this:
+		 * - XProfile: To override display names
+		 * - Friends:  To set whether or not a user is the current users friend
+		 *
+		 * @see bp_xprofile_filter_user_query_populate_extras()
+		 * @see bp_friends_filter_user_query_populate_extras()
+		 */
+		do_action_ref_array( 'bp_user_query_populate_extras', array( $this, $user_ids_sql ) );
+
+		// Fetch usermeta data
+		// We want the three following pieces of info from usermeta:
+		// - friend count
+		// - last activity
+		// - latest update
+		$total_friend_count_key = bp_get_user_meta_key( 'total_friend_count' );
+		$last_activity_key      = bp_get_user_meta_key( 'last_activity'      );
+		$bp_latest_update_key   = bp_get_user_meta_key( 'bp_latest_update'   );
+
+		// total_friend_count must be set for each user, even if its
+		// value is 0
+		foreach ( $this->results as $uindex => $user ) {
+			$this->results[$uindex]->total_friend_count = 0;
+		}
+
+		// Create, prepare, and run the seperate usermeta query
+		$user_metas = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, meta_key, meta_value FROM {$wpdb->usermeta} WHERE meta_key IN (%s,%s,%s) AND user_id IN ({$user_ids_sql})", $total_friend_count_key, $last_activity_key, $bp_latest_update_key ) );
+
+		// The $members_template global expects the index key to be different
+		// from the meta_key in some cases, so we rejig things here.
+		foreach ( $user_metas as $user_meta ) {
+			switch ( $user_meta->meta_key ) {
+				case $total_friend_count_key :
+					$key = 'total_friend_count';
+					break;
+
+				case $last_activity_key :
+					$key = 'last_activity';
+					break;
+
+				case $bp_latest_update_key :
+					$key = 'latest_update';
+					break;
+			}
+
+			if ( isset( $this->results[ $user_meta->user_id ] ) ) {
+				$this->results[ $user_meta->user_id ]->{$key} = $user_meta->meta_value;
+			}
+		}
+
+		// When meta_key or meta_value have been passed to the query,
+		// fetch the resulting values for use in the template functions
+		if ( ! empty( $this->query_vars['meta_key'] ) ) {
+			$meta_sql = array(
+				'select' => "SELECT user_id, meta_key, meta_value",
+				'from'   => "FROM $wpdb->usermeta",
+				'where'  => $wpdb->prepare( "WHERE meta_key = %s", $this->query_vars['meta_key'] )
+			);
+
+			if ( false !== $this->query_vars['meta_value'] ) {
+				$meta_sql['where'] .= $wpdb->prepare( " AND meta_value = %s", $this->query_vars['meta_value'] );
+			}
+
+			$metas = $wpdb->get_results( $wpdb->prepare( "{$meta_sql['select']} {$meta_sql['from']} {$meta_sql['where']}" ) );
+
+			if ( ! empty( $metas ) ) {
+				foreach ( $metas as $meta ) {
+					if ( isset( $this->results[ $meta->user_id ] ) ) {
+						$this->results[ $meta->user_id ]->meta_key = $meta->meta_key;
+
+						if ( ! empty( $meta->meta_value ) ) {
+							$this->results[ $meta->user_id ]->meta_value = $meta->meta_value;
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
 /**
  * BP_Core_User class can be used by any component. It will fetch useful
@@ -200,6 +716,8 @@ class BP_Core_User {
 
 	function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
 		global $wpdb, $bp;
+
+		_deprecated_function( __METHOD__, '1.7', 'BP_User_Query' );
 
 		$sql = array();
 

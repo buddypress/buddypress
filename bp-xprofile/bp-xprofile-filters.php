@@ -219,6 +219,31 @@ function xprofile_filter_comments( $comments, $post_id ) {
 }
 add_filter( 'comments_array', 'xprofile_filter_comments', 10, 2 );
 
+/**
+ * Filter BP_User_Query::populate_extras to override each queries users fullname
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @global BuddyPress $bp
+ * @global WPDB $wpdb
+ * @param BP_User_Query $user_query
+ * @param string $user_ids_sql
+ */
+function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_query, $user_ids_sql ) {
+	global $bp, $wpdb;
 
+	if ( bp_is_active( 'xprofile' ) ) {
+		$fullname_field_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", bp_xprofile_fullname_field_name() ) );
+		$user_id_names     = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value as fullname FROM {$bp->profile->table_name_data} WHERE user_id IN ({$user_ids_sql}) AND field_id = {$fullname_field_id}" ) );
+
+		// Loop through names and override each user's fullname
+		foreach ( $user_id_names as $user ) {
+			if ( isset( $user_query->results[ $user->user_id ] ) ) {
+				$user_query->results[ $user->user_id ]->fullname = $user->fullname;
+			}
+		}
+	}
+}
+add_filter( 'bp_user_query_populate_extras', 'bp_xprofile_filter_user_query_populate_extras', 2, 2 );
 
 ?>

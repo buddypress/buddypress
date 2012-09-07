@@ -39,7 +39,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		   . $title
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'user_id=0&type=' . $instance['member_default'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
+		<?php if ( bp_has_members( 'user_id=0&type=' . $instance['member_default'] . '&max=' . $instance['max_members'] . '&populate_extras=1' ) ) : ?>
 			<div class="item-options" id="members-list-options">
 				<a href="<?php echo site_url( bp_get_members_root_slug() ); ?>" id="newest-members" <?php if ( $instance['member_default'] == 'newest' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Newest', 'buddypress' ) ?></a>
 				|  <a href="<?php echo site_url( bp_get_members_root_slug() ); ?>" id="recently-active-members" <?php if ( $instance['member_default'] == 'active' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Active', 'buddypress' ) ?></a>
@@ -156,7 +156,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		   . $instance['title']
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'user_id=0&type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
+		<?php if ( bp_has_members( 'user_id=0&type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=1' ) ) : ?>
 			<div class="avatar-block">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<div class="item-avatar">
@@ -220,7 +220,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		   . $instance['title']
 		   . $after_title; ?>
 
-		<?php if ( bp_has_members( 'user_id=0&type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=0' ) ) : ?>
+		<?php if ( bp_has_members( 'user_id=0&type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=1' ) ) : ?>
 			<div class="avatar-block">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<div class="item-avatar">
@@ -290,7 +290,7 @@ function bp_core_ajax_widget_members() {
 			break;
 	}
 
-	if ( bp_has_members( 'user_id=0&type=' . $type . '&per_page=' . $_POST['max-members'] . '&max=' . $_POST['max-members'] . '&populate_extras=0' ) ) : ?>
+	if ( bp_has_members( 'user_id=0&type=' . $type . '&per_page=' . $_POST['max-members'] . '&max=' . $_POST['max-members'] . '&populate_extras=1' ) ) : ?>
 		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this. ?>
 		<div class="avatar-block">
 			<?php while ( bp_members() ) : bp_the_member(); ?>
