@@ -1014,7 +1014,7 @@ function bp_core_validate_email_address( $user_email ) {
 
 	$retval = ! empty( $errors ) ? $errors : true;
 
-	return $retval;
+	return apply_filters( 'bp_core_validate_email_address', $retval, $user_email );
 }
 
 /**
