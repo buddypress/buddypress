@@ -305,8 +305,43 @@ class BP_Groups_Group {
 		return array( 'requests' => $paged_requests, 'total' => $total_requests );
 	}
 
-	function get( $type = 'newest', $per_page = null, $page = null, $user_id = 0, $search_terms = false, $include = false, $populate_extras = true, $exclude = false, $show_hidden = false ) {
+	function get( $args = array() ) {
 		global $wpdb, $bp;
+
+		// Backward compatibility with old method of passing arguments
+		if ( ! is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '1.7', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+			$old_args_keys = array(
+				0 => 'type',
+				1 => 'per_page',
+				2 => 'page',
+				3 => 'user_id',
+				4 => 'search_terms',
+				5 => 'include',
+				6 => 'populate_extras',
+				7 => 'exclude',
+				8 => 'show_hidden',
+			);
+
+			$func_args = func_get_args();
+			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+		}
+
+		$defaults = array(
+			'type'            => 'newest',
+			'per_page'        => null,
+			'page'            => null,
+			'user_id'         => 0,
+			'search_terms'    => false,
+			'include'         => false,
+			'populate_extras' => true,
+			'exclude'         => false,
+			'show_hidden'     => false
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r );
 
 		$sql       = array();
 		$total_sql = array();

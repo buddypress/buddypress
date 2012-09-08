@@ -107,7 +107,48 @@ class BP_Groups_Template {
 	var $sort_by;
 	var $order;
 
-	function __construct( $user_id, $type, $page, $per_page, $max, $slug, $search_terms, $populate_extras, $include = false, $exclude = false, $show_hidden = false, $page_arg = 'grpage' ){
+	function __construct( $args = array() ){
+
+		// Backward compatibility with old method of passing arguments
+		if ( ! is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '1.7', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+			$old_args_keys = array(
+				0  => 'user_id',
+				1  => 'type',
+				2  => 'page',
+				3  => 'per_page',
+				4  => 'max',
+				5  => 'slug',
+				6  => 'search_terms',
+				7  => 'populate_extras',
+				8  => 'include',
+				9  => 'exclude',
+				10 => 'show_hidden',
+				11 => 'page_arg',
+			);
+
+			$func_args = func_get_args();
+			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+		}
+
+		$defaults = array(
+			'type'            => 'active',
+			'page'            => 1,
+			'per_page'        => 20,
+			'max'             => false,
+			'show_hidden'     => false,
+			'page_arg'        => 'grpage',
+			'user_id'         => 0,
+			'slug'            => false,
+			'include'         => false,
+			'exclude'         => false,
+			'search_terms'    => '',
+			'populate_extras' => true
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r );
 
 		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
@@ -273,19 +314,32 @@ function bp_has_groups( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
 
-	if ( empty( $search_terms ) ) {
+	if ( empty( $r['search_terms'] ) ) {
 		if ( isset( $_REQUEST['group-filter-box'] ) && !empty( $_REQUEST['group-filter-box'] ) )
-			$search_terms = $_REQUEST['group-filter-box'];
+			$r['search_terms'] = $_REQUEST['group-filter-box'];
 		elseif ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
-			$search_terms = $_REQUEST['s'];
+			$r['search_terms'] = $_REQUEST['s'];
 		else
-			$search_terms = false;
+			$r['search_terms'] = false;
 	}
 
-	$groups_template = new BP_Groups_Template( (int) $user_id, $type, (int) $page, (int) $per_page, (int) $max, $slug, $search_terms, (bool)$populate_extras, $include, $exclude, $show_hidden, $page_arg );
-	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template );
+	$groups_template = new BP_Groups_Template( array(
+		'type'            => $r['type'],
+		'page'            => (int) $r['page'],
+		'per_page'        => (int) $r['per_page'],
+		'max'             => (int) $r['max'],
+		'show_hidden'     => $r['show_hidden'],
+		'page_arg'        => $r['page_arg'],
+		'user_id'         => (int) $r['user_id'],
+		'slug'            => $r['slug'],
+		'search_terms'    => $r['search_terms'],
+		'include'         => $r['include'],
+		'exclude'         => $r['exclude'],
+		'populate_extras' => (bool) $r['populate_extras']
+	) );
+
+	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template, $r );
 }
 
 function bp_groups() {

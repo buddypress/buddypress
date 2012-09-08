@@ -389,6 +389,14 @@ function groups_get_total_member_count( $group_id ) {
 
 /*** Group Fetching, Filtering & Searching  *************************************/
 
+/**
+ * Get a collection of groups, based on the parameters passed
+ *
+ * @uses apply_filters_ref_array() Filter 'groups_get_groups' to modify return value
+ * @uses BP_Groups_Group::get()
+ * @param array $args See inline documentation for details
+ * @return array
+ */
 function groups_get_groups( $args = '' ) {
 
 	$defaults = array(
@@ -403,12 +411,21 @@ function groups_get_groups( $args = '' ) {
 		'populate_extras' => true,     // Fetch meta such as is_banned and is_member
 	);
 
-	$params = wp_parse_args( $args, $defaults );
-	extract( $params, EXTR_SKIP );
+	$r = wp_parse_args( $args, $defaults );
 
-	$groups = BP_Groups_Group::get( $type, $per_page, $page, $user_id, $search_terms, $include, $populate_extras, $exclude, $show_hidden );
+	$groups = BP_Groups_Group::get( array(
+		'type'            => $r['type'],
+		'user_id'         => $r['user_id'],
+		'include'         => $r['include'],
+		'exclude'         => $r['exclude'],
+		'search_terms'    => $r['search_terms'],
+		'show_hidden'     => $r['show_hidden'],
+		'per_page'        => $r['per_page'],
+		'page'            => $r['page'],
+		'populate_extras' => $r['populate_extras']
+	) );
 
-	return apply_filters_ref_array( 'groups_get_groups', array( &$groups, &$params ) );
+	return apply_filters_ref_array( 'groups_get_groups', array( &$groups, &$r ) );
 }
 
 function groups_get_total_group_count() {
