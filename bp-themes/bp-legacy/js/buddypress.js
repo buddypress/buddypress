@@ -411,7 +411,7 @@ jq(document).ready( function() {
 			}
 
 			/* Hide any error messages */
-			jq( 'form#' + form + ' div.error').hide();
+			jq( 'form#' + form.attr('id') + ' div.error').hide();
 			target.addClass('loading').prop('disabled', true);
 
 			var ajaxdata = {
@@ -452,7 +452,7 @@ jq(document).ready( function() {
 								form.parent().parent().addClass('has-comments');
 							}
 							);
-						jq( 'form#' + form + ' textarea').val('');
+						jq( 'form#' + form.attr('id') + ' textarea').val('');
 
 						/* Increase the "Reply (X)" button count */
 						jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );

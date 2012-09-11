@@ -94,6 +94,61 @@ class BP_Legacy extends BP_Theme_Compat {
 		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
 		add_action( 'bp_head',            array( $this, 'head_scripts'     ) ); // Output some extra JS in the <head>
 
+		/** Ajax **************************************************************/
+
+		$actions = array(
+
+			// Directory filters
+			'blogs_filter'    => 'bp_legacy_theme_object_template_loader',
+			'forums_filter'   => 'bp_legacy_theme_object_template_loader',
+			'groups_filter'   => 'bp_legacy_theme_object_template_loader',
+			'members_filter'  => 'bp_legacy_theme_object_template_loader',
+			'messages_filter' => 'bp_legacy_theme_messages_template_loader',
+
+			// Friends
+			'accept_friendship' => 'bp_legacy_theme_ajax_accept_friendship',
+			'addremove_friend'  => 'bp_legacy_theme_ajax_addremove_friend',
+			'reject_friendship' => 'bp_legacy_theme_ajax_reject_friendship',
+
+			// Activity
+			'activity_get_older_updates'  => 'bp_legacy_theme_activity_template_loader',
+			'activity_mark_fav'           => 'bp_legacy_theme_mark_activity_favorite',
+			'activity_mark_unfav'         => 'bp_legacy_theme_unmark_activity_favorite',
+			'activity_widget_filter'      => 'bp_legacy_theme_activity_template_loader',
+			'delete_activity'             => 'bp_legacy_theme_delete_activity',
+			'delete_activity_comment'     => 'bp_legacy_theme_delete_activity_comment',
+			'get_single_activity_content' => 'bp_legacy_theme_get_single_activity_content',
+			'new_activity_comment'        => 'bp_legacy_theme_new_activity_comment',
+			'post_update'                 => 'bp_legacy_theme_post_update',
+			'bp_spam_activity'            => 'bp_legacy_theme_spam_activity',
+			'bp_spam_activity_comment'    => 'bp_legacy_theme_spam_activity',
+
+			// Groups
+			'groups_invite_user' => 'bp_legacy_theme_ajax_invite_user',
+			'joinleave_group'    => 'bp_legacy_theme_ajax_joinleave_group',
+
+			// Messages
+			'messages_autocomplete_results' => 'bp_legacy_theme_ajax_messages_autocomplete_results',
+			'messages_close_notice'         => 'bp_legacy_theme_ajax_close_notice',
+			'messages_delete'               => 'bp_legacy_theme_ajax_messages_delete',
+			'messages_markread'             => 'bp_legacy_theme_ajax_message_markread',
+			'messages_markunread'           => 'bp_legacy_theme_ajax_message_markunread',
+			'messages_send_reply'           => 'bp_legacy_theme_ajax_messages_send_reply',
+		);
+
+		/**
+		 * Register all of these AJAX handlers
+		 *
+		 * The "wp_ajax_" action is used for logged in users, and "wp_ajax_nopriv_"
+		 * executes for users that aren't logged in. This is for backpat with BP <1.6.
+		 */
+		foreach( $actions as $name => $function ) {
+			add_action( 'wp_ajax_'        . $name, $function );
+			add_action( 'wp_ajax_nopriv_' . $name, $function );
+		}
+
+		add_filter( 'bp_ajax_querystring', 'bp_legacy_theme_ajax_querystring', 10, 2 );
+
 		/** Override **********************************************************/
 
 		do_action_ref_array( 'bp_theme_compat_actions', array( &$this ) );
@@ -213,81 +268,6 @@ new BP_Legacy();
 endif;
 
 /**
- * AJAX Functions
- *
- * All of these functions enhance the responsiveness of the user interface in
- * the legacy theme by adding AJAX functionality.
- *
- * For more information on how the custom AJAX functions work, see
- * http://codex.wordpress.org/AJAX_in_Plugins.
- *
- * @package BuddyPress
- * @since BuddyPress (1.2)
- * @subpackage BP_Legacy
- */
-
-/**
- * Register AJAX handlers for BP Legacy theme functionality.
- *
- * This function is registered to the after_setup_theme hook with priority 20 as
- * this file is included in a function hooked to after_setup_theme at priority 10.
- *
- * @since BuddyPress (1.6)
- */
-function bp_legacy_theme_register_actions() {
-	$actions = array(
-		// Directory filters
-		'blogs_filter'    => 'bp_legacy_theme_object_template_loader',
-		'forums_filter'   => 'bp_legacy_theme_object_template_loader',
-		'groups_filter'   => 'bp_legacy_theme_object_template_loader',
-		'members_filter'  => 'bp_legacy_theme_object_template_loader',
-		'messages_filter' => 'bp_legacy_theme_messages_template_loader',
-
-		// Friends
-		'accept_friendship' => 'bp_legacy_theme_ajax_accept_friendship',
-		'addremove_friend'  => 'bp_legacy_theme_ajax_addremove_friend',
-		'reject_friendship' => 'bp_legacy_theme_ajax_reject_friendship',
-
-		// Activity
-		'activity_get_older_updates'  => 'bp_legacy_theme_activity_template_loader',
-		'activity_mark_fav'           => 'bp_legacy_theme_mark_activity_favorite',
-		'activity_mark_unfav'         => 'bp_legacy_theme_unmark_activity_favorite',
-		'activity_widget_filter'      => 'bp_legacy_theme_activity_template_loader',
-		'delete_activity'             => 'bp_legacy_theme_delete_activity',
-		'delete_activity_comment'     => 'bp_legacy_theme_delete_activity_comment',
-		'get_single_activity_content' => 'bp_legacy_theme_get_single_activity_content',
-		'new_activity_comment'        => 'bp_legacy_theme_new_activity_comment',
-		'post_update'                 => 'bp_legacy_theme_post_update',
-		'bp_spam_activity'            => 'bp_legacy_theme_spam_activity',
-		'bp_spam_activity_comment'    => 'bp_legacy_theme_spam_activity',
-
-		// Groups
-		'groups_invite_user' => 'bp_legacy_theme_ajax_invite_user',
-		'joinleave_group'    => 'bp_legacy_theme_ajax_joinleave_group',
-
-		// Messages
-		'messages_autocomplete_results' => 'bp_legacy_theme_ajax_messages_autocomplete_results',
-		'messages_close_notice'         => 'bp_legacy_theme_ajax_close_notice',
-		'messages_delete'               => 'bp_legacy_theme_ajax_messages_delete',
-		'messages_markread'             => 'bp_legacy_theme_ajax_message_markread',
-		'messages_markunread'           => 'bp_legacy_theme_ajax_message_markunread',
-		'messages_send_reply'           => 'bp_legacy_theme_ajax_messages_send_reply',
-	);
-
-	/**
-	 * Register all of these AJAX handlers
-	 *
-	 * The "wp_ajax_" action is used for logged in users, and "wp_ajax_nopriv_"
-	 * executes for users that aren't logged in. This is for backpat with BP <1.6.
-	 */
-	foreach( $actions as $name => $function ) {
-		add_action( 'wp_ajax_'        . $name, $function );
-		add_action( 'wp_ajax_nopriv_' . $name, $function );
-	}
-}
-add_action( 'bp_after_setup_theme', 'bp_legacy_theme_register_actions', 20 );
-
-/**
  * This function looks scarier than it actually is. :)
  * Each object loop (activity/members/groups/blogs/forums) contains default
  * parameters to show specific information based on the page we are currently
@@ -370,7 +350,6 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 
 	return apply_filters( 'bp_legacy_theme_ajax_querystring', $query_string, $object, $object_filter, $object_scope, $object_page, $object_search_terms, $object_extras );
 }
-add_filter( 'bp_ajax_querystring', 'bp_legacy_theme_ajax_querystring', 10, 2 );
 
 /**
  * Load the template loop for the current object.

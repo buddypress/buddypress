@@ -75,7 +75,7 @@ function bp_dtheme_register_actions() {
 		add_action( 'wp_ajax_nopriv_' . $name, $function );
 	}
 }
-add_action( 'bp_after_setup_theme', 'bp_dtheme_register_actions', 20 );
+add_action( 'after_setup_theme', 'bp_dtheme_register_actions', 20 );
 
 /**
  * This function looks scarier than it actually is. :)

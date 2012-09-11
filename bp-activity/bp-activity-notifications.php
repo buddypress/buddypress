@@ -188,7 +188,7 @@ To view your original update and all comments, log in and visit: %3$s
 	 * If this is a reply to another comment, send an email notification to the
 	 * author of the immediate parent comment.
 	 */
-	if ( $activity_id == $parent_id )
+	if ( empty( $parent_id ) || ( $activity_id == $parent_id ) )
 		return false;
 
 	$parent_comment = new BP_Activity_Activity( $parent_id );

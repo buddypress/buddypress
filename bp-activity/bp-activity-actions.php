@@ -325,9 +325,9 @@ function bp_activity_action_post_comment() {
 	}
 
 	$comment_id = bp_activity_new_comment( array(
-		'content' => $content,
+		'content'     => $content,
 		'activity_id' => $activity_id,
-		'parent_id' => $parent_id
+		'parent_id'   => false
 	));
 
 	if ( !empty( $comment_id ) )
