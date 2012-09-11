@@ -85,7 +85,7 @@ add_action( 'bp_template_redirect', 'bp_screens', 6 );
 /**
  * Add the BuddyPress functions file
  */
-add_action( 'after_setup_theme', 'bp_load_theme_functions', 1 );
+add_action( 'bp_after_setup_theme', 'bp_load_theme_functions', 1 );
 
 // Load the admin
 if ( is_admin() ) {
