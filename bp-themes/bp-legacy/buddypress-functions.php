@@ -45,6 +45,11 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @uses BP_Legacy::setup_actions()
 	 */
 	public function __construct() {
+
+		// Bail if parent/child themes are bp-default
+		if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) )
+			return;
+
 		$this->setup_globals();
 		$this->setup_actions();
 	}
