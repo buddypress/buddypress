@@ -154,6 +154,9 @@ function xprofile_screen_change_avatar() {
 		return;
 	}
 
+	if ( ! isset( $bp->avatar_admin ) )
+		$bp->avatar_admin = new stdClass();
+
 	$bp->avatar_admin->step = 'upload-image';
 
 	if ( !empty( $_FILES ) ) {
