@@ -1038,9 +1038,35 @@ function bp_core_validate_email_address( $user_email ) {
 }
 
 /**
- * Validate a user name and email address when creating a new user.
+ * Add the appropriate errors to a WP_Error object, given results of a validation test
  *
- * @todo Refactor to use bp_core_validate_email_address()
+ * Functions like bp_core_validate_email_address() return a structured array
+ * of error codes. bp_core_add_validation_error_messages() takes this array and
+ * parses, adding the appropriate error messages to the WP_Error object.
+ *
+ * @since BuddyPress (1.7)
+ * @see bp_core_validate_email_address()
+ *
+ * @param obj $errors WP_Error object
+ * @param array $validation_results The return value of a validation function
+ *   like bp_core_validate_email_address()
+ */
+function bp_core_add_validation_error_messages( WP_Error $errors, $validation_results ) {
+	if ( ! empty( $validation_results['invalid'] ) )
+		$errors->add( 'user_email', __( 'Please check your email address.', 'buddypress' ) );
+
+	if ( ! empty( $validation_results['domain_banned'] ) )
+		$errors->add( 'user_email',  __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
+
+	if ( ! empty( $validation_results['domain_not_allowed'] ) )
+		$errors->add( 'user_email', __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
+
+	if ( ! empty( $validation_results['in_use'] ) )
+		$errors->add( 'user_email', __( 'Sorry, that email address is already used!', 'buddypress' ) );
+}
+
+/**
+ * Validate a user name and email address when creating a new user.
  *
  * @param string $user_name Username to validate
  * @param string $user_email Email address to validate
@@ -1049,7 +1075,6 @@ function bp_core_validate_email_address( $user_email ) {
 function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 	$errors = new WP_Error();
-	$user_email = sanitize_email( $user_email );
 
 	// Apply any user_login filters added by BP or other plugins before validating
 	$user_name = apply_filters( 'pre_user_login', $user_name );
@@ -1078,29 +1103,16 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	if ( $match[0] == $user_name )
 		$errors->add( 'user_name', __( 'Sorry, usernames must have letters too!', 'buddypress' ) );
 
-	if ( !is_email( $user_email ) )
-		$errors->add( 'user_email', __( 'Please check your email address.', 'buddypress' ) );
-
-	if ( function_exists( 'is_email_address_unsafe' ) && is_email_address_unsafe( $user_email ) )
-		$errors->add( 'user_email',  __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
-
-	$limited_email_domains = get_site_option( 'limited_email_domains', 'buddypress' );
-
-	if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
-		$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
-
-		if ( in_array( $emaildomain, (array) $limited_email_domains ) == false )
-			$errors->add( 'user_email', __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
-	}
-
 	// Check if the username has been used already.
 	if ( username_exists( $user_name ) )
 		$errors->add( 'user_name', __( 'Sorry, that username already exists!', 'buddypress' ) );
 
-	// Check if the email address has been used already.
-	if ( email_exists( $user_email ) )
-		$errors->add( 'user_email', __( 'Sorry, that email address is already used!', 'buddypress' ) );
+	// Validate the email address and process the validation results into
+	// error messages
+	$validate_email = bp_core_validate_email_address( $user_email );
+	bp_core_add_validation_error_messages( $errors, $validate_email );
 
+	// Assemble the return array
 	$result = array( 'user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors );
 
 	// Apply WPMU legacy filter
