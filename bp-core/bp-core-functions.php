@@ -374,11 +374,18 @@ function bp_core_number_format( $number, $decimals = false ) {
  * eg: 4 weeks and 6 days
  *
  * @package BuddyPress Core
+ * @uses apply_filters() Filter 'bp_core_time_since_pre' to bypass BP's calculations
+ * @uses apply_filters() Filter 'bp_core_time_since' to modify BP's calculations
  * @param $older_date int Unix timestamp of date you want to calculate the time since for
  * @param $newer_date int Unix timestamp of date to compare older date to. Default false (current time).
  * @return str The time since.
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
+
+	// Use this filter to bypass BuddyPress's time_since calculations
+	if ( $pre_value = apply_filters( 'bp_core_time_since_pre', false, $older_date, $newer_date ) ) {
+		return $pre_value;
+	}
 
 	// Setup the strings
 	$unknown_text   = apply_filters( 'bp_core_time_since_unknown_text',   __( 'sometime',  'buddypress' ) );
@@ -468,7 +475,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		$output = sprintf( $ago_text, $output );
 	}
 
-	return $output;
+	return apply_filters( 'bp_core_time_since', $output, $older_date, $newer_date );
 }
 
 /**
