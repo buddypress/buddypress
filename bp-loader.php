@@ -88,6 +88,11 @@ class BuddyPress {
 	 */
 	public $loaded_components = array();
 
+	/**
+	 * @var array Active components
+	 */
+	public $active_components = array();
+
 	/** Option Overload *******************************************************/
 
 	/**
