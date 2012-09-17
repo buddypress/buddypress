@@ -68,12 +68,25 @@ function messages_new_message( $args = '' ) {
 		// Loop the recipients and convert all usernames to user_ids where needed
 		foreach( (array) $recipients as $recipient ) {
 			$recipient = trim( $recipient );
+
 			if ( empty( $recipient ) )
 				continue;
 
+			$recipient_id = false;
+
+			// input was numeric
 			if ( is_numeric( $recipient ) ) {
+				// do a check against the user ID column first
 				if ( bp_core_get_core_userdata( (int) $recipient ) )
 					$recipient_id = (int) $recipient;
+
+				// if that fails, check against the user_login / user_nicename column
+				else {
+					if ( bp_is_username_compatibility_mode() )
+						$recipient_id = bp_core_get_userid( (int) $recipient );
+					else
+						$recipient_id = bp_core_get_userid_from_nicename( (int) $recipient );
+				}
 
 			} else {
 				if ( bp_is_username_compatibility_mode() )
