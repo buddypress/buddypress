@@ -83,5 +83,3 @@ function friends_action_remove_friend() {
 	return false;
 }
 add_action( 'bp_init', 'friends_action_remove_friend' );
-
-?>

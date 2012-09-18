@@ -261,4 +261,4 @@ if ( !function_exists( 'bp_dtheme_register_actions' ) ) :
 	}
 	add_action( 'after_setup_theme', 'bp_die_legacy_ajax_callbacks', 20 );
 endif;
-?>
+

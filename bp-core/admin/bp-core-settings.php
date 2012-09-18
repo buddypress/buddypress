@@ -365,4 +365,3 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 		// Allow plugins to further filter the output
 		return apply_filters( 'bp_get_form_option', $value, $option );
 	}
-?>

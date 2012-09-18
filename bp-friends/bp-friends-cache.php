@@ -39,5 +39,3 @@ add_action( 'friends_friendship_rejected',  'bp_core_clear_cache' );
 add_action( 'friends_friendship_accepted',  'bp_core_clear_cache' );
 add_action( 'friends_friendship_deleted',   'bp_core_clear_cache' );
 add_action( 'friends_friendship_requested', 'bp_core_clear_cache' );
-
-?>

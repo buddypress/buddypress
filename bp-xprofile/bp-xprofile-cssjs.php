@@ -42,5 +42,3 @@ function xprofile_add_admin_js() {
 	}
 }
 add_action( 'admin_enqueue_scripts', 'xprofile_add_admin_js', 1 );
-
-?>

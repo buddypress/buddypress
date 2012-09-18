@@ -339,5 +339,3 @@ function bp_setup_activity() {
 	$bp->activity = new BP_Activity_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_activity', 6 );
-
-?>

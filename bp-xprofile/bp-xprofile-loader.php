@@ -98,8 +98,8 @@ class BP_XProfile_Component extends BP_Component {
 			'multiselectbox',
 			'datebox'
 		) );
-		
-		// Register the visibility levels. See bp_xprofile_get_visibility_levels() to filter		
+
+		// Register the visibility levels. See bp_xprofile_get_visibility_levels() to filter
 		$this->visibility_levels = array(
 			'public'  => array(
 				'id'	=> 'public',
@@ -110,7 +110,7 @@ class BP_XProfile_Component extends BP_Component {
 				'label' => __( 'Logged In Users', 'buddypress' )
 			)
 		);
-		
+
 		if ( bp_is_active( 'friends' ) ) {
 			$this->visibility_levels['friends'] = array(
 				'id'	=> 'friends',
@@ -276,5 +276,3 @@ function bp_setup_xprofile() {
 		$bp->profile = new BP_XProfile_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_xprofile', 6 );
-
-?>

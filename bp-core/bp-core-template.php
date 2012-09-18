@@ -1752,5 +1752,3 @@ function bp_the_body_class() {
 		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
 	}
 	add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 );
-
-?>

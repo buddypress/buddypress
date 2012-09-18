@@ -20,7 +20,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package BuddyPress
  * @subpackage BlogsCache
  * @param int $blog_id
- * @param int $user_id 
+ * @param int $user_id
  */
 function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 	wp_cache_delete( 'bp_blogs_of_user_'        . $user_id, 'bp' );
@@ -33,7 +33,7 @@ function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
  * @since BuddyPress (1.0)
  * @package BuddyPress
  * @subpackage BlogsCache
- * @param Blog $recorded_blog_obj 
+ * @param Blog $recorded_blog_obj
  */
 function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
 	bp_blogs_clear_blog_object_cache( false, $recorded_blog_obj->user_id );
@@ -54,5 +54,3 @@ add_action( 'bp_blogs_new_blog_comment',     'bp_core_clear_cache' );
 add_action( 'bp_blogs_new_blog_post',        'bp_core_clear_cache' );
 add_action( 'bp_blogs_new_blog',             'bp_core_clear_cache' );
 add_action( 'bp_blogs_remove_data',          'bp_core_clear_cache' );
-
-?>

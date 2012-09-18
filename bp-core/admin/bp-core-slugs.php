@@ -137,9 +137,9 @@ function bp_core_admin_slugs_options() {
 		'register' => __( 'Register', 'buddypress' ),
 		'activate' => __( 'Activate', 'buddypress' ),
 	);
-	
+
 	$static_pages = apply_filters( 'bp_static_pages', $static_pages );
-	
+
 	if ( !empty( $static_pages ) ) : ?>
 
 		<h3><?php _e( 'Registration', 'buddypress' ); ?></h3>
@@ -157,7 +157,7 @@ function bp_core_admin_slugs_options() {
 						</th>
 
 						<td>
-							
+
 							<?php if ( ! bp_is_root_blog() ) switch_to_blog( bp_get_root_blog_id() ); ?>
 
 							<?php echo wp_dropdown_pages( array(
@@ -224,5 +224,3 @@ function bp_core_admin_slugs_setup_handler() {
 	}
 }
 add_action( 'admin_init', 'bp_core_admin_slugs_setup_handler' );
-
-?>

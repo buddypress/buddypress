@@ -21,6 +21,3 @@ function bp_blogs_creation_location( $url ) {
      return apply_filters( 'bp_blogs_creation_location', trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_slug() . '/create', $url ) );
 }
 add_filter( 'wp_signup_location', 'bp_blogs_creation_location' );
-
-
-?>

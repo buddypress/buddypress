@@ -138,5 +138,3 @@ function bp_core_add_ajax_url_js() {
 <?php
 }
 add_action( 'wp_head', 'bp_core_add_ajax_url_js' );
-
-?>

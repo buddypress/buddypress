@@ -113,25 +113,25 @@ class BP_Members_Component extends BP_Component {
 		} else {
 			$bp->default_component = BP_DEFAULT_COMPONENT;
 		}
-		
+
 		if ( bp_displayed_user_id() ) {
 			$bp->canonical_stack['base_url'] = bp_displayed_user_domain();
-		
+
 			if ( bp_current_component() ) {
 				$bp->canonical_stack['component'] = bp_current_component();
 			}
-			
+
 			if ( bp_current_action() ) {
 				$bp->canonical_stack['action'] = bp_current_action();
 			}
-			
+
 			if ( !empty( $bp->action_variables ) ) {
 				$bp->canonical_stack['action_variables'] = bp_action_variables();
 			}
 
 			if ( !bp_current_component() ) {
 				$bp->current_component = $bp->default_component;
-			} else if ( bp_is_current_component( $bp->default_component ) && !bp_current_action() ) {			
+			} else if ( bp_is_current_component( $bp->default_component ) && !bp_current_action() ) {
 				// The canonical URL will not contain the default component
 				unset( $bp->canonical_stack['component'] );
 			}
@@ -209,5 +209,3 @@ function bp_setup_members() {
 	$bp->members = new BP_Members_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_members', 1 );
-
-?>

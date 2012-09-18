@@ -1293,5 +1293,3 @@ class BP_Groups_List_Table extends WP_List_Table {
 		echo apply_filters_ref_array( 'bp_groups_admin_get_group_last_active', array( $last_active, $item ) );
 	}
 }
-
-?>

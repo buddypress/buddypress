@@ -28,7 +28,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function bp_groups_update_meta_cache( $group_ids = false ) {
 	global $bp;
-	
+
 	$cache_args = array(
 		'object_ids' 	   => $group_ids,
 		'object_type' 	   => $bp->groups->id,
@@ -36,7 +36,7 @@ function bp_groups_update_meta_cache( $group_ids = false ) {
 		'meta_table' 	   => $bp->groups->table_name_groupmeta,
 		'cache_key_prefix' => 'bp_groups_groupmeta'
 	);
-	
+
 	bp_update_meta_cache( $cache_args );
 }
 
@@ -103,5 +103,3 @@ add_action( 'groups_membership_requested',       'bp_core_clear_cache' );
 add_action( 'groups_create_group_step_complete', 'bp_core_clear_cache' );
 add_action( 'groups_created_group',              'bp_core_clear_cache' );
 add_action( 'groups_group_avatar_updated',       'bp_core_clear_cache' );
-
-?>

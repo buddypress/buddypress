@@ -1281,5 +1281,3 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 
 	return $result;
 }
-
-?>

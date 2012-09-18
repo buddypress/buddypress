@@ -74,9 +74,7 @@ function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
 		$user_domain  = bp_core_get_user_domain( $user_id );
 		$profile_link = trailingslashit( $user_domain . $bp->profile->slug . '/edit' );
 	}
-	
+
 	return apply_filters( 'bp_members_edit_profile_url', $profile_link, $url, $user_id, $scheme );
 }
 add_filter( 'edit_profile_url', 'bp_members_edit_profile_url', 10, 3 );
-
-?>

@@ -38,10 +38,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @uses do_action() To call the 'bp_activity_sent_mention_email' hook
  */
 function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) {
-	
+
 	// Don't leave multiple notifications for the same activity item
 	$notifications = BP_Core_Notification::get_all_for_user( $receiver_user_id, 'all' );
-	
+
 	foreach( $notifications as $notification ) {
 		if ( $activity_id == $notification->item_id ) {
 			return;
@@ -230,5 +230,3 @@ To view the original activity, your comment and all replies, log in and visit: %
 		do_action( 'bp_activity_sent_reply_to_reply_email', $original_activity->user_id, $subject, $message, $comment_id, $commenter_id, $params );
 	}
 }
-
-?>

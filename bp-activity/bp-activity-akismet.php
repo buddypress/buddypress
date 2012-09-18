@@ -117,7 +117,7 @@ class BP_Akismet {
 	 * @since BuddyPress (1.6)
 	 */
 	public function add_activity_stream_nonce() {
-		$form_id = '_bp_as_nonce'; 
+		$form_id = '_bp_as_nonce';
 		$value   = '_bp_as_nonce_' . bp_loggedin_user_id();
 
 		// If we're in the activity stream loop, we can use the current item's ID to make the nonce unique
@@ -248,7 +248,7 @@ class BP_Akismet {
 			$activity->content = bp_activity_at_name_filter( $activity->content, $activity->id );
 
 		do_action( 'bp_activity_akismet_mark_as_ham', $activity, $source );
-	} 
+	}
 
 	/**
 	 * Build a data package for the Akismet service to inspect
@@ -575,7 +575,7 @@ function bp_activity_akismet_delete_old_metadata() {
 	// Enforce a minimum of 1 day
 	$interval = max( 1, absint( $interval ) );
 
-	// _bp_akismet_submission meta values are large, so expire them after $interval days regardless of the activity status 
+	// _bp_akismet_submission meta values are large, so expire them after $interval days regardless of the activity status
 	$sql          = $wpdb->prepare( "SELECT a.id FROM {$bp->activity->table_name} a LEFT JOIN {$bp->activity->table_name_meta} m ON a.id = m.activity_id WHERE m.meta_key = %s AND DATE_SUB(%s, INTERVAL {$interval} DAY) > a.date_recorded LIMIT 10000", '_bp_akismet_submission', current_time( 'mysql', 1 ) );
 	$activity_ids = $wpdb->get_col( $sql );
 
@@ -584,4 +584,3 @@ function bp_activity_akismet_delete_old_metadata() {
 			bp_activity_delete_meta( $activity_id, '_bp_akismet_submission' );
 	}
 }
-?>

@@ -34,5 +34,3 @@ function bp_blogs_redirect_to_random_blog() {
 	}
 }
 add_action( 'bp_actions', 'bp_blogs_redirect_to_random_blog' );
-
-?>

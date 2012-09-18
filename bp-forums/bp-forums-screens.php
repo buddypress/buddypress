@@ -124,4 +124,3 @@ function bp_forums_screen_single_topic() {
 	bp_core_load_template( apply_filters( 'bp_forums_screen_single_topic', 'forums/single/topic' ) );
 }
 add_action( 'bp_screens', 'bp_forums_screen_single_topic' );
-?>

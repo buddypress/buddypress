@@ -265,4 +265,3 @@ function bp_core_current_user_ua() {
 
 	return apply_filters( 'bp_core_current_user_ua', $retval );
 }
-?>

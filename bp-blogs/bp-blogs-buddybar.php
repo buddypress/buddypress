@@ -17,9 +17,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package BuddyPress
  * @subpackage BlogsBuddyBar
  * @global BuddyPress $bp
- * @return boolean 
+ * @return boolean
  */
-	
+
 function bp_adminbar_blogs_menu() {
 	global $bp;
 
@@ -77,5 +77,3 @@ function bp_adminbar_blogs_menu() {
 	}
 }
 add_action( 'bp_adminbar_menus', 'bp_adminbar_blogs_menu', 6 );
-
-?>

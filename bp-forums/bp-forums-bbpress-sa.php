@@ -420,5 +420,3 @@ function bp_bb_dbDelta($queries, $execute = true) {
 
 	return $for_update;
 }
-
-?>

@@ -47,7 +47,7 @@ function friends_screen_requests() {
 			bp_core_add_message( __( 'Friendship could not be rejected', 'buddypress' ), 'error' );
 
 		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_current_component() . '/' . bp_current_action() ) );
-		
+
 	} elseif ( bp_is_action_variable( 'cancel', 0 ) && is_numeric( bp_action_variable( 1 ) ) ) {
 		// Check the nonce
 		check_admin_referer( 'friends_withdraw_friendship' );
@@ -108,5 +108,3 @@ function friends_screen_notification_settings() {
 <?php
 }
 add_action( 'bp_notification_settings', 'friends_screen_notification_settings' );
-
-?>

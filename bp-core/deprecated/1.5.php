@@ -663,4 +663,3 @@ function bp_core_screen_delete_account_title() {
 function bp_core_screen_delete_account_content() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
 }
-?>

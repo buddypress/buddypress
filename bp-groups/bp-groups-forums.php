@@ -404,5 +404,3 @@ function groups_total_public_forum_topic_count( $type = 'newest' ) {
 function groups_total_forum_topic_count( $status = 'public', $search_terms = false ) {
 	return apply_filters( 'groups_total_forum_topic_count', BP_Groups_Group::get_global_topic_count( $status, $search_terms ) );
 }
-
-?>

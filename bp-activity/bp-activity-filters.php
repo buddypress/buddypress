@@ -213,7 +213,7 @@ function bp_activity_filter_kses( $content ) {
 function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 	if ( $activity_id & bp_is_active( 'activity' ) ) {
 		$activity = new BP_Activity_Activity( $activity_id );
-		
+
 		// If this activity has been marked as spam, don't do anything. This prevents @notifications being sent.
 		if ( !empty( $activity ) && $activity->is_spam )
 			return $content;
@@ -336,5 +336,3 @@ function bp_activity_truncate_entry( $text ) {
 
 	return apply_filters( 'bp_activity_truncate_entry', $excerpt, $text, $append_text );
 }
-
-?>

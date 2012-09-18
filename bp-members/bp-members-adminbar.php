@@ -184,5 +184,3 @@ function bp_members_remove_edit_page_menu() {
 	}
 }
 add_action( 'bp_init', 'bp_members_remove_edit_page_menu', 99 );
-
-?>

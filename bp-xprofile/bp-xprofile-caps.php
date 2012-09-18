@@ -48,7 +48,7 @@ function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 
 			// Friends don't let friends edit each other's visibility
 			if ( $profile_user_id != bp_displayed_user_id() && !bp_current_user_can( 'bp_moderate' ) ) {
-				$caps[] = 'do_not_allow'; 
+				$caps[] = 'do_not_allow';
 				break;
 			}
 
@@ -58,4 +58,3 @@ function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 	return apply_filters( 'bp_xprofile_map_meta_caps', $caps, $cap, $user_id, $args );
 }
 add_filter( 'bp_map_meta_caps', 'bp_xprofile_map_meta_caps', 10, 4 );
-?>

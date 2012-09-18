@@ -597,5 +597,3 @@ function bp_activity_setup_akismet() {
 	// Instantiate Akismet for BuddyPress
 	$bp->activity->akismet = new BP_Akismet();
 }
-
-?>

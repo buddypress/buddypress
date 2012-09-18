@@ -115,9 +115,9 @@ class BP_Blogs_Component extends BP_Component {
 			'default_subnav_slug' => 'my-sites',
 			'item_css_id'         => $this->id
 		);
-		
+
 		$parent_url = trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() );
-		
+
 		$sub_nav[] = array(
 			'name'            => __( 'My Sites', 'buddypress' ),
 			'slug'            => 'my-sites',
@@ -212,5 +212,3 @@ function bp_setup_blogs() {
 	$bp->blogs = new BP_Blogs_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_blogs', 6 );
-
-?>

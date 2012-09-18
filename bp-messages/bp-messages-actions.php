@@ -113,5 +113,3 @@ function messages_action_bulk_delete() {
 	}
 }
 add_action( 'bp_actions', 'messages_action_bulk_delete' );
-
-?>

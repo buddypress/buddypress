@@ -683,5 +683,3 @@ function bp_core_load_buddybar_css() {
 		$wp_styles->add_data( 'bp-admin-bar', 'suffix', $min );
 }
 add_action( 'bp_init', 'bp_core_load_buddybar_css' );
-
-?>

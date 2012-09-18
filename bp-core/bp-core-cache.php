@@ -132,5 +132,3 @@ function bp_update_meta_cache( $args = array() ) {
 
 	return $cache;
 }
-
-?>

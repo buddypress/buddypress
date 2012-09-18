@@ -415,5 +415,3 @@ function bp_forums_bbpress_write( $file_source, $file_target, $alterations ) {
 
 	return 1;
 }
-
-?>

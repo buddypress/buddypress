@@ -742,6 +742,3 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 
 	return $field_ids;
 }
-
-
-?>

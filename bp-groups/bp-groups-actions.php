@@ -321,5 +321,3 @@ function groups_action_group_feed() {
 	die;
 }
 add_action( 'bp_actions', 'groups_action_group_feed' );
-
-?>

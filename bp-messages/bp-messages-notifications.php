@@ -70,5 +70,3 @@ To view and read your messages please log in and visit: %4$s
 
 	do_action( 'bp_messages_sent_notification_email', $recipients, $email_subject, $email_content, $args );
 }
-
-?>

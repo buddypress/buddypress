@@ -946,5 +946,3 @@ function bp_messages_embed() {
 	add_filter( 'embed_post_id', 'bp_get_message_thread_id' );
 }
 add_action( 'messages_box_loop_start', 'bp_messages_embed' );
-
-?>

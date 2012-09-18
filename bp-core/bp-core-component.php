@@ -385,5 +385,3 @@ class BP_Component {
 	}
 }
 endif; // BP_Component
-
-?>

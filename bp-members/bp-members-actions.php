@@ -110,5 +110,3 @@ function bp_core_get_random_member() {
 	bp_core_redirect( bp_core_get_user_domain( $user['users'][0]->id ) );
 }
 add_action( 'bp_actions', 'bp_core_get_random_member' );
-
-?>

@@ -199,5 +199,3 @@ function bp_forums_bbpress_install_wizard() {
 		break;
 	}
 }
-
-?>

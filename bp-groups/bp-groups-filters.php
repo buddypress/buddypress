@@ -77,7 +77,7 @@ function bp_groups_filter_kses( $content ) {
 /** Group forums **************************************************************/
 
 /**
- * Only filter the forum SQL on group pages or on the forums directory 
+ * Only filter the forum SQL on group pages or on the forums directory
  */
 function groups_add_forum_privacy_sql() {
 	add_filter( 'get_topics_fields', 'groups_add_forum_fields_sql' );
@@ -147,7 +147,7 @@ function groups_filter_bbpress_caps( $value, $cap, $args ) {
 
 	if ( bp_current_user_can( 'bp_moderate' ) )
 		return true;
-	
+
 	if ( 'add_tag_to' == $cap )
 		if ( $bp->groups->current_group->user_has_access ) return true;
 
@@ -169,5 +169,3 @@ function groups_filter_forums_root_page_sql( $sql ) {
 	return apply_filters( 'groups_filter_bbpress_root_page_sql', 't.topic_id' );
 }
 add_filter( 'get_latest_topics_fields', 'groups_filter_forums_root_page_sql' );
-
-?>

@@ -2263,13 +2263,13 @@ function bp_groups_current_create_step() {
 	 */
 	function bp_get_groups_current_create_step() {
 		global $bp;
-		
+
 		if ( !empty( $bp->groups->current_create_step ) ) {
 			$current_create_step = $bp->groups->current_create_step;
 		} else {
 			$current_create_step = '';
 		}
-		
+
 		return apply_filters( 'bp_get_groups_current_create_step', $current_create_step );
 	}
 
@@ -2433,7 +2433,7 @@ function bp_group_current_admin_tab() {
 		} else {
 			$tab = '';
 		}
-		
+
 		return apply_filters( 'bp_get_current_group_admin_tab', $tab );
 	}
 
@@ -2950,4 +2950,3 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 		if ( !empty( $url ) )
 			return $url;
 	}
-?>

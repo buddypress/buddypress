@@ -172,5 +172,3 @@ function messages_screen_notification_settings() {
 <?php
 }
 add_action( 'bp_notification_settings', 'messages_screen_notification_settings', 2 );
-
-?>

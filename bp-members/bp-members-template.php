@@ -1183,5 +1183,3 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 		if ( !empty( $url ) )
 			return $url;
 	}
-
-?>

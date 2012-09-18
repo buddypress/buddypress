@@ -54,5 +54,3 @@ function messages_autocomplete_init_jsblock() {
 
 <?php
 }
-
-?>

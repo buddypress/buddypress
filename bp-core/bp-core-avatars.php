@@ -959,6 +959,3 @@ function bp_core_avatar_default_thumb() {
 
 	return apply_filters( 'bp_core_avatar_thumb', $bp->avatar->thumb->default );
 }
-
-
-?>

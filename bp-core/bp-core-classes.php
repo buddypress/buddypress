@@ -1773,5 +1773,3 @@ class BP_Embed extends WP_Embed {
 		return $this->maybe_make_link( $url );
 	}
 }
-
-?>

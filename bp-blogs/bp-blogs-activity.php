@@ -17,7 +17,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package BuddyPress
  * @subpackage BlogsActivity
  * @global type $bp
- * @return boolean 
+ * @return boolean
  */
 function bp_blogs_register_activity_actions() {
 	global $bp;
@@ -42,7 +42,7 @@ add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions'
  * @subpackage BlogsActivity
  * @global BuddyPress $bp
  * @param array $args
- * @return boolean 
+ * @return boolean
  */
 function bp_blogs_record_activity( $args = '' ) {
 	global $bp;
@@ -125,5 +125,3 @@ function bp_blogs_delete_activity( $args = true ) {
 		'secondary_item_id' => $secondary_item_id
 	) );
 }
-
-?>

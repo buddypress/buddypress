@@ -375,5 +375,3 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	// Do other fun things
 	do_action( 'bp_admin_tabs' );
 }
-
-?>

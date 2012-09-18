@@ -923,4 +923,3 @@ function bp_profile_visibility_radio_buttons() {
 
 		return apply_filters( 'bp_profile_get_visibility_radio_buttons', $html );
 	}
-?>

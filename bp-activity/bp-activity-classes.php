@@ -50,7 +50,7 @@ class BP_Activity_Activity {
 			$this->mptt_left         = $row->mptt_left;
 			$this->mptt_right        = $row->mptt_right;
 			$this->is_spam           = $row->is_spam;
-			
+
 			bp_activity_update_meta_cache( $this->id );
 		}
 	}
@@ -207,7 +207,7 @@ class BP_Activity_Activity {
 
 		// Define the preferred order for indexes
 		$indexes = apply_filters( 'bp_activity_preferred_index_order', array( 'user_id', 'item_id', 'secondary_item_id', 'date_recorded', 'component', 'type', 'hide_sitewide', 'is_spam' ) );
-		
+
 		foreach( $indexes as $key => $index ) {
 			if ( false !== strpos( $where_sql, $index ) ) {
 				$the_index = $index;
@@ -216,7 +216,7 @@ class BP_Activity_Activity {
 		}
 
 		if ( !empty( $the_index ) ) {
-			$index_hint_sql = $wpdb->prepare( "USE INDEX ({$the_index})" ); 
+			$index_hint_sql = $wpdb->prepare( "USE INDEX ({$the_index})" );
 		} else {
 			$index_hint_sql = '';
 		}
@@ -261,13 +261,13 @@ class BP_Activity_Activity {
 				}
 			}
 		}
-		
+
 		// Get activity meta
 		$activity_ids = array();
 		foreach ( (array) $activities as $activity ) {
 			$activity_ids[] = $activity->id;
 		}
-		
+
 		if ( !empty( $activity_ids ) ) {
 			bp_activity_update_meta_cache( $activity_ids );
 		}
@@ -669,5 +669,3 @@ class BP_Activity_Activity {
 		return $wpdb->get_var( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET hide_sitewide = 1 WHERE user_id = %d", $user_id ) );
 	}
 }
-
-?>

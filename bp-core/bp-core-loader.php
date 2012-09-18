@@ -246,5 +246,3 @@ function bp_setup_core() {
 	$bp->core = new BP_Core();
 }
 add_action( 'bp_setup_components', 'bp_setup_core', 2 );
-
-?>

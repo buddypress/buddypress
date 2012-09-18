@@ -267,5 +267,3 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 
 	return $return;
 }
-
-?>

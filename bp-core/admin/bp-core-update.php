@@ -1054,5 +1054,3 @@ function bp_get_wizard() {
 
 	return false;
 }
-
-?>

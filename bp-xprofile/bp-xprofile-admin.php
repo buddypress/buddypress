@@ -77,7 +77,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		<form action="" id="profile-field-form" method="post">
 
 			<?php
-			
+
 			wp_nonce_field( 'bp_reorder_fields', '_wpnonce_reorder_fields'        );
 			wp_nonce_field( 'bp_reorder_groups', '_wpnonce_reorder_groups', false );
 
@@ -266,7 +266,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				$type = 'error';
 
 				unset( $_GET['mode'] );
-				
+
 				xprofile_admin( $message, $type );
 			} else {
 				$message = __( 'The field was saved successfully.', 'buddypress' );
@@ -278,7 +278,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				if ( !empty( $_POST['default-visibility'] ) ) {
 					bp_xprofile_update_field_meta( $field_id, 'default_visibility', $_POST['default-visibility'] );
 				}
-				
+
 				if ( !empty( $_POST['allow-custom-visibility'] ) ) {
 					bp_xprofile_update_field_meta( $field_id, 'allow_custom_visibility', $_POST['allow-custom-visibility'] );
 				}
@@ -466,5 +466,3 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 
 <?php
 }
-
-?>

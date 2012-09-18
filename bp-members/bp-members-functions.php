@@ -100,7 +100,7 @@ function bp_core_get_users( $args = '' ) {
 		$retval = BP_Core_User::get_users( $type, $per_page, $page, $user_id, $include, $search_terms, $populate_extras, $exclude, $meta_key, $meta_value );
 
 	// Default behavior as of BuddyPress 1.7
-	} else {		
+	} else {
 
 		// Get users like we were asked to do...
 		$users = new BP_User_Query( $params );
@@ -1400,5 +1400,3 @@ function bp_core_wpsignup_redirect() {
 		bp_core_redirect( bp_get_signup_page() );
 }
 add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
-
-?>

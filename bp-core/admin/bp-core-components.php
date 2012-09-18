@@ -153,7 +153,7 @@ function bp_core_admin_components_options() {
 	$all_count = count( $all_components );
 	$page      = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 	$action    = !empty( $_GET['action'] ) ? $_GET['action'] : 'all';
-	
+
 	switch( $action ) {
 		case 'all' :
 			$current_components = $all_components;
@@ -172,7 +172,7 @@ function bp_core_admin_components_options() {
 			$current_components = $required_components;
 			break;
 	}
-	
+
 	// The setup wizard uses different, more descriptive text
 	if ( bp_get_maintenance_mode() ) : ?>
 
@@ -181,7 +181,7 @@ function bp_core_admin_components_options() {
 		<p><?php _e( 'Each component has a unique purpose, and your community may not need each one.', 'buddypress' ); ?></p>
 
 	<?php endif ?>
-		
+
 		<ul class="subsubsub">
 			<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'all'      ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'all'      ) : ?>class="current"<?php endif; ?>><?php printf( _nx( 'All <span class="count">(%s)</span>',      'All <span class="count">(%s)</span>',      $all_count,         'plugins', 'buddypress' ), number_format_i18n( $all_count                    ) ); ?></a> | </li>
 			<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'active'   ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'active'   ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Active <span class="count">(%s)</span>',   'Active <span class="count">(%s)</span>',   count( $active_components   ), 'buddypress' ), number_format_i18n( count( $active_components   ) ) ); ?></a> | </li>
@@ -207,7 +207,7 @@ function bp_core_admin_components_options() {
 			</tfoot>
 
 			<tbody id="the-list">
-				
+
 				<?php if ( !empty( $current_components ) ) : ?>
 
 					<?php foreach ( $current_components as $name => $labels ) : ?>
@@ -233,7 +233,7 @@ function bp_core_admin_components_options() {
 								<span></span>
 								<strong><?php echo esc_html( $labels['title'] ); ?></strong>
 								<div class="row-actions-visible">
-									
+
 								</div>
 							</td>
 
@@ -242,7 +242,7 @@ function bp_core_admin_components_options() {
 									<p><?php echo $labels['description']; ?></p>
 								</div>
 								<div class="active second plugin-version-author-uri">
-									
+
 								</div>
 							</td>
 						</tr>
@@ -250,7 +250,7 @@ function bp_core_admin_components_options() {
 					<?php endforeach ?>
 
 				<?php else : ?>
-						
+
 					<tr class="no-items">
 						<td class="colspanchange" colspan="3"><?php _e( 'No components found.', 'buddypress' ); ?></td>
 					</tr>
@@ -296,5 +296,3 @@ function bp_core_admin_components_settings_handler() {
 	}
 }
 add_action( 'admin_init', 'bp_core_admin_components_settings_handler' );
-
-?>

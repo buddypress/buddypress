@@ -89,5 +89,3 @@ To view %2$s\'s profile: %3$s
 
 	do_action( 'bp_friends_sent_accepted_email', $initiator_id, $subject, $message, $friendship_id, $friend_id );
 }
-
-?>

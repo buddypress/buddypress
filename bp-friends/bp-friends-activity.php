@@ -3,7 +3,7 @@
 /**
  * BuddyPress Friends Activity Functions
  *
- * These functions handle the recording, deleting and formatting of activity 
+ * These functions handle the recording, deleting and formatting of activity
  * for the user and for this specific component.
  *
  * @package BuddyPress
@@ -121,5 +121,3 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 
 	return $return;
 }
-
-?>

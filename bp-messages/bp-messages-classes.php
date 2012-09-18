@@ -558,5 +558,3 @@ class BP_Messages_Notice {
 		return new BP_Messages_Notice( $notice_id );
 	}
 }
-
-?>

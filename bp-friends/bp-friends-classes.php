@@ -346,5 +346,3 @@ class BP_Friends_Friendship {
 		}
 	}
 }
-
-?>

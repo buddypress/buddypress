@@ -65,5 +65,3 @@ function bp_groups_adminbar_admin_menu() {
 	<?php
 }
 add_action( 'bp_adminbar_menus', 'bp_groups_adminbar_admin_menu', 20 );
-
-?>

@@ -251,5 +251,3 @@ function bp_setup_forums() {
 	$bp->forums = new BP_Forums_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_forums', 6 );
-
-?>

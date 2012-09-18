@@ -35,5 +35,3 @@ function bp_activity_update_meta_cache( $activity_ids = false ) {
 	
 	bp_update_meta_cache( $cache_args );
 }
-
-?>

@@ -590,5 +590,3 @@ function bp_setup_groups() {
 	$bp->groups = new BP_Groups_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_groups', 6 );
-
-?>

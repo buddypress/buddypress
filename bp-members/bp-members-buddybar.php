@@ -82,11 +82,11 @@ function bp_adminbar_authors_menu() {
 
 			echo '<li>';
 			echo '<a href="' . bp_core_get_user_domain( $author->user_id, $author->user_nicename, $author->user_login ) . '">';
-			echo bp_core_fetch_avatar( array( 
-				'item_id' => $author->user_id, 
-				'email'   => $author->user_email, 
-				'width'   => 15, 
-				'height'  => 15, 
+			echo bp_core_fetch_avatar( array(
+				'item_id' => $author->user_id,
+				'email'   => $author->user_email,
+				'width'   => 15,
+				'height'  => 15,
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $author->display_name )
 			) );
  			echo ' ' . $author->display_name . '</a>';
@@ -148,5 +148,3 @@ function bp_members_adminbar_admin_menu() {
 	<?php
 }
 add_action( 'bp_adminbar_menus', 'bp_members_adminbar_admin_menu', 20 );
-
-?>

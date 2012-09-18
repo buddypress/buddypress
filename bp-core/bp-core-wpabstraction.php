@@ -170,5 +170,3 @@ if ( !function_exists( 'mb_strrpos' ) ) {
 		}
 	}
 }
-
-?>

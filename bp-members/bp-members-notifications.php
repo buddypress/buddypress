@@ -62,10 +62,10 @@ function bp_core_delete_notification( $id ) {
 
 /**
  * Get a specific notification by its ID
- * 
+ *
  * @since BuddyPress (1.0)
  * @param int $id
- * @return BP_Core_Notification 
+ * @return BP_Core_Notification
  */
 function bp_core_get_notification( $id ) {
 	return new BP_Core_Notification( $id );
@@ -73,7 +73,7 @@ function bp_core_get_notification( $id ) {
 
 /**
  * Get notifications for a specific user
- * 
+ *
  * @since BuddyPress (1.0)
  * @global BuddyPress $bp
  * @param int $user_id
@@ -173,7 +173,7 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 
 /**
  * Delete notifications for a user by type
- * 
+ *
  * Used when clearing out notifications for a specific component when the user
  * has visited that component.
  *
@@ -189,7 +189,7 @@ function bp_core_delete_notifications_by_type( $user_id, $component_name, $compo
 
 /**
  * Delete notifications for an item ID
- * 
+ *
  * Used when clearing out notifications for a specific component when the user
  * has visited that component.
  *
@@ -249,5 +249,3 @@ function bp_core_check_notification_access( $user_id, $notification_id ) {
 
 	return true;
 }
-
-?>

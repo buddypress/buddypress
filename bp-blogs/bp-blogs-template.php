@@ -656,5 +656,3 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 		// Filter and return the HTML button
 		return bp_get_button( apply_filters( 'bp_get_blogs_visit_blog_button', $button ) );
 	}
-
-?>

@@ -65,5 +65,3 @@ function bp_core_load_admin_bar_css() {
 		$wp_styles->add_data( 'bp-admin-bar', 'suffix', $min );
 }
 add_action( 'bp_init', 'bp_core_load_admin_bar_css' );
-
-?>

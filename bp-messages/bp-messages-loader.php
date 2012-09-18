@@ -267,5 +267,3 @@ function bp_setup_messages() {
 	$bp->messages = new BP_Messages_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_messages', 6 );
-
-?>

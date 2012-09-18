@@ -504,5 +504,3 @@ function bp_admin() {
 
 	$bp->admin = new BP_Admin();
 }
-
-?>

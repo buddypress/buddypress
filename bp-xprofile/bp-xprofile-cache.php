@@ -29,5 +29,3 @@ add_action( 'xprofile_updated_profile',      'xprofile_clear_profile_data_object
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );
-
-?>

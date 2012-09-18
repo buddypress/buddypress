@@ -66,5 +66,3 @@ add_filter( 'bp_get_messages_subject_value',     'stripslashes_deep' );
 add_filter( 'bp_get_messages_content_value',     'stripslashes_deep' );
 add_filter( 'bp_get_the_thread_message_content', 'stripslashes_deep' );
 add_filter( 'bp_get_the_thread_subject',         'stripslashes_deep' );
-
-?>

@@ -355,19 +355,19 @@ function bp_get_friendship_requests( $user_id = 0 ) {
 	if ( !$user_id ) {
 		$user_id = bp_displayed_user_id();
 	}
-	
+
 	if ( !$user_id ) {
-		return 0;	
+		return 0;
 	}
-	
+
 	$requests = friends_get_friendship_request_user_ids( $user_id );
-	
+
 	if ( !empty( $requests ) ) {
 		$requests = implode( ',', (array) $requests );
 	} else {
 		$requests = 0;
 	}
-	
+
 	return apply_filters( 'bp_get_friendship_requests', $requests );
 }
 
@@ -430,5 +430,3 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
 
 		return apply_filters( 'bp_friend_get_total_requests_count', count( BP_Friends_Friendship::get_friend_user_ids( $user_id, true ) ) );
 	}
-
-?>

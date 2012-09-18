@@ -107,7 +107,7 @@ class BP_Activity_Template {
 	/**
 	 * Constructor method
 	 *
-	 * See definition of $defaults below, as well as $defaults in bp_has_activities(), for 
+	 * See definition of $defaults below, as well as $defaults in bp_has_activities(), for
 	 * description of $args array
 	 *
 	 * @param array $args
@@ -138,7 +138,7 @@ class BP_Activity_Template {
 			$func_args = func_get_args();
 			$args = bp_core_parse_args_array( $old_args_keys, $func_args );
 		}
-		
+
 		$defaults = array(
 			'page'             => 1,
 			'per_page'         => 20,
@@ -156,7 +156,7 @@ class BP_Activity_Template {
 		);
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
-		
+
 		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
@@ -2739,5 +2739,3 @@ function bp_activity_sitewide_feed() {
 <?php
 }
 add_action( 'bp_head', 'bp_activity_sitewide_feed' );
-
-?>

@@ -286,5 +286,3 @@ class BP_Blogs_Blog {
 		return false;
 	}
 }
-
-?>

@@ -1465,4 +1465,3 @@ function bp_forum_topic_count( $user_id = 0 ) {
 	function bp_get_forum_topic_count( $user_id = 0 ) {
 		return apply_filters( 'bp_get_forum_topic_count', bp_forums_total_topic_count( $user_id ) );
 	}
-?>

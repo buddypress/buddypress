@@ -258,5 +258,3 @@ To view %5$s\'s profile visit: %6$s
 		do_action( 'bp_groups_sent_invited_email', $invited_user_id, $subject, $message, $group );
 	}
 }
-
-?>

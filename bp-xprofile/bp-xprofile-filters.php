@@ -245,5 +245,3 @@ function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_quer
 	}
 }
 add_filter( 'bp_user_query_populate_extras', 'bp_xprofile_filter_user_query_populate_extras', 2, 2 );
-
-?>

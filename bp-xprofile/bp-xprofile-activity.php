@@ -132,5 +132,3 @@ function bp_xprofile_new_avatar_activity() {
 	) );
 }
 add_action( 'xprofile_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
-
-?>

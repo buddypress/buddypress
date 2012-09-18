@@ -231,4 +231,3 @@ function bp_generate_rewrite_rules( $wp_rewrite ) {
 function bp_allowed_themes( $themes ) {
 	return apply_filters( 'bp_allowed_themes', $themes );
 }
-

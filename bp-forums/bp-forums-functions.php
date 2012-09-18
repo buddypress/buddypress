@@ -242,8 +242,8 @@ function bp_forums_update_topic( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	// Check if the user is a spammer 
-	if ( bp_is_user_inactive( bp_loggedin_user_id() ) ) 
+	// Check if the user is a spammer
+	if ( bp_is_user_inactive( bp_loggedin_user_id() ) )
 		return false;
 
 	// bb_insert_topic() will append tags, but not remove them. So we remove all existing tags.
@@ -353,23 +353,23 @@ function bp_forums_total_topic_count() {
  */
 function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
 	$reply_exists = false;
-	
+
 	if ( $text && $topic_id && $user_id ) {
 		do_action( 'bbpress_init' );
-		
+
 		$args = array(
 			'post_author_id' => $user_id,
 			'topic_id'       => $topic_id
 		);
-		
+
 		// BB_Query's post_text parameter does a MATCH, while we need exact matches
 		add_filter( 'get_posts_where', create_function( '$q', 'return $q . " AND p.post_text = \'' . $text . '\'";' ) );
-		
+
 		$query = new BB_Query( 'post', $args );
-		
+
 		$reply_exists = !empty( $query->results );
 	}
-	
+
 	return apply_filters( 'bp_forums_reply_exists', $reply_exists, $text, $topic_id, $user_id );
 }
 
@@ -746,4 +746,3 @@ function bp_embed_forum_cache( $cache, $id, $cachekey ) {
 function bp_embed_forum_save_cache( $cache, $cachekey, $id ) {
 	bb_update_postmeta( $id, $cachekey, $cache );
 }
-?>

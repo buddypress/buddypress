@@ -58,9 +58,9 @@ class BP_Groups_Group {
 	function populate() {
 		global $wpdb, $bp;
 
-		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {			
+		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {
 			bp_groups_update_meta_cache( $this->id );
-						
+
 			$this->id                 = $group->id;
 			$this->creator_id         = $group->creator_id;
 			$this->name               = stripslashes($group->name);
@@ -72,7 +72,7 @@ class BP_Groups_Group {
 			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 			$this->is_member          = BP_Groups_Member::check_is_member( bp_loggedin_user_id(), $this->id );
-			
+
 			// If this is a private or hidden group, does the current user have access?
 			if ( 'private' == $this->status || 'hidden' == $this->status ) {
 				if ( $this->is_member && is_user_logged_in() || bp_current_user_can( 'bp_moderate' ) )
@@ -159,7 +159,7 @@ class BP_Groups_Group {
 			$this->id = $wpdb->insert_id;
 
 		do_action_ref_array( 'groups_group_after_save', array( &$this ) );
-		
+
 		wp_cache_delete( 'bp_groups_group_' . $this->id, 'bp' );
 
 		return true;
@@ -450,13 +450,13 @@ class BP_Groups_Group {
 		foreach ( (array) $paged_groups as $group ) {
 			$group_ids[] = $group->id;
 		}
-		
+
 		// Populate some extra information instead of querying each time in the loop
 		if ( !empty( $populate_extras ) ) {
 			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $type );
 		}
-		
+
 		// Grab all groupmeta
 		bp_groups_update_meta_cache( $group_ids );
 
@@ -857,7 +857,7 @@ class BP_Groups_Member {
 			if ( $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 1 LIMIT 1", $this->user_id, $this->group_id ) ) ) {
 				return false;
 			}
-			
+
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->groups->table_name_members} ( user_id, group_id, inviter_id, is_admin, is_mod, is_banned, user_title, date_modified, is_confirmed, comments, invite_sent ) VALUES ( %d, %d, %d, %d, %d, %d, %s, %s, %d, %s, %d )", $this->user_id, $this->group_id, $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->invite_sent );
 		}
 
@@ -1311,7 +1311,7 @@ class BP_Groups_Member {
 class BP_Group_Extension {
 	var $name = false;
 	var $slug = false;
-	
+
 	// The name/slug of the Group Admin tab for this extension
 	var $admin_name = '';
 	var $admin_slug = '';
@@ -1358,21 +1358,21 @@ class BP_Group_Extension {
 
 	function _register() {
 		global $bp;
-		
+
 		// If admin/create names and slugs are not provided, they fall back on the main
 		// name and slug for the extension
 		if ( !$this->admin_name ) {
 			$this->admin_name = $this->name;
 		}
-		
+
 		if ( !$this->admin_slug ) {
 			$this->admin_slug = $this->slug;
 		}
-		
+
 		if ( !$this->create_name ) {
 			$this->create_name = $this->name;
 		}
-		
+
 		if ( !$this->create_slug ) {
 			$this->create_slug = $this->slug;
 		}
@@ -1478,5 +1478,3 @@ function bp_register_group_extension( $group_extension_class ) {
 		add_action( "admin_init", array( &$extension, "_register" ) );
 	' ), 11 );
 }
-
-?>

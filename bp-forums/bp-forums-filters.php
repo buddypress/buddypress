@@ -205,5 +205,3 @@ function bp_forums_add_replied_where_sql( $sql ) {
 
 	return $sql;
 }
-
-?>
