@@ -261,7 +261,10 @@ class BP_Core_Setup_Wizard {
 	}
 
 	function step_pages() {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		// Get BuddyPress once in this scope
+		$bp = buddypress();
 
 		// Make sure that page info is pulled from bp_get_root_blog_id() (except when in
 		// multisite mode)
