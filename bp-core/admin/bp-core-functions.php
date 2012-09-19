@@ -130,12 +130,11 @@ function bp_core_admin_backpat_page() {
  * @package BuddyPress Core
  * @since BuddyPress (1.5)
  *
- * @global BuddyPress $bp The one true BuddyPress instance
  * @uses bp_current_user_can() to check current user permissions before showing the notices
  * @uses bp_is_root_blog()
  */
 function bp_core_print_admin_notices() {
-	global $bp;
+	$bp = buddypress();
 
 	// Only the super admin should see messages
 	if ( !bp_current_user_can( 'bp_moderate' ) )
@@ -170,11 +169,10 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  * @package BuddyPress Core
  * @since BuddyPress (1.5)
  *
- * @global BuddyPress $bp The one true BuddyPress instance
  * @param string $notice The notice you are adding to the queue
  */
 function bp_core_add_admin_notice( $notice ) {
-	global $bp;
+	$bp = buddypress();
 
 	if ( empty( $bp->admin->notices ) ) {
 		$bp->admin->notices = array();
@@ -196,7 +194,9 @@ function bp_core_add_admin_notice( $notice ) {
  * @package BuddyPress Core
  */
 function bp_core_activation_notice() {
-	global $wp_rewrite, $wpdb, $bp;
+	global $wp_rewrite, $wpdb;
+
+	$bp = buddypress();
 
 	// Only the super admin gets warnings
 	if ( !bp_current_user_can( 'bp_moderate' ) )
@@ -241,7 +241,7 @@ function bp_core_activation_notice() {
 	$wp_page_components  = array();
 
 	// Only components with 'has_directory' require a WP page to function
-	foreach( $bp->loaded_components as $component_id => $is_active ) {
+	foreach( array_keys( $bp->loaded_components ) as $component_id ) {
 		if ( !empty( $bp->{$component_id}->has_directory ) ) {
 			$wp_page_components[] = array(
 				'id'   => $component_id,
@@ -295,7 +295,7 @@ function bp_core_activation_notice() {
 	$dupes      = array_diff_assoc( $page_ids, array_unique( $page_ids ) );
 
 	if ( !empty( $dupes ) ) {
-		foreach( $dupes as $dupe_component => $dupe_id ) {
+		foreach( array_keys( $dupes ) as $dupe_component ) {
 			$dupe_names[] = $bp->pages->{$dupe_component}->title;
 		}
 

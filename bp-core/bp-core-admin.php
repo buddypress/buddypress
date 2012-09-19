@@ -82,22 +82,12 @@ class BP_Admin {
 	 * @access private
 	 */
 	private function setup_globals() {
-		global $bp;
-
-		// Admin url
-		$this->admin_dir  = trailingslashit( $bp->plugin_dir . 'bp-core/admin' );
-
-		// Admin url
-		$this->admin_url  = trailingslashit( $bp->plugin_url . 'bp-core/admin' );
-
-		// Admin images URL
-		$this->images_url = trailingslashit( $this->admin_url . 'images' );
-
-		// Admin css URL
-		$this->css_url    = trailingslashit( $this->admin_url . 'css'    );
-
-		// Admin css URL
-		$this->js_url     = trailingslashit( $this->admin_url . 'js'     );
+		$bp               = buddypress();
+		$this->admin_dir  = trailingslashit( $bp->plugin_dir  . 'bp-core/admin' ); // Admin path
+		$this->admin_url  = trailingslashit( $bp->plugin_url  . 'bp-core/admin' ); // Admin url
+		$this->images_url = trailingslashit( $this->admin_url . 'images'        ); // Admin images URL
+		$this->css_url    = trailingslashit( $this->admin_url . 'css'           ); // Admin css URL
+		$this->js_url     = trailingslashit( $this->admin_url . 'js'            ); // Admin css URL
 	}
 
 	/**
@@ -149,7 +139,7 @@ class BP_Admin {
 		// Add menu item to settings menu
 		add_action( bp_core_admin_hook(),    array( $this, 'admin_menus' ), 5 );
 
-		// Add notice if not using a BuddyPress theme
+		// Add notice if an update is needed
 		add_action( 'admin_notices',         array( $this, 'admin_notices' ) );
 		add_action( 'network_admin_notices', array( $this, 'admin_notices' ) );
 
@@ -185,13 +175,15 @@ class BP_Admin {
 		// In maintenance mode
 		if ( bp_get_maintenance_mode() ) {
 
-			if ( !current_user_can( 'manage_options' ) )
+			if ( !current_user_can( 'manage_options' ) ) {
 				return;
+			}
 
-			if ( bp_get_maintenance_mode() == 'install' )
+			if ( bp_get_maintenance_mode() == 'install' ) {
 				$status = __( 'BuddyPress Setup', 'buddypress' );
-			else
+			} else {
 				$status = __( 'Update BuddyPress',  'buddypress' );
+			}
 
 			if ( bp_get_wizard() ) {
 				if ( ! is_multisite() || bp_is_multiblog_mode() ) {
@@ -205,8 +197,9 @@ class BP_Admin {
 		} else {
 
 			// Bail if user cannot moderate
-			if ( ! bp_current_user_can( 'manage_options' ) )
+			if ( ! bp_current_user_can( 'manage_options' ) ) {
 				return;
+			}
 
 			$hooks = array();
 			$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
@@ -476,12 +469,12 @@ class BP_Admin {
 
 			// Update text
 			case 'update' :
-				$msg = sprintf( __( 'BuddyPress has been updated! Please run the <a href="%s">update wizard</a>.', 'buddypress' ), $url );
+				$msg = sprintf( __( 'BuddyPress has been updated! Please run the <a href="%s">update wizard</a>.', 'buddypress' ), esc_url( $url ) );
 				break;
 
 			// First install text
 			case 'install' : default :
-				$msg = sprintf( __( 'BuddyPress was successfully activated! Please run the <a href="%s">installation wizard</a>.', 'buddypress' ), $url );
+				$msg = sprintf( __( 'BuddyPress was successfully activated! Please run the <a href="%s">installation wizard</a>.', 'buddypress' ), esc_url( $url ) );
 				break;
 		} ?>
 
@@ -500,7 +493,5 @@ endif; // class_exists check
  * @uses BP_Admin
  */
 function bp_admin() {
-	global $bp;
-
-	$bp->admin = new BP_Admin();
+	buddypress()->admin = new BP_Admin();
 }

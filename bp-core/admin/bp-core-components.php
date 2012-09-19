@@ -172,93 +172,88 @@ function bp_core_admin_components_options() {
 			$current_components = $required_components;
 			break;
 	}
+	
+	if ( ! bp_get_maintenance_mode() ) : ?>
 
-	// The setup wizard uses different, more descriptive text
-	if ( bp_get_maintenance_mode() ) : ?>
+	<ul class="subsubsub">
+		<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'all'      ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'all'      ) : ?>class="current"<?php endif; ?>><?php printf( _nx( 'All <span class="count">(%s)</span>',      'All <span class="count">(%s)</span>',      $all_count,         'plugins', 'buddypress' ), number_format_i18n( $all_count                    ) ); ?></a> | </li>
+		<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'active'   ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'active'   ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Active <span class="count">(%s)</span>',   'Active <span class="count">(%s)</span>',   count( $active_components   ), 'buddypress' ), number_format_i18n( count( $active_components   ) ) ); ?></a> | </li>
+		<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'inactive' ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'inactive' ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', count( $inactive_components ), 'buddypress' ), number_format_i18n( count( $inactive_components ) ) ); ?></a> | </li>
+		<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'mustuse'  ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'mustuse'  ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', count( $required_components ), 'buddypress' ), number_format_i18n( count( $required_components ) ) ); ?></a></li>
+	</ul>
 
-		<h3><?php _e( 'Available Components', 'buddypress' ); ?></h3>
+	<?php endif; ?>
 
-		<p><?php _e( 'Each component has a unique purpose, and your community may not need each one.', 'buddypress' ); ?></p>
+	<table class="widefat fixed plugins" cellspacing="0">
+		<thead>
+			<tr>
+				<th scope="col" id="cb" class="manage-column column-cb check-column">&nbsp;</th>
+				<th scope="col" id="name" class="manage-column column-name" style="width: 190px;"><?php _e( 'Component', 'buddypress' ); ?></th>
+				<th scope="col" id="description" class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
+			</tr>
+		</thead>
 
-	<?php endif ?>
+		<tfoot>
+			<tr>
+				<th scope="col" class="manage-column column-cb check-column">&nbsp;</th>
+				<th scope="col" class="manage-column column-name" style="width: 190px;"><?php _e( 'Component', 'buddypress' ); ?></th>
+				<th scope="col" class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
+			</tr>
+		</tfoot>
 
-		<ul class="subsubsub">
-			<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'all'      ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'all'      ) : ?>class="current"<?php endif; ?>><?php printf( _nx( 'All <span class="count">(%s)</span>',      'All <span class="count">(%s)</span>',      $all_count,         'plugins', 'buddypress' ), number_format_i18n( $all_count                    ) ); ?></a> | </li>
-			<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'active'   ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'active'   ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Active <span class="count">(%s)</span>',   'Active <span class="count">(%s)</span>',   count( $active_components   ), 'buddypress' ), number_format_i18n( count( $active_components   ) ) ); ?></a> | </li>
-			<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'inactive' ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'inactive' ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', count( $inactive_components ), 'buddypress' ), number_format_i18n( count( $inactive_components ) ) ); ?></a> | </li>
-			<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'mustuse'  ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'mustuse'  ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', count( $required_components ), 'buddypress' ), number_format_i18n( count( $required_components ) ) ); ?></a></li>
-		</ul>
+		<tbody id="the-list">
 
-		<table class="widefat fixed plugins" cellspacing="0">
-			<thead>
-				<tr>
-					<th scope="col" id="cb" class="manage-column column-cb check-column">&nbsp;</th>
-					<th scope="col" id="name" class="manage-column column-name" style="width: 190px;"><?php _e( 'Component', 'buddypress' ); ?></th>
-					<th scope="col" id="description" class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
-				</tr>
-			</thead>
+			<?php if ( !empty( $current_components ) ) : ?>
 
-			<tfoot>
-				<tr>
-					<th scope="col" class="manage-column column-cb check-column">&nbsp;</th>
-					<th scope="col" class="manage-column column-name" style="width: 190px;"><?php _e( 'Component', 'buddypress' ); ?></th>
-					<th scope="col" class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
-				</tr>
-			</tfoot>
+				<?php foreach ( $current_components as $name => $labels ) : ?>
 
-			<tbody id="the-list">
+					<?php if ( !in_array( $name, array( 'core', 'members' ) ) ) :
+						$class = isset( $active_components[esc_attr( $name )] ) ? 'active' : 'inactive';
+					else :
+						$class = 'active';
+					endif; ?>
 
-				<?php if ( !empty( $current_components ) ) : ?>
+					<tr id="<?php echo $name; ?>" class="<?php echo $name . ' ' . $class; ?>">
+						<th scope="row">
 
-					<?php foreach ( $current_components as $name => $labels ) : ?>
+							<?php if ( !in_array( $name, array( 'core', 'members' ) ) ) : ?>
 
-						<?php if ( !in_array( $name, array( 'core', 'members' ) ) ) :
-							$class = isset( $active_components[esc_attr( $name )] ) ? 'active' : 'inactive';
-						else :
-							$class = 'active';
-						endif; ?>
+								<input type="checkbox" id="bp_components[<?php echo esc_attr( $name ); ?>]" name="bp_components[<?php echo esc_attr( $name ); ?>]" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> />
 
-						<tr id="<?php echo $name; ?>" class="<?php echo $name . ' ' . $class; ?>">
-							<th scope="row">
+							<?php endif; ?>
 
-								<?php if ( !in_array( $name, array( 'core', 'members' ) ) ) : ?>
+							<label class="screen-reader-text" for="bp_components[<?php echo esc_attr( $name ); ?>]"><?php sprintf( __( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) );  ?></label>
+						</th>
+						<td class="plugin-title" style="width: 190px;">
+							<span></span>
+							<strong><?php echo esc_html( $labels['title'] ); ?></strong>
+							<div class="row-actions-visible">
 
-									<input type="checkbox" id="bp_components[<?php echo esc_attr( $name ); ?>]" name="bp_components[<?php echo esc_attr( $name ); ?>]" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> />
+							</div>
+						</td>
 
-								<?php endif; ?>
+						<td class="column-description desc">
+							<div class="plugin-description">
+								<p><?php echo $labels['description']; ?></p>
+							</div>
+							<div class="active second plugin-version-author-uri">
 
-								<label class="screen-reader-text" for="bp_components[<?php echo esc_attr( $name ); ?>]"><?php sprintf( __( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) );  ?></label>
-							</th>
-							<td class="plugin-title" style="width: 190px;">
-								<span></span>
-								<strong><?php echo esc_html( $labels['title'] ); ?></strong>
-								<div class="row-actions-visible">
-
-								</div>
-							</td>
-
-							<td class="column-description desc">
-								<div class="plugin-description">
-									<p><?php echo $labels['description']; ?></p>
-								</div>
-								<div class="active second plugin-version-author-uri">
-
-								</div>
-							</td>
-						</tr>
-
-					<?php endforeach ?>
-
-				<?php else : ?>
-
-					<tr class="no-items">
-						<td class="colspanchange" colspan="3"><?php _e( 'No components found.', 'buddypress' ); ?></td>
+							</div>
+						</td>
 					</tr>
 
-				<?php endif; ?>
+				<?php endforeach ?>
 
-			</tbody>
-		</table>
+			<?php else : ?>
+
+				<tr class="no-items">
+					<td class="colspanchange" colspan="3"><?php _e( 'No components found.', 'buddypress' ); ?></td>
+				</tr>
+
+			<?php endif; ?>
+
+		</tbody>
+	</table>
 
 	<input type="hidden" name="bp_components[members]" value="1" />
 
