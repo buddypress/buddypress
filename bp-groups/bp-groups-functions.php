@@ -204,12 +204,12 @@ function groups_delete_group( $group_id ) {
 	if ( ! bp_is_item_admin() )
 		return false;
 
+	do_action( 'groups_before_delete_group', $group_id );
+
 	// Get the group object
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
 	if ( !$group->delete() )
 		return false;
-
-	do_action( 'groups_before_delete_group', $group_id );
 
 	// Delete all group activity from activity streams
 	if ( bp_is_active( 'activity' ) )
