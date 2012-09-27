@@ -795,7 +795,7 @@ function bp_activity_admin_index() {
 		$errors = array_values( $errors );
 
 		if ( $deleted > 0 )
-			$messages[] = sprintf( _n( '%s activity has been permanently deleted.', '%s activity items have been permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
+			$messages[] = sprintf( _n( '%s activity item has been permanently deleted.', '%s activity items have been permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
 
 		if ( ! empty( $errors ) ) {
 			if ( 1 == count( $errors ) ) {
@@ -817,13 +817,13 @@ function bp_activity_admin_index() {
 		}
 
 		if ( $spammed > 0 )
-			$messages[] = sprintf( _n( '%s activity has been successfully spammed.', '%s activity items have been successfully spammed.', $spammed, 'buddypress' ), number_format_i18n( $spammed ) );
+			$messages[] = sprintf( _n( '%s activity item has been successfully spammed.', '%s activity items have been successfully spammed.', $spammed, 'buddypress' ), number_format_i18n( $spammed ) );
 
 		if ( $unspammed > 0 )
-			$messages[] = sprintf( _n( '%s activity has been successfully unspammed.', '%s activity items have been successfully unspammed.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
+			$messages[] = sprintf( _n( '%s activity item has been successfully unspammed.', '%s activity items have been successfully unspammed.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
 
 		if ( $updated > 0 )
-			$messages[] = __( 'The activity has been updated succesfully.', 'buddypress' );
+			$messages[] = __( 'The activity item has been updated succesfully.', 'buddypress' );
 	}
 
 	// Prepare the activity items for display
