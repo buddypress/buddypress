@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-09-27 20:36:32+00:00\n"
+"POT-Creation-Date: 2012-09-27 21:36:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -270,8 +270,8 @@ msgstr ""
 msgid "These identify the object that created this activity. For example, the fields could reference a pair of site and comment IDs."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:798 bp-groups/bp-groups-admin.php:585
-msgid "%s activity has been permanently deleted."
+#: bp-activity/bp-activity-admin.php:798
+msgid "%s activity item has been permanently deleted."
 msgid_plural "%s activity items have been permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
@@ -289,19 +289,19 @@ msgid "#%s"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:820
-msgid "%s activity has been successfully spammed."
+msgid "%s activity item has been successfully spammed."
 msgid_plural "%s activity items have been successfully spammed."
 msgstr[0] ""
 msgstr[1] ""
 
 #: bp-activity/bp-activity-admin.php:823
-msgid "%s activity has been successfully unspammed."
+msgid "%s activity item has been successfully unspammed."
 msgid_plural "%s activity items have been successfully unspammed."
 msgstr[0] ""
 msgstr[1] ""
 
 #: bp-activity/bp-activity-admin.php:826
-msgid "The activity has been updated succesfully."
+msgid "The activity item has been updated succesfully."
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:840
@@ -2804,6 +2804,12 @@ msgstr ""
 #: bp-groups/bp-groups-admin.php:558
 msgid "This action cannot be undone."
 msgstr ""
+
+#: bp-groups/bp-groups-admin.php:585
+msgid "%s activity has been permanently deleted."
+msgid_plural "%s activity items have been permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
 
 #: bp-groups/bp-groups-admin.php:616
 msgid "Search all Groups"
