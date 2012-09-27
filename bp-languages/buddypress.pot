@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-09-19 07:36:27+00:00\n"
+"POT-Creation-Date: 2012-09-27 20:36:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -80,7 +80,7 @@ msgstr ""
 #: bp-activity/bp-activity-loader.php:118
 #: bp-activity/bp-activity-loader.php:241
 #: bp-activity/bp-activity-screens.php:278
-#: bp-activity/feeds/bp-activity-personal-feed.php:28
+#: bp-activity/feeds/bp-activity-personal-feed.php:27
 #: bp-core/admin/bp-core-update.php:389
 msgid "Activity"
 msgstr ""
@@ -513,7 +513,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-loader.php:153
 #: bp-activity/bp-activity-loader.php:234
-#: bp-activity/feeds/bp-activity-mentions-feed.php:28
+#: bp-activity/feeds/bp-activity-mentions-feed.php:27
 #: bp-themes/bp-default/activity/index.php:77
 #: bp-themes/bp-legacy/buddypress/activity/index.php:57
 msgid "Mentions"
@@ -766,86 +766,86 @@ msgstr ""
 #. translators: Favorited activity RSS title - "[Site Name] | [Displayed User
 #. Name] | Favorite Activity"
 
-#: bp-activity/feeds/bp-activity-favorites-feed.php:28
+#: bp-activity/feeds/bp-activity-favorites-feed.php:27
 msgid "Favorite Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-favorites-feed.php:31
+#: bp-activity/feeds/bp-activity-favorites-feed.php:30
 msgid "%s - Favorite Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-favorites-feed.php:57
-#: bp-activity/feeds/bp-activity-friends-feed.php:50
-#: bp-activity/feeds/bp-activity-group-feed.php:50
-#: bp-activity/feeds/bp-activity-mentions-feed.php:51
-#: bp-activity/feeds/bp-activity-mygroups-feed.php:56
-#: bp-activity/feeds/bp-activity-personal-feed.php:50
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:50
+#: bp-activity/feeds/bp-activity-favorites-feed.php:56
+#: bp-activity/feeds/bp-activity-friends-feed.php:49
+#: bp-activity/feeds/bp-activity-group-feed.php:49
+#: bp-activity/feeds/bp-activity-mentions-feed.php:50
+#: bp-activity/feeds/bp-activity-mygroups-feed.php:55
+#: bp-activity/feeds/bp-activity-personal-feed.php:49
+#: bp-activity/feeds/bp-activity-sitewide-feed.php:49
 msgid "Comments: %s"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-favorites-feed.php:61
-#: bp-activity/feeds/bp-activity-friends-feed.php:54
-#: bp-activity/feeds/bp-activity-mentions-feed.php:55
-#: bp-activity/feeds/bp-activity-personal-feed.php:54
+#: bp-activity/feeds/bp-activity-favorites-feed.php:60
+#: bp-activity/feeds/bp-activity-friends-feed.php:53
+#: bp-activity/feeds/bp-activity-mentions-feed.php:54
+#: bp-activity/feeds/bp-activity-personal-feed.php:53
 msgid "In reply to"
 msgstr ""
 
 #. translators: Member friends activity RSS title - "[Site Name] | Friends
 #. Activity"
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:28
+#: bp-activity/feeds/bp-activity-friends-feed.php:27
 msgid "Friends Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-friends-feed.php:31
+#: bp-activity/feeds/bp-activity-friends-feed.php:30
 msgid "%s - Friends Activity Feed"
 msgstr ""
 
 #. translators: Single group activity RSS title - "[Site Name] | [Group Name] |
 #. Group Activity"
 
-#: bp-activity/feeds/bp-activity-group-feed.php:28
+#: bp-activity/feeds/bp-activity-group-feed.php:27
 msgid "Group Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-group-feed.php:31
+#: bp-activity/feeds/bp-activity-group-feed.php:30
 msgid "%s - Group Activity Feed"
 msgstr ""
 
 #. translators: Mentions RSS title - "[Site Name] | [Displayed User Name] |
 #. Mentions"
 
-#: bp-activity/feeds/bp-activity-mentions-feed.php:32
+#: bp-activity/feeds/bp-activity-mentions-feed.php:31
 msgid "%s - Mentions"
 msgstr ""
 
 #. translators: Member groups activity RSS title - "[Site Name] | [Displayed
 #. User Name] | My Groups - Public Activity"
 
-#: bp-activity/feeds/bp-activity-mygroups-feed.php:28
+#: bp-activity/feeds/bp-activity-mygroups-feed.php:27
 msgid "My Groups - Public Activity"
 msgstr ""
 
 #. translators: Member groups activity RSS description - "[Displayed user name]
 #. - My Groups - Public Activity"
 
-#: bp-activity/feeds/bp-activity-mygroups-feed.php:32
+#: bp-activity/feeds/bp-activity-mygroups-feed.php:31
 msgid "%1$s - My Groups - Public Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-personal-feed.php:31
+#: bp-activity/feeds/bp-activity-personal-feed.php:30
 msgid "%s - Activity Feed"
 msgstr ""
 
 #. translators: Sitewide activity RSS title - "[Site Name] | Site Wide
 #. Activity"
 
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:28
+#: bp-activity/feeds/bp-activity-sitewide-feed.php:27
 msgid "Site Wide Activity"
 msgstr ""
 
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:31
+#: bp-activity/feeds/bp-activity-sitewide-feed.php:30
 msgid "Site Wide Activity Feed"
 msgstr ""
 
