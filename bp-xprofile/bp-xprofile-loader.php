@@ -101,14 +101,18 @@ class BP_XProfile_Component extends BP_Component {
 
 		// Register the visibility levels. See bp_xprofile_get_visibility_levels() to filter
 		$this->visibility_levels = array(
-			'public'  => array(
-				'id'	=> 'public',
+			'public' => array(
+				'id'	  => 'public',
 				'label' => __( 'Anyone', 'buddypress' )
 			),
 			'loggedin' => array(
-				'id'	=> 'loggedin',
+				'id'	  => 'loggedin',
 				'label' => __( 'Logged In Users', 'buddypress' )
-			)
+			),
+			'adminsonly' => array(
+				'id'	  => 'adminsonly',
+				'label' => __( 'Admins Only', 'buddypress' )
+			),
 		);
 
 		if ( bp_is_active( 'friends' ) ) {

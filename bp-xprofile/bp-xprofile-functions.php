@@ -671,26 +671,34 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
 	}
 
 	// @todo - This is where you'd swap out for current_user_can() checks
+	$hidden_levels = array();
 
+	// Current user is logged in
 	if ( $current_user_id ) {
-		// Current user is logged in
+
+		// If you're viewing your own profile, nothing's private
 		if ( $displayed_user_id == $current_user_id ) {
-			// If you're viewing your own profile, nothing's private
-			$hidden_fields = array();
 
-		} else if ( bp_is_active( 'friends' ) && friends_check_friendship( $displayed_user_id, $current_user_id ) ) {
-			// If the current user and displayed user are friends, show all
-			$hidden_fields = array();
+		// If the current user and displayed user are friends, show all
+		} elseif ( bp_is_active( 'friends' ) && friends_check_friendship( $displayed_user_id, $current_user_id ) ) {
+			if ( ! bp_current_user_can( 'bp_moderate' ) )
+				$hidden_levels[] = 'adminsonly';
 
+			$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
+
+		// current user is logged-in but not friends, so exclude friends-only
 		} else {
-			// current user is logged-in but not friends, so exclude friends-only
 			$hidden_levels = array( 'friends' );
+
+			if ( ! bp_current_user_can( 'bp_moderate' ) )
+				$hidden_levels[] = 'adminsonly';
+
 			$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
 		}
 
+	// Current user is not logged in, so exclude friends-only, loggedin, and adminsonly.
 	} else {
-		// Current user is not logged in, so exclude friends-only and loggedin
-		$hidden_levels = array( 'friends', 'loggedin' );
+		$hidden_levels = array( 'friends', 'loggedin', 'adminsonly', );
 		$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
 	}
 
@@ -704,7 +712,7 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
  * @see bp_xprofile_get_hidden_fields_for_user()
  *
  * @param int $user_id The id of the profile owner
- * @param array $levels An array of visibility levels ('public', 'friends', 'loggedin', etc) to be
+ * @param array $levels An array of visibility levels ('public', 'friends', 'loggedin', 'adminsonly' etc) to be
  *    checked against
  * @return array $field_ids The fields that match the requested visibility levels for the given user
  */
