@@ -375,3 +375,18 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	// Do other fun things
 	do_action( 'bp_admin_tabs' );
 }
+
+/**
+ * Add the confirmation inline javascript in the WP admin dashboard.
+ *
+ * Only add it if we're not in BP maintenance mode.
+ *
+ * @since BuddyPress (1.7)
+ * @uses bp_get_maintenance_mode() To see if we're in BP maintenance mode.
+ * @uses bp_core_confirmation_js() To output our inline JS.
+ */
+function bp_core_admin_add_confirm_js() { 
+	if ( ! bp_get_maintenance_mode() )
+		bp_core_confirmation_js();
+} 
+add_action( 'admin_head', 'bp_core_admin_add_confirm_js' ); 

@@ -58,6 +58,11 @@ function bp_forums_bbpress_admin() {
 
 			// Delete the bb-config.php location option
 			bp_delete_option( 'bb-config-location' );
+
+			// Now delete the bb-config.php file
+			@unlink( ABSPATH . 'bb-config.php' );
+
+			// show the updated wizard
 			bp_forums_bbpress_install_wizard();
 
 		else : ?>
@@ -77,7 +82,7 @@ function bp_forums_bbpress_admin() {
 				</ul>
 
 				<div>
-					<a class="button button-primary" href="<?php echo $action ?>"><?php _e( 'Uninstall Group Forums', 'buddypress' ) ?></a> &nbsp;
+					<a class="button button-primary confirm" href="<?php echo $action ?>"><?php _e( 'Uninstall Group Forums', 'buddypress' ) ?></a> &nbsp;
 				</div>
 			</div>
 
