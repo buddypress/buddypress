@@ -1265,9 +1265,7 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 	// Get the home URL
 	$home_url = strtolower( home_url() );
 
-	// Build the currently requested URL
-	$scheme        = is_ssl() ? 'https://' : 'http://';
-	$requested_url = strtolower( $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+	$requested_url = bp_get_requested_url();
 
 	// Check the nonce
 	$result = isset( $_REQUEST[$query_arg] ) ? wp_verify_nonce( $_REQUEST[$query_arg], $action ) : false;

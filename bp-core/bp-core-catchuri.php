@@ -672,7 +672,7 @@ function bp_get_requested_url() {
 		$bp->canonical_stack['requested_url'] .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	}
 
-	return $bp->canonical_stack['requested_url'];
+	return apply_filters( 'bp_get_requested_url', $bp->canonical_stack['requested_url'] );
 }
 
 /**
