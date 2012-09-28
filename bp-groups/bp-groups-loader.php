@@ -506,9 +506,9 @@ class BP_Groups_Component extends BP_Component {
 			$title   = __( 'Groups',             'buddypress' );
 			$pending = __( 'No Pending Invites', 'buddypress' );
 
-			if ( !empty( $count->total ) ) {
-				$title   = sprintf( __( 'Groups <span class="count">%s</span>',          'buddypress' ), $count->total );
-				$pending = sprintf( __( 'Pending Invites <span class="count">%s</span>', 'buddypress' ), $count->total );
+			if ( !empty( $count['total'] ) ) {
+				$title   = sprintf( __( 'Groups <span class="count">%s</span>',          'buddypress' ), $count['total'] );
+				$pending = sprintf( __( 'Pending Invites <span class="count">%s</span>', 'buddypress' ), $count['total'] );
 			}
 
 			// Add the "My Account" sub menus
