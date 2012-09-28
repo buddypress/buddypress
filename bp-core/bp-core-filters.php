@@ -366,8 +366,8 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 			$component_name = $bp->{$component_id}->id;
 		}
 
-		// translators: "displayed user's name | canonicalised component name"
-		$title = strip_tags( sprintf( __( '%1$s | %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), ucwords( $component_name ) ) );
+		// Construct the page title. 1 = user name, 2 = seperator, 3 = component name
+		$title = strip_tags( sprintf( _x( '%1$s %3$s %2$s', 'Construct the page title. 1 = user name, 2 = component name, 3 = seperator', 'buddypress' ), bp_get_displayed_user_fullname(), ucwords( $component_name ), $sep ) );
 
 	// A single group
 	} elseif ( bp_is_active( 'groups' ) && !empty( $bp->groups->current_group ) && !empty( $bp->bp_options_nav[$bp->groups->current_group->slug] ) ) {
