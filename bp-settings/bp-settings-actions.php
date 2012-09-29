@@ -238,9 +238,7 @@ function bp_settings_action_notifications() {
 
 		if ( isset( $_POST['notifications'] ) ) {
 			foreach ( (array) $_POST['notifications'] as $key => $value ) {
-				if ( $meta_key = bp_get_user_meta_key( $key ) ) {
-					bp_update_user_meta( (int) bp_displayed_user_id(), $meta_key, $value );
-				}
+				bp_update_user_meta( (int) bp_displayed_user_id(), $key, $value );
 			}
 		}
 
