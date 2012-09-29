@@ -1182,6 +1182,8 @@ function bp_activity_delete( $args = '' ) {
 
 	$args = wp_parse_args( $args, $defaults );
 
+	do_action( 'bp_before_activity_delete', $args );
+
 	// Adjust the new mention count of any mentioned member
 	bp_activity_adjust_mention_count( $args['id'], 'delete' );
 
@@ -1193,8 +1195,6 @@ function bp_activity_delete( $args = '' ) {
 		$user_id = bp_loggedin_user_id();
 	else
 		$user_id = $args['user_id'];
-
-	do_action( 'bp_before_activity_delete', $args );
 
 	$latest_update = bp_get_user_meta( $user_id, 'bp_latest_update', true );
 	if ( !empty( $latest_update ) ) {
