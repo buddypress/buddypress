@@ -61,7 +61,10 @@ function bp_get_template_part( $slug, $name = null ) {
 function bp_locate_template( $template_names, $load = false, $require_once = true ) {
 
 	// No file found yet
-	$located = false;
+	$located        = false;
+	$child_theme    = get_stylesheet_directory();
+	$parent_theme   = get_template_directory();
+	$fallback_theme = bp_get_theme_compat_dir();
 
 	// Try to find a template file
 	foreach ( (array) $template_names as $template_name ) {
@@ -72,9 +75,6 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 
 		// Trim off any slashes from the template name
 		$template_name = ltrim( $template_name, '/' );
-		$child_theme    = get_stylesheet_directory();
-		$parent_theme   = get_template_directory();
-		$fallback_theme = bp_get_theme_compat_dir();
 
 		// Check child theme first
 		if ( file_exists( trailingslashit( $child_theme ) . $template_name ) ) {
@@ -83,7 +83,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 
 		// Check parent theme next
 		} elseif ( file_exists( trailingslashit( $parent_theme ) . $template_name ) ) {
-			$located = trailingslashit( $child_theme ) . $template_name;
+			$located = trailingslashit( $parent_theme ) . $template_name;
 			break;
 
 		// Check theme compatibility last
