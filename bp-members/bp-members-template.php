@@ -388,6 +388,47 @@ function bp_member_user_id() {
 	}
 
 /**
+ * Output the row class of a member
+ *
+ * @since BuddyPress (1.7)
+ */
+function bp_member_class() {
+	echo bp_get_member_class();
+}
+	/**
+	 * Return the row class of a member
+	 *
+	 * @global BP_Core_Members_Template $members_template
+	 * @return string Row class of the member
+	 * @since BuddyPress (1.7)
+	 */
+	function bp_get_member_class() {
+		global $members_template;
+
+		$classes      = array();
+		$current_time = bp_core_current_time();
+		$pos_in_loop  = (int) $members_template->current_member;
+
+		// If we've only one group in the loop, don't both with odd and even.
+		if ( $members_template->member_count > 1 )
+			$classes[] = ( $pos_in_loop % 2 ) ? 'even' : 'odd';
+		else
+			$classes[] = 'bp-single-member';
+
+		// Has the user been active recently?
+		if ( ! empty( $members_template->member->last_activity ) ) {
+			if ( strtotime( $current_time ) <= strtotime( '+5 minutes', strtotime( $members_template->member->last_activity ) ) )
+				$classes[] = 'is-online';
+		}
+
+		$classes = apply_filters( 'bp_get_member_class', $classes );
+		$classes = array_merge( $classes, array() );
+		$retval  = 'class="' . join( ' ', $classes ) . '"';
+
+		return $retval;
+	}
+
+/**
  * bp_member_user_nicename()
  *
  * Echo nicename from bp_get_member_user_nicename()
