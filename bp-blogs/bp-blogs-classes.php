@@ -261,7 +261,35 @@ class BP_Blogs_Blog {
 
 		for ( $i = 0, $count = count( $paged_blogs ); $i < $count; ++$i ) {
 			$blog_prefix = $wpdb->get_blog_prefix( $paged_blogs[$i]->blog_id );
-			$paged_blogs[$i]->latest_post = $wpdb->get_row( "SELECT post_title, guid FROM {$blog_prefix}posts WHERE post_status = 'publish' AND post_type = 'post' AND id != 1 ORDER BY id DESC LIMIT 1" );
+			$paged_blogs[$i]->latest_post = $wpdb->get_row( "SELECT ID, post_content, post_title, post_excerpt, guid FROM {$blog_prefix}posts WHERE post_status = 'publish' AND post_type = 'post' AND id != 1 ORDER BY id DESC LIMIT 1" );
+			$images = array();
+
+			// Add URLs to any Featured Image this post might have
+			if ( has_post_thumbnail( $paged_blogs[$i]->latest_post->ID ) ) {
+
+				// Grab 4 sizes of the image. Thumbnail.
+				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'thumbnail', false );
+				if ( ! empty( $image ) )
+					$images['thumbnail'] = $image[0];
+
+				// Medium
+				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'medium', false );
+				if ( ! empty( $image ) )
+					$images['medium'] = $image[0];
+
+				// Large
+				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'large', false );
+				if ( ! empty( $image ) )
+					$images['large'] = $image[0];
+
+				// Post thumbnail
+				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'post-thumbnail', false );
+				if ( ! empty( $image ) )
+					$images['post-thumbnail'] = $image[0];
+			}
+
+			// Add the images to the latest_post object
+			$paged_blogs[$i]->latest_post->images = $images;
 		}
 
 		/* Fetch the blog description for each blog (as it may be empty we can't fetch it in the main query). */
