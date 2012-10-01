@@ -4,6 +4,8 @@
  *
  * BuddyPress is social networking software with a twist from the creators of WordPress.
  *
+ * $Id$
+ *
  * @package BuddyPress
  * @subpackage Main
  */
@@ -495,6 +497,7 @@ class BuddyPress {
 			add_action( 'bp_' . $class_action, array( $this, $class_action ), 5 );
 
 		// Setup the BuddyPress theme directory
+		// @todo Move bp-default to wordpress.org/extend/themes and remove this
 		register_theme_directory( $this->themes_dir );
 	}
 	
