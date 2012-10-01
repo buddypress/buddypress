@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-10-01 20:36:31+00:00\n"
+"POT-Creation-Date: 2012-10-01 21:36:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -652,7 +652,7 @@ msgstr ""
 msgid "You do not have access to this activity."
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:279 bp-blogs/bp-blogs-template.php:579
+#: bp-activity/bp-activity-screens.php:279 bp-blogs/bp-blogs-template.php:588
 #: bp-friends/bp-friends-screens.php:84 bp-groups/bp-groups-screens.php:845
 #: bp-messages/bp-messages-screens.php:149
 #: bp-themes/bp-default/groups/single/admin.php:26
@@ -662,7 +662,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:280 bp-blogs/bp-blogs-template.php:583
+#: bp-activity/bp-activity-screens.php:280 bp-blogs/bp-blogs-template.php:592
 #: bp-friends/bp-friends-screens.php:85 bp-groups/bp-groups-screens.php:846
 #: bp-messages/bp-messages-screens.php:150
 #: bp-themes/bp-default/groups/single/admin.php:27
@@ -932,25 +932,25 @@ msgstr ""
 msgid "Create a Blog"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:138
+#: bp-blogs/bp-blogs-template.php:136
 msgctxt "Blog pagination previous text"
 msgid "&larr;"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:139
+#: bp-blogs/bp-blogs-template.php:137
 msgctxt "Blog pagination next text"
 msgid "&rarr;"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:263
+#: bp-blogs/bp-blogs-template.php:261
 msgid "Viewing site %1$s to %2$s (of %3$s sites)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:287
+#: bp-blogs/bp-blogs-template.php:285
 msgid "Profile picture of site author %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:350 bp-core/bp-core-classes.php:693
+#: bp-blogs/bp-blogs-template.php:348 bp-core/bp-core-classes.php:693
 #: bp-groups/bp-groups-widgets.php:77 bp-groups/bp-groups-widgets.php:182
 #: bp-members/bp-members-template.php:594
 #: bp-members/bp-members-template.php:869
@@ -961,91 +961,91 @@ msgstr ""
 msgid "active %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:362
+#: bp-blogs/bp-blogs-template.php:360
 msgid "Latest Post: %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:505
+#: bp-blogs/bp-blogs-template.php:514
 msgid "There was a problem, please correct the form below and try again."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:508
+#: bp-blogs/bp-blogs-template.php:517
 msgid "By filling out the form below, you can <strong>add a site to your account</strong>. There is no limit to the number of sites that you can have, so create to your heart's content, but blog responsibly!"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:510
+#: bp-blogs/bp-blogs-template.php:519
 msgid "If you&#8217;re not going to use a great domain, leave it for a new user. Now have at it!"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:519
+#: bp-blogs/bp-blogs-template.php:528
 msgid "Create Site"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:533
+#: bp-blogs/bp-blogs-template.php:542
 msgid "Site Name:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:535
+#: bp-blogs/bp-blogs-template.php:544
 msgid "Site Domain:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:549
+#: bp-blogs/bp-blogs-template.php:558
 msgid "Your address will be "
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:552
+#: bp-blogs/bp-blogs-template.php:561
 msgid "blogname"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:554
+#: bp-blogs/bp-blogs-template.php:563
 msgid "domain."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:557
+#: bp-blogs/bp-blogs-template.php:566
 msgid "Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!)"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:563
+#: bp-blogs/bp-blogs-template.php:572
 msgid "Site Title:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:574
+#: bp-blogs/bp-blogs-template.php:583
 msgid "Privacy:"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:575
+#: bp-blogs/bp-blogs-template.php:584
 #: bp-themes/bp-default/registration/register.php:224
 #: bp-themes/bp-legacy/buddypress/members/register.php:221
 msgid "I would like my site to appear in search engines, and in public listings around this network."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:658
+#: bp-blogs/bp-blogs-template.php:667
 msgid "Congratulations! You have successfully registered a new site."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:660
+#: bp-blogs/bp-blogs-template.php:669
 msgid "<a href=\"%1$s\">%2$s</a> is your new site.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:669 bp-core/bp-core-filters.php:405
+#: bp-blogs/bp-blogs-template.php:678 bp-core/bp-core-filters.php:405
 #: bp-themes/bp-default/blogs/create.php:21
 #: bp-themes/bp-default/blogs/index.php:21
 msgid "Create a Site"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:681
+#: bp-blogs/bp-blogs-template.php:690
 msgid "%s's Sites"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:682
+#: bp-blogs/bp-blogs-template.php:691
 msgid "%s's Recent Posts"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:683
+#: bp-blogs/bp-blogs-template.php:692
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:697 bp-core/deprecated/1.5.php:397
+#: bp-blogs/bp-blogs-template.php:708 bp-core/deprecated/1.5.php:397
 #: bp-forums/bp-forums-template.php:1321 bp-groups/bp-groups-template.php:2395
 #: bp-members/bp-members-template.php:708
 #: bp-messages/bp-messages-template.php:373 bp-themes/bp-default/header.php:30
@@ -1053,7 +1053,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:730 bp-blogs/bp-blogs-template.php:731
+#: bp-blogs/bp-blogs-template.php:741 bp-blogs/bp-blogs-template.php:742
 msgid "Visit Site"
 msgstr ""
 
