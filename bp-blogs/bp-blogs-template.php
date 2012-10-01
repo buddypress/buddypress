@@ -30,8 +30,7 @@ function bp_blogs_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_blogs_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_blogs_slug', $bp->blogs->slug );
+		return apply_filters( 'bp_get_blogs_slug', buddypress()->blogs->slug );
 	}
 
 /**
@@ -54,8 +53,7 @@ function bp_blogs_root_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_blogs_root_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_blogs_root_slug', $bp->blogs->root_slug );
+		return apply_filters( 'bp_get_blogs_root_slug', buddypress()->blogs->root_slug );
 	}
 
 /**
@@ -356,17 +354,20 @@ function bp_blog_latest_post() {
 	function bp_get_blog_latest_post() {
 		global $blogs_template;
 
-		if ( null == $blogs_template->blog->latest_post )
-			return false;
+		$retval = bp_get_blog_latest_post_title();
 
-		return apply_filters( 'bp_get_blog_latest_post', sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $blogs_template->blog->latest_post->post_title ) . '</a>' ) );
+		if ( ! empty( $retval ) )
+			$retval = sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>' );
+
+		return apply_filters( 'bp_get_blog_latest_post', $retval );
 	}
 
 /**
  * Prints this site's latest article's title
  *
- * @see bp_get_blog_latest_post_title()
  * @since BuddyPress (1.7)
+ *
+ * @see bp_get_blog_latest_post_title()
  */
 function bp_blog_latest_post_title() {
 	echo bp_get_blog_latest_post_title();
@@ -374,53 +375,58 @@ function bp_blog_latest_post_title() {
 	/**
 	 * Returns this site's latest article's title
 	 *
+	 * @since BuddyPress (1.7)
+	 *
 	 * @global BP_Blogs_Template
 	 * @return string
-	 * @since BuddyPress (1.7)
 	 */
 	function bp_get_blog_latest_post_title() {
 		global $blogs_template;
 
-		if ( empty( $blogs_template->blog->latest_post ) )
-			return '';
+		$retval = '';
 
-		return apply_filters( 'bp_get_blog_latest_post_title', $blogs_template->blog->latest_post->post_title );
+		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->post_title ) )
+			$retval = $blogs_template->blog->latest_post->post_title;
+
+		return apply_filters( 'bp_get_blog_latest_post_title', $retval );
 	}
 
 /**
  * Prints this site's latest article's content
  *
- * @see bp_get_blog_latest_post_content()
  * @since BuddyPress (1.7)
+ *
+ * @uses bp_get_blog_latest_post_content()
  */
 function bp_blog_latest_post_content() {
-	$content = bp_get_blog_latest_post_content();
-	$content = apply_filters( 'bp_blog_latest_post_content', $content );
-	$content = str_replace( ']]>', ']]&gt;', $content );
-	echo $content;
+	echo bp_get_blog_latest_post_content();
 }
 	/**
 	 * Returns this site's latest article's content
 	 *
+	 * @since BuddyPress (1.7)
+	 *
 	 * @global BP_Blogs_Template
 	 * @return string
-	 * @since BuddyPress (1.7)
 	 */
 	function bp_get_blog_latest_post_content() {
 		global $blogs_template;
 
-		if ( empty( $blogs_template->blog->latest_post ) )
-			return '';
+		$retval = '';
 
-		return apply_filters( 'bp_get_blog_latest_post_content', $blogs_template->blog->latest_post->post_content );
+		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->post_content ) )
+			$retval = $blogs_template->blog->latest_post->post_content;
+
+		return apply_filters( 'bp_get_blog_latest_post_content', $retval );
 	}
 
 /**
  * Prints this site's latest article's featured image
  *
+ * @since BuddyPress (1.7)
+ *
  * @param string $size Image version to return. Either "thumbnail", "medium", "large", "post-thumbnail".
  * @see bp_get_blog_latest_post_content()
- * @since BuddyPress (1.7)
  */
 function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 	echo bp_get_blog_latest_post_featured_image( $size );
@@ -428,18 +434,21 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 	/**
 	 * Returns this site's latest article's featured image
 	 *
+	 * @since BuddyPress (1.7)
+	 *
 	 * @global BP_Blogs_Template
 	 * @param string $size Image version to return. Either "thumbnail", "medium", "large", "post-thumbnail".
 	 * @return string
-	 * @since BuddyPress (1.7)
 	 */
 	function bp_get_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 		global $blogs_template;
 
-		if ( empty( $blogs_template->blog->latest_post->images[$size] ) )
-			return '';
+		$retval = '';
 
-		return apply_filters( 'bp_get_blog_latest_post_featured_image', $blogs_template->blog->latest_post->images[$size] );
+		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->images[$size] ) )
+			$retval = $blogs_template->blog->latest_post->images[$size];
+
+		return apply_filters( 'bp_get_blog_latest_post_featured_image', $retval );
 	}
 
 function bp_blog_hidden_fields() {
@@ -684,6 +693,8 @@ function bp_blogs_blog_tabs() {
 	</ul>
 
 <?php
+
+	// @todo where does $current_tab come from?
 	do_action( 'bp_blogs_blog_tabs', $current_tab );
 }
 
