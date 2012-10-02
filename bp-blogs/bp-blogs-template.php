@@ -412,6 +412,33 @@ function bp_blog_latest_post_title() {
 	}
 
 /**
+ * Prints this site's latest article's permalink
+ *
+ * @see bp_get_blog_latest_post_title()
+ * @since BuddyPress (1.7)
+ */
+function bp_blog_latest_post_permalink() {
+	echo bp_get_blog_latest_post_permalink();
+}
+	/**
+	 * Returns this site's latest article's permalink
+	 *
+	 * @global BP_Blogs_Template
+	 * @return string
+	 * @since BuddyPress (1.7)
+	 */
+	function bp_get_blog_latest_post_permalink() {
+		global $blogs_template;
+
+		$retval = '';
+
+		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->ID ) )
+			$retval = add_query_arg( 'p', $blogs_template->blog->latest_post->ID, bp_get_blog_permalink() );
+
+		return apply_filters( 'bp_get_blog_latest_post_permalink', $retval );
+	}
+
+/**
  * Prints this site's latest article's content
  *
  * @since BuddyPress (1.7)
