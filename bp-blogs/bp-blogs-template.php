@@ -330,6 +330,26 @@ function bp_blog_name() {
 		return apply_filters( 'bp_get_blog_name', $blogs_template->blog->name );
 	}
 
+/**
+ * Outputs the blog ID
+ *
+ * @since BuddyPress (1.7)
+ */
+function bp_blog_id() {
+	echo bp_get_blog_id();
+}
+	/**
+	 * Returns the blog ID
+	 *
+	 * @return int
+	 * @since BuddyPress (1.7)
+	 */
+	function bp_get_blog_id() {
+		global $blogs_template;
+
+		return apply_filters( 'bp_get_blog_id', $blogs_template->blog->ID );
+	}
+
 function bp_blog_description() {
 	echo apply_filters( 'bp_blog_description', bp_get_blog_description() );
 }
