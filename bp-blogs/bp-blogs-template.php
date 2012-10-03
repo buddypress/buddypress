@@ -347,7 +347,7 @@ function bp_blog_id() {
 	function bp_get_blog_id() {
 		global $blogs_template;
 
-		return apply_filters( 'bp_get_blog_id', $blogs_template->blog->ID );
+		return apply_filters( 'bp_get_blog_id', $blogs_template->blog->blog_id );
 	}
 
 function bp_blog_description() {
