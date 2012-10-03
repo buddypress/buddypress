@@ -359,6 +359,41 @@ function bp_blog_description() {
 		return apply_filters( 'bp_get_blog_description', $blogs_template->blog->description );
 	}
 
+
+/**
+ * Output the row class of a site
+ *
+ * @since BuddyPress (1.7)
+ */
+function bp_blog_class() {
+	echo bp_get_blog_class();
+}
+	/**
+	 * Return the row class of a site
+	 *
+	 * @global BP_Blogs_Template $blogs_template
+	 * @return string Row class of the site
+	 * @since BuddyPress (1.7)
+	 */
+	function bp_get_blog_class() {
+		global $blogs_template;
+
+		$classes     = array();
+		$pos_in_loop = (int) $blogs_template->current_blog;
+
+		// If we've only one site in the loop, don't bother with odd and even.
+		if ( $blogs_template->blog_count > 1 )
+			$classes[] = ( $pos_in_loop % 2 ) ? 'even' : 'odd';
+		else
+			$classes[] = 'bp-single-blog';
+
+		$classes = apply_filters( 'bp_get_blog_class', $classes );
+		$classes = array_merge( $classes, array() );
+
+		$retval = 'class="' . join( ' ', $classes ) . '"';
+		return $retval;
+	}
+
 function bp_blog_last_active() {
 	echo bp_get_blog_last_active();
 }
