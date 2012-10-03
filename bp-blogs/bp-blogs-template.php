@@ -498,6 +498,19 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 		return apply_filters( 'bp_get_blog_latest_post_featured_image', $retval );
 	}
 
+/**
+ * Does the latest blog post have a featured image?
+ *
+ * @param string $size Image version to check for. Either "thumbnail", "medium", "large", "post-thumbnail".
+ * @return bool
+ * @since BuddyPress (1.7)
+ */
+function bp_blog_latest_post_has_featured_image( $thumbnail = 'thumbnail' ) {
+	$image  = bp_get_blog_latest_post_featured_image( $thumbnail );
+
+	return apply_filters( 'bp_blog_latest_post_has_featured_image', ! empty( $image ), $thumbnail, $image );
+}
+
 function bp_blog_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) )
 		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ). '" name="search_terms" />';
