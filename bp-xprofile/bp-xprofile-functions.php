@@ -671,7 +671,7 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
 	}
 
 	// @todo - This is where you'd swap out for current_user_can() checks
-	$hidden_levels = array();
+	$hidden_levels = $hidden_fields = array();
 
 	// Current user is logged in
 	if ( $current_user_id ) {
