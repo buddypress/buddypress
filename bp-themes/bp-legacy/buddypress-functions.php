@@ -94,6 +94,34 @@ class BP_Legacy extends BP_Theme_Compat {
 		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
 		add_action( 'bp_head',            array( $this, 'head_scripts'     ) ); // Output some extra JS in the <head>
 
+		/** Buttons ***********************************************************/
+
+		if ( !is_admin() ) {
+			// Register buttons for the relevant component templates
+			// Friends button
+			if ( bp_is_active( 'friends' ) )
+				add_action( 'bp_member_header_actions',    'bp_add_friend_button',           5 );
+
+			// Activity button
+			if ( bp_is_active( 'activity' ) )
+				add_action( 'bp_member_header_actions',    'bp_send_public_message_button',  20 );
+
+			// Messages button
+			if ( bp_is_active( 'messages' ) )
+				add_action( 'bp_member_header_actions',    'bp_send_private_message_button', 20 );
+
+			// Group buttons
+			if ( bp_is_active( 'groups' ) ) {
+				add_action( 'bp_group_header_actions',     'bp_group_join_button',           5 );
+				add_action( 'bp_group_header_actions',     'bp_group_new_topic_button',      20 );
+				add_action( 'bp_directory_groups_actions', 'bp_group_join_button' );
+			}
+
+			// Blog button
+			if ( bp_is_active( 'blogs' ) )
+				add_action( 'bp_directory_blogs_actions',  'bp_blogs_visit_blog_button' );
+		}
+
 		/** Ajax **************************************************************/
 
 		$actions = array(
@@ -475,7 +503,7 @@ function bp_legacy_theme_post_update() {
 
 	if ( bp_has_activities ( 'include=' . $activity_id ) ) {
 		while ( bp_activities() ) {
-			bp_the_activity(); 
+			bp_the_activity();
 			bp_get_template_part( 'activity/entry' );
 		}
 	}
@@ -547,7 +575,7 @@ function bp_legacy_theme_new_activity_comment() {
  *
  * @return mixed String on error, void on success
  * @since BuddyPress (1.2)
- */ 
+ */
 function bp_legacy_theme_delete_activity() {
 	// Bail if not a POST action
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
@@ -805,7 +833,7 @@ function bp_legacy_theme_ajax_addremove_friend() {
 		else
 			echo '<a id="friend-' . $_POST['fid'] . '" class="remove" rel="remove" title="' . __( 'Cancel Friendship Request', 'buddypress' ) . '" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/cancel/' . (int) $_POST['fid'] . '/', 'friends_withdraw_friendship' ) . '" class="requested">' . __( 'Cancel Friendship Request', 'buddypress' ) . '</a>';
 
-	} elseif ( 'pending' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), (int) $_POST['fid'] ) ) {		
+	} elseif ( 'pending' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), (int) $_POST['fid'] ) ) {
 		check_ajax_referer( 'friends_withdraw_friendship' );
 
 		if ( friends_withdraw_friendship( bp_loggedin_user_id(), (int) $_POST['fid'] ) )
