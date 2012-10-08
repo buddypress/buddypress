@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-10-04 09:36:31+00:00\n"
+"POT-Creation-Date: 2012-10-08 05:36:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2620,31 +2620,31 @@ msgstr ""
 msgid "%1$s created the group %2$s"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:193
+#: bp-groups/bp-groups-actions.php:197
 msgid "There was an error saving the group avatar, please try uploading again."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:195
+#: bp-groups/bp-groups-actions.php:199
 msgid "The group avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:219 bp-groups/bp-groups-actions.php:226
+#: bp-groups/bp-groups-actions.php:223 bp-groups/bp-groups-actions.php:230
 msgid "There was an error joining the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:228
+#: bp-groups/bp-groups-actions.php:232
 msgid "You joined the group!"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:254 bp-groups/bp-groups-screens.php:664
+#: bp-groups/bp-groups-actions.php:258 bp-groups/bp-groups-screens.php:664
 msgid "This group must have at least one admin"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:257
+#: bp-groups/bp-groups-actions.php:261
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:259 bp-groups/bp-groups-functions.php:313
+#: bp-groups/bp-groups-actions.php:263 bp-groups/bp-groups-functions.php:313
 msgid "You successfully left the group."
 msgstr ""
 
