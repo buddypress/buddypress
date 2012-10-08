@@ -508,6 +508,10 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	padding: 1px 3px;
 }
 
+#buddypress .dir-form {
+	clear: both;
+}
+
 /*--------------------------------------------------------------
 6.4 - Errors / Success Messages
 --------------------------------------------------------------*/
