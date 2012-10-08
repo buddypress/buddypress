@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-10-08 07:36:30+00:00\n"
+"POT-Creation-Date: 2012-10-08 09:36:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1458,7 +1458,7 @@ msgstr ""
 #: bp-core/admin/bp-core-update.php:334 bp-core/bp-core-template.php:257
 #: bp-core/bp-core-widgets.php:19 bp-core/bp-core-widgets.php:108
 #: bp-groups/bp-groups-admin.php:741 bp-groups/bp-groups-template.php:1387
-#: bp-members/bp-members-loader.php:24 bp-members/bp-members-screens.php:316
+#: bp-members/bp-members-loader.php:24 bp-members/bp-members-screens.php:322
 #: bp-themes/bp-default/groups/single/admin.php:231
 #: bp-themes/bp-legacy/buddypress/groups/single/admin.php:231
 msgid "Members"
