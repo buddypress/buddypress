@@ -263,7 +263,7 @@ add_action( 'bp_screens', 'bp_core_screen_activation' );
 /** Theme Compatability *******************************************************/
 
 /**
- * The main theme compat class for BuddyPress Groups
+ * The main theme compat class for BuddyPress Members.
  *
  * This class sets up the necessary theme compatability actions to safely output
  * group template parts to the_title and the_content areas of a theme.
@@ -273,7 +273,7 @@ add_action( 'bp_screens', 'bp_core_screen_activation' );
 class BP_Members_Theme_Compat {
 
 	/**
-	 * Setup the groups component theme compatibility
+	 * Setup the members component theme compatibility
 	 *
 	 * @since BuddyPress (1.7)
 	 */
@@ -282,24 +282,30 @@ class BP_Members_Theme_Compat {
 	}
 
 	/**
-	 * Are we looking at something that needs group theme compatability?
+	 * Are we looking at something that needs members theme compatability?
 	 *
 	 * @since BuddyPress (1.7)
 	 */
 	public function is_members() {
 
-		// Bail if not looking at a group
-		if ( ! bp_is_members_component() )
+		// Bail if not looking at the members component or a user's page
+		if ( ! bp_is_members_component() && ! bp_displayed_user_id() )
 			return;
 
-		// Group Directory
+		// Members Directory
 		if ( ! bp_current_action() && ! bp_current_item() ) {
 			bp_update_is_directory( true, 'members' );
 
-			do_action( 'members_directory_groups_setup' );
+			do_action( 'bp_members_screen_index' );
 
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
+
+		// User page
+		} elseif ( bp_displayed_user_id() ) {
+			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post'    ) );
+			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content' ) );
+
 		}
 	}
 
@@ -325,12 +331,42 @@ class BP_Members_Theme_Compat {
 	}
 
 	/**
-	 * Filter the_content with the groups index template part
+	 * Filter the_content with the members index template part
 	 *
 	 * @since BuddyPress (1.7)
 	 */
 	public function directory_content() {
 		bp_buffer_template_part( 'members/index' );
+	}
+
+	/** Single ****************************************************************/
+
+	/**
+	 * Update the global $post with the displayed user's data
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function single_dummy_post() {
+		bp_theme_compat_reset_post( array(
+			'ID'             => 0,
+			'post_title'     => bp_get_displayed_user_fullname(),
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_content'   => '',
+			'post_type'      => 'bp_members',
+			'post_status'    => 'publish',
+			'is_archive'     => true,
+			'comment_status' => 'closed'
+		) );
+	}
+
+	/**
+	 * Filter the_content with the members' single home template part
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function single_dummy_content() {
+		bp_buffer_template_part( 'members/single/home' );
 	}
 }
 new BP_Members_Theme_Compat();
