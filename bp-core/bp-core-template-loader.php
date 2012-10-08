@@ -87,9 +87,15 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 			break;
 
 		// Check theme compatibility last
-		} elseif ( file_exists( trailingslashit( $fallback_theme ) . $template_name ) ) {
-			$located = trailingslashit( $fallback_theme ) . $template_name;
-			break;
+		} else {
+			// 3rd-party plugin devs can hook into the 'bp_locate_fallback_template'
+			// filter to load custom templates for their component if desired
+			$fallback_template = apply_filters( 'bp_locate_fallback_template', trailingslashit( $fallback_theme ) . $template_name, $template_name );
+
+			if ( file_exists( $fallback_template ) ) {
+				$located = $fallback_template;
+				break;
+			}
 		}
 	}
 
@@ -188,7 +194,7 @@ function bp_get_template_locations( $templates = array() ) {
  * @since BuddyPress (1.7)
  *
  * @param array $templates
- * @return array() 
+ * @return array()
  */
 function bp_add_template_locations( $templates = array() ) {
 	$retval = array();
@@ -234,7 +240,7 @@ function bp_parse_query( $posts_query ) {
  *
  * Listens to the 'template_include' filter and waits for any BuddyPress specific
  * template condition to be met. If one is met and the template file exists,
- * it will be used; otherwise 
+ * it will be used; otherwise
  *
  * Note that the _edit() checks are ahead of their counterparts, to prevent them
  * from being stomped on accident.
