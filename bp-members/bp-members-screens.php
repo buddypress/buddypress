@@ -289,7 +289,7 @@ class BP_Members_Theme_Compat {
 	public function is_members() {
 
 		// Bail if not looking at the members component or a user's page
-		if ( ! bp_is_members_component() && ! bp_displayed_user_id() )
+		if ( ! bp_is_members_component() && ! bp_is_user() )
 			return;
 
 		// Members Directory
@@ -302,7 +302,7 @@ class BP_Members_Theme_Compat {
 			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
 
 		// User page
-		} elseif ( bp_displayed_user_id() ) {
+		} elseif ( bp_is_user() ) {
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post'    ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content' ) );
 
