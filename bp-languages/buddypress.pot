@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-10-08 05:36:28+00:00\n"
+"POT-Creation-Date: 2012-10-08 07:36:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4357,7 +4357,7 @@ msgstr ""
 #: bp-themes/bp-default/activity/index.php:39
 #: bp-themes/bp-default/members/index.php:33
 #: bp-themes/bp-legacy/buddypress/activity/index.php:19
-#: bp-themes/bp-legacy/buddypress/members/index.php:19
+#: bp-themes/bp-legacy/buddypress/members/index.php:17
 msgid "All Members <span>%s</span>"
 msgstr ""
 
@@ -4369,7 +4369,7 @@ msgstr ""
 #: bp-themes/bp-default/activity/index.php:49
 #: bp-themes/bp-default/members/index.php:37
 #: bp-themes/bp-legacy/buddypress/activity/index.php:29
-#: bp-themes/bp-legacy/buddypress/members/index.php:23
+#: bp-themes/bp-legacy/buddypress/members/index.php:20
 msgid "My Friends <span>%s</span>"
 msgstr ""
 
@@ -4381,7 +4381,7 @@ msgstr ""
 #: bp-themes/bp-default/activity/index.php:61
 #: bp-themes/bp-default/groups/index.php:39
 #: bp-themes/bp-legacy/buddypress/activity/index.php:41
-#: bp-themes/bp-legacy/buddypress/groups/index.php:25
+#: bp-themes/bp-legacy/buddypress/groups/index.php:22
 msgid "My Groups <span>%s</span>"
 msgstr ""
 
@@ -4618,9 +4618,9 @@ msgstr ""
 #: bp-themes/bp-default/members/single/groups.php:20
 #: bp-themes/bp-legacy/buddypress/blogs/index.php:36
 #: bp-themes/bp-legacy/buddypress/forums/index.php:40
-#: bp-themes/bp-legacy/buddypress/groups/index.php:41
+#: bp-themes/bp-legacy/buddypress/groups/index.php:36
 #: bp-themes/bp-legacy/buddypress/groups/single/forum.php:36
-#: bp-themes/bp-legacy/buddypress/members/index.php:39
+#: bp-themes/bp-legacy/buddypress/members/index.php:33
 #: bp-themes/bp-legacy/buddypress/members/single/blogs.php:19
 #: bp-themes/bp-legacy/buddypress/members/single/forums.php:18
 #: bp-themes/bp-legacy/buddypress/members/single/friends.php:20
@@ -4639,9 +4639,9 @@ msgstr ""
 #: bp-themes/bp-default/members/single/groups.php:22
 #: bp-themes/bp-legacy/buddypress/blogs/index.php:38
 #: bp-themes/bp-legacy/buddypress/forums/index.php:42
-#: bp-themes/bp-legacy/buddypress/groups/index.php:43
+#: bp-themes/bp-legacy/buddypress/groups/index.php:39
 #: bp-themes/bp-legacy/buddypress/groups/single/forum.php:38
-#: bp-themes/bp-legacy/buddypress/members/index.php:41
+#: bp-themes/bp-legacy/buddypress/members/index.php:35
 #: bp-themes/bp-legacy/buddypress/members/single/blogs.php:21
 #: bp-themes/bp-legacy/buddypress/members/single/forums.php:20
 #: bp-themes/bp-legacy/buddypress/members/single/friends.php:22
@@ -4656,8 +4656,8 @@ msgstr ""
 #: bp-themes/bp-default/members/single/friends.php:24
 #: bp-themes/bp-default/members/single/groups.php:25
 #: bp-themes/bp-legacy/buddypress/blogs/index.php:40
-#: bp-themes/bp-legacy/buddypress/groups/index.php:46
-#: bp-themes/bp-legacy/buddypress/members/index.php:46
+#: bp-themes/bp-legacy/buddypress/groups/index.php:42
+#: bp-themes/bp-legacy/buddypress/members/index.php:39
 #: bp-themes/bp-legacy/buddypress/members/single/blogs.php:23
 #: bp-themes/bp-legacy/buddypress/members/single/friends.php:24
 #: bp-themes/bp-legacy/buddypress/members/single/groups.php:25
@@ -5140,20 +5140,20 @@ msgid "There were no groups found."
 msgstr ""
 
 #: bp-themes/bp-default/groups/index.php:35
-#: bp-themes/bp-legacy/buddypress/groups/index.php:21
+#: bp-themes/bp-legacy/buddypress/groups/index.php:19
 msgid "All Groups <span>%s</span>"
 msgstr ""
 
 #: bp-themes/bp-default/groups/index.php:58
 #: bp-themes/bp-default/members/single/groups.php:23
-#: bp-themes/bp-legacy/buddypress/groups/index.php:44
+#: bp-themes/bp-legacy/buddypress/groups/index.php:40
 #: bp-themes/bp-legacy/buddypress/members/single/groups.php:23
 msgid "Most Members"
 msgstr ""
 
 #: bp-themes/bp-default/groups/index.php:59
 #: bp-themes/bp-default/members/single/groups.php:24
-#: bp-themes/bp-legacy/buddypress/groups/index.php:45
+#: bp-themes/bp-legacy/buddypress/groups/index.php:41
 #: bp-themes/bp-legacy/buddypress/members/single/groups.php:24
 msgid "Newly Created"
 msgstr ""
@@ -5387,7 +5387,7 @@ msgstr ""
 
 #: bp-themes/bp-default/members/index.php:56
 #: bp-themes/bp-default/members/single/friends.php:23
-#: bp-themes/bp-legacy/buddypress/members/index.php:42
+#: bp-themes/bp-legacy/buddypress/members/index.php:36
 #: bp-themes/bp-legacy/buddypress/members/single/friends.php:23
 msgid "Newest Registered"
 msgstr ""
