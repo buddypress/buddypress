@@ -265,7 +265,7 @@ class BP_Blogs_Blog {
 			$images = array();
 
 			// Add URLs to any Featured Image this post might have
-			if ( has_post_thumbnail( $paged_blogs[$i]->latest_post->ID ) ) {
+			if ( ! empty( $paged_blogs[$i]->latest_post ) && has_post_thumbnail( $paged_blogs[$i]->latest_post->ID ) ) {
 
 				// Grab 4 sizes of the image. Thumbnail.
 				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'thumbnail', false );
@@ -286,10 +286,10 @@ class BP_Blogs_Blog {
 				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'post-thumbnail', false );
 				if ( ! empty( $image ) )
 					$images['post-thumbnail'] = $image[0];
-			}
 
-			// Add the images to the latest_post object
-			$paged_blogs[$i]->latest_post->images = $images;
+				// Add the images to the latest_post object
+				$paged_blogs[$i]->latest_post->images = $images;
+			}
 		}
 
 		/* Fetch the blog description for each blog (as it may be empty we can't fetch it in the main query). */
