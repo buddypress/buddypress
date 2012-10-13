@@ -458,7 +458,7 @@ function bp_core_no_access( $args = '' ) {
  	$redirect_url .= $_SERVER['REQUEST_URI'];
 
 	$defaults = array(
-		'mode'     => bp_enable_theme_compat() ? 2 : 1, // 1 = $root, 2 = wp-login.php
+		'mode'     => bp_is_theme_bp_default() ? 1 : 2, // 1 = $root, 2 = wp-login.php
 		'redirect' => $redirect_url,                    // the URL you get redirected to when a user successfully logs in
 		'root'     => bp_get_root_domain(),	        // the landing page you get redirected to when a user doesn't have access
 		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' )

@@ -228,7 +228,7 @@ add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
 function bp_core_filter_user_welcome_email( $welcome_email ) {
 
 	// Don't touch the email if we don't have a custom registration template
-	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
+	if ( ! bp_has_custom_signup_page() )
 		return $welcome_email;
 
 	// [User Set] Replaces 'PASSWORD' in welcome email; Represents value set by user
@@ -253,7 +253,7 @@ if ( !is_admin() && empty( $_GET['e'] ) )
 function bp_core_filter_blog_welcome_email( $welcome_email, $blog_id, $user_id, $password ) {
 
 	// Don't touch the email if we don't have a custom registration template
-	if ( '' == locate_template( array( 'registration/register.php' ), false ) && '' == locate_template( array( 'register.php' ), false ) )
+	if ( ! bp_has_custom_signup_page() )
 		return $welcome_email;
 
 	// [User Set] Replaces $password in welcome email; Represents value set by user

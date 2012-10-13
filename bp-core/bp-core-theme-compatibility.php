@@ -176,46 +176,20 @@ function bp_get_theme_compat_url() {
 }
 
 /**
- * See whether BuddyPress' theme compatibility is enabled or not.
- *
- * This differs from {@link bp_is_theme_compat_active()} as this function
- * checks to see if theme compat is enabled across the active blog.
+ * See whether the current theme is good ol' bp-default.
  *
  * @since BuddyPress (1.7)
- * @uses wp_get_theme()
- * @uses apply_filters()
+ * @uses get_stylesheet()
  * @return bool
  */
-function bp_enable_theme_compat() {
-
-	// default is theme compat should be enabled
-	$retval = true;
-
-	// get current theme
-	$theme = wp_get_theme();
-
-	// get current theme's tags
-	$theme_tags = ! empty( $theme->tags ) ? $theme->tags : array();
-
-	// check to see if the 'buddypress' tag is in the theme 
-	// or if stylesheet is 'bp-default'
-	$backpat = in_array( 'buddypress', $theme_tags ) || $theme->get_stylesheet() == 'bp-default';
-	
-	// if we're already using a BP-compatible theme, disable theme compat
-	if ( $backpat ) {
+function bp_is_theme_bp_default() {
+	if ( get_stylesheet() == 'bp-default' ) {
+		$retval = true;
+	} else {
 		$retval = false;
-
-	// if theme compat should still be enabled, do some other checks
-	// @todo what about themes that copied bp-default without using a child theme?
-	} elseif ( $retval ) {
-		// BP Template Pack check
-		// if TPack exists, we should disable theme compat
-		if ( function_exists( 'bp_tpack_theme_setup' ) ) {
-			$retval = false;
-		}
 	}
 
-	return apply_filters( 'bp_enable_theme_compat', $retval );
+	return $retval;
 }
 
 /**

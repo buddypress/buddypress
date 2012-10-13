@@ -46,8 +46,8 @@ class BP_Legacy extends BP_Theme_Compat {
 	 */
 	public function __construct() {
 
-		// Bail if theme compat should be disabled
-		if ( ! bp_enable_theme_compat() )
+		// Bail if theme is a derivative of bp-default
+		if ( bp_is_theme_bp_default() )
 			return;
 
 		$this->setup_globals();
