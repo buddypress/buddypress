@@ -458,9 +458,9 @@ function bp_core_no_access( $args = '' ) {
  	$redirect_url .= $_SERVER['REQUEST_URI'];
 
 	$defaults = array(
-		'mode'     => '1',                  // 1 = $root, 2 = wp-login.php
-		'redirect' => $redirect_url,        // the URL you get redirected to when a user successfully logs in
-		'root'     => bp_get_root_domain(),	// the landing page you get redirected to when a user doesn't have access
+		'mode'     => bp_enable_theme_compat() ? 2 : 1, // 1 = $root, 2 = wp-login.php
+		'redirect' => $redirect_url,                    // the URL you get redirected to when a user successfully logs in
+		'root'     => bp_get_root_domain(),	        // the landing page you get redirected to when a user doesn't have access
 		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' )
 	);
 
@@ -471,11 +471,11 @@ function bp_core_no_access( $args = '' ) {
 	/**
 	 * @ignore Ignore these filters and use 'bp_core_no_access' above
 	 */
-	$mode		= apply_filters( 'bp_no_access_mode',     $mode,     $root,     $redirect, $message );
-	$redirect	= apply_filters( 'bp_no_access_redirect', $redirect, $root,     $message,  $mode    );
-	$root		= apply_filters( 'bp_no_access_root',     $root,     $redirect, $message,  $mode    );
-	$message	= apply_filters( 'bp_no_access_message',  $message,  $root,     $redirect, $mode    );
-	$root       = trailingslashit( $root );
+	$mode     = apply_filters( 'bp_no_access_mode',     $mode,     $root,     $redirect, $message );
+	$redirect = apply_filters( 'bp_no_access_redirect', $redirect, $root,     $message,  $mode    );
+	$root     = apply_filters( 'bp_no_access_root',     $root,     $redirect, $message,  $mode    );
+	$message  = apply_filters( 'bp_no_access_message',  $message,  $root,     $redirect, $mode    );
+	$root     = trailingslashit( $root );
 
 	switch ( $mode ) {
 
