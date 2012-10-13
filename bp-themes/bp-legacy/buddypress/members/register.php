@@ -17,8 +17,6 @@
 
 		<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 
-			<h2><?php _e( 'Create an Account', 'buddypress' ); ?></h2>
-
 			<?php do_action( 'template_notices' ); ?>
 
 			<p><?php _e( 'Registering for this site is easy, just fill in the fields below and we\'ll get a new account set up for you in no time.', 'buddypress' ); ?></p>
@@ -169,7 +167,7 @@
 							<?php else : ?>
 								<p class="field-visibility-settings-notoggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
 									<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?>
-								</p>			
+								</p>
 							<?php endif ?>
 
 
@@ -245,8 +243,6 @@
 		<?php endif; // request-details signup step ?>
 
 		<?php if ( 'completed-confirmation' == bp_get_current_signup_step() ) : ?>
-
-			<h2><?php _e( 'Sign Up Complete!', 'buddypress' ); ?></h2>
 
 			<?php do_action( 'template_notices' ); ?>
 			<?php do_action( 'bp_before_registration_confirmed' ); ?>

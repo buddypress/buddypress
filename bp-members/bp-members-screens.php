@@ -160,31 +160,34 @@ function bp_core_screen_signup() {
 
 			if ( 'none' != $active_signup ) {
 
-				// Let's compact any profile field info into usermeta
-				$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
+				// Make sure the extended profiles module is enabled
+				if ( bp_is_active( 'xprofile' ) ) {
+					// Let's compact any profile field info into usermeta
+					$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
 
-				// Loop through the posted fields formatting any datebox values then add to usermeta - @todo This logic should be shared with the same in xprofile_screen_edit_profile()
-				foreach ( (array) $profile_field_ids as $field_id ) {
-					if ( ! isset( $_POST['field_' . $field_id] ) ) {
+					// Loop through the posted fields formatting any datebox values then add to usermeta - @todo This logic should be shared with the same in xprofile_screen_edit_profile()
+					foreach ( (array) $profile_field_ids as $field_id ) {
+						if ( ! isset( $_POST['field_' . $field_id] ) ) {
 
-						if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
-							// Concatenate the values
-							$date_value = $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
+							if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
+								// Concatenate the values
+								$date_value = $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
 
-							// Turn the concatenated value into a timestamp
-							$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
+								// Turn the concatenated value into a timestamp
+								$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
+							}
 						}
+
+						if ( !empty( $_POST['field_' . $field_id] ) )
+							$usermeta['field_' . $field_id] = $_POST['field_' . $field_id];
+
+						if ( !empty( $_POST['field_' . $field_id . '_visibility'] ) )
+							$usermeta['field_' . $field_id . '_visibility'] = $_POST['field_' . $field_id . '_visibility'];
 					}
 
-					if ( !empty( $_POST['field_' . $field_id] ) )
-						$usermeta['field_' . $field_id] = $_POST['field_' . $field_id];
-					
-					if ( !empty( $_POST['field_' . $field_id . '_visibility'] ) )
-						$usermeta['field_' . $field_id . '_visibility'] = $_POST['field_' . $field_id . '_visibility'];
+					// Store the profile field ID's in usermeta
+					$usermeta['profile_field_ids'] = $_POST['signup_profile_field_ids'];
 				}
-
-				// Store the profile field ID's in usermeta
-				$usermeta['profile_field_ids'] = $_POST['signup_profile_field_ids'];
 
 				// Hash and store the password
 				$usermeta['password'] = wp_hash_password( $_POST['signup_password'] );
@@ -203,7 +206,7 @@ function bp_core_screen_signup() {
 
 				if ( is_wp_error( $wp_user_id ) ) {
 					$bp->signup->step = 'request-details';
-					bp_core_add_message( $wp_user_id->get_error_message(), 'error' ); 
+					bp_core_add_message( $wp_user_id->get_error_message(), 'error' );
 				} else {
 					$bp->signup->step = 'completed-confirmation';
 				}
@@ -370,3 +373,97 @@ class BP_Members_Theme_Compat {
 	}
 }
 new BP_Members_Theme_Compat();
+
+/**
+ * The main theme compat class for BuddyPress Registration.
+ *
+ * This class sets up the necessary theme compatability actions to safely output
+ * registration template parts to the_title and the_content areas of a theme.
+ *
+ * @since BuddyPress (1.7)
+ */
+class BP_Registration_Theme_Compat {
+
+	/**
+	 * Setup the groups component theme compatibility
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function __construct() {
+		add_action( 'bp_setup_theme_compat', array( $this, 'is_registration' ) );
+	}
+
+	/**
+	 * Are we looking at either the registration or activation pages?
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function is_registration() {
+
+		// Bail if not looking at the registration or activation page
+		if ( ! bp_is_register_page() && ! bp_is_activation_page() ) {
+			return;
+		}
+
+		// Not a directory
+		bp_update_is_directory( false, 'register' );
+
+		// Setup actions
+		add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'dummy_post'    ) );
+		add_filter( 'bp_replace_the_content',                    array( $this, 'dummy_content' ) );
+	}
+
+	/** Template ***********************************************************/
+
+	/**
+	 * Update the global $post with dummy data
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function dummy_post() {
+		// Registration page
+		if ( bp_is_register_page() ) {
+			$title = __( 'Create an Account', 'buddypress' );
+
+			if ( 'completed-confirmation' == bp_get_current_signup_step() ) {
+				$title = __( 'Sign Up Complete!', 'buddypress' );
+			}
+
+		// Activation page
+		} else {
+			$title = __( 'Activate your Account', 'buddypress' );
+
+			if ( bp_account_was_activated() ) {
+				$title = __( 'Account Activated', 'buddypress' );
+			}
+		}
+
+		$post_type = bp_is_register_page() ? 'bp_register' : 'bp_activate';
+
+		bp_theme_compat_reset_post( array(
+			'ID'             => 0,
+			'post_title'     => $title,
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_content'   => '',
+			'post_type'      => $post_type,
+			'post_status'    => 'publish',
+			'is_archive'     => true,
+			'comment_status' => 'closed'
+		) );
+	}
+
+	/**
+	 * Filter the_content with either the register or activate templates.
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function dummy_content() {
+		if ( bp_is_register_page() ) {
+			bp_buffer_template_part( 'members/register' );
+		} else {
+			bp_buffer_template_part( 'members/activate' );
+		}
+	}
+}
+new BP_Registration_Theme_Compat();
