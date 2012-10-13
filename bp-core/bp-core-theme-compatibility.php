@@ -32,6 +32,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * extending this class.
  *
  * @since BuddyPress (1.7)
+ * @todo We should probably do something similar to BP_Component::start()
  */
 class BP_Theme_Compat {
 
@@ -55,7 +56,7 @@ class BP_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 * @param array $properties
 	 */
-    public function __construct( Array $properties = array() ) {
+    	public function __construct( Array $properties = array() ) {
 		$this->_data = $properties;
 	}
 
@@ -90,7 +91,7 @@ class BP_Theme_Compat {
  * Setup the default theme compat theme
  *
  * @since BuddyPress (1.7)
- * @param BBP_Theme_Compat $theme
+ * @param BP_Theme_Compat $theme
  */
 function bp_setup_theme_compat( $theme = '' ) {
 	$bp = buddypress();
@@ -175,7 +176,50 @@ function bp_get_theme_compat_url() {
 }
 
 /**
- * Gets true/false if page is currently inside theme compatibility
+ * See whether BuddyPress' theme compatibility is enabled or not.
+ *
+ * This differs from {@link bp_is_theme_compat_active()} as this function
+ * checks to see if theme compat is enabled across the active blog.
+ *
+ * @since BuddyPress (1.7)
+ * @uses wp_get_theme()
+ * @uses apply_filters()
+ * @return bool
+ */
+function bp_enable_theme_compat() {
+
+	// default is theme compat should be enabled
+	$retval = true;
+
+	// get current theme
+	$theme = wp_get_theme();
+
+	// get current theme's tags
+	$theme_tags = ! empty( $theme->tags ) ? $theme->tags : array();
+
+	// check to see if the 'buddypress' tag is in the theme 
+	// or if stylesheet is 'bp-default'
+	$backpat = in_array( 'buddypress', $theme_tags ) || $theme->get_stylesheet() == 'bp-default';
+	
+	// if we're already using a BP-compatible theme, disable theme compat
+	if ( $backpat ) {
+		$retval = false;
+
+	// if theme compat should still be enabled, do some other checks
+	// @todo what about themes that copied bp-default without using a child theme?
+	} elseif ( $retval ) {
+		// BP Template Pack check
+		// if TPack exists, we should disable theme compat
+		if ( function_exists( 'bp_tpack_theme_setup' ) ) {
+			$retval = false;
+		}
+	}
+
+	return apply_filters( 'bp_enable_theme_compat', $retval );
+}
+
+/**
+ * Gets true/false if the current, loaded page uses theme compatibility
  *
  * @since BuddyPress (1.7)
  * @return bool
@@ -269,7 +313,7 @@ function bp_is_theme_compat_original_template( $template = '' ) {
  */
 function bp_register_theme_package( $theme = array(), $override = true ) {
 
-	// Create new BBP_Theme_Compat object from the $theme array
+	// Create new BP_Theme_Compat object from the $theme array
 	if ( is_array( $theme ) )
 		$theme = new BP_Theme_Compat( $theme );
 

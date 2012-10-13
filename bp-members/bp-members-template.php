@@ -967,6 +967,11 @@ function bp_loggedin_user_username() {
 /** Signup Form ***************************************************************/
 
 function bp_has_custom_signup_page() {
+	// if theme compat is enabled, we're already using our bundled templates
+	if ( bp_enable_theme_compat() )
+		return true;
+
+	// look in parent / child theme for custom registration templates
 	if ( locate_template( array( 'register.php' ), false ) || locate_template( array( '/registration/register.php' ), false ) )
 		return true;
 

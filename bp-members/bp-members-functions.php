@@ -1395,8 +1395,8 @@ function bp_core_wpsignup_redirect() {
 	if ( ! empty( $_SERVER['SCRIPT_NAME'] ) && false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) )
 		return;
 
-	// Redirect to sign-up page
-	if ( locate_template( array( 'registration/register.php' ), false ) || locate_template( array( 'register.php' ), false ) )
+	// Redirect to sign-up page if a custom signup page exists
+	if ( bp_has_custom_signup_page() )
 		bp_core_redirect( bp_get_signup_page() );
 }
 add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
