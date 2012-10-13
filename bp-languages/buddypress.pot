@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-10-13 06:36:30+00:00\n"
+"POT-Creation-Date: 2012-10-13 07:36:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -658,7 +658,7 @@ msgstr ""
 #: bp-themes/bp-default/groups/single/admin.php:26
 #: bp-themes/bp-default/registration/register.php:227
 #: bp-themes/bp-legacy/buddypress/groups/single/admin.php:26
-#: bp-themes/bp-legacy/buddypress/members/register.php:224
+#: bp-themes/bp-legacy/buddypress/members/register.php:222
 msgid "Yes"
 msgstr ""
 
@@ -668,7 +668,7 @@ msgstr ""
 #: bp-themes/bp-default/groups/single/admin.php:27
 #: bp-themes/bp-default/registration/register.php:228
 #: bp-themes/bp-legacy/buddypress/groups/single/admin.php:27
-#: bp-themes/bp-legacy/buddypress/members/register.php:225
+#: bp-themes/bp-legacy/buddypress/members/register.php:223
 msgid "No"
 msgstr ""
 
@@ -1015,7 +1015,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:679
 #: bp-themes/bp-default/registration/register.php:224
-#: bp-themes/bp-legacy/buddypress/members/register.php:221
+#: bp-themes/bp-legacy/buddypress/members/register.php:219
 msgid "I would like my site to appear in search engines, and in public listings around this network."
 msgstr ""
 
@@ -1219,7 +1219,7 @@ msgstr ""
 #: bp-core/admin/bp-core-update.php:437
 #: bp-messages/bp-messages-template.php:564
 #: bp-themes/bp-default/registration/activate.php:36
-#: bp-themes/bp-legacy/buddypress/members/activate.php:33
+#: bp-themes/bp-legacy/buddypress/members/activate.php:29
 msgid "Activate"
 msgstr ""
 
@@ -1458,7 +1458,7 @@ msgstr ""
 #: bp-core/admin/bp-core-update.php:334 bp-core/bp-core-template.php:257
 #: bp-core/bp-core-widgets.php:19 bp-core/bp-core-widgets.php:108
 #: bp-groups/bp-groups-admin.php:741 bp-groups/bp-groups-template.php:1387
-#: bp-members/bp-members-loader.php:24 bp-members/bp-members-screens.php:322
+#: bp-members/bp-members-loader.php:24 bp-members/bp-members-screens.php:325
 #: bp-themes/bp-default/groups/single/admin.php:231
 #: bp-themes/bp-legacy/buddypress/groups/single/admin.php:231
 msgid "Members"
@@ -1827,15 +1827,13 @@ msgstr ""
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:393
+#: bp-core/bp-core-filters.php:393 bp-members/bp-members-screens.php:426
 #: bp-themes/bp-default/registration/register.php:23
-#: bp-themes/bp-legacy/buddypress/members/register.php:20
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:397
+#: bp-core/bp-core-filters.php:397 bp-members/bp-members-screens.php:434
 #: bp-themes/bp-default/registration/activate.php:24
-#: bp-themes/bp-legacy/buddypress/members/activate.php:21
 msgid "Activate your Account"
 msgstr ""
 
@@ -3820,8 +3818,18 @@ msgstr ""
 msgid "This is a required field"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:251
+#: bp-members/bp-members-screens.php:254
 msgid "Your account is now active!"
+msgstr ""
+
+#: bp-members/bp-members-screens.php:429
+#: bp-themes/bp-default/registration/register.php:252
+msgid "Sign Up Complete!"
+msgstr ""
+
+#: bp-members/bp-members-screens.php:437
+#: bp-themes/bp-default/registration/activate.php:12
+msgid "Account Activated"
 msgstr ""
 
 #: bp-members/bp-members-template.php:206
@@ -4091,7 +4099,7 @@ msgstr ""
 #: bp-themes/bp-default/functions.php:164
 #: bp-themes/bp-default/members/single/profile/edit.php:128
 #: bp-themes/bp-default/registration/register.php:169
-#: bp-themes/bp-legacy/buddypress/members/register.php:166
+#: bp-themes/bp-legacy/buddypress/members/register.php:164
 #: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:128
 #: bp-themes/bp-legacy/buddypress-functions.php:254
 msgid "Close"
@@ -5553,19 +5561,19 @@ msgstr ""
 #: bp-themes/bp-default/registration/register.php:139
 #: bp-themes/bp-default/registration/register.php:211
 #: bp-themes/bp-default/registration/register.php:220
-#: bp-themes/bp-legacy/buddypress/members/register.php:34
-#: bp-themes/bp-legacy/buddypress/members/register.php:38
-#: bp-themes/bp-legacy/buddypress/members/register.php:42
-#: bp-themes/bp-legacy/buddypress/members/register.php:46
-#: bp-themes/bp-legacy/buddypress/members/register.php:73
-#: bp-themes/bp-legacy/buddypress/members/register.php:81
-#: bp-themes/bp-legacy/buddypress/members/register.php:89
-#: bp-themes/bp-legacy/buddypress/members/register.php:99
-#: bp-themes/bp-legacy/buddypress/members/register.php:110
-#: bp-themes/bp-legacy/buddypress/members/register.php:125
-#: bp-themes/bp-legacy/buddypress/members/register.php:136
-#: bp-themes/bp-legacy/buddypress/members/register.php:208
-#: bp-themes/bp-legacy/buddypress/members/register.php:217
+#: bp-themes/bp-legacy/buddypress/members/register.php:32
+#: bp-themes/bp-legacy/buddypress/members/register.php:36
+#: bp-themes/bp-legacy/buddypress/members/register.php:40
+#: bp-themes/bp-legacy/buddypress/members/register.php:44
+#: bp-themes/bp-legacy/buddypress/members/register.php:71
+#: bp-themes/bp-legacy/buddypress/members/register.php:79
+#: bp-themes/bp-legacy/buddypress/members/register.php:87
+#: bp-themes/bp-legacy/buddypress/members/register.php:97
+#: bp-themes/bp-legacy/buddypress/members/register.php:108
+#: bp-themes/bp-legacy/buddypress/members/register.php:123
+#: bp-themes/bp-legacy/buddypress/members/register.php:134
+#: bp-themes/bp-legacy/buddypress/members/register.php:206
+#: bp-themes/bp-legacy/buddypress/members/register.php:215
 #: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:26
 #: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:33
 #: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:40
@@ -5579,7 +5587,7 @@ msgstr ""
 #: bp-themes/bp-default/members/single/profile/edit.php:58
 #: bp-themes/bp-default/members/single/profile/edit.php:73
 #: bp-themes/bp-default/registration/register.php:119
-#: bp-themes/bp-legacy/buddypress/members/register.php:116
+#: bp-themes/bp-legacy/buddypress/members/register.php:114
 #: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:58
 #: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:73
 #: bp-xprofile/bp-xprofile-admin.php:415
@@ -5590,8 +5598,8 @@ msgstr ""
 #: bp-themes/bp-default/members/single/profile/edit.php:132
 #: bp-themes/bp-default/registration/register.php:159
 #: bp-themes/bp-default/registration/register.php:174
-#: bp-themes/bp-legacy/buddypress/members/register.php:156
-#: bp-themes/bp-legacy/buddypress/members/register.php:171
+#: bp-themes/bp-legacy/buddypress/members/register.php:154
+#: bp-themes/bp-legacy/buddypress/members/register.php:169
 #: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:118
 #: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:132
 msgid "This field can be seen by: <span class=\"current-visibility-level\">%s</span>"
@@ -5604,7 +5612,7 @@ msgstr ""
 
 #: bp-themes/bp-default/members/single/profile/edit.php:123
 #: bp-themes/bp-default/registration/register.php:164
-#: bp-themes/bp-legacy/buddypress/members/register.php:161
+#: bp-themes/bp-legacy/buddypress/members/register.php:159
 #: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:123
 msgid "Who can see this field?"
 msgstr ""
@@ -5690,28 +5698,23 @@ msgstr ""
 msgid "Edit this page."
 msgstr ""
 
-#: bp-themes/bp-default/registration/activate.php:12
-#: bp-themes/bp-legacy/buddypress/members/activate.php:9
-msgid "Account Activated"
-msgstr ""
-
 #: bp-themes/bp-default/registration/activate.php:17
-#: bp-themes/bp-legacy/buddypress/members/activate.php:14
+#: bp-themes/bp-legacy/buddypress/members/activate.php:12
 msgid "Your account was activated successfully! Your account details have been sent to you in a separate email."
 msgstr ""
 
 #: bp-themes/bp-default/registration/activate.php:19
-#: bp-themes/bp-legacy/buddypress/members/activate.php:16
+#: bp-themes/bp-legacy/buddypress/members/activate.php:14
 msgid "Your account was activated successfully! You can now log in with the username and password you provided when you signed up."
 msgstr ""
 
 #: bp-themes/bp-default/registration/activate.php:28
-#: bp-themes/bp-legacy/buddypress/members/activate.php:25
+#: bp-themes/bp-legacy/buddypress/members/activate.php:21
 msgid "Please provide a valid activation key."
 msgstr ""
 
 #: bp-themes/bp-default/registration/activate.php:32
-#: bp-themes/bp-legacy/buddypress/members/activate.php:29
+#: bp-themes/bp-legacy/buddypress/members/activate.php:25
 msgid "Activation Key:"
 msgstr ""
 
@@ -5721,78 +5724,73 @@ msgid "User registration is currently not allowed."
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:27
-#: bp-themes/bp-legacy/buddypress/members/register.php:24
+#: bp-themes/bp-legacy/buddypress/members/register.php:22
 msgid "Registering for this site is easy, just fill in the fields below and we'll get a new account set up for you in no time."
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:35
-#: bp-themes/bp-legacy/buddypress/members/register.php:32
+#: bp-themes/bp-legacy/buddypress/members/register.php:30
 msgid "Account Details"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:37
 #: bp-themes/bp-default/sidebar.php:44
-#: bp-themes/bp-legacy/buddypress/members/register.php:34
+#: bp-themes/bp-legacy/buddypress/members/register.php:32
 msgid "Username"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:41
-#: bp-themes/bp-legacy/buddypress/members/register.php:38
+#: bp-themes/bp-legacy/buddypress/members/register.php:36
 msgid "Email Address"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:45
-#: bp-themes/bp-legacy/buddypress/members/register.php:42
+#: bp-themes/bp-legacy/buddypress/members/register.php:40
 msgid "Choose a Password"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:49
-#: bp-themes/bp-legacy/buddypress/members/register.php:46
+#: bp-themes/bp-legacy/buddypress/members/register.php:44
 msgid "Confirm Password"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:65
-#: bp-themes/bp-legacy/buddypress/members/register.php:62
+#: bp-themes/bp-legacy/buddypress/members/register.php:60
 msgid "Profile Details"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:205
-#: bp-themes/bp-legacy/buddypress/members/register.php:202
+#: bp-themes/bp-legacy/buddypress/members/register.php:200
 msgid "Blog Details"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:207
-#: bp-themes/bp-legacy/buddypress/members/register.php:204
+#: bp-themes/bp-legacy/buddypress/members/register.php:202
 msgid "Yes, I'd like to create a new site"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:211
-#: bp-themes/bp-legacy/buddypress/members/register.php:208
+#: bp-themes/bp-legacy/buddypress/members/register.php:206
 msgid "Blog URL"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:220
-#: bp-themes/bp-legacy/buddypress/members/register.php:217
+#: bp-themes/bp-legacy/buddypress/members/register.php:215
 msgid "Site Title"
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:241
-#: bp-themes/bp-legacy/buddypress/members/register.php:238
+#: bp-themes/bp-legacy/buddypress/members/register.php:236
 msgid "Complete Sign Up"
 msgstr ""
 
-#: bp-themes/bp-default/registration/register.php:252
-#: bp-themes/bp-legacy/buddypress/members/register.php:249
-msgid "Sign Up Complete!"
-msgstr ""
-
 #: bp-themes/bp-default/registration/register.php:258
-#: bp-themes/bp-legacy/buddypress/members/register.php:255
+#: bp-themes/bp-legacy/buddypress/members/register.php:251
 msgid "You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address."
 msgstr ""
 
 #: bp-themes/bp-default/registration/register.php:260
-#: bp-themes/bp-legacy/buddypress/members/register.php:257
+#: bp-themes/bp-legacy/buddypress/members/register.php:253
 msgid "You have successfully created your account! Please log in using the username and password you have just created."
 msgstr ""
 
