@@ -3,7 +3,9 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_forums_directory_forums_setup() {
-	global $bp;
+
+	// Get BuddyPress once
+	$bp = buddypress();
 
 	if ( bp_is_forums_component() && ( !bp_current_action() || ( 'tag' == bp_current_action() && bp_action_variables() ) ) && !bp_current_item() ) {
 		if ( !bp_forums_has_directory() )
@@ -71,16 +73,12 @@ function bp_forums_directory_forums_setup() {
 add_action( 'bp_screens', 'bp_forums_directory_forums_setup', 2 );
 
 function bp_member_forums_screen_topics() {
-	global $bp;
-
 	do_action( 'bp_member_forums_screen_topics' );
 
 	bp_core_load_template( apply_filters( 'bp_member_forums_screen_topics', 'members/single/home' ) );
 }
 
 function bp_member_forums_screen_replies() {
-	global $bp;
-
 	do_action( 'bp_member_forums_screen_replies' );
 
 	bp_core_load_template( apply_filters( 'bp_member_forums_screen_replies', 'members/single/home' ) );
@@ -94,15 +92,12 @@ function bp_member_forums_screen_replies() {
  * @package BuddyPress Forums
  */
 function bp_member_forums_screen_favorites() {
-	global $bp;
-
 	do_action( 'bp_member_forums_screen_favorites' );
 
 	bp_core_load_template( apply_filters( 'bp_member_forums_screen_favorites', 'members/single/home' ) );
 }
 
 function bp_forums_screen_single_forum() {
-	global $bp;
 
 	if ( !bp_is_forums_component() || !bp_is_current_action( 'forum' ) || !bp_action_variable( 0 ) )
 		return false;
@@ -114,7 +109,6 @@ function bp_forums_screen_single_forum() {
 add_action( 'bp_screens', 'bp_forums_screen_single_forum' );
 
 function bp_forums_screen_single_topic() {
-	global $bp;
 
 	if ( !bp_is_forums_component() || !bp_is_current_action( 'topic' ) || !bp_action_variable( 0 ) )
 		return false;
