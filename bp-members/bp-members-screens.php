@@ -306,6 +306,11 @@ class BP_Members_Theme_Compat {
 
 		// User page
 		} elseif ( bp_is_user() ) {
+			// If we're on a single activity permalink page, we shouldn't use the members
+			// template, so stop here!
+			if ( bp_is_active( 'activity' ) && bp_is_single_activity() )
+				return;
+
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post'    ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content' ) );
 

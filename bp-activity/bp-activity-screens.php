@@ -343,6 +343,11 @@ class BP_Activity_Theme_Compat {
 
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
+
+		// Single activity
+		} elseif ( bp_is_single_activity() ) {
+			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post' ) );
+			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content'    ) );
 		}
 	}
 
@@ -374,6 +379,36 @@ class BP_Activity_Theme_Compat {
 	 */
 	public function directory_content() {
 		bp_buffer_template_part( 'activity/index' );
+	}
+
+	/** Single ****************************************************************/
+
+	/**
+	 * Update the global $post with the displayed user's data
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function single_dummy_post() {
+		bp_theme_compat_reset_post( array(
+			'ID'             => 0,
+			'post_title'     => '',
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_content'   => '',
+			'post_type'      => 'bp_activity',
+			'post_status'    => 'publish',
+			'is_archive'     => true,
+			'comment_status' => 'closed'
+		) );
+	}
+
+	/**
+	 * Filter the_content with the members' activity permalink template part
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function single_dummy_content() {
+		bp_buffer_template_part( 'members/single/activity/permalink' );
 	}
 }
 new BP_Activity_Theme_Compat();
