@@ -322,7 +322,7 @@ class BuddyPress {
 		 * @var bool Displaying custom 2nd level navigation menu (I.E a group)
 		 */
 		$this->is_single_item = false;
-	
+
 		/** Root **************************************************************/
 
 		// BuddyPress Root blog ID
@@ -501,7 +501,7 @@ class BuddyPress {
 		// @todo Move bp-default to wordpress.org/extend/themes and remove this
 		register_theme_directory( $this->themes_dir );
 	}
-	
+
 	/** Public Methods ********************************************************/
 
 	/**
@@ -522,7 +522,7 @@ class BuddyPress {
 			'url'     => trailingslashit( $this->themes_url . '/bp-legacy' )
 		) );
 	}
-	
+
 	/**
 	 * Setup the default BuddyPress theme compatability location.
 	 *
