@@ -360,10 +360,21 @@ class BP_Admin {
 	 * @return array Processed links
 	 */
 	public function add_settings_link( $links, $file ) {
-
 		if ( buddypress()->basename == $file ) {
-			$url           = bp_core_do_network_admin() ? network_admin_url( 'settings.php' ) : admin_url( 'options-general.php' );
-			$settings_link = '<a href="' . add_query_arg( array( 'page' => 'bp-components' ), $url ) . '">' . __( 'Settings', 'buddypress' ) . '</a>';
+			$page = 'bp-components';
+			$text = __( 'Settings', 'buddypress' );
+			$url  = bp_core_do_network_admin() ? network_admin_url( 'settings.php' ) : admin_url( 'options-general.php' );
+
+			// If we're in install mode then the link needs to show "Wizard" and link
+			// to the wizard. Otherwise we can show the BuddyPress settings page link.
+			if ( 'install' == bp_get_maintenance_mode() ) {
+				$page = 'bp-wizard';
+				$text = __( 'Setup Wizard', 'buddypress' );
+				$url  = bp_core_do_network_admin() ? network_admin_url( 'admin.php?page=' . $page ) : admin_url( 'index.php?page=' . $page );
+			}
+
+			$settings_link 	= '<a href="' . add_query_arg( array( 'page' => $page ), $url ) . '">' . $text . '</a>';
+
 			array_unshift( $links, $settings_link );
 		}
 
