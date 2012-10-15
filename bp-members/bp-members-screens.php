@@ -352,7 +352,7 @@ class BP_Members_Theme_Compat {
 	public function single_dummy_post() {
 		bp_theme_compat_reset_post( array(
 			'ID'             => 0,
-			'post_title'     => bp_get_displayed_user_fullname(),
+			'post_title'     => '<a href="' . bp_get_displayed_user_link() . '">' . bp_get_displayed_user_fullname() . '</a>',
 			'post_author'    => 0,
 			'post_date'      => 0,
 			'post_content'   => '',

@@ -21,10 +21,6 @@
 
 <div id="item-header-content">
 
-	<h2>
-		<a href="<?php bp_displayed_user_link(); ?>"><?php bp_displayed_user_fullname(); ?></a>
-	</h2>
-
 	<span class="user-nicename">@<?php bp_displayed_user_username(); ?></span>
 	<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
 
