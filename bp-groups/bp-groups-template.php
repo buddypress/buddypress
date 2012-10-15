@@ -1624,7 +1624,7 @@ function bp_group_join_button( $group = false ) {
 			return false;
 
 		// Already a member
-		if ( $group->is_member ) {
+		if ( isset( $group->is_member ) && $group->is_member ) {
 
 			// Stop sole admins from abandoning their group
 	 		$group_admins = groups_get_group_admins( $group->id );
