@@ -373,8 +373,8 @@ function bp_nav_item_has_subnav( $nav_item = '' ) {
  * Removes a navigation item from the sub navigation array used in BuddyPress themes.
  *
  * @package BuddyPress Core
- * @param $parent_id The id of the parent navigation item.
- * @param $slug The slug of the sub navigation item.
+ * @param int $parent_id The id of the parent navigation item.
+ * @param bool|string false if the parent item doesn't exist or $slug the slug of the sub navigation item.
  */
 function bp_core_remove_nav_item( $parent_id ) {
 	global $bp;
@@ -385,6 +385,9 @@ function bp_core_remove_nav_item( $parent_id ) {
 			bp_core_remove_subnav_item( $parent_id, $subnav_item['slug'] );
 		}
 	}
+
+	if ( empty( $bp->bp_nav[ $parent_id ] ) )
+		return false;
 
 	if ( $function = $bp->bp_nav[$parent_id]['screen_function'] ) {
 		if ( is_object( $function[0] ) ) {
