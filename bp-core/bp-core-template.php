@@ -167,17 +167,6 @@ function bp_site_name() {
 		return apply_filters( 'bp_site_name', get_bloginfo( 'name', 'display' ) );
 	}
 
-function bp_get_profile_header() {
-	locate_template( array( '/profile/profile-header.php' ), true );
-}
-
-function bp_exists( $component_name ) {
-	if ( function_exists( $component_name . '_install' ) )
-		return true;
-
-	return false;
-}
-
 function bp_format_time( $time, $just_date = false, $localize_time = true ) {
 	if ( !isset( $time ) || !is_numeric( $time ) )
 		return false;
@@ -228,9 +217,6 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 	}
 }
 
-function bp_get_plugin_sidebar() {
-	locate_template( array( 'plugin-sidebar.php' ), true );
-}
 
 function bp_styles() {
 	do_action( 'bp_styles' );

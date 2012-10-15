@@ -147,10 +147,6 @@ class BP_XProfile_Data_Template {
 	}
 }
 
-function xprofile_get_profile() {
-	locate_template( array( 'profile/profile-loop.php'), true );
-}
-
 function bp_has_profile( $args = '' ) {
 	global $profile_template;
 
