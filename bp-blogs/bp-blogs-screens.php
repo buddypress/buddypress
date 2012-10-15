@@ -145,7 +145,7 @@ class BP_Blogs_Theme_Compat {
 
 		// Title based on ability to create blogs
 		if ( is_user_logged_in() && bp_blog_signup_enabled() ) {
-			$title = '<a class="button" href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() ) . '">' . __( 'Blogs', 'buddypress' ) . '</a>&nbsp;' . __( 'Create a Blog', 'buddypress' );
+			$title = '<a class="button bp-title-button" href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() ) . '">' . __( 'Blogs', 'buddypress' ) . '</a>&nbsp;' . __( 'Create a Blog', 'buddypress' );
 		} else {
 			$title = __( 'Blogs', 'buddypress' );
 		}
