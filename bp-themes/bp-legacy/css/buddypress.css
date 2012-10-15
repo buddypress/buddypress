@@ -702,7 +702,8 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 #buddypress input[type=reset],
 #buddypress ul.button-nav li a,
 #buddypress div.generic-button a,
-#buddypress .comment-reply-link {
+#buddypress .comment-reply-link,
+a.bp-title-button {
 	background: #fff; /* Old browsers */
 	background: -moz-linear-gradient(top, #ffffff 0%, #ededed 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ededed)); /* Chrome,Safari4+ */

@@ -951,7 +951,7 @@ class BP_Groups_Theme_Compat {
 
 		// Title based on ability to create groups
 		if ( is_user_logged_in() && bp_user_can_create_groups() ) {
-			$title = __( 'Groups', 'buddypress' ) . '&nbsp;<a class="button" href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create' ) . '">' . __( 'Create a Group', 'buddypress' ) . '</a>';
+			$title = __( 'Groups', 'buddypress' ) . '&nbsp;<a class="button bp-title-button" href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create' ) . '">' . __( 'Create a Group', 'buddypress' ) . '</a>';
 		} else {
 			$title = __( 'Groups', 'buddypress' );
 		}
