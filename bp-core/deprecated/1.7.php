@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Core
- * @deprecated Since 1.5
+ * @deprecated Since 1.7
  */
 
 // Exit if accessed directly
