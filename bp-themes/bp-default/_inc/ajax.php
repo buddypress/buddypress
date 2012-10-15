@@ -326,6 +326,7 @@ function bp_dtheme_new_activity_comment() {
 	bp_has_activities( 'display_comments=stream&hide_spam=false&include=' . $comment_id );
 
 	// Swap the current comment with the activity item we just loaded
+	$activities_template->activity                  = new stdClass;
 	$activities_template->activity->id              = $activities_template->activities[0]->item_id;
 	$activities_template->activity->current_comment = $activities_template->activities[0];
 
