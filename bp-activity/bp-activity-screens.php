@@ -391,7 +391,7 @@ class BP_Activity_Theme_Compat {
 	public function single_dummy_post() {
 		bp_theme_compat_reset_post( array(
 			'ID'             => 0,
-			'post_title'     => '',
+			'post_title'     => __( 'Activity', 'buddypress' ),
 			'post_author'    => 0,
 			'post_date'      => 0,
 			'post_content'   => '',
