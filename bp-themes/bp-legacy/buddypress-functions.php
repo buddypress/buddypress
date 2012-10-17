@@ -554,18 +554,8 @@ function bp_legacy_theme_new_activity_comment() {
 	$activities_template->activity->id              = $activities_template->activities[0]->item_id;
 	$activities_template->activity->current_comment = $activities_template->activities[0];
 
-	$template = bp_locate_template( 'activity/comment.php', false, false );
-
-	/**
-	 * Backward compatibility. In older versions of BP, the markup was
-	 * generated in the PHP instead of a template. This ensures that
-	 * older themes (which are not children of bp-legacy and won't
-	 * have the new template) will still work.
-	 */
-	if ( empty( $template ) )
-		$template = BP_PLUGIN_DIR . '/bp-themes/bp-legacy/activity/comment.php';
-
-	bp_get_template_part( $template );
+	// get activity comment template part
+	bp_get_template_part( 'activity/comment' );
 
 	unset( $activities_template );
 	exit;
