@@ -455,7 +455,7 @@ class BP_Activity_Activity {
 		// Now fetch the activity comments and parse them into the correct position in the activities array.
 		foreach( (array) $activities as $activity ) {
 			$top_level_parent_id = 'activity_comment' == $activity->type ? $activity->item_id : 0;
-			$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right, $spam );
+			$activity_comments[$activity->id] = BP_Activity_Activity::get_activity_comments( $activity->id, $activity->mptt_left, $activity->mptt_right, $spam, $top_level_parent_id );
 		}
 
 		// Merge the comments with the activity items
