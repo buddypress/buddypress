@@ -22,7 +22,7 @@ add_action( 'bp_register_widgets', 'bp_blogs_register_widgets' );
 class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 	function __construct() {
-		parent::__construct( false, $name = __( 'Recent Networkwide Posts', 'buddypress' ) );
+		parent::__construct( false, $name = _x( '(BuddyPress) Recent Networkwide Posts', 'widget name', 'buddypress' ) );
 	}
 
 	function widget($args, $instance) {

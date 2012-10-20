@@ -16,7 +16,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 	function __construct() {
 		$widget_ops = array( 'description' => __( 'A dynamic list of recently active, popular, and newest members', 'buddypress' ) );
-		parent::__construct( false, $name = __( 'Members', 'buddypress' ), $widget_ops );
+		parent::__construct( false, $name = _x( '(BuddyPress) Members', 'widget name', 'buddypress' ), $widget_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
@@ -144,7 +144,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 	function __construct() {
 		$widget_ops = array( 'description' => __( 'Avatars of users who are currently online', 'buddypress' ) );
-		parent::__construct( false, $name = __( "Who's Online Avatars", 'buddypress' ), $widget_ops );
+		parent::__construct( false, $name = _x( "(BuddyPress) Who's Online", 'widget name', 'buddypress' ), $widget_ops );
 	}
 
 	function widget($args, $instance) {
@@ -208,7 +208,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 
 	function __construct() {
 		$widget_ops = array( 'description' => __( 'Avatars of recently active members', 'buddypress' ) );
-		parent::__construct( false, $name = __( 'Recently Active Member Avatars', 'buddypress' ), $widget_ops );
+		parent::__construct( false, $name = _x( '(BuddyPress) Recently Active Members', 'widget name', 'buddypress' ), $widget_ops );
 	}
 
 	function widget( $args, $instance ) {

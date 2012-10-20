@@ -25,7 +25,7 @@ class BP_Groups_Widget extends WP_Widget {
 
 	function __construct() {
 		$widget_ops = array( 'description' => __( 'A dynamic list of recently active, popular, and newest groups', 'buddypress' ) );
-		parent::__construct( false, __( 'Groups', 'buddypress' ), $widget_ops );
+		parent::__construct( false, _x( '(BuddyPress) Groups', 'widget name', 'buddypress' ), $widget_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
