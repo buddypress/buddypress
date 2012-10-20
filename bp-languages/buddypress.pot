@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-10-17 20:36:32+00:00\n"
+"POT-Creation-Date: 2012-10-20 16:36:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -540,8 +540,7 @@ msgstr ""
 #: bp-groups/bp-groups-loader.php:506 bp-groups/bp-groups-screens.php:848
 #: bp-groups/bp-groups-screens.php:954 bp-groups/bp-groups-screens.php:956
 #: bp-groups/bp-groups-screens.php:992 bp-groups/bp-groups-screens.php:994
-#: bp-groups/bp-groups-widgets.php:28 bp-groups/bp-groups-widgets.php:45
-#: bp-groups/bp-groups-widgets.php:116
+#: bp-groups/bp-groups-widgets.php:45 bp-groups/bp-groups-widgets.php:116
 msgid "Groups"
 msgstr ""
 
@@ -1059,7 +1058,8 @@ msgid "Visit Site"
 msgstr ""
 
 #: bp-blogs/bp-blogs-widgets.php:25
-msgid "Recent Networkwide Posts"
+msgctxt "widget name"
+msgid "(BuddyPress) Recent Networkwide Posts"
 msgstr ""
 
 #: bp-blogs/bp-blogs-widgets.php:67
@@ -1457,9 +1457,9 @@ msgid "Choose an existing page, have one auto-created, or create them manually a
 msgstr ""
 
 #: bp-core/admin/bp-core-update.php:334 bp-core/bp-core-template.php:243
-#: bp-core/bp-core-widgets.php:19 bp-core/bp-core-widgets.php:108
-#: bp-groups/bp-groups-admin.php:741 bp-groups/bp-groups-template.php:1387
-#: bp-members/bp-members-loader.php:24 bp-members/bp-members-screens.php:330
+#: bp-core/bp-core-widgets.php:108 bp-groups/bp-groups-admin.php:741
+#: bp-groups/bp-groups-template.php:1387 bp-members/bp-members-loader.php:24
+#: bp-members/bp-members-screens.php:330
 #: bp-themes/bp-default/groups/single/admin.php:231
 #: bp-themes/bp-legacy/buddypress/groups/single/admin.php:231
 msgid "Members"
@@ -1971,6 +1971,11 @@ msgstr ""
 msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
+#: bp-core/bp-core-widgets.php:19
+msgctxt "widget name"
+msgid "(BuddyPress) Members"
+msgstr ""
+
 #: bp-core/bp-core-widgets.php:44 bp-core/bp-core-widgets.php:130
 #: bp-core/deprecated/1.6.php:111 bp-core/deprecated/1.6.php:134
 #: bp-groups/bp-groups-widgets.php:57 bp-groups/bp-groups-widgets.php:138
@@ -2023,7 +2028,8 @@ msgid "Avatars of users who are currently online"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:147
-msgid "Who's Online Avatars"
+msgctxt "widget name"
+msgid "(BuddyPress) Who's Online"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:170
@@ -2043,7 +2049,8 @@ msgid "Avatars of recently active members"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:211
-msgid "Recently Active Member Avatars"
+msgctxt "widget name"
+msgid "(BuddyPress) Recently Active Members"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:234
@@ -3627,6 +3634,11 @@ msgstr ""
 
 #: bp-groups/bp-groups-widgets.php:27
 msgid "A dynamic list of recently active, popular, and newest groups"
+msgstr ""
+
+#: bp-groups/bp-groups-widgets.php:28
+msgctxt "widget name"
+msgid "(BuddyPress) Groups"
 msgstr ""
 
 #: bp-groups/bp-groups-widgets.php:75 bp-groups/bp-groups-widgets.php:180
