@@ -124,9 +124,13 @@ function bp_core_allow_default_theme( $themes ) {
 	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return $themes;
 
-	if ( $wpdb->blogid == bp_get_root_blog_id() ) {
-		$themes['bp-default'] = 1;
-	}
+	if ( bp_get_root_blog_id() != $wpdb->blogid )
+		return $themes;
+
+	if ( isset( $themes['bp-default'] ) )
+		return $themes;
+
+	$themes['bp-default'] = true;
 
 	return $themes;
 }
