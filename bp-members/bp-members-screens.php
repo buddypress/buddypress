@@ -218,7 +218,7 @@ function bp_core_screen_signup() {
 	}
 
 	do_action( 'bp_core_screen_signup' );
-	bp_core_load_template( apply_filters( 'bp_core_template_register', 'registration/register' ) );
+	bp_core_load_template( apply_filters( 'bp_core_template_register', array( 'register', 'registration/register' ) ) );
 }
 add_action( 'bp_screens', 'bp_core_screen_signup' );
 
@@ -256,10 +256,7 @@ function bp_core_screen_activation() {
 		$bp->activation_complete = true;
 	}
 
-	if ( '' != locate_template( array( 'registration/activate' ), false ) )
-		bp_core_load_template( apply_filters( 'bp_core_template_activate', 'activate' ) );
-	else
-		bp_core_load_template( apply_filters( 'bp_core_template_activate', 'registration/activate' ) );
+	bp_core_load_template( apply_filters( 'bp_core_template_activate', array( 'activate', 'registration/activate' ) ) );
 }
 add_action( 'bp_screens', 'bp_core_screen_activation' );
 
