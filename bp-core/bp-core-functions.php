@@ -572,24 +572,21 @@ function bp_core_get_site_path() {
  * Performs a status safe wp_redirect() that is compatible with bp_catch_uri()
  *
  * @package BuddyPress Core
- * @global BuddyPress $bp Makes sure that there are no conflicts with
- *                         status_header() called in bp_core_do_catch_uri()
- * @uses wp_redirect()
+ * @uses wp_safe_redirect()
  */
 function bp_core_redirect( $location, $status = 302 ) {
-	global $bp;
 
-	// On some setups, passing the value of wp_get_referer() may result in an empty value for
-	// $location, which results in an error. Ensure that we have a valid URL.
-	if ( empty( $location ) ) {
+	// On some setups, passing the value of wp_get_referer() may result in an
+	// empty value for $location, which results in an error. Ensure that we
+	// have a valid URL.
+	if ( empty( $location ) )
 		$location = bp_get_root_domain();
-	}
 
-	// Make sure we don't call status_header() in bp_core_do_catch_uri()
-	// as this conflicts with wp_redirect()
-	$bp->no_status_set = true;
+	// Make sure we don't call status_header() in bp_core_do_catch_uri() as this
+	// conflicts with wp_redirect() and wp_safe_redirect().
+	buddypress()->no_status_set = true;
 
-	wp_redirect( $location, $status );
+	wp_safe_redirect( $location, $status );
 	die;
 }
 
