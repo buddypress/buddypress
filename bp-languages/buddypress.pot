@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-10-20 20:36:34+00:00\n"
+"POT-Creation-Date: 2012-10-22 05:36:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,8 +25,8 @@ msgid "The activity item has been marked as spam and is no longer visible."
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:263
+#: bp-templates/bp-legacy/buddypress-functions.php:488
 #: bp-themes/bp-default/_inc/ajax.php:263
-#: bp-themes/bp-legacy/buddypress-functions.php:488
 msgid "Please enter some content to post."
 msgstr ""
 
@@ -39,8 +39,8 @@ msgid "There was an error when posting your update, please try again."
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:323
+#: bp-templates/bp-legacy/buddypress-functions.php:536
 #: bp-themes/bp-default/_inc/ajax.php:311
-#: bp-themes/bp-legacy/buddypress-functions.php:536
 msgid "Please do not leave the comment area blank."
 msgstr ""
 
@@ -49,10 +49,10 @@ msgid "Reply Posted!"
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:336
+#: bp-templates/bp-legacy/buddypress-functions.php:539
+#: bp-templates/bp-legacy/buddypress-functions.php:548
 #: bp-themes/bp-default/_inc/ajax.php:314
 #: bp-themes/bp-default/_inc/ajax.php:323
-#: bp-themes/bp-legacy/buddypress-functions.php:539
-#: bp-themes/bp-legacy/buddypress-functions.php:548
 msgid "There was an error posting that reply, please try again."
 msgstr ""
 
@@ -322,18 +322,18 @@ msgid "Reply to Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:874 bp-groups/bp-groups-admin.php:561
+#: bp-templates/bp-legacy/buddypress/forums/index.php:114
 #: bp-themes/bp-default/forums/index.php:134
-#: bp-themes/bp-legacy/buddypress/forums/index.php:114
 #: bp-xprofile/bp-xprofile-classes.php:404
 #: bp-xprofile/bp-xprofile-classes.php:927
 msgid "Cancel"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:875 bp-activity/bp-activity-admin.php:1280
+#: bp-templates/bp-legacy/buddypress/activity/comment.php:37
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:10
 #: bp-themes/bp-default/activity/comment.php:37
 #: bp-themes/bp-default/groups/single/forum/edit.php:10
-#: bp-themes/bp-legacy/buddypress/activity/comment.php:37
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/edit.php:10
 msgid "Reply"
 msgstr ""
 
@@ -515,8 +515,8 @@ msgstr ""
 #: bp-activity/bp-activity-loader.php:153
 #: bp-activity/bp-activity-loader.php:234
 #: bp-activity/feeds/bp-activity-mentions-feed.php:27
+#: bp-templates/bp-legacy/buddypress/activity/index.php:57
 #: bp-themes/bp-default/activity/index.php:77
-#: bp-themes/bp-legacy/buddypress/activity/index.php:57
 msgid "Mentions"
 msgstr ""
 
@@ -570,10 +570,10 @@ msgstr ""
 #: bp-members/bp-members-template.php:837
 #: bp-messages/bp-messages-loader.php:255
 #: bp-messages/bp-messages-template.php:326
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:185
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:212
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:212
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:185
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:212
 #: bp-xprofile/bp-xprofile-loader.php:266
 msgid "Profile picture of %s"
 msgstr ""
@@ -655,20 +655,20 @@ msgstr ""
 #: bp-activity/bp-activity-screens.php:279 bp-blogs/bp-blogs-template.php:683
 #: bp-friends/bp-friends-screens.php:84 bp-groups/bp-groups-screens.php:849
 #: bp-messages/bp-messages-screens.php:149
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:26
+#: bp-templates/bp-legacy/buddypress/members/register.php:222
 #: bp-themes/bp-default/groups/single/admin.php:26
 #: bp-themes/bp-default/registration/register.php:227
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:26
-#: bp-themes/bp-legacy/buddypress/members/register.php:222
 msgid "Yes"
 msgstr ""
 
 #: bp-activity/bp-activity-screens.php:280 bp-blogs/bp-blogs-template.php:687
 #: bp-friends/bp-friends-screens.php:85 bp-groups/bp-groups-screens.php:850
 #: bp-messages/bp-messages-screens.php:150
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:27
+#: bp-templates/bp-legacy/buddypress/members/register.php:223
 #: bp-themes/bp-default/groups/single/admin.php:27
 #: bp-themes/bp-default/registration/register.php:228
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:27
-#: bp-themes/bp-legacy/buddypress/members/register.php:223
 msgid "No"
 msgstr ""
 
@@ -722,12 +722,12 @@ msgstr ""
 #: bp-activity/bp-activity-template.php:2065
 #: bp-forums/bp-forums-template.php:1271 bp-groups/bp-groups-admin.php:1120
 #: bp-groups/bp-groups-admin.php:1218 bp-groups/bp-groups-template.php:1397
+#: bp-templates/bp-legacy/buddypress/activity/comment.php:43
+#: bp-templates/bp-legacy/buddypress/members/single/messages/messages-loop.php:51
+#: bp-templates/bp-legacy/buddypress/members/single/messages/single.php:24
 #: bp-themes/bp-default/activity/comment.php:43
 #: bp-themes/bp-default/members/single/messages/messages-loop.php:51
 #: bp-themes/bp-default/members/single/messages/single.php:24
-#: bp-themes/bp-legacy/buddypress/activity/comment.php:43
-#: bp-themes/bp-legacy/buddypress/members/single/messages/messages-loop.php:51
-#: bp-themes/bp-legacy/buddypress/members/single/messages/single.php:24
 #: bp-xprofile/bp-xprofile-admin.php:460
 msgid "Delete"
 msgstr ""
@@ -735,10 +735,10 @@ msgstr ""
 #: bp-activity/bp-activity-template.php:2112
 #: bp-core/admin/bp-core-slugs.php:112 bp-core/admin/bp-core-slugs.php:175
 #: bp-members/bp-members-template.php:623
+#: bp-templates/bp-legacy/buddypress/activity/entry.php:37
+#: bp-templates/bp-legacy/buddypress-functions.php:256
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-themes/bp-default/functions.php:165
-#: bp-themes/bp-legacy/buddypress/activity/entry.php:37
-#: bp-themes/bp-legacy/buddypress-functions.php:256
 #: bp-xprofile/bp-xprofile-loader.php:226
 msgid "View"
 msgstr ""
@@ -954,10 +954,10 @@ msgstr ""
 #: bp-groups/bp-groups-widgets.php:77 bp-groups/bp-groups-widgets.php:182
 #: bp-members/bp-members-template.php:594
 #: bp-members/bp-members-template.php:869
+#: bp-templates/bp-legacy/buddypress/groups/groups-loop.php:47
+#: bp-templates/bp-legacy/buddypress/groups/single/group-header.php:42
 #: bp-themes/bp-default/groups/groups-loop.php:47
 #: bp-themes/bp-default/groups/single/group-header.php:42
-#: bp-themes/bp-legacy/buddypress/groups/groups-loop.php:47
-#: bp-themes/bp-legacy/buddypress/groups/single/group-header.php:42
 msgid "active %s"
 msgstr ""
 
@@ -1014,8 +1014,8 @@ msgid "Privacy:"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:679
+#: bp-templates/bp-legacy/buddypress/members/register.php:219
 #: bp-themes/bp-default/registration/register.php:224
-#: bp-themes/bp-legacy/buddypress/members/register.php:219
 msgid "I would like my site to appear in search engines, and in public listings around this network."
 msgstr ""
 
@@ -1219,8 +1219,8 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:258 bp-core/admin/bp-core-slugs.php:138
 #: bp-core/admin/bp-core-update.php:437
 #: bp-messages/bp-messages-template.php:564
+#: bp-templates/bp-legacy/buddypress/members/activate.php:29
 #: bp-themes/bp-default/registration/activate.php:36
-#: bp-themes/bp-legacy/buddypress/members/activate.php:29
 msgid "Activate"
 msgstr ""
 
@@ -1326,6 +1326,13 @@ msgid "Absolute path to your bbPress configuration file."
 msgstr ""
 
 #: bp-core/admin/bp-core-settings.php:267 bp-groups/bp-groups-admin.php:821
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:74
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:146
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:30
+#: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:19
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:117
 #: bp-themes/bp-default/groups/single/forum/edit.php:58
@@ -1333,13 +1340,6 @@ msgstr ""
 #: bp-themes/bp-default/members/single/profile/edit.php:146
 #: bp-themes/bp-default/members/single/settings/general.php:72
 #: bp-themes/bp-default/members/single/settings/notifications.php:61
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:32
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:117
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/edit.php:58
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/edit.php:74
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:146
-#: bp-themes/bp-legacy/buddypress/members/single/settings/general.php:30
-#: bp-themes/bp-legacy/buddypress/members/single/settings/notifications.php:19
 #: bp-xprofile/bp-xprofile-classes.php:358
 msgid "Save Changes"
 msgstr ""
@@ -1365,8 +1365,8 @@ msgid "New Page"
 msgstr ""
 
 #: bp-core/admin/bp-core-slugs.php:108 bp-core/admin/bp-core-slugs.php:171
+#: bp-templates/bp-legacy/buddypress/members/single/settings/capabilities.php:19
 #: bp-themes/bp-default/members/single/settings/capabilities.php:61
-#: bp-themes/bp-legacy/buddypress/members/single/settings/capabilities.php:19
 #: bp-xprofile/bp-xprofile-classes.php:399
 #: bp-xprofile/bp-xprofile-classes.php:926
 msgid "Save"
@@ -1386,8 +1386,8 @@ msgstr ""
 
 #: bp-core/admin/bp-core-update.php:60 bp-core/admin/bp-core-update.php:79
 #: bp-core/admin/bp-core-update.php:176 bp-core/admin/bp-core-update.php:215
+#: bp-templates/bp-legacy/buddypress/groups/create.php:282
 #: bp-themes/bp-default/groups/create.php:289
-#: bp-themes/bp-legacy/buddypress/groups/create.php:282
 msgid "Finish"
 msgstr ""
 
@@ -1460,8 +1460,8 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:108 bp-groups/bp-groups-admin.php:741
 #: bp-groups/bp-groups-template.php:1387 bp-members/bp-members-loader.php:24
 #: bp-members/bp-members-screens.php:330
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:231
 #: bp-themes/bp-default/groups/single/admin.php:231
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:231
 msgid "Members"
 msgstr ""
 
@@ -1946,12 +1946,13 @@ msgstr ""
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: bp-core/bp-core-template.php:254 bp-themes/bp-default/activity/index.php:99
+#: bp-core/bp-core-template.php:254
+#: bp-templates/bp-legacy/buddypress/activity/index.php:79
+#: bp-templates/bp-legacy/buddypress/forums/forums-loop.php:40
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:27
+#: bp-themes/bp-default/activity/index.php:99
 #: bp-themes/bp-default/forums/forums-loop.php:40
 #: bp-themes/bp-default/members/single/activity.php:27
-#: bp-themes/bp-legacy/buddypress/activity/index.php:79
-#: bp-themes/bp-legacy/buddypress/forums/forums-loop.php:40
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:27
 msgid "Posts"
 msgstr ""
 
@@ -1979,10 +1980,10 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:44 bp-core/bp-core-widgets.php:130
 #: bp-core/deprecated/1.6.php:111 bp-core/deprecated/1.6.php:134
 #: bp-groups/bp-groups-widgets.php:57 bp-groups/bp-groups-widgets.php:138
+#: bp-templates/bp-legacy/buddypress/blogs/index.php:39
+#: bp-templates/bp-legacy/buddypress/members/single/blogs.php:22
 #: bp-themes/bp-default/blogs/index.php:56
 #: bp-themes/bp-default/members/single/blogs.php:22
-#: bp-themes/bp-legacy/buddypress/blogs/index.php:39
-#: bp-themes/bp-legacy/buddypress/members/single/blogs.php:22
 msgid "Newest"
 msgstr ""
 
@@ -2002,12 +2003,12 @@ msgstr ""
 
 #: bp-core/bp-core-widgets.php:121 bp-core/bp-core-widgets.php:198
 #: bp-core/bp-core-widgets.php:262 bp-groups/bp-groups-widgets.php:129
+#: bp-templates/bp-legacy/buddypress/forums/index.php:84
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:47
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:75
 #: bp-themes/bp-default/forums/index.php:104
 #: bp-themes/bp-default/groups/single/forum/edit.php:47
 #: bp-themes/bp-default/groups/single/forum.php:75
-#: bp-themes/bp-legacy/buddypress/forums/index.php:84
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/edit.php:47
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:75
 msgid "Title:"
 msgstr ""
 
@@ -2062,47 +2063,49 @@ msgid "There were no members found, please try another filter."
 msgstr ""
 
 #: bp-core/deprecated/1.5.php:135
+#: bp-templates/bp-legacy/buddypress/activity/post-form.php:39
+#: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:45
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
-#: bp-themes/bp-legacy/buddypress/activity/post-form.php:39
-#: bp-themes/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
 #: bp-xprofile/bp-xprofile-loader.php:261
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:142 bp-themes/bp-default/functions.php:641
+#: bp-core/deprecated/1.5.php:142
+#: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:15
+#: bp-themes/bp-default/functions.php:641
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
-#: bp-themes/bp-legacy/buddypress/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
 
 #: bp-core/deprecated/1.5.php:151
+#: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:24
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:24
-#: bp-themes/bp-legacy/buddypress/members/single/profile/profile-wp.php:24
 msgid "About Me"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:160 bp-themes/bp-default/functions.php:645
+#: bp-core/deprecated/1.5.php:160
+#: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:33
+#: bp-themes/bp-default/functions.php:645
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
-#: bp-themes/bp-legacy/buddypress/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
 
 #: bp-core/deprecated/1.5.php:169
+#: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:42
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:42
-#: bp-themes/bp-legacy/buddypress/members/single/profile/profile-wp.php:42
 msgid "Jabber"
 msgstr ""
 
 #: bp-core/deprecated/1.5.php:178
+#: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:51
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:51
-#: bp-themes/bp-legacy/buddypress/members/single/profile/profile-wp.php:51
 msgid "AOL Messenger"
 msgstr ""
 
 #: bp-core/deprecated/1.5.php:187
+#: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:60
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:60
-#: bp-themes/bp-legacy/buddypress/members/single/profile/profile-wp.php:60
 msgid "Yahoo Messenger"
 msgstr ""
 
@@ -2410,8 +2413,9 @@ msgstr ""
 msgid "You already have a pending friendship request with this user"
 msgstr ""
 
-#: bp-friends/bp-friends-actions.php:70 bp-themes/bp-default/_inc/ajax.php:601
-#: bp-themes/bp-legacy/buddypress-functions.php:815
+#: bp-friends/bp-friends-actions.php:70
+#: bp-templates/bp-legacy/buddypress-functions.php:815
+#: bp-themes/bp-default/_inc/ajax.php:601
 msgid "Friendship could not be canceled."
 msgstr ""
 
@@ -2471,10 +2475,10 @@ msgstr ""
 
 #: bp-friends/bp-friends-loader.php:109 bp-friends/bp-friends-loader.php:171
 #: bp-friends/bp-friends-loader.php:198
+#: bp-templates/bp-legacy/buddypress/activity/index.php:100
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:35
 #: bp-themes/bp-default/activity/index.php:120
 #: bp-themes/bp-default/members/single/activity.php:35
-#: bp-themes/bp-legacy/buddypress/activity/index.php:100
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:35
 msgid "Friendships"
 msgstr ""
 
@@ -2587,8 +2591,8 @@ msgid "%d friends"
 msgstr ""
 
 #: bp-friends/bp-friends-template.php:285
+#: bp-templates/bp-legacy/buddypress-functions.php:825
 #: bp-themes/bp-default/_inc/ajax.php:611
-#: bp-themes/bp-legacy/buddypress-functions.php:825
 msgid "Cancel Friendship Request"
 msgstr ""
 
@@ -2603,10 +2607,10 @@ msgstr ""
 
 #: bp-friends/bp-friends-template.php:319
 #: bp-friends/bp-friends-template.php:320
+#: bp-templates/bp-legacy/buddypress-functions.php:817
+#: bp-templates/bp-legacy/buddypress-functions.php:831
 #: bp-themes/bp-default/_inc/ajax.php:603
 #: bp-themes/bp-default/_inc/ajax.php:617
-#: bp-themes/bp-legacy/buddypress-functions.php:817
-#: bp-themes/bp-legacy/buddypress-functions.php:831
 msgid "Add Friend"
 msgstr ""
 
@@ -2829,10 +2833,11 @@ msgstr[1] ""
 msgid "Search all Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:638 bp-themes/bp-default/groups/create.php:119
+#: bp-groups/bp-groups-admin.php:638
+#: bp-templates/bp-legacy/buddypress/groups/create.php:112
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:47
+#: bp-themes/bp-default/groups/create.php:119
 #: bp-themes/bp-default/groups/single/admin.php:47
-#: bp-themes/bp-legacy/buddypress/groups/create.php:112
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:47
 msgid "Enable discussion forum"
 msgstr ""
 
@@ -2853,24 +2858,27 @@ msgstr ""
 msgid "Who can invite others to this group?"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:654 bp-themes/bp-default/groups/create.php:96
+#: bp-groups/bp-groups-admin.php:654
+#: bp-templates/bp-legacy/buddypress/groups/create.php:89
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:99
+#: bp-themes/bp-default/groups/create.php:96
 #: bp-themes/bp-default/groups/single/admin.php:99
-#: bp-themes/bp-legacy/buddypress/groups/create.php:89
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:99
 msgid "All group members"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:655 bp-themes/bp-default/groups/create.php:101
+#: bp-groups/bp-groups-admin.php:655
+#: bp-templates/bp-legacy/buddypress/groups/create.php:94
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:104
+#: bp-themes/bp-default/groups/create.php:101
 #: bp-themes/bp-default/groups/single/admin.php:104
-#: bp-themes/bp-legacy/buddypress/groups/create.php:94
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:104
 msgid "Group admins and mods only"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:656 bp-themes/bp-default/groups/create.php:106
+#: bp-groups/bp-groups-admin.php:656
+#: bp-templates/bp-legacy/buddypress/groups/create.php:99
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:109
+#: bp-themes/bp-default/groups/create.php:106
 #: bp-themes/bp-default/groups/single/admin.php:109
-#: bp-themes/bp-legacy/buddypress/groups/create.php:99
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:109
 msgid "Group admins only"
 msgstr ""
 
@@ -2879,14 +2887,14 @@ msgid "Enter a comma-separated list of user logins."
 msgstr ""
 
 #: bp-groups/bp-groups-admin.php:739
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:177
 #: bp-themes/bp-default/groups/single/admin.php:177
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:177
 msgid "Administrators"
 msgstr ""
 
 #: bp-groups/bp-groups-admin.php:740
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:205
 #: bp-themes/bp-default/groups/single/admin.php:205
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:205
 msgid "Moderators"
 msgstr ""
 
@@ -2935,8 +2943,8 @@ msgstr ""
 
 #: bp-groups/bp-groups-admin.php:817 bp-groups/bp-groups-adminbar.php:102
 #: bp-groups/bp-groups-buddybar.php:58
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:360
 #: bp-themes/bp-default/groups/single/admin.php:360
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:360
 #: bp-xprofile/bp-xprofile-admin.php:118
 msgid "Delete Group"
 msgstr ""
@@ -3110,8 +3118,9 @@ msgid "Home"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:416 bp-groups/bp-groups-template.php:1683
-#: bp-groups/bp-groups-template.php:1684 bp-themes/bp-default/_inc/ajax.php:709
-#: bp-themes/bp-legacy/buddypress-functions.php:923
+#: bp-groups/bp-groups-template.php:1684
+#: bp-templates/bp-legacy/buddypress-functions.php:923
+#: bp-themes/bp-default/_inc/ajax.php:709
 msgid "Request Membership"
 msgstr ""
 
@@ -3124,8 +3133,8 @@ msgid "Members <span>%s</span>"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:452
+#: bp-templates/bp-legacy/buddypress/groups/single/send-invites.php:60
 #: bp-themes/bp-default/groups/single/send-invites.php:60
-#: bp-themes/bp-legacy/buddypress/groups/single/send-invites.php:60
 msgid "Send Invites"
 msgstr ""
 
@@ -3515,8 +3524,8 @@ msgid "%s member"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:865
+#: bp-templates/bp-legacy/buddypress/members/single/groups/invites.php:14
 #: bp-themes/bp-default/members/single/groups/invites.php:14
-#: bp-themes/bp-legacy/buddypress/members/single/groups/invites.php:14
 msgid "%s members"
 msgstr ""
 
@@ -3529,10 +3538,10 @@ msgid "%d topics"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1140 bp-groups/bp-groups-template.php:1205
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:190
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:217
 #: bp-themes/bp-default/groups/single/admin.php:190
 #: bp-themes/bp-default/groups/single/admin.php:217
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:190
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:217
 msgid "Demote to Member"
 msgstr ""
 
@@ -3546,10 +3555,10 @@ msgid "This group has no administrators"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1204
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:216
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:272
 #: bp-themes/bp-default/groups/single/admin.php:216
 #: bp-themes/bp-default/groups/single/admin.php:272
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:216
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:272
 msgid "Promote to Admin"
 msgstr ""
 
@@ -3558,21 +3567,21 @@ msgid "This group has no moderators"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1602 bp-groups/bp-groups-template.php:1603
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:19
 #: bp-themes/bp-default/forums/index.php:23
 #: bp-themes/bp-default/groups/single/forum.php:19
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:19
 msgid "New Topic"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1642 bp-groups/bp-groups-template.php:1643
+#: bp-templates/bp-legacy/buddypress-functions.php:904
 #: bp-themes/bp-default/_inc/ajax.php:690
-#: bp-themes/bp-legacy/buddypress-functions.php:904
 msgid "Leave Group"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1665 bp-groups/bp-groups-template.php:1666
+#: bp-templates/bp-legacy/buddypress-functions.php:921
 #: bp-themes/bp-default/_inc/ajax.php:707
-#: bp-themes/bp-legacy/buddypress-functions.php:921
 msgid "Join Group"
 msgstr ""
 
@@ -3669,7 +3678,7 @@ msgstr ""
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: bp-loader.php:519
+#: bp-loader.php:532
 msgid "BuddyPress Default"
 msgstr ""
 
@@ -3714,9 +3723,9 @@ msgstr ""
 #: bp-members/bp-members-adminbar.php:123
 #: bp-settings/bp-settings-loader.php:129
 #: bp-settings/bp-settings-loader.php:189
+#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:33
 #: bp-themes/bp-default/members/single/settings/delete-account.php:50
 #: bp-themes/bp-default/members/single/settings/delete-account.php:76
-#: bp-themes/bp-legacy/buddypress/members/single/settings/delete-account.php:33
 msgid "Delete Account"
 msgstr ""
 
@@ -3926,8 +3935,8 @@ msgid "There was an error deleting messages."
 msgstr ""
 
 #: bp-messages/bp-messages-actions.php:110
+#: bp-templates/bp-legacy/buddypress-functions.php:1068
 #: bp-themes/bp-default/_inc/ajax.php:854
-#: bp-themes/bp-legacy/buddypress-functions.php:1068
 msgid "Messages deleted."
 msgstr ""
 
@@ -4113,12 +4122,12 @@ msgid "Deactivate"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:613
+#: bp-templates/bp-legacy/buddypress/members/register.php:164
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:128
+#: bp-templates/bp-legacy/buddypress-functions.php:255
 #: bp-themes/bp-default/functions.php:164
 #: bp-themes/bp-default/members/single/profile/edit.php:128
 #: bp-themes/bp-default/registration/register.php:169
-#: bp-themes/bp-legacy/buddypress/members/register.php:164
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:128
-#: bp-themes/bp-legacy/buddypress-functions.php:255
 msgid "Close"
 msgstr ""
 
@@ -4135,8 +4144,8 @@ msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:922
+#: bp-templates/bp-legacy/buddypress-functions.php:975
 #: bp-themes/bp-default/_inc/ajax.php:761
-#: bp-themes/bp-legacy/buddypress-functions.php:975
 msgid "Sent %s"
 msgstr ""
 
@@ -4201,6 +4210,1361 @@ msgstr ""
 msgid "Capabilities"
 msgstr ""
 
+#: bp-templates/bp-legacy/buddypress/activity/activity-loop.php:28
+#: bp-themes/bp-default/activity/activity-loop.php:41
+msgid "Load More"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/activity-loop.php:42
+#: bp-themes/bp-default/activity/activity-loop.php:55
+msgid "Sorry, there was no activity found. Please try a different filter."
+msgstr ""
+
+#. translators: 1: user profile link, 2: user name, 3: activity permalink, 4:
+#. activity timestamp
+
+#: bp-templates/bp-legacy/buddypress/activity/comment.php:27
+#: bp-themes/bp-default/activity/comment.php:27
+msgid "<a href=\"%1$s\">%2$s</a> replied <a href=\"%3$s\" class=\"activity-time-since\"><span class=\"time-since\">%4$s</span></a>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/entry.php:37
+#: bp-themes/bp-default/activity/entry.php:37
+msgid "In reply to: "
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/entry.php:37
+#: bp-themes/bp-default/activity/entry.php:37
+msgid "View Thread / Permalink"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/entry.php:60
+#: bp-themes/bp-default/activity/entry.php:60
+msgid "Comment <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/entry.php:68
+#: bp-themes/bp-default/activity/entry.php:68
+msgid "Mark as Favorite"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/entry.php:68
+#: bp-templates/bp-legacy/buddypress-functions.php:257
+#: bp-templates/bp-legacy/buddypress-functions.php:695
+#: bp-templates/bp-legacy/buddypress-functions.php:712
+#: bp-themes/bp-default/_inc/ajax.php:481
+#: bp-themes/bp-default/_inc/ajax.php:498
+#: bp-themes/bp-default/activity/entry.php:68
+#: bp-themes/bp-default/functions.php:166
+msgid "Favorite"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/entry.php:72
+#: bp-templates/bp-legacy/buddypress-functions.php:258
+#: bp-templates/bp-legacy/buddypress-functions.php:693
+#: bp-templates/bp-legacy/buddypress-functions.php:714
+#: bp-themes/bp-default/_inc/ajax.php:479
+#: bp-themes/bp-default/_inc/ajax.php:500
+#: bp-themes/bp-default/activity/entry.php:72
+#: bp-themes/bp-default/functions.php:167
+msgid "Remove Favorite"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/entry.php:104
+#: bp-themes/bp-default/activity/entry.php:104
+msgid "Post"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/entry.php:104
+#: bp-themes/bp-default/activity/entry.php:104
+msgid "or press esc to cancel."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:19
+#: bp-themes/bp-default/activity/index.php:39
+msgid "The public activity for everyone on this site."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:19
+#: bp-templates/bp-legacy/buddypress/members/index.php:17
+#: bp-themes/bp-default/activity/index.php:39
+#: bp-themes/bp-default/members/index.php:33
+msgid "All Members <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:29
+#: bp-themes/bp-default/activity/index.php:49
+msgid "The activity of my friends only."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:29
+#: bp-templates/bp-legacy/buddypress/members/index.php:20
+#: bp-themes/bp-default/activity/index.php:49
+#: bp-themes/bp-default/members/index.php:37
+msgid "My Friends <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:41
+#: bp-themes/bp-default/activity/index.php:61
+msgid "The activity of groups I am a member of."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:41
+#: bp-templates/bp-legacy/buddypress/groups/index.php:22
+#: bp-themes/bp-default/activity/index.php:61
+#: bp-themes/bp-default/groups/index.php:39
+msgid "My Groups <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:51
+#: bp-themes/bp-default/activity/index.php:71
+msgid "The activity I've marked as a favorite."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:51
+#: bp-themes/bp-default/activity/index.php:71
+msgid "My Favorites <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:57
+#: bp-themes/bp-default/activity/index.php:77
+msgid "Activity that I have been mentioned in."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:57
+#: bp-themes/bp-default/activity/index.php:77
+msgid "<span>%s new</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:67
+#: bp-templates/bp-legacy/buddypress/groups/single/activity.php:3
+#: bp-themes/bp-default/activity/index.php:87
+#: bp-themes/bp-default/groups/single/activity.php:3
+msgid "RSS Feed"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:67
+#: bp-templates/bp-legacy/buddypress/groups/single/activity.php:3
+#: bp-themes/bp-default/activity/index.php:87
+#: bp-themes/bp-default/groups/single/activity.php:3
+msgid "RSS"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:72
+#: bp-templates/bp-legacy/buddypress/groups/single/activity.php:8
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:18
+#: bp-themes/bp-default/activity/index.php:92
+#: bp-themes/bp-default/groups/single/activity.php:8
+#: bp-themes/bp-default/members/single/activity.php:18
+msgid "Show:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:74
+#: bp-templates/bp-legacy/buddypress/groups/single/activity.php:10
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:20
+#: bp-themes/bp-default/activity/index.php:94
+#: bp-themes/bp-default/groups/single/activity.php:10
+#: bp-themes/bp-default/members/single/activity.php:20
+msgid "Everything"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:75
+#: bp-templates/bp-legacy/buddypress/groups/single/activity.php:11
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:21
+#: bp-themes/bp-default/activity/index.php:95
+#: bp-themes/bp-default/groups/single/activity.php:11
+#: bp-themes/bp-default/members/single/activity.php:21
+msgid "Updates"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:80
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:28
+#: bp-themes/bp-default/activity/index.php:100
+#: bp-themes/bp-default/members/single/activity.php:28
+msgid "Comments"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:86
+#: bp-templates/bp-legacy/buddypress/groups/single/activity.php:14
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:43
+#: bp-themes/bp-default/activity/index.php:106
+#: bp-themes/bp-default/groups/single/activity.php:14
+#: bp-themes/bp-default/members/single/activity.php:43
+msgid "Forum Topics"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:87
+#: bp-templates/bp-legacy/buddypress/groups/single/activity.php:15
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:44
+#: bp-themes/bp-default/activity/index.php:107
+#: bp-themes/bp-default/groups/single/activity.php:15
+#: bp-themes/bp-default/members/single/activity.php:44
+msgid "Forum Replies"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:93
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:50
+#: bp-themes/bp-default/activity/index.php:113
+#: bp-themes/bp-default/members/single/activity.php:50
+msgid "New Groups"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:94
+#: bp-templates/bp-legacy/buddypress/groups/single/activity.php:18
+#: bp-templates/bp-legacy/buddypress/members/single/activity.php:51
+#: bp-themes/bp-default/activity/index.php:114
+#: bp-themes/bp-default/groups/single/activity.php:18
+#: bp-themes/bp-default/members/single/activity.php:51
+msgid "Group Memberships"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/index.php:104
+#: bp-themes/bp-default/activity/index.php:124
+msgid "New Members"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/post-form.php:29
+#: bp-themes/bp-default/activity/post-form.php:35
+msgid "Post Update"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/post-form.php:36
+#: bp-themes/bp-default/activity/post-form.php:42
+msgid "Post in"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/blogs/blogs-loop.php:90
+#: bp-themes/bp-default/blogs/blogs-loop.php:90
+msgid "Sorry, there were no sites found."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/blogs/create.php:14
+#: bp-themes/bp-default/blogs/create.php:32
+msgid "Site registration is currently disabled"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/blogs/index.php:16
+#: bp-themes/bp-default/blogs/index.php:33
+msgid "All Sites <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/blogs/index.php:20
+#: bp-themes/bp-default/blogs/index.php:37
+msgid "My Sites <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/blogs/index.php:36
+#: bp-templates/bp-legacy/buddypress/forums/index.php:40
+#: bp-templates/bp-legacy/buddypress/groups/index.php:36
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:36
+#: bp-templates/bp-legacy/buddypress/members/index.php:33
+#: bp-templates/bp-legacy/buddypress/members/single/blogs.php:19
+#: bp-templates/bp-legacy/buddypress/members/single/forums.php:18
+#: bp-templates/bp-legacy/buddypress/members/single/friends.php:20
+#: bp-templates/bp-legacy/buddypress/members/single/groups.php:20
+#: bp-themes/bp-default/blogs/index.php:53
+#: bp-themes/bp-default/forums/index.php:60
+#: bp-themes/bp-default/groups/index.php:55
+#: bp-themes/bp-default/groups/single/forum.php:36
+#: bp-themes/bp-default/members/index.php:53
+#: bp-themes/bp-default/members/single/blogs.php:19
+#: bp-themes/bp-default/members/single/forums.php:18
+#: bp-themes/bp-default/members/single/friends.php:20
+#: bp-themes/bp-default/members/single/groups.php:20
+msgid "Order By:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/blogs/index.php:38
+#: bp-templates/bp-legacy/buddypress/forums/index.php:42
+#: bp-templates/bp-legacy/buddypress/groups/index.php:39
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:38
+#: bp-templates/bp-legacy/buddypress/members/index.php:35
+#: bp-templates/bp-legacy/buddypress/members/single/blogs.php:21
+#: bp-templates/bp-legacy/buddypress/members/single/forums.php:20
+#: bp-templates/bp-legacy/buddypress/members/single/friends.php:22
+#: bp-templates/bp-legacy/buddypress/members/single/groups.php:22
+#: bp-themes/bp-default/blogs/index.php:55
+#: bp-themes/bp-default/forums/index.php:62
+#: bp-themes/bp-default/groups/index.php:57
+#: bp-themes/bp-default/groups/single/forum.php:38
+#: bp-themes/bp-default/members/index.php:55
+#: bp-themes/bp-default/members/single/blogs.php:21
+#: bp-themes/bp-default/members/single/forums.php:20
+#: bp-themes/bp-default/members/single/friends.php:22
+#: bp-themes/bp-default/members/single/groups.php:22
+msgid "Last Active"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/blogs/index.php:40
+#: bp-templates/bp-legacy/buddypress/groups/index.php:42
+#: bp-templates/bp-legacy/buddypress/members/index.php:39
+#: bp-templates/bp-legacy/buddypress/members/single/blogs.php:23
+#: bp-templates/bp-legacy/buddypress/members/single/friends.php:24
+#: bp-templates/bp-legacy/buddypress/members/single/groups.php:25
+#: bp-themes/bp-default/blogs/index.php:57
+#: bp-themes/bp-default/groups/index.php:60
+#: bp-themes/bp-default/members/index.php:60
+#: bp-themes/bp-default/members/single/blogs.php:23
+#: bp-themes/bp-default/members/single/friends.php:24
+#: bp-themes/bp-default/members/single/groups.php:25
+msgid "Alphabetical"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/forums-loop.php:39
+#: bp-themes/bp-default/forums/forums-loop.php:39
+msgid "Topic"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/forums-loop.php:41
+#: bp-themes/bp-default/forums/forums-loop.php:41
+msgid "Freshness"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/forums-loop.php:54
+#: bp-themes/bp-default/forums/forums-loop.php:54
+msgid "Permalink"
+msgstr ""
+
+#. translators: "started by [poster] in [forum]"
+
+#: bp-templates/bp-legacy/buddypress/forums/forums-loop.php:61
+#: bp-themes/bp-default/forums/forums-loop.php:61
+msgid "Started by %1$s"
+msgstr ""
+
+#. translators: "started by [poster] in [forum]"
+
+#: bp-templates/bp-legacy/buddypress/forums/forums-loop.php:72
+#: bp-themes/bp-default/forums/forums-loop.php:72
+msgid "in %1$s"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/forums-loop.php:122
+#: bp-themes/bp-default/forums/forums-loop.php:122
+msgid "Sorry, there were no forum topics found."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:20
+#: bp-themes/bp-default/forums/index.php:40
+msgid "All Topics <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:24
+#: bp-themes/bp-default/forums/index.php:44
+msgid "My Topics <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:43
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:39
+#: bp-templates/bp-legacy/buddypress/members/single/forums.php:21
+#: bp-themes/bp-default/forums/index.php:63
+#: bp-themes/bp-default/groups/single/forum.php:39
+#: bp-themes/bp-default/members/single/forums.php:21
+msgid "Most Posts"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:44
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:40
+#: bp-templates/bp-legacy/buddypress/members/single/forums.php:22
+#: bp-themes/bp-default/forums/index.php:64
+#: bp-themes/bp-default/groups/single/forum.php:40
+#: bp-themes/bp-default/members/single/forums.php:22
+msgid "Unreplied"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:80
+#: bp-themes/bp-default/forums/index.php:100
+msgid "Create New Topic:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:87
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:50
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:78
+#: bp-themes/bp-default/forums/index.php:107
+#: bp-themes/bp-default/groups/single/forum/edit.php:50
+#: bp-themes/bp-default/groups/single/forum.php:78
+msgid "Content:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:90
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:53
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:81
+#: bp-themes/bp-default/forums/index.php:110
+#: bp-themes/bp-default/groups/single/forum/edit.php:53
+#: bp-themes/bp-default/groups/single/forum.php:81
+msgid "Tags (comma separated):"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:93
+#: bp-themes/bp-default/forums/index.php:113
+msgid "Post In Group Forum:"
+msgstr ""
+
+#. translators: no option picked in select box
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:96
+#: bp-themes/bp-default/forums/index.php:116
+#: bp-xprofile/bp-xprofile-template.php:459
+msgid "----"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:113
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:87
+#: bp-themes/bp-default/forums/index.php:133
+#: bp-themes/bp-default/groups/single/forum.php:87
+msgid "Post Topic"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/forums/index.php:125
+#: bp-themes/bp-default/forums/index.php:145
+msgid "You are not a member of any groups so you don't have any group forums you can post in. To start posting, first find a group that matches the topic subject you'd like to start. If this group does not exist, why not <a href='%s'>create a new group</a>? Once you have joined or created the group you can post your topic in that group's forum."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:29
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:16
+#: bp-themes/bp-default/groups/create.php:39
+#: bp-themes/bp-default/groups/single/admin.php:16
+msgid "Group Name (required)"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:34
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:19
+#: bp-themes/bp-default/groups/create.php:42
+#: bp-themes/bp-default/groups/single/admin.php:19
+msgid "Group Description (required)"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:51
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:56
+#: bp-themes/bp-default/groups/create.php:58
+#: bp-themes/bp-default/groups/single/admin.php:56
+msgid "Privacy Options"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:55
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:61
+#: bp-themes/bp-default/groups/create.php:62
+#: bp-themes/bp-default/groups/single/admin.php:61
+msgid "This is a public group"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:57
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:63
+#: bp-themes/bp-default/groups/create.php:64
+#: bp-themes/bp-default/groups/single/admin.php:63
+msgid "Any site member can join this group."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:58
+#: bp-templates/bp-legacy/buddypress/groups/create.php:67
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:64
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:74
+#: bp-themes/bp-default/groups/create.php:65
+#: bp-themes/bp-default/groups/create.php:74
+#: bp-themes/bp-default/groups/single/admin.php:64
+#: bp-themes/bp-default/groups/single/admin.php:74
+msgid "This group will be listed in the groups directory and in search results."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:59
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:65
+#: bp-themes/bp-default/groups/create.php:66
+#: bp-themes/bp-default/groups/single/admin.php:65
+msgid "Group content and activity will be visible to any site member."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:64
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:71
+#: bp-themes/bp-default/groups/create.php:71
+#: bp-themes/bp-default/groups/single/admin.php:71
+msgid "This is a private group"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:66
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:73
+#: bp-themes/bp-default/groups/create.php:73
+#: bp-themes/bp-default/groups/single/admin.php:73
+msgid "Only users who request membership and are accepted can join the group."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:68
+#: bp-templates/bp-legacy/buddypress/groups/create.php:77
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:75
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:85
+#: bp-themes/bp-default/groups/create.php:75
+#: bp-themes/bp-default/groups/create.php:84
+#: bp-themes/bp-default/groups/single/admin.php:75
+#: bp-themes/bp-default/groups/single/admin.php:85
+msgid "Group content and activity will only be visible to members of the group."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:73
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:81
+#: bp-themes/bp-default/groups/create.php:80
+#: bp-themes/bp-default/groups/single/admin.php:81
+msgid "This is a hidden group"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:75
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:83
+#: bp-themes/bp-default/groups/create.php:82
+#: bp-themes/bp-default/groups/single/admin.php:83
+msgid "Only users who are invited can join the group."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:76
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:84
+#: bp-themes/bp-default/groups/create.php:83
+#: bp-themes/bp-default/groups/single/admin.php:84
+msgid "This group will not be listed in the groups directory or search results."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:82
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:92
+#: bp-themes/bp-default/groups/create.php:89
+#: bp-themes/bp-default/groups/single/admin.php:92
+msgid "Group Invitations"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:84
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:94
+#: bp-themes/bp-default/groups/create.php:91
+#: bp-themes/bp-default/groups/single/admin.php:94
+msgid "Which members of this group are allowed to invite others?"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:105
+#: bp-themes/bp-default/groups/create.php:112
+msgid "Group Forums"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:109
+#: bp-themes/bp-default/groups/create.php:116
+msgid "Should this group have a forum?"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:116
+#: bp-themes/bp-default/groups/create.php:123
+msgid "<strong>Attention Site Admin:</strong> Group forums require the <a href=\"%s\">correct setup and configuration</a> of a bbPress installation."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:142
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:127
+#: bp-themes/bp-default/groups/create.php:149
+#: bp-themes/bp-default/groups/single/admin.php:127
+msgid "Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:146
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:131
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:18
+#: bp-themes/bp-default/groups/create.php:153
+#: bp-themes/bp-default/groups/single/admin.php:131
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:18
+msgid "Upload Image"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:150
+#: bp-themes/bp-default/groups/create.php:157
+msgid "To skip the avatar upload process, hit the \"Next Step\" button."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:157
+#: bp-themes/bp-default/groups/create.php:164
+msgid "Crop Group Avatar"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:159
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:151
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:33
+#: bp-themes/bp-default/groups/create.php:166
+#: bp-themes/bp-default/groups/single/admin.php:151
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:33
+msgid "Avatar to crop"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:162
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:154
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:36
+#: bp-themes/bp-default/groups/create.php:169
+#: bp-themes/bp-default/groups/single/admin.php:154
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:36
+msgid "Avatar preview"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:165
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:157
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:39
+#: bp-themes/bp-default/groups/create.php:172
+#: bp-themes/bp-default/groups/single/admin.php:157
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:39
+msgid "Crop Image"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:204
+#: bp-templates/bp-legacy/buddypress/groups/single/send-invites.php:22
+#: bp-themes/bp-default/groups/create.php:211
+#: bp-themes/bp-default/groups/single/send-invites.php:22
+msgid "Select people to invite from your friends list."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:222
+#: bp-templates/bp-legacy/buddypress/groups/single/send-invites.php:42
+#: bp-templates/bp-legacy/buddypress-functions.php:784
+#: bp-themes/bp-default/_inc/ajax.php:570
+#: bp-themes/bp-default/groups/create.php:229
+#: bp-themes/bp-default/groups/single/send-invites.php:42
+msgid "Remove Invite"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:239
+#: bp-templates/bp-legacy/buddypress/groups/single/send-invites.php:73
+#: bp-themes/bp-default/groups/create.php:246
+#: bp-themes/bp-default/groups/single/send-invites.php:73
+msgid "Once you have built up friend connections you will be able to invite others to your group. You can send invites any time in the future by selecting the \"Send Invites\" option when viewing your new group."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:261
+#: bp-themes/bp-default/groups/create.php:268
+msgid "Back to Previous Step"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:268
+#: bp-themes/bp-default/groups/create.php:275
+msgid "Next Step"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/create.php:275
+#: bp-themes/bp-default/groups/create.php:282
+msgid "Create Group and Continue"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/groups-loop.php:95
+#: bp-themes/bp-default/groups/groups-loop.php:95
+msgid "There were no groups found."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/index.php:19
+#: bp-themes/bp-default/groups/index.php:35
+msgid "All Groups <span>%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/index.php:40
+#: bp-templates/bp-legacy/buddypress/members/single/groups.php:23
+#: bp-themes/bp-default/groups/index.php:58
+#: bp-themes/bp-default/members/single/groups.php:23
+msgid "Most Members"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/index.php:41
+#: bp-templates/bp-legacy/buddypress/members/single/groups.php:24
+#: bp-themes/bp-default/groups/index.php:59
+#: bp-themes/bp-default/members/single/groups.php:24
+msgid "Newly Created"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:25
+#: bp-themes/bp-default/groups/single/admin.php:25
+msgid "Notify group members of changes via email"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:137
+#: bp-themes/bp-default/groups/single/admin.php:137
+msgid "If you'd like to remove the existing avatar but not upload a new one, please use the delete avatar button."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:139
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:24
+#: bp-themes/bp-default/groups/single/admin.php:139
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:24
+msgid "Delete Avatar"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:149
+#: bp-themes/bp-default/groups/single/admin.php:149
+msgid "Crop Avatar"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:260
+#: bp-themes/bp-default/groups/single/admin.php:260
+msgid "(banned)"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:266
+#: bp-themes/bp-default/groups/single/admin.php:266
+msgid "Unban this member"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:266
+#: bp-themes/bp-default/groups/single/admin.php:266
+msgid "Remove Ban"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:270
+#: bp-themes/bp-default/groups/single/admin.php:270
+msgid "Kick and ban this member"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:270
+#: bp-themes/bp-default/groups/single/admin.php:270
+msgid "Kick &amp; Ban"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:271
+#: bp-themes/bp-default/groups/single/admin.php:271
+msgid "Promote to Mod"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:276
+#: bp-themes/bp-default/groups/single/admin.php:276
+msgid "Remove this member"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:276
+#: bp-themes/bp-default/groups/single/admin.php:276
+msgid "Remove from group"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:290
+#: bp-templates/bp-legacy/buddypress/groups/single/members.php:87
+#: bp-themes/bp-default/groups/single/admin.php:290
+#: bp-themes/bp-default/groups/single/members.php:87
+msgid "This group has no members."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:320
+#: bp-templates/bp-legacy/buddypress/members/single/friends/requests.php:37
+#: bp-templates/bp-legacy/buddypress/members/single/groups/invites.php:23
+#: bp-themes/bp-default/groups/single/admin.php:320
+#: bp-themes/bp-default/members/single/friends/requests.php:37
+#: bp-themes/bp-default/members/single/groups/invites.php:23
+msgid "Accept"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:322
+#: bp-templates/bp-legacy/buddypress/members/single/friends/requests.php:38
+#: bp-templates/bp-legacy/buddypress/members/single/groups/invites.php:24
+#: bp-themes/bp-default/groups/single/admin.php:322
+#: bp-themes/bp-default/members/single/friends/requests.php:38
+#: bp-themes/bp-default/members/single/groups/invites.php:24
+msgid "Reject"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:335
+#: bp-themes/bp-default/groups/single/admin.php:335
+msgid "There are no pending membership requests."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:352
+#: bp-themes/bp-default/groups/single/admin.php:352
+msgid "WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back, please be careful with this option."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:355
+#: bp-themes/bp-default/groups/single/admin.php:355
+msgid "I understand the consequences of deleting this group."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:16
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:17
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:27
+#: bp-themes/bp-default/groups/single/forum/edit.php:16
+#: bp-themes/bp-default/groups/single/forum/topic.php:17
+#: bp-themes/bp-default/groups/single/forum.php:27
+msgid "Forum Directory"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:25
+#: bp-themes/bp-default/groups/single/forum/edit.php:25
+msgid "Edit:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:87
+#: bp-themes/bp-default/groups/single/forum/edit.php:87
+msgid "This topic does not exist."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:9
+#: bp-themes/bp-default/groups/single/forum/topic.php:9
+msgid "New Reply"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:32
+#: bp-themes/bp-default/groups/single/forum/topic.php:32
+msgid "Topic tags:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:81
+#: bp-themes/bp-default/groups/single/forum/topic.php:81
+msgid "%1$s said %2$s:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:95
+#: bp-themes/bp-default/groups/single/forum/topic.php:95
+msgid "Permanent link to this post"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:119
+#: bp-themes/bp-default/groups/single/forum/topic.php:119
+msgid "There are no posts for this topic."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:134
+#: bp-themes/bp-default/groups/single/forum/topic.php:134
+msgid "You will auto join this group when you reply to this topic."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:139
+#: bp-themes/bp-default/groups/single/forum/topic.php:139
+msgid "Add a reply:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:144
+#: bp-themes/bp-default/groups/single/forum/topic.php:144
+msgid "Post Reply"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/topic.php:155
+#: bp-themes/bp-default/groups/single/forum/topic.php:155
+msgid "This topic is closed, replies are no longer accepted."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:69
+#: bp-themes/bp-default/groups/single/forum.php:69
+msgid "You will auto join this group when you start a new topic."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/forum.php:73
+#: bp-themes/bp-default/groups/single/forum.php:73
+msgid "Post a New Topic:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/group-header.php:11
+#: bp-themes/bp-default/groups/single/group-header.php:11
+msgid "Group Admins"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/group-header.php:20
+#: bp-themes/bp-default/groups/single/group-header.php:20
+msgid "Group Mods"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/request-membership.php:4
+#: bp-themes/bp-default/groups/single/request-membership.php:4
+msgid "You are requesting to become a member of the group '%s'."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/request-membership.php:7
+#: bp-themes/bp-default/groups/single/request-membership.php:7
+msgid "Comments (optional)"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/groups/single/request-membership.php:12
+#: bp-themes/bp-default/groups/single/request-membership.php:12
+msgid "Send Request"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/activate.php:12
+#: bp-themes/bp-default/registration/activate.php:17
+msgid "Your account was activated successfully! Your account details have been sent to you in a separate email."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/activate.php:14
+#: bp-themes/bp-default/registration/activate.php:19
+msgid "Your account was activated successfully! You can now log in with the username and password you provided when you signed up."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/activate.php:21
+#: bp-themes/bp-default/registration/activate.php:28
+msgid "Please provide a valid activation key."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/activate.php:25
+#: bp-themes/bp-default/registration/activate.php:32
+msgid "Activation Key:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/index.php:36
+#: bp-templates/bp-legacy/buddypress/members/single/friends.php:23
+#: bp-themes/bp-default/members/index.php:56
+#: bp-themes/bp-default/members/single/friends.php:23
+msgid "Newest Registered"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/members-loop.php:108
+#: bp-themes/bp-default/members/members-loop.php:108
+msgid "Sorry, no members were found."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:13
+#: bp-themes/bp-default/registration/register.php:16
+msgid "User registration is currently not allowed."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:22
+#: bp-themes/bp-default/registration/register.php:27
+msgid "Registering for this site is easy, just fill in the fields below and we'll get a new account set up for you in no time."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:30
+#: bp-themes/bp-default/registration/register.php:35
+msgid "Account Details"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:32
+#: bp-themes/bp-default/registration/register.php:37
+#: bp-themes/bp-default/sidebar.php:44
+msgid "Username"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:32
+#: bp-templates/bp-legacy/buddypress/members/register.php:36
+#: bp-templates/bp-legacy/buddypress/members/register.php:40
+#: bp-templates/bp-legacy/buddypress/members/register.php:44
+#: bp-templates/bp-legacy/buddypress/members/register.php:71
+#: bp-templates/bp-legacy/buddypress/members/register.php:79
+#: bp-templates/bp-legacy/buddypress/members/register.php:87
+#: bp-templates/bp-legacy/buddypress/members/register.php:97
+#: bp-templates/bp-legacy/buddypress/members/register.php:108
+#: bp-templates/bp-legacy/buddypress/members/register.php:123
+#: bp-templates/bp-legacy/buddypress/members/register.php:134
+#: bp-templates/bp-legacy/buddypress/members/register.php:206
+#: bp-templates/bp-legacy/buddypress/members/register.php:215
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:26
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:33
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:40
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:49
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:67
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:83
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:93
+#: bp-themes/bp-default/members/single/profile/edit.php:26
+#: bp-themes/bp-default/members/single/profile/edit.php:33
+#: bp-themes/bp-default/members/single/profile/edit.php:40
+#: bp-themes/bp-default/members/single/profile/edit.php:49
+#: bp-themes/bp-default/members/single/profile/edit.php:67
+#: bp-themes/bp-default/members/single/profile/edit.php:83
+#: bp-themes/bp-default/members/single/profile/edit.php:93
+#: bp-themes/bp-default/registration/register.php:37
+#: bp-themes/bp-default/registration/register.php:41
+#: bp-themes/bp-default/registration/register.php:45
+#: bp-themes/bp-default/registration/register.php:49
+#: bp-themes/bp-default/registration/register.php:76
+#: bp-themes/bp-default/registration/register.php:84
+#: bp-themes/bp-default/registration/register.php:92
+#: bp-themes/bp-default/registration/register.php:102
+#: bp-themes/bp-default/registration/register.php:113
+#: bp-themes/bp-default/registration/register.php:128
+#: bp-themes/bp-default/registration/register.php:139
+#: bp-themes/bp-default/registration/register.php:211
+#: bp-themes/bp-default/registration/register.php:220
+msgid "(required)"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:36
+#: bp-themes/bp-default/registration/register.php:41
+msgid "Email Address"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:40
+#: bp-themes/bp-default/registration/register.php:45
+msgid "Choose a Password"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:44
+#: bp-themes/bp-default/registration/register.php:49
+msgid "Confirm Password"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:60
+#: bp-themes/bp-default/registration/register.php:65
+msgid "Profile Details"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:114
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:58
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:73
+#: bp-themes/bp-default/members/single/profile/edit.php:58
+#: bp-themes/bp-default/members/single/profile/edit.php:73
+#: bp-themes/bp-default/registration/register.php:119
+#: bp-xprofile/bp-xprofile-admin.php:415
+msgid "Clear"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:154
+#: bp-templates/bp-legacy/buddypress/members/register.php:169
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:118
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:132
+#: bp-themes/bp-default/members/single/profile/edit.php:118
+#: bp-themes/bp-default/members/single/profile/edit.php:132
+#: bp-themes/bp-default/registration/register.php:159
+#: bp-themes/bp-default/registration/register.php:174
+msgid "This field can be seen by: <span class=\"current-visibility-level\">%s</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:159
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:123
+#: bp-themes/bp-default/members/single/profile/edit.php:123
+#: bp-themes/bp-default/registration/register.php:164
+msgid "Who can see this field?"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:200
+#: bp-themes/bp-default/registration/register.php:205
+msgid "Blog Details"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:202
+#: bp-themes/bp-default/registration/register.php:207
+msgid "Yes, I'd like to create a new site"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:206
+#: bp-themes/bp-default/registration/register.php:211
+msgid "Blog URL"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:215
+#: bp-themes/bp-default/registration/register.php:220
+msgid "Site Title"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:236
+#: bp-themes/bp-default/registration/register.php:241
+msgid "Complete Sign Up"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:251
+#: bp-themes/bp-default/registration/register.php:258
+msgid "You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/register.php:253
+#: bp-themes/bp-default/registration/register.php:260
+msgid "You have successfully created your account! Please log in using the username and password you have just created."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/friends/requests.php:68
+#: bp-themes/bp-default/members/single/friends/requests.php:68
+msgid "You have no pending friendship requests."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/groups/invites.php:37
+#: bp-themes/bp-default/members/single/groups/invites.php:37
+msgid "You have no outstanding group invites."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/compose.php:5
+#: bp-themes/bp-default/members/single/messages/compose.php:5
+msgid "Send To (Username or Friend's Name)"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/compose.php:14
+#: bp-themes/bp-default/members/single/messages/compose.php:14
+msgid "This is a notice to all users."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/compose.php:17
+#: bp-themes/bp-default/members/single/messages/compose.php:17
+msgid "Subject"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/compose.php:20
+#: bp-themes/bp-default/members/single/messages/compose.php:20
+msgid "Message"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/compose.php:28
+#: bp-themes/bp-default/members/single/messages/compose.php:28
+msgid "Send Message"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/messages-loop.php:32
+#: bp-themes/bp-default/members/single/messages/messages-loop.php:32
+msgid "From:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/messages-loop.php:37
+#: bp-themes/bp-default/members/single/messages/messages-loop.php:37
+msgid "To:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/messages-loop.php:43
+#: bp-themes/bp-default/members/single/messages/messages-loop.php:43
+msgid "View Message"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/messages-loop.php:51
+#: bp-templates/bp-legacy/buddypress/members/single/messages/notices-loop.php:43
+#: bp-templates/bp-legacy/buddypress/members/single/messages/single.php:24
+#: bp-themes/bp-default/members/single/messages/messages-loop.php:51
+#: bp-themes/bp-default/members/single/messages/notices-loop.php:43
+#: bp-themes/bp-default/members/single/messages/single.php:24
+msgid "Delete Message"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/messages-loop.php:69
+#: bp-themes/bp-default/members/single/messages/messages-loop.php:69
+msgid "Sorry, no messages were found."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/notices-loop.php:36
+#: bp-themes/bp-default/members/single/messages/notices-loop.php:36
+msgid "Sent:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/notices-loop.php:54
+#: bp-themes/bp-default/members/single/messages/notices-loop.php:54
+msgid "Sorry, no notices were found."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/single.php:14
+#: bp-themes/bp-default/members/single/messages/single.php:14
+msgid "You are alone in this conversation."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/single.php:18
+#: bp-themes/bp-default/members/single/messages/single.php:18
+msgid "Conversation between %s and you."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/single.php:75
+#: bp-themes/bp-default/members/single/messages/single.php:75
+msgid "Send a Reply"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/messages/single.php:91
+#: bp-themes/bp-default/members/single/messages/single.php:91
+msgid "Send Reply"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:1
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:1
+#: bp-xprofile/bp-xprofile-loader.php:186
+#: bp-xprofile/bp-xprofile-loader.php:242
+msgid "Change Avatar"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:7
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:7
+msgid "Your avatar will be used on your profile and throughout the site. If there is a <a href=\"http://gravatar.com\">Gravatar</a> associated with your account email we will use that, or you can upload an image from your computer."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:14
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:14
+msgid "Click below to select a JPG, GIF or PNG format photo from your computer and then click 'Upload Image' to proceed."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:23
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:23
+msgid "If you'd like to delete your current avatar but not upload a new one, please use the delete avatar button."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:24
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:24
+msgid "Delete My Avatar"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:31
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:31
+msgid "Crop Your New Avatar"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:55
+#: bp-themes/bp-default/members/single/profile/change-avatar.php:55
+msgid "Your avatar will be used on your profile and throughout the site. To change your avatar, please create an account with <a href=\"http://gravatar.com\">Gravatar</a> using the same email address as you used to register with this site."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:10
+#: bp-themes/bp-default/members/single/profile/edit.php:10
+msgid "Editing '%s' Profile Group"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:118
+#: bp-themes/bp-default/members/single/profile/edit.php:118
+msgid "Change"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
+#: bp-themes/bp-default/members/single/profile/profile-wp.php:8
+msgid "%s's Profile"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/capabilities.php:15
+#: bp-themes/bp-default/members/single/settings/capabilities.php:57
+msgid "This user is a spammer."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:13
+#: bp-themes/bp-default/members/single/settings/delete-account.php:56
+msgid "Deleting your account will delete all of the content you have created. It will be completely irrecoverable."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:17
+#: bp-themes/bp-default/members/single/settings/delete-account.php:60
+msgid "Deleting this account will delete all of the content it has created. It will be completely irrecoverable."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:29
+#: bp-themes/bp-default/members/single/settings/delete-account.php:72
+msgid "I understand the consequences."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:15
+#: bp-themes/bp-default/members/single/settings/general.php:57
+msgid "Current Password <span>(required to update email or change current password)</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:16
+#: bp-themes/bp-default/members/single/settings/general.php:58
+msgid "Password Lost and Found"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:16
+#: bp-themes/bp-default/members/single/settings/general.php:58
+msgid "Lost your password?"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:20
+#: bp-themes/bp-default/members/single/settings/general.php:62
+msgid "Account Email"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:23
+#: bp-themes/bp-default/members/single/settings/general.php:65
+msgid "Change Password <span>(leave blank for no change)</span>"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:24
+#: bp-themes/bp-default/members/single/settings/general.php:66
+msgid "New Password"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:25
+#: bp-themes/bp-default/members/single/settings/general.php:67
+msgid "Repeat New Password"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:12
+#: bp-themes/bp-default/members/single/settings/notifications.php:54
+msgid "Send a notification by email when:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:73
+msgid "BuddyPress Legacy"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:249
+#: bp-themes/bp-default/functions.php:158
+msgid "My Favorites"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:250
+#: bp-themes/bp-default/functions.php:159
+msgid "Accepted"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:251
+#: bp-themes/bp-default/functions.php:160
+msgid "Rejected"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:252
+#: bp-themes/bp-default/functions.php:161
+msgid "Show all comments for this thread"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:253
+#: bp-themes/bp-default/functions.php:162
+msgid "Show all"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:254
+#: bp-themes/bp-default/functions.php:163
+msgid "comments"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:503
+#: bp-themes/bp-default/_inc/ajax.php:278
+msgid "There was a problem posting your update, please try again."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:594
+#: bp-templates/bp-legacy/buddypress-functions.php:630
+#: bp-themes/bp-default/_inc/ajax.php:380
+#: bp-themes/bp-default/_inc/ajax.php:416
+msgid "There was a problem when deleting. Please try again."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:823
+#: bp-themes/bp-default/_inc/ajax.php:609
+msgid " Friendship could not be requested."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:833
+#: bp-themes/bp-default/_inc/ajax.php:619
+msgid "Friendship request could not be cancelled."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:836
+#: bp-themes/bp-default/_inc/ajax.php:622
+msgid "Request Pending"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:856
+#: bp-themes/bp-default/_inc/ajax.php:642
+msgid "There was a problem accepting that request. Please try again."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:875
+#: bp-themes/bp-default/_inc/ajax.php:661
+msgid "There was a problem rejecting that request. Please try again."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:902
+#: bp-themes/bp-default/_inc/ajax.php:688
+msgid "Error joining group"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:910
+#: bp-themes/bp-default/_inc/ajax.php:696
+msgid "Error requesting membership"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:912
+#: bp-themes/bp-default/_inc/ajax.php:698
+msgid "Membership Requested"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:919
+#: bp-themes/bp-default/_inc/ajax.php:705
+msgid "Error leaving group"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:941
+#: bp-themes/bp-default/_inc/ajax.php:727
+msgid "There was a problem closing the notice."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:992
+#: bp-themes/bp-default/_inc/ajax.php:778
+msgid "There was a problem sending that reply. Please try again."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:1010
+#: bp-themes/bp-default/_inc/ajax.php:796
+msgid "There was a problem marking messages as unread."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:1035
+#: bp-themes/bp-default/_inc/ajax.php:821
+msgid "There was a problem marking messages as read."
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:1060
+#: bp-themes/bp-default/_inc/ajax.php:846
+msgid "There was a problem deleting messages."
+msgstr ""
+
 #: bp-themes/bp-default/404.php:7
 msgid "Page not found"
 msgstr ""
@@ -4209,312 +5573,8 @@ msgstr ""
 msgid "We're sorry, but we can't find the page that you're looking for. Perhaps searching will help."
 msgstr ""
 
-#: bp-themes/bp-default/_inc/ajax.php:278
-#: bp-themes/bp-legacy/buddypress-functions.php:503
-msgid "There was a problem posting your update, please try again."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:380
-#: bp-themes/bp-default/_inc/ajax.php:416
-#: bp-themes/bp-legacy/buddypress-functions.php:594
-#: bp-themes/bp-legacy/buddypress-functions.php:630
-msgid "There was a problem when deleting. Please try again."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:479
-#: bp-themes/bp-default/_inc/ajax.php:500
-#: bp-themes/bp-default/activity/entry.php:72
-#: bp-themes/bp-default/functions.php:167
-#: bp-themes/bp-legacy/buddypress/activity/entry.php:72
-#: bp-themes/bp-legacy/buddypress-functions.php:258
-#: bp-themes/bp-legacy/buddypress-functions.php:693
-#: bp-themes/bp-legacy/buddypress-functions.php:714
-msgid "Remove Favorite"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:481
-#: bp-themes/bp-default/_inc/ajax.php:498
-#: bp-themes/bp-default/activity/entry.php:68
-#: bp-themes/bp-default/functions.php:166
-#: bp-themes/bp-legacy/buddypress/activity/entry.php:68
-#: bp-themes/bp-legacy/buddypress-functions.php:257
-#: bp-themes/bp-legacy/buddypress-functions.php:695
-#: bp-themes/bp-legacy/buddypress-functions.php:712
-msgid "Favorite"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:570
-#: bp-themes/bp-default/groups/create.php:229
-#: bp-themes/bp-default/groups/single/send-invites.php:42
-#: bp-themes/bp-legacy/buddypress/groups/create.php:222
-#: bp-themes/bp-legacy/buddypress/groups/single/send-invites.php:42
-#: bp-themes/bp-legacy/buddypress-functions.php:784
-msgid "Remove Invite"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:609
-#: bp-themes/bp-legacy/buddypress-functions.php:823
-msgid " Friendship could not be requested."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:619
-#: bp-themes/bp-legacy/buddypress-functions.php:833
-msgid "Friendship request could not be cancelled."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:622
-#: bp-themes/bp-legacy/buddypress-functions.php:836
-msgid "Request Pending"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:642
-#: bp-themes/bp-legacy/buddypress-functions.php:856
-msgid "There was a problem accepting that request. Please try again."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:661
-#: bp-themes/bp-legacy/buddypress-functions.php:875
-msgid "There was a problem rejecting that request. Please try again."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:688
-#: bp-themes/bp-legacy/buddypress-functions.php:902
-msgid "Error joining group"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:696
-#: bp-themes/bp-legacy/buddypress-functions.php:910
-msgid "Error requesting membership"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:698
-#: bp-themes/bp-legacy/buddypress-functions.php:912
-msgid "Membership Requested"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:705
-#: bp-themes/bp-legacy/buddypress-functions.php:919
-msgid "Error leaving group"
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:727
-#: bp-themes/bp-legacy/buddypress-functions.php:941
-msgid "There was a problem closing the notice."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:778
-#: bp-themes/bp-legacy/buddypress-functions.php:992
-msgid "There was a problem sending that reply. Please try again."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:796
-#: bp-themes/bp-legacy/buddypress-functions.php:1010
-msgid "There was a problem marking messages as unread."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:821
-#: bp-themes/bp-legacy/buddypress-functions.php:1035
-msgid "There was a problem marking messages as read."
-msgstr ""
-
-#: bp-themes/bp-default/_inc/ajax.php:846
-#: bp-themes/bp-legacy/buddypress-functions.php:1060
-msgid "There was a problem deleting messages."
-msgstr ""
-
-#: bp-themes/bp-default/activity/activity-loop.php:41
-#: bp-themes/bp-legacy/buddypress/activity/activity-loop.php:28
-msgid "Load More"
-msgstr ""
-
-#: bp-themes/bp-default/activity/activity-loop.php:55
-#: bp-themes/bp-legacy/buddypress/activity/activity-loop.php:42
-msgid "Sorry, there was no activity found. Please try a different filter."
-msgstr ""
-
-#. translators: 1: user profile link, 2: user name, 3: activity permalink, 4:
-#. activity timestamp
-
-#: bp-themes/bp-default/activity/comment.php:27
-#: bp-themes/bp-legacy/buddypress/activity/comment.php:27
-msgid "<a href=\"%1$s\">%2$s</a> replied <a href=\"%3$s\" class=\"activity-time-since\"><span class=\"time-since\">%4$s</span></a>"
-msgstr ""
-
-#: bp-themes/bp-default/activity/entry.php:37
-#: bp-themes/bp-legacy/buddypress/activity/entry.php:37
-msgid "In reply to: "
-msgstr ""
-
-#: bp-themes/bp-default/activity/entry.php:37
-#: bp-themes/bp-legacy/buddypress/activity/entry.php:37
-msgid "View Thread / Permalink"
-msgstr ""
-
-#: bp-themes/bp-default/activity/entry.php:60
-#: bp-themes/bp-legacy/buddypress/activity/entry.php:60
-msgid "Comment <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/activity/entry.php:68
-#: bp-themes/bp-legacy/buddypress/activity/entry.php:68
-msgid "Mark as Favorite"
-msgstr ""
-
-#: bp-themes/bp-default/activity/entry.php:104
-#: bp-themes/bp-legacy/buddypress/activity/entry.php:104
-msgid "Post"
-msgstr ""
-
-#: bp-themes/bp-default/activity/entry.php:104
-#: bp-themes/bp-legacy/buddypress/activity/entry.php:104
-msgid "or press esc to cancel."
-msgstr ""
-
 #: bp-themes/bp-default/activity/index.php:21
 msgid "Site Activity"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:39
-#: bp-themes/bp-legacy/buddypress/activity/index.php:19
-msgid "The public activity for everyone on this site."
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:39
-#: bp-themes/bp-default/members/index.php:33
-#: bp-themes/bp-legacy/buddypress/activity/index.php:19
-#: bp-themes/bp-legacy/buddypress/members/index.php:17
-msgid "All Members <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:49
-#: bp-themes/bp-legacy/buddypress/activity/index.php:29
-msgid "The activity of my friends only."
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:49
-#: bp-themes/bp-default/members/index.php:37
-#: bp-themes/bp-legacy/buddypress/activity/index.php:29
-#: bp-themes/bp-legacy/buddypress/members/index.php:20
-msgid "My Friends <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:61
-#: bp-themes/bp-legacy/buddypress/activity/index.php:41
-msgid "The activity of groups I am a member of."
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:61
-#: bp-themes/bp-default/groups/index.php:39
-#: bp-themes/bp-legacy/buddypress/activity/index.php:41
-#: bp-themes/bp-legacy/buddypress/groups/index.php:22
-msgid "My Groups <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:71
-#: bp-themes/bp-legacy/buddypress/activity/index.php:51
-msgid "The activity I've marked as a favorite."
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:71
-#: bp-themes/bp-legacy/buddypress/activity/index.php:51
-msgid "My Favorites <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:77
-#: bp-themes/bp-legacy/buddypress/activity/index.php:57
-msgid "Activity that I have been mentioned in."
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:77
-#: bp-themes/bp-legacy/buddypress/activity/index.php:57
-msgid "<span>%s new</span>"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:87
-#: bp-themes/bp-default/groups/single/activity.php:3
-#: bp-themes/bp-legacy/buddypress/activity/index.php:67
-#: bp-themes/bp-legacy/buddypress/groups/single/activity.php:3
-msgid "RSS Feed"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:87
-#: bp-themes/bp-default/groups/single/activity.php:3
-#: bp-themes/bp-legacy/buddypress/activity/index.php:67
-#: bp-themes/bp-legacy/buddypress/groups/single/activity.php:3
-msgid "RSS"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:92
-#: bp-themes/bp-default/groups/single/activity.php:8
-#: bp-themes/bp-default/members/single/activity.php:18
-#: bp-themes/bp-legacy/buddypress/activity/index.php:72
-#: bp-themes/bp-legacy/buddypress/groups/single/activity.php:8
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:18
-msgid "Show:"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:94
-#: bp-themes/bp-default/groups/single/activity.php:10
-#: bp-themes/bp-default/members/single/activity.php:20
-#: bp-themes/bp-legacy/buddypress/activity/index.php:74
-#: bp-themes/bp-legacy/buddypress/groups/single/activity.php:10
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:20
-msgid "Everything"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:95
-#: bp-themes/bp-default/groups/single/activity.php:11
-#: bp-themes/bp-default/members/single/activity.php:21
-#: bp-themes/bp-legacy/buddypress/activity/index.php:75
-#: bp-themes/bp-legacy/buddypress/groups/single/activity.php:11
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:21
-msgid "Updates"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:100
-#: bp-themes/bp-default/members/single/activity.php:28
-#: bp-themes/bp-legacy/buddypress/activity/index.php:80
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:28
-msgid "Comments"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:106
-#: bp-themes/bp-default/groups/single/activity.php:14
-#: bp-themes/bp-default/members/single/activity.php:43
-#: bp-themes/bp-legacy/buddypress/activity/index.php:86
-#: bp-themes/bp-legacy/buddypress/groups/single/activity.php:14
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:43
-msgid "Forum Topics"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:107
-#: bp-themes/bp-default/groups/single/activity.php:15
-#: bp-themes/bp-default/members/single/activity.php:44
-#: bp-themes/bp-legacy/buddypress/activity/index.php:87
-#: bp-themes/bp-legacy/buddypress/groups/single/activity.php:15
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:44
-msgid "Forum Replies"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:113
-#: bp-themes/bp-default/members/single/activity.php:50
-#: bp-themes/bp-legacy/buddypress/activity/index.php:93
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:50
-msgid "New Groups"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:114
-#: bp-themes/bp-default/groups/single/activity.php:18
-#: bp-themes/bp-default/members/single/activity.php:51
-#: bp-themes/bp-legacy/buddypress/activity/index.php:94
-#: bp-themes/bp-legacy/buddypress/groups/single/activity.php:18
-#: bp-themes/bp-legacy/buddypress/members/single/activity.php:51
-msgid "Group Memberships"
-msgstr ""
-
-#: bp-themes/bp-default/activity/index.php:124
-#: bp-themes/bp-legacy/buddypress/activity/index.php:104
-msgid "New Members"
 msgstr ""
 
 #: bp-themes/bp-default/activity/post-form.php:23
@@ -4523,16 +5583,6 @@ msgstr ""
 
 #: bp-themes/bp-default/activity/post-form.php:25
 msgid "What's new, %s?"
-msgstr ""
-
-#: bp-themes/bp-default/activity/post-form.php:35
-#: bp-themes/bp-legacy/buddypress/activity/post-form.php:29
-msgid "Post Update"
-msgstr ""
-
-#: bp-themes/bp-default/activity/post-form.php:42
-#: bp-themes/bp-legacy/buddypress/activity/post-form.php:36
-msgid "Post in"
 msgstr ""
 
 #: bp-themes/bp-default/archive.php:10
@@ -4607,86 +5657,9 @@ msgstr ""
 msgid "Sorry, no attachments matched your criteria."
 msgstr ""
 
-#: bp-themes/bp-default/blogs/blogs-loop.php:90
-#: bp-themes/bp-legacy/buddypress/blogs/blogs-loop.php:90
-msgid "Sorry, there were no sites found."
-msgstr ""
-
 #: bp-themes/bp-default/blogs/create.php:21
 #: bp-themes/bp-default/blogs/index.php:21
 msgid "Site Directory"
-msgstr ""
-
-#: bp-themes/bp-default/blogs/create.php:32
-#: bp-themes/bp-legacy/buddypress/blogs/create.php:14
-msgid "Site registration is currently disabled"
-msgstr ""
-
-#: bp-themes/bp-default/blogs/index.php:33
-#: bp-themes/bp-legacy/buddypress/blogs/index.php:16
-msgid "All Sites <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/blogs/index.php:37
-#: bp-themes/bp-legacy/buddypress/blogs/index.php:20
-msgid "My Sites <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/blogs/index.php:53
-#: bp-themes/bp-default/forums/index.php:60
-#: bp-themes/bp-default/groups/index.php:55
-#: bp-themes/bp-default/groups/single/forum.php:36
-#: bp-themes/bp-default/members/index.php:53
-#: bp-themes/bp-default/members/single/blogs.php:19
-#: bp-themes/bp-default/members/single/forums.php:18
-#: bp-themes/bp-default/members/single/friends.php:20
-#: bp-themes/bp-default/members/single/groups.php:20
-#: bp-themes/bp-legacy/buddypress/blogs/index.php:36
-#: bp-themes/bp-legacy/buddypress/forums/index.php:40
-#: bp-themes/bp-legacy/buddypress/groups/index.php:36
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:36
-#: bp-themes/bp-legacy/buddypress/members/index.php:33
-#: bp-themes/bp-legacy/buddypress/members/single/blogs.php:19
-#: bp-themes/bp-legacy/buddypress/members/single/forums.php:18
-#: bp-themes/bp-legacy/buddypress/members/single/friends.php:20
-#: bp-themes/bp-legacy/buddypress/members/single/groups.php:20
-msgid "Order By:"
-msgstr ""
-
-#: bp-themes/bp-default/blogs/index.php:55
-#: bp-themes/bp-default/forums/index.php:62
-#: bp-themes/bp-default/groups/index.php:57
-#: bp-themes/bp-default/groups/single/forum.php:38
-#: bp-themes/bp-default/members/index.php:55
-#: bp-themes/bp-default/members/single/blogs.php:21
-#: bp-themes/bp-default/members/single/forums.php:20
-#: bp-themes/bp-default/members/single/friends.php:22
-#: bp-themes/bp-default/members/single/groups.php:22
-#: bp-themes/bp-legacy/buddypress/blogs/index.php:38
-#: bp-themes/bp-legacy/buddypress/forums/index.php:42
-#: bp-themes/bp-legacy/buddypress/groups/index.php:39
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:38
-#: bp-themes/bp-legacy/buddypress/members/index.php:35
-#: bp-themes/bp-legacy/buddypress/members/single/blogs.php:21
-#: bp-themes/bp-legacy/buddypress/members/single/forums.php:20
-#: bp-themes/bp-legacy/buddypress/members/single/friends.php:22
-#: bp-themes/bp-legacy/buddypress/members/single/groups.php:22
-msgid "Last Active"
-msgstr ""
-
-#: bp-themes/bp-default/blogs/index.php:57
-#: bp-themes/bp-default/groups/index.php:60
-#: bp-themes/bp-default/members/index.php:60
-#: bp-themes/bp-default/members/single/blogs.php:23
-#: bp-themes/bp-default/members/single/friends.php:24
-#: bp-themes/bp-default/members/single/groups.php:25
-#: bp-themes/bp-legacy/buddypress/blogs/index.php:40
-#: bp-themes/bp-legacy/buddypress/groups/index.php:42
-#: bp-themes/bp-legacy/buddypress/members/index.php:39
-#: bp-themes/bp-legacy/buddypress/members/single/blogs.php:23
-#: bp-themes/bp-legacy/buddypress/members/single/friends.php:24
-#: bp-themes/bp-legacy/buddypress/members/single/groups.php:25
-msgid "Alphabetical"
 msgstr ""
 
 #: bp-themes/bp-default/comments.php:12
@@ -4721,152 +5694,12 @@ msgstr[1] ""
 msgid "Proudly powered by <a href=\"%1$s\">WordPress</a> and <a href=\"%2$s\">BuddyPress</a>."
 msgstr ""
 
-#: bp-themes/bp-default/forums/forums-loop.php:39
-#: bp-themes/bp-legacy/buddypress/forums/forums-loop.php:39
-msgid "Topic"
-msgstr ""
-
-#: bp-themes/bp-default/forums/forums-loop.php:41
-#: bp-themes/bp-legacy/buddypress/forums/forums-loop.php:41
-msgid "Freshness"
-msgstr ""
-
-#: bp-themes/bp-default/forums/forums-loop.php:54
-#: bp-themes/bp-legacy/buddypress/forums/forums-loop.php:54
-msgid "Permalink"
-msgstr ""
-
-#. translators: "started by [poster] in [forum]"
-
-#: bp-themes/bp-default/forums/forums-loop.php:61
-#: bp-themes/bp-legacy/buddypress/forums/forums-loop.php:61
-msgid "Started by %1$s"
-msgstr ""
-
-#. translators: "started by [poster] in [forum]"
-
-#: bp-themes/bp-default/forums/forums-loop.php:72
-#: bp-themes/bp-legacy/buddypress/forums/forums-loop.php:72
-msgid "in %1$s"
-msgstr ""
-
-#: bp-themes/bp-default/forums/forums-loop.php:122
-#: bp-themes/bp-legacy/buddypress/forums/forums-loop.php:122
-msgid "Sorry, there were no forum topics found."
-msgstr ""
-
 #: bp-themes/bp-default/forums/index.php:23
 msgid "Forums Directory"
 msgstr ""
 
-#: bp-themes/bp-default/forums/index.php:40
-#: bp-themes/bp-legacy/buddypress/forums/index.php:20
-msgid "All Topics <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/forums/index.php:44
-#: bp-themes/bp-legacy/buddypress/forums/index.php:24
-msgid "My Topics <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/forums/index.php:63
-#: bp-themes/bp-default/groups/single/forum.php:39
-#: bp-themes/bp-default/members/single/forums.php:21
-#: bp-themes/bp-legacy/buddypress/forums/index.php:43
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:39
-#: bp-themes/bp-legacy/buddypress/members/single/forums.php:21
-msgid "Most Posts"
-msgstr ""
-
-#: bp-themes/bp-default/forums/index.php:64
-#: bp-themes/bp-default/groups/single/forum.php:40
-#: bp-themes/bp-default/members/single/forums.php:22
-#: bp-themes/bp-legacy/buddypress/forums/index.php:44
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:40
-#: bp-themes/bp-legacy/buddypress/members/single/forums.php:22
-msgid "Unreplied"
-msgstr ""
-
-#: bp-themes/bp-default/forums/index.php:100
-#: bp-themes/bp-legacy/buddypress/forums/index.php:80
-msgid "Create New Topic:"
-msgstr ""
-
-#: bp-themes/bp-default/forums/index.php:107
-#: bp-themes/bp-default/groups/single/forum/edit.php:50
-#: bp-themes/bp-default/groups/single/forum.php:78
-#: bp-themes/bp-legacy/buddypress/forums/index.php:87
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/edit.php:50
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:78
-msgid "Content:"
-msgstr ""
-
-#: bp-themes/bp-default/forums/index.php:110
-#: bp-themes/bp-default/groups/single/forum/edit.php:53
-#: bp-themes/bp-default/groups/single/forum.php:81
-#: bp-themes/bp-legacy/buddypress/forums/index.php:90
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/edit.php:53
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:81
-msgid "Tags (comma separated):"
-msgstr ""
-
-#: bp-themes/bp-default/forums/index.php:113
-#: bp-themes/bp-legacy/buddypress/forums/index.php:93
-msgid "Post In Group Forum:"
-msgstr ""
-
-#. translators: no option picked in select box
-
-#: bp-themes/bp-default/forums/index.php:116
-#: bp-themes/bp-legacy/buddypress/forums/index.php:96
-#: bp-xprofile/bp-xprofile-template.php:459
-msgid "----"
-msgstr ""
-
-#: bp-themes/bp-default/forums/index.php:133
-#: bp-themes/bp-default/groups/single/forum.php:87
-#: bp-themes/bp-legacy/buddypress/forums/index.php:113
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:87
-msgid "Post Topic"
-msgstr ""
-
-#: bp-themes/bp-default/forums/index.php:145
-#: bp-themes/bp-legacy/buddypress/forums/index.php:125
-msgid "You are not a member of any groups so you don't have any group forums you can post in. To start posting, first find a group that matches the topic subject you'd like to start. If this group does not exist, why not <a href='%s'>create a new group</a>? Once you have joined or created the group you can post your topic in that group's forum."
-msgstr ""
-
 #: bp-themes/bp-default/functions.php:85
 msgid "Primary Navigation"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:158
-#: bp-themes/bp-legacy/buddypress-functions.php:249
-msgid "My Favorites"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:159
-#: bp-themes/bp-legacy/buddypress-functions.php:250
-msgid "Accepted"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:160
-#: bp-themes/bp-legacy/buddypress-functions.php:251
-msgid "Rejected"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:161
-#: bp-themes/bp-legacy/buddypress-functions.php:252
-msgid "Show all comments for this thread"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:162
-#: bp-themes/bp-legacy/buddypress-functions.php:253
-msgid "Show all"
-msgstr ""
-
-#: bp-themes/bp-default/functions.php:163
-#: bp-themes/bp-legacy/buddypress-functions.php:254
-msgid "comments"
 msgstr ""
 
 #: bp-themes/bp-default/functions.php:389
@@ -4949,441 +5782,6 @@ msgstr ""
 msgid "Groups Directory"
 msgstr ""
 
-#: bp-themes/bp-default/groups/create.php:39
-#: bp-themes/bp-default/groups/single/admin.php:16
-#: bp-themes/bp-legacy/buddypress/groups/create.php:29
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:16
-msgid "Group Name (required)"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:42
-#: bp-themes/bp-default/groups/single/admin.php:19
-#: bp-themes/bp-legacy/buddypress/groups/create.php:34
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:19
-msgid "Group Description (required)"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:58
-#: bp-themes/bp-default/groups/single/admin.php:56
-#: bp-themes/bp-legacy/buddypress/groups/create.php:51
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:56
-msgid "Privacy Options"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:62
-#: bp-themes/bp-default/groups/single/admin.php:61
-#: bp-themes/bp-legacy/buddypress/groups/create.php:55
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:61
-msgid "This is a public group"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:64
-#: bp-themes/bp-default/groups/single/admin.php:63
-#: bp-themes/bp-legacy/buddypress/groups/create.php:57
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:63
-msgid "Any site member can join this group."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:65
-#: bp-themes/bp-default/groups/create.php:74
-#: bp-themes/bp-default/groups/single/admin.php:64
-#: bp-themes/bp-default/groups/single/admin.php:74
-#: bp-themes/bp-legacy/buddypress/groups/create.php:58
-#: bp-themes/bp-legacy/buddypress/groups/create.php:67
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:64
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:74
-msgid "This group will be listed in the groups directory and in search results."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:66
-#: bp-themes/bp-default/groups/single/admin.php:65
-#: bp-themes/bp-legacy/buddypress/groups/create.php:59
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:65
-msgid "Group content and activity will be visible to any site member."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:71
-#: bp-themes/bp-default/groups/single/admin.php:71
-#: bp-themes/bp-legacy/buddypress/groups/create.php:64
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:71
-msgid "This is a private group"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:73
-#: bp-themes/bp-default/groups/single/admin.php:73
-#: bp-themes/bp-legacy/buddypress/groups/create.php:66
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:73
-msgid "Only users who request membership and are accepted can join the group."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:75
-#: bp-themes/bp-default/groups/create.php:84
-#: bp-themes/bp-default/groups/single/admin.php:75
-#: bp-themes/bp-default/groups/single/admin.php:85
-#: bp-themes/bp-legacy/buddypress/groups/create.php:68
-#: bp-themes/bp-legacy/buddypress/groups/create.php:77
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:75
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:85
-msgid "Group content and activity will only be visible to members of the group."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:80
-#: bp-themes/bp-default/groups/single/admin.php:81
-#: bp-themes/bp-legacy/buddypress/groups/create.php:73
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:81
-msgid "This is a hidden group"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:82
-#: bp-themes/bp-default/groups/single/admin.php:83
-#: bp-themes/bp-legacy/buddypress/groups/create.php:75
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:83
-msgid "Only users who are invited can join the group."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:83
-#: bp-themes/bp-default/groups/single/admin.php:84
-#: bp-themes/bp-legacy/buddypress/groups/create.php:76
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:84
-msgid "This group will not be listed in the groups directory or search results."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:89
-#: bp-themes/bp-default/groups/single/admin.php:92
-#: bp-themes/bp-legacy/buddypress/groups/create.php:82
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:92
-msgid "Group Invitations"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:91
-#: bp-themes/bp-default/groups/single/admin.php:94
-#: bp-themes/bp-legacy/buddypress/groups/create.php:84
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:94
-msgid "Which members of this group are allowed to invite others?"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:112
-#: bp-themes/bp-legacy/buddypress/groups/create.php:105
-msgid "Group Forums"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:116
-#: bp-themes/bp-legacy/buddypress/groups/create.php:109
-msgid "Should this group have a forum?"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:123
-#: bp-themes/bp-legacy/buddypress/groups/create.php:116
-msgid "<strong>Attention Site Admin:</strong> Group forums require the <a href=\"%s\">correct setup and configuration</a> of a bbPress installation."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:149
-#: bp-themes/bp-default/groups/single/admin.php:127
-#: bp-themes/bp-legacy/buddypress/groups/create.php:142
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:127
-msgid "Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:153
-#: bp-themes/bp-default/groups/single/admin.php:131
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:18
-#: bp-themes/bp-legacy/buddypress/groups/create.php:146
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:131
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:18
-msgid "Upload Image"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:157
-#: bp-themes/bp-legacy/buddypress/groups/create.php:150
-msgid "To skip the avatar upload process, hit the \"Next Step\" button."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:164
-#: bp-themes/bp-legacy/buddypress/groups/create.php:157
-msgid "Crop Group Avatar"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:166
-#: bp-themes/bp-default/groups/single/admin.php:151
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:33
-#: bp-themes/bp-legacy/buddypress/groups/create.php:159
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:151
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:33
-msgid "Avatar to crop"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:169
-#: bp-themes/bp-default/groups/single/admin.php:154
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:36
-#: bp-themes/bp-legacy/buddypress/groups/create.php:162
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:154
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:36
-msgid "Avatar preview"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:172
-#: bp-themes/bp-default/groups/single/admin.php:157
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:39
-#: bp-themes/bp-legacy/buddypress/groups/create.php:165
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:157
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:39
-msgid "Crop Image"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:211
-#: bp-themes/bp-default/groups/single/send-invites.php:22
-#: bp-themes/bp-legacy/buddypress/groups/create.php:204
-#: bp-themes/bp-legacy/buddypress/groups/single/send-invites.php:22
-msgid "Select people to invite from your friends list."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:246
-#: bp-themes/bp-default/groups/single/send-invites.php:73
-#: bp-themes/bp-legacy/buddypress/groups/create.php:239
-#: bp-themes/bp-legacy/buddypress/groups/single/send-invites.php:73
-msgid "Once you have built up friend connections you will be able to invite others to your group. You can send invites any time in the future by selecting the \"Send Invites\" option when viewing your new group."
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:268
-#: bp-themes/bp-legacy/buddypress/groups/create.php:261
-msgid "Back to Previous Step"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:275
-#: bp-themes/bp-legacy/buddypress/groups/create.php:268
-msgid "Next Step"
-msgstr ""
-
-#: bp-themes/bp-default/groups/create.php:282
-#: bp-themes/bp-legacy/buddypress/groups/create.php:275
-msgid "Create Group and Continue"
-msgstr ""
-
-#: bp-themes/bp-default/groups/groups-loop.php:95
-#: bp-themes/bp-legacy/buddypress/groups/groups-loop.php:95
-msgid "There were no groups found."
-msgstr ""
-
-#: bp-themes/bp-default/groups/index.php:35
-#: bp-themes/bp-legacy/buddypress/groups/index.php:19
-msgid "All Groups <span>%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/groups/index.php:58
-#: bp-themes/bp-default/members/single/groups.php:23
-#: bp-themes/bp-legacy/buddypress/groups/index.php:40
-#: bp-themes/bp-legacy/buddypress/members/single/groups.php:23
-msgid "Most Members"
-msgstr ""
-
-#: bp-themes/bp-default/groups/index.php:59
-#: bp-themes/bp-default/members/single/groups.php:24
-#: bp-themes/bp-legacy/buddypress/groups/index.php:41
-#: bp-themes/bp-legacy/buddypress/members/single/groups.php:24
-msgid "Newly Created"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:25
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:25
-msgid "Notify group members of changes via email"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:137
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:137
-msgid "If you'd like to remove the existing avatar but not upload a new one, please use the delete avatar button."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:139
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:24
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:139
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:24
-msgid "Delete Avatar"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:149
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:149
-msgid "Crop Avatar"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:260
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:260
-msgid "(banned)"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:266
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:266
-msgid "Unban this member"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:266
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:266
-msgid "Remove Ban"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:270
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:270
-msgid "Kick and ban this member"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:270
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:270
-msgid "Kick &amp; Ban"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:271
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:271
-msgid "Promote to Mod"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:276
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:276
-msgid "Remove this member"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:276
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:276
-msgid "Remove from group"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:290
-#: bp-themes/bp-default/groups/single/members.php:87
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:290
-#: bp-themes/bp-legacy/buddypress/groups/single/members.php:87
-msgid "This group has no members."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:320
-#: bp-themes/bp-default/members/single/friends/requests.php:37
-#: bp-themes/bp-default/members/single/groups/invites.php:23
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:320
-#: bp-themes/bp-legacy/buddypress/members/single/friends/requests.php:37
-#: bp-themes/bp-legacy/buddypress/members/single/groups/invites.php:23
-msgid "Accept"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:322
-#: bp-themes/bp-default/members/single/friends/requests.php:38
-#: bp-themes/bp-default/members/single/groups/invites.php:24
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:322
-#: bp-themes/bp-legacy/buddypress/members/single/friends/requests.php:38
-#: bp-themes/bp-legacy/buddypress/members/single/groups/invites.php:24
-msgid "Reject"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:335
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:335
-msgid "There are no pending membership requests."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:352
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:352
-msgid "WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back, please be careful with this option."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/admin.php:355
-#: bp-themes/bp-legacy/buddypress/groups/single/admin.php:355
-msgid "I understand the consequences of deleting this group."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/edit.php:16
-#: bp-themes/bp-default/groups/single/forum/topic.php:17
-#: bp-themes/bp-default/groups/single/forum.php:27
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/edit.php:16
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:17
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:27
-msgid "Forum Directory"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/edit.php:25
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/edit.php:25
-msgid "Edit:"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/edit.php:87
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/edit.php:87
-msgid "This topic does not exist."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/topic.php:9
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:9
-msgid "New Reply"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/topic.php:32
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:32
-msgid "Topic tags:"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/topic.php:81
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:81
-msgid "%1$s said %2$s:"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/topic.php:95
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:95
-msgid "Permanent link to this post"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/topic.php:119
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:119
-msgid "There are no posts for this topic."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/topic.php:134
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:134
-msgid "You will auto join this group when you reply to this topic."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/topic.php:139
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:139
-msgid "Add a reply:"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/topic.php:144
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:144
-msgid "Post Reply"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum/topic.php:155
-#: bp-themes/bp-legacy/buddypress/groups/single/forum/topic.php:155
-msgid "This topic is closed, replies are no longer accepted."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum.php:69
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:69
-msgid "You will auto join this group when you start a new topic."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/forum.php:73
-#: bp-themes/bp-legacy/buddypress/groups/single/forum.php:73
-msgid "Post a New Topic:"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/group-header.php:11
-#: bp-themes/bp-legacy/buddypress/groups/single/group-header.php:11
-msgid "Group Admins"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/group-header.php:20
-#: bp-themes/bp-legacy/buddypress/groups/single/group-header.php:20
-msgid "Group Mods"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/request-membership.php:4
-#: bp-themes/bp-legacy/buddypress/groups/single/request-membership.php:4
-msgid "You are requesting to become a member of the group '%s'."
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/request-membership.php:7
-#: bp-themes/bp-legacy/buddypress/groups/single/request-membership.php:7
-msgid "Comments (optional)"
-msgstr ""
-
-#: bp-themes/bp-default/groups/single/request-membership.php:12
-#: bp-themes/bp-legacy/buddypress/groups/single/request-membership.php:12
-msgid "Send Request"
-msgstr ""
-
 #: bp-themes/bp-default/header.php:22
 msgctxt "Home page banner link title"
 msgid "Home"
@@ -5410,301 +5808,12 @@ msgstr ""
 msgid "Members Directory"
 msgstr ""
 
-#: bp-themes/bp-default/members/index.php:56
-#: bp-themes/bp-default/members/single/friends.php:23
-#: bp-themes/bp-legacy/buddypress/members/index.php:36
-#: bp-themes/bp-legacy/buddypress/members/single/friends.php:23
-msgid "Newest Registered"
-msgstr ""
-
-#: bp-themes/bp-default/members/members-loop.php:108
-#: bp-themes/bp-legacy/buddypress/members/members-loop.php:108
-msgid "Sorry, no members were found."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/friends/requests.php:68
-#: bp-themes/bp-legacy/buddypress/members/single/friends/requests.php:68
-msgid "You have no pending friendship requests."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/groups/invites.php:37
-#: bp-themes/bp-legacy/buddypress/members/single/groups/invites.php:37
-msgid "You have no outstanding group invites."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/compose.php:5
-#: bp-themes/bp-legacy/buddypress/members/single/messages/compose.php:5
-msgid "Send To (Username or Friend's Name)"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/compose.php:14
-#: bp-themes/bp-legacy/buddypress/members/single/messages/compose.php:14
-msgid "This is a notice to all users."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/compose.php:17
-#: bp-themes/bp-legacy/buddypress/members/single/messages/compose.php:17
-msgid "Subject"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/compose.php:20
-#: bp-themes/bp-legacy/buddypress/members/single/messages/compose.php:20
-msgid "Message"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/compose.php:28
-#: bp-themes/bp-legacy/buddypress/members/single/messages/compose.php:28
-msgid "Send Message"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/messages-loop.php:32
-#: bp-themes/bp-legacy/buddypress/members/single/messages/messages-loop.php:32
-msgid "From:"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/messages-loop.php:37
-#: bp-themes/bp-legacy/buddypress/members/single/messages/messages-loop.php:37
-msgid "To:"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/messages-loop.php:43
-#: bp-themes/bp-legacy/buddypress/members/single/messages/messages-loop.php:43
-msgid "View Message"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/messages-loop.php:51
-#: bp-themes/bp-default/members/single/messages/notices-loop.php:43
-#: bp-themes/bp-default/members/single/messages/single.php:24
-#: bp-themes/bp-legacy/buddypress/members/single/messages/messages-loop.php:51
-#: bp-themes/bp-legacy/buddypress/members/single/messages/notices-loop.php:43
-#: bp-themes/bp-legacy/buddypress/members/single/messages/single.php:24
-msgid "Delete Message"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/messages-loop.php:69
-#: bp-themes/bp-legacy/buddypress/members/single/messages/messages-loop.php:69
-msgid "Sorry, no messages were found."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/notices-loop.php:36
-#: bp-themes/bp-legacy/buddypress/members/single/messages/notices-loop.php:36
-msgid "Sent:"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/notices-loop.php:54
-#: bp-themes/bp-legacy/buddypress/members/single/messages/notices-loop.php:54
-msgid "Sorry, no notices were found."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/single.php:14
-#: bp-themes/bp-legacy/buddypress/members/single/messages/single.php:14
-msgid "You are alone in this conversation."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/single.php:18
-#: bp-themes/bp-legacy/buddypress/members/single/messages/single.php:18
-msgid "Conversation between %s and you."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/single.php:75
-#: bp-themes/bp-legacy/buddypress/members/single/messages/single.php:75
-msgid "Send a Reply"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/messages/single.php:91
-#: bp-themes/bp-legacy/buddypress/members/single/messages/single.php:91
-msgid "Send Reply"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:1
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:1
-#: bp-xprofile/bp-xprofile-loader.php:186
-#: bp-xprofile/bp-xprofile-loader.php:242
-msgid "Change Avatar"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:7
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:7
-msgid "Your avatar will be used on your profile and throughout the site. If there is a <a href=\"http://gravatar.com\">Gravatar</a> associated with your account email we will use that, or you can upload an image from your computer."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:14
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:14
-msgid "Click below to select a JPG, GIF or PNG format photo from your computer and then click 'Upload Image' to proceed."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:23
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:23
-msgid "If you'd like to delete your current avatar but not upload a new one, please use the delete avatar button."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:24
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:24
-msgid "Delete My Avatar"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:31
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:31
-msgid "Crop Your New Avatar"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/change-avatar.php:55
-#: bp-themes/bp-legacy/buddypress/members/single/profile/change-avatar.php:55
-msgid "Your avatar will be used on your profile and throughout the site. To change your avatar, please create an account with <a href=\"http://gravatar.com\">Gravatar</a> using the same email address as you used to register with this site."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/edit.php:10
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:10
-msgid "Editing '%s' Profile Group"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/edit.php:26
-#: bp-themes/bp-default/members/single/profile/edit.php:33
-#: bp-themes/bp-default/members/single/profile/edit.php:40
-#: bp-themes/bp-default/members/single/profile/edit.php:49
-#: bp-themes/bp-default/members/single/profile/edit.php:67
-#: bp-themes/bp-default/members/single/profile/edit.php:83
-#: bp-themes/bp-default/members/single/profile/edit.php:93
-#: bp-themes/bp-default/registration/register.php:37
-#: bp-themes/bp-default/registration/register.php:41
-#: bp-themes/bp-default/registration/register.php:45
-#: bp-themes/bp-default/registration/register.php:49
-#: bp-themes/bp-default/registration/register.php:76
-#: bp-themes/bp-default/registration/register.php:84
-#: bp-themes/bp-default/registration/register.php:92
-#: bp-themes/bp-default/registration/register.php:102
-#: bp-themes/bp-default/registration/register.php:113
-#: bp-themes/bp-default/registration/register.php:128
-#: bp-themes/bp-default/registration/register.php:139
-#: bp-themes/bp-default/registration/register.php:211
-#: bp-themes/bp-default/registration/register.php:220
-#: bp-themes/bp-legacy/buddypress/members/register.php:32
-#: bp-themes/bp-legacy/buddypress/members/register.php:36
-#: bp-themes/bp-legacy/buddypress/members/register.php:40
-#: bp-themes/bp-legacy/buddypress/members/register.php:44
-#: bp-themes/bp-legacy/buddypress/members/register.php:71
-#: bp-themes/bp-legacy/buddypress/members/register.php:79
-#: bp-themes/bp-legacy/buddypress/members/register.php:87
-#: bp-themes/bp-legacy/buddypress/members/register.php:97
-#: bp-themes/bp-legacy/buddypress/members/register.php:108
-#: bp-themes/bp-legacy/buddypress/members/register.php:123
-#: bp-themes/bp-legacy/buddypress/members/register.php:134
-#: bp-themes/bp-legacy/buddypress/members/register.php:206
-#: bp-themes/bp-legacy/buddypress/members/register.php:215
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:26
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:33
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:40
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:49
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:67
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:83
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:93
-msgid "(required)"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/edit.php:58
-#: bp-themes/bp-default/members/single/profile/edit.php:73
-#: bp-themes/bp-default/registration/register.php:119
-#: bp-themes/bp-legacy/buddypress/members/register.php:114
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:58
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:73
-#: bp-xprofile/bp-xprofile-admin.php:415
-msgid "Clear"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/edit.php:118
-#: bp-themes/bp-default/members/single/profile/edit.php:132
-#: bp-themes/bp-default/registration/register.php:159
-#: bp-themes/bp-default/registration/register.php:174
-#: bp-themes/bp-legacy/buddypress/members/register.php:154
-#: bp-themes/bp-legacy/buddypress/members/register.php:169
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:118
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:132
-msgid "This field can be seen by: <span class=\"current-visibility-level\">%s</span>"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/edit.php:118
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:118
-msgid "Change"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/edit.php:123
-#: bp-themes/bp-default/registration/register.php:164
-#: bp-themes/bp-legacy/buddypress/members/register.php:159
-#: bp-themes/bp-legacy/buddypress/members/single/profile/edit.php:123
-msgid "Who can see this field?"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/profile/profile-wp.php:8
-#: bp-themes/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
-msgid "%s's Profile"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/capabilities.php:57
-#: bp-themes/bp-legacy/buddypress/members/single/settings/capabilities.php:15
-msgid "This user is a spammer."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/delete-account.php:56
-#: bp-themes/bp-legacy/buddypress/members/single/settings/delete-account.php:13
-msgid "Deleting your account will delete all of the content you have created. It will be completely irrecoverable."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/delete-account.php:60
-#: bp-themes/bp-legacy/buddypress/members/single/settings/delete-account.php:17
-msgid "Deleting this account will delete all of the content it has created. It will be completely irrecoverable."
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/delete-account.php:72
-#: bp-themes/bp-legacy/buddypress/members/single/settings/delete-account.php:29
-msgid "I understand the consequences."
-msgstr ""
-
 #: bp-themes/bp-default/members/single/settings/general.php:49
 msgid "General Settings"
 msgstr ""
 
-#: bp-themes/bp-default/members/single/settings/general.php:57
-#: bp-themes/bp-legacy/buddypress/members/single/settings/general.php:15
-msgid "Current Password <span>(required to update email or change current password)</span>"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/general.php:58
-#: bp-themes/bp-legacy/buddypress/members/single/settings/general.php:16
-msgid "Password Lost and Found"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/general.php:58
-#: bp-themes/bp-legacy/buddypress/members/single/settings/general.php:16
-msgid "Lost your password?"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/general.php:62
-#: bp-themes/bp-legacy/buddypress/members/single/settings/general.php:20
-msgid "Account Email"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/general.php:65
-#: bp-themes/bp-legacy/buddypress/members/single/settings/general.php:23
-msgid "Change Password <span>(leave blank for no change)</span>"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/general.php:66
-#: bp-themes/bp-legacy/buddypress/members/single/settings/general.php:24
-msgid "New Password"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/general.php:67
-#: bp-themes/bp-legacy/buddypress/members/single/settings/general.php:25
-msgid "Repeat New Password"
-msgstr ""
-
 #: bp-themes/bp-default/members/single/settings/notifications.php:49
 msgid "Email Notification"
-msgstr ""
-
-#: bp-themes/bp-default/members/single/settings/notifications.php:54
-#: bp-themes/bp-legacy/buddypress/members/single/settings/notifications.php:12
-msgid "Send a notification by email when:"
 msgstr ""
 
 #: bp-themes/bp-default/onecolumn-page.php:29 bp-themes/bp-default/page.php:18
@@ -5713,102 +5822,6 @@ msgstr ""
 
 #: bp-themes/bp-default/onecolumn-page.php:32 bp-themes/bp-default/page.php:21
 msgid "Edit this page."
-msgstr ""
-
-#: bp-themes/bp-default/registration/activate.php:17
-#: bp-themes/bp-legacy/buddypress/members/activate.php:12
-msgid "Your account was activated successfully! Your account details have been sent to you in a separate email."
-msgstr ""
-
-#: bp-themes/bp-default/registration/activate.php:19
-#: bp-themes/bp-legacy/buddypress/members/activate.php:14
-msgid "Your account was activated successfully! You can now log in with the username and password you provided when you signed up."
-msgstr ""
-
-#: bp-themes/bp-default/registration/activate.php:28
-#: bp-themes/bp-legacy/buddypress/members/activate.php:21
-msgid "Please provide a valid activation key."
-msgstr ""
-
-#: bp-themes/bp-default/registration/activate.php:32
-#: bp-themes/bp-legacy/buddypress/members/activate.php:25
-msgid "Activation Key:"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:16
-#: bp-themes/bp-legacy/buddypress/members/register.php:13
-msgid "User registration is currently not allowed."
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:27
-#: bp-themes/bp-legacy/buddypress/members/register.php:22
-msgid "Registering for this site is easy, just fill in the fields below and we'll get a new account set up for you in no time."
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:35
-#: bp-themes/bp-legacy/buddypress/members/register.php:30
-msgid "Account Details"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:37
-#: bp-themes/bp-default/sidebar.php:44
-#: bp-themes/bp-legacy/buddypress/members/register.php:32
-msgid "Username"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:41
-#: bp-themes/bp-legacy/buddypress/members/register.php:36
-msgid "Email Address"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:45
-#: bp-themes/bp-legacy/buddypress/members/register.php:40
-msgid "Choose a Password"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:49
-#: bp-themes/bp-legacy/buddypress/members/register.php:44
-msgid "Confirm Password"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:65
-#: bp-themes/bp-legacy/buddypress/members/register.php:60
-msgid "Profile Details"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:205
-#: bp-themes/bp-legacy/buddypress/members/register.php:200
-msgid "Blog Details"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:207
-#: bp-themes/bp-legacy/buddypress/members/register.php:202
-msgid "Yes, I'd like to create a new site"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:211
-#: bp-themes/bp-legacy/buddypress/members/register.php:206
-msgid "Blog URL"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:220
-#: bp-themes/bp-legacy/buddypress/members/register.php:215
-msgid "Site Title"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:241
-#: bp-themes/bp-legacy/buddypress/members/register.php:236
-msgid "Complete Sign Up"
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:258
-#: bp-themes/bp-legacy/buddypress/members/register.php:251
-msgid "You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address."
-msgstr ""
-
-#: bp-themes/bp-default/registration/register.php:260
-#: bp-themes/bp-legacy/buddypress/members/register.php:253
-msgid "You have successfully created your account! Please log in using the username and password you have just created."
 msgstr ""
 
 #: bp-themes/bp-default/search.php:10
@@ -5851,10 +5864,6 @@ msgstr ""
 
 #: bp-themes/bp-default/single.php:45
 msgid "Sorry, no posts matched your criteria."
-msgstr ""
-
-#: bp-themes/bp-legacy/buddypress-functions.php:73
-msgid "BuddyPress Legacy"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-activity.php:20
