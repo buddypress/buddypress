@@ -1386,17 +1386,17 @@ add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30 );
  * Kill the wp-signup.php if custom registration signup templates are present
  */
 function bp_core_wpsignup_redirect() {
-	$action = !empty( $_GET['action'] ) ? $_GET['action'] : '';
 
-	if ( is_admin() || is_network_admin() )
+	// Bail in admin or if custom signup page is broken
+	if ( is_admin() || ! bp_has_custom_signup_page() )
 		return;
+
+	$action = !empty( $_GET['action'] ) ? $_GET['action'] : '';
 
 	// Not at the WP core signup page and action is not register
 	if ( ! empty( $_SERVER['SCRIPT_NAME'] ) && false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) )
 		return;
 
-	// Redirect to sign-up page if a custom signup page exists
-	if ( bp_has_custom_signup_page() )
-		bp_core_redirect( bp_get_signup_page() );
+	bp_core_redirect( bp_get_signup_page() );
 }
 add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
