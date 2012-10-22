@@ -205,7 +205,7 @@ function bp_add_template_locations( $templates = array() ) {
 		foreach ( (array) $templates as $template )
 			$retval[] = ltrim( trailingslashit( $location ) . $template, '/' );
 
-	return apply_filters( 'bp_add_template_locations', $retval, $templates );
+	return apply_filters( 'bp_add_template_locations', array_unique( $retval ), $templates );
 }
 
 /**
