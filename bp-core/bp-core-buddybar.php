@@ -483,7 +483,7 @@ function bp_adminbar_login_menu() {
 
 	// Show "Sign Up" link if user registrations are allowed
 	if ( bp_get_signup_allowed() )
-		echo '<li class="bp-signup no-arrow"><a href="' . bp_get_signup_page(false) . '">' . __( 'Sign Up', 'buddypress' ) . '</a></li>';
+		echo '<li class="bp-signup no-arrow"><a href="' . bp_get_signup_page() . '">' . __( 'Sign Up', 'buddypress' ) . '</a></li>';
 }
 
 
