@@ -601,6 +601,12 @@ jq(document).ready( function() {
 			}
 		}
 	});
+	
+	/* Link for cancelling comment forms */
+	jq('.ac-reply-cancel').click( function() {
+		jq(this).closest('.ac-form').slideUp( 200 );
+		return false;
+	});
 
 	/**** Directory Search ****************************************************/
 

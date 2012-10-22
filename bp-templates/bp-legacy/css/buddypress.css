@@ -477,6 +477,9 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	margin-left: 50px;
 	padding-left: 15px;
 }
+#buddypress div.activity-comments form div.ac-reply-content a {
+	text-decoration: none;
+}
 #buddypress .acomment-options {
 	float: left;
 	margin: 5px 0 5px 40px;
