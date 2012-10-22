@@ -76,19 +76,22 @@ add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
  * @uses bp_is_active() checks if a BuddyPress component is active.
  * @return array The list of page ID's to exclude
  */
-function bp_core_exclude_pages( $pages ) {
-	global $bp;
+function bp_core_exclude_pages( $pages = array() ) {
 
-	if ( bp_is_root_blog() ) {
-		if ( !empty( $bp->pages->activate ) )
-			$pages[] = $bp->pages->activate->id;
+	// Bail if not the root blog
+	if ( ! bp_is_root_blog() )
+		return $pages;
 
-		if ( !empty( $bp->pages->register ) )
-			$pages[] = $bp->pages->register->id;
+	$bp = buddypress();
 
-		if ( !empty( $bp->pages->forums ) && ( !bp_is_active( 'forums' ) || ( bp_is_active( 'forums' ) && bp_forums_has_directory() && !bp_forums_is_installed_correctly() ) ) )
-			$pages[] = $bp->pages->forums->id;
-	}
+	if ( !empty( $bp->pages->activate ) )
+		$pages[] = $bp->pages->activate->id;
+
+	if ( !empty( $bp->pages->register ) )
+		$pages[] = $bp->pages->register->id;
+
+	if ( !empty( $bp->pages->forums ) )
+		$pages[] = $bp->pages->forums->id;
 
 	return apply_filters( 'bp_core_exclude_pages', $pages );
 }
