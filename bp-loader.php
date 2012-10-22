@@ -331,17 +331,21 @@ class BuddyPress {
 		/** Paths *************************************************************/
 
 		// BuddyPress root directory
-		$this->file       = __FILE__;
-		$this->basename   = plugin_basename( $this->file );
-		$this->plugin_dir = BP_PLUGIN_DIR;
-		$this->plugin_url = BP_PLUGIN_URL;
-
-		// Themes
-		$this->themes_dir = $this->plugin_dir . 'bp-themes';
-		$this->themes_url = $this->plugin_url . 'bp-themes';
+		$this->file           = __FILE__;
+		$this->basename       = plugin_basename( $this->file );
+		$this->plugin_dir     = BP_PLUGIN_DIR;
+		$this->plugin_url     = BP_PLUGIN_URL;
 
 		// Languages
-		$this->lang_dir   = $this->plugin_dir . 'bp-languages';
+		$this->lang_dir       = $this->plugin_dir . 'bp-languages';
+
+		// Templates (theme compatability)
+		$this->themes_dir     = $this->plugin_dir . 'bp-templates';
+		$this->themes_url     = $this->plugin_url . 'bp-templates';
+
+		// Themes (for bp-default)
+		$this->old_themes_dir = $this->plugin_dir . 'bp-themes';
+		$this->old_themes_url = $this->plugin_url . 'bp-themes';
 
 		/** Theme Compat ******************************************************/
 
@@ -350,8 +354,8 @@ class BuddyPress {
 
 		/** Users *************************************************************/
 
-		$this->current_user       = new stdClass();
-		$this->displayed_user     = new stdClass();
+		$this->current_user   = new stdClass();
+		$this->displayed_user = new stdClass();
 	}
 
 	/**
@@ -497,12 +501,21 @@ class BuddyPress {
 		foreach( $actions as $class_action )
 			add_action( 'bp_' . $class_action, array( $this, $class_action ), 5 );
 
-		// Setup the BuddyPress theme directory
-		// @todo Move bp-default to wordpress.org/extend/themes and remove this
-		register_theme_directory( $this->themes_dir );
+		// All BuddyPress actions are setup (includes bbp-core-hooks.php)
+		do_action_ref_array( 'bp_after_setup_actions', array( &$this ) );
 	}
 
 	/** Public Methods ********************************************************/
+
+	/**
+	 * Setup the BuddyPress theme directory
+	 *
+	 * @since BuddyPress (1.5)
+	 * @todo Move bp-default to wordpress.org/extend/themes and remove this
+	 */
+	public function register_theme_directory() {
+		register_theme_directory( $this->old_themes_dir );
+	}
 
 	/**
 	 * Register bundled theme packages

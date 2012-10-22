@@ -180,6 +180,14 @@ function bp_deactivation() {
 	// Force refresh theme roots.
 	delete_site_transient( 'theme_roots' );
 
+	// Switch to WordPress's default theme if current parent or child theme
+	// depend on bp-default. This is to prevent white screens of doom.
+	if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) ) {
+		switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
+		update_option( 'template_root',   get_raw_theme_root( WP_DEFAULT_THEME, true ) );
+		update_option( 'stylesheet_root', get_raw_theme_root( WP_DEFAULT_THEME, true ) );
+	}
+
 	// Use as of (1.6)
 	do_action( 'bp_deactivation' );
 

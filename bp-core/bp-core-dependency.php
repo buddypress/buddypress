@@ -126,6 +126,16 @@ function bp_template_redirect() {
 /** Theme Helpers *************************************************************/
 
 /**
+ * The main action used registering theme directory
+ *
+ * @since BuddyPress (1.5)
+ * @uses do_action()
+ */
+function bp_register_theme_directory() {
+	do_action( 'bp_register_theme_directory' );
+}
+
+/**
  * The main action used registering theme packages
  *
  * @since BuddyPress (1.7)

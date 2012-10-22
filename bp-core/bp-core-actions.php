@@ -48,13 +48,14 @@ add_filter( 'map_meta_cap',            'bp_map_meta_caps',          10, 4 );
  *
  * Attach various loader actions to the bp_loaded action.
  * The load order helps to execute code at the correct time.
- *                                                     v---Load order
+ *                                                      v---Load order
  */
-add_action( 'bp_loaded', 'bp_setup_components',        2  );
-add_action( 'bp_loaded', 'bp_include',                 4  );
-add_action( 'bp_loaded', 'bp_setup_widgets',           6  );
-add_action( 'bp_loaded', 'bp_core_load_admin_bar',     10 );
-add_action( 'bp_loaded', 'bp_register_theme_packages', 16 );
+add_action( 'bp_loaded', 'bp_setup_components',         2  );
+add_action( 'bp_loaded', 'bp_include',                  4  );
+add_action( 'bp_loaded', 'bp_setup_widgets',            6  );
+add_action( 'bp_loaded', 'bp_core_load_admin_bar',      10 );
+add_action( 'bp_loaded', 'bp_register_theme_packages',  12 );
+add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
 
 /**
  * bp_init - Attached to 'init' above
