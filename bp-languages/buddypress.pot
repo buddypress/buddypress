@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-10-22 05:36:31+00:00\n"
+"POT-Creation-Date: 2012-10-22 07:36:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1027,7 +1027,7 @@ msgstr ""
 msgid "<a href=\"%1$s\">%2$s</a> is your new site.  <a href=\"%3$s\">Login</a> as \"%4$s\" using your existing password."
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:773 bp-core/bp-core-filters.php:409
+#: bp-blogs/bp-blogs-template.php:773 bp-core/bp-core-filters.php:401
 #: bp-themes/bp-default/blogs/create.php:21
 #: bp-themes/bp-default/blogs/index.php:21
 msgid "Create a Site"
@@ -1459,7 +1459,7 @@ msgstr ""
 #: bp-core/admin/bp-core-update.php:334 bp-core/bp-core-template.php:243
 #: bp-core/bp-core-widgets.php:108 bp-groups/bp-groups-admin.php:741
 #: bp-groups/bp-groups-template.php:1387 bp-members/bp-members-loader.php:24
-#: bp-members/bp-members-screens.php:330
+#: bp-members/bp-members-screens.php:327
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:231
 #: bp-themes/bp-default/groups/single/admin.php:231
 msgid "Members"
@@ -1777,11 +1777,11 @@ msgid_plural "%d groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-filters.php:239 bp-core/bp-core-filters.php:264
+#: bp-core/bp-core-filters.php:239 bp-core/bp-core-filters.php:263
 msgid "[User Set]"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:283
+#: bp-core/bp-core-filters.php:281
 msgid ""
 "Thanks for registering! To complete the activation of your account and blog, please click the following link:\n"
 "\n"
@@ -1794,11 +1794,11 @@ msgid ""
 "%2$s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:284
+#: bp-core/bp-core-filters.php:282
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:316 bp-members/bp-members-functions.php:1344
+#: bp-core/bp-core-filters.php:309 bp-members/bp-members-functions.php:1344
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1806,43 +1806,43 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:317 bp-members/bp-members-functions.php:1345
+#: bp-core/bp-core-filters.php:310 bp-members/bp-members-functions.php:1345
 msgid "Activate Your Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:374
+#: bp-core/bp-core-filters.php:366
 msgctxt "Construct the page title. 1 = user name, 2 = component name, 3 = seperator"
 msgid "%1$s %3$s %2$s"
 msgstr ""
 
 #. translators: "group name | group nav section name"
 
-#: bp-core/bp-core-filters.php:380
+#: bp-core/bp-core-filters.php:372
 msgid "%1$s | %2$s"
 msgstr ""
 
 #. translators: "component item name | component nav section name | root
 #. component name"
 
-#: bp-core/bp-core-filters.php:385
+#: bp-core/bp-core-filters.php:377
 msgid "%1$s | %2$s | %3$s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:390 bp-core/bp-core-filters.php:392
+#: bp-core/bp-core-filters.php:382 bp-core/bp-core-filters.php:384
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:397 bp-members/bp-members-screens.php:431
+#: bp-core/bp-core-filters.php:389 bp-members/bp-members-screens.php:428
 #: bp-themes/bp-default/registration/register.php:23
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:401 bp-members/bp-members-screens.php:439
+#: bp-core/bp-core-filters.php:393 bp-members/bp-members-screens.php:436
 #: bp-themes/bp-default/registration/activate.php:24
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:405 bp-groups/bp-groups-screens.php:954
+#: bp-core/bp-core-filters.php:397 bp-groups/bp-groups-screens.php:954
 #: bp-groups/bp-groups-screens.php:992
 #: bp-themes/bp-default/groups/create.php:18
 #: bp-themes/bp-default/groups/index.php:21
@@ -3848,12 +3848,12 @@ msgstr ""
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:434
+#: bp-members/bp-members-screens.php:431
 #: bp-themes/bp-default/registration/register.php:252
 msgid "Sign Up Complete!"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:442
+#: bp-members/bp-members-screens.php:439
 #: bp-themes/bp-default/registration/activate.php:12
 msgid "Account Activated"
 msgstr ""
