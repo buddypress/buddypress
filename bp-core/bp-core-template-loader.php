@@ -66,6 +66,10 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	$parent_theme   = get_template_directory();
 	$fallback_theme = bp_get_theme_compat_dir();
 
+	// Allow templates to be filtered
+	// BuddyPress core automatically adds bp_add_template_locations()
+	$template_names = apply_filters( 'bp_locate_template', $template_names );
+
 	// Try to find a template file
 	foreach ( (array) $template_names as $template_name ) {
 
@@ -87,15 +91,9 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 			break;
 
 		// Check theme compatibility last
-		} else {
-			// 3rd-party plugin devs can hook into the 'bp_locate_fallback_template'
-			// filter to load custom templates for their component if desired
-			$fallback_template = apply_filters( 'bp_locate_fallback_template', trailingslashit( $fallback_theme ) . $template_name, $template_name );
-
-			if ( file_exists( $fallback_template ) ) {
-				$located = $fallback_template;
-				break;
-			}
+		} elseif ( file_exists( trailingslashit( $fallback_theme ) . $template_name ) ) {
+			$located = trailingslashit( $fallback_theme ) . $template_name;
+			break;
 		}
 	}
 
@@ -203,9 +201,9 @@ function bp_add_template_locations( $templates = array() ) {
 	$locations = bp_get_template_locations( $templates );
 
 	// Loop through locations and templates and combine
-	foreach ( $locations as $location )
-		foreach ( $templates as $template )
-			$retval[] = trailingslashit( $location ) . $template;
+	foreach ( (array) $locations as $location )
+		foreach ( (array) $templates as $template )
+			$retval[] = ltrim( trailingslashit( $location ) . $template, '/' );
 
 	return apply_filters( 'bp_add_template_locations', $retval, $templates );
 }
