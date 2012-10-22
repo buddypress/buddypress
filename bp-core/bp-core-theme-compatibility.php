@@ -176,23 +176,6 @@ function bp_get_theme_compat_url() {
 }
 
 /**
- * See whether the current theme is good ol' bp-default.
- *
- * @since BuddyPress (1.7)
- * @uses get_stylesheet()
- * @return bool
- */
-function bp_is_theme_bp_default() {
-	if ( get_stylesheet() == 'bp-default' ) {
-		$retval = true;
-	} else {
-		$retval = false;
-	}
-
-	return $retval;
-}
-
-/**
  * Gets true/false if the current, loaded page uses theme compatibility
  *
  * @since BuddyPress (1.7)
