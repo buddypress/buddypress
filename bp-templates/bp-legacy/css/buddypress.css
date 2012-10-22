@@ -165,8 +165,6 @@ body.activity-permalink #buddypress ul.activity-list li.has-comments {
 }
 #buddypress .activity-list li.mini {
 	font-size: 80%;
-	min-height: 35px;
-	padding: 15px 0 0 0;
 	position: relative;
 }
 #buddypress .activity-list li.mini .activity-avatar img.avatar,
@@ -218,26 +216,19 @@ body.activity-permalink #buddypress li.mini .activity-meta {
 	padding: 0;
 }
 #buddypress .activity-list .activity-content {
-	margin-left: 70px;
-	margin-bottom: 15px;
+	margin: 0 0 0 70px;
 }
 body.activity-permalink #buddypress .activity-list li .activity-content {
-	background: #fff;
-	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	border-radius: 4px;
+	border: none;
 	font-size: 100%;
 	line-height: 150%;
-	min-height: 35px;
-	margin-left: 185px;
+	margin-left: 170px;
 	margin-right: 0;
-	padding: 15px;
+	padding: 0;
 }
 body.activity-permalink #buddypress .activity-list li .activity-header > p {
-	height: 35px;
-	margin-bottom: 0;
-	margin-left: -35px;
-	padding: 5px 0 0 35px;
+	margin: 0;
+	padding: 5px 0 0 0;
 }
 #buddypress .activity-list .activity-content .activity-header,
 #buddypress .activity-list .activity-content .comment-header {
@@ -318,7 +309,7 @@ body.activity-permalink #buddypress .activity-content blockquote {
 6.1.2 - Activity Comments
 --------------------------------------------------------------*/
 #buddypress div.activity-meta {
-	margin: 18px 0;
+	margin: 18px 0 0;
 }
 body.activity-permalink #buddypress div.activity-meta {
 	margin-bottom: 6px;
@@ -364,7 +355,7 @@ body.activity-permalink #buddypress div.activity-meta {
 }
 body.activity-permalink #buddypress div.activity-comments {
 	background: none;
-	margin-left: 185px;
+	margin-left: 170px;
 	width: auto;
 }
 #buddypress div.activity-comments > ul {
@@ -379,6 +370,7 @@ body.activity-permalink #buddypress div.activity-comments {
 }
 #buddypress div.activity-comments ul {
 	clear: both;
+	margin: 0;
 }
 #buddypress div.activity-comments ul li {
 	border-top: 2px solid #fff;
@@ -460,11 +452,15 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 }
 #buddypress div.activity-comments form textarea {
 	border: none;
+	background: transparent;
+	box-shadow: none;
+	outline: none;
 	color: #555;
 	font-family: inherit;
-	font-size: 80%;
+	font-size: 100%;
 	height: 60px;
 	padding: 0;
+	margin: 0;
 	width: 100%;
 }
 #buddypress div.activity-comments form input {
@@ -478,7 +474,6 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 }
 #buddypress div.activity-comments form div.ac-reply-content {
 	color: #888;
-	font-size: 80%;
 	margin-left: 50px;
 	padding-left: 15px;
 }
@@ -1103,6 +1098,10 @@ a.bp-title-button {
 	margin: 0;
 	padding: 0;
 }
+body.activity-permalink #buddypress ul.item-list,
+body.activity-permalink #buddypress ul.item-list li.activity-item {
+	border: none;
+}
 #buddypress ul.item-list li {
 	border-bottom: 1px solid #eaeaea;
 	padding: 15px 0;
@@ -1111,7 +1110,7 @@ a.bp-title-button {
 	list-style: none;
 }
 #buddypress ul.item-list.activity-list li {
-	padding-bottom: 0;
+
 }
 #buddypress ul.single-line li {
 	border: none;
