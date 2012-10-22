@@ -107,7 +107,7 @@ function bp_signup_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_signup_slug() {
-		global $bp;
+		$bp = buddypress();
 
 		if ( !empty( $bp->pages->register->slug ) )
 			$slug = $bp->pages->register->slug;
@@ -966,17 +966,22 @@ function bp_loggedin_user_username() {
 
 /** Signup Form ***************************************************************/
 
+/**
+ * Do we have a working custom sign up page?
+ *
+ * @since BuddyPress (1.5)
+ *
+ * @uses bp_get_signup_slug() To make sure there is a slug assigned to the page
+ * @uses bp_locate_template() To make sure a template exists to provide output
+ * @return boolean True if page and template exist, false if not
+ */
 function bp_has_custom_signup_page() {
-	// if theme is not bp-default, theme compat is on
-	// theme compat already bundles its own templates
-	if ( ! bp_is_theme_bp_default() )
-		return true;
+	static $has_page = false;
 
-	// look in parent / child theme for custom registration templates
-	if ( locate_template( array( 'register.php' ), false ) || locate_template( array( '/registration/register.php' ), false ) )
-		return true;
+	if ( empty( $has_page ) )
+		$has_page = bp_get_signup_slug() && bp_locate_template( array( 'registration/register.php', 'members/register.php', 'register.php' ), false );
 
-	return false;
+	return (bool) $has_page;
 }
 
 /**
@@ -1000,17 +1005,33 @@ function bp_signup_page() {
 		return apply_filters( 'bp_get_signup_page', $page );
 	}
 
+/**
+ * Do we have a working custom activation page?
+ *
+ * @since BuddyPress (1.5)
+ *
+ * @uses bp_get_activate_slug() To make sure there is a slug assigned to the page
+ * @uses bp_locate_template() To make sure a template exists to provide output
+ * @return boolean True if page and template exist, false if not
+ */
+function bp_has_custom_activation_page() {
+	static $has_page = false;
+	
+	if ( empty( $has_page ) )
+		$has_page = bp_get_activate_slug() && bp_locate_template( array( 'registration/activate.php', 'members/activate.php', 'activate.php' ), false );
+
+	return (bool) $has_page;
+}
+
 function bp_activation_page() {
 	echo bp_get_activation_page();
 }
 	function bp_get_activation_page() {
-		global $bp;
-
-		// Check the global directly to make sure the WP page exists in $bp->pages
-		if ( !empty( $bp->pages->activate->slug ) )
-			$page = trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug );
-		else
+		if ( bp_has_custom_activation_page() ) {
+			$page = trailingslashit( bp_get_root_domain() . '/' . bp_get_activate_slug() );
+		} else {
 			$page = trailingslashit( bp_get_root_domain() ) . 'wp-activate.php';
+		}
 
 		return apply_filters( 'bp_get_activation_page', $page );
 	}
