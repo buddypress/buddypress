@@ -153,6 +153,7 @@ body.no-js #buddypress #whats-new-options {
 #buddypress ul.activity-list li {
 	overflow: hidden;
 	padding: 15px 0 0;
+	list-style: none;
 }
 #buddypress .activity-list .activity-avatar {
 	float: left;
@@ -1078,6 +1079,7 @@ a.bp-title-button {
 }
 #buddypress div#item-header ul li {
 	float: right;
+	list-style: none;
 }
 #buddypress div#item-header ul img.avatar,
 #buddypress div#item-header ul.avatars img.avatar {
@@ -1111,9 +1113,6 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	margin: 0;
 	position: relative;
 	list-style: none;
-}
-#buddypress ul.item-list.activity-list li {
-
 }
 #buddypress ul.single-line li {
 	border: none;
@@ -1232,6 +1231,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 #buddypress #mods-list li,
 #buddypress #members-list li {
 	overflow: auto;
+	list-style: none;
 }
 
 
