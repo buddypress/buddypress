@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-10-22 08:36:33+00:00\n"
+"POT-Creation-Date: 2012-10-22 09:36:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1077,6 +1077,7 @@ msgid "Components"
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:32
+#: bp-core/admin/bp-core-settings.php:267 bp-core/admin/bp-core-slugs.php:32
 msgid "Save Settings"
 msgstr ""
 
@@ -1323,29 +1324,6 @@ msgstr ""
 
 #: bp-core/admin/bp-core-settings.php:231
 msgid "Absolute path to your bbPress configuration file."
-msgstr ""
-
-#: bp-core/admin/bp-core-settings.php:267 bp-groups/bp-groups-admin.php:821
-#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
-#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
-#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
-#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:74
-#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:146
-#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:30
-#: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:19
-#: bp-themes/bp-default/groups/single/admin.php:32
-#: bp-themes/bp-default/groups/single/admin.php:117
-#: bp-themes/bp-default/groups/single/forum/edit.php:58
-#: bp-themes/bp-default/groups/single/forum/edit.php:74
-#: bp-themes/bp-default/members/single/profile/edit.php:146
-#: bp-themes/bp-default/members/single/settings/general.php:72
-#: bp-themes/bp-default/members/single/settings/notifications.php:61
-#: bp-xprofile/bp-xprofile-classes.php:358
-msgid "Save Changes"
-msgstr ""
-
-#: bp-core/admin/bp-core-slugs.php:32
-msgid "Save All"
 msgstr ""
 
 #: bp-core/admin/bp-core-slugs.php:82
@@ -2947,6 +2925,25 @@ msgstr ""
 #: bp-themes/bp-default/groups/single/admin.php:360
 #: bp-xprofile/bp-xprofile-admin.php:118
 msgid "Delete Group"
+msgstr ""
+
+#: bp-groups/bp-groups-admin.php:821
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
+#: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
+#: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:74
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:146
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:30
+#: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:19
+#: bp-themes/bp-default/groups/single/admin.php:32
+#: bp-themes/bp-default/groups/single/admin.php:117
+#: bp-themes/bp-default/groups/single/forum/edit.php:58
+#: bp-themes/bp-default/groups/single/forum/edit.php:74
+#: bp-themes/bp-default/members/single/profile/edit.php:146
+#: bp-themes/bp-default/members/single/settings/general.php:72
+#: bp-themes/bp-default/members/single/settings/notifications.php:61
+#: bp-xprofile/bp-xprofile-classes.php:358
+msgid "Save Changes"
 msgstr ""
 
 #. translators: 1: user_login, 2: user_email
