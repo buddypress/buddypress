@@ -32,22 +32,27 @@ Title: Founding Developer
 Twitter: apeatling
 
 Name: John James Jacoby
-Title: Lead Developer
-Twitter: johnjamesjacoby
-Favorite Food: Pizza
+Title: Project Lead
+Twitter: jjj
+Favorite Food: Truffle Lasagna
 
 Name: Boone B. Gorges
-Title: Developer
+Title: Lead Developer
 Twitter: boone
 Favorite Pudgy Pie Filling: Cherry
 
 Name: Paul Gibbs
-Title: Developer
+Title: Lead Developer
 Twitter: pgibbs
 Favourite Food: Pizza
 
+Name: Ray
+Title: Core Developer
+Twitter: r-a-y
+Favourite Food: tbd
+
 /* THANKS */
-r-a-y, hnla, mercime, modemlooper, cnorris23, karmatosed
+hnla, mercime, modemlooper, cnorris23, karmatosed, photomatt
 
 /* META */
 Updated: 2011/08/29
