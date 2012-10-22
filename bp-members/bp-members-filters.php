@@ -57,22 +57,20 @@ add_action( 'bp_loaded', 'bp_members_signup_sanitization' );
  *
  * @since BuddyPress 1.6
  *
- * @global BuddyPress $bp
  * @param string $url
  * @param int $user_id
  * @param string $scheme
  * @return string
  */
 function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
-	global $bp;
-
-	// Default to $url
-	$profile_link = $url;
-
+	
 	// If xprofile is active, use profile domain link
 	if ( bp_is_active( 'xprofile' ) ) {
-		$user_domain  = bp_core_get_user_domain( $user_id );
-		$profile_link = trailingslashit( $user_domain . $bp->profile->slug . '/edit' );
+		$profile_link = trailingslashit( bp_core_get_user_domain( $user_id ) . buddypress()->profile->slug . '/edit' );
+
+	// Default to $url
+	} else {
+		$profile_link = $url;
 	}
 
 	return apply_filters( 'bp_members_edit_profile_url', $profile_link, $url, $user_id, $scheme );
