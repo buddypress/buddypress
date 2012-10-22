@@ -1460,7 +1460,7 @@ function bp_activity_comments( $args = '' ) {
 				// Put the comment into the global so it's available to filters
 				$activities_template->activity->current_comment = $comment_child;
 
-				$template = locate_template( 'activity/comment.php', false, false );
+				$template = bp_locate_template( 'activity/comment.php', false, false );
 
 				// Backward compatibility. In older versions of BP, the markup was
 				// generated in the PHP instead of a template. This ensures that
