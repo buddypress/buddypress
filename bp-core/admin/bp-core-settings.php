@@ -264,7 +264,7 @@ function bp_core_admin_settings() {
 			<?php do_settings_sections( 'buddypress' ); ?>
 
 			<p class="submit">
-				<input type="submit" name="submit" class="button-primary" value="<?php _e( 'Save Changes', 'buddypress' ); ?>" />
+				<input type="submit" name="submit" class="button-primary" value="<?php _e( 'Save Settings', 'buddypress' ); ?>" />
 			</p>
 		</form>
 	</div>
