@@ -1418,7 +1418,7 @@ class BP_Group_Extension {
 
 				add_action( 'groups_custom_edit_steps', array( &$this, 'edit_screen' ) );
 
-				if ( '' != locate_template( array( 'groups/single/home.php' ), false ) ) {
+				if ( '' != bp_locate_template( array( 'groups/single/home.php' ), false ) ) {
 					bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 				} else {
 					add_action( 'bp_template_content_header', create_function( '', 'echo "<ul class=\"content-header-nav\">"; bp_group_admin_tabs(); echo "</ul>";' ) );
