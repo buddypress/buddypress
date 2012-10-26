@@ -380,7 +380,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	// No avatar was found, and we've been told not to use a gravatar.
 	} else {
-		$gravatar = urlencode( apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg', $params ) );
+		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg', $params );
 	}
 
 	if ( true === $html )
