@@ -463,7 +463,13 @@ function bp_groups_admin_edit() {
 
 	<div class="wrap">
 		<?php screen_icon( 'buddypress-groups' ); ?>
-		<h2><?php printf( __( 'Editing <em>%s</em> (ID #%s)', 'buddypress' ), $group_name, number_format_i18n( (int) $_REQUEST['gid'] ) ); ?></h2>
+		<h2><?php _e( 'Edit Group', 'buddypress' ); ?>
+
+			<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
+				<a class="add-new-h2" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create' ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
+			<?php endif; ?>
+
+		</h2>
 
 		<?php // If the user has just made a change to an group, display the status messages ?>
 		<?php if ( !empty( $messages ) ) : ?>
