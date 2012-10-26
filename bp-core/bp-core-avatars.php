@@ -11,7 +11,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Set up the constants we need for avatar support
  */
 function bp_core_set_avatar_constants() {
-	global $bp;
 
 	if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
 		define( 'BP_AVATAR_THUMB_WIDTH', 50 );
@@ -29,6 +28,9 @@ function bp_core_set_avatar_constants() {
 		define( 'BP_AVATAR_ORIGINAL_MAX_WIDTH', 450 );
 
 	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
+
+		$bp = buddypress();
+
 		if ( !isset( $bp->site_options['fileupload_maxk'] ) ) {
 			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', 5120000 ); // 5mb
 		} else {
@@ -45,7 +47,7 @@ function bp_core_set_avatar_constants() {
 add_action( 'bp_init', 'bp_core_set_avatar_constants', 3 );
 
 function bp_core_set_avatar_globals() {
-	global $bp;
+	$bp = buddypress();
 
 	$bp->avatar        = new stdClass;
 	$bp->avatar->thumb = new stdClass;
@@ -87,13 +89,19 @@ add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
  * Fetches an avatar from a BuddyPress object. Supports user/group/blog as
  * default, but can be extended to include your own custom components too.
  *
- * @global BuddyPress $bp The one true BuddyPress instance
  * @global $current_blog WordPress global containing information and settings for the current blog being viewed.
  * @param array $args Determine the output of this function
  * @return string Formatted HTML <img> element, or raw avatar URL based on $html arg
  */
 function bp_core_fetch_avatar( $args = '' ) {
-	global $bp, $current_blog;
+
+	// If avatars are disabled for the root site, obey that request and bail
+	if ( ! bp_get_option( 'show_avatars' ) )
+		return;
+
+	global $current_blog;
+
+	$bp = buddypress();
 
 	// Set a few default variables
 	$def_object = 'user';
@@ -372,11 +380,11 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	// No avatar was found, and we've been told not to use a gravatar.
 	} else {
-		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg', $params );
+		$gravatar = urlencode( apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg', $params ) );
 	}
 
 	if ( true === $html )
-		return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" alt="' . esc_attr( $alt ) . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+		return apply_filters( 'bp_core_fetch_avatar', '<img src="' . esc_attr( $gravatar ) . '" alt="' . esc_attr( $alt ) . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 	else
 		return apply_filters( 'bp_core_fetch_avatar_url', $gravatar );
 }
@@ -389,12 +397,10 @@ function bp_core_fetch_avatar( $args = '' ) {
  *  object - the objetc type user, group, blog, etc.
  *  avatar_dir - The directory where the avatars to be uploaded.
  *
- * @global object $bp BuddyPress global settings
  * @param mixed $args
  * @return bool Success/failure
  */
 function bp_core_delete_existing_avatar( $args = '' ) {
-	global $bp;
 
 	$defaults = array(
 		'item_id'    => false,
@@ -409,7 +415,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		if ( 'user' == $object )
 			$item_id = bp_displayed_user_id();
 		else if ( 'group' == $object )
-			$item_id = $bp->groups->current_group->id;
+			$item_id = buddypress()->groups->current_group->id;
 		else if ( 'blog' == $object )
 			$item_id = $current_blog->id;
 
@@ -458,7 +464,6 @@ function bp_core_delete_existing_avatar( $args = '' ) {
  * It then checks that the file size is within limits, and that it has an accepted file extension (jpg, gif, png).
  * If everything checks out, crop the image and move it to its real location.
  *
- * @global object $bp BuddyPress global settings
  * @param array $file The appropriate entry the from $_FILES superglobal.
  * @param string $upload_dir_filter A filter to be applied to upload_dir
  * @return bool Success/failure
@@ -466,7 +471,6 @@ function bp_core_delete_existing_avatar( $args = '' ) {
  * @see bp_core_check_avatar_type()
  */
 function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
-	global $bp;
 
 	/***
 	 * You may want to hook into this filter if you want to override this function.
@@ -504,6 +508,8 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 
 	// Filter the upload location
 	add_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
+
+	$bp = buddypress();
 
 	$bp->avatar_admin->original = wp_handle_upload( $file['file'], array( 'action'=> 'bp_avatar_upload' ) );
 
@@ -735,7 +741,7 @@ function bp_core_check_avatar_type($file) {
  * @return string Absolute path to WP upload directory
  */
 function bp_core_avatar_upload_path() {
-	global $bp;
+	$bp = buddypress();
 
 	// See if the value has already been calculated and stashed in the $bp global
 	if ( isset( $bp->avatar->upload_path ) ) {
@@ -781,7 +787,7 @@ function bp_core_avatar_upload_path() {
  * @return string Full URL to current upload location
  */
 function bp_core_avatar_url() {
-	global $bp;
+	$bp = buddypress();
 
 	// See if the value has already been calculated and stashed in the $bp global
 	if ( isset( $bp->avatar->url ) ) {
@@ -849,8 +855,7 @@ function bp_get_user_has_avatar( $user_id = 0 ) {
  * @return int $dim The dimension
  */
 function bp_core_avatar_dimension( $type = 'thumb', $h_or_w = 'height' ) {
-	global $bp;
-
+	$bp  = buddypress();
 	$dim = isset( $bp->avatar->{$type}->{$h_or_w} ) ? (int) $bp->avatar->{$type}->{$h_or_w} : false;
 
 	return apply_filters( 'bp_core_avatar_dimension', $dim, $type, $h_or_w );
@@ -913,9 +918,7 @@ function bp_core_avatar_full_height() {
  * @return int The width
  */
 function bp_core_avatar_original_max_width() {
-	global $bp;
-
-	return apply_filters( 'bp_core_avatar_original_max_width', (int) $bp->avatar->original_max_width );
+	return apply_filters( 'bp_core_avatar_original_max_width', (int) buddypress()->avatar->original_max_width );
 }
 
 /**
@@ -927,9 +930,7 @@ function bp_core_avatar_original_max_width() {
  * @return int The filesize
  */
 function bp_core_avatar_original_max_filesize() {
-	global $bp;
-
-	return apply_filters( 'bp_core_avatar_original_max_filesize', (int) $bp->avatar->original_max_filesize );
+	return apply_filters( 'bp_core_avatar_original_max_filesize', (int) buddypress()->avatar->original_max_filesize );
 }
 
 /**
@@ -941,9 +942,7 @@ function bp_core_avatar_original_max_filesize() {
  * @return int The URL of the default avatar
  */
 function bp_core_avatar_default() {
-	global $bp;
-
-	return apply_filters( 'bp_core_avatar_default', $bp->avatar->full->default );
+	return apply_filters( 'bp_core_avatar_default', buddypress()->avatar->full->default );
 }
 
 /**
@@ -955,7 +954,5 @@ function bp_core_avatar_default() {
  * @return int The URL of the default avatar thumb
  */
 function bp_core_avatar_default_thumb() {
-	global $bp;
-
-	return apply_filters( 'bp_core_avatar_thumb', $bp->avatar->thumb->default );
+	return apply_filters( 'bp_core_avatar_thumb', buddypress()->avatar->thumb->default );
 }
