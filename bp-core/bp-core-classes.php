@@ -99,6 +99,16 @@ class BP_User_Query {
 	 */
 	public $uid_name = '';
 
+	/**
+	 * Standard response when the query should not return any rows.
+	 *
+	 * @since BuddyPress (1.7)
+	 * @access protected
+	 * @var string
+	 */
+	protected $no_results = array( 'join' => '', 'where' => '0 = 1' );
+
+
 	/** Methods ***************************************************************/
 
 	/**
@@ -285,7 +295,7 @@ class BP_User_Query {
 				$sql['where'][] = "u.{$this->uid_name} NOT IN ({$friend_ids})";
 			} else {
 				// If the user has no friends, make sure the query returns null
-				$sql['where'][] = "0 = 1";
+				$sql['where'][] = $this->no_results['where'];
 			}
 		}
 
@@ -295,10 +305,12 @@ class BP_User_Query {
 		// To avoid global joins, do a separate query
 		// @todo remove need for bp_is_active() check
 		if ( false !== $search_terms && bp_is_active( 'xprofile' ) ) {
-			$found_user_ids = $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s", '%%' . like_escape( $search_terms ) . '%%' ), ARRAY_N );
+			$found_user_ids = $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s", '%%' . like_escape( $search_terms ) . '%%' ) );
 
 			if ( ! empty( $found_user_ids ) ) {
 				$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ")";
+			} else {
+				$sql['where'][] = $this->no_results['where'];
 			}
 		}
 
