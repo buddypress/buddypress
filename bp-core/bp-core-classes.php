@@ -197,10 +197,20 @@ class BP_User_Query {
 		// user IDs are drawn from (the SELECT and WHERE statements)
 		switch ( $type ) {
 
-			// 'active', 'online', 'newest', and 'random' queries
+			// 'online' query happens against the last_activity usermeta key
+			case 'online' :
+				$this->uid_name = 'user_id';
+				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
+				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
+				$sql['where'][] = $wpdb->prepare( 'u.meta_value >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 5 MINUTE )' );
+				$sql['orderby'] = "ORDER BY u.meta_value";
+				$sql['order']   = "DESC";
+
+				break;
+
+			// 'active', 'newest', and 'random' queries
 			// all happen against the last_activity usermeta key
 			case 'active' :
-			case 'online' :
 			case 'newest' :
 			case 'random' :
 				$this->uid_name = 'user_id';
