@@ -136,6 +136,9 @@ function bp_core_set_uri_globals() {
 	// Keep the unfiltered URI safe
 	$bp->unfiltered_uri = $bp_uri;
 
+	// Don't use $bp_unfiltered_uri, this is only for backpat with old plugins. Use $bp->unfiltered_uri.
+	$GLOBALS['bp_unfiltered_uri'] = &$bp->unfiltered_uri;
+
 	// Get slugs of pages into array
 	foreach ( (array) $bp->pages as $page_key => $bp_page )
 		$key_slugs[$page_key] = trailingslashit( '/' . $bp_page->slug );
