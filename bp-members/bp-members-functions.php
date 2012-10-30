@@ -191,7 +191,7 @@ function bp_core_get_userid( $username ) {
 	if ( empty( $username ) )
 		return false;
 
-	return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_login = %s", $username ) ) );
+	return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_login = %s", $username ) ), $username );
 }
 
 /**
