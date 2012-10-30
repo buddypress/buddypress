@@ -420,6 +420,20 @@ function bp_is_friend_requests() {
 	return bp_is_user_friend_requests();
 }
 
+/**
+ * Checks to see if a component's URL should be in the root, not under a member page:
+ * eg: http://domain.com/groups/the-group NOT http://domain.com/members/andy/groups/the-group
+ * You should be using bp_is_root_component().
+ *
+ * @deprecated 1.5
+ * @deprecated bp_is_root_component()
+ * @return true if root component, else false.
+ */
+function bp_core_is_root_component( $component_name ) {
+	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_root_component()' );
+	return bp_is_root_component( $component_name );
+}
+
 /** Theme *********************************************************************/
 
 /**
