@@ -236,6 +236,32 @@ function bp_activity_get_action( $component_id, $key ) {
 	return apply_filters( 'bp_activity_get_action', $bp->activity->actions->{$component_id}->{$key}, $component_id, $key );
 }
 
+/**
+ * Fetch details of all registered activity types
+ *
+ * @return array array( type => description ), ...
+ * @since BuddyPress (1.7)
+ */
+function bp_activity_get_types() {
+	$actions  = array();
+
+	// Walk through the registered actions, and build an array of actions/values.
+	foreach ( buddypress()->activity->actions as $action ) {
+		$action = array_values( (array) $action );
+
+		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ )
+			$actions[ $action[$i]['key'] ] = $action[$i]['value'];
+	}
+
+	// This was a mis-named activity type from before BP 1.6
+	unset( $actions['friends_register_activity_action'] );
+
+	// This type has not been used since BP 1.0.3. It will be re-instated in a future version.
+	unset( $actions['updated_profile'] );
+
+	return apply_filters( 'bp_activity_get_types', $actions );
+}
+
 /** Favorites ****************************************************************/
 
 /**

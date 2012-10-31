@@ -1172,34 +1172,17 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Markup for the "filter" part of the form (i.e. which activity type to display)
 	 *
-	 * @global object $bp BuddyPress global settings
 	 * @param string $which 'top' or 'bottom'
 	 * @since BuddyPress (1.6)
 	 */
 	function extra_tablenav( $which ) {
-		global $bp;
-
 		if ( 'bottom' == $which )
 			return;
 
-		$actions  = array();
 		$selected = !empty( $_REQUEST['activity_type'] ) ? $_REQUEST['activity_type'] : '';
 
-		// Walk through the registered actions, and build an array of actions/values.
-		foreach ( $bp->activity->actions as $action ) {
-			$action = array_values( (array) $action );
-
-			for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ )
-				$actions[ $action[$i]['key'] ] = $action[$i]['value'];
-		}
-
-		// This was a mis-named activity type from before BP 1.6
-		unset( $actions['friends_register_activity_action'] );
-
-		// This type has not been used since BP 1.0.3. It will be re-instated in a future version.
-		unset( $actions['updated_profile'] );
-
-		// Sort array by the human-readable value
+		// Get all types of activities, and sort alphabetically.
+		$actions  = bp_activity_get_types();
 		natsort( $actions );
 	?>
 
