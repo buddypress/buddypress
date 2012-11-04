@@ -1231,6 +1231,10 @@ function bp_is_user_change_avatar() {
  * @return bool
  */
 function bp_is_user_forums() {
+
+	if ( ! bp_is_active( 'forums' ) )
+		return false;
+
 	if ( bp_is_user() && bp_is_forums_component() )
 		return true;
 
