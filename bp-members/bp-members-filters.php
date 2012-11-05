@@ -63,9 +63,9 @@ add_action( 'bp_loaded', 'bp_members_signup_sanitization' );
  * @return string
  */
 function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
-	
+
 	// If xprofile is active, use profile domain link
-	if ( bp_is_active( 'xprofile' ) ) {
+	if ( ! is_admin() && bp_is_active( 'xprofile' ) ) {
 		$profile_link = trailingslashit( bp_core_get_user_domain( $user_id ) . buddypress()->profile->slug . '/edit' );
 
 	// Default to $url
