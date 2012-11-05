@@ -37,9 +37,6 @@ function bp_core_admin_menu_init() {
 function bp_core_admin_backpat_menu() {
 	global $_parent_pages, $_registered_pages, $submenu;
 
-	if ( ! is_super_admin() )
-		return;
-
 	// Don't do anything if a BP upgrade is in progress, or if the bp-wizard is in progress.
 	if ( defined( 'BP_IS_UPGRADE' ) && BP_IS_UPGRADE || empty( $submenu['bp-general-settings'] ) )
 		return;
