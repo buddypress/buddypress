@@ -302,9 +302,10 @@ class BP_User_Query {
 			$friend_ids = $wpdb->escape( implode( ',', (array) $friend_ids ) );
 
 			if ( !empty( $friend_ids ) ) {
-				$sql['where'][] = "u.{$this->uid_name} NOT IN ({$friend_ids})";
-			} else {
-				// If the user has no friends, make sure the query returns null
+				$sql['where'][] = "u.{$this->uid_name} IN ({$friend_ids})";
+
+			// If the user has no friends, and we're not including specific users, make sure the query returns null
+			} elseif ( empty( $include ) ) {
 				$sql['where'][] = $this->no_results['where'];
 			}
 		}
