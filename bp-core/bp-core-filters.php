@@ -113,34 +113,6 @@ function bp_core_email_from_name_filter() {
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
 /**
- * bp_core_allow_default_theme()
- *
- * On multiblog installations you must first allow themes to be activated and show
- * up on the theme selection screen. This function will let the BuddyPress bundled
- * themes show up on the root blog selection screen and bypass this step. It also
- * means that the themes won't show for selection on other blogs.
- *
- * @package BuddyPress Core
- */
-function bp_core_allow_default_theme( $themes ) {
-	global $wpdb;
-
-	if ( !bp_current_user_can( 'bp_moderate' ) )
-		return $themes;
-
-	if ( bp_get_root_blog_id() != $wpdb->blogid )
-		return $themes;
-
-	if ( isset( $themes['bp-default'] ) )
-		return $themes;
-
-	$themes['bp-default'] = true;
-
-	return $themes;
-}
-add_filter( 'allowed_themes', 'bp_core_allow_default_theme' );
-
-/**
  * bp_core_filter_comments()
  *
  * Filter the blog post comments array and insert BuddyPress URLs for users.
