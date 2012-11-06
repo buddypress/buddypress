@@ -1121,10 +1121,11 @@ function bp_activity_secondary_avatar( $args = '' ) {
  *
  * @since BuddyPress (1.2)
  *
+ * @param array $args See bp_get_activity_action()
  * @uses bp_get_activity_action()
  */
-function bp_activity_action() {
-	echo bp_get_activity_action();
+function bp_activity_action( $args = array() ) {
+	echo bp_get_activity_action( $args );
 }
 
 	/**
@@ -1133,22 +1134,30 @@ function bp_activity_action() {
 	 * @since BuddyPress (1.2)
 	 *
 	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @param array $args Only parameter is "no_timestamp". If true, timestamp is shown in output.
 	 * @uses apply_filters_ref_array() To call the 'bp_get_activity_action_pre_meta' hook
 	 * @uses bp_insert_activity_meta()
 	 * @uses apply_filters_ref_array() To call the 'bp_get_activity_action' hook
 	 *
 	 * @return string The activity action
 	 */
-	function bp_get_activity_action() {
+	function bp_get_activity_action( $args = array() ) {
 		global $activities_template;
 
-		$action = $activities_template->activity->action;
-		$action = apply_filters_ref_array( 'bp_get_activity_action_pre_meta', array( $action, &$activities_template->activity ) );
+		$defaults = array(
+			'no_timestamp' => false,
+		);
 
-		if ( !empty( $action ) )
+		$args = wp_parse_args( $args, $defaults );
+		extract( $args, EXTR_SKIP );
+
+		$action = $activities_template->activity->action;
+		$action = apply_filters_ref_array( 'bp_get_activity_action_pre_meta', array( $action, &$activities_template->activity, $args ) );
+
+		if ( ! empty( $action ) && ! $no_timestamp )
 			$action = bp_insert_activity_meta( $action );
 
-		return apply_filters_ref_array( 'bp_get_activity_action', array( $action, &$activities_template->activity ) );
+		return apply_filters_ref_array( 'bp_get_activity_action', array( $action, &$activities_template->activity, $args ) );
 	}
 
 /**
