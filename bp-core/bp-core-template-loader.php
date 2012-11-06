@@ -71,6 +71,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	$template_names = apply_filters( 'bp_locate_template', $template_names );
 
 	// Try to find a template file
+	// Check the parent and child theme directories first
 	foreach ( (array) $template_names as $template_name ) {
 
 		// Continue if template is empty
@@ -89,11 +90,16 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 		} elseif ( file_exists( trailingslashit( $parent_theme ) . $template_name ) ) {
 			$located = trailingslashit( $parent_theme ) . $template_name;
 			break;
+		}
+	}
 
-		// Check theme compatibility last
-		} elseif ( file_exists( trailingslashit( $fallback_theme ) . $template_name ) ) {
-			$located = trailingslashit( $fallback_theme ) . $template_name;
-			break;
+	// Check theme compatibility last if no template is found in the current theme
+	if ( empty( $located ) ) {
+		foreach ( (array) $template_names as $template_name ) {
+			if ( file_exists( trailingslashit( $fallback_theme ) . $template_name ) ) {
+				$located = trailingslashit( $fallback_theme ) . $template_name;
+				break;
+			}
 		}
 	}
 
