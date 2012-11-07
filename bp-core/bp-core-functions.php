@@ -335,7 +335,7 @@ function bp_core_render_message() {
 		$type    = ( 'success' == $bp->template_message_type ) ? 'updated' : 'error';
 		$content = apply_filters( 'bp_core_render_message_content', $bp->template_message, $type ); ?>
 
-		<div id="message" class="<?php echo $type; ?>">
+		<div id="message" class="bp-template-notice <?php echo $type; ?>">
 
 			<?php echo $content; ?>
 
