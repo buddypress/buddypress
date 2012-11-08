@@ -234,7 +234,7 @@ function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_quer
 
 	if ( bp_is_active( 'xprofile' ) ) {
 		$fullname_field_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", bp_xprofile_fullname_field_name() ) );
-		$user_id_names     = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value as fullname FROM {$bp->profile->table_name_data} WHERE user_id IN ({$user_ids_sql}) AND field_id = {$fullname_field_id}" ) );
+		$user_id_names     = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value as fullname FROM {$bp->profile->table_name_data} WHERE user_id IN ({$user_ids_sql}) AND field_id = %d", $fullname_field_id ) );
 
 		// Loop through names and override each user's fullname
 		foreach ( $user_id_names as $user ) {
