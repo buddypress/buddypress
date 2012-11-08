@@ -202,7 +202,7 @@ class BP_User_Query {
 				$this->uid_name = 'user_id';
 				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
 				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
-				$sql['where'][] = $wpdb->prepare( 'u.meta_value >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 5 MINUTE )' );
+				$sql['where'][] = 'u.meta_value >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 5 MINUTE )';
 				$sql['orderby'] = "ORDER BY u.meta_value";
 				$sql['order']   = "DESC";
 
@@ -375,7 +375,7 @@ class BP_User_Query {
 		}
 
 		// Get the specific user ids
-		$this->user_ids = $wpdb->get_col( $wpdb->prepare( "{$this->uid_clauses['select']} {$this->uid_clauses['where']} {$this->uid_clauses['orderby']} {$this->uid_clauses['order']} {$this->uid_clauses['limit']}" ) );
+		$this->user_ids = $wpdb->get_col( "{$this->uid_clauses['select']} {$this->uid_clauses['where']} {$this->uid_clauses['orderby']} {$this->uid_clauses['order']} {$this->uid_clauses['limit']}" );
 
 		// Get the total user count
 		if ( 'sql_calc_found_rows' == $this->query_vars['count_total'] ) {
