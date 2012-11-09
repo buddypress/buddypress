@@ -1742,3 +1742,211 @@ function bp_the_body_class() {
 		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
 	}
 	add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 );
+
+/**
+ * Sort BuddyPress nav menu items by their position property.
+ *
+ * This is an internal convenience function and it will probably be removed in a later release. Do not use.
+ *
+ * @access private
+ * @param array $a First item
+ * @param array $b Second item
+ * @return int Returns an integer less than, equal to, or greater than zero if the first argument is considered to be respectively less than, equal to, or greater than the second.
+ * @since BuddyPress (1.7)
+ */
+function _bp_nav_menu_sort( $a, $b ) {
+	if ( $a["position"] == $b["position"] )
+		return 0;
+
+	else if ( $a["position"] < $b["position"] )
+		return -1;
+
+	else
+		return 1;
+}
+
+/**
+ * Get an array of all the items registered in the primary and secondary BuddyPress navigation menus
+ *
+ * @return array
+ * @since BuddyPress (1.7)
+ */
+function bp_get_nav_menu_items() {
+	$menus = $selected_menus = array();
+
+	// Get the second level menus
+	foreach ( (array) buddypress()->bp_options_nav as $parent_menu => $sub_menus ) {
+
+		// The root menu's ID is "xprofile", but the Profile submenus are using "profile". See BP_Core::setup_nav().
+		if ( 'profile' == $parent_menu )
+			$parent_menu = 'xprofile';
+
+		// Sort the items in this menu's navigation by their position property
+		$second_level_menus = (array) $sub_menus;
+		usort( $second_level_menus, '_bp_nav_menu_sort' );
+
+		// Iterate through the second level menus
+		foreach( $second_level_menus as $sub_nav ) {
+
+			// Skip items we don't have access to
+			if ( ! $sub_nav['user_has_access'] )
+				continue;
+
+			// Add this menu
+			$menu         = new stdClass;
+			$menu->class  = array();
+			$menu->css_id = $sub_nav['css_id'];
+			$menu->link   = $sub_nav['link'];
+			$menu->name   = $sub_nav['name'];
+			$menu->parent = $parent_menu;  // Associate this sub nav with a top-level menu
+
+			// If we're viewing this item's screen, record that we need to mark its parent menu to be selected
+			if ( $sub_nav['slug'] == bp_current_action() ) {
+				$menu->class      = array( 'current-menu-item' );
+				$selected_menus[] = $parent_menu;
+			}
+
+			$menus[] = $menu;
+		}
+	}
+
+	// Get the top-level menu parts (Friends, Groups, etc) and sort by their position property
+	$top_level_menus = (array) buddypress()->bp_nav;
+	usort( $top_level_menus, '_bp_nav_menu_sort' );
+
+	// Iterate through the top-level menus
+	foreach ( $top_level_menus as $nav ) {
+
+		// Skip items marked as user-specific if you're not on your own profile
+		if ( ! $nav['show_for_displayed_user'] && ! bp_is_my_profile() )
+			continue;
+
+		// Get the correct menu link. See http://buddypress.trac.wordpress.org/ticket/4624
+		$link = bp_loggedin_user_domain() ? str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $nav['link'] ) : trailingslashit( bp_displayed_user_domain() . $nav['link'] );
+
+		// Add this menu
+		$menu         = new stdClass;
+		$menu->class  = array();
+		$menu->css_id = $nav['css_id'];
+		$menu->link   = $link;
+		$menu->name   = $nav['name'];
+		$menu->parent = 0;
+
+		// Check if we need to mark this menu as selected
+		if ( in_array( $nav['css_id'], $selected_menus ) )
+			$menu->class = array( 'current-menu-parent' );
+
+		$menus[] = $menu;
+	}
+
+	return apply_filters( 'bp_get_nav_menu_items', $menus );
+}
+
+/**
+ * Displays a navigation menu.
+ *
+ * @param string|array $args Optional arguments:
+ *  before - Text before the link text.
+ *  container - Whether to wrap the ul, and what to wrap it with. Defaults to div.
+ *  container_class - The class that is applied to the container. Defaults to 'menu-bp-container'.
+ *  container_id - The ID that is applied to the container. Defaults to blank.
+ *  depth - How many levels of the hierarchy are to be included. 0 means all. Defaults to 0.
+ *  echo - Whether to echo the menu or return it. Defaults to echo.
+ *  fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to false (no fallback).
+ *  items_wrap - How the list items should be wrapped. Defaults to a ul with an id and class. Uses printf() format with numbered placeholders.
+ *  link_after - Text after the link.
+ *  link_before - Text before the link.
+ *  menu_class - CSS class to use for the ul element which forms the menu. Defaults to 'menu'.
+ *  menu_id - The ID that is applied to the ul element which forms the menu. Defaults to 'menu-bp', incremented.
+ *  walker - Allows a custom walker to be specified. Defaults to 'BP_Walker_Nav_Menu'.
+ * @since BuddyPress (1.7)
+ */
+function bp_nav_menu( $args = array() ) {
+	static $menu_id_slugs = array();
+
+	$defaults = array(
+		'after'           => '',
+		'before'          => '',
+		'container'       => 'div',
+		'container_class' => '',
+		'container_id'    => '',
+		'depth'           => 0,
+		'echo'            => true,
+		'fallback_cb'     => false,
+		'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+		'link_after'      => '',
+		'link_before'     => '',
+		'menu_class'      => 'menu',
+		'menu_id'         => '',
+		'walker'          => '',
+	);
+	$args = wp_parse_args( $args, $defaults );
+	$args = apply_filters( 'bp_nav_menu_args', $args );
+	$args = (object) $args;
+
+	$items = $nav_menu = '';
+	$show_container = false;
+
+	// Create custom walker if one wasn't set
+	if ( empty( $args->walker ) )
+		$args->walker = new BP_Walker_Nav_Menu;
+
+	// Sanitise values for class and ID
+	$args->container_class = sanitize_html_class( $args->container_class );
+	$args->container_id    = sanitize_html_class( $args->container_id );
+
+	// Whether to wrap the ul, and what to wrap it with
+	if ( $args->container ) {
+		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav', ) );
+
+		if ( in_array( $args->container, $allowed_tags ) ) {
+			$show_container = true;
+
+			$class     = $args->container_class ? ' class="' . esc_attr( $args->container_class ) . '"' : ' class="menu-bp-container"';
+			$id        = $args->container_id    ? ' id="' . esc_attr( $args->container_id ) . '"'       : '';
+			$nav_menu .= '<' . $args->container . $id . $class . '>';
+		}
+	}
+
+	// Get the BuddyPress menu items
+	$menu_items = apply_filters( 'bp_nav_menu_objects', bp_get_nav_menu_items(), $args );
+	$items      = walk_nav_menu_tree( $menu_items, $args->depth, $args );
+	unset( $menu_items );
+
+	// Set the ID that is applied to the ul element which forms the menu.
+	if ( ! empty( $args->menu_id ) ) {
+		$wrap_id = $args->menu_id;
+
+	} else {
+		$wrap_id = 'menu-bp';
+
+		// If a specific ID wasn't requested, and there are multiple menus on the same screen, make sure the autogenerated ID is unique
+		while ( in_array( $wrap_id, $menu_id_slugs ) ) {
+			if ( preg_match( '#-(\d+)$#', $wrap_id, $matches ) )
+				$wrap_id = preg_replace('#-(\d+)$#', '-' . ++$matches[1], $wrap_id );
+			else
+				$wrap_id = $wrap_id . '-1';
+		}
+	}
+	$menu_id_slugs[] = $wrap_id;
+
+	// Allow plugins to hook into the menu to add their own <li>'s
+	$items = apply_filters( 'bp_nav_menu_items', $items, $args );
+
+	// Build the output
+	$wrap_class  = $args->menu_class ? $args->menu_class : '';
+	$nav_menu   .= sprintf( $args->items_wrap, esc_attr( $wrap_id ), esc_attr( $wrap_class ), $items );
+	unset( $items );
+
+	// If we've wrapped the ul, close it
+	if ( $show_container )
+		$nav_menu .= '</' . $args->container . '>';
+
+	// Final chance to modify output
+	$nav_menu = apply_filters( 'bp_nav_menu', $nav_menu, $args );
+
+	if ( $args->echo )
+		echo $nav_menu;
+	else
+		return $nav_menu;
+}
