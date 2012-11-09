@@ -2552,6 +2552,48 @@ function bp_activity_get_comments_user_ids() {
 	}
 
 
+/**
+ * Renders a list of all the registered activity types for use in a <select> element, or as <input type="checkbox">.
+ *
+ * @param string $output Optional. Either 'select' or 'checkbox'. Defaults to select.
+ * @param string|array $args Optional extra arguments:
+ *  checkbox_name - Used when type=checkbox. Sets the item's name property.
+ *  selected      - Array of strings of activity types to mark as selected/checked.
+ * @since BuddyPress (1.7)
+ */
+function bp_activity_types_list( $output = 'select', $args = '' ) {
+	$defaults = array(
+		'checkbox_name' => 'bp_activity_types',
+		'selected'      => array(),
+	);
+	$args = wp_parse_args( $args, $defaults );
+
+	$activities = bp_activity_get_types();
+	natsort( $activities );
+
+	// Loop through the activity types and output markup
+	foreach ( $activities as $type => $description ) {
+
+		// See if we need to preselect the current type
+		$checked  = checked(  true, in_array( $type, (array) $args['selected'] ), false );
+		$selected = selected( true, in_array( $type, (array) $args['selected'] ), false );
+
+		if ( 'select' == $output )
+			printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $type ), $selected, esc_html( $description ) );
+
+		elseif ( 'checkbox' == $output )
+			printf( '<label style="">%1$s<input type="checkbox" name="%2$s[]" value="%3$s" %4$s/></label>', esc_html( $description ), esc_attr( $args['checkbox_name'] ), esc_attr( $type ), $checked );
+
+		// Allow custom markup
+		do_action( 'bp_activity_types_list_' . $output, $args, $type, $description );
+	}
+
+	// Backpat with BP-Default for dropdown boxes only
+	if ( 'select' == $output )
+		do_action( 'bp_activity_filter_options' );
+}
+
+
 /* RSS Feed Template Tags ****************************************************/
 
 /**
