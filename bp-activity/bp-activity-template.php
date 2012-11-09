@@ -2479,6 +2479,79 @@ function bp_activity_post_form_action() {
 		return apply_filters( 'bp_get_activity_post_form_action', home_url( bp_get_activity_root_slug() . '/post/' ) );
 	}
 
+/**
+ * Looks at all the activity comments on the current activity item, and prints the comments' authors's avatar wrapped in <LI> tags.
+ *
+ * Use this function to easily output activity comment authors' avatars.
+ *
+ * @param array $args See {@link bp_core_fetch_avatar} for accepted values
+ * @since BuddyPress (1.7)
+ */
+function bp_activity_comments_user_avatars( $args = array() ) {
+	$defaults = array(
+		'height' => false,
+		'html'   => true,
+		'type'   => 'thumb',
+		'width'  => false,
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+	extract( $args, EXTR_SKIP );
+
+	// Get the user IDs of everyone who has left a comment to the current activity item
+	$user_ids = bp_activity_get_comments_user_ids();
+
+	$output = array();
+	foreach ( (array) $user_ids as $user_id ) {
+		$profile_link = bp_core_get_user_domain( $user_id );
+		$image_html   = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'height' => $height, 'html' => $html, 'type' => $type, 'width' => $width, ) );
+
+		$output[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $profile_link ), $image_html );
+	}
+
+	echo apply_filters( 'bp_activity_comments_user_avatars', '<li>' . implode( '</li><li>', $output ) . '</li>', $args, $output );
+}
+
+/**
+ * Returns the user IDs of everyone who's written an activity comment on the current activity item.
+ *
+ * @return bool|array Returns false if there is no current activity items
+ * @since BuddyPress (1.7)
+ */
+function bp_activity_get_comments_user_ids() {
+	if ( empty( $GLOBALS['activities_template']->activity ) || empty( $GLOBALS['activities_template']->activity->children ) )
+		return false;
+
+	$user_ids = (array) bp_activity_recurse_comments_user_ids( $GLOBALS['activities_template']->activity->children );
+	return apply_filters( 'bp_activity_get_comments_user_ids', array_unique( $user_ids ) );
+}
+
+	/**
+	 * Recurse through all activity comments and collect the IDs of the users who wrote them.
+	 *
+	 * @param array $comments Array of {@link BP_Activity_Activity} items
+	 * @return array Array of user IDs
+	 * @since BuddyPress (1.7)
+	 */
+	function bp_activity_recurse_comments_user_ids( array $comments ) {
+		$user_ids = array();
+
+		foreach ( $comments as $comment ) {
+			// If a user is a spammer, their activity items will have been automatically marked as spam. Skip these.
+			if ( $comment->is_spam )
+				continue;
+
+			$user_ids[] = $comment->user_id;
+
+			// Check for commentception
+			if ( ! empty( $comment->children ) )
+				$user_ids = array_merge( $user_ids, bp_activity_recurse_comments_user_ids( $comment->children ) );
+		}
+
+		return $user_ids;
+	}
+
+
 /* RSS Feed Template Tags ****************************************************/
 
 /**
