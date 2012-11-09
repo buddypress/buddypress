@@ -671,7 +671,7 @@ class BP_Groups_Group {
 		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = "WHERE status != 'hidden'";
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} {$hidden_sql}" ) );
+		return $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->groups->table_name} {$hidden_sql}" );
 	}
 
 	function get_global_forum_topic_count( $type ) {
@@ -1219,15 +1219,15 @@ class BP_Groups_Member {
 
 		$exclude_admins_sql = '';
 		if ( !empty( $exclude_admins_mods ) )
-			$exclude_admins_sql = $wpdb->prepare( "AND is_admin = 0 AND is_mod = 0" );
+			$exclude_admins_sql = "AND is_admin = 0 AND is_mod = 0";
 
 		$banned_sql = '';
 		if ( !empty( $exclude_banned ) )
-			$banned_sql = $wpdb->prepare( " AND is_banned = 0" );
+			$banned_sql = " AND is_banned = 0";
 
 		$exclude_sql = '';
 		if ( !empty( $exclude ) )
-			$exclude_sql = $wpdb->prepare( " AND m.user_id NOT IN ({$exclude})" );
+			$exclude_sql = " AND m.user_id NOT IN ({$exclude})";
 
 		if ( bp_is_active( 'xprofile' ) )
 			$members = $wpdb->get_results( apply_filters( 'bp_group_members_user_join_filter', $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, pd.value as display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u, {$bp->profile->table_name_data} pd WHERE u.ID = m.user_id AND u.ID = pd.user_id AND pd.field_id = 1 AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) ) );
