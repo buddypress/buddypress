@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-09-29 11:36:50+00:00\n"
+"POT-Creation-Date: 2012-11-10 08:36:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1798,11 +1798,11 @@ msgstr ""
 msgid "Random Site"
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:278
+#: bp-core/bp-core-catchuri.php:281
 msgid "This user has been marked as a spammer. Only site admins can view this profile."
 msgstr ""
 
-#: bp-core/bp-core-catchuri.php:452 bp-core/bp-core-catchuri.php:511
+#: bp-core/bp-core-catchuri.php:455 bp-core/bp-core-catchuri.php:514
 msgid "You must log in to access the page you requested."
 msgstr ""
 
