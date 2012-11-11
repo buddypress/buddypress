@@ -951,16 +951,8 @@ function bp_group_is_forum_enabled( $group = false ) {
 	if ( empty( $group ) )
 		$group =& $groups_template->group;
 
-	if ( bp_is_active( 'forums' ) ) {
-		if ( bp_forums_is_installed_correctly() ) {
-			if ( $group->enable_forum )
-				return true;
-
-			return false;
-		} else {
-			return false;
-		}
-	}
+	if ( ! empty( $group->enable_forum ) )
+		return true;
 
 	return false;
 }
