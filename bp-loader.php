@@ -371,25 +371,8 @@ class BuddyPress {
 		// Load the WP abstraction file so BuddyPress can run on all WordPress setups.
 		require( BP_PLUGIN_DIR . '/bp-core/bp-core-wpabstraction.php' );
 
-		// Get the possible DB versions (boy is this gross)
-		$versions               = array();
-		$versions['1.6-single'] = get_blog_option( $this->root_blog_id, '_bp_db_version' );
-
-		// 1.6-single exists, so trust it
-		if ( !empty( $versions['1.6-single'] ) ) {
-			$this->db_version_raw = (int) $versions['1.6-single'];
-
-		// If no 1.6-single exists, use the max of the others
-		} else {
-			$versions['1.2']        = get_site_option(                      'bp-core-db-version' );
-			$versions['1.5-multi']  = get_site_option(                           'bp-db-version' );
-			$versions['1.6-multi']  = get_site_option(                          '_bp_db_version' );
-			$versions['1.5-single'] = get_blog_option( $this->root_blog_id,      'bp-db-version' );
-
-			// Remove empty array items
-			$versions             = array_filter( $versions );
-			$this->db_version_raw = (int) ( !empty( $versions ) ) ? (int) max( $versions ) : 0;
-		}
+		// Setup the versions (after we include multisite abstraction above)
+		$this->versions();
 
 		/** Update/Install ****************************************************/
 
@@ -503,6 +486,34 @@ class BuddyPress {
 
 		// All BuddyPress actions are setup (includes bbp-core-hooks.php)
 		do_action_ref_array( 'bp_after_setup_actions', array( &$this ) );
+	}
+
+	/**
+	 * Private method to align the active and database versions
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	private function versions() {
+
+		// Get the possible DB versions (boy is this gross)
+		$versions               = array();
+		$versions['1.6-single'] = get_blog_option( $this->root_blog_id, '_bp_db_version' );
+
+		// 1.6-single exists, so trust it
+		if ( !empty( $versions['1.6-single'] ) ) {
+			$this->db_version_raw = (int) $versions['1.6-single'];
+
+		// If no 1.6-single exists, use the max of the others
+		} else {
+			$versions['1.2']        = get_site_option(                      'bp-core-db-version' );
+			$versions['1.5-multi']  = get_site_option(                           'bp-db-version' );
+			$versions['1.6-multi']  = get_site_option(                          '_bp_db_version' );
+			$versions['1.5-single'] = get_blog_option( $this->root_blog_id,      'bp-db-version' );
+
+			// Remove empty array items
+			$versions             = array_filter( $versions );
+			$this->db_version_raw = (int) ( !empty( $versions ) ) ? (int) max( $versions ) : 0;
+		}
 	}
 
 	/** Public Methods ********************************************************/
