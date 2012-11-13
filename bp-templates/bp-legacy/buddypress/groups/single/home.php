@@ -39,8 +39,12 @@
 			// Looking at home location
 			if ( bp_is_group_home() ) :
 
+				// Use custom front if one exists
+				$custom_front = bp_locate_template( array( 'groups/single/front.php' ), false, true );
+				if     ( ! empty( $custom_front   ) ) : load_template( $custom_front, true );
+
 				// Default to activity
-				if     ( bp_is_active( 'activity' ) ) : bp_get_template_part( 'groups/single/activity' );
+				elseif ( bp_is_active( 'activity' ) ) : bp_get_template_part( 'groups/single/activity' );
 
 				// Otherwise show members
 				elseif ( bp_is_active( 'members'  ) ) : bp_get_template_part( 'groups/single/members'  );
