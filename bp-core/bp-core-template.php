@@ -1406,10 +1406,21 @@ function bp_is_group_admin_page() {
 }
 
 function bp_is_group_forum() {
-	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) )
-		return true;
+	$retval = false;
 
-	return false;
+	// At a forum URL
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'forum' ) )
+		$retval = true;
+
+	// If at a forum URL, set back to false if forums are inactive, or not
+	// installed correctly.
+	if ( true === $retval ) {
+		if ( ! bp_is_active( 'forums' ) || ! bp_forums_is_installed_correctly() ) {
+			$retval = false;
+		}
+	}
+
+	return $retval;
 }
 
 function bp_is_group_activity() {
