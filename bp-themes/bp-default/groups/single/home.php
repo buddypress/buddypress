@@ -29,43 +29,75 @@
 
 				<?php do_action( 'bp_before_group_body' );
 
-				if ( bp_is_group_admin_page() && bp_group_is_visible() ) :
-					locate_template( array( 'groups/single/admin.php' ), true );
+				/**
+				 * Does this next bit look familiar? If not, go check out WordPress's
+				 * /wp-includes/template-loader.php file.
+				 *
+				 * @todo A real template hierarchy? Gasp!
+				 */
 
-				elseif ( bp_is_group_members() && bp_group_is_visible() ) :
-					locate_template( array( 'groups/single/members.php' ), true );
+				// Group is visible
+				if ( bp_group_is_visible() ) : 
 
-				elseif ( bp_is_group_invites() && bp_group_is_visible() ) :
-					locate_template( array( 'groups/single/send-invites.php' ), true );
+					// Looking at home location
+					if ( bp_is_group_home() ) :
 
-					elseif ( bp_is_group_forum() && bp_group_is_visible() && bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() ) :
-						locate_template( array( 'groups/single/forum.php' ), true );
+						// Use custom front if one exists
+						$custom_front = locate_template( array( 'groups/single/front.php' ) );
+						if     ( ! empty( $custom_front   ) ) : load_template( $custom_front, true );
+						
+						// Default to activity
+						elseif ( bp_is_active( 'activity' ) ) : locate_template( array( 'groups/single/activity.php' ), true );
 
-				elseif ( bp_is_group_membership_request() ) :
-					locate_template( array( 'groups/single/request-membership.php' ), true );
+						// Otherwise show members
+						elseif ( bp_is_active( 'members'  ) ) : locate_template( array( 'groups/single/members.php'  ), true );
 
-				elseif ( bp_group_is_visible() && bp_is_active( 'activity' ) ) :
-					locate_template( array( 'groups/single/activity.php' ), true );
+						endif;
 
-				elseif ( bp_group_is_visible() ) :
-					locate_template( array( 'groups/single/members.php' ), true );
+					// Not looking at home
+					else :
 
-				elseif ( !bp_group_is_visible() ) :
+						// Group Admin
+						if     ( bp_is_group_admin_page() ) : locate_template( array( 'groups/single/admin.php'        ), true );
+
+						// Group Activity
+						elseif ( bp_is_group_activity()   ) : locate_template( array( 'groups/single/activity.php'     ), true );
+
+						// Group Members
+						elseif ( bp_is_group_members()    ) : locate_template( array( 'groups/single/members.php'      ), true );
+
+						// Group Invitations
+						elseif ( bp_is_group_invites()    ) : locate_template( array( 'groups/single/send-invites.php' ), true );
+
+						// Old group forums
+						elseif ( bp_is_group_forum()      ) : locate_template( array( 'groups/single/forum.php'        ), true );
+
+						// Anything else (plugins mostly)
+						else                                : locate_template( array( 'groups/single/plugins.php'      ), true );
+
+						endif;
+					endif;
+
+				// Group is not visible
+				elseif ( ! bp_group_is_visible() ) :
+
+					// Membership request
+					if ( bp_is_group_membership_request() ) :
+						locate_template( array( 'groups/single/request-membership' ), true );
+
 					// The group is not visible, show the status message
+					else :
 
-					do_action( 'bp_before_group_status_message' ); ?>
+						do_action( 'bp_before_group_status_message' ); ?>
 
-					<div id="message" class="info">
-						<p><?php bp_group_status_message(); ?></p>
-					</div>
+						<div id="message" class="info">
+							<p><?php bp_group_status_message(); ?></p>
+						</div>
 
-					<?php do_action( 'bp_after_group_status_message' );
+						<?php do_action( 'bp_after_group_status_message' );
 
-				else :
-					// If nothing sticks, just load a group front template if one exists.
-					locate_template( array( 'groups/single/front.php' ), true );
-
-				endif;
+					endif;
+				endif;			
 
 				do_action( 'bp_after_group_body' ); ?>
 
