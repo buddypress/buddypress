@@ -10,4 +10,4 @@
 
 </div><!-- #item-body -->
 
-<?php do_action( 'bp_after_group_plugin_template' ); ?>
+<?php do_action( 'bp_after_group_plugin_template' );
