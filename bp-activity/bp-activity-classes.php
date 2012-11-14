@@ -401,9 +401,9 @@ class BP_Activity_Activity {
 			return false;
 
 		// Fetch the activity IDs so we can delete any comments for this activity item
-		$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" ) );
+		$activity_ids = $wpdb->get_col( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
 
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} {$where_sql}" ) ) )
+		if ( !$wpdb->query( "DELETE FROM {$bp->activity->table_name} {$where_sql}" ) )
 			return false;
 
 		if ( $activity_ids ) {
@@ -424,7 +424,7 @@ class BP_Activity_Activity {
 		else
 			$activity_ids = implode ( ',', array_map( 'absint', explode ( ',', $activity_ids ) ) );
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" ) );
+		return $wpdb->query( "DELETE FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" );
 	}
 
 	function delete_activity_meta_entries( $activity_ids ) {
@@ -435,7 +435,7 @@ class BP_Activity_Activity {
 		else
 			$activity_ids = implode ( ',', array_map( 'absint', explode ( ',', $activity_ids ) ) );
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" ) );
+		return $wpdb->query( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" );
 	}
 
 	/**
