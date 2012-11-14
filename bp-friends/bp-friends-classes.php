@@ -84,14 +84,14 @@ class BP_Friends_Friendship {
 		global $wpdb, $bp;
 
 		if ( !empty( $friend_requests_only ) ) {
-			$oc_sql = $wpdb->prepare( "AND is_confirmed = 0" );
-			$friend_sql = $wpdb->prepare ( " WHERE friend_user_id = %d", $user_id );
+			$oc_sql = 'AND is_confirmed = 0';
+			$friend_sql = $wpdb->prepare( " WHERE friend_user_id = %d", $user_id );
 		} else {
-			$oc_sql = $wpdb->prepare( "AND is_confirmed = 1" );
-			$friend_sql = $wpdb->prepare ( " WHERE (initiator_user_id = %d OR friend_user_id = %d)", $user_id, $user_id );
+			$oc_sql = 'AND is_confirmed = 1';
+			$friend_sql = $wpdb->prepare( " WHERE (initiator_user_id = %d OR friend_user_id = %d)", $user_id, $user_id );
 		}
 
-		$friends = $wpdb->get_results( $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} $friend_sql $oc_sql ORDER BY date_created DESC" ) );
+		$friends = $wpdb->get_results( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} $friend_sql $oc_sql ORDER BY date_created DESC" );
 		$fids = array();
 
 		for ( $i = 0, $count = count( $friends ); $i < $count; ++$i ) {

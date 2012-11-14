@@ -136,9 +136,9 @@ class BP_XProfile_Group {
 			$where_sql = $wpdb->prepare( "WHERE g.id NOT IN ({$exclude_groups})");
 
 		if ( !empty( $hide_empty_groups ) )
-			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" ) );
+			$groups = $wpdb->get_results( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );
 		else
-			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" ) );
+			$groups = $wpdb->get_results( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" );
 
 		if ( empty( $fetch_fields ) )
 			return $groups;
@@ -170,7 +170,7 @@ class BP_XProfile_Group {
 		}
 
 		// Fetch the fields
-		$fields = $wpdb->get_results( $wpdb->prepare( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" ) );
+		$fields = $wpdb->get_results( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" );
 
 		if ( empty( $fields ) )
 			return $groups;
@@ -330,7 +330,7 @@ class BP_XProfile_Group {
 	function fetch_default_visibility_levels() {
 		global $wpdb, $bp;
 
-		$levels = $wpdb->get_results( $wpdb->prepare( "SELECT object_id, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND ( meta_key = 'default_visibility' OR meta_key = 'allow_custom_visibility' )" ) );
+		$levels = $wpdb->get_results( "SELECT object_id, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND ( meta_key = 'default_visibility' OR meta_key = 'allow_custom_visibility' )" );
 
 		// Arrange so that the field id is the key and the visibility level the value
 		$default_visibility_levels = array();
