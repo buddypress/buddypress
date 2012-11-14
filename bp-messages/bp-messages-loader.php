@@ -100,6 +100,9 @@ class BP_Messages_Component extends BP_Component {
 	 */
 	function setup_nav() {
 
+		if ( ! bp_is_my_profile() )
+			return;
+
 		$sub_nav = array();
 		$name    = sprintf( __( 'Messages <span>%s</span>', 'buddypress' ), bp_get_total_unread_messages_count() );
 

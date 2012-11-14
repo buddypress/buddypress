@@ -171,25 +171,27 @@ class BP_XProfile_Component extends BP_Component {
 			'position'        => 10
 		);
 
-		// Edit Profile
-		$sub_nav[] = array(
-			'name'            => __( 'Edit', 'buddypress' ),
-			'slug'            => 'edit',
-			'parent_url'      => $profile_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'xprofile_screen_edit_profile',
-			'position'        => 20
-		);
+		if ( bp_is_my_profile() ) {
+			// Edit Profile
+			$sub_nav[] = array(
+				'name'            => __( 'Edit', 'buddypress' ),
+				'slug'            => 'edit',
+				'parent_url'      => $profile_link,
+				'parent_slug'     => $this->slug,
+				'screen_function' => 'xprofile_screen_edit_profile',
+				'position'        => 20
+			);
 
-		// Change Avatar
-		$sub_nav[] = array(
-			'name'            => __( 'Change Avatar', 'buddypress' ),
-			'slug'            => 'change-avatar',
-			'parent_url'      => $profile_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'xprofile_screen_change_avatar',
-			'position'        => 30
-		);
+			// Change Avatar
+			$sub_nav[] = array(
+				'name'            => __( 'Change Avatar', 'buddypress' ),
+				'slug'            => 'change-avatar',
+				'parent_url'      => $profile_link,
+				'parent_slug'     => $this->slug,
+				'screen_function' => 'xprofile_screen_change_avatar',
+				'position'        => 30
+			);
+		}
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
