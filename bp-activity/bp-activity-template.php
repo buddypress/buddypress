@@ -1361,14 +1361,20 @@ function bp_activity_parent_content( $args = '' ) {
 		if ( !$parent_id = $activities_template->activity->item_id )
 			return false;
 
-		// Get the content of the parent
+		// Bail if no parent content
 		if ( empty( $activities_template->activity_parents[$parent_id] ) )
 			return false;
 
-		if ( empty( $activities_template->activity_parents[$parent_id]->content ) )
-			$content = $activities_template->activity_parents[$parent_id]->action;
-		else
-			$content = $activities_template->activity_parents[$parent_id]->action . ' ' . $activities_template->activity_parents[$parent_id]->content;
+		// Bail if no action
+		if ( empty( $activities_template->activity_parents[$parent_id]->action ) )
+			return false;
+
+		// Content always includes action
+		$content = $activities_template->activity_parents[$parent_id]->action;
+
+		// Maybe append activity content, if it exists
+		if ( ! empty( $activities_template->activity_parents[$parent_id]->content ) )
+			$content .= ' ' . $activities_template->activity_parents[$parent_id]->content;
 
 		// Remove the time since content for backwards compatibility
 		$content = str_replace( '<span class="time-since">%s</span>', '', $content );
@@ -1398,14 +1404,25 @@ function bp_activity_parent_user_id() {
 	function bp_get_activity_parent_user_id() {
 		global $activities_template;
 
-		$retval = false;
+		// Bail if no activity on no item ID
+		if ( empty( $activities_template->activity ) || empty( $activities_template->activity->item_id ) )
+			return false;
 
-		// Get the user ID of the parent activity
-		$parent_id = $activities_template->activity->item_id;
-		if ( $parent_id && ! empty( $activities_template->activity_parents[$parent_id] ) )
-			$retval = $activities_template->activity_parents[$parent_id]->user_id;
+		// Get the ID of the parent activity content
+		if ( !$parent_id = $activities_template->activity->item_id )
+			return false;
 
-		return apply_filters( 'bp_get_activity_parent_user_id', $retval );
+		// Bail if no parent item
+		if ( empty( $activities_template->activity_parents[$parent_id] ) )
+			return false;
+
+		// Bail if no parent user ID
+		if ( empty( $activities_template->activity_parents[$parent_id]->user_id ) )
+			return false;
+
+		$retval = $activities_template->activity_parents[$parent_id]->user_id;
+
+		return (int) apply_filters( 'bp_get_activity_parent_user_id', $retval );
 	}
 
 /**
