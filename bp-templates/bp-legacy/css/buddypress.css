@@ -275,10 +275,10 @@ body.activity-permalink #buddypress .activity-content blockquote {
 	word-wrap: break-word;
 }
 #buddypress .activity-inner > .activity-inner {
-	margin: 0 !important;
+	margin: 0;
 }
 #buddypress .activity-inner > blockquote {
-	margin: 0 !important;
+	margin: 0;
 }
 #buddypress .activity-list .activity-content img.thumbnail {
 	border: 2px solid #eee;
@@ -290,15 +290,10 @@ body.activity-permalink #buddypress .activity-content blockquote {
 	white-space: nowrap;
 }
 #buddypress .activity-list li.load-more {
-	background: #f0f0f0 !important;
-	border-right: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
+	background: #f0f0f0;
 	font-size: 110%;
-	margin: 15px 0 !important;
-	padding: 10px 15px !important;
+	margin: 15px 0;
+	padding: 10px 15px;
 	text-align: center;
 }
 #buddypress .activity-list li.load-more a {
@@ -360,8 +355,6 @@ body.activity-permalink #buddypress div.activity-comments {
 	width: auto;
 }
 #buddypress div.activity-comments > ul {
-	background: #f5f5f5;
-	border-radius: 4px;
 	padding: 0 0 0 10px;
 }
 #buddypress div.activity-comments ul,
@@ -374,7 +367,7 @@ body.activity-permalink #buddypress div.activity-comments {
 	margin: 0;
 }
 #buddypress div.activity-comments ul li {
-	border-top: 2px solid #fff;
+	border-top: 1px solid #eee;
 	padding: 10px 0 0;
 }
 body.activity-permalink #buddypress .activity-list li.mini .activity-comments {
@@ -403,7 +396,7 @@ body.activity-permalink #buddypress div.activity-comments > ul {
 	padding: 0 10px 0 15px;
 }
 #buddypress div.activity-comments div.acomment-avatar img {
-	border-width: 2px !important;
+	border-width: 1px;
 	float: left;
 	height: 25px;
 	margin-right: 10px;
@@ -426,12 +419,8 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	font-size: 80%;
 }
 #buddypress div.activity-comments form.ac-form {
-	background: #fafafa;
-	border: 1px solid #ddd;
-	border-radius: 4px;
 	display: none;
-	margin: 0 0 15px 33px;
-	padding: 8px;
+	padding: 10px;
 }
 #buddypress div.activity-comments li form.ac-form {
 	margin-right: 15px;
@@ -471,7 +460,7 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	float: left;
 }
 #buddypress div.ac-reply-avatar img {
-	border: 2px solid #fff !important;
+	border: 1px solid #eee;
 }
 #buddypress div.activity-comments form div.ac-reply-content {
 	color: #888;
@@ -684,8 +673,6 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 }
 #buddypress div#invite-list {
 	background: #f5f5f5;
-	border: 1px solid #e4e4e4;
-	border-radius: 3px;
 	height: 400px;
 	margin: 0 0 10px;
 	overflow: auto;
@@ -1162,7 +1149,6 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 
 #buddypress div.item-list-tabs ul {
 	margin: 0;
-	width: 100%;
 }
 #buddypress div.item-list-tabs ul li {
 	float: left;
@@ -1223,7 +1209,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	margin-top: 0;
 }
 #buddypress div.item-list-tabs#subnav {
-	background: #fff;
+	background: transparent;
 	margin: 10px 0 10px;
 	overflow: hidden;
 }
