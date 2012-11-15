@@ -551,8 +551,11 @@ function bp_legacy_theme_new_activity_comment() {
 	bp_has_activities( 'display_comments=stream&hide_spam=false&include=' . $comment_id );
 
 	// Swap the current comment with the activity item we just loaded
-	$activities_template->activity->id              = $activities_template->activities[0]->item_id;
-	$activities_template->activity->current_comment = $activities_template->activities[0];
+	if ( isset( $activities_template->activities[0] ) ) {
+		$activities_template->activity = new stdClass();
+		$activities_template->activity->id              = $activities_template->activities[0]->item_id;
+		$activities_template->activity->current_comment = $activities_template->activities[0];
+	}
 
 	// get activity comment template part
 	bp_get_template_part( 'activity/comment' );
