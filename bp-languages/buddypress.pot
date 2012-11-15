@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-11-14 20:36:28+00:00\n"
+"POT-Creation-Date: 2012-11-15 14:36:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -720,7 +720,7 @@ msgstr ""
 msgid "View Discussion"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2081
+#: bp-activity/bp-activity-template.php:2127
 #: bp-forums/bp-forums-template.php:1271 bp-groups/bp-groups-admin.php:1126
 #: bp-groups/bp-groups-admin.php:1224 bp-groups/bp-groups-template.php:1389
 #: bp-templates/bp-legacy/buddypress/activity/comment.php:43
@@ -733,7 +733,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2128
+#: bp-activity/bp-activity-template.php:2174
 #: bp-core/admin/bp-core-slugs.php:112 bp-core/admin/bp-core-slugs.php:175
 #: bp-members/bp-members-template.php:623
 #: bp-templates/bp-legacy/buddypress/activity/entry.php:37
@@ -744,23 +744,23 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2222
+#: bp-activity/bp-activity-template.php:2268
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2405
+#: bp-activity/bp-activity-template.php:2451
 msgid "a user"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2445
+#: bp-activity/bp-activity-template.php:2491
 msgid "Send a public message on your activity stream."
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2446
+#: bp-activity/bp-activity-template.php:2492
 msgid "Public Message"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2868
+#: bp-activity/bp-activity-template.php:2914
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
