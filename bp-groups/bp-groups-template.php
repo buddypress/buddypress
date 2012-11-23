@@ -1570,9 +1570,30 @@ function bp_has_friends_to_invite( $group = false ) {
 	return true;
 }
 
+/**
+ * Outputs a 'New Topic' button for a group.
+ *
+ * @since BuddyPress (1.2.7)
+ *
+ * @param obj|bool $group The BP Groups_Group object if passed, boolean false if not passed.
+ * @uses bp_get_group_new_topic_button() Returns the 'New Topic' button
+ */
 function bp_group_new_topic_button( $group = false ) {
 	echo bp_get_group_new_topic_button( $group );
 }
+	/**
+	 * Returns a 'New Topic' button for a group.
+	 *
+	 * @since BuddyPress (1.2.7)
+	 *
+	 * @param obj|bool $group The BP Groups_Group object if passed, boolean false if not passed.
+	 * @uses is_user_logged_in() Is there a user logged in?
+	 * @uses bp_group_is_user_banned() Is the current user banned from the current group?
+	 * @uses bp_is_group_forum() Are we on a group forum page?
+	 * @uses bp_is_group_forum_topic() Are we on a group topic page?
+	 * @uses bp_get_button() Renders a button
+	 * @return HTML code for the button
+	 */
 	function bp_get_group_new_topic_button( $group = false ) {
 		global $groups_template;
 
@@ -1582,7 +1603,7 @@ function bp_group_new_topic_button( $group = false ) {
 		if ( !is_user_logged_in() || bp_group_is_user_banned() || !bp_is_group_forum() || bp_is_group_forum_topic() )
 			return false;
 
-		$button = bp_button( array (
+		$button = array(
 			'id'                => 'new_topic',
 			'component'         => 'groups',
 			'must_be_logged_in' => true,
@@ -1593,7 +1614,7 @@ function bp_group_new_topic_button( $group = false ) {
 			'link_id'           => 'new-topic-button',
 			'link_text'         => __( 'New Topic', 'buddypress' ),
 			'link_title'        => __( 'New Topic', 'buddypress' ),
-		) );
+		);
 
 		// Filter and return the HTML button
 		return bp_get_button( apply_filters( 'bp_get_group_new_topic_button', $button ) );
