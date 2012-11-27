@@ -495,6 +495,9 @@ function bp_template_include_theme_compat( $template = '' ) {
  */
 function bp_replace_the_content( $content = '' ) {
 
+	if ( ! in_the_loop() )
+		return $content;
+
 	$new_content = apply_filters( 'bp_replace_the_content', $content );
 
 	// Juggle the content around and try to prevent unsightly comments
