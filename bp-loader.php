@@ -538,6 +538,8 @@ class BuddyPress {
 	 * @since BuddyPress (1.7)
 	 */
 	public function register_theme_packages() {
+
+		// Register the default theme compatibility package
 		bp_register_theme_package( array(
 			'id'      => 'legacy',
 			'name'    => __( 'BuddyPress Default', 'buddypress' ),
@@ -545,6 +547,11 @@ class BuddyPress {
 			'dir'     => trailingslashit( $this->themes_dir . '/bp-legacy' ),
 			'url'     => trailingslashit( $this->themes_url . '/bp-legacy' )
 		) );
+
+		// Register the basic theme stack. This is really dope.
+		bp_register_template_stack( 'get_stylesheet_directory', 10 );
+		bp_register_template_stack( 'get_template_directory',   12 );
+		bp_register_template_stack( 'bp_get_theme_compat_dir',  14 );
 	}
 
 	/**

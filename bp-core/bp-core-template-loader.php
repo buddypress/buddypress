@@ -61,17 +61,10 @@ function bp_get_template_part( $slug, $name = null ) {
 function bp_locate_template( $template_names, $load = false, $require_once = true ) {
 
 	// No file found yet
-	$located        = false;
-	$child_theme    = get_stylesheet_directory();
-	$parent_theme   = get_template_directory();
-	$fallback_theme = bp_get_theme_compat_dir();
-
-	// Allow templates to be filtered
-	// BuddyPress core automatically adds bp_add_template_locations()
-	$template_names = apply_filters( 'bp_locate_template', $template_names );
+	$located            = false;
+	$template_locations = bp_get_template_stack();
 
 	// Try to find a template file
-	// Check the parent and child theme directories first
 	foreach ( (array) $template_names as $template_name ) {
 
 		// Continue if template is empty
@@ -79,34 +72,103 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 			continue;
 
 		// Trim off any slashes from the template name
-		$template_name = ltrim( $template_name, '/' );
+		$template_name  = ltrim( $template_name, '/' );
 
-		// Check child theme first
-		if ( file_exists( trailingslashit( $child_theme ) . $template_name ) ) {
-			$located = trailingslashit( $child_theme ) . $template_name;
-			break;
+		// Loop through template stack
+		foreach ( (array) $template_locations as $template_location ) {
 
-		// Check parent theme next
-		} elseif ( file_exists( trailingslashit( $parent_theme ) . $template_name ) ) {
-			$located = trailingslashit( $parent_theme ) . $template_name;
-			break;
-		}
-	}
+			// Continue if $template_location is empty
+			if ( empty( $template_location ) )
+				continue;
 
-	// Check theme compatibility last if no template is found in the current theme
-	if ( empty( $located ) ) {
-		foreach ( (array) $template_names as $template_name ) {
-			if ( file_exists( trailingslashit( $fallback_theme ) . $template_name ) ) {
-				$located = trailingslashit( $fallback_theme ) . $template_name;
-				break;
+			// Check child theme first
+			if ( file_exists( trailingslashit( $template_location ) . $template_name ) ) {
+				$located = trailingslashit( $template_location ) . $template_name;
+				break 2;
 			}
 		}
 	}
 
+	// Maybe load the template if one was located
 	if ( ( true == $load ) && !empty( $located ) )
 		load_template( $located, $require_once );
 
 	return $located;
+}
+
+/**
+ * This is really cool. This function registers a new template stack location,
+ * using WordPress's built in filters API.
+ *
+ * This allows for templates to live in places beyond just the parent/child
+ * relationship, to allow for custom template locations. Used in conjunction
+ * with bp_locate_template(), this allows for easy template overrides.
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param string $location Callback function that returns the 
+ * @param int $priority
+ */
+function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
+
+	// Bail if no location, or function does not exist
+	if ( empty( $location_callback ) || ! function_exists( $location_callback ) )
+		return false;
+
+	// Add location callback to template stack
+	add_filter( 'bp_template_stack', $location_callback, (int) $priority );
+}
+
+/**
+ * Call the functions added to the 'bp_template_stack' filter hook, and return
+ * an array of the template locations.
+ *
+ * @see bp_register_template_stack()
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @global array $wp_filter Stores all of the filters
+ * @global array $merged_filters Merges the filter hooks using this function.
+ * @global array $wp_current_filter stores the list of current filters with the current one last
+ *
+ * @return array The filtered value after all hooked functions are applied to it.
+ */
+function bp_get_template_stack() {
+	global $wp_filter, $merged_filters, $wp_current_filter;
+
+	// Setup some default variables
+	$tag  = 'bp_template_stack';
+	$args = $stack = array();
+
+	// Add 'bp_template_stack' to the current filter array
+	$wp_current_filter[] = $tag;
+
+	// Sort
+	if ( ! isset( $merged_filters[ $tag ] ) ) {
+		ksort( $wp_filter[$tag] );
+		$merged_filters[ $tag ] = true;
+	}
+
+	// Ensure we're always at the beginning of the filter array
+	reset( $wp_filter[ $tag ] );
+
+	// Loop through 'bp_template_stack' filters, and call callback functions
+	do {
+		foreach( (array) current( $wp_filter[$tag] ) as $the_ ) {
+			if ( ! is_null( $the_['function'] ) ) {
+				$args[1] = $stack;
+				$stack[] = call_user_func_array( $the_['function'], array_slice( $args, 1, (int) $the_['accepted_args'] ) );
+			}
+		}
+	} while ( next( $wp_filter[$tag] ) !== false );
+
+	// Remove 'bp_template_stack' from the current filter array
+	array_pop( $wp_current_filter );
+
+	// Remove empties and duplicates
+	$stack = array_unique( array_filter( $stack ) );
+
+	return (array) apply_filters( 'bp_get_template_stack', $stack ) ;
 }
 
 /**
