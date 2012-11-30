@@ -31,6 +31,11 @@ function messages_notification_new_message( $args = array() ) {
 
 			// User data and links
 			$ud            = get_userdata( $recipient->user_id );
+
+			// Bail if user cannot be found
+			if ( empty( $ud ) )
+				continue;
+
 			$message_link  = bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() .'/';
 			$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
 			$settings_link = bp_core_get_user_domain( $recipient->user_id ) . $settings_slug . '/notifications/';
