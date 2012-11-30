@@ -86,6 +86,29 @@ function messages_screen_compose() {
 	bp_core_load_template( apply_filters( 'messages_template_compose', 'members/single/home' ) );
 }
 
+function messages_screen_conversation() {
+
+	// Bail if not viewing a single message
+	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) )
+		return false;
+
+	$thread_id = (int) bp_action_variable( 0 );
+
+	if ( empty( $thread_id ) || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access( $thread_id ) && !bp_current_user_can( 'bp_moderate' ) ) )
+		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
+
+	// Load up BuddyPress one time
+	$bp = buddypress();
+
+	// Decrease the unread count in the nav before it's rendered
+	$bp->bp_nav[$bp->messages->slug]['name'] = sprintf( __( 'Messages <span>%s</span>', 'buddypress' ), bp_get_total_unread_messages_count() );
+
+	do_action( 'messages_screen_conversation' );
+
+	bp_core_load_template( apply_filters( 'messages_template_view_message', 'members/single/home' ) );
+}
+add_action( 'bp_screens', 'messages_screen_conversation' );
+
 function messages_screen_notices() {
 	global $notice_id;
 
