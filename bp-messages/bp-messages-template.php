@@ -326,12 +326,6 @@ function bp_message_thread_avatar() {
 		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $messages_template->thread->last_sender_id ) ) ) ) );
 	}
 
-function bp_message_thread_view() {
-	global $thread_id;
-
-	messages_view_thread($thread_id);
-}
-
 function bp_total_unread_messages_count() {
 	echo bp_get_total_unread_messages_count();
 }

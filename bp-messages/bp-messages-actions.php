@@ -15,7 +15,6 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function messages_action_conversation() {
-	global $thread_id;
 
 	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) )
 		return false;
@@ -49,7 +48,6 @@ function messages_action_conversation() {
 add_action( 'bp_actions', 'messages_action_conversation' );
 
 function messages_action_delete_message() {
-	global $thread_id;
 
 	if ( !bp_is_messages_component() || bp_is_current_action( 'notices' ) || !bp_is_action_variable( 'delete', 0 ) )
 		return false;
@@ -74,7 +72,6 @@ function messages_action_delete_message() {
 add_action( 'bp_actions', 'messages_action_delete_message' );
 
 function messages_action_bulk_delete() {
-	global $thread_ids;
 
 	if ( !bp_is_messages_component() || !bp_is_action_variable( 'bulk-delete', 0 ) )
 		return false;
@@ -84,13 +81,15 @@ function messages_action_bulk_delete() {
 	if ( !$thread_ids || !messages_check_thread_access( $thread_ids ) ) {
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ) );
 	} else {
-		if ( !check_admin_referer( 'messages_delete_thread' ) )
+		if ( !check_admin_referer( 'messages_delete_thread' ) ) {
 			return false;
+		}
 
-		if ( !messages_delete_thread( $thread_ids ) )
+		if ( !messages_delete_thread( $thread_ids ) ) {
 			bp_core_add_message( __('There was an error deleting messages.', 'buddypress'), 'error' );
-		else
+		} else {
 			bp_core_add_message( __('Messages deleted.', 'buddypress') );
+		}
 
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ) );
 	}
