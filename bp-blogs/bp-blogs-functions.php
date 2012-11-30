@@ -48,21 +48,23 @@ function bp_blogs_record_existing_blogs() {
 	// Truncate user blogs table and re-record.
 	$wpdb->query( "TRUNCATE TABLE {$bp->blogs->table_name}" );
 
-	if ( is_multisite() )
-		$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = '{$wpdb->siteid}'" ) );
-	else
+	if ( is_multisite() ) {
+		$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d" ), $wpdb->siteid );
+	} else {
 		$blog_ids = 1;
+	}
 
-	if ( $blog_ids ) {
+	if ( !empty( $blog_ids ) ) {
 		foreach( (array) $blog_ids as $blog_id ) {
-			$users 		= get_users( array( 'blog_id' => $blog_id ) );
-			$subscribers 	= get_users( array( 'blog_id' => $blog_id, 'role' => 'subscriber' ) );
+			$users       = get_users( array( 'blog_id' => $blog_id ) );
+			$subscribers = get_users( array( 'blog_id' => $blog_id, 'role' => 'subscriber' ) );
 
 			if ( !empty( $users ) ) {
 				foreach ( (array) $users as $user ) {
 					// Don't record blogs for subscribers
-					if ( !in_array( $user, $subscribers ) )
+					if ( !in_array( $user, $subscribers ) ) {
 						bp_blogs_record_blog( $blog_id, $user->ID, true );
+					}
 				}
 			}
 		}
@@ -608,7 +610,7 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 			wp_cache_set( 'bp_blogs_blogmeta_' . $blog_id . '_' . $meta_key, $metas, 'bp' );
 		}
 	} else {
-		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d", $blog_id) );
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->blogs->table_name_blogmeta} WHERE blog_id = %d", $blog_id ) );
 	}
 
 	if ( empty($metas) ) {
