@@ -895,7 +895,12 @@ function bp_the_thread_message_sender_name() {
 	function bp_get_the_thread_message_sender_name() {
 		global $thread_template;
 
-		return apply_filters( 'bp_get_the_thread_message_sender_name', bp_core_get_user_displayname( $thread_template->message->sender_id ) );
+		$display_name = bp_core_get_user_displayname( $thread_template->message->sender_id );
+
+		if ( empty( $display_name ) )
+			$display_name = __( 'Deleted User', 'buddypress' );
+
+		return apply_filters( 'bp_get_the_thread_message_sender_name', $display_name );
 	}
 
 function bp_the_thread_delete_link() {

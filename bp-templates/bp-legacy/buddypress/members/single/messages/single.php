@@ -35,7 +35,18 @@
 					<?php do_action( 'bp_before_message_meta' ); ?>
 
 					<?php bp_the_thread_message_sender_avatar( 'type=thumb&width=30&height=30' ); ?>
-					<strong><a href="<?php bp_the_thread_message_sender_link(); ?>" title="<?php bp_the_thread_message_sender_name(); ?>"><?php bp_the_thread_message_sender_name(); ?></a> <span class="activity"><?php bp_the_thread_message_time_since(); ?></span></strong>
+
+					<?php if ( bp_get_the_thread_message_sender_link() ) : ?>
+
+						<strong><a href="<?php bp_the_thread_message_sender_link(); ?>" title="<?php bp_the_thread_message_sender_name(); ?>"><?php bp_the_thread_message_sender_name(); ?></a></strong>
+
+					<?php else : ?>
+
+						<strong><?php bp_the_thread_message_sender_name(); ?></strong>
+
+					<?php endif; ?>
+
+					<span class="activity"><?php bp_the_thread_message_time_since(); ?></span>
 
 					<?php do_action( 'bp_after_message_meta' ); ?>
 
