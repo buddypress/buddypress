@@ -969,8 +969,20 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 
 	$result = messages_new_message( array( 'thread_id' => $_REQUEST['thread_id'], 'content' => $_REQUEST['content'] ) );
 
-	if ( $result ) { ?>
-		<div class="message-box new-message">
+	if ( !empty( $result ) ) {
+
+		// Get the zebra line classes correct on ajax requests
+		global $thread_template;
+
+		bp_thread_has_messages( array( 'thread_id' => $_REQUEST['thread_id'] ) );
+
+		if ( $thread_template->message_count % 2 == 1 ) {
+			$class = 'odd';
+		} else {
+			$class = 'even alt';
+		} ?>
+
+		<div class="message-box new-message <?php echo $class; ?>">
 			<div class="message-metadata">
 				<?php do_action( 'bp_before_message_meta' ); ?>
 				<?php echo bp_loggedin_user_avatar( 'type=thumb&width=30&height=30' ); ?>
