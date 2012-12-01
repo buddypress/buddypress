@@ -436,7 +436,7 @@ jq(document).ready( function() {
 
 					/* Check for errors and append if found. */
 					if ( response[0] + response[1] == '-1' ) {
-						form.append( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
+						form.append( response.substr( 2, response.length ) ).fadeIn( 200 );
 					} else {
 						form.fadeOut( 200,
 							function() {
@@ -447,7 +447,7 @@ jq(document).ready( function() {
 										form.parent().append('<ul></ul>');
 								}
 
-								form.parent().children('ul').append(response).hide().fadeIn( 200 );
+								form.parent().children('ul').append(response).fadeIn( 200 );
 								form.children('textarea').val('');
 								form.parent().parent().addClass('has-comments');
 							}
@@ -495,7 +495,7 @@ jq(document).ready( function() {
 			{
 				/* Check for errors and append if found. */
 				if ( response[0] + response[1] == '-1' ) {
-					comment_li.prepend( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
+					comment_li.prepend( response.substr( 2, response.length ) ).fadeIn( 200 );
 				} else {
 					var children = jq( 'li#' + comment_li.attr('id') + ' ul' ).children('li');
 					var child_count = 0;
@@ -543,7 +543,7 @@ jq(document).ready( function() {
 			function ( response ) {
 				// Check for errors and append if found.
 				if ( response[0] + response[1] == '-1' ) {
-					comment_li.prepend( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
+					comment_li.prepend( response.substr( 2, response.length ) ).fadeIn( 200 );
 
 				} else {
 					var children = jq( 'li#' + comment_li.attr( 'id' ) + ' ul' ).children( 'li' );
