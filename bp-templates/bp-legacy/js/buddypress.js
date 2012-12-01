@@ -201,10 +201,10 @@ jq(document).ready( function() {
 			function(response) {
 				target.removeClass('loading');
 
-				target.fadeOut( 100, function() {
+				target.fadeOut( 200, function() {
 					jq(this).html(response);
 					jq(this).attr('title', 'fav' == type ? BP_DTheme.remove_fav : BP_DTheme.mark_as_fav);
-					jq(this).fadeIn(100);
+					jq(this).fadeIn(200);
 				});
 
 				if ( 'fav' == type ) {
@@ -415,6 +415,7 @@ jq(document).ready( function() {
 			/* Hide any error messages */
 			jq( '#' + form.attr('id') + ' div.error').hide();
 			target.addClass('loading').prop('disabled', true);
+			content.addClass('loading').prop('disabled', true);
 
 			var ajaxdata = {
 				action: 'new_activity_comment',
@@ -431,37 +432,36 @@ jq(document).ready( function() {
 				ajaxdata['_bp_as_nonce_' + comment_id] = ak_nonce;
 			}
 
-			jq.post( ajaxurl, ajaxdata,
-				function(response)
-				{
-					target.removeClass('loading');
+			jq.post( ajaxurl, ajaxdata, function(response) {
+				target.removeClass('loading');
+				content.removeClass('loading');
 
-					/* Check for errors and append if found. */
-					if ( response[0] + response[1] == '-1' ) {
-						form.append( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
-					} else {
-						form.fadeOut( 200,
-							function() {
-								if ( 0 == form.parent().children('ul').length ) {
-									if ( form.parent().hasClass('activity-comments') )
-										form.parent().prepend('<ul></ul>');
-									else
-										form.parent().append('<ul></ul>');
-								}
-
-								form.parent().children('ul').append(response).hide().fadeIn( 200 );
-								form.children('textarea').val('');
-								form.parent().parent().addClass('has-comments');
+				/* Check for errors and append if found. */
+				if ( response[0] + response[1] == '-1' ) {
+					form.append( response.substr( 2, response.length ) ).fadeIn( 200 );
+				} else {
+					form.fadeOut( 200, function() {
+						if ( 0 == form.parent().children('ul').length ) {
+							if ( form.parent().hasClass('activity-comments') ) {
+								form.parent().prepend('<ul></ul>');
+							} else {
+								form.parent().append('<ul></ul>');
 							}
-							);
-						jq( '#' + form.attr('id') + ' textarea').val('');
+						}
 
-						/* Increase the "Reply (X)" button count */
-						jq('#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
-					}
+						form.parent().children('ul').append(response).fadeIn( 200 );
+						form.children('textarea').val('');
+						form.parent().parent().addClass('has-comments');
+					} );
+					jq( '#' + form.attr('id') + ' textarea').val('');
 
-					jq(target).prop("disabled", false);
-				});
+					/* Increase the "Reply (X)" button count */
+					jq('#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
+				}
+
+				jq(target).prop("disabled", false);
+				jq(content).prop("disabled", false);
+			});
 
 			return false;
 		}
@@ -493,8 +493,7 @@ jq(document).ready( function() {
 				'_wpnonce': nonce,
 				'id': comment_id
 			},
-			function(response)
-			{
+			function(response) {
 				/* Check for errors and append if found. */
 				if ( response[0] + response[1] == '-1' ) {
 					comment_li.prepend( response.substr( 2, response.length ) ).hide().fadeIn( 200 );
