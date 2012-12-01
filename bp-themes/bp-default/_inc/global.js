@@ -429,37 +429,35 @@ jq(document).ready( function() {
 				ajaxdata['_bp_as_nonce_' + comment_id] = ak_nonce;
 			}
 
-			jq.post( ajaxurl, ajaxdata,
-				function(response)
-				{
-					target.removeClass('loading');
+			jq.post( ajaxurl, ajaxdata, function(response) {
+				target.removeClass('loading');
 
-					/* Check for errors and append if found. */
-					if ( response[0] + response[1] == '-1' ) {
-						form.append( response.substr( 2, response.length ) ).fadeIn( 200 );
-					} else {
-						form.fadeOut( 200,
-							function() {
-								if ( 0 == form.parent().children('ul').length ) {
-									if ( form.parent().hasClass('activity-comments') )
-										form.parent().prepend('<ul></ul>');
-									else
-										form.parent().append('<ul></ul>');
-								}
-
-								form.parent().children('ul').append(response).fadeIn( 200 );
-								form.children('textarea').val('');
-								form.parent().parent().addClass('has-comments');
+				/* Check for errors and append if found. */
+				if ( response[0] + response[1] == '-1' ) {
+					form.append( jq( response.substr( 2, response.length ) ).hide().fadeIn( 200 ) );
+				} else {
+					form.fadeOut( 200, function() {
+						if ( 0 == form.parent().children('ul').length ) {
+							if ( form.parent().hasClass('activity-comments') ) {
+								form.parent().prepend('<ul></ul>');
+							} else {
+								form.parent().append('<ul></ul>');
 							}
-							);
-						jq( 'form#' + form.attr('id') + ' textarea').val('');
+						}
 
-						/* Increase the "Reply (X)" button count */
-						jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
-					}
+						form.parent().children('ul').append( jq( response ).hide().fadeIn( 200 ) );
+						form.children('textarea').val('');
+						form.parent().parent().addClass('has-comments');
+					} );
 
-					jq(target).prop("disabled", false);
-				});
+					jq( 'form#' + form.attr('id') + ' textarea').val('');
+
+					/* Increase the "Reply (X)" button count */
+					jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
+				}
+
+				jq(target).prop("disabled", false);
+			});
 
 			return false;
 		}
@@ -495,7 +493,7 @@ jq(document).ready( function() {
 			{
 				/* Check for errors and append if found. */
 				if ( response[0] + response[1] == '-1' ) {
-					comment_li.prepend( response.substr( 2, response.length ) ).fadeIn( 200 );
+					comment_li.prepend( jq( response.substr( 2, response.length ) ).hide().fadeIn( 200 ) );
 				} else {
 					var children = jq( 'li#' + comment_li.attr('id') + ' ul' ).children('li');
 					var child_count = 0;
@@ -543,7 +541,7 @@ jq(document).ready( function() {
 			function ( response ) {
 				// Check for errors and append if found.
 				if ( response[0] + response[1] == '-1' ) {
-					comment_li.prepend( response.substr( 2, response.length ) ).fadeIn( 200 );
+					comment_li.prepend( jq( response.substr( 2, response.length ) ).hide().fadeIn( 200 ) );
 
 				} else {
 					var children = jq( 'li#' + comment_li.attr( 'id' ) + ' ul' ).children( 'li' );
