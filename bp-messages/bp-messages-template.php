@@ -854,10 +854,11 @@ function bp_the_thread_message_alt_class() {
 	function bp_get_the_thread_message_alt_class() {
 		global $thread_template;
 
-		if ( $thread_template->current_message % 2 == 1 )
-			$class = ' alt';
-		else
-			$class = '';
+		if ( $thread_template->current_message % 2 == 1 ) {
+			$class = 'even alt';
+		} else {
+			$class = 'odd';
+		}
 
 		return apply_filters( 'bp_get_the_thread_message_alt_class', $class );
 	}
