@@ -199,9 +199,6 @@ body.activity-permalink #buddypress li.mini .activity-meta {
 #buddypress .activity-list li .activity-inreplyto {
 	color: #888;
 	font-size: 80%;
-	margin-left: 5px;
-	margin-top: 5px;
-	padding-left: 25px;
 }
 #buddypress .activity-list li .activity-inreplyto > p {
 	margin: 0;
@@ -1149,6 +1146,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 
 #buddypress div.item-list-tabs ul {
 	margin: 0;
+	padding: 0;
 }
 #buddypress div.item-list-tabs ul li {
 	float: left;
@@ -1160,7 +1158,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 }
 #buddypress div.item-list-tabs ul li.last {
 	float: right;
-	margin: 7px 10px 0 0;
+	margin: 7px 0 0;
 }
 #buddypress div.item-list-tabs#subnav ul li.last {
 	margin-top: 4px;
