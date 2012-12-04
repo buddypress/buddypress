@@ -95,7 +95,7 @@ function bp_core_filter_comments( $comments, $post_id ) {
 
 	$user_ids = implode( ',', $user_ids );
 
-	if ( !$userdata = $wpdb->get_results( $wpdb->prepare( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) ) )
+	if ( !$userdata = $wpdb->get_results( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) )
 		return $comments;
 
 	foreach( (array) $userdata as $user )

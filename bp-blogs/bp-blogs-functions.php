@@ -49,7 +49,7 @@ function bp_blogs_record_existing_blogs() {
 	$wpdb->query( "TRUNCATE TABLE {$bp->blogs->table_name}" );
 
 	if ( is_multisite() )
-		$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0" ) );
+		$blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0" );
 	else
 		$blog_ids = 1;
 

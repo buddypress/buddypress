@@ -133,12 +133,12 @@ class BP_XProfile_Group {
 		if ( !empty( $profile_group_id ) )
 			$where_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
 		elseif ( $exclude_groups )
-			$where_sql = $wpdb->prepare( "WHERE g.id NOT IN ({$exclude_groups})");
+			$where_sql = "WHERE g.id NOT IN ({$exclude_groups})";
 
 		if ( !empty( $hide_empty_groups ) )
-			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" ) );
+			$groups = $wpdb->get_results( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );
 		else
-			$groups = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" ) );
+			$groups = $wpdb->get_results( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" );
 
 		if ( empty( $fetch_fields ) )
 			return $groups;
@@ -164,13 +164,13 @@ class BP_XProfile_Group {
 		$exclude_fields_cs = implode( ',', $exclude_fields_cs );
 
 		if ( !empty( $exclude_fields_cs ) ) {
-			$exclude_fields_sql = $wpdb->prepare( "AND id NOT IN ({$exclude_fields_cs})" );
+			$exclude_fields_sql = "AND id NOT IN ({$exclude_fields_cs})";
 		} else {
 			$exclude_fields_sql = '';
 		}
 
 		// Fetch the fields
-		$fields = $wpdb->get_results( $wpdb->prepare( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" ) );
+		$fields = $wpdb->get_results( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" );
 
 		if ( empty( $fields ) )
 			return $groups;
@@ -331,7 +331,7 @@ class BP_XProfile_Group {
 	function fetch_default_visibility_levels() {
 		global $wpdb, $bp;
 
-		$levels = $wpdb->get_results( $wpdb->prepare( "SELECT object_id, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND ( meta_key = 'default_visibility' OR meta_key = 'allow_custom_visibility' )" ) );
+		$levels = $wpdb->get_results( "SELECT object_id, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND ( meta_key = 'default_visibility' OR meta_key = 'allow_custom_visibility' )" );
 
 		// Arrange so that the field id is the key and the visibility level the value
 		$default_visibility_levels = array();
@@ -1197,7 +1197,7 @@ class BP_XProfile_ProfileData {
 		global $wpdb, $bp;
 
 		if ( !empty( $exclude_fullname ) )
-			$exclude_sql = $wpdb->prepare( " AND pf.id != 1" );
+			$exclude_sql = " AND pf.id != 1";
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT pf.type, pf.name, pd.value FROM {$bp->profile->table_name_data} pd INNER JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id AND pd.user_id = %d {$exclude_sql} ORDER BY RAND() LIMIT 1", $user_id ) );
 	}
