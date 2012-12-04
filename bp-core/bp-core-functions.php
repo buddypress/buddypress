@@ -80,27 +80,6 @@ function bp_db_version_raw() {
 		return $retval;
 	}
 
-/**
- * Output the BuddyPress maintenance mode
- *
- * @since BuddyPress (1.6)
- * @uses bp_get_maintenance_mode() To get the BuddyPress maintenance mode
- */
-function bp_maintenance_mode() {
-	echo bp_get_maintenance_mode();
-}
-	/**
-	 * Return the BuddyPress maintenance mode
-	 *
-	 * @since BuddyPress (1.6)
-	 * @global BuddyPress $bp
-	 * @return string The BuddyPress maintenance mode
-	 */
-	function bp_get_maintenance_mode() {
-		global $bp;
-		return $bp->maintenance_mode;
-	}
-
 /** Functions *****************************************************************/
 
 /**

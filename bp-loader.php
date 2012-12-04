@@ -278,7 +278,6 @@ class BuddyPress {
 
 		/** Loading ***********************************************************/
 
-		$this->maintenance_mode = '';
 		$this->load_deprecated  = true;
 
 		/** Toolbar ***********************************************************/
@@ -376,72 +375,36 @@ class BuddyPress {
 
 		/** Update/Install ****************************************************/
 
-		// This is a new installation
-		if ( is_admin() ) {
+		// Theme compatability
+		require( $this->plugin_dir . 'bp-core/bp-core-template-loader.php'     );
+		require( $this->plugin_dir . 'bp-core/bp-core-theme-compatibility.php' );
 
-			// New installation
-			if ( empty( $this->db_version_raw ) ) {
-				$this->maintenance_mode = 'install';
+		// Require all of the BuddyPress core libraries
+		require( $this->plugin_dir . 'bp-core/bp-core-dependency.php' );
+		require( $this->plugin_dir . 'bp-core/bp-core-actions.php'    );
+		require( $this->plugin_dir . 'bp-core/bp-core-caps.php'       );
+		require( $this->plugin_dir . 'bp-core/bp-core-cache.php'      );
+		require( $this->plugin_dir . 'bp-core/bp-core-cssjs.php'      );
+		require( $this->plugin_dir . 'bp-core/bp-core-update.php'     );
+		require( $this->plugin_dir . 'bp-core/bp-core-options.php'    );
+		require( $this->plugin_dir . 'bp-core/bp-core-classes.php'    );
+		require( $this->plugin_dir . 'bp-core/bp-core-filters.php'    );
+		require( $this->plugin_dir . 'bp-core/bp-core-avatars.php'    );
+		require( $this->plugin_dir . 'bp-core/bp-core-widgets.php'    );
+		require( $this->plugin_dir . 'bp-core/bp-core-template.php'   );
+		require( $this->plugin_dir . 'bp-core/bp-core-adminbar.php'   );
+		require( $this->plugin_dir . 'bp-core/bp-core-buddybar.php'   );
+		require( $this->plugin_dir . 'bp-core/bp-core-catchuri.php'   );
+		require( $this->plugin_dir . 'bp-core/bp-core-component.php'  );
+		require( $this->plugin_dir . 'bp-core/bp-core-functions.php'  );
+		require( $this->plugin_dir . 'bp-core/bp-core-moderation.php' );
+		require( $this->plugin_dir . 'bp-core/bp-core-loader.php'     );
 
-			// Update
-			} elseif ( (int) $this->db_version_raw < (int) $this->db_version ) {
-				$this->maintenance_mode = 'update';
-			}
-
-			// The installation process requires a few BuddyPress core libraries
-			if ( !empty( $this->maintenance_mode ) ) {
-				require( $this->plugin_dir . 'bp-core/bp-core-admin.php'     );
-				require( $this->plugin_dir . 'bp-core/bp-core-functions.php' );
-				require( $this->plugin_dir . 'bp-core/bp-core-template.php'  );
-				require( $this->plugin_dir . 'bp-core/bp-core-update.php'    );
-				require( $this->plugin_dir . 'bp-core/bp-core-caps.php'      );
-				require( $this->plugin_dir . 'bp-core/bp-core-options.php'   );
-
-				/**
-				 * Textdomain is usually loaded via the bp_core_loaded action, but
-				 * that action isn't available when BP is in maintenance mode.
-				 */
-				add_action( 'plugins_loaded', 'bp_core_load_buddypress_textdomain', 9 );
-
-				// Load up BuddyPress's admin
-				add_action( 'plugins_loaded', 'bp_admin' );
-			}
-		}
-
-		// Not in maintenance mode
-		if ( empty( $this->maintenance_mode ) ) {
-
-			// Theme compatability
-			require( $this->plugin_dir . 'bp-core/bp-core-template-loader.php'     );
-			require( $this->plugin_dir . 'bp-core/bp-core-theme-compatibility.php' );
-
-			// Require all of the BuddyPress core libraries
-			require( $this->plugin_dir . 'bp-core/bp-core-dependency.php' );
-			require( $this->plugin_dir . 'bp-core/bp-core-actions.php'    );
-			require( $this->plugin_dir . 'bp-core/bp-core-caps.php'       );
-			require( $this->plugin_dir . 'bp-core/bp-core-cache.php'      );
-			require( $this->plugin_dir . 'bp-core/bp-core-cssjs.php'      );
-			require( $this->plugin_dir . 'bp-core/bp-core-update.php'     );
-			require( $this->plugin_dir . 'bp-core/bp-core-options.php'    );
-			require( $this->plugin_dir . 'bp-core/bp-core-classes.php'    );
-			require( $this->plugin_dir . 'bp-core/bp-core-filters.php'    );
-			require( $this->plugin_dir . 'bp-core/bp-core-avatars.php'    );
-			require( $this->plugin_dir . 'bp-core/bp-core-widgets.php'    );
-			require( $this->plugin_dir . 'bp-core/bp-core-template.php'   );
-			require( $this->plugin_dir . 'bp-core/bp-core-adminbar.php'   );
-			require( $this->plugin_dir . 'bp-core/bp-core-buddybar.php'   );
-			require( $this->plugin_dir . 'bp-core/bp-core-catchuri.php'   );
-			require( $this->plugin_dir . 'bp-core/bp-core-component.php'  );
-			require( $this->plugin_dir . 'bp-core/bp-core-functions.php'  );
-			require( $this->plugin_dir . 'bp-core/bp-core-moderation.php' );
-			require( $this->plugin_dir . 'bp-core/bp-core-loader.php'     );
-
-			// Skip or load deprecated content
-			if ( false !== $this->load_deprecated ) {
-				require( $this->plugin_dir . 'bp-core/deprecated/1.5.php' );
-				require( $this->plugin_dir . 'bp-core/deprecated/1.6.php' );
-				require( $this->plugin_dir . 'bp-core/deprecated/1.7.php' );
-			}
+		// Skip or load deprecated content
+		if ( false !== $this->load_deprecated ) {
+			require( $this->plugin_dir . 'bp-core/deprecated/1.5.php' );
+			require( $this->plugin_dir . 'bp-core/deprecated/1.6.php' );
+			require( $this->plugin_dir . 'bp-core/deprecated/1.7.php' );
 		}
 	}
 

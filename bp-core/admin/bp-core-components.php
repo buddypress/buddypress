@@ -43,9 +43,6 @@ function bp_core_admin_components_settings() {
 /**
  * Creates reusable markup for component setup on the Components and Pages dashboard panel.
  *
- * This markup has been abstracted so that it can be used both during the setup wizard as well as
- * when BP has been fully installed.
- *
  * @package BuddyPress
  * @since BuddyPress (1.6)
  * @todo Use settings API
@@ -58,8 +55,27 @@ function bp_core_admin_components_options() {
 
 	// Declare local variables
 	$deactivated_components = array();
-	$required_components    = array();
 	$active_components      = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
+
+	// The default components (if none are previously selected)
+	$default_components = array(
+		'xprofile' => array(
+			'title'       => __( 'Extended Profiles', 'buddypress' ),
+			'description' => __( 'Customize your community with fully editable profile fields that allow your users to describe themselves.', 'buddypress' )
+		)
+	);
+
+	// Required components
+	$required_components = array(
+		'core' => array(
+			'title'       => __( 'BuddyPress Core', 'buddypress' ),
+			'description' => __( 'It&#8216;s what makes <del>time travel</del> BuddyPress possible!', 'buddypress' )
+		),
+		'members' => array(
+			'title'       => __( 'Community Members', 'buddypress' ),
+			'description' => __( 'Everything in a BuddyPress community revolves around its members.', 'buddypress' )
+		),
+	);
 
 	// Optional core components
 	$optional_components = array(
@@ -102,18 +118,6 @@ function bp_core_admin_components_options() {
 		$optional_components['blogs']['description'] = __( 'Record activity for new sites, posts, and comments across your network.', 'buddypress' );
 	}
 
-	// Required components
-	$required_components = array(
-		'core' => array(
-			'title'       => __( 'BuddyPress Core', 'buddypress' ),
-			'description' => __( 'It&#8216;s what makes <del>time travel</del> BuddyPress possible!', 'buddypress' )
-		),
-		'members' => array(
-			'title'       => __( 'Community Members', 'buddypress' ),
-			'description' => __( 'Everything in a BuddyPress community revolves around its members.', 'buddypress' )
-		),
-	);
-
 	// Merge optional and required together
 	$all_components = $optional_components + $required_components;
 
@@ -138,9 +142,9 @@ function bp_core_admin_components_options() {
 		}
 	}
 
-	// On new install, set all components to be active by default
-	if ( empty( $active_components ) && ( bp_get_maintenance_mode() == 'install' ) ) {
-		$active_components = $optional_components;
+	// On new install, set active components to default
+	if ( empty( $active_components ) ) {
+		$active_components = $default_components;
 	}
 
 	// Core component is always active
@@ -171,9 +175,7 @@ function bp_core_admin_components_options() {
 		case 'mustuse' :
 			$current_components = $required_components;
 			break;
-	}
-	
-	if ( ! bp_get_maintenance_mode() ) : ?>
+	} ?>
 
 	<ul class="subsubsub">
 		<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'all'      ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'all'      ) : ?>class="current"<?php endif; ?>><?php printf( _nx( 'All <span class="count">(%s)</span>',      'All <span class="count">(%s)</span>',      $all_count,         'plugins', 'buddypress' ), number_format_i18n( $all_count                    ) ); ?></a> | </li>
@@ -181,8 +183,6 @@ function bp_core_admin_components_options() {
 		<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'inactive' ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'inactive' ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', count( $inactive_components ), 'buddypress' ), number_format_i18n( count( $inactive_components ) ) ); ?></a> | </li>
 		<li><a href="<?php echo add_query_arg( array( 'page' => 'bp-components', 'action' => 'mustuse'  ), bp_get_admin_url( $page ) ); ?>" <?php if ( $action === 'mustuse'  ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', count( $required_components ), 'buddypress' ), number_format_i18n( count( $required_components ) ) ); ?></a></li>
 	</ul>
-
-	<?php endif; ?>
 
 	<table class="widefat fixed plugins" cellspacing="0">
 		<thead>
@@ -290,4 +290,4 @@ function bp_core_admin_components_settings_handler() {
 		wp_redirect( $base_url );
 	}
 }
-add_action( 'admin_init', 'bp_core_admin_components_settings_handler' );
+add_action( 'bp_admin_init', 'bp_core_admin_components_settings_handler' );

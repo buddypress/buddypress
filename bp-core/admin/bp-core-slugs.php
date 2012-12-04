@@ -43,9 +43,6 @@ function bp_core_admin_slugs_settings() {
 /**
  * Creates reusable markup for page setup on the Components and Pages dashboard panel.
  *
- * This markup has been abstracted so that it can be used both during the setup wizard as well as
- * when BP has been fully installed.
- *
  * @package BuddyPress
  * @since BuddyPress (1.6)
  * @todo Use settings API
@@ -223,4 +220,4 @@ function bp_core_admin_slugs_setup_handler() {
 		wp_redirect( $base_url );
 	}
 }
-add_action( 'admin_init', 'bp_core_admin_slugs_setup_handler' );
+add_action( 'bp_admin_init', 'bp_core_admin_slugs_setup_handler' );

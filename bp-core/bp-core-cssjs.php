@@ -3,9 +3,8 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function bp_core_confirmation_js() {
-	global $wpdb;
 
-	if ( is_multisite() && $wpdb->blogid != bp_get_root_blog_id() )
+	if ( is_multisite() && ! bp_is_root_blog() )
 		return false;
 
 	if ( !wp_script_is( 'jquery' ) )
@@ -18,7 +17,8 @@ function bp_core_confirmation_js() {
 
 <?php
 }
-add_action( 'wp_head', 'bp_core_confirmation_js', 100 );
+add_action( 'wp_head',    'bp_core_confirmation_js', 100 );
+add_action( 'admin_head', 'bp_core_confirmation_js', 100 );
 
 /**
  * bp_core_add_jquery_cropper()

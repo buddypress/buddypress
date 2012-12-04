@@ -22,16 +22,6 @@ div#icon-buddypress-groups {
 /* Menu Icons
 ------------------------------------------------------------------------------*/
 
-/* Wizard */
-ul#adminmenu li.toplevel_page_bp-wizard .wp-menu-image {
-	background-image: url('../images/menu.png') !important;
-	background-position: -178px -34px;
-}
-ul#adminmenu li.toplevel_page_bp-wizard:hover .wp-menu-image,
-ul#adminmenu li.toplevel_page_bp-wizard.wp-has-current-submenu .wp-menu-image {
-	background-position: -178px -2px;
-}
-
 /* Backpat */
 ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
 ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image {
@@ -178,3 +168,27 @@ table.bp-group-members .urole-column {
     display: table-cell;
     vertical-align: top;
 }
+
+/* Version Badge */
+
+.bp-badge {
+	padding-top: 142px;
+	height: 50px;
+	width: 173px;
+	color: #fafafa;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+	margin: 0 -5px;
+	background: #f00 no-repeat;
+}
+
+.about-wrap .bp-badge {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+	body.rtl .about-wrap .bp-badge {
+		right: auto;
+		left: 0;
+	}
