@@ -540,8 +540,9 @@ function bp_member_name() {
 		return apply_filters( 'bp_get_member_name', $members_template->member->fullname );
 	}
 	add_filter( 'bp_get_member_name', 'wp_filter_kses' );
-	add_filter( 'bp_get_member_name', 'stripslashes' );
-	add_filter( 'bp_get_member_name', 'strip_tags' );
+	add_filter( 'bp_get_member_name', 'stripslashes'   );
+	add_filter( 'bp_get_member_name', 'strip_tags'     );
+	add_filter( 'bp_get_member_name', 'esc_html'       );
 
 function bp_member_last_active() {
 	echo bp_get_member_last_active();
