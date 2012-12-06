@@ -3,7 +3,7 @@ Contributors: johnjamesjacoby, DJPaul, boonebgorges
 Tags: buddypress, social networking, activity, profiles, messaging, friends, groups, forums, microblogging, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.4
 Tested up to: 3.4.1
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 BuddyPress is available in more than 20 languages. For more information, check out the <a href="http://codex.buddypress.org/getting-started/translations/">translation page</a> on the BuddyPress Codex.
 
 == Upgrade Notice ==
+
+= 1.6.2 =
+Compatibility with WordPress 3.5
 
 = 1.6.1 =
 Fixes 4 bugs
