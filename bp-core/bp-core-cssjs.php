@@ -54,8 +54,7 @@ function bp_core_add_cropper_inline_js() {
 		$aspect_ratio = $full_width / $full_height;
 
 	$width  = $image[0] / 2;
-	$height = $image[1] / 2;
-?>
+	$height = $image[1] / 2; ?>
 
 	<script type="text/javascript">
 		jQuery(window).load( function(){
@@ -80,11 +79,15 @@ function bp_core_add_cropper_inline_js() {
 			if ( parseInt(coords.w) > 0 ) {
 				var rx = <?php echo $full_width; ?> / coords.w;
 				var ry = <?php echo $full_height; ?> / coords.h;
+				<?php if ( $image ) : ?>
+				var w  = <?php echo $image[0]; ?>;
+				var h  = <?php echo $image[1]; ?>;
+				<?php endif; ?>
 
 				jQuery('#avatar-crop-preview').css({
 				<?php if ( $image ) : ?>
-					width: Math.round(rx * <?php echo $image[0]; ?>) + 'px',
-					height: Math.round(ry * <?php echo $image[1]; ?>) + 'px',
+					width: Math.round(rx * w) + 'px',
+					height: Math.round(ry * h) + 'px',
 				<?php endif; ?>
 					marginLeft: '-' + Math.round(rx * coords.x) + 'px',
 					marginTop: '-' + Math.round(ry * coords.y) + 'px'
@@ -104,12 +107,11 @@ function bp_core_add_cropper_inline_js() {
  * @package BuddyPress Core
  */
 function bp_core_add_cropper_inline_css() {
-	global $bp;
 ?>
 
 	<style type="text/css">
 		.jcrop-holder { float: left; margin: 0 20px 20px 0; text-align: left; }
-		.jcrop-vline, .jcrop-hline { font-size: 0; position: absolute; background: white top left repeat url( <?php echo BP_PLUGIN_URL ?>/bp-core/images/Jcrop.gif ); }
+		.jcrop-vline, .jcrop-hline { font-size: 0; position: absolute; background: white top left repeat url('<?php echo BP_PLUGIN_URL ?>/bp-core/images/Jcrop.gif'); }
 		.jcrop-vline { height: 100%; width: 1px !important; }
 		.jcrop-hline { width: 100%; height: 1px !important; }
 		.jcrop-handle { font-size: 1px; width: 7px !important; height: 7px !important; border: 1px #eee solid; background-color: #333; *width: 9px; *height: 9px; }
