@@ -758,10 +758,10 @@ class BP_Groups_Group {
 
 		$ids = array();
 
-		$ids['all']     = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name}" ) );
-		$ids['public']  = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'public'" ) );
-		$ids['private'] = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'private'" ) );
-		$ids['hidden']  = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'hidden'" ) );
+		$ids['all']     = $wpdb->get_col( "SELECT id FROM {$bp->groups->table_name}" );
+		$ids['public']  = $wpdb->get_col( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'public'" );
+		$ids['private'] = $wpdb->get_col( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'private'" );
+		$ids['hidden']  = $wpdb->get_col( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'hidden'"  );
 
 		return $ids;
 	}
