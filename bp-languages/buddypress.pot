@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-12-10 06:36:33+00:00\n"
+"POT-Creation-Date: 2012-12-10 07:36:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1425,143 +1425,159 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:380 bp-core/bp-core-admin.php:465
+#: bp-core/bp-core-admin.php:383 bp-core/bp-core-admin.php:471
 msgid "Welcome to BuddyPress %s"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:381 bp-core/bp-core-admin.php:466
+#: bp-core/bp-core-admin.php:384 bp-core/bp-core-admin.php:472
 msgid "Thank you for updating to the latest version! BuddyPress %s is ready to make your community a safer, faster, and better looking place to hang out!"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:382 bp-core/bp-core-admin.php:467
+#: bp-core/bp-core-admin.php:385 bp-core/bp-core-admin.php:473
 msgid "Version %s"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:386 bp-core/bp-core-admin.php:471
+#: bp-core/bp-core-admin.php:389 bp-core/bp-core-admin.php:477
 msgid "What&#8217;s New"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:388 bp-core/bp-core-admin.php:473
+#: bp-core/bp-core-admin.php:391 bp-core/bp-core-admin.php:479
 msgid "Credits"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:393
+#: bp-core/bp-core-admin.php:396
 msgid "Some neat thing"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:396
+#: bp-core/bp-core-admin.php:399
 msgid "Whoa"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:397
+#: bp-core/bp-core-admin.php:400
 msgid "Nice!"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:399
+#: bp-core/bp-core-admin.php:402
 msgid "Wow"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:400
+#: bp-core/bp-core-admin.php:403
 msgid "Amazing!"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:405
+#: bp-core/bp-core-admin.php:408
 msgid "Another neat thing"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:408
+#: bp-core/bp-core-admin.php:411
 msgid "No way"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:409
+#: bp-core/bp-core-admin.php:412
 msgid "Yes way."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:414
+#: bp-core/bp-core-admin.php:417
 msgid "Under the Hood"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:418
+#: bp-core/bp-core-admin.php:421
 msgid "One"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:419
+#: bp-core/bp-core-admin.php:422
 msgid "Uh huh."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:421
+#: bp-core/bp-core-admin.php:424
 msgid "Two"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:422
+#: bp-core/bp-core-admin.php:425
 msgid "Yeah."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:426
+#: bp-core/bp-core-admin.php:429
 msgid "Three"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:427
+#: bp-core/bp-core-admin.php:430
 msgid "I hear ya."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:429
+#: bp-core/bp-core-admin.php:432
 msgid "Four"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:430
+#: bp-core/bp-core-admin.php:433
 msgid "Tell me more."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:434
+#: bp-core/bp-core-admin.php:437
 msgid "Five"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:435
+#: bp-core/bp-core-admin.php:438
 msgid "Well, shucks."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:437
+#: bp-core/bp-core-admin.php:440
 msgid "Six"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:438
+#: bp-core/bp-core-admin.php:441
 msgid " Whoopie!"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:444 bp-core/bp-core-admin.php:579
+#: bp-core/bp-core-admin.php:447 bp-core/bp-core-admin.php:580
 msgid "Go to Community Settings"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:477
+#: bp-core/bp-core-admin.php:483
 msgid "BuddyPress is created by a worldwide network of friendly folks."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:479
+#: bp-core/bp-core-admin.php:485
 msgid "Project Leaders"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:484
+#: bp-core/bp-core-admin.php:490
 msgid "Founding Developer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:489
+#: bp-core/bp-core-admin.php:495
 msgid "Project Lead"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:494 bp-core/bp-core-admin.php:499
+#: bp-core/bp-core-admin.php:500 bp-core/bp-core-admin.php:505
 msgid "Lead Developer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:503
+#: bp-core/bp-core-admin.php:509
 msgid "Contributing Developers"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:522
+#: bp-core/bp-core-admin.php:514
+msgid "Quality Officer"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:519
+msgid "Mark-up Officer"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:524
+msgid "Support Officer"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:528
 msgid "Codex Rockstars"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:541
+#: bp-core/bp-core-admin.php:533
+msgid "Mobile Officer"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:542
 msgid "Core Contributors to BuddyPress 1.7"
 msgstr ""
 
@@ -1743,80 +1759,80 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:370
+#: bp-core/bp-core-functions.php:360
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:371
+#: bp-core/bp-core-functions.php:361
 msgid "right now"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:372
+#: bp-core/bp-core-functions.php:362
 msgid "%s ago"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:376
+#: bp-core/bp-core-functions.php:366
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:376
+#: bp-core/bp-core-functions.php:366
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:377
+#: bp-core/bp-core-functions.php:367
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:377
+#: bp-core/bp-core-functions.php:367
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:378
+#: bp-core/bp-core-functions.php:368
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:378
+#: bp-core/bp-core-functions.php:368
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:379
+#: bp-core/bp-core-functions.php:369
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:379
+#: bp-core/bp-core-functions.php:369
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:380
+#: bp-core/bp-core-functions.php:370
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:380
+#: bp-core/bp-core-functions.php:370
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:381
+#: bp-core/bp-core-functions.php:371
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:381
+#: bp-core/bp-core-functions.php:371
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:382
+#: bp-core/bp-core-functions.php:372
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:382
+#: bp-core/bp-core-functions.php:372
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:441
+#: bp-core/bp-core-functions.php:431
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:509
+#: bp-core/bp-core-functions.php:499
 msgid "Not recently active"
 msgstr ""
 
