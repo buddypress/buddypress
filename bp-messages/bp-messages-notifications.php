@@ -47,8 +47,7 @@ function messages_notification_new_message( $args = array() ) {
 
 			// Set up and send the message
 			$email_to      = $ud->user_email;
-			$sitename      = bp_get_option( 'blogname', 'WordPress' );
-			$email_subject = '[' . $sitename . '] ' . sprintf( __( 'New message from %s', 'buddypress' ), $sender_name );
+			$email_subject = bp_get_email_subject( array( 'text' => sprintf( __( 'New message from %s', 'buddypress' ), $sender_name ) ) );
 
 			$email_content = sprintf( __(
 '%1$s sent you a new message:

@@ -255,7 +255,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	$from_name       = bp_get_option( 'blogname', 'WordPress' );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 	$message         = sprintf( __( "Thanks for registering! To complete the activation of your account and blog, please click the following link:\n\n%1\$s\n\n\n\nAfter you activate, you can visit your blog here:\n\n%2\$s", 'buddypress' ), $activate_url, esc_url( "http://{$domain}{$path}" ) );
-	$subject         = '[' . $from_name . '] ' . sprintf(__( 'Activate %s', 'buddypress' ), esc_url( 'http://' . $domain . $path ) );
+	$subject         = bp_get_email_subject( array( 'text' => sprintf( __( 'Activate %s', 'buddypress' ), 'http://' . $domain . $path ) ) );
 
 	// Send the message
 	$to              = apply_filters( 'bp_core_activation_signup_blog_notification_to',   $user_email, $domain, $path, $title, $user, $user_email, $key, $meta );
@@ -283,7 +283,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	$from_name       = bp_get_option( 'blogname', 'WordPress' );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 	$message         = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%1\$s\n\n", 'buddypress' ), $activate_url );
-	$subject         = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
+	$subject         = bp_get_email_subject( array( 'text' => __( 'Activate Your Account', 'buddypress' ) ) );
 
 	// Send the message
 	$to      = apply_filters( 'bp_core_activation_signup_user_notification_to',   $user_email, $user, $user_email, $key, $meta );

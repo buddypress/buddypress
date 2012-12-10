@@ -539,6 +539,31 @@ function bp_registration_needs_activation() {
 }
 
 /**
+ * Retrieve a client friendly version of the root blog name, plus take care of
+ * the typical formatting bits and bobs.
+ *
+ * The blogname option is escaped with esc_html on the way into the database in
+ * sanitize_option, we want to reverse this for the plain text arena of emails.
+ *
+ * @link http://buddypress.trac.wordpress.org/ticket/4401
+ * @since BuddyPress (1.7)
+ * @return string
+ */
+function bp_get_email_subject( $args = array() ) {
+
+	$r = wp_parse_args( $args, array(
+		'before'  => '[',
+		'after'   => ']',
+		'default' => __( 'Community', 'buddypress' ),
+		'text'    => ''
+	) );
+
+	$subject = $r['before'] . wp_specialchars_decode( bp_get_option( 'blogname', $default ), ENT_QUOTES ) . $r['after'] . ' ' . $r['text'];
+
+	return apply_filters( 'bp_get_email_subject', $subject, $r );
+}
+
+/**
  * Allow templates to pass parameters directly into the template loops via AJAX
  *
  * For the most part this will be filtered in a theme's functions.php for example

@@ -28,10 +28,8 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 
 	// Set up and send the message
 	$to       = $ud->user_email;
-	$sitename = bp_get_option( 'blogname', 'WordPress' );
-	$subject  = '[' . $sitename . '] ' . sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name );
-
-	$message = sprintf( __(
+	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name ) ) );
+	$message  = sprintf( __(
 '%1$s wants to add you as a friend.
 
 To view all of your pending friendship requests: %2$s
@@ -67,10 +65,8 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 
 	// Set up and send the message
 	$to       = $ud->user_email;
-	$sitename = bp_get_option( 'blogname', 'WordPress' );
-	$subject  = '[' . $sitename . '] ' . sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name );
-
-	$message = sprintf( __(
+	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name ) ) );
+	$message  = sprintf( __(
 '%1$s accepted your friend request.
 
 To view %2$s\'s profile: %3$s

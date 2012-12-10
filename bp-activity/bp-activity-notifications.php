@@ -70,8 +70,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 		// Set up and send the message
 		$ud       = bp_core_get_core_userdata( $receiver_user_id );
 		$to       = $ud->user_email;
-		$sitename = bp_get_option( 'blogname', 'WordPress' );
-		$subject  = '[' . $sitename . '] ' . sprintf( __( '%s mentioned you in an update', 'buddypress' ), $poster_name );
+		$subject  = bp_get_email_subject( array( 'text' => sprintf( __( '%s mentioned you in an update', 'buddypress' ), $poster_name ) ) );
 
 		if ( bp_is_active( 'groups' ) && bp_is_group() ) {
 			$message = sprintf( __(
@@ -157,12 +156,10 @@ function bp_activity_new_comment_notification( $comment_id, $commenter_id, $para
 		$content = bp_activity_filter_kses( stripslashes($content) );
 
 		// Set up and send the message
-		$ud       = bp_core_get_core_userdata( $original_activity->user_id );
-		$to       = $ud->user_email;
-		$sitename = bp_get_option( 'blogname', 'WordPress' );
-		$subject = '[' . $sitename . '] ' . sprintf( __( '%s replied to one of your updates', 'buddypress' ), $poster_name );
-
-$message = sprintf( __(
+		$ud      = bp_core_get_core_userdata( $original_activity->user_id );
+		$to      = $ud->user_email;
+		$subject = bp_get_email_subject( array( 'text' => sprintf( __( '%s replied to one of your updates', 'buddypress' ), $poster_name ) ) );
+		$message = sprintf( __(
 '%1$s replied to one of your updates:
 
 "%2$s"
@@ -202,8 +199,7 @@ To view your original update and all comments, log in and visit: %3$s
 		// Set up and send the message
 		$ud       = bp_core_get_core_userdata( $parent_comment->user_id );
 		$to       = $ud->user_email;
-		$sitename = bp_get_option( 'blogname', 'WordPress' );
-		$subject = '[' . $sitename . '] ' . sprintf( __( '%s replied to one of your comments', 'buddypress' ), $poster_name );
+		$subject = bp_get_email_subject( array( 'text' => sprintf( __( '%s replied to one of your comments', 'buddypress' ), $poster_name ) ) );
 
 		$poster_name = stripslashes( $poster_name );
 		$content = bp_activity_filter_kses( stripslashes( $content ) );
