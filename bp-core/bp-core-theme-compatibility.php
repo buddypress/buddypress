@@ -475,7 +475,14 @@ function bp_template_include_theme_compat( $template = '' ) {
 		bp_remove_all_filters( 'the_content' );
 
 		// Add a filter on the_content late, which we will later remove
-		add_filter( 'the_content', 'bp_replace_the_content' );
+		if ( ! has_filter( 'the_content', 'bp_replace_the_content' ) ) {
+			add_filter( 'the_content', 'bp_replace_the_content' );
+		}
+
+		// Add BuddyPress's head action to wp_head
+		if ( ! has_action( 'wp_head', 'bp_head' ) ) {
+			add_action( 'wp_head', 'bp_head' );
+		}
 
 		// Find the appropriate template file
 		$template = bp_get_theme_compat_templates();

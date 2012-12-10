@@ -317,10 +317,11 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 		return '';
 
 	// Set up the cookies passed on this AJAX request. Store a local var to avoid conflicts
-	if ( ! empty( $_POST['cookie'] ) )
+	if ( ! empty( $_POST['cookie'] ) ) {
 		$_BP_COOKIE = wp_parse_args( str_replace( '; ', '&', urldecode( $_POST['cookie'] ) ) );
-	else
+	} else {
 		$_BP_COOKIE = &$_COOKIE;
+	}
 
 	$qs = array();
 

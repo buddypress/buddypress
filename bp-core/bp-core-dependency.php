@@ -109,6 +109,13 @@ function bp_widgets_init() {
 	do_action ( 'bp_widgets_init' );
 }
 
+/**
+ * BuddyPress head scripts
+ */
+function bp_head() {
+	do_action ( 'bp_head' );
+}
+
 /** Theme Permissions *********************************************************/
 
 /**
