@@ -16,7 +16,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function groups_notification_group_updated( $group_id ) {
 
 	$group    = groups_get_group( array( 'group_id' => $group_id ) );
-	$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
+	$sitename = bp_get_option( 'blogname', 'WordPress' );
 	$subject  = '[' . $sitename . '] ' . __( 'Group Details Updated', 'buddypress' );
 
 	$user_ids = BP_Groups_Member::get_group_member_ids( $group->id );
@@ -73,7 +73,7 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 
 	// Set up and send the message
 	$to       = $ud->user_email;
-	$sitename = wp_specialchars_decode( bp_get_option( 'blogname' ), ENT_QUOTES );
+	$sitename = bp_get_option( 'blogname', 'WordPress' );
 	$subject  = '[' . $sitename . '] ' . sprintf( __( 'Membership request for group: %s', 'buddypress' ), $group->name );
 
 $message = sprintf( __(
@@ -122,7 +122,7 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 
 	// Set up and send the message
 	$to       = $ud->user_email;
-	$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
+	$sitename = bp_get_option( 'blogname', 'WordPress' );
 
 	if ( $accepted ) {
 		$subject = '[' . $sitename . '] ' . sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), $group->name );
@@ -181,7 +181,7 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 
 	// Set up and send the message
 	$to       = $ud->user_email;
-	$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
+	$sitename = bp_get_option( 'blogname', 'WordPress' );
 	$subject  = '[' . $sitename . '] ' . sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), $group->name );
 
 	$message = sprintf( __(
@@ -231,7 +231,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 		// Set up and send the message
 		$to       = $invited_ud->user_email;
-		$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
+		$sitename = bp_get_option( 'blogname', 'WordPress' );
 		$subject  = '[' . $sitename . '] ' . sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), $group->name );
 
 		$message = sprintf( __(

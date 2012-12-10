@@ -104,11 +104,11 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  * Sets the "From" name in emails sent to the name of the site and not "WordPress"
  *
  * @package BuddyPress Core
- * @uses get_blog_option() fetches the value for a meta_key in the wp_X_options table
+ * @uses bp_get_option() fetches the value for a meta_key in the wp_X_options table
  * @return The blog name for the root blog
  */
 function bp_core_email_from_name_filter() {
- 	return apply_filters( 'bp_core_email_from_name_filter', wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES ) );
+ 	return apply_filters( 'bp_core_email_from_name_filter', bp_get_option( 'blogname', 'WordPress' ) );
 }
 add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
 
@@ -252,7 +252,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	if ( empty( $admin_email ) )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 
-	$from_name       = get_site_option( 'site_name', 'WordPress' );
+	$from_name       = bp_get_option( 'blogname', 'WordPress' );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 	$message         = sprintf( __( "Thanks for registering! To complete the activation of your account and blog, please click the following link:\n\n%1\$s\n\n\n\nAfter you activate, you can visit your blog here:\n\n%2\$s", 'buddypress' ), $activate_url, esc_url( "http://{$domain}{$path}" ) );
 	$subject         = '[' . $from_name . '] ' . sprintf(__( 'Activate %s', 'buddypress' ), esc_url( 'http://' . $domain . $path ) );
@@ -280,7 +280,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	if ( empty( $admin_email ) )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 
-	$from_name       = get_site_option( 'site_name', 'WordPress' );
+	$from_name       = bp_get_option( 'blogname', 'WordPress' );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 	$message         = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%1\$s\n\n", 'buddypress' ), $activate_url );
 	$subject         = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );

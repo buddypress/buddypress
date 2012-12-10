@@ -349,7 +349,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			// Set up and send the message
 			$ud = bp_core_get_core_userdata( $receiver_user_id );
 			$to = $ud->user_email;
-			$sitename = wp_specialchars_decode( get_blog_option( bp_get_root_blog_id(), 'blogname' ), ENT_QUOTES );
+			$sitename = bp_get_option( 'blogname', 'WordPress' );
 			$subject  = '[' . $sitename . '] ' . sprintf( __( '%1$s mentioned you in the group "%2$s"', 'buddypress' ), $poster_name, $group->name );
 
 $message = sprintf( __(
