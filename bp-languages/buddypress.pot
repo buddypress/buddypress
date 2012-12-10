@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-12-10 08:36:33+00:00\n"
+"POT-Creation-Date: 2012-12-10 09:36:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -94,7 +94,11 @@ msgid "ERROR: The item you are trying to reply to cannot be found, or it has bee
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:184 bp-activity/bp-activity-admin.php:231
-#: bp-groups/bp-groups-admin.php:97 bp-groups/bp-groups-admin.php:144
+#: bp-core/admin/bp-core-functions.php:261
+#: bp-core/admin/bp-core-functions.php:279
+#: bp-core/admin/bp-core-functions.php:298
+#: bp-core/admin/bp-core-functions.php:317 bp-groups/bp-groups-admin.php:97
+#: bp-groups/bp-groups-admin.php:144
 msgid "Overview"
 msgstr ""
 
@@ -131,7 +135,11 @@ msgid "For information about when and how BuddyPress uses all of these settings,
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:203 bp-activity/bp-activity-admin.php:248
-#: bp-groups/bp-groups-admin.php:115 bp-groups/bp-groups-admin.php:161
+#: bp-core/admin/bp-core-functions.php:267
+#: bp-core/admin/bp-core-functions.php:285
+#: bp-core/admin/bp-core-functions.php:304
+#: bp-core/admin/bp-core-functions.php:323 bp-groups/bp-groups-admin.php:115
+#: bp-groups/bp-groups-admin.php:161
 msgid "For more information:"
 msgstr ""
 
@@ -140,7 +148,11 @@ msgid "<a href=\"http://codex.buddypress.org/buddypress-site-administration/mana
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:205 bp-activity/bp-activity-admin.php:249
-#: bp-groups/bp-groups-admin.php:117 bp-groups/bp-groups-admin.php:162
+#: bp-core/admin/bp-core-functions.php:269
+#: bp-core/admin/bp-core-functions.php:287
+#: bp-core/admin/bp-core-functions.php:306
+#: bp-core/admin/bp-core-functions.php:325 bp-groups/bp-groups-admin.php:117
+#: bp-groups/bp-groups-admin.php:162
 msgid "<a href=\"http://buddypress.org/support/\">Support Forums</a>"
 msgstr ""
 
@@ -582,7 +594,7 @@ msgstr ""
 msgid "%s mentioned you in an update"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:77 bp-core/deprecated/1.5.php:337
+#: bp-activity/bp-activity-notifications.php:77 bp-core/deprecated/1.5.php:355
 msgid ""
 "%1$s mentioned you in the group \"%2$s\":\n"
 "\n"
@@ -606,7 +618,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-notifications.php:98
 #: bp-activity/bp-activity-notifications.php:175
-#: bp-activity/bp-activity-notifications.php:221 bp-core/deprecated/1.5.php:347
+#: bp-activity/bp-activity-notifications.php:221 bp-core/deprecated/1.5.php:365
 #: bp-friends/bp-friends-notifications.php:44
 #: bp-friends/bp-friends-notifications.php:81
 #: bp-groups/bp-groups-notifications.php:43
@@ -734,10 +746,12 @@ msgstr ""
 
 #: bp-activity/bp-activity-template.php:2174
 #: bp-core/admin/bp-core-slugs.php:109 bp-core/admin/bp-core-slugs.php:172
+#: bp-core/bp-core-loader.php:225 bp-members/bp-members-loader.php:172
 #: bp-members/bp-members-template.php:624
 #: bp-templates/bp-legacy/buddypress-functions.php:256
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-themes/bp-default/functions.php:165
+#: bp-xprofile/bp-xprofile-loader.php:166
 #: bp-xprofile/bp-xprofile-loader.php:228
 msgid "View"
 msgstr ""
@@ -1044,7 +1058,7 @@ msgstr ""
 msgid "%s's Recent Comments"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:803 bp-core/deprecated/1.5.php:397
+#: bp-blogs/bp-blogs-template.php:803 bp-core/deprecated/1.5.php:418
 #: bp-forums/bp-forums-template.php:1321 bp-groups/bp-groups-template.php:2408
 #: bp-members/bp-members-template.php:709
 #: bp-messages/bp-messages-template.php:367 bp-themes/bp-default/header.php:30
@@ -1241,14 +1255,46 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-schema.php:247
-msgctxt "First XProfile group name"
-msgid "Base"
+#: bp-core/admin/bp-core-functions.php:268
+msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-components\">Managing Components</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-schema.php:251
-msgctxt "XProfile fullname field name"
-msgid "Name"
+#: bp-core/admin/bp-core-functions.php:286
+msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-pages\">Managing Pages</a>"
+msgstr ""
+
+#: bp-core/admin/bp-core-functions.php:305
+msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-settings\">Managing Settings</a>"
+msgstr ""
+
+#: bp-core/admin/bp-core-functions.php:324
+msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#users-profile-fields\">Managing Profile Fields</a>"
+msgstr ""
+
+#: bp-core/admin/bp-core-functions.php:342
+msgid "By default, all BuddyPress components are enabled. You can selectively disable any of the components by using the form. Your BuddyPress installation will continue to function. However, the features of the disabled components will no longer be accessible to anyone using the site."
+msgstr ""
+
+#: bp-core/admin/bp-core-functions.php:346
+msgid "BuddyPress Components use WordPress Pages for their root directory/archive pages. Here you can change the page associations for each active component."
+msgstr ""
+
+#: bp-core/admin/bp-core-functions.php:350
+msgid "Extra configuration settings."
+msgstr ""
+
+#: bp-core/admin/bp-core-functions.php:354
+msgid "Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.</br></br>Note: Any fields in the first group will appear on the signup page."
+msgstr ""
+
+#: bp-core/admin/bp-core-schema.php:244
+msgctxt "First field-group name"
+msgid "General"
+msgstr ""
+
+#: bp-core/admin/bp-core-schema.php:248
+msgctxt "Display name field"
+msgid "Display Name"
 msgstr ""
 
 #: bp-core/admin/bp-core-settings.php:31
@@ -1327,12 +1373,12 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: bp-core/admin/bp-core-slugs.php:134 bp-core/deprecated/1.7.php:162
+#: bp-core/admin/bp-core-slugs.php:134 bp-core/deprecated/1.7.php:180
 #: bp-members/bp-members-adminbar.php:60
 msgid "Register"
 msgstr ""
 
-#: bp-core/admin/bp-core-slugs.php:135 bp-core/deprecated/1.7.php:157
+#: bp-core/admin/bp-core-slugs.php:135 bp-core/deprecated/1.7.php:175
 #: bp-messages/bp-messages-template.php:558
 #: bp-templates/bp-legacy/buddypress/members/activate.php:29
 #: bp-themes/bp-default/registration/activate.php:36
@@ -1353,7 +1399,7 @@ msgid "Welcome to BuddyPress"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:173 bp-core/bp-core-admin.php:174
-#: bp-core/bp-core-admin.php:194 bp-members/bp-members-functions.php:1342
+#: bp-core/bp-core-admin.php:194
 msgid "BuddyPress"
 msgstr ""
 
@@ -1655,7 +1701,7 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:540 bp-core/deprecated/1.5.php:287
+#: bp-core/bp-core-buddybar.php:540 bp-core/deprecated/1.5.php:307
 #: bp-members/bp-members-template.php:773 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
@@ -1850,12 +1896,6 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:225 bp-groups/bp-groups-admin.php:651
-#: bp-groups/bp-groups-admin.php:1269 bp-groups/bp-groups-template.php:625
-#: bp-members/bp-members-loader.php:172 bp-xprofile/bp-xprofile-loader.php:166
-msgid "Public"
-msgstr ""
-
 #: bp-core/bp-core-template.php:65
 msgid "Options"
 msgstr ""
@@ -1911,7 +1951,7 @@ msgid "(BuddyPress) Members"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:44 bp-core/bp-core-widgets.php:130
-#: bp-core/deprecated/1.6.php:99 bp-core/deprecated/1.6.php:122
+#: bp-core/deprecated/1.6.php:129 bp-core/deprecated/1.6.php:152
 #: bp-groups/bp-groups-widgets.php:57 bp-groups/bp-groups-widgets.php:138
 #: bp-templates/bp-legacy/buddypress/blogs/index.php:39
 #: bp-templates/bp-legacy/buddypress/members/single/blogs.php:22
@@ -1995,7 +2035,7 @@ msgstr ""
 msgid "There were no members found, please try another filter."
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:135
+#: bp-core/deprecated/1.5.php:142
 #: bp-templates/bp-legacy/buddypress/activity/post-form.php:39
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:45
@@ -2004,67 +2044,67 @@ msgstr ""
 msgid "My Profile"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:142
+#: bp-core/deprecated/1.5.php:149
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:15
 #: bp-themes/bp-default/functions.php:641
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:151
+#: bp-core/deprecated/1.5.php:158
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:24
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:24
 msgid "About Me"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:160
+#: bp-core/deprecated/1.5.php:167
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:33
 #: bp-themes/bp-default/functions.php:645
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:169
+#: bp-core/deprecated/1.5.php:176
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:42
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:42
 msgid "Jabber"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:178
+#: bp-core/deprecated/1.5.php:185
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:51
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:51
 msgid "AOL Messenger"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:187
+#: bp-core/deprecated/1.5.php:194
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:60
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:60
 msgid "Yahoo Messenger"
 msgstr ""
 
-#: bp-core/deprecated/1.5.php:335
+#: bp-core/deprecated/1.5.php:353
 msgid "%1$s mentioned you in the group \"%2$s\""
 msgstr ""
 
-#: bp-core/deprecated/1.6.php:98 bp-core/deprecated/1.6.php:119
+#: bp-core/deprecated/1.6.php:128 bp-core/deprecated/1.6.php:149
 #: bp-groups/bp-groups-template.php:2423 bp-groups/bp-groups-template.php:2445
 msgid "Recently Active"
 msgstr ""
 
-#: bp-core/deprecated/1.6.php:100 bp-core/deprecated/1.6.php:125
+#: bp-core/deprecated/1.6.php:130 bp-core/deprecated/1.6.php:155
 #: bp-groups/bp-groups-template.php:2428 bp-groups/bp-groups-template.php:2460
 msgid "Alphabetically"
 msgstr ""
 
-#: bp-core/deprecated/1.7.php:133
+#: bp-core/deprecated/1.7.php:151
 msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update your permalink structure</a> to something other than the default for it to work."
 msgstr ""
 
-#: bp-core/deprecated/1.7.php:183
+#: bp-core/deprecated/1.7.php:201
 msgid "The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
-#: bp-core/deprecated/1.7.php:208
+#: bp-core/deprecated/1.7.php:226
 msgid "Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
 msgstr ""
 
@@ -2789,6 +2829,11 @@ msgstr ""
 
 #: bp-groups/bp-groups-admin.php:648
 msgid "Privacy"
+msgstr ""
+
+#: bp-groups/bp-groups-admin.php:651 bp-groups/bp-groups-admin.php:1269
+#: bp-groups/bp-groups-template.php:625
+msgid "Public"
 msgstr ""
 
 #: bp-groups/bp-groups-admin.php:652 bp-groups/bp-groups-admin.php:1272
