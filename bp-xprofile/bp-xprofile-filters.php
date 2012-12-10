@@ -20,12 +20,12 @@ add_filter( 'bp_get_the_profile_field_edit_value',      'wp_filter_kses',       
 add_filter( 'bp_get_the_profile_field_description',     'wp_filter_kses',       1 );
 
 add_filter( 'bp_get_the_profile_field_value',           'wptexturize'        );
-add_filter( 'bp_get_the_profile_field_value',           'convert_smilies', 2 );
 add_filter( 'bp_get_the_profile_field_value',           'convert_chars'      );
 add_filter( 'bp_get_the_profile_field_value',           'wpautop'            );
 add_filter( 'bp_get_the_profile_field_value',           'force_balance_tags' );
 add_filter( 'bp_get_the_profile_field_value',           'make_clickable'     );
 add_filter( 'bp_get_the_profile_field_value',           'esc_html',        8 );
+add_filter( 'bp_get_the_profile_field_value',           'convert_smilies', 9 );
 
 add_filter( 'bp_get_the_profile_field_edit_value',      'force_balance_tags' );
 add_filter( 'bp_get_the_profile_field_edit_value',      'esc_html'           );
