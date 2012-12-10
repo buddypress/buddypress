@@ -19,6 +19,7 @@
  * Version:     1.7-bleeding
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
+ * License:     GPLv2 or later (license.txt)
  */
 
 // Exit if accessed directly
