@@ -143,8 +143,7 @@ function bp_is_deactivation( $basename = '' ) {
  * @uses bp_update_option() To update BuddyPress's database version
  */
 function bp_version_bump() {
-	$db_version = bp_get_db_version();
-	bp_update_option( '_bp_db_version', $db_version );
+	bp_update_option( '_bp_db_version', bp_get_db_version() );
 }
 
 /**

@@ -49,7 +49,6 @@ class BP_Admin {
 	 */
 	public $js_url = '';
 
-
 	/** Methods ***************************************************************/
 
 	/**
@@ -74,12 +73,17 @@ class BP_Admin {
 	 * @access private
 	 */
 	private function setup_globals() {
-		$bp               = buddypress();
+		$bp = buddypress();
+
+		// Paths and URLs
 		$this->admin_dir  = trailingslashit( $bp->plugin_dir  . 'bp-core/admin' ); // Admin path
 		$this->admin_url  = trailingslashit( $bp->plugin_url  . 'bp-core/admin' ); // Admin url
 		$this->images_url = trailingslashit( $this->admin_url . 'images'        ); // Admin images URL
 		$this->css_url    = trailingslashit( $this->admin_url . 'css'           ); // Admin css URL
 		$this->js_url     = trailingslashit( $this->admin_url . 'js'            ); // Admin css URL
+
+		// Main settings page
+		$this->settings_page = bp_core_do_network_admin() ? 'settings.php' : 'options-general.php';
 	}
 
 	/**
@@ -163,7 +167,6 @@ class BP_Admin {
 		);
 
 		$hooks = array();
-		$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 
 		// Changed in BP 1.6 . See bp_core_admin_backpat_menu()
 		$hooks[] = add_menu_page(
@@ -186,7 +189,7 @@ class BP_Admin {
 
 		// Add the option pages
 		$hooks[] = add_submenu_page(
-			$page,
+			$this->settings_page,
 			__( 'BuddyPress Components', 'buddypress' ),
 			__( 'BuddyPress', 'buddypress' ),
 			'manage_options',
@@ -195,7 +198,7 @@ class BP_Admin {
 		);
 
 		$hooks[] = add_submenu_page(
-			$page,
+			$this->settings_page,
 			__( 'BuddyPress Pages', 'buddypress' ),
 			__( 'BuddyPress Pages', 'buddypress' ),
 			'manage_options',
@@ -204,7 +207,7 @@ class BP_Admin {
 		);
 
 		$hooks[] = add_submenu_page(
-			$page,
+			$this->settings_page,
 			__( 'BuddyPress Settings', 'buddypress' ),
 			__( 'BuddyPress Settings', 'buddypress' ),
 			'manage_options',
@@ -278,10 +281,10 @@ class BP_Admin {
 
 		/** Forums ************************************************************/
 
-		if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() ) {
+		if ( bp_is_active( 'forums' ) ) {
 
 			// Add the main section
-			add_settings_section( 'bp_forums',        __( 'Forums Settings',       'buddypress' ), 'bp_admin_setting_callback_bbpress_section',       'buddypress'              );
+			add_settings_section( 'bp_forums',        __( 'Legacy Group Forums',       'buddypress' ), 'bp_admin_setting_callback_bbpress_section',       'buddypress'              );
 
 			// Allow subscriptions setting
 			add_settings_field( 'bb-config-location', __( 'bbPress Configuration', 'buddypress' ), 'bp_admin_setting_callback_bbpress_configuration', 'buddypress', 'bp_forums' );
@@ -322,14 +325,10 @@ class BP_Admin {
 		if ( plugin_basename( buddypress()->file ) != $file )
 			return $links;
 
-		$page = 'bp-components';
-		$text = __( 'Settings', 'buddypress' );
-		$url  = bp_core_do_network_admin() ? network_admin_url( 'settings.php' ) : admin_url( 'options-general.php' );
-
 		// Add a few links to the existing links array
 		return array_merge( $links, array(
-			'settings' => '<a href="' . add_query_arg( array( 'page' => $page      ), $url                      ) . '">' . $text                               . '</a>',
-			'about'    => '<a href="' . add_query_arg( array( 'page' => 'bp-about' ), admin_url( 'index.php'  ) ) . '">' . esc_html__( 'About', 'buddypress' ) . '</a>'
+			'settings' => '<a href="' . add_query_arg( array( 'page' => 'bp-components' ), bp_get_admin_url( $this->settings_page ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
+			'about'    => '<a href="' . add_query_arg( array( 'page' => 'bp-about'      ), bp_get_admin_url( 'index.php'          ) ) . '">' . esc_html__( 'About',    'buddypress' ) . '</a>'
 		) );
 	}
 
@@ -339,12 +338,10 @@ class BP_Admin {
 	 * @since BuddyPress (1.6)
 	 */
 	public function admin_head() {
-		$settings_page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 
 		// Settings pages
-		remove_submenu_page( $settings_page, 'bb-forums-setup'  );
-		remove_submenu_page( $settings_page, 'bp-page-settings' );
-		remove_submenu_page( $settings_page, 'bp-settings'      );
+		remove_submenu_page( $this->settings_page, 'bp-page-settings' );
+		remove_submenu_page( $this->settings_page, 'bp-settings'      );
 
 		// About and Credits pages
 		remove_submenu_page( 'index.php', 'bp-about'   );
@@ -373,9 +370,6 @@ class BP_Admin {
 	 * @since BuddyPress (1.7)
 	 */
 	public function about_screen() {
-
-		// Switch page to use for settings
-		$settings_page = bp_is_network_activated() ? 'settings.php' : 'options-general.php';
 
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
@@ -461,9 +455,6 @@ class BP_Admin {
 	 * @since BuddyPress (1.7)
 	 */
 	public function credits_screen() {
-
-		// Switch page to use for settings
-		$settings_page = bp_is_network_activated() ? 'settings.php' : 'options-general.php';
 
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
@@ -577,7 +568,7 @@ class BP_Admin {
 			</p>
 
 			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $settings_page ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
+				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
 			</div>
 
 		</div>

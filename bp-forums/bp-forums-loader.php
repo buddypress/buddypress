@@ -34,10 +34,9 @@ class BP_Forums_Component extends BP_Component {
 	 * backwards compatibility.
 	 *
 	 * @since BuddyPress (1.5)
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_globals() {
-		global $bp;
+		$bp = buddypress();
 
 		// Define the parent forum ID
 		if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
@@ -79,10 +78,6 @@ class BP_Forums_Component extends BP_Component {
 			'functions',
 		);
 
-		// Admin area
-		if ( is_admin() )
-			$includes[] = 'admin';
-
 		// bbPress stand-alone
 		if ( !defined( 'BB_PATH' ) )
 			$includes[] = 'bbpress-sa';
@@ -92,11 +87,8 @@ class BP_Forums_Component extends BP_Component {
 
 	/**
 	 * Setup BuddyBar navigation
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_nav() {
-		global $bp;
 
 		// Stop if forums haven't been set up yet
 		if ( !bp_forums_is_installed_correctly() )
@@ -150,29 +142,13 @@ class BP_Forums_Component extends BP_Component {
 			'item_css_id'     => 'replies'
 		);
 
-		// Favorite forums items. Disabled until future release.
-		/*
-		$sub_nav[] = array(
-			'name'            => __( 'Favorites', 'buddypress' ),
-			'slug'            => 'favorites',
-			'parent_url'      => $forums_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_member_forums_screen_favorites',
-			'position'        => 60,
-			'item_css_id'     => 'favorites'
-		);
-		*/
-
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
 	/**
 	 * Set up the Toolbar
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_admin_bar() {
-		global $bp;
 
 		// Prevent debug notices
 		$wp_admin_nav = array();
@@ -185,7 +161,7 @@ class BP_Forums_Component extends BP_Component {
 
 			// Add the "My Account" sub menus
 			$wp_admin_nav[] = array(
-				'parent' => $bp->my_account_menu_id,
+				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => __( 'Forums', 'buddypress' ),
 				'href'   => trailingslashit( $forums_link )
@@ -221,11 +197,9 @@ class BP_Forums_Component extends BP_Component {
 
 	/**
 	 * Sets up the title for pages and <title>
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_title() {
-		global $bp;
+		$bp = buddypress();
 
 		// Adjust title based on view
 		if ( bp_is_forums_component() ) {
@@ -246,8 +220,6 @@ class BP_Forums_Component extends BP_Component {
 }
 
 function bp_setup_forums() {
-	global $bp;
-
-	$bp->forums = new BP_Forums_Component();
+	buddypress()->forums = new BP_Forums_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_forums', 6 );

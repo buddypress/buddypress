@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * BuddyPress Forums Deprecated Functions
+ *
+ * This file contains all the deprecated functions for BuddyPress forums since
+ * version 1.7. This was a major update for the forums component, moving from
+ * bbPress 1.x to bbPress 2.x.
+ *
+ * @package BuddyPress
+ * @subpackage Forums
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 

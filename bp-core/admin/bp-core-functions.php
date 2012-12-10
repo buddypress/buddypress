@@ -224,16 +224,8 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 		)
 	);
 
-	// If forums component is active, add additional tab
-	if ( bp_is_active( 'forums' ) ) {
-		$tabs['3'] = array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup'  ), 'admin.php' ) ),
-			'name' => __( 'Forums', 'buddypress' )
-		);
-	}
-
 	// Loop through tabs and build navigation
-	foreach( $tabs as $tab_id => $tab_data ) {
+	foreach( array_values( $tabs ) as $tab_data ) {
 		$is_current = (bool) ( $tab_data['name'] == $active_tab );
 		$tab_class  = $is_current ? $active_class : $idle_class;
 		$tabs_html .= '<a href="' . $tab_data['href'] . '" class="' . $tab_class . '">' . $tab_data['name'] . '</a>';
