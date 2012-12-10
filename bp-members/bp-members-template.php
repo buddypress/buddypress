@@ -673,7 +673,7 @@ function bp_member_registered() {
 	function bp_get_member_registered() {
 		global $members_template;
 
-		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, __( 'registered %s', 'buddypress' ) ) );
+		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, _x( 'registered %s', 'Records the timestamp that the user registered into the activy stream', 'buddypress' ) ) );
 
 		return apply_filters( 'bp_member_last_active', $registered );
 	}
