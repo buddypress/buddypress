@@ -1048,11 +1048,13 @@ function bp_activity_secondary_avatar( $args = '' ) {
 		global $activities_template;
 
 		$defaults = array(
-			'type'   => 'thumb',
-			'width'  => 20,
-			'height' => 20,
-			'class'  => 'avatar',
-			'email'  => false
+			'type'       => 'thumb',
+			'width'      => 20,
+			'height'     => 20,
+			'class'      => 'avatar',
+			'link_class' => '',
+			'linked'     => true,
+			'email'      => false
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -1063,14 +1065,16 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			case 'groups' :
 				$object  = 'group';
 				$item_id = $activities_template->activity->item_id;
+				$link    = bp_get_group_permalink( groups_get_group( array( 'group_id' => $item_id ) ) );
 
 				if ( empty( $alt ) ) {
 					$alt = __( 'Group logo', 'buddypress' );
 
 					if ( bp_is_active( 'groups' ) ) {
 						$group = groups_get_group( $item_id );
-						if ( isset( $group->name ) )
+						if ( isset( $group->name ) ) {
 							$alt = sprintf( __( 'Group logo of %s', 'buddypress' ), $group->name );
+						}
 					}
 				}
 
@@ -1078,8 +1082,9 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			case 'blogs' :
 				$object  = 'blog';
 				$item_id = $activities_template->activity->item_id;
+				$link    = home_url();
 
-				if ( !$alt ) {
+				if ( empty( $alt ) ) {
 					$alt = sprintf( __( 'Profile picture of the author of the site %s', 'buddypress' ), get_blog_option( $item_id, 'blogname' ) );
 				}
 
@@ -1087,6 +1092,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			case 'friends' :
 				$object  = 'user';
 				$item_id = $activities_template->activity->secondary_item_id;
+				$link    = bp_core_get_userlink( $item_id );
 
 				if ( empty( $alt ) ) {
 					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $activities_template->activity->secondary_item_id ) );
@@ -1097,23 +1103,48 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$object  = 'user';
 				$item_id = $activities_template->activity->user_id;
 				$email   = $activities_template->activity->user_email;
+				$link    = bp_core_get_userlink( $item_id );
 
-				if ( !$alt ) {
+				if ( empty( $alt ) ) {
 					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name );
 				}
 
 				break;
 		}
 
-		// Allow object and item_id to be filtered
+		// Allow object, item_id, and link to be filtered
 		$object  = apply_filters( 'bp_get_activity_secondary_avatar_object_' . $activities_template->activity->component, $object );
 		$item_id = apply_filters( 'bp_get_activity_secondary_avatar_item_id', $item_id );
 
 		// If we have no item_id or object, there is no avatar to display
-		if ( empty( $item_id ) || empty( $object ) )
+		if ( empty( $item_id ) || empty( $object ) ) {
 			return false;
+		}
 
-		return apply_filters( 'bp_get_activity_secondary_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
+		// Get the avatar
+		$avatar = bp_core_fetch_avatar( array(
+			'item_id' => $item_id,
+			'object'  => $object,
+			'type'    => $type,
+			'alt'     => $alt,
+			'class'   => $class,
+			'width'   => $width,
+			'height'  => $height,
+			'email'   => $email
+		) );
+
+		if ( !empty( $linked ) ) {
+			$link = apply_filters( 'bp_get_activity_secondary_avatar_link', $link, $activities_template->activity->component );
+
+			return sprintf( '<a href="%s" class="%s">%s</a>',
+				$link,
+				$link_class,
+				apply_filters( 'bp_get_activity_secondary_avatar', $avatar )
+			);
+		}
+
+		// else
+		return apply_filters( 'bp_get_activity_secondary_avatar', $avatar );
 	}
 
 /**

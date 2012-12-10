@@ -87,6 +87,9 @@ class BP_Legacy extends BP_Theme_Compat {
 	 */
 	private function setup_actions() {
 
+		// Template Output
+		add_filter( 'bp_get_activity_action_pre_meta', array( $this, 'secondary_avatars' ), 10, 2 );
+
 		/** Scripts ***********************************************************/
 
 		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles'   ) ); // Enqueue theme CSS
@@ -291,6 +294,32 @@ class BP_Legacy extends BP_Theme_Compat {
 	 */
 	public function localize_scripts() {
 
+	}
+	
+	/**
+	 * Add secondary avatar image to this activity stream's record, if supported.
+	 *
+	 * @since BuddyPress (1.7)
+	 *
+	 * @param string $action The text of this activity
+	 * @param BP_Activity_Activity $activity Activity object
+	 * @package BuddyPress Theme
+	 * @return string
+	 */
+	function secondary_avatars( $action, $activity ) {
+		switch ( $activity->component ) {
+			case 'groups' :
+			case 'friends' :
+				// Only insert avatar if one exists
+				if ( $secondary_avatar = bp_get_activity_secondary_avatar() ) {
+					$reverse_content = strrev( $action );
+					$position        = strpos( $reverse_content, 'a<' );
+					$action          = substr_replace( $action, $secondary_avatar, -$position - 2, 0 );
+				}
+				break;
+		}
+
+		return $action;
 	}
 }
 new BP_Legacy();
