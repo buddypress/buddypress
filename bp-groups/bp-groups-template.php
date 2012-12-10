@@ -372,8 +372,8 @@ function bp_group_is_visible( $group = false ) {
 	return false;
 }
 
-function bp_group_id() {
-	echo bp_get_group_id();
+function bp_group_id( $group = false ) {
+	echo bp_get_group_id( $group );
 }
 	function bp_get_group_id( $group = false ) {
 		global $groups_template;
@@ -433,8 +433,8 @@ function bp_group_class() {
 		return $retval;
 	}
 
-function bp_group_name() {
-	echo bp_get_group_name();
+function bp_group_name( $group = false ) {
+	echo bp_get_group_name( $group );
 }
 	function bp_get_group_name( $group = false ) {
 		global $groups_template;
@@ -445,8 +445,8 @@ function bp_group_name() {
 		return apply_filters( 'bp_get_group_name', $group->name );
 	}
 
-function bp_group_type() {
-	echo bp_get_group_type();
+function bp_group_type( $group = false ) {
+	echo bp_get_group_type( $group );
 }
 	function bp_get_group_type( $group = false ) {
 		global $groups_template;
@@ -467,8 +467,8 @@ function bp_group_type() {
 		return apply_filters( 'bp_get_group_type', $type );
 	}
 
-function bp_group_status() {
-	echo bp_get_group_status();
+function bp_group_status( $group = false ) {
+	echo bp_get_group_status( $group );
 }
 	function bp_get_group_status( $group = false ) {
 		global $groups_template;
@@ -504,22 +504,22 @@ function bp_group_avatar( $args = '' ) {
 		return apply_filters( 'bp_get_group_avatar', $avatar );
 	}
 
-function bp_group_avatar_thumb() {
-	echo bp_get_group_avatar_thumb();
+function bp_group_avatar_thumb( $group = false ) {
+	echo bp_get_group_avatar_thumb( $group );
 }
 	function bp_get_group_avatar_thumb( $group = false ) {
 		return bp_get_group_avatar( 'type=thumb' );
 	}
 
-function bp_group_avatar_mini() {
-	echo bp_get_group_avatar_mini();
+function bp_group_avatar_mini( $group = false ) {
+	echo bp_get_group_avatar_mini( $group );
 }
 	function bp_get_group_avatar_mini( $group = false ) {
 		return bp_get_group_avatar( 'type=thumb&width=30&height=30' );
 	}
 
-function bp_group_last_active() {
-	echo bp_get_group_last_active();
+function bp_group_last_active( $group = false ) {
+	echo bp_get_group_last_active( $group );
 }
 	function bp_get_group_last_active( $group = false ) {
 		global $groups_template;
@@ -539,8 +539,8 @@ function bp_group_last_active() {
 		}
 	}
 
-function bp_group_permalink() {
-	echo bp_get_group_permalink();
+function bp_group_permalink( $group = false ) {
+	echo bp_get_group_permalink( $group );
 }
 	function bp_get_group_permalink( $group = false ) {
 		global $groups_template;
@@ -551,8 +551,8 @@ function bp_group_permalink() {
 		return apply_filters( 'bp_get_group_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . $group->slug . '/' ) );
 	}
 
-function bp_group_admin_permalink() {
-	echo bp_get_group_admin_permalink();
+function bp_group_admin_permalink( $group = false ) {
+	echo bp_get_group_admin_permalink( $group );
 }
 	function bp_get_group_admin_permalink( $group = false ) {
 		global $groups_template;
@@ -563,8 +563,8 @@ function bp_group_admin_permalink() {
 		return apply_filters( 'bp_get_group_admin_permalink', trailingslashit( bp_get_group_permalink( $group ) . 'admin' ) );
 	}
 
-function bp_group_slug() {
-	echo bp_get_group_slug();
+function bp_group_slug( $group = false ) {
+	echo bp_get_group_slug( $group );
 }
 	function bp_get_group_slug( $group = false ) {
 		global $groups_template;
@@ -575,8 +575,8 @@ function bp_group_slug() {
 		return apply_filters( 'bp_get_group_slug', $group->slug );
 	}
 
-function bp_group_description() {
-	echo bp_get_group_description();
+function bp_group_description( $group = false ) {
+	echo bp_get_group_description( $group );
 }
 	function bp_get_group_description( $group = false ) {
 		global $groups_template;
@@ -587,8 +587,8 @@ function bp_group_description() {
 		return apply_filters( 'bp_get_group_description', stripslashes($group->description) );
 	}
 
-function bp_group_description_editable() {
-	echo bp_get_group_description_editable();
+function bp_group_description_editable( $group = false ) {
+	echo bp_get_group_description_editable( $group );
 }
 	function bp_get_group_description_editable( $group = false ) {
 		global $groups_template;
@@ -599,8 +599,8 @@ function bp_group_description_editable() {
 		return apply_filters( 'bp_get_group_description_editable', $group->description );
 	}
 
-function bp_group_description_excerpt() {
-	echo bp_get_group_description_excerpt();
+function bp_group_description_excerpt( $group = false ) {
+	echo bp_get_group_description_excerpt( $group );
 }
 	function bp_get_group_description_excerpt( $group = false ) {
 		global $groups_template;
@@ -612,8 +612,8 @@ function bp_group_description_excerpt() {
 	}
 
 
-function bp_group_public_status() {
-	echo bp_get_group_public_status();
+function bp_group_public_status( $group = false ) {
+	echo bp_get_group_public_status( $group );
 }
 	function bp_get_group_public_status( $group = false ) {
 		global $groups_template;
@@ -628,8 +628,8 @@ function bp_group_public_status() {
 		}
 	}
 
-function bp_group_is_public() {
-	echo bp_get_group_is_public();
+function bp_group_is_public( $group = false ) {
+	echo bp_get_group_is_public( $group );
 }
 	function bp_get_group_is_public( $group = false ) {
 		global $groups_template;
@@ -640,8 +640,8 @@ function bp_group_is_public() {
 		return apply_filters( 'bp_get_group_is_public', $group->is_public );
 	}
 
-function bp_group_date_created() {
-	echo bp_get_group_date_created();
+function bp_group_date_created( $group = false ) {
+	echo bp_get_group_date_created( $group );
 }
 	function bp_get_group_date_created( $group = false ) {
 		global $groups_template;
@@ -651,7 +651,82 @@ function bp_group_date_created() {
 
 		return apply_filters( 'bp_get_group_date_created', bp_core_time_since( strtotime( $group->date_created ) ) );
 	}
+	
+function bp_group_creator_username( $group = false ) {
+	echo bp_get_group_creator_username( $group );
+}
+	function bp_get_group_creator_username( $group = false ) {
+		global $groups_template;
+		
+		if ( empty( $group ) )
+			$group =& $groups_template->group;
+		
+		return apply_filters( 'bp_get_group_creator_username', bp_core_get_user_displayname( $group->creator_id ) );
+	}	
 
+function bp_group_creator_id( $group = false ) {
+	echo bp_get_group_creator_id( $group );
+}
+	function bp_get_group_creator_id( $group = false ) {
+		global $groups_template;
+		
+		if ( empty( $group ) )
+			$group =& $groups_template->group;
+		
+		return apply_filters( 'bp_get_group_creator_id', $group->creator_id );
+	}	
+
+function bp_group_creator_permalink( $group = false ) {
+	echo bp_get_group_creator_permalink( $group );
+}
+	function bp_get_group_creator_permalink( $group = false ) {
+		global $groups_template;
+
+		if ( empty( $group ) )
+			$group =& $groups_template->group;
+
+		return apply_filters( 'bp_get_group_creator_permalink', bp_core_get_user_domain( $group->creator_id ) );
+	}	
+
+function bp_is_group_creator( $group = false, $user_id = 0 ) {
+	global $groups_template;
+	
+	if ( empty( $group ) )
+		$group =& $groups_template->group;
+	
+	if ( empty( $user_id ) )
+		$user_id = bp_loggedin_user_id();
+
+	return (bool) ( $group->creator_id == $user_id );
+}
+
+function bp_group_creator_avatar( $group = false, $args = array() ) {
+	echo bp_get_group_creator_avatar( $group, $args );
+}
+	function bp_get_group_creator_avatar( $group = false, $args = array() ) {
+		global $groups_template;
+
+		if ( empty( $group ) )
+			$group =& $groups_template->group;
+
+		$defaults = array(
+			'type'   => 'full',
+			'width'  => false,
+			'height' => false,
+			'class'  => 'avatar',
+			'id'     => false,
+			'alt'    => sprintf( __( 'Group creator avatar of %s', 'buddypress' ),  bp_core_get_user_displayname( $group->creator_id ) )
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		$avatar = bp_core_fetch_avatar( array( 'item_id' => $group->creator_id, 'type' => $type, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height, 'alt' => $alt ) );
+
+		return apply_filters( 'bp_get_group_creator_avatar', $avatar );
+	}
+
+		
 function bp_group_is_admin() {
 	return bp_is_item_admin();
 }
