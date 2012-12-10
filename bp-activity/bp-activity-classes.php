@@ -499,15 +499,16 @@ class BP_Activity_Activity {
 			}
 
 			// Don't retrieve activity comments marked as spam
-			if ( 'ham_only' == $spam )
+			if ( 'ham_only' == $spam ) {
 				$spam_sql = 'AND a.is_spam = 0';
-			elseif ( 'spam_only' == $spam )
+			} elseif ( 'spam_only' == $spam ) {
 				$spam_sql = 'AND a.is_spam = 1';
-			else
+			} else {
 				$spam_sql = '';
+			}
 
 			// The mptt BETWEEN clause allows us to limit returned descendants to the right part of the tree
-			$sql = apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' ${spam_sql} AND a.item_id = %d AND a.mptt_left BETWEEN %d AND %d ORDER BY a.date_recorded ASC", $top_level_parent_id, $left, $right ), $activity_id, $left, $right, $spam_sql );
+			$sql = apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' {$spam_sql} AND a.item_id = %d AND a.mptt_left > %d AND a.mptt_left < %d ORDER BY a.date_recorded ASC", $top_level_parent_id, $left, $right ), $activity_id, $left, $right, $spam_sql );
 
 			// Retrieve all descendants of the $root node
 			$descendants = $wpdb->get_results( $sql );
