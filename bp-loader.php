@@ -135,6 +135,7 @@ class BuddyPress {
 			self::$instance = new BuddyPress;
 			self::$instance->constants();
 			self::$instance->setup_globals();
+			self::$instance->legacy_constants();
 			self::$instance->includes();
 			self::$instance->setup_actions();
 		}
@@ -190,11 +191,8 @@ class BuddyPress {
 	/** Private Methods *******************************************************/
 
 	/**
-	 * Legacy BuddyPress constants
-	 *
-	 * Try to avoid using these. Their values have been moved into variables
-	 * in the $bp global, and have matching functions to get/set their value.
-	 *
+	 * Bootstrap constants
+	 * 
 	 * @since BuddyPress (1.6)
 	 *
 	 * @uses is_multisite()
@@ -204,14 +202,6 @@ class BuddyPress {
 	 * @uses plugin_dir_url()
 	 */
 	private function constants() {
-
-		// Define the BuddyPress version
-		if ( !defined( 'BP_VERSION' ) )
-			define( 'BP_VERSION', $this->version );
-
-		// Define the database version
-		if ( !defined( 'BP_DB_VERSION' ) )
-			define( 'BP_DB_VERSION', $this->db_version );
 
 		// Place your custom code (actions/filters) in a file called
 		// '/plugins/bp-custom.php' and it will be loaded before anything else.
@@ -355,6 +345,23 @@ class BuddyPress {
 
 		$this->current_user   = new stdClass();
 		$this->displayed_user = new stdClass();
+	}
+
+	/**
+	 * Legacy BuddyPress constants
+	 *
+	 * Try to avoid using these. Their values have been moved into variables
+	 * in the instance, and have matching functions to get/set their values.
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	private function legacy_constants() {
+
+		// Define the BuddyPress version
+		if ( !defined( 'BP_VERSION'    ) ) define( 'BP_VERSION',    $this->version   );
+
+		// Define the database version
+		if ( !defined( 'BP_DB_VERSION' ) ) define( 'BP_DB_VERSION', $this->db_version );
 	}
 
 	/**
