@@ -13,8 +13,18 @@ function bp_core_confirmation_js() {
 	if ( !wp_script_is( 'jquery', 'done' ) )
 		wp_print_scripts( 'jquery' ); ?>
 
-	<script type="text/javascript"> jQuery(document).ready( function() { jQuery("a.confirm").click( function() { if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) ) return true; else return false; }); });</script>
-
+	<script type="text/javascript">
+		jQuery( document ).ready( function() {
+			jQuery( 'body' ).click( function(e) {
+				if ( 'a' == e.target.nodeName.toLowerCase() && jQuery(e.target).hasClass( 'confirm' ) ) {
+					if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) )
+						return true; else return false;
+				} else {
+					return true;
+				}
+			});
+		});
+	</script>
 <?php
 }
 add_action( 'wp_head',    'bp_core_confirmation_js', 100 );
@@ -53,8 +63,8 @@ function bp_core_add_cropper_inline_js() {
 	if ( $full_height && ( $full_width != $full_height ) )
 		$aspect_ratio = $full_width / $full_height;
 
-	$width  = $image[0] / 2;
-	$height = $image[1] / 2;
+		$width  = $image[0] / 2;
+		$height = $image[1] / 2;
 ?>
 
 	<script type="text/javascript">
