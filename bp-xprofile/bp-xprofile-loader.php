@@ -155,7 +155,7 @@ class BP_XProfile_Component extends BP_Component {
 			'slug'                => $this->slug,
 			'position'            => 20,
 			'screen_function'     => 'xprofile_screen_display_profile',
-			'default_subnav_slug' => 'public',
+			'default_subnav_slug' => 'you',
 			'item_css_id'         => $this->id
 		);
 
@@ -163,7 +163,7 @@ class BP_XProfile_Component extends BP_Component {
 
 		// Add the subnav items to the profile
 		$sub_nav[] = array(
-			'name'            => __( 'Public', 'buddypress' ),
+			'name'            => __( 'View', 'buddypress' ),
 			'slug'            => 'public',
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $this->slug,

@@ -222,7 +222,7 @@ class BP_Core extends BP_Component {
 
 			// Add the subnav items to the profile
 			$sub_nav[] = array(
-				'name'            => __( 'Public', 'buddypress' ),
+				'name'            => __( 'View', 'buddypress' ),
 				'slug'            => 'public',
 				'parent_url'      => $profile_link,
 				'parent_slug'     => $bp->core->profile->slug,
