@@ -88,14 +88,14 @@ function bp_core_admin_backpat_page() {
 	$settings_url = add_query_arg( 'page', 'bp-components', $url ); ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress'); ?>
+		<?php screen_icon( 'buddypress' ); ?>
 		<h2><?php _e( 'Why have all my BuddyPress menus disappeared?', 'buddypress' ); ?></h2>
 
 		<p><?php _e( "Don't worry! We've moved the BuddyPress options into more convenient and easier to find locations. You're seeing this page because you are running a legacy BuddyPress plugin which has not been updated.", 'buddypress' ); ?></p>
 		<p><?php printf( __( 'Components, Pages, Settings, and Forums, have been moved to <a href="%s">Settings &gt; BuddyPress</a>. Profile Fields has been moved into the <a href="%s">Users</a> menu.', 'buddypress' ), esc_url( $settings_url ), bp_get_admin_url( 'users.php?page=bp-profile-setup' ) ); ?></p>
 	</div>
 
-<?php
+	<?php
 }
 
 /** Notices *******************************************************************/
@@ -126,13 +126,13 @@ function bp_core_print_admin_notices() {
 
 	// Show the messages
 	if ( !empty( $bp->admin->notices ) ) {
-	?>
+		?>
 		<div id="message" class="updated fade">
-			<?php foreach( $bp->admin->notices as $notice ) : ?>
+		<?php foreach ( $bp->admin->notices as $notice ) : ?>
 				<p><?php echo $notice ?></p>
-			<?php endforeach ?>
+		<?php endforeach ?>
 		</div>
-	<?php
+		<?php
 	}
 }
 add_action( 'admin_notices',         'bp_core_print_admin_notices' );
@@ -179,7 +179,7 @@ function bp_core_add_admin_notice( $notice ) {
 function bp_do_activation_redirect() {
 
 	// Bail if no activation redirect
-    if ( ! get_transient( '_bp_activation_redirect' ) )
+	if ( ! get_transient( '_bp_activation_redirect' ) )
 		return;
 
 	// Delete the redirect transient
@@ -211,7 +211,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	// Setup core admin tabs
 	$tabs = array(
 		'0' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components'    ), 'admin.php' ) ),
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) ),
 			'name' => __( 'Components', 'buddypress' )
 		),
 		'1' => array(
@@ -219,13 +219,13 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 			'name' => __( 'Pages', 'buddypress' )
 		),
 		'2' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings'      ), 'admin.php' ) ),
-			'name' => __( 'Settings',   'buddypress' )
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
+			'name' => __( 'Settings', 'buddypress' )
 		)
 	);
 
 	// Loop through tabs and build navigation
-	foreach( array_values( $tabs ) as $tab_data ) {
+	foreach ( array_values( $tabs ) as $tab_data ) {
 		$is_current = (bool) ( $tab_data['name'] == $active_tab );
 		$tab_class  = $is_current ? $active_class : $idle_class;
 		$tabs_html .= '<a href="' . $tab_data['href'] . '" class="' . $tab_class . '">' . $tab_data['name'] . '</a>';
@@ -236,4 +236,126 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 
 	// Do other fun things
 	do_action( 'bp_admin_tabs' );
+}
+
+/** Help **********************************************************************/
+
+/**
+ * adds contextual help to BuddyPress admin pages
+ *
+ * @since BuddyPress (1.7)
+ * @todo Make this part of the BP_Component class and split into each component
+ */
+function bp_core_add_contextual_help( $screen = '' ) {
+
+	$screen = get_current_screen();
+
+	switch ( $screen->id ) {
+
+		// Compontent page
+		case 'settings_page_bp-components' :
+
+			// help tabs
+			$screen->add_help_tab( array(
+				'id'      => 'bp-comp-overview',
+				'title'   => __( 'Overview' ),
+				'content' => bp_core_add_contextual_help_content( 'bp-comp-overview' ),
+			) );
+
+			// help panel - sidebar links
+			$screen->set_help_sidebar(
+				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . __( '<a href="http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-components">Managing Components</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+			);
+			break;
+
+		// Pages page
+		case 'settings_page_bp-page-settings' :
+
+			// Help tabs
+			$screen->add_help_tab( array(
+				'id' => 'bp-page-overview',
+				'title' => __( 'Overview' ),
+				'content' => bp_core_add_contextual_help_content( 'bp-page-overview' ),
+			) );
+
+			// Help panel - sidebar links
+			$screen->set_help_sidebar(
+				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . __( '<a href="http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-pages">Managing Pages</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+			);
+
+			break;
+
+		// Settings page
+		case 'settings_page_bp-settings' :
+
+			// Help tabs
+			$screen->add_help_tab( array(
+				'id'      => 'bp-settings-overview',
+				'title'   => __( 'Overview' ),
+				'content' => bp_core_add_contextual_help_content( 'bp-settings-overview' ),
+			) );
+
+			// Help panel - sidebar links
+			$screen->set_help_sidebar(
+				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . __( '<a href="http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-settings">Managing Settings</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+			);
+
+			break;
+
+		// Profile fields page
+		case 'users_page_bp-profile-overview' :
+
+			// Help tabs
+			$screen->add_help_tab( array(
+				'id'      => 'bp-profile-overview',
+				'title'   => __( 'Overview' ),
+				'content' => bp_core_add_contextual_help_content( 'bp-profile-overview' ),
+			) );
+
+			// Help panel - sidebar links
+			$screen->set_help_sidebar(
+				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . __( '<a href="http://codex.buddypress.org/getting-started/configure-buddypress-components/#users-profile-fields">Managing Profile Fields</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+			);
+
+			break;
+	}
+}
+add_action( 'contextual_help', 'bp_core_add_contextual_help' );
+
+/**
+ * renders contextual help content to contextual help tabs
+ *
+ * @since BuddyPress (1.7)
+ */
+function bp_core_add_contextual_help_content( $tab = '' ) {
+
+	switch ( $tab ) {
+		case 'bp-comp-overview' :
+			return '<p>' . __( 'By default, all BuddyPress components are enabled. You can selectively disable any of the components by using the form. Your BuddyPress installation will continue to function. However, the features of the disabled components will no longer be accessible to anyone using the site.', 'buddypress' ) . '</p>';
+			break;
+
+		case'bp-page-overview' :
+			return '<p>' . __( 'BuddyPress Components use WordPress Pages for their root directory/archive pages. Here you can change the page associations for each active component.', 'buddypress' ) . '</p>';
+			break;
+
+		case 'bp-settings-overview' :
+			return '<p>' . __( 'Extra configuration settings.', 'buddypress' ) . '</p>';
+			break;
+
+		case 'bp-profile-overview' :
+			return '<p>' . __( 'Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.</br></br>Note: Any fields in the first group will appear on the signup page.', 'buddypress' ) . '</p>';
+			break;
+
+		default:
+			return false;
+			break;
+	}
 }
