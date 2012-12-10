@@ -727,7 +727,7 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 
 	// Loop through active components and look for a match
 	foreach ( array_keys( $bp->active_components ) as $component ) {
-		if ( !empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug == $root_slug ) ) {
+		if ( ( !empty( $bp->{$component}->slug ) && ( $bp->{$component}->slug == $root_slug ) ) || ( !empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug == $root_slug ) ) ) {
 			return $bp->{$component}->name;
 		}
 	}
