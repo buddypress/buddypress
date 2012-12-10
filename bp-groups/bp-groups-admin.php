@@ -56,10 +56,16 @@ function bp_groups_admin_load() {
 	global $bp_groups_list_table;
 
 	// Build redirection URL
-	$redirect_to = remove_query_arg( array( 'action', 'gid', 'deleted', 'error', 'updated', 'success_new', 'error_new', 'success_modified', 'error_modified' ), $_SERVER['REQUEST_URI'] );
+	$redirect_to = remove_query_arg( array( 'action', 'action2', 'gid', 'deleted', 'error', 'updated', 'success_new', 'error_new', 'success_modified', 'error_modified' ), $_SERVER['REQUEST_URI'] );
 
 	// Decide whether to load the dev version of the CSS and JavaScript
 	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : 'min.';
+
+	// Bottom bulk action hack
+	if ( !empty( $_REQUEST['action2'] ) ) {
+		$_REQUEST['action'] = $_REQUEST['action2'];
+		unset( $_REQUEST['action2'] );
+	}
 
 	// Decide whether to load the index or edit screen
 	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
@@ -543,9 +549,7 @@ function bp_groups_admin_delete() {
 		$gids[] = $group->id;
 	}
 
-	$base_url  = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'gid' ), $_SERVER['REQUEST_URI'] );
-
-	?>
+	$base_url  = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'gid' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
 		<?php screen_icon( 'buddypress-groups' ); ?>
@@ -1087,7 +1091,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 		static $row_class = '';
 
 		if ( empty( $row_class ) ) {
-			$row_class = ( $row_class == '' ) ? ' class="alternate"' : '';
+			$row_class = ' class="alternate"';
+		} else {
+			$row_class = '';
 		}
 
 		echo '<tr' . $row_class . ' id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['id'] ) . '">';

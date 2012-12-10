@@ -168,6 +168,12 @@ function bp_activity_admin_load() {
 	// Decide whether to load the dev version of the CSS and JavaScript
 	$min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : 'min.';
 
+	// Bottom bulk action hack
+	if ( !empty( $_REQUEST['action2'] ) ) {
+		$_REQUEST['action'] = $_REQUEST['action2'];
+		unset( $_REQUEST['action2'] );
+	}
+
 	// Decide whether to load the index or edit screen
 	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 
@@ -532,7 +538,6 @@ function bp_activity_admin() {
  * @since BuddyPress (1.6)
  */
 function bp_activity_admin_edit() {
-	global $screen_layout_columns;
 
 	// @todo: Check if user is allowed to edit activity items
 	// if ( ! current_user_can( 'bp_edit_activity' ) )
@@ -563,8 +568,7 @@ function bp_activity_admin_edit() {
 	$form_url = add_query_arg( 'action', 'save', $form_url );
 
 	// Call an action for plugins to modify the activity before we display the edit form
-	do_action_ref_array( 'bp_activity_admin_edit', array( &$activity ) );
-?>
+	do_action_ref_array( 'bp_activity_admin_edit', array( &$activity ) ); ?>
 
 	<div class="wrap">
 		<?php screen_icon( 'buddypress-activity' ); ?>
@@ -730,8 +734,7 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 	unset( $actions['friends_register_activity_action'] );
 
 	// Sort array by the human-readable value
-	natsort( $actions );
-?>
+	natsort( $actions ); ?>
 
 	<select name="bp-activities-type">
 		<?php foreach ( $actions as $k => $v ) : ?>
@@ -787,8 +790,9 @@ function bp_activity_admin_index() {
 
 		// Make sure we don't get any empty values in $errors
 		for ( $i = 0, $errors_count = count( $errors ); $i < $errors_count; $i++ ) {
-			if ( 0 === $errors[$i] )
+			if ( 0 === $errors[$i] ) {
 				unset( $errors[$i] );
+			}
 		}
 
 		// Reindex array
@@ -830,8 +834,7 @@ function bp_activity_admin_index() {
 	$bp_activity_list_table->prepare_items();
 
 	// Call an action for plugins to modify the activity before we display the edit form
-	do_action( 'bp_activity_admin_index', $messages );
-?>
+	do_action( 'bp_activity_admin_index', $messages ); ?>
 
 	<div class="wrap">
 		<?php screen_icon( 'buddypress-activity' ); ?>
@@ -896,6 +899,7 @@ function bp_activity_admin_index() {
  * @since BuddyPress (1.6)
  */
 class BP_Activity_List_Table extends WP_List_Table {
+
 	/**
 	 * What type of view is being displayed? e.g. "All", "Pending", "Approved", "Spam"...
 	 *
@@ -1066,8 +1070,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function display() {
 		extract( $this->_args );
 
-		$this->display_tablenav( 'top' );
-	?>
+		$this->display_tablenav( 'top' ); ?>
 
 		<table class="<?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
 			<thead>
@@ -1099,7 +1102,12 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	function single_row( $item ) {
 		static $row_class = '';
-		$row_class = ( $row_class == '' ? ' class="alternate"' : '' );
+
+		if ( empty( $row_class ) ) {
+			$row_class = ' class="alternate"';
+		} else {
+			$row_class = '';
+		}
 
 		echo '<tr' . $row_class . ' id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['item_id'] ) . '">';
 		echo $this->single_row_columns( $item );
@@ -1288,10 +1296,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 		echo '</div>';
 
 		// Get activity content - if not set, use the action
-		if ( ! empty( $item['content'] ) )
+		if ( ! empty( $item['content'] ) ) {
 			$content = apply_filters_ref_array( 'bp_get_activity_content_body', array( $item['content'] ) );
-		else
+		} else {
 			$content = apply_filters_ref_array( 'bp_get_activity_action', array( $item['action'] ) );
+		}
 
 		echo $content . ' ' . $this->row_actions( $actions );
 	}
