@@ -21,8 +21,7 @@
 			position:  ( 'undefined' !== typeof isRtl && isRtl ) ? { my: 'right top', at: 'right bottom', offset: '0, -1' } : { offset: '0, -1' },
 			open:      function() { $(this).addClass('open'); },
 			close:     function() { $(this).removeClass('open'); $(this).val(''); },
-			select:    function( event, ui ) { add_member_to_list( event, ui ); },
-
+			select:    function( event, ui ) { add_member_to_list( event, ui ); }
 		});
 		
 		/* Replace noscript placeholder */

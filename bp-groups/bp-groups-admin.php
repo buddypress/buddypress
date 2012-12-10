@@ -53,13 +53,13 @@ add_action( bp_core_admin_hook(), 'bp_groups_add_admin_menu' );
  * @since 1.6
  */
 function bp_groups_admin_load() {
-	global $bp, $bp_groups_list_table;
+	global $bp_groups_list_table;
 
 	// Build redirection URL
 	$redirect_to = remove_query_arg( array( 'action', 'gid', 'deleted', 'error', 'updated', 'success_new', 'error_new', 'success_modified', 'error_modified' ), $_SERVER['REQUEST_URI'] );
 
 	// Decide whether to load the dev version of the CSS and JavaScript
-	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : 'min.';
 
 	// Decide whether to load the index or edit screen
 	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
@@ -232,7 +232,7 @@ function bp_groups_admin_load() {
 
 		if ( ! empty( $user_names ) ) {
 
-			foreach( $user_names as $user_key => $user_name ) {
+			foreach( array_values( $user_names ) as $user_name ) {
 				$un = trim( $user_name );
 
 				// Make sure the user exists before attempting
@@ -397,11 +397,9 @@ function bp_groups_admin() {
 /**
  * Display the single groups edit screen
  *
- * @global int $screen_layout_columns Number of columns shown on this admin page
  * @since 1.7
  */
 function bp_groups_admin_edit() {
-	global $screen_layout_columns;
 
 	if ( ! is_super_admin() )
 		die( '-1' );
@@ -458,8 +456,7 @@ function bp_groups_admin_edit() {
 	$form_url = add_query_arg( 'action', 'save', $form_url );
 
 	// Call an action for plugins to modify the group before we display the edit form
-	do_action_ref_array( 'bp_groups_admin_edit', array( &$group ) );
-?>
+	do_action_ref_array( 'bp_groups_admin_edit', array( &$group ) ); ?>
 
 	<div class="wrap">
 		<?php screen_icon( 'buddypress-groups' ); ?>
@@ -890,6 +887,7 @@ add_action( 'wp_ajax_bp_group_admin_member_autocomplete', 'bp_groups_admin_autoc
  * @since 1.6
  */
 class BP_Groups_List_Table extends WP_List_Table {
+
 	/**
 	 * What type of view is being displayed? e.g. "All", "Pending", "Approved", "Spam"...
 	 *
@@ -978,9 +976,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 		// We'll use the ids of group types for the 'include' param
 		$this->group_type_ids = BP_Groups_Group::get_group_type_ids();
 
+		// Pass a dummy array if there are no groups of this type
 		$include = false;
 		if ( 'all' != $this->view && isset( $this->group_type_ids[ $this->view ] ) ) {
-			// Pass a dummy array if there are no groups of this type
 			$include = ! empty( $this->group_type_ids[ $this->view ] ) ? $this->group_type_ids[ $this->view ] : array( 0 );
 		}
 
@@ -1055,8 +1053,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	function display() {
 		extract( $this->_args );
 
-		$this->display_tablenav( 'top' );
-	?>
+		$this->display_tablenav( 'top' ); ?>
 
 		<table class="<?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
 			<thead>
@@ -1088,7 +1085,10 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 */
 	function single_row( $item ) {
 		static $row_class = '';
-		$row_class = ( $row_class == '' ? ' class="alternate"' : '' );
+
+		if ( empty( $row_class ) ) {
+			$row_class = ( $row_class == '' ) ? ' class="alternate"' : '';
+		}
 
 		echo '<tr' . $row_class . ' id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['id'] ) . '">';
 		echo $this->single_row_columns( $item );
@@ -1101,9 +1101,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since 1.7
 	 */
 	function get_views() {
-		$url_base = remove_query_arg( array( 'orderby', 'order', 'group_status' ), $_SERVER['REQUEST_URI'] );
-		//$redirect_to = remove_query_arg( array( 'activity_status', 'aid', 'deleted', 'error', 'spammed', 'unspammed', 'updated', ), $_SERVER['REQUEST_URI'] );
-	?>
+		$url_base = remove_query_arg( array( 'orderby', 'order', 'group_status' ), $_SERVER['REQUEST_URI'] ); ?>
 		<ul class="subsubsub">
 			<li class="all"><a href="<?php echo esc_attr( esc_url( $url_base ) ); ?>" class="<?php if ( 'all' == $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
 			<li class="public"><a href="<?php echo esc_attr( esc_url( add_query_arg( 'group_status', 'public', $url_base ) ) ); ?>" class="<?php if ( 'public' == $this->view ) echo 'current'; ?>"><?php printf( __( 'Public <span class="count">(%s)</span>', 'buddypress' ), number_format_i18n( $this->group_counts['public'] ) ); ?></a> |</li>
