@@ -487,6 +487,7 @@ class BP_Activity_Activity {
 		}
 
 		if ( !$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id ) ) {
+
 			// Select the user's fullname with the query
 			if ( bp_is_active( 'xprofile' ) ) {
 				$fullname_select = ", pd.value as user_fullname";
@@ -512,6 +513,7 @@ class BP_Activity_Activity {
 
 			// Retrieve all descendants of the $root node
 			$descendants = $wpdb->get_results( $sql );
+			$ref         = array();
 
 			// Loop descendants and build an assoc array
 			foreach ( (array) $descendants as $d ) {
