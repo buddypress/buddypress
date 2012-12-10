@@ -203,7 +203,7 @@ class BP_Messages_Thread {
 		else if ( $type == 'read' )
 			$type_sql = " AND unread_count = 0 ";
 
-		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0$exclude_sender $type_sql", $user_id ) );
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0{$exclude_sender} {$type_sql}", $user_id ) );
 	}
 
 	function user_is_sender( $thread_id ) {

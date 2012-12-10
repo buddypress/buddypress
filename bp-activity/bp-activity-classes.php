@@ -653,7 +653,7 @@ class BP_Activity_Activity {
 	function get_last_updated() {
 		global $bp, $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT date_recorded FROM {$bp->activity->table_name} ORDER BY date_recorded DESC LIMIT 1" ) );
+		return $wpdb->get_var( "SELECT date_recorded FROM {$bp->activity->table_name} ORDER BY date_recorded DESC LIMIT 1" );
 	}
 
 	function total_favorite_count( $user_id ) {
