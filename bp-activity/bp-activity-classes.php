@@ -56,7 +56,7 @@ class BP_Activity_Activity {
 	}
 
 	function save() {
-		global $wpdb, $bp, $current_user;
+		global $wpdb, $bp;
 
 		$this->id                = apply_filters_ref_array( 'bp_activity_id_before_save',                array( $this->id,                &$this ) );
 		$this->item_id           = apply_filters_ref_array( 'bp_activity_item_id_before_save',           array( $this->item_id,           &$this ) );
@@ -83,21 +83,23 @@ class BP_Activity_Activity {
 			$this->primary_link = bp_loggedin_user_domain();
 
 		// If we have an existing ID, update the activity item, otherwise insert it.
-		if ( $this->id )
+		if ( $this->id ) {
 			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component = %s, type = %s, action = %s, content = %s, primary_link = %s, date_recorded = %s, item_id = %d, secondary_item_id = %d, hide_sitewide = %d, is_spam = %d WHERE id = %d", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam, $this->id );
-		else
+		} else {
 			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component, type, action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide, is_spam ) VALUES ( %d, %s, %s, %s, %s, %s, %s, %d, %d, %d, %d )", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam );
+		}
 
 		if ( false === $wpdb->query( $q ) )
 			return false;
 
 		// If this is a new activity item, set the $id property
-		if ( empty( $this->id ) )
+		if ( empty( $this->id ) ) {
 			$this->id = $wpdb->insert_id;
 
 		// If an existing activity item, prevent any changes to the content generating new @mention notifications.
-		else
+		} else {
 			add_filter( 'bp_activity_at_name_do_notifications', '__return_false' );
+		}
 
 		do_action_ref_array( 'bp_activity_after_save', array( &$this ) );
 

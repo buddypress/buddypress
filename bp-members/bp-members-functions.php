@@ -504,7 +504,7 @@ function bp_core_get_active_member_count() {
 		$exclude_users = $wpdb->get_col( $sql );
 		$exclude_users_sql = !empty( $exclude_users ) ? "AND user_id NOT IN (" . implode( ',', wp_parse_id_list( $exclude_users ) ) . ")" : '';
 
-		$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM $wpdb->usermeta WHERE meta_key = %s {$exclude_users_sql}", bp_get_user_meta_key( 'last_activity' ) ) );
+		$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM {$wpdb->usermeta} WHERE meta_key = %s {$exclude_users_sql}", bp_get_user_meta_key( 'last_activity' ) ) );
 		set_transient( 'bp_active_member_count', $count );
 	}
 
@@ -770,7 +770,7 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = bp_displayed_user_id();
 
-	return apply_filters( 'bp_core_get_all_posts_for_user', $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) ) );
+	return apply_filters( 'bp_core_get_all_posts_for_user', $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) ) );
 }
 
 /**
@@ -1123,7 +1123,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		}
 
 		// Update the user status to '2' which we will use as 'not activated' (0 = active, 1 = spam, 2 = not active)
-		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->users SET user_status = 2 WHERE ID = %d", $user_id ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_status = 2 WHERE ID = %d", $user_id ) );
 
 		// Set any profile data
 		if ( bp_is_active( 'xprofile' ) ) {
@@ -1213,13 +1213,13 @@ function bp_core_activate_signup( $key ) {
 	} else {
 
 		// Get the user_id based on the $key
-		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'activation_key' AND meta_value = %s", $key ) );
+		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'activation_key' AND meta_value = %s", $key ) );
 
 		if ( empty( $user_id ) )
 			return new WP_Error( 'invalid_key', __( 'Invalid activation key', 'buddypress' ) );
 
 		// Change the user's status so they become active
-		if ( !$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->users SET user_status = 0 WHERE ID = %d", $user_id ) ) )
+		if ( !$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_status = 0 WHERE ID = %d", $user_id ) ) )
 			return new WP_Error( 'invalid_key', __( 'Invalid activation key', 'buddypress' ) );
 
 		// Notify the site admin of a new user registration
@@ -1234,7 +1234,7 @@ function bp_core_activate_signup( $key ) {
 
 	// Set the password on multisite installs
 	if ( is_multisite() && !empty( $user['meta']['password'] ) )
-		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->users SET user_pass = %s WHERE ID = %d", $user['meta']['password'], $user_id ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_pass = %s WHERE ID = %d", $user['meta']['password'], $user_id ) );
 
 	do_action( 'bp_core_activated_user', $user_id, $key, $user );
 

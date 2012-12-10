@@ -332,7 +332,7 @@ function bp_forums_total_topic_count() {
 			$groups_table_sql = '';
 			$groups_where_sql = "t.topic_status = 0";
 		}
-		$count = $bbdb->get_results( $bbdb->prepare( "SELECT t.topic_id FROM {$bbdb->topics} AS t {$groups_table_sql} WHERE {$groups_where_sql}" ) );
+		$count = $bbdb->get_results( "SELECT t.topic_id FROM {$bbdb->topics} AS t {$groups_table_sql} WHERE {$groups_where_sql}" );
 		$count = count( (array) $count );
 	} else {
 		$count = 0;

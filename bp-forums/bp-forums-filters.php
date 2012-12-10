@@ -155,8 +155,6 @@ add_filter( 'bp_get_the_topic_text', 'bp_forums_strip_mentions_on_post_edit' );
  * @return string $sql
  */
 function bp_forums_add_replied_distinct_sql( $sql ) {
-	global $wpdb;
-
 	$sql = "DISTINCT t.topic_id, ";
 
 	return $sql;
@@ -176,7 +174,7 @@ function bp_forums_add_replied_distinct_sql( $sql ) {
  * @return string $sql
  */
 function bp_forums_add_replied_join_sql( $sql ) {
-	global $bbdb, $wpdb;
+	global $bbdb;
 
 	$sql .= " LEFT JOIN $bbdb->posts p ON p.topic_id = t.topic_id ";
 

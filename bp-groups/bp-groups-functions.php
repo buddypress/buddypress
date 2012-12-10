@@ -917,11 +917,11 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
 	$meta_value = trim( $meta_value );
 
 	if ( !$meta_key )
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d", $group_id ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_groupmeta} WHERE group_id = %d", $group_id ) );
 	else if ( $meta_value )
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s AND meta_value = %s", $group_id, $meta_key, $meta_value ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_groupmeta} WHERE group_id = %d AND meta_key = %s AND meta_value = %s", $group_id, $meta_key, $meta_value ) );
 	else
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_groupmeta} WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
 
 	// Delete the cached object
 	wp_cache_delete( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, 'bp' );
@@ -942,11 +942,11 @@ function groups_get_groupmeta( $group_id, $meta_key = '') {
 
 		$metas = wp_cache_get( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, 'bp' );
 		if ( false === $metas ) {
-			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key) );
+			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->groups->table_name_groupmeta} WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key) );
 			wp_cache_set( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, $metas, 'bp' );
 		}
 	} else {
-		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d", $group_id) );
+		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->groups->table_name_groupmeta} WHERE group_id = %d", $group_id) );
 	}
 
 	if ( empty( $metas ) ) {
@@ -977,12 +977,12 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 
 	$meta_value = maybe_serialize( $meta_value );
 
-	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
+	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name_groupmeta} WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
 
 	if ( !$cur )
-		$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp->groups->table_name_groupmeta . " ( group_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $group_id, $meta_key, $meta_value ) );
+		$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->groups->table_name_groupmeta} ( group_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $group_id, $meta_key, $meta_value ) );
 	else if ( $cur->meta_value != $meta_value )
-		$wpdb->query( $wpdb->prepare( "UPDATE " . $bp->groups->table_name_groupmeta . " SET meta_value = %s WHERE group_id = %d AND meta_key = %s", $meta_value, $group_id, $meta_key ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->groups->table_name_groupmeta} SET meta_value = %s WHERE group_id = %d AND meta_key = %s", $meta_value, $group_id, $meta_key ) );
 	else
 		return false;
 
