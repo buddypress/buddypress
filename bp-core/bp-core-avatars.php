@@ -482,25 +482,25 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	require_once( ABSPATH . '/wp-admin/includes/file.php' );
 
 	$uploadErrors = array(
-		0 => __("There is no error, the file uploaded with success", 'buddypress'),
-		1 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format( bp_core_avatar_original_max_filesize() ),
-		2 => __("Your image was bigger than the maximum allowed file size of: ", 'buddypress') . size_format( bp_core_avatar_original_max_filesize() ),
-		3 => __("The uploaded file was only partially uploaded", 'buddypress'),
-		4 => __("No file was uploaded", 'buddypress'),
-		6 => __("Missing a temporary folder", 'buddypress')
+		0 => __( 'The image was uploaded successfully', 'buddypress' ),
+		1 => __( 'The image exceeds the maximum allowed file size of: ', 'buddypress' ) . size_format( bp_core_avatar_original_max_filesize() ),
+		2 => __( 'The image exceeds the maximum allowed file size of: ', 'buddypress' ) . size_format( bp_core_avatar_original_max_filesize() ),
+		3 => __( 'The uploaded file was only partially uploaded.', 'buddypress' ),
+		4 => __( 'The image was not uploaded.', 'buddypress' ),
+		6 => __( 'Missing a temporary folder.', 'buddypress' )
 	);
 
-	if ( !bp_core_check_avatar_upload( $file ) ) {
+	if ( ! bp_core_check_avatar_upload( $file ) ) {
 		bp_core_add_message( sprintf( __( 'Your upload failed, please try again. Error was: %s', 'buddypress' ), $uploadErrors[$file['file']['error']] ), 'error' );
 		return false;
 	}
 
-	if ( !bp_core_check_avatar_size( $file ) ) {
-		bp_core_add_message( sprintf( __( 'The file you uploaded is too big. Please upload a file under %s', 'buddypress'), size_format( bp_core_avatar_original_max_filesize() ) ), 'error' );
+	if ( ! bp_core_check_avatar_size( $file ) ) {
+		bp_core_add_message( sprintf( __( 'The file you uploaded is too big. Please upload a file under %s', 'buddypress' ), size_format( bp_core_avatar_original_max_filesize() ) ), 'error' );
 		return false;
 	}
 
-	if ( !bp_core_check_avatar_type( $file ) ) {
+	if ( ! bp_core_check_avatar_type( $file ) ) {
 		bp_core_add_message( __( 'Please upload only JPG, GIF or PNG photos.', 'buddypress' ), 'error' );
 		return false;
 	}
@@ -530,17 +530,19 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 			$editor->set_quality( 100 );
 
 			$resized = $editor->resize( bp_core_avatar_original_max_width(), bp_core_avatar_original_max_width(), false );
-			if ( ! is_wp_error( $resized ) )
+			if ( ! is_wp_error( $resized ) ) {
 				$thumb = $editor->save( $editor->generate_filename() );
-			else
+			} else {
 				$error = $resized;
+			}
 
 			// Check for thumbnail creation errors
-			if ( false === $error && is_wp_error( $thumb ) )
+			if ( false === $error && is_wp_error( $thumb ) ) {
 				$error = $thumb;
+			}
 
+			// Thumbnail is good so proceed
 			if ( false === $error ) {
-				// Thumbnail is good so proceed
 				$bp->avatar_admin->resized = $thumb;
 			}
 
@@ -555,9 +557,9 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	}
 
 	// We only want to handle one image after resize.
-	if ( empty( $bp->avatar_admin->resized ) )
+	if ( empty( $bp->avatar_admin->resized ) ) {
 		$bp->avatar_admin->image->dir = str_replace( bp_core_avatar_upload_path(), '', $bp->avatar_admin->original['file'] );
-	else {
+	} else {
 		$bp->avatar_admin->image->dir = str_replace( bp_core_avatar_upload_path(), '', $bp->avatar_admin->resized['path'] );
 		@unlink( $bp->avatar_admin->original['file'] );
 	}
@@ -592,7 +594,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
  */
 function bp_core_avatar_handle_crop( $args = '' ) {
 
-	$defaults = array(
+	$r = wp_parse_args( $args, array(
 		'object'        => 'user',
 		'avatar_dir'    => 'avatars',
 		'item_id'       => false,
@@ -601,9 +603,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 		'crop_h'        => bp_core_avatar_full_height(),
 		'crop_x'        => 0,
 		'crop_y'        => 0
-	);
-
-	$r = wp_parse_args( $args, $defaults );
+	) );
 
 	/***
 	 * You may want to hook into this filter if you want to override this function.
@@ -614,7 +614,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 
 	extract( $r, EXTR_SKIP );
 
-	if ( !$original_file )
+	if ( empty( $original_file ) )
 		return false;
 
 	$original_file = bp_core_avatar_upload_path() . $original_file;
@@ -622,10 +622,11 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	if ( !file_exists( $original_file ) )
 		return false;
 
-	if ( !$item_id )
+	if ( empty( $item_id ) ) {
 		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', dirname( $original_file ), $item_id, $object, $avatar_dir );
-	else
+	} else {
 		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', bp_core_avatar_upload_path() . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
+	}
 
 	if ( !file_exists( $avatar_folder_dir ) )
 		return false;
@@ -637,22 +638,28 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	bp_core_delete_existing_avatar( array( 'object' => $object, 'avatar_path' => $avatar_folder_dir ) );
 
 	// Make sure we at least have a width and height for cropping
-	if ( !(int) $crop_w )
+	if ( empty( $crop_w ) ) {
 		$crop_w = bp_core_avatar_full_width();
+	}
 
-	if ( !(int) $crop_h )
+	if ( empty( $crop_h ) ) {
 		$crop_h = bp_core_avatar_full_height();
+	}
+
+	// Get the file extension
+	$data = @getimagesize( $original_file );
+	$ext  = $data['mime'] == 'image/png' ? 'png' : 'jpg';
 
 	// Set the full and thumb filenames
-	$full_filename  = wp_hash( $original_file . time() ) . '-bpfull.jpg';
-	$thumb_filename = wp_hash( $original_file . time() ) . '-bpthumb.jpg';
+	$full_filename  = wp_hash( $original_file . time() ) . '-bpfull.'  . $ext;
+	$thumb_filename = wp_hash( $original_file . time() ) . '-bpthumb.' . $ext;
 
 	// Crop the image
-	$full_cropped  = wp_crop_image( $original_file, (int) $crop_x, (int) $crop_y, (int) $crop_w, (int) $crop_h, bp_core_avatar_full_width(), bp_core_avatar_full_height(), false, $avatar_folder_dir . '/' . $full_filename );
+	$full_cropped  = wp_crop_image( $original_file, (int) $crop_x, (int) $crop_y, (int) $crop_w, (int) $crop_h, bp_core_avatar_full_width(),  bp_core_avatar_full_height(),  false, $avatar_folder_dir . '/' . $full_filename  );
 	$thumb_cropped = wp_crop_image( $original_file, (int) $crop_x, (int) $crop_y, (int) $crop_w, (int) $crop_h, bp_core_avatar_thumb_width(), bp_core_avatar_thumb_height(), false, $avatar_folder_dir . '/' . $thumb_filename );
 
 	// Check for errors
-	if ( ! $full_cropped || ! $thumb_cropped || is_wp_error( $full_cropped ) || is_wp_error( $thumb_cropped ) )
+	if ( empty( $full_cropped ) || empty( $thumb_cropped ) || is_wp_error( $full_cropped ) || is_wp_error( $thumb_cropped ) )
 		return false;
 
 	// Remove the original
@@ -683,23 +690,27 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 		return $avatar;
 
 	// If passed an object, assume $user->user_id
-	if ( is_object( $user ) )
+	if ( is_object( $user ) ) {
 		$id = $user->user_id;
 
 	// If passed a number, assume it was a $user_id
-	else if ( is_numeric( $user ) )
+	} else if ( is_numeric( $user ) ) {
 		$id = $user;
 
 	// If passed a string and that string returns a user, get the $id
-	else if ( is_string( $user ) && ( $user_by_email = get_user_by( 'email', $user ) ) )
+	} elseif ( is_string( $user ) && ( $user_by_email = get_user_by( 'email', $user ) ) ) {
 		$id = $user_by_email->ID;
+	}
 
 	// If somehow $id hasn't been assigned, return the result of get_avatar
-	if ( empty( $id ) )
+	if ( empty( $id ) ) {
 		return !empty( $avatar ) ? $avatar : $default;
+	}
 
-	if ( !$alt )
+	// Image alt tag
+	if ( empty( $alt ) ) {
 		$alt = sprintf( __( 'Avatar of %s', 'buddypress' ), bp_core_get_user_displayname( $id ) );
+	}
 
 	// Let BuddyPress handle the fetching of the avatar
 	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $id, 'width' => $size, 'height' => $size, 'alt' => $alt ) );

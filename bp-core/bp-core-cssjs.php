@@ -1,4 +1,5 @@
 <?php
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -25,6 +26,7 @@ function bp_core_confirmation_js() {
 			});
 		});
 	</script>
+
 <?php
 }
 add_action( 'wp_head',    'bp_core_confirmation_js', 100 );
@@ -38,6 +40,7 @@ add_action( 'admin_head', 'bp_core_confirmation_js', 100 );
  * @package BuddyPress Core
  */
 function bp_core_add_jquery_cropper() {
+	wp_enqueue_style( 'jcrop' );
 	wp_enqueue_script( 'jcrop', array( 'jquery' ) );
 	add_action( 'wp_head', 'bp_core_add_cropper_inline_js' );
 	add_action( 'wp_head', 'bp_core_add_cropper_inline_css' );
@@ -51,21 +54,28 @@ function bp_core_add_jquery_cropper() {
  * @package BuddyPress Core
  */
 function bp_core_add_cropper_inline_js() {
-	global $bp;
 
-	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( bp_core_avatar_upload_path() . $bp->avatar_admin->image->dir ) );
-	$aspect_ratio = 1;
+	// Bail if no image was uploaded
+	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( bp_core_avatar_upload_path() . buddypress()->avatar_admin->image->dir ) );
+	if ( empty( $image ) )
+		return;
 
+	//
 	$full_height = bp_core_avatar_full_height();
 	$full_width  = bp_core_avatar_full_width();
 
 	// Calculate Aspect Ratio
-	if ( $full_height && ( $full_width != $full_height ) )
+	if ( !empty( $full_height ) && ( $full_width != $full_height ) ) {
 		$aspect_ratio = $full_width / $full_height;
+	} else {
+		$aspect_ratio = 1;
+	}
 
-		$width  = $image[0] / 2;
-		$height = $image[1] / 2;
-?>
+	// Default cropper coordinates
+	$crop_left   = $image[0] / 4;
+	$crop_top    = $image[1] / 4;
+	$crop_right  = $image[0] - $crop_left;
+	$crop_bottom = $image[1] - $crop_top; ?>
 
 	<script type="text/javascript">
 		jQuery(window).load( function(){
@@ -73,10 +83,10 @@ function bp_core_add_cropper_inline_js() {
 				onChange: showPreview,
 				onSelect: showPreview,
 				onSelect: updateCoords,
-				aspectRatio: <?php echo $aspect_ratio ?>,
-				setSelect: [ 50, 50, <?php echo $width ?>, <?php echo $height ?> ]
+				aspectRatio: <?php echo $aspect_ratio; ?>,
+				setSelect: [ <?php echo $crop_left; ?>, <?php echo $crop_top; ?>, <?php echo $crop_right; ?>, <?php echo $crop_bottom; ?> ]
 			});
-			updateCoords({x: 50, y: 50, w: <?php echo $width ?>, h: <?php echo $height ?>});
+			updateCoords({x: <?php echo $crop_left; ?>, y: <?php echo $crop_top; ?>, w: <?php echo $crop_right; ?>, h: <?php echo $crop_bottom; ?>});
 		});
 
 		function updateCoords(c) {
@@ -88,14 +98,14 @@ function bp_core_add_cropper_inline_js() {
 
 		function showPreview(coords) {
 			if ( parseInt(coords.w) > 0 ) {
-				var rx = <?php echo $full_width; ?> / coords.w;
-				var ry = <?php echo $full_height; ?> / coords.h;
+				var fw = <?php echo $full_width; ?>;
+				var fh = <?php echo $full_height; ?>;
+				var rx = fw / coords.w;
+				var ry = fh / coords.h;
 
-				jQuery('#avatar-crop-preview').css({
-				<?php if ( $image ) : ?>
+				jQuery( '#avatar-crop-preview' ).css({
 					width: Math.round(rx * <?php echo $image[0]; ?>) + 'px',
 					height: Math.round(ry * <?php echo $image[1]; ?>) + 'px',
-				<?php endif; ?>
 					marginLeft: '-' + Math.round(rx * coords.x) + 'px',
 					marginTop: '-' + Math.round(ry * coords.y) + 'px'
 				});
@@ -118,16 +128,11 @@ function bp_core_add_cropper_inline_css() {
 
 	<style type="text/css">
 		.jcrop-holder { float: left; margin: 0 20px 20px 0; text-align: left; }
-		.jcrop-vline, .jcrop-hline { font-size: 0; position: absolute; background: white top left repeat url('<?php echo BP_PLUGIN_URL ?>/bp-core/images/Jcrop.gif'); }
-		.jcrop-vline { height: 100%; width: 1px !important; }
-		.jcrop-hline { width: 100%; height: 1px !important; }
-		.jcrop-handle { font-size: 1px; width: 7px !important; height: 7px !important; border: 1px #eee solid; background-color: #333; *width: 9px; *height: 9px; }
-		.jcrop-tracker { width: 100%; height: 100%; }
-		.custom .jcrop-vline, .custom .jcrop-hline { background: yellow; }
-		.custom .jcrop-handle { border-color: black; background-color: #C7BB00; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
 		#avatar-crop-pane { width: <?php echo bp_core_avatar_full_width() ?>px; height: <?php echo bp_core_avatar_full_height() ?>px; overflow: hidden; }
 		#avatar-crop-submit { margin: 20px 0; }
-		#avatar-upload-form img, #create-group-form img, #group-settings-form img { border: none !important; }
+		#avatar-upload-form img,
+		#create-group-form img,
+		#group-settings-form img { border: none !important; max-width: none !important; }
 	</style>
 
 <?php

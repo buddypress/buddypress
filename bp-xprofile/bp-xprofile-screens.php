@@ -36,10 +36,11 @@ function xprofile_screen_display_profile() {
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_edit_profile() {
-	global $bp;
 
 	if ( !bp_is_my_profile() && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
+
+	$bp = buddypress();
 
 	// Make sure a group is set.
 	if ( !bp_action_variable( 1 ) )
@@ -104,15 +105,17 @@ function xprofile_screen_edit_profile() {
 			foreach ( (array) $posted_field_ids as $field_id ) {
 
 				// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.
-				if ( empty( $_POST['field_' . $field_id] ) )
+				if ( empty( $_POST['field_' . $field_id] ) ) {
 					$value = array();
-				else
+				} else {
 					$value = $_POST['field_' . $field_id];
+				}
 
-				if ( !xprofile_set_field_data( $field_id, bp_displayed_user_id(), $value, $is_required[$field_id] ) )
+				if ( !xprofile_set_field_data( $field_id, bp_displayed_user_id(), $value, $is_required[$field_id] ) ) {
 					$errors = true;
-				else
+				} else {
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $value );
+				}
 
 				// Save the visibility level
 				$visibility_level = !empty( $_POST['field_' . $field_id . '_visibility'] ) ? $_POST['field_' . $field_id . '_visibility'] : 'public';
@@ -122,10 +125,11 @@ function xprofile_screen_edit_profile() {
 			do_action( 'xprofile_updated_profile', bp_displayed_user_id(), $posted_field_ids, $errors );
 
 			// Set the feedback messages
-			if ( !empty( $errors ) )
+			if ( !empty( $errors ) ) {
 				bp_core_add_message( __( 'There was a problem updating some of your profile information, please try again.', 'buddypress' ), 'error' );
-			else
+			} else {
 				bp_core_add_message( __( 'Changes saved.', 'buddypress' ) );
+			}
 
 			// Redirect back to the edit screen to display the updates and message
 			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/' . bp_action_variable( 1 ) ) );
@@ -144,15 +148,18 @@ function xprofile_screen_edit_profile() {
  * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
  */
 function xprofile_screen_change_avatar() {
-	global $bp;
 
+	// Bail if not the correct screen
 	if ( !bp_is_my_profile() && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
+	// Bail if there are action variables
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
 	}
+
+	$bp = buddypress();
 
 	if ( ! isset( $bp->avatar_admin ) )
 		$bp->avatar_admin = new stdClass();
@@ -179,10 +186,19 @@ function xprofile_screen_change_avatar() {
 		// Check the nonce
 		check_admin_referer( 'bp_avatar_cropstore' );
 
-		if ( !bp_core_avatar_handle_crop( array( 'item_id' => bp_displayed_user_id(), 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
-			bp_core_add_message( __( 'There was a problem cropping your avatar, please try uploading it again', 'buddypress' ), 'error' );
-		else {
-			bp_core_add_message( __( 'Your new avatar was uploaded successfully!', 'buddypress' ) );
+		$args = array(
+			'item_id'       => bp_displayed_user_id(),
+			'original_file' => $_POST['image_src'],
+			'crop_x'        => $_POST['x'],
+			'crop_y'        => $_POST['y'],
+			'crop_w'        => $_POST['w'],
+			'crop_h'        => $_POST['h']
+		);
+
+		if ( ! bp_core_avatar_handle_crop( $args ) ) {
+			bp_core_add_message( __( 'There was a problem cropping your avatar.', 'buddypress' ), 'error' );
+		} else {
+			bp_core_add_message( __( 'Your new avatar was uploaded successfully.', 'buddypress' ) );
 			do_action( 'xprofile_avatar_uploaded' );
 		}
 	}
