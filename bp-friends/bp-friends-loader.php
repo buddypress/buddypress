@@ -102,7 +102,16 @@ class BP_Friends_Component extends BP_Component {
 			'item_css_id'         => $bp->friends->id
 		);
 
-		$friends_link = trailingslashit( bp_loggedin_user_domain() . bp_get_friends_slug() );
+		// Determine user to use
+		if ( bp_displayed_user_domain() ) {
+			$user_domain = bp_displayed_user_domain();
+		} elseif ( bp_loggedin_user_domain() ) {
+			$user_domain = bp_loggedin_user_domain();
+		} else {
+			return;
+		}
+
+		$friends_link = trailingslashit( $user_domain . bp_get_friends_slug() );
 
 		// Add the subnav items to the friends nav item
 		$sub_nav[] = array(
@@ -122,7 +131,7 @@ class BP_Friends_Component extends BP_Component {
 			'parent_slug'     => bp_get_friends_slug(),
 			'screen_function' => 'friends_screen_requests',
 			'position'        => 20,
-			'user_has_access' => bp_is_my_profile()
+			'user_has_access' => bp_core_can_edit_settings()
 		);
 
 		parent::setup_nav( $main_nav, $sub_nav );

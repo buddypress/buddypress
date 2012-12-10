@@ -159,7 +159,16 @@ class BP_XProfile_Component extends BP_Component {
 			'item_css_id'         => $this->id
 		);
 
-		$profile_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
+		// Determine user to use
+		if ( bp_displayed_user_domain() ) {
+			$user_domain = bp_displayed_user_domain();
+		} elseif ( bp_loggedin_user_domain() ) {
+			$user_domain = bp_loggedin_user_domain();
+		} else {
+			return;
+		}
+
+		$profile_link = trailingslashit( $user_domain . $this->slug );
 
 		// Add the subnav items to the profile
 		$sub_nav[] = array(
@@ -171,27 +180,27 @@ class BP_XProfile_Component extends BP_Component {
 			'position'        => 10
 		);
 
-		if ( bp_is_my_profile() ) {
-			// Edit Profile
-			$sub_nav[] = array(
-				'name'            => __( 'Edit', 'buddypress' ),
-				'slug'            => 'edit',
-				'parent_url'      => $profile_link,
-				'parent_slug'     => $this->slug,
-				'screen_function' => 'xprofile_screen_edit_profile',
-				'position'        => 20
-			);
+		// Edit Profile
+		$sub_nav[] = array(
+			'name'            => __( 'Edit', 'buddypress' ),
+			'slug'            => 'edit',
+			'parent_url'      => $profile_link,
+			'parent_slug'     => $this->slug,
+			'screen_function' => 'xprofile_screen_edit_profile',
+			'position'        => 20,
+			'user_has_access' => bp_core_can_edit_settings()
+		);
 
-			// Change Avatar
-			$sub_nav[] = array(
-				'name'            => __( 'Change Avatar', 'buddypress' ),
-				'slug'            => 'change-avatar',
-				'parent_url'      => $profile_link,
-				'parent_slug'     => $this->slug,
-				'screen_function' => 'xprofile_screen_change_avatar',
-				'position'        => 30
-			);
-		}
+		// Change Avatar
+		$sub_nav[] = array(
+			'name'            => __( 'Change Avatar', 'buddypress' ),
+			'slug'            => 'change-avatar',
+			'parent_url'      => $profile_link,
+			'parent_slug'     => $this->slug,
+			'screen_function' => 'xprofile_screen_change_avatar',
+			'position'        => 30,
+			'user_has_access' => bp_core_can_edit_settings()
+		);
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}

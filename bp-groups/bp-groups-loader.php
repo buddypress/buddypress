@@ -351,31 +351,42 @@ class BP_Groups_Component extends BP_Component {
 			'item_css_id'         => $this->id
 		);
 
-		$groups_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
+		// Determine user to use
+		if ( bp_displayed_user_domain() ) {
+			$user_domain = bp_displayed_user_domain();
+		} elseif ( bp_loggedin_user_domain() ) {
+			$user_domain = bp_loggedin_user_domain();
+		} else {
+			$user_domain = false;
+		}
 
-		// Add the My Groups nav item
-		$sub_nav[] = array(
-			'name'            => __( 'Memberships', 'buddypress' ),
-			'slug'            => 'my-groups',
-			'parent_url'      => $groups_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'groups_screen_my_groups',
-			'position'        => 10,
-			'item_css_id'     => 'groups-my-groups'
-		);
+		if ( !empty( $user_domain ) ) {
+			$groups_link = trailingslashit( $user_domain . $this->slug );
 
-		// Add the Group Invites nav item
-		$sub_nav[] = array(
-			'name'            => __( 'Invitations', 'buddypress' ),
-			'slug'            => 'invites',
-			'parent_url'      => $groups_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'groups_screen_group_invites',
-			'user_has_access' =>  bp_is_my_profile(),
-			'position'        => 30
-		);
+			// Add the My Groups nav item
+			$sub_nav[] = array(
+				'name'            => __( 'Memberships', 'buddypress' ),
+				'slug'            => 'my-groups',
+				'parent_url'      => $groups_link,
+				'parent_slug'     => $this->slug,
+				'screen_function' => 'groups_screen_my_groups',
+				'position'        => 10,
+				'item_css_id'     => 'groups-my-groups'
+			);
 
-		parent::setup_nav( $main_nav, $sub_nav );
+			// Add the Group Invites nav item
+			$sub_nav[] = array(
+				'name'            => __( 'Invitations', 'buddypress' ),
+				'slug'            => 'invites',
+				'parent_url'      => $groups_link,
+				'parent_slug'     => $this->slug,
+				'screen_function' => 'groups_screen_group_invites',
+				'user_has_access' => bp_core_can_edit_settings(),
+				'position'        => 30
+			);
+
+			parent::setup_nav( $main_nav, $sub_nav );
+		}
 
 		if ( bp_is_groups_component() && bp_is_single_item() ) {
 

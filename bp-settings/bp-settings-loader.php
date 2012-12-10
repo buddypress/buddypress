@@ -79,12 +79,13 @@ class BP_Settings_Component extends BP_Component {
 		);
 
 		// Determine user to use
-		if ( bp_displayed_user_domain() )
+		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
-		elseif ( bp_loggedin_user_domain() )
+		} elseif ( bp_loggedin_user_domain() ) {
 			$user_domain = bp_loggedin_user_domain();
-		else
+		} else {
 			return;
+		}
 
 		$settings_link = trailingslashit( $user_domain . $this->slug );
 

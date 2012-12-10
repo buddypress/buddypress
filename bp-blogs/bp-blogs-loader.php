@@ -116,7 +116,16 @@ class BP_Blogs_Component extends BP_Component {
 			'item_css_id'         => $this->id
 		);
 
-		$parent_url = trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() );
+		// Determine user to use
+		if ( bp_displayed_user_domain() ) {
+			$user_domain = bp_displayed_user_domain();
+		} elseif ( bp_loggedin_user_domain() ) {
+			$user_domain = bp_loggedin_user_domain();
+		} else {
+			return;
+		}
+
+		$parent_url = trailingslashit( $user_domain . bp_get_blogs_slug() );
 
 		$sub_nav[] = array(
 			'name'            => __( 'My Sites', 'buddypress' ),
