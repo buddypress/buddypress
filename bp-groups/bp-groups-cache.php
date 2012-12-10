@@ -50,6 +50,21 @@ add_action( 'groups_group_avatar_updated',       'groups_clear_group_object_cach
 add_action( 'groups_create_group_step_complete', 'groups_clear_group_object_cache' );
 
 /**
+ * Bust group caches when editing or deleting
+ *
+ * @since BuddyPress (1.7)
+ * @param int $group_id The group being edited
+ */
+function bp_groups_delete_group_cache( $group_id = 0 ) {
+	wp_cache_delete( 'bp_groups_group_' . $group_id . '_load_users'   );
+	wp_cache_delete( 'bp_groups_group_' . $group_id . '_noload_users' );
+}
+add_action( 'groups_delete_group',     'bp_groups_delete_group_cache' );
+add_action( 'groups_update_group',     'bp_groups_delete_group_cache' );
+add_action( 'groups_details_updated',  'bp_groups_delete_group_cache' );
+add_action( 'groups_settings_updated', 'bp_groups_delete_group_cache' );
+
+/**
  * Clears caches for the group creator when a group is created
  *
  * @param int $group_id
