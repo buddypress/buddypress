@@ -72,6 +72,64 @@ function bp_blogs_record_existing_blogs() {
 }
 
 /**
+ * Makes BuddyPress aware of sites that shouldn't be recorded to activity streams.
+ *
+ * If $user_id is provided, you can restrict site from being recordable
+ * only to particular users.
+ * 
+ * @since BuddyPress (1.7)
+ * @param int $blog_id
+ * @param int|null $user_id
+ * @uses apply_filters()
+ * @return bool True if blog is recordable, false elsewhere
+ */
+function bp_blogs_is_blog_recordable( $blog_id, $user_id = 0 ) {
+
+	$recordable_globally = apply_filters( 'bp_blogs_is_blog_recordable', true, $blog_id );
+
+	if ( !empty( $user_id ) ) {
+		$recordable_for_user = apply_filters( 'bp_blogs_is_blog_recordable_for_user', $recordable_globally, $blog_id, $user_id );
+	} else {
+		$recordable_for_user = $recordable_globally;
+	}
+
+	if ( !empty( $recordable_for_user ) ) {
+		return true;
+	}
+
+	return $recordable_globally;
+}
+
+/**
+ * Makes BuddyPress aware of sites that activities shouldn't be trackable.
+ * If $user_id is provided, the developer can restrict site from
+ * being trackable only to particular users.
+ * 
+ * @since BuddyPress (1.7)
+ * @param int $blog_id
+ * @param int|null $user_id
+ * @uses bp_blogs_is_blog_recordable
+ * @uses apply_filters()
+ * @return bool True if blog is trackable, false elsewhere
+ */
+function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
+
+	$trackable_globally = apply_filters( 'bp_blogs_is_blog_trackable', bp_blogs_is_blog_recordable( $blog_id, $user_id ), $blog_id );
+
+	if ( !empty( $user_id ) ) {
+		$trackable_for_user = apply_filters( 'bp_blogs_is_blog_trackable_for_user', $trackable_globally, $blog_id, $user_id );
+	} else {
+		$trackable_for_user = $trackable_globally;
+	}
+
+	if ( !empty( $trackable_for_user ) ) {
+		return $trackable_for_user;
+	}
+
+	return $trackable_globally;
+}
+
+/**
  * Makes BuddyPress aware of a new site so that it can track its activity.
  *
  * @since BuddyPress (1.0)
@@ -85,7 +143,11 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
-	$name = get_blog_option( $blog_id, 'blogname' );
+	// If blog is not recordable, do not record the activity.
+	if ( !bp_blogs_is_blog_recordable( $blog_id, $user_id ) )
+		return false;
+
+	$name        = get_blog_option( $blog_id, 'blogname' );
 	$description = get_blog_option( $blog_id, 'blogdescription' );
 
 	if ( empty( $name ) )
@@ -105,7 +167,8 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	$is_private = !apply_filters( 'bp_is_new_blog_public', !$is_private );
 
 	// Only record this activity if the blog is public
-	if ( !$is_private && !$no_activity ) {
+	if ( !$is_private && !$no_activity && bp_blogs_is_blog_trackable( $blog_id, $user_id ) ) {
+
 		// Record this in activity streams
 		bp_blogs_record_activity( array(
 			'user_id'      => $recorded_blog->user_id,
@@ -153,6 +216,10 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 
 	$post_id = (int) $post_id;
 	$blog_id = (int) $wpdb->blogid;
+
+	// If blog is not trackable, do not record the activity.
+	if ( ! bp_blogs_is_blog_trackable( $blog_id, $user_id ) )
+		return false;
 
 	if ( !$user_id )
 		$user_id = (int) $post->post_author;
@@ -261,7 +328,12 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	$user_id = (int) $user->ID;
 
 	// Get blog and post data
-	$blog_id                = get_current_blog_id();
+	$blog_id = get_current_blog_id();
+
+	// If blog is not trackable, do not record the activity.
+	if ( ! bp_blogs_is_blog_trackable( $blog_id, $user_id ) )
+		return false;
+
 	$recorded_comment->post = get_post( $recorded_comment->comment_post_ID );
 
 	if ( empty( $recorded_comment->post ) || is_wp_error( $recorded_comment->post ) )
