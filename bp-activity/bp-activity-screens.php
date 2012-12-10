@@ -408,7 +408,7 @@ class BP_Activity_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function single_dummy_content() {
-		bp_buffer_template_part( 'members/single/activity/permalink' );
+		bp_buffer_template_part( 'activity/single/home' );
 	}
 }
 new BP_Activity_Theme_Compat();
