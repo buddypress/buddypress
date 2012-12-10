@@ -1047,7 +1047,8 @@ function bp_activity_secondary_avatar( $args = '' ) {
 	function bp_get_activity_secondary_avatar( $args = '' ) {
 		global $activities_template;
 
-		$defaults = array(
+		$r = wp_parse_args( $args, array(
+			'alt'        => '',
 			'type'       => 'thumb',
 			'width'      => 20,
 			'height'     => 20,
@@ -1055,9 +1056,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			'link_class' => '',
 			'linked'     => true,
 			'email'      => false
-		);
-
-		$r = wp_parse_args( $args, $defaults );
+		) );
 		extract( $r, EXTR_SKIP );
 
 		// Set item_id and object (default to user)
@@ -1065,16 +1064,21 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			case 'groups' :
 				$object  = 'group';
 				$item_id = $activities_template->activity->item_id;
-				$link    = bp_get_group_permalink( groups_get_group( array( 'group_id' => $item_id ) ) );
+
+				// Only if groups is active
+				if ( bp_is_active( 'groups' ) ) {
+					$group = groups_get_group( $item_id );
+					$link  = bp_get_group_permalink( $group );
+					$name  = $group->name;
+				} else {
+					$name = '';
+				}
 
 				if ( empty( $alt ) ) {
 					$alt = __( 'Group logo', 'buddypress' );
 
-					if ( bp_is_active( 'groups' ) ) {
-						$group = groups_get_group( $item_id );
-						if ( isset( $group->name ) ) {
-							$alt = sprintf( __( 'Group logo of %s', 'buddypress' ), $group->name );
-						}
+					if ( ! empty( $name ) ) {
+						$alt = sprintf( __( 'Group logo of %s', 'buddypress' ), $name );
 					}
 				}
 
