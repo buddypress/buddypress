@@ -92,3 +92,6 @@ add_action( 'bp_after_setup_theme', 'bp_load_theme_functions', 1 );
 if ( is_admin() ) {
 	add_action( 'bp_loaded', 'bp_admin' );
 }
+
+// Activation redirect
+add_action( 'bp_activation', 'bp_add_activation_redirect' );

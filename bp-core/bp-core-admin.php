@@ -374,6 +374,9 @@ class BP_Admin {
 	 */
 	public function about_screen() {
 
+		// Switch page to use for settings
+		$settings_page = bp_is_network_activated() ? 'settings.php' : 'options-general.php';
+
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
 		<div class="wrap about-wrap">
@@ -441,7 +444,7 @@ class BP_Admin {
 			</div>
 
 			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'buddypress' ), 'options-general.php' ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
+				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $settings_page ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
 			</div>
 
 		</div>
@@ -458,6 +461,9 @@ class BP_Admin {
 	 * @since BuddyPress (1.7)
 	 */
 	public function credits_screen() {
+
+		// Switch page to use for settings
+		$settings_page = bp_is_network_activated() ? 'settings.php' : 'options-general.php';
 
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
@@ -479,7 +485,7 @@ class BP_Admin {
 			<h4 class="wp-people-group"><?php _e( 'Project Leaders', 'buddypress' ); ?></h4>
 			<ul class="wp-people-group " id="wp-people-group-project-leaders">
 				<li class="wp-person" id="wp-person-apeatling">
-					<a href="http://profiles.wordpress.org/apeatling"><img src="http://0.gravatar.com/avatar/767fc9c115a1b989744c755db47feb60?s=60" class="gravatar" alt="Andy Peatling" /></a>
+					<a href="http://profiles.wordpress.org/apeatling"><img src="http://0.gravatar.com/avatar/bb29d699b5cba218c313b61aa82249da?s=60" class="gravatar" alt="Andy Peatling" /></a>
 					<a class="web" href="http://profiles.wordpress.org/apeatling">Andy Peatling</a>
 					<span class="title"><?php _e( 'Founding Developer', 'buddypress' ); ?></span>
 				</li>
@@ -489,12 +495,12 @@ class BP_Admin {
 					<span class="title"><?php _e( 'Project Lead', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-boonebgorges">
-					<a href="http://profiles.wordpress.org/boonebgorges"><img src="http://0.gravatar.com/avatar/6a7c997edea340616bcc6d0fe03f65dd?s=60" class="gravatar" alt="Boone B. Gorges" /></a>
+					<a href="http://profiles.wordpress.org/boonebgorges"><img src="http://0.gravatar.com/avatar/9cf7c4541a582729a5fc7ae484786c0c?s=60" class="gravatar" alt="Boone B. Gorges" /></a>
 					<a class="web" href="http://profiles.wordpress.org/boonebgorges">Boone B. Gorges</a>
 					<span class="title"><?php _e( 'Lead Developer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-djpaul">
-					<a href="http://profiles.wordpress.org/djpaul"><img src="http://0.gravatar.com/avatar/e341eca9e1a85dcae7127044301b4363?s=60" class="gravatar" alt="Paul Gibbs" /></a>
+					<a href="http://profiles.wordpress.org/djpaul"><img src="http://0.gravatar.com/avatar/3bc9ab796299d67ce83dceb9554f75df?s=60" class="gravatar" alt="Paul Gibbs" /></a>
 					<a class="web" href="http://profiles.wordpress.org/djpaul">Paul Gibbs</a>
 					<span class="title"><?php _e( 'Lead Developer', 'buddypress' ); ?></span>
 				</li>
@@ -502,38 +508,33 @@ class BP_Admin {
 
 			<h4 class="wp-people-group"><?php _e( 'Contributing Developers', 'buddypress' ); ?></h4>
 			<ul class="wp-people-group " id="wp-people-group-contributing-developers">
-				<li class="wp-person" id="wp-person-jmdodd">
-					<a href="http://profiles.wordpress.org/jmdodd"><img src="http://0.gravatar.com/avatar/6a7c997edea340616bcc6d0fe03f65dd?s=60" class="gravatar" alt="Jennifer M. Dodd" /></a>
-					<a class="web" href="http://profiles.wordpress.org/jmdodd">Jennifer M. Dodd</a>
-					<span class="title"></span>
+				<li class="wp-person" id="wp-person-r-a-y">
+					<a href="http://profiles.wordpress.org/r-a-y"><img src="http://0.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=60" class="gravatar" alt="Ray" /></a>
+					<a class="web" href="http://profiles.wordpress.org/r-a-y">Ray</a>
+					<span class="title"><?php _e( 'Quality Officer', 'buddypress' ); ?></span>
 				</li>
-				<li class="wp-person" id="wp-person-jaredatch">
-					<a href="http://profiles.wordpress.org/jaredatch"><img src="http://0.gravatar.com/avatar/e341eca9e1a85dcae7127044301b4363?s=60" class="gravatar" alt="Jared Atchison" /></a>
-					<a class="web" href="http://profiles.wordpress.org/jaredatch">Jared Atchison</a>
-					<span class="title"></span>
+				<li class="wp-person" id="wp-person-karmatosed">
+					<a href="http://profiles.wordpress.org/karmatosed"><img src="http://0.gravatar.com/avatar/d36d2c1821af9249b69ff7f5ed60529b?s=60" class="gravatar" alt="Tammie Lister" /></a>
+					<a class="web" href="http://profiles.wordpress.org/karmatosed">Tammie Lister</a>
+					<span class="title"><?php _e( 'Mark-up Officer', 'buddypress' ); ?></span>
 				</li>
-				<li class="wp-person" id="wp-person-gautamgupta">
-					<a href="http://profiles.wordpress.org/gautamgupta"><img src="http://0.gravatar.com/avatar/b0810422cbe6e4eead4def5ae7a90b34?s=60" class="gravatar" alt="Gautam Gupta" /></a>
-					<a class="web" href="http://profiles.wordpress.org/gautamgupta">Gautam Gupta</a>
-					<span class="title"></span>
+				<li class="wp-person" id="wp-person-mercime">
+					<a href="http://profiles.wordpress.org/mercime"><img src="http://0.gravatar.com/avatar/fae451be6708241627983570a1a1817a?s=60" class="gravatar" alt="Mercime" /></a>
+					<a class="web" href="http://profiles.wordpress.org/mercime">Mercime</a>
+					<span class="title"><?php _e( 'Support Officer', 'buddypress' ); ?></span>
 				</li>
 			</ul>
 
 			<h4 class="wp-people-group"><?php _e( 'Codex Rockstars', 'buddypress' ); ?></h4>
 			<ul class="wp-people-group " id="wp-people-group-codex-rockstars">
-				<li class="wp-person" id="wp-person-masonjames">
-					<a href="http://profiles.wordpress.org/masonjames"><img src="http://0.gravatar.com/avatar/99dee4d5287d0f9e26ff72e7228d97ac?s=60" class="gravatar" alt="Mason James" /></a>
-					<a class="web" href="http://profiles.wordpress.org/masonjames">Mason James</a>
-					<span class="title"></span>
+				<li class="wp-person" id="wp-person-modemlooper">
+					<a href="http://profiles.wordpress.org/modemlooper"><img src="http://0.gravatar.com/avatar/1c07be1016e845de514931477c939307?s=60" class="gravatar" alt="Modemlooper" /></a>
+					<a class="web" href="http://profiles.wordpress.org/modemlooper">Modemlooper</a>
+					<span class="title"><?php _e( 'Mobile Officer', 'buddypress' ); ?></span>
 				</li>
-				<li class="wp-person" id="wp-person-wordsforwp">
-					<a href="http://profiles.wordpress.org/wordsforwp"><img src="http://0.gravatar.com/avatar/5437119b446adad1af813c44944e6c9c?s=60" class="gravatar" alt="Siobhan McKeown" /></a>
-					<a class="web" href="http://profiles.wordpress.org/wordsforwp">Siobhan McKeown</a>
-					<span class="title"></span>
-				</li>
-				<li class="wp-person" id="wp-person-JarretC">
-					<a href="http://profiles.wordpress.org/JarretC"><img src="http://0.gravatar.com/avatar/e00501bf782b42d5db19ff75fca14f6a?s=60" class="gravatar" alt="Jarret Cade" /></a>
-					<a class="web" href="http://profiles.wordpress.org/JarretC">Jarret Cade</a>
+				<li class="wp-person" id="wp-person-dennissmolek">
+					<a href="http://profiles.wordpress.org/dennissmolek"><img src="http://0.gravatar.com/avatar/015eeb0cebb40f949d0f317e2dfe66c3?s=60" class="gravatar" alt="Dennis Smolek" /></a>
+					<a class="web" href="http://profiles.wordpress.org/dennissmolek">Dennis Smolek</a>
 					<span class="title"></span>
 				</li>
 			</ul>
@@ -576,7 +577,7 @@ class BP_Admin {
 			</p>
 
 			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'buddypress' ), 'options-general.php' ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
+				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $settings_page ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
 			</div>
 
 		</div>

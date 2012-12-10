@@ -11,6 +11,19 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
+ * If there is no raw DB version, this is the first installation
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @uses get_option()
+ * @uses bp_get_db_version() To get BuddyPress's database version
+ * @return bool True if update, False if not
+ */
+function bp_is_install() {
+	return ! bp_get_db_version_raw();
+}
+
+/**
  * Compare the BuddyPress version to the DB version to determine if updating
  *
  * @since BuddyPress (1.6)
@@ -41,31 +54,36 @@ function bp_is_update() {
  * @return bool True if activating BuddyPress, false if not
  */
 function bp_is_activation( $basename = '' ) {
-	$bp = buddypress();
-
+	$bp     = buddypress();
 	$action = false;
-	if ( ! empty( $_REQUEST['action'] ) && ( '-1' != $_REQUEST['action'] ) )
+
+	if ( ! empty( $_REQUEST['action'] ) && ( '-1' != $_REQUEST['action'] ) ) {
 		$action = $_REQUEST['action'];
-	elseif ( ! empty( $_REQUEST['action2'] ) && ( '-1' != $_REQUEST['action2'] ) )
+	} elseif ( ! empty( $_REQUEST['action2'] ) && ( '-1' != $_REQUEST['action2'] ) ) {
 		$action = $_REQUEST['action2'];
+	}
 
 	// Bail if not activating
-	if ( empty( $action ) || !in_array( $action, array( 'activate', 'activate-selected' ) ) )
+	if ( empty( $action ) || !in_array( $action, array( 'activate', 'activate-selected' ) ) ) {
 		return false;
+	}
 
 	// The plugin(s) being activated
-	if ( $action == 'activate' )
+	if ( $action == 'activate' ) {
 		$plugins = isset( $_GET['plugin'] ) ? array( $_GET['plugin'] ) : array();
-	else
+	} else {
 		$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
+	}
 
 	// Set basename if empty
-	if ( empty( $basename ) && !empty( $bp->basename ) )
+	if ( empty( $basename ) && !empty( $bp->basename ) ) {
 		$basename = $bp->basename;
+	}
 
 	// Bail if no basename
-	if ( empty( $basename ) )
+	if ( empty( $basename ) ) {
 		return false;
+	}
 
 	// Is BuddyPress being activated?
 	return in_array( $basename, $plugins );
@@ -80,31 +98,36 @@ function bp_is_activation( $basename = '' ) {
  * @return bool True if deactivating BuddyPress, false if not
  */
 function bp_is_deactivation( $basename = '' ) {
-	$bp = buddypress();
-
+	$bp     = buddypress();
 	$action = false;
-	if ( ! empty( $_REQUEST['action'] ) && ( '-1' != $_REQUEST['action'] ) )
+
+	if ( ! empty( $_REQUEST['action'] ) && ( '-1' != $_REQUEST['action'] ) ) {
 		$action = $_REQUEST['action'];
-	elseif ( ! empty( $_REQUEST['action2'] ) && ( '-1' != $_REQUEST['action2'] ) )
+	} elseif ( ! empty( $_REQUEST['action2'] ) && ( '-1' != $_REQUEST['action2'] ) ) {
 		$action = $_REQUEST['action2'];
+	}
 
 	// Bail if not deactivating
-	if ( empty( $action ) || !in_array( $action, array( 'deactivate', 'deactivate-selected' ) ) )
+	if ( empty( $action ) || !in_array( $action, array( 'deactivate', 'deactivate-selected' ) ) ) {
 		return false;
+	}
 
 	// The plugin(s) being deactivated
-	if ( $action == 'deactivate' )
+	if ( 'deactivate' == $action ) {
 		$plugins = isset( $_GET['plugin'] ) ? array( $_GET['plugin'] ) : array();
-	else
+	} else {
 		$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
+	}
 
 	// Set basename if empty
-	if ( empty( $basename ) && !empty( $bp->basename ) )
+	if ( empty( $basename ) && !empty( $bp->basename ) ) {
 		$basename = $bp->basename;
+	}
 
 	// Bail if no basename
-	if ( empty( $basename ) )
+	if ( empty( $basename ) ) {
 		return false;
+	}
 
 	// Is bbPress being deactivated?
 	return in_array( $basename, $plugins );
@@ -134,17 +157,58 @@ function bp_version_bump() {
 function bp_setup_updater() {
 
 	// Are we running an outdated version of BuddyPress?
-	if ( bp_is_update() ) {
+	if ( ! bp_is_update() )
+		return;
+	
+	bp_version_updater();
+}
 
-		// Bump the version
-		bp_version_bump();
+/**
+ * bbPress's version updater looks at what the current database version is, and
+ * runs whatever other code is needed.
+ *
+ * This is most-often used when the data schema changes, but should also be used
+ * to correct issues with bbPress meta-data silently on software update.
+ *
+ * @since bbPress (r4104)
+ */
+function bp_version_updater() {
 
-		// Run the deactivation function to wipe roles, caps, and rewrite rules
-		bp_deactivation();
+	// Get the raw database version
+	$raw_db_version = (int) bp_get_db_version_raw();
 
-		// Run the activation function to reset roles, caps, and rewrite rules
-		bp_activation();
+	/** 1.6 Branch ************************************************************/
+
+	// 1.6
+	if ( $raw_db_version < 6067 ) {
+		// Do nothing
 	}
+
+	/** All done! *************************************************************/
+
+	// Bump the version
+	bp_version_bump();
+}
+
+/**
+ * Redirect user to BuddyPress's What's New page on activation
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @internal Used internally to redirect BuddyPress to the about page on activation
+ *
+ * @uses set_transient() To drop the activation transient for 30 seconds
+ *
+ * @return If bulk activation
+ */
+function bp_add_activation_redirect() {
+
+	// Bail if activating from network, or bulk
+	if ( isset( $_GET['activate-multi'] ) )
+		return;
+
+	// Add the transient to redirect
+    set_transient( '_bp_activation_redirect', true, 30 );
 }
 
 /** Activation Actions ********************************************************/
