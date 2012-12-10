@@ -1056,16 +1056,6 @@ function bp_is_blog_page() {
 	return apply_filters( 'bp_is_blog_page', $is_blog_page );
 }
 
-function bp_is_page( $page ) {
-	if ( !bp_is_user() && bp_is_current_component( $page )  )
-		return true;
-
-	if ( 'home' == $page )
-		return is_front_page();
-
-	return false;
-}
-
 /**
  * Is this a BuddyPress component?
  *

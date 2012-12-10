@@ -94,8 +94,26 @@ function bp_core_allow_default_theme( $themes ) {
 	return $themes;
 }
 
-/** Admin *********************************************************************/
+/**
+ * No longer used by BuddyPress core
+ *
+ * @deprecated BuddyPress (1.7)
+ * @param string $page
+ * @return boolean True if is BuddyPress page
+ */
+function bp_is_page( $page = '' ) {
+	_deprecated_function( __FUNCTION__, '1.7' );
 
+	if ( !bp_is_user() && bp_is_current_component( $page )  )
+		return true;
+
+	if ( 'home' == $page )
+		return is_front_page();
+
+	return false;
+}
+
+/** Admin *********************************************************************/
 
 /**
  * Verify that some BP prerequisites are set up properly, and notify the admin if not
