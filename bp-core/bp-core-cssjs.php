@@ -130,6 +130,8 @@ function bp_core_add_cropper_inline_css() {
 		.jcrop-holder { float: left; margin: 0 20px 20px 0; text-align: left; }
 		#avatar-crop-pane { width: <?php echo bp_core_avatar_full_width() ?>px; height: <?php echo bp_core_avatar_full_height() ?>px; overflow: hidden; }
 		#avatar-crop-submit { margin: 20px 0; }
+		.jcrop-holder img,
+		#avatar-crop-pane img,
 		#avatar-upload-form img,
 		#create-group-form img,
 		#group-settings-form img { border: none !important; max-width: none !important; }
