@@ -252,7 +252,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	if ( empty( $admin_email ) )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 
-	$from_name       = ( '' == get_site_option( 'site_name' ) ) ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
+	$from_name       = get_site_option( 'site_name', 'WordPress' );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 	$message         = sprintf( __( "Thanks for registering! To complete the activation of your account and blog, please click the following link:\n\n%1\$s\n\n\n\nAfter you activate, you can visit your blog here:\n\n%2\$s", 'buddypress' ), $activate_url, esc_url( "http://{$domain}{$path}" ) );
 	$subject         = '[' . $from_name . '] ' . sprintf(__( 'Activate %s', 'buddypress' ), esc_url( 'http://' . $domain . $path ) );
@@ -280,7 +280,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	if ( empty( $admin_email ) )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 
-	$from_name       = ( '' == get_site_option( 'site_name' ) ) ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
+	$from_name       = get_site_option( 'site_name', 'WordPress' );
 	$message_headers = "MIME-Version: 1.0\n" . "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 	$message         = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%1\$s\n\n", 'buddypress' ), $activate_url );
 	$subject         = '[' . $from_name . '] ' . __( 'Activate Your Account', 'buddypress' );
