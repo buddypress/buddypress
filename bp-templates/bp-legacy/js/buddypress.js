@@ -49,7 +49,7 @@ jq(document).ready( function() {
 	});
 
 	/* New posts */
-	jq("#aw-whats-new-submit").click( function() {
+	jq("#aw-whats-new-submit").live( 'click', function() {
 		var button = jq(this);
 		var form = button.parent().parent().parent().parent();
 
@@ -140,7 +140,7 @@ jq(document).ready( function() {
 	});
 
 	/* List tabs event delegation */
-	jq('div.activity-type-tabs').click( function(event) {
+	jq('div.activity-type-tabs').live( 'click', function(event) {
 		var target = jq(event.target).parent();
 
 		if ( event.target.nodeName == 'STRONG' || event.target.nodeName == 'SPAN' )
@@ -182,7 +182,7 @@ jq(document).ready( function() {
 	});
 
 	/* Stream event delegation */
-	jq('div.activity').click( function(event) {
+	jq('div.activity').live( 'click', function(event) {
 		var target = jq(event.target);
 
 		/* Favoriting activity stream items */
@@ -353,7 +353,7 @@ jq(document).ready( function() {
 		bp_legacy_theme_hide_comments();
 
 	/* Activity list event delegation */
-	jq('div.activity').click( function(event) {
+	jq('div.activity').live( 'click', function(event) {
 		var target = jq(event.target);
 
 		/* Comment / comment reply links */
@@ -604,7 +604,7 @@ jq(document).ready( function() {
 	});
 	
 	/* Link for cancelling comment forms */
-	jq('.ac-reply-cancel').click( function() {
+	jq('.ac-reply-cancel').live( 'click', function() {
 		jq(this).closest('.ac-form').slideUp( 200 );
 		return false;
 	});
@@ -612,7 +612,7 @@ jq(document).ready( function() {
 	/**** Directory Search ****************************************************/
 
 	/* The search form on all directory pages */
-	jq('.dir-search').click( function(event) {
+	jq('.dir-search').live( 'click', function(event) {
 		if ( jq(this).hasClass('no-ajax') )
 			return;
 
@@ -631,7 +631,7 @@ jq(document).ready( function() {
 	/**** Tabs and Filters ****************************************************/
 
 	/* When a navigation tab is clicked - e.g. | All Groups | My Groups | */
-	jq('div.item-list-tabs').click( function(event) {
+	jq('div.item-list-tabs').live( 'click', function(event) {
 		if ( jq(this).hasClass('no-ajax') )
 			return;
 
@@ -679,7 +679,7 @@ jq(document).ready( function() {
 	});
 
 	/* All pagination links run through this function */
-	jq('#content').click( function(event) {
+	jq('#content').live( 'click', function(event) {
 		var target = jq(event.target);
 
 		if ( target.hasClass('button') )
@@ -719,7 +719,7 @@ jq(document).ready( function() {
 	/**** New Forum Directory Post **************************************/
 
 	/* Hit the "New Topic" button on the forums directory page */
-	jq('a.show-hide-new').click( function() {
+	jq('a.show-hide-new').live( 'click', function() {
 		if ( !jq('#new-topic-post').length )
 			return false;
 
@@ -734,7 +734,7 @@ jq(document).ready( function() {
 	});
 
 	/* Cancel the posting of a new forum topic */
-	jq('#submit_topic_cancel').click( function() {
+	jq('#submit_topic_cancel').live( 'click', function() {
 		if ( !jq('#new-topic-post').length )
 			return false;
 
@@ -743,7 +743,7 @@ jq(document).ready( function() {
 	});
 
 	/* Clicking a forum tag */
-	jq('#forum-directory-tags a').click( function() {
+	jq('#forum-directory-tags a').live( 'click', function() {
 		bp_filter_request( 'forums', 'tags', jq.cookie('bp-forums-scope'), 'div.forums', jq(this).html().replace( /&nbsp;/g, '-' ), 1, jq.cookie('bp-forums-extras') );
 		return false;
 	});
@@ -751,7 +751,7 @@ jq(document).ready( function() {
 	/** Invite Friends Interface ****************************************/
 
 	/* Select a user from the list of friends and add them to the invite list */
-	jq("#invite-list input").click( function() {
+	jq("#invite-list input").live( 'click', function() {
 		jq('.ajax-loader').toggle();
 
 		var friend_id = jq(this).val();
@@ -840,7 +840,7 @@ jq(document).ready( function() {
 	/** Friendship Requests **************************************/
 
 	/* Accept and Reject friendship request buttons */
-	jq("#friend-list a.accept, #friend-list a.reject").click( function() {
+	jq("#friend-list a.accept, #friend-list a.reject").live( 'click', function() {
 		var button = jq(this);
 		var li = jq(this).parents('#friend-list li');
 		var action_div = jq(this).parents('li div.action');
@@ -989,7 +989,7 @@ jq(document).ready( function() {
 	/** Private Messaging ******************************************/
 
 	/** Message search*/
-	jq('.message-search').click( function(event) {
+	jq('.message-search').live( 'click', function(event) {
 		if ( jq(this).hasClass('no-ajax') )
 			return;
 
@@ -1129,7 +1129,7 @@ jq(document).ready( function() {
 	);
 
 	/* Bulk delete messages */
-	jq("#delete_inbox_messages, #delete_sentbox_messages").click( function() {
+	jq("#delete_inbox_messages, #delete_sentbox_messages").live( 'click', function() {
 		checkboxes_tosend = '';
 		checkboxes = jq("#message-threads tr td input[type='checkbox']");
 
@@ -1168,7 +1168,7 @@ jq(document).ready( function() {
 	});
 
 	/* Close site wide notices in the sidebar */
-	jq("#close-notice").click( function() {
+	jq("#close-notice").live( 'click', function() {
 		jq(this).addClass('loading');
 		jq('#sidebar div.error').remove();
 
@@ -1199,7 +1199,7 @@ jq(document).ready( function() {
 	});
 
 	/* Clear BP cookies on logout */
-	jq('a.logout').click( function() {
+	jq('a.logout').live( 'click', function() {
 		jq.cookie('bp-activity-scope', null, {
 			path: '/'
 		});
