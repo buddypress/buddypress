@@ -1542,10 +1542,6 @@ function bp_activity_comments( $args = '' ) {
 		function bp_activity_recurse_comments( $comment ) {
 			global $activities_template;
 
-			// Prevent double the output from new activity steam comments
-			if ( defined( 'DOING_AJAX' ) )
-				return false;
-
 			if ( empty( $comment ) )
 				return false;
 
