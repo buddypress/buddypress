@@ -107,20 +107,18 @@ function destroySortableFieldOptions() {
 jQuery( document ).ready( function() {
 
 	// Set up deleting options ajax
-	jQuery( 'a.ajax-option-delete' ).click(
-		function() {
-			var theId = this.id.split( '-' );
-			theId = theId[1];
+	jQuery( 'a.ajax-option-delete' ).live( 'click', function() {
+		var theId = this.id.split( '-' );
+		theId = theId[1];
 
-			jQuery.post( ajaxurl, {
-				action: 'xprofile_delete_option',
-				'cookie': encodeURIComponent( document.cookie ),
-				'_wpnonce': jQuery('input#_wpnonce').val(),
-				'option_id': theId
-			},
-			function( response ) {} );
-		}
-	);
+		jQuery.post( ajaxurl, {
+			action: 'xprofile_delete_option',
+			'cookie': encodeURIComponent( document.cookie ),
+			'_wpnonce': jQuery('input#_wpnonce').val(),
+			'option_id': theId
+		},
+		function( response ) {} );
+	} );
 
 	// 
 	jQuery( '[id^="sort_order_"]' ).change(function() {
