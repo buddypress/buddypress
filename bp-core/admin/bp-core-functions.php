@@ -42,8 +42,9 @@ function bp_core_admin_backpat_menu() {
 	 * This means that if no third-party plugins have registered their admin pages into the
 	 * 'bp-general-settings' menu, it will only contain one item. Kill it.
 	 */
-	if ( 1 != count( $submenu['bp-general-settings'] ) )
-		remove;
+	if ( 1 != count( $submenu['bp-general-settings'] ) ) {
+		return;
+	}
 
 	// This removes the top-level menu
 	remove_submenu_page( 'bp-general-settings', 'bp-general-settings' );

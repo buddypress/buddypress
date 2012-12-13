@@ -25,11 +25,6 @@ div#icon-buddypress-groups {
 /* Backpat */
 ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
 ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image {
-	display: none;
-}
-
-ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
-ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image {
 	background-image: url('../images/menu.png') !important;
 	background-position: -178px -34px;
 }
