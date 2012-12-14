@@ -1,5 +1,5 @@
 jQuery(document).ready( function() {
-	jQuery(".widget div#members-list-options a").live('click',
+	jQuery(".widget div#members-list-options a").on('click',
 		function() {
 			var link = this;
 			jQuery(link).addClass('loading');

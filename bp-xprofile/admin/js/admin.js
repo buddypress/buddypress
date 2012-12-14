@@ -11,7 +11,7 @@ function add_option(forWhat) {
 
 	newDiv.setAttribute('id', forWhat + '_div' + theId);
 	newDiv.setAttribute('class', 'sortable');
-	
+
 	newOption.setAttribute( 'type', 'text' );
 	newOption.setAttribute( 'name', forWhat + '_option[' + theId + ']' );
 	newOption.setAttribute( 'id', forWhat + '_option' + theId );
@@ -107,7 +107,7 @@ function destroySortableFieldOptions() {
 jQuery( document ).ready( function() {
 
 	// Set up deleting options ajax
-	jQuery( 'a.ajax-option-delete' ).live( 'click', function() {
+	jQuery( 'a.ajax-option-delete' ).on( 'click', function() {
 		var theId = this.id.split( '-' );
 		theId = theId[1];
 
@@ -120,7 +120,7 @@ jQuery( document ).ready( function() {
 		function( response ) {} );
 	} );
 
-	// 
+	//
 	jQuery( '[id^="sort_order_"]' ).change(function() {
 		if ( jQuery( this ).val() != 'custom' ) {
 			destroySortableFieldOptions();

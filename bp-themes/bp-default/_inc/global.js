@@ -29,7 +29,7 @@ jq(document).ready( function() {
 			height:'50px'
 		});
 		jq.scrollTo( jq('textarea#whats-new'), 500, {
-			offset:-125, 
+			offset:-125,
 			easing:'easeOutQuad'
 		} );
 		jq('textarea#whats-new').focus();
@@ -322,7 +322,7 @@ jq(document).ready( function() {
 	});
 
 	// Activity "Read More" links
-	jq('.activity-read-more a').live('click', function(event) {
+	jq('.activity-read-more a').on('click', function(event) {
 		var target = jq(event.target);
 		var link_id = target.parent().attr('id').split('-');
 		var a_id = link_id[3];
@@ -389,7 +389,7 @@ jq(document).ready( function() {
 
 			form.slideDown( 200 );
 			jq.scrollTo( form, 500, {
-				offset:-100, 
+				offset:-100,
 				easing:'easeOutQuad'
 			} );
 			jq('#ac-form-' + ids[2] + ' textarea').focus();
@@ -780,7 +780,7 @@ jq(document).ready( function() {
 	});
 
 	/* Remove a user from the list of users to invite to a group */
-	jq("#friend-list li a.remove").live('click', function() {
+	jq("#friend-list li a.remove").on('click', function() {
 		jq('.ajax-loader').toggle();
 
 		var friend_id = jq(this).attr('id');
@@ -809,21 +809,21 @@ jq(document).ready( function() {
 	jq('.field-visibility-settings').hide();
 	jq('.visibility-toggle-link').on( 'click', function() {
 		var toggle_div = jq(this).parent();
-		
+
 		jq(toggle_div).fadeOut( 600, function(){
 			jq(toggle_div).siblings('.field-visibility-settings').slideDown(400);
 		});
-		
+
 		return false;
 	} );
 
 	jq('.field-visibility-settings-close').on( 'click', function() {
 		var settings_div = jq(this).parent();
-		
+
 		jq(settings_div).slideUp( 400, function(){
 			jq(settings_div).siblings('.field-visibility-settings-toggle').fadeIn(800);
 		});
-		
+
 		return false;
 	} );
 
@@ -886,7 +886,7 @@ jq(document).ready( function() {
 	});
 
 	/* Add / Remove friendship buttons */
-	jq(".friendship-button a").live('click', function() {
+	jq(".friendship-button a").on('click', function() {
 		jq(this).parent().addClass('loading');
 		var fid = jq(this).attr('id');
 		fid = fid.split('-');
@@ -936,7 +936,7 @@ jq(document).ready( function() {
 
 	/** Group Join / Leave Buttons **************************************/
 
-	jq(".group-button a").live('click', function() {
+	jq(".group-button a").on('click', function() {
 		var gid = jq(this).parent().attr('id');
 		gid = gid.split('-');
 		gid = gid[1];
