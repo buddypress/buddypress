@@ -187,3 +187,28 @@ table.bp-group-members .urole-column {
 		right: auto;
 		left: 0;
 	}
+
+/* HiDPI
+------------------------------------------------------------------------------*/
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+
+	/* Icon 32 */
+	div#icon-buddypress,
+	div#icon-buddypress-activity,
+	div#icon-buddypress-groups {
+		background-image: url('../images/icons64.png');
+		background-size: 419px 45px;
+	}
+
+	/* Backpat */
+	ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
+	ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image,
+	ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image,
+	ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image,
+	ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image,
+	ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image {
+		background-image: url('../images/menu-2x.png') !important;
+		background-size: 209px 64px;
+	}
+}
