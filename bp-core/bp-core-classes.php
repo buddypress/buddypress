@@ -296,12 +296,14 @@ class BP_User_Query {
 		}
 
 		// 'user_id' - When a user id is passed, limit to the friends of the user
+		// Only parse this if no 'include' param is passed, to account for
+		// friend request queries
 		// @todo remove need for bp_is_active() check
-		if ( !empty( $user_id ) && bp_is_active( 'friends' ) ) {
+		if ( empty( $include ) && ! empty( $user_id ) && bp_is_active( 'friends' ) ) {
 			$friend_ids = friends_get_friend_user_ids( $user_id );
 			$friend_ids = $wpdb->escape( implode( ',', (array) $friend_ids ) );
 
-			if ( !empty( $friend_ids ) ) {
+			if ( ! empty( $friend_ids ) ) {
 				$sql['where'][] = "u.{$this->uid_name} IN ({$friend_ids})";
 
 			// If the user has no friends, and we're not including specific users, make sure the query returns null
