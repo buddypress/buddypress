@@ -558,7 +558,7 @@ function bp_get_email_subject( $args = array() ) {
 		'text'    => ''
 	) );
 
-	$subject = $r['before'] . wp_specialchars_decode( bp_get_option( 'blogname', $default ), ENT_QUOTES ) . $r['after'] . ' ' . $r['text'];
+	$subject = $r['before'] . wp_specialchars_decode( bp_get_option( 'blogname', $r['default'] ), ENT_QUOTES ) . $r['after'] . ' ' . $r['text'];
 
 	return apply_filters( 'bp_get_email_subject', $subject, $r );
 }
