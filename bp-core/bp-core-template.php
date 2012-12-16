@@ -1843,7 +1843,7 @@ function bp_get_nav_menu_items() {
 	foreach ( $top_level_menus as $nav ) {
 
 		// Skip items marked as user-specific if you're not on your own profile
-		if ( ! $nav['show_for_displayed_user'] && ! bp_is_my_profile() )
+		if ( ! $nav['show_for_displayed_user'] && ! bp_core_can_edit_settings()  )
 			continue;
 
 		// Get the correct menu link. See http://buddypress.trac.wordpress.org/ticket/4624
