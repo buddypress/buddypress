@@ -1369,10 +1369,6 @@ class BP_Group_Extension {
 
 	function create_screen_save() {}
 
-	function admin_screen( $group_id ) {}
-
-	function admin_screen_save( $group_id ) {}
-
 	// Private Methods
 
 	function _register() {
@@ -1448,7 +1444,9 @@ class BP_Group_Extension {
 		}
 
 		// Construct the admin metabox
-		if ( ! empty( $this->enable_admin_item ) ) {
+		// Plugin authors: Note that $this->enable_admin_item must be
+		// set to true, and self::admin_screen() must be defined
+		if ( ! empty( $this->enable_admin_item ) && is_admin() && method_exists( get_class( $this ), 'admin_screen' ) ) {
 			// Hook the admin screen markup function to the content hook
 			add_action( 'bp_groups_admin_meta_box_content_' . $this->slug, array( $this, 'admin_screen' ) );
 
