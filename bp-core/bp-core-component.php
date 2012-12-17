@@ -109,7 +109,6 @@ class BP_Component {
 	 * Component global variables
 	 *
 	 * @since BuddyPress (1.5)
-	 * @access private
 	 *
 	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_id'
 	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_slug'
@@ -187,7 +186,6 @@ class BP_Component {
 	 *   - ./bp-my_component/bp-my_component-actions.php
 	 *
 	 * @since BuddyPress (1.5)
-	 * @access private
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}includes'
 	 */
@@ -229,7 +227,6 @@ class BP_Component {
 	 * Setup the actions
 	 *
 	 * @since BuddyPress (1.5)
-	 * @access private
 	 *
 	 * @uses add_action() To add various actions
 	 * @uses do_action() Calls 'bp_{@link BP_Component::name}setup_actions'
