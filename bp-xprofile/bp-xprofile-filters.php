@@ -191,26 +191,41 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 	return $values;
 }
 
+/**
+ * Ensures that BP data appears in comments array
+ *
+ * This filter loops through the comments return by a normal WordPress request
+ * and swaps out user data with BP xprofile data, where available
+ *
+ * @param array $comments
+ * @param int $post_id
+ * @return array $comments
+ */
 function xprofile_filter_comments( $comments, $post_id ) {
+	// Locate comment authors with WP accounts
 	foreach( (array) $comments as $comment ) {
 		if ( $comment->user_id ) {
 			$user_ids[] = $comment->user_id;
 		}
 	}
 
-	if ( empty( $user_ids ) )
+	// If none are found, just return the comments array
+	if ( empty( $user_ids ) ) {
 		return $comments;
+	}
 
+	// Pull up the xprofile fullname of each commenter
 	if ( $fullnames = BP_XProfile_ProfileData::get_value_byid( 1, $user_ids ) ) {
 		foreach( (array) $fullnames as $user ) {
-			$users[$user->user_id] = trim( stripslashes( $user->value ) );
+			$users[ $user->user_id ] = trim( stripslashes( $user->value ) );
 		}
 	}
 
+	// Loop through and match xprofile fullname with commenters
 	foreach( (array) $comments as $i => $comment ) {
-		if ( !empty( $comment->user_id ) ) {
-			if ( !empty( $users[$comment->user_id] ) ) {
-				$comments[$i]->comment_author = $users[$comment->user_id];
+		if ( ! empty( $comment->user_id ) ) {
+			if ( ! empty( $users[ $comment->user_id ] ) ) {
+				$comments[ $i ]->comment_author = $users[ $comment->user_id ];
 			}
 		}
 	}
