@@ -1329,6 +1329,22 @@ class BP_Group_Extension {
 	var $create_step_position = 81;
 	var $nav_item_position = 81;
 
+	/**
+	 * @var string Context for the optional admin metabox
+	 * @see https://codex.wordpress.org/Function_Reference/add_meta_box for
+	 *      possible values
+	 * @since 1.7
+	 */
+	var $admin_metabox_context = 'normal';
+
+	/**
+	 * @var string Priority for the optional admin menabox
+	 * @see https://codex.wordpress.org/Function_Reference/add_meta_box for
+	 *      possible values
+	 * @since 1.7
+	 */
+	var $admin_metabox_priority = 'core';
+
 	var $enable_create_step = true;
 	var $enable_nav_item = true;
 	var $enable_edit_item = true;
@@ -1462,8 +1478,8 @@ class BP_Group_Extension {
 			$this->name,
 			create_function( '', 'do_action( "bp_groups_admin_meta_box_content_' . $this->slug . '", ' . $group_id . ' );' ),
 			get_current_screen()->id,
-			'normal',
-			'core'
+			$this->admin_metabox_context,
+			$this->admin_metabox_priority
 		);
 	}
 }
