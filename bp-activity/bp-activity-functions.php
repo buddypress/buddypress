@@ -28,13 +28,13 @@ function bp_activity_has_directory() {
 }
 
 /**
- * Searches through the content of an activity item to locate usernames, designated by an @ sign
+ * Searches through the content of an activity item to locate usernames,
+ * designated by an @ sign.
  *
  * @since BuddyPress (1.5)
  *
- * @param string $content The content of the activity, usually found in $activity->content
- *
- * @return bool|array $usernames Array of the found usernames that match existing users. False if no matches
+ * @param string $content The content of the activity, usually found in $activity->content.
+ * @return mixed Associative array with user ID as key and username as value. Boolean false if no mentions found.
  */
 function bp_activity_find_mentions( $content ) {
 	$pattern = '/[@]+([A-Za-z0-9-_\.@]+)\b/';
@@ -44,7 +44,26 @@ function bp_activity_find_mentions( $content ) {
 	if ( !$usernames = array_unique( $usernames[1] ) )
 		return false;
 
-	return $usernames;
+	$mentioned_users = array();
+
+	// We've found some mentions! Check to see if users exist
+	foreach( (array) $usernames as $key => $username ) {
+		if ( bp_is_username_compatibility_mode() ) {
+			$user_id = username_exists( $username );
+		} else {
+			$user_id = bp_core_get_userid_from_nicename( $username );
+		}
+
+		// user ID exists, so let's add it to our array
+		if ( ! empty( $user_id ) ) {
+			$mentioned_users[$user_id] = $username;
+		}
+	}
+
+	if ( empty( $mentioned_users ) )
+		return false;
+
+	return $mentioned_users;
 }
 
 /**
@@ -61,62 +80,93 @@ function bp_activity_clear_new_mentions( $user_id ) {
 }
 
 /**
- * Adjusts new mention count for mentioned users when activity items are deleted or created
+ * Adjusts mention count for mentioned users in activity items.
+ *
+ * This function is useful if you only have the activity ID handy and you
+ * haven't parsed an activity item for @mentions yet.
+ *
+ * Currently, only used in {@link bp_activity_delete()}.
  *
  * @since BuddyPress (1.5)
  *
  * @param int $activity_id The unique id for the activity item
+ * @param string $action Can be 'delete' or 'add'. Defaults to 'add'.
+ *
+ * @uses bp_activity_find_mentions()
+ * @uses bp_activity_update_mention_count_for_user()
+ */
+function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
+	if ( empty( $activity_id ) )
+		return false;
+
+	// Get activity object
+	$activity = new BP_Activity_Activity( (int) $activity_id );
+
+	// Try to find mentions
+	$usernames = bp_activity_find_mentions( strip_tags( $activity->content ) );
+
+	// Still empty? Stop now
+	if ( empty( $usernames ) )
+		return false;
+
+	// Increment mention count foreach mentioned user
+	foreach( (array) $usernames as $user_id => $username ) {
+		bp_activity_update_mention_count_for_user( $user_id, $activity_id, $action );
+	}
+}
+
+/**
+ * Updates the mention count for the user in question.
+ *
+ * This function should be used when you've already parsed your activity item
+ * for @mentions.
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param int $user_id The user ID
+ * @param int $activity_id The unique id for the activity item
  * @param string $action Can be 'delete' or 'add'. Defaults to 'add'
  *
- * @uses BP_Activity_Activity() {@link BP_Activity_Activity}
- * @uses bp_activity_find_mentions()
- * @uses bp_is_username_compatibility_mode()
- * @uses bp_core_get_userid_from_nicename()
  * @uses bp_get_user_meta()
  * @uses bp_update_user_meta()
+ * @return bool
  */
-function bp_activity_adjust_mention_count( $activity_id, $action = 'add' ) {
-	$activity = new BP_Activity_Activity( $activity_id );
+function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $action = 'add' ) {
+	if ( empty( $user_id ) || empty( $activity_id ) )
+		return false;
 
-	if ( $usernames = bp_activity_find_mentions( strip_tags( $activity->content ) ) ) {
-		foreach( (array) $usernames as $username ) {
-			if ( bp_is_username_compatibility_mode() )
-				$user_id = username_exists( $username );
-			else
-				$user_id = bp_core_get_userid_from_nicename( $username );
+	// Adjust the mention list and count for the member
+	$new_mention_count = (int) bp_get_user_meta( $user_id, 'bp_new_mention_count', true );
+	if ( !$new_mentions = bp_get_user_meta( $user_id, 'bp_new_mentions', true ) )
+		$new_mentions = array();
 
-			if ( empty( $user_id ) )
-				continue;
+	switch ( $action ) {
+		case 'delete' :
+			$key = array_search( $activity_id, $new_mentions );
 
-			// Adjust the mention list and count for the member
-			$new_mention_count = (int)bp_get_user_meta( $user_id, 'bp_new_mention_count', true );
-			if ( !$new_mentions = bp_get_user_meta( $user_id, 'bp_new_mentions', true ) )
-				$new_mentions = array();
-
-			switch ( $action ) {
-				case 'delete' :
-					$key = array_search( $activity_id, $new_mentions );
-					if ( $key !== false ) {
-						unset( $new_mentions[$key] );
-					}
-					break;
-
-				case 'add' :
-				default :
-					if ( !in_array( $activity_id, $new_mentions ) ) {
-						$new_mentions[] = (int) $activity_id;
-					}
-					break;
+			if ( $key !== false ) {
+				unset( $new_mentions[$key] );
 			}
 
-			// Get an updated mention count
-			$new_mention_count = count( $new_mentions );
+			break;
 
-			// Resave the user_meta
-			bp_update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count );
-			bp_update_user_meta( $user_id, 'bp_new_mentions', $new_mentions );
-		}
+		case 'add' :
+		default :
+			if ( !in_array( $activity_id, $new_mentions ) ) {
+				$new_mentions[] = (int) $activity_id;
+			}
+
+			break;
 	}
+
+	// Get an updated mention count
+	$new_mention_count = count( $new_mentions );
+
+	// Resave the user_meta
+	bp_update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count );
+	bp_update_user_meta( $user_id, 'bp_new_mentions',      $new_mentions );
+
+	return true;
 }
 
 /**

@@ -89,7 +89,7 @@ add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_make_nofollow_
 add_filter( 'pre_comment_content',                   'bp_activity_at_name_filter' );
 add_filter( 'group_forum_topic_text_before_save',    'bp_activity_at_name_filter' );
 add_filter( 'group_forum_post_text_before_save',     'bp_activity_at_name_filter' );
-add_filter( 'the_content', 			     'bp_activity_at_name_filter' );
+add_filter( 'the_content',                           'bp_activity_at_name_filter' );
 
 add_filter( 'bp_get_activity_parent_content',        'bp_create_excerpt' );
 
@@ -99,7 +99,7 @@ add_filter( 'bp_get_activity_content',      'bp_activity_truncate_entry', 5 );
 /** Actions *******************************************************************/
 
 // At-name filter
-add_action( 'bp_activity_after_save', 'bp_activity_at_name_filter_updates' );
+add_action( 'bp_activity_before_save', 'bp_activity_at_name_filter_updates' );
 
 // Activity stream moderation
 add_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2, 1 );
@@ -194,76 +194,103 @@ function bp_activity_filter_kses( $content ) {
 }
 
 /**
- * Finds and links @-mentioned users in the contents of activity items
+ * Finds and links @-mentioned users in the contents of a given item.
  *
  * @since BuddyPress (1.2)
  *
- * @param string $content The activity content
- * @param int $activity_id The activity id
+ * @param string $content The contents of a given item.
+ * @param int $activity_id The activity id. Deprecated.
  *
  * @uses bp_activity_find_mentions()
- * @uses bp_is_username_compatibility_mode()
- * @uses bp_core_get_userid_from_nicename()
- * @uses bp_activity_at_message_notification()
  * @uses bp_core_get_user_domain()
- * @uses bp_activity_adjust_mention_count()
  *
  * @return string $content Content filtered for mentions
  */
 function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
-	if ( $activity_id & bp_is_active( 'activity' ) ) {
-		$activity = new BP_Activity_Activity( $activity_id );
 
-		// If this activity has been marked as spam, don't do anything. This prevents @notifications being sent.
-		if ( !empty( $activity ) && $activity->is_spam )
-			return $content;
-	}
-
+	// Try to find mentions
 	$usernames = bp_activity_find_mentions( $content );
-	foreach( (array) $usernames as $username ) {
-		if ( bp_is_username_compatibility_mode() )
-			$user_id = username_exists( $username );
-		else
-			$user_id = bp_core_get_userid_from_nicename( $username );
 
-		if ( empty( $user_id ) )
-			continue;
+	// No mentions? Stop now!
+	if ( empty( $usernames ) )
+		return $content;
 
-		// If an activity_id is provided, we can send email and BP notifications
-		if ( $activity_id && apply_filters( 'bp_activity_at_name_do_notifications', true ) ) {
-			bp_activity_at_message_notification( $activity_id, $user_id );
-		}
-
+	// Linkify the mentions with the username
+	foreach( (array) $usernames as $user_id => $username ) {
 		$content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( $user_id ) . "' rel='nofollow'>@$username</a>", $content );
 	}
 
-	// Adjust the activity count for this item
-	if ( $activity_id )
-		bp_activity_adjust_mention_count( $activity_id, 'add' );
-
+	// Return the content
 	return $content;
 }
 
 /**
- * Catch mentions in saved activity items
+ * Catch mentions in activity items before they are saved into the database.
+ *
+ * If mentions are found, replace @mention text with user links and add our
+ * hook to send mentions after the activity item is saved.
  *
  * @since BuddyPress (1.5)
  *
  * @param obj $activity
  *
- * @uses remove_filter() To remove the 'bp_activity_at_name_filter_updates' hook.
- * @uses bp_activity_at_name_filter()
- * @uses BP_Activity_Activity::save() {@link BP_Activity_Activity}
+ * @uses bp_activity_find_mentions()
  */
 function bp_activity_at_name_filter_updates( $activity ) {
-	// Only run this function once for a given activity item
-	remove_filter( 'bp_activity_after_save', 'bp_activity_at_name_filter_updates' );
+	// If activity was marked as spam, stop the rest of this function.
+	if ( ! empty( $activity->is_spam ) )
+		return;
 
-	// Run the content through the linking filter, making sure to increment mention count
-	$activity->content = bp_activity_at_name_filter( $activity->content, $activity->id );
+	// Try to find mentions
+	$usernames = bp_activity_find_mentions( $activity->content );
 
-	// Resave the activity with the new content
-	$activity->save();
+	// We have mentions!
+	if ( ! empty( $usernames ) ) {
+		// Replace @mention text with userlinks
+		foreach( (array) $usernames as $user_id => $username ) {
+			$activity->content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( $user_id ) . "' rel='nofollow'>@$username</a>", $activity->content );
+		}
+
+		// Add our hook to send @mention emails after the activity item is saved
+		add_action( 'bp_activity_after_save', 'bp_activity_at_name_send_emails' );
+
+		// temporary variable to avoid having to run bp_activity_find_mentions() again
+		buddypress()->activity->mentioned_users = $usernames;
+	}
+}
+
+/**
+ * Sends emails and BP notifications for @-mentioned users in the contents of
+ * an activity item.
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param obj $activity The BP_Activity_Activity object
+ *
+ * @uses bp_activity_at_message_notification()
+ * @uses bp_activity_update_mention_count_for_user()
+ */
+function bp_activity_at_name_send_emails( $activity ) {
+	// If our temporary variable doesn't exist, stop now.
+	if ( empty( buddypress()->activity->mentioned_users ) )
+		return;
+
+	// Grab our temporary variable from bp_activity_at_name_filter_updates()
+	$usernames = buddypress()->activity->mentioned_users;
+
+	// Get rid of temporary variable
+	unset( buddypress()->activity->mentioned_users );
+
+	// Send @mentions and setup BP notifications
+	foreach( (array) $usernames as $user_id => $username ) {
+		// If you want to disable notifications, you can use this filter to stop email sending
+		if ( apply_filters( 'bp_activity_at_name_do_notifications', true, $usernames ) ) {
+			bp_activity_at_message_notification( $activity->id, $user_id );
+		}
+
+		// Updates mention count for the user
+		bp_activity_update_mention_count_for_user( $user_id, $activity->id );
+	}
 }
 
 /**
