@@ -30,7 +30,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<description><?php printf( __( '%s - Activity Feed', 'buddypress' ), bp_get_displayed_user_fullname() ) ?></description>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s O', bp_activity_get_last_updated(), false); ?></pubDate>
 	<generator>http://buddypress.org/?v=<?php echo BP_VERSION ?></generator>
-	<language><?php echo get_option('rss_language'); ?></language>
+	<language><?php bloginfo_rss( 'language' ); ?></language>
 	<?php do_action('bp_activity_personal_feed_head'); ?>
 
 	<?php if ( bp_has_activities( 'user_id=' . bp_displayed_user_id() . '&max=50&display_comments=stream' ) ) : ?>
