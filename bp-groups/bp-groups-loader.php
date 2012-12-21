@@ -343,7 +343,7 @@ class BP_Groups_Component extends BP_Component {
 
 		// Add 'Groups' to the main navigation
 		$main_nav = array(
-			'name'                => sprintf( __( 'Groups <span>%d</span>', 'buddypress' ), groups_total_groups_for_user() ),
+			'name'                => sprintf( __( 'Groups <span>%d</span>', 'buddypress' ), bp_get_total_group_count_for_user() ),
 			'slug'                => $this->slug,
 			'position'            => 70,
 			'screen_function'     => 'groups_screen_my_groups',
