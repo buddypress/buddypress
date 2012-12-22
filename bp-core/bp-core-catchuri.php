@@ -19,9 +19,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * add new re-write rules. Custom components are able to use their own custom
  * URI structures with very little work.
  *
- * @package BuddyPress Core
- * @since BuddyPress (1.0)
- *
  * The URI's are broken down as follows:
  *   - http:// domain.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  *   - OUTSIDE ROOT: http:// domain.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
@@ -32,6 +29,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *    - $bp->current_action: string 'edit'
  *    - $bp->action_variables: array ['group', 5]
  *
+ * @package BuddyPress Core
+ * @since BuddyPress (1.0)
  */
 function bp_core_set_uri_globals() {
 	global $bp, $current_blog, $wp_rewrite;

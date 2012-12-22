@@ -6,7 +6,7 @@
  * on which this implementation is heavily based.
  *
  * @package BuddyPress
- * @since 1.7
+ * @since BuddyPress (1.7)
  * @subpackage Groups
  */
 
@@ -23,7 +23,7 @@ if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-groups' == $_REQUEST['pag
 /**
  * Registers the Groups component admin screen
  *
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_add_admin_menu() {
 
@@ -50,7 +50,7 @@ add_action( bp_core_admin_hook(), 'bp_groups_add_admin_menu' );
  *
  * @global object $bp BuddyPress global settings
  * @global BP_Groups_List_Table $bp_groups_list_table Groups screen list table
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 function bp_groups_admin_load() {
 	global $bp_groups_list_table;
@@ -368,7 +368,7 @@ function bp_groups_admin_load() {
 /**
  * Outputs the Groups component admin screens
  *
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_admin() {
 	// Decide whether to load the index or edit screen
@@ -391,7 +391,7 @@ function bp_groups_admin() {
 /**
  * Display the single groups edit screen
  *
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_admin_edit() {
 
@@ -565,7 +565,7 @@ function bp_groups_admin_delete() {
  *
  * @global BP_Activity_List_Table $bp_groups_list_table Activity screen list table
  * @global string $plugin_page
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_admin_index() {
 	global $bp_groups_list_table, $plugin_page;
@@ -622,7 +622,7 @@ function bp_groups_admin_index() {
  * Settings metabox
  *
  * @param object $item Group item
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_admin_edit_metabox_settings( $item ) {
 	$invite_status = groups_get_groupmeta( $item->id, 'invite_status' );
@@ -658,7 +658,7 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
 /**
  * Add New Members metabox
  *
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_admin_edit_metabox_add_new_members( $item ) {
 	?>
@@ -671,7 +671,7 @@ function bp_groups_admin_edit_metabox_add_new_members( $item ) {
 /**
  * Members metabox
  *
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_admin_edit_metabox_members( $item ) {
 	global $members_template;
@@ -798,7 +798,7 @@ function bp_groups_admin_edit_metabox_members( $item ) {
  * Status metabox for the Groups admin edit screen
  *
  * @param object $item Group item
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_admin_edit_metabox_status( $item ) {
 	$base_url = add_query_arg( array(
@@ -826,7 +826,7 @@ function bp_groups_admin_edit_metabox_status( $item ) {
 /**
  * Match a set of user ids up to a set of usernames
  *
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_admin_get_usernames_from_ids( $user_ids ) {
 	$usernames = array();
@@ -842,7 +842,7 @@ function bp_groups_admin_get_usernames_from_ids( $user_ids ) {
 /**
  * AJAX handler for group member autocomplete requests
  *
- * @since 1.7
+ * @since BuddyPress (1.7)
  */
 function bp_groups_admin_autocomplete_handler() {
 	if ( ! current_user_can( 'bp_moderate' ) || is_multisite() && wp_is_large_network( 'users' ) )
@@ -876,28 +876,28 @@ add_action( 'wp_ajax_bp_group_admin_member_autocomplete', 'bp_groups_admin_autoc
 /**
  * List table class for the Groups component admin page.
  *
- * @since 1.6
+ * @since BuddyPress (1.6)
  */
 class BP_Groups_List_Table extends WP_List_Table {
 
 	/**
 	 * What type of view is being displayed? e.g. "All", "Pending", "Approved", "Spam"...
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	*/
 	public $view = 'all';
 
 	/**
 	 * Group counts for each group type
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	public $group_counts = 0;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	public function __construct() {
 
@@ -912,7 +912,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Handle filtering of data, sorting, pagination, and any other data-manipulation required prior to rendering.
 	 *
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	function prepare_items() {
 		global $groups_template;
@@ -1016,7 +1016,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Get an array of all the columns on the page
 	 *
 	 * @return array
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function get_column_info() {
 		$this->_column_headers = array(
@@ -1031,7 +1031,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Displays a message on screen when no items are found (e.g. no search matches)
 	 *
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function no_items() {
 		_e( 'No groups found.', 'buddypress' );
@@ -1040,7 +1040,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Outputs the Groups data table
 	 *
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	*/
 	function display() {
 		extract( $this->_args );
@@ -1073,7 +1073,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Generates content for a single row of the table
 	 *
 	 * @param object $item The current item
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function single_row( $item ) {
 		static $row_class = '';
@@ -1092,7 +1092,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Get the list of views available on this table (e.g. "all", "public").
 	 *
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function get_views() {
 		$url_base = remove_query_arg( array( 'orderby', 'order', 'group_status' ), $_SERVER['REQUEST_URI'] ); ?>
@@ -1111,7 +1111,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Get bulk actions
 	 *
 	 * @return array Key/value pairs for the bulk actions dropdown
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function get_bulk_actions() {
 		$actions = array();
@@ -1125,7 +1125,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 * @return array
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function get_columns() {
 		return array(
@@ -1143,7 +1143,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Get the column names for sortable columns
 	 *
 	 * @return array
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function get_sortable_columns() {
 		return array(
@@ -1159,7 +1159,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @param array $item A singular item (one full row)
 	 * @see WP_List_Table::single_row_columns()
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	function column_cb( $item ) {
 		printf( '<input type="checkbox" name="gid[]" value="%d" />', (int) $item['id'] );
@@ -1170,7 +1170,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @param array $item A singular item (one full row)
 	 * @see WP_List_Table::single_row_columns()
-	 * @since 1.6
+	 * @since BuddyPress (1.6)
 	 */
 	function column_gid( $item ) {
 		echo '<strong>' . $item['id'] . '</strong>';
@@ -1183,7 +1183,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @param array $item A singular item (one full row)
 	 * @see WP_List_Table::single_row_columns()
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function column_comment( $item ) {
 
@@ -1238,7 +1238,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Description column
 	 *
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function column_description( $item ) {
 		echo apply_filters_ref_array( 'bp_get_group_description', array( $item['description'], $item ) );
@@ -1247,7 +1247,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Status column
 	 *
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function column_status( $item ) {
 		$status = $item['status'];
@@ -1274,7 +1274,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Number of Members column
 	 *
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function column_members( $item ) {
 		$count = groups_get_groupmeta( $item['id'], 'total_member_count' );
@@ -1284,7 +1284,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Last Active column
 	 *
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	function column_last_active( $item ) {
 		$last_active = groups_get_groupmeta( $item['id'], 'last_activity' );

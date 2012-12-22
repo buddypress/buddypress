@@ -749,7 +749,7 @@ class BP_Groups_Group {
 	 * A bit of a kludge workaround for some issues
 	 * with bp_has_groups()
 	 *
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 *
 	 * @return array
 	 */
@@ -1333,7 +1333,7 @@ class BP_Group_Extension {
 	 * @var string Context for the optional admin metabox
 	 * @see https://codex.wordpress.org/Function_Reference/add_meta_box for
 	 *      possible values
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	var $admin_metabox_context = 'normal';
 
@@ -1341,7 +1341,7 @@ class BP_Group_Extension {
 	 * @var string Priority for the optional admin menabox
 	 * @see https://codex.wordpress.org/Function_Reference/add_meta_box for
 	 *      possible values
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 */
 	var $admin_metabox_priority = 'core';
 

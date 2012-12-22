@@ -998,7 +998,7 @@ add_filter( 'pre_update_site_option_illegal_names', 'bp_core_get_illegal_names',
  *   - If there's an email domain blacklist, is the current domain on it?
  *   - If there's an email domain whitelest, is the current domain on it?
  *
- * @since 1.6.2
+ * @since BuddyPress (1.6.2)
  *
  * @param string $user_email The email being checked
  * @return bool|array True if the address passes all checks; otherwise an array

@@ -114,7 +114,7 @@ class BP_User_Query {
 	/**
 	 * Constructor
 	 *
-	 * @since 1.7
+	 * @since BuddyPress (1.7)
 	 *
 	 * @param string|array $query The query variables
 	 */
