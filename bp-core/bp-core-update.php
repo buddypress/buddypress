@@ -176,17 +176,67 @@ function bp_version_updater() {
 	// Get the raw database version
 	$raw_db_version = (int) bp_get_db_version_raw();
 
-	/** 1.6 Branch ************************************************************/
+	// Install BP schema and activate only Activity and XProfile
+	if ( bp_is_install() ) {
 
-	// 1.6
-	if ( $raw_db_version < 6067 ) {
-		// Do nothing
+		require_once( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-schema.php' );
+
+		$default_components = apply_filters( 'bp_new_install_default_components', array( 'activity' => 1, 'xprofile' => 1, ) );
+		bp_core_install( $default_components );
+		bp_update_option( 'bp-active-components', $default_components );
+
+	// Upgrades
+	} else {
+
+		// 1.5
+		if ( $raw_db_version < 1801 )
+			bp_update_to_1_5();
+
+		// 1.6
+		if ( $raw_db_version < 6067 )
+			bp_update_to_1_6();
 	}
 
 	/** All done! *************************************************************/
 
 	// Bump the version
 	bp_version_bump();
+}
+
+/**
+ * Database update methods based on version numbers
+ *
+ * @since BuddyPress (1.7)
+ */
+function bp_update_to_1_5() {
+
+	// Delete old database version options
+	delete_site_option( 'bp-activity-db-version' );
+	delete_site_option( 'bp-blogs-db-version'    );
+	delete_site_option( 'bp-friends-db-version'  );
+	delete_site_option( 'bp-groups-db-version'   );
+	delete_site_option( 'bp-messages-db-version' );
+	delete_site_option( 'bp-xprofile-db-version' );
+}
+
+/**
+ * Database update methods based on version numbers
+ *
+ * @since BuddyPress (1.7)
+ */
+function bp_update_to_1_6() {
+
+	// Delete possible site options
+	delete_site_option( 'bp-db-version'       );
+	delete_site_option( '_bp_db_version'      );
+	delete_site_option( 'bp-core-db-version'  );
+	delete_site_option( '_bp-core-db-version' );
+
+	// Delete possible blog options
+	delete_blog_option( bp_get_root_blog_id(), 'bp-db-version'       );
+	delete_blog_option( bp_get_root_blog_id(), 'bp-core-db-version'  );
+	delete_site_option( bp_get_root_blog_id(), '_bp-core-db-version' );
+	delete_site_option( bp_get_root_blog_id(), '_bp_db_version'      );
 }
 
 /**
