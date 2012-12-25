@@ -7,11 +7,17 @@
 
 		<div class="page" id="activate-page">
 
+			<h3><?php if ( bp_account_was_activated() ) :
+				_e( 'Account Activated', 'buddypress' );
+			else :
+				_e( 'Activate your Account', 'buddypress' );
+			endif; ?></h3>
+
+			<?php do_action( 'template_notices' ); ?>
+
+			<?php do_action( 'bp_before_activate_content' ); ?>
+
 			<?php if ( bp_account_was_activated() ) : ?>
-
-				<h2 class="widgettitle"><?php _e( 'Account Activated', 'buddypress' ); ?></h2>
-
-				<?php do_action( 'bp_before_activate_content' ); ?>
 
 				<?php if ( isset( $_GET['e'] ) ) : ?>
 					<p><?php _e( 'Your account was activated successfully! Your account details have been sent to you in a separate email.', 'buddypress' ); ?></p>
@@ -20,10 +26,6 @@
 				<?php endif; ?>
 
 			<?php else : ?>
-
-				<h3><?php _e( 'Activate your Account', 'buddypress' ); ?></h3>
-
-				<?php do_action( 'bp_before_activate_content' ); ?>
 
 				<p><?php _e( 'Please provide a valid activation key.', 'buddypress' ); ?></p>
 

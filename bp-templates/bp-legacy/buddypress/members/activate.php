@@ -4,9 +4,11 @@
 
 	<div class="page" id="activate-page">
 
-		<?php if ( bp_account_was_activated() ) : ?>
+		<?php do_action( 'template_notices' ); ?>
 
-			<?php do_action( 'bp_before_activate_content' ); ?>
+		<?php do_action( 'bp_before_activate_content' ); ?>
+
+		<?php if ( bp_account_was_activated() ) : ?>
 
 			<?php if ( isset( $_GET['e'] ) ) : ?>
 				<p><?php _e( 'Your account was activated successfully! Your account details have been sent to you in a separate email.', 'buddypress' ); ?></p>
@@ -15,8 +17,6 @@
 			<?php endif; ?>
 
 		<?php else : ?>
-
-			<?php do_action( 'bp_before_activate_content' ); ?>
 
 			<p><?php _e( 'Please provide a valid activation key.', 'buddypress' ); ?></p>
 
