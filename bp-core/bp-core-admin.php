@@ -438,7 +438,7 @@ class BP_Admin {
 			</div>
 
 			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $settings_page ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
+				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
 			</div>
 
 		</div>
