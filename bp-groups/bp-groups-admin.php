@@ -765,6 +765,7 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 			<table class="widefat bp-group-members">
 				<thead>
 				<tr>
+					<th scope="col" class="uid-column"><?php _ex( 'ID', 'Group member user_id in group admin', 'buddypress' ) ?></th>
 					<th scope="col" class="uname-column"><?php _ex( 'Name', 'Group member name in group admin', 'buddypress' ) ?></th>
 					<th scope="col" class="urole-column"><?php _ex( 'Group Role', 'Group member role in group admin', 'buddypress' ) ?></th>
 				</tr>
@@ -777,13 +778,13 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 						<th scope="row" class="uid-column"><?php echo $type_user->user_id ?></th>
 
 						<td class="uname-column">
-							<a href="<?php echo $user_link ?>"><?php echo bp_core_fetch_avatar( array(
+							<a style="float: left;" href="<?php echo $user_link ?>"><?php echo bp_core_fetch_avatar( array(
 									'item_id' => $type_user->user_id,
 									'width'   => '32',
 									'height'  => '32'
 							) ) ?></a>
 
-							<?php echo bp_core_get_userlink( $type_user->user_id ) ?>
+							<span style="margin: 8px; float: left;"><?php echo bp_core_get_userlink( $type_user->user_id ) ?></span>
 						</td>
 
 						<td class="urole-column">
