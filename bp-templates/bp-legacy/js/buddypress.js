@@ -880,12 +880,10 @@ jq(document).ready( function() {
 				button.fadeOut( 100, function() {
 					if ( jq(this).hasClass('accept') ) {
 						action_div.children('a.reject').hide();
-						jq(this).html( BP_DTheme.accepted ).fadeIn(50);
-						jq(this).addClass('accepted');
+						jq(this).html( BP_DTheme.accepted ).contents().unwrap();
 					} else {
 						action_div.children('a.accept').hide();
-						jq(this).html( BP_DTheme.rejected ).fadeIn(50);
-						jq(this).addClass('rejected');
+						jq(this).html( BP_DTheme.accepted ).contents().unwrap();
 					}
 				});
 			}
