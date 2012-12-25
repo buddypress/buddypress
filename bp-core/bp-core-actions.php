@@ -53,7 +53,6 @@ add_filter( 'map_meta_cap',            'bp_map_meta_caps',          10, 4 );
 add_action( 'bp_loaded', 'bp_setup_components',         2  );
 add_action( 'bp_loaded', 'bp_include',                  4  );
 add_action( 'bp_loaded', 'bp_setup_widgets',            6  );
-add_action( 'bp_loaded', 'bp_core_load_admin_bar',      10 );
 add_action( 'bp_loaded', 'bp_register_theme_packages',  12 );
 add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
 
@@ -64,10 +63,11 @@ add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
  * The load order helps to execute code at the correct time.
  *                                                 v---Load order
  */
-add_action( 'bp_init', 'bp_core_set_uri_globals',  2 );
-add_action( 'bp_init', 'bp_setup_globals',         4 );
-add_action( 'bp_init', 'bp_setup_nav',             6 );
-add_action( 'bp_init', 'bp_setup_title',           8 );
+add_action( 'bp_init', 'bp_core_set_uri_globals',  2  );
+add_action( 'bp_init', 'bp_setup_globals',         4  );
+add_action( 'bp_init', 'bp_setup_nav',             6  );
+add_action( 'bp_init', 'bp_setup_title',           8  );
+add_action( 'bp_init', 'bp_core_load_admin_bar',   10 );
 
 /**
  * bp_template_redirect - Attached to 'template_redirect' above
