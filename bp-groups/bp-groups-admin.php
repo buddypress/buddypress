@@ -366,6 +366,28 @@ function bp_groups_admin_load() {
 }
 
 /**
+ * Handle save/update of screen options for the Groups component admin screen
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param string $value Will always be false unless another plugin filters it first.
+ * @param string $option Screen option name
+ * @param string $new_value Screen option form value
+ * @return string Option value. False to abandon update.
+ */
+function bp_groups_admin_screen_options( $value, $option, $new_value ) {
+	if ( 'toplevel_page_bp_groups_per_page' != $option && 'toplevel_page_bp_groups_network_per_page' != $option )
+		return $value;
+
+	// Per page
+	$new_value = (int) $new_value;
+	if ( $new_value < 1 || $new_value > 999 )
+		return $value;
+
+	return $new_value;
+}
+
+/**
  * Outputs the Groups component admin screens
  *
  * @since BuddyPress (1.7)
@@ -743,7 +765,6 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 			<table class="widefat bp-group-members">
 				<thead>
 				<tr>
-					<th scope="col" class="uid-column"><?php _ex( 'ID', 'Group member user_id in group admin', 'buddypress' ) ?></th>
 					<th scope="col" class="uname-column"><?php _ex( 'Name', 'Group member name in group admin', 'buddypress' ) ?></th>
 					<th scope="col" class="urole-column"><?php _ex( 'Group Role', 'Group member role in group admin', 'buddypress' ) ?></th>
 				</tr>
@@ -1130,7 +1151,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	function get_columns() {
 		return array(
 			'cb'          => '<input name type="checkbox" />',
-			'gid'         => _x( 'ID', 'Groups admin Group ID column header', 'buddypress' ),
 			'comment'     => _x( 'Name', 'Groups admin Group Name column header', 'buddypress' ),
 			'description' => _x( 'Description', 'Groups admin Group Description column header', 'buddypress' ),
 			'status'      => _x( 'Status', 'Groups admin Privacy Status column header', 'buddypress' ),
