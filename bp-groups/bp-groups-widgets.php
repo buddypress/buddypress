@@ -46,11 +46,9 @@ class BP_Groups_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		$title = $instance['link_title'] ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) . '">' . $instance['title'] . '</a>' : $instance['title'];
+		$title = !empty( $instance['link_title'] ) ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) . '">' . $instance['title'] . '</a>' : '';
 
-		echo $before_title
-		   . $title
-		   . $after_title; ?>
+		echo $before_title . $title . $after_title; ?>
 
 		<?php if ( bp_has_groups( 'user_id=' . $user_id . '&type=' . $instance['group_default'] . '&max=' . $instance['max_groups'] ) ) : ?>
 			<div class="item-options" id="groups-list-options">
