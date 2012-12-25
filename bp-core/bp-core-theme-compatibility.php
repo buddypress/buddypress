@@ -444,16 +444,16 @@ function bp_theme_compat_reset_post( $args = array() ) {
  */
 function bp_template_include_theme_compat( $template = '' ) {
 
-	// Bail if the template already matches a BuddyPress template
-	if ( !empty( buddypress()->theme_compat->found_template ) )
-		return $template;
-
 	/**
 	 * Use this action to execute code that will communicate to BuddyPress's
 	 * theme compatibility layer whether or not we're replacing the_content()
 	 * with some other template part.
 	 */
 	do_action( 'bp_template_include_reset_dummy_post_data' );
+
+	// Bail if the template already matches a BuddyPress template
+	if ( !empty( buddypress()->theme_compat->found_template ) )
+		return $template;
 
 	/**
 	 * If we are relying on BuddyPress's built in theme compatibility to load
