@@ -189,6 +189,20 @@ class BuddyPress {
 	 */
 	public function __set( $key, $value ) { $this->data[$key] = $value; }
 
+	/**
+	 * Magic method for unsetting BuddyPress variables
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function __unset( $key ) { if ( isset( $this->data[$key] ) ) unset( $this->data[$key] ); }
+
+	/**
+	 * Magic method to prevent notices and errors from invalid method calls
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function __call( $name = '', $args = array() ) { unset( $name, $args ); return null; }
+
 	/** Private Methods *******************************************************/
 
 	/**
