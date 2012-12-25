@@ -106,7 +106,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
  *
  * @since BuddyPress (1.7)
  *
- * @param string $location Callback function that returns the 
+ * @param string $location Callback function that returns the stack location
  * @param int $priority
  */
 function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
@@ -116,7 +116,26 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
 		return false;
 
 	// Add location callback to template stack
-	add_filter( 'bp_template_stack', $location_callback, (int) $priority );
+	return add_filter( 'bp_template_stack', $location_callback, (int) $priority );
+}
+
+/**
+ * Deregisters a previously registered template stack location.
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param string $location Callback function that returns the stack location
+ * @param int $priority
+ * @see bp_register_template_stack()
+ */
+function bp_deregister_template_stack( $location_callback = '', $priority = 10 ) {
+
+	// Bail if no location, or function does not exist
+	if ( empty( $location_callback ) || ! function_exists( $location_callback ) )
+		return false;
+
+	// Add location callback to template stack
+	return remove_filter( 'bp_template_stack', $location_callback, (int) $priority );
 }
 
 /**
