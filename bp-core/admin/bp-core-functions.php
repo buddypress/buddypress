@@ -360,3 +360,94 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 			break;
 	}
 }
+
+/** Separator *****************************************************************/
+
+/**
+ * Add a separator to the WordPress admin menus
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @uses bp_current_user_can() To check users capability on root blog
+ */
+function bp_admin_separator() {
+
+	// Prevent duplicate separators when no core menu items exist
+	if ( ! bp_current_user_can( 'bp_moderate' ) )
+		return;
+
+	global $menu;
+
+	$menu[] = array( '', 'read', 'separator-buddypress', '', 'wp-menu-separator buddypress' );
+}
+
+/**
+ * Tell WordPress we have a custom menu order
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param bool $menu_order Menu order
+ * @uses bp_current_user_can() To check users capability on root blog
+ * @return bool Always true
+ */
+function bp_admin_custom_menu_order( $menu_order = false ) {
+
+	// Bail if user cannot see admin pages
+	if ( ! bp_current_user_can( 'bp_moderate' ) )
+		return $menu_order;
+
+	return $menu_order;
+}
+
+/**
+ * Move our custom separator above our custom post types
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param array $menu_order Menu Order
+ * @uses bp_current_user_can() To check users capability on root blog
+ * @return array Modified menu order
+ */
+function bp_admin_menu_order( $menu_order = array() ) {
+
+	// Bail if user cannot see admin pages
+	if ( empty( $menu_order ) || ! bp_current_user_can( 'bp_moderate' ) )
+		return $menu_order;
+
+	// Initialize our custom order array
+	$bp_menu_order = array();
+
+	// Menu values
+	$last_sep     = is_network_admin() ? 'separator1' : 'separator2';
+
+	// Filter the custom admin menus
+	$custom_menus = (array) apply_filters( 'bp_admin_menu_order', array() );
+
+	// Add our separator to beginning of array
+	array_unshift( $custom_menus, 'separator-buddypress' );
+
+	// Loop through menu order and do some rearranging
+	foreach ( (array) $menu_order as $item ) {
+
+		// Position BuddyPress menus above appearance
+		if ( $last_sep == $item ) {
+
+			// Add our custom menus
+			foreach( (array) $custom_menus as $custom_menu ) {
+				if ( array_search( $custom_menu, $menu_order ) ) {
+					$bp_menu_order[] = $custom_menu;
+				}
+			}
+
+			// Add the appearance separator
+			$bp_menu_order[] = $last_sep;
+
+		// Skip our menu items
+		} elseif ( ! in_array( $item, $custom_menus ) ) {
+			$bp_menu_order[] = $item;
+		}
+	}
+
+	// Return our custom order
+	return $bp_menu_order;
+}

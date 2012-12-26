@@ -46,6 +46,20 @@ function bp_groups_add_admin_menu() {
 add_action( bp_core_admin_hook(), 'bp_groups_add_admin_menu' );
 
 /**
+ * Add groups component to custom menus array
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param array $custom_menus
+ * @return array
+ */
+function bp_groups_admin_menu_order( $custom_menus = array() ) {
+	array_push( $custom_menus, 'bp-groups' );
+	return $custom_menus;
+}
+add_filter( 'bp_admin_menu_order', 'bp_groups_admin_menu_order' );
+
+/**
  * Set up the admin page before any output is sent. Register contextual help and screen options for this admin page.
  *
  * @global object $bp BuddyPress global settings

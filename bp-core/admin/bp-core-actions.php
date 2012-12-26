@@ -43,6 +43,9 @@ add_action( 'admin_init',              'bp_admin_init'                    );
 add_action( 'admin_head',              'bp_admin_head'                    );
 add_action( 'admin_notices',           'bp_admin_notices'                 );
 add_action( 'admin_enqueue_scripts',   'bp_admin_enqueue_scripts'         );
+add_action( 'network_admin_menu',      'bp_admin_menu'                    );
+add_action( 'custom_menu_order',       'bp_admin_custom_menu_order'       );
+add_action( 'menu_order',              'bp_admin_menu_order'              );
 add_action( 'wpmu_new_blog',           'bp_new_site',               10, 6 );
 
 // Hook on to admin_init
@@ -52,8 +55,8 @@ add_action( 'bp_admin_init', 'bp_register_admin_style'        );
 add_action( 'bp_admin_init', 'bp_register_admin_settings'     );
 add_action( 'bp_admin_init', 'bp_do_activation_redirect', 1   );
 
-// Reset the menu order
-//add_action( 'bp_admin_menu', 'bp_admin_separator' );
+// Add a new separator
+add_action( 'bp_admin_menu', 'bp_admin_separator' );
 
 /**
  * When a new site is created in a multisite installation, run the activation

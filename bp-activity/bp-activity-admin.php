@@ -46,6 +46,20 @@ function bp_activity_add_admin_menu() {
 add_action( bp_core_admin_hook(), 'bp_activity_add_admin_menu' );
 
 /**
+ * Add activity component to custom menus array
+ *
+ * @since BuddyPress (1.7)
+ *
+ * @param array $custom_menus
+ * @return array
+ */
+function bp_activity_admin_menu_order( $custom_menus = array() ) {
+	array_push( $custom_menus, 'bp-activity' );
+	return $custom_menus;
+}
+add_filter( 'bp_admin_menu_order', 'bp_activity_admin_menu_order' );
+
+/**
  * AJAX receiver for Activity replies via the admin screen. Adds a new activity
  * comment, and returns HTML for a new table row.
  *
