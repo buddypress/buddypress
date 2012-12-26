@@ -372,6 +372,10 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
  */
 function bp_admin_separator() {
 
+	// Bail if BuddyPress is not network activated
+	if ( is_network_admin() && ! bp_is_network_activated() )
+		return;
+
 	// Prevent duplicate separators when no core menu items exist
 	if ( ! bp_current_user_can( 'bp_moderate' ) )
 		return;
