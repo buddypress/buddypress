@@ -99,7 +99,7 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		/** Buttons ***********************************************************/
 
-		if ( !is_admin() ) {
+		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			// Register buttons for the relevant component templates
 			// Friends button
 			if ( bp_is_active( 'friends' ) )
