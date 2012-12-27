@@ -112,7 +112,7 @@ function bp_dtheme_setup() {
 		add_theme_support( 'custom-header', $custom_header_args );
 	}
 
-	if ( !is_admin() ) {
+	if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 		// Register buttons for the relevant component templates
 		// Friends button
 		if ( bp_is_active( 'friends' ) )
