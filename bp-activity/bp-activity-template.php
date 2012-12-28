@@ -957,18 +957,22 @@ function bp_activity_avatar( $args = '' ) {
 	 * @return string User avatar
 	 */
 	function bp_get_activity_avatar( $args = '' ) {
-		global $activities_template, $bp;
+		global $activities_template;
+
+		$bp = buddypress();
 
 		// On activity permalink pages, default to the full-size avatar
 		$type_default = bp_is_single_activity() ? 'full' : 'thumb';
 
-		if ( !empty( $activities_template->activity->display_name ) ) {
-			$dn_default = $activities_template->activity->display_name;
-		} else if ( !empty( $activities_template->current_comment->display_name ) ) {
-			$dn_default = $activities_template->current_comment->display_name;
-		}
+		// Within the activity comment loop, the current activity should be set
+		// to current_comment. Otherwise, just use activity.
+		$current_activity_item = isset( $activities_template->activity->current_comment ) ? $activities_template->activity->current_comment : $activities_template->activity;
 
-		$alt_default = isset( $dn_default ) ? sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name ) : __( 'Profile picture', 'buddypress' );
+		// Activity user display name
+		$dn_default  = isset( $current_activity_item->display_name ) ? $current_activity_item->display_name : '';
+
+		// Prepend some descriptive text to alt
+		$alt_default = !empty( $dn_default ) ? sprintf( __( 'Profile picture of %s', 'buddypress' ), $dn_default ) : __( 'Profile picture', 'buddypress' );
 
 		$defaults = array(
 			'alt'     => $alt_default,
@@ -982,6 +986,7 @@ function bp_activity_avatar( $args = '' ) {
 		extract( $r, EXTR_SKIP );
 
 		if ( !isset( $height ) && !isset( $width ) ) {
+
 			// Backpat
 			if ( isset( $bp->avatar->full->height ) || isset( $bp->avatar->thumb->height ) ) {
 				$height = ( 'full' == $type ) ? $bp->avatar->full->height : $bp->avatar->thumb->height;
@@ -995,23 +1000,27 @@ function bp_activity_avatar( $args = '' ) {
 			} else {
 				$width = 20;
 			}
-
 		}
-
-		// Within the loop, we the current activity should be set first to the
-		// current_comment, if available
-		$current_activity_item = isset( $activities_template->activity->current_comment ) ? $activities_template->activity->current_comment : $activities_template->activity;
 
 		// Primary activity avatar is always a user, but can be modified via a filter
 		$object  = apply_filters( 'bp_get_activity_avatar_object_' . $current_activity_item->component, 'user' );
-		$item_id = $user_id ? $user_id : $current_activity_item->user_id;
+		$item_id = !empty( $user_id ) ? $user_id : $current_activity_item->user_id;
 		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $item_id );
 
 		// If this is a user object pass the users' email address for Gravatar so we don't have to refetch it.
-		if ( 'user' == $object && empty( $user_id ) && empty( $email ) && isset( $activities_template->activity->user_email ) )
+		if ( 'user' == $object && empty( $user_id ) && empty( $email ) && isset( $current_activity_item->user_email ) )
 			$email = $current_activity_item->user_email;
 
-		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
+		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array(
+			'item_id' => $item_id,
+			'object'  => $object,
+			'type'    => $type,
+			'alt'     => $alt,
+			'class'   => $class,
+			'width'   => $width,
+			'height'  => $height,
+			'email'   => $email
+		) ) );
 	}
 
 /**
