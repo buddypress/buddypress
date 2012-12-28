@@ -70,6 +70,8 @@
 
 	<?php do_action( 'bp_inside_after_sidebar' ); ?>
 
+	<?php wp_meta(); ?>
+
 	</div><!-- .padder -->
 </div><!-- #sidebar -->
 
