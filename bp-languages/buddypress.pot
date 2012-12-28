@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-12-28 05:36:36+00:00\n"
+"POT-Creation-Date: 2012-12-28 07:36:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1247,7 +1247,7 @@ msgid "Pages"
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:224
-#: bp-core/admin/bp-core-settings.php:258 bp-core/bp-core-admin.php:330
+#: bp-core/admin/bp-core-settings.php:258 bp-core/bp-core-admin.php:331
 #: bp-groups/bp-groups-loader.php:302 bp-groups/bp-groups-template.php:1446
 #: bp-settings/bp-settings-loader.php:23 bp-settings/bp-settings-loader.php:73
 #: bp-settings/bp-settings-loader.php:165
@@ -1392,245 +1392,245 @@ msgstr ""
 msgid "Associate WordPress Pages with the following BuddyPress Registration pages."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:153 bp-core/bp-core-admin.php:154
-#: bp-core/bp-core-admin.php:162 bp-core/bp-core-admin.php:163
+#: bp-core/bp-core-admin.php:154 bp-core/bp-core-admin.php:155
+#: bp-core/bp-core-admin.php:163 bp-core/bp-core-admin.php:164
 msgid "Welcome to BuddyPress"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:173 bp-core/bp-core-admin.php:174
-#: bp-core/bp-core-admin.php:194
+#: bp-core/bp-core-admin.php:174 bp-core/bp-core-admin.php:175
+#: bp-core/bp-core-admin.php:195
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:183
+#: bp-core/bp-core-admin.php:184
 msgid "BuddyPress Help"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:184
+#: bp-core/bp-core-admin.php:185
 msgid "Help"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:193
+#: bp-core/bp-core-admin.php:194
 msgid "BuddyPress Components"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:202 bp-core/bp-core-admin.php:203
+#: bp-core/bp-core-admin.php:203 bp-core/bp-core-admin.php:204
 msgid "BuddyPress Pages"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:211 bp-core/bp-core-admin.php:212
+#: bp-core/bp-core-admin.php:212 bp-core/bp-core-admin.php:213
 msgid "BuddyPress Settings"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:238
+#: bp-core/bp-core-admin.php:239
 msgid "Main Settings"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:241 bp-core/bp-core-admin.php:246
+#: bp-core/bp-core-admin.php:242 bp-core/bp-core-admin.php:247
 msgid "Toolbar"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:251
+#: bp-core/bp-core-admin.php:252
 msgid "Account Deletion"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:259
+#: bp-core/bp-core-admin.php:260
 msgid "Profile Settings"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:262
+#: bp-core/bp-core-admin.php:263
 msgid "Avatar Uploads"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:266
+#: bp-core/bp-core-admin.php:267
 msgid "Profile Syncing"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:275
+#: bp-core/bp-core-admin.php:276
 msgid "Groups Settings"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:278
+#: bp-core/bp-core-admin.php:279
 msgid "Group Creation"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:287
+#: bp-core/bp-core-admin.php:288
 msgid "Legacy Group Forums"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:290
+#: bp-core/bp-core-admin.php:291
 msgid "bbPress Configuration"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:299
+#: bp-core/bp-core-admin.php:300
 msgid "Activity Settings"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:302
+#: bp-core/bp-core-admin.php:303
 msgid "Blog &amp; Forum Comments"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:307
+#: bp-core/bp-core-admin.php:308
 msgid "Akismet"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:331
+#: bp-core/bp-core-admin.php:332
 msgid "About"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:377 bp-core/bp-core-admin.php:462
+#: bp-core/bp-core-admin.php:378 bp-core/bp-core-admin.php:463
 msgid "Welcome to BuddyPress %s"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:378 bp-core/bp-core-admin.php:463
+#: bp-core/bp-core-admin.php:379 bp-core/bp-core-admin.php:464
 msgid "Thank you for updating to the latest version! BuddyPress %s is ready to make your community a safer, faster, and better looking place to hang out!"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:379 bp-core/bp-core-admin.php:464
+#: bp-core/bp-core-admin.php:380 bp-core/bp-core-admin.php:465
 msgid "Version %s"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:383 bp-core/bp-core-admin.php:468
+#: bp-core/bp-core-admin.php:384 bp-core/bp-core-admin.php:469
 msgid "What&#8217;s New"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:385 bp-core/bp-core-admin.php:470
+#: bp-core/bp-core-admin.php:386 bp-core/bp-core-admin.php:471
 msgid "Credits"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:390
+#: bp-core/bp-core-admin.php:391
 msgid "Some neat thing"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:393
+#: bp-core/bp-core-admin.php:394
 msgid "Whoa"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:394
+#: bp-core/bp-core-admin.php:395
 msgid "Nice!"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:396
+#: bp-core/bp-core-admin.php:397
 msgid "Wow"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:397
+#: bp-core/bp-core-admin.php:398
 msgid "Amazing!"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:402
+#: bp-core/bp-core-admin.php:403
 msgid "Another neat thing"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:405
+#: bp-core/bp-core-admin.php:406
 msgid "No way"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:406
+#: bp-core/bp-core-admin.php:407
 msgid "Yes way."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:411
+#: bp-core/bp-core-admin.php:412
 msgid "Under the Hood"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:415
+#: bp-core/bp-core-admin.php:416
 msgid "One"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:416
+#: bp-core/bp-core-admin.php:417
 msgid "Uh huh."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:418
+#: bp-core/bp-core-admin.php:419
 msgid "Two"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:419
+#: bp-core/bp-core-admin.php:420
 msgid "Yeah."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:423
+#: bp-core/bp-core-admin.php:424
 msgid "Three"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:424
+#: bp-core/bp-core-admin.php:425
 msgid "I hear ya."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:426
+#: bp-core/bp-core-admin.php:427
 msgid "Four"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:427
+#: bp-core/bp-core-admin.php:428
 msgid "Tell me more."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:431
+#: bp-core/bp-core-admin.php:432
 msgid "Five"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:432
+#: bp-core/bp-core-admin.php:433
 msgid "Well, shucks."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:434
+#: bp-core/bp-core-admin.php:435
 msgid "Six"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:435
+#: bp-core/bp-core-admin.php:436
 msgid " Whoopie!"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:441 bp-core/bp-core-admin.php:571
+#: bp-core/bp-core-admin.php:442 bp-core/bp-core-admin.php:572
 msgid "Go to Community Settings"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:474
+#: bp-core/bp-core-admin.php:475
 msgid "BuddyPress is created by a worldwide network of friendly folks."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:476
+#: bp-core/bp-core-admin.php:477
 msgid "Project Leaders"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:481
+#: bp-core/bp-core-admin.php:482
 msgid "Founding Developer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:486
+#: bp-core/bp-core-admin.php:487
 msgid "Project Lead"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:491 bp-core/bp-core-admin.php:496
+#: bp-core/bp-core-admin.php:492 bp-core/bp-core-admin.php:497
 msgid "Lead Developer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:500
+#: bp-core/bp-core-admin.php:501
 msgid "Contributing Developers"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:505
+#: bp-core/bp-core-admin.php:506
 msgid "Quality Officer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:510
+#: bp-core/bp-core-admin.php:511
 msgid "Mark-up Officer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:515
+#: bp-core/bp-core-admin.php:516
 msgid "Support Officer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:519
+#: bp-core/bp-core-admin.php:520
 msgid "Codex Rockstars"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:524
+#: bp-core/bp-core-admin.php:525
 msgid "Mobile Officer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:533
+#: bp-core/bp-core-admin.php:534
 msgid "Core Contributors to BuddyPress 1.7"
 msgstr ""
 
