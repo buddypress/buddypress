@@ -372,8 +372,12 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
  */
 function bp_admin_separator() {
 
-	// Bail if BuddyPress is not network activated
+	// Bail if BuddyPress is not network activated and viewing network admin
 	if ( is_network_admin() && ! bp_is_network_activated() )
+		return;
+
+	// Bail if BuddyPress is network activated and viewing site admin
+	if ( ! is_network_admin() && bp_is_network_activated() )
 		return;
 
 	// Prevent duplicate separators when no core menu items exist
@@ -426,6 +430,10 @@ function bp_admin_menu_order( $menu_order = array() ) {
 
 	// Filter the custom admin menus
 	$custom_menus = (array) apply_filters( 'bp_admin_menu_order', array() );
+
+	// Bail if no components have top level admin pages
+	if ( empty( $custom_menus ) )
+		return $menu_order;
 
 	// Add our separator to beginning of array
 	array_unshift( $custom_menus, 'separator-buddypress' );
