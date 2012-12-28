@@ -404,7 +404,7 @@ function bp_admin_custom_menu_order( $menu_order = false ) {
 	if ( ! bp_current_user_can( 'bp_moderate' ) )
 		return $menu_order;
 
-	return $menu_order;
+	return true;
 }
 
 /**
