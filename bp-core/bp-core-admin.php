@@ -130,7 +130,8 @@ class BP_Admin {
 		/** Filters ***********************************************************/
 
 		// Add link to settings page
-		add_filter( 'plugin_action_links', array( $this, 'modify_plugin_action_links' ), 10, 2 );
+		add_filter( 'plugin_action_links',               array( $this, 'modify_plugin_action_links' ), 10, 2 );
+		add_filter( 'network_admin_plugin_action_links', array( $this, 'modify_plugin_action_links' ), 10, 2 );
 	}
 
 	/**
