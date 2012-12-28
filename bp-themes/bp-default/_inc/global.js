@@ -445,7 +445,10 @@ jq(document).ready( function() {
 							}
 						}
 
-						form.parent().children('ul').append( jq( response ).hide().fadeIn( 200 ) );
+						/* Preceeding whitespace breaks output with jQuery 1.9.0 */
+						var the_comment = jq.trim( response );
+
+						form.parent().children('ul').append( jq( the_comment ).hide().fadeIn( 200 ) );
 						form.children('textarea').val('');
 						form.parent().parent().addClass('has-comments');
 					} );
