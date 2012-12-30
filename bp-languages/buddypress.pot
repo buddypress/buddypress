@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-12-28 07:36:38+00:00\n"
+"POT-Creation-Date: 2012-12-30 14:36:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1942,6 +1942,36 @@ msgstr ""
 
 #: bp-core/bp-core-template.php:557
 msgid "Community"
+msgstr ""
+
+#: bp-core/bp-core-update.php:271
+msgctxt "Page title for the Activity directory."
+msgid "Activity"
+msgstr ""
+
+#: bp-core/bp-core-update.php:274
+msgctxt "Page title for the Groups directory."
+msgid "Groups"
+msgstr ""
+
+#: bp-core/bp-core-update.php:278
+msgctxt "Page title for the Sites directory."
+msgid "Sites"
+msgstr ""
+
+#: bp-core/bp-core-update.php:283
+msgctxt "Page title for the user account activation screen."
+msgid "Activate"
+msgstr ""
+
+#: bp-core/bp-core-update.php:284
+msgctxt "Page title for the Members directory."
+msgid "Members"
+msgstr ""
+
+#: bp-core/bp-core-update.php:285
+msgctxt "Page title for the user registration screen."
+msgid "Register"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:18
