@@ -3,7 +3,7 @@
 /**
  * BuddyPress XProfile Activity & Notification Functions
  *
- * These functions handle the recording, deleting and formatting of activity and
+ * These functions handle the recording, deleting and formatting of activity items and
  * notifications for the user and for this specific component.
  *
  * @package BuddyPress
@@ -33,7 +33,7 @@ add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions'
  * @subpackage XProfileActivity
  * @param $args Array containing all variables used after extract() call
  * @global $bp The global BuddyPress settings variable created in bp_core_current_times()
- * @uses bp_activity_record() Adds an entry to the activity component tables for a specific activity
+ * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity
  */
 function xprofile_record_activity( $args = '' ) {
 
