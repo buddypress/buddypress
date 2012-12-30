@@ -176,14 +176,17 @@ function bp_version_updater() {
 	// Get the raw database version
 	$raw_db_version = (int) bp_get_db_version_raw();
 
+	$default_components = apply_filters( 'bp_new_install_default_components', array( 'activity' => 1, 'xprofile' => 1, ) );
 	require_once( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-schema.php' );
 
 	// Install BP schema and activate only Activity and XProfile
 	if ( bp_is_install() ) {
 
-		$default_components = apply_filters( 'bp_new_install_default_components', array( 'activity' => 1, 'xprofile' => 1, ) );
+		// Apply schema and set Activity and XProfile components as active
 		bp_core_install( $default_components );
 		bp_update_option( 'bp-active-components', $default_components );
+		bp_updater_add_page_mappings( $default_components );
+
 
 	// Upgrades
 	} else {
@@ -192,12 +195,15 @@ function bp_version_updater() {
 		bp_core_install();
 
 		// 1.5
-		if ( $raw_db_version < 1801 )
+		if ( $raw_db_version < 1801 ) {
 			bp_update_to_1_5();
+			bp_updater_add_page_mappings( $default_components );
+		}
 
 		// 1.6
-		if ( $raw_db_version < 6067 )
+		if ( $raw_db_version < 6067 ) {
 			bp_update_to_1_6();
+		}
 	}
 
 	/** All done! *************************************************************/
@@ -240,6 +246,61 @@ function bp_update_to_1_6() {
 	delete_blog_option( bp_get_root_blog_id(), 'bp-core-db-version'  );
 	delete_site_option( bp_get_root_blog_id(), '_bp-core-db-version' );
 	delete_site_option( bp_get_root_blog_id(), '_bp_db_version'      );
+}
+
+/**
+ * Add the pages for the component mapping. These are most often used by components with directories (e.g. groups, members).
+ * 
+ * @param array $default_components Optional components to create pages for
+ * @since BuddyPress (1.7)
+ */
+function bp_updater_add_page_mappings( $default_components ) {
+
+	// Make sure that the pages are created on the root blog no matter which Dashboard the setup is being run on
+	if ( ! bp_is_root_blog() )
+		switch_to_blog( bp_get_root_blog_id() );
+
+	// Delete any existing pages
+	$pages = bp_core_get_directory_page_ids();
+	foreach ( (array) $pages as $page_id )
+		wp_delete_post( $page_id, true );
+
+	$pages = array();
+	foreach ( array_keys( $default_components ) as $component_name ) {
+		if ( $component_name == 'activity' ) {
+			$pages[$component_name] = _x( 'Activity', 'Page title for the Activity directory.', 'buddypress' );
+
+		} elseif ( $component_name == 'groups') {
+			$pages[$component_name] = _x( 'Groups', 'Page title for the Groups directory.', 'buddypress' );
+
+		// Blogs component only needs a directory page when multisite is enabled
+		} elseif ( $component_name == 'blogs' && is_multisite() ) {
+			$pages[$component_name] = _x( 'Sites', 'Page title for the Sites directory.', 'buddypress' );
+		}
+	}
+
+	// Mandatory components/pages
+	$pages['activate'] = _x( 'Activate', 'Page title for the user account activation screen.', 'buddypress' );
+	$pages['members']  = _x( 'Members',  'Page title for the Members directory.',              'buddypress' );
+	$pages['register'] = _x( 'Register', 'Page title for the user registration screen.',       'buddypress' );
+
+	// Create the pages
+	foreach ( $pages as $component_name => $page_name ) {
+		$pages[$component_name] = wp_insert_post( array(
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+			'post_status'    => 'publish',
+			'post_title'     => $page_name,
+			'post_type'      => 'page',
+		) );
+	}
+
+	// Save the page mapping
+	bp_update_option( 'bp-pages', $pages );
+
+	// If we had to switch_to_blog, go back to the original site.
+	if ( ! bp_is_root_blog() )
+		restore_current_blog();
 }
 
 /**
