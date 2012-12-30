@@ -49,11 +49,12 @@ add_action( 'menu_order',              'bp_admin_menu_order'              );
 add_action( 'wpmu_new_blog',           'bp_new_site',               10, 6 );
 
 // Hook on to admin_init
-add_action( 'bp_admin_init', 'bp_setup_updater',          999 );
-add_action( 'bp_admin_init', 'bp_register_importers'          );
-add_action( 'bp_admin_init', 'bp_register_admin_style'        );
-add_action( 'bp_admin_init', 'bp_register_admin_settings'     );
-add_action( 'bp_admin_init', 'bp_do_activation_redirect', 1   );
+add_action( 'bp_admin_init', 'bp_setup_updater',          1000 );
+add_action( 'bp_admin_init', 'bp_core_activation_notice', 1010 );
+add_action( 'bp_admin_init', 'bp_register_importers'           );
+add_action( 'bp_admin_init', 'bp_register_admin_style'         );
+add_action( 'bp_admin_init', 'bp_register_admin_settings'      );
+add_action( 'bp_admin_init', 'bp_do_activation_redirect', 1    );
 
 // Add a new separator
 add_action( 'bp_admin_menu', 'bp_admin_separator' );
