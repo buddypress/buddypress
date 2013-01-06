@@ -399,9 +399,9 @@ jq(document).ready( function() {
 
 		/* Activity comment posting */
 		if ( target.attr('name') == 'ac_form_submit' ) {
-			var form = target.parent().parent();
+			var form        = target.parent().parent();
 			var form_parent = form.parent();
-			var form_id = form.attr('id').split('-');
+			var form_id     = form.attr('id').split('-');
 
 			if ( !form_parent.hasClass('activity-comments') ) {
 				var tmp_id = form_parent.attr('id').split('-');
@@ -411,7 +411,7 @@ jq(document).ready( function() {
 			}
 
 			/* Hide any error messages */
-			jq( 'form#' + form + ' div.error').hide();
+			jq( 'form#' + form.attr('id') + ' div.error').hide();
 			target.addClass('loading').prop('disabled', true);
 
 			var ajaxdata = {
@@ -452,7 +452,7 @@ jq(document).ready( function() {
 								form.parent().parent().addClass('has-comments');
 							}
 							);
-						jq( 'form#' + form + ' textarea').val('');
+						jq( 'form#' + form.attr('id') + ' textarea').val('');
 
 						/* Increase the "Reply (X)" button count */
 						jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
