@@ -548,6 +548,9 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		}
 	}
 
+	if ( ! isset( $bp->avatar_admin->image ) )
+		$bp->avatar_admin->image = new stdClass();
+
 	// We only want to handle one image after resize.
 	if ( empty( $bp->avatar_admin->resized ) )
 		$bp->avatar_admin->image->dir = str_replace( bp_core_avatar_upload_path(), '', $bp->avatar_admin->original['file'] );

@@ -575,6 +575,9 @@ function groups_screen_group_admin_avatar() {
 
 		}
 
+		if ( ! isset( $bp->avatar_admin ) )
+			$bp->avatar_admin = new stdClass();
+
 		$bp->avatar_admin->step = 'upload-image';
 
 		if ( !empty( $_FILES ) ) {
