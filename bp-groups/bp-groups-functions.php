@@ -379,8 +379,21 @@ function groups_get_group_mods( $group_id ) {
 	return BP_Groups_Member::get_group_moderator_ids( $group_id );
 }
 
-function groups_get_group_members( $group_id, $limit = false, $page = false ) {
-	return BP_Groups_Member::get_all_for_group( $group_id, $limit, $page );
+/**
+ * Fetch the members of a group
+ *
+ * Procedural wrapper for BP_Groups_Member::get_all_for_group().
+ *
+ * @param int $group_id
+ * @param int $limit Maximum members to return
+ * @param int $page The page of results to return (requires $limit)
+ * @param bool $exclude_admins_mods Whether to exclude admins and mods
+ * @param bool $exclude_banned Whether to exclude banned users
+ * @param array|string $exclude Array or comma-sep list of users to exclude
+ * @return array Multi-d array of 'members' list and 'count'
+ */
+function groups_get_group_members( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
+	return BP_Groups_Member::get_all_for_group( $group_id, $limit, $page, $exclude_admins_mods, $exclude_banned, $exclude );
 }
 
 function groups_get_total_member_count( $group_id ) {
