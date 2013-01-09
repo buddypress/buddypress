@@ -28,6 +28,7 @@ add_action( 'wp_head', 'bp_core_confirmation_js', 100 );
  * @package BuddyPress Core
  */
 function bp_core_add_jquery_cropper() {
+	wp_enqueue_style( 'jcrop' );
 	wp_enqueue_script( 'jcrop', array( 'jquery' ) );
 	add_action( 'wp_head', 'bp_core_add_cropper_inline_js' );
 	add_action( 'wp_head', 'bp_core_add_cropper_inline_css' );
