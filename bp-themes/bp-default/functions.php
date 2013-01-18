@@ -62,7 +62,7 @@ if ( ! function_exists( 'bp_dtheme_setup' ) ) :
 function bp_dtheme_setup() {
 
 	// Load the AJAX functions for the theme
-	require( TEMPLATEPATH . '/_inc/ajax.php' );
+	require( get_template_directory() . '/_inc/ajax.php' );
 
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
