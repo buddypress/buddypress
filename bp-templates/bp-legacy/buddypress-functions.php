@@ -117,12 +117,12 @@ class BP_Legacy extends BP_Theme_Compat {
 			if ( bp_is_active( 'groups' ) ) {
 				add_action( 'bp_group_header_actions',     'bp_group_join_button',           5 );
 				add_action( 'bp_group_header_actions',     'bp_group_new_topic_button',      20 );
-				add_action( 'bp_directory_groups_actions', 'bp_group_join_button' ); 
+				add_action( 'bp_directory_groups_actions', 'bp_group_join_button' );
 			}
 
 			// Blog button
 			if ( bp_is_active( 'blogs' ) )
-				add_action( 'bp_directory_blogs_actions',  'bp_blogs_visit_blog_button' ); 
+				add_action( 'bp_directory_blogs_actions',  'bp_blogs_visit_blog_button' );
 
 		}
 
@@ -295,7 +295,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	public function localize_scripts() {
 
 	}
-	
+
 	/**
 	 * Add secondary avatar image to this activity stream's record, if supported.
 	 *

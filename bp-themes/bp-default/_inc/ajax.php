@@ -279,7 +279,7 @@ function bp_dtheme_post_update() {
 
 	if ( bp_has_activities ( 'include=' . $activity_id ) ) {
 		while ( bp_activities() ) {
-			bp_the_activity(); 
+			bp_the_activity();
 			locate_template( array( 'activity/entry.php' ), true );
 		}
 	}
@@ -352,7 +352,7 @@ function bp_dtheme_new_activity_comment() {
  *
  * @return mixed String on error, void on success
  * @since BuddyPress (1.2)
- */ 
+ */
 function bp_dtheme_delete_activity() {
 	// Bail if not a POST action
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
@@ -610,7 +610,7 @@ function bp_dtheme_ajax_addremove_friend() {
 		else
 			echo '<a id="friend-' . $_POST['fid'] . '" class="remove" rel="remove" title="' . __( 'Cancel Friendship Request', 'buddypress' ) . '" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/cancel/' . (int) $_POST['fid'] . '/', 'friends_withdraw_friendship' ) . '" class="requested">' . __( 'Cancel Friendship Request', 'buddypress' ) . '</a>';
 
-	} elseif ( 'pending' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), (int) $_POST['fid'] ) ) {		
+	} elseif ( 'pending' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), (int) $_POST['fid'] ) ) {
 		check_ajax_referer( 'friends_withdraw_friendship' );
 
 		if ( friends_withdraw_friendship( bp_loggedin_user_id(), (int) $_POST['fid'] ) )
