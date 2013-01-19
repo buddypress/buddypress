@@ -318,8 +318,14 @@ function bp_do_activation_redirect() {
 	if ( isset( $_GET['activate-multi'] ) )
 		return;
 
+	$query_args = array( 'page' => 'bp-about' );
+	if ( get_transient( '_bp_is_new_install' ) ) {
+		$query_args['is_new_install'] = '1';
+		delete_transient( '_bp_is_new_install' );
+	}
+
 	// Redirect to BuddyPress about page
-	wp_safe_redirect( add_query_arg( array( 'page' => 'bp-about' ), bp_get_admin_url( 'index.php' ) ) );
+	wp_safe_redirect( add_query_arg( $query_args, bp_get_admin_url( 'index.php' ) ) );
 }
 
 /** UI/Styling ****************************************************************/

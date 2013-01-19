@@ -320,8 +320,14 @@ function bp_add_activation_redirect() {
 	if ( isset( $_GET['activate-multi'] ) )
 		return;
 
+	// Record that this is a new installation, so we show the right
+	// welcome message
+	if ( bp_is_install() ) {
+		set_transient( '_bp_is_new_install', true, 30 );
+	}
+
 	// Add the transient to redirect
-    set_transient( '_bp_activation_redirect', true, 30 );
+	set_transient( '_bp_activation_redirect', true, 30 );
 }
 
 /** Activation Actions ********************************************************/
