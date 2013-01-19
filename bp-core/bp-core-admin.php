@@ -372,11 +372,19 @@ class BP_Admin {
 	 */
 	public function about_screen() {
 
+		$is_new_install = ! empty( $_GET['is_new_install'] );
+
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
 		<div class="wrap about-wrap">
 			<h1><?php printf( __( 'Welcome to BuddyPress %s' ), $display_version ); ?></h1>
-			<div class="about-text"><?php printf( __( 'Thank you for updating to the latest version! BuddyPress %s is ready to make your community a safer, faster, and better looking place to hang out!' ), $display_version ); ?></div>
+			<div class="about-text">
+				<?php if ( $is_new_install ) : ?>
+					<?php printf( __( 'BuddyPress %s is our safest, fastest, most flexible version ever.' ), $display_version ); ?>
+				<?php else : ?>
+					<?php printf( __( 'Thank you for updating! BuddyPress %s is our safest, fastest, most flexible version ever.' ), $display_version ); ?>
+				<?php endif; ?>
+			</div>
 			<div class="bp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 			<h2 class="nav-tab-wrapper">
@@ -387,24 +395,43 @@ class BP_Admin {
 				</a>
 			</h2>
 
-			<div class="changelog">
-				<h3><?php _e( 'Some neat thing', 'buddypress' ); ?></h3>
+			<?php if ( $is_new_install ) : ?>
+			<h3><?php _e( 'Getting Started', 'buddypress' ); ?></h3>
 
 				<div class="feature-section">
-					<h4><?php _e( 'Whoa', 'buddypress' ); ?></h4>
-					<p><?php _e( 'Nice!', 'buddypress' ); ?></p>
+					<h4><?php _e( 'Your Default Setup', 'buddypress' ); ?></h4>
+					<p><?php printf(
+						__( 'BuddyPress&#8217;s powerful features help your users connect and collaborate. To help get your community started, we&#8217;ve activated two of the most commonly used tools in BP: <strong>Extended Profiles</strong> and <strong>Activity Streams</strong>. See these components in action at the <a href="%1$s">Members</a> and <a href="%2$s">Activity</a> directories, and be sure to spend a few minutes <a href="%3$s">configuring user profiles</a>. Want to explore more of BP&#8217;s features? Visit the <a href="%4$s">Components panel</a>.', 'buddypress' ),
+						trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ),
+						trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() ),
+						bp_get_admin_url( add_query_arg( array( 'page' => 'bp-profile-setup' ), 'users.php' ) ),
+						bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) )
+					); ?></p>
 
-					<h4><?php _e( 'Wow', 'buddypress' ); ?></h4>
-					<p><?php _e( 'Amazing!', 'buddypress' ); ?></p>
+					<h4><?php _e( 'Community and Support', 'buddypress' ); ?></h4>
+					<p><?php _e( 'Looking for help? The <a href="http://codex.buddypress.org/">BuddyPress Codex</a> has you covered, with dozens of user-contributed guides on how to configure and use your BP site. Can&#8217;t find what you need? Stop by <a href="http://buddypress.org/support/">our support forums</a>, where a vibrant community of BuddyPress users and developers is waiting to share tips, show off their sites, talk about the future of BuddyPress, and much more.', 'buddypress' ) ?></p>
+				</div>
+
+			<?php endif; ?>
+
+			<div class="changelog">
+				<h3><?php _e( 'A Declaration of (Theme) Independence', 'buddypress' ); ?></h3>
+
+				<div class="feature-section">
+					<h4><?php _e( 'It Just Works', 'buddypress' ); ?></h4>
+					<p><?php _e( 'BuddyPress is now compatible with <strong>any WordPress theme</strong>. If your theme has BuddyPress-specific templates and styling, we&#8217;ll use them. If not, we provide what you need to make your BuddyPress content look great. Still want to customize? No problem - you can override our templates just like you would in a WordPress child theme. <a href="http://codex.bbpress.org/theme-compatibility/">Learn more about theme compatibility</a>.', 'buddypress' ); ?></p>
 				</div>
 			</div>
 
 			<div class="changelog">
-				<h3><?php _e( 'Another neat thing', 'buddypress' ); ?></h3>
+				<h3><?php _e( 'Group Management', 'buddypress' ); ?></h3>
 
 				<div class="feature-section">
-					<h4><?php _e( 'No way', 'buddypress' ); ?></h4>
-					<p><?php _e( 'Yes way.', 'buddypress' ); ?></p>
+					<h4><?php _e( 'Get More Done Quickly', 'buddypress' ); ?></h4>
+					<p><?php printf(
+						__( 'The new <a href="%s">Groups administration panel</a> makes it easy to handle large numbers of groups on your BuddyPress installation. Delete groups, edit group details, modify memberships, and more, with just a few clicks.', 'buddypress' ),
+						bp_get_admin_url( add_query_arg( array( 'page' => 'bp-groups' ), 'admin.php' ) )
+					); ?></p>
 				</div>
 			</div>
 
@@ -413,33 +440,24 @@ class BP_Admin {
 
 				<div class="feature-section three-col">
 					<div>
-						<h4><?php _e( 'One', 'buddypress' ); ?></h4>
-						<p><?php _e( 'Uh huh.', 'buddypress' ); ?></p> 
+						<h4><?php _e( 'Faster Member Queries', 'buddypress' ); ?></h4>
+						<p><?php _e( 'The new <code>BP_User_Query</code> makes member queries (like in the Members directory) up to 4x faster than before.', 'buddypress' ); ?></p>
 
-						<h4><?php _e( 'Two', 'buddypress' ); ?></h4>
-						<p><?php _e( 'Yeah.', 'buddypress' ); ?></p>
+						<h4><?php _e( 'Sortable Profile Options', 'buddypress' ); ?></h4>
+						<p><?php _e( 'Profile field types with multiple options - like radio buttons and checkboxes - now support drag-and-drop reordering.', 'buddypress' ); ?></p>
 					</div>
 
 					<div>
-						<h4><?php _e( 'Three', 'buddypress' ); ?></h4>
-						<p><?php _e( 'I hear ya.', 'buddypress' ); ?></p>
+						<h4><?php _e( 'New Visibility Level', 'buddypress' ); ?></h4>
+						<p><?php _e( 'By popular demand, the "Admins Only" visibility setting is now available for profile fields.', 'buddypress' ); ?></p>
 
-						<h4><?php _e( 'Four', 'buddypress' ); ?></h4>
-						<p><?php _e( 'Tell me more.', 'buddypress' ); ?></p>
+						<h4><?php _e( 'Better bbPress Integration', 'buddypress' ); ?></h4>
+						<p><?php _e( 'Support for group and sitewide forums, using the latest version of the bbPress plugin, is better than ever. Still using bbPress 1.x? Our new migration tools are field-tested.', 'buddypress' ); ?></p>
 					</div>
-
-					<div class="last-feature">
-						<h4><?php _e( 'Five', 'buddypress' ); ?></h4>
-						<p><?php _e( 'Well, shucks.', 'buddypress' ); ?></p>
-
-						<h4><?php _e( 'Six', 'buddypress' ); ?></h4>
-						<p><?php _e( ' Whoopie!', 'buddypress' ); ?></p>
-					</div>
-				</div>
 			</div>
 
 			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
+				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page' ); ?></a>
 			</div>
 
 		</div>
