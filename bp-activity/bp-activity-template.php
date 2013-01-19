@@ -1356,7 +1356,7 @@ function bp_activity_user_can_delete( $activity = false ) {
 	if ( bp_current_user_can( 'bp_moderate' ) )
 		$can_delete = true;
 
-	if ( $activity->user_id == bp_loggedin_user_id() )
+	if ( is_user_logged_in() && $activity->user_id == bp_loggedin_user_id() )
 		$can_delete = true;
 
 	if ( bp_is_item_admin() && bp_is_single_item() )

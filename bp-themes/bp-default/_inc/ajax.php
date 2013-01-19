@@ -370,7 +370,7 @@ function bp_dtheme_delete_activity() {
 	$activity = new BP_Activity_Activity( (int) $_POST['id'] );
 
 	// Check access
-	if ( empty( $activity->user_id ) || ! bp_activity_user_can_delete( $activity ) )
+	if ( ! bp_activity_user_can_delete( $activity ) )
 		exit( '-1' );
 
 	// Call the action before the delete so plugins can still fetch information about it
