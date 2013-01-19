@@ -362,7 +362,7 @@ class BP_Admin {
 		$file = apply_filters( 'bp_core_admin_common_css', $file );
 		wp_enqueue_style( 'bp-admin-common-css', $file, array(), bp_get_version() );
 	}
-	
+
 	/** About *****************************************************************/
 
 	/**
@@ -605,5 +605,5 @@ endif; // class_exists check
  * @uses BP_Admin
  */
 function bp_admin() {
-	buddypress()->admin = new BP_Admin();
+       buddypress()->admin = new BP_Admin();
 }

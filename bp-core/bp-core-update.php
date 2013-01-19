@@ -158,7 +158,7 @@ function bp_setup_updater() {
 	// Are we running an outdated version of BuddyPress?
 	if ( ! bp_is_update() )
 		return;
-	
+
 	bp_version_updater();
 }
 
@@ -186,7 +186,6 @@ function bp_version_updater() {
 		bp_core_install( $default_components );
 		bp_update_option( 'bp-active-components', $default_components );
 		bp_updater_add_page_mappings( $default_components );
-
 
 	// Upgrades
 	} else {
@@ -250,7 +249,7 @@ function bp_update_to_1_6() {
 
 /**
  * Add the pages for the component mapping. These are most often used by components with directories (e.g. groups, members).
- * 
+ *
  * @param array $default_components Optional components to create pages for
  * @since BuddyPress (1.7)
  */
