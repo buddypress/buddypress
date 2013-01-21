@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-01-19 03:36:37+00:00\n"
+"POT-Creation-Date: 2013-01-21 21:36:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -6151,7 +6151,7 @@ msgid "Per-Member Visibility"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:919
-msgid "Let members change the this field's visibility"
+msgid "Let members change this field's visibility"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-classes.php:920
