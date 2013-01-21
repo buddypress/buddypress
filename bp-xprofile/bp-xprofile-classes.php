@@ -916,7 +916,7 @@ class BP_XProfile_Field {
 							<div id="titlewrap">
 								<h3><label for="allow-custom-visibility"><?php _e( 'Per-Member Visibility', 'buddypress' ); ?></label></h3>
 								<ul>
-									<li><input type="radio" name="allow-custom-visibility" value="allowed"  <?php checked( $this->allow_custom_visibility, 'allowed'  ); ?>> <?php _e( "Let members change the this field's visibility", 'buddypress' ); ?></li>
+									<li><input type="radio" name="allow-custom-visibility" value="allowed"  <?php checked( $this->allow_custom_visibility, 'allowed'  ); ?>> <?php _e( "Let members change this field's visibility", 'buddypress' ); ?></li>
 									<li><input type="radio" name="allow-custom-visibility" value="disabled" <?php checked( $this->allow_custom_visibility, 'disabled' ); ?>> <?php _e( 'Enforce the default visibility for all members', 'buddypress' ); ?></li>
 								</ul>
 							</div>
