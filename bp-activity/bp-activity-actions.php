@@ -591,7 +591,7 @@ function bp_activity_setup_akismet() {
 		return;
 
 	// Bail if BuddyPress Activity Akismet support has been disabled by another plugin
-	if ( ! apply_filters( 'bp_activity_use_akismet', true ) )
+	if ( ! apply_filters( 'bp_activity_use_akismet', bp_is_akismet_active() ) )
 		return;
 
 	// Instantiate Akismet for BuddyPress
