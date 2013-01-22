@@ -389,9 +389,9 @@ class BP_Admin {
 
 			<h2 class="nav-tab-wrapper">
 				<a class="nav-tab nav-tab-active" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-about' ), 'index.php' ) ) ); ?>">
-					<?php _e( 'What&#8217;s New' ); ?>
+					<?php _e( 'What&#8217;s New', 'buddypress' ); ?>
 				</a><a class="nav-tab" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'index.php' ) ) ); ?>">
-					<?php _e( 'Credits' ); ?>
+					<?php _e( 'Credits', 'buddypress' ); ?>
 				</a>
 			</h2>
 
@@ -457,7 +457,7 @@ class BP_Admin {
 			</div>
 
 			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page' ); ?></a>
+				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page', 'buddypress' ); ?></a>
 			</div>
 
 		</div>
@@ -484,9 +484,9 @@ class BP_Admin {
 
 			<h2 class="nav-tab-wrapper">
 				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-about' ), 'index.php' ) ) ); ?>" class="nav-tab">
-					<?php _e( 'What&#8217;s New' ); ?>
+					<?php _e( 'What&#8217;s New', 'buddypress' ); ?>
 				</a><a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'index.php' ) ) ); ?>" class="nav-tab nav-tab-active">
-					<?php _e( 'Credits' ); ?>
+					<?php _e( 'Credits', 'buddypress' ); ?>
 				</a>
 			</h2>
 
@@ -516,17 +516,20 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h4 class="wp-people-group"><?php _e( 'Contributing Developers', 'buddypress' ); ?></h4>
-			<ul class="wp-people-group " id="wp-people-group-contributing-developers">
+			<h4 class="wp-people-group"><?php _e( 'Core Developers', 'buddypress' ); ?></h4>
+			<ul class="wp-people-group " id="wp-people-group-core-developers">
 				<li class="wp-person" id="wp-person-r-a-y">
 					<a href="http://profiles.wordpress.org/r-a-y"><img src="http://0.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=60" class="gravatar" alt="Ray" /></a>
 					<a class="web" href="http://profiles.wordpress.org/r-a-y">Ray</a>
-					<span class="title"><?php _e( 'Quality Officer', 'buddypress' ); ?></span>
 				</li>
+			</ul>
+
+			<h4 class="wp-people-group"><?php _e( 'Recent Rockstars', 'buddypress' ); ?></h4>
+			<ul class="wp-people-group " id="wp-people-group-rockstars">
 				<li class="wp-person" id="wp-person-karmatosed">
 					<a href="http://profiles.wordpress.org/karmatosed"><img src="http://0.gravatar.com/avatar/d36d2c1821af9249b69ff7f5ed60529b?s=60" class="gravatar" alt="Tammie Lister" /></a>
 					<a class="web" href="http://profiles.wordpress.org/karmatosed">Tammie Lister</a>
-					<span class="title"><?php _e( 'Mark-up Officer', 'buddypress' ); ?></span>
+					<span class="title"><?php _e( 'Design Officer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-mercime">
 					<a href="http://profiles.wordpress.org/mercime"><img src="http://0.gravatar.com/avatar/fae451be6708241627983570a1a1817a?s=60" class="gravatar" alt="Mercime" /></a>
@@ -535,59 +538,42 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h4 class="wp-people-group"><?php _e( 'Codex Rockstars', 'buddypress' ); ?></h4>
-			<ul class="wp-people-group " id="wp-people-group-codex-rockstars">
-				<li class="wp-person" id="wp-person-modemlooper">
-					<a href="http://profiles.wordpress.org/modemlooper"><img src="http://0.gravatar.com/avatar/1c07be1016e845de514931477c939307?s=60" class="gravatar" alt="Modemlooper" /></a>
-					<a class="web" href="http://profiles.wordpress.org/modemlooper">Modemlooper</a>
-					<span class="title"><?php _e( 'Mobile Officer', 'buddypress' ); ?></span>
-				</li>
-				<li class="wp-person" id="wp-person-dennissmolek">
-					<a href="http://profiles.wordpress.org/dennissmolek"><img src="http://0.gravatar.com/avatar/015eeb0cebb40f949d0f317e2dfe66c3?s=60" class="gravatar" alt="Dennis Smolek" /></a>
-					<a class="web" href="http://profiles.wordpress.org/dennissmolek">Dennis Smolek</a>
-					<span class="title"></span>
-				</li>
-			</ul>
-
 			<h4 class="wp-people-group"><?php _e( 'Core Contributors to BuddyPress 1.7', 'buddypress' ); ?></h4>
 			<p class="wp-credits-list">
-				<a href="http://profiles.wordpress.org/alexvorn2">alexvorn2</a>,
-				<a href="http://profiles.wordpress.org/anointed">anointed</a>,
-				<a href="http://profiles.wordpress.org/chexee">chexee</a>,
+				<a href="http://profiles.wordpress.org/apeatling">apeatling</a>,
+				<a href="http://profiles.wordpress.org/borkweb">borkweb</a>,
+				<a href="http://profiles.wordpress.org/calin">calin</a>,
+				<a href="http://profiles.wordpress.org/chouf1">chouf1</a>,
+				<a href="http://profiles.wordpress.org/chrisclayton">chrisclayton</a>,
 				<a href="http://profiles.wordpress.org/cnorris23">cnorris23</a>,
-				<a href="http://profiles.wordpress.org/DanielJuhl">DanielJuhl</a>,
-				<a href="http://profiles.wordpress.org/daveshine">daveshine</a>,
-				<a href="http://profiles.wordpress.org/dimadin">dimadin</a>,
-				<a href="http://profiles.wordpress.org/gawain">gawain</a>,
-				<a href="http://profiles.wordpress.org/iamzippy">iamzippy</a>,
-				<a href="http://profiles.wordpress.org/isaacchapman">isaacchapman</a>,
-				<a href="http://profiles.wordpress.org/jane">jane</a>,
+				<a href="http://profiles.wordpress.org/DennisSmolek">DennisSmolek</a>,
+				<a href="http://profiles.wordpress.org/Dianakc">Dianakc</a>,
+				<a href="http://profiles.wordpress.org/empireoflight">empireoflight</a>,
+				<a href="http://profiles.wordpress.org/enej">enej</a>,
+				<a href="http://profiles.wordpress.org/fanquake">fanquake</a>,
+				<a href="http://profiles.wordpress.org/gmax21">gmax21</a>,
+				<a href="http://profiles.wordpress.org/humanshell">humanshell</a>,
+				<a href="http://profiles.wordpress.org/imath">imath</a>,
+				<a href="http://profiles.wordpress.org/Jacek">Jacek</a>,
+				<a href="http://profiles.wordpress.org/jag1989">jag1989</a>,
+				<a href="http://profiles.wordpress.org/jbobich">jbobich</a>,
 				<a href="http://profiles.wordpress.org/jkudish">jkudish</a>,
-				<a href="http://profiles.wordpress.org/mamaduka">mamaduka</a>,
-				<a href="http://profiles.wordpress.org/mercime">mercime</a>,
-				<a href="http://profiles.wordpress.org/mesayre">mesayre</a>,
-				<a href="http://profiles.wordpress.org/mordauk">mordauk</a>,
-				<a href="http://profiles.wordpress.org/MZAWeb">MZAWeb</a>,
-				<a href="http://profiles.wordpress.org/netweb">netweb</a>,
-				<a href="http://profiles.wordpress.org/nexia">nexia</a>,
-				<a href="http://profiles.wordpress.org/Omicron7">Omicron7</a>,
-				<a href="http://profiles.wordpress.org/otto42">otto42</a>,
-				<a href="http://profiles.wordpress.org/pavelevap">pavelevap</a>,
-				<a href="http://profiles.wordpress.org/plescheff">plescheff</a>,
-				<a href="http://profiles.wordpress.org/scribu">scribu</a>,
-				<a href="http://profiles.wordpress.org/sorich87">sorich87</a>,
-				<a href="http://profiles.wordpress.org/SteveAtty">SteveAtty</a>,
-				<a href="http://profiles.wordpress.org/tmoorewp">tmoorewp</a>,
-				<a href="http://profiles.wordpress.org/tott">tott</a>,
-				<a href="http://profiles.wordpress.org/tungdo">tungdo</a>,
-				<a href="http://profiles.wordpress.org/vibol">vibol</a>,
-				<a href="http://profiles.wordpress.org/wonderboymusic">wonderboymusic</a>,
-				<a href="http://profiles.wordpress.org/westi">westi</a>,
-				<a href="http://profiles.wordpress.org/xiosen">xiosen</a>,
+				<a href="http://profiles.wordpress.org/jpsb">jpsb</a>,
+				<a href="http://profiles.wordpress.org/magnus78">magnus78</a>,
+				<a href="http://profiles.wordpress.org/michael.ecklund">michael.ecklund</a>,
+				<a href="http://profiles.wordpress.org/modemlooper">modemlooper</a>,
+				<a href="http://profiles.wordpress.org/nacin">nacin</a>,
+				<a href="http://profiles.wordpress.org/rogercoathup">rogercoathup</a>,
+				<a href="http://profiles.wordpress.org/sboisvert">sboisvert</a>,
+				<a href="http://profiles.wordpress.org/sbrajesh">sbrajesh</a>,
+				<a href="http://profiles.wordpress.org/slaFFik">slaFFik</a>,
+				<a href="http://profiles.wordpress.org/steve7777">steve7777</a>,
+				<a href="http://profiles.wordpress.org/tiraeth">tiraeth</a>,
+				<a href="http://profiles.wordpress.org/wpdennis">wpdennis</a>.
 			</p>
 
 			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to Community Settings' ); ?></a>
+				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to Community Settings', 'buddypress' ); ?></a>
 			</div>
 
 		</div>
