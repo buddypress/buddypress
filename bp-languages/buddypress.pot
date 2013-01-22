@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-01-21 21:36:35+00:00\n"
+"POT-Creation-Date: 2013-01-22 18:36:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1623,34 +1623,26 @@ msgid "Lead Developer"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:519
-msgid "Contributing Developers"
+msgid "Core Developers"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:524
-msgid "Quality Officer"
+#: bp-core/bp-core-admin.php:527
+msgid "Recent Rockstars"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:529
-msgid "Mark-up Officer"
+#: bp-core/bp-core-admin.php:532
+msgid "Design Officer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:534
+#: bp-core/bp-core-admin.php:537
 msgid "Support Officer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:538
-msgid "Codex Rockstars"
-msgstr ""
-
-#: bp-core/bp-core-admin.php:543
-msgid "Mobile Officer"
-msgstr ""
-
-#: bp-core/bp-core-admin.php:552
+#: bp-core/bp-core-admin.php:541
 msgid "Core Contributors to BuddyPress 1.7"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:590
+#: bp-core/bp-core-admin.php:576
 msgid "Go to Community Settings"
 msgstr ""
 
