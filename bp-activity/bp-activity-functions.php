@@ -1507,6 +1507,8 @@ function bp_activity_hide_user_activity( $user_id ) {
 function bp_activity_thumbnail_content_images( $content, $link = false ) {
 
 	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
+
+	// Remove <img> tags. Also remove caption shortcodes and caption text if present
 	$content = preg_replace('|(\[caption(.*?)\])?<img[^>]*>([^\[\[]*\[\/caption\])?|', '', $content );
 
 	if ( !empty( $matches ) && !empty( $matches[0] ) ) {
