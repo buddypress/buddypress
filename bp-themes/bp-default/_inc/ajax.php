@@ -881,10 +881,11 @@ function bp_dtheme_ajax_messages_delete() {
  * @since BuddyPress (1.2)
  */
 function bp_dtheme_ajax_messages_autocomplete_results() {
+	global $bp;
 
 	// Include everyone in the autocomplete, or just friends?
 	if ( bp_is_current_component( bp_get_messages_slug() ) )
-		$autocomplete_all = buddypress()->messages->autocomplete_all;
+		$autocomplete_all = $bp->messages->autocomplete_all;
 
 	$pag_page = 1;
 	$limit    = (int) $_GET['limit'] ? $_GET['limit'] : apply_filters( 'bp_autocomplete_max_results', 10 );
