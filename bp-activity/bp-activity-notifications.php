@@ -52,6 +52,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 
 	$subject = '';
 	$message = '';
+	$content = '';
 
 	// Add the BP notification
 	bp_core_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $activity->user_id );
