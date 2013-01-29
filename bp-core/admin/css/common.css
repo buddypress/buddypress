@@ -175,7 +175,7 @@ table.bp-group-members .urole-column {
 	font-size: 14px;
 	text-align: center;
 	margin: 0 -5px;
-	background: #f00 no-repeat;
+	background: url('../images/badge.png') no-repeat;
 }
 
 .about-wrap .bp-badge {
@@ -210,5 +210,11 @@ table.bp-group-members .urole-column {
 	ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image {
 		background-image: url('../images/menu-2x.png') !important;
 		background-size: 209px 64px;
+	}
+
+	/* Badge */
+	.bp-badge {
+		background-image: url('../images/badge-2x.png');
+		background-size: 173px 194px;
 	}
 }
