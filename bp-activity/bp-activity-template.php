@@ -1076,7 +1076,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 
 				// Only if groups is active
 				if ( bp_is_active( 'groups' ) ) {
-					$group = groups_get_group( $item_id );
+					$group = groups_get_group( array( 'group_id' => $item_id ) );
 					$link  = bp_get_group_permalink( $group );
 					$name  = $group->name;
 				} else {
@@ -1105,7 +1105,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			case 'friends' :
 				$object  = 'user';
 				$item_id = $activities_template->activity->secondary_item_id;
-				$link    = bp_core_get_userlink( $item_id );
+				$link    = bp_core_get_userlink( $item_id, false, true );
 
 				if ( empty( $alt ) ) {
 					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $activities_template->activity->secondary_item_id ) );
@@ -1116,7 +1116,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$object  = 'user';
 				$item_id = $activities_template->activity->user_id;
 				$email   = $activities_template->activity->user_email;
-				$link    = bp_core_get_userlink( $item_id );
+				$link    = bp_core_get_userlink( $item_id, false, true );
 
 				if ( empty( $alt ) ) {
 					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name );
