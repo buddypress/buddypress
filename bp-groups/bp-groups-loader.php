@@ -471,8 +471,8 @@ class BP_Groups_Component extends BP_Component {
 				);
 			}
 
-			// If the user is a group mod or more, then show the group admin nav item
-			if ( bp_is_item_admin() || bp_is_item_mod() ) {
+			// If the user is a group admin, then show the group admin nav item
+			if ( bp_is_item_admin() ) {
 				$sub_nav[] = array(
 					'name'            => __( 'Admin', 'buddypress' ),
 					'slug'            => 'admin',
