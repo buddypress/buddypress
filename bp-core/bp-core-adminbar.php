@@ -44,6 +44,59 @@ function bp_admin_bar_my_account_root() {
 add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
 
 /**
+ * Handle the Toolbar/BuddyBar business
+ *
+ * @since BuddyPress (1.2)
+ *
+ * @global string $wp_version
+ * @uses bp_get_option()
+ * @uses is_user_logged_in()
+ * @uses bp_use_wp_admin_bar()
+ * @uses show_admin_bar()
+ * @uses add_action() To hook 'bp_adminbar_logo' to 'bp_adminbar_logo'
+ * @uses add_action() To hook 'bp_adminbar_login_menu' to 'bp_adminbar_menus'
+ * @uses add_action() To hook 'bp_adminbar_account_menu' to 'bp_adminbar_menus'
+ * @uses add_action() To hook 'bp_adminbar_thisblog_menu' to 'bp_adminbar_menus'
+ * @uses add_action() To hook 'bp_adminbar_random_menu' to 'bp_adminbar_menus'
+ * @uses add_action() To hook 'bp_core_admin_bar' to 'wp_footer'
+ * @uses add_action() To hook 'bp_core_admin_bar' to 'admin_footer'
+ */
+function bp_core_load_admin_bar() {
+	global $wp_version;
+
+	// Don't show if Toolbar is disabled for non-logged in users
+	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && ! is_user_logged_in() )
+		return;
+
+	// Show the WordPress Toolbar
+	if ( bp_use_wp_admin_bar() && $wp_version >= 3.1 ) {
+
+		// Respect user's Toolbar display preferences
+		if ( is_user_logged_in() && ( bp_get_admin_bar_pref( 'front', bp_loggedin_user_id() ) || bp_get_admin_bar_pref( 'admin', bp_loggedin_user_id() ) ) )
+			return;
+
+		show_admin_bar( true );
+
+	// Hide the WordPress Toolbar
+	} elseif ( !bp_use_wp_admin_bar() ) {
+
+		// Keep the WP Toolbar from loading
+		show_admin_bar( false );
+
+		// Actions used to build the BP Toolbar
+		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo'               );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',    2   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu',  4   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_thisblog_menu', 6   );
+		add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu',   100 );
+
+		// Actions used to append BP Toolbar to footer
+		add_action( 'wp_footer',    'bp_core_admin_bar', 8 );
+		add_action( 'admin_footer', 'bp_core_admin_bar'    );
+	}
+}
+
+/**
  * Handle the Toolbar CSS
  *
  * @since BuddyPress 1.5
@@ -64,4 +117,3 @@ function bp_core_load_admin_bar_css() {
 	if ( $min )
 		$wp_styles->add_data( 'bp-admin-bar', 'suffix', $min );
 }
-add_action( 'bp_init', 'bp_core_load_admin_bar_css' );
