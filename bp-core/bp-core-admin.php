@@ -428,9 +428,17 @@ class BP_Admin {
 
 				<div class="feature-section">
 					<h4><?php _e( 'Get More Done Quickly', 'buddypress' ); ?></h4>
+
+					<?php
+					$group_admin_text = __( 'Groups administration panel', 'buddypress' );
+					if ( bp_is_active( 'groups' ) ) {
+						$group_admin_text = '<a href="' . bp_get_admin_url( add_query_arg( array( 'page' => 'bp-groups' ), 'admin.php' ) ) . '">' . $group_admin_text . '</a>';
+					}
+					?>
+
 					<p><?php printf(
-						__( 'The new <a href="%s">Groups administration panel</a> makes it easy to handle large numbers of groups on your BuddyPress installation. Delete groups, edit group details, modify memberships, and more, with just a few clicks.', 'buddypress' ),
-						bp_get_admin_url( add_query_arg( array( 'page' => 'bp-groups' ), 'admin.php' ) )
+						__( 'The new %s makes it easy to handle large numbers of groups on your BuddyPress installation. Delete groups, edit group details, modify memberships, and more, with just a few clicks.', 'buddypress' ),
+						$group_admin_text
 					); ?></p>
 				</div>
 			</div>
