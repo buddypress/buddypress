@@ -371,8 +371,11 @@ class BP_Admin {
 	 * @since BuddyPress (1.7)
 	 */
 	public function about_screen() {
+		global $wp_rewrite;
 
 		$is_new_install = ! empty( $_GET['is_new_install'] );
+
+		$pretty_permalinks_enabled = ! empty( $wp_rewrite->permalink_structure );
 
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
@@ -401,9 +404,9 @@ class BP_Admin {
 				<div class="feature-section">
 					<h4><?php _e( 'Your Default Setup', 'buddypress' ); ?></h4>
 					<p><?php printf(
-						__( 'BuddyPress&#8217;s powerful features help your users connect and collaborate. To help get your community started, we&#8217;ve activated two of the most commonly used tools in BP: <strong>Extended Profiles</strong> and <strong>Activity Streams</strong>. See these components in action at the <a href="%1$s">Members</a> and <a href="%2$s">Activity</a> directories, and be sure to spend a few minutes <a href="%3$s">configuring user profiles</a>. Want to explore more of BP&#8217;s features? Visit the <a href="%4$s">Components panel</a>.', 'buddypress' ),
-						trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ),
-						trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() ),
+						__( 'BuddyPress&#8217;s powerful features help your users connect and collaborate. To help get your community started, we&#8217;ve activated two of the most commonly used tools in BP: <strong>Extended Profiles</strong> and <strong>Activity Streams</strong>. See these components in action at the %1$s and %2$s directories, and be sure to spend a few minutes <a href="%3$s">configuring user profiles</a>. Want to explore more of BP&#8217;s features? Visit the <a href="%4$s">Components panel</a>.', 'buddypress' ),
+						$pretty_permalinks_enabled ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) . '">' . __( 'Members', 'buddypress' ) . '</a>' : __( 'Members', 'buddypress' ),
+						$pretty_permalinks_enabled ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() ) . '">' . __( 'Activity', 'buddypress' ) . '</a>' : __( 'Activity', 'buddypress' ),
 						bp_get_admin_url( add_query_arg( array( 'page' => 'bp-profile-setup' ), 'users.php' ) ),
 						bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) )
 					); ?></p>
