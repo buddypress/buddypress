@@ -175,6 +175,87 @@ function bp_core_get_directory_pages() {
 }
 
 /**
+ * Add the pages for the component mapping. These are most often used by components with directories (e.g. groups, members).
+ *
+ * @param array $default_components Optional components to create pages for
+ * @param string $existing 'delete' if you want to delete existing page
+ *   mappings and replace with new ones. Otherwise existing page mappings
+ *   are kept, and the gaps filled in with new pages
+ * @since BuddyPress (1.7)
+ */
+function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
+
+	// Make sure that the pages are created on the root blog no matter which Dashboard the setup is being run on
+	if ( ! bp_is_root_blog() )
+		switch_to_blog( bp_get_root_blog_id() );
+
+	$pages = bp_core_get_directory_page_ids();
+
+	// Delete any existing pages
+	if ( 'delete' == $existing ) {
+		foreach ( (array) $pages as $page_id ) {
+			wp_delete_post( $page_id, true );
+		}
+
+		$pages = array();
+	}
+
+	$page_titles = array(
+		'activity' => _x( 'Activity', 'Page title for the Activity directory.', 'buddypress' ),
+		'groups'   => _x( 'Groups', 'Page title for the Groups directory.', 'buddypress' ),
+		'sites'    => _x( 'Sites', 'Page title for the Sites directory.', 'buddypress' ),
+		'activate' => _x( 'Activate', 'Page title for the user account activation screen.', 'buddypress' ),
+		'members'  => _x( 'Members', 'Page title for the Members directory.', 'buddypress' ),
+		'register' => _x( 'Register', 'Page title for the user registration screen.', 'buddypress' ),
+	);
+
+	$pages_to_create = array();
+	foreach ( array_keys( $components ) as $component_name ) {
+		if ( ! isset( $pages[ $component_name ] ) && isset( $page_titles[ $component_name ] ) ) {
+			$pages_to_create[ $component_name ] = $page_titles[ $component_name ];
+		}
+	}
+
+	// Register and Activate are not components, but need pages when
+	// registration is enabled
+	if ( bp_get_signup_allowed() ) {
+		foreach ( array( 'register', 'activate' ) as $slug ) {
+			if ( ! isset( $pages[ $slug ] ) ) {
+				$pages_to_create[ $slug ] = $page_titles[ $slug ];
+			}
+		}
+	}
+
+	// No need for a Sites directory unless we're on multisite
+	if ( ! is_multisite() && isset( $pages_to_create['sites'] ) ) {
+		unset( $pages_to_create['sites'] );
+	}
+
+	// Members must always have a page, no matter what
+	if ( ! isset( $pages['members'] ) && ! isset( $pages_to_create['members'] ) ) {
+		$pages_to_create['members'] = $page_titles['members'];
+	}
+
+	// Create the pages
+	foreach ( $pages_to_create as $component_name => $page_name ) {
+		$pages[ $component_name ] = wp_insert_post( array(
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+			'post_status'    => 'publish',
+			'post_title'     => $page_name,
+			'post_type'      => 'page',
+		) );
+	}
+
+	// Save the page mapping
+	bp_update_option( 'bp-pages', $pages );
+
+	// If we had to switch_to_blog, go back to the original site.
+	if ( ! bp_is_root_blog() )
+		restore_current_blog();
+}
+
+/**
  * Creates a default component slug from a WP page root_slug
  *
  * Since 1.5, BP components get their root_slug (the slug used immediately

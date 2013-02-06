@@ -300,7 +300,7 @@ function bp_core_admin_components_settings_handler() {
 		$bp->active_components = stripslashes_deep( $_POST['bp_components'] );
 
 		bp_core_install( $bp->active_components );
-
+		bp_core_add_page_mappings( $bp->active_components );
 		bp_update_option( 'bp-active-components', $bp->active_components );
 	}
 
