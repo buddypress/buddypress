@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-02-04 14:36:41+00:00\n"
+"POT-Creation-Date: 2013-02-06 06:36:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1755,6 +1755,10 @@ msgid "%d group"
 msgid_plural "%d groups"
 msgstr[0] ""
 msgstr[1] ""
+
+#: bp-core/bp-core-dependency.php:81
+msgid "The current user is being initialized without using $wp->init()."
+msgstr ""
 
 #: bp-core/bp-core-filters.php:215 bp-core/bp-core-filters.php:239
 msgid "[User Set]"
