@@ -1182,7 +1182,7 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
  */
 function bp_core_do_network_admin() {
 
-	// Default 
+	// Default
 	$retval = bp_is_network_activated();
 
 	if ( bp_is_multiblog_mode() )
@@ -1202,7 +1202,7 @@ function bp_core_admin_hook() {
  *
  * Used to determine admin menu placement, and where settings and options are
  * stored. If you're being *really* clever and manually pulling BuddyPress in
- * with an mu-plugin or some other method, you'll want to 
+ * with an mu-plugin or some other method, you'll want to
  *
  * @since BuddyPress (1.7)
  * @return boolean

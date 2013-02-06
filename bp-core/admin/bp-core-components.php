@@ -119,7 +119,7 @@ function bp_core_admin_components_options() {
 	if ( ! bp_is_active( 'forums' ) ) {
 		unset( $optional_components['forums'] );
 	}
-	
+
 	// Add blogs tracking if multisite
 	if ( is_multisite() ) {
 		$optional_components['blogs']['description'] = __( 'Record activity for new sites, posts, and comments across your network.', 'buddypress' );
@@ -279,7 +279,7 @@ function bp_core_admin_components_options() {
  * @return If not time to save settings
  */
 function bp_core_admin_components_settings_handler() {
-	
+
 	// Bail if not saving settings
 	if ( ! isset( $_POST['bp-admin-component-submit'] ) )
 		return;
