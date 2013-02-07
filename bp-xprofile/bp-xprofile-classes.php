@@ -160,11 +160,10 @@ class BP_XProfile_Group {
 		// Visibility - Handled here so as not to be overridden by sloppy use of the
 		// exclude_fields parameter. See bp_xprofile_get_hidden_fields_for_user()
 		$exclude_fields_cs = array_merge( $exclude_fields_cs, bp_xprofile_get_hidden_fields_for_user( $user_id ) );
-
 		$exclude_fields_cs = implode( ',', $exclude_fields_cs );
 
 		if ( !empty( $exclude_fields_cs ) ) {
-			$exclude_fields_sql = $wpdb->prepare( "AND id NOT IN ({$exclude_fields_cs})" );
+			$exclude_fields_sql = "AND id NOT IN ({$exclude_fields_cs})";
 		} else {
 			$exclude_fields_sql = '';
 		}
