@@ -513,7 +513,7 @@ function groups_screen_group_admin_edit_details() {
 	if ( 'edit-details' != bp_get_group_current_admin_tab() )
 		return false;
 
-	if ( bp_is_item_admin() || bp_is_item_mod() ) {
+	if ( bp_is_item_admin() ) {
 
 		$bp = buddypress();
 

@@ -1434,7 +1434,7 @@ function bp_group_admin_tabs( $group = false ) {
 
 	$current_tab = bp_get_group_current_admin_tab();
 
-	if ( bp_is_item_admin() || bp_is_item_mod() ) : ?>
+	if ( bp_is_item_admin() ) : ?>
 
 		<li<?php if ( 'edit-details' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/edit-details' ) ?>"><?php _e( 'Details', 'buddypress' ); ?></a></li>
 
