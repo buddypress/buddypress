@@ -352,7 +352,6 @@ function bp_forums_total_topic_count() {
  * @param int $user_id The user id
  */
 function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
-	global $wpdb;
 
 	$reply_exists = false;
 
@@ -364,16 +363,34 @@ function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
 			'topic_id'       => $topic_id
 		);
 
+		// Set the reply_exists_text so we can check it in the filter below
+		buddypress()->forums->reply_exists_text = $text;
+
 		// BB_Query's post_text parameter does a MATCH, while we need exact matches
-		add_filter( 'get_posts_where', create_function( '$q', 'return $q . " AND p.post_text = \'' . $wpdb->escape( $text ) . '\'";' ) );
-
+		add_filter( 'get_posts_where', '_bp_forums_reply_exists_posts_where' );
 		$query = new BB_Query( 'post', $args );
+		remove_filter( 'get_posts_where', '_bp_forums_reply_exists_posts_where' );
 
-		$reply_exists = !empty( $query->results );
+		// Cleanup
+		unset( buddypress()->forums->reply_exists_text );
+
+		$reply_exists = (bool) !empty( $query->results );
 	}
 
-	return apply_filters( 'bp_forums_reply_exists', $reply_exists, $text, $topic_id, $user_id );
+	return (bool) apply_filters( 'bp_forums_reply_exists', $reply_exists, $text, $topic_id, $user_id );
 }
+	/**
+	 * Private one-time-use function used in conjunction with bp_forums_reply_exists()
+	 *
+	 * @since BuddyPress (1.7)
+	 * @access private
+	 * @global WPDB $wpdb
+	 * @param string $where
+	 * @return string
+	 */
+	function _bp_forums_reply_exists_posts_where( $where = '' ) {
+		return $where . " AND p.post_text = '" . buddypress()->forums->reply_exists_text . "'";
+	}
 
 /**
  * Get a total "Topics Started" count for a given user
