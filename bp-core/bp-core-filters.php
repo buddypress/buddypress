@@ -58,12 +58,11 @@ add_filter( 'bp_core_render_message_content', 'shortcode_unautop' );
  * template hierarchy, start here by removing this filter, then look at how
  * bp_template_include() works and do something similar. :)
  */
-add_filter( 'bp_template_include', 'bp_template_include_theme_supports', 2, 1 );
-add_filter( 'bp_template_include', 'bp_template_include_theme_compat',   4, 2 );
+add_filter( 'bp_template_include',   'bp_template_include_theme_supports', 2, 1 );
+add_filter( 'bp_template_include',   'bp_template_include_theme_compat',   4, 2 );
 
-// Run all template parts through additional template locations
-add_filter( 'bp_locate_template',   'bp_add_template_locations' );
-add_filter( 'bp_get_template_part', 'bp_add_template_locations' );
+// Filter BuddyPress template locations
+add_filter( 'bp_get_template_stack', 'bp_add_template_locations'                );
 
 // Turn comments off for BuddyPress pages
 add_filter( 'comments_open', 'bp_comments_open', 10, 2 );

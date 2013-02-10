@@ -278,21 +278,21 @@ function bp_get_template_locations( $templates = array() ) {
  *
  * @since BuddyPress (1.7)
  *
- * @param array $templates
+ * @param array $stacks
  * @return array()
  */
-function bp_add_template_locations( $templates = array() ) {
+function bp_add_template_stack_locations( $stacks = array() ) {
 	$retval = array();
 
 	// Get alternate locations
-	$locations = bp_get_template_locations( $templates );
+	$locations = bp_get_template_locations();
 
-	// Loop through locations and templates and combine
-	foreach ( (array) $locations as $location )
-		foreach ( (array) $templates as $template )
-			$retval[] = ltrim( trailingslashit( $location ) . $template, '/' );
+	// Loop through locations and stacks and combine
+	foreach ( (array) $stacks as $stack )
+		foreach ( (array) $locations as $custom_location )
+			$retval[] = untrailingslashit( trailingslashit( $stack ) . $custom_location );
 
-	return apply_filters( 'bp_add_template_locations', array_unique( $retval ), $templates );
+	return apply_filters( 'bp_add_template_stack_locations', array_unique( $locations ), $stacks );
 }
 
 /**
