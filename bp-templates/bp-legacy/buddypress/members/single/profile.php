@@ -25,24 +25,36 @@
 
 <div class="profile" role="main">
 
-	<?php
-		// Profile Edit
-		if ( bp_is_current_action( 'edit' ) )
-			bp_get_template_part( 'members/single/profile/edit' );
+<?php switch ( bp_current_action() ) :
 
-		// Change Avatar
-		elseif ( bp_is_current_action( 'change-avatar' ) )
-			bp_get_template_part( 'members/single/profile/change-avatar' );
+	// Edit
+	case 'edit'   :
+		bp_get_template_part( 'members/single/profile/edit' );
+		break;
+
+	// Change Avatar
+	case 'change-avatar' :
+		bp_get_template_part( 'members/single/profile/change-avatar' );
+		break;
+
+	// Compose
+	case 'public' :
 
 		// Display XProfile
-		elseif ( bp_is_active( 'xprofile' ) )
+		if ( bp_is_active( 'xprofile' ) )
 			bp_get_template_part( 'members/single/profile/profile-loop' );
 
 		// Display WordPress profile (fallback)
 		else
-			bp_get_template_part( 'members/single/profile/profile-wp' )
-	?>
+			bp_get_template_part( 'members/single/profile/profile-wp' );
 
+		break;
+
+	// Any other
+	default :
+		bp_get_template_part( 'members/single/plugins' );
+		break;
+endswitch; ?>
 </div><!-- .profile -->
 
 <?php do_action( 'bp_after_profile_content' ); ?>

@@ -1141,6 +1141,32 @@ function bp_is_settings_component() {
 	return false;
 }
 
+/**
+ * Is the current component an active core component.
+ *
+ * Use this function when you need to check if the current component is an
+ * active core component of BuddyPress. If the current component is inactive, it
+ * will return false. If the current component is not part of BuddyPress core,
+ * it will return false. If the current component is active, and is part of
+ * BuddyPress core, it will return true.
+ *
+ * @since BuddyPress (1.7)
+ * @return boolean
+ */
+function bp_is_current_component_core() {
+	$retval            = false;
+	$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
+
+	foreach ( array_keys( $active_components ) as $active_component ) {
+		if ( bp_is_current_component( $active_component ) ) {
+			$retval = true;
+			break;
+		}
+	}
+
+	return $retval;
+}
+
 /** Activity ******************************************************************/
 
 function bp_is_single_activity() {

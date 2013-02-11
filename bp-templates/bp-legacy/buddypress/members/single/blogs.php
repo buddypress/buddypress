@@ -29,12 +29,24 @@
 	</ul>
 </div><!-- .item-list-tabs -->
 
-<?php do_action( 'bp_before_member_blogs_content' ); ?>
+<?php
+switch ( bp_current_action() ) :
 
-<div class="blogs myblogs" role="main">
+	// Home/My Blogs
+	case 'my-groups' :
+		do_action( 'bp_before_member_blogs_content' ); ?>
 
-	<?php bp_get_template_part( 'blogs/blogs-loop' ) ?>
+		<div class="blogs myblogs" role="main">
 
-</div><!-- .blogs.myblogs -->
+			<?php bp_get_template_part( 'blogs/blogs-loop' ) ?>
 
-<?php do_action( 'bp_after_member_blogs_content' ); ?>
+		</div><!-- .blogs.myblogs -->
+
+		<?php do_action( 'bp_after_member_blogs_content' );
+		break;
+
+	// Any other
+	default :
+		bp_get_template_part( 'members/single/plugins' );
+		break;
+endswitch;

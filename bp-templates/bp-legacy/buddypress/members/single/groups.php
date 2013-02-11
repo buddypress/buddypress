@@ -36,18 +36,28 @@
 
 <?php
 
-if ( bp_is_current_action( 'invites' ) ) :
-	bp_get_template_part( 'members/single/groups/invites' );
+switch ( bp_current_action() ) :
 
-else :
-	do_action( 'bp_before_member_groups_content' ); ?>
+	// Home/My Groups
+	case 'my-groups' :
+		do_action( 'bp_before_member_groups_content' ); ?>
 
-	<div class="groups mygroups">
+		<div class="groups mygroups">
 
-		<?php bp_get_template_part( 'groups/groups-loop' ); ?>
+			<?php bp_get_template_part( 'groups/groups-loop' ); ?>
 
-	</div>
+		</div>
 
-	<?php do_action( 'bp_after_member_groups_content' ); ?>
+		<?php do_action( 'bp_after_member_groups_content' );
+		break;
 
-<?php endif; ?>
+	// Group Invitations
+	case 'invites' :
+		bp_get_template_part( 'members/single/groups/invites' );
+		break;
+
+	// Any other
+	default :
+		bp_get_template_part( 'members/single/plugins' );
+		break;
+endswitch;

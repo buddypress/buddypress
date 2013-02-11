@@ -34,19 +34,27 @@
 </div>
 
 <?php
+switch ( bp_current_action() ) :
 
-if ( bp_is_current_action( 'requests' ) ) :
-	 bp_get_template_part( 'members/single/friends/requests' );
+	// Home/My Friends
+	case 'my-friends' :
+		do_action( 'bp_before_member_friends_content' ); ?>
 
-else :
-	do_action( 'bp_before_member_friends_content' ); ?>
+		<div class="members friends">
 
-	<div class="members friends">
+			<?php bp_get_template_part( 'members/members-loop' ) ?>
 
-		<?php bp_get_template_part( 'members/members-loop' ) ?>
+		</div><!-- .members.friends -->
 
-	</div><!-- .members.friends -->
+		<?php do_action( 'bp_after_member_friends_content' );
+		break;
 
-	<?php do_action( 'bp_after_member_friends_content' ); ?>
+	case 'requests' :
+		bp_get_template_part( 'members/single/friends/requests' );
+		break;
 
-<?php endif; ?>
+	// Any other
+	default :
+		bp_get_template_part( 'members/single/plugins' );
+		break;
+endswitch;
