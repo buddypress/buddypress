@@ -62,7 +62,7 @@ add_filter( 'bp_template_include',   'bp_template_include_theme_supports', 2, 1 
 add_filter( 'bp_template_include',   'bp_template_include_theme_compat',   4, 2 );
 
 // Filter BuddyPress template locations
-add_filter( 'bp_get_template_stack', 'bp_add_template_locations'                );
+add_filter( 'bp_get_template_stack', 'bp_add_template_stack_locations'          );
 
 // Turn comments off for BuddyPress pages
 add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
