@@ -155,7 +155,7 @@ class BP_XProfile_Component extends BP_Component {
 			'slug'                => $this->slug,
 			'position'            => 20,
 			'screen_function'     => 'xprofile_screen_display_profile',
-			'default_subnav_slug' => 'you',
+			'default_subnav_slug' => 'public',
 			'item_css_id'         => $this->id
 		);
 
