@@ -150,7 +150,7 @@ function bp_core_add_cropper_inline_css() {
 function bp_core_add_ajax_url_js() {
 ?>
 
-	<script type="text/javascript">var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';</script>
+	<script type="text/javascript">var ajaxurl = '<?php echo network_site_url( '/wp-admin/admin-ajax.php' ); ?>';</script>
 
 <?php
 }
