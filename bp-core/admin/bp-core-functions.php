@@ -37,6 +37,12 @@ function bp_core_admin_menu_init() {
 function bp_core_admin_backpat_menu() {
 	global $_parent_pages, $_registered_pages, $submenu;
 
+	// If there's no bp-general-settings menu (perhaps because the current
+	// user is not an Administrator), there's nothing to do here
+	if ( ! isset( $submenu['bp-general-settings'] ) ) {
+		return;
+	}
+
 	/**
 	 * By default, only the core "Help" submenu is added under the top-level BuddyPress menu.
 	 * This means that if no third-party plugins have registered their admin pages into the
