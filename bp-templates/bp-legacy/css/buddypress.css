@@ -861,6 +861,7 @@ a.bp-title-button {
 	background: #eaeaea;
 }
 #buddypress table#message-threads {
+	clear: both;
 	margin: 0;
 	width: auto;
 }
