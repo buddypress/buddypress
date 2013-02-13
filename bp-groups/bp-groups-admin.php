@@ -662,9 +662,11 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
 
 	$invite_status = groups_get_groupmeta( $item->id, 'invite_status' ); ?>
 
-	<div class="bp-groups-settings-section" id="bp-groups-settings-section-forum">
-		<label for="group-show-forum"><input type="checkbox" name="group-show-forum" id="group-show-forum" <?php checked( $item->enable_forum ) ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ) ?><br />
-	</div>
+	<?php if ( bp_is_active( 'forums' ) ) : ?>
+		<div class="bp-groups-settings-section" id="bp-groups-settings-section-forum">
+			<label for="group-show-forum"><input type="checkbox" name="group-show-forum" id="group-show-forum" <?php checked( $item->enable_forum ) ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ) ?><br />
+		</div>
+	<?php endif; ?>
 
 	<div class="bp-groups-settings-section" id="bp-groups-settings-section-status">
 		<label for="group-status"><?php _e( 'Privacy', 'buddypress' ); ?></label>
