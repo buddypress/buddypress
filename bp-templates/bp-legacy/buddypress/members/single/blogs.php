@@ -33,7 +33,7 @@
 switch ( bp_current_action() ) :
 
 	// Home/My Blogs
-	case 'my-groups' :
+	case 'my-sites' :
 		do_action( 'bp_before_member_blogs_content' ); ?>
 
 		<div class="blogs myblogs" role="main">
