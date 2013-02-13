@@ -793,7 +793,7 @@ jq(document).ready( function() {
 	});
 
 	/* Remove a user from the list of users to invite to a group */
-	jq("#friend-list li a.remove").on('click', function() {
+	jq("#friend-list").on('click', 'li a.remove', function() {
 		jq('.ajax-loader').toggle();
 
 		var friend_id = jq(this).attr('id');
