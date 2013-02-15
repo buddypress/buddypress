@@ -995,7 +995,7 @@ a.bp-title-button {
 	display: inline-block;
 	font-size: 80%;
 	opacity: 0.8;
-	padding: 1px 8px;
+	padding: 0;
 }
 #buddypress span.user-nicename {
 	color: #777;
@@ -1003,7 +1003,6 @@ a.bp-title-button {
 	font-size: 120%;
 	font-weight: bold;
 }
-#buddypress span.activity,
 #buddypress div#message p {
 	border: 1px solid #e1ca82;
 	-moz-border-radius: 3px;
@@ -1042,13 +1041,12 @@ a.bp-title-button {
 #buddypress div#item-header h2 {
 	margin-bottom: 5px;
 }
-#buddypress div#item-header span.activity,
 #buddypress div#item-header h2 span.highlight {
-	font-size: 80%;
+	font-size: 60%;
 	font-weight: normal;
 	line-height: 170%;
-	margin-bottom: 7px;
 	vertical-align: middle;
+	display: inline-block;
 }
 #buddypress div#item-header h2 span.highlight span {
 	background: #a1dcfa;
@@ -1149,7 +1147,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 #buddypress ul.item-list li div.item-desc {
 	color: #888;
 	font-size: 80%;
-	margin: 10px 0 0 64px;
+	margin: 10px 0 0 60px;
 	width: 50%;
 }
 #buddypress ul.item-list li div.action {
@@ -1300,7 +1298,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	text-decoration: none;
 }
 #buddypress div#message-thread strong span.activity {
-	margin: 4px 0 0 10px;
+	margin-top: 4px;
 }
 #buddypress div#message-thread div.message-metadata {
 	overflow: hidden;
