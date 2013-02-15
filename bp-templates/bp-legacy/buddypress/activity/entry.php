@@ -41,19 +41,17 @@
 
 		<?php endif; ?>
 
-		<?php if ( bp_get_activity_type() == 'activity_comment' ) : ?>
-
-			<div class="activity-inreplyto">
-				<a href="<?php bp_activity_thread_permalink(); ?>" class="view" title="<?php _e( 'View Conversation', 'buddypress' ); ?>"><?php _e( 'View Conversation', 'buddypress' ); ?></a>
-			</div>
-
-		<?php endif; ?>
-
 		<?php do_action( 'bp_activity_entry_content' ); ?>
 
-		<?php if ( is_user_logged_in() ) : ?>
+		<div class="activity-meta">
 
-			<div class="activity-meta">
+			<?php if ( bp_get_activity_type() == 'activity_comment' ) : ?>
+
+				<a href="<?php bp_activity_thread_permalink(); ?>" class="button view bp-secondary-action" title="<?php _e( 'View Conversation', 'buddypress' ); ?>"><?php _e( 'View Conversation', 'buddypress' ); ?></a>
+
+			<?php endif; ?>
+
+			<?php if ( is_user_logged_in() ) : ?>
 
 				<?php if ( bp_activity_can_comment() ) : ?>
 
