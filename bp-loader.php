@@ -16,7 +16,7 @@
  * Description: Social networking in a box. Build a social network for your company, school, sports team or niche community all based on the power and flexibility of WordPress.
  * Author:      The BuddyPress Community
  * Author URI:  http://buddypress.org/community/members/
- * Version:     1.7-bleeding
+ * Version:     1.7-beta1
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
  * License:     GPLv2 or later (license.txt)
@@ -278,7 +278,7 @@ class BuddyPress {
 
 		/** Versions **********************************************************/
 
-		$this->version    = '1.7-bleeding-6757';
+		$this->version    = '1.7-beta1-6797';
 		$this->db_version = 6067;
 
 		/** Loading ***********************************************************/
