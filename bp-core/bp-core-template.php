@@ -1757,6 +1757,13 @@ function bp_the_body_class() {
 			$bp_classes[] = bp_current_action();
 		}
 
+		/** is_buddypress *****************************************************/
+
+		// Add BuddyPress class if we are within a BuddyPress page
+		if ( !empty( $bp_classes ) ) {
+			$bp_classes[] = 'BuddyPress';
+		}
+
 		/** Clean up***********************************************************/
 
 		// We don't want WordPress blog classes to appear on non-blog pages.
@@ -1772,13 +1779,6 @@ function bp_the_body_class() {
 			} else {
 				$wp_classes = array();
 			}
-		}
-
-		/** Clean up **********************************************************/
-
-		// Add BuddyPress class if we are within a BuddyPress page
-		if ( !empty( $bp_classes ) ) {
-			$bp_classes[] = 'BuddyPress';
 		}
 
 		// Merge WP classes with BP classes and remove any duplicates
