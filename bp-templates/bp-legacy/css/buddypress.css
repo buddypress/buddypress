@@ -191,7 +191,7 @@ body.activity-permalink #buddypress .activity-list > li:first-child {
 }
 #buddypress .activity-list li.mini .activity-comments {
 	clear: both;
-	font-size: 80%;
+	font-size: 120%;
 }
 body.activity-permalink #buddypress li.mini .activity-meta {
 	margin-top: 4px;
