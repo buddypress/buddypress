@@ -1774,11 +1774,15 @@ function bp_the_body_class() {
 			}
 		}
 
-		// Merge WP classes with BP classes
-		$classes = array_merge( (array) $bp_classes, (array) $wp_classes );
+		/** Clean up **********************************************************/
 
-		// Remove any duplicates
-		$classes = array_unique( $classes );
+		// Add BuddyPress class if we are within a BuddyPress page
+		if ( !empty( $bp_classes ) ) {
+			$bp_classes[] = 'BuddyPress';
+		}
+
+		// Merge WP classes with BP classes and remove any duplicates
+		$classes = array_unique( array_merge( (array) $bp_classes, (array) $wp_classes ) );
 
 		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
 	}
