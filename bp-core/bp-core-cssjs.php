@@ -16,13 +16,9 @@ function bp_core_confirmation_js() {
 
 	<script type="text/javascript">
 		jQuery( document ).ready( function() {
-			jQuery( 'body' ).click( function(e) {
-				if ( 'a' == e.target.nodeName.toLowerCase() && jQuery(e.target).hasClass( 'confirm' ) ) {
-					if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) )
-						return true; else return false;
-				} else {
-					return true;
-				}
+			jQuery( 'a.confirm').click( function() {
+				if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) )
+					return true; else return false;
 			});
 		});
 	</script>
