@@ -506,7 +506,8 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 #buddypress div#message.updated {
 	clear: both;
 }
-#buddypress div#message p {
+#buddypress div#message p,
+#sitewide-notice p {
 	font-size: 90%;
 	display: block;
 	padding: 10px 15px;
@@ -545,7 +546,20 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 #buddypress ul.button-nav li.current a {
 	font-weight: bold;
 }
-
+#sitewide-notice #message {
+	left: 2%;
+	position: fixed;
+	top: 1em;
+	width: 96%;
+	z-index: 9999;
+}
+#sitewide-notice.admin-bar-on #message {
+	top: 3.3em;
+}
+#sitewide-notice strong {
+	display: block;
+	margin-bottom: -1em;
+}
 
 /*--------------------------------------------------------------
 6.5 - Forms
@@ -1003,7 +1017,8 @@ a.bp-title-button {
 	font-size: 120%;
 	font-weight: bold;
 }
-#buddypress div#message p {
+#buddypress div#message p,
+#sitewide-notice p {
 	border: 1px solid #e1ca82;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
