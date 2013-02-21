@@ -159,10 +159,7 @@ function messages_screen_notification_settings() {
 	}
 
 	if ( !$new_messages = bp_get_user_meta( bp_displayed_user_id(), 'notification_messages_new_message', true ) )
-		$new_messages = 'yes';
-
-	if ( !$new_notices = bp_get_user_meta( bp_displayed_user_id(), 'notification_messages_new_notice', true ) )
-		$new_notices  = 'yes'; ?>
+		$new_messages = 'yes'; ?>
 
 	<table class="notification-settings" id="messages-notification-settings">
 		<thead>
@@ -180,12 +177,6 @@ function messages_screen_notification_settings() {
 				<td><?php _e( 'A member sends you a new message', 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" value="yes" <?php checked( $new_messages, 'yes', true ) ?>/></td>
 				<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" value="no" <?php checked( $new_messages, 'no', true ) ?>/></td>
-			</tr>
-			<tr id="messages-notification-settings-new-site-notice">
-				<td></td>
-				<td><?php _e( 'A new site notice is posted', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_messages_new_notice]" value="yes" <?php checked( $new_notices, 'yes', true ) ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_messages_new_notice]" value="no" <?php checked( $new_notices, 'no', true ) ?>/></td>
 			</tr>
 
 			<?php do_action( 'messages_screen_notification_settings' ) ?>
