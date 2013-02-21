@@ -134,7 +134,7 @@ class BP_Groups_Component extends BP_Component {
 			'table_name_groupmeta' => $bp->table_prefix . 'bp_groups_groupmeta'
 		);
 
-		// All globals for messaging component.
+		// All globals for groups component.
 		// Note that global_tables is included in this array.
 		$globals = array(
 			'slug'                  => BP_GROUPS_SLUG,
