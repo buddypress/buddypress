@@ -208,13 +208,16 @@ jq(document).ready( function() {
 				});
 
 				if ( 'fav' == type ) {
-					if ( !jq('.item-list-tabs #activity-favorites').length )
-						jq('.item-list-tabs ul #activity-mentions').before( '<li id="activity-favorites"><a href="#">' + BP_DTheme.my_favs + ' <span>0</span></a></li>');
+					if ( !jq('.item-list-tabs #activity-mentions-personal-li').length ) {
+						if ( !jq('.item-list-tabs #activity-favorites').length )
+							jq('.item-list-tabs ul #activity-mentions').before( '<li id="activity-favorites"><a href="#">' + BP_DTheme.my_favs + ' <span>0</span></a></li>');
+
+						jq('.item-list-tabs ul #activity-favorites span').html( Number( jq('.item-list-tabs ul #activity-favorites span').html() ) + 1 );
+					}
 
 					target.removeClass('fav');
 					target.addClass('unfav');
 
-					jq('.item-list-tabs ul #activity-favorites span').html( Number( jq('.item-list-tabs ul #activity-favorites span').html() ) + 1 );
 				} else {
 					target.removeClass('unfav');
 					target.addClass('fav');
