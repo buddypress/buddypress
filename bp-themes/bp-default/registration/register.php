@@ -153,7 +153,9 @@
 									</div>
 
 								<?php endif; ?>
-								
+
+								<?php do_action( 'bp_custom_profile_edit_fields_pre_visibility' ); ?>
+
 								<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
 									<p class="field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
 										<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?> <a href="#" class="visibility-toggle-link"><?php _ex( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></a>
