@@ -1017,7 +1017,7 @@ function bp_signup_page() {
  */
 function bp_has_custom_activation_page() {
 	static $has_page = false;
-	
+
 	if ( empty( $has_page ) )
 		$has_page = bp_get_activate_slug() && bp_locate_template( array( 'registration/activate.php', 'members/activate.php', 'activate.php' ), false );
 
