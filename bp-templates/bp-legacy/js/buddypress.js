@@ -686,7 +686,7 @@ jq(document).ready( function() {
 	});
 
 	/* All pagination links run through this function */
-	jq('#content').on( 'click', function(event) {
+	jq('#buddypress').on( 'click', function(event) {
 		var target = jq(event.target);
 
 		if ( target.hasClass('button') )
