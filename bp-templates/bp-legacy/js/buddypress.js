@@ -208,7 +208,7 @@ jq(document).ready( function() {
 				});
 
 				if ( 'fav' == type ) {
-					if ( !jq('.item-list-tabs #activity-mentions-personal-li').length ) {
+					if ( !jq('.item-list-tabs #activity-favs-personal-li').length ) {
 						if ( !jq('.item-list-tabs #activity-favorites').length )
 							jq('.item-list-tabs ul #activity-mentions').before( '<li id="activity-favorites"><a href="#">' + BP_DTheme.my_favs + ' <span>0</span></a></li>');
 
