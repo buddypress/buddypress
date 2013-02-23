@@ -21,7 +21,7 @@
 	<table id="message-threads" class="messages-notices">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
 
-			<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php if ( bp_message_thread_has_unread() ) : ?> unread"<?php else: ?> read"<?php endif; ?>>
+			<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php if ( bp_message_thread_has_unread() ) : ?> unread<?php else: ?> read<?php endif; ?>">
 				<td width="1%" class="thread-count">
 					<span class="unread-count"><?php bp_message_thread_unread_count(); ?></span>
 				</td>
