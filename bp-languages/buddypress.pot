@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-02-22 17:36:33+00:00\n"
+"POT-Creation-Date: 2013-02-23 16:36:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -670,9 +670,9 @@ msgstr ""
 #: bp-friends/bp-friends-screens.php:84 bp-groups/bp-groups-screens.php:894
 #: bp-messages/bp-messages-screens.php:169
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:26
-#: bp-templates/bp-legacy/buddypress/members/register.php:222
+#: bp-templates/bp-legacy/buddypress/members/register.php:223
 #: bp-themes/bp-default/groups/single/admin.php:26
-#: bp-themes/bp-default/registration/register.php:227
+#: bp-themes/bp-default/registration/register.php:228
 msgid "Yes"
 msgstr ""
 
@@ -680,9 +680,9 @@ msgstr ""
 #: bp-friends/bp-friends-screens.php:85 bp-groups/bp-groups-screens.php:895
 #: bp-messages/bp-messages-screens.php:170
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:27
-#: bp-templates/bp-legacy/buddypress/members/register.php:223
+#: bp-templates/bp-legacy/buddypress/members/register.php:224
 #: bp-themes/bp-default/groups/single/admin.php:27
-#: bp-themes/bp-default/registration/register.php:228
+#: bp-themes/bp-default/registration/register.php:229
 msgid "No"
 msgstr ""
 
@@ -1029,8 +1029,8 @@ msgid "Privacy:"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:679
-#: bp-templates/bp-legacy/buddypress/members/register.php:219
-#: bp-themes/bp-default/registration/register.php:224
+#: bp-templates/bp-legacy/buddypress/members/register.php:220
+#: bp-themes/bp-default/registration/register.php:225
 msgid "I would like my site to appear in search engines, and in public listings around this network."
 msgstr ""
 
@@ -3014,14 +3014,14 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:74
-#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:146
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:148
 #: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:30
 #: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:19
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:117
 #: bp-themes/bp-default/groups/single/forum/edit.php:58
 #: bp-themes/bp-default/groups/single/forum/edit.php:74
-#: bp-themes/bp-default/members/single/profile/edit.php:146
+#: bp-themes/bp-default/members/single/profile/edit.php:148
 #: bp-themes/bp-default/members/single/settings/general.php:72
 #: bp-themes/bp-default/members/single/settings/notifications.php:61
 #: bp-xprofile/bp-xprofile-classes.php:360
@@ -3916,7 +3916,7 @@ msgid "Your account is now active!"
 msgstr ""
 
 #: bp-members/bp-members-screens.php:431
-#: bp-themes/bp-default/registration/register.php:252
+#: bp-themes/bp-default/registration/register.php:253
 msgid "Sign Up Complete!"
 msgstr ""
 
@@ -4182,12 +4182,12 @@ msgid "Deactivate"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:607
-#: bp-templates/bp-legacy/buddypress/members/register.php:164
-#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:128
+#: bp-templates/bp-legacy/buddypress/members/register.php:166
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:130
 #: bp-templates/bp-legacy/buddypress-functions.php:264
 #: bp-themes/bp-default/functions.php:164
-#: bp-themes/bp-default/members/single/profile/edit.php:128
-#: bp-themes/bp-default/registration/register.php:169
+#: bp-themes/bp-default/members/single/profile/edit.php:130
+#: bp-themes/bp-default/registration/register.php:171
 msgid "Close"
 msgstr ""
 
@@ -5174,8 +5174,8 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/members/register.php:108
 #: bp-templates/bp-legacy/buddypress/members/register.php:123
 #: bp-templates/bp-legacy/buddypress/members/register.php:134
-#: bp-templates/bp-legacy/buddypress/members/register.php:206
-#: bp-templates/bp-legacy/buddypress/members/register.php:215
+#: bp-templates/bp-legacy/buddypress/members/register.php:207
+#: bp-templates/bp-legacy/buddypress/members/register.php:216
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:26
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:33
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:40
@@ -5201,8 +5201,8 @@ msgstr ""
 #: bp-themes/bp-default/registration/register.php:113
 #: bp-themes/bp-default/registration/register.php:128
 #: bp-themes/bp-default/registration/register.php:139
-#: bp-themes/bp-default/registration/register.php:211
-#: bp-themes/bp-default/registration/register.php:220
+#: bp-themes/bp-default/registration/register.php:212
+#: bp-themes/bp-default/registration/register.php:221
 msgid "(required)"
 msgstr ""
 
@@ -5236,62 +5236,62 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:154
-#: bp-templates/bp-legacy/buddypress/members/register.php:169
-#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:118
-#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:132
-#: bp-themes/bp-default/members/single/profile/edit.php:118
-#: bp-themes/bp-default/members/single/profile/edit.php:132
-#: bp-themes/bp-default/registration/register.php:159
-#: bp-themes/bp-default/registration/register.php:174
+#: bp-templates/bp-legacy/buddypress/members/register.php:156
+#: bp-templates/bp-legacy/buddypress/members/register.php:171
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:120
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:134
+#: bp-themes/bp-default/members/single/profile/edit.php:120
+#: bp-themes/bp-default/members/single/profile/edit.php:134
+#: bp-themes/bp-default/registration/register.php:161
+#: bp-themes/bp-default/registration/register.php:176
 msgid "This field can be seen by: <span class=\"current-visibility-level\">%s</span>"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:154
-#: bp-themes/bp-default/registration/register.php:159
+#: bp-templates/bp-legacy/buddypress/members/register.php:156
+#: bp-themes/bp-default/registration/register.php:161
 msgctxt "Change profile field visibility level"
 msgid "Change"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:159
-#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:123
-#: bp-themes/bp-default/members/single/profile/edit.php:123
-#: bp-themes/bp-default/registration/register.php:164
+#: bp-templates/bp-legacy/buddypress/members/register.php:161
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:125
+#: bp-themes/bp-default/members/single/profile/edit.php:125
+#: bp-themes/bp-default/registration/register.php:166
 msgid "Who can see this field?"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:200
-#: bp-themes/bp-default/registration/register.php:205
+#: bp-templates/bp-legacy/buddypress/members/register.php:201
+#: bp-themes/bp-default/registration/register.php:206
 msgid "Blog Details"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:202
-#: bp-themes/bp-default/registration/register.php:207
+#: bp-templates/bp-legacy/buddypress/members/register.php:203
+#: bp-themes/bp-default/registration/register.php:208
 msgid "Yes, I'd like to create a new site"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:206
-#: bp-themes/bp-default/registration/register.php:211
+#: bp-templates/bp-legacy/buddypress/members/register.php:207
+#: bp-themes/bp-default/registration/register.php:212
 msgid "Blog URL"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:215
-#: bp-themes/bp-default/registration/register.php:220
+#: bp-templates/bp-legacy/buddypress/members/register.php:216
+#: bp-themes/bp-default/registration/register.php:221
 msgid "Site Title"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:236
-#: bp-themes/bp-default/registration/register.php:241
+#: bp-templates/bp-legacy/buddypress/members/register.php:237
+#: bp-themes/bp-default/registration/register.php:242
 msgid "Complete Sign Up"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:251
-#: bp-themes/bp-default/registration/register.php:258
+#: bp-templates/bp-legacy/buddypress/members/register.php:252
+#: bp-themes/bp-default/registration/register.php:259
 msgid "You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/register.php:253
-#: bp-themes/bp-default/registration/register.php:260
+#: bp-templates/bp-legacy/buddypress/members/register.php:254
+#: bp-themes/bp-default/registration/register.php:261
 msgid "You have successfully created your account! Please log in using the username and password you have just created."
 msgstr ""
 
@@ -5431,8 +5431,8 @@ msgstr ""
 msgid "Editing '%s' Profile Group"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:118
-#: bp-themes/bp-default/members/single/profile/edit.php:118
+#: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:120
+#: bp-themes/bp-default/members/single/profile/edit.php:120
 msgid "Change"
 msgstr ""
 
