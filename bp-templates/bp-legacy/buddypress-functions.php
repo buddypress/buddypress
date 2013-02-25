@@ -47,8 +47,14 @@ class BP_Legacy extends BP_Theme_Compat {
 	public function __construct() {
 
 		// Bail if theme is a derivative of bp-default
-		if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) )
+		if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) ) {
 			return;
+		}
+
+		// Or if the theme supports 'buddypress'
+		if ( current_theme_supports( 'buddypress' ) ) {
+			return;
+		}
 
 		$this->setup_globals();
 		$this->setup_actions();

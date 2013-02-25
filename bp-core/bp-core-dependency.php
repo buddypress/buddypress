@@ -196,6 +196,10 @@ function bp_setup_theme() {
  * Piggy back action for BuddyPress sepecific theme actions once the theme has
  * been setup and the theme's functions.php has loaded.
  *
+ * Hooked to 'after_setup_theme' with a priority of 100. This allows plenty of
+ * time for other themes to load their features, such as BuddyPress support,
+ * before our theme compatibility layer kicks in.
+ *
  * @since BuddyPress (1.6)
  *
  * @uses do_action() Calls 'bp_after_setup_theme'

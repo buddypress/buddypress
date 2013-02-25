@@ -36,7 +36,7 @@ add_action( 'init',                    'bp_init',                   10    );
 add_action( 'wp',                      'bp_ready',                  10    );
 add_action( 'set_current_user',        'bp_setup_current_user',     10    );
 add_action( 'setup_theme',             'bp_setup_theme',            10    );
-add_action( 'after_setup_theme',       'bp_after_setup_theme',      10    );
+add_action( 'after_setup_theme',       'bp_after_setup_theme',      100   ); // After WP themes
 add_action( 'wp_enqueue_scripts',      'bp_enqueue_scripts',        10    );
 add_action( 'admin_bar_menu',          'bp_setup_admin_bar',        20    ); // After WP core
 add_action( 'template_redirect',       'bp_template_redirect',      10    );
