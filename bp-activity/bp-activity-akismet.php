@@ -584,3 +584,4 @@ function bp_activity_akismet_delete_old_metadata() {
 			bp_activity_delete_meta( $activity_id, '_bp_akismet_submission' );
 	}
 }
+add_action( 'bp_activity_akismet_delete_old_metadata', 'bp_activity_akismet_delete_old_metadata' );
