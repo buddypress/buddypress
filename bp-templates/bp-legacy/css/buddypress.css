@@ -941,6 +941,7 @@ a.bp-title-button {
 #buddypress table.forum {
 	margin: 0;
 	width: auto;
+	clear: both;
 }
 #buddypress table.forum tr.sticky td {
 	font-size: 110%;
