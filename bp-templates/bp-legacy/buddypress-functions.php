@@ -290,7 +290,7 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		<script type="text/javascript" charset="utf-8">
 			/* <![CDATA[ */
-			var ajaxurl = '<?php echo network_site_url( '/wp-admin/admin-ajax.php' ); ?>';
+			var ajaxurl = '<?php echo bp_core_ajax_url(); ?>';
 			/* ]]> */
 		</script>
 
