@@ -141,7 +141,7 @@ function bp_groups_admin_load() {
 
 	// Index screen
 	} else {
-		// Create the Activity screen list table
+		// Create the Groups screen list table
 		$bp_groups_list_table = new BP_Groups_List_Table();
 
 		// per_page screen option
@@ -180,7 +180,7 @@ function bp_groups_admin_load() {
 	) );
 
 	if ( $doaction && 'save' == $doaction ) {
-		// Get activity ID
+		// Get group ID
 		$group_id = isset( $_REQUEST['gid'] ) ? (int) $_REQUEST['gid'] : '';
 
 		$redirect_to = add_query_arg( array(
@@ -477,7 +477,7 @@ function bp_groups_admin_edit() {
 
 	$is_error = ! empty( $no_admins ) || ! empty( $errors ) || ! empty( $error_new ) || ! empty( $error_modified );
 
-	// Get the activity from the database
+	// Get the group from the database
 	$group      = groups_get_group( 'group_id=' . $_GET['gid'] );
 	$group_name = isset( $group->name ) ? apply_filters( 'bp_get_group_name', $group->name ) : '';
 
@@ -599,7 +599,7 @@ function bp_groups_admin_delete() {
  * Display the Groups admin index screen, which contains a list of all your
  * BuddyPress groups.
  *
- * @global BP_Activity_List_Table $bp_groups_list_table Activity screen list table
+ * @global BP_Group_List_Table $bp_groups_list_table Group screen list table
  * @global string $plugin_page
  * @since BuddyPress (1.7)
  */
@@ -613,11 +613,11 @@ function bp_groups_admin_index() {
 		$deleted  = ! empty( $_REQUEST['deleted'] ) ? (int) $_REQUEST['deleted'] : 0;
 
 		if ( $deleted > 0 ) {
-			$messages[] = sprintf( _n( '%s activity has been permanently deleted.', '%s activity items have been permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
+			$messages[] = sprintf( _n( '%s group has been permanently deleted.', '%s groups have been permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
 		}
 	}
 
-	// Prepare the activity items for display
+	// Prepare the group items for display
 	$bp_groups_list_table->prepare_items();
 
 	// Call an action for plugins to modify the messages before we display the edit form
@@ -950,8 +950,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 		// Define singular and plural labels, as well as whether we support AJAX.
 		parent::__construct( array(
 			'ajax'     => false,
-			'plural'   => 'activities',
-			'singular' => 'activity',
+			'plural'   => 'groups',
+			'singular' => 'group',
 		) );
 	}
 
@@ -1025,7 +1025,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			$this->group_counts[ $group_type ] = count( $group_ids );
 		}
 
-		// If we're viewing a specific activity, flatten all activites into a single array.
+		// If we're viewing a specific group, flatten all activites into a single array.
 		if ( $include_id ) {
 			$groups = array( (array) groups_get_group( 'group_id=' . $include_id ) );
 		} else {
@@ -1129,7 +1129,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			$row_class = ' class="even"';
 		}
 
-		echo '<tr' . $row_class . ' id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['id'] ) . '">';
+		echo '<tr' . $row_class . ' id="group-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['id'] ) . '">';
 		echo $this->single_row_columns( $item );
 		echo '</tr>';
 	}
@@ -1258,7 +1258,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $delete_url ), __( 'Delete', 'buddypress' ) );
 
 		// Other plugins can filter which actions are shown
-		$actions = apply_filters( 'bp_activity_admin_comment_row_actions', array_filter( $actions ), $item );
+		$actions = apply_filters( 'bp_groups_admin_comment_row_actions', array_filter( $actions ), $item );
 
 		// Get group name and avatar
 		$avatar  = bp_core_fetch_avatar( array(
