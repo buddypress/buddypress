@@ -75,14 +75,7 @@ function bp_groups_admin_load() {
 	// Decide whether to load the dev version of the CSS and JavaScript
 	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : 'min.';
 
-	// Bottom bulk action hack
-	if ( !empty( $_REQUEST['action2'] ) ) {
-		$_REQUEST['action'] = $_REQUEST['action2'];
-		unset( $_REQUEST['action2'] );
-	}
-
-	// Decide whether to load the index or edit screen
-	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
+	$doaction = bp_admin_list_table_current_bulk_action();
 
 	// Call an action for plugins to hook in early
 	do_action( 'bp_groups_admin_load', $doaction );
