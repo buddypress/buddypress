@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-03-03 21:36:35+00:00\n"
+"POT-Creation-Date: 2013-03-04 13:36:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -98,8 +98,8 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:402
 #: bp-core/admin/bp-core-functions.php:420
 #: bp-core/admin/bp-core-functions.php:439
-#: bp-core/admin/bp-core-functions.php:458 bp-groups/bp-groups-admin.php:110
-#: bp-groups/bp-groups-admin.php:146
+#: bp-core/admin/bp-core-functions.php:458 bp-groups/bp-groups-admin.php:107
+#: bp-groups/bp-groups-admin.php:143
 msgid "Overview"
 msgstr ""
 
@@ -139,8 +139,8 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:408
 #: bp-core/admin/bp-core-functions.php:426
 #: bp-core/admin/bp-core-functions.php:445
-#: bp-core/admin/bp-core-functions.php:464 bp-groups/bp-groups-admin.php:118
-#: bp-groups/bp-groups-admin.php:162
+#: bp-core/admin/bp-core-functions.php:464 bp-groups/bp-groups-admin.php:115
+#: bp-groups/bp-groups-admin.php:159
 msgid "For more information:"
 msgstr ""
 
@@ -152,7 +152,7 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:410
 #: bp-core/admin/bp-core-functions.php:428
 #: bp-core/admin/bp-core-functions.php:447
-#: bp-core/admin/bp-core-functions.php:466 bp-groups/bp-groups-admin.php:163
+#: bp-core/admin/bp-core-functions.php:466 bp-groups/bp-groups-admin.php:160
 msgid "<a href=\"http://buddypress.org/support/\">Support Forums</a>"
 msgstr ""
 
@@ -247,7 +247,7 @@ msgid "Submitted on: <strong>%1$s</strong>"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:665 bp-activity/bp-activity-admin.php:1281
-#: bp-forums/bp-forums-template.php:1270 bp-groups/bp-groups-admin.php:1248
+#: bp-forums/bp-forums-template.php:1270 bp-groups/bp-groups-admin.php:1245
 #: bp-themes/bp-default/functions.php:507 bp-xprofile/bp-xprofile-admin.php:456
 #: bp-xprofile/bp-xprofile-loader.php:185
 #: bp-xprofile/bp-xprofile-loader.php:245
@@ -322,7 +322,7 @@ msgstr ""
 msgid "Activity related to ID #%s"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:856 bp-groups/bp-groups-admin.php:625
+#: bp-activity/bp-activity-admin.php:856 bp-groups/bp-groups-admin.php:622
 msgid "Search results for &#8220;%s&#8221;"
 msgstr ""
 
@@ -334,7 +334,7 @@ msgstr ""
 msgid "Reply to Activity"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:884 bp-groups/bp-groups-admin.php:585
+#: bp-activity/bp-activity-admin.php:884 bp-groups/bp-groups-admin.php:582
 #: bp-templates/bp-legacy/buddypress/activity/entry.php:102
 #: bp-templates/bp-legacy/buddypress/forums/index.php:116
 #: bp-themes/bp-default/forums/index.php:134
@@ -355,7 +355,7 @@ msgstr ""
 msgid "No activities found."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1133 bp-groups/bp-groups-admin.php:1138
+#: bp-activity/bp-activity-admin.php:1133 bp-groups/bp-groups-admin.php:1135
 #: bp-messages/bp-messages-template.php:434
 msgid "All"
 msgstr ""
@@ -374,7 +374,7 @@ msgid "Not Spam"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:1151
-#: bp-activity/bp-activity-admin.php:1291 bp-groups/bp-groups-admin.php:584
+#: bp-activity/bp-activity-admin.php:1291 bp-groups/bp-groups-admin.php:581
 msgid "Delete Permanently"
 msgstr ""
 
@@ -550,7 +550,7 @@ msgstr ""
 #: bp-groups/bp-groups-activity.php:143 bp-groups/bp-groups-activity.php:179
 #: bp-groups/bp-groups-activity.php:215 bp-groups/bp-groups-activity.php:251
 #: bp-groups/bp-groups-admin.php:35 bp-groups/bp-groups-admin.php:36
-#: bp-groups/bp-groups-admin.php:622 bp-groups/bp-groups-loader.php:517
+#: bp-groups/bp-groups-admin.php:619 bp-groups/bp-groups-loader.php:517
 #: bp-groups/bp-groups-screens.php:893 bp-groups/bp-groups-screens.php:999
 #: bp-groups/bp-groups-screens.php:1001 bp-groups/bp-groups-screens.php:1037
 #: bp-groups/bp-groups-screens.php:1039 bp-groups/bp-groups-widgets.php:45
@@ -720,7 +720,7 @@ msgstr ""
 msgid "Group logo"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1090 bp-groups/bp-groups-admin.php:1262
+#: bp-activity/bp-activity-template.php:1090 bp-groups/bp-groups-admin.php:1259
 #: bp-groups/bp-groups-template.php:494
 msgid "Group logo of %s"
 msgstr ""
@@ -734,8 +734,8 @@ msgid "View Discussion"
 msgstr ""
 
 #: bp-activity/bp-activity-template.php:2167
-#: bp-forums/bp-forums-template.php:1271 bp-groups/bp-groups-admin.php:1156
-#: bp-groups/bp-groups-admin.php:1251 bp-groups/bp-groups-template.php:1464
+#: bp-forums/bp-forums-template.php:1271 bp-groups/bp-groups-admin.php:1153
+#: bp-groups/bp-groups-admin.php:1248 bp-groups/bp-groups-template.php:1464
 #: bp-templates/bp-legacy/buddypress/activity/comment.php:43
 #: bp-templates/bp-legacy/buddypress/members/single/messages/messages-loop.php:51
 #: bp-templates/bp-legacy/buddypress/members/single/messages/single.php:24
@@ -1530,7 +1530,7 @@ msgid "BuddyPress&#8217;s powerful features help your users connect and collabor
 msgstr ""
 
 #: bp-core/bp-core-admin.php:408 bp-core/bp-core-template.php:243
-#: bp-core/bp-core-widgets.php:108 bp-groups/bp-groups-admin.php:764
+#: bp-core/bp-core-widgets.php:108 bp-groups/bp-groups-admin.php:761
 #: bp-groups/bp-groups-template.php:1454 bp-members/bp-members-loader.php:24
 #: bp-members/bp-members-screens.php:327
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:231
@@ -1733,7 +1733,7 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:569 bp-groups/bp-groups-admin.php:1245
+#: bp-core/bp-core-buddybar.php:569 bp-groups/bp-groups-admin.php:1242
 msgid "Visit"
 msgstr ""
 
@@ -2769,135 +2769,135 @@ msgstr ""
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:112
+#: bp-groups/bp-groups-admin.php:109
 msgid "This page is a convenient way to edit the details associated with one of your groups."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:113
+#: bp-groups/bp-groups-admin.php:110
 msgid "The Name and Description box is fixed in place, but you can reposition all the other boxes using drag and drop, and can minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to hide or unhide, or to choose a 1- or 2-column layout for this screen."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:119
+#: bp-groups/bp-groups-admin.php:116
 msgid "Support Forums"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:123
+#: bp-groups/bp-groups-admin.php:120
 msgctxt "group admin edit screen"
 msgid "Save"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:124
+#: bp-groups/bp-groups-admin.php:121
 msgctxt "group admin edit screen"
 msgid "Settings"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:125
+#: bp-groups/bp-groups-admin.php:122
 msgctxt "group admin edit screen"
 msgid "Add New Members"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:126
+#: bp-groups/bp-groups-admin.php:123
 msgctxt "group admin edit screen"
 msgid "Manage Members"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:141
+#: bp-groups/bp-groups-admin.php:138
 msgctxt "Groups per page (screen options)"
 msgid "Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:148
+#: bp-groups/bp-groups-admin.php:145
 msgid "You can manage groups much like you can manage comments and other content. This screen is customizable in the same ways as other management screens, and you can act on groups by using the on-hover action links or the Bulk Actions."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:153
+#: bp-groups/bp-groups-admin.php:150
 msgid "Group Actions"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:155
+#: bp-groups/bp-groups-admin.php:152
 msgid "Clicking \"Visit\" will take you to the group&#8217;s public page. Use this link to see what the group looks like on the front end of your site."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:156
+#: bp-groups/bp-groups-admin.php:153
 msgid "Clicking \"Edit\" will take you to a Dashboard panel where you can manage various details about the group, such as its name and description, its members, and other settings."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:157
+#: bp-groups/bp-groups-admin.php:154
 msgid "If you click \"Delete\" under a specific group, or select a number of groups and then choose Delete from the Bulk Actions menu, you will be led to a page where you&#8217;ll be asked to confirm the permanent deletion of the group(s)."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:172
+#: bp-groups/bp-groups-admin.php:169
 msgid "Start typing a username to add a new member."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:443
+#: bp-groups/bp-groups-admin.php:440
 msgid "You cannot remove all administrators from a group."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:447
+#: bp-groups/bp-groups-admin.php:444
 msgid "An error occurred when trying to update your group details."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:449
+#: bp-groups/bp-groups-admin.php:446
 msgid "The group has been updated successfully."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:453
+#: bp-groups/bp-groups-admin.php:450
 msgid "The following users could not be added to the group: <em>%s</em>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:457
+#: bp-groups/bp-groups-admin.php:454
 msgid "The following users were successfully added to the group: <em>%s</em>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:462
+#: bp-groups/bp-groups-admin.php:459
 msgid "An error occurred when trying to modify the following members: <em>%s</em>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:467
+#: bp-groups/bp-groups-admin.php:464
 msgid "The following members were successfully modified: <em>%s</em>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:486 bp-groups/bp-groups-adminbar.php:40
+#: bp-groups/bp-groups-admin.php:483 bp-groups/bp-groups-adminbar.php:40
 #: bp-xprofile/bp-xprofile-admin.php:114
 msgid "Edit Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:489
+#: bp-groups/bp-groups-admin.php:486
 msgid "Add New"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:508
+#: bp-groups/bp-groups-admin.php:505
 msgid "Name and Description"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:535
+#: bp-groups/bp-groups-admin.php:532
 msgid "No group found with this ID. <a href=\"%s\">Go back and try again</a>."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:573
+#: bp-groups/bp-groups-admin.php:570
 msgid "Delete Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:574
+#: bp-groups/bp-groups-admin.php:571
 msgid "You are about to delete the following groups:"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:582
+#: bp-groups/bp-groups-admin.php:579
 msgid "This action cannot be undone."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:609
+#: bp-groups/bp-groups-admin.php:606
 msgid "%s group has been permanently deleted."
 msgid_plural "%s groups have been permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-groups/bp-groups-admin.php:638
+#: bp-groups/bp-groups-admin.php:635
 msgid "Search all Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:660
+#: bp-groups/bp-groups-admin.php:657
 #: bp-templates/bp-legacy/buddypress/groups/create.php:112
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:47
 #: bp-themes/bp-default/groups/create.php:119
@@ -2905,29 +2905,29 @@ msgstr ""
 msgid "Enable discussion forum"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:665
+#: bp-groups/bp-groups-admin.php:662
 msgid "Privacy"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:668 bp-groups/bp-groups-admin.php:1295
+#: bp-groups/bp-groups-admin.php:665 bp-groups/bp-groups-admin.php:1292
 #: bp-groups/bp-groups-template.php:625
 msgid "Public"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:669 bp-groups/bp-groups-admin.php:1298
+#: bp-groups/bp-groups-admin.php:666 bp-groups/bp-groups-admin.php:1295
 #: bp-groups/bp-groups-template.php:627
 msgid "Private"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:670 bp-groups/bp-groups-admin.php:1301
+#: bp-groups/bp-groups-admin.php:667 bp-groups/bp-groups-admin.php:1298
 msgid "Hidden"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:674
+#: bp-groups/bp-groups-admin.php:671
 msgid "Who can invite others to this group?"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:677
+#: bp-groups/bp-groups-admin.php:674
 #: bp-templates/bp-legacy/buddypress/groups/create.php:89
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:99
 #: bp-themes/bp-default/groups/create.php:96
@@ -2935,7 +2935,7 @@ msgstr ""
 msgid "All group members"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:678
+#: bp-groups/bp-groups-admin.php:675
 #: bp-templates/bp-legacy/buddypress/groups/create.php:94
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:104
 #: bp-themes/bp-default/groups/create.php:101
@@ -2943,7 +2943,7 @@ msgstr ""
 msgid "Group admins and mods only"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:679
+#: bp-groups/bp-groups-admin.php:676
 #: bp-templates/bp-legacy/buddypress/groups/create.php:99
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:109
 #: bp-themes/bp-default/groups/create.php:106
@@ -2951,66 +2951,66 @@ msgstr ""
 msgid "Group admins only"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:694
+#: bp-groups/bp-groups-admin.php:691
 msgid "Enter a comma-separated list of user logins."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:762
+#: bp-groups/bp-groups-admin.php:759
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:177
 #: bp-themes/bp-default/groups/single/admin.php:177
 msgid "Administrators"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:763
+#: bp-groups/bp-groups-admin.php:760
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:205
 #: bp-themes/bp-default/groups/single/admin.php:205
 msgid "Moderators"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:765
+#: bp-groups/bp-groups-admin.php:762
 msgid "Banned Users"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:774
+#: bp-groups/bp-groups-admin.php:771
 msgctxt "Group member user_id in group admin"
 msgid "ID"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:775
+#: bp-groups/bp-groups-admin.php:772
 msgctxt "Group member name in group admin"
 msgid "Name"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:776
+#: bp-groups/bp-groups-admin.php:773
 msgctxt "Group member role in group admin"
 msgid "Group Role"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:799
+#: bp-groups/bp-groups-admin.php:796
 msgid "Administrator"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:800
+#: bp-groups/bp-groups-admin.php:797
 msgid "Moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:801
+#: bp-groups/bp-groups-admin.php:798
 msgid "Member"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:802
+#: bp-groups/bp-groups-admin.php:799
 msgid "Banned"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:803
+#: bp-groups/bp-groups-admin.php:800
 msgid "Remove From Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:824
+#: bp-groups/bp-groups-admin.php:821
 msgid "No members of this type"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:849 bp-groups/bp-groups-adminbar.php:102
+#: bp-groups/bp-groups-admin.php:846 bp-groups/bp-groups-adminbar.php:102
 #: bp-groups/bp-groups-buddybar.php:58
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:360
 #: bp-themes/bp-default/groups/single/admin.php:360
@@ -3018,7 +3018,7 @@ msgstr ""
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:853
+#: bp-groups/bp-groups-admin.php:850
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3039,47 +3039,47 @@ msgstr ""
 
 #. translators: 1: user_login, 2: user_email
 
-#: bp-groups/bp-groups-admin.php:906
+#: bp-groups/bp-groups-admin.php:903
 msgid "%1$s (%2$s)"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1075
+#: bp-groups/bp-groups-admin.php:1072
 msgid "No groups found."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1139
+#: bp-groups/bp-groups-admin.php:1136
 msgid "Public <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1140
+#: bp-groups/bp-groups-admin.php:1137
 msgid "Private <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1141
+#: bp-groups/bp-groups-admin.php:1138
 msgid "Hidden <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1170
+#: bp-groups/bp-groups-admin.php:1167
 msgctxt "Groups admin Group Name column header"
 msgid "Name"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1171
+#: bp-groups/bp-groups-admin.php:1168
 msgctxt "Groups admin Group Description column header"
 msgid "Description"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1172
+#: bp-groups/bp-groups-admin.php:1169
 msgctxt "Groups admin Privacy Status column header"
 msgid "Status"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1173
+#: bp-groups/bp-groups-admin.php:1170
 msgctxt "Groups admin Members column header"
 msgid "# Members"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1174
+#: bp-groups/bp-groups-admin.php:1171
 msgctxt "Groups admin Last Active column header"
 msgid "Last Active"
 msgstr ""
