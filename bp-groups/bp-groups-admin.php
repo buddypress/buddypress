@@ -85,19 +85,16 @@ function bp_groups_admin_load() {
 
 		check_admin_referer( 'bp-groups-delete' );
 
-		$group_id = (int) $_GET['gid'];
+		$group_ids = wp_parse_id_list( $_GET['gid'] );
 
-		$result = groups_delete_group( $group_id );
-
-		if ( $result ) {
-			$redirect_to = add_query_arg( 'deleted', '1', $redirect_to );
-		} else {
-			$redirect_to = add_query_arg( array(
-				'deleted' => 0,
-				'action'  => 'edit',
-				'gid'     => $group_id
-			) );
+		$count = 0;
+		foreach ( $group_ids as $group_id ) {
+			if ( groups_delete_group( $group_id ) ) {
+				$count++;
+			}
 		}
+
+		$redirect_to = add_query_arg( 'deleted', $count, $redirect_to );
 
 		bp_core_redirect( $redirect_to );
 
