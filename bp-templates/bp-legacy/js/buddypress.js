@@ -643,7 +643,6 @@ jq(document).ready( function() {
 
 		var targetElem = ( event.target.nodeName == 'SPAN' ) ? event.target.parentNode : event.target;
 		var target     = jq( targetElem ).parent();
-		console.log( target[0].nodeName );
 		if ( 'LI' == target[0].nodeName && !target.hasClass( 'last' ) ) {
 			var css_id = target.attr('id').split( '-' );
 			var object = css_id[0];
