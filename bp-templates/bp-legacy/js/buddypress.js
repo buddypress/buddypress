@@ -583,6 +583,12 @@ jq(document).ready( function() {
 
 			return false;
 		}
+
+		// Canceling an activity comment	
+		if ( target.hasClass( 'ac-reply-cancel' ) ) {
+			jq(target).closest('.ac-form').slideUp( 200 );
+			return false;
+		};
 	});
 
 	/* Escape Key Press for cancelling comment forms */
@@ -607,12 +613,6 @@ jq(document).ready( function() {
 					jq(element).parent().parent().parent().slideUp( 200 );
 			}
 		}
-	});
-
-	/* Link for cancelling comment forms */
-	jq('.ac-reply-cancel').on( 'click', function() {
-		jq(this).closest('.ac-form').slideUp( 200 );
-		return false;
 	});
 
 	/**** Directory Search ****************************************************/
