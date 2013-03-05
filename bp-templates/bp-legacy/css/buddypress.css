@@ -112,6 +112,11 @@ Hello, this is the BuddyPress Default theme stylesheet.
 	margin-left: 55px;
 	padding: 0 0 20px 20px;
 }
+#buddypress form#whats-new-form p.activity-greeting {
+	line-height: 0.5em;
+	margin-bottom: 15px;
+	margin-left: 75px;
+}
 #buddypress form#whats-new-form textarea {
 	background: #fff;
 	border: 1px inset #ccc;
