@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-03-04 13:36:33+00:00\n"
+"POT-Creation-Date: 2013-03-05 14:36:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2094,7 +2094,7 @@ msgid "There were no members found, please try another filter."
 msgstr ""
 
 #: bp-core/deprecated/1.5.php:142
-#: bp-templates/bp-legacy/buddypress/activity/post-form.php:39
+#: bp-templates/bp-legacy/buddypress/activity/post-form.php:45
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:45
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
@@ -4474,12 +4474,22 @@ msgstr ""
 msgid "New Members"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/activity/post-form.php:29
+#: bp-templates/bp-legacy/buddypress/activity/post-form.php:23
+#: bp-themes/bp-default/activity/post-form.php:23
+msgid "What's new in %s, %s?"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/post-form.php:25
+#: bp-themes/bp-default/activity/post-form.php:25
+msgid "What's new, %s?"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/activity/post-form.php:35
 #: bp-themes/bp-default/activity/post-form.php:35
 msgid "Post Update"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/activity/post-form.php:36
+#: bp-templates/bp-legacy/buddypress/activity/post-form.php:42
 #: bp-themes/bp-default/activity/post-form.php:42
 msgid "Post in"
 msgstr ""
@@ -5641,14 +5651,6 @@ msgstr ""
 
 #: bp-themes/bp-default/activity/index.php:21
 msgid "Site Activity"
-msgstr ""
-
-#: bp-themes/bp-default/activity/post-form.php:23
-msgid "What's new in %s, %s?"
-msgstr ""
-
-#: bp-themes/bp-default/activity/post-form.php:25
-msgid "What's new, %s?"
 msgstr ""
 
 #: bp-themes/bp-default/archive.php:10
