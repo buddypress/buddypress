@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-03-05 14:36:34+00:00\n"
+"POT-Creation-Date: 2013-03-07 15:36:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -510,7 +510,7 @@ msgid "Thumbnail"
 msgstr ""
 
 #: bp-activity/bp-activity-loader.php:30
-#: bp-core/admin/bp-core-components.php:101
+#: bp-core/admin/bp-core-components.php:372
 msgid "Activity Streams"
 msgstr ""
 
@@ -921,7 +921,7 @@ msgstr ""
 msgid "%1$s commented on the post, %2$s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:25 bp-core/admin/bp-core-components.php:113
+#: bp-blogs/bp-blogs-loader.php:25 bp-core/admin/bp-core-components.php:384
 msgid "Site Tracking"
 msgstr ""
 
@@ -1096,141 +1096,141 @@ msgid "Save Settings"
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:59
-#: bp-core/admin/bp-core-components.php:85
+#: bp-core/admin/bp-core-components.php:356
 #: bp-xprofile/bp-xprofile-loader.php:41
 msgid "Extended Profiles"
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:60
-#: bp-core/admin/bp-core-components.php:86
+#: bp-core/admin/bp-core-components.php:357
 msgid "Customize your community with fully editable profile fields that allow your users to describe themselves."
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:67 bp-core/bp-core-loader.php:27
-msgid "BuddyPress Core"
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:68
-msgid "It&#8216;s what makes <del>time travel</del> BuddyPress possible!"
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:71
-msgid "Community Members"
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:72
-msgid "Everything in a BuddyPress community revolves around its members."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:78
-#: bp-templates/bp-legacy/buddypress/groups/create.php:105
-#: bp-themes/bp-default/groups/create.php:112
-msgid "Group Forums"
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:79
-msgid "BuddyPress Forums are retired. Use %s."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:89
-msgid "Account Settings"
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:90
-msgid "Allow your users to modify their account and notification settings directly from within their profiles."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:93 bp-friends/bp-friends-loader.php:24
-msgid "Friend Connections"
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:94
-msgid "Let your users make connections so they can track the activity of others and focus on the people they care about the most."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:97
-msgid "Private Messaging"
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:98
-msgid "Allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, messages can be sent between any number of members."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:102
-msgid "Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:105 bp-groups/bp-groups-loader.php:83
-msgid "User Groups"
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:106
-msgid "Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:109
-msgid "Group Forums (Legacy)"
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:110
-msgid "Group forums allow for focused, bulletin-board style conversations."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:114
-msgid "Record activity for new posts and comments from your site."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:125
-msgid "Record activity for new sites, posts, and comments across your network."
-msgstr ""
-
-#: bp-core/admin/bp-core-components.php:191
+#: bp-core/admin/bp-core-components.php:136
 msgctxt "plugins"
 msgid "All <span class=\"count\">(%s)</span>"
 msgid_plural "All <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/admin/bp-core-components.php:192
+#: bp-core/admin/bp-core-components.php:137
 msgid "Active <span class=\"count\">(%s)</span>"
 msgid_plural "Active <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/admin/bp-core-components.php:193
+#: bp-core/admin/bp-core-components.php:138
 msgid "Inactive <span class=\"count\">(%s)</span>"
 msgid_plural "Inactive <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/admin/bp-core-components.php:194
+#: bp-core/admin/bp-core-components.php:139
 msgid "Must-Use <span class=\"count\">(%s)</span>"
 msgid_plural "Must-Use <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/admin/bp-core-components.php:195
+#: bp-core/admin/bp-core-components.php:140
 msgid "Retired <span class=\"count\">(%s)</span>"
 msgid_plural "Retired <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/admin/bp-core-components.php:202
-#: bp-core/admin/bp-core-components.php:210
+#: bp-core/admin/bp-core-components.php:147
+#: bp-core/admin/bp-core-components.php:155
 msgid "Component"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:203
-#: bp-core/admin/bp-core-components.php:211
+#: bp-core/admin/bp-core-components.php:148
+#: bp-core/admin/bp-core-components.php:156
 msgid "Description"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:236
+#: bp-core/admin/bp-core-components.php:181
 msgid "Select %s"
 msgstr ""
 
-#: bp-core/admin/bp-core-components.php:261
+#: bp-core/admin/bp-core-components.php:206
 msgid "No components found."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:336 bp-core/bp-core-loader.php:27
+msgid "BuddyPress Core"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:337
+msgid "It&#8216;s what makes <del>time travel</del> BuddyPress possible!"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:340
+msgid "Community Members"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:341
+msgid "Everything in a BuddyPress community revolves around its members."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:348
+#: bp-templates/bp-legacy/buddypress/groups/create.php:105
+#: bp-themes/bp-default/groups/create.php:112
+msgid "Group Forums"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:349
+msgid "BuddyPress Forums are retired. Use %s."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:360
+msgid "Account Settings"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:361
+msgid "Allow your users to modify their account and notification settings directly from within their profiles."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:364 bp-friends/bp-friends-loader.php:24
+msgid "Friend Connections"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:365
+msgid "Let your users make connections so they can track the activity of others and focus on the people they care about the most."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:368
+msgid "Private Messaging"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:369
+msgid "Allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, messages can be sent between any number of members."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:373
+msgid "Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:376 bp-groups/bp-groups-loader.php:83
+msgid "User Groups"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:377
+msgid "Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:380
+msgid "Group Forums (Legacy)"
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:381
+msgid "Group forums allow for focused, bulletin-board style conversations."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:385
+msgid "Record activity for new posts and comments from your site."
+msgstr ""
+
+#: bp-core/admin/bp-core-components.php:392
+msgid "Record activity for new sites, posts, and comments across your network."
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:99
