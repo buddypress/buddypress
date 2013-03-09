@@ -209,24 +209,31 @@ function bp_current_user_can( $capability, $blog_id = 0 ) {
  *
  * @since BuddyPress (1.6)
  * @see WP_User::has_cap()
+ * @access private
  *
  * @param array $allcaps The caps that WP associates with the given role
  * @param array $caps The caps being tested for in WP_User::has_cap()
  * @param array $args Miscellaneous arguments passed to the user_has_cap filter
  * @return array $allcaps The user's cap list, with 'bp_moderate' appended, if relevant
  */
-function _bp_enforce_bp_moderate_cap_for_admins( $allcaps, $caps, $args ) {
-	if ( in_array( 'bp_moderate', $caps ) &&   // We only care if checking for bp_moderate
-	     !in_array( 'do_not_allow', $caps ) && // 'do_not_allow' overrides everything else
-	     !is_multisite() &&                    // Check not necessary on Multisite
-	     isset( $allcaps['delete_users'] ) )   // Mimicking WP's check for Administrator status
-	{
-		$allcaps['bp_moderate'] = true;
-	}
+function _bp_enforce_bp_moderate_cap_for_admins( $caps = array(), $cap = '', $user_id = 0, $args = array() ) {
 
-	return $allcaps;
+	// Bail if not checking the 'bp_moderate' cap
+	if ( 'bp_moderate' !== $cap )
+		return $caps;
+
+	// Bail if BuddyPress is not network activated
+	if ( bp_is_network_activated() )
+		return $caps;
+
+	// Never trust inactive users
+	if ( bp_is_user_inactive( $user_id ) )
+		return $caps;
+
+	// Only users that can 'manage_options' on this site can 'bp_moderate'
+	return array( 'manage_options' );
 }
-add_filter( 'user_has_cap', '_bp_enforce_bp_moderate_cap_for_admins', 10, 3 );
+add_filter( 'map_meta_cap', '_bp_enforce_bp_moderate_cap_for_admins', 10, 4 );
 
 /** Deprecated ****************************************************************/
 
