@@ -524,6 +524,11 @@ function bp_admin_separator() {
 	if ( ! bp_current_user_can( 'bp_moderate' ) )
 		return;
 
+	// Bail if there are no components with admin UI's. Hardcoded for now, until
+	// there's a real API for determining this later.
+	if ( ! bp_is_active( 'activity' ) && ! bp_is_active( 'groups' ) )
+		return;
+
 	global $menu;
 
 	$menu[] = array( '', 'read', 'separator-buddypress', '', 'wp-menu-separator buddypress' );
