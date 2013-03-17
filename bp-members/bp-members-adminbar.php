@@ -129,7 +129,7 @@ add_action( 'admin_bar_menu', 'bp_members_admin_bar_user_admin_menu', 99 );
 /**
  * Build the "Notifications" dropdown
  *
- * @package Buddypress
+ * @package BuddyPress
  * @since BuddyPress (1.5)
  */
 function bp_members_admin_bar_notifications_menu() {
