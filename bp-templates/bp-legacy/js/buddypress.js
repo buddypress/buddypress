@@ -1227,6 +1227,11 @@ jq(document).ready( function() {
 			} );
 		});
 	});
+	
+	/* if js is enabled then replace the no-js class by a js one */
+	if( jq('body').hasClass('no-js') )
+		jq('body').attr('class', jq('body').attr('class').replace( /no-js/,'js' ) );
+		
 });
 
 /* Setup activity scope and filter based on the current cookie settings. */

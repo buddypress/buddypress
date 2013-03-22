@@ -102,6 +102,9 @@ class BP_Legacy extends BP_Theme_Compat {
 		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts'  ) ); // Enqueue theme JS
 		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
 		add_action( 'bp_head',            array( $this, 'head_scripts'     ) ); // Output some extra JS in the <head>
+		
+		/** Body no-js Class ********************************************************/
+		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
 
 		/** Buttons ***********************************************************/
 
@@ -295,6 +298,24 @@ class BP_Legacy extends BP_Theme_Compat {
 		</script>
 
 	<?php
+	}
+	
+	/**
+	 * Adds the no-js class to the body tag.
+	 *
+	 * This function ensures that the <body> element will have the 'no-js' class by default. If you're
+	 * using JavaScript for some visual functionality in your theme, and you want to provide noscript
+	 * support, apply those styles to body.no-js.
+	 *
+	 * The no-js class is removed by the JavaScript created in buddypress.js.
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	public function add_nojs_body_class( $classes ) {
+		if ( ! in_array( 'no-js', $classes ) )
+			$classes[] = 'no-js';
+			
+		return array_unique( $classes );
 	}
 
 	/**
