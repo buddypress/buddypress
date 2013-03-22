@@ -551,18 +551,22 @@ class BP_Admin {
 
 			<h4 class="wp-people-group"><?php _e( 'Core Contributors to BuddyPress 1.7', 'buddypress' ); ?></h4>
 			<p class="wp-credits-list">
+				<a href="http://profiles.wordpress.org/aesqe">aesqe</a>,
 				<a href="http://profiles.wordpress.org/apeatling">apeatling</a>,
 				<a href="http://profiles.wordpress.org/borkweb">borkweb</a>,
 				<a href="http://profiles.wordpress.org/calin">calin</a>,
 				<a href="http://profiles.wordpress.org/chouf1">chouf1</a>,
 				<a href="http://profiles.wordpress.org/chrisclayton">chrisclayton</a>,
 				<a href="http://profiles.wordpress.org/cnorris23">cnorris23</a>,
+				<a href="http://profiles.wordpress.org/ddean">ddean</a>,
 				<a href="http://profiles.wordpress.org/DennisSmolek">DennisSmolek</a>,
 				<a href="http://profiles.wordpress.org/Dianakc">Dianakc</a>,
+				<a href="http://profiles.wordpress.org/dontdream">dontdream</a>,
 				<a href="http://profiles.wordpress.org/empireoflight">empireoflight</a>,
 				<a href="http://profiles.wordpress.org/enej">enej</a>,
 				<a href="http://profiles.wordpress.org/fanquake">fanquake</a>,
 				<a href="http://profiles.wordpress.org/gmax21">gmax21</a>,
+				<a href="http://profiles.wordpress.org/hnla">hnla</a>,
 				<a href="http://profiles.wordpress.org/humanshell">humanshell</a>,
 				<a href="http://profiles.wordpress.org/imath">imath</a>,
 				<a href="http://profiles.wordpress.org/Jacek">Jacek</a>,
@@ -570,7 +574,10 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/jbobich">jbobich</a>,
 				<a href="http://profiles.wordpress.org/jkudish">jkudish</a>,
 				<a href="http://profiles.wordpress.org/jpsb">jpsb</a>,
+				<a href="http://profiles.wordpress.org/MacPresss">MacPresss</a>,
 				<a href="http://profiles.wordpress.org/magnus78">magnus78</a>,
+				<a href="http://profiles.wordpress.org/markjaquith">markjaquith</a>,
+				<a href="http://profiles.wordpress.org/Maty">Maty</a>,
 				<a href="http://profiles.wordpress.org/michael.ecklund">michael.ecklund</a>,
 				<a href="http://profiles.wordpress.org/modemlooper">modemlooper</a>,
 				<a href="http://profiles.wordpress.org/nacin">nacin</a>,
@@ -580,6 +587,7 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/slaFFik">slaFFik</a>,
 				<a href="http://profiles.wordpress.org/steve7777">steve7777</a>,
 				<a href="http://profiles.wordpress.org/tiraeth">tiraeth</a>,
+				<a href="http://profiles.wordpress.org/will_c">will_c</a>,
 				<a href="http://profiles.wordpress.org/wpdennis">wpdennis</a>.
 			</p>
 
