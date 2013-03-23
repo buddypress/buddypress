@@ -129,7 +129,7 @@ class BP_Settings_Component extends BP_Component {
 		}
 
 		// Add Delete Account nav item
-		if ( ! bp_disable_account_deletion() || bp_current_user_can( 'delete_users' ) ) {
+		if ( ( ! bp_disable_account_deletion() && bp_is_my_profile() ) || bp_current_user_can( 'delete_users' ) ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Delete Account', 'buddypress' ),
 				'slug'            => 'delete-account',
@@ -137,7 +137,7 @@ class BP_Settings_Component extends BP_Component {
 				'parent_slug'     => $this->slug,
 				'screen_function' => 'bp_settings_screen_delete_account',
 				'position'        => 90,
-				'user_has_access' => bp_is_my_profile() || !is_super_admin( bp_displayed_user_id() )
+				'user_has_access' => ! is_super_admin( bp_displayed_user_id() )
 			);
 		}
 
