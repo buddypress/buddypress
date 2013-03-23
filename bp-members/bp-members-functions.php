@@ -782,15 +782,24 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
  */
 function bp_core_delete_account( $user_id = 0 ) {
 
+	// Use logged in user ID if none is passed
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
-	// Make sure account deletion is not disabled
-	if ( !bp_current_user_can( 'delete_users' ) && bp_disable_account_deletion() )
+	// Bail if account deletion is disabled
+	if ( bp_disable_account_deletion() )
 		return false;
 
 	// Site admins cannot be deleted
 	if ( is_super_admin( $user_id ) )
+		return false;
+
+	// Bail if current user cannot delete any users
+	if ( ! bp_current_user_can( 'delete_users' ) )
+		return false;
+
+	// Bail if current user cannot delete this user
+	if ( ! current_user_can_for_blog( bp_get_root_blog_id(), 'delete_user', $user_id ) )
 		return false;
 
 	do_action( 'bp_core_pre_delete_account', $user_id );
