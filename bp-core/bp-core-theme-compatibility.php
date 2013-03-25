@@ -46,7 +46,7 @@ class BP_Theme_Compat {
 	 *     'dir'     => Path to theme
 	 *     'url'     => URL to theme
 	 * );
-	 * @var array 
+	 * @var array
 	 */
 	protected $_data = array();
 
@@ -383,7 +383,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
 	);
 
 	// Switch defaults if post is set
-	if ( isset( $wp_query->post ) ) {		  
+	if ( isset( $wp_query->post ) ) {
 		$defaults = array(
 			'ID'                    => $wp_query->post->ID,
 			'post_status'           => $wp_query->post->post_status,
@@ -424,7 +424,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
 	unset( $post            );
 
 	// Setup the dummy post object
-	$wp_query->post                        = new stdClass; 
+	$wp_query->post                        = new stdClass;
 	$wp_query->post->ID                    = $dummy['ID'];
 	$wp_query->post->post_status           = $dummy['post_status'];
 	$wp_query->post->post_author           = $dummy['post_author'];
