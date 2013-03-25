@@ -48,7 +48,7 @@ class BP_Theme_Compat {
 	 * );
 	 * @var array 
 	 */
-	private $_data = array();
+	protected $_data = array();
 
 	/**
 	 * Pass the $properties to the object on creation.
@@ -59,6 +59,56 @@ class BP_Theme_Compat {
     	public function __construct( Array $properties = array() ) {
 		$this->_data = $properties;
 	}
+
+
+	/**
+	 * Themes shoud use this method in their constructor.
+	 *
+	 * In this method, we check all types of conditions where theme compatibility
+	 * should *not* run.
+	 *
+	 * If we pass all conditions, then we setup some additional methods to use.
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	protected function start() {
+
+		// If the theme supports 'buddypress', bail.
+		if ( current_theme_supports( 'buddypress' ) ) {
+			return;
+
+		// If the theme doesn't support BP, do some additional checks
+		} else {
+			// Bail if theme is a derivative of bp-default
+			if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) ) {
+				return;
+			}
+
+			// Bruteforce check for a BP template
+			// Examples are clones of bp-default
+			if ( locate_template( 'members/members-loop.php', false, false ) ) {
+				return;
+			}
+		}
+
+		// Setup methods
+		$this->setup_globals();
+		$this->setup_actions();
+	}
+
+	/**
+	 * Meant to be extended in your class.
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	protected function setup_globals() {}
+
+	/**
+	 * Meant to be extended in your class.
+	 *
+	 * @since BuddyPress (1.7)
+	 */
+	protected function setup_actions() {}
 
 	/**
 	 * Set a theme's property.
