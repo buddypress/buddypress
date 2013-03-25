@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-03-23 06:35:59+00:00\n"
+"POT-Creation-Date: 2013-03-25 13:35:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1610,7 +1610,7 @@ msgstr ""
 msgid "Support for group and sitewide forums, using the latest version of the bbPress plugin, is better than ever. Still using bbPress 1.x? Our new migration tools are field-tested."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:471
+#: bp-core/bp-core-admin.php:471 bp-core/bp-core-admin.php:595
 msgid "Go to the BuddyPress Settings page"
 msgstr ""
 
@@ -1656,10 +1656,6 @@ msgstr ""
 
 #: bp-core/bp-core-admin.php:552
 msgid "Core Contributors to BuddyPress 1.7"
-msgstr ""
-
-#: bp-core/bp-core-admin.php:595
-msgid "Go to Community Settings"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:36 bp-core/bp-core-buddybar.php:498
