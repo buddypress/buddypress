@@ -24,7 +24,10 @@ class BP_Groups_Widget extends WP_Widget {
 	}
 
 	function __construct() {
-		$widget_ops = array( 'description' => __( 'A dynamic list of recently active, popular, and newest groups', 'buddypress' ) );
+		$widget_ops = array(
+			'description' => __( 'A dynamic list of recently active, popular, and newest groups', 'buddypress' ),
+			'classname' => 'buddypress',
+		);
 		parent::__construct( false, _x( '(BuddyPress) Groups', 'widget name', 'buddypress' ), $widget_ops );
 
 		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {

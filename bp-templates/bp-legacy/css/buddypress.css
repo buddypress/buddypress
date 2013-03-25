@@ -25,6 +25,7 @@ Hello, this is the BuddyPress Default theme stylesheet.
 	6.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
 	6.9 - Private Messaging Threads
 	6.10 - Extended Profiles
+	6.11 - Widgets
 7.0 - Media Queries
 	7.1 - Smartphones Landscape
 	7.2 - Smartphones Portrait
@@ -1343,7 +1344,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 }
 
 /*--------------------------------------------------------------
-6.9 - Extended Profiles
+6.10 - Extended Profiles
 --------------------------------------------------------------*/
 
 #buddypress div.profile h4 {
@@ -1387,6 +1388,53 @@ body.register #buddypress div.page ul {
 #buddypress .field-visibility-settings legend,
 #buddypress .field-visibility-settings-toggle {
 	font-style: italic;
+}
+
+/*--------------------------------------------------------------
+6.11 - Extended Profiles
+--------------------------------------------------------------*/
+
+.widget.buddypress div.item-avatar img.avatar {
+	float: left;
+	margin: 0 10px 15px 0;
+}
+
+.widget.buddypress span.activity {
+	display: inline-block;
+	font-size: 80%;
+	opacity: 0.8;
+	padding: 0;
+}
+
+.widget.buddypress div.item-options {
+	font-size: 90%;
+	margin: 0 0 1em 0;
+	padding: 1em 0;
+}
+
+.widget.buddypress div.item{
+	margin:0 0 1em 0;
+}
+
+.widget.buddypress div.item-meta,
+.widget.buddypress div.item-content {
+	font-size: 11px;
+	margin-left: 38px;
+}
+
+.widget.buddypress ul.item-list img.avatar {
+	height: 20px;
+	margin-right: 10px;
+	width: 20px;
+}
+.widget.buddypress div.item-avatar img {
+	height: 40px;
+	margin: 1px;
+	width: 40px;
+}
+
+.widget.buddypress div.avatar-block{
+	overflow: hidden;
 }
 
 /*--------------------------------------------------------------
