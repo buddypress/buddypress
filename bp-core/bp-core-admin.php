@@ -581,6 +581,7 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/michael.ecklund">michael.ecklund</a>,
 				<a href="http://profiles.wordpress.org/modemlooper">modemlooper</a>,
 				<a href="http://profiles.wordpress.org/nacin">nacin</a>,
+				<a href="http://profiles.wordpress.org/netweb">netweb</a>,
 				<a href="http://profiles.wordpress.org/rogercoathup">rogercoathup</a>,
 				<a href="http://profiles.wordpress.org/sboisvert">sboisvert</a>,
 				<a href="http://profiles.wordpress.org/sbrajesh">sbrajesh</a>,
@@ -588,7 +589,8 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/steve7777">steve7777</a>,
 				<a href="http://profiles.wordpress.org/tiraeth">tiraeth</a>,
 				<a href="http://profiles.wordpress.org/will_c">will_c</a>,
-				<a href="http://profiles.wordpress.org/wpdennis">wpdennis</a>.
+				<a href="http://profiles.wordpress.org/wpdennis">wpdennis</a>,
+				<a href="http://profiles.wordpress.org/xt4v">xt4v</a>.
 			</p>
 
 			<div class="return-to-dashboard">
