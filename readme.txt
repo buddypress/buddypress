@@ -2,7 +2,7 @@
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.5
-Tested up to: 3.5
+Tested up to: 3.6
 Stable tag: 1.6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,18 +73,23 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 
 1. **Activity Streams** - Global, personal and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feeds and email notification support.
 2. **Extended Profiles** - Fully editable profile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience.
-3. **Extensible Groups** - Powerful public, private or hidden groups allow your users to break the discussion down into specific topics. Extend groups with your own custom features using the group extension API.
-4. **Friend Connections** - Let your users make connections so they can track the activity of others, or filter on only those users they care about the most.
-5. **Private Messaging** - Private messaging will allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, your users can send messages to multiple recipients.
-6. **Discussion Forums** - Full powered discussion forums built directly into groups allow for more conventional in-depth conversations.
-7. **WordPress Blogging** - Allow your users to start their own blogs using WordPress's Multisite feature, and track posts and comments from across your blog network in the activity stream.
-8. **User Settings** - Give your users complete control over profile and notification settings. Settings are fully integrated into your theme, and can be disabled by the administrator.
+3. **User Settings** - Give your users complete control over profile and notification settings. Settings are fully integrated into your theme, and can be disabled by the administrator.
+4. **Extensible Groups** - Powerful public, private or hidden groups allow your users to break the discussion down into specific topics. Extend groups with your own custom features using the group extension API.
+5. **Friend Connections** - Let your users make connections so they can track the activity of others, or filter on only those users they care about the most.
+6. **Private Messaging** - Private messaging will allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, your users can send messages to multiple recipients.
+7. **Blogging Network** - Allow your users to start their own blogs using WordPress's Multisite feature, and track posts and comments from across your blog network in the activity stream.
 
 == Languages ==
 
 BuddyPress is available in more than 20 languages. For more information, check out the <a href="http://codex.buddypress.org/getting-started/translations/">translation page</a> on the BuddyPress Codex.
 
 == Upgrade Notice ==
+
+= 1.7 =
+See: http://codex.buddypress.org/releases/version-1-7/
+
+= 1.6.5 =
+See: http://codex.buddypress.org/releases/version-1-6-5/
 
 = 1.6.4 =
 See: http://codex.buddypress.org/releases/version-1-6-4/
