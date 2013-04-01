@@ -164,34 +164,31 @@ function groups_ajax_widget_groups_list() {
 
 	if ( bp_has_groups( 'type=' . $type . '&per_page=' . $_POST['max_groups'] . '&max=' . $_POST['max_groups'] ) ) : ?>
 		<?php echo "0[[SPLIT]]"; ?>
+		<?php while ( bp_groups() ) : bp_the_group(); ?>
+			<li>
+				<div class="item-avatar">
+					<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar_thumb() ?></a>
+				</div>
 
-		<ul id="groups-list" class="item-list">
-			<?php while ( bp_groups() ) : bp_the_group(); ?>
-				<li>
-					<div class="item-avatar">
-						<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar_thumb() ?></a>
+				<div class="item">
+					<div class="item-title"><a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_name() ?></a></div>
+					<div class="item-meta">
+						<span class="activity">
+							<?php
+							if ( 'newest-groups' == $_POST['filter'] ) {
+								printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
+							} else if ( 'recently-active-groups' == $_POST['filter'] ) {
+								printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
+							} else if ( 'popular-groups' == $_POST['filter'] ) {
+								bp_group_member_count();
+							}
+							?>
+						</span>
 					</div>
+				</div>
+			</li>
+		<?php endwhile; ?>
 
-					<div class="item">
-						<div class="item-title"><a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_name() ?></a></div>
-						<div class="item-meta">
-							<span class="activity">
-								<?php
-								if ( 'newest-groups' == $_POST['filter'] ) {
-									printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
-								} else if ( 'recently-active-groups' == $_POST['filter'] ) {
-									printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
-								} else if ( 'popular-groups' == $_POST['filter'] ) {
-									bp_group_member_count();
-								}
-								?>
-							</span>
-						</div>
-					</div>
-				</li>
-
-			<?php endwhile; ?>
-		</ul>
 		<?php wp_nonce_field( 'groups_widget_groups_list', '_wpnonce-groups' ); ?>
 		<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo esc_attr( $_POST['max_groups'] ); ?>" />
 
