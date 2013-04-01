@@ -1071,7 +1071,7 @@ class BP_Groups_Theme_Compat {
 	public function single_dummy_post() {
 		bp_theme_compat_reset_post( array(
 			'ID'             => 0,
-			'post_title'     => bp_get_current_group_name(),
+			'post_title'     => '<a href="' . bp_get_group_permalink( groups_get_current_group() ) . '">' . bp_get_current_group_name() . '</a>',
 			'post_author'    => 0,
 			'post_date'      => 0,
 			'post_content'   => '',
