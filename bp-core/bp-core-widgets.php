@@ -301,27 +301,24 @@ function bp_core_ajax_widget_members() {
 
 	if ( bp_has_members( 'user_id=0&type=' . $type . '&per_page=' . $_POST['max-members'] . '&max=' . $_POST['max-members'] . '&populate_extras=1' ) ) : ?>
 		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this. ?>
-		<div class="avatar-block">
-			<?php while ( bp_members() ) : bp_the_member(); ?>
-				<li class="vcard">
-					<div class="item-avatar">
-						<a href="<?php bp_member_permalink() ?>"><?php bp_member_avatar() ?></a>
-					</div>
+		<?php while ( bp_members() ) : bp_the_member(); ?>
+			<li class="vcard">
+				<div class="item-avatar">
+					<a href="<?php bp_member_permalink() ?>"><?php bp_member_avatar() ?></a>
+				</div>
 
-					<div class="item">
-						<div class="item-title fn"><a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?></a></div>
-						<?php if ( 'active' == $type ) : ?>
-							<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
-						<?php elseif ( 'newest' == $type ) : ?>
-							<div class="item-meta"><span class="activity"><?php bp_member_registered() ?></span></div>
-						<?php elseif ( bp_is_active( 'friends' ) ) : ?>
-							<div class="item-meta"><span class="activity"><?php bp_member_total_friend_count() ?></span></div>
-						<?php endif; ?>
-					</div>
-				</li>
-
-			<?php endwhile; ?>
-		</div>
+				<div class="item">
+					<div class="item-title fn"><a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?></a></div>
+					<?php if ( 'active' == $type ) : ?>
+						<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
+					<?php elseif ( 'newest' == $type ) : ?>
+						<div class="item-meta"><span class="activity"><?php bp_member_registered() ?></span></div>
+					<?php elseif ( bp_is_active( 'friends' ) ) : ?>
+						<div class="item-meta"><span class="activity"><?php bp_member_total_friend_count() ?></span></div>
+					<?php endif; ?>
+				</div>
+			</li>
+		<?php endwhile; ?>
 
 	<?php else: ?>
 		<?php echo "-1[[SPLIT]]<li>"; ?>
