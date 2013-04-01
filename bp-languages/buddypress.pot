@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-04-01 22:35:57+00:00\n"
+"POT-Creation-Date: 2013-04-01 23:36:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -966,7 +966,7 @@ msgid "Profile picture of site author %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:403 bp-core/bp-core-classes.php:718
-#: bp-groups/bp-groups-widgets.php:78 bp-groups/bp-groups-widgets.php:183
+#: bp-groups/bp-groups-widgets.php:78 bp-groups/bp-groups-widgets.php:181
 #: bp-members/bp-members-template.php:595
 #: bp-members/bp-members-template.php:870
 #: bp-templates/bp-legacy/buddypress/groups/groups-loop.php:47
@@ -3722,7 +3722,7 @@ msgctxt "widget name"
 msgid "(BuddyPress) Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:76 bp-groups/bp-groups-widgets.php:181
+#: bp-groups/bp-groups-widgets.php:76 bp-groups/bp-groups-widgets.php:179
 msgid "created %s"
 msgstr ""
 
@@ -3742,7 +3742,7 @@ msgstr ""
 msgid "Default groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:200
+#: bp-groups/bp-groups-widgets.php:197
 msgid "No groups matched the current filter."
 msgstr ""
 
