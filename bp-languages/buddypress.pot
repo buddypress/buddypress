@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-04-01 23:36:08+00:00\n"
+"POT-Creation-Date: 2013-04-02 17:36:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1662,51 +1662,51 @@ msgstr ""
 msgid "My Account"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:223
+#: bp-core/bp-core-avatars.php:227
 msgid "Avatar Image"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:491
+#: bp-core/bp-core-avatars.php:495
 msgid "The image was uploaded successfully"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:492 bp-core/bp-core-avatars.php:493
+#: bp-core/bp-core-avatars.php:496 bp-core/bp-core-avatars.php:497
 msgid "The image exceeds the maximum allowed file size of: "
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:494
+#: bp-core/bp-core-avatars.php:498
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:495
+#: bp-core/bp-core-avatars.php:499
 msgid "The image was not uploaded."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:496
+#: bp-core/bp-core-avatars.php:500
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:500
+#: bp-core/bp-core-avatars.php:504
 msgid "Your upload failed, please try again. Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:505
+#: bp-core/bp-core-avatars.php:509
 msgid "The file you uploaded is too big. Please upload a file under %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:510
+#: bp-core/bp-core-avatars.php:514
 msgid "Please upload only JPG, GIF or PNG photos."
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:527 bp-core/bp-core-avatars.php:564
+#: bp-core/bp-core-avatars.php:531 bp-core/bp-core-avatars.php:568
 msgid "Upload Failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:582
+#: bp-core/bp-core-avatars.php:586
 msgid "Upload failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:725 bp-core/bp-core-classes.php:715
+#: bp-core/bp-core-avatars.php:729 bp-core/bp-core-classes.php:715
 #: bp-core/bp-core-classes.php:716 bp-core/bp-core-classes.php:717
 #: bp-core/bp-core-template.php:98 bp-core/bp-core-template.php:107
 msgid "Avatar of %s"
