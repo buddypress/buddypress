@@ -54,10 +54,10 @@ function bp_core_set_avatar_globals() {
 	$bp->avatar->full  = new stdClass;
 
 	// Dimensions
-	$bp->avatar->thumb->width  	   = BP_AVATAR_THUMB_WIDTH;
-	$bp->avatar->thumb->height 	   = BP_AVATAR_THUMB_HEIGHT;
-	$bp->avatar->full->width 	   = BP_AVATAR_FULL_WIDTH;
-	$bp->avatar->full->height 	   = BP_AVATAR_FULL_HEIGHT;
+	$bp->avatar->thumb->width  = BP_AVATAR_THUMB_WIDTH;
+	$bp->avatar->thumb->height = BP_AVATAR_THUMB_HEIGHT;
+	$bp->avatar->full->width   = BP_AVATAR_FULL_WIDTH;
+	$bp->avatar->full->height  = BP_AVATAR_FULL_HEIGHT;
 
 	// Upload maximums
 	$bp->avatar->original_max_width    = BP_AVATAR_ORIGINAL_MAX_WIDTH;
@@ -65,11 +65,11 @@ function bp_core_set_avatar_globals() {
 
 	// Defaults
 	$bp->avatar->thumb->default = BP_AVATAR_DEFAULT_THUMB;
-	$bp->avatar->full->default 	= BP_AVATAR_DEFAULT;
+	$bp->avatar->full->default  = BP_AVATAR_DEFAULT;
 
 	// These have to be set on page load in order to avoid infinite filter loops at runtime
 	$bp->avatar->upload_path = bp_core_avatar_upload_path();
-	$bp->avatar->url	   	 = bp_core_avatar_url();
+	$bp->avatar->url = bp_core_avatar_url();
 
 	// Cache the root blog's show_avatars setting, to avoid unnecessary
 	// calls to switch_to_blog()
@@ -331,7 +331,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 			// Return it wrapped in an <img> element
 			if ( true === $html ) {
 				return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $avatar_url . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $html_alt . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
- 
+
 			// ...or only the URL
 			} else {
 				return apply_filters( 'bp_core_fetch_avatar_url', $avatar_url );
