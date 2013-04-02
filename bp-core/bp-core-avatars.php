@@ -43,6 +43,10 @@ function bp_core_set_avatar_constants() {
 
 	if ( !defined( 'BP_AVATAR_DEFAULT_THUMB' ) )
 		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . 'bp-core/images/mystery-man-50.jpg' );
+
+	if ( ! defined( 'BP_SHOW_AVATARS' ) ) {
+		define( 'BP_SHOW_AVATARS', bp_get_option( 'show_avatars' ) );
+	}
 }
 add_action( 'bp_init', 'bp_core_set_avatar_constants', 3 );
 
@@ -73,7 +77,7 @@ function bp_core_set_avatar_globals() {
 
 	// Cache the root blog's show_avatars setting, to avoid unnecessary
 	// calls to switch_to_blog()
-	$bp->avatar->show_avatars = (bool) bp_get_option( 'show_avatars' );
+	$bp->avatar->show_avatars = (bool) BP_SHOW_AVATARS;
 
 	// Backpat for pre-1.5
 	if ( ! defined( 'BP_AVATAR_UPLOAD_PATH' ) )
