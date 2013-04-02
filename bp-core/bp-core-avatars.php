@@ -71,6 +71,10 @@ function bp_core_set_avatar_globals() {
 	$bp->avatar->upload_path = bp_core_avatar_upload_path();
 	$bp->avatar->url	   	 = bp_core_avatar_url();
 
+	// Cache the root blog's show_avatars setting, to avoid unnecessary
+	// calls to switch_to_blog()
+	$bp->avatar->show_avatars = (bool) bp_get_option( 'show_avatars' );
+
 	// Backpat for pre-1.5
 	if ( ! defined( 'BP_AVATAR_UPLOAD_PATH' ) )
 		define( 'BP_AVATAR_UPLOAD_PATH', $bp->avatar->upload_path );
@@ -96,7 +100,7 @@ add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
 function bp_core_fetch_avatar( $args = '' ) {
 
 	// If avatars are disabled for the root site, obey that request and bail
-	if ( ! bp_get_option( 'show_avatars' ) )
+	if ( ! buddypress()->avatar->show_avatars )
 		return;
 
 	global $current_blog;
