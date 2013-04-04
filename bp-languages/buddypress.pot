@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-04-03 12:36:02+00:00\n"
+"POT-Creation-Date: 2013-04-04 16:36:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1555,7 +1555,7 @@ msgid "It Just Works"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:425
-msgid "BuddyPress is now compatible with <strong>any WordPress theme</strong>. If your theme has BuddyPress-specific templates and styling, we&#8217;ll use them. If not, we provide what you need to make your BuddyPress content look great. Still want to customize? No problem - you can override our templates just like you would in a WordPress child theme. <a href=\"http://codex.buddypress.org/developer-and-designer-information/\">Learn more about theme compatibility</a>."
+msgid "BuddyPress is now compatible with <strong>any WordPress theme</strong>. If your theme has BuddyPress-specific templates and styling, we&#8217;ll use them. If not, we provide what you need to make your BuddyPress content look great. Still want to customize? No problem - you can override our templates just like you would in a WordPress child theme. <a href=\"http://codex.buddypress.org/theme-compatibility/\">Learn more about theme compatibility</a>."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:430
