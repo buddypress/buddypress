@@ -826,14 +826,14 @@ function bp_core_delete_account( $user_id = 0 ) {
 
 	// Specifically handle multi-site environment
 	if ( is_multisite() ) {
-		require( ABSPATH . '/wp-admin/includes/ms.php'   );
-		require( ABSPATH . '/wp-admin/includes/user.php' );
+		require_once( ABSPATH . '/wp-admin/includes/ms.php'   );
+		require_once( ABSPATH . '/wp-admin/includes/user.php' );
 
 		$retval = wpmu_delete_user( $user_id );
 
 	// Single site user deletion
 	} else {
-		require( ABSPATH . '/wp-admin/includes/user.php' );
+		require_once( ABSPATH . '/wp-admin/includes/user.php' );
 		$retval = wp_delete_user( $user_id );
 	}
 
