@@ -422,7 +422,7 @@ class BP_Admin {
 
 				<div class="feature-section">
 					<h4><?php _e( 'It Just Works', 'buddypress' ); ?></h4>
-					<p><?php _e( 'BuddyPress is now compatible with <strong>any WordPress theme</strong>. If your theme has BuddyPress-specific templates and styling, we&#8217;ll use them. If not, we provide what you need to make your BuddyPress content look great. Still want to customize? No problem - you can override our templates just like you would in a WordPress child theme. <a href="http://codex.buddypress.org/developer-and-designer-information/">Learn more about theme compatibility</a>.', 'buddypress' ); ?></p>
+					<p><?php _e( 'BuddyPress is now compatible with <strong>any WordPress theme</strong>. If your theme has BuddyPress-specific templates and styling, we&#8217;ll use them. If not, we provide what you need to make your BuddyPress content look great. Still want to customize? No problem - you can override our templates just like you would in a WordPress child theme. <a href="http://codex.buddypress.org/theme-compatibility/">Learn more about theme compatibility</a>.', 'buddypress' ); ?></p>
 				</div>
 			</div>
 
