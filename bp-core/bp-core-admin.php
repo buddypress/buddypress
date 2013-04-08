@@ -564,6 +564,7 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/dontdream">dontdream</a>,
 				<a href="http://profiles.wordpress.org/empireoflight">empireoflight</a>,
 				<a href="http://profiles.wordpress.org/enej">enej</a>,
+				<a href="http://profiles.wordpress.org/ethitter">ethitter</a>,
 				<a href="http://profiles.wordpress.org/fanquake">fanquake</a>,
 				<a href="http://profiles.wordpress.org/gmax21">gmax21</a>,
 				<a href="http://profiles.wordpress.org/hnla">hnla</a>,
