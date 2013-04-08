@@ -3,7 +3,7 @@ Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.6.5
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,9 +45,7 @@ BuddyPress includes full support for discussion forums. Each group created on yo
 
 = Can I use my existing WordPress theme? =
 
-Of course! Once you've installed and activated BuddyPress, the Installation Wizard will guide you through the available theme options. You'll be given the option of installing the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">BuddyPress Template Pack</a>, which will help you add BuddyPress compatibility to your existing theme.
-
-Be sure to also try out the default theme bundled with BuddyPress. It provides all the awesome features of a standard WordPress blog, but also integrates BuddyPress's features in a seamless and beautiful way. The BuddyPress Default theme is a snap to customize, with full support for custom headers and backgrounds and multiple widget areas. It also makes a great starting point for your own <a href="http://codex.buddypress.org/how-to-guides/building-a-buddypress-child-theme/">child theme</a>.
+Of course! BuddyPress should work with just about any WordPress theme out there! If you want more control, you can install the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">BuddyPress Template Pack</a>, which will help you add the necessary templates to your existing theme.
 
 = Will this work on WordPress multisite? =
 
