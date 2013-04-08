@@ -889,7 +889,7 @@ jq(document).ready( function() {
 						jq(this).html( BP_DTheme.accepted ).contents().unwrap();
 					} else {
 						action_div.children('a.accept').hide();
-						jq(this).html( BP_DTheme.accepted ).contents().unwrap();
+						jq(this).html( BP_DTheme.rejected ).contents().unwrap();
 					}
 				});
 			}
