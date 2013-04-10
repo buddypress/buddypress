@@ -1073,14 +1073,14 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			case 'groups' :
 				$object  = 'group';
 				$item_id = $activities_template->activity->item_id;
+				$link    = '';
+				$name    = '';
 
 				// Only if groups is active
 				if ( bp_is_active( 'groups' ) ) {
 					$group = groups_get_group( array( 'group_id' => $item_id ) );
 					$link  = bp_get_group_permalink( $group );
 					$name  = $group->name;
-				} else {
-					$name = '';
 				}
 
 				if ( empty( $alt ) ) {
