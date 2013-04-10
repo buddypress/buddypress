@@ -26,7 +26,7 @@ class BP_Groups_Widget extends WP_Widget {
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'A dynamic list of recently active, popular, and newest groups', 'buddypress' ),
-			'classname' => 'buddypress',
+			'classname' => 'widget_bp_groups_widget buddypress',
 		);
 		parent::__construct( false, _x( '(BuddyPress) Groups', 'widget name', 'buddypress' ), $widget_ops );
 
