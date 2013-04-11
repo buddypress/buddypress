@@ -13,22 +13,16 @@ $multisite = ! empty( $argv[2] );
 require_once $config_file_path;
 require_once dirname( $config_file_path ) . '/includes/functions.php';
 
-// Set BP to be an active plugin
-$GLOBALS['wp_tests_options'] = array(
-	'active_plugins' => 'buddypress/bp-loader.php',
-);
+function _load_buddypress() {
+	require dirname( dirname( dirname( __FILE__ ) ) ) . '/bp-loader.php';
+}
+tests_add_filter( 'muplugins_loaded', '_load_buddypress' );
+
+define( 'BP_PLUGIN_DIR', dirname( dirname( dirname( __FILE__ ) ) ) . '/' );
 define( 'BP_ROOT_BLOG', 1 );
 
 // Always load admin bar
 tests_add_filter( 'show_admin_bar', '__return_true' );
-
-function wp_tests_options( $value ) {
-	$key = substr( current_filter(), strlen( 'pre_option_' ) );
-	return $GLOBALS['wp_tests_options'][$key];
-}
-foreach ( array_keys( $GLOBALS['wp_tests_options'] ) as $key ) {
-	tests_add_filter( 'pre_option_'.$key, 'wp_tests_options' );
-}
 
 function wp_test_bp_install( $value ) {
 	return array( 'activity' => 1, 'friends' => 1, 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1, );

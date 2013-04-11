@@ -1,5 +1,7 @@
 <?php
 
+define( 'BP_PLUGIN_DIR', dirname( dirname( __FILE__ ) ) . '/' );
+
 require_once getenv( 'WP_TESTS_DIR' ) . '/includes/functions.php';
 
 function _install_and_load_buddypress() {
