@@ -78,7 +78,7 @@ class BP_Core extends BP_Component {
 			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', $trimmed );
 
 			// Setup the active components
-			$active_components     = array_fill_keys( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $deactivated_components ) ), '1' );
+			$active_components     = array_fill_keys( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $bp->deactivated_components ) ), '1' );
 
 			// Set the active component global
 			$bp->active_components = apply_filters( 'bp_active_components', $bp->active_components );
