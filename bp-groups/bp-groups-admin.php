@@ -259,66 +259,69 @@ function bp_groups_admin_load() {
 			}
 
 			if ( ! $admin_count ) {
+
 				$redirect_to = add_query_arg( 'no_admins', 1, $redirect_to );
-				bp_core_redirect( $redirect_to );
-			}
+				$error = $group_id;
 
-			// Process only those users who have had their roles changed
-			foreach ( (array) $_POST['bp-groups-role'] as $user_id => $new_role ) {
+			} else {
 
-				$existing_role = isset( $_POST['bp-groups-existing-role'][$user_id] ) ? $_POST['bp-groups-existing-role'][$user_id] : '';
+				// Process only those users who have had their roles changed
+				foreach ( (array) $_POST['bp-groups-role'] as $user_id => $new_role ) {
 
-				if ( $existing_role != $new_role ) {
+					$existing_role = isset( $_POST['bp-groups-existing-role'][$user_id] ) ? $_POST['bp-groups-existing-role'][$user_id] : '';
 
-					switch ( $new_role ) {
-						case 'mod' :
-							// Admin to mod is a demotion. Demote to
-							// member, then fall through
-							if ( 'admin' == $existing_role ) {
-								groups_demote_member( $user_id, $group_id );
-							}
+					if ( $existing_role != $new_role ) {
 
-						case 'admin' :
-							// If the user was banned, we must
-							// unban first
-							if ( 'banned' == $existing_role ) {
-								groups_unban_member( $user_id, $group_id );
-							}
+						switch ( $new_role ) {
+							case 'mod' :
+								// Admin to mod is a demotion. Demote to
+								// member, then fall through
+								if ( 'admin' == $existing_role ) {
+									groups_demote_member( $user_id, $group_id );
+								}
 
-							// At this point, each existing_role
-							// is a member, so promote
-							$result = groups_promote_member( $user_id, $group_id, $new_role );
+							case 'admin' :
+								// If the user was banned, we must
+								// unban first
+								if ( 'banned' == $existing_role ) {
+									groups_unban_member( $user_id, $group_id );
+								}
 
-							break;
+								// At this point, each existing_role
+								// is a member, so promote
+								$result = groups_promote_member( $user_id, $group_id, $new_role );
 
-						case 'member' :
+								break;
 
-							if ( 'admin' == $existing_role || 'mod' == $existing_role ) {
-								$result = groups_demote_member( $user_id, $group_id );
-							} else if ( 'banned' == $existing_role ) {
-								$result = groups_unban_member( $user_id, $group_id );
-							}
+							case 'member' :
 
-							break;
+								if ( 'admin' == $existing_role || 'mod' == $existing_role ) {
+									$result = groups_demote_member( $user_id, $group_id );
+								} else if ( 'banned' == $existing_role ) {
+									$result = groups_unban_member( $user_id, $group_id );
+								}
 
-						case 'banned' :
+								break;
 
-							$result = groups_ban_member( $user_id, $group_id );
+							case 'banned' :
 
-							break;
+								$result = groups_ban_member( $user_id, $group_id );
 
-						case 'remove' :
+								break;
 
-							$result = groups_remove_member( $user_id, $group_id );
+							case 'remove' :
 
-							break;
-					}
+								$result = groups_remove_member( $user_id, $group_id );
 
-					// Store the success or failure
-					if ( $result ) {
-						$success_modified[] = $user_id;
-					} else {
-						$error_modified[]   = $user_id;
+								break;
+						}
+
+						// Store the success or failure
+						if ( $result ) {
+							$success_modified[] = $user_id;
+						} else {
+							$error_modified[]   = $user_id;
+						}
 					}
 				}
 			}
