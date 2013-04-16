@@ -77,9 +77,9 @@
 
 				<?php do_action( 'bp_activity_entry_meta' ); ?>
 
-			</div>
+			<?php endif; ?>
 
-		<?php endif; ?>
+		</div>
 
 	</div>
 
