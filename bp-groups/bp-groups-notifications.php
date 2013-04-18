@@ -87,7 +87,10 @@ To view %4$s\'s profile: %5$s
 ---------------------
 ', 'buddypress' ), $requesting_user_name, $group->name, $group_requests, $requesting_user_name, $profile_link );
 
-	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	// Only show the disable notifications line if the settings component is enabled
+	if ( bp_is_active( 'settings' ) ) {
+		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	}
 
 	/* Send the message */
 	$to      = apply_filters( 'groups_notification_new_membership_request_to', $to );
@@ -142,7 +145,10 @@ To submit another request please log in and visit: %2$s
 ', 'buddypress' ), $group->name, $group_link );
 	}
 
-	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	// Only show the disable notifications line if the settings component is enabled
+	if ( bp_is_active( 'settings' ) ) {
+		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	}
 
 	/* Send the message */
 	$to      = apply_filters( 'groups_notification_membership_request_completed_to', $to );
@@ -187,7 +193,10 @@ To view the group please visit: %3$s
 ---------------------
 ', 'buddypress' ), $promoted_to, $group->name, $group_link );
 
-	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	// Only show the disable notifications line if the settings component is enabled
+	if ( bp_is_active( 'settings' ) ) {
+		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	}
 
 	/* Send the message */
 	$to      = apply_filters( 'groups_notification_promoted_member_to', $to );
@@ -240,7 +249,10 @@ To view %5$s\'s profile visit: %6$s
 ---------------------
 ', 'buddypress' ), $inviter_name, $group->name, $invites_link, $group_link, $inviter_name, $inviter_link );
 
-		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		// Only show the disable notifications line if the settings component is enabled
+		if ( bp_is_active( 'settings' ) ) {
+			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		}
 
 		/* Send the message */
 		$to      = apply_filters( 'groups_notification_group_invites_to', $to );

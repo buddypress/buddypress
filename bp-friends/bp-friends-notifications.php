@@ -39,7 +39,10 @@ To view %3$s\'s profile: %4$s
 ---------------------
 ', 'buddypress' ), $initiator_name, $all_requests_link, $initiator_name, $initiator_link );
 
-	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	// Only show the disable notifications line if the settings component is enabled
+	if ( bp_is_active( 'settings' ) ) {
+		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	}
 
 	/* Send the message */
 	$to = apply_filters( 'friends_notification_new_request_to', $to );
@@ -74,7 +77,10 @@ To view %2$s\'s profile: %3$s
 ---------------------
 ', 'buddypress' ), $friend_name, $friend_name, $friend_link );
 
-	$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	// Only show the disable notifications line if the settings component is enabled
+	if ( bp_is_active( 'settings' ) ) {
+		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+	}
 
 	/* Send the message */
 	$to = apply_filters( 'friends_notification_accepted_request_to', $to );

@@ -95,7 +95,10 @@ To view and respond to the message, log in and visit: %3$s
 ', 'buddypress' ), $poster_name, $content, $message_link );
 		}
 
-		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		// Only show the disable notifications line if the settings component is enabled
+		if ( bp_is_active( 'settings' ) ) {
+			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		}
 
 		/* Send the message */
 		$to 	 = apply_filters( 'bp_activity_at_message_notification_to', $to );
@@ -170,7 +173,10 @@ To view your original update and all comments, log in and visit: %3$s
 ---------------------
 ', 'buddypress' ), $poster_name, $content, $thread_link );
 
-		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		// Only show the disable notifications line if the settings component is enabled
+		if ( bp_is_active( 'settings' ) ) {
+			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		}
 
 		/* Send the message */
 		$to = apply_filters( 'bp_activity_new_comment_notification_to', $to );
@@ -215,7 +221,10 @@ To view the original activity, your comment and all replies, log in and visit: %
 ---------------------
 ', 'buddypress' ), $poster_name, $content, $thread_link );
 
-		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		// Only show the disable notifications line if the settings component is enabled
+		if ( bp_is_active( 'settings' ) ) {
+			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+		}
 
 		/* Send the message */
 		$to = apply_filters( 'bp_activity_new_comment_notification_comment_author_to', $to );
