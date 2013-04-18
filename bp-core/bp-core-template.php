@@ -1760,7 +1760,7 @@ function bp_the_body_class() {
 		/** is_buddypress *****************************************************/
 
 		// Add BuddyPress class if we are within a BuddyPress page
-		if ( !empty( $bp_classes ) ) {
+		if ( ! bp_is_blog_page() ) {
 			$bp_classes[] = 'buddypress';
 		}
 
