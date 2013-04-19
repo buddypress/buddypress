@@ -1572,6 +1572,10 @@ class BP_Button {
 		if ( true == $this->block_self && bp_is_my_profile() )
 			return false;
 
+		// No button if you are the current user in a loop
+		if ( true === $this->block_self && is_user_logged_in() && bp_loggedin_user_id() === bp_get_member_user_id() )
+			return false;
+
 		// Wrapper properties
 		if ( false !== $this->wrapper ) {
 

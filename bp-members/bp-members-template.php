@@ -383,8 +383,8 @@ function bp_member_user_id() {
 	 */
 	function bp_get_member_user_id() {
 		global $members_template;
-
-		return apply_filters( 'bp_get_member_user_id', $members_template->member->id );
+		$member_id = isset( $members_template->member->id ) ? (int) $members_template->member->id : false;
+		return apply_filters( 'bp_get_member_user_id', $member_id );
 	}
 
 /**
