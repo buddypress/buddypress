@@ -38,8 +38,8 @@ jQuery.fn.autoCompletefb = function(options)
 			return tmp.acfb;
 		},
 		removeUsername: function(o){
-			var newID = o.parentNode.id.split('-');
-			jQuery('#send-to-usernames').removeClass(newID[1]);
+			var newID = o.parentNode.id.substr( o.parentNode.id.indexOf('-')+1 );
+			jQuery('#send-to-usernames').removeClass(newID);
 		}
 	}
 
