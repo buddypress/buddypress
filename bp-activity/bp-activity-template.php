@@ -410,8 +410,9 @@ function bp_has_activities( $args = '' ) {
 					if ( empty( $favs ) )
 						return false;
 
-					$include          = implode( ',', (array) $favs );
+					$in = implode( ',', (array) $favs );
 					$display_comments = true;
+					$user_id = 0;
 					break;
 				case 'mentions':
 
