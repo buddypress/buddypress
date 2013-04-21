@@ -305,7 +305,7 @@ class BP_Groups_Component extends BP_Component {
 		) );
 
 		// If avatar uploads are not disabled, add avatar option
-		if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) {
+		if ( ! (int) buddypress()->site_options['bp-disable-avatar-uploads'] ) {
 			$this->group_creation_steps['group-avatar'] = array(
 				'name'     => __( 'Avatar',   'buddypress' ),
 				'position' => 20
