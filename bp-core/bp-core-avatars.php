@@ -338,7 +338,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 			// ...or only the URL
 			} else {
-				return apply_filters( 'bp_core_fetch_avatar_url', $avatar_url );
+				return apply_filters( 'bp_core_fetch_avatar_url', $avatar_url, $params );
 			}
 		}
 	}
@@ -399,7 +399,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	if ( true === $html ) {
 		return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $gravatar . '" class="' . esc_attr( $class ) . '"' . $css_id . $html_width . $html_height . $html_alt . $title . ' />', $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 	} else {
-		return apply_filters( 'bp_core_fetch_avatar_url', $gravatar );
+		return apply_filters( 'bp_core_fetch_avatar_url', $gravatar, $params );
 	}
 }
 
