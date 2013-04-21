@@ -130,4 +130,26 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$bp->loggedin_user->id = $user_id;
 		wp_set_current_user( $user_id );
 	}
+
+	/**
+	 * When creating a new user, it's almost always necessary to have the
+	 * last_activity usermeta set right away, so that the user shows up in
+	 * directory queries. This is a shorthand wrapper for the user factory
+	 * create() method.
+	 */
+	function create_user( $args = array() ) {
+		$r = wp_parse_args( $args, array(
+			'role' => 'subscriber',
+			'last_activity' => bp_core_current_time(),
+		) );
+
+		$last_activity = $r['last_activity'];
+		unset( $r['last_activity'] );
+
+		$user_id = $this->factory->user->create( $args );
+
+		update_user_meta( $user_id, 'last_activity', $last_activity );
+
+		return $user_id;
+	}
 }
