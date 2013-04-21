@@ -35,4 +35,48 @@ class BP_Tests_Core_Classes extends BP_UnitTestCase {
 		$friend_ids = wp_list_pluck( $friends, 'ID' );
 		$this->assertEquals( $friend_ids, array( $u1 ) );
 	}
+
+	/**
+	 * @ticket 4938
+	 */
+	public function test_bp_user_query_friends_with_include() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$u3 = $this->create_user();
+		$u4 = $this->create_user();
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, true );
+
+		$q = new BP_User_Query( array(
+			'user_id' => $u1,
+
+			// Represents an independent filter passed by a plugin
+			// u4 is not a friend of u1 and should not be returned
+			'include' => array( $u2, $u4 ),
+		) );
+
+		$friends = is_array( $q->results ) ? array_values( $q->results ) : array();
+		$friend_ids = wp_list_pluck( $friends, 'ID' );
+		$this->assertEquals( $friend_ids, array( $u2 ) );
+	}
+
+	public function test_bp_user_query_friends_with_include_but_zero_friends() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$u3 = $this->create_user();
+		$u4 = $this->create_user();
+
+		$q = new BP_User_Query( array(
+			'user_id' => $u1,
+
+			// Represents an independent filter passed by a plugin
+			// u4 is not a friend of u1 and should not be returned
+			'include' => array( $u2, $u4 ),
+		) );
+
+		$friends = is_array( $q->results ) ? array_values( $q->results ) : array();
+		$friend_ids = wp_list_pluck( $friends, 'ID' );
+		$this->assertEquals( $friend_ids, array() );
+	}
+
 }
