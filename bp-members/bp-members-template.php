@@ -275,8 +275,9 @@ function bp_has_members( $args = '' ) {
 	$search_terms = null;
 
 	// User filtering
-	if ( bp_displayed_user_id() )
+	if ( bp_is_user_friends() && ! bp_is_user_friend_requests() ) {
 		$user_id = bp_displayed_user_id();
+	}
 
 	// type: active ( default ) | random | newest | popular | online | alphabetical
 	$defaults = array(
