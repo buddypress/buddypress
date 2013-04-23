@@ -25,7 +25,7 @@ define( 'BP_ROOT_BLOG', 1 );
 tests_add_filter( 'show_admin_bar', '__return_true' );
 
 function wp_test_bp_install( $value ) {
-	return array( 'activity' => 1, 'friends' => 1, 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1, );
+	return array( 'activity' => 1, 'blogs' => 1, 'friends' => 1, 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1, );
 }
 tests_add_filter( 'bp_new_install_default_components', 'wp_test_bp_install' );
 
