@@ -639,8 +639,10 @@ function bp_send_message_button() {
 	echo bp_get_send_message_button();
 }
 	function bp_get_send_message_button() {
+		// Note: 'bp_get_send_message_button' is a legacy filter. Use
+		// 'bp_get_send_message_button_args' instead. See #4536
 		return apply_filters( 'bp_get_send_message_button',
-			bp_get_button( array(
+			bp_get_button( apply_filters( 'bp_get_send_message_button_args', array(
 				'id'                => 'private_message',
 				'component'         => 'messages',
 				'must_be_logged_in' => true,
@@ -650,7 +652,7 @@ function bp_send_message_button() {
 				'link_title'        => __( 'Send a private message to this user.', 'buddypress' ),
 				'link_text'         => __( 'Private Message', 'buddypress' ),
 				'link_class'        => 'send-message',
-			) )
+			) ) )
 		);
 	}
 
