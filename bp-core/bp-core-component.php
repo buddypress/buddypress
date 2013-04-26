@@ -1,4 +1,5 @@
 <?php
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -18,51 +19,53 @@ if ( !class_exists( 'BP_Component' ) ) :
  */
 class BP_Component {
 
+	/** Variables *************************************************************/
+
 	/**
 	 * @var string Unique name (for internal identification)
 	 * @internal
 	 */
-	var $name;
+	public $name = '';
 
 	/**
 	 * @var Unique ID (normally for custom post type)
 	 */
-	var $id;
+	public $id = '';
 
 	/**
 	 * @var string Unique slug (used in query string and permalinks)
 	 */
-	var $slug;
+	public $slug = '';
 
 	/**
 	 * @var bool Does this component need a top-level directory?
 	 */
-	var $has_directory;
+	public $has_directory = false;
 
 	/**
 	 * @var string The path to the component's files
 	 */
-	var $path;
+	public $path = '';
 
 	/**
 	 * @var WP_Query The loop for this component
 	 */
-	var $query;
+	public $query = false;
 
 	/**
 	 * @var string The current ID of the queried object
 	 */
-	var $current_id;
+	public $current_id = '';
 
 	/**
 	 * @var string Function to call for notifications
 	 */
-	var $notification_callback;
+	public $notification_callback = '';
 
 	/**
 	 * @var array WordPress Toolbar links
 	 */
-	var $admin_menu;
+	public $admin_menu = '';
 
 	/**
 	 * Search input box placeholder string for the component
@@ -70,7 +73,7 @@ class BP_Component {
 	 * @since BuddyPress (1.5)
 	 * @var string
 	 */
-	public $search_string;
+	public $search_string = '';
 
 	/**
 	 * Component's root slug
@@ -78,20 +81,23 @@ class BP_Component {
 	 * @since BuddyPress (1.5)
 	 * @var string
 	 */
-	public $root_slug;
+	public $root_slug = '';
+
+	/** Methods ***************************************************************/
 
 	/**
 	 * Component loader
 	 *
 	 * @since BuddyPress (1.5)
 	 *
-	 * @param mixed $args Required. Supports these args:
-	 *  - id: Unique ID (for internal identification). Letters, numbers, and underscores only
-	 *  - name: Unique name. This should be a translatable name, eg __( 'Groups', 'buddypress' )
-	 *  - path: The file path for the component's files. Used by BP_Component::includes()
+	 * @param string $id Unique ID (for internal identification). Letters, numbers, and underscores only
+	 * @param string $name Unique name. This should be a translatable name, eg __( 'Groups', 'buddypress' )
+	 * @param string $path The file path for the component's files. Used by BP_Component::includes()
+	 *
 	 * @uses bp_Component::setup_actions() Setup the hooks and actions
 	 */
-	function start( $id, $name, $path ) {
+	public function start( $id = '', $name = '', $path = '' ) {
+
 		// Internal identifier of component
 		$this->id   = $id;
 
@@ -115,38 +121,37 @@ class BP_Component {
 	 *
 	 * @param arr $args Used to
 	 */
-	function setup_globals( $args = '' ) {
-		global $bp;
+	public function setup_globals( $args = array() ) {
 
 		/** Slugs *************************************************************/
 
-		$defaults = array(
+		$r = wp_parse_args( $args, array(
 			'slug'                  => $this->id,
 			'root_slug'             => '',
 			'has_directory'         => false,
 			'notification_callback' => '',
 			'search_string'         => '',
 			'global_tables'         => ''
-		);
-		$r = wp_parse_args( $args, $defaults );
+		) );
 
 		// Slug used for permalink URI chunk after root
-		$this->slug          = apply_filters( 'bp_' . $this->id . '_slug',          $r['slug']          );
+		$this->slug                  = apply_filters( 'bp_' . $this->id . '_slug',                  $r['slug']                  );
 
 		// Slug used for root directory
-		$this->root_slug     = apply_filters( 'bp_' . $this->id . '_root_slug',     $r['root_slug']     );
+		$this->root_slug             = apply_filters( 'bp_' . $this->id . '_root_slug',             $r['root_slug']             );
 
 		// Does this component have a top-level directory?
-		$this->has_directory = apply_filters( 'bp_' . $this->id . '_has_directory', $r['has_directory'] );
+		$this->has_directory         = apply_filters( 'bp_' . $this->id . '_has_directory',         $r['has_directory']         );
 
 		// Search string
-		$this->search_string = apply_filters( 'bp_' . $this->id . '_search_string', $r['search_string'] );
+		$this->search_string         = apply_filters( 'bp_' . $this->id . '_search_string',         $r['search_string']         );
 
 		// Notifications callback
 		$this->notification_callback = apply_filters( 'bp_' . $this->id . '_notification_callback', $r['notification_callback'] );
 
 		// Set up global table names
 		if ( !empty( $r['global_tables'] ) ) {
+
 			// This filter allows for component-specific filtering of table names
 			// To filter *all* tables, use the 'bp_core_get_table_prefix' filter instead
 			$r['global_tables'] = apply_filters( 'bp_' . $this->id . '_global_tables', $r['global_tables'] );
@@ -154,12 +159,12 @@ class BP_Component {
 			foreach ( $r['global_tables'] as $global_name => $table_name ) {
 				$this->$global_name = $table_name;
 			}
-                }
+		}
 
 		/** BuddyPress ********************************************************/
 
 		// Register this component in the loaded components array
-		$bp->loaded_components[$this->slug] = $this->id;
+		buddypress()->loaded_components[$this->slug] = $this->id;
 
 		// Call action
 		do_action( 'bp_' . $this->id . '_setup_globals' );
@@ -189,14 +194,16 @@ class BP_Component {
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}includes'
 	 */
-	function includes( $includes = '' ) {
+	public function includes( $includes = array() ) {
+
+		// Bail if no files to include
 		if ( empty( $includes ) )
 			return;
 
 		$slashed_path = trailingslashit( $this->path );
 
 		// Loop through files to be included
-		foreach ( $includes as $file ) {
+		foreach ( (array) $includes as $file ) {
 
 			$paths = array(
 
@@ -231,38 +238,38 @@ class BP_Component {
 	 * @uses add_action() To add various actions
 	 * @uses do_action() Calls 'bp_{@link BP_Component::name}setup_actions'
 	 */
-	function setup_actions() {
+	public function setup_actions() {
 
 		// Setup globals
-		add_action( 'bp_setup_globals',          array ( $this, 'setup_globals'          ), 10 );
+		add_action( 'bp_setup_globals',          array( $this, 'setup_globals'          ), 10 );
 
 		// Include required files. Called early to ensure that BP core
 		// components are loaded before plugins that hook their loader functions
 		// to bp_include with the default priority of 10. This is for backwards
 		// compatibility; henceforth, plugins should register themselves by
 		// extending this base class.
-		add_action( 'bp_include',                array ( $this, 'includes'               ), 8 );
+		add_action( 'bp_include',                array( $this, 'includes'               ), 8 );
 
 		// Setup navigation
-		add_action( 'bp_setup_nav',              array ( $this, 'setup_nav'              ), 10 );
+		add_action( 'bp_setup_nav',              array( $this, 'setup_nav'              ), 10 );
 
 		// Setup WP Toolbar menus
-		add_action( 'bp_setup_admin_bar',        array ( $this, 'setup_admin_bar'        ), 10 );
+		add_action( 'bp_setup_admin_bar',        array( $this, 'setup_admin_bar'        ), 10 );
 
 		// Setup component title
-		add_action( 'bp_setup_title',            array ( $this, 'setup_title'            ), 10 );
+		add_action( 'bp_setup_title',            array( $this, 'setup_title'            ), 10 );
 
 		// Register post types
-		add_action( 'bp_register_post_types',    array ( $this, 'register_post_types'    ), 10 );
+		add_action( 'bp_register_post_types',    array( $this, 'register_post_types'    ), 10 );
 
 		// Register taxonomies
-		add_action( 'bp_register_taxonomies',    array ( $this, 'register_taxonomies'    ), 10 );
+		add_action( 'bp_register_taxonomies',    array( $this, 'register_taxonomies'    ), 10 );
 
 		// Add the rewrite tags
-		add_action( 'bp_add_rewrite_tags',       array ( $this, 'add_rewrite_tags'       ), 10 );
+		add_action( 'bp_add_rewrite_tags',       array( $this, 'add_rewrite_tags'       ), 10 );
 
 		// Generate rewrite rules
-		add_action( 'bp_generate_rewrite_rules', array ( $this, 'generate_rewrite_rules' ), 10 );
+		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
 
 		// Additional actions can be attached here
 		do_action( 'bp_' . $this->id . '_setup_actions' );
@@ -271,10 +278,10 @@ class BP_Component {
 	/**
 	 * Setup the navigation
 	 *
-	 * @param arr $main_nav Optional
-	 * @param arr $sub_nav Optional
+	 * @param array $main_nav Optional
+	 * @param array $sub_nav Optional
 	 */
-	function setup_nav( $main_nav = '', $sub_nav = '' ) {
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
 		// No sub nav items without a main nav item
 		if ( !empty( $main_nav ) ) {
@@ -282,7 +289,7 @@ class BP_Component {
 
 			// Sub nav items are not required
 			if ( !empty( $sub_nav ) ) {
-				foreach( $sub_nav as $nav ) {
+				foreach( (array) $sub_nav as $nav ) {
 					bp_core_new_subnav_item( $nav );
 				}
 			}
@@ -298,7 +305,7 @@ class BP_Component {
 	 * @global obj $wp_admin_bar
 	 * @param array $wp_admin_menus
 	 */
-	function setup_admin_bar( $wp_admin_nav = '' ) {
+	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
 		// Bail if this is an ajax request
 		if ( defined( 'DOING_AJAX' ) )
@@ -318,8 +325,9 @@ class BP_Component {
 			global $wp_admin_bar;
 
 			// Add each admin menu
-			foreach( $this->admin_menu as $admin_menu )
+			foreach( $this->admin_menu as $admin_menu ) {
 				$wp_admin_bar->add_menu( $admin_menu );
+			}
 		}
 
 		// Call action
@@ -333,7 +341,7 @@ class BP_Component {
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}setup_title'
 	 */
-	function setup_title( ) {
+	public function setup_title() {
 		do_action(  'bp_' . $this->id . '_setup_title' );
 	}
 
@@ -344,7 +352,7 @@ class BP_Component {
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_post_types'
 	 */
-	function register_post_types() {
+	public function register_post_types() {
 		do_action( 'bp_' . $this->id . '_register_post_types' );
 	}
 
@@ -355,7 +363,7 @@ class BP_Component {
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_taxonomies'
 	 */
-	function register_taxonomies() {
+	public function register_taxonomies() {
 		do_action( 'bp_' . $this->id . '_register_taxonomies' );
 	}
 
@@ -366,7 +374,7 @@ class BP_Component {
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_tags'
 	 */
-	function add_rewrite_tags() {
+	public function add_rewrite_tags() {
 		do_action( 'bp_' . $this->id . '_add_rewrite_tags' );
 	}
 
@@ -377,7 +385,7 @@ class BP_Component {
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_generate_rewrite_rules'
 	 */
-	function generate_rewrite_rules ( $wp_rewrite ) {
+	public function generate_rewrite_rules() {
 		do_action( 'bp_' . $this->id . '_generate_rewrite_rules' );
 	}
 }
