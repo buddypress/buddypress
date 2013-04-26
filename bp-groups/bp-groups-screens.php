@@ -466,7 +466,7 @@ function groups_screen_group_request_membership() {
 
 	if ( 'private' != $bp->groups->current_group->status )
 		return false;
-	
+
 	// If the user has submitted a request, send it.
 	if ( isset( $_POST['group-request-send']) ) {
 

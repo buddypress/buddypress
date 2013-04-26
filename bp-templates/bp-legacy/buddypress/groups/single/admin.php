@@ -87,30 +87,30 @@
 		</label>
 	</div>
 
-	<hr /> 
-	 
-	<h4><?php _e( 'Group Invitations', 'buddypress' ); ?></h4> 
+	<hr />
 
-	<p><?php _e( 'Which members of this group are allowed to invite others?', 'buddypress' ); ?></p> 
+	<h4><?php _e( 'Group Invitations', 'buddypress' ); ?></h4>
 
-	<div class="radio"> 
-		<label> 
-			<input type="radio" name="group-invite-status" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> /> 
-			<strong><?php _e( 'All group members', 'buddypress' ); ?></strong> 
-		</label> 
+	<p><?php _e( 'Which members of this group are allowed to invite others?', 'buddypress' ); ?></p>
 
-		<label> 
-			<input type="radio" name="group-invite-status" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> /> 
-			<strong><?php _e( 'Group admins and mods only', 'buddypress' ); ?></strong> 
+	<div class="radio">
+		<label>
+			<input type="radio" name="group-invite-status" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> />
+			<strong><?php _e( 'All group members', 'buddypress' ); ?></strong>
 		</label>
-		
-		<label> 
-			<input type="radio" name="group-invite-status" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> /> 
-			<strong><?php _e( 'Group admins only', 'buddypress' ); ?></strong> 
-		</label> 
- 	</div> 
 
-	<hr /> 
+		<label>
+			<input type="radio" name="group-invite-status" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> />
+			<strong><?php _e( 'Group admins and mods only', 'buddypress' ); ?></strong>
+		</label>
+
+		<label>
+			<input type="radio" name="group-invite-status" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> />
+			<strong><?php _e( 'Group admins only', 'buddypress' ); ?></strong>
+		</label>
+ 	</div>
+
+	<hr />
 
 	<?php do_action( 'bp_after_group_settings_admin' ); ?>
 
@@ -172,14 +172,14 @@
 <?php if ( bp_is_group_admin_screen( 'manage-members' ) ) : ?>
 
 	<?php do_action( 'bp_before_group_manage_members_admin' ); ?>
-	
+
 	<div class="bp-widget">
 		<h4><?php _e( 'Administrators', 'buddypress' ); ?></h4>
 
 		<?php if ( bp_has_members( '&include='. bp_group_admin_ids() ) ) : ?>
-		
+
 		<ul id="admins-list" class="item-list single-line">
-			
+
 			<?php while ( bp_members() ) : bp_the_member(); ?>
 			<li>
 				<?php echo bp_core_fetch_avatar( array( 'item_id' => bp_get_member_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_member_name() ) ) ); ?>
@@ -188,26 +188,26 @@
 					<?php if ( count( bp_group_admin_ids( false, 'array' ) ) > 1 ) : ?>
 					<span class="small">
 						<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ); ?>"><?php _e( 'Demote to Member', 'buddypress' ); ?></a>
-					</span>			
+					</span>
 					<?php endif; ?>
-				</h5>		
+				</h5>
 			</li>
 			<?php endwhile; ?>
-		
+
 		</ul>
-		
+
 		<?php endif; ?>
 
 	</div>
-	
+
 	<?php if ( bp_group_has_moderators() ) : ?>
 		<div class="bp-widget">
-			<h4><?php _e( 'Moderators', 'buddypress' ); ?></h4>		
-			
+			<h4><?php _e( 'Moderators', 'buddypress' ); ?></h4>
+
 			<?php if ( bp_has_members( '&include=' . bp_group_mod_ids() ) ) : ?>
 				<ul id="mods-list" class="item-list single-line">
-				
-					<?php while ( bp_members() ) : bp_the_member(); ?>					
+
+					<?php while ( bp_members() ) : bp_the_member(); ?>
 					<li>
 						<?php echo bp_core_fetch_avatar( array( 'item_id' => bp_get_member_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_member_name() ) ) ); ?>
 						<h5>
@@ -215,13 +215,13 @@
 							<span class="small">
 								<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => bp_get_member_user_id() ) ); ?>" class="button confirm mod-promote-to-admin" title="<?php _e( 'Promote to Admin', 'buddypress' ); ?>"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a>
 								<a class="button confirm mod-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ); ?>"><?php _e( 'Demote to Member', 'buddypress' ); ?></a>
-							</span>		
-						</h5>		
-					</li>	
-					<?php endwhile; ?>			
-				
+							</span>
+						</h5>
+					</li>
+					<?php endwhile; ?>
+
 				</ul>
-			
+
 			<?php endif; ?>
 		</div>
 	<?php endif ?>
