@@ -181,6 +181,16 @@ function bp_enqueue_scripts() {
 }
 
 /**
+ * Add the BuddyPress-specific rewrite tags
+ *
+ * @since BuddyPress (1.8)
+ * @uses do_action() Calls 'bp_add_rewrite_tags'
+ */
+function bp_add_rewrite_tags() {
+	do_action( 'bp_add_rewrite_tags' );
+}
+
+/**
  * Piggy back action for BuddyPress sepecific theme actions before the theme has
  * been setup and the theme's functions.php has loaded.
  *
