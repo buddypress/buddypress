@@ -655,30 +655,30 @@ function bp_group_date_created( $group = false ) {
 
 		return apply_filters( 'bp_get_group_date_created', bp_core_time_since( strtotime( $group->date_created ) ) );
 	}
-	
+
 function bp_group_creator_username( $group = false ) {
 	echo bp_get_group_creator_username( $group );
 }
 	function bp_get_group_creator_username( $group = false ) {
 		global $groups_template;
-		
+
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
-		
+
 		return apply_filters( 'bp_get_group_creator_username', bp_core_get_user_displayname( $group->creator_id ) );
-	}	
+	}
 
 function bp_group_creator_id( $group = false ) {
 	echo bp_get_group_creator_id( $group );
 }
 	function bp_get_group_creator_id( $group = false ) {
 		global $groups_template;
-		
+
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
-		
+
 		return apply_filters( 'bp_get_group_creator_id', $group->creator_id );
-	}	
+	}
 
 function bp_group_creator_permalink( $group = false ) {
 	echo bp_get_group_creator_permalink( $group );
@@ -690,14 +690,14 @@ function bp_group_creator_permalink( $group = false ) {
 			$group =& $groups_template->group;
 
 		return apply_filters( 'bp_get_group_creator_permalink', bp_core_get_user_domain( $group->creator_id ) );
-	}	
+	}
 
 function bp_is_group_creator( $group = false, $user_id = 0 ) {
 	global $groups_template;
-	
+
 	if ( empty( $group ) )
 		$group =& $groups_template->group;
-	
+
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
@@ -730,7 +730,7 @@ function bp_group_creator_avatar( $group = false, $args = array() ) {
 		return apply_filters( 'bp_get_group_creator_avatar', $avatar );
 	}
 
-		
+
 function bp_group_is_admin() {
 	return bp_is_item_admin();
 }
