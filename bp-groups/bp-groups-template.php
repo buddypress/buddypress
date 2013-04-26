@@ -144,6 +144,7 @@ class BP_Groups_Template {
 			'include'         => false,
 			'exclude'         => false,
 			'search_terms'    => '',
+			'meta_query'      => false,
 			'populate_extras' => true
 		);
 
@@ -169,6 +170,7 @@ class BP_Groups_Template {
 				'page'            => $this->pag_page,
 				'user_id'         => $user_id,
 				'search_terms'    => $search_terms,
+				'meta_query'      => $meta_query,
 				'include'         => $include,
 				'exclude'         => $exclude,
 				'populate_extras' => $populate_extras,
@@ -307,6 +309,7 @@ function bp_has_groups( $args = '' ) {
 		'user_id'         => $user_id, // Pass a user ID to limit to groups this user has joined
 		'slug'            => $slug,    // Pass a group slug to only return that group
 		'search_terms'    => '',       // Pass search terms to return only matching groups
+		'meta_query'      => false,    // Filter by groupmeta. See WP_Meta_Query for format
 		'include'         => false,    // Pass comma separated list or array of group ID's to return only these groups
 		'exclude'         => false,    // Pass comma separated list or array of group ID's to exclude these groups
 
@@ -334,6 +337,7 @@ function bp_has_groups( $args = '' ) {
 		'user_id'         => (int) $r['user_id'],
 		'slug'            => $r['slug'],
 		'search_terms'    => $r['search_terms'],
+		'meta_query'      => $r['meta_query'],
 		'include'         => $r['include'],
 		'exclude'         => $r['exclude'],
 		'populate_extras' => (bool) $r['populate_extras']

@@ -334,6 +334,7 @@ class BP_Groups_Group {
 			'page'            => null,
 			'user_id'         => 0,
 			'search_terms'    => false,
+			'meta_query'      => false,
 			'include'         => false,
 			'populate_extras' => true,
 			'exclude'         => false,
@@ -365,6 +366,17 @@ class BP_Groups_Group {
 		if ( !empty( $search_terms ) ) {
 			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
 			$sql['search'] = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+		}
+
+		$meta_query_sql = self::get_meta_query_sql( $meta_query );
+
+		if ( ! empty( $meta_query_sql['join'] ) ) {
+			$sql['from'] .= $meta_query_sql['join'];
+			$total_sql['select'] .= $meta_query_sql['join_total'];
+		}
+
+		if ( ! empty( $meta_query_sql['where'] ) ) {
+			$sql['meta'] = $meta_query_sql['where'];
 		}
 
 		if ( !empty( $user_id ) )
@@ -464,6 +476,58 @@ class BP_Groups_Group {
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
+
+	/**
+	 * Get the SQL for the 'meta_query' param in BP_Activity_Activity::get()
+	 *
+	 * We use WP_Meta_Query to do the heavy lifting of parsing the
+	 * meta_query array and creating the necessary SQL clauses. However,
+	 * since BP_Activity_Activity::get() builds its SQL differently than
+	 * WP_Query, we have to alter the return value (stripping the leading
+	 * AND keyword from the 'where' clause).
+	 *
+	 * @since 1.8
+	 *
+	 * @param array $meta_query An array of meta_query filters. See the
+	 *   documentation for WP_Meta_Query for details.
+	 * @return array $sql_array 'join' and 'where' clauses
+	 */
+	public static function get_meta_query_sql( $meta_query = array() ) {
+		global $wpdb;
+
+		$sql_array = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		if ( ! empty( $meta_query ) ) {
+			$groups_meta_query = new WP_Meta_Query( $meta_query );
+
+			// WP_Meta_Query expects the table name at
+			// $wpdb->group
+			$wpdb->groupmeta = buddypress()->groups->table_name_groupmeta;
+
+			$meta_sql = $groups_meta_query->get_sql( 'group', 'g', 'id' );
+
+			// BP_Groups_Group::get uses the comma syntax for table
+			// joins, which means that we have to do some regex to
+			// convert the INNER JOIN and move the ON clause to a
+			// WHERE condition
+			//
+			// @todo It may be better in the long run to refactor
+			// the more general query syntax to accord better with
+			// BP/WP convention
+			preg_match( '/INNER JOIN (.*) ON/', $meta_sql['join'], $matches_a );
+			preg_match( '/ON \((.*)\)$/', $meta_sql['join'], $matches_b );
+			if ( ! empty( $matches_a[1] ) && ! empty( $matches_b[1] ) ) {
+				$sql_array['join']  = $matches_a[1] . ', ';
+				$sql_array['where'] = preg_replace( '/^(\sAND\s+[\(\s]+)/', '$1' . $matches_b[1] . ' AND ', $meta_sql['where'] );
+			}
+		}
+
+		return $sql_array;
+	}
+
 
 	function get_by_most_forum_topics( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp, $bbdb;
