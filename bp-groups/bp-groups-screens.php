@@ -523,7 +523,9 @@ function groups_screen_group_admin_edit_details() {
 			if ( !check_admin_referer( 'groups_edit_group_details' ) )
 				return false;
 
-			if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], (int) $_POST['group-notify-members'] ) ) {
+			$group_notify_members = isset( $_POST['group-notify-members'] ) ? (int) $_POST['group-notify-members'] : 0;
+
+			if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $group_notify_members ) ) {
 				bp_core_add_message( __( 'There was an error updating group details, please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );

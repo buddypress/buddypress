@@ -22,9 +22,9 @@
 	<?php do_action( 'groups_custom_group_fields_editable' ); ?>
 
 	<p>
-		<label for="group-notifiy-members"><?php _e( 'Notify group members of changes via email', 'buddypress' ); ?></label>
-		<input type="radio" name="group-notify-members" value="1" /> <?php _e( 'Yes', 'buddypress' ); ?>&nbsp;
-		<input type="radio" name="group-notify-members" value="0" checked="checked" /> <?php _e( 'No', 'buddypress' ); ?>&nbsp;
+		<label for="group-notifiy-members">
+			<input type="checkbox" name="group-notify-members" value="1" /> <?php _e( 'Notify group members of these changes via email', 'buddypress' ); ?>
+		</label>
 	</p>
 
 	<?php do_action( 'bp_after_group_details_admin' ); ?>
