@@ -144,6 +144,7 @@ class BP_Activity_Activity {
 			'sort'             => 'DESC',     // ASC or DESC
 			'exclude'          => false,      // Array of ids to exclude
 			'in'               => false,      // Array of ids to limit query by (IN)
+			'meta_query'       => false,      // Filter by activitymeta
 			'filter'           => false,      // See self::get_filter_sql()
 			'search_terms'     => false,      // Terms to search by
 			'display_comments' => false,      // Whether to include activity comments
@@ -157,6 +158,8 @@ class BP_Activity_Activity {
 		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
 
 		$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
+
+		$join_sql = '';
 
 		// Where conditions
 		$where_conditions = array();
@@ -197,6 +200,17 @@ class BP_Activity_Activity {
 			$where_conditions['in'] = "a.id IN ({$in})";
 		}
 
+		// Process meta_query into SQL
+		$meta_query_sql = self::get_meta_query_sql( $meta_query );
+
+		if ( ! empty( $meta_query_sql['join'] ) ) {
+			$join_sql .= $meta_query_sql['join'];
+		}
+
+		if ( ! empty( $meta_query_sql['where'] ) ) {
+			$where_conditions[] = $meta_query_sql['where'];
+		}
+
 		// Alter the query based on whether we want to show activity item
 		// comments in the stream like normal comments or threaded below
 		// the activity.
@@ -228,12 +242,12 @@ class BP_Activity_Activity {
 			$per_page = absint( $per_page );
 
 			$pag_sql    = $wpdb->prepare( "LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
-			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
+			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
 		} else {
-			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort ) );
+			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort ) );
 		}
 
-		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(a.id) FROM {$bp->activity->table_name} a {$index_hint_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $where_sql, $sort );
+		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(a.id) FROM {$bp->activity->table_name} a {$index_hint_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $where_sql, $sort );
 
 		$total_activities = $wpdb->get_var( $total_activities_sql );
 
@@ -282,6 +296,46 @@ class BP_Activity_Activity {
 		}
 
 		return array( 'activities' => $activities, 'total' => (int) $total_activities );
+	}
+
+	/**
+	 * Get the SQL for the 'meta_query' param in BP_Activity_Activity::get()
+	 *
+	 * We use WP_Meta_Query to do the heavy lifting of parsing the
+	 * meta_query array and creating the necessary SQL clauses. However,
+	 * since BP_Activity_Activity::get() builds its SQL differently than
+	 * WP_Query, we have to alter the return value (stripping the leading
+	 * AND keyword from the 'where' clause).
+	 *
+	 * @since 1.8
+	 *
+	 * @param array $meta_query An array of meta_query filters. See the
+	 *   documentation for WP_Meta_Query for details.
+	 * @return array $sql_array 'join' and 'where' clauses
+	 */
+	public static function get_meta_query_sql( $meta_query = array() ) {
+		global $wpdb;
+
+		$sql_array = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		if ( ! empty( $meta_query ) ) {
+			$activity_meta_query = new WP_Meta_Query( $meta_query );
+
+			// WP_Meta_Query expects the table name at
+			// $wpdb->activitymeta
+			$wpdb->activitymeta = buddypress()->activity->table_name_meta;
+
+			$meta_sql = $activity_meta_query->get_sql( 'activity', 'a', 'id' );
+
+			// Strip the leading AND - BP handles it in get()
+			$sql_array['where'] = preg_replace( '/^\sAND/', '', $meta_sql['where'] );
+			$sql_array['join']  = $meta_sql['join'];
+		}
+
+		return $sql_array;
 	}
 
 	/**

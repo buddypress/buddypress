@@ -110,4 +110,26 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		$activities_template = null;
 	}
+
+	/**
+	 * Integration test for 'meta_query' param
+	 */
+	function test_bp_has_activities_with_meta_query() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		bp_activity_update_meta( $a1->id, 'foo', 'bar' );
+
+		global $activities_template;
+		bp_has_activities( array(
+			'meta_query' => array(
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+			),
+		) );
+
+		$ids = wp_list_pluck( $activities_template->activities, 'id' );
+		$this->assertEquals( $ids, array( $a1->id ) );
+	}
 }

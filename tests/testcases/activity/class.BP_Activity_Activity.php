@@ -72,4 +72,21 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 		$this->assertEquals( $activity['activities'][0]->hide_sitewide, 1 );
 	}
+
+	public function test_get_meta_query() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		bp_activity_update_meta( $a1->id, 'foo', 'bar' );
+
+		$activity = BP_Activity_Activity::get( array(
+			'meta_query' => array(
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+			),
+		) );
+		$ids = wp_list_pluck( $activity['activities'], 'id' );
+		$this->assertEquals( $ids, array( $a1->id ) );
+	}
 }

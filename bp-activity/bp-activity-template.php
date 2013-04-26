@@ -150,6 +150,7 @@ class BP_Activity_Template {
 			'in'               => false,
 			'filter'           => false,
 			'search_terms'     => false,
+			'meta_query'       => false,
 			'display_comments' => 'threaded',
 			'show_hidden'      => false,
 			'spam'             => 'ham_only',
@@ -172,7 +173,7 @@ class BP_Activity_Template {
 
 		// Fetch all activity items
 		else
-			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'filter' => $filter, 'show_hidden' => $show_hidden, 'exclude' => $exclude, 'in' => $in, 'spam' => $spam ) );
+			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'meta_query' => $meta_query, 'filter' => $filter, 'show_hidden' => $show_hidden, 'exclude' => $exclude, 'in' => $in, 'spam' => $spam ) );
 
 		if ( !$max || $max >= (int) $this->activities['total'] )
 			$this->total_activity_count = (int) $this->activities['total'];
@@ -361,6 +362,8 @@ function bp_has_activities( $args = '' ) {
 		'primary_id'       => $primary_id,  // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
 		'secondary_id'     => false,        // secondary object ID to filter on e.g. a post_id
 
+		'meta_query'       => false,        // filter on activity meta. See WP_Meta_Query for format
+
 		// Searching
 		'search_terms'     => false         // specify terms to search on
 	);
@@ -454,6 +457,7 @@ function bp_has_activities( $args = '' ) {
 		'in'               => $in,
 		'filter'           => $filter,
 		'search_terms'     => $search_terms,
+		'meta_query'       => $meta_query,
 		'display_comments' => $display_comments,
 		'show_hidden'      => $show_hidden,
 		'spam'             => $spam
