@@ -699,6 +699,8 @@ function bp_groups_admin_edit_metabox_add_new_members( $item ) {
 /**
  * Members metabox
  *
+ * @param obj $item The BP_Groups_Group object
+ *
  * @since BuddyPress (1.7)
  */
 function bp_groups_admin_edit_metabox_members( $item ) {
@@ -813,6 +815,14 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 							<input type="hidden" name="bp-groups-existing-role[<?php echo esc_attr( $type_user->user_id ); ?>]" value="<?php echo esc_attr( $member_type ); ?>" />
 						</td>
 					</tr>
+
+					<?php if ( has_filter( 'bp_groups_admin_manage_member_row' ) ) : ?>
+						<tr>
+							<td colspan="3">
+								<?php do_action( 'bp_groups_admin_manage_member_row', $type_user->user_id, $item ); ?>
+							</td>
+						</tr>
+					<?php endif; ?>
 
 				<?php endforeach; ?>
 
