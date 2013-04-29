@@ -207,7 +207,7 @@ jQuery( document ).ready( function() {
 				ui.draggable.hide( 'slow', function() {
 
 					// Select new tab as current
-					$tabs.tabs( 'select', $tab_items.index( $item ) );
+					$tabs.tabs( 'option', 'active', $tab_items.index( $item ) );
 
 					// Show new placement
 					jQuery(this).appendTo($list).show( 'slow' ).animate( {opacity: "1"}, 500 );
