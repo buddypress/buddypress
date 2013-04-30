@@ -534,5 +534,5 @@ function bp_is_akismet_active( $default = true ) {
  * @return string ID of the subtheme
  */
 function bp_get_theme_package_id( $default = 'legacy' ) {
-	return apply_filters( 'bp_get_theme_package_id', get_option( '_bp_theme_package_id', $default ) );
+	return apply_filters( 'bp_get_theme_package_id', bp_get_option( '_bp_theme_package_id', $default ) );
 }
