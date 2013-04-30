@@ -848,11 +848,16 @@ function bp_core_avatar_url() {
 		if ( defined( 'BP_AVATAR_URL' ) ) {
 			$baseurl = BP_AVATAR_URL;
 		} else {
+			// If multisite, and we're not on the BP root blog, switch to it
+			if ( is_multisite() ) {
+				switch_to_blog( bp_get_root_blog_id() );
+			}
+
 			// Get upload directory information from current site
 			$upload_dir = wp_upload_dir();
 
 			// Directory does not exist and cannot be created
-			if ( !empty( $upload_dir['error'] ) ) {
+			if ( ! empty( $upload_dir['error'] ) ) {
 				$baseurl = '';
 
 			} else {
@@ -862,10 +867,10 @@ function bp_core_avatar_url() {
 				if ( is_ssl() )
 					$baseurl = str_replace( 'http://', 'https://', $baseurl );
 
-				// If multisite, and current blog does not match root blog, make adjustments
-				if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
-					$baseurl = trailingslashit( get_blog_option( bp_get_root_blog_id(), 'home' ) ) . get_blog_option( bp_get_root_blog_id(), 'upload_path' );
 			}
+
+			// Will bail if not switched
+			restore_current_blog();
 		}
 
 		// Stash in $bp for later use
