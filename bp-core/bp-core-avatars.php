@@ -783,6 +783,98 @@ function bp_core_check_avatar_type($file) {
 }
 
 /**
+ * Fetches data from the BP root blog's upload directory.
+ *
+ * Handy for multisite instances because all uploads are made on the BP root
+ * blog and we need to query the BP root blog for the upload directory data.
+ *
+ * This function ensures that we only need to use {@link switch_to_blog()}
+ * once to get what we need.
+ *
+ * @since BuddyPress (1.8)
+ *
+ * @uses wp_upload_dir()
+ *
+ * @param string $type The variable we want to return from the $bp->avatars object.
+ *  Only 'upload_path' and 'url' are supported.
+ * @return string
+ */
+function bp_core_get_upload_dir( $type = 'upload_path' ) {
+	$bp = buddypress();
+
+	switch ( $type ) {
+		case 'upload_path' :
+			$constant = 'BP_AVATAR_UPLOAD_PATH';
+			$key      = 'basedir';
+
+			break;
+
+		case 'url' :
+			$constant = 'BP_AVATAR_URL';
+			$key      = 'baseurl';
+
+			break;
+
+		default :
+			return false;
+
+			break;
+	}
+
+	// See if the value has already been calculated and stashed in the $bp global
+	if ( isset( $bp->avatar->$type ) ) {
+		$retval = $bp->avatar->$type;
+	} else {
+		// If this value has been set in a constant, just use that
+		if ( defined( $constant ) ) {
+			$retval = constant( $constant );
+		} else {
+
+			// Use cached upload dir data if available
+			if ( ! empty( $bp->avatar->upload_dir ) ) {
+				$upload_dir = $bp->avatar->upload_dir;
+
+			// No cache, so query for it
+			} else {
+				// We need to switch to the root blog on multisite installs
+				if ( is_multisite() ) {
+					switch_to_blog( bp_get_root_blog_id() );
+				}
+
+				// Get upload directory information from current site
+				$upload_dir = wp_upload_dir();
+
+				// Will bail if not switched
+				restore_current_blog();
+
+				// Stash upload directory data for later use
+				$bp->avatar->upload_dir = $upload_dir;
+			}
+
+			// Directory does not exist and cannot be created
+			if ( ! empty( $upload_dir['error'] ) ) {
+				$retval = '';
+
+			} else {
+				$retval = $upload_dir[$key];
+
+				// If $key is 'baseurl', check to see if we're on SSL
+				// Workaround for WP13941, WP15928, WP19037.
+				if ( $key == 'baseurl' && is_ssl() ) {
+					$retval = str_replace( 'http://', 'https://', $retval );
+				}
+			}
+
+		}
+
+		// Stash in $bp for later use
+		$bp->avatar->$type = $retval;
+	}
+
+	return $retval;
+}
+
+/**
  * bp_core_avatar_upload_path()
  *
  * Returns the absolute upload path for the WP installation
@@ -791,41 +883,7 @@ function bp_core_check_avatar_type($file) {
  * @return string Absolute path to WP upload directory
  */
 function bp_core_avatar_upload_path() {
-	$bp = buddypress();
-
-	// See if the value has already been calculated and stashed in the $bp global
-	if ( isset( $bp->avatar->upload_path ) ) {
-		$basedir = $bp->avatar->upload_path;
-	} else {
-		// If this value has been set in a constant, just use that
-		if ( defined( 'BP_AVATAR_UPLOAD_PATH' ) ) {
-			$basedir = BP_AVATAR_UPLOAD_PATH;
-		} else {
-			if ( !bp_is_root_blog() ) {
-				// Switch dynamically in order to support BP_ENABLE_MULTIBLOG
-				switch_to_blog( bp_get_root_blog_id() );
-			}
-
-			// Get upload directory information from current site
-			$upload_dir = wp_upload_dir();
-
-			// Directory does not exist and cannot be created
-			if ( !empty( $upload_dir['error'] ) ) {
-				$basedir = '';
-
-			} else {
-				$basedir = $upload_dir['basedir'];
-			}
-
-			// Will bail if not switched
-			restore_current_blog();
-		}
-
-		// Stash in $bp for later use
-		$bp->avatar->upload_path = $basedir;
-	}
-
-	return apply_filters( 'bp_core_avatar_upload_path', $basedir );
+	return apply_filters( 'bp_core_avatar_upload_path', bp_core_get_upload_dir() );
 }
 
 /**
@@ -837,42 +895,7 @@ function bp_core_avatar_upload_path() {
  * @return string Full URL to current upload location
  */
 function bp_core_avatar_url() {
-	$bp = buddypress();
-
-	// See if the value has already been calculated and stashed in the $bp global
-	if ( isset( $bp->avatar->url ) ) {
-		$baseurl = $bp->avatar->url;
-
-	} else {
-		// If this value has been set in a constant, just use that
-		if ( defined( 'BP_AVATAR_URL' ) ) {
-			$baseurl = BP_AVATAR_URL;
-		} else {
-			// Get upload directory information from current site
-			$upload_dir = wp_upload_dir();
-
-			// Directory does not exist and cannot be created
-			if ( !empty( $upload_dir['error'] ) ) {
-				$baseurl = '';
-
-			} else {
-				$baseurl = $upload_dir['baseurl'];
-
-				// If we're using https, update the protocol. Workaround for WP13941, WP15928, WP19037.
-				if ( is_ssl() )
-					$baseurl = str_replace( 'http://', 'https://', $baseurl );
-
-				// If multisite, and current blog does not match root blog, make adjustments
-				if ( is_multisite() && bp_get_root_blog_id() != get_current_blog_id() )
-					$baseurl = trailingslashit( get_blog_option( bp_get_root_blog_id(), 'home' ) ) . get_blog_option( bp_get_root_blog_id(), 'upload_path' );
-			}
-		}
-
-		// Stash in $bp for later use
-		$bp->avatar->url = $baseurl;
-	}
-
-	return apply_filters( 'bp_core_avatar_url', $baseurl );
+	return apply_filters( 'bp_core_avatar_url', bp_core_get_upload_dir( 'url' ) );
 }
 
 /**
