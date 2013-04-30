@@ -45,7 +45,7 @@ BuddyPress includes full support for discussion forums. Each group created on yo
 
 = Can I use my existing WordPress theme? =
 
-Of course! BuddyPress should work with just about any WordPress theme out there! If you want more control, you can install the <a href="http://wordpress.org/extend/plugins/bp-template-pack/">BuddyPress Template Pack</a>, which will help you add the necessary templates to your existing theme.
+Of course! BuddyPress works out-of-the-box with nearly every WordPress theme.
 
 = Will this work on WordPress multisite? =
 
