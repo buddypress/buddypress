@@ -899,7 +899,7 @@ jq(document).ready( function() {
 	});
 
 	/* Add / Remove friendship buttons */
-	jq(".friendship-button a").on('click', function() {
+	jq('#members-dir-list').on('click', '.friendship-button a', function() {
 		jq(this).parent().addClass('loading');
 		var fid = jq(this).attr('id');
 		fid = fid.split('-');
@@ -949,7 +949,7 @@ jq(document).ready( function() {
 
 	/** Group Join / Leave Buttons **************************************/
 
-	jq(".group-button a").on('click', function() {
+	jq('#groups-dir-list').on('click', '.group-button a', function() {
 		var gid = jq(this).parent().attr('id');
 		gid = gid.split('-');
 		gid = gid[1];
