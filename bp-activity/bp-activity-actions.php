@@ -45,14 +45,13 @@ add_action( 'bp_init', 'bp_register_activity_actions', 8 );
  * @return bool False on failure
  */
 function bp_activity_action_permalink_router() {
-	global $bp;
 
 	// Not viewing activity
-	if ( !bp_is_activity_component() || !bp_is_current_action( 'p' ) )
+	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'p' ) )
 		return false;
 
 	// No activity to display
-	if ( !bp_action_variable( 0 ) || !is_numeric( bp_action_variable( 0 ) ) )
+	if ( ! bp_action_variable( 0 ) || ! is_numeric( bp_action_variable( 0 ) ) )
 		return false;
 
 	// Get the activity details
@@ -62,7 +61,6 @@ function bp_activity_action_permalink_router() {
 	if ( empty( $activity['activities'][0] ) ) {
 		bp_do_404();
 		return;
-
 	} else {
 		$activity = $activity['activities'][0];
 	}
@@ -71,10 +69,10 @@ function bp_activity_action_permalink_router() {
 	$redirect = false;
 
 	// Redirect based on the type of activity
-	if ( bp_is_active( 'groups' ) && $activity->component == $bp->groups->id ) {
+	if ( bp_is_active( 'groups' ) && $activity->component == buddypress()->groups->id ) {
 
 		// Activity is a user update
-		if ( !empty( $activity->user_id ) ) {
+		if ( ! empty( $activity->user_id ) ) {
 			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 
 		// Activity is something else
@@ -92,15 +90,16 @@ function bp_activity_action_permalink_router() {
 	}
 
 	// If set, add the original query string back onto the redirect URL
-	if ( !empty( $_SERVER['QUERY_STRING'] ) ) {
+	if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
 		$query_frags = array();
 		wp_parse_str( $_SERVER['QUERY_STRING'], $query_frags );
 		$redirect = add_query_arg( urlencode_deep( $query_frags ), $redirect );
 	}
 
 	// Allow redirect to be filtered
-	if ( !$redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) ) )
+	if ( ! $redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) ) ) {
 		bp_core_redirect( bp_get_root_domain() );
+	}
 
 	// Redirect to the actual activity permalink page
 	bp_core_redirect( $redirect );
