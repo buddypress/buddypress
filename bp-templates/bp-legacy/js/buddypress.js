@@ -986,7 +986,7 @@ jq(document).ready( function() {
 
 	/** Button disabling ************************************************/
 
-	jq('.pending').click(function() {
+	jq('#buddypress').on( 'click', '.pending', function() {
 		return false;
 	});
 
