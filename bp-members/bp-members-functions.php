@@ -1413,3 +1413,52 @@ function bp_core_wpsignup_redirect() {
 	bp_core_redirect( bp_get_signup_page() );
 }
 add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
+
+/**
+ * Stop a logged-in spammer from being able to access the site.
+ *
+ * When an admin marks a live user as a spammer, that user can still surf
+ * around and cause havoc on the site until that person is logged out.
+ *
+ * This code checks to see if a logged-in user is marked as a spammer.  If so,
+ * we kill access to the rest of the site.
+ *
+ * Runs on 'bp_init' at priority 5 so the members component globals are setup
+ * before we do our spammer checks.
+ *
+ * This is important as the $bp->loggedin_user object is setup at priority 4.
+ *
+ * @since BuddyPress (v1.8)
+ */
+function bp_stop_live_spammer() {
+	$bp = buddypress();
+
+	// user isn't logged in, so stop!
+	if ( empty( $bp->loggedin_user ) ) {
+		return;
+	}
+
+	// get logged-in userdata
+	$user = $bp->loggedin_user->userdata;
+
+	// setup spammer boolean
+	$spammer = false;
+
+	// multisite spammer
+	if ( ! empty( $user->spam ) ) {
+		$spammer = true;
+
+	// single site spammer
+	} elseif ( $user->user_status == 1 ) {
+		$spammer = true;
+	}
+
+	// if spammer, kills access to the site
+	if ( $spammer ) {
+		// the spammer will not be able to view any portion of the site whatsoever
+		// this is a good detterent as the user cannot re-register to the site easily
+		wp_die( __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
+		exit;
+	}
+}
+add_action( 'bp_init', 'bp_stop_live_spammer', 5 );
