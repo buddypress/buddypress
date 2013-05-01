@@ -1442,25 +1442,29 @@ class BP_Group_Extension {
 
 		// If admin/create names and slugs are not provided, they fall back on the main
 		// name and slug for the extension
-		if ( !$this->admin_name ) {
+		if ( ! $this->admin_name ) {
 			$this->admin_name = $this->name;
 		}
 
-		if ( !$this->admin_slug ) {
+		if ( ! $this->admin_slug ) {
 			$this->admin_slug = $this->slug;
 		}
 
-		if ( !$this->create_name ) {
+		if ( ! $this->create_name ) {
 			$this->create_name = $this->name;
 		}
 
-		if ( !$this->create_slug ) {
+		if ( ! $this->create_slug ) {
 			$this->create_slug = $this->slug;
 		}
 
-		if ( !empty( $this->enable_create_step ) ) {
+		if ( ! empty( $this->enable_create_step ) ) {
 			// Insert the group creation step for the new group extension
-			$bp->groups->group_creation_steps[$this->create_slug] = array( 'name' => $this->create_name, 'slug' => $this->create_slug, 'position' => $this->create_step_position );
+			$bp->groups->group_creation_steps[ $this->create_slug ] = array(
+				'name'     => $this->create_name,
+				'slug'     => $this->create_slug,
+				'position' => $this->create_step_position,
+			);
 
 			// Attach the group creation step display content action
 			add_action( 'groups_custom_create_steps', array( &$this, 'create_screen' ) );
@@ -1473,7 +1477,16 @@ class BP_Group_Extension {
 		if ( bp_is_group() ) {
 			if ( $this->visibility == 'public' || ( $this->visibility != 'public' && $bp->groups->current_group->user_has_access ) ) {
 				if ( $this->enable_nav_item ) {
-					bp_core_new_subnav_item( array( 'name' => ( !$this->nav_item_name ) ? $this->name : $this->nav_item_name, 'slug' => $this->slug, 'parent_slug' => $bp->groups->current_group->slug, 'parent_url' => bp_get_group_permalink( $bp->groups->current_group ), 'position' => $this->nav_item_position, 'item_css_id' => 'nav-' . $this->slug, 'screen_function' => array( &$this, '_display_hook' ), 'user_has_access' => $this->enable_nav_item ) );
+					bp_core_new_subnav_item( array(
+						'name' => !$this->nav_item_name ? $this->name : $this->nav_item_name,
+						'slug' => $this->slug,
+						'parent_slug' => $bp->groups->current_group->slug,
+						'parent_url' => bp_get_group_permalink( $bp->groups->current_group ),
+						'position' => $this->nav_item_position,
+						'item_css_id' => 'nav-' . $this->slug,
+						'screen_function' => array( &$this, '_display_hook' ),
+						'user_has_access' => $this->enable_nav_item
+					) );
 
 					// When we are viewing the extension display page, set the title and options title
 					if ( bp_is_current_action( $this->slug ) ) {
@@ -1483,14 +1496,20 @@ class BP_Group_Extension {
 				}
 
 				// Hook the group home widget
-				if ( !bp_current_action() && bp_is_current_action( 'home' ) )
+				if ( ! bp_current_action() && bp_is_current_action( 'home' ) ) {
 					add_action( $this->display_hook, array( &$this, 'widget_display' ) );
+				}
 			}
 		}
 
 		// Construct the admin edit tab for the new group extension
-		if ( !empty( $this->enable_edit_item ) && bp_is_item_admin() ) {
-			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug', '$selected = ""; if ( "' . esc_attr( $this->admin_slug ) . '" == $current ) $selected = " class=\"current\""; echo "<li{$selected}><a href=\"' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $this->admin_slug ) ) . '\">' . esc_attr( $this->admin_name ) . '</a></li>";' ), 10, 2 );
+		if ( ! empty( $this->enable_edit_item ) && bp_is_item_admin() ) {
+			add_action( 'groups_admin_tabs', create_function( '$current, $group_slug',
+				'$selected = "";
+				if ( "' . esc_attr( $this->admin_slug ) . '" == $current )
+					$selected = " class=\"current\"";
+				echo "<li{$selected}><a href=\"' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $this->admin_slug ) ) . '\">' . esc_attr( $this->admin_name ) . '</a></li>";'
+			), 10, 2 );
 
 			// Catch the edit screen and forward it to the plugin template
 			if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $this->admin_slug, 0 ) ) {
