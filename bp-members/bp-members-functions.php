@@ -654,11 +654,25 @@ function bp_is_user_spammer( $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		return false;
 
+	$bp = buddypress();
+
 	// Assume user is not spam
 	$is_spammer = false;
 
 	// Get user data
-	$user = get_userdata( $user_id );
+	switch ( $user_id ) {
+		case bp_loggedin_user_id() :
+			$user = $bp->loggedin_user->userdata;
+			break;
+
+		case bp_displayed_user_id() :
+			$user = $bp->displayed_user->userdata;
+			break;
+
+		default :
+			$user = get_userdata( $user_id );
+			break;
+	}
 
 	// No user found
 	if ( empty( $user ) ) {
@@ -1431,30 +1445,13 @@ add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
  * @since BuddyPress (v1.8)
  */
 function bp_stop_live_spammer() {
-	$bp = buddypress();
-
 	// user isn't logged in, so stop!
-	if ( empty( $bp->loggedin_user ) ) {
+	if ( ! is_user_logged_in() ) {
 		return;
 	}
 
-	// get logged-in userdata
-	$user = $bp->loggedin_user->userdata;
-
-	// setup spammer boolean
-	$spammer = false;
-
-	// multisite spammer
-	if ( ! empty( $user->spam ) ) {
-		$spammer = true;
-
-	// single site spammer
-	} elseif ( $user->user_status == 1 ) {
-		$spammer = true;
-	}
-
 	// if spammer, kills access to the site
-	if ( $spammer ) {
+	if ( bp_is_user_spammer( bp_loggedin_user_id() ) ) {
 		// the spammer will not be able to view any portion of the site whatsoever
 		// this is a good detterent as the user cannot re-register to the site easily
 		wp_die( __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
