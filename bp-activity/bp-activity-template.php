@@ -2463,7 +2463,7 @@ function bp_send_public_message_link() {
 		if ( bp_is_my_profile() || !is_user_logged_in() )
 			return false;
 
-		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_activity_slug() . '/?r=' . bp_core_get_username( bp_displayed_user_id(), bp_get_displayed_user_username(), $bp->displayed_user->userdata->user_login ) ) );
+		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_get_activity_directory_permalink() . '?r=' . bp_core_get_username( bp_displayed_user_id(), bp_get_displayed_user_username(), $bp->displayed_user->userdata->user_login ) ) );
 	}
 
 /**
