@@ -1466,11 +1466,13 @@ class BP_Group_Extension {
 				'position' => $this->create_step_position,
 			);
 
-			// Attach the group creation step display content action
-			add_action( 'groups_custom_create_steps', array( &$this, 'create_screen' ) );
-
-			// Attach the group creation step save content action
-			add_action( 'groups_create_group_step_save_' . $this->create_slug, array( &$this, 'create_screen_save' ) );
+			// The maybe_ methods check to see whether the create_*
+			// callbacks should be invoked (ie, are we on the
+			// correct group creation step). Hooked in separate
+			// methods because current creation step info not yet
+			// available at this point
+			add_action( 'groups_custom_create_steps', array( $this, 'maybe_create_screen' ) );
+			add_action( 'groups_create_group_step_save_' . $this->create_slug, array( $this, 'maybe_create_screen_save' ) );
 		}
 
 		// When we are viewing a single group, add the group extension nav item
@@ -1567,6 +1569,29 @@ class BP_Group_Extension {
 			$this->admin_metabox_priority
 		);
 	}
+
+	/**
+	 * Call the create_screen() method, if we're on the right page
+	 *
+	 * @since 1.8
+	 */
+	public function maybe_create_screen() {
+		if ( bp_is_group_creation_step( $this->slug ) ) {
+			$this->create_screen();
+		}
+	}
+
+	/**
+	 * Call the create_screen_save() method, if we're on the right page
+	 *
+	 * @since 1.8
+	 */
+	public function maybe_create_screen_save() {
+		if ( bp_is_group_creation_step( $this->slug ) ) {
+			$this->create_screen_save();
+		}
+	}
+
 }
 
 function bp_register_group_extension( $group_extension_class ) {
