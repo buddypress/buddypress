@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-01 04:35:16+00:00\n"
+"POT-Creation-Date: 2013-05-01 14:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,43 +12,43 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: bp-activity/bp-activity-actions.php:158
+#: bp-activity/bp-activity-actions.php:157
 msgid "Activity deleted successfully"
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:160
+#: bp-activity/bp-activity-actions.php:159
 msgid "There was an error when deleting that activity"
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:214
+#: bp-activity/bp-activity-actions.php:213
 msgid "The activity item has been marked as spam and is no longer visible."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:263
+#: bp-activity/bp-activity-actions.php:262
 #: bp-templates/bp-legacy/buddypress-functions.php:554
 #: bp-themes/bp-default/_inc/ajax.php:263
 msgid "Please enter some content to post."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:284
+#: bp-activity/bp-activity-actions.php:283
 msgid "Update Posted!"
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:286
+#: bp-activity/bp-activity-actions.php:285
 msgid "There was an error when posting your update, please try again."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:323
+#: bp-activity/bp-activity-actions.php:322
 #: bp-templates/bp-legacy/buddypress-functions.php:602
 #: bp-themes/bp-default/_inc/ajax.php:311
 msgid "Please do not leave the comment area blank."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:334
+#: bp-activity/bp-activity-actions.php:333
 msgid "Reply Posted!"
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:336
+#: bp-activity/bp-activity-actions.php:335
 #: bp-templates/bp-legacy/buddypress-functions.php:605
 #: bp-templates/bp-legacy/buddypress-functions.php:614
 #: bp-themes/bp-default/_inc/ajax.php:314
@@ -56,19 +56,19 @@ msgstr ""
 msgid "There was an error posting that reply, please try again."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:368
+#: bp-activity/bp-activity-actions.php:367
 msgid "Activity marked as favorite."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:370
+#: bp-activity/bp-activity-actions.php:369
 msgid "There was an error marking that activity as a favorite, please try again."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:402
+#: bp-activity/bp-activity-actions.php:401
 msgid "Activity removed as favorite."
 msgstr ""
 
-#: bp-activity/bp-activity-actions.php:404
+#: bp-activity/bp-activity-actions.php:403
 msgid "There was an error removing that activity as a favorite, please try again."
 msgstr ""
 
