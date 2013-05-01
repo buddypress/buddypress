@@ -1,3 +1,12 @@
+body.toplevel_page_bp-groups table.groups th#status,
+body.toplevel_page_bp-groups table.groups th#members {
+	width: 10%;
+}
+
+body.toplevel_page_bp-groups table.groups th#last_active {
+	width: 15%;
+}
+
 #bp-groups-edit-form input {
 	outline: medium none;
 	padding: 3px 8px;
