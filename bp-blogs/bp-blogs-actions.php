@@ -26,7 +26,7 @@ function bp_blogs_redirect_to_random_blog() {
 	// Multisite is active so find a random blog
 	if ( is_multisite() ) {
 		$blog = bp_blogs_get_random_blogs( 1, 1 );
-		bp_core_redirect( get_site_url( $blog['blogs'][0]->blog_id ) );
+		bp_core_redirect( get_home_url( $blog['blogs'][0]->blog_id ) );
 
 	// No multisite and still called, always redirect to root
 	} else {
