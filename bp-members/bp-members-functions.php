@@ -1451,13 +1451,18 @@ function bp_core_wpsignup_redirect() {
 add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
 
 /**
- * Stop a logged-in spammer from being able to access the site.
+ * Stop a logged-in user who is marked as a spammer.
  *
  * When an admin marks a live user as a spammer, that user can still surf
  * around and cause havoc on the site until that person is logged out.
  *
  * This code checks to see if a logged-in user is marked as a spammer.  If so,
- * we kill access to the rest of the site.
+ * we redirect the user back to wp-login.php with the 'reauth' parameter.
+ *
+ * This clears the logged-in spammer's cookies and will ask the spammer to
+ * reauthenticate.
+ *
+ * Note: A spammer cannot log back in - {@see bp_core_boot_spammer()}.
  *
  * Runs on 'bp_init' at priority 5 so the members component globals are setup
  * before we do our spammer checks.
@@ -1467,17 +1472,48 @@ add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
  * @since BuddyPress (v1.8)
  */
 function bp_stop_live_spammer() {
+	// if we're on the login page, stop now to prevent redirect loop
+	if ( strpos( $GLOBALS['pagenow'], 'wp-login.php' ) !== false ) {
+		return;
+	}
+
 	// user isn't logged in, so stop!
 	if ( ! is_user_logged_in() ) {
 		return;
 	}
 
-	// if spammer, kills access to the site
+	// if spammer, redirect to wp-login.php and reauthorize
 	if ( bp_is_user_spammer( bp_loggedin_user_id() ) ) {
-		// the spammer will not be able to view any portion of the site whatsoever
-		// this is a good detterent as the user cannot re-register to the site easily
-		wp_die( __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
-		exit;
+		// setup login args
+		$args = array(
+			// custom action used to throw an error message
+			'action' => 'bp-spam',
+
+			// reauthorize user to login
+			'reauth' => 1
+		);
+
+		// setup login URL
+		$login_url = apply_filters( 'bp_live_spammer_redirect', add_query_arg( $args, wp_login_url() ) );
+
+		// redirect user to login page
+		wp_redirect( $login_url );
+		die();
 	}
 }
 add_action( 'bp_init', 'bp_stop_live_spammer', 5 );
+
+/**
+ * Show a custom error message when a logged-in user is marked as a spammer.
+ *
+ * @since BuddyPress (v1.8)
+ */
+function bp_live_spammer_login_error() {
+	global $error;
+
+	$error = __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' );
+
+	// shake shake shake!
+	add_action( 'login_head', 'wp_shake_js', 12 );
+}
+add_action( 'login_form_bp-spam', 'bp_live_spammer_login_error' ); 
