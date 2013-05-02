@@ -659,19 +659,23 @@ function bp_is_user_spammer( $user_id = 0 ) {
 	// Assume user is not spam
 	$is_spammer = false;
 
-	// Get user data
+	// Setup our user
+	$user = false;
+
+	// Get locally-cached data if available
 	switch ( $user_id ) {
 		case bp_loggedin_user_id() :
-			$user = $bp->loggedin_user->userdata;
+			$user = ! empty( $bp->loggedin_user->userdata ) ? $bp->loggedin_user->userdata : false;
 			break;
 
 		case bp_displayed_user_id() :
-			$user = $bp->displayed_user->userdata;
+			$user = ! empty( $bp->displayed_user->userdata ) ? $bp->displayed_user->userdata : false;
 			break;
+	}
 
-		default :
-			$user = get_userdata( $user_id );
-			break;
+	// Manually get userdata if still empty
+	if ( empty( $user ) ) {
+		$user = get_userdata( $user_id );
 	}
 
 	// No user found
@@ -705,11 +709,29 @@ function bp_is_user_deleted( $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		return false;
 
+	$bp = buddypress();
+
 	// Assume user is not deleted
 	$is_deleted = false;
 
-	// Get user data
-	$user = get_userdata( $user_id );
+	// Setup our user
+	$user = false;
+
+	// Get locally-cached data if available
+	switch ( $user_id ) {
+		case bp_loggedin_user_id() :
+			$user = ! empty( $bp->loggedin_user->userdata ) ? $bp->loggedin_user->userdata : false;
+			break;
+
+		case bp_displayed_user_id() :
+			$user = ! empty( $bp->displayed_user->userdata ) ? $bp->displayed_user->userdata : false;
+			break;
+	}
+
+	// Manually get userdata if still empty
+	if ( empty( $user ) ) {
+		$user = get_userdata( $user_id );
+	}
 
 	// No user found
 	if ( empty( $user ) ) {
