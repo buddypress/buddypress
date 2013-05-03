@@ -1427,13 +1427,13 @@ class BP_Group_Extension {
 
 	function widget_display() {}
 
-	function edit_screen() {}
+	function edit_screen( $group_id = null ) {}
 
-	function edit_screen_save() {}
+	function edit_screen_save( $group_id = null ) {}
 
-	function create_screen() {}
+	function create_screen( $group_id = null ) {}
 
-	function create_screen_save() {}
+	function create_screen_save( $group_id = null ) {}
 
 	// Private Methods
 
@@ -1515,16 +1515,15 @@ class BP_Group_Extension {
 
 			// Catch the edit screen and forward it to the plugin template
 			if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $this->admin_slug, 0 ) ) {
-				// Check whether the user is saving changes
-				$this->edit_screen_save();
+				$this->edit_screen_save( bp_get_current_group_id() );
 
-				add_action( 'groups_custom_edit_steps', array( &$this, 'edit_screen' ) );
+				add_action( 'groups_custom_edit_steps', array( &$this, 'call_edit_screen' ) );
 
 				if ( '' != bp_locate_template( array( 'groups/single/home.php' ), false ) ) {
 					bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 				} else {
 					add_action( 'bp_template_content_header', create_function( '', 'echo "<ul class=\"content-header-nav\">"; bp_group_admin_tabs(); echo "</ul>";' ) );
-					add_action( 'bp_template_content', array( &$this, 'edit_screen' ) );
+					add_action( 'bp_template_content', array( &$this, 'call_edit_screen' ) );
 					bp_core_load_template( apply_filters( 'bp_core_template_plugin', '/groups/single/plugins' ) );
 				}
 			}
@@ -1571,13 +1570,25 @@ class BP_Group_Extension {
 	}
 
 	/**
+	 * Call the edit_screen() method
+	 *
+	 * Broken into a standalone method so we can pass the current group id
+	 * to edit_screen()
+	 *
+	 * @since 1.8
+	 */
+	public function call_edit_screen() {
+		$this->edit_screen( bp_get_current_group_id() );
+	}
+
+	/**
 	 * Call the create_screen() method, if we're on the right page
 	 *
 	 * @since 1.8
 	 */
 	public function maybe_create_screen() {
 		if ( bp_is_group_creation_step( $this->slug ) ) {
-			$this->create_screen();
+			$this->create_screen( bp_get_new_group_id() );
 		}
 	}
 
@@ -1588,7 +1599,7 @@ class BP_Group_Extension {
 	 */
 	public function maybe_create_screen_save() {
 		if ( bp_is_group_creation_step( $this->slug ) ) {
-			$this->create_screen_save();
+			$this->create_screen_save( bp_get_new_group_id() );
 		}
 	}
 
