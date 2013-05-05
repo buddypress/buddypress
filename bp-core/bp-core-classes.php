@@ -234,7 +234,7 @@ class BP_User_Query {
 				$this->uid_name = 'user_id';
 				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
 				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'total_friend_count' ) );
-				$sql['orderby'] = "ORDER BY u.meta_value";
+				$sql['orderby'] = "ORDER BY CONVERT(u.meta_value, SIGNED)";
 				$sql['order']   = "DESC";
 
 				break;

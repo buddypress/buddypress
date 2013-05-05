@@ -78,4 +78,26 @@ class BP_Tests_Core_Classes extends BP_UnitTestCase {
 		$friend_ids = wp_list_pluck( $friends, 'ID' );
 		$this->assertEquals( $friend_ids, array() );
 	}
+
+	public function test_bp_user_query_sort_by_popular() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$u3 = $this->create_user();
+		$u4 = $this->create_user();
+
+		bp_update_user_meta( $u1, bp_get_user_meta_key( 'total_friend_count' ), '5' );
+		bp_update_user_meta( $u2, bp_get_user_meta_key( 'total_friend_count' ), '90' );
+		bp_update_user_meta( $u3, bp_get_user_meta_key( 'total_friend_count' ), '101' );
+		bp_update_user_meta( $u4, bp_get_user_meta_key( 'total_friend_count' ), '3002' );
+
+		$q = new BP_User_Query( array(
+			'type' => 'popular',
+		) );
+
+		$users = is_array( $q->results ) ? array_values( $q->results ) : array();
+		$user_ids = wp_parse_id_list( wp_list_pluck( $users, 'ID' ) );
+
+		$expected = array( $u4, $u3, $u2, $u1 );
+		$this->assertEquals( $expected, $user_ids );
+	}
 }
