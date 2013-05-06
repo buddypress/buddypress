@@ -252,6 +252,7 @@ class BP_Legacy extends BP_Theme_Compat {
 			'accepted'          => __( 'Accepted', 'buddypress' ),
 			'rejected'          => __( 'Rejected', 'buddypress' ),
 			'show_all_comments' => __( 'Show all comments for this thread', 'buddypress' ),
+			'show_x_comments'   => __( 'Show all %d comments', 'buddypress' ),
 			'show_all'          => __( 'Show all', 'buddypress' ),
 			'comments'          => __( 'comments', 'buddypress' ),
 			'close'             => __( 'Close', 'buddypress' ),

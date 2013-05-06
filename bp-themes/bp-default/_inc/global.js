@@ -436,27 +436,35 @@ jq(document).ready( function() {
 				if ( response[0] + response[1] == '-1' ) {
 					form.append( jq( response.substr( 2, response.length ) ).hide().fadeIn( 200 ) );
 				} else {
+					var activity_comments = form.parent();
 					form.fadeOut( 200, function() {
-						if ( 0 == form.parent().children('ul').length ) {
-							if ( form.parent().hasClass('activity-comments') ) {
-								form.parent().prepend('<ul></ul>');
+						if ( 0 == activity_comments.children('ul').length ) {
+							if ( activity_comments.hasClass('activity-comments') ) {
+								activity_comments.prepend('<ul></ul>');
 							} else {
-								form.parent().append('<ul></ul>');
+								activity_comments.append('<ul></ul>');
 							}
 						}
 
 						/* Preceeding whitespace breaks output with jQuery 1.9.0 */
 						var the_comment = jq.trim( response );
 
-						form.parent().children('ul').append( jq( the_comment ).hide().fadeIn( 200 ) );
+						activity_comments.children('ul').append( jq( the_comment ).hide().fadeIn( 200 ) );
 						form.children('textarea').val('');
-						form.parent().parent().addClass('has-comments');
+						activity_comments.parent().addClass('has-comments');
 					} );
 
 					jq( 'form#' + form.attr('id') + ' textarea').val('');
 
 					/* Increase the "Reply (X)" button count */
 					jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
+
+					// Increment the 'Show all x comments' string, if present
+					var show_all_a = activity_comments.find('.show-all').find('a');
+					if ( show_all_a ) {
+						var new_count = jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html();
+						show_all_a.html( BP_DTheme.show_x_comments.replace( '%d', new_count ) );
+					}
 				}
 
 				jq(target).prop("disabled", false);
@@ -512,6 +520,12 @@ jq(document).ready( function() {
 					var count_span = jq('li#' + comment_li.parents('ul#activity-stream > li').attr('id') + ' a.acomment-reply span');
 					var new_count = count_span.html() - ( 1 + child_count );
 					count_span.html(new_count);
+	
+					// Change the 'Show all x comments' text
+					var show_all_a = comment_li.siblings('.show-all').find('a');
+					if ( show_all_a ) {
+						show_all_a.html( BP_DTheme.show_x_comments.replace( '%d', new_count ) );
+					}
 
 					/* If that was the last comment for the item, remove the has-comments class to clean up the styling */
 					if ( 0 == new_count ) {
@@ -1390,7 +1404,7 @@ function bp_dtheme_hide_comments() {
 				jq(this).toggle();
 
 				if ( !i )
-					jq(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + BP_DTheme.show_all_comments + '">' + BP_DTheme.show_all + ' ' + comment_count + ' ' + BP_DTheme.comments + '</a></li>' );
+					jq(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + BP_DTheme.show_all_comments + '">' + BP_DTheme.show_x_comments.replace( '%d', comment_count ) + '</a></li>' );
 			}
 		});
 
