@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-06 00:35:15+00:00\n"
+"POT-Creation-Date: 2013-05-06 01:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +25,7 @@ msgid "The activity item has been marked as spam and is no longer visible."
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:262
-#: bp-templates/bp-legacy/buddypress-functions.php:554
+#: bp-templates/bp-legacy/buddypress-functions.php:555
 #: bp-themes/bp-default/_inc/ajax.php:263
 msgid "Please enter some content to post."
 msgstr ""
@@ -39,7 +39,7 @@ msgid "There was an error when posting your update, please try again."
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:322
-#: bp-templates/bp-legacy/buddypress-functions.php:602
+#: bp-templates/bp-legacy/buddypress-functions.php:603
 #: bp-themes/bp-default/_inc/ajax.php:311
 msgid "Please do not leave the comment area blank."
 msgstr ""
@@ -49,8 +49,8 @@ msgid "Reply Posted!"
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:335
-#: bp-templates/bp-legacy/buddypress-functions.php:605
-#: bp-templates/bp-legacy/buddypress-functions.php:614
+#: bp-templates/bp-legacy/buddypress-functions.php:606
+#: bp-templates/bp-legacy/buddypress-functions.php:615
 #: bp-themes/bp-default/_inc/ajax.php:314
 #: bp-themes/bp-default/_inc/ajax.php:323
 msgid "There was an error posting that reply, please try again."
@@ -248,7 +248,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-admin.php:665 bp-activity/bp-activity-admin.php:1281
 #: bp-forums/bp-forums-template.php:1270 bp-groups/bp-groups-admin.php:1258
-#: bp-themes/bp-default/functions.php:507 bp-xprofile/bp-xprofile-admin.php:456
+#: bp-themes/bp-default/functions.php:508 bp-xprofile/bp-xprofile-admin.php:456
 #: bp-xprofile/bp-xprofile-loader.php:185
 #: bp-xprofile/bp-xprofile-loader.php:245
 msgid "Edit"
@@ -746,9 +746,9 @@ msgstr ""
 #: bp-core/admin/bp-core-slugs.php:109 bp-core/admin/bp-core-slugs.php:172
 #: bp-core/bp-core-loader.php:226 bp-members/bp-members-loader.php:172
 #: bp-members/bp-members-template.php:625
-#: bp-templates/bp-legacy/buddypress-functions.php:258
+#: bp-templates/bp-legacy/buddypress-functions.php:259
 #: bp-themes/bp-default/activity/entry.php:37
-#: bp-themes/bp-default/functions.php:165
+#: bp-themes/bp-default/functions.php:166
 #: bp-xprofile/bp-xprofile-loader.php:175
 #: bp-xprofile/bp-xprofile-loader.php:237
 msgid "View"
@@ -2096,7 +2096,7 @@ msgstr ""
 
 #: bp-core/deprecated/1.5.php:149
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:15
-#: bp-themes/bp-default/functions.php:641
+#: bp-themes/bp-default/functions.php:642
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
@@ -2109,7 +2109,7 @@ msgstr ""
 
 #: bp-core/deprecated/1.5.php:167
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:33
-#: bp-themes/bp-default/functions.php:645
+#: bp-themes/bp-default/functions.php:646
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
@@ -2441,7 +2441,7 @@ msgid "You already have a pending friendship request with this user"
 msgstr ""
 
 #: bp-friends/bp-friends-actions.php:70
-#: bp-templates/bp-legacy/buddypress-functions.php:889
+#: bp-templates/bp-legacy/buddypress-functions.php:890
 #: bp-themes/bp-default/_inc/ajax.php:605
 msgid "Friendship could not be canceled."
 msgstr ""
@@ -2618,7 +2618,7 @@ msgid "%d friends"
 msgstr ""
 
 #: bp-friends/bp-friends-template.php:285
-#: bp-templates/bp-legacy/buddypress-functions.php:901
+#: bp-templates/bp-legacy/buddypress-functions.php:902
 #: bp-themes/bp-default/_inc/ajax.php:617
 msgid "Cancel Friendship Request"
 msgstr ""
@@ -2634,8 +2634,8 @@ msgstr ""
 
 #: bp-friends/bp-friends-template.php:319
 #: bp-friends/bp-friends-template.php:320
-#: bp-templates/bp-legacy/buddypress-functions.php:891
-#: bp-templates/bp-legacy/buddypress-functions.php:909
+#: bp-templates/bp-legacy/buddypress-functions.php:892
+#: bp-templates/bp-legacy/buddypress-functions.php:910
 #: bp-themes/bp-default/_inc/ajax.php:607
 #: bp-themes/bp-default/_inc/ajax.php:625
 msgid "Add Friend"
@@ -3190,7 +3190,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-loader.php:427 bp-groups/bp-groups-template.php:1775
 #: bp-groups/bp-groups-template.php:1776
-#: bp-templates/bp-legacy/buddypress-functions.php:1008
+#: bp-templates/bp-legacy/buddypress-functions.php:1009
 #: bp-themes/bp-default/_inc/ajax.php:724
 msgid "Request Membership"
 msgstr ""
@@ -3642,13 +3642,13 @@ msgid "This group has no moderators"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1734 bp-groups/bp-groups-template.php:1735
-#: bp-templates/bp-legacy/buddypress-functions.php:987
+#: bp-templates/bp-legacy/buddypress-functions.php:988
 #: bp-themes/bp-default/_inc/ajax.php:703
 msgid "Leave Group"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1757 bp-groups/bp-groups-template.php:1758
-#: bp-templates/bp-legacy/buddypress-functions.php:1006
+#: bp-templates/bp-legacy/buddypress-functions.php:1007
 #: bp-themes/bp-default/_inc/ajax.php:722
 msgid "Join Group"
 msgstr ""
@@ -3989,7 +3989,7 @@ msgid "There was an error deleting messages."
 msgstr ""
 
 #: bp-messages/bp-messages-actions.php:91
-#: bp-templates/bp-legacy/buddypress-functions.php:1167
+#: bp-templates/bp-legacy/buddypress-functions.php:1168
 #: bp-themes/bp-default/_inc/ajax.php:871
 msgid "Messages deleted."
 msgstr ""
@@ -4179,8 +4179,8 @@ msgstr ""
 #: bp-messages/bp-messages-template.php:607
 #: bp-templates/bp-legacy/buddypress/members/register.php:166
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:130
-#: bp-templates/bp-legacy/buddypress-functions.php:257
-#: bp-themes/bp-default/functions.php:164
+#: bp-templates/bp-legacy/buddypress-functions.php:258
+#: bp-themes/bp-default/functions.php:165
 #: bp-themes/bp-default/members/single/profile/edit.php:130
 #: bp-themes/bp-default/registration/register.php:171
 msgid "Close"
@@ -4199,7 +4199,7 @@ msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:924
-#: bp-templates/bp-legacy/buddypress-functions.php:1073
+#: bp-templates/bp-legacy/buddypress-functions.php:1074
 #: bp-themes/bp-default/_inc/ajax.php:777
 msgid "Sent %s"
 msgstr ""
@@ -4298,24 +4298,24 @@ msgid "Mark as Favorite"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/activity/entry.php:66
-#: bp-templates/bp-legacy/buddypress-functions.php:259
-#: bp-templates/bp-legacy/buddypress-functions.php:764
-#: bp-templates/bp-legacy/buddypress-functions.php:781
+#: bp-templates/bp-legacy/buddypress-functions.php:260
+#: bp-templates/bp-legacy/buddypress-functions.php:765
+#: bp-templates/bp-legacy/buddypress-functions.php:782
 #: bp-themes/bp-default/_inc/ajax.php:481
 #: bp-themes/bp-default/_inc/ajax.php:498
 #: bp-themes/bp-default/activity/entry.php:68
-#: bp-themes/bp-default/functions.php:166
+#: bp-themes/bp-default/functions.php:167
 msgid "Favorite"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/activity/entry.php:70
-#: bp-templates/bp-legacy/buddypress-functions.php:260
-#: bp-templates/bp-legacy/buddypress-functions.php:762
-#: bp-templates/bp-legacy/buddypress-functions.php:783
+#: bp-templates/bp-legacy/buddypress-functions.php:261
+#: bp-templates/bp-legacy/buddypress-functions.php:763
+#: bp-templates/bp-legacy/buddypress-functions.php:784
 #: bp-themes/bp-default/_inc/ajax.php:479
 #: bp-themes/bp-default/_inc/ajax.php:500
 #: bp-themes/bp-default/activity/entry.php:72
-#: bp-themes/bp-default/functions.php:167
+#: bp-themes/bp-default/functions.php:168
 msgid "Remove Favorite"
 msgstr ""
 
@@ -4861,7 +4861,7 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/groups/create.php:222
 #: bp-templates/bp-legacy/buddypress/groups/single/send-invites.php:42
-#: bp-templates/bp-legacy/buddypress-functions.php:853
+#: bp-templates/bp-legacy/buddypress-functions.php:854
 #: bp-themes/bp-default/_inc/ajax.php:570
 #: bp-themes/bp-default/groups/create.php:229
 #: bp-themes/bp-default/groups/single/send-invites.php:42
@@ -5532,92 +5532,97 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress-functions.php:255
 #: bp-themes/bp-default/functions.php:162
-msgid "Show all"
+msgid "Show all %d comments"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress-functions.php:256
 #: bp-themes/bp-default/functions.php:163
+msgid "Show all"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress-functions.php:257
+#: bp-themes/bp-default/functions.php:164
 msgid "comments"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:569
+#: bp-templates/bp-legacy/buddypress-functions.php:570
 #: bp-themes/bp-default/_inc/ajax.php:278
 msgid "There was a problem posting your update, please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:663
-#: bp-templates/bp-legacy/buddypress-functions.php:699
+#: bp-templates/bp-legacy/buddypress-functions.php:664
+#: bp-templates/bp-legacy/buddypress-functions.php:700
 #: bp-themes/bp-default/_inc/ajax.php:380
 #: bp-themes/bp-default/_inc/ajax.php:416
 msgid "There was a problem when deleting. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:899
+#: bp-templates/bp-legacy/buddypress-functions.php:900
 #: bp-themes/bp-default/_inc/ajax.php:615
 msgid " Friendship could not be requested."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:911
+#: bp-templates/bp-legacy/buddypress-functions.php:912
 #: bp-themes/bp-default/_inc/ajax.php:627
 msgid "Friendship request could not be cancelled."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:916
+#: bp-templates/bp-legacy/buddypress-functions.php:917
 #: bp-themes/bp-default/_inc/ajax.php:632
 msgid "Request Pending"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:936
+#: bp-templates/bp-legacy/buddypress-functions.php:937
 #: bp-themes/bp-default/_inc/ajax.php:652
 msgid "There was a problem accepting that request. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:955
+#: bp-templates/bp-legacy/buddypress-functions.php:956
 #: bp-themes/bp-default/_inc/ajax.php:671
 msgid "There was a problem rejecting that request. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:985
+#: bp-templates/bp-legacy/buddypress-functions.php:986
 #: bp-themes/bp-default/_inc/ajax.php:701
 msgid "Error joining group"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:994
+#: bp-templates/bp-legacy/buddypress-functions.php:995
 #: bp-themes/bp-default/_inc/ajax.php:710
 msgid "Error requesting membership"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:996
+#: bp-templates/bp-legacy/buddypress-functions.php:997
 #: bp-themes/bp-default/_inc/ajax.php:712
 msgid "Membership Requested"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1004
+#: bp-templates/bp-legacy/buddypress-functions.php:1005
 #: bp-themes/bp-default/_inc/ajax.php:720
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1027
+#: bp-templates/bp-legacy/buddypress-functions.php:1028
 #: bp-themes/bp-default/_inc/ajax.php:743
 msgid "There was a problem closing the notice."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1090
+#: bp-templates/bp-legacy/buddypress-functions.php:1091
 #: bp-themes/bp-default/_inc/ajax.php:794
 msgid "There was a problem sending that reply. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1108
+#: bp-templates/bp-legacy/buddypress-functions.php:1109
 #: bp-themes/bp-default/_inc/ajax.php:812
 msgid "There was a problem marking messages as unread."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1133
+#: bp-templates/bp-legacy/buddypress-functions.php:1134
 #: bp-themes/bp-default/_inc/ajax.php:837
 msgid "There was a problem marking messages as read."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1158
+#: bp-templates/bp-legacy/buddypress-functions.php:1159
 #: bp-themes/bp-default/_inc/ajax.php:862
 msgid "There was a problem deleting messages."
 msgstr ""
@@ -5763,78 +5768,78 @@ msgstr ""
 msgid "Primary Navigation"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:389
+#: bp-themes/bp-default/functions.php:390
 msgid "The sidebar widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:398
+#: bp-themes/bp-default/functions.php:399
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:400
+#: bp-themes/bp-default/functions.php:401
 msgid "The first footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:409
+#: bp-themes/bp-default/functions.php:410
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:411
+#: bp-themes/bp-default/functions.php:412
 msgid "The second footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:420
+#: bp-themes/bp-default/functions.php:421
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:422
+#: bp-themes/bp-default/functions.php:423
 msgid "The third footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:431
+#: bp-themes/bp-default/functions.php:432
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:433
+#: bp-themes/bp-default/functions.php:434
 msgid "The fourth footer widget area"
 msgstr ""
 
 #. translators: 1: comment author url, 2: comment author name, 3: comment
 #. permalink, 4: comment date/timestamp
 
-#: bp-themes/bp-default/functions.php:488
+#: bp-themes/bp-default/functions.php:489
 msgid "<a href=\"%1$s\" rel=\"nofollow\">%2$s</a> said on <a href=\"%3$s\"><span class=\"time-since\">%4$s</span></a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:495
+#: bp-themes/bp-default/functions.php:496
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:507
+#: bp-themes/bp-default/functions.php:508
 msgid "Edit comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:577
+#: bp-themes/bp-default/functions.php:578
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:643
+#: bp-themes/bp-default/functions.php:644
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:653
+#: bp-themes/bp-default/functions.php:654
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:654
+#: bp-themes/bp-default/functions.php:655
 msgid "Leave a reply"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:741
+#: bp-themes/bp-default/functions.php:742
 msgid "&larr; Previous Entries"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:742
+#: bp-themes/bp-default/functions.php:743
 msgid "Next Entries &rarr;"
 msgstr ""
 
