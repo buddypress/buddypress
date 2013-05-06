@@ -47,9 +47,11 @@ class BP_Groups_Widget extends WP_Widget {
 		if ( empty( $instance['title'] ) )
 			$instance['title'] = __( 'Groups', 'buddypress' );
 
+		$title = apply_filters( 'widget_title', $instance['title'] );
+
 		echo $before_widget;
 
-		$title = !empty( $instance['link_title'] ) ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) . '">' . $instance['title'] . '</a>' : $instance['title'];
+		$title = !empty( $instance['link_title'] ) ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) . '">' . $title . '</a>' : $title;
 
 		echo $before_title . $title . $after_title; ?>
 

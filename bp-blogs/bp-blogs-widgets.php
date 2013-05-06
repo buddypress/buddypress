@@ -29,6 +29,8 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 		extract( $args );
 
+		$widget_name = apply_filters( 'widget_title', $widget_name );
+
 		echo $before_widget;
 		echo $before_title . $widget_name . $after_title;
 

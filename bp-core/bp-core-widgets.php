@@ -34,9 +34,11 @@ class BP_Core_Members_Widget extends WP_Widget {
 		if ( !$instance['member_default'] )
 			$instance['member_default'] = 'active';
 
+		$title = apply_filters( 'widget_title', $instance['title'] );
+
 		echo $before_widget;
 
-		$title = $instance['link_title'] ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) . '">' . $instance['title'] . '</a>' : $instance['title'];
+		$title = $instance['link_title'] ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) . '">' . $title . '</a>' : $title;
 
 		echo $before_title
 		   . $title
@@ -155,11 +157,13 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 	function widget($args, $instance) {
 
-	    extract( $args );
+		extract( $args );
+
+		$title = apply_filters( 'widget_title', $instance['title'] );
 
 		echo $before_widget;
 		echo $before_title
-		   . $instance['title']
+		   . $title
 		   . $after_title; ?>
 
 		<?php if ( bp_has_members( 'user_id=0&type=online&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=1' ) ) : ?>
@@ -224,9 +228,11 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 
 		extract( $args );
 
+		$title = apply_filters( 'widget_title', $instance['title'] );
+
 		echo $before_widget;
 		echo $before_title
-		   . $instance['title']
+		   . $title
 		   . $after_title; ?>
 
 		<?php if ( bp_has_members( 'user_id=0&type=active&per_page=' . $instance['max_members'] . '&max=' . $instance['max_members'] . '&populate_extras=1' ) ) : ?>
