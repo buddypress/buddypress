@@ -100,4 +100,54 @@ class BP_Tests_Core_Classes extends BP_UnitTestCase {
 		$expected = array( $u4, $u3, $u2, $u1 );
 		$this->assertEquals( $expected, $user_ids );
 	}
+
+	public function test_bp_user_query_search_with_apostrophe() {
+		// Apostrophe. Search_terms must escaped to mimic POST payload
+		$user_id = $this->create_user();
+		xprofile_set_field_data( 1, $user_id, "Foo'Bar" );
+		$q = new BP_User_Query( array( 'search_terms' => "oo\'Ba", ) );
+
+		$found_user_id = null;
+		if ( ! empty( $q->results ) ) {
+			$found_user = array_pop( $q->results );
+			$found_user_id = $found_user->ID;
+		}
+
+		$this->assertEquals( $user_id, $found_user_id );
+	}
+
+	public function test_bp_user_query_search_with_percent_sign() {
+
+		// LIKE special character: %
+		$user_id = $this->create_user();
+		xprofile_set_field_data( 1, $user_id, "Foo%Bar" );
+		$q = new BP_User_Query( array( 'search_terms' => "oo%Bar", ) );
+
+		$found_user_id = null;
+		if ( ! empty( $q->results ) ) {
+			$found_user = array_pop( $q->results );
+			$found_user_id = $found_user->ID;
+		}
+
+		$this->assertEquals( $user_id, $found_user_id );
+
+	}
+
+	public function test_bp_user_query_search_with_underscore() {
+
+		// LIKE special character: _
+		$user_id = $this->create_user();
+		xprofile_set_field_data( 1, $user_id, "Foo_Bar" );
+		$q = new BP_User_Query( array( 'search_terms' => "oo_Bar", ) );
+
+		$found_user_id = null;
+		if ( ! empty( $q->results ) ) {
+			$found_user = array_pop( $q->results );
+			$found_user_id = $found_user->ID;
+		}
+
+		$this->assertEquals( $user_id, $found_user_id );
+
+	}
+
 }
