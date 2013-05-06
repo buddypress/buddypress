@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-06 01:35:15+00:00\n"
+"POT-Creation-Date: 2013-05-06 13:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4377,8 +4377,11 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/activity/index.php:57
 #: bp-themes/bp-default/activity/index.php:77
-msgid "<span>%s new</span>"
-msgstr ""
+msgctxt "Number of new activity mentions"
+msgid "%s new"
+msgid_plural "%s new"
+msgstr[0] ""
+msgstr[1] ""
 
 #: bp-templates/bp-legacy/buddypress/activity/index.php:67
 #: bp-templates/bp-legacy/buddypress/groups/single/activity.php:3
