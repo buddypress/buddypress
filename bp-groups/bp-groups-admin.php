@@ -621,6 +621,10 @@ function bp_groups_admin_index() {
 		<h2>
 			<?php _e( 'Groups', 'buddypress' ); ?>
 
+			<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
+				<a class="add-new-h2" href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create' ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
+			<?php endif; ?>
+
 			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
 				<span class="subtitle"><?php printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) ); ?></span>
 			<?php endif; ?>
