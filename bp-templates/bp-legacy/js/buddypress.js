@@ -510,7 +510,9 @@ jq(document).ready( function() {
 						if ( !jq(this).is(':hidden') )
 							child_count++;
 					});
-					comment_li.fadeOut(200);
+					comment_li.fadeOut(200, function() {
+						comment_li.remove();
+					});
 
 					/* Decrease the "Reply (X)" button count */
 					var count_span = jq('#' + comment_li.parents('#activity-stream > li').attr('id') + ' a.acomment-reply span');
