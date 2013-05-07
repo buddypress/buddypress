@@ -845,7 +845,7 @@ class BP_XProfile_Field {
 
 			<?php endif; ?>
 
-			<form action="<?php echo esc_url( $action ); ?>" method="post">
+			<form id="bp-xprofile-add-field" action="<?php echo esc_url( $action ); ?>" method="post">
 				<div id="poststuff">
 					<div id="titlediv">
 						<h3><label for="title"><?php _e( 'Field Title', 'buddypress' ); ?> *</label></h3>

@@ -109,6 +109,9 @@ function destroySortableFieldOptions() {
 
 jQuery( document ).ready( function() {
 
+	// Set focus in Field Title, if we're on the right page
+	jQuery( '#bp-xprofile-add-field #title' ).focus();
+	
 	// Set up deleting options ajax
 	jQuery( 'a.ajax-option-delete' ).on( 'click', function() {
 		var theId = this.id.split( '-' );
