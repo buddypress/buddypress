@@ -136,6 +136,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * last_activity usermeta set right away, so that the user shows up in
 	 * directory queries. This is a shorthand wrapper for the user factory
 	 * create() method.
+	 *
+	 * Also set a display name
 	 */
 	function create_user( $args = array() ) {
 		$r = wp_parse_args( $args, array(
@@ -149,6 +151,11 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$user_id = $this->factory->user->create( $args );
 
 		update_user_meta( $user_id, 'last_activity', $last_activity );
+
+		if ( bp_is_active( 'xprofile' ) ) {
+			$user = new WP_User( $user_id );
+			xprofile_set_field_data( 1, $user_id, $user->display_name );
+		}
 
 		return $user_id;
 	}
