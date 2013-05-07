@@ -115,7 +115,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 								<?php if ( $group->can_delete ) : ?>
 
-									<a class="submitdelete deletion ajax-option-delete" href="admin.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo esc_attr( $group->id ); ?>"><?php _e( 'Delete Group', 'buddypress' ); ?></a>
+									<a class="confirm submitdelete deletion ajax-option-delete" href="admin.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo esc_attr( $group->id ); ?>"><?php _e( 'Delete Group', 'buddypress' ); ?></a>
 
 								<?php endif; ?>
 
@@ -457,7 +457,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 
 				<?php if ( $field->can_delete ) : ?>
 
-					<a class="submit-delete deletion" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a>
+					<a class="confirm submit-delete deletion" href="admin.php?page=bp-profile-setup&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a>
 
 				<?php endif; ?>
 			</div>
