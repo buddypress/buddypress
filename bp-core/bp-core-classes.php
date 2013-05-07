@@ -836,7 +836,7 @@ class BP_Core_User {
 		}
 
 		if ( !empty( $search_terms ) && bp_is_active( 'xprofile' ) ) {
-			$search_terms             = like_escape( $wpdb->escape( $search_terms ) );
+			$search_terms             = esc_sql( like_escape( trim( $search_terms ) ) );
 			$sql['where_searchterms'] = "AND spd.value LIKE '%%$search_terms%%'";
 		}
 
@@ -953,10 +953,16 @@ class BP_Core_User {
 			}
 		}
 
-		$letter     = like_escape( $wpdb->escape( $letter ) );
+		$letter     = esc_sql( like_escape( trim( $letter ) ) );
 		$status_sql = bp_core_get_status_sql( 'u.' );
 
-		$exclude_sql = ( !empty( $exclude ) ) ? " AND u.ID NOT IN ({$exclude})" : "";
+		if ( !empty( $exclude ) ) {
+			$exclude     = wp_parse_id_list( $r['exclude'] );
+			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude_sql = " AND u.id NOT IN ({$exclude})";
+		} else {
+			$exclude_sql = '';
+		}
 
 		$total_users_sql = apply_filters( 'bp_core_users_by_letter_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE '{$letter}%%'  ORDER BY pd.value ASC", bp_xprofile_fullname_field_name() ) );
 		$paged_users_sql = apply_filters( 'bp_core_users_by_letter_sql',       $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE '{$letter}%%' ORDER BY pd.value ASC{$pag_sql}", bp_xprofile_fullname_field_name() ) );
@@ -1045,7 +1051,7 @@ class BP_Core_User {
 		$user_ids = array();
 		$pag_sql  = $limit && $page ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) ) : '';
 
-		$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+		$search_terms = esc_sql( like_escape( trim( $search_terms ) ) );
 		$status_sql   = bp_core_get_status_sql( 'u.' );
 
 		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', "SELECT COUNT(DISTINCT u.ID) as id FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE '%%{$search_terms}%%' ORDER BY pd.value ASC", $search_terms );

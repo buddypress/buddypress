@@ -124,7 +124,7 @@ function bp_dtheme_ajax_querystring( $query_string, $object ) {
 
 	// If page and search_terms have been passed via the AJAX post request, use those.
 	if ( ! empty( $_POST['page'] ) && '-1' != $_POST['page'] )
-		$qs[] = 'page=' . $_POST['page'];
+		$qs[] = 'page=' . absint( $_POST['page'] );
 
 	$object_search_text = bp_get_search_default_text( $object );
  	if ( ! empty( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] )

@@ -221,7 +221,7 @@ class BP_Groups_Group {
 		if ( empty( $user_id ) )
 			$user_id = bp_displayed_user_id();
 
-		$filter = like_escape( $wpdb->escape( $filter ) );
+		$filter = esc_sql( like_escape( $filter ) );
 
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -240,18 +240,21 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * @todo Deprecate in favor of get()
+	 */
 	function search_groups( $filter, $limit = null, $page = null, $sort_by = false, $order = false ) {
 		global $wpdb, $bp;
 
-		$filter = like_escape( $wpdb->escape( $filter ) );
+		$filter = esc_sql( like_escape( $filter ) );
 
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !empty( $sort_by ) && !empty( $order ) ) {
-			$sort_by   = $wpdb->escape( $sort_by );
-			$order     = $wpdb->escape( $order );
-			$order_sql = "ORDER BY $sort_by $order";
+			$sort_by   = esc_sql( $sort_by );
+			$order     = esc_sql( $order );
+			$order_sql = "ORDER BY {$sort_by} {$order}";
 		}
 
 		if ( !bp_current_user_can( 'bp_moderate' ) )
@@ -363,7 +366,7 @@ class BP_Groups_Group {
 			$sql['hidden'] = " AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+			$search_terms = esc_sql( like_escape( $search_terms ) );
 			$sql['search'] = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
@@ -371,18 +374,14 @@ class BP_Groups_Group {
 			$sql['user'] = $wpdb->prepare( " AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id );
 
 		if ( !empty( $include ) ) {
-			if ( is_array( $include ) )
-				$include = implode( ',', $include );
-
-			$include = $wpdb->escape( $include );
+			$include        = wp_parse_id_list( $r['include'] );
+			$include        = $wpdb->escape( implode( ',', $include ) );
 			$sql['include'] = " AND g.id IN ({$include})";
 		}
 
 		if ( !empty( $exclude ) ) {
-			if ( is_array( $exclude ) )
-				$exclude = implode( ',', $exclude );
-
-			$exclude = $wpdb->escape( $exclude );
+			$exclude        = wp_parse_id_list( $r['exclude'] );
+			$exclude        = $wpdb->escape( implode( ',', $exclude ) );
 			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
 		}
 
@@ -479,17 +478,18 @@ class BP_Groups_Group {
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+			$search_terms = esc_sql( like_escape( trim( $search_terms ) ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
 		if ( !empty( $exclude ) ) {
-			$exclude = $wpdb->escape( $exclude );
+			$exclude     = wp_parse_id_list( $exclude );
+			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		}
 
 		if ( !empty( $user_id ) ) {
-			$user_id = $wpdb->escape( $user_id );
+			$user_id      = absint( $wpdb->escape( $user_id ) );
 			$paged_groups = $wpdb->get_results( "SELECT DISTINCT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_groupmeta} gm3, {$bp->groups->table_name_members} m, {$bbdb->forums} f, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND g.id = gm3.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND (gm3.meta_key = 'forum_id' AND gm3.meta_value = f.forum_id) AND f.topics > 0 {$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql} ORDER BY f.topics DESC {$pag_sql}" );
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_groupmeta} gm3, {$bbdb->forums} f, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND g.id = gm3.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND (gm3.meta_key = 'forum_id' AND gm3.meta_value = f.forum_id) AND f.topics > 0 {$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql}" );
 		} else {
@@ -520,12 +520,13 @@ class BP_Groups_Group {
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+			$search_terms = esc_sql( like_escape( trim( $search_terms ) ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
 		if ( !empty( $exclude ) ) {
-			$exclude = $wpdb->escape( $exclude );
+			$exclude     = wp_parse_id_list( $exclude );
+			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		}
 
@@ -562,14 +563,15 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $exclude ) ) {
-			$exclude = $wpdb->escape( $exclude );
+			$exclude     = wp_parse_id_list( $exclude );
+			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		}
 
 		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = " AND status != 'hidden'";
 
-		$letter = like_escape( $wpdb->escape( $letter ) );
+		$letter = esc_sql( like_escape( $letter ) );
 
 		if ( !empty( $limit ) && !empty( $page ) ) {
 			$pag_sql      = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -601,12 +603,13 @@ class BP_Groups_Group {
 			$hidden_sql = "AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+			$search_terms = esc_sql( like_escape( trim( $search_terms ) ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
 		if ( !empty( $exclude ) ) {
-			$exclude = $wpdb->escape( $exclude );
+			$exclude     = wp_parse_id_list( $exclude );
+			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		}
 
@@ -633,6 +636,10 @@ class BP_Groups_Group {
 
 		if ( empty( $group_ids ) )
 			return $paged_groups;
+
+		// Sanitize group IDs
+		$group_ids = wp_parse_id_list( $group_ids );
+		$group_ids = implode( ',', $group_ids );
 
 		// Fetch the logged in users status within each group
 		$user_status = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_confirmed = 1 AND is_banned = 0", bp_loggedin_user_id() ) );
@@ -735,8 +742,8 @@ class BP_Groups_Group {
 		$sql['from']   = "FROM {$bbdb->topics} AS t INNER JOIN {$bp->groups->table_name_groupmeta} AS gm ON t.forum_id = gm.meta_value INNER JOIN {$bp->groups->table_name} AS g ON gm.group_id = g.id";
 		$sql['where']  = "WHERE gm.meta_key = 'forum_id' {$status_sql} AND t.topic_status = '0' AND t.topic_sticky != '2'";
 
-		if ( $search_terms ) {
-			$st = like_escape( $search_terms );
+		if ( !empty( $search_terms ) ) {
+			$st = esc_sql( like_escape( $search_terms ) );
 			$sql['where'] .= " AND (  t.topic_title LIKE '%{$st}%' )";
 		}
 
@@ -997,7 +1004,7 @@ class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !empty( $filter ) ) {
-			$filter = like_escape( $wpdb->escape( $filter ) );
+			$filter     = esc_sql( like_escape( $filter ) );
 			$filter_sql = " AND ( g.name LIKE '%%{$filter}%%' OR g.description LIKE '%%{$filter}%%' )";
 		}
 
@@ -1019,7 +1026,7 @@ class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !empty( $filter ) ) {
-			$filter = like_escape( $wpdb->escape( $filter ) );
+			$filter     = esc_sql( like_escape( $filter ) );
 			$filter_sql = " AND ( g.name LIKE '%%{$filter}%%' OR g.description LIKE '%%{$filter}%%' )";
 		}
 
@@ -1041,7 +1048,7 @@ class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !empty( $filter ) ) {
-			$filter = like_escape( $wpdb->escape( $filter ) );
+			$filter     = esc_sql( like_escape( trim( $filter ) ) );
 			$filter_sql = " AND ( g.name LIKE '%%{$filter}%%' OR g.description LIKE '%%{$filter}%%' )";
 		}
 
@@ -1072,7 +1079,13 @@ class BP_Groups_Member {
 
 		$pag_sql = ( !empty( $limit ) && !empty( $page ) ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
 
-		$exclude_sql = !empty( $exclude ) ? $wpdb->prepare( " AND g.id NOT IN (%s)", $exclude ) : '';
+		if ( !empty( $exclude ) ) {
+			$exclude     = wp_parse_id_list( $exclude );
+			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude_sql = " AND g.id NOT IN ({$exclude})";
+		} else {
+			$exclude_sql = '';
+		}
 
 		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d {$exclude_sql} ORDER BY m.date_modified ASC {$pag_sql}", $user_id ) );
 		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d {$exclude_sql} ORDER BY date_modified ASC", $user_id ) );
@@ -1175,14 +1188,14 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND is_banned = 0 AND inviter_id = 0", $user_id, $group_id ) );
 	}
 
-	function get_random_groups( $user_id, $total_groups = 5 ) {
+	function get_random_groups( $user_id = 0, $total_groups = 5 ) {
 		global $wpdb, $bp;
 
 		// If the user is logged in and viewing their random groups, we can show hidden and private groups
 		if ( bp_is_my_profile() ) {
-			return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND is_confirmed = 1 AND is_banned = 0 ORDER BY rand() LIMIT $total_groups", $user_id ) );
+			return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND is_confirmed = 1 AND is_banned = 0 ORDER BY rand() LIMIT %d", $user_id, $total_groups ) );
 		} else {
-			return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0 ORDER BY rand() LIMIT $total_groups", $user_id ) );
+			return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT m.group_id FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND g.status != 'hidden' AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0 ORDER BY rand() LIMIT %d", $user_id, $total_groups ) );
 		}
 	}
 
@@ -1227,7 +1240,8 @@ class BP_Groups_Member {
 
 		$exclude_sql = '';
 		if ( !empty( $exclude ) ) {
-			$exclude = implode( ',', wp_parse_id_list( $exclude ) );
+			$exclude     = wp_parse_id_list( $exclude );
+			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
 			$exclude_sql = " AND m.user_id NOT IN ({$exclude})";
 		}
 
