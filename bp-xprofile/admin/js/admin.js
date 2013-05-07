@@ -48,6 +48,9 @@ function add_option(forWhat) {
 	// re-initialize the sorable ui
 	enableSortableFieldOptions( forWhat );
 
+	// set focus on newly created element
+	document.getElementById(forWhat + "_option" + theId).focus();
+
 	theId++;
 
 	document.getElementById(forWhat + "_option_number").value = theId;
