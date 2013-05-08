@@ -144,7 +144,7 @@ class BP_Friends_Friendship {
 		if ( empty( $user_id ) )
 			$user_id = bp_loggedin_user_id();
 
-		$filter = like_escape( $wpdb->escape( $filter ) );
+		$filter = esc_sql( like_escape( $filter ) );
 
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -153,7 +153,7 @@ class BP_Friends_Friendship {
 			return false;
 
 		// Get all the user ids for the current user's friends.
-		$fids = implode( ',', $friend_ids );
+		$fids = implode( ',', wp_parse_id_list( $friend_ids ) );
 
 		if ( empty( $fids ) )
 			return false;
@@ -198,6 +198,8 @@ class BP_Friends_Friendship {
 	function get_bulk_last_active( $user_ids ) {
 		global $wpdb;
 
+		$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
+
 		return $wpdb->get_results( $wpdb->prepare( "SELECT meta_value as last_activity, user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} ) ORDER BY meta_value DESC", bp_get_user_meta_key( 'last_activity' ) ) );
 	}
 
@@ -222,7 +224,7 @@ class BP_Friends_Friendship {
 	function search_users( $filter, $user_id, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 
-		$filter = like_escape( $wpdb->escape( $filter ) );
+		$filter = esc_sql( like_escape( $filter ) );
 
 		$usermeta_table = $wpdb->base_prefix . 'usermeta';
 		$users_table    = $wpdb->base_prefix . 'users';
@@ -248,7 +250,7 @@ class BP_Friends_Friendship {
 	function search_users_count( $filter ) {
 		global $wpdb, $bp;
 
-		$filter = like_escape( $wpdb->escape( $filter ) );
+		$filter = esc_sql( like_escape( $filter ) );
 
 		$usermeta_table = $wpdb->prefix . 'usermeta';
 		$users_table    = $wpdb->base_prefix . 'users';
@@ -273,6 +275,8 @@ class BP_Friends_Friendship {
 
 		if ( !bp_is_active( 'xprofile' ) )
 			return false;
+
+		$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$bp->profile->table_name_data} pd, {$bp->profile->table_name_fields} pf WHERE pf.id = pd.field_id AND pf.name = %s AND pd.user_id IN ( {$user_ids} ) ORDER BY pd.value ASC", bp_xprofile_fullname_field_name() ) );
 	}
