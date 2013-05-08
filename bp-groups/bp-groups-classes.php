@@ -478,7 +478,7 @@ class BP_Groups_Group {
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = esc_sql( like_escape( trim( $search_terms ) ) );
+			$search_terms = esc_sql( like_escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
@@ -520,7 +520,7 @@ class BP_Groups_Group {
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = esc_sql( like_escape( trim( $search_terms ) ) );
+			$search_terms = esc_sql( like_escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
@@ -603,7 +603,7 @@ class BP_Groups_Group {
 			$hidden_sql = "AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = esc_sql( like_escape( trim( $search_terms ) ) );
+			$search_terms = esc_sql( like_escape( $search_terms ) );
 			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
@@ -1048,7 +1048,7 @@ class BP_Groups_Member {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !empty( $filter ) ) {
-			$filter     = esc_sql( like_escape( trim( $filter ) ) );
+			$filter     = esc_sql( like_escape( $filter ) );
 			$filter_sql = " AND ( g.name LIKE '%%{$filter}%%' OR g.description LIKE '%%{$filter}%%' )";
 		}
 
