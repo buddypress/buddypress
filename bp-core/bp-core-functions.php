@@ -141,7 +141,7 @@ function bp_core_get_directory_pages() {
 		// Always get page data from the root blog, except on multiblog mode, when it comes
 		// from the current blog
 		$posts_table_name = bp_is_multiblog_mode() ? $wpdb->posts : $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts';
-		$page_ids_sql     = implode( ',', (array) $page_ids );
+		$page_ids_sql     = implode( ',', wp_parse_id_list( $page_ids ) );
 		$page_names       = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " );
 
 		foreach ( (array) $page_ids as $component_id => $page_id ) {

@@ -3,7 +3,7 @@
 /**
  * @group core
  */
-class BP_Tests_Core_Classes extends BP_UnitTestCase {
+class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	protected $old_current_user = 0;
 
 	public function setUp() {
@@ -147,7 +147,5 @@ class BP_Tests_Core_Classes extends BP_UnitTestCase {
 		}
 
 		$this->assertEquals( $user_id, $found_user_id );
-
 	}
-
 }

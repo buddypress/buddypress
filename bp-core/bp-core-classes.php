@@ -299,7 +299,7 @@ class BP_User_Query {
 		// @todo remove need for bp_is_active() check
 		if ( ! empty( $user_id ) && bp_is_active( 'friends' ) ) {
 			$friend_ids = friends_get_friend_user_ids( $user_id );
-			$friend_ids = $wpdb->escape( implode( ',', (array) $friend_ids ) );
+			$friend_ids = implode( ',', wp_parse_id_list( $friend_ids ) );
 
 			if ( ! empty( $friend_ids ) ) {
 				$sql['where'][] = "u.{$this->uid_name} IN ({$friend_ids})";
@@ -805,6 +805,7 @@ class BP_Core_User {
 		}
 
 		if ( !empty( $exclude ) ) {
+			$exclude              = implode( ',', wp_parse_id_list( $exclude ) );
 			$sql['where_exclude'] = "AND u.ID NOT IN ({$exclude})";
 		}
 
@@ -814,20 +815,13 @@ class BP_Core_User {
 			$sql['where_users'] = "AND 0 = 1";
 		} else {
 			if ( !empty( $include ) ) {
-				if ( is_array( $include ) ) {
-					$uids = $wpdb->escape( implode( ',', (array) $include ) );
-				} else {
-					$uids = $wpdb->escape( $include );
-				}
-
-				if ( !empty( $uids ) ) {
-					$sql['where_users'] = "AND u.ID IN ({$uids})";
-				}
+				$include = implode( ',',  wp_parse_id_list( $include ) );
+				$sql['where_users'] = "AND u.ID IN ({$include})";
 			} elseif ( !empty( $user_id ) && bp_is_active( 'friends' ) ) {
 				$friend_ids = friends_get_friend_user_ids( $user_id );
-				$friend_ids = $wpdb->escape( implode( ',', (array) $friend_ids ) );
 
 				if ( !empty( $friend_ids ) ) {
+					$friend_ids = implode( ',', wp_parse_id_list( $friend_ids ) );
 					$sql['where_friends'] = "AND u.ID IN ({$friend_ids})";
 
 				// User has no friends, return false since there will be no users to fetch.
@@ -913,8 +907,6 @@ class BP_Core_User {
 				$user_ids[] = $user->id;
 			}
 
-			$user_ids = $wpdb->escape( join( ',', (array) $user_ids ) );
-
 			// Add additional data to the returned results
 			$paged_users = BP_Core_User::get_user_extras( $paged_users, $user_ids, $type );
 		}
@@ -959,8 +951,7 @@ class BP_Core_User {
 		$status_sql = bp_core_get_status_sql( 'u.' );
 
 		if ( !empty( $exclude ) ) {
-			$exclude     = wp_parse_id_list( $r['exclude'] );
-			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude     = implode( ',', wp_parse_id_list( $r['exclude'] ) );
 			$exclude_sql = " AND u.id NOT IN ({$exclude})";
 		} else {
 			$exclude_sql = '';
@@ -981,9 +972,7 @@ class BP_Core_User {
 		 */
 		$user_ids = array();
 		foreach ( (array) $paged_users as $user )
-			$user_ids[] = $user->id;
-
-		$user_ids = $wpdb->escape( join( ',', (array) $user_ids ) );
+			$user_ids[] = (int) $user->id;
 
 		// Add additional data to the returned results
 		if ( $populate_extras ) {
@@ -1011,10 +1000,11 @@ class BP_Core_User {
 		if ( $limit && $page )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
+		$user_ids   = implode( ',', wp_parse_id_list( $user_ids ) );
 		$status_sql = bp_core_get_status_sql();
 
-		$total_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT COUNT(DISTINCT ID) FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ( " . $wpdb->escape( $user_ids ) . " ) " );
-		$paged_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT DISTINCT ID as id, user_registered, user_nicename, user_login, user_email FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ( " . $wpdb->escape( $user_ids ) . " ) {$pag_sql}" );
+		$total_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT COUNT(DISTINCT ID) FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ({$user_ids})" );
+		$paged_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT DISTINCT ID as id, user_registered, user_nicename, user_login, user_email FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ({$user_ids}) {$pag_sql}" );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
@@ -1069,8 +1059,6 @@ class BP_Core_User {
 		foreach ( (array) $paged_users as $user )
 			$user_ids[] = $user->id;
 
-		$user_ids = $wpdb->escape( join( ',', (array) $user_ids ) );
-
 		// Add additional data to the returned results
 		if ( $populate_extras )
 			$paged_users = BP_Core_User::get_user_extras( $paged_users, $user_ids );
@@ -1096,6 +1084,9 @@ class BP_Core_User {
 
 		if ( empty( $user_ids ) )
 			return $paged_users;
+
+		// Sanitize user IDs
+		$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
 
 		// Fetch the user's full name
 		if ( bp_is_active( 'xprofile' ) && 'alphabetical' != $type ) {
