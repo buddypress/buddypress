@@ -173,7 +173,7 @@ class BP_Groups_Group {
 
 		// Fetch the user IDs of all the members of the group
 		$user_ids    = BP_Groups_Member::get_group_member_ids( $this->id );
-		$user_id_str = implode( ',', (array) $user_ids );
+		$user_id_str = esc_sql( implode( ',', wp_parse_id_list( $user_ids ) ) );
 
 		// Modify group count usermeta for members
 		$wpdb->query( "UPDATE {$wpdb->usermeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_id_str} )" );
@@ -232,7 +232,7 @@ class BP_Groups_Group {
 		if ( empty( $gids['groups'] ) )
 			return false;
 
-		$gids = implode( ',', $gids['groups'] );
+		$gids = esc_sql( implode( ',', wp_parse_id_list( $gids['groups'] ) ) );
 
 		$paged_groups = $wpdb->get_results( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE ( name LIKE '{$filter}%%' OR description LIKE '{$filter}%%' ) AND id IN ({$gids}) {$pag_sql}" );
 		$total_groups = $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE ( name LIKE '{$filter}%%' OR description LIKE '{$filter}%%' ) AND id IN ({$gids})" );
@@ -638,8 +638,7 @@ class BP_Groups_Group {
 			return $paged_groups;
 
 		// Sanitize group IDs
-		$group_ids = wp_parse_id_list( $group_ids );
-		$group_ids = implode( ',', $group_ids );
+		$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
 
 		// Fetch the logged in users status within each group
 		$user_status = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_confirmed = 1 AND is_banned = 0", bp_loggedin_user_id() ) );
@@ -1265,7 +1264,7 @@ class BP_Groups_Member {
 		foreach ( (array) $members as $user )
 			$user_ids[] = $user->user_id;
 
-		$user_ids = $wpdb->escape( join( ',', (array) $user_ids ) );
+		$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
 
 		if ( bp_is_active( 'friends' ) ) {
 			$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids} ) ) OR (initiator_user_id IN ( {$user_ids} ) AND friend_user_id = %d )", bp_loggedin_user_id(), bp_loggedin_user_id() ) );
