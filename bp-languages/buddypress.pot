@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-04-26 13:36:03+00:00\n"
+"POT-Creation-Date: 2013-05-08 00:35:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -464,7 +464,7 @@ msgid "<span>%1$s</span> &mdash; %2$s"
 msgstr ""
 
 #: bp-activity/bp-activity-classes.php:120
-#: bp-activity/bp-activity-template.php:120 bp-groups/bp-groups-classes.php:313
+#: bp-activity/bp-activity-template.php:120 bp-groups/bp-groups-classes.php:316
 #: bp-groups/bp-groups-template.php:114
 msgid "Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details."
 msgstr ""
@@ -3117,11 +3117,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:878
+#: bp-groups/bp-groups-classes.php:885
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:884 bp-groups/bp-groups-functions.php:121
+#: bp-groups/bp-groups-classes.php:891 bp-groups/bp-groups-functions.php:121
 msgid "Group Admin"
 msgstr ""
 
