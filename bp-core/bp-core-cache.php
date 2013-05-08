@@ -92,12 +92,7 @@ function bp_update_meta_cache( $args = array() ) {
 		$object_column = $object_type . '_id';
 	}
 
-	if ( !is_array( $object_ids ) ) {
-		$object_ids = preg_replace( '|[^0-9,]|', '', $object_ids );
-		$object_ids = explode( ',', $object_ids );
-	}
-
-	$object_ids = array_map( 'intval', $object_ids );
+	$object_ids = wp_parse_id_list( $object_ids );
 
 	$cache = array();
 

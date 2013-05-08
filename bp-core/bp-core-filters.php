@@ -130,7 +130,7 @@ function bp_core_filter_comments( $comments, $post_id ) {
 	if ( empty( $user_ids ) )
 		return $comments;
 
-	$user_ids = implode( ',', $user_ids );
+	$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
 
 	if ( !$userdata = $wpdb->get_results( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) )
 		return $comments;
