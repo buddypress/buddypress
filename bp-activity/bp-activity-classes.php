@@ -170,7 +170,7 @@ class BP_Activity_Activity {
 		// Searching
 		if ( $search_terms ) {
 			$search_terms = $wpdb->escape( $search_terms );
-			$where_conditions['search_sql'] = "a.content LIKE '%%" . like_escape( $search_terms ) . "%%'";
+			$where_conditions['search_sql'] = "a.content LIKE '%%" . esc_sql( like_escape( $search_terms ) ) . "%%'";
 		}
 
 		// Filtering
@@ -238,15 +238,11 @@ class BP_Activity_Activity {
 		$total_activities = $wpdb->get_var( $total_activities_sql );
 
 		// Get the fullnames of users so we don't have to query in the loop
-		$activity_user_ids = array();
-		if ( bp_is_active( 'xprofile' ) && $activities ) {
-			foreach ( (array) $activities as $activity ) {
-				if ( (int) $activity->user_id )
-					$activity_user_ids[] = $activity->user_id;
-			}
+		if ( bp_is_active( 'xprofile' ) && !empty( $activities ) ) {
+			$activity_user_ids = wp_list_pluck( $activities, 'user_id' );
+			$activity_user_ids = implode( ',', wp_parse_id_list( $activity_user_ids ) );
 
-			$activity_user_ids = implode( ',', array_unique( (array) $activity_user_ids ) );
-			if ( !empty( $activity_user_ids ) ) {
+			if ( !empty( $activity_user_ids ) ) {				
 				if ( $names = $wpdb->get_results( "SELECT user_id, value AS user_fullname FROM {$bp->profile->table_name_data} WHERE field_id = 1 AND user_id IN ({$activity_user_ids})" ) ) {
 					foreach ( (array) $names as $name )
 						$tmp_names[$name->user_id] = $name->user_fullname;
@@ -319,10 +315,10 @@ class BP_Activity_Activity {
 			$where_args[] = $wpdb->prepare( "type = %s", $type );
 
 		if ( !empty( $item_id ) )
-			$where_args[] = $wpdb->prepare( "item_id = %s", $item_id );
+			$where_args[] = $wpdb->prepare( "item_id = %d", $item_id );
 
 		if ( !empty( $secondary_item_id ) )
-			$where_args[] = $wpdb->prepare( "secondary_item_id = %s", $secondary_item_id );
+			$where_args[] = $wpdb->prepare( "secondary_item_id = %d", $secondary_item_id );
 
 		if ( !empty( $action ) )
 			$where_args[] = $wpdb->prepare( "action = %s", $action );
@@ -384,10 +380,10 @@ class BP_Activity_Activity {
 			$where_args[] = $wpdb->prepare( "primary_link = %s", $primary_link );
 
 		if ( !empty( $item_id ) )
-			$where_args[] = $wpdb->prepare( "item_id = %s", $item_id );
+			$where_args[] = $wpdb->prepare( "item_id = %d", $item_id );
 
 		if ( !empty( $secondary_item_id ) )
-			$where_args[] = $wpdb->prepare( "secondary_item_id = %s", $secondary_item_id );
+			$where_args[] = $wpdb->prepare( "secondary_item_id = %d", $secondary_item_id );
 
 		if ( !empty( $date_recorded ) )
 			$where_args[] = $wpdb->prepare( "date_recorded = %s", $date_recorded );
@@ -416,24 +412,18 @@ class BP_Activity_Activity {
 		return $activity_ids;
 	}
 
-	function delete_activity_item_comments( $activity_ids ) {
+	function delete_activity_item_comments( $activity_ids = array() ) {
 		global $bp, $wpdb;
 
-		if ( is_array( $activity_ids ) )
-			$activity_ids = implode ( ',', array_map( 'absint', $activity_ids ) );
-		else
-			$activity_ids = implode ( ',', array_map( 'absint', explode ( ',', $activity_ids ) ) );
+		$activity_ids = implode( ',', wp_parse_id_list( $activity_ids ) );
 
 		return $wpdb->query( "DELETE FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" );
 	}
 
-	function delete_activity_meta_entries( $activity_ids ) {
+	function delete_activity_meta_entries( $activity_ids = array() ) {
 		global $bp, $wpdb;
 
-		if ( is_array( $activity_ids ) )
-			$activity_ids = implode ( ',', array_map( 'absint', $activity_ids ) );
-		else
-			$activity_ids = implode ( ',', array_map( 'absint', explode ( ',', $activity_ids ) ) );
+		$activity_ids = implode( ',', wp_parse_id_list( $activity_ids ) );
 
 		return $wpdb->query( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" );
 	}
