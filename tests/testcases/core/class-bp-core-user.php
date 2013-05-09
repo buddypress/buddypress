@@ -26,7 +26,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$exclude_qs = $u1 . ',junkstring,' . $u3;
 
 		$users = BP_Core_User::get_users( 'active', 0, 1, 0, false, false, true, $exclude_qs );
-		$user_ids = wp_list_pluck( $users['users'], 'id' );
+		$user_ids = wp_parse_id_list( wp_list_pluck( $users['users'], 'id' ) );
 
 		$this->assertEquals( array( $u2 ), $user_ids );
 	}
