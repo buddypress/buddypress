@@ -1131,7 +1131,7 @@ class BP_XProfile_ProfileData {
 			$user_ids = bp_displayed_user_id();
 
 		if ( is_array( $user_ids ) ) {
-			$user_ids = implode( ',', (array) $user_ids );
+			$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
 			$data = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$user_ids})", $field_id ) );
 		} else {
 			$data = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_ids ) );
