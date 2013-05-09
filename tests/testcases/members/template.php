@@ -46,7 +46,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		friends_add_friend( $u1, $u2 );
 
-		$this->go_to( bp_core_get_user_domain( $u2 ) . bp_get_friends_slug() . '/requests' );
+		$this->go_to( bp_core_get_user_domain( $u2 ) . bp_get_friends_slug() . '/requests/' );
 
 		global $members_template;
 		bp_has_members( array(
