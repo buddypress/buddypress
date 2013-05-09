@@ -8,14 +8,10 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 
 	public function setUp() {
 		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		wp_set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
 	}
 
 	public function tearDown() {
 		parent::tearDown();
-		wp_set_current_user( $this->old_current_user );
 	}
 
 	public function test_get_users_with_exclude_querystring() {
