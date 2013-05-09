@@ -54,7 +54,7 @@ echo "Installing BuddyPress...\n";
 $blogs = is_multisite() ? $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" ) : array( 1 );
 foreach ( $blogs as $blog ) {
 	if ( is_multisite() ) {
-		switch_to_blog();
+		switch_to_blog( $blog );
 	}
 
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%bp%'" );
