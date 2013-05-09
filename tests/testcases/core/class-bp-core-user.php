@@ -49,9 +49,15 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_users_with_include_querystring() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
+		) );
+		$u3 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 50 ),
+		) );
 
 		$include_qs = $u1 . ',junkstring,' . $u3;
 
@@ -62,9 +68,16 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_users_with_include_array() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
+		) );
+		$u3 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 50 ),
+		) );
+
 
 		$include_array = array(
 			$u1,
