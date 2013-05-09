@@ -18,6 +18,27 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * We can't use grant_super_admin() because we will need to modify
+	 * the list more than once, and grant_super_admin() can only be run
+	 * once because of its global check
+	 */
+	public function grant_super_admin( $user_id ) {
+		global $super_admins;
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$user = get_userdata( $user_id );
+		$super_admins[] = $user->user_login;
+	}
+
+	public function restore_admins() {
+		// We assume that the global can be wiped out
+		// @see grant_super_admin()
+		unset( $GLOBALS['super_admins'] );
+	}
+
+	/**
 	 * ticket BP4915
 	 */
 	public function test_bp_core_delete_account() {
@@ -27,12 +48,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		// Create an admin for testing
 		$admin_user = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		if ( is_multisite() ) {
-			if ( ! function_exists( 'grant_super_admin' ) ) {
-				require_once( ABSPATH . '/wp-admin/includes/ms.php' );
-			}
-			grant_super_admin( $admin_user );
-		}
+		$this->grant_super_admin( $admin_user );
 
 		// 1. Admin can delete user account
 		$this->set_current_user( $admin_user );
@@ -44,6 +60,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		// 2. Admin cannot delete superadmin account
 		$user2 = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$this->grant_super_admin( $user2 );
 		bp_core_delete_account( $user2 );
 		$maybe_user = new WP_User( $user2 );
 		$this->assertNotEquals( 0, $maybe_user->ID );
