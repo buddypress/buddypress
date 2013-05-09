@@ -19,7 +19,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$this->set_current_user( $this->old_current_user );
 	}
 
-	public function test_bp_user_query_include_on_user_page() {
+	public function test_bp_has_members_include_on_user_page() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
 
@@ -40,13 +40,15 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$this->assertEquals( $user_ids, $shouldbe );
 	}
 
-	public function test_bp_user_query_friendship_requests() {
+	public function test_bp_has_members_friendship_requests() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
 
 		friends_add_friend( $u1, $u2 );
 
+		$this->grant_super_admin( get_current_user_id() );
 		$this->go_to( bp_core_get_user_domain( $u2 ) . bp_get_friends_slug() . '/requests/' );
+		$this->restore_admins();
 
 		global $members_template;
 		bp_has_members( array(
