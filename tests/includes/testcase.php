@@ -164,4 +164,27 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 		return $user_id;
 	}
+
+	/**
+	 * We can't use grant_super_admin() because we will need to modify
+	 * the list more than once, and grant_super_admin() can only be run
+	 * once because of its global check
+	 */
+	public function grant_super_admin( $user_id ) {
+		global $super_admins;
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$user = get_userdata( $user_id );
+		$super_admins[] = $user->user_login;
+	}
+
+	public function restore_admins() {
+		// We assume that the global can be wiped out
+		// @see grant_super_admin()
+		unset( $GLOBALS['super_admins'] );
+	}
+
+
 }
