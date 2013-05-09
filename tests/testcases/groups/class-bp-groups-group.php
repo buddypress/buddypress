@@ -28,37 +28,37 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	public function test_get_exclude() {
 		$g1 = $this->factory->group->create();
 		$g2 = $this->factory->group->create();
-		groups_update_groupmeta( $g1->id, 'foo', 'bar' );
+		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
 			'exclude' => array(
-				$g1->id,
+				$g1,
 				'foobar',
 			),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2->id ) );
+		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
 	public function test_get_include() {
 		$g1 = $this->factory->group->create();
 		$g2 = $this->factory->group->create();
-		groups_update_groupmeta( $g1->id, 'foo', 'bar' );
+		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
 			'include' => array(
-				$g1->id,
+				$g1,
 				'foobar',
 			),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g1->id ) );
+		$this->assertEquals( $ids, array( $g1 ) );
 	}
 
 	public function test_get_meta_query() {
 		$g1 = $this->factory->group->create();
 		$g2 = $this->factory->group->create();
-		groups_update_groupmeta( $g1->id, 'foo', 'bar' );
+		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
 			'meta_query' => array(
@@ -69,19 +69,19 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g1->id ) );
+		$this->assertEquals( $ids, array( $g1 ) );
 	}
 
 	public function test_get_empty_meta_query() {
 		$g1 = $this->factory->group->create();
 		$g2 = $this->factory->group->create();
-		groups_update_groupmeta( $g1->id, 'foo', 'bar' );
+		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
 			'meta_query' => array(),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g1->id, $g2->id, ) );
+		$this->assertEquals( $ids, array( $g1, $g2, ) );
 	}
 
 	public function test_get_normal_search() {
@@ -96,7 +96,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_get_search_with_underscores() {
@@ -111,7 +111,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_get_search_with_percent_sign() {
@@ -126,7 +126,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_get_search_with_quotes() {
@@ -142,8 +142,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		// @todo
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_filter_user_groups_normal_search() {
@@ -153,12 +152,12 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 		$g2 = $this->factory->group->create();
 		$u = $this->factory->user->create();
-		self::add_user_to_group( $u, $g1->id );
+		self::add_user_to_group( $u, $g1 );
 
 		$groups = BP_Groups_Group::filter_user_groups( 'Cool', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_filter_user_groups_search_with_underscores() {
@@ -169,13 +168,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g2 = $this->factory->group->create();
 
 		$u = $this->factory->user->create();
-		self::add_user_to_group( $u, $g1->id );
-		self::add_user_to_group( $u, $g2->id );
+		self::add_user_to_group( $u, $g1 );
+		self::add_user_to_group( $u, $g2 );
 
 		$groups = BP_Groups_Group::filter_user_groups( '_cool_', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_filter_user_groups_search_with_percent_sign() {
@@ -186,13 +185,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g2 = $this->factory->group->create();
 
 		$u = $this->factory->user->create();
-		self::add_user_to_group( $u, $g1->id );
-		self::add_user_to_group( $u, $g2->id );
+		self::add_user_to_group( $u, $g1 );
+		self::add_user_to_group( $u, $g2 );
 
 		$groups = BP_Groups_Group::filter_user_groups( '100%', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_filter_user_groups_search_with_quotes() {
@@ -203,8 +202,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g2 = $this->factory->group->create();
 
 		$u = $this->factory->user->create();
-		self::add_user_to_group( $u, $g1->id );
-		self::add_user_to_group( $u, $g2->id );
+		self::add_user_to_group( $u, $g1 );
+		self::add_user_to_group( $u, $g2 );
 
 		$groups = BP_Groups_Group::filter_user_groups( "'tis ", $u );
 
@@ -224,7 +223,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::search_groups( 'Cool' );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_search_groups_search_with_underscores() {
@@ -237,7 +236,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::search_groups( '_cool_', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_search_groups_search_with_percent_sign() {
@@ -250,7 +249,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::search_groups( '100%', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_search_groups_search_with_quotes() {
@@ -264,7 +263,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
 
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 
 	public function test_get_by_letter_with_exclude() {
@@ -277,11 +276,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'description' => 'Awesome',
 		) );
 
-		$groups = BP_Groups_Group::get_by_letter( 'A', null, null, true, array( $g1->id, 'stringthatshouldberemoved' ) );
+		$groups = BP_Groups_Group::get_by_letter( 'A', null, null, true, array( $g1, 'stringthatshouldberemoved' ) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g2->id ), $found );
+		$this->assertEquals( array( $g2 ), $found );
 
 	}
 
@@ -309,11 +308,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g2 = $this->factory->group->create();
 
 		// There are only two groups, so excluding one should give us the other
-		$groups = BP_Groups_Group::get_random( null, null, 0, false, true, array( $g1->id, 'ignore this' ) );
+		$groups = BP_Groups_Group::get_random( null, null, 0, false, true, array( $g1, 'ignore this' ) );
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g2->id ), $found );
+		$this->assertEquals( array( $g2 ), $found );
 	}
 
 	public function test_get_random_with_search_terms() {
@@ -329,6 +328,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
-		$this->assertEquals( array( $g1->id ), $found );
+		$this->assertEquals( array( $g1 ), $found );
 	}
 }

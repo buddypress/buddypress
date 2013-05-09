@@ -47,13 +47,13 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		) );
 
 		$u = $this->factory->user->create();
-		self::add_user_to_group( $u, $g1->id );
-		self::add_user_to_group( $u, $g2->id );
+		self::add_user_to_group( $u, $g1 );
+		self::add_user_to_group( $u, $g2 );
 
 		$groups = BP_Groups_Member::get_recently_joined( $u, false, false, 'Rite' );
 
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2->id ) );
+		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
 	public function test_get_is_admin_of_with_filter() {
@@ -65,18 +65,18 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		) );
 
 		$u = $this->factory->user->create();
-		self::add_user_to_group( $u, $g1->id );
-		self::add_user_to_group( $u, $g2->id );
+		self::add_user_to_group( $u, $g1 );
+		self::add_user_to_group( $u, $g2 );
 
-		$m1 = new BP_Groups_Member( $u, $g1->id );
+		$m1 = new BP_Groups_Member( $u, $g1 );
 		$m1->promote( 'admin' );
-		$m2 = new BP_Groups_Member( $u, $g2->id );
+		$m2 = new BP_Groups_Member( $u, $g2 );
 		$m2->promote( 'admin' );
 
 		$groups = BP_Groups_Member::get_is_admin_of( $u, false, false, 'eps' );
 
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2->id ) );
+		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
 	public function test_get_is_mod_of_with_filter() {
@@ -88,18 +88,18 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		) );
 
 		$u = $this->factory->user->create();
-		self::add_user_to_group( $u, $g1->id );
-		self::add_user_to_group( $u, $g2->id );
+		self::add_user_to_group( $u, $g1 );
+		self::add_user_to_group( $u, $g2 );
 
-		$m1 = new BP_Groups_Member( $u, $g1->id );
+		$m1 = new BP_Groups_Member( $u, $g1 );
 		$m1->promote( 'mod' );
-		$m2 = new BP_Groups_Member( $u, $g2->id );
+		$m2 = new BP_Groups_Member( $u, $g2 );
 		$m2->promote( 'mod' );
 
 		$groups = BP_Groups_Member::get_is_mod_of( $u, false, false, 'eps' );
 
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2->id ) );
+		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
 	public function test_get_invites_with_exclude() {
@@ -112,15 +112,15 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
-		self::add_user_to_group( $u1, $g1->id );
-		self::add_user_to_group( $u1, $g2->id );
-		self::invite_user_to_group( $u2, $g1->id, $u1 );
-		self::invite_user_to_group( $u2, $g2->id, $u1 );
+		self::add_user_to_group( $u1, $g1 );
+		self::add_user_to_group( $u1, $g2 );
+		self::invite_user_to_group( $u2, $g1, $u1 );
+		self::invite_user_to_group( $u2, $g2, $u1 );
 
-		$groups = BP_Groups_Member::get_invites( $u2, false, false, array( 'awesome', $g1->id ) );
+		$groups = BP_Groups_Member::get_invites( $u2, false, false, array( 'awesome', $g1 ) );
 
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( $ids, array( $g2->id ) );
+		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
 	public function test_get_all_for_group_with_exclude() {
@@ -128,10 +128,10 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
-		self::add_user_to_group( $u1, $g1->id );
-		self::add_user_to_group( $u2, $g1->id );
+		self::add_user_to_group( $u1, $g1 );
+		self::add_user_to_group( $u2, $g1 );
 
-		$members = BP_Groups_Member::get_all_for_group( $g1->id, false, false, true, true, array( $u1 ) );
+		$members = BP_Groups_Member::get_all_for_group( $g1, false, false, true, true, array( $u1 ) );
 
 		$mm = (array) $members['members'];
 		$ids = wp_list_pluck( $mm, 'user_id' );

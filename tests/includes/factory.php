@@ -75,7 +75,7 @@ class BP_UnitTest_Factory_For_Group extends WP_UnitTest_Factory_For_Thing {
 		groups_update_groupmeta( $group_id, 'total_member_count', 1 );
 		groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
-		return $this->get_object_by_id( $group_id );
+		return $group_id;
 	}
 
 	function update_object( $group_id, $fields ) {
