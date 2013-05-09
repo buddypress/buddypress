@@ -23,11 +23,12 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	public function test_user_can_delete() {
 		global $bp;
 
-		$activity = $this->factory->activity->create( array(
+		$a = $this->factory->activity->create( array(
 			'type' => 'activity_update',
 		) );
 
 		// User can delete his own items
+		$activity = $this->factory->activity->get_object_by_id( $a );
 		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
 
 		// Stash original user
@@ -74,8 +75,8 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'type' => 'joined_group',
 		) );
 
-		bp_activity_add_user_favorite( $a1->id, $user_id );
-		bp_activity_add_user_favorite( $a2->id, $user_id );
+		bp_activity_add_user_favorite( $a1, $user_id );
+		bp_activity_add_user_favorite( $a2, $user_id );
 
 		// groan. It sucks that you have to invoke the global
 		global $activities_template;
@@ -91,7 +92,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		// fixed in BP at some point
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( $ids, array( $a1->id, $a2->id ) );
+		$this->assertEquals( $ids, array( $a1, $a2 ) );
 
 		$activities_template = null;
 
@@ -106,7 +107,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( $ids, array( $a1->id ) );
+		$this->assertEquals( $ids, array( $a1 ) );
 
 		$activities_template = null;
 	}
@@ -117,7 +118,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	function test_bp_has_activities_with_meta_query() {
 		$a1 = $this->factory->activity->create();
 		$a2 = $this->factory->activity->create();
-		bp_activity_update_meta( $a1->id, 'foo', 'bar' );
+		bp_activity_update_meta( $a1, 'foo', 'bar' );
 
 		global $activities_template;
 		bp_has_activities( array(
@@ -130,6 +131,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		) );
 
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
-		$this->assertEquals( $ids, array( $a1->id ) );
+		$this->assertEquals( $ids, array( $a1 ) );
 	}
 }

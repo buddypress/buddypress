@@ -25,7 +25,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 
 		$result = BP_Activity_Activity::check_exists_by_content( $content );
-		$this->assertEquals( $activity->id, $result );
+		$this->assertEquals( $activity, $result );
 	}
 
 	public function test_delete_activity_item_comments() {
@@ -38,7 +38,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'type'    => 'activity_comment',
 		) );
 
-		BP_Activity_Activity::delete_activity_item_comments( $parent_activity->id );
+		BP_Activity_Activity::delete_activity_item_comments( $parent_activity );
 
 		$result = BP_Activity_Activity::get( array( 'in' => wp_list_pluck( $comments, 'id' ), ) );
 		$this->assertEmpty( $result['activities'] );
@@ -52,10 +52,10 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'type' => 'activity_update',
 		) );
 
-		bp_activity_update_meta( $activity->id, 'Paul', 'is cool' );
-		BP_Activity_Activity::delete_activity_meta_entries( $activity->id );
+		bp_activity_update_meta( $activity, 'Paul', 'is cool' );
+		BP_Activity_Activity::delete_activity_meta_entries( $activity );
 
-		$meta = bp_activity_get_meta( $activity->id, 'Paul' );
+		$meta = bp_activity_get_meta( $activity, 'Paul' );
 		$this->assertFalse( $meta );
 	}
 
@@ -67,7 +67,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		BP_Activity_Activity::hide_all_for_user( get_current_user_id() );
 
 		$activity = BP_Activity_Activity::get( array(
-			'in'          => $activity->id,
+			'in'          => $activity,
 			'show_hidden' => true,
 		) );
 		$this->assertEquals( $activity['activities'][0]->hide_sitewide, 1 );
@@ -76,7 +76,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	public function test_get_meta_query() {
 		$a1 = $this->factory->activity->create();
 		$a2 = $this->factory->activity->create();
-		bp_activity_update_meta( $a1->id, 'foo', 'bar' );
+		bp_activity_update_meta( $a1, 'foo', 'bar' );
 
 		$activity = BP_Activity_Activity::get( array(
 			'meta_query' => array(
@@ -87,6 +87,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
-		$this->assertEquals( $ids, array( $a1->id ) );
+		$this->assertEquals( $ids, array( $a1 ) );
 	}
 }

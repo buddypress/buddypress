@@ -30,7 +30,7 @@ class BP_UnitTest_Factory_For_Activity extends WP_UnitTest_Factory_For_Thing {
 		if ( ! isset( $args['user_id'] ) )
 			$args['user_id'] = get_current_user_id();
 
-		return $this->get_object_by_id( bp_activity_add( $args ) );
+		return bp_activity_add( $args );
 	}
 
 	function update_object( $activity_id, $fields ) {
