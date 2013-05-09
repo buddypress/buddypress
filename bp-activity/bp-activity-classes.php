@@ -479,6 +479,10 @@ class BP_Activity_Activity {
 
 		$activity_ids = implode( ',', wp_parse_id_list( $activity_ids ) );
 
+		foreach ( (array) $activity_ids as $activity_id ) {
+			bp_activity_clear_meta_cache_for_activity( $activity_id );
+		}
+
 		return $wpdb->query( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" );
 	}
 

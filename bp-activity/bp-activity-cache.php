@@ -32,6 +32,23 @@ function bp_activity_update_meta_cache( $activity_ids = false ) {
 		'meta_table' 	   => $bp->activity->table_name_meta,
 		'cache_key_prefix' => 'bp_activity_meta'
 	);
-	
+
 	bp_update_meta_cache( $cache_args );
+}
+
+/**
+ * Clear the cache for all metadata of a given activity
+ *
+ * @param int $activity_id
+ */
+function bp_activity_clear_meta_cache_for_activity( $activity_id ) {
+	global $wp_object_cache;
+
+	if ( is_object( $wp_object_cache ) && ! empty( $wp_object_cache->cache['bp'] ) ) {
+		foreach ( $wp_object_cache->cache['bp'] as $ckey => $cvalue ) {
+			if ( 0 === strpos( $ckey, 'bp_activity_meta_' . $activity_id ) ) {
+				wp_cache_delete( $ckey, 'bp' );
+			}
+		}
+	}
 }
