@@ -73,7 +73,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEquals( $activity['activities'][0]->hide_sitewide, 1 );
 	}
 
-	public function test_get_meta_query() {
+	public function test_get_with_meta_query() {
 		$a1 = $this->factory->activity->create();
 		$a2 = $this->factory->activity->create();
 		bp_activity_update_meta( $a1, 'foo', 'bar' );
@@ -88,5 +88,72 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
 		$this->assertEquals( $ids, array( $a1 ) );
+	}
+
+	public function test_get_with_search_terms() {
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Boone is a cool guy',
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'No he isn\'t',
+		) );
+
+		$activity = BP_Activity_Activity::get( array(
+			'search_terms' => 'cool',
+		) );
+		$ids = wp_list_pluck( $activity['activities'], 'id' );
+		$this->assertEquals( $ids, array( $a1 ) );
+	}
+
+	public function test_get_id_with_item_id() {
+		$a1 = $this->factory->activity->create( array(
+			'item_id' => 523,
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'item_id' => 1888,
+		) );
+
+		$activity = BP_Activity_Activity::get_id( false, false, false, 523, false, false, false, false );
+		$this->assertEquals( $a1, $activity );
+	}
+
+	public function test_get_id_with_secondary_item_id() {
+		$a1 = $this->factory->activity->create( array(
+			'secondary_item_id' => 523,
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'secondary_content' => 1888,
+		) );
+
+		$activity = BP_Activity_Activity::get_id( false, false, false, false, 523, false, false, false );
+		$this->assertEquals( $a1, $activity );
+	}
+
+	public function test_delete_with_item_id() {
+		$a1 = $this->factory->activity->create( array(
+			'item_id' => 523,
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'item_id' => 1888,
+		) );
+
+		$activity = BP_Activity_Activity::delete( array(
+			'item_id' => 523,
+		) );
+		$this->assertEquals( array( $a1 ), $activity );
+	}
+
+	public function test_delete_with_secondary_item_id() {
+		$a1 = $this->factory->activity->create( array(
+			'secondary_item_id' => 523,
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'secondary_item_id' => 1888,
+		) );
+
+		$activity = BP_Activity_Activity::delete( array(
+			'secondary_item_id' => 523,
+		) );
+		$this->assertEquals( array( $a1 ), $activity );
 	}
 }
