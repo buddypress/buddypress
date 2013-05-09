@@ -37,7 +37,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 	function go_to( $url ) {
 		// Set this for bp_core_set_uri_globals()
-		$GLOBALS['_SERVER']['REQUEST_URI'] = $url = str_replace( network_home_url(), '', $url );
+		$GLOBALS['_SERVER']['REQUEST_URI'] = $url = str_replace( untrailingslashit( network_home_url() ), '', $url );
 
 		// note: the WP and WP_Query classes like to silently fetch parameters
 		// from all over the place (globals, GET, etc), which makes it tricky

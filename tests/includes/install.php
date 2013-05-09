@@ -37,18 +37,34 @@ require_once ABSPATH . '/wp-settings.php';
 define( 'BP_TESTS_DB_VERSION_FILE', ABSPATH . '.bp-tests-version' );
 
 // Check if BuddyPress has already been installed
-$db_version = bp_get_db_version_raw();
+$db_version = buddypress()->db_version;
+$hash = $db_version . ' ' . (int) $multisite . ' ' . sha1_file( $config_file_path );
 
 if ( $db_version && file_exists( BP_TESTS_DB_VERSION_FILE ) ) {
-	$file_version = file_get_contents( BP_TESTS_DB_VERSION_FILE );
+	$version_file = file_get_contents( BP_TESTS_DB_VERSION_FILE );
 
-	if ( $db_version == (int) $file_version )
+	if ( $hash === $version_file ) {
 		return;
+	}
 }
 
 echo "Installing BuddyPress...\n";
 
+// Make sure that BP has been cleaned from all blogs before reinstalling
+$blogs = is_multisite() ? $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" ) : array( 1 );
+foreach ( $blogs as $blog ) {
+	if ( is_multisite() ) {
+		switch_to_blog();
+	}
+
+	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%bp%'" );
+
+	if ( is_multisite() ) {
+		restore_current_blog();
+	}
+}
+
 // Install BuddyPress
 bp_version_updater();
 
-file_put_contents( BP_TESTS_DB_VERSION_FILE, bp_get_db_version_raw() );
+file_put_contents( BP_TESTS_DB_VERSION_FILE, $hash );
