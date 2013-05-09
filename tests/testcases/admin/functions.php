@@ -9,7 +9,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		parent::setUp();
 
 		$this->old_current_user = get_current_user_id();
-		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
 		if ( ! function_exists( 'bp_admin' ) ) {
 			require_once( BP_PLUGIN_DIR . 'bp-core/bp-core-admin.php' );
@@ -22,7 +22,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 	public function tearDown() {
 		parent::tearDown();
-		wp_set_current_user( $this->old_current_user );
+		$this->set_current_user( $this->old_current_user );
 	}
 
 	public function test_bp_admin_list_table_current_bulk_action() {

@@ -10,12 +10,12 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		parent::setUp();
 
 		$this->old_current_user = get_current_user_id();
-		wp_set_current_user( $this->factory->user->create( array( 'user_login' => 'paulgibbs', 'role' => 'subscriber' ) ) );
+		$this->set_current_user( $this->factory->user->create( array( 'user_login' => 'paulgibbs', 'role' => 'subscriber' ) ) );
 	}
 
 	public function tearDown() {
 		parent::tearDown();
-		wp_set_current_user( $this->old_current_user );
+		$this->set_current_user( $this->old_current_user );
 	}
 
 	function test_members_directory() {

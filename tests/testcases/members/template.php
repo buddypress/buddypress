@@ -9,12 +9,14 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		parent::setUp();
 
 		$this->old_current_user = get_current_user_id();
-		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$new_user = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$this->set_current_user( $new_user );
+
 	}
 
 	public function tearDown() {
 		parent::tearDown();
-		wp_set_current_user( $this->old_current_user );
+		$this->set_current_user( $this->old_current_user );
 	}
 
 	public function test_bp_user_query_include_on_user_page() {
