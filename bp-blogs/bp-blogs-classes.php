@@ -109,7 +109,7 @@ class BP_Blogs_Blog {
 		}
 
 		if ( !empty( $search_terms ) ) {
-			$filter = like_escape( $wpdb->escape( $search_terms ) );
+			$filter = esc_sql( like_escape( $search_terms ) );
 			$paged_blogs = $wpdb->get_results( "SELECT b.blog_id, b.user_id as admin_user_id, u.user_email as admin_user_email, wb.domain, wb.path, bm.meta_value as last_activity, bm2.meta_value as name FROM {$bp->blogs->table_name} b, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2, {$wpdb->base_prefix}blogs wb, {$wpdb->users} u WHERE b.blog_id = wb.blog_id AND b.user_id = u.ID AND b.blog_id = bm.blog_id AND b.blog_id = bm2.blog_id AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql} AND bm.meta_key = 'last_activity' AND bm2.meta_key = 'name' AND bm2.meta_value LIKE '%%$filter%%' {$user_sql} GROUP BY b.blog_id {$order_sql} {$pag_sql}" );
 			$total_blogs = $wpdb->get_var( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b, {$wpdb->base_prefix}blogs wb, {$bp->blogs->table_name_blogmeta} bm, {$bp->blogs->table_name_blogmeta} bm2 WHERE b.blog_id = wb.blog_id AND bm.blog_id = b.blog_id AND bm2.blog_id = b.blog_id AND wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql} AND bm.meta_key = 'name' AND bm2.meta_key = 'description' AND ( bm.meta_value LIKE '%%$filter%%' || bm2.meta_value LIKE '%%$filter%%' ) {$user_sql}" );
 		} else {
@@ -119,10 +119,9 @@ class BP_Blogs_Blog {
 
 		$blog_ids = array();
 		foreach ( (array) $paged_blogs as $blog ) {
-			$blog_ids[] = $blog->blog_id;
+			$blog_ids[] = (int) $blog->blog_id;
 		}
 
-		$blog_ids = $wpdb->escape( join( ',', (array) $blog_ids ) );
 		$paged_blogs = BP_Blogs_Blog::get_blog_extras( $paged_blogs, $blog_ids, $type );
 
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
@@ -211,8 +210,9 @@ class BP_Blogs_Blog {
 	function search_blogs( $filter, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 
-		$filter = like_escape( $wpdb->escape( $filter ) );
+		$filter = esc_sql( like_escape( $filter ) );
 
+		$hidden_sql = '';
 		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = "AND wb.public = 1";
 
@@ -241,8 +241,9 @@ class BP_Blogs_Blog {
 	function get_by_letter( $letter, $limit = null, $page = null ) {
 		global $bp, $wpdb;
 
-		$letter = like_escape( $wpdb->escape( $letter ) );
+		$letter = esc_sql( like_escape( $letter ) );
 
+		$hidden_sql = '';
 		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = "AND wb.public = 1";
 
@@ -260,6 +261,8 @@ class BP_Blogs_Blog {
 
 		if ( empty( $blog_ids ) )
 			return $paged_blogs;
+
+		$blog_ids = implode( ',', wp_parse_id_list( $blog_ids ) );
 
 		for ( $i = 0, $count = count( $paged_blogs ); $i < $count; ++$i ) {
 			$blog_prefix = $wpdb->get_blog_prefix( $paged_blogs[$i]->blog_id );
