@@ -128,6 +128,11 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	function set_current_user( $user_id ) {
 		global $bp;
 		$bp->loggedin_user->id = $user_id;
+		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $user_id );
+		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin( $user_id );
+		$bp->loggedin_user->domain         = bp_core_get_user_domain( $user_id );
+		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( $user_id );
+
 		wp_set_current_user( $user_id );
 	}
 
