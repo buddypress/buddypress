@@ -152,8 +152,10 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			'description' => 'This is one cool group',
 		) );
 		$g2 = $this->factory->group->create();
+		$u = $this->factory->user->create();
+		self::add_user_to_group( $u, $g1->id );
 
-		$groups = BP_Groups_Group::filter_user_groups( 'Cool' );
+		$groups = BP_Groups_Group::filter_user_groups( 'Cool', $u );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
 		$this->assertEquals( array( $g1->id ), $found );
