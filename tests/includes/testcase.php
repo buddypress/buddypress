@@ -12,6 +12,15 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 	public function setUp() {
 		parent::setUp();
+
+		// Make sure all users are deleted
+		// There's a bug in the multisite tests that causes the
+		// transaction rollback to fail for the first user created,
+		// which busts every other attempt to create users. This is a
+		// hack workaround
+		global $wpdb;
+		$wpdb->query( "TRUNCATE TABLE {$wpdb->users}" );
+
 		$this->factory = new BP_UnitTest_Factory;
 	}
 
@@ -88,6 +97,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$GLOBALS['wp']->main($parts['query']);
 
 		// For BuddyPress, James.
+		$GLOBALS['bp']->loggedin_user = NULL;
 		do_action( 'bp_init' );
 	}
 
