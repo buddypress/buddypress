@@ -25,7 +25,12 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		return $new_member->id;
 	}
 
-	public function test_get_exclude() {
+	/** get() ************************************************************/
+
+	/**
+	 * @group get
+	 */
+	public function test_get_with_exclude() {
 		$g1 = $this->factory->group->create();
 		$g2 = $this->factory->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
@@ -40,7 +45,10 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
-	public function test_get_include() {
+	/**
+	 * @group get
+	 */
+	public function test_get_with_include() {
 		$g1 = $this->factory->group->create();
 		$g2 = $this->factory->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
@@ -55,7 +63,10 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $g1 ) );
 	}
 
-	public function test_get_meta_query() {
+	/**
+	 * @group get
+	 */
+	public function test_get_with_meta_query() {
 		$g1 = $this->factory->group->create();
 		$g2 = $this->factory->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
@@ -84,6 +95,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $g1, $g2, ) );
 	}
 
+	/**
+	 * @group get
+	 */
 	public function test_get_normal_search() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -114,6 +128,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @group get
+	 */
 	public function test_get_search_with_percent_sign() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -129,6 +146,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @group get
+	 */
 	public function test_get_search_with_quotes() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
