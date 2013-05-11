@@ -345,7 +345,6 @@ class BP_Groups_Group {
 		);
 
 		$r = wp_parse_args( $args, $defaults );
-		extract( $r );
 
 		$sql       = array();
 		$total_sql = array();
@@ -353,25 +352,25 @@ class BP_Groups_Group {
 		$sql['select'] = "SELECT g.*, gm1.meta_value AS total_member_count, gm2.meta_value AS last_activity";
 		$sql['from']   = " FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2,";
 
-		if ( !empty( $user_id ) )
+		if ( !empty( $r['user_id'] ) )
 			$sql['members_from'] = " {$bp->groups->table_name_members} m,";
 
 		$sql['group_from'] = " {$bp->groups->table_name} g WHERE";
 
-		if ( !empty( $user_id ) )
+		if ( !empty( $r['user_id'] ) )
 			$sql['user_where'] = " g.id = m.group_id AND";
 
 		$sql['where'] = " g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'";
 
-		if ( empty( $show_hidden ) )
+		if ( empty( $r['show_hidden'] ) )
 			$sql['hidden'] = " AND g.status != 'hidden'";
 
-		if ( !empty( $search_terms ) ) {
-			$search_terms = esc_sql( like_escape( $search_terms ) );
+		if ( !empty( $r['search_terms'] ) ) {
+			$search_terms = esc_sql( like_escape( $r['search_terms'] ) );
 			$sql['search'] = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
 
-		$meta_query_sql = self::get_meta_query_sql( $meta_query );
+		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
 
 		if ( ! empty( $meta_query_sql['join'] ) ) {
 			$sql['from'] .= $meta_query_sql['join'];
@@ -382,22 +381,22 @@ class BP_Groups_Group {
 			$sql['meta'] = $meta_query_sql['where'];
 		}
 
-		if ( !empty( $user_id ) )
-			$sql['user'] = $wpdb->prepare( " AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $user_id );
+		if ( !empty( $r['user_id'] ) )
+			$sql['user'] = $wpdb->prepare( " AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $r['user_id'] );
 
-		if ( !empty( $include ) ) {
+		if ( !empty( $r['include'] ) ) {
 			$include        = wp_parse_id_list( $r['include'] );
 			$include        = $wpdb->escape( implode( ',', $include ) );
 			$sql['include'] = " AND g.id IN ({$include})";
 		}
 
-		if ( !empty( $exclude ) ) {
+		if ( !empty( $r['exclude'] ) ) {
 			$exclude        = wp_parse_id_list( $r['exclude'] );
 			$exclude        = $wpdb->escape( implode( ',', $exclude ) );
 			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
 		}
 
-		switch ( $type ) {
+		switch ( $r['type'] ) {
 			case 'newest': default:
 				$sql['order'] = " ORDER BY g.date_created DESC";
 				break;
@@ -415,8 +414,8 @@ class BP_Groups_Group {
 				break;
 		}
 
-		if ( !empty( $per_page ) && !empty( $page ) )
-			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page), intval( $per_page ) );
+		if ( !empty( $r['per_page'] ) && !empty( $r['page'] ) )
+			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) );
 
 		// Get paginated results
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array) $sql ), $sql );
@@ -424,7 +423,7 @@ class BP_Groups_Group {
 
 		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g, {$bp->groups->table_name_members} gm1, {$bp->groups->table_name_groupmeta} gm2";
 
-		if ( !empty( $user_id ) )
+		if ( !empty( $r['user_id'] ) )
 			$total_sql['select'] .= ", {$bp->groups->table_name_members} m";
 
 		if ( !empty( $sql['hidden'] ) )
@@ -433,7 +432,7 @@ class BP_Groups_Group {
 		if ( !empty( $sql['search'] ) )
 			$total_sql['where'][] = "( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 
-		if ( !empty( $user_id ) )
+		if ( !empty( $r['user_id'] ) )
 			$total_sql['where'][] = "m.group_id = g.id AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0";
 
 		// Already escaped in the paginated results block
@@ -463,9 +462,9 @@ class BP_Groups_Group {
 		}
 
 		// Populate some extra information instead of querying each time in the loop
-		if ( !empty( $populate_extras ) ) {
+		if ( !empty( $r['populate_extras'] ) ) {
 			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
-			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $type );
+			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $r['type'] );
 		}
 
 		// Grab all groupmeta
