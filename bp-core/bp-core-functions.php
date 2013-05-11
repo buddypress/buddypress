@@ -1081,6 +1081,21 @@ function bp_core_parse_args_array( $old_args_keys, $func_args ) {
 	return $new_args;
 }
 
+/**
+ * Sanitize an 'order' parameter for use in building SQL queries
+ *
+ * Strings like 'DESC', 'desc', ' desc' will be interpreted into 'DESC'.
+ * Everything else becomes 'ASC'.
+ *
+ * @since BuddyPress (1.8)
+ * @param string $order The 'order' string, as passed to the SQL constructor
+ * @return string The sanitized value 'DESC' or 'ASC'
+ */
+function bp_esc_sql_order( $order = '' ) {
+	$order = strtoupper( trim( $order ) );
+	return 'DESC' === $order ? 'DESC' : 'ASC';
+}
+
 /** Embeds ********************************************************************/
 
 /**
