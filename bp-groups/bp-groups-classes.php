@@ -352,20 +352,23 @@ class BP_Groups_Group {
 		$sql['select'] = "SELECT g.*, gm1.meta_value AS total_member_count, gm2.meta_value AS last_activity";
 		$sql['from']   = " FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2,";
 
-		if ( !empty( $r['user_id'] ) )
+		if ( ! empty( $r['user_id'] ) ) {
 			$sql['members_from'] = " {$bp->groups->table_name_members} m,";
+		}
 
 		$sql['group_from'] = " {$bp->groups->table_name} g WHERE";
 
-		if ( !empty( $r['user_id'] ) )
+		if ( ! empty( $r['user_id'] ) ) {
 			$sql['user_where'] = " g.id = m.group_id AND";
+		}
 
 		$sql['where'] = " g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'";
 
-		if ( empty( $r['show_hidden'] ) )
+		if ( empty( $r['show_hidden'] ) ) {
 			$sql['hidden'] = " AND g.status != 'hidden'";
+		}
 
-		if ( !empty( $r['search_terms'] ) ) {
+		if ( ! empty( $r['search_terms'] ) ) {
 			$search_terms = esc_sql( like_escape( $r['search_terms'] ) );
 			$sql['search'] = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
 		}
@@ -381,23 +384,25 @@ class BP_Groups_Group {
 			$sql['meta'] = $meta_query_sql['where'];
 		}
 
-		if ( !empty( $r['user_id'] ) )
+		if ( ! empty( $r['user_id'] ) ) {
 			$sql['user'] = $wpdb->prepare( " AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $r['user_id'] );
+		}
 
-		if ( !empty( $r['include'] ) ) {
+		if ( ! empty( $r['include'] ) ) {
 			$include        = wp_parse_id_list( $r['include'] );
 			$include        = $wpdb->escape( implode( ',', $include ) );
 			$sql['include'] = " AND g.id IN ({$include})";
 		}
 
-		if ( !empty( $r['exclude'] ) ) {
+		if ( ! empty( $r['exclude'] ) ) {
 			$exclude        = wp_parse_id_list( $r['exclude'] );
 			$exclude        = $wpdb->escape( implode( ',', $exclude ) );
 			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
 		}
 
 		switch ( $r['type'] ) {
-			case 'newest': default:
+			case 'newest':
+			default:
 				$sql['order'] = " ORDER BY g.date_created DESC";
 				break;
 			case 'active':
@@ -414,8 +419,9 @@ class BP_Groups_Group {
 				break;
 		}
 
-		if ( !empty( $r['per_page'] ) && !empty( $r['page'] ) )
+		if ( ! empty( $r['per_page'] ) && ! empty( $r['page'] ) ) {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) );
+		}
 
 		// Get paginated results
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array) $sql ), $sql );
@@ -423,25 +429,31 @@ class BP_Groups_Group {
 
 		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g, {$bp->groups->table_name_members} gm1, {$bp->groups->table_name_groupmeta} gm2";
 
-		if ( !empty( $r['user_id'] ) )
+		if ( ! empty( $r['user_id'] ) ) {
 			$total_sql['select'] .= ", {$bp->groups->table_name_members} m";
+		}
 
-		if ( !empty( $sql['hidden'] ) )
+		if ( ! empty( $sql['hidden'] ) ) {
 			$total_sql['where'][] = "g.status != 'hidden'";
+		}
 
-		if ( !empty( $sql['search'] ) )
+		if ( ! empty( $sql['search'] ) ) {
 			$total_sql['where'][] = "( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+		}
 
-		if ( !empty( $r['user_id'] ) )
+		if ( ! empty( $r['user_id'] ) ) {
 			$total_sql['where'][] = "m.group_id = g.id AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0";
+		}
 
 		// Already escaped in the paginated results block
-		if ( ! empty( $include ) )
+		if ( ! empty( $include ) ) {
 			$total_sql['where'][] = "g.id IN ({$include})";
+		}
 
 		// Already escaped in the paginated results block
-		if ( ! empty( $exclude ) )
+		if ( ! empty( $exclude ) ) {
 			$total_sql['where'][] = "g.id NOT IN ({$exclude})";
+		}
 
 		$total_sql['where'][] = "g.id = gm1.group_id";
 		$total_sql['where'][] = "g.id = gm2.group_id";
@@ -449,8 +461,9 @@ class BP_Groups_Group {
 
 		$t_sql = $total_sql['select'];
 
-		if ( !empty( $total_sql['where'] ) )
+		if ( ! empty( $total_sql['where'] ) ) {
 			$t_sql .= " WHERE " . join( ' AND ', (array) $total_sql['where'] );
+		}
 
 		// Get total group results
 		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $t_sql, $total_sql );
