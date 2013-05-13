@@ -54,8 +54,8 @@ class BP_Tests_URL extends BP_UnitTestCase {
 			switch_to_blog( $blog_id );
 			$blog_details = get_blog_details();
 
-			$this->go_to( '/' );
-			$this->assertEquals( bp_core_ajax_url(), $blog_details->siteurl . '/wp-admin/admin-ajax.php' );
+			$this->go_to( $blog_details->path );
+			$this->assertEquals( $blog_details->siteurl . '/wp-admin/admin-ajax.php', bp_core_ajax_url() );
 
 			restore_current_blog();
 			buddypress()->root_blog_id = $original_root_blog;
