@@ -2413,7 +2413,7 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
  * @uses bp_get_total_favorite_count_for_user()
  */
 function bp_total_mention_count_for_user( $user_id = 0 ) {
-	echo bp_get_total_favorite_count_for_user( $user_id );
+	echo bp_get_total_mention_count_for_user( $user_id );
 }
 
 	/**
