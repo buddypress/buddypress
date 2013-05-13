@@ -45,9 +45,6 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	function go_to( $url ) {
-		// Set this for bp_core_set_uri_globals()
-		$GLOBALS['_SERVER']['REQUEST_URI'] = $url = str_replace( untrailingslashit( network_home_url() ), '', $url );
-
 		// note: the WP and WP_Query classes like to silently fetch parameters
 		// from all over the place (globals, GET, etc), which makes it tricky
 		// to run them more than once without very carefully clearing everything
@@ -57,6 +54,9 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		}
 		$parts = parse_url($url);
 		if (isset($parts['scheme'])) {
+			// set the HTTP_HOST
+			$GLOBALS['_SERVER']['HTTP_HOST'] = $parts['host'];
+
 			$req = $parts['path'];
 			if (isset($parts['query'])) {
 				$req .= '?' . $parts['query'];
@@ -77,10 +77,57 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			unset( $_SERVER['HTTPS'] );
 		}
 
-		$_SERVER['REQUEST_URI'] = $req;
+		// Set this for bp_core_set_uri_globals()
+		$GLOBALS['_SERVER']['REQUEST_URI'] = $req;
 		unset($_SERVER['PATH_INFO']);
 
-		$this->flush_cache();
+		// setup $current_site and $current_blog globals for multisite based on
+		// REQUEST_URI; mostly copied from /wp-includes/ms-settings.php
+		if ( is_multisite() ) {
+			$domain = addslashes( $_SERVER['HTTP_HOST'] );
+			if ( false !== strpos( $domain, ':' ) ) {
+				if ( substr( $domain, -3 ) == ':80' ) {
+					$domain = substr( $domain, 0, -3 );
+					$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
+				} elseif ( substr( $domain, -4 ) == ':443' ) {
+					$domain = substr( $domain, 0, -4 );
+					$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
+				}
+			}
+
+			$domain = rtrim( $domain, '.' );
+			$cookie_domain = $domain;
+			if ( substr( $cookie_domain, 0, 4 ) == 'www.' )
+				$cookie_domain = substr( $cookie_domain, 4 );
+
+			$path = preg_replace( '|([a-z0-9-]+.php.*)|', '', $GLOBALS['_SERVER']['REQUEST_URI'] );
+			$path = str_replace ( '/wp-admin/', '/', $path );
+			$path = preg_replace( '|(/[a-z0-9-]+?/).*|', '$1', $path );
+
+			$GLOBALS['current_site'] = wpmu_current_site();
+			if ( ! isset( $GLOBALS['current_site']->blog_id ) )
+				$GLOBALS['current_site']->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $GLOBALS['current_site']->domain, $GLOBALS['current_site']->path ) );
+
+			// unit tests only support subdirectory install at the moment
+			// removed object cache references
+			if ( ! is_subdomain_install() ) {
+				$blogname = htmlspecialchars( substr( $GLOBALS['_SERVER']['REQUEST_URI'], strlen( $path ) ) );
+				if ( false !== strpos( $blogname, '/' ) )
+					$blogname = substr( $blogname, 0, strpos( $blogname, '/' ) );
+				if ( false !== strpos( $blogname, '?' ) )
+					$blogname = substr( $blogname, 0, strpos( $blogname, '?' ) );
+				$reserved_blognames = array( 'page', 'comments', 'blog', 'wp-admin', 'wp-includes', 'wp-content', 'files', 'feed' );
+				if ( $blogname != '' && ! in_array( $blogname, $reserved_blognames ) && ! is_file( $blogname ) )
+					$path .= $blogname . '/';
+
+				$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $domain, 'path' => $path ), false );
+
+				unset($reserved_blognames);
+			}
+
+			$GLOBALS['blog_id'] = $GLOBALS['current_blog']->blog_id;
+		}
+
 		unset($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
 		$GLOBALS['wp_the_query'] =& new WP_Query();
 		$GLOBALS['wp_query'] =& $GLOBALS['wp_the_query'];
@@ -196,5 +243,12 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		unset( $GLOBALS['super_admins'] );
 	}
 
-
+	/**
+	 * Go to the root blog. This helps reset globals after moving between
+	 * blogs.
+	 */
+	public function go_to_root() {
+		$blog_1_url = get_blog_option( 1, 'home' );
+		$this->go_to( str_replace( $blog_1_url, '', trailingslashit( bp_get_root_domain() ) ) );
+	}
 }
