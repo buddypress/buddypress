@@ -180,6 +180,15 @@ class BP_Blogs_Component extends BP_Component {
 				'href'   => trailingslashit( $blogs_link )
 			);
 
+			// Create a Blog
+			if ( bp_blog_signup_enabled() ) {
+				$wp_admin_nav[] = array(
+					'parent' => 'my-account-' . $this->id,
+					'id'     => 'my-account-' . $this->id . '-create',
+					'title'  => __( 'Create a Blog', 'buddypress' ),
+					'href'   => trailingslashit( bp_get_blogs_directory_permalink() . 'create' )
+				);
+			}
 		}
 
 		parent::setup_admin_bar( $wp_admin_nav );
