@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-11 12:35:15+00:00\n"
+"POT-Creation-Date: 2013-05-14 19:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -569,10 +569,10 @@ msgstr ""
 #: bp-activity/bp-activity-loader.php:315
 #: bp-activity/bp-activity-template.php:980
 #: bp-activity/bp-activity-template.php:1116
-#: bp-activity/bp-activity-template.php:1127 bp-blogs/bp-blogs-loader.php:209
+#: bp-activity/bp-activity-template.php:1127 bp-blogs/bp-blogs-loader.php:218
 #: bp-forums/bp-forums-loader.php:212 bp-forums/bp-forums-template.php:487
 #: bp-forums/bp-forums-template.php:604 bp-forums/bp-forums-template.php:1200
-#: bp-friends/bp-friends-loader.php:212 bp-groups/bp-groups-loader.php:572
+#: bp-friends/bp-friends-loader.php:212 bp-groups/bp-groups-loader.php:582
 #: bp-groups/bp-groups-template.php:752 bp-groups/bp-groups-template.php:775
 #: bp-groups/bp-groups-template.php:1204 bp-groups/bp-groups-template.php:1220
 #: bp-groups/bp-groups-template.php:1269 bp-groups/bp-groups-template.php:1285
@@ -873,7 +873,7 @@ msgid "New post comment posted"
 msgstr ""
 
 #: bp-blogs/bp-blogs-buddybar.php:43 bp-blogs/bp-blogs-loader.php:131
-#: bp-blogs/bp-blogs-loader.php:179 bp-blogs/bp-blogs-loader.php:200
+#: bp-blogs/bp-blogs-loader.php:179 bp-blogs/bp-blogs-loader.php:209
 msgid "My Sites"
 msgstr ""
 
@@ -933,14 +933,15 @@ msgstr ""
 msgid "Sites"
 msgstr ""
 
+#: bp-blogs/bp-blogs-loader.php:188 bp-blogs/bp-blogs-screens.php:110
+#: bp-blogs/bp-blogs-screens.php:148
+msgid "Create a Blog"
+msgstr ""
+
 #: bp-blogs/bp-blogs-screens.php:110 bp-blogs/bp-blogs-screens.php:112
 #: bp-blogs/bp-blogs-screens.php:148 bp-blogs/bp-blogs-screens.php:150
 #: bp-core/bp-core-template.php:249
 msgid "Blogs"
-msgstr ""
-
-#: bp-blogs/bp-blogs-screens.php:110 bp-blogs/bp-blogs-screens.php:148
-msgid "Create a Blog"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:136
@@ -1829,8 +1830,8 @@ msgstr ""
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:373 bp-groups/bp-groups-screens.php:1001
-#: bp-groups/bp-groups-screens.php:1039
+#: bp-core/bp-core-filters.php:373 bp-groups/bp-groups-loader.php:554
+#: bp-groups/bp-groups-screens.php:1001 bp-groups/bp-groups-screens.php:1039
 #: bp-themes/bp-default/groups/create.php:18
 #: bp-themes/bp-default/groups/index.php:21
 msgid "Create a Group"
@@ -3108,7 +3109,7 @@ msgstr ""
 msgid "Group Settings"
 msgstr ""
 
-#: bp-groups/bp-groups-buddybar.php:40 bp-groups/bp-groups-loader.php:585
+#: bp-groups/bp-groups-buddybar.php:40 bp-groups/bp-groups-loader.php:595
 #: bp-groups/bp-groups-template.php:2590
 msgid "Group Avatar"
 msgstr ""
@@ -3175,7 +3176,7 @@ msgid "Groups <span>%d</span>"
 msgstr ""
 
 #: bp-groups/bp-groups-loader.php:368 bp-groups/bp-groups-loader.php:398
-#: bp-groups/bp-groups-loader.php:537 bp-groups/bp-groups-loader.php:565
+#: bp-groups/bp-groups-loader.php:537 bp-groups/bp-groups-loader.php:575
 msgid "Memberships"
 msgstr ""
 
