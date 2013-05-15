@@ -31,8 +31,8 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 		$widget_name = apply_filters( 'widget_title', $widget_name );
 
-		echo $before_widget;
-		echo $before_title . $widget_name . $after_title;
+		echo $args['before_widget'];
+		echo $args['before_title'] . $widget_name . $args['after_title'];
 
 		if ( empty( $instance['max_posts'] ) || !$instance['max_posts'] )
 			$instance['max_posts'] = 10; ?>
@@ -70,7 +70,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 			</div>
 		<?php endif; ?>
 
-		<?php echo $after_widget; ?>
+		<?php echo $args['after_widget']; ?>
 	<?php
 	}
 
