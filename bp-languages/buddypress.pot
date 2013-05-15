@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-15 00:35:26+00:00\n"
+"POT-Creation-Date: 2013-05-15 18:35:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -547,8 +547,8 @@ msgstr ""
 
 #: bp-activity/bp-activity-loader.php:190
 #: bp-activity/bp-activity-loader.php:285 bp-core/bp-core-template.php:246
-#: bp-groups/bp-groups-activity.php:143 bp-groups/bp-groups-activity.php:179
-#: bp-groups/bp-groups-activity.php:215 bp-groups/bp-groups-activity.php:251
+#: bp-groups/bp-groups-activity.php:150 bp-groups/bp-groups-activity.php:186
+#: bp-groups/bp-groups-activity.php:222 bp-groups/bp-groups-activity.php:258
 #: bp-groups/bp-groups-admin.php:35 bp-groups/bp-groups-admin.php:36
 #: bp-groups/bp-groups-admin.php:622 bp-groups/bp-groups-loader.php:517
 #: bp-groups/bp-groups-screens.php:893 bp-groups/bp-groups-screens.php:999
@@ -864,15 +864,15 @@ msgstr ""
 msgid "Site Wide Activity Feed"
 msgstr ""
 
-#: bp-blogs/bp-blogs-activity.php:29
+#: bp-blogs/bp-blogs-activity.php:31
 msgid "New site created"
 msgstr ""
 
-#: bp-blogs/bp-blogs-activity.php:30
+#: bp-blogs/bp-blogs-activity.php:34
 msgid "New post published"
 msgstr ""
 
-#: bp-blogs/bp-blogs-activity.php:31
+#: bp-blogs/bp-blogs-activity.php:35
 msgid "New post comment posted"
 msgstr ""
 
@@ -2693,75 +2693,75 @@ msgstr ""
 msgid "You successfully left the group."
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:22
+#: bp-groups/bp-groups-activity.php:23
 msgid "Created a group"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:23
+#: bp-groups/bp-groups-activity.php:24
 msgid "Joined a group"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:24
+#: bp-groups/bp-groups-activity.php:30
 msgid "New group forum topic"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:25
+#: bp-groups/bp-groups-activity.php:31
 msgid "New group forum post"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:101
+#: bp-groups/bp-groups-activity.php:108
 msgid "%1$d new membership requests for the group \"%2$s\""
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:106
+#: bp-groups/bp-groups-activity.php:113
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:115 bp-groups/bp-groups-activity.php:120
+#: bp-groups/bp-groups-activity.php:122 bp-groups/bp-groups-activity.php:127
 msgid "%s requests group membership"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:138
+#: bp-groups/bp-groups-activity.php:145
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:151
+#: bp-groups/bp-groups-activity.php:158
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:174
+#: bp-groups/bp-groups-activity.php:181
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:187
+#: bp-groups/bp-groups-activity.php:194
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:210
+#: bp-groups/bp-groups-activity.php:217
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:223
+#: bp-groups/bp-groups-activity.php:230
 msgid "You were promoted to an admin in the group \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:246
+#: bp-groups/bp-groups-activity.php:253
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:259
+#: bp-groups/bp-groups-activity.php:266
 msgid "You were promoted to a mod in the group \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:283
+#: bp-groups/bp-groups-activity.php:290
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:287
+#: bp-groups/bp-groups-activity.php:294
 msgid "Group Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:295
+#: bp-groups/bp-groups-activity.php:302
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
