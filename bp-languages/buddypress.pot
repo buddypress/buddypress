@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-08 03:35:26+00:00\n"
+"POT-Creation-Date: 2013-05-15 00:35:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1532,7 +1532,7 @@ msgstr ""
 #: bp-core/bp-core-admin.php:408 bp-core/bp-core-template.php:243
 #: bp-core/bp-core-widgets.php:111 bp-groups/bp-groups-admin.php:764
 #: bp-groups/bp-groups-template.php:1454 bp-members/bp-members-loader.php:24
-#: bp-members/bp-members-screens.php:327
+#: bp-members/bp-members-screens.php:329
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:231
 #: bp-themes/bp-default/groups/single/admin.php:231
 msgid "Members"
@@ -1823,12 +1823,12 @@ msgstr ""
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:365 bp-members/bp-members-screens.php:428
+#: bp-core/bp-core-filters.php:365 bp-members/bp-members-screens.php:430
 #: bp-themes/bp-default/registration/register.php:23
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:369 bp-members/bp-members-screens.php:436
+#: bp-core/bp-core-filters.php:369 bp-members/bp-members-screens.php:438
 #: bp-themes/bp-default/registration/activate.php:13
 msgid "Activate your Account"
 msgstr ""
@@ -3913,12 +3913,12 @@ msgstr ""
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:431
+#: bp-members/bp-members-screens.php:433
 #: bp-themes/bp-default/registration/register.php:253
 msgid "Sign Up Complete!"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:439
+#: bp-members/bp-members-screens.php:441
 #: bp-themes/bp-default/registration/activate.php:11
 msgid "Account Activated"
 msgstr ""
