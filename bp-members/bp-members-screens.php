@@ -308,6 +308,8 @@ class BP_Members_Theme_Compat {
 			if ( bp_is_active( 'activity' ) && bp_is_single_activity() )
 				return;
 
+			do_action( 'bp_members_screen_display_profile' );
+
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post'    ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content' ) );
 
