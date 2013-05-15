@@ -19,13 +19,20 @@ function bp_blogs_register_widgets() {
 }
 add_action( 'bp_register_widgets', 'bp_blogs_register_widgets' );
 
+/**
+ * The Recent Networkwide Posts widget
+ */
 class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 	function __construct() {
-		parent::__construct( false, $name = _x( '(BuddyPress) Recent Networkwide Posts', 'widget name', 'buddypress' ) );
+		$widget_ops = array(
+			'description' => __( 'A list of recently published posts from across your network.', 'buddypress' ),
+			'classname'   => 'widget_bp_blogs_widget buddypress',
+		);
+		parent::__construct( false, $name = _x( '(BuddyPress) Recent Networkwide Posts', 'widget name', 'buddypress' ), $widget_ops );
 	}
 
-	function widget($args, $instance) {
+	function widget( $args, $instance ) {
 
 		$title = ! empty( $instance['title'] ) ? esc_html( $instance['title'] ) : __( 'Recent Networkwide Posts', 'buddypress' );
 
@@ -100,7 +107,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 		<p><label for="<?php echo $this->get_field_id( 'title' ) ?>"><?php _ex( 'Title:', 'Label for the Title field of the Recent Networkwide Posts widget', 'buddypress' ) ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ) ?>" name="<?php echo $this->get_field_name( 'title' ) ?>" type="text" value="<?php echo esc_attr( $title ) ?>" style="width: 100%;" /></label></p>
 		<p><label for="<?php echo $this->get_field_id( 'link_title' ) ?>"><input type="checkbox" name="<?php echo $this->get_field_name( 'link_title' ) ?>" value="1" <?php checked( $link_title ) ?> /> <?php _e( 'Link widget title to Blogs directory', 'buddypress' ) ?></label></p>
-		<p><label for="bp-blogs-widget-posts-max"><?php _e('Max posts to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_posts' ); ?>" name="<?php echo $this->get_field_name( 'max_posts' ); ?>" type="text" value="<?php echo esc_attr( $max_posts ); ?>" style="width: 30%" /></label></p>
-	<?php
+		<p><label for="<?php echo $this->get_field_id( 'max_posts' ) ?>"><?php _e( 'Max posts to show:', 'buddypress' ); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_posts' ); ?>" name="<?php echo $this->get_field_name( 'max_posts' ); ?>" type="text" value="<?php echo esc_attr( $max_posts ); ?>" style="width: 30%" /></label></p>
+		<?php
 	}
 }
