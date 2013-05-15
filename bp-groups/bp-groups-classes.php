@@ -442,7 +442,7 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $r['user_id'] ) ) {
-			$total_sql['where'][] = "m.group_id = g.id AND m.user_id = {$r['user_id']} AND m.is_confirmed = 1 AND m.is_banned = 0";
+			$total_sql['where'][] = $wpdb->prepare( "m.group_id = g.id AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $r['user_id'] );
 		}
 
 		// Already escaped in the paginated results block
