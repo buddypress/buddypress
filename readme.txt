@@ -3,7 +3,7 @@ Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,12 +12,6 @@ Social networking in a box. Build a social network for your company, school, spo
 == Description ==
 
 BuddyPress lets users sign-up and start creating profiles, posting messages, making connections, creating and interacting in groups, and much more. A social network in a box, BuddyPress lets you easily build a community for your company, school, sports team, or other niche community.
-
-<h4>Try the Demo</h4>
-
-If you're interested in seeing what a default installation of BuddyPress has to offer, try out the BuddyPress Test Drive! This site is a community of BuddyPress users looking to try out and discuss the latest features of BuddyPress.
-
-<a href="http://testbp.org/">BuddyPress Test Drive</a>
 
 <h4>Who's Using BuddyPress?</h4>
 
@@ -83,6 +77,9 @@ BuddyPress is available in more than 20 languages. For more information, check o
 
 == Upgrade Notice ==
 
+= 1.7.2 =
+See: http://codex.buddypress.org/releases/version-1-7-2/
+
 = 1.7.1 =
 See: http://codex.buddypress.org/releases/version-1-7-1/
 
@@ -121,6 +118,14 @@ Fixes over 10 bugs.
 
 == Changelog ==
 
-See http://codex.buddypress.org/releases/version-1-6/ for 1.6.
-See http://codex.buddypress.org/releases/version-1-5/ for 1.5.
-See http://buddypress.org/about/release-history/ for all other versions.
+= 1.7 =
+See: http://codex.buddypress.org/releases/version-1-7/
+
+= 1.6 =
+See: http://codex.buddypress.org/releases/version-1-6/
+
+= 1.5 =
+See: http://codex.buddypress.org/releases/version-1-5/
+
+= Older =
+See: http://buddypress.org/about/release-history/
