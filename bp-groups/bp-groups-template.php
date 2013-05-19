@@ -1977,19 +1977,16 @@ class BP_Groups_Group_Members_Template {
 function bp_group_has_members( $args = '' ) {
 	global $members_template;
 
-	$defaults = array(
+	$r = wp_parse_args( $args, array(
 		'group_id' => bp_get_current_group_id(),
 		'per_page' => 20,
 		'max' => false,
 		'exclude' => false,
 		'exclude_admins_mods' => 1,
 		'exclude_banned' => 1
-	);
+	) );
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	$members_template = new BP_Groups_Group_Members_Template( $group_id, $per_page, $max, (int) $exclude_admins_mods, (int) $exclude_banned, $exclude );
+	$members_template = new BP_Groups_Group_Members_Template( $r['group_id'], $r['per_page'], $r['max'], (int) $r['exclude_admins_mods'], (int) $r['exclude_banned'], $r['exclude'] );
 	return apply_filters( 'bp_group_has_members', $members_template->has_members(), $members_template );
 }
 
