@@ -11,6 +11,11 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * Integration test to make sure meta_query is getting passed through
+	 *
+	 * @group bp_has_groups
+	 */
 	public function test_bp_has_groups_with_meta_query() {
 		$g1 = $this->factory->group->create();
 		$g2 = $this->factory->group->create();

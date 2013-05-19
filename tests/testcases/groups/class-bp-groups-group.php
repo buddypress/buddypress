@@ -83,6 +83,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $g1 ) );
 	}
 
+	/**
+	 * @group get
+	 */
 	public function test_get_empty_meta_query() {
 		$g1 = $this->factory->group->create();
 		$g2 = $this->factory->group->create();
@@ -113,6 +116,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @group get
+	 */
 	public function test_get_search_with_underscores() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
