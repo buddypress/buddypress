@@ -223,6 +223,20 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		return $user_id;
 	}
 
+	public static function add_user_to_group( $user_id, $group_id ) {
+		$new_member                = new BP_Groups_Member;
+		$new_member->group_id      = $group_id;
+		$new_member->user_id       = $user_id;
+		$new_member->inviter_id    = 0;
+		$new_member->is_admin      = 0;
+		$new_member->user_title    = '';
+		$new_member->date_modified = bp_core_current_time();
+		$new_member->is_confirmed  = 1;
+
+		$new_member->save();
+		return $new_member->id;
+	}
+
 	/**
 	 * We can't use grant_super_admin() because we will need to modify
 	 * the list more than once, and grant_super_admin() can only be run

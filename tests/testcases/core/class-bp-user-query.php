@@ -2,6 +2,7 @@
 
 /**
  * @group core
+ * @group BP_User_Query
  */
 class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	protected $old_current_user = 0;
