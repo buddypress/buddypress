@@ -982,24 +982,27 @@ class BP_Groups_List_Table extends WP_List_Table {
 		// Set per page from the screen options
 		$per_page = $this->get_items_per_page( str_replace( '-', '_', "{$screen->id}_per_page" ) );
 
-		// Sort order. Note: not supported in bp_has_groups()
-		$order = 'ASC';
+		// Sort order.
+		$order = 'DESC';
 		if ( !empty( $_REQUEST['order'] ) ) {
 			$order = ( 'desc' == strtolower( $_REQUEST['order'] ) ) ? 'DESC' : 'ASC';
 		}
 
 		// Order by - default to newest
-		$type = 'newest';
-		if ( !empty( $_REQUEST['orderby'] ) ) {
+		$orderby = 'last_activity';
+		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			switch ( $_REQUEST['orderby'] ) {
 				case 'name' :
-					$type = 'alphabetical';
+					$orderby = 'name';
 					break;
 				case 'id' :
-					$type = 'newest';
+					$orderby = 'date_created';
 					break;
 				case 'members' :
-					$type = 'popular';
+					$orderby = 'total_member_count';
+					break;
+				case 'last_active' :
+					$orderby = 'last_activity';
 					break;
 			}
 		}
@@ -1040,7 +1043,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 				'include'  => $include,
 				'per_page' => $per_page,
 				'page'     => $page,
-				'type'     => $type,
+				'orderby'  => $orderby,
 				'order'    => $order
 			);
 
@@ -1192,15 +1195,24 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * Get the column names for sortable columns
 	 *
+	 * Note: It's not documented in WP, but the second item in the
+	 * nested arrays below is $desc_first. Normally, we would set
+	 * last_active to be desc_first (since you're generally interested in
+	 * the *most* recently active group, not the *least*). But because
+	 * the default sort for the Groups admin screen is DESC by last_active,
+	 * we want the first click on the Last Active column header to switch
+	 * the sort order - ie, to make it ASC. Thus last_active is set to
+	 * $desc_first = false.
+	 *
 	 * @return array
 	 * @since BuddyPress (1.7)
 	 */
 	function get_sortable_columns() {
 		return array(
-			'gid'         => array( 'gid',         false ),
-			'comment'     => array( 'name',        false ),
-			'members'     => array( 'members',     false ),
-			'last_active' => array( 'last_active', false )
+			'gid'         => array( 'gid', false ),
+			'comment'     => array( 'name', false ),
+			'members'     => array( 'members', false ),
+			'last_active' => array( 'last_active', false ),
 		);
 	}
 
