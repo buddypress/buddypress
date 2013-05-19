@@ -497,13 +497,14 @@ class BP_Groups_Group {
 	 * WP_Query, we have to alter the return value (stripping the leading
 	 * AND keyword from the 'where' clause).
 	 *
-	 * @since 1.8
+	 * @since BuddyPress (1.8)
+	 * @access protected
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *   documentation for WP_Meta_Query for details.
 	 * @return array $sql_array 'join' and 'where' clauses
 	 */
-	public static function get_meta_query_sql( $meta_query = array() ) {
+	protected static function get_meta_query_sql( $meta_query = array() ) {
 		global $wpdb;
 
 		$sql_array = array(
