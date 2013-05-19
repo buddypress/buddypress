@@ -34,4 +34,67 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$ids = wp_list_pluck( $groups_template->groups, 'id' );
 		$this->assertEquals( $ids, array( $g1, ) );
 	}
+
+	/**
+	 * Integration test to make sure order and orderby are interpreted when
+	 * no 'type' value has been passed
+	 *
+	 * @group bp_has_groups
+	 */
+	public function test_bp_has_groups_with_order_orderby_with_null_type() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'AAAAA',
+			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 100 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000000 ),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'BBBBB',
+			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 1000000 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 10000 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'name' => 'CCCCC',
+			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 10000 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 10 ),
+		) );
+
+		global $groups_template;
+		bp_has_groups( array(
+			'order' => 'ASC',
+			'orderby' => 'name',
+		) );
+
+		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$this->assertEquals( array( $g1, $g2, $g3, ), $ids );
+	}
+
+	/**
+	 * Integration test to make sure 'order' is set to 'DESC' and 'orderby'
+	 * to 'last_activity' when no type or order/orderby params are passed.
+	 * This ensures backpat with the old system, where 'active' was the
+	 * default type param, and there were no order/orderby params.
+	 *
+	 * @group bp_has_groups
+	 */
+	public function test_bp_has_groups_defaults_to_DESC_last_activity_for_default_type_active_backpat() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'AAAAA',
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 100 ),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'BBBBB',
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000000 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'name' => 'CCCCC',
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 10000 ),
+		) );
+
+		global $groups_template;
+		bp_has_groups();
+
+		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$this->assertEquals( array( $g1, $g3, $g2, ), $ids );
+	}
+
 }

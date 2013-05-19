@@ -166,6 +166,8 @@ class BP_Groups_Template {
 		} else {
 			$this->groups = groups_get_groups( array(
 				'type'            => $type,
+				'order'           => $order,
+				'orderby'         => $orderby,
 				'per_page'        => $this->pag_num,
 				'page'            => $this->pag_page,
 				'user_id'         => $user_id,
@@ -266,6 +268,17 @@ class BP_Groups_Template {
 	}
 }
 
+/**
+ * Start the Groups Template Loop
+ *
+ * See the $defaults definition below for a description of parameters.
+ *
+ * Note that the 'type' parameter overrides 'order' and 'orderby'. See
+ * BP_Groups_Group::get() for more details.
+ *
+ * @param array $args
+ * @return bool True if there are groups to display that match the params
+ */
 function bp_has_groups( $args = '' ) {
 	global $groups_template, $bp;
 
@@ -275,7 +288,7 @@ function bp_has_groups( $args = '' ) {
 	 * pass their parameters directly to the loop.
 	 */
 	$slug    = false;
-	$type    = 'active';
+	$type    = '';
 	$user_id = 0;
 	$order   = '';
 
@@ -284,6 +297,7 @@ function bp_has_groups( $args = '' ) {
 		$user_id = bp_displayed_user_id();
 
 	// Type
+	// @todo What is $order? At some point it was removed incompletely?
 	if ( bp_is_current_action( 'my-groups' ) ) {
 		if ( 'most-popular' == $order ) {
 			$type = 'popular';
@@ -298,7 +312,9 @@ function bp_has_groups( $args = '' ) {
 	}
 
 	$defaults = array(
-		'type'            => $type,
+		'type'            => $type, // 'type' is an override for 'order' and 'orderby'. See docblock.
+		'order'           => 'DESC',
+		'orderby'         => 'last_activity',
 		'page'            => 1,
 		'per_page'        => 20,
 		'max'             => false,
@@ -313,7 +329,7 @@ function bp_has_groups( $args = '' ) {
 		'include'         => false,    // Pass comma separated list or array of group ID's to return only these groups
 		'exclude'         => false,    // Pass comma separated list or array of group ID's to exclude these groups
 
-		'populate_extras' => true      // Get extra meta - is_member, is_banned
+		'populate_extras' => true,     // Get extra meta - is_member, is_banned
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -329,6 +345,8 @@ function bp_has_groups( $args = '' ) {
 
 	$groups_template = new BP_Groups_Template( array(
 		'type'            => $r['type'],
+		'order'           => $r['order'],
+		'orderby'         => $r['orderby'],
 		'page'            => (int) $r['page'],
 		'per_page'        => (int) $r['per_page'],
 		'max'             => (int) $r['max'],

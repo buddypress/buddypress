@@ -332,7 +332,9 @@ class BP_Groups_Group {
 		}
 
 		$defaults = array(
-			'type'            => 'newest',
+			'type'            => null,
+			'orderby'         => 'date_created',
+			'order'           => 'DESC',
 			'per_page'        => null,
 			'page'            => null,
 			'user_id'         => 0,
@@ -341,7 +343,7 @@ class BP_Groups_Group {
 			'include'         => false,
 			'populate_extras' => true,
 			'exclude'         => false,
-			'show_hidden'     => false
+			'show_hidden'     => false,
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -400,23 +402,39 @@ class BP_Groups_Group {
 			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
 		}
 
-		switch ( $r['type'] ) {
-			case 'newest':
-			default:
-				$sql['order'] = " ORDER BY g.date_created DESC";
-				break;
-			case 'active':
-				$sql[] = "ORDER BY last_activity DESC";
-				break;
-			case 'popular':
-				$sql[] = "ORDER BY CONVERT(gm1.meta_value, SIGNED) DESC";
-				break;
-			case 'alphabetical':
-				$sql[] = "ORDER BY g.name ASC";
-				break;
-			case 'random':
-				$sql[] = "ORDER BY rand()";
-				break;
+		/** Order/orderby ********************************************/
+
+		$order   = $r['order'];
+		$orderby = $r['orderby'];
+
+		// If a 'type' parameter was passed, parse it and overwrite
+		// 'order' and 'orderby' params passed to the function
+		if (  ! empty( $r['type'] ) ) {
+			$order_orderby = self::convert_type_to_order_orderby( $r['type'] );
+
+			// If an invalid type is passed, $order_orderby will be
+			// an array with empty values. In this case, we stick
+			// with the default values of $order and $orderby
+			if ( ! empty( $order_orderby['order'] ) ) {
+				$order = $order_orderby['order'];
+			}
+
+			if ( ! empty( $order_orderby['orderby'] ) ) {
+				$orderby = $order_orderby['orderby'];
+			}
+		}
+
+		// Sanitize 'order'
+		$order = bp_esc_sql_order( $order );
+
+		// Convert 'orderby' into the proper ORDER BY term
+		$orderby = self::convert_orderby_to_order_by_term( $orderby );
+
+		// Random order is a special case
+		if ( 'rand()' === $orderby ) {
+			$sql[] = "ORDER BY rand()";
+		} else {
+			$sql[] = "ORDER BY {$orderby} {$order}";
 		}
 
 		if ( ! empty( $r['per_page'] ) && ! empty( $r['page'] ) ) {
@@ -540,6 +558,83 @@ class BP_Groups_Group {
 		return $sql_array;
 	}
 
+	/**
+	 * Convert the 'type' parameter to 'order' and 'orderby'
+	 *
+	 * @since BuddyPress (1.8)
+	 * @access protected
+	 * @param string $type The 'type' shorthand param
+	 * @return array 'order' and 'orderby'
+	 */
+	protected function convert_type_to_order_orderby( $type = '' ) {
+		$order = $orderby = '';
+
+		switch ( $type ) {
+			case 'newest' :
+				$order   = 'DESC';
+				$orderby = 'date_created';
+				break;
+
+			case 'active' :
+				$order   = 'DESC';
+				$orderby = 'last_activity';
+				break;
+
+			case 'popular' :
+				$order   = 'DESC';
+				$orderby = 'total_member_count';
+				break;
+
+			case 'alphabetical' :
+				$order   = 'ASC';
+				$orderby = 'name';
+				break;
+
+			case 'random' :
+				$order   = '';
+				$orderby = 'random';
+				break;
+		}
+
+		return array( 'order' => $order, 'orderby' => $orderby );
+	}
+
+	/**
+	 * Convert the 'orderby' param into a proper SQL term/column
+	 *
+	 * @since BuddyPress (1.8)
+	 * @access protected
+	 * @param string $orderby
+	 * @return string $order_by_term
+	 */
+	protected function convert_orderby_to_order_by_term( $orderby ) {
+		$order_by_term = '';
+
+		switch ( $orderby ) {
+			case 'date_created' :
+			default :
+				$order_by_term = 'g.date_created';
+				break;
+
+			case 'last_activity' :
+				$order_by_term = 'last_activity';
+				break;
+
+			case 'total_group_members' :
+				$order_by_term = 'CONVERT(gm1.meta_value, SIGNED)';
+				break;
+
+			case 'name' :
+				$order_by_term = 'g.name';
+				break;
+
+			case 'random' :
+				$order_by_term = 'rand()';
+				break;
+		}
+
+		return $order_by_term;
+	}
 
 	function get_by_most_forum_topics( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp, $bbdb;

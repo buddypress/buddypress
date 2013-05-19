@@ -413,7 +413,9 @@ function groups_get_total_member_count( $group_id ) {
 function groups_get_groups( $args = '' ) {
 
 	$defaults = array(
-		'type'            => 'active', // active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts
+		'type'            => false,    // active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts
+		'order'           => 'DESC',   // 'ASC' or 'DESC'
+		'orderby'         => 'date_created', // date_created, last_activity, total_member_count, name, random
 		'user_id'         => false,    // Pass a user_id to limit to only groups that this user is a member of
 		'include'         => false,    // Only include these specific groups (group_ids)
 		'exclude'         => false,    // Do not include these specific groups (group_ids)
@@ -437,7 +439,9 @@ function groups_get_groups( $args = '' ) {
 		'show_hidden'     => $r['show_hidden'],
 		'per_page'        => $r['per_page'],
 		'page'            => $r['page'],
-		'populate_extras' => $r['populate_extras']
+		'populate_extras' => $r['populate_extras'],
+		'order'           => $r['order'],
+		'orderby'         => $r['orderby'],
 	) );
 
 	return apply_filters_ref_array( 'groups_get_groups', array( &$groups, &$r ) );

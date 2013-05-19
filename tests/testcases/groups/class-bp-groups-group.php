@@ -171,6 +171,180 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * BP 1.8 will change the default 'type' param in favor of default
+	 * 'order' and 'orderby'. This is to make sure that existing plugins
+	 * will work appropriately
+	 *
+	 * @group get
+	 */
+	public function test_get_with_default_type_value_should_be_newest() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'A Group',
+			'date_created' => bp_core_current_time(),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'D Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 100 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'name' => 'B Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 100000 ),
+		) );
+		$g4 = $this->factory->group->create( array(
+			'name' => 'C Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
+		) );
+
+		$found = BP_Groups_Group::get();
+
+		$this->assertEquals( BP_Groups_Group::get( array( 'type' => 'newest' ) ), $found );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_with_type_newest() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'A Group',
+			'date_created' => bp_core_current_time(),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'D Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'name' => 'B Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100000 ),
+		) );
+		$g4 = $this->factory->group->create( array(
+			'name' => 'C Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
+		) );
+
+		$groups = BP_Groups_Group::get( array( 'type' => 'newest' ) );
+		$found = wp_parse_id_list( wp_list_pluck( $groups['groups'], 'id' ) );
+		$this->assertEquals( array( $g1, $g2, $g4, $g3 ), $found );
+	}
+
+	/** convert_type_to_order_orderby() **********************************/
+
+	/**
+	 * @group convert_type_to_order_orderby
+	 */
+	public function test_convert_type_to_order_orderby_newest() {
+		$expected = array(
+			'order' => 'DESC',
+			'orderby' => 'date_created',
+		);
+		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'newest' ) );
+	}
+
+	/**
+	 * @group convert_type_to_order_orderby
+	 */
+	public function test_convert_type_to_order_orderby_active() {
+		$expected = array(
+			'order' => 'DESC',
+			'orderby' => 'last_activity',
+		);
+		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'active' ) );
+	}
+
+	/**
+	 * @group convert_type_to_order_orderby
+	 */
+	public function test_convert_type_to_order_orderby_popular() {
+		$expected = array(
+			'order' => 'DESC',
+			'orderby' => 'total_member_count',
+		);
+		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'popular' ) );
+	}
+
+	/**
+	 * @group convert_type_to_order_orderby
+	 */
+	public function test_convert_type_to_order_orderby_alphabetical() {
+		$expected = array(
+			'order' => 'ASC',
+			'orderby' => 'name',
+		);
+		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'alphabetical' ) );
+	}
+
+	/**
+	 * @group convert_type_to_order_orderby
+	 */
+	public function test_convert_type_to_order_orderby_random() {
+		$expected = array(
+			// order gets thrown out
+			'order' => '',
+			'orderby' => 'random',
+		);
+		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'random' ) );
+	}
+
+	/**
+	 * @group convert_type_to_order_orderby
+	 */
+	public function test_convert_type_to_order_orderby_invalid() {
+		$expected = array(
+			'order' => '',
+			'orderby' => '',
+		);
+		$this->assertEquals( $expected, _BP_Groups_Group::_convert_type_to_order_orderby( 'foooooooooooooooobar' ) );
+	}
+
+	/** convert_orderby_to_order_by_term() **********************************/
+
+	/**
+	 * @group convert_orderby_to_order_by_term
+	 */
+	public function test_convert_orderby_to_order_by_term_date_created() {
+		$this->assertEquals( 'g.date_created', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ) );
+	}
+
+	/**
+	 * @group convert_orderby_to_order_by_term
+	 */
+	public function test_convert_orderby_to_order_by_term_last_activity() {
+		$c = new _BP_Groups_Group();
+		$this->assertEquals( 'last_activity', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'last_activity' ) );
+	}
+
+	/**
+	 * @group convert_orderby_to_order_by_term
+	 */
+	public function test_convert_orderby_to_order_by_term_total_group_members() {
+		$c = new _BP_Groups_Group();
+		$this->assertEquals( 'CONVERT(gm1.meta_value, SIGNED)', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'total_group_members' ) );
+	}
+
+	/**
+	 * @group convert_orderby_to_order_by_term
+	 */
+	public function test_convert_orderby_to_order_by_term_name() {
+		$c = new _BP_Groups_Group();
+		$this->assertEquals( 'g.name', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'name' ) );
+	}
+
+	/**
+	 * @group convert_orderby_to_order_by_term
+	 */
+	public function test_convert_orderby_to_order_by_term_random() {
+		$c = new _BP_Groups_Group();
+		$this->assertEquals( 'rand()', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'random' ) );
+	}
+
+	/**
+	 * @group convert_orderby_to_order_by_term
+	 */
+	public function test_convert_orderby_to_order_by_term_invalid_fallback_to_date_created() {
+		$c = new _BP_Groups_Group();
+		$this->assertEquals( _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ), _BP_Groups_Group::_convert_orderby_to_order_by_term( 'I am a bad boy' ) );
+	}
+
 	public function test_filter_user_groups_normal_search() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -355,5 +529,18 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 
 		$this->assertEquals( array( $g1 ), $found );
+	}
+}
+
+/**
+ * Stub class for accessing protected methods
+ */
+class _BP_Groups_Group extends BP_Groups_Group {
+	public function _convert_type_to_order_orderby( $type ) {
+		return self::convert_type_to_order_orderby( $type );
+	}
+
+	public function _convert_orderby_to_order_by_term( $term ) {
+		return self::convert_orderby_to_order_by_term( $term );
 	}
 }
