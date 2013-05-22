@@ -1267,19 +1267,20 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
  * @package BuddyPress Core
  */
 function bp_core_load_buddypress_textdomain() {
-	$locale        = apply_filters( 'buddypress_locale', get_locale() );
-	$mofile        = sprintf( 'buddypress-%s.mo', $locale );
-	$mofile_global = WP_LANG_DIR . '/' . $mofile;
-	$mofile_local  = BP_PLUGIN_DIR . 'bp-languages/' . $mofile;
+	$locale      = apply_filters( 'buddypress_locale', get_locale() );
+	$mofile      = sprintf( 'buddypress-%s.mo', $locale );
+	$uploads_dir = wp_upload_dir();
 
-	if ( file_exists( $mofile_global ) )
-		return load_textdomain( 'buddypress', $mofile_global );
-	elseif ( file_exists( $mofile_local ) )
-		return load_textdomain( 'buddypress', $mofile_local );
-	else
-		return false;
+	$translation_paths = array(
+		WP_LANG_DIR . "/{$mofile}",
+		BP_PLUGIN_DIR . "bp-languages/{$mofile}",
+		$uploads_dir['basedir'] . "/buddypress/{$mofile}",
+	);
+
+	foreach ( $translation_paths as $path )
+		load_textdomain( 'buddypress', $path );
 }
-add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
+add_action( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
 
 /**
  * A javascript free implementation of the search functions in BuddyPress
@@ -1360,3 +1361,36 @@ function bp_core_print_generation_time() {
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );
+
+/**
+ * Find out if there's a newer translation available for this site on translate.wordpress.org
+ *
+ * @since BuddyPress (1.8)
+ */
+function bp_core_check_for_updated_translation() {
+	require( buddypress()->plugin_dir  . 'bp-core/admin/bp-core-translations.php' );
+
+	$locale = BP_Translate::get_locale();
+	if ( 'en_US' === $locale )
+		return;
+
+	// No point checking if we know there's an updated translation
+	if ( bp_is_translation_update_pending() )
+		return;
+
+	$locale = BP_Translate::get_glotpress_locale();
+	if ( ! $locale )
+		return;
+
+	$url  = 'https://translate.wordpress.org/projects/buddypress/%1$s/%2$s/default/export-translations?format=mo';
+	$args = bp_get_translation_version() ? array( 'headers' => 'If-Modified-Since: ' . gmdate( 'D, d M Y H:i:s', bp_get_translation_version() ) . ' GMT' ) : array();
+
+	// Check version of translation on translate.wordpress.org
+	$response = wp_remote_head( sprintf( $url, buddypress()->glotpress_version, $locale ), $args );
+	if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) === 304 || wp_remote_retrieve_response_code( $response ) !== 200 )
+		return;
+
+	// An updated translation is available
+	bp_update_option( '_bp_translation_pending', true );
+}
+add_action( 'bp_translate_update_check', 'bp_core_check_for_updated_translation' );

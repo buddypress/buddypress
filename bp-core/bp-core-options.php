@@ -64,6 +64,12 @@ function bp_get_default_options() {
 		// The ID for the current theme package.
 		'_bp_theme_package_id'            => 'legacy',
 
+		// Timestamp of the the current translation from translate.wordpress.org
+		'_bp_translation_version'         => 0,
+
+		// Is there a more recent translation available on translate.wordpress.org?
+		'_bp_translation_pending'         => false,
+
 		/** Groups ************************************************************/
 
 		// @todo Move this into the groups component
@@ -535,4 +541,27 @@ function bp_is_akismet_active( $default = true ) {
  */
 function bp_get_theme_package_id( $default = 'legacy' ) {
 	return apply_filters( 'bp_get_theme_package_id', bp_get_option( '_bp_theme_package_id', $default ) );
+}
+
+/**
+ * Get the timestamp of the the current translation from translate.wordpress.org
+ *
+ * @param int $default Optional; default value 0.
+ * @return int Unix timestamp
+ * @since BuddyPress (1.8)
+ */
+function bp_get_translation_version( $default = 0 ) {
+	return apply_filters( 'bp_get_translation_version', (int) bp_get_option( '_bp_translation_version', $default ) );
+}
+
+/**
+ * Does translate.wordpress.org have a more recent translation available on translate.wordpress.org?
+ *
+ * @param bool $default Optional; defaults to false.
+ * @return bool
+ * @see BP_Translate->check_for_updated_translation()
+ * @since BuddyPress (1.8)
+ */
+function bp_is_translation_update_pending( $default = false ) {
+	return apply_filters( 'bp_is_translation_update_pending', (bool) bp_get_option( '_bp_translation_pending', $default ) );
 }

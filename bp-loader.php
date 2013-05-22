@@ -280,6 +280,7 @@ class BuddyPress {
 
 		$this->version    = '1.8-bleeding-7013';
 		$this->db_version = 6080;
+		$this->glotpress_version = 'dev';
 
 		/** Loading ***********************************************************/
 
