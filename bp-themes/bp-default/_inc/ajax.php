@@ -168,18 +168,25 @@ function bp_dtheme_object_template_loader() {
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
 		return;
 
+	// Bail if no object passed
+	if ( empty( $_POST['object'] ) )
+		return;
+
+	// Sanitize the object
+	$object = sanitize_title( $_POST['object'] );
+
+	// Bail if object is not an active component
+	if ( ! bp_is_active( $object ) )
+		return;
+
  	/**
 	 * AJAX requests happen too early to be seen by bp_update_is_directory()
 	 * so we do it manually here to ensure templates load with the correct
 	 * context. Without this check, templates will load the 'single' version
 	 * of themselves rather than the directory version.
 	 */
-
 	if ( ! bp_current_action() )
 		bp_update_is_directory( true, bp_current_component() );
-
-	// Sanitize the post object
-	$object = esc_attr( $_POST['object'] );
 
 	// Locate the object template
 	locate_template( array( "$object/$object-loop.php" ), true );
