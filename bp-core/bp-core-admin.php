@@ -93,12 +93,11 @@ class BP_Admin {
 	 * @access private
 	 */
 	private function includes() {
-		require( $this->admin_dir . 'bp-core-actions.php'      );
-		require( $this->admin_dir . 'bp-core-settings.php'     );
-		require( $this->admin_dir . 'bp-core-functions.php'    );
-		require( $this->admin_dir . 'bp-core-components.php'   );
-		require( $this->admin_dir . 'bp-core-slugs.php'        );
-		require( $this->admin_dir . 'bp-core-translations.php' );
+		require( $this->admin_dir . 'bp-core-actions.php'    );
+		require( $this->admin_dir . 'bp-core-settings.php'   );
+		require( $this->admin_dir . 'bp-core-functions.php'  );
+		require( $this->admin_dir . 'bp-core-components.php' );
+		require( $this->admin_dir . 'bp-core-slugs.php'      );
 	}
 
 	/**
