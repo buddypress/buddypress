@@ -1891,19 +1891,30 @@ function bp_get_nav_menu_items() {
  * Displays a navigation menu.
  *
  * @param string|array $args Optional arguments:
- *  before - Text before the link text.
- *  container - Whether to wrap the ul, and what to wrap it with. Defaults to div.
- *  container_class - The class that is applied to the container. Defaults to 'menu-bp-container'.
- *  container_id - The ID that is applied to the container. Defaults to blank.
- *  depth - How many levels of the hierarchy are to be included. 0 means all. Defaults to 0.
- *  echo - Whether to echo the menu or return it. Defaults to echo.
- *  fallback_cb - If the menu doesn't exists, a callback function will fire. Defaults to false (no fallback).
- *  items_wrap - How the list items should be wrapped. Defaults to a ul with an id and class. Uses printf() format with numbered placeholders.
- *  link_after - Text after the link.
- *  link_before - Text before the link.
- *  menu_class - CSS class to use for the ul element which forms the menu. Defaults to 'menu'.
- *  menu_id - The ID that is applied to the ul element which forms the menu. Defaults to 'menu-bp', incremented.
- *  walker - Allows a custom walker to be specified. Defaults to 'BP_Walker_Nav_Menu'.
+ *  - before           Text before the link text.
+ *  - container        Whether to wrap the ul, and what to wrap it with.
+ *                     Defaults to div.
+ *  - container_class  The class that is applied to the container. Defaults to
+ *                     'menu-bp-container'.
+ *  - container_id     The ID that is applied to the container. Defaults to
+ *                     blank.
+ *  - depth            How many levels of the hierarchy are to be included. 0
+ *                     means all. Defaults to 0.
+ *  - echo             Whether to echo the menu or return it. Defaults to echo.
+ *  - fallback_cb      If the menu doesn't exists, a callback function will
+ *                     fire. Defaults to false (no fallback).
+ *  - items_wrap       How the list items should be wrapped. Defaults to a ul
+ *                     with an id and class. Uses printf() format with numbered
+ *                     placeholders.
+ *  - link_after       Text after the link.
+ *  - link_before      Text before the link.
+ *  - menu_class       CSS class to use for the ul element which forms the menu.
+ *                     Defaults to 'menu'.
+ *  - menu_id          The ID that is applied to the ul element which forms the
+ *                     menu. Defaults to 'menu-bp', incremented.
+ *  - walker           Allows a custom walker to be specified. Defaults to
+ *                     'BP_Walker_Nav_Menu'.
+ *
  * @since BuddyPress (1.7)
  */
 function bp_nav_menu( $args = array() ) {
