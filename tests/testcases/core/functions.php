@@ -137,7 +137,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_time_since_minutes_seconds() {
 		$now = time();
 		$then = $now - ( 3 * MINUTE_IN_SECONDS ) - 3;
-		$this->assertEquals( '3 minutes, 3 seconds ago', bp_core_time_since( $then, $now ) );
+		$this->assertEquals( '3 minutes ago', bp_core_time_since( $then, $now ) );
 	}
 
 	/**

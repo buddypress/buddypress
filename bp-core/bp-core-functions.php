@@ -570,6 +570,10 @@ function bp_core_current_time( $gmt = true ) {
  * eg: 4 days
  * eg: 4 weeks and 6 days
  *
+ * Note that fractions of minutes are not represented in the return string. So
+ * an interval of 3 minutes will be represented by "3 minutes ago", as will an
+ * interval of 3 minutes 59 seconds.
+ *
  * @package BuddyPress Core
  * @uses apply_filters() Filter 'bp_core_time_since_pre' to bypass BP's calculations
  * @uses apply_filters() Filter 'bp_core_time_since' to modify BP's calculations
@@ -670,6 +674,11 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 			}
 
 			// Step two: the second chunk
+			// A quirk in the implementation means that this
+			// condition fails in the case of minutes and seconds.
+			// We've left the quirk in place, since fractions of a
+			// minute are not a useful piece of information for our
+			// purposes
 			if ( $i + 2 < $j ) {
 				$seconds2 = $chunks[$i + 1];
 				$count2   = floor( ( $since - ( $seconds * $count ) ) / $seconds2 );
