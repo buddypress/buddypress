@@ -159,6 +159,17 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * Sanity check for the singular version of 'year'
+	 *
+	 * @group bp_core_time_since
+	 */
+	public function test_bp_core_time_since_year() {
+		$now = time();
+		$then = $now - YEAR_IN_SECONDS;
+		$this->assertEquals( '1 year ago', bp_core_time_since( $then, $now ) );
+	}
+
+	/**
 	 * @group bp_core_time_since
 	 */
 	public function test_bp_core_time_since_rightnow() {

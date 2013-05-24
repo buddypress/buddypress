@@ -591,13 +591,13 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 
 	// array of time period chunks
 	$chunks = array(
-		array( 60 * 60 * 24 * 365 , __( 'year',   'buddypress' ), __( 'years',   'buddypress' ) ),
-		array( 60 * 60 * 24 * 30 ,  __( 'month',  'buddypress' ), __( 'months',  'buddypress' ) ),
-		array( 60 * 60 * 24 * 7,    __( 'week',   'buddypress' ), __( 'weeks',   'buddypress' ) ),
-		array( 60 * 60 * 24 ,       __( 'day',    'buddypress' ), __( 'days',    'buddypress' ) ),
-		array( 60 * 60 ,            __( 'hour',   'buddypress' ), __( 'hours',   'buddypress' ) ),
-		array( 60 ,                 __( 'minute', 'buddypress' ), __( 'minutes', 'buddypress' ) ),
-		array( 1,                   __( 'second', 'buddypress' ), __( 'seconds', 'buddypress' ) )
+		YEAR_IN_SECONDS,
+		30 * DAY_IN_SECONDS,
+		WEEK_IN_SECONDS,
+		DAY_IN_SECONDS,
+		HOUR_IN_SECONDS,
+		MINUTE_IN_SECONDS,
+		1
 	);
 
 	if ( !empty( $older_date ) && !is_numeric( $older_date ) ) {
@@ -630,7 +630,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 
 		// Step one: the first chunk
 		for ( $i = 0, $j = count( $chunks ); $i < $j; ++$i ) {
-			$seconds = $chunks[$i][0];
+			$seconds = $chunks[$i];
 
 			// Finding the biggest chunk (if the chunk fits, break)
 			$count = floor( $since / $seconds );
@@ -646,17 +646,57 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		} else {
 
 			// Set output var
-			$output = ( 1 == $count ) ? '1 '. $chunks[$i][1] : $count . ' ' . $chunks[$i][2];
+			switch ( $seconds ) {
+				case YEAR_IN_SECONDS :
+					$output = sprintf( _n( '%s year',   '%s years',   $count, 'buddypress' ), $count );
+					break;
+				case 30 * DAY_IN_SECONDS :
+					$output = sprintf( _n( '%s month',  '%s months',  $count, 'buddypress' ), $count );
+					break;
+				case WEEK_IN_SECONDS :
+					$output = sprintf( _n( '%s week',   '%s weeks',   $count, 'buddypress' ), $count );
+					break;
+				case DAY_IN_SECONDS :
+					$output = sprintf( _n( '%s day',    '%s days',    $count, 'buddypress' ), $count );
+					break;
+				case HOUR_IN_SECONDS :
+					$output = sprintf( _n( '%s hour',   '%s hours',   $count, 'buddypress' ), $count );
+					break;
+				case MINUTE_IN_SECONDS :
+					$output = sprintf( _n( '%s minute', '%s minutes', $count, 'buddypress' ), $count );
+					break;
+				default:
+					$output = sprintf( _n( '%s second', '%s seconds', $count, 'buddypress' ), $count );
+			}
 
 			// Step two: the second chunk
 			if ( $i + 2 < $j ) {
-				$seconds2 = $chunks[$i + 1][0];
-				$name2    = $chunks[$i + 1][1];
+				$seconds2 = $chunks[$i + 1];
 				$count2   = floor( ( $since - ( $seconds * $count ) ) / $seconds2 );
 
 				// Add to output var
 				if ( 0 != $count2 ) {
-					$output .= ( 1 == $count2 ) ? _x( ',', 'Separator in time since', 'buddypress' ) . ' 1 '. $name2 : _x( ',', 'Separator in time since', 'buddypress' ) . ' ' . $count2 . ' ' . $chunks[$i + 1][2];
+					$output .= _x( ',', 'Separator in time since', 'buddypress' ) . ' ';
+
+					switch ( $seconds2 ) {
+						case 30 * DAY_IN_SECONDS :
+							$output .= sprintf( _n( '%s month',  '%s months',  $count2, 'buddypress' ), $count2 );
+							break;
+						case WEEK_IN_SECONDS :
+							$output .= sprintf( _n( '%s week',   '%s weeks',   $count2, 'buddypress' ), $count2 );
+							break;
+						case DAY_IN_SECONDS :
+							$output .= sprintf( _n( '%s day',    '%s days',    $count2, 'buddypress' ), $count2 );
+							break;
+						case HOUR_IN_SECONDS :
+							$output .= sprintf( _n( '%s hour',   '%s hours',   $count2, 'buddypress' ), $count2 );
+							break;
+						case MINUTE_IN_SECONDS :
+							$output .= sprintf( _n( '%s minute', '%s minutes', $count2, 'buddypress' ), $count2 );
+							break;
+						default:
+							$output .= sprintf( _n( '%s second', '%s seconds', $count2, 'buddypress' ), $count2 );
+					}
 				}
 			}
 
