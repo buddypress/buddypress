@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-24 13:35:16+00:00\n"
+"POT-Creation-Date: 2013-05-24 18:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1884,66 +1884,66 @@ msgctxt "Page title for the user registration screen."
 msgid "Register"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:588
+#: bp-core/bp-core-functions.php:592
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:589
+#: bp-core/bp-core-functions.php:593
 msgid "right now"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:590
+#: bp-core/bp-core-functions.php:594
 msgid "%s ago"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:651
+#: bp-core/bp-core-functions.php:655
 msgid "%s year"
 msgid_plural "%s years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:654 bp-core/bp-core-functions.php:683
+#: bp-core/bp-core-functions.php:658 bp-core/bp-core-functions.php:692
 msgid "%s month"
 msgid_plural "%s months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:657 bp-core/bp-core-functions.php:686
+#: bp-core/bp-core-functions.php:661 bp-core/bp-core-functions.php:695
 msgid "%s week"
 msgid_plural "%s weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:660 bp-core/bp-core-functions.php:689
+#: bp-core/bp-core-functions.php:664 bp-core/bp-core-functions.php:698
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:663 bp-core/bp-core-functions.php:692
+#: bp-core/bp-core-functions.php:667 bp-core/bp-core-functions.php:701
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:666 bp-core/bp-core-functions.php:695
+#: bp-core/bp-core-functions.php:670 bp-core/bp-core-functions.php:704
 msgid "%s minute"
 msgid_plural "%s minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:669 bp-core/bp-core-functions.php:698
+#: bp-core/bp-core-functions.php:673 bp-core/bp-core-functions.php:707
 msgid "%s second"
 msgid_plural "%s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:679
+#: bp-core/bp-core-functions.php:688
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:856
+#: bp-core/bp-core-functions.php:865
 msgid "Not recently active"
 msgstr ""
 
