@@ -2025,6 +2025,8 @@ class BP_Group_Extension {
 
 		$screen = $this->screens['edit'];
 
+		$position = isset( $screen['position'] ) ? (int) $screen['position'] : 10;
+
 		// Add the tab
 		// @todo BP should be using bp_core_new_subnav_item()
 		add_action( 'groups_admin_tabs', create_function( '$current, $group_slug',
@@ -2032,7 +2034,7 @@ class BP_Group_Extension {
 			if ( "' . esc_attr( $screen['slug'] ) . '" == $current )
 				$selected = " class=\"current\"";
 			echo "<li{$selected}><a href=\"' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $screen['slug'] ) ) . '\">' . esc_attr( $screen['name'] ) . '</a></li>";'
-		), 10, 2 );
+		), $position, 2 );
 
 		// Catch the edit screen and forward it to the plugin template
 		if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $screen['slug'], 0 ) ) {
