@@ -23,6 +23,7 @@ class BP_UnitTest_Factory_For_Activity extends WP_UnitTest_Factory_For_Thing {
 			'content'      => new WP_UnitTest_Generator_Sequence( 'Activity content %s' ),
 			'primary_link' => 'http://example.com',
 			'type'         => 'activity_update',
+			'recorded_time' => bp_core_current_time(),
 		);
 	}
 

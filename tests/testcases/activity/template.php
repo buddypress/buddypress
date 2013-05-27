@@ -67,12 +67,16 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	public function test_bp_has_activities_favorites_action_filter() {
 		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
 
+		$now = time();
+
 		$a1 = $this->factory->activity->create( array(
 			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
 		) );
 
 		$a2 = $this->factory->activity->create( array(
 			'type' => 'joined_group',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
 		bp_activity_add_user_favorite( $a1, $user_id );
@@ -92,7 +96,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		// fixed in BP at some point
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( $ids, array( $a1, $a2 ) );
+		$this->assertEquals( array( $a1, $a2 ), $ids );
 
 		$activities_template = null;
 
@@ -107,7 +111,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
-		$this->assertEquals( $ids, array( $a1 ) );
+		$this->assertEquals( array( $a1 ), $ids );
 
 		$activities_template = null;
 	}
