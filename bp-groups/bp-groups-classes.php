@@ -620,7 +620,7 @@ class BP_Groups_Group {
 				$order_by_term = 'last_activity';
 				break;
 
-			case 'total_group_members' :
+			case 'total_member_count' :
 				$order_by_term = 'CONVERT(gm1.meta_value, SIGNED)';
 				break;
 
