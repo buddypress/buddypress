@@ -213,6 +213,37 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1, $g2, $g4, $g3 ), $found );
 	}
 
+	/**
+	 * @group get
+	 */
+	public function test_get_with_type_popular() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'A Group',
+			'date_created' => bp_core_current_time(),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'D Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'name' => 'B Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100000 ),
+		) );
+		$g4 = $this->factory->group->create( array(
+			'name' => 'C Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
+		) );
+
+		groups_update_groupmeta( $g1, 'total_member_count', 1 );
+		groups_update_groupmeta( $g2, 'total_member_count', 4 );
+		groups_update_groupmeta( $g3, 'total_member_count', 2 );
+		groups_update_groupmeta( $g4, 'total_member_count', 3 );
+
+		$groups = BP_Groups_Group::get( array( 'type' => 'popular' ) );
+		$found = wp_parse_id_list( wp_list_pluck( $groups['groups'], 'id' ) );
+		$this->assertEquals( array( $g2, $g4, $g3, $g1 ), $found );
+	}
+
 	/** convert_type_to_order_orderby() **********************************/
 
 	/**
@@ -302,9 +333,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	/**
 	 * @group convert_orderby_to_order_by_term
 	 */
-	public function test_convert_orderby_to_order_by_term_total_group_members() {
+	public function test_convert_orderby_to_order_by_term_total_member_count() {
 		$c = new _BP_Groups_Group();
-		$this->assertEquals( 'CONVERT(gm1.meta_value, SIGNED)', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'total_group_members' ) );
+		$this->assertEquals( 'CONVERT(gm1.meta_value, SIGNED)', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'total_member_count' ) );
 	}
 
 	/**
