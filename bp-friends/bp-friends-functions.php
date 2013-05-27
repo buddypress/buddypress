@@ -72,10 +72,10 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	if ( $friendship->delete() ) {
 		friends_update_friend_totals( $initiator_userid, $friend_userid, 'remove' );
 
+		do_action( 'friends_friendship_post_delete', $initiator_userid, $friend_userid );
+
 		return true;
 	}
-
-	do_action( 'friends_friendship_post_delete', $initiator_userid, $friend_userid );
 
 	return false;
 }
