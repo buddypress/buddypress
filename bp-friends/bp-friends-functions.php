@@ -65,6 +65,8 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	// Remove the activity stream item for the user who canceled the friendship
 	friends_delete_activity( array( 'item_id' => $friendship_id, 'type' => 'friendship_accepted', 'user_id' => bp_displayed_user_id() ) );
 
+	// This hook is misleadingly named - the friendship is not yet deleted.
+	// This is your last chance to do something while the friendship exists
 	do_action( 'friends_friendship_deleted', $friendship_id, $initiator_userid, $friend_userid );
 
 	if ( $friendship->delete() ) {
@@ -72,6 +74,8 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 
 		return true;
 	}
+
+	do_action( 'friends_friendship_post_delete', $initiator_userid, $friend_userid );
 
 	return false;
 }
