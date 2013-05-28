@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-28 03:35:16+00:00\n"
+"POT-Creation-Date: 2013-05-28 04:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3783,8 +3783,8 @@ msgid "Edit Member"
 msgstr ""
 
 #: bp-members/bp-members-adminbar.php:99
-#: bp-xprofile/bp-xprofile-template.php:895
-#: bp-xprofile/bp-xprofile-template.php:896
+#: bp-xprofile/bp-xprofile-template.php:912
+#: bp-xprofile/bp-xprofile-template.php:913
 msgid "Edit Profile"
 msgstr ""
 
@@ -4667,7 +4667,7 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/forums/index.php:98
 #: bp-themes/bp-default/forums/index.php:116
-#: bp-xprofile/bp-xprofile-template.php:459
+#: bp-xprofile/bp-xprofile-template.php:476
 msgid "----"
 msgstr ""
 
@@ -6213,62 +6213,62 @@ msgstr ""
 msgid "Your new avatar was uploaded successfully."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:664
+#: bp-xprofile/bp-xprofile-template.php:681
 msgid "January"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:665
+#: bp-xprofile/bp-xprofile-template.php:682
 msgid "February"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:666
+#: bp-xprofile/bp-xprofile-template.php:683
 msgid "March"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:667
+#: bp-xprofile/bp-xprofile-template.php:684
 msgid "April"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:668
+#: bp-xprofile/bp-xprofile-template.php:685
 msgid "May"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:669
+#: bp-xprofile/bp-xprofile-template.php:686
 msgid "June"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:670
+#: bp-xprofile/bp-xprofile-template.php:687
 msgid "July"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:671
+#: bp-xprofile/bp-xprofile-template.php:688
 msgid "August"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:672
+#: bp-xprofile/bp-xprofile-template.php:689
 msgid "September"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:673
+#: bp-xprofile/bp-xprofile-template.php:690
 msgid "October"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:674
+#: bp-xprofile/bp-xprofile-template.php:691
 msgid "November"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:675
+#: bp-xprofile/bp-xprofile-template.php:692
 msgid "December"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:843
+#: bp-xprofile/bp-xprofile-template.php:860
 msgid "Avatar uploads are currently disabled. Why not use a <a href=\"http://gravatar.com\" target=\"_blank\">gravatar</a> instead?"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:851
+#: bp-xprofile/bp-xprofile-template.php:868
 msgid "Profile not recently updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-template.php:861
+#: bp-xprofile/bp-xprofile-template.php:878
 msgid "Profile updated %s"
 msgstr ""
