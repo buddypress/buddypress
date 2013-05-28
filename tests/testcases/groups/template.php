@@ -297,6 +297,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		bp_group_has_members( array(
 			'group_id' => $g,
 			'exclude_banned' => 0,
+			'exclude_admins_mods' => false,
 		) );
 
 		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
