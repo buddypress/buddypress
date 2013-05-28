@@ -454,7 +454,7 @@ class BP_XProfile_Field {
 		global $wpdb, $userdata, $bp;
 
 		if ( empty( $user_id ) ) {
-			$user_id = $userdata->ID;
+			$user_id = isset( $userdata->ID ) ? $userdata->ID : 0;
 		}
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id );
