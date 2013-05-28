@@ -28,6 +28,8 @@ get_header( 'buddypress' ); ?>
 
 			</div><!-- #members-dir-search -->
 
+			<?php do_action( 'bp_before_directory_members_tabs' ); ?>
+
 			<div class="item-list-tabs" role="navigation">
 				<ul>
 					<li class="selected" id="members-all"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ); ?>"><?php printf( __( 'All Members <span>%s</span>', 'buddypress' ), bp_get_total_member_count() ); ?></a></li>
