@@ -69,7 +69,7 @@
 							<?php if ( 'textbox' == bp_get_the_profile_field_type() ) : ?>
 
 								<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
-								<?php do_action( 'bp_' . bp_get_the_profile_field_input_name() . '_errors' ); ?>
+								<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 								<input type="text" name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" value="<?php bp_the_profile_field_edit_value(); ?>" />
 
 							<?php endif; ?>
@@ -77,7 +77,7 @@
 							<?php if ( 'textarea' == bp_get_the_profile_field_type() ) : ?>
 
 								<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
-								<?php do_action( 'bp_' . bp_get_the_profile_field_input_name() . '_errors' ); ?>
+								<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 								<textarea rows="5" cols="40" name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_edit_value(); ?></textarea>
 
 							<?php endif; ?>
@@ -85,7 +85,7 @@
 							<?php if ( 'selectbox' == bp_get_the_profile_field_type() ) : ?>
 
 								<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
-								<?php do_action( 'bp_' . bp_get_the_profile_field_input_name() . '_errors' ); ?>
+								<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 								<select name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>">
 									<?php bp_the_profile_field_options(); ?>
 								</select>
@@ -95,7 +95,7 @@
 							<?php if ( 'multiselectbox' == bp_get_the_profile_field_type() ) : ?>
 
 								<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
-								<?php do_action( 'bp_' . bp_get_the_profile_field_input_name() . '_errors' ); ?>
+								<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 								<select name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" multiple="multiple">
 									<?php bp_the_profile_field_options(); ?>
 								</select>
@@ -107,7 +107,7 @@
 								<div class="radio">
 									<span class="label"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></span>
 
-									<?php do_action( 'bp_' . bp_get_the_profile_field_input_name() . '_errors' ); ?>
+									<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 									<?php bp_the_profile_field_options(); ?>
 
 									<?php if ( !bp_get_the_profile_field_is_required() ) : ?>
@@ -122,7 +122,7 @@
 								<div class="checkbox">
 									<span class="label"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></span>
 
-									<?php do_action( 'bp_' . bp_get_the_profile_field_input_name() . '_errors' ); ?>
+									<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 									<?php bp_the_profile_field_options(); ?>
 								</div>
 
@@ -132,7 +132,7 @@
 
 								<div class="datebox">
 									<label for="<?php bp_the_profile_field_input_name(); ?>_day"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
-									<?php do_action( 'bp_' . bp_get_the_profile_field_input_name() . '_errors' ); ?>
+									<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 
 									<select name="<?php bp_the_profile_field_input_name(); ?>_day" id="<?php bp_the_profile_field_input_name(); ?>_day">
 										<?php bp_the_profile_field_options( 'type=day' ); ?>

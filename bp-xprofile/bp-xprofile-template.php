@@ -388,6 +388,23 @@ function bp_the_profile_field_input_name() {
 	}
 
 /**
+ * Returns the action name for any signup errors related to this profile field
+ *
+ * In the registration templates, signup errors are pulled from the global
+ * object and rendered at actions that look like 'bp_field_12_errors'. This
+ * function allows the action name to be easily concatenated and called in the
+ * following fashion:
+ *   do_action( bp_get_the_profile_field_errors_action() );
+ *
+ * @since BuddyPress (1.8)
+ * @return string The _errors action name corresponding to this profile field
+ */
+function bp_get_the_profile_field_errors_action() {
+	global $field;
+	return 'bp_field_' . $field->id . '_errors';
+}
+
+/**
  * bp_the_profile_field_options()
  *
  * Displays field options HTML for field types of 'selectbox', 'multiselectbox',
