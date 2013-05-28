@@ -453,10 +453,9 @@ class BP_XProfile_Field {
 	function populate( $id, $user_id, $get_data ) {
 		global $wpdb, $userdata, $bp;
 
-		// @todo Why are we nooping the user_id ?
-		$user_id = 0;
-		if ( is_null( $user_id ) )
+		if ( empty( $user_id ) ) {
 			$user_id = $userdata->ID;
+		}
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id );
 
