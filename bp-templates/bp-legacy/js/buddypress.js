@@ -48,6 +48,20 @@ jq(document).ready( function() {
 		jq("#aw-whats-new-submit").prop("disabled", false);
 	});
 
+	/* On blur, shrink if it's empty */
+	jq('#whats-new').blur( function(){
+		if (!this.value.match(/\S+/)) {
+			this.value = "";
+			jq("#whats-new-options").animate({
+				height:'40px'
+			});
+			jq("form#whats-new-form textarea").animate({
+				height:'20px'
+			});
+			jq("#aw-whats-new-submit").prop("disabled", true);
+		}
+	});
+
 	/* New posts */
 	jq("#aw-whats-new-submit").on( 'click', function() {
 		var button = jq(this);
