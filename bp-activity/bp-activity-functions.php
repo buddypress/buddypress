@@ -1106,10 +1106,10 @@ function bp_activity_post_update( $args = '' ) {
 		'type'         => 'activity_update'
 	) );
 
-	$activity_content = apply_filters( 'bp_activity_latest_update_content', $content );
+	$activity_content = apply_filters( 'bp_activity_latest_update_content', $content, $activity_content );
 
 	// Add this update to the "latest update" usermeta so it can be fetched anywhere.
-	bp_update_user_meta( bp_loggedin_user_id(), 'bp_latest_update', array( 'id' => $activity_id, 'content' => $content ) );
+	bp_update_user_meta( bp_loggedin_user_id(), 'bp_latest_update', array( 'id' => $activity_id, 'content' => $activity_content ) );
 
 	do_action( 'bp_activity_posted_update', $content, $user_id, $activity_id );
 
