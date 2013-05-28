@@ -1597,7 +1597,7 @@ function bp_is_register_page() {
 function bp_the_body_class() {
 	echo bp_get_the_body_class();
 }
-	function bp_get_the_body_class( $wp_classes, $custom_classes = false ) {
+	function bp_get_the_body_class( $wp_classes = array(), $custom_classes = false ) {
 
 		$bp_classes = array();
 
