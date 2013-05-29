@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-28 04:35:16+00:00\n"
+"POT-Creation-Date: 2013-05-29 03:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -758,19 +758,19 @@ msgstr ""
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2496
+#: bp-activity/bp-activity-template.php:2504
 msgid "a user"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2536
+#: bp-activity/bp-activity-template.php:2544
 msgid "Send a public message on your activity stream."
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2537
+#: bp-activity/bp-activity-template.php:2545
 msgid "Public Message"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2959
+#: bp-activity/bp-activity-template.php:2967
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
