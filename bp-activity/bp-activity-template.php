@@ -2400,6 +2400,10 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
 	 * @return int The total favorite count for a specified user
 	 */
 	function bp_get_total_favorite_count_for_user( $user_id = 0 ) {
+		if ( ! $user_id ) {
+			$user_id = bp_displayed_user_id();
+		}
+
 		return apply_filters( 'bp_get_total_favorite_count_for_user', bp_activity_total_favorites_for_user( $user_id ) );
 	}
 
@@ -2427,6 +2431,10 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 	 * @return int The total mention count for a specified user
 	 */
 	function bp_get_total_mention_count_for_user( $user_id = 0 ) {
+		if ( ! $user_id ) {
+			$user_id = bp_displayed_user_id();
+		}
+
 		return apply_filters( 'bp_get_total_mention_count_for_user', bp_get_user_meta( $user_id, 'bp_new_mention_count', true ) );
 	}
 
