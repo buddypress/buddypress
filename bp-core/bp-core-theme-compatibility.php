@@ -518,16 +518,19 @@ function bp_template_include_theme_compat( $template = '' ) {
 	 * Uses bp_get_theme_compat_templates() to provide fall-backs that
 	 * should be coded without superfluous mark-up and logic (prev/next
 	 * navigation, comments, date/time, etc...)
+	 *
+	 * Hook into 'bp_get_buddypress_template' to override the array of
+	 * possible templates, or 'bp_buddypress_template' to override the result.
 	 */
 	if ( bp_is_theme_compat_active() ) {
 
-		// Remove all filters from the_content
-		bp_remove_all_filters( 'the_content' );
+		// Hook to the beginning of the main post loop to remove all filters
+		// from the_content as late as possible.
+		add_action( 'loop_start', 'bp_theme_compat_main_loop_start',  9999 );
 
-		// Add a filter on the_content late, which we will later remove
-		if ( ! has_filter( 'the_content', 'bp_replace_the_content' ) ) {
-			add_filter( 'the_content', 'bp_replace_the_content' );
-		}
+		// Hook to the end of the main post loop to restore all filters to
+		// the_content as early as possible.
+		add_action( 'loop_end',   'bp_theme_compat_main_loop_end',   -9999 );
 
 		// Add BuddyPress's head action to wp_head
 		if ( ! has_action( 'wp_head', 'bp_head' ) ) {
@@ -572,6 +575,47 @@ function bp_replace_the_content( $content = '' ) {
 
 	// Return possibly hi-jacked content
 	return $content;
+}
+
+/**
+ * Helper function to conditionally toggle the_content filters in the main
+ * query loop. Aids with theme compatibility.
+ *
+ * @since BuddyPress (1.8)
+ * @internal Used only by theme compatibilty
+ * @see bp_template_include_theme_compat()
+ * @see bp_theme_compat_main_loop_end()
+ */
+function bp_theme_compat_main_loop_start() {
+
+	// Bail if not the main query
+	if ( ! in_the_loop() )
+		return;
+
+	// Remove all of the filters from the_content
+	bp_remove_all_filters( 'the_content' );
+
+	// Make sure we replace the content
+	add_filter( 'the_content', 'bp_replace_the_content' );
+}
+
+/**
+ * Helper function to conditionally toggle the_content filters in the main
+ * query loop. Aids with theme compatibility.
+ *
+ * @since BuddyPress (1.8)
+ * @internal Used only by theme compatibilty
+ * @see bp_template_include_theme_compat()
+ * @see bp_theme_compat_main_loop_start()
+ */
+function bp_theme_compat_main_loop_end() {
+
+	// Bail if not the main query
+	if ( ! in_the_loop() )
+		return;
+
+	// Put all the filters back
+	bp_restore_all_filters( 'the_content' );
 }
 
 /** Filters *******************************************************************/
