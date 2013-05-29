@@ -112,6 +112,95 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group get
+	 */
+	public function test_get_with_display_comments_threaded() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		$activity = BP_Activity_Activity::get( array(
+			'display_comments' => 'threaded',
+		) );
+
+		// Kinda crummy, but let's construct a skeleton
+		$expected = array(
+			$a1 => array( $a3 ),
+			$a2 => array(),
+		);
+
+		$found = array();
+		foreach ( $activity['activities'] as $a ) {
+			$found[ $a->id ] = ! empty( $a->children ) ? array_keys( $a->children ) : array();
+		}
+
+		$this->assertEquals( $expected, $found );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_with_display_comments_stream() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		$activity = BP_Activity_Activity::get( array(
+			'display_comments' => 'stream',
+		) );
+		$ids = wp_list_pluck( $activity['activities'], 'id' );
+		$this->assertEquals( array( $a1, $a3, $a2 ), $ids );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_with_display_comments_false() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		$activity = BP_Activity_Activity::get( array(
+			'display_comments' => false,
+		) );
+		$ids = wp_list_pluck( $activity['activities'], 'id' );
+		$this->assertEquals( array( $a1, $a2 ), $ids );
+	}
+
+	/**
 	 * @group get_id
 	 */
 	public function test_get_id_with_item_id() {

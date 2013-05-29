@@ -137,4 +137,149 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 		$this->assertEquals( $ids, array( $a1 ) );
 	}
+
+	/**
+	 * @ticket BP5029
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_with_display_comments_false() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		global $activities_template;
+		bp_has_activities( array(
+			'display_comments' => false,
+		) );
+		$ids = wp_list_pluck( $activities_template->activities, 'id' );
+
+		$this->assertEquals( array( $a1, $a2 ), wp_parse_id_list( $ids ) );
+
+	}
+
+	/**
+	 * @ticket BP5029
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_with_display_comments_0() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		global $activities_template;
+		bp_has_activities( array(
+			'display_comments' => 0,
+		) );
+		$ids = wp_list_pluck( $activities_template->activities, 'id' );
+
+		$this->assertEquals( array( $a1, $a2 ), wp_parse_id_list( $ids ) );
+
+	}
+
+	/**
+	 * @ticket BP5029
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_with_display_comments_0_querystring() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		global $activities_template;
+		bp_has_activities( 'display_comments=0' );
+		$ids = wp_list_pluck( $activities_template->activities, 'id' );
+
+		$this->assertEquals( array( $a1, $a2 ), $ids );
+
+	}
+
+	/**
+	 * @ticket BP5029
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_with_display_comments_none_querystring() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		global $activities_template;
+		bp_has_activities( 'display_comments=none' );
+		$ids = wp_list_pluck( $activities_template->activities, 'id' );
+
+		$this->assertEquals( array( $a1, $a2 ), $ids );
+
+	}
+	/**
+	 * @ticket BP5029
+	 */
+	public function test_get_with_display_comments_false_querystring() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		$expected = BP_Activity_Activity::get( array(
+			'display_comments' => false,
+		) );
+
+		$found = BP_Activity_Activity::get( 'display_comments=false' );
+		$this->assertEquals( $expected, $found );
+
+	}
+
+
 }
