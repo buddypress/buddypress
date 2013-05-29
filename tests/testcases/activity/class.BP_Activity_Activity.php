@@ -73,6 +73,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEquals( $activity['activities'][0]->hide_sitewide, 1 );
 	}
 
+	/**
+	 * @group get
+	 */
 	public function test_get_with_meta_query() {
 		$a1 = $this->factory->activity->create();
 		$a2 = $this->factory->activity->create();
@@ -90,6 +93,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $a1 ) );
 	}
 
+	/**
+	 * @group get
+	 */
 	public function test_get_with_search_terms() {
 		$a1 = $this->factory->activity->create( array(
 			'content' => 'Boone is a cool guy',
@@ -105,6 +111,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $a1 ) );
 	}
 
+	/**
+	 * @group get_id
+	 */
 	public function test_get_id_with_item_id() {
 		$a1 = $this->factory->activity->create( array(
 			'item_id' => 523,
@@ -117,6 +126,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEquals( $a1, $activity );
 	}
 
+	/**
+	 * @group get_id
+	 */
 	public function test_get_id_with_secondary_item_id() {
 		$a1 = $this->factory->activity->create( array(
 			'secondary_item_id' => 523,
@@ -129,6 +141,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEquals( $a1, $activity );
 	}
 
+	/**
+	 * @group delete
+	 */
 	public function test_delete_with_item_id() {
 		$a1 = $this->factory->activity->create( array(
 			'item_id' => 523,
@@ -143,6 +158,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEquals( array( $a1 ), $activity );
 	}
 
+	/**
+	 * @group delete
+	 */
 	public function test_delete_with_secondary_item_id() {
 		$a1 = $this->factory->activity->create( array(
 			'secondary_item_id' => 523,
