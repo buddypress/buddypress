@@ -523,22 +523,14 @@ function bp_template_include_theme_compat( $template = '' ) {
 	 * possible templates, or 'bp_buddypress_template' to override the result.
 	 */
 	if ( bp_is_theme_compat_active() ) {
+		$template = bp_get_theme_compat_templates();
 
-		// Hook to the beginning of the main post loop to remove all filters
-		// from the_content as late as possible.
-		add_action( 'loop_start', 'bp_theme_compat_main_loop_start',  9999 );
-
-		// Hook to the end of the main post loop to restore all filters to
-		// the_content as early as possible.
-		add_action( 'loop_end',   'bp_theme_compat_main_loop_end',   -9999 );
+		add_filter( 'the_content', 'bp_replace_the_content' );
 
 		// Add BuddyPress's head action to wp_head
 		if ( ! has_action( 'wp_head', 'bp_head' ) ) {
 			add_action( 'wp_head', 'bp_head' );
 		}
-
-		// Find the appropriate template file
-		$template = bp_get_theme_compat_templates();
 	}
 
 	return apply_filters( 'bp_template_include_theme_compat', $template );
@@ -555,13 +547,19 @@ function bp_template_include_theme_compat( $template = '' ) {
  */
 function bp_replace_the_content( $content = '' ) {
 
-	if ( ! in_the_loop() )
+	// Bail if not the main loop where theme compat is happening
+	if ( ! bp_do_theme_compat() )
 		return $content;
 
+	// Set theme compat to false early, to avoid recursion from nested calls to
+	// the_content() that execute before theme compat has unhooked itself.
+	bp_set_theme_compat_active( false );
+
+	// Do we have new content to replace the old content?
 	$new_content = apply_filters( 'bp_replace_the_content', $content );
 
 	// Juggle the content around and try to prevent unsightly comments
-	if ( !empty( $new_content ) && ( $new_content != $content ) ) {
+	if ( !empty( $new_content ) && ( $new_content !== $content ) ) {
 
 		// Set the content to be the new content
 		$content = $new_content;
@@ -578,44 +576,13 @@ function bp_replace_the_content( $content = '' ) {
 }
 
 /**
- * Helper function to conditionally toggle the_content filters in the main
- * query loop. Aids with theme compatibility.
+ * Are we replacing the_content
  *
  * @since BuddyPress (1.8)
- * @internal Used only by theme compatibilty
- * @see bp_template_include_theme_compat()
- * @see bp_theme_compat_main_loop_end()
+ * @return bool
  */
-function bp_theme_compat_main_loop_start() {
-
-	// Bail if not the main query
-	if ( ! in_the_loop() )
-		return;
-
-	// Remove all of the filters from the_content
-	bp_remove_all_filters( 'the_content' );
-
-	// Make sure we replace the content
-	add_filter( 'the_content', 'bp_replace_the_content' );
-}
-
-/**
- * Helper function to conditionally toggle the_content filters in the main
- * query loop. Aids with theme compatibility.
- *
- * @since BuddyPress (1.8)
- * @internal Used only by theme compatibilty
- * @see bp_template_include_theme_compat()
- * @see bp_theme_compat_main_loop_start()
- */
-function bp_theme_compat_main_loop_end() {
-
-	// Bail if not the main query
-	if ( ! in_the_loop() )
-		return;
-
-	// Put all the filters back
-	bp_restore_all_filters( 'the_content' );
+function bp_do_theme_compat() {
+	return (bool) ( ! bp_is_template_included() && in_the_loop() && bp_is_theme_compat_active() );
 }
 
 /** Filters *******************************************************************/

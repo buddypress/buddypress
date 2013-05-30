@@ -211,10 +211,7 @@ function bp_buffer_template_part( $slug, $name = null, $echo = true ) {
 	add_filter( 'the_content', 'bp_replace_the_content' );
 
 	// Get the output buffer contents
-	$output = ob_get_contents();
-
-	// Flush the output buffer
-	ob_end_clean();
+	$output = ob_get_clean();
 
 	// Echo or return the output buffer contents
 	if ( true === $echo ) {
@@ -341,17 +338,36 @@ function bp_template_include_theme_supports( $template = '' ) {
 	// Look for root BuddyPress template files in parent/child themes
 	$new_template = apply_filters( 'bp_get_root_template', false, $template );
 
-	// BuddyPress template file exists
+	// A BuddyPress template file was located, so override the WordPress
+	// template and use it to switch off BuddyPress's theme compatibility.
 	if ( !empty( $new_template ) ) {
-
-		// Override the WordPress template with a BuddyPress one
-		$template = $new_template;
-
-		// @see: bp_template_include_theme_compat()
-		buddypress()->theme_compat->found_template = true;
+		$template = bbp_set_template_included( $new_template );
 	}
 
 	return apply_filters( 'bp_template_include_theme_supports', $template );
+}
+
+/**
+ * Set the included template
+ *
+ * @since BuddyPress (1.8)
+ * @param mixed $template Default false
+ * @return mixed False if empty. Template name if template included
+ */
+function bp_set_template_included( $template = false ) {
+	buddypress()->theme_compat->found_template = $template;
+
+	return buddypress()->theme_compat->found_template;
+}
+
+/**
+ * Is a BuddyPress template being included?
+ *
+ * @since BuddyPress (1.8)
+ * @return bool True if yes, false if no
+ */
+function bp_is_template_included() {
+	return ! empty( buddypress()->theme_compat->found_template );
 }
 
 /**
