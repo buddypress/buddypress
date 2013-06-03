@@ -2044,13 +2044,19 @@ class BP_Group_Extension {
 
 			add_action( 'groups_custom_edit_steps', array( &$this, 'call_edit_screen' ) );
 
+			// Determine the proper template and save for later
+			// loading
 			if ( '' !== bp_locate_template( array( 'groups/single/home.php' ), false ) ) {
-				bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
+				$this->edit_screen_template = '/groups/single/home';
 			} else {
 				add_action( 'bp_template_content_header', create_function( '', 'echo "<ul class=\"content-header-nav\">"; bp_group_admin_tabs(); echo "</ul>";' ) );
 				add_action( 'bp_template_content', array( &$this, 'call_edit_screen' ) );
-				bp_core_load_template( apply_filters( 'bp_core_template_plugin', '/groups/single/plugins' ) );
+				$this->edit_screen_template = '/groups/single/plugins';
 			}
+
+			// We load the template at bp_screens, to give all
+			// extensions a chance to load
+			add_action( 'bp_screens', array( $this, 'call_edit_screen_template_loader' ) );
 		}
 	}
 
@@ -2092,6 +2098,23 @@ class BP_Group_Extension {
 
 		$this->check_nonce( 'edit' );
 		call_user_func( $this->screens['edit']['screen_save_callback'], $this->group_id );
+	}
+
+	/**
+	 * Load the template that houses the Edit screen
+	 *
+	 * Separated out into a callback so that it can run after all other
+	 * Group Extensions have had a chance to register their navigation, to
+	 * avoid missing tabs.
+	 *
+	 * Hooked to 'bp_screens'.
+	 *
+	 * @see BP_Group_Extension::setup_edit_hooks()
+	 * @access public So that do_action() has access. Do not call directly.
+	 * @since BuddyPress (1.8)
+	 */
+	public function call_edit_screen_template_loader() {
+		bp_core_load_template( $this->edit_screen_template );
 	}
 
 	/**
