@@ -351,7 +351,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
 
 	// Switch defaults if post is set
 	if ( isset( $wp_query->post ) ) {
-		$dummy = bbp_parse_args( $args, array(
+		$dummy = wp_parse_args( $args, array(
 			'ID'                    => $wp_query->post->ID,
 			'post_status'           => $wp_query->post->post_status,
 			'post_author'           => $wp_query->post->post_author,
@@ -386,7 +386,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
 	} else {
 		$dummy = wp_parse_args( $args, array(
 			'ID'                    => -9999,
-			'post_status'           => bbp_get_public_status_id(),
+			'post_status'           => 'public',
 			'post_author'           => 0,
 			'post_parent'           => 0,
 			'post_type'             => 'page',
