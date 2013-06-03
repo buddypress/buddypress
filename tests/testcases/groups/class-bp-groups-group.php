@@ -11,6 +11,16 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		parent::tearDown();
 	}
 
+	/** __construct()  ***************************************************/
+
+	/**
+	 * @group __construct
+	 */
+	public function test_non_existent_group() {
+		$group = new BP_Groups_Group( 123456789 );
+		$this->assertSame( 0, $group->id );
+	}
+
 	/** get() ************************************************************/
 
 	/**

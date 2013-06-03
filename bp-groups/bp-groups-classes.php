@@ -91,6 +91,8 @@ class BP_Groups_Group {
 				else
 					$this->mods[] = $user;
 			}
+		} else {
+			$this->id = 0;
 		}
 	}
 
