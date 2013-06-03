@@ -493,7 +493,7 @@ function bp_group_forums_root_id( $default = '0' ) {
 	 * @return int Is anonymous posting allowed?
 	 */
 	function bp_get_group_forums_root_id( $default = '0' ) {
-		return (int) apply_filters( 'bp_get_group_forums_root_id', (int) bp_get_option( '_bbp_group_forums_root_id', $default ) );
+		return (int) apply_filters( 'bp_get_group_forums_root_id', (int) bp_get_option( '_bp_group_forums_root_id', $default ) );
 	}
 
 /**
@@ -507,7 +507,7 @@ function bp_group_forums_root_id( $default = '0' ) {
  * @return bool Is group forums enabled or not
  */
 function bp_is_group_forums_active( $default = true ) {
-	return (bool) apply_filters( 'bp_is_group_forums_active', (bool) bp_get_option( '_bbp_enable_group_forums', $default ) );
+	return (bool) apply_filters( 'bp_is_group_forums_active', (bool) bp_get_option( '_bp_enable_group_forums', $default ) );
 }
 
 /**
