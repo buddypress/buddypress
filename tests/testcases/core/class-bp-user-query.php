@@ -102,6 +102,57 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $expected, $user_ids );
 	}
 
+	/**
+	 * @group online
+	 */
+	public function test_bp_user_query_type_online() {
+		$now = time();
+		$u1 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*13 ),
+		) );
+		$u3 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*16 ),
+		) );
+
+		$q = new BP_User_Query( array(
+			'type' => 'online',
+		) );
+
+		$users = is_array( $q->results ) ? array_values( $q->results ) : array();
+		$user_ids = wp_parse_id_list( wp_list_pluck( $users, 'ID' ) );
+		$this->assertEquals( array( $u1, $u2 ), $user_ids );
+	}
+
+	/**
+	 * @group online
+	 */
+	public function test_bp_user_query_type_online_five_minute_interval() {
+		$now = time();
+		$u1 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*4 ),
+		) );
+		$u3 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*6 ),
+		) );
+
+		add_filter( 'bp_user_query_online_interval', create_function( '', 'return 5;' ) );
+
+		$q = new BP_User_Query( array(
+			'type' => 'online',
+		) );
+
+		$users = is_array( $q->results ) ? array_values( $q->results ) : array();
+		$user_ids = wp_parse_id_list( wp_list_pluck( $users, 'ID' ) );
+		$this->assertEquals( array( $u1, $u2 ), $user_ids );
+	}
+
+
 	public function test_bp_user_query_search_with_apostrophe() {
 		// Apostrophe. Search_terms must escaped to mimic POST payload
 		$user_id = $this->create_user();

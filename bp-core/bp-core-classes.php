@@ -198,11 +198,13 @@ class BP_User_Query {
 		switch ( $type ) {
 
 			// 'online' query happens against the last_activity usermeta key
+			// Filter 'bp_user_query_online_interval' to modify the
+			// number of minutes used as an interval
 			case 'online' :
 				$this->uid_name = 'user_id';
 				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
 				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
-				$sql['where'][] = 'u.meta_value >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 5 MINUTE )';
+				$sql['where'][] = $wpdb->prepare( "u.meta_value >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL %d MINUTE )", apply_filters( 'bp_user_query_online_interval', 15 ) );
 				$sql['orderby'] = "ORDER BY u.meta_value";
 				$sql['order']   = "DESC";
 
