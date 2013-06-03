@@ -341,7 +341,7 @@ function bp_template_include_theme_supports( $template = '' ) {
 	// A BuddyPress template file was located, so override the WordPress
 	// template and use it to switch off BuddyPress's theme compatibility.
 	if ( !empty( $new_template ) ) {
-		$template = bbp_set_template_included( $new_template );
+		$template = bp_set_template_included( $new_template );
 	}
 
 	return apply_filters( 'bp_template_include_theme_supports', $template );
