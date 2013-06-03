@@ -576,8 +576,23 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 --------------------------------------------------------------*/
 #buddypress .standard-form textarea,
 #buddypress .standard-form input[type=text],
+#buddypress .standard-form input[type=text],
+#buddypress .standard-form input[type=color],
+#buddypress .standard-form input[type=date],
+#buddypress .standard-form input[type=datetime],
+#buddypress .standard-form input[type=datetime-local],
+#buddypress .standard-form input[type=email],
+#buddypress .standard-form input[type=month],
+#buddypress .standard-form input[type=number],
+#buddypress .standard-form input[type=range],
+#buddypress .standard-form input[type=search],
+#buddypress .standard-form input[type=tel],
+#buddypress .standard-form input[type=time],
+#buddypress .standard-form input[type=url],
+#buddypress .standard-form input[type=week],
 #buddypress .standard-form select,
 #buddypress .standard-form input[type=password],
+#buddypress .dir-search input[type=search],
 #buddypress .dir-search input[type=text] {
 	border: 1px inset #ccc;
 	border-radius: 3px;

@@ -1573,8 +1573,22 @@ ul.button-nav li.current a {
 --------------------------------------------------------------*/
 .standard-form textarea,
 .standard-form input[type=text],
+.standard-form input[type=color],
+.standard-form input[type=date],
+.standard-form input[type=datetime],
+.standard-form input[type=datetime-local],
+.standard-form input[type=email],
+.standard-form input[type=month],
+.standard-form input[type=number],
+.standard-form input[type=range],
+.standard-form input[type=search],
+.standard-form input[type=tel],
+.standard-form input[type=time],
+.standard-form input[type=url],
+.standard-form input[type=week],
 .standard-form select,
 .standard-form input[type=password],
+.dir-search input[type=search]
 .dir-search input[type=text] {
 	border: 1px inset #ccc;
 	-moz-border-radius: 3px;
