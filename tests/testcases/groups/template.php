@@ -118,6 +118,60 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * Switching from BP_Groups_Member to BP_Group_Member_Query meant a
+	 * change in the format of the values returned from the query. For
+	 * backward compatibility, we translate some of the return values
+	 * of BP_Group_Member_Query to the older format. This test makes sure
+	 * that the translation happens properly.
+	 *
+	 * @group bp_group_has_members
+	 */
+	public function test_bp_group_has_members_backpat_retval_format() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		$date_modified = gmdate( 'Y-m-d H:i:s', time() - 100 );
+
+		$new_member                = new BP_Groups_Member;
+		$new_member->group_id      = $g;
+		$new_member->user_id       = $u1;
+		$new_member->inviter_id    = $u2;
+		$new_member->is_admin      = 0;
+		$new_member->user_title    = '';
+		$new_member->date_modified = $date_modified;
+		$new_member->is_confirmed  = 1;
+		$new_member->save();
+
+		global $members_template;
+		bp_group_has_members( array(
+			'group_id' => $g,
+		) );
+
+		$u1_object = new WP_User( $u1 );
+
+		$expected = new stdClass;
+		$expected->user_id = $u1;
+		$expected->date_modified = $date_modified;
+		$expected->is_banned = 0;
+		$expected->user_login = $u1_object->user_login;
+		$expected->user_nicename = $u1_object->user_nicename;
+		$expected->user_email = $u1_object->user_email;
+		$expected->display_name = $u1_object->display_name;
+
+		// In order to use assertEquals, we need to discard the
+		// irrelevant properties of the found object. Hack alert
+		$found = new stdClass;
+		foreach ( array( 'user_id', 'date_modified', 'is_banned', 'user_login', 'user_nicename', 'user_email', 'display_name' ) as $key ) {
+			if ( isset( $members_template->members[0]->{$key} ) ) {
+				$found->{$key} = $members_template->members[0]->{$key};
+			}
+		}
+
+		$this->assertEquals( $expected, $found );
+	}
+
+	/**
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_per_page() {

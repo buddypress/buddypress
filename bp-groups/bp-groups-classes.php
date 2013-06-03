@@ -947,6 +947,199 @@ class BP_Groups_Group {
 	}
 }
 
+/**
+ * Query for the members of a group
+ *
+ * @since BuddyPress (1.8)
+ */
+class BP_Group_Member_Query extends BP_User_Query {
+	/**
+	 * Set up action hooks
+	 *
+	 * @since BuddyPress (1.8)
+	 */
+	public function setup_hooks() {
+		// Take this early opportunity to set the default 'type' param
+		// to 'last_modified', which will ensure that BP_User_Query
+		// trusts our order and does not try to apply its own
+		if ( empty( $this->query_vars_raw['type'] ) ) {
+			$this->query_vars_raw['type'] = 'last_modified';
+		}
+
+		// Set up our populate_extras method
+		add_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10, 2 );
+	}
+
+	/**
+	 * Get a list of user_ids to include in the IN clause of the main query
+	 *
+	 * Overrides BP_User_Query::get_include_ids(), adding our additional
+	 * group-member logic.
+	 *
+	 * @since BuddyPress (1.8)
+	 * @param array
+	 * @return array
+	 */
+	public function get_include_ids( $include ) {
+		// The following args are specific to group member queries, and
+		// are not present in the query_vars of a normal BP_User_Query.
+		// We loop through to make sure that defaults are set (though
+		// values passed to the constructor will, as usual, override
+		// these defaults).
+		$this->query_vars = wp_parse_args( $this->query_vars, array(
+			'group_id'       => 0,
+			'group_role'     => array( 'member' ),
+			'exclude_banned' => true,
+		) );
+
+		$group_member_ids = $this->get_group_member_ids();
+
+		if ( ! empty( $include ) ) {
+			$group_member_ids = array_intersect( $include, $group_member_ids );
+		}
+
+		return $group_member_ids;
+	}
+
+	/**
+	 * Get the members of the queried group
+	 *
+	 * @since BuddyPress (1.8)
+	 * @return array $ids User IDs of relevant group member ids
+	 */
+	protected function get_group_member_ids() {
+		global $wpdb;
+
+		$bp  = buddypress();
+		$sql = array(
+			'select'  => "SELECT user_id FROM {$bp->groups->table_name_members}",
+			'where'   => array(),
+			'orderby' => '',
+			'order'   => '',
+			'limit'   => '',
+		);
+
+		/** WHERE clauses *****************************************************/
+
+		$sql['where'][] = $wpdb->prepare( "group_id = %d", $this->query_vars['group_id'] );
+
+		// Role information is stored as follows: admins have
+		// is_admin = 1, mods have is_mod = 1, and members have both
+		// set to 0.
+		$roles = !empty( $this->query_vars['group_role'] ) ? $this->query_vars['group_role'] : array();
+		if ( is_string( $roles ) ) {
+			$roles = explode( ',', $roles );
+		}
+
+		// Sanitize: Only 'admin', 'mod', and 'member' are valid
+		foreach ( $roles as $role_key => $role_value ) {
+			if ( ! in_array( $role_value, array( 'admin', 'mod', 'member' ) ) ) {
+				unset( $roles[ $role_key ] );
+			}
+		}
+
+		// Remove dupes to make the count accurate, and flip for faster
+		// isset() lookups
+		$roles = array_flip( array_unique( $roles ) );
+
+		switch ( count( $roles ) ) {
+
+			// All three roles means we don't limit results
+			case 3 :
+			default :
+				$roles_sql = '';
+				break;
+
+			case 2 :
+				// member + mod = no admins
+				// member + admin = no mods
+				if ( isset( $roles['member'] ) ) {
+					$roles_sql = isset( $roles['admin'] ) ? "is_mod = 0" : "is_admin = 0";
+
+				// Two non-member roles are 'admin' and 'mod'
+				} else {
+					$roles_sql = "(is_admin = 1 OR is_mod = 1)";
+				}
+				break;
+
+			case 1 :
+				// member only means no admins or mods
+				if ( isset( $roles['member'] ) ) {
+					$roles_sql = "is_admin = 0 AND is_mod = 0";
+
+				// Filter by that role only
+				} else {
+					$roles_sql = isset( $roles['admin'] ) ? "is_admin = 1" : "is_mod = 1";
+				}
+				break;
+
+			// No roles means no users should be returned
+			case 0 :
+				$roles_sql = $this->no_results['where'];
+				break;
+		}
+
+		if ( ! empty( $roles_sql ) ) {
+			$sql['where'][] = $roles_sql;
+		}
+
+		if ( ! empty( $this->query_vars['exclude_banned'] ) ) {
+			$sql['where'][] = "is_banned = 0";
+		}
+
+		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
+
+		/** ORDER BY clause ***************************************************/
+
+		// @todo For now, mimicking legacy behavior of
+		// bp_group_has_members(), which has us order by date_modified
+		// only. Should abstract it in the future
+		$sql['orderby'] = "ORDER BY date_modified";
+		$sql['order']   = "DESC";
+
+		/** LIMIT clause ******************************************************/
+
+		// Technically, this is also handled by BP_User_Query, but
+		// repeating the limit here helps to make the query more
+		// efficient, by not fetching every single matching user
+		if ( ! empty( $this->query_vars['per_page'] ) && ! empty( $this->query_vars['page'] ) ) {
+			$sql['limit'] = $wpdb->prepare( "LIMIT %d, %d", absint( ( $this->query_vars['page'] - 1 ) * $this->query_vars['per_page'] ), absint( $this->query_vars['per_page'] ) );
+		}
+
+		$ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']} {$sql['limit']}" );
+
+		return $ids;
+	}
+
+	/**
+	 * Fetch additional data required in bp_group_has_members() loops
+	 *
+	 * @since BuddyPress (1.8)
+	 * @param object $query BP_User_Query object. Because we're filtering
+	 *   the current object, we use $this inside of the method instead
+	 * @param string $user_ids_sql Sanitized, comma-separated string of
+	 *   the user ids returned by the main query
+	 */
+	public function populate_group_member_extras( $query, $user_ids_sql ) {
+		global $wpdb;
+
+		$bp     = buddypress();
+		$extras = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified, is_banned FROM {$bp->groups->table_name_members} WHERE user_id IN ({$user_ids_sql}) AND group_id = %d", $this->query_vars['group_id'] ) );
+
+		foreach ( (array) $extras as $extra ) {
+			if ( isset( $this->results[ $extra->user_id ] ) ) {
+				// user_id is provided for backward compatibility
+				$this->results[ $extra->user_id ]->user_id       = (int) $extra->user_id;
+				$this->results[ $extra->user_id ]->is_banned     = (int) $extra->is_banned;
+				$this->results[ $extra->user_id ]->date_modified = $extra->date_modified;
+			}
+		}
+
+		// Don't filter other BP_User_Query objects on the same page
+		remove_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10, 2 );
+	}
+}
+
 class BP_Groups_Member {
 	var $id;
 	var $group_id;
@@ -1398,6 +1591,8 @@ class BP_Groups_Member {
 
 	function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
 		global $bp, $wpdb;
+
+		_deprecated_function( __METHOD__, '1.8', 'BP_Group_Member_Query' );
 
 		$pag_sql = '';
 		if ( !empty( $limit ) && !empty( $page ) )

@@ -382,7 +382,11 @@ function groups_get_group_mods( $group_id ) {
 /**
  * Fetch the members of a group
  *
- * Procedural wrapper for BP_Groups_Member::get_all_for_group().
+ * Since BuddyPress 1.8, a procedural wrapper for BP_Group_Member_Query.
+ * Previously called BP_Groups_Member::get_all_for_group().
+ *
+ * To use the legacy query, filter 'bp_use_legacy_group_member_query',
+ * returning true.
  *
  * @param int $group_id
  * @param int $limit Maximum members to return
@@ -392,8 +396,38 @@ function groups_get_group_mods( $group_id ) {
  * @param array|string $exclude Array or comma-sep list of users to exclude
  * @return array Multi-d array of 'members' list and 'count'
  */
-function groups_get_group_members( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
-	return BP_Groups_Member::get_all_for_group( $group_id, $limit, $page, $exclude_admins_mods, $exclude_banned, $exclude );
+function groups_get_group_members( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false, $group_role = false ) {
+
+	// For legacy users. Use of BP_Groups_Member::get_all_for_group()
+	// is deprecated.
+	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, func_get_args() ) ) {
+		$retval = BP_Groups_Member::get_all_for_group( $group_id, $limit, $page, $exclude_admins_mods, $exclude_banned, $exclude );
+	} else {
+
+		// exclude_admins_mods is a legacy argument. Convert to group_role
+		if ( empty( $group_role ) ) {
+			$group_role = $exclude_admins_mods ? array( 'member' ) : array( 'member', 'mod', 'admin' );
+		}
+
+		// Perform the group member query (extends BP_User_Query)
+		$members = new BP_Group_Member_Query( array(
+			'group_id'       => $group_id,
+			'per_page'       => $limit,
+			'page'           => $page,
+			'group_role'     => $group_role,
+			'exclude_banned' => $exclude_banned,
+			'exclude'        => $exclude,
+			'type'           => 'last_modified',
+		) );
+
+		// Structure the return value as expected by the template functions
+		$retval = array(
+			'members' => array_values( $members->results ),
+			'count'   => $members->total_users,
+		);
+	}
+
+	return $retval;
 }
 
 function groups_get_total_member_count( $group_id ) {
