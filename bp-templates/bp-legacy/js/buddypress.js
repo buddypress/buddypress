@@ -871,10 +871,12 @@ jq(document).ready( function() {
 
 	jq('.field-visibility-settings-close').on( 'click', function() {
 		var settings_div = jq(this).parent();
+		var vis_setting_text = settings_div.find('input:checked').parent().text();
 
-		jq(settings_div).slideUp( 400, function(){
-			jq(settings_div).siblings('.field-visibility-settings-toggle').fadeIn(800);
-		});
+		settings_div.slideUp( 400, function() {
+			settings_div.siblings('.field-visibility-settings-toggle').fadeIn(800);
+			settings_div.siblings('.field-visibility-settings-toggle').children('.current-visibility-level').html(vis_setting_text);
+		} );
 
 		return false;
 	} );
