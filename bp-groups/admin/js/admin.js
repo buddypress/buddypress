@@ -11,7 +11,7 @@
 		$(e.target).closest('li').remove();
 	}
 
-	var id = 'undefined' !== typeof group_members ? '&group_members=' + group_members : '';
+	var id = 'undefined' !== typeof group_id ? '&group_id=' + group_id : '';
 	$(document).ready( function() {
 		/* Initialize autocomplete */
 		$( '.bp-suggest-user' ).autocomplete({
