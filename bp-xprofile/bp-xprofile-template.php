@@ -748,7 +748,14 @@ function bp_the_profile_field_visibility_level() {
 	function bp_get_the_profile_field_visibility_level() {
 		global $field;
 
-		$retval = !empty( $field->visibility_level ) ? $field->visibility_level : 'public';
+		// On the registration page, values stored in POST should take
+		// precedence over default visibility, so that submitted values
+		// are not lost on failure
+		if ( bp_is_register_page() && ! empty( $_POST['field_' . $field->id . '_visibility'] ) ) {
+			$retval = esc_attr( $_POST['field_' . $field->id . '_visibility'] );
+		} else {
+			$retval = ! empty( $field->visibility_level ) ? $field->visibility_level : 'public';
+		}
 
 		return apply_filters( 'bp_get_the_profile_field_visibility_level', $retval );
 	}
@@ -765,7 +772,15 @@ function bp_the_profile_field_visibility_level_label() {
 	function bp_get_the_profile_field_visibility_level_label() {
 		global $field;
 
-		$level  = !empty( $field->visibility_level ) ? $field->visibility_level : 'public';
+		// On the registration page, values stored in POST should take
+		// precedence over default visibility, so that submitted values
+		// are not lost on failure
+		if ( bp_is_register_page() && ! empty( $_POST['field_' . $field->id . '_visibility'] ) ) {
+			$level = esc_html( $_POST['field_' . $field->id . '_visibility'] );
+		} else {
+			$level = ! empty( $field->visibility_level ) ? $field->visibility_level : 'public';
+		}
+
 		$fields = bp_xprofile_get_visibility_levels();
 
 		return apply_filters( 'bp_get_the_profile_field_visibility_level_label', $fields[$level]['label'] );
