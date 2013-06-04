@@ -994,6 +994,12 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		$group_member_ids = $this->get_group_member_ids();
 
+		// If the group member query returned no users, bail with an
+		// array that will guarantee no matches for BP_User_Query
+		if ( empty( $group_member_ids ) ) {
+			return array( 0 );
+		}
+
 		if ( ! empty( $include ) ) {
 			$group_member_ids = array_intersect( $include, $group_member_ids );
 		}

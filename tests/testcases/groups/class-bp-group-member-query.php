@@ -222,5 +222,32 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u1, $u2, $u3, ), $ids );
 	}
 
+	public function test_group_has_no_members() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'group_role' => array( 'member', 'mod', 'admin' ),
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array(), $ids );
+	}
+
+	public function test_group_has_no_members_of_role_mod() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+
+		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'group_role' => array( 'mod' ),
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array(), $ids );
+	}
 
 }
