@@ -222,6 +222,54 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u1, $u2, $u3, ), $ids );
 	}
 
+	public function test_with_group_role_member_mod_admin_banned() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$u3 = $this->create_user();
+		$u4 = $this->create_user();
+
+		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
+		$this->add_user_to_group( $u2, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 200 ) ) );
+		$this->add_user_to_group( $u3, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 300 ) ) );
+		$this->add_user_to_group( $u4, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 300 ) ) );
+
+		$m1 = new BP_Groups_Member( $u1, $g );
+		$m1->promote( 'admin' );
+		$m2 = new BP_Groups_Member( $u2, $g );
+		$m2->promote( 'mod' );
+		$m3 = new BP_Groups_Member( $u3, $g );
+		$m3->ban();
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'group_role' => array( 'member', 'mod', 'admin', 'banned' ),
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array( $u1, $u2, $u3, $u4, ), $ids );
+	}
+
+	public function test_with_group_role_banned() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
+		$this->add_user_to_group( $u2, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 200 ) ) );
+
+		$m1 = new BP_Groups_Member( $u1, $g );
+		$m1->ban();
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'group_role' => array( 'banned' ),
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array( $u1, ), $ids );
+	}
+
 	public function test_group_has_no_members() {
 		$g = $this->factory->group->create();
 		$u1 = $this->create_user();

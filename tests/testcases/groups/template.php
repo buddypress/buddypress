@@ -1,6 +1,7 @@
 <?php
 /**
  * @group groups
+ * @group template
  */
 class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	public function setUp() {

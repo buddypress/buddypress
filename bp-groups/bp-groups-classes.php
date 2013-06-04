@@ -987,9 +987,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// values passed to the constructor will, as usual, override
 		// these defaults).
 		$this->query_vars = wp_parse_args( $this->query_vars, array(
-			'group_id'       => 0,
-			'group_role'     => array( 'member' ),
-			'exclude_banned' => true,
+			'group_id'   => 0,
+			'group_role' => array( 'member' ),
 		) );
 
 		$group_member_ids = $this->get_group_member_ids();
@@ -1050,12 +1049,16 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// When querying for a set of roles containing 'member' (for
 		// which there is no dedicated is_ column), figure out a list
 		// of columns *not* to match
+		$roles_sql = '';
 		if ( in_array( 'member', $roles ) ) {
 			$role_columns = array();
 			foreach ( array_diff( $allowed_roles, $roles ) as $excluded_role ) {
 				$role_columns[] = 'is_' . $excluded_role . ' = 0';
 			}
-			$roles_sql = '(' . implode( ' AND ', $role_columns ) . ')';
+
+			if ( ! empty( $role_columns ) ) {
+				$roles_sql = '(' . implode( ' AND ', $role_columns ) . ')';
+			}
 
 		// When querying for a set of roles *not* containing 'member',
 		// simply construct a list of is_* = 1 clauses
@@ -1064,15 +1067,14 @@ class BP_Group_Member_Query extends BP_User_Query {
 			foreach ( $roles as $role ) {
 				$role_columns[] = 'is_' . $role . ' = 1';
 			}
-			$roles_sql = '(' . implode( ' OR ', $role_columns ) . ')';
+
+			if ( ! empty( $role_columns ) ) {
+				$roles_sql = '(' . implode( ' OR ', $role_columns ) . ')';
+			}
 		}
 
 		if ( ! empty( $roles_sql ) ) {
 			$sql['where'][] = $roles_sql;
-		}
-
-		if ( ! empty( $this->query_vars['exclude_banned'] ) ) {
-			$sql['where'][] = "is_banned = 0";
 		}
 
 		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';

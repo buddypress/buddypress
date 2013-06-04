@@ -404,9 +404,19 @@ function groups_get_group_members( $group_id, $limit = false, $page = false, $ex
 		$retval = BP_Groups_Member::get_all_for_group( $group_id, $limit, $page, $exclude_admins_mods, $exclude_banned, $exclude );
 	} else {
 
-		// exclude_admins_mods is a legacy argument. Convert to group_role
+		// exclude_admins_mods and exclude_banned are legacy arguments.
+		// Convert to group_role
 		if ( empty( $group_role ) ) {
-			$group_role = $exclude_admins_mods ? array( 'member' ) : array( 'member', 'mod', 'admin' );
+			$group_role = array( 'member' );
+
+			if ( ! $exclude_admins_mods ) {
+				$group_role[] = 'mod';
+				$group_role[] = 'admin';
+			}
+
+			if ( ! $exclude_banned ) {
+				$group_role[] = 'banned';
+			}
 		}
 
 		// Perform the group member query (extends BP_User_Query)
@@ -415,7 +425,6 @@ function groups_get_group_members( $group_id, $limit = false, $page = false, $ex
 			'per_page'       => $limit,
 			'page'           => $page,
 			'group_role'     => $group_role,
-			'exclude_banned' => $exclude_banned,
 			'exclude'        => $exclude,
 			'type'           => 'last_modified',
 		) );
