@@ -614,10 +614,14 @@ class BP_Activity_Activity {
 		return $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND secondary_item_id = %d", $parent_id ) );
 	}
 
+	/**
+	 * Fetch a list of all components that have activity items recorded
+	 *
+	 * @return array
+	 */
 	function get_recorded_components() {
 		global $wpdb, $bp;
-
-		return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT component FROM {$bp->activity->table_name} ORDER BY component ASC" ) );
+		return $wpdb->get_col( "SELECT DISTINCT component FROM {$bp->activity->table_name} ORDER BY component ASC" );
 	}
 
 	function get_sitewide_items_for_feed( $limit = 35 ) {
