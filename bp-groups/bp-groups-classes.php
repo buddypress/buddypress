@@ -1030,59 +1030,41 @@ class BP_Group_Member_Query extends BP_User_Query {
 		$sql['where'][] = $wpdb->prepare( "group_id = %d", $this->query_vars['group_id'] );
 
 		// Role information is stored as follows: admins have
-		// is_admin = 1, mods have is_mod = 1, and members have both
-		// set to 0.
+		// is_admin = 1, mods have is_mod = 1, banned have is_banned =
+		// 1, and members have all three set to 0.
 		$roles = !empty( $this->query_vars['group_role'] ) ? $this->query_vars['group_role'] : array();
 		if ( is_string( $roles ) ) {
 			$roles = explode( ',', $roles );
 		}
 
-		// Sanitize: Only 'admin', 'mod', and 'member' are valid
+		// Sanitize: Only 'admin', 'mod', 'member', and 'banned' are valid
+		$allowed_roles = array( 'admin', 'mod', 'member', 'banned' );
 		foreach ( $roles as $role_key => $role_value ) {
-			if ( ! in_array( $role_value, array( 'admin', 'mod', 'member' ) ) ) {
+			if ( ! in_array( $role_value, $allowed_roles ) ) {
 				unset( $roles[ $role_key ] );
 			}
 		}
 
-		// Remove dupes to make the count accurate, and flip for faster
-		// isset() lookups
-		$roles = array_flip( array_unique( $roles ) );
+		$roles = array_unique( $roles );
 
-		switch ( count( $roles ) ) {
+		// When querying for a set of roles containing 'member' (for
+		// which there is no dedicated is_ column), figure out a list
+		// of columns *not* to match
+		if ( in_array( 'member', $roles ) ) {
+			$role_columns = array();
+			foreach ( array_diff( $allowed_roles, $roles ) as $excluded_role ) {
+				$role_columns[] = 'is_' . $excluded_role . ' = 0';
+			}
+			$roles_sql = '(' . implode( ' AND ', $role_columns ) . ')';
 
-			// All three roles means we don't limit results
-			case 3 :
-			default :
-				$roles_sql = '';
-				break;
-
-			case 2 :
-				// member + mod = no admins
-				// member + admin = no mods
-				if ( isset( $roles['member'] ) ) {
-					$roles_sql = isset( $roles['admin'] ) ? "is_mod = 0" : "is_admin = 0";
-
-				// Two non-member roles are 'admin' and 'mod'
-				} else {
-					$roles_sql = "(is_admin = 1 OR is_mod = 1)";
-				}
-				break;
-
-			case 1 :
-				// member only means no admins or mods
-				if ( isset( $roles['member'] ) ) {
-					$roles_sql = "is_admin = 0 AND is_mod = 0";
-
-				// Filter by that role only
-				} else {
-					$roles_sql = isset( $roles['admin'] ) ? "is_admin = 1" : "is_mod = 1";
-				}
-				break;
-
-			// No roles means no users should be returned
-			case 0 :
-				$roles_sql = $this->no_results['where'];
-				break;
+		// When querying for a set of roles *not* containing 'member',
+		// simply construct a list of is_* = 1 clauses
+		} else {
+			$role_columns = array();
+			foreach ( $roles as $role ) {
+				$role_columns[] = 'is_' . $role . ' = 1';
+			}
+			$roles_sql = '(' . implode( ' OR ', $role_columns ) . ')';
 		}
 
 		if ( ! empty( $roles_sql ) ) {
