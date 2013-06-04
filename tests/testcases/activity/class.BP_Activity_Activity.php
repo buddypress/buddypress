@@ -161,10 +161,17 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'content' => 'Life Drools',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
-		$a3 = bp_activity_new_comment( array(
-			'activity_id' => $a1,
-			'content' => 'Candy is good',
-			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+
+		// bp_activity_new_comment() doesn't allow date_recorded
+		$a3 = bp_activity_add( array(
+			'action'            => sprintf( __( '%s posted a new activity comment', 'buddypress' ), bp_get_loggedin_user_link() ) ,
+			'content'           => 'Candy is good',
+			'component'         => buddypress()->activity->id,
+			'type'              => 'activity_comment',
+			'user_id'           => bp_loggedin_user_id,
+			'item_id'           => $a1,
+			'secondary_item_id' => $a1,
+			'recorded_time'     => date( 'Y-m-d H:i:s', $now - 50 ),
 		) );
 
 		$activity = BP_Activity_Activity::get( array(
