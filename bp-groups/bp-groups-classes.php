@@ -1089,13 +1089,6 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		/** LIMIT clause ******************************************************/
 
-		// Technically, this is also handled by BP_User_Query, but
-		// repeating the limit here helps to make the query more
-		// efficient, by not fetching every single matching user
-		if ( ! empty( $this->query_vars['per_page'] ) && ! empty( $this->query_vars['page'] ) ) {
-			$sql['limit'] = $wpdb->prepare( "LIMIT %d, %d", absint( ( $this->query_vars['page'] - 1 ) * $this->query_vars['per_page'] ), absint( $this->query_vars['per_page'] ) );
-		}
-
 		$ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']} {$sql['limit']}" );
 
 		return $ids;
