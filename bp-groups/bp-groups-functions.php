@@ -399,8 +399,10 @@ function groups_get_group_mods( $group_id ) {
 function groups_get_group_members( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false, $group_role = false ) {
 
 	// For legacy users. Use of BP_Groups_Member::get_all_for_group()
-	// is deprecated.
-	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, func_get_args() ) ) {
+	// is deprecated. func_get_args() can't be passed to a function in PHP
+	// 5.2.x, so we create a variable
+	$func_args = func_get_args();
+	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, $func_args ) ) {
 		$retval = BP_Groups_Member::get_all_for_group( $group_id, $limit, $page, $exclude_admins_mods, $exclude_banned, $exclude );
 	} else {
 
