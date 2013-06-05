@@ -70,7 +70,7 @@ jq(document).ready( function() {
 	/* New posts */
 	jq("input#aw-whats-new-submit").click( function() {
 		var button = jq(this);
-		var form = button.parent().parent().parent().parent();
+		var form = button.closest("form#whats-new-form");
 
 		form.children().each( function() {
 			if ( jq.nodeName(this, "textarea") || jq.nodeName(this, "input") )
