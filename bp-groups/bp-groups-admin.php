@@ -713,8 +713,14 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 	// Pull up a list of group members, so we can separate out the types
 	// We'll also keep track of group members here to place them into a
 	// javascript variable, which will help with group member autocomplete
-	$member_ids = array();
-	$members    = array(
+	$members = array(
+		'admin'  => array(),
+		'mod'    => array(),
+		'member' => array(),
+		'banned' => array(),
+	);
+
+	$pagination = array(
 		'admin'  => array(),
 		'mod'    => array(),
 		'member' => array(),
@@ -722,14 +728,19 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 	);
 
 	foreach ( $members as $type => &$member_type_users ) {
+		$page_qs_key = $type . '_page';
+		$current_type_page = isset( $_GET[ $page_qs_key ] ) ? absint( $_GET[ $page_qs_key ] ) : 1;
 		$member_type_query = new BP_Group_Member_Query( array(
 			'group_id'   => $item->id,
 			'group_role' => array( $type ),
 			'type'       => 'alphabetical',
 			'per_page'   => 10,
+			'page'       => $current_type_page,
 		) );
 
 		$member_type_users = $member_type_query->results;
+
+		$pagination[ $type ] = bp_groups_admin_create_pagination_links( $member_type_query, $type );
 	}
 
 	// Echo out the javascript variable
@@ -748,6 +759,10 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 					case 'banned' : _e( 'Banned Users',   'buddypress' ); break;
 				endswitch; ?>
 			</h4>
+
+			<div class="bp-group-admin-pagination table-top">
+				<?php echo $pagination[ $member_type ] ?>
+			</div>
 
 		<?php if ( !empty( $type_users ) ) : ?>
 
@@ -809,6 +824,10 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 				</tbody>
 			</table>
 
+			<div class="bp-group-admin-pagination table-bottom">
+				<?php echo $pagination[ $member_type ] ?>
+			</div>
+
 		<?php else : ?>
 
 			<p class="bp-groups-no-members description"><?php _e( 'No members of this type', 'buddypress' ) ?></p>
@@ -847,6 +866,63 @@ function bp_groups_admin_edit_metabox_status( $item ) {
 	</div><!-- #submitcomment -->
 
 <?php
+}
+
+/**
+ * Create pagination links out of a BP_Group_Member_Query
+ *
+ * This function is intended to create pagination links for use under the
+ * Manage Members section of the Groups Admin Dashboard pages. It is a stopgap
+ * measure until a more general pagination solution is in place for BuddyPress.
+ * Plugin authors should not use this function, as it is likely to be
+ * deprecated soon.
+ *
+ * @since BuddyPress (1.8)
+ * @param object $query A BP_Group_Member_Query object
+ * @param string $member_type member|mod|admin|banned
+ */
+function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, $member_type ) {
+	$pagination = '';
+
+	if ( ! in_array( $member_type, array( 'admin', 'mod', 'member', 'banned' ) ) ) {
+		return $pagination;
+	}
+
+	// The key used to paginate this member type in the $_GET global
+	$qs_key = $member_type . '_page';
+	$url_base = remove_query_arg( array( $qs_key, 'updated', 'success_modified' ), $_SERVER['REQUEST_URI'] );
+
+	$page     = isset( $_GET[ $qs_key ] ) ? absint( $_GET[ $qs_key ] ) : 1;
+	$per_page = 10; // @todo Make this customizable?
+
+	// Don't show anything if there's no pagination
+	if ( 1 === $page && $query->total_users <= $per_page ) {
+		return $pagination;
+	}
+
+	$current_page_start = ( ( $page - 1 ) * $per_page ) + 1;
+	$current_page_end   = $page * $per_page > intval( $query->total_users ) ? $query->total_users : $page * $per_page;
+
+	$pag_links = paginate_links( array(
+		'base'      => add_query_arg( $qs_key, '%#%', $url_base ),
+		'format'    => '',
+		'prev_text' => __( '&laquo;' ),
+		'next_text' => __( '&raquo;' ),
+		'total'     => ceil( $query->total_users / $per_page ),
+		'current'   => $page,
+	) );
+
+	$viewing_text = sprintf(
+		__( 'Viewing %1$s - %2$s of %3$s', 'buddypress' ),
+		number_format_i18n( $current_page_start ),
+		number_format_i18n( $current_page_end ),
+		sprintf( _n( '%s member', '%s members', $query->total_users, 'buddypress' ), $query->total_users )
+	);
+
+	$pagination .= '<span class="bp-group-admin-pagination-viewing">' . $viewing_text . '</span>';
+	$pagination .= '<span class="bp-group-admin-pagination-links">' . $pag_links . '</span>';
+
+	return $pagination;
 }
 
 /**
