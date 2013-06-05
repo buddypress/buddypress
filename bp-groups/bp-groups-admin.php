@@ -166,7 +166,8 @@ function bp_groups_admin_load() {
 	wp_enqueue_style( 'bp_groups_admin_css', BP_PLUGIN_URL . "bp-groups/admin/css/admin.{$min}css", array(), bp_get_version() );
 
 	wp_localize_script( 'bp_groups_admin_js', 'BP_Group_Admin', array(
-		'add_member_placeholder' => __( 'Start typing a username to add a new member.', 'buddypress' )
+		'add_member_placeholder' => __( 'Start typing a username to add a new member.', 'buddypress' ),
+		'warn_on_leave'          => __( 'If you leave this page, you will lose any unsaved changes you have made to the group.', 'buddypress' ),
 	) );
 
 	if ( $doaction && 'save' == $doaction ) {

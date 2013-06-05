@@ -13,6 +13,8 @@
 
 	var id = 'undefined' !== typeof group_id ? '&group_id=' + group_id : '';
 	$(document).ready( function() {
+		window.warn_on_leave = false;
+
 		/* Initialize autocomplete */
 		$( '.bp-suggest-user' ).autocomplete({
 			source:    ajaxurl + '?action=bp_group_admin_member_autocomplete' + id,
@@ -27,5 +29,19 @@
 		/* Replace noscript placeholder */
 		$( '#bp-groups-new-members' ).attr( 'placeholder', BP_Group_Admin.add_member_placeholder );
 
+		/* Warn before leaving unsaved changes */
+		$(document).on( 'change', 'input#bp-groups-name, input#bp-groups-description, select.bp-groups-role, #bp-groups-settings-section-status input[type="radio"]', function() {
+			window.warn_on_leave = true;
+		});
+
+		$( 'input#save' ).on( 'click', function() {
+			window.warn_on_leave = false;
+		});
+
+		window.onbeforeunload = function(e) {
+			if ( window.warn_on_leave ) {
+				return BP_Group_Admin.warn_on_leave;
+			}
+		};
 	});
 })(jQuery);
