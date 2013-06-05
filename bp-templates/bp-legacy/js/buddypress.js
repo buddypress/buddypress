@@ -46,6 +46,11 @@ jq(document).ready( function() {
 			height:'50px'
 		});
 		jq("#aw-whats-new-submit").prop("disabled", false);
+		
+		var $whats_new_form = jq("form#whats-new-form");
+		if ( $whats_new_form.hasClass("submitted") ) {
+			$whats_new_form.removeClass("submitted");	
+		}
 	});
 
 	/* On blur, shrink if it's empty */
@@ -76,6 +81,7 @@ jq(document).ready( function() {
 		jq('div.error').remove();
 		button.addClass('loading');
 		button.prop('disabled', true);
+		form.addClass("submitted");
 
 		/* Default POST values */
 		var object = '';
