@@ -1138,8 +1138,11 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 	$illegal_names = get_site_option( 'illegal_names' );
 
-	if ( !validate_username( $user_name ) || in_array( $user_name, (array) $illegal_names ) )
-		$errors->add( 'user_name', __( 'Only lowercase letters and numbers allowed', 'buddypress' ) );
+	if ( in_array( $user_name, (array) $illegal_names ) )
+		$errors->add( 'user_name', __( 'That username is not allowed', 'buddypress' ) );
+
+	if ( ! validate_username( $user_name ) )
+		$errors->add( 'user_name', __( 'Usernames can contain only letters, numbers, ., -, *, and @', 'buddypress' ) );
 
 	if( strlen( $user_name ) < 4 )
 		$errors->add( 'user_name',  __( 'Username must be at least 4 characters', 'buddypress' ) );
