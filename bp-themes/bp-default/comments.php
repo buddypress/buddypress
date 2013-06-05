@@ -52,7 +52,7 @@
 	<?php if ( ! comments_open() ) : ?>
 		<?php if ( pings_open() ) : ?>
 			<p class="comments-closed pings-open">
-				<?php printf( __( 'Comments are closed, but <a href="%1$s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'buddypress' ), trackback_url( '0' ) ); ?>
+				<?php printf( __( 'Comments are closed, but <a href="%1$s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'buddypress' ), get_trackback_url() ); ?>
 			</p>
 		<?php else : ?>
 			<p class="comments-closed">
