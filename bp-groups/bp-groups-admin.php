@@ -504,7 +504,7 @@ function bp_groups_admin_edit() {
 
 					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 						<div id="post-body-content">
-							<div id="postdiv" class="postarea">
+							<div id="postdiv">
 								<div id="bp_groups_name" class="postbox">
 									<h3><?php _e( 'Name and Description', 'buddypress' ); ?></h3>
 									<div class="inside">

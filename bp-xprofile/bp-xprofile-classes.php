@@ -386,7 +386,7 @@ class BP_XProfile_Group {
 								</div>
 							</div>
 
-							<div id="postdiv" class="postarea">
+							<div id="postdiv">
 								<div class="postbox">
 									<div id="titlediv"><h3 class="hndle"><?php _e( 'Group Description', 'buddypress' ); ?></h3></div>
 									<div class="inside">
