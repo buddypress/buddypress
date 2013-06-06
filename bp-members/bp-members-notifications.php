@@ -119,7 +119,7 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 				continue;
 
 			// Callback function exists
-			if ( isset( $bp->{$component_name}->notification_callback ) && function_exists( $bp->{$component_name}->notification_callback ) ) {
+			if ( isset( $bp->{$component_name}->notification_callback ) && is_callable( $bp->{$component_name}->notification_callback ) ) {
 
 				// Function should return an object
 				if ( 'object' == $format ) {
