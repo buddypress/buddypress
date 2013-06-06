@@ -76,7 +76,7 @@ function bp_blogs_record_existing_blogs() {
  *
  * If $user_id is provided, you can restrict site from being recordable
  * only to particular users.
- * 
+ *
  * @since BuddyPress (1.7)
  * @param int $blog_id
  * @param int|null $user_id
@@ -104,7 +104,7 @@ function bp_blogs_is_blog_recordable( $blog_id, $user_id = 0 ) {
  * Makes BuddyPress aware of sites that activities shouldn't be trackable.
  * If $user_id is provided, the developer can restrict site from
  * being trackable only to particular users.
- * 
+ *
  * @since BuddyPress (1.7)
  * @param int $blog_id
  * @param int|null $user_id
