@@ -123,6 +123,9 @@ function groups_create_group( $args = '' ) {
 		$member->date_modified = bp_core_current_time();
 		$member->save();
 
+		groups_update_groupmeta( $group->id, 'total_member_count', 1 );
+		groups_update_groupmeta( $group->id, 'last_activity', bp_core_current_time() );
+
 		do_action( 'groups_create_group', $group->id, $member, $group );
 
 	} else {

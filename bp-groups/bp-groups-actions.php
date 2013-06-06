@@ -79,9 +79,6 @@ function groups_action_create_group() {
 				bp_core_add_message( __( 'There was an error saving group details, please try again.', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . bp_get_groups_current_create_step() . '/' );
 			}
-
-			groups_update_groupmeta( $bp->groups->new_group_id, 'total_member_count', 1 );
-			groups_update_groupmeta( $bp->groups->new_group_id, 'last_activity', bp_core_current_time() );
 		}
 
 		if ( 'group-settings' == bp_get_groups_current_create_step() ) {
