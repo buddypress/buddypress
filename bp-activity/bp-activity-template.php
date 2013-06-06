@@ -2025,6 +2025,34 @@ function bp_activity_thread_permalink() {
 	}
 
 /**
+ * Echoes the activity comment permalink
+ *
+ * @since BuddyPress (1.8)
+ *
+ * @uses bp_get_activity_permalink_id()
+ */
+function bp_activity_comment_permalink() {
+	echo bp_get_activity_comment_permalink();
+}
+	/**
+	 * Gets the activity comment permalink
+	 *
+	 * @since BuddyPress (1.8)
+	 *
+	 * @uses bp_activity_get_permalink()
+	 * @uses apply_filters() To call the 'bp_get_activity_comment_permalink' hook
+	 *
+	 * @return string $link The activity comment permalink
+	 */
+	function bp_get_activity_comment_permalink() {
+		global $activities_template;
+
+		$link = bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . '#acomment-' . $activities_template->activity->current_comment->id;
+
+		return apply_filters( 'bp_get_activity_comment_permalink', $link );
+	}
+
+/**
  * Echoes the activity favorite link
  *
  * @since BuddyPress (1.2)
