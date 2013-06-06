@@ -257,7 +257,6 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 			if ( bp_is_active( 'activity' ) ) {
 				$existing = bp_activity_get( array(
 					'filter' => array(
-						'user_id'      => (int) $post->post_author,
 						'action'       => 'new_blog_post',
 						'primary_id'   => $blog_id,
 						'secondary_id' => $post_id,
