@@ -64,6 +64,9 @@ foreach ( $blogs as $blog ) {
 	}
 }
 
+$wpdb->query( 'SET storage_engine = INNODB' );
+$wpdb->select( DB_NAME, $wpdb->dbh );
+
 // Install BuddyPress
 bp_version_updater();
 
