@@ -1225,6 +1225,9 @@ class BP_Groups_Member {
 		// Update the user's group count
 		self::refresh_total_group_count_for_user( $this->user_id );
 
+		// Update the group's member count
+		self::refresh_total_member_count_for_group( $this->group_id );
+
 		do_action_ref_array( 'groups_member_after_save', array( &$this ) );
 
 		return true;
@@ -1255,26 +1258,20 @@ class BP_Groups_Member {
 	}
 
 	function ban() {
-
 		if ( !empty( $this->is_admin ) )
 			return false;
 
 		$this->is_mod = 0;
 		$this->is_banned = 1;
 
-		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
-
 		return $this->save();
 	}
 
 	function unban() {
-
 		if ( !empty( $this->is_admin ) )
 			return false;
 
 		$this->is_banned = 0;
-
-		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) + 1 ) );
 
 		return $this->save();
 	}
@@ -1298,18 +1295,37 @@ class BP_Groups_Member {
 		if ( !$result = $wpdb->query( $sql ) )
 			return false;
 
-		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
-
 		// Update the user's group count
 		self::refresh_total_group_count_for_user( $this->user_id );
+
+		// Update the group's member count
+		self::refresh_total_member_count_for_group( $this->group_id );
 
 		return $result;
 	}
 
 	/** Static Methods ********************************************************/
 
+	/**
+	 * Refresh the total_group_count for a user
+	 *
+	 * @since BuddyPress (1.8)
+	 * @param int $user_id
+	 * @return bool True on success
+	 */
 	public static function refresh_total_group_count_for_user( $user_id ) {
-		bp_update_user_meta( $user_id, 'total_group_count', (int) self::total_group_count( $user_id ) );
+		return bp_update_user_meta( $user_id, 'total_group_count', (int) self::total_group_count( $user_id ) );
+	}
+
+	/**
+	 * Refresh the total_member_count for a group
+	 *
+	 * @since BuddyPress (1.8)
+	 * @param int $group_id
+	 * @return bool True on success
+	 */
+	public static function refresh_total_member_count_for_group( $group_id ) {
+		return groups_update_groupmeta( $group_id, 'total_member_count', (int) BP_Groups_Group::get_total_member_count( $group_id ) );
 	}
 
 	function delete( $user_id, $group_id ) {
@@ -1319,6 +1335,9 @@ class BP_Groups_Member {
 
 		// Update the user's group count
 		self::refresh_total_group_count_for_user( $user_id );
+
+		// Update the group's member count
+		self::refresh_total_member_count_for_group( $group_id );
 
 		return $remove;
 	}

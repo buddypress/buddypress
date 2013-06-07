@@ -123,7 +123,6 @@ function groups_create_group( $args = '' ) {
 		$member->date_modified = bp_core_current_time();
 		$member->save();
 
-		groups_update_groupmeta( $group->id, 'total_member_count', 1 );
 		groups_update_groupmeta( $group->id, 'last_activity', bp_core_current_time() );
 
 		do_action( 'groups_create_group', $group->id, $member, $group );
@@ -299,9 +298,6 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
 	if ( !groups_uninvite_user( $user_id, $group_id ) )
 		return false;
 
-	// Modify group member count
-	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') - 1 );
-
 	/**
 	 * If the user joined this group less than five minutes ago, remove the
 	 * joined_group activity so users cannot flood the activity stream by
@@ -361,7 +357,6 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	) );
 
 	// Modify group meta
-	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
 	do_action( 'groups_join_group', $group_id, $user_id );
@@ -721,7 +716,6 @@ function groups_accept_invite( $user_id, $group_id ) {
 		$member->delete_request( $user_id, $group_id );
 
 	// Modify group meta
-	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') + 1 );
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
 	bp_core_delete_notifications_by_item_id( $user_id, $group_id, $bp->groups->id, 'group_invite' );
@@ -918,9 +912,6 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
 	// Check if the user has an outstanding invite, if so delete it.
 	if ( groups_check_user_has_invite( $membership->user_id, $membership->group_id ) )
 		groups_delete_invite( $membership->user_id, $membership->group_id );
-
-	// Modify group member count
-	groups_update_groupmeta( $membership->group_id, 'total_member_count', (int) groups_get_groupmeta( $membership->group_id, 'total_member_count') + 1 );
 
 	// Record this in activity streams
 	$group = groups_get_group( array( 'group_id' => $membership->group_id ) );
