@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-07 01:35:15+00:00\n"
+"POT-Creation-Date: 2013-06-07 02:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2690,7 +2690,7 @@ msgstr ""
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:260 bp-groups/bp-groups-functions.php:313
+#: bp-groups/bp-groups-actions.php:260 bp-groups/bp-groups-functions.php:309
 msgid "You successfully left the group."
 msgstr ""
 
@@ -3019,7 +3019,7 @@ msgstr ""
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:863 bp-groups/bp-groups-classes.php:2039
+#: bp-groups/bp-groups-admin.php:863 bp-groups/bp-groups-classes.php:2058
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3140,11 +3140,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1237
+#: bp-groups/bp-groups-classes.php:1240
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1243 bp-groups/bp-groups-functions.php:121
+#: bp-groups/bp-groups-classes.php:1246 bp-groups/bp-groups-functions.php:121
 msgid "Group Admin"
 msgstr ""
 
@@ -3160,16 +3160,16 @@ msgstr ""
 msgid "%1$s edited the forum topic %2$s in the group %3$s"
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:291
+#: bp-groups/bp-groups-functions.php:290
 msgid "As the only Admin, you cannot leave the group."
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:357 bp-groups/bp-groups-functions.php:929
+#: bp-groups/bp-groups-functions.php:353 bp-groups/bp-groups-functions.php:920
 #: bp-groups/bp-groups-screens.php:62
 msgid "%1$s joined the group %2$s"
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:619
+#: bp-groups/bp-groups-functions.php:614
 msgid "%1$s posted an update in the group %2$s"
 msgstr ""
 
