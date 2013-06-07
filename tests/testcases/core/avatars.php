@@ -41,12 +41,11 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		// create new subsite
 		$blog_id = $this->factory->blog->create( array(
 			'user_id' => $this->administrator,
-			'path'    => PATH_CURRENT_SITE . 'test_blogname/',
 			'title'   => 'Test Title'
 		) );
 
 		// emulate a page load on the new sub-site
-		$this->go_to( get_blogaddress_by_name('test_blogname') );;
+		$this->go_to( get_blog_option( $blog_id, 'siteurl' ) );
 
 		// test to see if the upload dir is correct
 		$this->assertEquals( bp_core_avatar_url(), $upload_dir['baseurl'] );
