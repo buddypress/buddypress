@@ -128,21 +128,13 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_backpat_retval_format() {
-		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
+		$g = $this->factory->group->create( array( 'creator_id' => $u2 ) );
 
 		$date_modified = gmdate( 'Y-m-d H:i:s', time() - 100 );
 
-		$new_member                = new BP_Groups_Member;
-		$new_member->group_id      = $g;
-		$new_member->user_id       = $u1;
-		$new_member->inviter_id    = $u2;
-		$new_member->is_admin      = 0;
-		$new_member->user_title    = '';
-		$new_member->date_modified = $date_modified;
-		$new_member->is_confirmed  = 1;
-		$new_member->save();
+		$this->add_user_to_group( $u1, $g, array( 'date_modified' => $date_modified ) );
 
 		global $members_template;
 		bp_group_has_members( array(
