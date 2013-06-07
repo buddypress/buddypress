@@ -17,6 +17,8 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 			return;
 		}
 
+		$old_user = get_current_user_id();
+
 		$u = $this->create_user();
 		$this->set_current_user( $u );
 		$b = $this->factory->blog->create( array(
@@ -32,12 +34,16 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
 
 		$this->assertEquals( array( $b ), $blog_ids );
+
+		$this->set_current_user( $old_user );
 	}
 
 	public function test_search_blogs() {
 		if ( ! is_multisite() ) {
 			return;
 		}
+
+		$old_user = get_current_user_id();
 
 		$u = $this->create_user();
 		$this->set_current_user( $u );
@@ -54,6 +60,8 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
 
 		$this->assertEquals( array( $b ), $blog_ids );
+
+		$this->set_current_user( $old_user );
 	}
 
 }
