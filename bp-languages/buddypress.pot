@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-07 00:35:16+00:00\n"
+"POT-Creation-Date: 2013-06-07 01:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2690,7 +2690,7 @@ msgstr ""
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:260 bp-groups/bp-groups-functions.php:316
+#: bp-groups/bp-groups-actions.php:260 bp-groups/bp-groups-functions.php:313
 msgid "You successfully left the group."
 msgstr ""
 
@@ -3140,11 +3140,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1234
+#: bp-groups/bp-groups-classes.php:1237
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1240 bp-groups/bp-groups-functions.php:121
+#: bp-groups/bp-groups-classes.php:1243 bp-groups/bp-groups-functions.php:121
 msgid "Group Admin"
 msgstr ""
 
@@ -3164,12 +3164,12 @@ msgstr ""
 msgid "As the only Admin, you cannot leave the group."
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:360 bp-groups/bp-groups-functions.php:932
+#: bp-groups/bp-groups-functions.php:357 bp-groups/bp-groups-functions.php:929
 #: bp-groups/bp-groups-screens.php:62
 msgid "%1$s joined the group %2$s"
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:622
+#: bp-groups/bp-groups-functions.php:619
 msgid "%1$s posted an update in the group %2$s"
 msgstr ""
 
