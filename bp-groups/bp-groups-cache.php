@@ -94,10 +94,12 @@ add_action( 'bp_groups_delete_group', 'bp_groups_clear_group_members_caches', 10
 function groups_clear_group_user_object_cache( $group_id, $user_id ) {
 	wp_cache_delete( 'bp_total_groups_for_user_' . $user_id, 'bp' );
 }
-add_action( 'groups_join_group',   'groups_clear_group_user_object_cache', 10, 2 );
-add_action( 'groups_leave_group',  'groups_clear_group_user_object_cache', 10, 2 );
-add_action( 'groups_ban_member',   'groups_clear_group_user_object_cache', 10, 2 );
-add_action( 'groups_unban_member', 'groups_clear_group_user_object_cache', 10, 2 );
+add_action( 'groups_join_group',    'groups_clear_group_user_object_cache', 10, 2 );
+add_action( 'groups_leave_group',   'groups_clear_group_user_object_cache', 10, 2 );
+add_action( 'groups_ban_member',    'groups_clear_group_user_object_cache', 10, 2 );
+add_action( 'groups_unban_member',  'groups_clear_group_user_object_cache', 10, 2 );
+add_action( 'groups_uninvite_user', 'groups_clear_group_user_object_cache', 10, 2 );
+add_action( 'groups_remove_member', 'groups_clear_group_user_object_cache', 10, 2 );
 
 /* List actions to clear super cached pages on, if super cache is installed */
 add_action( 'groups_join_group',                 'bp_core_clear_cache' );
