@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-06 23:35:16+00:00\n"
+"POT-Creation-Date: 2013-06-07 00:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -247,7 +247,7 @@ msgid "Submitted on: <strong>%1$s</strong>"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:665 bp-activity/bp-activity-admin.php:1281
-#: bp-forums/bp-forums-template.php:1270 bp-groups/bp-groups-admin.php:1337
+#: bp-forums/bp-forums-template.php:1270 bp-groups/bp-groups-admin.php:1338
 #: bp-themes/bp-default/functions.php:508 bp-xprofile/bp-xprofile-admin.php:456
 #: bp-xprofile/bp-xprofile-loader.php:185
 #: bp-xprofile/bp-xprofile-loader.php:245
@@ -355,7 +355,7 @@ msgstr ""
 msgid "No activities found."
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:1133 bp-groups/bp-groups-admin.php:1218
+#: bp-activity/bp-activity-admin.php:1133 bp-groups/bp-groups-admin.php:1219
 #: bp-messages/bp-messages-template.php:434
 msgid "All"
 msgstr ""
@@ -717,7 +717,7 @@ msgstr ""
 msgid "Group logo"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1095 bp-groups/bp-groups-admin.php:1351
+#: bp-activity/bp-activity-template.php:1095 bp-groups/bp-groups-admin.php:1352
 #: bp-groups/bp-groups-template.php:516
 msgid "Group logo of %s"
 msgstr ""
@@ -731,8 +731,8 @@ msgid "View Discussion"
 msgstr ""
 
 #: bp-activity/bp-activity-template.php:2200
-#: bp-forums/bp-forums-template.php:1271 bp-groups/bp-groups-admin.php:1236
-#: bp-groups/bp-groups-admin.php:1340 bp-groups/bp-groups-template.php:1486
+#: bp-forums/bp-forums-template.php:1271 bp-groups/bp-groups-admin.php:1237
+#: bp-groups/bp-groups-admin.php:1341 bp-groups/bp-groups-template.php:1486
 #: bp-templates/bp-legacy/buddypress/activity/comment.php:43
 #: bp-templates/bp-legacy/buddypress/members/single/messages/messages-loop.php:51
 #: bp-templates/bp-legacy/buddypress/members/single/messages/single.php:24
@@ -1744,7 +1744,7 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:566 bp-groups/bp-groups-admin.php:1334
+#: bp-core/bp-core-buddybar.php:566 bp-groups/bp-groups-admin.php:1335
 msgid "Visit"
 msgstr ""
 
@@ -2910,17 +2910,17 @@ msgstr ""
 msgid "Privacy"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:673 bp-groups/bp-groups-admin.php:1384
+#: bp-groups/bp-groups-admin.php:673 bp-groups/bp-groups-admin.php:1385
 #: bp-groups/bp-groups-template.php:647
 msgid "Public"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:674 bp-groups/bp-groups-admin.php:1387
+#: bp-groups/bp-groups-admin.php:674 bp-groups/bp-groups-admin.php:1388
 #: bp-groups/bp-groups-template.php:649
 msgid "Private"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:675 bp-groups/bp-groups-admin.php:1390
+#: bp-groups/bp-groups-admin.php:675 bp-groups/bp-groups-admin.php:1391
 msgid "Hidden"
 msgstr ""
 
@@ -3066,39 +3066,39 @@ msgstr ""
 msgid "No groups found."
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1219
+#: bp-groups/bp-groups-admin.php:1220
 msgid "Public <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1220
+#: bp-groups/bp-groups-admin.php:1221
 msgid "Private <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1221
+#: bp-groups/bp-groups-admin.php:1222
 msgid "Hidden <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1250
+#: bp-groups/bp-groups-admin.php:1251
 msgctxt "Groups admin Group Name column header"
 msgid "Name"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1251
+#: bp-groups/bp-groups-admin.php:1252
 msgctxt "Groups admin Group Description column header"
 msgid "Description"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1252
+#: bp-groups/bp-groups-admin.php:1253
 msgctxt "Groups admin Privacy Status column header"
 msgid "Status"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1253
+#: bp-groups/bp-groups-admin.php:1254
 msgctxt "Groups admin Members column header"
 msgid "# Members"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:1254
+#: bp-groups/bp-groups-admin.php:1255
 msgctxt "Groups admin Last Active column header"
 msgid "Last Active"
 msgstr ""
@@ -5152,7 +5152,7 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/activate.php:16
 #: bp-themes/bp-default/registration/activate.php:25
-msgid "Your account was activated successfully! You can now log in with the username and password you provided when you signed up."
+msgid "Your account was activated successfully! You can now <a href=\"%s\">log in</a> with the username and password you provided when you signed up."
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/activate.php:21
