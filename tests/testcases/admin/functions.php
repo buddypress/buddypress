@@ -7,9 +7,8 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 	public function setUp() {
 		parent::setUp();
-
 		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->set_current_user( $this->create_user( array( 'role' => 'administrator' ) ) );
 
 		if ( ! function_exists( 'bp_admin' ) ) {
 			require_once( BP_PLUGIN_DIR . 'bp-core/bp-core-admin.php' );

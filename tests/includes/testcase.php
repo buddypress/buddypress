@@ -205,7 +205,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	function create_user( $args = array() ) {
 		$r = wp_parse_args( $args, array(
 			'role' => 'subscriber',
-			'last_activity' => bp_core_current_time(),
+			'last_activity' => bp_core_current_time() - 60*60*24*365,
 		) );
 
 		$last_activity = $r['last_activity'];
