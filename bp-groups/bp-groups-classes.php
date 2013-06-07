@@ -1222,6 +1222,9 @@ class BP_Groups_Member {
 
 		$this->id = $wpdb->insert_id;
 
+		// Update the user's group count
+		self::refresh_total_group_count_for_user( $this->user_id );
+
 		do_action_ref_array( 'groups_member_after_save', array( &$this ) );
 
 		return true;
@@ -1276,7 +1279,6 @@ class BP_Groups_Member {
 		$this->is_banned = 0;
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) + 1 ) );
-		bp_update_user_meta( $this->user_id, 'total_group_count', (int) bp_get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 
 		return $this->save();
 	}
@@ -1286,16 +1288,12 @@ class BP_Groups_Member {
 		$this->inviter_id    = 0;
 		$this->is_confirmed  = 1;
 		$this->date_modified = bp_core_current_time();
-
-		bp_update_user_meta( $this->user_id, 'total_group_count', (int) bp_get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 	}
 
 	function accept_request() {
 
 		$this->is_confirmed = 1;
 		$this->date_modified = bp_core_current_time();
-
-		bp_update_user_meta( $this->user_id, 'total_group_count', (int) bp_get_user_meta( $this->user_id, 'total_group_count', true ) + 1 );
 	}
 
 	function remove() {
@@ -1308,19 +1306,27 @@ class BP_Groups_Member {
 
 		groups_update_groupmeta( $this->group_id, 'total_member_count', ( (int) groups_get_groupmeta( $this->group_id, 'total_member_count' ) - 1 ) );
 
-		$group_count = bp_get_user_meta( $this->user_id, 'total_group_count', true );
-		if ( !empty( $group_count ) )
-			bp_update_user_meta( $this->user_id, 'total_group_count', (int) $group_count - 1 );
+		// Update the user's group count
+		self::refresh_total_group_count_for_user( $this->user_id );
 
 		return $result;
 	}
 
 	/** Static Methods ********************************************************/
 
+	public static function refresh_total_group_count_for_user( $user_id ) {
+		bp_update_user_meta( $user_id, 'total_group_count', (int) self::total_group_count( $user_id ) );
+	}
+
 	function delete( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
+		$remove = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
+
+		// Update the user's group count
+		self::refresh_total_group_count_for_user( $user_id );
+
+		return $remove;
 	}
 
 	function get_group_ids( $user_id, $limit = false, $page = false ) {

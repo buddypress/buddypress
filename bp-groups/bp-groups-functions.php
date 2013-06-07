@@ -302,9 +302,6 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
 	// Modify group member count
 	groups_update_groupmeta( $group_id, 'total_member_count', (int) groups_get_groupmeta( $group_id, 'total_member_count') - 1 );
 
-	// Modify user's group memberhip count
-	bp_update_user_meta( $user_id, 'total_group_count', (int) bp_get_user_meta( $user_id, 'total_group_count', true ) - 1 );
-
 	/**
 	 * If the user joined this group less than five minutes ago, remove the
 	 * joined_group activity so users cannot flood the activity stream by
