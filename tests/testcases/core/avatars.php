@@ -30,7 +30,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 
 		// switch to BP root blog if necessary
 		if ( bp_get_root_blog_id() != get_current_blog_id() ) {
-			switch_to_blog( get_current_blog_id() );
+			$this->go_to_root();
 		}
 
 		// get BP root blog's upload directory data
@@ -48,7 +48,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->go_to( get_blog_option( $blog_id, 'siteurl' ) );
 
 		// test to see if the upload dir is correct
-		$this->assertEquals( bp_core_avatar_url(), $upload_dir['baseurl'] );
+		$this->assertEquals( $upload_dir['baseurl'], bp_core_avatar_url() );
 
 		// reset globals
 		$this->go_to_root();
