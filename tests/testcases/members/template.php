@@ -46,7 +46,9 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		friends_add_friend( $u1, $u2 );
 
-		$this->grant_super_admin( get_current_user_id() );
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u2 );
+
 		$this->go_to( bp_core_get_user_domain( $u2 ) . bp_get_friends_slug() . '/requests/' );
 		$this->restore_admins();
 
@@ -58,6 +60,8 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$requests = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
 		$request_ids = wp_list_pluck( $requests, 'ID' );
 		$this->assertEquals( $request_ids, array( $u1 ) );
+
+		$this->set_current_user( $old_user );
 	}
 
 }
