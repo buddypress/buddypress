@@ -223,30 +223,12 @@ class BuddyPress {
 		if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
 			require( WP_PLUGIN_DIR . '/bp-custom.php' );
 
-		// Define on which blog ID BuddyPress should run
-		if ( !defined( 'BP_ROOT_BLOG' ) ) {
-
-			// Default to 1
-			$root_blog_id = 1;
-
-			// Root blog is the main site on this network
-			if ( is_multisite() && !defined( 'BP_ENABLE_MULTIBLOG' ) ) {
-				$current_site = get_current_site();
-				$root_blog_id = $current_site->blog_id;
-
-			// Root blog is every site on this network
-			} elseif ( is_multisite() && defined( 'BP_ENABLE_MULTIBLOG' ) ) {
-				$root_blog_id = get_current_blog_id();
-			}
-
-			define( 'BP_ROOT_BLOG', $root_blog_id );
+		// Path and URL
+		if ( ! defined( 'BP_PLUGIN_DIR' ) ) {
+			define( 'BP_PLUGIN_DIR', trailingslashit( WP_PLUGIN_DIR . '/buddypress' ) );
 		}
 
-		// Path and URL
-		if ( !defined( 'BP_PLUGIN_DIR' ) )
-			define( 'BP_PLUGIN_DIR', trailingslashit( WP_PLUGIN_DIR . '/buddypress' ) );
-
-		if ( !defined( 'BP_PLUGIN_URL' ) ) {
+		if ( ! defined( 'BP_PLUGIN_URL' ) ) {
 			$plugin_url = plugin_dir_url( __FILE__ );
 
 			// If we're using https, update the protocol. Workaround for WP13941, WP15928, WP19037.
@@ -254,6 +236,40 @@ class BuddyPress {
 				$plugin_url = str_replace( 'http://', 'https://', $plugin_url );
 
 			define( 'BP_PLUGIN_URL', $plugin_url );
+		}
+
+		// Define on which blog ID BuddyPress should run
+		if ( ! defined( 'BP_ROOT_BLOG' ) ) {
+
+			// Default to use current blog ID
+			// Fulfills non-network installs and BP_ENABLE_MULTIBLOG installs
+			$root_blog_id = get_current_blog_id();
+
+			// Multisite check
+			if ( is_multisite() ) {
+
+				// Multiblog isn't enabled
+				if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) || ( defined( 'BP_ENABLE_MULTIBLOG' ) && (int) constant( 'BP_ENABLE_MULTIBLOG' ) === 0 ) ) {
+					// Check to see if BP is network-activated
+					// We're not using is_plugin_active_for_network() b/c you need to include the
+					// /wp-admin/includes/plugin.php file in order to use that function.
+
+					// get network-activated plugins
+					$plugins = get_site_option( 'active_sitewide_plugins');
+					
+					// basename
+					$basename = plugin_basename( constant( 'BP_PLUGIN_DIR' ) . 'bp-loader.php' );
+
+					// plugin is network-activated; use main site ID instead
+					if ( isset( $plugins[ $basename ] ) ) {
+						$current_site = get_current_site();
+						$root_blog_id = $current_site->blog_id;
+					}
+				}
+
+			}
+
+			define( 'BP_ROOT_BLOG', $root_blog_id );
 		}
 
 		// The search slug has to be defined nice and early because of the way
