@@ -21,24 +21,25 @@ jq(document).ready( function() {
 	bp_init_objects( objects );
 
 	/* @mention Compose Scrolling */
-	if ( jq.query.get('r') && jq('#whats-new').length ) {
+	var $whats_new = jq('#whats-new');
+	if ( jq.query.get('r') && $whats_new.length ) {
 		jq('#whats-new-options').animate({
 			height:'40px'
 		});
 		jq("#whats-new-form textarea").animate({
 			height:'50px'
 		});
-		jq.scrollTo( jq('#whats-new'), 500, {
+		jq.scrollTo( $whats_new, 500, {
 			offset:-125,
 			easing:'easeOutQuad'
 		} );
-		jq('#whats-new').focus();
+		$whats_new.focus();
 	}
 
 	/**** Activity Posting ********************************************************/
 
 	/* Textarea focus */
-	jq('#whats-new').focus( function(){
+	$whats_new.focus( function(){
 		jq("#whats-new-options").animate({
 			height:'40px'
 		});
@@ -54,7 +55,7 @@ jq(document).ready( function() {
 	});
 
 	/* On blur, shrink if it's empty */
-	jq('#whats-new').blur( function(){
+	$whats_new.blur( function(){
 		if (!this.value.match(/\S+/)) {
 			this.value = "";
 			jq("#whats-new-options").animate({
