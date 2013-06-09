@@ -33,7 +33,8 @@ jq(document).ready( function() {
 			offset:-125,
 			easing:'easeOutQuad'
 		} );
-		$whats_new.focus();
+		var whats_new_content = $whats_new.val();
+		$whats_new.val('').focus().val(whats_new_content);
 	}
 
 	/**** Activity Posting ********************************************************/
