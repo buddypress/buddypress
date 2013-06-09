@@ -208,6 +208,11 @@ function bp_activity_filter_kses( $content ) {
  */
 function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 
+	// Are mentions disabled?
+	if ( ! bp_activity_do_mentions() ) {
+		return $content;
+	}
+
 	// Try to find mentions
 	$usernames = bp_activity_find_mentions( $content );
 
@@ -237,6 +242,11 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
  * @uses bp_activity_find_mentions()
  */
 function bp_activity_at_name_filter_updates( $activity ) {
+	// Are mentions disabled?
+	if ( ! bp_activity_do_mentions() ) {
+		return;
+	}
+
 	// If activity was marked as spam, stop the rest of this function.
 	if ( ! empty( $activity->is_spam ) )
 		return;
@@ -271,6 +281,11 @@ function bp_activity_at_name_filter_updates( $activity ) {
  * @uses bp_activity_update_mention_count_for_user()
  */
 function bp_activity_at_name_send_emails( $activity ) {
+	// Are mentions disabled?
+	if ( ! bp_activity_do_mentions() ) {
+		return;
+	}
+
 	// If our temporary variable doesn't exist, stop now.
 	if ( empty( buddypress()->activity->mentioned_users ) )
 		return;

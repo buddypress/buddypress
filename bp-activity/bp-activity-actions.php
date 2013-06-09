@@ -534,6 +534,10 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
 function bp_activity_action_mentions_feed() {
 	global $wp_query;
 
+	if ( ! bp_activity_do_mentions() ) {
+		return false;
+	}
+
 	if ( !bp_is_user_activity() || !bp_is_current_action( 'mentions' ) || !bp_is_action_variable( 'feed', 0 ) )
 		return false;
 

@@ -265,11 +265,17 @@ add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
  */
 function bp_activity_screen_notification_settings() {
 
-	if ( !$mention = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_mention', true ) )
-		$mention = 'yes';
+	if ( bp_activity_do_mentions() ) {
+		if ( ! $mention = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_mention', true ) ) {
+			$mention = 'yes';
+		}
+	}
 
-	if ( !$reply = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_reply', true ) )
-		$reply = 'yes'; ?>
+	if ( ! $reply = bp_get_user_meta( bp_displayed_user_id(), 'notification_activity_new_reply', true ) ) {
+		$reply = 'yes';
+	}
+
+	?>
 
 	<table class="notification-settings" id="activity-notification-settings">
 		<thead>
@@ -282,12 +288,15 @@ function bp_activity_screen_notification_settings() {
 		</thead>
 
 		<tbody>
-			<tr id="activity-notification-settings-mentions">
-				<td>&nbsp;</td>
-				<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( bp_displayed_user_id() ) ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php checked( $mention, 'yes', true ) ?>/></td>
-				<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php checked( $mention, 'no', true ) ?>/></td>
-			</tr>
+			<?php if ( bp_activity_do_mentions() ) : ?>
+				<tr id="activity-notification-settings-mentions">
+					<td>&nbsp;</td>
+					<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( bp_displayed_user_id() ) ) ?></td>
+					<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" value="yes" <?php checked( $mention, 'yes', true ) ?>/></td>
+					<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" value="no" <?php checked( $mention, 'no', true ) ?>/></td>
+				</tr>
+			<?php endif; ?>
+
 			<tr id="activity-notification-settings-replies">
 				<td>&nbsp;</td>
 				<td><?php _e( "A member replies to an update or comment you've posted", 'buddypress' ) ?></td>

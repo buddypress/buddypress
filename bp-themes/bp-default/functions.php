@@ -119,7 +119,7 @@ function bp_dtheme_setup() {
 			add_action( 'bp_member_header_actions',    'bp_add_friend_button',           5 );
 
 		// Activity button
-		if ( bp_is_active( 'activity' ) )
+		if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() )
 			add_action( 'bp_member_header_actions',    'bp_send_public_message_button',  20 );
 
 		// Messages button

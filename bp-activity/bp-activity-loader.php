@@ -150,15 +150,17 @@ class BP_Activity_Component extends BP_Component {
 		);
 
 		// @ mentions
-		$sub_nav[] = array(
-			'name'            => __( 'Mentions', 'buddypress' ),
-			'slug'            => 'mentions',
-			'parent_url'      => $activity_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'bp_activity_screen_mentions',
-			'position'        => 20,
-			'item_css_id'     => 'activity-mentions'
-		);
+		if ( bp_activity_do_mentions() ) {
+			$sub_nav[] = array(
+				'name'            => __( 'Mentions', 'buddypress' ),
+				'slug'            => 'mentions',
+				'parent_url'      => $activity_link,
+				'parent_slug'     => $this->slug,
+				'screen_function' => 'bp_activity_screen_mentions',
+				'position'        => 20,
+				'item_css_id'     => 'activity-mentions'
+			);
+		}
 
 		// Favorite activity items
 		$sub_nav[] = array(
@@ -228,11 +230,13 @@ class BP_Activity_Component extends BP_Component {
 			$activity_link = trailingslashit( $user_domain . $this->slug );
 
 			// Unread message count
-			$count = bp_get_total_mention_count_for_user( bp_loggedin_user_id() );
-			if ( !empty( $count ) ) {
-				$title = sprintf( __( 'Mentions <span class="count">%s</span>', 'buddypress' ), number_format_i18n( $count ) );
-			} else {
-				$title = __( 'Mentions', 'buddypress' );
+			if ( bp_activity_do_mentions() ) {
+				$count = bp_get_total_mention_count_for_user( bp_loggedin_user_id() );
+				if ( !empty( $count ) ) {
+					$title = sprintf( __( 'Mentions <span class="count">%s</span>', 'buddypress' ), number_format_i18n( $count ) );
+				} else {
+					$title = __( 'Mentions', 'buddypress' );
+				}
 			}
 
 			// Add the "Activity" sub menu
@@ -244,12 +248,14 @@ class BP_Activity_Component extends BP_Component {
 			);
 
 			// Mentions
-			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-mentions',
-				'title'  => $title,
-				'href'   => trailingslashit( $activity_link . 'mentions' )
-			);
+			if ( bp_activity_do_mentions() ) {
+				$wp_admin_nav[] = array(
+					'parent' => 'my-account-' . $this->id,
+					'id'     => 'my-account-' . $this->id . '-mentions',
+					'title'  => $title,
+					'href'   => trailingslashit( $activity_link . 'mentions' )
+				);
+			}
 
 			// Personal
 			$wp_admin_nav[] = array(

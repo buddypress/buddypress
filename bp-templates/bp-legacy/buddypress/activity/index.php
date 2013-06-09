@@ -52,9 +52,13 @@
 
 				<?php endif; ?>
 
-				<?php do_action( 'bp_before_activity_type_tab_mentions' ); ?>
+				<?php if ( bp_activity_do_mentions() ) : ?>
 
-				<li id="activity-mentions"><a href="<?php echo bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/'; ?>" title="<?php _e( 'Activity that I have been mentioned in.', 'buddypress' ); ?>"><?php _e( 'Mentions', 'buddypress' ); ?><?php if ( bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) : ?> <strong><span><?php printf( _nx( '%s new', '%s new', bp_get_total_mention_count_for_user( bp_loggedin_user_id() ), 'Number of new activity mentions', 'buddypress' ), number_format_i18n( bp_get_total_mention_count_for_user( bp_loggedin_user_id()  )) ); ?></span></strong><?php endif; ?></a></li>
+					<?php do_action( 'bp_before_activity_type_tab_mentions' ); ?>
+
+					<li id="activity-mentions"><a href="<?php echo bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/'; ?>" title="<?php _e( 'Activity that I have been mentioned in.', 'buddypress' ); ?>"><?php _e( 'Mentions', 'buddypress' ); ?><?php if ( bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) : ?> <strong><span><?php printf( _nx( '%s new', '%s new', bp_get_total_mention_count_for_user( bp_loggedin_user_id() ), 'Number of new activity mentions', 'buddypress' ), number_format_i18n( bp_get_total_mention_count_for_user( bp_loggedin_user_id()  )) ); ?></span></strong><?php endif; ?></a></li>
+
+				<?php endif; ?>
 
 			<?php endif; ?>
 

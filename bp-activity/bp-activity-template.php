@@ -419,6 +419,11 @@ function bp_has_activities( $args = '' ) {
 					break;
 				case 'mentions':
 
+					// Are mentions disabled?
+					if ( ! bp_activity_do_mentions() ) {
+						return false;
+					}
+
 					// Start search at @ symbol and stop search at closing tag delimiter.
 					$search_terms     = '@' . bp_core_get_username( $user_id ) . '<';
 					$display_comments = 'stream';
@@ -2798,7 +2803,7 @@ function bp_activities_member_rss_link() { echo bp_get_member_activity_feed_link
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_groups_slug() . '/feed/';
 		elseif ( 'favorites' == bp_current_action() )
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/favorites/feed/';
-		elseif ( 'mentions' == bp_current_action() )
+		elseif ( 'mentions' == bp_current_action() && bp_activity_do_mentions() )
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/mentions/feed/';
 		else
 			$link = '';
