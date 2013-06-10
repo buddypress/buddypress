@@ -20,7 +20,7 @@
 		</div>
 	</div><!-- #item-nav -->
 
-	<div id="item-body">
+	<div id="item-body" role="main">
 
 		<?php do_action( 'bp_before_member_body' );
 
