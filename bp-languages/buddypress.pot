@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-09 14:35:15+00:00\n"
+"POT-Creation-Date: 2013-06-10 00:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -392,6 +392,10 @@ msgstr ""
 
 #: bp-activity/bp-activity-admin.php:1213
 msgid "Filter"
+msgstr ""
+
+#: bp-activity/bp-activity-admin.php:1227
+msgid "Select activity item %1$d"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:1291 bp-core/bp-core-cssjs.php:20
@@ -3101,6 +3105,10 @@ msgstr ""
 #: bp-groups/bp-groups-admin.php:1255
 msgctxt "Groups admin Last Active column header"
 msgid "Last Active"
+msgstr ""
+
+#: bp-groups/bp-groups-admin.php:1291
+msgid "Select group %1$d"
 msgstr ""
 
 #: bp-groups/bp-groups-adminbar.php:48 bp-groups/bp-groups-buddybar.php:34
