@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-10 02:35:16+00:00\n"
+"POT-Creation-Date: 2013-06-10 15:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1411,7 +1411,7 @@ msgid "New Page"
 msgstr ""
 
 #: bp-core/admin/bp-core-slugs.php:105 bp-core/admin/bp-core-slugs.php:168
-#: bp-templates/bp-legacy/buddypress/members/single/settings/capabilities.php:17
+#: bp-templates/bp-legacy/buddypress/members/single/settings/capabilities.php:13
 #: bp-themes/bp-default/members/single/settings/capabilities.php:61
 #: bp-xprofile/bp-xprofile-classes.php:401
 #: bp-xprofile/bp-xprofile-classes.php:927
@@ -3029,8 +3029,8 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:74
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:148
-#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:28
-#: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:17
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:22
+#: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:11
 #: bp-themes/bp-default/groups/single/admin.php:32
 #: bp-themes/bp-default/groups/single/admin.php:117
 #: bp-themes/bp-default/groups/single/forum/edit.php:58
@@ -3777,7 +3777,7 @@ msgstr ""
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: bp-loader.php:546
+#: bp-loader.php:547
 msgid "BuddyPress Default"
 msgstr ""
 
@@ -3823,7 +3823,7 @@ msgstr ""
 #: bp-members/bp-members-adminbar.php:123
 #: bp-settings/bp-settings-loader.php:130
 #: bp-settings/bp-settings-loader.php:190
-#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:31
+#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:27
 #: bp-themes/bp-default/members/single/settings/delete-account.php:50
 #: bp-themes/bp-default/members/single/settings/delete-account.php:76
 msgid "Delete Account"
@@ -5484,62 +5484,62 @@ msgstr ""
 msgid "%s's Profile"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/capabilities.php:13
+#: bp-templates/bp-legacy/buddypress/members/single/settings/capabilities.php:9
 #: bp-themes/bp-default/members/single/settings/capabilities.php:57
 msgid "This user is a spammer."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:11
+#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:7
 #: bp-themes/bp-default/members/single/settings/delete-account.php:56
 msgid "Deleting your account will delete all of the content you have created. It will be completely irrecoverable."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:15
+#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:11
 #: bp-themes/bp-default/members/single/settings/delete-account.php:60
 msgid "Deleting this account will delete all of the content it has created. It will be completely irrecoverable."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:27
+#: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:23
 #: bp-themes/bp-default/members/single/settings/delete-account.php:72
 msgid "I understand the consequences."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:13
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:7
 #: bp-themes/bp-default/members/single/settings/general.php:57
 msgid "Current Password <span>(required to update email or change current password)</span>"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:14
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:8
 #: bp-themes/bp-default/members/single/settings/general.php:58
 msgid "Password Lost and Found"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:14
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:8
 #: bp-themes/bp-default/members/single/settings/general.php:58
 msgid "Lost your password?"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:18
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:12
 #: bp-themes/bp-default/members/single/settings/general.php:62
 msgid "Account Email"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:21
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:15
 #: bp-themes/bp-default/members/single/settings/general.php:65
 msgid "Change Password <span>(leave blank for no change)</span>"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:22
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:16
 #: bp-themes/bp-default/members/single/settings/general.php:66
 msgid "New Password"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:23
+#: bp-templates/bp-legacy/buddypress/members/single/settings/general.php:17
 #: bp-themes/bp-default/members/single/settings/general.php:67
 msgid "Repeat New Password"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:10
+#: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:4
 #: bp-themes/bp-default/members/single/settings/notifications.php:54
 msgid "Send a notification by email when:"
 msgstr ""
