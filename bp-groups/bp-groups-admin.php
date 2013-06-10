@@ -1288,7 +1288,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.7)
 	 */
 	function column_cb( $item = array() ) {
-		printf( '<input type="checkbox" name="gid[]" value="%d" />', (int) $item['id'] );
+		printf( '<label class="screen-reader-text" for="aid-%1$d">' . __( 'Select group %1$d', 'buddypress' ) . '</label><input type="checkbox" name="aid[]" value="%1$d" id="aid-%1$d" />', $item['id'] );
 	}
 
 	/**

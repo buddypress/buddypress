@@ -1224,7 +1224,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.6)
 	 */
 	function column_cb( $item ) {
-		printf( '<input type="checkbox" name="aid[]" value="%d" />', (int) $item['id'] );
+		printf( '<label class="screen-reader-text" for="aid-%1$d">' . __( 'Select activity item %1$d', 'buddypress' ) . '</label><input type="checkbox" name="aid[]" value="%1$d" id="aid-%1$d" />', $item['id'] );
 	}
 
 	/**
