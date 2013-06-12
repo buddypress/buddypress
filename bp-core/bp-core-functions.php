@@ -1316,17 +1316,17 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
  * @package BuddyPress Core
  */
 function bp_core_load_buddypress_textdomain() {
-	$locale        = apply_filters( 'buddypress_locale', get_locale() );
-	$mofile        = sprintf( 'buddypress-%s.mo', $locale );
-	$mofile_global = WP_LANG_DIR . '/' . $mofile;
-	$mofile_local  = BP_PLUGIN_DIR . 'bp-languages/' . $mofile;
+	// Try to load via load_plugin_textdomain() first, for future
+	// wordpress.org translation downloads
+	if ( load_plugin_textdomain( 'buddypress', false, 'buddypress/bp-languages' ) ) {
+		return true;
+	}
 
-	if ( file_exists( $mofile_global ) )
-		return load_textdomain( 'buddypress', $mofile_global );
-	elseif ( file_exists( $mofile_local ) )
-		return load_textdomain( 'buddypress', $mofile_local );
-	else
-		return false;
+	// Nothing found in bp-languages, so try to load from WP_LANG_DIR
+	$locale = apply_filters( 'buddypress_locale', get_locale() );
+	$mofile = WP_LANG_DIR . '/buddypress-' . $locale . '.mo';
+
+	return load_textdomain( 'buddypress', $mofile );
 }
 add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
 
