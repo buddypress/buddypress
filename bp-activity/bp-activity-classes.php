@@ -256,7 +256,7 @@ class BP_Activity_Activity {
 			$activity_user_ids = wp_list_pluck( $activities, 'user_id' );
 			$activity_user_ids = implode( ',', wp_parse_id_list( $activity_user_ids ) );
 
-			if ( !empty( $activity_user_ids ) ) {				
+			if ( !empty( $activity_user_ids ) ) {
 				if ( $names = $wpdb->get_results( "SELECT user_id, value AS user_fullname FROM {$bp->profile->table_name_data} WHERE field_id = 1 AND user_id IN ({$activity_user_ids})" ) ) {
 					foreach ( (array) $names as $name )
 						$tmp_names[$name->user_id] = $name->user_fullname;
@@ -728,5 +728,287 @@ class BP_Activity_Activity {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET hide_sitewide = 1 WHERE user_id = %d", $user_id ) );
+	}
+}
+
+/**
+ * Create a RSS feed using the activity component.
+ *
+ * You should only construct a new feed when you've validated that you're on
+ * the appropriate screen.
+ *
+ * See {@link bp_activity_action_sitewide_feed()} as an example.
+ *
+ * Accepted parameters:
+ *   id	              - internal id for the feed; should be alphanumeric only
+ *                      (required)
+ *   title            - RSS feed title
+ *   link             - Relevant link for the RSS feed
+ *   description      - RSS feed description
+ *   ttl              - Time-to-live (see inline doc in constructor)
+ *   update_period    - Part of the syndication module (see inline doc in
+ *                      constructor for more info)
+ *   update_frequency - Part of the syndication module (see inline doc in
+ *                      constructor for more info)
+ *   max              - Number of feed items to display
+ *   activity_args    - Arguments passed to {@link bp_has_activities()}
+ *
+ * @since BuddyPress (1.8)
+ */
+class BP_Activity_Feed {
+	/**
+	 * Holds our custom class properties.
+	 *
+	 * These variables are stored in a protected array that is magically
+	 * updated using PHP 5.2+ methods.
+	 *
+	 * @see BP_Feed::__construct() This is where $data is added
+	 * @var array
+	 */
+	protected $data;
+
+	/**
+	 * Magic method for checking the existence of a certain data variable.
+	 *
+	 * @param string $key
+	 */
+	public function __isset( $key ) { return isset( $this->data[$key] ); }
+
+	/**
+	 * Magic method for getting a certain data variable.
+	 *
+	 * @param string $key
+	 */
+	public function __get( $key ) { return isset( $this->data[$key] ) ? $this->data[$key] : null; }
+
+	/**
+	 * Constructor.
+	 *
+	 * @param $args Array
+	 */
+	public function __construct( $args = array() ) {
+		// If feeds are disabled, stop now!
+		if ( false === (bool) apply_filters( 'bp_activity_enable_feeds', true ) ) {
+			global $wp_query;
+
+			// set feed flag to false
+			$wp_query->is_feed = false;
+
+			return false;
+		}
+
+		// Setup data
+		$this->data = wp_parse_args( $args, array(
+			// Internal identifier for the RSS feed - should be alphanumeric only
+			'id'               => '',
+
+			// RSS title - should be plain-text
+			'title'            => '',
+
+			// relevant link for the RSS feed
+			'link'             => '',
+
+			// RSS description - should be plain-text
+			'description'      => '',
+
+			// Time-to-live - number of minutes to cache the data before an aggregator
+			// requests it again.  This is only acknowledged if the RSS client supports it
+			//
+			// See: http://www.rssboard.org/rss-profile#element-channel-ttl
+			//      http://www.kbcafe.com/rss/rssfeedstate.html#ttl
+			'ttl'              => '30',
+
+			// Syndication module - similar to ttl, but not really supported by RSS
+			// clients
+			//
+			// See: http://web.resource.org/rss/1.0/modules/syndication/#description
+			//      http://www.kbcafe.com/rss/rssfeedstate.html#syndicationmodule
+			'update_period'    => 'hourly',
+			'update_frequency' => 2,
+
+			// Number of items to display
+			'max'              => 50,
+
+			// Activity arguments passed to bp_has_activities()
+			'activity_args'    => array()
+		) );
+
+		// Plugins can use this filter to modify the feed before it is setup
+		do_action_ref_array( 'bp_activity_feed_prefetch', array( &$this ) );
+
+		// Setup class properties
+		$this->setup_properties();
+
+		// Check if id is valid
+		if ( empty( $this->id ) ) {
+			_doing_it_wrong( 'BP_Activity_Feed', __( "RSS feed 'id' must be defined", 'buddypress' ), 'BP 1.8' );
+			return false;
+		}
+
+		// Plugins can use this filter to modify the feed after it's setup
+		do_action_ref_array( 'bp_activity_feed_postfetch', array( &$this ) );
+
+		// Setup feed hooks
+		$this->setup_hooks();
+
+		// Output the feed
+		$this->output();
+
+		// Kill the rest of the output
+		die();
+	}
+
+	/** SETUP ****************************************************************/
+
+	/**
+	 * Setup and validate the class properties.
+	 */
+	protected function setup_properties() {
+		$this->id               = sanitize_title( $this->id );
+		$this->title            = strip_tags( $this->title );
+		$this->link             = esc_url_raw( $this->link );
+		$this->description      = strip_tags( $this->description );
+		$this->ttl              = (int) $this->ttl;
+		$this->update_period    = strip_tags( $this->update_period );
+		$this->update_frequency = (int) $this->update_frequency;
+
+		$this->activity_args    = wp_parse_args( $this->activity_args, array(
+			'max'              => $this->max,
+			'display_comments' => 'stream'
+		) );
+
+	}
+
+	/**
+	 * Setup some hooks that are used in the feed.
+	 *
+	 * Currently, these hooks are used to maintain backwards compatibility with
+	 * the RSS feeds previous to BP 1.8.
+	 */
+	protected function setup_hooks() {
+		add_action( 'bp_activity_feed_rss_attributes',   array( $this, 'backpat_rss_attributes' ) );
+		add_action( 'bp_activity_feed_channel_elements', array( $this, 'backpat_channel_elements' ) );
+		add_action( 'bp_activity_feed_item_elements',    array( $this, 'backpat_item_elements' ) );
+	}
+
+	/** BACKPAT HOOKS ********************************************************/
+
+	public function backpat_rss_attributes() {
+		do_action( 'bp_activity_' . $this->id . '_feed' );
+	}
+
+	public function backpat_channel_elements() {
+		do_action( 'bp_activity_' . $this->id . '_feed_head' );
+	}
+
+	public function backpat_item_elements() {
+		switch ( $this->id ) {
+
+			// sitewide and friends feeds use the 'personal' hook
+			case 'sitewide' :
+			case 'friends' :
+				$id = 'personal';
+
+				break;
+
+			default :
+				$id = $this->id;
+
+				break;
+		}
+
+		do_action( 'bp_activity_' . $id . '_feed_item' );
+	}
+
+	/** HELPERS **************************************************************/
+
+	/**
+	 * Output the feed's item content.
+	 */
+	protected function feed_content() {
+		bp_activity_content_body();
+
+		switch ( $this->id ) {
+
+			// also output parent activity item if we're on a specific feed
+			case 'favorites' :
+			case 'friends' :
+			case 'mentions' :
+			case 'personal' :
+
+				if ( 'activity_comment' == bp_get_activity_action_name() ) :
+			?>
+				<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> -
+				<?php bp_activity_parent_content() ?>
+			<?php
+				endif;
+
+				break;
+		}
+	}
+
+	/** OUTPUT ***************************************************************/
+
+	/**
+	 * Output the RSS feed.
+	 */
+	protected function output() {
+		// set up some additional headers if not on a directory page
+		// this is done b/c BP uses pseudo-pages
+		if ( ! bp_is_directory() ) {
+			global $wp_query;
+
+			$wp_query->is_404 = false;
+			status_header( 200 );
+		}
+
+		header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
+		echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?'.'>';
+	?>
+
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	<?php do_action( 'bp_activity_feed_rss_attributes' ); ?>
+>
+
+<channel>
+	<title><?php echo $this->title; ?></title>
+	<link><?php echo $this->link; ?></link>
+	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
+	<description><?php echo $this->description ?></description>
+	<lastBuildDate><?php echo mysql2date( 'D, d M Y H:i:s O', bp_activity_get_last_updated(), false ); ?></lastBuildDate>
+	<generator>http://buddypress.org/?v=<?php bp_version(); ?></generator>
+	<language><?php bloginfo_rss( 'language' ); ?></language>
+	<ttl><?php echo $this->ttl; ?></ttl>
+	<sy:updatePeriod><?php echo $this->update_period; ?></sy:updatePeriod>
+ 	<sy:updateFrequency><?php echo $this->update_frequency; ?></sy:updateFrequency>
+	<?php do_action( 'bp_activity_feed_channel_elements' ); ?>
+
+	<?php if ( bp_has_activities( $this->activity_args ) ) : ?>
+		<?php while ( bp_activities() ) : bp_the_activity(); ?>
+			<item>
+				<guid isPermaLink="false"><?php bp_activity_feed_item_guid(); ?></guid>
+				<title><?php echo stripslashes( bp_get_activity_feed_item_title() ); ?></title>
+				<link><?php bp_activity_thread_permalink() ?></link>
+				<pubDate><?php echo mysql2date( 'D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false ); ?></pubDate>
+
+				<?php if ( bp_get_activity_feed_item_description() ) : ?>
+					<content:encoded><![CDATA[<?php $this->feed_content(); ?>]]></content:encoded>
+				<?php endif; ?>
+
+				<?php if ( bp_activity_can_comment() ) : ?>
+					<slash:comments><?php bp_activity_comment_count(); ?></slash:comments>
+				<?php endif; ?>
+
+				<?php do_action( 'bp_activity_feed_item_elements' ); ?>
+			</item>
+		<?php endwhile; ?>
+
+	<?php endif; ?>
+</channel>
+</rss><?php
 	}
 }

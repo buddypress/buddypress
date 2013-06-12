@@ -304,21 +304,39 @@ function groups_action_redirect_to_random_group() {
 }
 add_action( 'bp_actions', 'groups_action_redirect_to_random_group' );
 
+/**
+ * Load the activity feed for the specific group.
+ *
+ * @since BuddyPress (v1.2)
+ */
 function groups_action_group_feed() {
-	global $bp, $wp_query;
 
-	if ( !bp_is_active( 'activity' ) || !bp_is_groups_component() || !isset( $bp->groups->current_group ) || !bp_is_current_action( 'feed' ) )
+	// get current group
+	$group = groups_get_current_group();
+
+	if ( ! bp_is_active( 'activity' ) || ! bp_is_groups_component() || ! $group || ! bp_is_current_action( 'feed' ) )
 		return false;
 
-	$wp_query->is_404 = false;
-	status_header( 200 );
-
-	if ( 'public' != $bp->groups->current_group->status ) {
-		if ( !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
-			return false;
+	// if group isn't public or if logged-in user is not a member of the group, do
+	// not output the group activity feed
+	if ( ! bp_group_is_visible( $group ) ) {
+		return false;
 	}
 
-	include_once( BP_PLUGIN_DIR . '/bp-activity/feeds/bp-activity-group-feed.php' );
-	die;
+	// setup the feed
+	buddypress()->activity->feed = new BP_Activity_Feed( array(
+		'id'            => 'group',
+
+		/* translators: Group activity RSS title - "[Site Name] | [Group Name] | Activity" */
+		'title'         => sprintf( __( '%1$s | %2$s | Activity', 'buddypress' ), bp_get_site_name(), bp_get_current_group_name() ),
+
+		'link'          => bp_get_group_permalink( $group ),
+		'description'   => sprintf( __( "Activity feed for the group, %s.", 'buddypress' ), bp_get_current_group_name() ),
+		'activity_args' => array(
+			'object'           => buddypress()->groups->id,
+			'primary_id'       => bp_get_current_group_id(),
+			'display_comments' => 'threaded'
+		)
+	) );
 }
 add_action( 'bp_actions', 'groups_action_group_feed' );

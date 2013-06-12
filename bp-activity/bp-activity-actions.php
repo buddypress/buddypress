@@ -421,16 +421,22 @@ add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
  * @return bool False on failure
  */
 function bp_activity_action_sitewide_feed() {
-	global $bp, $wp_query;
+	global $bp;
 
-	if ( !bp_is_activity_component() || !bp_is_current_action( 'feed' ) || bp_is_user() || !empty( $bp->groups->current_group ) )
+	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'feed' ) || bp_is_user() || ! empty( $bp->groups->current_group ) )
 		return false;
 
-	$wp_query->is_404 = false;
-	status_header( 200 );
+	// setup the feed
+	buddypress()->activity->feed = new BP_Activity_Feed( array(
+		'id'            => 'sitewide',
 
-	include_once( 'feeds/bp-activity-sitewide-feed.php' );
-	die;
+		/* translators: Sitewide activity RSS title - "[Site Name] | Site Wide Activity" */
+		'title'         => sprintf( __( '%s | Site Wide Activity', 'buddypress' ), bp_get_site_name() ),
+
+		'link'          => bp_get_activity_directory_permalink(),
+		'description'   => __( 'Activity feed for the entire site.', 'buddypress' ),
+		'activity_args' => 'display_comments=threaded'
+	) );
 }
 add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
 
@@ -447,16 +453,21 @@ add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_personal_feed() {
-	global $wp_query;
-
-	if ( !bp_is_user_activity() || !bp_is_current_action( 'feed' ) )
+	if ( ! bp_is_user_activity() || ! bp_is_current_action( 'feed' ) ) {
 		return false;
+	}
 
-	$wp_query->is_404 = false;
-	status_header( 200 );
+	// setup the feed
+	buddypress()->activity->feed = new BP_Activity_Feed( array(
+		'id'            => 'personal',
 
-	include_once( 'feeds/bp-activity-personal-feed.php' );
-	die;
+		/* translators: Personal activity RSS title - "[Site Name] | [User Display Name] | Activity" */
+		'title'         => sprintf( __( '%1$s | %2$s | Activity', 'buddypress' ), bp_get_site_name(), bp_get_displayed_user_fullname() ),
+
+		'link'          => trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() ),
+		'description'   => sprintf( __( 'Activity feed for %s.', 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'activity_args' => 'user_id=' . bp_displayed_user_id()
+	) );
 }
 add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 
@@ -476,16 +487,21 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_friends_feed() {
-	global $wp_query;
-
-	if ( !bp_is_active( 'friends' ) || !bp_is_user_activity() || !bp_is_current_action( bp_get_friends_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
+	if ( ! bp_is_active( 'friends' ) || ! bp_is_user_activity() || ! bp_is_current_action( bp_get_friends_slug() ) || ! bp_is_action_variable( 'feed', 0 ) ) {
 		return false;
+	}
 
-	$wp_query->is_404 = false;
-	status_header( 200 );
+	// setup the feed
+	buddypress()->activity->feed = new BP_Activity_Feed( array(
+		'id'            => 'friends',
 
-	include_once( 'feeds/bp-activity-friends-feed.php' );
-	die;
+		/* translators: Friends activity RSS title - "[Site Name] | [User Display Name] | Friends Activity" */
+		'title'         => sprintf( __( '%1$s | %2$s | Friends Activity', 'buddypress' ), bp_get_site_name(), bp_get_displayed_user_fullname() ),
+
+		'link'          => trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() ),
+		'description'   => sprintf( __( "Activity feed for %s' friends.", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'activity_args' => 'scope=friends'
+	) );
 }
 add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
 
@@ -505,16 +521,29 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_my_groups_feed() {
-	global $wp_query;
-
-	if ( !bp_is_active( 'groups' ) || !bp_is_user_activity() || !bp_is_current_action( bp_get_groups_slug() ) || !bp_is_action_variable( 'feed', 0 ) )
+	if ( ! bp_is_active( 'groups' ) || ! bp_is_user_activity() || ! bp_is_current_action( bp_get_groups_slug() ) || ! bp_is_action_variable( 'feed', 0 ) ) {
 		return false;
+	}
 
-	$wp_query->is_404 = false;
-	status_header( 200 );
+	// get displayed user's group IDs
+	$groups    = groups_get_user_groups();
+	$group_ids = implode( ',', $groups['groups'] );
 
-	include_once( 'feeds/bp-activity-mygroups-feed.php' );
-	die;
+	// setup the feed
+	buddypress()->activity->feed = new BP_Activity_Feed( array(
+		'id'            => 'mygroups',
+
+		/* translators: Member groups activity RSS title - "[Site Name] | [User Display Name] | Groups Activity" */
+		'title'         => sprintf( __( '%1$s | %2$s | Group Activity', 'buddypress' ), bp_get_site_name(), bp_get_displayed_user_fullname() ),
+
+		'link'          => trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_groups_slug() ),
+		'description'   => sprintf( __( "Public group activity feed of which %s is a member of.", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'activity_args' => array(
+			'object'           => buddypress()->groups->id,
+			'primary_id'       => $group_ids,
+			'display_comments' => 'threaded'
+		)
+	) );
 }
 add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
 
@@ -563,16 +592,25 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_favorites_feed() {
-	global $wp_query;
-
-	if ( !bp_is_user_activity() || !bp_is_current_action( 'favorites' ) || !bp_is_action_variable( 'feed', 0 ) )
+	if ( ! bp_is_user_activity() || ! bp_is_current_action( 'favorites' ) || ! bp_is_action_variable( 'feed', 0 ) ) {
 		return false;
+	}
 
-	$wp_query->is_404 = false;
-	status_header( 200 );
+	// get displayed user's favorite activity IDs
+	$favs = bp_activity_get_user_favorites( bp_displayed_user_id() );
+	$fav_ids = implode( ',', (array) $favs );
 
-	include_once( 'feeds/bp-activity-favorites-feed.php' );
-	die;
+	// setup the feed
+	buddypress()->activity->feed = new BP_Activity_Feed( array(
+		'id'            => 'favorites',
+
+		/* translators: User activity favorites RSS title - "[Site Name] | [User Display Name] | Favorites" */
+		'title'         => sprintf( __( '%1$s | %2$s | Favorites', 'buddypress' ), bp_get_site_name(), bp_get_displayed_user_fullname() ),
+
+		'link'          => bp_displayed_user_domain() . bp_get_activity_slug() . '/favorites/',
+		'description'   => sprintf( __( "Activity feed of %s' favorites.", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'activity_args' => 'include=' . $fav_ids
+	) );
 }
 add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
 
