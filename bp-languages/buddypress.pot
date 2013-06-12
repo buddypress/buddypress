@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-10 15:35:15+00:00\n"
+"POT-Creation-Date: 2013-06-12 22:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +25,7 @@ msgid "The activity item has been marked as spam and is no longer visible."
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:262
-#: bp-templates/bp-legacy/buddypress-functions.php:569
+#: bp-templates/bp-legacy/buddypress-functions.php:621
 #: bp-themes/bp-default/_inc/ajax.php:276
 msgid "Please enter some content to post."
 msgstr ""
@@ -39,7 +39,7 @@ msgid "There was an error when posting your update, please try again."
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:322
-#: bp-templates/bp-legacy/buddypress-functions.php:617
+#: bp-templates/bp-legacy/buddypress-functions.php:669
 #: bp-themes/bp-default/_inc/ajax.php:324
 msgid "Please do not leave the comment area blank."
 msgstr ""
@@ -49,8 +49,8 @@ msgid "Reply Posted!"
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:335
-#: bp-templates/bp-legacy/buddypress-functions.php:620
-#: bp-templates/bp-legacy/buddypress-functions.php:629
+#: bp-templates/bp-legacy/buddypress-functions.php:672
+#: bp-templates/bp-legacy/buddypress-functions.php:681
 #: bp-themes/bp-default/_inc/ajax.php:327
 #: bp-themes/bp-default/_inc/ajax.php:336
 msgid "There was an error posting that reply, please try again."
@@ -72,17 +72,69 @@ msgstr ""
 msgid "There was an error removing that activity as a favorite, please try again."
 msgstr ""
 
-#. translators: Personal activity RSS title - "[Site Name] | [Displayed User
+#. translators: Sitewide activity RSS title - "[Site Name] | Site Wide
+#. Activity"
+
+#: bp-activity/bp-activity-actions.php:434
+msgid "%s | Site Wide Activity"
+msgstr ""
+
+#: bp-activity/bp-activity-actions.php:437
+msgid "Activity feed for the entire site."
+msgstr ""
+
+#. translators: Personal activity RSS title - "[Site Name] | [User Display
 #. Name] | Activity"
+#. translators: Group activity RSS title - "[Site Name] | [Group Name] |
+#. Activity"
+
+#: bp-activity/bp-activity-actions.php:465 bp-groups/bp-groups-actions.php:331
+msgid "%1$s | %2$s | Activity"
+msgstr ""
+
+#: bp-activity/bp-activity-actions.php:468
+msgid "Activity feed for %s."
+msgstr ""
+
+#. translators: Friends activity RSS title - "[Site Name] | [User Display Name]
+#. | Friends Activity"
+
+#: bp-activity/bp-activity-actions.php:499
+msgid "%1$s | %2$s | Friends Activity"
+msgstr ""
+
+#: bp-activity/bp-activity-actions.php:502
+msgid "Activity feed for %s' friends."
+msgstr ""
+
+#. translators: Member groups activity RSS title - "[Site Name] | [User Display
+#. Name] | Groups Activity"
+
+#: bp-activity/bp-activity-actions.php:537
+msgid "%1$s | %2$s | Group Activity"
+msgstr ""
+
+#: bp-activity/bp-activity-actions.php:540
+msgid "Public group activity feed of which %s is a member of."
+msgstr ""
+
+#. translators: User activity favorites RSS title - "[Site Name] | [User
+#. Display Name] | Favorites"
+
+#: bp-activity/bp-activity-actions.php:608
+msgid "%1$s | %2$s | Favorites"
+msgstr ""
+
+#: bp-activity/bp-activity-actions.php:611
+msgid "Activity feed of %s' favorites."
+msgstr ""
 
 #: bp-activity/bp-activity-admin.php:35 bp-activity/bp-activity-admin.php:36
 #: bp-activity/bp-activity-admin.php:852 bp-activity/bp-activity-admin.php:1167
 #: bp-activity/bp-activity-loader.php:118
 #: bp-activity/bp-activity-loader.php:246
 #: bp-activity/bp-activity-screens.php:284
-#: bp-activity/bp-activity-screens.php:403
-#: bp-activity/feeds/bp-activity-personal-feed.php:27
-#: bp-core/bp-core-admin.php:409
+#: bp-activity/bp-activity-screens.php:403 bp-core/bp-core-admin.php:409
 msgid "Activity"
 msgstr ""
 
@@ -473,6 +525,14 @@ msgstr ""
 msgid "Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details."
 msgstr ""
 
+#: bp-activity/bp-activity-classes.php:844
+msgid "RSS feed 'id' must be defined"
+msgstr ""
+
+#: bp-activity/bp-activity-classes.php:941
+msgid "In reply to"
+msgstr ""
+
 #: bp-activity/bp-activity-filters.php:363
 msgid "[Read more]"
 msgstr ""
@@ -528,12 +588,8 @@ msgstr ""
 msgid "Personal"
 msgstr ""
 
-#. translators: Mentions RSS title - "[Site Name] | [Displayed User Name] |
-#. Mentions"
-
 #: bp-activity/bp-activity-loader.php:155
 #: bp-activity/bp-activity-loader.php:238
-#: bp-activity/feeds/bp-activity-mentions-feed.php:27
 #: bp-templates/bp-legacy/buddypress/activity/index.php:59
 #: bp-themes/bp-default/activity/index.php:79
 msgid "Mentions"
@@ -751,7 +807,7 @@ msgstr ""
 #: bp-core/admin/bp-core-slugs.php:109 bp-core/admin/bp-core-slugs.php:172
 #: bp-core/bp-core-loader.php:226 bp-members/bp-members-loader.php:172
 #: bp-members/bp-members-template.php:625
-#: bp-templates/bp-legacy/buddypress-functions.php:259
+#: bp-templates/bp-legacy/buddypress-functions.php:237
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-themes/bp-default/functions.php:166
 #: bp-xprofile/bp-xprofile-loader.php:175
@@ -777,92 +833,6 @@ msgstr ""
 
 #: bp-activity/bp-activity-template.php:3000
 msgid "Site Wide Activity RSS Feed"
-msgstr ""
-
-#. translators: Favorited activity RSS title - "[Site Name] | [Displayed User
-#. Name] | Favorite Activity"
-
-#: bp-activity/feeds/bp-activity-favorites-feed.php:27
-msgid "Favorite Activity"
-msgstr ""
-
-#: bp-activity/feeds/bp-activity-favorites-feed.php:30
-msgid "%s - Favorite Activity"
-msgstr ""
-
-#: bp-activity/feeds/bp-activity-favorites-feed.php:56
-#: bp-activity/feeds/bp-activity-friends-feed.php:49
-#: bp-activity/feeds/bp-activity-group-feed.php:49
-#: bp-activity/feeds/bp-activity-mentions-feed.php:50
-#: bp-activity/feeds/bp-activity-mygroups-feed.php:55
-#: bp-activity/feeds/bp-activity-personal-feed.php:49
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:49
-msgid "Comments: %s"
-msgstr ""
-
-#: bp-activity/feeds/bp-activity-favorites-feed.php:60
-#: bp-activity/feeds/bp-activity-friends-feed.php:53
-#: bp-activity/feeds/bp-activity-mentions-feed.php:54
-#: bp-activity/feeds/bp-activity-personal-feed.php:53
-msgid "In reply to"
-msgstr ""
-
-#. translators: Member friends activity RSS title - "[Site Name] | Friends
-#. Activity"
-
-#: bp-activity/feeds/bp-activity-friends-feed.php:27
-msgid "Friends Activity"
-msgstr ""
-
-#: bp-activity/feeds/bp-activity-friends-feed.php:30
-msgid "%s - Friends Activity Feed"
-msgstr ""
-
-#. translators: Single group activity RSS title - "[Site Name] | [Group Name] |
-#. Group Activity"
-
-#: bp-activity/feeds/bp-activity-group-feed.php:27
-msgid "Group Activity"
-msgstr ""
-
-#: bp-activity/feeds/bp-activity-group-feed.php:30
-msgid "%s - Group Activity Feed"
-msgstr ""
-
-#. translators: Mentions RSS title - "[Site Name] | [Displayed User Name] |
-#. Mentions"
-
-#: bp-activity/feeds/bp-activity-mentions-feed.php:31
-msgid "%s - Mentions"
-msgstr ""
-
-#. translators: Member groups activity RSS title - "[Site Name] | [Displayed
-#. User Name] | My Groups - Public Activity"
-
-#: bp-activity/feeds/bp-activity-mygroups-feed.php:27
-msgid "My Groups - Public Activity"
-msgstr ""
-
-#. translators: Member groups activity RSS description - "[Displayed user name]
-#. - My Groups - Public Activity"
-
-#: bp-activity/feeds/bp-activity-mygroups-feed.php:31
-msgid "%1$s - My Groups - Public Activity"
-msgstr ""
-
-#: bp-activity/feeds/bp-activity-personal-feed.php:30
-msgid "%s - Activity Feed"
-msgstr ""
-
-#. translators: Sitewide activity RSS title - "[Site Name] | Site Wide
-#. Activity"
-
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:27
-msgid "Site Wide Activity"
-msgstr ""
-
-#: bp-activity/feeds/bp-activity-sitewide-feed.php:30
-msgid "Site Wide Activity Feed"
 msgstr ""
 
 #: bp-blogs/bp-blogs-activity.php:31
@@ -2450,7 +2420,7 @@ msgid "You already have a pending friendship request with this user"
 msgstr ""
 
 #: bp-friends/bp-friends-actions.php:70
-#: bp-templates/bp-legacy/buddypress-functions.php:904
+#: bp-templates/bp-legacy/buddypress-functions.php:956
 #: bp-themes/bp-default/_inc/ajax.php:618
 msgid "Friendship could not be canceled."
 msgstr ""
@@ -2627,7 +2597,7 @@ msgid "%d friends"
 msgstr ""
 
 #: bp-friends/bp-friends-template.php:285
-#: bp-templates/bp-legacy/buddypress-functions.php:916
+#: bp-templates/bp-legacy/buddypress-functions.php:968
 #: bp-themes/bp-default/_inc/ajax.php:630
 msgid "Cancel Friendship Request"
 msgstr ""
@@ -2643,8 +2613,8 @@ msgstr ""
 
 #: bp-friends/bp-friends-template.php:319
 #: bp-friends/bp-friends-template.php:320
-#: bp-templates/bp-legacy/buddypress-functions.php:906
-#: bp-templates/bp-legacy/buddypress-functions.php:924
+#: bp-templates/bp-legacy/buddypress-functions.php:958
+#: bp-templates/bp-legacy/buddypress-functions.php:976
 #: bp-themes/bp-default/_inc/ajax.php:620
 #: bp-themes/bp-default/_inc/ajax.php:638
 msgid "Add Friend"
@@ -2696,6 +2666,10 @@ msgstr ""
 
 #: bp-groups/bp-groups-actions.php:260 bp-groups/bp-groups-functions.php:309
 msgid "You successfully left the group."
+msgstr ""
+
+#: bp-groups/bp-groups-actions.php:334
+msgid "Activity feed for the group, %s."
 msgstr ""
 
 #: bp-groups/bp-groups-activity.php:23
@@ -3225,7 +3199,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-loader.php:427 bp-groups/bp-groups-template.php:1793
 #: bp-groups/bp-groups-template.php:1794
-#: bp-templates/bp-legacy/buddypress-functions.php:1023
+#: bp-templates/bp-legacy/buddypress-functions.php:1075
 #: bp-themes/bp-default/_inc/ajax.php:737
 msgid "Request Membership"
 msgstr ""
@@ -3673,13 +3647,13 @@ msgid "This group has no moderators"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1752 bp-groups/bp-groups-template.php:1753
-#: bp-templates/bp-legacy/buddypress-functions.php:1002
+#: bp-templates/bp-legacy/buddypress-functions.php:1054
 #: bp-themes/bp-default/_inc/ajax.php:716
 msgid "Leave Group"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1775 bp-groups/bp-groups-template.php:1776
-#: bp-templates/bp-legacy/buddypress-functions.php:1021
+#: bp-templates/bp-legacy/buddypress-functions.php:1073
 #: bp-themes/bp-default/_inc/ajax.php:735
 msgid "Join Group"
 msgstr ""
@@ -4024,7 +3998,7 @@ msgid "There was an error deleting messages."
 msgstr ""
 
 #: bp-messages/bp-messages-actions.php:91
-#: bp-templates/bp-legacy/buddypress-functions.php:1182
+#: bp-templates/bp-legacy/buddypress-functions.php:1234
 #: bp-themes/bp-default/_inc/ajax.php:884
 msgid "Messages deleted."
 msgstr ""
@@ -4214,7 +4188,7 @@ msgstr ""
 #: bp-messages/bp-messages-template.php:607
 #: bp-templates/bp-legacy/buddypress/members/register.php:166
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:130
-#: bp-templates/bp-legacy/buddypress-functions.php:258
+#: bp-templates/bp-legacy/buddypress-functions.php:236
 #: bp-themes/bp-default/functions.php:165
 #: bp-themes/bp-default/members/single/profile/edit.php:130
 #: bp-themes/bp-default/registration/register.php:171
@@ -4234,7 +4208,7 @@ msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:924
-#: bp-templates/bp-legacy/buddypress-functions.php:1088
+#: bp-templates/bp-legacy/buddypress-functions.php:1140
 #: bp-themes/bp-default/_inc/ajax.php:790
 msgid "Sent %s"
 msgstr ""
@@ -4333,9 +4307,9 @@ msgid "Mark as Favorite"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/activity/entry.php:66
-#: bp-templates/bp-legacy/buddypress-functions.php:260
-#: bp-templates/bp-legacy/buddypress-functions.php:779
-#: bp-templates/bp-legacy/buddypress-functions.php:796
+#: bp-templates/bp-legacy/buddypress-functions.php:238
+#: bp-templates/bp-legacy/buddypress-functions.php:831
+#: bp-templates/bp-legacy/buddypress-functions.php:848
 #: bp-themes/bp-default/_inc/ajax.php:494
 #: bp-themes/bp-default/_inc/ajax.php:511
 #: bp-themes/bp-default/activity/entry.php:68
@@ -4344,9 +4318,9 @@ msgid "Favorite"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/activity/entry.php:70
-#: bp-templates/bp-legacy/buddypress-functions.php:261
-#: bp-templates/bp-legacy/buddypress-functions.php:777
-#: bp-templates/bp-legacy/buddypress-functions.php:798
+#: bp-templates/bp-legacy/buddypress-functions.php:239
+#: bp-templates/bp-legacy/buddypress-functions.php:829
+#: bp-templates/bp-legacy/buddypress-functions.php:850
 #: bp-themes/bp-default/_inc/ajax.php:492
 #: bp-themes/bp-default/_inc/ajax.php:513
 #: bp-themes/bp-default/activity/entry.php:72
@@ -4899,7 +4873,7 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/groups/create.php:222
 #: bp-templates/bp-legacy/buddypress/groups/single/send-invites.php:42
-#: bp-templates/bp-legacy/buddypress-functions.php:868
+#: bp-templates/bp-legacy/buddypress-functions.php:920
 #: bp-themes/bp-default/_inc/ajax.php:583
 #: bp-themes/bp-default/groups/create.php:229
 #: bp-themes/bp-default/groups/single/send-invites.php:42
@@ -5548,123 +5522,123 @@ msgstr ""
 msgid "BuddyPress Legacy"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:251
+#: bp-templates/bp-legacy/buddypress-functions.php:229
 #: bp-themes/bp-default/functions.php:158
 msgid "My Favorites"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:252
+#: bp-templates/bp-legacy/buddypress-functions.php:230
 #: bp-themes/bp-default/functions.php:159
 msgid "Accepted"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:253
+#: bp-templates/bp-legacy/buddypress-functions.php:231
 #: bp-themes/bp-default/functions.php:160
 msgid "Rejected"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:254
+#: bp-templates/bp-legacy/buddypress-functions.php:232
 #: bp-themes/bp-default/functions.php:161
 msgid "Show all comments for this thread"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:255
+#: bp-templates/bp-legacy/buddypress-functions.php:233
 #: bp-themes/bp-default/functions.php:162
 msgid "Show all %d comments"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:256
+#: bp-templates/bp-legacy/buddypress-functions.php:234
 #: bp-themes/bp-default/functions.php:163
 msgid "Show all"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:257
+#: bp-templates/bp-legacy/buddypress-functions.php:235
 #: bp-themes/bp-default/functions.php:164
 msgid "comments"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:262
+#: bp-templates/bp-legacy/buddypress-functions.php:240
 msgid "Your profile has unsaved changes. If you leave the page, the changes will be lost."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:584
+#: bp-templates/bp-legacy/buddypress-functions.php:636
 #: bp-themes/bp-default/_inc/ajax.php:291
 msgid "There was a problem posting your update, please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:678
-#: bp-templates/bp-legacy/buddypress-functions.php:714
+#: bp-templates/bp-legacy/buddypress-functions.php:730
+#: bp-templates/bp-legacy/buddypress-functions.php:766
 #: bp-themes/bp-default/_inc/ajax.php:393
 #: bp-themes/bp-default/_inc/ajax.php:429
 msgid "There was a problem when deleting. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:914
+#: bp-templates/bp-legacy/buddypress-functions.php:966
 #: bp-themes/bp-default/_inc/ajax.php:628
 msgid " Friendship could not be requested."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:926
+#: bp-templates/bp-legacy/buddypress-functions.php:978
 #: bp-themes/bp-default/_inc/ajax.php:640
 msgid "Friendship request could not be cancelled."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:931
+#: bp-templates/bp-legacy/buddypress-functions.php:983
 #: bp-themes/bp-default/_inc/ajax.php:645
 msgid "Request Pending"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:951
+#: bp-templates/bp-legacy/buddypress-functions.php:1003
 #: bp-themes/bp-default/_inc/ajax.php:665
 msgid "There was a problem accepting that request. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:970
+#: bp-templates/bp-legacy/buddypress-functions.php:1022
 #: bp-themes/bp-default/_inc/ajax.php:684
 msgid "There was a problem rejecting that request. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1000
+#: bp-templates/bp-legacy/buddypress-functions.php:1052
 #: bp-themes/bp-default/_inc/ajax.php:714
 msgid "Error joining group"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1009
+#: bp-templates/bp-legacy/buddypress-functions.php:1061
 #: bp-themes/bp-default/_inc/ajax.php:723
 msgid "Error requesting membership"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1011
+#: bp-templates/bp-legacy/buddypress-functions.php:1063
 #: bp-themes/bp-default/_inc/ajax.php:725
 msgid "Membership Requested"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1019
+#: bp-templates/bp-legacy/buddypress-functions.php:1071
 #: bp-themes/bp-default/_inc/ajax.php:733
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1042
+#: bp-templates/bp-legacy/buddypress-functions.php:1094
 #: bp-themes/bp-default/_inc/ajax.php:756
 msgid "There was a problem closing the notice."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1105
+#: bp-templates/bp-legacy/buddypress-functions.php:1157
 #: bp-themes/bp-default/_inc/ajax.php:807
 msgid "There was a problem sending that reply. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1123
+#: bp-templates/bp-legacy/buddypress-functions.php:1175
 #: bp-themes/bp-default/_inc/ajax.php:825
 msgid "There was a problem marking messages as unread."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1148
+#: bp-templates/bp-legacy/buddypress-functions.php:1200
 #: bp-themes/bp-default/_inc/ajax.php:850
 msgid "There was a problem marking messages as read."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1173
+#: bp-templates/bp-legacy/buddypress-functions.php:1225
 #: bp-themes/bp-default/_inc/ajax.php:875
 msgid "There was a problem deleting messages."
 msgstr ""
