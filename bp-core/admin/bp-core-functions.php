@@ -365,6 +365,18 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 		)
 	);
 
+	// If forums component is active, add additional tab
+	if ( bp_is_active( 'forums' ) && class_exists( 'BP_Forums_Component' ) ) {
+		// enqueue thickbox
+		wp_enqueue_script( 'thickbox' );
+		wp_enqueue_style( 'thickbox' );
+
+		$tabs['3'] = array(
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup'  ), 'admin.php' ) ),
+			'name' => __( 'Forums', 'buddypress' )
+		);
+	}
+
 	// Loop through tabs and build navigation
 	foreach ( array_values( $tabs ) as $tab_data ) {
 		$is_current = (bool) ( $tab_data['name'] == $active_tab );

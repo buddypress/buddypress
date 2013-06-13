@@ -82,6 +82,12 @@ class BP_Forums_Component extends BP_Component {
 		if ( !defined( 'BB_PATH' ) )
 			$includes[] = 'bbpress-sa';
 
+		// Admin-specific code
+		if ( is_admin() ) {
+			$includes[] = 'deprecated/1.6';
+			$includes[] = 'deprecated/1.7';
+		}
+
 		parent::includes( $includes );
 	}
 
