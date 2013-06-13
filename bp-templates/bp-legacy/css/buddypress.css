@@ -735,6 +735,31 @@ a.bp-title-button {
 	text-decoration: none;
 }
 
+#buddypress form.standard-form .left-menu {
+	float: left;
+}
+
+#buddypress form.standard-form .left-menu #invite-list ul{
+	margin:1%;
+	list-style: none;
+}
+
+#buddypress form.standard-form .left-menu #invite-list ul li {
+	margin:0 0 0 1%;
+}
+
+#buddypress form.standard-form .main-column {
+	margin-left: 190px;
+}
+
+#buddypress form.standard-form .main-column ul#friend-list {
+	clear:none;
+}
+
+#buddypress form.standard-form .main-column ul#friend-list h4 {
+	clear:none;
+}
+
 /*--------------------------------------------------------------
 3.6 - Ajax Loading
 --------------------------------------------------------------*/
@@ -1415,6 +1440,13 @@ body.register #buddypress div.page ul {
 	}
 	a.bp-title-button {
 		margin-left: 10px;
+	}
+	#buddypress form.standard-form .main-column div.action{
+		position: relative;
+		margin-bottom:1em;
+	}
+	#buddypress form.standard-form .main-column ul#friend-list h4{
+		width:100%;
 	}
 }
 
