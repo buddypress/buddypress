@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-12 22:35:16+00:00\n"
+"POT-Creation-Date: 2013-06-13 01:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -134,7 +134,7 @@ msgstr ""
 #: bp-activity/bp-activity-loader.php:118
 #: bp-activity/bp-activity-loader.php:246
 #: bp-activity/bp-activity-screens.php:284
-#: bp-activity/bp-activity-screens.php:403 bp-core/bp-core-admin.php:409
+#: bp-activity/bp-activity-screens.php:451 bp-core/bp-core-admin.php:409
 msgid "Activity"
 msgstr ""
 
@@ -147,10 +147,10 @@ msgid "ERROR: The item you are trying to reply to cannot be found, or it has bee
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:197 bp-activity/bp-activity-admin.php:244
-#: bp-core/admin/bp-core-functions.php:402
-#: bp-core/admin/bp-core-functions.php:420
-#: bp-core/admin/bp-core-functions.php:439
-#: bp-core/admin/bp-core-functions.php:458 bp-groups/bp-groups-admin.php:107
+#: bp-core/admin/bp-core-functions.php:414
+#: bp-core/admin/bp-core-functions.php:432
+#: bp-core/admin/bp-core-functions.php:451
+#: bp-core/admin/bp-core-functions.php:470 bp-groups/bp-groups-admin.php:107
 #: bp-groups/bp-groups-admin.php:143
 msgid "Overview"
 msgstr ""
@@ -188,10 +188,10 @@ msgid "For information about when and how BuddyPress uses all of these settings,
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:216 bp-activity/bp-activity-admin.php:261
-#: bp-core/admin/bp-core-functions.php:408
-#: bp-core/admin/bp-core-functions.php:426
-#: bp-core/admin/bp-core-functions.php:445
-#: bp-core/admin/bp-core-functions.php:464 bp-groups/bp-groups-admin.php:115
+#: bp-core/admin/bp-core-functions.php:420
+#: bp-core/admin/bp-core-functions.php:438
+#: bp-core/admin/bp-core-functions.php:457
+#: bp-core/admin/bp-core-functions.php:476 bp-groups/bp-groups-admin.php:115
 #: bp-groups/bp-groups-admin.php:159
 msgid "For more information:"
 msgstr ""
@@ -201,10 +201,10 @@ msgid "<a href=\"http://codex.buddypress.org/buddypress-site-administration/mana
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:218 bp-activity/bp-activity-admin.php:262
-#: bp-core/admin/bp-core-functions.php:410
-#: bp-core/admin/bp-core-functions.php:428
-#: bp-core/admin/bp-core-functions.php:447
-#: bp-core/admin/bp-core-functions.php:466 bp-groups/bp-groups-admin.php:160
+#: bp-core/admin/bp-core-functions.php:422
+#: bp-core/admin/bp-core-functions.php:440
+#: bp-core/admin/bp-core-functions.php:459
+#: bp-core/admin/bp-core-functions.php:478 bp-groups/bp-groups-admin.php:160
 msgid "<a href=\"http://buddypress.org/support/\">Support Forums</a>"
 msgstr ""
 
@@ -612,9 +612,9 @@ msgstr ""
 #: bp-groups/bp-groups-activity.php:222 bp-groups/bp-groups-activity.php:258
 #: bp-groups/bp-groups-admin.php:35 bp-groups/bp-groups-admin.php:36
 #: bp-groups/bp-groups-admin.php:623 bp-groups/bp-groups-loader.php:517
-#: bp-groups/bp-groups-screens.php:895 bp-groups/bp-groups-screens.php:1001
-#: bp-groups/bp-groups-screens.php:1003 bp-groups/bp-groups-screens.php:1039
-#: bp-groups/bp-groups-screens.php:1041 bp-groups/bp-groups-widgets.php:48
+#: bp-groups/bp-groups-screens.php:895 bp-groups/bp-groups-screens.php:1027
+#: bp-groups/bp-groups-screens.php:1029 bp-groups/bp-groups-screens.php:1088
+#: bp-groups/bp-groups-screens.php:1090 bp-groups/bp-groups-widgets.php:48
 #: bp-groups/bp-groups-widgets.php:119
 msgid "Groups"
 msgstr ""
@@ -631,7 +631,7 @@ msgstr ""
 #: bp-activity/bp-activity-template.php:985
 #: bp-activity/bp-activity-template.php:1121
 #: bp-activity/bp-activity-template.php:1132 bp-blogs/bp-blogs-loader.php:218
-#: bp-forums/bp-forums-loader.php:212 bp-forums/bp-forums-template.php:487
+#: bp-forums/bp-forums-loader.php:218 bp-forums/bp-forums-template.php:487
 #: bp-forums/bp-forums-template.php:604 bp-forums/bp-forums-template.php:1200
 #: bp-friends/bp-friends-loader.php:212 bp-groups/bp-groups-loader.php:582
 #: bp-groups/bp-groups-template.php:770 bp-groups/bp-groups-template.php:793
@@ -751,7 +751,7 @@ msgstr ""
 msgid "A member replies to an update or comment you've posted"
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:373
+#: bp-activity/bp-activity-screens.php:398
 msgid "Sitewide Activity"
 msgstr ""
 
@@ -908,13 +908,13 @@ msgstr ""
 msgid "Sites"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:188 bp-blogs/bp-blogs-screens.php:110
-#: bp-blogs/bp-blogs-screens.php:148
+#: bp-blogs/bp-blogs-loader.php:188 bp-blogs/bp-blogs-screens.php:135
+#: bp-blogs/bp-blogs-screens.php:196
 msgid "Create a Blog"
 msgstr ""
 
-#: bp-blogs/bp-blogs-screens.php:110 bp-blogs/bp-blogs-screens.php:112
-#: bp-blogs/bp-blogs-screens.php:148 bp-blogs/bp-blogs-screens.php:150
+#: bp-blogs/bp-blogs-screens.php:135 bp-blogs/bp-blogs-screens.php:137
+#: bp-blogs/bp-blogs-screens.php:196 bp-blogs/bp-blogs-screens.php:198
 #: bp-core/bp-core-template.php:249
 msgid "Blogs"
 msgstr ""
@@ -1270,35 +1270,43 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:409
+#: bp-core/admin/bp-core-functions.php:376 bp-core/bp-core-template.php:252
+#: bp-forums/bp-forums-loader.php:109 bp-forums/bp-forums-loader.php:172
+#: bp-forums/bp-forums-loader.php:213 bp-forums/bp-forums-screens.php:188
+#: bp-forums/bp-forums-screens.php:190 bp-forums/deprecated/1.6.php:42
+#: bp-forums/deprecated/1.7.php:25 bp-forums/deprecated/1.7.php:100
+msgid "Forums"
+msgstr ""
+
+#: bp-core/admin/bp-core-functions.php:421
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-components\">Managing Components</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:427
+#: bp-core/admin/bp-core-functions.php:439
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-pages\">Managing Pages</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:446
+#: bp-core/admin/bp-core-functions.php:458
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-settings\">Managing Settings</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:465
+#: bp-core/admin/bp-core-functions.php:477
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#users-profile-fields\">Managing Profile Fields</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:483
+#: bp-core/admin/bp-core-functions.php:495
 msgid "By default, all BuddyPress components are enabled. You can selectively disable any of the components by using the form. Your BuddyPress installation will continue to function. However, the features of the disabled components will no longer be accessible to anyone using the site."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:487
+#: bp-core/admin/bp-core-functions.php:499
 msgid "BuddyPress Components use WordPress Pages for their root directory/archive pages. Here you can change the page associations for each active component."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:491
+#: bp-core/admin/bp-core-functions.php:503
 msgid "Extra configuration settings."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:495
+#: bp-core/admin/bp-core-functions.php:507
 msgid "Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.</br></br>Note: Any fields in the first group will appear on the signup page."
 msgstr ""
 
@@ -1521,7 +1529,7 @@ msgstr ""
 #: bp-core/bp-core-admin.php:408 bp-core/bp-core-template.php:243
 #: bp-core/bp-core-widgets.php:113 bp-groups/bp-groups-admin.php:759
 #: bp-groups/bp-groups-template.php:1476 bp-members/bp-members-loader.php:24
-#: bp-members/bp-members-screens.php:329
+#: bp-members/bp-members-screens.php:354
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:231
 #: bp-themes/bp-default/groups/single/admin.php:231
 msgid "Members"
@@ -1812,18 +1820,18 @@ msgstr ""
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:365 bp-members/bp-members-screens.php:430
+#: bp-core/bp-core-filters.php:365 bp-members/bp-members-screens.php:511
 #: bp-themes/bp-default/registration/register.php:23
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:369 bp-members/bp-members-screens.php:438
+#: bp-core/bp-core-filters.php:369 bp-members/bp-members-screens.php:519
 #: bp-themes/bp-default/registration/activate.php:13
 msgid "Activate your Account"
 msgstr ""
 
 #: bp-core/bp-core-filters.php:373 bp-groups/bp-groups-loader.php:554
-#: bp-groups/bp-groups-screens.php:1001 bp-groups/bp-groups-screens.php:1039
+#: bp-groups/bp-groups-screens.php:1027 bp-groups/bp-groups-screens.php:1088
 #: bp-themes/bp-default/groups/create.php:18
 #: bp-themes/bp-default/groups/index.php:21
 msgid "Create a Group"
@@ -1934,14 +1942,6 @@ msgstr ""
 
 #: bp-core/bp-core-template.php:191
 msgid "%1$s at %2$s"
-msgstr ""
-
-#: bp-core/bp-core-template.php:252 bp-forums/bp-forums-loader.php:103
-#: bp-forums/bp-forums-loader.php:166 bp-forums/bp-forums-loader.php:207
-#: bp-forums/bp-forums-screens.php:188 bp-forums/bp-forums-screens.php:190
-#: bp-forums/deprecated/1.6.php:24 bp-forums/deprecated/1.7.php:25
-#: bp-forums/deprecated/1.7.php:57 bp-forums/deprecated/1.7.php:329
-msgid "Forums"
 msgstr ""
 
 #: bp-core/bp-core-template.php:254
@@ -2133,19 +2133,19 @@ msgstr ""
 msgid "Search Forums..."
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:125 bp-forums/bp-forums-loader.php:174
+#: bp-forums/bp-forums-loader.php:131 bp-forums/bp-forums-loader.php:180
 msgid "Topics Started"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:136
+#: bp-forums/bp-forums-loader.php:142
 msgid "Replied To"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:182
+#: bp-forums/bp-forums-loader.php:188
 msgid "Replies"
 msgstr ""
 
-#: bp-forums/bp-forums-loader.php:190
+#: bp-forums/bp-forums-loader.php:196
 msgid "Favorite Topics"
 msgstr ""
 
@@ -2257,150 +2257,154 @@ msgstr ""
 msgid "Viewing post %1$s to %2$s (%3$s total posts)"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:29 bp-forums/deprecated/1.7.php:62
+#: bp-forums/deprecated/1.6.php:31 bp-forums/deprecated/1.6.php:133
+msgid "Configure bbPress"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:34 bp-forums/deprecated/1.6.php:136
+msgid "Install bbPress"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:47
 msgid "Settings Saved."
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:45 bp-forums/deprecated/1.6.php:145
-#: bp-forums/deprecated/1.7.php:83 bp-forums/deprecated/1.7.php:220
+#: bp-forums/deprecated/1.6.php:68
+msgid "(Installed)"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:68 bp-forums/deprecated/1.6.php:210
 msgid "Forums for Groups"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:47 bp-forums/deprecated/1.6.php:147
-#: bp-forums/deprecated/1.7.php:85 bp-forums/deprecated/1.7.php:222
+#: bp-forums/deprecated/1.6.php:70 bp-forums/deprecated/1.6.php:212
 msgid "Give each individual group its own discussion forum. Choose this if you'd like to keep your members' conversations separated into distinct areas."
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:48 bp-forums/deprecated/1.6.php:148
-#: bp-forums/deprecated/1.7.php:86 bp-forums/deprecated/1.7.php:223
-msgid "You may use an existing bbPress installation if you have one."
+#: bp-forums/deprecated/1.6.php:72 bp-forums/deprecated/1.6.php:214
+msgid "Note: This component is retired and will not be receiving any updates in the future.  Only use this component if your current site relies on it."
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:50 bp-forums/deprecated/1.6.php:150
-#: bp-forums/deprecated/1.7.php:88 bp-forums/deprecated/1.7.php:106
-#: bp-forums/deprecated/1.7.php:225 bp-forums/deprecated/1.7.php:244
+#: bp-forums/deprecated/1.6.php:74 bp-forums/deprecated/1.6.php:216
 msgid "Features"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:52 bp-forums/deprecated/1.6.php:152
-#: bp-forums/deprecated/1.7.php:90 bp-forums/deprecated/1.7.php:227
+#: bp-forums/deprecated/1.6.php:76 bp-forums/deprecated/1.6.php:218
 msgid "Group Integration"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:53 bp-forums/deprecated/1.6.php:153
-#: bp-forums/deprecated/1.7.php:91 bp-forums/deprecated/1.7.php:228
+#: bp-forums/deprecated/1.6.php:77 bp-forums/deprecated/1.6.php:219
 msgid "Member Profile Integration"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:54 bp-forums/deprecated/1.6.php:154
-#: bp-forums/deprecated/1.7.php:92 bp-forums/deprecated/1.7.php:110
-#: bp-forums/deprecated/1.7.php:229 bp-forums/deprecated/1.7.php:248
+#: bp-forums/deprecated/1.6.php:78 bp-forums/deprecated/1.6.php:220
 msgid "Activity Stream Integration"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:55 bp-forums/deprecated/1.6.php:155
-#: bp-forums/deprecated/1.7.php:93 bp-forums/deprecated/1.7.php:111
-#: bp-forums/deprecated/1.7.php:230 bp-forums/deprecated/1.7.php:249
+#: bp-forums/deprecated/1.6.php:79 bp-forums/deprecated/1.6.php:221
 msgid "@ Mention Integration"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:59
-msgid "Reinstall Group Forums"
+#: bp-forums/deprecated/1.6.php:83
+msgid "Uninstall Group Forums"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:78 bp-forums/deprecated/1.7.php:153
+#: bp-forums/deprecated/1.6.php:88 bp-forums/deprecated/1.6.php:231
+msgid "New! bbPress"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:89 bp-forums/deprecated/1.6.php:232
+msgid "bbPress is a brand-new forum plugin from one of the lead developers of BuddyPress."
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:91 bp-forums/deprecated/1.6.php:234
+msgid "It boasts a bunch of cool features that the BP Legacy Discussion Forums does not have including:"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:94 bp-forums/deprecated/1.6.php:237
+msgid "Non-group specific forum creation"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:95 bp-forums/deprecated/1.6.php:238
+msgid "Moderation via the WP admin dashboard"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:96 bp-forums/deprecated/1.6.php:239
+msgid "Topic splitting"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:97 bp-forums/deprecated/1.6.php:240
+msgid "Revisions"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:98 bp-forums/deprecated/1.6.php:241
+msgid "Spam management"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:99 bp-forums/deprecated/1.6.php:242
+msgid "Subscriptions"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:100 bp-forums/deprecated/1.6.php:243
+msgid "And more!"
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:103 bp-forums/deprecated/1.6.php:246
+msgid "If you decide to use bbPress, you will need to deactivate the legacy group forum component.  For more info, <a href=\"%s\">read this codex article</a>."
+msgstr ""
+
+#: bp-forums/deprecated/1.6.php:143
 msgid "The bb-config.php file was not found at that location, please try again."
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:81 bp-forums/deprecated/1.7.php:156
+#: bp-forums/deprecated/1.6.php:146
 msgid "Forums were set up correctly using your existing bbPress install!"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:82 bp-forums/deprecated/1.7.php:157
+#: bp-forums/deprecated/1.6.php:147
 msgid "BuddyPress will now use its internal copy of bbPress to run the forums on your site. If you wish, you can remove your old bbPress installation files, as long as you keep the bb-config.php file in the same location."
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:87 bp-forums/deprecated/1.7.php:162
+#: bp-forums/deprecated/1.6.php:152
 msgid "Existing bbPress Installation"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:88 bp-forums/deprecated/1.7.php:163
+#: bp-forums/deprecated/1.6.php:153
 msgid "BuddyPress can make use of your existing bbPress install. Just provide the location of your <code>bb-config.php</code> file, and BuddyPress will do the rest."
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:90 bp-forums/deprecated/1.6.php:122
-#: bp-forums/deprecated/1.7.php:165 bp-forums/deprecated/1.7.php:197
+#: bp-forums/deprecated/1.6.php:155 bp-forums/deprecated/1.6.php:187
 msgid "Complete Installation"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:106 bp-forums/deprecated/1.7.php:181
+#: bp-forums/deprecated/1.6.php:171
 msgid "<p>All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.</p>"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:110 bp-forums/deprecated/1.7.php:185
+#: bp-forums/deprecated/1.6.php:175
 msgid "<p>A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.</p>"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:119 bp-forums/deprecated/1.7.php:194
+#: bp-forums/deprecated/1.6.php:184
 msgid "New bbPress Installation"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:120 bp-forums/deprecated/1.7.php:195
+#: bp-forums/deprecated/1.6.php:185
 msgid ""
 "You've decided to set up a new installation of bbPress for forum management in BuddyPress. This is very simple and is usually just a one click\n"
 "\t\t\t\tprocess. When you're ready, hit the link below."
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:132 bp-forums/deprecated/1.7.php:207
+#: bp-forums/deprecated/1.6.php:197
 msgid "bbPress files were not found. To install the forums component you must download a copy of bbPress and make sure it is in the folder: \"%s\""
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:159 bp-forums/deprecated/1.7.php:234
+#: bp-forums/deprecated/1.6.php:225
 msgid "Install Group Forums"
 msgstr ""
 
-#: bp-forums/deprecated/1.6.php:160 bp-forums/deprecated/1.7.php:235
+#: bp-forums/deprecated/1.6.php:226
 msgid "Use Existing Installation"
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:46 bp-forums/deprecated/1.7.php:143
-msgid "Configure Site Wide Forums"
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:49 bp-forums/deprecated/1.7.php:146
-msgid "Install Site Wide Forums"
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:83
-msgid "(Installed)"
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:97
-msgid "Uninstall Group Forums"
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:102 bp-forums/deprecated/1.7.php:240
-msgid "New! Site Wide Forums"
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:103 bp-forums/deprecated/1.7.php:241
-msgid "Your site will have central forums that are not isolated to any specific group. Choose this if you'd like to have a central forum area for your members."
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:104 bp-forums/deprecated/1.7.php:242
-msgid "You may activate both Group and Site Wide forums, but this may create a poor experience for your members."
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:108 bp-forums/deprecated/1.7.php:246
-msgid "Central Discussion Area"
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:109 bp-forums/deprecated/1.7.php:247
-msgid "Forum Plugins Available"
-msgstr ""
-
-#: bp-forums/deprecated/1.7.php:121
-msgid "Need help deciding between Group Forums and Site Wide Forums? Visit <a href=\"%s\">the BuddyPress codex</a> for more information."
 msgstr ""
 
 #: bp-friends/bp-friends-actions.php:35
@@ -3919,12 +3923,12 @@ msgstr ""
 msgid "Your account is now active!"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:433
+#: bp-members/bp-members-screens.php:514
 #: bp-themes/bp-default/registration/register.php:253
 msgid "Check Your Email To Activate Your Account!"
 msgstr ""
 
-#: bp-members/bp-members-screens.php:441
+#: bp-members/bp-members-screens.php:522
 #: bp-themes/bp-default/registration/activate.php:11
 msgid "Account Activated"
 msgstr ""
