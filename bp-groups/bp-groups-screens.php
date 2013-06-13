@@ -971,16 +971,19 @@ class BP_Groups_Theme_Compat {
 
 			do_action( 'groups_directory_groups_setup' );
 
+			add_filter( 'bp_get_buddypress_template',                array( $this, 'directory_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
 
 		// Creating a group
 		} elseif ( bp_is_groups_component() && bp_is_current_action( 'create' ) ) {
+			add_filter( 'bp_get_buddypress_template',                array( $this, 'create_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'create_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'create_content'    ) );
 
-		// Group admin
+		// Group page
 		} elseif ( bp_is_single_item() ) {
+			add_filter( 'bp_get_buddypress_template',                array( $this, 'single_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'single_content'    ) );
 
@@ -988,6 +991,29 @@ class BP_Groups_Theme_Compat {
 	}
 
 	/** Directory *************************************************************/
+
+	/**
+	 * Add template hierarchy to theme compat for the group directory page.
+	 *
+	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 *
+	 * @since BuddyPress (1.8)
+	 *
+	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @return array $templates Array of custom templates to look for.
+	 */
+	public function directory_template_hierarchy( $templates ) {
+		// Setup our templates based on priority
+		$new_templates = apply_filters( 'bp_template_hierarchy_groups_directory', array(
+			'groups/index-directory.php'
+		) );
+
+		// Merge new templates with existing stack
+		// @see bp_get_theme_compat_templates()
+		$templates = array_merge( (array) $new_templates, $templates );
+
+		return $templates;
+	}
 
 	/**
 	 * Update the global $post with directory data
@@ -1028,6 +1054,29 @@ class BP_Groups_Theme_Compat {
 	/** Create ****************************************************************/
 
 	/**
+	 * Add custom template hierarchy to theme compat for the group create page.
+	 *
+	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 *
+	 * @since BuddyPress (1.8)
+	 *
+	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @return array $templates Array of custom templates to look for.
+	 */
+	public function create_template_hierarchy( $templates ) {
+		// Setup our templates based on priority
+		$new_templates = apply_filters( 'bp_template_hierarchy_groups_create', array(
+			'groups/index-create.php'
+		) );
+
+		// Merge new templates with existing stack
+		// @see bp_get_theme_compat_templates()
+		$templates = array_merge( $new_templates, $templates );
+
+		return $templates;
+	}
+
+	/**
 	 * Update the global $post with create screen data
 	 *
 	 * @since BuddyPress (1.7)
@@ -1064,6 +1113,36 @@ class BP_Groups_Theme_Compat {
 	}
 
 	/** Single ****************************************************************/
+
+	/**
+	 * Add custom template hierarchy to theme compat for group pages. 
+	 *
+	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 *
+	 * @since BuddyPress (1.8)
+	 *
+	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @return array $templates Array of custom templates to look for.
+	 */
+	public function single_template_hierarchy( $templates ) {
+		// Setup some variables we're going to reference in our custom templates
+		$group = groups_get_current_group();
+
+		// Setup our templates based on priority
+		$new_templates = apply_filters( 'bp_template_hierarchy_groups_single_item', array(
+			'groups/single/index-id-'     . sanitize_file_name( bp_get_current_group_id() )   . '.php',
+			'groups/single/index-slug-'   . sanitize_file_name( bp_get_current_group_slug() ) . '.php',
+			'groups/single/index-action-' . sanitize_file_name( bp_current_action() )         . '.php',
+			'groups/single/index-status-' . sanitize_file_name( $group->status )              . '.php',
+			'groups/single/index.php'
+		) );
+
+		// Merge new templates with existing stack
+		// @see bp_get_theme_compat_templates()
+		$templates = array_merge( (array) $new_templates, $templates );
+
+		return $templates;
+	}
 
 	/**
 	 * Update the global $post with single group data

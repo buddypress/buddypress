@@ -318,7 +318,7 @@ add_action( 'bp_notification_settings', 'bp_activity_screen_notification_setting
  * The main theme compat class for BuddyPress Activity
  *
  * This class sets up the necessary theme compatability actions to safely output
- * group template parts to the_title and the_content areas of a theme.
+ * activity template parts to the_title and the_content areas of a theme.
  *
  * @since BuddyPress (1.7)
  */
@@ -350,17 +350,42 @@ class BP_Activity_Theme_Compat {
 
 			do_action( 'bp_activity_screen_index' );
 
+			add_filter( 'bp_get_buddypress_template',                array( $this, 'directory_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
 
 		// Single activity
 		} elseif ( bp_is_single_activity() ) {
+			add_filter( 'bp_get_buddypress_template',                array( $this, 'single_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content'    ) );
 		}
 	}
 
 	/** Directory *************************************************************/
+
+	/**
+	 * Add template hierarchy to theme compat for the activity directory page.
+	 *
+	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 *
+	 * @since BuddyPress (1.8)
+	 *
+	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @return array $templates Array of custom templates to look for.
+	 */
+	public function directory_template_hierarchy( $templates ) {
+		// Setup our templates based on priority
+		$new_templates = apply_filters( 'bp_template_hierarchy_activity_directory', array(
+			'activity/index-directory.php'
+		) );
+
+		// Merge new templates with existing stack
+		// @see bp_get_theme_compat_templates()
+		$templates = array_merge( (array) $new_templates, $templates );
+
+		return $templates;
+	}
 
 	/**
 	 * Update the global $post with directory data
@@ -391,6 +416,29 @@ class BP_Activity_Theme_Compat {
 	}
 
 	/** Single ****************************************************************/
+
+	/**
+	 * Add custom template hierarchy to theme compat for activity permalink pages.
+	 *
+	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 *
+	 * @since BuddyPress (1.8)
+	 *
+	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @return array $templates Array of custom templates to look for.
+	 */
+	public function single_template_hierarchy( $templates ) {
+		// Setup our templates based on priority
+		$new_templates = apply_filters( 'bp_template_hierarchy_activity_single_item', array(
+			'activity/single/index.php'
+		) );
+
+		// Merge new templates with existing stack
+		// @see bp_get_theme_compat_templates()
+		$templates = array_merge( (array) $new_templates, $templates );
+
+		return $templates;
+	}
 
 	/**
 	 * Update the global $post with the displayed user's data
