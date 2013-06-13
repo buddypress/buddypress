@@ -17,7 +17,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'A dynamic list of recently active, popular, and newest members', 'buddypress' ),
-			'classname' => 'widget_bp_core_members_widget buddypress',
+			'classname' => 'widget_bp_core_members_widget buddypress widget',
 		);
 		parent::__construct( false, $name = _x( '(BuddyPress) Members', 'widget name', 'buddypress' ), $widget_ops );
 
@@ -150,7 +150,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'Avatars of users who are currently online', 'buddypress' ),
-			'classname' => 'widget_bp_core_whos_online_widget buddypress',
+			'classname' => 'widget_bp_core_whos_online_widget buddypress widget',
 		);
 		parent::__construct( false, $name = _x( "(BuddyPress) Who's Online", 'widget name', 'buddypress' ), $widget_ops );
 	}
@@ -219,7 +219,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'Avatars of recently active members', 'buddypress' ),
-			'classname' => 'widget_bp_core_recently_active_widget buddypress',
+			'classname' => 'widget_bp_core_recently_active_widget buddypress widget',
 		);
 		parent::__construct( false, $name = _x( '(BuddyPress) Recently Active Members', 'widget name', 'buddypress' ), $widget_ops );
 	}

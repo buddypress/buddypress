@@ -27,7 +27,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'A list of recently published posts from across your network.', 'buddypress' ),
-			'classname'   => 'widget_bp_blogs_widget buddypress',
+			'classname'   => 'widget_bp_blogs_widget buddypress widget',
 		);
 		parent::__construct( false, $name = _x( '(BuddyPress) Recent Networkwide Posts', 'widget name', 'buddypress' ), $widget_ops );
 	}
