@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-13 01:35:16+00:00\n"
+"POT-Creation-Date: 2013-06-14 14:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -104,7 +104,7 @@ msgid "%1$s | %2$s | Friends Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:502
-msgid "Activity feed for %s' friends."
+msgid "Activity feed for %s's friends."
 msgstr ""
 
 #. translators: Member groups activity RSS title - "[Site Name] | [User Display
@@ -126,7 +126,7 @@ msgid "%1$s | %2$s | Favorites"
 msgstr ""
 
 #: bp-activity/bp-activity-actions.php:611
-msgid "Activity feed of %s' favorites."
+msgid "Activity feed of %s's favorites."
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:35 bp-activity/bp-activity-admin.php:36
