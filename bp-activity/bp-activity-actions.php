@@ -499,7 +499,7 @@ function bp_activity_action_friends_feed() {
 		'title'         => sprintf( __( '%1$s | %2$s | Friends Activity', 'buddypress' ), bp_get_site_name(), bp_get_displayed_user_fullname() ),
 
 		'link'          => trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() ),
-		'description'   => sprintf( __( "Activity feed for %s' friends.", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'description'   => sprintf( __( "Activity feed for %s's friends.", 'buddypress' ), bp_get_displayed_user_fullname() ),
 		'activity_args' => 'scope=friends'
 	) );
 }
@@ -608,7 +608,7 @@ function bp_activity_action_favorites_feed() {
 		'title'         => sprintf( __( '%1$s | %2$s | Favorites', 'buddypress' ), bp_get_site_name(), bp_get_displayed_user_fullname() ),
 
 		'link'          => bp_displayed_user_domain() . bp_get_activity_slug() . '/favorites/',
-		'description'   => sprintf( __( "Activity feed of %s' favorites.", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'description'   => sprintf( __( "Activity feed of %s's favorites.", 'buddypress' ), bp_get_displayed_user_fullname() ),
 		'activity_args' => 'include=' . $fav_ids
 	) );
 }
