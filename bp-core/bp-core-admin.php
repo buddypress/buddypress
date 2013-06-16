@@ -380,15 +380,15 @@ class BP_Admin {
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
 		<div class="wrap about-wrap">
-			<h1><?php printf( __( 'Welcome to BuddyPress %s' ), $display_version ); ?></h1>
+			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
 			<div class="about-text">
 				<?php if ( $is_new_install ) : ?>
-					<?php printf( __( 'BuddyPress %s is our safest, fastest, most flexible version ever.' ), $display_version ); ?>
+					<?php printf( __( 'BuddyPress %s is our safest, fastest, most flexible version ever.', 'buddypress' ), $display_version ); ?>
 				<?php else : ?>
-					<?php printf( __( 'Thank you for updating! BuddyPress %s is our safest, fastest, most flexible version ever.' ), $display_version ); ?>
+					<?php printf( __( 'Thank you for updating! BuddyPress %s is our safest, fastest, most flexible version ever.', 'buddypress' ), $display_version ); ?>
 				<?php endif; ?>
 			</div>
-			<div class="bp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
+			<div class="bp-badge"><?php printf( __( 'Version %s', 'buddypress' ), $display_version ); ?></div>
 
 			<h2 class="nav-tab-wrapper">
 				<a class="nav-tab nav-tab-active" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-about' ), 'index.php' ) ) ); ?>">
