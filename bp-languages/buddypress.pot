@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-14 14:35:15+00:00\n"
+"POT-Creation-Date: 2013-06-18 18:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1544,23 +1544,23 @@ msgid "Looking for help? The <a href=\"http://codex.buddypress.org/\">BuddyPress
 msgstr ""
 
 #: bp-core/bp-core-admin.php:421
-msgid "A Declaration of (Theme) Independence"
+msgid "Improved Theme Integration"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:424
-msgid "It Just Works"
+msgid "Hey, Good Lookin&#8217;"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:425
-msgid "BuddyPress is now compatible with <strong>any WordPress theme</strong>. If your theme has BuddyPress-specific templates and styling, we&#8217;ll use them. If not, we provide what you need to make your BuddyPress content look great. Still want to customize? No problem - you can override our templates just like you would in a WordPress child theme. <a href=\"http://codex.buddypress.org/developer-and-designer-information/\">Learn more about theme compatibility</a>."
+msgid "We&#8217;ve streamlined our stylesheets, so that BuddyPress content looks more at home in your theme. And theme developers will love BP&#8217;s new hierarchies that make it easy to override specific top-level templates, stylesheets, and JavaScript files."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:430
-msgid "Group Management"
+msgid "Better Group Member Management"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:433
-msgid "Get More Done Quickly"
+msgid "<em>Add</em>, <em>Remove</em>, and More, in a Snap"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:436
@@ -1568,7 +1568,7 @@ msgid "Groups administration panel"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:443
-msgid "The new %s makes it easy to handle large numbers of groups on your BuddyPress installation. Delete groups, edit group details, modify memberships, and more, with just a few clicks."
+msgid "The Manage Members section of the %s has been rewritten, to make it easier to handle groups with many members. We&#8217;ve also made the interface nicer to use, to ensure that you don&#8217;t make changes and then forget to save them."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:450
@@ -1576,35 +1576,35 @@ msgid "Under the Hood"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:454
-msgid "Faster Member Queries"
+msgid "Superpowered Group Extensions"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:455
-msgid "The new <code>BP_User_Query</code> makes member queries (like in the Members directory) up to 4x faster than before."
+msgid "<code>BP_Group_Extension</code> has been overhauled, making it easier than ever before to add custom functionality to groups."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:457
-msgid "Sortable Profile Options"
+msgid "Filter Groups or Activity by Metadata"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:458
-msgid "Profile field types with multiple options - like radio buttons and checkboxes - now support drag-and-drop reordering."
+msgid "<code>bp_has_groups()</code> and <code>bp_has_activities()</code> now accept a <code>meta_query</code> paramater, for more powerful directory queries."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:462
-msgid "New Visibility Level"
+msgid "Feed Me, Seymour"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:463
-msgid "By popular demand, the \"Admins Only\" visibility setting is now available for profile fields."
+msgid "The new <code>BP_Activity_Feed</code> class centralizes BP&#8217;s RSS logic, making our feeds more standards-compliant, and giving developers more tools for building custom feeds."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:465
-msgid "Better bbPress Integration"
+msgid "Disable @-Mentions"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:466
-msgid "Support for group and sitewide forums, using the latest version of the bbPress plugin, is better than ever. Still using bbPress 1.x? Our new migration tools are field-tested."
+msgid "Not using @-mentions? Disable them with <code>add_filter( 'bp_activity_do_mentions', '__return_false' );</code>"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:471 bp-core/bp-core-admin.php:598
