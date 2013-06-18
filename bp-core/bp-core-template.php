@@ -709,7 +709,7 @@ function bp_root_slug( $component = '' ) {
 /**
  * Return the component name based on the current root slug
  *
- * @since BuddyPress {r3923}
+ * @since BuddyPress (1.5)
  * @global BuddyPress $bp The one true BuddyPress instance
  * @param str $root_slug Needle to our active component haystack
  * @return mixed False if none found, component name if found
