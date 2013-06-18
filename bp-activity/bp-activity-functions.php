@@ -1525,13 +1525,15 @@ function bp_activity_hide_user_activity( $user_id ) {
  *
  * @param string $content The content to work with
  * @param string $link Optional. The URL that the image should link to
+ * @param array $activity_args Optional. The args passed to the activity
+ *   creation function (eg bp_blogs_record_activity())
  *
  * @uses esc_attr()
  * @uses apply_filters() To call the 'bp_activity_thumbnail_content_images' hook
  *
  * @return string $content The content with images stripped and replaced with a single thumb.
  */
-function bp_activity_thumbnail_content_images( $content, $link = false ) {
+function bp_activity_thumbnail_content_images( $content, $link = false, $args = false ) {
 
 	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
 
@@ -1570,7 +1572,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false ) {
 		}
 	}
 
-	return apply_filters( 'bp_activity_thumbnail_content_images', $content, $matches );
+	return apply_filters( 'bp_activity_thumbnail_content_images', $content, $matches, $args );
 }
 
 /**
