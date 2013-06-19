@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-18 20:35:16+00:00\n"
+"POT-Creation-Date: 2013-06-19 01:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1607,7 +1607,7 @@ msgstr ""
 msgid "Not using @-mentions? Disable them with <code>add_filter( 'bp_activity_do_mentions', '__return_false' );</code>"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:471 bp-core/bp-core-admin.php:598
+#: bp-core/bp-core-admin.php:471 bp-core/bp-core-admin.php:600
 msgid "Go to the BuddyPress Settings page"
 msgstr ""
 
@@ -1652,7 +1652,7 @@ msgid "Support Officer"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:552
-msgid "Core Contributors to BuddyPress 1.7"
+msgid "Core Contributors to BuddyPress 1.8"
 msgstr ""
 
 #: bp-core/bp-core-adminbar.php:36 bp-core/bp-core-buddybar.php:495
@@ -3793,12 +3793,12 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:115
+#: bp-members/bp-members-adminbar.php:116
 #: bp-members/bp-members-buddybar.php:131
 msgid "User Capabilities"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:123
+#: bp-members/bp-members-adminbar.php:125
 #: bp-settings/bp-settings-loader.php:130
 #: bp-settings/bp-settings-loader.php:190
 #: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:27
@@ -3807,7 +3807,7 @@ msgstr ""
 msgid "Delete Account"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:167
+#: bp-members/bp-members-adminbar.php:169
 msgid "No new notifications"
 msgstr ""
 
