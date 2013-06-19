@@ -530,7 +530,7 @@ function bp_template_include_theme_compat( $template = '' ) {
  *
  * @since BuddyPress (1.7)
  * @param string $content
- * @return type
+ * @return string
  */
 function bp_replace_the_content( $content = '' ) {
 

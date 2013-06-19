@@ -193,7 +193,7 @@ function updates_register_activity_actions() {
  * Sets the "From" address in emails sent
  *
  * @deprecated BuddyPress (1.6)
- * @return noreply@sitedomain email address
+ * @return string email address
  */
 function bp_core_email_from_address_filter() {
 	_deprecated_function( __FUNCTION__, '1.6' );

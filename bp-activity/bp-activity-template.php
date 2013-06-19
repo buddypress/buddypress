@@ -682,7 +682,7 @@ function bp_activities_no_activity() {
 	 * @global string $bp_activity_no_activity
 	 * @uses apply_filters() To call the 'bp_get_activities_no_activity' hook
 	 *
-	 * @return unknown_type
+	 * @return string
 	 */
 	function bp_get_activities_no_activity() {
 		global $bp_activity_no_activity;

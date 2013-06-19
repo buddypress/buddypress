@@ -14,8 +14,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Show the general settings template
  *
  * @since BuddyPress (1.5)
- *
- * @return If we shouldn't be here
  */
 function bp_settings_screen_general() {
 
@@ -31,8 +29,6 @@ function bp_settings_screen_general() {
  * Show the notifications settings template
  *
  * @since BuddyPress (1.5)
- *
- * @return If we shouldn't be here
  */
 function bp_settings_screen_notification() {
 
@@ -48,8 +44,6 @@ function bp_settings_screen_notification() {
  * Show the delete-account settings template
  *
  * @since BuddyPress (1.5)
- *
- * @return If we shouldn't be here
  */
 function bp_settings_screen_delete_account() {
 
@@ -66,8 +60,6 @@ function bp_settings_screen_delete_account() {
  * Show the capabilities settings template
  *
  * @since BuddyPress (1.6)
- *
- * @return If we shouldn't be here
  */
 function bp_settings_screen_capabilities() {
 

@@ -31,7 +31,7 @@ add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions'
  *
  * @package BuddyPress
  * @subpackage XProfileActivity
- * @param $args Array containing all variables used after extract() call
+ * @param string $args String containing all variables used after extract() call
  * @global $bp The global BuddyPress settings variable created in bp_core_current_times()
  * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity
  */
@@ -77,7 +77,7 @@ function xprofile_record_activity( $args = '' ) {
  * it will be removed from the users activity stream and sitewide stream (if installed)
  *
  * @package BuddyPress XProfile
- * @param $args Array containing all variables used after extract() call
+ * @param string $args Containing all variables used after extract() call
  * @global BuddyPress $bp The one true BuddyPress instance
  * @uses bp_activity_delete() Deletes an entry to the activity component tables for a specific activity
  */

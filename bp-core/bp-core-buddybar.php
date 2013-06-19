@@ -354,7 +354,7 @@ add_action( 'admin_head', 'bp_core_sort_subnav_items' );
  * @package BuddyPress
  * @since BuddyPress (1.5)
  *
- * @param str $nav_item The id of the top-level nav item whose nav items you're checking
+ * @param string $nav_item The id of the top-level nav item whose nav items you're checking
  * @return bool $has_subnav True if the nav item is found and has subnav items; false otherwise
  */
 function bp_nav_item_has_subnav( $nav_item = '' ) {
@@ -402,8 +402,8 @@ function bp_core_remove_nav_item( $parent_id ) {
  * Removes a navigation item from the sub navigation array used in BuddyPress themes.
  *
  * @package BuddyPress Core
- * @param $parent_id The id of the parent navigation item.
- * @param $slug The slug of the sub navigation item.
+ * @param string $parent_id The id of the parent navigation item.
+ * @param string $slug The slug of the sub navigation item.
  */
 function bp_core_remove_subnav_item( $parent_id, $slug ) {
 	global $bp;
@@ -427,7 +427,7 @@ function bp_core_remove_subnav_item( $parent_id, $slug ) {
  * Clear the subnav items for a specific nav item.
  *
  * @package BuddyPress Core
- * @param $parent_id The id of the parent navigation item.
+ * @param string $parent_id The id of the parent navigation item.
  * @global BuddyPress $bp The one true BuddyPress instance
  */
 function bp_core_reset_subnav_items( $parent_slug ) {

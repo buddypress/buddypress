@@ -555,7 +555,7 @@ function bp_member_name() {
 	 * @package BuddyPress
 	 *
 	 * @uses apply_filters() Filter bp_get_the_member_name() to alter the function's output
-	 * @return str The user's fullname for display
+	 * @return string The user's fullname for display
 	 */
 	function bp_get_member_name() {
 		global $members_template;

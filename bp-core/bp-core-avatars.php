@@ -701,7 +701,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
  * @param int $size Size of the avatar image (thumb/full)
  * @param string $default URL to a default image to use if no avatar is available
  * @param string $alt Alternate text to use in image tag. Defaults to blank
- * @return <type>
+ * @return string
  */
 function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = '' ) {
 	global $pagenow;
@@ -923,8 +923,8 @@ function bp_get_user_has_avatar( $user_id = 0 ) {
  * @package BuddyPress
  * @since BuddyPress (1.5)
  *
- * @param str $type 'thumb' for thumbs, otherwise full
- * @param str $h_or_w 'height' for height, otherwise width
+ * @param string $type 'thumb' for thumbs, otherwise full
+ * @param string $h_or_w 'height' for height, otherwise width
  * @return int $dim The dimension
  */
 function bp_core_avatar_dimension( $type = 'thumb', $h_or_w = 'height' ) {

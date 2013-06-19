@@ -704,7 +704,7 @@ function bp_groups_admin_edit_metabox_add_new_members( $item ) {
 /**
  * Members metabox
  *
- * @param obj $item The BP_Groups_Group object
+ * @param BP_Groups_Group $item The BP_Groups_Group object
  *
  * @since BuddyPress (1.7)
  */

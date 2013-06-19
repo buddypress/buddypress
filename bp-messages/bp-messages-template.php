@@ -383,7 +383,7 @@ function bp_messages_form_action() {
 	 *
 	 * @package BuddyPress
 	 *
-	 * @return str The form action
+	 * @return string The form action
 	 */
 	function bp_get_messages_form_action() {
 		return apply_filters( 'bp_get_messages_form_action', trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/' . bp_action_variable( 0 ) ) );

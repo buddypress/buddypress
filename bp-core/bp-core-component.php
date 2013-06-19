@@ -119,7 +119,7 @@ class BP_Component {
 	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_id'
 	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_slug'
 	 *
-	 * @param arr $args Used to
+	 * @param array $args Optional
 	 */
 	public function setup_globals( $args = array() ) {
 

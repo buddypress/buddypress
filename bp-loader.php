@@ -129,7 +129,7 @@ class BuddyPress {
 	 * @uses BuddyPress::setup_actions() Setup the hooks and actions
 	 * @see buddypress()
 	 *
-	 * @return The one true BuddyPress
+	 * @return BuddyPress The one true BuddyPress
 	 */
 	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
@@ -581,10 +581,10 @@ class BuddyPress {
  *
  * Example: <?php $bp = buddypress(); ?>
  *
- * @return The one true BuddyPress Instance
+ * @return BuddyPress The one true BuddyPress Instance
  */
 function buddypress() {
-	return buddypress::instance();
+	return BuddyPress::instance();
 }
 
 /**

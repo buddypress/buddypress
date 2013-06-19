@@ -1369,7 +1369,7 @@ class BP_Core_Notification {
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id User ID
-	 * @param str $status 'is_new' or 'all'
+	 * @param string $status 'is_new' or 'all'
 	 * @return array Associative array
 	 * @static
 	 */

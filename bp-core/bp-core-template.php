@@ -622,7 +622,7 @@ function bp_action_variables() {
  * @since BuddyPress (1.5)
  *
  * @param int $position The key of the action_variables array that you want
- * @return str $action_variable The value of that position in the array
+ * @return string $action_variable The value of that position in the array
  */
 function bp_action_variable( $position = 0 ) {
 	$action_variables = bp_action_variables();
@@ -711,7 +711,7 @@ function bp_root_slug( $component = '' ) {
  *
  * @since BuddyPress (1.5)
  * @global BuddyPress $bp The one true BuddyPress instance
- * @param str $root_slug Needle to our active component haystack
+ * @param string $root_slug Needle to our active component haystack
  * @return mixed False if none found, component name if found
  */
 function bp_get_name_from_root_slug( $root_slug = '' ) {
@@ -883,7 +883,7 @@ function bp_is_current_component( $component ) {
  * @package BuddyPress
  * @since BuddyPress (1.5)
  *
- * @param str $action The action being tested against
+ * @param string $action The action being tested against
  * @return bool True if the current action matches $action
  */
 function bp_is_current_action( $action = '' ) {
@@ -907,7 +907,7 @@ function bp_is_current_action( $action = '' ) {
  * @package BuddyPress
  * @since BuddyPress (1.5)
  *
- * @param str $action_variable The action_variable being tested against
+ * @param string $action_variable The action_variable being tested against
  * @param int $position The array key you're testing against. If you don't provide a $position,
  *   the function will return true if the $action_variable is found *anywhere* in the action
  *   variables array.
@@ -984,7 +984,7 @@ function bp_is_directory() {
  *   No:  http://domain.com/members/andy/groups/the-group
  *
  * @package BuddyPress Core
- * @return true if root component, else false.
+ * @return bool True if root component, else false.
  */
 function bp_is_root_component( $component_name ) {
 	global $bp;

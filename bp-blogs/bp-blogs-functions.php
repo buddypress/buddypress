@@ -135,7 +135,7 @@ function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
  * @since BuddyPress (1.0)
  * @param int $blog_id
  * @param int $user_id
- * @param $bool $no_activity ; optional.
+ * @param bool $no_activity Optional; defaults to false
  * @uses BP_Blogs_Blog
  */
 function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {

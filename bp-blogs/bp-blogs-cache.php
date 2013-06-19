@@ -33,7 +33,7 @@ function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
  * @since BuddyPress (1.0)
  * @package BuddyPress
  * @subpackage BlogsCache
- * @param Blog $recorded_blog_obj
+ * @param BP_Blogs_Blog $recorded_blog_obj
  */
 function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
 	bp_blogs_clear_blog_object_cache( false, $recorded_blog_obj->user_id );

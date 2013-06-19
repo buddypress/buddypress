@@ -705,7 +705,7 @@ function bp_blogs_subdomain_base() {
 	 * a subdomain installation of WordPress MS
 	 *
 	 * @since BuddyPress (1.6)
-	 * @return str The base URL - eg, 'example.com' for site_url() example.com or www.example.com
+	 * @return string The base URL - eg, 'example.com' for site_url() example.com or www.example.com
 	 */
 	function bp_blogs_get_subdomain_base() {
 		global $current_site;

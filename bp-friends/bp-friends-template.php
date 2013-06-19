@@ -212,7 +212,7 @@ function bp_member_total_friend_count() {
  * Outputs the ID of the potential friend
  *
  * @uses bp_get_potential_friend_id()
- * @param <type> $user_id
+ * @param int $user_id Optional
  */
 function bp_potential_friend_id( $user_id = 0 ) {
 	echo bp_get_potential_friend_id( $user_id );

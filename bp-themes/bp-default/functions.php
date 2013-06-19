@@ -520,7 +520,7 @@ if ( !function_exists( 'bp_dtheme_page_on_front' ) ) :
 /**
  * Return the ID of a page set as the home page.
  *
- * @return false|int ID of page set as the home page
+ * @return int|bool ID of page set as the home page
  * @since BuddyPress (1.2)
  */
 function bp_dtheme_page_on_front() {

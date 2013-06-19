@@ -101,7 +101,6 @@ function bp_blogs_record_activity( $args = '' ) {
  * @subpackage BlogsActivity
  * @global BuddyPress $bp
  * @param array $args
- * @return If activity is not active
  */
 function bp_blogs_delete_activity( $args = true ) {
 	global $bp;

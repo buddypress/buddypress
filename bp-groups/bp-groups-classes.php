@@ -884,7 +884,7 @@ class BP_Groups_Group {
 	 * @package BuddyPress
 	 * @since BuddyPress (1.5)
 	 *
-	 * @param str $status 'public', 'private', 'hidden', 'all' Which group types to count
+	 * @param string $status 'public', 'private', 'hidden', 'all' Which group types to count
 	 * @return int The topic count
 	 */
 	function get_global_topic_count( $status = 'public', $search_terms = false ) {
@@ -2179,7 +2179,7 @@ class BP_Group_Extension {
 	/**
 	 * Call the create_screen() method, if we're on the right page
 	 *
-	 * @since 1.8
+	 * @since BuddyPress (1.8)
 	 */
 	public function maybe_create_screen() {
 		if ( ! bp_is_group_creation_step( $this->screens['create']['slug'] ) ) {
@@ -2197,7 +2197,7 @@ class BP_Group_Extension {
 	/**
 	 * Call the create_screen_save() method, if we're on the right page
 	 *
-	 * @since 1.8
+	 * @since BuddyPress (1.8)
 	 */
 	public function maybe_create_screen_save() {
 		if ( ! bp_is_group_creation_step( $this->screens['create']['slug'] ) ) {
@@ -2345,7 +2345,7 @@ class BP_Group_Extension {
 	 * Does the given markup have a submit button?
 	 *
 	 * @since BuddyPress (1.8)
-	 * @param $screen The markup to check
+	 * @param string $screen The markup to check
 	 * @return bool
 	 */
 	public static function has_submit_button( $screen = '' ) {

@@ -221,7 +221,6 @@ function bp_core_admin_components_options() {
  *
  * @since BuddyPress (1.6)
  * @todo Use settings API when it supports saving network settings
- * @return If not time to save settings
  */
 function bp_core_admin_components_settings_handler() {
 

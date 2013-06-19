@@ -105,7 +105,7 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  *
  * @package BuddyPress Core
  * @uses bp_get_option() fetches the value for a meta_key in the wp_X_options table
- * @return The blog name for the root blog
+ * @return string The blog name for the root blog
  */
 function bp_core_email_from_name_filter() {
  	return apply_filters( 'bp_core_email_from_name_filter', bp_get_option( 'blogname', 'WordPress' ) );
@@ -158,7 +158,7 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
  *   login
  * @param string $redirect_to The URL to be redirected to, sanitized in wp-login.php
  * @param string $redirect_to_raw The unsanitized redirect_to URL ($_REQUEST['redirect_to'])
- * @param obj $user The WP_User object corresponding to a successfully logged-in user. Otherwise
+ * @param WP_User $user The WP_User object corresponding to a successfully logged-in user. Otherwise
  *   a WP_Error object
  * @return string The redirect URL
  */

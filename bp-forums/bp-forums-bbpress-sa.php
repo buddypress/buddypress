@@ -221,9 +221,9 @@ function backpress_convert_object( &$object, $output ) {
  * Copied from wp-admin/includes/upgrade.php, this will take care of creating
  * the bbPress stand-alone tables without loading a conflicting WP Admin.
  *
- * @param unknown_type $queries
- * @param unknown_type $execute
- * @return unknown
+ * @param array $queries
+ * @param bool $execute Optional; defaults to true.
+ * @return array
  */
 function bp_bb_dbDelta($queries, $execute = true) {
 	global $wpdb;

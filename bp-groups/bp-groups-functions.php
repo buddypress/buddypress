@@ -36,8 +36,8 @@ function bp_groups_has_directory() {
  * of instantiating BP_Groups_Group directly, so that you will inherit cache
  * support and pass through the groups_get_group filter.
  *
- * @param $args The load_users parameter is deprecated and does nothing.
- * @return obj $group The group object
+ * @param string $args The load_users parameter is deprecated and does nothing.
+ * @return BP_Groups_Group $group The group object
  */
 function groups_get_group( $args = '' ) {
 	$defaults = array(
@@ -523,7 +523,7 @@ function groups_total_groups_for_user( $user_id = 0 ) {
  * @package BuddyPress
  * @since BuddyPress (1.5)
  *
- * @return obj The current group object
+ * @return BP_Groups_Group The current group object
  */
 function groups_get_current_group() {
 	global $bp;
@@ -781,7 +781,7 @@ function groups_get_invites_for_group( $user_id, $group_id ) {
  *
  * @param int $user_id Potential group member
  * @param int $group_id Potential group
- * @param str $type Optional. Use 'sent' to check for sent invites, 'all' to check for all
+ * @param string $type Optional. Use 'sent' to check for sent invites, 'all' to check for all
  * @return bool Returns true if an invitation is found
  */
 function groups_check_user_has_invite( $user_id, $group_id, $type = 'sent' ) {

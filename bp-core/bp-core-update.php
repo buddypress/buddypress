@@ -253,8 +253,6 @@ function bp_update_to_1_6() {
  * @internal Used internally to redirect BuddyPress to the about page on activation
  *
  * @uses set_transient() To drop the activation transient for 30 seconds
- *
- * @return If bulk activation
  */
 function bp_add_activation_redirect() {
 

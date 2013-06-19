@@ -303,7 +303,7 @@ class BP_Activity_Activity {
 	 * WP_Query, we have to alter the return value (stripping the leading
 	 * AND keyword from the 'where' clause).
 	 *
-	 * @since 1.8
+	 * @since BuddyPress (1.8)
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *   documentation for WP_Meta_Query for details.
@@ -784,7 +784,7 @@ class BP_Activity_Feed {
 	/**
 	 * Constructor.
 	 *
-	 * @param $args Array
+	 * @param array $args Optional
 	 */
 	public function __construct( $args = array() ) {
 		// If feeds are disabled, stop now!

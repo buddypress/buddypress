@@ -308,8 +308,6 @@ function bp_core_activation_notice() {
  * @uses wp_safe_redirect() To redirect
  * @uses add_query_arg() To help build the URL to redirect to
  * @uses admin_url() To get the admin URL to index.php
- *
- * @return If no transient, or is bulk activation
  */
 function bp_do_activation_redirect() {
 

@@ -151,8 +151,6 @@ function bp_get_caps_for_role( $role = '' ) {
  * @uses is_user_logged_in()
  * @uses current_user_can()
  * @uses WP_User::set_role()
- *
- * @return If user is not spam/deleted or is already capable
  */
 function bp_set_current_user_default_role() {
 

@@ -69,11 +69,11 @@ add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' 
  *
  * @package BuddyPress
  *
- * @param str $action The kind of notification being rendered
+ * @param string $action The kind of notification being rendered
  * @param int $item_id The primary item id
  * @param int $secondary_item_id The secondary item id
  * @param int $total_items The total number of messaging-related notifications waiting for the user
- * @param str $format 'string' for BuddyBar-compatible notifications; 'array' for WP Toolbar
+ * @param string $format 'string' for BuddyBar-compatible notifications; 'array' for WP Toolbar
  */
 function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 

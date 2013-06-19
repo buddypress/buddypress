@@ -454,7 +454,7 @@ function bp_is_friend_requests() {
  *
  * @deprecated BuddyPress (1.5)
  * @deprecated bp_is_root_component()
- * @return true if root component, else false.
+ * @return bool True if root component, else false.
  */
 function bp_core_is_root_component( $component_name ) {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_root_component()' );
@@ -497,8 +497,8 @@ function bp_dtheme_deprecated() {
 	 *
 	 * @deprecated BuddyPress (1.5)
 	 * @deprecated No longer required.
-	 * @param $string $oldvalue Previous value of get_option( 'page_on_front' )
-	 * @param $string $oldvalue New value of get_option( 'page_on_front' )
+	 * @param string $oldvalue Previous value of get_option( 'page_on_front' )
+	 * @param string $oldvalue New value of get_option( 'page_on_front' )
 	 * @return string
 	 * @since BuddyPress (1.2)
 	 */

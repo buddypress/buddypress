@@ -127,10 +127,10 @@ if ( !function_exists( 'mb_strlen' ) ) {
 if ( !function_exists( 'mb_strpos' ) ) {
 	/**
 	 * Fallback implementation of mb_strpos, hardcoded to UTF-8.
-	 * @param $haystack String
-	 * @param $needle String
-	 * @param $offset String: optional start position
-	 * @param $encoding String: optional encoding; ignored
+	 * @param string $haystack
+	 * @param string $needle
+	 * @param int $offset optional; start position.
+	 * @param string $encoding optional; not used.
 	 * @return int
 	 */
 	function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
@@ -150,10 +150,10 @@ if ( !function_exists( 'mb_strpos' ) ) {
 if ( !function_exists( 'mb_strrpos' ) ) {
 	/**
 	 * Fallback implementation of mb_strrpos, hardcoded to UTF-8.
-	 * @param $haystack String
-	 * @param $needle String
-	 * @param $offset String: optional start position
-	 * @param $encoding String: optional encoding; ignored
+	 * @param string $haystack
+	 * @param string $needle
+	 * @param int $offset optional; start position.
+	 * @param string $encoding optional; not used.
 	 * @return int
 	 */
 	function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {

@@ -319,7 +319,7 @@ function bp_forums_total_topic_count() {
  *
  * @since BuddyPress (1.6)
  *
- * @param str $text The text of the comment
+ * @param string $text The text of the comment
  * @param int $topic_id The topic id
  * @param int $user_id The user id
  */
@@ -370,7 +370,7 @@ function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
  * @package BuddyPress
  *
  * @param int $user_id ID of the user being queried. Falls back on displayed user, then loggedin
- * @param str $type The current filter/sort type. 'active', 'popular', 'unreplied'
+ * @param string $type The current filter/sort type. 'active', 'popular', 'unreplied'
  * @return int $count The topic count
  */
 function bp_forums_total_topic_count_for_user( $user_id = 0, $type = 'active' ) {

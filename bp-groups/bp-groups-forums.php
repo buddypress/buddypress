@@ -398,7 +398,7 @@ function groups_total_public_forum_topic_count( $type = 'newest' ) {
  * @package BuddyPress
  * @since BuddyPress (1.5)
  *
- * @param str $status 'public', 'private', 'hidden', 'all' Which group types to count
+ * @param string $status 'public', 'private', 'hidden', 'all' Which group types to count
  * @return int The topic count
  */
 function groups_total_forum_topic_count( $status = 'public', $search_terms = false ) {

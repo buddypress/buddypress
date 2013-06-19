@@ -886,7 +886,6 @@ function bp_legacy_theme_get_single_activity_content() {
 /**
  * Invites a friend to join a group via a POST request.
  *
- * @return unknown
  * @since BuddyPress (1.2)
  * @todo Audit return types
  */

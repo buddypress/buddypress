@@ -893,7 +893,7 @@ function bp_forum_topic_new_reply_link() {
 	 * @since BuddyPress (1.5)
 	 *
 	 * @uses apply_filters() Filter bp_get_forum_topic_new_reply_link to modify
-	 * @return str The URL for the New Reply link
+	 * @return string The URL for the New Reply link
 	 */
 	function bp_get_forum_topic_new_reply_link() {
 		global $topic_template;
@@ -1395,7 +1395,7 @@ function bp_forum_topic_tag_list() {
 	 * @package BuddyPress
 	 * @since BuddyPress (1.5)
 	 *
-	 * @param str $format 'string' returns comma-separated string; otherwise returns array
+	 * @param string $format 'string' returns comma-separated string; otherwise returns array
 	 * @return mixed $tags
 	 */
 	function bp_get_forum_topic_tag_list( $format = 'string' ) {

@@ -194,12 +194,12 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
  * A simple function to set profile data for a specific field for a specific user.
  *
  * @package BuddyPress Core
- * @param $field The ID of the field, or the $name of the field.
- * @param $user_id The ID of the user
- * @param $value The value for the field you want to set for the user.
+ * @param int|string $field The ID of the field, or the $name of the field.
+ * @param int|$user_id The ID of the user
+ * @param mixed The value for the field you want to set for the user.
  * @global BuddyPress $bp The one true BuddyPress instance
  * @uses xprofile_get_field_id_from_name() Gets the ID for the field based on the name.
- * @return true on success, false on failure.
+ * @return bool True on success, false on failure.
  */
 function xprofile_set_field_data( $field, $user_id, $value, $is_required = false ) {
 
@@ -321,7 +321,7 @@ function xprofile_check_is_required_field( $field_id ) {
  * Returns the ID for the field based on the field name.
  *
  * @package BuddyPress Core
- * @param $field_name The name of the field to get the ID for.
+ * @param string $field_name The name of the field to get the ID for.
  * @return int $field_id on success, false on failure.
  */
 function xprofile_get_field_id_from_name( $field_name ) {
@@ -332,13 +332,13 @@ function xprofile_get_field_id_from_name( $field_name ) {
  * Fetches a random piece of profile data for the user.
  *
  * @package BuddyPress Core
- * @param $user_id User ID of the user to get random data for
- * @param $exclude_fullname whether or not to exclude the full name field as random data.
+ * @param int $user_id User ID of the user to get random data for
+ * @param bool $exclude_fullname Optional; whether or not to exclude the full name field as random data. Defaults to true.
  * @global BuddyPress $bp The one true BuddyPress instance
  * @global $wpdb WordPress DB access object.
  * @global $current_user WordPress global variable containing current logged in user information
  * @uses xprofile_format_profile_field() Formats profile field data so it is suitable for display.
- * @return $field_data The fetched random data for the user.
+ * @return string|bool The fetched random data for the user, or false if no data or no match.
  */
 function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) {
 	$field_data = BP_XProfile_ProfileData::get_random( $user_id, $exclude_fullname );
@@ -358,10 +358,10 @@ function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) 
  * Formats a profile field according to its type. [ TODO: Should really be moved to filters ]
  *
  * @package BuddyPress Core
- * @param $field_type The type of field: datebox, selectbox, textbox etc
- * @param $field_value The actual value
+ * @param string $field_type The type of field: datebox, selectbox, textbox etc
+ * @param string $field_value The actual value
  * @uses bp_format_time() Formats a time value based on the WordPress date format setting
- * @return $field_value The formatted value
+ * @return string|bool The formatted value, or false if value is empty
  */
 function xprofile_format_profile_field( $field_type, $field_value ) {
 	if ( !isset( $field_value ) || empty( $field_value ) )
@@ -387,8 +387,8 @@ function xprofile_update_field_position( $field_id, $position, $field_group_id )
  * Setup the avatar upload directory for a user.
  *
  * @package BuddyPress Core
- * @param $directory The root directory name
- * @param $user_id The user ID.
+ * @param string $directory The root directory name. Optional.
+ * @param int $user_id The user ID. Optional.
  * @return array() containing the path and URL plus some other settings.
  */
 function xprofile_avatar_upload_dir( $directory = false, $user_id = 0 ) {
@@ -484,7 +484,7 @@ add_action( 'user_profile_update_errors', 'xprofile_sync_bp_profile', 10, 3 );
  * usermeta table that this component uses.
  *
  * @package BuddyPress XProfile
- * @param $user_id The ID of the deleted user
+ * @param int $user_id The ID of the deleted user
  */
 function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
@@ -629,7 +629,7 @@ function bp_xprofile_update_fielddata_meta( $field_data_id, $meta_key, $meta_val
  * @package BuddyPress
  * @since BuddyPress (1.5)
  *
- * @return str The field name
+ * @return string The field name
  */
 function bp_xprofile_fullname_field_name() {
 	return apply_filters( 'bp_xprofile_fullname_field_name', BP_XPROFILE_FULLNAME_FIELD_NAME );

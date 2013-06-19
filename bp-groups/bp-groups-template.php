@@ -811,8 +811,8 @@ function bp_group_list_mods( $group = false ) {
  * @package BuddyPress
  * @since BuddyPress (1.5)
  *
- * @param obj $group (optional) The group being queried. Defaults to the current group in the loop
- * @param str $format 'string' to get a comma-separated string, 'array' to get an array
+ * @param BP_Groups_Group $group (optional) The group being queried. Defaults to the current group in the loop
+ * @param string $format 'string' to get a comma-separated string, 'array' to get an array
  * @return mixed $admin_ids A string or array of user_ids
  */
 function bp_group_admin_ids( $group = false, $format = 'string' ) {
@@ -841,8 +841,8 @@ function bp_group_admin_ids( $group = false, $format = 'string' ) {
  * @package BuddyPress
  * @since BuddyPress (1.5)
  *
- * @param obj $group (optional) The group being queried. Defaults to the current group in the loop
- * @param str $format 'string' to get a comma-separated string, 'array' to get an array
+ * @param BP_Groups_Group $group (optional) The group being queried. Defaults to the current group in the loop
+ * @param string $format 'string' to get a comma-separated string, 'array' to get an array
  * @return mixed $mod_ids A string or array of user_ids
  */
 function bp_group_mod_ids( $group = false, $format = 'string' ) {
@@ -1081,8 +1081,8 @@ function bp_group_show_status_setting( $setting, $group = false ) {
  * @subpackage Groups Template
  * @since BuddyPress (1.5)
  *
- * @param str $setting The setting you want to check against ('members', 'mods', or 'admins')
- * @param obj $group (optional) The group whose status you want to check
+ * @param string $setting The setting you want to check against ('members', 'mods', or 'admins')
+ * @param BP_Groups_Group $group (optional) The group whose status you want to check
  */
 function bp_group_show_invite_status_setting( $setting, $group = false ) {
 	$group_id = isset( $group->id ) ? $group->id : false;
@@ -1672,7 +1672,7 @@ function bp_has_friends_to_invite( $group = false ) {
  *
  * @since BuddyPress (1.2.7)
  *
- * @param obj|bool $group The BP Groups_Group object if passed, boolean false if not passed.
+ * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
  * @uses bp_get_group_new_topic_button() Returns the 'New Topic' button
  */
 function bp_group_new_topic_button( $group = false ) {
@@ -1683,13 +1683,13 @@ function bp_group_new_topic_button( $group = false ) {
 	 *
 	 * @since BuddyPress (1.2.7)
 	 *
-	 * @param obj|bool $group The BP Groups_Group object if passed, boolean false if not passed.
+	 * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
 	 * @uses is_user_logged_in() Is there a user logged in?
 	 * @uses bp_group_is_user_banned() Is the current user banned from the current group?
 	 * @uses bp_is_group_forum() Are we on a group forum page?
 	 * @uses bp_is_group_forum_topic() Are we on a group topic page?
 	 * @uses bp_get_button() Renders a button
-	 * @return HTML code for the button
+	 * @return string HTML code for the button
 	 */
 	function bp_get_group_new_topic_button( $group = false ) {
 		global $groups_template;
@@ -2416,7 +2416,7 @@ function bp_groups_current_create_step() {
 	 * @since BuddyPress (1.6)
 	 *
 	 * @uses apply_filters() Filter bp_get_groups_current_create_step to modify
-	 * @return str $current_create_step
+	 * @return string $current_create_step
 	 */
 	function bp_get_groups_current_create_step() {
 		global $bp;
@@ -2582,7 +2582,7 @@ function bp_group_current_admin_tab() {
 	 * @since BuddyPress (1.6)
 	 *
 	 * @uses apply_filters() Filter bp_get_current_group_admin_tab to modify return value
-	 * @return str $tab The current tab's slug
+	 * @return string $tab The current tab's slug
 	 */
 	function bp_get_group_current_admin_tab() {
 		if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) ) {
@@ -3040,7 +3040,7 @@ function bp_current_group_slug() {
 	 * @since BuddyPress (1.5)
 	 * @uses apply_filters() Filter bp_get_current_group_slug to modify this output
 	 *
-	 * @return str $current_group_slug The slug of the current group, if there is one
+	 * @return string $current_group_slug The slug of the current group, if there is one
 	 */
 	function bp_get_current_group_slug() {
 		$current_group = groups_get_current_group();
@@ -3065,7 +3065,7 @@ function bp_current_group_name() {
 	 * @since BuddyPress (1.5)
 	 * @uses apply_filters() Filter bp_get_current_group_name to modify this output
 	 *
-	 * @return str The name of the current group, if there is one
+	 * @return string The name of the current group, if there is one
 	 */
 	function bp_get_current_group_name() {
 		global $bp;

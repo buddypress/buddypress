@@ -194,7 +194,6 @@ function bp_core_admin_slugs_options() {
  *
  * @since BuddyPress (1.6)
  * @todo Use settings API
- * @return False if referer does not check out
  */
 function bp_core_admin_slugs_setup_handler() {
 

@@ -120,7 +120,7 @@ function bp_core_get_users( $args = '' ) {
  *
  * @package BuddyPress Core
  * @global $current_user WordPress global variable containing current logged in user information
- * @param user_id The ID of the user.
+ * @param int $user_id The ID of the user.
  */
 function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login = false ) {
 
@@ -150,7 +150,7 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
  * Fetch everything in the wp_users table for a user, without any usermeta.
  *
  * @package BuddyPress Core
- * @param user_id The ID of the user.
+ * @param int $user_id The ID of the user.
  * @uses BP_Core_User::get_core_userdata() Performs the query.
  */
 function bp_core_get_core_userdata( $user_id ) {
@@ -170,7 +170,7 @@ function bp_core_get_core_userdata( $user_id ) {
  *
  * @package BuddyPress Core
  * @uses bp_core_get_userid_from_user_login() Returns the user id for the username passed
- * @return The user id for the user that is currently being displayed, return zero if this is not a user home and just a normal blog.
+ * @return int The user id for the user that is currently being displayed, return zero if this is not a user home and just a normal blog.
  */
 function bp_core_get_displayed_userid( $user_login ) {
 	return apply_filters( 'bp_core_get_displayed_userid', bp_core_get_userid( $user_login ) );
@@ -180,10 +180,9 @@ function bp_core_get_displayed_userid( $user_login ) {
  * Returns the user_id for a user based on their username.
  *
  * @package BuddyPress Core
- * @param $username str Username to check.
+ * @param string $username Username to check.
  * @global $wpdb WordPress DB access object.
- * @return false on no match
- * @return int the user ID of the matched user.
+ * @return int|bool The ID of the matched user, or false.
  */
 function bp_core_get_userid( $username ) {
 	global $wpdb;
@@ -198,10 +197,9 @@ function bp_core_get_userid( $username ) {
  * Returns the user_id for a user based on their user_nicename.
  *
  * @package BuddyPress Core
- * @param $username str Username to check.
+ * @param string $username Username to check.
  * @global $wpdb WordPress DB access object.
- * @return false on no match
- * @return int the user ID of the matched user.
+ * @return int|bool The ID of the matched user, or false.
  */
 function bp_core_get_userid_from_nicename( $user_nicename ) {
 	global $wpdb;
@@ -216,11 +214,10 @@ function bp_core_get_userid_from_nicename( $user_nicename ) {
  * Returns the username for a user based on their user id.
  *
  * @package BuddyPress Core
- * @param $uid int User ID to check.
+ * @param int $uid User ID to check.
  * @global $userdata WordPress user data for the current logged in user.
  * @uses get_userdata() WordPress function to fetch the userdata for a user ID
- * @return false on no match
- * @return str the username of the matched user.
+ * @return string|bool The username of the matched user, or false.
  */
 function bp_core_get_username( $user_id, $user_nicename = false, $user_login = false ) {
 	global $bp;
@@ -290,11 +287,10 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
  * @since BuddyPress (1.5)
  *
  * @package BuddyPress Core
- * @param $uid int User ID to check.
+ * @param int $uid User ID to check.
  * @global $userdata WordPress user data for the current logged in user.
  * @uses get_userdata() WordPress function to fetch the userdata for a user ID
- * @return false on no match
- * @return str the username of the matched user.
+ * @return string|bool The username of the matched user, or false.
  */
 function bp_members_get_user_nicename( $user_id ) {
 	global $bp;
@@ -343,10 +339,9 @@ function bp_members_get_user_nicename( $user_id ) {
  * Returns the email address for the user based on user ID
  *
  * @package BuddyPress Core
- * @param $uid int User ID to check.
+ * @param int $uid User ID to check.
  * @uses get_userdata() WordPress function to fetch the userdata for a user ID
- * @return false on no match
- * @return str The email for the matched user.
+ * @return string The email for the matched user. Empty string if no user matched the $uid.
  */
 function bp_core_get_user_email( $uid ) {
 
@@ -371,10 +366,9 @@ function bp_core_get_user_email( $uid ) {
  * Optional parameters will return just the name or just the URL.
  *
  * @param int $user_id User ID to check.
- * @param $no_anchor bool Disable URL and HTML and just return full name. Default false.
- * @param $just_link bool Disable full name and HTML and just return the URL text. Default false.
- * @return false on no match
- * @return str The link text based on passed parameters.
+ * @param bool $no_anchor Disable URL and HTML and just return full name. Default false.
+ * @param bool $just_link Disable full name and HTML and just return the URL text. Default false.
+ * @return string|bool The link text based on passed parameters, or false on no match.
  * @todo This function needs to be cleaned up or split into separate functions
  */
 function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false ) {
@@ -406,7 +400,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
  * @uses get_userdata() Fetches the WP userdata for a specific user.
  * @uses xprofile_set_field_data() Will update the field data for a user based on field name and user id.
  * @uses wp_cache_set() Adds a value to the cache.
- * @return str The display name for the user in question.
+ * @return string|bool The display name for the user in question, or false if user not found.
  */
 function bp_core_get_user_displayname( $user_id_or_username ) {
 	global $bp;
@@ -462,10 +456,10 @@ add_filter( 'bp_core_get_user_displayname', 'esc_html'      );
  * Returns the user link for the user based on user email address
  *
  * @package BuddyPress Core
- * @param $email str The email address for the user.
+ * @param string $email The email address for the user.
  * @uses bp_core_get_userlink() BuddyPress function to get a userlink by user ID.
  * @uses get_user_by() WordPress function to get userdata via an email address
- * @return str The link to the users home base. False on no match.
+ * @return string The link to the users home base. False on no match.
  */
 function bp_core_get_userlink_by_email( $email ) {
 	$user = get_user_by( 'email', $email );
@@ -475,8 +469,8 @@ function bp_core_get_userlink_by_email( $email ) {
 /**
  * Returns the user link for the user based on the supplied identifier
  *
- * @param $username str If BP_ENABLE_USERNAME_COMPATIBILITY_MODE is set, this will be user_login, otherwise it will be user_nicename.
- * @return str The link to the users home base. False on no match.
+ * @param string $username If BP_ENABLE_USERNAME_COMPATIBILITY_MODE is set, this will be user_login, otherwise it will be user_nicename.
+ * @return string|bool The link to the users home base, false on no match.
  */
 function bp_core_get_userlink_by_username( $username ) {
 	if ( bp_is_username_compatibility_mode() )
@@ -917,8 +911,8 @@ add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );
  * When a user logs in, check if they have been marked as a spammer. If yes then simply
  * redirect them to the home page and stop them from logging in.
  *
- * @param obj $user Either the WP_User object or the WP_Error object
- * @return obj If the user is not a spammer, return the WP_User object. Otherwise a new WP_Error object.
+ * @param WP_User|WP_Error $user Either the WP_User object or the WP_Error object
+ * @return WP_User|WP_Error If the user is not a spammer, return the WP_User object. Otherwise a new WP_Error object.
  *
  * @since BuddyPress (1.1.2)
  */
@@ -941,7 +935,7 @@ add_filter( 'authenticate', 'bp_core_boot_spammer', 30 );
  * Deletes usermeta for the user when the user is deleted.
  *
  * @package BuddyPress Core
- * @param $user_id The user id for the user to delete usermeta for
+ * @param int $user_id The user id for the user to delete usermeta for
  * @uses bp_delete_user_meta() deletes a row from the wp_usermeta table based on meta_key
  */
 function bp_core_remove_data( $user_id ) {
@@ -1098,7 +1092,7 @@ function bp_core_validate_email_address( $user_email ) {
  * @since BuddyPress (1.7)
  * @see bp_core_validate_email_address()
  *
- * @param obj $errors WP_Error object
+ * @param WP_Error $errors WP_Error object
  * @param array $validation_results The return value of a validation function
  *   like bp_core_validate_email_address()
  */
@@ -1413,8 +1407,8 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
  * Multisite has their own DB table - 'wp_signups' - dedicated for unactivated users.
  * See {@link wpmu_signup_user()} and {@link wpmu_validate_user_signup()}.
  *
- * @param obj $user Either the WP_User object or the WP_Error object
- * @return obj If the user is not a spammer, return the WP_User object. Otherwise a new WP_Error object.
+ * @param WP_User|WP_Error $user Either the WP_User object or the WP_Error object
+ * @return WP_User|WP_Error If the user is not a spammer, return the WP_User object. Otherwise a new WP_Error object.
  *
  * @since BuddyPress (1.2.2)
  */

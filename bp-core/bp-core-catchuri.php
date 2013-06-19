@@ -340,8 +340,8 @@ function bp_core_enable_root_profiles() {
  *   wp-content/themes/[activated_theme]/members/index.php
  *
  * @package BuddyPress Core
- * @param $username str Username to check.
- * @return false|int The user ID of the matched user, or false.
+ * @param string $username Username to check.
+ * @return int|bool The user ID of the matched user, or false.
  */
 function bp_core_load_template( $templates ) {
 	global $post, $bp, $wp_query, $wpdb;

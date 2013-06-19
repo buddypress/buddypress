@@ -87,9 +87,9 @@ function bp_core_get_table_prefix() {
 /**
  * Format numbers the BuddyPress way
  *
- * @param str $number
+ * @param int $number
  * @param bool $decimals
- * @return str
+ * @return string
  */
 function bp_core_number_format( $number, $decimals = false ) {
 
@@ -244,7 +244,7 @@ function bp_core_update_directory_page_ids( $blog_page_ids ) {
  * @package BuddyPress Core
  * @since BuddyPress (1.5)
  *
- * @return obj $pages Page names, IDs, and slugs
+ * @return object Page names, IDs, and slugs
  */
 function bp_core_get_directory_pages() {
 	global $wpdb;
@@ -393,8 +393,8 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
  * @package BuddyPress Core
  * @since BuddyPress (1.5)
  *
- * @param str $root_slug The root slug, which comes from $bp->pages->[component]->slug
- * @return str $slug The short slug for use in the middle of URLs
+ * @param string $root_slug The root slug, which comes from $bp->pages->[component]->slug
+ * @return string The short slug for use in the middle of URLs
  */
 function bp_core_component_slug_from_root_slug( $root_slug ) {
 	$slug_chunks = explode( '/', $root_slug );
@@ -409,7 +409,7 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
  * a convenience for compatibility with the new method.
  *
  * @global $bp BuddyPress global settings
- * @param $slug str The slug of the component
+ * @param string $slug The slug of the component
  */
 function bp_core_add_root_component( $slug ) {
 	global $bp;
@@ -469,7 +469,7 @@ function bp_core_add_illegal_names() {
  *
  * @package BuddyPress Core
  * @uses get_blog_option() WordPress function to fetch blog meta.
- * @return $domain The domain URL for the blog.
+ * @return string The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
 
@@ -504,7 +504,7 @@ function bp_core_redirect( $location, $status = 302 ) {
  * Returns the referrer URL without the http(s)://
  *
  * @package BuddyPress Core
- * @return The referrer URL
+ * @return string The referrer URL
  */
 function bp_core_referrer() {
 	$referer = explode( '/', wp_get_referer() );
@@ -577,9 +577,9 @@ function bp_core_current_time( $gmt = true ) {
  * @package BuddyPress Core
  * @uses apply_filters() Filter 'bp_core_time_since_pre' to bypass BP's calculations
  * @uses apply_filters() Filter 'bp_core_time_since' to modify BP's calculations
- * @param $older_date int Unix timestamp of date you want to calculate the time since for
- * @param $newer_date int Unix timestamp of date to compare older date to. Default false (current time).
- * @return str The time since.
+ * @param int $older_date Unix timestamp of date you want to calculate the time since for
+ * @param int $newer_date Unix timestamp of date to compare older date to. Default false (current time).
+ * @return string The time since.
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
 
@@ -733,8 +733,8 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
  * @package BuddyPress Core
  *
  * @global BuddyPress $bp The one true BuddyPress instance
- * @param str $message Feedback to give to user
- * @param str $type updated|success|error|warning
+ * @param string $message Feedback to give to user
+ * @param string $type updated|success|error|warning
  */
 function bp_core_add_message( $message, $type = '' ) {
 	global $bp;
@@ -854,9 +854,8 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  * Formats last activity based on time since date given.
  *
  * @package BuddyPress Core
- * @param last_activity_date The date of last activity.
- * @param $before The text to prepend to the activity time since figure.
- * @param $after The text to append to the activity time since figure.
+ * @param string $last_activity_date The date of last activity.
+ * @param string $string
  * @uses bp_core_time_since() This function will return an English representation of the time elapsed.
  */
 function bp_core_get_last_activity( $last_activity_date, $string ) {
@@ -888,8 +887,8 @@ function bp_core_get_last_activity( $last_activity_date, $string ) {
  * @since BuddyPress (1.5)
  *
  * @uses apply_filters() Filter bp_get_user_meta_key to modify keys individually
- * @param str $key
- * @return str $key
+ * @param string $key
+ * @return string $key
  */
 function bp_get_user_meta_key( $key = false ) {
 	return apply_filters( 'bp_get_user_meta_key', $key );
@@ -1211,7 +1210,7 @@ function bp_is_network_activated() {
  *
  * @global BuddyPress $bp The one true BuddyPress instance
  * @param bool $is_directory
- * @param str $component
+ * @param string $component
  */
 function bp_update_is_directory( $is_directory = false, $component = '' ) {
 	global $bp;
@@ -1227,7 +1226,7 @@ function bp_update_is_directory( $is_directory = false, $component = '' ) {
  *
  * @global BuddyPress $bp The one true BuddyPress instance
  * @param bool $is_item_admin
- * @param str $component
+ * @param string $component
  */
 function bp_update_is_item_admin( $is_item_admin = false, $component = '' ) {
 	global $bp;
@@ -1243,7 +1242,7 @@ function bp_update_is_item_admin( $is_item_admin = false, $component = '' ) {
  *
  * @global BuddyPress $bp The one true BuddyPress instance
  * @param bool $is_item_mod
- * @param str $component
+ * @param string $component
  */
 function bp_update_is_item_mod( $is_item_mod = false, $component = '' ) {
 	global $bp;

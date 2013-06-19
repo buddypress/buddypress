@@ -17,7 +17,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @since BuddyPress 1.6
  * @global WP_Admin_Bar $wp_admin_bar
- * @return If doing ajax
  */
 function bp_admin_bar_my_account_root() {
 	global $wp_admin_bar;
