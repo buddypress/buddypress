@@ -80,10 +80,9 @@
 
 				// Group is not visible
 				elseif ( ! bp_group_is_visible() ) :
-
 					// Membership request
 					if ( bp_is_group_membership_request() ) :
-						locate_template( array( 'groups/single/request-membership' ), true );
+						locate_template( array( 'groups/single/request-membership.php' ), true );
 
 					// The group is not visible, show the status message
 					else :
