@@ -21,7 +21,10 @@
 
 <div id="item-header-content">
 
-	<h2 class="user-nicename">@<?php bp_displayed_user_username(); ?></h2>
+	<?php if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>
+		<h2 class="user-nicename">@<?php bp_displayed_user_username(); ?></h2>
+	<?php endif; ?>
+
 	<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
 
 	<?php do_action( 'bp_before_member_header_meta' ); ?>

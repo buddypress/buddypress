@@ -25,7 +25,10 @@
 		<a href="<?php bp_displayed_user_link(); ?>"><?php bp_displayed_user_fullname(); ?></a>
 	</h2>
 
-	<span class="user-nicename">@<?php bp_displayed_user_username(); ?></span>
+	<?php if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>
+		<span class="user-nicename">@<?php bp_displayed_user_username(); ?></span>
+	<?php endif; ?>
+
 	<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
 
 	<?php do_action( 'bp_before_member_header_meta' ); ?>
