@@ -108,23 +108,27 @@ function bp_members_admin_bar_user_admin_menu() {
 		'href'   => bp_get_members_component_link( 'profile', 'change-avatar' )
 	) );
 
-	// User Admin > Spam/unspam
+
 	if ( bp_is_active( 'settings' ) ) {
+
+		// User Admin > Spam/unspam
 		$wp_admin_bar->add_menu( array(
 			'parent' => $bp->user_admin_menu_id,
 			'id'     => $bp->user_admin_menu_id . '-user-capabilities',
 			'title'  => __( 'User Capabilities', 'buddypress' ),
 			'href'   => bp_displayed_user_domain() . 'settings/capabilities/'
 		) );
+
+		// User Admin > Delete Account
+		$wp_admin_bar->add_menu( array(
+			'parent' => $bp->user_admin_menu_id,
+			'id'     => $bp->user_admin_menu_id . '-delete-user',
+			'title'  => __( 'Delete Account', 'buddypress' ),
+			'href'   => bp_displayed_user_domain() . 'settings/delete-account/'
+		) );
+
 	}
 
-	// User Admin > Delete Account
-	$wp_admin_bar->add_menu( array(
-		'parent' => $bp->user_admin_menu_id,
-		'id'     => $bp->user_admin_menu_id . '-delete-user',
-		'title'  => __( 'Delete Account', 'buddypress' ),
-		'href'   => bp_displayed_user_domain() . 'settings/delete-account/'
-	) );
 }
 add_action( 'admin_bar_menu', 'bp_members_admin_bar_user_admin_menu', 99 );
 
