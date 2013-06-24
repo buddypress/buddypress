@@ -987,8 +987,9 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// values passed to the constructor will, as usual, override
 		// these defaults).
 		$this->query_vars = wp_parse_args( $this->query_vars, array(
-			'group_id'   => 0,
-			'group_role' => array( 'member' ),
+			'group_id'     => 0,
+			'group_role'   => array( 'member' ),
+			'is_confirmed' => true,
 		) );
 
 		$group_member_ids = $this->get_group_member_ids();
@@ -1026,7 +1027,12 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		/** WHERE clauses *****************************************************/
 
+		// Group id
 		$sql['where'][] = $wpdb->prepare( "group_id = %d", $this->query_vars['group_id'] );
+
+		// is_confirmed
+		$is_confirmed = ! empty( $this->query_vars['is_confirmed'] ) ? 1 : 0;
+		$sql['where'][] = $wpdb->prepare( "is_confirmed = %d", $is_confirmed );
 
 		// Role information is stored as follows: admins have
 		// is_admin = 1, mods have is_mod = 1, banned have is_banned =

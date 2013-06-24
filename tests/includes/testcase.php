@@ -226,6 +226,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public static function add_user_to_group( $user_id, $group_id, $args = array() ) {
 		$r = wp_parse_args( $args, array(
 			'date_modified' => bp_core_current_time(),
+			'is_confirmed' => 1,
 		) );
 
 		$new_member                = new BP_Groups_Member;
@@ -235,7 +236,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$new_member->is_admin      = 0;
 		$new_member->user_title    = '';
 		$new_member->date_modified = $r['date_modified'];
-		$new_member->is_confirmed  = 1;
+		$new_member->is_confirmed  = $r['is_confirmed'];
 
 		$new_member->save();
 		return $new_member->id;

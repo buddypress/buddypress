@@ -298,4 +298,27 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array(), $ids );
 	}
 
+	public function test_confirmed_members() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+			'is_confirmed' => 0,
+		) );
+
+		$this->add_user_to_group( $u2, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+			'is_confirmed' => 1,
+		) );
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array( $u2 ), $ids );
+	}
+
 }
