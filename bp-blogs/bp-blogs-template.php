@@ -788,9 +788,7 @@ function bp_blogs_blog_tabs() {
 	</ul>
 
 <?php
-
-	// @todo where does $current_tab come from?
-	do_action( 'bp_blogs_blog_tabs', $current_tab );
+	do_action( 'bp_blogs_blog_tabs' );
 }
 
 function bp_directory_blogs_search_form() {
