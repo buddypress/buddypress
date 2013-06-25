@@ -315,7 +315,7 @@ class BP_User_Query {
 		/** WHERE *************************************************************/
 
 		// 'include' - User ids to include in the results
-		$include     = ! empty( $include ) ? wp_parse_id_list( $include ) : array();
+		$include     = false !== $include ? wp_parse_id_list( $include ) : array();
 		$include_ids = $this->get_include_ids( $include );
 		if ( ! empty( $include_ids ) ) {
 			$include_ids    = implode( ',', wp_parse_id_list( $include_ids ) );
