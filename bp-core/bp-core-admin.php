@@ -585,14 +585,14 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/sbrajesh">sbrajesh</a>,
 				<a href="http://profiles.wordpress.org/SergeyBiryukov">SergeyBiryukov</a>,
 				<a href="http://profiles.wordpress.org/SGr33n">SGr33n</a>,
+				<a href="http://profiles.wordpress.org/shanebp">shanebp</a>,
 				<a href="http://profiles.wordpress.org/splatte">splatte</a>,
 				<a href="http://profiles.wordpress.org/thebrandonallen">thebrandonallen</a>,
 				<a href="http://profiles.wordpress.org/themightymo">themightymo</a>,
-				<a href="http://profiles.wordpress.org/merty">merty</a>,
 				<a href="http://profiles.wordpress.org/themightymo">themightymo</a>,
-				<a href="http://profiles.wordpress.org/vegasgeek">vegasgeek</a>,
 				<a href="http://profiles.wordpress.org/tivnet">tivnet</a>,
 				<a href="http://profiles.wordpress.org/trishasalas">trishasalas</a>,
+				<a href="http://profiles.wordpress.org/vegasgeek">vegasgeek</a>,
 				<a href="http://profiles.wordpress.org/wpdennis">wpdennis</a>
 			</p>
 
