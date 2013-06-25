@@ -961,7 +961,7 @@ function bp_groups_admin_autocomplete_handler() {
 	$group_member_query = new BP_Group_Member_Query( array(
 		'group_id'        => $group_id,
 		'per_page'        => 0, // show all
-		'group_type'      => array( 'member', 'mod', 'admin', ),
+		'group_role'      => array( 'member', 'mod', 'admin', ),
 		'populate_extras' => false,
 		'count_total'     => false,
 	) );
