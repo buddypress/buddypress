@@ -514,16 +514,19 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	padding: 10px 15px;
 }
 #buddypress div#message.error p {
-	background-color: #ff0000;
+	background-color: #ffa;
+	border: 1px solid #960;
 	clear: left;
-	color: #fff;
+	color: #960;
 }
 #buddypress div#message.updated p {
-	background-color: #99ff33;
+	background-color: #efc;
+	border: 1px solid #591;
+	color: #591;
 }
 #buddypress .standard-form#signup_form div div.error {
-	background: #ff0000;
-	color: #fff;
+	background: #faa;
+	color: #a00;
 	margin: 0 0 10px 0;
 	padding: 6px;
 	width: 90%;
@@ -578,8 +581,10 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 #buddypress .standard-form select,
 #buddypress .standard-form input[type=password],
 #buddypress .dir-search input[type=search],
-#buddypress .dir-search input[type=text]{
-	border: 1px inset #ccc;
+#buddypress .dir-search input[type=text] {
+	border: 1px solid #ccc;
+	background: #fafafa;
+	border-radius: 0;
 	color: #888;
 	font: inherit;
 	font-size: 100%;
