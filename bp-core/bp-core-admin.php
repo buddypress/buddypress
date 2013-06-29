@@ -560,6 +560,7 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/danbp">danbp</a>,
 				<a href="http://profiles.wordpress.org/dcavins">dcavins</a>,
 				<a href="http://profiles.wordpress.org/dcowgill">dcowgill</a>,
+				<a href="http://profiles.wordpress.org/ddean">ddean</a>,
 				<a href="http://profiles.wordpress.org/djpaul">djpaul</a>,
 				<a href="http://profiles.wordpress.org/dontdream">dontdream</a>,
 				<a href="http://profiles.wordpress.org/eggproject">eggproject</a>,
