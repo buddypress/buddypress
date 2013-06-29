@@ -250,7 +250,7 @@ function bp_is_member() {
  * @deprecated use bp_loggedin_user_link()
  */
 function bp_loggedinuser_link() {
-	_deprecated_function( __FUNCTION__, '1.5', 'bp_logged_in_user_link' );
+	_deprecated_function( __FUNCTION__, '1.5', 'bp_loggedin_user_link' );
 	bp_loggedin_user_link();
 }
 
