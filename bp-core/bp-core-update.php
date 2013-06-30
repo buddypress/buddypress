@@ -167,7 +167,7 @@ function bp_setup_updater() {
  * This is most-often used when the data schema changes, but should also be used
  * to correct issues with BuddyPress metadata silently on software update.
  *
- * @since BuddyPress (r4104)
+ * @since BuddyPress (1.7)
  */
 function bp_version_updater() {
 
