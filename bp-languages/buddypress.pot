@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-05-15 18:35:23+00:00\n"
+"POT-Creation-Date: 2013-07-09 18:35:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1870,80 +1870,80 @@ msgctxt "Page title for the user registration screen."
 msgid "Register"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:441
+#: bp-core/bp-core-functions.php:443
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:442
+#: bp-core/bp-core-functions.php:444
 msgid "right now"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:443
+#: bp-core/bp-core-functions.php:445
 msgid "%s ago"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:447
+#: bp-core/bp-core-functions.php:449
 msgid "year"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:447
+#: bp-core/bp-core-functions.php:449
 msgid "years"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:448
+#: bp-core/bp-core-functions.php:450
 msgid "month"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:448
+#: bp-core/bp-core-functions.php:450
 msgid "months"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:449
+#: bp-core/bp-core-functions.php:451
 msgid "week"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:449
+#: bp-core/bp-core-functions.php:451
 msgid "weeks"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:450
+#: bp-core/bp-core-functions.php:452
 msgid "day"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:450
+#: bp-core/bp-core-functions.php:452
 msgid "days"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:451
+#: bp-core/bp-core-functions.php:453
 msgid "hour"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:451
+#: bp-core/bp-core-functions.php:453
 msgid "hours"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:452
+#: bp-core/bp-core-functions.php:454
 msgid "minute"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:452
+#: bp-core/bp-core-functions.php:454
 msgid "minutes"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:453
+#: bp-core/bp-core-functions.php:455
 msgid "second"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:453
+#: bp-core/bp-core-functions.php:455
 msgid "seconds"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:512
+#: bp-core/bp-core-functions.php:514
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:580
+#: bp-core/bp-core-functions.php:582
 msgid "Not recently active"
 msgstr ""
 
