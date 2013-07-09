@@ -165,7 +165,8 @@ function bp_dtheme_enqueue_scripts() {
 		'close'             => __( 'Close', 'buddypress' ),
 		'view'              => __( 'View', 'buddypress' ),
 		'mark_as_fav'	    => __( 'Favorite', 'buddypress' ),
-		'remove_fav'	    => __( 'Remove Favorite', 'buddypress' )
+		'remove_fav'	    => __( 'Remove Favorite', 'buddypress' ),
+		'unsaved_changes'   => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
 	);
 	wp_localize_script( 'dtheme-ajax-js', 'BP_DTheme', $params );
 
