@@ -359,10 +359,10 @@ function bp_core_setup_message() {
 	global $bp;
 
 	if ( empty( $bp->template_message ) && isset( $_COOKIE['bp-message'] ) )
-		$bp->template_message = $_COOKIE['bp-message'];
+		$bp->template_message = stripslashes( $_COOKIE['bp-message'] );
 
 	if ( empty( $bp->template_message_type ) && isset( $_COOKIE['bp-message-type'] ) )
-		$bp->template_message_type = $_COOKIE['bp-message-type'];
+		$bp->template_message_type = stripslashes( $_COOKIE['bp-message-type'] );
 
 	add_action( 'template_notices', 'bp_core_render_message' );
 
