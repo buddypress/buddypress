@@ -2299,6 +2299,12 @@ class BP_Group_Extension {
 			return;
 		}
 
+		// When DOING_AJAX, the POST global will be populated, but we
+		// should assume it's a save
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return;
+		}
+
 		$this->check_nonce( 'edit' );
 		call_user_func( $this->screens['edit']['screen_save_callback'], $this->group_id );
 	}
