@@ -51,6 +51,7 @@ add_filter( 'bp_core_render_message_content', 'convert_smilies'   );
 add_filter( 'bp_core_render_message_content', 'convert_chars'     );
 add_filter( 'bp_core_render_message_content', 'wpautop'           );
 add_filter( 'bp_core_render_message_content', 'shortcode_unautop' );
+add_filter( 'bp_core_render_message_content', 'wp_kses_data', 5   );
 
 /**
  * Template Compatibility
