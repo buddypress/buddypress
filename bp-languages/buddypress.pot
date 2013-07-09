@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-06-29 01:35:15+00:00\n"
+"POT-Creation-Date: 2013-07-09 16:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -300,7 +300,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-admin.php:665 bp-activity/bp-activity-admin.php:1281
 #: bp-forums/bp-forums-template.php:1270 bp-groups/bp-groups-admin.php:1338
-#: bp-themes/bp-default/functions.php:508 bp-xprofile/bp-xprofile-admin.php:456
+#: bp-themes/bp-default/functions.php:509 bp-xprofile/bp-xprofile-admin.php:456
 #: bp-xprofile/bp-xprofile-loader.php:185
 #: bp-xprofile/bp-xprofile-loader.php:245
 msgid "Edit"
@@ -2075,7 +2075,7 @@ msgstr ""
 
 #: bp-core/deprecated/1.5.php:149
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:15
-#: bp-themes/bp-default/functions.php:642
+#: bp-themes/bp-default/functions.php:643
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:15
 msgid "Name"
 msgstr ""
@@ -2088,7 +2088,7 @@ msgstr ""
 
 #: bp-core/deprecated/1.5.php:167
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:33
-#: bp-themes/bp-default/functions.php:646
+#: bp-themes/bp-default/functions.php:647
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:33
 msgid "Website"
 msgstr ""
@@ -5562,6 +5562,7 @@ msgid "comments"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress-functions.php:240
+#: bp-themes/bp-default/functions.php:169
 msgid "Your profile has unsaved changes. If you leave the page, the changes will be lost."
 msgstr ""
 
@@ -5788,78 +5789,78 @@ msgstr ""
 msgid "Primary Navigation"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:390
+#: bp-themes/bp-default/functions.php:391
 msgid "The sidebar widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:399
+#: bp-themes/bp-default/functions.php:400
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:401
+#: bp-themes/bp-default/functions.php:402
 msgid "The first footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:410
+#: bp-themes/bp-default/functions.php:411
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:412
+#: bp-themes/bp-default/functions.php:413
 msgid "The second footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:421
+#: bp-themes/bp-default/functions.php:422
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:423
+#: bp-themes/bp-default/functions.php:424
 msgid "The third footer widget area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:432
+#: bp-themes/bp-default/functions.php:433
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:434
+#: bp-themes/bp-default/functions.php:435
 msgid "The fourth footer widget area"
 msgstr ""
 
 #. translators: 1: comment author url, 2: comment author name, 3: comment
 #. permalink, 4: comment date/timestamp
 
-#: bp-themes/bp-default/functions.php:489
+#: bp-themes/bp-default/functions.php:490
 msgid "<a href=\"%1$s\" rel=\"nofollow\">%2$s</a> said on <a href=\"%3$s\"><span class=\"time-since\">%4$s</span></a>"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:496
+#: bp-themes/bp-default/functions.php:497
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:508
+#: bp-themes/bp-default/functions.php:509
 msgid "Edit comment"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:578
+#: bp-themes/bp-default/functions.php:579
 msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:644
+#: bp-themes/bp-default/functions.php:645
 msgid "Email"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:654
+#: bp-themes/bp-default/functions.php:655
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:655
+#: bp-themes/bp-default/functions.php:656
 msgid "Leave a reply"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:742
+#: bp-themes/bp-default/functions.php:743
 msgid "&larr; Previous Entries"
 msgstr ""
 
-#: bp-themes/bp-default/functions.php:743
+#: bp-themes/bp-default/functions.php:744
 msgid "Next Entries &rarr;"
 msgstr ""
 
