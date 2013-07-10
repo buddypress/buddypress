@@ -315,23 +315,39 @@ function bp_is_theme_compat_original_template( $template = '' ) {
 /**
  * Register a new BuddyPress theme package to the active theme packages array
  *
+ * The $theme parameter is an array, which takes the following values:
+ *
+ *  'id'      - ID for your theme package; should be alphanumeric only
+ *  'name'    - Name of your theme package
+ *  'version' - Version of your theme package
+ *  'dir'     - Directory where your theme package resides
+ *  'url'     - URL where your theme package resides
+ *
+ * For an example of how this function is used, see:
+ * {@link BuddyPress::register_theme_packages()}.
+ *
  * @since BuddyPress (1.7)
- * @param array $theme
+ *
+ * @param array $theme The theme package arguments. See phpDoc for more details.
+ * @param bool $override If true, overrides whatever package is currently set.
  */
 function bp_register_theme_package( $theme = array(), $override = true ) {
 
 	// Create new BP_Theme_Compat object from the $theme array
-	if ( is_array( $theme ) )
+	if ( is_array( $theme ) ) {
 		$theme = new BP_Theme_Compat( $theme );
+	}
 
 	// Bail if $theme isn't a proper object
-	if ( ! is_a( $theme, 'BP_Theme_Compat' ) )
+	if ( ! is_a( $theme, 'BP_Theme_Compat' ) ) {
 		return;
+	}
 
 	// Load up BuddyPress
 	$bp = buddypress();
 
-	// Only override if the flag is set and not previously registered
+	// Only set if the theme package was not previously registered or if the
+	// override flag is set
 	if ( empty( $bp->theme_compat->packages[$theme->id] ) || ( true === $override ) ) {
 		$bp->theme_compat->packages[$theme->id] = $theme;
 	}
