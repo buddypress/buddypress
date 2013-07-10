@@ -904,7 +904,7 @@ class BP_XProfile_Field {
 
 									<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
-										<li><input type="radio" name="default-visibility" value="<?php echo esc_attr( $level['id'] ) ?>" <?php checked( $this->default_visibility, $level['id'] ); ?>> <?php echo esc_html( $level['label'] ) ?></li>
+										<li><label><input type="radio" name="default-visibility" value="<?php echo esc_attr( $level['id'] ) ?>" <?php checked( $this->default_visibility, $level['id'] ); ?>> <?php echo esc_html( $level['label'] ) ?></label></li>
 
 									<?php endforeach ?>
 
@@ -914,8 +914,8 @@ class BP_XProfile_Field {
 							<div id="titlewrap">
 								<h3><label for="allow-custom-visibility"><?php _e( 'Per-Member Visibility', 'buddypress' ); ?></label></h3>
 								<ul>
-									<li><input type="radio" name="allow-custom-visibility" value="allowed"  <?php checked( $this->allow_custom_visibility, 'allowed'  ); ?>> <?php _e( "Let members change this field's visibility", 'buddypress' ); ?></li>
-									<li><input type="radio" name="allow-custom-visibility" value="disabled" <?php checked( $this->allow_custom_visibility, 'disabled' ); ?>> <?php _e( 'Enforce the default visibility for all members', 'buddypress' ); ?></li>
+									<li><label><input type="radio" name="allow-custom-visibility" value="allowed"  <?php checked( $this->allow_custom_visibility, 'allowed'  ); ?>> <?php _e( "Let members change this field's visibility", 'buddypress' ); ?></label></li>
+									<li><label><input type="radio" name="allow-custom-visibility" value="disabled" <?php checked( $this->allow_custom_visibility, 'disabled' ); ?>> <?php _e( 'Enforce the default visibility for all members', 'buddypress' ); ?></label></li>
 								</ul>
 							</div>
 						</div>
