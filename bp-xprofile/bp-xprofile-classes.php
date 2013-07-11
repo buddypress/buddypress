@@ -352,11 +352,11 @@ class BP_XProfile_Group {
 
 		if ( empty( $this->id ) ) {
 			$title	= __( 'Add New Field Group', 'buddypress' );
-			$action	= "admin.php?page=bp-profile-setup&amp;mode=add_group";
+			$action	= "users.php?page=bp-profile-setup&amp;mode=add_group";
 			$button	= __( 'Create Field Group', 'buddypress' );
 		} else {
 			$title  = __( 'Edit Field Group', 'buddypress' );
-			$action = "admin.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=" . $this->id;
+			$action = "users.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=" . $this->id;
 			$button	= __( 'Save Changes', 'buddypress' );
 		} ?>
 
@@ -403,7 +403,7 @@ class BP_XProfile_Group {
 										<div id="submitcomment" class="submitbox">
 											<div id="major-publishing-actions">
 												<div id="delete-action">
-													<a href="admin.php?page=bp-profile-setup" class="submitdelete deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+													<a href="users.php?page=bp-profile-setup" class="submitdelete deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
 												</div>
 												<div id="publishing-action">
 													<input type="submit" name="save_group" value="<?php echo esc_attr( $button ); ?>" class="button-primary"/>
@@ -784,7 +784,7 @@ class BP_XProfile_Field {
 							<input type="text" name="<?php echo esc_attr( $type ); ?>_option[<?php echo esc_attr( $j ); ?>]" id="<?php echo esc_attr( $type ); ?>_option<?php echo esc_attr( $j ); ?>" value="<?php echo stripslashes( esc_attr( $options[$i]->name ) ); ?>" />
 							<input type="<?php echo $default_input; ?>" name="isDefault_<?php echo esc_attr( $type ); ?>_option<?php echo esc_attr( $default_name ); ?>" <?php checked( (int) $options[$i]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
 							<span><?php _e( 'Default Value', 'buddypress' ); ?></span>
-							<a href="<?php echo esc_url( 'admin.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=' . $options[$i]->id ); ?>" class="ajax-option-delete" id="delete-<?php echo esc_attr( $options[$i]->id ); ?>">[x]</a>
+							<a href="<?php echo esc_url( 'users.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=' . $options[$i]->id ); ?>" class="ajax-option-delete" id="delete-<?php echo esc_attr( $options[$i]->id ); ?>">[x]</a>
 						</p>
 
 					<?php } /* end for */ ?>
@@ -816,7 +816,7 @@ class BP_XProfile_Field {
 	function render_admin_form( $message = '' ) {
 		if ( empty( $this->id ) ) {
 			$title  = __( 'Add Field', 'buddypress' );
-			$action	= "admin.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field#tabs-" . $this->group_id;
+			$action	= "users.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field#tabs-" . $this->group_id;
 
 			if ( !empty( $_POST['saveField'] ) ) {
 				$this->name        = $_POST['title'];
@@ -828,7 +828,7 @@ class BP_XProfile_Field {
 			}
 		} else {
 			$title  = __( 'Edit Field', 'buddypress' );
-			$action = "admin.php?page=bp-profile-setup&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id . "#tabs-" . $this->group_id;
+			$action = "users.php?page=bp-profile-setup&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id . "#tabs-" . $this->group_id;
 		} ?>
 
 		<div class="wrap">
@@ -925,7 +925,7 @@ class BP_XProfile_Field {
 					<p class="submit">
 						<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
 						<input type="submit" value="<?php _e( 'Save', 'buddypress' ); ?>" name="saveField" id="saveField" style="font-weight: bold" class="button-primary" />
-						<?php _e( 'or', 'buddypress' ); ?> <a href="admin.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+						<?php _e( 'or', 'buddypress' ); ?> <a href="users.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
 					</p>
 
 				</div>
