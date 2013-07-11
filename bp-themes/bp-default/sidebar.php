@@ -49,8 +49,10 @@
 
 			<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="sidebar-rememberme" value="forever" tabindex="99" /> <?php _e( 'Remember Me', 'buddypress' ); ?></label></p>
 
-			<?php do_action( 'bp_sidebar_login_form' ); ?>
 			<input type="submit" name="wp-submit" id="sidebar-wp-submit" value="<?php _e( 'Log In', 'buddypress' ); ?>" tabindex="100" />
+
+			<?php do_action( 'bp_sidebar_login_form' ); ?>
+
 			<input type="hidden" name="testcookie" value="1" />
 		</form>
 

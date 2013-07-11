@@ -719,7 +719,7 @@ function bp_dtheme_sidebar_login_redirect_to() {
 	$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
 	$redirect_to = apply_filters( 'bp_no_access_redirect', $redirect_to ); ?>
 
-	<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
+	<input type="hidden" name="redirect_to" value="<?php echo esc_url( $redirect_to ); ?>" />
 
 <?php
 }
