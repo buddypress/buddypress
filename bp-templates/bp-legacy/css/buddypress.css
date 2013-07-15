@@ -514,15 +514,15 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	padding: 10px 15px;
 }
 #buddypress div#message.error p {
-	background-color: #ffa;
-	border: 1px solid #960;
+	background-color: #fdc;
+	border: 1px solid #a00;
 	clear: left;
-	color: #960;
+	color: #800;
 }
 #buddypress div#message.updated p {
 	background-color: #efc;
 	border: 1px solid #591;
-	color: #591;
+	color: #250;
 }
 #buddypress .standard-form#signup_form div div.error {
 	background: #faa;
@@ -1034,7 +1034,10 @@ a.bp-title-button {
 	font-weight: normal;
 	margin-top: 3px;
 	text-decoration: none;
-	background: #ffff00;
+	background-color: #ffd;
+	border: 1px solid #cb2;
+	color: #440;
+	
 }
 #buddypress div#item-header {
 	overflow: hidden;
