@@ -61,6 +61,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @group group_meta_query
 	 */
 	public function test_get_with_meta_query() {
 		$g1 = $this->factory->group->create();
@@ -81,6 +82,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @group group_meta_query
 	 */
 	public function test_get_empty_meta_query() {
 		$g1 = $this->factory->group->create();
@@ -252,6 +254,46 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$groups = BP_Groups_Group::get( array( 'type' => 'popular' ) );
 		$found = wp_parse_id_list( wp_list_pluck( $groups['groups'], 'id' ) );
 		$this->assertEquals( array( $g2, $g4, $g3, $g1 ), $found );
+	}
+
+	/**
+	 * @group get
+	 * @group group_meta_query
+	 * @ticket BP5099
+	 */
+	public function test_meta_query_and_total_groups() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'A Group',
+			'date_created' => bp_core_current_time(),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'D Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'name' => 'B Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100000 ),
+		) );
+		$g4 = $this->factory->group->create( array(
+			'name' => 'C Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
+		) );
+
+		// mark one group with the metakey 'supergroup'
+		groups_update_groupmeta( $g1, 'supergroup', 1 );
+
+		// fetch groups with our 'supergroup' metakey
+		$groups = BP_Groups_Group::get( array(
+			'meta_query' => array(
+				array(
+					'key'     => 'supergroup',
+					'compare' => 'EXISTS',
+				)
+			)
+		) );
+
+		// group total should match 1
+		$this->assertEquals( '1', $groups['total'] );
 	}
 
 	/** convert_type_to_order_orderby() **********************************/
