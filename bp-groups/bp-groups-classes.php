@@ -465,6 +465,18 @@ class BP_Groups_Group {
 			$total_sql['where'][] = $wpdb->prepare( "m.group_id = g.id AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $r['user_id'] );
 		}
 
+		// Temporary implementation of meta_query for total count
+		// See #5099
+		if ( ! empty( $meta_query_sql['where'] ) ) {
+			// Join the groupmeta table
+			$total_sql['select'] .= ", {$bp->groups->table_name_groupmeta} gmmq";
+
+			// Modify the meta_query clause from paged_sql for our syntax
+			$meta_query_clause = preg_replace( '/^\s*AND/', '', $meta_query_sql['where'] );
+			$meta_query_clause = str_replace( $bp->groups->table_name_groupmeta, 'gmmq', $meta_query_clause );
+			$total_sql['where'][] = $meta_query_clause;
+		}
+
 		// Already escaped in the paginated results block
 		if ( ! empty( $include ) ) {
 			$total_sql['where'][] = "g.id IN ({$include})";
