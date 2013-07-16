@@ -1823,7 +1823,7 @@ class BP_Group_Extension {
 	/**
 	 * @var bool Whether to show the nav item
 	 */
-	public $enable_nav_item = false;
+	public $enable_nav_item = true;
 
 	/**
 	 * @var string The text of the nav item. Defaults to self::name
