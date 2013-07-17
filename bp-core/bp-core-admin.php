@@ -580,6 +580,7 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/modemlooper">modemlooper</a>,
 				<a href="http://profiles.wordpress.org/mort3n">mort3n</a>,
 				<a href="http://profiles.wordpress.org/mukkundthanki">mukkundthanki</a>,
+				<a href="http://profiles.wordpress.org/nacin">nacin</a>,
 				<a href="http://profiles.wordpress.org/needle">needle</a>,
 				<a href="http://profiles.wordpress.org/r-a-y">r-a-y</a>,
 				<a href="http://profiles.wordpress.org/saurabhshukla">saurabhshukla</a>,
