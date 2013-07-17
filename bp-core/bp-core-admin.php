@@ -591,7 +591,6 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/splatte">splatte</a>,
 				<a href="http://profiles.wordpress.org/thebrandonallen">thebrandonallen</a>,
 				<a href="http://profiles.wordpress.org/themightymo">themightymo</a>,
-				<a href="http://profiles.wordpress.org/themightymo">themightymo</a>,
 				<a href="http://profiles.wordpress.org/tivnet">tivnet</a>,
 				<a href="http://profiles.wordpress.org/trishasalas">trishasalas</a>,
 				<a href="http://profiles.wordpress.org/vegasgeek">vegasgeek</a>,
