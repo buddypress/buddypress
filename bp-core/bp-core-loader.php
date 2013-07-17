@@ -110,7 +110,7 @@ class BP_Core extends BP_Component {
 		$bp->required_components[] = 'core';
 	}
 
-	function includes() {
+	public function includes( $includes = array() ) {
 
 		if ( !is_admin() )
 			return;
@@ -130,7 +130,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @global BuddyPress $bp
 	 */
-	function setup_globals() {
+	public function setup_globals( $args = array() ) {
 		global $bp;
 
 		/** Database **********************************************************/
@@ -194,7 +194,7 @@ class BP_Core extends BP_Component {
 	 *
 	 * @global BuddyPress $bp
 	 */
-	function setup_nav() {
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 		global $bp;
 
 		 // If xprofile component is disabled, revert to WordPress profile

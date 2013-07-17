@@ -29,7 +29,7 @@ class BP_Friends_Component extends BP_Component {
 	/**
 	 * Include files
 	 */
-	function includes() {
+	public function includes( $includes = array() ) {
 		// Files to include
 		$includes = array(
 			'actions',
@@ -54,7 +54,7 @@ class BP_Friends_Component extends BP_Component {
 	 * @since BuddyPress (1.5)
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	function setup_globals() {
+	public function setup_globals( $args = array() ) {
 		global $bp;
 
 		define ( 'BP_FRIENDS_DB_VERSION', '1800' );
@@ -87,7 +87,7 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	function setup_nav() {
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 		global $bp;
 
 		$sub_nav = array();
@@ -142,7 +142,7 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	function setup_admin_bar() {
+	public function setup_admin_bar( $wp_admin_nav = array() ) {
 		global $bp;
 
 		// Prevent debug notices

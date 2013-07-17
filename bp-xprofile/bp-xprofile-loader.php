@@ -46,7 +46,7 @@ class BP_XProfile_Component extends BP_Component {
 	/**
 	 * Include files
 	 */
-	function includes() {
+	public function includes( $includes = array() ) {
 		$includes = array(
 			'cssjs',
 			'cache',
@@ -76,7 +76,7 @@ class BP_XProfile_Component extends BP_Component {
 	 * @since BuddyPress (1.5)
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	function setup_globals() {
+	public function setup_globals( $args = array() ) {
 		global $bp;
 
 		// Define a slug, if necessary
@@ -145,7 +145,7 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	function setup_nav() {
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
 		$sub_nav = array();
 
@@ -210,7 +210,7 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	function setup_admin_bar() {
+	public function setup_admin_bar( $wp_admin_nav = array() ) {
 		global $bp;
 
 		// Prevent debug notices
