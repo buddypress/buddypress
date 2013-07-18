@@ -748,66 +748,69 @@ class BP_XProfile_Field {
 
 			?>
 
-			<div id="<?php echo esc_attr( $type ); ?>" class="options-box" style="<?php echo esc_attr( $class ); ?> margin-left: 15px;">
-				<h4><?php _e( 'Please enter options for this Field:', 'buddypress' ); ?></h4>
-				<p>
-					<label for="sort_order_<?php echo esc_attr( $type ); ?>"><?php _e( 'Sort Order:', 'buddypress' ); ?></label>
-					<select name="sort_order_<?php echo esc_attr( $type ); ?>" id="sort_order_<?php echo esc_attr( $type ); ?>" >
-						<option value="custom" <?php selected( 'custom', $this->order_by ); ?>><?php _e( 'Custom',     'buddypress' ); ?></option>
-						<option value="asc"    <?php selected( 'asc',    $this->order_by ); ?>><?php _e( 'Ascending',  'buddypress' ); ?></option>
-						<option value="desc"   <?php selected( 'desc',   $this->order_by ); ?>><?php _e( 'Descending', 'buddypress' ); ?></option>
-					</select>
+			<div id="<?php echo esc_attr( $type ); ?>" class="postbox bp-options-box" style="<?php echo esc_attr( $class ); ?> margin-top: 15px;">
+				<h3><?php _e( 'Please enter options for this Field:', 'buddypress' ); ?></h3>
+				<div class="inside">
+					<p>
+						<label for="sort_order_<?php echo esc_attr( $type ); ?>"><?php _e( 'Sort Order:', 'buddypress' ); ?></label>
+						<select name="sort_order_<?php echo esc_attr( $type ); ?>" id="sort_order_<?php echo esc_attr( $type ); ?>" >
+							<option value="custom" <?php selected( 'custom', $this->order_by ); ?>><?php _e( 'Custom',     'buddypress' ); ?></option>
+							<option value="asc"    <?php selected( 'asc',    $this->order_by ); ?>><?php _e( 'Ascending',  'buddypress' ); ?></option>
+							<option value="desc"   <?php selected( 'desc',   $this->order_by ); ?>><?php _e( 'Descending', 'buddypress' ); ?></option>
+						</select>
+					</p>
 
-				<?php if ( !$options = $this->get_children( true ) ) {
+					<?php if ( !$options = $this->get_children( true ) ) {
 
-					$i = 1;
-					while ( isset( $_POST[$type . '_option'][$i] ) ) {
-						(array) $options[] = (object) array(
-							'id'                => -1,
-							'name'              => $_POST[$type . '_option'][$i],
-							'is_default_option' => ( ( 'multiselectbox' != $type ) && ( 'checkbox' != $type ) && ( $_POST["isDefault_{$type}_option"] == $i ) ) ? 1 : $_POST["isDefault_{$type}_option"][$i]
-						);
+						$i = 1;
+						while ( isset( $_POST[$type . '_option'][$i] ) ) {
+							(array) $options[] = (object) array(
+								'id'                => -1,
+								'name'              => $_POST[$type . '_option'][$i],
+								'is_default_option' => ( ( 'multiselectbox' != $type ) && ( 'checkbox' != $type ) && ( $_POST["isDefault_{$type}_option"] == $i ) ) ? 1 : $_POST["isDefault_{$type}_option"][$i]
+							);
 
-						++$i;
+							++$i;
+						}
 					}
-				}
 
-				if ( !empty( $options ) ) {
-					for ( $i = 0, $count = count( $options ); $i < $count; ++$i ) {
-						$j = $i + 1;
+					if ( !empty( $options ) ) {
+						for ( $i = 0, $count = count( $options ); $i < $count; ++$i ) {
+							$j = $i + 1;
+
+							if ( 'multiselectbox' == $type || 'checkbox' == $type )
+								$default_name = '[' . $j . ']'; ?>
+
+							<p class="sortable">
+								<span>&nbsp;&Xi;&nbsp;</span>
+								<input type="text" name="<?php echo esc_attr( $type ); ?>_option[<?php echo esc_attr( $j ); ?>]" id="<?php echo esc_attr( $type ); ?>_option<?php echo esc_attr( $j ); ?>" value="<?php echo stripslashes( esc_attr( $options[$i]->name ) ); ?>" />
+								<input type="<?php echo $default_input; ?>" name="isDefault_<?php echo esc_attr( $type ); ?>_option<?php echo esc_attr( $default_name ); ?>" <?php checked( (int) $options[$i]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
+								<span><?php _e( 'Default Value', 'buddypress' ); ?></span>
+								<a href="<?php echo esc_url( 'users.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=' . $options[$i]->id ); ?>" class="ajax-option-delete" id="delete-<?php echo esc_attr( $options[$i]->id ); ?>">[x]</a>
+							</p>
+
+						<?php } /* end for */ ?>
+
+						<input type="hidden" name="<?php echo esc_attr( $type ); ?>_option_number" id="<?php echo esc_attr( $type ); ?>_option_number" value="<?php echo esc_attr( (int) $j + 1 ); ?>" />
+
+					<?php } else {
 
 						if ( 'multiselectbox' == $type || 'checkbox' == $type )
-							$default_name = '[' . $j . ']'; ?>
+							$default_name = '[1]'; ?>
 
 						<p class="sortable">
 							<span>&nbsp;&Xi;&nbsp;</span>
-							<input type="text" name="<?php echo esc_attr( $type ); ?>_option[<?php echo esc_attr( $j ); ?>]" id="<?php echo esc_attr( $type ); ?>_option<?php echo esc_attr( $j ); ?>" value="<?php echo stripslashes( esc_attr( $options[$i]->name ) ); ?>" />
-							<input type="<?php echo $default_input; ?>" name="isDefault_<?php echo esc_attr( $type ); ?>_option<?php echo esc_attr( $default_name ); ?>" <?php checked( (int) $options[$i]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
+							<input type="text" name="<?php echo esc_attr( $type ); ?>_option[1]" id="<?php echo esc_attr( $type ); ?>_option1" />
+							<input type="<?php echo esc_attr( $default_input ); ?>" name="isDefault_<?php echo esc_attr( $type ); ?>_option<?php echo esc_attr( $default_name ); ?>" id="isDefault_<?php echo esc_attr( $type ); ?>_option" value="1" />
 							<span><?php _e( 'Default Value', 'buddypress' ); ?></span>
-							<a href="<?php echo esc_url( 'users.php?page=bp-profile-setup&amp;mode=delete_option&amp;option_id=' . $options[$i]->id ); ?>" class="ajax-option-delete" id="delete-<?php echo esc_attr( $options[$i]->id ); ?>">[x]</a>
+							<input type="hidden" name="<?php echo esc_attr( $type ); ?>_option_number" id="<?php echo esc_attr( $type ); ?>_option_number" value="2" />
 						</p>
 
-					<?php } /* end for */ ?>
+					<?php } /* end if */ ?>
 
-					<input type="hidden" name="<?php echo esc_attr( $type ); ?>_option_number" id="<?php echo esc_attr( $type ); ?>_option_number" value="<?php echo esc_attr( (int) $j + 1 ); ?>" />
-
-				<?php } else {
-
-					if ( 'multiselectbox' == $type || 'checkbox' == $type )
-						$default_name = '[1]'; ?>
-
-					<p class="sortable">
-						<span>&nbsp;&Xi;&nbsp;</span>
-						<input type="text" name="<?php echo esc_attr( $type ); ?>_option[1]" id="<?php echo esc_attr( $type ); ?>_option1" />
-						<input type="<?php echo esc_attr( $default_input ); ?>" name="isDefault_<?php echo esc_attr( $type ); ?>_option<?php echo esc_attr( $default_name ); ?>" id="isDefault_<?php echo esc_attr( $type ); ?>_option" value="1" />
-						<span><?php _e( 'Default Value', 'buddypress' ); ?></span>
-						<input type="hidden" name="<?php echo esc_attr( $type ); ?>_option_number" id="<?php echo esc_attr( $type ); ?>_option_number" value="2" />
-					</p>
-
-				<?php } /* end if */ ?>
-
-				<div id="<?php echo esc_attr( $type ); ?>_more"></div>
-				<p><a href="javascript:add_option('<?php echo esc_attr( $type ); ?>')"><?php _e( 'Add Another Option', 'buddypress' ); ?></a></p>
+					<div id="<?php echo esc_attr( $type ); ?>_more"></div>
+					<p><a href="javascript:add_option('<?php echo esc_attr( $type ); ?>')"><?php _e( 'Add Another Option', 'buddypress' ); ?></a></p>
+				</div>
 			</div>
 
 		<?php }
@@ -834,7 +837,6 @@ class BP_XProfile_Field {
 		<div class="wrap">
 			<div id="icon-users" class="icon32"><br /></div>
 			<h2><?php echo esc_html( $title ); ?></h2>
-			<p><?php _e( 'Fields marked * are required', 'buddypress' ) ?></p>
 
 			<?php if ( !empty( $message ) ) : ?>
 
@@ -846,91 +848,127 @@ class BP_XProfile_Field {
 
 			<form id="bp-xprofile-add-field" action="<?php echo esc_url( $action ); ?>" method="post">
 				<div id="poststuff">
-					<div id="titlediv">
-						<h3><label for="title"><?php _e( 'Field Title', 'buddypress' ); ?> *</label></h3>
-						<div id="titlewrap">
-							<input type="text" name="title" id="title" value="<?php echo esc_attr( $this->name ); ?>" style="width:50%" />
-						</div>
-					</div>
+					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 == get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
+						<div id="post-body-content">
+							<div id="titlediv">
+								<input type="text" name="title" id="title" value="<?php echo esc_attr( $this->name ); ?>" />
+							</div>
+							<div class="postbox">
+								<h3><?php _e( 'Field Description', 'buddypress' ); ?></h3>
+								<div class="inside">
+									<textarea name="description" id="description" rows="8" cols="60"><?php echo esc_attr( $this->description ); ?></textarea>
+								</div>
+							</div>
+						</div><!-- #post-body-content -->
 
-					<div id="titlediv">
-						<h3><label for="description"><?php _e("Field Description", 'buddypress'); ?></label></h3>
-						<div id="titlewrap">
-							<textarea name="description" id="description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
-						</div>
-					</div>
-
-					<?php if ( '0' != $this->can_delete ) : ?>
-
-						<div id="titlediv">
-							<h3><label for="required"><?php _e( "Is This Field Required?", 'buddypress' ); ?> *</label></h3>
-							<select name="required" id="required" style="width: 30%">
-								<option value="0"<?php selected( $this->is_required, '0' ); ?>><?php _e( 'Not Required', 'buddypress' ); ?></option>
-								<option value="1"<?php selected( $this->is_required, '1' ); ?>><?php _e( 'Required',     'buddypress' ); ?></option>
-							</select>
-						</div>
-
-						<div id="titlediv">
-							<h3><label for="fieldtype"><?php _e( 'Field Type', 'buddypress'); ?> *</label></h3>
-							<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)" style="width: 30%">
-								<option value="textbox"        <?php selected( $this->type, 'textbox'        ); ?>><?php _e( 'Text Box',             'buddypress' ); ?></option>
-								<option value="textarea"       <?php selected( $this->type, 'textarea'       ); ?>><?php _e( 'Multi-line Text Box',  'buddypress' ); ?></option>
-								<option value="datebox"        <?php selected( $this->type, 'datebox'        ); ?>><?php _e( 'Date Selector',        'buddypress' ); ?></option>
-								<option value="radio"          <?php selected( $this->type, 'radio'          ); ?>><?php _e( 'Radio Buttons',        'buddypress' ); ?></option>
-								<option value="selectbox"      <?php selected( $this->type, 'selectbox'      ); ?>><?php _e( 'Drop Down Select Box', 'buddypress' ); ?></option>
-								<option value="multiselectbox" <?php selected( $this->type, 'multiselectbox' ); ?>><?php _e( 'Multi Select Box',     'buddypress' ); ?></option>
-								<option value="checkbox"       <?php selected( $this->type, 'checkbox'       ); ?>><?php _e( 'Checkboxes',           'buddypress' ); ?></option>
-							</select>
-						</div>
-
-						<?php do_action_ref_array( 'xprofile_field_additional_options', array( $this ) ); ?>
-
-						<?php $this->render_admin_form_children(); ?>
-
-					<?php else : ?>
-
-						<input type="hidden" name="required"  id="required"  value="1"       />
-						<input type="hidden" name="fieldtype" id="fieldtype" value="textbox" />
-
-					<?php endif;
-
-					/* The fullname field cannot be hidden */
-					if ( 1 != $this->id ) : ?>
-
-						<div id="titlediv">
-							<div id="titlewrap">
-								<h3><label for="default-visibility"><?php _e( 'Default Visibility', 'buddypress' ); ?></label></h3>
-								<ul>
-
-									<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
-
-										<li><label><input type="radio" name="default-visibility" value="<?php echo esc_attr( $level['id'] ) ?>" <?php checked( $this->default_visibility, $level['id'] ); ?>> <?php echo esc_html( $level['label'] ) ?></label></li>
-
-									<?php endforeach ?>
-
-								</ul>
+						<div id="postbox-container-1" class="postbox-container">
+							<div id="submitdiv" class="postbox">
+								<h3><?php _e( 'Submit', 'buddypress' ); ?></h3>
+								<div class="inside">
+									<div id="submitcomment" class="submitbox">
+										<div id="major-publishing-actions">
+											<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
+											<div id="publishing-action">
+												<input type="submit" value="<?php _e( 'Save', 'buddypress' ); ?>" name="saveField" id="saveField" style="font-weight: bold" class="button-primary" />
+											</div>
+											<div id="delete-action">
+												<a href="users.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+											</div>
+											<?php wp_nonce_field( 'xprofile_delete_option' ); ?>
+											<div class="clear"></div>
+										</div>
+									</div>
+								</div>
 							</div>
 
-							<div id="titlewrap">
-								<h3><label for="allow-custom-visibility"><?php _e( 'Per-Member Visibility', 'buddypress' ); ?></label></h3>
-								<ul>
-									<li><label><input type="radio" name="allow-custom-visibility" value="allowed"  <?php checked( $this->allow_custom_visibility, 'allowed'  ); ?>> <?php _e( "Let members change this field's visibility", 'buddypress' ); ?></label></li>
-									<li><label><input type="radio" name="allow-custom-visibility" value="disabled" <?php checked( $this->allow_custom_visibility, 'disabled' ); ?>> <?php _e( 'Enforce the default visibility for all members', 'buddypress' ); ?></label></li>
-								</ul>
-							</div>
+							<?php if ( 1 != $this->id ) : ?>
+
+								<div class="postbox">
+									<h3><label for="default-visibility"><?php _e( 'Default Visibility', 'buddypress' ); ?></label></h3>
+									<div class="inside">
+										<ul>
+
+											<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
+
+												<li>
+													<input type="radio" id="default-visibility[<?php echo esc_attr( $level['id'] ) ?>]" name="default-visibility" value="<?php echo esc_attr( $level['id'] ) ?>" <?php checked( $this->default_visibility, $level['id'] ); ?> />
+													<label for="default-visibility[<?php echo esc_attr( $level['id'] ) ?>]"><?php echo esc_html( $level['label'] ) ?></label>
+												</li>
+
+											<?php endforeach ?>
+
+										</ul>
+									</div>
+								</div>
+
+								<div class="postbox">
+									<h3><label for="allow-custom-visibility"><?php _e( 'Per-Member Visibility', 'buddypress' ); ?></label></h3>
+									<div class="inside">
+										<ul>
+											<li>
+												<input type="radio" id="allow-custom-visibility-allowed" name="allow-custom-visibility" value="allowed" <?php checked( $this->allow_custom_visibility, 'allowed' ); ?> />
+												<label for="allow-custom-visibility-allowed"><?php _e( "Let members change this field's visibility", 'buddypress' ); ?></label>
+											</li>
+											<li>
+												<input type="radio" id="allow-custom-visibility-disabled" name="allow-custom-visibility" value="disabled" <?php checked( $this->allow_custom_visibility, 'disabled' ); ?> />
+												<label for="allow-custom-visibility-disabled"><?php _e( 'Enforce the default visibility for all members', 'buddypress' ); ?></label>
+											</li>
+										</ul>
+									</div>
+								</div>
+
+							<?php endif ?>
 						</div>
 
-					<?php endif ?>
+						<div id="postbox-container-2" class="postbox-container">
 
-					<p class="submit">
-						<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
-						<input type="submit" value="<?php _e( 'Save', 'buddypress' ); ?>" name="saveField" id="saveField" style="font-weight: bold" class="button-primary" />
-						<?php _e( 'or', 'buddypress' ); ?> <a href="users.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
-					</p>
+							<?php if ( '0' != $this->can_delete ) : ?>
 
-				</div>
+								<div class="postbox">
+									<h3><label for="required"><?php _e( "Field Requirement", 'buddypress' ); ?></label></h3>
+									<div class="inside">
+										<select name="required" id="required" style="width: 30%">
+											<option value="0"<?php selected( $this->is_required, '0' ); ?>><?php _e( 'Not Required', 'buddypress' ); ?></option>
+											<option value="1"<?php selected( $this->is_required, '1' ); ?>><?php _e( 'Required',     'buddypress' ); ?></option>
+										</select>
+									</div>
+								</div>
 
-				<?php wp_nonce_field( 'xprofile_delete_option' ); ?>
+								<div class="postbox">
+									<h3><label for="fieldtype"><?php _e( 'Field Type', 'buddypress'); ?></label></h3>
+									<div class="inside">
+										<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)" style="width: 30%">
+											<optgroup label="<?php _e( 'Single Fields', 'buddypress' ); ?>">
+												<option value="textbox"        <?php selected( $this->type, 'textbox'        ); ?>><?php _e( 'Text Box',             'buddypress' ); ?></option>
+												<option value="textarea"       <?php selected( $this->type, 'textarea'       ); ?>><?php _e( 'Multi-line Text Area', 'buddypress' ); ?></option>
+												<option value="datebox"        <?php selected( $this->type, 'datebox'        ); ?>><?php _e( 'Date Selector',        'buddypress' ); ?></option>
+											</optgroup>
+											<optgroup label="<?php _e( 'Multi Fields', 'buddypress' ); ?>">
+												<option value="radio"          <?php selected( $this->type, 'radio'          ); ?>><?php _e( 'Radio Buttons',        'buddypress' ); ?></option>
+												<option value="selectbox"      <?php selected( $this->type, 'selectbox'      ); ?>><?php _e( 'Drop Down Select Box', 'buddypress' ); ?></option>
+												<option value="multiselectbox" <?php selected( $this->type, 'multiselectbox' ); ?>><?php _e( 'Multi Select Box',     'buddypress' ); ?></option>
+												<option value="checkbox"       <?php selected( $this->type, 'checkbox'       ); ?>><?php _e( 'Checkboxes',           'buddypress' ); ?></option>
+											</optgroup>
+										</select>
+
+										<?php do_action_ref_array( 'xprofile_field_additional_options', array( $this ) ); ?>
+
+										<?php $this->render_admin_form_children(); ?>
+
+									</div>
+								</div>
+
+							<?php else : ?>
+
+								<input type="hidden" name="required"  id="required"  value="1"       />
+								<input type="hidden" name="fieldtype" id="fieldtype" value="textbox" />
+
+							<?php endif; ?>
+
+						</div>
+					</div><!-- #post-body -->
+
+				</div><!-- #poststuff -->
 
 			</form>
 		</div>

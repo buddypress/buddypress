@@ -3,10 +3,10 @@ function add_option(forWhat) {
 	var theId     = document.getElementById(forWhat + '_option_number').value;
 	var newDiv    = document.createElement('p');
 	var newOption = document.createElement('input');
-	var span     = document.createElement( 'span' );
+	var span      = document.createElement( 'span' );
 	var txt       = document.createTextNode( "\u00A0\u039E\u00A0" );
 	var isDefault = document.createElement( 'input' );
-	var span1    = document.createElement( 'span' );
+	var span1     = document.createElement( 'span' );
 	var txt1      = document.createTextNode( " Default Value " );
 
 	newDiv.setAttribute('id', forWhat + '_div' + theId);
@@ -91,7 +91,7 @@ var fixHelper = function(e, ui) {
 
 function enableSortableFieldOptions( forWhat ) {
 	if ( jQuery( '#' + forWhat + ' p.sortable' ).length > 1 ) {
-		jQuery( '.options-box' ).sortable( {
+		jQuery( '.bp-options-box' ).sortable( {
 			items: 'p.sortable',
 			tolerance: 'pointer',
 			axis: 'y',
@@ -103,7 +103,7 @@ function enableSortableFieldOptions( forWhat ) {
 }
 
 function destroySortableFieldOptions() {
-	jQuery( '.options-box' ).sortable( 'destroy' );
+	jQuery( '.bp-options-box' ).sortable( 'destroy' );
 	jQuery( '.sortable span' ).css( 'cursor', 'default' );
 }
 

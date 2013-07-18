@@ -241,8 +241,9 @@ th a {
 	top: -2px;
 }
 
-textarea#description {
+textarea#description,
+textarea#group_description {
 	border: 1px solid #ddd;
-	width: 85%;
+	width: 100%;
 }
 
