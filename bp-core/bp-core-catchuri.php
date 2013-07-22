@@ -364,7 +364,7 @@ function bp_core_load_template( $templates ) {
 
 	// Make the queried/post object an actual valid page
 	if ( !empty( $object_id ) ) {
-		$wp_query->queried_object    = &get_post( $object_id );
+		$wp_query->queried_object    = get_post( $object_id );
 		$wp_query->queried_object_id = $object_id;
 		$post                        = $wp_query->queried_object;
 	}
@@ -654,7 +654,8 @@ function bp_get_canonical_url( $args = array() ) {
 	$canonical_url = $bp->canonical_stack['canonical_url'];
 
 	if ( !$include_query_args ) {
-		$canonical_url = array_pop( array_reverse( explode( '?', $canonical_url ) ) );
+		$canonical_url = array_reverse( explode( '?', $canonical_url ) );
+		$canonical_url = array_pop( $canonical_url );
 	}
 
 	return apply_filters( 'bp_get_canonical_url', $canonical_url, $args );

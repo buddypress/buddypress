@@ -599,7 +599,7 @@ if ( defined( 'BUDDYPRESS_LATE_LOAD' ) ) {
 
 // "And now here's something we hope you'll really like!"
 } else {
-	$GLOBALS['bp'] = &buddypress();
+	$GLOBALS['bp'] = buddypress();
 }
 
 endif;
