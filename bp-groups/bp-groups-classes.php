@@ -992,7 +992,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * @param array
 	 * @return array
 	 */
-	public function get_include_ids( $include ) {
+	public function get_include_ids( $include = array() ) {
 		// The following args are specific to group member queries, and
 		// are not present in the query_vars of a normal BP_User_Query.
 		// We loop through to make sure that defaults are set (though

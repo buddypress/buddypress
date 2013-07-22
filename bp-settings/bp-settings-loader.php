@@ -30,7 +30,7 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	public function includes() {
+	public function includes( $includes = array() ) {
 		parent::includes( array(
 			'actions',
 			'screens',
@@ -47,7 +47,7 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @since BuddyPress (1.5)
 	 */
-	public function setup_globals() {
+	public function setup_globals( $args = array() ) {
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_SETTINGS_SLUG' ) )
@@ -63,7 +63,7 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Setup BuddyBar navigation
 	 */
-	public function setup_nav() {
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
 		// Define local variable
 		$sub_nav = array();
@@ -143,7 +143,7 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Set up the Toolbar
 	 */
-	public function setup_admin_bar() {
+	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
 		// The instance
 		$bp = buddypress();
