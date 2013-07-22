@@ -19,10 +19,6 @@ add_action( 'bp_register_widgets', 'groups_register_widgets' );
 /*** GROUPS WIDGET *****************/
 
 class BP_Groups_Widget extends WP_Widget {
-	function bp_groups_widget() {
-		$this->_construct();
-	}
-
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'A dynamic list of recently active, popular, and newest groups', 'buddypress' ),
@@ -34,6 +30,15 @@ class BP_Groups_Widget extends WP_Widget {
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 			wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . "bp-groups/js/widget-groups{$min}.js", array( 'jquery' ), bp_get_version() );
 		}
+	}
+
+	/**
+	 * PHP4 constructor
+	 *
+	 * For backward compatibility only
+	 */
+	function bp_groups_widget() {
+		$this->_construct();
 	}
 
 	function widget( $args, $instance ) {
