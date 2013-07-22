@@ -383,7 +383,7 @@ function bp_core_load_template( $templates ) {
 		status_header( 200 );
 		$wp_query->is_page     = true;
 		$wp_query->is_singular = true;
-		$wp_query->is_404      = false;			
+		$wp_query->is_404      = false;
 
 		do_action( 'bp_core_pre_load_template', $located_template );
 
@@ -404,7 +404,7 @@ function bp_core_load_template( $templates ) {
 			status_header( 200 );
 			$wp_query->is_page     = true;
 			$wp_query->is_singular = true;
-			$wp_query->is_404      = false;			
+			$wp_query->is_404      = false;
 		}
 
 		do_action( 'bp_setup_theme_compat' );
