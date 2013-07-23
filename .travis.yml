@@ -39,11 +39,7 @@ before_script:
 script: phpunit
 
 notifications:
-    email:
-        recipients:
-          - paul@buddypress.org
-        on_success: change
-        on_failure: always
+    email: false
 
     irc:
         channels:
