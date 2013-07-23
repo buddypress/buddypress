@@ -966,6 +966,14 @@ class BP_Groups_Group {
  */
 class BP_Group_Member_Query extends BP_User_Query {
 	/**
+	 * Array of group member ids, cached to prevent redundant lookups
+	 *
+	 * @var null|array Null if not yet defined, otherwise an array of ints
+	 * @since BuddyPress (1.8.1)
+	 */
+	protected $group_member_ids;
+
+	/**
 	 * Set up action hooks
 	 *
 	 * @since BuddyPress (1.8)
@@ -977,6 +985,9 @@ class BP_Group_Member_Query extends BP_User_Query {
 		if ( empty( $this->query_vars_raw['type'] ) ) {
 			$this->query_vars_raw['type'] = 'last_modified';
 		}
+
+		// Set the sort order
+		add_action( 'bp_pre_user_query', array( $this, 'set_orderby' ) );
 
 		// Set up our populate_extras method
 		add_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10, 2 );
@@ -1027,6 +1038,10 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 */
 	protected function get_group_member_ids() {
 		global $wpdb;
+
+		if ( is_array( $this->group_member_ids ) ) {
+			return $this->group_member_ids;
+		}
 
 		$bp  = buddypress();
 		$sql = array(
@@ -1106,10 +1121,34 @@ class BP_Group_Member_Query extends BP_User_Query {
 		$sql['order']   = "DESC";
 
 		/** LIMIT clause ******************************************************/
+		$this->group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']} {$sql['limit']}" );
 
-		$ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']} {$sql['limit']}" );
+		return $this->group_member_ids;
+	}
 
-		return $ids;
+	/**
+	 * Tell BP_User_Query to order by the order of our query results
+	 *
+	 * This implementation assumes the 'last_modified' sort order
+	 * hardcoded in BP_Group_Member_Query::get_group_member_ids().
+	 *
+	 * @param object $query BP_User_Query object
+	 */
+	public function set_orderby( $query ) {
+		$gm_ids = $this->get_group_member_ids();
+		if ( empty( $gm_ids ) ) {
+			$gm_ids = array( 0 );
+		}
+
+		// The first param in the FIELD() clause is the sort column id
+		$gm_ids = array_merge( array( 'u.id' ), wp_parse_id_list( $gm_ids ) );
+		$gm_ids_sql = implode( ',', $gm_ids );
+
+		$query->uid_clauses['orderby'] = "ORDER BY FIELD(" . $gm_ids_sql . ")";
+
+		// Prevent this filter from running on future BP_User_Query
+		// instances on the same page
+		remove_action( 'bp_pre_user_query', array( $this, 'set_orderby' ) );
 	}
 
 	/**

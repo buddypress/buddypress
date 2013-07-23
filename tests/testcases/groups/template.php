@@ -351,4 +351,44 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$this->assertEquals( array( $u1, $u2, ), $ids );
 	}
 
+	/**
+	 * Default sort order should be the joined date
+	 *
+	 * @tickett BP5106
+	 * @group bp_group_has_members
+	 */
+	public function test_bp_group_has_members_default_order() {
+		$u1 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 600 ),
+		) );
+		$u3 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 6000 ),
+		) );
+
+
+		$g = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
+
+		$this->add_user_to_group( $u2, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*24 ),
+		) );
+
+		$this->add_user_to_group( $u3, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*12 ),
+		) );
+
+		global $members_template;
+		bp_group_has_members( array(
+			'group_id' => $g,
+			'exclude_banned' => 0,
+			'exclude_admins_mods' => false,
+		) );
+
+		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
+		$this->assertEquals( array( $u1, $u3, $u2, ), $ids );
+	}
 }
