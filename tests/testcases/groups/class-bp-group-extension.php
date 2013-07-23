@@ -4,6 +4,7 @@ include_once BP_TESTS_DIR . '/assets/group-extensions.php';
 
 /**
  * @group groups
+ * @group BP_Group_Extension
  */
 class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	public function setUp() {
