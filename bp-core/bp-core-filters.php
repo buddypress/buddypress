@@ -3,9 +3,6 @@
 /**
  * BuddyPress Filters
  *
- * @package BuddyPress
- * @subpackage Core
- *
  * This file contains the filters that are used through-out BuddyPress. They are
  * consolidated here to make searching for them easier, and to help developers
  * understand at a glance the order in which things occur.
@@ -18,6 +15,8 @@
  *  - Admin: More in {@link BP_Admin::setup_actions()} in
  *            bp-core/bp-core-admin.php
  *
+ * @package BuddyPress
+ * @subpackage Core
  * @see bp-core-actions.php
  */
 

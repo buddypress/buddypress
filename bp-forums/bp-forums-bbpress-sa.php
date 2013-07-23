@@ -1,4 +1,11 @@
 <?php
+/**
+ * BuddyPress bbPress 1.x integration
+ *
+ * @package BuddyPress
+ * @subpackage Forums
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 

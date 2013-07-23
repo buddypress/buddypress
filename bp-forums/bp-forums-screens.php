@@ -1,4 +1,11 @@
 <?php
+/**
+ * BuddyPress Forums Screen Functions
+ *
+ * @package BuddyPress
+ * @subpackage Forums
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 

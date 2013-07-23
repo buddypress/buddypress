@@ -1,4 +1,11 @@
 <?php
+/**
+ * Blogs component functions
+ *
+ * @package BuddyPress
+ * @subpackage BlogsFunctions
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 

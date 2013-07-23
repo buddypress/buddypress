@@ -1,4 +1,11 @@
 <?php
+/**
+ * BuddyPress Widgets
+ *
+ * @package BuddyPress
+ * @subpackage Core
+ */
+
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 

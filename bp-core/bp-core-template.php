@@ -1,4 +1,10 @@
 <?php
+/**
+ * Core component template tag functions
+ *
+ * @package BuddyPress
+ * @subpackage TemplateFunctions
+ */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;

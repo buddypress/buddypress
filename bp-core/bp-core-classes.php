@@ -1,4 +1,10 @@
 <?php
+/**
+ * Core component classes
+ *
+ * @package BuddyPress
+ * @subpackage Core
+ */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;

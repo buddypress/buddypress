@@ -1,4 +1,10 @@
 <?php
+/**
+ * BuddyPress Forums Functions
+ *
+ * @package BuddyPress
+ * @subpackage Forums
+ */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;

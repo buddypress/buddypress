@@ -1,4 +1,10 @@
 <?php
+/**
+ * BuddyPress DB schema
+ *
+ * @package BuddyPress
+ * @subpackage CoreAdministration
+ */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;

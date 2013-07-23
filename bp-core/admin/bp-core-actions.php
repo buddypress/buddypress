@@ -3,9 +3,6 @@
 /**
  * BuddyPress Admin Actions
  *
- * @package BuddyPress
- * @subpackage Admin
- *
  * This file contains the actions that are used through-out BuddyPress Admin. They
  * are consolidated here to make searching for them easier, and to help developers
  * understand at a glance the order in which things occur.
@@ -15,6 +12,8 @@
  *  - BuddyPress: In {@link BuddyPress::setup_actions()} in BuddyPress.php
  *  - Admin: More in {@link bp_Admin::setup_actions()} in admin.php
  *
+ * @package BuddyPress
+ * @subpackage Admin
  * @see bp-core-actions.php
  * @see bp-core-filters.php
  */
