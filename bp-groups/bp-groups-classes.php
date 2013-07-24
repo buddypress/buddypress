@@ -2248,7 +2248,7 @@ class BP_Group_Extension {
 
 		// The create screen requires an additional nonce field
 		// due to a quirk in the way the templates are built
-		wp_nonce_field( 'groups_create_save_' . bp_get_groups_current_create_step() );
+		wp_nonce_field( 'groups_create_save_' . bp_get_groups_current_create_step(), '_wpnonce', false );
 	}
 
 	/**
