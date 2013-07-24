@@ -226,7 +226,7 @@ class BP_Messages_Thread {
 		return bp_core_get_userlink( $sender_id, true );
 	}
 
-	function get_inbox_count( $user_id = 0 ) {
+	public static function get_inbox_count( $user_id = 0 ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -514,7 +514,7 @@ class BP_Messages_Notice {
 		return true;
 	}
 
-	// Static Functions
+	/** Static Methods ********************************************************/
 
 	/**
 	 * Pulls up a list of notices
@@ -524,7 +524,7 @@ class BP_Messages_Notice {
 	 * @param array $args See $defaults for explanation of accepted arguments
 	 * @return array $notices
 	 */
-	function get_notices( $args = array() ) {
+	public static function get_notices( $args = array() ) {
 		global $wpdb, $bp;
 
 		$defaults = array(
@@ -544,7 +544,7 @@ class BP_Messages_Notice {
 		return $notices;
 	}
 
-	function get_total_notice_count() {
+	public static function get_total_notice_count() {
 		global $wpdb, $bp;
 
 		$notice_count = $wpdb->get_var( "SELECT COUNT(id) FROM " . $bp->messages->table_name_notices );
@@ -552,7 +552,7 @@ class BP_Messages_Notice {
 		return $notice_count;
 	}
 
-	function get_active() {
+	public static function get_active() {
 		global $wpdb, $bp;
 
 		$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->messages->table_name_notices} WHERE is_active = 1" );
