@@ -330,10 +330,11 @@ class BP_Members_Theme_Compat {
 	 * @param string $templates The templates from bp_get_theme_compat_templates()
 	 * @return array $templates Array of custom templates to look for.
 	 */
-	public function directory_template_hierarchy( $templates ) {
+	public function directory_template_hierarchy( $templates = array() ) {
+
 		// Setup our templates based on priority
 		$new_templates = apply_filters( 'bp_template_hierarchy_members_directory', array(
-			'members/single/index-directory.php'
+			'members/index-directory.php'
 		) );
 
 		// Merge new templates with existing stack
