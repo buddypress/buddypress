@@ -456,7 +456,7 @@ class BP_Messages_Notice {
 		}
 	}
 
-	private function save() {
+	public function save() {
 		global $wpdb, $bp;
 
 		$this->subject = apply_filters( 'messages_notice_subject_before_save', $this->subject, $this->id );

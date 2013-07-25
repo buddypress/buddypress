@@ -795,7 +795,7 @@ class BP_Core_User {
 		}
 	}
 
-	private function get_profile_data() {
+	public function get_profile_data() {
 		return BP_XProfile_ProfileData::get_all_for_user( $this->id );
 	}
 

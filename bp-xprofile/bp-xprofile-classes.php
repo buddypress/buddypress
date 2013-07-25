@@ -38,7 +38,7 @@ class BP_XProfile_Group {
 		$this->group_order = $group->group_order;
 	}
 
-	private function save() {
+	public function save() {
 		global $wpdb, $bp;
 
 		$this->name        = apply_filters( 'xprofile_group_name_before_save',        $this->name,        $this->id );
@@ -63,7 +63,7 @@ class BP_XProfile_Group {
 		return $this->id;
 	}
 
-	private function delete() {
+	public function delete() {
 		global $wpdb, $bp;
 
 		if ( empty( $this->can_delete ) )
@@ -487,7 +487,7 @@ class BP_XProfile_Field {
 		}
 	}
 
-	private function delete( $delete_data = false ) {
+	public function delete( $delete_data = false ) {
 		global $wpdb, $bp;
 
 		// Prevent deletion if no ID is present
@@ -506,7 +506,7 @@ class BP_XProfile_Field {
 		return true;
 	}
 
-	private function save() {
+	public function save() {
 		global $wpdb, $bp;
 
 		$this->group_id	   = apply_filters( 'xprofile_field_group_id_before_save',    $this->group_id,    $this->id );
@@ -1040,7 +1040,7 @@ class BP_XProfile_ProfileData {
 	 * @global array $bp
 	 * @return bool
 	 */
-	private function exists() {
+	public function exists() {
 		global $wpdb, $bp;
 
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
@@ -1055,7 +1055,7 @@ class BP_XProfile_ProfileData {
 	 * @global array $bp
 	 * @return bool
 	 */
-	private function is_valid_field() {
+	public function is_valid_field() {
 		global $wpdb, $bp;
 
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id ) );
@@ -1063,7 +1063,7 @@ class BP_XProfile_ProfileData {
 		return apply_filters_ref_array( 'xprofile_data_is_valid_field', array( (bool)$retval, $this ) );
 	}
 
-	private function save() {
+	public function save() {
 		global $wpdb, $bp;
 
 		$this->user_id      = apply_filters( 'xprofile_data_user_id_before_save',      $this->user_id,         $this->id );
@@ -1097,7 +1097,7 @@ class BP_XProfile_ProfileData {
 		return false;
 	}
 
-	private function delete() {
+	public function delete() {
 		global $wpdb, $bp;
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ) ) )
