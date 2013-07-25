@@ -196,7 +196,7 @@ class BP_Groups_Group {
 
 	/** Static Methods ********************************************************/
 
-	function group_exists( $slug, $table_name = false ) {
+	public static function group_exists( $slug, $table_name = false ) {
 		global $wpdb, $bp;
 
 		if ( empty( $table_name ) )
@@ -208,7 +208,7 @@ class BP_Groups_Group {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table_name} WHERE slug = %s", $slug ) );
 	}
 
-	function get_id_from_slug( $slug ) {
+	public static function get_id_from_slug( $slug ) {
 		return BP_Groups_Group::group_exists( $slug );
 	}
 
@@ -1486,7 +1486,7 @@ class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
-	function total_group_count( $user_id = 0 ) {
+	public static function total_group_count( $user_id = 0 ) {
 		global $bp, $wpdb;
 
 		if ( empty( $user_id ) )
@@ -1499,7 +1499,7 @@ class BP_Groups_Member {
 		}
 	}
 
-	function get_invites( $user_id, $limit = false, $page = false, $exclude = false ) {
+	public static function get_invites( $user_id, $limit = false, $page = false, $exclude = false ) {
 		global $wpdb, $bp;
 
 		$pag_sql = ( !empty( $limit ) && !empty( $page ) ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
@@ -1550,7 +1550,7 @@ class BP_Groups_Member {
  		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id = 0 AND invite_sent = 0", $user_id, $group_id ) );
 	}
 
-	function check_is_admin( $user_id, $group_id ) {
+	public static function check_is_admin( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1559,7 +1559,7 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_admin = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 
-	function check_is_mod( $user_id, $group_id ) {
+	public static function check_is_mod( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -1568,7 +1568,7 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_mod = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 
-	function check_is_member( $user_id, $group_id ) {
+	public static function check_is_member( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )

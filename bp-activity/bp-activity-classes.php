@@ -25,14 +25,14 @@ class BP_Activity_Activity {
 	var $mptt_right;
 	var $is_spam;
 
-	function __construct( $id = false ) {
+	public function __construct( $id = false ) {
 		if ( !empty( $id ) ) {
 			$this->id = $id;
 			$this->populate();
 		}
 	}
 
-	function populate() {
+	public function populate() {
 		global $wpdb, $bp;
 
 		if ( $row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) ) ) {
@@ -55,8 +55,8 @@ class BP_Activity_Activity {
 		}
 	}
 
-	function save() {
-		global $wpdb, $bp, $current_user;
+	public function save() {
+		global $wpdb, $bp;
 
 		$this->id                = apply_filters_ref_array( 'bp_activity_id_before_save',                array( $this->id,                &$this ) );
 		$this->item_id           = apply_filters_ref_array( 'bp_activity_item_id_before_save',           array( $this->item_id,           &$this ) );
@@ -112,7 +112,7 @@ class BP_Activity_Activity {
 	 * @param array $args See $defaults for explanation of arguments
 	 * @return array
 	 */
-	function get( $args = array() ) {
+	public static function get( $args = array() ) {
 		global $wpdb, $bp;
 
 		// Backward compatibility with old method of passing arguments
@@ -349,12 +349,12 @@ class BP_Activity_Activity {
 	 * @return array
 	 * @since BuddyPress (1.2)
 	 */
-	function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
+	public static function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
 		_deprecated_function( __FUNCTION__, '1.5', 'Use BP_Activity_Activity::get() with the "in" parameter instead.' );
 		return BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, false, false, $activity_ids );
 	}
 
-	function get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content, $date_recorded ) {
+	public static function get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content, $date_recorded ) {
 		global $bp, $wpdb;
 
 		$where_args = false;
@@ -391,7 +391,7 @@ class BP_Activity_Activity {
 		return $wpdb->get_var( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
 	}
 
-	function delete( $args ) {
+	public static function delete( $args = array() ) {
 		global $wpdb, $bp;
 
 		$defaults = array(
@@ -466,7 +466,7 @@ class BP_Activity_Activity {
 		return $activity_ids;
 	}
 
-	function delete_activity_item_comments( $activity_ids = array() ) {
+	public static function delete_activity_item_comments( $activity_ids = array() ) {
 		global $bp, $wpdb;
 
 		$activity_ids = implode( ',', wp_parse_id_list( $activity_ids ) );
@@ -474,7 +474,7 @@ class BP_Activity_Activity {
 		return $wpdb->query( "DELETE FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" );
 	}
 
-	function delete_activity_meta_entries( $activity_ids = array() ) {
+	public static function delete_activity_meta_entries( $activity_ids = array() ) {
 		global $bp, $wpdb;
 
 		$activity_ids = implode( ',', wp_parse_id_list( $activity_ids ) );
@@ -495,9 +495,7 @@ class BP_Activity_Activity {
 	 * @return array The updated activities with nested comments
 	 * @since BuddyPress (1.2)
 	 */
-	function append_comments( $activities, $spam = 'ham_only' ) {
-		global $wpdb;
-
+	public static function append_comments( $activities, $spam = 'ham_only' ) {
 		$activity_comments = array();
 
 		// Now fetch the activity comments and parse them into the correct position in the activities array.
@@ -527,7 +525,7 @@ class BP_Activity_Activity {
 	 * @return array The updated activities with nested comments
 	 * @since BuddyPress (1.2)
 	 */
-	function get_activity_comments( $activity_id, $left, $right, $spam = 'ham_only', $top_level_parent_id = 0 ) {
+	public static function get_activity_comments( $activity_id, $left, $right, $spam = 'ham_only', $top_level_parent_id = 0 ) {
 		global $wpdb, $bp;
 
 		if ( empty( $top_level_parent_id ) ) {
@@ -584,7 +582,7 @@ class BP_Activity_Activity {
 		return $comments;
 	}
 
-	function rebuild_activity_comment_tree( $parent_id, $left = 1 ) {
+	public static function rebuild_activity_comment_tree( $parent_id, $left = 1 ) {
 		global $wpdb, $bp;
 
 		// The right value of this node is the left value + 1
@@ -608,7 +606,7 @@ class BP_Activity_Activity {
 		return $right + 1;
 	}
 
-	function get_child_comments( $parent_id ) {
+	public static function get_child_comments( $parent_id ) {
 		global $bp, $wpdb;
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND secondary_item_id = %d", $parent_id ) );
@@ -619,14 +617,12 @@ class BP_Activity_Activity {
 	 *
 	 * @return array
 	 */
-	function get_recorded_components() {
+	public static function get_recorded_components() {
 		global $wpdb, $bp;
 		return $wpdb->get_col( "SELECT DISTINCT component FROM {$bp->activity->table_name} ORDER BY component ASC" );
 	}
 
-	function get_sitewide_items_for_feed( $limit = 35 ) {
-		global $bp;
-
+	public static function get_sitewide_items_for_feed( $limit = 35 ) {
 		$activities    = bp_activity_get_sitewide( array( 'max' => $limit ) );
 		$activity_feed = array();
 
@@ -641,7 +637,7 @@ class BP_Activity_Activity {
 		return $activity_feed;
 	}
 
-	function get_in_operator_sql( $field, $items ) {
+	public static function get_in_operator_sql( $field, $items ) {
 		global $wpdb;
 
 		// split items at the comma
@@ -665,7 +661,7 @@ class BP_Activity_Activity {
 			return false;
 	}
 
-	function get_filter_sql( $filter_array ) {
+	public static function get_filter_sql( $filter_array ) {
 
 		$filter_sql = array();
 
@@ -705,26 +701,26 @@ class BP_Activity_Activity {
 		return join( ' AND ', $filter_sql );
 	}
 
-	function get_last_updated() {
+	public static function get_last_updated() {
 		global $bp, $wpdb;
 
 		return $wpdb->get_var( "SELECT date_recorded FROM {$bp->activity->table_name} ORDER BY date_recorded DESC LIMIT 1" );
 	}
 
-	function total_favorite_count( $user_id ) {
+	public static function total_favorite_count( $user_id ) {
 		if ( !$favorite_activity_entries = bp_get_user_meta( $user_id, 'bp_favorite_activities', true ) )
 			return 0;
 
 		return count( maybe_unserialize( $favorite_activity_entries ) );
 	}
 
-	function check_exists_by_content( $content ) {
+	public static function check_exists_by_content( $content ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE content = %s", $content ) );
 	}
 
-	function hide_all_for_user( $user_id ) {
+	public static function hide_all_for_user( $user_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET hide_sitewide = 1 WHERE user_id = %d", $user_id ) );

@@ -11,19 +11,19 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_XProfile_Group {
-	var $id = null;
-	var $name;
-	var $description;
-	var $can_delete;
-	var $group_order;
-	var $fields;
+	public $id = null;
+	public $name;
+	public $description;
+	public $can_delete;
+	public $group_order;
+	public $fields;
 
-	function __construct( $id = null ) {
+	public function __construct( $id = null ) {
 		if ( !empty( $id ) )
 			$this->populate( $id );
 	}
 
-	function populate( $id ) {
+	private function populate( $id ) {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id = %d", $id );
@@ -38,7 +38,7 @@ class BP_XProfile_Group {
 		$this->group_order = $group->group_order;
 	}
 
-	function save() {
+	private function save() {
 		global $wpdb, $bp;
 
 		$this->name        = apply_filters( 'xprofile_group_name_before_save',        $this->name,        $this->id );
@@ -63,7 +63,7 @@ class BP_XProfile_Group {
 		return $this->id;
 	}
 
-	function delete() {
+	private function delete() {
 		global $wpdb, $bp;
 
 		if ( empty( $this->can_delete ) )
@@ -111,7 +111,7 @@ class BP_XProfile_Group {
 	 *
 	 * @return array $groups
 	 */
-	function get( $args = '' ) {
+	public static function get( $args = array() ) {
 		global $wpdb, $bp;
 
 		$defaults = array(
@@ -263,7 +263,7 @@ class BP_XProfile_Group {
 		return $groups;
 	}
 
-	function admin_validate() {
+	public static function admin_validate() {
 		global $message;
 
 		/* Validate Form */
@@ -275,7 +275,7 @@ class BP_XProfile_Group {
 		}
 	}
 
-	function update_position( $field_group_id, $position ) {
+	public static function update_position( $field_group_id, $position ) {
 		global $wpdb, $bp;
 
 		if ( !is_numeric( $position ) )
@@ -293,7 +293,7 @@ class BP_XProfile_Group {
 	 * @param array $fields The database results returned by the get() query
 	 * @return array $fields The database results, with field_visibility added
 	 */
-	function fetch_visibility_level( $user_id = 0, $fields = array() ) {
+	public static function fetch_visibility_level( $user_id = 0, $fields = array() ) {
 
 		// Get the user's visibility level preferences
 		$visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
@@ -329,7 +329,7 @@ class BP_XProfile_Group {
 	 * @return array $default_visibility_levels An array, keyed by field_id, of default
 	 *   visibility level + allow_custom (whether the admin allows this field to be set by user)
 	 */
-	function fetch_default_visibility_levels() {
+	public static function fetch_default_visibility_levels() {
 		global $wpdb, $bp;
 
 		$levels = $wpdb->get_results( "SELECT object_id, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND ( meta_key = 'default_visibility' OR meta_key = 'allow_custom_visibility' )" );
@@ -347,7 +347,7 @@ class BP_XProfile_Group {
 		return $default_visibility_levels;
 	}
 
-	function render_admin_form() {
+	public static function render_admin_form() {
 		global $message;
 
 		if ( empty( $this->id ) ) {
@@ -426,31 +426,31 @@ class BP_XProfile_Group {
 }
 
 class BP_XProfile_Field {
-	var $id;
-	var $group_id;
-	var $parent_id;
-	var $type;
-	var $name;
-	var $description;
-	var $is_required;
-	var $can_delete;
-	var $field_order;
-	var $option_order;
-	var $order_by;
-	var $is_default_option;
-	var $default_visibility;
-	var $allow_custom_visibility = 'allowed';
+	public $id;
+	public $group_id;
+	public $parent_id;
+	public $type;
+	public $name;
+	public $description;
+	public $is_required;
+	public $can_delete;
+	public $field_order;
+	public $option_order;
+	public $order_by;
+	public $is_default_option;
+	public $default_visibility;
+	public $allow_custom_visibility = 'allowed';
 
-	var $data;
-	var $message = null;
-	var $message_type = 'err';
+	public $data;
+	public $message = null;
+	public $message_type = 'err';
 
-	function __construct( $id = null, $user_id = null, $get_data = true ) {
+	public function __construct( $id = null, $user_id = null, $get_data = true ) {
 		if ( !empty( $id ) )
 			$this->populate( $id, $user_id, $get_data );
 	}
 
-	function populate( $id, $user_id, $get_data ) {
+	private function populate( $id, $user_id, $get_data ) {
 		global $wpdb, $userdata, $bp;
 
 		if ( empty( $user_id ) ) {
@@ -487,7 +487,7 @@ class BP_XProfile_Field {
 		}
 	}
 
-	function delete( $delete_data = false ) {
+	private function delete( $delete_data = false ) {
 		global $wpdb, $bp;
 
 		// Prevent deletion if no ID is present
@@ -506,7 +506,7 @@ class BP_XProfile_Field {
 		return true;
 	}
 
-	function save() {
+	private function save() {
 		global $wpdb, $bp;
 
 		$this->group_id	   = apply_filters( 'xprofile_field_group_id_before_save',    $this->group_id,    $this->id );
@@ -623,11 +623,11 @@ class BP_XProfile_Field {
 		}
 	}
 
-	function get_field_data( $user_id ) {
+	public function get_field_data( $user_id ) {
 		return new BP_XProfile_ProfileData( $this->id, $user_id );
 	}
 
-	function get_children( $for_editing = false ) {
+	public function get_children( $for_editing = false ) {
 		global $wpdb, $bp;
 
 		// This is done here so we don't have problems with sql injection
@@ -654,7 +654,7 @@ class BP_XProfile_Field {
 		return apply_filters( 'bp_xprofile_field_get_children', $children );
 	}
 
-	function delete_children() {
+	public function delete_children() {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE parent_id = %d", $this->id );
@@ -662,9 +662,9 @@ class BP_XProfile_Field {
 		$wpdb->query( $sql );
 	}
 
-	/* Static Functions */
+	/** Static Methods ********************************************************/
 
-	function get_type( $field_id ) {
+	public static function get_type( $field_id ) {
 		global $wpdb, $bp;
 
 		if ( !empty( $field_id ) ) {
@@ -680,7 +680,7 @@ class BP_XProfile_Field {
 		return false;
 	}
 
-	function delete_for_group( $group_id ) {
+	public static function delete_for_group( $group_id ) {
 		global $wpdb, $bp;
 
 		if ( !empty( $group_id ) ) {
@@ -696,7 +696,7 @@ class BP_XProfile_Field {
 		return false;
 	}
 
-	function get_id_from_name( $field_name ) {
+	public static function get_id_from_name( $field_name ) {
 		global $wpdb, $bp;
 
 		if ( empty( $bp->profile->table_name_fields ) || !isset( $field_name ) )
@@ -705,7 +705,7 @@ class BP_XProfile_Field {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", $field_name ) );
 	}
 
-	function update_position( $field_id, $position, $field_group_id ) {
+	public static function update_position( $field_id, $position, $field_group_id ) {
 		global $wpdb, $bp;
 
 		if ( !is_numeric( $position ) || !is_numeric( $field_group_id ) )
@@ -728,7 +728,7 @@ class BP_XProfile_Field {
 	*/
 
 	/* This function populates the items for radio buttons checkboxes and drop down boxes */
-	function render_admin_form_children() {
+	public function render_admin_form_children() {
 		$input_types = array( 'checkbox', 'selectbox', 'multiselectbox', 'radio' );
 
 		foreach ( $input_types as $type ) {
@@ -816,7 +816,7 @@ class BP_XProfile_Field {
 		<?php }
 	}
 
-	function render_admin_form( $message = '' ) {
+	public function render_admin_form( $message = '' ) {
 		if ( empty( $this->id ) ) {
 			$title  = __( 'Add Field', 'buddypress' );
 			$action	= "users.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field#tabs-" . $this->group_id;
@@ -976,7 +976,7 @@ class BP_XProfile_Field {
 <?php
 	}
 
-	function admin_validate() {
+	public function admin_validate() {
 		global $message;
 
 		// Validate Form
@@ -1003,19 +1003,19 @@ class BP_XProfile_Field {
 
 
 class BP_XProfile_ProfileData {
-	var $id;
-	var $user_id;
-	var $field_id;
-	var $value;
-	var $last_updated;
+	public $id;
+	public $user_id;
+	public $field_id;
+	public $value;
+	public $last_updated;
 
-	function __construct( $field_id = null, $user_id = null ) {
+	public function __construct( $field_id = null, $user_id = null ) {
 		if ( !empty( $field_id ) ) {
 			$this->populate( $field_id, $user_id );
 		}
 	}
 
-	function populate( $field_id, $user_id )  {
+	private function populate( $field_id, $user_id )  {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
@@ -1034,15 +1034,13 @@ class BP_XProfile_ProfileData {
 	}
 
 	/**
-	 * exists ()
-	 *
 	 * Check if there is data already for the user.
 	 *
 	 * @global object $wpdb
 	 * @global array $bp
 	 * @return bool
 	 */
-	function exists() {
+	private function exists() {
 		global $wpdb, $bp;
 
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
@@ -1051,15 +1049,13 @@ class BP_XProfile_ProfileData {
 	}
 
 	/**
-	 * is_valid_field()
-	 *
 	 * Check if this data is for a valid field.
 	 *
 	 * @global object $wpdb
 	 * @global array $bp
 	 * @return bool
 	 */
-	function is_valid_field() {
+	private function is_valid_field() {
 		global $wpdb, $bp;
 
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id ) );
@@ -1067,7 +1063,7 @@ class BP_XProfile_ProfileData {
 		return apply_filters_ref_array( 'xprofile_data_is_valid_field', array( (bool)$retval, $this ) );
 	}
 
-	function save() {
+	private function save() {
 		global $wpdb, $bp;
 
 		$this->user_id      = apply_filters( 'xprofile_data_user_id_before_save',      $this->user_id,         $this->id );
@@ -1101,7 +1097,7 @@ class BP_XProfile_ProfileData {
 		return false;
 	}
 
-	function delete() {
+	private function delete() {
 		global $wpdb, $bp;
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ) ) )
@@ -1110,14 +1106,14 @@ class BP_XProfile_ProfileData {
 		return true;
 	}
 
-	/** Static Functions **/
+	/** Static Methods ********************************************************/
 
 	/**
 	 * BP_XProfile_ProfileData::get_all_for_user()
 	 *
 	 * Get all of the profile information for a specific user.
 	 */
-	function get_all_for_user( $user_id ) {
+	public static function get_all_for_user( $user_id ) {
 		global $wpdb, $bp;
 
 		$results      = $wpdb->get_results( $wpdb->prepare( "SELECT g.id as field_group_id, g.name as field_group_name, f.id as field_id, f.name as field_name, f.type as field_type, d.value as field_data, u.user_login, u.user_nicename, u.user_email FROM {$bp->profile->table_name_groups} g LEFT JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id INNER JOIN {$bp->profile->table_name_data} d ON f.id = d.field_id LEFT JOIN {$wpdb->users} u ON d.user_id = u.ID WHERE d.user_id = %d AND d.value != ''", $user_id ) );
@@ -1149,7 +1145,7 @@ class BP_XProfile_ProfileData {
 	 * @param int $user_id
 	 * @return int $fielddata_id
 	 */
-	function get_fielddataid_byid( $field_id, $user_id ) {
+	public static function get_fielddataid_byid( $field_id, $user_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $field_id ) || empty( $user_id ) ) {
@@ -1161,7 +1157,7 @@ class BP_XProfile_ProfileData {
 		return $fielddata_id;
 	}
 
-	function get_value_byid( $field_id, $user_ids = null ) {
+	public static function get_value_byid( $field_id, $user_ids = null ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_ids ) )
@@ -1177,7 +1173,7 @@ class BP_XProfile_ProfileData {
 		return $data;
 	}
 
-	function get_value_byfieldname( $fields, $user_id = null ) {
+	public static function get_value_byfieldname( $fields, $user_id = null ) {
 		global $bp, $wpdb;
 
 		if ( empty( $fields ) )
@@ -1226,7 +1222,7 @@ class BP_XProfile_ProfileData {
 		return $new_values;
 	}
 
-	function delete_for_field( $field_id ) {
+	public static function delete_for_field( $field_id ) {
 		global $wpdb, $bp;
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d", $field_id ) ) )
@@ -1235,7 +1231,7 @@ class BP_XProfile_ProfileData {
 		return true;
 	}
 
-	function get_last_updated( $user_id ) {
+	public static function get_last_updated( $user_id ) {
 		global $wpdb, $bp;
 
 		$last_updated = $wpdb->get_var( $wpdb->prepare( "SELECT last_updated FROM {$bp->profile->table_name_data} WHERE user_id = %d ORDER BY last_updated LIMIT 1", $user_id ) );
@@ -1243,13 +1239,13 @@ class BP_XProfile_ProfileData {
 		return $last_updated;
 	}
 
-	function delete_data_for_user( $user_id ) {
+	public static function delete_data_for_user( $user_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d", $user_id ) );
 	}
 
-	function get_random( $user_id, $exclude_fullname ) {
+	public static function get_random( $user_id, $exclude_fullname ) {
 		global $wpdb, $bp;
 
 		if ( !empty( $exclude_fullname ) )
@@ -1258,7 +1254,7 @@ class BP_XProfile_ProfileData {
 		return $wpdb->get_results( $wpdb->prepare( "SELECT pf.type, pf.name, pd.value FROM {$bp->profile->table_name_data} pd INNER JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id AND pd.user_id = %d {$exclude_sql} ORDER BY RAND() LIMIT 1", $user_id ) );
 	}
 
-	function get_fullname( $user_id = 0 ) {
+	public static function get_fullname( $user_id = 0 ) {
 
 		if ( empty( $user_id ) )
 			$user_id = bp_displayed_user_id();

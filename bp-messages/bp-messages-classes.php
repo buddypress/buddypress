@@ -11,12 +11,12 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Messages_Thread {
-	var $thread_id;
-	var $messages;
-	var $recipients;
-	var $sender_ids;
+	public $thread_id;
+	public $messages;
+	public $recipients;
+	public $sender_ids;
 
-	var $unread_count;
+	public $unread_count;
 
 	/**
 	 * The content of the last message in this thread
@@ -66,12 +66,12 @@ class BP_Messages_Thread {
 	 */
 	public $messages_order;
 
-	function __construct( $thread_id = false, $order = 'ASC' ) {
+	public function __construct( $thread_id = false, $order = 'ASC' ) {
 		if ( $thread_id )
 			$this->populate( $thread_id, $order );
 	}
 
-	function populate( $thread_id, $order ) {
+	private function populate( $thread_id, $order ) {
 		global $wpdb, $bp;
 
 		if( 'ASC' != $order && 'DESC' != $order )
@@ -94,15 +94,15 @@ class BP_Messages_Thread {
 			$this->unread_count = $this->recipients[bp_loggedin_user_id()]->unread_count;
 	}
 
-	function mark_read() {
+	public function mark_read() {
 		BP_Messages_Thread::mark_as_read( $this->thread_id );
 	}
 
-	function mark_unread() {
+	public function mark_unread() {
 		BP_Messages_Thread::mark_as_unread( $this->thread_id );
 	}
 
-	function get_recipients() {
+	public function get_recipients() {
 		global $wpdb, $bp;
 
 		$recipients = array();
@@ -114,12 +114,13 @@ class BP_Messages_Thread {
 		return $recipients;
 	}
 
-	/** Static Functions **/
+	/** Static Functions ******************************************************/
 
-	function delete( $thread_id ) {
+	public static function delete( $thread_id ) {
 		global $wpdb, $bp;
 
-		$delete_for_user = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, bp_loggedin_user_id() ) );
+		// Mark messages as deleted
+		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, bp_loggedin_user_id() ) );
 
 		// Check to see if any more recipients remain for this message
 		// if not, then delete the message from the database.
@@ -136,7 +137,7 @@ class BP_Messages_Thread {
 		return true;
 	}
 
-	function get_current_threads_for_user( $user_id, $box = 'inbox', $type = 'all', $limit = null, $page = null, $search_terms = '' ) {
+	public static function get_current_threads_for_user( $user_id, $box = 'inbox', $type = 'all', $limit = null, $page = null, $search_terms = '' ) {
 		global $wpdb, $bp;
 
 		$pag_sql = $type_sql = $search_sql = '';
@@ -177,21 +178,21 @@ class BP_Messages_Thread {
 		return array( 'threads' => &$threads, 'total' => (int) $total_threads );
 	}
 
-	function mark_as_read( $thread_id ) {
+	public static function mark_as_read( $thread_id ) {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
 	}
 
-	function mark_as_unread( $thread_id ) {
+	public static function mark_as_unread( $thread_id ) {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
 	}
 
-	function get_total_threads_for_user( $user_id, $box = 'inbox', $type = 'all' ) {
+	public static function get_total_threads_for_user( $user_id, $box = 'inbox', $type = 'all' ) {
 		global $wpdb, $bp;
 
 		$exclude_sender = '';
@@ -206,7 +207,7 @@ class BP_Messages_Thread {
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0{$exclude_sender} {$type_sql}", $user_id ) );
 	}
 
-	function user_is_sender( $thread_id ) {
+	public static function user_is_sender( $thread_id ) {
 		global $wpdb, $bp;
 
 		$sender_ids = $wpdb->get_col( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d", $thread_id ) );
@@ -217,7 +218,7 @@ class BP_Messages_Thread {
 		return in_array( bp_loggedin_user_id(), $sender_ids );
 	}
 
-	function get_last_sender( $thread_id ) {
+	public static function get_last_sender( $thread_id ) {
 		global $wpdb, $bp;
 
 		if ( !$sender_id = $wpdb->get_var( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d GROUP BY sender_id ORDER BY date_sent LIMIT 1", $thread_id ) ) )
@@ -241,7 +242,7 @@ class BP_Messages_Thread {
 		return (int) $unread_count;
 	}
 
-	function check_access( $thread_id, $user_id = 0 ) {
+	public static function check_access( $thread_id, $user_id = 0 ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
@@ -250,13 +251,13 @@ class BP_Messages_Thread {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
 	}
 
-	function is_valid( $thread_id ) {
+	public static function is_valid( $thread_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT thread_id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d LIMIT 1", $thread_id ) );
 	}
 
-	function get_recipient_links( $recipients ) {
+	public static function get_recipient_links( $recipients ) {
 		if ( count( $recipients ) >= 5 )
 			return sprintf( __( '%s Recipients', 'buddypress' ), number_format_i18n( count( $recipients ) ) );
 
@@ -275,9 +276,7 @@ class BP_Messages_Thread {
 		return implode( ', ', (array) $recipient_links );
 	}
 
-	// Update Functions
-
-	function update_tables() {
+	public static function update_tables() {
 		global $wpdb, $bp;
 
 		$bp_prefix = bp_core_get_table_prefix();
@@ -308,24 +307,25 @@ class BP_Messages_Thread {
 }
 
 class BP_Messages_Message {
-	var $id;
-	var $thread_id;
-	var $sender_id;
-	var $subject;
-	var $message;
-	var $date_sent;
+	public $id;
+	public $thread_id;
+	public $sender_id;
+	public $subject;
+	public $message;
+	public $date_sent;
 
-	var $recipients = false;
+	public $recipients = false;
 
-	function __construct( $id = null ) {
+	public function __construct( $id = null ) {
 		$this->date_sent = bp_core_current_time();
 		$this->sender_id = bp_loggedin_user_id();
 
-		if ( !empty( $id ) )
+		if ( !empty( $id ) ) {
 			$this->populate( $id );
+		}
 	}
 
-	function populate( $id ) {
+	private function populate( $id ) {
 		global $wpdb, $bp;
 
 		if ( $message = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE id = %d", $id ) ) ) {
@@ -338,7 +338,7 @@ class BP_Messages_Message {
 		}
 	}
 
-	function send() {
+	public function send() {
 		global $wpdb, $bp;
 
 		$this->sender_id = apply_filters( 'messages_message_sender_id_before_save', $this->sender_id, $this->id );
@@ -391,15 +391,14 @@ class BP_Messages_Message {
 		return $this->id;
 	}
 
-	function get_recipients() {
+	public function get_recipients() {
 		global $bp, $wpdb;
-
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
 	}
 
-	// Static Functions
+	/** Static Functions ******************************************************/
 
-	function get_recipient_ids( $recipient_usernames ) {
+	public static function get_recipient_ids( $recipient_usernames ) {
 		if ( !$recipient_usernames )
 			return false;
 
@@ -414,38 +413,37 @@ class BP_Messages_Message {
 		return $recipient_ids;
 	}
 
-	function get_last_sent_for_user( $thread_id ) {
+	public static function get_last_sent_for_user( $thread_id ) {
 		global $wpdb, $bp;
-
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND thread_id = %d ORDER BY date_sent DESC LIMIT 1", bp_loggedin_user_id(), $thread_id ) );
 	}
 
-	function is_user_sender( $user_id, $message_id ) {
+	public static function is_user_sender( $user_id, $message_id ) {
 		global $wpdb, $bp;
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND id = %d", $user_id, $message_id ) );
 	}
 
-	function get_message_sender( $message_id ) {
+	public static function get_message_sender( $message_id ) {
 		global $wpdb, $bp;
 		return $wpdb->get_var( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE id = %d", $message_id ) );
 	}
 }
 
 class BP_Messages_Notice {
-	var $id = null;
-	var $subject;
-	var $message;
-	var $date_sent;
-	var $is_active;
+	public $id = null;
+	public $subject;
+	public $message;
+	public $date_sent;
+	public $is_active;
 
-	function __construct( $id = null ) {
+	public function __construct( $id = null ) {
 		if ( $id ) {
 			$this->id = $id;
 			$this->populate($id);
 		}
 	}
 
-	function populate() {
+	private function populate() {
 		global $wpdb, $bp;
 
 		$notice = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_notices} WHERE id = %d", $this->id ) );
@@ -458,7 +456,7 @@ class BP_Messages_Notice {
 		}
 	}
 
-	function save() {
+	private function save() {
 		global $wpdb, $bp;
 
 		$this->subject = apply_filters( 'messages_notice_subject_before_save', $this->subject, $this->id );
@@ -487,23 +485,17 @@ class BP_Messages_Notice {
 		return true;
 	}
 
-	function activate() {
+	public function activate() {
 		$this->is_active = 1;
-		if ( !$this->save() )
-			return false;
-
-		return true;
+		return (bool) $this->save();
 	}
 
-	function deactivate() {
+	public function deactivate() {
 		$this->is_active = 0;
-		if ( !$this->save() )
-			return false;
-
-		return true;
+		return (bool) $this->save();
 	}
 
-	function delete() {
+	public function delete() {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_notices} WHERE id = %d", $this->id );

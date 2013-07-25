@@ -625,56 +625,56 @@ class BP_Core_User {
 	 *
 	 * @var integer
 	 */
-	var $id;
+	public $id;
 
 	/**
 	 * The URL to the full size of the avatar for the user.
 	 *
 	 * @var string
 	 */
-	var $avatar;
+	public $avatar;
 
 	/**
 	 * The URL to the thumb size of the avatar for the user.
 	 *
 	 * @var string
 	 */
-	var $avatar_thumb;
+	public $avatar_thumb;
 
 	/**
 	 * The URL to the mini size of the avatar for the user.
 	 *
 	 * @var string
 	 */
-	var $avatar_mini;
+	public $avatar_mini;
 
 	/**
 	 * The full name of the user
 	 *
 	 * @var string
 	 */
-	var $fullname;
+	public $fullname;
 
 	/**
 	 * The email for the user.
 	 *
 	 * @var string
 	 */
-	var $email;
+	public $email;
 
 	/**
 	 * The absolute url for the user's profile.
 	 *
 	 * @var string
 	 */
-	var $user_url;
+	public $user_url;
 
 	/**
 	 * The HTML for the user link, with the link text being the user's full name.
 	 *
 	 * @var string
 	 */
-	var $user_link;
+	public $user_link;
 
 	/**
 	 * Contains a formatted string when the last time the user was active.
@@ -683,7 +683,7 @@ class BP_Core_User {
 	 *
 	 * @var string
 	 */
-	var $last_active;
+	public $last_active;
 
 	/* Extras */
 
@@ -692,7 +692,7 @@ class BP_Core_User {
 	 *
 	 * @var integer
 	 */
-	var $total_friends;
+	public $total_friends;
 
 	/**
 	 * The total number of blog posts posted by the user
@@ -700,7 +700,7 @@ class BP_Core_User {
 	 * @var integer
 	 * @deprecated No longer used
 	 */
-	var $total_blogs;
+	public $total_blogs;
 
 	/**
 	 * The total number of groups the user is a part of.
@@ -709,7 +709,7 @@ class BP_Core_User {
 	 *
 	 * @var string
 	 */
-	var $total_groups;
+	public $total_groups;
 
 	/**
 	 * Profile information for the specific user.
@@ -727,7 +727,7 @@ class BP_Core_User {
 	 * @param integer $user_id The ID for the user
 	 * @param boolean $populate_extras Whether to fetch extra information such as group/friendship counts or not.
 	 */
-	function __construct( $user_id, $populate_extras = false ) {
+	public function __construct( $user_id, $populate_extras = false ) {
 		if ( !empty( $user_id ) ) {
 			$this->id = $user_id;
 			$this->populate();
@@ -750,7 +750,7 @@ class BP_Core_User {
 	 * @uses bp_core_fetch_avatar() Returns HTML formatted avatar for a user
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
-	function populate() {
+	private function populate() {
 
 		if ( bp_is_active( 'xprofile' ) )
 			$this->profile_data = $this->get_profile_data();
@@ -783,7 +783,7 @@ class BP_Core_User {
 	/**
 	 * Populates extra fields such as group and friendship counts.
 	 */
-	function populate_extras() {
+	private function populate_extras() {
 
 		if ( bp_is_active( 'friends' ) ) {
 			$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
@@ -795,13 +795,13 @@ class BP_Core_User {
 		}
 	}
 
-	function get_profile_data() {
+	private function get_profile_data() {
 		return BP_XProfile_ProfileData::get_all_for_user( $this->id );
 	}
 
 	/** Static Methods ********************************************************/
 
-	function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
+	public static function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
 		global $wpdb, $bp;
 
 		_deprecated_function( __METHOD__, '1.7', 'BP_User_Query' );
@@ -988,7 +988,7 @@ class BP_Core_User {
 	 * @return mixed False on error, otherwise associative array of results.
 	 * @static
 	 */
-	function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
+	public static function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
 		global $bp, $wpdb;
 
 		$pag_sql = '';
@@ -1053,7 +1053,7 @@ class BP_Core_User {
 	 * @return array Associative array
 	 * @static
 	 */
-	function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
+	public static function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
 		global $wpdb;
 
 		$pag_sql = '';
@@ -1097,7 +1097,7 @@ class BP_Core_User {
 	 * @return array Associative array
 	 * @static
 	 */
-	function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
+	public static function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
 		global $bp, $wpdb;
 
 		$user_ids = array();
@@ -1139,7 +1139,7 @@ class BP_Core_User {
 	 * @return mixed False on error, otherwise associative array of results.
 	 * @static
 	 */
-	function get_user_extras( &$paged_users, &$user_ids, $type = false ) {
+	public static function get_user_extras( &$paged_users, &$user_ids, $type = false ) {
 		global $bp, $wpdb;
 
 		if ( empty( $user_ids ) )
@@ -1222,7 +1222,7 @@ class BP_Core_User {
 	 * @return array Associative array
 	 * @static
 	 */
-	function get_core_userdata( $user_id ) {
+	public static function get_core_userdata( $user_id ) {
 		global $wpdb;
 
 		if ( !$user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE ID = %d LIMIT 1", $user_id ) ) )
@@ -1247,56 +1247,56 @@ class BP_Core_Notification {
 	 *
 	 * @var integer
 	 */
-	var $id;
+	public $id;
 
 	/**
 	 * The ID to which the notification relates to within the component.
 	 *
 	 * @var integer
 	 */
-	var $item_id;
+	public $item_id;
 
 	/**
 	 * The secondary ID to which the notification relates to within the component.
 	 *
 	 * @var integer
 	 */
-	var $secondary_item_id = null;
+	public $secondary_item_id = null;
 
 	/**
 	 * The user ID for who the notification is for.
 	 *
 	 * @var integer
 	 */
-	var $user_id;
+	public $user_id;
 
 	/**
 	 * The name of the component that the notification is for.
 	 *
 	 * @var string
 	 */
-	var $component_name;
+	public $component_name;
 
 	/**
 	 * The action within the component which the notification is related to.
 	 *
 	 * @var string
 	 */
-	var $component_action;
+	public $component_action;
 
 	/**
 	 * The date the notification was created.
 	 *
 	 * @var string
 	 */
-	var $date_notified;
+	public $date_notified;
 
 	/**
 	 * Is the notification new or has it already been read.
 	 *
 	 * @var boolean
 	 */
-	var $is_new;
+	public $is_new;
 
 	/** Public Methods ********************************************************/
 
@@ -1305,7 +1305,7 @@ class BP_Core_Notification {
 	 *
 	 * @param integer $id
 	 */
-	function __construct( $id = 0 ) {
+	public function __construct( $id = 0 ) {
 		if ( !empty( $id ) ) {
 			$this->id = $id;
 			$this->populate();
@@ -1319,7 +1319,7 @@ class BP_Core_Notification {
 	 * @global wpdb $wpdb WordPress database object
 	 * @return bool Success or failure
 	 */
-	function save() {
+	public function save() {
 		global $bp, $wpdb;
 
 		// Update
@@ -1347,7 +1347,7 @@ class BP_Core_Notification {
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 */
-	function populate() {
+	private function populate() {
 		global $bp, $wpdb;
 
 		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE id = %d", $this->id ) ) ) {
@@ -1363,7 +1363,7 @@ class BP_Core_Notification {
 
 	/** Static Methods ********************************************************/
 
-	function check_access( $user_id, $notification_id ) {
+	public static function check_access( $user_id, $notification_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->core->table_name_notifications} WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
@@ -1379,7 +1379,7 @@ class BP_Core_Notification {
 	 * @return array Associative array
 	 * @static
 	 */
-	function get_all_for_user( $user_id, $status = 'is_new' ) {
+	public static function get_all_for_user( $user_id, $status = 'is_new' ) {
 		global $bp, $wpdb;
 
 		$is_new = ( 'is_new' == $status ) ? ' AND is_new = 1 ' : '';
@@ -1397,7 +1397,7 @@ class BP_Core_Notification {
 	 * @param string $component_action
 	 * @static
 	 */
-	function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
+	public static function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
 		global $bp, $wpdb;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
@@ -1415,7 +1415,7 @@ class BP_Core_Notification {
 	 * @param integer $secondary_item_id (optional) The secondary item id of the notifications that we wish to use to delete.
 	 * @static
 	 */
-	function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
+	public static function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 		global $bp, $wpdb;
 
 		$secondary_item_sql = !empty( $secondary_item_id ) ? $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id ) : '';
@@ -1433,7 +1433,7 @@ class BP_Core_Notification {
 	 * @param string $component_action The action of the component the notification was sent from.
 	 * @static
 	 */
-	function delete_from_user_by_type( $user_id, $component_name, $component_action ) {
+	public static function delete_from_user_by_type( $user_id, $component_name, $component_action ) {
 		global $bp, $wpdb;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
@@ -1450,7 +1450,7 @@ class BP_Core_Notification {
 	 * @param string $secondary_item_id Optional secondary item id that the notifications are to have.
 	 * @static
 	 */
-	function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
+	public static function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
 		global $bp, $wpdb;
 
 		if ( $component_action )
@@ -1712,7 +1712,7 @@ class BP_Embed extends WP_Embed {
 	 *
 	 * @global unknown $wp_embed
 	 */
-	function __construct() {
+	public function __construct() {
 		global $wp_embed;
 
 		// Make sure we populate the WP_Embed handlers array.
@@ -1761,7 +1761,7 @@ class BP_Embed extends WP_Embed {
 	 * @param string $url The URL attempting to be embeded.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
-	function shortcode( $attr, $url = '' ) {
+	public function shortcode( $attr, $url = '' ) {
 		if ( empty( $url ) )
 			return '';
 
@@ -1826,7 +1826,7 @@ class BP_Embed extends WP_Embed {
 	 * @param array $rawattr Untouched shortcode attributes from {@link WP_Embed::shortcode()}.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
-	function parse_oembed( $id, $url, $attr, $rawattr ) {
+	public function parse_oembed( $id, $url, $attr, $rawattr ) {
 		$id = intval( $id );
 
 		if ( $id ) {
@@ -1894,7 +1894,7 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 * @see Walker::walk()
 	 * @since BuddyPress (1.7)
 	 */
-	function walk( $elements, $max_depth ) {
+	public function walk( $elements, $max_depth ) {
 		$args   = array_slice( func_get_args(), 2 );
 		$output = '';
 
@@ -1981,7 +1981,7 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 * @param int $current_page Menu item ID. Optional.
 	 * @since BuddyPress (1.7)
 	 */
-	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		// If we're someway down the tree, indent the HTML with the appropriate number of tabs
 		$indent = $depth ? str_repeat( "\t", $depth ) : '';
 
