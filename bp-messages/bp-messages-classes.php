@@ -71,7 +71,7 @@ class BP_Messages_Thread {
 			$this->populate( $thread_id, $order );
 	}
 
-	private function populate( $thread_id, $order ) {
+	public function populate( $thread_id, $order ) {
 		global $wpdb, $bp;
 
 		if( 'ASC' != $order && 'DESC' != $order )
@@ -325,7 +325,7 @@ class BP_Messages_Message {
 		}
 	}
 
-	private function populate( $id ) {
+	public function populate( $id ) {
 		global $wpdb, $bp;
 
 		if ( $message = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE id = %d", $id ) ) ) {
@@ -443,7 +443,7 @@ class BP_Messages_Notice {
 		}
 	}
 
-	private function populate() {
+	public function populate() {
 		global $wpdb, $bp;
 
 		$notice = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_notices} WHERE id = %d", $this->id ) );

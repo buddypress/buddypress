@@ -750,7 +750,7 @@ class BP_Core_User {
 	 * @uses bp_core_fetch_avatar() Returns HTML formatted avatar for a user
 	 * @uses bp_profile_last_updated_date() Returns the last updated date for a user.
 	 */
-	private function populate() {
+	public function populate() {
 
 		if ( bp_is_active( 'xprofile' ) )
 			$this->profile_data = $this->get_profile_data();
@@ -783,7 +783,7 @@ class BP_Core_User {
 	/**
 	 * Populates extra fields such as group and friendship counts.
 	 */
-	private function populate_extras() {
+	public function populate_extras() {
 
 		if ( bp_is_active( 'friends' ) ) {
 			$this->total_friends = BP_Friends_Friendship::total_friend_count( $this->id );
@@ -1347,7 +1347,7 @@ class BP_Core_Notification {
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 */
-	private function populate() {
+	public function populate() {
 		global $bp, $wpdb;
 
 		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE id = %d", $this->id ) ) ) {

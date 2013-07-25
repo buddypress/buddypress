@@ -23,7 +23,7 @@ class BP_XProfile_Group {
 			$this->populate( $id );
 	}
 
-	private function populate( $id ) {
+	public function populate( $id ) {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id = %d", $id );
@@ -450,7 +450,7 @@ class BP_XProfile_Field {
 			$this->populate( $id, $user_id, $get_data );
 	}
 
-	private function populate( $id, $user_id, $get_data ) {
+	public function populate( $id, $user_id, $get_data ) {
 		global $wpdb, $userdata, $bp;
 
 		if ( empty( $user_id ) ) {
@@ -1015,7 +1015,7 @@ class BP_XProfile_ProfileData {
 		}
 	}
 
-	private function populate( $field_id, $user_id )  {
+	public function populate( $field_id, $user_id )  {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
