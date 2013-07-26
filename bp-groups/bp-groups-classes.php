@@ -381,7 +381,6 @@ class BP_Groups_Group {
 
 		if ( ! empty( $meta_query_sql['join'] ) ) {
 			$sql['from'] .= $meta_query_sql['join'];
-			$total_sql['select'] .= $meta_query_sql['join_total'];
 		}
 
 		if ( ! empty( $meta_query_sql['where'] ) ) {
