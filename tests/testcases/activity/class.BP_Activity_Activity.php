@@ -75,6 +75,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @group meta_query
 	 */
 	public function test_get_with_meta_query() {
 		$a1 = $this->factory->activity->create();
@@ -91,6 +92,40 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
 		$this->assertEquals( $ids, array( $a1 ) );
+	}
+
+	public function test_get_with_meta_query_two_clauses_with_or_relation() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 60 ),
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 120 ),
+		) );
+		bp_activity_update_meta( $a1, 'foo', 'bar' );
+		bp_activity_update_meta( $a2, 'foo', 'bar' );
+		bp_activity_update_meta( $a1, 'baz', 'barry' );
+
+		$activity = BP_Activity_Activity::get( array(
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+				array(
+					'key' => 'baz',
+					'value' => 'barry',
+				),
+			),
+		) );
+
+		$ids = wp_list_pluck( $activity['activities'], 'id' );
+		$this->assertEquals( array( $a1, $a2 ), $ids );
+		$this->assertEquals( 2, $activity['total'] );
 	}
 
 	/**

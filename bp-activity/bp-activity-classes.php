@@ -155,7 +155,7 @@ class BP_Activity_Activity {
 		extract( $r );
 
 		// Select conditions
-		$select_sql = "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
+		$select_sql = "SELECT DISTINCT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
 
 		$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
 
@@ -247,7 +247,7 @@ class BP_Activity_Activity {
 			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort ) );
 		}
 
-		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(a.id) FROM {$bp->activity->table_name} a {$index_hint_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $where_sql, $sort );
+		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$index_hint_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $where_sql, $sort );
 
 		$total_activities = $wpdb->get_var( $total_activities_sql );
 
