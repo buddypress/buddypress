@@ -27,14 +27,11 @@ if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-groups' == $_REQUEST['pag
  */
 function bp_groups_add_admin_menu() {
 
-	if ( ! bp_current_user_can( 'bp_moderate' ) )
-		return;
-
 	// Add our screen
 	$hook = add_menu_page(
 		__( 'Groups', 'buddypress' ),
 		__( 'Groups', 'buddypress' ),
-		'manage_options',
+		'bp_moderate',
 		'bp-groups',
 		'bp_groups_admin',
 		'div'

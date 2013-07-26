@@ -27,14 +27,11 @@ if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-activity' == $_REQUEST['p
  */
 function bp_activity_add_admin_menu() {
 
-	if ( ! bp_current_user_can( 'bp_moderate' ) )
-		return;
-
 	// Add our screen
 	$hook = add_menu_page(
 		__( 'Activity', 'buddypress' ),
 		__( 'Activity', 'buddypress' ),
-		'manage_options',
+		'bp_moderate',
 		'bp-activity',
 		'bp_activity_admin',
 		'div'
