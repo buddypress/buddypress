@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-07-24 20:35:29+00:00\n"
+"POT-Creation-Date: 2013-07-26 18:35:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3001,7 +3001,7 @@ msgstr ""
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:863 bp-groups/bp-groups-classes.php:2115
+#: bp-groups/bp-groups-admin.php:863 bp-groups/bp-groups-classes.php:2114
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3126,11 +3126,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1297
+#: bp-groups/bp-groups-classes.php:1296
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1303 bp-groups/bp-groups-functions.php:121
+#: bp-groups/bp-groups-classes.php:1302 bp-groups/bp-groups-functions.php:121
 msgid "Group Admin"
 msgstr ""
 
