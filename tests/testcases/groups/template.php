@@ -278,14 +278,20 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_exclude_admins_mods_0() {
-		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
 		$u3 = $this->create_user();
+		$g = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
 
-		$this->add_user_to_group( $u1, $g );
-		$this->add_user_to_group( $u2, $g );
-		$this->add_user_to_group( $u3, $g );
+		$now = time();
+		$this->add_user_to_group( $u2, $g, array(
+			'date_modified' => $now - 60,
+		) );
+		$this->add_user_to_group( $u3, $g, array(
+			'date_modified' => $now - 60*60,
+		) );
 
 		$m1 = new BP_Groups_Member( $u1, $g );
 		$m1->promote( 'admin' );
