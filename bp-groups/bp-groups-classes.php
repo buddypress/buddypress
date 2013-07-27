@@ -353,7 +353,7 @@ class BP_Groups_Group {
 		$sql       = array();
 		$total_sql = array();
 
-		$sql['select'] = "SELECT g.*, gm1.meta_value AS total_member_count, gm2.meta_value AS last_activity";
+		$sql['select'] = "SELECT DISTINCT g.id, g.*, gm1.meta_value AS total_member_count, gm2.meta_value AS last_activity";
 		$sql['from']   = " FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2,";
 
 		if ( ! empty( $r['user_id'] ) ) {
@@ -468,11 +468,10 @@ class BP_Groups_Group {
 		// See #5099
 		if ( ! empty( $meta_query_sql['where'] ) ) {
 			// Join the groupmeta table
-			$total_sql['select'] .= ", {$bp->groups->table_name_groupmeta} gmmq";
+			$total_sql['select'] .= ", ". substr( $meta_query_sql['join'], 0, -2 );
 
 			// Modify the meta_query clause from paged_sql for our syntax
 			$meta_query_clause = preg_replace( '/^\s*AND/', '', $meta_query_sql['where'] );
-			$meta_query_clause = str_replace( $bp->groups->table_name_groupmeta, 'gmmq', $meta_query_clause );
 			$total_sql['where'][] = $meta_query_clause;
 		}
 
@@ -560,11 +559,19 @@ class BP_Groups_Group {
 			// @todo It may be better in the long run to refactor
 			// the more general query syntax to accord better with
 			// BP/WP convention
-			preg_match( '/INNER JOIN (.*) ON/', $meta_sql['join'], $matches_a );
-			preg_match( '/ON \((.*)\)$/', $meta_sql['join'], $matches_b );
+			preg_match_all( '/INNER JOIN (.*) ON/', $meta_sql['join'], $matches_a );
+			preg_match_all( '/ON \((.*)\)/', $meta_sql['join'], $matches_b );
+
 			if ( ! empty( $matches_a[1] ) && ! empty( $matches_b[1] ) ) {
-				$sql_array['join']  = $matches_a[1] . ', ';
-				$sql_array['where'] = preg_replace( '/^(\sAND\s+[\(\s]+)/', '$1' . $matches_b[1] . ' AND ', $meta_sql['where'] );
+				$sql_array['join']  = implode( ',', $matches_a[1] ). ', ';
+
+				$sql_array['where'] = '';
+
+				$meta_query_where_clauses = explode( "\n", $meta_sql['where'] );
+				foreach( $matches_b[1] as $key => $group_id_clause ) {
+					$sql_array['where'] .= ' ' . preg_replace( '/^(AND\s+[\(\s]+)/', '$1' . $group_id_clause . ' AND ', ltrim( $meta_query_where_clauses[ $key ] ) );
+				}
+
 			}
 		}
 
