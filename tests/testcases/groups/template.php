@@ -176,8 +176,11 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		}
 
 		$expected = array();
+		$now = time();
 		for ( $i = 3; $i <= 10; $i++ ) {
-			$this->add_user_to_group( $users[ $i ], $g );
+			$this->add_user_to_group( $users[ $i ], $g, array(
+				'date_modified' => $now - 60 * $i,
+			) );
 			$expected[] = $users[ $i ];
 		}
 
