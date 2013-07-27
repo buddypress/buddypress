@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-07-26 18:35:27+00:00\n"
+"POT-Creation-Date: 2013-07-27 18:35:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -566,7 +566,7 @@ msgid "%s posted an update"
 msgstr ""
 
 #: bp-activity/bp-activity-functions.php:1188
-#: tests/testcases/activity/class.BP_Activity_Activity.php:167
+#: tests/testcases/activity/class.BP_Activity_Activity.php:202
 msgid "%s posted a new activity comment"
 msgstr ""
 
@@ -3001,7 +3001,7 @@ msgstr ""
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:863 bp-groups/bp-groups-classes.php:2114
+#: bp-groups/bp-groups-admin.php:863 bp-groups/bp-groups-classes.php:2121
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3126,11 +3126,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1296
+#: bp-groups/bp-groups-classes.php:1303
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1302 bp-groups/bp-groups-functions.php:121
+#: bp-groups/bp-groups-classes.php:1309 bp-groups/bp-groups-functions.php:121
 msgid "Group Admin"
 msgstr ""
 
