@@ -98,6 +98,43 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @group group_meta_query
+	 */
+	public function test_get_with_meta_query_multiple_clauses() {
+		$now = time();
+		$g1 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
+		) );
+		groups_update_groupmeta( $g1, 'foo', 'bar' );
+		groups_update_groupmeta( $g2, 'foo', 'bar' );
+		groups_update_groupmeta( $g1, 'bar', 'barry' );
+
+		$groups = BP_Groups_Group::get( array(
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+				array(
+					'key' => 'bar',
+					'value' => 'barry',
+				),
+			),
+		) );
+		$ids = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( $ids, array( $g1 ) );
+		$this->assertEquals( 1, $groups['total'] );
+	}
+
+	/**
+	 * @group get
 	 */
 	public function test_get_normal_search() {
 		$g1 = $this->factory->group->create( array(
