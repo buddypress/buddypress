@@ -339,15 +339,23 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_exclude_banned_0() {
-		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
+		$u3 = $this->create_user();
 
-		$this->add_user_to_group( $u1, $g );
-		$this->add_user_to_group( $u2, $g );
+		$g = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
 
-		$m1 = new BP_Groups_Member( $u1, $g );
-		$m1->ban();
+		$this->add_user_to_group( $u2, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*24 ),
+		) );
+		$this->add_user_to_group( $u3, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*12 ),
+		) );
+
+		$m2 = new BP_Groups_Member( $u2, $g );
+		$m2->ban();
 
 		global $members_template;
 		bp_group_has_members( array(
@@ -357,7 +365,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		) );
 
 		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
-		$this->assertEquals( array( $u1, $u2, ), $ids );
+		$this->assertEquals( array( $u1, $u3, $u2 ), $ids );
 	}
 
 	/**
@@ -376,7 +384,6 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$u3 = $this->create_user( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 6000 ),
 		) );
-
 
 		$g = $this->factory->group->create( array(
 			'creator_id' => $u1,
