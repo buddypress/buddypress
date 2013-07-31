@@ -850,6 +850,27 @@ function bp_the_thread_recipients() {
 		return apply_filters( 'bp_get_the_thread_recipients', implode( ', ', $recipient_links ) );
 	}
 
+/**
+ * Echoes the ID of the current message in the thread
+ *
+ * @since BuddyPress (1.9)
+ */
+function bp_the_thread_message_id() {
+	echo bp_get_the_thread_message_id();
+}
+	/**
+	 * Gets the ID of the current message in the thread
+	 *
+	 * @since BuddyPress (1.9)
+	 * @return int
+	 */
+	function bp_get_the_thread_message_id() {
+		global $thread_template;
+
+		$thread_message_id = isset( $thread_template->message->id ) ? (int) $thread_template->message->id : null;
+		return apply_filters( 'bp_get_the_thread_message_id', $thread_message_id );
+	}
+
 function bp_the_thread_message_alt_class() {
 	echo bp_get_the_thread_message_alt_class();
 }
