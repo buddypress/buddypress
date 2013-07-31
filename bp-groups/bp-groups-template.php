@@ -884,14 +884,14 @@ function bp_group_search_form() {
 	$label = __('Filter Groups', 'buddypress');
 	$name = 'group-filter-box';
 
-?>
-	<form action="<?php echo $action ?>" id="group-search-form" method="post">
-		<label for="<?php echo $name ?>" id="<?php echo $name ?>-label"><?php echo $label ?></label>
-		<input type="search" name="<?php echo $name ?>" id="<?php echo $name ?>" value="<?php echo $value ?>"<?php echo $disabled ?> />
+	$search_form_html = '<form action="' . $action . '" id="group-search-form" method="post">
+		<label for="'. $name .'" id="'. $name .'-label">'. $label .'</label>
+		<input type="search" name="'. $name . '" id="'. $name .'" value="'. $value .'"'.  $disabled .' />
 
-		<?php wp_nonce_field( 'group-filter-box', '_wpnonce_group_filter' ) ?>
-	</form>
-<?php
+		'. wp_nonce_field( 'group-filter-box', '_wpnonce_group_filter', true, false ) .'
+		</form>';
+
+	echo apply_filters( 'bp_group_search_form', $search_form_html );
 }
 
 function bp_group_show_no_groups_message() {
@@ -2496,14 +2496,15 @@ function bp_new_group_invite_friend_list() {
 function bp_directory_groups_search_form() {
 
 	$default_search_value = bp_get_search_default_text( 'groups' );
-	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
+	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
 
-	<form action="" method="get" id="search-groups-form">
-		<label><input type="text" name="s" id="groups_search" placeholder="<?php echo esc_attr( $search_value ) ?>" /></label>
-		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
-	</form>
+	$search_form_html = '<form action="" method="get" id="search-groups-form">
+		<label><input type="text" name="s" id="groups_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="'. _e( 'Search', 'buddypress' ) .'" />
+	</form>';
 
-<?php
+	echo apply_filters( 'bp_directory_groups_search_form', $search_form_html );
+
 }
 
 /**

@@ -703,14 +703,14 @@ function bp_member_hidden_fields() {
 function bp_directory_members_search_form() {
 
 	$default_search_value = bp_get_search_default_text( 'members' );
-	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
+	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
 
-	<form action="" method="get" id="search-members-form">
-		<label><input type="text" name="s" id="members_search" placeholder="<?php echo esc_attr( $search_value ) ?>" /></label>
-		<input type="submit" id="members_search_submit" name="members_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
-	</form>
+	$search_form_html = '<form action="" method="get" id="search-members-form">
+		<label><input type="text" name="s" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . _e( 'Search', 'buddypress' ) . '" />
+	</form>';
 
-<?php
+	echo apply_filters( 'bp_directory_members_search_form', $search_form_html );
 }
 
 function bp_total_site_member_count() {
