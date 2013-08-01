@@ -2580,14 +2580,14 @@ class BP_Group_Extension {
 		$method  = $context . '_' . $type;
 		$rmethod = $this->class_reflection->getMethod( $method );
 		if ( isset( $rmethod->class ) && $this->class_name === $rmethod->class ) {
-			$callback = array( $this->class_name, $method );
+			$callback = array( $this, $method );
 		}
 
 		if ( empty( $callback ) ) {
 			$fallback_method  = 'settings_' . $type;
 			$rfallback_method = $this->class_reflection->getMethod( $fallback_method );
 			if ( isset( $rfallback_method->class ) && $this->class_name === $rfallback_method->class ) {
-				$callback = array( $this->class_name, $fallback_method );
+				$callback = array( $this, $fallback_method );
 			}
 		}
 

@@ -61,8 +61,8 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$screens = $e->_get_default_screens();
 
 		$fallback = array(
-			'screen_callback' => array( $class_name, 'settings_screen' ),
-			'screen_save_callback' => array( $class_name, 'settings_screen_save' ),
+			'screen_callback' => array( $e, 'settings_screen' ),
+			'screen_save_callback' => array( $e, 'settings_screen_save' ),
 		);
 		$fallbacks = array(
 			'create' => $fallback,
@@ -90,14 +90,14 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$screens = $e->_get_default_screens();
 
 		$fallback = array(
-			'screen_callback' => array( $class_name, 'settings_screen' ),
-			'screen_save_callback' => array( $class_name, 'settings_screen_save' ),
+			'screen_callback' => array( $e, 'settings_screen' ),
+			'screen_save_callback' => array( $e, 'settings_screen_save' ),
 		);
 		$expected = array(
 			'create' => $fallback,
 			'edit' => array(
-				'screen_callback' => array( $class_name, 'edit_screen' ),
-				'screen_save_callback' => array( $class_name, 'edit_screen_save' ),
+				'screen_callback' => array( $e, 'edit_screen' ),
+				'screen_save_callback' => array( $e, 'edit_screen_save' ),
 			),
 			'admin' => $fallback,
 		);
@@ -202,12 +202,12 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e = new $class_name();
 		$e->_register();
 
-		$this->assertEquals( array( $class_name, 'settings_screen' ), $e->screens['create']['screen_callback'] );
-		$this->assertEquals( array( $class_name, 'settings_screen_save' ), $e->screens['create']['screen_save_callback'] );
-		$this->assertEquals( array( $class_name, 'settings_screen' ), $e->screens['admin']['screen_callback'] );
-		$this->assertEquals( array( $class_name, 'settings_screen_save' ), $e->screens['admin']['screen_save_callback'] );
-		$this->assertEquals( array( $class_name, 'edit_screen' ), $e->screens['edit']['screen_callback'] );
-		$this->assertEquals( array( $class_name, 'edit_screen_save' ), $e->screens['edit']['screen_save_callback'] );
+		$this->assertEquals( array( $e, 'settings_screen' ), $e->screens['create']['screen_callback'] );
+		$this->assertEquals( array( $e, 'settings_screen_save' ), $e->screens['create']['screen_save_callback'] );
+		$this->assertEquals( array( $e, 'settings_screen' ), $e->screens['admin']['screen_callback'] );
+		$this->assertEquals( array( $e, 'settings_screen_save' ), $e->screens['admin']['screen_save_callback'] );
+		$this->assertEquals( array( $e, 'edit_screen' ), $e->screens['edit']['screen_callback'] );
+		$this->assertEquals( array( $e, 'edit_screen_save' ), $e->screens['edit']['screen_save_callback'] );
 	}
 
 	public function test_has_submit_button() {
