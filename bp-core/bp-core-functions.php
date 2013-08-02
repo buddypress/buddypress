@@ -834,7 +834,7 @@ function bp_core_record_activity() {
 	if ( bp_is_user_inactive( $user_id ) )
 		return false;
 
-	$activity = bp_get_user_meta( $user_id, 'last_activity', true );
+	$activity = bp_get_user_last_activity( $user_id );
 
 	if ( !is_numeric( $activity ) )
 		$activity = strtotime( $activity );
@@ -847,8 +847,9 @@ function bp_core_record_activity() {
 		do_action( 'bp_first_activity_for_member', $user_id );
 	}
 
-	if ( empty( $activity ) || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) )
-		bp_update_user_meta( $user_id, 'last_activity', $current_time );
+	if ( empty( $activity ) || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) ) {
+		bp_update_user_last_activity( $user_id, $current_time );
+	}
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
 

@@ -213,7 +213,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 		$user_id = $this->factory->user->create( $args );
 
-		update_user_meta( $user_id, 'last_activity', $last_activity );
+		bp_update_user_last_activity( $user_id, $last_activity );
 
 		if ( bp_is_active( 'xprofile' ) ) {
 			$user = new WP_User( $user_id );

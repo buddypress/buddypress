@@ -868,7 +868,7 @@ function bp_last_activity( $user_id = 0 ) {
 		if ( empty( $user_id ) )
 			$user_id = bp_displayed_user_id();
 
-		$last_activity = bp_core_get_last_activity( bp_get_user_meta( $user_id, 'last_activity', true ), __('active %s', 'buddypress') );
+		$last_activity = bp_core_get_last_activity( bp_get_user_last_activity( $user_id ), __('active %s', 'buddypress') );
 
 		return apply_filters( 'bp_get_last_activity', $last_activity );
 	}

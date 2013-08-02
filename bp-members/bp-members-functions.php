@@ -808,6 +808,51 @@ function bp_is_user_inactive( $user_id = 0 ) {
 }
 
 /**
+ * Update a user's last activity
+ *
+ * @since BuddyPress (1.9)
+ * @param int $user_id ID of the user being updated
+ * @param string $time Time of last activity, in 'Y-m-d H:i:s' format
+ * @return bool True on success
+ */
+function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
+	// Fall back on current user
+	if ( empty( $user_id ) ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	// Bail if the user id is 0, as there's nothing to update
+	if ( empty( $user_id ) ) {
+		return false;
+	}
+
+	// Fall back on current time
+	if ( empty( $time ) ) {
+		$time = bp_core_current_time();
+	}
+
+	return bp_update_user_meta( $user_id, 'last_activity', $time );
+}
+
+/**
+ * Get the last activity for a given user
+ *
+ * @param int $user_id The ID of the user
+ * @return string Time of last activity, in 'Y-m-d H:i:s' format, or an empty
+ *   string if none is found
+ */
+function bp_get_user_last_activity( $user_id = 0 ) {
+	// Fall back on current user
+	if ( empty( $user_id ) ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	$activity = bp_get_user_meta( $user_id, 'last_activity', true );
+
+	return apply_filters( 'bp_get_user_last_activity', $activity, $user_id );
+}
+
+/**
  * Fetch every post that is authored by the given user for the current blog.
  *
  * @package BuddyPress Core
@@ -1513,4 +1558,4 @@ function bp_live_spammer_login_error() {
 	// shake shake shake!
 	add_action( 'login_head', 'wp_shake_js', 12 );
 }
-add_action( 'login_form_bp-spam', 'bp_live_spammer_login_error' ); 
+add_action( 'login_form_bp-spam', 'bp_live_spammer_login_error' );

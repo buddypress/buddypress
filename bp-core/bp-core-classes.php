@@ -777,7 +777,7 @@ class BP_Core_User {
 		$this->avatar       = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full', 'alt' => sprintf( __( 'Avatar of %s', 'buddypress' ), $this->fullname ) ) );
 		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'alt' => sprintf( __( 'Avatar of %s', 'buddypress' ), $this->fullname ) ) );
 		$this->avatar_mini  = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'alt' => sprintf( __( 'Avatar of %s', 'buddypress' ), $this->fullname ), 'width' => 30, 'height' => 30 ) );
-		$this->last_active  = bp_core_get_last_activity( bp_get_user_meta( $this->id, 'last_activity', true ), __( 'active %s', 'buddypress' ) );
+		$this->last_active  = bp_core_get_last_activity( bp_get_user_last_activity( $this->id ), __( 'active %s', 'buddypress' ) );
 	}
 
 	/**
