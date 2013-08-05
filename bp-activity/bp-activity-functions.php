@@ -685,7 +685,7 @@ function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
 
 	// Sanitize value
 	if ( is_string( $meta_value ) )
-		$meta_value = stripslashes( $wpdb->escape( $meta_value ) );
+		$meta_value = stripslashes( esc_sql( $meta_value ) );
 
 	// Maybe, just maybe... serialize
 	$meta_value = maybe_serialize( $meta_value );

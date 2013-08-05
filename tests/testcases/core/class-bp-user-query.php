@@ -200,4 +200,26 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$this->assertEquals( $user_id, $found_user_id );
 	}
+
+	/**
+	 * @group exclude
+	 */
+	public function test_bp_user_query_with_exclude() {
+		// Grab list of existing users who should also be excluded
+		global $wpdb;
+		$existing_users = $wpdb->get_col( "SELECT ID FROM {$wpdb->users}" );
+
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		$exclude = array_merge( array( $u1 ), $existing_users );
+		$q = new BP_User_Query( array( 'exclude' => $exclude, ) );
+
+		$found_user_ids = null;
+		if ( ! empty( $q->results ) ) {
+			$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+		}
+
+		$this->assertEquals( array( $u2 ), $found_user_ids );
+	}
 }

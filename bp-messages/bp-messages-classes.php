@@ -149,7 +149,7 @@ class BP_Messages_Thread {
 			$type_sql = " AND r.unread_count = 0 ";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = like_escape( $wpdb->escape( $search_terms ) );
+			$search_terms = like_escape( esc_sql( $search_terms ) );
 			$search_sql   = "AND ( subject LIKE '%%$search_terms%%' OR message LIKE '%%$search_terms%%' )";
 		}
 

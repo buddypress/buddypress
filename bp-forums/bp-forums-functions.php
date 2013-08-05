@@ -456,7 +456,7 @@ function bp_forums_get_topic_extras( $topics ) {
 
 	// Get the topic ids
 	foreach ( (array) $topics as $topic ) $topic_ids[] = $topic->topic_id;
-	$topic_ids = $wpdb->escape( join( ',', (array) $topic_ids ) );
+	$topic_ids = implode( ',', wp_parse_id_list( $topic_ids ) );
 
 	// Fetch the topic's last poster details
 	$poster_details = $wpdb->get_results( "SELECT t.topic_id, t.topic_last_poster, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u, {$bbdb->topics} t WHERE u.ID = t.topic_last_poster AND t.topic_id IN ( {$topic_ids} )" );
@@ -590,7 +590,7 @@ function bp_forums_get_post_extras( $posts ) {
 
 	// Get the user ids
 	foreach ( (array) $posts as $post ) $user_ids[] = $post->poster_id;
-	$user_ids = $wpdb->escape( join( ',', (array) $user_ids ) );
+	$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
 
 	// Fetch the poster's user_email, user_nicename and user_login
 	$poster_details = $wpdb->get_results( "SELECT u.ID as user_id, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$wpdb->users} u WHERE u.ID IN ( {$user_ids} )" );

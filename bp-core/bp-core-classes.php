@@ -324,8 +324,7 @@ class BP_User_Query {
 
 		// 'exclude' - User ids to exclude from the results
 		if ( false !== $exclude ) {
-			$exclude        = wp_parse_id_list( $exclude );
-			$exclude_ids    = $wpdb->escape( implode( ',', (array) $exclude ) );
+			$exclude_ids    = implode( ',', wp_parse_id_list( $exclude ) );
 			$sql['where'][] = "u.{$this->uid_name} NOT IN ({$exclude_ids})";
 		}
 

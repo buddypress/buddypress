@@ -708,7 +708,7 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	if ( is_string($meta_value) )
-		$meta_value = stripslashes($wpdb->escape($meta_value));
+		$meta_value = stripslashes( esc_sql( $meta_value ) );
 
 	$meta_value = maybe_serialize($meta_value);
 
