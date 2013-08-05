@@ -172,7 +172,7 @@ class BP_Activity_Activity {
 
 		// Searching
 		if ( $search_terms ) {
-			$search_terms = $wpdb->escape( $search_terms );
+			$search_terms = esc_sql( $search_terms );
 			$where_conditions['search_sql'] = "a.content LIKE '%%" . esc_sql( like_escape( $search_terms ) ) . "%%'";
 		}
 

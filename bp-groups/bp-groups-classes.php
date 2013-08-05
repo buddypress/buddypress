@@ -392,14 +392,12 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $r['include'] ) ) {
-			$include        = wp_parse_id_list( $r['include'] );
-			$include        = $wpdb->escape( implode( ',', $include ) );
+			$include        = implode( ',', wp_parse_id_list( $r['include'] ) );
 			$sql['include'] = " AND g.id IN ({$include})";
 		}
 
 		if ( ! empty( $r['exclude'] ) ) {
-			$exclude        = wp_parse_id_list( $r['exclude'] );
-			$exclude        = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude        = implode( ',', wp_parse_id_list( $r['exclude'] ) );
 			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
 		}
 
@@ -506,7 +504,7 @@ class BP_Groups_Group {
 
 		// Populate some extra information instead of querying each time in the loop
 		if ( !empty( $r['populate_extras'] ) ) {
-			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
+			$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $r['type'] );
 		}
 
@@ -675,13 +673,12 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $exclude ) ) {
-			$exclude     = wp_parse_id_list( $exclude );
-			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude     = implode( ',', wp_parse_id_list( $exclude ) );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		}
 
 		if ( !empty( $user_id ) ) {
-			$user_id      = absint( $wpdb->escape( $user_id ) );
+			$user_id      = absint( esc_sql( $user_id ) );
 			$paged_groups = $wpdb->get_results( "SELECT DISTINCT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_groupmeta} gm3, {$bp->groups->table_name_members} m, {$bbdb->forums} f, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND g.id = gm3.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND (gm3.meta_key = 'forum_id' AND gm3.meta_value = f.forum_id) AND f.topics > 0 {$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql} ORDER BY f.topics DESC {$pag_sql}" );
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_groupmeta} gm3, {$bbdb->forums} f, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND g.id = gm3.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND (gm3.meta_key = 'forum_id' AND gm3.meta_value = f.forum_id) AND f.topics > 0 {$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql}" );
 		} else {
@@ -691,7 +688,7 @@ class BP_Groups_Group {
 
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
+			$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -717,13 +714,12 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $exclude ) ) {
-			$exclude     = wp_parse_id_list( $exclude );
-			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude     = implode( ',', wp_parse_id_list( $exclude ) );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		}
 
 		if ( !empty( $user_id ) ) {
-			$user_id = $wpdb->escape( $user_id );
+			$user_id = esc_sql( $user_id );
 			$paged_groups = $wpdb->get_results( "SELECT DISTINCT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_groupmeta} gm3, {$bp->groups->table_name_members} m, {$bbdb->forums} f, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND g.id = gm3.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND (gm3.meta_key = 'forum_id' AND gm3.meta_value = f.forum_id) {$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql} ORDER BY f.posts ASC {$pag_sql}" );
 			$total_groups = $wpdb->get_results( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_groupmeta} gm3, {$bp->groups->table_name_members} m, {$bbdb->forums} f, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND g.id = gm3.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND (gm3.meta_key = 'forum_id' AND gm3.meta_value = f.forum_id) AND f.posts > 0 {$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql} " );
 		} else {
@@ -733,7 +729,7 @@ class BP_Groups_Group {
 
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
+			$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -755,8 +751,7 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $exclude ) ) {
-			$exclude     = wp_parse_id_list( $exclude );
-			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude     = implode( ',', wp_parse_id_list( $exclude ) );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		}
 
@@ -776,7 +771,7 @@ class BP_Groups_Group {
 			foreach ( (array) $paged_groups as $group ) {
 				$group_ids[] = $group->id;
 			}
-			$group_ids    = $wpdb->escape( join( ',', (array) $group_ids ) );
+			$group_ids    = implode( ',', wp_parse_id_list( $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -801,12 +796,12 @@ class BP_Groups_Group {
 
 		if ( !empty( $exclude ) ) {
 			$exclude     = wp_parse_id_list( $exclude );
-			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude     = esc_sql( implode( ',', $exclude ) );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		}
 
 		if ( !empty( $user_id ) ) {
-			$user_id = $wpdb->escape( $user_id );
+			$user_id = esc_sql( $user_id );
 			$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' {$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql} ORDER BY rand() {$pag_sql}" );
 			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m LEFT JOIN {$bp->groups->table_name_groupmeta} gm ON m.group_id = gm.group_id INNER JOIN {$bp->groups->table_name} g ON m.group_id = g.id WHERE gm.meta_key = 'last_activity'{$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql}" );
 		} else {
@@ -816,7 +811,7 @@ class BP_Groups_Group {
 
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = $wpdb->escape( join( ',', (array) $group_ids ) );
+			$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -1511,8 +1506,7 @@ class BP_Groups_Member {
 		$pag_sql = ( !empty( $limit ) && !empty( $page ) ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
 
 		if ( !empty( $exclude ) ) {
-			$exclude     = wp_parse_id_list( $exclude );
-			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude     = implode( ',', wp_parse_id_list( $exclude ) );
 			$exclude_sql = " AND g.id NOT IN ({$exclude})";
 		} else {
 			$exclude_sql = '';
@@ -1673,8 +1667,7 @@ class BP_Groups_Member {
 
 		$exclude_sql = '';
 		if ( !empty( $exclude ) ) {
-			$exclude     = wp_parse_id_list( $exclude );
-			$exclude     = $wpdb->escape( implode( ',', $exclude ) );
+			$exclude     = implode( ',', wp_parse_id_list( $exclude ) );
 			$exclude_sql = " AND m.user_id NOT IN ({$exclude})";
 		}
 
