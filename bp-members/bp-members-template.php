@@ -707,7 +707,7 @@ function bp_directory_members_search_form() {
 
 	$search_form_html = '<form action="" method="get" id="search-members-form">
 		<label><input type="text" name="s" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
-		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . _e( 'Search', 'buddypress' ) . '" />
+		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . __( 'Search', 'buddypress' ) . '" />
 	</form>';
 
 	echo apply_filters( 'bp_directory_members_search_form', $search_form_html );
