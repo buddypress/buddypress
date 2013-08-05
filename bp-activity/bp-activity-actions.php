@@ -561,20 +561,27 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
  * @return bool False on failure
  */
 function bp_activity_action_mentions_feed() {
-	global $wp_query;
-
 	if ( ! bp_activity_do_mentions() ) {
 		return false;
 	}
 
-	if ( !bp_is_user_activity() || !bp_is_current_action( 'mentions' ) || !bp_is_action_variable( 'feed', 0 ) )
+	if ( !bp_is_user_activity() || ! bp_is_current_action( 'mentions' ) || ! bp_is_action_variable( 'feed', 0 ) ) {
 		return false;
+	}
 
-	$wp_query->is_404 = false;
-	status_header( 200 );
+	// setup the feed
+	buddypress()->activity->feed = new BP_Activity_Feed( array(
+		'id'            => 'mentions',
 
-	include_once( 'feeds/bp-activity-mentions-feed.php' );
-	die;
+		/* translators: User mentions activity RSS title - "[Site Name] | [User Display Name] | Mentions" */
+		'title'         => sprintf( __( '%1$s | %2$s | Mentions', 'buddypress' ), bp_get_site_name(), bp_get_displayed_user_fullname() ),
+
+		'link'          => bp_displayed_user_domain() . bp_get_activity_slug() . '/mentions/',
+		'description'   => sprintf( __( "Activity feed mentioning %s.", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'activity_args' => array(
+			'search_terms' => '@' . bp_core_get_username( bp_displayed_user_id() )
+		)
+	) );
 }
 add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
 
