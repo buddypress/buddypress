@@ -563,7 +563,7 @@ function groups_screen_group_admin_settings() {
 
 		// Checked against a whitelist for security
 		$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
-		$invite_status	       = in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
+		$invite_status	       = isset( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
 
 		// Check the nonce
 		if ( !check_admin_referer( 'groups_edit_group_settings' ) )
