@@ -791,17 +791,19 @@ function bp_blogs_blog_tabs() {
 	do_action( 'bp_blogs_blog_tabs' );
 }
 
+/**
+ * Echoes the blog directory search form
+ */
 function bp_directory_blogs_search_form() {
-
 	$default_search_value = bp_get_search_default_text();
-	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
+	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
 
-	<form action="" method="get" id="search-blogs-form">
-		<label><input type="text" name="s" id="blogs_search" placeholder="<?php echo esc_attr( $search_value ) ?>" /></label>
-		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
-	</form>
+	$search_form_html = '<form action="" method="get" id="search-blogs-form">
+		<label><input type="text" name="s" id="blogs_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="' . __( 'Search', 'buddypress' ) . '" />
+	</form>';
 
-<?php
+	echo apply_filters( 'bp_directory_blogs_search_form', $search_form_html );
 }
 
 /**
