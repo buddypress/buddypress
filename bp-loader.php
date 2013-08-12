@@ -106,11 +106,6 @@ class BuddyPress {
 	/** Singleton *************************************************************/
 
 	/**
-	 * @var BuddyPress The one true BuddyPress
-	 */
-	private static $instance;
-
-	/**
 	 * Main BuddyPress Instance
 	 *
 	 * BuddyPress is great
@@ -122,9 +117,10 @@ class BuddyPress {
 	 *
 	 * @since BuddyPress (1.7)
 	 *
-	 * @staticvar array $instance
+	 * @staticvar object $instance
 	 * @uses BuddyPress::constants() Setup the constants (mostly deprecated)
 	 * @uses BuddyPress::setup_globals() Setup the globals needed
+	 * @uses BuddyPress::legacy_constants() Setup the legacy constants (deprecated)
 	 * @uses BuddyPress::includes() Include the required files
 	 * @uses BuddyPress::setup_actions() Setup the hooks and actions
 	 * @see buddypress()
@@ -132,15 +128,22 @@ class BuddyPress {
 	 * @return BuddyPress The one true BuddyPress
 	 */
 	public static function instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new BuddyPress;
-			self::$instance->constants();
-			self::$instance->setup_globals();
-			self::$instance->legacy_constants();
-			self::$instance->includes();
-			self::$instance->setup_actions();
+
+		// Store the instance locally to avoid private static replication
+		static $instance = null;
+
+		// Only run these methods if they haven't been ran previously
+		if ( null === $instance ) {
+			$instance = new BuddyPress;
+			$instance->constants();
+			$instance->setup_globals();
+			$instance->legacy_constants();
+			$instance->includes();
+			$instance->setup_actions();
 		}
-		return self::$instance;
+
+		// Always return the instance
+		return $instance;
 	}
 
 	/** Magic Methods *********************************************************/
