@@ -215,14 +215,15 @@ function bp_core_get_userid_from_nicename( $user_nicename ) {
  *
  * @package BuddyPress Core
  * @param int $uid User ID to check.
- * @global $userdata WordPress user data for the current logged in user.
- * @uses get_userdata() WordPress function to fetch the userdata for a user ID
+ * @uses bp_core_get_core_userdata() Fetch the userdata for a user ID
  * @return string|bool The username of the matched user, or false.
  */
-function bp_core_get_username( $user_id, $user_nicename = false, $user_login = false ) {
-	global $bp;
+function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login = false ) {
+	$bp = buddypress();
 
-	if ( !$username = wp_cache_get( 'bp_user_username_' . $user_id, 'bp' ) ) {
+	// Check cache for user nicename
+	$username = wp_cache_get( 'bp_user_username_' . $user_id, 'bp' );
+	if ( false === $username ) {
 
 		// Cache not found so prepare to update it
 		$update_cache = true;
@@ -269,12 +270,18 @@ function bp_core_get_username( $user_id, $user_nicename = false, $user_login = f
 	}
 
 	// Check $username for empty spaces and default to nicename if found
-	if ( strstr( $username, ' ' ) )
+	if ( strstr( $username, ' ' ) ) {
 		$username = bp_members_get_user_nicename( $user_id );
+	}
 
 	// Add this to cache
-	if ( ( true == $update_cache ) && !empty( $username ) )
+	if ( ( true === $update_cache ) && !empty( $username ) ) {
 		wp_cache_set( 'bp_user_username_' . $user_id, $username, 'bp' );
+
+	// @todo bust this cache if no $username found?
+	//} else {
+	//	wp_cache_delete( 'bp_user_username_' . $user_id );
+	}
 
 	return apply_filters( 'bp_core_get_username', $username );
 }
