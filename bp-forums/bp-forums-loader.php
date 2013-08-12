@@ -156,9 +156,6 @@ class BP_Forums_Component extends BP_Component {
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
-		// Prevent debug notices
-		$wp_admin_nav = array();
-
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
 

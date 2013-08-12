@@ -52,11 +52,13 @@ class BP_Activity_Component extends BP_Component {
 
 		// Load Akismet support if Akismet is configured
 		$akismet_key = bp_get_option( 'wordpress_api_key' );
-		if ( defined( 'AKISMET_VERSION' ) && ( !empty( $akismet_key ) || defined( 'WPCOM_API_KEY' ) ) && apply_filters( 'bp_activity_use_akismet', bp_is_akismet_active() ) )
+		if ( defined( 'AKISMET_VERSION' ) && ( !empty( $akismet_key ) || defined( 'WPCOM_API_KEY' ) ) && apply_filters( 'bp_activity_use_akismet', bp_is_akismet_active() ) ) {
 			$includes[] = 'akismet';
+		}
 
-		if ( is_admin() )
+		if ( is_admin() ) {
 			$includes[] = 'admin';
+		}
 
 		parent::includes( $includes );
 	}
@@ -68,11 +70,9 @@ class BP_Activity_Component extends BP_Component {
 	 * backwards compatibility.
 	 *
 	 * @since BuddyPress (1.5)
-	 *
-	 * @global object $bp BuddyPress global settings
 	 */
 	public function setup_globals( $args = array() ) {
-		global $bp;
+		$bp = buddypress();
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_ACTIVITY_SLUG' ) )
@@ -86,7 +86,7 @@ class BP_Activity_Component extends BP_Component {
 
 		// All globals for activity component.
 		// Note that global_tables is included in this array.
-		$globals = array(
+		$args = array(
 			'slug'                  => BP_ACTIVITY_SLUG,
 			'root_slug'             => isset( $bp->pages->activity->slug ) ? $bp->pages->activity->slug : BP_ACTIVITY_SLUG,
 			'has_directory'         => true,
@@ -95,7 +95,7 @@ class BP_Activity_Component extends BP_Component {
 			'notification_callback' => 'bp_activity_format_notifications',
 		);
 
-		parent::setup_globals( $globals );
+		parent::setup_globals( $args );
 	}
 
 	/**
@@ -110,8 +110,6 @@ class BP_Activity_Component extends BP_Component {
 	 * @uses bp_get_groups_slug()
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
-		$sub_nav = array();
 
 		// Add 'Activity' to the main navigation
 		$main_nav = array(
@@ -217,10 +215,7 @@ class BP_Activity_Component extends BP_Component {
 	 * @uses bp_get_groups_slug()
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
-		global $bp;
-
-		// Prevent debug notices
-		$wp_admin_nav = array();
+		$bp = buddypress();
 
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
@@ -308,7 +303,7 @@ class BP_Activity_Component extends BP_Component {
 	 * @uses bp_core_fetch_avatar()
 	 */
 	function setup_title() {
-		global $bp;
+		$bp = buddypress();
 
 		// Adjust title based on view
 		if ( bp_is_activity_component() ) {
@@ -341,8 +336,6 @@ class BP_Activity_Component extends BP_Component {
 }
 
 function bp_setup_activity() {
-	global $bp;
-
-	$bp->activity = new BP_Activity_Component();
+	buddypress()->activity = new BP_Activity_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_activity', 6 );

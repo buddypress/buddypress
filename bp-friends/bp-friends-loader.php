@@ -30,7 +30,6 @@ class BP_Friends_Component extends BP_Component {
 	 * Include files
 	 */
 	public function includes( $includes = array() ) {
-		// Files to include
 		$includes = array(
 			'actions',
 			'screens',
@@ -52,10 +51,9 @@ class BP_Friends_Component extends BP_Component {
 	 * backwards compatibility.
 	 *
 	 * @since BuddyPress (1.5)
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	public function setup_globals( $args = array() ) {
-		global $bp;
+		$bp = buddypress();
 
 		define ( 'BP_FRIENDS_DB_VERSION', '1800' );
 
@@ -71,7 +69,7 @@ class BP_Friends_Component extends BP_Component {
 
 		// All globals for the friends component.
 		// Note that global_tables is included in this array.
-		$globals = array(
+		$args = array(
 			'slug'                  => BP_FRIENDS_SLUG,
 			'has_directory'         => false,
 			'search_string'         => __( 'Search Friends...', 'buddypress' ),
@@ -79,18 +77,14 @@ class BP_Friends_Component extends BP_Component {
 			'global_tables'         => $global_tables
 		);
 
-		parent::setup_globals( $globals );
+		parent::setup_globals( $args );
 	}
 
 	/**
 	 * Setup BuddyBar navigation
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-		global $bp;
-
-		$sub_nav = array();
+		$bp = buddypress();
 
 		// Add 'Friends' to the main navigation
 		$main_nav = array(
@@ -139,14 +133,9 @@ class BP_Friends_Component extends BP_Component {
 
 	/**
 	 * Set up the Toolbar
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
-		global $bp;
-
-		// Prevent debug notices
-		$wp_admin_nav = array();
+		$bp = buddypress();
 
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
@@ -195,11 +184,9 @@ class BP_Friends_Component extends BP_Component {
 
 	/**
 	 * Sets up the title for pages and <title>
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_title() {
-		global $bp;
+		$bp = buddypress();
 
 		// Adjust title
 		if ( bp_is_friends_component() ) {
@@ -220,7 +207,6 @@ class BP_Friends_Component extends BP_Component {
 }
 
 function bp_setup_friends() {
-	global $bp;
-	$bp->friends = new BP_Friends_Component();
+	buddypress()->friends = new BP_Friends_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_friends', 6 );

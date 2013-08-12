@@ -38,11 +38,9 @@ class BP_Core extends BP_Component {
 	 * and optional components.
 	 *
 	 * @since BuddyPress (1.5)
-	 *
-	 * @global BuddyPress $bp
 	 */
 	private function bootstrap() {
-		global $bp;
+		$bp = buddypress();
 
 		/**
 		 * At this point in the stack, BuddyPress core has been loaded but
@@ -127,11 +125,9 @@ class BP_Core extends BP_Component {
 	 * amount of processing, meaning they cannot be set in the BuddyPress class.
 	 *
 	 * @since BuddyPress (1.5)
-	 *
-	 * @global BuddyPress $bp
 	 */
 	public function setup_globals( $args = array() ) {
-		global $bp;
+		$bp = buddypress();
 
 		/** Database **********************************************************/
 
@@ -191,17 +187,12 @@ class BP_Core extends BP_Component {
 	 * Setup BuddyBar navigation
 	 *
 	 * @since BuddyPress (1.5)
-	 *
-	 * @global BuddyPress $bp
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-		global $bp;
+		$bp = buddypress();
 
 		 // If xprofile component is disabled, revert to WordPress profile
 		if ( !bp_is_active( 'xprofile' ) ) {
-
-			// Define local variable
-			$sub_nav = array();
 
 			// Fallback values if xprofile is disabled
 			if ( ! isset( $bp->core->profile ) ) {
@@ -243,7 +234,6 @@ class BP_Core extends BP_Component {
  * @global BuddyPress $bp
  */
 function bp_setup_core() {
-	global $bp;
-	$bp->core = new BP_Core();
+	buddypress()->core = new BP_Core();
 }
 add_action( 'bp_setup_components', 'bp_setup_core', 2 );

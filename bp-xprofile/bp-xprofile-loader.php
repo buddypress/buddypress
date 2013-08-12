@@ -74,10 +74,9 @@ class BP_XProfile_Component extends BP_Component {
 	 * backwards compatibility.
 	 *
 	 * @since BuddyPress (1.5)
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	public function setup_globals( $args = array() ) {
-		global $bp;
+		$bp = buddypress();
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_XPROFILE_SLUG' ) )
@@ -207,11 +206,9 @@ class BP_XProfile_Component extends BP_Component {
 
 	/**
 	 * Set up the Toolbar
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
-		global $bp;
+		$bp = buddypress();
 
 		// Prevent debug notices
 		$wp_admin_nav = array();
@@ -261,11 +258,9 @@ class BP_XProfile_Component extends BP_Component {
 
 	/**
 	 * Sets up the title for pages and <title>
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_title() {
-		global $bp;
+		$bp = buddypress();
 
 		if ( bp_is_profile_component() ) {
 			if ( bp_is_my_profile() ) {
@@ -285,7 +280,7 @@ class BP_XProfile_Component extends BP_Component {
 }
 
 function bp_setup_xprofile() {
-	global $bp;
+	$bp = buddypress();
 
 	if ( !isset( $bp->profile->id ) )
 		$bp->profile = new BP_XProfile_Component();

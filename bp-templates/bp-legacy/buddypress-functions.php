@@ -772,12 +772,11 @@ function bp_legacy_theme_delete_activity_comment() {
 /**
  * AJAX spam an activity item or comment
  *
- * @global BuddyPress $bp The one true BuddyPress instance
  * @return mixed String on error, void on success
  * @since BuddyPress (1.6)
  */
 function bp_legacy_theme_spam_activity() {
-	global $bp;
+	$bp = buddypress();
 
 	// Bail if not a POST action
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
@@ -1239,7 +1238,6 @@ function bp_legacy_theme_ajax_messages_delete() {
 /**
  * AJAX handler for autocomplete. Displays friends only, unless BP_MESSAGES_AUTOCOMPLETE_ALL is defined.
  *
- * @global BuddyPress $bp The one true BuddyPress instance
  * @return string HTML
  * @since BuddyPress (1.2)
  */

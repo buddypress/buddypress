@@ -65,9 +65,6 @@ class BP_Settings_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Define local variable
-		$sub_nav = array();
-
 		// Add the settings navigation item
 		$main_nav = array(
 			'name'                    => __( 'Settings', 'buddypress' ),
@@ -147,9 +144,6 @@ class BP_Settings_Component extends BP_Component {
 
 		// The instance
 		$bp = buddypress();
-
-		// Prevent debug notices
-		$wp_admin_nav = array();
 
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {

@@ -34,10 +34,9 @@ class BP_Blogs_Component extends BP_Component {
 	 * backwards compatibility.
 	 *
 	 * @since BuddyPress (1.5)
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	public function setup_globals( $args = array() ) {
-		global $bp;
+		$bp = buddypress();
 
 		if ( !defined( 'BP_BLOGS_SLUG' ) )
 			define ( 'BP_BLOGS_SLUG', $this->id );
@@ -50,7 +49,7 @@ class BP_Blogs_Component extends BP_Component {
 
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
-		$globals = array(
+		$args = array(
 			'slug'                  => BP_BLOGS_SLUG,
 			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : BP_BLOGS_SLUG,
 			'has_directory'         => is_multisite(), // Non-multisite installs don't need a top-level Sites directory, since there's only one site
@@ -61,7 +60,7 @@ class BP_Blogs_Component extends BP_Component {
 		);
 
 		// Setup the globals
-		parent::setup_globals( $globals );
+		parent::setup_globals( $args );
 	}
 
 	/**
@@ -90,11 +89,9 @@ class BP_Blogs_Component extends BP_Component {
 
 	/**
 	 * Setup BuddyBar navigation
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-		global $bp;
+		$bp = buddypress();
 
 		/**
 		 * Blog/post/comment menus should not appear on single WordPress setups.
@@ -103,8 +100,6 @@ class BP_Blogs_Component extends BP_Component {
 		 */
 		if ( !is_multisite() )
 			return false;
-
-		$sub_nav = array();
 
 		// Add 'Sites' to the main navigation
 		$main_nav =  array(
@@ -146,7 +141,7 @@ class BP_Blogs_Component extends BP_Component {
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
-		global $bp;
+		$bp = buddypress();
 
 		/**
 		 * Blog/post/comment menus should not appear on single WordPress setups.
@@ -155,9 +150,6 @@ class BP_Blogs_Component extends BP_Component {
 		 */
 		if ( !is_multisite() )
 			return false;
-
-		// Prevent debug notices
-		$wp_admin_nav = array();
 
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
@@ -196,11 +188,9 @@ class BP_Blogs_Component extends BP_Component {
 
 	/**
 	 * Sets up the title for pages and <title>
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	function setup_title() {
-		global $bp;
+		$bp = buddypress();
 
 		// Set up the component options navigation for Blog
 		if ( bp_is_blogs_component() ) {
@@ -226,7 +216,6 @@ class BP_Blogs_Component extends BP_Component {
 }
 
 function bp_setup_blogs() {
-	global $bp;
-	$bp->blogs = new BP_Blogs_Component();
+	buddypress()->blogs = new BP_Blogs_Component();
 }
 add_action( 'bp_setup_components', 'bp_setup_blogs', 6 );
