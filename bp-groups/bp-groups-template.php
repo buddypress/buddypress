@@ -521,7 +521,7 @@ function bp_group_avatar( $args = '' ) {
 
 		/* Fetch the avatar from the folder, if not provide backwards compat. */
 		if ( !$avatar = bp_core_fetch_avatar( array( 'item_id' => $groups_template->group->id, 'object' => 'group', 'type' => $type, 'avatar_dir' => 'group-avatars', 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height, 'title' => $groups_template->group->name, 'alt' => $alt ) ) )
-			$avatar = '<img src="' . esc_attr( $groups_template->group->avatar_thumb ) . '" class="avatar" alt="' . esc_attr( $groups_template->group->name ) . '" />';
+			$avatar = '<img src="' . esc_url( $groups_template->group->avatar_thumb ) . '" class="avatar" alt="' . esc_attr( $groups_template->group->name ) . '" />';
 
 		return apply_filters( 'bp_get_group_avatar', $avatar );
 	}
@@ -2604,11 +2604,11 @@ function bp_group_current_avatar() {
 
 	if ( $bp->groups->current_group->avatar_full ) { ?>
 
-		<img src="<?php echo esc_attr( $bp->groups->current_group->avatar_full ) ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
+		<img src="<?php echo esc_url( $bp->groups->current_group->avatar_full ); ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
 
 	<?php } else { ?>
 
-		<img src="<?php echo $bp->groups->image_base . '/none.gif' ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
+		<img src="<?php echo esc_url( $bp->groups->image_base . '/none.gif' ); ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
 
 	<?php }
 }

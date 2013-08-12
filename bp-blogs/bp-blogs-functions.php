@@ -360,7 +360,7 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 
 		// Get activity related links
 		$post_permalink = get_permalink( $recorded_comment->comment_post_ID );
-		$comment_link   = htmlspecialchars( get_comment_link( $recorded_comment->comment_ID ) );
+		$comment_link   = get_comment_link( $recorded_comment->comment_ID );
 
 		// Prepare to record in activity streams
 		if ( is_multisite() )

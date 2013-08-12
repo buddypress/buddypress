@@ -1524,7 +1524,7 @@ function bp_activity_hide_user_activity( $user_id ) {
  * @since BuddyPress (1.2)
  *
  * @param string $content The content to work with
- * @param string $link Optional. The URL that the image should link to
+ * @param string $link Optional. The unescaped URL that the image should link to
  * @param array $activity_args Optional. The args passed to the activity
  *   creation function (eg bp_blogs_record_activity())
  *
@@ -1561,11 +1561,10 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 			$ratio      = (int) $width / (int) $height;
 			$new_height = (int) $height >= 100 ? 100 : $height;
 			$new_width  = $new_height * $ratio;
-
-			$image = '<img src="' . esc_attr( $src ) . '" width="' . $new_width . '" height="' . $new_height . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />';
+			$image      = '<img src="' . esc_url( $src ) . '" width="' . absint( $new_width ) . '" height="' . absint( $new_height ) . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />';
 
 			if ( !empty( $link ) ) {
-				$image = '<a href="' . $link . '">' . $image . '</a>';
+				$image = '<a href="' . esc_url( $link ) . '">' . $image . '</a>';
 			}
 
 			$content = $image . $content;
