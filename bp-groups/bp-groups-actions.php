@@ -42,7 +42,9 @@ function groups_action_create_group() {
 		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH );
 
 		$reset_steps = true;
-		bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . array_shift( array_keys( $bp->groups->group_creation_steps ) ) . '/' );
+		$step        = array_keys( $bp->groups->group_creation_steps );
+		$redirect_to = bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . $step[0] . '/';
+		bp_core_redirect( $redirect_to );
 	}
 
 	// If this is a creation step that is not recognized, just redirect them back to the first screen
@@ -133,7 +135,8 @@ function groups_action_create_group() {
 
 		// If we have completed all steps and hit done on the final step we
 		// can redirect to the completed group
-		if ( count( $bp->groups->completed_create_steps ) == count( $bp->groups->group_creation_steps ) && bp_get_groups_current_create_step() == array_pop( array_keys( $bp->groups->group_creation_steps ) ) ) {
+		$keys = array_keys( $bp->groups->group_creation_steps );
+		if ( count( $bp->groups->completed_create_steps ) == count( $keys ) && bp_get_groups_current_create_step() == array_pop( $keys ) ) {
 			unset( $bp->groups->current_create_step );
 			unset( $bp->groups->completed_create_steps );
 
@@ -152,7 +155,7 @@ function groups_action_create_group() {
 			 * Since we don't know what the next step is going to be (any plugin can insert steps)
 			 * we need to loop the step array and fetch the next step that way.
 			 */
-			foreach ( (array) $bp->groups->group_creation_steps as $key => $value ) {
+			foreach ( $keys as $key ) {
 				if ( $key == bp_get_groups_current_create_step() ) {
 					$next = 1;
 					continue;

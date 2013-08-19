@@ -2204,8 +2204,10 @@ function bp_group_creation_tabs() {
 	if ( !is_array( $bp->groups->group_creation_steps ) )
 		return false;
 
-	if ( !bp_get_groups_current_create_step() )
-		$bp->groups->current_create_step = array_shift( array_keys( $bp->groups->group_creation_steps ) );
+	if ( !bp_get_groups_current_create_step() ) {
+		$keys = array_keys( $bp->groups->group_creation_steps );
+		$bp->groups->current_create_step = array_shift( $keys );
+	}
 
 	$counter = 1;
 
@@ -2233,8 +2235,10 @@ function bp_group_creation_form_action() {
 	function bp_get_group_creation_form_action() {
 		global $bp;
 
-		if ( !bp_action_variable( 1 ) )
-			$bp->action_variables[1] = array_shift( array_keys( $bp->groups->group_creation_steps ) );
+		if ( !bp_action_variable( 1 ) ) {
+			$keys = array_keys( $bp->groups->group_creation_steps );
+			$bp->action_variables[1] = array_shift( $keys );
+		}
 
 		return apply_filters( 'bp_get_group_creation_form_action', trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . bp_action_variable( 1 ) ) );
 	}
@@ -2247,7 +2251,8 @@ function bp_is_group_creation_step( $step_slug ) {
 		return false;
 
 	/* If this the first step, we can just accept and return true */
-	if ( !bp_action_variable( 1 ) && array_shift( array_keys( $bp->groups->group_creation_steps ) ) == $step_slug )
+	$keys = array_keys( $bp->groups->group_creation_steps );
+	if ( !bp_action_variable( 1 ) && array_shift( $keys ) == $step_slug )
 		return true;
 
 	/* Before allowing a user to see a group creation step we must make sure previous steps are completed */
@@ -2289,7 +2294,8 @@ function bp_are_previous_group_creation_steps_complete( $step_slug ) {
 	global $bp;
 
 	/* If this is the first group creation step, return true */
-	if ( array_shift( array_keys( $bp->groups->group_creation_steps ) ) == $step_slug )
+	$keys = array_keys( $bp->groups->group_creation_steps );
+	if ( array_shift( $keys ) == $step_slug )
 		return true;
 
 	reset( $bp->groups->group_creation_steps );
@@ -2433,7 +2439,8 @@ function bp_groups_current_create_step() {
 function bp_is_last_group_creation_step() {
 	global $bp;
 
-	$last_step = array_pop( array_keys( $bp->groups->group_creation_steps ) );
+	$keys      = array_keys( $bp->groups->group_creation_steps );
+	$last_step = array_pop( $keys );
 
 	if ( $last_step == bp_get_groups_current_create_step() )
 		return true;
@@ -2444,7 +2451,8 @@ function bp_is_last_group_creation_step() {
 function bp_is_first_group_creation_step() {
 	global $bp;
 
-	$first_step = array_shift( array_keys( $bp->groups->group_creation_steps ) );
+	$keys       = array_keys( $bp->groups->group_creation_steps );
+	$first_step = array_shift( $keys );
 
 	if ( $first_step == bp_get_groups_current_create_step() )
 		return true;
