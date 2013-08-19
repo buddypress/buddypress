@@ -42,9 +42,8 @@ function groups_action_create_group() {
 		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH );
 
 		$reset_steps = true;
-		$step        = array_keys( $bp->groups->group_creation_steps );
-		$redirect_to = bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . $step[0] . '/';
-		bp_core_redirect( $redirect_to );
+		$keys        = array_keys( $bp->groups->group_creation_steps );
+		bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . array_shift( $keys ) . '/' );
 	}
 
 	// If this is a creation step that is not recognized, just redirect them back to the first screen
