@@ -144,7 +144,7 @@ class BP_Blogs_Component extends BP_Component {
 		$bp = buddypress();
 
 		/**
-		 * Blog/post/comment menus should not appear on single WordPress setups.
+		 * Site/post/comment menus should not appear on single WordPress setups.
 		 * Although comments and posts made by users will still show on their
 		 * activity stream.
 		 */
@@ -156,7 +156,7 @@ class BP_Blogs_Component extends BP_Component {
 
 			$blogs_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
 
-			// Add the "Blogs" sub menu
+			// Add the "Sites" sub menu
 			$wp_admin_nav[] = array(
 				'parent' => $bp->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
@@ -164,7 +164,7 @@ class BP_Blogs_Component extends BP_Component {
 				'href'   => trailingslashit( $blogs_link )
 			);
 
-			// My Blogs
+			// My Sites
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-my-sites',
@@ -172,12 +172,12 @@ class BP_Blogs_Component extends BP_Component {
 				'href'   => trailingslashit( $blogs_link )
 			);
 
-			// Create a Blog
+			// Create a Site
 			if ( bp_blog_signup_enabled() ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
 					'id'     => 'my-account-' . $this->id . '-create',
-					'title'  => __( 'Create a Blog', 'buddypress' ),
+					'title'  => __( 'Create a Site', 'buddypress' ),
 					'href'   => trailingslashit( bp_get_blogs_directory_permalink() . 'create' )
 				);
 			}
@@ -192,7 +192,7 @@ class BP_Blogs_Component extends BP_Component {
 	function setup_title() {
 		$bp = buddypress();
 
-		// Set up the component options navigation for Blog
+		// Set up the component options navigation for Site
 		if ( bp_is_blogs_component() ) {
 			if ( bp_is_my_profile() ) {
 				if ( bp_is_active( 'xprofile' ) ) {
