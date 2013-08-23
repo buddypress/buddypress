@@ -94,7 +94,7 @@ class BP_Blogs_Theme_Compat {
 		} elseif ( is_user_logged_in() && bp_blog_signup_enabled() ) {
 			add_filter( 'bp_get_buddypress_template',                array( $this, 'create_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'create_dummy_post' ) );
-			add_filter( 'bp_replace_the_content',                    array( $this, 'create_content'    ) );			
+			add_filter( 'bp_replace_the_content',                    array( $this, 'create_content'    ) );
 		}
 	}
 
@@ -158,7 +158,7 @@ class BP_Blogs_Theme_Compat {
 	public function directory_content() {
 		bp_buffer_template_part( 'blogs/index' );
 	}
-	
+
 	/** Create ****************************************************************/
 
 	/**
