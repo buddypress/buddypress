@@ -347,7 +347,7 @@ class BP_XProfile_Group {
 		return $default_visibility_levels;
 	}
 
-	public static function render_admin_form() {
+	public function render_admin_form() {
 		global $message;
 
 		if ( empty( $this->id ) ) {
