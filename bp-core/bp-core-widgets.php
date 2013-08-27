@@ -272,7 +272,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 
 	function form( $instance ) {
 		$defaults = array(
-			'title' => 'Recently Active Members',
+			'title' => __( 'Recently Active Members', 'buddypress' ),
 			'max_members' => 15
 		);
 		$instance = wp_parse_args( (array) $instance, $defaults );
