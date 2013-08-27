@@ -227,7 +227,7 @@ class BP_Component {
 			foreach ( $paths as $path ) {
 				if ( @is_file( $slashed_path . $path ) ) {
 					require( $slashed_path . $path );
-					continue;
+					break;
 				}
 			}
 		}
