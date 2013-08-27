@@ -1097,8 +1097,18 @@ class BP_XProfile_ProfileData {
 		return false;
 	}
 
+	/**
+	 * Delete specific XProfile field data
+	 *
+	 * @global object $wpdb
+	 * @return boolean
+	 */
 	public function delete() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
+		do_action_ref_array( 'xprofile_data_before_delete', array( $this ) );
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ) ) )
 			return false;
