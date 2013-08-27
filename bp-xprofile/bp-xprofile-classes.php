@@ -1103,6 +1103,8 @@ class BP_XProfile_ProfileData {
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ) ) )
 			return false;
 
+		do_action_ref_array( 'xprofile_data_after_delete', array( $this ) );
+
 		return true;
 	}
 
