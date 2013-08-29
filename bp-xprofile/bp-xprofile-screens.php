@@ -198,8 +198,9 @@ function xprofile_screen_change_avatar() {
 		if ( ! bp_core_avatar_handle_crop( $args ) ) {
 			bp_core_add_message( __( 'There was a problem cropping your avatar.', 'buddypress' ), 'error' );
 		} else {
-			bp_core_add_message( __( 'Your new avatar was uploaded successfully.', 'buddypress' ) );
 			do_action( 'xprofile_avatar_uploaded' );
+			bp_core_add_message( __( 'Your new avatar was uploaded successfully.', 'buddypress' ) );
+			bp_core_redirect( bp_loggedin_user_domain() );
 		}
 	}
 
