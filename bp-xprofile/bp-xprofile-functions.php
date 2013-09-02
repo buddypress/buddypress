@@ -677,38 +677,53 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
 	}
 
 	// @todo - This is where you'd swap out for current_user_can() checks
-	$hidden_levels = $hidden_fields = array();
+	$hidden_levels = bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id, $current_user_id );
+	$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
+
+	return apply_filters( 'bp_xprofile_get_hidden_fields_for_user', $hidden_fields, $displayed_user_id, $current_user_id );
+}
+
+/**
+ * Get the visibility levels that should be hidden for this user pair
+ *
+ * Field visibility is determined based on the relationship between the
+ * logged-in user, the displayed user, and the visibility setting for the
+ * current field. (See bp_xprofile_get_hidden_fields_for_user().) This
+ * utility function speeds up this matching by fetching the visibility levels
+ * that should be hidden for the current user pair.
+ *
+ * @since BuddyPress (1.8.2)
+ * @see bp_xprofile_get_hidden_fields_for_user()
+ *
+ * @param int $displayed_user_id The id of the user the profile fields belong to
+ * @param int $current_user_id The id of the user viewing the profile
+ * @return array An array of visibility levels hidden to the current user
+ */
+function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $current_user_id = 0 ) {
 
 	// Current user is logged in
-	if ( $current_user_id ) {
+	if ( ! empty( $current_user_id ) ) {
 
-		// If you're viewing your own profile, nothing's private
-		if ( $displayed_user_id == $current_user_id ) {
+		// Nothing's private when viewing your own profile, or when the
+		// current user is an admin
+		if ( $displayed_user_id == $current_user_id || bp_current_user_can( 'bp_moderate' ) ) {
+			$hidden_levels = array();
 
 		// If the current user and displayed user are friends, show all
 		} elseif ( bp_is_active( 'friends' ) && friends_check_friendship( $displayed_user_id, $current_user_id ) ) {
-			if ( ! bp_current_user_can( 'bp_moderate' ) )
-				$hidden_levels[] = 'adminsonly';
+			$hidden_levels = array( 'adminsonly', );
 
-			$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
-
-		// current user is logged-in but not friends, so exclude friends-only
+		// current user is logged in but not friends, so exclude friends-only
 		} else {
-			$hidden_levels = array( 'friends' );
-
-			if ( ! bp_current_user_can( 'bp_moderate' ) )
-				$hidden_levels[] = 'adminsonly';
-
-			$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
+			$hidden_levels = array( 'friends', 'adminsonly', );
 		}
 
 	// Current user is not logged in, so exclude friends-only, loggedin, and adminsonly.
 	} else {
 		$hidden_levels = array( 'friends', 'loggedin', 'adminsonly', );
-		$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
 	}
 
-	return apply_filters( 'bp_xprofile_get_hidden_fields_for_user', $hidden_fields, $displayed_user_id, $current_user_id );
+	return $hidden_levels;
 }
 
 /**
