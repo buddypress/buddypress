@@ -814,11 +814,16 @@ function bp_is_current_component( $component ) {
 
 	$is_current_component = false;
 
+	// Always return false if a null value is passed to the function
+	if ( empty( $component ) ) {
+		return false;
+	}
+
 	// Backward compatibility: 'xprofile' should be read as 'profile'
 	if ( 'xprofile' == $component )
 		$component = 'profile';
 
-	if ( ! empty( $bp->current_component ) && ! empty( $component ) ) {
+	if ( ! empty( $bp->current_component ) ) {
 
 		// First, check to see whether $component_name and the current
 		// component are a simple match
