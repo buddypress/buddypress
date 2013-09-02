@@ -818,7 +818,7 @@ function bp_is_current_component( $component ) {
 	if ( 'xprofile' == $component )
 		$component = 'profile';
 
-	if ( !empty( $bp->current_component ) ) {
+	if ( ! empty( $bp->current_component ) && ! empty( $component ) ) {
 
 		// First, check to see whether $component_name and the current
 		// component are a simple match
