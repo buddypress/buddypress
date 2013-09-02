@@ -10,6 +10,8 @@ require_once dirname( __FILE__ ) . '/factory.php';
 
 class BP_UnitTestCase extends WP_UnitTestCase {
 
+	protected $temp_has_bp_moderate = array();
+
 	public function setUp() {
 		parent::setUp();
 
@@ -261,6 +263,33 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		// We assume that the global can be wiped out
 		// @see grant_super_admin()
 		unset( $GLOBALS['super_admins'] );
+	}
+
+	public function grant_bp_moderate( $user_id ) {
+		if ( ! isset( $this->temp_has_bp_moderate[ $user_id ] ) ) {
+			$this->temp_has_bp_moderate[ $user_id ] = 1;
+		}
+		add_filter( 'bp_current_user_can', array( $this, 'grant_bp_moderate_cb' ), 10, 2 );
+	}
+
+	public function revoke_bp_moderate( $user_id ) {
+		if ( isset( $this->temp_has_bp_moderate[ $user_id ] ) ) {
+			unset( $this->temp_has_bp_moderate[ $user_id ] );
+		}
+		remove_filter( 'bp_current_user_can', array( $this, 'grant_bp_moderate_cb' ), 10, 2 );
+	}
+
+	public function grant_bp_moderate_cb( $retval, $capability ) {
+		$current_user = bp_loggedin_user_id();
+		if ( ! isset( $this->temp_has_bp_moderate[ $current_user ] ) ) {
+			return $retval;
+		}
+
+		if ( 'bp_moderate' == $capability ) {
+			$retval = true;
+		}
+
+		return $retval;
 	}
 
 	/**
