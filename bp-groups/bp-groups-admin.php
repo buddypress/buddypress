@@ -399,7 +399,7 @@ function bp_groups_admin_screen_options( $value, $option, $new_value ) {
  */
 function bp_groups_admin() {
 	// Decide whether to load the index or edit screen
-	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
+	$doaction = bp_admin_list_table_current_bulk_action();
 
 	// Display the single group edit screen
 	if ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
@@ -1285,7 +1285,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.7)
 	 */
 	function column_cb( $item = array() ) {
-		printf( '<label class="screen-reader-text" for="aid-%1$d">' . __( 'Select group %1$d', 'buddypress' ) . '</label><input type="checkbox" name="aid[]" value="%1$d" id="aid-%1$d" />', $item['id'] );
+		printf( '<label class="screen-reader-text" for="gid-%1$d">' . __( 'Select group %1$d', 'buddypress' ) . '</label><input type="checkbox" name="gid[]" value="%1$d" id="gid-%1$d" />', $item['id'] );
 	}
 
 	/**
