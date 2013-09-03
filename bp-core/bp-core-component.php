@@ -280,6 +280,9 @@ class BP_Component {
 		// Add the permalink structure
 		add_action( 'bp_add_permastructs',       array( $this, 'add_permastructs'       ), 10 );
 
+		// Allow components to parse the main query
+		add_action( 'bp_parse_query',            array( $this, 'parse_query'            ), 10 );
+
 		// Generate rewrite rules
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
 
@@ -410,6 +413,18 @@ class BP_Component {
 	 */
 	public function add_permastructs() {
 		do_action( 'bp_' . $this->id . '_add_permastructs' );
+	}
+
+	/**
+	 * Allow components to parse the main query
+	 *
+	 * @since BuddyPress (1.9)
+	 *
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_parse_query'
+	 * @param object The main WP_Query
+	 */
+	public function parse_query( $query ) {
+		do_action_ref_array( 'bp_' . $this->id . '_parse_query', $query );
 	}
 
 	/**
