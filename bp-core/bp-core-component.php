@@ -424,7 +424,7 @@ class BP_Component {
 	 * @param object The main WP_Query
 	 */
 	public function parse_query( $query ) {
-		do_action_ref_array( 'bp_' . $this->id . '_parse_query', $query );
+		do_action_ref_array( 'bp_' . $this->id . '_parse_query', array( &$query ) );
 	}
 
 	/**
