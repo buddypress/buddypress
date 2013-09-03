@@ -274,6 +274,12 @@ class BP_Component {
 		// Add the rewrite tags
 		add_action( 'bp_add_rewrite_tags',       array( $this, 'add_rewrite_tags'       ), 10 );
 
+		// Add the rewrite rules
+		add_action( 'bp_add_rewrite_rules',      array( $this, 'add_rewrite_rules'      ), 10 );
+
+		// Add the permalink structure
+		add_action( 'bp_add_permastructs',       array( $this, 'add_permastructs'       ), 10 );
+
 		// Generate rewrite rules
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
 
@@ -382,6 +388,28 @@ class BP_Component {
 	 */
 	public function add_rewrite_tags() {
 		do_action( 'bp_' . $this->id . '_add_rewrite_tags' );
+	}
+
+	/**
+	 * Add any additional rewrite rules
+	 *
+	 * @since BuddyPress (1.9)
+	 *
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_rules'
+	 */
+	public function add_rewrite_rules() {
+		do_action( 'bp_' . $this->id . '_add_rewrite_rules' );
+	}
+
+	/**
+	 * Add any permalink structures
+	 *
+	 * @since BuddyPress (1.9)
+	 *
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_permastruct'
+	 */
+	public function add_permastructs() {
+		do_action( 'bp_' . $this->id . '_add_permastructs' );
 	}
 
 	/**
