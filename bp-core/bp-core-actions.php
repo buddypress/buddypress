@@ -69,6 +69,8 @@ add_action( 'bp_init', 'bp_setup_nav',               6  );
 add_action( 'bp_init', 'bp_setup_title',             8  );
 add_action( 'bp_init', 'bp_core_load_admin_bar_css', 12 );
 add_action( 'bp_init', 'bp_add_rewrite_tags',        20 );
+add_action( 'bp_init', 'bp_add_rewrite_rules',       30 );
+add_action( 'bp_init', 'bp_add_permastructs',        40 );
 
 /**
  * bp_template_redirect - Attached to 'template_redirect' above

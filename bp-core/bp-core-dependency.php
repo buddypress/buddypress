@@ -191,6 +191,26 @@ function bp_add_rewrite_tags() {
 }
 
 /**
+ * Add the BuddyPress-specific rewrite rules
+ *
+ * @since BuddyPress (1.9)
+ * @uses do_action() Calls 'bp_add_rewrite_rules'
+ */
+function bp_add_rewrite_rules() {
+	do_action( 'bp_add_rewrite_rules' );
+}
+
+/**
+ * Add the BuddyPress-specific permalink structures
+ *
+ * @since BuddyPress (1.9)
+ * @uses do_action() Calls 'bp_add_permastructs'
+ */
+function bp_add_permastructs() {
+	do_action( 'bp_add_permastructs' );
+}
+
+/**
  * Piggy back action for BuddyPress sepecific theme actions before the theme has
  * been setup and the theme's functions.php has loaded.
  *
