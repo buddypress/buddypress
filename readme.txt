@@ -43,7 +43,7 @@ Of course! BuddyPress works out-of-the-box with nearly every WordPress theme.
 
 = Will this work on WordPress multisite? =
 
-Yes! If your WordPress installation has multisite enabled, BuddyPress will support the global tracking of sites, posts and comments.
+Yes! If your WordPress installation has multisite enabled, BuddyPress will support the global tracking of blogs, posts and comments.
 
 = Where can I get support? =
 
@@ -69,13 +69,16 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 4. **Extensible Groups** - Powerful public, private or hidden groups allow your users to break the discussion down into specific topics. Extend groups with your own custom features using the group extension API.
 5. **Friend Connections** - Let your users make connections so they can track the activity of others, or filter on only those users they care about the most.
 6. **Private Messaging** - Private messaging will allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, your users can send messages to multiple recipients.
-7. **Multisite Network** - Allow your users to start their own blogs using WordPress's Multisite feature, and track posts and comments from across your network in the activity stream.
+7. **Blogging Network** - Allow your users to start their own blogs using WordPress's Multisite feature, and track posts and comments from across your blog network in the activity stream.
 
 == Languages ==
 
 BuddyPress is available in more than 20 languages. For more information, check out the <a href="http://codex.buddypress.org/getting-started/translations/">translation page</a> on the BuddyPress Codex.
 
 == Upgrade Notice ==
+
+= 1.8.1 =
+See: http://codex.buddypress.org/releases/version-1-8-1/
 
 = 1.8 =
 See: http://codex.buddypress.org/releases/version-1-8/
@@ -123,6 +126,9 @@ Compatibility with WordPress 3.1
 Fixes over 10 bugs.
 
 == Changelog ==
+
+= 1.8.1 =
+See: http://codex.buddypress.org/releases/version-1-8-1/
 
 = 1.8 =
 See: http://codex.buddypress.org/releases/version-1-8/
