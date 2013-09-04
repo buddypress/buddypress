@@ -1,9 +1,9 @@
-=== Plugin Name ===
+=== BuddyPress ===
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.8
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,11 +29,11 @@ Visit the <a href="http://buddypress.org/">BuddyPress website</a> for more infor
 
 You can download and install BuddyPress using the built in WordPress plugin installer. If you download BuddyPress manually, make sure it is uploaded to "/wp-content/plugins/buddypress/".
 
-Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. You'll then see a message asking you to complete the BuddyPress Installation Wizard, which will guide you through configuring your site for BuddyPress.
+Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. If you're using WordPress Multisite, you can optionally activate BuddyPress Network Wide, allowing it's toolbar integration to appear on all of your sites, and optionally turning on post and comment aggregation to the Activity Stream too!
 
---- Discussion Forums ---
+= Discussion Forums =
 
-BuddyPress includes full support for discussion forums. Each group created on your site can have its own forum. If you'd like to enable this feature, after completing the Installation Wizard, visit the "Forums Setup" item under the "BuddyPress" menu in your WordPress admin-area, and follow the on-screen instructions.
+Try <a href="http://wordpress.org/plugins/bbpress/">bbPress</a>. It's designed to work cohesively with BuddyPress Groups and Profiles. Each group on your site can choose to have its own forum, and each user's topics, replies, favorites, and subscriptions appear in their profiles.
 
 == Frequently Asked Questions ==
 
