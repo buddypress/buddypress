@@ -290,6 +290,23 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 				);
 				break;
 
+			case 'awaiting_response' :
+				$button = array(
+					'id'                => 'awaiting_response',
+					'component'         => 'friends',
+					'must_be_logged_in' => true,
+					'block_self'        => true,
+					'wrapper_class'     => 'friendship-button awaiting_response_friend',
+					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
+					'link_href'         => bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/',
+					'link_text'         => __( 'Friendship Requested', 'buddypress' ),
+					'link_title'        => __( 'Friendship Requested', 'buddypress' ),
+					'link_id'           => 'friend-' . $potential_friend_id,
+					'link_rel'          => 'remove',
+					'link_class'        => 'friendship-button awaiting_response_friend requested'
+				);
+				break;
+
 			case 'is_friend' :
 				$button = array(
 					'id'                => 'is_friend',

@@ -77,6 +77,42 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( 1, $friends );
 	}
 
+	/**
+	 * @group check_is_friend
+	 */
+	public function test_check_is_friend_not_friends() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+	}
 
+	/**
+	 * @group check_is_friend
+	 */
+	public function test_check_is_friend_pending() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		friends_add_friend( $u1, $u2, false );
+		$this->assertEquals( 'pending', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+	}
 
+	/**
+	 * @group check_is_friend
+	 */
+	public function test_check_is_friend_awaiting_response() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		friends_add_friend( $u1, $u2, false );
+		$this->assertEquals( 'awaiting_response', BP_Friends_Friendship::check_is_friend( $u2, $u1 ) );
+	}
+
+	/**
+	 * @group check_is_friend
+	 */
+	public function test_check_is_friend_is_friend() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		friends_add_friend( $u1, $u2, true );
+		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+	}
 }

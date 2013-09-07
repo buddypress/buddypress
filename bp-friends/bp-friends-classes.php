@@ -182,23 +182,41 @@ class BP_Friends_Friendship {
 		return array( 'friends' => $filtered_friend_ids, 'total' => (int) $total_friend_ids );
 	}
 
-	public static function check_is_friend( $loggedin_userid, $possible_friend_userid ) {
+	/**
+	 * Check friendship status between two users
+	 *
+	 * Note that 'pending' means that $initiator_userid has sent a friend
+	 * request to $possible_friend_userid that has not yet been approved,
+	 * while 'awaiting_response' is the other way around ($possible_friend_userid
+	 * sent the initial request)
+	 *
+	 * @param int $initiator_userid The id of the user who is the initiator
+	 *   of the potential friendship/request.
+	 * @param int $possible_friend_userid The id of the user who is the
+	 *   recipient of the potential friendship/request.
+	 * @return string The friendship status, from among 'not_friends',
+	 *   'is_friend', 'pending', and 'awaiting_response'
+	 */
+	public static function check_is_friend( $initiator_userid, $possible_friend_userid ) {
 		global $wpdb, $bp;
 
-		if ( empty( $loggedin_userid ) || empty( $possible_friend_userid ) )
+		if ( empty( $initiator_userid ) || empty( $possible_friend_userid ) ) {
 			return false;
+		}
 
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id = %d) OR (initiator_user_id = %d AND friend_user_id = %d)", $loggedin_userid, $possible_friend_userid, $possible_friend_userid, $loggedin_userid ) );
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT id, initiator_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id = %d) OR (initiator_user_id = %d AND friend_user_id = %d)", $initiator_userid, $possible_friend_userid, $possible_friend_userid, $initiator_userid ) );
 
-		if ( !empty( $result ) ) {
+		if ( ! empty( $result ) ) {
 			if ( 0 == (int) $result[0]->is_confirmed ) {
-				return 'pending';
+				$status = $initiator_userid == $result[0]->initiator_user_id ? 'pending' : 'awaiting_response';
 			} else {
-				return 'is_friend';
+				$status = 'is_friend';
 			}
 		} else {
-			return 'not_friends';
+			$status = 'not_friends';
 		}
+
+		return $status;
 	}
 
 	public static function get_bulk_last_active( $user_ids ) {
