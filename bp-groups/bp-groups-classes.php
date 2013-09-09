@@ -441,7 +441,7 @@ class BP_Groups_Group {
 		}
 
 		// Get paginated results
-		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array) $sql ), $sql );
+		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array) $sql ), $sql, $r );
 		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
 
 		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g, {$bp->groups->table_name_members} gm1, {$bp->groups->table_name_groupmeta} gm2";
@@ -494,7 +494,7 @@ class BP_Groups_Group {
 		}
 
 		// Get total group results
-		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $t_sql, $total_sql );
+		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r );
 		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
 		$group_ids = array();
