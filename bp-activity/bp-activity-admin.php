@@ -1105,17 +1105,19 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.6)
 	 */
 	function single_row( $item ) {
-		static $row_class = '';
+		static $even = false;
 
-		if ( empty( $row_class ) ) {
-			$row_class = ' class="alternate"';
+		if ( $even ) {
+			$row_class = ' class="even"';
 		} else {
-			$row_class = '';
+			$row_class = ' class="alternate odd"';
 		}
 
 		echo '<tr' . $row_class . ' id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['item_id'] ) . '">';
 		echo $this->single_row_columns( $item );
 		echo '</tr>';
+
+		$even = ! $even;
 	}
 
 	/**

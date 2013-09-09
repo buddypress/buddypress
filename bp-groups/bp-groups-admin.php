@@ -1191,17 +1191,19 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.7)
 	 */
 	function single_row( $item = array() ) {
-		static $row_class = '';
+		static $even = false;
 
-		if ( empty( $row_class ) ) {
-			$row_class = ' class="alternate odd"';
-		} else {
+		if ( $even ) {
 			$row_class = ' class="even"';
+		} else {
+			$row_class = ' class="alternate odd"';
 		}
 
 		echo '<tr' . $row_class . ' id="group-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['id'] ) . '">';
 		echo $this->single_row_columns( $item );
 		echo '</tr>';
+
+		$even = ! $even;
 	}
 
 	/**
