@@ -1193,11 +1193,16 @@ class BP_Groups_List_Table extends WP_List_Table {
 	function single_row( $item = array() ) {
 		static $even = false;
 
+		$row_classes = array();
+
 		if ( $even ) {
-			$row_class = ' class="even"';
+			$row_classes = array( 'even' );
 		} else {
-			$row_class = ' class="alternate odd"';
+			$row_classes = array( 'alternate', 'odd' );
 		}
+
+		$row_classes = apply_filters( 'bp_groups_admin_row_class', $row_classes, $item['id'] );
+		$row_class = ' class="' . implode( ' ', $row_classes ) . '"';
 
 		echo '<tr' . $row_class . ' id="group-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['id'] ) . '">';
 		echo $this->single_row_columns( $item );
