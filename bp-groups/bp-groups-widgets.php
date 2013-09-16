@@ -69,7 +69,7 @@ class BP_Groups_Widget extends WP_Widget {
 
 			<ul id="groups-list" class="item-list">
 				<?php while ( bp_groups() ) : bp_the_group(); ?>
-					<li>
+					<li <?php bp_group_class(); ?>>
 						<div class="item-avatar">
 							<a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_avatar_thumb() ?></a>
 						</div>
@@ -172,7 +172,7 @@ function groups_ajax_widget_groups_list() {
 	if ( bp_has_groups( 'type=' . $type . '&per_page=' . $_POST['max_groups'] . '&max=' . $_POST['max_groups'] ) ) : ?>
 		<?php echo "0[[SPLIT]]"; ?>
 		<?php while ( bp_groups() ) : bp_the_group(); ?>
-			<li>
+			<li <?php bp_group_class(); ?>>
 				<div class="item-avatar">
 					<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar_thumb() ?></a>
 				</div>
