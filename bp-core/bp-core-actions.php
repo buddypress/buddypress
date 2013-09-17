@@ -82,10 +82,11 @@ add_action( 'bp_init', 'bp_add_permastructs',        40 );
  * Note that we currently use template_redirect versus template include because
  * BuddyPress is a bully and overrides the existing themes output in many
  * places. This won't always be this way, we promise.
- *                                                v---Load order
+ *                                                           v---Load order
  */
-add_action( 'bp_template_redirect', 'bp_actions', 4 );
-add_action( 'bp_template_redirect', 'bp_screens', 6 );
+add_action( 'bp_template_redirect', 'bp_redirect_canonical', 2 );
+add_action( 'bp_template_redirect', 'bp_actions',            4 );
+add_action( 'bp_template_redirect', 'bp_screens',            6 );
 
 /**
  * Add the BuddyPress functions file
