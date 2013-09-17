@@ -1197,11 +1197,11 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 			preg_match( '/[A-Z]/', $user_name, $match );
 	
 			if ( ! empty( $match ) ) {
-				$errors->add( 'user_name', __( 'Username must be in lowercase characters.', 'buddypress' ) );
+				$errors->add( 'user_name', __( 'Username must be in lowercase characters', 'buddypress' ) );
 			}
 
 		} else {
-			$errors->add( 'user_name', __( 'Usernames can contain only letters, numbers, ., -, *, and @', 'buddypress' ) );
+			$errors->add( 'user_name', __( 'Usernames can contain only letters, numbers, ., -, and @', 'buddypress' ) );
 		}
 	}
 
