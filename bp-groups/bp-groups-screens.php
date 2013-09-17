@@ -1048,7 +1048,7 @@ class BP_Groups_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function directory_content() {
-		bp_buffer_template_part( 'groups/index' );
+		return bp_buffer_template_part( 'groups/index', null, false );
 	}
 
 	/** Create ****************************************************************/
@@ -1109,7 +1109,7 @@ class BP_Groups_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function create_content() {
-		bp_buffer_template_part( 'groups/create' );
+		return bp_buffer_template_part( 'groups/create', null, false );
 	}
 
 	/** Single ****************************************************************/
@@ -1169,7 +1169,7 @@ class BP_Groups_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function single_content() {
-		bp_buffer_template_part( 'groups/single/home' );
+		return bp_buffer_template_part( 'groups/single/home', null, false );
 	}
 }
 new BP_Groups_Theme_Compat();

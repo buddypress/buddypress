@@ -216,7 +216,7 @@ class BP_Forum_Legacy_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function directory_content() {
-		bp_buffer_template_part( 'forums/index' );
+		return bp_buffer_template_part( 'forums/index', null, false );
 	}
 }
 new BP_Forum_Legacy_Theme_Compat();

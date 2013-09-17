@@ -412,7 +412,7 @@ class BP_Activity_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function directory_content() {
-		bp_buffer_template_part( 'activity/index' );
+		return bp_buffer_template_part( 'activity/index', null, false );
 	}
 
 	/** Single ****************************************************************/
@@ -465,7 +465,7 @@ class BP_Activity_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function single_dummy_content() {
-		bp_buffer_template_part( 'activity/single/home' );
+		return bp_buffer_template_part( 'activity/single/home', null, false );
 	}
 }
 new BP_Activity_Theme_Compat();

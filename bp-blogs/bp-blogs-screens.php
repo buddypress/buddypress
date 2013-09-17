@@ -156,7 +156,7 @@ class BP_Blogs_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function directory_content() {
-		bp_buffer_template_part( 'blogs/index' );
+		return bp_buffer_template_part( 'blogs/index', null, false );
 	}
 
 	/** Create ****************************************************************/
@@ -217,7 +217,7 @@ class BP_Blogs_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function create_content() {
-		bp_buffer_template_part( 'blogs/create' );
+		return bp_buffer_template_part( 'blogs/create', null, false );
 	}
 }
 new BP_Blogs_Theme_Compat();
