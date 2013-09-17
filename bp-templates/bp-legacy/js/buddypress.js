@@ -1031,14 +1031,41 @@ jq(document).ready( function() {
 		{
 			var parentdiv = thelink.parent();
 
-			if ( !jq('body.directory').length )
+			// user groups page
+			if ( ! jq('body.directory').length ) {
 				location.href = location.href;
-			else {
+
+			// groups directory
+			} else {
 				jq(parentdiv).fadeOut(200,
 					function() {
 						parentdiv.fadeIn(200).html(response);
+
+						var mygroups = jq('#groups-personal span');
+						var add      = 1;
+
+						if( thelink.hasClass( 'leave-group' ) ) {
+							// hidden groups slide up
+							if ( parentdiv.hasClass( 'hidden' ) ) {
+								parentdiv.closest('li').slideUp( 200 );
+							}
+
+							add = 0;
+						} else if ( thelink.hasClass( 'request-membership' ) ) {
+							add = false;
+						}
+
+						// change the "My Groups" value
+						if ( mygroups.length && add !== false ) {
+							if ( add ) {
+								mygroups.text( ( mygroups.text() >> 0 ) + 1 );
+							} else {
+								mygroups.text( ( mygroups.text() >> 0 ) - 1 );
+							}
+						}
+
 					}
-					);
+				);
 			}
 		});
 		return false;
