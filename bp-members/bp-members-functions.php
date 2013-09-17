@@ -1187,8 +1187,23 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	if ( in_array( $user_name, (array) $illegal_names ) )
 		$errors->add( 'user_name', __( 'That username is not allowed', 'buddypress' ) );
 
-	if ( ! validate_username( $user_name ) )
-		$errors->add( 'user_name', __( 'Usernames can contain only letters, numbers, ., -, *, and @', 'buddypress' ) );
+	if ( ! validate_username( $user_name ) ) {
+		// Check for capital letters when on multisite.
+		//
+		// If so, throw a different error message.
+		// @see #5175
+		if ( is_multisite() ) {
+			$match = array();
+			preg_match( '/[A-Z]/', $user_name, $match );
+	
+			if ( ! empty( $match ) ) {
+				$errors->add( 'user_name', __( 'Username must be in lowercase characters.', 'buddypress' ) );
+			}
+
+		} else {
+			$errors->add( 'user_name', __( 'Usernames can contain only letters, numbers, ., -, *, and @', 'buddypress' ) );
+		}
+	}
 
 	if( strlen( $user_name ) < 4 )
 		$errors->add( 'user_name',  __( 'Username must be at least 4 characters', 'buddypress' ) );
