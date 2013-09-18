@@ -422,7 +422,7 @@ function bp_groups_admin() {
  */
 function bp_groups_admin_edit() {
 
-	if ( ! is_super_admin() )
+	if ( ! current_user_can( 'bp_moderate' ) )
 		die( '-1' );
 
 	$messages = array();

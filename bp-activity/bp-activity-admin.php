@@ -88,7 +88,7 @@ function bp_activity_admin_reply() {
 
 	// @todo: Check if user is allowed to create new activity items
 	// if ( ! current_user_can( 'bp_new_activity' ) )
-	if ( ! is_super_admin() )
+	if ( ! current_user_can( 'bp_moderate' ) )
 		die( '-1' );
 
 	// Add new activity comment
