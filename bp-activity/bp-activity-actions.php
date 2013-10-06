@@ -13,7 +13,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Allow core components and dependent plugins to register activity actions
+ * Allow core components and dependent plugins to register activity actions.
  *
  * @since BuddyPress (1.2)
  *
@@ -25,7 +25,7 @@ function bp_register_activity_actions() {
 add_action( 'bp_init', 'bp_register_activity_actions', 8 );
 
 /**
- * Allow core components and dependent plugins to register activity actions
+ * Catch and route requests for single activity item permalinks.
  *
  * @since BuddyPress (1.2)
  *
@@ -38,11 +38,11 @@ add_action( 'bp_init', 'bp_register_activity_actions', 8 );
  * @uses bp_core_get_user_domain()
  * @uses groups_get_group()
  * @uses bp_get_group_permalink()
- * @uses apply_filters_ref_array() To call the 'bp_activity_permalink_redirect_url' hook
+ * @uses apply_filters_ref_array() To call the 'bp_activity_permalink_redirect_url' hook.
  * @uses bp_core_redirect()
  * @uses bp_get_root_domain()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_permalink_router() {
 
@@ -124,7 +124,7 @@ add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
  * @uses do_action() Calls 'bp_activity_action_delete_activity' hook to allow actions to be taken after the activity is deleted.
  * @uses bp_core_redirect()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_delete_activity( $activity_id = 0 ) {
 
@@ -169,12 +169,13 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 add_action( 'bp_actions', 'bp_activity_action_delete_activity' );
 
 /**
- * Mark specific activity item as spam and redirect to previous page
+ * Mark specific activity item as spam and redirect to previous page.
+ *
+ * @since BuddyPress (1.6)
  *
  * @global object $bp BuddyPress global settings
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
- * @return bool False on failure
- * @since BuddyPress (1.6)
+ * @return bool False on failure.
  */
 function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	global $bp;
@@ -241,7 +242,7 @@ add_action( 'bp_actions', 'bp_activity_action_spam_activity' );
  * @uses bp_core_redirect()
  * @uses apply_filters() To call 'bp_activity_custom_update' hook.
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_post_update() {
 
@@ -305,7 +306,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_update' );
  * @uses bp_activity_new_comment()
  * @uses wp_get_referer()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_post_comment() {
 
@@ -353,7 +354,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_comment' );
  * @uses bp_core_redirect()
  * @uses wp_get_referer()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_mark_favorite() {
 
@@ -387,7 +388,7 @@ add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
  * @uses bp_core_redirect()
  * @uses wp_get_referer()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_remove_favorite() {
 
@@ -407,18 +408,17 @@ function bp_activity_action_remove_favorite() {
 add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
 
 /**
- * Load the sitewide feed.
+ * Load the sitewide activity feed.
  *
  * @since BuddyPress (1.0)
  *
  * @global object $bp BuddyPress global settings
- * @global object $wp_query
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
  * @uses bp_is_user()
  * @uses status_header()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_sitewide_feed() {
 	global $bp;
@@ -441,16 +441,15 @@ function bp_activity_action_sitewide_feed() {
 add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
 
 /**
- * Load a user's personal feed.
+ * Load a user's personal activity feed.
  *
  * @since BuddyPress (1.0)
  *
- * @global object $wp_query
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
  * @uses status_header()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_personal_feed() {
 	if ( ! bp_is_user_activity() || ! bp_is_current_action( 'feed' ) ) {
@@ -472,11 +471,10 @@ function bp_activity_action_personal_feed() {
 add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 
 /**
- * Load a user's friends feed.
+ * Load a user's friends' activity feed.
  *
  * @since BuddyPress (1.0)
  *
- * @global object $wp_query
  * @uses bp_is_active()
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
@@ -484,7 +482,7 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
  * @uses bp_is_action_variable()
  * @uses status_header()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_friends_feed() {
 	if ( ! bp_is_active( 'friends' ) || ! bp_is_user_activity() || ! bp_is_current_action( bp_get_friends_slug() ) || ! bp_is_action_variable( 'feed', 0 ) ) {
@@ -506,11 +504,10 @@ function bp_activity_action_friends_feed() {
 add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
 
 /**
- * Load a user's my groups feed.
+ * Load the activity feed for a user's groups.
  *
  * @since BuddyPress (1.2)
  *
- * @global object $wp_query
  * @uses bp_is_active()
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
@@ -518,7 +515,7 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
  * @uses bp_is_action_variable()
  * @uses status_header()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_my_groups_feed() {
 	if ( ! bp_is_active( 'groups' ) || ! bp_is_user_activity() || ! bp_is_current_action( bp_get_groups_slug() ) || ! bp_is_action_variable( 'feed', 0 ) ) {
@@ -552,13 +549,12 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
  *
  * @since BuddyPress (1.2)
  *
- * @global object $wp_query
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
  * @uses bp_is_action_variable()
  * @uses status_header()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_mentions_feed() {
 	if ( ! bp_activity_do_mentions() ) {
@@ -590,13 +586,12 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
  *
  * @since BuddyPress (1.2)
  *
- * @global object $wp_query
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
  * @uses bp_is_action_variable()
  * @uses status_header()
  *
- * @return bool False on failure
+ * @return bool False on failure.
  */
 function bp_activity_action_favorites_feed() {
 	if ( ! bp_is_user_activity() || ! bp_is_current_action( 'favorites' ) || ! bp_is_action_variable( 'feed', 0 ) ) {
@@ -622,10 +617,11 @@ function bp_activity_action_favorites_feed() {
 add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
 
 /**
- * Loads Akismet
+ * Loads Akismet filtering for activity.
+ *
+ * @since BuddyPress (1.6)
  *
  * @global object $bp BuddyPress global settings
- * @since BuddyPress (1.6)
  */
 function bp_activity_setup_akismet() {
 	global $bp;
