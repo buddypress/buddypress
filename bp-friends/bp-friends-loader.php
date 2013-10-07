@@ -39,6 +39,7 @@ class BP_Friends_Component extends BP_Component {
 			'template',
 			'functions',
 			'notifications',
+			'widgets',
 		);
 
 		parent::includes( $includes );
