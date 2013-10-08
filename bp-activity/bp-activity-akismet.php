@@ -1,6 +1,6 @@
 <?php
 /**
- * Akismet support for BuddyPress' Activity Stream
+ * Akismet support for BuddyPress' Activity Stream.
  *
  * @package BuddyPress
  * @since BuddyPress (1.6)
@@ -10,9 +10,14 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Akismet support for the Activity component.
+ *
+ * @since BuddyPress (1.6)
+ */
 class BP_Akismet {
 	/**
-	 * The activity last marked as spam
+	 * The activity last marked as spam.
 	 *
 	 * @access protected
 	 * @var BP_Activity_Activity
@@ -21,7 +26,7 @@ class BP_Akismet {
 	protected $last_activity = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since BuddyPress (1.6)
 	 */
@@ -30,7 +35,7 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Hook Akismet into the activity stream
+	 * Hook Akismet into the activity stream.
 	 *
 	 * @since BuddyPress (1.6)
 	 */
@@ -64,10 +69,11 @@ class BP_Akismet {
 	 * This function lifted with love from the Akismet WordPress plugin's
 	 * akismet_comment_row_action() function. Thanks!
 	 *
-	 * @param array $actions The hover links
-	 * @param array $activity The activity for the current row being processed
-	 * @return array The hover links
 	 * @since BuddyPress (1.6)
+	 *
+	 * @param array $actions The hover links.
+	 * @param array $activity The activity for the current row being processed.
+	 * @return array The hover links.
 	 */
 	function comment_row_action( $actions, $activity ) {
 		$akismet_result = bp_activity_get_meta( $activity['id'], '_bp_akismet_result' );
@@ -110,11 +116,15 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Adds a nonce to the member profile status form, and to the reply form of each activity stream item.
-	 * This is used by Akismet to help detect spam activity.
+	 * Generate nonces for activity forms.
+	 *
+	 * These nonces appear in the member profile status form, as well as in
+	 * the reply form of each activity item. The nonces are, in turn, used
+	 * by Akismet to help detect spam activity.
+	 *
+	 * @since BuddyPress (1.6)
 	 *
 	 * @see http://plugins.trac.wordpress.org/ticket/1232
-	 * @since BuddyPress (1.6)
 	 */
 	public function add_activity_stream_nonce() {
 		$form_id = '_bp_as_nonce';
@@ -130,15 +140,24 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Check the member's latest (activity) update to see if it's the item that was (just) marked as spam.
+	 * Clean up the bp_latest_update usermeta in case of spamming.
 	 *
-	 * This can't be done in BP_Akismet::check_activity() due to BP-Default's AJAX implementation; see bp_dtheme_post_update().
+	 * Run just after an update is posted, this method check to see whether
+	 * the newly created update has been marked as spam by Akismet. If so,
+	 * the cached update is cleared from the user's 'bp_latest_update'
+	 * usermeta, ensuring that it won't appear in the member header and
+	 * elsewhere in the theme.
 	 *
-	 * @param string $content Activity update text
-	 * @param int $user_id User ID
-	 * @param int $activity_id Activity ID
-	 * @see bp_dtheme_post_update()
+	 * This can't be done in BP_Akismet::check_activity() due to the
+	 * default AJAX implementation; see bp_dtheme_post_update().
+	 *
 	 * @since BuddyPress (1.6)
+	 *
+	 * @see bp_dtheme_post_update()
+	 *
+	 * @param string $content Activity update text.
+	 * @param int $user_id User ID.
+	 * @param int $activity_id Activity ID.
 	 */
 	public function check_member_activity_update( $content, $user_id, $activity_id ) {
 		// By default, only handle activity updates and activity comments.
@@ -211,22 +230,25 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Get a list of filterable types of activity item that we want Akismet to automatically check for spam.
+	 * Get a filterable list of activity types that Akismet should automatically check for spam.
 	 *
-	 * @return array List of activity types
 	 * @since BuddyPress (1.6)
+	 *
 	 * @static
+	 *
+	 * @return array List of activity types.
 	 */
 	public static function get_activity_types() {
 		return apply_filters( 'bp_akismet_get_activity_types', array( 'activity_comment', 'activity_update' ) );
 	}
 
 	/**
-	 * Mark activity item as spam
+	 * Mark activity item as spam.
+	 *
+	 * @since BuddyPress (1.6)
 	 *
 	 * @param BP_Activity_Activity $activity
 	 * @param string $source Either "by_a_person" (e.g. a person has manually marked the activity as spam) or "by_akismet" (automatically spammed).
-	 * @since BuddyPress (1.6)
 	 */
 	public function mark_as_spam( $activity, $source ) {
 		// Record this item so we can do some tidyup in BP_Akismet::check_member_activity_update()
@@ -236,11 +258,12 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Mark activity item as ham
+	 * Mark activity item as ham.
+	 *
+	 * @since BuddyPress (1.6)
 	 *
 	 * @param BP_Activity_Activity $activity
 	 * @param string $source Either "by_a_person" (e.g. a person has manually marked the activity as ham) or "by_akismet" (automatically hammed).
-	 * @since BuddyPress (1.6)
 	 */
 	public function mark_as_ham( $activity, $source ) {
 		// If the activity was, originally, automatically marked as spam by Akismet, run the @mentions filter as it would have been skipped.
@@ -251,12 +274,14 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Build a data package for the Akismet service to inspect
+	 * Build a data package for the Akismet service to inspect.
 	 *
-	 * @param BP_Activity_Activity $activity
-	 * @see http://akismet.com/development/api/#comment-check
 	 * @since BuddyPress (1.6)
+	 *
+	 * @see http://akismet.com/development/api/#comment-check
 	 * @static
+	 *
+	 * @param BP_Activity_Activity $activity Activity item data.
 	 */
 	public static function build_akismet_data_package( $activity ) {
 		$userdata = get_userdata( $activity->user_id );
@@ -290,13 +315,15 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Check if the activity item is spam or ham
+	 * Check if the activity item is spam or ham.
 	 *
-	 * @param BP_Activity_Activity $activity The activity item to check
-	 * @see http://akismet.com/development/api/
 	 * @since BuddyPress (1.6)
+	 *
+	 * @see http://akismet.com/development/api/
 	 * @todo Spam counter?
 	 * @todo Auto-delete old spam?
+	 *
+	 * @param BP_Activity_Activity $activity The activity item to check.
 	 */
 	public function check_activity( $activity ) {
 		// By default, only handle activity updates and activity comments.
@@ -332,10 +359,11 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Update activity meta after a manual spam change (user initiated)
+	 * Update activity meta after a manual spam change (user-initiated).
 	 *
-	 * @param BP_Activity_Activity $activity The activity to check
 	 * @since BuddyPress (1.6)
+	 *
+	 * @param BP_Activity_Activity $activity The activity to check.
 	 */
 	public function update_activity_spam_meta( $activity ) {
 		// By default, only handle activity updates and activity comments.
@@ -348,10 +376,11 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Update activity meta after a manual ham change (user initiated)
+	 * Update activity meta after a manual ham change (user-initiated).
 	 *
-	 * @param BP_Activity_Activity $activity The activity to check
 	 * @since BuddyPress (1.6)
+	 *
+	 * @param BP_Activity_Activity $activity The activity to check.
 	 */
 	public function update_activity_ham_meta( $activity ) {
 		// By default, only handle activity updates and activity comments.
@@ -364,10 +393,11 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Update activity meta after an automatic spam check (not user initiated)
+	 * Update activity meta after an automatic spam check (not user-initiated).
 	 *
-	 * @param BP_Activity_Activity $activity The activity to check
 	 * @since BuddyPress (1.6)
+	 *
+	 * @param BP_Activity_Activity $activity The activity to check.
 	 */
 	public function update_activity_akismet_meta( $activity ) {
 		// Check we're dealing with what was last updated by Akismet
@@ -399,16 +429,19 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Contact Akismet to check if this is spam or ham
+	 * Contact Akismet to check if this is spam or ham.
 	 *
-	 * Props to WordPress core Akismet plugin for alot of this
+	 * Props to WordPress core Akismet plugin for alot of this.
+	 *
+	 * @since BuddyPress (1.6)
 	 *
 	 * @global string $akismet_api_host
 	 * @global string $akismet_api_port
-	 * @param array $activity_data Packet of information to submit to Akismet
-	 * @param string $check "check" or "submit"
-	 * @param string $spam "spam" or "ham"
-	 * @since BuddyPress (1.6)
+	 *
+	 * @param array $activity_data Packet of information to submit to Akismet.
+	 * @param string $check "check" or "submit".
+	 * @param string $spam "spam" or "ham".
+	 * @return array $activity_data Activity data, with Akismet data added.
 	 */
 	public function send_akismet_request( $activity_data, $check = 'check', $spam = 'spam' ) {
 		global $akismet_api_host, $akismet_api_port;
@@ -477,10 +510,12 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Filters user agent when sending to Akismet.
+	 * Filters user agent when sending to Akismet to add BuddyPress info.
 	 *
-	 * @param string $user_agent
 	 * @since BuddyPress (1.6)
+	 *
+	 * @param string $user_agent User agent string, as generated by Akismet.
+	 * @return string $user_agent Modified user agent string.
 	 */
 	public function buddypress_ua( $user_agent ) {
 		$user_agent = 'BuddyPress/' . bp_get_version() . ' | Akismet/'. constant( 'AKISMET_VERSION' );
@@ -490,8 +525,9 @@ class BP_Akismet {
 	/**
 	 * Adds a "History" meta box to the activity edit screen.
 	 *
-	 * @param string $screen_action The type of screen that has been requested
 	 * @since BuddyPress (1.6)
+	 *
+	 * @param string $screen_action The type of screen that has been requested.
 	 */
 	function add_history_metabox( $screen_action ) {
 		// Only proceed if we're on the edit screen
@@ -503,12 +539,14 @@ class BP_Akismet {
 	}
 
 	/**
-	 * History meta box for the Activity admin edit screen
+	 * History meta box for the Activity admin edit screen.
 	 *
-	 * @param object $item Activity item
 	 * @since BuddyPress (1.6)
-	 * @todo Update activity meta to allow >1 record with the same key (iterate through $history).
+	 *
 	 * @see http://buddypress.trac.wordpress.org/ticket/3907
+	 * @todo Update activity meta to allow >1 record with the same key (iterate through $history).
+	 *
+	 * @param object $item Activity item.
 	 */
 	function history_metabox( $item ) {
 		$history = BP_Akismet::get_activity_history( $item->id );
@@ -522,12 +560,13 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Update an activity item's Akismet history
+	 * Update an activity item's Akismet history.
 	 *
-	 * @param int $activity_id Activity item ID
-	 * @param string $message Human-readable description of what's changed
-	 * @param string $event The type of check we were carrying out
 	 * @since BuddyPress (1.6)
+	 *
+	 * @param int $activity_id Activity item ID.
+	 * @param string $message Human-readable description of what's changed.
+	 * @param string $event The type of check we were carrying out.
 	 */
 	public function update_activity_history( $activity_id = 0, $message = '', $event = '' ) {
 		$event = array(
@@ -542,11 +581,12 @@ class BP_Akismet {
 	}
 
 	/**
-	 * Get an activity item's Akismet history
+	 * Get an activity item's Akismet history.
 	 *
-	 * @param int $activity_id Activity item ID
-	 * @return array The activity item's Akismet history
 	 * @since BuddyPress (1.6)
+	 *
+	 * @param int $activity_id Activity item ID.
+	 * @return array The activity item's Akismet history.
 	 */
 	public function get_activity_history( $activity_id = 0 ) {
 		$history = bp_activity_get_meta( $activity_id, '_bp_akismet_history' );
@@ -561,11 +601,15 @@ class BP_Akismet {
 }
 
 /**
- * Deletes old spam activity meta data, as _bp_akismet_submission meta can be large.
+ * Delete old spam activity meta data
  *
- * @global object $bp BuddyPress global settings
- * @global wpdb $wpdb WordPress database object
+ * This is done as a clean-up mechanism, as _bp_akismet_submission meta can
+ * grow to be quite large.
+ *
  * @since BuddyPress (1.6)
+ *
+ * @global object $bp BuddyPress global settings.
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_activity_akismet_delete_old_metadata() {
 	global $bp, $wpdb;
