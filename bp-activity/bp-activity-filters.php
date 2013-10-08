@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The Activity filters
+ * Filters related to the Activity component.
  *
  * @package BuddyPress
  * @subpackage ActivityFilters
@@ -78,7 +78,7 @@ add_filter( 'bp_get_activity_feed_item_description', 'stripslashes_deep' );
 
 add_filter( 'bp_activity_primary_link_before_save',  'esc_url_raw' );
 
-// Apply BuddyPress defined filters
+// Apply BuddyPress-defined filters
 add_filter( 'bp_get_activity_content',               'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_content_body',          'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_parent_content',        'bp_activity_make_nofollow_filter' );
@@ -108,9 +108,11 @@ add_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys',  2, 1
 /** Functions *****************************************************************/
 
 /**
- * Types of activity stream items to check against
+ * Types of activity stream items to moderate.
  *
  * @since BuddyPress (1.6)
+ *
+ * @return array $types List of the activity types to moderate.
  */
 function bp_activity_get_moderated_activity_types() {
 	$types = array(
@@ -121,10 +123,11 @@ function bp_activity_get_moderated_activity_types() {
 }
 
 /**
- * Check activity stream for moderation keys
+ * Moderate the posted activity item, if it contains moderate keywords.
  *
  * @since BuddyPress (1.6)
- * @param BP_Activity_Activity $activity
+ *
+ * @param BP_Activity_Activity $activity The activity object to check.
  */
 function bp_activity_check_moderation_keys( $activity ) {
 
@@ -139,10 +142,11 @@ function bp_activity_check_moderation_keys( $activity ) {
 }
 
 /**
- * Check activity stream for blacklisted keys
+ * Mark the posted activity as spam, if it contains blacklist keywords.
  *
  * @since BuddyPress (1.6)
- * @param BP_Activity_Activity $activity
+ *
+ * @param BP_Activity_Activity $activity The activity object to check.
  */
 function bp_activity_check_blacklist_keys( $activity ) {
 
@@ -156,16 +160,15 @@ function bp_activity_check_blacklist_keys( $activity ) {
 }
 
 /**
- * Custom kses filtering for activity content
+ * Custom kses filtering for activity content.
  *
  * @since BuddyPress (1.1)
- *
- * @param string $content The activity content
  *
  * @uses apply_filters() To call the 'bp_activity_allowed_tags' hook.
  * @uses wp_kses()
  *
- * @return string $content Filtered activity content
+ * @param string $content The activity content.
+ * @return string $content Filtered activity content.
  */
 function bp_activity_filter_kses( $content ) {
 	global $allowedtags;
@@ -196,13 +199,12 @@ function bp_activity_filter_kses( $content ) {
  *
  * @since BuddyPress (1.2)
  *
- * @param string $content The contents of a given item.
- * @param int $activity_id The activity id. Deprecated.
- *
  * @uses bp_activity_find_mentions()
  * @uses bp_core_get_user_domain()
  *
- * @return string $content Content filtered for mentions
+ * @param string $content The contents of a given item.
+ * @param int $activity_id The activity id. Deprecated.
+ * @return string $content Content filtered for mentions.
  */
 function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 
@@ -228,16 +230,16 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 }
 
 /**
- * Catch mentions in activity items before they are saved into the database.
+ * Catch mentions in an activity item before it is saved into the database.
  *
  * If mentions are found, replace @mention text with user links and add our
- * hook to send mentions after the activity item is saved.
+ * hook to send mention notifications after the activity item is saved.
  *
  * @since BuddyPress (1.5)
  *
- * @param BP_Activity_Activity $activity
- *
  * @uses bp_activity_find_mentions()
+ *
+ * @param BP_Activity_Activity $activity
  */
 function bp_activity_at_name_filter_updates( $activity ) {
 	// Are mentions disabled?
@@ -268,15 +270,14 @@ function bp_activity_at_name_filter_updates( $activity ) {
 }
 
 /**
- * Sends emails and BP notifications for @-mentioned users in the contents of
- * an activity item.
+ * Sends emails and BP notifications for users @-mentioned in an activity item.
  *
  * @since BuddyPress (1.7)
  *
- * @param BP_Activity_Activity $activity The BP_Activity_Activity object
- *
  * @uses bp_activity_at_message_notification()
  * @uses bp_activity_update_mention_count_for_user()
+ *
+ * @param BP_Activity_Activity $activity The BP_Activity_Activity object
  */
 function bp_activity_at_name_send_emails( $activity ) {
 	// Are mentions disabled?
@@ -307,25 +308,25 @@ function bp_activity_at_name_send_emails( $activity ) {
 }
 
 /**
- * Catches links in activity text so rel=nofollow can be added
+ * Catch links in activity text so rel=nofollow can be added.
  *
  * @since BuddyPress (1.2)
  *
- * @param string $text Activity text
- *
- * @return string $text Text with rel=nofollow added to any links
+ * @param string $text Activity text.
+ * @return string $text Text with rel=nofollow added to any links.
  */
 function bp_activity_make_nofollow_filter( $text ) {
 	return preg_replace_callback( '|<a (.+?)>|i', 'bp_activity_make_nofollow_filter_callback', $text );
 }
 
 	/**
-	 * Adds rel=nofollow to a link
+	 * Add rel=nofollow to a link.
 	 *
 	 * @since BuddyPress (1.2)
 	 *
 	 * @param array $matches
 	 *
+	 * @param array $matches Items matched by preg_replace_callback() in bp_activity_make_nofollow_filter().
 	 * @return string $text Link with rel=nofollow added
 	 */
 	function bp_activity_make_nofollow_filter_callback( $matches ) {
@@ -335,21 +336,20 @@ function bp_activity_make_nofollow_filter( $text ) {
 	}
 
 /**
- * Truncates long activity entries when viewed in activity streams
+ * Truncate long activity entries when viewed in activity streams.
  *
  * @since BuddyPress (1.5)
  *
- * @param string $text The original activity entry text
- *
  * @uses bp_is_single_activity()
- * @uses apply_filters() To call the 'bp_activity_excerpt_append_text' hook
- * @uses apply_filters() To call the 'bp_activity_excerpt_length' hook
+ * @uses apply_filters() To call the 'bp_activity_excerpt_append_text' hook.
+ * @uses apply_filters() To call the 'bp_activity_excerpt_length' hook.
  * @uses bp_create_excerpt()
  * @uses bp_get_activity_id()
  * @uses bp_get_activity_thread_permalink()
- * @uses apply_filters() To call the 'bp_activity_truncate_entry' hook
+ * @uses apply_filters() To call the 'bp_activity_truncate_entry' hook.
  *
- * @return string $excerpt The truncated text
+ * @param string $text The original activity entry text.
+ * @return string $excerpt The truncated text.
  */
 function bp_activity_truncate_entry( $text ) {
 	global $activities_template;
