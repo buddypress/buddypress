@@ -216,22 +216,35 @@ class BP_Activity_Activity {
 	/**
 	 * Get activity items, as specified by parameters
 	 *
+	 * @see BP_Activity_Activity::get_filter_sql() for a description of the
+	 *      'filter' parameter.
+	 * @see WP_Meta_Query::queries for a description of the 'meta_query'
+	 *      parameter format.
+	 *
 	 * @param array $args {
-	 *     An array of arguments. Optional.
-	 *     @int $page The current page number. Default: 1.
-	 *     @int $per_page The number of items to display per page. Default: 25.
-	 *     @int $max Maximum number of items to show. Default: false.
+	 *     An array of arguments. All items are optional.
+	 *     @int $page Which page of results to fetch. Using page=1 without
+	 *                per_page will result in no pagination. Default: 1.
+	 *     @int|bool $per_page Number of results per page. Default: 25.
+	 *     @int|bool $max Maximum number of results to return.
+	 *                    Default: false (unlimited).
 	 *     @string $sort ASC or DESC. Default: 'DESC'.
 	 *     @array $exclude Array of activity IDs to exclude. Default: false.
 	 *     @array $in Array of ids to limit query by (IN). Default: false.
-	 *     @array $meta_query
-	 *     @array $filter
-	 *     @string $search_terms Limit results by a search term. Default: false.
-	 *     @bool $display_comments Whether to include activity comments. Default: false.
-	 *     @bool $show_hidden Whether to show items marked hide_sitewide. Default: false.
-	 *     @string $spam Spam status. Default: 'ham_only'
+	 *     @array $meta_query An array of meta_query conditions.
+	 *                        See WP_Meta_Query::queries for a description.
+	 *     @array $filter See BP_Activity_Activity::get_filter_sql().
+	 *     @string $search_terms Limit results by a search term.
+	 *                           Default: false.
+	 *     @bool $display_comments Whether to include activity comments.
+	 *                             Default: false.
+	 *     @bool $show_hidden Whether to show items marked hide_sitewide.
+	 *                        Default: false.
+	 *     @string $spam Spam status. Default: 'ham_only'.
 	 * }
-	 * @return array
+	 * @return array The array returned has two keys:
+	 *     - 'total' is the count of located activities
+	 *     - 'activities' is an array of the located activities
 	 */
 	public static function get( $args = array() ) {
 		global $wpdb, $bp;
@@ -879,7 +892,19 @@ class BP_Activity_Activity {
 	 *
 	 * @since BuddyPress (1.3)
 	 *
-	 * @param array $filter_array Multidimensional array of fields to filter and values.
+	 * @param array $filter_array Fields and values to filter by. Should be
+	 *     in the format:
+	 *         $filter_array = array(
+	 *             'filter1' => $value,
+	 *             'filter2' => $value,
+	 *         )
+	 *     Possible filters are as follows. Each can be either a single
+	 *     string, a comma-separated list, or an array of values.
+	 *       - 'user_id' User ID(s)
+	 *       - 'object' Corresponds to the 'component' column in the database.
+	 *       - 'action' Corresponds to the 'type' column in the database.
+	 *       - 'primary_id' Corresponds to the 'item_id' column in the database.
+	 *       - 'secondary_id' Corresponds to the 'secondary_item_id' column in the database.
 	 * @return string The filter clause, for use in a SQL query.
 	 */
 	public static function get_filter_sql( $filter_array ) {
