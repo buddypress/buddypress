@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Activity Streams Loader
+ * BuddyPress Activity Streams Loader.
  *
  * An activity stream component, for users, groups, and site tracking.
  *
@@ -13,14 +13,14 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Main Activity Class
+ * Main Activity Class.
  *
  * @since BuddyPress (1.5)
  */
 class BP_Activity_Component extends BP_Component {
 
 	/**
-	 * Start the activity component creation process
+	 * Start the activity component setup process.
 	 *
 	 * @since BuddyPress (1.5)
 	 */
@@ -33,9 +33,13 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
-	 * Include files
+	 * Include component files.
 	 *
 	 * @since BuddyPress (1.5)
+	 *
+	 * @see BP_Component::includes() for a description of arguments.
+	 *
+	 * @param array $includes See BP_Component::includes() for a description.
 	 */
 	public function includes( $includes = array() ) {
 		// Files to include
@@ -64,12 +68,16 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup globals
+	 * Set up component global variables.
 	 *
 	 * The BP_ACTIVITY_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
 	 * @since BuddyPress (1.5)
+	 *
+	 * @see BP_Component::setup_globals() for a description of arguments.
+	 *
+	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
@@ -99,15 +107,20 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup BuddyBar navigation
+	 * Set up component navigation.
 	 *
 	 * @since BuddyPress (1.5)
 	 *
-	 * @global object $bp BuddyPress global settings
+	 * @see BP_Component::setup_nav() for a description of arguments.
 	 * @uses bp_is_active()
 	 * @uses is_user_logged_in()
 	 * @uses bp_get_friends_slug()
 	 * @uses bp_get_groups_slug()
+	 *
+	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 *                        description.
+	 * @param array $sub_nav Optional. See BP_Component::setup_nav() for
+	 *                       description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
@@ -201,11 +214,12 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up the Toolbar
+	 * Set up the component entries in the WordPress Admin Bar.
 	 *
 	 * @since BuddyPress (1.5)
 	 *
-	 * @global object $bp BuddyPress global settings
+	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
+	 *      parameter array.
 	 * @uses is_user_logged_in()
 	 * @uses trailingslashit()
 	 * @uses bp_get_total_mention_count_for_user()
@@ -213,6 +227,9 @@ class BP_Activity_Component extends BP_Component {
 	 * @uses bp_is_active()
 	 * @uses bp_get_friends_slug()
 	 * @uses bp_get_groups_slug()
+	 *
+	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a
+	 *                            description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 		$bp = buddypress();
@@ -293,11 +310,10 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
-	 * Sets up the title for pages and <title>
+	 * Set up the title for pages and <title>.
 	 *
 	 * @since BuddyPress (1.5)
 	 *
-	 * @global object $bp BuddyPress global settings
 	 * @uses bp_is_activity_component()
 	 * @uses bp_is_my_profile()
 	 * @uses bp_core_fetch_avatar()
@@ -323,7 +339,7 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup the actions
+	 * Set up actions necessary for the component.
 	 *
 	 * @since BuddyPress (1.6)
 	 */
@@ -335,6 +351,9 @@ class BP_Activity_Component extends BP_Component {
 	}
 }
 
+/**
+ * Bootstrap the Activity component.
+ */
 function bp_setup_activity() {
 	buddypress()->activity = new BP_Activity_Component();
 }
