@@ -118,14 +118,34 @@ class BP_Component {
 	}
 
 	/**
-	 * Component global variables
+	 * Set up component global variables.
 	 *
 	 * @since BuddyPress (1.5)
 	 *
-	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_id'
-	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_slug'
+	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_id'.
+	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_slug'.
 	 *
-	 * @param array $args Optional
+	 * @param array $args {
+	 *     All values are optional.
+	 *     @type string $slug The component slug. Used to construct certain
+	 *                        URLs, such as 'friends' in
+	 *                        http://example.com/members/joe/friends/
+	 *     @type string $root_slug The component root slug. Note that this
+	 *                             value is generally unused if the component
+	 *                             has a root directory (the slug will be
+	 *                             overridden by the post_name of the
+	 *                             directory page).
+	 *     @type bool $has_directory Set to true if the component requires
+	 *                               an associated WordPress page.
+	 *     @type string $notification_callback The callable function that
+	 *                                         formats the component's
+	 *                                         notifications.
+	 *     @type string $search_term Optional. The placeholder text in the
+	 *                               component directory search box. Eg,
+	 *                               'Search Groups...'.
+	 *     @type array $global_tables Optional. An array of database table
+	 *                                names.
+	 * }
 	 */
 	public function setup_globals( $args = array() ) {
 
@@ -199,6 +219,9 @@ class BP_Component {
 	 * @since BuddyPress (1.5)
 	 *
 	 * @uses do_action() Calls 'bp_{@link bp_Component::name}includes'
+	 *
+	 * @param array $includes An array of file names, or file name chunks,
+	 *                        to be parsed and then included.
 	 */
 	public function includes( $includes = array() ) {
 
@@ -291,10 +314,19 @@ class BP_Component {
 	}
 
 	/**
-	 * Setup the navigation
+	 * Set up component navigation.
 	 *
-	 * @param array $main_nav Optional
-	 * @param array $sub_nav Optional
+	 * @see bp_core_new_nav_item() For a description of the $main_nav
+	 *      parameter formatting.
+	 * @see bp_core_new_subnav_item() For a description of how each item
+	 *      in the $sub_nav parameter array should be formatted.
+	 *
+	 * @param array $main_nav Optional. Passed directly to
+	 *                        bp_core_new_nav_item(). See that function for
+	 *                        a description.
+	 * @param array $sub_nav Optional. Multidimensional array, each item in
+	 *                       which is passed to bp_core_new_subnav_item().
+	 *                       See that function for a description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
@@ -315,10 +347,17 @@ class BP_Component {
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Set up the component entries in the WordPress Admin Bar.
 	 *
+	 * @see WP_Admin_Bar::add_menu() for a description of the syntax
+	 *      required by each item in the $wp_admin_nav parameter array.
 	 * @global obj $wp_admin_bar
-	 * @param array $wp_admin_menus
+	 *
+	 * @param array $wp_admin_nav An array of nav item arguments. Each item
+	 *                            in this parameter array is passed to
+	 *                            WP_Admin_Bar::add_menu(). See that method
+	 *                            for a description of the required syntax
+	 *                            for each item.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
