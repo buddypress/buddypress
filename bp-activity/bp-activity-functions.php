@@ -987,8 +987,8 @@ function bp_activity_get( $args = '' ) {
  * @param array $args {
  *     All arguments and defaults are shared with BP_Activity_Activity::get(),
  *     except for the following:
- *     @string|int|array Single activity ID, comma-separated list of IDs, or
- *                       array of IDs.
+ *     @type string|int|array Single activity ID, comma-separated list of IDs,
+ *                            or array of IDs.
  * }
  * @return array $activity See BP_Activity_Activity::get() for description.
  */
@@ -1032,30 +1032,31 @@ function bp_activity_get_specific( $args = '' ) {
  *
  * @param array $args {
  *     An array of arguments.
- *     @int|bool $id Pass an activity ID to update an existing item, or false
- *                   to create a new item. Default: false.
- *     @string $action Optional. The activity action/description, typically
- *                     something like "Joe posted an update".
- *     @string $content Optional. The content of the activity item.
- *     @string $component The unique name of the component associated with the
- *                        activity item - 'groups', 'profile', etc.
- *     @string $type The specific activity type, used for directory filtering.
- *                   'new_blog_post', 'activity_update', etc.
- *     @string $primary_link Optional. The URL for this item, as used in RSS
- *                           feeds. Defaults to the URL for this activity
- *                           item's permalink page.
- *     @int|bool $user_id Optional. The ID of the user associated with the
- *                        activity item. May be set to false or 0 if the item
- *                        is not related to any user. Default: the ID of the
- *                        currently logged-in user.
- *     @int $item_id Optional. The ID of the associated item.
- *     @int $secondary_item_id Optional. The ID of a secondary associated item.
- *     @string $date_recorded Optional. The GMT time, in Y-m-d h:i:s format,
- *                            when the item was recorded. Defaults to the
- *                            current time.
- *     @bool $hide_sitewide Should the item be hidden on sitewide streams?
- *                          Default: false.
- *     @bool $is_spam Should the item be marked as spam? Default: false.
+ *     @type int|bool $id Pass an activity ID to update an existing item, or
+ *                        false to create a new item. Default: false.
+ *     @type string $action Optional. The activity action/description, typically
+ *                          something like "Joe posted an update".
+ *     @type string $content Optional. The content of the activity item.
+ *     @type string $component The unique name of the component associated with
+ *                             the activity item - 'groups', 'profile', etc.
+ *     @type string $type The specific activity type, used for directory
+ *                        filtering. 'new_blog_post', 'activity_update', etc.
+ *     @type string $primary_link Optional. The URL for this item, as used in
+ *                                RSS feeds. Defaults to the URL for this
+ *                                activity item's permalink page.
+ *     @type int|bool $user_id Optional. The ID of the user associated with the
+ *                             activity item. May be set to false or 0 if the
+ *                             item is not related to any user. Default: the ID
+ *                             of the currently logged-in user.
+ *     @type int $item_id Optional. The ID of the associated item.
+ *     @type int $secondary_item_id Optional. The ID of a secondary associated
+ *                                  item.
+ *     @type string $date_recorded Optional. The GMT time, in Y-m-d h:i:s format,
+ *                                 when the item was recorded. Defaults to the
+ *                                 current time.
+ *     @type bool $hide_sitewide Should the item be hidden on sitewide streams?
+ *                               Default: false.
+ *     @type bool $is_spam Should the item be marked as spam? Default: false.
  * }
  * @return int|bool The ID of the activity on success. False on error.
  */
@@ -1133,8 +1134,8 @@ function bp_activity_add( $args = '' ) {
  * @uses do_action() To call the 'bp_activity_posted_update' hook.
  *
  * @param array $args {
- *     @string $content The content of the activity update.
- *     @int $user_id Optional. Defaults to the logged-in user.
+ *     @type string $content The content of the activity update.
+ *     @type int $user_id Optional. Defaults to the logged-in user.
  * }
  * @return int $activity_id The activity id
  */
@@ -1195,15 +1196,15 @@ function bp_activity_post_update( $args = '' ) {
  * @uses do_action() To call the 'bp_activity_comment_posted' hook.
  *
  * @param array $args {
- *     @int $id Optional. Pass an ID to update an existing comment.
- *     @string $content The content of the comment.
- *     @int $user_id Optional. The ID of the user making the comment. Defaults
- *                   to the ID of the logged-in user.
- *     @int $activity_id The ID of the "root" activity item, ie the oldest
- *                       ancestor of the comment.
- *     @int $parent_id Optional. The ID of the parent activity item, ie the
- *                     item to which the comment is an immediate reply. If
- *                     not provided, this value defaults to the $activity_id.
+ *     @type int $id Optional. Pass an ID to update an existing comment.
+ *     @type string $content The content of the comment.
+ *     @type int $user_id Optional. The ID of the user making the comment.
+ *                        Defaults to the ID of the logged-in user.
+ *     @type int $activity_id The ID of the "root" activity item, ie the oldest
+ *                            ancestor of the comment.
+ *     @type int $parent_id Optional. The ID of the parent activity item, ie the
+ *                          item to which the comment is an immediate reply. If
+ *                          not provided, this value defaults to the $activity_id.
  * }
  * @return int|bool The ID of the comment on success, otherwise false.
  */

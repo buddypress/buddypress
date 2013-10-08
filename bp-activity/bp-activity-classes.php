@@ -223,24 +223,27 @@ class BP_Activity_Activity {
 	 *
 	 * @param array $args {
 	 *     An array of arguments. All items are optional.
-	 *     @int $page Which page of results to fetch. Using page=1 without
-	 *                per_page will result in no pagination. Default: 1.
-	 *     @int|bool $per_page Number of results per page. Default: 25.
-	 *     @int|bool $max Maximum number of results to return.
-	 *                    Default: false (unlimited).
-	 *     @string $sort ASC or DESC. Default: 'DESC'.
-	 *     @array $exclude Array of activity IDs to exclude. Default: false.
-	 *     @array $in Array of ids to limit query by (IN). Default: false.
-	 *     @array $meta_query An array of meta_query conditions.
-	 *                        See WP_Meta_Query::queries for a description.
-	 *     @array $filter See BP_Activity_Activity::get_filter_sql().
-	 *     @string $search_terms Limit results by a search term.
-	 *                           Default: false.
-	 *     @bool $display_comments Whether to include activity comments.
+	 *     @type int $page Which page of results to fetch. Using page=1
+	 *                     without per_page will result in no pagination.
+	 *                     Default: 1.
+	 *     @type int|bool $per_page Number of results per page. Default: 25.
+	 *     @type int|bool $max Maximum number of results to return.
+	 *                         Default: false (unlimited).
+	 *     @type string $sort ASC or DESC. Default: 'DESC'.
+	 *     @type array $exclude Array of activity IDs to exclude.
+	 *                          Default: false.
+	 *     @type array $in Array of ids to limit query by (IN).
+	 *                     Default: false.
+	 *     @type array $meta_query An array of meta_query conditions.
+	 *                             See WP_Meta_Query::queries for description.
+	 *     @type array $filter See BP_Activity_Activity::get_filter_sql().
+	 *     @type string $search_terms Limit results by a search term.
+	 *                                Default: false.
+	 *     @type bool $display_comments Whether to include activity comments.
+	 *                                  Default: false.
+	 *     @type bool $show_hidden Whether to show items marked hide_sitewide.
 	 *                             Default: false.
-	 *     @bool $show_hidden Whether to show items marked hide_sitewide.
-	 *                        Default: false.
-	 *     @string $spam Spam status. Default: 'ham_only'.
+	 *     @type string $spam Spam status. Default: 'ham_only'.
 	 * }
 	 * @return array The array returned has two keys:
 	 *     - 'total' is the count of located activities
