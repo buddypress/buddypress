@@ -1033,29 +1033,26 @@ function bp_activity_get_specific( $args = '' ) {
  * @param array $args {
  *     An array of arguments.
  *     @type int|bool $id Pass an activity ID to update an existing item, or
- *                        false to create a new item. Default: false.
+ *           false to create a new item. Default: false.
  *     @type string $action Optional. The activity action/description, typically
- *                          something like "Joe posted an update".
+ *           something like "Joe posted an update".
  *     @type string $content Optional. The content of the activity item.
  *     @type string $component The unique name of the component associated with
- *                             the activity item - 'groups', 'profile', etc.
+ *           the activity item - 'groups', 'profile', etc.
  *     @type string $type The specific activity type, used for directory
- *                        filtering. 'new_blog_post', 'activity_update', etc.
+ *           filtering. 'new_blog_post', 'activity_update', etc.
  *     @type string $primary_link Optional. The URL for this item, as used in
- *                                RSS feeds. Defaults to the URL for this
- *                                activity item's permalink page.
+ *           RSS feeds. Defaults to the URL for this activity item's permalink page.
  *     @type int|bool $user_id Optional. The ID of the user associated with the
- *                             activity item. May be set to false or 0 if the
- *                             item is not related to any user. Default: the ID
- *                             of the currently logged-in user.
+ *           activity item. May be set to false or 0 if the item is not related
+ *           to any user. Default: the ID of the currently logged-in user.
  *     @type int $item_id Optional. The ID of the associated item.
  *     @type int $secondary_item_id Optional. The ID of a secondary associated
- *                                  item.
+ *           item.
  *     @type string $date_recorded Optional. The GMT time, in Y-m-d h:i:s format,
- *                                 when the item was recorded. Defaults to the
- *                                 current time.
+ *           when the item was recorded. Defaults to the current time.
  *     @type bool $hide_sitewide Should the item be hidden on sitewide streams?
- *                               Default: false.
+ *           Default: false.
  *     @type bool $is_spam Should the item be marked as spam? Default: false.
  * }
  * @return int|bool The ID of the activity on success. False on error.
@@ -1314,10 +1311,9 @@ function bp_activity_get_activity_id( $args = '' ) {
  * @uses wp_cache_delete()
  *
  * @param array $args To delete specific activity items, use
- *                        $args = array( 'id' => $ids );
- *                    Otherwise, to use filters for item deletion, the argument
- *                    format is the same as BP_Activity_Activity::get(). See
- *                    that method for a description.
+ *            $args = array( 'id' => $ids );
+ *        Otherwise, to use filters for item deletion, the argument format is
+ *        the same as BP_Activity_Activity::get(). See that method for a description.
  * @return bool True on success, false on failure.
  */
 function bp_activity_delete( $args = '' ) {
