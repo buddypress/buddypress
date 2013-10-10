@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Blogs Activity
+ * BuddyPress Blogs Activity.
  *
  * @package BuddyPress
  * @subpackage BlogsActivity
@@ -11,13 +11,13 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Register activity actions for the blogs component
+ * Register activity actions for the blogs component.
  *
  * @since BuddyPress (1.0)
- * @package BuddyPress
- * @subpackage BlogsActivity
- * @global type $bp
- * @return boolean
+ *
+ * @global object $bp The BuddyPress global settings object.
+ *
+ * @return bool|null Returns false if activity component is not active.
  */
 function bp_blogs_register_activity_actions() {
 	global $bp;
@@ -39,14 +39,19 @@ function bp_blogs_register_activity_actions() {
 add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions' );
 
 /**
- * Record the activity to the actvity stream
+ * Record blog-related activity to the activity stream.
  *
  * @since BuddyPress (1.0)
- * @package BuddyPress
- * @subpackage BlogsActivity
- * @global BuddyPress $bp
- * @param array $args
- * @return boolean
+ *
+ * @see bp_activity_add() for description of parameters.
+ * @global object $bp The BuddyPress global settings object.
+ *
+ * @param array $args {
+ *     See {@link bp_activity_add()} for complete description of arguments.
+ *     The arguments listed here have different default values from bp_activity_add().
+ *     @type string $component Default: 'blogs'.
+ * }
+ * @return int|bool On success, returns the activity ID. False on failure.
  */
 function bp_blogs_record_activity( $args = '' ) {
 	global $bp;
@@ -94,13 +99,19 @@ function bp_blogs_record_activity( $args = '' ) {
 }
 
 /**
- * Delete a blogs activity stream item
+ * Delete a blog-related activity stream item.
  *
  * @since BuddyPress (1.0)
- * @package BuddyPress
- * @subpackage BlogsActivity
- * @global BuddyPress $bp
- * @param array $args
+ *
+ * @see bp_activity_delete() for description of parameters.
+ * @global object $bp The BuddyPress global settings object.
+ *
+ * @param array $args {
+ *     See {@link bp_activity_delete()} for complete description of arguments.
+ *     The arguments listed here have different default values from bp_activity_add().
+ *     @type string $component Default: 'blogs'.
+ * }
+ * @return bool True on success, false on failure.
  */
 function bp_blogs_delete_activity( $args = true ) {
 	global $bp;

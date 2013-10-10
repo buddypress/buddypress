@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Blogs Caching
+ * BuddyPress Blogs Caching.
  *
  * Caching functions handle the clearing of cached objects and pages on specific
  * actions throughout BuddyPress.
@@ -14,13 +14,12 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Clear the blog object cache
+ * Clear the blog object cache.
  *
  * @since BuddyPress (1.0)
- * @package BuddyPress
- * @subpackage BlogsCache
- * @param int $blog_id
- * @param int $user_id
+ *
+ * @param int $blog_id ID of the current blog.
+ * @param int $user_id ID of the user whose blog cache should be cleared.
  */
 function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 	wp_cache_delete( 'bp_blogs_of_user_'        . $user_id, 'bp' );
@@ -28,12 +27,11 @@ function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 }
 
 /**
- * Clear cache when a new blog is created
+ * Clear cache when a new blog is created.
  *
  * @since BuddyPress (1.0)
- * @package BuddyPress
- * @subpackage BlogsCache
- * @param BP_Blogs_Blog $recorded_blog_obj
+ *
+ * @param BP_Blogs_Blog $recorded_blog_obj The recorded blog, passed by 'bp_blogs_new_blog'.
  */
 function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
 	bp_blogs_clear_blog_object_cache( false, $recorded_blog_obj->user_id );
