@@ -1,6 +1,6 @@
 <?php
 /**
- * Blogs component functions
+ * Blogs component functions.
  *
  * @package BuddyPress
  * @subpackage BlogsFunctions
@@ -10,12 +10,13 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Checks $bp pages global and looks for directory page
+ * Check whether the $bp global lists an activity directory page.
  *
  * @since BuddyPress (1.5)
  *
- * @global BuddyPress $bp The one true BuddyPress instance
- * @return bool True if set, False if empty
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @return bool True if set, false if empty.
  */
 function bp_blogs_has_directory() {
 	global $bp;
@@ -23,6 +24,22 @@ function bp_blogs_has_directory() {
 	return (bool) !empty( $bp->pages->blogs->id );
 }
 
+/**
+ * Retrieve a set of blogs
+ *
+ * @see BP_Blogs_Blog::get() for a description of arguments and return value.
+ *
+ * @param array $args {
+ *     Arguments are listed here with their default values. For more
+ *     information about the arguments, see {@link BP_Blogs_Blog::get()}.
+ *     @type string $type Default: 'active'.
+ *     @type int|bool $user_id Default: false.
+ *     @type string|bool $search_terms Default: false.
+ *     @type int $per_page Default: 20.
+ *     @type int $page Default: 1.
+ * }
+ * @return array See {@link BP_Blogs_Blog::get()}.
+ */
 function bp_blogs_get_blogs( $args = '' ) {
 
 	$defaults = array(
@@ -40,9 +57,7 @@ function bp_blogs_get_blogs( $args = '' ) {
 }
 
 /**
- * Populates the BP blogs table with existing blogs.
- *
- * @package BuddyPress Blogs
+ * Populate the BP blogs table with existing blogs.
  *
  * @global object $bp BuddyPress global settings
  * @global object $wpdb WordPress database object
@@ -79,16 +94,18 @@ function bp_blogs_record_existing_blogs() {
 }
 
 /**
- * Makes BuddyPress aware of sites that shouldn't be recorded to activity streams.
+ * Check whether a given blog should be recorded in activity streams.
  *
  * If $user_id is provided, you can restrict site from being recordable
  * only to particular users.
  *
  * @since BuddyPress (1.7)
- * @param int $blog_id
- * @param int|null $user_id
+ *
  * @uses apply_filters()
- * @return bool True if blog is recordable, false elsewhere
+ *
+ * @param int $blog_id ID of the blog being checked.
+ * @param int $user_id Optional. ID of the user for whom access is being checked.
+ * @return bool True if blog is recordable, otherwise false.
  */
 function bp_blogs_is_blog_recordable( $blog_id, $user_id = 0 ) {
 
@@ -108,16 +125,19 @@ function bp_blogs_is_blog_recordable( $blog_id, $user_id = 0 ) {
 }
 
 /**
- * Makes BuddyPress aware of sites that activities shouldn't be trackable.
+ * Check whether a given blog should be tracked by the Blogs component.
+ *
  * If $user_id is provided, the developer can restrict site from
  * being trackable only to particular users.
  *
  * @since BuddyPress (1.7)
- * @param int $blog_id
- * @param int|null $user_id
+ *
  * @uses bp_blogs_is_blog_recordable
  * @uses apply_filters()
- * @return bool True if blog is trackable, false elsewhere
+ *
+ * @param int $blog_id ID of the blog being checked.
+ * @param int $user_id Optional. ID of the user for whom access is being checked.
+ * @return bool True if blog is trackable, otherwise false.
  */
 function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
 
@@ -137,13 +157,17 @@ function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
 }
 
 /**
- * Makes BuddyPress aware of a new site so that it can track its activity.
+ * Make BuddyPress aware of a new site so that it can track its activity.
  *
  * @since BuddyPress (1.0)
- * @param int $blog_id
- * @param int $user_id
- * @param bool $no_activity Optional; defaults to false
+ *
  * @uses BP_Blogs_Blog
+ *
+ * @param int $blog_id ID of the blog being recorded.
+ * @param int $user_id ID of the user for whom the blog is being recorded.
+ * @param bool $no_activity Optional. Whether to skip recording an activity
+ *        item about this blog creation. Default: false.
+ * @return bool|null Returns false on failure.
  */
 function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 
@@ -191,11 +215,12 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
 /**
- * Updates blogname in BuddyPress blogmeta table
+ * Update blog name in BuddyPress blogmeta table.
  *
- * @global object $wpdb DB Layer
- * @param string $oldvalue Value before save (not used)
- * @param string $newvalue Value to change meta to
+ * @global object $wpdb DB Layer.
+ *
+ * @param string $oldvalue Value before save. Passed by do_action() but unused here.
+ * @param string $newvalue Value to change meta to.
  */
 function bp_blogs_update_option_blogname( $oldvalue, $newvalue ) {
 	global $wpdb;
@@ -205,11 +230,12 @@ function bp_blogs_update_option_blogname( $oldvalue, $newvalue ) {
 add_action( 'update_option_blogname', 'bp_blogs_update_option_blogname', 10, 2 );
 
 /**
- * Updates blogdescription in BuddyPress blogmeta table
+ * Update blog description in BuddyPress blogmeta table
  *
- * @global object $wpdb DB Layer
- * @param string $oldvalue Value before save (not used)
- * @param string $newvalue Value to change meta to
+ * @global object $wpdb DB Layer.
+ *
+ * @param string $oldvalue Value before save. Passed by do_action() but unused here.
+ * @param string $newvalue Value to change meta to.
  */
 function bp_blogs_update_option_blogdescription( $oldvalue, $newvalue ) {
 	global $wpdb;
@@ -218,6 +244,15 @@ function bp_blogs_update_option_blogdescription( $oldvalue, $newvalue ) {
 }
 add_action( 'update_option_blogdescription', 'bp_blogs_update_option_blogdescription', 10, 2 );
 
+/**
+ * Record a new blog post in the BuddyPress activity stream.
+ *
+ * @param int $post_id ID of the post being recorded.
+ * @param object $post The WP post object passed to the 'save_post' action.
+ * @param int $user_id Optional. The user to whom the activity item will be
+ *        associated. Defaults to the post_author.
+ * @return bool|null Returns false on failure.
+ */
 function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 	global $bp, $wpdb;
 
@@ -300,12 +335,14 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 add_action( 'save_post', 'bp_blogs_record_post', 10, 2 );
 
 /**
- * Record blog comment activity. Checks if blog is public and post is not
- * password protected.
+ * Record a new blog comment in the BuddyPress activity stream.
  *
- * @param int $comment_id
- * @param mixed $is_approved
- * @return mixed
+ * Only posts the item if blog is public and post is not password-protected.
+ *
+ * @param int $comment_id ID of the comment being recorded.
+ * @param bool|string $is_approved Optional. The $is_approved value passed to
+ *        the 'comment_post' action. Default: true.
+ * @return bool|object Returns false on failure, the comment object on success.
  */
 function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	// Get the users comment
@@ -391,6 +428,22 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
 add_action( 'edit_comment', 'bp_blogs_record_comment', 10    );
 
+/**
+ * Record a user's association with a blog.
+ *
+ * This function is hooked to several WordPress actions where blog roles are
+ * set/changed ('add_user_to_blog', 'profile_update', 'user_register'). It
+ * parses the changes, and records them as necessary in the BP blog tracker.
+ *
+ * BuddyPress does not track blogs for Subscribers.
+ *
+ * @param int $user_id The ID of the user.
+ * @param string|bool $role The WP role being assigned to the user
+ *        ('subscriber', 'contributor', 'author', 'editor', 'administrator', or
+ *        a custom role). Defaults to false.
+ * @param int $blog_id Default: the current blog ID.
+ * @return bool|null False on failure.
+ */
 function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	global $wpdb;
 
@@ -416,6 +469,12 @@ add_action( 'add_user_to_blog', 'bp_blogs_add_user_to_blog', 10, 3 );
 add_action( 'profile_update',   'bp_blogs_add_user_to_blog'        );
 add_action( 'user_register',    'bp_blogs_add_user_to_blog'        );
 
+/**
+ * Remove a blog-user pair from BP's blog tracker.
+ *
+ * @param int $user_id ID of the user whose blog is being removed.
+ * @param int $blog_id Optional. ID of the blog being removed. Default: current blog ID.
+ */
 function bp_blogs_remove_user_from_blog( $user_id, $blog_id = 0 ) {
 	global $wpdb;
 
@@ -427,13 +486,15 @@ function bp_blogs_remove_user_from_blog( $user_id, $blog_id = 0 ) {
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
 
 /**
- * Rehooks WP's maybe_add_existing_user_to_blog with a later priority
+ * Rehook WP's maybe_add_existing_user_to_blog with a later priority
  *
- * WordPress catches add-user-to-blog requests at init:10. In some cases, this can precede BP's
- * Blogs component. This function bumps the priority of the core function, so that we can be sure
- * that the Blogs component is loaded first. See http://buddypress.trac.wordpress.org/ticket/3916
+ * WordPress catches add-user-to-blog requests at init:10. In some cases, this
+ * can precede BP's Blogs component. This function bumps the priority of the
+ * core function, so that we can be sure that the Blogs component is loaded
+ * first. See http://buddypress.trac.wordpress.org/ticket/3916.
  *
  * @since BuddyPress (1.6)
+ * @access private
  */
 function bp_blogs_maybe_add_user_to_blog() {
 	if ( ! is_multisite() )
@@ -444,6 +505,11 @@ function bp_blogs_maybe_add_user_to_blog() {
 }
 add_action( 'init', 'bp_blogs_maybe_add_user_to_blog', 1 );
 
+/**
+ * Remove the "blog created" item from the BP blogs tracker and activity stream.
+ *
+ * @param int $blog_id ID of the blog being removed.
+ */
 function bp_blogs_remove_blog( $blog_id ) {
 	global $bp;
 
@@ -459,6 +525,12 @@ function bp_blogs_remove_blog( $blog_id ) {
 }
 add_action( 'delete_blog', 'bp_blogs_remove_blog' );
 
+/**
+ * Remove a blog from the tracker for a specific user.
+ *
+ * @param int $user_id ID of the user for whom the blog is being removed.
+ * @param int $blog_id ID of the blog being removed.
+ */
 function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 	global $bp;
 
@@ -480,6 +552,14 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 }
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
 
+/**
+ * Remove a blog post activity item from the activity stream.
+ *
+ * @param int $post_id ID of the post to be removed.
+ * @param int $blog_id Optional. Defaults to current blog ID.
+ * @param int $user_id Optional. Defaults to the logged-in user ID. This param
+ *        is currently unused in the function (but is passed to hooks).
+ */
 function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 	global $wpdb, $bp;
 
@@ -503,6 +583,11 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 }
 add_action( 'delete_post', 'bp_blogs_remove_post' );
 
+/**
+ * Remove a blog comment activity item from the activity stream.
+ *
+ * @param int $comment_id ID of the comment to be removed.
+ */
 function bp_blogs_remove_comment( $comment_id ) {
 	global $wpdb;
 
@@ -516,11 +601,13 @@ add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 /**
  * When a blog comment status transition occurs, update the relevant activity's status.
  *
- * @global object $bp BuddyPress global settings
+ * @since BuddyPress (1.6)
+ *
+ * @global object $bp BuddyPress global settings.
+ *
  * @param string $new_status New comment status.
  * @param string $old_status Previous comment status.
  * @param object $comment Comment data.
- * @since BuddyPress (1.6)
  */
 function bp_blogs_transition_activity_status( $new_status, $old_status, $comment ) {
 	global $bp;
@@ -585,6 +672,11 @@ function bp_blogs_transition_activity_status( $new_status, $old_status, $comment
 }
 add_action( 'transition_comment_status', 'bp_blogs_transition_activity_status', 10, 3 );
 
+/**
+ * Get the total number of blogs being tracked by BuddyPress.
+ *
+ * @return int $count Total blog count.
+ */
 function bp_blogs_total_blogs() {
 	if ( !$count = wp_cache_get( 'bp_total_blogs', 'bp' ) ) {
 		$blogs = BP_Blogs_Blog::get_all();
@@ -594,6 +686,13 @@ function bp_blogs_total_blogs() {
 	return $count;
 }
 
+/**
+ * Get the total number of blogs being tracked by BP for a specific user.
+ *
+ * @param int $user_id ID of the user being queried. Default: on a user page,
+ *        the displayed user. Otherwise, the logged-in user.
+ * @return int $count Total blog count for the user.
+ */
 function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
 
 	if ( empty( $user_id ) )
@@ -607,6 +706,11 @@ function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
 	return $count;
 }
 
+/**
+ * Remove the all data related to a given blog from the BP blogs tracker and activity stream.
+ *
+ * @param int $blog_id The ID of the blog to expunge.
+ */
 function bp_blogs_remove_data_for_blog( $blog_id ) {
 	global $bp;
 
@@ -622,18 +726,54 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 }
 add_action( 'delete_blog', 'bp_blogs_remove_data_for_blog', 1 );
 
+/**
+ * Get all of a user's blogs, as tracked by BuddyPress.
+ *
+ * @see BP_Blogs_Blog::get_blogs_for_user() for a description of parameters
+ *      and return values.
+ *
+ * @param int $user_id See {@BP_Blogs_Blog::get_blogs_for_user()}.
+ * @param bool $show_hidden See {@BP_Blogs_Blog::get_blogs_for_user()}.
+ * @return array See {@BP_Blogs_Blog::get_blogs_for_user()}.
+ */
 function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
 	return BP_Blogs_Blog::get_blogs_for_user( $user_id, $show_hidden );
 }
 
+/**
+ * Retrieve a list of all blogs.
+ *
+ * @see BP_Blogs_Blog::get_all() for a description of parameters and return values.
+ *
+ * @param int $limit See {@BP_Blogs_Blog::get_all()}.
+ * @param int $page See {@BP_Blogs_Blog::get_all()}.
+ * @return array See {@BP_Blogs_Blog::get_all()}.
+ */
 function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
 	return BP_Blogs_Blog::get_all( $limit, $page );
 }
 
+/**
+ * Retrieve a random list of blogs.
+ *
+ * @see BP_Blogs_Blog::get() for a description of parameters and return values.
+ *
+ * @param int $limit See {@BP_Blogs_Blog::get()}.
+ * @param int $page See {@BP_Blogs_Blog::get()}.
+ * @return array See {@BP_Blogs_Blog::get()}.
+ */
 function bp_blogs_get_random_blogs( $limit = null, $page = null ) {
 	return BP_Blogs_Blog::get( 'random', $limit, $page );
 }
 
+/**
+ * Check whether a given blog is hidden.
+ *
+ * @see BP_Blogs_Blog::is_hidden() for a description of parameters and return values.
+ *
+ * @param int $blog_id See {@BP_Blogs_Blog::is_hidden()}.
+ * @return bool See {@BP_Blogs_Blog::is_hidden()}.
+ */
 function bp_blogs_is_blog_hidden( $blog_id ) {
 	return BP_Blogs_Blog::is_hidden( $blog_id );
 }
@@ -647,6 +787,19 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
  * stored and synced here.
  */
 
+/**
+ * Delete a metadta from the DB for a blog.
+ *
+ * @global object $wpdb WordPress database access object.
+ * @global object $bp BuddyPress global settings.
+ *
+ * @param int $blog_id ID of the blog whose metadata is being deleted.
+ * @param string $meta_key Optional. The key of the metadata being deleted. If
+ *        omitted, all BP metadata associated with the blog will be deleted.
+ * @param string $meta_value Optional. If present, the metadata will only be
+ *        deleted if the meta_value matches this parameter.
+ * @return bool True on success, false on failure.
+ */
 function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false ) {
 	global $wpdb, $bp;
 
@@ -672,6 +825,20 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 	return true;
 }
 
+/**
+ * Get metadata for a given blog.
+ *
+ * @since BuddyPress (1.2)
+ *
+ * @global object $wpdb WordPress database access object.
+ * @global object $bp BuddyPress global settings.
+ *
+ * @param int $blog_id ID of the blog whose metadata is being requested.
+ * @param string $meta_key Optional. If present, only the metadata matching
+ *        that meta key will be returned. Otherwise, all metadata for the
+ *        blog will be fetched.
+ * @return mixed The meta value(s) being requested.
+ */
 function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 	global $wpdb, $bp;
 
@@ -706,6 +873,17 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
 		return $metas;
 }
 
+/**
+ * Update a piece of blog meta.
+ *
+ * @global object $wpdb WordPress database access object.
+ * @global object $bp BuddyPress global settings.
+ *
+ * @param int $blog_id ID of the blog whose metadata is being updated.
+ * @param string $meta_key Key of the metadata being updated.
+ * @param mixed $meta_value Value to be set.
+ * @return bool True on success, false on failure.
+ */
 function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 	global $wpdb, $bp;
 
@@ -736,6 +914,12 @@ function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
 	return true;
 }
 
+/**
+ * Remove all blog associations for a given user.
+ *
+ * @param int $user_id ID whose blog data should be removed.
+ * @return bool|null Returns false on failure.
+ */
 function bp_blogs_remove_data( $user_id ) {
 	if ( !is_multisite() )
 		return false;
