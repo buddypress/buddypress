@@ -19,7 +19,7 @@
 
 			<?php do_action( 'template_notices' ); ?>
 
-			<p><?php _e( 'Registering for this site is easy, just fill in the fields below and we\'ll get a new account set up for you in no time.', 'buddypress' ); ?></p>
+			<p><?php _e( 'Registering for this site is easy. Just fill in the fields below, and we\'ll get a new account set up for you in no time.', 'buddypress' ); ?></p>
 
 			<?php do_action( 'bp_before_account_details_fields' ); ?>
 
