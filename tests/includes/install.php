@@ -8,10 +8,11 @@
 error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
 
 $config_file_path = $argv[1];
-$multisite = ! empty( $argv[2] );
+$tests_dir_path = $argv[2];
+$multisite = ! empty( $argv[3] );
 
 require_once $config_file_path;
-require_once dirname( $config_file_path ) . '/includes/functions.php';
+require_once $tests_dir_path . '/includes/functions.php';
 
 function _load_buddypress() {
 	require dirname( dirname( dirname( __FILE__ ) ) ) . '/bp-loader.php';
