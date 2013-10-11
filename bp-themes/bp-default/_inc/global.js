@@ -1175,34 +1175,32 @@ jq(document).ready( function() {
 	});
 
 	/* Selecting unread and read messages in inbox */
-	jq("select#message-type-select").change(
-		function() {
-			var selection = jq("select#message-type-select").val();
-			var checkboxes = jq("td input[type='checkbox']");
-			checkboxes.each( function(i) {
-				checkboxes[i].checked = "";
-			});
+	jq( 'body.messages #item-body div.messages' ).on( 'change', '#message-type-select', function() {
+		var selection = this.value;
+		var checkboxes = jq( "td input[type='checkbox']" );
 
-			switch(selection) {
-				case 'unread':
-					var checkboxes = jq("tr.unread td input[type='checkbox']");
-					break;
-				case 'read':
-					var checkboxes = jq("tr.read td input[type='checkbox']");
-					break;
-			}
-			if ( selection != '' ) {
-				checkboxes.each( function(i) {
-					checkboxes[i].checked = "checked";
-				});
-			} else {
-				checkboxes.each( function(i) {
-					checkboxes[i].checked = "";
-				});
-			}
+		checkboxes.each( function(i) {
+			checkboxes[i].checked = "";
+		});
+
+		var checked_value = "checked";
+		switch ( selection ) {
+			case 'unread' :
+				checkboxes = jq("tr.unread td input[type='checkbox']");
+				break;
+			case 'read' :
+				checkboxes = jq("tr.read td input[type='checkbox']");
+				break;
+			case '' :
+				checked_value = "";
+				break;
 		}
-	);
 
+		checkboxes.each( function(i) {
+			checkboxes[i].checked = checked_value;
+		});
+	});
+	
 	/* Bulk delete messages */
 	jq("a#delete_inbox_messages, a#delete_sentbox_messages").click( function() {
 		checkboxes_tosend = '';
