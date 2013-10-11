@@ -1210,7 +1210,7 @@ jq(document).ready( function() {
 		checkboxes_tosend = '';
 		checkboxes = jq("#message-threads tr td input[type='checkbox']");
 
-		jq('div#message').remove();
+		jq('#message').remove();
 		jq(this).addClass('loading');
 
 		jq(checkboxes).each( function(i) {
@@ -1242,8 +1242,8 @@ jq(document).ready( function() {
 				});
 			}
 
-			jq('div#message').hide().slideDown(150);
-			jq("a#delete_inbox_messages, a#delete_sentbox_messages").removeClass('loading');
+			jq('#message').hide().slideDown(150);
+			jq("#delete_inbox_messages, #delete_sentbox_messages").removeClass('loading');
 		});
 
 		return false;
