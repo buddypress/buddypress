@@ -1202,7 +1202,11 @@ jq(document).ready( function() {
 	});
 	
 	/* Bulk delete messages */
-	jq("a#delete_inbox_messages, a#delete_sentbox_messages").click( function() {
+	jq( 'body.messages #item-body div.messages' ).on( 'click', '.messages-options-nav a', function() {
+		if ( -1 == jq.inArray( this.id ), Array( 'delete_sentbox_messages', 'delete_inbox_messages' ) ) ) {
+			return;
+		}
+		
 		checkboxes_tosend = '';
 		checkboxes = jq("#message-threads tr td input[type='checkbox']");
 
