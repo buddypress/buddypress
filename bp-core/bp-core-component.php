@@ -369,6 +369,9 @@ class BP_Component {
 		if ( !bp_use_wp_admin_bar() )
 			return;
 
+		// Filter the passed admin nav
+		$wp_admin_nav = apply_filters( 'bp_' . $this->id . '_admin_nav', $wp_admin_nav );
+
 		// Do we have Toolbar menus to add?
 		if ( !empty( $wp_admin_nav ) ) {
 
