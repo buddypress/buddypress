@@ -382,7 +382,7 @@ class BP_XProfile_Group {
 							<div id="titlediv">
 								<div id="titlewrap">
 									<label class="screen-reader-text" id="title-prompt-text" for=​"title">​<?php _e( 'Field Group Title', 'buddypress') ?></label>
-									<input type="text" name="group_name" id="title" value="<?php echo esc_attr( $this->name ); ?>" />
+									<input type="text" name="group_name" id="title" value="<?php echo esc_attr( $this->name ); ?>" placeholder="<?php esc_attr_e( 'Field Group Title', 'buddypress' ); ?>" />
 								</div>
 							</div>
 
