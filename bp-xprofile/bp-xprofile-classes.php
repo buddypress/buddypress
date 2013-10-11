@@ -509,10 +509,10 @@ class BP_XProfile_Field {
 	public function save() {
 		global $wpdb, $bp;
 
-		$this->group_id	   = apply_filters( 'xprofile_field_group_id_before_save',    $this->group_id,    $this->id );
+		$this->group_id    = apply_filters( 'xprofile_field_group_id_before_save',    $this->group_id,    $this->id );
 		$this->parent_id   = apply_filters( 'xprofile_field_parent_id_before_save',   $this->parent_id,   $this->id );
-		$this->type	       = apply_filters( 'xprofile_field_type_before_save',        $this->type,        $this->id );
-		$this->name	       = apply_filters( 'xprofile_field_name_before_save',        $this->name,        $this->id );
+		$this->type        = apply_filters( 'xprofile_field_type_before_save',        $this->type,        $this->id );
+		$this->name        = apply_filters( 'xprofile_field_name_before_save',        $this->name,        $this->id );
 		$this->description = apply_filters( 'xprofile_field_description_before_save', $this->description, $this->id );
 		$this->is_required = apply_filters( 'xprofile_field_is_required_before_save', $this->is_required, $this->id );
 		$this->order_by	   = apply_filters( 'xprofile_field_order_by_before_save',    $this->order_by,    $this->id );
