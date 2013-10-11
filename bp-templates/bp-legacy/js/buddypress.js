@@ -1249,8 +1249,12 @@ jq(document).ready( function() {
 				jq('#message-threads').before( '<div id="message" class="updated"><p>' + response + '</p></div>' );
 
 				jq(checkboxes).each( function(i) {
-					if( jq(this).is(':checked') )
+					if( jq(this).is(':checked') ) {
+						// We need to uncheck because message is only hidden
+						// Otherwise, AJAX will be fired again with same data 
+						jq(this).attr( 'checked', false );
 						jq(this).parent().parent().fadeOut(150);
+					}
 				});
 			}
 
