@@ -191,7 +191,7 @@ function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 		return wp_get_referer();
 	}
 
-	return bp_get_root_domain();
+	return apply_filters( 'bp_core_login_redirect_to', bp_get_root_domain() );
 }
 add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
 
