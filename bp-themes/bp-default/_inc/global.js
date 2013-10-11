@@ -1222,7 +1222,7 @@ jq(document).ready( function() {
 			jq(this).removeClass('loading');
 			return false;
 		}
-
+		
 		jq.post( ajaxurl, {
 			action: 'messages_delete',
 			'thread_ids': checkboxes_tosend
@@ -1245,6 +1245,7 @@ jq(document).ready( function() {
 			jq('div#message').hide().slideDown(150);
 			jq("a#delete_inbox_messages, a#delete_sentbox_messages").removeClass('loading');
 		});
+
 		return false;
 	});
 
