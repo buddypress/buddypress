@@ -550,6 +550,8 @@ class BP_Activity_Activity {
 	 * To delete a specific activity item, pass an 'id' parameter.
 	 * Otherwise use the filters.
 	 *
+	 * @since BuddyPress (1.2)
+	 *
 	 * @param array $args {
 	 *     @int $id Optional. The ID of a specific item to delete.
 	 *     @string $action Optional. The action to filter by.
@@ -627,14 +629,29 @@ class BP_Activity_Activity {
 		// Fetch the activity IDs so we can delete any comments for this activity item
 		$activity_ids = $wpdb->get_col( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
 
-		if ( !$wpdb->query( "DELETE FROM {$bp->activity->table_name} {$where_sql}" ) )
+		if ( ! $wpdb->query( "DELETE FROM {$bp->activity->table_name} {$where_sql}" ) ) {
 			return false;
+		}
 
+		// Handle accompanying activity comments and meta deletion
 		if ( $activity_ids ) {
-			BP_Activity_Activity::delete_activity_item_comments( $activity_ids );
-			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
+			$activity_ids_comma          = implode( ',', wp_parse_id_list( $activity_ids ) );
+			$activity_comments_where_sql = "WHERE type = 'activity_comment' AND item_id IN ({$activity_ids_comma})";
 
-			return $activity_ids;
+			// Fetch the activity comment IDs for our deleted activity items
+			$activity_comment_ids = $wpdb->get_col( "SELECT id FROM {$bp->activity->table_name} {$activity_comments_where_sql}" );
+
+			// We have activity comments!
+			if ( ! empty( $activity_comment_ids ) ) {
+				// Delete activity comments
+				$wpdb->query( "DELETE FROM {$bp->activity->table_name} {$activity_comments_where_sql}" );
+
+				// Merge activity IDs with activity comment IDs
+				$activity_ids = array_merge( $activity_ids, $activity_comment_ids );
+			}
+
+			// Delete all activity meta entries for activity items and activity comments
+			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
 		}
 
 		return $activity_ids;
@@ -643,19 +660,37 @@ class BP_Activity_Activity {
 	/**
 	 * Delete the comments associated with a set of activity items.
 	 *
+	 * @since BuddyPress (1.2)
+	 *
+	 * @todo Mark as deprecated?  Method is no longer used internally.
+	 *
 	 * @param array $activity_ids Activity IDs whose comments should be deleted.
+	 * @param bool $delete_meta Should we delete the activity meta items for these comments?
 	 * @return bool True on success.
 	 */
-	public static function delete_activity_item_comments( $activity_ids = array() ) {
+	public static function delete_activity_item_comments( $activity_ids = array(), $delete_meta = true ) {
 		global $bp, $wpdb;
 
+		$delete_meta = (bool) $delete_meta;
+
 		$activity_ids = implode( ',', wp_parse_id_list( $activity_ids ) );
+
+		if ( $delete_meta ) {
+			// Fetch the activity comment IDs for our deleted activity items
+			$activity_comment_ids = $wpdb->get_col( "SELECT id FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" );
+
+			if ( ! empty( $activity_comment_ids ) ) {
+				self::delete_activity_meta_entries( $activity_comment_ids );
+			}
+		}
 
 		return $wpdb->query( "DELETE FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND item_id IN ({$activity_ids})" );
 	}
 
 	/**
 	 * Delete the meta entries associated with a set of activity items.
+	 *
+	 * @since BuddyPress (1.2)
 	 *
 	 * @param array $activity_ids Activity IDs whose meta should be deleted.
 	 * @return bool True on success.
