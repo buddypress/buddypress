@@ -124,6 +124,9 @@ class BP_Admin {
 
 		/** BuddyPress Actions ************************************************/
 
+		// Load the BuddyPress metabox in the WP Nav Menu Admin UI
+		add_action( 'load-nav-menus.php', 'bp_admin_wp_nav_menu_meta_box' );
+
 		// Add settings
 		add_action( 'bp_register_admin_settings', array( $this, 'register_admin_settings' ) );
 

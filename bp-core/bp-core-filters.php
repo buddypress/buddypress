@@ -386,3 +386,74 @@ add_filter( 'wp_title', 'bp_modify_page_title', 10, 3 );
 add_filter( 'bp_modify_page_title', 'wptexturize'     );
 add_filter( 'bp_modify_page_title', 'convert_chars'   );
 add_filter( 'bp_modify_page_title', 'esc_html'        );
+
+/**
+ * Add BuddyPress-specific items to the wp_nav_menu.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param WP_Post $menu_item The menu item.
+ * @return obj The modified WP_Post object.
+ */
+function bp_setup_nav_menu_item( $menu_item ) {
+	if ( is_admin() ) {
+		return $menu_item;
+	}
+
+	// We use information stored in the CSS class to determine what kind of
+	// menu item this is, and how it should be treated
+	$css_target = preg_match( '/\sbp-(.*)-nav/', implode( ' ', $menu_item->classes), $matches );
+
+	// If this isn't a BP menu item, we can stop here
+	if ( empty( $matches[1] ) ) {
+		return $menu_item;
+	}
+
+	switch ( $matches[1] ) {
+		case 'login' :
+			if ( is_user_logged_in() ) {
+				$menu_item->_invalid = true;
+			} else {
+				$menu_item->url = wp_login_url( wp_guess_url() );
+			}
+
+			break;
+
+		case 'logout' :
+			if ( ! is_user_logged_in() ) {
+				$menu_item->_invalid = true;
+			} else {
+				$menu_item->url = wp_logout_url( wp_guess_url() );
+			}
+
+			break;
+
+		// Don't show the Register link to logged-in users
+		case 'register' :
+			if ( is_user_logged_in() ) {
+				$menu_item->_invalid = true;
+			}
+
+			break;
+
+		// All other BP nav items are specific to the logged-in user,
+		// and so are not relevant to logged-out users
+		default:
+			if ( is_user_logged_in() ) {
+				$menu_item->url = bp_nav_menu_get_item_url( $matches[1] );
+			} else {
+				$menu_item->_invalid = true;
+			}
+
+			break;
+	}
+
+	// Highlight the current page
+	$current = bp_get_requested_url();
+	if ( strpos( $current, $menu_item->url ) !== false ) {
+		$menu_item->classes[] = 'current_page_item';
+	}
+
+	return $menu_item;
+}
+add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );

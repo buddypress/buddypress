@@ -94,6 +94,8 @@ function bp_core_get_table_prefix() {
  * The main purpose for this function is so that you can avoid having to create
  * your own awkward callback function for usort().
  *
+ * @since BuddyPress (1.9.0)
+ *
  * @param array $items The array to be sorted. Its constituent items can be
  *        either associative arrays or objects.
  * @param string|int $key The array index or property name to sort by.
@@ -1455,3 +1457,178 @@ function bp_core_print_generation_time() {
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );
+
+/** Nav Menu ******************************************************************/
+
+/**
+ * Create fake "post" objects for BP's logged-in nav menu for use in the WordPress "Menus" settings page.
+ *
+ * WordPress nav menus work by representing post or tax term data as a custom
+ * post type, which is then used to populate the checkboxes that appear on
+ * Dashboard > Appearance > Menu as well as the menu as rendered on the front
+ * end. Most of the items in the BuddyPress set of nav items are neither posts
+ * nor tax terms, so we fake a post-like object so as to be compatible with the
+ * menu.
+ *
+ * This technique also allows us to generate links dynamically, so that, for
+ * example, "My Profile" will always point to the URL of the profile of the
+ * logged-in user.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @return mixed A URL or an array of dummy pages.
+ */
+function bp_nav_menu_get_loggedin_pages() {
+
+	// Try to catch the cached version first
+	if ( ! empty( buddypress()->wp_nav_menu_items ) ) {
+		return buddypress()->wp_nav_menu_items;
+	}
+
+	// Pull up a list of items registered in BP's top-level nav array
+	$bp_menu_items = buddypress()->bp_nav;
+
+	// Alphabetize
+	$bp_menu_items = bp_alpha_sort_by_key( $bp_menu_items, 'name' );
+
+	// Some BP nav menu items will not be represented in bp_nav, because
+	// they are not real BP components. We add them manually here.
+	$bp_menu_items[] = array(
+		'name' => __( 'Log Out', 'buddypress' ),
+		'slug' => 'logout',
+		'link' => wp_logout_url(),
+	);
+
+	// If there's nothing to show, we're done
+	if ( count( $bp_menu_items ) < 1 ) {
+		return false;
+	}
+
+	$page_args = array();
+
+	foreach ( $bp_menu_items as $bp_item ) {
+		$item_name = '';
+
+		// Remove <span>number</span>
+		$item_name = preg_replace( '/([.0-9]+)/', '', $bp_item['name'] );
+		$item_name = trim( strip_tags( $item_name ) );
+
+		$page_args[ $bp_item['slug'] ] = (object) array(
+			'ID'             => -1,
+			'post_title'     => $item_name,
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_excerpt'   => $bp_item['slug'],
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'comment_status' => 'closed',
+			'guid'           => $bp_item['link']
+		);
+	}
+
+	if ( empty( buddypress()->wp_nav_menu_items ) ) {
+		buddypress()->wp_nav_menu_items = new stdClass;
+	}
+
+	buddypress()->wp_nav_menu_items->loggedin = $page_args;
+
+	return $page_args;
+}
+
+/**
+ * Create fake "post" objects for BP's logged-out nav menu for use in the WordPress "Menus" settings page.
+ *
+ * WordPress nav menus work by representing post or tax term data as a custom
+ * post type, which is then used to populate the checkboxes that appear on
+ * Dashboard > Appearance > Menu as well as the menu as rendered on the front
+ * end. Most of the items in the BuddyPress set of nav items are neither posts
+ * nor tax terms, so we fake a post-like object so as to be compatible with the
+ * menu.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @return mixed A URL or an array of dummy pages.
+ */
+function bp_nav_menu_get_loggedout_pages() {
+
+	// Try to catch the cached version first
+	if ( ! empty( buddypress()->wp_nav_menu_items->loggedout ) ) {
+		return buddypress()->wp_nav_menu_items->loggedout;
+	}
+
+	$bp_menu_items = array();
+
+	// Some BP nav menu items will not be represented in bp_nav, because
+	// they are not real BP components. We add them manually here.
+	$bp_menu_items[] = array(
+		'name' => __( 'Log In', 'buddypress' ),
+		'slug' => 'login',
+		'link' => wp_login_url(),
+	);
+
+	// The Register page will not always be available (ie, when
+	// registration is disabled)
+	$bp_directory_page_ids = bp_core_get_directory_page_ids();
+
+	if( ! empty( $bp_directory_page_ids['register'] ) ) {
+		$register_page = get_post( $bp_directory_page_ids['register'] );
+		$bp_menu_items[] = array(
+			'name' => $register_page->post_title,
+			'slug' => $register_page->post_name,
+			'link' => get_permalink( $register_page->ID ),
+		);
+	}
+
+	// If there's nothing to show, we're done
+	if ( count( $bp_menu_items ) < 1 ) {
+		return false;
+	}
+
+	$page_args = array();
+
+	foreach ( $bp_menu_items as $bp_item ) {
+		$page_args[ $bp_item['slug'] ] = (object) array(
+			'ID'             => -1,
+			'post_title'     => $bp_item['name'],
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_excerpt'   => $bp_item['slug'],
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'comment_status' => 'closed',
+			'guid'           => $bp_item['link']
+		);
+	}
+
+	if ( empty( buddypress()->wp_nav_menu_items ) ) {
+		buddypress()->wp_nav_menu_items = new stdClass;
+	}
+
+	buddypress()->wp_nav_menu_items->loggedout = $page_args;
+
+	return $page_args;
+}
+
+/**
+ * Get the URL for a BuddyPress WP nav menu item, based on slug.
+ *
+ * BuddyPress-specific WP nav menu items have dynamically generated URLs,
+ * based on the identity of the current user. This function lets you fetch the
+ * proper URL for a given nav item slug (such as 'login' or 'messages').
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param string $slug The slug of the nav item: login, register, or one of the
+ *        slugs from buddypress()->bp_nav.
+ * @return string $nav_item_url The URL generated for the current user.
+ */
+function bp_nav_menu_get_item_url( $slug ) {
+	$nav_item_url   = '';
+	$nav_menu_items = bp_nav_menu_get_loggedin_pages();
+
+	if ( isset( $nav_menu_items[ $slug ] ) ) {
+		$nav_item_url = $nav_menu_items[ $slug ]->guid;
+	}
+
+	return $nav_item_url;
+}
