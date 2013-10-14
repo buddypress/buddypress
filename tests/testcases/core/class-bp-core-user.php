@@ -14,6 +14,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * @expectedDeprecated BP_Core_User::get_users
+	 */
 	public function test_get_users_with_exclude_querystring() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
@@ -27,6 +30,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u2 ), $user_ids );
 	}
 
+	/**
+	 * @expectedDeprecated BP_Core_User::get_users
+	 */
 	public function test_get_users_with_exclude_array() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
@@ -44,6 +50,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u2 ), $user_ids );
 	}
 
+	/**
+	 * @expectedDeprecated BP_Core_User::get_users
+	 */
 	public function test_get_users_with_include_querystring() {
 		$u1 = $this->create_user( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
@@ -63,6 +72,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u1, $u3 ), $user_ids );
 	}
 
+	/**
+	 * @expectedDeprecated BP_Core_User::get_users
+	 */
 	public function test_get_users_with_include_array() {
 		$u1 = $this->create_user( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),

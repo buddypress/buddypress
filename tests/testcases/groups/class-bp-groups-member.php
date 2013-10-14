@@ -124,6 +124,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
+	/**
+	 * @expectedDeprecated BP_Groups_Member::get_all_for_group
+	 */
 	public function test_get_all_for_group_with_exclude() {
 		$g1 = $this->factory->group->create();
 
