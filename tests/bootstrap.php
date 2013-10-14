@@ -23,7 +23,7 @@ else {
 }
 
 if ( ! file_exists( WP_TESTS_DIR . '/includes/functions.php' ) )
-	die( 'The WordPress PHPUnit test suite could not be found.' );
+	die( "The WordPress PHPUnit test suite could not be found.\n" );
 
 require_once WP_TESTS_DIR . '/includes/functions.php';
 
