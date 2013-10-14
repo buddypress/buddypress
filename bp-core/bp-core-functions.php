@@ -85,6 +85,50 @@ function bp_core_get_table_prefix() {
 }
 
 /**
+ * Sort an array of objects or arrays by alphabetically sorting by a specific key/property.
+ *
+ * For instance, if you have an array of WordPress post objects, you can sort
+ * them by post_name as follows:
+ *     $sorted_posts = bp_alpha_sort_by_key( $posts, 'post_name' );
+ *
+ * The main purpose for this function is so that you can avoid having to create
+ * your own awkward callback function for usort().
+ *
+ * @param array $items The array to be sorted. Its constituent items can be
+ *        either associative arrays or objects.
+ * @param string|int $key The array index or property name to sort by.
+ * @return array $items The sorted array.
+ */
+function bp_alpha_sort_by_key( $items, $key ) {
+	usort( $items, create_function( '$a, $b', '
+		$values = array( 0 => false, 1 => false, );
+		foreach ( func_get_args() as $indexi => $index ) {
+			if ( isset( $index->' . $key . ' ) ) {
+				$values[ $indexi ] = $index->' . $key . ';
+			} else if ( isset( $index["' . $key . '"] ) ) {
+				$values[ $indexi ] = $index["' . $key . '"];
+			}
+		}
+
+		if ( $values[0] && $values[1] ) {
+			$cmp = strcmp( $values[0], $values[1] );
+			if ( 0 > $cmp ) {
+				$retval = -1;
+			} else if ( 0 < $cmp ) {
+				$retval = 1;
+			} else {
+				$retval = 0;
+			}
+			return $retval;
+		} else {
+			return 0;
+		}
+	') );
+
+	return $items;
+}
+
+/**
  * Format numbers the BuddyPress way
  *
  * @param int $number

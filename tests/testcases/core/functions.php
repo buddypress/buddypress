@@ -187,4 +187,72 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertEquals( 'sometime ago', bp_core_time_since( $then, $now ) );
 	}
 
+	/**
+	 * @group bp_alpha_sort_by_key
+	 */
+	public function test_bp_alpha_sort_by_key_arrays() {
+		$items = array(
+			array(
+				'foo' => 'bar',
+				'name' => 'alpha',
+			),
+			array(
+				'foo' => 'bar',
+				'name' => 'charlie',
+			),
+			array(
+				'foo' => 'bar',
+				'name' => 'beta',
+			),
+		);
+
+		$expected = array(
+			array(
+				'foo' => 'bar',
+				'name' => 'alpha',
+			),
+			array(
+				'foo' => 'bar',
+				'name' => 'beta',
+			),
+			array(
+				'foo' => 'bar',
+				'name' => 'charlie',
+			),
+		);
+
+		$this->assertEquals( $expected, bp_alpha_sort_by_key( $items, 'name' ) );
+	}
+
+	/**
+	 * @group bp_alpha_sort_by_key
+	 */
+	public function test_bp_alpha_sort_by_key_objects() {
+		$items = array(
+			new stdClass,
+			new stdClass,
+			new stdClass,
+		);
+		$items[0]->foo = 'bar';
+		$items[0]->name = 'alpha';
+		$items[1]->foo = 'bar';
+		$items[1]->name = 'charlie';
+		$items[2]->foo = 'bar';
+		$items[2]->name = 'beta';
+
+		$expected = array(
+			new stdClass,
+			new stdClass,
+			new stdClass,
+		);
+		$expected[0]->foo = 'bar';
+		$expected[0]->name = 'alpha';
+		$expected[1]->foo = 'bar';
+		$expected[1]->name = 'beta';
+		$expected[2]->foo = 'bar';
+		$expected[2]->name = 'charlie';
+
+		$this->assertEquals( $expected, bp_alpha_sort_by_key( $items, 'name' ) );
+	}
+
 }
