@@ -50,7 +50,8 @@ class BP_Messages_Component extends BP_Component {
 			'filters',
 			'template',
 			'functions',
-			'notifications'
+			'notifications',
+			'widgets',
 		);
 
 		parent::includes( $includes );

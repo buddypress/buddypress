@@ -121,7 +121,9 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		/** Notices ***********************************************************/
 
-		if ( bp_is_active( 'messages' ) ) {
+		// Only hook the 'sitewide_notices' overlay if the Sitewide
+		// Notices widget is not in use (to avoid duplicate content).
+		if ( bp_is_active( 'messages' ) && ! is_active_widget( false, false, 'bp_messages_sitewide_notices_widget', true ) ) {
 			add_action( 'wp_footer', array( $this, 'sitewide_notices' ), 9999 );
 		}
 
