@@ -109,88 +109,70 @@ add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
  *     arguments.
  *
  *     @type int|bool $item_id The numeric ID of the item for which you're
- *                             requesting an avatar (eg, a user ID). If no
- *                             'item_id' is present, the function attempts to
- *                             infer an ID from the 'object' + the current
- *                             context: if 'object' is 'user' and the current
- *                             page is a user page, 'item_id' will default to
- *                             the displayed user ID; if 'group' and on a group
- *                             page, to the current group ID; if 'blog', to the
- *                             current blog's ID. If no 'item_id' can be
- *                             determined in this way, the function returns
- *                             false. Default: false.
+ *           requesting an avatar (eg, a user ID). If no 'item_id' is present,
+ *           the function attempts to infer an ID from the 'object' + the
+ *           current context: if 'object' is 'user' and the current page is a
+ *           user page, 'item_id' will default to the displayed user ID; if
+ *           'group' and on a group page, to the current group ID; if 'blog',
+ *           to the current blog's ID. If no 'item_id' can be determined in
+ *           this way, the function returns false. Default: false.
  *     @type string $object The kind of object for which you're getting an
- *                          avatar. BuddyPress natively supports three options:
- *                          'user', 'group', 'blog'; a plugin may register more.
- *                          Default: 'user'.
+ *           avatar. BuddyPress natively supports three options: 'user',
+ *           'group', 'blog'; a plugin may register more.  Default: 'user'.
  *     @type string $type When a new avatar is uploaded to BP, 'thumb' and
- *                        'full' versions are saved. This parameter specifies
- *                        whether you'd like the 'full' or smaller 'thumb'
- *                        avatar. Default: 'thumb'.
+ *           'full' versions are saved. This parameter specifies whether you'd
+ *           like the 'full' or smaller 'thumb' avatar. Default: 'thumb'.
  *     @type string|bool $avatar_dir The name of the subdirectory where the
- *                                   requested avatar should be found. If no
- *                                   value is passed, 'avatar_dir' is inferred
- *                                   from 'object': 'user' becomes 'avatars',
- *                                   'group' becomes 'group-avatars', 'blog'
- *                                   becomes 'blog-avatars'. Remember that this
- *                                   string denotes a subdirectory of BP's
- *                                   main avatar directory (usually based on
- *                                   {@link wp_upload_dir()}); it's a string
- *                                   like 'group-avatars' rather than the full
- *                                   directory path. Generally, it'll only be
- *                                   necessary to override the default value if
- *                                   storing avatars in a non-default location.
- *                                   Defaults to false (auto-detected).
+ *           requested avatar should be found. If no value is passed,
+ *           'avatar_dir' is inferred from 'object': 'user' becomes 'avatars',
+ *           'group' becomes 'group-avatars', 'blog' becomes 'blog-avatars'.
+ *           Remember that this string denotes a subdirectory of BP's main
+ *           avatar directory (usually based on {@link wp_upload_dir()}); it's a
+ *           string like 'group-avatars' rather than the full directory path.
+ *           Generally, it'll only be necessary to override the default value if
+ *           storing avatars in a non-default location. Defaults to false
+ *           (auto-detected).
  *     @type int|bool $width Requested avatar width. The unit is px. This value
- *                           is used to build the 'width' attribute for the
- *                           <img> element. If no value is passed, BP uses the
- *                           global avatar width for this avatar type. Default:
- *                           false (auto-detected).
- *     @type int|bool $height Requested avatar height. The unit is px. This value
- *                           is used to build the 'height' attribute for the
- *                           <img> element. If no value is passed, BP uses the
- *                           global avatar height for this avatar type. Default:
- *                           false (auto-detected).
+ *           is used to build the 'width' attribute for the <img> element. If
+ *           no value is passed, BP uses the global avatar width for this
+ *           avatar type. Default: false (auto-detected).
+ *     @type int|bool $height Requested avatar height. The unit is px. This
+ *           value is used to build the 'height' attribute for the <img>
+ *           element. If no value is passed, BP uses the global avatar height
+ *           for this avatar type. Default: false (auto-detected).
  *     @type string $class The CSS class for the <img> element. Note that BP
- *                         uses the 'avatar' class fairly extensively in its
- *                         default styling, so if you plan to pass a custom
- *                         value, consider appending it to 'avatar' (eg
- *                         'avatar foo') rather than replacing it altogether.
- *                         Default: 'avatar'.
+ *           uses the 'avatar' class fairly extensively in its default styling,
+ *           so if you plan to pass a custom value, consider appending it to
+ *           'avatar' (eg 'avatar foo') rather than replacing it altogether.
+ *           Default: 'avatar'.
  *     @type string|bool $css_id The CSS id for the <img> element.
- *                               Default: false.
+ *           Default: false.
  *     @type string $title The title attribute for the <img> element.
- *                         Default: false.
+ *           Default: false.
  *     @type string $alt The alt attribute for the <img> element. In BP, this
- *                       value is generally passed by the wrapper functions,
- *                       where the data necessary for concatenating the string
- *                       is at hand; see {@link bp_get_activity_avatar()} for an
- *                       example. Default: ''.
+ *           value is generally passed by the wrapper functions, where the data
+ *           necessary for concatenating the string is at hand; see
+ *           {@link bp_get_activity_avatar()} for an example. Default: ''.
  *     @type string|bool $email An email to use in Gravatar queries. Unless
- *                              otherwise configured, BP uses Gravatar as a
- *                              fallback for avatars that are not provided
- *                              locally. Gravatar's API requires using a hash of
- *                              the user's email address; this argument
- *                              provides it. If not provided, the function
- *                              will infer it: for users, by getting the user's
- *                              email from the database, for groups/blogs, by
- *                              concatenating "{$item_id}-{$object}@{bp_get_root_domain()}".
- *                              The user query adds overhead, so it's
- *                              recommended that wrapper functions provide a
- *                              value for 'email' when querying user IDs.
- *                              Default: false.
+ *           otherwise configured, BP uses Gravatar as a fallback for avatars
+ *           that are not provided locally. Gravatar's API requires using a hash
+ *           of the user's email address; this argument provides it. If not
+ *           provided, the function will infer it: for users, by getting the
+ *           user's email from the database, for groups/blogs, by concatenating
+ *           "{$item_id}-{$object}@{bp_get_root_domain()}". The user query adds
+ *           overhead, so it's recommended that wrapper functions provide a
+ *           value for 'email' when querying user IDs. Default: false.
  *     @type bool $no_grav Whether to disable the default Gravatar fallback.
- *                         By default, BP will fall back on Gravatar when it
- *                         cannot find a local avatar. In some cases, this may
- *                         be undesirable, in which case 'no_grav' should be
- *                         set to true. To disable Gravatar fallbacks globally,
- *                         see the 'bp_core_fetch_avatar_no_grav' filter.
- *                         Default: false.
+ *           By default, BP will fall back on Gravatar when it cannot find a
+ *           local avatar. In some cases, this may be undesirable, in which
+ *           case 'no_grav' should be set to true. To disable Gravatar
+ *           fallbacks globally, see the 'bp_core_fetch_avatar_no_grav' filter.
+ *           Default: false.
  *     @type bool $html Whether to return an <img> HTML element, vs a raw URL
- *                      to an avatar. If false, <img>-specific arguments (like
- *                      'css_id') will be ignored. Default: true.
+ *           to an avatar. If false, <img>-specific arguments (like 'css_id')
+ *           will be ignored. Default: true.
  * }
- * @return string Formatted HTML <img> element, or raw avatar URL based on $html arg
+ * @return string Formatted HTML <img> element, or raw avatar URL based on $html arg.
  */
 function bp_core_fetch_avatar( $args = '' ) {
 
