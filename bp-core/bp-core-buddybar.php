@@ -1,21 +1,41 @@
 <?php
 
 /**
- * Core BuddyPress Navigational Functions
+ * Core BuddyPress Navigational Functions.
  *
  * @package BuddyPress
  * @subpackage Core
- * @todo Deprecate BuddyBar functions
+ * @todo Deprecate BuddyBar functions.
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Adds a navigation item to the main navigation array used in BuddyPress themes.
+ * Add an item to the main BuddyPress navigation array.
  *
- * @package BuddyPress Core
- * @global BuddyPress $bp The one true BuddyPress instance
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @param array $args {
+ *     Array describing the new nav item.
+ *     @type string $name Display name for the nav item.
+ *     @type string $slug Unique URL slug for the nav item.
+ *     @type bool|string $item_css_id Optional. 'id' attribute for the nav
+ *           item. Default: the value of $slug.
+ *     @type bool $show_for_displayed_user Optional. Whether the nav item
+ *           should be visible when viewing a member profile other than your
+ *           own. Default: true.
+ *     @type bool $site_admin_only Optional. Whether the nav item should be
+ *           visible only to site admins (those with the 'bp_moderate' cap).
+ *           Default: false.
+ *     @type int $position Optional. Numerical index specifying where the item
+ *           should appear in the nav array. Default: 99.
+ *     @type callable $screen_function The callback function that will run
+ *           when the nav item is clicked.
+ *     @type bool|string $default_subnav_slug Optional. The slug of the default
+ *           subnav item to select when the nav item is clicked.
+ * }
+ * @return bool|null Returns false on failure.
  */
 function bp_core_new_nav_item( $args = '' ) {
 	global $bp;
@@ -97,10 +117,17 @@ function bp_core_new_nav_item( $args = '' ) {
 }
 
 /**
- * Modify the default subnav item to load when a top level nav item is clicked.
+ * Modify the default subnav item that loads when a top level nav item is clicked.
  *
- * @package BuddyPress Core
- * @global BuddyPress $bp The one true BuddyPress instance
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @param array $args {
+ *     @type string $parent_slug The slug of the nav item whose default is
+ *           being changed.
+ *     @type callable $screen_function The new default callback function that
+ *           will run when the nav item is clicked.
+ *     @type string $subnav_slug The slug of the new default subnav item.
+ * }
  */
 function bp_core_new_nav_default( $args = '' ) {
 	global $bp;
@@ -163,11 +190,14 @@ function bp_core_new_nav_default( $args = '' ) {
 }
 
 /**
- * We can only sort nav items by their position integer at a later point in time, once all
- * plugins have registered their navigation items.
+ * Sort the navigation menu items.
  *
- * @package BuddyPress Core
+ * The sorting is split into a separate function because it can only happen
+ * after all plugins have had a chance to register their navigation items.
+ *
  * @global BuddyPress $bp The one true BuddyPress instance
+ *
+ * @return bool|null Returns false on failure.
  */
 function bp_core_sort_nav_items() {
 	global $bp;
@@ -197,10 +227,34 @@ add_action( 'wp_head',    'bp_core_sort_nav_items' );
 add_action( 'admin_head', 'bp_core_sort_nav_items' );
 
 /**
- * Adds a navigation item to the sub navigation array used in BuddyPress themes.
+ * Add a subnav item to the BuddyPress navigation.
  *
- * @package BuddyPress Core
- * @global BuddyPress $bp The one true BuddyPress instance
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @param array $args {
+ *     Array describing the new subnav item.
+ *     @type string $name Display name for the subnav item.
+ *     @type string $slug Unique URL slug for the subnav item.
+ *     @type string $parent_slug Slug of the top-level nav item under which the
+ *           new subnav item should be added.
+ *     @type string $parent_url URL of the parent nav item.
+ *     @type bool|string $item_css_id Optional. 'id' attribute for the nav
+ *           item. Default: the value of $slug.
+ *     @type bool $user_has_access Optional. True if the logged-in user has
+ *           access to the subnav item, otherwise false. Can be set dynamically
+ *           when registering the subnav; eg, use bp_is_my_profile() to restrict
+ *           access to profile owners only. Default: true.
+ *     @type bool $site_admin_only Optional. Whether the nav item should be
+ *           visible only to site admins (those with the 'bp_moderate' cap).
+ *           Default: false.
+ *     @type int $position Optional. Numerical index specifying where the item
+ *           should appear in the subnav array. Default: 90.
+ *     @type callable $screen_function The callback function that will run
+ *           when the nav item is clicked.
+ *     @type string $link Optional. The URL that the subnav item should point
+ *           to. Defaults to a value generated from the $parent_url + $slug.
+ * }
+ * @return bool|null Returns false on failure.
  */
 function bp_core_new_subnav_item( $args = '' ) {
 	global $bp;
@@ -318,6 +372,13 @@ function bp_core_new_subnav_item( $args = '' ) {
 	}
 }
 
+/**
+ * Sort all subnavigation arrays.
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance
+ *
+ * @return bool|null Returns false on failure.
+ */
 function bp_core_sort_subnav_items() {
 	global $bp;
 
@@ -349,13 +410,14 @@ add_action( 'wp_head',    'bp_core_sort_subnav_items' );
 add_action( 'admin_head', 'bp_core_sort_subnav_items' );
 
 /**
- * Determines whether a given nav item has subnav items
+ * Check whether a given nav item has subnav items.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
- * @param string $nav_item The id of the top-level nav item whose nav items you're checking
- * @return bool $has_subnav True if the nav item is found and has subnav items; false otherwise
+ * @param string $nav_item The slug of the top-level nav item whose subnav
+ *        items you're checking. Default: the current component slug.
+ * @return bool $has_subnav True if the nav item is found and has subnav
+ *        items; false otherwise.
  */
 function bp_nav_item_has_subnav( $nav_item = '' ) {
 	global $bp;
@@ -369,11 +431,10 @@ function bp_nav_item_has_subnav( $nav_item = '' ) {
 }
 
 /**
- * Removes a navigation item from the sub navigation array used in BuddyPress themes.
+ * Remove a nav item from the navigation array.
  *
- * @package BuddyPress Core
- * @param int $parent_id The id of the parent navigation item.
- * @param bool|string false if the parent item doesn't exist or $slug the slug of the sub navigation item.
+ * @param int $parent_id The slug of the parent navigation item.
+ * @param bool Returns false on failure, ie if the nav item can't be found.
  */
 function bp_core_remove_nav_item( $parent_id ) {
 	global $bp;
@@ -399,11 +460,10 @@ function bp_core_remove_nav_item( $parent_id ) {
 }
 
 /**
- * Removes a navigation item from the sub navigation array used in BuddyPress themes.
+ * Remove a subnav item from the navigation array.
  *
- * @package BuddyPress Core
- * @param string $parent_id The id of the parent navigation item.
- * @param string $slug The slug of the sub navigation item.
+ * @param string $parent_id The slug of the parent navigation item.
+ * @param string $slug The slug of the subnav item to be removed.
  */
 function bp_core_remove_subnav_item( $parent_id, $slug ) {
 	global $bp;
@@ -424,11 +484,11 @@ function bp_core_remove_subnav_item( $parent_id, $slug ) {
 }
 
 /**
- * Clear the subnav items for a specific nav item.
+ * Clear all subnav items from a specific nav item.
  *
- * @package BuddyPress Core
- * @param string $parent_id The id of the parent navigation item.
- * @global BuddyPress $bp The one true BuddyPress instance
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @param string $parent_slug The slug of the parent navigation item.
  */
 function bp_core_reset_subnav_items( $parent_slug ) {
 	global $bp;
@@ -436,8 +496,13 @@ function bp_core_reset_subnav_items( $parent_slug ) {
 	unset( $bp->bp_options_nav[$parent_slug] );
 }
 
-/** Template functions ********************************************************/
+/** BuddyBar Template functions ***********************************************/
 
+/**
+ * Wrapper function for rendering the BuddyBar.
+ *
+ * @return bool|null Returns false if the BuddyBar is disabled.
+ */
 function bp_core_admin_bar() {
 	global $bp;
 
@@ -465,12 +530,20 @@ function bp_core_admin_bar() {
 	$bp->doing_admin_bar = false;
 }
 
-// **** Default BuddyPress Toolbar logo ********
+/**
+ * Output the BuddyBar logo.
+ */
 function bp_adminbar_logo() {
 	echo '<a href="' . bp_get_root_domain() . '" id="admin-bar-logo">' . get_blog_option( bp_get_root_blog_id(), 'blogname' ) . '</a>';
 }
 
-// **** "Log In" and "Sign Up" links (Visible when not logged in) ********
+/**
+ * Output the "Log In" and "Sign Up" names to the BuddyBar.
+ *
+ * Visible only to visitors who are not logged in.
+ *
+ * @return bool|null Returns false if the current user is logged in.
+ */
 function bp_adminbar_login_menu() {
 
 	if ( is_user_logged_in() )
@@ -483,8 +556,11 @@ function bp_adminbar_login_menu() {
 		echo '<li class="bp-signup no-arrow"><a href="' . bp_get_signup_page() . '">' . __( 'Sign Up', 'buddypress' ) . '</a></li>';
 }
 
-
-// **** "My Account" Menu ******
+/**
+ * Output the My Account BuddyBar menu.
+ *
+ * @return bool|null Returns false on failure.
+ */
 function bp_adminbar_account_menu() {
 	global $bp;
 
@@ -557,8 +633,11 @@ function bp_adminbar_thisblog_menu() {
 	}
 }
 
-
-// **** "Random" Menu (visible when not logged in) ********
+/**
+ * Output the Random BuddyBar menu.
+ *
+ * Not visible for logged-in users.
+ */
 function bp_adminbar_random_menu() {
 ?>
 
@@ -592,14 +671,14 @@ function bp_adminbar_random_menu() {
  *
  * This is a direct copy of WP's private _get_admin_bar_pref()
  *
- * @since BuddyPress (1.5)
- *
- * @param string $context Context of this preference check, either 'admin' or 'front'.
- * @param int $user Optional. ID of the user to check, defaults to 0 for current user.
+ * @since BuddyPress (1.5.0)
  *
  * @uses get_user_option()
  *
- * @return bool Whether the Toolbar should be showing for this user.
+ * @param string $context Context of this preference check. 'admin' or 'front'.
+ * @param int $user Optional. ID of the user to check. Default: 0 (which falls
+ *        back to the logged-in user's ID).
+ * @return bool True if the toolbar should be showing for this user.
  */
 function bp_get_admin_bar_pref( $context, $user = 0 ) {
 	$pref = get_user_option( "show_admin_bar_{$context}", $user );
@@ -610,7 +689,7 @@ function bp_get_admin_bar_pref( $context, $user = 0 ) {
 }
 
 /**
- * Handle the BuddyBar CSS
+ * Enqueue the BuddyBar CSS.
  */
 function bp_core_load_buddybar_css() {
 	global $wp_styles;

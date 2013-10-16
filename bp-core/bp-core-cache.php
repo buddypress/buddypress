@@ -1,5 +1,7 @@
 <?php
 /**
+ * BuddyPress Core Caching Functions.
+ *
  * Caching functions handle the clearing of cached objects and pages on specific
  * actions throughout BuddyPress.
  */
@@ -8,12 +10,12 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * REQUIRES WP-SUPER-CACHE
+ * Prune the WP Super Cache.
+ *
+ * @see prune_super_cache()
  *
  * When wp-super-cache is installed this function will clear cached pages
  * so that success/error messages are not cached, or time sensitive content.
- *
- * @package BuddyPress Core
  */
 function bp_core_clear_cache() {
 	global $cache_path;
@@ -25,9 +27,7 @@ function bp_core_clear_cache() {
 }
 
 /**
- * Add's 'bp' to global group of network wide cachable objects
- *
- * @package BuddyPress Core
+ * Add 'bp' to global group of network wide cachable objects.
  */
 function bp_core_add_global_group() {
 	if ( function_exists( 'wp_cache_add_global_groups' ) ) {
@@ -37,16 +37,14 @@ function bp_core_add_global_group() {
 add_action( 'bp_loaded', 'bp_core_add_global_group' );
 
 /**
- * Clears all cached objects for a user, or a user is part of.
- *
- * @package BuddyPress Core
+ * Clear all cached objects for a user, or those that a user is part of.
  */
 function bp_core_clear_user_object_cache( $user_id ) {
 	wp_cache_delete( 'bp_user_' . $user_id, 'bp' );
 }
 
 /**
- * Clears member count caches and transients
+ * Clear member count caches and transients.
  */
 function bp_core_clear_member_count_caches() {
 	wp_cache_delete( 'bp_total_member_count', 'bp' );
@@ -61,10 +59,29 @@ add_action( 'deleted_user',                   'bp_core_clear_member_count_caches
 /**
  * Update the metadata cache for the specified objects.
  *
- * @since BuddyPress (1.6)
- * @global $wpdb WordPress database object for queries.
- * @param array $args See $defaults definition for more details
- * @return mixed Metadata cache for the specified objects, or false on failure.
+ * Based on WordPress's {@link update_meta_cache()}, this function primes the
+ * cache with metadata related to a set of objects. This is typically done when
+ * querying for a loop of objects; pre-fetching metadata for each queried
+ * object can lead to dramatic performance improvements when using metadata
+ * in the context of template loops.
+ *
+ * @since BuddyPress (1.6.0)
+ *
+ * @global $wpdb WordPress database object for queries..
+ *
+ * @param array $args {
+ *     Array of arguments.
+ *     @type array|string $object_ids List of object IDs to fetch metadata for.
+ *           Accepts an array or a comma-separated list of numeric IDs.
+ *     @type string $object_type The type of object, eg 'groups' or 'activity'.
+ *     @type string $meta_table The name of the metadata table being queried.
+ *     @type string $object_column Optional. The name of the database column
+ *           where IDs (those provided by $object_ids) are found. Eg, 'group_id'
+ *           for the groups metadata tables. Default: $object_type . '_id'.
+ *     @type string $cache_key_prefix Optional. The prefix to use when creating
+ *           cache key names. Default: the value of $meta_table.
+ * }
+ * @return array|bool Metadata cache for the specified objects, or false on failure.
  */
 function bp_update_meta_cache( $args = array() ) {
 	global $wpdb;
