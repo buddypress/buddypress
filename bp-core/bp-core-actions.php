@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Filters & Actions
+ * BuddyPress Filters & Actions.
  *
  * @package BuddyPress
  * @subpackage Hooks
@@ -16,7 +16,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Attach BuddyPress to WordPress
+ * Attach BuddyPress to WordPress.
  *
  * BuddyPress uses its own internal actions to help aid in third-party plugin
  * development, and to limit the amount of potential future code changes when

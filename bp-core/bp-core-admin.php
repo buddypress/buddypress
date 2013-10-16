@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Main BuddyPress Admin Class
+ * Main BuddyPress Admin Class.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
@@ -12,53 +12,64 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 if ( !class_exists( 'BP_Admin' ) ) :
 /**
- * Loads BuddyPress plugin admin area
+ * Load BuddyPress plugin admin area.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
- * @since BuddyPress (1.6)
+ *
+ * @since BuddyPress (1.6.0)
  */
 class BP_Admin {
 
 	/** Directory *************************************************************/
 
 	/**
-	 * @var string Path to the BuddyPress admin directory
+	 * Path to the BuddyPress admin directory.
+	 *
+	 * @var string $admin_dir
 	 */
 	public $admin_dir = '';
 
 	/** URLs ******************************************************************/
 
 	/**
-	 * @var string URL to the BuddyPress admin directory
+	 * URL to the BuddyPress admin directory.
+	 *
+	 * @var string $admin_url
 	 */
 	public $admin_url = '';
 
 	/**
-	 * @var string URL to the BuddyPress images directory
+	 * URL to the BuddyPress images directory.
+	 *
+	 * @var string $images_url
 	 */
 	public $images_url = '';
 
 	/**
-	 * @var string URL to the BuddyPress admin CSS directory
+	 * URL to the BuddyPress admin CSS directory.
+	 *
+	 * @var string $css_url
 	 */
 	public $css_url = '';
 
 	/**
-	 * @var string URL to the BuddyPress admin JS directory
+	 * URL to the BuddyPress admin JS directory.
+	 *
+	 * @var string
 	 */
 	public $js_url = '';
 
 	/** Methods ***************************************************************/
 
 	/**
-	 * The main BuddyPress admin loader
+	 * The main BuddyPress admin loader.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 *
-	 * @uses BP_Admin::setup_globals() Setup the globals needed
-	 * @uses BP_Admin::includes() Include the required files
-	 * @uses BP_Admin::setup_actions() Setup the hooks and actions
+	 * @uses BP_Admin::setup_globals() Setup the globals needed.
+	 * @uses BP_Admin::includes() Include the required files.
+	 * @uses BP_Admin::setup_actions() Setup the hooks and actions.
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -67,10 +78,10 @@ class BP_Admin {
 	}
 
 	/**
-	 * Admin globals
+	 * Set admin-related globals.
 	 *
-	 * @since BuddyPress (1.6)
 	 * @access private
+	 * @since BuddyPress (1.6.0)
 	 */
 	private function setup_globals() {
 		$bp = buddypress();
@@ -87,9 +98,9 @@ class BP_Admin {
 	}
 
 	/**
-	 * Include required files
+	 * Include required files.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 * @access private
 	 */
 	private function includes() {
@@ -101,13 +112,13 @@ class BP_Admin {
 	}
 
 	/**
-	 * Setup the admin hooks, actions and filters
+	 * Set up the admin hooks, actions, and filters.
 	 *
-	 * @since BuddyPress (1.6)
 	 * @access private
+	 * @since BuddyPress (1.6.0)
 	 *
-	 * @uses add_action() To add various actions
-	 * @uses add_filter() To add various filters
+	 * @uses add_action() To add various actions.
+	 * @uses add_filter() To add various filters.
 	 */
 	private function setup_actions() {
 
@@ -138,13 +149,13 @@ class BP_Admin {
 	}
 
 	/**
-	 * Add the navigational menu elements
+	 * Add the navigational menu elements.
 	 *
 	 * @since BuddyPress (1.6)
 	 *
-	 * @uses add_management_page() To add the Recount page in Tools section
+	 * @uses add_management_page() To add the Recount page in Tools section.
 	 * @uses add_options_page() To add the Forums settings page in Settings
-	 *                           section
+	 *       section.
 	 */
 	public function admin_menus() {
 
@@ -226,13 +237,13 @@ class BP_Admin {
 	}
 
 	/**
-	 * Register the settings
+	 * Register the settings.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 *
-	 * @uses add_settings_section() To add our own settings section
-	 * @uses add_settings_field() To add various settings fields
-	 * @uses register_setting() To register various settings
+	 * @uses add_settings_section() To add our own settings section.
+	 * @uses add_settings_field() To add various settings fields.
+	 * @uses register_setting() To register various settings.
 	 */
 	public function register_admin_settings() {
 
@@ -315,13 +326,13 @@ class BP_Admin {
 	}
 
 	/**
-	 * Add Settings link to plugins area
+	 * Add Settings link to plugins area.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param array $links Links array in which we would prepend our link
-	 * @param string $file Current plugin basename
-	 * @return array Processed links
+	 * @param array $links Links array in which we would prepend our link.
+	 * @param string $file Current plugin basename.
+	 * @return array Processed links.
 	 */
 	public function modify_plugin_action_links( $links, $file ) {
 
@@ -337,9 +348,9 @@ class BP_Admin {
 	}
 
 	/**
-	 * Add some general styling to the admin area
+	 * Add some general styling to the admin area.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 */
 	public function admin_head() {
 
@@ -353,9 +364,9 @@ class BP_Admin {
 	}
 
 	/**
-	 * Add some general styling to the admin area
+	 * Add some general styling to the admin area.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 */
 	public function enqueue_scripts() {
 
@@ -369,9 +380,9 @@ class BP_Admin {
 	/** About *****************************************************************/
 
 	/**
-	 * Output the about screen
+	 * Output the about screen.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function about_screen() {
 		global $wp_rewrite;
@@ -480,12 +491,12 @@ class BP_Admin {
 	}
 
 	/**
-	 * Output the credits screen
+	 * Output the credits screen.
 	 *
-	 * Hardcoding this in here is pretty janky. It's fine for 2.2, but we'll
+	 * Hardcoding this in here is pretty janky. It's fine for now, but we'll
 	 * want to leverage api.wordpress.org eventually.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function credits_screen() {
 
@@ -612,9 +623,9 @@ class BP_Admin {
 endif; // class_exists check
 
 /**
- * Setup BuddyPress Admin
+ * Setup BuddyPress Admin.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
  * @uses BP_Admin
  */
