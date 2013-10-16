@@ -382,6 +382,11 @@ function bp_is_template_included() {
 function bp_load_theme_functions() {
 	global $pagenow;
 
+	// do not load our custom BP functions file if theme compat is disabled
+	if ( ! bp_use_theme_compat_with_current_theme() ) {
+		return;
+	}
+
 	// Do not include on BuddyPress deactivation
 	if ( bp_is_deactivation() )
 		return;

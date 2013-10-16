@@ -62,33 +62,16 @@ class BP_Theme_Compat {
 
 
 	/**
+	 * Set up the BuddyPress-specific theme compat methods
+	 *
 	 * Themes shoud use this method in their constructor.
-	 *
-	 * In this method, we check all types of conditions where theme compatibility
-	 * should *not* run.
-	 *
-	 * If we pass all conditions, then we setup some additional methods to use.
 	 *
 	 * @since BuddyPress (1.7)
 	 */
 	protected function start() {
-
-		// If the theme supports 'buddypress', bail.
-		if ( current_theme_supports( 'buddypress' ) ) {
+		// Sanity check
+		if ( ! bp_use_theme_compat_with_current_theme() ) {
 			return;
-
-		// If the theme doesn't support BP, do some additional checks
-		} else {
-			// Bail if theme is a derivative of bp-default
-			if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) ) {
-				return;
-			}
-
-			// Bruteforce check for a BP template
-			// Examples are clones of bp-default
-			if ( locate_template( 'members/members-loop.php', false, false ) ) {
-				return;
-			}
 		}
 
 		// Setup methods
@@ -223,6 +206,73 @@ function bp_get_theme_compat_dir() {
  */
 function bp_get_theme_compat_url() {
 	return apply_filters( 'bp_get_theme_compat_url', buddypress()->theme_compat->theme->url );
+}
+
+/**
+ * Should we use theme compat for this theme?
+ *
+ * If the current theme's need for theme compat hasn't yet been detected, we
+ * do so using bp_detect_theme_compat_with_current_theme()
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @uses bp_detect_theme_compat_with_current_theme()
+ *
+ * @return bool True if the current theme needs theme compatibility
+ */
+function bp_use_theme_compat_with_current_theme() {
+	if ( ! isset( buddypress()->theme_compat->use_with_current_theme ) ) {
+		bp_detect_theme_compat_with_current_theme();
+	}
+
+	return buddypress()->theme_compat->use_with_current_theme;
+}
+
+/**
+ * Set our flag to determine whether theme compat should be enabled.
+ *
+ * Theme compat is disabled when a theme meets one of the following criteria:
+ * 1) It declares BP support with add_theme_support( 'buddypress' )
+ * 2) It is bp-default, or a child theme of bp-default
+ * 3) A legacy template is found at members/members-loop.php. This is a
+ *    fallback check for themes that were derived from bp-default, and have
+ *    not been updated for BP 1.7+; we make the assumption that any theme in
+ *    this category will have the members-loop.php template, and so use its
+ *    presence as an indicator that theme compatibility is not required
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @return bool True if the current theme needs theme compatibility.
+ */
+function bp_detect_theme_compat_with_current_theme() {
+	if ( isset( buddypress()->theme_compat->use_with_current_theme ) ) {
+		return buddypress()->theme_compat->use_with_current_theme;
+	}
+
+	// theme compat enabled by default
+	$theme_compat = true;
+
+	// If the theme supports 'buddypress', bail.
+	if ( current_theme_supports( 'buddypress' ) ) {
+		$theme_compat = false;
+
+	// If the theme doesn't support BP, do some additional checks
+	} else {
+		// Bail if theme is a derivative of bp-default
+		if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) ) {
+			$theme_compat = false;
+
+		// Bruteforce check for a BP template
+		// Examples are clones of bp-default
+		} else if ( locate_template( 'members/members-loop.php', false, false ) ) {
+			$theme_compat = false;
+		}
+	}
+
+	// set a flag in the buddypress() singleton so we don't have to run this again
+	buddypress()->theme_compat->use_with_current_theme = $theme_compat;
+
+	return $theme_compat;
 }
 
 /**
@@ -496,6 +546,11 @@ function bp_theme_compat_reset_post( $args = array() ) {
  * @uses bp_set_theme_compat_template() To set the global theme compat template
  */
 function bp_template_include_theme_compat( $template = '' ) {
+
+	// If the current theme doesn't need theme compat, bail at this point.
+	if ( ! bp_use_theme_compat_with_current_theme() ) {
+		return $template;
+	}
 
 	/**
 	 * Use this action to execute code that will communicate to BuddyPress's
