@@ -228,6 +228,19 @@ function bp_core_screen_activation() {
 	if ( !bp_is_current_component( 'activate' ) )
 		return false;
 
+	// If the user is logged in, redirect away from here
+	if ( is_user_logged_in() ) {
+		if ( bp_is_component_front_page( 'activate' ) ) {
+			$redirect_to = trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() );
+		} else {
+			$redirect_to = trailingslashit( bp_get_root_domain() );
+		}
+
+		bp_core_redirect( apply_filters( 'bp_loggedin_activate_page_redirect_to', $redirect_to ) );
+
+		return;
+	}
+
 	// Check if an activation key has been passed
 	if ( isset( $_GET['key'] ) ) {
 
