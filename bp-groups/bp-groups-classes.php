@@ -1577,7 +1577,7 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 
-	function check_is_banned( $user_id, $group_id ) {
+	public static function check_is_banned( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
 		if ( empty( $user_id ) )
