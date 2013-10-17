@@ -621,6 +621,25 @@ function bp_get_canonical_url( $args = array() ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
+	// Special case: when a BuddyPress directory (eg example.com/members)
+	// is set to be the front page, ensure that the current canonical URL
+	// is the home page URL.
+	if ( 'page' == get_option( 'show_on_front' ) && $page_on_front = (int) get_option( 'page_on_front' ) ) {
+		$front_page_component = array_search( $page_on_front, bp_core_get_directory_page_ids() );
+
+		// If requesting the front page component directory, canonical
+		// URL is the front page
+		if ( false !== $front_page_component && is_page( $page_on_front ) ) {
+			$bp->canonical_stack['canonical_url'] = trailingslashit( bp_get_root_domain() );
+
+		// Except when the front page is set to the registration page
+		// and the current user is logged in. In this case we send to
+		// the members directory to avoid redirect loops
+		} else if ( bp_is_register_page() && 'register' == $front_page_component && is_user_logged_in() ) {
+			$bp->canonical_stack['canonical_url'] = apply_filters( 'bp_loggedin_register_page_redirect_to', trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) );
+		}
+	}
+
 	if ( empty( $bp->canonical_stack['canonical_url'] ) ) {
 		// Build the URL in the address bar
 		$requested_url  = bp_get_requested_url();
