@@ -361,9 +361,16 @@ function bp_message_thread_avatar( $args = '' ) {
 		);
 
 		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
 
-		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => $type, 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height ) ) );
+		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array(
+			'item_id' => $messages_template->thread->last_sender_id,
+			'type'    => $r['type'],
+			'alt'     => $r['alt'],
+			'css_id'  => $r['id'],
+			'class'   => $r['class'],
+			'width'   => $r['width'],
+			'height'  => $r['height'],
+		) ) );
 	}
 
 function bp_total_unread_messages_count() {
