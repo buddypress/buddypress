@@ -1554,7 +1554,7 @@ function bp_get_cookies() {
 	for (var i = 0; i < allCookies.length; i++) {
 		var cookie    = allCookies[i];
 		var delimiter = cookie.indexOf("=");
-		var name      = unescape( cookie.slice(0, delimiter) ).trim();
+		var name      = jq.trim( unescape( cookie.slice(0, delimiter) ) );
 		var value     = unescape( cookie.slice(delimiter + 1) );
 
 		// if BP cookie, store it
