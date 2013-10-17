@@ -65,7 +65,13 @@ function groups_screen_group_invites() {
 			) );
 		}
 
-		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() ) );
+		if ( isset( $_GET['redirect_to'] ) ) {
+			$redirect_to = urldecode( $_GET['redirect_to'] );
+		} else {
+			$redirect_to = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
+		}
+
+		bp_core_redirect( $redirect_to );
 
 	} else if ( bp_is_action_variable( 'reject' ) && is_numeric( $group_id ) ) {
 		// Check the nonce
@@ -78,7 +84,13 @@ function groups_screen_group_invites() {
 			bp_core_add_message( __( 'Group invite rejected', 'buddypress' ) );
 		}
 
-		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() ) );
+		if ( isset( $_GET['redirect_to'] ) ) {
+			$redirect_to = urldecode( $_GET['redirect_to'] );
+		} else {
+			$redirect_to = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
+		}
+
+		bp_core_redirect( $redirect_to );
 	}
 
 	// Remove notifications
