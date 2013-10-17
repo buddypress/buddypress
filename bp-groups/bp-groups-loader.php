@@ -412,13 +412,17 @@ class BP_Groups_Component extends BP_Component {
 				'item_css_id'     => 'home'
 			);
 
-			// If this is a private group, and the user is not a member, show a "Request Membership" nav item.
+			// If this is a private group, and the user is not a
+			// member and does not have an outstanding invitation,
+			// show a "Request Membership" nav item.
 			if ( is_user_logged_in() &&
-				 !bp_current_user_can( 'bp_moderate' ) &&
-				 !$this->current_group->is_user_member &&
-				 !groups_check_for_membership_request( bp_loggedin_user_id(), $this->current_group->id ) &&
-				 $this->current_group->status == 'private'
+				 ! bp_current_user_can( 'bp_moderate' ) &&
+				 ! $this->current_group->is_user_member &&
+				 ! groups_check_for_membership_request( bp_loggedin_user_id(), $this->current_group->id ) &&
+				 $this->current_group->status == 'private' &&
+				 ! groups_check_user_has_invite( bp_loggedin_user_id(), $this->current_group->id )
 				) {
+
 				$sub_nav[] = array(
 					'name'               => __( 'Request Membership', 'buddypress' ),
 					'slug'               => 'request-membership',

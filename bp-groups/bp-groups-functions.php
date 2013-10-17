@@ -654,7 +654,12 @@ function groups_invite_user( $args = '' ) {
 	if ( empty( $user_id ) || empty( $group_id ) )
 		return false;
 
-	if ( !groups_is_user_member( $user_id, $group_id ) && !groups_check_user_has_invite( $user_id, $group_id, 'all' ) ) {
+	// if the user has already requested membership, accept the request
+	if ( $membership_id = groups_check_for_membership_request( $user_id, $group_id ) ) {
+		groups_accept_membership_request( $membership_id, $user_id, $group_id );
+
+	// Otherwise, create a new invitation
+	} else if ( ! groups_is_user_member( $user_id, $group_id ) && ! groups_check_user_has_invite( $user_id, $group_id, 'all' ) ) {
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $group_id;
 		$invite->user_id       = $user_id;
@@ -871,6 +876,12 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	// Check if the user is already a member or is banned
 	if ( groups_is_user_member( $requesting_user_id, $group_id ) || groups_is_user_banned( $requesting_user_id, $group_id ) )
 		return false;
+
+	// Check if the user is already invited - if so, simply accept invite
+	if ( groups_check_user_has_invite( $requesting_user_id, $group_id ) ) {
+		groups_accept_invite( $requesting_user_id, $group_id );
+		return true;
+	}
 
 	$requesting_user                = new BP_Groups_Member;
 	$requesting_user->group_id      = $group_id;

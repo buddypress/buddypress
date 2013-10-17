@@ -568,9 +568,25 @@ function bp_dtheme_ajax_invite_user() {
 	if ( ! friends_check_friendship( bp_loggedin_user_id(), $_POST['friend_id'] ) )
 		return;
 
+	$group_id = (int) $_POST['group_id'];
+	$friend_id = (int) $_POST['friend_id'];
+
 	if ( 'invite' == $_POST['friend_action'] ) {
-		if ( ! groups_invite_user( array( 'user_id' => $_POST['friend_id'], 'group_id' => $_POST['group_id'] ) ) )
+		$group = groups_get_group( $group_id );
+
+		// Users who have previously requested membership do not need
+		// another invitation created for them
+		if ( BP_Groups_Member::check_for_membership_request( $friend_id, $group_id ) ) {
+			$user_status = 'is_pending';
+
+		// Create the user invitation
+		} else if ( groups_invite_user( array( 'user_id' => $friend_id, 'group_id' => $group_id ) ) ) {
+			$user_status = 'is_invited';
+
+		// Miscellaneous failure
+		} else {
 			return;
+		}
 
 		$user = new BP_Core_User( $_POST['friend_id'] );
 
@@ -581,12 +597,25 @@ function bp_dtheme_ajax_invite_user() {
 		echo '<div class="action">
 				<a class="button remove" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . $_POST['group_id'] . '/invites/remove/' . $user->id, 'groups_invite_uninvite_user' ) . '" id="uid-' . esc_attr( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
 			  </div>';
+
+		if ( 'is_pending' == $user_status ) {
+			echo '<p class="description">' . sprintf( __( '%s has previously requested to join this group. Sending an invitation will automatically add the member to the group.', 'buddypress' ), $user->user_link ) . '</p>';
+		}
+
 		echo '</li>';
 		exit;
 
 	} elseif ( 'uninvite' == $_POST['friend_action'] ) {
-		if ( ! groups_uninvite_user( $_POST['friend_id'], $_POST['group_id'] ) )
+		// Users who have previously requested membership should not
+		// have their requests deleted on the "uninvite" action
+		if ( BP_Groups_Member::check_for_membership_request( $friend_id, $group_id ) ) {
 			return;
+		}
+
+		// Remove the unsent invitation
+		if ( ! groups_uninvite_user( $friend_id, $group_id ) ) {
+			return;
+		}
 
 		exit;
 
@@ -716,12 +745,27 @@ function bp_dtheme_ajax_joinleave_group() {
 			}
 
 		} elseif ( 'private' == $group->status ) {
-			check_ajax_referer( 'groups_request_membership' );
 
-			if ( ! groups_send_membership_request( bp_loggedin_user_id(), $group->id ) ) {
-				_e( 'Error requesting membership', 'buddypress' );
+			// If the user has already been invited, then this is
+			// an Accept Invitation button
+			if ( groups_check_user_has_invite( bp_loggedin_user_id(), $group->id ) ) {
+				check_ajax_referer( 'groups_accept_invite' );
+
+				if ( ! groups_accept_invite( bp_loggedin_user_id(), $group->id ) ) {
+					_e( 'Error requesting membership', 'buddypress' );
+				} else {
+					echo '<a id="group-' . esc_attr( $group->id ) . '" class="leave-group" rel="leave" title="' . __( 'Leave Group', 'buddypress' ) . '" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+				}
+
+			// Otherwise, it's a Request Membership button
 			} else {
-				echo '<a id="group-' . esc_attr( $group->id ) . '" class="membership-requested" rel="membership-requested" title="' . __( 'Membership Requested', 'buddypress' ) . '" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Membership Requested', 'buddypress' ) . '</a>';
+				check_ajax_referer( 'groups_request_membership' );
+
+				if ( ! groups_send_membership_request( bp_loggedin_user_id(), $group->id ) ) {
+					_e( 'Error requesting membership', 'buddypress' );
+				} else {
+					echo '<a id="group-' . esc_attr( $group->id ) . '" class="membership-requested" rel="membership-requested" title="' . __( 'Membership Requested', 'buddypress' ) . '" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Membership Requested', 'buddypress' ) . '</a>';
+				}
 			}
 		}
 

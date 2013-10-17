@@ -33,6 +33,22 @@ class BP_Groups_Group {
 	public $is_member;
 
 	/**
+	 * Does the current user have an outstanding invitation to this group?
+	 *
+	 * @since BuddyPress (1.9.0)
+	 * @var bool
+	 */
+	public $is_invited;
+
+	/**
+	 * Does the current user have a pending membership request to this group?
+	 *
+	 * @since BuddyPress (1.9.0)
+	 * @var bool
+	 */
+	public $is_pending;
+
+	/**
 	 * Timestamp of the last activity that happened in this group.
 	 *
 	 * @since BuddyPress (1.2)
@@ -72,6 +88,8 @@ class BP_Groups_Group {
 			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 			$this->is_member          = BP_Groups_Member::check_is_member( bp_loggedin_user_id(), $this->id );
+			$this->is_invited         = BP_Groups_Member::check_has_invite( bp_loggedin_user_id(), $this->id );
+			$this->is_pending         = BP_Groups_Member::check_for_membership_request( bp_loggedin_user_id(), $this->id );
 
 			// If this is a private or hidden group, does the current user have access?
 			if ( 'private' == $this->status || 'hidden' == $this->status ) {
@@ -827,15 +845,32 @@ class BP_Groups_Group {
 		// Sanitize group IDs
 		$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
 
-		// Fetch the logged in users status within each group
-		$user_status = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_confirmed = 1 AND is_banned = 0", bp_loggedin_user_id() ) );
+		// Fetch the logged-in user's status within each group
+		$user_status = $wpdb->get_results( $wpdb->prepare( "SELECT group_id, is_confirmed, invite_sent FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_banned = 0", bp_loggedin_user_id() ) );
+
 		for ( $i = 0, $count = count( $paged_groups ); $i < $count; ++$i ) {
 			$paged_groups[$i]->is_member = false;
 
-			foreach ( (array) $user_status as $group_id ) {
-				if ( $group_id == $paged_groups[$i]->id ) {
-					$paged_groups[$i]->is_member = true;
+			foreach ( (array) $user_status as $group ) {
+				$is_member = $is_invited = $is_pending = false;
+				if ( $group->group_id == $paged_groups[ $i ]->id ) {
+					// is_confirmed means the user is a member
+					if ( $group->is_confirmed ) {
+						$is_member = true;
+
+					// invite_sent means the user has been invited
+					} else if ( $group->invite_sent ) {
+						$is_invited = true;
+
+					// User has sent request, but has not been confirmed
+					} else {
+						$is_pending = true;
+					}
 				}
+
+				$paged_groups[ $i ]->is_member = $is_member;
+				$paged_groups[ $i ]->is_invited = $is_invited;
+				$paged_groups[ $i ]->is_pending = $is_pending;
 			}
 		}
 

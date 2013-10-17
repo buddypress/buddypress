@@ -1780,23 +1780,25 @@ function bp_group_join_button( $group = false ) {
 
 				case 'private' :
 
-					// Member has not requested membership yet
-					if ( !bp_group_has_requested_membership( $group ) ) {
+					// Member has outstanding invitation -
+					// show an "Accept Invitation" button
+					if ( $group->is_invited ) {
 						$button = array(
-							'id'                => 'request_membership',
+							'id'                => 'accept_invite',
 							'component'         => 'groups',
 							'must_be_logged_in' => true,
 							'block_self'        => false,
 							'wrapper_class'     => 'group-button ' . $group->status,
 							'wrapper_id'        => 'groupbutton-' . $group->id,
-							'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ),
-							'link_text'         => __( 'Request Membership', 'buddypress' ),
-							'link_title'        => __( 'Request Membership', 'buddypress' ),
-							'link_class'        => 'group-button request-membership',
+							'link_href'         => add_query_arg( 'redirect_to', bp_get_group_permalink( $group ), bp_get_group_accept_invite_link( $group ) ),
+							'link_text'         => __( 'Accept Invitation', 'buddypress' ),
+							'link_title'        => __( 'Accept Invitation', 'buddypress' ),
+							'link_class'        => 'group-button accept-invite',
 						);
 
-					// Member has requested membership already
-					} else {
+					// Member has requested membership but request is pending -
+					// show a "Request Sent" button
+					} elseif ( $group->is_pending ) {
 						$button = array(
 							'id'                => 'membership_requested',
 							'component'         => 'groups',
@@ -1808,6 +1810,22 @@ function bp_group_join_button( $group = false ) {
 							'link_text'         => __( 'Request Sent', 'buddypress' ),
 							'link_title'        => __( 'Request Sent', 'buddypress' ),
 							'link_class'        => 'group-button pending membership-requested',
+						);
+
+					// Member has not requested membership yet -
+					// show a "Request Membership" button
+					} else {
+						$button = array(
+							'id'                => 'request_membership',
+							'component'         => 'groups',
+							'must_be_logged_in' => true,
+							'block_self'        => false,
+							'wrapper_class'     => 'group-button ' . $group->status,
+							'wrapper_id'        => 'groupbutton-' . $group->id,
+							'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ),
+							'link_text'         => __( 'Request Membership', 'buddypress' ),
+							'link_title'        => __( 'Request Membership', 'buddypress' ),
+							'link_class'        => 'group-button request-membership',
 						);
 					}
 

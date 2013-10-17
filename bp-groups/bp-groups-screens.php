@@ -479,6 +479,15 @@ function groups_screen_group_request_membership() {
 	if ( 'private' != $bp->groups->current_group->status )
 		return false;
 
+	// If the user is already invited, accept invitation
+	if ( groups_check_user_has_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
+		if ( groups_accept_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
+			bp_core_add_message( __( 'Group invite accepted', 'buddypress' ) );
+		else
+			bp_core_add_message( __( 'There was an error accepting the group invitation, please try again.', 'buddypress' ), 'error' );
+		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+	}
+
 	// If the user has submitted a request, send it.
 	if ( isset( $_POST['group-request-send']) ) {
 
