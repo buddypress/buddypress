@@ -317,13 +317,53 @@ function bp_message_thread_last_post_date() {
 		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime( $messages_template->thread->last_message_date ) ) );
 	}
 
-function bp_message_thread_avatar() {
-	echo bp_get_message_thread_avatar();
+/**
+ * Output the avatar for the last sender in the current message thread.
+ *
+ * @see bp_get_message_thread_avatar() for a description of arguments.
+ *
+ * @param array $args See {@link bp_get_message_thread_avatar()}.
+ */
+function bp_message_thread_avatar( $args = '' ) {
+	echo bp_get_message_thread_avatar( $args );
 }
-	function bp_get_message_thread_avatar() {
+	/**
+	 * Return the avatar for the last sender in the current message thread.
+	 *
+	 * @see bp_core_fetch_avatar() For a description of arguments and
+	 *      return values.
+	 *
+	 * @param array $args {
+	 *     Arguments are listed here with an explanation of their defaults.
+	 *     For more information about the arguments, see
+	 *     {@link bp_core_fetch_avatar()}.
+	 *     @type string $type Default: 'thumb'.
+	 *     @type int|bool $width Default: false.
+	 *     @type int|bool $height Default: false.
+	 *     @type string $class Default: 'avatar'.
+	 *     @type string|bool $id Default: false.
+	 *     @type string $alt Default: 'Profile picture of [display name]'.
+	 * }
+	 * @return User avatar string.
+	 */
+	function bp_get_message_thread_avatar( $args = '' ) {
 		global $messages_template;
 
-		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $messages_template->thread->last_sender_id ) ) ) ) );
+		$fullname = bp_core_get_user_displayname( $messages_template->thread->last_sender_id );
+
+		$defaults = array(
+			'type'   => 'thumb',
+			'width'  => false,
+			'height' => false,
+			'class'  => 'avatar',
+			'id'     => false,
+			'alt'    => sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname )
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+
+		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array( 'item_id' => $messages_template->thread->last_sender_id, 'type' => $type, 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height ) ) );
 	}
 
 function bp_total_unread_messages_count() {
