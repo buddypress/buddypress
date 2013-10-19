@@ -1,6 +1,6 @@
 <?php
 /**
- * Component classes
+ * Component classes.
  *
  * @package BuddyPress
  * @subpackage Core
@@ -11,7 +11,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 if ( !class_exists( 'BP_Component' ) ) :
 /**
- * BuddyPress Component Class
+ * BuddyPress Component Class.
  *
  * The BuddyPress component class is responsible for simplifying the creation
  * of components that share similar behaviors and routines. It is used
@@ -21,86 +21,107 @@ if ( !class_exists( 'BP_Component' ) ) :
  * @package BuddyPress
  * @subpackage Component
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  */
 class BP_Component {
 
 	/** Variables *************************************************************/
 
 	/**
-	 * @var string Unique name (for internal identification)
+	 * Translatable name for the component.
+	 *
 	 * @internal
+	 * @var string $name
 	 */
 	public $name = '';
 
 	/**
-	 * @var Unique ID (normally for custom post type)
+	 * Unique ID for the component.
+	 *
+	 * @var string $id
 	 */
 	public $id = '';
 
 	/**
-	 * @var string Unique slug (used in query string and permalinks)
+	 * Unique slug for the component, for use in query strings and URLs.
+	 *
+	 * @var string $slug
 	 */
 	public $slug = '';
 
 	/**
-	 * @var bool Does this component need a top-level directory?
+	 * Does the component need a top-level directory?
+	 *
+	 * @var bool $has_directory
 	 */
 	public $has_directory = false;
 
 	/**
-	 * @var string The path to the component's files
+	 * The path to the component's files.
+	 *
+	 * @var string $path
 	 */
 	public $path = '';
 
 	/**
-	 * @var WP_Query The loop for this component
+	 * The WP_Query loop for this component.
+	 *
+	 * @var WP_Query $query
 	 */
 	public $query = false;
 
 	/**
-	 * @var string The current ID of the queried object
+	 * The current ID of the queried object.
+	 *
+	 * @var string $current_id
 	 */
 	public $current_id = '';
 
 	/**
-	 * @var string Function to call for notifications
+	 * Callback for formatting notifications.
+	 *
+	 * @var callable $notification_callback
 	 */
 	public $notification_callback = '';
 
 	/**
-	 * @var array WordPress Toolbar links
+	 * WordPress Toolbar links.
+	 *
+	 * @var array $admin_menu
 	 */
 	public $admin_menu = '';
 
 	/**
-	 * Search input box placeholder string for the component
+	 * Placeholder text for component directory search box.
 	 *
-	 * @since BuddyPress (1.5)
-	 * @var string
+	 * @since BuddyPress (1.5.0)
+	 * @var string $search_string
 	 */
 	public $search_string = '';
 
 	/**
-	 * Component's root slug
+	 * Root slug for the component.
 	 *
-	 * @since BuddyPress (1.5)
-	 * @var string
+	 * @since BuddyPress (1.5.0)
+	 * @var string $root_slug
 	 */
 	public $root_slug = '';
 
 	/** Methods ***************************************************************/
 
 	/**
-	 * Component loader
+	 * Component loader.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
-	 * @param string $id Unique ID (for internal identification). Letters, numbers, and underscores only
-	 * @param string $name Unique name. This should be a translatable name, eg __( 'Groups', 'buddypress' )
-	 * @param string $path The file path for the component's files. Used by BP_Component::includes()
+	 * @uses bp_Component::setup_actions() Set up the hooks and actions.
 	 *
-	 * @uses bp_Component::setup_actions() Setup the hooks and actions
+	 * @param string $id Unique ID (for internal identification). Letters,
+	 *        numbers, and underscores only.
+	 * @param string $name Unique name. This should be a translatable name,
+	 *        eg __( 'Groups', 'buddypress' ).
+	 * @param string $path The file path for the component's files. Used by
+	 *        {@link BP_Component::includes()}.
 	 */
 	public function start( $id = '', $name = '', $path = '' ) {
 
@@ -128,23 +149,20 @@ class BP_Component {
 	 * @param array $args {
 	 *     All values are optional.
 	 *     @type string $slug The component slug. Used to construct certain
-	 *                        URLs, such as 'friends' in
-	 *                        http://example.com/members/joe/friends/
+	 *           URLs, such as 'friends' in http://example.com/members/joe/friends/
+	 *           Default: the value of $this->id.
 	 *     @type string $root_slug The component root slug. Note that this
-	 *                             value is generally unused if the component
-	 *                             has a root directory (the slug will be
-	 *                             overridden by the post_name of the
-	 *                             directory page).
+	 *           value is generally unused if the component has a root
+	 *           directory (the slug will be overridden by the post_name of
+	 *           the directory page).
 	 *     @type bool $has_directory Set to true if the component requires
-	 *                               an associated WordPress page.
-	 *     @type string $notification_callback The callable function that
-	 *                                         formats the component's
-	 *                                         notifications.
+	 *           an associated WordPress page.
+	 *     @type callable $notification_callback Optional. The callable
+	 *           function that formats the component's notifications.
 	 *     @type string $search_term Optional. The placeholder text in the
-	 *                               component directory search box. Eg,
-	 *                               'Search Groups...'.
+	 *           component directory search box. Eg, 'Search Groups...'.
 	 *     @type array $global_tables Optional. An array of database table
-	 *                                names.
+	 *           names.
 	 * }
 	 */
 	public function setup_globals( $args = array() ) {
@@ -197,31 +215,34 @@ class BP_Component {
 	}
 
 	/**
-	 * Include required files
+	 * Include required files.
 	 *
-	 * Please note that, by default, this method is fired on the bp_include hook, with priority
-	 * 8. This is necessary so that core components are loaded in time to be available to
-	 * third-party plugins. However, this load order means that third-party plugins whose main
-	 * files are loaded at bp_include with priority 10 (as recommended), will not be loaded in
-	 * time for their includes() method to fire automatically.
+	 * Please note that, by default, this method is fired on the bp_include
+	 * hook, with priority 8. This is necessary so that core components are
+	 * loaded in time to be available to third-party plugins. However, this
+	 * load order means that third-party plugins whose main files are
+	 * loaded at bp_include with priority 10 (as recommended), will not be
+	 * loaded in time for their includes() method to fire automatically.
 	 *
-	 * For this reason, it is recommended that your plugin has its own method or function for
-	 * requiring necessary files. If you must use this method, you will have to call it manually
-	 * in your constructor class, ie
+	 * For this reason, it is recommended that your plugin has its own
+	 * method or function for requiring necessary files. If you must use
+	 * this method, you will have to call it manually in your constructor
+	 * class, ie
 	 *   $this->includes();
 	 *
-	 * Note that when you pass an array value like 'actions' to includes, it looks for the
-	 * following three files (assuming your component is called 'my_component'):
+	 * Note that when you pass an array value like 'actions' to includes,
+	 * it looks for the following three files (assuming your component is
+	 * called 'my_component'):
 	 *   - ./actions
 	 *   - ./bp-my_component/actions
 	 *   - ./bp-my_component/bp-my_component-actions.php
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}includes'
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}includes'.
 	 *
 	 * @param array $includes An array of file names, or file name chunks,
-	 *                        to be parsed and then included.
+	 *        to be parsed and then included.
 	 */
 	public function includes( $includes = array() ) {
 
@@ -260,12 +281,12 @@ class BP_Component {
 	}
 
 	/**
-	 * Setup the actions
+	 * Set up the actions.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses add_action() To add various actions
-	 * @uses do_action() Calls 'bp_{@link BP_Component::name}setup_actions'
+	 * @uses add_action() To add various actions.
+	 * @uses do_action() Calls 'bp_{@link BP_Component::name}setup_actions'.
 	 */
 	public function setup_actions() {
 
@@ -322,11 +343,10 @@ class BP_Component {
 	 *      in the $sub_nav parameter array should be formatted.
 	 *
 	 * @param array $main_nav Optional. Passed directly to
-	 *                        bp_core_new_nav_item(). See that function for
-	 *                        a description.
+	 *        bp_core_new_nav_item(). See that function for a description.
 	 * @param array $sub_nav Optional. Multidimensional array, each item in
-	 *                       which is passed to bp_core_new_subnav_item().
-	 *                       See that function for a description.
+	 *        which is passed to bp_core_new_subnav_item(). See that
+	 *        function for a description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
@@ -354,10 +374,9 @@ class BP_Component {
 	 * @global obj $wp_admin_bar
 	 *
 	 * @param array $wp_admin_nav An array of nav item arguments. Each item
-	 *                            in this parameter array is passed to
-	 *                            WP_Admin_Bar::add_menu(). See that method
-	 *                            for a description of the required syntax
-	 *                            for each item.
+	 *        in this parameter array is passed to {@link WP_Admin_Bar::add_menu()}.
+	 *        See that method for a description of the required syntax for
+	 *        each item.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
@@ -392,55 +411,55 @@ class BP_Component {
 	}
 
 	/**
-	 * Setup the component title
+	 * Set up the component title.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}setup_title'
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}setup_title'.
 	 */
 	public function setup_title() {
 		do_action(  'bp_' . $this->id . '_setup_title' );
 	}
 
 	/**
-	 * Setup the component post types
+	 * Set up the component post types.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_post_types'
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_post_types'.
 	 */
 	public function register_post_types() {
 		do_action( 'bp_' . $this->id . '_register_post_types' );
 	}
 
 	/**
-	 * Register component specific taxonomies
+	 * Register component-specific taxonomies.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_taxonomies'
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_taxonomies'.
 	 */
 	public function register_taxonomies() {
 		do_action( 'bp_' . $this->id . '_register_taxonomies' );
 	}
 
 	/**
-	 * Add any additional rewrite tags
+	 * Add any additional rewrite tags.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_tags'
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_tags'.
 	 */
 	public function add_rewrite_tags() {
 		do_action( 'bp_' . $this->id . '_add_rewrite_tags' );
 	}
 
 	/**
-	 * Add any additional rewrite rules
+	 * Add any additional rewrite rules.
 	 *
-	 * @since BuddyPress (1.9)
+	 * @since BuddyPress (1.9.0)
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_rules'
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_rules'.
 	 */
 	public function add_rewrite_rules() {
 		do_action( 'bp_' . $this->id . '_add_rewrite_rules' );
