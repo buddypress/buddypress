@@ -288,7 +288,11 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 		if ( $is_blog_public || !is_multisite() ) {
 
 			// Record this in activity streams
-			$post_permalink   = get_permalink( $post_id );
+			$post_permalink = add_query_arg(
+				'p',
+				$post_id,
+				trailingslashit( get_home_url( $blog_id ) )
+			);
 
 			if ( is_multisite() )
 				$activity_action  = sprintf( __( '%1$s wrote a new post, %2$s, on the site %3$s', 'buddypress' ), bp_core_get_userlink( (int) $post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
