@@ -1,52 +1,52 @@
 <?php
 
 /**
- * Plugin Dependency
+ * Plugin Dependency Action Hooks.
  *
  * The purpose of the following hooks is to mimic the behavior of something
  * called 'plugin dependency' which enables a plugin to have plugins of their
  * own in a safe and reliable way.
  *
- * We do this in BuddyPress by mirroring existing WordPress hookss in many places
+ * We do this in BuddyPress by mirroring existing WordPress hooks in many places
  * allowing dependant plugins to hook into the BuddyPress specific ones, thus
  * guaranteeing proper code execution only when BuddyPress is active.
  *
- * The following functions are wrappers for hookss, allowing them to be
+ * The following functions are wrappers for hooks, allowing them to be
  * manually called and/or piggy-backed on top of other hooks if needed.
  *
  * @todo use anonymous functions when PHP minimun requirement allows (5.3)
  */
 
 /**
- * Include files on this action
+ * Fire the 'bp_include' action, where plugins should include files.
  */
 function bp_include() {
 	do_action( 'bp_include' );
 }
 
 /**
- * Include files on this action
+ * Fire the 'bp_setup_components' action, where plugins should initialize components.
  */
 function bp_setup_components() {
 	do_action( 'bp_setup_components' );
 }
 
 /**
- * Setup global variables and objects
+ * Fire the 'bp_setup_globals' action, where plugins should initialize global settings.
  */
 function bp_setup_globals() {
 	do_action( 'bp_setup_globals' );
 }
 
 /**
- * Set navigation elements
+ * Fire the 'bp_setup_nav' action, where plugins should register their navigation items.
  */
 function bp_setup_nav() {
 	do_action( 'bp_setup_nav' );
 }
 
 /**
- * Set up BuddyPress implementation of the WP Toolbar
+ * Fire the 'bp_setup_admin_bar' action, where plugins should add items to the WP admin bar.
  */
 function bp_setup_admin_bar() {
 	if ( bp_use_wp_admin_bar() )
@@ -54,24 +54,24 @@ function bp_setup_admin_bar() {
 }
 
 /**
- * Set the page title
+ * Fire the 'bp_setup_title' action, where plugins should modify the page title.
  */
 function bp_setup_title() {
 	do_action( 'bp_setup_title' );
 }
 
 /**
- * Register widgets
+ * Fire the 'bp_register_widgets' action, where plugins should register widgets.
  */
 function bp_setup_widgets() {
 	do_action( 'bp_register_widgets' );
 }
 
 /**
- * Setup the currently logged-in user
+ * Set up the currently logged-in user.
  *
- * @uses did_action() To make sure the user isn't loaded out of order
- * @uses do_action() Calls 'bp_setup_current_user'
+ * @uses did_action() To make sure the user isn't loaded out of order.
+ * @uses do_action() Calls 'bp_setup_current_user'.
  */
 function bp_setup_current_user() {
 
@@ -85,49 +85,63 @@ function bp_setup_current_user() {
 }
 
 /**
- * Initlialize code
+ * Fire the 'bp_init' action, BuddyPress's main initialization hook.
  */
 function bp_init() {
 	do_action( 'bp_init' );
 }
 
 /**
- * Attached to plugins_loaded
+ * Fire the 'bp_loaded' action, which fires after BP's core plugin files have been loaded.
+ *
+ * Attached to 'plugins_loaded'.
  */
 function bp_loaded() {
 	do_action( 'bp_loaded' );
 }
 
 /**
- * Attached to wp
+ * Fire the 'bp_ready' action, which runs after BP is set up and the page is about to render.
+ *
+ * Attached to 'wp'.
  */
 function bp_ready() {
 	do_action( 'bp_ready' );
 }
 
 /**
- * Attach potential template actions
+ * Fire the 'bp_actions' action, which runs just before rendering.
+ *
+ * Attach potential template actions, such as catching form requests or routing
+ * custom URLs.
  */
 function bp_actions() {
 	do_action( 'bp_actions' );
 }
 
 /**
- * Attach potential template screens
+ * Fire the 'bp_screens' action, which runs just before rendering.
+ *
+ * Runs just after 'bp_actions'. Use this hook to attach your template
+ * loaders.
  */
 function bp_screens() {
 	do_action( 'bp_screens' );
 }
 
 /**
- * Initialize widgets
+ * Fire 'bp_widgets_init', which runs after widgets have been set up.
+ *
+ * Hooked to 'widgets_init'.
  */
 function bp_widgets_init() {
 	do_action ( 'bp_widgets_init' );
 }
 
 /**
- * BuddyPress head scripts
+ * Fire 'bp_head', which is used to hook scripts and styles in the <head>.
+ *
+ * Hooked to 'wp_head'.
  */
 function bp_head() {
 	do_action ( 'bp_head' );
@@ -136,10 +150,13 @@ function bp_head() {
 /** Theme Permissions *********************************************************/
 
 /**
- * The main action used for redirecting BuddyPress theme actions that are not
- * permitted by the current_user
+ * Fire the 'bp_template_redirect' action.
  *
- * @since BuddyPress (1.6)
+ * Run at 'template_redirect', just before WordPress selects and loads a theme
+ * template. The main purpose of this hook in BuddyPress is to redirect users
+ * who do not have the proper permission to access certain content.
+ *
+ * @since BuddyPress (1.6.0)
  *
  * @uses do_action()
  */
@@ -150,9 +167,12 @@ function bp_template_redirect() {
 /** Theme Helpers *************************************************************/
 
 /**
- * The main action used registering theme directory
+ * Fire the 'bp_register_theme_directory' action.
  *
- * @since BuddyPress (1.5)
+ * The main action used registering theme directories.
+ *
+ * @since BuddyPress (1.5.0)
+ *
  * @uses do_action()
  */
 function bp_register_theme_directory() {
@@ -160,9 +180,12 @@ function bp_register_theme_directory() {
 }
 
 /**
- * The main action used registering theme packages
+ * Fire the 'bp_register_theme_packages' action.
  *
- * @since BuddyPress (1.7)
+ * The main action used registering theme packages.
+ *
+ * @since BuddyPress (1.7.0)
+ *
  * @uses do_action()
  */
 function bp_register_theme_packages() {
@@ -170,69 +193,76 @@ function bp_register_theme_packages() {
 }
 
 /**
- * Enqueue BuddyPress specific CSS and JS
+ * Fire the 'bp_enqueue_scripts' action, where BP enqueues its CSS and JS.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @uses do_action() Calls 'bp_enqueue_scripts'
+ * @uses do_action() Calls 'bp_enqueue_scripts'.
  */
 function bp_enqueue_scripts() {
 	do_action ( 'bp_enqueue_scripts' );
 }
 
 /**
- * Add the BuddyPress-specific rewrite tags
+ * Fire the 'bp_add_rewrite_tag' action, where BP adds its custom rewrite tags.
  *
- * @since BuddyPress (1.8)
- * @uses do_action() Calls 'bp_add_rewrite_tags'
+ * @since BuddyPress (1.8.0)
+ *
+ * @uses do_action() Calls 'bp_add_rewrite_tags'.
  */
 function bp_add_rewrite_tags() {
 	do_action( 'bp_add_rewrite_tags' );
 }
 
 /**
- * Add the BuddyPress-specific rewrite rules
+ * Fire the 'bp_add_rewrite_rules' action, where BP adds its custom rewrite rules.
  *
- * @since BuddyPress (1.9)
- * @uses do_action() Calls 'bp_add_rewrite_rules'
+ * @since BuddyPress (1.9.0)
+ *
+ * @uses do_action() Calls 'bp_add_rewrite_rules'.
  */
 function bp_add_rewrite_rules() {
 	do_action( 'bp_add_rewrite_rules' );
 }
 
 /**
- * Add the BuddyPress-specific permalink structures
+ * Fire the 'bp_add_permastructs' action, where BP adds its BP-specific permalink structure.
  *
- * @since BuddyPress (1.9)
- * @uses do_action() Calls 'bp_add_permastructs'
+ * @since BuddyPress (1.9.0)
+ *
+ * @uses do_action() Calls 'bp_add_permastructs'.
  */
 function bp_add_permastructs() {
 	do_action( 'bp_add_permastructs' );
 }
 
 /**
- * Piggy back action for BuddyPress sepecific theme actions before the theme has
- * been setup and the theme's functions.php has loaded.
+ * Fire the 'bp_setup_theme' action.
  *
- * @since BuddyPress (1.6)
+ * The main purpose of 'bp_setup_theme' is give themes a place to load their
+ * BuddyPress-specific functionality.
  *
- * @uses do_action() Calls 'bp_setup_theme'
+ * @since BuddyPress (1.6.0)
+ *
+ * @uses do_action() Calls 'bp_setup_theme'.
  */
 function bp_setup_theme() {
 	do_action ( 'bp_setup_theme' );
 }
 
 /**
- * Piggy back action for BuddyPress sepecific theme actions once the theme has
- * been setup and the theme's functions.php has loaded.
+ * Fire the 'bp_after_setup_theme' action.
+ *
+ * Piggy-back action for BuddyPress-specific theme actions once the theme has
+ * been set up and the theme's functions.php has loaded.
  *
  * Hooked to 'after_setup_theme' with a priority of 100. This allows plenty of
  * time for other themes to load their features, such as BuddyPress support,
  * before our theme compatibility layer kicks in.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @uses do_action() Calls 'bp_after_setup_theme'
+ * @uses do_action() Calls 'bp_after_setup_theme'.
  */
 function bp_after_setup_theme() {
 	do_action ( 'bp_after_setup_theme' );
@@ -241,60 +271,69 @@ function bp_after_setup_theme() {
 /** Theme Compatibility Filter ************************************************/
 
 /**
- * Piggy back filter for WordPress's 'request' filter
+ * Fire the 'bp_request' filter, a piggy-back of WP's 'request'.
  *
- * @since BuddyPress (1.7)
- * @param array $query_vars
- * @return array
+ * @since BuddyPress (1.7.0)
+ *
+ * @see WP::parse_request() for a description of parameters.
+ *
+ * @param array $query_vars See {@link WP::parse_request()}.
+ * @return array $query_vars See {@link WP::parse_request()}.
  */
 function bp_request( $query_vars = array() ) {
 	return apply_filters( 'bp_request', $query_vars );
 }
 
 /**
- * Piggy back filter to handle login redirects.
+ * Fire the 'bp_login_redirect' filter, a piggy-back of WP's 'login_redirect'.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
- * @param string $redirect_to
- * @param string $redirect_to_raw
- * @param string $user
+ * @param string $redirect_to See 'login_redirect'.
+ * @param string $redirect_to_raw See 'login_redirect'.
+ * @param string $user See 'login_redirect'.
  */
 function bp_login_redirect( $redirect_to = '', $redirect_to_raw = '', $user = false ) {
 	return apply_filters( 'bp_login_redirect', $redirect_to, $redirect_to_raw, $user );
 }
 
 /**
- * The main filter used for theme compatibility and displaying custom BuddyPress
- * theme files.
+ * Fire 'bp_template_include', main filter used for theme compatibility and displaying custom BP theme files.
  *
- * @since BuddyPress (1.6)
+ * Hooked to 'template_include'.
+ *
+ * @since BuddyPress (1.6.0)
  *
  * @uses apply_filters()
  *
- * @param string $template
- * @return string Template file to use
+ * @param string $template See 'template_include'.
+ * @return string Template file to use.
  */
 function bp_template_include( $template = '' ) {
 	return apply_filters( 'bp_template_include', $template );
 }
 
 /**
- * Generate BuddyPress-specific rewrite rules
+ * Fire the 'bp_generate_rewrite_rules' filter, where BP generates its rewrite rules.
  *
- * @since BuddyPress (1.7)
- * @param WP_Rewrite $wp_rewrite
- * @uses do_action() Calls 'bp_generate_rewrite_rules' with {@link WP_Rewrite}
+ * @since BuddyPress (1.7.0)
+ *
+ * @uses do_action() Calls 'bp_generate_rewrite_rules' with {@link WP_Rewrite}.
+ *
+ * @param WP_Rewrite $wp_rewrite See 'generate_rewrite_rules'.
  */
 function bp_generate_rewrite_rules( $wp_rewrite ) {
 	do_action_ref_array( 'bp_generate_rewrite_rules', array( &$wp_rewrite ) );
 }
 
 /**
- * Filter the allowed themes list for BuddyPress specific themes
+ * Fire the 'bp_allowed_themes' filter.
  *
- * @since BuddyPress (1.7)
- * @uses apply_filters() Calls 'bp_allowed_themes' with the allowed themes list
+ * Filter the allowed themes list for BuddyPress-specific themes.
+ *
+ * @since BuddyPress (1.7.0)
+ *
+ * @uses apply_filters() Calls 'bp_allowed_themes' with the allowed themes list.
  */
 function bp_allowed_themes( $themes ) {
 	return apply_filters( 'bp_allowed_themes', $themes );
