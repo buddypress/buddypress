@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Options
+ * BuddyPress Options.
  *
  * @package BuddyPress
  * @subpackage Options
@@ -11,11 +11,11 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Get the default site options and their values
+ * Get the default site options and their values.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @return array Filtered option names and values
+ * @return array Filtered option names and values.
  */
 function bp_get_default_options() {
 
@@ -86,16 +86,18 @@ function bp_get_default_options() {
 }
 
 /**
- * Add default options
+ * Add default options when BuddyPress is first activated.
  *
  * Hooked to bp_activate, it is only called once when BuddyPress is activated.
  * This is non-destructive, so existing settings will not be overridden.
  *
- * @since BuddyPress (1.6)
+ * Currently unused.
  *
- * @uses bp_get_default_options() To get default options
- * @uses add_option() Adds default options
- * @uses do_action() Calls 'bp_add_options'
+ * @since BuddyPress (1.6.0)
+ *
+ * @uses bp_get_default_options() To get default options.
+ * @uses add_option() Adds default options.
+ * @uses do_action() Calls 'bp_add_options'.
  */
 function bp_add_options() {
 
@@ -111,16 +113,18 @@ function bp_add_options() {
 }
 
 /**
- * Delete default options
+ * Delete default options.
  *
  * Hooked to bp_uninstall, it is only called once when BuddyPress is uninstalled.
  * This is destructive, so existing settings will be destroyed.
  *
- * @since BuddyPress (1.6)
+ * Currently unused.
  *
- * @uses bp_get_default_options() To get default options
- * @uses delete_option() Removes default options
- * @uses do_action() Calls 'bp_delete_options'
+ * @since BuddyPress (1.6.0)
+ *
+ * @uses bp_get_default_options() To get default options.
+ * @uses delete_option() Removes default options.
+ * @uses do_action() Calls 'bp_delete_options'.
  */
 function bp_delete_options() {
 
@@ -136,14 +140,15 @@ function bp_delete_options() {
 }
 
 /**
- * Add filters to each BuddyPress option and allow them to be overloaded from
- * inside the $bp->options array.
+ * Add filters to each BP option, allowing them to be overloaded from inside the $bp->options array.
  *
- * @since BuddyPress (1.6)
+ * Currently unused.
  *
- * @uses bp_get_default_options() To get default options
- * @uses add_filter() To add filters to 'pre_option_{$key}'
- * @uses do_action() Calls 'bp_add_option_filters'
+ * @since BuddyPress (1.6.0)
+ *
+ * @uses bp_get_default_options() To get default options.
+ * @uses add_filter() To add filters to 'pre_option_{$key}'.
+ * @uses do_action() Calls 'bp_add_option_filters'.
  */
 function bp_setup_option_filters() {
 
@@ -159,8 +164,9 @@ function bp_setup_option_filters() {
 }
 
 /**
- * Filter default options and allow them to be overloaded from inside the
- * $bp->options array.
+ * Filter default options and allow them to be overloaded from inside the $bp->options array.
+ *
+ * Currently unused.
  *
  * @since BuddyPress (1.6)
  *
@@ -186,20 +192,21 @@ function bp_pre_get_option( $value = false ) {
 }
 
 /**
- * Retrieve an option
+ * Retrieve an option.
  *
- * This is a wrapper for get_blog_option(), which in turn stores settings data (such as bp-pages)
- * on the appropriate blog, given your current setup.
+ * This is a wrapper for {@link get_blog_option()}, which in turn stores settings data
+ * (such as bp-pages) on the appropriate blog, given your current setup.
  *
  * The 'bp_get_option' filter is primarily for backward-compatibility.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_get_root_blog_id()
- * @param string $option_name The option to be retrieved
- * @param string $default Optional. Default value to be returned if the option isn't set
- * @return mixed The value for the option
+ *
+ * @param string $option_name The option to be retrieved.
+ * @param string $default Optional. Default value to be returned if the option
+ *        isn't set. See {@link get_blog_option()}.
+ * @return mixed The value for the option.
  */
 function bp_get_option( $option_name, $default = '' ) {
 	$value = get_blog_option( bp_get_root_blog_id(), $option_name, $default );
@@ -208,46 +215,49 @@ function bp_get_option( $option_name, $default = '' ) {
 }
 
 /**
- * Save an option
+ * Save an option.
  *
- * This is a wrapper for update_blog_option(), which in turn stores settings data (such as bp-pages)
- * on the appropriate blog, given your current setup.
+ * This is a wrapper for {@link update_blog_option()}, which in turn stores
+ * settings data (such as bp-pages) on the appropriate blog, given your current
+ * setup.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_get_root_blog_id()
- * @param string $option_name The option key to be set
- * @param string $value The value to be set
+ *
+ * @param string $option_name The option key to be set.
+ * @param string $value The value to be set.
  */
 function bp_update_option( $option_name, $value ) {
 	update_blog_option( bp_get_root_blog_id(), $option_name, $value );
 }
 
 /**
- * Delete an option
+ * Delete an option.
  *
- * This is a wrapper for delete_blog_option(), which in turn deletes settings data (such as
- * bp-pages) on the appropriate blog, given your current setup.
+ * This is a wrapper for {@link delete_blog_option()}, which in turn deletes
+ * settings data (such as bp-pages) on the appropriate blog, given your current
+ * setup.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_get_root_blog_id()
- * @param string $option_name The option key to be set
+ *
+ * @param string $option_name The option key to be deleted.
  */
 function bp_delete_option( $option_name ) {
 	delete_blog_option( bp_get_root_blog_id(), $option_name );
 }
 
 /**
- * When switching from single to multisite we need to copy blog options to
- * site options.
+ * Copy BP options from a single site to multisite config.
  *
- * This function is no longer used
+ * Run when switching from single to multisite and we need to copy blog options
+ * to site options.
  *
- * @package BuddyPress Core
- * @deprecated Since BuddyPress (1.6)
+ * This function is no longer used.
+ *
+ * @deprecated 1.6.0
  */
 function bp_core_activate_site_options( $keys = array() ) {
 	global $bp;
@@ -274,12 +284,15 @@ function bp_core_activate_site_options( $keys = array() ) {
 }
 
 /**
+ * Fetch global BP options.
+ *
  * BuddyPress uses common options to store configuration settings. Many of these
  * settings are needed at run time. Instead of fetching them all and adding many
  * initial queries to each page load, let's fetch them all in one go.
  *
- * @package BuddyPress Core
- * @todo Use settings API and audit these methods
+ * @todo Use settings API and audit these methods.
+ *
+ * @return array $root_blog_options_meta List of options.
  */
 function bp_core_get_root_options() {
 	global $wpdb;
@@ -375,12 +388,13 @@ function bp_core_get_root_options() {
 /**
  * Is profile sycing disabled?
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional.Default value true
+ * @uses bp_get_option() To get the profile sync option.
  *
- * @uses bp_get_option() To get the profile sync option
- * @return bool Is profile sync enabled or not
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if profile sync is enabled, otherwise false.
  */
 function bp_disable_profile_sync( $default = true ) {
 	return (bool) apply_filters( 'bp_disable_profile_sync', (bool) bp_get_option( 'bp-disable-profile-sync', $default ) );
@@ -389,12 +403,14 @@ function bp_disable_profile_sync( $default = true ) {
 /**
  * Is the Toolbar hidden for logged out users?
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional.Default value true
+ * @uses bp_get_option() To get the logged out Toolbar option.
  *
- * @uses bp_get_option() To get the logged out Toolbar option
- * @return bool Is logged out Toolbar enabled or not
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if the admin bar should be hidden for logged-out users,
+ *         otherwise false.
  */
 function bp_hide_loggedout_adminbar( $default = true ) {
 	return (bool) apply_filters( 'bp_hide_loggedout_adminbar', (bool) bp_get_option( 'hide-loggedout-adminbar', $default ) );
@@ -403,12 +419,13 @@ function bp_hide_loggedout_adminbar( $default = true ) {
 /**
  * Are members able to upload their own avatars?
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional. Default value true
+ * @uses bp_get_option() To get the avatar uploads option.
  *
- * @uses bp_get_option() To get the avatar uploads option
- * @return bool Are avatar uploads allowed?
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if avatar uploads are disabled, otherwise false.
  */
 function bp_disable_avatar_uploads( $default = true ) {
 	return (bool) apply_filters( 'bp_disable_avatar_uploads', (bool) bp_get_option( 'bp-disable-avatar-uploads', $default ) );
@@ -417,12 +434,14 @@ function bp_disable_avatar_uploads( $default = true ) {
 /**
  * Are members able to delete their own accounts?
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional. Default value
+ * @uses bp_get_option() To get the account deletion option.
  *
- * @uses bp_get_option() To get the account deletion option
- * @return bool Is account deletion allowed?
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if users are able to delete their own accounts, otherwise
+ *         false.
  */
 function bp_disable_account_deletion( $default = false ) {
 	return apply_filters( 'bp_disable_account_deletion', (bool) bp_get_option( 'bp-disable-account-deletion', $default ) );
@@ -431,12 +450,15 @@ function bp_disable_account_deletion( $default = false ) {
 /**
  * Are blog and forum activity stream comments disabled?
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional. Default value false
- * @todo split and move into blog and forum components
- * @uses bp_get_option() To get the blog/forum comments option
- * @return bool Is blog/forum comments allowed?
+ * @todo split and move into blog and forum components.
+ * @uses bp_get_option() To get the blog/forum comments option.
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: false.
+ * @return bool True if activity comments are disabled for blog and forum
+ *         items, otherwise false.
  */
 function bp_disable_blogforum_comments( $default = false ) {
 	return (bool) apply_filters( 'bp_disable_blogforum_comments', (bool) bp_get_option( 'bp-disable-blogforum-comments', $default ) );
@@ -445,93 +467,98 @@ function bp_disable_blogforum_comments( $default = false ) {
 /**
  * Is group creation turned off?
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional. Default value true
+ * @todo Move into groups component.
+ * @uses bp_get_option() To get the group creation.
  *
- * @todo Move into groups component
- * @uses bp_get_option() To get the group creation
- * @return bool Allow group creation?
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if group creation is restricted, otherwise false.
  */
 function bp_restrict_group_creation( $default = true ) {
 	return (bool) apply_filters( 'bp_restrict_group_creation', (bool) bp_get_option( 'bp_restrict_group_creation', $default ) );
 }
 
 /**
- * Have we migrated to using the WordPress Toolbar?
+ * Should the old BuddyBar be forced in place of the WP admin bar?
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional. Default value true
+ * @uses bp_get_option() To get the BuddyBar option.
  *
- * @todo Move into groups component
- * @uses bp_get_option() To get the WP editor option
- * @return bool Use WP editor?
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if the BuddyBar should be forced on, otherwise false.
  */
 function bp_force_buddybar( $default = true ) {
 	return (bool) apply_filters( 'bp_force_buddybar', (bool) bp_get_option( '_bp_force_buddybar', $default ) );
 }
 
 /**
- * Output the group forums root parent forum id
+ * Output the group forums root parent forum id.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional. Default value
+ * @param bool $default Optional. Default: '0'.
  */
 function bp_group_forums_root_id( $default = '0' ) {
 	echo bp_get_group_forums_root_id( $default );
 }
 	/**
-	 * Return the group forums root parent forum id
+	 * Return the group forums root parent forum id.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param bool $default Optional. Default value 0
+	 * @uses bp_get_option() To get the root forum ID from the database.
 	 *
-	 * @uses bp_get_option() To get the maximum title length
-	 * @return int Is anonymous posting allowed?
+	 * @param bool $default Optional. Default: '0'.
+	 * @return int The ID of the group forums root forum.
 	 */
 	function bp_get_group_forums_root_id( $default = '0' ) {
 		return (int) apply_filters( 'bp_get_group_forums_root_id', (int) bp_get_option( '_bp_group_forums_root_id', $default ) );
 	}
 
 /**
- * Checks if BuddyPress Group Forums are enabled
+ * Check whether BuddyPress Group Forums are enabled.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional. Default value true
+ * @uses bp_get_option() To get the group forums option.
  *
- * @uses bp_get_option() To get the group forums option
- * @return bool Is group forums enabled or not
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if group forums are active, otherwise false.
  */
 function bp_is_group_forums_active( $default = true ) {
 	return (bool) apply_filters( 'bp_is_group_forums_active', (bool) bp_get_option( '_bp_enable_group_forums', $default ) );
 }
 
 /**
- * Checks if Akismet is enabled
+ * Check whether Akismet is enabled.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional. Default value true
+ * @uses bp_get_option() To get the Akismet option.
  *
- * @uses bp_get_option() To get the Akismet option
- * @return bool Is Akismet enabled or not
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if Akismet is enabled, otherwise false.
  */
 function bp_is_akismet_active( $default = true ) {
 	return (bool) apply_filters( 'bp_is_akismet_active', (bool) bp_get_option( '_bp_enable_akismet', $default ) );
 }
 
 /**
- * Get the current theme package ID
+ * Get the current theme package ID.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
- * @param string $default Optional. Default value 'default'
- * @uses get_option() To get the subtheme option
- * @return string ID of the subtheme
+ * @uses get_option() To get the theme package option.
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: 'legacy'.
+ * @return string ID of the theme package.
  */
 function bp_get_theme_package_id( $default = 'legacy' ) {
 	return apply_filters( 'bp_get_theme_package_id', bp_get_option( '_bp_theme_package_id', $default ) );
