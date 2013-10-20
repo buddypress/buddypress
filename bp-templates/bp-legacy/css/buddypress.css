@@ -1427,6 +1427,32 @@ body.register #buddypress div.page ul {
 	overflow: hidden;
 }
 
+.widget.buddypress #bp-login-widget-form label {
+	display: block;
+	margin: 1rem 0 .5rem;
+}
+
+.widget.buddypress #bp-login-widget-form #bp-login-widget-submit {
+	margin-right: 10px;
+}
+
+.widget.buddypress .bp-login-widget-user-avatar {
+	float: left;
+	width: 60px;
+}
+
+.widget.buddypress .bp-login-widget-user-links > div {
+	padding-left: 60px;
+}
+
+.widget.buddypress .bp-login-widget-user-links > div {
+	margin-bottom: .5rem;
+}
+
+.widget.buddypress .bp-login-widget-user-links > div.bp-login-widget-user-link a {
+	font-weight: bold;
+}
+
 /*--------------------------------------------------------------
 4.0 - Media Queries
 --------------------------------------------------------------*/
