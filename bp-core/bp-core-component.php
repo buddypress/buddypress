@@ -114,7 +114,7 @@ class BP_Component {
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses bp_Component::setup_actions() Set up the hooks and actions.
+	 * @uses BP_Component::setup_actions() Set up the hooks and actions.
 	 *
 	 * @param string $id Unique ID (for internal identification). Letters,
 	 *        numbers, and underscores only.
@@ -122,8 +122,12 @@ class BP_Component {
 	 *        eg __( 'Groups', 'buddypress' ).
 	 * @param string $path The file path for the component's files. Used by
 	 *        {@link BP_Component::includes()}.
+	 * @param array $params Additional parameters used by the component.
+	 *        The config array supports the following values:
+	 *        - 'adminbar_myaccount_order' Sets the position for our
+	 *          component menu under the WP Toolbar's "My Account" menu.
 	 */
-	public function start( $id = '', $name = '', $path = '' ) {
+	public function start( $id = '', $name = '', $path = '', $params = array() ) {
 
 		// Internal identifier of component
 		$this->id   = $id;
@@ -133,6 +137,19 @@ class BP_Component {
 
 		// Path for includes
 		$this->path = $path;
+
+		// Miscellaneous component parameters that need to be set early on
+		if ( ! empty( $params ) ) {
+			// Sets the position for our menu under the WP Toolbar's "My Account" menu
+			if ( ! empty( $params['adminbar_myaccount_order'] ) ) {
+				$this->adminbar_myaccount_order = (int) $params['adminbar_myaccount_order'];
+			}
+
+		// Set defaults if not passed
+		} else {
+			// new component menus are added before the settings menu if not set
+			$this->adminbar_myaccount_order = 90;
+		}
 
 		// Move on to the next step
 		$this->setup_actions();
@@ -304,7 +321,7 @@ class BP_Component {
 		add_action( 'bp_setup_nav',              array( $this, 'setup_nav'              ), 10 );
 
 		// Setup WP Toolbar menus
-		add_action( 'bp_setup_admin_bar',        array( $this, 'setup_admin_bar'        ), 10 );
+		add_action( 'bp_setup_admin_bar',        array( $this, 'setup_admin_bar'        ), $this->adminbar_myaccount_order );
 
 		// Setup component title
 		add_action( 'bp_setup_title',            array( $this, 'setup_title'            ), 10 );

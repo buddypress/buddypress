@@ -31,7 +31,10 @@ class BP_Messages_Component extends BP_Component {
 		parent::start(
 			'messages',
 			__( 'Private Messages', 'buddypress' ),
-			BP_PLUGIN_DIR
+			BP_PLUGIN_DIR,
+			array(
+				'adminbar_myaccount_order' => 50
+			)
 		);
 	}
 

@@ -28,7 +28,10 @@ class BP_Activity_Component extends BP_Component {
 		parent::start(
 			'activity',
 			__( 'Activity Streams', 'buddypress' ),
-			BP_PLUGIN_DIR
+			BP_PLUGIN_DIR,
+			array(
+				'adminbar_myaccount_order' => 10
+			)
 		);
 	}
 

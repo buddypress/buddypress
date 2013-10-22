@@ -23,7 +23,10 @@ class BP_Blogs_Component extends BP_Component {
 		parent::start(
 			'blogs',
 			__( 'Site Tracking', 'buddypress' ),
-			BP_PLUGIN_DIR
+			BP_PLUGIN_DIR,
+			array(
+				'adminbar_myaccount_order' => 30
+			)
 		);
 	}
 

@@ -81,7 +81,10 @@ class BP_Groups_Component extends BP_Component {
 		parent::start(
 			'groups',
 			__( 'User Groups', 'buddypress' ),
-			BP_PLUGIN_DIR
+			BP_PLUGIN_DIR,
+			array(
+				'adminbar_myaccount_order' => 70
+			)
 		);
 	}
 

@@ -23,7 +23,10 @@ class BP_Forums_Component extends BP_Component {
 		parent::start(
 			'forums',
 			__( 'Discussion Forums', 'buddypress' ),
-			BP_PLUGIN_DIR
+			BP_PLUGIN_DIR,
+			array(
+				'adminbar_myaccount_order' => 80
+			)
 		);
 	}
 

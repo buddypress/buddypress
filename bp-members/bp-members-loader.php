@@ -22,7 +22,10 @@ class BP_Members_Component extends BP_Component {
 		parent::start(
 			'members',
 			__( 'Members', 'buddypress' ),
-			BP_PLUGIN_DIR
+			BP_PLUGIN_DIR,
+			array(
+				'adminbar_myaccount_order' => 20
+			)
 		);
 	}
 

@@ -21,7 +21,10 @@ class BP_Settings_Component extends BP_Component {
 		parent::start(
 			'settings',
 			__( 'Settings', 'buddypress' ),
-			BP_PLUGIN_DIR
+			BP_PLUGIN_DIR,
+			array(
+				'adminbar_myaccount_order' => 100
+			)
 		);
 	}
 
