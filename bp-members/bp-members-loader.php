@@ -137,6 +137,16 @@ class BP_Members_Component extends BP_Component {
 				// The canonical URL will not contain the default component
 				unset( $bp->canonical_stack['component'] );
 			}
+
+			// if we're on a spammer's profile page, only users with the 'bp_moderate' cap
+			// can view subpages on the spammer's profile
+			//
+			// users without the cap trying to access a spammer's subnav page will get
+			// redirected to the root of the spammer's profile page.  this occurs by
+			// by removing the component in the canonical stack.
+			if ( bp_is_user_spammer( bp_displayed_user_id() ) && ! bp_current_user_can( 'bp_moderate' ) ) {
+				unset( $bp->canonical_stack['component'] );
+			}
 		}
 	}
 
