@@ -849,28 +849,27 @@ class BP_Groups_Group {
 		$user_status = $wpdb->get_results( $wpdb->prepare( "SELECT group_id, is_confirmed, invite_sent FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_banned = 0", bp_loggedin_user_id() ) );
 
 		for ( $i = 0, $count = count( $paged_groups ); $i < $count; ++$i ) {
-			$paged_groups[$i]->is_member = false;
-
 			foreach ( (array) $user_status as $group ) {
-				$is_member = $is_invited = $is_pending = false;
 				if ( $group->group_id == $paged_groups[ $i ]->id ) {
+					$is_member = $is_invited = $is_pending = '0';
+
 					// is_confirmed means the user is a member
 					if ( $group->is_confirmed ) {
-						$is_member = true;
+						$is_member = '1';
 
 					// invite_sent means the user has been invited
 					} else if ( $group->invite_sent ) {
-						$is_invited = true;
+						$is_invited = '1';
 
 					// User has sent request, but has not been confirmed
 					} else {
-						$is_pending = true;
+						$is_pending = '1';
 					}
-				}
 
-				$paged_groups[ $i ]->is_member = $is_member;
-				$paged_groups[ $i ]->is_invited = $is_invited;
-				$paged_groups[ $i ]->is_pending = $is_pending;
+					$paged_groups[ $i ]->is_member = $is_member;
+					$paged_groups[ $i ]->is_invited = $is_invited;
+					$paged_groups[ $i ]->is_pending = $is_pending;
+				}
 			}
 		}
 
