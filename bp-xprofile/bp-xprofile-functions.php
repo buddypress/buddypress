@@ -588,8 +588,9 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
 
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
-	if ( is_string( $meta_value ) )
-		$meta_value = stripslashes( esc_sql( $meta_value ) );
+	if ( is_string( $meta_value ) ) {
+		$meta_value = stripslashes( $meta_value );
+	}
 
 	$meta_value = maybe_serialize( $meta_value );
 

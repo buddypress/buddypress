@@ -86,4 +86,18 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$this->assertEquals( false, $m2 );
 		$this->assertEquals( false, $m3 );
 	}
+
+	/**
+	 * @group bp_activity_update_meta
+	 * @ticket BP5180
+	 */
+	public function test_bp_activity_update_meta_with_line_breaks() {
+		$a = $this->factory->activity->create();
+		$meta_value = 'Foo!
+
+
+Bar!';
+		bp_activity_update_meta( $a, 'linebreak_test', $meta_value );
+		$this->assertEquals( $meta_value, bp_activity_get_meta( $a, 'linebreak_test' ) );
+	}
 }

@@ -680,8 +680,9 @@ function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	// Sanitize value
-	if ( is_string( $meta_value ) )
-		$meta_value = stripslashes( esc_sql( $meta_value ) );
+	if ( is_string( $meta_value ) ) {
+		$meta_value = stripslashes( $meta_value );
+	}
 
 	// Maybe, just maybe... serialize
 	$meta_value = maybe_serialize( $meta_value );

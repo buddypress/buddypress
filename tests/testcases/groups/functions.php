@@ -269,4 +269,18 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		$this->assertEquals( 1, groups_get_groupmeta( $g, 'total_member_count' ) );
 	}
+
+	/**
+	 * @group groupmeta
+	 * @ticket BP5180
+	 */
+	public function test_groups_update_groupmeta_with_line_breaks() {
+		$g = $this->factory->group->create();
+		$meta_value = 'Foo!
+
+Bar!';
+		groups_update_groupmeta( $g, 'linebreak_test', $meta_value );
+
+		$this->assertEquals( $meta_value, groups_get_groupmeta( $g, 'linebreak_test' ) );
+	}
 }

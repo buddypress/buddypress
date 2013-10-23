@@ -62,4 +62,22 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$this->revoke_bp_moderate( $cuser );
 		$this->set_current_user( $old_current_user );
 	}
+
+	/**
+	 * @group bp_xprofile_update_meta
+	 * @ticket BP5180
+	 */
+	public function test_bp_xprofile_update_meta_with_line_breaks() {
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g->id,
+			'type' => 'textbox',
+		) );
+
+		$meta_value = 'Foo!
+
+Bar!';
+		bp_xprofile_update_meta( $f->id, 'field', 'linebreak_field', $meta_value );
+		$this->assertEquals( $meta_value, bp_xprofile_get_meta( $f->id, 'field', 'linebreak_field' ) );
+	}
 }
