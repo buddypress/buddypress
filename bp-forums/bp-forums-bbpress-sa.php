@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress bbPress 1.x integration
+ * BuddyPress bbPress 1.x integration.
  *
  * @package BuddyPress
  * @subpackage Forums
@@ -9,6 +9,11 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Bootstrap bbPress 1.x, and manipulate globals to integrate with BuddyPress.
+ *
+ * @return bool|null Returns false on failure.
+ */
 function bp_forums_load_bbpress() {
 	global $bp, $wpdb, $wp_roles, $current_user, $wp_users_object;
 	global $bb, $bbdb, $bb_table_prefix, $bb_current_user;
@@ -121,9 +126,30 @@ function bp_forums_load_bbpress() {
 }
 add_action( 'bbpress_init', 'bp_forums_load_bbpress' );
 
-/* WP to bbP wrapper functions */
+/** WP to bbPress wrapper functions ******************************************/
+
+/**
+ * Get the current bbPress user.
+ *
+ * @return object $current_user Current user object from WordPress.
+ */
 function bb_get_current_user() { global $current_user; return $current_user; }
+
+/**
+ * Get userdata for a bbPress user.
+ *
+ * @param int $user_id User ID.
+ * @return object User data from WordPress.
+ */
 function bb_get_user( $user_id ) { return get_userdata( $user_id ); }
+
+/**
+ * Cache users.
+ *
+ * Noop.
+ *
+ * @param array $users
+ */
 function bb_cache_users( $users ) {}
 
 /**
@@ -140,8 +166,7 @@ class BP_Forums_BB_Auth {
 }
 
 /**
- * bbPress needs the DB class to be BPDB, but we want to use WPDB, so we can
- * extend it and use this.
+ * bbPress needs the DB class to be BPDB, but we want to use WPDB, so we can extend it and use this.
  *
  * The class is pluggable, so that plugins that swap out WPDB with a custom
  * database class (such as HyperDB and SharDB) can provide their own versions
@@ -151,6 +176,11 @@ if ( ! class_exists( 'BPDB' ) ) :
 	class BPDB extends WPDB {
 		var $db_servers = array();
 
+		/**
+		 * Constructor
+		 *
+		 * @see WPDB::__construct() for description of parameters.
+		 */
 		function __construct( $dbuser, $dbpassword, $dbname, $dbhost ) {
 			parent::__construct( $dbuser, $dbpassword, $dbname, $dbhost );
 
@@ -164,9 +194,19 @@ if ( ! class_exists( 'BPDB' ) ) :
 		/**
 		 * Determine if a database supports a particular feature.
 		 *
-		 * Overriden here to work around differences between bbPress', and WordPress', implementation differences.
-		 * In particular, when BuddyPress tries to run bbPress' SQL installation script, the collation check always
-		 * failed. The capability is long supported by WordPress' minimum required MySQL version, so this is safe.
+		 * Overriden here to work around differences between bbPress's
+		 * and WordPress's implementations. In particular, when
+		 * BuddyPress tries to run bbPress' SQL installation script,
+		 * the collation check always failed. The capability is long
+		 * supported by WordPress' minimum required MySQL version, so
+		 * this is safe.
+		 *
+		 * @see WPDB::has_cap() for a description of parameters and
+		 *      return values.
+		 *
+		 * @param string $db_cap See {@link WPDB::has_cap()}.
+		 * @param string $_table_name See {@link WPDB::has_cap()}.
+		 * @return bool See {@link WPDB::has_cap()}.
 		 */
 		function has_cap( $db_cap, $_table_name='' ) {
 			if ( 'collation' == $db_cap )
@@ -176,8 +216,12 @@ if ( ! class_exists( 'BPDB' ) ) :
 		}
 
 		/**
-		 * Initialises the class variables based on provided arguments.
-		 * Based on, and taken from, the BackPress class in turn taken from the 1.0 branch of bbPress.
+		 * Initialize the class variables based on provided arguments.
+		 *
+		 * Based on, and taken from, the BackPress class in turn taken
+		 * from the 1.0 branch of bbPress.
+		 *
+		 * @see BBDB::__construct() for a description of params.
 		 */
 		function init( $args ) {
 			if ( 4 == func_num_args() ) {
@@ -204,13 +248,29 @@ if ( ! class_exists( 'BPDB' ) ) :
 			return wp_parse_args( $args, $defaults );
 		}
 
+		/**
+		 * Stub for escape_deep() compatibility.
+		 *
+		 * @see WPDB::escape_deep() for description of parameters and
+		 *      return values.
+		 *
+		 * @param mixed $data See {@link WPDB::escape_deep()}.
+		 * @return mixed $data See {@link WPDB::escape_deep()}.
+		 */
 		function escape_deep( $data ) {
 			return $this->escape( $data );
 		}
 	}
 endif; // class_exists( 'BPDB' )
 
-/* BBPress needs this function to convert vars */
+/**
+ * Convert object to given output format.
+ *
+ * bbPress needs this to convert vars.
+ *
+ * @param object $object Object to convert.
+ * @param string $output Type of object to return. OBJECT, ARRAY_A, or ARRAY_N.
+ */
 function backpress_convert_object( &$object, $output ) {
 	if ( is_array( $object ) ) {
 		foreach ( array_keys( $object ) as $key )
@@ -225,12 +285,16 @@ function backpress_convert_object( &$object, $output ) {
 }
 
 /**
+ * Parse and execute queries for updating a set of database tables.
+ *
  * Copied from wp-admin/includes/upgrade.php, this will take care of creating
  * the bbPress stand-alone tables without loading a conflicting WP Admin.
  *
- * @param array $queries
- * @param bool $execute Optional; defaults to true.
- * @return array
+ * @see dbDelta() for a description of parameters and return value.
+ *
+ * @param array $queries See {@link dbDelta()}.
+ * @param bool $execute See {@link dbDelta()}.
+ * @return array See {@link dbDelta()}.
  */
 function bp_bb_dbDelta($queries, $execute = true) {
 	global $wpdb;

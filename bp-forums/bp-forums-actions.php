@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Forums Actions
+ * BuddyPress Forums Actions.
  *
  * @package BuddyPress
  * @subpackage Forums

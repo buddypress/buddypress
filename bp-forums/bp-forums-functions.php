@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Forums Functions
+ * BuddyPress Forums Functions.
  *
  * @package BuddyPress
  * @subpackage Forums
@@ -12,10 +12,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /** bbPress 2.x ***************************************************************/
 
 /**
- * Used to see if bbPress 2.x is installed and active
+ * Is see bbPress 2.x is installed and active?
  *
- * @since BuddyPress (1.6)
- * @return boolean True if bbPress 2.x is active, false if not
+ * @since BuddyPress (1.6.0)
+ *
+ * @return boolean True if bbPress 2.x is active, false if not.
  */
 function bp_forums_is_bbpress_active() {
 
@@ -34,10 +35,14 @@ function bp_forums_is_bbpress_active() {
 /** bbPress 1.x ***************************************************************/
 
 /**
- * If the bb-config-location option exists, bbPress 1.x was previously installed
+ * See if bbPress 1.x is installed correctly.
  *
- * @since BuddyPress (1.2)
- * @return boolean True if option exists, false if not
+ * "Installed correctly" means that the bb-config-location option is set, and
+ * the referenced file exists.
+ *
+ * @since BuddyPress (1.2.0)
+ *
+ * @return boolean True if option exists, false if not.
  */
 function bp_forums_is_installed_correctly() {
 	$bp = buddypress();
@@ -49,12 +54,15 @@ function bp_forums_is_installed_correctly() {
 }
 
 /**
+ * Does the forums component have a directory page registered?
+ *
  * Checks $bp pages global and looks for directory page
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
- * @global BuddyPress $bp The one true BuddyPress instance
- * @return bool True if set, False if empty
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @return bool True if set, False if empty.
  */
 function bp_forums_has_directory() {
 	return (bool) !empty( buddypress()->pages->forums->id );
@@ -62,11 +70,35 @@ function bp_forums_has_directory() {
 
 /** Forum Functions ***********************************************************/
 
+/**
+ * Get a forum by ID.
+ *
+ * Wrapper for {@link bb_get_forum()}.
+ *
+ * @param int $forum_id ID of the forum being fetched.
+ * @return object bbPress forum object.
+ */
 function bp_forums_get_forum( $forum_id ) {
 	do_action( 'bbpress_init' );
 	return bb_get_forum( $forum_id );
 }
 
+/**
+ * Create a forum.
+ *
+ * Wrapper for {@link bb_new_forum()}.
+ *
+ * @param array $args {
+ *     Forum setup arguments.
+ *     @type string $forum_name Name of the forum.
+ *     @type string $forum_desc Description of the forum.
+ *     @type int $forum_parent_id ID of the forum parent. Default: value of
+ *           {@link bp_forums_parent_forums_id()}.
+ *     @type bool $forum_order Order.
+ *     @type int $forum_is_category Whether the forum is a category. Default: 0.
+ * }
+ * @return int ID of the newly created forum.
+ */
 function bp_forums_new_forum( $args = '' ) {
 	do_action( 'bbpress_init' );
 
@@ -82,6 +114,23 @@ function bp_forums_new_forum( $args = '' ) {
 	return bb_new_forum( array( 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
 }
 
+/**
+ * Update a forum.
+ *
+ * Wrapper for {@link bb_update_forum(}.
+ *
+ * @param array $args {
+ *     Forum setup arguments.
+ *     @type int $forum_id ID of the forum to be updated.
+ *     @type string $forum_name Name of the forum.
+ *     @type string $forum_desc Description of the forum.
+ *     @type int $forum_parent_id ID of the forum parent. Default: value of
+ *           {@link bp_forums_parent_forums_id()}.
+ *     @type bool $forum_order Order.
+ *     @type int $forum_is_category Whether the forum is a category. Default: 0.
+ * }
+ * @return bool Ttrue on success, false on failure.
+ */
 function bp_forums_update_forum( $args = '' ) {
 	do_action( 'bbpress_init' );
 
@@ -99,6 +148,11 @@ function bp_forums_update_forum( $args = '' ) {
 	return bb_update_forum( array( 'forum_id' => (int) $forum_id, 'forum_name' => stripslashes( $forum_name ), 'forum_desc' => stripslashes( $forum_desc ), 'forum_slug' => stripslashes( $forum_slug ), 'forum_parent' => $forum_parent_id, 'forum_order' => $forum_order, 'forum_is_category' => $forum_is_category ) );
 }
 
+/**
+ * Delete a group forum by the group id.
+ *
+ * @param int $group_id ID of the group whose forum is to be deleted.
+ */
 function bp_forums_delete_group_forum( $group_id ) {
 	$forum_id = groups_get_groupmeta( $group_id, 'forum_id' );
 
@@ -111,6 +165,28 @@ add_action( 'groups_delete_group', 'bp_forums_delete_group_forum' );
 
 /** Topic Functions ***********************************************************/
 
+/**
+ * Fetch a set of forum topics.
+ *
+ * @param array $args {
+ *     @type string @type Order or filter type. Default: 'newest'.
+ *     @type int $forum_id Optional. Pass a forum ID to limit results to topics
+ *           associated with that forum.
+ *     @type int $user_id Optional. Pass a user ID to limit results to topics
+ *           belonging to that user.
+ *     @type int $page Optional. Number of the results page to return.
+ *           Default: 1.
+ *     @type int $per_page Optional. Number of results to return per page.
+ *           Default: 15.
+ *     @type int $offset Optional. Numeric offset for results.
+ *     @type int $number
+ *     @type array $exclude Optional. Topic IDs to exclude.
+ *     @type string $show_stickies Whether to show sticky topics.
+ *     @type mixed $filter If $type = 'tag', filter is the tag name. Otherwise,
+ *           $filter is terms to search on.
+ * }
+ * @return array Found topics.
+ */
 function bp_forums_get_forum_topics( $args = '' ) {
 	do_action( 'bbpress_init' );
 
@@ -157,6 +233,12 @@ function bp_forums_get_forum_topics( $args = '' ) {
 	return apply_filters_ref_array( 'bp_forums_get_forum_topics', array( &$topics, &$r ) );
 }
 
+/**
+ * Get additional details about a given forum topic.
+ *
+ * @param int $topic_id ID of the topic for which you're fetching details.
+ * @return object Details about the topic.
+ */
 function bp_forums_get_topic_details( $topic_id ) {
 	do_action( 'bbpress_init' );
 
@@ -165,6 +247,14 @@ function bp_forums_get_topic_details( $topic_id ) {
 	return $query->results[0];
 }
 
+/**
+ * Get the numeric ID of a topic from the topic slug.
+ *
+ * Wrapper for {@link bb_get_id_from_slug()}.
+ *
+ * @param string $topic_slug Slug of the topic.
+ * @return int|bool ID of the topic (if found), false on failure.
+ */
 function bp_forums_get_topic_id_from_slug( $topic_slug ) {
 	do_action( 'bbpress_init' );
 
@@ -174,6 +264,34 @@ function bp_forums_get_topic_id_from_slug( $topic_slug ) {
 	return bb_get_id_from_slug( 'topic', $topic_slug );
 }
 
+/**
+ * Create a new forum topic.
+ *
+ * @param array $args {
+ *     @type string $topic_title Title of the new topic.
+ *     @type string $topic_slug Slug of the new topic.
+ *     @type string $topic_text Text of the new topic.
+ *     @type int $topic_poster ID of the user posting the topic. Default: ID of
+ *           the logged-in user.
+ *     @type string $topic_poster_name Display name of the user posting the
+ *           topic. Default: 'fullname' of the logged-in user.
+ *     @type id $topic_last_poster ID of the user who last posted to the topic.
+ *           Default: ID of the logged-in user.
+ *     @type string $topic_last_poster_name Display name of the user who last
+ *           posted to the topic. Default: 'fullname' of the logged-in user.
+ *     @type string $topic_start_time Date/time when the topic was created.
+ *           Default: the current time, as reported by bp_core_current_time().
+ *     @type string $topic_time Date/time when the topic was created.
+ *           Default: the current time, as reported by bp_core_current_time().
+ *     @type int $topic_open Whether the topic is open. Default: 1 (open).
+ *     @type array|string|bool $topic_tags Array or comma-separated list of
+ *           topic tags. False to leave empty. Default: false.
+ *     @type int $forum_id ID of the forum to which the topic belongs.
+ *           Default: 0.
+ * }
+ * @return object Details about the new topic, as returned by
+ *         {@link bp_forums_get_topic_details()}.
+ */
 function bp_forums_new_topic( $args = '' ) {
 	global $bp;
 
@@ -221,6 +339,20 @@ function bp_forums_new_topic( $args = '' ) {
 	return $topic_id;
 }
 
+/**
+ * Update a topic's details.
+ *
+ * @param array $args {
+ *     Array of arguments.
+ *     @type int $topic_id ID of the topic being updated.
+ *     @type string $topic_title Updated title of the topic.
+ *     @type string $topic_title Updated text of the topic.
+ *     @type array|string|bool $topic_tags Array or comma-separated list of
+ *           topic tags. False to leave empty. Default: false.
+ * }
+ * @return object Details about the new topic, as returned by
+ *         {@link bp_forums_get_topic_details()}.
+ */
 function bp_forums_update_topic( $args = '' ) {
 	do_action( 'bbpress_init' );
 
@@ -269,6 +401,16 @@ function bp_forums_sticky_topic( $args = '' ) {
 	return false;
 }
 
+/**
+ * Set a topic's open/closed status.
+ *
+ * @param array $args {
+ *     @type int $topic_id ID of the topic whose status is being changed.
+ *     @type string $mode New status of the topic. 'open' or 'close'.
+ *           Default: 'close'.
+ * }
+ * @return bool True on success, false on failure.
+ */
 function bp_forums_openclose_topic( $args = '' ) {
 	do_action( 'bbpress_init' );
 
@@ -286,6 +428,14 @@ function bp_forums_openclose_topic( $args = '' ) {
 	return false;
 }
 
+/**
+ * Delete a topic.
+ *
+ * @param array $args {
+ *     @type int $topic_id ID of the topic being deleted.
+ * }
+ * @return bool True on success, false on failure.
+ */
 function bp_forums_delete_topic( $args = '' ) {
 	do_action( 'bbpress_init' );
 
@@ -297,6 +447,11 @@ function bp_forums_delete_topic( $args = '' ) {
 	return bb_delete_topic( $topic_id, 1 );
 }
 
+/**
+ * Get a count of the total topics on the site.
+ *
+ * @return int $count Total topic count.
+ */
 function bp_forums_total_topic_count() {
 	global $bbdb;
 
@@ -321,13 +476,15 @@ function bp_forums_total_topic_count() {
 
 /**
  * Check to see whether a user has already left this particular reply on a given post.
- * Prevents dupes.
  *
- * @since BuddyPress (1.6)
+ * Used to prevent dupes.
  *
- * @param string $text The text of the comment
- * @param int $topic_id The topic id
- * @param int $user_id The user id
+ * @since BuddyPress (1.6.0)
+ *
+ * @param string $text The text of the comment.
+ * @param int $topic_id The topic id.
+ * @param int $user_id The user id.
+ * @return bool True if a duplicate reply exists, otherwise false.
  */
 function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
 
@@ -360,24 +517,26 @@ function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
 	/**
 	 * Private one-time-use function used in conjunction with bp_forums_reply_exists()
 	 *
-	 * @since BuddyPress (1.7)
 	 * @access private
-	 * @global WPDB $wpdb
-	 * @param string $where
-	 * @return string
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @global WPDB $wpdb WordPress database access object.
+	 *
+	 * @param string $where SQL fragment.
+	 * @return string SQL fragment.
 	 */
 	function _bp_forums_reply_exists_posts_where( $where = '' ) {
 		return $where . " AND p.post_text = '" . buddypress()->forums->reply_exists_text . "'";
 	}
 
 /**
- * Get a total "Topics Started" count for a given user
+ * Get a total "Topics Started" count for a given user.
  *
- * @package BuddyPress
- *
- * @param int $user_id ID of the user being queried. Falls back on displayed user, then loggedin
- * @param string $type The current filter/sort type. 'active', 'popular', 'unreplied'
- * @return int $count The topic count
+ * @param int $user_id ID of the user being queried. Falls back on displayed
+ *        user, then loggedin.
+ * @param string $type The current filter/sort type. 'active', 'popular',
+ *        'unreplied'.
+ * @return int $count The topic count.
  */
 function bp_forums_total_topic_count_for_user( $user_id = 0, $type = 'active' ) {
 	do_action( 'bbpress_init' );
@@ -407,15 +566,16 @@ function bp_forums_total_topic_count_for_user( $user_id = 0, $type = 'active' ) 
 }
 
 /**
- * Return the total number of topics replied to by a given user
+ * Return the total number of topics replied to by a given user.
  *
- * Uses an unfortunate technique to count unique topics, due to limitations in BB_Query.
+ * Uses an unfortunate technique to count unique topics, due to limitations in
+ * BB_Query.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
- * @param int $user_id Defaults to displayed user, then to logged-in user
- * @return int $count
+ * @param int $user_id ID of the user whose replied topics are being counted.
+ *        Defaults to displayed user, then to logged-in user.
+ * @return int $count Topic count.
  */
 function bp_forums_total_replied_count_for_user( $user_id = 0, $type = 'active' ) {
 	do_action( 'bbpress_init' );
@@ -452,6 +612,17 @@ function bp_forums_total_replied_count_for_user( $user_id = 0, $type = 'active' 
 	return apply_filters( 'bp_forums_total_replied_count_for_user', $count, $user_id );
 }
 
+/**
+ * Fetch BP-specific details for an array of topics.
+ *
+ * Done in one fell swoop to reduce query overhead. Currently determines the
+ * following:
+ * - details about the last poster
+ * - information about topic users that may have been deleted/spammed
+ *
+ * @param array $topics Array of topics.
+ * @return array $topics Topics with BP details added.
+ */
 function bp_forums_get_topic_extras( $topics ) {
 	global $wpdb, $bbdb;
 
@@ -509,6 +680,18 @@ function bp_forums_get_topic_extras( $topics ) {
 
 /** Post Functions ************************************************************/
 
+/**
+ * Get the posts belonging to a topic.
+ *
+ * @param array $args {
+ *     @type int $topic_id ID of the topic for which posts are being fetched.
+ *     @type int $page Optional. Page of results to return. Default: 1.
+ *     @type int $page Optional. Number of results to return per page.
+ *           Default: 15.
+ *     @type string $order 'ASC' or 'DESC'. Default: 'ASC'.
+ * }
+ * @return array List of posts.
+ */
 function bp_forums_get_topic_posts( $args = '' ) {
 	do_action( 'bbpress_init' );
 
@@ -525,11 +708,29 @@ function bp_forums_get_topic_posts( $args = '' ) {
 	return bp_forums_get_post_extras( $query->results );
 }
 
+/**
+ * Get a single post object by ID.
+ *
+ * Wrapper for {@link bb_get_post()}.
+ *
+ * @param int $post_id ID of the post being fetched.
+ * @return object Post object.
+ */
 function bp_forums_get_post( $post_id ) {
 	do_action( 'bbpress_init' );
 	return bb_get_post( $post_id );
 }
 
+/**
+ * Delete a post.
+ *
+ * Wrapper for {@link bb_delete_post()}.
+ *
+ * @param array $args {
+ *     @type int $post_id ID of the post being deleted.
+ * }
+ * @return bool True on success, false on failure.
+ */
 function bp_forums_delete_post( $args = '' ) {
 	do_action( 'bbpress_init' );
 
@@ -542,6 +743,25 @@ function bp_forums_delete_post( $args = '' ) {
 	return bb_delete_post( $post_id, 1 );
 }
 
+/**
+ * Create a new post.
+ *
+ * @param array $args {
+ *     @type int $post_id Optional. ID of an existing post, if you want to
+ *           update rather than create. Default: false.
+ *     @type int $topic_id ID of the topic to which the post belongs.
+ *     @type string $post_text Contents of the post.
+ *     @type string $post_time Optional. Time when the post was recorded.
+ *           Default: current time, as reported by {@link bp_core_current_time()}.
+ *     @type int $poster_id Optional. ID of the user creating the post.
+ *           Default: ID of the logged-in user.
+ *     @type string $poster_ip Optional. IP address of the user creating the
+ *           post. Default: the IP address found in $_SERVER['REMOTE_ADDR'].
+ *     @type int $post_status Post status. Default: 0.
+ *     @type int $post_position Optional. Default: false (auto).
+ * }
+ * @return int|bool ID of the new post on success, false on failure.
+ */
 function bp_forums_insert_post( $args = '' ) {
 	do_action( 'bbpress_init' );
 
@@ -588,6 +808,16 @@ function bp_forums_insert_post( $args = '' ) {
 	return $post_id;
 }
 
+/**
+ * Get BP-specific details about a set of posts.
+ *
+ * Currently fetches the following:
+ * - WP userdata for each poster
+ * - BP fullname for each poster
+ *
+ * @param array $posts List of posts.
+ * @return array Posts with BP-data added.
+ */
 function bp_forums_get_post_extras( $posts ) {
 	global $bp, $wpdb;
 
@@ -626,6 +856,13 @@ function bp_forums_get_post_extras( $posts ) {
 	return apply_filters( 'bp_forums_get_post_extras', $posts );
 }
 
+/**
+ * Get topic and post counts for a given forum.
+ *
+ * @param int $forum_id ID of the forum.
+ * @return object Object with properties $topics (topic count) and $posts
+ *         (post count).
+ */
 function bp_forums_get_forum_topicpost_count( $forum_id ) {
 	global $wpdb, $bbdb;
 
@@ -635,6 +872,12 @@ function bp_forums_get_forum_topicpost_count( $forum_id ) {
 	return $wpdb->get_results( $wpdb->prepare( "SELECT topics, posts from {$bbdb->forums} WHERE forum_id = %d", $forum_id ) );
 }
 
+/**
+ * Map WordPress caps onto bbPress users, to ensure that they can post.
+ *
+ * @param array $allcaps Array of capabilities.
+ * @return array Caps array with bbPress caps added.
+ */
 function bp_forums_filter_caps( $allcaps ) {
 	global $wp_roles, $bb_table_prefix;
 
@@ -655,12 +898,11 @@ function bp_forums_filter_caps( $allcaps ) {
 add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
 
 /**
- * Returns the parent forum id for the bbPress abstraction layer
+ * Return the parent forum ID for the bbPress abstraction layer.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
- * @return int
+ * @return int Forum ID.
  */
 function bp_forums_parent_forum_id() {
 	return apply_filters( 'bp_forums_parent_forum_id', BP_FORUMS_PARENT_FORUM_ID );
@@ -669,23 +911,22 @@ function bp_forums_parent_forum_id() {
 /**
  * Should sticky topics be broken out of regular topic order on forum directories?
  *
- * Defaults to false. Define BP_FORUMS_ENABLE_GLOBAL_DIRECTORY_STICKIES, or filter
- * bp_forums_enable_global_directory_stickies, to change this behavior.
+ * Defaults to false. Define BP_FORUMS_ENABLE_GLOBAL_DIRECTORY_STICKIES, or
+ * filter 'bp_forums_enable_global_directory_stickies', to change this behavior.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
- * @return bool True if stickies should be displayed at the top of the global directory, false
- *    otherwise.
+ * @return bool True if stickies should be displayed at the top of the global
+ *         directory, otherwise false.
  */
 function bp_forums_enable_global_directory_stickies() {
 	return apply_filters( 'bp_forums_enable_global_directory_stickies', defined( 'BP_FORUMS_ENABLE_GLOBAL_DIRECTORY_STICKIES' ) && BP_FORUMS_ENABLE_GLOBAL_DIRECTORY_STICKIES );
 }
 
 
-/********************************************************************************
- * Caching
- *
+/** Caching ******************************************************************/
+
+/**
  * Caching functions handle the clearing of cached objects and pages on specific
  * actions throughout BuddyPress.
  */
@@ -699,14 +940,16 @@ add_action( 'bp_forums_new_post',  'bp_core_clear_cache' );
 /** Embeds *******************************************************************/
 
 /**
+ * Attempt to retrieve the oEmbed cache for a forum topic.
+ *
  * Grabs the topic post ID and attempts to retrieve the oEmbed cache (if it exists)
  * during the forum topic loop.  If no cache and link is embeddable, cache it.
+ *
+ * @since BuddyPress (1.5.0)
  *
  * @see BP_Embed
  * @see bp_embed_forum_cache()
  * @see bp_embed_forum_save_cache()
- * @package BuddyPress_Forums
- * @since BuddyPress (1.5)
  */
 function bp_forums_embed() {
 	add_filter( 'embed_post_id',         'bp_get_the_topic_post_id'         );
@@ -716,8 +959,9 @@ function bp_forums_embed() {
 add_action( 'topic_loop_start', 'bp_forums_embed' );
 
 /**
- * Wrapper function for {@link bb_get_postmeta()}.
  * Used during {@link BP_Embed::parse_oembed()} via {@link bp_forums_embed()}.
+ *
+ * Wrapper function for {@link bb_get_postmeta()}.
  *
  * @package BuddyPress_Forums
  * @since BuddyPress (1.5)
@@ -727,11 +971,11 @@ function bp_embed_forum_cache( $cache, $id, $cachekey ) {
 }
 
 /**
- * Wrapper function for {@link bb_update_postmeta()}.
  * Used during {@link BP_Embed::parse_oembed()} via {@link bp_forums_embed()}.
  *
- * @package BuddyPress_Forums
- * @since BuddyPress (1.5)
+ * Wrapper function for {@link bb_update_postmeta()}.
+ *
+ * @since BuddyPress (1.5.0)
  */
 function bp_embed_forum_save_cache( $cache, $cachekey, $id ) {
 	bb_update_postmeta( $id, $cachekey, $cache );
