@@ -602,7 +602,7 @@ class BP_Groups_Group {
 	 * @param string $type The 'type' shorthand param
 	 * @return array 'order' and 'orderby'
 	 */
-	protected function convert_type_to_order_orderby( $type = '' ) {
+	protected static function convert_type_to_order_orderby( $type = '' ) {
 		$order = $orderby = '';
 
 		switch ( $type ) {
