@@ -894,7 +894,7 @@ class BP_Activity_Activity {
 	/**
 	 * Create SQL IN clause for filter queries.
 	 *
-	 * @since BuddyPress (1.3)
+	 * @since BuddyPress (1.5)
 	 *
 	 * @see BP_Activity_Activity::get_filter_sql()
 	 *
@@ -928,7 +928,7 @@ class BP_Activity_Activity {
 	/**
 	 * Create filter SQL clauses.
 	 *
-	 * @since BuddyPress (1.3)
+	 * @since BuddyPress (1.5)
 	 *
 	 * @param array $filter_array Fields and values to filter by. Should be
 	 *     in the format:
