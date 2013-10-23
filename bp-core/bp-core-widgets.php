@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Widgets
+ * BuddyPress Core Component Widgets.
  *
  * @package BuddyPress
  * @subpackage Core
@@ -9,7 +9,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-/* Register widgets for the core component */
+/**
+ * Register bp-core widgets.
+ */
 function bp_core_register_widgets() {
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Login_Widget");') );
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Members_Widget");') );
@@ -19,7 +21,7 @@ function bp_core_register_widgets() {
 add_action( 'bp_register_widgets', 'bp_core_register_widgets' );
 
 /**
- * BuddyPress Login Widget
+ * BuddyPress Login Widget.
  *
  * @since BuddyPress (1.9.0)
  */
@@ -139,10 +141,14 @@ class BP_Core_Login_Widget extends WP_Widget {
 	}
 }
 
-/*** MEMBERS WIDGET *****************/
-
+/**
+ * Members Widget.
+ */
 class BP_Core_Members_Widget extends WP_Widget {
 
+	/**
+	 * Constructor method.
+	 */
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'A dynamic list of recently active, popular, and newest members', 'buddypress' ),
@@ -156,6 +162,14 @@ class BP_Core_Members_Widget extends WP_Widget {
 		}
 	}
 
+	/**
+	 * Display the Members widget.
+	 *
+	 * @see WP_Widget::widget() for description of parameters.
+	 *
+	 * @param array $args Widget arguments.
+	 * @param array $instance Widget settings, as saved by the user.
+	 */
 	function widget( $args, $instance ) {
 
 		extract( $args );
@@ -226,6 +240,13 @@ class BP_Core_Members_Widget extends WP_Widget {
 	<?php
 	}
 
+	/**
+	 * Update the Members widget options.
+	 *
+	 * @param array $new_instance The new instance options.
+	 * @param array $old_instance The old instance options.
+	 * @return array $instance The parsed options to be saved.
+	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 
@@ -237,6 +258,11 @@ class BP_Core_Members_Widget extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * Output the Members widget options form.
+	 *
+	 * @param $instance Settings for this widget.
+	 */
 	function form( $instance ) {
 		$defaults = array(
 			'title' 	 => __( 'Members', 'buddypress' ),
@@ -276,6 +302,9 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 class BP_Core_Whos_Online_Widget extends WP_Widget {
 
+	/**
+	 * Constructor method.
+	 */
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'Avatars of users who are currently online', 'buddypress' ),
@@ -284,6 +313,14 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		parent::__construct( false, $name = _x( "(BuddyPress) Who's Online", 'widget name', 'buddypress' ), $widget_ops );
 	}
 
+	/**
+	 * Display the Who's Online widget.
+	 *
+	 * @see WP_Widget::widget() for description of parameters.
+	 *
+	 * @param array $args Widget arguments.
+	 * @param array $instance Widget settings, as saved by the user.
+	 */
 	function widget($args, $instance) {
 
 		extract( $args );
@@ -315,6 +352,13 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	<?php
 	}
 
+	/**
+	 * Update the Who's Online widget options.
+	 *
+	 * @param array $new_instance The new instance options.
+	 * @param array $old_instance The old instance options.
+	 * @return array $instance The parsed options to be saved.
+	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags( $new_instance['title'] );
@@ -323,6 +367,11 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * Output the Who's Online widget options form.
+	 *
+	 * @param $instance Settings for this widget.
+	 */
 	function form( $instance ) {
 		$defaults = array(
 			'title' => __( "Who's Online", 'buddypress' ),
@@ -345,6 +394,9 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 class BP_Core_Recently_Active_Widget extends WP_Widget {
 
+	/**
+	 * Constructor method.
+	 */
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'Avatars of recently active members', 'buddypress' ),
@@ -353,6 +405,14 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		parent::__construct( false, $name = _x( '(BuddyPress) Recently Active Members', 'widget name', 'buddypress' ), $widget_ops );
 	}
 
+	/**
+	 * Display the Recently Active widget.
+	 *
+	 * @see WP_Widget::widget() for description of parameters.
+	 *
+	 * @param array $args Widget arguments.
+	 * @param array $instance Widget settings, as saved by the user.
+	 */
 	function widget( $args, $instance ) {
 
 		extract( $args );
@@ -384,6 +444,13 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	<?php
 	}
 
+	/**
+	 * Update the Recently Active widget options.
+	 *
+	 * @param array $new_instance The new instance options.
+	 * @param array $old_instance The old instance options.
+	 * @return array $instance The parsed options to be saved.
+	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags( $new_instance['title'] );
@@ -392,6 +459,11 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * Output the Recently Active widget options form.
+	 *
+	 * @param $instance Settings for this widget.
+	 */
 	function form( $instance ) {
 		$defaults = array(
 			'title' => __( 'Recently Active Members', 'buddypress' ),
@@ -410,8 +482,9 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	}
 }
 
-/** Widget AJAX ******************/
-
+/**
+ * AJAX request handler for Members widgets.
+ */
 function bp_core_ajax_widget_members() {
 
 	check_ajax_referer( 'bp_core_widget_members' );
