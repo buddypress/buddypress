@@ -749,6 +749,7 @@ jq(document).ready( function() {
 			var css_id = el.attr('id').split( '-' );
 			var object = css_id[0];
 			var search_terms = false;
+			var pagination_id = jq(target).closest('.pagination-links').attr('id');
 
 			if ( jq('div.dir-search input').length )
 				search_terms = jq('.dir-search input').val();
@@ -759,8 +760,14 @@ jq(document).ready( function() {
 				var page_number = Number( jq('.pagination span.current').html() ) - 1;
 			else
 				var page_number = Number( jq(target).html() );
+			
+			if ( pagination_id.indexOf( 'pag-bottom' ) !== -1 ) {
+				var caller = 'pag-bottom';
+			} else {
+				var caller = null;
+			}
 
-			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope'), 'div.' + object, search_terms, page_number, jq.cookie('bp-' + object + '-extras') );
+			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope'), 'div.' + object, search_terms, page_number, jq.cookie('bp-' + object + '-extras'), caller );
 
 			return false;
 		}
@@ -1376,7 +1383,7 @@ function bp_init_objects(objects) {
 }
 
 /* Filter the current content list (groups/members/blogs/topics) */
-function bp_filter_request( object, filter, scope, target, search_terms, page, extras ) {
+function bp_filter_request( object, filter, scope, target, search_terms, page, extras, caller ) {
 	if ( 'activity' == object )
 		return false;
 
@@ -1423,10 +1430,23 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	},
 	function(response)
 	{
-		jq(target).fadeOut( 100, function() {
-			jq(this).html(response);
-			jq(this).fadeIn(100);
-		});
+		/* animate to top if called from bottom pagination */
+		if ( caller == 'pag-bottom' && jq('#subnav').length ) {
+			var top = jq('#subnav').parent();
+			jq('html,body').animate({scrollTop: top.offset().top}, 'slow', function() {
+				jq(target).fadeOut( 100, function() {
+					jq(this).html(response);
+					jq(this).fadeIn(100);
+			 	});
+			});	
+
+		} else {
+			jq(target).fadeOut( 100, function() {
+				jq(this).html(response);
+				jq(this).fadeIn(100);
+		 	});
+		}
+
 		jq('.item-list-tabs li.selected').removeClass('loading');
 	});
 }
