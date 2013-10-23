@@ -522,7 +522,6 @@ class BP_Groups_Group {
 
 		// Populate some extra information instead of querying each time in the loop
 		if ( !empty( $r['populate_extras'] ) ) {
-			$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $r['type'] );
 		}
 
@@ -705,8 +704,9 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $populate_extras ) ) {
-			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
+			foreach ( (array) $paged_groups as $group ) {
+				$group_ids[] = $group->id;
+			}
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -746,8 +746,9 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $populate_extras ) ) {
-			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
+			foreach ( (array) $paged_groups as $group ) {
+				$group_ids[] = $group->id;
+			}
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -789,7 +790,6 @@ class BP_Groups_Group {
 			foreach ( (array) $paged_groups as $group ) {
 				$group_ids[] = $group->id;
 			}
-			$group_ids    = implode( ',', wp_parse_id_list( $group_ids ) );
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
@@ -828,8 +828,9 @@ class BP_Groups_Group {
 		}
 
 		if ( !empty( $populate_extras ) ) {
-			foreach ( (array) $paged_groups as $group ) $group_ids[] = $group->id;
-			$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
+			foreach ( (array) $paged_groups as $group ) {
+				$group_ids[] = $group->id;
+			}
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
 		}
 
