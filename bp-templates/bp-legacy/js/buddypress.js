@@ -1009,6 +1009,13 @@ jq(document).ready( function() {
 
 	/** Group Join / Leave Buttons **************************************/
 
+	// Confirmation when clicking Leave Group in group headers
+	jq('#buddypress').on('click', '.group-button .leave-group', function() {
+		if ( false == confirm( BP_DTheme.leave_group_confirm ) ) {
+			return false;
+		}
+	});
+
 	jq('#groups-dir-list').on('click', '.group-button a', function() {
 		var gid = jq(this).parent().attr('id');
 		gid = gid.split('-');
@@ -1020,6 +1027,12 @@ jq(document).ready( function() {
 		nonce = nonce[0];
 
 		var thelink = jq(this);
+
+		// Leave Group confirmation within directories - must intercept
+		// AJAX request
+		if ( thelink.hasClass( 'leave-group' ) && false == confirm( BP_DTheme.leave_group_confirm ) ) {
+			return false;
+		}
 
 		jq.post( ajaxurl, {
 			action: 'joinleave_group',

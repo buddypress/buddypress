@@ -240,6 +240,7 @@ class BP_Legacy extends BP_Theme_Compat {
 			'mark_as_fav'	    => __( 'Favorite', 'buddypress' ),
 			'remove_fav'	    => __( 'Remove Favorite', 'buddypress' ),
 			'unsaved_changes'   => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
+			'leave_group_confirm' => __( 'Are you sure you want to leave this group?', 'buddypress' ),
 		);
 		wp_localize_script( $asset['handle'], 'BP_DTheme', $params );
 
