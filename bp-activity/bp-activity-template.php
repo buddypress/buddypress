@@ -1561,7 +1561,7 @@ function bp_activity_user_can_delete( $activity = false ) {
 	if ( bp_is_item_admin() && bp_is_single_item() )
 		$can_delete = true;
 
-	return apply_filters( 'bp_activity_user_can_delete', $can_delete );
+	return apply_filters( 'bp_activity_user_can_delete', $can_delete, $activity );
 }
 
 /**
