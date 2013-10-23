@@ -171,7 +171,8 @@ class BP_Component {
 	 *     @type string $root_slug The component root slug. Note that this
 	 *           value is generally unused if the component has a root
 	 *           directory (the slug will be overridden by the post_name of
-	 *           the directory page).
+	 *           the directory page). Default: the slug of the directory
+	 *           page if one is found, otherwise an empty string.
 	 *     @type bool $has_directory Set to true if the component requires
 	 *           an associated WordPress page.
 	 *     @type callable $notification_callback Optional. The callable
@@ -186,9 +187,13 @@ class BP_Component {
 
 		/** Slugs *************************************************************/
 
+		// If a WP directory page exists for the component, it should
+		// be the default value of 'root_slug'.
+		$default_root_slug = isset( buddypress()->pages->{$this->id}->slug ) ? buddypress()->pages->{$this->id}->slug : '';
+
 		$r = wp_parse_args( $args, array(
 			'slug'                  => $this->id,
-			'root_slug'             => '',
+			'root_slug'             => $default_root_slug,
 			'has_directory'         => false,
 			'notification_callback' => '',
 			'search_string'         => '',
