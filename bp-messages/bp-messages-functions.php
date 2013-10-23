@@ -74,31 +74,26 @@ function messages_new_message( $args = '' ) {
 
 			$recipient_id = false;
 
-			// input was numeric
-			if ( is_numeric( $recipient ) ) {
-				// do a check against the user ID column first
-				if ( bp_core_get_core_userdata( (int) $recipient ) )
-					$recipient_id = (int) $recipient;
-
-				// if that fails, check against the user_login / user_nicename column
-				else {
-					if ( bp_is_username_compatibility_mode() )
-						$recipient_id = bp_core_get_userid( (int) $recipient );
-					else
-						$recipient_id = bp_core_get_userid_from_nicename( (int) $recipient );
-				}
-
+			// check user_login / nicename columns first
+			// @see http://buddypress.trac.wordpress.org/ticket/5151
+			if ( bp_is_username_compatibility_mode() ) {
+				$recipient_id = bp_core_get_userid( $recipient );
 			} else {
-				if ( bp_is_username_compatibility_mode() )
-					$recipient_id = bp_core_get_userid( $recipient );
-				else
-					$recipient_id = bp_core_get_userid_from_nicename( $recipient );
+				$recipient_id = bp_core_get_userid_from_nicename( $recipient );
 			}
 
-			if ( !$recipient_id )
+			// check against user ID column if no match and if passed recipient is numeric
+			if ( ! $recipient_id && is_numeric( $recipient ) ) {
+				if ( bp_core_get_core_userdata( (int) $recipient ) ) {
+					$recipient_id = (int) $recipient;
+				}
+			}
+
+			if ( ! $recipient_id ) {
 				$invalid_recipients[] = $recipient;
-			else
+			} else {
 				$recipient_ids[] = (int) $recipient_id;
+			}
 		}
 
 		// Strip the sender from the recipient list if they exist
