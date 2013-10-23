@@ -628,8 +628,10 @@ function bp_get_canonical_url( $args = array() ) {
 		$front_page_component = array_search( $page_on_front, bp_core_get_directory_page_ids() );
 
 		// If requesting the front page component directory, canonical
-		// URL is the front page
-		if ( false !== $front_page_component && is_page( $page_on_front ) ) {
+		// URL is the front page. We detect whether we're detecting a
+		// component *directory* by checking that bp_current_action()
+		// is empty - ie, this not a single item or a feed
+		if ( false !== $front_page_component && bp_is_current_component( $front_page_component ) && ! bp_current_action() ) {
 			$bp->canonical_stack['canonical_url'] = trailingslashit( bp_get_root_domain() );
 
 		// Except when the front page is set to the registration page
