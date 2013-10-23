@@ -1183,6 +1183,7 @@ class BP_Activity_Feed {
 
 		$this->activity_args    = wp_parse_args( $this->activity_args, array(
 			'max'              => $this->max,
+			'per_page'         => $this->max,
 			'display_comments' => 'stream'
 		) );
 
