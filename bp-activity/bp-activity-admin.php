@@ -964,6 +964,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'ajax'     => false,
 			'plural'   => 'activities',
 			'singular' => 'activity',
+			'screen'   => get_current_screen(),
 		) );
 	}
 
@@ -973,7 +974,6 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.6.0)
 	 */
 	function prepare_items() {
-		$screen = get_current_screen();
 
 		// Option defaults
 		$filter           = array();
@@ -986,7 +986,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$page = $this->get_pagenum();
 
 		// Set per page from the screen options
-		$per_page = $this->get_items_per_page( str_replace( '-', '_', "{$screen->id}_per_page" ) );
+		$per_page = $this->get_items_per_page( str_replace( '-', '_', "{$this->screen->id}_per_page" ) );
 
 		// Check if we're on the "Spam" view
 		if ( !empty( $_REQUEST['activity_status'] ) && 'spam' == $_REQUEST['activity_status'] ) {
