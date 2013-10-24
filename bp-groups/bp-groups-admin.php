@@ -233,12 +233,16 @@ function bp_groups_admin_load() {
 
 				// Make sure the user exists before attempting
 				// to add to the group
-				if ( ! $user_id = username_exists( $un ) ) {
-					$error_new[]   = $un;
-				} else if ( ! groups_join_group( $group_id, $user_id ) ) {
-					$error_new[]   = $un;
+				$user = get_user_by( 'slug', $un );
+
+				if ( empty( $user ) ) {
+					$error_new[] = $un;
 				} else {
-					$success_new[] = $un;
+					if ( ! groups_join_group( $group_id, $user->ID ) ) {
+						$error_new[]   = $un;
+					} else {
+						$success_new[] = $un;
+					}
 				}
 			}
 		}
@@ -977,8 +981,8 @@ function bp_groups_admin_autocomplete_handler() {
 	foreach ( (array) $users as $user ) {
 		$return[] = array(
 			/* translators: 1: user_login, 2: user_email */
-			'label' => sprintf( __( '%1$s (%2$s)' ), $user->user_login, $user->user_email ),
-			'value' => $user->user_login,
+			'label' => sprintf( __( '%1$s (%2$s)' ), bp_is_username_compatibility_mode() ? $user->user_login : $user->user_nicename, $user->user_email ),
+			'value' => $user->user_nicename,
 		);
 	}
 
