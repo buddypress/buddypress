@@ -1270,14 +1270,16 @@ class BP_Activity_Feed {
 		}
 	}
 
-	/** OUTPUT ***************************************************************/
-
 	/**
-	 * Output the RSS feed.
+	 * Sets various HTTP headers related to Content-Type and browser caching.
+	 *
+	 * Most of this class method is derived from {@link WP::send_headers()}.
+	 *
+	 * @since BuddyPress (1.9.0)
 	 *
 	 * @access protected
 	 */
-	protected function output() {
+	protected function http_headers() {
 		// set up some additional headers if not on a directory page
 		// this is done b/c BP uses pseudo-pages
 		if ( ! bp_is_directory() ) {
@@ -1287,7 +1289,72 @@ class BP_Activity_Feed {
 			status_header( 200 );
 		}
 
-		header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
+		// Set content-type
+		@header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
+
+		// Cache-related variables
+		$last_modified      = mysql2date( 'D, d M Y H:i:s O', bp_activity_get_last_updated(), false );
+		$modified_timestamp = strtotime( $last_modified );
+		$etag               = md5( $last_modified );
+	
+		// Set cache-related headers
+		@header( 'Last-Modified: ' . $last_modified );
+		@header( 'Pragma: no-cache' );
+		@header( 'ETag: ' . '"' . $etag . '"' );
+	
+		// First commit of BuddyPress! (Easter egg)
+		@header( 'Expires: Tue, 25 Mar 2008 17:13:55 GMT');
+	
+		// Get ETag from supported user agents
+		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ) {
+			$client_etag = wp_unslash( $_SERVER['HTTP_IF_NONE_MATCH'] );
+	
+			// Remove quotes from ETag
+			$client_etag = trim( $client_etag, '"' );
+	
+			// Strip suffixes from ETag if they exist (eg. "-gzip")
+			if ( $etag_suffix_pos = strpos( $client_etag, '-' ) ) {
+				$client_etag = substr( $client_etag, 0, $etag_suffix_pos );
+			}
+
+		// No ETag found
+		} else {
+			$client_etag = false;
+		}
+	
+		// Get client last modified timestamp from supported user agents
+		$client_last_modified      = empty( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ? '' : trim( $_SERVER['HTTP_IF_MODIFIED_SINCE'] );
+		$client_modified_timestamp = $client_last_modified ? strtotime( $client_last_modified ) : 0;
+	
+		// Set 304 status if feed hasn't been updated since last fetch
+		if ( ( $client_last_modified && $client_etag ) ?
+				 ( ( $client_modified_timestamp >= $modified_timestamp ) && ( $client_etag == $etag ) ) :
+				 ( ( $client_modified_timestamp >= $modified_timestamp ) || ( $client_etag == $etag ) ) ) {
+			$status = 304;
+		} else {
+			$status = false;
+		}
+	
+		// If feed hasn't changed as reported by the user agent, set 304 status header
+		if ( ! empty( $status ) ) {
+			status_header( $status );
+	
+			// cached response, so stop now!
+			if ( $status == 304 ) {
+				exit();
+			}
+		}
+	}
+
+	/** OUTPUT ***************************************************************/
+
+	/**
+	 * Output the RSS feed.
+	 *
+	 * @access protected
+	 */
+	protected function output() {
+		$this->http_headers();
 		echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?'.'>';
 	?>
 
