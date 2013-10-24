@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress URI catcher
+ * BuddyPress URI catcher.
  *
  * Functions for parsing the URI and determining which BuddyPress template file
  * to use on-screen.
@@ -14,12 +14,13 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Analyzes the URI structure and breaks it down into parts for use in code.
- * BuddyPress can use complete custom friendly URI's without the user having to
- * add new re-write rules. Custom components are able to use their own custom
+ * Analyze the URI and break it down into BuddyPress-usable chunks.
+ *
+ * BuddyPress can use complete custom friendly URIs without the user having to
+ * add new rewrite rules. Custom components are able to use their own custom
  * URI structures with very little work.
  *
- * The URI's are broken down as follows:
+ * The URIs are broken down as follows:
  *   - http:// domain.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  *   - OUTSIDE ROOT: http:// domain.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  *
@@ -29,8 +30,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *    - $bp->current_action: string 'edit'
  *    - $bp->action_variables: array ['group', 5]
  *
- * @package BuddyPress Core
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  */
 function bp_core_set_uri_globals() {
 	global $bp, $current_blog, $wp_rewrite;
@@ -316,10 +316,11 @@ function bp_core_set_uri_globals() {
 }
 
 /**
- * Are root profiles enabled and allowed
+ * Are root profiles enabled and allowed?
  *
- * @since BuddyPress (1.6)
- * @return bool True if yes, false if no
+ * @since BuddyPress (1.6.0)
+ *
+ * @return bool True if yes, false if no.
  */
 function bp_core_enable_root_profiles() {
 
@@ -339,9 +340,8 @@ function bp_core_enable_root_profiles() {
  * Loads:
  *   wp-content/themes/[activated_theme]/members/index.php
  *
- * @package BuddyPress Core
- * @param string $username Username to check.
- * @return int|bool The user ID of the matched user, or false.
+ * @param array $templates Array of templates to attempt to load.
+ * @return bool|null Returns false on failure.
  */
 function bp_core_load_template( $templates ) {
 	global $post, $bp, $wp_query, $wpdb;
@@ -412,11 +412,7 @@ function bp_core_load_template( $templates ) {
 }
 
 /**
- * bp_core_catch_profile_uri()
- *
- * If the extended profiles component is not installed we still need
- * to catch the /profile URI's and display whatever we have installed.
- *
+ * Redirect away from /profile URIs if XProfile is not enabled.
  */
 function bp_core_catch_profile_uri() {
 	if ( !bp_is_active( 'xprofile' ) ) {
@@ -425,10 +421,9 @@ function bp_core_catch_profile_uri() {
 }
 
 /**
- * Catches invalid access to BuddyPress pages and redirects them accordingly.
+ * Catch unauthorized access to certain BuddyPress pages and redirect accordingly.
  *
- * @package BuddyPress Core
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  */
 function bp_core_catch_no_access() {
 	global $bp, $wp_query;
@@ -445,12 +440,26 @@ function bp_core_catch_no_access() {
 add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
 
 /**
- * Redirects a user to login for BP pages that require access control and adds an error message (if
- * one is provided).
+ * Redirect a user to log in for BP pages that require access control.
+ *
+ * Add an error message (if one is provided).
+ *
  * If authenticated, redirects user back to requested content by default.
  *
- * @package BuddyPress Core
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
+ *
+ * @param array $args {
+ *     @type int $mode Specifies the destintation of the redirect. 1 will
+ *           direct to the root domain (home page), which assumes you have a
+ *           log-in form there; 2 directs to wp-login.php. Default: 2.
+ *     @type string $redirect The URL the user will be redirected to after
+ *           successfully logging in. Default: the URL originally requested.
+ *     @type string $root The root URL of the site, used in case of error or
+ *           mode 1 redirects. Default: the value of {@link bp_get_root_domain()}.
+ *     @type string $message An error message to display to the user on the
+ *           log-in page. Default: "You must log in to access the page you
+ *           requested."
+ * }
  */
 function bp_core_no_access( $args = '' ) {
 
@@ -512,12 +521,13 @@ function bp_core_no_access( $args = '' ) {
 }
 
 /**
- * Adds an error message to wp-login.php.
+ * Add an error message to wp-login.php.
+ *
  * Hooks into the "bpnoaccess" action defined in bp_core_no_access().
  *
- * @package BuddyPress Core
- * @global $error
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
+ *
+ * @global $error Error message to pass to wp-login.php
  */
 function bp_core_no_access_wp_login_error() {
 	global $error;
@@ -530,17 +540,19 @@ function bp_core_no_access_wp_login_error() {
 add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
 
 /**
- * Canonicalizes BuddyPress URLs
+ * Canonicalize BuddyPress URLs.
  *
- * This function ensures that requests for BuddyPress content are always redirected to their
- * canonical versions. Canonical versions are always trailingslashed, and are typically the most
- * general possible versions of the URL - eg, example.com/groups/mygroup/ instead of
- * example.com/groups/mygroup/home/
+ * This function ensures that requests for BuddyPress content are always
+ * redirected to their canonical versions. Canonical versions are always
+ * trailingslashed, and are typically the most general possible versions of the
+ * URL - eg, example.com/groups/mygroup/ instead of
+ * example.com/groups/mygroup/home/.
  *
- * @since BuddyPress (1.6)
- * @see BP_Members_Component::setup_globals() where $bp->canonical_stack['base_url'] and
- *   ['component'] may be set
- * @see bp_core_new_nav_item() where $bp->canonical_stack['action'] may be set
+ * @since BuddyPress (1.6.0)
+ *
+ * @see BP_Members_Component::setup_globals() where
+ *      $bp->canonical_stack['base_url'] and ['component'] may be set.
+ * @see bp_core_new_nav_item() where $bp->canonical_stack['action'] may be set.
  * @uses bp_get_canonical_url()
  * @uses bp_get_requested_url()
  */
@@ -588,9 +600,9 @@ function bp_redirect_canonical() {
 }
 
 /**
- * Output rel=canonical header tag for BuddyPress content
+ * Output rel=canonical header tag for BuddyPress content.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  */
 function bp_rel_canonical() {
 	$canonical_url = bp_get_canonical_url();
@@ -600,12 +612,18 @@ function bp_rel_canonical() {
 }
 
 /**
- * Returns the canonical URL of the current page
+ * Get the canonical URL of the current page.
  *
- * @since BuddyPress (1.6)
- * @uses apply_filters() Filter bp_get_canonical_url to modify return value
- * @param array $args
- * @return string
+ * @since BuddyPress (1.6.0)
+ *
+ * @uses apply_filters() Filter bp_get_canonical_url to modify return value.
+ *
+ * @param array $args {
+ *     Optional array of arguments.
+ *     @type bool $include_query_args Whether to include current URL arguments
+ *           in the canonical URL returned from the function.
+ * }
+ * @return string Canonical URL for the current page.
  */
 function bp_get_canonical_url( $args = array() ) {
 	global $bp;
@@ -683,10 +701,11 @@ function bp_get_canonical_url( $args = array() ) {
 }
 
 /**
- * Returns the URL as requested on the current page load by the user agent
+ * Return the URL as requested on the current page load by the user agent.
  *
- * @since BuddyPress (1.6)
- * @return string
+ * @since BuddyPress (1.6.0)
+ *
+ * @return string Requested URL string.
  */
 function bp_get_requested_url() {
 	global $bp;
@@ -700,14 +719,16 @@ function bp_get_requested_url() {
 }
 
 /**
- * Remove WordPress's really awesome canonical redirect if we are trying to load
- * BuddyPress specific content. Avoids issues with WordPress thinking that a
- * BuddyPress URL might actually be a blog post or page.
+ * Remove WP's canonical redirect when we are trying to load BP-specific content.
+ *
+ * Avoids issues with WordPress thinking that a BuddyPress URL might actually
+ * be a blog post or page.
  *
  * This function should be considered temporary, and may be removed without
  * notice in future versions of BuddyPress.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
+ *
  * @uses bp_is_blog_page()
  */
 function _bp_maybe_remove_redirect_canonical() {
@@ -717,7 +738,7 @@ function _bp_maybe_remove_redirect_canonical() {
 add_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
 
 /**
- * Rehook maybe_redirect_404() to run later than the default
+ * Rehook maybe_redirect_404() to run later than the default.
  *
  * WordPress's maybe_redirect_404() allows admins on a multisite installation
  * to define 'NOBLOGREDIRECT', a URL to which 404 requests will be redirected.
@@ -752,13 +773,12 @@ function _bp_rehook_maybe_redirect_404() {
 add_action( 'template_redirect', '_bp_rehook_maybe_redirect_404', 1 );
 
 /**
- * Remove WordPress's rel=canonical HTML tag if we are trying to load BuddyPress
- * specific content.
+ * Remove WP's rel=canonical HTML tag if we are trying to load BP-specific content.
  *
  * This function should be considered temporary, and may be removed without
  * notice in future versions of BuddyPress.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  */
 function _bp_maybe_remove_rel_canonical() {
 	if ( ! bp_is_blog_page() && ! is_404() ) {
