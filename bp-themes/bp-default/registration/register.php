@@ -50,6 +50,8 @@
 					<?php do_action( 'bp_signup_password_confirm_errors' ); ?>
 					<input type="password" name="signup_password_confirm" id="signup_password_confirm" value="" />
 
+					<?php do_action( 'bp_account_details_fields' ); ?>
+
 				</div><!-- #basic-details-section -->
 
 				<?php do_action( 'bp_after_account_details_fields' ); ?>
@@ -189,6 +191,8 @@
 
 						<?php endwhile; endif; endif; ?>
 
+						<?php do_action( 'bp_signup_profile_fields' ); ?>
+
 					</div><!-- #profile-details-section -->
 
 					<?php do_action( 'bp_after_signup_profile_fields' ); ?>
@@ -227,6 +231,8 @@
 
 							<label><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php if ( 'public' == bp_get_signup_blog_privacy_value() || !bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes', 'buddypress' ); ?></label>
 							<label><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_private" value="private"<?php if ( 'private' == bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'No', 'buddypress' ); ?></label>
+
+							<?php do_action( 'bp_blog_details_fields' ); ?>
 
 						</div>
 
