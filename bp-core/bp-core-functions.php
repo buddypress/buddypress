@@ -364,7 +364,7 @@ function bp_core_get_directory_pages() {
  * @param array $default_components Components to create pages for.
  * @param string $existing 'delete' if you want to delete existing page
  *   mappings and replace with new ones. Otherwise existing page mappings
- *   are kept, and the gaps filled in with new pages. Default: 'keepy'.
+ *   are kept, and the gaps filled in with new pages. Default: 'keep'.
  */
 function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 
