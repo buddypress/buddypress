@@ -85,7 +85,7 @@
 
 	<?php do_action( 'bp_before_activity_entry_comments' ); ?>
 
-	<?php if ( is_user_logged_in() && bp_activity_can_comment() ) : ?>
+	<?php if ( ( is_user_logged_in() && bp_activity_can_comment() ) || bp_is_single_activity() ) : ?>
 
 		<div class="activity-comments">
 
