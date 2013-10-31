@@ -2702,9 +2702,9 @@ function bp_send_public_message_link() {
 	 *
 	 * @since BuddyPress (1.2)
 	 *
-	 * @global object $bp BuddyPress global settings
-	 * @uses bp_is_my_profile()
 	 * @uses is_user_logged_in()
+	 * @uses bp_is_my_profile()
+	 * @uses bp_is_user()
 	 * @uses wp_nonce_url()
 	 * @uses bp_loggedin_user_domain()
 	 * @uses bp_get_activity_slug()
@@ -2714,12 +2714,11 @@ function bp_send_public_message_link() {
 	 * @return string The public message link for the displayed user.
 	 */
 	function bp_get_send_public_message_link() {
-		global $bp;
 
-		if ( bp_is_my_profile() || !is_user_logged_in() )
+		if ( ! is_user_logged_in() || ! bp_is_user() || bp_is_my_profile() )
 			return false;
 
-		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_get_activity_directory_permalink() . '?r=' . bp_core_get_username( bp_displayed_user_id(), bp_get_displayed_user_username(), $bp->displayed_user->userdata->user_login ) ) );
+		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_get_activity_directory_permalink() . '?r=' . bp_get_displayed_user_username() ) );
 	}
 
 /**
