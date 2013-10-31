@@ -2706,9 +2706,7 @@ function bp_send_public_message_link() {
 	 * @uses bp_is_my_profile()
 	 * @uses bp_is_user()
 	 * @uses wp_nonce_url()
-	 * @uses bp_loggedin_user_domain()
-	 * @uses bp_get_activity_slug()
-	 * @uses bp_core_get_username()
+	 * @uses bp_get_activity_directory_permalink()
 	 * @uses apply_filters() To call the 'bp_get_send_public_message_link' hook
 	 *
 	 * @return string The public message link for the displayed user.
