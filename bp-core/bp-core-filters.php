@@ -279,6 +279,9 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	// Send the email
 	wp_mail( $to, $subject, $message );
 
+	// Set up the $admin_email to pass to the filter
+	$admin_email = bp_get_option( 'admin_email' );
+
 	do_action( 'bp_core_sent_blog_signup_email', $admin_email, $subject, $message, $domain, $path, $title, $user, $user_email, $key, $meta );
 
 	// Return false to stop the original WPMU function from continuing
@@ -314,6 +317,9 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 
 	// Send the email
 	wp_mail( $to, $subject, $message );
+
+	// Set up the $admin_email to pass to the filter
+	$admin_email = bp_get_option( 'admin_email' );
 
 	do_action( 'bp_core_sent_user_signup_email', $admin_email, $subject, $message, $user, $user_email, $key, $meta );
 
