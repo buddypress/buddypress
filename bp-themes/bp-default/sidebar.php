@@ -53,7 +53,6 @@
 
 			<?php do_action( 'bp_sidebar_login_form' ); ?>
 
-			<input type="hidden" name="testcookie" value="1" />
 		</form>
 
 		<?php do_action( 'bp_after_sidebar_login_form' ); ?>
