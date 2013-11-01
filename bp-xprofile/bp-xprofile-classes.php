@@ -188,7 +188,7 @@ class BP_XProfile_Group {
 			}
 
 			// Remove data-less fields, if necessary
-			if ( !empty( $hide_empty_fields ) ) {
+			if ( !empty( $hide_empty_fields ) && ! empty( $field_ids ) && ! empty( $field_data ) ) {
 
 				// Loop through the results and find the fields that have data.
 				foreach( (array) $field_data as $data ) {
@@ -210,11 +210,10 @@ class BP_XProfile_Group {
 
 				// Reset indexes
 				$fields = array_values( $fields );
-
 			}
 
 			// Field data was found
-			if ( !empty( $field_data ) && !is_wp_error( $field_data ) ) {
+			if ( ! empty( $fields ) && !empty( $field_data ) && !is_wp_error( $field_data ) ) {
 
 				// Loop through fields
 				foreach( (array) $fields as $field_key => $field ) {
@@ -224,9 +223,9 @@ class BP_XProfile_Group {
 
 						// Assign correct data value to the field
 						if ( $field->id == $data->field_id ) {
-							$fields[$field_key]->data = new stdClass;
+							$fields[$field_key]->data        = new stdClass;
 							$fields[$field_key]->data->value = $data->value;
-							$fields[$field_key]->data->id = $data->id;
+							$fields[$field_key]->data->id    = $data->id;
 						}
 					}
 				}
