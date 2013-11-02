@@ -64,8 +64,8 @@ class BPTest_Group_Extension_Setup_Screens_Use_Global_Fallbacks extends BP_Group
 		return $this->setup_class_info();
 	}
 
-	function settings_screen() {}
-	function settings_screen_save() {}
+	function settings_screen( $group_id = null ) {}
+	function settings_screen_save( $group_id = null ) {}
 }
 
 class BPTest_Group_Extension_Setup_Screens_Define_Edit_Screens_Locally extends BP_Group_Extension {
@@ -75,10 +75,10 @@ class BPTest_Group_Extension_Setup_Screens_Define_Edit_Screens_Locally extends B
 		$this->name = $class_name;
 	}
 
-	function edit_screen() {}
-	function edit_screen_save() {}
-	function settings_screen() {}
-	function settings_screen_save() {}
+	function edit_screen( $group_id = null ) {}
+	function edit_screen_save( $group_id = null ) {}
+	function settings_screen( $group_id = null ) {}
+	function settings_screen_save( $group_id = null ) {}
 
 	/**
 	 * Provides access to protected method unneeded in BP
@@ -140,9 +140,9 @@ class BPTest_Group_Extension_Get_Screen_Callback_Fallbacks extends BP_Group_Exte
 		parent::init( $args );
 	}
 
-	function settings_screen() {}
-	function settings_screen_save() {}
+	function settings_screen( $group_id = null ) {}
+	function settings_screen_save( $group_id = null ) {}
 
-	function edit_screen() {}
-	function edit_screen_save() {}
+	function edit_screen( $group_id = null ) {}
+	function edit_screen_save( $group_id = null ) {}
 }
