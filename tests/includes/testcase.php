@@ -300,4 +300,18 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$blog_1_url = get_blog_option( 1, 'home' );
 		$this->go_to( str_replace( $blog_1_url, '', trailingslashit( bp_get_root_domain() ) ) );
 	}
+
+	/**
+	 * Set up globals necessary to avoid errors when using wp_mail()
+	 */
+	public function setUp_wp_mail() {
+		$_SERVER['SERVER_NAME'] = 'example.com';
+	}
+
+	/**
+	 * Tear down globals set up in setUp_wp_mail()
+	 */
+	public function tearDown_wp_mail() {
+		unset( $_SERVER['SERVER_NAME'] );
+	}
 }

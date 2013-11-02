@@ -44,7 +44,9 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
 
+		$this->setUp_wp_mail();
 		friends_add_friend( $u1, $u2 );
+		$this->tearDown_wp_mail();
 
 		$old_user = get_current_user_id();
 		$this->set_current_user( $u2 );
