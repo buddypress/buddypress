@@ -30,7 +30,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 		$a = $this->factory->activity->create();
 		$activity = $this->factory->activity->get_object_by_id( $a );
 
-		$url = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
+		$url = bp_core_get_user_domain( $activity->user_id ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 		$this->go_to( $url );
 		$this->assertTrue( bp_is_single_activity() );
 	}
