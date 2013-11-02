@@ -152,9 +152,9 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	public function test_total_member_count_groups_leave_group() {
 		$u1 = $this->create_user();
 		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
-		groups_join_group( $g1, $u2 );
+		groups_join_group( $g1, $g1 );
 
-		groups_leave_group( $g1, $u2 );
+		groups_leave_group( $g1, $g1 );
 		$this->assertEquals( 1, groups_get_groupmeta( $g1, 'total_member_count' ) );
 	}
 
