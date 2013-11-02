@@ -1024,7 +1024,7 @@ function bp_loggedin_user_id() {
  * @return bool Returns true if the component matches, or else false.
  */
 function bp_is_current_component( $component ) {
-	global $bp;
+	global $bp, $wp_query;
 
 	$is_current_component = false;
 
@@ -1079,7 +1079,7 @@ function bp_is_current_component( $component ) {
 		}
 
 	// Page template fallback check if $bp->current_component is empty
-	} elseif ( !is_admin() && is_page() ) {
+	} elseif ( !is_admin() && is_a( $wp_query, 'WP_Query' ) && is_page() ) {
 		global $wp_query;
 		$page          = $wp_query->get_queried_object();
 		$custom_fields = get_post_custom_values( '_wp_page_template', $page->ID );
