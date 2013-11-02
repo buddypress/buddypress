@@ -303,7 +303,7 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
 	 * joined_group activity so users cannot flood the activity stream by
 	 * joining/leaving the group in quick succession.
 	 */
-	if ( bp_is_active( 'activity' ) && gmmktime() <= strtotime( '+5 minutes', (int)strtotime( $membership->date_modified ) ) )
+	if ( bp_is_active( 'activity' ) && time() <= strtotime( '+5 minutes', (int)strtotime( $membership->date_modified ) ) )
 		bp_activity_delete( array( 'component' => $bp->groups->id, 'type' => 'joined_group', 'user_id' => $user_id, 'item_id' => $group_id ) );
 
 	bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
