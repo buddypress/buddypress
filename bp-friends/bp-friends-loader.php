@@ -59,7 +59,11 @@ class BP_Friends_Component extends BP_Component {
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
 
-		define ( 'BP_FRIENDS_DB_VERSION', '1800' );
+		// Deprecated. Do not use.
+		// Defined conditionally to support unit tests.
+		if ( ! defined( 'BP_FRIENDS_DB_VERSION' ) ) {
+			define( 'BP_FRIENDS_DB_VERSION', '1800' );
+		}
 
 		// Define a slug, if necessary
 		if ( !defined( 'BP_FRIENDS_SLUG' ) )

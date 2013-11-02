@@ -85,10 +85,16 @@ class BP_XProfile_Component extends BP_Component {
 		if ( !defined( 'BP_XPROFILE_SLUG' ) )
 			define( 'BP_XPROFILE_SLUG', 'profile' );
 
-		// Assign the base group and fullname field names to constants to use
-		// in SQL statements
-		define ( 'BP_XPROFILE_BASE_GROUP_NAME',     stripslashes( $bp->site_options['bp-xprofile-base-group-name']     ) );
-		define ( 'BP_XPROFILE_FULLNAME_FIELD_NAME', stripslashes( $bp->site_options['bp-xprofile-fullname-field-name'] ) );
+		// Assign the base group and fullname field names to constants
+		// to use in SQL statements.
+		// Defined conditionally to accommodate unit tests
+		if ( ! defined( 'BP_XPROFILE_BASE_GROUP_NAME' ) ) {
+			define( 'BP_XPROFILE_BASE_GROUP_NAME', stripslashes( $bp->site_options['bp-xprofile-base-group-name'] ) );
+		}
+
+		if ( ! defined( 'BP_XPROFILE_FULLNAME_FIELD_NAME' ) ) {
+			define( 'BP_XPROFILE_FULLNAME_FIELD_NAME', stripslashes( $bp->site_options['bp-xprofile-fullname-field-name'] ) );
+		}
 
 		// Set the support field type ids
 		$this->field_types = apply_filters( 'xprofile_field_types', array(
