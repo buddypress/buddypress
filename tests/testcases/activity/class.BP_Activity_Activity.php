@@ -34,7 +34,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 
 		$comments = $this->factory->activity->create_many( 3, array(
-			'item_id' => $parent_activity->id,
+			'item_id' => $parent_activity,
 			'type'    => 'activity_comment',
 		) );
 
@@ -203,7 +203,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'content'           => 'Candy is good',
 			'component'         => buddypress()->activity->id,
 			'type'              => 'activity_comment',
-			'user_id'           => bp_loggedin_user_id,
+			'user_id'           => bp_loggedin_user_id(),
 			'item_id'           => $a1,
 			'secondary_item_id' => $a1,
 			'recorded_time'     => date( 'Y-m-d H:i:s', $now - 50 ),
