@@ -1195,7 +1195,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 		if ( is_multisite() ) {
 			$match = array();
 			preg_match( '/[A-Z]/', $user_name, $match );
-	
+
 			if ( ! empty( $match ) ) {
 				$errors->add( 'user_name', __( 'Username must be in lowercase characters', 'buddypress' ) );
 			}
@@ -1537,7 +1537,7 @@ add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
  */
 function bp_stop_live_spammer() {
 	// if we're on the login page, stop now to prevent redirect loop
-	if ( strpos( $GLOBALS['pagenow'], 'wp-login.php' ) !== false ) {
+	if ( isset( $_GLOBALS['pagenow'] ) && strpos( $GLOBALS['pagenow'], 'wp-login.php' ) !== false ) {
 		return;
 	}
 
