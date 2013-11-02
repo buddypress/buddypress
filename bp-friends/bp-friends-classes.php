@@ -152,6 +152,7 @@ class BP_Friends_Friendship {
 
 		$filter = esc_sql( like_escape( $filter ) );
 
+		$pag_sql = '';
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
@@ -250,6 +251,7 @@ class BP_Friends_Friendship {
 		$usermeta_table = $wpdb->base_prefix . 'usermeta';
 		$users_table    = $wpdb->base_prefix . 'users';
 
+		$pag_sql = '';
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) );
 
