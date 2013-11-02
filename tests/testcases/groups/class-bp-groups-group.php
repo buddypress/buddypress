@@ -241,6 +241,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_type_newest() {
+		$time = time();
 		$g1 = $this->factory->group->create( array(
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
@@ -267,6 +268,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_type_popular() {
+		$time = time();
 		$g1 = $this->factory->group->create( array(
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
