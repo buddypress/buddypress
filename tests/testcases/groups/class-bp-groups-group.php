@@ -540,7 +540,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 		$g2 = $this->factory->group->create();
 
-		$groups = BP_Groups_Group::search_groups( '_cool_', $u );
+		$groups = BP_Groups_Group::search_groups( '_cool_' );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
 		$this->assertEquals( array( $g1 ), $found );
@@ -553,7 +553,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 		$g2 = $this->factory->group->create();
 
-		$groups = BP_Groups_Group::search_groups( '100%', $u );
+		$groups = BP_Groups_Group::search_groups( '100%' );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
 		$this->assertEquals( array( $g1 ), $found );
@@ -566,7 +566,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 		$g2 = $this->factory->group->create();
 
-		$groups = BP_Groups_Group::search_groups( "'tis ", $u );
+		$groups = BP_Groups_Group::search_groups( "'tis " );
 
 		$found = wp_list_pluck( $groups['groups'], 'group_id' );
 

@@ -243,6 +243,8 @@ class BP_Groups_Group {
 
 		$filter = esc_sql( like_escape( $filter ) );
 
+		$pag_sql = $order_sql = $hidden_sql = '';
+
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
@@ -267,6 +269,8 @@ class BP_Groups_Group {
 		global $wpdb, $bp;
 
 		$filter = esc_sql( like_escape( $filter ) );
+
+		$pag_sql = $order_sql = $hidden_sql = '';
 
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
