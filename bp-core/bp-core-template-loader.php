@@ -397,7 +397,7 @@ function bp_is_template_included() {
  * @uses bp_locate_template()
  */
 function bp_load_theme_functions() {
-	global $pagenow;
+	global $pagenow, $wp_query;
 
 	// do not load our custom BP functions file if theme compat is disabled
 	if ( ! bp_use_theme_compat_with_current_theme() ) {
@@ -407,6 +407,14 @@ function bp_load_theme_functions() {
 	// Do not include on BuddyPress deactivation
 	if ( bp_is_deactivation() )
 		return;
+
+	// If the $wp_query global is empty (the main query has not been run,
+	// or has been reset), load_template() will fail at setting certain
+	// global values. This does not happen on a normal page load, but can
+	// cause problems when running automated tests
+	if ( ! is_a( $wp_query, 'WP_Query' ) ) {
+		return;
+	}
 
 	// Only include if not installing or if activating via wp-activate.php
 	if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
