@@ -437,7 +437,7 @@ class BP_XProfile_Field {
 	public $option_order;
 	public $order_by;
 	public $is_default_option;
-	public $default_visibility;
+	public $default_visibility = 'public';
 	public $allow_custom_visibility = 'allowed';
 
 	public $data;
