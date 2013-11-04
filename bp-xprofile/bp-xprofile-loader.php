@@ -111,16 +111,16 @@ class BP_XProfile_Component extends BP_Component {
 		$this->visibility_levels = array(
 			'public' => array(
 				'id'	  => 'public',
-				'label' => __( 'Anyone', 'buddypress' )
-			),
-			'loggedin' => array(
-				'id'	  => 'loggedin',
-				'label' => __( 'Logged In Users', 'buddypress' )
+				'label' => __( 'Everyone', 'buddypress' )
 			),
 			'adminsonly' => array(
 				'id'	  => 'adminsonly',
-				'label' => __( 'Admins Only', 'buddypress' )
+				'label' => __( 'Only Me', 'buddypress' )
 			),
+			'loggedin' => array(
+				'id'	  => 'loggedin',
+				'label' => __( 'All Members', 'buddypress' )
+			)
 		);
 
 		if ( bp_is_active( 'friends' ) ) {
