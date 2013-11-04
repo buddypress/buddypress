@@ -174,6 +174,7 @@ class BP_XProfile_Group {
 		if ( empty( $fields ) )
 			return $groups;
 
+		// Maybe fetch field data
 		if ( ! empty( $fetch_field_data ) ) {
 
 			// Fetch the field data for the user.
@@ -230,10 +231,11 @@ class BP_XProfile_Group {
 					}
 				}
 			}
+		}
 
-			if ( !empty( $fetch_visibility_level ) ) {
-				$fields = self::fetch_visibility_level( $user_id, $fields );
-			}
+		// Maybe fetch visibility levels
+		if ( !empty( $fetch_visibility_level ) ) {
+			$fields = self::fetch_visibility_level( $user_id, $fields );
 		}
 
 		// Merge the field array back in with the group array
