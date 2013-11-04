@@ -978,7 +978,7 @@ class BP_XProfile_Field {
 <?php
 	}
 
-	public function admin_validate() {
+	public static function admin_validate() {
 		global $message;
 
 		// Validate Form
