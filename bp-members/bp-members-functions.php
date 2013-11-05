@@ -615,6 +615,10 @@ function bp_core_process_spammer_status( $user_id, $status ) {
 	// Allow plugins to do neat things
 	do_action( 'bp_core_process_spammer_status', $user_id, $is_spam );
 
+	// Put things back how we found them
+	add_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
+	add_action( 'make_ham_user',  'bp_core_mark_user_ham_admin'  );
+
 	return true;
 }
 
