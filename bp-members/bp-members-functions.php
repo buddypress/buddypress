@@ -1541,7 +1541,14 @@ add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
  */
 function bp_stop_live_spammer() {
 	// if we're on the login page, stop now to prevent redirect loop
-	if ( isset( $_GLOBALS['pagenow'] ) && strpos( $GLOBALS['pagenow'], 'wp-login.php' ) !== false ) {
+	$is_login = false;
+	if ( isset( $_GLOBALS['pagenow'] ) && false !== strpos( $GLOBALS['pagenow'], 'wp-login.php' ) ) {
+		$is_login = true;
+	} else if ( isset( $_SERVER['SCRIPT_NAME'] ) && false !== strpos( $_SERVER['SCRIPT_NAME'], 'wp-login.php' ) ) {
+		$is_login = true;
+	}
+
+	if ( $is_login ) {
 		return;
 	}
 
