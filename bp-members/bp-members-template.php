@@ -344,13 +344,13 @@ function bp_members_pagination_count() {
 		$total     = bp_core_number_format( $members_template->total_member_count );
 
 		if ( 'active' == $members_template->type )
-			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s active member)', 'Viewing member %1$s to %2$s (of %3$s active members)', $total, 'buddypress' ), $from_num, $to_num, number_format_i18n( $total ) );
+			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s active member)', 'Viewing member %1$s to %2$s (of %3$s active members)', $total, 'buddypress' ), $from_num, $to_num, $total );
 		else if ( 'popular' == $members_template->type )
-			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member with friends)', 'Viewing member %1$s to %2$s (of %3$s members with friends)', $total, 'buddypress' ), $from_num, $to_num, number_format_i18n( $total ) );
+			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member with friends)', 'Viewing member %1$s to %2$s (of %3$s members with friends)', $total, 'buddypress' ), $from_num, $to_num, $total );
 		else if ( 'online' == $members_template->type )
-			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member online)', 'Viewing member %1$s to %2$s (of %3$s members online)', $total, 'buddypress' ), $from_num, $to_num, number_format_i18n( $total ) );
+			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member online)', 'Viewing member %1$s to %2$s (of %3$s members online)', $total, 'buddypress' ), $from_num, $to_num, $total );
 		else
-			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member)', 'Viewing member %1$s to %2$s (of %3$s members)', $total, 'buddypress' ), $from_num, $to_num, number_format_i18n( $total ) );
+			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member)', 'Viewing member %1$s to %2$s (of %3$s members)', $total, 'buddypress' ), $from_num, $to_num, $total );
 
 		return apply_filters( 'bp_members_pagination_count', $pag );
 	}
