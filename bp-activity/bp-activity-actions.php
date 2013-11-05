@@ -254,9 +254,15 @@ function bp_activity_action_post_update() {
 	check_admin_referer( 'post_update', '_wpnonce_post_update' );
 
 	// Get activity info
-	$content = apply_filters( 'bp_activity_post_update_content', $_POST['whats-new']             );
-	$object  = apply_filters( 'bp_activity_post_update_object',  $_POST['whats-new-post-object'] );
-	$item_id = apply_filters( 'bp_activity_post_update_item_id', $_POST['whats-new-post-in']     );
+	$content = apply_filters( 'bp_activity_post_update_content', $_POST['whats-new'] );
+
+	if ( ! empty( $_POST['whats-new-post-object'] ) ) {
+		$object = apply_filters( 'bp_activity_post_update_object', $_POST['whats-new-post-object'] );
+	}
+
+	if ( ! empty( $_POST['whats-new-post-in'] ) ) {
+		$item_id = apply_filters( 'bp_activity_post_update_item_id', $_POST['whats-new-post-in'] );
+	}
 
 	// No activity content so provide feedback and redirect
 	if ( empty( $content ) ) {
