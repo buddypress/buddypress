@@ -32,7 +32,16 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 		return false;
 	}
 
-	return bp_notifications_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false );
+	$args = array(
+		'item_id'           => $item_id,
+		'user_id'           => $user_id,
+		'component_name'    => $component_name,
+		'component_action'  => $component_action,
+		'secondary_item_id' => $secondary_item_id,
+		'date_notified'     => $date_notified
+	);
+
+	return bp_notifications_add_notification( $args );
 }
 
 /**
@@ -49,7 +58,7 @@ function bp_core_delete_notification( $id ) {
 		return false;
 	}
 
-	return bp_notifications_delete_notification( $id );
+	return BP_Notifications_Notification::delete_by_id( $id );
 }
 
 /**
