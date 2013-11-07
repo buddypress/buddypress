@@ -23,8 +23,9 @@ function bp_core_install( $active_components = false ) {
 	if ( empty( $active_components ) )
 		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
-	// Core DB Tables
-	bp_core_install_notifications();
+	// Notifications
+	if ( !empty( $active_components['notifications'] ) )
+		bp_core_install_notifications();
 
 	// Activity Streams
 	if ( !empty( $active_components['activity'] ) )

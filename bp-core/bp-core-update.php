@@ -187,10 +187,11 @@ function bp_version_updater() {
 	$raw_db_version = (int) bp_get_db_version_raw();
 
 	$default_components = apply_filters( 'bp_new_install_default_components', array(
-		'activity' => 1,
-		'members'  => 1,
-		'settings' => 1,
-		'xprofile' => 1,
+		'activity'      => 1,
+		'members'       => 1,
+		'settings'      => 1,
+		'xprofile'      => 1,
+		'notifications' => 1,
 	) );
 
 	require_once( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-schema.php' );

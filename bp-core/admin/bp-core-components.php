@@ -58,12 +58,20 @@ function bp_core_admin_components_options() {
 		'xprofile' => array(
 			'title'       => __( 'Extended Profiles', 'buddypress' ),
 			'description' => __( 'Customize your community with fully editable profile fields that allow your users to describe themselves.', 'buddypress' )
-		)
+		),
+		'settings' => array(
+			'title'       => __( 'Account Settings', 'buddypress' ),
+			'description' => __( 'Allow your users to modify their account and notification settings directly from within their profiles.', 'buddypress' )
+		),
+		'notifications' => array(
+			'title'       => __( 'Notifications', 'buddypress' ),
+			'description' => __( 'Notify members of relevant activity with a toolbar bubble and/or via email, and allow them to customize their notification settings.', 'buddypress' )
+		),
 	);
 
 	$optional_components = bp_core_admin_get_components( 'optional' );
 	$required_components = bp_core_admin_get_components( 'required' );
-	$retired_components = bp_core_admin_get_components( 'retired' );
+	$retired_components  = bp_core_admin_get_components( 'retired'  );
 
 	// Don't show Forums component in optional components if it's disabled
 	if ( ! bp_is_active( 'forums' ) ) {
@@ -370,6 +378,10 @@ function bp_core_admin_get_components( $type = 'all' ) {
 		'activity' => array(
 			'title'       => __( 'Activity Streams', 'buddypress' ),
 			'description' => __( 'Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support.', 'buddypress' )
+		),
+		'notifications' => array(
+			'title'       => __( 'Notifications', 'buddypress' ),
+			'description' => __( 'Notify members of relevant activity with a toolbar bubble and/or via email, and allow them to customize their notification settings.', 'buddypress' )
 		),
 		'groups'   => array(
 			'title'       => __( 'User Groups', 'buddypress' ),

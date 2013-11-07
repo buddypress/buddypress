@@ -363,8 +363,11 @@ class BP_Friends_Friendship {
 		// Delete all friendships related to $user_id
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE friend_user_id = %d OR initiator_user_id = %d", $user_id, $user_id ) );
 
-		// Delete friend request notifications for members who have a notification from this user.
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE component_name = 'friends' AND ( component_action = 'friendship_request' OR component_action = 'friendship_accepted' ) AND item_id = %d", $user_id ) );
+		// Delete friend request notifications for members who have a
+		// notification from this user.
+		if ( bp_is_active( 'notifications' ) ) {
+			$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->notifications->table_name} WHERE component_name = 'friends' AND ( component_action = 'friendship_request' OR component_action = 'friendship_accepted' ) AND item_id = %d", $user_id ) );
+		}
 
 		// Loop through friend_ids and update their counts
 		foreach ( (array) $friend_ids as $friend_id ) {

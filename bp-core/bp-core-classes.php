@@ -1291,12 +1291,13 @@ class BP_Core_User {
 
 
 /**
- * BP_Core_Notification class can be used by any component.
- * It will handle the fetching, saving and deleting of a user notification.
+ * BP_Core_Notification is deprecated.
+ *
+ * Use BP_Notifications_Notification instead.
  *
  * @package BuddyPress Core
+ * @deprecated since BuddyPress (1.9)
  */
-
 class BP_Core_Notification {
 
 	/**

@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * BuddyPress Notifications Admin Bar functions.
+ *
+ * Admin Bar functions for the Notifications component.
+ *
+ * @package BuddyPress
+ * @subpackage NotificationsToolbar
+ */
+
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
+/**
+ * Build the "Notifications" dropdown.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_notifications_toolbar_menu() {
+	global $wp_admin_bar;
+
+	if ( ! is_user_logged_in() ) {
+		return false;
+	}
+
+	$notifications = bp_core_get_notifications_for_user( bp_loggedin_user_id(), 'object' );
+	$count         = ! empty( $notifications ) ? count( $notifications ) : 0;
+	$alert_class   = (int) $count > 0 ? 'pending-count alert' : 'count no-alert';
+	$menu_title    = '<span id="ab-pending-notifications" class="' . $alert_class . '">' . $count . '</span>';
+
+	// Add the top-level Notifications button
+	$wp_admin_bar->add_menu( array(
+		'parent'    => 'top-secondary',
+		'id'        => 'bp-notifications',
+		'title'     => $menu_title,
+		'href'      => bp_loggedin_user_domain(),
+	) );
+
+	if ( ! empty( $notifications ) ) {
+		foreach ( (array) $notifications as $notification ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'bp-notifications',
+				'id'     => 'notification-' . $notification->id,
+				'title'  => $notification->content,
+				'href'   => $notification->href,
+			) );
+		}
+	} else {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'bp-notifications',
+			'id'     => 'no-notifications',
+			'title'  => __( 'No new notifications', 'buddypress' ),
+			'href'   => bp_loggedin_user_domain(),
+		) );
+	}
+
+	return;
+}
+add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu', 90 );

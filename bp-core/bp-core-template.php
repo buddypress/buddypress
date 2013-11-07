@@ -1436,6 +1436,21 @@ function bp_is_forums_component() {
 }
 
 /**
+ * Check whether the current page is part of the Notifications component.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @return bool True if the current page is part of the Notifications component.
+ */
+function bp_is_notifications_component() {
+	if ( bp_is_current_component( 'notifications' ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Check whether the current page is part of the Settings component.
  *
  * @return bool True if the current page is part of the Settings component.
@@ -1745,6 +1760,23 @@ function bp_is_user_friends() {
 function bp_is_user_friend_requests() {
 	if ( bp_is_user_friends() && bp_is_current_action( 'requests' ) )
 		return true;
+
+	return false;
+}
+
+/**
+ * Is this a user's notifications page?
+ *
+ * Eg http://example.com/members/joe/notifications/ (or a subpage thereof).
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @return bool True if the current page is a user's Notifications page.
+ */
+function bp_is_user_notifications() {
+	if ( bp_is_user() && bp_is_notifications_component() ) {
+		return true;
+	}
 
 	return false;
 }

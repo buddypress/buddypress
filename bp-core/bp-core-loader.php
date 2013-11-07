@@ -54,7 +54,7 @@ class BP_Core extends BP_Component {
 		/** Components ********************************************************/
 
 		// Set the included and optional components.
-		$bp->optional_components = apply_filters( 'bp_optional_components', array( 'activity', 'blogs', 'forums', 'friends', 'groups', 'messages', 'settings', 'xprofile' ) );
+		$bp->optional_components = apply_filters( 'bp_optional_components', array( 'activity', 'blogs', 'forums', 'friends', 'groups', 'messages', 'notifications', 'settings', 'xprofile' ) );
 
 		// Set the required components
 		$bp->required_components = apply_filters( 'bp_required_components', array( 'members' ) );
@@ -177,7 +177,8 @@ class BP_Core extends BP_Component {
 		$bp->grav_default->group = apply_filters( 'bp_group_gravatar_default', $bp->grav_default->user );
 		$bp->grav_default->blog  = apply_filters( 'bp_blog_gravatar_default',  $bp->grav_default->user );
 
-		// Notifications Table
+		// Notifications table. Included here for legacy purposes. Use
+		// bp-notifications instead.
 		$bp->core->table_name_notifications = $bp->table_prefix . 'bp_notifications';
 
 		/**
