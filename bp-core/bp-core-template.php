@@ -647,6 +647,7 @@ function bp_total_member_count() {
 	function bp_get_total_member_count() {
 		return apply_filters( 'bp_get_total_member_count', bp_core_get_active_member_count() );
 	}
+	add_filter( 'bp_get_total_member_count', 'bp_core_number_format' );
 
 /**
  * Output whether blog signup is allowed.

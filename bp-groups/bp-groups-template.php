@@ -1896,6 +1896,7 @@ function bp_total_group_count_for_user( $user_id = 0 ) {
 	function bp_get_total_group_count_for_user( $user_id = 0 ) {
 		return apply_filters( 'bp_get_total_group_count_for_user', groups_total_groups_for_user( $user_id ), $user_id );
 	}
+	add_filter( 'bp_get_total_group_count_for_user', 'bp_core_number_format' );
 
 
 /***************************************************************************
