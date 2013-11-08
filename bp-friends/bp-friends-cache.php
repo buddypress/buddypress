@@ -23,10 +23,9 @@ function friends_clear_friend_object_cache( $friendship_id ) {
 }
 
 function friends_clear_friend_notifications() {
-	global $bp;
-
-	if ( isset( $_GET['new'] ) )
-		bp_core_delete_notifications_by_type( bp_loggedin_user_id(), $bp->friends->id, 'friendship_accepted' );
+	if ( isset( $_GET['new'] ) ) {
+		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), buddypress()->friends->id, 'friendship_accepted' );
+	}
 }
 add_action( 'bp_activity_screen_my_activity', 'friends_clear_friend_notifications' );
 

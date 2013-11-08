@@ -146,8 +146,6 @@ function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component
 /**
  * Delete all notifications for by type
  *
- * Used when clearing out notifications for an entire component
- *
  * @since BuddyPress (1.0)
  * @param int $user_id
  * @param string $component_name
@@ -162,6 +160,27 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
 	}
 
 	bp_notifications_delete_all_notifications_by_type( $item_id, $component_name, $component_action, $secondary_item_id );
+}
+
+/**
+ * Mark all notifications read/unread for by type
+ *
+ * Used when clearing out notifications for an entire component
+ *
+ * @since BuddyPress (1.9)
+ * @param int $user_id
+ * @param string $component_name
+ * @param string $component_action
+ * @return boolean True on success, false on fail
+ */
+function bp_core_mark_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false, $is_new = false ) {
+
+	// Bail if notifications is not active
+	if ( ! bp_is_active( 'notifications' ) ) {
+		return false;
+	}
+
+	bp_notifications_mark_all_notifications_by_type( $item_id, $component_name, $component_action, $secondary_item_id, $is_new );
 }
 
 /**

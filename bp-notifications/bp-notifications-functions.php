@@ -299,12 +299,12 @@ function bp_notifications_delete_notifications_from_user( $user_id, $component_n
  * @since BuddyPress (1.9.0)
  *
  * @param int $user_id ID of the user whose notifications are being deleted.
- * @param int $is_new 0 for read, 1 for unread
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
+ * @param int $is_new 0 for read, 1 for unread
  * @return bool True on success, false on failure.
  */
-function bp_notifications_mark_notifications_by_type( $user_id, $is_new, $component_name, $component_action ) {
+function bp_notifications_mark_notifications_by_type( $user_id, $component_name, $component_action, $is_new = false ) {
 	return BP_Notifications_Notification::delete( array(
 		'user_id'          => $user_id,
 		'component_name'   => $component_name,
@@ -323,13 +323,13 @@ function bp_notifications_mark_notifications_by_type( $user_id, $is_new, $compon
  *
  * @param int $user_id ID of the user whose notifications are being deleted.
  * @param int $item_id ID of the associated item.
- * @param int $is_new 0 for read, 1 for unread
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
  * @param int $secondary_item_id ID of the secondary associated item.
+ * @param int $is_new 0 for read, 1 for unread
  * @return bool True on success, false on failure.
  */
-function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $is_new, $component_name, $component_action, $secondary_item_id = false ) {
+function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false, $is_new = false ) {
 	return BP_Notifications_Notification::delete( array(
 		'user_id'           => $user_id,
 		'item_id'           => $item_id,
@@ -352,9 +352,10 @@ function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $is
  * @param string $component_name Name of the associated component.
  * @param string $component_action Optional. Name of the associated action.
  * @param int $secondary_item_id Optional. ID of the secondary associated item.
+ * @param int $is_new 0 for read, 1 for unread
  * @return bool True on success, false on failure.
  */
-function bp_notifications_mark_all_notifications_by_type( $item_id, $is_new, $component_name, $component_action = false, $secondary_item_id = false ) {
+function bp_notifications_mark_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false, $is_new = false ) {
 	return BP_Notifications_Notification::delete( array(
 		'item_id'           => $item_id,
 		'secondary_item_id' => $secondary_item_id,
@@ -379,9 +380,10 @@ function bp_notifications_mark_all_notifications_by_type( $item_id, $is_new, $co
  * @param int $is_new 0 for read, 1 for unread
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
+ * @param int $is_new 0 for read, 1 for unread
  * @return bool True on success, false on failure.
  */
-function bp_notifications_mark_notifications_from_user( $user_id, $is_new, $component_name, $component_action ) {
+function bp_notifications_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new = false ) {
 	return BP_Notifications_Notification::delete( array(
 		'item_id'          => $user_id,
 		'component_name'   => $component_name,
