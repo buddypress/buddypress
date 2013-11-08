@@ -41,6 +41,7 @@ function bp_notifications_add_notification( $args = array() ) {
 		'component_name'    => '',
 		'component_action'  => '',
 		'date_notified'     => bp_core_current_time(),
+		'is_new'            => 1
 	) );
 
 	// Setup the new notification
@@ -51,7 +52,7 @@ function bp_notifications_add_notification( $args = array() ) {
 	$notification->component_name    = $r['component_name'];
 	$notification->component_action  = $r['component_action'];
 	$notification->date_notified     = $r['date_notified'];
-	$notification->is_new            = 1;
+	$notification->is_new            = $r['is_new'];
 
 	// Save the new notification
 	return $notification->save();

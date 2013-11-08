@@ -23,9 +23,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @param string $component_action
  * @param string $secondary_item_id
  * @param string $date_notified
+ * @param string $is_new
  * @return boolean True on success, false on fail
  */
-function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false ) {
+function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false, $is_new = true ) {
 
 	// Bail if notifications is not active
 	if ( ! bp_is_active( 'notifications' ) ) {
@@ -38,7 +39,8 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 		'component_name'    => $component_name,
 		'component_action'  => $component_action,
 		'secondary_item_id' => $secondary_item_id,
-		'date_notified'     => $date_notified
+		'date_notified'     => $date_notified,
+		'is_new'            => $is_new
 	);
 
 	return bp_notifications_add_notification( $args );
