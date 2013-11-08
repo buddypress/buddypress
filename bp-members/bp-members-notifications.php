@@ -164,6 +164,27 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
 	bp_notifications_delete_all_notifications_by_type( $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
+/**
+ * Delete all notifications for a user
+ *
+ * Used when clearing out all notifications for a user, whene deleted or spammed
+ *
+ * @since BuddyPress (1.0)
+ * @param int $user_id
+ * @param string $component_name
+ * @param string $component_action
+ * @return boolean True on success, false on fail
+ */
+function bp_core_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
+
+	// Bail if notifications is not active
+	if ( ! bp_is_active( 'notifications' ) ) {
+		return false;
+	}
+
+	return bp_notifications_delete_notifications_from_user( $user_id, $component_name, $component_action );
+}
+
 /** Mark **********************************************************************/
 
 /**
@@ -172,7 +193,7 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
  * Used when clearing out notifications for a specific component when the user
  * has visited that component.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.9.0)
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
@@ -195,7 +216,7 @@ function bp_core_mark_notifications_by_type( $user_id, $component_name, $compone
  * Used when clearing out notifications for a specific component when the user
  * has visited that component.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.9.0)
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
@@ -217,7 +238,7 @@ function bp_core_mark_notifications_by_item_id( $user_id, $item_id, $component_n
  *
  * Used when clearing out notifications for an entire component
  *
- * @since BuddyPress (1.9)
+ * @since BuddyPress (1.9.0)
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
@@ -234,25 +255,25 @@ function bp_core_mark_all_notifications_by_type( $item_id, $component_name, $com
 }
 
 /**
- * Delete all notifications for a user
+ * Mark all notifications read/unread from a user
  *
- * Used when clearing out all notifications for a user, whene deleted or spammed
- *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.9.0)
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
  * @return boolean True on success, false on fail
  */
-function bp_core_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
+function bp_core_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new = false ) {
 
 	// Bail if notifications is not active
 	if ( ! bp_is_active( 'notifications' ) ) {
 		return false;
 	}
 
-	return bp_notifications_delete_notifications_from_user( $user_id, $component_name, $component_action );
+	return bp_notifications_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new );
 }
+
+/** Helpers *******************************************************************/
 
 /**
  * Check if a user has access to a specific notification
