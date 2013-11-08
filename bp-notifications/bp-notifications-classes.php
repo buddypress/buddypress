@@ -722,19 +722,19 @@ class BP_Notifications_Notification {
 			'user_id' => $user_id,
 		);
 
-		if ( !empty( $item_id ) ) {
+		if ( ! empty( $item_id ) ) {
 			$where_args['item_id'] = $item_id;
 		}
 
-		if ( !empty( $component_name ) ) {
+		if ( ! empty( $component_name ) ) {
 			$where_args['component_name'] = $component_name;
 		}
 
-		if ( !empty( $component_action ) ) {
+		if ( ! empty( $component_action ) ) {
 			$where_args['component_action'] = $component_action;
 		}
 
-		if ( !empty( $secondary_item_id ) ) {
+		if ( ! empty( $secondary_item_id ) ) {
 			$where_args['secondary_item_id'] = $secondary_item_id;
 		}
 
@@ -761,15 +761,15 @@ class BP_Notifications_Notification {
 			'item_id' => $user_id,
 		);
 
-		if ( !empty( $component_name ) ) {
+		if ( ! empty( $component_name ) ) {
 			$where_args['component_name'] = $component_name;
 		}
 
-		if ( !empty( $component_action ) ) {
+		if ( ! empty( $component_action ) ) {
 			$where_args['component_action'] = $component_action;
 		}
 
-		if ( !empty( $secondary_item_id ) ) {
+		if ( ! empty( $secondary_item_id ) ) {
 			$where_args['secondary_item_id'] = $secondary_item_id;
 		}
 
@@ -803,15 +803,15 @@ class BP_Notifications_Notification {
 			'item_id' => $item_id,
 		);
 
-		if ( !empty( $component_name ) ) {
+		if ( ! empty( $component_name ) ) {
 			$where_args['component_name'] = $component_name;
 		}
 
-		if ( !empty( $component_action ) ) {
+		if ( ! empty( $component_action ) ) {
 			$where_args['component_action'] = $component_action;
 		}
 
-		if ( !empty( $secondary_item_id ) ) {
+		if ( ! empty( $secondary_item_id ) ) {
 			$where_args['secondary_item_id'] = $secondary_item_id;
 		}
 

@@ -41,7 +41,7 @@ function bp_notifications_add_notification( $args = array() ) {
 		'component_name'    => '',
 		'component_action'  => '',
 		'date_notified'     => bp_core_current_time(),
-		'is_new'            => 1
+		'is_new'            => 1,
 	) );
 
 	// Setup the new notification
@@ -310,7 +310,7 @@ function bp_notifications_mark_notifications_by_type( $user_id, $component_name,
 		'user_id'          => $user_id,
 		'component_name'   => $component_name,
 		'component_action' => $component_action,
-		'is_new'           => $is_new
+		'is_new'           => $is_new,
 	) );
 }
 
@@ -337,7 +337,7 @@ function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $co
 		'secondary_item_id' => $secondary_item_id,
 		'component_name'    => $component_name,
 		'component_action'  => $component_action,
-		'is_new'            => $is_new
+		'is_new'            => $is_new,
 	) );
 }
 
@@ -362,7 +362,7 @@ function bp_notifications_mark_all_notifications_by_type( $item_id, $component_n
 		'secondary_item_id' => $secondary_item_id,
 		'component_name'    => $component_name,
 		'component_action'  => $component_action,
-		'is_new'            => $is_new
+		'is_new'            => $is_new,
 	) );
 }
 
@@ -389,7 +389,7 @@ function bp_notifications_mark_notifications_from_user( $user_id, $component_nam
 		'item_id'          => $user_id,
 		'component_name'   => $component_name,
 		'component_action' => $component_action,
-		'is_new'           => $is_new
+		'is_new'           => $is_new,
 	) );
 }
 

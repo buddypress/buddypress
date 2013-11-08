@@ -185,7 +185,7 @@ class BP_Notifications_Template {
 			'is_new'       => $this->is_new,
 			'page'         => $this->pag_page,
 			'per_page'     => $this->pag_num,
-			'search_terms' => $this->search_terms
+			'search_terms' => $this->search_terms,
 		) );
 
 		// Setup the notifications to loop through
@@ -362,7 +362,7 @@ function bp_has_notifications( $args = '' ) {
 		'per_page'     => 25,
 		'max'          => false,
 		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
-		'page_arg'     => 'npage'
+		'page_arg'     => 'npage',
 	) );
 
 	// Get the notifications
@@ -533,7 +533,7 @@ function bp_the_notification_time_since() {
 		// Notified date has legitimate data
 		if ( '0000-00-00 00:00:00' !== $date_notified ) {
 			$retval = bp_core_time_since( $date_notified );
-			
+
 		// Notified date is empty, so return a fun string
 		} else {
 			$retval = __( 'Date not found', 'buddypress' );
