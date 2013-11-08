@@ -116,8 +116,9 @@ function messages_new_message( $args = '' ) {
 	if ( $message->send() ) {
 
 		// Send screen notifications to the recipients
-		foreach ( (array) $message->recipients as $recipient )
-			bp_core_add_notification( $message->id, $recipient->user_id, 'messages', 'new_message' );
+		foreach ( (array) $message->recipients as $recipient ) {
+			bp_core_add_notification( $message->id, $recipient->user_id, 'messages', 'new_message', $message->sender_id );
+		}
 
 		// Send email notifications to the recipients
 		messages_notification_new_message( array( 'message_id' => $message->id, 'sender_id' => $message->sender_id, 'subject' => $message->subject, 'content' => $message->message, 'recipients' => $message->recipients, 'thread_id' => $message->thread_id) );
@@ -241,10 +242,14 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		$title = __( 'Inbox', 'buddypress' );
 
 		if ( (int) $total_items > 1 ) {
-			$text = sprintf( __('You have %d new messages', 'buddypress' ), (int) $total_items );
+			$text   = sprintf( __('You have %d new messages', 'buddypress' ), (int) $total_items );
 			$filter = 'bp_messages_multiple_new_message_notification';
 		} else {
-			$text = sprintf( __('You have %d new message', 'buddypress' ), (int) $total_items );
+			if ( !empty( $secondary_item_id ) ) {
+				$text = sprintf( __('You have %d new message from %s', 'buddypress' ), (int) $total_items, bp_core_get_user_displayname( $secondary_item_id ) );
+			} else {
+				$text = sprintf( __('You have %d new message',         'buddypress' ), (int) $total_items );
+			}
 			$filter = 'bp_messages_single_new_message_notification';
 		}
 	}
