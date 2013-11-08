@@ -23,17 +23,23 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @param string $component_action
  * @param string $secondary_item_id
  * @param string $date_notified
- * @param string $is_new
+ * @param int $is_new
  * @return boolean True on success, false on fail
  */
-function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false, $is_new = true ) {
+function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false, $is_new = 1 ) {
 
 	// Bail if notifications is not active
 	if ( ! bp_is_active( 'notifications' ) ) {
 		return false;
 	}
 
-	$args = array(
+	// Notifications must always have a time
+	if ( false === $date_notified ) {
+		$date_notified = bp_core_current_time();
+	}
+
+	// Add the notification
+	return bp_notifications_add_notification( array(
 		'item_id'           => $item_id,
 		'user_id'           => $user_id,
 		'component_name'    => $component_name,
@@ -41,9 +47,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 		'secondary_item_id' => $secondary_item_id,
 		'date_notified'     => $date_notified,
 		'is_new'            => $is_new
-	);
-
-	return bp_notifications_add_notification( $args );
+	) );
 }
 
 /**
