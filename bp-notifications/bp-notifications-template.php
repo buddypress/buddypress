@@ -511,7 +511,33 @@ function bp_the_notification_date_notified() {
 	}
 
 /**
- * Output the pagination for the current notification loop.
+ * Output the pagination count for the current notification loop.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_notifications_pagination_count() {
+	echo bp_get_notifications_pagination_count();
+}
+	/**
+	 * Return the pagination count for the current notification loop.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @return string HTML for the pagination count.
+	 */
+	function bp_get_notifications_pagination_count() {
+		$query_loop = buddypress()->notifications->query_loop;
+		$start_num  = intval( ( $query_loop->pag_page - 1 ) * $query_loop->pag_num ) + 1;
+		$from_num   = bp_core_number_format( $start_num );
+		$to_num     = bp_core_number_format( ( $start_num + ( $query_loop->pag_num - 1 ) > $query_loop->total_notification_count ) ? $query_loop->total_notification_count : $start_num + ( $query_loop->pag_num - 1 ) );
+		$total      = bp_core_number_format( $query_loop->total_notification_count );
+		$pag        = sprintf( _n( 'Viewing %1$s to %2$s (of %3$s notification)', 'Viewing %1$s to %2$s (of %3$s notifications)', $total, 'buddypress' ), $from_num, $to_num, $total );
+
+		return apply_filters( 'bp_notifications_pagination_count', $pag );
+	}
+
+/**
+ * Output the pagination links for the current notification loop.
  *
  * @since BuddyPress (1.9.0)
  */
@@ -519,11 +545,11 @@ function bp_notifications_pagination_links() {
 	echo bp_get_notifications_pagination_links();
 }
 	/**
-	 * Return the pagination for the current notification loop.
+	 * Return the pagination links for the current notification loop.
 	 *
 	 * @since BuddyPress (1.9.0)
 	 *
-	 * @return string HTML for the pagination.
+	 * @return string HTML for the pagination links.
 	 */
 	function bp_get_notifications_pagination_links() {
 		return apply_filters( 'bp_get_notifications_pagination_links', buddypress()->notifications->query_loop->pag_links );
