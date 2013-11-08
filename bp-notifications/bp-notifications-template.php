@@ -526,7 +526,20 @@ function bp_the_notification_time_since() {
 	 * @return string Timestamp of the current notification.
 	 */
 	function bp_get_the_notification_time_since() {
-		return apply_filters( 'bp_get_the_notification_time_since', bp_core_time_since( bp_get_the_notification_date_notified() ) );
+
+		// Get the notified date
+		$date_notified = bp_get_the_notification_date_notified();
+
+		// Notified date has legitimate data
+		if ( '0000-00-00 00:00:00' !== $date_notified ) {
+			$retval = bp_core_time_since( $date_notified );
+			
+		// Notified date is empty, so return a fun string
+		} else {
+			$retval = __( 'Date not found', 'buddypress' );
+		}
+
+		return apply_filters( 'bp_get_the_notification_time_since', $retval );
 	}
 
 /**
