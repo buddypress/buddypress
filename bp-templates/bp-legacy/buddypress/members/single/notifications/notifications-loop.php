@@ -6,9 +6,9 @@
 
 	<tr>
 		<td></td>
-		<td><?php bp_the_notification_component_action(); ?></td>
-		<td><?php echo bp_core_get_userlink( bp_get_the_notification_item_id() ); ?></td>
-		<td><?php echo bp_core_time_since( bp_get_the_notification_date_notified() ); ?></td>
+		<td><?php bp_the_notification_description(); ?></td>
+		<td><?php bp_the_notification_time_since(); ?></td>
+		<td><?php bp_the_notification_action_links(); ?></td>
 	</tr>
 
 <?php endwhile;

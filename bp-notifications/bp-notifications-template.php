@@ -511,6 +511,95 @@ function bp_the_notification_date_notified() {
 	}
 
 /**
+ * Output the timestamp of the current notification.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_the_notification_time_since() {
+	echo bp_get_the_notification_time_since();
+}
+	/**
+	 * Return the timestamp of the current notification.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @return string Timestamp of the current notification.
+	 */
+	function bp_get_the_notification_time_since() {
+		return apply_filters( 'bp_get_the_notification_time_since', bp_core_time_since( bp_get_the_notification_date_notified() ) );
+	}
+
+/**
+ * Output full-text description for a specific notification.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_the_notification_description() {
+	echo bp_get_the_notification_description();
+}
+
+	/**
+	 * Get full-text description for a specific notification.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_the_notification_description() {
+
+		// Setup local variables
+		$description  = '';
+		$bp           = buddypress();
+		$notification = $bp->notifications->query_loop->notification;
+
+		// Skip inactive components
+		if ( ! bp_is_active( $notification->component_name ) ) {
+			return;
+		}
+
+		// Callback function exists
+		if ( isset( $bp->{ $notification->component_name }->notification_callback ) && is_callable( $bp->{ $notification->component_name }->notification_callback ) ) {
+			$description = call_user_func( $bp->{ $notification->component_name }->notification_callback, $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1 );
+
+		// @deprecated format_notification_function - 1.5
+		} elseif ( isset( $bp->{ $notification->component_name }->format_notification_function ) && function_exists( $bp->{ $notification->component_name }->format_notification_function ) ) {
+			$description = call_user_func( $bp->{ $notification->component_name }->format_notification_function, $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1 );
+		}
+
+		// Filter and return
+		return apply_filters( 'bp_get_the_notification_description', $description );
+	}
+
+/**
+ * Output the action links for the current notification.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_the_notification_action_links() {
+	echo bp_get_the_notification_action_links();
+}
+	/**
+	 * Return the action links for the current notification.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @return string HTML links for actions to take on single notifications.
+	 */
+	function bp_get_the_notification_action_links() {
+
+		// Setup the return value
+		$retval = '';
+
+		// Start the output buffer
+		ob_start();
+
+		// Get and empty the output buffer
+		$retval = ob_get_clean();
+
+		return apply_filters( 'bp_get_the_notification_action_links', $retval );
+	}
+
+/**
  * Output the pagination count for the current notification loop.
  *
  * @since BuddyPress (1.9.0)
