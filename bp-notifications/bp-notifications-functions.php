@@ -194,6 +194,8 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'simpl
 	return apply_filters( 'bp_core_get_notifications_for_user', $renderable, $user_id, $format );
 }
 
+/** Delete ********************************************************************/
+
 /**
  * Delete notifications for a user by type.
  *
@@ -285,6 +287,110 @@ function bp_notifications_delete_notifications_from_user( $user_id, $component_n
 		'component_action'  => $component_action,
 	) );
 }
+
+/** Mark **********************************************************************/
+
+/**
+ * Mark notifications read/unread for a user by type.
+ *
+ * Used when clearing out notifications for a specific component when the user
+ * has visited that component.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param int $user_id ID of the user whose notifications are being deleted.
+ * @param int $is_new 0 for read, 1 for unread
+ * @param string $component_name Name of the associated component.
+ * @param string $component_action Name of the associated action.
+ * @return bool True on success, false on failure.
+ */
+function bp_notifications_mark_notifications_by_type( $user_id, $is_new, $component_name, $component_action ) {
+	return BP_Notifications_Notification::delete( array(
+		'user_id'          => $user_id,
+		'component_name'   => $component_name,
+		'component_action' => $component_action,
+		'is_new'           => $is_new
+	) );
+}
+
+/**
+ * Mark notifications read/unread for an item ID.
+ *
+ * Used when clearing out notifications for a specific component when the user
+ * has visited that component.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param int $user_id ID of the user whose notifications are being deleted.
+ * @param int $item_id ID of the associated item.
+ * @param int $is_new 0 for read, 1 for unread
+ * @param string $component_name Name of the associated component.
+ * @param string $component_action Name of the associated action.
+ * @param int $secondary_item_id ID of the secondary associated item.
+ * @return bool True on success, false on failure.
+ */
+function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $is_new, $component_name, $component_action, $secondary_item_id = false ) {
+	return BP_Notifications_Notification::delete( array(
+		'user_id'           => $user_id,
+		'item_id'           => $item_id,
+		'secondary_item_id' => $secondary_item_id,
+		'component_name'    => $component_name,
+		'component_action'  => $component_action,
+		'is_new'            => $is_new
+	) );
+}
+
+/**
+ * Mark all notifications read/unread by type.
+ *
+ * Used when clearing out notifications for an entire component.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param int $user_id ID of the user whose notifications are being deleted.
+ * @param int $is_new 0 for read, 1 for unread
+ * @param string $component_name Name of the associated component.
+ * @param string $component_action Optional. Name of the associated action.
+ * @param int $secondary_item_id Optional. ID of the secondary associated item.
+ * @return bool True on success, false on failure.
+ */
+function bp_notifications_mark_all_notifications_by_type( $item_id, $is_new, $component_name, $component_action = false, $secondary_item_id = false ) {
+	return BP_Notifications_Notification::delete( array(
+		'item_id'           => $item_id,
+		'secondary_item_id' => $secondary_item_id,
+		'component_name'    => $component_name,
+		'component_action'  => $component_action,
+		'is_new'            => $is_new
+	) );
+}
+
+/**
+ * Mark all notifications read/unread from a user.
+ *
+ * Used when clearing out all notifications for a user, when deleted or spammed.
+ *
+ * @todo This function assumes that items with the user_id in the item_id slot
+ *       are associated with that user. However, this will only be true with
+ *       certain components (such as Friends). Use with caution!
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param int $user_id ID of the user whose associated items are beind deleted.
+ * @param int $is_new 0 for read, 1 for unread
+ * @param string $component_name Name of the associated component.
+ * @param string $component_action Name of the associated action.
+ * @return bool True on success, false on failure.
+ */
+function bp_notifications_mark_notifications_from_user( $user_id, $is_new, $component_name, $component_action ) {
+	return BP_Notifications_Notification::delete( array(
+		'item_id'          => $user_id,
+		'component_name'   => $component_name,
+		'component_action' => $component_action,
+		'is_new'           => $is_new
+	) );
+}
+
+/** Helpers *******************************************************************/
 
 /**
  * Check if a user has access to a specific notification.
