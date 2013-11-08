@@ -492,12 +492,11 @@ class BP_Notifications_Notification {
 			'per_page'          => false,
 		) );
 
-		$bp = buddypress();
-
+		$bp         = buddypress();
+		$pag_sql    = '';
 		$select_sql = "SELECT *";
 		$from_sql   = "FROM {$bp->notifications->table_name}";
-
-		$where_args = array(
+		$where_sql  = self::get_where_sql( array(
 			'id'                => $r['id'],
 			'user_id'           => $r['user_id'],
 			'item_id'           => $r['item_id'],
@@ -506,16 +505,13 @@ class BP_Notifications_Notification {
 			'component_action'  => $r['component_action'],
 			'is_new'            => $r['is_new'],
 			'search_terms'      => $r['search_terms'],
-		);
+		) );
 
-		$where_sql = self::get_where_sql( $where_args );
-
-		$pag_sql = '';
 		if ( ! empty( $r['page'] ) && ! empty( $r['per_page'] ) ) {
-			$page     = absint( $r['page'] );
+			$page     = absint( $r['page']     );
 			$per_page = absint( $r['per_page'] );
 			$offset   = $per_page * ( $page - 1 );
-			$pag_sql = $wpdb->prepare( "LIMIT %d, %d", $offset, $per_page );
+			$pag_sql  = $wpdb->prepare( "LIMIT %d, %d", $offset, $per_page );
 		}
 
 		$sql = "{$select_sql} {$from_sql} {$where_sql} {$pag_sql}";
@@ -537,13 +533,11 @@ class BP_Notifications_Notification {
 	public static function get_total_count( $args ) {
 		global $wpdb;
 
-		$bp = buddypress();
-
+		$bp         = buddypress();
 		$select_sql = "SELECT COUNT(*)";
 		$from_sql   = "FROM {$bp->notifications->table_name}";
 		$where_sql  = self::get_where_sql( $args );
-
-		$sql = "{$select_sql} {$from_sql} {$where_sql}";
+		$sql        = "{$select_sql} {$from_sql} {$where_sql}";
 
 		return $wpdb->get_var( $sql );
 	}
@@ -566,7 +560,7 @@ class BP_Notifications_Notification {
 	 */
 	public static function update( $update_args = array(), $where_args = array() ) {
 		$update = self::get_query_clauses( $update_args );
-		$where  = self::get_query_clauses( $where_args );
+		$where  = self::get_query_clauses( $where_args  );
 
 		return self::_update( $update['data'], $where['data'], $update['format'], $where['format'] );
 	}
@@ -590,8 +584,7 @@ class BP_Notifications_Notification {
 		return self::_delete( $where['data'], $where['format'] );
 	}
 
-
-	/** Convenience methods **********************************************/
+	/** Convenience methods ***************************************************/
 
 	/**
 	 * Delete a single notification by ID.
@@ -622,11 +615,10 @@ class BP_Notifications_Notification {
 	 * @return array Associative array of notification items.
 	 */
 	public static function get_all_for_user( $user_id, $status = 'is_new' ) {
-		$args = array(
+		return self::get( array(
 			'user_id' => $user_id,
 			'is_new'  => 'is_new' === $status,
-		);
-		return self::get( $args );
+		) );
 	}
 
 	/**
@@ -639,11 +631,10 @@ class BP_Notifications_Notification {
 	 * @return array Associative array of unread notification items.
 	 */
 	public static function get_unread_for_user( $user_id = 0 ) {
-		$args = array(
+		return self::get( array(
 			'user_id' => $user_id,
 			'is_new'  => true,
-		);
-		return self::get( $args );
+		) );
 	}
 
 	/**
@@ -656,11 +647,10 @@ class BP_Notifications_Notification {
 	 * @return array Associative array of unread notification items.
 	 */
 	public static function get_read_for_user( $user_id = 0 ) {
-		$args = array(
+		return self::get( array(
 			'user_id' => $user_id,
 			'is_new'  => false,
-		);
-		return self::get( $args );
+		) );
 	}
 
 	/**
@@ -707,7 +697,7 @@ class BP_Notifications_Notification {
 		return array( 'notifications' => &$notifications, 'total' => $total_count );
 	}
 
-	/** Mark Read *************************************************************/
+	/** Mark ******************************************************************/
 
 	/**
 	 * Mark all user notifications as read.
@@ -730,15 +720,19 @@ class BP_Notifications_Notification {
 			'user_id' => $user_id,
 		);
 
-		if ( $component_name ) {
+		if ( !empty( $item_id ) ) {
+			$where_args['item_id'] = $item_id;
+		}
+
+		if ( !empty( $component_name ) ) {
 			$where_args['component_name'] = $component_name;
 		}
 
-		if ( $component_action ) {
+		if ( !empty( $component_action ) ) {
 			$where_args['component_action'] = $component_action;
 		}
 
-		if ( $secondary_item_id ) {
+		if ( !empty( $secondary_item_id ) ) {
 			$where_args['secondary_item_id'] = $secondary_item_id;
 		}
 
@@ -765,15 +759,15 @@ class BP_Notifications_Notification {
 			'item_id' => $user_id,
 		);
 
-		if ( $component_name ) {
+		if ( !empty( $component_name ) ) {
 			$where_args['component_name'] = $component_name;
 		}
 
-		if ( $component_action ) {
+		if ( !empty( $component_action ) ) {
 			$where_args['component_action'] = $component_action;
 		}
 
-		if ( $secondary_item_id ) {
+		if ( !empty( $secondary_item_id ) ) {
 			$where_args['secondary_item_id'] = $secondary_item_id;
 		}
 
@@ -807,15 +801,15 @@ class BP_Notifications_Notification {
 			'item_id' => $item_id,
 		);
 
-		if ( $component_name ) {
+		if ( !empty( $component_name ) ) {
 			$where_args['component_name'] = $component_name;
 		}
 
-		if ( $component_action ) {
+		if ( !empty( $component_action ) ) {
 			$where_args['component_action'] = $component_action;
 		}
 
-		if ( $secondary_item_id ) {
+		if ( !empty( $secondary_item_id ) ) {
 			$where_args['secondary_item_id'] = $secondary_item_id;
 		}
 
