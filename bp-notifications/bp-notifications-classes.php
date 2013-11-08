@@ -316,6 +316,8 @@ class BP_Notifications_Notification {
 		// is_new
 		if ( ! empty( $args['is_new'] ) ) {
 			$where_conditions['is_new'] = "is_new = 1";
+		} elseif ( ( 0 === $args['is_new'] ) || ( false === $args['is_new'] ) ) {
+			$where_conditions['is_new'] = "is_new = 0";
 		}
 
 		// search_terms
