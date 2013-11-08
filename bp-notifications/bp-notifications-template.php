@@ -431,7 +431,7 @@ function bp_the_notification_item_id() {
 	 * @return int ID of the item associated with the current notification.
 	 */
 	function bp_get_the_notification_item_id() {
-		return apply_filters( 'bp_get_the_notification_item_id', stripslashes_deep( buddypress()->notifications->query_loop->notification->item_id ) );
+		return apply_filters( 'bp_get_the_notification_item_id', buddypress()->notifications->query_loop->notification->item_id );
 	}
 
 /**
@@ -450,7 +450,7 @@ function bp_the_notification_secondary_item_id() {
 	 * @return int ID of the secondary item associated with the current notification.
 	 */
 	function bp_get_the_notification_secondary_item_id() {
-		return apply_filters( 'bp_get_the_notification_secondary_item_id', stripslashes_deep( buddypress()->notifications->query_loop->notification->secondary_item_id ) );
+		return apply_filters( 'bp_get_the_notification_secondary_item_id', buddypress()->notifications->query_loop->notification->secondary_item_id );
 	}
 
 /**
@@ -469,7 +469,7 @@ function bp_the_notification_component_name() {
 	 * @return int Name of the component associated with the current notification.
 	 */
 	function bp_get_the_notification_component_name() {
-		return apply_filters( 'bp_get_the_notification_component_name', stripslashes_deep( buddypress()->notifications->query_loop->notification->component_name ) );
+		return apply_filters( 'bp_get_the_notification_component_name', buddypress()->notifications->query_loop->notification->component_name );
 	}
 
 /**
@@ -488,7 +488,7 @@ function bp_the_notification_component_action() {
 	 * @return int Name of the action associated with the current notification.
 	 */
 	function bp_get_the_notification_component_action() {
-		return apply_filters( 'bp_get_the_notification_component_action', stripslashes_deep( buddypress()->notifications->query_loop->notification->component_action ) );
+		return apply_filters( 'bp_get_the_notification_component_action', buddypress()->notifications->query_loop->notification->component_action );
 	}
 
 /**
@@ -507,7 +507,7 @@ function bp_the_notification_date_notified() {
 	 * @return string Timestamp of the current notification.
 	 */
 	function bp_get_the_notification_date_notified() {
-		return apply_filters( 'bp_get_the_notification_date_notified', stripslashes_deep( buddypress()->notifications->query_loop->notification->date_notified ) );
+		return apply_filters( 'bp_get_the_notification_date_notified', buddypress()->notifications->query_loop->notification->date_notified );
 	}
 
 /**
