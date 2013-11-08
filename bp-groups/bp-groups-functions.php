@@ -696,7 +696,6 @@ function groups_uninvite_user( $user_id, $group_id ) {
  * @return bool True when the user is a member of the group, otherwise false
  */
 function groups_accept_invite( $user_id, $group_id ) {
-	global $bp;
 
 	// If the user is already a member (because BP at one point allowed two invitations to
 	// slip through), delete all existing invitations/requests and return true
@@ -723,7 +722,7 @@ function groups_accept_invite( $user_id, $group_id ) {
 	// Modify group meta
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
-	bp_core_delete_notifications_by_item_id( $user_id, $group_id, $bp->groups->id, 'group_invite' );
+	bp_core_mark_notifications_by_item_id( $user_id, $group_id, buddypress()->groups->id, 'group_invite' );
 
 	do_action( 'groups_accept_invite', $user_id, $group_id );
 	return true;
@@ -739,12 +738,12 @@ function groups_reject_invite( $user_id, $group_id ) {
 }
 
 function groups_delete_invite( $user_id, $group_id ) {
-	global $bp;
 
 	$delete = BP_Groups_Member::delete_invite( $user_id, $group_id );
 
-	if ( $delete )
-		bp_core_delete_notifications_by_item_id( $user_id, $group_id, $bp->groups->id, 'group_invite' );
+	if ( !empty( $delete ) ) {
+		bp_core_mark_notifications_by_item_id( $user_id, $group_id, buddypress()->groups->id, 'group_invite' );
+	}
 
 	return $delete;
 }

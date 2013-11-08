@@ -89,7 +89,7 @@ function friends_accept_friendship( $friendship_id ) {
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
 
 		// Remove the friend request notice
-		bp_core_delete_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
+		bp_core_mark_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
 
 		// Add a friend accepted notice for the initiating user
 		bp_core_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_accepted' );
@@ -133,8 +133,9 @@ function friends_reject_friendship( $friendship_id ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 
 	if ( !$friendship->is_confirmed && BP_Friends_Friendship::reject( $friendship_id ) ) {
+
 		// Remove the friend request notice
-		bp_core_delete_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
+		bp_core_mark_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
 
 		do_action_ref_array( 'friends_friendship_rejected', array( $friendship_id, &$friendship ) );
 		return true;

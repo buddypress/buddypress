@@ -185,7 +185,7 @@ function bp_has_message_threads( $args = '' ) {
 		wp_redirect( bp_displayed_user_id() );
 	} else {
 		if ( bp_is_current_action( 'inbox' ) ) {
-			bp_core_delete_notifications_by_type( bp_loggedin_user_id(), $bp->messages->id, 'new_message' );
+			bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->messages->id, 'new_message' );
 		}
 
 		if ( bp_is_current_action( 'sentbox' ) ) {

@@ -99,6 +99,8 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 	return apply_filters( 'bp_core_get_notifications_for_user', $renderable, $user_id, $format );
 }
 
+/** Delete ********************************************************************/
+
 /**
  * Delete notifications for a user by type
  *
@@ -160,6 +162,54 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
 	}
 
 	bp_notifications_delete_all_notifications_by_type( $item_id, $component_name, $component_action, $secondary_item_id );
+}
+
+/** Mark **********************************************************************/
+
+/**
+ * Delete notifications for a user by type
+ *
+ * Used when clearing out notifications for a specific component when the user
+ * has visited that component.
+ *
+ * @since BuddyPress (1.0)
+ * @param int $user_id
+ * @param string $component_name
+ * @param string $component_action
+ * @param int $is_new
+ * @return boolean True on success, false on fail
+ */
+function bp_core_mark_notifications_by_type( $user_id, $component_name, $component_action, $is_new = false ) {
+
+	// Bail if notifications is not active
+	if ( ! bp_is_active( 'notifications' ) ) {
+		return false;
+	}
+
+	return bp_notifications_mark_notifications_by_type( $user_id, $component_name, $component_action, $is_new );
+}
+
+/**
+ * Delete notifications for an item ID
+ *
+ * Used when clearing out notifications for a specific component when the user
+ * has visited that component.
+ *
+ * @since BuddyPress (1.0)
+ * @param int $user_id
+ * @param string $component_name
+ * @param string $component_action
+ * @param int $is_new
+ * @return boolean True on success, false on fail
+ */
+function bp_core_mark_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false, $is_new = false ) {
+
+	// Bail if notifications is not active
+	if ( ! bp_is_active( 'notifications' ) ) {
+		return false;
+	}
+
+	return bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id, $is_new );
 }
 
 /**
