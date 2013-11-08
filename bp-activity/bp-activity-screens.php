@@ -136,7 +136,7 @@ function bp_activity_screen_mentions() {
  * @uses bp_core_mark_all_notifications_by_type()
  */
 function bp_activity_remove_screen_notifications() {
-	bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), buddypress()->activity->id, 'new_at_mention' );
+	bp_core_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->activity->id, 'new_at_mention' );
 }
 add_action( 'bp_activity_screen_my_activity',               'bp_activity_remove_screen_notifications' );
 add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_screen_notifications' );

@@ -31,10 +31,10 @@ function groups_screen_my_groups() {
 
 	// Delete group request notifications for the user
 	if ( isset( $_GET['n'] ) ) {
-		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'membership_request_accepted' );
-		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'membership_request_rejected' );
-		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'member_promoted_to_mod'      );
-		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'member_promoted_to_admin'    );
+		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'membership_request_accepted' );
+		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'membership_request_rejected' );
+		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'member_promoted_to_mod'      );
+		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'member_promoted_to_admin'    );
 	}
 
 	do_action( 'groups_screen_my_groups' );
@@ -94,7 +94,7 @@ function groups_screen_group_invites() {
 	}
 
 	// Remove notifications
-	bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), buddypress()->groups->id, 'group_invite' );
+	bp_core_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->groups->id, 'group_invite' );
 
 	do_action( 'groups_screen_group_invites', $group_id );
 
@@ -109,10 +109,10 @@ function groups_screen_group_home() {
 	$bp = buddypress();
 
 	if ( isset( $_GET['n'] ) ) {
-		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'membership_request_accepted' );
-		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'membership_request_rejected' );
-		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'member_promoted_to_mod'      );
-		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'member_promoted_to_admin'    );
+		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'membership_request_accepted' );
+		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'membership_request_rejected' );
+		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'member_promoted_to_mod'      );
+		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'member_promoted_to_admin'    );
 	}
 
 	do_action( 'groups_screen_group_home' );
@@ -813,7 +813,7 @@ function groups_screen_group_admin_requests() {
 		return false;
 
 	// Remove any screen notifications
-	bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'new_membership_request' );
+	bp_core_mark_notifications_by_type( bp_loggedin_user_id(), $bp->groups->id, 'new_membership_request' );
 
 	$request_action = (string)bp_action_variable( 1 );
 	$membership_id  = (int)bp_action_variable( 2 );

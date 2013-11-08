@@ -17,7 +17,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function friends_screen_my_friends() {
 
 	// Delete any friendship acceptance notifications for the user when viewing a profile
-	bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), buddypress()->friends->id, 'friendship_accepted' );
+	bp_core_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->friends->id, 'friendship_accepted' );
 
 	do_action( 'friends_screen_my_friends' );
 
@@ -62,7 +62,7 @@ function friends_screen_requests() {
 	do_action( 'friends_screen_requests' );
 
 	if ( isset( $_GET['new'] ) ) {
-		bp_core_mark_all_notifications_by_type( bp_loggedin_user_id(), buddypress()->friends->id, 'friendship_request' );
+		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->friends->id, 'friendship_request' );
 	}
 
 	bp_core_load_template( apply_filters( 'friends_template_requests', 'members/single/home' ) );
