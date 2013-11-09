@@ -10,20 +10,7 @@
 		</div>
 	</div>
 
-	<table class="notifications">
-		<thead>
-			<tr>
-				<th class="icon"></th>
-				<th class="title"><?php _e( 'Notification', 'buddypress' ) ?></th>
-				<th class="date"><?php _e( 'Date Received', 'buddypress' ) ?></th>
-				<th class="actions"><?php _e( 'Actions',    'buddypress' ); ?></th>
-			</tr>
-		</thead>
-
-		<tbody>
-			<?php bp_get_template_part( 'members/single/notifications/notifications-loop' ); ?>
-		</tbody>
-	</table>
+	<?php bp_get_template_part( 'members/single/notifications/notifications-loop' ); ?>
 
 	<div id="pag-bottom" class="pagination no-ajax">
 		<div class="pag-count" id="notifications-count-bottom">
