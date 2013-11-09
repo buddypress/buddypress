@@ -171,16 +171,18 @@ class BP_Notifications_Component extends BP_Component {
 			// Pending notification requests
 			$count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() );
 			if ( ! empty( $count ) ) {
-				$unread = sprintf( __( 'Notifications <span class="count">%s</span>', 'buddypress' ), number_format_i18n( $count ) );
+				$title  = sprintf( __( 'Notifications <span class="count">%s</span>', 'buddypress' ), number_format_i18n( $count ) );
+				$unread = sprintf( __( 'Unread <span class="count">%s</span>',        'buddypress' ), number_format_i18n( $count ) );
 			} else {
-				$unread = __( 'Notifications', 'buddypress' );
+				$title  = __( 'Notifications', 'buddypress' );
+				$unread = __( 'Unread',        'buddypress' );
 			}
 
 			// Add the "My Account" sub menus
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
-				'title'  => $unread,
+				'title'  => $title,
 				'href'   => trailingslashit( $notifications_link ),
 			);
 
@@ -188,7 +190,7 @@ class BP_Notifications_Component extends BP_Component {
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-unread',
-				'title'  => __( 'Unread', 'buddypress' ),
+				'title'  => $unread,
 				'href'   => trailingslashit( $notifications_link ),
 			);
 
