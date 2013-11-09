@@ -24,8 +24,6 @@
 
 <?php else : ?>
 
-	<div id="message" class="info">
-		<p><?php _e( 'You have no notifications.', 'buddypress' ); ?></p>
-	</div>
+	<?php bp_get_template_part( 'members/single/notifications/feedback-no-notifications' ); ?>
 
 <?php endif;
