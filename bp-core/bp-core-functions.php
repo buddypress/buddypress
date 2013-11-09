@@ -1471,6 +1471,29 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 	return $result;
 }
 
+/** Requests ******************************************************************/
+
+/**
+ * Return true|false if this is a POST request
+ *
+ * @since BuddyPress (1.9.0)
+ * @return bool
+ */
+function bp_is_post_request() {
+	return (bool) ( 'POST' === strtoupper( $_SERVER['REQUEST_METHOD'] ) );
+}
+
+/**
+ * Return true|false if this is a GET request
+ *
+ * @since BuddyPress (1.9.0)
+ * @return bool
+ */
+function bp_is_get_request() {
+	return (bool) ( 'GET' === strtoupper( $_SERVER['REQUEST_METHOD'] ) );
+}
+
+
 /** Miscellaneous hooks *******************************************************/
 
 /**

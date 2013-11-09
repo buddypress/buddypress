@@ -338,3 +338,53 @@ function bp_generate_rewrite_rules( $wp_rewrite ) {
 function bp_allowed_themes( $themes ) {
 	return apply_filters( 'bp_allowed_themes', $themes );
 }
+
+/** Requests ******************************************************************/
+
+/**
+ * The main action used for handling theme-side POST requests
+ *
+ * @since BuddyPress (1.9.0)
+ * @uses do_action()
+ */
+function bp_post_request() {
+
+	// Bail if not a POST action
+	if ( ! bp_is_post_request() )
+		return;
+
+	// Bail if no action
+	if ( empty( $_POST['action'] ) )
+		return;
+
+	// This dynamic action is probably the one you want to use. It narrows down
+	// the scope of the 'action' without needing to check it in your function.
+	do_action( 'bp_post_request_' . $_POST['action'] );
+
+	// Use this static action if you don't mind checking the 'action' yourself.
+	do_action( 'bp_post_request',   $_POST['action'] );
+}
+
+/**
+ * The main action used for handling theme-side GET requests
+ *
+ * @since BuddyPress (1.9.0)
+ * @uses do_action()
+ */
+function bp_get_request() {
+
+	// Bail if not a POST action
+	if ( ! bp_is_get_request() )
+		return;
+
+	// Bail if no action
+	if ( empty( $_GET['action'] ) )
+		return;
+
+	// This dynamic action is probably the one you want to use. It narrows down
+	// the scope of the 'action' without needing to check it in your function.
+	do_action( 'bp_get_request_' . $_GET['action'] );
+
+	// Use this static action if you don't mind checking the 'action' yourself.
+	do_action( 'bp_get_request',   $_GET['action'] );
+}

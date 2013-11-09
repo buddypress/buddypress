@@ -84,9 +84,11 @@ add_action( 'bp_init', 'bp_add_permastructs',        40 );
  * places. This won't always be this way, we promise.
  *                                                           v---Load order
  */
-add_action( 'bp_template_redirect', 'bp_redirect_canonical', 2 );
-add_action( 'bp_template_redirect', 'bp_actions',            4 );
-add_action( 'bp_template_redirect', 'bp_screens',            6 );
+add_action( 'bp_template_redirect', 'bp_redirect_canonical', 2  );
+add_action( 'bp_template_redirect', 'bp_actions',            4  );
+add_action( 'bp_template_redirect', 'bp_screens',            6  );
+add_action( 'bp_template_redirect', 'bp_post_request',       10 );
+add_action( 'bp_template_redirect', 'bp_get_request',        10 );
 
 /**
  * Add the BuddyPress functions file
