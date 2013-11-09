@@ -233,7 +233,7 @@ class BP_Notifications_Template {
 
 		// Setup variables
 		$this->pag_page     = isset( $_GET[ $r['page_arg'] ] ) ? intval( $_GET[ $r['page_arg'] ] ) : $r['page'];
-		$this->pag_num      = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $r['per_page'];
+		$this->pag_num      = isset( $_GET['num']            ) ? intval( $_GET['num']            ) : $r['per_page'];
 		$this->user_id      = $r['user_id'];
 		$this->is_new       = $r['is_new'];
 		$this->search_terms = $r['search_terms'];
@@ -414,9 +414,16 @@ function bp_has_notifications( $args = '' ) {
 		$is_new = 0;
 	}
 
+	// Get the user ID
+	if ( bp_displayed_user_id() ) {
+		$user_id = bp_displayed_user_id();
+	} else {
+		$user_id = bp_loggedin_user_id();
+	}
+
 	// Parse the args
 	$r = wp_parse_args( $args, array(
-		'user_id'      => bp_loggedin_user_id(),
+		'user_id'      => $user_id,
 		'is_new'       => $is_new,
 		'page'         => 1,
 		'per_page'     => 25,
