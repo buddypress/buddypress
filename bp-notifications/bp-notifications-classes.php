@@ -760,7 +760,7 @@ class BP_Notifications_Notification {
 			'user_id'      => bp_loggedin_user_id(),
 			'is_new'       => true,
 			'page'         => 1,
-			'per_page'     => 10,
+			'per_page'     => 25,
 			'search_terms' => '',
 		) );
 
