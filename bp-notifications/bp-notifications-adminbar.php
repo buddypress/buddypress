@@ -28,13 +28,14 @@ function bp_notifications_toolbar_menu() {
 	$count         = ! empty( $notifications ) ? count( $notifications ) : 0;
 	$alert_class   = (int) $count > 0 ? 'pending-count alert' : 'count no-alert';
 	$menu_title    = '<span id="ab-pending-notifications" class="' . $alert_class . '">' . $count . '</span>';
+	$menu_link     = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
 
 	// Add the top-level Notifications button
 	$wp_admin_bar->add_menu( array(
 		'parent'    => 'top-secondary',
 		'id'        => 'bp-notifications',
 		'title'     => $menu_title,
-		'href'      => bp_loggedin_user_domain(),
+		'href'      => $menu_link,
 	) );
 
 	if ( ! empty( $notifications ) ) {
@@ -51,7 +52,7 @@ function bp_notifications_toolbar_menu() {
 			'parent' => 'bp-notifications',
 			'id'     => 'no-notifications',
 			'title'  => __( 'No new notifications', 'buddypress' ),
-			'href'   => bp_loggedin_user_domain(),
+			'href'   => $menu_link,
 		) );
 	}
 

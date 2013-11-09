@@ -26,7 +26,7 @@ class BP_Notifications_Component extends BP_Component {
 			__( 'Notifications', 'buddypress' ),
 			BP_PLUGIN_DIR,
 			array(
-				'adminbar_myaccount_order' => 100
+				'adminbar_myaccount_order' => 30
 			)
 		);
 	}
@@ -108,7 +108,7 @@ class BP_Notifications_Component extends BP_Component {
 		$main_nav = array(
 			'name'                => sprintf( __( 'Notifications <span>%d</span>', 'buddypress' ), number_format_i18n( $count ) ),
 			'slug'                => $this->slug,
-			'position'            => 60,
+			'position'            => 30,
 			'screen_function'     => 'bp_notifications_screen_unread',
 			'default_subnav_slug' => 'unread',
 			'item_css_id'         => $this->id,
