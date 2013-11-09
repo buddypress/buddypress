@@ -226,6 +226,8 @@ class BP_Notifications_Template {
 			'is_new'       => true,
 			'page'         => 1,
 			'per_page'     => 25,
+			'order_by'     => 'date_notified',
+			'sort_order'   => 'DESC',
 			'max'          => null,
 			'search_terms' => '',
 			'page_arg'     => 'npage',
@@ -238,6 +240,8 @@ class BP_Notifications_Template {
 		$this->is_new       = $r['is_new'];
 		$this->search_terms = $r['search_terms'];
 		$this->page_arg     = $r['page_arg'];
+		$this->order_by     = $r['order_by'];
+		$this->sort_order   = $r['sort_order'];
 
 		// Get the notifications
 		$notifications      = BP_Notifications_Notification::get_current_notifications_for_user( array(
@@ -246,6 +250,8 @@ class BP_Notifications_Template {
 			'page'         => $this->pag_page,
 			'per_page'     => $this->pag_num,
 			'search_terms' => $this->search_terms,
+			'order_by'     => $this->order_by,
+			'sort_order'   => $this->sort_order,
 		) );
 
 		// Setup the notifications to loop through

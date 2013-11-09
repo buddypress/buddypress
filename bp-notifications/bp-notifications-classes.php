@@ -254,6 +254,7 @@ class BP_Notifications_Notification {
 		global $wpdb;
 
 		$where_conditions = array();
+		$where            = '';
 
 		// id
 		if ( ! empty( $args['id'] ) ) {
@@ -326,13 +327,78 @@ class BP_Notifications_Notification {
 			$where_conditions['search_terms'] = "( component_name LIKE '%%$search_terms%%' OR component_action LIKE '%%$search_terms%%' )";
 		}
 
+		// Custom WHERE
 		if ( ! empty( $where_conditions ) ) {
 			$where = 'WHERE ' . implode( ' AND ', $where_conditions );
-		} else {
-			$where = '';
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Assemble the ORDER BY clause of a get() SQL statement.
+	 *
+	 * Used by BP_Notifications_Notification::get() to create its ORDER BY
+	 * clause.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param array $args See {@link BP_Notifications_Notification::get()}
+	 *        for more details.
+	 * @return string ORDER BY clause.
+	 */
+	protected static function get_order_by_sql( $args = array() ) {
+
+		// Setup local variable
+		$conditions = array();
+		$retval     = '';
+
+		// Order by
+		if ( ! empty( $args['order_by'] ) ) {
+			$order_by               = implode( ', ', (array) $args['order_by'] );
+			$conditions['order_by'] = "{$order_by}";
+		}
+
+		// Sort order direction
+		if ( ! empty( $args['sort_order'] ) && in_array( $args['sort_order'], array( 'ASC', 'DESC' ) ) ) {
+			$sort_order               = $args['sort_order'];
+			$conditions['sort_order'] = "{$sort_order}";
+		}
+
+		// Custom ORDER BY
+		if ( ! empty( $conditions ) ) {
+			$retval = 'ORDER BY ' . implode( ' ', $conditions );
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * Assemble the LIMIT clause of a get() SQL statement.
+	 *
+	 * Used by BP_Notifications_Notification::get() to create its LIMIT clause.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param array $args See {@link BP_Notifications_Notification::get()}
+	 *        for more details.
+	 * @return string LIMIT clause.
+	 */
+	protected static function get_paged_sql( $args = array() ) {
+		global $wpdb;
+
+		// Setup local variable
+		$retval = '';
+
+		// Custom LIMIT
+		if ( ! empty( $args['page'] ) && ! empty( $args['per_page'] ) ) {
+			$page     = absint( $args['page']     );
+			$per_page = absint( $args['per_page'] );
+			$offset   = $per_page * ( $page - 1 );
+			$retval   = $wpdb->prepare( "LIMIT %d, %d", $offset, $per_page );
+		}
+
+		return $retval;
 	}
 
 	/**
@@ -481,7 +547,8 @@ class BP_Notifications_Notification {
 	public static function get( $args = array() ) {
 		global $wpdb;
 
-		$r = wp_parse_args( $args, array(
+		// Parse the arguments
+		$r  = wp_parse_args( $args, array(
 			'id'                => false,
 			'user_id'           => false,
 			'item_id'           => false,
@@ -490,14 +557,19 @@ class BP_Notifications_Notification {
 			'component_action'  => false,
 			'is_new'            => true,
 			'search_terms'      => '',
+			'order_by'          => false,
+			'sort_order'        => false,
 			'page'              => false,
 			'per_page'          => false,
 		) );
 
-		$bp         = buddypress();
-		$pag_sql    = '';
+		// SELECT
 		$select_sql = "SELECT *";
-		$from_sql   = "FROM {$bp->notifications->table_name}";
+
+		// FROM
+		$from_sql   = "FROM " . buddypress()->notifications->table_name;
+
+		// WHERE
 		$where_sql  = self::get_where_sql( array(
 			'id'                => $r['id'],
 			'user_id'           => $r['user_id'],
@@ -509,14 +581,19 @@ class BP_Notifications_Notification {
 			'search_terms'      => $r['search_terms'],
 		) );
 
-		if ( ! empty( $r['page'] ) && ! empty( $r['per_page'] ) ) {
-			$page     = absint( $r['page']     );
-			$per_page = absint( $r['per_page'] );
-			$offset   = $per_page * ( $page - 1 );
-			$pag_sql  = $wpdb->prepare( "LIMIT %d, %d", $offset, $per_page );
-		}
+		// ORDER BY
+		$order_sql  = self::get_order_by_sql( array(
+			'order_by'   => $r['order_by'],
+			'sort_order' => $r['sort_order']
+		) );
 
-		$sql = "{$select_sql} {$from_sql} {$where_sql} {$pag_sql}";
+		// LIMIT %d, %d
+		$pag_sql    = self::get_paged_sql( array(
+			'page'     => $r['page'],
+			'per_page' => $r['per_page'],
+		) );
+
+		$sql = "{$select_sql} {$from_sql} {$where_sql} {$order_sql} {$pag_sql}";
 
 		return $wpdb->get_results( $sql );
 	}
