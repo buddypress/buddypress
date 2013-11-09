@@ -134,6 +134,7 @@ class BP_Notifications_Component extends BP_Component {
 			'screen_function' => 'bp_notifications_screen_unread',
 			'position'        => 10,
 			'item_css_id'     => 'notifications-my-notifications',
+			'user_has_access' => bp_core_can_edit_settings(),
 		);
 
 		$sub_nav[] = array(
