@@ -60,6 +60,15 @@ class BP_Admin {
 	 */
 	public $js_url = '';
 
+	/** Other *****************************************************************/
+
+	/**
+	 * Notices used for user feedback, like saving settings.
+	 *
+	 * @var array()
+	 */
+	public $notices = array();
+
 	/** Methods ***************************************************************/
 
 	/**

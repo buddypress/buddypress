@@ -120,27 +120,35 @@ function bp_core_admin_backpat_page() {
  * @uses bp_is_root_blog()
  */
 function bp_core_print_admin_notices() {
-	$bp = buddypress();
 
 	// Only the super admin should see messages
-	if ( !bp_current_user_can( 'bp_moderate' ) )
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return;
+	}
 
-	// On multisite installs, don't show on the Site Admin of a non-root blog, unless
-	// do_network_admin is overridden
-	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() )
+	// On multisite installs, don't show on a non-root blog, unless
+	// 'do_network_admin' is overridden.
+	if ( is_multisite() && bp_core_do_network_admin() && ! bp_is_root_blog() ) {
 		return;
+	}
+
+	// Get the admin notices
+	$admin_notices = buddypress()->admin->notices;
 
 	// Show the messages
-	if ( !empty( $bp->admin->notices ) ) {
-		?>
+	if ( !empty( $admin_notices ) ) : ?>
+
 		<div id="message" class="updated fade">
-		<?php foreach ( $bp->admin->notices as $notice ) : ?>
-				<p><?php echo $notice ?></p>
-		<?php endforeach ?>
+
+			<?php foreach ( $admin_notices as $notice ) : ?>
+
+				<p><?php echo $notice; ?></p>
+
+			<?php endforeach; ?>
+
 		</div>
-		<?php
-	}
+
+	<?php endif;
 }
 add_action( 'admin_notices',         'bp_core_print_admin_notices' );
 add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
@@ -157,14 +165,20 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  *
  * @param string $notice The notice you are adding to the queue
  */
-function bp_core_add_admin_notice( $notice ) {
-	$bp = buddypress();
+function bp_core_add_admin_notice( $notice = '' ) {
 
-	if ( empty( $bp->admin->notices ) ) {
-		$bp->admin->notices = array();
+	// Do not add if the notice is empty
+	if ( empty( $notice ) ) {
+		return;
 	}
 
-	$bp->admin->notices[] = $notice;
+	// Double check the object before referencing it
+	if ( ! isset( buddypress()->admin->notices ) ) {
+		buddypress()->admin->notices = array();
+	}
+
+	// Add the notice
+	buddypress()->admin->notices[] = $notice;
 }
 
 /**
@@ -186,12 +200,14 @@ function bp_core_activation_notice() {
 	$bp = buddypress();
 
 	// Only the super admin gets warnings
-	if ( !bp_current_user_can( 'bp_moderate' ) )
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return;
+	}
 
 	// On multisite installs, don't load on a non-root blog, unless do_network_admin is overridden
-	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() )
+	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() ) {
 		return;
+	}
 
 	/**
 	 * Check to make sure that the blog setup routine has run. This can't happen during the
@@ -209,8 +225,9 @@ function bp_core_activation_notice() {
 	/**
 	 * Are pretty permalinks enabled?
 	 */
-	if ( isset( $_POST['permalink_structure'] ) )
+	if ( isset( $_POST['permalink_structure'] ) ) {
 		return;
+	}
 
 	if ( empty( $wp_rewrite->permalink_structure ) ) {
 		bp_core_add_admin_notice( sprintf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) );
@@ -247,8 +264,9 @@ function bp_core_activation_notice() {
 	}
 
 	// On the first admin screen after a new installation, this isn't set, so grab it to supress a misleading error message.
-	if ( empty( $bp->pages->members ) )
+	if ( empty( $bp->pages->members ) ) {
 		$bp->pages = bp_core_get_directory_pages();
+	}
 
 	foreach( $wp_page_components as $component ) {
 		if ( !isset( $bp->pages->{$component['id']} ) ) {
