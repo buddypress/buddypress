@@ -99,6 +99,7 @@ function bp_notifications_read_permalink() {
  * @since BuddyPress (1.9.0)
  */
 class BP_Notifications_Template {
+
 	/**
 	 * The loop iterator.
 	 *
@@ -106,7 +107,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $current_notification = -1;
+	public $current_notification = -1;
 
 	/**
 	 * The number of notifications returned by the paged query.
@@ -115,7 +116,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $current_notification_count;
+	public $current_notification_count;
 
 	/**
 	 * Total number of notifications matching the query.
@@ -124,7 +125,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $total_notification_count;
+	public $total_notification_count;
 
 	/**
 	 * Array of notifications located by the query.
@@ -133,7 +134,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var array
 	 */
-	var $notifications;
+	public $notifications;
 
 	/**
 	 * The notification object currently being iterated on.
@@ -142,7 +143,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var object
 	 */
-	var $notification;
+	public $notification;
 
 	/**
 	 * A flag for whether the loop is currently being iterated.
@@ -151,7 +152,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var bool
 	 */
-	var $in_the_loop;
+	public $in_the_loop;
 
 	/**
 	 * The ID of the user to whom the displayed notifications belong.
@@ -160,7 +161,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $user_id;
+	public $user_id;
 
 	/**
 	 * The page number being requested.
@@ -169,7 +170,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $pag_page;
+	public $pag_page;
 
 	/**
 	 * The number of items to display per page of results.
@@ -178,7 +179,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $pag_num;
+	public $pag_num;
 
 	/**
 	 * An HTML string containing pagination links.
@@ -187,7 +188,7 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $pag_links;
+	public $pag_links;
 
 	/**
 	 * A string to match against.
@@ -196,7 +197,25 @@ class BP_Notifications_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $search_terms;
+	public $search_terms;
+
+	/**
+	 * A database column to order the results by.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
+	 * @var string
+	 */
+	public $order_by;
+
+	/**
+	 * The direction to sort the results (ASC or DESC)
+	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
+	 * @var string
+	 */
+	public $sort_order;
 
 	/**
 	 * Constructor method.
