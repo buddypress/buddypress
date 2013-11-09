@@ -1423,17 +1423,47 @@ function bp_do_404( $redirect = 'remove_canonical_direct' ) {
  */
 function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 
-	// Get the home URL
-	$home_url = strtolower( home_url() );
+	/** Home URL **************************************************************/
 
-	$requested_url = bp_get_requested_url();
+	// Parse home_url() into pieces to remove query-strings, strange characters,
+	// and other funny things that plugins might to do to it.
+	$parsed_home = parse_url( home_url( '/', ( is_ssl() ? 'https://' : 'http://' ) ) );
+
+	// Maybe include the port, if it's included
+	if ( isset( $parsed_home['port'] ) ) {
+		$parsed_host = $parsed_home['host'] . ':' . $parsed_home['port'];
+	} else {
+		$parsed_host = $parsed_home['host'];
+	}
+
+	// Set the home URL for use in comparisons
+	$home_url = trim( strtolower( $parsed_home['scheme'] . '://' . $parsed_host . $parsed_home['path'] ), '/' );
+
+	/** Requested URL *********************************************************/
+
+	// Maybe include the port, if it's included in home_url()
+	if ( isset( $parsed_home['port'] ) ) {
+		$request_host = $_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'];
+	} else {
+		$request_host = $_SERVER['HTTP_HOST'];
+	}
+
+	// Build the currently requested URL
+	$scheme        = is_ssl() ? 'https://' : 'http://';
+	$requested_url = strtolower( $scheme . $request_host . $_SERVER['REQUEST_URI'] );
+
+	/** Look for match ********************************************************/
+
+	// Filter the requested URL, for configurations like reverse proxying
+	$matched_url = apply_filters( 'bp_verify_nonce_request_url', $requested_url );
 
 	// Check the nonce
 	$result = isset( $_REQUEST[$query_arg] ) ? wp_verify_nonce( $_REQUEST[$query_arg], $action ) : false;
 
 	// Nonce check failed
-	if ( empty( $result ) || empty( $action ) || ( strpos( $requested_url, $home_url ) !== 0 ) )
+	if ( empty( $result ) || empty( $action ) || ( strpos( $matched_url, $home_url ) !== 0 ) ) {
 		$result = false;
+	}
 
 	// Do extra things
 	do_action( 'bp_verify_nonce_request', $action, $result );
