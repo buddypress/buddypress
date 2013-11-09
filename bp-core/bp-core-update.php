@@ -220,6 +220,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 6067 ) {
 			bp_update_to_1_6();
 		}
+
+		// 1.9
+		if ( $raw_db_version < 7553 ) {
+			bp_update_to_1_9();
+		}
 	}
 
 	/** All done! *************************************************************/
@@ -266,6 +271,33 @@ function bp_update_to_1_6() {
 	delete_blog_option( bp_get_root_blog_id(), 'bp-core-db-version'  );
 	delete_site_option( bp_get_root_blog_id(), '_bp-core-db-version' );
 	delete_site_option( bp_get_root_blog_id(), '_bp_db_version'      );
+}
+
+/**
+ * Add the notifications component to active components.
+ *
+ * Notifications was added in 1.9.0, and previous installations will already
+ * have the core notifications API active. We need to add the new Notifications
+ * component to the active components option to retain existing functionality.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_update_to_1_9() {
+
+	// Setup hardcoded keys
+	$active_components_key      = 'bp-active-components';
+	$notifications_component_id = 'notifications';
+
+	// Get the active components
+	$active_components          = bp_get_option( $active_components_key );
+
+	// Add notifications
+	if ( ! in_array( $notifications_component_id, $active_components ) ) {
+		$active_components[ $notifications_component_id ] = 1;
+	}
+
+	// Update the active components option
+	bp_update_option( $active_components_key, $active_components );
 }
 
 /**
