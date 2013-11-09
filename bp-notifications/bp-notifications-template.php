@@ -29,6 +29,66 @@ function bp_notifications_slug() {
 		return apply_filters( 'bp_get_notifications_slug', buddypress()->notifications->slug );
 	}
 
+/**
+ * Output the notifications permalink.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_notifications_permalink() {
+	echo bp_get_notifications_permalink();
+}
+	/**
+	 * Return the notifications permalink.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @return string Notifications permalink
+	 */
+	function bp_get_notifications_permalink() {
+		$retval = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
+		return apply_filters( 'bp_get_notifications_permalink', $retval );
+	}
+
+/**
+ * Output the unread notifications permalink.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_notifications_unread_permalink() {
+	echo bp_get_notifications_unread_permalink();
+}
+	/**
+	 * Return the unread notifications permalink.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @return string Unread notifications permalink
+	 */
+	function bp_get_notifications_unread_permalink() {
+		$retval = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() . '/unread' );
+		return apply_filters( 'bp_get_notifications_unread_permalink', $retval );
+	}
+
+/**
+ * Output the read notifications permalink.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_notifications_read_permalink() {
+	echo bp_get_notifications_read_permalink();
+}
+	/**
+	 * Return the read notifications permalink.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @return string Read notifications permalink
+	 */
+	function bp_get_notifications_read_permalink() {
+		$retval = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() . '/read' );
+		return apply_filters( 'bp_get_notifications_unread_permalink', $retval );
+	}
+
 /** Main Loop *****************************************************************/
 
 /**
@@ -185,7 +245,7 @@ class BP_Notifications_Template {
 			'is_new'       => $this->is_new,
 			'page'         => $this->pag_page,
 			'per_page'     => $this->pag_num,
-			'search_terms' => $this->search_terms,
+			'search_terms' => $this->search_terms
 		) );
 
 		// Setup the notifications to loop through
@@ -362,7 +422,7 @@ function bp_has_notifications( $args = '' ) {
 		'per_page'     => 25,
 		'max'          => false,
 		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
-		'page_arg'     => 'npage',
+		'page_arg'     => 'npage'
 	) );
 
 	// Get the notifications
@@ -533,7 +593,7 @@ function bp_the_notification_time_since() {
 		// Notified date has legitimate data
 		if ( '0000-00-00 00:00:00' !== $date_notified ) {
 			$retval = bp_core_time_since( $date_notified );
-
+			
 		// Notified date is empty, so return a fun string
 		} else {
 			$retval = __( 'Date not found', 'buddypress' );
@@ -584,30 +644,154 @@ function bp_the_notification_description() {
 	}
 
 /**
+ * Output the mark read link for the current notification.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @uses bp_get_the_notification_mark_read_link()
+ */
+function bp_the_notification_mark_read_link() {
+	echo bp_get_the_notification_mark_read_link();
+}
+	/**
+	 * Return the mark read link for the current notification.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 */
+	function bp_get_the_notification_mark_read_link() {
+
+		ob_start(); ?>
+
+		<a href="<?php echo wp_nonce_url( add_query_arg( array( 'action' => 'read', 'id' => bp_get_the_notification_id() ), bp_get_notifications_unread_permalink() ), 'bp_notification_' . bp_get_the_notification_id() ); ?>" class="mark-read primary"><?php _e( 'Read', 'buddypress' ); ?></a>
+
+		<?php $retval = ob_get_clean();
+
+		return apply_filters( 'bp_get_the_notification_mark_read_link', $retval );
+	}
+
+/**
+ * Output the mark read link for the current notification.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @uses bp_get_the_notification_mark_unread_link()
+ */
+function bp_the_notification_mark_unread_link() {
+	echo bp_get_the_notification_mark_unread_link();
+}
+	/**
+	 * Return the mark read link for the current notification.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 */
+	function bp_get_the_notification_mark_unread_link() {
+
+		ob_start(); ?>
+
+		<a href="<?php echo wp_nonce_url( add_query_arg( array( 'action' => 'unread', 'id' => bp_get_the_notification_id() ), bp_get_notifications_read_permalink() ), 'bp_notification_' . bp_get_the_notification_id() ); ?>" class="mark-unread primary"><?php _e( 'Unread', 'buddypress' ); ?></a>
+
+		<?php $retval = ob_get_clean();
+
+		return apply_filters( 'bp_get_the_notification_mark_unread_link', $retval );
+	}
+
+/**
+ * Output the mark link for the current notification.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @uses bp_get_the_notification_mark_unread_link()
+ */
+function bp_the_notification_mark_link() {
+	echo bp_get_the_notification_mark_link();
+}
+	/**
+	 * Return the mark link for the current notification.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 */
+	function bp_get_the_notification_mark_link() {
+
+		if ( bp_is_current_action( 'read' ) ) {
+			$retval = bp_get_the_notification_mark_unread_link();
+		} else {
+			$retval = bp_get_the_notification_mark_read_link();
+		}
+
+		return apply_filters( 'bp_get_the_notification_mark_link', $retval );
+	}
+
+/**
+ * Output the delete link for the current notification.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @uses bp_get_the_notification_delete_link()
+ */
+function bp_the_notification_delete_link() {
+	echo bp_get_the_notification_delete_link();
+}
+	/**
+	 * Return the delete link for the current notification.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 */
+	function bp_get_the_notification_delete_link() {
+
+		// URL to add nonce to
+		if ( bp_is_current_action( 'unread' ) ) {
+			$link = bp_get_notifications_unread_permalink();
+		} elseif ( bp_is_current_action( 'read' ) ) {
+			$link = bp_get_notifications_read_permalink();
+		}
+
+		// Start the output buffer
+		ob_start(); ?>
+
+		<a href="<?php echo wp_nonce_url( add_query_arg( array( 'action' => 'delete', 'id' => bp_get_the_notification_id() ), $link ), 'bp_notification_' . bp_get_the_notification_id() ); ?>" class="delete secondary"><?php _e( 'Delete', 'buddypress' ); ?></a>
+
+		<?php $retval = ob_get_clean();
+
+		return apply_filters( 'bp_get_the_notification_delete_link', $retval );
+	}
+
+/**
  * Output the action links for the current notification.
  *
  * @since BuddyPress (1.9.0)
  */
-function bp_the_notification_action_links() {
-	echo bp_get_the_notification_action_links();
+function bp_the_notification_action_links( $args = '' ) {
+	echo bp_get_the_notification_action_links( $args );
 }
 	/**
 	 * Return the action links for the current notification.
 	 *
 	 * @since BuddyPress (1.9.0)
 	 *
+	 * @param array $args {
+	 *     @type string $before HTML before the links
+	 *     @type string $after HTML after the links
+	 *     @type string $sep HTML between the links
+	 *     @type array $links Array of links to implode by 'sep'
+	 * }
+	 *
 	 * @return string HTML links for actions to take on single notifications.
 	 */
-	function bp_get_the_notification_action_links() {
+	function bp_get_the_notification_action_links( $args = '' ) {
 
-		// Setup the return value
-		$retval = '';
+		// Parse 
+		$r = wp_parse_args( $args, array(
+			'before' => '',
+			'after'  => '',
+			'sep'    => ' | ',
+			'links'  => array(
+				bp_get_the_notification_mark_link(),
+				bp_get_the_notification_delete_link()
+			)
+		) );
 
-		// Start the output buffer
-		ob_start();
-
-		// Get and empty the output buffer
-		$retval = ob_get_clean();
+		// Build the links
+		$retval = $r['before'] . implode( $r['links'], $r['sep'] ) . $r['after'];
 
 		return apply_filters( 'bp_get_the_notification_action_links', $retval );
 	}
