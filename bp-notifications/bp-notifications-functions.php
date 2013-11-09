@@ -83,7 +83,29 @@ function bp_notifications_delete_notification( $id ) {
 		return false;
 	}
 
-	return BP_Notifications_Notification::delete( $id );
+	return BP_Notifications_Notification::delete( array( 'id' => $id ) );
+}
+
+/**
+ * Mark notification read/unread for a user by ID.
+ *
+ * Used when clearing out notifications for a specific notification item.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param int $user_id ID of the user whose notifications are being deleted.
+ * @param int $is_new 0 for read, 1 for unread
+ * @return bool True on success, false on failure.
+ */
+function bp_notifications_mark_notification( $id, $is_new = false ) {
+	if ( ! bp_notifications_check_notification_access( bp_loggedin_user_id(), $id ) ) {
+		return false;
+	}
+
+	return BP_Notifications_Notification::update(
+		array( 'is_new' => $is_new ),
+		array( 'id'     => $id     )
+	);
 }
 
 /**

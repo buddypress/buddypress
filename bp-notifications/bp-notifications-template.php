@@ -660,9 +660,13 @@ function bp_the_notification_mark_read_link() {
 	 */
 	function bp_get_the_notification_mark_read_link() {
 
+		// Get the URL with nonce, action, and id
+		$url = wp_nonce_url( add_query_arg( array( 'action' => 'read', 'notification_id' => bp_get_the_notification_id() ), bp_get_notifications_unread_permalink() ), 'bp_notification_mark_read_' . bp_get_the_notification_id() );
+
+		// Start the output buffer
 		ob_start(); ?>
 
-		<a href="<?php echo wp_nonce_url( add_query_arg( array( 'action' => 'read', 'id' => bp_get_the_notification_id() ), bp_get_notifications_unread_permalink() ), 'bp_notification_' . bp_get_the_notification_id() ); ?>" class="mark-read primary"><?php _e( 'Read', 'buddypress' ); ?></a>
+		<a href="<?php echo esc_url( $url ); ?>" class="mark-read primary"><?php _e( 'Read', 'buddypress' ); ?></a>
 
 		<?php $retval = ob_get_clean();
 
@@ -686,9 +690,13 @@ function bp_the_notification_mark_unread_link() {
 	 */
 	function bp_get_the_notification_mark_unread_link() {
 
+		// Get the URL with nonce, action, and id
+		$url = wp_nonce_url( add_query_arg( array( 'action' => 'unread', 'notification_id' => bp_get_the_notification_id() ), bp_get_notifications_read_permalink() ), 'bp_notification_mark_unread_' . bp_get_the_notification_id() );
+
+		// Start the output buffer
 		ob_start(); ?>
 
-		<a href="<?php echo wp_nonce_url( add_query_arg( array( 'action' => 'unread', 'id' => bp_get_the_notification_id() ), bp_get_notifications_read_permalink() ), 'bp_notification_' . bp_get_the_notification_id() ); ?>" class="mark-unread primary"><?php _e( 'Unread', 'buddypress' ); ?></a>
+		<a href="<?php echo esc_url( $url ); ?>" class="mark-unread primary"><?php _e( 'Unread', 'buddypress' ); ?></a>
 
 		<?php $retval = ob_get_clean();
 
@@ -745,10 +753,13 @@ function bp_the_notification_delete_link() {
 			$link = bp_get_notifications_read_permalink();
 		}
 
+		// Get the URL with nonce, action, and id
+		$url = wp_nonce_url( add_query_arg( array( 'action' => 'delete', 'notification_id' => bp_get_the_notification_id() ), $link ), 'bp_notification_delete_' . bp_get_the_notification_id() );
+
 		// Start the output buffer
 		ob_start(); ?>
 
-		<a href="<?php echo wp_nonce_url( add_query_arg( array( 'action' => 'delete', 'id' => bp_get_the_notification_id() ), $link ), 'bp_notification_' . bp_get_the_notification_id() ); ?>" class="delete secondary"><?php _e( 'Delete', 'buddypress' ); ?></a>
+		<a href="<?php echo esc_url( $url ); ?>" class="delete secondary"><?php _e( 'Delete', 'buddypress' ); ?></a>
 
 		<?php $retval = ob_get_clean();
 
