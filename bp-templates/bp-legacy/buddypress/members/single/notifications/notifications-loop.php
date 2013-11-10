@@ -21,5 +21,5 @@
 
 		<?php endwhile; ?>
 
-	<tbody>
+	</tbody>
 </table>
