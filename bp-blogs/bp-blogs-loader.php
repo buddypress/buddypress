@@ -15,9 +15,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 class BP_Blogs_Component extends BP_Component {
 
 	/**
-	 * Start the blogs component creation process
+	 * Start the blogs component creation process.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	function __construct() {
 		parent::start(
@@ -31,12 +31,16 @@ class BP_Blogs_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup globals
+	 * Set up global settings for the blogs component.
 	 *
 	 * The BP_BLOGS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::setup_globals() for description of parameters.
+	 *
+	 * @param array $args See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
@@ -67,7 +71,11 @@ class BP_Blogs_Component extends BP_Component {
 	}
 
 	/**
-	 * Include files
+	 * Include bp-blogs files.
+	 *
+	 * @see BP_Component::includes() for description of parameters.
+	 *
+	 * @param array $includes See {@link BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
 		// Files to include
@@ -91,7 +99,14 @@ class BP_Blogs_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup BuddyBar navigation
+	 * Set up component navigation for bp-blogs.
+	 *
+	 * @see BP_Component::setup_nav() for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 *        description.
+	 * @param array $sub_nav Optional. See BP_Component::setup_nav() for
+	 *        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 		$bp = buddypress();
@@ -139,9 +154,14 @@ class BP_Blogs_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up the Toolbar
+	 * Set up bp-blogs integration with the WordPress admin bar.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::setup_admin_bar() for a description of arguments.
+	 *
+	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar()
+	 *        for description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 		$bp = buddypress();
@@ -190,7 +210,7 @@ class BP_Blogs_Component extends BP_Component {
 	}
 
 	/**
-	 * Sets up the title for pages and <title>
+	 * Set up the title for pages and <title>
 	 */
 	function setup_title() {
 		$bp = buddypress();
@@ -218,6 +238,9 @@ class BP_Blogs_Component extends BP_Component {
 	}
 }
 
+/**
+ * Set up the bp-blogs component.
+ */
 function bp_setup_blogs() {
 	buddypress()->blogs = new BP_Blogs_Component();
 }

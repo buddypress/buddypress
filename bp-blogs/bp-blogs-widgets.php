@@ -10,7 +10,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-// @todo not use create_function()
+/**
+ * Register the widgets for the Blogs component.
+ */
 function bp_blogs_register_widgets() {
 	global $wpdb;
 
@@ -24,6 +26,9 @@ add_action( 'bp_register_widgets', 'bp_blogs_register_widgets' );
  */
 class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
+	/**
+	 * Constructor method.
+	 */
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'A list of recently published posts from across your network.', 'buddypress' ),
@@ -32,6 +37,14 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		parent::__construct( false, $name = _x( '(BuddyPress) Recent Networkwide Posts', 'widget name', 'buddypress' ), $widget_ops );
 	}
 
+	/**
+	 * Display the networkwide posts widget.
+	 *
+	 * @see WP_Widget::widget() for description of parameters.
+	 *
+	 * @param array $args Widget arguments.
+	 * @param array $instance Widget settings, as saved by the user.
+	 */
 	function widget( $args, $instance ) {
 
 		$title = ! empty( $instance['title'] ) ? esc_html( $instance['title'] ) : __( 'Recent Networkwide Posts', 'buddypress' );
@@ -83,6 +96,13 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	<?php
 	}
 
+	/**
+	 * Update the networkwide posts widget options.
+	 *
+	 * @param array $new_instance The new instance options.
+	 * @param array $old_instance The old instance options.
+	 * @return array $instance The parsed options to be saved.
+	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags( $new_instance['title'] );
@@ -92,6 +112,11 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * Output the networkwide posts widget options form.
+	 *
+	 * @param $instance Settings for this widget.
+	 */
 	function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array(
 			'title'      => __( 'Recent Networkwide Posts', 'buddypress' ),

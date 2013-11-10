@@ -13,7 +13,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Output the blogs component slug.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_get_blogs_slug()
  */
@@ -23,7 +23,7 @@ function bp_blogs_slug() {
 	/**
 	 * Return the blogs component slug.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
 	 * @return string The 'blogs' slug.
 	 */
@@ -34,7 +34,7 @@ function bp_blogs_slug() {
 /**
  * Output the blogs component root slug.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_get_blogs_root_slug()
  */
@@ -44,7 +44,7 @@ function bp_blogs_root_slug() {
 	/**
 	 * Return the blogs component root slug.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
 	 * @return string The 'blogs' root slug.
 	 */
@@ -55,7 +55,7 @@ function bp_blogs_root_slug() {
 /**
  * Output blog directory permalink.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_get_blogs_directory_permalink()
  */
@@ -65,7 +65,7 @@ function bp_blogs_directory_permalink() {
 	/**
 	 * Return blog directory permalink.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
 	 * @uses apply_filters()
 	 * @uses trailingslashit()
@@ -83,6 +83,7 @@ function bp_blogs_directory_permalink() {
  * Responsible for loading a group of blogs into a loop for display.
  */
 class BP_Blogs_Template {
+
 	/**
 	 * The loop iterator.
 	 *
@@ -298,7 +299,7 @@ function bp_rewind_blogs() {
 }
 
 /**
- * Initialize the activity loop.
+ * Initialize the blogs loop.
  *
  * Based on the $args passed, bp_has_blogs() populates the $blogs_template
  * global, enabling the use of BuddyPress templates and template functions to
@@ -544,7 +545,7 @@ function bp_blog_name() {
 /**
  * Output the ID of the current blog in the loop.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  */
 function bp_blog_id() {
 	echo bp_get_blog_id();
@@ -552,7 +553,7 @@ function bp_blog_id() {
 	/**
 	 * Return the ID of the current blog in the loop.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 *
 	 * @return int ID of the current blog in the loop.
 	 */
@@ -582,7 +583,7 @@ function bp_blog_description() {
 /**
  * Output the row class of the current blog in the loop.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  */
 function bp_blog_class() {
 	echo bp_get_blog_class();
@@ -590,7 +591,7 @@ function bp_blog_class() {
 	/**
 	 * Return the row class of the current blog in the loop.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 *
 	 * @global BP_Blogs_Template $blogs_template
 	 *
@@ -657,7 +658,7 @@ function bp_blog_latest_post() {
 /**
  * Output the title of the latest post on the current blog in the loop.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @see bp_get_blog_latest_post_title()
  */
@@ -667,7 +668,7 @@ function bp_blog_latest_post_title() {
 	/**
 	 * Return the title of the latest post on the current blog in the loop.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 *
 	 * @global BP_Blogs_Template
 	 *
@@ -687,7 +688,7 @@ function bp_blog_latest_post_title() {
 /**
  * Output the permalink of the latest post on the current blog in the loop.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @see bp_get_blog_latest_post_title()
  */
@@ -697,7 +698,7 @@ function bp_blog_latest_post_permalink() {
 	/**
 	 * Return the permalink of the latest post on the current blog in the loop.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 *
 	 * @global BP_Blogs_Template
 	 *
@@ -717,7 +718,7 @@ function bp_blog_latest_post_permalink() {
 /**
  * Output the content of the latest post on the current blog in the loop.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @uses bp_get_blog_latest_post_content()
  */
@@ -727,7 +728,7 @@ function bp_blog_latest_post_content() {
 	/**
 	 * Return the content of the latest post on the current blog in the loop.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 *
 	 * @global BP_Blogs_Template
 	 *
@@ -747,7 +748,7 @@ function bp_blog_latest_post_content() {
 /**
  * Output the featured image of the latest post on the current blog in the loop.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @see bp_get_blog_latest_post_content() For description of parameters.
  *
@@ -759,7 +760,7 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 	/**
 	 * Return the featured image of the latest post on the current blog in the loop.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 *
 	 * @global BP_Blogs_Template
 	 *
@@ -781,7 +782,7 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 /**
  * Does the latest blog post have a featured image?
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @param string $size Image version to return. 'thumbnail', 'medium', 'large',
  *        or 'post-thumbnail'. Default: 'thumbnail'.
@@ -993,7 +994,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 /**
  * Output the base URL for subdomain installations of WordPress Multisite.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  */
 function bp_blogs_subdomain_base() {
 	echo bp_blogs_get_subdomain_base();
@@ -1001,7 +1002,7 @@ function bp_blogs_subdomain_base() {
 	/**
 	 * Return the base URL for subdomain installations of WordPress Multisite.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 *
 	 * @return string The base URL - eg, 'example.com' for site_url() example.com or www.example.com.
 	 */

@@ -5,7 +5,7 @@
  *
  * @package BuddyPress
  * @subpackage Blogs
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  */
 
 /** Display Filters **********************************************************/
@@ -22,9 +22,9 @@ add_filter( 'bp_blog_latest_post_content', 'shortcode_unautop'  );
 add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
 
 /**
- * Ensure that the 'Create a new site' link at wp-admin/my-sites.php points to the BP blog signup
+ * Ensure that the 'Create a new site' link at wp-admin/my-sites.php points to the BP blog signup.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
  * @uses apply_filters() Filter 'bp_blogs_creation_location' to alter the
  *       returned value.

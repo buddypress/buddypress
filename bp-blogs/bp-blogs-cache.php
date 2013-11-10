@@ -16,7 +16,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Clear the blog object cache.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  *
  * @param int $blog_id ID of the current blog.
  * @param int $user_id ID of the user whose blog cache should be cleared.
@@ -29,9 +29,10 @@ function bp_blogs_clear_blog_object_cache( $blog_id, $user_id ) {
 /**
  * Clear cache when a new blog is created.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  *
- * @param BP_Blogs_Blog $recorded_blog_obj The recorded blog, passed by 'bp_blogs_new_blog'.
+ * @param BP_Blogs_Blog $recorded_blog_obj The recorded blog, passed by
+ *        'bp_blogs_new_blog'.
  */
 function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
 	bp_blogs_clear_blog_object_cache( false, $recorded_blog_obj->user_id );

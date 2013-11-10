@@ -12,7 +12,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Check whether the $bp global lists an activity directory page.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @global BuddyPress $bp The one true BuddyPress instance.
  *
@@ -99,7 +99,7 @@ function bp_blogs_record_existing_blogs() {
  * If $user_id is provided, you can restrict site from being recordable
  * only to particular users.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @uses apply_filters()
  *
@@ -130,7 +130,7 @@ function bp_blogs_is_blog_recordable( $blog_id, $user_id = 0 ) {
  * If $user_id is provided, the developer can restrict site from
  * being trackable only to particular users.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @uses bp_blogs_is_blog_recordable
  * @uses apply_filters()
@@ -159,7 +159,7 @@ function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
 /**
  * Make BuddyPress aware of a new site so that it can track its activity.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  *
  * @uses BP_Blogs_Blog
  *
@@ -219,7 +219,8 @@ add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
  *
  * @global object $wpdb DB Layer.
  *
- * @param string $oldvalue Value before save. Passed by do_action() but unused here.
+ * @param string $oldvalue Value before save. Passed by do_action() but
+ *        unused here.
  * @param string $newvalue Value to change meta to.
  */
 function bp_blogs_update_option_blogname( $oldvalue, $newvalue ) {
@@ -234,7 +235,8 @@ add_action( 'update_option_blogname', 'bp_blogs_update_option_blogname', 10, 2 )
  *
  * @global object $wpdb DB Layer.
  *
- * @param string $oldvalue Value before save. Passed by do_action() but unused here.
+ * @param string $oldvalue Value before save. Passed by do_action() but
+ *        unused here.
  * @param string $newvalue Value to change meta to.
  */
 function bp_blogs_update_option_blogdescription( $oldvalue, $newvalue ) {
@@ -605,7 +607,7 @@ add_action( 'delete_comment', 'bp_blogs_remove_comment' );
 /**
  * When a blog comment status transition occurs, update the relevant activity's status.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
  * @global object $bp BuddyPress global settings.
  *
@@ -832,7 +834,7 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 /**
  * Get metadata for a given blog.
  *
- * @since BuddyPress (1.2)
+ * @since BuddyPress (1.2.0)
  *
  * @global object $wpdb WordPress database access object.
  * @global object $bp BuddyPress global settings.

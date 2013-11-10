@@ -16,7 +16,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * A BP_Blogs_Object represents a link between a specific WordPress blog on a
  * network and a specific user on that blog.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  */
 class BP_Blogs_Blog {
 	public $id;
@@ -214,10 +214,10 @@ class BP_Blogs_Blog {
 	/**
 	 * Get all of a user's blogs, as tracked by BuddyPress.
 	 *
-	 * Note that this is different from the WordPress function {@link get_blogs_of_user()};
-	 * the current method returns only those blogs that have been recorded
-	 * by BuddyPress, while the WP function does a true query of a user's
-	 * blog capabilities.
+	 * Note that this is different from the WordPress function
+	 * {@link get_blogs_of_user()}; the current method returns only those
+	 * blogs that have been recorded by BuddyPress, while the WP function
+	 * does a true query of a user's blog capabilities.
 	 *
 	 * @param int $user_id Optional. ID of the user whose blogs are being
 	 *        queried. Defaults to logged-in user.

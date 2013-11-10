@@ -13,7 +13,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Register activity actions for the blogs component.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  *
  * @global object $bp The BuddyPress global settings object.
  *
@@ -41,14 +41,15 @@ add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions'
 /**
  * Record blog-related activity to the activity stream.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  *
  * @see bp_activity_add() for description of parameters.
  * @global object $bp The BuddyPress global settings object.
  *
  * @param array $args {
  *     See {@link bp_activity_add()} for complete description of arguments.
- *     The arguments listed here have different default values from bp_activity_add().
+ *     The arguments listed here have different default values from
+ *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
  * }
  * @return int|bool On success, returns the activity ID. False on failure.
@@ -101,14 +102,15 @@ function bp_blogs_record_activity( $args = '' ) {
 /**
  * Delete a blog-related activity stream item.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  *
  * @see bp_activity_delete() for description of parameters.
  * @global object $bp The BuddyPress global settings object.
  *
  * @param array $args {
  *     See {@link bp_activity_delete()} for complete description of arguments.
- *     The arguments listed here have different default values from bp_activity_add().
+ *     The arguments listed here have different default values from
+ *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
  * }
  * @return bool True on success, false on failure.
