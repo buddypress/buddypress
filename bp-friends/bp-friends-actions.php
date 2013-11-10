@@ -3,9 +3,9 @@
 /**
  * BuddyPress Friends Actions
  *
- * Action functions are exactly the same as screen functions, however they do not
- * have a template screen associated with them. Usually they will send the user
- * back to the default screen after execution.
+ * Action functions are exactly the same as screen functions, however they do
+ * not have a template screen associated with them. Usually they will send the
+ * user back to the default screen after execution.
  *
  * @package BuddyPress
  * @subpackage FriendsActions
@@ -14,6 +14,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Catch and process friendship requests.
+ */
 function friends_action_add_friend() {
 	if ( !bp_is_friends_component() || !bp_is_current_action( 'add-friend' ) )
 		return false;
@@ -49,6 +52,9 @@ function friends_action_add_friend() {
 }
 add_action( 'bp_init', 'friends_action_add_friend' );
 
+/**
+ * Catch and process Remove Friendship requests.
+ */
 function friends_action_remove_friend() {
 	if ( !bp_is_friends_component() || !bp_is_current_action( 'remove-friend' ) )
 		return false;

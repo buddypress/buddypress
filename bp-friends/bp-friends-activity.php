@@ -13,6 +13,24 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Record an activity item related to the Friends component.
+ *
+ * A wrapper for {@link bp_activity_add()} that provides some Friends-specific
+ * defaults.
+ *
+ * @see bp_activity_add() for more detailed description of parameters and
+ *      return values.
+ *
+ * @param array $args {
+ *     An array of arguments for the new activity item. Accepts all parameters
+ *     of {@link bp_activity_add()}. The one difference is the following
+ *     argument, which has a different default here:
+ *     @type string $component Default: the id of your Friends component
+ *           (usually 'friends').
+ * }
+ * @return bool See {@link bp_activity_add()}.
+ */
 function friends_record_activity( $args = '' ) {
 	global $bp;
 
@@ -38,6 +56,20 @@ function friends_record_activity( $args = '' ) {
 	return bp_activity_add( array( 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
+/**
+ * Delete an activity item related to the Friends component.
+ *
+ * @param array $args {
+ *     An array of arguments for the item to delete.
+ *     @type int $item_id ID of the 'item' associated with the activity item.
+ *           For Friends activity items, this is usually the user ID of one
+ *           of the friends.
+ *     @type string $type The 'type' of the activity item (eg
+ *           'friendship_accepted').
+ *     @type int $user_id ID of the user associated with the activity item.
+ * }
+ * @return bool True on success, false on failure.
+ */
 function friends_delete_activity( $args ) {
 	global $bp;
 
@@ -47,6 +79,9 @@ function friends_delete_activity( $args ) {
 	}
 }
 
+/**
+ * Register the activity actions for bp-friends.
+ */
 function friends_register_activity_actions() {
 	global $bp;
 
@@ -65,15 +100,16 @@ function friends_register_activity_actions() {
 add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' );
 
 /**
- * Format the BuddyBar/Toolbar notifications for the Friends component
+ * Notification formatting callback for bp-friends notifications.
  *
- * @package BuddyPress
- *
- * @param string $action The kind of notification being rendered
- * @param int $item_id The primary item id
- * @param int $secondary_item_id The secondary item id
- * @param int $total_items The total number of messaging-related notifications waiting for the user
- * @param string $format 'string' for BuddyBar-compatible notifications; 'array' for WP Toolbar
+ * @param string $action The kind of notification being rendered.
+ * @param int $item_id The primary item ID.
+ * @param int $secondary_item_id The secondary item ID.
+ * @param int $total_items The total number of messaging-related notifications
+ *        waiting for the user.
+ * @param string $format 'string' for BuddyBar-compatible notifications;
+ *        'array' for WP Toolbar. Default: 'string'.
+ * @return array|string
  */
 function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 
