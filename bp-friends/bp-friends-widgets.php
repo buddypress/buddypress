@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Register the friends widget.
  *
- * @since 1.9.0
+ * @since BuddyPress (1.9.0)
  */
 function bp_friends_register_widgets() {
 	if ( ! bp_is_active( 'friends' ) ) {
@@ -29,7 +29,7 @@ add_action( 'bp_register_widgets', 'bp_friends_register_widgets' );
 /**
  * The User Friends widget class.
  *
- * @since 1.9.0
+ * @since BuddyPress (1.9.0)
  */
 class BP_Core_Friends_Widget extends WP_Widget {
 
@@ -192,7 +192,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 /**
  * Process AJAX pagination or filtering for the Friends widget.
  *
- * @since 1.9.0
+ * @since BuddyPress (1.9.0)
  */
 function bp_core_ajax_widget_friends() {
 

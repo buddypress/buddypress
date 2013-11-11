@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Friends Template Functions
+ * BuddyPress Friends Template Functions.
  *
  * @package BuddyPress
  * @subpackage FriendsTemplate
@@ -11,11 +11,9 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Output the friends component slug
+ * Output the friends component slug.
  *
- * @package BuddyPress
- * @subpackage Friends Template
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_get_friends_slug()
  */
@@ -23,11 +21,9 @@ function bp_friends_slug() {
 	echo bp_get_friends_slug();
 }
 	/**
-	 * Return the friends component slug
+	 * Return the friends component slug.
 	 *
-	 * @package BuddyPress
-	 * @subpackage Friends Template
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	function bp_get_friends_slug() {
 		global $bp;
@@ -35,11 +31,9 @@ function bp_friends_slug() {
 	}
 
 /**
- * Output the friends component root slug
+ * Output the friends component root slug.
  *
- * @package BuddyPress
- * @subpackage Friends Template
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_get_friends_root_slug()
  */
@@ -47,17 +41,22 @@ function bp_friends_root_slug() {
 	echo bp_get_friends_root_slug();
 }
 	/**
-	 * Return the friends component root slug
+	 * Return the friends component root slug.
 	 *
-	 * @package BuddyPress
-	 * @subpackage Friends Template
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	function bp_get_friends_root_slug() {
 		global $bp;
 		return apply_filters( 'bp_get_friends_root_slug', $bp->friends->root_slug );
 	}
 
+/**
+ * Output a block of random friends.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @todo Deprecate
+ */
 function bp_friends_random_friends() {
 
 	if ( !$friend_ids = wp_cache_get( 'friends_friend_ids_' . bp_displayed_user_id(), 'bp' ) ) {
@@ -98,13 +97,13 @@ function bp_friends_random_friends() {
 }
 
 /**
- * Pull up a group of random members, and display some profile data about them
+ * Pull up a group of random members, and display some profile data about them.
  *
  * This function is no longer used by BuddyPress core.
  *
- * @package BuddyPress
+ * @todo Deprecate
  *
- * @param int $total_members The number of members to retrieve
+ * @param int $total_members The number of members to retrieve.
  */
 function bp_friends_random_members( $total_members = 5 ) {
 
@@ -163,6 +162,13 @@ function bp_friends_random_members( $total_members = 5 ) {
 <?php
 }
 
+/**
+ * Display a Friends search form.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @todo Deprecate
+ */
 function bp_friend_search_form() {
 
 	$action = bp_displayed_user_domain() . bp_get_friends_slug() . '/my-friends/search/';
@@ -182,6 +188,9 @@ function bp_friend_search_form() {
 	<?php
 }
 
+/**
+ * Output the Add Friend button in member directories.
+ */
 function bp_member_add_friend_button() {
 	global $members_template;
 
@@ -194,9 +203,19 @@ function bp_member_add_friend_button() {
 }
 add_action( 'bp_directory_members_actions', 'bp_member_add_friend_button' );
 
+/**
+ * Output the friend count for the current member in the loop.
+ */
 function bp_member_total_friend_count() {
 	echo bp_get_member_total_friend_count();
 }
+	/**
+	 * Return the friend count for the current member in the loop.
+	 *
+	 * Return value is a string of the form "x friends".
+	 *
+	 * @return string A string of the form "x friends".
+	 */
 	function bp_get_member_total_friend_count() {
 		global $members_template;
 
@@ -207,24 +226,23 @@ function bp_member_total_friend_count() {
 	}
 
 /**
- * bp_potential_friend_id( $user_id )
+ * Output the ID of the current user in the friend request loop.
  *
- * Outputs the ID of the potential friend
+ * @see bp_get_potential_friend_id() for a description of arguments.
  *
- * @uses bp_get_potential_friend_id()
- * @param int $user_id Optional
+ * @param int $user_id See {@link bp_get_potential_friend_id()}.
  */
 function bp_potential_friend_id( $user_id = 0 ) {
 	echo bp_get_potential_friend_id( $user_id );
 }
 	/**
-	 * bp_get_potential_friend_id( $user_id )
-	 *
-	 * Returns the ID of the potential friend
+	 * Return the ID of current user in the friend request loop.
 	 *
 	 * @global object $friends_template
-	 * @param int $user_id
-	 * @return int ID of potential friend
+	 *
+	 * @param int $user_id Optional. If provided, the function will simply
+	 *        return this value.
+	 * @return int ID of potential friend.
 	 */
 	function bp_get_potential_friend_id( $user_id = 0 ) {
 		global $friends_template;
@@ -238,12 +256,13 @@ function bp_potential_friend_id( $user_id = 0 ) {
 	}
 
 /**
- * bp_is_friend( $user_id )
+ * Check whether a given user is a friend of the logged-in user.
  *
- * Returns - 'is_friend', 'not_friends', 'pending'
+ * Returns - 'is_friend', 'not_friends', 'pending'.
  *
- * @param int $potential_friend_id
- * @return string
+ * @param int $user_id ID of the potential friend. Default: the value of
+ *        {@link bp_get_potential_friend_id()}.
+ * @return string 'is_friend', 'not_friends', or 'pending'.
  */
 function bp_is_friend( $user_id = 0 ) {
 
@@ -259,9 +278,25 @@ function bp_is_friend( $user_id = 0 ) {
 	return apply_filters( 'bp_is_friend', friends_check_friendship_status( bp_loggedin_user_id(), $user_id ), $user_id );
 }
 
+/**
+ * Output the Add Friend button.
+ *
+ * @see bp_get_add_friend_button() for information on arguments.
+ *
+ * @param int $potential_friend_id See {@link bp_get_add_friend_button()}.
+ * @param int $friend_status See {@link bp_get_add_friend_button()}.
+ */
 function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
 	echo bp_get_add_friend_button( $potential_friend_id, $friend_status );
 }
+	/**
+	 * Create the Add Friend button.
+	 *
+	 * @param int $potential_friend_id ID of the user to whom the button
+	 *        applies. Default: value of {@link bp_get_potential_friend_id()}.
+	 * @param bool $friend_status Not currently used.
+	 * @return string HTML for the Add Friend button.
+	 */
 	function bp_get_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
 
 		if ( empty( $potential_friend_id ) )
@@ -346,6 +381,14 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 		return bp_get_button( apply_filters( 'bp_get_add_friend_button', $button ) );
 	}
 
+/**
+ * Get a comma-separated list of IDs of a user's friends.
+ *
+ * @param int $user_id Optional. Default: the displayed user's ID, or the
+ *        logged-in user's ID.
+ * @return string|bool A comma-separated list of friend IDs if any are found,
+ *         otherwise false.
+ */
 function bp_get_friend_ids( $user_id = 0 ) {
 
 	if ( empty( $user_id ) )
@@ -360,13 +403,14 @@ function bp_get_friend_ids( $user_id = 0 ) {
 }
 
 /**
- * Get a user's friendship requests
+ * Get a user's friendship requests.
  *
- * Note that we return a 0 if no pending requests are found. This is necessary because of the
- * structure of the $include parameter in bp_has_members().
+ * Note that we return a 0 if no pending requests are found. This is necessary
+ * because of the structure of the $include parameter in bp_has_members().
  *
- * @param int $user_id Defaults to displayed user
- * @return mixed Returns an array of users if found, or a 0 if none are found
+ * @param int $user_id ID of the user whose requests are being retrieved.
+ *        Defaults to displayed user.
+ * @return array|int An array of user IDs if found, or a 0 if none are found.
  */
 function bp_get_friendship_requests( $user_id = 0 ) {
 	if ( !$user_id ) {
@@ -388,9 +432,17 @@ function bp_get_friendship_requests( $user_id = 0 ) {
 	return apply_filters( 'bp_get_friendship_requests', $requests );
 }
 
+/**
+ * Output the ID of the friendship between the logged-in user and the current user in the loop.
+ */
 function bp_friend_friendship_id() {
 	echo bp_get_friend_friendship_id();
 }
+	/**
+	 * Return the ID of the frinedship between the logged-in user and the current user in the loop.
+	 *
+	 * @return int ID of the friendship.
+	 */
 	function bp_get_friend_friendship_id() {
 		global $members_template;
 
@@ -402,9 +454,17 @@ function bp_friend_friendship_id() {
 		return apply_filters( 'bp_get_friend_friendship_id', $friendship_id );
 	}
 
+/**
+ * Output the URL for accepting the current friendship request in the loop.
+ */
 function bp_friend_accept_request_link() {
 	echo bp_get_friend_accept_request_link();
 }
+	/**
+	 * Return the URL for accepting the current friendship request in the loop.
+	 *
+	 * @return string accept-friendship URL.
+	 */
 	function bp_get_friend_accept_request_link() {
 		global $members_template;
 
@@ -416,9 +476,17 @@ function bp_friend_accept_request_link() {
 		return apply_filters( 'bp_get_friend_accept_request_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/accept/' . $friendship_id, 'friends_accept_friendship' ) );
 	}
 
+/**
+ * Output the URL for rejecting the current friendship request in the loop.
+ */
 function bp_friend_reject_request_link() {
 	echo bp_get_friend_reject_request_link();
 }
+	/**
+	 * Return the URL for rejecting the current friendship request in the loop.
+	 *
+	 * @return string reject-friendship URL.
+	 */
 	function bp_get_friend_reject_request_link() {
 		global $members_template;
 
@@ -430,17 +498,42 @@ function bp_friend_reject_request_link() {
 		return apply_filters( 'bp_get_friend_reject_request_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/reject/' . $friendship_id, 'friends_reject_friendship' ) );
 	}
 
+/**
+ * Output the total friend count for a given user.
+ *
+ * @param int $user_id See {@link friends_get_total_friend_count()}.
+ */
 function bp_total_friend_count( $user_id = 0 ) {
 	echo bp_get_total_friend_count( $user_id );
 }
+	/**
+	 * Return the total friend count for a given user.
+	 *
+	 * @param int $user_id See {@link friends_get_total_friend_count()}.
+	 * @return int Total friend count.
+	 */
 	function bp_get_total_friend_count( $user_id = 0 ) {
 		return apply_filters( 'bp_get_total_friend_count', friends_get_total_friend_count( $user_id ) );
 	}
 	add_filter( 'bp_get_total_friend_count', 'bp_core_number_format' );
 
+/**
+ * Output the total friendship request count for a given user.
+ *
+ * @see bp_friend_get_total_requests_count() for description of arguments.
+ *
+ * @param int $user_id See {@link bp_friend_get_total_requests_count().
+ */
 function bp_friend_total_requests_count( $user_id = 0 ) {
 	echo bp_friend_get_total_requests_count( $user_id );
 }
+	/**
+	 * Return the total friendship request count for a given user.
+	 *
+	 * @param int $user_id ID of the user whose requests are being counted.
+	 *        Default: ID of the logged-in user.
+	 * @return int Friend count.
+	 */
 	function bp_friend_get_total_requests_count( $user_id = 0 ) {
 		if ( empty( $user_id ) )
 			$user_id = bp_loggedin_user_id();

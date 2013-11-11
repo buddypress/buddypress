@@ -3,9 +3,9 @@
 /**
  * BuddyPress Friends Screen Functions
  *
- * Screen functions are the controllers of BuddyPress. They will execute when their
- * specific URL is caught. They will first save or manipulate data using business
- * functions, then pass on the user to a template file.
+ * Screen functions are the controllers of BuddyPress. They will execute when
+ * their specific URL is caught. They will first save or manipulate data using
+ * business functions, then pass on the user to a template file.
  *
  * @package BuddyPress
  * @subpackage FriendsScreens
@@ -14,6 +14,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Catch and process the My Friends page.
+ */
 function friends_screen_my_friends() {
 
 	// Delete any friendship acceptance notifications for the user when viewing a profile
@@ -24,6 +27,9 @@ function friends_screen_my_friends() {
 	bp_core_load_template( apply_filters( 'friends_template_my_friends', 'members/single/home' ) );
 }
 
+/**
+ * Catch and process the Requests page.
+ */
 function friends_screen_requests() {
 	if ( bp_is_action_variable( 'accept', 0 ) && is_numeric( bp_action_variable( 1 ) ) ) {
 		// Check the nonce
@@ -68,6 +74,9 @@ function friends_screen_requests() {
 	bp_core_load_template( apply_filters( 'friends_template_requests', 'members/single/home' ) );
 }
 
+/**
+ * Add Friends-related settings to the Settings > Notifications page.
+ */
 function friends_screen_notification_settings() {
 
 	if ( !$send_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_request', true ) )
