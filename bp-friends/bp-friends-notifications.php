@@ -13,6 +13,16 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Send notifications related to a new friendship request.
+ *
+ * When a friendship is requested, an email and a BP notification are sent to
+ * the user of whom friendship has been requested ($friend_id).
+ *
+ * @param int $friendship_id ID of the friendship object.
+ * @param int $initiator_id ID of the user who initiated the request.
+ * @param int $friend_id ID of the request recipient.
+ */
 function friends_notification_new_request( $friendship_id, $initiator_id, $friend_id ) {
 
 	$initiator_name = bp_core_get_user_displayname( $initiator_id );
@@ -54,6 +64,16 @@ To view %3$s\'s profile: %4$s
 	do_action( 'bp_friends_sent_request_email', $friend_id, $subject, $message, $friendship_id, $initiator_id );
 }
 
+/**
+ * Send notifications related to the acceptance of a friendship request.
+ *
+ * When a friendship request is accepted, an email and a BP notification are
+ * sent to the user who requested the friendship ($initiator_id).
+ *
+ * @param int $friendship_id ID of the friendship object.
+ * @param int $initiator_id ID of the user who initiated the request.
+ * @param int $friend_id ID of the request recipient.
+ */
 function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
 
 	$friend_name = bp_core_get_user_displayname( $friend_id );

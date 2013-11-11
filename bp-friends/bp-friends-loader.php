@@ -2,10 +2,10 @@
 /**
  * BuddyPress Friends Streams Loader
  *
- * The friends component is for users to create relationships with each other
+ * The friends component is for users to create relationships with each other.
  *
  * @package BuddyPress
- * @subpackage Friends Core
+ * @subpackage Friends
  */
 
 // Exit if accessed directly
@@ -14,9 +14,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 class BP_Friends_Component extends BP_Component {
 
 	/**
-	 * Start the friends component creation process
+	 * Start the friends component creation process.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	function __construct() {
 		parent::start(
@@ -30,7 +30,11 @@ class BP_Friends_Component extends BP_Component {
 	}
 
 	/**
-	 * Include files
+	 * Include bp-friends files.
+	 *
+	 * @see BP_Component::includes() for description of parameters.
+	 *
+	 * @param array $includes See {@link BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
@@ -49,12 +53,16 @@ class BP_Friends_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup globals
+	 * Set up bp-friends global settings.
 	 *
 	 * The BP_FRIENDS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::setup_globals() for description of parameters.
+	 *
+	 * @param array $args See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
@@ -89,7 +97,16 @@ class BP_Friends_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup BuddyBar navigation
+	 * Set up component navigation.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::setup_nav() for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 *        description.
+	 * @param array $sub_nav Optional. See BP_Component::setup_nav() for
+	 *        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 		$bp = buddypress();
@@ -140,7 +157,14 @@ class BP_Friends_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up the Toolbar
+	 * Set up bp-friends integration with the WordPress admin bar.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::setup_admin_bar() for a description of arguments.
+	 *
+	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar()
+	 *        for description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 		$bp = buddypress();
@@ -191,7 +215,7 @@ class BP_Friends_Component extends BP_Component {
 	}
 
 	/**
-	 * Sets up the title for pages and <title>
+	 * Set up the title for pages and <title>.
 	 */
 	function setup_title() {
 		$bp = buddypress();
@@ -214,6 +238,9 @@ class BP_Friends_Component extends BP_Component {
 	}
 }
 
+/**
+ * Set up the bp-forums component.
+ */
 function bp_setup_friends() {
 	buddypress()->friends = new BP_Friends_Component();
 }
