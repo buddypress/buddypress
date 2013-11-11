@@ -14,12 +14,7 @@
 		<?php bp_get_options_nav(); ?>
 
 		<li id="members-order-select" class="last filter">
-
-			<label for="members-friends"><?php _e( 'Order By:', 'buddypress' ); ?></label>
-			<select id="members-friends">
-				<option value="newest"><?php _e( 'Newest First', 'buddypress' ); ?></option>
-				<option value="oldest"><?php _e( 'Oldest First', 'buddypress' ); ?></option>
-			</select>
+			<?php bp_notifications_sort_order_form(); ?>
 		</li>
 	</ul>
 </div>

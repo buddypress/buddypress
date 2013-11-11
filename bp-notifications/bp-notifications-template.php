@@ -240,6 +240,7 @@ class BP_Notifications_Template {
 	 */
 	public function __construct( $args = array() ) {
 
+		// Parse arguments
 		$r = wp_parse_args( $args, array(
 			'user_id'      => 0,
 			'is_new'       => true,
@@ -252,15 +253,39 @@ class BP_Notifications_Template {
 			'page_arg'     => 'npage',
 		) );
 
+		// Overrides
+
+		// Set which pagination page
+		if ( isset( $_GET[ $r['page_arg'] ] ) ) {
+			$pag_page = intval( $_GET[ $r['page_arg'] ] );
+		} else {
+			$pag_page = $r['page'];
+		}
+
+		// Set the number to show per page
+		if ( isset( $_GET['num'] ) ) {
+			$pag_num = intval( $_GET['num'] );
+		} else {
+			$pag_num = intval( $r['per_page'] );
+		}
+
+		// Sort order direction
+		$orders = array( 'ASC', 'DESC' );
+		if ( ! empty( $_GET['sort_order'] ) && in_array( $_GET['sort_order'], $orders ) ) {
+			$sort_order = $_GET['sort_order'];
+		} else {
+			$sort_order = in_array( $r['sort_order'], $orders ) ? $r['sort_order'] : 'DESC';
+		}
+
 		// Setup variables
-		$this->pag_page     = isset( $_GET[ $r['page_arg'] ] ) ? intval( $_GET[ $r['page_arg'] ] ) : $r['page'];
-		$this->pag_num      = isset( $_GET['num']            ) ? intval( $_GET['num']            ) : $r['per_page'];
+		$this->pag_page     = $pag_page;
+		$this->pag_num      = $pag_num;
 		$this->user_id      = $r['user_id'];
 		$this->is_new       = $r['is_new'];
 		$this->search_terms = $r['search_terms'];
 		$this->page_arg     = $r['page_arg'];
 		$this->order_by     = $r['order_by'];
-		$this->sort_order   = $r['sort_order'];
+		$this->sort_order   = $sort_order;
 
 		// Get the notifications
 		$notifications      = BP_Notifications_Notification::get_current_notifications_for_user( array(
@@ -303,6 +328,10 @@ class BP_Notifications_Template {
 				'next_text' => _x( '&rarr;', 'Notifications pagination next text',     'buddypress' ),
 				'mid_size'  => 1,
 			) );
+
+			// Remove first page from pagination
+			$this->pag_links = str_replace( '?'      . $r['page_arg'] . '=1', '', $this->pag_links );
+			$this->pag_links = str_replace( '&#038;' . $r['page_arg'] . '=1', '', $this->pag_links );
 		}
 	}
 
@@ -404,6 +433,8 @@ class BP_Notifications_Template {
 	}
 }
 
+/** The Loop ******************************************************************/
+
 /**
  * Initialize the notifications loop.
  *
@@ -487,6 +518,8 @@ function bp_the_notifications() {
 function bp_the_notification() {
 	return buddypress()->notifications->query_loop->the_notification();
 }
+
+/** Loop Output ***************************************************************/
 
 /**
  * Output the ID of the notification currently being iterated on.
@@ -883,3 +916,39 @@ function bp_notifications_pagination_links() {
 	function bp_get_notifications_pagination_links() {
 		return apply_filters( 'bp_get_notifications_pagination_links', buddypress()->notifications->query_loop->pag_links );
 	}
+
+/** Form Helpers **************************************************************/
+
+/**
+ * Output the form for changing the sort order of notifications
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_notifications_sort_order_form() {
+
+	// Setup local variables
+	$orders   = array( 'DESC', 'ASC' );
+	$selected = 'DESC';
+
+	// Check for a custom sort_order
+	if ( !empty( $_REQUEST['sort_order'] ) ) {
+		if ( in_array( $_REQUEST['sort_order'], $orders ) ) {
+			$selected = $_REQUEST['sort_order'];
+		}
+	} ?>
+
+	<form action="" method="get" id="notifications-sort-order">
+		<label for="notifications-friends"><?php esc_html_e( 'Order By:', 'buddypress' ); ?></label>
+
+		<select id="notifications-sort-order-list" name="sort_order" onchange="this.form.submit();">
+			<option value="DESC" <?php selected( $selected, 'DESC' ); ?>><?php _e( 'Newest First', 'buddypress' ); ?></option>
+			<option value="ASC"  <?php selected( $selected, 'ASC'  ); ?>><?php _e( 'Oldest First', 'buddypress' ); ?></option>
+		</select>
+
+		<noscript>
+			<input id="submit" type="submit" name="form-submit" class="submit" value="<?php _e( 'Go', 'buddypress' ); ?>" />
+		</noscript>
+	</form>
+
+<?php
+}
