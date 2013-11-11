@@ -3,9 +3,9 @@
 /**
  * BuddyPress Groups Actions
  *
- * Action functions are exactly the same as screen functions, however they do not
- * have a template screen associated with them. Usually they will send the user
- * back to the default screen after execution.
+ * Action functions are exactly the same as screen functions, however they do
+ * not have a template screen associated with them. Usually they will send the
+ * user back to the default screen after execution.
  *
  * @package BuddyPress
  * @subpackage GroupsActions
@@ -14,6 +14,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Catch and process group creation form submissions.
+ */
 function groups_action_create_group() {
 	global $bp;
 
@@ -238,6 +241,8 @@ function groups_action_join_group() {
 add_action( 'bp_actions', 'groups_action_join_group' );
 
 /**
+ * Catch and process "Leave Group" button clicks.
+ *
  * When a group member clicks on the "Leave Group" button from a group's page,
  * this function is run.
  *
@@ -284,7 +289,9 @@ function groups_action_leave_group() {
 }
 add_action( 'bp_actions', 'groups_action_leave_group' );
 
-
+/**
+ * Sort the group creation steps.
+ */
 function groups_action_sort_creation_steps() {
 	global $bp;
 
@@ -310,7 +317,7 @@ function groups_action_sort_creation_steps() {
 }
 
 /**
- * Catches requests for a random group page (example.com/groups/?random-group) and redirects
+ * Catch requests for a random group page (example.com/groups/?random-group) and redirect.
  */
 function groups_action_redirect_to_random_group() {
 
@@ -323,9 +330,9 @@ function groups_action_redirect_to_random_group() {
 add_action( 'bp_actions', 'groups_action_redirect_to_random_group' );
 
 /**
- * Load the activity feed for the specific group.
+ * Load the activity feed for the current group.
  *
- * @since BuddyPress (v1.2)
+ * @since BuddyPress (1.2.0)
  */
 function groups_action_group_feed() {
 

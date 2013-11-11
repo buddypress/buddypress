@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Register activity actions for the Groups component.
+ */
 function groups_register_activity_actions() {
 	global $bp;
 
@@ -35,6 +38,26 @@ function groups_register_activity_actions() {
 }
 add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' );
 
+/**
+ * Record an activity item related to the Groups component.
+ *
+ * A wrapper for {@link bp_activity_add()} that provides some Groups-specific
+ * defaults.
+ *
+ * @see bp_activity_add() for more detailed description of parameters and
+ *      return values.
+ *
+ * @param array $args {
+ *     An array of arguments for the new activity item. Accepts all parameters
+ *     of {@link bp_activity_add()}. However, this wrapper provides some
+ *     additional defaults, as described below:
+ *     @type string $component Default: the id of your Groups component
+ *           (usually 'groups').
+ *     @type bool $hide_sitewide Default: True if the current group is not
+ *           public, otherwise false.
+ * }
+ * @return bool See {@link bp_activity_add()}.
+ */
 function groups_record_activity( $args = '' ) {
 	global $bp;
 
@@ -75,6 +98,12 @@ function groups_record_activity( $args = '' ) {
 	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
 }
 
+/**
+ * Update the last_activity meta value for a given group.
+ *
+ * @param int $group_id Optional. The ID of the group whose last_activity is
+ *        being updated. Default: the current group's ID.
+ */
 function groups_update_last_activity( $group_id = 0 ) {
 	global $bp;
 

@@ -3,7 +3,7 @@
 /**
  * BuddyPress Groups Toolbar
  *
- * Handles the groups functions related to the WordPress Toolbar
+ * Handles the groups functions related to the WordPress Toolbar.
  *
  * @package BuddyPress
  * @subpackage Groups
@@ -13,12 +13,11 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Adds the Group Admin top-level menu to group pages
+ * Add the Group Admin top-level menu when viewing group pages.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
- * @todo Add dynamic menu items for group extensions
+ * @todo Add dynamic menu items for group extensions.
  */
 function bp_groups_group_admin_menu() {
 	global $wp_admin_bar, $bp;
@@ -106,9 +105,9 @@ function bp_groups_group_admin_menu() {
 add_action( 'admin_bar_menu', 'bp_groups_group_admin_menu', 99 );
 
 /**
- * Remove rogue WP core edit menu when viewing a group
+ * Remove rogue WP core Edit menu when viewing a single group.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  */
 function bp_groups_remove_edit_page_menu() {
 	if ( bp_is_group() ) {
