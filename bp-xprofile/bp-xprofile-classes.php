@@ -434,7 +434,7 @@ class BP_XProfile_Field {
 	public $name;
 	public $description;
 	public $is_required;
-	public $can_delete;
+	public $can_delete = '1';
 	public $field_order;
 	public $option_order;
 	public $order_by;
