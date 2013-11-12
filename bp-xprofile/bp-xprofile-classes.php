@@ -883,6 +883,7 @@ class BP_XProfile_Field {
 								</div>
 							</div>
 
+							<?php /* Field 1 is the fullname field, which cannot have custom visibility */ ?>
 							<?php if ( 1 != $this->id ) : ?>
 
 								<div class="postbox">
@@ -924,7 +925,8 @@ class BP_XProfile_Field {
 
 						<div id="postbox-container-2" class="postbox-container">
 
-							<?php if ( '0' != $this->can_delete ) : ?>
+							<?php /* Field 1 is the fullname field, which cannot be altered */ ?>
+							<?php if ( 1 != $this->id ) : ?>
 
 								<div class="postbox">
 									<h3><label for="required"><?php _e( "Field Requirement", 'buddypress' ); ?></label></h3>
