@@ -25,6 +25,12 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function bp_core_action_set_spammer_status( $user_id = 0 ) {
 
+	// Only super admins can currently spam users (but they can't spam
+	// themselves)
+	if ( ! is_super_admin() || bp_is_my_profile() ) {
+		return;
+	}
+
 	// Use displayed user if it's not yourself
 	if ( empty( $user_id ) )
 		$user_id = bp_displayed_user_id();

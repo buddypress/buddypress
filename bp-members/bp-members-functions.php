@@ -533,24 +533,21 @@ function bp_core_get_active_member_count() {
 }
 
 /**
- * Processes a spammed or unspammed user
+ * Process a spammed or unspammed user.
  *
- * This function is called in three ways:
- *  - in bp_settings_action_capabilities() (from the front-end)
- *  - by bp_core_mark_user_spam_admin()    (from wp-admin)
- *  - bp_core_mark_user_ham_admin()        (from wp-admin)
+ * This function is called from three places:
  *
- * @since BuddyPress (1.6)
+ * - in bp_settings_action_capabilities() (from the front-end)
+ * - by bp_core_mark_user_spam_admin()    (from wp-admin)
+ * - bp_core_mark_user_ham_admin()        (from wp-admin)
  *
- * @param int $user_id The user being spammed/hammed
- * @param string $status 'spam' if being marked as spam, 'ham' otherwise
+ * @since BuddyPress (1.6.0)
+ *
+ * @param int $user_id The ID of the user being spammed/hammed.
+ * @param string $status 'spam' if being marked as spam, 'ham' otherwise.
  */
 function bp_core_process_spammer_status( $user_id, $status ) {
 	global $wpdb;
-
-	// Only super admins can currently spam users
-	if ( !is_super_admin() || bp_is_my_profile() )
-		return;
 
 	// Bail if no user ID
 	if ( empty( $user_id ) )

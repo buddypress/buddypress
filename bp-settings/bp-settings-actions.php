@@ -278,6 +278,12 @@ function bp_settings_action_capabilities() {
 		return;
 	}
 
+	// Only super admins can currently spam users (but they can't spam
+	// themselves)
+	if ( ! is_super_admin() || bp_is_my_profile() ) {
+		return;
+	}
+
 	// Nonce check
 	check_admin_referer( 'capabilities' );
 
