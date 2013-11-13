@@ -532,6 +532,18 @@ function bp_core_add_illegal_names() {
 	update_site_option( 'illegal_names', get_site_option( 'illegal_names' ), array() );
 }
 
+/**
+ * Determine whether BuddyPress should register the bp-themes directory.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @return bool True if bp-themes should be registered, false otherwise.
+ */
+function bp_do_register_theme_directory() {
+	$register = 'bp-default' === get_stylesheet() || 'bp-default' === get_template();
+	return apply_filters( 'bp_do_register_theme_directory', $register );
+}
+
 /** URI ***********************************************************************/
 
 /**

@@ -524,12 +524,24 @@ class BuddyPress {
 	/** Public Methods ********************************************************/
 
 	/**
-	 * Setup the BuddyPress theme directory
+	 * Set up BuddyPress's legacy theme directory.
 	 *
-	 * @since BuddyPress (1.5)
-	 * @todo Move bp-default to wordpress.org/extend/themes and remove this
+	 * Starting with version 1.2, and ending with version 1.8, BuddyPress
+	 * registered a custom theme directory - bp-themes - which contained
+	 * the bp-default theme. Since BuddyPress 1.9, bp-themes is no longer
+	 * registered (and bp-default no longer offered) on new installations.
+	 * Sites using bp-default (or a child theme of bp-default) will
+	 * continue to have bp-themes registered as before.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @todo Move bp-default to wordpress.org/extend/themes and remove this.
 	 */
 	public function register_theme_directory() {
+		if ( ! bp_do_register_theme_directory() ) {
+			return;
+		}
+
 		register_theme_directory( $this->old_themes_dir );
 	}
 
