@@ -100,9 +100,10 @@ class BP_Settings_Component extends BP_Component {
 			'user_has_access' => bp_core_can_edit_settings()
 		);
 
-		// Add Notifications nav item
+		// Add Email nav item. Formerly called 'Notifications', we
+		// retain the old slug and function names for backward compat
 		$sub_nav[] = array(
-			'name'            => __( 'Notifications', 'buddypress' ),
+			'name'            => __( 'Email', 'buddypress' ),
 			'slug'            => 'notifications',
 			'parent_url'      => $settings_link,
 			'parent_slug'     => $this->slug,

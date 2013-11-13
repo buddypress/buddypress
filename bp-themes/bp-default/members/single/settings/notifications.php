@@ -51,7 +51,7 @@ get_header( 'buddypress' ); ?>
 				<?php do_action( 'bp_template_content' ); ?>
 
 				<form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/notifications'; ?>" method="post" class="standard-form" id="settings-form">
-					<p><?php _e( 'Send a notification by email when:', 'buddypress' ); ?></p>
+					<p><?php _e( 'Send an email notice when:', 'buddypress' ); ?></p>
 
 					<?php do_action( 'bp_notification_settings' ); ?>
 
