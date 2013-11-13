@@ -708,9 +708,7 @@ function bp_admin_do_wp_nav_menu_meta_box() {
 		<h4><?php _e( 'Logged-In', 'buddypress' ) ?></h4>
 		<p><?php _e( '<em>Logged-In</em> links are relative to the current user, and are not visible to visitors who are not logged in.', 'buddypress' ) ?></p>
 
-		<div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedin" class="tabs-panel <?php
-			echo ( 'loggedin' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' );
-		?>">
+		<div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedin" class="tabs-panel tabs-panel-active">
 			<ul id="buddypress-menu-checklist-loggedin" class="categorychecklist form-no-clear">
 				<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $tabs['loggedin']['pages'] ), 0, (object) $args );?>
 			</ul>
@@ -719,8 +717,7 @@ function bp_admin_do_wp_nav_menu_meta_box() {
 		<h4><?php _e( 'Logged-Out', 'buddypress' ) ?></h4>
 		<p><?php _e( '<em>Logged-Out</em> links are not visible to users who are logged in.', 'buddypress' ) ?></p>
 
-		<div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedout" class="tabs-panel <?php
-		?>">
+		<div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedout" class="tabs-panel tabs-panel-active">
 			<ul id="buddypress-menu-checklist-loggedout" class="categorychecklist form-no-clear">
 				<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $tabs['loggedout']['pages'] ), 0, (object) $args );?>
 			</ul>
