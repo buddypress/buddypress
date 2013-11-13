@@ -1618,8 +1618,8 @@ add_action( 'wp_footer', 'bp_core_print_generation_time' );
 function bp_nav_menu_get_loggedin_pages() {
 
 	// Try to catch the cached version first
-	if ( ! empty( buddypress()->wp_nav_menu_items ) ) {
-		return buddypress()->wp_nav_menu_items;
+	if ( ! empty( buddypress()->wp_nav_menu_items->loggedin ) ) {
+		return buddypress()->wp_nav_menu_items->loggedin;
 	}
 
 	// Pull up a list of items registered in BP's top-level nav array
