@@ -26,7 +26,7 @@
 	</h2>
 
 	<?php if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) : ?>
-		<span class="user-nicename">@<?php bp_displayed_user_username(); ?></span>
+		<span class="user-nicename">@<?php bp_displayed_user_mentionname(); ?></span>
 	<?php endif; ?>
 
 	<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>

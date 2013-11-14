@@ -269,11 +269,6 @@ function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login
 		$update_cache = false;
 	}
 
-	// Check $username for empty spaces and default to nicename if found
-	if ( strstr( $username, ' ' ) ) {
-		$username = bp_members_get_user_nicename( $user_id );
-	}
-
 	// Add this to cache
 	if ( ( true === $update_cache ) && !empty( $username ) ) {
 		wp_cache_set( 'bp_user_username_' . $user_id, $username, 'bp' );
@@ -946,21 +941,6 @@ function bp_core_ucfirst( $str ) {
 }
 
 /**
- * Strips spaces from usernames that are created using add_user() and wp_insert_user()
- *
- * @package BuddyPress Core
- */
-function bp_core_strip_username_spaces( $username ) {
-	// Don't alter the user_login of existing users, as it causes user_nicename problems.
-	// See http://trac.buddypress.org/ticket/2642
-	if ( username_exists( $username ) && ( !bp_is_username_compatibility_mode() ) )
-		return $username;
-
-	return str_replace( ' ', '-', $username );
-}
-add_action( 'pre_user_login', 'bp_core_strip_username_spaces' );
-
-/**
  * When a user logs in, check if they have been marked as a spammer. If yes then simply
  * redirect them to the home page and stop them from logging in.
  *
@@ -1172,67 +1152,76 @@ function bp_core_add_validation_error_messages( WP_Error $errors, $validation_re
  */
 function bp_core_validate_user_signup( $user_name, $user_email ) {
 
-	$errors = new WP_Error();
-
-	// Apply any user_login filters added by BP or other plugins before validating
-	$user_name = apply_filters( 'pre_user_login', $user_name );
-
-	if ( empty( $user_name ) )
-		$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
-
 	// Make sure illegal names include BuddyPress slugs and values
 	bp_core_flush_illegal_names();
 
-	$illegal_names = get_site_option( 'illegal_names' );
+	// WordPress Multisite has its own validation. Use it, so that we
+	// properly mirror restrictions on username, etc.
+	if ( function_exists( 'wpmu_validate_user_signup' ) ) {
+		$result = wpmu_validate_user_signup( $user_name, $user_email );
 
-	if ( in_array( $user_name, (array) $illegal_names ) )
-		$errors->add( 'user_name', __( 'That username is not allowed', 'buddypress' ) );
+	// When not running Multisite, we perform our own validation. What
+	// follows reproduces much of the logic of wpmu_validate_user_signup(),
+	// minus the multisite-specific restrictions on user_login
+	} else {
+		$errors = new WP_Error();
 
-	if ( ! validate_username( $user_name ) ) {
-		// Check for capital letters when on multisite.
-		//
-		// If so, throw a different error message.
-		// @see #5175
-		if ( is_multisite() ) {
-			$match = array();
-			preg_match( '/[A-Z]/', $user_name, $match );
+		// Apply any user_login filters added by BP or other plugins before validating
+		$user_name = apply_filters( 'pre_user_login', $user_name );
 
-			if ( ! empty( $match ) ) {
-				$errors->add( 'user_name', __( 'Username must be in lowercase characters', 'buddypress' ) );
-			}
+		// User name can't be empty
+		if ( empty( $user_name ) ) {
+			$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
+		}
 
-		} else {
+		// user name can't be on the blacklist
+		$illegal_names = get_site_option( 'illegal_names' );
+		if ( in_array( $user_name, (array) $illegal_names ) ) {
+			$errors->add( 'user_name', __( 'That username is not allowed', 'buddypress' ) );
+		}
+
+		// User name must pass WP's validity check
+		if ( ! validate_username( $user_name ) ) {
 			$errors->add( 'user_name', __( 'Usernames can contain only letters, numbers, ., -, and @', 'buddypress' ) );
 		}
+
+		// Minimum of 4 characters
+		if ( strlen( $user_name ) < 4 ) {
+			$errors->add( 'user_name',  __( 'Username must be at least 4 characters', 'buddypress' ) );
+		}
+
+		// No underscores. @todo Why not?
+		if ( false !== strpos( ' ' . $user_name, '_' ) ) {
+			$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character "_"!', 'buddypress' ) );
+		}
+
+		// No usernames that are all numeric. @todo Why?
+		$match = array();
+		preg_match( '/[0-9]*/', $user_name, $match );
+		if ( $match[0] == $user_name ) {
+			$errors->add( 'user_name', __( 'Sorry, usernames must have letters too!', 'buddypress' ) );
+		}
+
+		// Check if the username has been used already.
+		if ( username_exists( $user_name ) ) {
+			$errors->add( 'user_name', __( 'Sorry, that username already exists!', 'buddypress' ) );
+		}
+
+		// Validate the email address and process the validation results into
+		// error messages
+		$validate_email = bp_core_validate_email_address( $user_email );
+		bp_core_add_validation_error_messages( $errors, $validate_email );
+
+		// Assemble the return array
+		$result = array(
+			'user_name'  => $user_name,
+			'user_email' => $user_email,
+			'errors'     => $errors,
+		);
+
+		// Apply WPMU legacy filter
+		$result = apply_filters( 'wpmu_validate_user_signup', $result );
 	}
-
-	if( strlen( $user_name ) < 4 )
-		$errors->add( 'user_name',  __( 'Username must be at least 4 characters', 'buddypress' ) );
-
-	if ( strpos( ' ' . $user_name, '_' ) != false )
-		$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character "_"!', 'buddypress' ) );
-
-	// Is the user_name all numeric?
-	$match = array();
-	preg_match( '/[0-9]*/', $user_name, $match );
-
-	if ( $match[0] == $user_name )
-		$errors->add( 'user_name', __( 'Sorry, usernames must have letters too!', 'buddypress' ) );
-
-	// Check if the username has been used already.
-	if ( username_exists( $user_name ) )
-		$errors->add( 'user_name', __( 'Sorry, that username already exists!', 'buddypress' ) );
-
-	// Validate the email address and process the validation results into
-	// error messages
-	$validate_email = bp_core_validate_email_address( $user_email );
-	bp_core_add_validation_error_messages( $errors, $validate_email );
-
-	// Assemble the return array
-	$result = array( 'user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors );
-
-	// Apply WPMU legacy filter
-	$result = apply_filters( 'wpmu_validate_user_signup', $result );
 
  	return apply_filters( 'bp_core_validate_user_signup', $result );
 }

@@ -982,7 +982,8 @@ function bp_dtheme_ajax_messages_autocomplete_results() {
 			}
 
 			if ( bp_is_username_compatibility_mode() ) {
-				$username = $ud->user_login;
+				// Sanitize for spaces
+				$username = urlencode( $ud->user_login );
 			} else {
 				$username = $ud->user_nicename;
 			}

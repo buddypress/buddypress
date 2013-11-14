@@ -100,4 +100,96 @@ Bar!';
 		bp_activity_update_meta( $a, 'linebreak_test', $meta_value );
 		$this->assertEquals( $meta_value, bp_activity_get_meta( $a, 'linebreak_test' ) );
 	}
+
+	/**
+	 * @group bp_activity_get_user_mentionname
+	 */
+	public function test_bp_activity_get_user_mentionname_compatibilitymode_off() {
+		add_filter( 'bp_is_username_compatibility_mode', '__return_false' );
+
+		$u = $this->create_user( array(
+			'user_login' => 'foo bar baz',
+			'user_nicename' => 'foo-bar-baz',
+		) );
+
+		$this->assertEquals( 'foo-bar-baz', bp_activity_get_user_mentionname( $u ) );
+
+		remove_filter( 'bp_is_username_compatibility_mode', '__return_false' );
+	}
+
+	/**
+	 * @group bp_activity_get_user_mentionname
+	 */
+	public function test_bp_activity_get_user_mentionname_compatibilitymode_on() {
+		add_filter( 'bp_is_username_compatibility_mode', '__return_true' );
+
+		$u1 = $this->create_user( array(
+			'user_login' => 'foo bar baz',
+			'user_nicename' => 'foo-bar-baz',
+		) );
+
+		$u2 = $this->create_user( array(
+			'user_login' => 'foo.bar.baz',
+			'user_nicename' => 'foo-bar-baz',
+		) );
+
+		$this->assertEquals( 'foo-bar-baz', bp_activity_get_user_mentionname( $u1 ) );
+		$this->assertEquals( 'foo.bar.baz', bp_activity_get_user_mentionname( $u2 ) );
+
+		remove_filter( 'bp_is_username_compatibility_mode', '__return_true' );
+	}
+
+	/**
+	 * @group bp_activity_get_userid_from_mentionname
+	 */
+	public function test_bp_activity_get_userid_from_mentionname_compatibilitymode_off() {
+		add_filter( 'bp_is_username_compatibility_mode', '__return_false' );
+
+		$u = $this->create_user( array(
+			'user_login' => 'foo bar baz',
+			'user_nicename' => 'foo-bar-baz',
+		) );
+
+		$this->assertEquals( $u, bp_activity_get_userid_from_mentionname( 'foo-bar-baz' ) );
+
+		remove_filter( 'bp_is_username_compatibility_mode', '__return_false' );
+	}
+
+	/**
+	 * @group bp_activity_get_userid_from_mentionname
+	 */
+	public function test_bp_activity_get_userid_from_mentionname_compatibilitymode_on() {
+		add_filter( 'bp_is_username_compatibility_mode', '__return_true' );
+
+		// all spaces are hyphens
+		$u1 = $this->create_user( array(
+			'user_login' => 'foo bar baz',
+			'user_nicename' => 'foobarbaz',
+		) );
+
+		// no spaces are hyphens
+		$u2 = $this->create_user( array(
+			'user_login' => 'foo-bar-baz-1',
+			'user_nicename' => 'foobarbaz-1',
+		) );
+
+		// some spaces are hyphens
+		$u3 = $this->create_user( array(
+			'user_login' => 'foo bar-baz 2',
+			'user_nicename' => 'foobarbaz-2',
+		) );
+
+		$u4 = $this->create_user( array(
+			'user_login' => 'foo.bar.baz',
+			'user_nicename' => 'foo-bar-baz',
+		) );
+
+		$this->assertEquals( $u1, bp_activity_get_userid_from_mentionname( 'foo-bar-baz' ) );
+		$this->assertEquals( $u2, bp_activity_get_userid_from_mentionname( 'foo-bar-baz-1' ) );
+		$this->assertEquals( $u3, bp_activity_get_userid_from_mentionname( 'foo-bar-baz-2' ) );
+		$this->assertEquals( $u4, bp_activity_get_userid_from_mentionname( 'foo.bar.baz' ) );
+
+		remove_filter( 'bp_is_username_compatibility_mode', '__return_true' );
+	}
+
 }

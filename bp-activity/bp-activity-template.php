@@ -583,7 +583,7 @@ function bp_has_activities( $args = '' ) {
 					}
 
 					// Start search at @ symbol and stop search at closing tag delimiter.
-					$search_terms     = '@' . bp_core_get_username( $user_id ) . '<';
+					$search_terms     = '@' . bp_activity_get_user_mentionname( $user_id ) . '<';
 					$display_comments = 'stream';
 					$user_id = 0;
 					break;
@@ -2718,8 +2718,9 @@ function bp_send_public_message_link() {
 		if ( ! is_user_logged_in() || ! bp_is_user() || bp_is_my_profile() )
 			return false;
 
-		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_get_activity_directory_permalink() . '?r=' . bp_get_displayed_user_username() ) );
+		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_get_activity_directory_permalink() . '?r=' . bp_get_displayed_user_mentionname() ) );
 	}
+
 
 /**
  * Output the mentioned user display name.
@@ -2919,6 +2920,24 @@ function bp_activity_get_comments_user_ids() {
 		return $user_ids;
 	}
 
+/**
+ * Output the mentionname for the displayed user.
+ *
+ * @since BuddyPress (1.9.0)
+ */
+function bp_displayed_user_mentionname() {
+	echo bp_get_displayed_user_mentionname();
+}
+	/**
+	 * Get the mentionname for the displayed user.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @return string Mentionname for the displayed user, if available.
+	 */
+	function bp_get_displayed_user_mentionname() {
+		return apply_filters( 'bp_get_displayed_user_mentionname', bp_activity_get_user_mentionname( bp_displayed_user_id() ) );
+	}
 
 /**
  * Echo a list of all registered activity types for use in dropdowns or checkbox lists.

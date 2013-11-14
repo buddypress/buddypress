@@ -1335,7 +1335,9 @@ function bp_legacy_theme_ajax_messages_autocomplete_results() {
 			}
 
 			if ( bp_is_username_compatibility_mode() ) {
-				$username = $ud->user_login;
+				// Sanitize for spaces. Use urlencode() rather
+				// than rawurlencode() because %20 breaks JS
+				$username = urlencode( $ud->user_login );
 			} else {
 				$username = $ud->user_nicename;
 			}
