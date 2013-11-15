@@ -302,6 +302,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5099
 	 */
 	public function test_meta_query_and_total_groups() {
+		$time = time();
+
 		$g1 = $this->factory->group->create( array(
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
