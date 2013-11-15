@@ -247,6 +247,37 @@ function bp_blogs_update_option_blogdescription( $oldvalue, $newvalue ) {
 add_action( 'update_option_blogdescription', 'bp_blogs_update_option_blogdescription', 10, 2 );
 
 /**
+ * Detect a change in post status, and initiate an activity update if necessary.
+ *
+ * Posts get new activity updates when (a) they are being published, and (b)
+ * they have not already been published. This enables proper posting for
+ * regular posts as well as scheduled posts, while preventing post bumping.
+ *
+ * See #4090, #3746, #2546 for background.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param string $new_status New status for the post.
+ * @param string $old_status Old status for the post.
+ * @param object $post Post data.
+ */
+function bp_blogs_catch_published_post( $new_status, $old_status, $post ) {
+
+	// Only record published posts
+	if ( 'publish' !== $new_status ) {
+		return;
+	}
+
+	// Don't record edits (publish -> publish)
+	if ( 'publish' === $old_status ) {
+		return;
+	}
+
+	return bp_blogs_record_post( $post->ID, $post );
+}
+add_action( 'transition_post_status', 'bp_blogs_catch_published_post', 10, 3 );
+
+/**
  * Record a new blog post in the BuddyPress activity stream.
  *
  * @param int $post_id ID of the post being recorded.
@@ -326,7 +357,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 				'type'              => 'new_blog_post',
 				'item_id'           => $blog_id,
 				'secondary_item_id' => $post_id,
-				'recorded_time'     => $post->post_modified_gmt
+				'recorded_time'     => $post->post_date_gmt,
 			));
 		}
 
@@ -338,7 +369,6 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 
 	do_action( 'bp_blogs_new_blog_post', $post_id, $post, $user_id );
 }
-add_action( 'save_post', 'bp_blogs_record_post', 10, 2 );
 
 /**
  * Record a new blog comment in the BuddyPress activity stream.
