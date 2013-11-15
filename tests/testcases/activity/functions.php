@@ -102,6 +102,19 @@ Bar!';
 	}
 
 	/**
+	 * @group bp_activity_update_meta
+	 * @ticket BP5083
+	 */
+	public function test_bp_activity_update_meta_with_0() {
+		$a = $this->factory->activity->create();
+		$meta_value = 0;
+
+		bp_activity_update_meta( $a, '0_test', $meta_value );
+
+		$this->assertNotSame( false, bp_activity_get_meta( $a, '0_test' ) );
+	}
+
+	/**
 	 * @group bp_activity_get_user_mentionname
 	 */
 	public function test_bp_activity_get_user_mentionname_compatibilitymode_off() {

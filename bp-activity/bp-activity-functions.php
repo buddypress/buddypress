@@ -746,8 +746,8 @@ function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
 	// Maybe, just maybe... serialize
 	$meta_value = maybe_serialize( $meta_value );
 
-	// If value is empty, delete the meta key
-	if ( empty( $meta_value ) )
+	// If value is false, delete the meta key
+	if ( false === $meta_value )
 		return bp_activity_delete_meta( $activity_id, $meta_key );
 
 	// See if meta key exists for activity_id
