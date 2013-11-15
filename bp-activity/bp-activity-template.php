@@ -529,6 +529,13 @@ function bp_has_activities( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
+	// Translate various values for 'display_comments'
+	// This allows disabling comments via ?display_comments=0
+	// or =none or =false. Final true is a strict type check. See #5029
+	if ( in_array( $display_comments, array( 0, '0', 'none', 'false' ), true ) ) {
+		$display_comments = false;
+	}
+
 	if ( empty( $search_terms ) && ! empty( $_REQUEST['s'] ) )
 		$search_terms = $_REQUEST['s'];
 
