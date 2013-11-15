@@ -927,6 +927,23 @@ function bp_core_delete_account( $user_id = 0 ) {
 }
 
 /**
+ * Delete a user's avatar when the user is deleted.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param int $user_id ID of the user who is about to be deleted.
+ * @return bool True on success, false on failure.
+ */
+function bp_core_delete_avatar_on_user_delete( $user_id ) {
+	return bp_core_delete_existing_avatar( array(
+		'item_id' => $user_id,
+		'object'  => 'user',
+	) );
+}
+add_action( 'wpmu_delete_user', 'bp_core_delete_avatar_on_user_delete' );
+add_action( 'delete_user', 'bp_core_delete_avatar_on_user_delete' );
+
+/**
  * Localization safe ucfirst() support.
  *
  * @package BuddyPress Core
