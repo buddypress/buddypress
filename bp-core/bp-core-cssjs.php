@@ -69,8 +69,8 @@ function bp_core_add_cropper_inline_js() {
 	}
 
 	// Default cropper coordinates
-	$crop_left   = $image[0] / 4;
-	$crop_top    = $image[1] / 4;
+	$crop_left   = round( $image[0] / 4 );
+	$crop_top    = round( $image[1] / 4 );
 	$crop_right  = $image[0] - $crop_left;
 	$crop_bottom = $image[1] - $crop_top; ?>
 
