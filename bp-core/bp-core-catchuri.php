@@ -210,10 +210,6 @@ function bp_core_set_uri_globals() {
 			$matches[]  = 1;
 			$match      = $bp->pages->members;
 			$match->key = 'members';
-
-			// Without the 'members' URL chunk, WordPress won't know which page to load
-			// This filter intercepts the WP query and tells it to load the members page
-			add_filter( 'request', create_function( '$query_args', '$query_args["pagename"] = "' . $match->name . '"; return $query_args;' ) );
 		}
 	}
 
