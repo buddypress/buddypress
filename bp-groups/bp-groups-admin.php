@@ -568,7 +568,11 @@ function bp_groups_admin_delete() {
 		$group_ids = explode( ',', $group_ids );
 	}
 	$group_ids = wp_parse_id_list( $group_ids );
-	$groups    = groups_get_groups( array( 'include' => $group_ids, 'show_hidden' => true, ) );
+	$groups    = groups_get_groups( array(
+		'include'     => $group_ids,
+		'show_hidden' => true,
+		'per_page'    => null, // Return all results
+	) );
 
 	// Create a new list of group ids, based on those that actually exist
 	$gids = array();
