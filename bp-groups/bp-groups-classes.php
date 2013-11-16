@@ -223,7 +223,7 @@ class BP_Groups_Group {
 		if ( empty( $slug ) )
 			return false;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table_name} WHERE slug = %s", $slug ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table_name} WHERE slug = %s", strtolower( $slug ) ) );
 	}
 
 	public static function get_id_from_slug( $slug ) {
