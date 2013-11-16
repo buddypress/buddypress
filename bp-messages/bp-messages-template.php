@@ -632,14 +632,12 @@ function bp_messages_slug() {
 	}
 
 function bp_message_get_notices() {
-	global $userdata;
-
 	$notice = BP_Messages_Notice::get_active();
 
 	if ( empty( $notice ) )
 		return false;
 
-	$closed_notices = bp_get_user_meta( $userdata->ID, 'closed_notices', true );
+	$closed_notices = bp_get_user_meta( bp_loggedin_user_id(), 'closed_notices', true );
 
 	if ( !$closed_notices )
 		$closed_notices = array();
