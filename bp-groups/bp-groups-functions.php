@@ -202,10 +202,6 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
 function groups_delete_group( $group_id ) {
 	global $bp;
 
-	// Check the user is the group admin.
-	if ( ! bp_is_item_admin() )
-		return false;
-
 	do_action( 'groups_before_delete_group', $group_id );
 
 	// Get the group object
