@@ -130,13 +130,17 @@ function bp_admin_notices() {
 }
 
 /**
- * Piggy back admin_notices action
+ * Piggy back admin_enqueue_scripts action.
  *
- * @since BuddyPress (1.7)
- * @uses do_action() Calls 'bp_admin_notices'
+ * @since BuddyPress (1.7.0)
+ *
+ * @uses do_action() Calls 'bp_admin_enqueue_scripts''.
+ *
+ * @param string $hook_suffix The current admin page, passed to
+ *        'admin_enqueue_scripts'.
  */
-function bp_admin_enqueue_scripts() {
-	do_action( 'bp_admin_enqueue_scripts' );
+function bp_admin_enqueue_scripts( $hook_suffix = '' ) {
+	do_action( 'bp_admin_enqueue_scripts', $hook_suffix );
 }
 
 /**
