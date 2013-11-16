@@ -147,11 +147,6 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'simpl
 			continue;
 		}
 
-		// Skip inactive components
-		if ( ! bp_is_active( $component_name ) ) {
-			continue;
-		}
-
 		// Loop through each actionable item and try to map it to a component
 		foreach ( (array) $action_arrays as $component_action_name => $component_action_items ) {
 
@@ -167,7 +162,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'simpl
 			if ( isset( $bp->{$component_name}->notification_callback ) && is_callable( $bp->{$component_name}->notification_callback ) ) {
 
 				// Function should return an object
-				if ( 'object' == $format ) {
+				if ( 'object' === $format ) {
 
 					// Retrieve the content of the notification using the callback
 					$content = call_user_func(
@@ -204,6 +199,45 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'simpl
 			// @deprecated format_notification_function - 1.5
 			} elseif ( isset( $bp->{$component_name}->format_notification_function ) && function_exists( $bp->{$component_name}->format_notification_function ) ) {
 				$renderable[] = call_user_func( $bp->{$component_name}->format_notification_function, $component_action_name, $component_action_items[0]->item_id, $component_action_items[0]->secondary_item_id, $action_item_count );
+
+			// Allow non BuddyPress components to hook in
+			} else {
+
+				// The array to reference with apply_filters_ref_array()
+				$ref_array = array(
+					$component_action_name,
+					$component_action_items[0]->item_id,
+					$component_action_items[0]->secondary_item_id,
+					$action_item_count,
+					$format
+				);
+
+				// Function should return an object
+				if ( 'object' === $format ) {
+
+					// Retrieve the content of the notification using the callback
+					$content = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', $ref_array );
+
+					// Create the object to be returned
+					$notification_object = new stdClass;
+
+					// Minimal backpat with non-compatible notification
+					// callback functions
+					if ( is_string( $content ) ) {
+						$notification_object->content = $content;
+						$notification_object->href    = bp_loggedin_user_domain();
+					} else {
+						$notification_object->content = $content['text'];
+						$notification_object->href    = $content['link'];
+					}
+
+					$notification_object->id = $component_action_items[0]->id;
+					$renderable[]            = $notification_object;
+
+				// Return an array of content strings
+				} else {
+					$renderable[] = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', $ref_array );
+				}
 			}
 		}
 	}

@@ -690,11 +690,6 @@ function bp_the_notification_description() {
 		$bp           = buddypress();
 		$notification = $bp->notifications->query_loop->notification;
 
-		// Skip inactive components
-		if ( ! bp_is_active( $notification->component_name ) ) {
-			return;
-		}
-
 		// Callback function exists
 		if ( isset( $bp->{ $notification->component_name }->notification_callback ) && is_callable( $bp->{ $notification->component_name }->notification_callback ) ) {
 			$description = call_user_func( $bp->{ $notification->component_name }->notification_callback, $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1 );
@@ -702,6 +697,10 @@ function bp_the_notification_description() {
 		// @deprecated format_notification_function - 1.5
 		} elseif ( isset( $bp->{ $notification->component_name }->format_notification_function ) && function_exists( $bp->{ $notification->component_name }->format_notification_function ) ) {
 			$description = call_user_func( $bp->{ $notification->component_name }->format_notification_function, $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1 );
+
+		// Allow non BuddyPress components to hook in
+		} else {
+			$description = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', array( $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1 ) );
 		}
 
 		// Filter and return
