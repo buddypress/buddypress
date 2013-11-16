@@ -1142,7 +1142,13 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$row_class = ' class="alternate odd"';
 		}
 
-		echo '<tr' . $row_class . ' id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['item_id'] ) . '">';
+		if ( 'activity_comment' === $item['type'] ) {
+			$root_id = $item['item_id'];
+		} else {
+			$root_id = $item['id'];
+		}
+
+		echo '<tr' . $row_class . ' id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $root_id ) . '">';
 		echo $this->single_row_columns( $item );
 		echo '</tr>';
 
