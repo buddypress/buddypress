@@ -831,8 +831,21 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 		$alt = sprintf( __( 'Avatar of %s', 'buddypress' ), bp_core_get_user_displayname( $id ) );
 	}
 
+	// Use the 'thumb' type, unless the requested width is bigger than
+	// BP's thumb width.
+	$type = 'thumb';
+	if ( (int) $size > bp_core_avatar_thumb_width() ) {
+		$type = 'full';
+	}
+
 	// Let BuddyPress handle the fetching of the avatar
-	$bp_avatar = bp_core_fetch_avatar( array( 'item_id' => $id, 'width' => $size, 'height' => $size, 'alt' => $alt ) );
+	$bp_avatar = bp_core_fetch_avatar( array(
+		'item_id' => $id,
+		'type'    => $type,
+		'width'   => $size,
+		'height'  => $size,
+		'alt'     => $alt,
+	) );
 
 	// If BuddyPress found an avatar, use it. If not, use the result of get_avatar
 	return ( !$bp_avatar ) ? $avatar : $bp_avatar;
