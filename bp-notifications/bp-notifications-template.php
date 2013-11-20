@@ -823,7 +823,7 @@ function bp_the_notification_delete_link() {
 		// Start the output buffer
 		ob_start(); ?>
 
-		<a href="<?php echo esc_url( $url ); ?>" class="delete secondary"><?php _e( 'Delete', 'buddypress' ); ?></a>
+		<a href="<?php echo esc_url( $url ); ?>" class="delete secondary confirm"><?php _e( 'Delete', 'buddypress' ); ?></a>
 
 		<?php $retval = ob_get_clean();
 
