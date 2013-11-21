@@ -570,64 +570,59 @@ class BP_Admin {
 
 			<h4 class="wp-people-group"><?php _e( 'Recent Rockstars', 'buddypress' ); ?></h4>
 			<ul class="wp-people-group " id="wp-people-group-rockstars">
-				<li class="wp-person" id="wp-person-karmatosed">
-					<a href="http://profiles.wordpress.org/karmatosed"><img src="http://0.gravatar.com/avatar/d36d2c1821af9249b69ff7f5ed60529b?s=60" class="gravatar" alt="Tammie Lister" /></a>
-					<a class="web" href="http://profiles.wordpress.org/karmatosed">Tammie Lister</a>
-					<span class="title"><?php _e( 'Design Officer', 'buddypress' ); ?></span>
+				<li class="wp-person" id="wp-person-imath">
+					<a href="http://profiles.wordpress.org/imath"><img src="http://0.gravatar.com/avatar/8b208ca408dad63888253ee1800d6a03?s=60" class="gravatar" alt="Mathieu Viet" /></a>
+					<a class="web" href="http://profiles.wordpress.org/imath">Mathieu Viet</a>
+				</li>
+				<li class="wp-person" id="wp-person-hnla">
+					<a href="http://profiles.wordpress.org/hnla"><img src="http://0.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=60" class="gravatar" alt="Hugo Ashmore" /></a>
+					<a class="web" href="http://profiles.wordpress.org/hnla">Hugo Ashmore</a>
 				</li>
 				<li class="wp-person" id="wp-person-mercime">
 					<a href="http://profiles.wordpress.org/mercime"><img src="http://0.gravatar.com/avatar/fae451be6708241627983570a1a1817a?s=60" class="gravatar" alt="Mercime" /></a>
 					<a class="web" href="http://profiles.wordpress.org/mercime">Mercime</a>
-					<span class="title"><?php _e( 'Support Officer', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-karmatosed">
+					<a href="http://profiles.wordpress.org/karmatosed"><img src="http://0.gravatar.com/avatar/d36d2c1821af9249b69ff7f5ed60529b?s=60" class="gravatar" alt="Tammie Lister" /></a>
+					<a class="web" href="http://profiles.wordpress.org/karmatosed">Tammie Lister</a>
 				</li>
 			</ul>
 
-			<h4 class="wp-people-group"><?php _e( 'Core Contributors to BuddyPress 1.8', 'buddypress' ); ?></h4>
+			<h4 class="wp-people-group"><?php _e( 'Contributors to BuddyPress 1.9', 'buddypress' ); ?></h4>
 			<p class="wp-credits-list">
-				<a href="http://profiles.wordpress.org/boonebgorges">boonebgorges</a>,
-				<a href="http://profiles.wordpress.org/borkweb">borkweb</a>,
-				<a href="http://profiles.wordpress.org/chouf1">chouf1</a>,
-				<a href="http://profiles.wordpress.org/chriskeeble">chriskeeble</a>,
-				<a href="http://profiles.wordpress.org/chroniko">chroniko</a>,
-				<a href="http://profiles.wordpress.org/czarate">czarate</a>,
-				<a href="http://profiles.wordpress.org/danbp">danbp</a>,
-				<a href="http://profiles.wordpress.org/dcavins">dcavins</a>,
-				<a href="http://profiles.wordpress.org/dcowgill">dcowgill</a>,
-				<a href="http://profiles.wordpress.org/ddean">ddean</a>,
-				<a href="http://profiles.wordpress.org/djpaul">djpaul</a>,
-				<a href="http://profiles.wordpress.org/dontdream">dontdream</a>,
-				<a href="http://profiles.wordpress.org/eggproject">eggproject</a>,
-				<a href="http://profiles.wordpress.org/ericlewis">ericlewis</a>,
-				grahamwashbroo,
-				<a href="http://profiles.wordpress.org/hnla">hnla</a>,
-				<a href="http://profiles.wordpress.org/imath">imath</a>,
-				<a href="http://profiles.wordpress.org/johnjamesjacoby">johnjamesjacoby</a>,
-				<a href="http://profiles.wordpress.org/karmatosed">karmatosed</a>,
-				<a href="http://profiles.wordpress.org/lenasterg">lenasterg</a>,
-				<a href="http://profiles.wordpress.org/magnus78">magnus78</a>,
-				<a href="http://profiles.wordpress.org/megainfo">megainfo</a>,
-				<a href="http://profiles.wordpress.org/rogercoathup">rogercoathup</a>,
-				<a href="http://profiles.wordpress.org/mercime">mercime</a>,
-				<a href="http://profiles.wordpress.org/merty">merty</a>,
-				<a href="http://profiles.wordpress.org/mjustice">mjustice</a>,
-				<a href="http://profiles.wordpress.org/modemlooper">modemlooper</a>,
-				<a href="http://profiles.wordpress.org/mort3n">mort3n</a>,
-				<a href="http://profiles.wordpress.org/mukkundthanki">mukkundthanki</a>,
-				<a href="http://profiles.wordpress.org/nacin">nacin</a>,
-				<a href="http://profiles.wordpress.org/needle">needle</a>,
-				<a href="http://profiles.wordpress.org/r-a-y">r-a-y</a>,
-				<a href="http://profiles.wordpress.org/saurabhshukla">saurabhshukla</a>,
-				<a href="http://profiles.wordpress.org/sbrajesh">sbrajesh</a>,
-				<a href="http://profiles.wordpress.org/SergeyBiryukov">SergeyBiryukov</a>,
-				<a href="http://profiles.wordpress.org/SGr33n">SGr33n</a>,
-				<a href="http://profiles.wordpress.org/shanebp">shanebp</a>,
-				<a href="http://profiles.wordpress.org/splatte">splatte</a>,
-				<a href="http://profiles.wordpress.org/thebrandonallen">thebrandonallen</a>,
-				<a href="http://profiles.wordpress.org/themightymo">themightymo</a>,
-				<a href="http://profiles.wordpress.org/tivnet">tivnet</a>,
-				<a href="http://profiles.wordpress.org/trishasalas">trishasalas</a>,
-				<a href="http://profiles.wordpress.org/vegasgeek">vegasgeek</a>,
-				<a href="http://profiles.wordpress.org/wpdennis">wpdennis</a>
+				<a href="http://profiles.wordpress.org/AliMH/">AliMH</a>,
+				<a href="http://profiles.wordpress.org/asakurayoh/">asakurayoh</a>,
+				<a href="http://profiles.wordpress.org/boonebgorges/">boonebgorges</a>,
+				<a href="http://profiles.wordpress.org/dcavins/">dcavins</a>,
+				<a href="http://profiles.wordpress.org/ddean/">ddean</a>,
+				<a href="http://profiles.wordpress.org/DennisSmolek/">DennisSmolek</a>,
+				<a href="http://profiles.wordpress.org/dimensionmedia/">dimensionmedia</a>,
+				<a href="http://profiles.wordpress.org/dtc7240/">dtc7240</a>,
+				<a href="http://profiles.wordpress.org/ericlewis/">ericlewis</a>,
+				<a href="http://profiles.wordpress.org/gametako/">gametako</a>,
+				<a href="http://profiles.wordpress.org/geoffroycochard/">geoffroycochard</a>,
+				<a href="http://profiles.wordpress.org/henrywright/">henrywright</a>,
+				<a href="http://profiles.wordpress.org/hnla/">hnla</a>,
+				<a href="http://profiles.wordpress.org/imath/">imath</a>,
+				<a href="http://profiles.wordpress.org/johnjamesjacoby/">johnjamesjacoby</a>,
+				<a href="http://profiles.wordpress.org/lenasterg/">lenasterg</a>,
+				<a href="http://profiles.wordpress.org/mboynes/">mboynes</a>,
+				<a href="http://profiles.wordpress.org/megainfo/">megainfo</a>,
+				<a href="http://profiles.wordpress.org/Mike_Cowobo/">Mike_Cowobo</a>,
+				<a href="http://profiles.wordpress.org/modemlooper/">modemlooper</a>,
+				<a href="http://profiles.wordpress.org/olivM/">olivM</a>,
+				<a href="http://profiles.wordpress.org/needle/">needle</a>,
+				<a href="http://profiles.wordpress.org/netweblogic/">netweblogic</a>,
+				<a href="http://profiles.wordpress.org/r-a-y/">r-a-y</a>,
+				<a href="http://profiles.wordpress.org/ryderlewis/">ryderlewis</a>,
+				<a href="http://profiles.wordpress.org/sgr33n/">sgr33n</a>,
+				<a href="http://profiles.wordpress.org/sooskriszta/">sooskriszta</a>,
+				<a href="http://profiles.wordpress.org/terraling/">terraling</a>,
+				<a href="http://profiles.wordpress.org/tomdxw/">tomdxw</a>,
+				<a href="http://profiles.wordpress.org/trishasalas/">trishasalas</a>,
+				<a href="http://profiles.wordpress.org/vhauri/">vhauri</a>,
+				<a href="http://profiles.wordpress.org/williamsba1/">williamsba1</a>,
+				<a href="http://profiles.wordpress.org/wpdennis/">wpdennis</a>
 			</p>
 
 			<div class="return-to-dashboard">
