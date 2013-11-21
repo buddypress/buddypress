@@ -765,6 +765,14 @@ a.bp-title-button {
 	clear:none;
 }
 
+// Overrides for embedded WP editors
+#buddypress .wp-editor-wrap a.button,
+#buddypress .wp-editor-wrap button,
+#buddypress .wp-editor-wrap input[type=submit],
+#buddypress .wp-editor-wrap input[type=button],
+#buddypress .wp-editor-wrap input[type=reset] {
+	padding: 0 10px 1px;
+}
 /*--------------------------------------------------------------
 3.6 - Ajax Loading
 --------------------------------------------------------------*/
@@ -879,10 +887,20 @@ a.bp-title-button {
 	margin: 20px 0 0 0;
 	padding: 1px 0 0 0;
 }
-#buddypress table {
+#buddypress table.notifications,
+#buddypress table.notifications-settings,
+#buddypress table.profile-fields,
+#buddypress table.wp-profile-fields,
+#buddypress table.messages-notices,
+#buddypress table.forum {
 	width: 100%;
 }
-#buddypress table thead tr {
+#buddypress table.notifications thead tr,
+#buddypress table.notifications-settings thead tr,
+#buddypress table.profile-fields thead tr,
+#buddypress table.wp-profile-fields thead tr,
+#buddypress table.messages-notices thead tr,
+#buddypress table.forum thead tr {
 	background: #eaeaea;
 }
 #buddypress table#message-threads {
@@ -902,12 +920,27 @@ a.bp-title-button {
 #buddypress table.profile-fields p:last-child {
 	margin-top: 0;
 }
-#buddypress table tr td,
-#buddypress table tr th {
+#buddypress table.notifications tr td,
+#buddypress table.notifications-settings tr td,
+#buddypress table.profile-fields tr td,
+#buddypress table.wp-profile-fields tr td,
+#buddypress table.messages-notices tr td,
+#buddypress table.forum tr td,
+#buddypress table.notifications tr th,
+#buddypress table.notifications-settings tr th,
+#buddypress table.profile-fields tr th,
+#buddypress table.wp-profile-fields tr th,
+#buddypress table.messages-notices tr th,
+#buddypress table.forum tr th {
 	padding: 8px;
 	vertical-align: middle;
 }
-#buddypress table tr td.label {
+#buddypress table.notifications tr td.label,
+#buddypress table.notifications-settings tr td.label,
+#buddypress table.profile-fields tr td.label,
+#buddypress table.wp-profile-fields tr td.label,
+#buddypress table.messages-notices tr td.label,
+#buddypress table.forum tr td.label {
 	border-right: 1px solid #eaeaea;
 	font-weight: bold;
 	width: 25%;
@@ -923,7 +956,12 @@ a.bp-title-button {
 #buddypress table.forum td {
 	text-align: center;
 }
-#buddypress table tr.alt td {
+#buddypress table.notifications tr.alt td,
+#buddypress table.notifications-settings tr.alt td,
+#buddypress table.profile-fields tr.alt td,
+#buddypress table.wp-profile-fields tr.alt td,
+#buddypress table.messages-notices tr.alt td,
+#buddypress table.forum tr.alt td {
 	background: #f5f5f5;
 }
 #buddypress table.notification-settings {
