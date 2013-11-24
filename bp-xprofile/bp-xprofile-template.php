@@ -437,12 +437,8 @@ function bp_the_profile_field_options( $args = '' ) {
 	function bp_get_the_profile_field_options( $args = '' ) {
 		global $field;
 
-		// Generally a required dropdown field will not get a blank value at
-		// the top. Set 'null_on_required' to true if you want this blank value
-		// even on required fields.
 		$defaults = array(
-			'type' 		       => false,
-			'null_on_required' => false
+			'type' => false,
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -472,9 +468,7 @@ function bp_the_profile_field_options( $args = '' ) {
 		switch ( $field->type ) {
 			case 'selectbox':
 
-				if ( !$field->is_required || $null_on_required ) {
-					$html .= '<option value="">' . /* translators: no option picked in select box */ __( '----', 'buddypress' ) . '</option>';
-				}
+				$html .= '<option value="">' . /* translators: no option picked in select box */ __( '----', 'buddypress' ) . '</option>';
 
 				$original_option_values = '';
 				$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field->id ) );
