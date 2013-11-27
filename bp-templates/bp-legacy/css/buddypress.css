@@ -765,7 +765,7 @@ a.bp-title-button {
 	clear:none;
 }
 
-// Overrides for embedded WP editors
+/* Overrides for embedded WP editors */
 #buddypress .wp-editor-wrap a.button,
 #buddypress .wp-editor-wrap button,
 #buddypress .wp-editor-wrap input[type=submit],
