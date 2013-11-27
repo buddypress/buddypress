@@ -228,7 +228,7 @@ class BuddyPress {
 
 		// Path and URL
 		if ( ! defined( 'BP_PLUGIN_DIR' ) ) {
-			define( 'BP_PLUGIN_DIR', trailingslashit( WP_PLUGIN_DIR . '/buddypress' ) );
+			define( 'BP_PLUGIN_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 		}
 
 		if ( ! defined( 'BP_PLUGIN_URL' ) ) {
