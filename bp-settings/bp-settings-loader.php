@@ -176,7 +176,7 @@ class BP_Settings_Component extends BP_Component {
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-notifications',
-				'title'  => __( 'Notifications', 'buddypress' ),
+				'title'  => __( 'Email', 'buddypress' ),
 				'href'   => trailingslashit( $settings_link . 'notifications' )
 			);
 
