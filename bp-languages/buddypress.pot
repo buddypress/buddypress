@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-11-24 16:35:18+00:00\n"
+"POT-Creation-Date: 2013-11-27 14:35:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1124,7 +1124,6 @@ msgstr ""
 #: bp-notifications/bp-notifications-loader.php:26
 #: bp-notifications/bp-notifications-loader.php:179
 #: bp-notifications/bp-notifications-loader.php:222
-#: bp-settings/bp-settings-loader.php:179
 msgid "Notifications"
 msgstr ""
 
@@ -4520,6 +4519,7 @@ msgid "General"
 msgstr ""
 
 #: bp-settings/bp-settings-loader.php:106
+#: bp-settings/bp-settings-loader.php:179
 #: bp-themes/bp-default/functions.php:645
 msgid "Email"
 msgstr ""
