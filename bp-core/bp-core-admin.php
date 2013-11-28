@@ -601,6 +601,7 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/ericlewis/">ericlewis</a>,
 				<a href="http://profiles.wordpress.org/gametako/">gametako</a>,
 				<a href="http://profiles.wordpress.org/geoffroycochard/">geoffroycochard</a>,
+				<a href="http://profiles.wordpress.org/hanni/">hanni</a>,
 				<a href="http://profiles.wordpress.org/henrywright/">henrywright</a>,
 				<a href="http://profiles.wordpress.org/hnla/">hnla</a>,
 				<a href="http://profiles.wordpress.org/imath/">imath</a>,
