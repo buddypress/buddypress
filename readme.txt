@@ -7,7 +7,7 @@ Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Social networking in a box. Build a social network for your company, school, sports team or niche community.
+Social networking in a box. Build a social network for your company, school, sports team, or niche community.
 
 == Description ==
 
@@ -29,7 +29,7 @@ Visit the <a href="http://buddypress.org/">BuddyPress website</a> for more infor
 
 You can download and install BuddyPress using the built in WordPress plugin installer. If you download BuddyPress manually, make sure it is uploaded to "/wp-content/plugins/buddypress/".
 
-Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. If you're using WordPress Multisite, you can optionally activate BuddyPress Network Wide, allowing it's toolbar integration to appear on all of your sites, and optionally turning on post and comment aggregation to the Activity Stream too!
+Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. If you're using WordPress Multisite, you can optionally activate BuddyPress Network Wide, allowing its toolbar integration to appear on all of your sites, and optionally turning on post and comment aggregation to the Activity Stream too!
 
 = Discussion Forums =
 
@@ -63,11 +63,11 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 
 == Screenshots ==
 
-1. **Activity Streams** - Global, personal and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feeds and email notification support.
+1. **Activity Streams** - Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions. All with full RSS feeds and email notification support.
 2. **Extended Profiles** - Fully editable profile fields allow you to define the fields users can fill in to describe themselves. Tailor profile fields to suit your audience.
 3. **User Settings** - Give your users complete control over profile and notification settings. Settings are fully integrated into your theme, and can be disabled by the administrator.
 4. **Extensible Groups** - Powerful public, private or hidden groups allow your users to break the discussion down into specific topics. Extend groups with your own custom features using the group extension API.
-5. **Friend Connections** - Let your users make connections so they can track the activity of others, or filter on only those users they care about the most.
+5. **Friend Connections** - Let your users make connections so they can track the activity of others, or filter to show only those users they care about the most.
 6. **Private Messaging** - Private messaging will allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, your users can send messages to multiple recipients.
 7. **Blogging Network** - Allow your users to start their own blogs using WordPress's Multisite feature, and track posts and comments from across your blog network in the activity stream.
 
