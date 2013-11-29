@@ -354,7 +354,7 @@ jq(document).ready( function() {
 	});
 
 	// Activity "Read More" links
-	jq('.activity-read-more a').on('click', function(event) {
+	jq('div.activity').on('click', '.activity-read-more a', function(event) {
 		var target = jq(event.target);
 		var link_id = target.parent().attr('id').split('-');
 		var a_id = link_id[3];
