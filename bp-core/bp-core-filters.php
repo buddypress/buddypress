@@ -348,6 +348,11 @@ function bp_modify_page_title( $title, $sep, $seplocation ) {
 	if ( bp_is_blog_page() )
 		return $title;
 
+	// If this is a 404, let WordPress handle it
+	if ( is_404() ) {
+		return $title;
+	}
+
 	// If this is the front page of the site, return WP's title
 	if ( is_front_page() || is_home() )
 		return $title;
