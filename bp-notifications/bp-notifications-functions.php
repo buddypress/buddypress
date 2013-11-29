@@ -453,7 +453,7 @@ function bp_notifications_mark_all_notifications_by_type( $item_id, $component_n
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new = false ) {
-	return BP_Notifications_Notification::_update(
+	return BP_Notifications_Notification::update(
 		array(
 			'is_new' => $is_new
 		),
