@@ -377,7 +377,7 @@ function bp_core_admin_get_components( $type = 'all' ) {
 		),
 		'activity' => array(
 			'title'       => __( 'Activity Streams', 'buddypress' ),
-			'description' => __( 'Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support.', 'buddypress' )
+			'description' => __( 'Global, personal, and group activity streams with threaded commenting, direct posting, favoriting, and @mentions, all with full RSS feed and email notification support.', 'buddypress' )
 		),
 		'notifications' => array(
 			'title'       => __( 'Notifications', 'buddypress' ),
