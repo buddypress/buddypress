@@ -255,12 +255,12 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	}
 
 	if ( 'string' == $format ) {
-		$return = apply_filters( $filter, '<a href="' . $link . '" title="' . $title . '">' . $text . '</a>', (int) $total_items, $text, $link );
+		$return = apply_filters( $filter, '<a href="' . $link . '" title="' . $title . '">' . $text . '</a>', (int) $total_items, $text, $link, $item_id, $secondary_item_id );
 	} else {
 		$return = apply_filters( $filter, array(
 			'text' => $text,
 			'link' => $link
-		), $link, (int) $total_items, $text, $link );
+		), $link, (int) $total_items, $text, $link, $item_id, $secondary_item_id );
 	}
 
 	do_action( 'messages_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
