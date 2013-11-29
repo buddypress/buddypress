@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-11-28 02:35:17+00:00\n"
+"POT-Creation-Date: 2013-11-29 19:35:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -926,7 +926,7 @@ msgid "Sites"
 msgstr ""
 
 #: bp-blogs/bp-blogs-loader.php:203 bp-blogs/bp-blogs-screens.php:209
-#: bp-blogs/bp-blogs-template.php:1099 bp-core/bp-core-filters.php:408
+#: bp-blogs/bp-blogs-template.php:1099 bp-core/bp-core-filters.php:413
 #: bp-themes/bp-default/blogs/create.php:21
 #: bp-themes/bp-default/blogs/index.php:21
 msgid "Create a Site"
@@ -1224,7 +1224,7 @@ msgid "Allow your users to talk to each other directly and in private. Not just 
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:380
-msgid "Global, personal, and group activity streams with threaded commenting, direct posting, favoriting and @mentions, all with full RSS feed and email notification support."
+msgid "Global, personal, and group activity streams with threaded commenting, direct posting, favoriting, and @mentions, all with full RSS feed and email notification support."
 msgstr ""
 
 #: bp-core/admin/bp-core-components.php:387 bp-groups/bp-groups-loader.php:83
@@ -1662,7 +1662,7 @@ msgstr ""
 msgid "Not using @-mentions? Disable them with <code>add_filter( 'bp_activity_do_mentions', '__return_false' );</code>"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:504 bp-core/bp-core-admin.php:630
+#: bp-core/bp-core-admin.php:504 bp-core/bp-core-admin.php:632
 msgid "Go to the BuddyPress Settings page"
 msgstr ""
 
@@ -1847,39 +1847,39 @@ msgstr ""
 msgid "Activate Your Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:373
+#: bp-core/bp-core-filters.php:378
 msgctxt "Construct the page title. 1 = user name, 2 = component name, 3 = seperator"
 msgid "%1$s %3$s %2$s"
 msgstr ""
 
 #. translators: "group name | group nav section name"
 
-#: bp-core/bp-core-filters.php:379
+#: bp-core/bp-core-filters.php:384
 msgid "%1$s | %2$s"
 msgstr ""
 
 #. translators: "component item name | component nav section name | root
 #. component name"
 
-#: bp-core/bp-core-filters.php:384
+#: bp-core/bp-core-filters.php:389
 msgid "%1$s | %2$s | %3$s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:389 bp-core/bp-core-filters.php:391
+#: bp-core/bp-core-filters.php:394 bp-core/bp-core-filters.php:396
 msgid "%s Directory"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:396 bp-members/bp-members-screens.php:525
+#: bp-core/bp-core-filters.php:401 bp-members/bp-members-screens.php:525
 #: bp-themes/bp-default/registration/register.php:23
 msgid "Create an Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:400 bp-members/bp-members-screens.php:533
+#: bp-core/bp-core-filters.php:405 bp-members/bp-members-screens.php:533
 #: bp-themes/bp-default/registration/activate.php:13
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:404 bp-groups/bp-groups-loader.php:553
+#: bp-core/bp-core-filters.php:409 bp-groups/bp-groups-loader.php:553
 #: bp-groups/bp-groups-screens.php:1048 bp-groups/bp-groups-screens.php:1109
 #: bp-themes/bp-default/groups/create.php:18
 #: bp-themes/bp-default/groups/index.php:21
