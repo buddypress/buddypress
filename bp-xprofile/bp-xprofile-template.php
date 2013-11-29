@@ -938,7 +938,11 @@ function bp_profile_visibility_radio_buttons() {
 		foreach( bp_xprofile_get_visibility_levels() as $level ) {
 			$checked = $level['id'] == bp_get_the_profile_field_visibility_level() ? ' checked="checked" ' : '';
 
-			$html .= '<li><label for="see-field_' . esc_attr( $level['id'] ) . '"><input type="radio" id="see-field_' . esc_attr( $level['id'] ) . '" name="field_' . bp_get_the_profile_field_id() . '_visibility" value="' . esc_attr( $level['id'] ) . '"' . $checked . ' /> ' . esc_html( $level['label'] ) . '</label></li>';
+			// Only sanitize once
+			$field_id = bp_get_the_profile_field_id();
+			$level_id = esc_attr( $level_id );
+
+			$html .= '<li><label for="see-field_' . $field_id . '_' . $level_id . '"><input type="radio" id="see-field_' . $field_id . '_' . $level_id . '" name="field_' . $field_id . '_visibility" value="' . $level_id . '"' . $checked . ' /> ' . esc_html( $level['label'] ) . '</label></li>';
 		}
 
 		$html .= '</ul>';
