@@ -16,6 +16,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Add a notification for a specific user, from a specific component
  *
+ * @deprecated Deprecated since BuddyPress 1.9.0. Use
+ *  bp_notifications_add_notification() instead.
+ *
  * @since BuddyPress (1.0)
  * @param string $item_id
  * @param int $user_id
@@ -32,6 +35,9 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 	if ( ! bp_is_active( 'notifications' ) ) {
 		return false;
 	}
+
+	// Trigger the deprecated function notice
+	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_add_notification()' );
 
 	// Notifications must always have a time
 	if ( false === $date_notified ) {
@@ -53,6 +59,9 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 /**
  * Delete a specific notification by its ID
  *
+ * @deprecated Deprecated since BuddyPress 1.9.0. Use
+ *  bp_notifications_delete_notification() instead.
+ *
  * @since BuddyPress (1.0)
  * @param int $id
  * @return boolean True on success, false on fail
@@ -64,11 +73,17 @@ function bp_core_delete_notification( $id ) {
 		return false;
 	}
 
+	// Trigger the deprecated function notice
+	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_delete_notification()' );
+
 	return BP_Notifications_Notification::delete_by_id( $id );
 }
 
 /**
  * Get a specific notification by its ID
+ *
+ * @deprecated Deprecated since BuddyPress 1.9.0. Use
+ *  bp_notifications_get_notification() instead.
  *
  * @since BuddyPress (1.0)
  * @param int $id
@@ -81,11 +96,17 @@ function bp_core_get_notification( $id ) {
 		return false;
 	}
 
+	// Trigger the deprecated function notice
+	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_get_notification()' );
+
 	return bp_notifications_get_notification( $id );
 }
 
 /**
  * Get notifications for a specific user
+ *
+ * @deprecated Deprecated since BuddyPress 1.9.0. Use
+ *  bp_notifications_get_notifications_for_user() instead.
  *
  * @since BuddyPress (1.0)
  * @global BuddyPress $bp
@@ -100,6 +121,9 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
 		return false;
 	}
 
+	// Trigger the deprecated function notice
+	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_get_notifications_for_user()' );
+
 	$renderable = bp_notifications_get_notifications_for_user( $user_id, $format );
 
 	return apply_filters( 'bp_core_get_notifications_for_user', $renderable, $user_id, $format );
@@ -112,6 +136,9 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
  *
  * Used when clearing out notifications for a specific component when the user
  * has visited that component.
+ *
+ * @deprecated Deprecated since BuddyPress 1.9.0. Use
+ *  bp_notifications_delete_notifications_by_type() instead.
  *
  * @since BuddyPress (1.0)
  * @param int $user_id
@@ -126,6 +153,9 @@ function bp_core_delete_notifications_by_type( $user_id, $component_name, $compo
 		return false;
 	}
 
+	// Trigger the deprecated function notice
+	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_delete_notifications_by_type()' );
+
 	return bp_notifications_delete_notifications_by_type( $user_id, $component_name, $component_action );
 }
 
@@ -134,6 +164,9 @@ function bp_core_delete_notifications_by_type( $user_id, $component_name, $compo
  *
  * Used when clearing out notifications for a specific component when the user
  * has visited that component.
+ *
+ * @deprecated Deprecated since BuddyPress 1.9.0. Use
+ *  bp_notifications_delete_notifications_by_item_id() instead.
  *
  * @since BuddyPress (1.0)
  * @param int $user_id
@@ -148,11 +181,17 @@ function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component
 		return false;
 	}
 
+	// Trigger the deprecated function notice
+	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_delete_notifications_by_item_id()' );
+
 	return bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
 /**
  * Delete all notifications for by type
+ *
+ * @deprecated Deprecated since BuddyPress 1.9.0. Use
+ *  bp_notifications_delete_all_notifications_by_type() instead.
  *
  * @since BuddyPress (1.0)
  * @param int $user_id
@@ -167,6 +206,9 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
 		return false;
 	}
 
+	// Trigger the deprecated function notice
+	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_delete_all_notifications_by_type()' );
+
 	bp_notifications_delete_all_notifications_by_type( $item_id, $component_name, $component_action, $secondary_item_id );
 }
 
@@ -174,6 +216,9 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
  * Delete all notifications for a user
  *
  * Used when clearing out all notifications for a user, whene deleted or spammed
+ *
+ * @deprecated Deprecated since BuddyPress 1.9.0. Use
+ *  bp_notifications_delete_notifications_from_user() instead.
  *
  * @since BuddyPress (1.0)
  * @param int $user_id
@@ -188,95 +233,10 @@ function bp_core_delete_notifications_from_user( $user_id, $component_name, $com
 		return false;
 	}
 
+	// Trigger the deprecated function notice
+	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_delete_notifications_from_user()' );
+
 	return bp_notifications_delete_notifications_from_user( $user_id, $component_name, $component_action );
-}
-
-/** Mark **********************************************************************/
-
-/**
- * Delete notifications for a user by type
- *
- * Used when clearing out notifications for a specific component when the user
- * has visited that component.
- *
- * @since BuddyPress (1.9.0)
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
- * @param int $is_new
- * @return boolean True on success, false on fail
- */
-function bp_core_mark_notifications_by_type( $user_id, $component_name, $component_action, $is_new = false ) {
-
-	// Bail if notifications is not active
-	if ( ! bp_is_active( 'notifications' ) ) {
-		return false;
-	}
-
-	return bp_notifications_mark_notifications_by_type( $user_id, $component_name, $component_action, $is_new );
-}
-
-/**
- * Delete notifications for an item ID
- *
- * Used when clearing out notifications for a specific component when the user
- * has visited that component.
- *
- * @since BuddyPress (1.9.0)
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
- * @param int $is_new
- * @return boolean True on success, false on fail
- */
-function bp_core_mark_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false, $is_new = false ) {
-
-	// Bail if notifications is not active
-	if ( ! bp_is_active( 'notifications' ) ) {
-		return false;
-	}
-
-	return bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id, $is_new );
-}
-
-/**
- * Mark all notifications read/unread for by type
- *
- * Used when clearing out notifications for an entire component
- *
- * @since BuddyPress (1.9.0)
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
- * @return boolean True on success, false on fail
- */
-function bp_core_mark_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false, $is_new = false ) {
-
-	// Bail if notifications is not active
-	if ( ! bp_is_active( 'notifications' ) ) {
-		return false;
-	}
-
-	bp_notifications_mark_all_notifications_by_type( $item_id, $component_name, $component_action, $secondary_item_id, $is_new );
-}
-
-/**
- * Mark all notifications read/unread from a user
- *
- * @since BuddyPress (1.9.0)
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
- * @return boolean True on success, false on fail
- */
-function bp_core_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new = false ) {
-
-	// Bail if notifications is not active
-	if ( ! bp_is_active( 'notifications' ) ) {
-		return false;
-	}
-
-	return bp_notifications_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new );
 }
 
 /** Helpers *******************************************************************/
@@ -285,6 +245,9 @@ function bp_core_mark_notifications_from_user( $user_id, $component_name, $compo
  * Check if a user has access to a specific notification
  *
  * Used before deleting a notification for a user
+ *
+ * @deprecated Deprecated since BuddyPress 1.9.0. Use
+ *  bp_notifications_check_notification_access() instead.
  *
  * @since BuddyPress (1.0)
  * @param int $user_id
@@ -297,6 +260,9 @@ function bp_core_check_notification_access( $user_id, $notification_id ) {
 	if ( ! bp_is_active( 'notifications' ) ) {
 		return false;
 	}
+
+	// Trigger the deprecated function notice
+	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_check_notification_access()' );
 
 	return bp_notifications_check_notification_access( $user_id, $notification_id );
 }
