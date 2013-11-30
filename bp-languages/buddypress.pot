@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-11-30 04:35:17+00:00\n"
+"POT-Creation-Date: 2013-11-30 05:35:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -144,8 +144,8 @@ msgstr ""
 #: bp-activity/bp-activity-admin.php:871 bp-activity/bp-activity-admin.php:1204
 #: bp-activity/bp-activity-loader.php:132
 #: bp-activity/bp-activity-loader.php:261
-#: bp-activity/bp-activity-screens.php:284
-#: bp-activity/bp-activity-screens.php:451 bp-core/bp-core-admin.php:434
+#: bp-activity/bp-activity-screens.php:270
+#: bp-activity/bp-activity-screens.php:437 bp-core/bp-core-admin.php:434
 msgid "Activity"
 msgstr ""
 
@@ -419,7 +419,7 @@ msgid "No activities found."
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:1167 bp-groups/bp-groups-admin.php:1262
-#: bp-messages/bp-messages-template.php:481
+#: bp-messages/bp-messages-template.php:477
 msgid "All"
 msgstr ""
 
@@ -552,36 +552,24 @@ msgstr ""
 msgid "&hellip;"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:219
-msgid "@%s Mentions"
-msgstr ""
-
-#: bp-activity/bp-activity-functions.php:222
-msgid "You have %1$d new mentions"
-msgstr ""
-
-#: bp-activity/bp-activity-functions.php:226
-msgid "%1$s mentioned you"
-msgstr ""
-
-#: bp-activity/bp-activity-functions.php:928
+#: bp-activity/bp-activity-functions.php:875
 msgid "Posted a status update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:929
+#: bp-activity/bp-activity-functions.php:876
 msgid "Replied to a status update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1217
+#: bp-activity/bp-activity-functions.php:1164
 msgid "%s posted an update"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1295
+#: bp-activity/bp-activity-functions.php:1244
 #: tests/testcases/activity/class.BP_Activity_Activity.php:202
 msgid "%s posted a new activity comment"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1681
+#: bp-activity/bp-activity-functions.php:1627
 msgid "Thumbnail"
 msgstr ""
 
@@ -655,7 +643,7 @@ msgstr ""
 #: bp-members/bp-members-template.php:820
 #: bp-members/bp-members-template.php:839
 #: bp-messages/bp-messages-loader.php:258
-#: bp-messages/bp-messages-template.php:360
+#: bp-messages/bp-messages-template.php:356
 #: bp-notifications/bp-notifications-loader.php:227
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:185
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:212
@@ -665,11 +653,11 @@ msgstr ""
 msgid "Profile picture of %s"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:74
+#: bp-activity/bp-activity-notifications.php:73
 msgid "%s mentioned you in an update"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:77 bp-core/deprecated/1.5.php:354
+#: bp-activity/bp-activity-notifications.php:76 bp-core/deprecated/1.5.php:354
 msgid ""
 "%1$s mentioned you in the group \"%2$s\":\n"
 "\n"
@@ -680,7 +668,7 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:87
+#: bp-activity/bp-activity-notifications.php:86
 msgid ""
 "%1$s mentioned you in an update:\n"
 "\n"
@@ -691,8 +679,8 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:100
-#: bp-activity/bp-activity-notifications.php:178
+#: bp-activity/bp-activity-notifications.php:99
+#: bp-activity/bp-activity-notifications.php:177
 #: bp-activity/bp-activity-notifications.php:226 bp-core/deprecated/1.5.php:364
 #: bp-friends/bp-friends-notifications.php:56
 #: bp-friends/bp-friends-notifications.php:105
@@ -701,15 +689,15 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:150
 #: bp-groups/bp-groups-notifications.php:198
 #: bp-groups/bp-groups-notifications.php:254
-#: bp-messages/bp-messages-notifications.php:66
+#: bp-messages/bp-messages-notifications.php:83
 msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:165
+#: bp-activity/bp-activity-notifications.php:164
 msgid "%s replied to one of your updates"
 msgstr ""
 
-#: bp-activity/bp-activity-notifications.php:166
+#: bp-activity/bp-activity-notifications.php:165
 msgid ""
 "%1$s replied to one of your updates:\n"
 "\n"
@@ -735,11 +723,23 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:245
+#: bp-activity/bp-activity-notifications.php:280
+msgid "@%s Mentions"
+msgstr ""
+
+#: bp-activity/bp-activity-notifications.php:283
+msgid "You have %1$d new mentions"
+msgstr ""
+
+#: bp-activity/bp-activity-notifications.php:287
+msgid "%1$s mentioned you"
+msgstr ""
+
+#: bp-activity/bp-activity-screens.php:231
 msgid "You do not have access to this activity."
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:285 bp-blogs/bp-blogs-template.php:982
+#: bp-activity/bp-activity-screens.php:271 bp-blogs/bp-blogs-template.php:982
 #: bp-friends/bp-friends-screens.php:86 bp-groups/bp-groups-screens.php:917
 #: bp-messages/bp-messages-screens.php:169
 #: bp-templates/bp-legacy/buddypress/members/register.php:227
@@ -747,7 +747,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:286 bp-blogs/bp-blogs-template.php:986
+#: bp-activity/bp-activity-screens.php:272 bp-blogs/bp-blogs-template.php:986
 #: bp-friends/bp-friends-screens.php:87 bp-groups/bp-groups-screens.php:918
 #: bp-messages/bp-messages-screens.php:170
 #: bp-templates/bp-legacy/buddypress/members/register.php:228
@@ -755,15 +755,15 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:294
+#: bp-activity/bp-activity-screens.php:280
 msgid "A member mentions you in an update using \"@%s\""
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:302
+#: bp-activity/bp-activity-screens.php:288
 msgid "A member replies to an update or comment you've posted"
 msgstr ""
 
-#: bp-activity/bp-activity-screens.php:398
+#: bp-activity/bp-activity-screens.php:384
 msgid "Sitewide Activity"
 msgstr ""
 
@@ -1048,7 +1048,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-template.php:1134 bp-core/deprecated/1.5.php:417
 #: bp-forums/bp-forums-template.php:2196 bp-groups/bp-groups-template.php:2530
 #: bp-members/bp-members-template.php:710
-#: bp-messages/bp-messages-template.php:414 bp-themes/bp-default/header.php:30
+#: bp-messages/bp-messages-template.php:410 bp-themes/bp-default/header.php:30
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -1268,7 +1268,7 @@ msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">upda
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:257 bp-core/admin/bp-core-slugs.php:135
-#: bp-messages/bp-messages-template.php:605
+#: bp-messages/bp-messages-template.php:601
 #: bp-templates/bp-legacy/buddypress/members/activate.php:29
 #: bp-themes/bp-default/registration/activate.php:38
 msgid "Activate"
@@ -2283,8 +2283,8 @@ msgstr ""
 #: bp-forums/bp-forums-template.php:756 bp-forums/bp-forums-template.php:870
 #: bp-forums/bp-forums-template.php:2014
 #: bp-messages/bp-messages-classes.php:270
-#: bp-messages/bp-messages-template.php:888
-#: bp-messages/bp-messages-template.php:970
+#: bp-messages/bp-messages-template.php:884
+#: bp-messages/bp-messages-template.php:966
 msgid "Deleted User"
 msgstr ""
 
@@ -4145,24 +4145,6 @@ msgstr ""
 msgid "No Subject"
 msgstr ""
 
-#: bp-messages/bp-messages-functions.php:242
-#: bp-messages/bp-messages-loader.php:132
-#: bp-messages/bp-messages-loader.php:196
-msgid "Inbox"
-msgstr ""
-
-#: bp-messages/bp-messages-functions.php:245
-msgid "You have %d new messages"
-msgstr ""
-
-#: bp-messages/bp-messages-functions.php:249
-msgid "You have %d new message from %s"
-msgstr ""
-
-#: bp-messages/bp-messages-functions.php:251
-msgid "You have %d new message"
-msgstr ""
-
 #: bp-messages/bp-messages-loader.php:33
 msgid "Private Messages"
 msgstr ""
@@ -4174,6 +4156,12 @@ msgstr ""
 #: bp-messages/bp-messages-loader.php:105
 #: bp-messages/bp-messages-screens.php:104
 msgid "Messages <span>%s</span>"
+msgstr ""
+
+#: bp-messages/bp-messages-loader.php:132
+#: bp-messages/bp-messages-loader.php:196
+#: bp-messages/bp-messages-notifications.php:115
+msgid "Inbox"
 msgstr ""
 
 #: bp-messages/bp-messages-loader.php:142
@@ -4211,11 +4199,11 @@ msgstr ""
 msgid "My Messages"
 msgstr ""
 
-#: bp-messages/bp-messages-notifications.php:50
+#: bp-messages/bp-messages-notifications.php:67
 msgid "New message from %s"
 msgstr ""
 
-#: bp-messages/bp-messages-notifications.php:52
+#: bp-messages/bp-messages-notifications.php:69
 msgid ""
 "%1$s sent you a new message:\n"
 "\n"
@@ -4226,6 +4214,18 @@ msgid ""
 "To view and read your messages please log in and visit: %4$s\n"
 "\n"
 "---------------------\n"
+msgstr ""
+
+#: bp-messages/bp-messages-notifications.php:118
+msgid "You have %d new messages"
+msgstr ""
+
+#: bp-messages/bp-messages-notifications.php:122
+msgid "You have %d new message from %s"
+msgstr ""
+
+#: bp-messages/bp-messages-notifications.php:124
+msgid "You have %d new message"
 msgstr ""
 
 #: bp-messages/bp-messages-screens.php:56
@@ -4283,51 +4283,51 @@ msgctxt "Message pagination next text"
 msgid "&rarr;"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:399
+#: bp-messages/bp-messages-template.php:395
 msgid "Viewing message %1$s to %2$s (of %3$s message)"
 msgid_plural "Viewing message %1$s to %2$s (of %3$s messages)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-messages/bp-messages-template.php:475
+#: bp-messages/bp-messages-template.php:471
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:479
+#: bp-messages/bp-messages-template.php:475
 #: bp-notifications/bp-notifications-loader.php:142
 #: bp-notifications/bp-notifications-loader.php:203
 #: bp-notifications/bp-notifications-template.php:733
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:480
+#: bp-messages/bp-messages-template.php:476
 #: bp-notifications/bp-notifications-loader.php:131
 #: bp-notifications/bp-notifications-loader.php:180
 #: bp-notifications/bp-notifications-template.php:763
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:486
+#: bp-messages/bp-messages-template.php:482
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:487
+#: bp-messages/bp-messages-template.php:483
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:491
+#: bp-messages/bp-messages-template.php:487
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:536
+#: bp-messages/bp-messages-template.php:532
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:603
+#: bp-messages/bp-messages-template.php:599
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:652
+#: bp-messages/bp-messages-template.php:648
 #: bp-templates/bp-legacy/buddypress/members/register.php:168
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:130
 #: bp-templates/bp-legacy/buddypress-functions.php:233
@@ -4337,19 +4337,19 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:697
+#: bp-messages/bp-messages-template.php:693
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:698
+#: bp-messages/bp-messages-template.php:694
 msgid "Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:881
+#: bp-messages/bp-messages-template.php:877
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:990
+#: bp-messages/bp-messages-template.php:986
 #: bp-templates/bp-legacy/buddypress-functions.php:1186
 #: bp-themes/bp-default/_inc/ajax.php:833
 msgid "Sent %s"
