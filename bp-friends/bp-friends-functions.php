@@ -29,43 +29,43 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @return bool True on success, false on failure.
  */
 function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = false ) {
-	global $bp;
 
+	// Check if already friends, and bail if so
 	$friendship = new BP_Friends_Friendship;
-
-	if ( (int) $friendship->is_confirmed )
+	if ( (int) $friendship->is_confirmed ) {
 		return true;
+	}
 
+	// Setup the friendship data
 	$friendship->initiator_user_id = $initiator_userid;
 	$friendship->friend_user_id    = $friend_userid;
 	$friendship->is_confirmed      = 0;
 	$friendship->is_limited        = 0;
 	$friendship->date_created      = bp_core_current_time();
 
-	if ( $force_accept )
+	if ( !empty( $force_accept ) ) {
 		$friendship->is_confirmed = 1;
-
-	if ( $friendship->save() ) {
-
-		if ( !$force_accept ) {
-			// Add the on screen notification
-			bp_core_add_notification( $friendship->initiator_user_id, $friendship->friend_user_id, $bp->friends->id, 'friendship_request' );
-
-			// Send the email notification
-			friends_notification_new_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
-
-			do_action( 'friends_friendship_requested', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
-		} else {
-			// Update friend totals
-			friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id, 'add' );
-
-			do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
-		}
-
-		return true;
 	}
 
-	return false;
+	// Bail if friendship could not be saved (how sad!)
+	if ( ! $friendship->save() ) {
+		return false;
+	}
+
+	// Send notifications
+	if ( empty( $force_accept ) ) {
+		$action = 'friends_friendship_requested';
+
+	// Update friend totals
+	} else {
+		$action = 'friends_friendship_accepted';
+		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id, 'add' );
+	}
+
+	// Call the above titled action and pass friendship data into it
+	do_action( $action, $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
+
+	return true;
 }
 
 /**
@@ -111,45 +111,17 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
  * @return bool True on success, false on failure.
  */
 function friends_accept_friendship( $friendship_id ) {
-	global $bp;
 
+	// Get the friesdhip data
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 
-	if ( !$friendship->is_confirmed && BP_Friends_Friendship::accept( $friendship_id ) ) {
+	// Accepting friendship
+	if ( empty( $friendship->is_confirmed ) && BP_Friends_Friendship::accept( $friendship_id ) ) {
+
+		// Bump the friendship counts
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
 
-		// Remove the friend request notice
-		bp_core_mark_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
-
-		// Add a friend accepted notice for the initiating user
-		bp_core_add_notification( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_accepted' );
-
-		$initiator_link = bp_core_get_userlink( $friendship->initiator_user_id );
-		$friend_link = bp_core_get_userlink( $friendship->friend_user_id );
-
-		// Record in activity streams for the initiator
-		friends_record_activity( array(
-			'user_id'           => $friendship->initiator_user_id,
-			'type'              => 'friendship_created',
-			'action'            => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link ), $friendship ),
-			'item_id'           => $friendship_id,
-			'secondary_item_id' => $friendship->friend_user_id
-		) );
-
-		// Record in activity streams for the friend
-		friends_record_activity( array(
-			'user_id'           => $friendship->friend_user_id,
-			'type'              => 'friendship_created',
-			'action'            => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $friend_link, $initiator_link ), $friendship ),
-			'item_id'           => $friendship_id,
-			'secondary_item_id' => $friendship->initiator_user_id,
-			'hide_sitewide'     => true // We've already got the first entry site wide
-		) );
-
-		// Send the email notification
-		friends_notification_accepted_request( $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
-
-		do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
+		do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id, $friendship );
 
 		return true;
 	}
@@ -164,15 +136,9 @@ function friends_accept_friendship( $friendship_id ) {
  * @return bool True on success, false on failure.
  */
 function friends_reject_friendship( $friendship_id ) {
-	global $bp;
-
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 
-	if ( !$friendship->is_confirmed && BP_Friends_Friendship::reject( $friendship_id ) ) {
-
-		// Remove the friend request notice
-		bp_core_mark_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
-
+	if ( empty( $friendship->is_confirmed ) && BP_Friends_Friendship::reject( $friendship_id ) ) {
 		do_action_ref_array( 'friends_friendship_rejected', array( $friendship_id, &$friendship ) );
 		return true;
 	}
@@ -189,15 +155,10 @@ function friends_reject_friendship( $friendship_id ) {
  * @return bool True on success, false on failure.
  */
 function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
-	global $bp;
-
 	$friendship_id = BP_Friends_Friendship::get_friendship_id( $initiator_userid, $friend_userid );
 	$friendship    = new BP_Friends_Friendship( $friendship_id, true, false );
 
-	if ( !$friendship->is_confirmed && BP_Friends_Friendship::withdraw( $friendship_id ) ) {
-		// Remove the friend request notice
-		bp_core_delete_notifications_by_item_id( $friendship->friend_user_id, $friendship->initiator_user_id, $bp->friends->id, 'friendship_request' );
-
+	if ( empty( $friendship->is_confirmed ) && BP_Friends_Friendship::withdraw( $friendship_id ) ) {
 		do_action_ref_array( 'friends_friendship_whithdrawn', array( $friendship_id, &$friendship ) );
 		return true;
 	}
@@ -566,7 +527,6 @@ function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $sta
  * @param int $user_id ID of the user whose friend data is being removed.
  */
 function friends_remove_data( $user_id ) {
-	global $bp;
 
 	do_action( 'friends_before_remove_data', $user_id );
 
@@ -574,9 +534,6 @@ function friends_remove_data( $user_id ) {
 
 	// Remove usermeta
 	bp_delete_user_meta( $user_id, 'total_friend_count' );
-
-	// Remove friendship requests FROM user
-	bp_core_delete_notifications_from_user( $user_id, $bp->friends->id, 'friendship_request' );
 
 	do_action( 'friends_remove_data', $user_id );
 }

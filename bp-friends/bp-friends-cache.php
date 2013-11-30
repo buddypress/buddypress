@@ -10,7 +10,6 @@
  * @subpackage FriendsCaching
  */
 
-
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -27,16 +26,6 @@ function friends_clear_friend_object_cache( $friendship_id ) {
 	wp_cache_delete( 'friends_friend_ids_' .    $friendship->initiator_user_id, 'bp' );
 	wp_cache_delete( 'friends_friend_ids_' .    $friendship->friend_user_id,    'bp' );
 }
-
-/**
- * Clear friend-related notifications when ?new=1.
- */
-function friends_clear_friend_notifications() {
-	if ( isset( $_GET['new'] ) ) {
-		bp_core_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->friends->id, 'friendship_accepted' );
-	}
-}
-add_action( 'bp_activity_screen_my_activity', 'friends_clear_friend_notifications' );
 
 // List actions to clear object caches on
 add_action( 'friends_friendship_accepted', 'friends_clear_friend_object_cache' );
