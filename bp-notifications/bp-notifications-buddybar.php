@@ -24,11 +24,11 @@ function bp_notifications_buddybar_menu() {
 		return false;
 	}
 
-	echo '<li id="bp-adminbar-notifications-menu"><a href="' . bp_loggedin_user_domain() . '">';
+	echo '<li id="bp-adminbar-notifications-menu"><a href="' . esc_url( bp_loggedin_user_domain() ) . '">';
 	_e( 'Notifications', 'buddypress' );
 
-	if ( $notifications = bp_core_get_notifications_for_user( bp_loggedin_user_id() ) ) : ?>
-		<span><?php echo count( $notifications ) ?></span>
+	if ( $notifications = bp_notifications_get_notifications_for_user( bp_loggedin_user_id() ) ) : ?>
+		<span><?php echo number_format_i18n( $notifications ); ?></span>
 	<?php
 	endif;
 
@@ -46,7 +46,7 @@ function bp_notifications_buddybar_menu() {
 		}
 	} else { ?>
 
-		<li><a href="<?php echo bp_loggedin_user_domain() ?>"><?php _e( 'No new notifications.', 'buddypress' ); ?></a></li>
+		<li><a href="<?php echo esc_url( bp_loggedin_user_domain() ); ?>"><?php _e( 'No new notifications.', 'buddypress' ); ?></a></li>
 
 	<?php
 	}
