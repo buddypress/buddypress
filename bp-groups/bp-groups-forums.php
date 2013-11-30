@@ -7,6 +7,9 @@
  * have a template screen associated with them. Usually they will send the user
  * back to the default screen after execution.
  *
+ * Note that this file is only used for the retired version of bbPress (1.x) and
+ * will see minimal updates as of BuddyPress 1.9.0.
+ *
  * @package BuddyPress
  * @subpackage GroupsForums
  */

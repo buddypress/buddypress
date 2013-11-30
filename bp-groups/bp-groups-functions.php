@@ -200,26 +200,21 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
  * @since BuddyPress (1.0)
  */
 function groups_delete_group( $group_id ) {
-	global $bp;
 
 	do_action( 'groups_before_delete_group', $group_id );
 
 	// Get the group object
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
-	if ( !$group->delete() )
-		return false;
 
-	// Delete all group activity from activity streams
-	if ( bp_is_active( 'activity' ) )
-		bp_activity_delete_by_item_id( array( 'item_id' => $group_id, 'component' => $bp->groups->id ) );
+	// Bail if group cannot be deleted
+	if ( ! $group->delete() ) {
+		return false;
+	}
 
 	// Remove all outstanding invites for this group
 	groups_delete_all_group_invites( $group_id );
 
-	// Remove all notifications for any user belonging to this group
-	bp_core_delete_all_notifications_by_type( $group_id, $bp->groups->id );
-
-	do_action( 'groups_delete_group', $group_id);
+	do_action( 'groups_delete_group', $group_id );
 
 	return true;
 }
@@ -288,19 +283,10 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
 		}
 	}
 
-	$membership = new BP_Groups_Member( $user_id, $group_id );
-
 	// This is exactly the same as deleting an invite, just is_confirmed = 1 NOT 0.
-	if ( !groups_uninvite_user( $user_id, $group_id ) )
+	if ( !groups_uninvite_user( $user_id, $group_id ) ) {
 		return false;
-
-	/**
-	 * If the user joined this group less than five minutes ago, remove the
-	 * joined_group activity so users cannot flood the activity stream by
-	 * joining/leaving the group in quick succession.
-	 */
-	if ( bp_is_active( 'activity' ) && time() <= strtotime( '+5 minutes', (int)strtotime( $membership->date_modified ) ) )
-		bp_activity_delete( array( 'component' => $bp->groups->id, 'type' => 'joined_group', 'user_id' => $user_id, 'item_id' => $group_id ) );
+	}
 
 	bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
 
@@ -696,11 +682,13 @@ function groups_accept_invite( $user_id, $group_id ) {
 	// If the user is already a member (because BP at one point allowed two invitations to
 	// slip through), delete all existing invitations/requests and return true
 	if ( groups_is_user_member( $user_id, $group_id ) ) {
-		if ( groups_check_user_has_invite( $user_id, $group_id ) )
+		if ( groups_check_user_has_invite( $user_id, $group_id ) ) {
 			groups_delete_invite( $user_id, $group_id );
+		}
 
-		if ( groups_check_for_membership_request( $user_id, $group_id ) )
+		if ( groups_check_for_membership_request( $user_id, $group_id ) ) {
 			groups_delete_membership_request( $user_id, $group_id );
+		}
 
 		return true;
 	}
@@ -708,24 +696,25 @@ function groups_accept_invite( $user_id, $group_id ) {
 	$member = new BP_Groups_Member( $user_id, $group_id );
 	$member->accept_invite();
 
-	if ( !$member->save() )
+	if ( !$member->save() ) {
 		return false;
+	}
 
 	// Remove request to join
-	if ( $member->check_for_membership_request( $user_id, $group_id ) )
+	if ( $member->check_for_membership_request( $user_id, $group_id ) ) {
 		$member->delete_request( $user_id, $group_id );
+	}
 
 	// Modify group meta
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
-	bp_core_mark_notifications_by_item_id( $user_id, $group_id, buddypress()->groups->id, 'group_invite' );
-
 	do_action( 'groups_accept_invite', $user_id, $group_id );
+
 	return true;
 }
 
 function groups_reject_invite( $user_id, $group_id ) {
-	if ( !BP_Groups_Member::delete( $user_id, $group_id ) )
+	if ( ! BP_Groups_Member::delete( $user_id, $group_id ) )
 		return false;
 
 	do_action( 'groups_reject_invite', $user_id, $group_id );
@@ -734,14 +723,12 @@ function groups_reject_invite( $user_id, $group_id ) {
 }
 
 function groups_delete_invite( $user_id, $group_id ) {
+	if ( ! BP_Groups_Member::delete_invite( $user_id, $group_id ) )
+		return false;
 
-	$delete = BP_Groups_Member::delete_invite( $user_id, $group_id );
+	do_action( 'groups_delete_invite', $user_id, $group_id );
 
-	if ( !empty( $delete ) ) {
-		bp_core_mark_notifications_by_item_id( $user_id, $group_id, buddypress()->groups->id, 'group_invite' );
-	}
-
-	return $delete;
+	return true;
 }
 
 function groups_send_invites( $user_id, $group_id ) {
@@ -905,46 +892,34 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 
 function groups_accept_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
 
-	if ( !empty( $user_id ) && !empty( $group_id ) )
+	if ( !empty( $user_id ) && !empty( $group_id ) ) {
 		$membership = new BP_Groups_Member( $user_id, $group_id );
-	else
+	} else {
 		$membership = new BP_Groups_Member( false, false, $membership_id );
+	}
 
 	$membership->accept_request();
 
-	if ( !$membership->save() )
+	if ( !$membership->save() ) {
 		return false;
+	}
 
 	// Check if the user has an outstanding invite, if so delete it.
-	if ( groups_check_user_has_invite( $membership->user_id, $membership->group_id ) )
+	if ( groups_check_user_has_invite( $membership->user_id, $membership->group_id ) ) {
 		groups_delete_invite( $membership->user_id, $membership->group_id );
+	}
 
-	// Record this in activity streams
-	$group = groups_get_group( array( 'group_id' => $membership->group_id ) );
-
-	groups_record_activity( array(
-		'action'  => apply_filters_ref_array( 'groups_activity_membership_accepted_action', array( sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $membership->user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( $group->name ) . '</a>' ), $membership->user_id, &$group ) ),
-		'type'    => 'joined_group',
-		'item_id' => $membership->group_id,
-		'user_id' => $membership->user_id
-	) );
-
-	// Send a notification to the user.
-	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, true );
-
-	do_action( 'groups_membership_accepted', $membership->user_id, $membership->group_id );
+	do_action( 'groups_membership_accepted', $membership->user_id, $membership->group_id, true );
 
 	return true;
 }
 
 function groups_reject_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
-	if ( !$membership = groups_delete_membership_request( $membership_id, $user_id, $group_id ) )
+	if ( !$membership = groups_delete_membership_request( $membership_id, $user_id, $group_id ) ) {
 		return false;
+	}
 
-	// Send a notification to the user.
-	groups_notification_membership_request_completed( $membership->user_id, $membership->group_id, false );
-
-	do_action( 'groups_membership_rejected', $membership->user_id, $membership->group_id );
+	do_action( 'groups_membership_rejected', $membership->user_id, $membership->group_id, false );
 
 	return true;
 }
@@ -1074,11 +1049,7 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 /*** Group Cleanup Functions ****************************************************/
 
 function groups_remove_data_for_user( $user_id ) {
-	global $bp;
-
 	BP_Groups_Member::delete_all_for_user( $user_id );
-
-	bp_core_delete_notifications_from_user( $user_id, $bp->groups->id, 'new_membership_request' );
 
 	do_action( 'groups_remove_data_for_user', $user_id );
 }
