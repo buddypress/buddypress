@@ -63,7 +63,7 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 	}
 
 	// Call the above titled action and pass friendship data into it
-	do_action( $action, $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id );
+	do_action( $action, $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id, $friendship );
 
 	return true;
 }
