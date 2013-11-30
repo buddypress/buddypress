@@ -191,59 +191,6 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 }
 
 /**
- * Format notifications related to activity.
- *
- * @since BuddyPress (1.5)
- *
- * @uses bp_loggedin_user_domain()
- * @uses bp_get_activity_slug()
- * @uses bp_core_get_user_displayname()
- * @uses apply_filters() To call the 'bp_activity_multiple_at_mentions_notification' hook.
- * @uses apply_filters() To call the 'bp_activity_single_at_mentions_notification' hook.
- * @uses do_action() To call 'activity_format_notifications' hook.
- *
- * @param string $action The type of activity item. Just 'new_at_mention' for now.
- * @param int $item_id The activity ID.
- * @param int $secondary_item_id In the case of at-mentions, this is the mentioner's ID.
- * @param int $total_items The total number of notifications to format.
- * @param string $format 'string' to get a BuddyBar-compatible notification, 'array' otherwise.
- * @return string $return Formatted @mention notification.
- */
-function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
-
-	switch ( $action ) {
-		case 'new_at_mention':
-			$activity_id      = $item_id;
-			$poster_user_id   = $secondary_item_id;
-			$at_mention_link  = bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/';
-			$at_mention_title = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );
-
-			if ( (int) $total_items > 1 ) {
-				$text = sprintf( __( 'You have %1$d new mentions', 'buddypress' ), (int) $total_items );
-				$filter = 'bp_activity_multiple_at_mentions_notification';
-			} else {
-				$user_fullname = bp_core_get_user_displayname( $poster_user_id );
-				$text =  sprintf( __( '%1$s mentioned you', 'buddypress' ), $user_fullname );
-				$filter = 'bp_activity_single_at_mentions_notification';
-			}
-		break;
-	}
-
-	if ( 'string' == $format ) {
-		$return = apply_filters( $filter, '<a href="' . $at_mention_link . '" title="' . $at_mention_title . '">' . $text . '</a>', $at_mention_link, (int) $total_items, $activity_id, $poster_user_id );
-	} else {
-		$return = apply_filters( $filter, array(
-			'text' => $text,
-			'link' => $at_mention_link
-		), $at_mention_link, (int) $total_items, $activity_id, $poster_user_id );
-	}
-
-	do_action( 'activity_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
-
-	return $return;
-}
-
-/**
  * Determine a user's "mentionname", the name used for that user in @-mentions.
  *
  * @since BuddyPress (1.9.0)
@@ -1266,27 +1213,29 @@ function bp_activity_post_update( $args = '' ) {
  * @return int|bool The ID of the comment on success, otherwise false.
  */
 function bp_activity_new_comment( $args = '' ) {
-	global $bp;
 
-	$defaults = array(
+	$params = wp_parse_args( $args, array(
 		'id'          => false,
 		'content'     => false,
 		'user_id'     => bp_loggedin_user_id(),
 		'activity_id' => false, // ID of the root activity item
 		'parent_id'   => false  // ID of a parent comment (optional)
-	);
+	) );
 
-	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	if ( empty( $content ) || empty( $user_id ) || empty( $activity_id ) )
+	// Bail if missing necessary data
+	if ( empty( $content ) || empty( $user_id ) || empty( $activity_id ) ) {
 		return false;
+	}
 
-	if ( empty( $parent_id ) )
+	// Maybe set current activity ID as the parent
+	if ( empty( $parent_id ) ) {
 		$parent_id = $activity_id;
+	}
 
 	// Check to see if the parent activity is hidden, and if so, hide this comment publically.
-	$activity = new BP_Activity_Activity( $activity_id );
+	$activity  = new BP_Activity_Activity( $activity_id );
 	$is_hidden = ( (int) $activity->hide_sitewide ) ? 1 : 0;
 
 	// Insert the activity comment
@@ -1294,16 +1243,13 @@ function bp_activity_new_comment( $args = '' ) {
 		'id'                => $id,
 		'action'            => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
 		'content'           => apply_filters( 'bp_activity_comment_content', $content ),
-		'component'         => $bp->activity->id,
+		'component'         => buddypress()->activity->id,
 		'type'              => 'activity_comment',
 		'user_id'           => $user_id,
 		'item_id'           => $activity_id,
 		'secondary_item_id' => $parent_id,
 		'hide_sitewide'     => $is_hidden
 	) );
-
-	// Send an email notification if settings allow
-	bp_activity_new_comment_notification( $comment_id, $user_id, $params );
 
 	// Clear the comment cache for this activity
 	wp_cache_delete( 'bp_activity_comments_' . $parent_id );

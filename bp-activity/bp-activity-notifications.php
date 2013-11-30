@@ -10,12 +10,14 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/* Emails *********************************************************************/
+
 /**
  * Send email and BP notifications when a user is mentioned in an update.
  *
  * @since BuddyPress (1.2)
  *
- * @uses bp_core_add_notification()
+ * @uses bp_notifications_add_notification()
  * @uses bp_get_user_meta()
  * @uses bp_core_get_user_displayname()
  * @uses bp_activity_get_permalink()
@@ -53,9 +55,6 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 	$subject = '';
 	$message = '';
 	$content = '';
-
-	// Add the BP notification
-	bp_core_add_notification( $activity_id, $receiver_user_id, 'activity', 'new_at_mention', $activity->user_id );
 
 	// Now email the user with the contents of the message (if they have enabled email notifications)
 	if ( 'no' != bp_get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
@@ -100,7 +99,7 @@ To view and respond to the message, log in and visit: %3$s
 			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 		}
 
-		/* Send the message */
+		// Send the message
 		$to 	 = apply_filters( 'bp_activity_at_message_notification_to', $to );
 		$subject = apply_filters( 'bp_activity_at_message_notification_subject', $subject, $poster_name );
 		$message = apply_filters( 'bp_activity_at_message_notification_message', $message, $poster_name, $content, $message_link, $settings_link );
@@ -108,7 +107,7 @@ To view and respond to the message, log in and visit: %3$s
 		wp_mail( $to, $subject, $message );
 	}
 
-	do_action( 'bp_activity_sent_mention_email', $activity, $subject, $message, $content );
+	do_action( 'bp_activity_sent_mention_email', $activity, $subject, $message, $content, $receiver_user_id );
 }
 
 /**
@@ -140,7 +139,7 @@ To view and respond to the message, log in and visit: %3$s
  * @param int $commenter_id The ID of the user who posted the comment.
  * @param array $params {@link bp_activity_new_comment()}
  */
-function bp_activity_new_comment_notification( $comment_id, $commenter_id, $params ) {
+function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 0, $params = array() ) {
 
 	// Set some default parameters
 	$activity_id = 0;
@@ -192,8 +191,9 @@ To view your original update and all comments, log in and visit: %3$s
 	 * If this is a reply to another comment, send an email notification to the
 	 * author of the immediate parent comment.
 	 */
-	if ( empty( $parent_id ) || ( $activity_id == $parent_id ) )
+	if ( empty( $parent_id ) || ( $activity_id == $parent_id ) ) {
 		return false;
+	}
 
 	$parent_comment = new BP_Activity_Activity( $parent_id );
 
@@ -236,3 +236,118 @@ To view the original activity, your comment and all replies, log in and visit: %
 		do_action( 'bp_activity_sent_reply_to_reply_email', $original_activity->user_id, $subject, $message, $comment_id, $commenter_id, $params );
 	}
 }
+
+/**
+ * Helper method to map action arguments to function parameters
+ *
+ * @since BuddyPress (1.9.0)
+ * @param int $comment_id
+ * @param array $params
+ */
+function bp_activity_new_comment_notification_helper( $comment_id, $params ) {
+	bp_activity_new_comment_notification( $comment_id, $params['user_id'], $params );
+}
+add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_helper', 10, 2 );
+
+/** Notifications *************************************************************/
+
+/**
+ * Format notifications related to activity.
+ *
+ * @since BuddyPress (1.5)
+ *
+ * @uses bp_loggedin_user_domain()
+ * @uses bp_get_activity_slug()
+ * @uses bp_core_get_user_displayname()
+ * @uses apply_filters() To call the 'bp_activity_multiple_at_mentions_notification' hook.
+ * @uses apply_filters() To call the 'bp_activity_single_at_mentions_notification' hook.
+ * @uses do_action() To call 'activity_format_notifications' hook.
+ *
+ * @param string $action The type of activity item. Just 'new_at_mention' for now.
+ * @param int $item_id The activity ID.
+ * @param int $secondary_item_id In the case of at-mentions, this is the mentioner's ID.
+ * @param int $total_items The total number of notifications to format.
+ * @param string $format 'string' to get a BuddyBar-compatible notification, 'array' otherwise.
+ * @return string $return Formatted @mention notification.
+ */
+function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
+
+	switch ( $action ) {
+		case 'new_at_mention':
+			$activity_id      = $item_id;
+			$poster_user_id   = $secondary_item_id;
+			$at_mention_link  = bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/';
+			$at_mention_title = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );
+
+			if ( (int) $total_items > 1 ) {
+				$text = sprintf( __( 'You have %1$d new mentions', 'buddypress' ), (int) $total_items );
+				$filter = 'bp_activity_multiple_at_mentions_notification';
+			} else {
+				$user_fullname = bp_core_get_user_displayname( $poster_user_id );
+				$text =  sprintf( __( '%1$s mentioned you', 'buddypress' ), $user_fullname );
+				$filter = 'bp_activity_single_at_mentions_notification';
+			}
+		break;
+	}
+
+	if ( 'string' == $format ) {
+		$return = apply_filters( $filter, '<a href="' . esc_url( $at_mention_link ) . '" title="' . esc_attr( $at_mention_title ) . '">' . esc_html( $text ) . '</a>', $at_mention_link, (int) $total_items, $activity_id, $poster_user_id );
+	} else {
+		$return = apply_filters( $filter, array(
+			'text' => $text,
+			'link' => $at_mention_link
+		), $at_mention_link, (int) $total_items, $activity_id, $poster_user_id );
+	}
+
+	do_action( 'activity_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
+
+	return $return;
+}
+
+/**
+ * Notify a member when their nicename is mentioned in an activity stream item.
+ *
+ * Hooked to the 'bp_activity_sent_mention_email' action, we piggy back off the
+ * existing email code for now, since it does the heavy lifting for us. In the
+ * future when we separate emails from Notifications, this will need its own
+ * 'bp_activity_at_name_send_emails' equivalent helper function.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param obj $activity
+ * @param string $subject (not used)
+ * @param string $message (not used)
+ * @param string $content (not used)
+ * @param int $receiver_user_id
+ */
+function bp_activity_at_mention_add_notification( $activity, $subject, $message, $content, $receiver_user_id ) {
+	if ( bp_is_active( 'notifications' ) ) {
+		bp_notifications_add_notification( array(
+			'user_id'           => $receiver_user_id,
+			'item_id'           => $activity->id,
+			'secondary_item_id' => $activity->user_id,
+			'component_name'    => buddypress()->activity->id,
+			'component_action'  => 'new_at_mention',
+			'date_notified'     => bp_core_current_time(),
+			'is_new'            => 1,
+		) );
+	}
+}
+add_action( 'bp_activity_sent_mention_email', 'bp_activity_at_mention_add_notification', 10, 5 );
+
+/**
+ * Remove activity notifications when a user clicks on them.
+ *
+ * @since BuddyPress (1.5)
+ *
+ * @uses bp_notifications_mark_all_notifications_by_type()
+ */
+function bp_activity_remove_screen_notifications() {
+	if ( bp_is_active( 'notifications' ) ) {
+		bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->activity->id, 'new_at_mention' );
+	}
+}
+add_action( 'bp_activity_screen_my_activity',               'bp_activity_remove_screen_notifications' );
+add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_screen_notifications' );
+add_action( 'bp_activity_screen_mentions',                  'bp_activity_remove_screen_notifications' );
+

@@ -129,20 +129,6 @@ function bp_activity_screen_mentions() {
 }
 
 /**
- * Remove activity notifications when a user clicks on them.
- *
- * @since BuddyPress (1.5)
- *
- * @uses bp_core_mark_all_notifications_by_type()
- */
-function bp_activity_remove_screen_notifications() {
-	bp_core_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->activity->id, 'new_at_mention' );
-}
-add_action( 'bp_activity_screen_my_activity',               'bp_activity_remove_screen_notifications' );
-add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_screen_notifications' );
-add_action( 'bp_activity_screen_mentions',                  'bp_activity_remove_screen_notifications' );
-
-/**
  * Reset the logged-in user's new mentions data when he visits his mentions screen.
  *
  * @since BuddyPress (1.5)
