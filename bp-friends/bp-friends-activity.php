@@ -111,9 +111,9 @@ add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' 
  * @param int $friendship_id
  * @param int $initiator_user_id
  * @param int $friend_user_id
- * @param object $friendship
+ * @param object $friendship Optional
  */
-function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_user_id, $friend_user_id, $friendship ) {
+function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_user_id, $friend_user_id, $friendship = false ) {
 
 	// Bail if Activity component is not active
 	if ( ! bp_is_active( 'activity' ) ) {
