@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-11-29 20:35:17+00:00\n"
+"POT-Creation-Date: 2013-11-30 04:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -613,7 +613,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-loader.php:193
 #: bp-activity/bp-activity-loader.php:296 bp-friends/bp-friends-loader.php:185
-#: bp-friends/bp-friends-screens.php:92
+#: bp-friends/bp-friends-screens.php:85
 msgid "Friends"
 msgstr ""
 
@@ -694,8 +694,8 @@ msgstr ""
 #: bp-activity/bp-activity-notifications.php:100
 #: bp-activity/bp-activity-notifications.php:178
 #: bp-activity/bp-activity-notifications.php:226 bp-core/deprecated/1.5.php:364
-#: bp-friends/bp-friends-notifications.php:54
-#: bp-friends/bp-friends-notifications.php:102
+#: bp-friends/bp-friends-notifications.php:56
+#: bp-friends/bp-friends-notifications.php:105
 #: bp-groups/bp-groups-notifications.php:42
 #: bp-groups/bp-groups-notifications.php:92
 #: bp-groups/bp-groups-notifications.php:150
@@ -740,7 +740,7 @@ msgid "You do not have access to this activity."
 msgstr ""
 
 #: bp-activity/bp-activity-screens.php:285 bp-blogs/bp-blogs-template.php:982
-#: bp-friends/bp-friends-screens.php:93 bp-groups/bp-groups-screens.php:917
+#: bp-friends/bp-friends-screens.php:86 bp-groups/bp-groups-screens.php:917
 #: bp-messages/bp-messages-screens.php:169
 #: bp-templates/bp-legacy/buddypress/members/register.php:227
 #: bp-themes/bp-default/registration/register.php:232
@@ -748,7 +748,7 @@ msgid "Yes"
 msgstr ""
 
 #: bp-activity/bp-activity-screens.php:286 bp-blogs/bp-blogs-template.php:986
-#: bp-friends/bp-friends-screens.php:94 bp-groups/bp-groups-screens.php:918
+#: bp-friends/bp-friends-screens.php:87 bp-groups/bp-groups-screens.php:918
 #: bp-messages/bp-messages-screens.php:170
 #: bp-templates/bp-legacy/buddypress/members/register.php:228
 #: bp-themes/bp-default/registration/register.php:233
@@ -2534,37 +2534,20 @@ msgstr ""
 msgid "You have a pending friendship request with this user"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:92
+#: bp-friends/bp-friends-activity.php:95
 msgid "Friendships accepted"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:93
+#: bp-friends/bp-friends-activity.php:96
 msgid "New friendships"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:96
+#: bp-friends/bp-friends-activity.php:99
 msgid "New friendship created"
 msgstr ""
 
-#: bp-friends/bp-friends-activity.php:122
-msgid "%d friends accepted your friendship requests"
-msgstr ""
-
-#: bp-friends/bp-friends-activity.php:125
-#: bp-friends/bp-friends-notifications.php:91
-msgid "%s accepted your friendship request"
-msgstr ""
-
-#: bp-friends/bp-friends-activity.php:136
-msgid "You have %d pending friendship requests"
-msgstr ""
-
-#: bp-friends/bp-friends-activity.php:139
-msgid "You have a friendship request from %s"
-msgstr ""
-
-#: bp-friends/bp-friends-functions.php:134
-#: bp-friends/bp-friends-functions.php:143
+#: bp-friends/bp-friends-activity.php:131
+#: bp-friends/bp-friends-activity.php:140
 msgid "%1$s and %2$s are now friends"
 msgstr ""
 
@@ -2601,11 +2584,11 @@ msgstr ""
 msgid "No Pending Requests"
 msgstr ""
 
-#: bp-friends/bp-friends-notifications.php:41
+#: bp-friends/bp-friends-notifications.php:43
 msgid "New friendship request from %s"
 msgstr ""
 
-#: bp-friends/bp-friends-notifications.php:42
+#: bp-friends/bp-friends-notifications.php:44
 msgid ""
 "%1$s wants to add you as a friend.\n"
 "\n"
@@ -2616,7 +2599,12 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-friends/bp-friends-notifications.php:92
+#: bp-friends/bp-friends-notifications.php:94
+#: bp-friends/bp-friends-notifications.php:144
+msgid "%s accepted your friendship request"
+msgstr ""
+
+#: bp-friends/bp-friends-notifications.php:95
 msgid ""
 "%1$s accepted your friend request.\n"
 "\n"
@@ -2625,35 +2613,47 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:39
+#: bp-friends/bp-friends-notifications.php:141
+msgid "%d friends accepted your friendship requests"
+msgstr ""
+
+#: bp-friends/bp-friends-notifications.php:155
+msgid "You have %d pending friendship requests"
+msgstr ""
+
+#: bp-friends/bp-friends-notifications.php:158
+msgid "You have a friendship request from %s"
+msgstr ""
+
+#: bp-friends/bp-friends-screens.php:36
 msgid "Friendship accepted"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:41
+#: bp-friends/bp-friends-screens.php:38
 msgid "Friendship could not be accepted"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:50
+#: bp-friends/bp-friends-screens.php:47
 msgid "Friendship rejected"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:52
+#: bp-friends/bp-friends-screens.php:49
 msgid "Friendship could not be rejected"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:61
+#: bp-friends/bp-friends-screens.php:58
 msgid "Friendship request withdrawn"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:63
+#: bp-friends/bp-friends-screens.php:60
 msgid "Friendship request could not be withdrawn"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:101
+#: bp-friends/bp-friends-screens.php:94
 msgid "A member sends you a friendship request"
 msgstr ""
 
-#: bp-friends/bp-friends-screens.php:107
+#: bp-friends/bp-friends-screens.php:100
 msgid "A member accepts your friendship request"
 msgstr ""
 
