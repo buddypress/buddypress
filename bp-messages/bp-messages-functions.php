@@ -114,15 +114,6 @@ function messages_new_message( $args = '' ) {
 	}
 
 	if ( $message->send() ) {
-
-		// Send screen notifications to the recipients
-		foreach ( (array) $message->recipients as $recipient ) {
-			bp_core_add_notification( $message->id, $recipient->user_id, 'messages', 'new_message', $message->sender_id );
-		}
-
-		// Send email notifications to the recipients
-		messages_notification_new_message( array( 'message_id' => $message->id, 'sender_id' => $message->sender_id, 'subject' => $message->subject, 'content' => $message->message, 'recipients' => $message->recipients, 'thread_id' => $message->thread_id) );
-
 		do_action_ref_array( 'messages_message_sent', array( &$message ) );
 
 		return $message->thread_id;
@@ -222,48 +213,4 @@ function messages_get_message_sender( $message_id ) {
 
 function messages_is_valid_thread( $thread_id ) {
 	return BP_Messages_Thread::is_valid( $thread_id );
-}
-
-/**
- * Format the BuddyBar/Toolbar notifications for the Messages component
- *
- * @package BuddyPress
- *
- * @param string $action The kind of notification being rendered
- * @param int $item_id The primary item id
- * @param int $secondary_item_id The secondary item id
- * @param int $total_items The total number of messaging-related notifications waiting for the user
- * @param string $format 'string' for BuddyBar-compatible notifications; 'array' for WP Toolbar
- */
-function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
-
-	if ( 'new_message' == $action ) {
-		$link  = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox' );
-		$title = __( 'Inbox', 'buddypress' );
-
-		if ( (int) $total_items > 1 ) {
-			$text   = sprintf( __('You have %d new messages', 'buddypress' ), (int) $total_items );
-			$filter = 'bp_messages_multiple_new_message_notification';
-		} else {
-			if ( !empty( $secondary_item_id ) ) {
-				$text = sprintf( __('You have %d new message from %s', 'buddypress' ), (int) $total_items, bp_core_get_user_displayname( $secondary_item_id ) );
-			} else {
-				$text = sprintf( __('You have %d new message',         'buddypress' ), (int) $total_items );
-			}
-			$filter = 'bp_messages_single_new_message_notification';
-		}
-	}
-
-	if ( 'string' == $format ) {
-		$return = apply_filters( $filter, '<a href="' . $link . '" title="' . $title . '">' . $text . '</a>', (int) $total_items, $text, $link, $item_id, $secondary_item_id );
-	} else {
-		$return = apply_filters( $filter, array(
-			'text' => $text,
-			'link' => $link
-		), $link, (int) $total_items, $text, $link, $item_id, $secondary_item_id );
-	}
-
-	do_action( 'messages_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
-
-	return $return;
 }
