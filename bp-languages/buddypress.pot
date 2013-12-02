@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-11-30 06:35:17+00:00\n"
+"POT-Creation-Date: 2013-12-02 03:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -158,10 +158,10 @@ msgid "ERROR: The item you are trying to reply to cannot be found, or it has bee
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:209 bp-activity/bp-activity-admin.php:256
-#: bp-core/admin/bp-core-functions.php:430
-#: bp-core/admin/bp-core-functions.php:448
-#: bp-core/admin/bp-core-functions.php:467
-#: bp-core/admin/bp-core-functions.php:486 bp-groups/bp-groups-admin.php:112
+#: bp-core/admin/bp-core-functions.php:434
+#: bp-core/admin/bp-core-functions.php:452
+#: bp-core/admin/bp-core-functions.php:471
+#: bp-core/admin/bp-core-functions.php:490 bp-groups/bp-groups-admin.php:112
 #: bp-groups/bp-groups-admin.php:148
 msgid "Overview"
 msgstr ""
@@ -199,10 +199,10 @@ msgid "For information about when and how BuddyPress uses all of these settings,
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:228 bp-activity/bp-activity-admin.php:273
-#: bp-core/admin/bp-core-functions.php:436
-#: bp-core/admin/bp-core-functions.php:454
-#: bp-core/admin/bp-core-functions.php:473
-#: bp-core/admin/bp-core-functions.php:492 bp-groups/bp-groups-admin.php:120
+#: bp-core/admin/bp-core-functions.php:440
+#: bp-core/admin/bp-core-functions.php:458
+#: bp-core/admin/bp-core-functions.php:477
+#: bp-core/admin/bp-core-functions.php:496 bp-groups/bp-groups-admin.php:120
 #: bp-groups/bp-groups-admin.php:164
 msgid "For more information:"
 msgstr ""
@@ -212,10 +212,10 @@ msgid "<a href=\"http://codex.buddypress.org/buddypress-site-administration/mana
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:230 bp-activity/bp-activity-admin.php:274
-#: bp-core/admin/bp-core-functions.php:438
-#: bp-core/admin/bp-core-functions.php:456
-#: bp-core/admin/bp-core-functions.php:475
-#: bp-core/admin/bp-core-functions.php:494 bp-groups/bp-groups-admin.php:165
+#: bp-core/admin/bp-core-functions.php:442
+#: bp-core/admin/bp-core-functions.php:460
+#: bp-core/admin/bp-core-functions.php:479
+#: bp-core/admin/bp-core-functions.php:498 bp-groups/bp-groups-admin.php:165
 msgid "<a href=\"http://buddypress.org/support/\">Support Forums</a>"
 msgstr ""
 
@@ -1301,7 +1301,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:392 bp-core/bp-core-template.php:370
+#: bp-core/admin/bp-core-functions.php:393 bp-core/bp-core-template.php:370
 #: bp-forums/bp-forums-loader.php:132 bp-forums/bp-forums-loader.php:199
 #: bp-forums/bp-forums-loader.php:240 bp-forums/bp-forums-screens.php:208
 #: bp-forums/bp-forums-screens.php:210 bp-forums/deprecated/1.6.php:42
@@ -1309,62 +1309,62 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:437
+#: bp-core/admin/bp-core-functions.php:441
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-components\">Managing Components</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:455
+#: bp-core/admin/bp-core-functions.php:459
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-pages\">Managing Pages</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:474
+#: bp-core/admin/bp-core-functions.php:478
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-settings\">Managing Settings</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:493
+#: bp-core/admin/bp-core-functions.php:497
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#users-profile-fields\">Managing Profile Fields</a>"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:511
+#: bp-core/admin/bp-core-functions.php:515
 msgid "By default, all BuddyPress components are enabled. You can selectively disable any of the components by using the form. Your BuddyPress installation will continue to function. However, the features of the disabled components will no longer be accessible to anyone using the site."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:515
+#: bp-core/admin/bp-core-functions.php:519
 msgid "BuddyPress Components use WordPress Pages for their root directory/archive pages. Here you can change the page associations for each active component."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:519
+#: bp-core/admin/bp-core-functions.php:523
 msgid "Extra configuration settings."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:523
+#: bp-core/admin/bp-core-functions.php:527
 msgid "Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.</br></br>Note: Any fields in the first group will appear on the signup page."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:676 bp-core/bp-core-admin.php:197
+#: bp-core/admin/bp-core-functions.php:687 bp-core/bp-core-admin.php:197
 #: bp-core/bp-core-admin.php:198 bp-core/bp-core-admin.php:218
 msgid "BuddyPress"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:699
-#: bp-core/admin/bp-core-functions.php:708
+#: bp-core/admin/bp-core-functions.php:709
+#: bp-core/admin/bp-core-functions.php:718
 msgid "Logged-In"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:702
-#: bp-core/admin/bp-core-functions.php:717
+#: bp-core/admin/bp-core-functions.php:712
+#: bp-core/admin/bp-core-functions.php:727
 msgid "Logged-Out"
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:709
+#: bp-core/admin/bp-core-functions.php:719
 msgid "<em>Logged-In</em> links are relative to the current user, and are not visible to visitors who are not logged in."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:718
+#: bp-core/admin/bp-core-functions.php:728
 msgid "<em>Logged-Out</em> links are not visible to users who are logged in."
 msgstr ""
 
-#: bp-core/admin/bp-core-functions.php:728
+#: bp-core/admin/bp-core-functions.php:738
 msgid "Add to Menu"
 msgstr ""
 
