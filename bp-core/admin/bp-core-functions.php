@@ -761,17 +761,17 @@ function bp_admin_do_wp_nav_menu_meta_box() {
  * @since BuddyPress (1.9.0)
  */
 function bp_admin_wp_nav_menu_restrict_items() {
-	?>
+?>
 	<script type="text/javascript">
 	jQuery( '#menu-to-edit').on( 'click', 'a.item-edit', function() {
 		var settings  = jQuery(this).closest( '.menu-item-bar' ).next( '.menu-item-settings' );
 		var css_class = settings.find( '.edit-menu-item-classes' );
 
-		if( css_class.val().indexOf( 'bp-menu' ) == 0 ) {
+		if( css_class.val().indexOf( 'bp-menu' ) === 0 ) {
 			css_class.attr( 'readonly', 'readonly' );
 			settings.find( '.field-url' ).css( 'display', 'none' );
 		}
 	});
 	</script>
-	<?php
+<?php
 }
