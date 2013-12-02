@@ -23,8 +23,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *     @type string $type Determines sort order. Select from 'newest', 'active',
  *           'online', 'random', 'popular', 'alphabetical'. Default: 'newest'.
  *     @type int $per_page Number of results to return. Default: 0 (no limit).
- *     @type int $page Page offset (together with $per_page). Default: 0 (no
- *           limit).
+ *     @type int $page Page offset (together with $per_page). Default: 1.
  *     @type int $user_id ID of a user. If present, and if the friends
  *           component is activated, results will be limited to the friends of
  *           that user. Default: 0.
