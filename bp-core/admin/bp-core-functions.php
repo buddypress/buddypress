@@ -512,26 +512,31 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 
 	switch ( $tab ) {
 		case 'bp-comp-overview' :
-			$retval = '<p>' . __( 'By default, all BuddyPress components are enabled. You can selectively disable any of the components by using the form. Your BuddyPress installation will continue to function. However, the features of the disabled components will no longer be accessible to anyone using the site.', 'buddypress' ) . '</p>';
+			$retval = __( 'By default, all BuddyPress components are enabled. You can selectively disable any of the components by using the form. Your BuddyPress installation will continue to function. However, the features of the disabled components will no longer be accessible to anyone using the site.', 'buddypress' );
 			break;
 
-		case'bp-page-overview' :
-			$retval = '<p>' . __( 'BuddyPress Components use WordPress Pages for their root directory/archive pages. Here you can change the page associations for each active component.', 'buddypress' ) . '</p>';
+		case 'bp-page-overview' :
+			$retval = __( 'BuddyPress Components use WordPress Pages for their root directory/archive pages. Here you can change the page associations for each active component.', 'buddypress' );
 			break;
 
 		case 'bp-settings-overview' :
-			$retval = '<p>' . __( 'Extra configuration settings.', 'buddypress' ) . '</p>';
+			$retval = __( 'Extra configuration settings.', 'buddypress' );
 			break;
 
 		case 'bp-profile-overview' :
-			$retval = '<p>' . __( 'Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.</br></br>Note: Any fields in the first group will appear on the signup page.', 'buddypress' ) . '</p>';
+			$retval = __( 'Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.</br></br>Note: Any fields in the first group will appear on the signup page.', 'buddypress' );
 			break;
 
 		default:
 			$retval = false;
 			break;
 	}
-	
+
+	// Wrap text in a paragraph tag
+	if ( !empty( $retval ) ) {
+		$retval = '<p>' . $retval . '</p>';
+	}
+
 	return $retval;
 }
 
