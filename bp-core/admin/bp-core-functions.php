@@ -383,6 +383,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 
 	// If forums component is active, add additional tab
 	if ( bp_is_active( 'forums' ) && class_exists( 'BP_Forums_Component' ) ) {
+
 		// enqueue thickbox
 		wp_enqueue_script( 'thickbox' );
 		wp_enqueue_style( 'thickbox' );
@@ -393,11 +394,14 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 		);
 	}
 
+	// Allow the tabs to be filtered
+	$tabs = apply_filters( 'bp_core_admin_tabs', $tabs );
+
 	// Loop through tabs and build navigation
 	foreach ( array_values( $tabs ) as $tab_data ) {
 		$is_current = (bool) ( $tab_data['name'] == $active_tab );
 		$tab_class  = $is_current ? $active_class : $idle_class;
-		$tabs_html .= '<a href="' . $tab_data['href'] . '" class="' . $tab_class . '">' . $tab_data['name'] . '</a>';
+		$tabs_html .= '<a href="' . esc_url( $tab_data['href'] ) . '" class="' . esc_attr( $tab_class ) . '">' . esc_html( $tab_data['name'] ) . '</a>';
 	}
 
 	// Output the tabs
