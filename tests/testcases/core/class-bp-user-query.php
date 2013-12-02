@@ -222,4 +222,80 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$this->assertEquals( array( $u2 ), $found_user_ids );
 	}
+
+	/**
+	 * @group type
+	 * @group spam
+	 */
+	public function test_bp_user_query_type_alphabetical_spam_xprofileon() {
+		if ( is_multisite() ) {
+			return;
+		}
+
+		// Make sure xprofile is on
+		$xprofile_toggle = isset( buddypress()->active_components['xprofile'] );
+		buddypress()->active_components['xprofile'] = 1;
+		add_filter( 'bp_disable_profile_sync', '__return_false' );
+
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		global $wpdb;
+		bp_core_process_spammer_status( $u1, 'spam' );
+
+		$q = new BP_User_Query( array( 'type' => 'alphabetical', ) );
+
+		// Restore xprofile setting
+		if ( $xprofile_toggle ) {
+			buddypress()->active_components['xprofile'] = 1;
+		} else {
+			unset( buddypress()->active_components['xprofile'] );
+		}
+		remove_filter( 'bp_disable_profile_sync', '__return_false' );
+
+		$found_user_ids = null;
+
+		if ( ! empty( $q->results ) ) {
+			$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+		}
+
+		// Do a assertNotContains because there are weird issues with user #1 as created by WP
+		$this->assertNotContains( $u1, $found_user_ids );
+	}
+
+	/**
+	 * @group type
+	 * @group spam
+	 */
+	public function test_bp_user_query_type_alphabetical_spam_xprofileoff() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		// Make sure xprofile and profile sync are off
+		$xprofile_toggle = isset( buddypress()->active_components['xprofile'] );
+		buddypress()->active_components['xprofile'] = 0;
+		add_filter( 'bp_disable_profile_sync', '__return_false' );
+
+		bp_core_process_spammer_status( $u1, 'spam' );
+
+		$q = new BP_User_Query( array( 'type' => 'alphabetical', ) );
+
+		// Restore xprofile setting
+		if ( $xprofile_toggle ) {
+			buddypress()->active_components['xprofile'] = 1;
+		} else {
+			unset( buddypress()->active_components['xprofile'] );
+		}
+		remove_filter( 'bp_disable_profile_sync', '__return_false' );
+
+		$found_user_ids = null;
+
+		if ( ! empty( $q->results ) ) {
+			$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+		}
+
+		// Do a assertNotContains because there are weird issues with user #1 as created by WP
+		$this->assertNotContains( $u1, $found_user_ids );
+	}
+
 }

@@ -310,6 +310,11 @@ class BP_User_Query {
 					$sql['order']   = "ASC";
 				}
 
+				// Alphabetical queries ignore last_activity, while BP uses last_activity
+				// to infer spam/deleted/non-activated users. To ensure that these users
+				// are filtered out, we add an appropriate sub-query.
+				$sql['where'][] = "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE " . bp_core_get_status_sql( '' ) . " )";
+
 				break;
 
 			// Any other 'type' falls through
