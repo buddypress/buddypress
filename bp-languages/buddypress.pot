@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-12-02 03:35:16+00:00\n"
+"POT-Creation-Date: 2013-12-02 13:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -958,7 +958,7 @@ msgstr[1] ""
 msgid "Profile picture of site author %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:633 bp-core/bp-core-classes.php:792
+#: bp-blogs/bp-blogs-template.php:633 bp-core/bp-core-classes.php:791
 #: bp-groups/bp-groups-widgets.php:85 bp-groups/bp-groups-widgets.php:188
 #: bp-members/bp-members-template.php:596
 #: bp-members/bp-members-template.php:871
@@ -1752,8 +1752,8 @@ msgstr ""
 msgid "Upload failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:831 bp-core/bp-core-classes.php:789
-#: bp-core/bp-core-classes.php:790 bp-core/bp-core-classes.php:791
+#: bp-core/bp-core-avatars.php:831 bp-core/bp-core-classes.php:788
+#: bp-core/bp-core-classes.php:789 bp-core/bp-core-classes.php:790
 #: bp-core/bp-core-template.php:135 bp-core/bp-core-template.php:151
 msgid "Avatar of %s"
 msgstr ""
@@ -1806,7 +1806,7 @@ msgstr ""
 msgid "You must log in to access the page you requested."
 msgstr ""
 
-#: bp-core/bp-core-classes.php:806
+#: bp-core/bp-core-classes.php:805
 msgid "%d group"
 msgid_plural "%d groups"
 msgstr[0] ""
