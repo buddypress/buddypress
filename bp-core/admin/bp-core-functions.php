@@ -703,7 +703,6 @@ function bp_admin_do_wp_nav_menu_meta_box() {
 	$args   = array( 'walker' => $walker );
 
 	$post_type_name = 'buddypress';
-	$current_tab    = 'loggedin';
 
 	$tabs = array();
 
