@@ -476,22 +476,27 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
  * WordPress pages and this function is now a convenience for compatibility
  * with the new method.
  *
- * @global $bp BuddyPress global settings.
- *
  * @param string $slug The slug of the component being added to the root list.
  */
 function bp_core_add_root_component( $slug ) {
-	global $bp;
+	$bp = buddypress();
 
-	if ( empty( $bp->pages ) )
+	if ( empty( $bp->pages ) ) {
 		$bp->pages = bp_core_get_directory_pages();
+	}
 
 	$match = false;
 
 	// Check if the slug is registered in the $bp->pages global
 	foreach ( (array) $bp->pages as $key => $page ) {
-		if ( $key == $slug || $page->slug == $slug )
+		if ( $key == $slug || $page->slug == $slug ) {
 			$match = true;
+		}
+	}
+
+	// Maybe create the add_root array
+	if ( empty( $bp->add_root ) ) {
+		$bp->add_root = array();
 	}
 
 	// If there was no match, add a page for this root component
