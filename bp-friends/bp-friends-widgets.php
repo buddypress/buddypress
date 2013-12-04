@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Friends
- * @since 1.9.0
+ * @since BuddyPress (1.9.0)
  */
 
 // Exit if accessed directly
@@ -187,7 +187,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	}
 }
 
-/** Widget AJAX ******************/
+/** Widget AJAX ***************************************************************/
 
 /**
  * Process AJAX pagination or filtering for the Friends widget.
@@ -248,4 +248,3 @@ function bp_core_ajax_widget_friends() {
 }
 add_action( 'wp_ajax_widget_friends', 'bp_core_ajax_widget_friends' );
 add_action( 'wp_ajax_nopriv_widget_friends', 'bp_core_ajax_widget_friends' );
-
