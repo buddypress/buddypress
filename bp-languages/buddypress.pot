@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-12-03 14:35:18+00:00\n"
+"POT-Creation-Date: 2013-12-04 02:35:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -531,7 +531,7 @@ msgid "<span>%1$s</span> &mdash; %2$s"
 msgstr ""
 
 #: bp-activity/bp-activity-classes.php:257
-#: bp-activity/bp-activity-template.php:143 bp-groups/bp-groups-classes.php:340
+#: bp-activity/bp-activity-template.php:143 bp-groups/bp-groups-classes.php:583
 #: bp-groups/bp-groups-template.php:114
 msgid "Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details."
 msgstr ""
@@ -3070,14 +3070,14 @@ msgid "No members of this type"
 msgstr ""
 
 #: bp-groups/bp-groups-admin.php:877 bp-groups/bp-groups-adminbar.php:101
-#: bp-groups/bp-groups-buddybar.php:57
+#: bp-groups/bp-groups-buddybar.php:58
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:360
 #: bp-themes/bp-default/groups/single/admin.php:360
 #: bp-xprofile/bp-xprofile-admin.php:118
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:881 bp-groups/bp-groups-classes.php:2162
+#: bp-groups/bp-groups-admin.php:881 bp-groups/bp-groups-classes.php:2410
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3165,7 +3165,7 @@ msgstr ""
 msgid "Select group %1$d"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:47 bp-groups/bp-groups-buddybar.php:33
+#: bp-groups/bp-groups-adminbar.php:47 bp-groups/bp-groups-buddybar.php:34
 msgid "Edit Details"
 msgstr ""
 
@@ -3177,36 +3177,36 @@ msgstr ""
 msgid "Edit Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:74 bp-groups/bp-groups-buddybar.php:45
+#: bp-groups/bp-groups-adminbar.php:74 bp-groups/bp-groups-buddybar.php:46
 msgid "Manage Invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:83 bp-groups/bp-groups-buddybar.php:49
+#: bp-groups/bp-groups-adminbar.php:83 bp-groups/bp-groups-buddybar.php:50
 msgid "Manage Members"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:92 bp-groups/bp-groups-buddybar.php:53
+#: bp-groups/bp-groups-adminbar.php:92 bp-groups/bp-groups-buddybar.php:54
 msgid "Membership Requests"
 msgstr ""
 
-#: bp-groups/bp-groups-buddybar.php:30 bp-members/bp-members-buddybar.php:94
+#: bp-groups/bp-groups-buddybar.php:31 bp-members/bp-members-buddybar.php:94
 msgid "Admin Options"
 msgstr ""
 
-#: bp-groups/bp-groups-buddybar.php:35
+#: bp-groups/bp-groups-buddybar.php:36
 msgid "Group Settings"
 msgstr ""
 
-#: bp-groups/bp-groups-buddybar.php:39 bp-groups/bp-groups-loader.php:590
+#: bp-groups/bp-groups-buddybar.php:40 bp-groups/bp-groups-loader.php:590
 #: bp-groups/bp-groups-template.php:2634
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1346
+#: bp-groups/bp-groups-classes.php:1594
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1352 bp-groups/bp-groups-functions.php:121
+#: bp-groups/bp-groups-classes.php:1600 bp-groups/bp-groups-functions.php:121
 msgid "Group Admin"
 msgstr ""
 
