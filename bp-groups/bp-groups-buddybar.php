@@ -11,9 +11,10 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Adds menu items to the BuddyBar
+ * Add menu items to the BuddyBar.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
+ *
  * @global BuddyPress $bp
  */
 function bp_groups_adminbar_admin_menu() {
