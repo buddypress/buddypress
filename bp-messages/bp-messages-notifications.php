@@ -60,7 +60,7 @@ function messages_notification_new_message( $args = array() ) {
 			// Sender info
 			$sender_name   = stripslashes( $sender_name );
 			$subject       = stripslashes( wp_filter_kses( $subject ) );
-			$content       = stripslashes( wp_filter_kses( $content ) );
+			$content       = stripslashes( wp_filter_kses( $message ) );
 
 			// Set up and send the message
 			$email_to      = $ud->user_email;
