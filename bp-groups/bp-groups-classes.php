@@ -923,6 +923,28 @@ class BP_Groups_Group {
 		return $order_by_term;
 	}
 
+	/**
+	 * Get a list of groups, sorted by those that have the most legacy forum topics.
+	 *
+	 * @param int $limit Optional. The max number of results to return.
+	 *        Default: null (no limit).
+	 * @param int $page Optional. The page offset of results to return.
+	 *        Default: null (no limit).
+	 * @param int $user_id Optional. If present, groups will be limited to
+	 *        those of which the specified user is a member.
+	 * @param string $search_terms Optional. Limit groups to those whose
+	 *        name or description field contain the search string.
+	 * @param bool $populate_extras Optional. Whether to fetch extra
+	 *        information about the groups. Default: true.
+	 * @param string|array Optional. Array or comma-separated list of group
+	 *        IDs to exclude from results.
+	 * @return array {
+	 *     @type array $groups Array of group objects returned by the
+	 *           paginated query.
+	 *     @type int $total Total count of all groups matching non-
+	 *           paginated query params.
+	 * }
+	 */
 	public static function get_by_most_forum_topics( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp, $bbdb;
 
@@ -965,6 +987,28 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * Get a list of groups, sorted by those that have the most legacy forum posts.
+	 *
+	 * @param int $limit Optional. The max number of results to return.
+	 *        Default: null (no limit).
+	 * @param int $page Optional. The page offset of results to return.
+	 *        Default: null (no limit).
+	 * @param int $user_id Optional. If present, groups will be limited to
+	 *        those of which the specified user is a member.
+	 * @param string $search_terms Optional. Limit groups to those whose
+	 *        name or description field contain the search string.
+	 * @param bool $populate_extras Optional. Whether to fetch extra
+	 *        information about the groups. Default: true.
+	 * @param string|array Optional. Array or comma-separated list of group
+	 *        IDs to exclude from results.
+	 * @return array {
+	 *     @type array $groups Array of group objects returned by the
+	 *           paginated query.
+	 *     @type int $total Total count of all groups matching non-
+	 *           paginated query params.
+	 * }
+	 */
 	public static function get_by_most_forum_posts( $limit = null, $page = null, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp, $bbdb;
 
@@ -1007,6 +1051,25 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * Get a list of groups whose names start with a given letter.
+	 *
+	 * @param string $letter The letter.
+	 * @param int $limit Optional. The max number of results to return.
+	 *        Default: null (no limit).
+	 * @param int $page Optional. The page offset of results to return.
+	 *        Default: null (no limit).
+	 * @param bool $populate_extras Optional. Whether to fetch extra
+	 *        information about the groups. Default: true.
+	 * @param string|array Optional. Array or comma-separated list of group
+	 *        IDs to exclude from results.
+	 * @return array {
+	 *     @type array $groups Array of group objects returned by the
+	 *           paginated query.
+	 *     @type int $total Total count of all groups matching non-
+	 *           paginated query params.
+	 * }
+	 */
 	public static function get_by_letter( $letter, $limit = null, $page = null, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp;
 
@@ -1051,6 +1114,30 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * Get a list of random groups.
+	 *
+	 * Use BP_Groups_Group::get() with 'type' = 'random' instead.
+	 *
+	 * @param int $limit Optional. The max number of results to return.
+	 *        Default: null (no limit).
+	 * @param int $page Optional. The page offset of results to return.
+	 *        Default: null (no limit).
+	 * @param int $user_id Optional. If present, groups will be limited to
+	 *        those of which the specified user is a member.
+	 * @param string $search_terms Optional. Limit groups to those whose
+	 *        name or description field contain the search string.
+	 * @param bool $populate_extras Optional. Whether to fetch extra
+	 *        information about the groups. Default: true.
+	 * @param string|array Optional. Array or comma-separated list of group
+	 *        IDs to exclude from results.
+	 * @return array {
+	 *     @type array $groups Array of group objects returned by the
+	 *           paginated query.
+	 *     @type int $total Total count of all groups matching non-
+	 *           paginated query params.
+	 * }
+	 */
 	public static function get_random( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bp;
 
@@ -1092,6 +1179,23 @@ class BP_Groups_Group {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * Fetch extra data for a list of groups.
+	 *
+	 * This method is used throughout the class, by methods that take a
+	 * $populate_extras parameter.
+	 *
+	 * Data fetched:
+	 *
+	 *     - Logged-in user's status within each group (is_member,
+	 *       is_confirmed, is_pending, is_banned)
+	 *
+	 * @param array $paged_groups Array of groups.
+	 * @param string|array Array or comma-separated list of IDs matching
+	 *        $paged_groups.
+	 * @param string $type Not used.
+	 * @return array $paged_groups
+	 */
 	public static function get_group_extras( &$paged_groups, &$group_ids, $type = false ) {
 		global $bp, $wpdb;
 
@@ -1149,12 +1253,28 @@ class BP_Groups_Group {
 		return $paged_groups;
 	}
 
+	/**
+	 * Delete all invitations to a given group.
+	 *
+	 * @param int $group_id ID of the group whose invitations are being
+	 *        deleted.
+	 * @return int|null Number of rows records deleted on success, null on
+	 *         failure.
+	 */
 	public static function delete_all_invites( $group_id ) {
 		global $wpdb, $bp;
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE group_id = %d AND invite_sent = 1", $group_id ) );
 	}
 
+	/**
+	 * Get a total group count for the site.
+	 *
+	 * Will include hidden groups in the count only if
+	 * current_user_can( 'bp_moderate' ).
+	 *
+	 * @return int Group count.
+	 */
 	public static function get_total_group_count() {
 		global $wpdb, $bp;
 
@@ -1165,6 +1285,13 @@ class BP_Groups_Group {
 		return $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->groups->table_name} {$hidden_sql}" );
 	}
 
+	/**
+	 * Get global count of forum topics in public groups (legacy forums).
+	 *
+	 * @param $type Optional. If 'unreplied', count will be limited to
+	 *        those topics that have received no replies.
+	 * @return int Forum topic count.
+	 */
 	public static function get_global_forum_topic_count( $type ) {
 		global $bbdb, $wpdb, $bp;
 
@@ -1181,6 +1308,12 @@ class BP_Groups_Group {
 		return $wpdb->get_var( "SELECT COUNT(t.topic_id) FROM {$bbdb->topics} AS t, {$bp->groups->table_name} AS g LEFT JOIN {$bp->groups->table_name_groupmeta} AS gm ON g.id = gm.group_id WHERE (gm.meta_key = 'forum_id' AND gm.meta_value = t.forum_id) AND g.status = 'public' AND t.topic_status = '0' AND t.topic_sticky != '2' {$extra_sql} " );
 	}
 
+	/**
+	 * Get the member count for a group.
+	 *
+	 * @param int $group_id Group ID.
+	 * @return int Count of confirmed members for the group.
+	 */
 	public static function get_total_member_count( $group_id ) {
 		global $wpdb, $bp;
 
@@ -1190,10 +1323,10 @@ class BP_Groups_Group {
 	/**
 	 * Get a total count of all topics of a given status, across groups/forums
 	 *
-	 * @package BuddyPress
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
-	 * @param string $status 'public', 'private', 'hidden', 'all' Which group types to count
+	 * @param string $status Which group type to count. 'public', 'private',
+	 *        'hidden', or 'all'. Default: 'public'.
 	 * @return int The topic count
 	 */
 	public static function get_global_topic_count( $status = 'public', $search_terms = false ) {
@@ -1233,12 +1366,12 @@ class BP_Groups_Group {
 	}
 
 	/**
-	 * Get an array containing ids for each group type
+	 * Get an array containing ids for each group type.
 	 *
 	 * A bit of a kludge workaround for some issues
-	 * with bp_has_groups()
+	 * with bp_has_groups().
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 *
 	 * @return array
 	 */
@@ -1257,23 +1390,24 @@ class BP_Groups_Group {
 }
 
 /**
- * Query for the members of a group
+ * Query for the members of a group.
  *
- * @since BuddyPress (1.8)
+ * @since BuddyPress (1.8.0)
  */
 class BP_Group_Member_Query extends BP_User_Query {
+
 	/**
-	 * Array of group member ids, cached to prevent redundant lookups
+	 * Array of group member ids, cached to prevent redundant lookups.
 	 *
-	 * @var null|array Null if not yet defined, otherwise an array of ints
 	 * @since BuddyPress (1.8.1)
+	 * @var null|array Null if not yet defined, otherwise an array of ints.
 	 */
 	protected $group_member_ids;
 
 	/**
-	 * Set up action hooks
+	 * Set up action hooks.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	public function setup_hooks() {
 		// Take this early opportunity to set the default 'type' param
@@ -1291,13 +1425,15 @@ class BP_Group_Member_Query extends BP_User_Query {
 	}
 
 	/**
-	 * Get a list of user_ids to include in the IN clause of the main query
+	 * Get a list of user_ids to include in the IN clause of the main query.
 	 *
 	 * Overrides BP_User_Query::get_include_ids(), adding our additional
 	 * group-member logic.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param array
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param array $include Existing group IDs in the $include parameter,
+	 *        as calculated in BP_User_Query.
 	 * @return array
 	 */
 	public function get_include_ids( $include = array() ) {
@@ -1328,10 +1464,11 @@ class BP_Group_Member_Query extends BP_User_Query {
 	}
 
 	/**
-	 * Get the members of the queried group
+	 * Get the members of the queried group.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @return array $ids User IDs of relevant group member ids
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @return array $ids User IDs of relevant group member ids.
 	 */
 	protected function get_group_member_ids() {
 		global $wpdb;
@@ -1424,12 +1561,12 @@ class BP_Group_Member_Query extends BP_User_Query {
 	}
 
 	/**
-	 * Tell BP_User_Query to order by the order of our query results
+	 * Tell BP_User_Query to order by the order of our query results.
 	 *
 	 * This implementation assumes the 'last_modified' sort order
 	 * hardcoded in BP_Group_Member_Query::get_group_member_ids().
 	 *
-	 * @param object $query BP_User_Query object
+	 * @param BP_User_Query $query BP_User_Query object.
 	 */
 	public function set_orderby( $query ) {
 		$gm_ids = $this->get_group_member_ids();
@@ -1449,9 +1586,15 @@ class BP_Group_Member_Query extends BP_User_Query {
 	}
 
 	/**
-	 * Fetch additional data required in bp_group_has_members() loops
+	 * Fetch additional data required in bp_group_has_members() loops.
 	 *
-	 * @since BuddyPress (1.8)
+	 * Additional data fetched:
+	 *
+	 *      - is_banned
+	 *      - date_modified
+	 *
+	 * @since BuddyPress (1.8.0)
+	 *
 	 * @param object $query BP_User_Query object. Because we're filtering
 	 *   the current object, we use $this inside of the method instead
 	 * @param string $user_ids_sql Sanitized, comma-separated string of
@@ -1477,21 +1620,138 @@ class BP_Group_Member_Query extends BP_User_Query {
 	}
 }
 
+/**
+ * BuddyPress Group Membership objects.
+ */
 class BP_Groups_Member {
+
+	/**
+	 * ID of the membership.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $id;
+
+	/**
+	 * ID of the group associated with the membership.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $group_id;
+
+	/**
+	 * ID of the user associated with the membership.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $user_id;
+
+	/**
+	 * ID of the user whose invitation initiated the membership.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $inviter_id;
+
+	/**
+	 * Whether the member is an admin of the group.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $is_admin;
+
+	/**
+	 * Whether the member is a mod of the group.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $is_mod;
+
+	/**
+	 * Whether the member is banned from the group.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $is_banned;
+
+	/**
+	 * Title used to describe the group member's role in the group.
+	 *
+	 * Eg, 'Group Admin'.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $user_title;
+
+	/**
+	 * Last modified date of the membership.
+	 *
+	 * This value is updated when, eg, invitations are accepted.
+	 *
+	 * @access public
+	 * @var string
+	 */
 	var $date_modified;
+
+	/**
+	 * Whether the membership has been confirmed.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $is_confirmed;
+
+	/**
+	 * Comments associated with the membership.
+	 *
+	 * In BP core, these are limited to the optional message users can
+	 * include when requesting membership to a private group.
+	 *
+	 * @access public
+	 * @var string
+	 */
 	var $comments;
+
+	/**
+	 * Whether an invitation has been sent for this membership.
+	 *
+	 * The purpose of this flag is to mark when an invitation has been
+	 * "drafted" (the user has been added via the interface at Send
+	 * Invites), but the Send button has not been pressed, so the
+	 * invitee has not yet been notified.
+	 *
+	 * @access public
+	 * @var int
+	 */
 	var $invite_sent;
+
+	/**
+	 * WP_User object representing the membership's user.
+	 *
+	 * @access public
+	 * @var WP_User
+	 */
 	var $user;
 
+	/**
+	 * Constructor method.
+	 *
+	 * @param int $user_id Optional. Along with $group_id, can be used to
+	 *        look up a membership.
+	 * @param int $group_id Optional. Along with $user_id, can be used to
+	 *        look up a membership.
+	 * @param int $id Optional. The unique ID of the membership object.
+	 * @param bool $populate Whether to populate the properties of the
+	 *        located membership. Default: true.
+	 */
 	public function __construct( $user_id = 0, $group_id = 0, $id = false, $populate = true ) {
 
 		// User and group are not empty, and ID is
@@ -1514,6 +1774,9 @@ class BP_Groups_Member {
 		}
 	}
 
+	/**
+	 * Populate the object's properties.
+	 */
 	public function populate() {
 		global $wpdb, $bp;
 
@@ -1543,6 +1806,11 @@ class BP_Groups_Member {
 		}
 	}
 
+	/**
+	 * Save the membership data to the database.
+	 *
+	 * @return bool True on success, false on failure.
+	 */
 	public function save() {
 		global $wpdb, $bp;
 
@@ -1587,6 +1855,12 @@ class BP_Groups_Member {
 		return true;
 	}
 
+	/**
+	 * Promote a member to a new status.
+	 *
+	 * @param string $status The new status. 'mod' or 'admin'.
+	 * @return bool True on success, false on failure.
+	 */
 	public function promote( $status = 'mod' ) {
 		if ( 'mod' == $status ) {
 			$this->is_admin   = 0;
@@ -1603,6 +1877,11 @@ class BP_Groups_Member {
 		return $this->save();
 	}
 
+	/**
+	 * Demote membership to Member status (non-admin, non-mod).
+	 *
+	 * @return bool True on success, false on failure.
+	 */
 	public function demote() {
 		$this->is_mod     = 0;
 		$this->is_admin   = 0;
@@ -1611,6 +1890,11 @@ class BP_Groups_Member {
 		return $this->save();
 	}
 
+	/**
+	 * Ban the user from the group.
+	 *
+	 * @return bool True on success, false on failure.
+	 */
 	public function ban() {
 		if ( !empty( $this->is_admin ) )
 			return false;
@@ -1621,6 +1905,11 @@ class BP_Groups_Member {
 		return $this->save();
 	}
 
+	/**
+	 * Unban the user from the group.
+	 *
+	 * @return bool True on success, false on failure.
+	 */
 	public function unban() {
 		if ( !empty( $this->is_admin ) )
 			return false;
@@ -1630,17 +1919,28 @@ class BP_Groups_Member {
 		return $this->save();
 	}
 
+	/**
+	 * Mark a pending invitation as accepted.
+	 */
 	public function accept_invite() {
 		$this->inviter_id    = 0;
 		$this->is_confirmed  = 1;
 		$this->date_modified = bp_core_current_time();
 	}
 
+	/**
+	 * Confirm a membership request.
+	 */
 	public function accept_request() {
 		$this->is_confirmed = 1;
 		$this->date_modified = bp_core_current_time();
 	}
 
+	/**
+	 * Remove the current membership.
+	 *
+	 * @return bool True on success, false on failure.
+	 */
 	public function remove() {
 		global $wpdb, $bp;
 
@@ -1658,30 +1958,39 @@ class BP_Groups_Member {
 		return $result;
 	}
 
-	/** Static Methods ********************************************************/
+	/** Static Methods ****************************************************/
 
 	/**
-	 * Refresh the total_group_count for a user
+	 * Refresh the total_group_count for a user.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param int $user_id
-	 * @return bool True on success
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param int $user_id ID of the user.
+	 * @return bool True on success, false on failure.
 	 */
 	public static function refresh_total_group_count_for_user( $user_id ) {
 		return bp_update_user_meta( $user_id, 'total_group_count', (int) self::total_group_count( $user_id ) );
 	}
 
 	/**
-	 * Refresh the total_member_count for a group
+	 * Refresh the total_member_count for a group.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param int $group_id
-	 * @return bool True on success
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param int $group_id ID of the group.
+	 * @return bool True on success, false on failure.
 	 */
 	public static function refresh_total_member_count_for_group( $group_id ) {
 		return groups_update_groupmeta( $group_id, 'total_member_count', (int) BP_Groups_Group::get_total_member_count( $group_id ) );
 	}
 
+	/**
+	 * Delete a membership, based on user + group IDs.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $group_id ID of the group.
+	 * @return True on success, false on failure.
+	 */
 	public static function delete( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -1696,6 +2005,19 @@ class BP_Groups_Member {
 		return $remove;
 	}
 
+	/**
+	 * Get the IDs of the groups of which a specified user is a member.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $limit Optional. Max number of results to return.
+	 *        Default: false (no limit).
+	 * @param int $page Optional. Page offset of results to return.
+	 *        Default: false (no limit).
+	 * @return array {
+	 *     @type array $groups Array of groups returned by paginated query.
+	 *     @type int $total Count of groups matching query.
+	 * }
+	 */
 	public static function get_group_ids( $user_id, $limit = false, $page = false ) {
 		global $wpdb, $bp;
 
@@ -1717,6 +2039,21 @@ class BP_Groups_Member {
 		return array( 'groups' => $groups, 'total' => (int) $total_groups );
 	}
 
+	/**
+	 * Get the IDs of the groups of which a specified user is a member, sorted by the date joined.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $limit Optional. Max number of results to return.
+	 *        Default: false (no limit).
+	 * @param int $page Optional. Page offset of results to return.
+	 *        Default: false (no limit).
+	 * @param string $filter Optional. Limit results to groups whose name or
+	 *        description field matches search terms.
+	 * @return array {
+	 *     @type array $groups Array of groups returned by paginated query.
+	 *     @type int $total Count of groups matching query.
+	 * }
+	 */
 	public static function get_recently_joined( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
@@ -1739,6 +2076,21 @@ class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * Get the IDs of the groups of which a specified user is an admin.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $limit Optional. Max number of results to return.
+	 *        Default: false (no limit).
+	 * @param int $page Optional. Page offset of results to return.
+	 *        Default: false (no limit).
+	 * @param string $filter Optional. Limit results to groups whose name or
+	 *        description field matches search terms.
+	 * @return array {
+	 *     @type array $groups Array of groups returned by paginated query.
+	 *     @type int $total Count of groups matching query.
+	 * }
+	 */
 	public static function get_is_admin_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
@@ -1761,6 +2113,21 @@ class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * Get the IDs of the groups of which a specified user is a moderator.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $limit Optional. Max number of results to return.
+	 *        Default: false (no limit).
+	 * @param int $page Optional. Page offset of results to return.
+	 *        Default: false (no limit).
+	 * @param string $filter Optional. Limit results to groups whose name or
+	 *        description field matches search terms.
+	 * @return array {
+	 *     @type array $groups Array of groups returned by paginated query.
+	 *     @type int $total Count of groups matching query.
+	 * }
+	 */
 	public static function get_is_mod_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
@@ -1783,6 +2150,12 @@ class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * Get the count of groups of which the specified user is a member.
+	 *
+	 * @param int $user_id Optional. Default: ID of the displayed user.
+	 * @return int Group count.
+	 */
 	public static function total_group_count( $user_id = 0 ) {
 		global $bp, $wpdb;
 
@@ -1796,6 +2169,21 @@ class BP_Groups_Member {
 		}
 	}
 
+	/**
+	 * Get a user's outstanding group invitations.
+	 *
+	 * @param int $user_id ID of the invitee.
+	 * @param int $limit Optional. Max number of results to return.
+	 *        Default: false (no limit).
+	 * @param int $page Optional. Page offset of results to return.
+	 *        Default: false (no limit).
+	 * @param string|array $exclude Optional. Array or comma-separated list
+	 *        of group IDs to exclude from results.
+	 * @return array {
+	 *     @type array $groups Array of groups returned by paginated query.
+	 *     @type int $total Count of groups matching query.
+	 * }
+	 */
 	public static function get_invites( $user_id, $limit = false, $page = false, $exclude = false ) {
 		global $wpdb, $bp;
 
@@ -1814,6 +2202,16 @@ class BP_Groups_Member {
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
 
+	/**
+	 * Check whether a user has an outstanding invitation to a given group.
+	 *
+	 * @param int $user_id ID of the potential invitee.
+	 * @param int $group_id ID of the group.
+	 * @param string $type If 'sent', results are limited to those
+	 *        invitations that have actually been sent (non-draft).
+	 *        Default: 'sent'.
+	 * @return int|null The ID of the invitation if found, otherwise null.
+	 */
 	public static function check_has_invite( $user_id, $group_id, $type = 'sent' ) {
 		global $wpdb, $bp;
 
@@ -1828,6 +2226,13 @@ class BP_Groups_Member {
 		return $wpdb->get_var( $wpdb->prepare( $sql, $user_id, $group_id ) );
 	}
 
+	/**
+	 * Delete an invitation, by specifying user ID and group ID.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $group_id ID of the group.
+	 * @return int Number of records deleted.
+	 */
 	public static function delete_invite( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -1837,6 +2242,13 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id, $group_id ) );
 	}
 
+	/**
+	 * Delete an unconfirmed membership request, by user ID and group ID.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $group_id ID of the group.
+	 * @return int Number of records deleted.
+	 */
 	public static function delete_request( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -1846,6 +2258,14 @@ class BP_Groups_Member {
  		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id = 0 AND invite_sent = 0", $user_id, $group_id ) );
 	}
 
+	/**
+	 * Check whether a user is an admin of a given group.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $group_id ID of the group.
+	 * @param int|null ID of the membership if the user is an admin,
+	 *        otherwise null.
+	 */
 	public static function check_is_admin( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -1855,6 +2275,14 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_admin = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 
+	/**
+	 * Check whether a user is a mod of a given group.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $group_id ID of the group.
+	 * @param int|null ID of the membership if the user is a mod,
+	 *        otherwise null.
+	 */
 	public static function check_is_mod( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -1864,6 +2292,14 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_mod = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 
+	/**
+	 * Check whether a user is a member of a given group.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $group_id ID of the group.
+	 * @param int|null ID of the membership if the user is a member,
+	 *        otherwise null.
+	 */
 	public static function check_is_member( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -1873,6 +2309,14 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 1 AND is_banned = 0", $user_id, $group_id ) );
 	}
 
+	/**
+	 * Check whether a user is banned from a given group.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $group_id ID of the group.
+	 * @param int|null ID of the membership if the user is banned,
+	 *        otherwise null.
+	 */
 	public static function check_is_banned( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -1885,11 +2329,12 @@ class BP_Groups_Member {
 	/**
 	 * Is the specified user the creator of the group?
 	 *
-	 * @global object $bp BuddyPress global settings
-	 * @global wpdb $wpdb WordPress database object
-	 * @param int $user_id
-	 * @param int $group_id
 	 * @since BuddyPress (1.2.6)
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $group_id ID of the group.
+	 * @return int|null ID of the group if the user is the creator,
+	 *         otherwise false.
 	 */
 	public static function check_is_creator( $user_id, $group_id ) {
 		global $bp, $wpdb;
@@ -1900,6 +2345,13 @@ class BP_Groups_Member {
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name} WHERE creator_id = %d AND id = %d", $user_id, $group_id ) );
 	}
 
+	/**
+	 * Check whether a user has an outstanding membership request for a given group.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $group_id ID of the group.
+	 * @return int|null ID of the membership if found, otherwise false.
+	 */
 	public static function check_for_membership_request( $user_id, $group_id ) {
 		global $wpdb, $bp;
 
@@ -1909,6 +2361,13 @@ class BP_Groups_Member {
 		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND is_banned = 0 AND inviter_id = 0", $user_id, $group_id ) );
 	}
 
+	/**
+	 * Get a list of randomly selected IDs of groups that the member belongs to.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $total_groups Max number of group IDs to return. Default: 5.
+	 * @return array Group IDs.
+	 */
 	public static function get_random_groups( $user_id = 0, $total_groups = 5 ) {
 		global $wpdb, $bp;
 
@@ -1920,30 +2379,59 @@ class BP_Groups_Member {
 		}
 	}
 
+	/**
+	 * Get the IDs of all a given group's members.
+	 *
+	 * @param int $group_id ID of the group.
+	 * @return array IDs of all group members.
+	 */
 	public static function get_group_member_ids( $group_id ) {
 		global $bp, $wpdb;
 
 		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0", $group_id ) );
 	}
 
+	/**
+	 * Get a list of all a given group's admins.
+	 *
+	 * @param int $group_id ID of the group.
+	 * @return array Info about group admins (user_id + date_modified).
+	 */
 	public static function get_group_administrator_ids( $group_id ) {
 		global $bp, $wpdb;
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_admin = 1 AND is_banned = 0", $group_id ) );
 	}
 
+	/**
+	 * Get a list of all a given group's moderators.
+	 *
+	 * @param int $group_id ID of the group.
+	 * @return array Info about group mods (user_id + date_modified).
+	 */
 	public static function get_group_moderator_ids( $group_id ) {
 		global $bp, $wpdb;
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_mod = 1 AND is_banned = 0", $group_id ) );
 	}
 
+	/**
+	 * Get the IDs users with outstanding membership requests to the group.
+	 *
+	 * @param int $group_id ID of the group.
+	 * @return array IDs of users with outstanding membership requests.
+	 */
 	public static function get_all_membership_request_user_ids( $group_id ) {
 		global $bp, $wpdb;
 
 		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0", $group_id ) );
 	}
 
+	/**
+	 * Get members of a group.
+	 *
+	 * @deprecated BuddyPress (1.8.0)
+	 */
 	public static function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
 		global $bp, $wpdb;
 
@@ -2003,6 +2491,12 @@ class BP_Groups_Member {
 		return array( 'members' => $members, 'count' => $total_member_count );
 	}
 
+	/**
+	 * Delete all memberships for a given group.
+	 *
+	 * @param int $group_id ID of the group.
+	 * @return int Number of records deleted.
+	 */
 	public static function delete_all( $group_id ) {
 		global $wpdb, $bp;
 
@@ -2010,13 +2504,11 @@ class BP_Groups_Member {
 	}
 
 	/**
-	 * Delete all group membership information for the specified user
+	 * Delete all group membership information for the specified user.
 	 *
-	 * @global object $bp BuddyPress global settings
-	 * @global wpdb $wpdb WordPress database object
-	 * @param int $user_id
-	 * @since BuddyPress (1.0)
-	 * @uses BP_Groups_Member
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $user_id ID of the user.
 	 */
 	public static function delete_all_for_user( $user_id ) {
 		global $bp, $wpdb;
@@ -2109,115 +2601,152 @@ class BP_Groups_Member {
  *
  * @package BuddyPress
  * @subpackage Groups
- * @since BuddyPress (1.1)
+ * @since BuddyPress (1.1.0)
  */
 class BP_Group_Extension {
 
-	/** Public ****************************************************************/
+	/** Public ************************************************************/
 
 	/**
-	 * @var array Information about this extension's screens
-	 * @since BuddyPress (1.8)
+	 * Information about this extension's screens.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 * @var array
 	 */
 	public $screens = array();
 
 	/**
-	 * @var string The name of the extending class
-	 * @since BuddyPress (1.8)
+	 * The name of the extending class.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 * @var string
 	 */
 	public $class_name = '';
 
 	/**
-	 * @var object A ReflectionClass object of the current extension
-	 * @since BuddyPress (1.8)
+	 * A ReflectionClass object of the current extension.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 * @var ReflectionClass
 	 */
 	public $class_reflection = null;
 
 	/**
-	 * @var array Parsed configuration paramaters for the extension
-	 * @since BuddyPress (1.8)
+	 * Parsed configuration paramaters for the extension.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 * @var array
 	 */
 	public $params = array();
 
 	/**
-	 * @var int The id of the current group
-	 * @since BuddyPress (1.8)
+	 * The ID of the current group.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 * @var int
 	 */
 	public $group_id = 0;
 
 	/**
-	 * @var string The slug of the current extension
+	 * The slug of the current extension.
+	 *
+	 * @var string
 	 */
 	public $slug = '';
 
 	/**
-	 * @var string The translatable name of the current extension
+	 * The translatable name of the current extension.
+	 *
+	 * @var string
 	 */
 	public $name = '';
 
 	/**
-	 * @var string Whether the extension tab is visible. 'public'
-	 *   or 'private'
+	 * The visibility of the extension tab. 'public' or 'private'.
+	 *
+	 * @var string
 	 */
 	public $visibility = 'public';
 
 	/**
-	 * @var int The numeric position of the main nav item
+	 * The numeric position of the main nav item.
+	 *
+	 * @var int
 	 */
 	public $nav_item_position = 81;
 
 	/**
-	 * @var bool Whether to show the nav item
+	 * Whether to show the nav item.
+	 *
+	 * @var bool
 	 */
 	public $enable_nav_item = true;
 
 	/**
-	 * @var string The text of the nav item. Defaults to self::name
+	 * The text of the nav item. Defaults to self::name.
+	 *
+	 * @var string
 	 */
 	public $nav_item_name = '';
 
 	/**
-	 * @var string The WP action that self::widget_display() is attached to.
-	 *   Defaults to 'groups_custom_group_boxes'
+	 * The WP action that self::widget_display() is attached to.
+	 *
+	 * Default: 'groups_custom_group_boxes'.
+	 *
+	 * @var string
 	 */
 	public $display_hook = 'groups_custom_group_boxes';
 
 	/**
-	 * @var string The template file used to load the plugin content.
-	 *   Defaults to 'groups/single/plugins'
+	 * The template file used to load the plugin content.
+	 *
+	 * Default: 'groups/single/plugins'.
+	 *
+	 * @var string
 	 */
 	public $template_file = 'groups/single/plugins';
 
-	/** Protected *************************************************************/
+	/** Protected *********************************************************/
 
 	/**
-	 * @var bool Has the extension been initialized?
-	 * @since BuddyPress (1.8)
+	 * Has the extension been initialized?
+	 *
+	 * @since BuddyPress (1.8.0)
+	 * @var bool
 	 */
 	protected $initialized = false;
 
 	/**
-	 * @var array Extension properties as set by legacy extensions
-	 * @since BuddyPress (1.8)
+	 * Extension properties as set by legacy extensions.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 * @var array
 	 */
 	protected $legacy_properties = array();
 
 	/**
-	 * @var array Extension properties as set by legacy extensions, but
-	 *   converted to match the new format for params
-	 * @since BuddyPress (1.8)
+	 * Converted legacy parameters.
+	 *
+	 * These are the extension properties as set by legacy extensions, but
+	 * then converted to match the new format for params.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 * @var array
 	 */
 	protected $legacy_properties_converted = array();
 
 	/**
-	 * @var array Miscellaneous data as set by the __set() magic method
-	 * @since BuddyPress (1.8)
+	 * Miscellaneous data as set by the __set() magic method.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 * @var array
 	 */
 	protected $data = array();
 
-	/** Screen Overrides ******************************************************/
+	/** Screen Overrides **************************************************/
 
-	/**
+	/*
 	 * Screen override methods are how your extension will display content
 	 * and handle form submits. Your extension should only override those
 	 * methods that it needs for its purposes.
@@ -2262,7 +2791,33 @@ class BP_Group_Extension {
 	 *   }
 	 *
 	 * @since BuddyPress (1.8)
-	 * @param array $args See inline definition below for arguments
+	 * @param array $args {
+	 *     Array of initialization arguments.
+	 *     @type string $slug Unique, URL-safe identifier for your
+	 *           extension.
+	 *     @type string $name Translatable name for your extension. Used to
+	 *           populate navigation items.
+	 *     @type string $visibility Optional. Set to 'public' for your
+	 *           extension (the main tab as well as the widget) to be
+	 *           available to anyone who can access the group; set to
+	 *           'private' otherwise. Default: 'public'.
+	 *     @type int $nav_item_position Optional. Location of the nav item
+	 *           in the tab list. Default: 81.
+	 *     @type bool $enable_nav_item Optional. Whether the extension's
+	 *           tab should be accessible to anyone who can view the group.
+	 *           Default: true.
+	 *     @type string $nav_item_name Optional. The translatable text you
+	 *           want to appear in the nav tab. Default: the value of $name.
+	 *     @type string $display_hook Optional. The WordPress action that
+	 *           the widget_display() method is hooked to.
+	 *           Default: 'groups_custom_group_boxes'.
+	 *     @type string $template_file Optional. Theme-relative path to the
+	 *           template file BP should use to load the content of your
+	 *           main extension tab. Default: 'groups/single/plugins.php'.
+	 *     @type array $screens A multi-dimensional array of configuration
+	 *           information for the extension screens. See docblock of
+	 *           {@link BP_Group_Extension} for more details.
+	 * }
 	 */
 	public function init( $args = array() ) {
 
@@ -2291,7 +2846,7 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * The main setup routine for the extension
+	 * The main setup routine for the extension.
 	 *
 	 * This method contains the primary logic for setting up an extension's
 	 * configuration, setting up backward compatibility for legacy plugins,
@@ -2302,7 +2857,7 @@ class BP_Group_Extension {
 	 * is called automatically at the right point in the load order by
 	 * bp_register_group_extension().
 	 *
-	 * @since BuddyPress (1.1)
+	 * @since BuddyPress (1.1.0)
 	 */
 	public function _register() {
 
@@ -2340,13 +2895,13 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Set up some basic info about the Extension
+	 * Set up some basic info about the Extension.
 	 *
 	 * Here we collect the name of the extending class, as well as a
 	 * ReflectionClass that is used in get_screen_callback() to determine
 	 * whether your extension overrides certain callback methods.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	protected function setup_class_info() {
 		if ( empty( $this->class_name ) ) {
@@ -2359,14 +2914,14 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Get the current group id
+	 * Get the current group ID.
 	 *
 	 * Check for:
 	 *   - current group
 	 *   - new group
 	 *   - group admin
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	public static function get_group_id() {
 
@@ -2395,9 +2950,9 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Gather configuration data about your screens
+	 * Gather configuration data about your screens.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	protected function get_default_screens() {
 		$this->setup_class_info();
@@ -2428,9 +2983,9 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Set up screens array based on params
+	 * Set up screens array based on params.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	protected function setup_screens() {
 		foreach ( (array) $this->params['screens'] as $context => $screen ) {
@@ -2446,12 +3001,12 @@ class BP_Group_Extension {
 		}
 	}
 
-	/** Display ***************************************************************/
+	/** Display ***********************************************************/
 
 	/**
-	 * Hook this extension's group tab into BuddyPress, if necessary
+	 * Hook this extension's group tab into BuddyPress, if necessary.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	protected function setup_display_hooks() {
 
@@ -2491,19 +3046,19 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Hooks the main display method, and loads the template file
+	 * Hook the main display method, and loads the template file
 	 */
 	public function _display_hook() {
 		add_action( 'bp_template_content', array( &$this, 'display' ) );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', $this->template_file ) );
 	}
 
-	/** Create ****************************************************************/
+	/** Create ************************************************************/
 
 	/**
-	 * Hook this extension's Create step into BuddyPress, if necessary
+	 * Hook this extension's Create step into BuddyPress, if necessary.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	protected function setup_create_hooks() {
 		if ( ! $this->is_screen_enabled( 'create' ) ) {
@@ -2529,9 +3084,9 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Call the create_screen() method, if we're on the right page
+	 * Call the create_screen() method, if we're on the right page.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	public function maybe_create_screen() {
 		if ( ! bp_is_group_creation_step( $this->screens['create']['slug'] ) ) {
@@ -2547,9 +3102,9 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Call the create_screen_save() method, if we're on the right page
+	 * Call the create_screen_save() method, if we're on the right page.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	public function maybe_create_screen_save() {
 		if ( ! bp_is_group_creation_step( $this->screens['create']['slug'] ) ) {
@@ -2560,12 +3115,12 @@ class BP_Group_Extension {
 		call_user_func( $this->screens['create']['screen_save_callback'], $this->group_id );
 	}
 
-	/** Edit ******************************************************************/
+	/** Edit **************************************************************/
 
 	/**
-	 * Hook this extension's Edit panel into BuddyPress, if necessary
+	 * Hook this extension's Edit panel into BuddyPress, if necessary.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	protected function setup_edit_hooks() {
 
@@ -2610,7 +3165,7 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Call the edit_screen() method
+	 * Call the edit_screen() method.
 	 *
 	 * Previous versions of BP_Group_Extension required plugins to provide
 	 * their own Submit button and nonce fields when building markup. In
@@ -2622,7 +3177,7 @@ class BP_Group_Extension {
 	 * button, as would be present in legacy plugins; if one is found, we
 	 * do not auto-add our own button.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	public function call_edit_screen() {
 		ob_start();
@@ -2636,9 +3191,9 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Check the nonce, and call the edit_screen_save() method
+	 * Check the nonce, and call the edit_screen_save() method.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	public function call_edit_screen_save() {
 		if ( empty( $_POST ) ) {
@@ -2656,7 +3211,7 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Load the template that houses the Edit screen
+	 * Load the template that houses the Edit screen.
 	 *
 	 * Separated out into a callback so that it can run after all other
 	 * Group Extensions have had a chance to register their navigation, to
@@ -2664,16 +3219,17 @@ class BP_Group_Extension {
 	 *
 	 * Hooked to 'bp_screens'.
 	 *
-	 * @see BP_Group_Extension::setup_edit_hooks()
+	 * @since BuddyPress (1.8.0)
 	 * @access public So that do_action() has access. Do not call directly.
-	 * @since BuddyPress (1.8)
+	 *
+	 * @see BP_Group_Extension::setup_edit_hooks()
 	 */
 	public function call_edit_screen_template_loader() {
 		bp_core_load_template( $this->edit_screen_template );
 	}
 
 	/**
-	 * Add a submit button to the edit form, if it needs one
+	 * Add a submit button to the edit form, if it needs one.
 	 *
 	 * There's an inconsistency in the way that the group Edit and Create
 	 * screens are rendered: the Create screen has a submit button built
@@ -2682,9 +3238,11 @@ class BP_Group_Extension {
 	 * use on both the Create and Edit screens - BP will provide the button
 	 * if one is not found.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param string $screen The screen markup, captured in the output buffer
-	 * @param string $screen The same markup, with a submit button added
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param string $screen The screen markup, captured in the output
+	 *        buffer.
+	 * @param string $screen The same markup, with a submit button added.
 	 */
 	protected function maybe_add_submit_button( $screen = '' ) {
 		if ( $this->has_submit_button( $screen ) ) {
@@ -2702,9 +3260,10 @@ class BP_Group_Extension {
 	/**
 	 * Does the given markup have a submit button?
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param string $screen The markup to check
-	 * @return bool
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param string $screen The markup to check.
+	 * @return bool True if a Submit button is found, otherwise false.
 	 */
 	public static function has_submit_button( $screen = '' ) {
 		$pattern = "/<input[^>]+type=[\'\"]submit[\'\"]/";
@@ -2712,12 +3271,12 @@ class BP_Group_Extension {
 		return ! empty( $matches[0] );
 	}
 
-	/** Admin *****************************************************************/
+	/** Admin *************************************************************/
 
 	/**
-	 * Hook this extension's Admin metabox into BuddyPress, if necessary
+	 * Hook this extension's Admin metabox into BuddyPress, if necessary.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	protected function setup_admin_hooks() {
 		if ( ! $this->is_screen_enabled( 'admin' ) || ! is_admin() ) {
@@ -2735,9 +3294,9 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Call the admin_screen() method, and add a nonce field
+	 * Call the admin_screen() method, and add a nonce field.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	public function call_admin_screen() {
 		call_user_func( $this->screens['admin']['screen_callback'], $this->group_id );
@@ -2747,7 +3306,7 @@ class BP_Group_Extension {
 	/**
 	 * Check the nonce, and call the admin_screen_save() method
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	public function call_admin_screen_save() {
 		$this->check_nonce( 'admin' );
@@ -2755,9 +3314,9 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Create the Dashboard meta box for this extension
+	 * Create the Dashboard meta box for this extension.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function _meta_box_display_callback() {
 		$group_id = isset( $_GET['gid'] ) ? (int) $_GET['gid'] : 0;
@@ -2774,10 +3333,10 @@ class BP_Group_Extension {
 	}
 
 
-	/** Utilities *************************************************************/
+	/** Utilities *********************************************************/
 
 	/**
-	 * Generate the nonce fields for a settings form
+	 * Generate the nonce fields for a settings form.
 	 *
 	 * The nonce field name (the second param passed to wp_nonce_field)
 	 * contains this extension's slug and is thus unique to this extension.
@@ -2785,20 +3344,24 @@ class BP_Group_Extension {
 	 * more than one extension may generate nonces on the same page, and we
 	 * must avoid name clashes.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
+	 *
 	 * @uses wp_nonce_field()
-	 * @param string $context 'create', 'edit', 'admin'
+	 *
+	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
 	 */
 	public function nonce_field( $context = '' ) {
 		wp_nonce_field( 'bp_group_extension_' . $this->slug . '_' . $context, '_bp_group_' . $context . '_nonce_' . $this->slug );
 	}
 
 	/**
-	 * Check the nonce on a submitted settings form
+	 * Check the nonce on a submitted settings form.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
+	 *
 	 * @uses check_admin_referer()
-	 * @param string $context 'create', 'edit', 'admin'
+	 *
+	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
 	 */
 	public function check_nonce( $context = '' ) {
 		check_admin_referer( 'bp_group_extension_' . $this->slug . '_' . $context, '_bp_group_' . $context . '_nonce_' . $this->slug );
@@ -2811,9 +3374,11 @@ class BP_Group_Extension {
 	 * (legacy: $this->enable_create_step, etc), and its screen_callback
 	 * must also exist and be callable.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param string $context 'create', 'edit', 'admin'
-	 * @return bool
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
+	 *
+	 * @return bool True if the screen is enabled, otherwise false.
 	 */
 	public function is_screen_enabled( $context = '' ) {
 		$enabled = false;
@@ -2826,7 +3391,7 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Get the appropriate screen callback for the specified context/type
+	 * Get the appropriate screen callback for the specified context/type.
 	 *
 	 * BP Group Extensions have three special "screen contexts": create,
 	 * admin, and edit. Each of these contexts has a corresponding
@@ -2857,10 +3422,12 @@ class BP_Group_Extension {
 	 * The get_screen_callback() method uses a ReflectionClass object to
 	 * determine whether your extension has provided a given callback.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param string $context 'create', 'edit', 'admin'
-	 * @param string $type 'screen', 'screen_save'
-	 * @return mixed A callable function handle
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
+	 * @param string $type Screen type. 'screen' or 'screen_save'. Default:
+	 *        'screen'.
+	 * @return callable A callable function handle.
 	 */
 	public function get_screen_callback( $context = '', $type = 'screen' ) {
 		$callback = '';
@@ -2884,7 +3451,7 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Recursive argument parsing
+	 * Recursive argument parsing.
 	 *
 	 * This acts like a multi-dimensional version of wp_parse_args() (minus
 	 * the querystring parsing - you must pass arrays).
@@ -2905,10 +3472,11 @@ class BP_Group_Extension {
 	 * in unexpected results when used with data in the wild. See, eg,
 	 * http://core.trac.wordpress.org/ticket/19888
 	 *
-	 * @since BuddyPress (1.8)
-	 * @arg array $a
-	 * @arg array $b
-	 * @return array
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param array $a First set of arguments.
+	 * @param array $b Second set of arguments.
+	 * @return array Parsed arguments.
 	 */
 	public static function parse_args_r( &$a, $b ) {
 		$a = (array) $a;
@@ -2928,7 +3496,7 @@ class BP_Group_Extension {
 
 	/** Legacy Support ********************************************************/
 
-	/**
+	/*
 	 * In BuddyPress 1.8, the recommended technique for configuring
 	 * extensions changed from directly setting various object properties
 	 * in the class constructor, to passing a configuration array to
@@ -2938,7 +3506,7 @@ class BP_Group_Extension {
 	 */
 
 	/**
-	 * Provide access to otherwise unavailable object properties
+	 * Provide access to otherwise unavailable object properties.
 	 *
 	 * This magic method is here for backward compatibility with plugins
 	 * that refer to config properties that have moved to a different
@@ -2948,9 +3516,10 @@ class BP_Group_Extension {
 	 * The legacy_properties array is set up in
 	 * self::setup_legacy_properties().
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param string $key
-	 * @return mixed
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param string $key Property name.
+	 * @return mixed The value if found, otherwise null.
 	 */
 	public function __get( $key ) {
 		if ( isset( $this->legacy_properties[ $key ] ) ) {
@@ -2963,17 +3532,18 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Provide a fallback for isset( $this->foo ) when foo is unavailable
+	 * Provide a fallback for isset( $this->foo ) when foo is unavailable.
 	 *
-	 * This magit method is here for backward compatibility with plugins
+	 * This magic method is here for backward compatibility with plugins
 	 * that have set their class config options directly in the class
 	 * constructor. The parse_legacy_properties() method of the current
 	 * class needs to check whether any legacy keys have been put into the
 	 * $this->data array.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param string $key
-	 * @return bool
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param string $key Property name.
+	 * @return bool True if the value is set, otherwise false.
 	 */
 	public function __isset( $key ) {
 		if ( isset( $this->legacy_properties[ $key ] ) ) {
@@ -2986,16 +3556,17 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Allow plugins to set otherwise unavailable object properties
+	 * Allow plugins to set otherwise unavailable object properties.
 	 *
 	 * This magic method is here for backward compatibility with plugins
 	 * that may attempt to modify the group extension by manually assigning
 	 * a value to an object property that no longer exists, such as
 	 * $this->enable_create_step.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @param string $key
-	 * @param mixed $value
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @param string $key Property name.
+	 * @param mixed $value Property value.
 	 */
 	public function __set( $key, $value ) {
 
@@ -3052,13 +3623,14 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Returns a list of legacy properties
+	 * Return a list of legacy properties.
 	 *
 	 * The legacy implementation of BP_Group_Extension used all of these
 	 * object properties for configuration. Some have been moved.
 	 *
-	 * @since BuddyPress (1.8)
-	 * @return array
+	 * @since BuddyPress (1.8.0)
+	 *
+	 * @return array List of legacy property keys.
 	 */
 	protected function get_legacy_property_list() {
 		return array(
@@ -3084,7 +3656,7 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Parse legacy properties
+	 * Parse legacy properties.
 	 *
 	 * The old standard for BP_Group_Extension was for plugins to register
 	 * their settings as properties in their constructor. The new method is
@@ -3092,7 +3664,7 @@ class BP_Group_Extension {
 	 * legacy plugins, we slurp up legacy properties, and later on we'll
 	 * parse them into the new init() array.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 */
 	protected function parse_legacy_properties() {
 
@@ -3166,16 +3738,16 @@ class BP_Group_Extension {
 	}
 
 	/**
-	 * Set up legacy properties
+	 * Set up legacy properties.
 	 *
 	 * This method is responsible for ensuring that all legacy config
 	 * properties are stored in an array $this->legacy_properties, so that
 	 * they remain available to plugins that reference the variables at
 	 * their old locations.
 	 *
-	 * @see self::__get()
+	 * @since BuddyPress (1.8.0)
 	 *
-	 * @since BuddyPress (1.8)
+	 * @see BP_Group_Extension::__get()
 	 */
 	protected function setup_legacy_properties() {
 
@@ -3244,6 +3816,12 @@ class BP_Group_Extension {
 	}
 }
 
+/**
+ * Register a new Group Extension.
+ *
+ * @param string Name of the Extension class.
+ * @return bool|null Returns false on failure, otherwise null.
+ */
 function bp_register_group_extension( $group_extension_class = '' ) {
 
 	if ( ! class_exists( $group_extension_class ) ) {
