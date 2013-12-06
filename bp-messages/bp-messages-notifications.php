@@ -16,13 +16,15 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Email message recipients to alert them of a new unread private message
  *
  * @since BuddyPress (1.0)
- * @param array $args
+ * @param array $raw_args
  */
-function messages_notification_new_message( $args = array() ) {
+function messages_notification_new_message( $raw_args = array() ) {
 
 	// Cast possible $message object as an array
-	if ( is_object( $args ) ) {
-		$args = (array) $args;
+	if ( is_object( $raw_args ) ) {
+		$args = (array) $raw_args;
+	} else {
+		$args = $raw_args;
 	}
 
 	// These should be extracted below
