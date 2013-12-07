@@ -590,8 +590,8 @@ function bp_groups_screen_my_groups_mark_notifications() {
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_admin'    );
 	}
 }
-add_action( 'groups_screen_my_groups', 'bp_groups_screen_my_groups_mark_notifications', 10 );
-add_action( 'groups_screen_home',      'bp_groups_screen_my_groups_mark_notifications', 10 );
+add_action( 'groups_screen_my_groups',  'bp_groups_screen_my_groups_mark_notifications', 10 );
+add_action( 'groups_screen_group_home', 'bp_groups_screen_my_groups_mark_notifications', 10 );
 
 /**
  * Mark group invitation notifications read when a member views their invitations
@@ -603,7 +603,7 @@ function bp_groups_screen_invites_mark_notifications() {
 		bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->groups->id, 'group_invite' );
 	}
 }
-add_action( 'groups_screen_invites', 'bp_groups_screen_invites_mark_notifications', 10 );
+add_action( 'groups_screen_group_invites', 'bp_groups_screen_invites_mark_notifications', 10 );
 
 /**
  * Mark group join requests read when an admin or moderator visits the group
