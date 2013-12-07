@@ -59,7 +59,13 @@ To view the group: %2$s
 function groups_notification_new_membership_request( $requesting_user_id, $admin_id, $group_id, $membership_id ) {
 
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( $requesting_user_id, $admin_id, 'groups', 'new_membership_request', $group_id );
+		bp_notifications_add_notification( array(
+			'user_id'           => $admin_id,
+			'item_id'           => $requesting_user_id,
+			'secondary_item_id' => $group_id,
+			'component_name'    => buddypress()->groups->id,
+			'component_action'  => 'new_membership_request'
+		) );
 	}
 
 	if ( 'no' == bp_get_user_meta( $admin_id, 'notification_groups_membership_request', true ) )
@@ -110,11 +116,15 @@ function groups_notification_membership_request_completed( $requesting_user_id, 
 
 	// Post a screen notification first.
 	if ( bp_is_active( 'notifications' ) ) {
-		if ( $accepted ) {
-			bp_notifications_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_accepted' );
-		} else {
-			bp_notifications_add_notification( $group_id, $requesting_user_id, 'groups', 'membership_request_rejected' );
-		}
+
+		$type = ! empty( $accepted ) ? 'membership_request_accepted' : 'membership_request_rejected' ;
+
+		bp_notifications_add_notification( array(
+			'user_id'           => $requesting_user_id,
+			'item_id'           => $group_id,
+			'component_name'    => buddypress()->groups->id,
+			'component_action'  => $type
+		) );
 	}
 
 	if ( 'no' == bp_get_user_meta( $requesting_user_id, 'notification_membership_request_completed', true ) )
@@ -181,7 +191,14 @@ function groups_notification_promoted_member( $user_id, $group_id ) {
 
 	// Post a screen notification first.
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( $group_id, $user_id, 'groups', $type );
+		bp_notifications_add_notification( array(
+			'user_id'           => $user_id,
+			'item_id'           => $group_id,
+			'component_name'    => buddypress()->groups->id,
+			'component_action'  => $type,
+			'date_notified'     => bp_core_current_time(),
+			'is_new'            => 1,
+		) );
 	}
 
 	if ( 'no' == bp_get_user_meta( $user_id, 'notification_groups_admin_promotion', true ) )
@@ -234,7 +251,12 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 		// Post a screen notification first.
 		if ( bp_is_active( 'notifications' ) ) {
-			bp_notifications_add_notification( $group->id, $invited_user_id, 'groups', 'group_invite' );
+			bp_notifications_add_notification( array(
+				'user_id'           => $invited_user_id,
+				'item_id'           => $group->id,
+				'component_name'    => buddypress()->groups->id,
+				'component_action'  => 'group_invite'
+			) );
 		}
 
 		if ( 'no' == bp_get_user_meta( $invited_user_id, 'notification_groups_invite', true ) )
@@ -592,7 +614,7 @@ add_action( 'groups_screen_invites', 'bp_groups_screen_invites_mark_notification
  */
 function bp_groups_screen_group_admin_requests_mark_notifications( $group_id ) {
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), $group_id, 'new_membership_request' );
+		bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->groups->id, 'new_membership_request' );
 	}
 }
 add_action( 'groups_screen_group_admin_requests', 'bp_groups_screen_group_admin_requests_mark_notifications', 10 );
