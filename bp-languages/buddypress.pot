@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-12-06 16:35:17+00:00\n"
+"POT-Creation-Date: 2013-12-07 21:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -609,10 +609,10 @@ msgstr ""
 #: bp-activity/bp-activity-loader.php:306 bp-core/bp-core-template.php:364
 #: bp-groups/bp-groups-admin.php:32 bp-groups/bp-groups-admin.php:33
 #: bp-groups/bp-groups-admin.php:638 bp-groups/bp-groups-loader.php:516
-#: bp-groups/bp-groups-notifications.php:349
-#: bp-groups/bp-groups-notifications.php:385
-#: bp-groups/bp-groups-notifications.php:421
-#: bp-groups/bp-groups-notifications.php:457
+#: bp-groups/bp-groups-notifications.php:371
+#: bp-groups/bp-groups-notifications.php:407
+#: bp-groups/bp-groups-notifications.php:443
+#: bp-groups/bp-groups-notifications.php:479
 #: bp-groups/bp-groups-screens.php:894 bp-groups/bp-groups-screens.php:1026
 #: bp-groups/bp-groups-screens.php:1028 bp-groups/bp-groups-screens.php:1087
 #: bp-groups/bp-groups-screens.php:1089 bp-groups/bp-groups-widgets.php:53
@@ -687,10 +687,10 @@ msgstr ""
 #: bp-friends/bp-friends-notifications.php:56
 #: bp-friends/bp-friends-notifications.php:105
 #: bp-groups/bp-groups-notifications.php:44
-#: bp-groups/bp-groups-notifications.php:96
-#: bp-groups/bp-groups-notifications.php:157
-#: bp-groups/bp-groups-notifications.php:209
-#: bp-groups/bp-groups-notifications.php:267
+#: bp-groups/bp-groups-notifications.php:102
+#: bp-groups/bp-groups-notifications.php:167
+#: bp-groups/bp-groups-notifications.php:226
+#: bp-groups/bp-groups-notifications.php:289
 #: bp-messages/bp-messages-notifications.php:85
 msgid "To disable these notifications please log in and go to: %s"
 msgstr ""
@@ -3322,11 +3322,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:79
+#: bp-groups/bp-groups-notifications.php:85
 msgid "Membership request for group: %s"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:81
+#: bp-groups/bp-groups-notifications.php:87
 msgid ""
 "%1$s wants to join the group \"%2$s\".\n"
 "\n"
@@ -3340,11 +3340,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:135
+#: bp-groups/bp-groups-notifications.php:145
 msgid "Membership request for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:136
+#: bp-groups/bp-groups-notifications.php:146
 msgid ""
 "Your membership request for the group \"%1$s\" has been accepted.\n"
 "\n"
@@ -3353,11 +3353,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:145
+#: bp-groups/bp-groups-notifications.php:155
 msgid "Membership request for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:146
+#: bp-groups/bp-groups-notifications.php:156
 msgid ""
 "Your membership request for the group \"%1$s\" has been rejected.\n"
 "\n"
@@ -3366,19 +3366,19 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:175
+#: bp-groups/bp-groups-notifications.php:185
 msgid "an administrator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:178
+#: bp-groups/bp-groups-notifications.php:188
 msgid "a moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:198
+#: bp-groups/bp-groups-notifications.php:215
 msgid "You have been promoted in the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:199
+#: bp-groups/bp-groups-notifications.php:216
 msgid ""
 "You have been promoted to %1$s for the group: \"%2$s\".\n"
 "\n"
@@ -3387,11 +3387,11 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:251
+#: bp-groups/bp-groups-notifications.php:273
 msgid "You have an invitation to the group: \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:253
+#: bp-groups/bp-groups-notifications.php:275
 msgid ""
 "One of your friends %1$s has invited you to the group: \"%2$s\".\n"
 "\n"
@@ -3404,60 +3404,60 @@ msgid ""
 "---------------------\n"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:307
+#: bp-groups/bp-groups-notifications.php:329
 msgid "%1$d new membership requests for the group \"%2$s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:312
+#: bp-groups/bp-groups-notifications.php:334
 msgid "Group Membership Requests"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:321
-#: bp-groups/bp-groups-notifications.php:326
+#: bp-groups/bp-groups-notifications.php:343
+#: bp-groups/bp-groups-notifications.php:348
 msgid "%s requests group membership"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:344
+#: bp-groups/bp-groups-notifications.php:366
 msgid "%d accepted group membership requests"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:357
+#: bp-groups/bp-groups-notifications.php:379
 msgid "Membership for group \"%s\" accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:380
+#: bp-groups/bp-groups-notifications.php:402
 msgid "%d rejected group membership requests"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:393
+#: bp-groups/bp-groups-notifications.php:415
 msgid "Membership for group \"%s\" rejected"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:416
+#: bp-groups/bp-groups-notifications.php:438
 msgid "You were promoted to an admin in %d groups"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:429
+#: bp-groups/bp-groups-notifications.php:451
 msgid "You were promoted to an admin in the group \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:452
+#: bp-groups/bp-groups-notifications.php:474
 msgid "You were promoted to a mod in %d groups"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:465
+#: bp-groups/bp-groups-notifications.php:487
 msgid "You were promoted to a mod in the group \"%s\""
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:489
+#: bp-groups/bp-groups-notifications.php:511
 msgid "You have %d new group invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:493
+#: bp-groups/bp-groups-notifications.php:515
 msgid "Group Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-notifications.php:501
+#: bp-groups/bp-groups-notifications.php:523
 msgid "You have an invitation to the group: %s"
 msgstr ""
 
