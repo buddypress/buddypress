@@ -940,7 +940,7 @@ function bp_profile_visibility_radio_buttons() {
 
 			// Only sanitize once
 			$field_id = bp_get_the_profile_field_id();
-			$level_id = esc_attr( $level_id );
+			$level_id = esc_attr( $level['id'] );
 
 			$html .= '<li><label for="see-field_' . $field_id . '_' . $level_id . '"><input type="radio" id="see-field_' . $field_id . '_' . $level_id . '" name="field_' . $field_id . '_visibility" value="' . $level_id . '"' . $checked . ' /> ' . esc_html( $level['label'] ) . '</label></li>';
 		}
