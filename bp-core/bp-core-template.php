@@ -2365,6 +2365,12 @@ function bp_the_body_class() {
 			if ( in_array( 'custom-background', (array) $wp_classes ) )
 				$bp_classes[] = 'custom-background';
 
+			// Observe WP admin bar body classes
+			if ( in_array( 'admin-bar', (array) $wp_classes ) )
+				$bp_classes[] = 'admin-bar';
+			if ( in_array( 'no-customize-support', (array) $wp_classes ) )
+				$bp_classes[] = 'no-customize-support';
+
 			// Preserve any custom classes already set
 			if ( !empty( $custom_classes ) ) {
 				$wp_classes = (array) $custom_classes;
