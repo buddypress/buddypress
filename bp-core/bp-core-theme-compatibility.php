@@ -249,7 +249,7 @@ function bp_use_theme_compat_with_current_theme() {
 		bp_detect_theme_compat_with_current_theme();
 	}
 
-	return buddypress()->theme_compat->use_with_current_theme;
+	return apply_filters( 'bp_use_theme_compat_with_current_theme', buddypress()->theme_compat->use_with_current_theme );
 }
 
 /**
