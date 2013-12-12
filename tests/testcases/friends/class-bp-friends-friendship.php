@@ -92,11 +92,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	public function test_check_is_friend_pending() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
-
-		$this->setUp_wp_mail();
 		friends_add_friend( $u1, $u2, false );
-		$this->tearDown_wp_mail();
-
 		$this->assertEquals( 'pending', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 
@@ -106,11 +102,7 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	public function test_check_is_friend_awaiting_response() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
-
-		$this->setUp_wp_mail();
 		friends_add_friend( $u1, $u2, false );
-		$this->tearDown_wp_mail();
-
 		$this->assertEquals( 'awaiting_response', BP_Friends_Friendship::check_is_friend( $u2, $u1 ) );
 	}
 

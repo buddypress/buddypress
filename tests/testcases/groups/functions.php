@@ -226,10 +226,8 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$u2 = $this->create_user();
 		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
-		$this->setUp_wp_mail();
 		groups_send_membership_request( $u2, $g );
 		groups_accept_membership_request( 0, $u2, $g );
-		$this->tearDown_wp_mail();
 
 		$this->assertEquals( 2, groups_get_groupmeta( $g, 'total_member_count' ) );
 	}

@@ -11,6 +11,7 @@ require_once dirname( __FILE__ ) . '/factory.php';
 class BP_UnitTestCase extends WP_UnitTestCase {
 
 	protected $temp_has_bp_moderate = array();
+	protected $cached_SERVER_NAME = null;
 
 	public function setUp() {
 		parent::setUp();
@@ -22,6 +23,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		// hack workaround
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->users}" );
+
+		// Fake WP mail globals, to avoid errors
+		add_filter( 'wp_mail', array( $this, 'setUp_wp_mail' ) );
+		add_filter( 'wp_mail_from', array( $this, 'tearDown_wp_mail' ) );
 
 		$this->factory = new BP_UnitTest_Factory;
 	}
@@ -304,14 +309,29 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	/**
 	 * Set up globals necessary to avoid errors when using wp_mail()
 	 */
-	public function setUp_wp_mail() {
+	public function setUp_wp_mail( $args ) {
+		if ( isset( $_SERVER['SERVER_NAME'] ) ) {
+			$this->cached_SERVER_NAME = $_SERVER['SERVER_NAME'];
+		}
+
 		$_SERVER['SERVER_NAME'] = 'example.com';
+
+		// passthrough
+		return $args;
 	}
 
 	/**
 	 * Tear down globals set up in setUp_wp_mail()
 	 */
-	public function tearDown_wp_mail() {
-		unset( $_SERVER['SERVER_NAME'] );
+	public function tearDown_wp_mail( $args ) {
+		if ( ! empty( $this->cached_SERVER_NAME ) ) {
+			$_SERVER['SERVER_NAME'] = $this->cached_SERVER_NAME;
+			unset( $this->cached_SERVER_NAME );
+		} else {
+			unset( $_SERVER['SERVER_NAME'] );
+		}
+
+		// passthrough
+		return $args;
 	}
 }
