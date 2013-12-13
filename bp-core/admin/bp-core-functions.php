@@ -209,6 +209,16 @@ function bp_core_activation_notice() {
 		return;
 	}
 
+	// Bail if in network admin, and BuddyPress is not network activated
+	if ( is_network_admin() && ! bp_is_network_activated() ) {
+		return;
+	}
+
+	// Bail in network admin
+	if ( is_user_admin() ) {
+		return;
+	}
+
 	/**
 	 * Check to make sure that the blog setup routine has run. This can't happen during the
 	 * wizard because of the order which the components are loaded. We check for multisite here
