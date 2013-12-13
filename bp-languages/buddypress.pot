@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-12-09 14:35:18+00:00\n"
+"POT-Creation-Date: 2013-12-13 22:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1282,11 +1282,11 @@ msgid "Register"
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:288
-msgid "The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
+msgid "The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href=\"%1$s\">Repair</a>"
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:310
-msgid "Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href=\"%1$s\" class=\"button-secondary\">Repair</a>"
+msgid "Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href=\"%1$s\">Repair</a>"
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:376 bp-core/admin/bp-core-slugs.php:26
