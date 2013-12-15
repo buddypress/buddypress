@@ -427,11 +427,22 @@ class BP_Admin {
 			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
 			<div class="about-text">
 				<?php if ( $is_new_install ) : ?>
-					<?php printf( __( 'BuddyPress %s is our safest, fastest, most flexible version ever.', 'buddypress' ), $display_version ); ?>
+				<?php printf( __( 'It&#8217;s a great time to use BuddyPress! %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes.', 'buddypress' ), $display_version ); ?>
 				<?php else : ?>
-					<?php printf( __( 'Thank you for updating! BuddyPress %s is our safest, fastest, most flexible version ever.', 'buddypress' ), $display_version ); ?>
+					<?php printf( __( 'Thanks for updating! BuddyPress %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes.', 'buddypress' ), $display_version ); ?>
 				<?php endif; ?>
 			</div>
+
+			<div class="changelog">
+				<h3><?php _e( 'Check out the highlights:', 'buddypress' ); ?></h3>
+
+				<ul>
+					<li><strong><?php _e( 'You can now add dynamic BuddyPress links to custom navigation menus.', 'buddypress' ); ?></strong></li>
+					<li><strong><?php _e( 'Notifications have been moved into their own component.', 'buddypress' ); ?></strong></li>
+					<li><strong><?php _e( 'Three new widgets, allowing easier site customization.', 'buddypress' ); ?></strong></li>
+				<ul>
+			</div>
+
 			<div class="bp-badge"><?php printf( __( 'Version %s', 'buddypress' ), $display_version ); ?></div>
 
 			<h2 class="nav-tab-wrapper">
@@ -471,61 +482,56 @@ class BP_Admin {
 
 			<?php endif; ?>
 
+			<hr />
 			<div class="changelog">
-				<h3><?php _e( 'Improved Theme Integration', 'buddypress' ); ?></h3>
+				<h3><?php _e( 'Dynamic links for custom navigation menus', 'buddypress' ); ?></h3>
 
 				<div class="feature-section">
-					<h4><?php _e( 'Hey, Good Lookin&#8217;', 'buddypress' ); ?></h4>
-					<p><?php _e( 'We&#8217;ve streamlined our stylesheets, so that BuddyPress content looks more at home in your theme. And theme developers will love BP&#8217;s new hierarchies that make it easy to override specific top-level templates, stylesheets, and JavaScript files.', 'buddypress' ) ?></p>
+					<p><?php printf( __( 'It&#8217;s now easy to add BuddyPress-specific links to your menus through <a href="%s">Appearance &gt; Menus</a>. For example, you can now add a link to a specific user profile screen, and each person will end up at that screen inside their own user profile.', 'buddypress' ), admin_url( 'nav-menus.php' ) ); ?></p>
 				</div>
 			</div>
 
+			<hr />
 			<div class="changelog">
-				<h3><?php _e( 'Better Group Member Management', 'buddypress' ); ?></h3>
+				<h3><?php _e( 'Notifications component', 'buddypress' ); ?></h3>
 
 				<div class="feature-section">
-					<h4><?php _e( '<em>Add</em>, <em>Remove</em>, and More, in a Snap', 'buddypress' ); ?></h4>
+					<p><?php _e( 'The notification features have been promoted into a new component. Use it to keep your site&#8217;s members abreast of the latest connections and @mentions within the site, via email notifications and Toolbar alerts.', 'buddypress' ); ?></p>
 
-					<?php
-					$group_admin_text = __( 'Groups administration panel', 'buddypress' );
-					if ( bp_is_active( 'groups' ) ) {
-						$group_admin_text = '<a href="' . bp_get_admin_url( add_query_arg( array( 'page' => 'bp-groups' ), 'admin.php' ) ) . '">' . $group_admin_text . '</a>';
-					}
-					?>
-
-					<p><?php printf(
-						__( 'The Manage Members section of the %s has been rewritten, to make it easier to handle groups with many members. We&#8217;ve also made the interface nicer to use, to ensure that you don&#8217;t make changes and then forget to save them.', 'buddypress' ),
-						$group_admin_text
-					); ?></p>
 				</div>
 			</div>
 
+			<hr />
 			<div class="changelog">
-				<h3><?php _e( 'Under the Hood', 'buddypress' ); ?></h3>
+				<h3><?php _e( 'Widgets', 'buddypress' ); ?></h3>
 
-				<div class="feature-section three-col">
-					<div>
-						<h4><?php _e( 'Superpowered Group Extensions', 'buddypress' ); ?></h4>
-						<p><?php _e( '<code>BP_Group_Extension</code> has been overhauled, making it easier than ever before to add custom functionality to groups.', 'buddypress' ); ?></p>
-
-						<h4><?php _e( 'Filter Groups or Activity by Metadata', 'buddypress' ); ?></h4>
-						<p><?php _e( '<code>bp_has_groups()</code> and <code>bp_has_activities()</code> now accept a <code>meta_query</code> paramater, for more powerful directory queries.', 'buddypress' ); ?></p>
-					</div>
-
-					<div>
-						<h4><?php _e( 'Feed Me, Seymour', 'buddypress' ); ?></h4>
-						<p><?php _e( 'The new <code>BP_Activity_Feed</code> class centralizes BP&#8217;s RSS logic, making our feeds more standards-compliant, and giving developers more tools for building custom feeds.', 'buddypress' ); ?></p>
-
-						<h4><?php _e( 'Disable @-Mentions', 'buddypress' ); ?></h4>
-						<p><?php _e( "Not using @-mentions? Disable them with <code>add_filter( 'bp_activity_do_mentions', '__return_false' );</code>", 'buddypress' ); ?></p>
-					</div>
+				<div class="feature-section">
+					<ul>
+						<li><?php _e( '<strong>Friends Widget</strong>: a list of recently active, popular, and newest friends of the displayed member.', 'buddypress' ); ?></li>
+						<li><?php _e( '<strong>Log In Widget</strong>: adds a simple &ldquo;Log In&rdquo; form to your site.', 'buddypress' ); ?></li>
+						<li><?php _e( '<strong>Sitewide Notices Widget</strong>: display Sitewide Notices from the Private Messaging component.', 'buddypress' ); ?></li>
+					</ul>
+				</div>
 			</div>
 
-			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page', 'buddypress' ); ?></a>
-			</div>
+			<hr />
+			<div class="changelog">
+				<h3><?php _e( 'Developer changes', 'buddypress' ); ?></h3>
 
-		</div>
+				<div class="feature-section">
+					<ul>
+						<li><?php _e( '<code>bp_redirect_canonical()</code> functionality has been reinstated', 'buddypress' ); ?></li>
+						<li><?php _e( 'Improved phpDoc inline documentation', 'buddypress' ); ?></li>
+						<li><?php printf( __( 'Improved compatibility with <a href="%s">develop.svn.wordpress.org</a> unit-test suite', 'buddypress' ), 'https://develop.svn.wordpress.org/' ); ?></li>
+						<li><?php printf( __( '<a href="%s">&hellip;and lots more!</a>' ), 'http://codex.buddypress.org/releases/version-1-9' ); ?></li>
+					</ul>
+				</div>
+
+				<div class="return-to-dashboard">
+					<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page', 'buddypress' ); ?></a>
+				</div>
+
+			</div>
 
 		<?php
 	}
