@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-12-13 23:35:14+00:00\n"
+"POT-Creation-Date: 2013-12-15 15:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -145,7 +145,7 @@ msgstr ""
 #: bp-activity/bp-activity-loader.php:132
 #: bp-activity/bp-activity-loader.php:261
 #: bp-activity/bp-activity-screens.php:270
-#: bp-activity/bp-activity-screens.php:437 bp-core/bp-core-admin.php:455
+#: bp-activity/bp-activity-screens.php:437 bp-core/bp-core-admin.php:466
 msgid "Activity"
 msgstr ""
 
@@ -1547,43 +1547,59 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:427 bp-core/bp-core-admin.php:546
+#: bp-core/bp-core-admin.php:427 bp-core/bp-core-admin.php:552
 msgid "Welcome to BuddyPress %s"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:430
-msgid "BuddyPress %s is our safest, fastest, most flexible version ever."
+msgid "It&#8217;s a great time to use BuddyPress! %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:432
-msgid "Thank you for updating! BuddyPress %s is our safest, fastest, most flexible version ever."
+msgid "Thanks for updating! BuddyPress %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:435 bp-core/bp-core-admin.php:548
+#: bp-core/bp-core-admin.php:437
+msgid "Check out the highlights:"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:440
+msgid "You can now add dynamic BuddyPress links to custom navigation menus."
+msgstr ""
+
+#: bp-core/bp-core-admin.php:441
+msgid "Notifications have been moved into their own component."
+msgstr ""
+
+#: bp-core/bp-core-admin.php:442
+msgid "Three new widgets, allowing easier site customization."
+msgstr ""
+
+#: bp-core/bp-core-admin.php:446 bp-core/bp-core-admin.php:554
 msgid "Version %s"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:439 bp-core/bp-core-admin.php:552
+#: bp-core/bp-core-admin.php:450 bp-core/bp-core-admin.php:558
 msgid "What&#8217;s New"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:441 bp-core/bp-core-admin.php:554
+#: bp-core/bp-core-admin.php:452 bp-core/bp-core-admin.php:560
 msgid "Credits"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:446
+#: bp-core/bp-core-admin.php:457
 msgid "Getting Started"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:449
+#: bp-core/bp-core-admin.php:460
 msgid "Your Default Setup"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:453
+#: bp-core/bp-core-admin.php:464
 msgid "BuddyPress&#8217;s powerful features help your users connect and collaborate. To help get your community started, we&#8217;ve activated two of the most commonly used tools in BP: <strong>Extended Profiles</strong> and <strong>Activity Streams</strong>. See these components in action at the %1$s and %2$s directories, and be sure to spend a few minutes <a href=\"%3$s\">configuring user profiles</a>. Want to explore more of BP&#8217;s features? Visit the <a href=\"%4$s\">Components panel</a>."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:454 bp-core/bp-core-template.php:361
+#: bp-core/bp-core-admin.php:465 bp-core/bp-core-template.php:361
 #: bp-core/bp-core-widgets.php:266 bp-groups/bp-groups-admin.php:776
 #: bp-groups/bp-groups-template.php:1476 bp-members/bp-members-loader.php:24
 #: bp-members/bp-members-screens.php:368
@@ -1592,119 +1608,107 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:462
+#: bp-core/bp-core-admin.php:473
 msgid "BuddyPress&#8217;s powerful features help your users connect and collaborate. Want to explore BP&#8217;s features? Visit the <a href=\"%s\">Components panel</a>."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:468
+#: bp-core/bp-core-admin.php:479
 msgid "Community and Support"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:469
+#: bp-core/bp-core-admin.php:480
 msgid "Looking for help? The <a href=\"http://codex.buddypress.org/\">BuddyPress Codex</a> has you covered, with dozens of user-contributed guides on how to configure and use your BP site. Can&#8217;t find what you need? Stop by <a href=\"http://buddypress.org/support/\">our support forums</a>, where a vibrant community of BuddyPress users and developers is waiting to share tips, show off their sites, talk about the future of BuddyPress, and much more."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:475
-msgid "Improved Theme Integration"
-msgstr ""
-
-#: bp-core/bp-core-admin.php:478
-msgid "Hey, Good Lookin&#8217;"
-msgstr ""
-
-#: bp-core/bp-core-admin.php:479
-msgid "We&#8217;ve streamlined our stylesheets, so that BuddyPress content looks more at home in your theme. And theme developers will love BP&#8217;s new hierarchies that make it easy to override specific top-level templates, stylesheets, and JavaScript files."
-msgstr ""
-
-#: bp-core/bp-core-admin.php:484
-msgid "Better Group Member Management"
-msgstr ""
-
 #: bp-core/bp-core-admin.php:487
-msgid "<em>Add</em>, <em>Remove</em>, and More, in a Snap"
+msgid "Dynamic links for custom navigation menus"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:490
-msgid "Groups administration panel"
+msgid "It&#8217;s now easy to add BuddyPress-specific links to your menus through <a href=\"%s\">Appearance &gt; Menus</a>. For example, you can now add a link to a specific user profile screen, and each person will end up at that screen inside their own user profile."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:497
-msgid "The Manage Members section of the %s has been rewritten, to make it easier to handle groups with many members. We&#8217;ve also made the interface nicer to use, to ensure that you don&#8217;t make changes and then forget to save them."
+#: bp-core/bp-core-admin.php:496
+msgid "Notifications component"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:504
-msgid "Under the Hood"
+#: bp-core/bp-core-admin.php:499
+msgid "The notification features have been promoted into a new component. Use it to keep your site&#8217;s members abreast of the latest connections and @mentions within the site, via email notifications and Toolbar alerts."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:508
-msgid "Superpowered Group Extensions"
+#: bp-core/bp-core-admin.php:506
+msgid "Widgets"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:509
-msgid "<code>BP_Group_Extension</code> has been overhauled, making it easier than ever before to add custom functionality to groups."
+#: bp-core/bp-core-admin.php:510
+msgid "<strong>Friends Widget</strong>: a list of recently active, popular, and newest friends of the displayed member."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:511
-msgid "Filter Groups or Activity by Metadata"
+msgid "<strong>Log In Widget</strong>: adds a simple &ldquo;Log In&rdquo; form to your site."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:512
-msgid "<code>bp_has_groups()</code> and <code>bp_has_activities()</code> now accept a <code>meta_query</code> paramater, for more powerful directory queries."
-msgstr ""
-
-#: bp-core/bp-core-admin.php:516
-msgid "Feed Me, Seymour"
-msgstr ""
-
-#: bp-core/bp-core-admin.php:517
-msgid "The new <code>BP_Activity_Feed</code> class centralizes BP&#8217;s RSS logic, making our feeds more standards-compliant, and giving developers more tools for building custom feeds."
+msgid "<strong>Sitewide Notices Widget</strong>: display Sitewide Notices from the Private Messaging component."
 msgstr ""
 
 #: bp-core/bp-core-admin.php:519
-msgid "Disable @-Mentions"
+msgid "Developer changes"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:520
-msgid "Not using @-mentions? Disable them with <code>add_filter( 'bp_activity_do_mentions', '__return_false' );</code>"
+#: bp-core/bp-core-admin.php:523
+msgid "<code>bp_redirect_canonical()</code> functionality has been reinstated"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:525 bp-core/bp-core-admin.php:656
+#: bp-core/bp-core-admin.php:524
+msgid "Improved phpDoc inline documentation"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:525
+msgid "Improved compatibility with <a href=\"%s\">develop.svn.wordpress.org</a> unit-test suite"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:526
+msgid "<a href=\"%s\">&hellip;and lots more!</a>"
+msgstr ""
+
+#: bp-core/bp-core-admin.php:531 bp-core/bp-core-admin.php:662
 msgid "Go to the BuddyPress Settings page"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:547
-msgid "Thank you for updating to the latest version! BuddyPress %s is ready to make your community a safer, faster, and better looking place to hang out!"
+#: bp-core/bp-core-admin.php:553
+msgid "BuddyPress %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:558
+#: bp-core/bp-core-admin.php:564
 msgid "BuddyPress is created by a worldwide network of friendly folks."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:560
+#: bp-core/bp-core-admin.php:566
 msgid "Project Leaders"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:565
+#: bp-core/bp-core-admin.php:571
 msgid "Founding Developer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:570
+#: bp-core/bp-core-admin.php:576
 msgid "Project Lead"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:575 bp-core/bp-core-admin.php:580
+#: bp-core/bp-core-admin.php:581 bp-core/bp-core-admin.php:586
 msgid "Lead Developer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:584
+#: bp-core/bp-core-admin.php:590
 msgid "Core Developers"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:592
+#: bp-core/bp-core-admin.php:598
 msgid "Recent Rockstars"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:612
+#: bp-core/bp-core-admin.php:618
 msgid "Contributors to BuddyPress 1.9"
 msgstr ""
 
@@ -1841,7 +1845,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:310 bp-members/bp-members-functions.php:1464
+#: bp-core/bp-core-filters.php:310 bp-members/bp-members-functions.php:1471
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1849,7 +1853,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:311 bp-members/bp-members-functions.php:1465
+#: bp-core/bp-core-filters.php:311 bp-members/bp-members-functions.php:1472
 msgid "Activate Your Account"
 msgstr ""
 
@@ -3968,65 +3972,65 @@ msgid "Delete %s's Account"
 msgstr ""
 
 #: bp-members/bp-members-functions.php:977
-#: bp-members/bp-members-functions.php:1592
+#: bp-members/bp-members-functions.php:1599
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1151
+#: bp-members/bp-members-functions.php:1158
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1154
-#: bp-members/bp-members-functions.php:1157
+#: bp-members/bp-members-functions.php:1161
+#: bp-members/bp-members-functions.php:1164
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1160
+#: bp-members/bp-members-functions.php:1167
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1191
+#: bp-members/bp-members-functions.php:1198
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1197
+#: bp-members/bp-members-functions.php:1204
 msgid "That username is not allowed"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1202
+#: bp-members/bp-members-functions.php:1209
 msgid "Usernames can contain only letters, numbers, ., -, and @"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1207
+#: bp-members/bp-members-functions.php:1214
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1212
+#: bp-members/bp-members-functions.php:1219
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1219
+#: bp-members/bp-members-functions.php:1226
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1224
+#: bp-members/bp-members-functions.php:1231
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1275
+#: bp-members/bp-members-functions.php:1282
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1373
-#: bp-members/bp-members-functions.php:1377
+#: bp-members/bp-members-functions.php:1380
+#: bp-members/bp-members-functions.php:1384
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1414
+#: bp-members/bp-members-functions.php:1421
 msgid "%s became a registered member"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1498
+#: bp-members/bp-members-functions.php:1505
 msgid "<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link."
 msgstr ""
 
