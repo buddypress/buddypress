@@ -550,7 +550,7 @@ class BP_Admin {
 
 		<div class="wrap about-wrap">
 			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
-			<div class="about-text"><?php printf( __( 'Thank you for updating to the latest version! BuddyPress %s is ready to make your community a safer, faster, and better looking place to hang out!', 'buddypress' ), $display_version ); ?></div>
+			<div class="about-text"><?php printf( __( 'BuddyPress %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes.', 'buddypress' ), $display_version ); ?></div>
 			<div class="bp-badge"><?php printf( __( 'Version %s', 'buddypress' ), $display_version ); ?></div>
 
 			<h2 class="nav-tab-wrapper">
