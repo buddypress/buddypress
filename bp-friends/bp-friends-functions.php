@@ -159,7 +159,13 @@ function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
 	$friendship    = new BP_Friends_Friendship( $friendship_id, true, false );
 
 	if ( empty( $friendship->is_confirmed ) && BP_Friends_Friendship::withdraw( $friendship_id ) ) {
+
+		// @deprecated Since 1.9
 		do_action_ref_array( 'friends_friendship_whithdrawn', array( $friendship_id, &$friendship ) );
+
+		// @since 1.9
+		do_action_ref_array( 'friends_friendship_withdrawn',  array( $friendship_id, &$friendship ) );
+
 		return true;
 	}
 
