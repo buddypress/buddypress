@@ -1031,12 +1031,15 @@ function bp_core_flush_illegal_names() {
 function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 
 	// Make sure $value is array
-	if ( empty( $value ) )
+	if ( empty( $value ) ) {
 		$db_illegal_names = array();
-	if ( is_array( $value ) )
+	}
+
+	if ( is_array( $value ) ) {
 		$db_illegal_names = $value;
-	elseif ( is_string( $value ) )
+	} elseif ( is_string( $value ) ) {
 		$db_illegal_names = explode( ' ', $value );
+	}
 
 	// Add the core components' slugs to the banned list even if their components aren't active.
 	$bp_component_slugs = array(
@@ -1049,6 +1052,7 @@ function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 		'friends',
 		'search',
 		'settings',
+		'notifications',
 		'register',
 		'activate'
 	);
@@ -1064,12 +1068,15 @@ function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 		'BP_FRIENDS_SLUG',
 		'BP_SEARCH_SLUG',
 		'BP_SETTINGS_SLUG',
+		'BP_NOTIFICATIONS_SLUG',
 		'BP_REGISTER_SLUG',
 		'BP_ACTIVATION_SLUG',
 	);
-	foreach( $slug_constants as $constant )
-		if ( defined( $constant ) )
+	foreach( $slug_constants as $constant ) {
+		if ( defined( $constant ) ) {
 			$bp_component_slugs[] = constant( $constant );
+		}
+	}
 
 	// Add our slugs to the array and allow them to be filtered
 	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array_merge( array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' ), $bp_component_slugs ) );
