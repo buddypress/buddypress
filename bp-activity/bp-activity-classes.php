@@ -351,9 +351,14 @@ class BP_Activity_Activity {
 		// Alter the query based on whether we want to show activity item
 		// comments in the stream like normal comments or threaded below
 		// the activity.
-		if ( false === $display_comments || 'threaded' === $display_comments )
+		if ( false === $display_comments || 'threaded' === $display_comments ) {
 			$where_conditions[] = "a.type != 'activity_comment'";
+		}
 
+		// Filter the where conditions
+		$where_conditions = apply_filters( 'bp_activity_get_where_conditions', $where_conditions, $r, $select_sql, $from_sql, $join_sql );
+
+		// Join the where conditions together
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
 		// Define the preferred order for indexes
