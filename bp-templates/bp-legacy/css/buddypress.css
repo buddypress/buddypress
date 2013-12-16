@@ -971,6 +971,8 @@ a.bp-title-button {
 #buddypress #groups-notification-settings {
 	margin-bottom: 0;
 }
+#buddypress table.notifications th.icon,
+#buddypress table.notifications td:first-child,
 #buddypress table.notification-settings th.icon,
 #buddypress table.notification-settings td:first-child {
 	display: none;
