@@ -136,9 +136,9 @@ class BP_XProfile_Group {
 			$where_sql = $wpdb->prepare( "WHERE g.id NOT IN ({$exclude_groups})");
 
 		if ( !empty( $hide_empty_groups ) )
-			$groups = $wpdb->get_results( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );
+			$groups = $wpdb->get_results( "SELECT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );
 		else
-			$groups = $wpdb->get_results( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" );
+			$groups = $wpdb->get_results( "SELECT g.* FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" );
 
 		if ( empty( $fetch_fields ) )
 			return $groups;
