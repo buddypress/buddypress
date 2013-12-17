@@ -361,12 +361,17 @@ function bp_core_get_directory_pages() {
  *
  * @since BuddyPress (1.7.0)
  *
- * @param array $default_components Components to create pages for.
+ * @param array $components Components to create pages for.
  * @param string $existing 'delete' if you want to delete existing page
  *        mappings and replace with new ones. Otherwise existing page mappings
  *        are kept, and the gaps filled in with new pages. Default: 'keep'.
  */
 function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
+
+	// If no value is passed, there's nothing to do.
+	if ( empty( $components ) ) {
+		return;
+	}
 
 	// Make sure that the pages are created on the root blog no matter which Dashboard the setup is being run on
 	if ( ! bp_is_root_blog() )
