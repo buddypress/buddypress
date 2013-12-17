@@ -553,7 +553,7 @@ class BP_Notifications_Notification {
 			'user_id'           => false,
 			'item_id'           => false,
 			'secondary_item_id' => false,
-			'component_name'    => false,
+			'component_name'    => array_keys( buddypress()->active_components ),
 			'component_action'  => false,
 			'is_new'            => true,
 			'search_terms'      => '',
