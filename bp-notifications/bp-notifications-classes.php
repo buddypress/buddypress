@@ -612,6 +612,12 @@ class BP_Notifications_Notification {
 	public static function get_total_count( $args ) {
 		global $wpdb;
 
+		$bp = buddypress();
+
+		$args = wp_parse_args( $args, array(
+			'component_name' => array_keys( $bp->active_components ),
+		) );
+
 		$bp         = buddypress();
 		$select_sql = "SELECT COUNT(*)";
 		$from_sql   = "FROM {$bp->notifications->table_name}";
