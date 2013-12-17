@@ -123,8 +123,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'simpl
 	// Setup local variables
 	$bp                    = buddypress();
 	$notifications         = BP_Notifications_Notification::get( array(
-		'user_id'        => $user_id,
-		'component_name' => array_keys( $bp->active_components ),
+		'user_id' => $user_id
 	) );
 	$grouped_notifications = array(); // Notification groups
 	$renderable            = array(); // Renderable notifications
