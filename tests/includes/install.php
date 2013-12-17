@@ -35,19 +35,6 @@ $_SERVER['HTTP_HOST'] = WP_TESTS_DOMAIN;
 $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
 require_once ABSPATH . '/wp-settings.php';
-define( 'BP_TESTS_DB_VERSION_FILE', ABSPATH . '.bp-tests-version' );
-
-// Check if BuddyPress has already been installed
-$db_version = buddypress()->db_version;
-$hash = $db_version . ' ' . (int) $multisite . ' ' . sha1_file( $config_file_path );
-
-if ( $db_version && file_exists( BP_TESTS_DB_VERSION_FILE ) ) {
-	$version_file = file_get_contents( BP_TESTS_DB_VERSION_FILE );
-
-	if ( $hash === $version_file ) {
-		return;
-	}
-}
 
 echo "Installing BuddyPress...\n";
 
@@ -70,5 +57,3 @@ $wpdb->select( DB_NAME, $wpdb->dbh );
 
 // Install BuddyPress
 bp_version_updater();
-
-file_put_contents( BP_TESTS_DB_VERSION_FILE, $hash );
