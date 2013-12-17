@@ -3,7 +3,7 @@ Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, twitter, facebook, social, community, networks, networking, cms
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.8.1
+Stable tag: 1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +33,7 @@ Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. If y
 
 = Discussion Forums =
 
-Try <a href="http://wordpress.org/plugins/bbpress/">bbPress</a>. It's designed to work cohesively with BuddyPress Groups and Profiles. Each group on your site can choose to have its own forum, and each user's topics, replies, favorites, and subscriptions appear in their profiles.
+Try <a href="http://wordpress.org/plugins/bbpress/">bbPress</a>. It's designed to work cohesively with BuddyPress Groups, Profiles, and Notifications. Each group on your site can choose to have its own forum, and each user's topics, replies, favorites, and subscriptions appear in their profiles.
 
 == Frequently Asked Questions ==
 
@@ -76,6 +76,9 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 BuddyPress is available in more than 20 languages. For more information, check out the <a href="http://codex.buddypress.org/getting-started/translations/">translation page</a> on the BuddyPress Codex.
 
 == Upgrade Notice ==
+
+= 1.9 =
+See: http://codex.buddypress.org/releases/version-1-9/
 
 = 1.8.1 =
 See: http://codex.buddypress.org/releases/version-1-8-1/
@@ -126,6 +129,9 @@ Compatibility with WordPress 3.1
 Fixes over 10 bugs.
 
 == Changelog ==
+
+= 1.9 =
+See: http://codex.buddypress.org/releases/version-1-9/
 
 = 1.8.1 =
 See: http://codex.buddypress.org/releases/version-1-8-1/
