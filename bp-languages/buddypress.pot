@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-12-17 00:35:15+00:00\n"
+"POT-Creation-Date: 2013-12-17 18:35:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5647,30 +5647,37 @@ msgid "Send Reply"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/notifications/feedback-no-notifications.php:7
+#: bp-themes/bp-default/members/single/notifications/feedback-no-notifications.php:7
 msgid "You have no unread notifications."
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/notifications/feedback-no-notifications.php:11
+#: bp-themes/bp-default/members/single/notifications/feedback-no-notifications.php:11
 msgid "This member has no unread notifications."
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/notifications/feedback-no-notifications.php:19
+#: bp-themes/bp-default/members/single/notifications/feedback-no-notifications.php:19
 msgid "You have no notifications."
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/notifications/feedback-no-notifications.php:23
+#: bp-themes/bp-default/members/single/notifications/feedback-no-notifications.php:23
 msgid "This member has no notifications."
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/notifications/notifications-loop.php:5
+#: bp-themes/bp-default/members/single/notifications/notifications-loop.php:5
 msgid "Notification"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/notifications/notifications-loop.php:6
+#: bp-themes/bp-default/members/single/notifications/notifications-loop.php:6
 msgid "Date Received"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/notifications/notifications-loop.php:7
+#: bp-themes/bp-default/members/single/notifications/notifications-loop.php:7
 msgid "Actions"
 msgstr ""
 
