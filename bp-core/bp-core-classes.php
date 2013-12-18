@@ -245,7 +245,7 @@ class BP_User_Query {
 			// number of minutes used as an interval
 			case 'online' :
 				$this->uid_name = 'user_id';
-				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
 				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
 				$sql['where'][] = $wpdb->prepare( "u.meta_value >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL %d MINUTE )", apply_filters( 'bp_user_query_online_interval', 15 ) );
 				$sql['orderby'] = "ORDER BY u.meta_value";
@@ -259,7 +259,7 @@ class BP_User_Query {
 			case 'newest' :
 			case 'random' :
 				$this->uid_name = 'user_id';
-				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
 				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
 
 				if ( 'newest' == $type ) {
@@ -277,7 +277,7 @@ class BP_User_Query {
 			// 'popular' sorts by the 'total_friend_count' usermeta
 			case 'popular' :
 				$this->uid_name = 'user_id';
-				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
 				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'total_friend_count' ) );
 				$sql['orderby'] = "ORDER BY CONVERT(u.meta_value, SIGNED)";
 				$sql['order']   = "DESC";
@@ -294,7 +294,7 @@ class BP_User_Query {
 				// @todo remove need for bp_is_active() check
 				if ( ! bp_disable_profile_sync() || ! bp_is_active( 'xprofile' ) ) {
 					$this->uid_name = 'ID';
-					$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->users} u";
+					$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->users} u";
 					$sql['orderby'] = "ORDER BY u.display_name";
 					$sql['order']   = "ASC";
 
@@ -304,7 +304,7 @@ class BP_User_Query {
 					$fullname_field_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", bp_xprofile_fullname_field_name() ) );
 
 					$this->uid_name = 'user_id';
-					$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$bp->profile->table_name_data} u";
+					$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$bp->profile->table_name_data} u";
 					$sql['where'][] = "u.field_id = {$fullname_field_id}";
 					$sql['orderby'] = "ORDER BY u.value";
 					$sql['order']   = "ASC";
@@ -313,14 +313,14 @@ class BP_User_Query {
 				// Alphabetical queries ignore last_activity, while BP uses last_activity
 				// to infer spam/deleted/non-activated users. To ensure that these users
 				// are filtered out, we add an appropriate sub-query.
-				$sql['where'][] = "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE " . bp_core_get_status_sql( '' ) . " )";
+				$sql['where'][] = "u.{$this->uid_name} IN ( SELECT id FROM {$wpdb->users} WHERE " . bp_core_get_status_sql( '' ) . " )";
 
 				break;
 
 			// Any other 'type' falls through
 			default :
 				$this->uid_name = 'ID';
-				$sql['select']  = "SELECT DISTINCT u.{$this->uid_name} as id FROM {$wpdb->users} u";
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->users} u";
 
 				// In this case, we assume that a plugin is
 				// handling order, so we leave those clauses
@@ -437,7 +437,7 @@ class BP_User_Query {
 		if ( 'sql_calc_found_rows' == $this->query_vars['count_total'] ) {
 			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', "SELECT FOUND_ROWS()", $this ) );
 		} elseif ( 'count_query' == $this->query_vars['count_total'] ) {
-			$count_select      = preg_replace( '/^SELECT.*?FROM (\S+) u/', "SELECT COUNT(DISTINCT u.{$this->uid_name}) FROM $1 u", $this->uid_clauses['select'] );
+			$count_select      = preg_replace( '/^SELECT.*?FROM (\S+) u/', "SELECT COUNT(u.{$this->uid_name}) FROM $1 u", $this->uid_clauses['select'] );
 			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', "{$count_select} {$this->uid_clauses['where']}", $this ) );
 		}
 	}
@@ -871,7 +871,7 @@ class BP_Core_User {
 
 		$sql = array();
 
-		$sql['select_main'] = "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.display_name, u.user_email";
+		$sql['select_main'] = "SELECT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.display_name, u.user_email";
 
 		if ( 'active' == $type || 'online' == $type || 'newest' == $type  ) {
 			$sql['select_active'] = ", um.meta_value as last_activity";
@@ -1013,7 +1013,7 @@ class BP_Core_User {
 			unset( $sql['pagination'] );
 		}
 
-		array_unshift( $sql, "SELECT COUNT(DISTINCT u.ID)" );
+		array_unshift( $sql, "SELECT COUNT(u.ID)" );
 
 		// Get total user results
 		$total_users_sql = apply_filters( 'bp_core_get_total_users_sql', join( ' ', (array) $sql ), $sql );
@@ -1131,8 +1131,8 @@ class BP_Core_User {
 		$user_ids   = implode( ',', wp_parse_id_list( $user_ids ) );
 		$status_sql = bp_core_get_status_sql();
 
-		$total_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT COUNT(DISTINCT ID) FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ({$user_ids})" );
-		$paged_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT DISTINCT ID as id, user_registered, user_nicename, user_login, user_email FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ({$user_ids}) {$pag_sql}" );
+		$total_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT COUNT(ID) FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ({$user_ids})" );
+		$paged_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT ID as id, user_registered, user_nicename, user_login, user_email FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ({$user_ids}) {$pag_sql}" );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
