@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2013-12-17 18:35:23+00:00\n"
+"POT-Creation-Date: 2013-12-18 17:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1770,7 +1770,7 @@ msgstr ""
 msgid "You do not have access to this page."
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:552 bp-core/bp-core-functions.php:1723
+#: bp-core/bp-core-buddybar.php:552 bp-core/bp-core-functions.php:1769
 #: bp-core/bp-core-widgets.php:89 bp-themes/bp-default/sidebar.php:52
 msgid "Log In"
 msgstr ""
@@ -1779,7 +1779,7 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
-#: bp-core/bp-core-buddybar.php:613 bp-core/bp-core-functions.php:1656
+#: bp-core/bp-core-buddybar.php:613 bp-core/bp-core-functions.php:1702
 #: bp-core/bp-core-widgets.php:71 bp-core/deprecated/1.5.php:307
 #: bp-members/bp-members-template.php:774 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
@@ -1896,96 +1896,96 @@ msgstr ""
 msgid "Create a Group"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:392
+#: bp-core/bp-core-functions.php:438
 msgctxt "Page title for the Activity directory."
 msgid "Activity"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:393
+#: bp-core/bp-core-functions.php:439
 msgctxt "Page title for the Groups directory."
 msgid "Groups"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:394
+#: bp-core/bp-core-functions.php:440
 msgctxt "Page title for the Sites directory."
 msgid "Sites"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:395
+#: bp-core/bp-core-functions.php:441
 msgctxt "Page title for the user account activation screen."
 msgid "Activate"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:396
+#: bp-core/bp-core-functions.php:442
 msgctxt "Page title for the Members directory."
 msgid "Members"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:397
+#: bp-core/bp-core-functions.php:443
 msgctxt "Page title for the user registration screen."
 msgid "Register"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:695
+#: bp-core/bp-core-functions.php:741
 msgid "sometime"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:696
+#: bp-core/bp-core-functions.php:742
 msgid "right now"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:697
+#: bp-core/bp-core-functions.php:743
 msgid "%s ago"
 msgstr ""
 
-#: bp-core/bp-core-functions.php:758
+#: bp-core/bp-core-functions.php:804
 msgid "%s year"
 msgid_plural "%s years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:761 bp-core/bp-core-functions.php:795
+#: bp-core/bp-core-functions.php:807 bp-core/bp-core-functions.php:841
 msgid "%s month"
 msgid_plural "%s months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:764 bp-core/bp-core-functions.php:798
+#: bp-core/bp-core-functions.php:810 bp-core/bp-core-functions.php:844
 msgid "%s week"
 msgid_plural "%s weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:767 bp-core/bp-core-functions.php:801
+#: bp-core/bp-core-functions.php:813 bp-core/bp-core-functions.php:847
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:770 bp-core/bp-core-functions.php:804
+#: bp-core/bp-core-functions.php:816 bp-core/bp-core-functions.php:850
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:773 bp-core/bp-core-functions.php:807
+#: bp-core/bp-core-functions.php:819 bp-core/bp-core-functions.php:853
 msgid "%s minute"
 msgid_plural "%s minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:776 bp-core/bp-core-functions.php:810
+#: bp-core/bp-core-functions.php:822 bp-core/bp-core-functions.php:856
 msgid "%s second"
 msgid_plural "%s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-core/bp-core-functions.php:791
+#: bp-core/bp-core-functions.php:837
 msgctxt "Separator in time since"
 msgid ","
 msgstr ""
 
-#: bp-core/bp-core-functions.php:976
+#: bp-core/bp-core-functions.php:1022
 msgid "Not recently active"
 msgstr ""
 
