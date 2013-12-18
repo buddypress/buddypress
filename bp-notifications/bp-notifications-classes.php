@@ -612,12 +612,23 @@ class BP_Notifications_Notification {
 	public static function get_total_count( $args ) {
 		global $wpdb;
 
-		$bp         = buddypress();
+		// Load BuddyPress
+		$bp = buddypress();
+
+		/**
+		 * Default component_name to active_components
+		 *
+		 * @see http://buddypress.trac.wordpress.org/ticket/5300
+		 */
+		$args = wp_parse_args( $args, array( 'component_name' => array_keys( $bp->active_components ) ) );
+
+		// Build the query
 		$select_sql = "SELECT COUNT(*)";
 		$from_sql   = "FROM {$bp->notifications->table_name}";
 		$where_sql  = self::get_where_sql( $args );
 		$sql        = "{$select_sql} {$from_sql} {$where_sql}";
 
+		// Return the queried results
 		return $wpdb->get_var( $sql );
 	}
 
