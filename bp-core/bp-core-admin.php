@@ -523,7 +523,7 @@ class BP_Admin {
 						<li><?php _e( '<code>bp_redirect_canonical()</code> functionality has been reinstated', 'buddypress' ); ?></li>
 						<li><?php _e( 'Improved phpDoc inline documentation', 'buddypress' ); ?></li>
 						<li><?php printf( __( 'Improved compatibility with <a href="%s">develop.svn.wordpress.org</a> unit-test suite', 'buddypress' ), 'https://develop.svn.wordpress.org/' ); ?></li>
-						<li><?php printf( __( '<a href="%s">&hellip;and lots more!</a>' ), 'http://codex.buddypress.org/releases/version-1-9' ); ?></li>
+						<li><?php printf( __( '<a href="%s">&hellip;and lots more!</a>', 'buddypress' ), 'http://codex.buddypress.org/releases/version-1-9' ); ?></li>
 					</ul>
 				</div>
 
