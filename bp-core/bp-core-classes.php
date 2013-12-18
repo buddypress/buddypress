@@ -301,7 +301,7 @@ class BP_User_Query {
 				// When profile sync is disabled, alphabetical sorts must happen against
 				// the xprofile table
 				} else {
-					$fullname_field_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", bp_xprofile_fullname_field_name() ) );
+					$fullname_field_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$bp->profile->table_name_fields} WHERE name = %s", bp_xprofile_fullname_field_name() ) );
 
 					$this->uid_name = 'user_id';
 					$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$bp->profile->table_name_data} u";
@@ -313,7 +313,7 @@ class BP_User_Query {
 				// Alphabetical queries ignore last_activity, while BP uses last_activity
 				// to infer spam/deleted/non-activated users. To ensure that these users
 				// are filtered out, we add an appropriate sub-query.
-				$sql['where'][] = "u.{$this->uid_name} IN ( SELECT id FROM {$wpdb->users} WHERE " . bp_core_get_status_sql( '' ) . " )";
+				$sql['where'][] = "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE " . bp_core_get_status_sql( '' ) . " )";
 
 				break;
 
