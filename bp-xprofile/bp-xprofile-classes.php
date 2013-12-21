@@ -1264,8 +1264,7 @@ class BP_XProfile_ProfileData {
 	public static function get_random( $user_id, $exclude_fullname ) {
 		global $wpdb, $bp;
 
-		if ( !empty( $exclude_fullname ) )
-			$exclude_sql = $wpdb->prepare( " AND pf.id != 1" );
+		$exclude_sql = ! empty( $exclude_fullname ) ? ' AND pf.id != 1' : '';
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT pf.type, pf.name, pd.value FROM {$bp->profile->table_name_data} pd INNER JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id AND pd.user_id = %d {$exclude_sql} ORDER BY RAND() LIMIT 1", $user_id ) );
 	}
