@@ -508,6 +508,7 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
 	return apply_filters( 'bp_notifications_get_total_notification_count', $count );
 }
 
+
 /**
  * Return an array of component names that are currently active and have
  * registered Notifications callbacks.
@@ -535,5 +536,5 @@ function bp_notifications_get_registered_components() {
 	}
 
 	// Return active components with registered notifications callbacks
-	return apply_filters( 'bp_notifications_get_component_names', $component_names, $active_components );
+	return apply_filters( 'bp_notifications_get_registered_components', $component_names, $active_components );
 }
