@@ -518,12 +518,22 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
  */
 function bp_notifications_get_registered_components() {
 
-	// Get the active components
-	$active_components = buddypress()->active_components;
+	// Load BuddyPress
+	$bp = buddypress();
 
-	// Get the component ID's from the active_components array
-	$component_names   = array_keys( $active_components );
+	// Setup return value
+	$component_names = array();
+
+	// Get the active components
+	$active_components = array_keys( $bp->active_components );
+
+	// Loop through components, look for callbacks, add to return value
+	foreach ( $active_components as $component ) {
+		if ( !empty( $bp->$component->notification_callback ) ) {
+			$component_names[] = $component;
+		}
+	}
 
 	// Return active components with registered notifications callbacks
-	return apply_filters( 'bp_notifications_get_component_names', $component_names );
+	return apply_filters( 'bp_notifications_get_component_names', $component_names, $active_components );
 }
