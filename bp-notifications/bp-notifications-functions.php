@@ -507,3 +507,23 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
 
 	return apply_filters( 'bp_notifications_get_total_notification_count', $count );
 }
+
+/**
+ * Return an array of component names that are currently active and have
+ * registered Notifications callbacks.
+ *
+ * @since BuddyPress (1.9.1)
+ *
+ * @see http://buddypress.trac.wordpress.org/ticket/5300
+ */
+function bp_notifications_get_registered_components() {
+
+	// Get the active components
+	$active_components = buddypress()->active_components;
+
+	// Get the component ID's from the active_components array
+	$component_names   = array_keys( $active_components );
+
+	// Return active components with registered notifications callbacks
+	return apply_filters( 'bp_notifications_get_component_names', $component_names );
+}
