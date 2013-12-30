@@ -15,7 +15,7 @@
 		<?php bp_get_options_nav(); ?>
 
 	</ul>
-	
+
 	<?php if ( bp_is_messages_inbox() || bp_is_messages_sentbox() ) : ?>
 
 		<div class="message-search"><?php bp_message_search_form(); ?></div>
