@@ -649,9 +649,9 @@ function groups_screen_group_admin_avatar() {
 		);
 
 		if ( !bp_core_avatar_handle_crop( $args ) ) {
-			bp_core_add_message( __( 'There was a problem cropping the avatar.', '       buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was a problem cropping the avatar.', 'buddypress' ), 'error' );
 		} else {
-			bp_core_add_message( __( 'The new group avatar was uploaded successfully.', 'buddypress' )          );
+			bp_core_add_message( __( 'The new group avatar was uploaded successfully.', 'buddypress' ) );
 		}
 	}
 

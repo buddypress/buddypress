@@ -441,7 +441,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			// help tabs
 			$screen->add_help_tab( array(
 				'id'      => 'bp-comp-overview',
-				'title'   => __( 'Overview' ),
+				'title'   => __( 'Overview', 'buddypress' ),
 				'content' => bp_core_add_contextual_help_content( 'bp-comp-overview' ),
 			) );
 
@@ -459,7 +459,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			// Help tabs
 			$screen->add_help_tab( array(
 				'id' => 'bp-page-overview',
-				'title' => __( 'Overview' ),
+				'title' => __( 'Overview', 'buddypress' ),
 				'content' => bp_core_add_contextual_help_content( 'bp-page-overview' ),
 			) );
 
@@ -478,7 +478,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			// Help tabs
 			$screen->add_help_tab( array(
 				'id'      => 'bp-settings-overview',
-				'title'   => __( 'Overview' ),
+				'title'   => __( 'Overview', 'buddypress' ),
 				'content' => bp_core_add_contextual_help_content( 'bp-settings-overview' ),
 			) );
 
@@ -497,7 +497,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			// Help tabs
 			$screen->add_help_tab( array(
 				'id'      => 'bp-profile-overview',
-				'title'   => __( 'Overview' ),
+				'title'   => __( 'Overview', 'buddypress' ),
 				'content' => bp_core_add_contextual_help_content( 'bp-profile-overview' ),
 			) );
 
@@ -745,7 +745,7 @@ function bp_admin_do_wp_nav_menu_meta_box() {
 
 		<p class="button-controls">
 			<span class="add-to-menu">
-				<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-custom-menu-item" id="submit-buddypress-menu" />
+				<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'buddypress' ); ?>" name="add-custom-menu-item" id="submit-buddypress-menu" />
 				<span class="spinner"></span>
 			</span>
 		</p>

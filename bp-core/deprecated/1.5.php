@@ -139,7 +139,7 @@ function bp_core_get_wp_profile() {
 	$ud = get_userdata( bp_displayed_user_id() ); ?>
 
 <div class="bp-widget wp-profile">
-	<h4><?php _e( 'My Profile' ) ?></h4>
+	<h4><?php _e( 'My Profile', 'buddypress' ) ?></h4>
 
 	<table class="wp-profile-fields">
 

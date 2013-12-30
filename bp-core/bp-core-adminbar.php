@@ -33,7 +33,7 @@ function bp_admin_bar_my_account_root() {
 		$wp_admin_bar->add_menu( array(
 			'parent'    => 'my-account',
 			'id'        => 'my-account-buddypress',
-			'title'     => __( 'My Account' ),
+			'title'     => __( 'My Account', 'buddypress' ),
 			'group'     => true,
 			'meta'      => array(
 				'class' => 'ab-sub-secondary'

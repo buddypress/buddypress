@@ -927,8 +927,8 @@ function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, 
 	$pag_links = paginate_links( array(
 		'base'      => add_query_arg( $qs_key, '%#%', $url_base ),
 		'format'    => '',
-		'prev_text' => __( '&laquo;' ),
-		'next_text' => __( '&raquo;' ),
+		'prev_text' => __( '&laquo;', 'buddypress' ),
+		'next_text' => __( '&raquo;', 'buddypress' ),
 		'total'     => ceil( $query->total_users / $per_page ),
 		'current'   => $page,
 	) );
@@ -1003,7 +1003,7 @@ function bp_groups_admin_autocomplete_handler() {
 	foreach ( (array) $users as $user ) {
 		$return[] = array(
 			/* translators: 1: user_login, 2: user_email */
-			'label' => sprintf( __( '%1$s (%2$s)' ), bp_is_username_compatibility_mode() ? $user->user_login : $user->user_nicename, $user->user_email ),
+			'label' => sprintf( __( '%1$s (%2$s)', 'buddypress' ), bp_is_username_compatibility_mode() ? $user->user_login : $user->user_nicename, $user->user_email ),
 			'value' => $user->user_nicename,
 		);
 	}
