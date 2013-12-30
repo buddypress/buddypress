@@ -492,7 +492,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			break;
 
 		// Profile fields page
-		case 'users_page_bp-profile-overview' :
+		case 'users_page_bp-profile-setup' :
 
 			// Help tabs
 			$screen->add_help_tab( array(
