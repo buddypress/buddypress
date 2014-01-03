@@ -724,7 +724,7 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
 		$hidden_levels = array( 'friends', 'loggedin', 'adminsonly', );
 	}
 
-	return $hidden_levels;
+	return apply_filters( 'bp_xprofile_get_hidden_field_types_for_user', $hidden_levels, $displayed_user_id, $current_user_id );
 }
 
 /**
