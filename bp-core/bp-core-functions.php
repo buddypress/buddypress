@@ -1728,7 +1728,7 @@ function bp_nav_menu_get_loggedout_pages() {
 		$register_page = get_post( $bp_directory_page_ids['register'] );
 		$bp_menu_items[] = array(
 			'name' => $register_page->post_title,
-			'slug' => $register_page->post_name,
+			'slug' => 'register',
 			'link' => get_permalink( $register_page->ID ),
 		);
 	}
