@@ -114,7 +114,7 @@ function bp_core_get_notification( $id ) {
  * @param string $format
  * @return boolean Object or array on success, false on fail
  */
-function bp_core_get_notifications_for_user( $user_id, $format = 'simple' ) {
+function bp_core_get_notifications_for_user( $user_id, $format = 'string' ) {
 
 	// Bail if notifications is not active
 	if ( ! bp_is_active( 'notifications' ) ) {
