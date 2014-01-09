@@ -114,11 +114,11 @@ function bp_notifications_mark_notification( $id, $is_new = false ) {
  * @since BuddyPress (1.9.0)
  *
  * @param int $user_id ID of the user whose notification are being fetched.
- * @param string $format Format of the returned values. 'simple' returns HTML,
+ * @param string $format Format of the returned values. 'string' returns HTML,
  *        while 'object' returns a structured object for parsing.
  * @return mixed Object or array on success, false on failure.
  */
-function bp_notifications_get_notifications_for_user( $user_id, $format = 'simple' ) {
+function bp_notifications_get_notifications_for_user( $user_id, $format = 'string' ) {
 
 	// Setup local variables
 	$bp                    = buddypress();
