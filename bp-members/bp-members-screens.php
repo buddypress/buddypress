@@ -371,7 +371,7 @@ class BP_Members_Theme_Compat {
 			'post_content'   => '',
 			'post_type'      => 'bp_members',
 			'post_status'    => 'publish',
-			'is_archive'     => true,
+			'is_page'        => true,
 			'comment_status' => 'closed'
 		) );
 	}
@@ -431,7 +431,7 @@ class BP_Members_Theme_Compat {
 			'post_content'   => '',
 			'post_type'      => 'bp_members',
 			'post_status'    => 'publish',
-			'is_archive'     => true,
+			'is_page'        => true,
 			'comment_status' => 'closed'
 		) );
 	}
@@ -547,7 +547,7 @@ class BP_Registration_Theme_Compat {
 			'post_content'   => '',
 			'post_type'      => $post_type,
 			'post_status'    => 'publish',
-			'is_archive'     => true,
+			'is_page'        => true,
 			'comment_status' => 'closed'
 		) );
 	}
