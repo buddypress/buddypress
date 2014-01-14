@@ -387,7 +387,7 @@ class BP_Activity_Theme_Compat {
 			'post_content'   => '',
 			'post_type'      => 'bp_activity',
 			'post_status'    => 'publish',
-			'is_archive'     => true,
+			'is_page'        => true,
 			'comment_status' => 'closed'
 		) );
 	}
@@ -440,7 +440,7 @@ class BP_Activity_Theme_Compat {
 			'post_content'   => '',
 			'post_type'      => 'bp_activity',
 			'post_status'    => 'publish',
-			'is_archive'     => true,
+			'is_page'        => true,
 			'comment_status' => 'closed'
 		) );
 	}
