@@ -95,6 +95,9 @@ class BP_Members_Component extends BP_Component {
 		// Fetch the full name displayed user
 		$bp->displayed_user->fullname = bp_core_get_user_displayname( bp_displayed_user_id() );
 
+		/** Signup ***************************************************/
+		$bp->signup = new stdClass;
+
 		/** Profiles Fallback *************************************************/
 
 		if ( !bp_is_active( 'xprofile' ) ) {
