@@ -591,7 +591,7 @@ class BP_Groups_Component extends BP_Component {
 				) );
 
 				if ( empty( $bp->bp_options_avatar ) ) {
-					$bp->bp_options_avatar = bp_group_current_avatar();
+					$bp->bp_options_avatar = '<img src="' . esc_url( bp_core_avatar_default_thumb() ) . '" alt="' . esc_attr__( 'No Group Avatar', 'buddypress' ) . '" class="avatar" />';
 				}
 			}
 		}

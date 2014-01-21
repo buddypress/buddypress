@@ -2626,19 +2626,40 @@ function bp_group_current_admin_tab() {
  * Group Avatar Template Tags
  **/
 
-function bp_group_current_avatar() {
-	global $bp;
-
-	if ( $bp->groups->current_group->avatar_full ) { ?>
-
-		<img src="<?php echo esc_url( $bp->groups->current_group->avatar_full ); ?>" alt="<?php _e( 'Group Avatar', 'buddypress' ) ?>" class="avatar" />
-
-	<?php } else { ?>
-
-		<img src="<?php echo esc_url( $bp->groups->image_base . '/none.gif' ); ?>" alt="<?php _e( 'No Group Avatar', 'buddypress' ) ?>" class="avatar" />
-
-	<?php }
+/**
+ * Outputs the current group avatar
+ *
+ * @since BuddyPress (1.0)
+ * @param string $type thumb or full ?
+ * @uses bp_get_group_current_avatar() to get the avatar of the current group
+ */
+function bp_group_current_avatar( $type = 'thumb' ) {
+    echo bp_get_group_current_avatar( $type );
 }
+	
+	/**
+	 * Returns the current group avatar
+	 *
+	 * @since BuddyPress (2.0)
+	 * @param string $type thumb or full ?
+	 * @uses bp_core_fetch_avatar() to get the avatar of the group
+	 * @uses bp_get_current_group_id() to get current group id
+	 * @uses apply_filters() Filter bp_get_group_current_avatar to modify return value
+	 * @return string $tab The current tab's slug
+	 */
+	function bp_get_group_current_avatar( $type = 'thumb' ) {
+
+	    $group_avatar = bp_core_fetch_avatar( array(
+	        'item_id'    => bp_get_current_group_id(),
+	        'object'     => 'group',
+	        'type'       => $type,
+	        'avatar_dir' => 'group-avatars',
+	        'alt'        => __( 'Group avatar', 'buddypress' ),
+	        'class'      => 'avatar'
+	    ) );
+
+	    return apply_filters( 'bp_get_group_current_avatar', $group_avatar );
+	}
 
 function bp_get_group_has_avatar() {
 	global $bp;
