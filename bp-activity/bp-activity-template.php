@@ -25,14 +25,12 @@ function bp_activity_slug() {
 	 *
 	 * @since BuddyPress (1.5)
 	 *
-	 * @global object $bp BuddyPress global settings.
 	 * @uses apply_filters() To call the 'bp_get_activity_slug' hook.
 	 *
 	 * @return string The activity component slug.
 	 */
 	function bp_get_activity_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_activity_slug', $bp->activity->slug );
+		return apply_filters( 'bp_get_activity_slug', buddypress()->activity->slug );
 	}
 
 /**
@@ -50,14 +48,12 @@ function bp_activity_root_slug() {
 	 *
 	 * @since BuddyPress (1.5)
 	 *
-	 * @global object $bp BuddyPress global settings.
 	 * @uses apply_filters() To call the 'bp_get_activity_root_slug' hook.
 	 *
 	 * @return string The activity component root slug.
 	 */
 	function bp_get_activity_root_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_activity_root_slug', $bp->activity->root_slug );
+		return apply_filters( 'bp_get_activity_root_slug', buddypress()->activity->root_slug );
 	}
 
 /**

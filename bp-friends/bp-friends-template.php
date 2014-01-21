@@ -26,8 +26,7 @@ function bp_friends_slug() {
 	 * @since BuddyPress (1.5.0)
 	 */
 	function bp_get_friends_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_friends_slug', $bp->friends->slug );
+		return apply_filters( 'bp_get_friends_slug', buddypress()->friends->slug );
 	}
 
 /**
@@ -46,8 +45,7 @@ function bp_friends_root_slug() {
 	 * @since BuddyPress (1.5.0)
 	 */
 	function bp_get_friends_root_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_friends_root_slug', $bp->friends->root_slug );
+		return apply_filters( 'bp_get_friends_root_slug', buddypress()->friends->root_slug );
 	}
 
 /**

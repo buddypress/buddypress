@@ -32,8 +32,7 @@ function bp_members_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_members_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_members_slug', $bp->members->slug );
+		return apply_filters( 'bp_get_members_slug', buddypress()->members->slug );
 	}
 
 /**
@@ -56,8 +55,7 @@ function bp_members_root_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_members_root_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_members_root_slug', $bp->members->root_slug );
+		return apply_filters( 'bp_get_members_root_slug', buddypress()->members->root_slug );
 	}
 
 /**
@@ -109,12 +107,13 @@ function bp_signup_slug() {
 	function bp_get_signup_slug() {
 		$bp = buddypress();
 
-		if ( !empty( $bp->pages->register->slug ) )
+		if ( !empty( $bp->pages->register->slug ) ) {
 			$slug = $bp->pages->register->slug;
-		elseif ( defined( 'BP_REGISTER_SLUG' ) )
+		} elseif ( defined( 'BP_REGISTER_SLUG' ) ) {
 			$slug = BP_REGISTER_SLUG;
-		else
+		} else {
 			$slug = 'register';
+		}
 
 		return apply_filters( 'bp_get_signup_slug', $slug );
 	}
@@ -139,14 +138,15 @@ function bp_activate_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_activate_slug() {
-		global $bp;
+		$bp = buddypress();
 
-		if ( !empty( $bp->pages->activate->slug ) )
+		if ( !empty( $bp->pages->activate->slug ) ) {
 			$slug = $bp->pages->activate->slug;
-		elseif ( defined( 'BP_ACTIVATION_SLUG' ) )
+		} elseif ( defined( 'BP_ACTIVATION_SLUG' ) ) {
 			$slug = BP_ACTIVATION_SLUG;
-		else
+		} else {
 			$slug = 'activate';
+		}
 
 		return apply_filters( 'bp_get_activate_slug', $slug );
 	}
