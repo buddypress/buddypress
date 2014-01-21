@@ -92,7 +92,7 @@ function bp_members_admin_bar_user_admin_menu() {
 		'href'  => bp_displayed_user_domain()
 	) );
 
-	if( bp_is_active( 'xprofile' ) ) {
+	if ( bp_is_active( 'xprofile' ) ) {
 		// User Admin > Edit this user's profile
 		$wp_admin_bar->add_menu( array(
 			'parent' => $bp->user_admin_menu_id,
@@ -102,12 +102,15 @@ function bp_members_admin_bar_user_admin_menu() {
 		) );
 
 		// User Admin > Edit this user's avatar
-		$wp_admin_bar->add_menu( array(
-			'parent' => $bp->user_admin_menu_id,
-			'id'     => $bp->user_admin_menu_id . '-change-avatar',
-			'title'  => __( "Edit Avatar", 'buddypress' ),
-			'href'   => bp_get_members_component_link( 'profile', 'change-avatar' )
-		) );
+		if ( buddypress()->avatar->show_avatars ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => $bp->user_admin_menu_id,
+				'id'     => $bp->user_admin_menu_id . '-change-avatar',
+				'title'  => __( "Edit Avatar", 'buddypress' ),
+				'href'   => bp_get_members_component_link( 'profile', 'change-avatar' )
+			) );
+		}
+
 	}
 
 	if ( bp_is_active( 'settings' ) ) {

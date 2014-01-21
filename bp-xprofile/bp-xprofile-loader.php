@@ -200,15 +200,17 @@ class BP_XProfile_Component extends BP_Component {
 		);
 
 		// Change Avatar
-		$sub_nav[] = array(
-			'name'            => __( 'Change Avatar', 'buddypress' ),
-			'slug'            => 'change-avatar',
-			'parent_url'      => $profile_link,
-			'parent_slug'     => $this->slug,
-			'screen_function' => 'xprofile_screen_change_avatar',
-			'position'        => 30,
-			'user_has_access' => bp_core_can_edit_settings()
-		);
+		if ( buddypress()->avatar->show_avatars ) {
+			$sub_nav[] = array(
+				'name'            => __( 'Change Avatar', 'buddypress' ),
+				'slug'            => 'change-avatar',
+				'parent_url'      => $profile_link,
+				'parent_slug'     => $this->slug,
+				'screen_function' => 'xprofile_screen_change_avatar',
+				'position'        => 30,
+				'user_has_access' => bp_core_can_edit_settings()
+			);
+		}
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
@@ -252,13 +254,15 @@ class BP_XProfile_Component extends BP_Component {
 				'href'   => trailingslashit( $profile_link . 'edit' )
 			);
 
-			// Edit Profile
-			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-change-avatar',
-				'title'  => __( 'Change Avatar', 'buddypress' ),
-				'href'   => trailingslashit( $profile_link . 'change-avatar' )
-			);
+			// Edit Avatar
+			if ( buddypress()->avatar->show_avatars ) {
+				$wp_admin_nav[] = array(
+					'parent' => 'my-account-' . $this->id,
+					'id'     => 'my-account-' . $this->id . '-change-avatar',
+					'title'  => __( 'Change Avatar', 'buddypress' ),
+					'href'   => trailingslashit( $profile_link . 'change-avatar' )
+				);
+			}
 
 		}
 
