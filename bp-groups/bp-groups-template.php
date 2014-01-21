@@ -30,8 +30,7 @@ function bp_groups_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_groups_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_groups_slug', $bp->groups->slug );
+		return apply_filters( 'bp_get_groups_slug', buddypress()->groups->slug );
 	}
 
 /**
@@ -54,8 +53,7 @@ function bp_groups_root_slug() {
 	 * @since BuddyPress (1.5)
 	 */
 	function bp_get_groups_root_slug() {
-		global $bp;
-		return apply_filters( 'bp_get_groups_root_slug', $bp->groups->root_slug );
+		return apply_filters( 'bp_get_groups_root_slug', buddypress()->groups->root_slug );
 	}
 
 /**
