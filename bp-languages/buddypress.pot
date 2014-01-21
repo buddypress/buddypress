@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-01-21 00:35:16+00:00\n"
+"POT-Creation-Date: 2014-01-21 02:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -313,7 +313,7 @@ msgstr ""
 #: bp-forums/bp-forums-template.php:2112 bp-groups/bp-groups-admin.php:1391
 #: bp-themes/bp-default/functions.php:509 bp-xprofile/bp-xprofile-admin.php:456
 #: bp-xprofile/bp-xprofile-loader.php:193
-#: bp-xprofile/bp-xprofile-loader.php:251
+#: bp-xprofile/bp-xprofile-loader.php:253
 msgid "Edit"
 msgstr ""
 
@@ -651,7 +651,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:212
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:212
-#: bp-xprofile/bp-xprofile-loader.php:281
+#: bp-xprofile/bp-xprofile-loader.php:285
 msgid "Profile picture of %s"
 msgstr ""
 
@@ -828,7 +828,7 @@ msgstr ""
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-themes/bp-default/functions.php:166
 #: bp-xprofile/bp-xprofile-loader.php:183
-#: bp-xprofile/bp-xprofile-loader.php:243
+#: bp-xprofile/bp-xprofile-loader.php:245
 msgid "View"
 msgstr ""
 
@@ -1991,7 +1991,7 @@ msgstr ""
 
 #: bp-core/bp-core-loader.php:227 bp-members/bp-members-loader.php:171
 #: bp-xprofile/bp-xprofile-loader.php:162
-#: bp-xprofile/bp-xprofile-loader.php:235
+#: bp-xprofile/bp-xprofile-loader.php:237
 msgid "Profile"
 msgstr ""
 
@@ -2168,7 +2168,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:45
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
-#: bp-xprofile/bp-xprofile-loader.php:276
+#: bp-xprofile/bp-xprofile-loader.php:280
 msgid "My Profile"
 msgstr ""
 
@@ -3181,7 +3181,7 @@ msgstr ""
 msgid "Edit Settings"
 msgstr ""
 
-#: bp-groups/bp-groups-adminbar.php:64 bp-members/bp-members-adminbar.php:108
+#: bp-groups/bp-groups-adminbar.php:64 bp-members/bp-members-adminbar.php:109
 msgid "Edit Avatar"
 msgstr ""
 
@@ -3940,12 +3940,12 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:118
+#: bp-members/bp-members-adminbar.php:121
 #: bp-members/bp-members-buddybar.php:105
 msgid "User Capabilities"
 msgstr ""
 
-#: bp-members/bp-members-adminbar.php:126
+#: bp-members/bp-members-adminbar.php:129
 #: bp-settings/bp-settings-loader.php:131
 #: bp-settings/bp-settings-loader.php:188
 #: bp-templates/bp-legacy/buddypress/members/single/settings/delete-account.php:27
@@ -5682,8 +5682,8 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:1
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
-#: bp-xprofile/bp-xprofile-loader.php:204
-#: bp-xprofile/bp-xprofile-loader.php:259
+#: bp-xprofile/bp-xprofile-loader.php:205
+#: bp-xprofile/bp-xprofile-loader.php:262
 msgid "Change Avatar"
 msgstr ""
 
