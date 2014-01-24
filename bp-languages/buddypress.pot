@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-01-21 23:35:16+00:00\n"
+"POT-Creation-Date: 2014-01-24 23:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1573,10 +1573,6 @@ msgstr ""
 
 #: bp-core/bp-core-admin.php:451
 msgid "Three new widgets, allowing easier site customization."
-msgstr ""
-
-#: bp-core/bp-core-admin.php:455 bp-core/bp-core-admin.php:563
-msgid "Version %s"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:459 bp-core/bp-core-admin.php:567
