@@ -28,7 +28,7 @@ class BP_Groups_Widget extends WP_Widget {
 
 		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-			wp_enqueue_script( 'groups_widget_groups_list-js', BP_PLUGIN_URL . "bp-groups/js/widget-groups{$min}.js", array( 'jquery' ), bp_get_version() );
+			wp_enqueue_script( 'groups_widget_groups_list-js', buddypress()->plugin_url . "bp-groups/js/widget-groups{$min}.js", array( 'jquery' ), bp_get_version() );
 		}
 	}
 

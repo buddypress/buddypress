@@ -18,11 +18,11 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @since BuddyPress (1.5.0)
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::start(
 			'friends',
 			__( 'Friend Connections', 'buddypress' ),
-			BP_PLUGIN_DIR,
+			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 60
 			)

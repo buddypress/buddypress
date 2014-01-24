@@ -1777,7 +1777,7 @@ function bp_activity_comments( $args = '' ) {
 				// older themes (which are not children of bp-default and won't
 				// have the new template) will still work.
 				if ( !$template ) {
-					$template = BP_PLUGIN_DIR . '/bp-themes/bp-default/activity/comment.php';
+					$template = buddypress()->plugin_dir . '/bp-themes/bp-default/activity/comment.php';
 				}
 
 				load_template( $template, false );

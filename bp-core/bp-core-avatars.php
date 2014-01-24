@@ -12,6 +12,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function bp_core_set_avatar_constants() {
 
+	$bp = buddypress();
+
 	if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
 		define( 'BP_AVATAR_THUMB_WIDTH', 50 );
 
@@ -29,8 +31,6 @@ function bp_core_set_avatar_constants() {
 
 	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
 
-		$bp = buddypress();
-
 		if ( !isset( $bp->site_options['fileupload_maxk'] ) ) {
 			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', 5120000 ); // 5mb
 		} else {
@@ -39,10 +39,10 @@ function bp_core_set_avatar_constants() {
 	}
 
 	if ( !defined( 'BP_AVATAR_DEFAULT' ) )
-		define( 'BP_AVATAR_DEFAULT', BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg' );
+		define( 'BP_AVATAR_DEFAULT', $bp->plugin_url . 'bp-core/images/mystery-man.jpg' );
 
 	if ( !defined( 'BP_AVATAR_DEFAULT_THUMB' ) )
-		define( 'BP_AVATAR_DEFAULT_THUMB', BP_PLUGIN_URL . 'bp-core/images/mystery-man-50.jpg' );
+		define( 'BP_AVATAR_DEFAULT_THUMB', $bp->plugin_url . 'bp-core/images/mystery-man-50.jpg' );
 
 	if ( ! defined( 'BP_SHOW_AVATARS' ) ) {
 		define( 'BP_SHOW_AVATARS', bp_get_option( 'show_avatars' ) );
@@ -471,7 +471,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	// No avatar was found, and we've been told not to use a gravatar.
 	} else {
-		$gravatar = apply_filters( "bp_core_default_avatar_$object", BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg', $params );
+		$gravatar = apply_filters( "bp_core_default_avatar_$object", $bp->plugin_url . 'bp-core/images/mystery-man.jpg', $params );
 	}
 
 	if ( true === $html ) {

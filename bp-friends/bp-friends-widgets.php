@@ -59,7 +59,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 		}
 
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		wp_enqueue_script( 'bp_core_widget_friends-js', BP_PLUGIN_URL . "bp-friends/js/widget-friends{$min}.js", array( 'jquery' ), bp_get_version() );
+		wp_enqueue_script( 'bp_core_widget_friends-js', buddypress()->plugin_url . "bp-friends/js/widget-friends{$min}.js", array( 'jquery' ), bp_get_version() );
 
 		$user_id = bp_displayed_user_id();
 		$link = trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() );

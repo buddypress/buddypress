@@ -54,7 +54,7 @@ function bp_forums_configure_existing_install() {
 }
 
 function bp_forums_bbpress_install( $location = '' ) {
-	global $wpdb, $bbdb, $bp;
+	global $wpdb, $bbdb;
 
 	check_admin_referer( 'bp_forums_new_install_init' );
 
@@ -62,9 +62,11 @@ function bp_forums_bbpress_install( $location = '' ) {
 		$location = ABSPATH . 'bb-config.php';
 	}
 
+	$bp = buddypress();
+
 	// Create the bb-config.php file
 	$initial_write = bp_forums_bbpress_write(
-		BP_PLUGIN_DIR . '/bp-forums/bbpress/bb-config-sample.php',
+		$bp->plugin_dir . '/bp-forums/bbpress/bb-config-sample.php',
 		$location,
 		array(
 			"define( 'BBDB_NAME',"  => array( "'bbpress'",                     	"'" . DB_NAME . "'" ),
@@ -96,7 +98,7 @@ function bp_forums_bbpress_install( $location = '' ) {
 
 	$file .= "\n" .   '$bb->custom_user_table = \'' . $wpdb->users . '\';';
 	$file .= "\n" .   '$bb->custom_user_meta_table = \'' . $wpdb->usermeta . '\';';
-	$file .= "\n\n" . '$bb->uri = \'' . BP_PLUGIN_URL . '/bp-forums/bbpress/\';';
+	$file .= "\n\n" . '$bb->uri = \'' . $bp->plugin_url . '/bp-forums/bbpress/\';';
 	$file .= "\n" .   '$bb->name = \'' . get_blog_option( bp_get_root_blog_id(), 'blogname' ) . ' ' . __( 'Forums', 'buddypress' ) . '\';';
 
 	if ( is_multisite() ) {

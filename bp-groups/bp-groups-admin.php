@@ -68,7 +68,6 @@ add_filter( 'bp_admin_menu_order', 'bp_groups_admin_menu_order' );
  *
  * @since BuddyPress (1.7.0)
  *
- * @global object $bp BuddyPress global settings
  * @global BP_Groups_List_Table $bp_groups_list_table Groups screen list table
  */
 function bp_groups_admin_load() {
@@ -166,9 +165,11 @@ function bp_groups_admin_load() {
 		);
 	}
 
+	$bp = buddypress();
+
 	// Enqueue CSS and JavaScript
-	wp_enqueue_script( 'bp_groups_admin_js', BP_PLUGIN_URL . "bp-groups/admin/js/admin.{$min}js", array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), bp_get_version(), true );
-	wp_enqueue_style( 'bp_groups_admin_css', BP_PLUGIN_URL . "bp-groups/admin/css/admin.{$min}css", array(), bp_get_version() );
+	wp_enqueue_script( 'bp_groups_admin_js', $bp->plugin_url . "bp-groups/admin/js/admin.{$min}js", array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), bp_get_version(), true );
+	wp_enqueue_style( 'bp_groups_admin_css', $bp->plugin_url . "bp-groups/admin/css/admin.{$min}css", array(), bp_get_version() );
 
 	wp_localize_script( 'bp_groups_admin_js', 'BP_Group_Admin', array(
 		'add_member_placeholder' => __( 'Start typing a username to add a new member.', 'buddypress' ),

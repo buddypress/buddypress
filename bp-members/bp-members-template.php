@@ -1138,7 +1138,7 @@ function bp_signup_avatar( $args = '' ) {
 	echo bp_get_signup_avatar( $args );
 }
 	function bp_get_signup_avatar( $args = '' ) {
-		global $bp;
+		$bp = buddypress();
 
 		$defaults = array(
 			'size' => bp_core_avatar_full_width(),
@@ -1169,7 +1169,7 @@ function bp_signup_avatar( $args = '' ) {
 			if ( empty( $bp->grav_default->user ) )
 				$default_grav = 'wavatar';
 			else if ( 'mystery' == $bp->grav_default->user )
-				$default_grav = BP_PLUGIN_URL . 'bp-core/images/mystery-man.jpg';
+				$default_grav = $bp->plugin_url . 'bp-core/images/mystery-man.jpg';
 			else
 				$default_grav = $bp->grav_default->user;
 

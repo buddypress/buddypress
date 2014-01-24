@@ -352,7 +352,7 @@ function bp_dtheme_new_activity_comment() {
 	 * have the new template) will still work.
 	 */
 	if ( empty( $template ) )
-		$template = BP_PLUGIN_DIR . '/bp-themes/bp-default/activity/comment.php';
+		$template = buddypress()->plugin_dir . '/bp-themes/bp-default/activity/comment.php';
 
 	load_template( $template, false );
 

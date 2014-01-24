@@ -156,7 +156,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 		if ( is_active_widget( false, false, $this->id_base ) && !is_admin() && !is_network_admin() ) {
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-			wp_enqueue_script( 'bp_core_widget_members-js', BP_PLUGIN_URL . "bp-core/js/widget-members{$min}.js", array( 'jquery' ), bp_get_version() );
+			wp_enqueue_script( 'bp_core_widget_members-js', buddypress()->plugin_url . "bp-core/js/widget-members{$min}.js", array( 'jquery' ), bp_get_version() );
 		}
 	}
 

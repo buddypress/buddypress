@@ -21,11 +21,11 @@ class BP_Core extends BP_Component {
 	 *
 	 * @uses BP_Core::bootstrap()
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::start(
 			'core',
-			__( 'BuddyPress Core', 'buddypress' )
-			, BP_PLUGIN_DIR
+			__( 'BuddyPress Core', 'buddypress' ),
+			buddypress()->plugin_dir
 		);
 
 		$this->bootstrap();
@@ -95,14 +95,18 @@ class BP_Core extends BP_Component {
 		}
 
 		// Loop through optional components
-		foreach( $bp->optional_components as $component )
-			if ( bp_is_active( $component ) && file_exists( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) )
-				include( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' );
+		foreach( $bp->optional_components as $component ) {
+			if ( bp_is_active( $component ) && file_exists( $bp->plugin_dir . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) ) {
+				include( $bp->plugin_dir . '/bp-' . $component . '/bp-' . $component . '-loader.php' );
+			}
+		}
 
 		// Loop through required components
-		foreach( $bp->required_components as $component )
-			if ( file_exists( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) )
-				include( BP_PLUGIN_DIR . '/bp-' . $component . '/bp-' . $component . '-loader.php' );
+		foreach( $bp->required_components as $component ) {
+			if ( file_exists( $bp->plugin_dir . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) ) {
+				include( $bp->plugin_dir . '/bp-' . $component . '/bp-' . $component . '-loader.php' );
+			}
+		}
 
 		// Add Core to required components
 		$bp->required_components[] = 'core';

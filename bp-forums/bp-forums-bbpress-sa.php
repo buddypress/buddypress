@@ -15,10 +15,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @return bool|null Returns false on failure.
  */
 function bp_forums_load_bbpress() {
-	global $bp, $wpdb, $wp_roles, $current_user, $wp_users_object;
+	global $wpdb, $wp_roles, $current_user, $wp_users_object;
 	global $bb, $bbdb, $bb_table_prefix, $bb_current_user;
 	global $bb_roles, $wp_taxonomy_object, $bb_queries;
-
+	
 	// Return if we've already run this function.
 	if ( is_object( $bbdb ) )
 		return;
@@ -26,9 +26,11 @@ function bp_forums_load_bbpress() {
 	if ( !bp_forums_is_installed_correctly() )
 		return false;
 
-	define( 'BB_PATH', BP_PLUGIN_DIR . '/bp-forums/bbpress/' );
-	define( 'BACKPRESS_PATH', BP_PLUGIN_DIR . '/bp-forums/bbpress/bb-includes/backpress/' );
-	define( 'BB_URL', BP_PLUGIN_URL . 'bp-forums/bbpress/' );
+	$bp = buddypress();
+
+	define( 'BB_PATH',        $bp->plugin_dir . '/bp-forums/bbpress/' );
+	define( 'BACKPRESS_PATH', $bp->plugin_dir . '/bp-forums/bbpress/bb-includes/backpress/' );
+	define( 'BB_URL',         $bp->plugin_url . 'bp-forums/bbpress/' );
 	define( 'BB_INC', 'bb-includes/' );
 
 	require( BB_PATH . BB_INC . 'class.bb-query.php' );

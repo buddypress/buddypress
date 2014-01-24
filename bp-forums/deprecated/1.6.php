@@ -191,7 +191,7 @@ function bp_forums_bbpress_install_wizard() {
 		break;
 
 		default:
-			if ( !file_exists( BP_PLUGIN_DIR . '/bp-forums/bbpress/' ) ) { ?>
+			if ( !file_exists( buddypress()->plugin_dir . '/bp-forums/bbpress/' ) ) { ?>
 
 				<div id="message" class="error">
 					<p><?php printf( __( 'bbPress files were not found. To install the forums component you must download a copy of bbPress and make sure it is in the folder: "%s"', 'buddypress' ), 'wp-content/plugins/buddypress/bp-forums/bbpress/' ) ?></p>
