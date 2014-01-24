@@ -367,15 +367,13 @@ body.branch-3-7.settings_page_bp-components tr.members.active td.plugin-title sp
 /* Version Badge */
 
 .bp-badge {
-	padding-top: 142px;
-	height: 50px;
-	width: 173px;
-	color: #fafafa;
-	font-weight: bold;
-	font-size: 14px;
-	text-align: center;
-	margin: 0 -5px;
-	background: url('../images/badge.png') no-repeat;
+	font: normal 150px/1 'dashicons' !important;
+	color: #000;
+	display: inline-block;
+}
+
+.bp-badge:before {
+	content: "\f448";
 }
 
 .about-wrap .bp-badge {
