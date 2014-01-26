@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-01-25 00:35:17+00:00\n"
+"POT-Creation-Date: 2014-01-26 15:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -600,7 +600,7 @@ msgid "Favorites"
 msgstr ""
 
 #: bp-activity/bp-activity-loader.php:193
-#: bp-activity/bp-activity-loader.php:296 bp-friends/bp-friends-loader.php:185
+#: bp-activity/bp-activity-loader.php:296 bp-friends/bp-friends-loader.php:187
 #: bp-friends/bp-friends-screens.php:85
 msgid "Friends"
 msgstr ""
@@ -608,7 +608,7 @@ msgstr ""
 #: bp-activity/bp-activity-loader.php:206
 #: bp-activity/bp-activity-loader.php:306 bp-core/bp-core-template.php:364
 #: bp-groups/bp-groups-admin.php:32 bp-groups/bp-groups-admin.php:33
-#: bp-groups/bp-groups-admin.php:639 bp-groups/bp-groups-loader.php:516
+#: bp-groups/bp-groups-admin.php:639 bp-groups/bp-groups-loader.php:518
 #: bp-groups/bp-groups-notifications.php:371
 #: bp-groups/bp-groups-notifications.php:407
 #: bp-groups/bp-groups-notifications.php:443
@@ -634,7 +634,7 @@ msgstr ""
 #: bp-activity/bp-activity-template.php:1320 bp-blogs/bp-blogs-loader.php:231
 #: bp-forums/bp-forums-loader.php:245 bp-forums/bp-forums-template.php:730
 #: bp-forums/bp-forums-template.php:960 bp-forums/bp-forums-template.php:1990
-#: bp-friends/bp-friends-loader.php:231 bp-groups/bp-groups-loader.php:577
+#: bp-friends/bp-friends-loader.php:233 bp-groups/bp-groups-loader.php:579
 #: bp-groups/bp-groups-template.php:768 bp-groups/bp-groups-template.php:791
 #: bp-groups/bp-groups-template.php:1220 bp-groups/bp-groups-template.php:1236
 #: bp-groups/bp-groups-template.php:1285 bp-groups/bp-groups-template.php:1301
@@ -646,7 +646,7 @@ msgstr ""
 #: bp-members/bp-members-template.php:839
 #: bp-messages/bp-messages-loader.php:258
 #: bp-messages/bp-messages-template.php:356
-#: bp-notifications/bp-notifications-loader.php:227
+#: bp-notifications/bp-notifications-loader.php:228
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:185
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:212
 #: bp-themes/bp-default/groups/single/admin.php:185
@@ -1124,8 +1124,8 @@ msgstr ""
 #: bp-core/admin/bp-core-components.php:383
 #: bp-notifications/bp-notifications-buddybar.php:28
 #: bp-notifications/bp-notifications-loader.php:26
-#: bp-notifications/bp-notifications-loader.php:179
-#: bp-notifications/bp-notifications-loader.php:222
+#: bp-notifications/bp-notifications-loader.php:180
+#: bp-notifications/bp-notifications-loader.php:223
 msgid "Notifications"
 msgstr ""
 
@@ -1885,7 +1885,7 @@ msgstr ""
 msgid "Activate your Account"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:445 bp-groups/bp-groups-loader.php:553
+#: bp-core/bp-core-filters.php:445 bp-groups/bp-groups-loader.php:555
 #: bp-groups/bp-groups-screens.php:1026 bp-groups/bp-groups-screens.php:1087
 #: bp-themes/bp-default/groups/create.php:18
 #: bp-themes/bp-default/groups/index.php:21
@@ -2561,12 +2561,12 @@ msgstr ""
 msgid "Search Friends..."
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:116
-msgid "Friends <span>%d</span>"
+#: bp-friends/bp-friends-loader.php:118
+msgid "Friends <span class=\"%s\">%s</span>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:137 bp-friends/bp-friends-loader.php:201
-#: bp-friends/bp-friends-loader.php:226
+#: bp-friends/bp-friends-loader.php:139 bp-friends/bp-friends-loader.php:203
+#: bp-friends/bp-friends-loader.php:228
 #: bp-templates/bp-legacy/buddypress/activity/index.php:104
 #: bp-templates/bp-legacy/buddypress/members/single/activity.php:35
 #: bp-themes/bp-default/activity/index.php:124
@@ -2574,19 +2574,19 @@ msgstr ""
 msgid "Friendships"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:147 bp-groups/bp-groups-template.php:1478
+#: bp-friends/bp-friends-loader.php:149 bp-groups/bp-groups-template.php:1478
 msgid "Requests"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:182
+#: bp-friends/bp-friends-loader.php:184
 msgid "Friends <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:183
+#: bp-friends/bp-friends-loader.php:185
 msgid "Pending Requests <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:186
+#: bp-friends/bp-friends-loader.php:188
 msgid "No Pending Requests"
 msgstr ""
 
@@ -3201,7 +3201,7 @@ msgstr ""
 msgid "Group Settings"
 msgstr ""
 
-#: bp-groups/bp-groups-buddybar.php:40 bp-groups/bp-groups-loader.php:590
+#: bp-groups/bp-groups-buddybar.php:40 bp-groups/bp-groups-loader.php:592
 msgid "Group Avatar"
 msgstr ""
 
@@ -3257,62 +3257,62 @@ msgstr ""
 msgid "Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:345
-msgid "Groups <span>%s</span>"
+#: bp-groups/bp-groups-loader.php:347
+msgid "Groups <span class=\"%s\">%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:367 bp-groups/bp-groups-loader.php:397
-#: bp-groups/bp-groups-loader.php:536 bp-groups/bp-groups-loader.php:571
+#: bp-groups/bp-groups-loader.php:369 bp-groups/bp-groups-loader.php:399
+#: bp-groups/bp-groups-loader.php:538 bp-groups/bp-groups-loader.php:573
 msgid "Memberships"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:378
+#: bp-groups/bp-groups-loader.php:380
 msgid "Invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:409
+#: bp-groups/bp-groups-loader.php:411
 msgctxt "Group home navigation title"
 msgid "Home"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:430 bp-groups/bp-groups-template.php:1824
+#: bp-groups/bp-groups-loader.php:432 bp-groups/bp-groups-template.php:1824
 #: bp-groups/bp-groups-template.php:1825
 #: bp-templates/bp-legacy/buddypress-functions.php:1121
 #: bp-themes/bp-default/_inc/ajax.php:780
 msgid "Request Membership"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:442
+#: bp-groups/bp-groups-loader.php:444
 msgid "Forum"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:454
+#: bp-groups/bp-groups-loader.php:456
 msgid "Members <span>%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:466
+#: bp-groups/bp-groups-loader.php:468
 #: bp-templates/bp-legacy/buddypress/groups/single/send-invites.php:60
 #: bp-themes/bp-default/groups/single/send-invites.php:60
 msgid "Send Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:480
+#: bp-groups/bp-groups-loader.php:482
 msgid "Admin"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:517
+#: bp-groups/bp-groups-loader.php:519
 msgid "No Pending Invites"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:520
+#: bp-groups/bp-groups-loader.php:522
 msgid "Groups <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:521
+#: bp-groups/bp-groups-loader.php:523
 msgid "Pending Invites <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:594
+#: bp-groups/bp-groups-loader.php:596
 msgid "No Group Avatar"
 msgstr ""
 
@@ -4159,9 +4159,8 @@ msgstr ""
 msgid "Search Messages..."
 msgstr ""
 
-#: bp-messages/bp-messages-loader.php:105
-#: bp-messages/bp-messages-screens.php:104
-msgid "Messages <span>%s</span>"
+#: bp-messages/bp-messages-loader.php:109
+msgid "Messages <span class=\"%s\">%s</span>"
 msgstr ""
 
 #: bp-messages/bp-messages-loader.php:132
@@ -4251,6 +4250,10 @@ msgstr ""
 msgid "Message sent successfully!"
 msgstr ""
 
+#: bp-messages/bp-messages-screens.php:104
+msgid "Messages <span>%s</span>"
+msgstr ""
+
 #: bp-messages/bp-messages-screens.php:125
 msgid "There was a problem deactivating that notice."
 msgstr ""
@@ -4300,15 +4303,15 @@ msgid "Select:"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:475
-#: bp-notifications/bp-notifications-loader.php:142
-#: bp-notifications/bp-notifications-loader.php:203
+#: bp-notifications/bp-notifications-loader.php:143
+#: bp-notifications/bp-notifications-loader.php:204
 #: bp-notifications/bp-notifications-template.php:733
 msgid "Read"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:476
-#: bp-notifications/bp-notifications-loader.php:131
-#: bp-notifications/bp-notifications-loader.php:180
+#: bp-notifications/bp-notifications-loader.php:132
+#: bp-notifications/bp-notifications-loader.php:181
 #: bp-notifications/bp-notifications-template.php:763
 msgid "Unread"
 msgstr ""
@@ -4402,15 +4405,15 @@ msgstr ""
 msgid "Search Notifications..."
 msgstr ""
 
-#: bp-notifications/bp-notifications-loader.php:109
-msgid "Notifications <span>%d</span>"
-msgstr ""
-
-#: bp-notifications/bp-notifications-loader.php:176
-msgid "Notifications <span class=\"count\">%s</span>"
+#: bp-notifications/bp-notifications-loader.php:110
+msgid "Notifications <span class=\"%s\">%s</span>"
 msgstr ""
 
 #: bp-notifications/bp-notifications-loader.php:177
+msgid "Notifications <span class=\"count\">%s</span>"
+msgstr ""
+
+#: bp-notifications/bp-notifications-loader.php:178
 msgid "Unread <span class=\"count\">%s</span>"
 msgstr ""
 
