@@ -112,8 +112,10 @@ class BP_Friends_Component extends BP_Component {
 		$bp = buddypress();
 
 		// Add 'Friends' to the main navigation
+		$count    = friends_get_total_friend_count();
+		$class    = ( 0 === $count ) ? 'no-count' : 'count';
 		$main_nav = array(
-			'name'                => sprintf( __( 'Friends <span>%d</span>', 'buddypress' ), friends_get_total_friend_count() ),
+			'name'                => sprintf( __( 'Friends <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), number_format_i18n( $count ) ),
 			'slug'                => $this->slug,
 			'position'            => 60,
 			'screen_function'     => 'friends_screen_my_friends',

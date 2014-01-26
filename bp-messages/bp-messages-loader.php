@@ -102,11 +102,11 @@ class BP_Messages_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		$name = sprintf( __( 'Messages <span>%s</span>', 'buddypress' ), bp_get_total_unread_messages_count() );
-
 		// Add 'Messages' to the main navigation
+		$count    = bp_get_total_unread_messages_count();
+		$class    = ( 0 === $count ) ? 'no-count' : 'count';
 		$main_nav = array(
-			'name'                    => $name,
+			'name'                    => sprintf( __( 'Messages <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), number_format_i18n( $count ) ),
 			'slug'                    => $this->slug,
 			'position'                => 50,
 			'show_for_displayed_user' => false,

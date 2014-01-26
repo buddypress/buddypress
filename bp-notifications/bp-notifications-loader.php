@@ -105,8 +105,9 @@ class BP_Notifications_Component extends BP_Component {
 
 		// Add 'Notifications' to the main navigation
 		$count    = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() );
+		$class    = ( 0 === $count ) ? 'no-count' : 'count';
 		$main_nav = array(
-			'name'                    => sprintf( __( 'Notifications <span>%d</span>', 'buddypress' ), number_format_i18n( $count ) ),
+			'name'                    => sprintf( __( 'Notifications <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), number_format_i18n( $count ) ),
 			'slug'                    => $this->slug,
 			'position'                => 30,
 			'show_for_displayed_user' => bp_core_can_edit_settings(),
