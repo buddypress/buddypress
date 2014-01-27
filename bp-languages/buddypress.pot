@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-01-26 15:35:15+00:00\n"
+"POT-Creation-Date: 2014-01-27 21:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3894,11 +3894,11 @@ msgstr ""
 msgid "No groups matched the current filter."
 msgstr ""
 
-#: bp-loader.php:165 bp-loader.php:172
+#: bp-loader.php:166 bp-loader.php:173
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: bp-loader.php:562
+#: bp-loader.php:563
 msgid "BuddyPress Default"
 msgstr ""
 
