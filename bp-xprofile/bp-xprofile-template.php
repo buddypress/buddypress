@@ -432,13 +432,20 @@ function bp_the_profile_field_options( $args = '' ) {
 	 * @uses BP_XProfile_Field::get_children()
 	 * @uses BP_XProfile_ProfileData::get_value_byid()
 	 *
-	 * @param array $args Specify type for datebox. Allowed 'day', 'month', 'year'.
+	 * @param array $args {
+	 *     Array of optional arguments.
+	 *     @type string|bool $type Type of datebox. False if it's not a
+	 *           datebox, otherwise 'day, 'month', or 'year'. Default: false.
+	 *     @type int $user_id ID of the user whose profile values should be
+	 *           used when rendering options. Default: displayed user.
+	 * }
 	 */
 	function bp_get_the_profile_field_options( $args = '' ) {
 		global $field;
 
 		$defaults = array(
-			'type' => false,
+			'type'    => false,
+			'user_id' => bp_displayed_user_id(),
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -471,7 +478,7 @@ function bp_the_profile_field_options( $args = '' ) {
 				$html .= '<option value="">' . /* translators: no option picked in select box */ __( '----', 'buddypress' ) . '</option>';
 
 				$original_option_values = '';
-				$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field->id ) );
+				$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id ) );
 
 				if ( empty( $original_option_values ) && !empty( $_POST['field_' . $field->id] ) ) {
 					$original_option_values = $_POST['field_' . $field->id];
@@ -511,7 +518,7 @@ function bp_the_profile_field_options( $args = '' ) {
 
 			case 'multiselectbox':
 				$original_option_values = '';
-				$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field->id ) );
+				$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id ) );
 
 				if ( empty( $original_option_values ) && !empty( $_POST['field_' . $field->id] ) ) {
 					$original_option_values = $_POST['field_' . $field->id];
@@ -550,7 +557,7 @@ function bp_the_profile_field_options( $args = '' ) {
 
 			case 'radio':
 				$html .= '<div id="field_' . $field->id . '">';
-				$option_value = BP_XProfile_ProfileData::get_value_byid( $field->id );
+				$option_value = BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id );
 
 				for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 
@@ -577,7 +584,7 @@ function bp_the_profile_field_options( $args = '' ) {
 				break;
 
 			case 'checkbox':
-				$option_values = BP_XProfile_ProfileData::get_value_byid( $field->id );
+				$option_values = BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id );
 				$option_values = (array) maybe_unserialize( $option_values );
 
 				// Check for updated posted values, but errors preventing them from being saved first time
@@ -615,7 +622,7 @@ function bp_the_profile_field_options( $args = '' ) {
 				break;
 
 			case 'datebox':
-				$date = BP_XProfile_ProfileData::get_value_byid( $field->id );
+				$date = BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id );
 
 				// Set day, month, year defaults
 				$day   = '';
