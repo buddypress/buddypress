@@ -292,11 +292,11 @@ class BP_Activity_Activity {
 		extract( $r );
 
 		// Select conditions
-		$select_sql = "SELECT DISTINCT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
+		$select_sql = "SELECT DISTINCT a.id";
 
-		$from_sql = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
+		$from_sql   = " FROM {$bp->activity->table_name} a";
 
-		$join_sql = '';
+		$join_sql   = '';
 
 		// Where conditions
 		$where_conditions = array();
@@ -377,21 +377,39 @@ class BP_Activity_Activity {
 			$index_hint_sql = '';
 		}
 
-		if ( !empty( $per_page ) && !empty( $page ) ) {
+		// Sanitize page and per_page parameters
+		$page     = absint( $page     );
+		$per_page = absint( $per_page );
 
-			// Make sure page values are absolute integers
-			$page     = absint( $page     );
-			$per_page = absint( $per_page );
+		// Filter and return true to use the legacy query structure (not recommended)
+		if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
 
-			$pag_sql    = $wpdb->prepare( "LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
-			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
+			// Legacy queries joined against the user table
+			$select_sql = "SELECT DISTINCT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
+			$from_sql   = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
+
+			if ( ! empty( $page ) && ! empty( $per_page ) ) {
+				$pag_sql    = $wpdb->prepare( "LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
+				$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
+			} else {
+				$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort ) );
+			}
+
 		} else {
-			$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort ) );
+
+			// Query first for activity IDs
+			$activity_ids_sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}";
+
+			if ( ! empty( $per_page ) && ! empty( $page ) ) {
+				$activity_ids_sql .= $wpdb->prepare( " LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
+			}
+
+			$activity_ids = $wpdb->get_col( $activity_ids_sql );
+			$activities   = self::get_activity_data( $activity_ids );
 		}
 
 		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$index_hint_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $where_sql, $sort );
-
-		$total_activities = $wpdb->get_var( $total_activities_sql );
+		$total_activities     = $wpdb->get_var( $total_activities_sql );
 
 		// Get the fullnames of users so we don't have to query in the loop
 		if ( bp_is_active( 'xprofile' ) && !empty( $activities ) ) {
@@ -400,12 +418,15 @@ class BP_Activity_Activity {
 
 			if ( !empty( $activity_user_ids ) ) {
 				if ( $names = $wpdb->get_results( "SELECT user_id, value AS user_fullname FROM {$bp->profile->table_name_data} WHERE field_id = 1 AND user_id IN ({$activity_user_ids})" ) ) {
-					foreach ( (array) $names as $name )
+
+					foreach ( (array) $names as $name ) {
 						$tmp_names[$name->user_id] = $name->user_fullname;
+					}
 
 					foreach ( (array) $activities as $i => $activity ) {
-						if ( !empty( $tmp_names[$activity->user_id] ) )
+						if ( !empty( $tmp_names[$activity->user_id] ) ) {
 							$activities[$i]->user_fullname = $tmp_names[$activity->user_id];
+						}
 					}
 
 					unset( $names );
@@ -434,6 +455,53 @@ class BP_Activity_Activity {
 		}
 
 		return array( 'activities' => $activities, 'total' => (int) $total_activities );
+	}
+
+	/**
+	 * Convert activity IDs to activity objects, as expected in template loop.
+	 *
+	 * @since 2.0
+	 *
+	 * @param array $activity_ids Array of activity IDs.
+	 * @return array
+	 */
+	protected static function get_activity_data( $activity_ids = array() ) {
+		global $wpdb;
+
+		// Bail if no activity ID's passed
+		if ( empty( $activity_ids ) ) {
+			return array();
+		}
+
+		// Get BuddyPress
+		$bp = buddypress();
+
+		// Format the activity ID's for use in the query below
+		$activity_ids_sql = implode( ',', wp_parse_id_list( $activity_ids ) );
+
+		// First fetch data from activity table, preserving order
+		$activities = $wpdb->get_results( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids_sql}) ORDER BY FIELD( id, {$activity_ids_sql} )");
+
+		// Then fetch user data
+		$user_query = new BP_User_Query( array(
+			'user_ids'        => wp_list_pluck( $activities, 'user_id' ),
+			'populate_extras' => false,
+		) );
+
+		// Associated located user data with activity items
+		foreach ( $activities as $a_index => $a_item ) {
+			$a_user_id = intval( $a_item->user_id );
+			$a_user    = isset( $user_query->results[ $a_user_id ] ) ? $user_query->results[ $a_user_id ] : '';
+
+			if ( !empty( $a_user ) ) {
+				$activities[ $a_index ]->user_email    = $a_user->user_email;
+				$activities[ $a_index ]->user_nicename = $a_user->user_nicename;
+				$activities[ $a_index ]->user_login    = $a_user->user_login;
+				$activities[ $a_index ]->display_name  = $a_user->display_name;
+			}
+		}
+
+		return $activities;
 	}
 
 	/**
