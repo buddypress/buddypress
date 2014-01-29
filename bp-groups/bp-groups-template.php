@@ -3154,3 +3154,57 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 		if ( !empty( $url ) )
 			return $url;
 	}
+
+/** Stats **********************************************************************/
+
+/**
+ * Display the number of groups in user's profile.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $args before|after|user_id
+ * @uses bp_groups_get_profile_stats() to get the stats
+ */
+function bp_groups_profile_stats( $args = '' ) {
+	echo bp_groups_get_profile_stats( $args );
+}
+add_action( 'bp_members_admin_user_stats', 'bp_groups_profile_stats', 8, 1 );
+
+/**
+ * Return the number of groups in user's profile.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $args before|after|user_id
+ * @return string HTML for stats output.
+ */
+function bp_groups_get_profile_stats( $args = '' ) {
+
+	// Parse the args
+	$r = bp_parse_args( $args, array(
+		'before'  => '<li class="bp-groups-profile-stats">',
+		'after'   => '</li>',
+		'user_id' => bp_displayed_user_id(),
+		'groups'  => 0,
+		'output'  => ''
+	), 'groups_get_profile_stats' );
+
+	// Allow completely overloaded output
+	if ( empty( $r['output'] ) ) {
+
+		// Only proceed if a user ID was passed
+		if ( ! empty( $r['user_id'] ) ) {
+
+			// Get the user groups
+			if ( empty( $r['groups'] ) ) {
+				$r['groups'] = absint( bp_get_total_group_count_for_user( $r['user_id'] ) );
+			}
+
+			// If groups exist, show some formatted output
+			$r['output'] = $r['before'] . sprintf( _n( '1 group', '<strong>%s</strong> groups', $r['groups'], 'buddypress' ), $r['groups'] ) . $r['after'];
+		}
+	}
+
+	// Filter and return
+	return apply_filters( 'bp_groups_get_profile_stats', $r['output'], $r );
+}

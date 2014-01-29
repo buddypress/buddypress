@@ -1186,3 +1186,57 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 		// Filter and return the HTML button
 		return bp_get_button( apply_filters( 'bp_get_blogs_visit_blog_button', $button ) );
 	}
+
+/** Stats **********************************************************************/
+
+/**
+ * Display the number of blogs in user's profile.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $args before|after|user_id
+ * @uses bp_blogs_admin_get_profile_stats() to get the stats
+ */
+function bp_blogs_profile_stats( $args = '' ) {
+	echo bp_blogs_get_profile_stats( $args );
+}
+add_action( 'bp_members_admin_user_stats', 'bp_blogs_profile_stats', 9, 1 );
+
+/**
+ * Return the number of blogs in user's profile.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $args before|after|user_id
+ * @return string HTML for stats output.
+ */
+function bp_blogs_get_profile_stats( $args = '' ) {
+
+	// Parse the args
+	$r = bp_parse_args( $args, array(
+		'before'  => '<li class="bp-blogs-profile-stats">',
+		'after'   => '</li>',
+		'user_id' => bp_displayed_user_id(),
+		'blogs'   => 0,
+		'output'  => ''
+	), 'blogs_get_profile_stats' );
+
+	// Allow completely overloaded output
+	if ( is_multisite() && empty( $r['output'] ) ) {
+
+		// Only proceed if a user ID was passed
+		if ( ! empty( $r['user_id'] ) ) {
+
+			// Get the user groups
+			if ( empty( $r['blogs'] ) ) {
+				$r['blogs'] = absint( bp_blogs_total_blogs_for_user( $r['user_id'] ) );
+			}
+
+			// If groups exist, show some formatted output
+			$r['output'] = $r['before'] . sprintf( _n( '1 site', '<strong>%s</strong> sites', $r['blogs'], 'buddypress' ), $r['blogs'] ) . $r['after'];
+		}
+	}
+
+	// Filter and return
+	return apply_filters( 'bp_blogs_get_profile_stats', $r['output'], $r );
+}

@@ -466,3 +466,470 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 
 <?php
 }
+
+if ( ! class_exists( 'BP_XProfile_User_Admin' ) ) :
+/**
+ * Load xProfile Profile admin area.
+ *
+ * @package BuddyPress
+ * @subpackage xProfileAdministration
+ *
+ * @since BuddyPress (2.0.0)
+ */
+class BP_XProfile_User_Admin {
+
+	/**
+	 * Setup xProfile User Admin.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @uses buddypress() to get BuddyPress main instance
+	 */
+	public static function register_xprofile_user_admin() {
+		if( ! is_admin() )
+			return;
+
+		$bp = buddypress();
+
+		if( empty( $bp->profile->admin ) ) {
+			$bp->profile->admin = new self;
+		}
+
+		return $bp->profile->admin;
+	}
+
+	/**
+	 * Constructor method.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 */
+	public function __construct() {
+		$this->setup_actions();
+	}
+
+	/**
+	 * Set admin-related actions and filters.
+	 *
+	 * @access private
+	 * @since BuddyPress (2.0.0)
+	 */
+	private function setup_actions() {
+
+		/** Actions ***************************************************/
+
+		// Register the metabox in Member's community admin profile
+		add_action( 'bp_members_admin_xprofile_metabox', array( $this, 'register_metaboxes' ), 10, 3 );
+
+		// Saves the profile actions for user ( avatar, profile fields )
+		add_action( 'bp_members_admin_update_user',      array( $this, 'user_admin_load' ),    10, 4 );
+
+	}
+
+	/**
+	 * Register the xProfile metabox on Community Profile admin page.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param int $user_id ID of the user being edited.
+	 * @param string $screen_id Screen ID to load the metabox in.
+	 * @param object $stats_metabox Context and priority for the stats metabox.
+	 */
+	public function register_metaboxes( $user_id = 0, $screen_id = '', $stats_metabox = null ) {
+
+		if ( empty( $screen_id ) ) {
+			$screen_id = buddypress()->members->admin->user_page;
+		}
+
+		if ( empty( $stats_metabox ) ) {
+			$stats_metabox = new StdClass();
+		}
+
+		// Moving the Stats Metabox
+		$stats_metabox->context = 'side';
+		$stats_metabox->priority = 'low';
+
+		// Each Group of fields will have his own metabox
+		if ( false == bp_is_user_spammer( $user_id ) && bp_has_profile( array( 'fetch_fields' => false ) ) ) {
+			while ( bp_profile_groups() ) : bp_the_profile_group();
+				add_meta_box( 'bp_xprofile_user_admin_fields_' . sanitize_key( bp_get_the_profile_group_slug() ), esc_html( bp_get_the_profile_group_name() ), array( &$this, 'user_admin_profile_metaboxes' ), $screen_id, 'normal', 'core', array( 'profile_group_id' => absint( bp_get_the_profile_group_id() ) ) );
+			endwhile;
+
+		// if a user has been mark as a spammer, his BuddyPress datas are removed !
+		} else {
+			add_meta_box( 'bp_xprofile_user_admin_empty_profile', _x( 'User marked as a spammer', 'xprofile user-admin edit screen', 'buddypress' ), array( &$this, 'user_admin_spammer_metabox' ), $screen_id, 'normal', 'core' );
+		}
+
+		// Avatar Metabox
+		add_meta_box( 'bp_xprofile_user_admin_avatar',  _x( 'Avatar', 'xprofile user-admin edit screen', 'buddypress' ), array( &$this, 'user_admin_avatar_metabox' ), $screen_id, 'side', 'low' );
+
+	}
+
+	/**
+	 * Save the profile fields in Members community profile page.
+	 *
+	 * Loaded before the page is rendered, this function is processing form
+	 * requests.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 */
+	public function user_admin_load( $doaction = '', $user_id = 0, $request = array(), $redirect_to = '' ) {
+
+		// Eventually delete avatar
+		if ( 'delete_avatar' == $doaction ) {
+
+			check_admin_referer( 'delete_avatar' );
+
+			$redirect_to = remove_query_arg( '_wpnonce', $redirect_to );
+
+			if ( bp_core_delete_existing_avatar( array( 'item_id' => $user_id ) ) ) {
+				$redirect_to = add_query_arg( 'updated', 'avatar', $redirect_to );
+			} else {
+				$redirect_to = add_query_arg( 'error', 'avatar', $redirect_to );
+			}
+
+			bp_core_redirect( $redirect_to );
+
+		// Update profile fields
+		} else {
+			// Check to see if any new information has been submitted
+			if ( isset( $_POST['field_ids'] ) ) {
+
+				// Check the nonce
+				check_admin_referer( 'edit-bp-profile_' . $user_id );
+
+				// Check we have field ID's
+				if ( empty( $_POST['field_ids'] ) ) {
+					$redirect_to = add_query_arg( 'error', '1', $redirect_to );
+					bp_core_redirect( $redirect_to );
+				}
+
+				$merge_ids = '';
+				foreach ( $_POST['field_ids'] as $ids ) {
+					$merge_ids .= $ids . ',';
+				}
+
+				// Explode the posted field IDs into an array so we know which
+				// fields have been submitted
+				$posted_field_ids = array_filter( wp_parse_id_list( $merge_ids ) );
+				$is_required      = array();
+
+				// Loop through the posted fields formatting any datebox values
+				// then validate the field
+				foreach ( (array) $posted_field_ids as $field_id ) {
+					if ( ! isset( $_POST['field_' . $field_id] ) ) {
+						if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
+							// Concatenate the values
+							$date_value =   $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
+
+							// Turn the concatenated value into a timestamp
+							$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
+						}
+					}
+
+					$is_required[ $field_id ] = xprofile_check_is_required_field( $field_id );
+					if ( $is_required[ $field_id ] && empty( $_POST['field_' . $field_id] ) ) {
+						$redirect_to = add_query_arg( 'error', '2', $redirect_to );
+						bp_core_redirect( $redirect_to );
+					}
+				}
+
+				// Set the errors var
+				$errors = false;
+
+				// Now we've checked for required fields, lets save the values.
+				foreach ( (array) $posted_field_ids as $field_id ) {
+
+					// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.
+					if ( empty( $_POST['field_' . $field_id] ) ) {
+						$value = array();
+					} else {
+						$value = $_POST['field_' . $field_id];
+					}
+
+					if ( ! xprofile_set_field_data( $field_id, $user_id, $value, $is_required[ $field_id ] ) ) {
+						$errors = true;
+					} else {
+						do_action( 'xprofile_profile_field_data_updated', $field_id, $value );
+					}
+
+					// Save the visibility level
+					$visibility_level = ! empty( $_POST['field_' . $field_id . '_visibility'] ) ? $_POST['field_' . $field_id . '_visibility'] : 'public';
+					xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
+				}
+
+				do_action( 'xprofile_updated_profile', $user_id, $posted_field_ids, $errors );
+
+				// Set the feedback messages
+				if ( ! empty( $errors ) ) {
+					$redirect_to = add_query_arg( 'error', '3', $redirect_to );
+				} else {
+					$redirect_to = add_query_arg( 'updated', '1', $redirect_to );
+				}
+
+				bp_core_redirect( $redirect_to );
+			}
+		}
+	}
+
+	/**
+	 * Render the xprofile metabox for Community Profile screen.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param WP_User $user The WP_User object for the user being edited.
+	 */
+	public function user_admin_profile_metaboxes( $user = null, $args = array() ) {
+
+		if ( empty( $user->ID ) ) {
+			return;
+		}
+
+		$r = bp_parse_args( $args['args'], array(
+			'profile_group_id' => 0,
+			'user_id'          => $user->ID
+		), 'bp_xprofile_user_admin_profile_loop_args' );
+
+		// We really need these args
+		if ( empty( $r['profile_group_id'] ) || empty( $r['user_id'] ) ) {
+			return;
+		}
+
+		if ( bp_has_profile( $r ) ) :
+
+			while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+
+				<p class="description"><?php bp_the_profile_group_description(); ?></p>
+
+				<table class="form-table">
+					<tbody>
+
+					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+
+						<tr>
+
+							<?php if ( 'textbox' === bp_get_the_profile_field_type() ) : ?>
+
+								<th><label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label></th>
+								<td class="admin-field-<?php bp_the_profile_field_type();?>">
+									<input type="text" name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" value="<?php bp_the_profile_field_edit_value(); ?>" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>/>
+									<span class="description"><?php bp_the_profile_field_description(); ?></span>
+								</td>
+
+							<?php endif; ?>
+
+							<?php if ( 'textarea' === bp_get_the_profile_field_type() ) : ?>
+
+								<th><label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label></th>
+								<td class="admin-field-<?php bp_the_profile_field_type();?>">
+									<textarea rows="5" cols="40" name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>><?php bp_the_profile_field_edit_value(); ?></textarea>
+									<p class="description"><?php bp_the_profile_field_description(); ?></p>
+								</td>
+
+							<?php endif; ?>
+
+							<?php if ( 'selectbox' === bp_get_the_profile_field_type() ) : ?>
+
+								<th><label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label></th>
+								<td class="admin-field-<?php bp_the_profile_field_type();?>">
+									<select name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
+										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], ) ); ?>
+									</select>
+									<span class="description"><?php bp_the_profile_field_description(); ?></span>
+								</td>
+
+							<?php endif; ?>
+
+							<?php if ( 'multiselectbox' === bp_get_the_profile_field_type() ) : ?>
+
+								<th><label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label></th>
+								<td class="admin-field-<?php bp_the_profile_field_type();?>">
+									<select name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" multiple="multiple" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
+
+										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], ) ); ?>
+
+									</select>
+
+
+									<?php if ( !bp_get_the_profile_field_is_required() ) : ?>
+
+										<p><a class="clear-value" href="javascript:clear( '<?php bp_the_profile_field_input_name(); ?>' );"><?php _e( 'Clear', 'buddypress' ); ?></a></p>
+
+									<?php endif; ?>
+									<p class="description"><?php bp_the_profile_field_description(); ?></p>
+								</td>
+
+							<?php endif; ?>
+
+							<?php if ( 'radio' === bp_get_the_profile_field_type() ) : ?>
+
+								<th>
+									<span class="label"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></span>
+								</th>
+								<td class="admin-field-<?php bp_the_profile_field_type();?>">
+									<fieldset>
+										<legend class="screen-reader-text"><span><?php bp_the_profile_field_name(); ?></span></legend>
+										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], ) ); ?>
+									</fieldset>
+
+									<?php if ( !bp_get_the_profile_field_is_required() ) : ?>
+
+										<p><a class="clear-value" href="javascript:clear( '<?php bp_the_profile_field_input_name(); ?>' );"><?php _e( 'Clear', 'buddypress' ); ?></a></p>
+
+									<?php endif; ?>
+									<p class="description"><?php bp_the_profile_field_description(); ?></p>
+								</td>
+
+							<?php endif; ?>
+
+							<?php if ( 'checkbox' === bp_get_the_profile_field_type() ) : ?>
+
+								<th>
+									<span class="label"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></span>
+								</th>
+								<td class="admin-field-<?php bp_the_profile_field_type();?>">
+									<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], ) ); ?>
+									<p class="description"><?php bp_the_profile_field_description(); ?></p>
+								</td>
+
+							<?php endif; ?>
+
+							<?php if ( 'datebox' === bp_get_the_profile_field_type() ) : ?>
+
+								<th>
+									<label for="<?php bp_the_profile_field_input_name(); ?>_day"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+								</th>
+								<td class="admin-field-<?php bp_the_profile_field_type();?>">
+									<select name="<?php bp_the_profile_field_input_name(); ?>_day" id="<?php bp_the_profile_field_input_name(); ?>_day" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
+
+										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], 'type' => 'day', ) ); ?>
+
+									</select>
+
+									<select name="<?php bp_the_profile_field_input_name(); ?>_month" id="<?php bp_the_profile_field_input_name(); ?>_month" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
+
+										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], 'type' => 'month', ) ); ?>
+
+									</select>
+
+									<select name="<?php bp_the_profile_field_input_name(); ?>_year" id="<?php bp_the_profile_field_input_name(); ?>_year" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
+
+										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], 'type' => 'year', ) ); ?>
+
+									</select>
+									<p class="description"><?php bp_the_profile_field_description(); ?></p>
+								</td>
+
+							<?php endif; ?>
+
+						</tr>
+
+						<tr class="admin-field-visibility-tr">
+							<td class="admin-field-visibility-td">&nbsp;</td>
+							<td class="admin-field-visibility-td">
+
+								<?php do_action( 'bp_custom_profile_edit_fields_pre_visibility' ); ?>
+
+								<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
+									<p class="description field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
+										<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?> <a href="#" class="visibility-toggle-link"><?php _e( 'Change', 'buddypress' ); ?></a>
+									</p>
+
+									<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
+										<fieldset>
+											<legend><?php esc_html_e( 'Who can see this field?', 'buddypress' ) ?></legend>
+
+											<?php bp_profile_visibility_radio_buttons() ?>
+
+										</fieldset>
+										<a class="field-visibility-settings-close" href="#"><?php esc_html_e( 'Close', 'buddypress' ) ?></a>
+									</div>
+								<?php else : ?>
+									<div class="field-visibility-settings-notoggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
+										<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?>
+									</div>
+								<?php endif ?>
+
+							</td>
+						</tr>
+
+					<?php endwhile; ?>
+					</tbody>
+
+				</table>
+				<input type="hidden" name="field_ids[]" id="field_ids_<?php bp_the_profile_group_slug(); ?>" value="<?php bp_the_profile_group_field_ids(); ?>" />
+			<?php endwhile;
+		endif;
+	}
+
+	/**
+	 * Render the fallback metabox in case a user has been marked as a spammer.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param WP_User $user The WP_User object for the user being edited.
+	 */
+	public function user_admin_spammer_metabox( $user = null ) {
+		?>
+		<p><?php printf( __( '%s has been marked as a spammer, this user&#39;s BuddyPress datas were removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) ) ;?></p>
+		<?php
+	}
+
+	/**
+	 * Render the Avatar metabox to moderate inappropriate images.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param WP_User $user The WP_User object for the user being edited.
+	 */
+	public function user_admin_avatar_metabox( $user = null ) {
+
+		if ( empty( $user->ID ) ) {
+			return;
+		}
+
+		$args = array(
+			'item_id' => $user->ID,
+			'object'  => 'user',
+			'type'    => 'full',
+			'title'   => $user->display_name
+		);
+
+		?>
+
+		<div class="avatar">
+
+			<?php echo bp_core_fetch_avatar( $args ); ?>
+
+			<?php if ( bp_get_user_has_avatar( $user->ID ) ) :
+
+				$query_args = array(
+					'user_id' => $user->ID,
+					'action'  => 'delete_avatar'
+				);
+
+				if ( ! empty( $_REQUEST['wp_http_referer'] ) )
+					$query_args['wp_http_referer'] = urlencode( wp_unslash( $_REQUEST['wp_http_referer'] ) );
+
+					$community_url = add_query_arg( $query_args, buddypress()->members->admin->edit_profile_url );
+					$delete_link   = wp_nonce_url( $community_url, 'delete_avatar' ); ?>
+
+				<a href="<?php echo esc_url( $delete_link ); ?>" title="<?php esc_attr_e( 'Delete Avatar', 'buddypress' ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Avatar', 'buddypress' ); ?></a></li>
+
+			<?php endif; ?>
+
+		</div>
+		<?php
+	}
+
+}
+endif; // class_exists check
+
+// Load the xprofile user admin
+add_action( 'bp_init', array( 'BP_XProfile_User_Admin', 'register_xprofile_user_admin' ), 11 );

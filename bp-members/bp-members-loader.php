@@ -45,6 +45,11 @@ class BP_Members_Component extends BP_Component {
 			'functions',
 			'notifications',
 		);
+
+		if ( is_admin() ) {
+			$includes[] = 'admin';
+		}
+
 		parent::includes( $includes );
 	}
 

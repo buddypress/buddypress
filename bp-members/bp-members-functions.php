@@ -563,8 +563,14 @@ function bp_core_process_spammer_status( $user_id, $status ) {
 	remove_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
 	remove_action( 'make_ham_user',  'bp_core_mark_user_ham_admin'  );
 
+	// Determine if we are on an admin page
+	$is_admin = is_admin();
+	if ( $is_admin && ! defined( 'DOING_AJAX' ) ) {
+		$is_admin = (bool) ( buddypress()->members->admin->user_page !== get_current_screen()->id );
+	}
+
 	// When marking as spam in the Dashboard, these actions are handled by WordPress
-	if ( !is_admin() ) {
+	if ( ! $is_admin ) {
 
 		// Get the blogs for the user
 		$blogs = get_blogs_of_user( $user_id, true );

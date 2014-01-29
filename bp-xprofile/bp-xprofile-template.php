@@ -51,9 +51,13 @@ class BP_XProfile_Data_Template {
 	function next_group() {
 		$this->current_group++;
 
-		$this->group         = $this->groups[$this->current_group];
-		$this->group->fields = apply_filters( 'xprofile_group_fields', $this->group->fields, $this->group->id );
-		$this->field_count   = count( $this->group->fields );
+		$this->group       = $this->groups[$this->current_group];
+		$this->field_count = 0;
+
+		if( ! empty( $this->group->fields ) ) {
+			$this->group->fields = apply_filters( 'xprofile_group_fields', $this->group->fields, $this->group->id );
+			$this->field_count   = count( $this->group->fields );
+		}
 
 		return $this->group;
 	}
