@@ -276,6 +276,11 @@ class BuddyPress {
 			define( 'BP_ROOT_BLOG', $root_blog_id );
 		}
 
+		// Whether to refrain from loading deprecated functions
+		if ( ! defined( 'BP_IGNORE_DEPRECATED' ) ) {
+			define( 'BP_IGNORE_DEPRECATED', false );
+		}
+
 		// The search slug has to be defined nice and early because of the way
 		// search requests are loaded
 		//
@@ -303,7 +308,7 @@ class BuddyPress {
 
 		/** Loading ***************************************************/
 
-		$this->load_deprecated  = true;
+		$this->load_deprecated = ! apply_filters( 'bp_ignore_deprecated', BP_IGNORE_DEPRECATED );
 
 		/** Toolbar ***************************************************/
 
