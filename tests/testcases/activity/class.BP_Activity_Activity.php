@@ -305,4 +305,74 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 		$this->assertEquals( array( $a1 ), $activity );
 	}
+
+	/**
+	 * @group get_activity_comments
+	 *
+	 * Verify the format of the activity comments array, for internal
+	 * refactoring
+	 */
+	public function test_get_activity_comments_format() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Bread is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 25 ),
+		) );
+
+		$keys = array( 'id', 'item_id', 'secondary_item_id', 'user_id', 'primary_link', 'component', 'type', 'action', 'content', 'date_recorded', 'hide_sitewide', 'mptt_left', 'mptt_right', 'is_spam' );
+
+		$a2_obj = new BP_Activity_Activity( $a2 );
+
+		$e2 = new stdClass;
+
+		foreach ( $keys as $key ) {
+			$e2->{$key} = $a2_obj->{$key};
+		}
+
+		$e2_user = new WP_User( $a2_obj->user_id );
+
+		$e2->user_email = $e2_user->user_email;
+		$e2->user_nicename = $e2_user->user_nicename;
+		$e2->user_login = $e2_user->user_login;
+		$e2->display_name = $e2_user->display_name;
+		$e2->user_fullname = bp_core_get_user_displayname( $e2->user_id );
+		$e2->children = array();
+
+		$a3_obj = new BP_Activity_Activity( $a3 );
+
+		$e3 = new stdClass;
+
+		foreach ( $keys as $key ) {
+			$e3->{$key} = $a3_obj->{$key};
+		}
+
+		$e3_user = new WP_User( $e3->user_id );
+
+		$e3->user_email = $e3_user->user_email;
+		$e3->user_nicename = $e3_user->user_nicename;
+		$e3->user_login = $e3_user->user_login;
+		$e3->display_name = $e3_user->display_name;
+		$e3->user_fullname = bp_core_get_user_displayname( $e3->user_id );
+		$e3->children = array();
+
+		$expected = array(
+			$a2 => $e2,
+			$a3 => $e3,
+		);
+
+		$a1_obj = new BP_Activity_Activity( $a1 );
+		$comments = BP_Activity_Activity::get_activity_comments( $a1, $a1_obj->mptt_left, $a1_obj->mptt_right, 'ham_only', $a1 );
+
+		$this->assertEquals( $expected, $comments );
+	}
 }
