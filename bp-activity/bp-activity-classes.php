@@ -867,7 +867,15 @@ class BP_Activity_Activity {
 			$top_level_parent_id = $activity_id;
 		}
 
-		if ( !$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id ) ) {
+		$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id, 'bp' );
+
+		// We store the string 'none' to cache the fact that the
+		// activity item has no comments
+		if ( 'none' === $comments ) {
+			$comments = false;
+
+		// A true cache miss
+		} else if ( empty( $comments ) ) {
 
 			// Select the user's fullname with the query
 			if ( bp_is_active( 'xprofile' ) ) {
@@ -911,7 +919,18 @@ class BP_Activity_Activity {
 					$ref[ $d->id ] =& $comments[ $d->id ];
 				}
 			}
-			wp_cache_set( 'bp_activity_comments_' . $activity_id, $comments, 'bp' );
+
+			// If we cache a value of false, it'll count as a cache
+			// miss the next time the activity comments are fetched.
+			// Storing the string 'none' is a hack workaround to
+			// avoid unnecessary queries.
+			if ( false === $comments ) {
+				$cache_value = 'none';
+			} else {
+				$cache_value = $comments;
+			}
+
+			wp_cache_set( 'bp_activity_comments_' . $activity_id, $cache_value, 'bp' );
 		}
 
 		return $comments;

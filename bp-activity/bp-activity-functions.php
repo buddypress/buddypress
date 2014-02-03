@@ -1252,7 +1252,7 @@ function bp_activity_new_comment( $args = '' ) {
 	) );
 
 	// Clear the comment cache for this activity
-	wp_cache_delete( 'bp_activity_comments_' . $parent_id );
+	wp_cache_delete( 'bp_activity_comments_' . $parent_id, 'bp' );
 
 	do_action( 'bp_activity_comment_posted', $comment_id, $params, $activity );
 
