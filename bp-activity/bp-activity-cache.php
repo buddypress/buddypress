@@ -53,3 +53,29 @@ function bp_activity_clear_meta_cache_for_activity( $activity_id ) {
 		}
 	}
 }
+
+/**
+ * Clear a cached activity item when that item is updated.
+ *
+ * @since 2.0
+ *
+ * @param BP_Activity_Activity $activity
+ */
+function bp_activity_clear_cache_for_activity( $activity ) {
+	wp_cache_delete( 'activity_' . $activity->id, 'bp' );
+}
+add_action( 'bp_activity_after_save', 'bp_activity_clear_cache_for_activity' );
+
+/**
+ * Clear cached data for deleted activity items.
+ *
+ * @since 2.0
+ *
+ * @param array $deleted_ids IDs of deleted activity items.
+ */
+function bp_activity_clear_cache_for_deleted_activity( $deleted_ids ) {
+	foreach ( (array) $deleted_ids as $deleted_id ) {
+		wp_cache_delete( 'activity_' . $deleted_id, 'bp' );
+	}
+}
+add_action( 'bp_activity_deleted_activities', 'bp_activity_clear_cache_for_deleted_activity' );

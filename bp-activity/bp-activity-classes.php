@@ -137,7 +137,13 @@ class BP_Activity_Activity {
 	public function populate() {
 		global $wpdb, $bp;
 
-		if ( $row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) ) ) {
+		$row = wp_cache_get( 'activity_' . $this->id, 'bp' );
+
+		if ( false === $row ) {
+			$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) );
+		}
+
+		if ( ! empty( $row ) ) {
 			$this->id                = $row->id;
 			$this->item_id           = $row->item_id;
 			$this->secondary_item_id = $row->secondary_item_id;
@@ -476,11 +482,42 @@ class BP_Activity_Activity {
 		// Get BuddyPress
 		$bp = buddypress();
 
-		// Format the activity ID's for use in the query below
-		$activity_ids_sql = implode( ',', wp_parse_id_list( $activity_ids ) );
+		$activities = array();
+		$query_aids = array();
 
-		// First fetch data from activity table, preserving order
-		$activities = $wpdb->get_results( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids_sql}) ORDER BY FIELD( id, {$activity_ids_sql} )");
+		foreach ( $activity_ids as $activity_id ) {
+
+			// If cached data is found, use it
+			if ( $activity_data = wp_cache_get( 'activity_' . $activity_id, 'bp' ) ) {
+				$activities[ $activity_id ] = $activity_data;
+
+			// Otherwise leave a placeholder so we don't lose the order
+			} else {
+				$activities[ $activity_id ] = '';
+
+				// Add to the list to be queried
+				$query_aids[] = $activity_id;
+			}
+		}
+
+		// Fetch activity data from the DB if necessary
+		if ( ! empty( $query_aids ) ) {
+			// Format the activity ID's for use in the query below
+			$query_aids_sql = implode( ',', wp_parse_id_list( $query_aids ) );
+
+			// Fetch data from activity table, preserving order
+			$queried_adata = $wpdb->get_results( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$query_aids_sql}) ORDER BY FIELD( id, {$query_aids_sql} )");
+
+			// Put that data into the placeholders created earlier,
+			// and add it to the cache
+			foreach ( (array) $queried_adata as $adata ) {
+				$activities[ $adata->id ] = $adata;
+				wp_cache_set( 'activity_' . $adata->id, $adata, 'bp' );
+			}
+		}
+
+		// Reset indexes
+		$activities = array_values( $activities );
 
 		// Then fetch user data
 		$user_query = new BP_User_Query( array(
