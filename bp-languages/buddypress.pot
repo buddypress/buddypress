@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-04 02:35:17+00:00\n"
+"POT-Creation-Date: 2014-02-04 22:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -162,7 +162,7 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:462
 #: bp-core/admin/bp-core-functions.php:481
 #: bp-core/admin/bp-core-functions.php:500 bp-groups/bp-groups-admin.php:111
-#: bp-groups/bp-groups-admin.php:147 bp-members/bp-members-admin.php:313
+#: bp-groups/bp-groups-admin.php:147 bp-members/bp-members-admin.php:321
 msgid "Overview"
 msgstr ""
 
@@ -203,7 +203,7 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:468
 #: bp-core/admin/bp-core-functions.php:487
 #: bp-core/admin/bp-core-functions.php:506 bp-groups/bp-groups-admin.php:119
-#: bp-groups/bp-groups-admin.php:163 bp-members/bp-members-admin.php:322
+#: bp-groups/bp-groups-admin.php:163 bp-members/bp-members-admin.php:330
 msgid "For more information:"
 msgstr ""
 
@@ -216,7 +216,7 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:470
 #: bp-core/admin/bp-core-functions.php:489
 #: bp-core/admin/bp-core-functions.php:508 bp-groups/bp-groups-admin.php:164
-#: bp-members/bp-members-admin.php:324
+#: bp-members/bp-members-admin.php:332
 msgid "<a href=\"http://buddypress.org/support/\">Support Forums</a>"
 msgstr ""
 
@@ -302,8 +302,8 @@ msgstr ""
 
 #. translators: Publish box date format, see http:php.net/date
 
-#: bp-activity/bp-activity-admin.php:676 bp-members/bp-members-admin.php:579
-#: bp-members/bp-members-admin.php:638
+#: bp-activity/bp-activity-admin.php:676 bp-members/bp-members-admin.php:587
+#: bp-members/bp-members-admin.php:646
 msgid "M j, Y @ G:i"
 msgstr ""
 
@@ -1993,7 +1993,7 @@ msgstr ""
 msgid "Not recently active"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:231 bp-members/bp-members-admin.php:677
+#: bp-core/bp-core-loader.php:231 bp-members/bp-members-admin.php:689
 #: bp-members/bp-members-loader.php:176 bp-xprofile/bp-xprofile-loader.php:162
 #: bp-xprofile/bp-xprofile-loader.php:237
 msgid "Profile"
@@ -2100,7 +2100,7 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:191 bp-core/bp-core-widgets.php:289
 #: bp-friends/bp-friends-widgets.php:92 bp-friends/bp-friends-widgets.php:180
 #: bp-groups/bp-groups-widgets.php:66 bp-groups/bp-groups-widgets.php:147
-#: bp-members/bp-members-admin.php:572
+#: bp-members/bp-members-admin.php:580
 msgid "Active"
 msgstr ""
 
@@ -3619,7 +3619,7 @@ msgstr ""
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:609 bp-members/bp-members-admin.php:436
+#: bp-groups/bp-groups-screens.php:609 bp-members/bp-members-admin.php:444
 #: bp-xprofile/bp-xprofile-actions.php:41
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
@@ -3924,11 +3924,11 @@ msgstr ""
 msgid "BuddyPress Default"
 msgstr ""
 
-#: bp-members/bp-members-actions.php:51 bp-members/bp-members-admin.php:419
+#: bp-members/bp-members-actions.php:51 bp-members/bp-members-admin.php:427
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: bp-members/bp-members-actions.php:53 bp-members/bp-members-admin.php:413
+#: bp-members/bp-members-actions.php:53 bp-members/bp-members-admin.php:421
 msgid "User removed as spammer."
 msgstr ""
 
@@ -3947,114 +3947,114 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:238
+#: bp-members/bp-members-admin.php:241
 msgid "WordPress Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:239
+#: bp-members/bp-members-admin.php:242
 msgid "Community Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:286
+#: bp-members/bp-members-admin.php:289
 msgid "No users were found"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:315
+#: bp-members/bp-members-admin.php:323
 msgid "This is the admin view of a user&#39;s profile."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:316
+#: bp-members/bp-members-admin.php:324
 msgid "You can edit the different fields of his extended profile from the main metabox"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:317
+#: bp-members/bp-members-admin.php:325
 msgid "You can get some interesting informations about him on right side metaboxes"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:323
+#: bp-members/bp-members-admin.php:331
 msgid "<a href=\"http://codex.buddypress.org/buddypress-site-administration/managing-user-profiles/\">Managing Profiles</a>"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:328
+#: bp-members/bp-members-admin.php:336
 msgctxt "members user-admin edit screen"
 msgid "Status"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:407
+#: bp-members/bp-members-admin.php:415
 msgid "Avatar was deleted successfully!"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:425
+#: bp-members/bp-members-admin.php:433
 msgid "Profile updated."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:442
+#: bp-members/bp-members-admin.php:450
 msgid "User could not be removed as spammer."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:448
+#: bp-members/bp-members-admin.php:456
 msgid "User could not be marked as spammer."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:454
+#: bp-members/bp-members-admin.php:462
 msgid "An error occured while trying to update the profile."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:460 bp-xprofile/bp-xprofile-screens.php:96
+#: bp-members/bp-members-admin.php:468 bp-xprofile/bp-xprofile-screens.php:96
 msgid "Please make sure you fill in all required fields in this profile field group before saving."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:466 bp-xprofile/bp-xprofile-screens.php:129
+#: bp-members/bp-members-admin.php:474 bp-xprofile/bp-xprofile-screens.php:129
 msgid "There was a problem updating some of your profile information, please try again."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:480
+#: bp-members/bp-members-admin.php:488
 msgid "&larr; Back to Users"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:489
+#: bp-members/bp-members-admin.php:497
 msgid "Edit User"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:491
+#: bp-members/bp-members-admin.php:499
 msgctxt "user"
 msgid "Add New"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:493
+#: bp-members/bp-members-admin.php:501
 msgctxt "user"
 msgid "Add Existing"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:528
+#: bp-members/bp-members-admin.php:536
 msgid "No user found with this ID. <a href=\"%s\">Go back and try again</a>."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:555
+#: bp-members/bp-members-admin.php:563
 msgid "User has not activated his account yet"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:564
+#: bp-members/bp-members-admin.php:572
 msgid "View Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:573
+#: bp-members/bp-members-admin.php:581
 msgid "Spammer"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:582
+#: bp-members/bp-members-admin.php:590
 msgid "Registered on: <strong>%1$s</strong>"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:591
+#: bp-members/bp-members-admin.php:599
 msgid "Update Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:611 bp-xprofile/bp-xprofile-admin.php:879
+#: bp-members/bp-members-admin.php:619 bp-xprofile/bp-xprofile-admin.php:879
 msgid "%s has been marked as a spammer, this user&#39;s BuddyPress datas were removed"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:642
+#: bp-members/bp-members-admin.php:650
 msgid "Last active: <strong>%1$s</strong>"
 msgstr ""
 
