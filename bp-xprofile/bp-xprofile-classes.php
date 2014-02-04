@@ -26,10 +26,15 @@ class BP_XProfile_Group {
 	public function populate( $id ) {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id = %d", $id );
+		$group = wp_cache_get( 'xprofile_group_' . $this->id, 'bp' );
 
-		if ( !$group = $wpdb->get_row( $sql ) )
+		if ( false === $group ) {
+			$group = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id = %d", $id ) );
+		}
+
+		if ( empty( $group ) ) {
 			return false;
+		}
 
 		$this->id          = $group->id;
 		$this->name        = stripslashes( $group->name );
@@ -135,10 +140,13 @@ class BP_XProfile_Group {
 		elseif ( $exclude_groups )
 			$where_sql = $wpdb->prepare( "WHERE g.id NOT IN ({$exclude_groups})");
 
-		if ( !empty( $hide_empty_groups ) )
-			$groups = $wpdb->get_results( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );
-		else
-			$groups = $wpdb->get_results( "SELECT DISTINCT g.* FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" );
+		if ( ! empty( $hide_empty_groups ) ) {
+			$group_ids = $wpdb->get_col( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );
+		} else {
+			$group_ids = $wpdb->get_col( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" );
+		}
+
+		$groups = self::get_group_data( $group_ids );
 
 		if ( empty( $fetch_fields ) )
 			return $groups;
@@ -260,6 +268,63 @@ class BP_XProfile_Group {
 			// Reset indexes
 			$groups = array_values( $groups );
 		}
+
+		return $groups;
+	}
+
+	/**
+	 * Get data about a set of groups, based on IDs.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $group_ids Array of IDs.
+	 * @return array
+	 */
+	protected static function get_group_data( $group_ids ) {
+		global $wpdb;
+
+		// Bail if no group IDs are passed
+		if ( empty( $group_ids ) ) {
+			return array();
+		}
+
+		$groups        = array();
+		$uncached_gids = array();
+
+		foreach ( $group_ids as $group_id ) {
+
+			// If cached data is found, use it
+			if ( $group_data = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
+				$groups[ $group_id ] = $group_data;
+
+			// Otherwise leave a placeholder so we don't lose the order
+			} else {
+				$groups[ $group_id ] = '';
+
+				// Add to the list of items to be queried
+				$uncached_gids[] = $group_id;
+			}
+		}
+
+		// Fetch uncached data from the DB if necessary
+		if ( ! empty( $uncached_gids ) ) {
+			$uncached_gids_sql = implode( ',', wp_parse_id_list( $uncached_gids ) );
+
+			$bp = buddypress();
+
+			// Fetch data, preserving order
+			$queried_gdata = $wpdb->get_results( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id IN ({$uncached_gids_sql}) ORDER BY FIELD( id, {$uncached_gids_sql} )");
+
+			// Put queried data into the placeholders created earlier,
+			// and add it to the cache
+			foreach ( (array) $queried_gdata as $gdata ) {
+				$groups[ $gdata->id ] = $gdata;
+				wp_cache_set( 'xprofile_group_' . $gdata->id, $gdata, 'bp' );
+			}
+		}
+
+		// Reset indexes
+		$groups = array_values( $groups );
 
 		return $groups;
 	}
