@@ -418,28 +418,7 @@ class BP_Activity_Activity {
 		$total_activities     = $wpdb->get_var( $total_activities_sql );
 
 		// Get the fullnames of users so we don't have to query in the loop
-		if ( bp_is_active( 'xprofile' ) && !empty( $activities ) ) {
-			$activity_user_ids = wp_list_pluck( $activities, 'user_id' );
-			$activity_user_ids = implode( ',', wp_parse_id_list( $activity_user_ids ) );
-
-			if ( !empty( $activity_user_ids ) ) {
-				if ( $names = $wpdb->get_results( "SELECT user_id, value AS user_fullname FROM {$bp->profile->table_name_data} WHERE field_id = 1 AND user_id IN ({$activity_user_ids})" ) ) {
-
-					foreach ( (array) $names as $name ) {
-						$tmp_names[$name->user_id] = $name->user_fullname;
-					}
-
-					foreach ( (array) $activities as $i => $activity ) {
-						if ( !empty( $tmp_names[$activity->user_id] ) ) {
-							$activities[$i]->user_fullname = $tmp_names[$activity->user_id];
-						}
-					}
-
-					unset( $names );
-					unset( $tmp_names );
-				}
-			}
-		}
+		$activities = self::append_user_fullnames( $activities );
 
 		// Get activity meta
 		$activity_ids = array();
@@ -535,6 +514,47 @@ class BP_Activity_Activity {
 				$activities[ $a_index ]->user_nicename = $a_user->user_nicename;
 				$activities[ $a_index ]->user_login    = $a_user->user_login;
 				$activities[ $a_index ]->display_name  = $a_user->display_name;
+			}
+		}
+
+		return $activities;
+	}
+
+	/**
+	 * Append xProfile fullnames to an activity array.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $activities Activities array.
+	 * @return array
+	 */
+	protected function append_user_fullnames( $activities ) {
+		global $wpdb;
+
+		if ( bp_is_active( 'xprofile' ) && ! empty( $activities ) ) {
+			$activity_user_ids = wp_list_pluck( $activities, 'user_id' );
+			$activity_user_ids = implode( ',', wp_parse_id_list( $activity_user_ids ) );
+
+			if ( ! empty( $activity_user_ids ) ) {
+				$bp = buddypress();
+
+				if ( $names = $wpdb->get_results( "SELECT user_id, value AS user_fullname FROM {$bp->profile->table_name_data} WHERE field_id = 1 AND user_id IN ({$activity_user_ids})" ) ) {
+
+					$tmp_names = array();
+
+					foreach ( (array) $names as $name ) {
+						$tmp_names[ $name->user_id ] = $name->user_fullname;
+					}
+
+					foreach ( (array) $activities as $i => $activity ) {
+						if ( ! empty( $tmp_names[ $activity->user_id ] ) ) {
+							$activities[ $i ]->user_fullname = $tmp_names[ $activity->user_id ];
+						}
+					}
+
+					unset( $names );
+					unset( $tmp_names );
+				}
 			}
 		}
 
