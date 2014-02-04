@@ -388,26 +388,33 @@ class BP_XProfile_Group {
 	}
 
 	/**
-	 * Fetch the admin-set preferences for all fields
+	 * Fetch the admin-set preferences for all fields.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 *
-	 * @return array $default_visibility_levels An array, keyed by field_id, of default
-	 *   visibility level + allow_custom (whether the admin allows this field to be set by user)
+	 * @return array $default_visibility_levels An array, keyed by
+	 *         field_id, of default visibility level + allow_custom
+	 *         (whether the admin allows this field to be set by user)
 	 */
 	public static function fetch_default_visibility_levels() {
 		global $wpdb, $bp;
 
-		$levels = $wpdb->get_results( "SELECT object_id, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND ( meta_key = 'default_visibility' OR meta_key = 'allow_custom_visibility' )" );
+		$default_visibility_levels = wp_cache_get( 'xprofile_default_visibility_levels', 'bp' );
 
-		// Arrange so that the field id is the key and the visibility level the value
-		$default_visibility_levels = array();
-		foreach( $levels as $level ) {
-			if ( 'default_visibility' == $level->meta_key ) {
-				$default_visibility_levels[$level->object_id]['default'] = $level->meta_value;
-			} else if ( 'allow_custom_visibility' == $level->meta_key ) {
-				$default_visibility_levels[$level->object_id]['allow_custom'] = $level->meta_value;
+		if ( false === $default_visibility_levels ) {
+			$levels = $wpdb->get_results( "SELECT object_id, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND ( meta_key = 'default_visibility' OR meta_key = 'allow_custom_visibility' )" );
+
+			// Arrange so that the field id is the key and the visibility level the value
+			$default_visibility_levels = array();
+			foreach ( $levels as $level ) {
+				if ( 'default_visibility' == $level->meta_key ) {
+					$default_visibility_levels[ $level->object_id ]['default'] = $level->meta_value;
+				} else if ( 'allow_custom_visibility' == $level->meta_key ) {
+					$default_visibility_levels[ $level->object_id ]['allow_custom'] = $level->meta_value;
+				}
 			}
+
+			wp_cache_set( 'xprofile_default_visibility_levels', $default_visibility_levels, 'bp' );
 		}
 
 		return $default_visibility_levels;
