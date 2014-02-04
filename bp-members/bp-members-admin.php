@@ -198,9 +198,12 @@ class BP_Members_Admin {
 		$css = apply_filters( 'bp_members_admin_css', $css );
 		wp_enqueue_style( 'bp-members-css', $css, array(), bp_get_version() );
 
-		$js = $this->js_url . "admin{$min}.js";
-		$js = apply_filters( 'bp_members_admin_js', $js );
-		wp_enqueue_script( 'bp-members-js', $js, array( 'jquery' ), bp_get_version(), true );
+		// Only load javascript for BuddyPress profile
+		if ( get_current_screen()->id == $this->user_page ) {
+			$js = $this->js_url . "admin{$min}.js";
+			$js = apply_filters( 'bp_members_admin_js', $js );
+			wp_enqueue_script( 'bp-members-js', $js, array( 'jquery' ), bp_get_version(), true );
+		}
 
 		// Plugins may want to hook here to load some css/js
 		do_action( 'bp_members_admin_enqueue_scripts', get_current_screen()->id, $this->screen_id );
@@ -284,6 +287,11 @@ class BP_Members_Admin {
 
 		if ( ! $user_id = intval( $_GET['user_id'] ) ) {
 			wp_die( __( 'No users were found', 'buddypress' ) );
+		}
+
+		// only edit others profile
+		if ( get_current_user_id() == $user_id ) {
+			bp_core_redirect( get_edit_user_link( $user_id ) );
 		}
 
 		// Build redirection URL
@@ -663,6 +671,10 @@ class BP_Members_Admin {
 	 * @return array Merged actions.
 	 */
 	public function row_actions( $actions = '', $user = null ) {
+		// only edit others profile
+		if ( get_current_user_id() == $user->ID ) {
+			return $actions;
+		}
 
 		$edit_profile = add_query_arg( array(
 			'user_id'         => $user->ID,
