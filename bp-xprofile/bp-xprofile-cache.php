@@ -37,7 +37,7 @@ function xprofile_clear_profile_field_object_cache( $field_obj ) {
 	wp_cache_delete( 'xprofile_default_visibility_levels', 'bp' );
 }
 add_action( 'xprofile_fields_saved_field', 'xprofile_clear_profile_field_object_cache' );
-add_aciton( 'xprofile_fields_deleted_field', 'xprofile_clear_profile_field_object_cache' );
+add_action( 'xprofile_fields_deleted_field', 'xprofile_clear_profile_field_object_cache' );
 
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );
