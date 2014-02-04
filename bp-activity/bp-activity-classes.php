@@ -528,7 +528,7 @@ class BP_Activity_Activity {
 	 * @param array $activities Activities array.
 	 * @return array
 	 */
-	protected function append_user_fullnames( $activities ) {
+	protected static function append_user_fullnames( $activities ) {
 		global $wpdb;
 
 		if ( bp_is_active( 'xprofile' ) && ! empty( $activities ) ) {
