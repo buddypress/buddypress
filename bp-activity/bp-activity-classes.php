@@ -917,12 +917,23 @@ class BP_Activity_Activity {
 				$spam_sql = '';
 			}
 
-			// The mptt BETWEEN clause allows us to limit returned descendants to the right part of the tree
-			$sql = apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' {$spam_sql} AND a.item_id = %d AND a.mptt_left > %d AND a.mptt_left < %d ORDER BY a.date_recorded ASC", $top_level_parent_id, $left, $right ), $activity_id, $left, $right, $spam_sql );
+			// Legacy query - not recommended
+			if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, func_get_args() ) ) {
+				$sql = apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' {$spam_sql} AND a.item_id = %d AND a.mptt_left > %d AND a.mptt_left < %d ORDER BY a.date_recorded ASC", $top_level_parent_id, $left, $right ), $activity_id, $left, $right, $spam_sql );
 
-			// Retrieve all descendants of the $root node
-			$descendants = $wpdb->get_results( $sql );
-			$ref         = array();
+				$descendants = $wpdb->get_results( $sql );
+
+			// We use the mptt BETWEEN clause to limit returned
+			// descendants to the correct part of the tree.
+			} else {
+				$sql = $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} a WHERE a.type = 'activity_comment' {$spam_sql} AND a.item_id = %d and a.mptt_left > %d AND a.mptt_left < %d ORDER BY a.date_recorded ASC", $top_level_parent_id, $left, $right );
+
+				$descendant_ids = $wpdb->get_col( $sql );
+				$descendants    = self::get_activity_data( $descendant_ids );
+				$descendands    = self::append_user_fullnames( $descendants );
+			}
+
+			$ref = array();
 
 			// Loop descendants and build an assoc array
 			foreach ( (array) $descendants as $d ) {
