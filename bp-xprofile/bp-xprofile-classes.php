@@ -74,6 +74,8 @@ class BP_XProfile_Group {
 		if ( empty( $this->can_delete ) )
 			return false;
 
+		do_action_ref_array( 'xprofile_group_before_delete', array( &$this ) );
+
 		// Delete field group
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_groups} WHERE id = %d", $this->id ) ) ) {
 			return false;
@@ -87,6 +89,8 @@ class BP_XProfile_Group {
 					BP_XProfile_ProfileData::delete_for_field( $this->fields[$i]->id );
 				}
 			}
+
+			do_action_ref_array( 'xprofile_group_after_delete', array( &$this ) );
 
 			return true;
 		}

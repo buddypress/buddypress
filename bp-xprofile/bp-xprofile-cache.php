@@ -17,8 +17,8 @@ function xprofile_clear_profile_groups_object_cache( $group_obj ) {
 	wp_cache_delete( 'xprofile_groups_inc_empty',        'bp' );
 	wp_cache_delete( 'xprofile_group_' . $group_obj->id, 'bp' );
 }
-add_action( 'xprofile_groups_deleted_group', 'xprofile_clear_profile_groups_object_cache' );
-add_action( 'xprofile_groups_saved_group',   'xprofile_clear_profile_groups_object_cache' );
+add_action( 'xprofile_group_after_delete', 'xprofile_clear_profile_groups_object_cache' );
+add_action( 'xprofile_group_after_save',   'xprofile_clear_profile_groups_object_cache' );
 
 function xprofile_clear_profile_data_object_cache( $group_id ) {
 	wp_cache_delete( 'bp_user_fullname_' . bp_loggedin_user_id(), 'bp' );
@@ -35,6 +35,12 @@ add_action( 'xprofile_updated_profile', 'xprofile_clear_profile_data_object_cach
 function xprofile_clear_profile_field_object_cache( $field_obj ) {
 	// Clear default visibility level cache
 	wp_cache_delete( 'xprofile_default_visibility_levels', 'bp' );
+
+	// Modified fields can alter parent group status, in particular when
+	// the group goes from empty to non-empty. Bust its cache, as well as
+	// the global group_inc_empty cache
+	wp_cache_delete( 'xprofile_group_' . $field_obj->group_id, 'bp' );
+	wp_cache_delete( 'xprofile_groups_inc_empty', 'bp' );
 }
 add_action( 'xprofile_fields_saved_field', 'xprofile_clear_profile_field_object_cache' );
 add_action( 'xprofile_fields_deleted_field', 'xprofile_clear_profile_field_object_cache' );
