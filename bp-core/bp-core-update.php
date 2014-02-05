@@ -225,6 +225,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 7553 ) {
 			bp_update_to_1_9();
 		}
+
+		// 1.9.2
+		if ( $raw_db_version < 7731 ) {
+			bp_update_to_1_9_2();
+		}
 	}
 
 	/** All done! *************************************************************/
@@ -298,6 +303,28 @@ function bp_update_to_1_9() {
 
 	// Update the active components option
 	bp_update_option( $active_components_key, $active_components );
+}
+
+/**
+ * Perform database updates for BP 1.9.2
+ *
+ * In 1.9, BuddyPress stopped registering its theme directory when it detected
+ * that bp-default (or a child theme) was not currently being used, in effect
+ * deprecating bp-default. However, this ended up causing problems when site
+ * admins using bp-default would switch away from the theme temporarily:
+ * bp-default would no longer be available, with no obvious way (outside of
+ * a manual filter) to restore it. In 1.9.2, we add an option that flags
+ * whether bp-default or a child theme is active at the time of upgrade; if so,
+ * the theme directory will continue to be registered even if the theme is
+ * deactivated temporarily. Thus, new installations will not see bp-default,
+ * but legacy installations using the theme will continue to see it.
+ *
+ * @since BuddyPress (1.9.2)
+ */
+function bp_update_to_1_9_2() {
+	if ( 'bp-default' === get_stylesheet() || 'bp-default' === get_template() ) {
+		update_site_option( '_bp_retain_bp_default', 1 );
+	}
 }
 
 /**
