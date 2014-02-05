@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-01-21 22:35:24+00:00\n"
+"POT-Creation-Date: 2014-02-05 19:35:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -88,7 +88,7 @@ msgstr ""
 #. translators: Group activity RSS title - "[Site Name] | [Group Name] |
 #. Activity"
 
-#: bp-activity/bp-activity-actions.php:470 bp-groups/bp-groups-actions.php:356
+#: bp-activity/bp-activity-actions.php:470 bp-groups/bp-groups-actions.php:362
 msgid "%1$s | %2$s | Activity"
 msgstr ""
 
@@ -2767,47 +2767,51 @@ msgstr ""
 msgid "There was an error saving group details. Please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:76
+#: bp-groups/bp-groups-actions.php:69
+msgid "Only the group creator may continue editing this group."
+msgstr ""
+
+#: bp-groups/bp-groups-actions.php:82
 msgid "Please fill in all of the required fields"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:83 bp-groups/bp-groups-actions.php:107
+#: bp-groups/bp-groups-actions.php:89 bp-groups/bp-groups-actions.php:113
 msgid "There was an error saving group details, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:147
+#: bp-groups/bp-groups-actions.php:153
 msgid "%1$s created the group %2$s"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:199
+#: bp-groups/bp-groups-actions.php:205
 msgid "There was an error saving the group avatar, please try uploading again."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:201
+#: bp-groups/bp-groups-actions.php:207
 msgid "The group avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:225 bp-groups/bp-groups-actions.php:232
+#: bp-groups/bp-groups-actions.php:231 bp-groups/bp-groups-actions.php:238
 msgid "There was an error joining the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:234
+#: bp-groups/bp-groups-actions.php:240
 msgid "You joined the group!"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:272 bp-groups/bp-groups-screens.php:711
+#: bp-groups/bp-groups-actions.php:278 bp-groups/bp-groups-screens.php:711
 msgid "This group must have at least one admin"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:274
+#: bp-groups/bp-groups-actions.php:280
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:276 bp-groups/bp-groups-functions.php:291
+#: bp-groups/bp-groups-actions.php:282 bp-groups/bp-groups-functions.php:291
 msgid "You successfully left the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:359
+#: bp-groups/bp-groups-actions.php:365
 msgid "Activity feed for the group, %s."
 msgstr ""
 
