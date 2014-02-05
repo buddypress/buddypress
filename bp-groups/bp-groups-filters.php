@@ -51,6 +51,16 @@ add_filter( 'groups_new_group_forum_desc', 'bp_create_excerpt' );
 add_filter( 'groups_group_name_before_save',        'force_balance_tags' );
 add_filter( 'groups_group_description_before_save', 'force_balance_tags' );
 
+// Trim trailing spaces from name and description when saving
+add_filter( 'groups_group_name_before_save',        'trim' );
+add_filter( 'groups_group_description_before_save', 'trim' );
+
+// Escape output of new group creation details
+add_filter( 'bp_get_new_group_id',          'esc_attr'     );
+add_filter( 'bp_get_new_group_name',        'esc_attr'     );
+add_filter( 'bp_get_new_group_description', 'esc_textarea' );
+
+// Format numberical output
 add_filter( 'bp_get_total_group_count',      'bp_core_number_format' );
 add_filter( 'bp_get_group_total_for_member', 'bp_core_number_format' );
 add_filter( 'bp_get_group_total_members',    'bp_core_number_format' );
