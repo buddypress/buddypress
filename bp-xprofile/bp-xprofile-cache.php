@@ -39,5 +39,18 @@ function xprofile_clear_profile_field_object_cache( $field_obj ) {
 add_action( 'xprofile_fields_saved_field', 'xprofile_clear_profile_field_object_cache' );
 add_action( 'xprofile_fields_deleted_field', 'xprofile_clear_profile_field_object_cache' );
 
+/**
+ * Clear caches when a user's updates a field data object.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param BP_XProfile_ProfileData
+ */
+function xprofile_clear_profiledata_object_cache( $data_obj ) {
+	wp_cache_delete( $data_obj->field_id, 'bp_xprofile_data_' . $data_obj->user_id );
+}
+add_action( 'xprofile_data_after_save', 'xprofile_clear_profiledata_object_cache' );
+add_action( 'xprofile_data_after_delete', 'xprofile_clear_profiledata_object_cache' );
+
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );

@@ -193,7 +193,7 @@ class BP_XProfile_Group {
 			$field_ids_sql = implode( ',', (array) $field_ids );
 
 			if ( ! empty( $field_ids ) && ! empty( $user_id ) ) {
-				$field_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, field_id, value FROM {$bp->profile->table_name_data} WHERE field_id IN ( {$field_ids_sql} ) AND user_id = %d", $user_id ) );
+				$field_data = BP_XProfile_ProfileData::get_data_for_user( $user_id, $field_ids );
 			}
 
 			// Remove data-less fields, if necessary
@@ -1094,18 +1094,25 @@ class BP_XProfile_ProfileData {
 	public function populate( $field_id, $user_id )  {
 		global $wpdb, $bp;
 
-		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
+		$cache_group = 'bp_xprofile_data_' . $user_id;
+		$profiledata = wp_cache_get( $field_id, $cache_group );
 
-		if ( $profiledata = $wpdb->get_row( $sql ) ) {
-			$this->id           = $profiledata->id;
-			$this->user_id      = $profiledata->user_id;
-			$this->field_id     = $profiledata->field_id;
-			$this->value        = stripslashes( $profiledata->value );
-			$this->last_updated = $profiledata->last_updated;
-		} else {
-			// When no row is found, we'll need to set these properties manually
-			$this->field_id	    = $field_id;
-			$this->user_id	    = $user_id;
+		if ( false === $profiledata ) {
+			$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
+
+			if ( $profiledata = $wpdb->get_row( $sql ) ) {
+				$this->id           = $profiledata->id;
+				$this->user_id      = $profiledata->user_id;
+				$this->field_id     = $profiledata->field_id;
+				$this->value        = stripslashes( $profiledata->value );
+				$this->last_updated = $profiledata->last_updated;
+
+				wp_cache_set( $field_id, $profiledata, $cache_group );
+			} else {
+				// When no row is found, we'll need to set these properties manually
+				$this->field_id	    = $field_id;
+				$this->user_id	    = $user_id;
+			}
 		}
 	}
 
@@ -1195,6 +1202,69 @@ class BP_XProfile_ProfileData {
 	}
 
 	/** Static Methods ********************************************************/
+
+	/**
+	 * Get a user's profile data for a set of fields.
+	 *
+	 * @param int $user_id
+	 * @param array $field_ids
+	 * @return array
+	 */
+	public static function get_data_for_user( $user_id, $field_ids ) {
+		global $wpdb;
+
+		$data = array();
+
+		$cache_group = 'bp_xprofile_data_' . $user_id;
+
+		$uncached_field_ids = bp_get_non_cached_ids( $field_ids, $cache_group );
+
+		// Prime the cache
+		if ( ! empty( $uncached_field_ids ) ) {
+			$bp = buddypress();
+			$uncached_field_ids_sql = implode( ',', wp_parse_id_list( $uncached_field_ids ) );
+			$uncached_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id IN ({$uncached_field_ids_sql}) AND user_id = %d", $user_id ) );
+
+			// Rekey
+			$queried_data = array();
+			foreach ( $uncached_data as $ud ) {
+				$d               = new stdClass;
+				$d->id           = $ud->id;
+				$d->user_id      = $ud->user_id;
+				$d->field_id     = $ud->field_id;
+				$d->value        = $ud->value;
+				$d->last_updated = $ud->last_updated;
+
+				$queried_data[ $ud->field_id ] = $d;
+			}
+
+			// Set caches
+			foreach ( $field_ids as $field_id ) {
+
+				// If a value was found, cache it
+				if ( isset( $queried_data[ $field_id ] ) ) {
+					wp_cache_set( $field_id, $queried_data[ $field_id ], $cache_group );
+
+				// If no value was found, cache an empty item
+				// to avoid future cache misses
+				} else {
+					$d           = new stdClass;
+					$d->id       = '';
+					$d->field_id = $field_id;
+					$d->value    = '';
+
+					wp_cache_set( $field_id, $d, $cache_group );
+				}
+			}
+		}
+
+		// Now that all items are cached, fetch them
+		foreach ( $field_ids as $field_id ) {
+			$data[] = wp_cache_get( $field_id, $cache_group );
+		}
+
+		return $data;
+	}
 
 	/**
 	 * BP_XProfile_ProfileData::get_all_for_user()

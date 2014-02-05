@@ -57,6 +57,28 @@ add_action( 'bp_first_activity_for_member',   'bp_core_clear_member_count_caches
 add_action( 'deleted_user',                   'bp_core_clear_member_count_caches' );
 
 /**
+ * Determine which items from a list do not have cached values.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $item_ids ID list.
+ * @param string $cache_group The cache group to check against.
+ * @return array
+ */
+function bp_get_non_cached_ids( $item_ids, $cache_group ) {
+	$uncached = array();
+
+	foreach ( $item_ids as $item_id ) {
+		$item_id = (int) $item_id;
+		if ( false === wp_cache_get( $item_id, $cache_group ) ) {
+			$uncached[] = $item_id;
+		}
+	}
+
+	return $uncached;
+}
+
+/**
  * Update the metadata cache for the specified objects.
  *
  * Based on WordPress's {@link update_meta_cache()}, this function primes the
