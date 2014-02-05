@@ -819,3 +819,61 @@ function bp_comments_open( $open, $post_id = 0 ) {
 	// Allow override of the override
 	return apply_filters( 'bp_force_comment_status', $retval, $open, $post_id );
 }
+
+/**
+ * Do not allow {@link comments_template()} to render during theme compatibility.
+ *
+ * When theme compatibility sets the 'is_page' flag to true via
+ * {@link bp_theme_compat_reset_post()}, themes that use comments_template()
+ * in their page template will run.
+ *
+ * To prevent comments_template() from rendering, we set the 'is_page' and
+ * 'is_single' flags to false since that function looks at these conditionals
+ * before querying the database for comments and loading the comments template.
+ *
+ * This is done during the output buffer as late as possible to prevent any
+ * wonkiness.
+ *
+ * @since BuddyPress (1.9.2)
+ *
+ * @param string $retval The current post content.
+ */
+function bp_theme_compat_toggle_is_page( $retval = '' ) {
+	global $wp_query;
+
+	$wp_query->is_single = false;
+	$wp_query->is_page   = false;
+
+	// Set a switch so we know that we've toggled these WP_Query properties
+	buddypress()->theme_compat->is_page_toggled = true;
+
+	return $retval;
+}
+add_filter( 'bp_replace_the_content', 'bp_theme_compat_toggle_is_page', 9999 );
+
+/**
+ * Restores the 'is_single' and 'is_page' flags if toggled by BuddyPress.
+ *
+ * @since BuddyPress (1.9.2)
+ *
+ * @see bp_theme_compat_toggle_is_page()
+ * @param object $query The WP_Query object.
+ */
+function bp_theme_compat_loop_end( $query ) {
+
+	// Get BuddyPress
+	$bp = buddypress();
+
+	// Bail if page is not toggled
+	if ( ! isset( $bp->theme_compat->is_page_toggled ) ) {
+		return;
+	}
+
+	// Revert our toggled WP_Query properties
+	$query->is_single = true;
+	$query->is_page   = true;
+
+	// Unset our switch
+	unset( $bp->theme_compat->is_page_toggled );
+}
+add_action( 'loop_end', 'bp_theme_compat_loop_end' );
