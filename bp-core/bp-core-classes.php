@@ -1993,7 +1993,9 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 * @return string See {@link Walker::walk()}.
 	 */
 	public function walk( $elements, $max_depth ) {
-		$args   = array_slice( func_get_args(), 2 );
+		$func_args = func_get_args();
+
+		$args   = array_slice( $func_args, 2 );
 		$output = '';
 
 		if ( $max_depth < -1 ) // invalid parameter

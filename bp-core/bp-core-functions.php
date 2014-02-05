@@ -112,7 +112,8 @@ function bp_core_get_table_prefix() {
 function bp_alpha_sort_by_key( $items, $key ) {
 	usort( $items, create_function( '$a, $b', '
 		$values = array( 0 => false, 1 => false, );
-		foreach ( func_get_args() as $indexi => $index ) {
+		$func_args = func_get_args();
+		foreach ( $func_args as $indexi => $index ) {
 			if ( isset( $index->' . $key . ' ) ) {
 				$values[ $indexi ] = $index->' . $key . ';
 			} else if ( isset( $index["' . $key . '"] ) ) {
