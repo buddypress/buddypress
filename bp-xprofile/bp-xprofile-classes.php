@@ -1308,7 +1308,7 @@ class BP_XProfile_ProfileData {
 	}
 
 	/**
-	 * Get the user's field data id by the id of the xprofile field
+	 * Get the user's field data id by the id of the xprofile field.
 	 *
 	 * @param int $field_id
 	 * @param int $user_id
@@ -1320,7 +1320,14 @@ class BP_XProfile_ProfileData {
 		if ( empty( $field_id ) || empty( $user_id ) ) {
 			$fielddata_id = 0;
 		} else {
-			$fielddata_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id ) );
+
+			// Check cache first
+			$fielddata = wp_cache_get( $field_id, 'bp_xprofile_data_' . $user_id );
+			if ( false === $fielddata || empty( $fielddata->id ) ) {
+				$fielddata_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id ) );
+			} else {
+				$fielddata_id = $fielddata->id;
+			}
 		}
 
 		return $fielddata_id;
