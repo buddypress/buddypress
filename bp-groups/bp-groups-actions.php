@@ -63,6 +63,12 @@ function groups_action_create_group() {
 	if ( isset( $_COOKIE['bp_new_group_id'] ) ) {
 		$bp->groups->new_group_id = $_COOKIE['bp_new_group_id'];
 		$bp->groups->current_group = groups_get_group( array( 'group_id' => $bp->groups->new_group_id ) );
+
+		// Only allow the group creator to continue to edit the new group
+		if ( ! bp_is_group_creator( $bp->groups->current_group, bp_loggedin_user_id() ) ) {
+			bp_core_add_message( __( 'Only the group creator may continue editing this group.', 'buddypress' ), 'error' );
+			bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/' );
+		}
 	}
 
 	// If the save, upload or skip button is hit, lets calculate what we need to save
