@@ -1333,20 +1333,61 @@ class BP_XProfile_ProfileData {
 		return $fielddata_id;
 	}
 
+	/**
+	 * Get profile field values by field ID and user IDs.
+	 *
+	 * Supports multiple user IDs.
+	 *
+	 * @param int $field_id ID of the field.
+	 * @param int|array $user_ids ID or IDs of user(s).
+	 * @return string|array Single value if a single user is queried,
+	 *         otherwise an array of results.
+	 */
 	public static function get_value_byid( $field_id, $user_ids = null ) {
 		global $wpdb, $bp;
 
-		if ( empty( $user_ids ) )
+		if ( empty( $user_ids ) ) {
 			$user_ids = bp_displayed_user_id();
-
-		if ( is_array( $user_ids ) ) {
-			$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
-			$data = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$user_ids})", $field_id ) );
-		} else {
-			$data = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_ids ) );
 		}
 
-		return $data;
+		$is_single = false;
+		if ( ! is_array( $user_ids ) ) {
+			$user_ids  = array( $user_ids );
+			$is_single = true;
+		}
+
+		// Assemble uncached IDs
+		$uncached_ids = array();
+		foreach ( $user_ids as $user_id ) {
+			if ( false === wp_cache_get( $field_id, 'bp_xprofile_data_' . $user_id ) ) {
+				$uncached_ids[] = $user_id;
+			}
+		}
+
+		// Prime caches
+		if ( ! empty( $uncached_ids ) ) {
+			$uncached_ids_sql = implode( ',', $uncached_ids );
+			$queried_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$uncached_ids_sql})", $field_id ) );
+
+			foreach ( $queried_data as $d ) {
+				wp_cache_set( $field_id, $d, 'bp_xprofile_data_' . $d->user_id );
+			}
+		}
+
+		// Now that the cache is primed with all data, fetch it
+		$data = array();
+		foreach ( $user_ids as $user_id ) {
+			$data[] = wp_cache_get( $field_id, 'bp_xprofile_data_' . $user_id );
+		}
+
+		// If a single ID was passed, just return the value
+		if ( $is_single ) {
+			return $data[0]->value;
+
+		// Otherwise return the whole array
+		} else {
+			return $data;
+		}
 	}
 
 	public static function get_value_byfieldname( $fields, $user_id = null ) {
