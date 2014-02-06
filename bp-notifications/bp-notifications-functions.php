@@ -121,10 +121,17 @@ function bp_notifications_mark_notification( $id, $is_new = false ) {
 function bp_notifications_get_notifications_for_user( $user_id, $format = 'string' ) {
 
 	// Setup local variables
-	$bp                    = buddypress();
-	$notifications         = BP_Notifications_Notification::get( array(
-		'user_id' => $user_id
-	) );
+	$bp = buddypress();
+
+	// Get notifications out of the cache, or query if necessary
+	$notifications = wp_cache_get( 'all_for_user_' . $user_id, 'bp_notifications' );
+	if ( false === $notifications ) {
+		$notifications = BP_Notifications_Notification::get( array(
+			'user_id' => $user_id
+		) );
+		wp_cache_set( 'all_for_user_' . $user_id, $notifications, 'bp_notifications' );
+	}
+
 	$grouped_notifications = array(); // Notification groups
 	$renderable            = array(); // Renderable notifications
 
@@ -499,9 +506,13 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
 	}
 
 	// Get the notifications, and count them
-	$notifications = BP_Notifications_Notification::get( array(
-		'user_id' => $user_id,
-	) );
+	$notifications = wp_cache_get( 'all_for_user_' . $user_id, 'bp_notifications' );
+	if ( false === $notifications ) {
+		$notifications = BP_Notifications_Notification::get( array(
+			'user_id' => $user_id,
+		) );
+		wp_cache_set( 'all_for_user_' . $user_id, $notifications, 'bp_notifications' );
+	}
 
 	$count = ! empty( $notifications ) ? count( $notifications ) : 0;
 

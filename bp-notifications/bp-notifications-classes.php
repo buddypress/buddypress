@@ -122,6 +122,8 @@ class BP_Notifications_Notification {
 		);
 		$data_format = array( '%d', '%d', '%d', '%s', '%s', '%s', '%d' );
 
+		do_action_ref_array( 'bp_notification_before_save', array( &$this ) );
+
 		// Update
 		if ( ! empty( $this->id ) ) {
 			$result = self::_update( $data, array( 'ID' => $this->id ), $data_format, array( '%d' ) );
@@ -138,6 +140,8 @@ class BP_Notifications_Notification {
 			$this->id = $wpdb->insert_id;
 			$retval   = $wpdb->insert_id;
 		}
+
+		do_action_ref_array( 'bp_notification_after_save', array( &$this ) );
 
 		// Return the result
 		return $retval;
@@ -672,6 +676,8 @@ class BP_Notifications_Notification {
 	 */
 	public static function delete( $args = array() ) {
 		$where = self::get_query_clauses( $args );
+
+		do_action( 'bp_notification_before_delete', $args );
 
 		return self::_delete( $where['data'], $where['format'] );
 	}

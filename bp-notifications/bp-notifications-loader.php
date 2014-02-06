@@ -49,6 +49,7 @@ class BP_Notifications_Component extends BP_Component {
 			'buddybar',
 			'template',
 			'functions',
+			'cache',
 		);
 
 		parent::includes( $includes );
