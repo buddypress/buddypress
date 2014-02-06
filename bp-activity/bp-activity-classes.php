@@ -931,7 +931,7 @@ class BP_Activity_Activity {
 
 				$descendant_ids = $wpdb->get_col( $sql );
 				$descendants    = self::get_activity_data( $descendant_ids );
-				$descendands    = self::append_user_fullnames( $descendants );
+				$descendants    = self::append_user_fullnames( $descendants );
 			}
 
 			$ref = array();
