@@ -357,44 +357,52 @@ function bp_core_update_directory_page_ids( $blog_page_ids ) {
 function bp_core_get_directory_pages() {
 	global $wpdb;
 
-	// Set pages as standard class
-	$pages = new stdClass;
+	// Look in cache first
+	$pages = wp_cache_get( 'directory_pages', 'bp' );
 
-	// Get pages and IDs
-	$page_ids = bp_core_get_directory_page_ids();
-	if ( !empty( $page_ids ) ) {
+	if ( false === $pages ) {
 
-		// Always get page data from the root blog, except on multiblog mode, when it comes
-		// from the current blog
-		$posts_table_name = bp_is_multiblog_mode() ? $wpdb->posts : $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts';
-		$page_ids_sql     = implode( ',', wp_parse_id_list( $page_ids ) );
-		$page_names       = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " );
+		// Set pages as standard class
+		$pages = new stdClass;
 
-		foreach ( (array) $page_ids as $component_id => $page_id ) {
-			foreach ( (array) $page_names as $page_name ) {
-				if ( $page_name->ID == $page_id ) {
-					if ( !isset( $pages->{$component_id} ) || !is_object( $pages->{$component_id} ) ) {
-						$pages->{$component_id} = new stdClass;
+		// Get pages and IDs
+		$page_ids = bp_core_get_directory_page_ids();
+		if ( !empty( $page_ids ) ) {
+
+			// Always get page data from the root blog, except on multiblog mode, when it comes
+			// from the current blog
+			$posts_table_name = bp_is_multiblog_mode() ? $wpdb->posts : $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts';
+			$page_ids_sql     = implode( ',', wp_parse_id_list( $page_ids ) );
+			$page_names       = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " );
+
+			foreach ( (array) $page_ids as $component_id => $page_id ) {
+				foreach ( (array) $page_names as $page_name ) {
+					if ( $page_name->ID == $page_id ) {
+						if ( !isset( $pages->{$component_id} ) || !is_object( $pages->{$component_id} ) ) {
+							$pages->{$component_id} = new stdClass;
+						}
+
+						$pages->{$component_id}->name  = $page_name->post_name;
+						$pages->{$component_id}->id    = $page_name->ID;
+						$pages->{$component_id}->title = $page_name->post_title;
+						$slug[]                        = $page_name->post_name;
+
+						// Get the slug
+						while ( $page_name->post_parent != 0 ) {
+							$parent                 = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
+							$slug[]                 = $parent[0]->post_name;
+							$page_name->post_parent = $parent[0]->post_parent;
+						}
+
+						$pages->{$component_id}->slug = implode( '/', array_reverse( (array) $slug ) );
 					}
 
-					$pages->{$component_id}->name  = $page_name->post_name;
-					$pages->{$component_id}->id    = $page_name->ID;
-					$pages->{$component_id}->title = $page_name->post_title;
-					$slug[]                        = $page_name->post_name;
-
-					// Get the slug
-					while ( $page_name->post_parent != 0 ) {
-						$parent                 = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
-						$slug[]                 = $parent[0]->post_name;
-						$page_name->post_parent = $parent[0]->post_parent;
-					}
-
-					$pages->{$component_id}->slug = implode( '/', array_reverse( (array) $slug ) );
+					unset( $slug );
 				}
-
-				unset( $slug );
 			}
 		}
+
+		wp_cache_set( 'directory_pages', $pages, 'bp' );
 	}
 
 	return apply_filters( 'bp_core_get_directory_pages', $pages );

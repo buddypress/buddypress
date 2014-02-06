@@ -57,6 +57,43 @@ add_action( 'bp_first_activity_for_member',   'bp_core_clear_member_count_caches
 add_action( 'deleted_user',                   'bp_core_clear_member_count_caches' );
 
 /**
+ * Clear the directory_pages cache when one of the pages is updated.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $post_id
+ */
+function bp_core_clear_directory_pages_cache_page_edit( $post_id ) {
+	if ( ! bp_is_root_blog() ) {
+		return;
+	}
+
+	// Bail if BP is not defined here
+	if ( ! buddypress() ) {
+		return;
+	}
+
+	$page_ids = bp_core_get_directory_page_ids();
+
+	if ( ! in_array( $post_id, (array) $page_ids ) ) {
+		return;
+	}
+
+	wp_cache_delete( 'directory_pages', 'bp' );
+}
+add_action( 'save_post_page', 'bp_core_clear_directory_pages_cache_page_edit' );
+
+/**
+ * Clear the directory_pages cache when the bp-pages option is updated.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_core_clear_directory_pages_cache_settings_edit() {
+	wp_cache_delete( 'directory_pages', 'bp' );
+}
+add_action( 'update_option_bp-pages', 'bp_core_clear_directory_pages_cache_settings_edit' );
+
+/**
  * Determine which items from a list do not have cached values.
  *
  * @since BuddyPress (2.0.0)

@@ -255,4 +255,45 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertEquals( $expected, bp_alpha_sort_by_key( $items, 'name' ) );
 	}
 
+	/**
+	 * @group bp_core_get_directory_pages
+	 */
+	public function test_bp_core_get_directory_pages_after_page_edit() {
+		// Set the cache
+		$pages = bp_core_get_directory_pages();
+
+		// Update one of the posts
+		switch_to_blog( bp_get_root_blog_id() );
+
+		// grab the first one
+		foreach ( $pages as $page ) {
+			$p = $page;
+			break;
+		}
+
+		$post = get_post( $p->id );
+		$post->post_title .= ' Foo';
+		wp_update_post( $post );
+
+		restore_current_blog();
+
+		$this->assertFalse( wp_cache_get( 'directory_pages', 'bp' ) );
+	}
+
+	/**
+	 * @group bp_core_get_directory_pages
+	 */
+	public function test_bp_core_get_directory_pages_pages_settings_update() {
+		// Set the cache
+		$pages = bp_core_get_directory_pages();
+
+		// Mess with it but put it back
+		$v = bp_get_option( 'bp-pages' );
+		bp_update_option( 'bp-pages', 'foo' );
+
+		$this->assertFalse( wp_cache_get( 'directory_pages', 'bp' ) );
+
+		bp_update_option( 'bp-pages', $v );
+	}
+
 }
