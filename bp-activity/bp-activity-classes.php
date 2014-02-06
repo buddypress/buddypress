@@ -533,17 +533,15 @@ class BP_Activity_Activity {
 
 		if ( bp_is_active( 'xprofile' ) && ! empty( $activities ) ) {
 			$activity_user_ids = wp_list_pluck( $activities, 'user_id' );
-			$activity_user_ids = implode( ',', wp_parse_id_list( $activity_user_ids ) );
 
 			if ( ! empty( $activity_user_ids ) ) {
-				$bp = buddypress();
-
-				if ( $names = $wpdb->get_results( "SELECT user_id, value AS user_fullname FROM {$bp->profile->table_name_data} WHERE field_id = 1 AND user_id IN ({$activity_user_ids})" ) ) {
+				$names = BP_XProfile_ProfileData::get_value_byid( 1, $activity_user_ids );
+				if ( ! empty( $names ) ) {
 
 					$tmp_names = array();
 
 					foreach ( (array) $names as $name ) {
-						$tmp_names[ $name->user_id ] = $name->user_fullname;
+						$tmp_names[ $name->user_id ] = $name->value;
 					}
 
 					foreach ( (array) $activities as $i => $activity ) {
