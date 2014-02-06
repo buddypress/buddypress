@@ -87,11 +87,15 @@ add_action( 'save_post_page', 'bp_core_clear_directory_pages_cache_page_edit' );
  * Clear the directory_pages cache when the bp-pages option is updated.
  *
  * @since BuddyPress (2.0.0)
+ *
+ * @param string $option Option name.
  */
-function bp_core_clear_directory_pages_cache_settings_edit() {
-	wp_cache_delete( 'directory_pages', 'bp' );
+function bp_core_clear_directory_pages_cache_settings_edit( $option ) {
+	if ( 'bp-pages' === $option ) {
+		wp_cache_delete( 'directory_pages', 'bp' );
+	}
 }
-add_action( 'update_option_bp-pages', 'bp_core_clear_directory_pages_cache_settings_edit' );
+add_action( 'update_option', 'bp_core_clear_directory_pages_cache_settings_edit' );
 
 /**
  * Determine which items from a list do not have cached values.
