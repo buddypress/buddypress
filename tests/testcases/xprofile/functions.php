@@ -80,4 +80,16 @@ Bar!';
 		bp_xprofile_update_meta( $f->id, 'field', 'linebreak_field', $meta_value );
 		$this->assertEquals( $meta_value, bp_xprofile_get_meta( $f->id, 'field', 'linebreak_field' ) );
 	}
+
+	/**
+	 * @group bp_xprofile_fullname_field_id
+	 */
+	public function test_bp_xprofile_fullname_field_id_invalidation() {
+		// Prime the cache
+		$id = bp_xprofile_fullname_field_id();
+
+		bp_update_option( 'bp-xprofile-fullname-field-name', 'foo' );
+
+		$this->assertFalse( wp_cache_get( 'fullname_field_id', 'bp_xprofile' ) );
+	}
 }

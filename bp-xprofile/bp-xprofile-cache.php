@@ -58,5 +58,25 @@ function xprofile_clear_profiledata_object_cache( $data_obj ) {
 add_action( 'xprofile_data_after_save', 'xprofile_clear_profiledata_object_cache' );
 add_action( 'xprofile_data_after_delete', 'xprofile_clear_profiledata_object_cache' );
 
+/**
+ * Clear fullname_field_id cache when bp-xprofile-fullname-field-name is updated.
+ *
+ * Note for future developers: Dating from an early version of BuddyPress where
+ * the fullname field (field #1) did not have a title that was editable in the
+ * normal Profile Fields admin interface, we have the bp-xprofile-fullname-field-name
+ * option. In many places throughout BuddyPress, the ID of the fullname field
+ * is queried using this setting. However, this is no longer strictly necessary,
+ * because we essentially hardcode (in the xprofile admin save routine, as well
+ * as the xprofile schema definition) that the fullname field will be 1. The
+ * presence of the non-hardcoded versions (and thus this bit of cache
+ * invalidation) is thus for backward compatibility only.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function xprofile_clear_fullname_field_id_cache() {
+	wp_cache_delete( 'fullname_field_id', 'bp_xprofile' );
+}
+add_action( 'update_option_bp-xprofile-fullname-field-name', 'xprofile_clear_fullname_field_id_cache' );
+
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );
