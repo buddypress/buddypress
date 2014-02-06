@@ -1250,7 +1250,7 @@ class BP_XProfile_ProfileData {
 			}
 
 			// Set caches
-			foreach ( $field_ids as $field_id ) {
+			foreach ( $uncached_field_ids as $field_id ) {
 
 				// If a value was found, cache it
 				if ( isset( $queried_data[ $field_id ] ) ) {
