@@ -263,4 +263,147 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $expected, BP_XProfile_ProfileData::get_value_byid( $f->id, array( $u1, $u2 ) ) );
 	}
 
+	/**
+	 * @group get_all_for_user
+	 */
+	public function test_get_all_for_user_uncached() {
+		$u = $this->create_user();
+		$g1 = $this->factory->xprofile_group->create();
+		$g2 = $this->factory->xprofile_group->create();
+		$f1 = $this->factory->xprofile_field->create( array(
+			'type' => 'textbox',
+			'field_group_id' => $g1->id,
+		) );
+		$f2 = $this->factory->xprofile_field->create( array(
+			'type' => 'radio',
+			'field_group_id' => $g2->id,
+		) );
+
+		$time = bp_core_current_time();
+
+		// Get the fullname field - hackish
+		$f0_id = xprofile_get_field_id_from_name( bp_xprofile_fullname_field_name() );
+		$f0 = new BP_XProfile_Field( $f0_id );
+		$g0 = new BP_XProfile_Group( $f0->group_id );
+		$d0 = new BP_XProfile_ProfileData( $f0->id, $u );
+
+		$d1 = new BP_XProfile_ProfileData();
+		$d1->user_id = $u;
+		$d1->field_id = $f1->id;
+		$d1->value = 'foo';
+		$d1->last_updated = $time;
+		$d1->save();
+
+		$d2 = new BP_XProfile_ProfileData();
+		$d2->user_id = $u;
+		$d2->field_id = $f2->id;
+		$d2->value = 'bar';
+		$d2->last_updated = $time;
+		$d2->save();
+
+		// Ensure it's deleted from cache
+		wp_cache_delete( $f1->id, 'bp_xprofile_data_' . $u );
+		wp_cache_delete( $f2->id, 'bp_xprofile_data_' . $u );
+
+		$u_obj = new WP_User( $u );
+
+		$expected = array(
+			'user_login' => $u_obj->user_login,
+			'user_nicename' => $u_obj->user_nicename,
+			'user_email' => $u_obj->user_email,
+			$f0->name => array(
+				'field_group_id' => $g0->id,
+				'field_group_name' => $g0->name,
+				'field_id' => $f0->id,
+				'field_type' => $f0->type,
+				'field_data' => $d0->value,
+			),
+			$f1->name => array(
+				'field_group_id' => $g1->id,
+				'field_group_name' => $g1->name,
+				'field_id' => $f1->id,
+				'field_type' => $f1->type,
+				'field_data' => $d1->value,
+			),
+			$f2->name => array(
+				'field_group_id' => $g2->id,
+				'field_group_name' => $g2->name,
+				'field_id' => $f2->id,
+				'field_type' => $f2->type,
+				'field_data' => $d2->value,
+			),
+		);
+
+		$this->assertEquals( $expected, BP_XProfile_ProfileData::get_all_for_user( $u ) );
+	}
+
+	/**
+	 * @group get_all_for_user
+	 */
+	public function test_get_all_for_user_cached() {
+		$u = $this->create_user();
+		$g1 = $this->factory->xprofile_group->create();
+		$g2 = $this->factory->xprofile_group->create();
+		$f1 = $this->factory->xprofile_field->create( array(
+			'type' => 'textbox',
+			'field_group_id' => $g1->id,
+		) );
+		$f2 = $this->factory->xprofile_field->create( array(
+			'type' => 'radio',
+			'field_group_id' => $g2->id,
+		) );
+
+		$time = bp_core_current_time();
+
+		$g0 = new BP_XProfile_Group( 1 );
+		$f0 = new BP_XProfile_Field( 1 );
+		$d0 = new BP_XProfile_ProfileData( 1, $u );
+
+		$d1 = new stdClass;
+		$d1->user_id = $u;
+		$d1->field_id = $f1->id;
+		$d1->value = 'foo';
+		$d1->last_updated = $time;
+
+		$d2 = new stdClass;
+		$d2->user_id = $u;
+		$d2->field_id = $f2->id;
+		$d2->value = 'bar';
+		$d2->last_updated = $time;
+
+		wp_cache_set( $f1->id, $d1, 'bp_xprofile_data_' . $u );
+		wp_cache_set( $f2->id, $d2, 'bp_xprofile_data_' . $u );
+
+		$u_obj = new WP_User( $u );
+
+		$expected = array(
+			'user_login' => $u_obj->user_login,
+			'user_nicename' => $u_obj->user_nicename,
+			'user_email' => $u_obj->user_email,
+			$f0->name => array(
+				'field_group_id' => $g0->id,
+				'field_group_name' => $g0->name,
+				'field_id' => $f0->id,
+				'field_type' => $f0->type,
+				'field_data' => $d0->value,
+			),
+			$f1->name => array(
+				'field_group_id' => $g1->id,
+				'field_group_name' => $g1->name,
+				'field_id' => $f1->id,
+				'field_type' => $f1->type,
+				'field_data' => $d1->value,
+			),
+			$f2->name => array(
+				'field_group_id' => $g2->id,
+				'field_group_name' => $g2->name,
+				'field_id' => $f2->id,
+				'field_type' => $f2->type,
+				'field_data' => $d2->value,
+			),
+		);
+
+		$this->assertEquals( $expected, BP_XProfile_ProfileData::get_all_for_user( $u ) );
+	}
+
 }

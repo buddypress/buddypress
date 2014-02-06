@@ -1278,29 +1278,45 @@ class BP_XProfile_ProfileData {
 	}
 
 	/**
-	 * BP_XProfile_ProfileData::get_all_for_user()
-	 *
 	 * Get all of the profile information for a specific user.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @return array
 	 */
 	public static function get_all_for_user( $user_id ) {
 		global $wpdb, $bp;
 
-		$results      = $wpdb->get_results( $wpdb->prepare( "SELECT g.id as field_group_id, g.name as field_group_name, f.id as field_id, f.name as field_name, f.type as field_type, d.value as field_data, u.user_login, u.user_nicename, u.user_email FROM {$bp->profile->table_name_groups} g LEFT JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id INNER JOIN {$bp->profile->table_name_data} d ON f.id = d.field_id LEFT JOIN {$wpdb->users} u ON d.user_id = u.ID WHERE d.user_id = %d AND d.value != ''", $user_id ) );
+		$groups = BP_XProfile_Group::get( array(
+			'user_id'                => $user_id,
+			'hide_empty_groups'      => true,
+			'hide_empty_fields'      => true,
+			'fetch_fields'           => true,
+			'fetch_field_data'       => true,
+		) );
+
 		$profile_data = array();
 
-		if ( !empty( $results ) ) {
-			$profile_data['user_login']    = $results[0]->user_login;
-			$profile_data['user_nicename'] = $results[0]->user_nicename;
-			$profile_data['user_email']    = $results[0]->user_email;
+		if ( ! empty( $groups ) ) {
+			$user = new WP_User( $user_id );
 
-			foreach( (array) $results as $field ) {
-				$profile_data[$field->field_name] = array(
-					'field_group_id'   => $field->field_group_id,
-					'field_group_name' => $field->field_group_name,
-					'field_id'         => $field->field_id,
-					'field_type'       => $field->field_type,
-					'field_data'       => $field->field_data
-				);
+			$profile_data['user_login']    = $user->user_login;
+			$profile_data['user_nicename'] = $user->user_nicename;
+			$profile_data['user_email']    = $user->user_email;
+
+			foreach ( (array) $groups as $group ) {
+				if ( empty( $group->fields ) ) {
+					continue;
+				}
+
+				foreach ( (array) $group->fields as $field ) {
+					$profile_data[ $field->name ] = array(
+						'field_group_id'   => $group->id,
+						'field_group_name' => $group->name,
+						'field_id'         => $field->id,
+						'field_type'       => $field->type,
+						'field_data'       => $field->data->value,
+					);
+				}
 			}
 		}
 
