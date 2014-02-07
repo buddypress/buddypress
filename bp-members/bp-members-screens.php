@@ -386,7 +386,7 @@ class BP_Members_Theme_Compat {
 	/** Single ****************************************************************/
 
 	/**
-	 * Add custom template hierarchy to theme compat for member pages. 
+	 * Add custom template hierarchy to theme compat for member pages.
 	 *
 	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *
@@ -396,8 +396,8 @@ class BP_Members_Theme_Compat {
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
-		// Setup some variables we're going to reference in our custom templates 
-		$user_nicename = buddypress()->displayed_user->userdata->user_nicename; 
+		// Setup some variables we're going to reference in our custom templates
+		$user_nicename = buddypress()->displayed_user->userdata->user_nicename;
 
 		// Setup our templates based on priority
 		$new_templates = apply_filters( 'bp_template_hierarchy_members_single_item', array(
