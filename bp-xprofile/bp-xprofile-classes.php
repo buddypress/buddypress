@@ -1385,7 +1385,28 @@ class BP_XProfile_ProfileData {
 			$uncached_ids_sql = implode( ',', $uncached_ids );
 			$queried_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$uncached_ids_sql})", $field_id ) );
 
-			foreach ( $queried_data as $d ) {
+			// Rekey
+			$qd = array();
+			foreach ( $queried_data as $data ) {
+				$qd[ $data->user_id ] = $data;
+			}
+
+			foreach ( $uncached_ids as $id ) {
+				// The value was successfully fetched
+				if ( isset( $qd[ $id ] ) ) {
+					$d = $qd[ $id ];
+
+				// No data found for the user, so we fake it to
+				// avoid cache misses and PHP notices
+				} else {
+					$d = new stdClass;
+					$d->id           = '';
+					$d->user_id      = $id;
+					$d->field_id     = '';
+					$d->value        = '';
+					$d->last_updated = '';
+				}
+
 				wp_cache_set( $field_id, $d, 'bp_xprofile_data_' . $d->user_id );
 			}
 		}
