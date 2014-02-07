@@ -81,7 +81,7 @@ function bp_core_clear_directory_pages_cache_page_edit( $post_id ) {
 
 	wp_cache_delete( 'directory_pages', 'bp' );
 }
-add_action( 'save_post_page', 'bp_core_clear_directory_pages_cache_page_edit' );
+add_action( 'save_post', 'bp_core_clear_directory_pages_cache_page_edit' );
 
 /**
  * Clear the directory_pages cache when the bp-pages option is updated.
