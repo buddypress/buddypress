@@ -314,19 +314,25 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_get_activity_comments_format() {
 		$now = time();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
 		$a1 = $this->factory->activity->create( array(
 			'content' => 'Life Rules',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+			'user_id' => $u1,
 		) );
 		$a2 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'content' => 'Candy is good',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+			'user_id' => $u1,
 		) );
 		$a3 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'content' => 'Bread is good',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 25 ),
+			'user_id' => $u2,
 		) );
 
 		$keys = array( 'id', 'item_id', 'secondary_item_id', 'user_id', 'primary_link', 'component', 'type', 'action', 'content', 'date_recorded', 'hide_sitewide', 'mptt_left', 'mptt_right', 'is_spam' );
