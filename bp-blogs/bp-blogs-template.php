@@ -1227,13 +1227,13 @@ function bp_blogs_get_profile_stats( $args = '' ) {
 		// Only proceed if a user ID was passed
 		if ( ! empty( $r['user_id'] ) ) {
 
-			// Get the user groups
+			// Get the user's blogs
 			if ( empty( $r['blogs'] ) ) {
 				$r['blogs'] = absint( bp_blogs_total_blogs_for_user( $r['user_id'] ) );
 			}
 
-			// If groups exist, show some formatted output
-			$r['output'] = $r['before'] . sprintf( _n( '1 site', '<strong>%s</strong> sites', $r['blogs'], 'buddypress' ), $r['blogs'] ) . $r['after'];
+			// If blogs exist, show some formatted output
+			$r['output'] = $r['before'] . sprintf( _n( '%s site', '%s sites', $r['blogs'], 'buddypress' ), '<strong>' . $r['blogs'] . '</strong>' ) . $r['after'];
 		}
 	}
 

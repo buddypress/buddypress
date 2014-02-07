@@ -579,13 +579,13 @@ function bp_friends_get_profile_stats( $args = '' ) {
 		// Only proceed if a user ID was passed
 		if ( ! empty( $r['user_id'] ) ) {
 
-			// Get the user groups
+			// Get the user's friends
 			if ( empty( $r['friends'] ) ) {
 				$r['friends'] = absint( friends_get_total_friend_count( $r['user_id'] ) );
 			}
 
-			// If groups exist, show some formatted output
-			$r['output'] = $r['before'] . sprintf( _n( '1 friend', '<strong>%s</strong> friends', $r['friends'], 'buddypress' ), $r['friends'] ) . $r['after'];
+			// If friends exist, show some formatted output
+			$r['output'] = $r['before'] . sprintf( _n( '%s friend', '%s friends', $r['friends'], 'buddypress' ), '<strong>' . $r['friends'] . '</strong>' ) . $r['after'];
 		}
 	}
 

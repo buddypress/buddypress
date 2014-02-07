@@ -3201,7 +3201,7 @@ function bp_groups_get_profile_stats( $args = '' ) {
 			}
 
 			// If groups exist, show some formatted output
-			$r['output'] = $r['before'] . sprintf( _n( '1 group', '<strong>%s</strong> groups', $r['groups'], 'buddypress' ), $r['groups'] ) . $r['after'];
+			$r['output'] = $r['before'] . sprintf( _n( '%s group', '%s groups', $r['groups'], 'buddypress' ), '<strong>' . $r['groups'] . '</strong>' ) . $r['after'];
 		}
 	}
 
