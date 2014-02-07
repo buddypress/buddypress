@@ -98,6 +98,33 @@ function bp_core_clear_directory_pages_cache_settings_edit( $option ) {
 add_action( 'update_option', 'bp_core_clear_directory_pages_cache_settings_edit' );
 
 /**
+ * Clear the root_blog_options cache when any of its options are updated.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param string $option Option name.
+ */
+function bp_core_clear_root_options_cache( $option ) {
+	$keys = array_keys( bp_get_default_options() );
+	$keys = array_merge( $keys, array(
+		'registration',
+		'avatar_default',
+		'tags_blog_id',
+		'sitewide_tags_blog',
+		'registration',
+		'fileupload_mask',
+	) );
+
+	if ( in_array( $option, $keys ) ) {
+		wp_cache_delete( 'root_blog_options', 'bp' );
+	}
+}
+add_action( 'update_option', 'bp_core_clear_root_options_cache' );
+add_action( 'update_site_option', 'bp_core_clear_root_options_cache' );
+add_action( 'add_option', 'bp_core_clear_root_options_cache' );
+add_action( 'add_site_option', 'bp_core_clear_root_options_cache' );
+
+/**
  * Determine which items from a list do not have cached values.
  *
  * @since BuddyPress (2.0.0)

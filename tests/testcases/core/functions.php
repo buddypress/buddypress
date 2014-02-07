@@ -296,4 +296,38 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		bp_update_option( 'bp-pages', $v );
 	}
 
+	/**
+	 * @group bp_core_get_root_options
+	 */
+	public function test_bp_core_get_root_options_cache_invalidate() {
+		$keys = array_keys( bp_get_default_options() );
+		$keys[] = 'registration';
+		$keys[] = 'avatar_default';
+
+		foreach ( $keys as $key ) {
+			// prime cache
+			$root_options = bp_core_get_root_options();
+
+			bp_update_option( $key, 'foo' );
+
+			$this->assertFalse( wp_cache_get( 'root_blog_options', 'bp' ), 'Cache not invalidated after updating "' . $key . '"' );
+		}
+
+		if ( is_multisite() ) {
+			$ms_keys = array(
+				'tags_blog_id',
+				'sitewide_tags_blog',
+				'registration',
+				'fileupload_mask',
+			);
+
+			foreach ( $ms_keys as $ms_key ) {
+				$root_options = bp_core_get_root_options();
+
+				update_site_option( $ms_key, 'foooooooo' );
+
+				$this->assertFalse( wp_cache_get( 'root_blog_options', 'bp' ), 'Cache not invalidated after updating "' . $ms_key . '"' );
+			}
+		}
+	}
 }
