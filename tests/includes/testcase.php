@@ -92,6 +92,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		// setup $current_site and $current_blog globals for multisite based on
 		// REQUEST_URI; mostly copied from /wp-includes/ms-settings.php
 		if ( is_multisite() ) {
+			$GLOBALS['current_blog'] = $GLOBALS['current_site'] = $GLOBALS['blog_id'] = null;
+
 			$domain = addslashes( $_SERVER['HTTP_HOST'] );
 			if ( false !== strpos( $domain, ':' ) ) {
 				if ( substr( $domain, -3 ) == ':80' ) {
@@ -131,6 +133,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 				$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $domain, 'path' => $path ), false );
 
 				unset($reserved_blognames);
+			}
+
+			if ( $GLOBALS['current_site'] && ! $GLOBALS['current_blog'] ) {
+				$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $GLOBALS['current_site']->domain, 'path' => $GLOBALS['current_site']->path ), false );
 			}
 
 			$GLOBALS['blog_id'] = $GLOBALS['current_blog']->blog_id;
