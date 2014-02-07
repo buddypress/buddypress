@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-07 14:35:14+00:00\n"
+"POT-Creation-Date: 2014-02-07 18:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -641,7 +641,7 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:1220 bp-groups/bp-groups-template.php:1236
 #: bp-groups/bp-groups-template.php:1285 bp-groups/bp-groups-template.php:1301
 #: bp-groups/bp-groups-template.php:2029 bp-groups/bp-groups-template.php:2038
-#: bp-groups/bp-groups-template.php:2047 bp-groups/bp-groups-template.php:2825
+#: bp-groups/bp-groups-template.php:2047 bp-groups/bp-groups-template.php:2822
 #: bp-members/bp-members-buddybar.php:64 bp-members/bp-members-loader.php:216
 #: bp-members/bp-members-template.php:520
 #: bp-members/bp-members-template.php:820
@@ -1062,8 +1062,8 @@ msgid "Visit Site"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:1236
-msgid "1 site"
-msgid_plural "<strong>%s</strong> sites"
+msgid "%s site"
+msgid_plural "%s sites"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -2738,8 +2738,8 @@ msgid "Add Friend"
 msgstr ""
 
 #: bp-friends/bp-friends-template.php:588
-msgid "1 friend"
-msgid_plural "<strong>%s</strong> friends"
+msgid "%s friend"
+msgid_plural "%s friends"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -3853,7 +3853,7 @@ msgid_plural "Viewing members %1$s to %2$s (of %3$s members)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-groups/bp-groups-template.php:2402 bp-groups/bp-groups-template.php:2655
+#: bp-groups/bp-groups-template.php:2402 bp-groups/bp-groups-template.php:2652
 msgid "Group avatar"
 msgstr ""
 
@@ -3873,17 +3873,17 @@ msgstr ""
 msgid "Moderator Of"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2858
+#: bp-groups/bp-groups-template.php:2855
 msgid "requested %s"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3033
+#: bp-groups/bp-groups-template.php:3030
 msgid "Group Activity RSS Feed"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3204
-msgid "1 group"
-msgid_plural "<strong>%s</strong> groups"
+#: bp-groups/bp-groups-template.php:3201
+msgid "%s group"
+msgid_plural "%s groups"
 msgstr[0] ""
 msgstr[1] ""
 
