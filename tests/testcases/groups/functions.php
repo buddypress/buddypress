@@ -283,4 +283,123 @@ Bar!';
 
 		$this->assertEquals( $meta_value, groups_get_groupmeta( $g, 'linebreak_test' ) );
 	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_update_groupmeta_non_numeric_id() {
+		$this->assertFalse( groups_update_groupmeta( 'foo', 'bar', 'baz' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_update_groupmeta_stripslashes() {
+		$g = $this->factory->group->create();
+		$value = "This string is totally slashin\'!";
+		groups_update_groupmeta( $g, 'foo', $value );
+
+		$this->assertSame( stripslashes( $value ), groups_get_groupmeta( $g, 'foo' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_update_groupmeta_new() {
+		$g = $this->factory->group->create();
+		$this->assertEquals( '', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be empty for this group.' );
+		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'bar' ) );
+		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_update_groupmeta_existing() {
+		$g = $this->factory->group->create();
+		groups_update_groupmeta( $g, 'foo', 'bar' );
+		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be set already for this group.' );
+		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'baz' ) );
+		$this->assertSame( 'baz', groups_get_groupmeta( $g, 'foo' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_update_groupmeta_existing_same_value() {
+		$g = $this->factory->group->create();
+		groups_update_groupmeta( $g, 'foo', 'bar' );
+		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be set already for this group.' );
+		$this->assertFalse( groups_update_groupmeta( $g, 'foo', 'bar' ) );
+		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 *
+	 * @todo Why do we do this?
+	 */
+	public function test_groups_get_groupmeta_with_illegal_key_characters() {
+		$g = $this->factory->group->create();
+		groups_update_groupmeta( $g, 'foo', 'bar' );
+
+		$krazy_key = ' f!@#$%^o *(){}o?+';
+		$this->assertSame( groups_get_groupmeta( $g, 'foo' ), groups_get_groupmeta( $g, $krazy_key ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_get_groupmeta_all_metas() {
+		$g = $this->factory->group->create();
+		groups_update_groupmeta( $g, 'foo', 'bar' );
+		groups_update_groupmeta( $g, 'Boone', 'is cool' );
+
+		// There's likely some other keys (total_member_count etc)
+		// Just check to make sure both of ours are there
+		$metas = groups_get_groupmeta( $g );
+		$count = count( $metas );
+		$this->assertSame( 'bar', $metas[ $count - 2 ] );
+		$this->assertSame( 'is cool', $metas[ $count - 1 ] );
+	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_get_groupmeta_all_metas_empty() {
+		$g = $this->factory->group->create();
+
+		// Get rid of any auto-created values
+		groups_delete_groupmeta( $g );
+
+		$metas = groups_get_groupmeta( $g );
+		$this->assertSame( array(), $metas );
+	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_get_groupmeta_empty() {
+		$g = $this->factory->group->create();
+		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_delete_groupmeta_non_numeric_id() {
+		$this->assertFalse( groups_delete_groupmeta( 'foo', 'bar' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 */
+	public function test_groups_delete_groupmeta_with_illegal_key_characters() {
+		$g = $this->factory->group->create();
+		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'bar' ), 'Value of "foo" should be set at this point.' );
+
+		$krazy_key = ' f!@#$%^o *(){}o?+';
+		$this->assertTrue( groups_delete_groupmeta( $g, $krazy_key ) );
+		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ) );
+	}
 }
