@@ -226,6 +226,8 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 			'field_group_id' => $g->id,
 		) );
 
+		$time = bp_core_current_time();
+
 		// Fake the cache
 		$d1 = new stdClass;
 		$d1->id = 10;
@@ -364,12 +366,14 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$d1->field_id = $f1->id;
 		$d1->value = 'foo';
 		$d1->last_updated = $time;
+		$d1->id = 1;
 
 		$d2 = new stdClass;
 		$d2->user_id = $u;
 		$d2->field_id = $f2->id;
 		$d2->value = 'bar';
 		$d2->last_updated = $time;
+		$d2->id = 2;
 
 		wp_cache_set( $f1->id, $d1, 'bp_xprofile_data_' . $u );
 		wp_cache_set( $f2->id, $d2, 'bp_xprofile_data_' . $u );
