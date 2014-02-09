@@ -359,8 +359,14 @@ Bar!';
 		// Just check to make sure both of ours are there
 		$metas = groups_get_groupmeta( $g );
 		$count = count( $metas );
-		$this->assertSame( 'bar', $metas[ $count - 2 ] );
-		$this->assertSame( 'is cool', $metas[ $count - 1 ] );
+		$found = array_slice( $metas, $count - 2 );
+
+		$expected = array(
+			'bar',
+			'is cool',
+		);
+
+		$this->assertSame( $expected, $found );
 	}
 
 	/**
@@ -370,7 +376,9 @@ Bar!';
 		$g = $this->factory->group->create();
 
 		// Get rid of any auto-created values
-		groups_delete_groupmeta( $g );
+		global $wpdb, $bp;
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_groupmeta} WHERE group_id = %d", $g ) );
+		wp_cache_delete( $g, 'group_meta' );
 
 		$metas = groups_get_groupmeta( $g );
 		$this->assertSame( array(), $metas );
