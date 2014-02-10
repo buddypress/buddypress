@@ -287,6 +287,40 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
 	return bp_update_user_meta( $user_id, 'bp_xprofile_visibility_levels', $current_visibility_levels );
 }
 
+/**
+ * Get the visibility level for a field.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $field_id The ID of the xprofile field.
+ * @param int $user_id The ID of the user to whom the data belongs.
+ * @return string
+ */
+function xprofile_get_field_visibility_level( $field_id = 0, $user_id = 0 ) {
+	$current_level = '';
+
+	if ( empty( $field_id ) || empty( $user_id ) ) {
+		return $current_level;
+	}
+
+	$current_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
+	$current_level  = isset( $current_levels[ $field_id ] ) ? $current_levels[ $field_id ] : '';
+
+	// Use the user's stored level, unless custom visibility is disabled
+	$field = new BP_XProfile_Field( $field_id );
+	if ( isset( $field->allow_custom_visibility ) && 'disabled' === $field->allow_custom_visibility ) {
+		$current_level = $field->default_visibility;
+	}
+
+	// If we're still empty, it means that overrides are permitted, but the
+	// user has not provided a value. Use the default value.
+	if ( empty( $current_level ) ) {
+		$current_level = $field->default_visibility;
+	}
+
+	return $current_level;
+}
+
 function xprofile_delete_field_data( $field, $user_id ) {
 	if ( is_numeric( $field ) )
 		$field_id = $field;

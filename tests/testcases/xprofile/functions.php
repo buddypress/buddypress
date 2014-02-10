@@ -92,4 +92,68 @@ Bar!';
 
 		$this->assertFalse( wp_cache_get( 'fullname_field_id', 'bp_xprofile' ) );
 	}
+
+	/**
+	 * @group xprofile_get_field_visibility_level
+	 */
+	public function test_bp_xprofile_get_field_visibility_level_missing_params() {
+		$this->assertSame( '', xprofile_get_field_visibility_level( 0, 1 ) );
+		$this->assertSame( '', xprofile_get_field_visibility_level( 1, 0 ) );
+	}
+
+	/**
+	 * @group xprofile_get_field_visibility_level
+	 */
+	public function test_bp_xprofile_get_field_visibility_level_user_set() {
+		$u = $this->create_user();
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g->id,
+			'type' => 'textbox',
+		) );
+
+		bp_xprofile_update_meta( $f->id, 'field', 'default_visibility', 'adminsonly' );
+		bp_xprofile_update_meta( $f->id, 'field', 'allow_custom_visibility', 'allowed' );
+
+		xprofile_set_field_visibility_level( $f->id, $u, 'loggedin' );
+
+		$this->assertSame( 'loggedin', xprofile_get_field_visibility_level( $f->id, $u ) );
+	}
+
+	/**
+	 * @group xprofile_get_field_visibility_level
+	 */
+	public function test_bp_xprofile_get_field_visibility_level_user_unset() {
+		$u = $this->create_user();
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g->id,
+			'type' => 'textbox',
+		) );
+
+		bp_xprofile_update_meta( $f->id, 'field', 'default_visibility', 'adminsonly' );
+		bp_xprofile_update_meta( $f->id, 'field', 'allow_custom_visibility', 'allowed' );
+
+		$this->assertSame( 'adminsonly', xprofile_get_field_visibility_level( $f->id, $u ) );
+
+	}
+
+	/**
+	 * @group xprofile_get_field_visibility_level
+	 */
+	public function test_bp_xprofile_get_field_visibility_level_admin_override() {
+		$u = $this->create_user();
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g->id,
+			'type' => 'textbox',
+		) );
+
+		bp_xprofile_update_meta( $f->id, 'field', 'default_visibility', 'adminsonly' );
+		bp_xprofile_update_meta( $f->id, 'field', 'allow_custom_visibility', 'disabled' );
+
+		xprofile_set_field_visibility_level( $f->id, $u, 'loggedin' );
+
+		$this->assertSame( 'adminsonly', xprofile_get_field_visibility_level( $f->id, $u ) );
+	}
 }
