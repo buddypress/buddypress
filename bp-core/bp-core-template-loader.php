@@ -95,8 +95,9 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	}
 
 	// Maybe load the template if one was located
-	if ( ( true == $load ) && !empty( $located ) )
+	if ( ( defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) && ( true == $load ) && !empty( $located ) ) {
 		load_template( $located, $require_once );
+	}
 
 	return $located;
 }
