@@ -95,15 +95,21 @@ class BP_Activity_Component extends BP_Component {
 			'table_name_meta' => $bp->table_prefix . 'bp_activity_meta',
 		);
 
+		// Metadata tables for groups component
+		$meta_tables = array(
+			'activity' => $bp->table_prefix . 'bp_activity_meta',
+		);
+
 		// All globals for activity component.
 		// Note that global_tables is included in this array.
 		$args = array(
 			'slug'                  => BP_ACTIVITY_SLUG,
 			'root_slug'             => isset( $bp->pages->activity->slug ) ? $bp->pages->activity->slug : BP_ACTIVITY_SLUG,
 			'has_directory'         => true,
+			'notification_callback' => 'bp_activity_format_notifications',
 			'search_string'         => __( 'Search Activity...', 'buddypress' ),
 			'global_tables'         => $global_tables,
-			'notification_callback' => 'bp_activity_format_notifications',
+			'meta_tables'           => $meta_tables,
 		);
 
 		parent::setup_globals( $args );

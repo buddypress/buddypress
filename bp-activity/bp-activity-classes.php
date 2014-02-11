@@ -824,15 +824,13 @@ class BP_Activity_Activity {
 	 * @return bool True on success.
 	 */
 	public static function delete_activity_meta_entries( $activity_ids = array() ) {
-		global $bp, $wpdb;
+		$activity_ids = wp_parse_id_list( $activity_ids );
 
-		$activity_ids = implode( ',', wp_parse_id_list( $activity_ids ) );
-
-		foreach ( (array) $activity_ids as $activity_id ) {
-			bp_activity_clear_meta_cache_for_activity( $activity_id );
+		foreach ( $activity_ids as $activity_id ) {
+			bp_activity_delete_meta( $activity_id );
 		}
 
-		return $wpdb->query( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id IN ({$activity_ids})" );
+		return true;
 	}
 
 	/**

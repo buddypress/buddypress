@@ -556,45 +556,32 @@ function bp_activity_total_favorites_for_user( $user_id = 0 ) {
 function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = '' ) {
 	global $wpdb, $bp;
 
-	// Return false if any of the above values are not set
-	if ( !is_numeric( $activity_id ) )
+	// Legacy - Return false if any of the above values are not set
+	if ( ! is_numeric( $activity_id ) ) {
 		return false;
-
-	// Sanitize key
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
-	if ( is_array( $meta_value ) || is_object( $meta_value ) )
-		$meta_value = serialize( $meta_value );
-
-	// Trim off whitespace
-	$meta_value = trim( $meta_value );
-
-	// Delete all for activity_id
-	if ( empty( $meta_key ) )
-		$retval = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
-
-	// Delete only when all match
-	else if ( $meta_value )
-		$retval = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s AND meta_value = %s", $activity_id, $meta_key, $meta_value ) );
-
-	// Delete only when activity_id and meta_key match
-	else
-		$retval = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
-
-	// Delete cache entry
-	if ( $meta_key ) {
-		wp_cache_delete( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, 'bp' );
-	} else {
-		bp_activity_clear_meta_cache_for_activity( $activity_id );
 	}
 
-	// Success
-	if ( !is_wp_error( $retval ) )
-		return true;
+	// Legacy - Sanitize key
+	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
-	// Fail
-	else
-		return false;
+	// Legacy - Trim off whitespace
+	$meta_value = trim( $meta_value );
+
+	// Legacy - if no meta_key is passed, delete all for the item
+	if ( empty( $meta_key ) ) {
+		$all_meta = bp_activity_get_meta( $activity_id );
+		$keys     = ! empty( $all_meta ) ? wp_list_pluck( $all_meta, 'meta_key' ) : array();
+	} else {
+		$keys = array( $meta_key );
+	}
+
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	foreach ( $keys as $key ) {
+		$retval = delete_metadata( 'activity', $activity_id, $key, $meta_value );
+	}
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
+
+	return $retval;
 }
 
 /**
@@ -602,10 +589,6 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
  *
  * @since BuddyPress (1.2)
  *
- * @global object $wpdb WordPress database access object.
- * @global object $bp BuddyPress global settings.
- * @uses wp_cache_get()
- * @uses wp_cache_set()
  * @uses apply_filters() To call the 'bp_activity_get_meta' hook.
  *
  * @param int $activity_id ID of the activity item whose metadata is being requseted.
@@ -614,53 +597,46 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
  *                         metadata for the activity item will be fetched.
  * @return mixed The meta value(s) being requested.
  */
-function bp_activity_get_meta( $activity_id = 0, $meta_key = '' ) {
-	global $wpdb, $bp;
+function bp_activity_get_meta( $activity_id = 0, $meta_key = '', $single = true ) {
 
 	// Make sure activity_id is valid
-	if ( empty( $activity_id ) || !is_numeric( $activity_id ) )
+	if ( empty( $activity_id ) || ! is_numeric( $activity_id ) ) {
 		return false;
+	}
 
-	// We have a key to look for
-	if ( !empty( $meta_key ) ) {
+	// Legacy - Sanitize keys
+	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
-		// Sanitize key
-		$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	$retval = get_metadata( 'activity', $activity_id, $meta_key, $single );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
-		// Check cache
-		if ( !$metas = wp_cache_get( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, 'bp' ) ) {
-			// No cache so hit the DB
-			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
-
-			// Set cache
-			wp_cache_set( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, $metas, 'bp' );
+	// Legacy - If fetching all meta for a group, just return the first
+	// of each found value
+	if ( empty( $meta_key ) ) {
+		$values = array();
+		foreach ( (array) $retval as $rkey => $rvalue ) {
+			$found = new stdClass;
+			$found->meta_key = $rkey;
+			$found->meta_value = array_pop( array_reverse( $rvalue ) );
+			$values[] = $found;
 		}
 
-	// No key so get all for activity_id
-	} else {
-		$metas = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $activity_id ) );
-
-		if ( !empty( $metas ) ) {
-			$metas = array_map( 'maybe_unserialize', (array) $metas );
-
-			foreach( $metas as $mkey => $mvalue ) {
-				wp_cache_set( 'bp_activity_meta_' . $activity_id . '_' . $mkey, $mvalue, 'bp' );
-			}
+		// If nothing was found, return false
+		if ( empty( $values ) ) {
+			$retval = false;
+		} else {
+			$retval = $values;
 		}
 	}
 
-	// No result so return false
-	if ( empty( $metas ) )
-		return false;
-
-	// Maybe, just maybe... unserialize
-	$metas = array_map( 'maybe_unserialize', (array) $metas );
-
-	// Return first item in array if only 1, else return all metas found
-	$retval = ( 1 == count( $metas ) ? $metas[0] : $metas );
+	// Legacy - On failure, expect false, not an empty string
+	if ( '' === $retval ) {
+		$retval = false;
+	}
 
 	// Filter result before returning
-	return apply_filters( 'bp_activity_get_meta', $retval, $activity_id, $meta_key );
+	return apply_filters( 'bp_activity_get_meta', $retval, $activity_id, $meta_key, $single );
 }
 
 /**
@@ -668,59 +644,31 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '' ) {
  *
  * @since BuddyPress (1.2)
  *
- * @global object $wpdb WordPress database access object.
- * @global object $bp BuddyPress global settings.
- * @uses maybe_serialize()
- * @uses bp_activity_delete_meta()
- * @uses wp_cache_set()
- *
  * @param int $activity_id ID of the activity item whose metadata is being updated.
  * @param string $meta_key Key of the metadata being updated.
  * @param mixed $meta_value Value to be set.
  * @return bool True on success, false on failure.
  */
 function bp_activity_update_meta( $activity_id, $meta_key, $meta_value ) {
-	global $wpdb, $bp;
 
-	// Make sure activity_id is valid
-	if ( !is_numeric( $activity_id ) )
+	// Legacy - Make sure activity_id is valid
+	if ( ! is_numeric( $activity_id ) ) {
 		return false;
-
-	// Sanitize key
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
-	// Sanitize value
-	if ( is_string( $meta_value ) ) {
-		$meta_value = stripslashes( $meta_value );
 	}
 
-	// Maybe, just maybe... serialize
-	$meta_value = maybe_serialize( $meta_value );
+	// Legacy - Sanitize key
+	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
-	// If value is false, delete the meta key
-	if ( false === $meta_value )
-		return bp_activity_delete_meta( $activity_id, $meta_key );
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	$retval = update_metadata( 'activity', $activity_id, $meta_key, $meta_value );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
-	// See if meta key exists for activity_id
-	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
+	// Legacy - return true if we fall through to add_metadata()
+	if ( is_int( $retval ) ) {
+		$retval = true;
+	}
 
-	// Meta key does not exist so INSERT
-	if ( empty( $cur ) )
-		$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->activity->table_name_meta} ( activity_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $activity_id, $meta_key, $meta_value ) );
-
-	// Meta key exists, so UPDATE
-	else if ( $cur->meta_value != $meta_value )
-		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name_meta} SET meta_value = %s WHERE activity_id = %d AND meta_key = %s", $meta_value, $activity_id, $meta_key ) );
-
-	// Weirdness, so return false
-	else
-		return false;
-
-	// Set cache
-	wp_cache_set( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, $meta_value, 'bp' );
-
-	// Victory is ours!
-	return true;
+	return $retval;
 }
 
 /** Clean up *****************************************************************/
