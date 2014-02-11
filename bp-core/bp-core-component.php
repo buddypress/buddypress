@@ -107,6 +107,24 @@ class BP_Component {
 	 */
 	public $root_slug = '';
 
+	/**
+	 * Metadata tables for the component (if applicable)
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @var array
+	 */
+	public $meta_tables = array();
+
+	/**
+	 * Global tables for the component (if applicable)
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @var array
+	 */
+	public $global_tables = array();
+
 	/** Methods ***************************************************************/
 
 	/**
@@ -181,6 +199,8 @@ class BP_Component {
 	 *           component directory search box. Eg, 'Search Groups...'.
 	 *     @type array $global_tables Optional. An array of database table
 	 *           names.
+	 *     @type array $meta_tables Optional. An array of metadata table
+	 *           names.
 	 * }
 	 */
 	public function setup_globals( $args = array() ) {
@@ -197,7 +217,8 @@ class BP_Component {
 			'has_directory'         => false,
 			'notification_callback' => '',
 			'search_string'         => '',
-			'global_tables'         => ''
+			'global_tables'         => '',
+			'meta_tables'           => '',
 		) );
 
 		// Slug used for permalink URI chunk after root
@@ -215,16 +236,14 @@ class BP_Component {
 		// Notifications callback
 		$this->notification_callback = apply_filters( 'bp_' . $this->id . '_notification_callback', $r['notification_callback'] );
 
-		// Set up global table names
-		if ( !empty( $r['global_tables'] ) ) {
+		// Set the global table names, if applicable
+		if ( ! empty( $r['global_tables'] ) ) {
+			$this->register_global_tables( $r['global_tables'] );
+		}
 
-			// This filter allows for component-specific filtering of table names
-			// To filter *all* tables, use the 'bp_core_get_table_prefix' filter instead
-			$r['global_tables'] = apply_filters( 'bp_' . $this->id . '_global_tables', $r['global_tables'] );
-
-			foreach ( $r['global_tables'] as $global_name => $table_name ) {
-				$this->$global_name = $table_name;
-			}
+		// Set the metadata table, if applicable
+		if ( ! empty( $r['meta_tables'] ) ) {
+			$this->register_meta_tables( $r['meta_tables'] );
 		}
 
 		/** BuddyPress ********************************************************/
@@ -441,6 +460,65 @@ class BP_Component {
 	 */
 	public function setup_title() {
 		do_action(  'bp_' . $this->id . '_setup_title' );
+	}
+
+	/**
+	 * Register global tables for the component, so that it may use WordPress's database API.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $tables
+	 */
+	public function register_global_tables( $tables = array() ) {
+
+		// This filter allows for component-specific filtering of table names
+		// To filter *all* tables, use the 'bp_core_get_table_prefix' filter instead
+		$tables = apply_filters( 'bp_' . $this->id . '_global_tables', $tables );
+
+		// Add to the BuddyPress global object
+		if ( !empty( $tables ) && is_array( $tables ) ) {
+			foreach ( $tables as $global_name => $table_name ) {
+				$this->$global_name = $table_name;
+			}
+
+			// Keep a record of the metadata tables in the component
+			$this->global_tables = $tables;
+		}
+
+		do_action( 'bp_' . $this->id . '_register_global_tables' );
+	}
+
+	/**
+	 * Register component metadata tables.
+	 *
+	 * Metadata tables are registered in the $wpdb global, for
+	 * compatibility with the WordPress metadata API.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $tables
+	 */
+	public function register_meta_tables( $tables = array() ) {
+		global $wpdb;
+
+		// This filter allows for component-specific filtering of table names
+		// To filter *all* tables, use the 'bp_core_get_table_prefix' filter instead
+		$tables = apply_filters( 'bp_' . $this->id . '_meta_tables', $tables );
+
+		/**
+		 * Add the name of each metadata table to WPDB to allow BuddyPress
+		 * components to play nicely with the WordPress metadata API.
+		 */
+		if ( !empty( $tables ) && is_array( $tables ) ) {
+			foreach( $tables as $meta_prefix => $table_name ) {
+				$wpdb->{$meta_prefix . 'meta'} = $table_name;
+			}
+
+			// Keep a record of the metadata tables in the component
+			$this->meta_tables = $tables;
+		}
+
+		do_action( 'bp_' . $this->id . '_register_meta_tables' );
 	}
 
 	/**
