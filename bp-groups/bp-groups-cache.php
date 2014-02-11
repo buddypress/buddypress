@@ -73,6 +73,18 @@ add_action( 'groups_details_updated',  'bp_groups_delete_group_cache' );
 add_action( 'groups_settings_updated', 'bp_groups_delete_group_cache' );
 
 /**
+ * Bust group cache when modifying metadata.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_groups_delete_group_cache_on_metadata_change( $meta_id, $group_id ) {
+	wp_cache_delete( 'bp_groups_group_' . $group_id . '_load_users', 'bp' );
+	wp_cache_delete( 'bp_groups_group_' . $group_id . '_noload_users', 'bp' );
+}
+add_action( 'updated_group_meta', 'bp_groups_delete_group_cache_on_metadata_change', 10, 2 );
+add_action( 'added_group_meta', 'bp_groups_delete_group_cache_on_metadata_change', 10, 2 );
+
+/**
  * Clear caches for the group creator when a group is created.
  *
  * @since BuddyPress (1.6.0)
