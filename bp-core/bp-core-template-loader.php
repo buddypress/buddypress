@@ -104,7 +104,9 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $require_once );
 
 	// Maybe load the template if one was located
-	if ( ( defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) && ( true == $load ) && !empty( $located ) ) {
+	$use_themes = defined( 'WP_USE_THEMES' ) && WP_USE_THEMES;
+	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+	if ( ( $use_themes || $doing_ajax ) && ( true == $load ) && ! empty( $located ) ) {
 		load_template( $located, $require_once );
 	}
 
