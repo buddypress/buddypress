@@ -211,8 +211,8 @@ function bp_update_meta_cache( $args = array() ) {
 
 	// Get meta info
 	if ( ! empty( $uncached_ids ) ) {
-		$id_list   = join( ',', $object_ids );
-		$meta_list = $wpdb->get_results( $wpdb->prepare( "SELECT {$object_column}, meta_key, meta_value FROM {$meta_table} WHERE {$object_column} IN ($id_list)", $object_type ), ARRAY_A );
+		$id_list   = join( ',', wp_parse_id_list( $uncached_ids ) );
+		$meta_list = $wpdb->get_results( esc_sql( "SELECT {$object_column}, meta_key, meta_value FROM {$meta_table} WHERE {$object_column} IN ({$id_list})" ), ARRAY_A );
 
 		if ( ! empty( $meta_list ) ) {
 			foreach ( $meta_list as $metarow ) {
