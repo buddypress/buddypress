@@ -38,20 +38,6 @@ require_once ABSPATH . '/wp-settings.php';
 
 echo "Installing BuddyPress...\n";
 
-// Make sure that BP has been cleaned from all blogs before reinstalling
-$blogs = is_multisite() ? $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" ) : array( 1 );
-foreach ( $blogs as $blog ) {
-	if ( is_multisite() ) {
-		switch_to_blog( $blog );
-	}
-
-	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%bp%'" );
-
-	if ( is_multisite() ) {
-		restore_current_blog();
-	}
-}
-
 $wpdb->query( 'SET storage_engine = INNODB' );
 $wpdb->select( DB_NAME, $wpdb->dbh );
 
