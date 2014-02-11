@@ -17,6 +17,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->set_current_user( $this->old_current_user );
 	}
 
+	/**
+	 * @group check_exists_by_content
+	 */
 	public function test_check_exists_by_content() {
 		$content  = 'A classy girl who know how to enjoy the freedom of a cup of coffee';
 		$activity = $this->factory->activity->create( array(
@@ -28,6 +31,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEquals( $activity, $result );
 	}
 
+	/**
+	 * @group delete_activity_item_comments
+	 */
 	public function test_delete_activity_item_comments() {
 		$parent_activity = $this->factory->activity->create( array(
 			'type' => 'activity_update',
@@ -46,6 +52,8 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 	/**
 	 * @ticket BP4804
+	 * @group delete_activity_meta_entries
+	 * @group activitymeta
 	 */
 	public function test_delete_activity_meta_entries() {
 		$activity = $this->factory->activity->create( array(
@@ -59,6 +67,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertFalse( $meta );
 	}
 
+	/**
+	 * @group get
+	 */
 	public function test_hide_all_for_user() {
 		$activity = $this->factory->activity->create( array(
 			'type' => 'activity_update',
@@ -94,6 +105,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $a1 ) );
 	}
 
+	/**
+	 * @group get
+	 */
 	public function test_get_with_meta_query_two_clauses_with_or_relation() {
 		$now = time();
 		$a1 = $this->factory->activity->create( array(
