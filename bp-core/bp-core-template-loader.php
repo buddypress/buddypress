@@ -94,6 +94,15 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 		}
 	}
 
+	/**
+	 * This action exists only to follow the standard BuddyPress coding convention,
+	 * and should not be used to short-circuit any part of the template locator.
+	 *
+	 * If you want to override a specific template part, please either filter
+	 * 'bp_get_template_part' or add a new location to the template stack.
+	 */
+	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $require_once );
+
 	// Maybe load the template if one was located
 	if ( ( defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) && ( true == $load ) && !empty( $located ) ) {
 		load_template( $located, $require_once );
