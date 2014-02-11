@@ -97,4 +97,48 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$this->set_current_user( $old_user );
 	}
 
+	/**
+	 * @group bp_get_member_last_active
+	 */
+	public function test_bp_get_member_last_active_default_params() {
+		// Fake the global
+		global $members_template;
+
+		$time = date( 'Y-m-d h:i:s', time() - 24*60*60 );
+		$members_template = new stdClass;
+		$members_template->member = new stdClass;
+		$members_template->member->last_activity = $time;
+
+		$this->assertEquals( bp_core_get_last_activity( $time, __( 'active %s', 'buddypress' ) ), bp_get_member_last_active() );
+	}
+
+	/**
+	 * @group bp_get_member_last_active
+	 */
+	public function test_bp_get_member_last_active_active_format_true() {
+		// Fake the global
+		global $members_template;
+
+		$time = date( 'Y-m-d h:i:s', time() - 24*60*60 );
+		$members_template = new stdClass;
+		$members_template->member = new stdClass;
+		$members_template->member->last_activity = $time;
+
+		$this->assertEquals( bp_core_get_last_activity( $time, __( 'active %s', 'buddypress' ) ), bp_get_member_last_active( array( 'active_format' => true, ) ) );
+	}
+
+	/**
+	 * @group bp_get_member_last_active
+	 */
+	public function test_bp_get_member_last_active_active_format_false() {
+		// Fake the global
+		global $members_template;
+
+		$time = date( 'Y-m-d h:i:s', time() - 24*60*60 );
+		$members_template = new stdClass;
+		$members_template->member = new stdClass;
+		$members_template->member->last_activity = $time;
+
+		$this->assertEquals( bp_core_time_since( $time ), bp_get_member_last_active( array( 'active_format' => false, ) ) );
+	}
 }

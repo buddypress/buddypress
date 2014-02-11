@@ -586,16 +586,40 @@ function bp_member_name() {
 	add_filter( 'bp_get_member_name', 'strip_tags'     );
 	add_filter( 'bp_get_member_name', 'esc_html'       );
 
-function bp_member_last_active() {
-	echo bp_get_member_last_active();
+/**
+ * Output the current member's last active time.
+ *
+ * @param array $args See {@link bp_get_member_last_active()}.
+ */
+function bp_member_last_active( $args = array() ) {
+	echo bp_get_member_last_active( $args );
 }
-	function bp_get_member_last_active() {
+	/**
+	 * Return the current member's last active time.
+	 *
+	 * @param array $args {
+	 *     Array of optional arguments.
+	 *     @type bool $active_format If true, formatted "Active 5 minutes
+	 *           ago". If false, formatted "5 minutes ago". Default: true.
+	 * }
+	 * @return string
+	 */
+	function bp_get_member_last_active( $args = array() ) {
 		global $members_template;
 
-		if ( isset( $members_template->member->last_activity ) )
-			$last_activity = bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s', 'buddypress' ) );
-		else
+		$r = wp_parse_args( $args, array(
+			'active_format' => true,
+		) );
+
+		if ( isset( $members_template->member->last_activity ) ) {
+			if ( ! empty( $r['active_format'] ) ) {
+				$last_activity = bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s', 'buddypress' ) );
+			} else {
+				$last_activity = bp_core_time_since( $members_template->member->last_activity );
+			}
+		} else {
 			$last_activity = __( 'Never active', 'buddypress' );
+		}
 
 		return apply_filters( 'bp_member_last_active', $last_activity );
 	}
