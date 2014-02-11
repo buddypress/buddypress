@@ -179,6 +179,7 @@ function bp_update_meta_cache( $args = array() ) {
 	$defaults = array(
 		'object_ids' 	   => array(), // Comma-separated list or array of item ids
 		'object_type' 	   => '',      // Canonical component id: groups, members, etc
+		'cache_group'      => '',      // Cache group
 		'meta_table' 	   => '',      // Name of the table containing the metadata
 		'object_column'    => '',      // DB column for the object ids (group_id, etc)
 		'cache_key_prefix' => ''       // Prefix to use when creating cache key names. Eg
@@ -187,7 +188,7 @@ function bp_update_meta_cache( $args = array() ) {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
-	if ( empty( $object_ids ) || empty( $object_type ) || empty( $meta_table ) ) {
+	if ( empty( $object_ids ) || empty( $object_type ) || empty( $meta_table ) || empty( $cache_group ) ) {
 		return false;
 	}
 
@@ -199,37 +200,39 @@ function bp_update_meta_cache( $args = array() ) {
 		$object_column = $object_type . '_id';
 	}
 
-	$object_ids = wp_parse_id_list( $object_ids );
+	if ( ! $cache_group ) {
+		return false;
+	}
+
+	$object_ids   = wp_parse_id_list( $object_ids );
+	$uncached_ids = bp_get_non_cached_ids( $object_ids, $cache_group );
 
 	$cache = array();
 
 	// Get meta info
-	$id_list   = join( ',', $object_ids );
-	$meta_list = $wpdb->get_results( $wpdb->prepare( "SELECT {$object_column}, meta_key, meta_value FROM {$meta_table} WHERE {$object_column} IN ($id_list)", $object_type ), ARRAY_A );
+	if ( ! empty( $uncached_ids ) ) {
+		$id_list   = join( ',', $object_ids );
+		$meta_list = $wpdb->get_results( $wpdb->prepare( "SELECT {$object_column}, meta_key, meta_value FROM {$meta_table} WHERE {$object_column} IN ($id_list)", $object_type ), ARRAY_A );
 
-	if ( !empty( $meta_list ) ) {
-		foreach ( $meta_list as $metarow ) {
-			$mpid = intval( $metarow[$object_column] );
-			$mkey = $metarow['meta_key'];
-			$mval = $metarow['meta_value'];
+		if ( ! empty( $meta_list ) ) {
+			foreach ( $meta_list as $metarow ) {
+				$mpid = intval( $metarow[$object_column] );
+				$mkey = $metarow['meta_key'];
+				$mval = $metarow['meta_value'];
 
-			// Force subkeys to be array type:
-			if ( !isset( $cache[$mpid] ) || !is_array( $cache[$mpid] ) )
-				$cache[$mpid] = array();
-			if ( !isset( $cache[$mpid][$mkey] ) || !is_array( $cache[$mpid][$mkey] ) )
-				$cache[$mpid][$mkey] = array();
+				// Force subkeys to be array type:
+				if ( !isset( $cache[$mpid] ) || !is_array( $cache[$mpid] ) )
+					$cache[$mpid] = array();
+				if ( !isset( $cache[$mpid][$mkey] ) || !is_array( $cache[$mpid][$mkey] ) )
+					$cache[$mpid][$mkey] = array();
 
-			// Add a value to the current pid/key:
-			$cache[$mpid][$mkey][] = $mval;
+				// Add a value to the current pid/key:
+				$cache[$mpid][$mkey][] = $mval;
+			}
 		}
-	}
 
-	foreach ( $object_ids as $id ) {
-		if ( ! isset($cache[$id]) )
-			$cache[$id] = array();
-
-		foreach( $cache[$id] as $meta_key => $meta_value ) {
-			wp_cache_set( $cache_key_prefix . '_' . $id . '_' . $meta_key, $meta_value, 'bp' );
+		foreach ( $cache as $object_id => $cache_val ) {
+			wp_cache_set( $object_id, $cache_val, $cache_group );
 		}
 	}
 

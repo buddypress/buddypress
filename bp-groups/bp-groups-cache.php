@@ -33,6 +33,7 @@ function bp_groups_update_meta_cache( $group_ids = false ) {
 	$cache_args = array(
 		'object_ids' 	   => $group_ids,
 		'object_type' 	   => $bp->groups->id,
+		'cache_group'      => 'group_meta',
 		'object_column'    => 'group_id',
 		'meta_table' 	   => $bp->groups->table_name_groupmeta,
 		'cache_key_prefix' => 'bp_groups_groupmeta'
