@@ -115,6 +115,203 @@ Bar!';
 	}
 
 	/**
+	 * @group activitymeta
+	 * @group bp_activity_update_meta
+	 */
+	public function test_bp_activity_update_meta_non_numeric_id() {
+		$this->assertFalse( bp_activity_update_meta( 'foo', 'bar', 'baz' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_update_meta
+	 */
+	public function test_bp_activity_update_meta_with_illegal_key_characters() {
+		$a = $this->factory->activity->create();
+		$krazy_key = ' f!@#$%^o *(){}o?+';
+		bp_activity_update_meta( $a, $krazy_key, 'bar' );
+
+		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_update_meta
+	 */
+	public function test_bp_activity_update_meta_stripslashes() {
+		$a = $this->factory->activity->create();
+		$value = "This string is totally slashin\'!";
+		bp_activity_update_meta( $a, 'foo', $value );
+
+		$this->assertSame( stripslashes( $value ), bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_update_meta
+	 */
+	public function test_bp_activity_update_meta_false_value_deletes() {
+		$a = $this->factory->activity->create();
+		bp_activity_update_meta( $a, 'foo', false );
+		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_update_meta
+	 */
+	public function test_bp_activity_update_meta_new() {
+		$a = $this->factory->activity->create();
+		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ), '"foo" meta should be empty for this activity item.' );
+		$this->assertTrue( bp_activity_update_meta( $a, 'foo', 'bar' ) );
+		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_update_meta
+	 */
+	public function test_bp_activity_update_meta_existing() {
+		$a = $this->factory->activity->create();
+		bp_activity_update_meta( $a, 'foo', 'bar' );
+		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertTrue( bp_activity_update_meta( $a, 'foo', 'baz' ) );
+		$this->assertSame( 'baz', bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_update_meta
+	 */
+	public function test_bp_activity_update_meta_same_value() {
+		$a = $this->factory->activity->create();
+		bp_activity_update_meta( $a, 'foo', 'bar' );
+		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertFalse( bp_activity_update_meta( $a, 'foo', 'bar' ) );
+		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_get_meta
+	 */
+	public function test_bp_activity_get_meta_empty_activity_id() {
+		$this->assertFalse( bp_activity_get_meta( 0 ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_get_meta
+	 */
+	public function test_bp_activity_get_meta_non_numeric_activity_id() {
+		$this->assertFalse( bp_activity_get_meta( 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_get_meta
+	 */
+	public function test_bp_activity_get_meta_with_illegal_characters() {
+		$a = $this->factory->activity->create();
+		bp_activity_update_meta( $a, 'foo', 'bar' );
+
+		$krazy_key = ' f!@#$%^o *(){}o?+';
+		$this->assertNotEmpty( bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertSame( bp_activity_get_meta( $a, 'foo' ), bp_activity_get_meta( $a, $krazy_key ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_get_meta
+	 */
+	public function test_bp_activity_get_meta_multiple() {
+		$a = $this->factory->activity->create();
+		bp_activity_update_meta( $a, 'foo', 'bar' );
+		bp_activity_update_meta( $a, 'foo1', 'bar1' );
+
+		$am1 = new stdClass;
+		$am1->meta_key = 'foo';
+		$am1->meta_value = 'bar';
+
+		$am2 = new stdClass;
+		$am2->meta_key = 'foo1';
+		$am2->meta_value = 'bar1';
+
+		$expected = array(
+			$am1,
+			$am2,
+		);
+
+		$this->assertEquals( $expected, bp_activity_get_meta( $a ) );
+	}
+
+	/**
+	 * @group bp_activity_get_meta
+	 * @group activitymeta
+	 */
+	public function test_bp_activity_get_meta_no_results_returns_false() {
+		$a = $this->factory->activity->create();
+
+		// @todo this is a quirk
+		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_delete_meta
+	 */
+	public function test_bp_activity_delete_meta_non_numeric_activity_id() {
+		$this->assertFalse( bp_activity_delete_meta( 'foo', 'bar' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_delete_meta
+	 */
+	public function test_bp_activity_delete_meta_trim_meta_value() {
+		// @todo Wtf?
+		$a = $this->factory->activity->create();
+		bp_activity_update_meta( $a, 'foo', 'bar' );
+		$this->assertTrue( bp_activity_delete_meta( $a, 'foo', ' bar ' ) );
+		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_delete_meta
+	 */
+	public function test_bp_activity_delete_meta_single() {
+		$a = $this->factory->activity->create();
+		bp_activity_update_meta( $a, 'foo', 'bar' );
+		$this->assertTrue( bp_activity_delete_meta( $a, 'foo', 'bar' ) );
+		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_delete_meta
+	 */
+	public function test_bp_activity_delete_meta_all_for_activity() {
+		$a = $this->factory->activity->create();
+		bp_activity_update_meta( $a, 'foo', 'bar' );
+		bp_activity_update_meta( $a, 'foo1', 'bar1' );
+		$this->assertTrue( bp_activity_delete_meta( $a ) );
+		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertFalse( bp_activity_get_meta( $a, 'foo1' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_delete_meta
+	 */
+	public function test_bp_activity_delete_meta_with_meta_value() {
+		$a = $this->factory->activity->create();
+		bp_activity_update_meta( $a, 'foo', 'bar' );
+		$this->assertTrue( bp_activity_delete_meta( $a, 'foo', 'bar' ) );
+		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+	}
+
+	/**
 	 * @group bp_activity_get_user_mentionname
 	 */
 	public function test_bp_activity_get_user_mentionname_compatibilitymode_off() {
