@@ -582,7 +582,11 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
 		$retval = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d AND meta_key = %s", $activity_id, $meta_key ) );
 
 	// Delete cache entry
-	wp_cache_delete( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, 'bp' );
+	if ( $meta_key ) {
+		wp_cache_delete( 'bp_activity_meta_' . $activity_id . '_' . $meta_key, 'bp' );
+	} else {
+		bp_activity_clear_meta_cache_for_activity( $activity_id );
+	}
 
 	// Success
 	if ( !is_wp_error( $retval ) )
