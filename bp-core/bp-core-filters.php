@@ -529,3 +529,23 @@ function bp_setup_nav_menu_item( $menu_item ) {
 	return $menu_item;
 }
 add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
+
+/**
+ * Filter SQL query strings to swap out the 'meta_id' column.
+ *
+ * WordPress uses the meta_id column for commentmeta and postmeta, and so
+ * hardcodes the column name into its *_metadata() functions. BuddyPress, on
+ * the other hand, uses 'id' for the primary column. To make WP's functions
+ * usable for BuddyPress, we use this just-in-time filter on 'query' to swap
+ * 'meta_id' with 'id.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @access private Do not use.
+ *
+ * @param string $q SQL query.
+ * @return string
+ */
+function bp_filter_metaid_column_name( $q ) {
+	return str_replace( 'meta_id', 'id', $q );
+}

@@ -956,94 +956,85 @@ function groups_accept_all_pending_membership_requests( $group_id ) {
 
 /*** Group Meta ****************************************************/
 
-function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = false ) {
-	global $wpdb, $bp;
+/**
+ * Delete metadata for a group.
+ *
+ * @param int $group_id ID of the group.
+ * @param string $meta_key The key of the row to delete.
+ * @param string $meta_value Optional. Metadata value. If specified, only delete
+ *        metadata entries with this value.
+ * @param bool $delete_all Optional. If true, delete matching metadata entries
+ *        for all groups. Default: false.
+ * @return bool True on success, false on failure.
+ */
+function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
 
-	if ( !is_numeric( $group_id ) )
+	// Legacy - return false if non-int group ID
+	if ( ! is_numeric( $group_id ) ) {
 		return false;
+	}
 
+	// Legacy - Sanitize keys
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
-	if ( is_array( $meta_value ) || is_object( $meta_value ) )
-		$meta_value = serialize($meta_value);
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	$retval = delete_metadata( 'group', $group_id, $meta_key, $meta_value, $delete_all );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
-	$meta_value = trim( $meta_value );
-
-	if ( !$meta_key )
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d", $group_id ) );
-	else if ( $meta_value )
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s AND meta_value = %s", $group_id, $meta_key, $meta_value ) );
-	else
-		$wpdb->query( $wpdb->prepare( "DELETE FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
-
-	// Delete the cached object
-	wp_cache_delete( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, 'bp' );
-
-	return true;
+	return $retval;
 }
 
-function groups_get_groupmeta( $group_id, $meta_key = '') {
-	global $wpdb, $bp;
+/**
+ * Get a piece of group metadata.
+ *
+ * @param int $group_id ID of the group.
+ * @param string $meta_key Metadata key.
+ * @param bool $single Optional. If true, return only the first value of the
+ *        specified meta_key. This parameter has no effect if meta_key is
+ *        empty.
+ * @return mixed Metadata value.
+ */
+function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
 
-	$group_id = (int) $group_id;
+	// Legacy - Sanitize keys
+	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
-	if ( !$group_id )
-		return false;
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	$retval = get_metadata( 'group', $group_id, $meta_key, $single );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
-	if ( !empty($meta_key) ) {
-		$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
-		$metas = wp_cache_get( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, 'bp' );
-		if ( false === $metas ) {
-			$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
-			wp_cache_set( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, $metas, 'bp' );
+	// Legacy - If fetching all meta for a group, just return values
+	if ( empty( $meta_key ) ) {
+		$values = array();
+		foreach ( (array) $retval as $r ) {
+			$values[] = array_pop( $r );
 		}
-	} else {
-		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d", $group_id ) );
+		$retval = $values;
 	}
 
-	if ( empty( $metas ) ) {
-		if ( empty( $meta_key ) )
-			return array();
-		else
-			return '';
-	}
-
-	$metas = array_map( 'maybe_unserialize', (array) $metas );
-
-	if ( 1 == count( $metas ) )
-		return $metas[0];
-	else
-		return $metas;
+	return $retval;
 }
 
+/**
+ * Update a piece of group metadata.
+ *
+ * @param int $group_id ID of the group.
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Value to store.
+ * @return bool True on success, false on failure.
+ */
 function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
-	global $wpdb, $bp;
 
-	if ( !is_numeric( $group_id ) )
-		return false;
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	$retval = update_metadata( 'group', $group_id, $meta_key, $meta_value );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
-	if ( is_string( $meta_value ) ) {
-		$meta_value = stripslashes( $meta_value );
+	// Legacy - return true if we fall through to add_metadata()
+	if ( is_int( $retval ) ) {
+		$retval = true;
 	}
 
-	$meta_value = maybe_serialize( $meta_value );
-
-	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $bp->groups->table_name_groupmeta . " WHERE group_id = %d AND meta_key = %s", $group_id, $meta_key ) );
-
-	if ( !$cur )
-		$wpdb->query( $wpdb->prepare( "INSERT INTO " . $bp->groups->table_name_groupmeta . " ( group_id, meta_key, meta_value ) VALUES ( %d, %s, %s )", $group_id, $meta_key, $meta_value ) );
-	else if ( $cur->meta_value != $meta_value )
-		$wpdb->query( $wpdb->prepare( "UPDATE " . $bp->groups->table_name_groupmeta . " SET meta_value = %s WHERE group_id = %d AND meta_key = %s", $meta_value, $group_id, $meta_key ) );
-	else
-		return false;
-
-	// Update the cached object and recache
-	wp_cache_set( 'bp_groups_groupmeta_' . $group_id . '_' . $meta_key, $meta_value, 'bp' );
-
-	return true;
+	return $retval;
 }
 
 /*** Group Cleanup Functions ****************************************************/

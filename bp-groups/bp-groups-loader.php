@@ -136,6 +136,11 @@ class BP_Groups_Component extends BP_Component {
 			'table_name_groupmeta' => $bp->table_prefix . 'bp_groups_groupmeta'
 		);
 
+		// Metadata tables for groups component
+		$meta_tables = array(
+			'group' => $bp->table_prefix . 'bp_groups_groupmeta',
+		);
+
 		// All globals for groups component.
 		// Note that global_tables is included in this array.
 		$args = array(
@@ -144,7 +149,8 @@ class BP_Groups_Component extends BP_Component {
 			'has_directory'         => true,
 			'notification_callback' => 'groups_format_notifications',
 			'search_string'         => __( 'Search Groups...', 'buddypress' ),
-			'global_tables'         => $global_tables
+			'global_tables'         => $global_tables,
+			'meta_tables'           => $meta_tables,
 		);
 
 		parent::setup_globals( $args );
