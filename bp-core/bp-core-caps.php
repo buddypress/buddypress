@@ -73,8 +73,6 @@ function bp_remove_caps() {
  *
  * @see WP_User::has_cap() for description of the arguments passed to the
  *      'map_meta_cap' filter.
- * @uses get_post() To get the post.
- * @uses get_post_type_object() To get the post type object.
  * @uses apply_filters() Calls 'bp_map_meta_caps' with caps, cap, user ID and
  *       args.
  *
