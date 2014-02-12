@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-12 01:35:16+00:00\n"
+"POT-Creation-Date: 2014-02-12 21:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -538,11 +538,11 @@ msgstr ""
 msgid "Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details."
 msgstr ""
 
-#: bp-activity/bp-activity-classes.php:1308
+#: bp-activity/bp-activity-classes.php:1316
 msgid "RSS feed 'id' must be defined"
 msgstr ""
 
-#: bp-activity/bp-activity-classes.php:1421
+#: bp-activity/bp-activity-classes.php:1429
 msgid "In reply to"
 msgstr ""
 
@@ -642,7 +642,7 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:1285 bp-groups/bp-groups-template.php:1301
 #: bp-groups/bp-groups-template.php:2029 bp-groups/bp-groups-template.php:2038
 #: bp-groups/bp-groups-template.php:2047 bp-groups/bp-groups-template.php:2822
-#: bp-members/bp-members-buddybar.php:64 bp-members/bp-members-loader.php:216
+#: bp-members/bp-members-buddybar.php:64 bp-members/bp-members-loader.php:219
 #: bp-members/bp-members-template.php:520
 #: bp-members/bp-members-template.php:844
 #: bp-members/bp-members-template.php:863
@@ -824,7 +824,7 @@ msgstr ""
 
 #: bp-activity/bp-activity-template.php:2461
 #: bp-core/admin/bp-core-slugs.php:109 bp-core/admin/bp-core-slugs.php:172
-#: bp-core/bp-core-loader.php:242 bp-members/bp-members-loader.php:190
+#: bp-core/bp-core-loader.php:242 bp-members/bp-members-loader.php:193
 #: bp-members/bp-members-template.php:649
 #: bp-templates/bp-legacy/buddypress-functions.php:244
 #: bp-themes/bp-default/activity/entry.php:37
@@ -960,7 +960,7 @@ msgstr[1] ""
 msgid "Profile picture of site author %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:633 bp-core/bp-core-classes.php:802
+#: bp-blogs/bp-blogs-template.php:633 bp-core/bp-core-classes.php:809
 #: bp-groups/bp-groups-widgets.php:85 bp-groups/bp-groups-widgets.php:188
 #: bp-members/bp-members-template.php:616
 #: bp-members/bp-members-template.php:895
@@ -1766,8 +1766,8 @@ msgstr ""
 msgid "Upload failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:825 bp-core/bp-core-classes.php:799
-#: bp-core/bp-core-classes.php:800 bp-core/bp-core-classes.php:801
+#: bp-core/bp-core-avatars.php:825 bp-core/bp-core-classes.php:806
+#: bp-core/bp-core-classes.php:807 bp-core/bp-core-classes.php:808
 #: bp-core/bp-core-template.php:135 bp-core/bp-core-template.php:151
 msgid "Avatar of %s"
 msgstr ""
@@ -1820,7 +1820,7 @@ msgstr ""
 msgid "You must log in to access the page you requested."
 msgstr ""
 
-#: bp-core/bp-core-classes.php:816
+#: bp-core/bp-core-classes.php:823
 msgid "%d group"
 msgid_plural "%d groups"
 msgstr[0] ""
@@ -1851,7 +1851,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:346 bp-members/bp-members-functions.php:1477
+#: bp-core/bp-core-filters.php:346 bp-members/bp-members-functions.php:1545
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1859,7 +1859,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:347 bp-members/bp-members-functions.php:1478
+#: bp-core/bp-core-filters.php:347 bp-members/bp-members-functions.php:1546
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1996,7 +1996,7 @@ msgid "Not recently active"
 msgstr ""
 
 #: bp-core/bp-core-loader.php:231 bp-members/bp-members-admin.php:689
-#: bp-members/bp-members-loader.php:176 bp-xprofile/bp-xprofile-loader.php:162
+#: bp-members/bp-members-loader.php:179 bp-xprofile/bp-xprofile-loader.php:162
 #: bp-xprofile/bp-xprofile-loader.php:237
 msgid "Profile"
 msgstr ""
@@ -4106,74 +4106,82 @@ msgstr ""
 msgid "Delete %s's Account"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:983
-#: bp-members/bp-members-functions.php:1605
+#: bp-members/bp-members-functions.php:878
+msgid "User last_activity data is no longer stored in usermeta. Use bp_get_user_last_activity() instead."
+msgstr ""
+
+#: bp-members/bp-members-functions.php:908
+msgid "User last_activity data is no longer stored in usermeta. Use bp_update_user_last_activity() instead."
+msgstr ""
+
+#: bp-members/bp-members-functions.php:1051
+#: bp-members/bp-members-functions.php:1673
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1164
+#: bp-members/bp-members-functions.php:1232
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1167
-#: bp-members/bp-members-functions.php:1170
+#: bp-members/bp-members-functions.php:1235
+#: bp-members/bp-members-functions.php:1238
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1173
+#: bp-members/bp-members-functions.php:1241
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1204
+#: bp-members/bp-members-functions.php:1272
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1210
+#: bp-members/bp-members-functions.php:1278
 msgid "That username is not allowed"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1215
+#: bp-members/bp-members-functions.php:1283
 msgid "Usernames can contain only letters, numbers, ., -, and @"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1220
+#: bp-members/bp-members-functions.php:1288
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1225
+#: bp-members/bp-members-functions.php:1293
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1232
+#: bp-members/bp-members-functions.php:1300
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1237
+#: bp-members/bp-members-functions.php:1305
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1288
+#: bp-members/bp-members-functions.php:1356
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1386
-#: bp-members/bp-members-functions.php:1390
+#: bp-members/bp-members-functions.php:1454
+#: bp-members/bp-members-functions.php:1458
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1427
+#: bp-members/bp-members-functions.php:1495
 msgid "%s became a registered member"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1511
+#: bp-members/bp-members-functions.php:1579
 msgid "<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link."
 msgstr ""
 
-#: bp-members/bp-members-loader.php:75
+#: bp-members/bp-members-loader.php:78
 msgid "Search Members..."
 msgstr ""
 
-#: bp-members/bp-members-loader.php:211
+#: bp-members/bp-members-loader.php:214
 msgid "You"
 msgstr ""
 
