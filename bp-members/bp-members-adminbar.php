@@ -162,4 +162,4 @@ function bp_members_remove_edit_page_menu() {
 		remove_action( 'admin_bar_menu', 'wp_admin_bar_edit_menu', 80 );
 	}
 }
-add_action( 'bp_init', 'bp_members_remove_edit_page_menu', 99 );
+add_action( 'add_admin_bar_menus', 'bp_members_remove_edit_page_menu' );
