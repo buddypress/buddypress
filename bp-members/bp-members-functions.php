@@ -510,6 +510,8 @@ function bp_core_get_active_member_count() {
 	global $wpdb;
 
 	if ( !$count = get_transient( 'bp_active_member_count' ) ) {
+		$bp = buddypress();
+
 		// Avoid a costly join by splitting the lookup
 		if ( is_multisite() ) {
 			$sql = "SELECT ID FROM {$wpdb->users} WHERE (user_status != 0 OR deleted != 0 OR user_status != 0)";
@@ -519,7 +521,7 @@ function bp_core_get_active_member_count() {
 
 		$exclude_users     = $wpdb->get_col( $sql );
 		$exclude_users_sql = !empty( $exclude_users ) ? "AND user_id NOT IN (" . implode( ',', wp_parse_id_list( $exclude_users ) ) . ")" : '';
-		$count             = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM {$wpdb->usermeta} WHERE meta_key = %s {$exclude_users_sql}", bp_get_user_meta_key( 'last_activity' ) ) );
+		$count             = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->members->table_name_last_activity} WHERE component = %s AND type = 'last_activity' {$exclude_users_sql}", $bp->members->id ) );
 
 		set_transient( 'bp_active_member_count', $count );
 	}
@@ -817,12 +819,13 @@ function bp_is_user_inactive( $user_id = 0 ) {
 }
 
 /**
- * Update a user's last activity
+ * Update a user's last activity.
  *
- * @since BuddyPress (1.9)
- * @param int $user_id ID of the user being updated
- * @param string $time Time of last activity, in 'Y-m-d H:i:s' format
- * @return bool True on success
+ * @since BuddyPress (1.9.0)
+ *
+ * @param int $user_id ID of the user being updated.
+ * @param string $time Time of last activity, in 'Y-m-d H:i:s' format.
+ * @return bool True on success, false on failure.
  */
 function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
 	// Fall back on current user
@@ -840,23 +843,88 @@ function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
 		$time = bp_core_current_time();
 	}
 
-	return bp_update_user_meta( $user_id, 'last_activity', $time );
+	// As of BuddyPress 2.0, last_activity is no longer stored in usermeta.
+	// However, we mirror it there for backward compatibility. Do not use!
+	// Remove our warning and re-add.
+	remove_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10, 4 );
+	update_user_meta( $user_id, 'last_activity', $time );
+	add_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10, 4 );
+
+	return BP_Core_User::update_last_activity( $user_id, $time );
 }
 
 /**
- * Get the last activity for a given user
+ * Backward compatibility for 'last_activity' usermeta fetching.
  *
- * @param int $user_id The ID of the user
- * @return string Time of last activity, in 'Y-m-d H:i:s' format, or an empty
- *   string if none is found
+ * In BuddyPress 2.0, user last_activity data was moved out of usermeta. For
+ * backward compatibility, we continue to mirror the data there. This function
+ * serves two purposes: it warns plugin authors of the change, and it returns
+ * the data from the proper location.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @access private For internal use only.
+ *
+ * @param null $retval
+ * @param int $object_id ID of the user.
+ * @param string $meta_key Meta key being fetched.
  */
-function bp_get_user_last_activity( $user_id = 0 ) {
-	// Fall back on current user
-	if ( empty( $user_id ) ) {
-		$user_id = bp_loggedin_user_id();
+function _bp_get_user_meta_last_activity_warning( $retval, $object_id, $meta_key ) {
+	static $warned;
+
+	if ( 'last_activity' === $meta_key ) {
+		// Don't send the warning more than once per pageload
+		if ( empty( $warned ) ) {
+			_doing_it_wrong( 'get_user_meta( $user_id, \'last_activity\' )', __( 'User last_activity data is no longer stored in usermeta. Use bp_get_user_last_activity() instead.', 'buddypress' ), '2.0.0' );
+			$warned = 1;
+		}
+
+		return bp_get_user_last_activity( $object_id );
 	}
 
-	$activity = bp_get_user_meta( $user_id, 'last_activity', true );
+	return $retval;
+}
+add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 3 );
+
+/**
+ * Backward compatibility for 'last_activity' usermeta setting.
+ *
+ * In BuddyPress 2.0, user last_activity data was moved out of usermeta. For
+ * backward compatibility, we continue to mirror the data there. This function
+ * serves two purposes: it warns plugin authors of the change, and it updates
+ * the data in the proper location.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @access private For internal use only.
+ *
+ * @param int $meta_id ID of the just-set usermeta row.
+ * @param int $object_id ID of the user.
+ * @param string $meta_key Meta key being fetched.
+ * @param string $meta_value Active time.
+ */
+function _bp_update_user_meta_last_activity_warning( $meta_id, $object_id, $meta_key, $meta_value ) {
+	if ( 'last_activity' === $meta_key ) {
+		_doing_it_wrong( 'update_user_meta( $user_id, \'last_activity\' )', __( 'User last_activity data is no longer stored in usermeta. Use bp_update_user_last_activity() instead.', 'buddypress' ), '2.0.0' );
+		bp_update_user_last_activity( $object_id, $meta_value );
+	}
+}
+add_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10, 4 );
+
+/**
+ * Get the last activity for a given user.
+ *
+ * @param int $user_id The ID of the user.
+ * @return string Time of last activity, in 'Y-m-d H:i:s' format, or an empty
+ *         string if none is found.
+ */
+function bp_get_user_last_activity( $user_id = 0 ) {
+	$activity = '';
+
+	$last_activity = BP_Core_User::get_last_activity( $user_id );
+	if ( ! empty( $last_activity[ $user_id ] ) ) {
+		$activity = $last_activity[ $user_id ]['date_recorded'];
+	}
 
 	return apply_filters( 'bp_get_user_last_activity', $activity, $user_id );
 }
@@ -996,8 +1064,8 @@ add_filter( 'authenticate', 'bp_core_boot_spammer', 30 );
  */
 function bp_core_remove_data( $user_id ) {
 
-	// Remove usermeta
-	bp_delete_user_meta( $user_id, 'last_activity' );
+	// Remove last_activity data
+	BP_Core_User::delete_last_activity( $user_id );
 
 	// Flush the cache to remove the user from all cached objects
 	wp_cache_flush();

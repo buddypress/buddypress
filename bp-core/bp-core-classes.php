@@ -245,10 +245,10 @@ class BP_User_Query {
 			// number of minutes used as an interval
 			case 'online' :
 				$this->uid_name = 'user_id';
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
-				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
-				$sql['where'][] = $wpdb->prepare( "u.meta_value >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL %d MINUTE )", apply_filters( 'bp_user_query_online_interval', 15 ) );
-				$sql['orderby'] = "ORDER BY u.meta_value";
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$bp->members->table_name_last_activity} u";
+				$sql['where'][] = $wpdb->prepare( "u.component = %s AND u.type = 'last_activity'", buddypress()->members->id );
+				$sql['where'][] = $wpdb->prepare( "u.date_recorded >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL %d MINUTE )", apply_filters( 'bp_user_query_online_interval', 15 ) );
+				$sql['orderby'] = "ORDER BY u.date_recorded";
 				$sql['order']   = "DESC";
 
 				break;
@@ -259,8 +259,8 @@ class BP_User_Query {
 			case 'newest' :
 			case 'random' :
 				$this->uid_name = 'user_id';
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
-				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'last_activity' ) );
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$bp->members->table_name_last_activity} u";
+				$sql['where'][] = $wpdb->prepare( "u.component = %s AND u.type = 'last_activity'", buddypress()->members->id );
 
 				if ( 'newest' == $type ) {
 					$sql['orderby'] = "ORDER BY u.user_id";
@@ -268,7 +268,7 @@ class BP_User_Query {
 				} else if ( 'random' == $type ) {
 					$sql['orderby'] = "ORDER BY rand()";
 				} else {
-					$sql['orderby'] = "ORDER BY u.meta_value";
+					$sql['orderby'] = "ORDER BY u.date_recorded";
 					$sql['order'] = "DESC";
 				}
 
@@ -538,6 +538,8 @@ class BP_User_Query {
 		// Turn user ID's into a query-usable, comma separated value
 		$user_ids_sql = implode( ',', wp_parse_id_list( $this->user_ids ) );
 
+		$bp = buddypress();
+
 		/**
 		 * Use this action to independently populate your own custom extras.
 		 *
@@ -553,13 +555,22 @@ class BP_User_Query {
 		 */
 		do_action_ref_array( 'bp_user_query_populate_extras', array( $this, $user_ids_sql ) );
 
+		// Fetch last_active data from the activity table
+		$last_activities = BP_Core_User::get_last_activity( $this->user_ids );
+
+		if ( ! empty( $last_activities ) ) {
+			foreach ( $last_activities as $la_user => $la_value ) {
+				if ( isset( $this->results[ $la_user ] ) ) {
+					$this->results[ $la_user ]->last_activity = $la_value['date_recorded'];
+				}
+			}
+		}
+
 		// Fetch usermeta data
 		// We want the three following pieces of info from usermeta:
 		// - friend count
-		// - last activity
 		// - latest update
 		$total_friend_count_key = bp_get_user_meta_key( 'total_friend_count' );
-		$last_activity_key      = bp_get_user_meta_key( 'last_activity'      );
 		$bp_latest_update_key   = bp_get_user_meta_key( 'bp_latest_update'   );
 
 		// total_friend_count must be set for each user, even if its
@@ -569,7 +580,7 @@ class BP_User_Query {
 		}
 
 		// Create, prepare, and run the seperate usermeta query
-		$user_metas = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, meta_key, meta_value FROM {$wpdb->usermeta} WHERE meta_key IN (%s,%s,%s) AND user_id IN ({$user_ids_sql})", $total_friend_count_key, $last_activity_key, $bp_latest_update_key ) );
+		$user_metas = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, meta_key, meta_value FROM {$wpdb->usermeta} WHERE meta_key IN (%s,%s) AND user_id IN ({$user_ids_sql})", $total_friend_count_key, $bp_latest_update_key ) );
 
 		// The $members_template global expects the index key to be different
 		// from the meta_key in some cases, so we rejig things here.
@@ -577,10 +588,6 @@ class BP_User_Query {
 			switch ( $user_meta->meta_key ) {
 				case $total_friend_count_key :
 					$key = 'total_friend_count';
-					break;
-
-				case $last_activity_key :
-					$key = 'last_activity';
 					break;
 
 				case $bp_latest_update_key :
@@ -1296,6 +1303,163 @@ class BP_Core_User {
 			return false;
 
 		return $user;
+	}
+
+	/**
+	 * Get last activity data for a user or set of users.
+	 *
+	 * @param int|array User IDs or multiple user IDs.
+	 * @return array
+	 */
+	public static function get_last_activity( $user_id ) {
+		global $wpdb;
+
+		if ( is_array( $user_id ) ) {
+			$user_ids = wp_parse_id_list( $user_id );
+		} else {
+			$user_ids = array( absint( $user_id ) );
+		}
+
+		if ( empty( $user_ids ) ) {
+			return false;
+		}
+
+		$bp = buddypress();
+
+		$user_ids_sql = implode( ',', $user_ids );
+		$user_count   = count( $user_ids );
+
+		$last_activities = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, date_recorded FROM {$bp->members->table_name_last_activity} WHERE component = %s AND type = 'last_activity' AND user_id IN ({$user_ids_sql}) LIMIT {$user_count}", $bp->members->id ) );
+
+		// Re-key
+		$retval = array();
+		foreach ( $last_activities as $last_activity ) {
+			$retval[ $last_activity->user_id ] = array(
+				'user_id'       => $last_activity->user_id,
+				'date_recorded' => $last_activity->date_recorded,
+				'activity_id'   => $last_activity->id,
+			);
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * Set a user's last_activity value.
+	 *
+	 * Will create a new entry if it does not exist. Otherwise updates the
+	 * existing entry.
+	 *
+	 * @since 2.0
+	 *
+	 * @param int $user_id ID of the user whose last_activity you are updating.
+	 * @param string $time MySQL-formatted time string.
+	 * @return bool True on success, false on failure.
+	 */
+	public static function update_last_activity( $user_id, $time ) {
+		global $wpdb;
+
+		$table_name = buddypress()->members->table_name_last_activity;
+
+		$existing = self::get_last_activity( $user_id );
+
+		if ( ! empty( $existing ) ) {
+			$data = array(
+				'date_recorded' => $time,
+			);
+
+			$data_format = array(
+				'%s',
+			);
+
+			$where = array(
+			);
+
+			$where_format = array(
+				'%d',
+			);
+
+			$updated = $wpdb->update(
+				$table_name,
+
+				// Data to update
+				array(
+					'date_recorded' => $time,
+				),
+
+				// WHERE
+				array(
+					'id' => $existing[ $user_id ]['activity_id'],
+				),
+
+				// Data sanitization format
+				array(
+					'%s',
+				),
+
+				// WHERE sanitization format
+				array(
+					'%d',
+				)
+			);
+		} else {
+			$updated = $wpdb->insert(
+				$table_name,
+
+				// Data
+				array(
+					'user_id'       => $user_id,
+					'component'     => buddypress()->members->id,
+					'type'          => 'last_activity',
+					'date_recorded' => $time,
+				),
+
+				// Data sanitization format
+				array(
+					'%d',
+					'%s',
+					'%s',
+					'%s',
+				)
+			);
+		}
+
+		return $updated;
+	}
+
+	/**
+	 * Delete a user's last_activity value.
+	 *
+	 * @since 2.0
+	 *
+	 * @param int $user_id
+	 * @return bool True on success, false on failure or if no last_activity
+	 *         is found for the user.
+	 */
+	public static function delete_last_activity( $user_id ) {
+		global $wpdb;
+
+		$existing = self::get_last_activity( $user_id );
+
+		if ( empty( $existing ) ) {
+			return false;
+		}
+
+		$deleted = $wpdb->delete(
+			buddypress()->members->table_name_last_activity,
+
+			// WHERE
+			array(
+				'id' => $existing[ $user_id ]['activity_id'],
+			),
+
+			// WHERE sanitization format
+			array(
+				'%s',
+			)
+		);
+
+		return $deleted;
 	}
 }
 

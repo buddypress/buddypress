@@ -23,13 +23,13 @@ function bp_core_install( $active_components = false ) {
 	if ( empty( $active_components ) )
 		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
+	// Activity Streams
+	// Install tables even when inactive, to store last_activity data
+	bp_core_install_activity_streams();
+
 	// Notifications
 	if ( !empty( $active_components['notifications'] ) )
 		bp_core_install_notifications();
-
-	// Activity Streams
-	if ( !empty( $active_components['activity'] ) )
-		bp_core_install_activity_streams();
 
 	// Friend Connections
 	if ( !empty( $active_components['friends'] ) )

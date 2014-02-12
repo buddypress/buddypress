@@ -2,6 +2,7 @@
 
 /**
  * @group core
+ * @group BP_Core_User
  */
 class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	protected $old_current_user = 0;
@@ -119,6 +120,55 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u1, $u3 ), $user_ids );
 	}
 
+	/**
+	 * @group last_activity
+	 */
+	public function test_get_last_activity() {
+		$u = $this->create_user();
+		$time = bp_core_current_time();
 
+		BP_Core_User::update_last_activity( $u, $time );
 
+		$a = BP_Core_User::get_last_activity( $u );
+		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
+
+		$this->assertEquals( $time, $found );
+	}
+
+	/**
+	 * @group last_activity
+	 */
+	public function test_update_last_activity() {
+		$u = $this->create_user();
+		$time = bp_core_current_time();
+		$time2 = '1968-12-25 01:23:45';
+
+		BP_Core_User::update_last_activity( $u, $time );
+		$a = BP_Core_User::get_last_activity( $u );
+		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
+		$this->assertEquals( $time, $found );
+
+		BP_Core_User::update_last_activity( $u, $time2 );
+		$a = BP_Core_User::get_last_activity( $u );
+		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
+		$this->assertEquals( $time2, $found );
+	}
+
+	/**
+	 * @group last_activity
+	 */
+	public function test_delete_last_activity() {
+		$u = $this->create_user();
+		$time = bp_core_current_time();
+
+		BP_Core_User::update_last_activity( $u, $time );
+		$a = BP_Core_User::get_last_activity( $u );
+		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
+		$this->assertEquals( $time, $found );
+
+		BP_Core_User::delete_last_activity( $u );
+		$a = BP_Core_User::get_last_activity( $u );
+		$found = isset( $a[ $u ]['date_recorded'] ) ? $a[ $u ]['date_recorded'] : '';
+		$this->assertEquals( '', $found );
+	}
 }

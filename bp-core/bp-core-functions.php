@@ -1053,10 +1053,10 @@ function bp_core_get_last_activity( $last_activity_date, $string ) {
  *
  * Plugin authors should use BP's _user_meta() functions, which bakes in
  * bp_get_user_meta_key():
- *    $last_active = bp_get_user_meta( $user_id, 'last_activity', true );
+ *    $friend_count = bp_get_user_meta( $user_id, 'total_friend_count', true );
  * If you must use WP's _user_meta() functions directly for some reason, you
  * should use this function to determine the $key parameter, eg
- *    $last_active = get_user_meta( $user_id, bp_get_user_meta_key( 'last_activity' ), true );
+ *    $friend_count = get_user_meta( $user_id, bp_get_user_meta_key( 'total_friend_count' ), true );
  * If using the WP functions, do not not hardcode your meta keys.
  *
  * @since BuddyPress (1.5.0)

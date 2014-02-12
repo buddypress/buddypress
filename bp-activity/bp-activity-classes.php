@@ -361,6 +361,12 @@ class BP_Activity_Activity {
 			$where_conditions[] = "a.type != 'activity_comment'";
 		}
 
+		// Exclude 'last_activity' items unless the 'action' filter has
+		// been explicitly set
+		if ( empty( $filter['object'] ) ) {
+			$where_conditions[] = "a.type != 'last_activity'";
+		}
+
 		// Filter the where conditions
 		$where_conditions = apply_filters( 'bp_activity_get_where_conditions', $where_conditions, $r, $select_sql, $from_sql, $join_sql );
 
@@ -1062,13 +1068,15 @@ class BP_Activity_Activity {
 		global $wpdb;
 
 		// split items at the comma
-		$items_dirty = explode( ',', $items );
+		if ( ! is_array( $items ) ) {
+			$items = explode( ',', $items );
+		}
 
 		// array of prepared integers or quoted strings
 		$items_prepared = array();
 
 		// clean up and format each item
-		foreach ( $items_dirty as $item ) {
+		foreach ( $items as $item ) {
 			// clean up the string
 			$item = trim( $item );
 			// pass everything through prepare for security and to safely quote strings
@@ -1120,7 +1128,7 @@ class BP_Activity_Activity {
 
 		if ( !empty( $filter_array['action'] ) ) {
 			$action_sql = BP_Activity_Activity::get_in_operator_sql( 'a.type', $filter_array['action'] );
-			if ( !empty( $action_sql ) )
+			if ( ! empty( $action_sql ) )
 				$filter_sql[] = $action_sql;
 		}
 

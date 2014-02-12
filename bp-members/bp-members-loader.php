@@ -72,6 +72,9 @@ class BP_Members_Component extends BP_Component {
 			'slug'          => BP_MEMBERS_SLUG,
 			'root_slug'     => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : BP_MEMBERS_SLUG,
 			'has_directory' => true,
+			'global_tables' => array(
+				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
+			),
 			'search_string' => __( 'Search Members...', 'buddypress' ),
 		) );
 

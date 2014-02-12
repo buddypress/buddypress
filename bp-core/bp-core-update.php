@@ -230,6 +230,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 7731 ) {
 			bp_update_to_1_9_2();
 		}
+
+		// 2.0
+		if ( $raw_db_version < 7859 ) {
+			bp_update_to_2_0();
+		}
 	}
 
 	/** All done! *************************************************************/
@@ -325,6 +330,38 @@ function bp_update_to_1_9_2() {
 	if ( 'bp-default' === get_stylesheet() || 'bp-default' === get_template() ) {
 		update_site_option( '_bp_retain_bp_default', 1 );
 	}
+}
+
+/**
+ * 2.0 update routine.
+ *
+ * - Ensure that the activity tables are installed, for last_activity storage.
+ * - Migrate last_activity data from usermeta to activity table
+ */
+function bp_update_to_2_0() {
+	global $wpdb;
+
+	// Install activity tables
+	bp_core_install_activity_streams();
+
+	$bp = buddypress();
+
+	// Migrate data
+	// The "NOT IN" clause prevents duplicates
+	$sql = "INSERT INTO {$bp->members->table_name_last_activity} (`user_id`, `component`, `type`, `date_recorded` ) (
+		  SELECT user_id, '{$bp->members->id}' as component, 'last_activity' as type, meta_value AS date_recorded
+		  FROM {$wpdb->usermeta}
+		  WHERE
+		    meta_key = 'last_activity'
+		    AND
+		    user_id NOT IN (
+		      SELECT user_id
+		      FROM {$bp->members->table_name_last_activity}
+		      WHERE component = '{$bp->members->id}' AND type = 'last_activity'
+		    )
+	);";
+
+	$wpdb->query( $sql );
 }
 
 /**

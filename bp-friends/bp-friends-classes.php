@@ -364,9 +364,27 @@ class BP_Friends_Friendship {
 	public static function get_bulk_last_active( $user_ids ) {
 		global $wpdb;
 
-		$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
+		$last_activities = BP_Core_User::get_last_activity( $user_ids );
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT meta_value as last_activity, user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} ) ORDER BY meta_value DESC", bp_get_user_meta_key( 'last_activity' ) ) );
+		// Sort and structure as expected in legacy function
+		usort( $last_activities, create_function( '$a, $b', '
+			if ( $a["date_recorded"] == $b["date_recorded"] ) {
+				return 0;
+			}
+
+			return ( strtotime( $a["date_recorded"] ) < strtotime( $b["date_recorded"] ) ) ? 1 : -1;
+		' ) );
+
+		$retval = array();
+		foreach ( $last_activities as $last_activity ) {
+			$u = new stdClass;
+			$u->last_activity = $last_activity['date_recorded'];
+			$u->user_id       = $last_activity['user_id'];
+
+			$retval[] = $u;
+		}
+
+		return $retval;
 	}
 
 	/**
