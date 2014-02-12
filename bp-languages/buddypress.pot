@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-11 20:35:15+00:00\n"
+"POT-Creation-Date: 2014-02-12 01:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3970,11 +3970,11 @@ msgid "This is the admin view of a user&#39;s profile."
 msgstr ""
 
 #: bp-members/bp-members-admin.php:324
-msgid "You can edit the different fields of his extended profile from the main metabox"
+msgid "In the main column, you can edit the fields of the user&#39;s extended profile."
 msgstr ""
 
 #: bp-members/bp-members-admin.php:325
-msgid "You can get some interesting informations about him on right side metaboxes"
+msgid "In the right-hand column, you can update the user&#39;s status, delete the user&#39;s avatar, and view recent statistics."
 msgstr ""
 
 #: bp-members/bp-members-admin.php:331
@@ -4037,7 +4037,7 @@ msgid "No user found with this ID. <a href=\"%s\">Go back and try again</a>."
 msgstr ""
 
 #: bp-members/bp-members-admin.php:563
-msgid "User has not activated his account yet"
+msgid "User account has not yet been activated"
 msgstr ""
 
 #: bp-members/bp-members-admin.php:572
@@ -4057,7 +4057,7 @@ msgid "Update Profile"
 msgstr ""
 
 #: bp-members/bp-members-admin.php:619 bp-xprofile/bp-xprofile-admin.php:879
-msgid "%s has been marked as a spammer, this user&#39;s BuddyPress datas were removed"
+msgid "%s has been marked as a spammer. All BuddyPress data associated with the user has been removed"
 msgstr ""
 
 #: bp-members/bp-members-admin.php:650
