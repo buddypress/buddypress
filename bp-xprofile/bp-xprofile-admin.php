@@ -557,7 +557,7 @@ class BP_XProfile_User_Admin {
 				add_meta_box( 'bp_xprofile_user_admin_fields_' . sanitize_key( bp_get_the_profile_group_slug() ), esc_html( bp_get_the_profile_group_name() ), array( &$this, 'user_admin_profile_metaboxes' ), $screen_id, 'normal', 'core', array( 'profile_group_id' => absint( bp_get_the_profile_group_id() ) ) );
 			endwhile;
 
-		// if a user has been mark as a spammer, his BuddyPress datas are removed !
+		// if a user has been mark as a spammer, remove BP data
 		} else {
 			add_meta_box( 'bp_xprofile_user_admin_empty_profile', _x( 'User marked as a spammer', 'xprofile user-admin edit screen', 'buddypress' ), array( &$this, 'user_admin_spammer_metabox' ), $screen_id, 'normal', 'core' );
 		}
@@ -876,7 +876,7 @@ class BP_XProfile_User_Admin {
 	 */
 	public function user_admin_spammer_metabox( $user = null ) {
 		?>
-		<p><?php printf( __( '%s has been marked as a spammer, this user&#39;s BuddyPress datas were removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) ) ;?></p>
+		<p><?php printf( __( '%s has been marked as a spammer. All BuddyPress data associated with the user has been removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) ) ;?></p>
 		<?php
 	}
 

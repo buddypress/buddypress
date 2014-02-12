@@ -321,8 +321,8 @@ class BP_Members_Admin {
 				'title'   => __( 'Overview', 'buddypress' ),
 				'content' =>
 				'<p>' . __( 'This is the admin view of a user&#39;s profile.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'You can edit the different fields of his extended profile from the main metabox', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'You can get some interesting informations about him on right side metaboxes', 'buddypress' ) . '</p>'
+				'<p>' . __( 'In the main column, you can edit the fields of the user&#39;s extended profile.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'In the right-hand column, you can update the user&#39;s status, delete the user&#39;s avatar, and view recent statistics.', 'buddypress' ) . '</p>'
 			) );
 
 			// Help panel - sidebar links
@@ -554,13 +554,13 @@ class BP_Members_Admin {
 	 */
 	public function user_admin_status_metabox( $user = null ) {
 
-		// bail if no user id or if the user has not activated his account yet..
+		// Bail if no user id or if the user has not activated their account yet
 		if ( empty( $user->ID ) ) {
 			return;
 		}
 
 		if ( ( isset( $user->user_status ) && 2 == $user->user_status ) ) {
-			echo '<p class="not-activated">' . esc_html__( 'User has not activated his account yet', 'buddypress' ) . '</p><br/>';
+			echo '<p class="not-activated">' . esc_html__( 'User account has not yet been activated', 'buddypress' ) . '</p><br/>';
 			return;
 		}
 		?>
@@ -616,13 +616,13 @@ class BP_Members_Admin {
 	 */
 	public function user_admin_spammer_metabox( $user = null ) {
 		?>
-		<p><?php printf( __( '%s has been marked as a spammer, this user&#39;s BuddyPress datas were removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) ) ;?></p>
+		<p><?php printf( __( '%s has been marked as a spammer. All BuddyPress data associated with the user has been removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) ) ;?></p>
 		<?php
 	}
 
 	/**
 	 * Render the Stats metabox to moderate inappropriate images.
-	 * 
+	 *
 	 * @access public
 	 * @since BuddyPress (2.0.0)
 	 *
@@ -650,7 +650,7 @@ class BP_Members_Admin {
 			<li class="bp-members-profile-stats"><?php printf( __( 'Last active: <strong>%1$s</strong>', 'buddypress' ), $date ); ?></li>
 
 			<?php
-			// Loading other stats only if user has activated his account
+			// Loading other stats only if user has activated their account
 			if ( empty( $user->user_status ) ) {
 				do_action( 'bp_members_admin_user_stats', array( 'user_id' => $user->ID ), $user );
 			}
