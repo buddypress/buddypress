@@ -412,25 +412,25 @@ class BP_Members_Admin {
 			case 'avatar':
 				$notice = array(
 					'class'   => 'updated',
-					'message' => esc_html__( 'Avatar was deleted successfully!', 'buddypress' )
+					'message' => __( 'Avatar was deleted successfully!', 'buddypress' )
 				);
 				break;
 			case 'ham' :
 				$notice = array(
 					'class'   => 'updated',
-					'message' => esc_html__( 'User removed as spammer.', 'buddypress' )
+					'message' => __( 'User removed as spammer.', 'buddypress' )
 				);
 				break;
 			case 'spam' :
 				$notice = array(
 					'class'   => 'updated',
-					'message' => esc_html__( 'User marked as spammer. Spam users are visible only to site admins.', 'buddypress' )
+					'message' => __( 'User marked as spammer. Spam users are visible only to site admins.', 'buddypress' )
 				);
 				break;
 			case 1 :
 				$notice = array(
 					'class'   => 'updated',
-					'message' => esc_html__( 'Profile updated.', 'buddypress' )
+					'message' => __( 'Profile updated.', 'buddypress' )
 				);
 				break;
 			}
@@ -441,37 +441,37 @@ class BP_Members_Admin {
 			case 'avatar':
 				$notice = array(
 					'class'   => 'error',
-					'message' => esc_html__( 'There was a problem deleting that avatar, please try again.', 'buddypress' )
+					'message' => __( 'There was a problem deleting that avatar, please try again.', 'buddypress' )
 				);
 				break;
 			case 'ham' :
 				$notice = array(
 					'class'   => 'error',
-					'message' => esc_html__( 'User could not be removed as spammer.', 'buddypress' )
+					'message' => __( 'User could not be removed as spammer.', 'buddypress' )
 				);
 				break;
 			case 'spam' :
 				$notice = array(
 					'class'   => 'error',
-					'message' => esc_html__( 'User could not be marked as spammer.', 'buddypress' )
+					'message' => __( 'User could not be marked as spammer.', 'buddypress' )
 				);
 				break;
 			case 1 :
 				$notice = array(
 					'class'   => 'error',
-					'message' => esc_html__( 'An error occured while trying to update the profile.', 'buddypress' )
+					'message' => __( 'An error occured while trying to update the profile.', 'buddypress' )
 				);
 				break;
 			case 2:
 				$notice = array(
 					'class'   => 'error',
-					'message' => esc_html__( 'Please make sure you fill in all required fields in this profile field group before saving.', 'buddypress' )
+					'message' => __( 'Please make sure you fill in all required fields in this profile field group before saving.', 'buddypress' )
 				);
 				break;
 			case 3:
 				$notice = array(
 					'class'   => 'error',
-					'message' => esc_html__( 'There was a problem updating some of your profile information, please try again.', 'buddypress' )
+					'message' => __( 'There was a problem updating some of your profile information, please try again.', 'buddypress' )
 				);
 				break;
 			}
@@ -483,9 +483,9 @@ class BP_Members_Admin {
 			<?php else: ?>
 				<div class="<?php echo esc_attr( $notice['class'] ); ?>">
 			<?php endif; ?>
-				<p><?php echo $notice['message']; ?></p>
+				<p><?php echo esc_html( $notice['message'] ); ?></p>
 				<?php if ( !empty( $wp_http_referer ) && ( 'updated' === $notice['class'] ) ) : ?>
-					<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php _e( '&larr; Back to Users', 'buddypress' ); ?></a></p>
+					<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php esc_html_e( '&larr; Back to Users', 'buddypress' ); ?></a></p>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
@@ -569,7 +569,7 @@ class BP_Members_Admin {
 			<div id="minor-publishing">
 				<div id="minor-publishing-actions">
 					<div id="preview-action">
-						<a class="button preview" href="<?php echo esc_attr( bp_core_get_user_domain( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
+						<a class="button preview" href="<?php echo esc_url( bp_core_get_user_domain( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
 					</div>
 
 					<div class="clear"></div>
