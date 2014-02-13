@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-12 21:35:16+00:00\n"
+"POT-Creation-Date: 2014-02-13 04:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -314,8 +314,8 @@ msgstr ""
 #: bp-activity/bp-activity-admin.php:679 bp-activity/bp-activity-admin.php:1331
 #: bp-forums/bp-forums-template.php:2112 bp-groups/bp-groups-admin.php:1392
 #: bp-themes/bp-default/functions.php:509 bp-xprofile/bp-xprofile-admin.php:456
-#: bp-xprofile/bp-xprofile-loader.php:193
-#: bp-xprofile/bp-xprofile-loader.php:253
+#: bp-xprofile/bp-xprofile-loader.php:200
+#: bp-xprofile/bp-xprofile-loader.php:260
 msgid "Edit"
 msgstr ""
 
@@ -653,7 +653,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:212
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:212
-#: bp-xprofile/bp-xprofile-loader.php:285
+#: bp-xprofile/bp-xprofile-loader.php:292
 msgid "Profile picture of %s"
 msgstr ""
 
@@ -829,8 +829,8 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress-functions.php:244
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-themes/bp-default/functions.php:166
-#: bp-xprofile/bp-xprofile-loader.php:183
-#: bp-xprofile/bp-xprofile-loader.php:245
+#: bp-xprofile/bp-xprofile-loader.php:190
+#: bp-xprofile/bp-xprofile-loader.php:252
 msgid "View"
 msgstr ""
 
@@ -1851,7 +1851,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:346 bp-members/bp-members-functions.php:1545
+#: bp-core/bp-core-filters.php:346 bp-members/bp-members-functions.php:1547
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1859,7 +1859,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:347 bp-members/bp-members-functions.php:1546
+#: bp-core/bp-core-filters.php:347 bp-members/bp-members-functions.php:1548
 msgid "Activate Your Account"
 msgstr ""
 
@@ -1996,8 +1996,8 @@ msgid "Not recently active"
 msgstr ""
 
 #: bp-core/bp-core-loader.php:231 bp-members/bp-members-admin.php:689
-#: bp-members/bp-members-loader.php:179 bp-xprofile/bp-xprofile-loader.php:162
-#: bp-xprofile/bp-xprofile-loader.php:237
+#: bp-members/bp-members-loader.php:179 bp-xprofile/bp-xprofile-loader.php:169
+#: bp-xprofile/bp-xprofile-loader.php:244
 msgid "Profile"
 msgstr ""
 
@@ -2175,7 +2175,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:45
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
-#: bp-xprofile/bp-xprofile-loader.php:280
+#: bp-xprofile/bp-xprofile-loader.php:287
 msgid "My Profile"
 msgstr ""
 
@@ -4106,74 +4106,74 @@ msgstr ""
 msgid "Delete %s's Account"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:878
+#: bp-members/bp-members-functions.php:880
 msgid "User last_activity data is no longer stored in usermeta. Use bp_get_user_last_activity() instead."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:908
+#: bp-members/bp-members-functions.php:910
 msgid "User last_activity data is no longer stored in usermeta. Use bp_update_user_last_activity() instead."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1051
-#: bp-members/bp-members-functions.php:1673
+#: bp-members/bp-members-functions.php:1053
+#: bp-members/bp-members-functions.php:1675
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1232
+#: bp-members/bp-members-functions.php:1234
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1235
-#: bp-members/bp-members-functions.php:1238
+#: bp-members/bp-members-functions.php:1237
+#: bp-members/bp-members-functions.php:1240
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1241
+#: bp-members/bp-members-functions.php:1243
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1272
+#: bp-members/bp-members-functions.php:1274
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1278
+#: bp-members/bp-members-functions.php:1280
 msgid "That username is not allowed"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1283
+#: bp-members/bp-members-functions.php:1285
 msgid "Usernames can contain only letters, numbers, ., -, and @"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1288
+#: bp-members/bp-members-functions.php:1290
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1293
+#: bp-members/bp-members-functions.php:1295
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1300
+#: bp-members/bp-members-functions.php:1302
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1305
+#: bp-members/bp-members-functions.php:1307
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1356
+#: bp-members/bp-members-functions.php:1358
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1454
-#: bp-members/bp-members-functions.php:1458
+#: bp-members/bp-members-functions.php:1456
+#: bp-members/bp-members-functions.php:1460
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1495
+#: bp-members/bp-members-functions.php:1497
 msgid "%s became a registered member"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1579
+#: bp-members/bp-members-functions.php:1581
 msgid "<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link."
 msgstr ""
 
@@ -5838,8 +5838,8 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:1
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
-#: bp-xprofile/bp-xprofile-loader.php:205
-#: bp-xprofile/bp-xprofile-loader.php:262
+#: bp-xprofile/bp-xprofile-loader.php:212
+#: bp-xprofile/bp-xprofile-loader.php:269
 msgid "Change Avatar"
 msgstr ""
 
