@@ -234,8 +234,8 @@ Bar!';
 		$this->assertTrue( bp_xprofile_delete_meta( $g->id, 'group' ) );
 
 		// These will fail because of a caching bug
-		//$this->assertEquals( '', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
-		//$this->assertEquals( '', bp_xprofile_get_meta( $g->id, 'group', 'foo2' ) );
+		$this->assertEquals( '', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		$this->assertEquals( '', bp_xprofile_get_meta( $g->id, 'group', 'foo2' ) );
 	}
 
 	/**

@@ -138,11 +138,18 @@ class BP_XProfile_Component extends BP_Component {
 			'table_name_meta'   => $bp->table_prefix . 'bp_xprofile_meta',
 		);
 
+		$meta_tables = array(
+			'xprofile_group' => $bp->table_prefix . 'bp_xprofile_meta',
+			'xprofile_field' => $bp->table_prefix . 'bp_xprofile_meta',
+			'xprofile_data'  => $bp->table_prefix . 'bp_xprofile_meta',
+		);
+
 		$globals = array(
 			'slug'                  => BP_XPROFILE_SLUG,
 			'has_directory'         => false,
 			'notification_callback' => 'xprofile_format_notifications',
-			'global_tables'         => $global_tables
+			'global_tables'         => $global_tables,
+			'meta_tables'           => $meta_tables,
 		);
 
 		parent::setup_globals( $globals );

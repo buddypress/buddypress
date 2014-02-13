@@ -261,3 +261,99 @@ function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_quer
 	}
 }
 add_filter( 'bp_user_query_populate_extras', 'bp_xprofile_filter_user_query_populate_extras', 2, 2 );
+
+/**
+ * Filter meta queries to modify for the xprofile data schema.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @access private Do not use.
+ *
+ * @param string $q SQL query.
+ * @return string
+ */
+function bp_xprofile_filter_meta_query( $q ) {
+	global $wpdb;
+
+	// Get the first word of the command
+	preg_match( '/^(\S+)/', $q, $first_word_matches );
+
+	if ( empty( $first_word_matches[0] ) ) {
+		return $q;
+	}
+
+	// Get the field type
+	preg_match( '/xprofile_(group|field|data)_id/', $q, $matches );
+
+	if ( empty( $matches[0] ) || empty( $matches[1] ) ) {
+		return $q;
+	}
+
+	switch ( $first_word_matches[0] ) {
+
+		/**
+		 * SELECT:
+		 * - replace 'xprofile_{fieldtype}_id' with 'object_id'
+		 * - ensure that 'object_id' is aliased to 'xprofile_{fieldtype}_id',
+		 *   because update_meta_cache() needs the column name to parse
+		 *   the query results
+		 * - append the 'object type' WHERE clause
+		 */
+		case 'SELECT' :
+			$q = str_replace(
+				array(
+					$matches[0],
+					'SELECT object_id',
+					'WHERE ',
+				),
+				array(
+					'object_id',
+					'SELECT object_id AS ' . $matches[0],
+					$wpdb->prepare( 'WHERE object_type = %s AND ', $matches[1] ),
+				),
+				$q
+			);
+			break;
+
+		/**
+		 * UPDATE and DELETE:
+		 * - replace 'xprofile_{fieldtype}_id' with 'object_id'
+		 * - append the 'object type' WHERE clause
+		 */
+		case 'UPDATE' :
+		case 'DELETE' :
+			$q = str_replace(
+				array(
+					$matches[0],
+					'WHERE ',
+				),
+				array(
+					'object_id',
+					$wpdb->prepare( 'WHERE object_type = %s AND ', $matches[1] ),
+				),
+				$q
+			);
+			break;
+
+		/**
+		 * UPDATE and DELETE:
+		 * - replace 'xprofile_{fieldtype}_id' with 'object_id'
+		 * - ensure that the object_type field gets filled in
+		 */
+		case 'INSERT' :
+			$q = str_replace(
+				array(
+					'`' . $matches[0] . '`',
+					'VALUES (',
+				),
+				array(
+					'`object_type`,`object_id`',
+					$wpdb->prepare( "VALUES (%s,", $matches[1] ),
+				),
+				$q
+			);
+			break;
+	}
+
+	return $q;
+}

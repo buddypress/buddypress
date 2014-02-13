@@ -529,121 +529,117 @@ add_action( 'bp_make_spam_user', 'xprofile_remove_data' );
 
 /*** XProfile Meta ****************************************************/
 
+/**
+ * Delete a piece of xprofile metadata.
+ *
+ * @param int $object_id ID of the object the metadata belongs to.
+ * @param string $object_type Type of object. 'group', 'field', or 'data'.
+ * @param string $meta_key Key of the metadata being deleted. If omitted, all
+ *        metadata for the object will be deleted.
+ * @param mixed $meta_value Optional. If provided, only metadata that matches
+ *        the value will be permitted.
+ * @return bool True on success, false on failure.
+ */
 function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $meta_value = false ) {
-	global $wpdb, $bp;
+	global $wpdb;
 
-	$object_id = (int) $object_id;
-
-	if ( !$object_id )
+	// Legacy - no empty object id
+	if ( empty( $object_id ) ) {
 		return false;
-
-	if ( !isset( $object_type ) )
-		return false;
-
-	if ( !in_array( $object_type, array( 'group', 'field', 'data' ) ) )
-		return false;
-
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
-	if ( is_array( $meta_value ) || is_object( $meta_value ) ) {
-		$meta_value = serialize( $meta_value );
 	}
 
+	// Legacy - sanitize object type
+	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
+		return false;
+	}
+
+	// Legacy - if no meta_key is passed, delete all for the item
+	if ( empty( $meta_key ) ) {
+		$table_key  = 'xprofile_' . $object_type . 'meta';
+		$table_name = $wpdb->{$table_key};
+		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$table_name} WHERE object_type = %s AND object_id = %d", $object_type, $object_id ) );
+	} else {
+		$keys = array( $meta_key );
+	}
+
+	// Legacy - trim meta_value
 	$meta_value = trim( $meta_value );
 
-	if ( empty( $meta_key ) ) {
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_meta} WHERE object_id = %d AND object_type = %s", $object_id, $object_type ) );
-	} elseif ( !empty( $meta_value ) ) {
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_meta} WHERE object_id = %d AND object_type = %s AND meta_key = %s AND meta_value = %s", $object_id, $object_type, $meta_key, $meta_value ) );
-	} else {
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_meta} WHERE object_id = %d AND object_type = %s AND meta_key = %s", $object_id, $object_type, $meta_key ) );
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
+
+	foreach ( $keys as $key ) {
+		$retval = delete_metadata( 'xprofile_' . $object_type, $object_id, $key, $meta_value );
 	}
 
-	// Delete the cached object
-	wp_cache_delete( 'bp_xprofile_meta_' . $object_type . '_' . $object_id . '_' . $meta_key, 'bp' );
+	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
-	return true;
+	return $retval;
 }
 
+/**
+ * Get a piece of xprofile metadata.
+ *
+ * @param int $object_id ID of the object the metadata belongs to.
+ * @param string $object_type Type of object. 'group', 'field', or 'data'.
+ * @param string $meta_key Key of the metadata being fetched. If omitted, all
+ *        metadata for the object will be retrieved.
+ * @return mixed Meta value if found. False on failure.
+ */
 function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '') {
-	global $wpdb, $bp;
-
-	$object_id = (int) $object_id;
-
-	if ( !$object_id )
+	// Legacy - sanitize object type
+	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
 		return false;
-
-	if ( !isset( $object_type ) )
-		return false;
-
-	if ( !in_array( $object_type, array( 'group', 'field', 'data' ) ) )
-		return false;
-
-	if ( !empty( $meta_key ) ) {
-		$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
-		if ( !$metas = wp_cache_get( 'bp_xprofile_meta_' . $object_type . '_' . $object_id . '_' . $meta_key, 'bp' ) ) {
-			$metas = $wpdb->get_col( $wpdb->prepare( "SELECT meta_value FROM {$bp->profile->table_name_meta} WHERE object_id = %d AND object_type = %s AND meta_key = %s", $object_id, $object_type, $meta_key ) );
-			wp_cache_set( 'bp_xprofile_meta_' . $object_type . '_' . $object_id . '_' . $meta_key, $metas, 'bp' );
-		}
-	} else {
-		$metas = $wpdb->get_col( $wpdb->prepare( "SELECT meta_value FROM {$bp->profile->table_name_meta} WHERE object_id = %d AND object_type = %s", $object_id, $object_type ) );
 	}
 
-	if ( empty( $metas ) ) {
-		if ( empty( $meta_key ) ) {
-			return array();
-		} else {
-			return '';
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
+	$retval = get_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, true );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
+	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
+
+	// Legacy - if no meta_key is provided, return just the located
+	// values (not a structured array)
+	if ( empty( $meta_key ) && ! empty( $retval ) ) {
+		$values = array();
+		foreach ( $retval as $v ) {
+			$values[] = array_pop( $v );
 		}
+
+		$retval = $values;
 	}
 
-	$metas = array_map( 'maybe_unserialize', (array) $metas );
-
-	if ( 1 == count( $metas ) )
-		return $metas[0];
-	else
-		return $metas;
+	return $retval;
 }
 
+/**
+ * Update a piece of xprofile metadata.
+ *
+ * @param int $object_id ID of the object the metadata belongs to.
+ * @param string $object_type Type of object. 'group', 'field', or 'data'.
+ * @param string $meta_key Key of the metadata being updated.
+ * @param mixed $meta_value Value of the metadata being updated.
+ * @return bool True on success, false on failure.
+ */
 function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_value ) {
-	global $wpdb, $bp;
 
-	$object_id = (int) $object_id;
-
-	if ( empty( $object_id ) )
-		return false;
-
-	if ( !isset( $object_type ) )
-		return false;
-
-	if ( !in_array( $object_type, array( 'group', 'field', 'data' ) ) )
-		return false;
-
+	// Legacy - sanitize meta_key
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
-	if ( is_string( $meta_value ) ) {
-		$meta_value = stripslashes( $meta_value );
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
+	$retval = update_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, $meta_value );
+	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
+
+	// Legacy - if we fall through to add_metadata(), return true rather
+	// than the integer meta_id
+	if ( is_int( $retval ) ) {
+		$retval = (bool) $retval;
 	}
 
-	$meta_value = maybe_serialize( $meta_value );
-
-	if ( empty( $meta_value ) )
-		return bp_xprofile_delete_meta( $object_id, $object_type, $meta_key );
-
-	$cur = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_meta} WHERE object_id = %d AND object_type = %s AND meta_key = %s", $object_id, $object_type, $meta_key ) );
-
-	if ( empty( $cur ) )
-		$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_meta} ( object_id, object_type, meta_key, meta_value ) VALUES ( %d, %s, %s, %s )", $object_id, $object_type,  $meta_key, $meta_value ) );
-	else if ( $cur->meta_value != $meta_value )
-		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_meta} SET meta_value = %s WHERE object_id = %d AND object_type = %s AND meta_key = %s", $meta_value, $object_id, $object_type, $meta_key ) );
-	else
-		return false;
-
-	// Update the cached object and recache
-	wp_cache_set( 'bp_xprofile_meta_' . $object_type . '_' . $object_id . '_' . $meta_key, $meta_value, 'bp' );
-
-	return true;
+	return $retval;
 }
 
 function bp_xprofile_update_fieldgroup_meta( $field_group_id, $meta_key, $meta_value ) {
