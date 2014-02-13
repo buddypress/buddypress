@@ -619,16 +619,30 @@ function bp_group_description_editable( $group = false ) {
 		return apply_filters( 'bp_get_group_description_editable', $group->description );
 	}
 
+/**
+ * Output an excerpt of the group description.
+ *
+ * @param object $group Optional. The group being referenced. Defaults to the
+ *        group currently being iterated on in the groups loop.
+ */
 function bp_group_description_excerpt( $group = false ) {
 	echo bp_get_group_description_excerpt( $group );
 }
+	/**
+	 * Get an excerpt of a group description.
+	 *
+	 * @param object $group Optional. The group being referenced. Defaults
+	 *        to the group currently being iterated on in the groups loop.
+	 * @return string Excerpt.
+	 */
 	function bp_get_group_description_excerpt( $group = false ) {
 		global $groups_template;
 
-		if ( empty( $group ) )
+		if ( empty( $group ) ) {
 			$group =& $groups_template->group;
+		}
 
-		return apply_filters( 'bp_get_group_description_excerpt', bp_create_excerpt( $group->description ) );
+		return apply_filters( 'bp_get_group_description_excerpt', bp_create_excerpt( $group->description ), $group );
 	}
 
 
