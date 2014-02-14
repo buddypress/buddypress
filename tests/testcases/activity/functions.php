@@ -198,7 +198,16 @@ Bar!';
 	public function test_bp_activity_update_meta_prev_value() {
 		$a = $this->factory->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
-		$this->assertFalse( bp_activity_update_meta( $a, 'foo', 'bar2', 'baz' ) );
+
+		// In earlier versions of WordPress, bp_activity_update_meta()
+		// returns true even on failure. However, we know that in these
+		// cases the update is failing as expected, so we skip this
+		// assertion just to keep our tests passing
+		// See https://core.trac.wordpress.org/ticket/24933
+		if ( version_compare( $GLOBALS['wp_version'], '3.7', '>=' ) ) {
+			$this->assertFalse( bp_activity_update_meta( $a, 'foo', 'bar2', 'baz' ) );
+		}
+
 		$this->assertTrue( bp_activity_update_meta( $a, 'foo', 'bar2', 'bar' ) );
 	}
 
