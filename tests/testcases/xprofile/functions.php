@@ -233,9 +233,49 @@ Bar!';
 
 		$this->assertTrue( bp_xprofile_delete_meta( $g, 'group' ) );
 
-		// These will fail because of a caching bug
 		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo2' ) );
+	}
+
+	/**
+	 * @group xprofilemeta
+	 * @group bp_xprofile_delete_meta
+	 */
+	public function test_bp_xprofile_delete_meta_with_delete_all_but_no_meta_key() {
+		// With no meta key, don't delete for all items - just delete
+		// all for a single item
+		$g1 = $this->factory->xprofile_group->create();
+		$g2 = $this->factory->xprofile_group->create();
+		bp_xprofile_add_meta( $g1, 'group', 'foo', 'bar' );
+		bp_xprofile_add_meta( $g1, 'group', 'foo1', 'bar1' );
+		bp_xprofile_add_meta( $g2, 'group', 'foo', 'bar' );
+		bp_xprofile_add_meta( $g2, 'group', 'foo1', 'bar1' );
+
+		$this->assertTrue( bp_xprofile_delete_meta( $g1, 'group', '', '', true ) );
+		$this->assertEmpty( bp_xprofile_get_meta( $g1, 'group' ) );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g2, 'group', 'foo' ) );
+		$this->assertSame( 'bar1', bp_xprofile_get_meta( $g2, 'group', 'foo1' ) );
+	}
+
+	/**
+	 * @group xprofilemeta
+	 * @group bp_xprofile_delete_meta
+	 */
+	public function test_bp_xprofile_delete_meta_with_delete_all() {
+		// With no meta key, don't delete for all items - just delete
+		// all for a single item
+		$g1 = $this->factory->xprofile_group->create();
+		$g2 = $this->factory->xprofile_group->create();
+		bp_xprofile_add_meta( $g1, 'group', 'foo', 'bar' );
+		bp_xprofile_add_meta( $g1, 'group', 'foo1', 'bar1' );
+		bp_xprofile_add_meta( $g2, 'group', 'foo', 'bar' );
+		bp_xprofile_add_meta( $g2, 'group', 'foo1', 'bar1' );
+
+		$this->assertTrue( bp_xprofile_delete_meta( $g1, 'group', 'foo', '', true ) );
+		$this->assertEmpty( '', bp_xprofile_get_meta( $g1, 'group', 'foo' ) );
+		$this->assertEmpty( '', bp_xprofile_get_meta( $g2, 'group', 'foo' ) );
+		$this->assertSame( 'bar1', bp_xprofile_get_meta( $g1, 'group', 'foo1' ) );
+		$this->assertSame( 'bar1', bp_xprofile_get_meta( $g2, 'group', 'foo1' ) );
 	}
 
 	/**

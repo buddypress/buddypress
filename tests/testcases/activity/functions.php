@@ -336,6 +336,46 @@ Bar!';
 
 	/**
 	 * @group activitymeta
+	 * @group bp_activity_delete_meta
+	 */
+	public function test_bp_activity_delete_meta_with_delete_all_but_no_meta_key() {
+		// With no meta key, don't delete for all items - just delete
+		// all for a single item
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		bp_activity_update_meta( $a1, 'foo', 'bar' );
+		bp_activity_update_meta( $a1, 'foo1', 'bar1' );
+		bp_activity_update_meta( $a2, 'foo', 'bar' );
+		bp_activity_update_meta( $a2, 'foo1', 'bar1' );
+
+		$this->assertTrue( bp_activity_delete_meta( $a1, '', '', true ) );
+		$this->assertEmpty( bp_activity_get_meta( $a1 ) );
+		$this->assertSame( 'bar', bp_activity_get_meta( $a2, 'foo' ) );
+		$this->assertSame( 'bar1', bp_activity_get_meta( $a2, 'foo1' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_delete_meta
+	 */
+	public function test_bp_activity_delete_meta_with_delete_all() {
+		// With no meta key, don't delete for all items - just delete
+		// all for a single item
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		bp_activity_update_meta( $a1, 'foo', 'bar' );
+		bp_activity_update_meta( $a1, 'foo1', 'bar1' );
+		bp_activity_update_meta( $a2, 'foo', 'bar' );
+		bp_activity_update_meta( $a2, 'foo1', 'bar1' );
+
+		$this->assertTrue( bp_activity_delete_meta( $a1, 'foo', '', true ) );
+		$this->assertEmpty( '', bp_activity_get_meta( $a1, 'foo' ) );
+		$this->assertEmpty( '', bp_activity_get_meta( $a2, 'foo' ) );
+		$this->assertSame( 'bar1', bp_activity_get_meta( $a1, 'foo1' ) );
+		$this->assertSame( 'bar1', bp_activity_get_meta( $a2, 'foo1' ) );
+	}
+	/**
+	 * @group activitymeta
 	 * @group bp_activity_add_meta
 	 */
 	public function test_bp_activity_add_meta_no_meta_key() {

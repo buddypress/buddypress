@@ -965,9 +965,14 @@ function groups_accept_all_pending_membership_requests( $group_id ) {
  *        metadata entries with this value.
  * @param bool $delete_all Optional. If true, delete matching metadata entries
  *        for all groups. Default: false.
+ * @param bool $delete_all Optional. If true, delete matching metadata entries
+ * 	  for all objects, ignoring the specified group_id. Otherwise, only
+ * 	  delete matching metadata entries for the specified group.
+ * 	  Default: false.
  * @return bool True on success, false on failure.
  */
 function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
+	global $wpdb;
 
 	// Legacy - return false if non-int group ID
 	if ( ! is_numeric( $group_id ) ) {
@@ -977,8 +982,22 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
 	// Legacy - Sanitize keys
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
+	// Legacy - if no meta_key is passed, delete all for the item
+	if ( empty( $meta_key ) ) {
+		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->groupmeta} WHERE group_id = %d", $group_id ) );
+
+		// With no meta_key, ignore $delete_all
+		$delete_all = false;
+	} else {
+		$keys = array( $meta_key );
+	}
+
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
-	$retval = delete_metadata( 'group', $group_id, $meta_key, $meta_value, $delete_all );
+
+	foreach ( $keys as $key ) {
+		$retval = delete_metadata( 'group', $group_id, $key, $meta_value, $delete_all );
+	}
+
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
 	return $retval;

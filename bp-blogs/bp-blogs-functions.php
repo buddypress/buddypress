@@ -834,9 +834,13 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
  *        omitted, all BP metadata associated with the blog will be deleted.
  * @param string $meta_value Optional. If present, the metadata will only be
  *        deleted if the meta_value matches this parameter.
+ * @param bool $delete_all Optional. If true, delete matching metadata entries
+ * 	  for all objects, ignoring the specified blog_id. Otherwise, only
+ * 	  delete matching metadata entries for the specified blog.
+ * 	  Default: false.
  * @return bool True on success, false on failure.
  */
-function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false ) {
+function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb, $bp;
 
 	// Legacy - return false if the $blog_id is empty
@@ -850,6 +854,7 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 	// Legacy - if no meta_key is passed, delete all for the blog_id
 	if ( empty( $meta_key ) ) {
 		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->blogmeta} WHERE blog_id = %d", $blog_id ) );
+		$delete_all = false;
 	} else {
 		$keys = array( $meta_key );
 	}
@@ -860,7 +865,7 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 
 	foreach ( $keys as $key ) {
-		$retval = delete_metadata( 'blog', $blog_id, $key, $meta_value );
+		$retval = delete_metadata( 'blog', $blog_id, $key, $meta_value, $delete_all );
 	}
 
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );

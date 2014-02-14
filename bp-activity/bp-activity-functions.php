@@ -538,22 +538,24 @@ function bp_activity_total_favorites_for_user( $user_id = 0 ) {
 /**
  * Delete a meta entry from the DB for an activity stream item.
  *
- * @since BuddyPress (1.2)
+ * @since BuddyPress (1.2.0)
  *
  * @global object $wpdb WordPress database access object.
  * @global object $bp BuddyPress global settings.
- * @uses wp_cache_delete()
- * @uses is_wp_error()
  *
  * @param int $activity_id ID of the activity item whose metadata is being deleted.
  * @param string $meta_key Optional. The key of the metadata being deleted. If
- *                         omitted, all metadata associated with the activity
- *                         item will be deleted.
+ *        omitted, all metadata associated with the activity
+ *        item will be deleted.
  * @param string $meta_value Optional. If present, the metadata will only be
- *                           deleted if the meta_value matches this parameter.
+ *        deleted if the meta_value matches this parameter.
+ * @param bool $delete_all Optional. If true, delete matching metadata entries
+ * 	  for all objects, ignoring the specified object_id. Otherwise,
+ * 	  only delete matching metadata entries for the specified
+ * 	  activity item. Default: false.
  * @return bool True on success, false on failure.
  */
-function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = '' ) {
+function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = '', $delete_all = false ) {
 	global $wpdb, $bp;
 
 	// Legacy - Return false if any of the above values are not set
@@ -571,13 +573,16 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
 	if ( empty( $meta_key ) ) {
 		$all_meta = bp_activity_get_meta( $activity_id );
 		$keys     = ! empty( $all_meta ) ? wp_list_pluck( $all_meta, 'meta_key' ) : array();
+
+		// With no meta_key, ignore $delete_all
+		$delete_all = false;
 	} else {
 		$keys = array( $meta_key );
 	}
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	foreach ( $keys as $key ) {
-		$retval = delete_metadata( 'activity', $activity_id, $key, $meta_value );
+		$retval = delete_metadata( 'activity', $activity_id, $key, $meta_value, $delete_all );
 	}
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 

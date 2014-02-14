@@ -538,9 +538,13 @@ add_action( 'bp_make_spam_user', 'xprofile_remove_data' );
  *        metadata for the object will be deleted.
  * @param mixed $meta_value Optional. If provided, only metadata that matches
  *        the value will be permitted.
+ * @param bool $delete_all Optional. If true, delete matching metadata entries
+ * 	  for all objects, ignoring the specified object_id. Otherwise, only
+ * 	  delete matching metadata entries for the specified object.
+ * 	  Default: false.
  * @return bool True on success, false on failure.
  */
-function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $meta_value = false ) {
+function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb;
 
 	// Legacy - no empty object id
@@ -558,6 +562,9 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 		$table_key  = 'xprofile_' . $object_type . 'meta';
 		$table_name = $wpdb->{$table_key};
 		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$table_name} WHERE object_type = %s AND object_id = %d", $object_type, $object_id ) );
+
+		// Force delete_all to false if deleting all for object
+		$delete_all = false;
 	} else {
 		$keys = array( $meta_key );
 	}
@@ -569,7 +576,7 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
 
 	foreach ( $keys as $key ) {
-		$retval = delete_metadata( 'xprofile_' . $object_type, $object_id, $key, $meta_value );
+		$retval = delete_metadata( 'xprofile_' . $object_type, $object_id, $key, $meta_value, $delete_all );
 	}
 
 	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );

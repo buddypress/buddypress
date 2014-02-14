@@ -436,6 +436,47 @@ Bar!';
 
 	/**
 	 * @group groupmeta
+	 * @group groups_delete_groupmeta
+	 */
+	public function test_groups_delete_groupmeta_with_delete_all_but_no_meta_key() {
+		// With no meta key, don't delete for all items - just delete
+		// all for a single item
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create();
+		groups_add_groupmeta( $g1, 'foo', 'bar' );
+		groups_add_groupmeta( $g1, 'foo1', 'bar1' );
+		groups_add_groupmeta( $g2, 'foo', 'bar' );
+		groups_add_groupmeta( $g2, 'foo1', 'bar1' );
+
+		$this->assertTrue( groups_delete_groupmeta( $g1, '', '', true ) );
+		$this->assertEmpty( groups_get_groupmeta( $g1 ) );
+		$this->assertSame( 'bar', groups_get_groupmeta( $g2, 'foo' ) );
+		$this->assertSame( 'bar1', groups_get_groupmeta( $g2, 'foo1' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 * @group groups_delete_groupmeta
+	 */
+	public function test_groups_delete_groupmeta_with_delete_all() {
+		// With no meta key, don't delete for all items - just delete
+		// all for a single item
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create();
+		groups_add_groupmeta( $g1, 'foo', 'bar' );
+		groups_add_groupmeta( $g1, 'foo1', 'bar1' );
+		groups_add_groupmeta( $g2, 'foo', 'bar' );
+		groups_add_groupmeta( $g2, 'foo1', 'bar1' );
+
+		$this->assertTrue( groups_delete_groupmeta( $g1, 'foo', '', true ) );
+		$this->assertEmpty( '', groups_get_groupmeta( $g1, 'foo' ) );
+		$this->assertEmpty( '', groups_get_groupmeta( $g2, 'foo' ) );
+		$this->assertSame( 'bar1', groups_get_groupmeta( $g1, 'foo1' ) );
+		$this->assertSame( 'bar1', groups_get_groupmeta( $g2, 'foo1' ) );
+	}
+
+	/**
+	 * @group groupmeta
 	 * @group groups_add_groupmeta
 	 */
 	public function test_groups_add_groupmeta_no_meta_key() {
