@@ -145,19 +145,20 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_value_byid
 	 */
 	public function test_get_value_byid_multipleusers_uncached() {
-		$time = bp_core_current_time();
+		$time = date( 'Y-m-d h:i:s', time() - 60*60*24 );
 
-		$u1 = $this->create_user( array(
-			'last_activity' => $time,
-		) );
-		$u2 = $this->create_user( array(
-			'last_activity' => $time,
-		) );
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
+
+		// To make the tests reliable, we have to force the last_updated
+		// BP doesn't easily allow this except via filter
+		$this->last_updated = $time;
+		add_filter( 'xprofile_data_last_updated_before_save', array( $this, 'filter_time' ) );
 
 		$d1 = new BP_XProfile_ProfileData();
 		$d1->user_id = $u1;
@@ -172,6 +173,8 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$d2->value = 'bar';
 		$d2->last_updated = $time;
 		$d2->save();
+
+		remove_filter( 'xprofile_data_last_updated_before_save', array( $this, 'filter_time' ) );
 
 		// Ensure it's deleted from cache
 		wp_cache_delete( $f, 'bp_xprofile_data_' . $u1 );
@@ -222,14 +225,10 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_value_byid
 	 */
 	public function test_get_value_byid_multipleusers_cached() {
-		$time = bp_core_current_time();
+		$time = date( 'Y-m-d h:i:s', time() - 60*60*24 );
 
-		$u1 = $this->create_user( array(
-			'last_activity' => $time,
-		) );
-		$u2 = $this->create_user( array(
-			'last_activity' => $time,
-		) );
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -428,4 +427,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $expected, BP_XProfile_ProfileData::get_all_for_user( $u ) );
 	}
 
+	public function filter_time() {
+		return $this->last_updated;
+	}
 }
