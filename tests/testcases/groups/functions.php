@@ -410,4 +410,40 @@ Bar!';
 		$this->assertTrue( groups_delete_groupmeta( $g, $krazy_key ) );
 		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ) );
 	}
+
+	/**
+	 * @group groupmeta
+	 * @group groups_add_groupmeta
+	 */
+	public function test_groups_add_groupmeta_no_meta_key() {
+		$this->assertFalse( groups_add_groupmeta( 1, '', 'bar' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 * @group groups_add_groupmeta
+	 */
+	public function test_groups_add_groupmeta_empty_object_id() {
+		$this->assertFalse( groups_add_groupmeta( 0, 'foo', 'bar' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 * @group groups_add_groupmeta
+	 */
+	public function test_groups_add_groupmeta_existing_unique() {
+		$g = $this->factory->group->create();
+		groups_add_groupmeta( $g, 'foo', 'bar' );
+		$this->assertFalse( groups_add_groupmeta( $g, 'foo', 'baz', true ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 * @group groups_add_groupmeta
+	 */
+	public function test_groups_add_groupmeta_existing_not_unique() {
+		$g = $this->factory->group->create();
+		groups_add_groupmeta( $g, 'foo', 'bar' );
+		$this->assertNotEmpty( groups_add_groupmeta( $g, 'foo', 'baz' ) );
+	}
 }

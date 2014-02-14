@@ -1037,6 +1037,27 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value ) {
 	return $retval;
 }
 
+/**
+ * Add a piece of group metadata.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $group_id ID of the group.
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Metadata value.
+ * @param bool $unique. Optional. Whether to enforce a single metadata value
+ *        for the given key. If true, and the object already has a value for
+ *        the key, no change will be made. Default: false.
+ * @return int|bool The meta ID on successful update, false on failure.
+ */
+function groups_add_groupmeta( $group_id, $meta_key, $meta_value, $unique = false ) {
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	$retval = add_metadata( 'group', $group_id, $meta_key, $meta_value, $unique );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
+
+	return $retval;
+}
+
 /*** Group Cleanup Functions ****************************************************/
 
 function groups_remove_data_for_user( $user_id ) {
