@@ -591,10 +591,13 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
  *
  * @uses apply_filters() To call the 'bp_activity_get_meta' hook.
  *
- * @param int $activity_id ID of the activity item whose metadata is being requseted.
+ * @param int $activity_id ID of the activity item whose metadata is being requested.
  * @param string $meta_key Optional. If present, only the metadata matching
- *                         that meta key will be returned. Otherwise, all
- *                         metadata for the activity item will be fetched.
+ *        that meta key will be returned. Otherwise, all metadata for the
+ *        activity item will be fetched.
+ * @param bool $single Optional. If true, return only the first value of the
+ *	  specified meta_key. This parameter has no effect if meta_key is not
+ *	  specified. Default: true.
  * @return mixed The meta value(s) being requested.
  */
 function bp_activity_get_meta( $activity_id = 0, $meta_key = '', $single = true ) {

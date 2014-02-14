@@ -279,6 +279,29 @@ Bar!';
 	 * @group xprofilemeta
 	 * @group bp_xprofile_get_meta
 	 */
+	public function test_bp_xprofile_get_meta_single_true() {
+		$g = $this->factory->xprofile_group->create();
+		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
+		bp_xprofile_add_meta( $g, 'group', 'foo', 'baz' );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) ); // default is true
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo', true ) );
+	}
+
+	/**
+	 * @group xprofilemeta
+	 * @group bp_xprofile_get_meta
+	 */
+	public function test_bp_xprofile_get_meta_single_false() {
+		$g = $this->factory->xprofile_group->create();
+		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
+		bp_xprofile_add_meta( $g, 'group', 'foo', 'baz' );
+		$this->assertSame( array( 'bar', 'baz' ), bp_xprofile_get_meta( $g, 'group', 'foo', false ) );
+	}
+
+	/**
+	 * @group xprofilemeta
+	 * @group bp_xprofile_get_meta
+	 */
 	public function test_bp_xprofile_get_meta_no_meta_key_no_results() {
 		$g = $this->factory->xprofile_group->create();
 

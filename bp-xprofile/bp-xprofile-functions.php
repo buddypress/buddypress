@@ -581,13 +581,19 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 /**
  * Get a piece of xprofile metadata.
  *
+ * Note that the default value of $single is true, unlike in the case of the
+ * underlying get_metadata() function. This is for backward compatibility.
+ *
  * @param int $object_id ID of the object the metadata belongs to.
  * @param string $object_type Type of object. 'group', 'field', or 'data'.
  * @param string $meta_key Key of the metadata being fetched. If omitted, all
  *        metadata for the object will be retrieved.
+ * @param bool $single Optional. If true, return only the first value of the
+ *	  specified meta_key. This parameter has no effect if meta_key is not
+ *	  specified. Default: true.
  * @return mixed Meta value if found. False on failure.
  */
-function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '') {
+function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single = true ) {
 	// Legacy - sanitize object type
 	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
 		return false;
@@ -595,7 +601,7 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '') {
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
-	$retval = get_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, true );
+	$retval = get_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
 

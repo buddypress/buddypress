@@ -880,15 +880,18 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
  * @param string $meta_key Optional. If present, only the metadata matching
  *        that meta key will be returned. Otherwise, all metadata for the
  *        blog will be fetched.
+ * @param bool $single Optional. If true, return only the first value of the
+ *	  specified meta_key. This parameter has no effect if meta_key is not
+ *	  specified. Default: true.
  * @return mixed The meta value(s) being requested.
  */
-function bp_blogs_get_blogmeta( $blog_id, $meta_key = '') {
+function bp_blogs_get_blogmeta( $blog_id, $meta_key = '', $single = true ) {
 
 	// Legacy - Sanitize meta_key
 	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
-	$retval = get_metadata( 'blog', $blog_id, $meta_key, true );
+	$retval = get_metadata( 'blog', $blog_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
 	// Legacy - If no meta_key is passed, return only the found values,

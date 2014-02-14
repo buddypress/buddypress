@@ -394,6 +394,29 @@ Bar!';
 
 	/**
 	 * @group groupmeta
+	 * @group groups_get_groupmeta
+	 */
+	public function test_bp_activity_get_meta_single_true() {
+		$g = $this->factory->group->create();
+		groups_add_groupmeta( $g, 'foo', 'bar' );
+		groups_add_groupmeta( $g, 'foo', 'baz' );
+		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) ); // default is true
+		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo', true ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 * @group groups_get_groupmeta
+	 */
+	public function test_bp_activity_get_meta_single_false() {
+		$g = $this->factory->group->create();
+		groups_add_groupmeta( $g, 'foo', 'bar' );
+		groups_add_groupmeta( $g, 'foo', 'baz' );
+		$this->assertSame( array( 'bar', 'baz' ), groups_get_groupmeta( $g, 'foo', false ) );
+	}
+
+	/**
+	 * @group groupmeta
 	 */
 	public function test_groups_delete_groupmeta_non_numeric_id() {
 		$this->assertFalse( groups_delete_groupmeta( 'foo', 'bar' ) );

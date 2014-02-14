@@ -258,6 +258,29 @@ Bar!';
 
 	/**
 	 * @group activitymeta
+	 * @group bp_activity_get_meta
+	 */
+	public function test_bp_activity_get_meta_single_true() {
+		$a = $this->factory->activity->create();
+		bp_activity_add_meta( $a, 'foo', 'bar' );
+		bp_activity_add_meta( $a, 'foo', 'baz' );
+		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) ); // default is true
+		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo', true ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_get_meta
+	 */
+	public function test_bp_activity_get_meta_single_false() {
+		$a = $this->factory->activity->create();
+		bp_activity_add_meta( $a, 'foo', 'bar' );
+		bp_activity_add_meta( $a, 'foo', 'baz' );
+		$this->assertSame( array( 'bar', 'baz' ), bp_activity_get_meta( $a, 'foo', false ) );
+	}
+
+	/**
+	 * @group activitymeta
 	 * @group bp_activity_delete_meta
 	 */
 	public function test_bp_activity_delete_meta_non_numeric_activity_id() {
