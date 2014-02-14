@@ -54,6 +54,10 @@ class BP_Blogs_Component extends BP_Component {
 			'table_name_blogmeta' => $bp->table_prefix . 'bp_user_blogs_blogmeta',
 		);
 
+		$meta_tables = array(
+			'blog' => $bp->table_prefix . 'bp_user_blogs_blogmeta',
+		);
+
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		$args = array(
@@ -64,6 +68,7 @@ class BP_Blogs_Component extends BP_Component {
 			'search_string'         => __( 'Search sites...', 'buddypress' ),
 			'autocomplete_all'      => defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' ),
 			'global_tables'         => $global_tables,
+			'meta_tables'           => $meta_tables,
 		);
 
 		// Setup the globals
