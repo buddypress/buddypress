@@ -312,6 +312,42 @@ Bar!';
 	}
 
 	/**
+	 * @group activitymeta
+	 * @group bp_activity_add_meta
+	 */
+	public function test_bp_activity_add_meta_no_meta_key() {
+		$this->assertFalse( bp_activity_add_meta( 1, '', 'bar' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_add_meta
+	 */
+	public function test_bp_activity_add_meta_empty_object_id() {
+		$this->assertFalse( bp_activity_add_meta( 0, 'foo', 'bar' ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_add_meta
+	 */
+	public function test_bp_activity_add_meta_existing_unique() {
+		$a = $this->factory->activity->create();
+		bp_activity_add_meta( $a, 'foo', 'bar' );
+		$this->assertFalse( bp_activity_add_meta( 0, 'foo', 'baz', true ) );
+	}
+
+	/**
+	 * @group activitymeta
+	 * @group bp_activity_add_meta
+	 */
+	public function test_bp_activity_add_meta_existing_not_unique() {
+		$a = $this->factory->activity->create();
+		bp_activity_add_meta( $a, 'foo', 'bar' );
+		$this->assertNotEmpty( bp_activity_add_meta( $a, 'foo', 'baz' ) );
+	}
+
+	/**
 	 * @group bp_activity_get_user_mentionname
 	 */
 	public function test_bp_activity_get_user_mentionname_compatibilitymode_off() {
