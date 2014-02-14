@@ -155,4 +155,38 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 		$this->assertFalse( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
 	}
+
+	/**
+	 * @group blogmeta
+	 * @group bp_blogs_add_blogmeta
+	 */
+	public function test_bp_blogs_add_blogmeta_no_meta_key() {
+		$this->assertFalse( bp_blogs_add_blogmeta( 1, '', 'bar' ) );
+	}
+
+	/**
+	 * @group blogmeta
+	 * @group bp_blogs_add_blogmeta
+	 */
+	public function test_bp_blogs_add_blogmeta_empty_object_id() {
+		$this->assertFalse( bp_blogs_add_blogmeta( 0, 'foo', 'bar' ) );
+	}
+
+	/**
+	 * @group blogmeta
+	 * @group bp_blogs_add_blogmeta
+	 */
+	public function test_bp_blogs_add_blogmeta_existing_unique() {
+		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
+		$this->assertFalse( bp_blogs_add_blogmeta( 1, 'foo', 'baz', true ) );
+	}
+
+	/**
+	 * @group blogmeta
+	 * @group bp_blogs_add_blogmeta
+	 */
+	public function test_bp_blogs_add_blogmeta_existing_not_unique() {
+		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
+		$this->assertNotEmpty( bp_blogs_add_blogmeta( 1, 'foo', 'baz' ) );
+	}
 }
