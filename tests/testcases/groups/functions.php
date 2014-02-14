@@ -336,6 +336,17 @@ Bar!';
 
 	/**
 	 * @group groupmeta
+	 * @group groups_update_groupmeta
+	 */
+	public function test_groups_update_groupmeta_prev_value() {
+		$g = $this->factory->group->create();
+		groups_add_groupmeta( $g, 'foo', 'bar' );
+		$this->assertFalse( groups_update_groupmeta( $g, 'foo', 'bar2', 'baz' ) );
+		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'bar2', 'bar' ) );
+	}
+
+	/**
+	 * @group groupmeta
 	 *
 	 * @todo Why do we do this?
 	 */

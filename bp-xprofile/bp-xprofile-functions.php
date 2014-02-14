@@ -633,16 +633,19 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single
  * @param string $object_type Type of object. 'group', 'field', or 'data'.
  * @param string $meta_key Key of the metadata being updated.
  * @param mixed $meta_value Value of the metadata being updated.
+ * @param mixed $prev_value Optional. If specified, only update existing
+ *        metadata entries with the specified value. Otherwise, update all
+ *        entries.
  * @return bool True on success, false on failure.
  */
-function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_value ) {
+function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_value, $prev_value = '' ) {
 
 	// Legacy - sanitize meta_key
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
-	$retval = update_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, $meta_value );
+	$retval = update_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, $meta_value, $prev_value );
 	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 

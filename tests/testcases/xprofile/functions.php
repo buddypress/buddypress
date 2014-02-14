@@ -442,6 +442,17 @@ Bar!';
 
 	/**
 	 * @group xprofilemeta
+	 * @group bp_xprofile_update_meta
+	 */
+	public function test_bp_xprofile_update_meta_prev_value() {
+		$g = $this->factory->xprofile_group->create();
+		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
+		$this->assertFalse( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar2', 'baz' ) );
+		$this->assertTrue( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar2', 'bar' ) );
+	}
+
+	/**
+	 * @group xprofilemeta
 	 * @group bp_xprofile_add_meta
 	 */
 	public function test_bp_xprofile_add_meta_no_meta_key() {

@@ -193,6 +193,17 @@ Bar!';
 
 	/**
 	 * @group activitymeta
+	 * @group bp_activity_update_meta
+	 */
+	public function test_bp_activity_update_meta_prev_value() {
+		$a = $this->factory->activity->create();
+		bp_activity_add_meta( $a, 'foo', 'bar' );
+		$this->assertFalse( bp_activity_update_meta( $a, 'foo', 'bar2', 'baz' ) );
+		$this->assertTrue( bp_activity_update_meta( $a, 'foo', 'bar2', 'bar' ) );
+	}
+
+	/**
+	 * @group activitymeta
 	 * @group bp_activity_get_meta
 	 */
 	public function test_bp_activity_get_meta_empty_activity_id() {

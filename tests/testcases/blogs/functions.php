@@ -185,7 +185,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group blogmeta
-	 * @group bp_blogs_update_groupmeta
+	 * @group bp_blogs_update_blogmeta
 	 */
 	public function test_bp_blogs_update_blogmeta_new() {
 		$this->assertTrue( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
@@ -194,7 +194,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group blogmeta
-	 * @group bp_blogs_update_groupmeta
+	 * @group bp_blogs_update_blogmeta
 	 */
 	public function test_bp_blogs_update_blogmeta_existing() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
@@ -205,12 +205,22 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group blogmeta
-	 * @group bp_blogs_update_groupmeta
+	 * @group bp_blogs_update_blogmeta
 	 */
 	public function test_bp_blogs_update_blogmeta_existing_no_change() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 		$this->assertFalse( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
+	}
+
+	/**
+	 * @group blogmeta
+	 * @group bp_blogs_update_blogmeta
+	 */
+	public function test_bp_blogs_update_meta_prev_value() {
+		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
+		$this->assertFalse( bp_blogs_update_blogmeta( 1, 'foo', 'bar2', 'baz' ) );
+		$this->assertTrue( bp_blogs_update_blogmeta( 1, 'foo', 'bar2', 'bar' ) );
 	}
 
 	/**

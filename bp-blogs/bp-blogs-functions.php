@@ -921,15 +921,18 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '', $single = true ) {
  * @param int $blog_id ID of the blog whose metadata is being updated.
  * @param string $meta_key Key of the metadata being updated.
  * @param mixed $meta_value Value to be set.
+ * @param mixed $prev_value Optional. If specified, only update existing
+ *        metadata entries with the specified value. Otherwise, update all
+ *        entries.
  * @return bool True on success, false on failure.
  */
-function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value ) {
+function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value, $prev_value = '' ) {
 
 	// Legacy - Sanitize meta_key
 	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
-	$retval = update_metadata( 'blog', $blog_id, $meta_key, $meta_value );
+	$retval = update_metadata( 'blog', $blog_id, $meta_key, $meta_value, $prev_value );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
 	// Legacy - New items fall through to add_metadata(). Return true
