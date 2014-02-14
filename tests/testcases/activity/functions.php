@@ -334,7 +334,7 @@ Bar!';
 	public function test_bp_activity_add_meta_existing_unique() {
 		$a = $this->factory->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
-		$this->assertFalse( bp_activity_add_meta( 0, 'foo', 'baz', true ) );
+		$this->assertFalse( bp_activity_add_meta( $a, 'foo', 'baz', true ) );
 	}
 
 	/**
