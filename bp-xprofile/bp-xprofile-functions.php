@@ -642,6 +642,30 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
 	return $retval;
 }
 
+/**
+ * Add a piece of xprofile metadata.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $object_id ID of the object the metadata belongs to.
+ * @param string $object_type Type of object. 'group', 'field', or 'data'.
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Metadata value.
+ * @param bool $unique. Optional. Whether to enforce a single metadata value
+ *        for the given key. If true, and the object already has a value for
+ *        the key, no change will be made. Default: false.
+ * @return int|bool The meta ID on successful update, false on failure.
+ */
+function bp_xprofile_add_meta( $object_id, $object_type, $meta_key, $meta_value, $unique = false ) {
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
+	$retval = add_metadata( 'xprofile_' . $object_type , $object_id, $meta_key, $meta_value, $unique );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
+	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
+
+	return $retval;
+}
+
 function bp_xprofile_update_fieldgroup_meta( $field_group_id, $meta_key, $meta_value ) {
 	return bp_xprofile_update_meta( $field_group_id, 'group', $meta_key, $meta_value );
 }

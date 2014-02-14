@@ -376,4 +376,40 @@ Bar!';
 		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 		$this->assertFalse( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' ) );
 	}
+
+	/**
+	 * @group xprofilemeta
+	 * @group bp_xprofile_add_meta
+	 */
+	public function test_bp_xprofile_add_meta_no_meta_key() {
+		$this->assertFalse( bp_xprofile_add_meta( 1, 'group', '', 'bar' ) );
+	}
+
+	/**
+	 * @group xprofilemeta
+	 * @group bp_xprofile_add_meta
+	 */
+	public function test_bp_xprofile_add_meta_empty_object_id() {
+		$this->assertFalse( bp_xprofile_add_meta( 0, 'group', 'foo', 'bar' ) );
+	}
+
+	/**
+	 * @group xprofilemeta
+	 * @group bp_xprofile_add_meta
+	 */
+	public function test_bp_xprofile_add_meta_existing_unique() {
+		$g = $this->factory->xprofile_group->create();
+		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
+		$this->assertFalse( bp_xprofile_add_meta( $g, 'group', 'foo', 'baz', true ) );
+	}
+
+	/**
+	 * @group xprofilemeta
+	 * @group bp_xprofile_add_meta
+	 */
+	public function test_bp_xprofile_add_meta_existing_not_unique() {
+		$g = $this->factory->xprofile_group->create();
+		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
+		$this->assertNotEmpty( bp_xprofile_add_meta( $g, 'group', 'foo', 'baz' ) );
+	}
 }
