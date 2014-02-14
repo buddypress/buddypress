@@ -374,6 +374,7 @@ Bar!';
 		$this->assertSame( 'bar1', bp_activity_get_meta( $a1, 'foo1' ) );
 		$this->assertSame( 'bar1', bp_activity_get_meta( $a2, 'foo1' ) );
 	}
+
 	/**
 	 * @group activitymeta
 	 * @group bp_activity_add_meta
