@@ -113,7 +113,7 @@ class BP_UnitTest_Factory_For_XProfileGroup extends WP_UnitTest_Factory_For_Thin
 
 	function create_object( $args ) {
 		$group_id = xprofile_insert_field_group( $args );
-		return $this->get_object_by_id( $group_id );
+		return $group_id;
 	}
 
 	function update_object( $group_id, $fields ) {
@@ -137,7 +137,7 @@ class BP_UnitTest_Factory_For_XProfileField extends WP_UnitTest_Factory_For_Thin
 
 	function create_object( $args ) {
 		$field_id = xprofile_insert_field( $args );
-		return $this->get_object_by_id( $field_id );
+		return $field_id;
 	}
 
 	function update_object( $field_id, $fields ) {

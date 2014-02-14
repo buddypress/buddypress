@@ -70,15 +70,15 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 	public function test_bp_xprofile_update_meta_with_line_breaks() {
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'field_group_id' => $g->id,
+			'field_group_id' => $g,
 			'type' => 'textbox',
 		) );
 
 		$meta_value = 'Foo!
 
 Bar!';
-		bp_xprofile_update_meta( $f->id, 'field', 'linebreak_field', $meta_value );
-		$this->assertEquals( $meta_value, bp_xprofile_get_meta( $f->id, 'field', 'linebreak_field' ) );
+		bp_xprofile_update_meta( $f, 'field', 'linebreak_field', $meta_value );
+		$this->assertEquals( $meta_value, bp_xprofile_get_meta( $f, 'field', 'linebreak_field' ) );
 	}
 
 	/**
@@ -108,16 +108,16 @@ Bar!';
 		$u = $this->create_user();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'field_group_id' => $g->id,
+			'field_group_id' => $g,
 			'type' => 'textbox',
 		) );
 
-		bp_xprofile_update_meta( $f->id, 'field', 'default_visibility', 'adminsonly' );
-		bp_xprofile_update_meta( $f->id, 'field', 'allow_custom_visibility', 'allowed' );
+		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
+		bp_xprofile_update_meta( $f, 'field', 'allow_custom_visibility', 'allowed' );
 
-		xprofile_set_field_visibility_level( $f->id, $u, 'loggedin' );
+		xprofile_set_field_visibility_level( $f, $u, 'loggedin' );
 
-		$this->assertSame( 'loggedin', xprofile_get_field_visibility_level( $f->id, $u ) );
+		$this->assertSame( 'loggedin', xprofile_get_field_visibility_level( $f, $u ) );
 	}
 
 	/**
@@ -127,14 +127,14 @@ Bar!';
 		$u = $this->create_user();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'field_group_id' => $g->id,
+			'field_group_id' => $g,
 			'type' => 'textbox',
 		) );
 
-		bp_xprofile_update_meta( $f->id, 'field', 'default_visibility', 'adminsonly' );
-		bp_xprofile_update_meta( $f->id, 'field', 'allow_custom_visibility', 'allowed' );
+		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
+		bp_xprofile_update_meta( $f, 'field', 'allow_custom_visibility', 'allowed' );
 
-		$this->assertSame( 'adminsonly', xprofile_get_field_visibility_level( $f->id, $u ) );
+		$this->assertSame( 'adminsonly', xprofile_get_field_visibility_level( $f, $u ) );
 
 	}
 
@@ -145,16 +145,16 @@ Bar!';
 		$u = $this->create_user();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'field_group_id' => $g->id,
+			'field_group_id' => $g,
 			'type' => 'textbox',
 		) );
 
-		bp_xprofile_update_meta( $f->id, 'field', 'default_visibility', 'adminsonly' );
-		bp_xprofile_update_meta( $f->id, 'field', 'allow_custom_visibility', 'disabled' );
+		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
+		bp_xprofile_update_meta( $f, 'field', 'allow_custom_visibility', 'disabled' );
 
-		xprofile_set_field_visibility_level( $f->id, $u, 'loggedin' );
+		xprofile_set_field_visibility_level( $f, $u, 'loggedin' );
 
-		$this->assertSame( 'adminsonly', xprofile_get_field_visibility_level( $f->id, $u ) );
+		$this->assertSame( 'adminsonly', xprofile_get_field_visibility_level( $f, $u ) );
 	}
 
 	/**
@@ -187,12 +187,12 @@ Bar!';
 	 */
 	public function test_bp_xprofile_delete_meta_illegal_characters() {
 		$g = $this->factory->xprofile_group->create();
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		$this->assertTrue( bp_xprofile_delete_meta( $g->id, 'group', 'foo' ) );
-		$this->assertEquals( '', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		$this->assertTrue( bp_xprofile_delete_meta( $g, 'group', 'foo' ) );
+		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -201,11 +201,11 @@ Bar!';
 	 */
 	public function test_bp_xprofile_delete_meta_trim_meta_value() {
 		$g = $this->factory->xprofile_group->create();
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 
-		$this->assertTrue( bp_xprofile_delete_meta( $g->id, 'group', 'foo', ' bar  ' ) );
-		$this->assertEquals( '', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		$this->assertTrue( bp_xprofile_delete_meta( $g, 'group', 'foo', ' bar  ' ) );
+		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -214,10 +214,10 @@ Bar!';
 	 */
 	public function test_bp_xprofile_delete_meta_meta_value_match() {
 		$g = $this->factory->xprofile_group->create();
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
-		$this->assertTrue( bp_xprofile_delete_meta( $g->id, 'group', 'foo', 'bar' ) );
-		$this->assertEquals( '', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertTrue( bp_xprofile_delete_meta( $g, 'group', 'foo', 'bar' ) );
+		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -226,16 +226,16 @@ Bar!';
 	 */
 	public function test_bp_xprofile_delete_meta_delete_all() {
 		$g = $this->factory->xprofile_group->create();
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' );
-		bp_xprofile_update_meta( $g->id, 'group', 'foo2', 'bar' );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g->id, 'group', 'foo2' ) );
+		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
+		bp_xprofile_update_meta( $g, 'group', 'foo2', 'bar' );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo2' ) );
 
-		$this->assertTrue( bp_xprofile_delete_meta( $g->id, 'group' ) );
+		$this->assertTrue( bp_xprofile_delete_meta( $g, 'group' ) );
 
 		// These will fail because of a caching bug
-		$this->assertEquals( '', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
-		$this->assertEquals( '', bp_xprofile_get_meta( $g->id, 'group', 'foo2' ) );
+		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo2' ) );
 	}
 
 	/**
@@ -268,11 +268,11 @@ Bar!';
 	 */
 	public function test_bp_xprofile_get_meta_no_meta_key() {
 		$g = $this->factory->xprofile_group->create();
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' );
-		bp_xprofile_update_meta( $g->id, 'group', 'foo2', 'bar' );
+		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
+		bp_xprofile_update_meta( $g, 'group', 'foo2', 'bar' );
 
 		$expected = array( 'bar', 'bar', );
-		$this->assertSame( $expected, bp_xprofile_get_meta( $g->id, 'group' ) );
+		$this->assertSame( $expected, bp_xprofile_get_meta( $g, 'group' ) );
 	}
 
 	/**
@@ -283,7 +283,7 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 
 		$expected = array();
-		$this->assertSame( $expected, bp_xprofile_get_meta( $g->id, 'group' ) );
+		$this->assertSame( $expected, bp_xprofile_get_meta( $g, 'group' ) );
 	}
 
 	/**
@@ -317,8 +317,8 @@ Bar!';
 	public function test_bp_xprofile_update_meta_illegal_characters() {
 		$g = $this->factory->xprofile_group->create();
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		bp_xprofile_update_meta( $g->id, 'group', $krazy_key, 'bar' );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		bp_xprofile_update_meta( $g, 'group', $krazy_key, 'bar' );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -328,8 +328,8 @@ Bar!';
 	public function test_bp_xprofile_update_meta_stripslashes() {
 		$g = $this->factory->xprofile_group->create();
 		$v = "Totally \'tubular\'";
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', $v );
-		$this->assertSame( stripslashes( $v ), bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		bp_xprofile_update_meta( $g, 'group', 'foo', $v );
+		$this->assertSame( stripslashes( $v ), bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -338,9 +338,9 @@ Bar!';
 	 */
 	public function test_bp_xprofile_update_meta_empty_value_delete() {
 		$g = $this->factory->xprofile_group->create();
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' );
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', '' );
-		$this->assertSame( '', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
+		bp_xprofile_update_meta( $g, 'group', 'foo', '' );
+		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -349,9 +349,9 @@ Bar!';
 	 */
 	public function test_bp_xprofile_update_meta_new() {
 		$g = $this->factory->xprofile_group->create();
-		$this->assertSame( '', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
-		$this->assertTrue( bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' ) );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertTrue( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' ) );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -360,10 +360,10 @@ Bar!';
 	 */
 	public function test_bp_xprofile_update_meta_existing() {
 		$g = $this->factory->xprofile_group->create();
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
-		$this->assertTrue( bp_xprofile_update_meta( $g->id, 'group', 'foo', 'baz' ) );
-		$this->assertSame( 'baz', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
+		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertTrue( bp_xprofile_update_meta( $g, 'group', 'foo', 'baz' ) );
+		$this->assertSame( 'baz', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -372,8 +372,8 @@ Bar!';
 	 */
 	public function test_bp_xprofile_update_meta_same_value() {
 		$g = $this->factory->xprofile_group->create();
-		bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g->id, 'group', 'foo' ) );
-		$this->assertFalse( bp_xprofile_update_meta( $g->id, 'group', 'foo', 'bar' ) );
+		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertFalse( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' ) );
 	}
 }
