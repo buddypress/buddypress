@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-13 14:35:15+00:00\n"
+"POT-Creation-Date: 2014-02-14 02:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -633,7 +633,7 @@ msgstr ""
 #: bp-activity/bp-activity-loader.php:341
 #: bp-activity/bp-activity-template.php:1163
 #: bp-activity/bp-activity-template.php:1309
-#: bp-activity/bp-activity-template.php:1320 bp-blogs/bp-blogs-loader.php:231
+#: bp-activity/bp-activity-template.php:1320 bp-blogs/bp-blogs-loader.php:236
 #: bp-forums/bp-forums-loader.php:245 bp-forums/bp-forums-template.php:730
 #: bp-forums/bp-forums-template.php:960 bp-forums/bp-forums-template.php:1990
 #: bp-friends/bp-friends-loader.php:233 bp-groups/bp-groups-loader.php:585
@@ -866,8 +866,8 @@ msgstr ""
 msgid "New post comment posted"
 msgstr ""
 
-#: bp-blogs/bp-blogs-buddybar.php:42 bp-blogs/bp-blogs-loader.php:144
-#: bp-blogs/bp-blogs-loader.php:194 bp-blogs/bp-blogs-loader.php:222
+#: bp-blogs/bp-blogs-buddybar.php:42 bp-blogs/bp-blogs-loader.php:149
+#: bp-blogs/bp-blogs-loader.php:199 bp-blogs/bp-blogs-loader.php:227
 msgid "My Sites"
 msgstr ""
 
@@ -915,21 +915,21 @@ msgstr ""
 msgid "Site Tracking"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:64
+#: bp-blogs/bp-blogs-loader.php:68
 msgid "Search sites..."
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:124
+#: bp-blogs/bp-blogs-loader.php:129
 msgid "Sites <span>%d</span>"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:186 bp-blogs/bp-blogs-screens.php:146
+#: bp-blogs/bp-blogs-loader.php:191 bp-blogs/bp-blogs-screens.php:146
 #: bp-blogs/bp-blogs-screens.php:148 bp-blogs/bp-blogs-screens.php:209
 #: bp-blogs/bp-blogs-screens.php:211
 msgid "Sites"
 msgstr ""
 
-#: bp-blogs/bp-blogs-loader.php:203 bp-blogs/bp-blogs-screens.php:209
+#: bp-blogs/bp-blogs-loader.php:208 bp-blogs/bp-blogs-screens.php:209
 #: bp-blogs/bp-blogs-template.php:1099 bp-core/bp-core-filters.php:449
 #: bp-themes/bp-default/blogs/create.php:21
 #: bp-themes/bp-default/blogs/index.php:21
