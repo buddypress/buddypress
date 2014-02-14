@@ -145,15 +145,19 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_value_byid
 	 */
 	public function test_get_value_byid_multipleusers_uncached() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$time = bp_core_current_time();
+
+		$u1 = $this->create_user( array(
+			'last_activity' => $time,
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => $time,
+		) );
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
-
-		$time = bp_core_current_time();
 
 		$d1 = new BP_XProfile_ProfileData();
 		$d1->user_id = $u1;
@@ -218,15 +222,19 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_value_byid
 	 */
 	public function test_get_value_byid_multipleusers_cached() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$time = bp_core_current_time();
+
+		$u1 = $this->create_user( array(
+			'last_activity' => $time,
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => $time,
+		) );
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
-
-		$time = bp_core_current_time();
 
 		// Fake the cache
 		$d1 = new stdClass;
