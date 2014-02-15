@@ -267,7 +267,7 @@ function bp_the_profile_group_description() {
 }
 	function bp_get_the_profile_group_description() {
 		global $group;
-		echo apply_filters( 'bp_get_the_profile_group_description', $group->description );
+		return apply_filters( 'bp_get_the_profile_group_description', $group->description );
 	}
 
 function bp_the_profile_group_edit_form_action() {
