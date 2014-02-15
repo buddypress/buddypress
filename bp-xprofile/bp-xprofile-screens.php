@@ -67,7 +67,7 @@ function xprofile_screen_edit_profile() {
 
 		// Explode the posted field IDs into an array so we know which
 		// fields have been submitted
-		$posted_field_ids = explode( ',', $_POST['field_ids'] );
+		$posted_field_ids = wp_parse_id_list( $_POST['field_ids'] );
 		$is_required      = array();
 
 		// Loop through the posted fields formatting any datebox values
