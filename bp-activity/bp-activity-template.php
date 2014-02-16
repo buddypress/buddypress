@@ -1276,7 +1276,11 @@ function bp_activity_secondary_avatar( $args = '' ) {
 
 				// Only if groups is active
 				if ( bp_is_active( 'groups' ) ) {
-					$group = groups_get_group( array( 'group_id' => $item_id ) );
+					$group = groups_get_group( array(
+						'group_id'          => $item_id,
+						'populate_extras'   => false,
+						'update_meta_cache' => false,
+					) );
 					$link  = bp_get_group_permalink( $group );
 					$name  = $group->name;
 				}
