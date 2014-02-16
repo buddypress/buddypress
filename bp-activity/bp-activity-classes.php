@@ -158,8 +158,6 @@ class BP_Activity_Activity {
 			$this->mptt_left         = $row->mptt_left;
 			$this->mptt_right        = $row->mptt_right;
 			$this->is_spam           = $row->is_spam;
-
-			bp_activity_update_meta_cache( $this->id );
 		}
 	}
 

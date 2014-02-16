@@ -301,6 +301,24 @@ Bar!';
 
 	/**
 	 * @group activitymeta
+	 * @group bp_activity_get_meta
+	 * @group cache
+	 */
+	public function test_bp_activity_get_meta_cache_all_on_get() {
+		$a = $this->factory->activity->create();
+		bp_activity_add_meta( $a, 'foo', 'bar' );
+		bp_activity_add_meta( $a, 'foo1', 'baz' );
+		$this->assertFalse( wp_cache_get( $a, 'activity_meta' ) );
+
+		// A single query should prime the whole meta cache
+		bp_activity_get_meta( $a, 'foo' );
+
+		$c = wp_cache_get( $a, 'activity_meta' );
+		$this->assertNotEmpty( $c['foo1'] );
+	}
+
+	/**
+	 * @group activitymeta
 	 * @group bp_activity_delete_meta
 	 */
 	public function test_bp_activity_delete_meta_non_numeric_activity_id() {
