@@ -215,6 +215,21 @@ function bp_get_option( $option_name, $default = '' ) {
 }
 
 /**
+ * Add an option.
+ *
+ * This is a wrapper for {@link add_blog_option()}, which in turn stores
+ * settings data on the appropriate blog, given your current setup.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param string $option_name The option key to be set.
+ * @param mixed $value The value to be set.
+ */
+function bp_add_option( $option_name, $value ) {
+	return add_blog_option( bp_get_root_blog_id(), $option_name, $value );
+}
+
+/**
  * Save an option.
  *
  * This is a wrapper for {@link update_blog_option()}, which in turn stores
