@@ -195,12 +195,9 @@ function bp_activity_filter_kses( $content ) {
 }
 
 /**
- * Finds and links @-mentioned users in the contents of a given item.
+ * Find and link @-mentioned users in the contents of a given item.
  *
- * @since BuddyPress (1.2)
- *
- * @uses bp_activity_find_mentions()
- * @uses bp_core_get_user_domain()
+ * @since BuddyPress (1.2.0)
  *
  * @param string $content The contents of a given item.
  * @param int $activity_id The activity id. Deprecated.
@@ -220,9 +217,32 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 	if ( empty( $usernames ) )
 		return $content;
 
+	// We don't want to link @mentions that are inside of links, so we
+	// temporarily remove them
+	$replace_count = 0;
+	$replacements = array();
+	foreach ( $usernames as $username ) {
+		// prevent @ name linking inside <a> tags
+		preg_match_all( '/(<a.*?(?!<\/a>)@' . $username . '.*?<\/a>)/', $content, $content_matches );
+		if ( ! empty( $content_matches[1] ) ) {
+			foreach ( $content_matches[1] as $replacement ) {
+				$replacements[ '#BPAN' . $replace_count ] = $replacement;
+				$content = str_replace( $replacement, '#BPAN' . $replace_count, $content );
+				$replace_count++;
+			}
+		}
+	}
+
 	// Linkify the mentions with the username
-	foreach( (array) $usernames as $user_id => $username ) {
+	foreach ( (array) $usernames as $user_id => $username ) {
 		$content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( $user_id ) . "' rel='nofollow'>@$username</a>", $content );
+	}
+
+	// put everything back
+	if ( ! empty( $replacements ) ) {
+		foreach ( $replacements as $placeholder => $original ) {
+			$content = str_replace( $placeholder, $original, $content );
+		}
 	}
 
 	// Return the content
