@@ -609,6 +609,7 @@ class BP_Groups_Group {
 			'meta_query'      => false,
 			'include'         => false,
 			'populate_extras' => true,
+			'update_meta_cache' => true,
 			'exclude'         => false,
 			'show_hidden'     => false,
 		);
@@ -773,7 +774,9 @@ class BP_Groups_Group {
 		}
 
 		// Grab all groupmeta
-		bp_groups_update_meta_cache( $group_ids );
+		if ( ! empty( $r['update_meta_cache'] ) ) {
+			bp_groups_update_meta_cache( $group_ids );
+		}
 
 		unset( $sql, $total_sql );
 

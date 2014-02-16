@@ -143,7 +143,8 @@ class BP_Groups_Template {
 			'exclude'         => false,
 			'search_terms'    => '',
 			'meta_query'      => false,
-			'populate_extras' => true
+			'populate_extras' => true,
+			'update_meta_cache' => true,
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -174,6 +175,7 @@ class BP_Groups_Template {
 				'include'         => $include,
 				'exclude'         => $exclude,
 				'populate_extras' => $populate_extras,
+				'update_meta_cache' => $update_meta_cache,
 				'show_hidden'     => $show_hidden
 			) );
 		}
@@ -328,6 +330,7 @@ function bp_has_groups( $args = '' ) {
 		'exclude'         => false,    // Pass comma separated list or array of group ID's to exclude these groups
 
 		'populate_extras' => true,     // Get extra meta - is_member, is_banned
+		'update_meta_cache' => true,
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -356,7 +359,8 @@ function bp_has_groups( $args = '' ) {
 		'meta_query'      => $r['meta_query'],
 		'include'         => $r['include'],
 		'exclude'         => $r['exclude'],
-		'populate_extras' => (bool) $r['populate_extras']
+		'populate_extras' => (bool) $r['populate_extras'],
+		'update_meta_cache' => (bool) $r['update_meta_cache'],
 	) );
 
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template, $r );
