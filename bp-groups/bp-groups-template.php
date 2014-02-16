@@ -164,19 +164,19 @@ class BP_Groups_Template {
 			$this->groups    = array( $group );
 		} else {
 			$this->groups = groups_get_groups( array(
-				'type'            => $type,
-				'order'           => $order,
-				'orderby'         => $orderby,
-				'per_page'        => $this->pag_num,
-				'page'            => $this->pag_page,
-				'user_id'         => $user_id,
-				'search_terms'    => $search_terms,
-				'meta_query'      => $meta_query,
-				'include'         => $include,
-				'exclude'         => $exclude,
-				'populate_extras' => $populate_extras,
+				'type'              => $type,
+				'order'             => $order,
+				'orderby'           => $orderby,
+				'per_page'          => $this->pag_num,
+				'page'              => $this->pag_page,
+				'user_id'           => $user_id,
+				'search_terms'      => $search_terms,
+				'meta_query'        => $meta_query,
+				'include'           => $include,
+				'exclude'           => $exclude,
+				'populate_extras'   => $populate_extras,
 				'update_meta_cache' => $update_meta_cache,
-				'show_hidden'     => $show_hidden
+				'show_hidden'       => $show_hidden
 			) );
 		}
 
@@ -312,24 +312,24 @@ function bp_has_groups( $args = '' ) {
 	}
 
 	$defaults = array(
-		'type'            => $type, // 'type' is an override for 'order' and 'orderby'. See docblock.
-		'order'           => 'DESC',
-		'orderby'         => 'last_activity',
-		'page'            => 1,
-		'per_page'        => 20,
-		'max'             => false,
-		'show_hidden'     => false,
+		'type'              => $type, // 'type' is an override for 'order' and 'orderby'. See docblock.
+		'order'             => 'DESC',
+		'orderby'           => 'last_activity',
+		'page'              => 1,
+		'per_page'          => 20,
+		'max'               => false,
+		'show_hidden'       => false,
 
-		'page_arg'        => 'grpage', // See https://buddypress.trac.wordpress.org/ticket/3679
+		'page_arg'          => 'grpage', // See https://buddypress.trac.wordpress.org/ticket/3679
 
-		'user_id'         => $user_id, // Pass a user ID to limit to groups this user has joined
-		'slug'            => $slug,    // Pass a group slug to only return that group
-		'search_terms'    => '',       // Pass search terms to return only matching groups
-		'meta_query'      => false,    // Filter by groupmeta. See WP_Meta_Query for format
-		'include'         => false,    // Pass comma separated list or array of group ID's to return only these groups
-		'exclude'         => false,    // Pass comma separated list or array of group ID's to exclude these groups
+		'user_id'           => $user_id, // Pass a user ID to limit to groups this user has joined
+		'slug'              => $slug,    // Pass a group slug to only return that group
+		'search_terms'      => '',       // Pass search terms to return only matching groups
+		'meta_query'        => false,    // Filter by groupmeta. See WP_Meta_Query for format
+		'include'           => false,    // Pass comma separated list or array of group ID's to return only these groups
+		'exclude'           => false,    // Pass comma separated list or array of group ID's to exclude these groups
 
-		'populate_extras' => true,     // Get extra meta - is_member, is_banned
+		'populate_extras'   => true,     // Get extra meta - is_member, is_banned
 		'update_meta_cache' => true,
 	);
 
@@ -345,21 +345,21 @@ function bp_has_groups( $args = '' ) {
 	}
 
 	$groups_template = new BP_Groups_Template( array(
-		'type'            => $r['type'],
-		'order'           => $r['order'],
-		'orderby'         => $r['orderby'],
-		'page'            => (int) $r['page'],
-		'per_page'        => (int) $r['per_page'],
-		'max'             => (int) $r['max'],
-		'show_hidden'     => $r['show_hidden'],
-		'page_arg'        => $r['page_arg'],
-		'user_id'         => (int) $r['user_id'],
-		'slug'            => $r['slug'],
-		'search_terms'    => $r['search_terms'],
-		'meta_query'      => $r['meta_query'],
-		'include'         => $r['include'],
-		'exclude'         => $r['exclude'],
-		'populate_extras' => (bool) $r['populate_extras'],
+		'type'              => $r['type'],
+		'order'             => $r['order'],
+		'orderby'           => $r['orderby'],
+		'page'              => (int) $r['page'],
+		'per_page'          => (int) $r['per_page'],
+		'max'               => (int) $r['max'],
+		'show_hidden'       => $r['show_hidden'],
+		'page_arg'          => $r['page_arg'],
+		'user_id'           => (int) $r['user_id'],
+		'slug'              => $r['slug'],
+		'search_terms'      => $r['search_terms'],
+		'meta_query'        => $r['meta_query'],
+		'include'           => $r['include'],
+		'exclude'           => $r['exclude'],
+		'populate_extras'   => (bool) $r['populate_extras'],
 		'update_meta_cache' => (bool) $r['update_meta_cache'],
 	) );
 

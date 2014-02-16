@@ -599,19 +599,19 @@ class BP_Groups_Group {
 		}
 
 		$defaults = array(
-			'type'            => null,
-			'orderby'         => 'date_created',
-			'order'           => 'DESC',
-			'per_page'        => null,
-			'page'            => null,
-			'user_id'         => 0,
-			'search_terms'    => false,
-			'meta_query'      => false,
-			'include'         => false,
-			'populate_extras' => true,
+			'type'              => null,
+			'orderby'           => 'date_created',
+			'order'             => 'DESC',
+			'per_page'          => null,
+			'page'              => null,
+			'user_id'           => 0,
+			'search_terms'      => false,
+			'meta_query'        => false,
+			'include'           => false,
+			'populate_extras'   => true,
 			'update_meta_cache' => true,
-			'exclude'         => false,
-			'show_hidden'     => false,
+			'exclude'           => false,
+			'show_hidden'       => false,
 		);
 
 		$r = wp_parse_args( $args, $defaults );
