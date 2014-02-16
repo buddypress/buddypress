@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-16 21:35:14+00:00\n"
+"POT-Creation-Date: 2014-02-16 22:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -533,7 +533,7 @@ msgid "<span>%1$s</span> &mdash; %2$s"
 msgstr ""
 
 #: bp-activity/bp-activity-classes.php:263
-#: bp-activity/bp-activity-template.php:139 bp-groups/bp-groups-classes.php:583
+#: bp-activity/bp-activity-template.php:139 bp-groups/bp-groups-classes.php:598
 #: bp-groups/bp-groups-template.php:112
 msgid "Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details."
 msgstr ""
@@ -632,8 +632,8 @@ msgstr ""
 
 #: bp-activity/bp-activity-loader.php:341
 #: bp-activity/bp-activity-template.php:1163
-#: bp-activity/bp-activity-template.php:1309
-#: bp-activity/bp-activity-template.php:1320 bp-blogs/bp-blogs-loader.php:236
+#: bp-activity/bp-activity-template.php:1313
+#: bp-activity/bp-activity-template.php:1324 bp-blogs/bp-blogs-loader.php:236
 #: bp-forums/bp-forums-loader.php:245 bp-forums/bp-forums-template.php:730
 #: bp-forums/bp-forums-template.php:960 bp-forums/bp-forums-template.php:1990
 #: bp-friends/bp-friends-loader.php:233 bp-groups/bp-groups-loader.php:585
@@ -791,24 +791,24 @@ msgstr[1] ""
 msgid "Profile picture"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1285
+#: bp-activity/bp-activity-template.php:1289
 msgid "Group logo"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1288 bp-groups/bp-groups-admin.php:1406
+#: bp-activity/bp-activity-template.php:1292 bp-groups/bp-groups-admin.php:1406
 #: bp-groups/bp-groups-template.php:518
 msgid "Group logo of %s"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1299
+#: bp-activity/bp-activity-template.php:1303
 msgid "Profile picture of the author of the site %s"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:1529
+#: bp-activity/bp-activity-template.php:1533
 msgid "View Discussion"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2413
+#: bp-activity/bp-activity-template.php:2417
 #: bp-forums/bp-forums-template.php:2113 bp-groups/bp-groups-admin.php:1282
 #: bp-groups/bp-groups-admin.php:1395 bp-groups/bp-groups-template.php:1502
 #: bp-notifications/bp-notifications-template.php:826
@@ -822,7 +822,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2461
+#: bp-activity/bp-activity-template.php:2465
 #: bp-core/admin/bp-core-slugs.php:109 bp-core/admin/bp-core-slugs.php:172
 #: bp-core/bp-core-loader.php:242 bp-members/bp-members-loader.php:193
 #: bp-members/bp-members-template.php:649
@@ -834,23 +834,23 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2559
+#: bp-activity/bp-activity-template.php:2563
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2755
+#: bp-activity/bp-activity-template.php:2759
 msgid "a user"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2809
+#: bp-activity/bp-activity-template.php:2813
 msgid "Send a public message on your activity stream."
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2810
+#: bp-activity/bp-activity-template.php:2814
 msgid "Public Message"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:3263
+#: bp-activity/bp-activity-template.php:3267
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
@@ -2820,7 +2820,7 @@ msgstr ""
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:282 bp-groups/bp-groups-functions.php:291
+#: bp-groups/bp-groups-actions.php:282 bp-groups/bp-groups-functions.php:298
 msgid "You successfully left the group."
 msgstr ""
 
@@ -2844,7 +2844,7 @@ msgstr ""
 msgid "New group forum post"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:140 bp-groups/bp-groups-functions.php:335
+#: bp-groups/bp-groups-activity.php:140 bp-groups/bp-groups-functions.php:342
 #: bp-groups/bp-groups-screens.php:52
 msgid "%1$s joined the group %2$s"
 msgstr ""
@@ -3102,7 +3102,7 @@ msgstr ""
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:882 bp-groups/bp-groups-classes.php:2968
+#: bp-groups/bp-groups-admin.php:882 bp-groups/bp-groups-classes.php:2983
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3226,11 +3226,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1871
+#: bp-groups/bp-groups-classes.php:1886
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1877 bp-groups/bp-groups-functions.php:121
+#: bp-groups/bp-groups-classes.php:1892 bp-groups/bp-groups-functions.php:128
 msgid "Group Admin"
 msgstr ""
 
@@ -3246,11 +3246,11 @@ msgstr ""
 msgid "%1$s edited the forum topic %2$s in the group %3$s"
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:281
+#: bp-groups/bp-groups-functions.php:288
 msgid "As the only Admin, you cannot leave the group."
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:598
+#: bp-groups/bp-groups-functions.php:605
 msgid "%1$s posted an update in the group %2$s"
 msgstr ""
 
