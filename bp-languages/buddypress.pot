@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-14 19:35:15+00:00\n"
+"POT-Creation-Date: 2014-02-16 16:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -546,11 +546,11 @@ msgstr ""
 msgid "In reply to"
 msgstr ""
 
-#: bp-activity/bp-activity-filters.php:361
+#: bp-activity/bp-activity-filters.php:381
 msgid "[Read more]"
 msgstr ""
 
-#: bp-activity/bp-activity-filters.php:366
+#: bp-activity/bp-activity-filters.php:386
 msgid "&hellip;"
 msgstr ""
 
