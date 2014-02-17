@@ -898,18 +898,18 @@ add_action( 'bp_register_activity_actions', 'bp_activity_register_activity_actio
  */
 function bp_activity_get( $args = '' ) {
 	$defaults = array(
-		'max'              => false,        // Maximum number of results to return
-		'page'             => 1,            // page 1 without a per_page will result in no pagination.
-		'per_page'         => false,        // results per page
-		'sort'             => 'DESC',       // sort ASC or DESC
-		'display_comments' => false,        // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
+		'max'               => false,        // Maximum number of results to return
+		'page'              => 1,            // page 1 without a per_page will result in no pagination.
+		'per_page'          => false,        // results per page
+		'sort'              => 'DESC',       // sort ASC or DESC
+		'display_comments'  => false,        // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
 
-		'search_terms'     => false,        // Pass search terms as a string
-		'meta_query'       => false,        // Filter by activity meta. See WP_Meta_Query for format
-		'show_hidden'      => false,        // Show activity items that are hidden site-wide?
-		'exclude'          => false,        // Comma-separated list of activity IDs to exclude
-		'in'               => false,        // Comma-separated list or array of activity IDs to which you want to limit the query
-		'spam'             => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
+		'search_terms'      => false,        // Pass search terms as a string
+		'meta_query'        => false,        // Filter by activity meta. See WP_Meta_Query for format
+		'show_hidden'       => false,        // Show activity items that are hidden site-wide?
+		'exclude'           => false,        // Comma-separated list of activity IDs to exclude
+		'in'                => false,        // Comma-separated list or array of activity IDs to which you want to limit the query
+		'spam'              => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
 		'update_meta_cache' => true,
 
 		/**
@@ -931,16 +931,16 @@ function bp_activity_get( $args = '' ) {
 	if ( 1 == (int) $page && empty( $max ) && empty( $search_terms ) && empty( $meta_query ) && empty( $filter ) && empty( $exclude ) && empty( $in ) && 'DESC' == $sort && empty( $exclude ) && 'ham_only' == $spam ) {
 		if ( !$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' ) ) {
 			$args = array(
-				'page'             => $page,
-				'per_page'         => $per_page,
-				'max'              => $max,
-				'sort'             => $sort,
-				'search_terms'     => $search_terms,
-				'meta_query'       => $meta_query,
-				'filter'           => $filter,
-				'display_comments' => $display_comments,
-				'show_hidden'      => $show_hidden,
-				'spam'             => $spam,
+				'page'              => $page,
+				'per_page'          => $per_page,
+				'max'               => $max,
+				'sort'              => $sort,
+				'search_terms'      => $search_terms,
+				'meta_query'        => $meta_query,
+				'filter'            => $filter,
+				'display_comments'  => $display_comments,
+				'show_hidden'       => $show_hidden,
+				'spam'              => $spam,
 				'update_meta_cache' => $update_meta_cache,
 			);
 			$activity = BP_Activity_Activity::get( $args );
@@ -988,28 +988,28 @@ function bp_activity_get( $args = '' ) {
  */
 function bp_activity_get_specific( $args = '' ) {
 	$defaults = array(
-		'activity_ids'     => false,       // A single activity_id or array of IDs.
-		'display_comments' => false,       // true or false to display threaded comments for these specific activity items
-		'max'              => false,       // Maximum number of results to return
-		'page'             => 1,           // page 1 without a per_page will result in no pagination.
-		'per_page'         => false,       // results per page
-		'show_hidden'      => true,        // When fetching specific items, show all
-		'sort'             => 'DESC',      // sort ASC or DESC
-		'spam'             => 'ham_only',  // Retrieve items marked as spam
+		'activity_ids'      => false,       // A single activity_id or array of IDs.
+		'display_comments'  => false,       // true or false to display threaded comments for these specific activity items
+		'max'               => false,       // Maximum number of results to return
+		'page'              => 1,           // page 1 without a per_page will result in no pagination.
+		'per_page'          => false,       // results per page
+		'show_hidden'       => true,        // When fetching specific items, show all
+		'sort'              => 'DESC',      // sort ASC or DESC
+		'spam'              => 'ham_only',  // Retrieve items marked as spam
 		'update_meta_cache' => true,
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
 	$get_args = array(
-		'page'             => $page,
-		'per_page'         => $per_page,
-		'max'              => $max,
-		'sort'             => $sort,
-		'display_comments' => $display_comments,
-		'show_hidden'      => $show_hidden,
-		'in'               => $activity_ids,
-		'spam'             => $spam,
+		'page'              => $page,
+		'per_page'          => $per_page,
+		'max'               => $max,
+		'sort'              => $sort,
+		'display_comments'  => $display_comments,
+		'show_hidden'       => $show_hidden,
+		'in'                => $activity_ids,
+		'spam'              => $spam,
 		'update_meta_cache' => $update_meta_cache,
 	);
 	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $get_args ), $args, $get_args );

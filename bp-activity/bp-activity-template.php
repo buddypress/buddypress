@@ -159,20 +159,20 @@ class BP_Activity_Template {
 		}
 
 		$defaults = array(
-			'page'             => 1,
-			'per_page'         => 20,
-			'page_arg'         => 'acpage',
-			'max'              => false,
-			'sort'             => false,
-			'include'          => false,
-			'exclude'          => false,
-			'in'               => false,
-			'filter'           => false,
-			'search_terms'     => false,
-			'meta_query'       => false,
-			'display_comments' => 'threaded',
-			'show_hidden'      => false,
-			'spam'             => 'ham_only',
+			'page'              => 1,
+			'per_page'          => 20,
+			'page_arg'          => 'acpage',
+			'max'               => false,
+			'sort'              => false,
+			'include'           => false,
+			'exclude'           => false,
+			'in'                => false,
+			'filter'            => false,
+			'search_terms'      => false,
+			'meta_query'        => false,
+			'display_comments'  => 'threaded',
+			'show_hidden'       => false,
+			'spam'              => 'ham_only',
 			'update_meta_cache' => true,
 		);
 		$r = wp_parse_args( $args, $defaults );
@@ -188,12 +188,37 @@ class BP_Activity_Template {
 		$this->my_favs = maybe_unserialize( bp_get_user_meta( bp_loggedin_user_id(), 'bp_favorite_activities', true ) );
 
 		// Fetch specific activity items based on ID's
-		if ( !empty( $include ) )
-			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments, 'show_hidden' => $show_hidden, 'spam' => $spam, 'update_meta_cache' => $update_meta_cache, ) );
+		if ( !empty( $include ) ) {
+			$this->activities = bp_activity_get_specific( array(
+				'activity_ids'      => explode( ',', $include ),
+				'max'               => $max,
+				'page'              => $this->pag_page,
+				'per_page'          => $this->pag_num,
+				'sort'              => $sort,
+				'display_comments'  => $display_comments,
+				'show_hidden'       => $show_hidden,
+				'spam'              => $spam,
+				'update_meta_cache' => $update_meta_cache,
+			) );
 
 		// Fetch all activity items
-		else
-			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'meta_query' => $meta_query, 'filter' => $filter, 'show_hidden' => $show_hidden, 'exclude' => $exclude, 'in' => $in, 'spam' => $spam, 'update_meta_cache' => $update_meta_cache, ) );
+		} else {
+			$this->activities = bp_activity_get( array(
+				'display_comments'  => $display_comments,
+				'max'               => $max,
+				'per_page'          => $this->pag_num,
+				'page'              => $this->pag_page,
+				'sort'              => $sort,
+				'search_terms'      => $search_terms,
+				'meta_query'        => $meta_query,
+				'filter'            => $filter,
+				'show_hidden'       => $show_hidden,
+				'exclude'           => $exclude,
+				'in'                => $in,
+				'spam'              => $spam,
+				'update_meta_cache' => $update_meta_cache,
+			) );
+		}
 
 		if ( !$max || $max >= (int) $this->activities['total'] )
 			$this->total_activity_count = (int) $this->activities['total'];
@@ -496,33 +521,33 @@ function bp_has_activities( $args = '' ) {
 
 	// Note: any params used for filtering can be a single value, or multiple values comma separated.
 	$defaults = array(
-		'display_comments' => 'threaded',   // false for none, stream/threaded - show comments in the stream or threaded under items
-		'include'          => $include,     // pass an activity_id or string of IDs comma-separated
-		'exclude'          => $exclude,     // pass an activity_id or string of IDs comma-separated
-		'in'               => $in,          // comma-separated list or array of activity IDs among which to search
-		'sort'             => 'DESC',       // sort DESC or ASC
-		'page'             => 1,            // which page to load
-		'per_page'         => 20,           // number of items per page
-		'max'              => false,        // max number to return
-		'show_hidden'      => $show_hidden, // Show activity items that are hidden site-wide?
-		'spam'             => 'ham_only',   // Hide spammed items
+		'display_comments'  => 'threaded',   // false for none, stream/threaded - show comments in the stream or threaded under items
+		'include'           => $include,     // pass an activity_id or string of IDs comma-separated
+		'exclude'           => $exclude,     // pass an activity_id or string of IDs comma-separated
+		'in'                => $in,          // comma-separated list or array of activity IDs among which to search
+		'sort'              => 'DESC',       // sort DESC or ASC
+		'page'              => 1,            // which page to load
+		'per_page'          => 20,           // number of items per page
+		'max'               => false,        // max number to return
+		'show_hidden'       => $show_hidden, // Show activity items that are hidden site-wide?
+		'spam'              => 'ham_only',   // Hide spammed items
 
-		'page_arg'         => 'acpage',     // See https://buddypress.trac.wordpress.org/ticket/3679
+		'page_arg'          => 'acpage',     // See https://buddypress.trac.wordpress.org/ticket/3679
 
 		// Scope - pre-built activity filters for a user (friends/groups/favorites/mentions)
-		'scope'            => $scope,
+		'scope'             => $scope,
 
 		// Filtering
-		'user_id'          => $user_id,     // user_id to filter on
-		'object'           => $object,      // object to filter on e.g. groups, profile, status, friends
-		'action'           => false,        // action to filter on e.g. activity_update, new_forum_post, profile_updated
-		'primary_id'       => $primary_id,  // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
-		'secondary_id'     => false,        // secondary object ID to filter on e.g. a post_id
+		'user_id'           => $user_id,     // user_id to filter on
+		'object'            => $object,      // object to filter on e.g. groups, profile, status, friends
+		'action'            => false,        // action to filter on e.g. activity_update, new_forum_post, profile_updated
+		'primary_id'        => $primary_id,  // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
+		'secondary_id'      => false,        // secondary object ID to filter on e.g. a post_id
 
-		'meta_query'       => false,        // filter on activity meta. See WP_Meta_Query for format
+		'meta_query'        => false,        // filter on activity meta. See WP_Meta_Query for format
 
 		// Searching
-		'search_terms'     => false,        // specify terms to search on
+		'search_terms'      => false,        // specify terms to search on
 		'update_meta_cache' => true,
 	);
 
@@ -617,20 +642,20 @@ function bp_has_activities( $args = '' ) {
 		$spam = 'all';
 
 	$template_args = array(
-		'page'             => $page,
-		'per_page'         => $per_page,
-		'page_arg'         => $page_arg,
-		'max'              => $max,
-		'sort'             => $sort,
-		'include'          => $include,
-		'exclude'          => $exclude,
-		'in'               => $in,
-		'filter'           => $filter,
-		'search_terms'     => $search_terms,
-		'meta_query'       => $meta_query,
-		'display_comments' => $display_comments,
-		'show_hidden'      => $show_hidden,
-		'spam'             => $spam,
+		'page'              => $page,
+		'per_page'          => $per_page,
+		'page_arg'          => $page_arg,
+		'max'               => $max,
+		'sort'              => $sort,
+		'include'           => $include,
+		'exclude'           => $exclude,
+		'in'                => $in,
+		'filter'            => $filter,
+		'search_terms'      => $search_terms,
+		'meta_query'        => $meta_query,
+		'display_comments'  => $display_comments,
+		'show_hidden'       => $show_hidden,
+		'spam'              => $spam,
 		'update_meta_cache' => $update_meta_cache,
 	);
 

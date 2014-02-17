@@ -281,18 +281,19 @@ class BP_Activity_Activity {
 		}
 
 		$defaults = array(
-			'page'             => 1,          // The current page
-			'per_page'         => 25,         // Activity items per page
-			'max'              => false,      // Max number of items to return
-			'sort'             => 'DESC',     // ASC or DESC
-			'exclude'          => false,      // Array of ids to exclude
-			'in'               => false,      // Array of ids to limit query by (IN)
-			'meta_query'       => false,      // Filter by activitymeta
-			'filter'           => false,      // See self::get_filter_sql()
-			'search_terms'     => false,      // Terms to search by
-			'display_comments' => false,      // Whether to include activity comments
-			'show_hidden'      => false,      // Show items marked hide_sitewide
-			'spam'             => 'ham_only', // Spam status
+			'page'              => 1,          // The current page
+			'per_page'          => 25,         // Activity items per page
+			'max'               => false,      // Max number of items to return
+			'sort'              => 'DESC',     // ASC or DESC
+			'exclude'           => false,      // Array of ids to exclude
+			'in'                => false,      // Array of ids to limit query by (IN)
+			'meta_query'        => false,      // Filter by activitymeta
+			'filter'            => false,      // See self::get_filter_sql()
+			'search_terms'      => false,      // Terms to search by
+			'display_comments'  => false,      // Whether to include activity comments
+			'show_hidden'       => false,      // Show items marked hide_sitewide
+			'spam'              => 'ham_only', // Spam status
+			'update_meta_cache' => true,
 		);
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
