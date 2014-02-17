@@ -159,6 +159,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 		// For BuddyPress, James.
 		$GLOBALS['bp']->loggedin_user = NULL;
+		$GLOBALS['bp']->pages = bp_core_get_directory_pages();
 		do_action( 'bp_init' );
 	}
 
