@@ -265,6 +265,11 @@ class BP_XProfile_Group {
 			}
 		}
 
+		// Prime the meta cache, if necessary
+		if ( $update_meta_cache ) {
+			bp_xprofile_update_meta_cache( $object_ids );
+		}
+
 		// Maybe fetch visibility levels
 		if ( !empty( $fetch_visibility_level ) ) {
 			$fields = self::fetch_visibility_level( $user_id, $fields );
@@ -291,11 +296,6 @@ class BP_XProfile_Group {
 
 			// Reset indexes
 			$groups = array_values( $groups );
-		}
-
-		// Prime the meta cache, if necessary
-		if ( $update_meta_cache ) {
-			bp_xprofile_update_meta_cache( $object_ids );
 		}
 
 		return $groups;
@@ -393,13 +393,10 @@ class BP_XProfile_Group {
 		// Get the user's visibility level preferences
 		$visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 
-		// Get the admin-set preferences
-		$admin_set_levels  = self::fetch_default_visibility_levels();
-
 		foreach( (array) $fields as $key => $field ) {
 
 			// Does the admin allow this field to be customized?
-			$allow_custom = empty( $admin_set_levels[$field->id]['allow_custom'] ) || 'allowed' == $admin_set_levels[$field->id]['allow_custom'];
+			$allow_custom = 'disabled' !== bp_xprofile_get_meta( $field->id, 'field', 'allow_custom_visibility' );
 
 			// Look to see if the user has set the visibility for this field
 			if ( $allow_custom && isset( $visibility_levels[$field->id] ) ) {
@@ -407,7 +404,8 @@ class BP_XProfile_Group {
 
 			// If no admin-set default is saved, fall back on a global default
 			} else {
-				$field_visibility = !empty( $admin_set_levels[$field->id]['default'] ) ? $admin_set_levels[$field->id]['default'] : apply_filters( 'bp_xprofile_default_visibility_level', 'public' );
+				$fallback_visibility = bp_xprofile_get_meta( $field->id, 'field', 'default_visibility' );
+				$field_visibility = ! empty( $fallback_visibility ) ? $fallback_visibility : apply_filters( 'bp_xprofile_default_visibility_level', 'public' );
 			}
 
 			$fields[$key]->visibility_level = $field_visibility;
