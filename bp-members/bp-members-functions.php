@@ -124,24 +124,22 @@ function bp_core_get_users( $args = '' ) {
  */
 function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login = false ) {
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		return;
-
-	if ( !$domain = wp_cache_get( 'bp_user_domain_' . $user_id, 'bp' ) ) {
-		$username = bp_core_get_username( $user_id, $user_nicename, $user_login );
-
-		if ( bp_is_username_compatibility_mode() )
-			$username = rawurlencode( $username );
-
-		$after_domain = bp_core_enable_root_profiles() ? $username : bp_get_members_root_slug() . '/' . $username;
-		$domain       = trailingslashit( bp_get_root_domain() . '/' . $after_domain );
-		$domain       = apply_filters( 'bp_core_get_user_domain_pre_cache', $domain, $user_id, $user_nicename, $user_login );
-
-		// Cache the link
-		if ( !empty( $domain ) ) {
-			wp_cache_set( 'bp_user_domain_' . $user_id, $domain, 'bp' );
-		}
 	}
+
+	$username = bp_core_get_username( $user_id, $user_nicename, $user_login );
+
+	if ( bp_is_username_compatibility_mode() ) {
+		$username = rawurlencode( $username );
+	}
+
+	$after_domain = bp_core_enable_root_profiles() ? $username : bp_get_members_root_slug() . '/' . $username;
+	$domain       = trailingslashit( bp_get_root_domain() . '/' . $after_domain );
+
+	// Don't use this filter.  Subject to removal in a future release.
+	// Use the 'bp_core_get_user_domain' filter instead.
+	$domain       = apply_filters( 'bp_core_get_user_domain_pre_cache', $domain, $user_id, $user_nicename, $user_login );
 
 	return apply_filters( 'bp_core_get_user_domain', $domain, $user_id, $user_nicename, $user_login );
 }
