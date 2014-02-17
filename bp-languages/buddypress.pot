@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-17 01:35:16+00:00\n"
+"POT-Creation-Date: 2014-02-17 08:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1851,7 +1851,7 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:346 bp-members/bp-members-functions.php:1547
+#: bp-core/bp-core-filters.php:346 bp-members/bp-members-functions.php:1545
 msgid ""
 "Thanks for registering! To complete the activation of your account please click the following link:\n"
 "\n"
@@ -1859,7 +1859,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bp-core/bp-core-filters.php:347 bp-members/bp-members-functions.php:1548
+#: bp-core/bp-core-filters.php:347 bp-members/bp-members-functions.php:1546
 msgid "Activate Your Account"
 msgstr ""
 
@@ -4106,74 +4106,74 @@ msgstr ""
 msgid "Delete %s's Account"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:880
+#: bp-members/bp-members-functions.php:878
 msgid "User last_activity data is no longer stored in usermeta. Use bp_get_user_last_activity() instead."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:910
+#: bp-members/bp-members-functions.php:908
 msgid "User last_activity data is no longer stored in usermeta. Use bp_update_user_last_activity() instead."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1053
-#: bp-members/bp-members-functions.php:1675
+#: bp-members/bp-members-functions.php:1051
+#: bp-members/bp-members-functions.php:1673
 msgid "<strong>ERROR</strong>: Your account has been marked as a spammer."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1234
+#: bp-members/bp-members-functions.php:1232
 msgid "Please check your email address."
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1237
-#: bp-members/bp-members-functions.php:1240
+#: bp-members/bp-members-functions.php:1235
+#: bp-members/bp-members-functions.php:1238
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1243
+#: bp-members/bp-members-functions.php:1241
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1274
+#: bp-members/bp-members-functions.php:1272
 msgid "Please enter a username"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1280
+#: bp-members/bp-members-functions.php:1278
 msgid "That username is not allowed"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1285
+#: bp-members/bp-members-functions.php:1283
 msgid "Usernames can contain only letters, numbers, ., -, and @"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1290
+#: bp-members/bp-members-functions.php:1288
 msgid "Username must be at least 4 characters"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1295
+#: bp-members/bp-members-functions.php:1293
 msgid "Sorry, usernames may not contain the character \"_\"!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1302
+#: bp-members/bp-members-functions.php:1300
 msgid "Sorry, usernames must have letters too!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1307
+#: bp-members/bp-members-functions.php:1305
 msgid "Sorry, that username already exists!"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1358
+#: bp-members/bp-members-functions.php:1356
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1456
-#: bp-members/bp-members-functions.php:1460
+#: bp-members/bp-members-functions.php:1454
+#: bp-members/bp-members-functions.php:1458
 msgid "Invalid activation key"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1497
+#: bp-members/bp-members-functions.php:1495
 msgid "%s became a registered member"
 msgstr ""
 
-#: bp-members/bp-members-functions.php:1581
+#: bp-members/bp-members-functions.php:1579
 msgid "<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link."
 msgstr ""
 
