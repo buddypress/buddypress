@@ -79,7 +79,20 @@ function bp_get_default_options() {
 		/** BuddyBar **********************************************************/
 
 		// Force the BuddyBar
-		'_bp_force_buddybar'              => false
+		'_bp_force_buddybar'              => false,
+
+		/** Legacy theme *********************************************/
+
+		// Whether to register the bp-default themes directory
+		'_bp_retain_bp_default'           => false,
+
+		/** Widgets **************************************************/
+		'widget_bp_core_login_widget'                => false,
+		'widget_bp_core_members_widget'              => false,
+		'widget_bp_core_whos_online_widget'          => false,
+		'widget_bp_core_recently_active_widget'      => false,
+		'widget_bp_groups_widget'                    => false,
+		'widget_bp_messages_sitewide_notices_widget' => false,
 	);
 
 	return apply_filters( 'bp_get_default_options', $options );
@@ -88,10 +101,8 @@ function bp_get_default_options() {
 /**
  * Add default options when BuddyPress is first activated.
  *
- * Hooked to bp_activate, it is only called once when BuddyPress is activated.
- * This is non-destructive, so existing settings will not be overridden.
- *
- * Currently unused.
+ * Only called once when BuddyPress is activated.
+ * Non-destructive, so existing settings will not be overridden.
  *
  * @since BuddyPress (1.6.0)
  *
@@ -105,8 +116,9 @@ function bp_add_options() {
 	$options = bp_get_default_options();
 
 	// Add default options
-	foreach ( $options as $key => $value )
-		add_option( $key, $value );
+	foreach ( $options as $key => $value ) {
+		bp_add_option( $key, $value );
+	}
 
 	// Allow previously activated plugins to append their own options.
 	do_action( 'bp_add_options' );

@@ -232,7 +232,7 @@ function bp_version_updater() {
 		}
 
 		// 2.0
-		if ( $raw_db_version < 7859 ) {
+		if ( $raw_db_version < 7892 ) {
 			bp_update_to_2_0();
 		}
 	}
@@ -337,16 +337,18 @@ function bp_update_to_1_9_2() {
  *
  * - Ensure that the activity tables are installed, for last_activity storage.
  * - Migrate last_activity data from usermeta to activity table
+ * - Add values for all BuddyPress options to the options table
  */
 function bp_update_to_2_0() {
 	global $wpdb;
 
-	// Install activity tables
+	/** Install activity tables for 'last_activity' **********************/
 	bp_core_install_activity_streams();
 
 	$bp = buddypress();
 
-	// Migrate data
+	/** Migrate 'last_activity' data *************************************/
+
 	// The "NOT IN" clause prevents duplicates
 	$sql = "INSERT INTO {$bp->members->table_name_last_activity} (`user_id`, `component`, `type`, `date_recorded` ) (
 		  SELECT user_id, '{$bp->members->id}' as component, 'last_activity' as type, meta_value AS date_recorded
@@ -362,6 +364,9 @@ function bp_update_to_2_0() {
 	);";
 
 	$wpdb->query( $sql );
+
+	/** Add BP options to the options table ******************************/
+	bp_add_options();
 }
 
 /**
@@ -404,6 +409,9 @@ function bp_activation() {
 
 	// Force refresh theme roots.
 	delete_site_transient( 'theme_roots' );
+
+	// Add options
+	bp_add_options();
 
 	// Use as of (1.6)
 	do_action( 'bp_activation' );
