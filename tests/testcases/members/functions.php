@@ -76,4 +76,28 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->set_current_user( $current_user );
 		bp_update_option( 'bp-disable-account-deletion', $deletion_disabled );
 	}
+
+	/**
+	 * @group object_cache
+	 * @group bp_core_get_directory_pages
+	 */
+	public function test_bp_core_get_user_domain_after_directory_page_update() {
+		// Generate user
+		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		// Set object cache first for user domain
+		$user_domain = bp_core_get_user_domain( $user_id );
+
+		// Now change the members directory slug
+		$pages = bp_core_get_directory_pages();
+		$members_page = get_post( $pages->members->id );
+		$members_page->post_name = 'new-members-slug';
+		wp_update_post( $members_page );
+
+		// Go back to members directory page and recheck user domain
+		$this->go_to( trailingslashit( home_url( 'new-members-slug' ) ) );
+		$user = new WP_User( $user_id );
+
+		$this->assertSame( home_url( 'new-members-slug' ) . '/' . $user->user_nicename . '/', bp_core_get_user_domain( $user_id ) );
+	}
 }
