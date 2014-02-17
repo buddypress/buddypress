@@ -27,8 +27,8 @@ function bp_notifications_buddybar_menu() {
 	echo '<li id="bp-adminbar-notifications-menu"><a href="' . esc_url( bp_loggedin_user_domain() ) . '">';
 	_e( 'Notifications', 'buddypress' );
 
-	if ( $notifications = bp_notifications_get_notifications_for_user( bp_loggedin_user_id() ) ) : ?>
-		<span><?php echo number_format_i18n( $notifications ); ?></span>
+	if ( $notification_count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() ) ) : ?>
+		<span><?php echo bp_core_number_format( $notification_count ); ?></span>
 	<?php
 	endif;
 
