@@ -248,6 +248,8 @@ class BP_Activity_Activity {
 	 *     @type bool $show_hidden Whether to show items marked hide_sitewide.
 	 *                             Default: false.
 	 *     @type string $spam Spam status. Default: 'ham_only'.
+	 *     @type bool $update_meta_cache Whether to pre-fetch metadata for
+	 *           queried activity items. Default: true.
 	 * }
 	 * @return array The array returned has two keys:
 	 *     - 'total' is the count of located activities
@@ -430,7 +432,7 @@ class BP_Activity_Activity {
 			$activity_ids[] = $activity->id;
 		}
 
-		if ( !empty( $activity_ids ) ) {
+		if ( ! empty( $activity_ids ) && $update_meta_cache ) {
 			bp_activity_update_meta_cache( $activity_ids );
 		}
 

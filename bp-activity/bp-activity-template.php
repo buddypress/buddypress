@@ -173,6 +173,7 @@ class BP_Activity_Template {
 			'display_comments' => 'threaded',
 			'show_hidden'      => false,
 			'spam'             => 'ham_only',
+			'update_meta_cache' => true,
 		);
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
@@ -188,11 +189,11 @@ class BP_Activity_Template {
 
 		// Fetch specific activity items based on ID's
 		if ( !empty( $include ) )
-			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments, 'show_hidden' => $show_hidden, 'spam' => $spam ) );
+			$this->activities = bp_activity_get_specific( array( 'activity_ids' => explode( ',', $include ), 'max' => $max, 'page' => $this->pag_page, 'per_page' => $this->pag_num, 'sort' => $sort, 'display_comments' => $display_comments, 'show_hidden' => $show_hidden, 'spam' => $spam, 'update_meta_cache' => $update_meta_cache, ) );
 
 		// Fetch all activity items
 		else
-			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'meta_query' => $meta_query, 'filter' => $filter, 'show_hidden' => $show_hidden, 'exclude' => $exclude, 'in' => $in, 'spam' => $spam ) );
+			$this->activities = bp_activity_get( array( 'display_comments' => $display_comments, 'max' => $max, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'sort' => $sort, 'search_terms' => $search_terms, 'meta_query' => $meta_query, 'filter' => $filter, 'show_hidden' => $show_hidden, 'exclude' => $exclude, 'in' => $in, 'spam' => $spam, 'update_meta_cache' => $update_meta_cache, ) );
 
 		if ( !$max || $max >= (int) $this->activities['total'] )
 			$this->total_activity_count = (int) $this->activities['total'];
@@ -448,6 +449,8 @@ class BP_Activity_Template {
  *               which he is a member
  *     @type string|bool $spam Spam status. 'ham_only', 'spam_only', or false
  *           to show all activity regardless of spam status. Default: 'ham_only'.
+ *     @type bool $populate_extras Whether to pre-fetch the activity metadata
+ *           for the queried items. Default: true.
  * }
  * @return bool Returns true when activities are found, otherwise false.
  */
@@ -519,7 +522,8 @@ function bp_has_activities( $args = '' ) {
 		'meta_query'       => false,        // filter on activity meta. See WP_Meta_Query for format
 
 		// Searching
-		'search_terms'     => false         // specify terms to search on
+		'search_terms'     => false,        // specify terms to search on
+		'update_meta_cache' => true,
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -626,7 +630,8 @@ function bp_has_activities( $args = '' ) {
 		'meta_query'       => $meta_query,
 		'display_comments' => $display_comments,
 		'show_hidden'      => $show_hidden,
-		'spam'             => $spam
+		'spam'             => $spam,
+		'update_meta_cache' => $update_meta_cache,
 	);
 
 	$activities_template = new BP_Activity_Template( $template_args );

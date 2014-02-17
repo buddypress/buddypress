@@ -253,4 +253,58 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$this->assertEquals( array( $a1, $a2 ), $ids );
 
 	}
+
+	/**
+	 * @group bp_has_activities
+	 * @group cache
+	 */
+	public function test_bp_has_activities_with_update_meta_cache_false() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		bp_activity_add_meta( $a1, 'foo', 'bar' );
+		bp_activity_add_meta( $a2, 'foo1', 'bar2' );
+
+		// prime
+		bp_has_activities( array(
+			'update_meta_cache' => false,
+		) );
+
+		$this->assertFalse( wp_cache_get( $a1, 'activity_meta' ) );
+		$this->assertFalse( wp_cache_get( $a2, 'activity_meta' ) );
+	}
+
+	/**
+	 * @group bp_has_activities
+	 * @group cache
+	 */
+	public function test_bp_has_activities_with_update_meta_cache_true() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		bp_activity_add_meta( $a1, 'foo', 'bar' );
+		bp_activity_add_meta( $a2, 'foo1', 'bar2' );
+
+		// prime
+		bp_has_activities( array(
+			'update_meta_cache' => true,
+		) );
+
+		$this->assertNotEmpty( wp_cache_get( $a1, 'activity_meta' ) );
+		$this->assertNotEmpty( wp_cache_get( $a2, 'activity_meta' ) );
+	}
 }

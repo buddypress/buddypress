@@ -910,6 +910,7 @@ function bp_activity_get( $args = '' ) {
 		'exclude'          => false,        // Comma-separated list of activity IDs to exclude
 		'in'               => false,        // Comma-separated list or array of activity IDs to which you want to limit the query
 		'spam'             => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
+		'update_meta_cache' => true,
 
 		/**
 		 * Pass filters as an array -- all filter items can be multiple values comma separated:
@@ -939,7 +940,8 @@ function bp_activity_get( $args = '' ) {
 				'filter'           => $filter,
 				'display_comments' => $display_comments,
 				'show_hidden'      => $show_hidden,
-				'spam'             => $spam
+				'spam'             => $spam,
+				'update_meta_cache' => $update_meta_cache,
 			);
 			$activity = BP_Activity_Activity::get( $args );
 			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
@@ -980,7 +982,7 @@ function bp_activity_get( $args = '' ) {
  *     All arguments and defaults are shared with BP_Activity_Activity::get(),
  *     except for the following:
  *     @type string|int|array Single activity ID, comma-separated list of IDs,
- *                            or array of IDs.
+ *           or array of IDs.
  * }
  * @return array $activity See BP_Activity_Activity::get() for description.
  */
@@ -994,6 +996,7 @@ function bp_activity_get_specific( $args = '' ) {
 		'show_hidden'      => true,        // When fetching specific items, show all
 		'sort'             => 'DESC',      // sort ASC or DESC
 		'spam'             => 'ham_only',  // Retrieve items marked as spam
+		'update_meta_cache' => true,
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
@@ -1006,7 +1009,8 @@ function bp_activity_get_specific( $args = '' ) {
 		'display_comments' => $display_comments,
 		'show_hidden'      => $show_hidden,
 		'in'               => $activity_ids,
-		'spam'             => $spam
+		'spam'             => $spam,
+		'update_meta_cache' => $update_meta_cache,
 	);
 	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $get_args ), $args, $get_args );
 }
