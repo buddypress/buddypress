@@ -437,6 +437,24 @@ Bar!';
 
 	/**
 	 * @group groupmeta
+	 * @group groups_get_groupmeta
+	 * @group cache
+	 */
+	public function test_groups_get_groupmeta_cache_all_on_get() {
+		$g = $this->factory->group->create();
+		groups_add_groupmeta( $g, 'foo', 'bar' );
+		groups_add_groupmeta( $g, 'foo1', 'baz' );
+		$this->assertFalse( wp_cache_get( $g, 'group_meta' ) );
+
+		// A single query should prime the whole meta cache
+		groups_get_groupmeta( $g, 'foo' );
+
+		$c = wp_cache_get( $g, 'group_meta' );
+		$this->assertNotEmpty( $c['foo1'] );
+	}
+
+	/**
+	 * @group groupmeta
 	 */
 	public function test_groups_delete_groupmeta_non_numeric_id() {
 		$this->assertFalse( groups_delete_groupmeta( 'foo', 'bar' ) );

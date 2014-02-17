@@ -175,10 +175,6 @@ class BP_Groups_Group {
 		global $wpdb, $bp;
 
 		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {
-			if ( ! empty( $this->args['update_meta_cache'] ) ) {
-				bp_groups_update_meta_cache( $this->id );
-			}
-
 			$this->id                 = $group->id;
 			$this->creator_id         = $group->creator_id;
 			$this->name               = stripslashes($group->name);

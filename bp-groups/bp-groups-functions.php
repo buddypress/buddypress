@@ -44,7 +44,6 @@ function groups_get_group( $args = '' ) {
 		'group_id'          => false,
 		'load_users'        => false,
 		'populate_extras'   => true,
-		'update_meta_cache' => true,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -55,7 +54,6 @@ function groups_get_group( $args = '' ) {
 	if ( !$group = wp_cache_get( $cache_key, 'bp' ) ) {
 		$group_args = array(
 			'populate_extras'   => $populate_extras,
-			'update_meta_cache' => $update_meta_cache,
 		);
 
 		$group = new BP_Groups_Group( $group_id, $group_args );
