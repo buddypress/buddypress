@@ -12,16 +12,12 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Slurp up activitymeta for a specified set of activity items.
  *
- * This function is called in two places in the BP_Activity_Activity class:
- *   - in the populate() method, when single activity objects are populated
- *   - in the get() method, when multiple groups are queried
- *
  * It grabs all activitymeta associated with all of the activity items passed
  * in $activity_ids and adds it to the WP cache. This improves efficiency when
  * using querying activitymeta inline.
  *
  * @param int|str|array $activity_ids Accepts a single activity ID, or a comma-
- *                                    separated list or array of activity ids
+ *        separated list or array of activity ids
  */
 function bp_activity_update_meta_cache( $activity_ids = false ) {
 	global $bp;
