@@ -24,7 +24,7 @@ class BP_XProfile_Data_Template {
 	var $in_the_loop;
 	var $user_id;
 
-	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false, $fetch_visibility_level = false ) {
+	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false, $fetch_visibility_level = false, $update_meta_cache = true ) {
 		$this->groups = BP_XProfile_Group::get( array(
 			'profile_group_id'    => $profile_group_id,
 			'user_id'             => $user_id,
@@ -34,7 +34,8 @@ class BP_XProfile_Data_Template {
 			'fetch_field_data'    => $fetch_field_data,
 			'fetch_visibility_level' => $fetch_visibility_level,
 			'exclude_groups'      => $exclude_groups,
-			'exclude_fields'      => $exclude_fields
+			'exclude_fields'      => $exclude_fields,
+			'update_meta_cache'   => $update_meta_cache,
 		) );
 
 		$this->group_count = count($this->groups);
@@ -174,13 +175,14 @@ function bp_has_profile( $args = '' ) {
 		'fetch_field_data'    => true,
 		'fetch_visibility_level' => $fetch_visibility_level_default,
 		'exclude_groups'      => false, // Comma-separated list of profile field group IDs to exclude
-		'exclude_fields'      => false  // Comma-separated list of profile field IDs to exclude
+		'exclude_fields'      => false,  // Comma-separated list of profile field IDs to exclude
+		'update_meta_cache'   => true,
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields, $hide_empty_fields, $fetch_visibility_level );
+	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields, $hide_empty_fields, $fetch_visibility_level, $update_meta_cache );
 	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), $profile_template );
 }
 

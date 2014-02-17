@@ -1,17 +1,124 @@
 <?php
 
 /**
- * BuddyPress XProfile Template Tags
+ * BuddyPress XProfile Caching Functions
  *
  * Caching functions handle the clearing of cached objects and pages on specific
  * actions throughout BuddyPress.
  *
  * @package BuddyPress
- * @subpackage XProfileTemplate
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
+
+/**
+ * Slurp up xprofilemeta for a specified set of profile objects.
+ *
+ * We do not use bp_update_meta_cache() for the xprofile component. This is
+ * because the xprofile component has three separate object types (group,
+ * field, and data) and three corresponding cache groups. Using the technique
+ * in bp_update_meta_cache(), pre-fetching would take three separate database
+ * queries. By grouping them together, we can reduce the required queries to
+ * one.
+ *
+ * This function is called within a bp_has_profile() loop.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $object_ids Multi-dimensional array of object_ids, keyed by
+ *        object type ('group', 'field', 'data')
+ */
+function bp_xprofile_update_meta_cache( $object_ids = array(), $user_id = 0 ) {
+	global $wpdb;
+
+	if ( empty( $object_ids ) ) {
+		return false;
+	}
+
+	// $object_ids is a multi-dimensional array
+	$uncached_object_ids = array(
+		'group' => array(),
+		'field' => array(),
+		'data'   => array(),
+	);
+
+	$cache_groups = array(
+		'group' => 'xprofile_group_meta',
+		'field' => 'xprofile_field_meta',
+		'data'  => 'xprofile_data_meta',
+	);
+
+	$do_query = false;
+	foreach ( $uncached_object_ids as $object_type => $uncached_object_type_ids ) {
+		if ( ! empty( $object_ids[ $object_type ] ) ) {
+			// Sanitize $object_ids passed to the function
+			$object_type_ids = wp_parse_id_list( $object_ids[ $object_type ] );
+
+			// Get non-cached IDs for each object type
+			$uncached_object_ids[ $object_type ] = bp_get_non_cached_ids( $object_type_ids, $cache_groups[ $object_type ] );
+
+			// Set the flag to do the meta query
+			if ( ! empty( $uncached_object_ids[ $object_type ] ) && ! $do_query ) {
+				$do_query = true;
+			}
+		}
+	}
+
+	// If there are uncached items, go ahead with the query
+	if ( $do_query ) {
+		$where = array();
+		foreach ( $uncached_object_ids as $otype => $oids ) {
+			if ( empty( $oids ) ) {
+				continue;
+			}
+
+			$oids_sql = implode( ',', wp_parse_id_list( $oids ) );
+			$where[]  = $wpdb->prepare( "( object_type = %s AND object_id IN ({$oids_sql}) )", $otype );
+		}
+		$where_sql = implode( " OR ", $where );
+	}
+
+
+	$bp = buddypress();
+	$meta_list = $wpdb->get_results( "SELECT object_id, object_type, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE {$where_sql}" );
+
+	if ( ! empty( $meta_list ) ) {
+		$object_type_caches = array(
+			'group' => array(),
+			'field' => array(),
+			'data'  => array(),
+		);
+
+		foreach ( $meta_list as $meta ) {
+			$oid    = $meta->object_id;
+			$otype  = $meta->object_type;
+			$okey   = $meta->meta_key;
+			$ovalue = $meta->meta_value;
+
+			// Force subkeys to be array type
+			if ( ! isset( $cache[ $otype ][ $oid ] ) || ! is_array( $cache[ $otype ][ $oid ] ) ) {
+				$cache[ $otype ][ $oid ] = array();
+			}
+
+			if ( ! isset( $cache[ $otype ][ $oid ][ $okey ] ) || ! is_array( $cache[ $otype ][ $oid ][ $okey ] ) ) {
+				$cache[ $otype ][ $oid ][ $okey ] = array();
+			}
+
+			// Add to the cache array
+			$cache[ $otype ][ $oid ][ $okey ][] = maybe_unserialize( $ovalue );
+		}
+
+		foreach ( $cache as $object_type => $object_caches ) {
+			$cache_group = $cache_groups[ $object_type ];
+			foreach ( $object_caches as $object_id => $object_cache ) {
+				wp_cache_set( $object_id, $object_cache, $cache_group );
+			}
+		}
+	}
+
+	return;
+}
 
 function xprofile_clear_profile_groups_object_cache( $group_obj ) {
 	wp_cache_delete( 'xprofile_groups_inc_empty',        'bp' );

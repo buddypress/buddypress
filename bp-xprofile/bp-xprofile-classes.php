@@ -117,6 +117,8 @@ class BP_XProfile_Group {
 	 *		'fetch_field_data' - Load each field's data. Requires a user_id
 	 *		'exclude_groups' - Comma-separated list of groups to exclude
 	 *		'exclude_fields' - Comma-separated list of fields to exclude
+	 *		'update_meta_cache' - Whether to pre-fetch xprofilemeta
+	 *		   for all retrieved groups, fields, and data
 	 *
 	 * @return array $groups
 	 */
@@ -132,11 +134,20 @@ class BP_XProfile_Group {
 			'fetch_field_data'       => false,
 			'fetch_visibility_level' => false,
 			'exclude_groups'         => false,
-			'exclude_fields'         => false
+			'exclude_fields'         => false,
+			'update_meta_cache'      => true,
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
+
+		// Keep track of object IDs for cache-priming
+		$object_ids = array(
+			'group' => array(),
+			'field' => array(),
+			'data'  => array(),
+		);
+
 		$where_sql = '';
 
 		if ( !empty( $profile_group_id ) )
@@ -161,6 +172,9 @@ class BP_XProfile_Group {
 			$group_ids[] = $group->id;
 		}
 
+		// Store for meta cache priming
+		$object_ids['group'] = $group_ids;
+
 		$group_ids = implode( ',', (array) $group_ids );
 
 		if ( empty( $group_ids ) )
@@ -182,6 +196,9 @@ class BP_XProfile_Group {
 
 		// Fetch the fields
 		$fields = $wpdb->get_results( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" );
+
+		// Store field IDs for meta cache priming
+		$object_ids['field'] = wp_list_pluck( $fields, 'id' );
 
 		if ( empty( $fields ) )
 			return $groups;
@@ -240,6 +257,9 @@ class BP_XProfile_Group {
 							$fields[$field_key]->data->value = $data->value;
 							$fields[$field_key]->data->id    = $data->id;
 						}
+
+						// Store for meta cache priming
+						$object_ids['data'][] = $data->id;
 					}
 				}
 			}
@@ -271,6 +291,11 @@ class BP_XProfile_Group {
 
 			// Reset indexes
 			$groups = array_values( $groups );
+		}
+
+		// Prime the meta cache, if necessary
+		if ( $update_meta_cache ) {
+			bp_xprofile_update_meta_cache( $object_ids );
 		}
 
 		return $groups;
