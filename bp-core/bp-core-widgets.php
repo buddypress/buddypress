@@ -188,6 +188,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		$members_args = array(
 			'user_id'         => 0,
 			'type'            => $instance['member_default'],
+			'per_page'        => $instance['max_members'],
 			'max'             => $instance['max_members'],
 			'populate_extras' => true,
 		);
