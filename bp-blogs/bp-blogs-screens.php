@@ -43,7 +43,7 @@ add_action( 'bp_screens', 'bp_blogs_screen_create_a_blog', 3 );
  * Load the top-level Blogs directory.
  */
 function bp_blogs_screen_index() {
-	if ( is_multisite() && bp_is_blogs_component() && !bp_current_action() ) {
+	if ( bp_is_blogs_directory() ) {
 		bp_update_is_directory( true, 'blogs' );
 
 		do_action( 'bp_blogs_screen_index' );

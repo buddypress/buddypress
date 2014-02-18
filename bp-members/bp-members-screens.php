@@ -35,7 +35,7 @@ function bp_members_screen_display_profile() {
  * @uses apply_filters()
  */
 function bp_members_screen_index() {
-	if ( !bp_is_user() && bp_is_members_component() ) {
+	if ( bp_is_members_directory() ) {
 		bp_update_is_directory( true, 'members' );
 
 		do_action( 'bp_members_screen_index' );

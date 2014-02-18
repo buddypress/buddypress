@@ -28,7 +28,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @uses apply_filters() To call the 'bp_activity_screen_index' hook.
  */
 function bp_activity_screen_index() {
-	if ( !bp_displayed_user_id() && bp_is_activity_component() && !bp_current_action() ) {
+	if ( bp_is_activity_directory() ) {
 		bp_update_is_directory( true, 'activity' );
 
 		do_action( 'bp_activity_screen_index' );

@@ -15,7 +15,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 function groups_directory_groups_setup() {
-	if ( bp_is_groups_component() && !bp_current_action() && !bp_current_item() ) {
+	if ( bp_is_groups_directory() ) {
 		bp_update_is_directory( true, 'groups' );
 
 		do_action( 'groups_directory_groups_setup' );
