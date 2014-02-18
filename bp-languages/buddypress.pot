@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-18 13:35:17+00:00\n"
+"POT-Creation-Date: 2014-02-18 17:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -421,7 +421,7 @@ msgid "No activities found."
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:1169 bp-groups/bp-groups-admin.php:1263
-#: bp-messages/bp-messages-template.php:477
+#: bp-messages/bp-messages-template.php:499
 msgid "All"
 msgstr ""
 
@@ -647,7 +647,7 @@ msgstr ""
 #: bp-members/bp-members-template.php:844
 #: bp-members/bp-members-template.php:863
 #: bp-messages/bp-messages-loader.php:258
-#: bp-messages/bp-messages-template.php:356
+#: bp-messages/bp-messages-template.php:378
 #: bp-notifications/bp-notifications-loader.php:229
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:185
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:212
@@ -1054,7 +1054,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-template.php:1145 bp-core/deprecated/1.5.php:417
 #: bp-forums/bp-forums-template.php:2196 bp-groups/bp-groups-template.php:2546
 #: bp-members/bp-members-template.php:734
-#: bp-messages/bp-messages-template.php:410 bp-themes/bp-default/header.php:30
+#: bp-messages/bp-messages-template.php:432 bp-themes/bp-default/header.php:30
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -1280,7 +1280,7 @@ msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">upda
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:267 bp-core/admin/bp-core-slugs.php:135
-#: bp-messages/bp-messages-template.php:601
+#: bp-messages/bp-messages-template.php:623
 #: bp-templates/bp-legacy/buddypress/members/activate.php:29
 #: bp-themes/bp-default/registration/activate.php:38
 msgid "Activate"
@@ -2300,8 +2300,8 @@ msgstr ""
 #: bp-forums/bp-forums-template.php:756 bp-forums/bp-forums-template.php:870
 #: bp-forums/bp-forums-template.php:2014
 #: bp-messages/bp-messages-classes.php:270
-#: bp-messages/bp-messages-template.php:884
-#: bp-messages/bp-messages-template.php:966
+#: bp-messages/bp-messages-template.php:906
+#: bp-messages/bp-messages-template.php:988
 msgid "Deleted User"
 msgstr ""
 
@@ -4440,51 +4440,51 @@ msgctxt "Message pagination next text"
 msgid "&rarr;"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:395
+#: bp-messages/bp-messages-template.php:417
 msgid "Viewing message %1$s to %2$s (of %3$s message)"
 msgid_plural "Viewing message %1$s to %2$s (of %3$s messages)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-messages/bp-messages-template.php:471
+#: bp-messages/bp-messages-template.php:493
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:475
+#: bp-messages/bp-messages-template.php:497
 #: bp-notifications/bp-notifications-loader.php:144
 #: bp-notifications/bp-notifications-loader.php:205
 #: bp-notifications/bp-notifications-template.php:733
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:476
+#: bp-messages/bp-messages-template.php:498
 #: bp-notifications/bp-notifications-loader.php:133
 #: bp-notifications/bp-notifications-loader.php:182
 #: bp-notifications/bp-notifications-template.php:763
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:482
+#: bp-messages/bp-messages-template.php:504
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:483
+#: bp-messages/bp-messages-template.php:505
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:487
+#: bp-messages/bp-messages-template.php:509
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:532
+#: bp-messages/bp-messages-template.php:554
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:599
+#: bp-messages/bp-messages-template.php:621
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:648
+#: bp-messages/bp-messages-template.php:670
 #: bp-templates/bp-legacy/buddypress/members/register.php:168
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:130
 #: bp-templates/bp-legacy/buddypress-functions.php:233
@@ -4495,19 +4495,19 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:693
+#: bp-messages/bp-messages-template.php:715
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:694
+#: bp-messages/bp-messages-template.php:716
 msgid "Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:877
+#: bp-messages/bp-messages-template.php:899
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:986
+#: bp-messages/bp-messages-template.php:1008
 #: bp-templates/bp-legacy/buddypress-functions.php:1186
 #: bp-themes/bp-default/_inc/ajax.php:833
 msgid "Sent %s"
