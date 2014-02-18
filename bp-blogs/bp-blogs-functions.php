@@ -44,11 +44,11 @@ function bp_blogs_has_directory() {
 function bp_blogs_get_blogs( $args = '' ) {
 
 	$defaults = array(
-		'type'         => 'active', // active, alphabetical, newest, or random
-		'user_id'      => false,    // Pass a user_id to limit to only blogs that this user has privilages higher than subscriber on
-		'search_terms' => false,    // Limit to blogs that match these search terms
-		'per_page'     => 20,       // The number of results to return per page
-		'page'         => 1,        // The page to return if limiting per page
+		'type'              => 'active', // active, alphabetical, newest, or random
+		'user_id'           => false,    // Pass a user_id to limit to only blogs that this user has privilages higher than subscriber on
+		'search_terms'      => false,    // Limit to blogs that match these search terms
+		'per_page'          => 20,       // The number of results to return per page
+		'page'              => 1,        // The page to return if limiting per page
 		'update_meta_cache' => true,
 	);
 

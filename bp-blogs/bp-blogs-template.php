@@ -177,10 +177,18 @@ class BP_Blogs_Template {
 		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
-		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] )
+		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
 			$this->blogs = BP_Blogs_Blog::get_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
-		else
-			$this->blogs = bp_blogs_get_blogs( array( 'type' => $type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'search_terms' => $search_terms, 'update_meta_cache' => $update_meta_cache, ) );
+		} else {
+			$this->blogs = bp_blogs_get_blogs( array(
+				'type'              => $type,
+				'per_page'          => $this->pag_num,
+				'page'              => $this->pag_page,
+				'user_id'           => $user_id,
+				'search_terms'      => $search_terms,
+				'update_meta_cache' => $update_meta_cache,
+			) );
+		}
 
 		if ( !$max || $max >= (int) $this->blogs['total'] )
 			$this->total_blog_count = (int) $this->blogs['total'];
@@ -353,15 +361,15 @@ function bp_has_blogs( $args = '' ) {
 		$user_id = bp_displayed_user_id();
 
 	$defaults = array(
-		'type'         => $type,
-		'page'         => 1,
-		'per_page'     => 20,
-		'max'          => false,
+		'type'              => $type,
+		'page'              => 1,
+		'per_page'          => 20,
+		'max'               => false,
 
-		'page_arg'     => 'bpage',        // See https://buddypress.trac.wordpress.org/ticket/3679
+		'page_arg'          => 'bpage',        // See https://buddypress.trac.wordpress.org/ticket/3679
 
-		'user_id'      => $user_id,       // Pass a user_id to limit to only blogs this user has higher than subscriber access to
-		'search_terms' => $search_terms,  // Pass search terms to filter on the blog title or description.
+		'user_id'           => $user_id,       // Pass a user_id to limit to only blogs this user has higher than subscriber access to
+		'search_terms'      => $search_terms,  // Pass search terms to filter on the blog title or description.
 		'update_meta_cache' => true,
 	);
 
