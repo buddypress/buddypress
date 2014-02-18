@@ -182,7 +182,7 @@ function bp_has_message_threads( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	if ( bp_is_current_action( 'notices' ) && !bp_current_user_can( 'bp_moderate' ) ) {
-		wp_redirect( bp_displayed_user_id() );
+		bp_core_redirect( bp_displayed_user_domain() );
 	} else {
 		if ( bp_is_current_action( 'sentbox' ) ) {
 			$box = 'sentbox';
