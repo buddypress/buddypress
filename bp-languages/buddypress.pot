@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-18 17:35:17+00:00\n"
+"POT-Creation-Date: 2014-02-18 21:35:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1606,7 +1606,7 @@ msgid "BuddyPress&#8217;s powerful features help your users connect and collabor
 msgstr ""
 
 #: bp-core/bp-core-admin.php:474 bp-core/bp-core-template.php:361
-#: bp-core/bp-core-widgets.php:266 bp-groups/bp-groups-admin.php:777
+#: bp-core/bp-core-widgets.php:276 bp-groups/bp-groups-admin.php:777
 #: bp-groups/bp-groups-template.php:1492 bp-members/bp-members-loader.php:24
 #: bp-members/bp-members-screens.php:366
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:231
@@ -2067,8 +2067,8 @@ msgstr ""
 msgid "<a href=\"%s\" title=\"Register for a new account\">Register</a>"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:134 bp-core/bp-core-widgets.php:279
-#: bp-core/bp-core-widgets.php:384 bp-core/bp-core-widgets.php:476
+#: bp-core/bp-core-widgets.php:134 bp-core/bp-core-widgets.php:289
+#: bp-core/bp-core-widgets.php:404 bp-core/bp-core-widgets.php:506
 #: bp-groups/bp-groups-widgets.php:137 bp-messages/bp-messages-widgets.php:110
 #: bp-templates/bp-legacy/buddypress/forums/index.php:86
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:47
@@ -2088,7 +2088,7 @@ msgctxt "widget name"
 msgid "(BuddyPress) Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:190 bp-core/bp-core-widgets.php:288
+#: bp-core/bp-core-widgets.php:200 bp-core/bp-core-widgets.php:298
 #: bp-core/deprecated/1.6.php:129 bp-core/deprecated/1.6.php:152
 #: bp-friends/bp-friends-widgets.php:91 bp-friends/bp-friends-widgets.php:179
 #: bp-groups/bp-groups-widgets.php:65 bp-groups/bp-groups-widgets.php:146
@@ -2099,74 +2099,74 @@ msgstr ""
 msgid "Newest"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:191 bp-core/bp-core-widgets.php:289
+#: bp-core/bp-core-widgets.php:201 bp-core/bp-core-widgets.php:299
 #: bp-friends/bp-friends-widgets.php:92 bp-friends/bp-friends-widgets.php:180
 #: bp-groups/bp-groups-widgets.php:66 bp-groups/bp-groups-widgets.php:147
 #: bp-members/bp-members-admin.php:580
 msgid "Active"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:195 bp-core/bp-core-widgets.php:290
+#: bp-core/bp-core-widgets.php:205 bp-core/bp-core-widgets.php:300
 #: bp-friends/bp-friends-widgets.php:93 bp-friends/bp-friends-widgets.php:181
 #: bp-groups/bp-groups-widgets.php:67 bp-groups/bp-groups-widgets.php:148
 msgid "Popular"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:232
+#: bp-core/bp-core-widgets.php:242
 msgid "No one has signed up yet!"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:281 bp-friends/bp-friends-widgets.php:172
+#: bp-core/bp-core-widgets.php:291 bp-friends/bp-friends-widgets.php:172
 msgid "Link widget title to Members directory"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:283
+#: bp-core/bp-core-widgets.php:293
 msgid "Max members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:286
+#: bp-core/bp-core-widgets.php:296
 msgid "Default members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:308
+#: bp-core/bp-core-widgets.php:318
 msgid "Avatars of users who are currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:311
+#: bp-core/bp-core-widgets.php:321
 msgctxt "widget name"
 msgid "(BuddyPress) Who's Online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:344
+#: bp-core/bp-core-widgets.php:364
 msgid "There are no users currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:375
+#: bp-core/bp-core-widgets.php:395
 msgid "Who's Online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:386 bp-core/bp-core-widgets.php:478
+#: bp-core/bp-core-widgets.php:406 bp-core/bp-core-widgets.php:508
 msgid "Max Members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:400
+#: bp-core/bp-core-widgets.php:420
 msgid "Avatars of recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:403
+#: bp-core/bp-core-widgets.php:423
 msgctxt "widget name"
 msgid "(BuddyPress) Recently Active Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:436
+#: bp-core/bp-core-widgets.php:466
 msgid "There are no recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:467
+#: bp-core/bp-core-widgets.php:497
 msgid "Recently Active Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:531 bp-friends/bp-friends-widgets.php:245
+#: bp-core/bp-core-widgets.php:569 bp-friends/bp-friends-widgets.php:245
 msgid "There were no members found, please try another filter."
 msgstr ""
 
