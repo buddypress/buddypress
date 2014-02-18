@@ -1932,11 +1932,70 @@ class BP_Groups_Group_Members_Template {
 	var $pag_links;
 	var $total_group_count;
 
-	function __construct( $group_id, $per_page, $max, $exclude_admins_mods, $exclude_banned, $exclude, $group_role = false ) {
+	/**
+	 * Constructor.
+	 *
+	 * @param array $args {
+	 *     An array of optional arguments.
+	 *     @type int $group_id ID of the group whose members are being
+	 *	     queried. Default: current group ID.
+	 *     @type int $page Page of results to be queried. Default: 1.
+	 *     @type int $per_page Number of items to return per page of
+	 *           results. Default: 20.
+	 *     @type int $max Optional. Max number of items to return.
+	 *     @type array $exclude Optional. Array of user IDs to exclude.
+	 *     @type bool|int True (or 1) to exclude admins and mods from
+	 *           results. Default: 1.
+	 *     @type bool|int True (or 1) to exclude banned users from results.
+	 *           Default: 1.
+	 *     @type array $group_role Optional. Array of group roles to include.
+	 *     @type string $search_terms Optional. Search terms to match.
+	 * }
+	 */
+	function __construct( $args = array() ) {
+
+		// Backward compatibility with old method of passing arguments
+		if ( ! is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '2.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+			$old_args_keys = array(
+				0 => 'group_id',
+				1 => 'per_page',
+				2 => 'max',
+				3 => 'exclude_admins_mods',
+				4 => 'exclude_banned',
+				5 => 'exclude',
+				6 => 'group_role',
+			);
+
+			$func_args = func_get_args();
+			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+		}
+
+		$r = wp_parse_args( $args, array(
+			'group_id'            => bp_get_current_group_id(),
+			'page'                => 1,
+			'per_page'            => 20,
+			'max'                 => false,
+			'exclude'             => false,
+			'exclude_admins_mods' => 1,
+			'exclude_banned'      => 1,
+			'group_role'          => false,
+			'search_terms'        => false,
+		) );
+
+		// @todo No
+		extract( $r );
 
 		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : 1;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-		$this->members  = groups_get_group_members( $group_id, $this->pag_num, $this->pag_page, $exclude_admins_mods, $exclude_banned, $exclude, $group_role );
+
+		$members_args = $r;
+
+		$members_args['page']     = $this->pag_page;
+		$members_args['per_page'] = $this->pag_num;
+
+		$this->members = groups_get_group_members( $members_args );
 
 		if ( !$max || $max >= (int) $this->members['count'] )
 			$this->total_member_count = (int) $this->members['count'];
@@ -2009,20 +2068,45 @@ class BP_Groups_Group_Members_Template {
 	}
 }
 
+/**
+ * Initialize a group member query loop.
+ *
+ * @param array $args {
+ *     An array of optional arguments.
+ *     @type int $group_id ID of the group whose members are being queried.
+ *           Default: current group ID.
+ *     @type int $page Page of results to be queried. Default: 1.
+ *     @type int $per_page Number of items to return per page of results.
+ *           Default: 20.
+ *     @type int $max Optional. Max number of items to return.
+ *     @type array $exclude Optional. Array of user IDs to exclude.
+ *     @type bool|int True (or 1) to exclude admins and mods from results.
+ *           Default: 1.
+ *     @type bool|int True (or 1) to exclude banned users from results.
+ *           Default: 1.
+ *     @type array $group_role Optional. Array of group roles to include.
+ *     @type string $search_terms Optional. Search terms to match.
+ * }
+ */
 function bp_group_has_members( $args = '' ) {
 	global $members_template;
 
 	$r = wp_parse_args( $args, array(
-		'group_id' => bp_get_current_group_id(),
-		'per_page' => 20,
-		'max' => false,
-		'exclude' => false,
+		'group_id'            => bp_get_current_group_id(),
+		'page'                => 1,
+		'per_page'            => 20,
+		'max'                 => false,
+		'exclude'             => false,
 		'exclude_admins_mods' => 1,
-		'exclude_banned' => 1,
-		'group_role' => false,
+		'exclude_banned'      => 1,
+		'group_role'          => false,
+		'search_terms'        => false,
 	) );
 
-	$members_template = new BP_Groups_Group_Members_Template( $r['group_id'], $r['per_page'], $r['max'], (int) $r['exclude_admins_mods'], (int) $r['exclude_banned'], $r['exclude'], $r['group_role'] );
+	if ( empty( $r['search_terms'] ) && ! empty( $_REQUEST['s'] ) )
+		$r['search_terms'] = $_REQUEST['s'];
+
+	$members_template = new BP_Groups_Group_Members_Template( $r );
 	return apply_filters( 'bp_group_has_members', $members_template->has_members(), $members_template );
 }
 

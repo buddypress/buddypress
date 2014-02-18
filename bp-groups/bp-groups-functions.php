@@ -362,7 +362,7 @@ function groups_get_group_mods( $group_id ) {
 }
 
 /**
- * Fetch the members of a group
+ * Fetch the members of a group.
  *
  * Since BuddyPress 1.8, a procedural wrapper for BP_Group_Member_Query.
  * Previously called BP_Groups_Member::get_all_for_group().
@@ -370,6 +370,21 @@ function groups_get_group_mods( $group_id ) {
  * To use the legacy query, filter 'bp_use_legacy_group_member_query',
  * returning true.
  *
+ * @param array $args {
+ *     An array of optional arguments.
+ *     @type int $group_id ID of the group whose members are being queried.
+ *           Default: current group ID.
+ *     @type int $page Page of results to be queried. Default: 1.
+ *     @type int $per_page Number of items to return per page of results.
+ *           Default: 20.
+ *     @type int $max Optional. Max number of items to return.
+ *     @type array $exclude Optional. Array of user IDs to exclude.
+ *     @type bool|int True (or 1) to exclude admins and mods from results.
+ *           Default: 1.
+ *     @type bool|int True (or 1) to exclude banned users from results.
+ *           Default: 1.
+ *     @type array $group_role Optional. Array of group roles to include.
+ * }
  * @param int $group_id
  * @param int $limit Maximum members to return
  * @param int $page The page of results to return (requires $limit)
@@ -378,38 +393,66 @@ function groups_get_group_mods( $group_id ) {
  * @param array|string $exclude Array or comma-sep list of users to exclude
  * @return array Multi-d array of 'members' list and 'count'
  */
-function groups_get_group_members( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false, $group_role = false ) {
+function groups_get_group_members( $args = array() ) {
+
+	// Backward compatibility with old method of passing arguments
+	if ( ! is_array( $args ) || func_num_args() > 1 ) {
+		_deprecated_argument( __METHOD__, '2.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+		$old_args_keys = array(
+			0 => 'group_id',
+			1 => 'per_page',
+			2 => 'page',
+			3 => 'exclude_admins_mods',
+			4 => 'exclude_banned',
+			5 => 'exclude',
+			6 => 'group_role',
+		);
+
+		$func_args = func_get_args();
+		$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+	}
+
+	$r = wp_parse_args( $args, array(
+		'group_id'            => bp_get_current_group_id(),
+		'per_page'            => false,
+		'page'                => false,
+		'exclude_admins_mods' => true,
+		'exclude_banned'      => true,
+		'exclude'             => false,
+		'group_role'          => array(),
+	) );
 
 	// For legacy users. Use of BP_Groups_Member::get_all_for_group()
 	// is deprecated. func_get_args() can't be passed to a function in PHP
 	// 5.2.x, so we create a variable
 	$func_args = func_get_args();
 	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, $func_args ) ) {
-		$retval = BP_Groups_Member::get_all_for_group( $group_id, $limit, $page, $exclude_admins_mods, $exclude_banned, $exclude );
+		$retval = BP_Groups_Member::get_all_for_group( $r['group_id'], $r['per_page'], $r['page'], $r['exclude_admins_mods'], $r['exclude_banned'], $r['exclude'] );
 	} else {
 
 		// exclude_admins_mods and exclude_banned are legacy arguments.
 		// Convert to group_role
-		if ( empty( $group_role ) ) {
-			$group_role = array( 'member' );
+		if ( empty( $r['group_role'] ) ) {
+			$r['group_role'] = array( 'member' );
 
-			if ( ! $exclude_admins_mods ) {
-				$group_role[] = 'mod';
-				$group_role[] = 'admin';
+			if ( ! $r['exclude_admins_mods'] ) {
+				$r['group_role'][] = 'mod';
+				$r['group_role'][] = 'admin';
 			}
 
-			if ( ! $exclude_banned ) {
-				$group_role[] = 'banned';
+			if ( ! $r['exclude_banned'] ) {
+				$r['group_role'][] = 'banned';
 			}
 		}
 
 		// Perform the group member query (extends BP_User_Query)
 		$members = new BP_Group_Member_Query( array(
-			'group_id'       => $group_id,
-			'per_page'       => $limit,
-			'page'           => $page,
-			'group_role'     => $group_role,
-			'exclude'        => $exclude,
+			'group_id'       => $r['group_id'],
+			'per_page'       => $r['per_page'],
+			'page'           => $r['page'],
+			'group_role'     => $r['group_role'],
+			'exclude'        => $r['exclude'],
 			'type'           => 'last_modified',
 		) );
 
