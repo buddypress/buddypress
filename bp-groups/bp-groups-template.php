@@ -1987,7 +1987,7 @@ class BP_Groups_Group_Members_Template {
 		// @todo No
 		extract( $r );
 
-		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : $r['page'];
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		$members_args = $r;
