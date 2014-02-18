@@ -114,11 +114,13 @@ class BP_Blogs_Blog {
 	 *        retrieved. Default: 0.
 	 * @param string|bool $search_terms Optional. Search by text stored in
 	 *        blogmeta (such as the blog name). Default: false.
+	 * @param bool $update_meta_cache Whether to pre-fetch metadata for
+	 *        blogs. Default: true.
 	 * @return array Multidimensional results array, structured as follows:
 	 *           'blogs' - Array of located blog objects
 	 *           'total' - A count of the total blogs matching the filter params
 	 */
-	public static function get( $type, $limit = false, $page = false, $user_id = 0, $search_terms = false ) {
+	public static function get( $type, $limit = false, $page = false, $user_id = 0, $search_terms = false, $update_meta_cache = true ) {
 		global $bp, $wpdb;
 
 		if ( !is_user_logged_in() || ( !bp_current_user_can( 'bp_moderate' ) && ( $user_id != bp_loggedin_user_id() ) ) )
@@ -160,6 +162,10 @@ class BP_Blogs_Blog {
 		}
 
 		$paged_blogs = BP_Blogs_Blog::get_blog_extras( $paged_blogs, $blog_ids, $type );
+
+		if ( $update_meta_cache ) {
+			bp_blogs_update_meta_cache( $blog_ids );
+		}
 
 		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
 	}

@@ -14,6 +14,27 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Slurp up blogmeta for a specified set of blogs.
+ *
+ * It grabs all blogmeta associated with all of the blogs passed
+ * in $blog_ids and adds it to the WP cache. This improves efficiency when
+ * using querying blogmeta inline.
+ *
+ * @param int|str|array $blog_ids Accepts a single blog ID, or a comma-
+ *        separated list or array of blog IDs.
+ */
+function bp_blogs_update_meta_cache( $blog_ids = false ) {
+	$cache_args = array(
+		'object_ids' 	   => $blog_ids,
+		'object_type' 	   => buddypress()->blogs->id,
+		'object_column'    => 'blog_id',
+		'cache_group'      => 'blog_meta',
+		'meta_table' 	   => buddypress()->blogs->table_name_blogmeta,
+	);
+
+	bp_update_meta_cache( $cache_args );
+}
+/**
  * Clear the blog object cache.
  *
  * @since BuddyPress (1.0.0)

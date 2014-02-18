@@ -37,6 +37,7 @@ function bp_blogs_has_directory() {
  *     @type string|bool $search_terms Default: false.
  *     @type int $per_page Default: 20.
  *     @type int $page Default: 1.
+ *     @type bool $update_meta_cache Whether to pre-fetch blogmeta. Default: true.
  * }
  * @return array See {@link BP_Blogs_Blog::get()}.
  */
@@ -48,12 +49,13 @@ function bp_blogs_get_blogs( $args = '' ) {
 		'search_terms' => false,    // Limit to blogs that match these search terms
 		'per_page'     => 20,       // The number of results to return per page
 		'page'         => 1,        // The page to return if limiting per page
+		'update_meta_cache' => true,
 	);
 
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	return apply_filters( 'bp_blogs_get_blogs', BP_Blogs_Blog::get( $type, $per_page, $page, $user_id, $search_terms ), $params );
+	return apply_filters( 'bp_blogs_get_blogs', BP_Blogs_Blog::get( $type, $per_page, $page, $user_id, $search_terms, $update_meta_cache ), $params );
 }
 
 /**
