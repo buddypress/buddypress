@@ -421,6 +421,7 @@ function groups_get_group_members( $args = array() ) {
 		'exclude_banned'      => true,
 		'exclude'             => false,
 		'group_role'          => array(),
+		'search_terms'        => false,
 	) );
 
 	// For legacy users. Use of BP_Groups_Member::get_all_for_group()
@@ -453,6 +454,7 @@ function groups_get_group_members( $args = array() ) {
 			'page'           => $r['page'],
 			'group_role'     => $r['group_role'],
 			'exclude'        => $r['exclude'],
+			'search_terms'   => $r['search_terms'],
 			'type'           => 'last_modified',
 		) );
 
