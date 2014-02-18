@@ -35,7 +35,7 @@ function bp_notifications_buddybar_menu() {
 	echo '</a>';
 	echo '<ul>';
 
-	if ( $notifications ) {
+	if ( $notifications = bp_notifications_get_notifications_for_user( bp_loggedin_user_id() ) ) {
 		$counter = 0;
 		for ( $i = 0, $count = count( $notifications ); $i < $count; ++$i ) {
 			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : ''; ?>
