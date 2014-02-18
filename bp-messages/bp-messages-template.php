@@ -165,37 +165,59 @@ class BP_Messages_Box_Template {
 	}
 }
 
+/**
+ * Retrieve private message threads for display in inbox/sentbox/notices
+ *
+ * Similar to WordPress's have_posts() function, this function is responsible
+ * for querying the database and retrieving private messages for display inside
+ * the theme via individual template parts for a member's inbox/sentbox/notices.
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @global BP_Messages_Box_Template $messages_template
+ * @param array $args
+ * @return object
+ */
 function bp_has_message_threads( $args = '' ) {
-	global $bp, $messages_template;
+	global $messages_template;
 
-	$defaults = array(
+	// The default box the user is looking at
+	if ( bp_is_current_action( 'sentbox' ) ) {
+		$default_box = 'sentbox';
+	} elseif ( bp_is_current_action( 'notices' ) ) {
+		$default_box = 'notices';
+	} else {
+		$default_box = 'inbox';
+	}
+
+	// Parse the arguments
+	$r = bp_parse_args( $args, array(
 		'user_id'      => bp_loggedin_user_id(),
-		'box'          => 'inbox',
+		'box'          => $default_box,
 		'per_page'     => 10,
 		'max'          => false,
 		'type'         => 'all',
 		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
 		'page_arg'     => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679
-	);
+	), 'has_message_threads' );
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
+	// If trying to access notices without capabilities, redirect to root domain
 	if ( bp_is_current_action( 'notices' ) && !bp_current_user_can( 'bp_moderate' ) ) {
 		bp_core_redirect( bp_displayed_user_domain() );
-	} else {
-		if ( bp_is_current_action( 'sentbox' ) ) {
-			$box = 'sentbox';
-		}
-
-		if ( bp_is_current_action( 'notices' ) ) {
-			$box = 'notices';
-		}
-
-		$messages_template = new BP_Messages_Box_Template( $user_id, $box, $per_page, $max, $type, $search_terms, $page_arg );
 	}
 
-	return apply_filters( 'bp_has_message_threads', $messages_template->has_threads(), $messages_template );
+	// Load the messages loop global up with messages
+	$messages_template = new BP_Messages_Box_Template(
+		$r['user_id'],
+		$r['box'],
+		$r['per_page'],
+		$r['max'],
+		$r['type'],
+		$r['search_terms'],
+		$r['page_arg']
+	);
+
+	return apply_filters( 'bp_has_message_threads', $messages_template->has_threads(), $messages_template, $r );
 }
 
 function bp_message_threads() {
