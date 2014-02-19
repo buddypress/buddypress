@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-18 22:35:17+00:00\n"
+"POT-Creation-Date: 2014-02-19 12:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -533,7 +533,7 @@ msgid "<span>%1$s</span> &mdash; %2$s"
 msgstr ""
 
 #: bp-activity/bp-activity-classes.php:263
-#: bp-activity/bp-activity-template.php:139 bp-groups/bp-groups-classes.php:594
+#: bp-activity/bp-activity-template.php:139 bp-groups/bp-groups-classes.php:596
 #: bp-groups/bp-groups-functions.php:400 bp-groups/bp-groups-template.php:112
 #: bp-groups/bp-groups-template.php:1959
 msgid "Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details."
@@ -3103,7 +3103,7 @@ msgstr ""
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:882 bp-groups/bp-groups-classes.php:2979
+#: bp-groups/bp-groups-admin.php:882 bp-groups/bp-groups-classes.php:2981
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3227,11 +3227,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1882
+#: bp-groups/bp-groups-classes.php:1884
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1888 bp-groups/bp-groups-functions.php:126
+#: bp-groups/bp-groups-classes.php:1890 bp-groups/bp-groups-functions.php:126
 msgid "Group Admin"
 msgstr ""
 
