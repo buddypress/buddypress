@@ -160,7 +160,9 @@ class BP_Groups_Group {
 	 *        the object will be pre-populated with info about that group.
 	 */
 	public function __construct( $id = null, $args = array() ) {
-		$this->args = $args;
+		$this->args = wp_parse_args( $args, array(
+			'populate_extras' => true,
+		) );
 
 		if ( !empty( $id ) ) {
 			$this->id = $id;
