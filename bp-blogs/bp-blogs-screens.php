@@ -141,12 +141,7 @@ class BP_Blogs_Theme_Compat {
 	 */
 	public function directory_dummy_post() {
 
-		// Title based on ability to create blogs
-		if ( is_user_logged_in() && bp_blog_signup_enabled() ) {
-			$title = __( 'Sites', 'buddypress' ) . '&nbsp;<a class="button" href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create' ) . '">' . __( 'Create a Sites', 'buddypress' ) . '</a>';
-		} else {
-			$title = __( 'Sites', 'buddypress' );
-		}
+		$title = apply_filters( 'bp_blogs_directory_title', __( 'Sites', 'buddypress' ) );
 
 		bp_theme_compat_reset_post( array(
 			'ID'             => 0,

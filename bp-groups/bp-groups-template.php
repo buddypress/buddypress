@@ -1854,6 +1854,43 @@ function bp_group_join_button( $group = false ) {
 	}
 
 /**
+ * Output the Create a Group button.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_group_create_button() {
+	echo bp_get_group_create_button();
+}
+	/**
+	 * Get the Create a Group button.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_group_create_button() {
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		if ( ! bp_user_can_create_groups() ) {
+			return false;
+		}
+
+		$button_args = array(
+			'id'         => 'create_group',
+			'component'  => 'groups',
+			'link_text'  => __( 'Create a Group', 'buddypress' ),
+			'link_title' => __( 'Create a Group', 'buddypress' ),
+			'link_class' => 'button group-create bp-title-button',
+			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_groups_root_slug() ) . trailingslashit( 'create' ),
+			'wrapper'    => false,
+		);
+
+		return bp_get_button( $button_args );
+	}
+
+/**
  * Prints a message if the group is not visible to the current user (it is a
  * hidden or private group, and the user does not have access).
  *

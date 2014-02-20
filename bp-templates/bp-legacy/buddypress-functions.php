@@ -111,6 +111,8 @@ class BP_Legacy extends BP_Theme_Compat {
 				add_action( 'bp_group_header_actions',     'bp_group_join_button',           5 );
 				add_action( 'bp_group_header_actions',     'bp_group_new_topic_button',      20 );
 				add_action( 'bp_directory_groups_actions', 'bp_group_join_button' );
+				add_filter( 'bp_groups_directory_title',   'bp_legacy_theme_group_create_button' );
+				add_filter( 'bp_blogs_directory_title',    'bp_legacy_theme_blog_create_button' );
 			}
 
 			// Blog button
@@ -419,6 +421,35 @@ class BP_Legacy extends BP_Theme_Compat {
 new BP_Legacy();
 endif;
 
+/**
+ * Add the Create a Group button to the Groups directory title.
+ *
+ * bp-legacy puts the Create a Group button into the page title, to mimic
+ * the behavior of bp-default.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param string $title Groups directory title.
+ * @return string
+ */
+function bp_legacy_theme_group_create_button( $title ) {
+	return $title . ' ' . bp_get_group_create_button();
+}
+
+/**
+ * Add the Create a Site button to the Sites directory title.
+ *
+ * bp-legacy puts the Create a Site button into the page title, to mimic
+ * the behavior of bp-default.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param string $title Sites directory title.
+ * @return string
+ */
+function bp_legacy_theme_blog_create_button( $title ) {
+	return $title . ' ' . bp_get_blog_create_button();
+}
 /**
  * This function looks scarier than it actually is. :)
  * Each object loop (activity/members/groups/blogs/forums) contains default

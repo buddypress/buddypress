@@ -1149,6 +1149,43 @@ function bp_directory_blogs_search_form() {
 }
 
 /**
+ * Output the Create a Site button.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_blog_create_button() {
+	echo bp_get_blog_create_button();
+}
+	/**
+	 * Get the Create a Site button.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_blog_create_button() {
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		if ( ! bp_blog_signup_enabled() ) {
+			return false;
+		}
+
+		$button_args = array(
+			'id'         => 'create_blog',
+			'component'  => 'blogs',
+			'link_text'  => __( 'Create a Site', 'buddypress' ),
+			'link_title' => __( 'Create a Site', 'buddypress' ),
+			'link_class' => 'button blog-create bp-title-button',
+			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_blogs_root_slug() ) . trailingslashit( 'create' ),
+			'wrapper'    => false,
+		);
+
+		return bp_get_button( $button_args );
+	}
+
+/**
  * Output button for visiting a blog in a loop.
  *
  * @see bp_get_blogs_visit_blog_button() for description of arguments.
