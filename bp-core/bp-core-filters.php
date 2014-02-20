@@ -101,7 +101,7 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
 /**
  * Prevent specific pages (eg 'Activate') from showing in the Pages meta box of the Menu Administration screen.
  *
- * @since BuddyPress (2.0)
+ * @since BuddyPress (2.0.0)
  * 
  * @uses bp_is_root_blog() checks if current blog is root blog.
  * @uses buddypress() gets BuddyPress main instance
