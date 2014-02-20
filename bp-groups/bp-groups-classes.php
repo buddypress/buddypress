@@ -1222,7 +1222,11 @@ class BP_Groups_Group {
 		$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
 
 		// Fetch the logged-in user's status within each group
-		$user_status_results = $wpdb->get_results( $wpdb->prepare( "SELECT group_id, is_confirmed, invite_sent FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_banned = 0", bp_loggedin_user_id() ) );
+		if ( is_user_logged_in() ) {
+			$user_status_results = $wpdb->get_results( $wpdb->prepare( "SELECT group_id, is_confirmed, invite_sent FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_banned = 0", bp_loggedin_user_id() ) );
+		} else {
+			$user_status_results = array();
+		}
 
 		// Reindex
 		$user_status = array();
@@ -1255,7 +1259,12 @@ class BP_Groups_Group {
 			$paged_groups[ $i ]->is_pending = $is_pending;
 		}
 
-		$user_banned = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE is_banned = 1 AND user_id = %d AND group_id IN ( {$group_ids} )", bp_loggedin_user_id() ) );
+		if ( is_user_logged_in() ) {
+			$user_banned = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE is_banned = 1 AND user_id = %d AND group_id IN ( {$group_ids} )", bp_loggedin_user_id() ) );
+		} else {
+			$user_banned = array();
+		}
+
 		for ( $i = 0, $count = count( $paged_groups ); $i < $count; ++$i ) {
 			$paged_groups[$i]->is_banned = false;
 
