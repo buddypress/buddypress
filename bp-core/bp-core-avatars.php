@@ -750,7 +750,25 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	require_once( ABSPATH . '/wp-admin/includes/file.php' );
 
 	// Delete the existing avatar files for the object
-	bp_core_delete_existing_avatar( array( 'object' => $object, 'avatar_path' => $avatar_folder_dir ) );
+	$existing_avatar = bp_core_fetch_avatar( array(
+		'object'  => $object,
+		'item_id' => $item_id,
+		'html' => false,
+	) );
+
+	if ( ! empty( $existing_avatar ) ) {
+		// Check that the new avatar doesn't have the same name as the
+		// old one before deleting
+		$upload_dir           = wp_upload_dir();
+		$existing_avatar_path = str_replace( $upload_dir['baseurl'], '', $existing_avatar );
+		$new_avatar_path      = str_replace( $upload_dir['basedir'], '', $original_file );
+
+		if ( $existing_avatar_path !== $new_avatar_path ) {
+			bp_core_delete_existing_avatar( array( 'object' => $object, 'avatar_path' => $avatar_folder_dir ) );
+		}
+	}
+
+
 
 	// Make sure we at least have a width and height for cropping
 	if ( empty( $crop_w ) ) {
