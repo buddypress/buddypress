@@ -641,6 +641,216 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertEquals( array( $g1 ), $found );
 	}
+
+	/**
+	 * @group get_group_extras
+	 */
+	public function test_get_group_extras_non_logged_in() {
+		$paged_groups = array();
+		$paged_groups[] = new stdClass;
+		$paged_groups[] = new stdClass;
+
+		$paged_groups[0]->id = 5;
+		$paged_groups[1]->id = 10;
+
+		$group_ids = array( 5, 10 );
+
+		$expected = array();
+		foreach ( $paged_groups as $key => $value ) {
+			$expected[ $key ] = new stdClass;
+			$expected[ $key ]->id = $value->id;
+			$expected[ $key ]->is_member = '0';
+			$expected[ $key ]->is_invited = '0';
+			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_banned = false;
+		}
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( 0 );
+
+		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group get_group_extras
+	 */
+	public function test_get_group_extras_non_member() {
+		$u = $this->create_user();
+		$g = $this->factory->group->create();
+
+		$paged_groups = array();
+		$paged_groups[] = new stdClass;
+		$paged_groups[0]->id = $g;
+
+		$group_ids = array( $g );
+
+		$expected = array();
+		foreach ( $paged_groups as $key => $value ) {
+			$expected[ $key ] = new stdClass;
+			$expected[ $key ]->id = $value->id;
+			$expected[ $key ]->is_member = '0';
+			$expected[ $key ]->is_invited = '0';
+			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_banned = false;
+		}
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group get_group_extras
+	 */
+	public function test_get_group_extras_member() {
+		$u = $this->create_user();
+		$g = $this->factory->group->create();
+		$this->add_user_to_group( $u, $g );
+
+		$paged_groups = array();
+		$paged_groups[] = new stdClass;
+		$paged_groups[0]->id = $g;
+
+		$group_ids = array( $g );
+
+		$expected = array();
+		foreach ( $paged_groups as $key => $value ) {
+			$expected[ $key ] = new stdClass;
+			$expected[ $key ]->id = $value->id;
+			$expected[ $key ]->is_member = '1';
+			$expected[ $key ]->is_invited = '0';
+			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_banned = false;
+		}
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group get_group_extras
+	 */
+	public function test_get_group_extras_invited() {
+		$u = $this->create_user();
+		$g = $this->factory->group->create();
+
+		$invite                = new BP_Groups_Member;
+		$invite->group_id      = $g;
+		$invite->user_id       = $u;
+		$invite->date_modified = bp_core_current_time();
+		$invite->invite_sent   = true;
+		$invite->is_confirmed  = false;
+		$invite->save();
+
+		$paged_groups = array();
+		$paged_groups[] = new stdClass;
+		$paged_groups[0]->id = $g;
+
+		$group_ids = array( $g );
+
+		$expected = array();
+		foreach ( $paged_groups as $key => $value ) {
+			$expected[ $key ] = new stdClass;
+			$expected[ $key ]->id = $value->id;
+			$expected[ $key ]->is_member = '0';
+			$expected[ $key ]->is_invited = '1';
+			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_banned = false;
+		}
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group get_group_extras
+	 */
+	public function test_get_group_extras_pending() {
+		$u = $this->create_user();
+		$g = $this->factory->group->create();
+
+		$invite                = new BP_Groups_Member;
+		$invite->group_id      = $g;
+		$invite->user_id       = $u;
+		$invite->date_modified = bp_core_current_time();
+		$invite->invite_sent   = false;
+		$invite->is_confirmed  = false;
+		$invite->save();
+
+		$paged_groups = array();
+		$paged_groups[] = new stdClass;
+		$paged_groups[0]->id = $g;
+
+		$group_ids = array( $g );
+
+		$expected = array();
+		foreach ( $paged_groups as $key => $value ) {
+			$expected[ $key ] = new stdClass;
+			$expected[ $key ]->id = $value->id;
+			$expected[ $key ]->is_member = '0';
+			$expected[ $key ]->is_invited = '0';
+			$expected[ $key ]->is_pending = '1';
+			$expected[ $key ]->is_banned = false;
+		}
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group get_group_extras
+	 */
+	public function test_get_group_extras_banned() {
+		$u = $this->create_user();
+		$g = $this->factory->group->create();
+
+		$member                = new BP_Groups_Member;
+		$member->group_id      = $g;
+		$member->user_id       = $u;
+		$member->date_modified = bp_core_current_time();
+		$member->is_banned     = true;
+		$member->save();
+
+		$paged_groups = array();
+		$paged_groups[] = new stdClass;
+		$paged_groups[0]->id = $g;
+
+		$group_ids = array( $g );
+
+		$expected = array();
+		foreach ( $paged_groups as $key => $value ) {
+			$expected[ $key ] = new stdClass;
+			$expected[ $key ]->id = $value->id;
+			$expected[ $key ]->is_member = '0';
+			$expected[ $key ]->is_invited = '0';
+			$expected[ $key ]->is_pending = '0';
+			$expected[ $key ]->is_banned = true;
+		}
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
+
+		$this->set_current_user( $old_user );
+	}
 }
 
 /**
