@@ -238,8 +238,8 @@ class BP_Members_Admin {
 		} ?>
 
 		<ul id="profile-nav" class="nav-tab-wrapper">
-			<li class="nav-tab<?php echo esc_attr( $wp_active ); ?>"><a href="<?php echo esc_url( $wordpress_url );?>"><?php _e( 'WordPress Profile' ); ?></a></li>
-			<li class="nav-tab<?php echo esc_attr( $bp_active ); ?>"><a href="<?php echo esc_url( $community_url );?>"><?php _e( 'Community Profile' ); ?></a></li>
+			<li class="nav-tab<?php echo esc_attr( $wp_active ); ?>"><a href="<?php echo esc_url( $wordpress_url );?>"><?php _e( 'WordPress Profile', 'buddypress' ); ?></a></li>
+			<li class="nav-tab<?php echo esc_attr( $bp_active ); ?>"><a href="<?php echo esc_url( $community_url );?>"><?php _e( 'Community Profile', 'buddypress' ); ?></a></li>
 
 			<?php do_action( 'bp_members_admin_profile_nav', $active, $user ); ?>
 		</ul>
