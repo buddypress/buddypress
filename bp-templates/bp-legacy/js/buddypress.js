@@ -57,15 +57,17 @@ jq(document).ready( function() {
 
 	/* On blur, shrink if it's empty */
 	$whats_new.blur( function(){
-		if (!this.value.match(/\S+/)) {
-			this.value = "";
-			jq("#whats-new-options").animate({
-				height:'40px'
-			});
-			jq("form#whats-new-form textarea").animate({
-				height:'20px'
-			});
-			jq("#aw-whats-new-submit").prop("disabled", true);
+		if ( document.activeElement != this ) {
+			if (!this.value.match(/\S+/)) {
+				this.value = "";
+				jq("#whats-new-options").animate({
+					height:'40px'
+				});
+				jq("form#whats-new-form textarea").animate({
+					height:'20px'
+				});
+				jq("#aw-whats-new-submit").prop("disabled", true);
+			}
 		}
 	});
 
