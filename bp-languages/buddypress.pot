@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-21 18:35:16+00:00\n"
+"POT-Creation-Date: 2014-02-21 23:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -314,8 +314,8 @@ msgstr ""
 #: bp-activity/bp-activity-admin.php:679 bp-activity/bp-activity-admin.php:1331
 #: bp-forums/bp-forums-template.php:2112 bp-groups/bp-groups-admin.php:1392
 #: bp-themes/bp-default/functions.php:509 bp-xprofile/bp-xprofile-admin.php:456
-#: bp-xprofile/bp-xprofile-loader.php:200
-#: bp-xprofile/bp-xprofile-loader.php:260
+#: bp-xprofile/bp-xprofile-loader.php:201
+#: bp-xprofile/bp-xprofile-loader.php:279
 msgid "Edit"
 msgstr ""
 
@@ -657,7 +657,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:212
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:212
-#: bp-xprofile/bp-xprofile-loader.php:292
+#: bp-xprofile/bp-xprofile-loader.php:325
 msgid "Profile picture of %s"
 msgstr ""
 
@@ -833,8 +833,8 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress-functions.php:246
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-themes/bp-default/functions.php:166
-#: bp-xprofile/bp-xprofile-loader.php:190
-#: bp-xprofile/bp-xprofile-loader.php:252
+#: bp-xprofile/bp-xprofile-loader.php:191
+#: bp-xprofile/bp-xprofile-loader.php:271
 msgid "View"
 msgstr ""
 
@@ -1106,6 +1106,8 @@ msgstr ""
 
 #: bp-core/admin/bp-core-components.php:32
 #: bp-core/admin/bp-core-settings.php:281 bp-core/admin/bp-core-slugs.php:32
+#: bp-templates/bp-legacy/buddypress/members/single/settings/profile.php:38
+#: bp-themes/bp-default/members/single/settings/profile.php:88
 msgid "Save Settings"
 msgstr ""
 
@@ -1514,6 +1516,7 @@ msgid "Account Deletion"
 msgstr ""
 
 #: bp-core/bp-core-admin.php:286
+#: bp-themes/bp-default/members/single/settings/profile.php:49
 msgid "Profile Settings"
 msgstr ""
 
@@ -2005,8 +2008,10 @@ msgid "Not recently active"
 msgstr ""
 
 #: bp-core/bp-core-loader.php:231 bp-members/bp-members-admin.php:689
-#: bp-members/bp-members-loader.php:179 bp-xprofile/bp-xprofile-loader.php:169
-#: bp-xprofile/bp-xprofile-loader.php:244
+#: bp-members/bp-members-loader.php:179 bp-xprofile/bp-xprofile-loader.php:170
+#: bp-xprofile/bp-xprofile-loader.php:231
+#: bp-xprofile/bp-xprofile-loader.php:263
+#: bp-xprofile/bp-xprofile-loader.php:303
 msgid "Profile"
 msgstr ""
 
@@ -2185,7 +2190,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:45
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
-#: bp-xprofile/bp-xprofile-loader.php:287
+#: bp-xprofile/bp-xprofile-loader.php:320
 msgid "My Profile"
 msgstr ""
 
@@ -2684,7 +2689,7 @@ msgstr ""
 msgid "A member accepts your friendship request"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:66 bp-xprofile/bp-xprofile-loader.php:129
+#: bp-friends/bp-friends-template.php:66 bp-xprofile/bp-xprofile-loader.php:130
 msgid "My Friends"
 msgstr ""
 
@@ -5854,8 +5859,8 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:1
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
-#: bp-xprofile/bp-xprofile-loader.php:212
-#: bp-xprofile/bp-xprofile-loader.php:269
+#: bp-xprofile/bp-xprofile-loader.php:213
+#: bp-xprofile/bp-xprofile-loader.php:288
 msgid "Change Avatar"
 msgstr ""
 
@@ -5963,6 +5968,11 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:4
 #: bp-themes/bp-default/members/single/settings/notifications.php:54
 msgid "Send an email notice when:"
+msgstr ""
+
+#: bp-templates/bp-legacy/buddypress/members/single/settings/profile.php:13
+#: bp-themes/bp-default/members/single/settings/profile.php:63
+msgid "Visibility"
 msgstr ""
 
 #: bp-templates/bp-legacy/buddypress-functions.php:63
@@ -6652,15 +6662,15 @@ msgstr ""
 msgid "Checkbox field types require at least one option. Please add options below."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:114
+#: bp-xprofile/bp-xprofile-loader.php:115
 msgid "Everyone"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:118
+#: bp-xprofile/bp-xprofile-loader.php:119
 msgid "Only Me"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:122
+#: bp-xprofile/bp-xprofile-loader.php:123
 msgid "All Members"
 msgstr ""
 
@@ -6674,6 +6684,14 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-screens.php:202
 msgid "Your new avatar was uploaded successfully."
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-settings.php:43
+msgid "Your profile settings have been saved."
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-settings.php:47
+msgid "This member's profile settings have been saved."
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-template.php:688
@@ -6734,4 +6752,8 @@ msgstr ""
 
 #: bp-xprofile/bp-xprofile-template.php:900
 msgid "Profile updated %s"
+msgstr ""
+
+#: bp-xprofile/bp-xprofile-template.php:1010
+msgid "This field's visibility cannot be changed."
 msgstr ""
