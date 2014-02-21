@@ -684,7 +684,8 @@ function bp_legacy_theme_post_update() {
 	if ( empty( $activity_id ) )
 		exit( '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>' );
 
-	if ( ! empty( $_POST['offset'] ) && $last_id = absint( $_POST['offset'] ) ) {
+	$last_id = isset( $_POST['offset'] ) ? absint( $_POST['offset'] ) : 0;
+	if ( $last_id ) {
 		$activity_args = array( 'offset' => $last_id );
 		$bp->activity->new_update_id = $activity_id;
 		add_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
