@@ -257,6 +257,32 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group get
+	 */
+	public function test_get_with_offset() {
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 10 ),
+		) );
+
+		$activity = BP_Activity_Activity::get( array(
+			'filter' => array(
+				'offset' => $a2,
+			),
+		) );
+		$ids = wp_list_pluck( $activity['activities'], 'id' );
+		$this->assertEquals( array( $a3, $a2 ), $ids );
+	}
+	/**
 	 * @group get_id
 	 */
 	public function test_get_id_with_item_id() {

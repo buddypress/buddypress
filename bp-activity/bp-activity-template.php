@@ -454,6 +454,9 @@ class BP_Activity_Template {
  *           column in the database. The meaning of 'secondary_id' differs
  *           between components/types. Accepts a single ID, or an array of
  *           multiple IDs. Defaults to false.
+ *     @type int $offset Return only activity items with an ID greater than or
+ *           equal to this one. Note that providing an offset will disable
+ *           pagination. Default: false.
  *     @type string|bool $display_comments How to handle activity comments.
  *           Possible values:
  *             - 'threaded' - comments appear in a threaded tree, under their
@@ -543,6 +546,7 @@ function bp_has_activities( $args = '' ) {
 		'action'            => false,        // action to filter on e.g. activity_update, new_forum_post, profile_updated
 		'primary_id'        => $primary_id,  // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
 		'secondary_id'      => false,        // secondary object ID to filter on e.g. a post_id
+		'offset'            => false,        // return only items >= this ID
 
 		'meta_query'        => false,        // filter on activity meta. See WP_Meta_Query for format
 
@@ -559,6 +563,11 @@ function bp_has_activities( $args = '' ) {
 	// or =none or =false. Final true is a strict type check. See #5029
 	if ( in_array( $display_comments, array( 0, '0', 'none', 'false' ), true ) ) {
 		$display_comments = false;
+	}
+
+	// Ignore pagination if an offset is passed
+	if ( ! empty( $offset ) ) {
+		$page = 0;
 	}
 
 	if ( empty( $search_terms ) && ! empty( $_REQUEST['s'] ) )
@@ -632,8 +641,8 @@ function bp_has_activities( $args = '' ) {
 	// into bp-custom.php or your theme's functions.php
 	if ( isset( $_GET['afilter'] ) && apply_filters( 'bp_activity_enable_afilter_support', false ) )
 		$filter = array( 'object' => $_GET['afilter'] );
-	else if ( !empty( $user_id ) || !empty( $object ) || !empty( $action ) || !empty( $primary_id ) || !empty( $secondary_id ) )
-		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id );
+	else if ( ! empty( $user_id ) || ! empty( $object ) || ! empty( $action ) || ! empty( $primary_id ) || ! empty( $secondary_id ) || ! empty( $offset ) )
+		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id, 'offset' => $offset );
 	else
 		$filter = false;
 

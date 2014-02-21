@@ -1145,6 +1145,11 @@ class BP_Activity_Activity {
 				$filter_sql[] = $sid_sql;
 		}
 
+		if ( ! empty( $filter_array['offset'] ) ) {
+			$sid_sql = absint( $filter_array['offset'] );
+			$filter_sql[] = "a.id >= {$sid_sql}";
+		}
+
 		if ( empty( $filter_sql ) )
 			return false;
 
