@@ -43,3 +43,66 @@ function xprofile_action_delete_avatar() {
 	bp_core_redirect( wp_get_referer() );
 }
 add_action( 'bp_actions', 'xprofile_action_delete_avatar' );
+
+/**
+ * Handles the saving of xprofile field visibilities
+ *
+ * @since BuddyPress (1.9)
+ */
+function bp_xprofile_action_settings() {
+
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+		return;
+	}
+
+	// Bail if no submit action
+	if ( ! isset( $_POST['xprofile-settings-submit'] ) ) {
+		return;
+	}
+
+	// Bail if not in settings
+	if ( ! bp_is_user_settings_profile() ) {
+		return;
+	}
+
+	// 404 if there are any additional action variables attached
+	if ( bp_action_variables() ) {
+		bp_do_404();
+		return;
+	}
+
+	// Nonce check
+	check_admin_referer( 'bp_xprofile_settings' );
+
+	do_action( 'bp_xprofile_settings_before_save' );
+
+	/** Save ******************************************************************/
+
+	// Only save if there are field ID's being posted
+	if ( ! empty( $_POST['field_ids'] ) ) {
+
+		// Get the POST'ed field ID's
+		$posted_field_ids = explode( ',', $_POST['field_ids'] );
+
+		// Save the visibility settings
+		foreach ( $posted_field_ids as $field_id ) {
+
+			$visibility_level = 'public';
+
+			if ( !empty( $_POST['field_' . $field_id . '_visibility'] ) ) {
+				$visibility_level = $_POST['field_' . $field_id . '_visibility'];
+			}
+
+			xprofile_set_field_visibility_level( $field_id, bp_displayed_user_id(), $visibility_level );
+		}
+	}
+
+	/** Other *****************************************************************/
+
+	do_action( 'bp_xprofile_settings_after_save' );
+
+	// Redirect to the root domain
+	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/privacy' );
+}
+add_action( 'bp_actions', 'bp_xprofile_action_settings' );

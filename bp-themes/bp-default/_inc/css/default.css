@@ -1953,7 +1953,8 @@ table.forum td {
 table tr.alt td {
 	background: #f5f5f5;
 }
-table.notification-settings {
+table.notification-settings,
+table.profile-settings {
 	margin-bottom: 20px;
 	text-align: left;
 }
@@ -1964,7 +1965,8 @@ table.notification-settings th.icon,
 table.notification-settings td:first-child {
 	display: none;
 }
-table.notification-settings th.title {
+table.notification-settings th.title,
+table.profile-settings th.title {
 	width: 80%;
 }
 table.notification-settings .yes,

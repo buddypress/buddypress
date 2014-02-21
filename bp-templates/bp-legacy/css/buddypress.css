@@ -894,6 +894,7 @@ a.bp-title-button {
 }
 #buddypress table.notifications,
 #buddypress table.notifications-settings,
+#buddypress table.profile-settings,
 #buddypress table.profile-fields,
 #buddypress table.wp-profile-fields,
 #buddypress table.messages-notices,
@@ -902,6 +903,7 @@ a.bp-title-button {
 }
 #buddypress table.notifications thead tr,
 #buddypress table.notifications-settings thead tr,
+#buddypress table.profile-settings thead tr,
 #buddypress table.profile-fields thead tr,
 #buddypress table.wp-profile-fields thead tr,
 #buddypress table.messages-notices thead tr,
@@ -927,6 +929,7 @@ a.bp-title-button {
 }
 #buddypress table.notifications tr td,
 #buddypress table.notifications-settings tr td,
+#buddypress table.profile-settings tr td,
 #buddypress table.profile-fields tr td,
 #buddypress table.wp-profile-fields tr td,
 #buddypress table.messages-notices tr td,
@@ -963,6 +966,7 @@ a.bp-title-button {
 }
 #buddypress table.notifications tr.alt td,
 #buddypress table.notifications-settings tr.alt td,
+#buddypress table.profile-settings tr.alt td,
 #buddypress table.profile-fields tr.alt td,
 #buddypress table.wp-profile-fields tr.alt td,
 #buddypress table.messages-notices tr.alt td,
@@ -982,7 +986,8 @@ a.bp-title-button {
 #buddypress table.notification-settings td:first-child {
 	display: none;
 }
-#buddypress table.notification-settings th.title {
+#buddypress table.notification-settings th.title,
+#buddypress table.profile-settings th.title {
 	width: 80%;
 }
 #buddypress table.notification-settings .yes,

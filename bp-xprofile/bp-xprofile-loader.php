@@ -59,6 +59,7 @@ class BP_XProfile_Component extends BP_Component {
 			'caps',
 			'classes',
 			'filters',
+			'settings',
 			'template',
 			'buddybar',
 			'functions',
@@ -219,6 +220,24 @@ class BP_XProfile_Component extends BP_Component {
 			);
 		}
 
+		// Privacy Settings
+		if ( bp_is_active( 'settings' ) ) {
+
+			// Get the settings slug
+			$settings_slug = bp_get_settings_slug();
+
+			// Add the sub-navigation
+			$sub_nav[] = array(
+				'name'            => __( 'Profile', 'buddypress' ),
+				'slug'            => 'profile',
+				'parent_url'      => trailingslashit( $user_domain . $settings_slug ),
+				'parent_slug'     => $settings_slug,
+				'screen_function' => 'bp_xprofile_screen_settings',
+				'position'        => 30,
+				'user_has_access' => bp_core_can_edit_settings()
+			);
+		}
+
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
@@ -271,6 +290,20 @@ class BP_XProfile_Component extends BP_Component {
 				);
 			}
 
+			// Privacy Settings
+			if ( bp_is_active( 'settings' ) ) {
+
+				// Setup the logged in user variables
+				$settings_link = trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() );
+
+				// Add main Settings menu
+				$wp_admin_nav[] = array(
+					'parent' => 'my-account-' . $bp->settings->id,
+					'id'     => 'my-account-' . $bp->settings->id . '-profile',
+					'title'  => __( 'Profile', 'buddypress' ),
+					'href'   => trailingslashit( $settings_link . 'profile' )
+				);
+			}
 		}
 
 		parent::setup_admin_bar( $wp_admin_nav );

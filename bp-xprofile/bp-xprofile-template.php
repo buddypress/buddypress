@@ -936,6 +936,8 @@ function bp_edit_profile_button() {
 	) );
 }
 
+/** Visibility ****************************************************************/
+
 /**
  * Echo the field visibility radio buttons
  */
@@ -961,4 +963,57 @@ function bp_profile_visibility_radio_buttons() {
 		$html .= '</ul>';
 
 		return apply_filters( 'bp_profile_get_visibility_radio_buttons', $html );
+	}
+
+/**
+ * Output the XProfile field visibility select list for settings
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_xprofile_settings_visibility_select( $args = '' ) {
+	echo bp_xprofile_get_settings_visibility_select( $args );
+}
+	/**
+	 * Return the XProfile field visibility select list for settings
+	 *
+	 * @since BuddyPress (2.0.0)
+	 */
+	function bp_xprofile_get_settings_visibility_select( $args = '' ) {
+
+		// Parse optional arguments
+		$r = bp_parse_args( $args, array(
+			'before' => '',
+			'after'  => '',
+			'class'  => 'bp-xprofile-visibility'
+		), 'xprofile_settings_visibility_select' );
+
+		// Start the output buffer
+		ob_start();
+
+		// Anything before
+		echo $r['before']; ?>
+
+		<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
+
+			<select class="<?php echo esc_attr( $r['class'] ); ?>" name="field_<?php bp_the_profile_field_id(); ?>_visibility">
+
+				<?php foreach ( bp_xprofile_get_visibility_levels() as $level ) : ?>
+
+					<option value="<?php echo esc_attr( $level['id'] ); ?>" <?php selected( $level['id'], bp_get_the_profile_field_visibility_level() ); ?>><?php echo esc_html( $level['label'] ); ?></option>
+
+				<?php endforeach; ?>
+
+			</select>
+
+		<?php else : ?>
+
+			<span class="field-visibility-settings-notoggle" title="<?php _e( "This field's visibility cannot be changed.", 'buddypress' ); ?>"><?php bp_the_profile_field_visibility_level_label(); ?></span>
+
+		<?php endif;
+
+		// Anything after
+		echo $r['after'];
+
+		// Output the dropdown list
+		return apply_filters( 'bp_xprofile_settings_visibility_select', ob_get_clean() );
 	}

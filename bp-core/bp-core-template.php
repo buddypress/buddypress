@@ -1871,6 +1871,22 @@ function bp_is_user_settings_account_delete() {
 	return false;
 }
 
+/**
+ * Is this a user's profile settings?
+ *
+ * Eg http://example.com/members/joe/settings/profile/.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @return bool True if the current page is a user's Profile Settings page.
+ */
+function bp_is_user_settings_profile() {
+	if ( bp_is_user_settings() && bp_is_current_action( 'profile' ) )
+		return true;
+
+	return false;
+}
+
 /** Groups ********************************************************************/
 
 /**

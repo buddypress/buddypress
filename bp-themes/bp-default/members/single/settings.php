@@ -30,9 +30,10 @@ elseif ( bp_is_current_action( 'delete-account' ) ) :
 elseif ( bp_is_current_action( 'general' ) ) :
 	locate_template( array( 'members/single/settings/general.php' ), true );
 
+elseif ( bp_is_current_action( 'profile' ) ) :
+	locate_template( array( 'members/single/settings/profile.php' ), true );
+
 else :
 	locate_template( array( 'members/single/plugins.php' ), true );
 
 endif;
-
-?>
