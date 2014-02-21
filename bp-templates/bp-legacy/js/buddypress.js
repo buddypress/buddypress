@@ -747,22 +747,17 @@ jq(document).ready( function() {
 			else
 				var el = jq('li.filter select');
 
-			var page_number = 1;
 			var css_id = el.attr('id').split( '-' );
 			var object = css_id[0];
 			var search_terms = false;
 			var pagination_id = jq(target).closest('.pagination-links').attr('id');
 
+			var page_number = target.attr('href').split( '=' );
+			page_number = page_number[1];
+
 			if ( jq('div.dir-search input').length )
 				search_terms = jq('.dir-search input').val();
 
-			if ( jq(target).hasClass('next') )
-				var page_number = Number( jq('.pagination span.current').html() ) + 1;
-			else if ( jq(target).hasClass('prev') )
-				var page_number = Number( jq('.pagination span.current').html() ) - 1;
-			else
-				var page_number = Number( jq(target).html() );
-			
 			if ( pagination_id.indexOf( 'pag-bottom' ) !== -1 ) {
 				var caller = 'pag-bottom';
 			} else {
