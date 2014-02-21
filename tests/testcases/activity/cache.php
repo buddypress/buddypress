@@ -53,41 +53,4 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 
 		$this->assertEquals( $expected, $found );
 	}
-
-	/**
-	 * @group groups_update_groupmeta
-	 * @group groups_delete_group_cache_on_metadata_change
-	 */
-	public function test_bp_groups_delete_group_cache_on_metadata_add() {
-		$g = $this->factory->group->create();
-
-		// Prime cache
-		groups_get_group( array( 'group_id' => $g ) );
-
-		$this->assertNotEmpty( wp_cache_get( 'bp_groups_group_' . $g . '_noload_users', 'bp' ) );
-
-		// Trigger flush
-		groups_update_groupmeta( $g, 'foo', 'bar' );
-
-		$this->assertFalse( wp_cache_get( 'bp_groups_group_' . $g . '_noload_users', 'bp' ) );
-	}
-
-	/**
-	 * @group groups_update_groupmeta
-	 * @group groups_delete_group_cache_on_metadata_change
-	 */
-	public function test_bp_groups_delete_group_cache_on_metadata_change() {
-		$g = $this->factory->group->create();
-
-		// Prime cache
-		groups_update_groupmeta( $g, 'foo', 'bar' );
-		groups_get_group( array( 'group_id' => $g ) );
-
-		$this->assertNotEmpty( wp_cache_get( 'bp_groups_group_' . $g . '_noload_users', 'bp' ) );
-
-		// Trigger flush
-		groups_update_groupmeta( $g, 'foo', 'baz' );
-		$this->assertFalse( wp_cache_get( 'bp_groups_group_' . $g . '_noload_users', 'bp' ) );
-	}
-
 }
