@@ -1094,21 +1094,20 @@ class BP_Activity_Activity {
 	/**
 	 * Create filter SQL clauses.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
-	 * @param array $filter_array Fields and values to filter by. Should be
-	 *     in the format:
-	 *         $filter_array = array(
-	 *             'filter1' => $value,
-	 *             'filter2' => $value,
-	 *         )
-	 *     Possible filters are as follows. Each can be either a single
+	 * @param array $filter_array {
+	 *     Fields and values to filter by. Each can be either a single
 	 *     string, a comma-separated list, or an array of values.
-	 *       - 'user_id' User ID(s)
-	 *       - 'object' Corresponds to the 'component' column in the database.
-	 *       - 'action' Corresponds to the 'type' column in the database.
-	 *       - 'primary_id' Corresponds to the 'item_id' column in the database.
-	 *       - 'secondary_id' Corresponds to the 'secondary_item_id' column in the database.
+	 *     @type array|string|id $user_id User ID(s).
+	 *     @type array|string $object Corresponds to the 'component'
+	 *           column in the database.
+	 *     @type array|string $action Corresponds to the 'type' column
+	 *           in the database.
+	 *     @type array|string|int $primary_id Corresponds to the 'item_id'
+	 *           column in the database.
+	 *     @type array|string|int $secondary_id Corresponds to the
+	 *           'secondary_item_id' column in the database.
 	 * @return string The filter clause, for use in a SQL query.
 	 */
 	public static function get_filter_sql( $filter_array ) {
