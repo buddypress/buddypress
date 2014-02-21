@@ -1108,6 +1108,7 @@ class BP_Activity_Activity {
 	 *           column in the database.
 	 *     @type array|string|int $secondary_id Corresponds to the
 	 *           'secondary_item_id' column in the database.
+	 * }
 	 * @return string The filter clause, for use in a SQL query.
 	 */
 	public static function get_filter_sql( $filter_array ) {
