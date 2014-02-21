@@ -17,7 +17,7 @@ jq(document).ready( function() {
 	bp_init_activity();
 
 	/* Object filter and scope set. */
-	var objects = [ 'members', 'groups', 'blogs', 'forums' ];
+	var objects = [ 'members', 'groups', 'blogs', 'forums', 'group_members' ];
 	bp_init_objects( objects );
 
 	/* @mention Compose Scrolling */
@@ -665,7 +665,7 @@ jq(document).ready( function() {
 	/**** Directory Search ****************************************************/
 
 	/* The search form on all directory pages */
-	jq('.dir-search').on( 'click', function(event) {
+	jq( '.dir-search, .groups-members-search' ).on( 'click', function(event) {
 		if ( jq(this).hasClass('no-ajax') )
 			return;
 
@@ -674,8 +674,15 @@ jq(document).ready( function() {
 		if ( target.attr('type') == 'submit' ) {
 			var css_id = jq('.item-list-tabs li.selected').attr('id').split( '-' );
 			var object = css_id[0];
+			var template = null;
 
-			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, jq.cookie('bp-' + object + '-extras') );
+			// The Group Members page specifies its own template
+			if ( 'members' == object && 'groups' == css_id[1] ) {
+				object = 'group_members';
+				template = 'groups/single/members';
+			}
+
+			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, jq.cookie('bp-' + object + '-extras'), null, template );
 
 			return false;
 		}
@@ -719,14 +726,28 @@ jq(document).ready( function() {
 		var scope = css_id[1];
 		var filter = jq(this).val();
 		var search_terms = false;
+		var template = null;
 
 		if ( jq('.dir-search input').length )
 			search_terms = jq('.dir-search input').val();
 
+		// The Group Members page has a different selector for its
+		// search terms box
+		var $gm_search = jq( '.groups-members-search input' );
+		if ( $gm_search.length ) {
+			search_terms = $gm_search.val();
+		}
+
+		// On the Groups Members page, we specify a template
+		if ( 'members' == object && 'groups' == scope ) {
+			object = 'group_members';
+			template = 'groups/single/members';
+		} 
+
 		if ( 'friends' == object )
 			object = 'members';
 
-		bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1, jq.cookie('bp-' + object + '-extras') );
+		bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1, jq.cookie('bp-' + object + '-extras'), null, template );
 
 		return false;
 	});
@@ -751,12 +772,27 @@ jq(document).ready( function() {
 			var object = css_id[0];
 			var search_terms = false;
 			var pagination_id = jq(target).closest('.pagination-links').attr('id');
+			var template = null;
 
 			var page_number = target.attr('href').split( '=' );
 			page_number = page_number[1];
 
+			// Search terms
 			if ( jq('div.dir-search input').length )
 				search_terms = jq('.dir-search input').val();
+	
+			// The Group Members page has a different selector for
+			// its search terms box
+			var $gm_search = jq( '.groups-members-search input' );
+			if ( $gm_search.length ) {
+				search_terms = $gm_search.val();
+			}
+
+			// On the Groups Members page, we specify a template
+			if ( 'members' == object && 'groups' == css_id[1] ) {
+				object = 'group_members';
+				template = 'groups/single/members';
+			}
 
 			if ( pagination_id.indexOf( 'pag-bottom' ) !== -1 ) {
 				var caller = 'pag-bottom';
@@ -764,7 +800,7 @@ jq(document).ready( function() {
 				var caller = null;
 			}
 
-			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope'), 'div.' + object, search_terms, page_number, jq.cookie('bp-' + object + '-extras'), caller );
+			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope'), 'div.' + object, search_terms, page_number, jq.cookie('bp-' + object + '-extras'), caller, template );
 
 			return false;
 		}
@@ -963,7 +999,7 @@ jq(document).ready( function() {
 	});
 
 	/* Add / Remove friendship buttons */
-	jq('#members-dir-list').on('click', '.friendship-button a', function() {
+	jq( '#members-dir-list, #members-group-list' ).on('click', '.friendship-button a', function() {
 		jq(this).parent().addClass('loading');
 		var fid = jq(this).attr('id');
 		fid = fid.split('-');
@@ -1380,7 +1416,7 @@ function bp_init_objects(objects) {
 }
 
 /* Filter the current content list (groups/members/blogs/topics) */
-function bp_filter_request( object, filter, scope, target, search_terms, page, extras, caller ) {
+function bp_filter_request( object, filter, scope, target, search_terms, page, extras, caller, template ) {
 	if ( 'activity' == object )
 		return false;
 
@@ -1409,8 +1445,9 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 	jq('.item-list-tabs li.selected').addClass('loading');
 	jq('.item-list-tabs select option[value="' + filter + '"]').prop( 'selected', true );
 
-	if ( 'friends' == object )
+	if ( 'friends' == object || 'group_members' == object ) {
 		object = 'members';
+	}
 
 	if ( bp_ajax_request )
 		bp_ajax_request.abort();
@@ -1423,7 +1460,8 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 		'search_terms': search_terms,
 		'scope': scope,
 		'page': page,
-		'extras': extras
+		'extras': extras,
+		'template': template
 	},
 	function(response)
 	{

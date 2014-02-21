@@ -2028,6 +2028,12 @@ class BP_Groups_Group_Members_Template {
 		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : $r['page'];
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
+		// Assemble the base URL for pagination
+		$base_url = trailingslashit( bp_get_group_permalink( groups_get_current_group() ) . bp_current_action() );
+		if ( bp_action_variable() ) {
+			$base_url = trailingslashit( $base_url . bp_action_variable() );
+		}
+
 		$members_args = $r;
 
 		$members_args['page']     = $this->pag_page;
@@ -2052,7 +2058,7 @@ class BP_Groups_Group_Members_Template {
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'mlpage', '%#%' ),
+			'base' => add_query_arg( array( 'mlpage' => '%#%' ), $base_url ),
 			'format' => '',
 			'total' => !empty( $this->pag_num ) ? ceil( $this->total_member_count / $this->pag_num ) : $this->total_member_count,
 			'current' => $this->pag_page,
@@ -2132,13 +2138,19 @@ class BP_Groups_Group_Members_Template {
 function bp_group_has_members( $args = '' ) {
 	global $members_template;
 
+	$exclude_admins_mods = 1;
+
+	if ( bp_is_group_members() ) {
+		$exclude_admins_mods = 0;
+	}
+
 	$r = wp_parse_args( $args, array(
 		'group_id'            => bp_get_current_group_id(),
 		'page'                => 1,
 		'per_page'            => 20,
 		'max'                 => false,
 		'exclude'             => false,
-		'exclude_admins_mods' => 1,
+		'exclude_admins_mods' => $exclude_admins_mods,
 		'exclude_banned'      => 1,
 		'group_role'          => false,
 		'search_terms'        => false,
@@ -2324,6 +2336,57 @@ function bp_group_member_admin_pagination() {
 		return $members_template->pag_links;
 	}
 
+/**
+ * Output the Group members template
+ *
+ * @since BuddyPress (?)
+ *
+ * @return string html output
+ */
+function bp_groups_members_template_part() {
+	?>
+	<div class="item-list-tabs" id="subnav" role="navigation">
+		<ul>
+			<li class="groups-members-search" role="search">
+				<?php bp_directory_members_search_form(); ?>
+			</li>
+
+			<?php bp_groups_members_filter(); ?>
+			<?php do_action( 'bp_members_directory_member_sub_types' ); ?>
+
+		</ul>
+	</div>
+
+	<div id="members-group-list" class="group_members dir-list">
+
+		<?php bp_get_template_part( 'groups/single/members' ); ?>
+
+	</div>
+	<?php
+}
+
+/**
+ * Output the Group members filters
+ *
+ * @since BuddyPress (?)
+ *
+ * @return string html output
+ */
+function bp_groups_members_filter() {
+	?>
+	<li id="group_members-order-select" class="last filter">
+		<label for="group_members-order-by"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+		<select id="group_members-order-by">
+			<option value="last_joined"><?php _e( 'Newest', 'buddypress' ); ?></option>
+			<option value="first_joined"><?php _e( 'Oldest', 'buddypress' ); ?></option>
+			<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
+
+			<?php do_action( 'bp_groups_members_order_options' ); ?>
+
+		</select>
+	</li>
+	<?php
+}
 
 /***************************************************************************
  * Group Creation Process Template Tags

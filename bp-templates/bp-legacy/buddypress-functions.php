@@ -572,8 +572,15 @@ function bp_legacy_theme_object_template_loader() {
 	if ( ! bp_current_action() )
 		bp_update_is_directory( true, bp_current_component() );
 
+	$template_part = $object . '/' . $object . '-loop';
+
+	// The template part can be overridden by the calling JS function
+	if ( ! empty( $_POST['template'] ) ) {
+		$template_part = sanitize_option( 'upload_path', $_POST['template'] );
+	}
+
 	// Locate the object template
-	bp_get_template_part( "$object/$object-loop" );
+	bp_get_template_part( $template_part );
 	exit();
 }
 
