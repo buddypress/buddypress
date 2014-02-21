@@ -1887,7 +1887,7 @@ function bp_group_create_button() {
 			'wrapper'    => false,
 		);
 
-		return bp_get_button( $button_args );
+		return bp_get_button( apply_filters( 'bp_get_group_create_button', $button_args ) );
 	}
 
 /**
