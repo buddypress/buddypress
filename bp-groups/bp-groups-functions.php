@@ -40,25 +40,17 @@ function bp_groups_has_directory() {
  * @return BP_Groups_Group $group The group object
  */
 function groups_get_group( $args = '' ) {
-	$defaults = array(
+	$r = wp_parse_args( $args, array(
 		'group_id'          => false,
 		'load_users'        => false,
 		'populate_extras'   => true,
+	) );
+
+	$group_args = array(
+		'populate_extras' => $r['populate_extras'],
 	);
 
-	$args = wp_parse_args( $args, $defaults );
-	extract( $args, EXTR_SKIP );
-
-	$cache_key = 'bp_groups_group_' . $group_id . ( $load_users ? '_load_users' : '_noload_users' );
-
-	if ( !$group = wp_cache_get( $cache_key, 'bp' ) ) {
-		$group_args = array(
-			'populate_extras'   => $populate_extras,
-		);
-
-		$group = new BP_Groups_Group( $group_id, $group_args );
-		wp_cache_set( $cache_key, $group, 'bp' );
-	}
+	$group = new BP_Groups_Group( $r['group_id'], $group_args );
 
 	return apply_filters( 'groups_get_group', $group );
 }

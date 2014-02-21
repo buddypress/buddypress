@@ -548,4 +548,28 @@ Bar!';
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 		$this->assertNotEmpty( groups_add_groupmeta( $g, 'foo', 'baz' ) );
 	}
+
+	/**
+	 * @group groups_get_group
+	 * @group cache
+	 */
+	public function test_groups_get_group_cache_different_users() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$this->add_user_to_group( $u1, $g );
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u1 );
+
+		$group1 = groups_get_group( array( 'group_id' => $g, ) );
+
+		$this->set_current_user( $u2 );
+
+		$group2 = groups_get_group( array( 'group_id' => $g, ) );
+
+		$this->assertNotEquals( $group1, $group2 );
+
+		$this->set_current_user( $old_user );
+	}
 }

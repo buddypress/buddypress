@@ -176,22 +176,49 @@ class BP_Groups_Group {
 	public function populate() {
 		global $wpdb, $bp;
 
-		if ( $group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) ) ) {
-			$this->id                 = $group->id;
-			$this->creator_id         = $group->creator_id;
-			$this->name               = stripslashes($group->name);
-			$this->slug               = $group->slug;
-			$this->description        = stripslashes($group->description);
-			$this->status             = $group->status;
-			$this->enable_forum       = $group->enable_forum;
-			$this->date_created       = $group->date_created;
+		$group = wp_cache_get( $this->id, 'bp_groups' );
+		if ( false === $group ) {
+			$group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) );
+
+			if ( empty( $group ) ) {
+				$this->id = 0;
+				return;
+			}
+
+			$this->id           = $group->id;
+			$this->creator_id   = $group->creator_id;
+			$this->name         = stripslashes( $group->name );
+			$this->slug         = $group->slug;
+			$this->description  = stripslashes( $group->description );
+			$this->status       = $group->status;
+			$this->enable_forum = $group->enable_forum;
+			$this->date_created = $group->date_created;
 
 			if ( ! empty( $this->args['populate_extras'] ) ) {
 				$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
 				$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
-				$this->is_member          = BP_Groups_Member::check_is_member( bp_loggedin_user_id(), $this->id );
-				$this->is_invited         = BP_Groups_Member::check_has_invite( bp_loggedin_user_id(), $this->id );
-				$this->is_pending         = BP_Groups_Member::check_for_membership_request( bp_loggedin_user_id(), $this->id );
+
+				// Get group admins and mods
+				$admin_mods = $wpdb->get_results( apply_filters( 'bp_group_admin_mods_user_join_filter', $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) ) );
+
+				foreach ( (array) $admin_mods as $user ) {
+					if ( (int) $user->is_admin ) {
+						$this->admins[] = $user;
+					} else {
+						$this->mods[] = $user;
+					}
+				}
+
+				// Cache general (non-user-specific)
+				// information about the group
+				wp_cache_set( $this->id, $this, 'bp_groups' );
+			}
+
+			// Set user-specific data
+			if ( ! empty( $this->args['populate_extras'] ) ) {
+				$this->is_member  = BP_Groups_Member::check_is_member( bp_loggedin_user_id(), $this->id );
+				$this->is_invited = BP_Groups_Member::check_has_invite( bp_loggedin_user_id(), $this->id );
+				$this->is_pending = BP_Groups_Member::check_for_membership_request( bp_loggedin_user_id(), $this->id );
 
 				// If this is a private or hidden group, does the current user have access?
 				if ( 'private' == $this->status || 'hidden' == $this->status ) {
@@ -202,18 +229,7 @@ class BP_Groups_Group {
 				} else {
 					$this->user_has_access = true;
 				}
-
-				// Get group admins and mods
-				$admin_mods = $wpdb->get_results( apply_filters( 'bp_group_admin_mods_user_join_filter', $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) ) );
-				foreach( (array) $admin_mods as $user ) {
-					if ( (int) $user->is_admin )
-						$this->admins[] = $user;
-					else
-						$this->mods[] = $user;
-				}
 			}
-		} else {
-			$this->id = 0;
 		}
 	}
 
@@ -288,7 +304,7 @@ class BP_Groups_Group {
 
 		do_action_ref_array( 'groups_group_after_save', array( &$this ) );
 
-		wp_cache_delete( 'bp_groups_group_' . $this->id, 'bp' );
+		wp_cache_delete( $this->id, 'bp_groups' );
 
 		return true;
 	}
@@ -316,7 +332,7 @@ class BP_Groups_Group {
 
 		do_action_ref_array( 'bp_groups_delete_group', array( &$this, $user_ids ) );
 
-		wp_cache_delete( 'bp_groups_group_' . $this->id, 'bp' );
+		wp_cache_delete( $this->id, 'bp_groups' );
 
 		// Finally remove the group entry from the DB
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name} WHERE id = %d", $this->id ) ) )

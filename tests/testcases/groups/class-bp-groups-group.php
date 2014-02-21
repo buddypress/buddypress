@@ -643,6 +643,42 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group delete
+	 * @group cache
+	 */
+	public function test_delete_clear_cache() {
+		$g = $this->factory->group->create();
+
+		// Prime cache
+		groups_get_group( array( 'group_id' => $g, ) );
+
+		$this->assertNotEmpty( wp_cache_get( $g, 'bp_groups' ) );
+
+		$group = new BP_Groups_Group( $g );
+		$group->delete();
+
+		$this->assertFalse( wp_cache_get( $g, 'bp_groups' ) );
+	}
+
+	/**
+	 * @group save
+	 * @group cache
+	 */
+	public function test_save_clear_cache() {
+		$g = $this->factory->group->create();
+
+		// Prime cache
+		groups_get_group( array( 'group_id' => $g, ) );
+
+		$this->assertNotEmpty( wp_cache_get( $g, 'bp_groups' ) );
+
+		$group = new BP_Groups_Group( $g );
+		$group->name = 'Foo';
+		$group->save();
+
+		$this->assertFalse( wp_cache_get( $g, 'bp_groups' ) );
+	}
+	/**
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_non_logged_in() {
