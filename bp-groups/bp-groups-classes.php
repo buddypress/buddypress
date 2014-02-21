@@ -1436,10 +1436,10 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 */
 	public function setup_hooks() {
 		// Take this early opportunity to set the default 'type' param
-		// to 'last_modified', which will ensure that BP_User_Query
+		// to 'last_joined', which will ensure that BP_User_Query
 		// trusts our order and does not try to apply its own
 		if ( empty( $this->query_vars_raw['type'] ) ) {
-			$this->query_vars_raw['type'] = 'last_modified';
+			$this->query_vars_raw['type'] = 'last_joined';
 		}
 
 		// Set the sort order
@@ -1471,6 +1471,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 			'group_id'     => 0,
 			'group_role'   => array( 'member' ),
 			'is_confirmed' => true,
+			'type'         => 'last_joined',
 		) );
 
 		$group_member_ids = $this->get_group_member_ids();
@@ -1508,7 +1509,6 @@ class BP_Group_Member_Query extends BP_User_Query {
 			'where'   => array(),
 			'orderby' => '',
 			'order'   => '',
-			'limit'   => '',
 		);
 
 		/** WHERE clauses *****************************************************/
@@ -1571,16 +1571,20 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
 
-		/** ORDER BY clause ***************************************************/
-
-		// @todo For now, mimicking legacy behavior of
-		// bp_group_has_members(), which has us order by date_modified
-		// only. Should abstract it in the future
+		// We fetch group members in order of last_joined, regardless
+		// of 'type'. If the 'type' value is not 'last_joined' or
+		// 'first_joined', the order will be overridden in
+		// BP_Group_Member_Query::set_orderby()
 		$sql['orderby'] = "ORDER BY date_modified";
-		$sql['order']   = "DESC";
+		$sql['order']   = 'first_joined' === $this->query_vars['type'] ? 'ASC' : 'DESC';
 
-		/** LIMIT clause ******************************************************/
-		$this->group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']} {$sql['limit']}" );
+		$this->group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']}" );
+
+		/**
+		 * Use this filter to build a custom query (such as when you've
+		 * defined a custom 'type').
+		 */
+		$this->group_member_ids = apply_filters( 'bp_group_member_query_group_member_ids', $this->group_member_ids, $this );
 
 		return $this->group_member_ids;
 	}
@@ -1588,8 +1592,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 	/**
 	 * Tell BP_User_Query to order by the order of our query results.
 	 *
-	 * This implementation assumes the 'last_modified' sort order
-	 * hardcoded in BP_Group_Member_Query::get_group_member_ids().
+	 * We only override BP_User_Query's native ordering in case of the
+	 * 'last_joined' and 'first_joined' $type parameters.
 	 *
 	 * @param BP_User_Query $query BP_User_Query object.
 	 */
@@ -1599,11 +1603,18 @@ class BP_Group_Member_Query extends BP_User_Query {
 			$gm_ids = array( 0 );
 		}
 
-		// The first param in the FIELD() clause is the sort column id
-		$gm_ids = array_merge( array( 'u.id' ), wp_parse_id_list( $gm_ids ) );
-		$gm_ids_sql = implode( ',', $gm_ids );
+		// For 'last_joined' and 'first_joined' types, we force
+		// the order according to the query performed in
+		// BP_Group_Member_Query::get_group_members(). Otherwise, fall
+		// through and let BP_User_Query do its own ordering.
+		if ( in_array( $query->query_vars['type'], array( 'last_joined', 'first_joined' ) ) ) {
 
-		$query->uid_clauses['orderby'] = "ORDER BY FIELD(" . $gm_ids_sql . ")";
+			// The first param in the FIELD() clause is the sort column id
+			$gm_ids = array_merge( array( 'u.id' ), wp_parse_id_list( $gm_ids ) );
+			$gm_ids_sql = implode( ',', $gm_ids );
+
+			$query->uid_clauses['orderby'] = "ORDER BY FIELD(" . $gm_ids_sql . ")";
+		}
 
 		// Prevent this filter from running on future BP_User_Query
 		// instances on the same page

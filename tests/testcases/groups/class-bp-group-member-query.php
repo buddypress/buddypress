@@ -334,4 +334,92 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u2 ), $ids );
 	}
 
+	/**
+	 * @group type
+	 */
+	public function test_get_with_type_last_joined() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$time = time();
+
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 500 ),
+		) );
+
+		$this->add_user_to_group( $u2, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'type' => 'last_joined',
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array( $u2, $u1 ), $ids );
+	}
+
+	/**
+	 * @group type
+	 */
+	public function test_get_with_type_first_joined() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$time = time();
+
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 500 ),
+		) );
+
+		$this->add_user_to_group( $u2, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'type' => 'first_joined',
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array( $u1, $u2 ), $ids );
+	}
+
+	/**
+	 * @group type
+	 */
+	public function test_get_with_type_alphabetical() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user( array(
+			'display_name' => 'AAA',
+		) );
+		$u2 = $this->create_user( array(
+			'display_name' => 'CCC',
+		) );
+		$u3 = $this->create_user( array(
+			'display_name' => 'BBB',
+		) );
+		$time = time();
+
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+
+		$this->add_user_to_group( $u2, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 200 ),
+		) );
+
+		$this->add_user_to_group( $u3, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 300 ),
+		) );
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'type' => 'alphabetical',
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array( $u1, $u3, $u2 ), $ids );
+	}
 }

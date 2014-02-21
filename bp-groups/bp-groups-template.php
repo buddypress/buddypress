@@ -2019,6 +2019,7 @@ class BP_Groups_Group_Members_Template {
 			'exclude_banned'      => 1,
 			'group_role'          => false,
 			'search_terms'        => false,
+			'type'                => 'last_joined',
 		) );
 
 		// @todo No
@@ -2122,6 +2123,9 @@ class BP_Groups_Group_Members_Template {
  *     @type bool|int True (or 1) to exclude banned users from results.
  *           Default: 1.
  *     @type array $group_role Optional. Array of group roles to include.
+ *     @type string $type Optional. Sort order of results. 'last_joined',
+ *           'first_joined', or any of the $type params available in
+ *           {@link BP_User_Query}. Default: 'last_joined'.
  *     @type string $search_terms Optional. Search terms to match.
  * }
  */
@@ -2138,6 +2142,7 @@ function bp_group_has_members( $args = '' ) {
 		'exclude_banned'      => 1,
 		'group_role'          => false,
 		'search_terms'        => false,
+		'type'                => 'last_joined',
 	) );
 
 	if ( empty( $r['search_terms'] ) && ! empty( $_REQUEST['s'] ) )

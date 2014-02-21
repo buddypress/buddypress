@@ -384,14 +384,12 @@ function groups_get_group_mods( $group_id ) {
  *     @type bool|int True (or 1) to exclude banned users from results.
  *           Default: 1.
  *     @type array $group_role Optional. Array of group roles to include.
+ *     @type string $search_terms Optional. Filter results by a search string.
+ *     @type string $type Optional. Sort the order of results. 'last_joined',
+ *           'first_joined', or any of the $type params available in
+ *           {@link BP_User_Query}. Default: 'last_joined'.
  * }
- * @param int $group_id
- * @param int $limit Maximum members to return
- * @param int $page The page of results to return (requires $limit)
- * @param bool $exclude_admins_mods Whether to exclude admins and mods
- * @param bool $exclude_banned Whether to exclude banned users
- * @param array|string $exclude Array or comma-sep list of users to exclude
- * @return array Multi-d array of 'members' list and 'count'
+ * @return array Multi-d array of 'members' list and 'count'.
  */
 function groups_get_group_members( $args = array() ) {
 
@@ -422,6 +420,7 @@ function groups_get_group_members( $args = array() ) {
 		'exclude'             => false,
 		'group_role'          => array(),
 		'search_terms'        => false,
+		'type'                => 'last_joined',
 	) );
 
 	// For legacy users. Use of BP_Groups_Member::get_all_for_group()
@@ -455,7 +454,7 @@ function groups_get_group_members( $args = array() ) {
 			'group_role'     => $r['group_role'],
 			'exclude'        => $r['exclude'],
 			'search_terms'   => $r['search_terms'],
-			'type'           => 'last_modified',
+			'type'           => $r['type'],
 		) );
 
 		// Structure the return value as expected by the template functions
