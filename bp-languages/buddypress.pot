@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-21 15:35:13+00:00\n"
+"POT-Creation-Date: 2014-02-21 18:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -533,8 +533,8 @@ msgid "<span>%1$s</span> &mdash; %2$s"
 msgstr ""
 
 #: bp-activity/bp-activity-classes.php:263
-#: bp-activity/bp-activity-template.php:139 bp-groups/bp-groups-classes.php:596
-#: bp-groups/bp-groups-functions.php:398 bp-groups/bp-groups-template.php:112
+#: bp-activity/bp-activity-template.php:139 bp-groups/bp-groups-classes.php:612
+#: bp-groups/bp-groups-functions.php:390 bp-groups/bp-groups-template.php:112
 #: bp-groups/bp-groups-template.php:1996
 msgid "Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details."
 msgstr ""
@@ -2830,7 +2830,7 @@ msgstr ""
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:282 bp-groups/bp-groups-functions.php:296
+#: bp-groups/bp-groups-actions.php:282 bp-groups/bp-groups-functions.php:288
 msgid "You successfully left the group."
 msgstr ""
 
@@ -2854,7 +2854,7 @@ msgstr ""
 msgid "New group forum post"
 msgstr ""
 
-#: bp-groups/bp-groups-activity.php:140 bp-groups/bp-groups-functions.php:340
+#: bp-groups/bp-groups-activity.php:140 bp-groups/bp-groups-functions.php:332
 #: bp-groups/bp-groups-screens.php:52
 msgid "%1$s joined the group %2$s"
 msgstr ""
@@ -3112,7 +3112,7 @@ msgstr ""
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:882 bp-groups/bp-groups-classes.php:3001
+#: bp-groups/bp-groups-admin.php:882 bp-groups/bp-groups-classes.php:3017
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3236,11 +3236,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1904
+#: bp-groups/bp-groups-classes.php:1920
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1910 bp-groups/bp-groups-functions.php:126
+#: bp-groups/bp-groups-classes.php:1926 bp-groups/bp-groups-functions.php:118
 msgid "Group Admin"
 msgstr ""
 
@@ -3256,11 +3256,11 @@ msgstr ""
 msgid "%1$s edited the forum topic %2$s in the group %3$s"
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:286
+#: bp-groups/bp-groups-functions.php:278
 msgid "As the only Admin, you cannot leave the group."
 msgstr ""
 
-#: bp-groups/bp-groups-functions.php:647
+#: bp-groups/bp-groups-functions.php:639
 msgid "%1$s posted an update in the group %2$s"
 msgstr ""
 
