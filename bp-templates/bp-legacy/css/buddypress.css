@@ -290,14 +290,16 @@ body.activity-permalink #buddypress .activity-content blockquote {
 	margin-left: 1em;
 	white-space: nowrap;
 }
-#buddypress .activity-list li.load-more {
+#buddypress .activity-list li.load-more,
+#buddypress .activity-list li.load-newest {
 	background: #f0f0f0;
 	font-size: 110%;
 	margin: 15px 0;
 	padding: 10px 15px;
 	text-align: center;
 }
-#buddypress .activity-list li.load-more a {
+#buddypress .activity-list li.load-more a,
+#buddypress .activity-list li.load-newest a {
 	color: #4D4D4D;
 }
 

@@ -4,6 +4,10 @@ var jq = jQuery;
 // Global variable to prevent multiple AJAX requests
 var bp_ajax_request = null;
 
+// Global variables to temporarly store newest activities
+var newest_activities = '';
+var activity_last_id  = 0;
+
 jq(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
@@ -53,6 +57,20 @@ jq(document).ready( function() {
 		if ( $whats_new_form.hasClass("submitted") ) {
 			$whats_new_form.removeClass("submitted");	
 		}
+
+		// Return to the 'All Members' tab and 'Everything' filter,
+		// to avoid inconsistencies with the heartbeat integration
+		var $activity_all = jq( '#activity-all' );
+		if ( $activity_all.length  ) {
+			if ( ! $activity_all.hasClass( 'selected' ) ) {
+				// reset to everyting
+				jq( '#activity-filter-select select' ).val( '-1' );
+				$activity_all.children( 'a' ).trigger( "click" );
+			} else if ( '-1' != jq( '#activity-filter-select select' ).val() ) {
+				jq( '#activity-filter-select select' ).val( '-1' );
+				jq( '#activity-filter-select select' ).trigger( 'change' );
+			}
+		}
 	});
 
 	/* On blur, shrink if it's empty */
@@ -73,6 +91,7 @@ jq(document).ready( function() {
 
 	/* New posts */
 	jq("#aw-whats-new-submit").on( 'click', function() {
+		var last_displayed_id = 0;
 		var button = jq(this);
 		var form = button.closest("form#whats-new-form");
 
@@ -91,6 +110,13 @@ jq(document).ready( function() {
 		var object = '';
 		var item_id = jq("#whats-new-post-in").val();
 		var content = jq("#whats-new").val();
+		var firstrow = jq( '#buddypress ul.activity-list li' ).first();
+
+		if ( firstrow.hasClass( 'load-newest' ) ) {
+			last_displayed_id = firstrow.next().prop( 'id' ) ? firstrow.next().prop( 'id' ).replace( 'activity-','' ) : 0;
+		} else {
+			last_displayed_id = firstrow.prop( 'id' ) ? firstrow.prop( 'id' ).replace( 'activity-','' ) : 0;
+		}
 
 		/* Set object for non-profile posts */
 		if ( item_id > 0 ) {
@@ -104,6 +130,7 @@ jq(document).ready( function() {
 			'content': content,
 			'object': object,
 			'item_id': item_id,
+			'offset': last_displayed_id,
 			'_bp_as_nonce': jq('#_bp_as_nonce').val() || ''
 		},
 		function(response) {
@@ -125,8 +152,13 @@ jq(document).ready( function() {
 					jq("div.activity").append( '<ul id="activity-stream" class="activity-list item-list">' );
 				}
 
+				if ( firstrow.hasClass( 'load-newest' ) )
+					firstrow.remove();
+
 				jq("#activity-stream").prepend(response);
-				jq("#activity-stream li:first").addClass('new-update just-posted');
+
+				if ( ! last_displayed_id )
+					jq("#activity-stream li:first").addClass('new-update just-posted');
 
 				if ( 0 != jq("#latest-update").length ) {
 					var l = jq("#activity-stream li.new-update .activity-content .activity-inner p").html();
@@ -149,6 +181,10 @@ jq(document).ready( function() {
 				jq("li.new-update").hide().slideDown( 300 );
 				jq("li.new-update").removeClass( 'new-update' );
 				jq("#whats-new").val('');
+
+				// reset vars to get newest activities
+				newest_activities = '';
+				activity_last_id  = 0;
 			}
 
 			jq("#whats-new-options").animate({
@@ -287,6 +323,12 @@ jq(document).ready( function() {
 					li.children('#message').hide().fadeIn(300);
 				} else {
 					li.slideUp(300);
+
+					// reset vars to get newest activities
+					if ( activity_last_id == id ) {
+						newest_activities = '';
+						activity_last_id  = 0;
+					}
 				}
 			});
 
@@ -311,6 +353,11 @@ jq(document).ready( function() {
 					li.children( '#message' ).hide().fadeIn(300);
 				} else {
 					li.slideUp( 300 );
+					// reset vars to get newest activities
+					if ( activity_last_id == id ) {
+						newest_activities = '';
+						activity_last_id  = 0;
+					}
 				}
 			});
 
@@ -352,6 +399,18 @@ jq(document).ready( function() {
 			}, 'json' );
 
 			return false;
+		}
+
+		/* Load newest updates at the top of the list */
+		if ( target.parent().hasClass('load-newest') ) {
+
+			event.preventDefault();
+
+			target.parent().hide();
+			jq( '#buddypress ul.activity-list' ).prepend( newest_activities );
+
+			// reset the newest activities now they're displayed
+			newest_activities = '';
 		}
 	});
 
@@ -1378,7 +1437,54 @@ jq(document).ready( function() {
 	/* if js is enabled then replace the no-js class by a js one */
 	if( jq('body').hasClass('no-js') )
 		jq('body').attr('class', jq('body').attr('class').replace( /no-js/,'js' ) );
-		
+
+	/** Activity HeartBeat ************************************************/
+
+	// Set the interval and the namespace event
+	if ( typeof wp != 'undefined' && typeof wp.heartbeat != 'undefined' && typeof BP_DTheme.pulse != 'undefined' ) {
+
+		wp.heartbeat.interval( Number( BP_DTheme.pulse ) );
+
+		jq.fn.extend({
+			'heartbeat-send': function() {
+			return this.bind( 'heartbeat-send.buddypress' );
+	        },
+	    });
+
+	}
+
+	// Set the last id to request after
+	jq( document ).on( 'heartbeat-send.buddypress', function( e, data ) {
+
+		// First row is default latest activity id
+		if ( jq( '#buddypress ul.activity-list li' ).first().prop( 'id' ) ) {
+			firstrow = jq( '#buddypress ul.activity-list li' ).first().prop( 'id' ).replace( 'activity-','' );
+		} else {
+			firstrow = 0;
+		}
+
+		if ( 0 == activity_last_id || Number( firstrow ) > activity_last_id )
+			activity_last_id = Number( firstrow );
+
+		data['bp_activity_last_id'] = activity_last_id;
+	});
+
+	// Increment newest_activities and activity_last_id if data has been returned
+	jq( document ).on( 'heartbeat-tick', function( e, data ) {
+
+		// Only proceed if we have newest activities
+		if ( ! data['bp_activity_newest_activities'] ) {
+			return;
+		}
+
+		newest_activities = data['bp_activity_newest_activities']['activities'] + newest_activities;
+		activity_last_id  = Number( data['bp_activity_newest_activities']['last_id'] );
+
+		if ( jq( '#buddypress ul.activity-list li' ).first().hasClass( 'load-newest' ) )
+			return;
+
+		jq( '#buddypress ul.activity-list' ).prepend( '<li class="load-newest"><a href="#newest">' + BP_DTheme.newest + '</a></li>' );
+	});
 });
 
 /* Setup activity scope and filter based on the current cookie settings. */

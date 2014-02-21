@@ -76,6 +76,11 @@ function bp_get_default_options() {
 		// Users from all sites can post
 		'_bp_enable_akismet'              => true,
 
+		/** Activity HeartBeat ************************************************/
+
+		// HeartBeat is on to refresh activities
+		'_bp_enable_heartbeat_refresh'    => true,
+
 		/** BuddyBar **********************************************************/
 
 		// Force the BuddyBar
@@ -583,6 +588,21 @@ function bp_is_group_forums_active( $default = true ) {
  */
 function bp_is_akismet_active( $default = true ) {
 	return (bool) apply_filters( 'bp_is_akismet_active', (bool) bp_get_option( '_bp_enable_akismet', $default ) );
+}
+
+/**
+ * Check whether Activity Heartbeat refresh is enabled.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @uses bp_get_option() To get the Heartbeat option.
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if Heartbeat refresh is enabled, otherwise false.
+ */
+function bp_is_activity_heartbeat_active( $default = true ) {
+	return (bool) apply_filters( 'bp_is_activity_heartbeat_active', (bool) bp_get_option( '_bp_enable_heartbeat_refresh', $default ) );
 }
 
 /**

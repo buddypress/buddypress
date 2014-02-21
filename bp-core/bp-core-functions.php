@@ -1852,3 +1852,16 @@ function bp_nav_menu_get_item_url( $slug ) {
 
 	return $nav_item_url;
 }
+
+/**
+ * Get the javascript dependencies for buddypress.js.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @uses apply_filters() to allow other component to load extra dependencies
+ *
+ * @return array The javascript dependencies.
+ */
+function bp_core_get_js_dependencies() {
+	return apply_filters( 'bp_core_get_js_dependencies', array( 'jquery' ) );
+}

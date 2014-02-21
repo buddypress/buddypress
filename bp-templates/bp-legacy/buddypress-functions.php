@@ -225,12 +225,12 @@ class BP_Legacy extends BP_Theme_Compat {
 		// Enqueue the global JS, if found - AJAX will not work
 		// without it
 		if ( isset( $asset['location'], $asset['handle'] ) ) {
-			wp_enqueue_script( $asset['handle'], $asset['location'], array( 'jquery' ), $this->version );
+			wp_enqueue_script( $asset['handle'], $asset['location'], bp_core_get_js_dependencies(), $this->version );
 		}
 
 		// Add words that we need to use in JS to the end of the page
 		// so they can be translated and still used.
-		$params = array(
+		$params = apply_filters( 'bp_core_get_js_strings', array(
 			'accepted'            => __( 'Accepted', 'buddypress' ),
 			'close'               => __( 'Close', 'buddypress' ),
 			'comments'            => __( 'comments', 'buddypress' ),
@@ -244,7 +244,7 @@ class BP_Legacy extends BP_Theme_Compat {
 			'show_x_comments'     => __( 'Show all %d comments', 'buddypress' ),
 			'unsaved_changes'     => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
 			'view'                => __( 'View', 'buddypress' ),
-		);
+		) );
 		wp_localize_script( $asset['handle'], 'BP_DTheme', $params );
 
 		// Maybe enqueue comment reply JS
@@ -511,6 +511,11 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 		$qs[] = 'exclude=' . implode( ',', $just_posted );
 	}
 
+	// to get newest activities
+	if ( ! empty( $_POST['offset'] ) ) {
+		$qs[] = 'offset=' . intval( $_POST['offset'] );
+	}
+
 	$object_search_text = bp_get_search_default_text( $object );
  	if ( ! empty( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] )
 		$qs[] = 'search_terms=' . $_POST['search_terms'];
@@ -649,6 +654,8 @@ function bp_legacy_theme_activity_template_loader() {
  * @since BuddyPress (1.2)
  */
 function bp_legacy_theme_post_update() {
+	$bp = buddypress();
+
 	// Bail if not a POST action
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
 		return;
@@ -677,11 +684,23 @@ function bp_legacy_theme_post_update() {
 	if ( empty( $activity_id ) )
 		exit( '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>' );
 
-	if ( bp_has_activities ( 'include=' . $activity_id ) ) {
+	if ( ! empty( $_POST['offset'] ) && $last_id = absint( $_POST['offset'] ) ) {
+		$activity_args = array( 'offset' => $last_id );
+		$bp->activity->new_update_id = $activity_id;
+		add_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
+	} else {
+		$activity_args = array( 'include' => $activity_id );
+	}
+
+	if ( bp_has_activities ( $activity_args ) ) {
 		while ( bp_activities() ) {
 			bp_the_activity();
 			bp_get_template_part( 'activity/entry' );
 		}
+	}
+
+	if ( ! empty( $last_id ) ) {
+		remove_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
 	}
 
 	exit;

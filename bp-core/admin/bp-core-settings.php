@@ -104,6 +104,20 @@ function bp_admin_setting_callback_blogforum_comments() {
 }
 
 /**
+ * Allow Heartbeat to refresh activity stream.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_admin_setting_callback_heartbeat() {
+?>
+
+	<input id="_bp_enable_heartbeat_refresh" name="_bp_enable_heartbeat_refresh" type="checkbox" value="1" <?php checked( bp_is_activity_heartbeat_active( true ) ); ?> />
+	<label for="_bp_enable_heartbeat_refresh"><?php _e( 'Automatically check for new items while viewing the activity stream', 'buddypress' ); ?></label>
+
+<?php
+}
+
+/**
  * Sanitization for _bp_force_buddyvar
  *
  * If upgraded to 1.6 and you chose to keep the BuddyBar, a checkbox asks if you want to switch to

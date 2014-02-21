@@ -1849,3 +1849,42 @@ function bp_embed_activity_cache( $cache, $id, $cachekey ) {
 function bp_embed_activity_save_cache( $cache, $cachekey, $id ) {
 	bp_activity_update_meta( $id, $cachekey, $cache );
 }
+
+/**
+ * Should we use Heartbeat to refresh activities?
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @uses bp_is_activity_heartbeat_active() to check if heatbeat setting is on.
+ * @uses bp_is_activity_directory() to check if the current page is the activity
+ *       directory.
+ * @uses bp_is_active() to check if the group component is active.
+ * @uses bp_is_group_activity() to check if on a single group, the current page
+ *       is the group activities.
+ * @uses bp_is_group_home() to check if the current page is a single group home
+ *       page.
+ *
+ * @return bool True if activity heartbeat is enabled, otherwise false.
+ */
+function bp_activity_do_heartbeat() {
+	$retval = false;
+
+	if ( ! bp_is_activity_heartbeat_active() ) {
+		return $retval;
+	}
+
+	if ( bp_is_activity_directory() ) {
+		$retval = true;
+	}
+
+	if ( bp_is_active( 'groups') ) {
+		// If no custom front, then activities are loaded in group's home
+		$has_custom_front = bp_locate_template( array( 'groups/single/front.php' ), false, true );
+
+		if ( bp_is_group_activity() || ( ! $has_custom_front && bp_is_group_home() ) ) {
+			$retval = true;
+		}
+	}
+
+	return $retval;
+}
