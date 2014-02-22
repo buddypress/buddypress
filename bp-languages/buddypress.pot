@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-22 21:35:15+00:00\n"
+"POT-Creation-Date: 2014-02-22 23:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4115,7 +4115,7 @@ msgstr ""
 msgid "Update Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:619 bp-xprofile/bp-xprofile-admin.php:879
+#: bp-members/bp-members-admin.php:619 bp-xprofile/bp-xprofile-admin.php:872
 msgid "%s has been marked as a spammer. All BuddyPress data associated with the user has been removed"
 msgstr ""
 
@@ -4551,7 +4551,7 @@ msgstr ""
 #: bp-themes/bp-default/functions.php:165
 #: bp-themes/bp-default/members/single/profile/edit.php:130
 #: bp-themes/bp-default/registration/register.php:173
-#: bp-xprofile/bp-xprofile-admin.php:849
+#: bp-xprofile/bp-xprofile-admin.php:842
 msgid "Close"
 msgstr ""
 
@@ -5360,7 +5360,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:24
 #: bp-themes/bp-default/groups/single/admin.php:139
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:24
-#: bp-xprofile/bp-xprofile-admin.php:923
+#: bp-xprofile/bp-xprofile-admin.php:916
 msgid "Delete Avatar"
 msgstr ""
 
@@ -5624,10 +5624,10 @@ msgstr ""
 #: bp-themes/bp-default/registration/register.php:141
 #: bp-themes/bp-default/registration/register.php:216
 #: bp-themes/bp-default/registration/register.php:225
-#: bp-xprofile/bp-xprofile-admin.php:717 bp-xprofile/bp-xprofile-admin.php:727
-#: bp-xprofile/bp-xprofile-admin.php:737 bp-xprofile/bp-xprofile-admin.php:749
-#: bp-xprofile/bp-xprofile-admin.php:771 bp-xprofile/bp-xprofile-admin.php:792
-#: bp-xprofile/bp-xprofile-admin.php:804
+#: bp-xprofile/bp-xprofile-admin.php:710 bp-xprofile/bp-xprofile-admin.php:720
+#: bp-xprofile/bp-xprofile-admin.php:730 bp-xprofile/bp-xprofile-admin.php:742
+#: bp-xprofile/bp-xprofile-admin.php:764 bp-xprofile/bp-xprofile-admin.php:785
+#: bp-xprofile/bp-xprofile-admin.php:797
 msgid "(required)"
 msgstr ""
 
@@ -5657,8 +5657,8 @@ msgstr ""
 #: bp-themes/bp-default/members/single/profile/edit.php:58
 #: bp-themes/bp-default/members/single/profile/edit.php:73
 #: bp-themes/bp-default/registration/register.php:121
-#: bp-xprofile/bp-xprofile-admin.php:415 bp-xprofile/bp-xprofile-admin.php:760
-#: bp-xprofile/bp-xprofile-admin.php:781
+#: bp-xprofile/bp-xprofile-admin.php:415 bp-xprofile/bp-xprofile-admin.php:753
+#: bp-xprofile/bp-xprofile-admin.php:774
 msgid "Clear"
 msgstr ""
 
@@ -5670,7 +5670,7 @@ msgstr ""
 #: bp-themes/bp-default/members/single/profile/edit.php:134
 #: bp-themes/bp-default/registration/register.php:163
 #: bp-themes/bp-default/registration/register.php:178
-#: bp-xprofile/bp-xprofile-admin.php:839 bp-xprofile/bp-xprofile-admin.php:853
+#: bp-xprofile/bp-xprofile-admin.php:832 bp-xprofile/bp-xprofile-admin.php:846
 msgid "This field can be seen by: <span class=\"current-visibility-level\">%s</span>"
 msgstr ""
 
@@ -5684,7 +5684,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:125
 #: bp-themes/bp-default/members/single/profile/edit.php:125
 #: bp-themes/bp-default/registration/register.php:168
-#: bp-xprofile/bp-xprofile-admin.php:844
+#: bp-xprofile/bp-xprofile-admin.php:837
 msgid "Who can see this field?"
 msgstr ""
 
@@ -5903,7 +5903,7 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:120
 #: bp-themes/bp-default/members/single/profile/edit.php:120
-#: bp-xprofile/bp-xprofile-admin.php:839
+#: bp-xprofile/bp-xprofile-admin.php:832
 msgid "Change"
 msgstr ""
 
