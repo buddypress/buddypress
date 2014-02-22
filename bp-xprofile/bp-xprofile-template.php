@@ -579,8 +579,7 @@ function bp_the_profile_field_options( $args = '' ) {
 					$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 					$selected        = '';
 
-					// @todo $value is never created
-					if ( $option_value == $allowed_options || !empty( $value ) && $value == $allowed_options || ( empty( $option_value ) && !empty( $options[$k]->is_default_option ) ) )
+					if ( $option_value == $allowed_options || ( empty( $option_value ) && !empty( $options[$k]->is_default_option ) ) )
 						$selected = ' checked="checked"';
 
 					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '"> ' . esc_attr( stripslashes( $options[$k]->name ) ) . '</label>', $options[$k], $field->id, $selected, $k );
@@ -610,7 +609,6 @@ function bp_the_profile_field_options( $args = '' ) {
 						// before_save filter, so we'll be sure to get a match
 						$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 
-						// @todo $value is never created
 						if ( $option_values[$j] == $allowed_options || @in_array( $allowed_options, $option_values ) ) {
 							$selected = ' checked="checked"';
 							break;
