@@ -519,16 +519,14 @@ class BP_Messages_Notice {
 	public static function get_notices( $args = array() ) {
 		global $wpdb, $bp;
 
-		$defaults = array(
+		$r = wp_parse_args( $args, array(
 			'pag_num'  => 20, // Number of notices per page
 			'pag_page' => 1   // Page number
-		);
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r );
+		) );
 
 		$limit_sql = '';
-		if ( (int) $pag_num >= 0 ) {
-			$limit_sql = $wpdb->prepare( "LIMIT %d, %d", (int) ( ( $pag_page - 1 ) * $pag_num ), (int) $pag_num );
+		if ( (int) $r['pag_num'] >= 0 ) {
+			$limit_sql = $wpdb->prepare( "LIMIT %d, %d", (int) ( ( $r['pag_page'] - 1 ) * $r['pag_num'] ), (int) $r['pag_num'] );
 		}
 
 		$notices = $wpdb->get_results( "SELECT * FROM {$bp->messages->table_name_notices} ORDER BY date_sent DESC {$limit_sql}" );
