@@ -580,6 +580,8 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
 		$keys = array( $meta_key );
 	}
 
+	$retval = true;
+
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	foreach ( $keys as $key ) {
 		$retval = delete_metadata( 'activity', $activity_id, $key, $meta_value, $delete_all );
@@ -624,9 +626,10 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '', $single = true 
 	if ( empty( $meta_key ) ) {
 		$values = array();
 		foreach ( (array) $retval as $rkey => $rvalue ) {
+			$rvalue = array_reverse( $rvalue );
 			$found = new stdClass;
 			$found->meta_key = $rkey;
-			$found->meta_value = array_pop( array_reverse( $rvalue ) );
+			$found->meta_value = array_pop( $rvalue );
 			$values[] = $found;
 		}
 
