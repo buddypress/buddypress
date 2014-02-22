@@ -607,18 +607,11 @@ class BP_XProfile_User_Admin {
 					bp_core_redirect( $redirect_to );
 				}
 
-				$merge_ids = '';
-				foreach ( $_POST['field_ids'] as $ids ) {
-					$merge_ids .= $ids . ',';
-				}
-
-				// Explode the posted field IDs into an array so we know which
-				// fields have been submitted
-				$posted_field_ids = array_filter( wp_parse_id_list( $merge_ids ) );
+				// Explode the posted field IDs into an array so we know which fields have been submitted
+				$posted_field_ids = wp_parse_id_list( $_POST['field_ids'] );
 				$is_required      = array();
 
-				// Loop through the posted fields formatting any datebox values
-				// then validate the field
+				// Loop through the posted fields formatting any datebox values then validate the field
 				foreach ( (array) $posted_field_ids as $field_id ) {
 					if ( ! isset( $_POST['field_' . $field_id] ) ) {
 						if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
