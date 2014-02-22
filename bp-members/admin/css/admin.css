@@ -137,3 +137,7 @@ div#community-profile-page .form-table td.admin-field-radio label,
 div#community-profile-page .form-table td.admin-field-checkbox label {
 	display:block;
 }
+
+.field-visibility-settings {
+	display: none;
+}

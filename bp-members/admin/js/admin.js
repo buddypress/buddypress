@@ -1,7 +1,6 @@
 (function( $ ) {
 
 	/** Profile Visibility Settings *********************************/
-	$('.field-visibility-settings').hide();
 	$('.visibility-toggle-link').on( 'click', function( event ) {
 
 		event.preventDefault();
