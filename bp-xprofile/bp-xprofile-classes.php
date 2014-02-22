@@ -957,7 +957,7 @@ class BP_XProfile_Field {
 							<div class="postbox">
 								<h3><?php _e( 'Field Description', 'buddypress' ); ?></h3>
 								<div class="inside">
-									<textarea name="description" id="description" rows="8" cols="60"><?php echo esc_attr( $this->description ); ?></textarea>
+									<textarea name="description" id="description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
 								</div>
 							</div>
 						</div><!-- #post-body-content -->
@@ -970,7 +970,7 @@ class BP_XProfile_Field {
 										<div id="major-publishing-actions">
 											<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
 											<div id="publishing-action">
-												<input type="submit" value="<?php _e( 'Save', 'buddypress' ); ?>" name="saveField" id="saveField" style="font-weight: bold" class="button-primary" />
+												<input type="submit" value="<?php esc_attr_e( 'Save', 'buddypress' ); ?>" name="saveField" id="saveField" style="font-weight: bold" class="button-primary" />
 											</div>
 											<div id="delete-action">
 												<a href="users.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
@@ -1041,12 +1041,12 @@ class BP_XProfile_Field {
 									<h3><label for="fieldtype"><?php _e( 'Field Type', 'buddypress'); ?></label></h3>
 									<div class="inside">
 										<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)" style="width: 30%">
-											<optgroup label="<?php _e( 'Single Fields', 'buddypress' ); ?>">
+											<optgroup label="<?php esc_attr_e( 'Single Fields', 'buddypress' ); ?>">
 												<option value="textbox"        <?php selected( $this->type, 'textbox'        ); ?>><?php _e( 'Text Box',             'buddypress' ); ?></option>
 												<option value="textarea"       <?php selected( $this->type, 'textarea'       ); ?>><?php _e( 'Multi-line Text Area', 'buddypress' ); ?></option>
 												<option value="datebox"        <?php selected( $this->type, 'datebox'        ); ?>><?php _e( 'Date Selector',        'buddypress' ); ?></option>
 											</optgroup>
-											<optgroup label="<?php _e( 'Multi Fields', 'buddypress' ); ?>">
+											<optgroup label="<?php esc_attr_e( 'Multi Fields', 'buddypress' ); ?>">
 												<option value="radio"          <?php selected( $this->type, 'radio'          ); ?>><?php _e( 'Radio Buttons',        'buddypress' ); ?></option>
 												<option value="selectbox"      <?php selected( $this->type, 'selectbox'      ); ?>><?php _e( 'Drop Down Select Box', 'buddypress' ); ?></option>
 												<option value="multiselectbox" <?php selected( $this->type, 'multiselectbox' ); ?>><?php _e( 'Multi Select Box',     'buddypress' ); ?></option>

@@ -58,7 +58,7 @@ get_header( 'buddypress' ); ?>
 					</label>
 
 					<div class="submit">
-						<input type="submit" value="<?php _e( 'Save', 'buddypress' ); ?>" id="capabilities-submit" name="capabilities-submit" />
+						<input type="submit" value="<?php esc_attr_e( 'Save', 'buddypress' ); ?>" id="capabilities-submit" name="capabilities-submit" />
 					</div>
 
 					<?php do_action( 'bp_members_capabilities_account_after_submit' ); ?>

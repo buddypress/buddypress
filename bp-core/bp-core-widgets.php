@@ -86,7 +86,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 				<div class="forgetmenot"><label><input name="rememberme" type="checkbox" id="bp-login-widget-rememberme" value="forever" /> <?php _e( 'Remember Me', 'buddypress' ); ?></label></div>
 
-				<input type="submit" name="wp-submit" id="bp-login-widget-submit" value="<?php _e( 'Log In', 'buddypress' ); ?>" />
+				<input type="submit" name="wp-submit" id="bp-login-widget-submit" value="<?php esc_attr_e( 'Log In', 'buddypress' ); ?>" />
 
 				<?php if ( bp_get_signup_allowed() ) : ?>
 

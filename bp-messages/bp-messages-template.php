@@ -429,7 +429,7 @@ function bp_message_search_form() {
 
 	<form action="" method="get" id="search-message-form">
 		<label><input type="text" name="s" id="messages_search" <?php if ( $search_value === $default_search_value ) : ?>placeholder="<?php echo esc_html( $search_value ); ?>"<?php endif; ?> <?php if ( $search_value !== $default_search_value ) : ?>value="<?php echo esc_html( $search_value ); ?>"<?php endif; ?> /></label>
-		<input type="submit" id="messages_search_submit" name="messages_search_submit" value="<?php _e( 'Search', 'buddypress' ) ?>" />
+		<input type="submit" id="messages_search_submit" name="messages_search_submit" value="<?php esc_attr_e( 'Search', 'buddypress' ) ?>" />
 	</form>
 
 <?php

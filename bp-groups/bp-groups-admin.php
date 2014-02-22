@@ -713,7 +713,7 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
 function bp_groups_admin_edit_metabox_add_new_members( $item ) {
 	?>
 
-	<input name="bp-groups-new-members" id="bp-groups-new-members" class="bp-suggest-user" placeholder="<?php _e( 'Enter a comma-separated list of user logins.', 'buddypress' ) ?>" />
+	<input name="bp-groups-new-members" id="bp-groups-new-members" class="bp-suggest-user" placeholder="<?php esc_attr_e( 'Enter a comma-separated list of user logins.', 'buddypress' ) ?>" />
 	<ul id="bp-groups-new-members-list"></ul>
 	<?php
 }

@@ -35,7 +35,7 @@
 	<?php do_action( 'bp_core_xprofile_settings_before_submit' ); ?>
 
 	<div class="submit">
-		<input id="submit" type="submit" name="xprofile-settings-submit" value="<?php _e( 'Save Settings', 'buddypress' ); ?>" class="auto" />
+		<input id="submit" type="submit" name="xprofile-settings-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ); ?>" class="auto" />
 	</div>
 
 	<?php do_action( 'bp_core_xprofile_settings_after_submit' ); ?>

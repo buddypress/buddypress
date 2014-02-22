@@ -8,7 +8,7 @@
 	<?php do_action( 'bp_members_notification_settings_before_submit' ); ?>
 
 	<div class="submit">
-		<input type="submit" name="submit" value="<?php _e( 'Save Changes', 'buddypress' ); ?>" id="submit" class="auto" />
+		<input type="submit" name="submit" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?>" id="submit" class="auto" />
 	</div>
 
 	<?php do_action( 'bp_members_notification_settings_after_submit' ); ?>

@@ -29,7 +29,7 @@ function bp_core_admin_components_settings() {
 			<?php bp_core_admin_components_options(); ?>
 
 			<p class="submit clear">
-				<input class="button-primary" type="submit" name="bp-admin-component-submit" id="bp-admin-component-submit" value="<?php _e( 'Save Settings', 'buddypress' ) ?>"/>
+				<input class="button-primary" type="submit" name="bp-admin-component-submit" id="bp-admin-component-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ) ?>"/>
 			</p>
 
 			<?php wp_nonce_field( 'bp-admin-component-setup' ); ?>

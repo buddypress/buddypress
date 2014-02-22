@@ -29,7 +29,7 @@ function bp_core_admin_slugs_settings() {
 			<?php bp_core_admin_slugs_options(); ?>
 
 			<p class="submit clear">
-				<input class="button-primary" type="submit" name="bp-admin-pages-submit" id="bp-admin-pages-submit" value="<?php _e( 'Save Settings', 'buddypress' ) ?>"/>
+				<input class="button-primary" type="submit" name="bp-admin-pages-submit" id="bp-admin-pages-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ) ?>"/>
 			</p>
 
 			<?php wp_nonce_field( 'bp-admin-pages-setup' ); ?>
@@ -102,7 +102,7 @@ function bp_core_admin_slugs_options() {
 							) ); ?>
 
 							<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page', 'buddypress' ); ?></a>
-							<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php _e( 'Save', 'buddypress' ) ?>" />
+							<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php esc_attr_e( 'Save', 'buddypress' ) ?>" />
 
 							<?php if ( !empty( $existing_pages[$name] ) ) : ?>
 
@@ -165,7 +165,7 @@ function bp_core_admin_slugs_options() {
 							) ) ?>
 
 							<a href="<?php echo admin_url( add_query_arg( array( 'post_type' => 'page' ), 'post-new.php' ) ); ?>" class="button-secondary"><?php _e( 'New Page', 'buddypress' ); ?></a>
-							<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php _e( 'Save', 'buddypress' ) ?>" />
+							<input class="button-primary" type="submit" name="bp-admin-pages-single" value="<?php esc_attr_e( 'Save', 'buddypress' ) ?>" />
 
 							<?php if ( !empty( $existing_pages[$name] ) ) : ?>
 

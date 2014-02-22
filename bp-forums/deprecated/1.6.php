@@ -152,7 +152,7 @@ function bp_forums_bbpress_install_wizard() {
 						<h3><?php _e( 'Existing bbPress Installation', 'buddypress' ) ?></h3>
 						<p><?php _e( "BuddyPress can make use of your existing bbPress install. Just provide the location of your <code>bb-config.php</code> file, and BuddyPress will do the rest.", 'buddypress' ) ?></p>
 						<p><label><code>bb-config.php</code> file location:</label><br /><input style="width: 50%" type="text" name="bbconfigloc" id="bbconfigloc" value="<?php echo str_replace( 'buddypress', '', $_SERVER['DOCUMENT_ROOT'] ) ?>" /></p>
-						<p><input type="submit" class="button-primary" value="<?php _e( 'Complete Installation', 'buddypress' ) ?>" /></p>
+						<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Complete Installation', 'buddypress' ) ?>" /></p>
 						<input type="hidden" name="step" value="existing" />
 						<input type="hidden" name="doinstall" value="1" />
 						<?php wp_nonce_field( 'bp_forums_existing_install_init' ) ?>
@@ -174,7 +174,7 @@ function bp_forums_bbpress_install_wizard() {
 						// Just write the contents to screen
 						_e( '<p>A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.</p>', 'buddypress' ); ?>
 
-						<textarea style="display:block; margin-top: 30px; width: 80%;" rows="50"><?php echo htmlspecialchars( $result ); ?></textarea>
+						<textarea style="display:block; margin-top: 30px; width: 80%;" rows="50"><?php echo esc_textarea( $result ); ?></textarea>
 
 					<?php
 						break;

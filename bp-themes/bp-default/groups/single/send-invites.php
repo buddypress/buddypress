@@ -57,7 +57,7 @@
 		<div class="clear"></div>
 
 		<div class="submit">
-			<input type="submit" name="submit" id="submit" value="<?php _e( 'Send Invites', 'buddypress' ); ?>" />
+			<input type="submit" name="submit" id="submit" value="<?php esc_attr_e( 'Send Invites', 'buddypress' ); ?>" />
 		</div>
 
 		<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites'); ?>

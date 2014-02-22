@@ -84,7 +84,7 @@ else : ?>
 				<?php do_action( 'bp_after_group_forum_post_new' ); ?>
 
 				<div class="submit">
-					<input type="submit" name="submit_topic" id="submit" value="<?php _e( 'Post Topic', 'buddypress' ); ?>" />
+					<input type="submit" name="submit_topic" id="submit" value="<?php esc_attr_e( 'Post Topic', 'buddypress' ); ?>" />
 				</div>
 
 				<?php wp_nonce_field( 'bp_forums_new_topic' ); ?>

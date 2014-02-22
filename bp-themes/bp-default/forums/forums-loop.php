@@ -51,7 +51,7 @@
 
 			<tr class="<?php bp_the_topic_css_class(); ?>">
 				<td class="td-title">
-					<a class="topic-title" href="<?php bp_the_topic_permalink(); ?>" title="<?php _e( 'Permanent link to this post', 'buddypress' ); ?>">
+					<a class="topic-title" href="<?php bp_the_topic_permalink(); ?>" title="<?php esc_attr_e( 'Permanent link to this post', 'buddypress' ); ?>">
 
 						<?php bp_the_topic_title(); ?>
 

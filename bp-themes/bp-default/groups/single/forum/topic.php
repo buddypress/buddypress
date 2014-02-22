@@ -92,7 +92,7 @@
 
 						<?php do_action( 'bp_group_forum_post_meta' ); ?>
 
-						<a href="#post-<?php bp_the_topic_post_id(); ?>" title="<?php _e( 'Permanent link to this post', 'buddypress' ); ?>">#</a>
+						<a href="#post-<?php bp_the_topic_post_id(); ?>" title="<?php esc_attr_e( 'Permanent link to this post', 'buddypress' ); ?>">#</a>
 					</div>
 				</li>
 
@@ -141,7 +141,7 @@
 					<textarea name="reply_text" id="reply_text"></textarea>
 
 					<div class="submit">
-						<input type="submit" name="submit_reply" id="submit" value="<?php _e( 'Post Reply', 'buddypress' ); ?>" />
+						<input type="submit" name="submit_reply" id="submit" value="<?php esc_attr_e( 'Post Reply', 'buddypress' ); ?>" />
 					</div>
 
 					<?php do_action( 'groups_forum_new_reply_after' ); ?>

@@ -19,7 +19,7 @@
 		<div id="header">
 			<div id="search-bar" role="search">
 				<div class="padder">
-					<h1 id="logo" role="banner"><a href="<?php echo home_url(); ?>" title="<?php _ex( 'Home', 'Home page banner link title', 'buddypress' ); ?>"><?php bp_site_name(); ?></a></h1>
+					<h1 id="logo" role="banner"><a href="<?php echo home_url(); ?>" title="<?php echo esc_attr_x( 'Home', 'Home page banner link title', 'buddypress' ); ?>"><?php bp_site_name(); ?></a></h1>
 
 						<form action="<?php echo bp_search_form_action(); ?>" method="post" id="search-form">
 							<label for="search-terms" class="accessibly-hidden"><?php _e( 'Search for:', 'buddypress' ); ?></label>
@@ -27,7 +27,7 @@
 
 							<?php echo bp_search_form_type_select(); ?>
 
-							<input type="submit" name="search-submit" id="search-submit" value="<?php _e( 'Search', 'buddypress' ); ?>" />
+							<input type="submit" name="search-submit" id="search-submit" value="<?php esc_attr_e( 'Search', 'buddypress' ); ?>" />
 
 							<?php wp_nonce_field( 'bp_search_form' ); ?>
 

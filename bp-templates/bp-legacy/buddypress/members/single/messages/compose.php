@@ -25,7 +25,7 @@
 	<?php do_action( 'bp_after_messages_compose_content' ); ?>
 
 	<div class="submit">
-		<input type="submit" value="<?php _e( "Send Message", 'buddypress' ); ?>" name="send" id="send" />
+		<input type="submit" value="<?php esc_attr_e( "Send Message", 'buddypress' ); ?>" name="send" id="send" />
 	</div>
 
 	<?php wp_nonce_field( 'messages_send_message' ); ?>

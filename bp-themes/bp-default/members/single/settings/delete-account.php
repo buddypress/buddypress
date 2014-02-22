@@ -73,7 +73,7 @@
 					</label>
 
 					<div class="submit">
-						<input type="submit" disabled="disabled" value="<?php _e( 'Delete Account', 'buddypress' ); ?>" id="delete-account-button" name="delete-account-button" />
+						<input type="submit" disabled="disabled" value="<?php esc_attr_e( 'Delete Account', 'buddypress' ); ?>" id="delete-account-button" name="delete-account-button" />
 					</div>
 
 					<?php do_action( 'bp_members_delete_account_after_submit' ); ?>

@@ -1005,7 +1005,7 @@ function bp_xprofile_settings_visibility_select( $args = '' ) {
 
 		<?php else : ?>
 
-			<span class="field-visibility-settings-notoggle" title="<?php _e( "This field's visibility cannot be changed.", 'buddypress' ); ?>"><?php bp_the_profile_field_visibility_level_label(); ?></span>
+			<span class="field-visibility-settings-notoggle" title="<?php esc_attr_e( "This field's visibility cannot be changed.", 'buddypress' ); ?>"><?php bp_the_profile_field_visibility_level_label(); ?></span>
 
 		<?php endif;
 

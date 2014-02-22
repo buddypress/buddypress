@@ -922,7 +922,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 
 			<?php bp_blogs_signup_blog($blogname, $blog_title, $errors); ?>
 			<p>
-				<input id="submit" type="submit" name="submit" class="submit" value="<?php _e('Create Site', 'buddypress') ?>" />
+				<input id="submit" type="submit" name="submit" class="submit" value="<?php esc_attr_e('Create Site', 'buddypress') ?>" />
 			</p>
 
 			<?php wp_nonce_field( 'bp_blog_signup_form' ) ?>

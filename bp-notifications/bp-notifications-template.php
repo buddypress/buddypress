@@ -945,7 +945,7 @@ function bp_notifications_sort_order_form() {
 		</select>
 
 		<noscript>
-			<input id="submit" type="submit" name="form-submit" class="submit" value="<?php _e( 'Go', 'buddypress' ); ?>" />
+			<input id="submit" type="submit" name="form-submit" class="submit" value="<?php esc_attr_e( 'Go', 'buddypress' ); ?>" />
 		</noscript>
 	</form>
 
