@@ -429,20 +429,68 @@ class BP_Messages_Message {
 	}
 }
 
+/**
+ * BuddyPress Notices class.
+ *
+ * Use this class to create, activate, deactivate or delete notices.
+ *
+ * @since BuddyPress (1.0.0)
+ */
 class BP_Messages_Notice {
+	/**
+	 * The notice ID.
+	 *
+	 * @var int
+	 */
 	public $id = null;
+
+	/**
+	 * The subject line for the notice.
+	 *
+	 * @var string
+	 */
 	public $subject;
+
+	/**
+	 * The content of the notice.
+	 *
+	 * @var string
+	 */
 	public $message;
+
+	/**
+	 * The date the notice was created.
+	 *
+	 * @var string
+	 */
 	public $date_sent;
+
+	/**
+	 * Whether the notice is active or not.
+	 *
+	 * @var int
+	 */
 	public $is_active;
 
+	/**
+	 * Constructor.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 */
 	public function __construct( $id = null ) {
 		if ( $id ) {
 			$this->id = $id;
-			$this->populate($id);
+			$this->populate();
 		}
 	}
 
+	/**
+	 * Populate method.
+	 *
+	 * Runs during constructor.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 */
 	public function populate() {
 		global $wpdb, $bp;
 
@@ -456,6 +504,13 @@ class BP_Messages_Notice {
 		}
 	}
 
+	/**
+	 * Saves a notice.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @return bool
+	 */
 	public function save() {
 		global $wpdb, $bp;
 
@@ -464,16 +519,19 @@ class BP_Messages_Notice {
 
 		do_action_ref_array( 'messages_notice_before_save', array( &$this ) );
 
-		if ( empty( $this->id ) )
+		if ( empty( $this->id ) ) {
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_notices} (subject, message, date_sent, is_active) VALUES (%s, %s, %s, %d)", $this->subject, $this->message, $this->date_sent, $this->is_active );
-		else
+		} else {
 			$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_notices} SET subject = %s, message = %s, is_active = %d WHERE id = %d", $this->subject, $this->message, $this->is_active, $this->id );
+		}
 
-		if ( !$wpdb->query( $sql ) )
+		if ( ! $wpdb->query( $sql ) ) {
 			return false;
+		}
 
-		if ( !$id = $this->id )
+		if ( ! $id = $this->id ) {
 			$id = $wpdb->insert_id;
+		}
 
 		// Now deactivate all notices apart from the new one.
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_notices} SET is_active = 0 WHERE id != %d", $id ) );
@@ -485,23 +543,45 @@ class BP_Messages_Notice {
 		return true;
 	}
 
+	/**
+	 * Activates a notice.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @return bool
+	 */
 	public function activate() {
 		$this->is_active = 1;
 		return (bool) $this->save();
 	}
 
+	/**
+	 * Deactivates a notice.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @return bool
+	 */
 	public function deactivate() {
 		$this->is_active = 0;
 		return (bool) $this->save();
 	}
 
+	/**
+	 * Deletes a notice.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @return bool
+	 */
 	public function delete() {
 		global $wpdb, $bp;
 
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_notices} WHERE id = %d", $this->id );
 
-		if ( !$wpdb->query( $sql ) )
+		if ( ! $wpdb->query( $sql ) ) {
 			return false;
+		}
 
 		return true;
 	}
@@ -509,12 +589,18 @@ class BP_Messages_Notice {
 	/** Static Methods ********************************************************/
 
 	/**
-	 * Pulls up a list of notices
+	 * Pulls up a list of notices.
 	 *
 	 * To get all notices, pass a value of -1 to pag_num
 	 *
-	 * @param array $args See $defaults for explanation of accepted arguments
-	 * @return array $notices
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param array $data {
+	 *     Array of parameters.
+	 *     @type int $pag_num Number of notices per page. Defaults to 20.
+	 *     @type int $pag_page The page number.  Defaults to 1.
+	 * }
+	 * @return array
 	 */
 	public static function get_notices( $args = array() ) {
 		global $wpdb, $bp;
@@ -534,6 +620,13 @@ class BP_Messages_Notice {
 		return $notices;
 	}
 
+	/**
+	 * Returns the total number of recorded notices.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @return int
+	 */
 	public static function get_total_notice_count() {
 		global $wpdb, $bp;
 
@@ -542,6 +635,13 @@ class BP_Messages_Notice {
 		return $notice_count;
 	}
 
+	/**
+	 * Returns the active notice that should be displayed on the frontend.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @return object The BP_Messages_Notice object
+	 */
 	public static function get_active() {
 		global $wpdb, $bp;
 
