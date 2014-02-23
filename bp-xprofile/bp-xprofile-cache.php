@@ -157,7 +157,7 @@ add_action( 'xprofile_fields_deleted_field', 'xprofile_clear_profile_field_objec
  *
  * @since BuddyPress (2.0.0)
  *
- * @param BP_XProfile_ProfileData
+ * @param BP_XProfile_ProfileData $data_obj
  */
 function xprofile_clear_profiledata_object_cache( $data_obj ) {
 	wp_cache_delete( $data_obj->field_id, 'bp_xprofile_data_' . $data_obj->user_id );
