@@ -224,7 +224,7 @@ class BP_Members_Admin {
 		$query_args = array( 'user_id' => $user->ID );
 
 		if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
-			$query_args['wp_http_referer'] = urlencode( wp_unslash( $_REQUEST['wp_http_referer'] ) );
+			$query_args['wp_http_referer'] = urlencode( stripslashes_deep( $_REQUEST['wp_http_referer'] ) );
 		}
 
 		$community_url = add_query_arg( $query_args, $this->edit_profile_url );
