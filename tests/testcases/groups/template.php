@@ -472,7 +472,11 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$counter = 0;
 		while ( bp_group_invites() ) : bp_group_the_invite();
 			$this->assertEquals( $g, $invites_template->invite->group_id );
-			$this->assertEquals( $found_users[ $counter ], $invites_template->invite->user->id );
+
+			$this_user = new BP_Core_User( $found_users[ $counter ] );
+			foreach ( get_object_vars( $this_user ) as $k => $v ) {
+				$this->assertEquals( $v, $invites_template->invite->user->{$k} );
+			}
 			$counter++;
 		endwhile;
 	}
