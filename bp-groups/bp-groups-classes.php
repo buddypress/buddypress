@@ -206,10 +206,6 @@ class BP_Groups_Group {
 		// Are we getting extra group data?
 		if ( ! empty( $this->args['populate_extras'] ) ) {
 
-			// Set up some specific group vars from meta
-			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity'      );
-			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
-
 			// Get group admins and mods
 			$admin_mods = $wpdb->get_results( apply_filters( 'bp_group_admin_mods_user_join_filter', $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) ) );
 
@@ -224,6 +220,11 @@ class BP_Groups_Group {
 
 			// Cache the group object before user-specific data is added
 			wp_cache_set( $this->id, $this, 'bp_groups' );
+
+			// Set up some specific group vars from meta. Excluded
+			// from the bp_groups cache because it's cached independently
+			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
+			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 
 			// Set user-specific data
 			$user_id          = bp_loggedin_user_id();
