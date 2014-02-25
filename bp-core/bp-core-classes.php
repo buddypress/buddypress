@@ -1411,6 +1411,10 @@ class BP_Core_User {
 					'user_id'       => $user_id,
 					'component'     => buddypress()->members->id,
 					'type'          => 'last_activity',
+					'action'        => '',
+					'content'       => '',
+					'primary_link'  => '',
+					'item_id'       => 0,
 					'date_recorded' => $time,
 				),
 
@@ -1419,6 +1423,10 @@ class BP_Core_User {
 					'%d',
 					'%s',
 					'%s',
+					'%s',
+					'%s',
+					'%s',
+					'%d',
 					'%s',
 				)
 			);

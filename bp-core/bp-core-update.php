@@ -350,8 +350,8 @@ function bp_update_to_2_0() {
 	/** Migrate 'last_activity' data *************************************/
 
 	// The "NOT IN" clause prevents duplicates
-	$sql = "INSERT INTO {$bp->members->table_name_last_activity} (`user_id`, `component`, `type`, `date_recorded` ) (
-		  SELECT user_id, '{$bp->members->id}' as component, 'last_activity' as type, meta_value AS date_recorded
+	$sql = "INSERT INTO {$bp->members->table_name_last_activity} (`user_id`, `component`, `type`, `action`, `content`, `primary_link`, `item_id`, `date_recorded` ) (
+		  SELECT user_id, '{$bp->members->id}' as component, 'last_activity' as type, '' as action, '' as content, '' as primary_link, 0 as item_id, meta_value AS date_recorded
 		  FROM {$wpdb->usermeta}
 		  WHERE
 		    meta_key = 'last_activity'
