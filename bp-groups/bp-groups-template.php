@@ -3147,7 +3147,7 @@ class BP_Groups_Invite_Template {
 }
 
 function bp_group_has_invites( $args = '' ) {
-	global $bp, $invites_template, $group_id;
+	global $invites_template, $group_id;
 
 	$defaults = array(
 		'group_id' => false,
@@ -3155,21 +3155,25 @@ function bp_group_has_invites( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
-	if ( !$group_id ) {
-		// Backwards compatibility
-		if ( !empty( $bp->groups->current_group ) )
-			$group_id = $bp->groups->current_group->id;
-
-		if ( !empty( $bp->groups->new_group_id ) )
-			$group_id = $bp->groups->new_group_id;
+	if ( empty( $r['group_id'] ) ) {
+		if ( ! empty( buddypress()->groups->current_group ) ) {
+			$r['group_id'] = bp_get_current_group_id();
+		} else if ( ! empty( buddypress()->groups->new_group_id ) ) {
+			$r['group_id'] = buddypress()->groups->new_group_id;
+		}
 	}
 
-	if ( !$group_id )
-		return false;
+	// Set the global (for use in BP_Groups_Invite_Template::the_invite())
+	if ( empty( $group_id ) ) {
+		$group_id = $r['group_id'];
+	}
 
-	$invites_template = new BP_Groups_Invite_Template( $user_id, $group_id );
+	if ( ! $group_id ) {
+		return false;
+	}
+
+	$invites_template = new BP_Groups_Invite_Template( $r['user_id'], $r['group_id'] );
 	return apply_filters( 'bp_group_has_invites', $invites_template->has_invites(), $invites_template );
 }
 
