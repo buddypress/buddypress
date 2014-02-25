@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-25 14:35:15+00:00\n"
+"POT-Creation-Date: 2014-02-25 15:35:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3938,11 +3938,11 @@ msgstr ""
 msgid "requested %s"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3246
+#: bp-groups/bp-groups-template.php:3248
 msgid "Group Activity RSS Feed"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3417
+#: bp-groups/bp-groups-template.php:3419
 msgid "%s group"
 msgid_plural "%s groups"
 msgstr[0] ""
