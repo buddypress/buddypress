@@ -407,4 +407,73 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
 		$this->assertEquals( array( $u1, $u3, $u2, ), $ids );
 	}
+
+	/**
+	 * @group bp_group_has_invites
+	 * @group BP_Groups_Invite_Template
+	 */
+	public function test_bp_group_has_invites_template_structure() {
+		$u1 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 600 ),
+		) );
+		$u3 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 6000 ),
+		) );
+		$u4 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60000 ),
+		) );
+
+
+		$g = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
+
+		$m2 = $this->add_user_to_group( $u2, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*24 ),
+			'is_confirmed' => 0,
+			'inviter_id' => $u1,
+			'invite_sent' => true,
+		) );
+
+		$m3 = $this->add_user_to_group( $u3, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*12 ),
+			'is_confirmed' => 0,
+			'inviter_id' => $u1,
+			'invite_sent' => true,
+		) );
+
+		$m4 = $this->add_user_to_group( $u4, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*36 ),
+			'is_confirmed' => 1,
+			'inviter_id' => $u1,
+			'invite_sent' => true,
+		) );
+
+		// Populate the global
+		bp_group_has_invites( array(
+			'group_id' => $g,
+			'user_id' => $u1,
+		) );
+
+		global $invites_template;
+
+		$found_users = array(
+			0 => $u2,
+			1 => $u3,
+		);
+
+		// Invites array
+		$this->assertEquals( $found_users, $invites_template->invites );
+
+		// Make sure user is set when loop starts
+		$counter = 0;
+		while ( bp_group_invites() ) : bp_group_the_invite();
+			$this->assertEquals( $g, $invites_template->invite->group_id );
+			$this->assertEquals( $found_users[ $counter ], $invites_template->invite->user->id );
+			$counter++;
+		endwhile;
+	}
 }
