@@ -3149,12 +3149,10 @@ class BP_Groups_Invite_Template {
 function bp_group_has_invites( $args = '' ) {
 	global $invites_template, $group_id;
 
-	$defaults = array(
+	$r = wp_parse_args( $args, array(
 		'group_id' => false,
 		'user_id' => bp_loggedin_user_id()
-	);
-
-	$r = wp_parse_args( $args, $defaults );
+	) );
 
 	if ( empty( $r['group_id'] ) ) {
 		if ( ! empty( buddypress()->groups->current_group ) ) {
