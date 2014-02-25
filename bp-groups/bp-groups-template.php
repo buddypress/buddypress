@@ -2028,8 +2028,17 @@ class BP_Groups_Group_Members_Template {
 		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : $r['page'];
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
+		/**
+		 * Check the current group is the same as the supplied group ID.
+		 * It can differ when using {@link bp_group_has_members()} outside the Groups screens.
+		 */
+		$current_group = groups_get_current_group();
+		if ( ! $current_group || $current_group && $current_group->id !== bp_get_current_group_id() ) {
+			$current_group = groups_get_group( array( 'group_id' => $r['group_id'] ) );
+		}
+
 		// Assemble the base URL for pagination
-		$base_url = trailingslashit( bp_get_group_permalink( groups_get_current_group() ) . bp_current_action() );
+		$base_url = trailingslashit( bp_get_group_permalink( $current_group ) . bp_current_action() );
 		if ( bp_action_variable() ) {
 			$base_url = trailingslashit( $base_url . bp_action_variable() );
 		}
