@@ -1449,6 +1449,19 @@ class BP_Groups_Group {
  * Query for the members of a group.
  *
  * @since BuddyPress (1.8.0)
+ *
+ * @param array $args {
+ *     Array of arguments. Accepts all arguments from
+ *     {@link BP_User_Query}, with the following additions:
+ *     @type int $group_id ID of the group to limit results to.
+ *     @type array $group_role Array of group roles to match ('member',
+ *           'mod', 'admin', 'banned'). Default: array( 'member' ).
+ *     @type bool $is_confirmed Whether to limit to confirmed members.
+ *           Default: true.
+ *     @type string $type Sort order. Accepts any value supported by
+ *           {@link BP_User_Query}, in addition to 'last_joined' and
+ *           'first_joined'. Default: 'last_joined'.
+ * }
  */
 class BP_Group_Member_Query extends BP_User_Query {
 
