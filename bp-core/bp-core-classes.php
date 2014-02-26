@@ -365,7 +365,7 @@ class BP_User_Query {
 		// To avoid global joins, do a separate query
 		// @todo remove need for bp_is_active() check
 		if ( false !== $search_terms && bp_is_active( 'xprofile' ) ) {
-			$search_terms_clean = mysql_real_escape_string( mysql_real_escape_string( $search_terms ) );
+			$search_terms_clean = esc_sql( esc_sql( $search_terms ) );
 			$search_terms_clean = like_escape( $search_terms_clean );
 			$found_user_ids_query = "SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE '%" . $search_terms_clean . "%'";
 			$found_user_ids = $wpdb->get_col( $found_user_ids_query );
