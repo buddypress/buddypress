@@ -22,3 +22,16 @@ add_action( 'messages_message_sent',   'bp_core_clear_cache' );
 add_action( 'messages_screen_compose', 'bp_core_clear_cache' );
 add_action( 'messages_screen_sentbox', 'bp_core_clear_cache' );
 add_action( 'messages_screen_inbox',   'bp_core_clear_cache' );
+
+/**
+ * Invalidates cache for notices.
+ * 
+ * Currently, invalidates active notice cache.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_notices_clear_cache( $notice ) {
+	wp_cache_delete( 'active_notice', 'bp_messages' );
+}
+add_action( 'messages_notice_after_save',    'bp_notices_clear_cache' );
+add_action( 'messages_notice_before_delete', 'bp_notices_clear_cache' );

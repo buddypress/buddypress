@@ -577,6 +577,8 @@ class BP_Messages_Notice {
 	public function delete() {
 		global $wpdb, $bp;
 
+		do_action( 'messages_notice_before_delete', $this );
+
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_notices} WHERE id = %d", $this->id );
 
 		if ( ! $wpdb->query( $sql ) ) {
@@ -643,10 +645,17 @@ class BP_Messages_Notice {
 	 * @return object The BP_Messages_Notice object
 	 */
 	public static function get_active() {
-		global $wpdb, $bp;
+		$notice = wp_cache_get( 'active_notice', 'bp_messages' );
 
-		$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->messages->table_name_notices} WHERE is_active = 1" );
+		if ( false === $notice ) {
+			global $wpdb, $bp;
 
-		return new BP_Messages_Notice( $notice_id );
+			$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->messages->table_name_notices} WHERE is_active = 1" );
+			$notice    = new BP_Messages_Notice( $notice_id );
+
+			wp_cache_set( 'active_notice', $notice, 'bp_messages' );
+		}
+
+		return $notice;
 	}
 }
