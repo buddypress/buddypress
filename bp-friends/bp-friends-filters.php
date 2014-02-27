@@ -8,7 +8,10 @@
  */
 
 /**
- * Filter BP_User_Query::populate_extras to override each queried users fullname.
+ * Filter BP_User_Query::populate_extras to add confirmed friendship status.
+ *
+ * Each member in the user query is checked for confirmed friendship status
+ * against the logged-in user.
  *
  * @since BuddyPress (1.7.0)
  *
@@ -21,6 +24,11 @@
  */
 function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query, $user_ids_sql ) {
 	global $bp, $wpdb;
+
+	// stop if user isn't logged in
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
 
 	// Fetch whether or not the user is a friend of the current user
 	$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids_sql} ) ) OR (initiator_user_id IN ( {$user_ids_sql} ) AND friend_user_id = %d )", bp_loggedin_user_id(), bp_loggedin_user_id() ) );
