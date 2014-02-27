@@ -137,10 +137,12 @@ class BP_Activity_Activity {
 	public function populate() {
 		global $wpdb, $bp;
 
-		$row = wp_cache_get( 'activity_' . $this->id, 'bp' );
+		$row = wp_cache_get( $this->id, 'bp_activity' );
 
 		if ( false === $row ) {
 			$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) );
+
+			wp_cache_set( $this->id, $row, 'bp_activity' );
 		}
 
 		if ( ! empty( $row ) ) {
@@ -474,7 +476,7 @@ class BP_Activity_Activity {
 		foreach ( $activity_ids as $activity_id ) {
 
 			// If cached data is found, use it
-			if ( $activity_data = wp_cache_get( 'activity_' . $activity_id, 'bp' ) ) {
+			if ( $activity_data = wp_cache_get( $activity_id, 'bp_activity' ) ) {
 				$activities[ $activity_id ] = $activity_data;
 
 			// Otherwise leave a placeholder so we don't lose the order
@@ -498,7 +500,7 @@ class BP_Activity_Activity {
 			// and add it to the cache
 			foreach ( (array) $queried_adata as $adata ) {
 				$activities[ $adata->id ] = $adata;
-				wp_cache_set( 'activity_' . $adata->id, $adata, 'bp' );
+				wp_cache_set( $adata->id, $adata, 'bp_activity' );
 			}
 		}
 

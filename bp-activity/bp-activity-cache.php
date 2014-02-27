@@ -42,7 +42,7 @@ function bp_activity_update_meta_cache( $activity_ids = false ) {
  * @param BP_Activity_Activity $activity
  */
 function bp_activity_clear_cache_for_activity( $activity ) {
-	wp_cache_delete( 'activity_' . $activity->id, 'bp' );
+	wp_cache_delete( $activity->id, 'bp_activity' );
 }
 add_action( 'bp_activity_after_save', 'bp_activity_clear_cache_for_activity' );
 
@@ -55,7 +55,7 @@ add_action( 'bp_activity_after_save', 'bp_activity_clear_cache_for_activity' );
  */
 function bp_activity_clear_cache_for_deleted_activity( $deleted_ids ) {
 	foreach ( (array) $deleted_ids as $deleted_id ) {
-		wp_cache_delete( 'activity_' . $deleted_id, 'bp' );
+		wp_cache_delete( $deleted_id, 'bp_activity' );
 	}
 }
 add_action( 'bp_activity_deleted_activities', 'bp_activity_clear_cache_for_deleted_activity' );
