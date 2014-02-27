@@ -102,6 +102,7 @@ function xprofile_screen_edit_profile() {
 			$errors = false;
 
 			// Now we've checked for required fields, lets save the values.
+			$old_values = $new_values = array();
 			foreach ( (array) $posted_field_ids as $field_id ) {
 
 				// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.
@@ -120,9 +121,21 @@ function xprofile_screen_edit_profile() {
 				// Save the visibility level
 				$visibility_level = !empty( $_POST['field_' . $field_id . '_visibility'] ) ? $_POST['field_' . $field_id . '_visibility'] : 'public';
 				xprofile_set_field_visibility_level( $field_id, bp_displayed_user_id(), $visibility_level );
+
+				// Save the old and new values. They will be
+				// passed to the filter and used to determine
+				// whether an activity item should be posted
+				$old_values[ $field_id ] = array(
+					'value'      => xprofile_get_field_data( $field_id, bp_displayed_user_id() ),
+					'visibility' => xprofile_get_field_visibility_level( $field_id, bp_displayed_user_id() ),
+				);
+				$new_values[ $field_id ] = array(
+					'value'      => $value,
+					'visibility' => $visibility_level,
+				);
 			}
 
-			do_action( 'xprofile_updated_profile', bp_displayed_user_id(), $posted_field_ids, $errors );
+			do_action( 'xprofile_updated_profile', bp_displayed_user_id(), $posted_field_ids, $errors, $old_values, $new_values );
 
 			// Set the feedback messages
 			if ( !empty( $errors ) ) {
