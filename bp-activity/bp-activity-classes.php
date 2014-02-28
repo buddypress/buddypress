@@ -894,7 +894,7 @@ class BP_Activity_Activity {
 			$top_level_parent_id = $activity_id;
 		}
 
-		$comments = wp_cache_get( 'bp_activity_comments_' . $activity_id, 'bp' );
+		$comments = wp_cache_get( $activity_id, 'bp_activity_comments' );
 
 		// We store the string 'none' to cache the fact that the
 		// activity item has no comments
@@ -969,7 +969,7 @@ class BP_Activity_Activity {
 				$cache_value = $comments;
 			}
 
-			wp_cache_set( 'bp_activity_comments_' . $activity_id, $cache_value, 'bp' );
+			wp_cache_set( $activity_id, $cache_value, 'bp_activity_comments' );
 		}
 
 		return $comments;

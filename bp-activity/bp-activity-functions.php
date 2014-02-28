@@ -1243,8 +1243,8 @@ function bp_activity_new_comment( $args = '' ) {
 		'hide_sitewide'     => $is_hidden
 	) );
 
-	// Clear the comment cache for this activity
-	wp_cache_delete( 'bp_activity_comments_' . $parent_id, 'bp' );
+	// Clear the comment and item cache for this activity
+	wp_cache_delete( $parent_id, 'bp_activity_comments' );
 	wp_cache_delete( $parent_id, 'bp_activity' );
 
 	do_action( 'bp_activity_comment_posted', $comment_id, $params, $activity );
@@ -1662,7 +1662,7 @@ function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
 	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 
 	// Clear the activity comment cache for this activity item
-	wp_cache_delete( 'bp_activity_comments_' . $activity->id, 'bp' );
+	wp_cache_delete( $activity->id, 'bp_activity_comments' );
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity
 	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
@@ -1702,7 +1702,7 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
 	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 
 	// Clear the activity comment cache for this activity item
-	wp_cache_delete( 'bp_activity_comments_' . $activity->id, 'bp' );
+	wp_cache_delete( $activity->id, 'bp_activity_comments' );
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity
 	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
