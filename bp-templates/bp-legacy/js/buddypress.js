@@ -1696,24 +1696,33 @@ function checkAll() {
 	}
 }
 
-function clear(container) {
-	if( !document.getElementById(container) ) return;
+/**
+ * Deselects any select options or input options for the specified field element.
+ *
+ * @param {String} container HTML ID of the field
+ * @since BuddyPress (1.2.0)
+ */
+function clear( container ) {
+	container = document.getElementById( container );
+	if ( ! container ) {
+		return;
+	}
 
-	var container = document.getElementById(container);
+	var radioButtons = container.getElementsByTagName( 'INPUT' ),
+		options = container.getElementsByTagName( 'OPTION' ),
+		i       = 0;
 
-	if ( radioButtons = container.getElementsByTagName('INPUT') ) {
-		for(var i=0; i<radioButtons.length; i++) {
+	if ( radioButtons ) {
+		for ( i = 0; i < radioButtons.length; i++ ) {
 			radioButtons[i].checked = '';
 		}
 	}
 
-	if ( options = container.getElementsByTagName('OPTION') ) {
-		for(var i=0; i<options.length; i++) {
+	if ( options ) {
+		for ( i = 0; i < options.length; i++ ) {
 			options[i].selected = false;
 		}
 	}
-
-	return;
 }
 
 /* Returns a querystring of BP cookies (cookies beginning with 'bp-') */
