@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-02-27 21:35:18+00:00\n"
+"POT-Creation-Date: 2014-02-28 14:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -539,11 +539,11 @@ msgstr ""
 msgid "Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details."
 msgstr ""
 
-#: bp-activity/bp-activity-classes.php:1324
+#: bp-activity/bp-activity-classes.php:1326
 msgid "RSS feed 'id' must be defined"
 msgstr ""
 
-#: bp-activity/bp-activity-classes.php:1437
+#: bp-activity/bp-activity-classes.php:1439
 msgid "In reply to"
 msgstr ""
 
@@ -576,7 +576,7 @@ msgstr ""
 msgid "%s posted a new activity comment"
 msgstr ""
 
-#: bp-activity/bp-activity-functions.php:1619
+#: bp-activity/bp-activity-functions.php:1620
 msgid "Thumbnail"
 msgstr ""
 
