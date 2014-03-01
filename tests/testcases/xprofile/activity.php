@@ -100,7 +100,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$existing = bp_activity_get( array(
 			'max' => 1,
 			'filter' => array(
-				'user_id' => $user_id,
+				'user_id' => $d['u'],
 				'object' => buddypress()->profile->id,
 				'action' => 'updated_profile',
 			),
@@ -134,7 +134,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$existing = bp_activity_get( array(
 			'max' => 1,
 			'filter' => array(
-				'user_id' => $user_id,
+				'user_id' => $d['u'],
 				'object' => buddypress()->profile->id,
 				'action' => 'updated_profile',
 			),
