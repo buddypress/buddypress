@@ -104,7 +104,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		// Fake the global
 		global $members_template;
 
-		$time = date( 'Y-m-d h:i:s', time() - 24*60*60 );
+		$time = date( 'Y-m-d H:i:s', time() - 24*60*60 );
 		$members_template = new stdClass;
 		$members_template->member = new stdClass;
 		$members_template->member->last_activity = $time;
@@ -119,7 +119,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		// Fake the global
 		global $members_template;
 
-		$time = date( 'Y-m-d h:i:s', time() - 24*60*60 );
+		$time = date( 'Y-m-d H:i:s', time() - 24*60*60 );
 		$members_template = new stdClass;
 		$members_template->member = new stdClass;
 		$members_template->member->last_activity = $time;
@@ -134,7 +134,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		// Fake the global
 		global $members_template;
 
-		$time = date( 'Y-m-d h:i:s', time() - 24*60*60 );
+		$time = date( 'Y-m-d H:i:s', time() - 24*60*60 );
 		$members_template = new stdClass;
 		$members_template->member = new stdClass;
 		$members_template->member->last_activity = $time;

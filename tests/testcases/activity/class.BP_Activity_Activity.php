@@ -428,15 +428,15 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	public function test_get_last_updated() {
 		$now = time();
 		$a1 = $this->factory->activity->create( array(
-			'recorded_time' => date( 'Y-m-d h:i:s', $now - 500 ),
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 500 ),
 		) );
 		$a2 = $this->factory->activity->create( array(
-			'recorded_time' => date( 'Y-m-d h:i:s', $now - 100 ),
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 		$a3 = $this->factory->activity->create( array(
-			'recorded_time' => date( 'Y-m-d h:i:s', $now - 300 ),
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 300 ),
 		) );
 
-		$this->assertSame( date( 'Y-m-d h:i:s', $now - 100 ), BP_Activity_Activity::get_last_updated() );
+		$this->assertSame( date( 'Y-m-d H:i:s', $now - 100 ), BP_Activity_Activity::get_last_updated() );
 	}
 }

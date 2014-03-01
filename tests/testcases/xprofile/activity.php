@@ -15,19 +15,19 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 
 		// Fake new/old values to ensure a change
 		$old_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'public',
 			),
 		);
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo2',
 				'visibility' => 'public',
 			),
 		);
 
-		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), true ) );
+		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), true ) );
 	}
 
 	/**
@@ -37,8 +37,8 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$d = $this->setup_updated_profile_data();
 
 		$time = time();
-		$prev_time = date( 'Y-m-d h:i:s', $time - ( 119 * 60 ) );
-		$now_time = date( 'Y-m-d h:i:s', $time );
+		$prev_time = date( 'Y-m-d H:i:s', $time - ( 119 * 60 ) );
+		$now_time = date( 'Y-m-d H:i:s', $time );
 
 		$this->factory->activity->create( array(
 			'user_id' => $d['u'],
@@ -49,19 +49,19 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 
 		// Fake new/old values to ensure a change
 		$old_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'public',
 			),
 		);
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo2',
 				'visibility' => 'public',
 			),
 		);
 
-		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), false ) );
+		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false ) );
 	}
 
 	/**
@@ -70,9 +70,9 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 	public function test_bp_xprofile_updated_profile_activity_outside_of_throttle() {
 		$d = $this->setup_updated_profile_data();
 
-		$time = time();
-		$prev_time = date( 'Y-m-d h:i:s', $time - ( 121 * 60 ) );
-		$now_time = date( 'Y-m-d h:i:s', $time );
+		$time = strtotime( bp_core_current_time() );
+		$prev_time = date( 'Y-m-d H:i:s', $time - ( 121 * 60 ) );
+		$now_time = date( 'Y-m-d H:i:s', $time );
 
 		$this->factory->activity->create( array(
 			'user_id' => $d['u'],
@@ -83,19 +83,19 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 
 		// Fake new/old values to ensure a change
 		$old_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'public',
 			),
 		);
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo2',
 				'visibility' => 'public',
 			),
 		);
 
-		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), false, $old_values, $new_values ) );
+		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 
 		$existing = bp_activity_get( array(
 			'max' => 1,
@@ -117,19 +117,19 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 
 		// Fake new/old values to ensure a change
 		$old_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'public',
 			),
 		);
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo2',
 				'visibility' => 'public',
 			),
 		);
 
-		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), false, $old_values, $new_values ) );
+		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 
 		$existing = bp_activity_get( array(
 			'max' => 1,
@@ -150,19 +150,19 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$d = $this->setup_updated_profile_data();
 
 		$old_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'public',
 			),
 		);
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'public',
 			),
 		);
 
-		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), false, $old_values, $new_values ) );
+		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
 	/**
@@ -172,19 +172,19 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$d = $this->setup_updated_profile_data();
 
 		$old_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'loggedin',
 			),
 		);
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'bar',
 				'visibility' => 'loggedin',
 			),
 		);
 
-		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), false, $old_values, $new_values ) );
+		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
 	/**
@@ -194,19 +194,19 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$d = $this->setup_updated_profile_data();
 
 		$old_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'public',
 			),
 		);
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'bar',
 				'visibility' => 'loggedin',
 			),
 		);
 
-		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), false, $old_values, $new_values ) );
+		$this->assertFalse( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
 	/**
@@ -216,19 +216,19 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$d = $this->setup_updated_profile_data();
 
 		$old_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'loggedin',
 			),
 		);
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'public',
 			),
 		);
 
-		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), false, $old_values, $new_values ) );
+		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
 	/**
@@ -239,13 +239,13 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 
 		$old_values = array();
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'bar',
 				'visibility' => 'public',
 			),
 		);
 
-		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), false, $old_values, $new_values ) );
+		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
 	/**
@@ -255,19 +255,19 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$d = $this->setup_updated_profile_data();
 
 		$old_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'foo',
 				'visibility' => 'public',
 			),
 		);
 		$new_values = array(
-			$this->updated_profile_data['f']->id => array(
+			$this->updated_profile_data['f'] => array(
 				'value'      => 'bar',
 				'visibility' => 'public',
 			),
 		);
 
-		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f']->id ), false, $old_values, $new_values ) );
+		$this->assertTrue( bp_xprofile_updated_profile_activity( $d['u'], array( $d['f'] ), false, $old_values, $new_values ) );
 	}
 
 
@@ -276,7 +276,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->updated_profile_data['g'] = $this->factory->xprofile_group->create();
 		$this->updated_profile_data['f'] = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
-			'field_group_id' => $this->updated_profile_data['g']->id,
+			'field_group_id' => $this->updated_profile_data['g'],
 		) );
 
 	}

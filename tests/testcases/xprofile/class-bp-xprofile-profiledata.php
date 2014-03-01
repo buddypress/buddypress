@@ -145,7 +145,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_value_byid
 	 */
 	public function test_get_value_byid_multipleusers_uncached() {
-		$time = date( 'Y-m-d h:i:s', time() - 60*60*24 );
+		$time = date( 'Y-m-d H:i:s', time() - 60*60*24 );
 
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
@@ -225,7 +225,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_value_byid
 	 */
 	public function test_get_value_byid_multipleusers_cached() {
-		$time = date( 'Y-m-d h:i:s', time() - 60*60*24 );
+		$time = date( 'Y-m-d H:i:s', time() - 60*60*24 );
 
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
