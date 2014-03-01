@@ -3,7 +3,7 @@
  * @group xprofile
  * @group BP_XProfile_Field
  */
-class BP_Tests_BP_XProfile_XProfile_TestCases extends BP_UnitTestCase {
+class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 	}
