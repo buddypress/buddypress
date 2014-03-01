@@ -231,8 +231,13 @@ function bp_update_meta_cache( $args = array() ) {
 			}
 		}
 
-		foreach ( $cache as $object_id => $cache_val ) {
-			wp_cache_set( $object_id, $cache_val, $cache_group );
+		foreach ( $uncached_ids as $uncached_id ) {
+			// Cache empty values as well
+			if ( ! isset( $cache[ $uncached_id ] ) ) {
+				$cache[ $uncached_id ] = array();
+			}
+
+			wp_cache_set( $uncached_id, $cache[ $uncached_id ], $cache_group );
 		}
 	}
 
