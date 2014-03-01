@@ -684,22 +684,27 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
 	<?php endif; ?>
 
 	<div class="bp-groups-settings-section" id="bp-groups-settings-section-status">
-		<label for="group-status"><?php _e( 'Privacy', 'buddypress' ); ?></label>
+		<fieldset>
+			<legend><?php _e( 'Privacy', 'buddypress' ); ?></legend>
 
-		<ul>
-			<li><input type="radio" name="group-status" id="bp-group-status-public" value="public" <?php checked( $item->status, 'public' ) ?> /> <?php _e( 'Public', 'buddypress' ) ?></li>
-			<li><input type="radio" name="group-status" id="bp-group-status-private" value="private" <?php checked( $item->status, 'private' ) ?> /> <?php _e( 'Private', 'buddypress' ) ?></li>
-			<li><input type="radio" name="group-status" id="bp-group-status-hidden" value="hidden" <?php checked( $item->status, 'hidden' ) ?> /> <?php _e( 'Hidden', 'buddypress' ) ?></li>
+			<ul>
+				<li><input type="radio" name="group-status" id="bp-group-status-public" value="public" <?php checked( $item->status, 'public' ) ?> /><label for="bp-group-status-public"><?php _e( 'Public', 'buddypress' ) ?></label></li>
+				<li><input type="radio" name="group-status" id="bp-group-status-private" value="private" <?php checked( $item->status, 'private' ) ?> /><label for="bp-group-status-private"><?php _e( 'Private', 'buddypress' ) ?></label></li>
+				<li><input type="radio" name="group-status" id="bp-group-status-hidden" value="hidden" <?php checked( $item->status, 'hidden' ) ?> /><label for="bp-group-status-hidden"><?php _e( 'Hidden', 'buddypress' ) ?></label></li>
+			</ul>
+		</fieldset>
 	</div>
 
 	<div class="bp-groups-settings-section" id="bp-groups-settings-section-invite-status">
-		<label for="group-invite-status"><?php _e( 'Who can invite others to this group?', 'buddypress' ); ?></label>
+		<fieldset>
+			<legend><?php _e( 'Who can invite others to this group?', 'buddypress' ); ?></legend>
 
-		<ul>
-			<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-members" value="members" <?php checked( $invite_status, 'members' ) ?> /> <?php _e( 'All group members', 'buddypress' ) ?></li>
-			<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-mods" value="mods" <?php checked( $invite_status, 'mods' ) ?> /> <?php _e( 'Group admins and mods only', 'buddypress' ) ?></li>
-			<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-admins" value="admins" <?php checked( $invite_status, 'admins' ) ?> /> <?php _e( 'Group admins only', 'buddypress' ) ?></li>
-		</ul>
+			<ul>
+				<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-members" value="members" <?php checked( $invite_status, 'members' ) ?> /><label for="bp-group-invite-status-members"><?php _e( 'All group members', 'buddypress' ) ?></label></li>
+				<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-mods" value="mods" <?php checked( $invite_status, 'mods' ) ?> /><label for="bp-group-invite-status-mods"><?php _e( 'Group admins and mods only', 'buddypress' ) ?></label></li>
+				<li><input type="radio" name="group-invite-status" id="bp-group-invite-status-admins" value="admins" <?php checked( $invite_status, 'admins' ) ?> /><label for="bp-group-invite-status-admins"><?php _e( 'Group admins only', 'buddypress' ) ?></label></li>
+			</ul>
+		</fieldset>
 	</div>
 
 <?php
