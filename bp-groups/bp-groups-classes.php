@@ -220,9 +220,6 @@ class BP_Groups_Group {
 				}
 			}
 
-			// Cache the group object before user-specific data is added
-			wp_cache_set( $this->id, $this, 'bp_groups' );
-
 			// Set up some specific group vars from meta. Excluded
 			// from the bp_groups cache because it's cached independently
 			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
