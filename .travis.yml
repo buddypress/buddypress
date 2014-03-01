@@ -35,6 +35,7 @@ before_script:
     - sed -i "s/yourdbnamehere/wordpress_test/" wp-tests-config.php
     - sed -i "s/yourusernamehere/root/" wp-tests-config.php
     - sed -i "s/yourpasswordhere//" wp-tests-config.php
+    - sed -i "s:// define( 'WP_DEBUG:define( 'WP_DEBUG:" wp-tests-config.php
     # set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
     # prepare for running the tests
