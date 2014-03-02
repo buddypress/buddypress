@@ -29,6 +29,9 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		add_filter( 'wp_mail_from', array( $this, 'tearDown_wp_mail' ) );
 
 		$this->factory = new BP_UnitTest_Factory;
+
+		// Fixes warnings in multisite functions
+		$_SERVER['REMOTE_ADDR'] = '';
 	}
 
 	function clean_up_global_scope() {
