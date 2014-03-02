@@ -340,6 +340,7 @@ class BP_Blogs_Blog {
 		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = "AND wb.public = 1";
 
+		$pag_sql = '';
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
