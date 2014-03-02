@@ -1,34 +1,26 @@
-(function( $ ) {
+( function( $ ) {
+	// Profile Visibility Settings
 
-	/** Profile Visibility Settings *********************************/
-	$('.visibility-toggle-link').on( 'click', function( event ) {
-
+	$( '.visibility-toggle-link' ).on( 'click', function( event ) {
 		event.preventDefault();
 
-		var toggle_div = $(this).parent();
-
-		$(toggle_div).fadeOut( 600, function(){
-			$(toggle_div).siblings('.field-visibility-settings').slideDown(400);
-		});
-
+		$( this ).parent().hide()
+			.siblings( '.field-visibility-settings' ).show();
 	} );
 
-	$('.field-visibility-settings-close').on( 'click', function( event ) {
-
+	$( '.field-visibility-settings-close' ).on( 'click', function( event ) {
 		event.preventDefault();
 
-		var settings_div = $(this).parent();
-		var vis_setting_text = settings_div.find('input:checked').parent().text();
+		var settings_div = $(this).parent(),
+		vis_setting_text = settings_div.find( 'input:checked' ).parent().text();
 
-		settings_div.slideUp( 400, function() {
-			settings_div.siblings('.field-visibility-settings-toggle').fadeIn(800);
-			settings_div.siblings('.field-visibility-settings-toggle').children('.current-visibility-level').html(vis_setting_text);
-		} );
-
-		return false;
+		settings_div.hide()
+			.siblings( '.field-visibility-settings-toggle' )
+				.children( '.current-visibility-level' ).text( vis_setting_text ).end()
+			.show();
 	} );
 
-})(jQuery);
+} )( jQuery );
 
 
 /**
