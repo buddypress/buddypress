@@ -389,60 +389,121 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
 	return apply_filters( 'bp_core_get_userlink', '<a href="' . $url . '" title="' . $display_name . '">' . $display_name . '</a>', $user_id );
 }
 
+/**
+ * Fetch the display name for a group of users.
+ *
+ * Uses the 'Name' field in xprofile if available. Falls back on WP
+ * display_name, and then user_nicename.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $user_ids
+ */
+function bp_core_get_user_displaynames( $user_ids ) {
+
+	// Sanitize
+	$user_ids = wp_parse_id_list( $user_ids );
+
+	// Remove dupes and empties
+	$user_ids = array_unique( array_filter( $user_ids ) );
+
+	if ( empty( $user_ids ) ) {
+		return array();
+	}
+
+	$uncached_ids = array();
+	foreach ( $user_ids as $user_id ) {
+		if ( false === wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
+			$uncached_ids[] = $user_id;
+		}
+	}
+
+	// Prime caches
+	if ( ! empty( $uncached_ids ) ) {
+		if ( bp_is_active( 'xprofile' ) ) {
+			$fullname_data = BP_XProfile_ProfileData::get_value_byid( 1, $uncached_ids );
+
+			// Key by user_id
+			$fullnames = array();
+			foreach ( $fullname_data as $fd ) {
+				if ( ! empty( $fd->value ) ) {
+					$fullnames[ intval( $fd->user_id ) ] = $fd->value;
+				}
+			}
+
+			// If xprofiledata is not found for any users,  we'll look
+			// them up separately
+			$no_xprofile_ids = array_diff( $uncached_ids, array_keys( $fullnames ) );
+		} else {
+			$fullnames = array();
+			$no_xprofile_ids = $user_ids;
+		}
+
+		if ( ! empty( $no_xprofile_ids ) ) {
+			// Use WP_User_Query because we don't need BP information
+			$query = new WP_User_Query( array(
+				'include'     => $no_xprofile_ids,
+				'fields'      => array( 'ID', 'user_nicename', 'display_name', ),
+				'count_total' => false,
+				'blog_id'     => 0,
+			) );
+
+			foreach ( $query->results as $qr ) {
+				$fullnames[ $qr->ID ] = ! empty( $qr->display_name ) ? $qr->display_name : $qr->user_nicename;
+
+				// If xprofile is active, set this value as the
+				// xprofile display name as well
+				if ( bp_is_active( 'xprofile' ) ) {
+					xprofile_set_field_data( 1, $qr->ID, $fullnames[ $qr->ID ] );
+				}
+			}
+		}
+
+		foreach ( $fullnames as $fuser_id => $fname ) {
+			wp_cache_set( 'bp_user_fullname_' . $fuser_id, $fname, 'bp' );
+		}
+	}
+
+	$retval = array();
+	foreach ( $user_ids as $user_id ) {
+		$retval[ $user_id ] = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' );
+	}
+
+	return $retval;
+}
 
 /**
- * Fetch the display name for a user. This will use the "Name" field in xprofile if it is installed.
- * Otherwise, it will fall back to the normal WP display_name, or user_nicename, depending on what has been set.
+ * Fetch the display name for a user.
  *
- * @package BuddyPress Core
- * @global BuddyPress $bp The one true BuddyPress instance
- * @uses wp_cache_get() Will try and fetch the value from the cache, rather than querying the DB again.
- * @uses get_userdata() Fetches the WP userdata for a specific user.
- * @uses xprofile_set_field_data() Will update the field data for a user based on field name and user id.
- * @uses wp_cache_set() Adds a value to the cache.
- * @return string|bool The display name for the user in question, or false if user not found.
+ * @param int|string $user_id_or_username User ID or username.
+ * @return string|bool The display name for the user in question, or false if
+ *         user not found.
  */
 function bp_core_get_user_displayname( $user_id_or_username ) {
 	global $bp;
 
 	$fullname = '';
 
-	if ( !$user_id_or_username )
+	if ( empty( $user_id_or_username ) ) {
 		return false;
+	}
 
-	if ( !is_numeric( $user_id_or_username ) )
+	if ( ! is_numeric( $user_id_or_username ) ) {
 		$user_id = bp_core_get_userid( $user_id_or_username );
-	else
+	} else {
 		$user_id = $user_id_or_username;
+	}
 
-	if ( !$user_id )
+	if ( empty( $user_id ) ) {
 		return false;
+	}
 
-	if ( !$fullname = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
-		if ( bp_is_active( 'xprofile' ) ) {
-			$fullname = xprofile_get_field_data( 1, $user_id );
+	$display_names = bp_core_get_user_displaynames( array( $user_id ) );
 
-			if ( empty($fullname) ) {
-				$ud = bp_core_get_core_userdata( $user_id );
-
-				if ( !empty( $ud->display_name ) )
-					$fullname = $ud->display_name;
-				elseif ( !empty( $ud->user_nicename ) )
-					$fullname = $ud->user_nicename;
-
-				xprofile_set_field_data( 1, $user_id, $fullname );
-			}
-		} else {
-			$ud = bp_core_get_core_userdata($user_id);
-
-			if ( !empty( $ud->display_name ) )
-				$fullname = $ud->display_name;
-			elseif ( !empty( $ud->user_nicename ) )
-				$fullname = $ud->user_nicename;
-		}
-
-		if ( !empty( $fullname ) )
-			wp_cache_set( 'bp_user_fullname_' . $user_id, $fullname, 'bp' );
+	if ( ! isset( $display_names[ $user_id ] ) ) {
+		$fullname = false;
+	} else {
+		$fullname = $display_names[ $user_id ];
 	}
 
 	return apply_filters( 'bp_core_get_user_displayname', $fullname, $user_id );

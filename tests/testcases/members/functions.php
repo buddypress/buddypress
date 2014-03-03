@@ -209,4 +209,74 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 			unset( buddypress()->active_components['xprofile'] );
 		}
 	}
+
+	/**
+	 * @group bp_core_get_user_displaynames
+	 */
+	public function test_bp_core_get_user_displayname_arrays_all_bad_entries() {
+		$this->assertSame( array(), bp_core_get_user_displaynames( array( 0, 'foo', ) ) );
+	}
+
+	/**
+	 * @group bp_core_get_user_displaynames
+	 */
+	public function test_bp_core_get_user_displaynames_all_uncached() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		xprofile_set_field_data( 1, $u1, 'Foo' );
+		xprofile_set_field_data( 1, $u2, 'Bar' );
+
+		$expected = array(
+			$u1 => 'Foo',
+			$u2 => 'Bar',
+		);
+
+		$this->assertSame( $expected, bp_core_get_user_displaynames( array( $u1, $u2, ) ) );
+	}
+
+	/**
+	 * @group bp_core_get_user_displaynames
+	 */
+	public function test_bp_core_get_user_displaynames_one_not_in_xprofile() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user( array(
+			'display_name' => 'Bar',
+		) );
+
+		xprofile_set_field_data( 1, $u1, 'Foo' );
+
+		// Delete directly because BP won't let you delete a required
+		// field through the API
+		global $wpdb, $bp;
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u2 ) );
+		wp_cache_delete( 'bp_user_fullname_' . $u2, 'bp' );
+		wp_cache_delete( 1, 'bp_xprofile_data_' . $u2, 'bp' );
+
+		$expected = array(
+			$u1 => 'Foo',
+			$u2 => 'Bar',
+		);
+
+		$this->assertSame( $expected, bp_core_get_user_displaynames( array( $u1, $u2, ) ) );
+	}
+
+	/**
+	 * @group bp_core_get_user_displaynames
+	 */
+	public function test_bp_core_get_user_displaynames_one_in_cache() {
+		$u1 = $this->create_user();
+		xprofile_set_field_data( 1, $u1, 'Foo' );
+
+		// Fake the cache for $u2
+		$u2 = 123;
+		wp_cache_set( 'bp_user_fullname_' . $u2, 'Bar', 'bp' );
+
+		$expected = array(
+			$u1 => 'Foo',
+			$u2 => 'Bar',
+		);
+
+		$this->assertSame( $expected, bp_core_get_user_displaynames( array( $u1, $u2, ) ) );
+	}
 }

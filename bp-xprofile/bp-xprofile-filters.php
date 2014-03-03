@@ -215,9 +215,9 @@ function xprofile_filter_comments( $comments, $post_id ) {
 	}
 
 	// Pull up the xprofile fullname of each commenter
-	if ( $fullnames = BP_XProfile_ProfileData::get_value_byid( 1, $user_ids ) ) {
-		foreach( (array) $fullnames as $user ) {
-			$users[ $user->user_id ] = trim( stripslashes( $user->value ) );
+	if ( $fullnames = bp_core_get_user_displaynames( $user_ids ) ) {
+		foreach( (array) $fullnames as $user_id => $user_fullname ) {
+			$users[ $user_id ] = trim( stripslashes( $user_fullname ) );
 		}
 	}
 
@@ -251,12 +251,12 @@ function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_quer
 		return;
 	}
 
-	$user_id_names = BP_XProfile_ProfileData::get_value_byid( bp_xprofile_fullname_field_id(), $user_query->user_ids );
+	$user_id_names = bp_core_get_user_displaynames( $user_query->user_ids );
 
 	// Loop through names and override each user's fullname
-	foreach ( $user_id_names as $user ) {
-		if ( isset( $user_query->results[ $user->user_id ] ) ) {
-			$user_query->results[ $user->user_id ]->fullname = $user->value;
+	foreach ( $user_id_names as $user_id => $user_fullname ) {
+		if ( isset( $user_query->results[ $user_id ] ) ) {
+			$user_query->results[ $user_id ]->fullname = $user_fullname;
 		}
 	}
 }

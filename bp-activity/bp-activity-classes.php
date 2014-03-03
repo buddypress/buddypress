@@ -544,23 +544,13 @@ class BP_Activity_Activity {
 			$activity_user_ids = wp_list_pluck( $activities, 'user_id' );
 
 			if ( ! empty( $activity_user_ids ) ) {
-				$names = BP_XProfile_ProfileData::get_value_byid( 1, $activity_user_ids );
-				if ( ! empty( $names ) ) {
-
-					$tmp_names = array();
-
-					foreach ( (array) $names as $name ) {
-						$tmp_names[ $name->user_id ] = $name->value;
-					}
-
+				$fullnames = bp_core_get_user_displaynames( $activity_user_ids );
+				if ( ! empty( $fullnames ) ) {
 					foreach ( (array) $activities as $i => $activity ) {
-						if ( ! empty( $tmp_names[ $activity->user_id ] ) ) {
-							$activities[ $i ]->user_fullname = $tmp_names[ $activity->user_id ];
+						if ( ! empty( $fullnames[ $activity->user_id ] ) ) {
+							$activities[ $i ]->user_fullname = $fullnames[ $activity->user_id ];
 						}
 					}
-
-					unset( $names );
-					unset( $tmp_names );
 				}
 			}
 		}
