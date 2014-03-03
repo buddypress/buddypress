@@ -133,6 +133,21 @@ function xprofile_clear_profile_data_object_cache( $group_id ) {
 add_action( 'xprofile_updated_profile', 'xprofile_clear_profile_data_object_cache'   );
 
 /**
+ * Clear the fullname cache when field 1 is updated.
+ *
+ * xprofile_clear_profile_data_object_cache() will make this redundant in most
+ * cases, except where the field is updated directly with xprofile_set_field_data()
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function xprofile_clear_fullname_cache_on_profile_field_edit( $data ) {
+	if ( 1 == $data->field_id ) {
+		wp_cache_delete( 'bp_user_fullname_' . $data->user_id, 'bp' );
+	}
+}
+add_action( 'xprofile_data_after_save', 'xprofile_clear_fullname_cache_on_profile_field_edit' );
+
+/**
  * Clear caches when a field object is modified.
  *
  * @since BuddyPress (2.0.0)

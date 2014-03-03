@@ -1156,7 +1156,7 @@ class BP_XProfile_ProfileData {
 		// Check cache first
 		$cached = wp_cache_get( $this->field_id, 'bp_xprofile_data_' . $this->user_id );
 
-		if ( $cached ) {
+		if ( $cached && ! empty( $cached->id ) ) {
 			$retval = true;
 		} else {
 			$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );

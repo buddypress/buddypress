@@ -100,4 +100,113 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		$this->assertSame( home_url( 'new-members-slug' ) . '/' . $user->user_nicename . '/', bp_core_get_user_domain( $user_id ) );
 	}
+
+	/**
+	 * @group bp_core_get_user_displayname
+	 */
+	public function test_bp_core_get_user_displayname_empty_username() {
+		$this->assertFalse( bp_core_get_user_displayname( '' ) );
+	}
+
+	/**
+	 * @group bp_core_get_user_displayname
+	 */
+	public function test_bp_core_get_user_displayname_translate_username() {
+		$u = $this->create_user();
+
+		$user = new WP_User( $u );
+
+		$found = bp_core_get_user_displayname( $u );
+		$this->assertNotEmpty( $found );
+		$this->assertSame( $found, bp_core_get_user_displayname( $user->user_login ) );
+	}
+
+	/**
+	 * @group bp_core_get_user_displayname
+	 */
+	public function test_bp_core_get_user_displayname_bad_username() {
+		$this->assertFalse( bp_core_get_user_displayname( 'i_dont_exist' ) );
+	}
+
+	/**
+	 * @group bp_core_get_user_displayname
+	 * @group cache
+	 */
+	public function test_bp_core_get_user_displayname_xprofile_populate_cache() {
+		$xprofile_is_active = bp_is_active( 'xprofile' );
+		buddypress()->active_components['xprofile'] = '1';
+
+		$u = $this->create_user( array(
+			'display_name' => 'Foo',
+		) );
+		bp_core_get_user_displayname( $u );
+
+		$this->assertSame( 'Foo', wp_cache_get( 'bp_user_fullname_' . $u, 'bp' ) );
+
+		if ( ! $xprofile_is_active ) {
+			unset( buddypress()->active_components['xprofile'] );
+		}
+	}
+
+	/**
+	 * @group bp_core_get_user_displayname
+	 * @group cache
+	 */
+	public function test_bp_core_get_user_displayname_xprofile_bust_cache_after_xprofile_update() {
+		$xprofile_is_active = bp_is_active( 'xprofile' );
+		buddypress()->active_components['xprofile'] = '1';
+
+		$u = $this->create_user();
+		xprofile_set_field_data( 1, $u, 'Foo Foo' );
+
+		$this->assertFalse( wp_cache_get( 'bp_user_fullname_' . $u, 'bp' ) );
+
+		if ( ! $xprofile_is_active ) {
+			unset( buddypress()->active_components['xprofile'] );
+		}
+	}
+
+	/**
+	 * @group bp_core_get_user_displayname
+	 */
+	public function test_bp_core_get_user_displayname_xprofile_exists() {
+		$xprofile_is_active = bp_is_active( 'xprofile' );
+		buddypress()->active_components['xprofile'] = '1';
+
+		$u = $this->create_user();
+		xprofile_set_field_data( 1, $u, 'Foo Foo' );
+
+		$this->assertSame( 'Foo Foo', bp_core_get_user_displayname( $u ) );
+
+		if ( ! $xprofile_is_active ) {
+			unset( buddypress()->active_components['xprofile'] );
+		}
+	}
+
+	/**
+	 * @group bp_core_get_user_displayname
+	 */
+	public function test_bp_core_get_user_displayname_xprofile_does_not_exist() {
+		$xprofile_is_active = bp_is_active( 'xprofile' );
+		buddypress()->active_components['xprofile'] = '1';
+
+		$u = $this->create_user( array(
+			'display_name' => 'Foo Foo',
+		) );
+
+		// Delete directly because BP won't let you delete a required
+		// field through the API
+		global $wpdb, $bp;
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u ) );
+		wp_cache_delete( 'bp_user_fullname_' . $u, 'bp' );
+		wp_cache_delete( 1, 'bp_xprofile_data_' . $u, 'bp' );
+
+		$this->assertSame( '', xprofile_get_field_data( 1, $u ) );
+		$this->assertSame( 'Foo Foo', bp_core_get_user_displayname( $u ) );
+		$this->assertSame( 'Foo Foo', xprofile_get_field_data( 1, $u ) );
+
+		if ( ! $xprofile_is_active ) {
+			unset( buddypress()->active_components['xprofile'] );
+		}
+	}
 }
