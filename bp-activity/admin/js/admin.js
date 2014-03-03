@@ -162,6 +162,11 @@ $(document).ready( function () {
 
 	// On the edit screen, unload the close/open toggle js for the action & content metaboxes
 	$( '#bp_activity_action h3, #bp_activity_content h3' ).unbind( 'click' );
+
+	// redo the post box toggles to reset the one made by comment.js in favor
+	// of activity administration page id so that metaboxes are still collapsible 
+	// in single Activity Administration screen.
+	postboxes.add_postbox_toggles( bp_activity_admin_vars.page );
 });
 
 })(jQuery);

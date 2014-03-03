@@ -360,7 +360,6 @@ class BP_Members_Admin {
 			// Enqueue javascripts
 			wp_enqueue_script( 'postbox' );
 			wp_enqueue_script( 'dashboard' );
-			wp_enqueue_script( 'comment' );
 
 		// Spam or Ham user
 		} else if ( in_array( $doaction, array( 'spam', 'ham' ) ) ) {
