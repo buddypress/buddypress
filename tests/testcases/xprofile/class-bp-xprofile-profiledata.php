@@ -54,7 +54,9 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$d = new BP_XProfile_ProfileData( $f, $u );
 
 		// Fake the cache
-		wp_cache_set( $f, 'foo', 'bp_xprofile_data_' . $u );
+		$c = new stdClass;
+		$c->id = 3;
+		wp_cache_set( $f, $c, 'bp_xprofile_data_' . $u );
 
 		$this->assertTrue( $d->exists() );
 	}
