@@ -607,8 +607,17 @@ class BP_XProfile_User_Admin {
 					bp_core_redirect( $redirect_to );
 				}
 
+				/**
+				 * Unlike front-end edit-fields screens, the wp-admin/profile displays all 
+				 * groups of fields on a single page, so the list of field ids is an array 
+				 * gathering for each group of fields a distinct comma separated list of ids. 
+				 * As a result, before using the wp_parse_id_list() function, we must ensure 
+				 * that these ids are "merged" into a single comma separated list.
+				 */
+				$merge_ids = join( ',', $_POST['field_ids'] );
+
 				// Explode the posted field IDs into an array so we know which fields have been submitted
-				$posted_field_ids = wp_parse_id_list( $_POST['field_ids'] );
+				$posted_field_ids = wp_parse_id_list( $merge_ids );
 				$is_required      = array();
 
 				// Loop through the posted fields formatting any datebox values then validate the field
