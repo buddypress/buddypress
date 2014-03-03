@@ -446,10 +446,17 @@ class BP_User_Query {
 	 * @since BuddyPress (1.7.0)
 	 */
 	public function do_wp_user_query() {
+		$fields = array( 'ID', 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'user_activation_key', 'user_status', 'display_name' );
+
+		if ( is_multisite() ) {
+			$fields[] = 'spam';
+			$fields[] = 'deleted';
+		}
+
 		$wp_user_query = new WP_User_Query( apply_filters( 'bp_wp_user_query_args', array(
 
 			// Relevant
-			'fields'      => array( 'ID', 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'user_activation_key', 'user_status', 'display_name', 'spam', 'deleted' ),
+			'fields'      => $fields,
 			'include'     => $this->user_ids,
 
 			// Overrides
