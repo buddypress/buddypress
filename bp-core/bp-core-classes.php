@@ -449,7 +449,7 @@ class BP_User_Query {
 		$wp_user_query = new WP_User_Query( apply_filters( 'bp_wp_user_query_args', array(
 
 			// Relevant
-			'fields'      => array( 'ID', 'user_registered', 'user_login', 'user_nicename', 'display_name', 'user_email' ),
+			'fields'      => array( 'ID', 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'user_activation_key', 'user_status', 'display_name', 'spam', 'deleted' ),
 			'include'     => $this->user_ids,
 
 			// Overrides
@@ -457,6 +457,14 @@ class BP_User_Query {
 			'count_total' => false // We already have a count
 
 		), $this ) );
+
+		// WP_User_Query doesn't cache the data it pulls from wp_users,
+		// and it does not give us a way to save queries by fetching
+		// only uncached users. However, BP does cache this data, so
+		// we set it here.
+		foreach ( $wp_user_query->results as $u ) {
+			wp_cache_set( 'bp_core_userdata_' . $u->ID, $u, 'bp' );
+		}
 
 		// We calculate total_users using a standalone query, except
 		// when a whitelist of user_ids is passed to the constructor.
