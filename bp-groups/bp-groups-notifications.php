@@ -61,8 +61,8 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	if ( bp_is_active( 'notifications' ) ) {
 		bp_notifications_add_notification( array(
 			'user_id'           => $admin_id,
-			'item_id'           => $requesting_user_id,
-			'secondary_item_id' => $group_id,
+			'item_id'           => $group_id,
+			'secondary_item_id' => $requesting_user_id,
 			'component_name'    => buddypress()->groups->id,
 			'component_action'  => 'new_membership_request'
 		) );
@@ -71,14 +71,20 @@ function groups_notification_new_membership_request( $requesting_user_id, $admin
 	if ( 'no' == bp_get_user_meta( $admin_id, 'notification_groups_membership_request', true ) )
 		return false;
 
+	// Username of the user requesting a membership: %1$s in mail
 	$requesting_user_name = bp_core_get_user_displayname( $requesting_user_id );
 	$group                = groups_get_group( array( 'group_id' => $group_id ) );
 
+	// Group Administrator user's data
 	$ud             = bp_core_get_core_userdata( $admin_id );
 	$group_requests = bp_get_group_permalink( $group ) . 'admin/membership-requests';
+
+	// Link to the user's profile who's requesting a membership: %3$s in mail
 	$profile_link   = bp_core_get_user_domain( $requesting_user_id );
+
 	$settings_slug  = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
-	$settings_link  = bp_core_get_user_domain( $requesting_user_id ) . $settings_slug . '/notifications/';
+	// Link to the group administrator email settings: %s in "disable notifications" part of the email
+	$settings_link  = bp_core_get_user_domain( $admin_id ) . $settings_slug . '/notifications/';
 
 	// Set up and send the message
 	$to       = $ud->user_email;
@@ -316,8 +322,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 	switch ( $action ) {
 		case 'new_membership_request':
-			$group_id = $secondary_item_id;
-			$requesting_user_id = $item_id;
+			$group_id = $item_id;
+			$requesting_user_id = $secondary_item_id;
 
 			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
