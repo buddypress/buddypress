@@ -335,9 +335,6 @@ function bp_activity_get_types() {
 	// This was a mis-named activity type from before BP 1.6
 	unset( $actions['friends_register_activity_action'] );
 
-	// This type has not been used since BP 1.0.3. It will be re-instated in a future version.
-	unset( $actions['updated_profile'] );
-
 	return apply_filters( 'bp_activity_get_types', $actions );
 }
 
