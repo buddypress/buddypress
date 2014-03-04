@@ -102,7 +102,7 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  * Prevent specific pages (eg 'Activate') from showing in the Pages meta box of the Menu Administration screen.
  *
  * @since BuddyPress (2.0.0)
- * 
+ *
  * @uses bp_is_root_blog() checks if current blog is root blog.
  * @uses buddypress() gets BuddyPress main instance
  *
@@ -111,26 +111,31 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  */
 function bp_core_exclude_pages_from_nav_menu_admin( $object = null ) {
 
-    // Bail if not the root blog
-    if ( ! bp_is_root_blog() )
-        return $object;
+	// Bail if not the root blog
+	if ( ! bp_is_root_blog() ) {
+		return $object;
+	}
 
-    if ( 'page' != $object->name )
-        return $object;
+	if ( 'page' != $object->name ) {
+		return $object;
+	}
 
-    $bp = buddypress();
-    $pages = array();
+	$bp = buddypress();
+	$pages = array();
 
-    if ( ! empty( $bp->pages->activate ) )
-        $pages[] = $bp->pages->activate->id;
+	if ( ! empty( $bp->pages->activate ) ) {
+		$pages[] = $bp->pages->activate->id;
+	}
 
-    if ( ! empty( $bp->pages->register ) )
-        $pages[] = $bp->pages->register->id;
+	if ( ! empty( $bp->pages->register ) ) {
+		$pages[] = $bp->pages->register->id;
+	}
 
-    if ( ! empty( $pages ) )
-        $object->_default_query['post__not_in'] = $pages;
+	if ( ! empty( $pages ) ) {
+		$object->_default_query['post__not_in'] = $pages;
+	}
 
-    return $object;
+	return $object;
 }
 add_filter( 'nav_menu_meta_box_object', 'bp_core_exclude_pages_from_nav_menu_admin', 11, 1 );
 
