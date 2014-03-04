@@ -23,7 +23,7 @@
 					<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ); ?></option>
 					<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
 
-					<?php do_action( 'bp_member_blog_order_options' ); ?>
+					<?php do_action( 'bp_member_friends_order_options' ); ?>
 
 				</select>
 			</li>
