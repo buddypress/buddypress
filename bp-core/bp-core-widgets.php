@@ -112,9 +112,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance             = $old_instance;
-		$instance['title']    = strip_tags( $new_instance['title'] );
-		$instance['register'] = esc_url_raw( $new_instance['register'] );
-		$instance['lostpass'] = esc_url_raw( $new_instance['lostpass'] );
+		$instance['title']    = isset( $new_instance['title'] ) ? strip_tags( $new_instance['title'] ) : '';
 
 		return $instance;
 	}
