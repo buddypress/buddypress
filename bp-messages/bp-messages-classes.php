@@ -421,7 +421,7 @@ class BP_Messages_Thread {
 		if ( empty( $user_id ) )
 			$user_id = bp_loggedin_user_id();
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND is_deleted = 0 AND user_id = %d", $thread_id, $user_id ) );
 	}
 
 	/**
