@@ -475,9 +475,56 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 			$this_user = new BP_Core_User( $found_users[ $counter ] );
 			foreach ( get_object_vars( $this_user ) as $k => $v ) {
+				// Doesn't matter if the backpat provides *more*
+				// details than the old method, so we skip cases
+				// where the BP_Core_User value is empty
+				if ( empty( $v ) ) {
+					continue;
+				}
+
 				$this->assertEquals( $v, $invites_template->invite->user->{$k} );
 			}
 			$counter++;
 		endwhile;
+	}
+
+	/**
+	 * @group bp_group_has_invites
+	 * @group BP_Groups_Invite_Template
+	 */
+	public function test_bp_group_has_invites_pagination() {
+		$u1 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
+		) );
+
+		$g = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
+
+		$users = array();
+		for ( $i = 1; $i < 15; $i++ ) {
+			$users[ $i ] = $this->create_user( array(
+				'last_activity' => gmdate( 'Y-m-d H:i:s', time() - $i ),
+			) );
+
+			$this->add_user_to_group( $users[ $i ], $g, array(
+				'date_modified' => gmdate( 'Y-m-d H:i:s', time() - $i ),
+				'is_confirmed' => 0,
+				'inviter_id' => $u1,
+				'invite_sent' => true,
+			) );
+		}
+
+		// Populate the global
+		bp_group_has_invites( array(
+			'group_id' => $g,
+			'user_id' => $u1,
+			'page' => 2,
+			'per_page' => 5,
+		) );
+
+		global $invites_template;
+
+		$this->assertEquals( array( $users[ 9 ], $users[ 8 ], $users[ 7 ], $users[ 6 ], $users[ 5 ], ), $invites_template->invites );
 	}
 }
