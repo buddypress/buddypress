@@ -1447,6 +1447,14 @@ class BP_Groups_Group {
 /**
  * Query for the members of a group.
  *
+ * Special notes about the group members data schema:
+ * - *Members* are entries with is_confirmed = 1
+ * - *Pending requests* are entries with is_confirmed = 0 and inviter_id = 0
+ * - *Pending and sent invitations* are entries with is_confirmed = 0 and
+ *   inviter_id != 0 and invite_sent = 1
+ * - *Pending and unsent invitations* are entries with is_confirmed = 0 and
+ *   inviter_id != 0 and invite_sent = 0
+ *
  * @since BuddyPress (1.8.0)
  *
  * @param array $args {
@@ -1514,6 +1522,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 			'group_id'     => 0,
 			'group_role'   => array( 'member' ),
 			'is_confirmed' => true,
+			'invite_sent'  => null,
+			'inviter_id'   => null,
 			'type'         => 'last_joined',
 		) );
 
@@ -1562,6 +1572,35 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// is_confirmed
 		$is_confirmed = ! empty( $this->query_vars['is_confirmed'] ) ? 1 : 0;
 		$sql['where'][] = $wpdb->prepare( "is_confirmed = %d", $is_confirmed );
+
+		// invite_sent
+		if ( ! is_null( $this->query_vars['invite_sent'] ) ) {
+			$invite_sent = ! empty( $this->query_vars['invite_sent'] ) ? 1 : 0;
+			$sql['where'][] = $wpdb->prepare( "invite_sent = %d", $invite_sent );
+		}
+
+		// inviter_id
+		if ( ! is_null( $this->query_vars['inviter_id'] ) ) {
+			$inviter_id = $this->query_vars['inviter_id'];
+
+			// Empty: inviter_id = 0. (pass false, 0, or empty array)
+			if ( empty( $inviter_id ) ) {
+				$sql['where'][] = "inviter_id = 0";
+
+			// The string 'any' matches any non-zero value (inviter_id != 0)
+			} else if ( 'any' === $inviter_id ) {
+				$sql['where'][] = "inviter_id != 0";
+
+			// Assume that a list of inviter IDs has been passed
+			} else {
+				// Parse and sanitize
+				$inviter_ids = wp_parse_id_list( $inviter_id );
+				if ( ! empty( $inviter_ids ) ) {
+					$inviter_ids_sql = implode( ',', $inviter_ids );
+					$sql['where'][] = "inviter_id IN ({$inviter_ids_sql})";
+				}
+			}
+		}
 
 		// Role information is stored as follows: admins have
 		// is_admin = 1, mods have is_mod = 1, banned have is_banned =
