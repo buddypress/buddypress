@@ -160,7 +160,7 @@ class BP_Groups_Template {
 			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page, $exclude );
 		} else if ( 'single-group' == $type ) {
 			$group           = new stdClass;
-			$group->group_id = BP_Groups_Group::get_id_from_slug( $slug );
+			$group->group_id = bp_get_current_group_id();
 			$this->groups    = array( $group );
 		} else {
 			$this->groups = groups_get_groups( array(
@@ -261,7 +261,7 @@ class BP_Groups_Template {
 		$this->group       = $this->next_group();
 
 		if ( $this->single_group )
-			$this->group = groups_get_group( array( 'group_id' => $this->group->group_id ) );
+			$this->group = groups_get_current_group();
 
 		if ( 0 == $this->current_group ) // loop has just started
 			do_action('group_loop_start');
