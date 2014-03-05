@@ -72,8 +72,17 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertSame( $b1_expected, wp_cache_get( $b1, 'blog_meta' ) );
-		$this->assertSame( $b2_expected, wp_cache_get( $b2, 'blog_meta' ) );
+		// The cache may contain more than just this, so loop through
+		// and check only relevant keys
+		$b1_found = wp_cache_get( $b1, 'blog_meta' );
+		foreach ( $b1_expected as $k => $v ) {
+			$this->assertSame( $v, $b1_found[ $k ] );
+		}
+
+		$b2_found = wp_cache_get( $b2, 'blog_meta' );
+		foreach ( $b2_expected as $k => $v ) {
+			$this->assertSame( $v, $b2_found[ $k ] );
+		}
 	}
 
 	/**
@@ -155,8 +164,17 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			),
 		);
 
-		$this->assertSame( $b1_expected, wp_cache_get( $b1, 'blog_meta' ) );
-		$this->assertSame( $b2_expected, wp_cache_get( $b2, 'blog_meta' ) );
+		// The cache may contain more than just this, so loop through
+		// and check only relevant keys
+		$b1_found = wp_cache_get( $b1, 'blog_meta' );
+		foreach ( $b1_expected as $k => $v ) {
+			$this->assertSame( $v, $b1_found[ $k ] );
+		}
+
+		$b2_found = wp_cache_get( $b2, 'blog_meta' );
+		foreach ( $b2_expected as $k => $v ) {
+			$this->assertSame( $v, $b2_found[ $k ] );
+		}
 
 		$this->set_current_user( $old_user );
 	}
