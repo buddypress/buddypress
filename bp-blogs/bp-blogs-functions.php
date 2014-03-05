@@ -34,6 +34,7 @@ function bp_blogs_has_directory() {
  *     information about the arguments, see {@link BP_Blogs_Blog::get()}.
  *     @type string $type Default: 'active'.
  *     @type int|bool $user_id Default: false.
+ *     @type array $include_blog_ids Default: false.
  *     @type string|bool $search_terms Default: false.
  *     @type int $per_page Default: 20.
  *     @type int $page Default: 1.
@@ -46,6 +47,7 @@ function bp_blogs_get_blogs( $args = '' ) {
 	$defaults = array(
 		'type'              => 'active', // active, alphabetical, newest, or random
 		'user_id'           => false,    // Pass a user_id to limit to only blogs that this user has privilages higher than subscriber on
+		'include_blog_ids'  => false,
 		'search_terms'      => false,    // Limit to blogs that match these search terms
 		'per_page'          => 20,       // The number of results to return per page
 		'page'              => 1,        // The page to return if limiting per page
@@ -55,7 +57,7 @@ function bp_blogs_get_blogs( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 	extract( $params, EXTR_SKIP );
 
-	return apply_filters( 'bp_blogs_get_blogs', BP_Blogs_Blog::get( $type, $per_page, $page, $user_id, $search_terms, $update_meta_cache ), $params );
+	return apply_filters( 'bp_blogs_get_blogs', BP_Blogs_Blog::get( $type, $per_page, $page, $user_id, $search_terms, $update_meta_cache, $include_blog_ids ), $params );
 }
 
 /**

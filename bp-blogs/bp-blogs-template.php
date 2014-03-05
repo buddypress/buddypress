@@ -171,8 +171,9 @@ class BP_Blogs_Template {
 	 *        pagination links. Default: 'bpage'.
 	 * @param bool $update_meta_cache Whether to pre-fetch metadata for
 	 *        queried blogs.
+	 * @param array $include_blog_ids Array of blog IDs to include.
 	 */
-	function __construct( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg = 'bpage', $update_meta_cache = true ) {
+	function __construct( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg = 'bpage', $update_meta_cache = true, $include_blog_ids = false ) {
 
 		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
 		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
@@ -187,6 +188,7 @@ class BP_Blogs_Template {
 				'user_id'           => $user_id,
 				'search_terms'      => $search_terms,
 				'update_meta_cache' => $update_meta_cache,
+				'include_blog_ids'  => $include_blog_ids,
 			) );
 		}
 
@@ -335,7 +337,8 @@ function bp_rewind_blogs() {
  *     @type int|bool $max Maximum number of results to return.
  *           Default: false (unlimited).
  *     @type string $type The order in which results should be fetched.
-	     'active', 'alphabetical', 'newest', or 'random'.
+ *	     'active', 'alphabetical', 'newest', or 'random'.
+ *     @type array $include_blog_ids Array of blog IDs to limit results to.
  *     @type string $sort 'ASC' or 'DESC'. Default: 'DESC'.
  *     @type string $search_terms Limit results by a search term. Default: null.
  *     @type int $user_id The ID of the user whose blogs should be retrieved.
@@ -369,6 +372,7 @@ function bp_has_blogs( $args = '' ) {
 		'page_arg'          => 'bpage',        // See https://buddypress.trac.wordpress.org/ticket/3679
 
 		'user_id'           => $user_id,       // Pass a user_id to limit to only blogs this user has higher than subscriber access to
+		'include_blog_ids'  => false,
 		'search_terms'      => $search_terms,  // Pass search terms to filter on the blog title or description.
 		'update_meta_cache' => true,
 	);
@@ -389,7 +393,7 @@ function bp_has_blogs( $args = '' ) {
 		}
 	}
 
-	$blogs_template = new BP_Blogs_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg, $update_meta_cache );
+	$blogs_template = new BP_Blogs_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg, $update_meta_cache, $include_blog_ids );
 	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), $blogs_template );
 }
 
