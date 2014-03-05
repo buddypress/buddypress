@@ -1297,14 +1297,14 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @return array Array of column titles.
 	 */
 	function get_columns() {
-		return array(
+		return apply_filters( 'bp_groups_list_table_get_columns', array(
 			'cb'          => '<input name type="checkbox" />',
 			'comment'     => _x( 'Name', 'Groups admin Group Name column header',               'buddypress' ),
 			'description' => _x( 'Description', 'Groups admin Group Description column header', 'buddypress' ),
 			'status'      => _x( 'Status', 'Groups admin Privacy Status column header',         'buddypress' ),
 			'members'     => _x( '# Members', 'Groups admin Members column header',             'buddypress' ),
 			'last_active' => _x( 'Last Active', 'Groups admin Last Active column header',       'buddypress' )
-		);
+		) );
 	}
 
 	/**
@@ -1479,5 +1479,17 @@ class BP_Groups_List_Table extends WP_List_Table {
 	function column_last_active( $item = array() ) {
 		$last_active = groups_get_groupmeta( $item['id'], 'last_activity' );
 		echo apply_filters_ref_array( 'bp_groups_admin_get_group_last_active', array( $last_active, $item ) );
+	}
+
+	/**
+	 * Allow plugins to add their costum column.
+	 *
+	 * @since BuddyPress 2.0.0
+	 *
+	 * @param array Information about the current row.
+	 * @param string the column name.
+	 */
+	function column_default( $item = array(), $column_name = '' ) {
+		return apply_filters( 'bp_groups_admin_get_group_custom_column', '', $column_name, $item );
 	}
 }
