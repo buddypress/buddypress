@@ -1339,6 +1339,15 @@ class BP_Core_User {
 			return false;
 		}
 
+		// get cache for single user only
+		if ( ! is_array( $user_id ) ) {
+			$cache = wp_cache_get( $user_id, 'bp_last_activity' );
+
+			if ( false !== $cache ) {
+				return $cache;
+			}
+		}
+
 		$bp = buddypress();
 
 		$user_ids_sql = implode( ',', $user_ids );
@@ -1376,24 +1385,9 @@ class BP_Core_User {
 
 		$table_name = buddypress()->members->table_name_last_activity;
 
-		$existing = self::get_last_activity( $user_id );
+		$activity = self::get_last_activity( $user_id );
 
-		if ( ! empty( $existing ) ) {
-			$data = array(
-				'date_recorded' => $time,
-			);
-
-			$data_format = array(
-				'%s',
-			);
-
-			$where = array(
-			);
-
-			$where_format = array(
-				'%d',
-			);
-
+		if ( ! empty( $activity ) ) {
 			$updated = $wpdb->update(
 				$table_name,
 
@@ -1404,7 +1398,7 @@ class BP_Core_User {
 
 				// WHERE
 				array(
-					'id' => $existing[ $user_id ]['activity_id'],
+					'id' => $activity[ $user_id ]['activity_id'],
 				),
 
 				// Data sanitization format
@@ -1417,6 +1411,10 @@ class BP_Core_User {
 					'%d',
 				)
 			);
+
+			// add new date to existing activity entry for caching
+			$activity[ $user_id ]['date_recorded'] = $time;
+
 		} else {
 			$updated = $wpdb->insert(
 				$table_name,
@@ -1445,7 +1443,19 @@ class BP_Core_User {
 					'%s',
 				)
 			);
+
+			// setup activity array for caching
+			// view the foreach loop in the get_last_activity() method for format
+			$activity = array();
+			$activity[ $user_id ] = array(
+				'user_id'       => $user_id,
+				'date_recorded' => $time,
+				'activity_id'   => $wpdb->insert_id,
+			);
 		}
+
+		// set cache
+		wp_cache_set( $user_id, $activity, 'bp_last_activity' );
 
 		return $updated;
 	}
@@ -1481,6 +1491,8 @@ class BP_Core_User {
 				'%s',
 			)
 		);
+
+		wp_cache_delete( $user_id, 'bp_last_activity' );
 
 		return $deleted;
 	}
