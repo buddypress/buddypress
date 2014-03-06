@@ -257,6 +257,38 @@ function bp_message_thread_excerpt() {
 		return apply_filters( 'bp_get_message_thread_excerpt', strip_tags( bp_create_excerpt( $messages_template->thread->last_message_content, 75 ) ) );
 	}
 
+/**
+ * Output the thread's last message content
+ *
+ * When viewing your Inbox, the last message is the most recent message in
+ * the thread of which you are *not* the author.
+ *
+ * When viewing your Sentbox, last message is the most recent message in
+ * the thread of which you *are* the member.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_message_thread_content() {
+	echo bp_get_message_thread_content();
+}
+	/**
+	 * Return the thread's last message content
+	 *
+	 * When viewing your Inbox, the last message is the most recent message in
+	 * the thread of which you are *not* the author.
+	 *
+	 * When viewing your Sentbox, last message is the most recent message in
+	 * the thread of which you *are* the member.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 * @return string The raw content of the last message in the thread
+	 */
+	function bp_get_message_thread_content() {
+		global $messages_template;
+
+		return apply_filters( 'bp_get_message_thread_content', $messages_template->thread->last_message_content );
+	}
+
 function bp_message_thread_from() {
 	echo bp_get_message_thread_from();
 }
