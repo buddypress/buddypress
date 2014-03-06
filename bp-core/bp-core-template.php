@@ -2347,9 +2347,6 @@ function bp_the_body_class() {
 		if ( bp_is_user_groups_activity() )
 			$bp_classes[] = 'groups-activity';
 
-		if ( is_user_logged_in() )
-			$bp_classes[] = 'logged-in';
-
 		/** Messages **********************************************************/
 
 		if ( bp_is_messages_inbox() )
@@ -2421,37 +2418,14 @@ function bp_the_body_class() {
 			$bp_classes[] = bp_current_action();
 		}
 
-		/** is_buddypress *****************************************************/
+		/** Clean up ***********************************************************/
 
 		// Add BuddyPress class if we are within a BuddyPress page
 		if ( ! bp_is_blog_page() ) {
 			$bp_classes[] = 'buddypress';
 		}
 
-		/** Clean up***********************************************************/
-
-		// We don't want WordPress blog classes to appear on non-blog pages.
-		if ( !bp_is_blog_page() ) {
-
-			// Observe WP custom background body class
-			if ( in_array( 'custom-background', (array) $wp_classes ) )
-				$bp_classes[] = 'custom-background';
-
-			// Observe WP admin bar body classes
-			if ( in_array( 'admin-bar', (array) $wp_classes ) )
-				$bp_classes[] = 'admin-bar';
-			if ( in_array( 'no-customize-support', (array) $wp_classes ) )
-				$bp_classes[] = 'no-customize-support';
-
-			// Preserve any custom classes already set
-			if ( !empty( $custom_classes ) ) {
-				$wp_classes = (array) $custom_classes;
-			} else {
-				$wp_classes = array();
-			}
-		}
-
-		// Merge WP classes with BP classes and remove any duplicates
+		// Merge WP classes with BuddyPress classes and remove any duplicates
 		$classes = array_unique( array_merge( (array) $bp_classes, (array) $wp_classes ) );
 
 		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
