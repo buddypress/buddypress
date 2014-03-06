@@ -527,4 +527,136 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		$this->assertEquals( array( $users[ 9 ], $users[ 8 ], $users[ 7 ], $users[ 6 ], $users[ 5 ], ), $invites_template->invites );
 	}
+
+	/**
+	 * Checks for proper queried items
+	 *
+	 * @group bp_group_has_membership_requests
+	 * @group BP_Group_Membership_Requests_Template
+	 */
+	public function test_bp_group_has_membership_requests_results() {
+		$u1 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
+		) );
+
+		$g = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
+
+		$users = array();
+		$memberships = array();
+		for ( $i = 1; $i < 15; $i++ ) {
+			$users[ $i ] = $this->create_user( array(
+				'last_activity' => gmdate( 'Y-m-d H:i:s', time() - $i ),
+			) );
+
+			$memberships[ $i ] = $this->add_user_to_group( $users[ $i ], $g, array(
+				'date_modified' => gmdate( 'Y-m-d H:i:s', time() - $i ),
+				'is_confirmed' => 0,
+				'inviter_id' => 0,
+				'invite_sent' => false,
+			) );
+		}
+
+		// Fake the current group
+		global $groups_template;
+
+		if ( ! isset( $groups_template ) ) {
+			$groups_template = new stdClass;
+		}
+
+		if ( ! isset( $groups_template->group ) ) {
+			$groups_template->group = new stdClass;
+		}
+
+		$groups_template->group->id = $g;
+
+		// Populate the global
+		bp_group_has_membership_requests( array(
+			'group_id' => $g,
+		) );
+
+		global $requests_template;
+
+		$expected_user_ids = array();
+		$expected_mem_ids = array();
+		for ( $j = 1; $j <= 10; $j++ ) {
+			$expected_user_ids[] = (string) $users[ $j ];
+			$expected_mem_ids[] = (string) $memberships[ $j ];
+		}
+
+		$this->assertEquals( $expected_user_ids, wp_list_pluck( $requests_template->requests, 'user_id' ) );
+		$this->assertEquals( $expected_mem_ids, wp_list_pluck( $requests_template->requests, 'id' ) );
+	}
+
+	/**
+	 * Checks that the requests_template object is properly formatted
+	 *
+	 * @group bp_group_has_membership_requests
+	 * @group BP_Group_Membership_Requests_Template
+	 */
+	public function test_bp_group_has_membership_requests_format() {
+		$u1 = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
+		) );
+
+		$g = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
+
+		$time = time();
+
+		$user = $this->create_user( array(
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $time ),
+		) );
+
+		$membership = $this->add_user_to_group( $user, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time ),
+			'is_confirmed' => 0,
+			'inviter_id' => 0,
+			'invite_sent' => false,
+		) );
+
+		// Fake the current group
+		global $groups_template;
+
+		if ( ! isset( $groups_template ) ) {
+			$groups_template = new stdClass;
+		}
+
+		if ( ! isset( $groups_template->group ) ) {
+			$groups_template->group = new stdClass;
+		}
+
+		$groups_template->group->id = $g;
+
+		// Populate the global
+		bp_group_has_membership_requests( array(
+			'group_id' => $g,
+			'per_page' => 1,
+			'max' => 1,
+		) );
+
+		global $requests_template;
+
+		$expected = new stdClass;
+		$expected->id = $membership;
+		$expected->group_id = $g;
+		$expected->user_id = $user;
+		$expected->inviter_id = '0';
+		$expected->is_admin = '0';
+		$expected->is_mod = '0';
+		$expected->user_title = '';
+		$expected->date_modified = gmdate( 'Y-m-d H:i:s', $time );
+		$expected->comments = '';
+		$expected->is_confirmed = '0';
+		$expected->is_banned = '0';
+		$expected->invite_sent = '0';
+
+		// Check each expected value. If there are more in the results,
+		// that's OK
+		foreach ( get_object_vars( $expected ) as $k => $v ) {
+			$this->assertEquals( $v, $requests_template->requests[0]->{$k} );
+		}
+	}
 }
