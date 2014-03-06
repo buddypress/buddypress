@@ -265,4 +265,130 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		bp_blogs_add_blogmeta( 1, 'foo', 'bar' );
 		$this->assertNotEmpty( bp_blogs_add_blogmeta( 1, 'foo', 'baz' ) );
 	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_transition_post_status_publish_to_publish() {
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type' => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		// 'publish' => 'publish'
+		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
+
+		$post->post_status = 'publish';
+		$post->post_content .= ' foo';
+
+		wp_update_post( $post );
+
+		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity (no change)' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_transition_post_status_draft_to_draft() {
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'draft',
+			'post_type' => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity' );
+
+		$post->post_status = 'draft';
+		$post->post_content .= ' foo';
+
+		wp_update_post( $post );
+
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity (no change)' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_transition_post_status_draft_to_publish() {
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'draft',
+			'post_type' => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity' );
+
+		$post->post_status = 'publish';
+		$post->post_content .= ' foo';
+
+		wp_update_post( $post );
+
+		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_transition_post_status_publish_to_draft() {
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type' => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
+
+		$post->post_status = 'draft';
+		$post->post_content .= ' foo';
+
+		wp_update_post( $post );
+
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_transition_post_status_wp_delete_post() {
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type' => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
+
+		wp_delete_post( $post->ID );
+
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_transition_post_status_wp_trash_post() {
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type' => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
+
+		wp_trash_post( $post->ID );
+
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity' );
+	}
+
+	protected function activity_exists_for_post( $post_id ) {
+		$a = bp_activity_get( array(
+			'component' => buddypress()->blogs->id,
+			'action' => 'new_blog_post',
+			'item_id' => get_current_blog_id(),
+			'secondary_item_id' => $post_id,
+		) );
+
+		return ! empty( $a['total'] );
+	}
 }

@@ -259,27 +259,29 @@ add_action( 'update_option_blogdescription', 'bp_blogs_update_option_blogdescrip
  *
  * See #4090, #3746, #2546 for background.
  *
- * @since BuddyPress (1.9.0)
+ * @since BuddyPress (2.0.0)
  *
  * @param string $new_status New status for the post.
  * @param string $old_status Old status for the post.
  * @param object $post Post data.
  */
-function bp_blogs_catch_published_post( $new_status, $old_status, $post ) {
+function bp_blogs_catch_transition_post_status( $new_status, $old_status, $post ) {
 
-	// Only record published posts
-	if ( 'publish' !== $new_status ) {
+	// Do nothing for edits
+	if ( $new_status === $old_status ) {
 		return;
 	}
 
-	// Don't record edits (publish -> publish)
-	if ( 'publish' === $old_status ) {
-		return;
-	}
+	// Publishing a previously unpublished post
+	if ( 'publish' === $new_status ) {
+		return bp_blogs_record_post( $post->ID, $post );
 
-	return bp_blogs_record_post( $post->ID, $post );
+	// Unpublishing a previously published post
+	} else if ( 'publish' === $old_status ) {
+		return bp_blogs_remove_post( $post->ID );
+	}
 }
-add_action( 'transition_post_status', 'bp_blogs_catch_published_post', 10, 3 );
+add_action( 'transition_post_status', 'bp_blogs_catch_transition_post_status', 10, 3 );
 
 /**
  * Record a new blog post in the BuddyPress activity stream.
