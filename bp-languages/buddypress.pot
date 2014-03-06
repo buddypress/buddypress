@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-03-06 19:35:16+00:00\n"
+"POT-Creation-Date: 2014-03-06 20:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -421,7 +421,7 @@ msgid "No activities found."
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:1172 bp-groups/bp-groups-admin.php:1267
-#: bp-messages/bp-messages-template.php:499
+#: bp-messages/bp-messages-template.php:531
 msgid "All"
 msgstr ""
 
@@ -535,8 +535,8 @@ msgstr ""
 #: bp-activity/bp-activity-classes.php:265
 #: bp-activity/bp-activity-template.php:139 bp-groups/bp-groups-classes.php:626
 #: bp-groups/bp-groups-functions.php:390 bp-groups/bp-groups-template.php:112
-#: bp-groups/bp-groups-template.php:1996 bp-groups/bp-groups-template.php:2946
-#: bp-groups/bp-groups-template.php:3131
+#: bp-groups/bp-groups-template.php:1996 bp-groups/bp-groups-template.php:2947
+#: bp-groups/bp-groups-template.php:3169
 msgid "Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details."
 msgstr ""
 
@@ -646,13 +646,13 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:1238 bp-groups/bp-groups-template.php:1254
 #: bp-groups/bp-groups-template.php:1303 bp-groups/bp-groups-template.php:1319
 #: bp-groups/bp-groups-template.php:2194 bp-groups/bp-groups-template.php:2203
-#: bp-groups/bp-groups-template.php:2212 bp-groups/bp-groups-template.php:3068
+#: bp-groups/bp-groups-template.php:2212 bp-groups/bp-groups-template.php:3106
 #: bp-members/bp-members-buddybar.php:64 bp-members/bp-members-loader.php:219
 #: bp-members/bp-members-template.php:520
 #: bp-members/bp-members-template.php:844
 #: bp-members/bp-members-template.php:863
 #: bp-messages/bp-messages-loader.php:265
-#: bp-messages/bp-messages-template.php:378
+#: bp-messages/bp-messages-template.php:410
 #: bp-notifications/bp-notifications-loader.php:236
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:185
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:212
@@ -962,7 +962,7 @@ msgid "Profile picture of site author %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:648 bp-core/bp-core-classes.php:822
-#: bp-groups/bp-groups-template.php:3239 bp-groups/bp-groups-widgets.php:85
+#: bp-groups/bp-groups-template.php:3277 bp-groups/bp-groups-widgets.php:85
 #: bp-groups/bp-groups-widgets.php:188 bp-members/bp-members-template.php:616
 #: bp-members/bp-members-template.php:895
 #: bp-templates/bp-legacy/buddypress/groups/groups-loop.php:47
@@ -1055,7 +1055,7 @@ msgstr ""
 #: bp-blogs/bp-blogs-template.php:1149 bp-core/deprecated/1.5.php:417
 #: bp-forums/bp-forums-template.php:2196 bp-groups/bp-groups-template.php:2744
 #: bp-members/bp-members-template.php:734
-#: bp-messages/bp-messages-template.php:432 bp-themes/bp-default/header.php:30
+#: bp-messages/bp-messages-template.php:464 bp-themes/bp-default/header.php:30
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
 msgstr ""
@@ -1284,7 +1284,7 @@ msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">upda
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:267 bp-core/admin/bp-core-slugs.php:135
-#: bp-messages/bp-messages-template.php:623
+#: bp-messages/bp-messages-template.php:655
 #: bp-templates/bp-legacy/buddypress/members/activate.php:29
 #: bp-themes/bp-default/registration/activate.php:38
 msgid "Activate"
@@ -1782,8 +1782,8 @@ msgstr ""
 #: bp-core/bp-core-avatars.php:843 bp-core/bp-core-classes.php:819
 #: bp-core/bp-core-classes.php:820 bp-core/bp-core-classes.php:821
 #: bp-core/bp-core-template.php:135 bp-core/bp-core-template.php:151
-#: bp-groups/bp-groups-template.php:3233 bp-groups/bp-groups-template.php:3234
-#: bp-groups/bp-groups-template.php:3235
+#: bp-groups/bp-groups-template.php:3271 bp-groups/bp-groups-template.php:3272
+#: bp-groups/bp-groups-template.php:3273
 msgid "Avatar of %s"
 msgstr ""
 
@@ -1835,7 +1835,7 @@ msgstr ""
 msgid "You must log in to access the page you requested."
 msgstr ""
 
-#: bp-core/bp-core-classes.php:836 bp-groups/bp-groups-template.php:3243
+#: bp-core/bp-core-classes.php:836 bp-groups/bp-groups-template.php:3281
 msgid "%d group"
 msgid_plural "%d groups"
 msgstr[0] ""
@@ -2319,8 +2319,8 @@ msgstr ""
 #: bp-forums/bp-forums-template.php:756 bp-forums/bp-forums-template.php:870
 #: bp-forums/bp-forums-template.php:2014
 #: bp-messages/bp-messages-classes.php:469
-#: bp-messages/bp-messages-template.php:906
-#: bp-messages/bp-messages-template.php:988
+#: bp-messages/bp-messages-template.php:938
+#: bp-messages/bp-messages-template.php:1020
 msgid "Deleted User"
 msgstr ""
 
@@ -3121,7 +3121,7 @@ msgstr ""
 msgid "Delete Group"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:886 bp-groups/bp-groups-classes.php:3098
+#: bp-groups/bp-groups-admin.php:886 bp-groups/bp-groups-classes.php:3108
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3245,11 +3245,11 @@ msgstr ""
 msgid "Group Avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1986
+#: bp-groups/bp-groups-classes.php:1996
 msgid "Group Mod"
 msgstr ""
 
-#: bp-groups/bp-groups-classes.php:1992 bp-groups/bp-groups-functions.php:118
+#: bp-groups/bp-groups-classes.php:2002 bp-groups/bp-groups-functions.php:118
 msgid "Group Admin"
 msgstr ""
 
@@ -3937,21 +3937,21 @@ msgstr ""
 msgid "Moderator Of"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3101
+#: bp-groups/bp-groups-template.php:3139
 msgid "requested %s"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3394
+#: bp-groups/bp-groups-template.php:3432
 msgid "Viewing invitation %1$s to %2$s (of %3$s invitation)"
 msgid_plural "Viewing invitation %1$s to %2$s (of %3$s invitations)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-groups/bp-groups-template.php:3410
+#: bp-groups/bp-groups-template.php:3448
 msgid "Group Activity RSS Feed"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3581
+#: bp-groups/bp-groups-template.php:3619
 msgid "%s group"
 msgid_plural "%s groups"
 msgstr[0] ""
@@ -4509,51 +4509,51 @@ msgctxt "Message pagination next text"
 msgid "&rarr;"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:417
+#: bp-messages/bp-messages-template.php:449
 msgid "Viewing message %1$s to %2$s (of %3$s message)"
 msgid_plural "Viewing message %1$s to %2$s (of %3$s messages)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-messages/bp-messages-template.php:493
+#: bp-messages/bp-messages-template.php:525
 msgid "Select:"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:497
+#: bp-messages/bp-messages-template.php:529
 #: bp-notifications/bp-notifications-loader.php:151
 #: bp-notifications/bp-notifications-loader.php:212
 #: bp-notifications/bp-notifications-template.php:733
 msgid "Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:498
+#: bp-messages/bp-messages-template.php:530
 #: bp-notifications/bp-notifications-loader.php:140
 #: bp-notifications/bp-notifications-loader.php:189
 #: bp-notifications/bp-notifications-template.php:763
 msgid "Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:504
+#: bp-messages/bp-messages-template.php:536
 msgid "Mark as Read"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:505
+#: bp-messages/bp-messages-template.php:537
 msgid "Mark as Unread"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:509
+#: bp-messages/bp-messages-template.php:541
 msgid "Delete Selected"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:554
+#: bp-messages/bp-messages-template.php:586
 msgid "Currently Active"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:621
+#: bp-messages/bp-messages-template.php:653
 msgid "Deactivate"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:670
+#: bp-messages/bp-messages-template.php:702
 #: bp-templates/bp-legacy/buddypress/members/register.php:168
 #: bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:130
 #: bp-templates/bp-legacy/buddypress-functions.php:236
@@ -4564,19 +4564,19 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:715
+#: bp-messages/bp-messages-template.php:747
 msgid "Send a private message to this user."
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:716
+#: bp-messages/bp-messages-template.php:748
 msgid "Private Message"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:899
+#: bp-messages/bp-messages-template.php:931
 msgid "%d Recipients"
 msgstr ""
 
-#: bp-messages/bp-messages-template.php:1008
+#: bp-messages/bp-messages-template.php:1040
 #: bp-templates/bp-legacy/buddypress-functions.php:1255
 #: bp-themes/bp-default/_inc/ajax.php:833
 msgid "Sent %s"
