@@ -562,11 +562,11 @@ Bar!';
 		$old_user = get_current_user_id();
 		$this->set_current_user( $u1 );
 
-		$group1 = groups_get_group( array( 'group_id' => $g, ) );
+		$group1 = groups_get_group( array( 'group_id' => $g, 'populate_extras' => true ) );
 
 		$this->set_current_user( $u2 );
 
-		$group2 = groups_get_group( array( 'group_id' => $g, ) );
+		$group2 = groups_get_group( array( 'group_id' => $g, 'populate_extras' => true ) );
 
 		$this->assertNotEquals( $group1, $group2 );
 

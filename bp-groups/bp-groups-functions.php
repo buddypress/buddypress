@@ -43,7 +43,7 @@ function groups_get_group( $args = '' ) {
 	$r = wp_parse_args( $args, array(
 		'group_id'          => false,
 		'load_users'        => false,
-		'populate_extras'   => true,
+		'populate_extras'   => false,
 	) );
 
 	$group_args = array(

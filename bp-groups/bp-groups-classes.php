@@ -161,7 +161,7 @@ class BP_Groups_Group {
 	 */
 	public function __construct( $id = null, $args = array() ) {
 		$this->args = wp_parse_args( $args, array(
-			'populate_extras' => true,
+			'populate_extras' => false,
 		) );
 
 		if ( !empty( $id ) ) {
