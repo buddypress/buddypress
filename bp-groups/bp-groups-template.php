@@ -3135,15 +3135,21 @@ class BP_Groups_Invite_Template {
 		$this->invites		  = array_values( wp_list_pluck( $this->invite_data, 'ID' ) );
 		$this->invite_count       = count( $this->invites );
 
-		$this->pag_links = paginate_links( array(
-			'base'      => add_query_arg( 'invitepage', '%#%' ),
-			'format'    => '',
-			'total'     => ceil( $this->total_invite_count / $this->pag_num ),
-			'current'   => $this->pag_page,
-			'prev_text' => '&larr;',
-			'next_text' => '&rarr;',
-			'mid_size'  => 1,
-		) );
+		// If per_page is set to 0 (show all results), don't generate
+		// pag_links
+		if ( ! empty( $this->pag_num ) ) {
+			$this->pag_links = paginate_links( array(
+				'base'      => add_query_arg( 'invitepage', '%#%' ),
+				'format'    => '',
+				'total'     => ceil( $this->total_invite_count / $this->pag_num ),
+				'current'   => $this->pag_page,
+				'prev_text' => '&larr;',
+				'next_text' => '&rarr;',
+				'mid_size'  => 1,
+			) );
+		} else {
+			$this->pag_links = '';
+		}
 	}
 
 	function has_invites() {
@@ -3230,7 +3236,7 @@ function bp_group_has_invites( $args = '' ) {
 	$r = wp_parse_args( $args, array(
 		'group_id' => false,
 		'user_id'  => bp_loggedin_user_id(),
-		'per_page' => 10,
+		'per_page' => false,
 		'page'     => 1,
 	) );
 
