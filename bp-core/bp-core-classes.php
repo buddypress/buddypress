@@ -573,12 +573,10 @@ class BP_User_Query {
 		// Fetch last_active data from the activity table
 		$last_activities = BP_Core_User::get_last_activity( $this->user_ids );
 
-		if ( ! empty( $last_activities ) ) {
-			foreach ( $last_activities as $la_user => $la_value ) {
-				if ( isset( $this->results[ $la_user ] ) ) {
-					$this->results[ $la_user ]->last_activity = $la_value['date_recorded'];
-				}
-			}
+		// Set a last_activity value for each user, even if it's empty
+		foreach ( $this->results as $user_id => $user ) {
+			$user_last_activity = isset( $last_activities[ $user_id ] ) ? $last_activities[ $user_id ]['date_recorded'] : '';
+			$this->results[ $user_id ]->last_activity = $user_last_activity;
 		}
 
 		// Fetch usermeta data
