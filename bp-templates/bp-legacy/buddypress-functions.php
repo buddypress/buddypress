@@ -1329,11 +1329,8 @@ function bp_legacy_theme_ajax_messages_delete() {
 		echo "-1<div id='message' class='error'><p>" . __( 'There was a problem deleting messages.', 'buddypress' ) . '</p></div>';
 
 	} else {
-		$thread_ids = explode( ',', $_POST['thread_ids'] );
-
-		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i ) {
-			BP_Messages_Thread::delete( (int) $thread_ids[$i] );
-		}
+		$thread_ids = wp_parse_id_list( $_POST['thread_ids'] );
+		messages_delete_thread( $thread_ids );
 
 		_e( 'Messages deleted.', 'buddypress' );
 	}
