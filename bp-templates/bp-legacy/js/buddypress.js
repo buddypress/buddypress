@@ -901,17 +901,30 @@ jq(document).ready( function() {
 	/** Invite Friends Interface ****************************************/
 
 	/* Select a user from the list of friends and add them to the invite list */
-	jq("#invite-list input").on( 'click', function() {
+	jq("#send-invite-form").on( 'click', '#invite-list input', function() {
+		// invites-loop template contains a div with the .invite class
+		// We use the existence of this div to check for old- vs new-
+		// style templates.
+		var invites_new_template = jq( "#send-invite-form > .invite" ).length;
+
 		jq('.ajax-loader').toggle();
+
+		// Dim the form until the response arrives
+		if ( invites_new_template ) {
+			jq( this ).parents( 'ul' ).find( 'input' ).prop( 'disabled', true );
+		}
 
 		var friend_id = jq(this).val();
 
-		if ( jq(this).prop('checked') == true )
+		if ( jq(this).prop('checked') == true ) {
 			var friend_action = 'invite';
-		else
+		} else {
 			var friend_action = 'uninvite';
+		}
 
-		jq('.item-list-tabs li.selected').addClass('loading');
+		if ( ! invites_new_template ) {
+			jq( '.item-list-tabs li.selected' ).addClass( 'loading' );
+		}
 
 		jq.post( ajaxurl, {
 			action: 'groups_invite_user',
@@ -923,23 +936,37 @@ jq(document).ready( function() {
 		},
 		function(response)
 		{
-			if ( jq("#message") )
+			if ( jq("#message") ) {
 				jq("#message").hide();
-
-			jq('.ajax-loader').toggle();
-
-			if ( friend_action == 'invite' ) {
-				jq('#friend-list').append(response);
-			} else if ( friend_action == 'uninvite' ) {
-				jq('#friend-list li#uid-' + friend_id).remove();
 			}
 
-			jq('.item-list-tabs li.selected').removeClass('loading');
+			if ( invites_new_template ) {
+				// With new-style templates, we refresh the
+				// entire list
+				bp_filter_request( 'invite', 'bp-invite-filter', 'bp-invite-scope', 'div.invite', false, 1, '', '', '' );
+			} else {
+				// Old-style templates manipulate only the
+				// single invitation element
+				jq('.ajax-loader').toggle();
+
+				if ( friend_action == 'invite' ) {
+					jq('#friend-list').append(response);
+				} else if ( friend_action == 'uninvite' ) {
+					jq('#friend-list li#uid-' + friend_id).remove();
+				}
+
+				jq('.item-list-tabs li.selected').removeClass('loading');
+			}
 		});
 	});
 
 	/* Remove a user from the list of users to invite to a group */
-	jq("#friend-list").on('click', 'li a.remove', function() {
+	jq("#send-invite-form").on('click', 'a.remove', function() {
+		// invites-loop template contains a div with the .invite class
+		// We use the existence of this div to check for old- vs new-
+		// style templates.
+		var invites_new_template = jq("#send-invite-form > .invite").length;
+
 		jq('.ajax-loader').toggle();
 
 		var friend_id = jq(this).attr('id');
@@ -956,9 +983,17 @@ jq(document).ready( function() {
 		},
 		function(response)
 		{
-			jq('.ajax-loader').toggle();
-			jq('#friend-list #uid-' + friend_id).remove();
-			jq('#invite-list #f-' + friend_id).prop('checked', false);
+			if ( invites_new_template ) {
+				// With new-style templates, we refresh the
+				// entire list
+				bp_filter_request( 'invite', 'bp-invite-filter', 'bp-invite-scope', 'div.invite', false, 1, '', '', '' );
+			} else {
+				// Old-style templates manipulate only the
+				// single invitation element
+				jq('.ajax-loader').toggle();
+				jq('#friend-list #uid-' + friend_id).remove();
+				jq('#invite-list #f-' + friend_id).prop('checked', false);
+			}
 		});
 
 		return false;

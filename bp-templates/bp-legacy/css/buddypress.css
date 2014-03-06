@@ -764,6 +764,7 @@ a.bp-title-button {
 
 #buddypress form.standard-form .main-column ul#friend-list {
 	clear:none;
+	float: left;
 }
 
 #buddypress form.standard-form .main-column ul#friend-list h4 {

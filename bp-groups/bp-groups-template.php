@@ -3318,6 +3318,52 @@ function bp_group_invite_user_remove_invite_url() {
 		return wp_nonce_url( site_url( bp_get_groups_slug() . '/' . $invites_template->invite->group_id . '/invites/remove/' . $invites_template->invite->user->id ), 'groups_invite_uninvite_user' );
 	}
 
+/**
+ * Output pagination links for group invitations.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_group_invite_pagination_links() {
+	echo bp_get_group_invite_pagination_links();
+}
+	/**
+	 * Get pagination links for group invitations.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_group_invite_pagination_links() {
+		global $invites_template;
+		return apply_filters( 'bp_get_group_invite_pagination_links', $invites_template->pag_links );
+	}
+
+/**
+ * Output pagination count text for group invitations.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_group_invite_pagination_count() {
+	echo bp_get_group_invite_pagination_count();
+}
+	/**
+	 * Get pagination count text for group invitations.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_group_invite_pagination_count() {
+		global $invites_template;
+
+		$start_num = intval( ( $invites_template->pag_page - 1 ) * $invites_template->pag_num ) + 1;
+		$from_num  = bp_core_number_format( $start_num );
+		$to_num    = bp_core_number_format( ( $start_num + ( $invites_template->pag_num - 1 ) > $invites_template->total_invite_count ) ? $invites_template->total_invite_count : $start_num + ( $invites_template->pag_num - 1 ) );
+		$total     = bp_core_number_format( $invites_template->total_invite_count );
+
+		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing invitation %1$s to %2$s (of %3$s invitation)', 'Viewing invitation %1$s to %2$s (of %3$s invitations)', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+	}
+
 /***
  * Groups RSS Feed Template Tags
  */
