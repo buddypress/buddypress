@@ -663,6 +663,22 @@ function groups_get_invites_for_user( $user_id = 0, $limit = false, $page = fals
 	return BP_Groups_Member::get_invites( $user_id, $limit, $page, $exclude );
 }
 
+/**
+ * Gets the total group invite count for a user.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $user_id The user ID
+ * @return int
+ */
+function groups_get_invite_count_for_user( $user_id = 0 ) {
+	if ( empty( $user_id ) ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	return BP_Groups_Member::get_invite_count_for_user( $user_id );
+}
+
 function groups_invite_user( $args = '' ) {
 
 	$defaults = array(

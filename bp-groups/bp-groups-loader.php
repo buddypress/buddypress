@@ -536,13 +536,13 @@ class BP_Groups_Component extends BP_Component {
 			$groups_link = trailingslashit( $user_domain . $this->slug );
 
 			// Pending group invites
-			$count   = groups_get_invites_for_user( bp_loggedin_user_id() );
+			$count   = groups_get_invite_count_for_user();
 			$title   = __( 'Groups',             'buddypress' );
 			$pending = __( 'No Pending Invites', 'buddypress' );
 
 			if ( !empty( $count['total'] ) ) {
-				$title   = sprintf( __( 'Groups <span class="count">%s</span>',          'buddypress' ), $count['total'] );
-				$pending = sprintf( __( 'Pending Invites <span class="count">%s</span>', 'buddypress' ), $count['total'] );
+				$title   = sprintf( __( 'Groups <span class="count">%s</span>',          'buddypress' ), $count );
+				$pending = sprintf( __( 'Pending Invites <span class="count">%s</span>', 'buddypress' ), $count );
 			}
 
 			// Add the "My Account" sub menus

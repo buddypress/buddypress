@@ -2315,9 +2315,22 @@ class BP_Groups_Member {
 		}
 
 		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d {$exclude_sql} ORDER BY m.date_modified ASC {$pag_sql}", $user_id ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d {$exclude_sql} ORDER BY date_modified ASC", $user_id ) );
 
-		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+		return array( 'groups' => $paged_groups, 'total' => self::get_invite_count_for_user( $user_id ) );
+	}
+
+	/**
+	 * Gets the total group invite count for a user.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param int $user_id The user ID
+	 * @return int
+	 */
+	public static function get_invite_count_for_user( $user_id = 0 ) {
+		global $wpdb;
+
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d {$exclude_sql} ORDER BY date_modified ASC", $user_id ) );
 	}
 
 	/**
