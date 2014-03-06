@@ -300,6 +300,8 @@ class BP_Messages_Thread {
 
 		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
+
+		wp_cache_delete( bp_loggedin_user_id(), 'bp_messages_unread_count' );
 	}
 
 	/**
@@ -314,6 +316,8 @@ class BP_Messages_Thread {
 
 		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
+
+		wp_cache_delete( bp_loggedin_user_id(), 'bp_messages_unread_count' );
 	}
 
 	/**
@@ -382,7 +386,7 @@ class BP_Messages_Thread {
 	}
 
 	/**
-	 * Gets the inbox message count for a user.
+	 * Gets the unread message count for a user.
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
@@ -396,11 +400,12 @@ class BP_Messages_Thread {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$sql = $wpdb->prepare( "SELECT SUM(unread_count) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0 AND sender_only = 0", $user_id );
-		$unread_count = $wpdb->get_var( $sql );
+		$unread_count = wp_cache_get( $user_id, 'bp_messages_unread_count' );
 
-		if ( empty( $unread_count ) || is_wp_error( $unread_count ) ) {
-			return 0;
+		if ( false === $unread_count ) {
+			$unread_count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT SUM(unread_count) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0 AND sender_only = 0", $user_id ) );
+
+			wp_cache_set( $user_id, $unread_count, 'bp_messages_unread_count' );
 		}
 
 		return (int) $unread_count;
