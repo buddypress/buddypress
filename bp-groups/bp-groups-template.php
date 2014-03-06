@@ -2928,24 +2928,55 @@ class BP_Groups_Membership_Requests_Template {
 	var $pag_links;
 	var $total_request_count;
 
-	function __construct( $group_id, $per_page, $max ) {
+	/**
+	 * Constructor method.
+	 *
+	 * @param array $args {
+	 *     @type int $group_id ID of the group whose membership requests
+	 *           are being queried. Default: current group id.
+	 *     @type int $per_page Number of records to return per page of
+	 *           results. Default: 10.
+	 *     @type int $max Max items to return. Default: false (show all)
+	 * }
+	 */
+	function __construct( $args = array() ) {
+
+		// Backward compatibility with old method of passing arguments
+		if ( ! is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '2.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+			$old_args_keys = array(
+				0 => 'group_id',
+				1 => 'per_page',
+				2 => 'max',
+			);
+
+			$func_args = func_get_args();
+			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+		}
+
+		$r = wp_parse_args( $args, array(
+			'group_id' => bp_get_current_group_id(),
+			'per_page' => 10,
+			'max' => false,
+		) );
 
 		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : 1;
-		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
-		$this->requests = BP_Groups_Group::get_membership_requests( $group_id, $this->pag_num, $this->pag_page );
+		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $r['per_page'];
+		$this->requests = BP_Groups_Group::get_membership_requests( $r['group_id'], $this->pag_num, $this->pag_page );
 
-		if ( !$max || $max >= (int) $this->requests['total'] )
+		if ( !$r['max'] || $r['max'] >= (int) $this->requests['total'] )
 			$this->total_request_count = (int) $this->requests['total'];
 		else
-			$this->total_request_count = (int) $max;
+			$this->total_request_count = (int) $r['max'];
 
 		$this->requests = $this->requests['requests'];
 
-		if ( $max ) {
-			if ( $max >= count($this->requests) )
+		if ( $r['max'] ) {
+			if ( $r['max'] >= count($this->requests) )
 				$this->request_count = count($this->requests);
 			else
-				$this->request_count = (int) $max;
+				$this->request_count = (int) $r['max'];
 		} else {
 			$this->request_count = count($this->requests);
 		}
@@ -3014,9 +3045,8 @@ function bp_group_has_membership_requests( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
-	$requests_template = new BP_Groups_Membership_Requests_Template( $group_id, $per_page, $max );
+	$requests_template = new BP_Groups_Membership_Requests_Template( $r );
 	return apply_filters( 'bp_group_has_membership_requests', $requests_template->has_requests(), $requests_template );
 }
 
