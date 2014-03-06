@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-03-05 15:35:16+00:00\n"
+"POT-Creation-Date: 2014-03-06 01:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -960,7 +960,7 @@ msgstr[1] ""
 msgid "Profile picture of site author %s"
 msgstr ""
 
-#: bp-blogs/bp-blogs-template.php:648 bp-core/bp-core-classes.php:824
+#: bp-blogs/bp-blogs-template.php:648 bp-core/bp-core-classes.php:822
 #: bp-groups/bp-groups-template.php:3203 bp-groups/bp-groups-widgets.php:85
 #: bp-groups/bp-groups-widgets.php:188 bp-members/bp-members-template.php:616
 #: bp-members/bp-members-template.php:895
@@ -1778,8 +1778,8 @@ msgstr ""
 msgid "Upload failed! Error was: %s"
 msgstr ""
 
-#: bp-core/bp-core-avatars.php:843 bp-core/bp-core-classes.php:821
-#: bp-core/bp-core-classes.php:822 bp-core/bp-core-classes.php:823
+#: bp-core/bp-core-avatars.php:843 bp-core/bp-core-classes.php:819
+#: bp-core/bp-core-classes.php:820 bp-core/bp-core-classes.php:821
 #: bp-core/bp-core-template.php:135 bp-core/bp-core-template.php:151
 #: bp-groups/bp-groups-template.php:3197 bp-groups/bp-groups-template.php:3198
 #: bp-groups/bp-groups-template.php:3199
@@ -1834,7 +1834,7 @@ msgstr ""
 msgid "You must log in to access the page you requested."
 msgstr ""
 
-#: bp-core/bp-core-classes.php:838 bp-groups/bp-groups-template.php:3207
+#: bp-core/bp-core-classes.php:836 bp-groups/bp-groups-template.php:3207
 msgid "%d group"
 msgid_plural "%d groups"
 msgstr[0] ""
@@ -2317,7 +2317,7 @@ msgstr ""
 
 #: bp-forums/bp-forums-template.php:756 bp-forums/bp-forums-template.php:870
 #: bp-forums/bp-forums-template.php:2014
-#: bp-messages/bp-messages-classes.php:464
+#: bp-messages/bp-messages-classes.php:469
 #: bp-messages/bp-messages-template.php:906
 #: bp-messages/bp-messages-template.php:988
 msgid "Deleted User"
@@ -4343,12 +4343,12 @@ msgid "There was an error deleting messages."
 msgstr ""
 
 #: bp-messages/bp-messages-actions.php:91
-#: bp-templates/bp-legacy/buddypress-functions.php:1338
+#: bp-templates/bp-legacy/buddypress-functions.php:1335
 #: bp-themes/bp-default/_inc/ajax.php:927
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages/bp-messages-classes.php:456
+#: bp-messages/bp-messages-classes.php:461
 msgid "%s Recipients"
 msgstr ""
 
