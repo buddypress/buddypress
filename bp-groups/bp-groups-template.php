@@ -2936,6 +2936,7 @@ class BP_Groups_Membership_Requests_Template {
 	 *           are being queried. Default: current group id.
 	 *     @type int $per_page Number of records to return per page of
 	 *           results. Default: 10.
+	 *     @type int $page Page of results to show. Default: 1.
 	 *     @type int $max Max items to return. Default: false (show all)
 	 * }
 	 */
@@ -2958,19 +2959,44 @@ class BP_Groups_Membership_Requests_Template {
 		$r = wp_parse_args( $args, array(
 			'group_id' => bp_get_current_group_id(),
 			'per_page' => 10,
-			'max' => false,
+			'page'     => 1,
+			'max'      => false,
+			'type'     => 'first_joined',
 		) );
 
-		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : 1;
+		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : $r['page'];
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $r['per_page'];
-		$this->requests = BP_Groups_Group::get_membership_requests( $r['group_id'], $this->pag_num, $this->pag_page );
 
-		if ( !$r['max'] || $r['max'] >= (int) $this->requests['total'] )
-			$this->total_request_count = (int) $this->requests['total'];
+		$mquery = new BP_Group_Member_Query( array(
+			'group_id' => $r['group_id'],
+			'type'     => $r['type'],
+			'per_page' => $this->pag_num,
+			'page'     => $this->pag_page,
+
+			// These filters ensure we only get pending requests
+			'is_confirmed' => false,
+			'inviter_id'   => 0,
+		) );
+
+		$this->requests      = array_values( $mquery->results );
+		$this->request_count = count( $this->requests );
+
+		// Compatibility with legacy format of request data objects
+		foreach ( $this->requests as $rk => $rv ) {
+			// For legacy reasons, the 'id' property of each
+			// request must match the membership id, not the ID of
+			// the user (as it's returned by BP_Group_Member_Query)
+			$this->requests[ $rk ]->user_id = $rv->ID;
+			$this->requests[ $rk ]->id      = $rv->membership_id;
+
+			// Miscellaneous values
+			$this->requests[ $rk ]->group_id   = $r['group_id'];
+		}
+
+		if ( !$r['max'] || $r['max'] >= (int) $mquery->total_users )
+			$this->total_request_count = (int) $mquery->total_users;
 		else
 			$this->total_request_count = (int) $r['max'];
-
-		$this->requests = $this->requests['requests'];
 
 		if ( $r['max'] ) {
 			if ( $r['max'] >= count($this->requests) )
@@ -3035,12 +3061,24 @@ class BP_Groups_Membership_Requests_Template {
 	}
 }
 
+/**
+ * Initialize a group membership request template loop.
+ *
+ * @param array $args {
+ *     @type int $group_id ID of the group. Defaults to current group.
+ *     @type int $per_page Number of records to return per page. Default: 10.
+ *     @type int $page Page of results to return. Default: 1.
+ *     @type int $max Max number of items to return. Default: false.
+ * }
+ * @return bool True if there are requests, otherwise false.
+ */
 function bp_group_has_membership_requests( $args = '' ) {
 	global $requests_template, $groups_template;
 
 	$defaults = array(
 		'group_id' => $groups_template->group->id,
 		'per_page' => 10,
+		'page'     => 1,
 		'max'      => false
 	);
 

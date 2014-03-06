@@ -1454,6 +1454,8 @@ class BP_Groups_Group {
  *   inviter_id != 0 and invite_sent = 1
  * - *Pending and unsent invitations* are entries with is_confirmed = 0 and
  *   inviter_id != 0 and invite_sent = 0
+ * - *Membership requests* are entries with is_confirmed = 0 and
+ *   inviter_id = 0 (and invite_sent = 0)
  *
  * @since BuddyPress (1.8.0)
  *
@@ -1722,14 +1724,22 @@ class BP_Group_Member_Query extends BP_User_Query {
 		global $wpdb;
 
 		$bp     = buddypress();
-		$extras = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified, is_banned FROM {$bp->groups->table_name_members} WHERE user_id IN ({$user_ids_sql}) AND group_id = %d", $this->query_vars['group_id'] ) );
+		$extras = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, date_modified, is_admin, is_mod, comments, user_title, invite_sent, is_confirmed, inviter_id, is_banned FROM {$bp->groups->table_name_members} WHERE user_id IN ({$user_ids_sql}) AND group_id = %d", $this->query_vars['group_id'] ) );
 
 		foreach ( (array) $extras as $extra ) {
 			if ( isset( $this->results[ $extra->user_id ] ) ) {
 				// user_id is provided for backward compatibility
 				$this->results[ $extra->user_id ]->user_id       = (int) $extra->user_id;
+				$this->results[ $extra->user_id ]->is_admin      = (int) $extra->is_admin;
+				$this->results[ $extra->user_id ]->is_mod        = (int) $extra->is_mod;
 				$this->results[ $extra->user_id ]->is_banned     = (int) $extra->is_banned;
 				$this->results[ $extra->user_id ]->date_modified = $extra->date_modified;
+				$this->results[ $extra->user_id ]->user_title    = $extra->user_title;
+				$this->results[ $extra->user_id ]->comments      = $extra->comments;
+				$this->results[ $extra->user_id ]->invite_sent   = (int) $extra->invite_sent;
+				$this->results[ $extra->user_id ]->inviter_id    = (int) $extra->inviter_id;
+				$this->results[ $extra->user_id ]->is_confirmed  = (int) $extra->is_confirmed;
+				$this->results[ $extra->user_id ]->membership_id = (int) $extra->id;
 			}
 		}
 

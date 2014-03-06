@@ -547,11 +547,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$memberships = array();
 		for ( $i = 1; $i < 15; $i++ ) {
 			$users[ $i ] = $this->create_user( array(
-				'last_activity' => gmdate( 'Y-m-d H:i:s', time() - $i ),
+				'last_activity' => gmdate( 'Y-m-d H:i:s', time() - ( 100 - $i ) ),
 			) );
 
 			$memberships[ $i ] = $this->add_user_to_group( $users[ $i ], $g, array(
-				'date_modified' => gmdate( 'Y-m-d H:i:s', time() - $i ),
+				// this date_modified ensures that order will match
+				// id order. necessary due to a quirk in the legacy
+				// implementation
+				'date_modified' => gmdate( 'Y-m-d H:i:s', time() - ( 100 - $i ) ),
 				'is_confirmed' => 0,
 				'inviter_id' => 0,
 				'invite_sent' => false,
