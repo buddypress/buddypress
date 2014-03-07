@@ -540,4 +540,129 @@ Bar!';
 		remove_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 	}
 
+	/**
+	 * @group bp_activity_new_comment
+	 * @group cache
+	 */
+	public function test_bp_activity_new_comment_clear_comment_caches() {
+		$a1 = $this->factory->activity->create();
+		$a2 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a1,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a2,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+		$a4 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a3,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+		$a5 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a3,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+
+		// prime caches
+		bp_activity_get( array(
+			'in' => array( $a1 ),
+			'display_comments' => 'threaded',
+		) );
+
+		// should be populated
+		$this->assertNotEmpty( wp_cache_get( $a1, 'bp_activity_comments' ) );
+
+		bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a4,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+
+		// should be empty
+		$this->assertFalse( wp_cache_get( $a1, 'bp_activity_comments' ) );
+	}
+
+	/**
+	 * @group bp_activity_new_comment
+	 * @group cache
+	 */
+	public function test_bp_activity_new_comment_clear_activity_caches() {
+		$a1 = $this->factory->activity->create();
+		$a2 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a1,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a2,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+		$a4 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a3,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+		$a5 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a3,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+
+		// prime caches
+		bp_activity_get( array(
+			'in' => array( $a1 ),
+			'display_comments' => 'threaded',
+		) );
+
+		// should be populated
+		$this->assertNotEmpty( wp_cache_get( $a1, 'bp_activity' ) );
+		$this->assertNotEmpty( wp_cache_get( $a2, 'bp_activity' ) );
+		$this->assertNotEmpty( wp_cache_get( $a3, 'bp_activity' ) );
+		$this->assertNotEmpty( wp_cache_get( $a4, 'bp_activity' ) );
+		$this->assertNotEmpty( wp_cache_get( $a5, 'bp_activity' ) );
+
+		// Stuff may run on bp_activity_comment_posted that loads the
+		// cache, so we use this dumb technique to check cache values
+		// before any of that stuff gets a chance to run. WordPress
+		// sure is neat sometimes
+		$this->acaches = array(
+			$a1 => '',
+			$a2 => '',
+			$a3 => '',
+			$a4 => '',
+		);
+		add_action( 'bp_activity_comment_posted', array( $this, 'check_activity_caches' ), 0 );
+
+		bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a4,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+
+		// should be empty
+		foreach ( $this->acaches as $k => $v ) {
+			$this->assertFalse( $v, "Cache should be false for $k" );
+		}
+	}
+
+	public function check_activity_caches() {
+		foreach ( $this->acaches as $k => $v ) {
+			$this->acaches[ $k ] = wp_cache_get( $k, 'bp_activity' );
+		}
+	}
 }

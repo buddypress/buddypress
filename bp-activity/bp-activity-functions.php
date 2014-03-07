@@ -1240,9 +1240,17 @@ function bp_activity_new_comment( $args = '' ) {
 		'hide_sitewide'     => $is_hidden
 	) );
 
-	// Clear the comment and item cache for this activity
-	wp_cache_delete( $parent_id, 'bp_activity_comments' );
-	wp_cache_delete( $parent_id, 'bp_activity' );
+	// Comment caches are stored only with the top-level item
+	wp_cache_delete( $activity_id, 'bp_activity_comments' );
+
+	// Walk the tree to clear caches for all parent items
+	$clear_id = $parent_id;
+	while ( $clear_id != $activity_id ) {
+		$clear_object = new BP_Activity_Activity( $clear_id );
+		wp_cache_delete( $clear_id, 'bp_activity' );
+		$clear_id = intval( $clear_object->secondary_item_id );
+	}
+	wp_cache_delete( $activity_id, 'bp_activity' );
 
 	do_action( 'bp_activity_comment_posted', $comment_id, $params, $activity );
 
