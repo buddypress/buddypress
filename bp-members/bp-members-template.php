@@ -664,18 +664,18 @@ function bp_member_profile_data( $args = '' ) {
 			return false;
 
 		// Declare local variables
-		$data    = false;
-		$user_id = 0;
+		$data = false;
 
 		// Guess at default $user_id
+		$default_user_id = 0;
 		if ( !empty( $members_template->member->id ) )
-			$user_id = $members_template->member->id;
+			$default_user_id = $members_template->member->id;
 		elseif ( bp_displayed_user_id() )
-			$user_id = bp_displayed_user_id();
+			$default_user_id = bp_displayed_user_id();
 
 		$defaults = array(
-			'field'   => false,   // Field name
-			'user_id' => $user_id
+			'field'   => false,
+			'user_id' => $default_user_id,
 		);
 
 		$r = wp_parse_args( $args, $defaults );
