@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-03-07 01:35:17+00:00\n"
+"POT-Creation-Date: 2014-03-08 13:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -649,8 +649,8 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:2212 bp-groups/bp-groups-template.php:3106
 #: bp-members/bp-members-buddybar.php:64 bp-members/bp-members-loader.php:219
 #: bp-members/bp-members-template.php:520
-#: bp-members/bp-members-template.php:844
-#: bp-members/bp-members-template.php:863
+#: bp-members/bp-members-template.php:881
+#: bp-members/bp-members-template.php:900
 #: bp-messages/bp-messages-loader.php:265
 #: bp-messages/bp-messages-template.php:410
 #: bp-notifications/bp-notifications-loader.php:236
@@ -963,8 +963,8 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:648 bp-core/bp-core-classes.php:822
 #: bp-groups/bp-groups-template.php:3277 bp-groups/bp-groups-widgets.php:85
-#: bp-groups/bp-groups-widgets.php:188 bp-members/bp-members-template.php:616
-#: bp-members/bp-members-template.php:895
+#: bp-groups/bp-groups-widgets.php:197 bp-members/bp-members-template.php:616
+#: bp-members/bp-members-template.php:932
 #: bp-templates/bp-legacy/buddypress/groups/groups-loop.php:47
 #: bp-templates/bp-legacy/buddypress/groups/single/group-header.php:42
 #: bp-themes/bp-default/groups/groups-loop.php:47
@@ -1054,7 +1054,7 @@ msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:1149 bp-core/deprecated/1.5.php:417
 #: bp-forums/bp-forums-template.php:2196 bp-groups/bp-groups-template.php:2744
-#: bp-members/bp-members-template.php:734
+#: bp-members/bp-members-template.php:771
 #: bp-messages/bp-messages-template.php:464 bp-themes/bp-default/header.php:30
 #: bp-themes/bp-default/searchform.php:5
 msgid "Search"
@@ -1619,7 +1619,7 @@ msgid "BuddyPress&#8217;s powerful features help your users connect and collabor
 msgstr ""
 
 #: bp-core/bp-core-admin.php:478 bp-core/bp-core-template.php:361
-#: bp-core/bp-core-widgets.php:274 bp-groups/bp-groups-admin.php:781
+#: bp-core/bp-core-widgets.php:275 bp-groups/bp-groups-admin.php:781
 #: bp-groups/bp-groups-template.php:1492 bp-members/bp-members-loader.php:24
 #: bp-members/bp-members-screens.php:366
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:231
@@ -1792,7 +1792,7 @@ msgid "You do not have access to this page."
 msgstr ""
 
 #: bp-core/bp-core-buddybar.php:552 bp-core/bp-core-functions.php:1784
-#: bp-core/bp-core-widgets.php:89 bp-themes/bp-default/sidebar.php:52
+#: bp-core/bp-core-widgets.php:90 bp-themes/bp-default/sidebar.php:52
 msgid "Log In"
 msgstr ""
 
@@ -1801,8 +1801,8 @@ msgid "Sign Up"
 msgstr ""
 
 #: bp-core/bp-core-buddybar.php:613 bp-core/bp-core-functions.php:1717
-#: bp-core/bp-core-widgets.php:71 bp-core/deprecated/1.5.php:307
-#: bp-members/bp-members-template.php:798 bp-themes/bp-default/sidebar.php:18
+#: bp-core/bp-core-widgets.php:72 bp-core/deprecated/1.5.php:307
+#: bp-members/bp-members-template.php:835 bp-themes/bp-default/sidebar.php:18
 msgid "Log Out"
 msgstr ""
 
@@ -2066,27 +2066,27 @@ msgstr ""
 msgid "Show a Log In form to logged-out visitors, and a Log Out link to those who are logged in."
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:81
+#: bp-core/bp-core-widgets.php:82
 #: bp-templates/bp-legacy/buddypress/members/register.php:32
 #: bp-themes/bp-default/registration/register.php:37
 #: bp-themes/bp-default/sidebar.php:44
 msgid "Username"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:84 bp-themes/bp-default/sidebar.php:47
+#: bp-core/bp-core-widgets.php:85 bp-themes/bp-default/sidebar.php:47
 msgid "Password"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:87 bp-themes/bp-default/sidebar.php:50
+#: bp-core/bp-core-widgets.php:88 bp-themes/bp-default/sidebar.php:50
 msgid "Remember Me"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:93
+#: bp-core/bp-core-widgets.php:94
 msgid "<a href=\"%s\" title=\"Register for a new account\">Register</a>"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:132 bp-core/bp-core-widgets.php:287
-#: bp-core/bp-core-widgets.php:402 bp-core/bp-core-widgets.php:504
+#: bp-core/bp-core-widgets.php:133 bp-core/bp-core-widgets.php:288
+#: bp-core/bp-core-widgets.php:403 bp-core/bp-core-widgets.php:505
 #: bp-groups/bp-groups-widgets.php:137 bp-messages/bp-messages-widgets.php:110
 #: bp-templates/bp-legacy/buddypress/forums/index.php:86
 #: bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:47
@@ -2097,16 +2097,16 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:150
+#: bp-core/bp-core-widgets.php:151
 msgid "A dynamic list of recently active, popular, and newest members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:153
+#: bp-core/bp-core-widgets.php:154
 msgctxt "widget name"
 msgid "(BuddyPress) Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:198 bp-core/bp-core-widgets.php:296
+#: bp-core/bp-core-widgets.php:199 bp-core/bp-core-widgets.php:297
 #: bp-core/deprecated/1.6.php:129 bp-core/deprecated/1.6.php:152
 #: bp-friends/bp-friends-widgets.php:91 bp-friends/bp-friends-widgets.php:179
 #: bp-groups/bp-groups-template.php:2389 bp-groups/bp-groups-widgets.php:65
@@ -2118,74 +2118,74 @@ msgstr ""
 msgid "Newest"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:199 bp-core/bp-core-widgets.php:297
+#: bp-core/bp-core-widgets.php:200 bp-core/bp-core-widgets.php:298
 #: bp-friends/bp-friends-widgets.php:92 bp-friends/bp-friends-widgets.php:180
 #: bp-groups/bp-groups-widgets.php:66 bp-groups/bp-groups-widgets.php:147
 #: bp-members/bp-members-admin.php:579
 msgid "Active"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:203 bp-core/bp-core-widgets.php:298
+#: bp-core/bp-core-widgets.php:204 bp-core/bp-core-widgets.php:299
 #: bp-friends/bp-friends-widgets.php:93 bp-friends/bp-friends-widgets.php:181
 #: bp-groups/bp-groups-widgets.php:67 bp-groups/bp-groups-widgets.php:148
 msgid "Popular"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:240
+#: bp-core/bp-core-widgets.php:241
 msgid "No one has signed up yet!"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:289 bp-friends/bp-friends-widgets.php:172
+#: bp-core/bp-core-widgets.php:290 bp-friends/bp-friends-widgets.php:172
 msgid "Link widget title to Members directory"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:291
+#: bp-core/bp-core-widgets.php:292
 msgid "Max members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:294
+#: bp-core/bp-core-widgets.php:295
 msgid "Default members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:316
+#: bp-core/bp-core-widgets.php:317
 msgid "Avatars of users who are currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:319
+#: bp-core/bp-core-widgets.php:320
 msgctxt "widget name"
 msgid "(BuddyPress) Who's Online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:362
+#: bp-core/bp-core-widgets.php:363
 msgid "There are no users currently online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:393
+#: bp-core/bp-core-widgets.php:394
 msgid "Who's Online"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:404 bp-core/bp-core-widgets.php:506
+#: bp-core/bp-core-widgets.php:405 bp-core/bp-core-widgets.php:507
 msgid "Max Members to show:"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:418
+#: bp-core/bp-core-widgets.php:419
 msgid "Avatars of recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:421
+#: bp-core/bp-core-widgets.php:422
 msgctxt "widget name"
 msgid "(BuddyPress) Recently Active Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:464
+#: bp-core/bp-core-widgets.php:465
 msgid "There are no recently active members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:495
+#: bp-core/bp-core-widgets.php:496
 msgid "Recently Active Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:567 bp-friends/bp-friends-widgets.php:245
+#: bp-core/bp-core-widgets.php:568 bp-friends/bp-friends-widgets.php:245
 msgid "There were no members found, please try another filter."
 msgstr ""
 
@@ -3966,7 +3966,7 @@ msgctxt "widget name"
 msgid "(BuddyPress) Groups"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:83 bp-groups/bp-groups-widgets.php:186
+#: bp-groups/bp-groups-widgets.php:83 bp-groups/bp-groups-widgets.php:195
 msgid "created %s"
 msgstr ""
 
@@ -3986,7 +3986,7 @@ msgstr ""
 msgid "Default groups to show:"
 msgstr ""
 
-#: bp-groups/bp-groups-widgets.php:204
+#: bp-groups/bp-groups-widgets.php:213
 msgid "No groups matched the current filter."
 msgstr ""
 
@@ -4316,16 +4316,16 @@ msgctxt "member latest update in member directory"
 msgid "- &quot;%s &quot;"
 msgstr ""
 
-#: bp-members/bp-members-template.php:701
+#: bp-members/bp-members-template.php:738
 msgctxt "Records the timestamp that the user registered into the activy stream"
 msgid "registered %s"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1170
+#: bp-members/bp-members-template.php:1207
 msgid "Your Avatar"
 msgstr ""
 
-#: bp-members/bp-members-template.php:1240
+#: bp-members/bp-members-template.php:1277
 msgid "Activity RSS Feed"
 msgstr ""
 
