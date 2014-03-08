@@ -762,7 +762,17 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 	unset( $actions['friends_register_activity_action'] );
 
 	// Sort array by the human-readable value
-	natsort( $actions ); ?>
+	natsort( $actions );
+
+	// If the activity type is not registered properly (eg, a plugin has
+	// not called bp_activity_set_action()), add the raw type to the end
+	// of the list
+	if ( ! isset( $actions[ $selected ] ) ) {
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'This activity item has a type (%s) that is not registered using bp_activity_set_action(), so no label is available.', 'buddypress' ), $selected ), '2.0.0' );
+		$actions[ $selected ] = $selected;
+	}
+
+	?>
 
 	<select name="bp-activities-type">
 		<?php foreach ( $actions as $k => $v ) : ?>
