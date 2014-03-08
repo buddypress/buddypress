@@ -169,7 +169,15 @@ function groups_ajax_widget_groups_list() {
 		break;
 	}
 
-	if ( bp_has_groups( 'type=' . $type . '&per_page=' . $_POST['max_groups'] . '&max=' . $_POST['max_groups'] ) ) : ?>
+	$per_page = isset( $_POST['max_groups'] ) ? intval( $_POST['max_groups'] ) : 5;
+
+	$groups_args = array(
+		'type'     => $type,
+		'per_page' => $per_page,
+		'max'      => $per_page,
+	);
+
+	if ( bp_has_groups( $groups_args ) ) : ?>
 		<?php echo "0[[SPLIT]]"; ?>
 		<?php while ( bp_groups() ) : bp_the_group(); ?>
 			<li <?php bp_group_class(); ?>>
