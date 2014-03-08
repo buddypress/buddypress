@@ -495,4 +495,50 @@ Bar!';
 		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
 		$this->assertNotEmpty( bp_xprofile_add_meta( $g, 'group', 'foo', 'baz' ) );
 	}
+
+	/**
+	 * @group bp_get_member_profile_data
+	 */
+	public function test_bp_get_member_profile_data_inside_loop() {
+		$u = $this->create_user();
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'textbox',
+			'name' => 'Neato',
+		) );
+		xprofile_set_field_data( $f, $u, 'foo' );
+
+		if ( bp_has_members() ) : while ( bp_members() ) : bp_the_member();
+		$found = bp_get_member_profile_data( array(
+			'user_id' => $u,
+			'field' => 'Neato',
+		) );
+		endwhile; endif;
+
+		// Cleanup
+		unset( $GLOBALS['members_template'] );
+
+		$this->assertSame( 'foo', $found );
+	}
+	/**
+	 * @group bp_get_member_profile_data
+	 */
+	public function test_bp_get_member_profile_data_outside_of_loop() {
+		$u = $this->create_user();
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'textbox',
+			'name' => 'Kewl',
+		) );
+		xprofile_set_field_data( $f, $u, 'foo' );
+
+		$found = bp_get_member_profile_data( array(
+			'user_id' => $u,
+			'field' => 'Kewl',
+		) );
+
+		$this->assertSame( 'foo', $found );
+	}
 }

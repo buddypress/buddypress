@@ -681,13 +681,25 @@ function bp_member_profile_data( $args = '' ) {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		// Populate the user if it hasn't been already.
-		if ( empty( $members_template->member->profile_data ) && method_exists( 'BP_XProfile_ProfileData', 'get_all_for_user' ) )
-			$members_template->member->profile_data = BP_XProfile_ProfileData::get_all_for_user( $user_id );
+		// If we're in a members loop, get the data from the global
+		if ( ! empty( $members_template->member->profile_data ) ) {
+			$profile_data = $members_template->member->profile_data;
+		}
+
+		// Otherwise query for the data
+		if ( empty( $profile_data ) && method_exists( 'BP_XProfile_ProfileData', 'get_all_for_user' ) ) {
+			$profile_data = BP_XProfile_ProfileData::get_all_for_user( $user_id );
+		}
+
+		// If we're in the members loop, but the profile data has not
+		// been loaded into the global, cache it there for later use
+		if ( ! empty( $members_template->member ) && empty( $members_template->member->profile_data ) ) {
+			$members_template->member->profile_data = $profile_data;
+		}
 
 		// Get the field data if there is data to get
-		if ( ! empty( $members_template->member->profile_data ) && ! empty( $members_template->member->profile_data[$field]['field_type'] ) && ! empty( $members_template->member->profile_data[$field]['field_data'] ) )
-			$data = xprofile_format_profile_field( $members_template->member->profile_data[$field]['field_type'], $members_template->member->profile_data[$field]['field_data'] );
+		if ( ! empty( $profile_data ) && ! empty( $profile_data[ $field ]['field_type'] ) && ! empty( $profile_data[ $field ]['field_data'] ) )
+			$data = xprofile_format_profile_field( $profile_data[ $field ]['field_type'], $profile_data[ $field ]['field_data'] );
 
 		return apply_filters( 'bp_get_member_profile_data', $data );
 	}
