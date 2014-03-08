@@ -50,7 +50,8 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 * @param array $instance Widget settings, as saved by the user.
 	 */
 	public function widget( $args, $instance ) {
-		$title = apply_filters( 'widget_title', $instance['title'] );
+		$title = isset( $instance['title'] ) ? $instance['title'] : '';
+		$title = apply_filters( 'widget_title', $title );
 
 		echo $args['before_widget'];
 
