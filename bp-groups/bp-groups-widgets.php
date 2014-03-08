@@ -172,6 +172,7 @@ function groups_ajax_widget_groups_list() {
 	$per_page = isset( $_POST['max_groups'] ) ? intval( $_POST['max_groups'] ) : 5;
 
 	$groups_args = array(
+		'user_id'  => 0,
 		'type'     => $type,
 		'per_page' => $per_page,
 		'max'      => $per_page,
