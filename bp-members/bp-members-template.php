@@ -654,24 +654,49 @@ function bp_member_latest_update( $args = '' ) {
 		return apply_filters( 'bp_get_member_latest_update', $update_content );
 	}
 
+/**
+ * Output a piece of user profile data.
+ *
+ * @see bp_get_member_profile_data() for a description of params.
+ *
+ * @param array $args See {@link bp_get_member_profile_data()}.
+ */
 function bp_member_profile_data( $args = '' ) {
 	echo bp_get_member_profile_data( $args );
 }
+	/**
+	 * Get a piece of user profile data.
+	 *
+	 * When used in a bp_has_members() loop, this function will attempt
+	 * to fetch profile data cached in the template global. It is also safe
+	 * to use outside of the loop.
+	 *
+	 * @param array $args {
+	 *     Array of config paramaters.
+	 *     @type string $field Name of the profile field.
+	 *     @type int $user_id ID of the user whose data is being fetched.
+	 *           Defaults to the current member in the loop, or if not
+	 *           present, to the currently displayed user.
+	 * }
+	 * @return string|bool Profile data if found, otherwise false.
+	 */
 	function bp_get_member_profile_data( $args = '' ) {
 		global $members_template;
 
-		if ( !bp_is_active( 'xprofile' ) )
+		if ( ! bp_is_active( 'xprofile' ) ) {
 			return false;
+		}
 
 		// Declare local variables
 		$data = false;
 
 		// Guess at default $user_id
 		$default_user_id = 0;
-		if ( !empty( $members_template->member->id ) )
+		if ( ! empty( $members_template->member->id ) ) {
 			$default_user_id = $members_template->member->id;
-		elseif ( bp_displayed_user_id() )
+		} elseif ( bp_displayed_user_id() ) {
 			$default_user_id = bp_displayed_user_id();
+		}
 
 		$defaults = array(
 			'field'   => false,
@@ -679,7 +704,6 @@ function bp_member_profile_data( $args = '' ) {
 		);
 
 		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
 
 		// If we're in a members loop, get the data from the global
 		if ( ! empty( $members_template->member->profile_data ) ) {
@@ -688,7 +712,7 @@ function bp_member_profile_data( $args = '' ) {
 
 		// Otherwise query for the data
 		if ( empty( $profile_data ) && method_exists( 'BP_XProfile_ProfileData', 'get_all_for_user' ) ) {
-			$profile_data = BP_XProfile_ProfileData::get_all_for_user( $user_id );
+			$profile_data = BP_XProfile_ProfileData::get_all_for_user( $r['user_id'] );
 		}
 
 		// If we're in the members loop, but the profile data has not
@@ -697,9 +721,10 @@ function bp_member_profile_data( $args = '' ) {
 			$members_template->member->profile_data = $profile_data;
 		}
 
-		// Get the field data if there is data to get
-		if ( ! empty( $profile_data ) && ! empty( $profile_data[ $field ]['field_type'] ) && ! empty( $profile_data[ $field ]['field_data'] ) )
-			$data = xprofile_format_profile_field( $profile_data[ $field ]['field_type'], $profile_data[ $field ]['field_data'] );
+		// Get the data for the specific field requested
+		if ( ! empty( $profile_data ) && ! empty( $profile_data[ $r['field'] ]['field_type'] ) && ! empty( $profile_data[ $r['field'] ]['field_data'] ) ) {
+			$data = xprofile_format_profile_field( $profile_data[ $r['field'] ]['field_type'], $profile_data[ $r['field'] ]['field_data'] );
+		}
 
 		return apply_filters( 'bp_get_member_profile_data', $data );
 	}
