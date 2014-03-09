@@ -555,9 +555,22 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 function bp_groups_delete_group_delete_all_notifications( $group_id ) {
 	if ( bp_is_active( 'notifications' ) ) {
 		bp_notifications_delete_all_notifications_by_type( $group_id, buddypress()->groups->id );
-	}	
+	}
 }
 add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_notifications', 10 );
+
+/**
+ * When a demotion takes place, delete any corresponding promotion notifications.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_groups_delete_promotion_notifications( $user_id = 0, $group_id = 0 ) {
+	if ( bp_is_active( 'notifications' ) && ! empty( $group_id ) && ! empty( $user_id ) ) {
+		bp_notifications_delete_notifications_by_item_id( $user_id, $group_id, buddypress()->groups->id, 'member_promoted_to_admin' );
+		bp_notifications_delete_notifications_by_item_id( $user_id, $group_id, buddypress()->groups->id, 'member_promoted_to_mod' );
+	}
+}
+add_action( 'groups_demoted_member', 'bp_groups_delete_promotion_notifications', 10, 2 );
 
 /**
  * Mark notifications read when a member accepts a group invitation
