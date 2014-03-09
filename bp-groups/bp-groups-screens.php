@@ -1021,7 +1021,7 @@ class BP_Groups_Theme_Compat {
 	 */
 	public function directory_dummy_post() {
 
-		$title = apply_filters( 'bp_groups_directory_title', __( 'Groups', 'buddypress' ) );
+		$title = apply_filters( 'bp_groups_directory_header', bp_get_directory_title( 'groups' ) );
 
 		bp_theme_compat_reset_post( array(
 			'ID'             => 0,

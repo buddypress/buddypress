@@ -215,6 +215,7 @@ class BP_Component {
 			'slug'                  => $this->id,
 			'root_slug'             => $default_root_slug,
 			'has_directory'         => false,
+			'directory_title'       => '',
 			'notification_callback' => '',
 			'search_string'         => '',
 			'global_tables'         => '',
@@ -229,6 +230,9 @@ class BP_Component {
 
 		// Does this component have a top-level directory?
 		$this->has_directory         = apply_filters( 'bp_' . $this->id . '_has_directory',         $r['has_directory']         );
+
+		// Does this component have a top-level directory?
+		$this->directory_title       = apply_filters( 'bp_' . $this->id . '_directory_title',       $r['directory_title']         );
 
 		// Search string
 		$this->search_string         = apply_filters( 'bp_' . $this->id . '_search_string',         $r['search_string']         );

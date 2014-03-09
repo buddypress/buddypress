@@ -147,6 +147,7 @@ class BP_Groups_Component extends BP_Component {
 			'slug'                  => BP_GROUPS_SLUG,
 			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
 			'has_directory'         => true,
+			'directory_title'       => _x( 'Groups', 'component directory title', 'buddypress' ),
 			'notification_callback' => 'groups_format_notifications',
 			'search_string'         => __( 'Search Groups...', 'buddypress' ),
 			'global_tables'         => $global_tables,

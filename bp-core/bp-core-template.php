@@ -83,6 +83,31 @@ function bp_get_options_title() {
 	echo apply_filters( 'bp_get_options_title', esc_attr( $bp->bp_options_title ) );
 }
 
+/**
+ * Get the directory title for a component.
+ *
+ * Used for the <title> element and the page header on the component directory
+ * page.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @return string
+ */
+function bp_get_directory_title( $component = '' ) {
+	$title = '';
+
+	// Use the string provided by the component
+	if ( isset( buddypress()->{$component}->directory_title ) ) {
+		$title = buddypress()->{$component}->directory_title;
+
+	// If none is found, concatenate
+	} else if ( isset( buddypress()->{$component}->name ) ) {
+		$title = sprintf( __( '%s Directory', 'buddypress' ), buddypress()->{$component}->name );
+	}
+
+	return apply_filters( 'bp_get_directory_title', $title, $component );
+}
+
 /** Avatars *******************************************************************/
 
 /**

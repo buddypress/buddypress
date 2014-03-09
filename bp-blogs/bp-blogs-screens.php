@@ -141,7 +141,7 @@ class BP_Blogs_Theme_Compat {
 	 */
 	public function directory_dummy_post() {
 
-		$title = apply_filters( 'bp_blogs_directory_title', __( 'Sites', 'buddypress' ) );
+		$title = apply_filters( 'bp_blogs_directory_header', __( 'Sites', 'buddypress' ) );
 
 		bp_theme_compat_reset_post( array(
 			'ID'             => 0,
