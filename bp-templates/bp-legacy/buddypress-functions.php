@@ -1350,10 +1350,13 @@ function bp_legacy_theme_ajax_messages_delete() {
 }
 
 /**
- * AJAX handler for autocomplete. Displays friends only, unless BP_MESSAGES_AUTOCOMPLETE_ALL is defined.
+ * AJAX handler for autocomplete.
  *
- * @return string HTML
- * @since BuddyPress (1.2)
+ * Displays friends only, unless BP_MESSAGES_AUTOCOMPLETE_ALL is defined.
+ *
+ * @since BuddyPress (1.2.0)
+ *
+ * @return string HTML.
  */
 function bp_legacy_theme_ajax_messages_autocomplete_results() {
 
@@ -1361,56 +1364,65 @@ function bp_legacy_theme_ajax_messages_autocomplete_results() {
 	if ( bp_is_current_component( bp_get_messages_slug() ) )
 		$autocomplete_all = buddypress()->messages->autocomplete_all;
 
-	$pag_page = 1;
-	$limit    = (int) $_GET['limit'] ? $_GET['limit'] : apply_filters( 'bp_autocomplete_max_results', 10 );
+	$pag_page     = 1;
+	$limit        = (int) $_GET['limit'] ? $_GET['limit'] : apply_filters( 'bp_autocomplete_max_results', 10 );
+	$search_terms = isset( $_GET['q'] ) ? $_GET['q'] : '';
 
-	// Get the user ids based on the search terms
-	if ( ! empty( $autocomplete_all ) ) {
-		$users = BP_Core_User::search_users( $_GET['q'], $limit, $pag_page );
+	$user_query_args = array(
+		'search_terms' => $search_terms,
+		'page'         => intval( $pag_page ),
+		'per_page'     => intval( $limit ),
+	);
 
-		if ( ! empty( $users['users'] ) ) {
-			// Build an array with the correct format
-			$user_ids = array();
-			foreach( $users['users'] as $user ) {
-				if ( $user->id != bp_loggedin_user_id() ) {
-					$user_ids[] = $user->id;
-				}
-			}
+	// If only matching against friends, get an $include param for
+	// BP_User_Query
+	if ( ! $autocomplete_all && bp_is_active( 'friends' ) ) {
+		$include = BP_Friends_Friendship::get_friend_user_ids( bp_loggedin_user_id() );
 
-			$user_ids = apply_filters( 'bp_core_autocomplete_ids', $user_ids, $_GET['q'], $limit );
+		// Ensure zero matches if no friends are found
+		if ( empty( $include ) ) {
+			$include = array( 0 );
 		}
 
-	} else {
-		if ( bp_is_active( 'friends' ) ) {
-			$users = friends_search_friends( $_GET['q'], bp_loggedin_user_id(), $limit, 1 );
-
-			// Keeping the bp_friends_autocomplete_list filter for backward compatibility
-			$users = apply_filters( 'bp_friends_autocomplete_list', $users, $_GET['q'], $limit );
-
-			if ( ! empty( $users['friends'] ) ) {
-				$user_ids = apply_filters( 'bp_friends_autocomplete_ids', $users['friends'], $_GET['q'], $limit );
-			}
-		}
+		$user_query_args['include'] = $include;
 	}
 
-	if ( ! empty( $user_ids ) ) {
-		foreach ( $user_ids as $user_id ) {
-			$ud = get_userdata( $user_id );
-			if ( ! $ud ) {
-				continue;
-			}
+	$user_query = new BP_User_Query( $user_query_args );
 
+	// Backward compatibility - if a plugin is expecting a legacy
+	// filter, pass the IDs through the filter and requery (groan)
+	if ( has_filter( 'bp_core_autocomplete_ids' ) || has_filter( 'bp_friends_autocomplete_ids' ) ) {
+		$found_user_ids = wp_list_pluck( $user_query->results, 'ID' );
+
+		if ( $autocomplete_all ) {
+			$found_user_ids = apply_filters( 'bp_core_autocomplete_ids', $found_user_ids );
+		} else {
+			$found_user_ids = apply_filters( 'bp_friends_autocomplete_ids', $found_user_ids );
+		}
+
+		if ( empty( $found_user_ids ) ) {
+			$found_user_ids = array( 0 );
+		}
+
+		// Repopulate the $user_query variable
+		$user_query = new BP_User_Query( array(
+			'include' => $found_user_ids,
+		) );
+	}
+
+	if ( ! empty( $user_query->results ) ) {
+		foreach ( $user_query->results as $user ) {
 			if ( bp_is_username_compatibility_mode() ) {
 				// Sanitize for spaces. Use urlencode() rather
 				// than rawurlencode() because %20 breaks JS
-				$username = urlencode( $ud->user_login );
+				$username = urlencode( $user->user_login );
 			} else {
-				$username = $ud->user_nicename;
+				$username = $user->user_nicename;
 			}
 
 			// Note that the final line break acts as a delimiter for the
 			// autocomplete javascript and thus should not be removed
-			echo '<span id="link-' . esc_attr( $username ) . '" href="' . bp_core_get_user_domain( $user_id ) . '"></span>' . bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'width' => 15, 'height' => 15, 'alt' => $ud->display_name ) ) . ' &nbsp;' . bp_core_get_user_displayname( $user_id ) . ' (' . esc_html( $username ) . ')' . "\n";
+			echo '<span id="link-' . esc_attr( $username ) . '" href="' . bp_core_get_user_domain( $user->ID ) . '"></span>' . bp_core_fetch_avatar( array( 'item_id' => $user->ID, 'type' => 'thumb', 'width' => 15, 'height' => 15, 'alt' => $user->display_name ) ) . ' &nbsp;' . bp_core_get_user_displayname( $user->ID ) . ' (' . esc_html( $username ) . ')' . "\n";
 		}
 	}
 
