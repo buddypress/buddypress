@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-03-09 15:35:16+00:00\n"
+"POT-Creation-Date: 2014-03-09 19:35:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -88,7 +88,7 @@ msgstr ""
 #. translators: Group activity RSS title - "[Site Name] | [Group Name] |
 #. Activity"
 
-#: bp-activity/bp-activity-actions.php:470 bp-groups/bp-groups-actions.php:362
+#: bp-activity/bp-activity-actions.php:470 bp-groups/bp-groups-actions.php:390
 msgid "%1$s | %2$s | Activity"
 msgstr ""
 
@@ -630,8 +630,8 @@ msgstr ""
 #: bp-groups/bp-groups-notifications.php:413
 #: bp-groups/bp-groups-notifications.php:449
 #: bp-groups/bp-groups-notifications.php:485
-#: bp-groups/bp-groups-screens.php:894 bp-groups/bp-groups-screens.php:1082
-#: bp-groups/bp-groups-screens.php:1084 bp-groups/bp-groups-widgets.php:53
+#: bp-groups/bp-groups-screens.php:937 bp-groups/bp-groups-screens.php:1125
+#: bp-groups/bp-groups-screens.php:1127 bp-groups/bp-groups-widgets.php:53
 #: bp-groups/bp-groups-widgets.php:124
 msgid "Groups"
 msgstr ""
@@ -758,7 +758,7 @@ msgid "You do not have access to this activity."
 msgstr ""
 
 #: bp-activity/bp-activity-screens.php:271 bp-blogs/bp-blogs-template.php:997
-#: bp-friends/bp-friends-screens.php:86 bp-groups/bp-groups-screens.php:895
+#: bp-friends/bp-friends-screens.php:86 bp-groups/bp-groups-screens.php:938
 #: bp-messages/bp-messages-screens.php:169
 #: bp-templates/bp-legacy/buddypress/members/register.php:227
 #: bp-themes/bp-default/registration/register.php:232
@@ -766,7 +766,7 @@ msgid "Yes"
 msgstr ""
 
 #: bp-activity/bp-activity-screens.php:272 bp-blogs/bp-blogs-template.php:1001
-#: bp-friends/bp-friends-screens.php:87 bp-groups/bp-groups-screens.php:896
+#: bp-friends/bp-friends-screens.php:87 bp-groups/bp-groups-screens.php:939
 #: bp-messages/bp-messages-screens.php:170
 #: bp-templates/bp-legacy/buddypress/members/register.php:228
 #: bp-themes/bp-default/registration/register.php:233
@@ -1916,7 +1916,7 @@ msgid "Activate your Account"
 msgstr ""
 
 #: bp-core/bp-core-filters.php:454 bp-groups/bp-groups-loader.php:578
-#: bp-groups/bp-groups-screens.php:1082 bp-groups/bp-groups-template.php:1883
+#: bp-groups/bp-groups-screens.php:1125 bp-groups/bp-groups-template.php:1883
 #: bp-groups/bp-groups-template.php:1884
 #: bp-themes/bp-default/groups/create.php:18
 #: bp-themes/bp-default/groups/index.php:21
@@ -2562,7 +2562,7 @@ msgid "You already have a pending friendship request with this user"
 msgstr ""
 
 #: bp-friends/bp-friends-actions.php:76
-#: bp-templates/bp-legacy/buddypress-functions.php:1056
+#: bp-templates/bp-legacy/buddypress-functions.php:1058
 #: bp-themes/bp-default/_inc/ajax.php:646
 msgid "Friendship could not be canceled."
 msgstr ""
@@ -2739,7 +2739,7 @@ msgid "%d friends"
 msgstr ""
 
 #: bp-friends/bp-friends-template.php:318
-#: bp-templates/bp-legacy/buddypress-functions.php:1068
+#: bp-templates/bp-legacy/buddypress-functions.php:1070
 #: bp-themes/bp-default/_inc/ajax.php:658
 msgid "Cancel Friendship Request"
 msgstr ""
@@ -2760,8 +2760,8 @@ msgstr ""
 
 #: bp-friends/bp-friends-template.php:369
 #: bp-friends/bp-friends-template.php:370
-#: bp-templates/bp-legacy/buddypress-functions.php:1058
-#: bp-templates/bp-legacy/buddypress-functions.php:1076
+#: bp-templates/bp-legacy/buddypress-functions.php:1060
+#: bp-templates/bp-legacy/buddypress-functions.php:1078
 #: bp-themes/bp-default/_inc/ajax.php:648
 #: bp-themes/bp-default/_inc/ajax.php:666
 msgid "Add Friend"
@@ -2820,39 +2820,47 @@ msgstr ""
 msgid "There was an error saving group details, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:153
+#: bp-groups/bp-groups-actions.php:163
 msgid "%1$s created the group %2$s"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:205
+#: bp-groups/bp-groups-actions.php:198 bp-groups/bp-groups-screens.php:473
+msgid "Invite successfully removed"
+msgstr ""
+
+#: bp-groups/bp-groups-actions.php:202 bp-groups/bp-groups-screens.php:484
+msgid "There was an error removing the invite"
+msgstr ""
+
+#: bp-groups/bp-groups-actions.php:233
 msgid "There was an error saving the group avatar, please try uploading again."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:207
+#: bp-groups/bp-groups-actions.php:235
 msgid "The group avatar was uploaded successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:231 bp-groups/bp-groups-actions.php:238
+#: bp-groups/bp-groups-actions.php:259 bp-groups/bp-groups-actions.php:266
 msgid "There was an error joining the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:240
+#: bp-groups/bp-groups-actions.php:268
 msgid "You joined the group!"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:278 bp-groups/bp-groups-screens.php:711
+#: bp-groups/bp-groups-actions.php:306 bp-groups/bp-groups-screens.php:754
 msgid "This group must have at least one admin"
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:280
+#: bp-groups/bp-groups-actions.php:308
 msgid "There was an error leaving the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:282 bp-groups/bp-groups-functions.php:288
+#: bp-groups/bp-groups-actions.php:310 bp-groups/bp-groups-functions.php:288
 msgid "You successfully left the group."
 msgstr ""
 
-#: bp-groups/bp-groups-actions.php:365
+#: bp-groups/bp-groups-actions.php:393
 msgid "Activity feed for the group, %s."
 msgstr ""
 
@@ -3331,7 +3339,7 @@ msgstr ""
 
 #: bp-groups/bp-groups-loader.php:455 bp-groups/bp-groups-template.php:1842
 #: bp-groups/bp-groups-template.php:1843
-#: bp-templates/bp-legacy/buddypress-functions.php:1190
+#: bp-templates/bp-legacy/buddypress-functions.php:1192
 #: bp-themes/bp-default/_inc/ajax.php:780
 msgid "Request Membership"
 msgstr ""
@@ -3526,7 +3534,7 @@ msgstr ""
 msgid "Group invite could not be accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:46 bp-groups/bp-groups-screens.php:464
+#: bp-groups/bp-groups-screens.php:46 bp-groups/bp-groups-screens.php:507
 msgid "Group invite accepted"
 msgstr ""
 
@@ -3626,128 +3634,136 @@ msgstr ""
 msgid "Group invites sent."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:466
+#: bp-groups/bp-groups-screens.php:478
+msgid "You are not allowed to send or remove invites"
+msgstr ""
+
+#: bp-groups/bp-groups-screens.php:481
+msgid "The member requested to join the group"
+msgstr ""
+
+#: bp-groups/bp-groups-screens.php:509
 msgid "There was an error accepting the group invitation, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:478
+#: bp-groups/bp-groups-screens.php:521
 msgid "There was an error sending your group membership request, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:480
+#: bp-groups/bp-groups-screens.php:523
 msgid "Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:529
+#: bp-groups/bp-groups-screens.php:572
 msgid "There was an error updating group details, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:531
+#: bp-groups/bp-groups-screens.php:574
 msgid "Group details were successfully updated."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:573
+#: bp-groups/bp-groups-screens.php:616
 msgid "There was an error updating group settings, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:575
+#: bp-groups/bp-groups-screens.php:618
 msgid "Group settings were successfully updated."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:607 bp-xprofile/bp-xprofile-actions.php:39
+#: bp-groups/bp-groups-screens.php:650 bp-xprofile/bp-xprofile-actions.php:39
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:609 bp-members/bp-members-admin.php:443
+#: bp-groups/bp-groups-screens.php:652 bp-members/bp-members-admin.php:443
 #: bp-xprofile/bp-xprofile-actions.php:41
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:652
+#: bp-groups/bp-groups-screens.php:695
 msgid "There was a problem cropping the avatar."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:654
+#: bp-groups/bp-groups-screens.php:697
 msgid "The new group avatar was uploaded successfully."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:690
+#: bp-groups/bp-groups-screens.php:733
 msgid "There was an error when promoting that user, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:692
+#: bp-groups/bp-groups-screens.php:735
 msgid "User promoted successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:715
+#: bp-groups/bp-groups-screens.php:758
 msgid "There was an error when demoting that user, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:717
+#: bp-groups/bp-groups-screens.php:760
 msgid "User demoted successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:733
+#: bp-groups/bp-groups-screens.php:776
 msgid "There was an error when banning that user, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:735
+#: bp-groups/bp-groups-screens.php:778
 msgid "User banned successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:751
+#: bp-groups/bp-groups-screens.php:794
 msgid "There was an error when unbanning that user, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:753
+#: bp-groups/bp-groups-screens.php:796
 msgid "User ban removed successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:769
+#: bp-groups/bp-groups-screens.php:812
 msgid "There was an error removing that user from the group, please try again"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:771
+#: bp-groups/bp-groups-screens.php:814
 msgid "User removed successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:808
+#: bp-groups/bp-groups-screens.php:851
 msgid "There was an error accepting the membership request, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:810
+#: bp-groups/bp-groups-screens.php:853
 msgid "Group membership request accepted"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:819
+#: bp-groups/bp-groups-screens.php:862
 msgid "There was an error rejecting the membership request, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:821
+#: bp-groups/bp-groups-screens.php:864
 msgid "Group membership request rejected"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:853
+#: bp-groups/bp-groups-screens.php:896
 msgid "There was an error deleting the group, please try again."
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:855
+#: bp-groups/bp-groups-screens.php:898
 msgid "The group was deleted successfully"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:903
+#: bp-groups/bp-groups-screens.php:946
 msgid "A member invites you to join a group"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:909
+#: bp-groups/bp-groups-screens.php:952
 msgid "Group information is updated"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:915
+#: bp-groups/bp-groups-screens.php:958
 msgid "You are promoted to a group administrator or moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:921
+#: bp-groups/bp-groups-screens.php:964
 msgid "A member requests to join a private group for which you are an admin"
 msgstr ""
 
@@ -3845,15 +3861,15 @@ msgid "This group has no moderators"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1768 bp-groups/bp-groups-template.php:1769
-#: bp-templates/bp-legacy/buddypress-functions.php:1154
-#: bp-templates/bp-legacy/buddypress-functions.php:1167
+#: bp-templates/bp-legacy/buddypress-functions.php:1156
+#: bp-templates/bp-legacy/buddypress-functions.php:1169
 #: bp-themes/bp-default/_inc/ajax.php:744
 #: bp-themes/bp-default/_inc/ajax.php:757
 msgid "Leave Group"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1791 bp-groups/bp-groups-template.php:1792
-#: bp-templates/bp-legacy/buddypress-functions.php:1188
+#: bp-templates/bp-legacy/buddypress-functions.php:1190
 #: bp-themes/bp-default/_inc/ajax.php:778
 msgid "Join Group"
 msgstr ""
@@ -3955,17 +3971,17 @@ msgstr ""
 msgid "requested %s"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3432
+#: bp-groups/bp-groups-template.php:3440
 msgid "Viewing invitation %1$s to %2$s (of %3$s invitation)"
 msgid_plural "Viewing invitation %1$s to %2$s (of %3$s invitations)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-groups/bp-groups-template.php:3448
+#: bp-groups/bp-groups-template.php:3456
 msgid "Group Activity RSS Feed"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3619
+#: bp-groups/bp-groups-template.php:3627
 msgid "%s group"
 msgid_plural "%s groups"
 msgstr[0] ""
@@ -4369,7 +4385,7 @@ msgid "There was an error deleting messages."
 msgstr ""
 
 #: bp-messages/bp-messages-actions.php:91
-#: bp-templates/bp-legacy/buddypress-functions.php:1346
+#: bp-templates/bp-legacy/buddypress-functions.php:1348
 #: bp-themes/bp-default/_inc/ajax.php:927
 msgid "Messages deleted."
 msgstr ""
@@ -4596,7 +4612,7 @@ msgid "%d Recipients"
 msgstr ""
 
 #: bp-messages/bp-messages-template.php:1040
-#: bp-templates/bp-legacy/buddypress-functions.php:1255
+#: bp-templates/bp-legacy/buddypress-functions.php:1257
 #: bp-themes/bp-default/_inc/ajax.php:833
 msgid "Sent %s"
 msgstr ""
@@ -5316,7 +5332,7 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/groups/create.php:222
 #: bp-templates/bp-legacy/buddypress/groups/single/invites-loop.php:51
-#: bp-templates/bp-legacy/buddypress-functions.php:1007
+#: bp-templates/bp-legacy/buddypress-functions.php:1009
 #: bp-themes/bp-default/_inc/ajax.php:598
 #: bp-themes/bp-default/groups/create.php:229
 #: bp-themes/bp-default/groups/single/send-invites.php:42
@@ -6064,79 +6080,79 @@ msgstr ""
 msgid "There was a problem when deleting. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1011
+#: bp-templates/bp-legacy/buddypress-functions.php:1013
 #: bp-themes/bp-default/_inc/ajax.php:602
 msgid "%s has previously requested to join this group. Sending an invitation will automatically add the member to the group."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1066
+#: bp-templates/bp-legacy/buddypress-functions.php:1068
 #: bp-themes/bp-default/_inc/ajax.php:656
 msgid " Friendship could not be requested."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1078
+#: bp-templates/bp-legacy/buddypress-functions.php:1080
 #: bp-themes/bp-default/_inc/ajax.php:668
 msgid "Friendship request could not be cancelled."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1083
+#: bp-templates/bp-legacy/buddypress-functions.php:1085
 #: bp-themes/bp-default/_inc/ajax.php:673
 msgid "Request Pending"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1103
+#: bp-templates/bp-legacy/buddypress-functions.php:1105
 #: bp-themes/bp-default/_inc/ajax.php:693
 msgid "There was a problem accepting that request. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1122
+#: bp-templates/bp-legacy/buddypress-functions.php:1124
 #: bp-themes/bp-default/_inc/ajax.php:712
 msgid "There was a problem rejecting that request. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1152
+#: bp-templates/bp-legacy/buddypress-functions.php:1154
 #: bp-themes/bp-default/_inc/ajax.php:742
 msgid "Error joining group"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1165
-#: bp-templates/bp-legacy/buddypress-functions.php:1175
+#: bp-templates/bp-legacy/buddypress-functions.php:1167
+#: bp-templates/bp-legacy/buddypress-functions.php:1177
 #: bp-themes/bp-default/_inc/ajax.php:755
 #: bp-themes/bp-default/_inc/ajax.php:765
 msgid "Error requesting membership"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1177
+#: bp-templates/bp-legacy/buddypress-functions.php:1179
 #: bp-themes/bp-default/_inc/ajax.php:767
 msgid "Membership Requested"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1186
+#: bp-templates/bp-legacy/buddypress-functions.php:1188
 #: bp-themes/bp-default/_inc/ajax.php:776
 msgid "Error leaving group"
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1209
+#: bp-templates/bp-legacy/buddypress-functions.php:1211
 #: bp-themes/bp-default/_inc/ajax.php:799
 msgid "There was a problem closing the notice."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1272
+#: bp-templates/bp-legacy/buddypress-functions.php:1274
 #: bp-themes/bp-default/_inc/ajax.php:850
 msgid "There was a problem sending that reply. Please try again."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1290
+#: bp-templates/bp-legacy/buddypress-functions.php:1292
 #: bp-themes/bp-default/_inc/ajax.php:868
 msgid "There was a problem marking messages as unread."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1315
+#: bp-templates/bp-legacy/buddypress-functions.php:1317
 #: bp-themes/bp-default/_inc/ajax.php:893
 msgid "There was a problem marking messages as read."
 msgstr ""
 
-#: bp-templates/bp-legacy/buddypress-functions.php:1340
+#: bp-templates/bp-legacy/buddypress-functions.php:1342
 #: bp-themes/bp-default/_inc/ajax.php:918
 msgid "There was a problem deleting messages."
 msgstr ""
