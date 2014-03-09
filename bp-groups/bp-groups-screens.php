@@ -1152,7 +1152,7 @@ class BP_Groups_Theme_Compat {
 	/** Single ****************************************************************/
 
 	/**
-	 * Add custom template hierarchy to theme compat for group pages. 
+	 * Add custom template hierarchy to theme compat for group pages.
 	 *
 	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *

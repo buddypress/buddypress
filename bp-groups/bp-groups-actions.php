@@ -309,9 +309,9 @@ function groups_action_leave_group() {
 		} else {
 			bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
 		}
-			
+
 		$redirect = bp_get_group_permalink( groups_get_current_group() );
-		
+
 		if( 'hidden' == $bp->groups->current_group->status ) {
 			$redirect = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() );
 		}
