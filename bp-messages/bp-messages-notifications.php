@@ -189,3 +189,17 @@ function bp_messages_screen_conversation_mark_notifications() {
 	}
 }
 add_action( 'messages_screen_conversation', 'bp_messages_screen_inbox_mark_notifications', 10 );
+
+/**
+ * When a message is deleted, delete corresponding notifications.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $message_id ID of the message.
+ */
+function bp_messages_message_delete_notifications( $message_id = 0 ) {
+	if ( bp_is_active( 'notifications' ) && ! empty( $message_id ) ) {
+		bp_notifications_delete_notifications_by_item_id( bp_loggedin_user_id(), (int) $message_id, buddypress()->messages->id, 'new_message' );
+	}
+}
+add_action( 'messages_thread_deleted_thread', 'bp_messages_message_delete_notifications', 10, 1 );

@@ -212,6 +212,9 @@ class BP_Messages_Thread {
 		// Mark messages as deleted
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, bp_loggedin_user_id() ) );
 
+		// Get the message id in order to pass to the action
+		$message_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d", $thread_id ) );
+
 		// Check to see if any more recipients remain for this message
 		// if not, then delete the message from the database.
 		$recipients = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND is_deleted = 0", $thread_id ) );
@@ -223,6 +226,8 @@ class BP_Messages_Thread {
 			// Delete all the recipients
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $thread_id ) );
 		}
+
+		do_action( 'messages_thread_deleted_thread', $message_id );
 
 		return true;
 	}
