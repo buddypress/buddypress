@@ -202,6 +202,24 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group search_terms
+	 */
+	public function test_bp_user_query_search_core_fields() {
+		$user_id = $this->create_user( array(
+			'user_login' => 'foo',
+		) );
+		xprofile_set_field_data( 1, $user_id, "Bar" );
+		$q = new BP_User_Query( array( 'search_terms' => 'foo', ) );
+
+		$found_user_id = null;
+		if ( ! empty( $q->results ) ) {
+			$found_user = array_pop( $q->results );
+			$found_user_id = $found_user->ID;
+		}
+
+		$this->assertEquals( $user_id, $found_user_id );
+	}
+	/**
 	 * @group exclude
 	 */
 	public function test_bp_user_query_with_exclude() {

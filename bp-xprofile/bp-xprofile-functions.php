@@ -454,6 +454,37 @@ function xprofile_avatar_upload_dir( $directory = false, $user_id = 0 ) {
 }
 
 /**
+ * When search_terms are passed to BP_User_Query, search against xprofile fields.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $sql Clauses in the user_id SQL query.
+ * @param BP_User_Query User query object.
+ */
+function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
+	global $wpdb;
+
+	if ( empty( $query->query_vars['search_terms'] ) || empty( $sql['where']['search'] ) ) {
+		return $sql;
+	}
+
+	$bp = buddypress();
+
+	$search_terms_clean = esc_sql( esc_sql( $query->query_vars['search_terms'] ) );
+
+	// Combine the core search (against wp_users) into a single OR clause
+	// with the xprofile_data search
+	$search_core     = $sql['where']['search'];
+	$search_xprofile = "u.{$query->uid_name} IN ( SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE '%{$search_terms_clean}%' )";
+	$search_combined = "( {$search_xprofile} OR {$search_core} )";
+
+	$sql['where']['search'] = $search_combined;
+
+	return $sql;
+}
+add_action( 'bp_user_query_uid_clauses', 'bp_xprofile_bp_user_query_search', 10, 2 );
+
+/**
  * Syncs Xprofile data to the standard built in WordPress profile data.
  *
  * @package BuddyPress Core

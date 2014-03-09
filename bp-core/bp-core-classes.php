@@ -361,20 +361,11 @@ class BP_User_Query {
 
 		/** Search Terms ******************************************************/
 
-		// 'search_terms' searches the xprofile fields
-		// To avoid global joins, do a separate query
-		// @todo remove need for bp_is_active() check
-		if ( false !== $search_terms && bp_is_active( 'xprofile' ) ) {
+		// 'search_terms' searches user_login and user_nicename
+		// xprofile field matches happen in bp_xprofile_bp_user_query_search()
+		if ( false !== $search_terms ) {
 			$search_terms_clean = esc_sql( esc_sql( $search_terms ) );
-			$search_terms_clean = like_escape( $search_terms_clean );
-			$found_user_ids_query = "SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE '%" . $search_terms_clean . "%'";
-			$found_user_ids = $wpdb->get_col( $found_user_ids_query );
-
-			if ( ! empty( $found_user_ids ) ) {
-				$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ")";
-			} else {
-				$sql['where'][] = $this->no_results['where'];
-			}
+			$sql['where']['search'] = "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE '%{$search_terms_clean}%' OR user_nicename LIKE '%{$search_terms_clean}%' ) )";
 		}
 
 		// 'meta_key', 'meta_value' allow usermeta search
@@ -399,6 +390,9 @@ class BP_User_Query {
 		} else {
 			$sql['limit'] = '';
 		}
+
+		// Allow custom filters
+		$sql = apply_filters_ref_array( 'bp_user_query_uid_clauses', array( $sql, &$this ) );
 
 		// Assemble the query chunks
 		$this->uid_clauses['select']  = $sql['select'];
