@@ -376,3 +376,20 @@ function bp_activity_remove_screen_notifications_single_activity_permalink( $act
 }
 add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_screen_notifications_single_activity_permalink' );
 
+/**
+ * Delete at-mention notifications when the corresponding activity item is deleted.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $activity_ids_deleted IDs of deleted activity items.
+ */
+function bp_activity_at_mention_delete_notification( $activity_ids_deleted = array() ) {
+	// Let's delete all without checking if content contains any mentions
+	// to avoid a query to get the activity
+	if ( bp_is_active( 'notifications' ) && ! empty( $activity_ids_deleted ) ) {
+		foreach ( $activity_ids_deleted as $activity_id ) {
+			bp_notifications_delete_all_notifications_by_type( $activity_id, buddypress()->activity->id );
+		}
+	}
+}
+add_action( 'bp_activity_deleted_activities', 'bp_activity_at_mention_delete_notification', 10 );

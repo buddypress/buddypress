@@ -206,6 +206,31 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_notifications_delete_all_notifications_by_type
+	 * @group bp_activity_at_mention_delete_notification
+	 */
+	public function test_bp_activity_at_mention_delete_notification() {
+		$this->create_notifications();
+
+		$notifications = BP_Notifications_Notification::get( array(
+			'item_id' => $this->a1,
+		) );
+
+		// Double check it's there
+		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+
+		bp_activity_delete( array(
+			'id' => $this->a1,
+		) );
+
+		$notifications = BP_Notifications_Notification::get( array(
+			'item_id' => $this->a1,
+		) );
+
+		$this->assertEmpty( $notifications );
+	}
+
+	/**
 	 * Creates two notifications for $u1, one of which is for mentions
 	 */
 	protected function create_notifications() {
