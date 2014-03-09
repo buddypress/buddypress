@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-03-09 19:35:16+00:00\n"
+"POT-Creation-Date: 2014-03-09 20:35:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2327,7 +2327,7 @@ msgstr ""
 
 #: bp-forums/bp-forums-template.php:756 bp-forums/bp-forums-template.php:870
 #: bp-forums/bp-forums-template.php:2014
-#: bp-messages/bp-messages-classes.php:469
+#: bp-messages/bp-messages-classes.php:474
 #: bp-messages/bp-messages-template.php:938
 #: bp-messages/bp-messages-template.php:1020
 msgid "Deleted User"
@@ -4390,7 +4390,7 @@ msgstr ""
 msgid "Messages deleted."
 msgstr ""
 
-#: bp-messages/bp-messages-classes.php:461
+#: bp-messages/bp-messages-classes.php:466
 msgid "%s Recipients"
 msgstr ""
 
