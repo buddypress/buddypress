@@ -13,29 +13,20 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Load the JS for "Are you sure?" .confirm links.
  */
 function bp_core_confirmation_js() {
-
-	if ( is_multisite() && ! bp_is_root_blog() )
+	if ( is_multisite() && ! bp_is_root_blog() ) {
 		return false;
+	}
 
-	if ( !wp_script_is( 'jquery' ) )
-		wp_enqueue_script( 'jquery' );
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	wp_enqueue_script( 'bp-confirm', buddypress()->plugin_url . "bp-core/js/confirm{$min}.js", array( 'jquery' ), bp_get_version() );
 
-	if ( !wp_script_is( 'jquery', 'done' ) )
-		wp_print_scripts( 'jquery' ); ?>
+	wp_localize_script( 'bp-confirm', 'BP_Confirm', array(
+		'are_you_sure' => __( 'Are you sure?', 'buddypress' ),
+	) );
 
-	<script type="text/javascript">
-		jQuery( document ).ready( function() {
-			jQuery( 'a.confirm').click( function() {
-				if ( confirm( '<?php _e( 'Are you sure?', 'buddypress' ) ?>' ) )
-					return true; else return false;
-			});
-		});
-	</script>
-
-<?php
 }
-add_action( 'wp_head',    'bp_core_confirmation_js', 100 );
-add_action( 'admin_head', 'bp_core_confirmation_js', 100 );
+add_action( 'wp_enqueue_scripts',    'bp_core_confirmation_js' );
+add_action( 'admin_enqueue_scripts', 'bp_core_confirmation_js' );
 
 /**
  * Enqueues jCrop library and hooks BP's custom cropper JS.
