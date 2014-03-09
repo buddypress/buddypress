@@ -42,7 +42,26 @@ function bp_notifications_add_notification( $args = array() ) {
 		'component_action'  => '',
 		'date_notified'     => bp_core_current_time(),
 		'is_new'            => 1,
+		'allow_duplicate'   => false,
 	) );
+
+	// Check for existing duplicate notifications
+	if ( ! $r['allow_duplicate'] ) {
+		// date_notified, allow_duplicate don't count toward
+		// duplicate status
+		$existing = BP_Notifications_Notification::get( array(
+			'user_id'           => $r['user_id'],
+			'item_id'           => $r['item_id'],
+			'secondary_item_id' => $r['secondary_item_id'],
+			'component_name'    => $r['component_name'],
+			'component_action'  => $r['component_action'],
+			'is_new'            => $r['is_new'],
+		) );
+
+		if ( ! empty( $existing ) ) {
+			return false;
+		}
+	}
 
 	// Setup the new notification
 	$notification                    = new BP_Notifications_Notification;

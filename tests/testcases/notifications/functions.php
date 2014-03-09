@@ -52,4 +52,40 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
 		$this->assertFalse( wp_cache_get( 'all_for_user_' . $u, 'bp_notifications' ) );
 	}
+
+	/**
+	 * @group bp_notifications_add_notification
+	 */
+	public function test_bp_notifications_add_notification_no_dupes() {
+		$args = array(
+			'user_id' => 5,
+			'item_id' => 10,
+			'secondary_item_id' => 25,
+			'component_name' => 'messages',
+			'component_action' => 'new_message',
+		);
+
+		$n = $this->factory->notification->create( $args );
+
+		$this->assertFalse( bp_notifications_add_notification( $args ) );
+	}
+
+	/**
+	 * @group bp_notifications_add_notification
+	 */
+	public function test_bp_notifications_add_notification_allow_duplicate() {
+		$args = array(
+			'user_id' => 5,
+			'item_id' => 10,
+			'secondary_item_id' => 25,
+			'component_name' => 'messages',
+			'component_action' => 'new_message',
+		);
+
+		$n = $this->factory->notification->create( $args );
+
+		$args['allow_duplicate'] = true;
+
+		$this->assertNotEmpty( bp_notifications_add_notification( $args ) );
+	}
 }
