@@ -3383,7 +3383,15 @@ function bp_group_invite_user_remove_invite_url() {
 	function bp_get_group_invite_user_remove_invite_url() {
 		global $invites_template;
 
-		return wp_nonce_url( site_url( bp_get_groups_slug() . '/' . $invites_template->invite->group_id . '/invites/remove/' . $invites_template->invite->user->id ), 'groups_invite_uninvite_user' );
+		$user_id = intval( $invites_template->invite->user->id );
+
+		if ( bp_is_current_action( 'create' ) ) {
+			$uninvite_url = bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/group-invites/?user_id=' . $user_id;
+		} else {
+			$uninvite_url = bp_get_group_permalink( groups_get_current_group() ) . 'send-invites/remove/' . $user_id;
+		}
+
+		return wp_nonce_url( $uninvite_url, 'groups_invite_uninvite_user' );
 	}
 
 /**

@@ -447,6 +447,49 @@ function groups_screen_group_invite() {
 	}
 }
 
+/**
+ * Process group invitation removal requests.
+ *
+ * Note that this function is only used when JS is disabled. Normally, clicking
+ * Remove Invite removes the invitation via AJAX.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function groups_remove_group_invite() {
+	if ( ! bp_is_group_invites() ) {
+		return;
+	}
+
+	if ( ! bp_is_action_variable( 'remove', 0 ) || ! is_numeric( bp_action_variable( 1 ) ) ) {
+		return;
+	}
+
+	if ( ! check_admin_referer( 'groups_invite_uninvite_user' ) ) {
+		return false;
+	}
+
+	$friend_id = intval( bp_action_variable( 1 ) );
+	$group_id  = bp_get_current_group_id();
+	$message   = __( 'Invite successfully removed', 'buddypress' );
+	$redirect  = wp_get_referer();
+	$error     = false;
+
+	if ( ! bp_groups_user_can_send_invites( $group_id ) ) {
+		$message = __( 'You are not allowed to send or remove invites', 'buddypress' );
+		$error = 'error';
+	} else if ( BP_Groups_Member::check_for_membership_request( $friend_id, $group_id ) ) {
+		$message = __( 'The member requested to join the group', 'buddypress' );
+		$error = 'error';
+	} else if ( ! groups_uninvite_user( $friend_id, $group_id ) ) {
+		$message = __( 'There was an error removing the invite', 'buddypress' );
+		$error = 'error';
+	}
+
+	bp_core_add_message( $message, $error );
+	bp_core_redirect( $redirect );
+}
+add_action( 'bp_screens', 'groups_remove_group_invite' );
+
 function groups_screen_group_request_membership() {
 	global $bp;
 

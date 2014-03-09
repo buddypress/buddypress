@@ -122,8 +122,18 @@ function groups_action_create_group() {
 			groups_update_groupmeta( $bp->groups->new_group_id, 'invite_status', $invite_status );
 		}
 
-		if ( 'group-invites' == bp_get_groups_current_create_step() )
+		if ( 'group-invites' === bp_get_groups_current_create_step() ) {
+			if ( ! empty( $_POST['friends'] ) ) {
+				foreach ( (array) $_POST['friends'] as $friend ) {
+					groups_invite_user( array(
+						'user_id'  => $friend,
+						'group_id' => $bp->groups->new_group_id,
+					) );
+				}
+			}
+
 			groups_send_invites( bp_loggedin_user_id(), $bp->groups->new_group_id );
+		}
 
 		do_action( 'groups_create_group_step_save_' . bp_get_groups_current_create_step() );
 		do_action( 'groups_create_group_step_complete' ); // Mostly for clearing cache on a generic action name
@@ -177,6 +187,24 @@ function groups_action_create_group() {
 
 			bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . $next_step . '/' );
 		}
+	}
+
+	// Remove invitations
+	if ( 'group-invites' === bp_get_groups_current_create_step() && ! empty( $_REQUEST['user_id'] ) && is_numeric( $_REQUEST['user_id'] ) ) {
+		if ( ! check_admin_referer( 'groups_invite_uninvite_user' ) ) {
+			return false;
+		}
+
+		$message = __( 'Invite successfully removed', 'buddypress' );
+		$error   = false;
+
+		if( ! groups_uninvite_user( (int) $_REQUEST['user_id'], $bp->groups->new_group_id ) ) {
+			$message = __( 'There was an error removing the invite', 'buddypress' );
+			$error   = 'error';
+		}
+
+		bp_core_add_message( $message, $error );
+		bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/group-invites/' );
 	}
 
 	// Group avatar is handled separately
