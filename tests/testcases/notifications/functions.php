@@ -13,6 +13,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$n2 = $this->factory->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
+			'item_id' => 1,
 		) );
 
 		// prime cache
@@ -25,6 +26,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$n3 = $this->factory->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
+			'item_id' => 2,
 		) );
 
 		$this->assertFalse( wp_cache_get( 'all_for_user_' . $u, 'bp_notifications' ) );
