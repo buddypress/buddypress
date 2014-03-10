@@ -83,6 +83,7 @@ Bar!';
 
 	/**
 	 * @group bp_xprofile_fullname_field_id
+	 * @group cache
 	 */
 	public function test_bp_xprofile_fullname_field_id_invalidation() {
 		// Prime the cache

@@ -260,6 +260,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u1, $u2, $u3, $u4, ), $ids );
 	}
 
+	/**
+	 * @group role
+	 */
 	public function test_with_group_role_banned() {
 		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
