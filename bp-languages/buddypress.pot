@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-03-09 20:35:14+00:00\n"
+"POT-Creation-Date: 2014-03-10 20:35:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -617,7 +617,7 @@ msgid "Favorites"
 msgstr ""
 
 #: bp-activity/bp-activity-loader.php:200
-#: bp-activity/bp-activity-loader.php:303 bp-friends/bp-friends-loader.php:187
+#: bp-activity/bp-activity-loader.php:303 bp-friends/bp-friends-loader.php:188
 #: bp-friends/bp-friends-screens.php:85
 msgid "Friends"
 msgstr ""
@@ -650,7 +650,7 @@ msgstr ""
 #: bp-activity/bp-activity-template.php:1368 bp-blogs/bp-blogs-loader.php:236
 #: bp-forums/bp-forums-loader.php:245 bp-forums/bp-forums-template.php:730
 #: bp-forums/bp-forums-template.php:960 bp-forums/bp-forums-template.php:1990
-#: bp-friends/bp-friends-loader.php:233 bp-groups/bp-groups-loader.php:602
+#: bp-friends/bp-friends-loader.php:234 bp-groups/bp-groups-loader.php:602
 #: bp-groups/bp-groups-template.php:786 bp-groups/bp-groups-template.php:809
 #: bp-groups/bp-groups-template.php:1238 bp-groups/bp-groups-template.php:1254
 #: bp-groups/bp-groups-template.php:1303 bp-groups/bp-groups-template.php:1319
@@ -2596,16 +2596,16 @@ msgstr ""
 msgid "%1$s and %2$s are now friends"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:91
+#: bp-friends/bp-friends-loader.php:92
 msgid "Search Friends..."
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:118
+#: bp-friends/bp-friends-loader.php:119
 msgid "Friends <span class=\"%s\">%s</span>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:139 bp-friends/bp-friends-loader.php:203
-#: bp-friends/bp-friends-loader.php:228
+#: bp-friends/bp-friends-loader.php:140 bp-friends/bp-friends-loader.php:204
+#: bp-friends/bp-friends-loader.php:229
 #: bp-templates/bp-legacy/buddypress/activity/index.php:104
 #: bp-templates/bp-legacy/buddypress/members/single/activity.php:35
 #: bp-themes/bp-default/activity/index.php:124
@@ -2613,19 +2613,19 @@ msgstr ""
 msgid "Friendships"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:149 bp-groups/bp-groups-template.php:1496
+#: bp-friends/bp-friends-loader.php:150 bp-groups/bp-groups-template.php:1496
 msgid "Requests"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:184
+#: bp-friends/bp-friends-loader.php:185
 msgid "Friends <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:185
+#: bp-friends/bp-friends-loader.php:186
 msgid "Pending Requests <span class=\"count\">%s</span>"
 msgstr ""
 
-#: bp-friends/bp-friends-loader.php:188
+#: bp-friends/bp-friends-loader.php:189
 msgid "No Pending Requests"
 msgstr ""
 
