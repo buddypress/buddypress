@@ -38,6 +38,7 @@ class BP_Friends_Component extends BP_Component {
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
+			'cache',
 			'actions',
 			'screens',
 			'filters',
