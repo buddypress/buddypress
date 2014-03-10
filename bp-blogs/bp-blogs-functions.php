@@ -72,7 +72,7 @@ function bp_blogs_record_existing_blogs() {
 	global $bp, $wpdb;
 
 	// Truncate user blogs table and re-record.
-	$wpdb->query( "TRUNCATE TABLE {$bp->blogs->table_name}" );
+	$wpdb->query( "DELETE FROM {$bp->blogs->table_name} WHERE 1=1" );
 
 	if ( is_multisite() ) {
 		$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d", $wpdb->siteid ) );
