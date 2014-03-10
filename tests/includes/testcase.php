@@ -57,6 +57,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 	function go_to( $url ) {
 		global $wpdb;
+		global $current_site, $current_blog, $blog_id, $switched, $_wp_switched_stack, $public, $table_prefix, $current_user, $wp_roles;
 
 		// note: the WP and WP_Query classes like to silently fetch parameters
 		// from all over the place (globals, GET, etc), which makes it tricky
@@ -97,10 +98,11 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		// setup $current_site and $current_blog globals for multisite based on
 		// REQUEST_URI; mostly copied from /wp-includes/ms-settings.php
 		if ( is_multisite() ) {
-			$GLOBALS['current_blog'] = $GLOBALS['current_site'] = $GLOBALS['blog_id'] = null;
+			$current_blog = $current_site = $blog_id = null;
 
-			$domain = addslashes( $_SERVER['HTTP_HOST'] );
-			if ( false !== strpos( $domain, ':' ) ) {
+			if ( version_compare( $GLOBALS['wp_version'], '3.8.2', '>' ) ) {
+
+				$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
 				if ( substr( $domain, -3 ) == ':80' ) {
 					$domain = substr( $domain, 0, -3 );
 					$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
@@ -108,45 +110,139 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 					$domain = substr( $domain, 0, -4 );
 					$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
 				}
+
+				$path = stripslashes( $_SERVER['REQUEST_URI'] );
+				if ( is_admin() ) {
+					$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
+				}
+				list( $path ) = explode( '?', $path );
+
+				// Are there even two networks installed?
+				$one_network = $wpdb->get_row( "SELECT * FROM $wpdb->site LIMIT 2" ); // [sic]
+				if ( 1 === $wpdb->num_rows ) {
+					$current_site = wp_get_network( $one_network );
+				} elseif ( 0 === $wpdb->num_rows ) {
+					ms_not_installed();
+				}
+
+				if ( empty( $current_site ) ) {
+					$current_site = get_network_by_path( $domain, $path, 1 );
+				}
+
+				if ( empty( $current_site ) ) {
+					ms_not_installed();
+				} elseif ( $path === $current_site->path ) {
+					$current_blog = get_site_by_path( $domain, $path );
+				} else {
+					// Search the network path + one more path segment (on top of the network path).
+					$current_blog = get_site_by_path( $domain, $path, substr_count( $current_site->path, '/' ) );
+				}
+
+				// The network declared by the site trumps any constants.
+				if ( $current_blog && $current_blog->site_id != $current_site->id ) {
+					$current_site = wp_get_network( $current_blog->site_id );
+				}
+
+				// If we don't have a network by now, we have a problem.
+				if ( empty( $current_site ) ) {
+					ms_not_installed();
+				}
+
+				// @todo What if the domain of the network doesn't match the current site?
+				$current_site->cookie_domain = $current_site->domain;
+				if ( 'www.' === substr( $current_site->cookie_domain, 0, 4 ) ) {
+					$current_site->cookie_domain = substr( $current_site->cookie_domain, 4 );
+				}
+
+				// Figure out the current network's main site.
+				if ( ! isset( $current_site->blog_id ) ) {
+					if ( $current_blog && $current_blog->domain === $current_site->domain && $current_blog->path === $current_site->path ) {
+						$current_site->blog_id = $current_blog->blog_id;
+					} else {
+						// @todo we should be able to cache the blog ID of a network's main site easily.
+						$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s",
+							$current_site->domain, $current_site->path ) );
+					}
+				}
+
+				$blog_id = $current_blog->blog_id;
+				$public  = $current_blog->public;
+
+				if ( empty( $current_blog->site_id ) ) {
+					// This dates to [MU134] and shouldn't be relevant anymore,
+					// but it could be possible for arguments passed to insert_blog() etc.
+					$current_blog->site_id = 1;
+				}
+
+				$site_id = $current_blog->site_id;
+				wp_load_core_site_options( $site_id );
+
+				$table_prefix = $wpdb->get_blog_prefix( $current_blog->blog_id );
+				$wpdb->set_blog_id( $current_blog->blog_id, $current_blog->site_id );
+				$_wp_switched_stack = array();
+				$switched = false;
+
+				if ( ! isset( $current_site->site_name ) ) {
+					$current_site->site_name = get_site_option( 'site_name' );
+					if ( ! $current_site->site_name ) {
+						$current_site->site_name = ucfirst( $current_site->domain );
+					}
+				}
+
+			// Pre WP 3.9
+			} else {
+
+				$domain = addslashes( $_SERVER['HTTP_HOST'] );
+				if ( false !== strpos( $domain, ':' ) ) {
+					if ( substr( $domain, -3 ) == ':80' ) {
+						$domain = substr( $domain, 0, -3 );
+						$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
+					} elseif ( substr( $domain, -4 ) == ':443' ) {
+						$domain = substr( $domain, 0, -4 );
+						$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
+					}
+				}
+
+				$domain = rtrim( $domain, '.' );
+				$cookie_domain = $domain;
+				if ( substr( $cookie_domain, 0, 4 ) == 'www.' )
+					$cookie_domain = substr( $cookie_domain, 4 );
+
+				$path = preg_replace( '|([a-z0-9-]+.php.*)|', '', $GLOBALS['_SERVER']['REQUEST_URI'] );
+				$path = str_replace ( '/wp-admin/', '/', $path );
+				$path = preg_replace( '|(/[a-z0-9-]+?/).*|', '$1', $path );
+
+				$GLOBALS['current_site'] = wpmu_current_site();
+				if ( ! isset( $GLOBALS['current_site']->blog_id ) && ! empty( $GLOBALS['current_site'] ) )
+					$GLOBALS['current_site']->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $GLOBALS['current_site']->domain, $GLOBALS['current_site']->path ) );
+
+				// unit tests only support subdirectory install at the moment
+				// removed object cache references
+				if ( ! is_subdomain_install() ) {
+					$blogname = htmlspecialchars( substr( $GLOBALS['_SERVER']['REQUEST_URI'], strlen( $path ) ) );
+					if ( false !== strpos( $blogname, '/' ) )
+						$blogname = substr( $blogname, 0, strpos( $blogname, '/' ) );
+					if ( false !== strpos( $blogname, '?' ) )
+						$blogname = substr( $blogname, 0, strpos( $blogname, '?' ) );
+					$reserved_blognames = array( 'page', 'comments', 'blog', 'wp-admin', 'wp-includes', 'wp-content', 'files', 'feed' );
+					if ( $blogname != '' && ! in_array( $blogname, $reserved_blognames ) && ! is_file( $blogname ) )
+						$path .= $blogname . '/';
+
+					$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $domain, 'path' => $path ), false );
+
+					unset($reserved_blognames);
+				}
+
+				if ( $GLOBALS['current_site'] && ! $GLOBALS['current_blog'] ) {
+					$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $GLOBALS['current_site']->domain, 'path' => $GLOBALS['current_site']->path ), false );
+				}
+
+				if ( ! empty( $GLOBALS['current_blog'] ) )
+					$GLOBALS['blog_id'] = $GLOBALS['current_blog']->blog_id;
 			}
-
-			$domain = rtrim( $domain, '.' );
-			$cookie_domain = $domain;
-			if ( substr( $cookie_domain, 0, 4 ) == 'www.' )
-				$cookie_domain = substr( $cookie_domain, 4 );
-
-			$path = preg_replace( '|([a-z0-9-]+.php.*)|', '', $GLOBALS['_SERVER']['REQUEST_URI'] );
-			$path = str_replace ( '/wp-admin/', '/', $path );
-			$path = preg_replace( '|(/[a-z0-9-]+?/).*|', '$1', $path );
-
-			$GLOBALS['current_site'] = wpmu_current_site();
-			if ( ! isset( $GLOBALS['current_site']->blog_id ) )
-				$GLOBALS['current_site']->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $GLOBALS['current_site']->domain, $GLOBALS['current_site']->path ) );
-
-			// unit tests only support subdirectory install at the moment
-			// removed object cache references
-			if ( ! is_subdomain_install() ) {
-				$blogname = htmlspecialchars( substr( $GLOBALS['_SERVER']['REQUEST_URI'], strlen( $path ) ) );
-				if ( false !== strpos( $blogname, '/' ) )
-					$blogname = substr( $blogname, 0, strpos( $blogname, '/' ) );
-				if ( false !== strpos( $blogname, '?' ) )
-					$blogname = substr( $blogname, 0, strpos( $blogname, '?' ) );
-				$reserved_blognames = array( 'page', 'comments', 'blog', 'wp-admin', 'wp-includes', 'wp-content', 'files', 'feed' );
-				if ( $blogname != '' && ! in_array( $blogname, $reserved_blognames ) && ! is_file( $blogname ) )
-					$path .= $blogname . '/';
-
-				$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $domain, 'path' => $path ), false );
-
-				unset($reserved_blognames);
-			}
-
-			if ( $GLOBALS['current_site'] && ! $GLOBALS['current_blog'] ) {
-				$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $GLOBALS['current_site']->domain, 'path' => $GLOBALS['current_site']->path ), false );
-			}
-
-			$GLOBALS['blog_id'] = $GLOBALS['current_blog']->blog_id;
 		}
 
+		$this->flush_cache();
 		unset($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
 		$GLOBALS['wp_the_query'] = new WP_Query();
 		$GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
@@ -161,6 +257,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		}
 
 		$GLOBALS['wp']->main($parts['query']);
+
+		$wp_roles->reinit();
+		$current_user = wp_get_current_user();
+		$current_user->for_blog( $blog_id );
 
 		// For BuddyPress, James.
 		$GLOBALS['bp']->loggedin_user = NULL;
