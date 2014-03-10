@@ -51,15 +51,14 @@ class BP_Tests_URL extends BP_UnitTestCase {
 			$blog_id = $this->factory->blog->create();
 			buddypress()->root_blog_id = $blog_id;
 
-			switch_to_blog( $blog_id );
-			$blog_details = get_blog_details();
+			$blog_url = get_blog_option( $blog_id, 'siteurl' );
 
-			$this->go_to( $blog_details->path );
-			$this->assertEquals( $blog_details->siteurl . '/wp-admin/admin-ajax.php', bp_core_ajax_url() );
-
-			restore_current_blog();
+			$this->go_to( $blog_url );
 			buddypress()->root_blog_id = $original_root_blog;
-		}
+			$ajax_url = bp_core_ajax_url();
+			$this->go_to( '/' );
 
+			$this->assertEquals( $blog_url . '/wp-admin/admin-ajax.php', $ajax_url );
+		}
 	}
 }
