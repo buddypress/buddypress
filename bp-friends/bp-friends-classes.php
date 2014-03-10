@@ -226,9 +226,17 @@ class BP_Friends_Friendship {
 	 * @return array|bool An array of user IDs, or false if none are found.
 	 */
 	public static function get_friendship_request_user_ids( $user_id ) {
-		global $wpdb, $bp;
+		$friend_requests = wp_cache_get( $user_id, 'bp_friends_requests' );
 
-		return $wpdb->get_col( $wpdb->prepare( "SELECT initiator_user_id FROM {$bp->friends->table_name} WHERE friend_user_id = %d AND is_confirmed = 0", $user_id ) );
+		if ( false === $friend_requests ) {
+			global $wpdb, $bp;
+
+			$friend_requests = $wpdb->get_col( $wpdb->prepare( "SELECT initiator_user_id FROM {$bp->friends->table_name} WHERE friend_user_id = %d AND is_confirmed = 0", $user_id ) );
+
+			wp_cache_set( $user_id, $friend_requests, 'bp_friends_requests' );
+		}
+
+		return $friend_requests;
 	}
 
 	/**
