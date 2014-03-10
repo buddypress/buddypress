@@ -25,12 +25,15 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->assertEquals( array( $u2, $u3 ), $requests );
 
 		// accept friendship
+		$old_user = get_current_user_id();
 		$this->set_current_user( $u1 );
 		friends_accept_friendship( friends_get_friendship_id( $u2, $u1 ) );
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
 		$this->assertEquals( array( $u3 ), $requests );
+
+		$this->set_current_user( $old_user );
 	}
 
 	/**
@@ -74,12 +77,15 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->assertEquals( array( $u2 ), $requests );
 
 		// user 2 withdraws friendship
+		$old_user = get_current_user_id();
 		$this->set_current_user( $u2 );
 		friends_withdraw_friendship( $u2, $u1 );
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
 		$this->assertEquals( array(), $requests );
+
+		$this->set_current_user( $old_user );
 	}
 
 	/**
@@ -99,11 +105,14 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->assertEquals( array( $u2 ), $requests );
 
 		// user 1 rejects friendship
+		$old_user = get_current_user_id();
 		$this->set_current_user( $u1 );
 		friends_reject_friendship( friends_get_friendship_id( $u2, $u1 ) );
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
 		$this->assertEquals( array(), $requests );
+
+		$this->set_current_user( $old_user );
 	}
 }
