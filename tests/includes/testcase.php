@@ -230,7 +230,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$last_activity = $r['last_activity'];
 		unset( $r['last_activity'] );
 
-		$user_id = $this->factory->user->create( $args );
+		$user_id = $this->factory->user->create( $r );
 
 		bp_update_user_last_activity( $user_id, $last_activity );
 
