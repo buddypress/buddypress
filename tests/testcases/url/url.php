@@ -53,7 +53,7 @@ class BP_Tests_URL extends BP_UnitTestCase {
 
 			$blog_url = get_blog_option( $blog_id, 'siteurl' );
 
-			$this->go_to( $blog_url );
+			$this->go_to( trailingslashit( $blog_url ) );
 			buddypress()->root_blog_id = $original_root_blog;
 			$ajax_url = bp_core_ajax_url();
 			$this->go_to( '/' );

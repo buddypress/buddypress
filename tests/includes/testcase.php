@@ -100,9 +100,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		if ( is_multisite() ) {
 			$current_blog = $current_site = $blog_id = null;
 
-			if ( version_compare( $GLOBALS['wp_version'], '3.8.2', '>' ) ) {
-
-				$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
+			$domain = addslashes( $_SERVER['HTTP_HOST'] );
+			if ( false !== strpos( $domain, ':' ) ) {
 				if ( substr( $domain, -3 ) == ':80' ) {
 					$domain = substr( $domain, 0, -3 );
 					$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
@@ -110,8 +109,11 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 					$domain = substr( $domain, 0, -4 );
 					$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
 				}
+			}
+			$path = stripslashes( $_SERVER['REQUEST_URI'] );
 
-				$path = stripslashes( $_SERVER['REQUEST_URI'] );
+			if ( version_compare( $GLOBALS['wp_version'], '3.8.2', '>' ) ) {
+
 				if ( is_admin() ) {
 					$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
 				}
@@ -177,31 +179,9 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 				$site_id = $current_blog->site_id;
 				wp_load_core_site_options( $site_id );
 
-				$table_prefix = $wpdb->get_blog_prefix( $current_blog->blog_id );
-				$wpdb->set_blog_id( $current_blog->blog_id, $current_blog->site_id );
-				$_wp_switched_stack = array();
-				$switched = false;
-
-				if ( ! isset( $current_site->site_name ) ) {
-					$current_site->site_name = get_site_option( 'site_name' );
-					if ( ! $current_site->site_name ) {
-						$current_site->site_name = ucfirst( $current_site->domain );
-					}
-				}
 
 			// Pre WP 3.9
 			} else {
-
-				$domain = addslashes( $_SERVER['HTTP_HOST'] );
-				if ( false !== strpos( $domain, ':' ) ) {
-					if ( substr( $domain, -3 ) == ':80' ) {
-						$domain = substr( $domain, 0, -3 );
-						$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
-					} elseif ( substr( $domain, -4 ) == ':443' ) {
-						$domain = substr( $domain, 0, -4 );
-						$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
-					}
-				}
 
 				$domain = rtrim( $domain, '.' );
 				$cookie_domain = $domain;
@@ -216,29 +196,37 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 				if ( ! isset( $GLOBALS['current_site']->blog_id ) && ! empty( $GLOBALS['current_site'] ) )
 					$GLOBALS['current_site']->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $GLOBALS['current_site']->domain, $GLOBALS['current_site']->path ) );
 
-				// unit tests only support subdirectory install at the moment
-				// removed object cache references
-				if ( ! is_subdomain_install() ) {
-					$blogname = htmlspecialchars( substr( $GLOBALS['_SERVER']['REQUEST_URI'], strlen( $path ) ) );
-					if ( false !== strpos( $blogname, '/' ) )
-						$blogname = substr( $blogname, 0, strpos( $blogname, '/' ) );
-					if ( false !== strpos( $blogname, '?' ) )
-						$blogname = substr( $blogname, 0, strpos( $blogname, '?' ) );
-					$reserved_blognames = array( 'page', 'comments', 'blog', 'wp-admin', 'wp-includes', 'wp-content', 'files', 'feed' );
-					if ( $blogname != '' && ! in_array( $blogname, $reserved_blognames ) && ! is_file( $blogname ) )
-						$path .= $blogname . '/';
+				$blogname = htmlspecialchars( substr( $GLOBALS['_SERVER']['REQUEST_URI'], strlen( $path ) ) );
+				if ( false !== strpos( $blogname, '/' ) )
+					$blogname = substr( $blogname, 0, strpos( $blogname, '/' ) );
+				if ( false !== strpos( $blogname, '?' ) )
+					$blogname = substr( $blogname, 0, strpos( $blogname, '?' ) );
+				$reserved_blognames = array( 'page', 'comments', 'blog', 'wp-admin', 'wp-includes', 'wp-content', 'files', 'feed' );
+				if ( $blogname != '' && ! in_array( $blogname, $reserved_blognames ) && ! is_file( $blogname ) )
+					$path .= $blogname . '/';
 
-					$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $domain, 'path' => $path ), false );
+				$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $domain, 'path' => $path ), false );
 
-					unset($reserved_blognames);
-				}
+				unset($reserved_blognames);
 
 				if ( $GLOBALS['current_site'] && ! $GLOBALS['current_blog'] ) {
 					$GLOBALS['current_blog'] = get_blog_details( array( 'domain' => $GLOBALS['current_site']->domain, 'path' => $GLOBALS['current_site']->path ), false );
 				}
 
-				if ( ! empty( $GLOBALS['current_blog'] ) )
-					$GLOBALS['blog_id'] = $GLOBALS['current_blog']->blog_id;
+				$GLOBALS['blog_id'] = $GLOBALS['current_blog']->blog_id;
+			}
+
+			// Emulate a switch_to_blog()
+			$table_prefix = $wpdb->get_blog_prefix( $current_blog->blog_id );
+			$wpdb->set_blog_id( $current_blog->blog_id, $current_blog->site_id );
+			$_wp_switched_stack = array();
+			$switched = false;
+
+			if ( ! isset( $current_site->site_name ) ) {
+				$current_site->site_name = get_site_option( 'site_name' );
+				if ( ! $current_site->site_name ) {
+					$current_site->site_name = ucfirst( $current_site->domain );
+				}
 			}
 		}
 
