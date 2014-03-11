@@ -494,7 +494,7 @@ function bp_has_notifications( $args = '' ) {
 	// Setup the global query loop
 	buddypress()->notifications->query_loop = $query_loop;
 
-	return apply_filters( 'bp_has_notificationss', $query_loop->has_notifications(), $query_loop );
+	return apply_filters( 'bp_has_notifications', $query_loop->has_notifications(), $query_loop );
 }
 
 /**
