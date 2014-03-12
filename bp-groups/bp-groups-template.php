@@ -311,6 +311,15 @@ function bp_has_groups( $args = '' ) {
 		$slug = $bp->groups->current_group->slug;
 	}
 
+	// Default search string
+	if ( ! empty( $_REQUEST['group-filter-box'] ) ) {
+		$search_terms = $_REQUEST['group-filter-box'];
+	} elseif ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) ) {
+		$search_terms = $_REQUEST['s'];
+	} else {
+		$search_terms = false;
+	}
+
 	$defaults = array(
 		'type'              => $type, // 'type' is an override for 'order' and 'orderby'. See docblock.
 		'order'             => 'DESC',
@@ -324,7 +333,7 @@ function bp_has_groups( $args = '' ) {
 
 		'user_id'           => $user_id, // Pass a user ID to limit to groups this user has joined
 		'slug'              => $slug,    // Pass a group slug to only return that group
-		'search_terms'      => '',       // Pass search terms to return only matching groups
+		'search_terms'      => $search_terms, // Pass search terms to return only matching groups
 		'meta_query'        => false,    // Filter by groupmeta. See WP_Meta_Query for format
 		'include'           => false,    // Pass comma separated list or array of group ID's to return only these groups
 		'exclude'           => false,    // Pass comma separated list or array of group ID's to exclude these groups
@@ -334,15 +343,6 @@ function bp_has_groups( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-
-	if ( empty( $r['search_terms'] ) ) {
-		if ( isset( $_REQUEST['group-filter-box'] ) && !empty( $_REQUEST['group-filter-box'] ) )
-			$r['search_terms'] = $_REQUEST['group-filter-box'];
-		elseif ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
-			$r['search_terms'] = $_REQUEST['s'];
-		else
-			$r['search_terms'] = false;
-	}
 
 	$groups_template = new BP_Groups_Template( array(
 		'type'              => $r['type'],
