@@ -74,11 +74,16 @@ add_action( bp_core_admin_hook(), 'bp_core_admin_backpat_menu', 999 );
  * @since BuddyPress (1.6)
  */
 function bp_core_modify_admin_menu_highlight() {
-	global $plugin_page, $submenu_file;
+	global $pagenow, $plugin_page, $submenu_file;
 
 	// This tweaks the Settings subnav menu to show only one BuddyPress menu item
 	if ( ! in_array( $plugin_page, array( 'bp-activity', 'bp-general-settings', ) ) )
 		$submenu_file = 'bp-components';
+
+	// Network Admin > Tools
+	if ( in_array( $plugin_page, array( 'bp-tools', 'available-tools' ) ) ) {
+		$submenu_file = $plugin_page;
+	}
 }
 
 /**
@@ -388,7 +393,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 		'2' => array(
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
 			'name' => __( 'Settings', 'buddypress' )
-		)
+		),
 	);
 
 	// If forums component is active, add additional tab

@@ -90,6 +90,12 @@ body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network.current .wp-menu
 body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network.wp-has-current-submenu .wp-menu-image {
 	background-position: -61px -2px;
 }
+
+/* Tools */
+#adminmenu .toplevel_page_network-tools div.wp-menu-image:before {
+    content: "";
+}
+
 th.column-gid {
 	width: 60px;
 }

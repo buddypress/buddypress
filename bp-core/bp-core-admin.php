@@ -118,6 +118,7 @@ class BP_Admin {
 		require( $this->admin_dir . 'bp-core-functions.php'  );
 		require( $this->admin_dir . 'bp-core-components.php' );
 		require( $this->admin_dir . 'bp-core-slugs.php'      );
+		require( $this->admin_dir . 'bp-core-tools.php'      );
 	}
 
 	/**
@@ -152,6 +153,10 @@ class BP_Admin {
 
 		// Add a link to BuddyPress About page to the admin bar
 		add_action( 'admin_bar_menu', array( $this, 'admin_bar_about_link' ), 15 );
+
+		// Add a description of new BuddyPress tools in the available tools page
+		add_action( 'tool_box', 'bp_core_admin_available_tools_intro' );
+		add_action( 'bp_network_tool_box', 'bp_core_admin_available_tools_intro' );
 
 		/** Filters ***********************************************************/
 
@@ -240,6 +245,42 @@ class BP_Admin {
 			'manage_options',
 			'bp-settings',
 			'bp_core_admin_settings'
+		);
+
+		// For consistency with non-Multisite, we add a Tools menu in
+		// the Network Admin as a home for our Tools panel
+		if ( is_multisite() && bp_core_do_network_admin() ) {
+			$tools_parent = 'network-tools';
+
+			$hooks[] = add_menu_page(
+				__( 'Tools', 'buddypress' ),
+				__( 'Tools', 'buddypress' ),
+				'manage_network_options',
+				$tools_parent,
+				'bp_core_tools_top_level_item',
+				'',
+				24 // just above Settings
+			);
+
+			$hooks[] = add_submenu_page(
+				$tools_parent,
+				__( 'Available Tools', 'buddypress' ),
+				__( 'Available Tools', 'buddypress' ),
+				'manage_network_options',
+				'available-tools',
+				'bp_core_admin_available_tools_page'
+			);
+		} else {
+			$tools_parent = 'tools.php';
+		}
+
+		$hooks[] = add_submenu_page(
+			$tools_parent,
+			__( 'BuddyPress Tools', 'buddypress' ),
+			__( 'BuddyPress', 'buddypress' ),
+			'manage_options',
+			'bp-tools',
+			'bp_core_admin_tools'
 		);
 
 		// Fudge the highlighted subnav item when on a BuddyPress admin page
@@ -400,6 +441,9 @@ class BP_Admin {
 		// Settings pages
 		remove_submenu_page( $this->settings_page, 'bp-page-settings' );
 		remove_submenu_page( $this->settings_page, 'bp-settings'      );
+
+		// Network Admin Tools
+		remove_submenu_page( 'network-tools', 'network-tools' );
 
 		// About and Credits pages
 		remove_submenu_page( 'index.php', 'bp-about'   );
