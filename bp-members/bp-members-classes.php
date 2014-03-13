@@ -150,7 +150,7 @@ class BP_Signup {
 		if ( empty( $r['include'] ) ) {
 			// Search terms
 			if ( ! empty( $r['usersearch'] ) ) {
-				$search_terms_clean = mysql_real_escape_string( mysql_real_escape_string( $r['usersearch'] ) );
+				$search_terms_clean = esc_sql( esc_sql( $r['usersearch'] ) );
 				$search_terms_clean = like_escape( $search_terms_clean );
 				$sql['where'][] = "( user_login LIKE '%" . $search_terms_clean . "%' OR user_email LIKE '%" . $search_terms_clean . "%' OR meta LIKE '%" . $search_terms_clean . "%' )";
 			}
