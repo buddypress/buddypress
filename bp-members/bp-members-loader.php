@@ -76,13 +76,10 @@ class BP_Members_Component extends BP_Component {
 			'directory_title' => _x( 'Members', 'component directory title', 'buddypress' ),
 			'global_tables' => array(
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
+				'table_name_signups'       => bp_core_get_table_prefix() . 'signups',
 			),
 			'search_string' => __( 'Search Members...', 'buddypress' ),
 		);
-
-		if ( bp_get_signup_allowed() ) {
-			$members_globals['global_tables']['table_name_signups'] = bp_core_get_table_prefix() . 'signups';
- 		}
 
 		parent::setup_globals( $members_globals );
 
