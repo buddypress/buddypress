@@ -256,7 +256,7 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 		'type'    => 'joined_group',
 		'item_id' => $group_id,
 		'user_id' => $user_id
-	) );	
+	) );
 }
 add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_activity', 10, 2 );
 
