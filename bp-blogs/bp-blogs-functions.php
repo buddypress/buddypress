@@ -182,6 +182,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	if ( !bp_blogs_is_blog_recordable( $blog_id, $user_id ) )
 		return false;
 
+	$url         = get_home_url( $blog_id );
 	$name        = get_blog_option( $blog_id, 'blogname' );
 	$description = get_blog_option( $blog_id, 'blogdescription' );
 
@@ -194,6 +195,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	$recorded_blog_id       = $recorded_blog->save();
 	$is_recorded            = !empty( $recorded_blog_id ) ? true : false;
 
+	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'url', $url );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', bp_core_current_time() );
@@ -207,8 +209,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 		// Record this in activity streams
 		bp_blogs_record_activity( array(
 			'user_id'      => $recorded_blog->user_id,
-			'action'       => apply_filters( 'bp_blogs_activity_created_blog_action', sprintf( __( '%s created the site %s', 'buddypress'), bp_core_get_userlink( $recorded_blog->user_id ), '<a href="' . get_home_url( $recorded_blog->blog_id ) . '">' . esc_attr( $name ) . '</a>' ), $recorded_blog, $name, $description ),
-			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', get_home_url( $recorded_blog->blog_id ), $recorded_blog->blog_id ),
+			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', $url, $recorded_blog->blog_id ),
 			'type'         => 'new_blog',
 			'item_id'      => $recorded_blog->blog_id
 		) );
@@ -357,7 +358,6 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 
 			bp_blogs_record_activity( array(
 				'user_id'           => (int) $post->post_author,
-				'action'            => apply_filters( 'bp_blogs_activity_new_post_action',       $activity_action,  $post, $post_permalink ),
 				'content'           => apply_filters( 'bp_blogs_activity_new_post_content',      $activity_content, $post, $post_permalink ),
 				'primary_link'      => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink,   $post_id               ),
 				'type'              => 'new_blog_post',
@@ -452,7 +452,6 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 		// Record in activity streams
 		bp_blogs_record_activity( array(
 			'user_id'           => $user_id,
-			'action'            => apply_filters_ref_array( 'bp_blogs_activity_new_comment_action',       array( $activity_action,  &$recorded_comment, $comment_link ) ),
 			'content'           => apply_filters_ref_array( 'bp_blogs_activity_new_comment_content',      array( $activity_content, &$recorded_comment, $comment_link ) ),
 			'primary_link'      => apply_filters_ref_array( 'bp_blogs_activity_new_comment_primary_link', array( $comment_link,     &$recorded_comment                ) ),
 			'type'              => 'new_blog_comment',

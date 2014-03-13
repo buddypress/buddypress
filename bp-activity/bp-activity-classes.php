@@ -161,6 +161,21 @@ class BP_Activity_Activity {
 			$this->mptt_right        = $row->mptt_right;
 			$this->is_spam           = $row->is_spam;
 		}
+
+		// Generate dynamic 'action' when possible
+		$action = bp_activity_generate_action_string( $this );
+		if ( false !== $action ) {
+			$this->action = $action;
+
+		// If no callback is available, use the literal string from
+		// the database row
+		} else if ( ! empty( $row->action ) ) {
+			$this->action = $row->action;
+
+		// Provide a fallback to avoid PHP notices
+		} else {
+			$this->action = '';
+		}
 	}
 
 	/**
@@ -442,6 +457,12 @@ class BP_Activity_Activity {
 		if ( $activities && $display_comments )
 			$activities = BP_Activity_Activity::append_comments( $activities, $spam );
 
+		// Pre-fetch data associated with activity users and other objects
+		BP_Activity_Activity::prefetch_object_data( $activities );
+
+		// Generate action strings
+		$activities = BP_Activity_Activity::generate_action_strings( $activities );
+
 		// If $max is set, only return up to the max results
 		if ( !empty( $max ) ) {
 			if ( (int) $total_activities > (int) $max )
@@ -539,6 +560,55 @@ class BP_Activity_Activity {
 					}
 				}
 			}
+		}
+
+		return $activities;
+	}
+
+	/**
+	 * Pre-fetch data for objects associated with activity items.
+	 *
+	 * Activity items are associated with users, and often with other
+	 * BuddyPress data objects. Here, we pre-fetch data about these
+	 * associated objects, so that inline lookups - done primarily when
+	 * building action strings - do not result in excess database queries.
+	 *
+	 * The only object data required for activity component activity types
+	 * (activity_update and activity_comment) is related to users, and that
+	 * info is fetched separately in BP_Activity_Activity::get_activity_data().
+	 * So this method contains nothing but a filter that allows other
+	 * components, such as bp-friends and bp-groups, to hook in and prime
+	 * their own caches at the beginning of an activity loop.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $activities Array of activities.
+	 */
+	protected static function prefetch_object_data( $activities ) {
+		return apply_filters( 'bp_activity_prefetch_object_data', $activities );
+	}
+
+	/**
+	 * Generate action strings for the activities located in BP_Activity_Activity::get().
+	 *
+	 * If no string can be dynamically generated for a given item
+	 * (typically because the activity type has not been properly
+	 * registered), the static 'action' value pulled from the database will
+	 * be left in place.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $activities Array of activities.
+	 * @return array
+	 */
+	protected static function generate_action_strings( $activities ) {
+		foreach ( $activities as $key => $activity ) {
+			$generated_action = bp_activity_generate_action_string( $activity );
+			if ( false !== $generated_action ) {
+				$activity->action = $generated_action;
+			}
+
+			$activities[ $key ] = $activity;
 		}
 
 		return $activities;

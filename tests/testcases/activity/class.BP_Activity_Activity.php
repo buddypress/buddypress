@@ -439,4 +439,66 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 		$this->assertSame( date( 'Y-m-d H:i:s', $now - 100 ), BP_Activity_Activity::get_last_updated() );
 	}
+
+	/**
+	 * @group activity_action
+	 */
+	public function test_instantiated_action_with_dynamic_callback() {
+		bp_activity_set_action(
+			'foo',
+			'bar',
+			'Foo Bar',
+			array( $this, 'action_cb' )
+		);
+
+		// Create the activity item with a manual activity string
+		$a = $this->factory->activity->create( array(
+			'component' => 'foo',
+			'type' => 'bar',
+			'action' => 'baz',
+		) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+
+		$this->assertSame( 'Woo Hoo!', $a_obj->action );
+	}
+
+	/**
+	 * @group activity_action
+	 */
+	public function test_instantiated_action_without_dynamic_callback_but_with_stored_action() {
+		// No callback is registered - this mimics a legacy plugin
+
+		// Create the activity item with a manual activity string
+		$a = $this->factory->activity->create( array(
+			'component' => 'foo',
+			'type' => 'bar1',
+			'action' => 'baz',
+		) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+
+		$this->assertSame( 'baz', $a_obj->action );
+	}
+
+	/**
+	 * @group activity_action
+	 */
+	public function test_instantiated_action_without_dynamic_callback_but_with_no_stored_action() {
+		// No callback is registered - this mimics a legacy plugin
+
+		// Create the activity item with a manual activity string
+		$a = $this->factory->activity->create( array(
+			'component' => 'foo',
+			'type' => 'bar2',
+		) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+
+		$this->assertSame( '', $a_obj->action );
+	}
+
+	public function action_cb( $activity ) {
+		return 'Woo Hoo!';
+	}
 }

@@ -20,7 +20,6 @@ class BP_UnitTest_Factory_For_Activity extends WP_UnitTest_Factory_For_Thing {
 		parent::__construct( $factory );
 
 		$this->default_generation_definitions = array(
-			'action'       => new WP_UnitTest_Generator_Sequence( 'Activity action %s' ),
 			'component'    => buddypress()->activity->id,
 			'content'      => new WP_UnitTest_Generator_Sequence( 'Activity content %s' ),
 			'primary_link' => 'http://example.com',

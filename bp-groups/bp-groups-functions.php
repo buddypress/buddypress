@@ -329,10 +329,9 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 
 	// Record this in activity streams
 	groups_record_activity( array(
-		'action'  => apply_filters( 'groups_activity_joined_group', sprintf( __( '%1$s joined the group %2$s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( bp_get_group_name( $group ) ) . '</a>' ) ),
 		'type'    => 'joined_group',
 		'item_id' => $group_id,
-		'user_id' => $user_id
+		'user_id' => $user_id,
 	) );
 
 	// Modify group meta

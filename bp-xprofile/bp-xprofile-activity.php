@@ -17,13 +17,89 @@ function xprofile_register_activity_actions() {
 	global $bp;
 
 	// Register the activity stream actions for this component
-	bp_activity_set_action( $bp->profile->id, 'new_avatar',      __( 'Member changed profile picture', 'buddypress' ) );
-	bp_activity_set_action( $bp->profile->id, 'new_member',      __( 'New member registered', 'buddypress' ) );
-	bp_activity_set_action( $bp->profile->id, 'updated_profile', __( 'Updated Profile', 'buddypress' ) );
+	bp_activity_set_action(
+		$bp->profile->id,
+		'new_avatar',
+		__( 'Member changed profile picture', 'buddypress' ),
+		'bp_xprofile_format_activity_action_new_avatar'
+	);
+
+	bp_activity_set_action(
+		$bp->profile->id,
+		'new_member',
+		__( 'New member registered', 'buddypress' ),
+		'bp_xprofile_format_activity_action_new_member'
+	);
+
+	bp_activity_set_action(
+		$bp->profile->id,
+		'updated_profile',
+		__( 'Updated Profile', 'buddypress' ),
+		'bp_xprofile_format_activity_action_updated_profile'
+	);
 
 	do_action( 'xprofile_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions' );
+
+/**
+ * Format 'new_avatar' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param object $activity Activity object.
+ * @return string
+ */
+function bp_xprofile_format_activity_action_new_avatar( $activity ) {
+	$userlink = bp_core_get_userlink( $activity->user_id );
+	$action   = sprintf( __( '%s changed their profile picture', 'buddypress' ), $userlink );
+
+	// Legacy filter - pass $user_id instead of $activity
+	if ( has_filter( 'bp_xprofile_new_avatar_action' ) ) {
+		$action = apply_filters( 'bp_xprofile_new_avatar_action', $action, $activity->user_id );
+	}
+
+	return apply_filters( 'bp_xprofile_format_activity_action_new_avatar', $action, $activity );
+}
+
+/**
+ * Format 'new_member' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param object $activity Activity object.
+ * @return string
+ */
+function bp_xprofile_format_activity_action_new_member( $activity ) {
+	$userlink = bp_core_get_userlink( $activity->user_id );
+	$action   = sprintf( __( '%s became a registered member', 'buddypress' ), $userlink );
+
+	// Legacy filter - pass $user_id instead of $activity
+	if ( has_filter( 'bp_core_activity_registered_member_action' ) ) {
+		$action = apply_filters( 'bp_core_activity_registered_member_action', $action, $activity->user_id );
+	}
+
+	return apply_filters( 'bp_xprofile_format_activity_action_new_member', $action, $activity );
+}
+
+/**
+ * Format 'updated_profile' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param object $activity Activity object.
+ * @return string
+ */
+function bp_xprofile_format_activity_action_updated_profile( $activity ) {
+	// Note for translators: The natural phrasing in English, "Joe updated
+	// his profile", requires that we know Joe's gender, which we don't. If
+	// your language doesn't have this restriction, feel free to use a more
+	// natural translation.
+	$profile_link = trailingslashit( bp_core_get_user_domain( $activity->user_id ) . buddypress()->profile->slug );
+	$action	      = sprintf( __( '%1$s&#8217;s profile was updated', 'buddypress' ), '<a href="' . $profile_link . '">' . bp_core_get_user_displayname( $activity->user_id ) . '</a>' );
+
+	return apply_filters( 'bp_xprofile_format_activity_action_updated_profile', $action, $activity );
+}
 
 /**
  * Records activity for the logged in user within the profile component so that
@@ -126,7 +202,6 @@ function bp_xprofile_new_avatar_activity() {
 
 	bp_activity_add( array(
 		'user_id' => $user_id,
-		'action' => apply_filters( 'bp_xprofile_new_avatar_action', sprintf( __( '%s changed their profile picture', 'buddypress' ), $userlink ), $user_id ),
 		'component' => 'profile',
 		'type' => 'new_avatar'
 	) );
@@ -207,17 +282,10 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $o
 	}
 
 	// If we've reached this point, assemble and post the activity item
-
-	// Note for translators: The natural phrasing in English, "Joe updated
-	// his profile", requires that we know Joe's gender, which we don't. If
-	// your language doesn't have this restriction, feel free to use a more
-	// natural translation.
 	$profile_link = trailingslashit( bp_core_get_user_domain( $user_id ) . buddypress()->profile->slug );
-	$action = sprintf( __( '%1$s&#8217;s profile was updated', 'buddypress' ), '<a href="' . $profile_link . '">' . bp_core_get_user_displayname( $user_id ) . '</a>' );
 
 	$retval = xprofile_record_activity( array(
 		'user_id'      => $user_id,
-		'action'       => $action,
 		'primary_link' => $profile_link,
 		'component'    => buddypress()->profile->id,
 		'type'         => 'updated_profile',

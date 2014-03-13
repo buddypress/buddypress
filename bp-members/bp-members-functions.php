@@ -1644,7 +1644,6 @@ function bp_core_new_user_activity( $user ) {
 
 	bp_activity_add( array(
 		'user_id'   => $user_id,
-		'action'    => apply_filters( 'bp_core_activity_registered_member_action', sprintf( __( '%s became a registered member', 'buddypress' ), $userlink ), $user_id ),
 		'component' => 'xprofile',
 		'type'      => 'new_member'
 	) );

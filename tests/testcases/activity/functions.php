@@ -541,6 +541,44 @@ Bar!';
 	}
 
 	/**
+	 * @group activity_action
+	 * @group bp_activity_format_activity_action_activity_update
+	 */
+	public function test_bp_activity_format_activity_action_activity_update() {
+		$u = $this->create_user();
+		$a = $this->factory->activity->create( array(
+			'component' => buddypress()->activity->id,
+			'type' => 'activity_update',
+			'user_id' => $u,
+		) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+
+		$expected = sprintf( '%s posted an update', bp_core_get_userlink( $u ) );
+
+		$this->assertSame( $expected, $a_obj->action );
+	}
+
+	/**
+	 * @group activity_action
+	 * @group bp_activity_format_activity_action_activity_comment
+	 */
+	public function test_bp_activity_format_activity_action_activity_comment() {
+		$u = $this->create_user();
+		$a = $this->factory->activity->create( array(
+			'component' => buddypress()->activity->id,
+			'type' => 'activity_comment',
+			'user_id' => $u,
+		) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+
+		$expected = sprintf( '%s posted a new activity comment', bp_core_get_userlink( $u ) );
+
+		$this->assertSame( $expected, $a_obj->action );
+	}
+
+	/**
 	 * @group bp_activity_new_comment
 	 * @group cache
 	 */

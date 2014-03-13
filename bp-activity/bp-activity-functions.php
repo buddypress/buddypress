@@ -256,38 +256,54 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
 /** Actions ******************************************************************/
 
 /**
- * Set the current action for a given activity stream location.
+ * Register an activity 'type' and its action description/callback.
  *
- * @since BuddyPress (1.1)
+ * Activity actions are strings used to describe items in the activity stream,
+ * such as 'Joe became a registered member' or 'Bill and Susie are now
+ * friends'. Each activity type (such as 'new_member' or 'friendship_created')
+ * used by a component should be registered using this function.
  *
- * @global object $bp BuddyPress global settings
- * @uses apply_filters() To call the 'bp_activity_set_action' hook
+ * While it's possible to post items to the activity stream whose types are
+ * not registered using bp_activity_set_action(), it is not recommended;
+ * unregistered types will not be displayed properly in the activity admin
+ * panel, and dynamic action generation (which is essential for multilingual
+ * sites, etc) will not work.
+ *
+ * @since BuddyPress (1.1.0)
  *
  * @param string $component_id The unique string ID of the component.
- * @param string $key The action key.
- * @param string $value The action value.
+ * @param string $type The action type.
+ * @param string $description The action description.
+ * @param callable $format_callback Callback for formatting the action string.
  * @return bool False if any param is empty, otherwise true.
  */
-function bp_activity_set_action( $component_id, $key, $value ) {
-	global $bp;
+function bp_activity_set_action( $component_id, $type, $description, $format_callback = false ) {
+	$bp = buddypress();
 
 	// Return false if any of the above values are not set
-	if ( empty( $component_id ) || empty( $key ) || empty( $value ) )
+	if ( empty( $component_id ) || empty( $type ) || empty( $description ) ) {
 		return false;
+	}
 
 	// Set activity action
-	if ( !isset( $bp->activity->actions ) || !is_object( $bp->activity->actions ) ) {
+	if ( ! isset( $bp->activity->actions ) || ! is_object( $bp->activity->actions ) ) {
 		$bp->activity->actions = new stdClass;
 	}
 
-	if ( !isset( $bp->activity->actions->{$component_id} ) || !is_object( $bp->activity->actions->{$component_id} ) ) {
+	// Verify callback
+	if ( ! is_callable( $format_callback ) ) {
+		$format_callback = '';
+	}
+
+	if ( ! isset( $bp->activity->actions->{$component_id} ) || ! is_object( $bp->activity->actions->{$component_id} ) ) {
 		$bp->activity->actions->{$component_id} = new stdClass;
 	}
 
-	$bp->activity->actions->{$component_id}->{$key} = apply_filters( 'bp_activity_set_action', array(
-		'key'   => $key,
-		'value' => $value
-	), $component_id, $key, $value );
+	$bp->activity->actions->{$component_id}->{$type} = apply_filters( 'bp_activity_set_action', array(
+		'key'             => $type,
+		'value'           => $description,
+		'format_callback' => $format_callback,
+	), $component_id, $type, $description, $format_callback );
 
 	return true;
 }
@@ -857,8 +873,19 @@ add_action( 'bp_make_ham_user', 'bp_activity_ham_all_user_data' );
 function bp_activity_register_activity_actions() {
 	global $bp;
 
-	bp_activity_set_action( $bp->activity->id, 'activity_update', __( 'Posted a status update', 'buddypress' ) );
-	bp_activity_set_action( $bp->activity->id, 'activity_comment', __( 'Replied to a status update', 'buddypress' ) );
+	bp_activity_set_action(
+		$bp->activity->id,
+		'activity_update',
+		__( 'Posted a status update', 'buddypress' ),
+		'bp_activity_format_activity_action_activity_update'
+	);
+
+	bp_activity_set_action(
+		$bp->activity->id,
+		'activity_comment',
+		__( 'Replied to a status update', 'buddypress' ),
+		'bp_activity_format_activity_action_activity_comment'
+	);
 
 	do_action( 'bp_activity_register_activity_actions' );
 
@@ -866,6 +893,53 @@ function bp_activity_register_activity_actions() {
 	do_action( 'updates_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'bp_activity_register_activity_actions' );
+
+/**
+ * Generate an activity action string for an activity item.
+ *
+ * @param object $activity Activity data object.
+ * @return string|bool Returns false if no callback is found, otherwise returns
+ *         the formatted action string.
+ */
+function bp_activity_generate_action_string( $activity ) {
+	// Check for valid input
+	if ( empty( $activity->component ) || empty( $activity->type ) ) {
+		return false;
+	}
+
+	// Check for registered format callback
+	if ( empty( buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'] ) ) {
+		return false;
+	}
+
+	return call_user_func( buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'], $activity );
+}
+
+/**
+ * Format 'activity_update' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param object $activity Activity data object.
+ * @return string
+ */
+function bp_activity_format_activity_action_activity_update( $activity ) {
+	$action = sprintf( __( '%s posted an update', 'buddypress' ), bp_core_get_userlink( $activity->user_id ) );
+	return apply_filters( 'bp_activity_new_update_action', $action, $activity );
+}
+
+/**
+ * Format 'activity_comment' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param object $activity Activity data object.
+ * @return string
+ */
+function bp_activity_format_activity_action_activity_comment( $activity ) {
+	$action = sprintf( __( '%s posted a new activity comment', 'buddypress' ), bp_core_get_userlink( $activity->user_id ) );
+	return apply_filters( 'bp_activity_comment_action', $action, $activity );
+}
 
 /******************************************************************************
  * Business functions are where all the magic happens in BuddyPress. They will
@@ -1031,7 +1105,13 @@ function bp_activity_get_specific( $args = '' ) {
  *     @type int|bool $id Pass an activity ID to update an existing item, or
  *           false to create a new item. Default: false.
  *     @type string $action Optional. The activity action/description, typically
- *           something like "Joe posted an update".
+ *           something like "Joe posted an update". Values passed to this param
+ *           will be stored in the database and used as a fallback for when the
+ *           activity item's format_callback cannot be found (eg, when the
+ *           component is disabled). As long as you have registered a
+ *           format_callback for your $type, it is unnecessary to include this
+ *           argument - BP will generate it automatically.
+ *           See {@link bp_activity_set_action()}.
  *     @type string $content Optional. The content of the activity item.
  *     @type string $component The unique name of the component associated with
  *           the activity item - 'groups', 'profile', etc.
@@ -1087,7 +1167,6 @@ function bp_activity_add( $args = '' ) {
 	$activity->user_id           = $user_id;
 	$activity->component         = $component;
 	$activity->type              = $type;
-	$activity->action            = $action;
 	$activity->content           = $content;
 	$activity->primary_link      = $primary_link;
 	$activity->item_id           = $item_id;
@@ -1095,6 +1174,7 @@ function bp_activity_add( $args = '' ) {
 	$activity->date_recorded     = $recorded_time;
 	$activity->hide_sitewide     = $hide_sitewide;
 	$activity->is_spam           = $is_spam;
+	$activity->action            = ! empty( $action ) ? $action : bp_activity_generate_action_string( $activity );
 
 	if ( !$activity->save() )
 		return false;
@@ -1150,18 +1230,16 @@ function bp_activity_post_update( $args = '' ) {
 
 	// Record this on the user's profile
 	$from_user_link   = bp_core_get_userlink( $user_id );
-	$activity_action  = sprintf( __( '%s posted an update', 'buddypress' ), $from_user_link );
 	$activity_content = $content;
 	$primary_link     = bp_core_get_userlink( $user_id, false, true );
 
 	// Now write the values
 	$activity_id = bp_activity_add( array(
 		'user_id'      => $user_id,
-		'action'       => apply_filters( 'bp_activity_new_update_action', $activity_action ),
 		'content'      => apply_filters( 'bp_activity_new_update_content', $activity_content ),
 		'primary_link' => apply_filters( 'bp_activity_new_update_primary_link', $primary_link ),
 		'component'    => $bp->activity->id,
-		'type'         => 'activity_update'
+		'type'         => 'activity_update',
 	) );
 
 	$activity_content = apply_filters( 'bp_activity_latest_update_content', $content, $activity_content );
@@ -1230,7 +1308,6 @@ function bp_activity_new_comment( $args = '' ) {
 	// Insert the activity comment
 	$comment_id = bp_activity_add( array(
 		'id'                => $id,
-		'action'            => apply_filters( 'bp_activity_comment_action', sprintf( __( '%s posted a new activity comment', 'buddypress' ), bp_core_get_userlink( $user_id ) ) ),
 		'content'           => apply_filters( 'bp_activity_comment_content', $content ),
 		'component'         => buddypress()->activity->id,
 		'type'              => 'activity_comment',

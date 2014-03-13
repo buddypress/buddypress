@@ -92,8 +92,19 @@ function friends_register_activity_actions() {
 	$bp = buddypress();
 
 	// These two added in BP 1.6
-	bp_activity_set_action( $bp->friends->id, 'friendship_accepted', __( 'Friendships accepted', 'buddypress' ) );
-	bp_activity_set_action( $bp->friends->id, 'friendship_created',  __( 'New friendships',      'buddypress' ) );
+	bp_activity_set_action(
+		$bp->friends->id,
+		'friendship_accepted',
+		__( 'Friendships accepted', 'buddypress' ),
+		'bp_friends_format_activity_action_friendship_accepted'
+	);
+
+	bp_activity_set_action(
+		$bp->friends->id,
+		'friendship_created',
+		__( 'New friendships', 'buddypress' ),
+		'bp_friends_format_activity_action_friendship_created'
+	);
 
 	// < BP 1.6 backpat
 	bp_activity_set_action( $bp->friends->id, 'friends_register_activity_action', __( 'New friendship created', 'buddypress' ) );
@@ -101,6 +112,92 @@ function friends_register_activity_actions() {
 	do_action( 'friends_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' );
+
+/**
+ * Format 'friendship_accepted' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param object $activity Activity data.
+ * @return string $action Formatted activity action.
+ */
+function bp_friends_format_activity_action_friendship_accepted( $activity ) {
+	$initiator_link = bp_core_get_userlink( $activity->user_id );
+	$friend_link    = bp_core_get_userlink( $activity->secondary_item_id );
+
+	$action = sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link );
+
+	// Backward compatibility for legacy filter
+	// The old filter has the $friendship object passed to it. We want to
+	// avoid having to build this object if it's not necessary
+	if ( has_filter( 'friends_activity_friendship_accepted_action' ) ) {
+		$friendship = new BP_Friends_Friendship( $activity->item_id );
+		$action     = apply_filters( 'friends_activity_friendsip_accepted_action', $action, $friendship );
+	}
+
+	return apply_filters( 'bp_friends_format_activity_action_friendship_accepted', $action, $activity );
+}
+
+/**
+ * Format 'friendship_created' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param object $activity Activity data.
+ * @return string $action Formatted activity action.
+ */
+function bp_friends_format_activity_action_friendship_created( $activity ) {
+	$initiator_link = bp_core_get_userlink( $activity->user_id );
+	$friend_link    = bp_core_get_userlink( $activity->secondary_item_id );
+
+	$action = sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link );
+
+	// Backward compatibility for legacy filter
+	// The old filter has the $friendship object passed to it. We want to
+	// avoid having to build this object if it's not necessary
+	if ( has_filter( 'friends_activity_friendship_accepted_action' ) ) {
+		$friendship = new BP_Friends_Friendship( $activity->item_id );
+		$action     = apply_filters( 'friends_activity_friendsip_accepted_action', $action, $friendship );
+	}
+
+	return apply_filters( 'bp_friends_format_activity_action_friendship_created', $action, $activity );
+}
+
+/**
+ * Fetch data related to friended users at the beginning of an activity loop.
+ *
+ * This reduces database overhead during the activity loop.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $activities Array of activity items.
+ * @return array
+ */
+function bp_friends_prefetch_activity_object_data( $activities ) {
+	if ( empty( $activities ) ) {
+		return $activities;
+	}
+
+	$friend_ids = array();
+
+	foreach ( $activities as $activity ) {
+		if ( buddypress()->friends->id !== $activity->component ) {
+			continue;
+		}
+
+		$friend_ids[] = $activity->secondary_item_id;
+	}
+
+	if ( ! empty( $friend_ids ) ) {
+		// Fire a user query to prime user caches
+		new BP_User_Query( array(
+			'user_ids'          => $friend_ids,
+			'populate_extras'   => false,
+			'update_meta_cache' => false,
+		) );
+	}
+}
+add_filter( 'bp_activity_prefetch_object_data', 'bp_friends_prefetch_activity_object_data' );
 
 /**
  * Add activity stream items when one members accepts another members request
@@ -128,7 +225,6 @@ function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_use
 	friends_record_activity( array(
 		'user_id'           => $initiator_user_id,
 		'type'              => 'friendship_created',
-		'action'            => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link ), $friendship ),
 		'item_id'           => $friendship_id,
 		'secondary_item_id' => $friend_user_id
 	) );
@@ -137,7 +233,6 @@ function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_use
 	friends_record_activity( array(
 		'user_id'           => $friend_user_id,
 		'type'              => 'friendship_created',
-		'action'            => apply_filters( 'friends_activity_friendship_accepted_action', sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $friend_link, $initiator_link ), $friendship ),
 		'item_id'           => $friendship_id,
 		'secondary_item_id' => $initiator_user_id,
 		'hide_sitewide'     => true // We've already got the first entry site wide

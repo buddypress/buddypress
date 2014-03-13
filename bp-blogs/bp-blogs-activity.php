@@ -28,15 +28,216 @@ function bp_blogs_register_activity_actions() {
 	}
 
 	if ( is_multisite() ) {
-		bp_activity_set_action( $bp->blogs->id, 'new_blog', __( 'New site created',        'buddypress' ) );
+		bp_activity_set_action(
+			$bp->blogs->id,
+			'new_blog',
+			__( 'New site created', 'buddypress' ),
+			'bp_blogs_format_activity_action_new_blog'
+		);
 	}
 
-	bp_activity_set_action( $bp->blogs->id, 'new_blog_post',    __( 'New post published',      'buddypress' ) );
-	bp_activity_set_action( $bp->blogs->id, 'new_blog_comment', __( 'New post comment posted', 'buddypress' ) );
+	bp_activity_set_action(
+		$bp->blogs->id,
+		'new_blog_post',
+		__( 'New post published', 'buddypress' ),
+		'bp_blogs_format_activity_action_new_blog_post'
+	);
+
+	bp_activity_set_action(
+		$bp->blogs->id,
+		'new_blog_comment',
+		__( 'New post comment posted', 'buddypress' ),
+		'bp_blogs_format_activity_action_new_blog_comment'
+	);
 
 	do_action( 'bp_blogs_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions' );
+
+/**
+ * Format 'new_blog' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param obj $activity Activity data object.
+ */
+function bp_blogs_format_activity_action_new_blog( $activity ) {
+	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
+	$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
+
+	$action = sprintf( __( '%s created the site %s', 'buddypress' ), bp_core_get_userlink( $activity->user_id ), '<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>' );
+
+	// Legacy filter - requires the BP_Blogs_Blog object
+	if ( has_filter( 'bp_blogs_activity_created_blog_action' ) ) {
+		$user_blog = BP_Blogs_Blog::get_user_blog( $activity->user_id, $activity->item_id );
+		if ( $user_blog ) {
+			$recorded_blog = new BP_Blogs_Blog( $user_blog );
+		}
+
+		if ( isset( $recorded_blog ) ) {
+			$action = apply_filters( 'bp_blogs_activity_created_blog_action', $action, $recorded_blog, $blog_name, bp_blogs_get_blogmeta( $activity->item_id, 'description' ) );
+		}
+	}
+
+	return apply_filters( 'bp_blogs_format_activity_action_new_blog', $action, $activity );
+}
+
+/**
+ * Format 'new_blog_post' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param obj $activity Activity data object.
+ */
+function bp_blogs_format_activity_action_new_blog_post( $activity ) {
+	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
+	$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
+
+	if ( empty( $blog_url ) || empty( $blog_name ) ) {
+		$blog_url  = get_home_url( $activity->item_id );
+		$blog_name = get_blog_option( $activity->item_id, 'blogname' );
+
+		bp_blogs_update_blogmeta( $activity->item_id, 'url', $blog_url );
+		bp_blogs_update_blogmeta( $activity->item_id, 'name', $blog_name );
+	}
+
+	$post_url = add_query_arg( 'p', $activity->secondary_item_id, trailingslashit( $blog_url ) );
+
+	$post_title = bp_activity_get_meta( $activity->id, 'post_title' );
+
+	// Should only be empty at the time of post creation
+	if ( empty( $post_title ) ) {
+		switch_to_blog( $activity->item_id );
+
+		$post = get_post( $activity->secondary_item_id );
+		if ( is_a( $post, 'WP_Post' ) ) {
+			$post_title = $post->post_title;
+			bp_activity_update_meta( $activity->id, 'post_title', $post_title );
+		}
+
+		restore_current_blog();
+	}
+
+	$post_link  = '<a href="' . $post_url . '">' . $post_title . '</a>';
+
+	$user_link = bp_core_get_userlink( $activity->user_id );
+
+	if ( is_multisite() ) {
+		$action  = sprintf( __( '%1$s wrote a new post, %2$s, on the site %3$s', 'buddypress' ), $user_link, $post_link, '<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>' );
+	} else {
+		$action  = sprintf( __( '%1$s wrote a new post, %2$s', 'buddypress' ), $user_link, $post_link );
+	}
+
+	// Legacy filter - requires the post object
+	if ( has_filter( 'bp_blogs_activity_new_post_action' ) ) {
+		switch_to_blog( $activity->item_id );
+		$post = get_post( $activity->secondary_item_id );
+		restore_current_blog();
+
+		if ( ! empty( $post ) && ! is_wp_error( $post ) ) {
+			$action = apply_filters( 'bp_blogs_activity_new_post_action', $action, $post, $post_url );
+		}
+	}
+
+	return apply_filters( 'bp_blogs_format_activity_action_new_blog_post', $action, $activity );
+}
+
+/**
+ * Format 'new_blog_comment' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param obj $activity Activity data object.
+ */
+function bp_blogs_format_activity_action_new_blog_comment( $activity ) {
+	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
+	$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
+
+	if ( empty( $blog_url ) || empty( $blog_name ) ) {
+		$blog_url  = get_home_url( $activity->item_id );
+		$blog_name = get_blog_option( $activity->item_id, 'blogname' );
+
+		bp_blogs_update_blogmeta( $activity->item_id, 'url', $blog_url );
+		bp_blogs_update_blogmeta( $activity->item_id, 'name', $blog_name );
+	}
+
+	$post_url   = bp_activity_get_meta( $activity->id, 'post_url' );
+	$post_title = bp_activity_get_meta( $activity->id, 'post_title' );
+
+	// Should only be empty at the time of post creation
+	if ( empty( $post_url ) || empty( $post_title ) ) {
+		switch_to_blog( $activity->item_id );
+
+		$comment = get_comment( $activity->secondary_item_id );
+
+		if ( ! empty( $comment->comment_post_ID ) ) {
+			$post_url = add_query_arg( 'p', $comment->comment_post_ID, trailingslashit( $blog_url ) );
+			bp_activity_update_meta( $activity->id, 'post_url', $post_url );
+
+			$post = get_post( $comment->comment_post_ID );
+
+			if ( is_a( $post, 'WP_Post' ) ) {
+				$post_title = $post->post_title;
+				bp_activity_update_meta( $activity->id, 'post_title', $post_title );
+			}
+		}
+
+		restore_current_blog();
+	}
+
+	$post_link = '<a href="' . $post_url . '">' . $post_title . '</a>';
+	$user_link = bp_core_get_userlink( $activity->user_id );
+
+	if ( is_multisite() ) {
+		$action  = sprintf( __( '%1$s commented on the post, %2$s, on the site %3$s', 'buddypress' ), $user_link, $post_link, '<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>' );
+	} else {
+		$action  = sprintf( __( '%1$s commented on the post, %2$s', 'buddypress' ), $user_link, $post_link );
+	}
+
+	// Legacy filter - requires the comment object
+	if ( has_filter( 'bp_blogs_activity_new_comment_action' ) ) {
+		switch_to_blog( $activity->item_id );
+		$comment = get_comment( $activity->secondary_item_id );
+		restore_current_blog();
+
+		if ( ! empty( $comment ) && ! is_wp_error( $comment ) ) {
+			$action = apply_filters( 'bp_blogs_activity_new_comment_action', $action, $comment, $post_url . '#' . $activity->secondary_item_id );
+		}
+	}
+
+	return apply_filters( 'bp_blogs_format_activity_action_new_blog_comment', $action, $activity );
+}
+
+/**
+ * Fetch data related to blogs at the beginning of an activity loop.
+ *
+ * This reduces database overhead during the activity loop.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $activities Array of activity items.
+ * @return array
+ */
+function bp_blogs_prefetch_activity_object_data( $activities ) {
+	if ( empty( $activities ) ) {
+		return $activities;
+	}
+
+	$blog_ids = array();
+
+	foreach ( $activities as $activity ) {
+		if ( buddypress()->blogs->id !== $activity->component ) {
+			continue;
+		}
+
+		$blog_ids[] = $activity->item_id;
+	}
+
+	if ( ! empty( $blog_ids ) ) {
+		bp_blogs_update_meta_cache( $blog_ids );
+	}
+}
+add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_object_data' );
 
 /**
  * Record blog-related activity to the activity stream.

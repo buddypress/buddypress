@@ -503,4 +503,25 @@ class BP_Blogs_Blog {
 
 		return false;
 	}
+
+	/**
+	 * Get ID of user-blog link.
+	 *
+	 * @param int $user_id ID of user.
+	 * @param int $blog_id ID of blog.
+	 * @return int|bool ID of user-blog link, or false if not found.
+	 */
+	public static function get_user_blog( $user_id, $blog_id ) {
+		global $bp, $wpdb;
+
+		$user_blog = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->blogs->table_name} WHERE user_id = %d AND blog_id = %d", $user_id, $blog_id ) );
+
+		if ( empty( $user_blog ) ) {
+			$user_blog = false;
+		} else {
+			$user_blog = intval( $user_blog );
+		}
+
+		return $user_blog;
+	}
 }
