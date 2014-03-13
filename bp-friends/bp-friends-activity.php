@@ -121,7 +121,7 @@ add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' 
  * @param object $activity Activity data.
  * @return string $action Formatted activity action.
  */
-function bp_friends_format_activity_action_friendship_accepted( $activity ) {
+function bp_friends_format_activity_action_friendship_accepted( $action, $activity ) {
 	$initiator_link = bp_core_get_userlink( $activity->user_id );
 	$friend_link    = bp_core_get_userlink( $activity->secondary_item_id );
 
@@ -143,10 +143,11 @@ function bp_friends_format_activity_action_friendship_accepted( $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param object $activity Activity data.
  * @return string $action Formatted activity action.
  */
-function bp_friends_format_activity_action_friendship_created( $activity ) {
+function bp_friends_format_activity_action_friendship_created( $action, $activity ) {
 	$initiator_link = bp_core_get_userlink( $activity->user_id );
 	$friend_link    = bp_core_get_userlink( $activity->secondary_item_id );
 

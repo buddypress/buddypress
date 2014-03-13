@@ -47,10 +47,11 @@ add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions'
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param object $activity Activity object.
  * @return string
  */
-function bp_xprofile_format_activity_action_new_avatar( $activity ) {
+function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
 	$userlink = bp_core_get_userlink( $activity->user_id );
 	$action   = sprintf( __( '%s changed their profile picture', 'buddypress' ), $userlink );
 
@@ -67,10 +68,11 @@ function bp_xprofile_format_activity_action_new_avatar( $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param object $activity Activity object.
  * @return string
  */
-function bp_xprofile_format_activity_action_new_member( $activity ) {
+function bp_xprofile_format_activity_action_new_member( $action, $activity ) {
 	$userlink = bp_core_get_userlink( $activity->user_id );
 	$action   = sprintf( __( '%s became a registered member', 'buddypress' ), $userlink );
 
@@ -87,10 +89,11 @@ function bp_xprofile_format_activity_action_new_member( $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param object $activity Activity object.
  * @return string
  */
-function bp_xprofile_format_activity_action_updated_profile( $activity ) {
+function bp_xprofile_format_activity_action_updated_profile( $action, $activity ) {
 	// Note for translators: The natural phrasing in English, "Joe updated
 	// his profile", requires that we know Joe's gender, which we don't. If
 	// your language doesn't have this restriction, feel free to use a more

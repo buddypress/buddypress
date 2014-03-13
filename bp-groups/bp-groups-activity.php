@@ -54,10 +54,11 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param object $activity Activity data object.
  * @return string
  */
-function bp_groups_format_activity_action_created_group( $activity ) {
+function bp_groups_format_activity_action_created_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
 	$group = groups_get_group( array(
@@ -76,10 +77,11 @@ function bp_groups_format_activity_action_created_group( $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param object $activity Activity data object.
  * @return string
  */
-function bp_groups_format_activity_action_joined_group( $activity ) {
+function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
 	$group = groups_get_group( array(

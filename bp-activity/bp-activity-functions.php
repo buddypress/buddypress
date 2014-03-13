@@ -912,7 +912,16 @@ function bp_activity_generate_action_string( $activity ) {
 		return false;
 	}
 
-	return call_user_func( buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'], $activity );
+	// We apply the format_callback as a filter
+	add_filter( 'bp_activity_generate_action_string', buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
+
+	// Generate the action string (run through the filter defined above)
+	$action = apply_filters( 'bp_activity_generate_action_string', $activity->action, $activity );
+
+	// Remove the filter for future activity items
+	remove_filter( 'bp_activity_generate_action_string', buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
+
+	return $action;
 }
 
 /**
@@ -920,10 +929,11 @@ function bp_activity_generate_action_string( $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param object $activity Activity data object.
  * @return string
  */
-function bp_activity_format_activity_action_activity_update( $activity ) {
+function bp_activity_format_activity_action_activity_update( $action, $activity ) {
 	$action = sprintf( __( '%s posted an update', 'buddypress' ), bp_core_get_userlink( $activity->user_id ) );
 	return apply_filters( 'bp_activity_new_update_action', $action, $activity );
 }
@@ -933,10 +943,11 @@ function bp_activity_format_activity_action_activity_update( $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param object $activity Activity data object.
  * @return string
  */
-function bp_activity_format_activity_action_activity_comment( $activity ) {
+function bp_activity_format_activity_action_activity_comment( $action, $activity ) {
 	$action = sprintf( __( '%s posted a new activity comment', 'buddypress' ), bp_core_get_userlink( $activity->user_id ) );
 	return apply_filters( 'bp_activity_comment_action', $action, $activity );
 }

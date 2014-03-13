@@ -59,9 +59,10 @@ add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions'
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param obj $activity Activity data object.
  */
-function bp_blogs_format_activity_action_new_blog( $activity ) {
+function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
 	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
 	$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
 
@@ -87,9 +88,10 @@ function bp_blogs_format_activity_action_new_blog( $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param obj $activity Activity data object.
  */
-function bp_blogs_format_activity_action_new_blog_post( $activity ) {
+function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
 	$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
 
@@ -147,9 +149,10 @@ function bp_blogs_format_activity_action_new_blog_post( $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
+ * @param string $action Static activity action.
  * @param obj $activity Activity data object.
  */
-function bp_blogs_format_activity_action_new_blog_comment( $activity ) {
+function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) {
 	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
 	$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
 
