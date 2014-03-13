@@ -807,7 +807,7 @@ class BP_Members_Admin {
 			$class = ' class="current"';
 		}
 
-		$views['registered'] = '<a href="' . add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) . '"' . $class . '>' . sprintf( _nx( 'Pending account <span class="count">(%s)</span>', 'Pending accounts <span class="count">(%s)</span>', $signups, 'signup users', 'buddypress' ), number_format_i18n( $signups ) ) . '</a>';
+		$views['registered'] = '<a href="' . add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) . '"' . $class . '>' . sprintf( _nx( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', $signups, 'signup users', 'buddypress' ), number_format_i18n( $signups ) ) . '</a>';
 
 		return $views;
 	}
@@ -1262,7 +1262,7 @@ class BP_Members_Admin {
 
 			<form id="bp-signups-search-form" action="<?php echo esc_url( $search_form_url ) ;?>">
 				<input type="hidden" name="page" value="<?php echo esc_attr( $plugin_page ); ?>" />
-				<?php $bp_members_signup_list_table->search_box( __( 'Search Pending accounts', 'buddypress' ), 'bp-signups' ); ?>
+				<?php $bp_members_signup_list_table->search_box( __( 'Search Pending Accounts', 'buddypress' ), 'bp-signups' ); ?>
 			</form>
 
 			<form id="bp-signups-form" action="<?php echo esc_url( $form_url );?>" method="post">
