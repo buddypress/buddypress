@@ -10,6 +10,7 @@ class BP_UnitTest_Factory extends WP_UnitTest_Factory {
 		$this->xprofile_group = new BP_UnitTest_Factory_For_XProfileGroup( $this );
 		$this->xprofile_field = new BP_UnitTest_Factory_For_XProfileField( $this );
 		$this->notification = new BP_UnitTest_Factory_For_Notification( $this );
+		$this->signup = new BP_UnitTest_Factory_For_Signup( $this );
 	}
 }
 
@@ -161,5 +162,21 @@ class BP_UnitTest_Factory_For_Notification extends WP_UnitTest_Factory_For_Thing
 
 	public function get_object_by_id( $id ) {
 		return new BP_Notifications_Notification( $id );
+	}
+}
+
+class BP_UnitTest_Factory_For_Signup extends WP_UnitTest_Factory_For_Thing {
+	public function __construct( $factory = null ) {
+		parent::__construct( $factory );
+	}
+
+	public function create_object( $args ) {
+		return BP_Signup::add( $args );
+	}
+
+	public function update_object( $id, $fields ) {}
+
+	public function get_object_by_id( $id ) {
+		return new BP_Signup( $id );
 	}
 }

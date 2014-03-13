@@ -1361,8 +1361,15 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 			$errors->add( 'user_name', __( 'Sorry, usernames must have letters too!', 'buddypress' ) );
 		}
 
+		// Check into signups
+		$signups = BP_Signup::get( array(
+			'user_login' => $user_name,
+		) );
+
+		$signup = isset( $signups['signups'] ) && ! empty( $signups['signups'][0] ) ? $signups['signups'][0] : false;
+
 		// Check if the username has been used already.
-		if ( username_exists( $user_name ) ) {
+		if ( username_exists( $user_name ) || ! empty( $signup ) ) {
 			$errors->add( 'user_name', __( 'Sorry, that username already exists!', 'buddypress' ) );
 		}
 
@@ -1393,73 +1400,60 @@ function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
 }
 
 function bp_core_signup_user( $user_login, $user_password, $user_email, $usermeta ) {
-	global $bp, $wpdb;
+	global $bp;
+
+	// We need to cast $user_id to pass to the filters
+	$user_id = false;
 
 	// Multisite installs have their own install procedure
 	if ( is_multisite() ) {
 		wpmu_signup_user( $user_login, $user_email, $usermeta );
 
-		// On multisite, the user id is not created until the user activates the account
-		// but we need to cast $user_id to pass to the filters
-		$user_id = false;
-
 	} else {
-		$errors = new WP_Error();
+		// Format data
+		$user_login     = preg_replace( '/\s+/', '', sanitize_user( $user_login, true ) );
+		$user_email     = sanitize_email( $user_email );
+		$activation_key = substr( md5( time() . rand() . $user_email ), 0, 16 );
 
-		$user_id = wp_insert_user( array(
-			'user_login' => $user_login,
-			'user_pass' => $user_password,
-			'display_name' => sanitize_title( $user_login ),
-			'user_email' => $user_email
-		) );
+		/**
+		 * WordPress's default behavior is to create user accounts
+		 * immediately at registration time. BuddyPress uses a system
+		 * borrowed from WordPress Multisite, where signups are stored
+		 * separately and accounts are only created at the time of
+		 * activation. For backward compatibility with plugins that may
+		 * be anticipating WP's default behavior, BP silently creates
+		 * accounts for registrations (though it does not use them). If
+		 * you know that you are not running any plugins dependent on
+		 * these pending accounts, you may want to save a little DB
+		 * clutter by defining setting the BP_SIGNUPS_SKIP_USER_CREATION
+		 * to true in your wp-config.php file.
+		 */
+		if ( ! defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) || ! BP_SIGNUPS_SKIP_USER_CREATION ) {
+			$user_id = BP_Signup::add_backcompat( $user_login, $user_password, $user_email, $usermeta );
 
-		if ( is_wp_error( $user_id ) || empty( $user_id ) ) {
-			$errors->add( 'registerfail', sprintf( __('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !', 'buddypress' ), bp_get_option( 'admin_email' ) ) );
-			return $errors;
-		}
-
-		// Update the user status to '2' which we will use as 'not activated' (0 = active, 1 = spam, 2 = not active)
-		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_status = 2 WHERE ID = %d", $user_id ) );
-
-		// Set any profile data
-		if ( bp_is_active( 'xprofile' ) ) {
-			if ( !empty( $usermeta['profile_field_ids'] ) ) {
-				$profile_field_ids = explode( ',', $usermeta['profile_field_ids'] );
-
-				foreach( (array) $profile_field_ids as $field_id ) {
-					if ( empty( $usermeta["field_{$field_id}"] ) )
-						continue;
-
-					$current_field = $usermeta["field_{$field_id}"];
-					xprofile_set_field_data( $field_id, $user_id, $current_field );
-
-					// Save the visibility level
-					$visibility_level = !empty( $usermeta['field_' . $field_id . '_visibility'] ) ? $usermeta['field_' . $field_id . '_visibility'] : 'public';
-					xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
-				}
+			if ( is_wp_error( $user_id ) ) {
+				return $user_id;
 			}
-		}
-	}
-	$bp->signup->username = $user_login;
 
-	/***
-	 * Now generate an activation key and send an email to the user so they can activate their
-	 * account and validate their email address. Multisite installs send their own email, so
-	 * this is only for single blog installs.
-	 *
-	 * To disable sending activation emails you can user the filter
-	 * 'bp_core_signup_send_activation_key' and return false. Note that this will only disable
-	 * the email - a key will still be generated, and the account must still be activated
-	 * before use.
-	 */
-	if ( !is_multisite() ) {
-		$activation_key = wp_hash( $user_id );
-		update_user_meta( $user_id, 'activation_key', $activation_key );
+			$activation_key = wp_hash( $user_id );
+			update_user_meta( $user_id, 'activation_key', $activation_key );
+		}
+
+		$args = array(
+			'user_login'     => $user_login,
+			'user_email'     => $user_email,
+			'activation_key' => $activation_key,
+			'meta'           => $usermeta,
+		);
+
+		BP_Signup::add( $args );
 
 		if ( apply_filters( 'bp_core_signup_send_activation_key', true ) ) {
 			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key );
 		}
 	}
+
+	$bp->signup->username = $user_login;
 
 	do_action( 'bp_core_signup_user', $user_id, $user_login, $user_password, $user_email, $usermeta );
 
@@ -1483,54 +1477,121 @@ function bp_core_activate_signup( $key ) {
 		$user = wpmu_activate_signup( $key );
 
 		// If there were errors, add a message and redirect
-		if ( !empty( $user->errors ) ) {
+		if ( ! empty( $user->errors ) ) {
 			return $user;
 		}
 
 		$user_id = $user['user_id'];
 
-		// Set any profile data
-		if ( bp_is_active( 'xprofile' ) ) {
-			if ( !empty( $user['meta']['profile_field_ids'] ) ) {
-				$profile_field_ids = explode( ',', $user['meta']['profile_field_ids'] );
+	} else {
+		$signups = BP_Signup::get( array(
+			'activation_key' => $key,
+		) );
 
-				foreach( (array) $profile_field_ids as $field_id ) {
-					$current_field = isset( $user['meta']["field_{$field_id}"] ) ? $user['meta']["field_{$field_id}"] : false;
+		if ( empty( $signups['signups'] ) ) {
+			return new WP_Error( 'invalid_key', __( 'Invalid activation key.', 'buddypress' ) );
+		}
 
-					if ( !empty( $current_field ) )
-						xprofile_set_field_data( $field_id, $user_id, $current_field );
+		$signup = $signups['signups'][0];
 
-					// Save the visibility level
-					$visibility_level = !empty( $user['meta']['field_' . $field_id . '_visibility'] ) ? $user['meta']['field_' . $field_id . '_visibility'] : 'public';
-					xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
-				}
+		if ( $signup->active ) {
+			if ( empty( $signup->domain ) ) {
+				return new WP_Error( 'already_active', __( 'The user is already active.', 'buddypress' ), $signup );
+			} else {
+				return new WP_Error( 'already_active', __( 'The site is already active.', 'buddypress' ), $signup );
 			}
 		}
-	} else {
 
-		// Get the user_id based on the $key
-		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'activation_key' AND meta_value = %s", $key ) );
+		// password is hashed again in wp_insert_user
+		$password = wp_generate_password( 12, false );
 
-		if ( empty( $user_id ) )
-			return new WP_Error( 'invalid_key', __( 'Invalid activation key', 'buddypress' ) );
+		$user_id = username_exists( $signup->user_login );
 
-		// Change the user's status so they become active
-		if ( !$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_status = 0 WHERE ID = %d", $user_id ) ) )
-			return new WP_Error( 'invalid_key', __( 'Invalid activation key', 'buddypress' ) );
+		// Create the user
+		if ( ! $user_id ) {
+			$user_id = wp_create_user( $signup->user_login, $password, $signup->user_email );
+
+		// If a user ID is found, this may be a legacy signup, or one
+		// created locally for backward compatibility. Process it.
+		} else if ( $key == wp_hash( $user_id ) ) {
+			// Change the user's status so they become active
+			if ( ! $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_status = 0 WHERE ID = %d", $user_id ) ) ) {
+				return new WP_Error( 'invalid_key', __( 'Invalid activation key', 'buddypress' ) );
+			}
+
+			bp_delete_user_meta( $user_id, 'activation_key' );
+
+			$member = get_userdata( $user_id );
+			$member->set_role( get_option('default_role') );
+
+			$user_already_created = true;
+
+		} else {
+			$user_already_exists = true;
+		}
+
+		if ( ! $user_id ) {
+			return new WP_Error( 'create_user', __( 'Could not create user', 'buddypress' ), $signup );
+		}
+
+		// Fetch the signup so we have the data later on
+		$signups = BP_Signup::get( array(
+			'activation_key' => $key,
+		) );
+
+		$signup = isset( $signups['signups'] ) && ! empty( $signups['signups'][0] ) ? $signups['signups'][0] : false;
+
+		// Activate the signup
+		BP_Signup::validate( $key );
+
+		if ( isset( $user_already_exists ) ) {
+			return new WP_Error( 'user_already_exists', __( 'That username is already activated.' ), $signup );
+		}
+
+		// Set up data to pass to the legacy filter
+		$user = array(
+			'user_id'  => $user_id,
+			'password' => $signup->meta['password'],
+			'meta'     => $signup->meta,
+		);
 
 		// Notify the site admin of a new user registration
 		wp_new_user_notification( $user_id );
 
-		// Remove the activation key meta
-		delete_user_meta( $user_id, 'activation_key' );
+		if ( isset( $user_already_created ) ) {
+			do_action( 'bp_core_activated_user', $user_id, $key, $user );
+			return $user_id;
+		}
+	}
+
+	// Set any profile data
+	if ( bp_is_active( 'xprofile' ) ) {
+		if ( ! empty( $user['meta']['profile_field_ids'] ) ) {
+			$profile_field_ids = explode( ',', $user['meta']['profile_field_ids'] );
+
+			foreach( (array) $profile_field_ids as $field_id ) {
+				$current_field = isset( $user['meta']["field_{$field_id}"] ) ? $user['meta']["field_{$field_id}"] : false;
+
+				if ( !empty( $current_field ) )
+					xprofile_set_field_data( $field_id, $user_id, $current_field );
+
+				// Save the visibility level
+				$visibility_level = ! empty( $user['meta']['field_' . $field_id . '_visibility'] ) ? $user['meta']['field_' . $field_id . '_visibility'] : 'public';
+				xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
+			}
+		}
 	}
 
 	// Update the display_name
-	wp_update_user( array( 'ID' => $user_id, 'display_name' => bp_core_get_user_displayname( $user_id ) ) );
+	wp_update_user( array(
+		'ID'           => $user_id,
+		'display_name' => bp_core_get_user_displayname( $user_id ),
+	) );
 
 	// Set the password on multisite installs
-	if ( is_multisite() && !empty( $user['meta']['password'] ) )
+	if ( ! empty( $user['meta']['password'] ) ) {
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_pass = %s WHERE ID = %d", $user['meta']['password'], $user_id ) );
+	}
 
 	do_action( 'bp_core_activated_user', $user_id, $key, $user );
 

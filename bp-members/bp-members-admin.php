@@ -116,6 +116,12 @@ class BP_Members_Admin {
 
 		// BuddyPress edit user's profile url
 		$this->edit_profile_url = add_query_arg( 'page', 'bp-profile-edit', bp_get_admin_url( 'users.php' ) );
+
+		// Data specific to signups
+		$this->users_page   = '';
+		$this->signups_page = '';
+		$this->users_url    = bp_get_admin_url( 'users.php' );
+		$this->users_screen = bp_core_do_network_admin() ? 'users-network' : 'users';
 	}
 
 	/**
@@ -126,7 +132,7 @@ class BP_Members_Admin {
 	 */
 	private function setup_actions() {
 
-		/** Actions ***************************************************/
+		/** Community Profile ***************************************************/
 
 		// Add some page specific output to the <head>
 		add_action( 'bp_admin_head',            array( $this, 'admin_head'      ), 999    );
@@ -140,16 +146,24 @@ class BP_Members_Admin {
 		// Create the Profile Navigation (WordPress/Community)
 		add_action( 'edit_user_profile',        array( $this, 'profile_nav'     ),  99, 1 );
 
-
-		/** Filters ***************************************************/
-
 		// Add a row action to users listing
 		add_filter( bp_core_do_network_admin() ? 'ms_user_row_actions' : 'user_row_actions', array( $this, 'row_actions' ), 10, 2 );
 
+		/** Signups **************************************************************/
+
+		if ( bp_get_signup_allowed() ) {
+			if ( ! is_multisite() && is_admin() ) {
+				add_action( 'pre_user_query', array( $this, 'remove_signups_from_user_query'),  10, 1 );
+			}
+
+			// Reorganise the views navigation in users.php and signups page
+			add_filter( "views_{$this->users_screen}", array( $this, 'signup_filter_view' ),    10, 1 );
+			add_filter( 'set-screen-option',           array( $this, 'signup_screen_options' ), 10, 3 );
+		}
 	}
 
 	/**
-	 * Create the All Users > Edit Profile submenu.
+	 * Create the All Users > Edit Profile and Signups submenus.
 	 *
 	 * @access public
 	 * @since BuddyPress (2.0.0)
@@ -159,7 +173,7 @@ class BP_Members_Admin {
 	public function admin_menus() {
 
 		// Manage user's profile
-		$hook = $this->user_page = add_users_page(
+		$hooks['user'] = $this->user_page = add_users_page(
 			__( 'Edit Profile',  'buddypress' ),
 			__( 'Edit Profile',  'buddypress' ),
 			'bp_moderate',
@@ -167,19 +181,67 @@ class BP_Members_Admin {
 			array( &$this, 'user_admin' )
 		);
 
+		$hooks['signups'] = $this->users_page = add_users_page(
+			__( 'Manage Signups',  'buddypress' ),
+			__( 'Manage Signups',  'buddypress' ),
+			'bp_moderate',
+			'bp-signups',
+			array( &$this, 'signups_admin' )
+		);
+
 		$edit_page = 'user-edit';
+		$this->users_page = 'users';
 
 		if ( bp_core_do_network_admin() ) {
-			$edit_page       .= '-network';
-			$this->user_page .= '-network';
+			$edit_page          .= '-network';
+			$this->users_page   .= '-network';
+			$this->user_page    .= '-network';
+			$this->signups_page .= '-network';
 		}
 
 		$this->screen_id = array( $edit_page, $this->user_page );
 
-		add_action( "admin_head-$hook", array( $this, 'modify_admin_menu_highlight' ) );
-		add_action( "load-$hook",       array( $this, 'user_admin_load' ) );
+		foreach ( $hooks as $key => $hook ) {
+			add_action( "admin_head-$hook", array( $this, 'modify_admin_menu_highlight' ) );
+			add_action( "load-$hook",       array( $this, $key . '_admin_load' ) );
+		}
 
 	}
+
+	/**
+	 * Highlight the Users menu if on Edit Profile or Signups pages.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 */
+	public function modify_admin_menu_highlight() {
+		global $plugin_page, $submenu_file;
+
+		// Only Show the All users menu
+		if ( in_array( $plugin_page, array( 'bp-profile-edit', 'bp-signups' ) ) ) {
+			$submenu_file = 'users.php';
+		}
+	}
+
+	/**
+	 * Remove the Edit Profile & Signups submenu page.
+	 *
+	 * We add these pages in order to integrate with WP's Users panel, but
+	 * we want them to show up as Views of the WP panel, not as separate
+	 * subnav items under the Users menu.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 */
+	public function admin_head() {
+		// Remove submenu to force using Profile Navigation
+		remove_submenu_page( 'users.php', 'bp-profile-edit' );
+
+		// Remove submenu to force using users views
+		remove_submenu_page( 'users.php', 'bp-signups' );
+	}
+
+	/** Community Profile ************************************************/
 
 	/**
 	 * Add some specific styling to the Edit User and Edit User's Profile page.
@@ -245,32 +307,6 @@ class BP_Members_Admin {
 		</ul>
 
 		<?php
-	}
-
-	/**
-	 * Highlight the Users menu if on Edit Profile pages.
-	 *
-	 * @access public
-	 * @since BuddyPress (2.0.0)
-	 */
-	public function modify_admin_menu_highlight() {
-		global $plugin_page, $submenu_file;
-
-		// Only Show the All users menu
-		if ( 'bp-profile-edit' ==  $plugin_page ) {
-			$submenu_file = 'users.php';
-		}
-	}
-
-	/**
-	 * Remove the Edit Profile submenu page.
-	 *
-	 * @access public
-	 * @since BuddyPress (2.0.0)
-	 */
-	public function admin_head() {
-		// Remove submenu to force using Profile Navigation
-		remove_submenu_page( 'users.php', 'bp-profile-edit' );
 	}
 
 	/**
@@ -690,8 +726,663 @@ class BP_Members_Admin {
 
 		return array_merge( $new_edit_actions, $actions );
 	}
+
+	/** Signups Management ***********************************************/
+
+	/**
+	 * Display the admin preferences about signups pagination.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param  int $value
+	 * @param  string $option
+	 * @param  int $new_value
+	 * @return int the pagination preferences
+	 */
+	public function signup_screen_options( $value = 0, $option = '', $new_value = 0 ) {
+		if ( 'users_page_bp_signups_network_per_page' != $option && 'users_page_bp_signups_per_page' != $option ) {
+			return $value;
+		}
+
+		// Per page
+		$new_value = (int) $new_value;
+		if ( $new_value < 1 || $new_value > 999 ) {
+			return $value;
+		}
+
+		return $new_value;
+	}
+
+	/**
+	 * Make sure no signups will show in users list.
+	 *
+	 * This is needed to handle signups that may have not been activated
+	 * before the 2.0.0 upgrade.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param  WP_User_Query $query The users query.
+	 * @return WP_User_Query The users query without the signups.
+	 */
+	public function remove_signups_from_user_query( $query = null ) {
+		global $wpdb;
+
+		// Bail if this is an ajax request
+		if ( defined( 'DOING_AJAX' ) )
+			return;
+
+		if ( bp_is_update() ) {
+			return;
+		}
+
+		if ( $this->users_page != get_current_screen()->id ) {
+			return;
+		}
+
+		if ( ! empty( $query->query_vars['role'] ) ) {
+			return;
+		}
+
+		$query->query_where .= " AND {$wpdb->users}.user_status != 2";
+	}
+
+	/**
+	 * Filter the WP Users List Table views to include 'bp-signups'.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param  array $views WP List Table views.
+	 * @return array The views with the signup view added.
+	 */
+	public function signup_filter_view( $views = array() ) {
+		$class = '';
+
+		$signups = BP_Signup::count_signups();
+
+		// Remove the 'current' class from All if we're on the signups
+		// view
+		if ( $this->signups_page == get_current_screen()->id ) {
+			$views['all'] = str_replace( 'class="current"', '', $views['all'] );
+			$class = ' class="current"';
+		}
+
+		$views['registered'] = '<a href="' . add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) . '"' . $class . '>' . sprintf( _nx( 'Pending account <span class="count">(%s)</span>', 'Pending accounts <span class="count">(%s)</span>', $signups, 'signup users', 'buddypress' ), number_format_i18n( $signups ) ) . '</a>';
+
+		return $views;
+	}
+
+	/**
+	 * Load the Signup WP Users List table.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param  string $class    The name of the class to use.
+	 * @param  string $required The parent class.
+	 * @return WP_List_Table    The List table.
+	 */
+	public static function get_list_table_class( $class = '', $required = '' ) {
+		if ( empty( $class ) ) {
+			return;
+		}
+
+		if ( ! empty( $required ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/class-wp-' . $required . '-list-table.php' );
+			require_once( buddypress()->members->admin->admin_dir . 'bp-members-classes.php'    );
+		}
+
+		return new $class();
+	}
+
+	/**
+	 * Set up the signups admin page.
+	 *
+	 * Loaded before the page is rendered, this function does all initial
+	 * setup, including: processing form requests, registering contextual
+	 * help, and setting up screen options.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @global $bp_members_signup_list_table
+	 */
+	public function signups_admin_load() {
+		global $bp_members_signup_list_table;
+
+		// Build redirection URL
+		$redirect_to = remove_query_arg( array( 'action', 'error', 'updated', 'activated', 'notactivated', 'deleted', 'notdeleted', 'resent', 'notresent', 'do_delete', 'do_resend', 'do_activate', '_wpnonce', 'signup_ids' ), $_SERVER['REQUEST_URI'] );
+		$doaction = bp_admin_list_table_current_bulk_action();
+
+		// Call an action for plugins to hook in early
+		do_action( 'bp_signups_admin_load', $doaction, $_REQUEST );
+
+		// Allowed actions
+		$allowed_actions = apply_filters( 'bp_signups_admin_allowed_actions', array( 'do_delete', 'do_activate', 'do_resend' ) );
+
+		// Prepare the display of the Community Profile screen
+		if ( ! in_array( $doaction, $allowed_actions ) || -1 == $doaction ) {
+
+			if ( bp_core_do_network_admin() ) {
+				$bp_members_signup_list_table = self::get_list_table_class( 'BP_Members_MS_List_Table', 'ms-users' );
+			} else {
+				$bp_members_signup_list_table = self::get_list_table_class( 'BP_Members_List_Table', 'users' );
+			}
+
+			// per_page screen option
+			add_screen_option( 'per_page', array( 'label' => _x( 'Pending Accounts', 'Pending Accounts per page (screen options)', 'buddypress' ) ) );
+
+			get_current_screen()->add_help_tab( array(
+				'id'      => 'bp-signups-overview',
+				'title'   => __( 'Overview', 'buddypress' ),
+				'content' =>
+				'<p>' . __( 'This is the admininistration screen for pending accounts on your site.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'From the screen options, you can customize the displayed columns and the pagination of this screen.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'You can reorder the list of your pending accounts by clicking on the Username, E-mail or Registered column headers.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'Using the search form, you can find pending accounts more easily. The Username and E-mail fields will be included in the search.', 'buddypress' ) . '</p>'
+			) );
+
+			get_current_screen()->add_help_tab( array(
+				'id'      => 'bp-signups-actions',
+				'title'   => __( 'Actions', 'buddypress' ),
+				'content' =>
+				'<p>' . __( 'Hovering over a row in the pending accounts list will display action links that allow you to manage pending accounts. You can perform the following actions:', 'buddypress' ) . '</p>' .
+				'<ul><li>' . __( '"Email" takes you to the confirmation screen before being able to send the activation link to the desired pending account. You can only send the activation email once per day.', 'buddypress' ) . '</li>' .
+				'<li>' . __( '"Delete" allows you to delete a pending account from your site. You will be asked to confirm this deletion.', 'buddypress' ) . '</li></ul>' .
+				'<p>' . __( 'By clicking on a Username you will be able to activate a pending account from the confirmation screen.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'Bulk actions allow you to perform these 3 actions for the selected rows.', 'buddypress' ) . '</p>'
+			) );
+
+			// Help panel - sidebar links
+			get_current_screen()->set_help_sidebar(
+				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+			);
+		} else {
+			if ( ! empty( $_REQUEST['signup_ids' ] ) ) {
+				$signups = wp_parse_id_list( $_REQUEST['signup_ids' ] );
+			}
+
+			// Handle resent activation links
+			if ( 'do_resend' == $doaction ) {
+				// nonce check
+				check_admin_referer( 'signups_resend' );
+
+				$resent = BP_Signup::resend( $signups );
+
+				if ( empty( $resent ) ) {
+					$redirect_to = add_query_arg( 'error', $doaction, $redirect_to );
+				} else {
+					$query_arg = array( 'updated' => 'resent' );
+
+					if ( ! empty( $resent['resent'] ) ) {
+						$query_arg['resent'] = count( $resent['resent'] );
+					}
+
+					if ( ! empty( $resent['errors'] ) ) {
+						$query_arg['notsent'] = count( $resent['errors'] );
+						set_transient( '_bp_admin_signups_errors', $resent['errors'], 30 );
+					}
+
+					$redirect_to = add_query_arg( $query_arg, $redirect_to );
+				}
+
+				bp_core_redirect( $redirect_to );
+
+			// Handle activated accounts
+			} else if ( 'do_activate' == $doaction ) {
+				// nonce check
+				check_admin_referer( 'signups_activate' );
+
+				$activated = BP_Signup::activate( $signups );
+
+				if ( empty( $activated ) ) {
+					$redirect_to = add_query_arg( 'error', $doaction, $redirect_to );
+				} else {
+					$query_arg = array( 'updated' => 'activated' );
+
+					if ( ! empty( $activated['activated'] ) ) {
+						$query_arg['activated'] = count( $activated['activated'] );
+					}
+
+					if ( ! empty( $activated['errors'] ) ) {
+						$query_arg['notactivated'] = count( $activated['errors'] );
+						set_transient( '_bp_admin_signups_errors', $activated['errors'], 30 );
+					}
+
+					$redirect_to = add_query_arg( $query_arg, $redirect_to );
+				}
+
+				bp_core_redirect( $redirect_to );
+
+			// Handle sign-ups delete
+			} else if ( 'do_delete' == $doaction ) {
+				// nonce check
+				check_admin_referer( 'signups_delete' );
+
+				$deleted = BP_Signup::delete( $signups );
+
+				if ( empty( $deleted ) ) {
+					$redirect_to = add_query_arg( 'error', $doaction, $redirect_to );
+				} else {
+					$query_arg = array( 'updated' => 'deleted' );
+
+					if ( ! empty( $deleted['deleted'] ) ) {
+						$query_arg['deleted'] = count( $deleted['deleted'] );
+					}
+
+					if ( ! empty( $deleted['errors'] ) ) {
+						$query_arg['notdeleted'] = count( $deleted['errors'] );
+						set_transient( '_bp_admin_signups_errors', $deleted['errors'], 30 );
+					}
+
+					$redirect_to = add_query_arg( $query_arg, $redirect_to );
+				}
+
+				bp_core_redirect( $redirect_to );
+
+			// Plugins can update other stuff from here
+			} else {
+				$this->redirect = $redirect_to;
+
+				do_action( 'bp_members_admin_update_signups', $doaction, $_REQUEST, $this->redirect );
+
+				bp_core_redirect( $this->redirect );
+			}
+		}
+	}
+
+	/**
+	 * Display any activation errors.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 */
+	public function signups_display_errors() {
+		// Bail if no activation errors
+		if ( ! $errors = get_transient( '_bp_admin_signups_errors' ) ) {
+			return;
+		}
+
+		foreach ( $errors as $error ) {
+			?>
+			<li><?php echo esc_html( $error[0] );?>: <?php echo esc_html( $error[1] );?></li>
+			<?php
+		}
+
+		// Delete the redirect transient
+		delete_transient( '_bp_admin_signups_errors' );
+	}
+
+	/**
+	 * Signups admin page router.
+	 *
+	 * Depending on the context, display
+	 * - the list of signups
+	 * - or the delete confirmation screen
+	 * - or the activate confirmation screen
+	 * - or the "resend" email confirmation screen
+	 *
+	 * Also prepare the admin notices.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 */
+	public function signups_admin() {
+		$doaction = bp_admin_list_table_current_bulk_action();
+
+		// Prepare notices for admin
+		$notice = array();
+
+		if ( ! empty( $_REQUEST['updated'] ) ) {
+			switch ( $_REQUEST['updated'] ) {
+				case 'resent':
+					$notice = array(
+						'class'   => 'updated',
+						'message' => ''
+					);
+
+					if ( ! empty( $_REQUEST['resent'] ) ) {
+						$notice['message'] .= sprintf(
+							_nx( '%s activation email successfully sent! ', '%s activation emails successfully sent! ',
+							 absint( $_REQUEST['resent'] ),
+							 'signup resent',
+							 'buddypress'
+							),
+							number_format_i18n( absint( $_REQUEST['resent'] ) )
+						);
+					}
+
+					if ( ! empty( $_REQUEST['notsent'] ) ) {
+						$notice['message'] .= sprintf(
+							_nx( '%s activation email was not sent.', '%s activation emails were not sent.',
+							 absint( $_REQUEST['notsent'] ),
+							 'signup notsent',
+							 'buddypress'
+							),
+							number_format_i18n( absint( $_REQUEST['notsent'] ) )
+						);
+
+						if ( empty( $_REQUEST['resent'] ) ) {
+							$notice['class'] = 'error';
+						}
+					}
+
+					break;
+
+				case 'activated':
+					$notice = array(
+						'class'   => 'updated',
+						'message' => ''
+					);
+
+					if ( ! empty( $_REQUEST['activated'] ) ) {
+						$notice['message'] .= sprintf(
+							_nx( '%s account successfully activated! ', '%s accounts successfully activated! ',
+							 absint( $_REQUEST['activated'] ),
+							 'signup resent',
+							 'buddypress'
+							),
+							number_format_i18n( absint( $_REQUEST['activated'] ) )
+						);
+					}
+
+					if ( ! empty( $_REQUEST['notactivated'] ) ) {
+						$notice['message'] .= sprintf(
+							_nx( '%s account was not activated.', '%s accounts were not activated.',
+							 absint( $_REQUEST['notactivated'] ),
+							 'signup notsent',
+							 'buddypress'
+							),
+							number_format_i18n( absint( $_REQUEST['notactivated'] ) )
+						);
+
+						if ( empty( $_REQUEST['activated'] ) ) {
+							$notice['class'] = 'error';
+						}
+					}
+
+					break;
+
+				case 'deleted':
+					$notice = array(
+						'class'   => 'updated',
+						'message' => ''
+					);
+
+					if ( ! empty( $_REQUEST['deleted'] ) ) {
+						$notice['message'] .= sprintf(
+							_nx( '%s sign-up successfully deleted!', '%s sign-ups successfully deleted!',
+							 absint( $_REQUEST['deleted'] ),
+							 'signup deleted',
+							 'buddypress'
+							),
+							number_format_i18n( absint( $_REQUEST['deleted'] ) )
+						);
+					}
+
+					if ( ! empty( $_REQUEST['notdeleted'] ) ) {
+						$notice['message'] .= sprintf(
+							_nx( '%s sign-up was not deleted.', '%s sign-ups were not deleted.',
+							 absint( $_REQUEST['notdeleted'] ),
+							 'signup notdeleted',
+							 'buddypress'
+							),
+							number_format_i18n( absint( $_REQUEST['notdeleted'] ) )
+						);
+
+						if ( empty( $_REQUEST['deleted'] ) ) {
+							$notice['class'] = 'error';
+						}
+					}
+
+					break;
+			}
+		}
+
+		// Process error messages
+		if ( ! empty( $_REQUEST['error'] ) ) {
+			switch ( $_REQUEST['error'] ) {
+				case 'do_resend':
+					$notice = array(
+						'class'   => 'error',
+						'message' => esc_html__( 'There was a problem sending the activation emails, please try again.', 'buddypress' ),
+					);
+					break;
+
+				case 'do_activate':
+					$notice = array(
+						'class'   => 'error',
+						'message' => esc_html__( 'There was a problem activating accounts, please try again.', 'buddypress' ),
+					);
+					break;
+
+				case 'do_delete':
+					$notice = array(
+						'class'   => 'error',
+						'message' => esc_html__( 'There was a problem deleting sign-ups, please try again.', 'buddypress' ),
+					);
+					break;
+			}
+		}
+
+		// Display notices
+		if ( ! empty( $notice ) ) :
+			if ( 'updated' === $notice['class'] ) : ?>
+				<div id="message" class="<?php echo esc_attr( $notice['class'] ); ?>">
+			<?php else: ?>
+				<div class="<?php echo esc_attr( $notice['class'] ); ?>">
+			<?php endif; ?>
+				<p><?php echo $notice['message']; ?></p>
+				<?php if ( ! empty( $_REQUEST['notactivated'] ) || ! empty( $_REQUEST['notdeleted'] ) || ! empty( $_REQUEST['notsent'] ) ) :?>
+					<ul><?php $this->signups_display_errors();?></ul>
+				<?php endif ;?>
+			</div>
+		<?php endif;
+
+		// Show the proper screen
+		switch ( $doaction ) {
+			case 'activate' :
+			case 'delete' :
+			case 'resend' :
+				$this->signups_admin_manage( $doaction );
+				break;
+
+			default:
+				$this->signups_admin_index();
+				break;
+
+		}
+	}
+
+	/**
+	 * This is the list of the Pending accounts (signups).
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @global $plugin_page
+	 * @global $bp_members_signup_list_table
+	 */
+	public function signups_admin_index() {
+		global $plugin_page, $bp_members_signup_list_table;
+
+		$usersearch = ! empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
+
+		// Prepare the group items for display
+		$bp_members_signup_list_table->prepare_items();
+
+		$form_url = add_query_arg(
+			array(
+				'page' => 'bp-signups',
+			),
+			bp_get_admin_url( 'users.php' )
+		);
+
+		$search_form_url = remove_query_arg(
+			array(
+				'action',
+				'deleted',
+				'notdeleted',
+				'error',
+				'updated',
+				'delete',
+				'activate',
+				'activated',
+				'notactivated',
+				'resend',
+				'resent',
+				'notresent',
+				'do_delete',
+				'do_activate',
+				'do_resend',
+				'action2',
+				'_wpnonce',
+				'signup_ids'
+			), $_SERVER['REQUEST_URI']
+		);
+
+		?>
+
+		<div class="wrap">
+			<?php screen_icon( 'users' ); ?>
+			<h2>
+				<?php
+				_e( 'Users', 'buddypress' );
+				if ( current_user_can( 'create_users' ) ) { ?>
+					<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
+				<?php } elseif ( is_multisite() && current_user_can( 'promote_users' ) ) { ?>
+					<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
+				<?php }
+
+				if ( $usersearch ) {
+					printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $usersearch ) );
+				}
+
+				?>
+			</h2>
+
+			<?php // Display each signups on its own row ?>
+			<?php $bp_members_signup_list_table->views(); ?>
+
+			<form id="bp-signups-search-form" action="<?php echo esc_url( $search_form_url ) ;?>">
+				<input type="hidden" name="page" value="<?php echo esc_attr( $plugin_page ); ?>" />
+				<?php $bp_members_signup_list_table->search_box( __( 'Search Pending accounts', 'buddypress' ), 'bp-signups' ); ?>
+			</form>
+
+			<form id="bp-signups-form" action="<?php echo esc_url( $form_url );?>" method="post">
+				<?php $bp_members_signup_list_table->display(); ?>
+			</form>
+		</div>
+	<?php
+	}
+
+	/**
+	 * This is the confirmation screen for actions.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action Delete, activate, or resend activation link.
+	 */
+	public function signups_admin_manage( $action = '' ) {
+		if ( ! is_super_admin() || empty( $action ) ) {
+			die( '-1' );
+		}
+
+		// Get the user IDs from the URL
+		$ids = false;
+		if ( ! empty( $_POST['allsignups'] ) ) {
+			$ids = wp_parse_id_list( $_POST['allsignups'] );
+		} else if ( ! empty( $_GET['signup_id'] ) ) {
+			$ids = absint( $_GET['signup_id'] );
+		}
+
+		if ( empty( $ids ) ) {
+			return false;
+		}
+
+		// Query for signups, and filter out those IDs that don't
+		// correspond to an actual signup
+		$signups_query = BP_Signup::get( array(
+			'include' => $ids,
+		) );
+
+		$signups    = $signups_query['signups'];
+		$signup_ids = wp_list_pluck( $signups, 'signup_id' );
+
+		// Set up strings
+		switch ( $action ) {
+			case 'delete' :
+				$header_text = __( 'Delete Pending Accounts', 'buddypress' );
+				$helper_text = _n( 'You are about to delete the following account:', 'You are about to delete the following accounts:', count( $signup_ids ), 'buddypress' );
+				break;
+
+			case 'activate' :
+				$header_text = __( 'Activate Pending Accounts', 'buddypress' );
+				$helper_text = _n( 'You are about to activate the following account:', 'You are about to activate the following accounts:', count( $signup_ids ), 'buddypress' );
+				break;
+
+			case 'resend' :
+				$header_text = __( 'Resend Activation Emails', 'buddypress' );
+				$helper_text = _n( 'You are about to resend an activation email to the following account:', 'You are about to resend activation emails to the following accounts:', count( $signup_ids ), 'buddypress' );
+				break;
+		}
+
+		// These arguments are added to all URLs
+		$url_args = array( 'page' => 'bp-signups' );
+
+		// These arguments are only added when performing an action
+		$action_args = array(
+			'action'     => 'do_' . $action,
+			'signup_ids' => implode( ',', $signup_ids )
+		);
+
+		$cancel_url = add_query_arg( $url_args, bp_get_admin_url( 'users.php' ) );
+		$action_url = wp_nonce_url(
+			add_query_arg(
+				array_merge( $url_args, $action_args ),
+				bp_get_admin_url( 'users.php' )
+			),
+			'signups_' . $action
+		);
+
+		?>
+
+		<div class="wrap">
+			<?php screen_icon( 'users' ); ?>
+			<h2><?php echo esc_html( $header_text ); ?></h2>
+			<p><?php echo esc_html( $helper_text ); ?></p>
+
+			<ol class="bp-signups-list">
+			<?php foreach ( $signups as $signup ) :
+				$last_notified = mysql2date( 'Y/m/d g:i:s a', $signup->date_sent )
+			?>
+
+				<li>
+					<?php echo esc_html( $signup->user_name ) ?> - <?php echo sanitize_email( $signup->user_email );?>
+
+					<?php if ( 'resend' == $action ) : ?>
+						<p class="description">
+							<?php printf( esc_html__( 'Last notified: %s', 'buddypress'), $last_notified ) ;?>
+
+							<?php if ( ! empty( $signup->recently_sent ) ) : ?>
+								<span class="attention wp-ui-text-notification"> <?php esc_html_e( '(less than 24 hours ago)', 'buddypress' ); ?></span>
+							<?php endif; ?>
+						</p>
+
+					<?php endif; ?>
+				</li>
+
+			<?php endforeach; ?>
+			</ol>
+
+			<?php if ( 'resend' != $action ) : ?>
+				<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ) ?></strong></p>
+			<?php endif ; ?>
+
+			<a class="button-primary" href="<?php echo esc_url( $action_url ); ?>"><?php esc_html_e( 'Confirm', 'buddypress' ); ?></a>
+			<a class="button" href="<?php echo esc_url( $cancel_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ) ?></a>
+		</div>
+
+		<?php
+	}
 }
 endif; // class_exists check
 
 // Load the BP Members admin
-add_action( 'bp_init', array( 'BP_Members_Admin','register_members_admin' ) );
+add_action( 'bp_init', array( 'BP_Members_Admin', 'register_members_admin' ) );

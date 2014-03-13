@@ -30,6 +30,8 @@ function wp_test_bp_install( $value ) {
 }
 tests_add_filter( 'bp_new_install_default_components', 'wp_test_bp_install' );
 
+tests_add_filter( 'bp_get_signup_allowed', '__return_true' );
+
 $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
 $_SERVER['HTTP_HOST'] = WP_TESTS_DOMAIN;
 $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';

@@ -251,11 +251,7 @@ function bp_core_screen_activation() {
 			bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
 		}
 
-		// Check for an uploaded avatar and move that to the correct user folder
-		if ( is_multisite() )
-			$hashed_key = wp_hash( $_GET['key'] );
-		else
-			$hashed_key = wp_hash( $user );
+		$hashed_key = wp_hash( $_GET['key'] );
 
 		// Check if the avatar folder exists. If it does, move rename it, move
 		// it and delete the signup avatar dir

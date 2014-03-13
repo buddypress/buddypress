@@ -37,6 +37,7 @@ class BP_Members_Component extends BP_Component {
 	public function includes( $includes = array() ) {
 		$includes = array(
 			'actions',
+			'classes',
 			'filters',
 			'screens',
 			'template',
@@ -68,7 +69,7 @@ class BP_Members_Component extends BP_Component {
 		if ( !defined( 'BP_MEMBERS_SLUG' ) )
 			define( 'BP_MEMBERS_SLUG', $this->id );
 
-		parent::setup_globals( array(
+		$members_globals = array(
 			'slug'          => BP_MEMBERS_SLUG,
 			'root_slug'     => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : BP_MEMBERS_SLUG,
 			'has_directory' => true,
@@ -77,7 +78,13 @@ class BP_Members_Component extends BP_Component {
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
 			),
 			'search_string' => __( 'Search Members...', 'buddypress' ),
-		) );
+		);
+
+		if ( bp_get_signup_allowed() ) {
+			$members_globals['global_tables']['table_name_signups'] = bp_core_get_table_prefix() . 'signups';
+ 		}
+
+		parent::setup_globals( $members_globals );
 
 		/** Logged in user ****************************************************/
 
