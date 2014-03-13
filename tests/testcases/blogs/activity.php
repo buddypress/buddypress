@@ -249,7 +249,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		switch_to_blog( $b );
 		$p = $this->factory->post->create();
 		$c = $this->factory->comment->create( array(
-			'comment_post_ID' => $c,
+			'comment_post_ID' => $p,
 		) );
 		restore_current_blog();
 
