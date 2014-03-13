@@ -95,14 +95,21 @@ add_action( bp_core_admin_hook(), 'bp_admin_repair_handler' );
  * @return array
  */
 function bp_admin_repair_list() {
+	$repair_list = array();
+
 	// Members:
 	// - member count
-	$repair_list = array(
-		20 => array(
-			'bp-total-member-count',
-			__( 'Count total members', 'buddypress' ),
-			'bp_admin_repair_count_members',
-		),
+	// - last_activity migration (2.0)
+	$repair_list[20] = array(
+		'bp-total-member-count',
+		__( 'Count total members', 'buddypress' ),
+		'bp_admin_repair_count_members',
+	);
+
+	$repair_list[25] = array(
+		'bp-last-activity',
+		__( 'Repair user "last activity" data', 'buddypress' ),
+		'bp_admin_repair_last_activity',
 	);
 
 	// Friends:
@@ -240,6 +247,19 @@ function bp_admin_repair_count_members() {
 	$statement = __( 'Counting the number of active members on the site&hellip; %s', 'buddypress' );
 	delete_transient( 'bp_active_member_count' );
 	bp_core_get_active_member_count();
+	return array( 0, sprintf( $statement, __( 'Complete!', 'buddypress' ) ) );
+}
+
+/**
+ * Repair user last_activity data.
+ *
+ * Re-runs the migration from usermeta introduced in BP 2.0.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_admin_repair_last_activity() {
+	$statement = __( 'Determining last activity dates for each user&hellip; %s', 'buddypress' );
+	bp_last_activity_migrate();
 	return array( 0, sprintf( $statement, __( 'Complete!', 'buddypress' ) ) );
 }
 

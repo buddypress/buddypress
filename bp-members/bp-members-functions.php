@@ -991,6 +991,36 @@ function bp_get_user_last_activity( $user_id = 0 ) {
 }
 
 /**
+ * Migrate last_activity data from the usermeta table to the activity table.
+ *
+ * Generally, this function is only run when BP is upgraded to 2.0. It can also
+ * be called directly from the BuddyPress Tools panel.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_last_activity_migrate() {
+	global $wpdb;
+
+	$bp = buddypress();
+
+	// The "NOT IN" clause prevents duplicates
+	$sql = "INSERT INTO {$bp->members->table_name_last_activity} (`user_id`, `component`, `type`, `action`, `content`, `primary_link`, `item_id`, `date_recorded` ) (
+		  SELECT user_id, '{$bp->members->id}' as component, 'last_activity' as type, '' as action, '' as content, '' as primary_link, 0 as item_id, meta_value AS date_recorded
+		  FROM {$wpdb->usermeta}
+		  WHERE
+		    meta_key = 'last_activity'
+		    AND
+		    user_id NOT IN (
+		      SELECT user_id
+		      FROM {$bp->members->table_name_last_activity}
+		      WHERE component = '{$bp->members->id}' AND type = 'last_activity'
+		    )
+	);";
+
+	return $wpdb->query( $sql );
+}
+
+/**
  * Fetch every post that is authored by the given user for the current blog.
  *
  * @package BuddyPress Core

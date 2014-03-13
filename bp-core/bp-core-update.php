@@ -345,25 +345,9 @@ function bp_update_to_2_0() {
 	/** Install activity tables for 'last_activity' **********************/
 	bp_core_install_activity_streams();
 
-	$bp = buddypress();
-
 	/** Migrate 'last_activity' data *************************************/
 
-	// The "NOT IN" clause prevents duplicates
-	$sql = "INSERT INTO {$bp->members->table_name_last_activity} (`user_id`, `component`, `type`, `action`, `content`, `primary_link`, `item_id`, `date_recorded` ) (
-		  SELECT user_id, '{$bp->members->id}' as component, 'last_activity' as type, '' as action, '' as content, '' as primary_link, 0 as item_id, meta_value AS date_recorded
-		  FROM {$wpdb->usermeta}
-		  WHERE
-		    meta_key = 'last_activity'
-		    AND
-		    user_id NOT IN (
-		      SELECT user_id
-		      FROM {$bp->members->table_name_last_activity}
-		      WHERE component = '{$bp->members->id}' AND type = 'last_activity'
-		    )
-	);";
-
-	$wpdb->query( $sql );
+	bp_last_activity_migrate();
 
 	/** Migrate signups data *********************************************/
 
