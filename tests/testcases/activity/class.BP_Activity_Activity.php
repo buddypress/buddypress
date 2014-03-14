@@ -64,7 +64,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		BP_Activity_Activity::delete_activity_meta_entries( $activity );
 
 		$meta = bp_activity_get_meta( $activity, 'Paul' );
-		$this->assertFalse( $meta );
+		$this->assertSame( '', $meta );
 	}
 
 	/**

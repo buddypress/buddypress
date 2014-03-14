@@ -307,7 +307,7 @@ Bar!';
 	 */
 	public function test_groups_update_groupmeta_new() {
 		$g = $this->factory->group->create();
-		$this->assertEquals( '', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be empty for this group.' );
+		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be empty for this group.' );
 		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );
 	}
@@ -364,7 +364,7 @@ Bar!';
 		groups_update_groupmeta( $g, 'foo', 'bar' );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		$this->assertEmpty( groups_get_groupmeta( $g, $krazy_key ) );
+		$this->assertSame( '', groups_get_groupmeta( $g, $krazy_key ) );
 	}
 
 	/**
@@ -508,8 +508,8 @@ Bar!';
 		groups_add_groupmeta( $g2, 'foo1', 'bar1' );
 
 		$this->assertTrue( groups_delete_groupmeta( $g1, 'foo', '', true ) );
-		$this->assertEmpty( '', groups_get_groupmeta( $g1, 'foo' ) );
-		$this->assertEmpty( '', groups_get_groupmeta( $g2, 'foo' ) );
+		$this->assertSame( '', groups_get_groupmeta( $g1, 'foo' ) );
+		$this->assertSame( '', groups_get_groupmeta( $g2, 'foo' ) );
 		$this->assertSame( 'bar1', groups_get_groupmeta( $g1, 'foo1' ) );
 		$this->assertSame( 'bar1', groups_get_groupmeta( $g2, 'foo1' ) );
 	}

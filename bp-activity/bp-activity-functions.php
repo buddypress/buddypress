@@ -637,17 +637,12 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '', $single = true 
 			$values[] = $found;
 		}
 
-		// If nothing was found, return false
+		// If nothing was found, return empty string
 		if ( empty( $values ) ) {
-			$retval = false;
+			$retval = '';
 		} else {
 			$retval = $values;
 		}
-	}
-
-	// Legacy - On failure, expect false, not an empty string
-	if ( '' === $retval ) {
-		$retval = false;
 	}
 
 	// Filter result before returning

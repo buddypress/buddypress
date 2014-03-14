@@ -132,7 +132,7 @@ Bar!';
 		$krazy_key = ' f!@#$%^o *(){}o?+';
 		bp_activity_update_meta( $a, $krazy_key, 'bar' );
 
-		$this->assertEmpty( bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
 	/**
@@ -154,7 +154,7 @@ Bar!';
 	public function test_bp_activity_update_meta_false_value_deletes() {
 		$a = $this->factory->activity->create();
 		bp_activity_update_meta( $a, 'foo', false );
-		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
 	/**
@@ -163,7 +163,7 @@ Bar!';
 	 */
 	public function test_bp_activity_update_meta_new() {
 		$a = $this->factory->activity->create();
-		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ), '"foo" meta should be empty for this activity item.' );
+		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ), '"foo" meta should be empty for this activity item.' );
 		$this->assertTrue( bp_activity_update_meta( $a, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
 	}
@@ -238,7 +238,7 @@ Bar!';
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		$this->assertEmpty( bp_activity_get_meta( $a, $krazy_key ) );
+		$this->assertSame( '', bp_activity_get_meta( $a, $krazy_key ) );
 	}
 
 	/**
@@ -269,12 +269,12 @@ Bar!';
 	/**
 	 * @group bp_activity_get_meta
 	 * @group activitymeta
+	 * @ticket BP5399
 	 */
 	public function test_bp_activity_get_meta_no_results_returns_false() {
 		$a = $this->factory->activity->create();
 
-		// @todo this is a quirk
-		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
 	/**
@@ -346,7 +346,7 @@ Bar!';
 		$a = $this->factory->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		$this->assertTrue( bp_activity_delete_meta( $a, 'foo', 'bar' ) );
-		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
 	/**
@@ -358,8 +358,8 @@ Bar!';
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		bp_activity_update_meta( $a, 'foo1', 'bar1' );
 		$this->assertTrue( bp_activity_delete_meta( $a ) );
-		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
-		$this->assertFalse( bp_activity_get_meta( $a, 'foo1' ) );
+		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertSame( '', bp_activity_get_meta( $a, 'foo1' ) );
 	}
 
 	/**
@@ -370,7 +370,7 @@ Bar!';
 		$a = $this->factory->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		$this->assertTrue( bp_activity_delete_meta( $a, 'foo', 'bar' ) );
-		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
 	/**
@@ -408,8 +408,8 @@ Bar!';
 		bp_activity_update_meta( $a2, 'foo1', 'bar1' );
 
 		$this->assertTrue( bp_activity_delete_meta( $a1, 'foo', '', true ) );
-		$this->assertEmpty( '', bp_activity_get_meta( $a1, 'foo' ) );
-		$this->assertEmpty( '', bp_activity_get_meta( $a2, 'foo' ) );
+		$this->assertSame( '', bp_activity_get_meta( $a1, 'foo' ) );
+		$this->assertSame( '', bp_activity_get_meta( $a2, 'foo' ) );
 		$this->assertSame( 'bar1', bp_activity_get_meta( $a1, 'foo1' ) );
 		$this->assertSame( 'bar1', bp_activity_get_meta( $a2, 'foo1' ) );
 	}

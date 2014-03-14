@@ -220,7 +220,7 @@ Bar!';
 		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
 		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 		$this->assertTrue( bp_xprofile_delete_meta( $g, 'group', 'foo', 'bar' ) );
-		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -236,8 +236,8 @@ Bar!';
 
 		$this->assertTrue( bp_xprofile_delete_meta( $g, 'group' ) );
 
-		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
-		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo2' ) );
+		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo2' ) );
 	}
 
 	/**
@@ -275,8 +275,8 @@ Bar!';
 		bp_xprofile_add_meta( $g2, 'group', 'foo1', 'bar1' );
 
 		$this->assertTrue( bp_xprofile_delete_meta( $g1, 'group', 'foo', '', true ) );
-		$this->assertEmpty( '', bp_xprofile_get_meta( $g1, 'group', 'foo' ) );
-		$this->assertEmpty( '', bp_xprofile_get_meta( $g2, 'group', 'foo' ) );
+		$this->assertSame( '', bp_xprofile_get_meta( $g1, 'group', 'foo' ) );
+		$this->assertSame( '', bp_xprofile_get_meta( $g2, 'group', 'foo' ) );
 		$this->assertSame( 'bar1', bp_xprofile_get_meta( $g1, 'group', 'foo1' ) );
 		$this->assertSame( 'bar1', bp_xprofile_get_meta( $g2, 'group', 'foo1' ) );
 	}
@@ -385,7 +385,7 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$krazy_key = ' f!@#$%^o *(){}o?+';
 		bp_xprofile_update_meta( $g, 'group', $krazy_key, 'bar' );
-		$this->assertEmpty( bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
