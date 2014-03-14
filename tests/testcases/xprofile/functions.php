@@ -200,14 +200,15 @@ Bar!';
 	/**
 	 * @group xprofilemeta
 	 * @group bp_xprofile_delete_meta
+	 * @ticket BP5399
 	 */
 	public function test_bp_xprofile_delete_meta_trim_meta_value() {
 		$g = $this->factory->xprofile_group->create();
 		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
 		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 
-		$this->assertTrue( bp_xprofile_delete_meta( $g, 'group', 'foo', ' bar  ' ) );
-		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		bp_xprofile_delete_meta( $g, 'group', 'foo', ' bar  ' );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**

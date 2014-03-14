@@ -329,13 +329,13 @@ Bar!';
 	/**
 	 * @group activitymeta
 	 * @group bp_activity_delete_meta
+	 * @ticket BP5399
 	 */
 	public function test_bp_activity_delete_meta_trim_meta_value() {
-		// @todo Wtf?
 		$a = $this->factory->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
-		$this->assertTrue( bp_activity_delete_meta( $a, 'foo', ' bar ' ) );
-		$this->assertFalse( bp_activity_get_meta( $a, 'foo' ) );
+		bp_activity_delete_meta( $a, 'foo', ' bar ' );
+		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
 	}
 
 	/**

@@ -28,12 +28,13 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	/**
 	 * @group blogmeta
 	 * @group bp_blogs_delete_blogmeta
+	 * @ticket BP5399
 	 */
 	public function test_bp_blogs_delete_blogmeta_trim_meta_value() {
 		$this->assertTrue( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
-		$this->assertTrue( bp_blogs_delete_blogmeta( 1, 'foo', '   bar  ') );
-		$this->assertSame( '', bp_blogs_get_blogmeta( 1, 'foo' ) );
+		bp_blogs_delete_blogmeta( 1, 'foo', '   bar  ' );
+		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 
 	/**

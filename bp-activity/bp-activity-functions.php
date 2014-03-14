@@ -576,9 +576,6 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
 		return false;
 	}
 
-	// Legacy - Trim off whitespace
-	$meta_value = trim( $meta_value );
-
 	// Legacy - if no meta_key is passed, delete all for the item
 	if ( empty( $meta_key ) ) {
 		$all_meta = bp_activity_get_meta( $activity_id );

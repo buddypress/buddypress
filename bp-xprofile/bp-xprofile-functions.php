@@ -600,9 +600,6 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 		$keys = array( $meta_key );
 	}
 
-	// Legacy - trim meta_value
-	$meta_value = trim( $meta_value );
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
 

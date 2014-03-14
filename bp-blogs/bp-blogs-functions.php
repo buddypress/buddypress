@@ -861,9 +861,6 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 		$keys = array( $meta_key );
 	}
 
-	// Legacy - trim meta_value
-	$meta_value = trim( $meta_value );
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 
 	foreach ( $keys as $key ) {
