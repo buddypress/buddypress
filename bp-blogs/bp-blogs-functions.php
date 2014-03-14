@@ -895,16 +895,6 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '', $single = true ) {
 	$retval = get_metadata( 'blog', $blog_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
-	// Legacy - If no meta_key is passed, return only the found values,
-	// not a structured array
-	if ( empty( $meta_key ) && is_array( $retval ) ) {
-		$values = array();
-		foreach ( $retval as $value ) {
-			$values[] = array_pop( $value );
-		}
-		$retval = $values;
-	}
-
 	return $retval;
 }
 

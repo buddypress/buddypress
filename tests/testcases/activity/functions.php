@@ -82,9 +82,9 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		$m3 = bp_activity_get_meta( $comment_two );
 
 		// test if activity meta entries still exist
-		$this->assertEquals( false, $m1 );
-		$this->assertEquals( false, $m2 );
-		$this->assertEquals( false, $m3 );
+		$this->assertEmpty( $m1 );
+		$this->assertEmpty( $m2 );
+		$this->assertEmpty( $m3 );
 	}
 
 	/**
@@ -250,17 +250,13 @@ Bar!';
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		bp_activity_update_meta( $a, 'foo1', 'bar1' );
 
-		$am1 = new stdClass;
-		$am1->meta_key = 'foo';
-		$am1->meta_value = 'bar';
-
-		$am2 = new stdClass;
-		$am2->meta_key = 'foo1';
-		$am2->meta_value = 'bar1';
-
 		$expected = array(
-			$am1,
-			$am2,
+			'foo' => array(
+				'bar',
+			),
+			'foo1' => array(
+				'bar1',
+			),
 		);
 
 		$this->assertEquals( $expected, bp_activity_get_meta( $a ) );

@@ -1074,15 +1074,6 @@ function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
 	$retval = get_metadata( 'group', $group_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
-	// Legacy - If fetching all meta for a group, just return values
-	if ( empty( $meta_key ) ) {
-		$values = array();
-		foreach ( (array) $retval as $r ) {
-			$values[] = array_pop( $r );
-		}
-		$retval = $values;
-	}
-
 	return $retval;
 }
 

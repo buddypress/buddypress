@@ -382,8 +382,12 @@ Bar!';
 		$found = array_slice( $metas, $count - 2 );
 
 		$expected = array(
-			'bar',
-			'is cool',
+			'foo' => array(
+				'bar',
+			),
+			'Boone' => array(
+				'is cool',
+			),
 		);
 
 		$this->assertSame( $expected, $found );

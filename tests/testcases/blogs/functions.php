@@ -127,7 +127,16 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
 		bp_blogs_update_blogmeta( 1, 'foo2', 'bar2' );
 
-		$this->assertSame( array( 'bar', 'bar2', ), bp_blogs_get_blogmeta( 1 ) );
+		$expected = array(
+			'foo' => array(
+				'bar',
+			),
+			'foo2' => array(
+				'bar2',
+			),
+		);
+
+		$this->assertSame( $expected, bp_blogs_get_blogmeta( 1 ) );
 	}
 
 	/**

@@ -579,7 +579,7 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
 	// Legacy - if no meta_key is passed, delete all for the item
 	if ( empty( $meta_key ) ) {
 		$all_meta = bp_activity_get_meta( $activity_id );
-		$keys     = ! empty( $all_meta ) ? wp_list_pluck( $all_meta, 'meta_key' ) : array();
+		$keys     = ! empty( $all_meta ) ? array_keys( $all_meta ) : array();
 
 		// With no meta_key, ignore $delete_all
 		$delete_all = false;
@@ -624,26 +624,6 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '', $single = true 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = get_metadata( 'activity', $activity_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
-
-	// Legacy - If fetching all meta for a group, just return the first
-	// of each found value
-	if ( empty( $meta_key ) ) {
-		$values = array();
-		foreach ( (array) $retval as $rkey => $rvalue ) {
-			$rvalue = array_reverse( $rvalue );
-			$found = new stdClass;
-			$found->meta_key = $rkey;
-			$found->meta_value = array_pop( $rvalue );
-			$values[] = $found;
-		}
-
-		// If nothing was found, return empty string
-		if ( empty( $values ) ) {
-			$retval = '';
-		} else {
-			$retval = $values;
-		}
-	}
 
 	// Filter result before returning
 	return apply_filters( 'bp_activity_get_meta', $retval, $activity_id, $meta_key, $single );

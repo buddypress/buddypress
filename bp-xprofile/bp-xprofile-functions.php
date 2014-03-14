@@ -640,17 +640,6 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
 
-	// Legacy - if no meta_key is provided, return just the located
-	// values (not a structured array)
-	if ( empty( $meta_key ) && ! empty( $retval ) ) {
-		$values = array();
-		foreach ( $retval as $v ) {
-			$values[] = array_pop( $v );
-		}
-
-		$retval = $values;
-	}
-
 	return $retval;
 }
 

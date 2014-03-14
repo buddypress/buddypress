@@ -314,7 +314,14 @@ Bar!';
 		bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' );
 		bp_xprofile_update_meta( $g, 'group', 'foo2', 'bar' );
 
-		$expected = array( 'bar', 'bar', );
+		$expected = array(
+			'foo' => array(
+				'bar',
+			),
+			'foo2' => array(
+				'bar',
+			),
+		);
 		$this->assertSame( $expected, bp_xprofile_get_meta( $g, 'group' ) );
 	}
 
