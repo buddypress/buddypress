@@ -308,7 +308,7 @@ Bar!';
 	public function test_groups_update_groupmeta_new() {
 		$g = $this->factory->group->create();
 		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be empty for this group.' );
-		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'bar' ) );
+		$this->assertNotEmpty( groups_update_groupmeta( $g, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );
 	}
 
@@ -467,7 +467,7 @@ Bar!';
 	 */
 	public function test_groups_delete_groupmeta_with_illegal_key_characters() {
 		$g = $this->factory->group->create();
-		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'bar' ), 'Value of "foo" should be set at this point.' );
+		$this->assertNotEmpty( groups_update_groupmeta( $g, 'foo', 'bar' ), 'Value of "foo" should be set at this point.' );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );

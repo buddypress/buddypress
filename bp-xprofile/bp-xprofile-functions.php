@@ -664,7 +664,9 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single
  * @param mixed $prev_value Optional. If specified, only update existing
  *        metadata entries with the specified value. Otherwise, update all
  *        entries.
- * @return bool True on success, false on failure.
+ * @return bool|int Returns false on failure. On successful update of existing
+ *         metadata, returns true. On successful creation of new metadata,
+ *         returns the integer ID of the new metadata row.
  */
 function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_value, $prev_value = '' ) {
 
@@ -673,12 +675,6 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
 	$retval = update_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, $meta_value, $prev_value );
 	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
-
-	// Legacy - if we fall through to add_metadata(), return true rather
-	// than the integer meta_id
-	if ( is_int( $retval ) ) {
-		$retval = (bool) $retval;
-	}
 
 	return $retval;
 }

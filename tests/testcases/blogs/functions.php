@@ -18,7 +18,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @ticket BP5399
 	 */
 	public function test_bp_blogs_delete_blogmeta_illegal_characters() {
-		$this->assertTrue( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
+		$this->assertNotEmpty( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 		$krazy_key = ' f!@#$%^o *(){}o?+';
 		$this->assertFalse( bp_blogs_delete_blogmeta( 1, $krazy_key ) );
@@ -31,7 +31,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @ticket BP5399
 	 */
 	public function test_bp_blogs_delete_blogmeta_trim_meta_value() {
-		$this->assertTrue( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
+		$this->assertNotEmpty( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 		bp_blogs_delete_blogmeta( 1, 'foo', '   bar  ' );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
@@ -192,7 +192,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_update_blogmeta
 	 */
 	public function test_bp_blogs_update_blogmeta_new() {
-		$this->assertTrue( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
+		$this->assertNotEmpty( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 

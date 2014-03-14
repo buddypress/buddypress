@@ -164,7 +164,7 @@ Bar!';
 	public function test_bp_activity_update_meta_new() {
 		$a = $this->factory->activity->create();
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ), '"foo" meta should be empty for this activity item.' );
-		$this->assertTrue( bp_activity_update_meta( $a, 'foo', 'bar' ) );
+		$this->assertNotEmpty( bp_activity_update_meta( $a, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
 	}
 

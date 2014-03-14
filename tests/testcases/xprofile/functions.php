@@ -417,7 +417,7 @@ Bar!';
 	public function test_bp_xprofile_update_meta_new() {
 		$g = $this->factory->xprofile_group->create();
 		$this->assertSame( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
-		$this->assertTrue( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' ) );
+		$this->assertNotEmpty( bp_xprofile_update_meta( $g, 'group', 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 

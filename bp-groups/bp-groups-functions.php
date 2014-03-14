@@ -1095,18 +1095,15 @@ function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
  * @param mixed $prev_value Optional. If specified, only update existing
  *        metadata entries with the specified value. Otherwise, update all
  *        entries.
- * @return bool True on success, false on failure.
+ * @return bool|int Returns false on failure. On successful update of existing
+ *         metadata, returns true. On successful creation of new metadata,
+ *         returns the integer ID of the new metadata row.
  */
 function groups_update_groupmeta( $group_id, $meta_key, $meta_value, $prev_value = '' ) {
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = update_metadata( 'group', $group_id, $meta_key, $meta_value, $prev_value );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
-
-	// Legacy - return true if we fall through to add_metadata()
-	if ( is_int( $retval ) ) {
-		$retval = true;
-	}
 
 	return $retval;
 }
