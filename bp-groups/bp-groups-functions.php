@@ -1069,7 +1069,6 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
  * @return mixed Metadata value.
  */
 function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = get_metadata( 'group', $group_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -1091,7 +1090,6 @@ function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
  *         returns the integer ID of the new metadata row.
  */
 function groups_update_groupmeta( $group_id, $meta_key, $meta_value, $prev_value = '' ) {
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = update_metadata( 'group', $group_id, $meta_key, $meta_value, $prev_value );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );

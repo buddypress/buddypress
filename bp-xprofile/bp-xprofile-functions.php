@@ -658,7 +658,6 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single
  *         returns the integer ID of the new metadata row.
  */
 function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_value, $prev_value = '' ) {
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
 	$retval = update_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, $meta_value, $prev_value );

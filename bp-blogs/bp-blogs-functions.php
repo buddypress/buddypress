@@ -890,7 +890,6 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
  * @return mixed The meta value(s) being requested.
  */
 function bp_blogs_get_blogmeta( $blog_id, $meta_key = '', $single = true ) {
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = get_metadata( 'blog', $blog_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -915,7 +914,6 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '', $single = true ) {
  *         returns the integer ID of the new metadata row.
  */
 function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value, $prev_value = '' ) {
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = update_metadata( 'blog', $blog_id, $meta_key, $meta_value, $prev_value );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
