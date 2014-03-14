@@ -1032,11 +1032,6 @@ function groups_accept_all_pending_membership_requests( $group_id ) {
 function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb;
 
-	// Legacy - return false if non-int group ID
-	if ( ! is_numeric( $group_id ) ) {
-		return false;
-	}
-
 	// Legacy - if no meta_key is passed, delete all for the item
 	if ( empty( $meta_key ) ) {
 		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->groupmeta} WHERE group_id = %d", $group_id ) );

@@ -578,12 +578,7 @@ add_action( 'bp_make_spam_user', 'xprofile_remove_data' );
 function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb;
 
-	// Legacy - no empty object id
-	if ( empty( $object_id ) ) {
-		return false;
-	}
-
-	// Legacy - sanitize object type
+	// Sanitize object type
 	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
 		return false;
 	}
@@ -603,6 +598,7 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
 
+	$retval = false;
 	foreach ( $keys as $key ) {
 		$retval = delete_metadata( 'xprofile_' . $object_type, $object_id, $key, $meta_value, $delete_all );
 	}
@@ -629,7 +625,7 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
  * @return mixed Meta value if found. False on failure.
  */
 function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single = true ) {
-	// Legacy - sanitize object type
+	// Sanitize object type
 	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
 		return false;
 	}

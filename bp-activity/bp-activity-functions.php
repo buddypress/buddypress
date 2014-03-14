@@ -571,11 +571,6 @@ function bp_activity_total_favorites_for_user( $user_id = 0 ) {
 function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = '', $delete_all = false ) {
 	global $wpdb, $bp;
 
-	// Legacy - Return false if any of the above values are not set
-	if ( ! is_numeric( $activity_id ) ) {
-		return false;
-	}
-
 	// Legacy - if no meta_key is passed, delete all for the item
 	if ( empty( $meta_key ) ) {
 		$all_meta = bp_activity_get_meta( $activity_id );
@@ -615,12 +610,6 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
  * @return mixed The meta value(s) being requested.
  */
 function bp_activity_get_meta( $activity_id = 0, $meta_key = '', $single = true ) {
-
-	// Make sure activity_id is valid
-	if ( empty( $activity_id ) || ! is_numeric( $activity_id ) ) {
-		return false;
-	}
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = get_metadata( 'activity', $activity_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -646,12 +635,6 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '', $single = true 
  *         returns the integer ID of the new metadata row.
  */
 function bp_activity_update_meta( $activity_id, $meta_key, $meta_value, $prev_value = '' ) {
-
-	// Legacy - Make sure activity_id is valid
-	if ( ! is_numeric( $activity_id ) ) {
-		return false;
-	}
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = update_metadata( 'activity', $activity_id, $meta_key, $meta_value, $prev_value );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );

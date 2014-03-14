@@ -848,11 +848,6 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
 function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb, $bp;
 
-	// Legacy - return false if the $blog_id is empty
-	if ( ! is_numeric( $blog_id ) ) {
-		return false;
-	}
-
 	// Legacy - if no meta_key is passed, delete all for the blog_id
 	if ( empty( $meta_key ) ) {
 		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->blogmeta} WHERE blog_id = %d", $blog_id ) );
@@ -863,6 +858,7 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 
+	$retval = false;
 	foreach ( $keys as $key ) {
 		$retval = delete_metadata( 'blog', $blog_id, $key, $meta_value, $delete_all );
 	}
