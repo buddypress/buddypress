@@ -576,9 +576,6 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
 		return false;
 	}
 
-	// Legacy - Sanitize key
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
 	// Legacy - Trim off whitespace
 	$meta_value = trim( $meta_value );
 
@@ -626,9 +623,6 @@ function bp_activity_get_meta( $activity_id = 0, $meta_key = '', $single = true 
 	if ( empty( $activity_id ) || ! is_numeric( $activity_id ) ) {
 		return false;
 	}
-
-	// Legacy - Sanitize keys
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = get_metadata( 'activity', $activity_id, $meta_key, $single );
@@ -683,9 +677,6 @@ function bp_activity_update_meta( $activity_id, $meta_key, $meta_value, $prev_va
 	if ( ! is_numeric( $activity_id ) ) {
 		return false;
 	}
-
-	// Legacy - Sanitize key
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = update_metadata( 'activity', $activity_id, $meta_key, $meta_value, $prev_value );

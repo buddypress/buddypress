@@ -356,15 +356,15 @@ Bar!';
 
 	/**
 	 * @group groupmeta
-	 *
-	 * @todo Why do we do this?
+	 * @group groups_get_groupmeta
+	 * @ticket BP5399
 	 */
 	public function test_groups_get_groupmeta_with_illegal_key_characters() {
 		$g = $this->factory->group->create();
 		groups_update_groupmeta( $g, 'foo', 'bar' );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		$this->assertSame( groups_get_groupmeta( $g, 'foo' ), groups_get_groupmeta( $g, $krazy_key ) );
+		$this->assertEmpty( groups_get_groupmeta( $g, $krazy_key ) );
 	}
 
 	/**
@@ -462,14 +462,15 @@ Bar!';
 
 	/**
 	 * @group groupmeta
+	 * @group groups_delete_groupmeta
+	 * @ticket BP5399
 	 */
 	public function test_groups_delete_groupmeta_with_illegal_key_characters() {
 		$g = $this->factory->group->create();
 		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'bar' ), 'Value of "foo" should be set at this point.' );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		$this->assertTrue( groups_delete_groupmeta( $g, $krazy_key ) );
-		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ) );
+		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );
 	}
 
 	/**

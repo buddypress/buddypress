@@ -125,13 +125,14 @@ Bar!';
 	/**
 	 * @group activitymeta
 	 * @group bp_activity_update_meta
+	 * @ticket BP5399
 	 */
 	public function test_bp_activity_update_meta_with_illegal_key_characters() {
 		$a = $this->factory->activity->create();
 		$krazy_key = ' f!@#$%^o *(){}o?+';
 		bp_activity_update_meta( $a, $krazy_key, 'bar' );
 
-		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
+		$this->assertEmpty( bp_activity_get_meta( $a, 'foo' ) );
 	}
 
 	/**
@@ -230,14 +231,14 @@ Bar!';
 	/**
 	 * @group activitymeta
 	 * @group bp_activity_get_meta
+	 * @ticket BP5399
 	 */
 	public function test_bp_activity_get_meta_with_illegal_characters() {
 		$a = $this->factory->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		$this->assertNotEmpty( bp_activity_get_meta( $a, 'foo' ) );
-		$this->assertSame( bp_activity_get_meta( $a, 'foo' ), bp_activity_get_meta( $a, $krazy_key ) );
+		$this->assertEmpty( bp_activity_get_meta( $a, $krazy_key ) );
 	}
 
 	/**

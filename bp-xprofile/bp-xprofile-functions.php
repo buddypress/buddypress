@@ -671,9 +671,6 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single
  */
 function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_value, $prev_value = '' ) {
 
-	// Legacy - sanitize meta_key
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
 	$retval = update_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, $meta_value, $prev_value );

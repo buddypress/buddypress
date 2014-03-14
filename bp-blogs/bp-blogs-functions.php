@@ -853,9 +853,6 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 		return false;
 	}
 
-	// Legacy - sanitize meta_key
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
 	// Legacy - if no meta_key is passed, delete all for the blog_id
 	if ( empty( $meta_key ) ) {
 		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->blogmeta} WHERE blog_id = %d", $blog_id ) );
@@ -897,9 +894,6 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
  */
 function bp_blogs_get_blogmeta( $blog_id, $meta_key = '', $single = true ) {
 
-	// Legacy - Sanitize meta_key
-	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
-
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = get_metadata( 'blog', $blog_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -932,9 +926,6 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '', $single = true ) {
  * @return bool True on success, false on failure.
  */
 function bp_blogs_update_blogmeta( $blog_id, $meta_key, $meta_value, $prev_value = '' ) {
-
-	// Legacy - Sanitize meta_key
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = update_metadata( 'blog', $blog_id, $meta_key, $meta_value, $prev_value );

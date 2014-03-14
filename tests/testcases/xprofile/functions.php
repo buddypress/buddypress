@@ -185,6 +185,7 @@ Bar!';
 	/**
 	 * @group xprofilemeta
 	 * @group bp_xprofile_delete_meta
+	 * @ticket BP5399
 	 */
 	public function test_bp_xprofile_delete_meta_illegal_characters() {
 		$g = $this->factory->xprofile_group->create();
@@ -192,8 +193,8 @@ Bar!';
 		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		$this->assertTrue( bp_xprofile_delete_meta( $g, 'group', 'foo' ) );
-		$this->assertEquals( '', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		bp_xprofile_delete_meta( $g, 'group', $krazy_key );
+		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**
@@ -377,12 +378,13 @@ Bar!';
 	/**
 	 * @group xprofilemeta
 	 * @group bp_xprofile_update_meta
+	 * @ticket BP5399
 	 */
 	public function test_bp_xprofile_update_meta_illegal_characters() {
 		$g = $this->factory->xprofile_group->create();
 		$krazy_key = ' f!@#$%^o *(){}o?+';
 		bp_xprofile_update_meta( $g, 'group', $krazy_key, 'bar' );
-		$this->assertSame( 'bar', bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+		$this->assertEmpty( bp_xprofile_get_meta( $g, 'group', 'foo' ) );
 	}
 
 	/**

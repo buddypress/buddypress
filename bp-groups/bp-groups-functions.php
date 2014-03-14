@@ -1037,9 +1037,6 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
 		return false;
 	}
 
-	// Legacy - Sanitize keys
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
-
 	// Legacy - if no meta_key is passed, delete all for the item
 	if ( empty( $meta_key ) ) {
 		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->groupmeta} WHERE group_id = %d", $group_id ) );
@@ -1072,9 +1069,6 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
  * @return mixed Metadata value.
  */
 function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
-
-	// Legacy - Sanitize keys
-	$meta_key = preg_replace( '|[^a-z0-9_]|i', '', $meta_key );
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = get_metadata( 'group', $group_id, $meta_key, $single );

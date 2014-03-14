@@ -15,13 +15,14 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	/**
 	 * @group blogmeta
 	 * @group bp_blogs_delete_blogmeta
+	 * @ticket BP5399
 	 */
 	public function test_bp_blogs_delete_blogmeta_illegal_characters() {
 		$this->assertTrue( bp_blogs_update_blogmeta( 1, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		$this->assertTrue( bp_blogs_delete_blogmeta( 1, $krazy_key ) );
-		$this->assertSame( '', bp_blogs_get_blogmeta( 1, 'foo' ) );
+		$this->assertFalse( bp_blogs_delete_blogmeta( 1, $krazy_key ) );
+		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 
 	/**
@@ -109,11 +110,12 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	/**
 	 * @group blogmeta
 	 * @group bp_blogs_get_blogmeta
+	 * @ticket BP5399
 	 */
 	public function test_bp_blogs_get_blogmeta_illegal_characters() {
 		bp_blogs_update_blogmeta( 1, 'foo', 'bar' );
 		$krazy_key = ' f!@#$%^o *(){}o?+';
-		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, $krazy_key ) );
+		$this->assertEmpty( bp_blogs_get_blogmeta( 1, $krazy_key ) );
 	}
 
 	/**
@@ -166,11 +168,12 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	/**
 	 * @group blogmeta
 	 * @group bp_blogs_update_blogmeta
+	 * @ticket BP5399
 	 */
 	public function test_bp_blogs_update_blogmeta_illegal_characters() {
 		$krazy_key = ' f!@#$%^o *(){}o?+';
 		bp_blogs_update_blogmeta( 1, $krazy_key, 'bar' );
-		$this->assertSame( 'bar', bp_blogs_get_blogmeta( 1, 'foo' ) );
+		$this->assertEmpty( bp_blogs_get_blogmeta( 1, 'foo' ) );
 	}
 
 	/**
