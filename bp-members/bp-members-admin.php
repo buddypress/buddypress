@@ -202,14 +202,15 @@ class BP_Members_Admin {
 		$this->screen_id = array( $edit_page, $this->user_page );
 
 		foreach ( $hooks as $key => $hook ) {
-			add_action( "admin_head-$hook", array( $this, 'modify_admin_menu_highlight' ) );
 			add_action( "load-$hook",       array( $this, $key . '_admin_load' ) );
 		}
+
+		add_action( "admin_head-$this->user_page", array( $this, 'modify_admin_menu_highlight' ) );
 
 	}
 
 	/**
-	 * Highlight the Users menu if on Edit Profile or Signups pages.
+	 * Highlight the Users menu if on Edit Profile.
 	 *
 	 * @access public
 	 * @since BuddyPress (2.0.0)
@@ -218,16 +219,16 @@ class BP_Members_Admin {
 		global $plugin_page, $submenu_file;
 
 		// Only Show the All users menu
-		if ( in_array( $plugin_page, array( 'bp-profile-edit', 'bp-signups' ) ) ) {
+		if ( $plugin_page = 'bp-profile-edit' ) {
 			$submenu_file = 'users.php';
 		}
 	}
 
 	/**
-	 * Remove the Edit Profile & Signups submenu page.
+	 * Remove the Edit Profile page.
 	 *
 	 * We add these pages in order to integrate with WP's Users panel, but
-	 * we want them to show up as Views of the WP panel, not as separate
+	 * we want them to show up as a row action of the WP panel, not as separate
 	 * subnav items under the Users menu.
 	 *
 	 * @access public
@@ -236,9 +237,6 @@ class BP_Members_Admin {
 	public function admin_head() {
 		// Remove submenu to force using Profile Navigation
 		remove_submenu_page( 'users.php', 'bp-profile-edit' );
-
-		// Remove submenu to force using users views
-		remove_submenu_page( 'users.php', 'bp-signups' );
 	}
 
 	/** Community Profile ************************************************/
@@ -807,7 +805,7 @@ class BP_Members_Admin {
 			$class = ' class="current"';
 		}
 
-		$views['registered'] = '<a href="' . add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) . '"' . $class . '>' . sprintf( _nx( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', $signups, 'signup users', 'buddypress' ), number_format_i18n( $signups ) ) . '</a>';
+		$views['registered'] = '<a href="' . add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) . '"' . $class . '>' . sprintf( _x( 'Pending <span class="count">(%s)</span>', 'signup users', 'buddypress' ), number_format_i18n( $signups ) ) . '</a>';
 
 		return $views;
 	}
