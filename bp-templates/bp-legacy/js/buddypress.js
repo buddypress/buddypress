@@ -293,7 +293,7 @@ jq(document).ready( function() {
 				}
 
 				if ( 'activity-favorites' == jq( '.item-list-tabs li.selected').attr('id') )
-					target.parent().parent().parent().slideUp(100);
+					target.closest( '.activity-item' ).slideUp( 100 );
 			});
 
 			return false;
