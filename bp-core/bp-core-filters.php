@@ -249,6 +249,10 @@ add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
  */
 function bp_core_filter_user_welcome_email( $welcome_email ) {
 
+	// Don't touch the email when a user is registered by the site admin
+	if ( is_admin() )
+		return $welcome_email;
+
 	// Don't touch the email if we don't have a custom registration template
 	if ( ! bp_has_custom_signup_page() )
 		return $welcome_email;
@@ -274,6 +278,10 @@ add_filter( 'update_welcome_user_email', 'bp_core_filter_user_welcome_email' );
  * @return string Filtered $welcome_email with $password replaced by '[User Set]'.
  */
 function bp_core_filter_blog_welcome_email( $welcome_email, $blog_id, $user_id, $password ) {
+
+	// Don't touch the email when a user is registered by the site admin.
+	if ( is_admin() )
+		return $welcome_email;
 
 	// Don't touch the email if we don't have a custom registration template
 	if ( ! bp_has_custom_signup_page() )
