@@ -104,6 +104,9 @@ class BP_Admin {
 
 		// Main settings page
 		$this->settings_page = bp_core_do_network_admin() ? 'settings.php' : 'options-general.php';
+
+		// Main capability
+		$this->capability = bp_core_do_network_admin() ? 'manage_network_options' : 'manage_options';
 	}
 
 	/**
@@ -204,7 +207,7 @@ class BP_Admin {
 		$hooks[] = add_menu_page(
 			__( 'BuddyPress', 'buddypress' ),
 			__( 'BuddyPress', 'buddypress' ),
-			'manage_options',
+			$this->capability,
 			'bp-general-settings',
 			'bp_core_admin_backpat_menu',
 			'div'
@@ -214,7 +217,7 @@ class BP_Admin {
 			'bp-general-settings',
 			__( 'BuddyPress Help', 'buddypress' ),
 			__( 'Help', 'buddypress' ),
-			'manage_options',
+			$this->capability,
 			'bp-general-settings',
 			'bp_core_admin_backpat_page'
 		);
@@ -224,7 +227,7 @@ class BP_Admin {
 			$this->settings_page,
 			__( 'BuddyPress Components', 'buddypress' ),
 			__( 'BuddyPress', 'buddypress' ),
-			'manage_options',
+			$this->capability,
 			'bp-components',
 			'bp_core_admin_components_settings'
 		);
@@ -233,7 +236,7 @@ class BP_Admin {
 			$this->settings_page,
 			__( 'BuddyPress Pages', 'buddypress' ),
 			__( 'BuddyPress Pages', 'buddypress' ),
-			'manage_options',
+			$this->capability,
 			'bp-page-settings',
 			'bp_core_admin_slugs_settings'
 		);
@@ -242,7 +245,7 @@ class BP_Admin {
 			$this->settings_page,
 			__( 'BuddyPress Settings', 'buddypress' ),
 			__( 'BuddyPress Settings', 'buddypress' ),
-			'manage_options',
+			$this->capability,
 			'bp-settings',
 			'bp_core_admin_settings'
 		);
@@ -255,7 +258,7 @@ class BP_Admin {
 			$hooks[] = add_menu_page(
 				__( 'Tools', 'buddypress' ),
 				__( 'Tools', 'buddypress' ),
-				'manage_network_options',
+				$this->capability,
 				$tools_parent,
 				'bp_core_tools_top_level_item',
 				'',
@@ -266,7 +269,7 @@ class BP_Admin {
 				$tools_parent,
 				__( 'Available Tools', 'buddypress' ),
 				__( 'Available Tools', 'buddypress' ),
-				'manage_network_options',
+				$this->capability,
 				'available-tools',
 				'bp_core_admin_available_tools_page'
 			);
@@ -278,7 +281,7 @@ class BP_Admin {
 			$tools_parent,
 			__( 'BuddyPress Tools', 'buddypress' ),
 			__( 'BuddyPress', 'buddypress' ),
-			'manage_options',
+			$this->capability,
 			'bp-tools',
 			'bp_core_admin_tools'
 		);
@@ -516,7 +519,7 @@ class BP_Admin {
 				<div class="feature-section">
 					<h4><?php _e( 'Your Default Setup', 'buddypress' ); ?></h4>
 
-					<?php if ( bp_is_active( 'members' ) && bp_is_active( 'activity' ) ) : ?>
+					<?php if ( bp_is_active( 'members' ) && bp_is_active( 'activity' ) && current_user_can( $this->capability ) ) : ?>
 						<p><?php printf(
 						__( 'BuddyPress&#8217;s powerful features help your users connect and collaborate. To help get your community started, we&#8217;ve activated two of the most commonly used tools in BP: <strong>Extended Profiles</strong> and <strong>Activity Streams</strong>. See these components in action at the %1$s and %2$s directories, and be sure to spend a few minutes <a href="%3$s">configuring user profiles</a>. Want to explore more of BP&#8217;s features? Visit the <a href="%4$s">Components panel</a>.', 'buddypress' ),
 						$pretty_permalinks_enabled ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) . '">' . __( 'Members', 'buddypress' ) . '</a>' : __( 'Members', 'buddypress' ),
@@ -584,9 +587,11 @@ class BP_Admin {
 					</ul>
 				</div>
 
-				<div class="return-to-dashboard">
-					<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page', 'buddypress' ); ?></a>
-				</div>
+				<?php if ( current_user_can( $this->capability ) ) :?>
+					<div class="return-to-dashboard">
+						<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page', 'buddypress' ); ?></a>
+					</div>
+				<?php endif ;?>
 
 			</div>
 
@@ -715,9 +720,11 @@ class BP_Admin {
 				<a href="http://profiles.wordpress.org/wpdennis/">wpdennis</a>
 			</p>
 
-			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page', 'buddypress' ); ?></a>
-			</div>
+			<?php if ( current_user_can( $this->capability ) ) :?>
+				<div class="return-to-dashboard">
+					<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page', 'buddypress' ); ?></a>
+				</div>
+			<?php endif;?>
 
 		</div>
 
