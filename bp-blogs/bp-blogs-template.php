@@ -377,7 +377,7 @@ function bp_has_blogs( $args = '' ) {
 		'update_meta_cache' => true,
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args( $args, $defaults, 'has_blogs' );
 	extract( $r );
 
 	if ( is_null( $search_terms ) ) {

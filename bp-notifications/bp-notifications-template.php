@@ -478,7 +478,7 @@ function bp_has_notifications( $args = '' ) {
 	}
 
 	// Parse the args
-	$r = wp_parse_args( $args, array(
+	$r = bp_parse_args( $args, array(
 		'user_id'      => $user_id,
 		'is_new'       => $is_new,
 		'page'         => 1,
@@ -486,7 +486,7 @@ function bp_has_notifications( $args = '' ) {
 		'max'          => false,
 		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
 		'page_arg'     => 'npage',
-	) );
+	), 'has_notifications' );
 
 	// Get the notifications
 	$query_loop = new BP_Notifications_Template( $r );

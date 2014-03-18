@@ -300,7 +300,7 @@ function bp_has_members( $args = '' ) {
 		'populate_extras' => true           // Fetch usermeta? Friend count, last active etc.
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args( $args, $defaults, 'has_members' );
 	extract( $r );
 
 	// Pass a filter if ?s= is set.

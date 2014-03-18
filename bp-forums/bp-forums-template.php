@@ -480,7 +480,7 @@ function bp_has_forum_topics( $args = '' ) {
 		'do_stickies'  => $do_stickies
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args( $args, $defaults, 'has_forum_topics' );
 	extract( $r );
 
 	// If we're viewing a tag URL in the directory, let's override the type and
@@ -1844,7 +1844,7 @@ function bp_has_forum_topic_posts( $args = '' ) {
 		'order'    => 'ASC'
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args( $args, $defaults, 'has_forum_topic_posts' );
 	extract( $r, EXTR_SKIP );
 
 	if ( empty( $topic_id ) && bp_is_groups_component() && bp_is_current_action( 'forum' ) && bp_is_action_variable( 'topic', 0 ) && bp_action_variable( 1 ) )

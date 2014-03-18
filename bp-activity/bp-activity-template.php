@@ -555,7 +555,7 @@ function bp_has_activities( $args = '' ) {
 		'update_meta_cache' => true,
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args( $args, $defaults, 'has_activities' );
 	extract( $r );
 
 	// Translate various values for 'display_comments'

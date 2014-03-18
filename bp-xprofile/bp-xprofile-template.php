@@ -179,7 +179,7 @@ function bp_has_profile( $args = '' ) {
 		'update_meta_cache'   => true,
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args( $args, $defaults, 'has_profile' );
 	extract( $r, EXTR_SKIP );
 
 	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields, $hide_empty_fields, $fetch_visibility_level, $update_meta_cache );
