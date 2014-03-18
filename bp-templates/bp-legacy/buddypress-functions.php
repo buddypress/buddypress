@@ -336,7 +336,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	public function head_scripts() {
 	?>
 
-		<script type="text/javascript" charset="utf-8">
+		<script type="text/javascript">
 			/* <![CDATA[ */
 			var ajaxurl = '<?php echo bp_core_ajax_url(); ?>';
 			/* ]]> */
