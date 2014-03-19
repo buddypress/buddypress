@@ -1169,6 +1169,10 @@ function bp_core_can_edit_settings() {
 	if ( bp_is_my_profile() )
 		return true;
 
+	if ( is_super_admin( bp_displayed_user_id() ) && ! is_super_admin() ) {
+		return false;
+	}
+
 	if ( bp_current_user_can( 'bp_moderate' ) || current_user_can( 'edit_users' ) )
 		return true;
 
