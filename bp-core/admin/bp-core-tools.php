@@ -301,7 +301,7 @@ function bp_admin_tools_feedback( $message, $class = false ) {
 	$message = str_replace( "'", "\'", $message );
 	$lambda  = create_function( '', "echo '$message';" );
 
-	add_action( 'admin_notices', $lambda );
+	add_action( bp_core_do_network_admin() ? 'network_admin_notices' : 'admin_notices', $lambda );
 
 	return $lambda;
 }
