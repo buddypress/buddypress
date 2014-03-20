@@ -102,6 +102,9 @@ class BP_Members_Admin {
 		$this->css_url   = trailingslashit( $this->admin_url . 'css' ); // Admin CSS URL
 		$this->js_url    = trailingslashit( $this->admin_url . 'js'  ); // Admin CSS URL
 
+		// Capability depends on config
+		$this->capability = bp_core_do_network_admin() ? 'manage_network_options' : 'manage_options';
+		
 		// The Edit Profile Screen id
 		$this->user_page = '';
 
@@ -122,6 +125,14 @@ class BP_Members_Admin {
 		$this->signups_page = '';
 		$this->users_url    = bp_get_admin_url( 'users.php' );
 		$this->users_screen = bp_core_do_network_admin() ? 'users-network' : 'users';
+
+		// Specific config: BuddyPress is not network activated
+		$this->subsite_activated = (bool) is_multisite() && ! bp_is_network_activated();
+
+		// When BuddyPress is not network activated, only Super Admin can moderate signups
+		if ( ! empty( $this->subsite_activated ) ) {
+			$this->capability = 'manage_network_options';
+		}
 	}
 
 	/**
@@ -151,14 +162,16 @@ class BP_Members_Admin {
 
 		/** Signups **************************************************************/
 
-		if ( bp_get_signup_allowed() ) {
-			if ( ! is_multisite() && is_admin() ) {
+		if ( bp_get_signup_allowed() && is_admin() ) {
+			if ( ! is_multisite() ) {
 				add_action( 'pre_user_query', array( $this, 'remove_signups_from_user_query'),  10, 1 );
 			}
 
-			// Reorganise the views navigation in users.php and signups page
-			add_filter( "views_{$this->users_screen}", array( $this, 'signup_filter_view' ),    10, 1 );
-			add_filter( 'set-screen-option',           array( $this, 'signup_screen_options' ), 10, 3 );
+			if ( current_user_can( $this->capability ) ) {
+				// Reorganise the views navigation in users.php and signups page
+				add_filter( "views_{$this->users_screen}", array( $this, 'signup_filter_view' ),    10, 1 );
+				add_filter( 'set-screen-option',           array( $this, 'signup_screen_options' ), 10, 3 );
+			}
 		}
 	}
 
@@ -181,10 +194,10 @@ class BP_Members_Admin {
 			array( &$this, 'user_admin' )
 		);
 
-		$hooks['signups'] = $this->users_page = add_users_page(
+		$hooks['signups'] = $this->signups_page = add_users_page(
 			__( 'Manage Signups',  'buddypress' ),
 			__( 'Manage Signups',  'buddypress' ),
-			'bp_moderate',
+			$this->capability,
 			'bp-signups',
 			array( &$this, 'signups_admin' )
 		);
@@ -202,7 +215,7 @@ class BP_Members_Admin {
 		$this->screen_id = array( $edit_page, $this->user_page );
 
 		foreach ( $hooks as $key => $hook ) {
-			add_action( "load-$hook",       array( $this, $key . '_admin_load' ) );
+			add_action( "load-$hook", array( $this, $key . '_admin_load' ) );
 		}
 
 		add_action( "admin_head-$this->user_page", array( $this, 'modify_admin_menu_highlight' ) );
