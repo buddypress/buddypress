@@ -311,7 +311,16 @@ class BP_Members_Admin {
 		} ?>
 
 		<ul id="profile-nav" class="nav-tab-wrapper">
-			<li class="nav-tab<?php echo esc_attr( $wp_active ); ?>"><a href="<?php echo esc_url( $wordpress_url );?>"><?php _e( 'WordPress Profile', 'buddypress' ); ?></a></li>
+			<?php 
+			/**
+			 * In configs where BuddyPress is not network activated, as regular
+			 * admins do not have the capacity to edit other users, we must add
+			 * this check.
+			 */
+			?>
+			<?php if ( current_user_can( 'edit_user' ) ) :?>
+				<li class="nav-tab<?php echo esc_attr( $wp_active ); ?>"><a href="<?php echo esc_url( $wordpress_url );?>"><?php _e( 'WordPress Profile', 'buddypress' ); ?></a></li>
+			<?php endif ;?>
 			<li class="nav-tab<?php echo esc_attr( $bp_active ); ?>"><a href="<?php echo esc_url( $community_url );?>"><?php _e( 'Community Profile', 'buddypress' ); ?></a></li>
 
 			<?php do_action( 'bp_members_admin_profile_nav', $active, $user ); ?>
@@ -622,10 +631,19 @@ class BP_Members_Admin {
 				</div><!-- #minor-publishing-actions -->
 
 				<div id="misc-publishing-actions">
-					<div class="misc-pub-section" id="comment-status-radio">
-						<label class="approved"><input type="radio" name="user_status" value="ham" <?php checked( bp_is_user_spammer( $user->ID ), false ); ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></label><br />
-						<label class="spam"><input type="radio" name="user_status" value="spam" <?php checked( bp_is_user_spammer( $user->ID ), true ); ?>><?php esc_html_e( 'Spammer', 'buddypress' ); ?></label>
-					</div>
+					<?php
+					/**
+					 * In configs where BuddyPress is not network activated, regular admins
+					 * cannot mark a user as a spammer on front end. This prevent them to do
+					 * it in backend.
+					 */
+					?>
+					<?php if ( empty( $this->subsite_activated ) || ( ! empty( $this->subsite_activated ) && current_user_can( 'manage_network_users' ) ) ) : ?>
+						<div class="misc-pub-section" id="comment-status-radio">
+							<label class="approved"><input type="radio" name="user_status" value="ham" <?php checked( bp_is_user_spammer( $user->ID ), false ); ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></label><br />
+							<label class="spam"><input type="radio" name="user_status" value="spam" <?php checked( bp_is_user_spammer( $user->ID ), true ); ?>><?php esc_html_e( 'Spammer', 'buddypress' ); ?></label>
+						</div>
+					<?php endif ;?>
 
 					<div class="misc-pub-section curtime misc-pub-section-last">
 						<?php
@@ -722,18 +740,34 @@ class BP_Members_Admin {
 			return $actions;
 		}
 
+		// Prevent a regular admin to edit a super admin
+		if( in_array( $user->user_login, get_super_admins() ) ) {
+			return $actions;
+		}
+
 		$edit_profile = add_query_arg( array(
 			'user_id'         => $user->ID,
 			'wp_http_referer' => urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
 		), $this->edit_profile_url );
 
-		$edit_action = $actions['edit'];
-		unset( $actions['edit'] );
+		$edit_profile_link = '<a href="' . esc_url( $edit_profile ) . '">' . esc_html__( 'Profile', 'buddypress' ) . '</a>';
 
-		$new_edit_actions = array(
-			'edit'         => $edit_action,
-			'edit-profile' => '<a href="' . esc_url( $edit_profile ) . '">' . esc_html__( 'Profile', 'buddypress' ) . '</a>'
-		);
+		/**
+		 * Check the edit action is available
+		 * and preserve the order edit | profile | remove/delete
+		 */
+		if ( ! empty( $actions['edit'] ) ) {
+			$edit_action = $actions['edit'];
+			unset( $actions['edit'] );
+ 
+			$new_edit_actions = array(
+				'edit'         => $edit_action,
+				'edit-profile' => $edit_profile_link,
+			);
+		// if not available simply add the edit profile action
+		} else {
+			$new_edit_actions = array( 'edit-profile' => $edit_profile_link );
+		}
 
 		return array_merge( $new_edit_actions, $actions );
 	}
