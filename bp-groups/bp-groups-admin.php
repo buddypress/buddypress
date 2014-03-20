@@ -997,15 +997,15 @@ function bp_groups_admin_autocomplete_handler() {
 	$group_members = ! empty( $group_member_query->results ) ? wp_list_pluck( $group_member_query->results, 'ID' ) : array();
 
 	$terms = isset( $_GET['term'] ) ? $_GET['term'] : '';
-	$users = get_users( array(
-		'blog_id'        => false,
-		'search'         => '*' . $terms . '*',
-		'exclude'        => $group_members,
-		'search_columns' => array( 'user_login', 'user_nicename', 'user_email', 'display_name' ),
-		'number'         => 10
+	$users = bp_core_get_users( array(
+		'type'            => 'alphabetical',
+		'search_terms'    => $terms,
+		'exclude'         => $group_members,
+		'per_page'        => 10,
+		'populate_extras' => false
 	) );
 
-	foreach ( (array) $users as $user ) {
+	foreach ( (array) $users['users'] as $user ) {
 		$return[] = array(
 			/* translators: 1: user_login, 2: user_email */
 			'label' => sprintf( __( '%1$s (%2$s)', 'buddypress' ), bp_is_username_compatibility_mode() ? $user->user_login : $user->user_nicename, $user->user_email ),
