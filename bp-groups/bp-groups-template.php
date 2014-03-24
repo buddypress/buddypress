@@ -3073,10 +3073,10 @@ class BP_Groups_Membership_Requests_Template {
  * @return bool True if there are requests, otherwise false.
  */
 function bp_group_has_membership_requests( $args = '' ) {
-	global $requests_template, $groups_template;
+	global $requests_template;
 
 	$defaults = array(
-		'group_id' => $groups_template->group->id,
+		'group_id' => bp_get_current_group_id(),
 		'per_page' => 10,
 		'page'     => 1,
 		'max'      => false
@@ -3110,18 +3110,18 @@ function bp_group_request_reject_link() {
 	echo bp_get_group_request_reject_link();
 }
 	function bp_get_group_request_reject_link() {
-		global $requests_template, $groups_template;
+		global $requests_template;
 
-		return apply_filters( 'bp_get_group_request_reject_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . 'admin/membership-requests/reject/' . $requests_template->request->id, 'groups_reject_membership_request' ) );
+		return apply_filters( 'bp_get_group_request_reject_link', wp_nonce_url( bp_get_group_permalink( groups_get_current_group() ) . 'admin/membership-requests/reject/' . $requests_template->request->membership_id, 'groups_reject_membership_request' ) );
 	}
 
 function bp_group_request_accept_link() {
 	echo bp_get_group_request_accept_link();
 }
 	function bp_get_group_request_accept_link() {
-		global $requests_template, $groups_template;
+		global $requests_template;
 
-		return apply_filters( 'bp_get_group_request_accept_link', wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . 'admin/membership-requests/accept/' . $requests_template->request->id, 'groups_accept_membership_request' ) );
+		return apply_filters( 'bp_get_group_request_accept_link', wp_nonce_url( bp_get_group_permalink( groups_get_current_group() ) . 'admin/membership-requests/accept/' . $requests_template->request->membership_id, 'groups_accept_membership_request' ) );
 	}
 
 function bp_group_request_user_link() {
@@ -3144,6 +3144,52 @@ function bp_group_request_comment() {
 
 	echo apply_filters( 'bp_group_request_comment', strip_tags( stripslashes( $requests_template->request->comments ) ) );
 }
+
+/**
+ * Output pagination links for group membership requests.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_group_requests_pagination_links() {
+	echo bp_get_group_requests_pagination_links();
+}
+	/**
+	 * Get pagination links for group membership requests.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_group_requests_pagination_links() {
+		global $requests_template;
+		return apply_filters( 'bp_get_group_requests_pagination_links', $requests_template->pag_links );
+	}
+
+/**
+ * Output pagination count text for group membership requests.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_group_requests_pagination_count() {
+	echo bp_get_group_requests_pagination_count();
+}
+	/**
+	 * Get pagination count text for group membership requests.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_group_requests_pagination_count() {
+		global $requests_template;
+
+		$start_num = intval( ( $requests_template->pag_page - 1 ) * $requests_template->pag_num ) + 1;
+		$from_num  = bp_core_number_format( $start_num );
+		$to_num    = bp_core_number_format( ( $start_num + ( $requests_template->pag_num - 1 ) > $requests_template->total_request_count ) ? $requests_template->total_request_count : $start_num + ( $requests_template->pag_num - 1 ) );
+		$total     = bp_core_number_format( $requests_template->total_request_count );
+
+		return apply_filters( 'bp_get_group_requests_pagination_count', sprintf( _n( 'Viewing requests %1$s to %2$s (of %3$s request)', 'Viewing request %1$s to %2$s (of %3$s requests)', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+	}
 
 /************************************************************************************
  * Invite Friends Template Tags

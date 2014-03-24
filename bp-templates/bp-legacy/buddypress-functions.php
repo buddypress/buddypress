@@ -140,6 +140,7 @@ class BP_Legacy extends BP_Theme_Compat {
 			'members_filter'  => 'bp_legacy_theme_object_template_loader',
 			'messages_filter' => 'bp_legacy_theme_messages_template_loader',
 			'invite_filter'   => 'bp_legacy_theme_invite_template_loader',
+			'requests_filter' => 'bp_legacy_theme_requests_template_loader',
 
 			// Friends
 			'accept_friendship' => 'bp_legacy_theme_ajax_accept_friendship',
@@ -608,6 +609,16 @@ function bp_legacy_theme_messages_template_loader() {
  */
 function bp_legacy_theme_invite_template_loader() {
 	bp_get_template_part( 'groups/single/invites-loop' );
+	exit();
+}
+
+/**
+ * Load group membership requests loop to handle pagination requests sent via AJAX.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_legacy_theme_requests_template_loader() {
+	bp_get_template_part( 'groups/single/requests-loop' );
 	exit();
 }
 

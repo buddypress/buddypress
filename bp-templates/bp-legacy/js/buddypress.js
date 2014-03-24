@@ -853,6 +853,12 @@ jq(document).ready( function() {
 				template = 'groups/single/members';
 			}
 
+			// On the Admin > Requests page, we need to reset the object,
+			// since "admin" isn't specific enough
+			if ( 'admin' == object && jq( 'body' ).hasClass( 'membership-requests' ) ) {
+				object = 'requests';
+			}
+
 			if ( pagination_id.indexOf( 'pag-bottom' ) !== -1 ) {
 				var caller = 'pag-bottom';
 			} else {
