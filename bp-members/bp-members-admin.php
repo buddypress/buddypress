@@ -194,13 +194,16 @@ class BP_Members_Admin {
 			array( &$this, 'user_admin' )
 		);
 
-		$hooks['signups'] = $this->signups_page = add_users_page(
-			__( 'Manage Signups',  'buddypress' ),
-			__( 'Manage Signups',  'buddypress' ),
-			$this->capability,
-			'bp-signups',
-			array( &$this, 'signups_admin' )
-		);
+		// Manage signups if allowed
+		if ( bp_get_signup_allowed() ) {
+			$hooks['signups'] = $this->signups_page = add_users_page(
+				__( 'Manage Signups',  'buddypress' ),
+				__( 'Manage Signups',  'buddypress' ),
+				$this->capability,
+				'bp-signups',
+				array( &$this, 'signups_admin' )
+			);
+		}
 
 		$edit_page = 'user-edit';
 		$this->users_page = 'users';
