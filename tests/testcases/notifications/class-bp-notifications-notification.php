@@ -116,4 +116,38 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( 1, $n );
 	}
 
+	/**
+	 * @group order_by
+	 * @group sort_order
+	 */
+	public function test_order_by_date() {
+		$now = time();
+		$u = $this->create_user();
+		$n1 = $this->factory->notification->create( array(
+			'component_name' => 'friends',
+			'user_id' => $u,
+			'date_notified' => date( 'Y-m-d H:i:s', $now - 500 ),
+		) );
+		$n2 = $this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id' => $u,
+			'date_notified' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$n3 = $this->factory->notification->create( array(
+			'component_name' => 'messages',
+			'user_id' => $u,
+			'date_notified' => date( 'Y-m-d H:i:s', $now - 1000 ),
+		) );
+
+		$n = BP_Notifications_Notification::get( array(
+			'user_id' => $u,
+			'order_by' => 'date_notified',
+			'sort_order' => 'DESC',
+		) );
+
+		// Check that the correct items are pulled up
+		$expected = array( $n2, $n1, $n3 );
+		$actual = wp_list_pluck( $n, 'id' );
+		$this->assertEquals( $expected, $actual );
+	}
 }
