@@ -69,6 +69,9 @@
 				// Old group forums
 				elseif ( bp_is_group_forum()      ) : bp_get_template_part( 'groups/single/forum'        );
 
+				// Membership request
+				elseif ( bp_is_group_membership_request() ) : bp_get_template_part( 'groups/single/request-membership' );
+
 				// Anything else (plugins mostly)
 				else                                : bp_get_template_part( 'groups/single/plugins'      );
 

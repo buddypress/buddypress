@@ -444,7 +444,6 @@ class BP_Groups_Component extends BP_Component {
 			// member and does not have an outstanding invitation,
 			// show a "Request Membership" nav item.
 			if ( is_user_logged_in() &&
-				 ! bp_current_user_can( 'bp_moderate' ) &&
 				 ! $this->current_group->is_user_member &&
 				 ! groups_check_for_membership_request( bp_loggedin_user_id(), $this->current_group->id ) &&
 				 $this->current_group->status == 'private' &&
