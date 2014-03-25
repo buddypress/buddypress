@@ -59,8 +59,12 @@
 
 <?php do_action( 'bp_after_activity_loop' ); ?>
 
-<form action="" name="activity-loop-form" id="activity-loop-form" method="post">
+<?php if ( empty( $_POST['page'] ) ) : ?>
 
-	<?php wp_nonce_field( 'activity_filter', '_wpnonce_activity_filter' ); ?>
+	<form action="" name="activity-loop-form" id="activity-loop-form" method="post">
 
-</form>
+		<?php wp_nonce_field( 'activity_filter', '_wpnonce_activity_filter' ); ?>
+
+	</form>
+
+<?php endif; ?>
