@@ -541,6 +541,8 @@ class BP_Notifications_Notification {
 	 *           notifications. Default: true.
 	 *     @type string $search_terms Term to match against component_name
 	 *           or component_action fields.
+	 *     @type string $order_by Field to order results by.
+	 *     @type string $sort_order ASC or DESC.
 	 *     @type int $page Number of the current page of results. Default:
 	 *           false (no pagination - all items).
 	 *     @type int $per_page Number of items to show per page. Default:
