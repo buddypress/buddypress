@@ -57,57 +57,86 @@ function groups_get_group( $args = '' ) {
 
 /*** Group Creation, Editing & Deletion *****************************************/
 
+/**
+ * Create a group.
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param array $args {
+ *     An array of arguments.
+ *     @type int|bool $group_id Pass a group ID to update an existing item, or
+ *           0 / false to create a new group. Default: 0.
+ *     @type int $creator_id The user ID that creates the group.
+ *     @type string $name The group name.
+ *     @type string $description Optional. The group's description.
+ *     @type string $slug The group slug.
+ *     @type string $status The group's status. Accepts 'public', 'private' or
+             'hidden'. Defaults to 'public'.
+ *     @type int $enable_forum Optional. Whether the group has a forum enabled.
+ *           If the legacy forums are enabled for this group or if a bbPress
+ *           forum is enabled for the group, set this to 1. Default: 0.
+ *     @type string $date_created The GMT time, in Y-m-d h:i:s format,
+ *           when the group was created. Defaults to the current time.
+ * }
+ * @return int|bool The ID of the group on success. False on error.
+ */
 function groups_create_group( $args = '' ) {
 
-	extract( $args );
+	$defaults = array(
+		'group_id'     => 0,
+		'creator_id'   => 0,
+		'name'         => '',
+		'description'  => '',
+		'slug'         => '',
+		'status'       => 'public',
+		'enable_forum' => 0,
+		'date_created' => bp_core_current_time()
+	);
 
-	/**
-	 * Possible parameters (pass as assoc array):
-	 *	'group_id'
-	 *	'creator_id'
-	 *	'name'
-	 *	'description'
-	 *	'slug'
-	 *	'status'
-	 *	'enable_forum'
-	 *	'date_created'
-	 */
+	$args = wp_parse_args( $args, $defaults );
+	extract( $args, EXTR_SKIP );
 
-	if ( !empty( $group_id ) )
-		$group = groups_get_group( array( 'group_id' => $group_id ) );
-	else
-		$group = new BP_Groups_Group;
+	// Pass an existing group ID
+	if ( ! empty( $group_id ) ) {
+		$group = groups_get_group( array( 'group_id' => (int) $group_id ) );
+		$name  = ! empty( $name ) ? $name : $group->name;
+		$slug  = ! empty( $slug ) ? $slug : $group->slug;
 
-	if ( !empty( $creator_id ) )
-		$group->creator_id = $creator_id;
-	else
-		$group->creator_id = bp_loggedin_user_id();
-
-	if ( isset( $name ) )
-		$group->name = $name;
-
-	if ( isset( $description ) )
-		$group->description = $description;
-
-	if ( isset( $slug ) && groups_check_slug( $slug ) )
-		$group->slug = $slug;
-
-	if ( isset( $status ) ) {
-		if ( groups_is_valid_status( $status ) ) {
-			$group->status = $status;
+		// Groups need at least a name
+		if ( empty( $name ) ) {
+			return false;
 		}
+
+	// Create a new group
+	} else {
+		// Instantiate new group object
+		$group = new BP_Groups_Group;
 	}
 
-	if ( isset( $enable_forum ) )
-		$group->enable_forum = $enable_forum;
-	else if ( empty( $group_id ) && !isset( $enable_forum ) )
-		$group->enable_forum = 1;
+	// Set creator ID
+	if ( ! empty( $creator_id ) ) {
+		$group->creator_id = (int) $creator_id;
+	} else {
+		$group->creator_id = bp_loggedin_user_id();
+	}
 
-	if ( isset( $date_created ) )
-		$group->date_created = $date_created;
-
-	if ( !$group->save() )
+	// Validate status
+	if ( ! groups_is_valid_status( $status ) ) {
 		return false;
+	}
+
+	// Set group name
+	$group->name         = $name;
+	$group->description  = $description;
+	$group->slug         = $slug;
+	$group->status       = $status;
+	$group->enable_forum = (int) $enable_forum;
+	$group->date_created = $date_created;
+
+	// Save group
+	if ( ! $group->save() ) {
+		return false;
+	}
 
 	// If this is a new group, set up the creator as the first member and admin
 	if ( empty( $group_id ) ) {

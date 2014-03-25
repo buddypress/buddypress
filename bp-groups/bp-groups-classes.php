@@ -265,6 +265,26 @@ class BP_Groups_Group {
 
 		do_action_ref_array( 'groups_group_before_save', array( &$this ) );
 
+		// Groups need at least a name
+		if ( empty( $this->name ) ) {
+			return false;
+		}
+
+		// Set slug with group title if not passed
+		if ( empty( $this->slug ) ) {
+			$this->slug = sanitize_title( $this->name );
+		}
+
+		// Sanity check
+		if ( empty( $this->slug ) ) {
+			return false;
+		}
+
+		// Check for slug conflicts if creating new group
+		if ( empty( $this->id ) ) {
+			$this->slug = groups_check_slug( $this->slug );
+		}
+
 		if ( !empty( $this->id ) ) {
 			$sql = $wpdb->prepare(
 				"UPDATE {$bp->groups->table_name} SET
