@@ -104,7 +104,7 @@ class BP_Members_Admin {
 
 		// Capability depends on config
 		$this->capability = bp_core_do_network_admin() ? 'manage_network_options' : 'manage_options';
-		
+
 		// The Edit Profile Screen id
 		$this->user_page = '';
 
@@ -314,7 +314,7 @@ class BP_Members_Admin {
 		} ?>
 
 		<ul id="profile-nav" class="nav-tab-wrapper">
-			<?php 
+			<?php
 			/**
 			 * In configs where BuddyPress is not network activated, as regular
 			 * admins do not have the capacity to edit other users, we must add
@@ -762,7 +762,7 @@ class BP_Members_Admin {
 		if ( ! empty( $actions['edit'] ) ) {
 			$edit_action = $actions['edit'];
 			unset( $actions['edit'] );
- 
+
 			$new_edit_actions = array(
 				'edit'         => $edit_action,
 				'edit-profile' => $edit_profile_link,
