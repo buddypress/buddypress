@@ -73,8 +73,6 @@ function xprofile_filter_kses( $content ) {
 }
 
 /**
- * xprofile_sanitize_data_value_before_save ( $field_value, $field_id )
- *
  * Safely runs profile field data through kses and force_balance_tags.
  *
  * @param string $field_value
@@ -85,8 +83,9 @@ function xprofile_filter_kses( $content ) {
 function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $reserialize = true ) {
 
 	// Return if empty
-	if ( empty( $field_value ) )
-		return;
+	if ( empty( $field_value ) ) {
+		return $field_value;
+	}
 
 	// Value might be serialized
 	$field_value = maybe_unserialize( $field_value );
