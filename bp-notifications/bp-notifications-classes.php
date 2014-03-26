@@ -319,10 +319,12 @@ class BP_Notifications_Notification {
 		}
 
 		// is_new
-		if ( ! empty( $args['is_new'] ) ) {
-			$where_conditions['is_new'] = "is_new = 1";
-		} elseif ( isset( $args['is_new'] ) && ( 0 === $args['is_new'] || false === $args['is_new'] ) ) {
-			$where_conditions['is_new'] = "is_new = 0";
+		if ( 'both' !== $args['is_new'] ) {
+			if ( ! empty( $args['is_new'] ) ) {
+				$where_conditions['is_new'] = "is_new = 1";
+			} elseif ( isset( $args['is_new'] ) && ( 0 === $args['is_new'] || false === $args['is_new'] ) ) {
+				$where_conditions['is_new'] = "is_new = 0";
+			}
 		}
 
 		// search_terms
@@ -537,8 +539,9 @@ class BP_Notifications_Notification {
 	 *           filter by. Can be an array of component names.
 	 *     @type string|array $component_action Name of the action to
 	 *           filter by. Can be an array of actions.
-	 *     @type bool $is_new Whether to limit the query to is_new (unread)
-	 *           notifications. Default: true.
+	 *     @type bool $is_new Whether to limit to new notifications. True
+	 *           returns only new notifications, false returns only non-new
+	 *           notifications. 'both' returns all. Default: true.
 	 *     @type string $search_terms Term to match against component_name
 	 *           or component_action fields.
 	 *     @type string $order_by Field to order results by.

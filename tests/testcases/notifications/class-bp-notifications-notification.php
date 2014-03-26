@@ -150,4 +150,100 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$actual = wp_list_pluck( $n, 'id' );
 		$this->assertEquals( $expected, $actual );
 	}
+
+	/**
+	 * @group is_new
+	 */
+	public function test_is_new_true() {
+		$u = $this->create_user();
+		$n1 = $this->factory->notification->create( array(
+			'component_name' => 'friends',
+			'user_id' => $u,
+			'is_new' => false,
+		) );
+		$n2 = $this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id' => $u,
+			'is_new' => true,
+		) );
+		$n3 = $this->factory->notification->create( array(
+			'component_name' => 'messages',
+			'user_id' => $u,
+			'is_new' => true,
+		) );
+
+		$n = BP_Notifications_Notification::get( array(
+			'user_id' => $u,
+			'is_new' => true,
+		) );
+
+		// Check that the correct items are pulled up
+		$expected = array( $n2, $n3 );
+		$actual = wp_list_pluck( $n, 'id' );
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * @group is_new
+	 */
+	public function test_is_new_false() {
+		$u = $this->create_user();
+		$n1 = $this->factory->notification->create( array(
+			'component_name' => 'friends',
+			'user_id' => $u,
+			'is_new' => false,
+		) );
+		$n2 = $this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id' => $u,
+			'is_new' => true,
+		) );
+		$n3 = $this->factory->notification->create( array(
+			'component_name' => 'messages',
+			'user_id' => $u,
+			'is_new' => true,
+		) );
+
+		$n = BP_Notifications_Notification::get( array(
+			'user_id' => $u,
+			'is_new' => false,
+		) );
+
+		// Check that the correct items are pulled up
+		$expected = array( $n1 );
+		$actual = wp_list_pluck( $n, 'id' );
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * @group is_new
+	 */
+	public function test_is_new_both() {
+		$u = $this->create_user();
+		$n1 = $this->factory->notification->create( array(
+			'component_name' => 'friends',
+			'user_id' => $u,
+			'is_new' => false,
+		) );
+		$n2 = $this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id' => $u,
+			'is_new' => true,
+		) );
+		$n3 = $this->factory->notification->create( array(
+			'component_name' => 'messages',
+			'user_id' => $u,
+			'is_new' => true,
+		) );
+
+		$n = BP_Notifications_Notification::get( array(
+			'user_id' => $u,
+			'is_new' => 'both',
+		) );
+
+		// Check that the correct items are pulled up
+		$expected = array( $n1, $n2, $n3 );
+		$actual = wp_list_pluck( $n, 'id' );
+		$this->assertEquals( $expected, $actual );
+	}
 }
