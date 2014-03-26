@@ -1119,12 +1119,7 @@ class BP_Groups_Theme_Compat {
 	 */
 	public function create_dummy_post() {
 
-		// Title based on ability to create groups
-		if ( is_user_logged_in() && bp_user_can_create_groups() ) {
-			$title = '<a class="button" href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) . '">' . __( 'Groups', 'buddypress' ) . '</a>&nbsp;' . __( 'Create a Group', 'buddypress' );
-		} else {
-			$title = __( 'Groups', 'buddypress' );
-		}
+		$title = __( 'Groups', 'buddypress' );
 
 		bp_theme_compat_reset_post( array(
 			'ID'             => 0,
