@@ -1126,20 +1126,24 @@ class BP_XProfile_ProfileData {
 
 		if ( false === $profiledata ) {
 			$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
+			$profiledata = $wpdb->get_row( $sql );
 
-			if ( $profiledata = $wpdb->get_row( $sql ) ) {
-				$this->id           = $profiledata->id;
-				$this->user_id      = $profiledata->user_id;
-				$this->field_id     = $profiledata->field_id;
-				$this->value        = stripslashes( $profiledata->value );
-				$this->last_updated = $profiledata->last_updated;
-
+			if ( $profiledata ) {
 				wp_cache_set( $field_id, $profiledata, $cache_group );
-			} else {
-				// When no row is found, we'll need to set these properties manually
-				$this->field_id	    = $field_id;
-				$this->user_id	    = $user_id;
 			}
+		}
+
+		if ( $profiledata ) {
+			$this->id           = $profiledata->id;
+			$this->user_id      = $profiledata->user_id;
+			$this->field_id     = $profiledata->field_id;
+			$this->value        = stripslashes( $profiledata->value );
+			$this->last_updated = $profiledata->last_updated;
+
+		} else {
+			// When no row is found, we'll need to set these properties manually
+			$this->field_id	    = $field_id;
+			$this->user_id	    = $user_id;
 		}
 	}
 
