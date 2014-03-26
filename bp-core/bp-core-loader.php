@@ -110,6 +110,8 @@ class BP_Core extends BP_Component {
 
 		// Add Core to required components
 		$bp->required_components[] = 'core';
+
+		do_action( 'bp_core_components_included' );
 	}
 
 	/**

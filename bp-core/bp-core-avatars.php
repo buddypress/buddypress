@@ -764,7 +764,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 		$new_avatar_path      = str_replace( $upload_dir['basedir'], '', $original_file );
 
 		if ( $existing_avatar_path !== $new_avatar_path ) {
-			bp_core_delete_existing_avatar( array( 'object' => $object, 'avatar_path' => $avatar_folder_dir ) );
+			bp_core_delete_existing_avatar( array( 'object' => $object, 'item_id' => $item_id, 'avatar_path' => $avatar_folder_dir ) );
 		}
 	}
 

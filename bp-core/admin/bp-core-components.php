@@ -420,5 +420,5 @@ function bp_core_admin_get_components( $type = 'all' ) {
 
 	}
 
-	return $components;
+	return apply_filters( 'bp_core_admin_get_components', $components, $type );
 }
