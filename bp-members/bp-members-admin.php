@@ -297,6 +297,12 @@ class BP_Members_Admin {
 			return;
 		}
 
+		// Don't display here if this is not where other BP
+		// administration takes place
+		if ( bp_core_do_network_admin() && ! is_network_admin() ) {
+			return;
+		}
+
 		$query_args = array( 'user_id' => $user->ID );
 
 		if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
