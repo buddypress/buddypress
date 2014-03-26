@@ -776,10 +776,24 @@ function bp_group_is_mod() {
 function bp_group_list_admins( $group = false ) {
 	global $groups_template;
 
-	if ( empty( $group ) )
+	if ( empty( $group ) ) {
 		$group =& $groups_template->group;
+	}
 
-	if ( !empty( $group->admins ) ) { ?>
+	// fetch group admins if 'populate_extras' flag is false
+	if ( empty( $group->args['populate_extras'] ) ) {
+		$query = new BP_Group_Member_Query( array(
+			'group_id'   => $group->id,
+			'group_role' => 'admin',
+			'type'       => 'first_joined',
+		) );
+
+		if ( ! empty( $query->results ) ) {
+			$group->admins = $query->results;
+		}
+	}
+
+	if ( ! empty( $group->admins ) ) { ?>
 		<ul id="group-admins">
 			<?php foreach( (array) $group->admins as $admin ) { ?>
 				<li>
@@ -796,10 +810,24 @@ function bp_group_list_admins( $group = false ) {
 function bp_group_list_mods( $group = false ) {
 	global $groups_template;
 
-	if ( empty( $group ) )
+	if ( empty( $group ) ) {
 		$group =& $groups_template->group;
+	}
 
-	if ( !empty( $group->mods ) ) : ?>
+	// fetch group mods if 'populate_extras' flag is false
+	if ( empty( $group->args['populate_extras'] ) ) {
+		$query = new BP_Group_Member_Query( array(
+			'group_id'   => $group->id,
+			'group_role' => 'mod',
+			'type'       => 'first_joined',
+		) );
+
+		if ( ! empty( $query->results ) ) {
+			$group->mods = $query->results;
+		}
+	}
+
+	if ( ! empty( $group->mods ) ) : ?>
 
 		<ul id="group-mods">
 

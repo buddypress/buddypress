@@ -151,7 +151,7 @@ class BP_Groups_Group {
 	 * @since BuddyPress (2.0.0)
 	 * @var array
 	 */
-	protected $args;
+	public $args;
 
 	/**
 	 * Constructor method.
