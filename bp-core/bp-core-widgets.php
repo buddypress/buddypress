@@ -190,6 +190,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 			'per_page'        => $instance['max_members'],
 			'max'             => $instance['max_members'],
 			'populate_extras' => true,
+			'search_terms'    => false,
 		);
 
 		?>
@@ -345,6 +346,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 			'per_page'        => $instance['max_members'],
 			'max'             => $instance['max_members'],
 			'populate_extras' => true,
+			'search_terms'    => false,
 		);
 
 		?>
@@ -447,6 +449,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 			'per_page'        => $instance['max_members'],
 			'max'             => $instance['max_members'],
 			'populate_extras' => true,
+			'search_terms'    => false,
 		);
 
 		?>
@@ -540,9 +543,10 @@ function bp_core_ajax_widget_members() {
 		'per_page'        => $_POST['max-members'],
 		'max'             => $_POST['max-members'],
 		'populate_extras' => 1,
+		'search_terms'    => false,
 	);
 
-	if ( bp_has_members( 'user_id=0&type=' . $type . '&per_page=' . $_POST['max-members'] . '&max=' . $_POST['max-members'] . '&populate_extras=1' ) ) : ?>
+	if ( bp_has_members( $members_args ) ) : ?>
 		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this. ?>
 		<?php while ( bp_members() ) : bp_the_member(); ?>
 			<li class="vcard">
