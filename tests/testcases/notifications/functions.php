@@ -90,4 +90,34 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
 		$this->assertNotEmpty( bp_notifications_add_notification( $args ) );
 	}
+
+	/**
+	 * @group bp_notifications_get_unread_notification_count
+	 * @group cache
+	 */
+	public function test_bp_notifications_get_unread_notification_count_cache() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		$n1 = $this->factory->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 99,
+			'user_id'           => $u2,
+			'secondary_item_id' => $u1,
+			'is_new'            => true,
+		) );
+
+		// prime cache
+		bp_notifications_get_unread_notification_count( $u2 );
+
+		// mark the created notification as read
+		bp_notifications_mark_notifications_by_item_id( $u2, 99, 'messages', 'new_message', $u1 );
+
+		// now grab the updated notification count
+		$n = bp_notifications_get_unread_notification_count( $u2 );
+
+		// assert
+		$this->assertEquals( 0, $n );
+	}
 }

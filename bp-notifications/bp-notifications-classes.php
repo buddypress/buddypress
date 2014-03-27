@@ -661,6 +661,11 @@ class BP_Notifications_Notification {
 		$update = self::get_query_clauses( $update_args );
 		$where  = self::get_query_clauses( $where_args  );
 
+		// make sure we delete the notification cache for the user on update
+		if ( ! empty( $where_args['user_id'] ) ) {
+			wp_cache_delete( 'all_for_user_' . $where_args['user_id'], 'bp_notifications' );
+		}
+
 		return self::_update( $update['data'], $where['data'], $update['format'], $where['format'] );
 	}
 
