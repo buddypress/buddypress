@@ -575,12 +575,21 @@ function bp_core_add_root_component( $slug ) {
  * Create WordPress pages to be used as BP component directories.
  */
 function bp_core_create_root_component_page() {
-	global $bp;
+
+	// Get BuddyPress
+	$bp = buddypress();
 
 	$new_page_ids = array();
 
-	foreach ( (array) $bp->add_root as $slug )
-		$new_page_ids[$slug] = wp_insert_post( array( 'comment_status' => 'closed', 'ping_status' => 'closed', 'post_title' => ucwords( $slug ), 'post_status' => 'publish', 'post_type' => 'page' ) );
+	foreach ( (array) $bp->add_root as $slug ) {
+		$new_page_ids[ $slug ] = wp_insert_post( array(
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+			'post_title'     => ucwords( $slug ),
+			'post_status'    => 'publish',
+			'post_type'      => 'page'
+		) );
+	}
 
 	$page_ids = array_merge( (array) $new_page_ids, (array) bp_core_get_directory_page_ids() );
 	bp_core_update_directory_page_ids( $page_ids );
@@ -1160,14 +1169,15 @@ function bp_delete_user_meta( $user_id, $key, $value = '' ) {
  * Initializes {@link BP_Embed} after everything is loaded.
  *
  * @since BuddyPress (1.5.0)
- *
- * @global BuddyPress $bp BuddyPress global settings.
  */
 function bp_embed_init() {
-	global $bp;
 
-	if ( empty( $bp->embed ) )
+	// Get BuddyPress
+	$bp = buddypress();
+
+	if ( empty( $bp->embed ) ) {
 		$bp->embed = new BP_Embed();
+	}
 }
 add_action( 'bp_init', 'bp_embed_init', 9 );
 
@@ -1346,9 +1356,7 @@ function bp_is_root_blog( $blog_id = 0 ) {
  * @return int The root site ID.
  */
 function bp_get_root_blog_id() {
-	global $bp;
-
-	return (int) apply_filters( 'bp_get_root_blog_id', (int) $bp->root_blog_id );
+	return (int) apply_filters( 'bp_get_root_blog_id', (int) buddypress()->root_blog_id );
 }
 
 /**
@@ -1432,57 +1440,51 @@ function bp_is_network_activated() {
 /** Global Manipulators *******************************************************/
 
 /**
- * Set the $bp->is_directory global.
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
+ * Set the "is_directory" global.
  *
  * @param bool $is_directory Optional. Default: false.
  * @param string $component Optional. Component name. Default: the current
  *        component.
  */
 function bp_update_is_directory( $is_directory = false, $component = '' ) {
-	global $bp;
 
-	if ( empty( $component ) )
+	if ( empty( $component ) ) {
 		$component = bp_current_component();
+	}
 
-	$bp->is_directory = apply_filters( 'bp_update_is_directory', $is_directory, $component );
+	buddypress()->is_directory = apply_filters( 'bp_update_is_directory', $is_directory, $component );
 }
 
 /**
- * Set the $bp->is_item_admin global.
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
+ * Set the "is_item_admin" global.
  *
  * @param bool $is_item_admin Optional. Default: false.
- * @param string $component. Optional. Component name. Default: the current
+ * @param string $component Optional. Component name. Default: the current
  *        component.
  */
 function bp_update_is_item_admin( $is_item_admin = false, $component = '' ) {
-	global $bp;
 
-	if ( empty( $component ) )
+	if ( empty( $component ) ) {
 		$component = bp_current_component();
+	}
 
-	$bp->is_item_admin = apply_filters( 'bp_update_is_item_admin', $is_item_admin, $component );
+	buddypress()->is_item_admin = apply_filters( 'bp_update_is_item_admin', $is_item_admin, $component );
 }
 
 /**
- * Set the $bp->is_item_mod global.
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
+ * Set the "is_item_mod" global.
  *
  * @param bool $is_item_mod Optional. Default: false.
- * @param string $component. Optional. Component name. Default: the current
+ * @param string $component Optional. Component name. Default: the current
  *        component.
  */
 function bp_update_is_item_mod( $is_item_mod = false, $component = '' ) {
-	global $bp;
 
-	if ( empty( $component ) )
+	if ( empty( $component ) ) {
 		$component = bp_current_component();
+	}
 
-	$bp->is_item_mod = apply_filters( 'bp_update_is_item_mod', $is_item_mod, $component );
+	buddypress()->is_item_mod = apply_filters( 'bp_update_is_item_mod', $is_item_mod, $component );
 }
 
 /**
@@ -1504,8 +1506,9 @@ function bp_do_404( $redirect = 'remove_canonical_direct' ) {
 	status_header( 404 );
 	nocache_headers();
 
-	if ( 'remove_canonical_direct' == $redirect )
+	if ( 'remove_canonical_direct' === $redirect ) {
 		remove_action( 'template_redirect', 'redirect_canonical' );
+	}
 }
 
 /** Nonces ********************************************************************/
