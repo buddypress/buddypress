@@ -1711,32 +1711,98 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 }
 
 /**
- * Stop user accounts logging in that have not been activated yet (user_status = 2).
+ * Display a "resend email" link when an unregistered user attempts to log in.
  *
- * Note: This is only applicable for single site WordPress installs.
- * Multisite has their own DB table - 'wp_signups' - dedicated for unactivated users.
- * See {@link wpmu_signup_user()} and {@link wpmu_validate_user_signup()}.
- *
- * @param WP_User|WP_Error $user Either the WP_User object or the WP_Error object
- * @return WP_User|WP_Error If the user is not a spammer, return the WP_User object. Otherwise a new WP_Error object.
+ * @param WP_User|WP_Error $user Either the WP_User or the WP_Error object
+ * @param string $username The inputted, attempted username.
+ * @param string $password The inputted, attempted password.
+ * @return WP_User|WP_Error
  *
  * @since BuddyPress (1.2.2)
  */
-function bp_core_signup_disable_inactive( $user ) {
-	// check to see if the $user has already failed logging in, if so return $user as-is
-	if ( is_wp_error( $user ) || empty( $user ) )
+function bp_core_signup_disable_inactive( $user = null, $username = '', $password ='' ) {
+	// login form not used
+	if ( empty( $username ) && empty( $password ) ) {
 		return $user;
+	}
 
-	// the user exists; now do a check to see if the user has activated their account or not
-	// NOTE: this is only applicable for single site WordPress installs!
-	// if unactivated, stop the login now!
-	if ( is_a( $user, 'WP_User' ) && 2 == $user->user_status )
-		return new WP_Error( 'bp_account_not_activated', __( '<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link.', 'buddypress' ) );
+	// An existing WP_User with a user_status of 2 is either a legacy
+	// signup, or is a user created for backward compatibility. See
+	// {@link bp_core_signup_user()} for more details.
+	if ( is_a( $user, 'WP_User' ) && 2 == $user->user_status ) {
+		$user_login = $user->user_login;
 
-	// user has activated their account! all clear!
-	return $user;
+	// If no WP_User is found corresponding to the username, this
+	// is a potential signup
+	} elseif ( is_wp_error( $user ) && 'invalid_username' == $user->get_error_code() ) {
+		$user_login = $username;
+
+	// This is an activated user, so bail
+	} else {
+		return $user;
+	}
+
+	// Look for the unactivated signup corresponding to the login name
+	$signup = BP_Signup::get( array( 'user_login' => sanitize_user( $user_login ) ) );
+
+	// No signup or more than one, something is wrong. Let's bail.
+	if ( empty( $signup['signups'][0] ) || $signup['total'] > 1 ) {
+		return $user;
+	}
+
+	// Unactivated user account found!
+	// Set up the feedback message
+	$signup_id = $signup['signups'][0]->signup_id;
+
+	$resend_url_params = array(
+		'action' => 'bp-resend-activation',
+		'id'     => $signup_id,
+	);
+
+	$resend_url = wp_nonce_url(
+		add_query_arg( $resend_url_params, wp_login_url() ),
+		'bp-resend-activation'
+	);
+
+	$resend_string = '<br /><br />' . sprintf( __( 'If you have not received an email yet, <a href="%s">click here to resend it</a>.', 'buddypress' ), $resend_url );
+
+	return new WP_Error( 'bp_account_not_activated', __( '<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link.', 'buddypress' ) . $resend_string );
 }
-add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30 );
+add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 3 );
+
+/**
+ * On the login screen, resends the activation email for a user.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @see bp_core_signup_disable_inactive()
+ */
+function bp_members_login_resend_activation_email() {
+	global $error;
+
+	if ( empty( $_GET['id'] ) || empty( $_GET['_wpnonce'] ) ) {
+		return;
+	}
+
+	// verify nonce
+	if ( ! wp_verify_nonce( $_GET['_wpnonce'], 'bp-resend-activation' ) ) {
+		die( 'Security check' );
+	}
+
+	$signup_id = (int) $_GET['id'];
+
+	// resend the activation email
+	// also updates the 'last sent' and '# of emails sent' values
+	$resend = BP_Signup::resend( array( $signup_id ) );
+
+	// add feedback message
+	if ( ! empty( $resend['errors'] ) ) {
+		$error = __( '<strong>ERROR</strong>: Your account has already been activated.', 'buddypress' );
+	} else {
+		$error = __( 'Activation email resent!  Please check your inbox or spam folder.', 'buddypress' );
+	}
+}
+add_action( 'login_form_bp-resend-activation', 'bp_members_login_resend_activation_email' );
 
 /**
  * Kill the wp-signup.php if custom registration signup templates are present
