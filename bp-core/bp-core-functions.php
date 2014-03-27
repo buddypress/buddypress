@@ -905,22 +905,23 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 /**
  * Add a feedback (error/success) message to the WP cookie so it can be displayed after the page reloads.
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @param string $message Feedback message to be displayed.
  * @param string $type Message type. 'updated', 'success', 'error', 'warning'.
  *        Default: 'success'.
  */
 function bp_core_add_message( $message, $type = '' ) {
-	global $bp;
 
 	// Success is the default
-	if ( empty( $type ) )
+	if ( empty( $type ) ) {
 		$type = 'success';
+	}
 
 	// Send the values to the cookie for page reload display
 	@setcookie( 'bp-message',      $message, time() + 60 * 60 * 24, COOKIEPATH );
 	@setcookie( 'bp-message-type', $type,    time() + 60 * 60 * 24, COOKIEPATH );
+
+	// Get BuddyPress
+	$bp = buddypress();
 
 	/***
 	 * Send the values to the $bp global so we can still output messages
@@ -940,24 +941,30 @@ function bp_core_add_message( $message, $type = '' ) {
  * After the message is displayed, it removes the message vars from the cookie
  * so that the message is not shown to the user multiple times.
  *
- * @global BuddyPress $bp BuddyPress global settings object.
  * @uses setcookie() Sets a cookie value for the user.
  */
 function bp_core_setup_message() {
-	global $bp;
 
-	if ( empty( $bp->template_message ) && isset( $_COOKIE['bp-message'] ) )
+	// Get BuddyPress
+	$bp = buddypress();
+
+	if ( empty( $bp->template_message ) && isset( $_COOKIE['bp-message'] ) ) {
 		$bp->template_message = stripslashes( $_COOKIE['bp-message'] );
+	}
 
-	if ( empty( $bp->template_message_type ) && isset( $_COOKIE['bp-message-type'] ) )
+	if ( empty( $bp->template_message_type ) && isset( $_COOKIE['bp-message-type'] ) ) {
 		$bp->template_message_type = stripslashes( $_COOKIE['bp-message-type'] );
+	}
 
 	add_action( 'template_notices', 'bp_core_render_message' );
 
-	if ( isset( $_COOKIE['bp-message'] ) )
+	if ( isset( $_COOKIE['bp-message'] ) ) {
 		@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
-	if ( isset( $_COOKIE['bp-message-type'] ) )
+	}
+
+	if ( isset( $_COOKIE['bp-message-type'] ) ) {
 		@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
+	}
 }
 add_action( 'bp_actions', 'bp_core_setup_message', 5 );
 
@@ -966,17 +973,17 @@ add_action( 'bp_actions', 'bp_core_setup_message', 5 );
  *
  * The hook action 'template_notices' is used to call this function, it is not
  * called directly.
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_render_message() {
-	global $bp;
+
+	// Get BuddyPress
+	$bp = buddypress();
 
 	if ( !empty( $bp->template_message ) ) :
-		$type    = ( 'success' == $bp->template_message_type ) ? 'updated' : 'error';
+		$type    = ( 'success' === $bp->template_message_type ) ? 'updated' : 'error';
 		$content = apply_filters( 'bp_core_render_message_content', $bp->template_message, $type ); ?>
 
-		<div id="message" class="bp-template-notice <?php echo $type; ?>">
+		<div id="message" class="bp-template-notice <?php echo esc_attr( $type ); ?>">
 
 			<?php echo $content; ?>
 
