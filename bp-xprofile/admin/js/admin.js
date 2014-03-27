@@ -79,7 +79,9 @@ function hide( id ) {
 	if ( !document.getElementById( id ) ) return false;
 
 	document.getElementById( id ).style.display = "none";
-	document.getElementById( id ).value = '';
+	// the field id is [fieldtype]option[iterator] and not [fieldtype]div[iterator]
+	field_id = id.replace( 'div', 'option' ); 
+	document.getElementById( field_id ).value = '';
 }
 
 var fixHelper = function(e, ui) {
