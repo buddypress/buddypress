@@ -123,4 +123,16 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$u1 = $this->create_user();
 		$this->assertFalse( friends_add_friend( $u1, $u1 ) );
 	}
+
+	/**
+	 * @group friends_add_friend
+	 */
+	public function test_friends_add_friend_already_friends() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		friends_add_friend( $u1, $u2, true );
+
+		$this->assertTrue( friends_add_friend( $u1, $u2 ) );
+	}
 }

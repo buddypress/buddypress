@@ -36,19 +36,19 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 	}
 
 	// Check if already friends, and bail if so
-	$friendship = new BP_Friends_Friendship;
-	if ( (int) $friendship->is_confirmed ) {
+	if ( friends_check_friendship( $initiator_userid, $friend_userid ) ) {
 		return true;
 	}
 
 	// Setup the friendship data
+	$friendship = new BP_Friends_Friendship;
 	$friendship->initiator_user_id = $initiator_userid;
 	$friendship->friend_user_id    = $friend_userid;
 	$friendship->is_confirmed      = 0;
 	$friendship->is_limited        = 0;
 	$friendship->date_created      = bp_core_current_time();
 
-	if ( !empty( $force_accept ) ) {
+	if ( ! empty( $force_accept ) ) {
 		$friendship->is_confirmed = 1;
 	}
 
