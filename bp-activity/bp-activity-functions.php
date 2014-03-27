@@ -406,8 +406,17 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
-	// Update the user's personal favorites
-	$my_favs   = bp_get_user_meta( $user_id, 'bp_favorite_activities', true );
+	$my_favs = bp_get_user_meta( $user_id, 'bp_favorite_activities', true );
+	if ( empty( $my_favs ) || ! is_array( $my_favs ) ) {
+		$my_favs = array();
+	}
+
+	// Bail if the user has already favorited this activity item
+	if ( in_array( $activity_id, $my_favs ) ) {
+		return false;
+	}
+
+	// Add to user's favorites
 	$my_favs[] = $activity_id;
 
 	// Update the total number of users who have favorited this activity

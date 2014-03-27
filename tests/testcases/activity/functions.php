@@ -695,6 +695,21 @@ Bar!';
 		}
 	}
 
+	/**
+	 * @group favorites
+	 * @group bp_activity_add_user_favorite
+	 */
+	public function test_add_user_favorite_already_favorited() {
+		$u = $this->create_user();
+		$a = $this->factory->activity->create();
+
+		bp_activity_add_user_favorite( $a, $u );
+
+		$this->assertFalse( bp_activity_add_user_favorite( $a, $u ) );
+		$this->assertSame( array( $a ), bp_activity_get_user_favorites( $u ) );
+		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+	}
+
 	public function check_activity_caches() {
 		foreach ( $this->acaches as $k => $v ) {
 			$this->acaches[ $k ] = wp_cache_get( $k, 'bp_activity' );
