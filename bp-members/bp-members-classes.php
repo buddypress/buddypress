@@ -92,14 +92,13 @@ class BP_Signup {
 		global $wpdb;
 
 		$signups_table = buddypress()->members->table_name_signups;
-
-		$signup = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$signups_table} WHERE signup_id = %d AND active = 0", $this->id ) );
+		$signup        = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$signups_table} WHERE signup_id = %d AND active = 0", $this->id ) );
 
 		$this->avatar         = get_avatar( $signup->user_email, 32 );
 		$this->user_login     = $signup->user_login;
 		$this->user_email     = $signup->user_email;
 		$this->meta           = maybe_unserialize( $signup->meta );
-		$this->user_name      = ! empty( $meta['field_1'] ) ? wp_unslash( $meta['field_1'] ) : '';
+		$this->user_name      = ! empty( $this->meta['field_1'] ) ? wp_unslash( $this->meta['field_1'] ) : '';
 		$this->registered     = $signup->registered;
 		$this->activation_key = $signup->activation_key;
 	}
@@ -135,7 +134,7 @@ class BP_Signup {
 		);
 
 		// @todo whitelist sanitization
-		if ( $r['orderby'] != 'signup_id' ) {
+		if ( $r['orderby'] !== 'signup_id' ) {
 			$r['orderby'] = 'user_' . $r['orderby'];
 		}
 
@@ -148,11 +147,12 @@ class BP_Signup {
 		$sql['where'][] = "active = 0";
 
 		if ( empty( $r['include'] ) ) {
+
 			// Search terms
 			if ( ! empty( $r['usersearch'] ) ) {
 				$search_terms_clean = esc_sql( esc_sql( $r['usersearch'] ) );
 				$search_terms_clean = like_escape( $search_terms_clean );
-				$sql['where'][] = "( user_login LIKE '%" . $search_terms_clean . "%' OR user_email LIKE '%" . $search_terms_clean . "%' OR meta LIKE '%" . $search_terms_clean . "%' )";
+				$sql['where'][]     = "( user_login LIKE '%" . $search_terms_clean . "%' OR user_email LIKE '%" . $search_terms_clean . "%' OR meta LIKE '%" . $search_terms_clean . "%' )";
 			}
 
 			// Activation key
@@ -188,7 +188,7 @@ class BP_Signup {
 
 		foreach ( (array) $paged_signups as $key => $signup ) {
 
-			$signup->id = intval( $signup->signup_id );
+			$signup->id   = intval( $signup->signup_id );
 
 			$signup->meta = ! empty( $signup->meta ) ? maybe_unserialize( $signup->meta ) : false;
 
@@ -305,7 +305,7 @@ class BP_Signup {
 		) );
 
 		if ( is_wp_error( $user_id ) || empty( $user_id ) ) {
-			$errors->add( 'registerfail', sprintf( __('<strong>ERROR</strong>: Couldn&#8217;t register you. Please contact the <a href="mailto:%s">webmaster</a>.', 'buddypress' ), bp_get_option( 'admin_email' ) ) );
+			$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you. Please contact the <a href="mailto:%s">webmaster</a>.', 'buddypress' ), bp_get_option( 'admin_email' ) ) );
 			return $errors;
 		}
 
@@ -317,7 +317,7 @@ class BP_Signup {
 		// wp_insert_user(), but we delete them so that inactive
 		// signups don't appear in various user counts.
 		delete_user_option( $user_id, 'capabilities' );
-		delete_user_option( $user_id, 'user_level' );
+		delete_user_option( $user_id, 'user_level'   );
 
 		// Set any profile data
 		if ( bp_is_active( 'xprofile' ) ) {
@@ -353,8 +353,9 @@ class BP_Signup {
 	public static function check_user_status( $user_id = 0 ) {
 		global $wpdb;
 
-		if ( empty( $user_id ) )
+		if ( empty( $user_id ) ) {
 			return false;
+		}
 
 		$user_status = $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM {$wpdb->users} WHERE ID = %d", $user_id ) );
 
@@ -493,8 +494,8 @@ class BP_Signup {
 
 		foreach ( $signups as $signup ) {
 
-			$meta = $signup->meta;
-			$meta['sent_date'] = current_time( 'mysql', true );
+			$meta               = $signup->meta;
+			$meta['sent_date']  = current_time( 'mysql', true );
 			$meta['count_sent'] = $signup->count_sent + 1;
 
 			// Send activation email
@@ -506,10 +507,13 @@ class BP_Signup {
 				$user_id = email_exists( $signup->user_email );
 
 				if ( ! empty( $user_id ) && 2 != self::check_user_status( $user_id ) ) {
+
 					// Status is not 2, so user's account has been activated
-					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );;
+					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
+
 					// repare signups table
 					self::validate( $signup->activation_key );
+
 					continue;
 
 				// Send the validation email
@@ -561,9 +565,13 @@ class BP_Signup {
 
 			if ( ! empty( $user->errors ) ) {
 
-				if ( $user_id = username_exists( $signup->user_login ) && 2 != self::check_user_status( $user_id ) ) {
+				$user_id = username_exists( $signup->user_login ) && 2 != self::check_user_status( $user_id );
+
+				if ( !empty( $user_id ) ) {
+
 					// Status is not 2, so user's account has been activated
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
+
 					// repare signups table
 					self::validate( $signup->activation_key );
 
@@ -615,8 +623,10 @@ class BP_Signup {
 			if ( ! empty( $user_id ) && $signup->activation_key == wp_hash( $user_id ) ) {
 
 				if ( 2 != self::check_user_status( $user_id ) ) {
+
 					// Status is not 2, so user's account has been activated
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
+
 					// repare signups table
 					self::validate( $signup->activation_key );
 
