@@ -30,6 +30,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = false ) {
 
+	// You cannot be friends with yourself!
+	if ( $initiator_userid == $friend_userid ) {
+		return false;
+	}
+
 	// Check if already friends, and bail if so
 	$friendship = new BP_Friends_Friendship;
 	if ( (int) $friendship->is_confirmed ) {

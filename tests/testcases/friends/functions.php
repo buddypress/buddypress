@@ -115,4 +115,12 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		$this->set_current_user( $old_user );
 	}
+
+	/**
+	 * @group friends_add_friend
+	 */
+	public function test_friends_add_friend_fail_on_self() {
+		$u1 = $this->create_user();
+		$this->assertFalse( friends_add_friend( $u1, $u1 ) );
+	}
 }
