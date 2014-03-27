@@ -825,3 +825,100 @@ function bp_core_maybe_install_signups() {
 
 	bp_core_install_signups();
 }
+
+/**
+ * Add "Mark as Spam/Ham" button to user row actions.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $actions User row action links.
+ * @param object $user_object Current user information.
+ * @return array $actions User row action links.
+ */
+function bp_core_admin_user_row_actions( $actions, $user_object ) {
+
+	if ( current_user_can( 'edit_user', $user_object->ID ) && bp_loggedin_user_id() != $user_object->ID ) {
+
+		$url = bp_get_admin_url( 'users.php' );
+
+		if ( bp_is_user_spammer( $user_object->ID ) ) {
+			$actions['ham'] = "<a href='" . wp_nonce_url( $url . "?action=ham&amp;user=$user_object->ID", 'bp-spam-user' ) . "'>" . __( 'Not Spam' ) . "</a>";
+		} else {
+			$actions['spam'] = "<a class='submitdelete' href='" . wp_nonce_url( $url . "?action=spam&amp;user=$user_object->ID", 'bp-spam-user' ) . "'>" . __( 'Mark as Spam' ) . "</a>";
+		}
+	}
+
+	return $actions;
+}
+
+/**
+ * Catch requests to mark individual users as spam/ham from users.php.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_core_admin_user_manage_spammers() {
+
+	// Print our inline scripts on non-Multisite
+	add_action( 'admin_footer', 'bp_core_admin_user_spammed_js' );
+
+	$action  = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : false;
+	$updated = isset( $_REQUEST['updated'] ) ? $_REQUEST['updated'] : false;
+	$mode    = isset( $_POST['mode'] ) ? $_POST['mode'] : false;
+
+	// if this is a multisite, bulk request, stop now!
+	if ( 'list' == $mode ) {
+		return;
+	}
+
+	// Process a spam/ham request
+	if ( ! empty( $action ) && in_array( $action, array( 'spam', 'ham' ) ) ) {
+
+		check_admin_referer( 'bp-spam-user' );
+
+		$user_id = ! empty( $_REQUEST['user'] ) ? intval( $_REQUEST['user'] ) : false;
+
+		if ( empty( $user_id ) ) {
+			return;
+		}
+
+		$redirect = wp_get_referer();
+
+		$status = ( $action == 'spam' ) ? 'spam' : 'ham';
+
+		// Process the user
+		bp_core_process_spammer_status( $user_id, $status );
+
+		$redirect = add_query_arg( array( 'updated' => 'marked-' . $status ), $redirect);
+
+		wp_redirect( $redirect );
+	}
+
+	// Display feedback
+	if ( ! empty( $updated ) && in_array( $updated, array( 'marked-spam', 'marked-ham' ) ) ) {
+
+		if ( 'marked-spam' === $updated ) {
+			$notice = __( 'User marked as spammer. Spam users are visible only to site admins.', 'buddypress' );
+		} else {
+			$notice = __( 'User removed from spam.', 'buddypress' );
+		}
+
+		bp_core_add_admin_notice( $notice );
+	}
+}
+
+/**
+ * Inline script that adds the 'site-spammed' class to spammed users.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_core_admin_user_spammed_js() {
+	?>
+	<script type="text/javascript">
+		jQuery( document ).ready( function($) {
+			$( '.row-actions .ham' ).each( function() {
+				$( this ).closest( 'tr' ).addClass( 'site-spammed' );
+			});
+		});
+	</script>
+	<?php
+}

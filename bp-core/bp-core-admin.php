@@ -161,11 +161,18 @@ class BP_Admin {
 		add_action( 'tool_box', 'bp_core_admin_available_tools_intro' );
 		add_action( 'bp_network_tool_box', 'bp_core_admin_available_tools_intro' );
 
+		// On non-multisite, catch
+		add_action( 'load-users.php', 'bp_core_admin_user_manage_spammers' );
+
 		/** Filters ***********************************************************/
 
 		// Add link to settings page
 		add_filter( 'plugin_action_links',               array( $this, 'modify_plugin_action_links' ), 10, 2 );
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'modify_plugin_action_links' ), 10, 2 );
+
+		// Add "Mark as Spam" row actions on users.php
+		add_filter( 'ms_user_row_actions', 'bp_core_admin_user_row_actions', 10, 2 );
+		add_filter( 'user_row_actions',    'bp_core_admin_user_row_actions', 10, 2 );
 	}
 
 	/**

@@ -601,8 +601,13 @@ function bp_core_get_active_member_count() {
  *
  * @param int $user_id The ID of the user being spammed/hammed.
  * @param string $status 'spam' if being marked as spam, 'ham' otherwise.
+ * @param bool $do_wp_cleanup True to force the cleanup of WordPress content
+ *        and status, otherwise false. Generally, this should only be false if
+ *        WordPress is expected to have performed this cleanup independently,
+ *        as when hooked to 'make_spam_user'.
+ * @return bool True on success, false on failure.
  */
-function bp_core_process_spammer_status( $user_id, $status ) {
+function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = true ) {
 	global $wpdb;
 
 	// Bail if no user ID
@@ -631,7 +636,7 @@ function bp_core_process_spammer_status( $user_id, $status ) {
 	}
 
 	// When marking as spam in the Dashboard, these actions are handled by WordPress
-	if ( ! $is_admin ) {
+	if ( $do_wp_cleanup ) {
 
 		// Get the blogs for the user
 		$blogs = get_blogs_of_user( $user_id, true );
@@ -689,7 +694,7 @@ function bp_core_process_spammer_status( $user_id, $status ) {
  * @param int $user_id The user id passed from the make_spam_user hook
  */
 function bp_core_mark_user_spam_admin( $user_id ) {
-	bp_core_process_spammer_status( $user_id, 'spam' );
+	bp_core_process_spammer_status( $user_id, 'spam', false );
 }
 add_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
 
@@ -701,7 +706,7 @@ add_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
  * @param int $user_id The user id passed from the make_ham_user hook
  */
 function bp_core_mark_user_ham_admin( $user_id ) {
-	bp_core_process_spammer_status( $user_id, 'ham' );
+	bp_core_process_spammer_status( $user_id, 'ham', false );
 }
 add_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
 
