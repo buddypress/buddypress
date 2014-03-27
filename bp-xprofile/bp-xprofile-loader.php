@@ -98,15 +98,7 @@ class BP_XProfile_Component extends BP_Component {
 		}
 
 		// Set the support field type ids
-		$this->field_types = apply_filters( 'xprofile_field_types', array(
-			'textbox',
-			'textarea',
-			'radio',
-			'checkbox',
-			'selectbox',
-			'multiselectbox',
-			'datebox'
-		) );
+		$this->field_types = apply_filters( 'xprofile_field_types', array_keys( bp_xprofile_get_field_types() ) );
 
 		// Register the visibility levels. See bp_xprofile_get_visibility_levels() to filter
 		$this->visibility_levels = array(

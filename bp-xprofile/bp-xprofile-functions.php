@@ -60,6 +60,51 @@ function xprofile_update_field_group_position( $field_group_id, $position ) {
 
 /*** Field Management *********************************************************/
 
+/**
+ * Get details of all xprofile field types.
+ *
+ * @return array Key/value pairs (field type => class name).
+ * @since BuddyPress (2.0.0)
+ */
+function bp_xprofile_get_field_types() {
+	$fields = array(
+		'checkbox'       => 'BP_XProfile_Field_Type_Checkbox',
+		'datebox'        => 'BP_XProfile_Field_Type_Datebox',
+		'multiselectbox' => 'BP_XProfile_Field_Type_Multiselectbox',
+		'number'         => 'BP_XProfile_Field_Type_Number',
+		'radio'          => 'BP_XProfile_Field_Type_Radiobutton',
+		'selectbox'      => 'BP_XProfile_Field_Type_Selectbox',
+		'textarea'       => 'BP_XProfile_Field_Type_Textarea',
+		'textbox'        => 'BP_XProfile_Field_Type_Textbox',
+	);
+
+	// If you've added a custom field type in a plugin, register it with this filter.
+	return apply_filters( 'bp_xprofile_get_field_types', $fields );
+}
+
+/**
+ * Creates the specified field type object; used for validation and templating.
+ *
+ * @param string $type Type of profile field to create. See {@link bp_xprofile_get_field_types()} for default core values.
+ * @return object If field type unknown, returns BP_XProfile_Field_Type_Textarea. Otherwise returns an instance of the relevant child class of BP_XProfile_Field_Type.
+ * @since BuddyPress (2.0.0)
+ */
+function bp_xprofile_create_field_type( $type ) {
+
+	$field = bp_xprofile_get_field_types();
+	$class = isset( $field[$type] ) ? $field[$type] : '';
+
+	/**
+	 * For backpat and to handle (missing) field types introduced by other plugins, fallback to
+	 * textbox if a type is unknown. Textbox validation and display is intentionally low key.
+	 */
+	if ( $class && class_exists( $class ) ) {
+		return new $class;
+	} else {
+		return new BP_XProfile_Field_Type_Textbox;
+	}
+}
+
 function xprofile_insert_field( $args = '' ) {
 	global $bp;
 
@@ -211,41 +256,39 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	if ( empty( $field_id ) )
 		return false;
 
-	if ( $is_required && ( empty( $value ) || !is_array( $value ) && !strlen( trim( $value ) ) ) )
+	// Special-case support for integer 0 for the number field type
+	if ( $is_required && ! is_integer( $value ) && $value !== '0' && ( empty( $value ) || ! is_array( $value ) && ! strlen( trim( $value ) ) ) ) {
 		return false;
+	}
 
-	$field = new BP_XProfile_Field( $field_id );
+	$field          = new BP_XProfile_Field( $field_id );
+	$field_type     = BP_XProfile_Field::get_type( $field_id );
+	$field_type_obj = bp_xprofile_create_field_type( $field_type );
 
-	// If the value is empty, then delete any field data that exists, unless the field is of a
-	// type where null values are semantically meaningful
-	if ( empty( $value ) && 'checkbox' != $field->type && 'multiselectbox' != $field->type ) {
+	/**
+	 * Certain types of fields (checkboxes, multiselects) may come through empty.
+	 * Save as empty array so this isn't overwritten by the default on next edit.
+	 *
+	 * Special-case support for integer 0 for the number field type
+	 */
+	if ( empty( $value ) && ! is_integer( $value ) && $value !== '0' && $field_type_obj->accepts_null_value ) {
+		$value = array();
+	}
+
+	// If the value is empty, then delete any field data that exists, unless the field is of a type where null values are semantically meaningful
+	if ( empty( $value ) && ! is_integer( $value ) && $value !== '0' && ! $field_type_obj->accepts_null_value ) {
 		xprofile_delete_field_data( $field_id, $user_id );
 		return true;
 	}
 
-	$possible_values = array();
+	// For certain fields, only certain parameters are acceptable, so add them to the whitelist.
+	if ( $field_type_obj->supports_options ) {
+		$field_type_obj->set_whitelist_values( wp_list_pluck( $field->get_children(), 'name' ) );
+	}
 
-	// Check the value is an acceptable value
-	if ( 'checkbox' == $field->type || 'radio' == $field->type || 'selectbox' == $field->type || 'multiselectbox' == $field->type ) {
-		$options = $field->get_children();
-
-		foreach( $options as $option )
-			$possible_values[] = $option->name;
-
-		if ( is_array( $value ) ) {
-			foreach( $value as $i => $single ) {
-				if ( !in_array( $single, $possible_values ) ) {
-					unset( $value[$i] );
-				}
-			}
-
-			// Reset the keys by merging with an empty array
-			$value = array_merge( array(), $value );
-		} else {
-			if ( !in_array( $value, $possible_values ) ) {
-				return false;
-			}
-		}
+	// Check the value is in an accepted format for this form field.
+	if ( ! $field_type_obj->is_valid( $value ) ) {
+		return false;
 	}
 
 	$field           = new BP_XProfile_ProfileData();

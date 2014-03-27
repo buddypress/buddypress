@@ -221,6 +221,7 @@ function bp_field_css_class( $class = false ) {
 		if ( $profile_template->current_field % 2 == 1 )
 			$css_classes[] = 'alt';
 
+		$css_classes[] = 'field_type_' . sanitize_title( $profile_template->field->type );
 		$css_classes = apply_filters_ref_array( 'bp_field_css_classes', array( &$css_classes ) );
 
 		return apply_filters( 'bp_get_field_css_class', ' class="' . implode( ' ', $css_classes ) . '"' );
@@ -386,11 +387,7 @@ function bp_the_profile_field_input_name() {
 	function bp_get_the_profile_field_input_name() {
 		global $field;
 
-		$array_box = false;
-		if ( 'multiselectbox' == $field->type )
-			$array_box = '[]';
-
-		return apply_filters( 'bp_get_the_profile_field_input_name', 'field_' . $field->id . $array_box );
+		return apply_filters( 'bp_get_the_profile_field_input_name', 'field_' . $field->id );
 	}
 
 /**
@@ -423,14 +420,13 @@ function bp_get_the_profile_field_errors_action() {
  *
  * @param array $args Specify type for datebox. Allowed 'day', 'month', 'year'.
  */
-function bp_the_profile_field_options( $args = '' ) {
+function bp_the_profile_field_options( $args = array() ) {
 	echo bp_get_the_profile_field_options( $args );
 }
 	/**
 	 * bp_get_the_profile_field_options()
 	 *
-	 * Retrieves field options HTML for field types of 'selectbox', 'multiselectbox',
-	 * 'radio', 'checkbox', and 'datebox'.
+	 * Retrieves field options HTML for field types of 'selectbox', 'multiselectbox', 'radio', 'checkbox', and 'datebox'.
 	 *
 	 * @package BuddyPress Xprofile
 	 * @since BuddyPress (1.1)
@@ -446,277 +442,33 @@ function bp_the_profile_field_options( $args = '' ) {
 	 *           used when rendering options. Default: displayed user.
 	 * }
 	 */
-	function bp_get_the_profile_field_options( $args = '' ) {
+	function bp_get_the_profile_field_options( $args = array() ) {
 		global $field;
 
-		$defaults = array(
+		$args = bp_parse_args( $args, array(
 			'type'    => false,
 			'user_id' => bp_displayed_user_id(),
-		);
+		), 'get_the_profile_field_options' );
 
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
-
-		// In some cases, the $field global is not an instantiation of the BP_XProfile_Field
-		// class. However, we have to make sure that all data originally in $field gets
-		// merged back in, after reinstantiation.
-		if ( !method_exists( $field, 'get_children' ) ) {
+		/**
+		 * In some cases, the $field global is not an instantiation of the BP_XProfile_Field class.
+		 * However, we have to make sure that all data originally in $field gets merged back in, after reinstantiation.
+		 */
+		if ( ! method_exists( $field, 'get_children' ) ) {
 			$field_obj = new BP_XProfile_Field( $field->id );
 
-			foreach( $field as $field_prop => $field_prop_value ) {
-				if ( !isset( $field_obj->{$field_prop} ) ) {
+			foreach ( $field as $field_prop => $field_prop_value ) {
+				if ( ! isset( $field_obj->{$field_prop} ) )
 					$field_obj->{$field_prop} = $field_prop_value;
-				}
 			}
 
 			$field = $field_obj;
 		}
 
-		$options = $field->get_children();
-
-		// Setup some defaults
-		$html     = '';
-		$selected = '';
-
-		switch ( $field->type ) {
-			case 'selectbox':
-
-				$html .= '<option value="">' . /* translators: no option picked in select box */ __( '----', 'buddypress' ) . '</option>';
-
-				$original_option_values = '';
-				$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id ) );
-
-				if ( empty( $original_option_values ) && !empty( $_POST['field_' . $field->id] ) ) {
-					$original_option_values = $_POST['field_' . $field->id];
-				}
-
-				$option_values = (array) $original_option_values;
-
-				for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
-
-					// Check for updated posted values, but errors preventing them from being saved first time
-					foreach( $option_values as $i => $option_value ) {
-						if ( isset( $_POST['field_' . $field->id] ) && $_POST['field_' . $field->id] != $option_value ) {
-							if ( !empty( $_POST['field_' . $field->id] ) ) {
-								$option_values[$i] = $_POST['field_' . $field->id];
-							}
-						}
-					}
-
-					$selected = '';
-
-					// Run the allowed option name through the before_save filter, so we'll be sure to get a match
-					$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
-
-					// First, check to see whether the user-entered value matches
-					if ( in_array( $allowed_options, (array) $option_values ) ) {
-						$selected = ' selected="selected"';
-					}
-
-					// Then, if the user has not provided a value, check for defaults
-					if ( !is_array( $original_option_values ) && empty( $option_values ) && $options[$k]->is_default_option ) {
-						$selected = ' selected="selected"';
-					}
-
-					$html .= apply_filters( 'bp_get_the_profile_field_options_select', '<option' . $selected . ' value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '">' . esc_attr( stripslashes( $options[$k]->name ) ) . '</option>', $options[$k], $field->id, $selected, $k );
-				}
-				break;
-
-			case 'multiselectbox':
-				$original_option_values = '';
-				$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id ) );
-
-				if ( empty( $original_option_values ) && !empty( $_POST['field_' . $field->id] ) ) {
-					$original_option_values = $_POST['field_' . $field->id];
-				}
-
-				$option_values = (array) $original_option_values;
-
-				for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
-
-					// Check for updated posted values, but errors preventing them from being saved first time
-					foreach( $option_values as $i => $option_value ) {
-						if ( isset( $_POST['field_' . $field->id] ) && $_POST['field_' . $field->id][$i] != $option_value ) {
-							if ( !empty( $_POST['field_' . $field->id][$i] ) ) {
-								$option_values[] = $_POST['field_' . $field->id][$i];
-							}
-						}
-					}
-					$selected = '';
-
-					// Run the allowed option name through the before_save filter, so we'll be sure to get a match
-					$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
-
-					// First, check to see whether the user-entered value matches
-					if ( in_array( $allowed_options, (array) $option_values ) ) {
-						$selected = ' selected="selected"';
-					}
-
-					// Then, if the user has not provided a value, check for defaults
-					if ( !is_array( $original_option_values ) && empty( $option_values ) && !empty( $options[$k]->is_default_option ) ) {
-						$selected = ' selected="selected"';
-					}
-
-					$html .= apply_filters( 'bp_get_the_profile_field_options_multiselect', '<option' . $selected . ' value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '">' . esc_attr( stripslashes( $options[$k]->name ) ) . '</option>', $options[$k], $field->id, $selected, $k );
-				}
-				break;
-
-			case 'radio':
-				$html .= '<div id="field_' . $field->id . '">';
-				$option_value = BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id );
-
-				for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
-
-					// Check for updated posted values, but errors preventing them from being saved first time
-					if ( isset( $_POST['field_' . $field->id] ) && $option_value != $_POST['field_' . $field->id] ) {
-						if ( !empty( $_POST['field_' . $field->id] ) ) {
-							$option_value = $_POST['field_' . $field->id];
-						}
-					}
-
-					// Run the allowed option name through the before_save
-					// filter, so we'll be sure to get a match
-					$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
-					$selected        = '';
-
-					if ( $option_value == $allowed_options || ( empty( $option_value ) && !empty( $options[$k]->is_default_option ) ) )
-						$selected = ' checked="checked"';
-
-					$html .= apply_filters( 'bp_get_the_profile_field_options_radio', '<label><input' . $selected . ' type="radio" name="field_' . $field->id . '" id="option_' . $options[$k]->id . '" value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '"> ' . esc_attr( stripslashes( $options[$k]->name ) ) . '</label>', $options[$k], $field->id, $selected, $k );
-				}
-
-				$html .= '</div>';
-				break;
-
-			case 'checkbox':
-				$option_values = BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id );
-				$option_values = (array) maybe_unserialize( $option_values );
-
-				// Check for updated posted values, but errors preventing them from being saved first time
-				if ( isset( $_POST['field_' . $field->id] ) && $option_values != maybe_serialize( $_POST['field_' . $field->id] ) ) {
-					if ( !empty( $_POST['field_' . $field->id] ) )
-						$option_values = $_POST['field_' . $field->id];
-				}
-
-				for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
-					$selected = '';
-
-					// First, check to see whether the user's saved values
-					// match the option
-					for ( $j = 0, $count_values = count( $option_values ); $j < $count_values; ++$j ) {
-
-						// Run the allowed option name through the
-						// before_save filter, so we'll be sure to get a match
-						$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
-
-						if ( $option_values[$j] == $allowed_options || @in_array( $allowed_options, $option_values ) ) {
-							$selected = ' checked="checked"';
-							break;
-						}
-					}
-
-					// If the user has not yet supplied a value for this field,
-					// check to see whether there is a default value available
-					if ( !is_array( $option_values ) && empty( $option_values ) && empty( $selected ) && !empty( $options[$k]->is_default_option ) ) {
-						$selected = ' checked="checked"';
-					}
-
-					$html .= apply_filters( 'bp_get_the_profile_field_options_checkbox', '<label><input' . $selected . ' type="checkbox" name="field_' . $field->id . '[]" id="field_' . $options[$k]->id . '_' . $k . '" value="' . esc_attr( stripslashes( $options[$k]->name ) ) . '"> ' . esc_attr( stripslashes( $options[$k]->name ) ) . '</label>', $options[$k], $field->id, $selected, $k );
-				}
-				break;
-
-			case 'datebox':
-				$date = BP_XProfile_ProfileData::get_value_byid( $field->id, $user_id );
-
-				// Set day, month, year defaults
-				$day   = '';
-				$month = '';
-				$year  = '';
-
-				if ( !empty( $date ) ) {
-
-					// If Unix timestamp
-					if ( is_numeric( $date ) ) {
-						$day   = date( 'j', $date );
-						$month = date( 'F', $date );
-						$year  = date( 'Y', $date );
-
-					// If MySQL timestamp
-					} else {
-						$day   = mysql2date( 'j', $date );
-						$month = mysql2date( 'F', $date, false ); // Not localized, so that selected() works below
-						$year  = mysql2date( 'Y', $date );
-					}
-				}
-
-				// Check for updated posted values, and errors preventing
-				// them from being saved first time.
-				if ( !empty( $_POST['field_' . $field->id . '_day'] ) ) {
-					if ( $day != $_POST['field_' . $field->id . '_day'] ) {
-						$day = $_POST['field_' . $field->id . '_day'];
-					}
-				}
-
-				if ( !empty( $_POST['field_' . $field->id . '_month'] ) ) {
-					if ( $month != $_POST['field_' . $field->id . '_month'] ) {
-						$month = $_POST['field_' . $field->id . '_month'];
-					}
-				}
-
-				if ( !empty( $_POST['field_' . $field->id . '_year'] ) ) {
-					if ( $year != date( "j", $_POST['field_' . $field->id . '_year'] ) ) {
-						$year = $_POST['field_' . $field->id . '_year'];
-					}
-				}
-
-				// $type will be passed by calling function when needed
-				switch ( $type ) {
-					case 'day':
-						$html .= '<option value=""' . selected( $day, '', false ) . '>--</option>';
-
-						for ( $i = 1; $i < 32; ++$i ) {
-							$html .= '<option value="' . $i .'"' . selected( $day, $i, false ) . '>' . $i . '</option>';
-						}
-						break;
-
-					case 'month':
-						$eng_months = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );
-
-						$months = array(
-							__( 'January', 'buddypress' ),
-							__( 'February', 'buddypress' ),
-							__( 'March', 'buddypress' ),
-							__( 'April', 'buddypress' ),
-							__( 'May', 'buddypress' ),
-							__( 'June', 'buddypress' ),
-							__( 'July', 'buddypress' ),
-							__( 'August', 'buddypress' ),
-							__( 'September', 'buddypress' ),
-							__( 'October', 'buddypress' ),
-							__( 'November', 'buddypress' ),
-							__( 'December', 'buddypress' )
-						);
-
-						$html .= '<option value=""' . selected( $month, '', false ) . '>------</option>';
-
-						for ( $i = 0; $i < 12; ++$i ) {
-							$html .= '<option value="' . $eng_months[$i] . '"' . selected( $month, $eng_months[$i], false ) . '>' . $months[$i] . '</option>';
-						}
-						break;
-
-					case 'year':
-						$html .= '<option value=""' . selected( $year, '', false ) . '>----</option>';
-
-						for ( $i = 2037; $i > 1901; $i-- ) {
-							$html .= '<option value="' . $i .'"' . selected( $year, $i, false ) . '>' . $i . '</option>';
-						}
-						break;
-				}
-
-				$html = apply_filters( 'bp_get_the_profile_field_datebox', $html, $type, $day, $month, $year, $field->id, $date );
-
-				break;
-		}
+		ob_start();
+		$field->type_obj->edit_field_options_html( $args );
+		$html = ob_get_contents();
+		ob_end_clean();
 
 		return $html;
 	}

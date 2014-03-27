@@ -106,11 +106,7 @@ function xprofile_screen_edit_profile() {
 			foreach ( (array) $posted_field_ids as $field_id ) {
 
 				// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.
-				if ( empty( $_POST['field_' . $field_id] ) ) {
-					$value = array();
-				} else {
-					$value = $_POST['field_' . $field_id];
-				}
+				$value = isset( $_POST['field_' . $field_id] ) ? $_POST['field_' . $field_id] : '';
 
 				if ( !xprofile_set_field_data( $field_id, bp_displayed_user_id(), $value, $is_required[$field_id] ) ) {
 					$errors = true;

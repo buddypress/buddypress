@@ -382,69 +382,12 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 		<legend><span><?php bp_the_profile_field_name(); ?> <?php if( !$field->can_delete ) : ?> <?php _e( '(Primary)', 'buddypress' ); endif; ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(Required)', 'buddypress' ) ?><?php endif; ?></span></legend>
 		<div class="field-wrapper">
 
-			<?php switch ( $field->type ) : case 'textbox' : ?>
+			<?php
+			$field_type = bp_xprofile_create_field_type( $field->type );
+			$field_type->admin_field_html();
 
-				<input type="text" name="<?php bp_the_profile_field_input_name() ?>" id="<?php bp_the_profile_field_input_name() ?>" value="" />
-
-			<?php break; case 'textarea' : ?>
-
-				<textarea rows="5" cols="40" name="<?php bp_the_profile_field_input_name() ?>" id="<?php bp_the_profile_field_input_name() ?>"></textarea>
-
-			<?php break; case 'selectbox' : ?>
-
-				<select name="<?php bp_the_profile_field_input_name() ?>" id="<?php bp_the_profile_field_input_name() ?>">
-
-					<?php bp_the_profile_field_options() ?>
-
-				</select>
-
-			<?php break; case 'multiselectbox' : ?>
-
-				<select name="<?php bp_the_profile_field_input_name() ?>" id="<?php bp_the_profile_field_input_name() ?>" multiple="multiple">
-
-					<?php bp_the_profile_field_options() ?>
-
-				</select>
-
-			<?php break; case 'radio' : ?>
-
-				<?php bp_the_profile_field_options() ?>
-
-				<?php if ( !bp_get_the_profile_field_is_required() ) : ?>
-
-					<a class="clear-value" href="javascript:clear( '<?php bp_the_profile_field_input_name() ?>' );"><?php _e( 'Clear', 'buddypress' ) ?></a>
-
-				<?php endif; ?>
-
-			<?php break; case 'checkbox' : ?>
-
-				<?php bp_the_profile_field_options(); ?>
-
-			<?php break; case 'datebox' : ?>
-
-				<select name="<?php bp_the_profile_field_input_name(); ?>_day" id="<?php bp_the_profile_field_input_name(); ?>_day">
-
-					<?php bp_the_profile_field_options( 'type=day' ); ?>
-
-				</select>
-
-				<select name="<?php bp_the_profile_field_input_name(); ?>_month" id="<?php bp_the_profile_field_input_name(); ?>_month">
-
-					<?php bp_the_profile_field_options( 'type=month' ); ?>
-
-				</select>
-
-				<select name="<?php bp_the_profile_field_input_name(); ?>_year" id="<?php bp_the_profile_field_input_name(); ?>_year">
-
-					<?php bp_the_profile_field_options( 'type=year' ); ?>
-
-				</select>
-
-			<?php break; default : ?>
-
-			<?php do_action( 'xprofile_admin_field', $field, 1 ); ?>
-
-			<?php endswitch; ?>
+			do_action( 'xprofile_admin_field', $field, 1 );
+			?>
 
 			<?php if ( $field->description ) : ?>
 
@@ -465,6 +408,57 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 	</fieldset>
 
 <?php
+}
+
+/**
+ * Print <option> elements containing the xprofile field types.
+ *
+ * @param string $select_field_type The name of the field type that should be selected. Will defaults to "textbox" if NULL is passed.
+ * @since BuddyPress (2.0.0)
+ */
+function bp_xprofile_admin_form_field_types( $select_field_type ) {
+	$categories = array();
+
+	if ( is_null( $select_field_type ) ) {
+		$select_field_type = 'textbox';
+	}
+
+	// Sort each field type into its category
+	foreach ( bp_xprofile_get_field_types() as $field_name => $field_class ) {
+		$field_type_obj = new $field_class;
+		$the_category   = $field_type_obj->category;
+
+		// Fallback to a catch-all if category not set
+		if ( ! $the_category ) {
+			$the_category = _x( 'Other', 'xprofile field type category', 'buddypress' );
+		}
+
+		if ( isset( $categories[$the_category] ) ) {
+			$categories[$the_category][] = array( $field_name, $field_type_obj );
+		} else {
+			$categories[$the_category] = array( array( $field_name, $field_type_obj ) );
+		}
+	}
+
+	// Sort the categories alphabetically. ksort()'s SORT_NATURAL is only in PHP >= 5.4 :((
+	uksort( $categories, 'strnatcmp' );
+
+	// Loop through each category and output form <options>
+	foreach ( $categories as $category => $fields ) {
+		printf( '<optgroup label="%1$s">', esc_attr( $category ) );  // Already i18n'd in each profile type class
+
+		// Sort these fields types alphabetically
+		uasort( $fields, create_function( '$a, $b', 'return strnatcmp( $a[1]->name, $b[1]->name );' ) );
+
+		foreach ( $fields as $field_type_obj ) {
+			$field_name     = $field_type_obj[0];
+			$field_type_obj = $field_type_obj[1];
+
+			printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $field_name ), selected( $select_field_type, $field_name, false ), esc_html( $field_type_obj->name ) );
+		}
+
+		printf( '</optgroup>' );
+	}
 }
 
 if ( ! class_exists( 'BP_XProfile_User_Admin' ) ) :
@@ -642,15 +636,11 @@ class BP_XProfile_User_Admin {
 				// Set the errors var
 				$errors = false;
 
-				// Now we've checked for required fields, lets save the values.
+				// Now we've checked for required fields, let's save the values.
 				foreach ( (array) $posted_field_ids as $field_id ) {
 
 					// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.
-					if ( empty( $_POST['field_' . $field_id] ) ) {
-						$value = array();
-					} else {
-						$value = $_POST['field_' . $field_id];
-					}
+					$value = isset( $_POST['field_' . $field_id] ) ? $_POST['field_' . $field_id] : '';
 
 					if ( ! xprofile_set_field_data( $field_id, $user_id, $value, $is_required[ $field_id ] ) ) {
 						$errors = true;
@@ -702,169 +692,55 @@ class BP_XProfile_User_Admin {
 		}
 
 		if ( bp_has_profile( $r ) ) :
-
 			while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+				<input type="hidden" name="field_ids[]" id="<?php echo esc_attr( 'field_ids_' . bp_get_the_profile_group_slug() ); ?>" value="<?php echo esc_attr( bp_get_the_profile_group_field_ids() ); ?>" />
 
-				<p class="description"><?php bp_the_profile_group_description(); ?></p>
+				<?php if ( bp_get_the_profile_group_description() ) : ?>
+					<p class="description"><?php bp_the_profile_group_description(); ?></p>
+				<?php
+				endif;
 
-				<table class="form-table">
-					<tbody>
+				while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
-					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+					<div<?php bp_field_css_class( 'bp-profile-field' ); ?>>
+						<?php
+						$field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() );
+						$field_type->edit_field_html( array( 'user_id' => $r['user_id'] ) );
 
-						<tr>
+						if ( bp_get_the_profile_field_description() ) : ?>
+							<p class="description"><?php bp_the_profile_field_description(); ?></p>
+						<?php endif;
 
-							<?php if ( 'textbox' === bp_get_the_profile_field_type() ) : ?>
+						do_action( 'bp_custom_profile_edit_fields_pre_visibility' );
+						$can_change_visibility = bp_current_user_can( 'bp_xprofile_change_field_visibility' );
+						?>
 
-								<th><label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label></th>
-								<td class="admin-field-<?php bp_the_profile_field_type();?>">
-									<input type="text" name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" value="<?php bp_the_profile_field_edit_value(); ?>" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>/>
-									<span class="description"><?php bp_the_profile_field_description(); ?></span>
-								</td>
+						<p class="field-visibility-settings-<?php echo $can_change_visibility ? 'toggle' : 'notoggle'; ?>" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id(); ?>">
+							<?php
+							printf( __( 'This field can be seen by: <span class="%s">%s</span>', 'buddypress' ), esc_attr( 'current-visibility-level' ), bp_get_the_profile_field_visibility_level_label() );
 
+							if ( $can_change_visibility ) : ?>
+								 <a href="#" class="button visibility-toggle-link"><?php _e( 'Change', 'buddypress' ); ?></a>
 							<?php endif; ?>
+						</p>
 
-							<?php if ( 'textarea' === bp_get_the_profile_field_type() ) : ?>
+						<?php if ( $can_change_visibility ) : ?>
+							<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
+								<fieldset>
+									<legend><?php _e( 'Who can see this field?', 'buddypress' ); ?></legend>
+									<?php bp_profile_visibility_radio_buttons(); ?>
+								</fieldset>
+								<a class="button field-visibility-settings-close" href="#"><?php _e( 'Close', 'buddypress' ); ?></a>
+							</div>
+						<?php endif;
 
-								<th><label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label></th>
-								<td class="admin-field-<?php bp_the_profile_field_type();?>">
-									<textarea rows="5" cols="40" name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>><?php bp_the_profile_field_edit_value(); ?></textarea>
-									<p class="description"><?php bp_the_profile_field_description(); ?></p>
-								</td>
+						do_action( 'bp_custom_profile_edit_fields' ); ?>
+					</div>
 
-							<?php endif; ?>
+				<?php
+				endwhile; // bp_profile_fields()
 
-							<?php if ( 'selectbox' === bp_get_the_profile_field_type() ) : ?>
-
-								<th><label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label></th>
-								<td class="admin-field-<?php bp_the_profile_field_type();?>">
-									<select name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
-										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], ) ); ?>
-									</select>
-									<span class="description"><?php bp_the_profile_field_description(); ?></span>
-								</td>
-
-							<?php endif; ?>
-
-							<?php if ( 'multiselectbox' === bp_get_the_profile_field_type() ) : ?>
-
-								<th><label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label></th>
-								<td class="admin-field-<?php bp_the_profile_field_type();?>">
-									<select name="<?php bp_the_profile_field_input_name(); ?>" id="<?php bp_the_profile_field_input_name(); ?>" multiple="multiple" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
-
-										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], ) ); ?>
-
-									</select>
-
-
-									<?php if ( !bp_get_the_profile_field_is_required() ) : ?>
-
-										<p><a class="clear-value" href="javascript:clear( '<?php bp_the_profile_field_input_name(); ?>' );"><?php _e( 'Clear', 'buddypress' ); ?></a></p>
-
-									<?php endif; ?>
-									<p class="description"><?php bp_the_profile_field_description(); ?></p>
-								</td>
-
-							<?php endif; ?>
-
-							<?php if ( 'radio' === bp_get_the_profile_field_type() ) : ?>
-
-								<th>
-									<span class="label"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></span>
-								</th>
-								<td class="admin-field-<?php bp_the_profile_field_type();?>">
-									<fieldset>
-										<legend class="screen-reader-text"><span><?php bp_the_profile_field_name(); ?></span></legend>
-										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], ) ); ?>
-									</fieldset>
-
-									<?php if ( !bp_get_the_profile_field_is_required() ) : ?>
-
-										<p><a class="clear-value" href="javascript:clear( '<?php bp_the_profile_field_input_name(); ?>' );"><?php _e( 'Clear', 'buddypress' ); ?></a></p>
-
-									<?php endif; ?>
-									<p class="description"><?php bp_the_profile_field_description(); ?></p>
-								</td>
-
-							<?php endif; ?>
-
-							<?php if ( 'checkbox' === bp_get_the_profile_field_type() ) : ?>
-
-								<th>
-									<span class="label"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></span>
-								</th>
-								<td class="admin-field-<?php bp_the_profile_field_type();?>">
-									<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], ) ); ?>
-									<p class="description"><?php bp_the_profile_field_description(); ?></p>
-								</td>
-
-							<?php endif; ?>
-
-							<?php if ( 'datebox' === bp_get_the_profile_field_type() ) : ?>
-
-								<th>
-									<label for="<?php bp_the_profile_field_input_name(); ?>_day"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
-								</th>
-								<td class="admin-field-<?php bp_the_profile_field_type();?>">
-									<select name="<?php bp_the_profile_field_input_name(); ?>_day" id="<?php bp_the_profile_field_input_name(); ?>_day" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
-
-										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], 'type' => 'day', ) ); ?>
-
-									</select>
-
-									<select name="<?php bp_the_profile_field_input_name(); ?>_month" id="<?php bp_the_profile_field_input_name(); ?>_month" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
-
-										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], 'type' => 'month', ) ); ?>
-
-									</select>
-
-									<select name="<?php bp_the_profile_field_input_name(); ?>_year" id="<?php bp_the_profile_field_input_name(); ?>_year" <?php if ( bp_get_the_profile_field_is_required() ) : ?>aria-required="true"<?php endif; ?>>
-
-										<?php bp_the_profile_field_options( array( 'user_id' => $r['user_id'], 'type' => 'year', ) ); ?>
-
-									</select>
-									<p class="description"><?php bp_the_profile_field_description(); ?></p>
-								</td>
-
-							<?php endif; ?>
-
-						</tr>
-
-						<tr class="admin-field-visibility-tr">
-							<td class="admin-field-visibility-td">&nbsp;</td>
-							<td class="admin-field-visibility-td">
-
-								<?php do_action( 'bp_custom_profile_edit_fields_pre_visibility' ); ?>
-
-								<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
-									<p class="description field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
-										<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?> <a href="#" class="visibility-toggle-link"><?php _e( 'Change', 'buddypress' ); ?></a>
-									</p>
-
-									<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
-										<fieldset>
-											<legend><?php esc_html_e( 'Who can see this field?', 'buddypress' ) ?></legend>
-
-											<?php bp_profile_visibility_radio_buttons() ?>
-
-										</fieldset>
-										<a class="field-visibility-settings-close" href="#"><?php esc_html_e( 'Close', 'buddypress' ) ?></a>
-									</div>
-								<?php else : ?>
-									<div class="field-visibility-settings-notoggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
-										<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?>
-									</div>
-								<?php endif ?>
-
-							</td>
-						</tr>
-
-					<?php endwhile; ?>
-					</tbody>
-
-				</table>
-				<input type="hidden" name="field_ids[]" id="field_ids_<?php bp_the_profile_group_slug(); ?>" value="<?php bp_the_profile_group_field_ids(); ?>" />
-			<?php endwhile;
+			endwhile; // bp_profile_groups()
 		endif;
 	}
 

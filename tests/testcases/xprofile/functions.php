@@ -552,4 +552,20 @@ Bar!';
 
 		$this->assertSame( 'foo', $found );
 	}
+
+	/**
+	 * @group xprofile_set_field_data
+	 */
+	public function test_get_field_data_integer_zero() {
+		$u = $this->create_user();
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'number',
+			'name' => 'Pens',
+		) );
+		xprofile_set_field_data( $f, $u, 0 );
+
+		$this->assertEquals( 0, xprofile_get_field_data( 'Pens', $u ) );
+	}
 }

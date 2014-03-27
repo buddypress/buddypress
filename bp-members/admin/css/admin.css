@@ -15,14 +15,6 @@ div#profile-page.wrap form#your-profile ul#profile-nav {
 	width:100%;
 }
 
-div#community-profile-page h2:first-of-type {
-	margin-bottom:1em;
-}
-
-div#community-profile-page  h2.profile-section {
-	border-bottom:dotted 1px #ccc;
-}
-
 div#community-profile-page ul#profile-nav {
 	border-bottom:solid 1px #ccc;
 	width:100%;
@@ -104,40 +96,69 @@ div#community-profile-page p.not-activated {
 	color:red;
 }
 
-div#community-profile-page .form-table td.admin-field-visibility-td {
-	padding:5px 5px 15px 5px;
+.alt {
+	background: none;
 }
-
-div#community-profile-page .form-table tr.admin-field-visibility-tr {
-	border-bottom:dotted 1px #ccc;
-}
-
-div#community-profile-page .form-table tr.admin-field-visibility-tr:last-child{
-	border:none;
-}
-
-div#community-profile-page .field-visibility-settings legend, 
-div#community-profile-page .field-visibility-settings-notoggle {
+.bp-profile-field {
+	border-bottom: dotted 1px #ccc;
 	font-size: 14px;
-	font-style: italic;
-	color:#666;
+	margin: 15px 0;
+}
+.bp-profile-field:last-child {
+	border-bottom: 0;
+}
+.bp-profile-field p {
+	font-size: 14px;
+}
+.bp-profile-field .datebox > label,
+.bp-profile-field .radio > label,
+.bp-profile-field > label {  /* label takes on left side 200px */
+	display: inline-block;
+	font-weight: 600;
+	text-align: left;
+	vertical-align: middle;
+	width: 200px;
 }
 
-div#community-profile-page .field-visibility-settings ul {
-	margin:0;
-	font-size: 13px;
+.field_type_textarea > label,
+.field_type_multiselectbox > label,
+.field_type_radio .radio > label,
+.field_type_checkbox .checkbox > label {  /* these fields are usually pretty tall, so align the label for better consistency */
+	vertical-align: top;
 }
-
-div#community-profile-page .field-visibility-settings ul li {
-	display:inline-block;
-	margin-right:1em;
+.bp-profile-field .description {  /* description also sits in the right side column */
+	margin: 10px 0 10px 200px;
+	text-align: left;
 }
-
-div#community-profile-page .form-table td.admin-field-radio label, 
-div#community-profile-page .form-table td.admin-field-checkbox label {
-	display:block;
+.clear-value {  /* 'clear value' option also sits in the right side column */
+	display: block;
+	font-size: 12px;
+	margin-left: 200px;
 }
-
-.field-visibility-settings {
+.field_type_checkbox .checkbox > label + label {  /* force checkboxes to new lines, in the right side column */
+	display: block;
+	margin-left: 200px;
+	width: auto;
+}
+.field_type_radio .radio div:not(.field-visibility-settings) label {  /* force radio buttons to new lines */
+	display: block;
+}
+.field_type_radio .radio div:not(.field-visibility-settings) {  /* make the radio buttons sit in the right side column */
+	display: inline-block;
+}
+.field-visibility-settings-notoggle,
+.field-visibility-settings-toggle {  /* visibility settings go in the left column */
+	margin: 10px 0 10px 200px;
+	text-align: left;
+}
+.field-visibility-settings {  /* visibility settings go in the left column */
 	display: none;
+	margin-left: 200px;
+}
+.field-visibility-settings .button {  /* visibility setting close button */
+	margin-bottom: 15px;
+}
+#normal-sortables .field-visibility-settings legend {  /* id required for css selector weight */
+	font-size: 16px;
+	margin-bottom: 10px;
 }
