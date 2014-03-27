@@ -710,6 +710,23 @@ Bar!';
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
 	}
 
+	/**
+	 * @group favorites
+	 * @group bp_activity_remove_user_favorite
+	 */
+	public function test_remove_user_favorite_bad_activity_id() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$a = $this->factory->activity->create();
+
+		// Only favorite for user 1
+		bp_activity_add_user_favorite( $a, $u1 );
+
+		// Removing for user 2 should fail
+		$this->assertFalse( bp_activity_remove_user_favorite( $a, $u2 ) );
+		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+	}
+
 	public function check_activity_caches() {
 		foreach ( $this->acaches as $k => $v ) {
 			$this->acaches[ $k ] = wp_cache_get( $k, 'bp_activity' );

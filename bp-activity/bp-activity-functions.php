@@ -470,9 +470,15 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
-	// Remove the fav from the user's favs
 	$my_favs = bp_get_user_meta( $user_id, 'bp_favorite_activities', true );
 	$my_favs = array_flip( (array) $my_favs );
+
+	// Bail if the user has not previously favorited the item
+	if ( ! isset( $my_favs[ $activity_id ] ) ) {
+		return false;
+	}
+
+	// Remove the fav from the user's favs
 	unset( $my_favs[$activity_id] );
 	$my_favs = array_unique( array_flip( $my_favs ) );
 
