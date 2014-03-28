@@ -342,14 +342,15 @@ function bp_update_to_1_9_2() {
 function bp_update_to_2_0() {
 	global $wpdb;
 
-	/** Install activity tables for 'last_activity' **********************/
+	/** Install activity tables for 'last_activity' ***************************/
+
 	bp_core_install_activity_streams();
 
-	/** Migrate 'last_activity' data *************************************/
+	/** Migrate 'last_activity' data ******************************************/
 
 	bp_last_activity_migrate();
 
-	/** Migrate signups data *********************************************/
+	/** Migrate signups data **************************************************/
 
 	if ( bp_get_signup_allowed() && ! is_multisite() ) {
 
@@ -379,23 +380,22 @@ function bp_update_to_2_0() {
 			$user_login = preg_replace( '/\s+/', '', sanitize_user( $signup->user_login, true ) );
 			$user_email = sanitize_email( $signup->user_email );
 
-			$args = array(
+			BP_Signup::add( array(
 				'user_login'     => $user_login,
 				'user_email'     => $user_email,
 				'registered'     => $signup->user_registered,
 				'activation_key' => $signup->activation_key,
 				'meta'           => $meta
-			);
-
-			BP_Signup::add( $args );
+			) );
 
 			// Deleting these options will remove signups from users count
 			delete_user_option( $signup->ID, 'capabilities' );
-			delete_user_option( $signup->ID, 'user_level' );
+			delete_user_option( $signup->ID, 'user_level'   );
 		}
 	}
 
-	/** Add BP options to the options table ******************************/
+	/** Add BP options to the options table ***********************************/
+
 	bp_add_options();
 }
 

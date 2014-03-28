@@ -166,9 +166,9 @@ class BP_Members_Admin {
 			if ( ! is_multisite() ) {
 				add_action( 'pre_user_query', array( $this, 'remove_signups_from_user_query'),  10, 1 );
 			}
-
+			
+			// Reorganise the views navigation in users.php and signups page
 			if ( current_user_can( $this->capability ) ) {
-				// Reorganise the views navigation in users.php and signups page
 				add_filter( "views_{$this->users_screen}", array( $this, 'signup_filter_view' ),    10, 1 );
 				add_filter( 'set-screen-option',           array( $this, 'signup_screen_options' ), 10, 3 );
 			}
