@@ -458,22 +458,12 @@ function bp_activity_admin_load() {
 
 		// Activity type
 		if ( ! empty( $_POST['bp-activities-type'] ) ) {
-			$actions  = array();
-
-			// Walk through the registered actions, and build an array of actions/values.
-			foreach ( $bp->activity->actions as $action ) {
-				$action = array_values( (array) $action );
-
-				for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ )
-					$actions[] = $action[$i]['key'];
-			}
-
-			// This was a mis-named activity type from before BP 1.6
-			unset( $actions['friends_register_activity_action'] );
+			$actions = bp_activity_admin_get_activity_actions();
 
 			// Check that the new type is a registered activity type
-			if ( in_array( $_POST['bp-activities-type'], $actions ) )
+			if ( in_array( $_POST['bp-activities-type'], $actions ) ) {
 				$activity->type = $_POST['bp-activities-type'];
+			}
 		}
 
 		// Activity timestamp
@@ -733,6 +723,36 @@ function bp_activity_admin_edit_metabox_userid( $item ) {
 	<input type="number" name="bp-activities-userid" value="<?php echo esc_attr( $item->user_id ); ?>" min="1" />
 
 <?php
+}
+
+/**
+ * Get flattened array of all registered activity actions.
+ *
+ * Format is [activity_type] => Pretty name for activity type.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @return array
+ */
+function bp_activity_admin_get_activity_actions() {
+	$actions  = array();
+
+	// Walk through the registered actions, and build an array of actions/values.
+	foreach ( buddypress()->activity->actions as $action ) {
+		$action = array_values( (array) $action );
+
+		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ ) {
+			$actions[ $action[$i]['key'] ] = $action[$i]['value'];
+		}
+	}
+
+	// This was a mis-named activity type from before BP 1.6
+	unset( $actions['friends_register_activity_action'] );
+
+	// Sort array by the human-readable value
+	natsort( $actions );
+
+	return $actions;
 }
 
 /**
