@@ -1381,7 +1381,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		// Reply - javascript only; implemented by AJAX.
 		if ( 'spam' != $item_status ) {
-			$actions['reply'] = sprintf( '<a href="#" class="reply hide-if-no-js">%s</a>', __( 'Reply', 'buddypress' ) );
+			if ( $this->can_comment( $item ) ) {
+				$actions['reply'] = sprintf( '<a href="#" class="reply hide-if-no-js">%s</a>', __( 'Reply', 'buddypress' ) );
+			} else {
+				$actions['reply'] = sprintf( '<span class="form-input-tip" title="%s">%s</span>', __( 'Replies are disabled for this activity item', 'buddypress' ), __( 'Replies disabled', 'buddypress' ) );
+			}
 
 			// Edit
 			$actions['edit'] = sprintf( '<a href="%s">%s</a>', $edit_url, __( 'Edit', 'buddypress' ) );
@@ -1485,6 +1489,65 @@ class BP_Activity_List_Table extends WP_List_Table {
 			// Return the user ID
 			return $activity['activities'][0]->user_id;
 		}
+	}
+
+	/**
+	 * Checks if an activity item can be replied to.
+	 *
+	 * This method merges functionality from {@link bp_activity_can_comment()} and
+	 * {@link bp_blogs_disable_activity_commenting()}.  This is done because the activity
+	 * list table doesn't use a BuddyPress activity loop, which prevents those
+	 * functions from working as intended.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $item An array version of the BP_Activity_Activity object.
+	 * @return bool
+	 */
+	protected function can_comment( $item  ) {
+		$can_comment = true;
+
+		if ( $this->disable_blogforum_comments ) {
+			switch ( $item['type'] ) {
+				case 'new_blog_post' :
+				case 'new_blog_comment' :
+				case 'new_forum_topic' :
+				case 'new_forum_post' :
+					$can_comment = false;
+					break;
+			}
+
+		// activity comments supported
+		} else {
+			// activity comment
+			if ( 'activity_comment' == $item['type'] ) {
+				// blogs
+				if ( bp_is_active( 'blogs' ) ) {
+					// grab the parent activity entry
+					$parent_activity = new BP_Activity_Activity( $item['item_id'] );
+
+					// fetch blog post comment depth and if the blog post's comments are open
+					bp_blogs_setup_activity_loop_globals( $parent_activity );
+
+					// check if the activity item can be replied to
+					if ( false === bp_blogs_can_comment_reply( true, $item ) ) {
+						$can_comment = false;
+					}
+				}
+
+			// blog post
+			} elseif ( 'new_blog_post' == $item['type'] ) {
+				if ( bp_is_active( 'blogs' ) ) {
+					bp_blogs_setup_activity_loop_globals( (object) $item );
+
+					if ( empty( buddypress()->blogs->allow_comments[$item['id']] ) ) {
+						$can_comment = false;
+					}
+				}
+			}
+		}
+
+		return apply_filters( 'bp_activity_list_table_can_comment', $can_comment );
 	}
 
 	/**
