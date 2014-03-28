@@ -994,6 +994,9 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	public function __construct() {
 
+		// See if activity commenting is enabled for blog / forum activity items
+		$this->disable_blogforum_comments = bp_disable_blogforum_comments();
+
 		// Define singular and plural labels, as well as whether we support AJAX.
 		parent::__construct( array(
 			'ajax'     => false,
@@ -1237,6 +1240,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'cb'       => '<input name type="checkbox" />',
 			'author'   => __( 'Author', 'buddypress' ),
 			'comment'  => __( 'Activity', 'buddypress' ),
+			'action'   => __( 'Action', 'buddypress' ),
 			'response' => __( 'In Response To', 'buddypress' ),
 		);
 	}
@@ -1317,6 +1321,25 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	function column_author( $item ) {
 		echo '<strong>' . get_avatar( $item['user_id'], '32' ) . ' ' . bp_core_get_userlink( $item['user_id'] ) . '</strong>';
+	}
+
+	/**
+	 * Action column markup.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @see WP_List_Table::single_row_columns()
+	 *
+	 * @param array $item A singular item (one full row).
+	 */
+	function column_action( $item ) {
+		$actions = bp_activity_admin_get_activity_actions();
+
+		if ( isset( $actions[ $item['type'] ] ) ) {
+			echo $actions[ $item['type'] ];
+		} else {
+			printf( __( 'Unregistered action - %s', 'buddypress' ), $item['type'] );
+		}
 	}
 
 	/**
