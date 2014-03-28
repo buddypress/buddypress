@@ -1487,7 +1487,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 
 		BP_Signup::add( $args );
 
-		if ( apply_filters( 'bp_core_signup_send_activation_key', true ) ) {
+		if ( apply_filters( 'bp_core_signup_send_activation_key', true, $user_id, $user_email, $activation_key, $usermeta ) ) {
 			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key );
 		}
 	}
