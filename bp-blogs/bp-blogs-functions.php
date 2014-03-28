@@ -359,24 +359,41 @@ add_action( 'update_option_thread_comments_depth', 'bp_blogs_update_option_threa
  *
  * @since BuddyPress (2.0.0)
  *
+ * @todo Support untrashing better
+ *
  * @param string $new_status New status for the post.
  * @param string $old_status Old status for the post.
  * @param object $post Post data.
  */
 function bp_blogs_catch_transition_post_status( $new_status, $old_status, $post ) {
 
-	// Do nothing for edits
+	// This is an edit
 	if ( $new_status === $old_status ) {
-		return;
+		if ( $new_status == 'publish' ) {
+			bp_blogs_update_post( $post );
+			return;
+		}
 	}
 
 	// Publishing a previously unpublished post
 	if ( 'publish' === $new_status ) {
-		return bp_blogs_record_post( $post->ID, $post );
+		// Untrashing the post
+		// Nothing here yet
+		if ( 'trash' == $old_status ) {}
+
+		// Record the post
+		bp_blogs_record_post( $post->ID, $post );
 
 	// Unpublishing a previously published post
 	} else if ( 'publish' === $old_status ) {
-		return bp_blogs_remove_post( $post->ID );
+		// Some form of pending status
+		// Only remove the activity entry
+		bp_blogs_delete_activity( array(
+			'item_id'           => get_current_blog_id(),
+			'secondary_item_id' => $post->ID,
+			'component'         => buddypress()->blogs->id,
+			'type'              => 'new_blog_post'
+		) );
 	}
 }
 add_action( 'transition_post_status', 'bp_blogs_catch_transition_post_status', 10, 3 );
@@ -471,6 +488,45 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 	}
 
 	do_action( 'bp_blogs_new_blog_post', $post_id, $post, $user_id );
+}
+
+/**
+ * Updates a blog post's corresponding activity entry during a post edit.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @see bp_blogs_catch_transition_post_status()
+ *
+ * @param WP_Post $post
+ */
+function bp_blogs_update_post( $post ) {
+	if ( ! bp_is_active( 'activity' ) ) {
+		return;
+	}
+
+	$activity_id = bp_activity_get_activity_id( array(
+		'component'         => buddypress()->blogs->id,
+		'item_id'           => get_current_blog_id(),
+		'secondary_item_id' => $post->ID,
+		'type'              => 'new_blog_post',
+	 ) );
+
+	// activity ID doesn't exist, so stop!
+	if ( empty( $activity_id ) ) {
+		return;
+	}
+
+	// update the activity entry
+	$activity = new BP_Activity_Activity( $activity_id );
+	$activity->content = $post->post_content;
+	$activity->save();
+
+	// add post comment status to activity meta if closed
+	if( 'closed' == $post->comment_status ) {
+		bp_activity_update_meta( $activity_id, 'post_comment_status', $post->comment_status );
+	} else {
+		bp_activity_delete_meta( $activity_id, 'post_comment_status' );
+	}
 }
 
 /**
