@@ -432,3 +432,421 @@ function bp_blogs_comments_open( $activity ) {
 
 	return $open;
 }
+
+/** POST COMMENT SYNCHRONIZATION ****************************************/
+
+/**
+ * Syncs activity comments and posts them back as blog comments.
+ *
+ * Note: This is only a one-way sync - activity comments -> blog comment.
+ *
+ * For blog post -> activity comment, see {@link bp_blogs_record_comment()}.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $comment_id The activity ID for the posted activity comment.
+ * @param array $params Parameters for the activity comment.
+ * @param object Parameters of the parent activity item (in this case, the blog post).
+ */
+function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_activity ) {
+	// if parent activity isn't a blog post, stop now!
+	if ( $parent_activity->type != 'new_blog_post' ) {
+		return;
+	}
+
+	// if activity comments are disabled for blog posts, stop now!
+	if ( bp_disable_blogforum_comments() ) {
+		return;
+	}
+
+	// get userdata
+	if ( $params['user_id'] == bp_loggedin_user_id() ) {
+		$user = buddypress()->loggedin_user->userdata;
+	} else {
+		$user = bp_core_get_core_userdata( $params['user_id'] );
+	}
+
+	// see if a parent WP comment ID exists
+	if ( ! empty( $params['parent_id'] ) ) {
+		$comment_parent = bp_activity_get_meta( $params['parent_id'], 'bp_blogs_post_comment_id' );
+	} else {
+		$comment_parent = 0;
+	}
+
+	// comment args
+	$args = array(
+		'comment_post_ID'      => $parent_activity->secondary_item_id,
+		'comment_author'       => bp_core_get_user_displayname( $params['user_id'] ),
+		'comment_author_email' => $user->user_email,
+		'comment_author_url'   => bp_core_get_user_domain( $params['user_id'], $user->user_nicename, $user->user_login ),
+		'comment_content'      => $params['content'],
+		'comment_type'         => '', // could be interesting to add 'buddypress' here...
+		'comment_parent'       => (int) $comment_parent,
+		'user_id'              => $params['user_id'],
+
+		// commenting these out for now
+		//'comment_author_IP'    => '127.0.0.1',
+		//'comment_agent'        => '',
+
+		'comment_approved'     => 1
+	);
+
+	// prevent separate activity entry being made
+	remove_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
+
+	// handle multisite
+	switch_to_blog( $parent_activity->item_id );
+
+	// handle timestamps for the WP comment after we've switched to the blog
+	$args['comment_date']     = current_time( 'mysql' );
+	$args['comment_date_gmt'] = current_time( 'mysql', 1 );
+
+	// post the comment
+	$post_comment_id = wp_insert_comment( $args );
+
+	// add meta to comment
+	add_comment_meta( $post_comment_id, 'bp_activity_comment_id', $comment_id );
+
+	// add meta to activity comment
+	bp_activity_update_meta( $comment_id, 'bp_blogs_post_comment_id', $post_comment_id );
+
+	// resave activity comment with WP comment permalink
+	//
+	// in bp_blogs_activity_comment_permalink(), we change activity comment
+	// permalinks to use the post comment link
+	//
+	// @todo since this is done after AJAX posting, the activity comment permalink
+	//       doesn't change on the frontend until the next page refresh.
+	$resave_activity = new BP_Activity_Activity( $comment_id );
+	$resave_activity->primary_link = get_comment_link( $post_comment_id );
+	$resave_activity->save();
+
+	// multisite again!
+	restore_current_blog();
+
+	// add the comment hook back
+	add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
+
+	do_action( 'bp_blogs_sync_add_from_activity_comment', $comment_id, $args, $parent_activity, $user );
+}
+add_action( 'bp_activity_comment_posted', 'bp_blogs_sync_add_from_activity_comment', 10, 3 );
+
+/**
+ * Deletes the blog comment when the associated activity comment is deleted.
+ *
+ * Note: This is hooked on the 'bp_activity_delete_comment_pre' filter instead
+ * of the 'bp_activity_delete_comment' action because we need to fetch the
+ * activity comment children before they are deleted.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param bool $retval
+ * @param int $parent_activity_id The parent activity ID for the activity comment.
+ * @param int $activity_id The activity ID for the pending deleted activity comment.
+ */
+function bp_blogs_sync_delete_from_activity_comment( $retval, $parent_activity_id, $activity_id ) {
+	// check if parent activity is a blog post
+	$parent_activity = new BP_Activity_Activity( $parent_activity_id );
+	if ( 'new_blog_post' != $parent_activity->type ) {
+		return $retval;
+	}
+
+	// fetch the activity comments for the activity item
+	$activity = bp_activity_get( array(
+		'in'               => $activity_id,
+		'display_comments' => 'stream',
+	) );
+
+	// get all activity comment IDs for the pending deleted item
+	$activity_ids   = bp_activity_recurse_comments_activity_ids( $activity );
+	$activity_ids[] = $activity_id;
+
+	// handle multisite
+	// switch to the blog where the comment was made
+	switch_to_blog( $parent_activity->item_id );
+
+	// remove associated blog comments
+	bp_blogs_remove_associated_blog_comments( $activity_ids, current_user_can( 'moderate_comments' ) );
+
+	// multisite again!
+	restore_current_blog();
+
+	// rebuild activity comment tree
+	// emulate bp_activity_delete_comment()
+	BP_Activity_Activity::rebuild_activity_comment_tree( $parent_activity_id );
+
+	// we're overriding the default bp_activity_delete_comment() functionality
+	// so we need to return false
+	return false;
+}
+add_filter( 'bp_activity_delete_comment_pre', 'bp_blogs_sync_delete_from_activity_comment', 10, 3 );
+
+/**
+ * Updates the blog comment when the associated activity comment is edited.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param BP_Activity_Activity $activity The activity object.
+ */
+function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $activity ) {
+	// not an activity comment? stop now!
+	if ( 'activity_comment' !== $activity->type ) {
+		return;
+	}
+
+	// this is a new entry, so stop!
+	// we only want edits!
+	if ( empty( $activity->id ) ) {
+		return;
+	}
+
+	// prevent recursion
+	remove_action( 'bp_activity_before_save', 'bp_blogs_sync_activity_edit_to_post_comment', 20 );
+
+	// Try to see if a corresponding blog comment exists
+	$post_comment_id = bp_activity_get_meta( $activity->id, 'bp_blogs_post_comment_id' );
+
+	if ( empty( $post_comment_id ) ) {
+		return;
+	}
+
+	// fetch parent activity item
+	$parent_activity = new BP_Activity_Activity( $activity->item_id );
+
+	// sanity check
+	if ( 'new_blog_post' !== $parent_activity->type ) {
+		return;
+	}
+
+	// handle multisite
+	switch_to_blog( $parent_activity->item_id );
+
+	// update the blog post comment
+	wp_update_comment( array(
+		'comment_ID'      => $post_comment_id,
+		'comment_content' => $activity->content
+	) );
+
+	restore_current_blog();
+}
+add_action( 'bp_activity_before_save', 'bp_blogs_sync_activity_edit_to_post_comment', 20 );
+
+/**
+ * When a post is trashed, remove each comment's associated activity meta.
+ *
+ * When a post is trashed and later untrashed, we currently don't reinstate
+ * activity items for these comments since their activity entries are already
+ * deleted when initially trashed.
+ *
+ * Since these activity entries are deleted, we need to remove the deleted
+ * activity comment IDs from each comment's meta when a post is trashed.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $post_id The post ID
+ * @param array $statuses Array of comment statuses. The key is comment ID, the
+ *        value is the $comment->comment_approved value.
+ */
+function bp_blogs_remove_activity_meta_for_trashed_comments( $post_id, $statuses ) {
+	foreach ( $statuses as $comment_id => $comment_approved ) {
+		delete_comment_meta( $comment_id, 'bp_activity_comment_id' );
+	}
+}
+add_action( 'trashed_post_comments', 'bp_blogs_remove_activity_meta_for_trashed_comments', 10, 2 );
+
+/**
+ * Utility function to set up some variables for use in the activity loop.
+ *
+ * Grabs the blog's comment depth and the post's open comment status options
+ * for later use in the activity and activity comment loops.
+ *
+ * This is to prevent having to requery these items later on.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @see bp_blogs_disable_activity_commenting()
+ * @see bp_blogs_setup_comment_loop_globals_on_ajax()
+ *
+ * @param object $activity The BP_Activity_Activity object
+ */
+function bp_blogs_setup_activity_loop_globals( $activity ) {
+	if ( ! is_object( $activity ) ) {
+		return;
+	}
+
+	// parent not a blog post? stop now!
+	if ( 'new_blog_post' !== $activity->type ) {
+		return;
+	}
+
+	if ( empty( $activity->id ) ) {
+		return;
+	}
+
+	// if we've already done this before, stop now!
+	if ( isset( buddypress()->blogs->allow_comments[ $activity->id ] ) ) {
+		return;
+	}
+
+	$allow_comments = bp_blogs_comments_open( $activity );
+	$thread_depth   = bp_blogs_get_blogmeta( $activity->item_id, 'thread_comments_depth' );
+
+	// initialize a local object so we won't have to query this again in the
+	// comment loop
+	if ( empty( buddypress()->blogs->allow_comments ) ) {
+		buddypress()->blogs->allow_comments = array();
+	}
+	if ( empty( buddypress()->blogs->thread_depth ) ) {
+		buddypress()->blogs->thread_depth   = array();
+	}
+
+	// cache comment settings in the buddypress() singleton to reference later in
+	// the activity comment loop
+	// @see bp_blogs_disable_activity_replies()
+	//
+	// thread_depth is keyed by activity ID instead of blog ID because when we're
+	// in a comment loop, we don't have access to the blog ID...
+	// should probably object cache these values instead...
+	buddypress()->blogs->allow_comments[ $activity->id ] = $allow_comments;
+	buddypress()->blogs->thread_depth[ $activity->id ]   = $thread_depth;
+}
+
+/**
+ * Set up some globals used in the activity comment loop when AJAX is used.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @see bp_blogs_setup_activity_loop_globals()
+ */
+function bp_blogs_setup_comment_loop_globals_on_ajax() {
+	// not AJAX? stop now!
+	if ( ! defined( 'DOING_AJAX' ) ) {
+		return;
+	}
+	if ( false === (bool) constant( 'DOING_AJAX' ) ) {
+		return;
+	}
+
+	// get the parent activity item
+	$comment         = bp_activity_current_comment();
+	$parent_activity = new BP_Activity_Activity( $comment->item_id );
+
+	// setup the globals
+	bp_blogs_setup_activity_loop_globals( $parent_activity );
+}
+add_action( 'bp_before_activity_comment', 'bp_blogs_setup_comment_loop_globals_on_ajax' );
+
+/**
+ * Disable activity commenting for blog posts based on certain criteria.
+ *
+ * If activity commenting is enabled for blog posts, we still need to disable
+ * commenting if:
+ *  - comments are disabled for the WP blog post from the admin dashboard
+ *  - the WP blog post is supposed to be automatically closed from comments
+ *    based on a certain age
+ *  - the activity entry is a 'new_blog_comment' type
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param bool $retval Is activity commenting enabled for this activity entry?
+ * @return bool
+ */
+function bp_blogs_disable_activity_commenting( $retval ) {
+	// if activity commenting is disabled, return current value
+	if ( bp_disable_blogforum_comments() ) {
+		return $retval;
+	}
+
+	// activity commenting is enabled for blog posts
+	switch ( bp_get_activity_action_name() ) {
+
+		// we still have to disable activity commenting for 'new_blog_comment' items
+		// commenting should only be done on the parent 'new_blog_post' item
+		case 'new_blog_comment' :
+			$retval = false;
+
+			break;
+
+		// check if commenting is disabled for the WP blog post
+		// we should extrapolate this and automate this for plugins... or not
+		case 'new_blog_post' :
+			global $activities_template;
+
+			// setup some globals we'll need to reference later
+			bp_blogs_setup_activity_loop_globals( $activities_template->activity );
+
+			// if comments are closed for the WP blog post, we should disable
+			// activity comments for this activity entry
+			if ( empty( buddypress()->blogs->allow_comments[bp_get_activity_id()] ) ) {
+				$retval = false;
+			}
+
+			break;
+	}
+
+	return $retval;
+}
+add_filter( 'bp_activity_can_comment', 'bp_blogs_disable_activity_commenting' );
+
+/**
+ * Check if an activity comment associated with a blog post can be replied to.
+ *
+ * By default, disables replying to activity comments if the corresponding WP
+ * blog post no longer accepts comments.
+ *
+ * This check uses a locally-cached value set in {@link bp_blogs_disable_activity_commenting()}
+ * via {@link bp_blogs_setup_activity_loop_globals()}.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param bool $retval Are replies allowed for this activity reply?
+ * @param object $comment The activity comment object
+ * @return bool
+ */
+function bp_blogs_can_comment_reply( $retval, $comment ) {
+	if ( is_array( $comment ) ) {
+		$comment = (object) $comment;
+	}
+
+	// check comment depth and disable if depth is too large
+	if ( isset( buddypress()->blogs->thread_depth[$comment->item_id] ) ){
+		if ( $comment->mptt_left > buddypress()->blogs->thread_depth[$comment->item_id] ) {
+			$retval = false;
+		}
+	}
+
+	// check if we should disable activity replies based on the parent activity
+	if ( isset( buddypress()->blogs->allow_comments[$comment->item_id] ) ){
+		// the blog post has closed off commenting, so we should disable all activity
+		// comments under the parent 'new_blog_post' activity entry
+		if ( empty( buddypress()->blogs->allow_comments[$comment->item_id] ) ) {
+			$retval = false;
+		}
+	}
+
+	return $retval;
+}
+add_filter( 'bp_activity_can_comment_reply', 'bp_blogs_can_comment_reply', 10, 2 );
+
+/**
+ * Changes activity comment permalinks to use the blog comment permalink
+ * instead of the activity permalink.
+ *
+ * This is only done if activity commenting is allowed and whether the parent
+ * activity item is a 'new_blog_post' entry.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param string $retval The activity comment permalink
+ * @return string
+ */
+function bp_blogs_activity_comment_permalink( $retval ) {
+	global $activities_template;
+
+	if ( isset( buddypress()->blogs->allow_comments[$activities_template->activity->current_comment->item_id] ) ){
+		$retval = $activities_template->activity->current_comment->primary_link;
+	}
+
+	return $retval;
+}
+add_filter( 'bp_get_activity_comment_permalink', 'bp_blogs_activity_comment_permalink' );

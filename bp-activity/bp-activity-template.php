@@ -2772,6 +2772,32 @@ function bp_send_public_message_link() {
 		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_get_activity_directory_permalink() . '?r=' . bp_get_displayed_user_mentionname() ) );
 	}
 
+/**
+ * Recurse through all activity comments and return the activity comment IDs.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param array $activity Array of activities generated from {@link bp_activity_get()}.
+ * @param array $activity_ids Used for recursion purposes in this function.
+ * @return array
+ */
+function bp_activity_recurse_comments_activity_ids( $activity = array(), $activity_ids = array() ) {
+	if ( is_array( $activity ) && ! empty( $activity['activities'] ) ) {
+		$activity = $activity['activities'][0];	
+	}
+
+	if ( ! empty( $activity->children ) ) {
+		foreach ($activity->children as $child ) {
+			$activity_ids[] = $child->id;
+
+			if( ! empty( $child->children ) ) {
+				$activity_ids = bp_activity_recurse_comments_activity_ids( $child, $activity_ids );
+			}
+		}
+	}
+
+	return $activity_ids;
+}
 
 /**
  * Output the mentioned user display name.
