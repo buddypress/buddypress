@@ -182,12 +182,24 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	if ( !bp_blogs_is_blog_recordable( $blog_id, $user_id ) )
 		return false;
 
-	$url         = get_home_url( $blog_id );
-	$name        = get_blog_option( $blog_id, 'blogname' );
-	$description = get_blog_option( $blog_id, 'blogdescription' );
+	$name = get_blog_option( $blog_id, 'blogname' );
 
-	if ( empty( $name ) )
+	if ( empty( $name ) ) {
 		return false;
+	}
+
+	$url             = get_home_url( $blog_id );
+	$description     = get_blog_option( $blog_id, 'blogdescription' );
+	$close_old_posts = get_blog_option( $blog_id, 'close_comments_for_old_posts' );
+	$close_days_old  = get_blog_option( $blog_id, 'close_comments_days_old' );
+
+	$thread_depth = get_blog_option( $blog_id, 'thread_comments' );
+	if ( ! empty( $thread_depth ) ) {
+		$thread_depth = get_blog_option( $blog_id, 'thread_comments_depth' );
+	} else {
+		// perhaps filter this?
+		$thread_depth = 1;
+	}
 
 	$recorded_blog          = new BP_Blogs_Blog;
 	$recorded_blog->user_id = $user_id;
@@ -199,6 +211,9 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'description', $description );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'last_activity', bp_core_current_time() );
+	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'close_comments_for_old_posts', $close_old_posts );
+	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'close_comments_days_old', $close_days_old );
+	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'thread_comments_depth', $thread_depth );
 
 	$is_private = !empty( $_POST['blog_public'] ) && (int) $_POST['blog_public'] ? false : true;
 	$is_private = !apply_filters( 'bp_is_new_blog_public', !$is_private );
@@ -250,6 +265,88 @@ function bp_blogs_update_option_blogdescription( $oldvalue, $newvalue ) {
 	bp_blogs_update_blogmeta( $wpdb->blogid, 'description', $newvalue );
 }
 add_action( 'update_option_blogdescription', 'bp_blogs_update_option_blogdescription', 10, 2 );
+
+/**
+ * Update "Close comments for old posts" option in BuddyPress blogmeta table.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @global object $wpdb DB Layer.
+ *
+ * @param string $oldvalue Value before save. Passed by do_action() but
+ *        unused here.
+ * @param string $newvalue Value to change meta to.
+ */
+function bp_blogs_update_option_close_comments_for_old_posts( $oldvalue, $newvalue ) {
+	global $wpdb;
+
+	bp_blogs_update_blogmeta( $wpdb->blogid, 'close_comments_for_old_posts', $newvalue );
+}
+add_action( 'update_option_close_comments_for_old_posts', 'bp_blogs_update_option_close_comments_for_old_posts', 10, 2 );
+
+/**
+ * Update "Close comments after days old" option in BuddyPress blogmeta table.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @global object $wpdb DB Layer.
+ *
+ * @param string $oldvalue Value before save. Passed by do_action() but
+ *        unused here.
+ * @param string $newvalue Value to change meta to.
+ */
+function bp_blogs_update_option_close_close_comments_days_old( $oldvalue, $newvalue ) {
+	global $wpdb;
+
+	bp_blogs_update_blogmeta( $wpdb->blogid, 'close_comments_days_old', $newvalue );
+}
+add_action( 'update_option_close_comments_days_old', 'bp_blogs_update_option_close_comments_days_old', 10, 2 );
+
+/**
+ * When toggling threaded comments, update thread depth in blogmeta table.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @global object $wpdb DB Layer.
+ *
+ * @param string $oldvalue Value before save. Passed by do_action() but
+ *        unused here.
+ * @param string $newvalue Value to change meta to.
+ */
+function bp_blogs_update_option_thread_comments( $oldvalue, $newvalue ) {
+	global $wpdb;
+
+	if ( empty( $newvalue ) ) {
+		$thread_depth = 1;
+	} else {
+		$thread_depth = get_option( 'thread_comments_depth' );
+	}
+
+	bp_blogs_update_blogmeta( $wpdb->blogid, 'thread_comments_depth', $thread_depth );
+}
+add_action( 'update_option_thread_comments', 'bp_blogs_update_option_thread_comments', 10, 2 );
+
+/**
+ * When updating comment depth, update thread depth in blogmeta table.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @global object $wpdb DB Layer.
+ *
+ * @param string $oldvalue Value before save. Passed by do_action() but
+ *        unused here.
+ * @param string $newvalue Value to change meta to.
+ */
+function bp_blogs_update_option_thread_comments_depth( $oldvalue, $newvalue ) {
+	global $wpdb;
+
+	$comments_enabled = get_option( 'thread_comments' );
+
+	if (  $comments_enabled ) {
+		bp_blogs_update_blogmeta( $wpdb->blogid, 'thread_comments_depth', $newvalue );
+	}
+}
+add_action( 'update_option_thread_comments_depth', 'bp_blogs_update_option_thread_comments_depth', 10, 2 );
 
 /**
  * Detect a change in post status, and initiate an activity update if necessary.

@@ -345,3 +345,90 @@ function bp_blogs_delete_activity( $args = true ) {
 		'secondary_item_id' => $secondary_item_id
 	) );
 }
+
+/**
+ * Check if a blog post's activity item should be closed from commenting.
+ *
+ * This mirrors the {@link comments_open()} and {@link _close_comments_for_old_post()}
+ * functions, but for use with the BuddyPress activity stream to be as
+ * lightweight as possible.
+ *
+ * By lightweight, we actually mirror a few of the blog's commenting settings
+ * to blogmeta and checks the values in blogmeta instead.  This is to prevent
+ * multiple {@link switch_to_blog()} calls in the activity stream.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param object $activity The BP_Activity_Activity object
+ * @return bool
+ */
+function bp_blogs_comments_open( $activity ) {
+	$open = true;
+
+	$blog_id = $activity->item_id;
+
+	// see if we've mirrored the close comments option before
+	$days_old = bp_blogs_get_blogmeta( $blog_id, 'close_comments_days_old' );
+
+	// we've never cached these items before, so do it now
+	if ( '' === $days_old ) {
+		switch_to_blog( $blog_id );
+
+		// use comments_open()
+		remove_filter( 'comments_open', 'bp_comments_open', 10, 2 );
+		$open = comments_open( $activity->secondary_item_id );
+		add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
+
+		// might as well mirror values to blogmeta since we're here!
+		$thread_depth = get_option( 'thread_comments' );
+		if ( ! empty( $thread_depth ) ) {
+			$thread_depth = get_option( 'thread_comments_depth' );
+		} else {
+			// perhaps filter this?
+			$thread_depth = 1;
+		}
+
+		bp_blogs_update_blogmeta( $blog_id, 'close_comments_for_old_posts', get_option( 'close_comments_for_old_posts' ) );
+		bp_blogs_update_blogmeta( $blog_id, 'close_comments_days_old',      get_option( 'close_comments_days_old' ) );
+		bp_blogs_update_blogmeta( $blog_id, 'thread_comments_depth',        $thread_depth );
+
+		restore_current_blog();
+
+	// check blogmeta and manually check activity item
+	// basically a copy of _close_comments_for_old_post()
+	} else {
+
+		// comments are closed
+		if ( 'closed' == bp_activity_get_meta( $activity->id, 'post_comment_status' ) ) {
+			return false;
+		}
+
+		if ( ! bp_blogs_get_blogmeta( $blog_id, 'close_comments_for_old_posts' ) ) {
+			return $open;
+		}
+
+		$days_old = (int) $days_old;
+		if ( ! $days_old ) {
+			return $open;
+		}
+
+		/* commenting out for now - needs some more thought...
+		   should we add the post type to activity meta?
+
+		$post = get_post($post_id);
+
+		// This filter is documented in wp-includes/comment.php
+		$post_types = apply_filters( 'close_comments_for_post_types', array( 'post' ) );
+		if ( ! in_array( $post->post_type, $post_types ) )
+			return $open;
+		*/
+
+		if ( time() - strtotime( $activity->date_recorded ) > ( $days_old * DAY_IN_SECONDS ) ) {
+			return false;
+		}
+
+		return $open;
+	}
+
+	return $open;
+}
