@@ -434,6 +434,8 @@ class BP_Activity_Activity {
 				$activity_ids_sql .= $wpdb->prepare( " LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
 			}
 
+			$activity_ids_sql = apply_filters( 'bp_activity_paged_activities_sql', $activity_ids_sql, $r );
+
 			$activity_ids = $wpdb->get_col( $activity_ids_sql );
 			$activities   = self::get_activity_data( $activity_ids );
 		}
