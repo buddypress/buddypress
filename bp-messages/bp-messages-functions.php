@@ -185,15 +185,15 @@ function messages_mark_thread_unread( $thread_id ) {
 }
 
 function messages_add_callback_values( $recipients, $subject, $content ) {
-	setcookie( 'bp_messages_send_to', $recipients, time() + 60 * 60 * 24, COOKIEPATH );
-	setcookie( 'bp_messages_subject', $subject,    time() + 60 * 60 * 24, COOKIEPATH );
-	setcookie( 'bp_messages_content', $content,    time() + 60 * 60 * 24, COOKIEPATH );
+	@setcookie( 'bp_messages_send_to', $recipients, time() + 60 * 60 * 24, COOKIEPATH );
+	@setcookie( 'bp_messages_subject', $subject,    time() + 60 * 60 * 24, COOKIEPATH );
+	@setcookie( 'bp_messages_content', $content,    time() + 60 * 60 * 24, COOKIEPATH );
 }
 
 function messages_remove_callback_values() {
-	setcookie( 'bp_messages_send_to', false, time() - 1000, COOKIEPATH );
-	setcookie( 'bp_messages_subject', false, time() - 1000, COOKIEPATH );
-	setcookie( 'bp_messages_content', false, time() - 1000, COOKIEPATH );
+	@setcookie( 'bp_messages_send_to', false, time() - 1000, COOKIEPATH );
+	@setcookie( 'bp_messages_subject', false, time() - 1000, COOKIEPATH );
+	@setcookie( 'bp_messages_content', false, time() - 1000, COOKIEPATH );
 }
 
 function messages_get_unread_count( $user_id = 0 ) {
