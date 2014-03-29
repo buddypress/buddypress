@@ -1007,6 +1007,17 @@ class BP_Activity_Activity {
 				}
 			}
 
+			// Calculate depth for each item
+			foreach ( $ref as &$r ) {
+				$depth = 1;
+				$parent_id = $r->secondary_item_id;
+				while ( $parent_id !== $r->item_id ) {
+					$depth++;
+					$parent_id = $ref[ $parent_id ]->secondary_item_id;
+				}
+				$r->depth = $depth;
+			}
+
 			// If we cache a value of false, it'll count as a cache
 			// miss the next time the activity comments are fetched.
 			// Storing the string 'none' is a hack workaround to

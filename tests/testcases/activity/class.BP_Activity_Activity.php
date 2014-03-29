@@ -393,6 +393,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$e2->display_name = $e2_user->display_name;
 		$e2->user_fullname = bp_core_get_user_displayname( $e2->user_id );
 		$e2->children = array();
+		$e2->depth = 1;
 
 		$a3_obj = new BP_Activity_Activity( $a3 );
 
@@ -410,6 +411,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$e3->display_name = $e3_user->display_name;
 		$e3->user_fullname = bp_core_get_user_displayname( $e3->user_id );
 		$e3->children = array();
+		$e3->depth = 1;
 
 		$expected = array(
 			$a2 => $e2,

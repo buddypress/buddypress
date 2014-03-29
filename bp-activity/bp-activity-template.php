@@ -1797,8 +1797,6 @@ function bp_activity_comments( $args = '' ) {
 		 *
 		 * @since BuddyPress (1.2)
 		 *
-		 * @todo remove $counter global
-		 *
 		 * @param object $comment The activity object currently being recursed
 		 *
 		 * @global object $activities_template {@link BP_Activity_Template}
@@ -2149,6 +2147,26 @@ function bp_activity_comment_count() {
 
 			return $count;
 		}
+
+/**
+ * Output the depth of the current activity comment.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function bp_activity_comment_depth() {
+	echo bp_activity_get_comment_depth();
+}
+	/**
+	 * Return the current activity comment depth.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @return int
+	 */
+	function bp_activity_get_comment_depth() {
+		global $activities_template;
+		return apply_filters( 'bp_activity_get_comment_depth', $activities_template->activity->current_comment->depth );
+	}
 
 /**
  * Output the activity comment link.
@@ -2650,6 +2668,10 @@ function bp_activity_can_comment() {
  */
 function bp_activity_can_comment_reply( $comment ) {
 	$can_comment = true;
+
+	if ( get_option( 'thread_comments' ) && bp_activity_get_comment_depth() >= get_option( 'thread_comments_depth' ) ) {
+		$can_comment = false;
+	}
 
 	return apply_filters( 'bp_activity_can_comment_reply', $can_comment, $comment );
 }
