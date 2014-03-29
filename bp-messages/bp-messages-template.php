@@ -306,12 +306,19 @@ function bp_message_thread_to() {
 		return apply_filters( 'bp_message_thread_to', BP_Messages_Thread::get_recipient_links($messages_template->thread->recipients ) );
 	}
 
-function bp_message_thread_view_link() {
-	echo bp_get_message_thread_view_link();
+function bp_message_thread_view_link( $thread_id = 0 ) {
+	echo bp_get_message_thread_view_link( $thread_id );
 }
-	function bp_get_message_thread_view_link() {
-		global $messages_template, $bp;
-		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( bp_loggedin_user_domain() . $bp->messages->slug . '/view/' . $messages_template->thread->thread_id ) );
+	function bp_get_message_thread_view_link( $thread_id = 0 ) {
+		global $messages_template;
+
+		if ( empty( $messages_template ) && (int) $thread_id > 0 ) {
+			$thread_id = (int) $thread_id;
+		} else {
+			$thread_id = $messages_template->thread->thread_id;
+		}
+
+		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( bp_loggedin_user_domain() . buddypress()->messages->slug . '/view/' . $thread_id ) );
 	}
 
 function bp_message_thread_delete_link() {

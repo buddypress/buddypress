@@ -120,10 +120,16 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 			$text   = sprintf( __('You have %d new messages', 'buddypress' ), (int) $total_items );
 			$filter = 'bp_messages_multiple_new_message_notification';
 		} else {
-			if ( !empty( $secondary_item_id ) ) {
-				$text = sprintf( __('You have %d new message from %s', 'buddypress' ), (int) $total_items, bp_core_get_user_displayname( $secondary_item_id ) );
+			// get message thread ID
+			$message   = new BP_Messages_Message( $item_id );
+			$thread_id = $message->thread_id;
+
+			$link = bp_get_message_thread_view_link( $thread_id );
+
+			if ( ! empty( $secondary_item_id ) ) {
+				$text = sprintf( __( '%2$s sent you a new private message', 'buddypress' ), bp_core_get_user_displayname( $secondary_item_id ) );
 			} else {
-				$text = sprintf( __('You have %d new message',         'buddypress' ), (int) $total_items );
+				$text = sprintf( __( 'You have %d new private messages', 'buddypress' ), (int) $total_items );
 			}
 			$filter = 'bp_messages_single_new_message_notification';
 		}
@@ -167,28 +173,38 @@ function bp_messages_message_sent_add_notification( $message ) {
 add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification', 10 );
 
 /**
- * Mark new message notifications when member views their inbox.
- *
- * @since BuddyPress (1.9.0)
- */
-function bp_messages_screen_inbox_mark_notifications() {
-	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->messages->id, 'new_message' );
-	}
-}
-add_action( 'messages_screen_inbox', 'bp_messages_screen_inbox_mark_notifications', 10 );
-
-/**
  * Mark new message notification when member reads a message thread directly.
  *
  * @since BuddyPress (1.9.0)
  */
 function bp_messages_screen_conversation_mark_notifications() {
 	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_mark_notifications_by_item_id( bp_loggedin_user_id(), (int) bp_action_variable( 0 ), buddypress()->messages->id, 'new_message' );
+		global $thread_template;
+
+		// get unread PM notifications for the user
+		$new_pm_notifications = BP_Notifications_Notification::get( array(
+			'user_id'           => bp_loggedin_user_id(),
+			'component_name'    => buddypress()->messages->id,
+			'component_action'  => 'new_message',
+			'is_new'            => 1,
+		) );
+		$unread_message_ids = wp_list_pluck( $new_pm_notifications, 'item_id' );
+
+		// no unread PMs, so stop!
+		if ( empty( $unread_message_ids ) ) {
+			return;
+		}
+
+		// get the unread message ids for this thread only
+		$message_ids = array_intersect( $unread_message_ids, wp_list_pluck( $thread_template->thread->messages, 'id' ) );
+
+		// mark each notification for each PM message as read
+		foreach ( $message_ids as $message_id ) {
+			bp_notifications_mark_notifications_by_item_id( bp_loggedin_user_id(), (int) $message_id, buddypress()->messages->id, 'new_message' );
+		}
 	}
 }
-add_action( 'messages_screen_conversation', 'bp_messages_screen_inbox_mark_notifications', 10 );
+add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notifications', 10 );
 
 /**
  * When a message is deleted, delete corresponding notifications.
