@@ -143,7 +143,7 @@ class BP_Members_Admin {
 	 */
 	private function setup_actions() {
 
-		/** Community Profile ***************************************************/
+		/** Extended Profile *****************************************/
 
 		// Add some page specific output to the <head>
 		add_action( 'bp_admin_head',            array( $this, 'admin_head'      ), 999    );
@@ -154,7 +154,7 @@ class BP_Members_Admin {
 		// Enqueue all admin JS and CSS
 		add_action( 'bp_admin_enqueue_scripts', array( $this, 'enqueue_scripts' )         );
 
-		// Create the Profile Navigation (WordPress/Community)
+		// Create the Profile Navigation (Profile/Extended Profile)
 		add_action( 'edit_user_profile',        array( $this, 'profile_nav'     ),  99, 1 );
 
 		// Add a row action to users listing
@@ -166,7 +166,7 @@ class BP_Members_Admin {
 			if ( ! is_multisite() ) {
 				add_action( 'pre_user_query', array( $this, 'remove_signups_from_user_query'),  10, 1 );
 			}
-			
+
 			// Reorganise the views navigation in users.php and signups page
 			if ( current_user_can( $this->capability ) ) {
 				add_filter( "views_{$this->users_screen}", array( $this, 'signup_filter_view' ),    10, 1 );
@@ -326,9 +326,9 @@ class BP_Members_Admin {
 			 */
 			?>
 			<?php if ( current_user_can( 'edit_user' ) ) :?>
-				<li class="nav-tab<?php echo esc_attr( $wp_active ); ?>"><a href="<?php echo esc_url( $wordpress_url );?>"><?php _e( 'WordPress Profile', 'buddypress' ); ?></a></li>
+				<li class="nav-tab<?php echo esc_attr( $wp_active ); ?>"><a href="<?php echo esc_url( $wordpress_url );?>"><?php _e( 'Profile', 'buddypress' ); ?></a></li>
 			<?php endif ;?>
-			<li class="nav-tab<?php echo esc_attr( $bp_active ); ?>"><a href="<?php echo esc_url( $community_url );?>"><?php _e( 'Community Profile', 'buddypress' ); ?></a></li>
+			<li class="nav-tab<?php echo esc_attr( $bp_active ); ?>"><a href="<?php echo esc_url( $community_url );?>"><?php _e( 'Extended Profile', 'buddypress' ); ?></a></li>
 
 			<?php do_action( 'bp_members_admin_profile_nav', $active, $user ); ?>
 		</ul>
@@ -757,7 +757,7 @@ class BP_Members_Admin {
 			'wp_http_referer' => urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
 		), $this->edit_profile_url );
 
-		$edit_profile_link = '<a href="' . esc_url( $edit_profile ) . '">' . esc_html__( 'Profile', 'buddypress' ) . '</a>';
+		$edit_profile_link = '<a href="' . esc_url( $edit_profile ) . '">' . esc_html__( 'Extended Profile', 'buddypress' ) . '</a>';
 
 		/**
 		 * Check the edit action is available
