@@ -226,15 +226,7 @@ function bp_pre_get_option( $value = false ) {
  * @return mixed The value for the option.
  */
 function bp_get_option( $option_name, $default = '' ) {
-	// check buddypress()->site_options array first
-	if ( isset( buddypress()->site_options[$option_name] ) ) {
-		$value = buddypress()->site_options[$option_name];
-
-	// query for the option if not available
-	} else {
-		$value = get_blog_option( bp_get_root_blog_id(), $option_name, $default );
-	}
-
+	$value = get_blog_option( bp_get_root_blog_id(), $option_name, $default );
 	return apply_filters( 'bp_get_option', $value );
 }
 
