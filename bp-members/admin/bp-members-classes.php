@@ -159,7 +159,22 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function no_items() {
-		_e( 'No pending accounts found.', 'buddypress' );
+
+		if ( bp_get_signup_allowed() ) {
+			esc_html_e( 'No pending accounts found.', 'buddypress' );
+		} else {
+			$link = false;
+
+			// Specific case when BuddyPress is not network activated
+			if ( is_multisite() && current_user_can( 'manage_network_users') ) {
+				$link = '<a href="' . esc_url( network_admin_url( 'settings.php' ) ) . '">' . esc_html__( 'Edit settings', 'buddypress' ) . '</a>';
+			} elseif ( current_user_can( 'manage_options' ) ) {
+				$link = '<a href="' . esc_url( bp_get_admin_url( 'options-general.php' ) ) . '">' . esc_html__( 'Edit settings', 'buddypress' ) . '</a>';
+			}
+			
+			printf( __( 'Registration is disabled. %s', 'buddypress' ), $link );
+		}
+			
 	}
 
 	/**
@@ -462,7 +477,17 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function no_items() {
-		_e( 'No pending accounts found.', 'buddypress' );
+		if ( bp_get_signup_allowed() ) {
+			esc_html_e( 'No pending accounts found.', 'buddypress' );
+		} else {
+			$link = false;
+
+			if ( current_user_can( 'manage_network_users' ) ) {
+				$link = '<a href="' . esc_url( network_admin_url( 'settings.php' ) ) . '">' . esc_html__( 'Edit settings', 'buddypress' ) . '</a>';
+			}
+
+			printf( __( 'Registration is disabled. %s', 'buddypress' ), $link );
+		}
 	}
 
 	/**
