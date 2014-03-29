@@ -162,7 +162,7 @@ class BP_Members_Admin {
 
 		/** Signups **************************************************************/
 
-		if ( bp_get_signup_allowed() && is_admin() ) {
+		if ( is_admin() ) {
 			if ( ! is_multisite() ) {
 				add_action( 'pre_user_query', array( $this, 'remove_signups_from_user_query'),  10, 1 );
 			}
@@ -194,16 +194,14 @@ class BP_Members_Admin {
 			array( &$this, 'user_admin' )
 		);
 
-		// Manage signups if allowed
-		if ( bp_get_signup_allowed() ) {
-			$hooks['signups'] = $this->signups_page = add_users_page(
-				__( 'Manage Signups',  'buddypress' ),
-				__( 'Manage Signups',  'buddypress' ),
-				$this->capability,
-				'bp-signups',
-				array( &$this, 'signups_admin' )
-			);
-		}
+		// Manage signups
+		$hooks['signups'] = $this->signups_page = add_users_page(
+			__( 'Manage Signups',  'buddypress' ),
+			__( 'Manage Signups',  'buddypress' ),
+			$this->capability,
+			'bp-signups',
+			array( &$this, 'signups_admin' )
+		);
 
 		$edit_page = 'user-edit';
 		$this->users_page = 'users';

@@ -352,7 +352,7 @@ function bp_update_to_2_0() {
 
 	/** Migrate signups data **************************************************/
 
-	if ( bp_get_signup_allowed() && ! is_multisite() ) {
+	if ( ! is_multisite() ) {
 
 		if ( empty( $wpdb->signups ) ) {
 			bp_core_install_signups();
