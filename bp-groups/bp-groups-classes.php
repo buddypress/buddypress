@@ -2362,7 +2362,14 @@ class BP_Groups_Member {
 
 		$bp = buddypress();
 
-		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d ORDER BY date_modified ASC", $user_id ) );
+		$count = wp_cache_get( $user_id, 'bp_group_invite_count' );
+
+		if ( false === $count ) {
+			$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d", $user_id ) );
+			wp_cache_set( $user_id, $count, 'bp_group_invite_count' );
+		}
+
+		return $count;
 	}
 
 	/**

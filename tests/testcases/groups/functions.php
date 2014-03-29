@@ -577,4 +577,33 @@ Bar!';
 
 		$this->set_current_user( $old_user );
 	}
+
+	/**
+	 * @group counts
+	 */
+	public function test_get_invite_count_for_user() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// create invitation
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
+			'inviter_id' => $u1,
+		) );
+
+		// send the invite
+		// this function is imperative to set the 'invite_sent' flag in the DB
+		// why is this separated from groups_invite_user()?
+		// @see groups_screen_group_invite()
+		groups_send_invites( $u1, $g );
+
+		// assert invite count
+		$this->assertEquals( 1, groups_get_invite_count_for_user( $u2 ) );
+
+		// accept the invite and reassert
+		groups_accept_invite( $u2, $g );
+		$this->assertEquals( 0, groups_get_invite_count_for_user( $u2 ) );
+	}
 }

@@ -112,10 +112,56 @@ function bp_groups_clear_group_members_caches( $group_obj, $user_ids ) {
 add_action( 'bp_groups_delete_group', 'bp_groups_clear_group_members_caches', 10, 2 );
 
 /**
+ * Clear a user's cached total group invite count.
+ *
+ * Count is cleared when an invite is accepted, rejected or deleted.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $user_id The user ID.
+ */
+function bp_groups_clear_invite_count_for_user( $user_id ) {
+	wp_cache_delete( $user_id, 'bp_group_invite_count' );
+}
+add_action( 'groups_accept_invite', 'bp_groups_clear_invite_count_for_user' );
+add_action( 'groups_reject_invite', 'bp_groups_clear_invite_count_for_user' );
+add_action( 'groups_delete_invite', 'bp_groups_clear_invite_count_for_user' );
+
+/**
+ * Clear a user's cached total group invite count when a user is uninvited.
+ *
+ * Groan. Our API functions are not consistent.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $group_id The group ID. Not used in this function.
+ * @param int $user_id The user ID.
+ */
+function bp_groups_clear_invite_count_on_uninvite( $group_id, $user_id ) {
+	bp_groups_clear_invite_count_for_user( $user_id );
+}
+add_action( 'groups_uninvite_user', 'bp_groups_clear_invite_count_on_uninvite', 10, 2 );
+
+/**
+ * Clear a user's cached total group invite count when a new invite is sent.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param int $group_id The group ID. Not used in this function.
+ * @param array $invited_users Array of invited user IDs.
+ */
+function bp_groups_clear_invite_count_on_send( $group_id, $invited_users ) {
+	foreach ( $invited_users as $user_id ) {
+		bp_groups_clear_invite_count_for_user( $user_id );
+	}
+}
+add_action( 'groups_send_invites', 'bp_groups_clear_invite_count_on_send', 10, 2 );
+
+/**
  * Clear a user's cached group count.
  *
- * @param int $group_id ID of the group. Not used in this function.
- * @param int $user_id ID of the user whose group count is being changed.
+ * @param int $group_id The group ID. Not used in this function.
+ * @param int $user_id The user ID.
  */
 function groups_clear_group_user_object_cache( $group_id, $user_id ) {
 	wp_cache_delete( 'bp_total_groups_for_user_' . $user_id, 'bp' );
