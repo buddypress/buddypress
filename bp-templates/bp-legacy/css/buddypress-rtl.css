@@ -1383,6 +1383,9 @@ body.register #buddypress div.page ul {
 	list-style: none;
 	margin-bottom: 0;
 }
+#buddypress .field-visibility select {
+	margin: 0;
+}
 
 /*--------------------------------------------------------------
 3.11 - Widgets
