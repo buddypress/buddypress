@@ -18,7 +18,10 @@ function xprofile_register_activity_actions() {
 
 	// Register the activity stream actions for this component
 	bp_activity_set_action(
-		$bp->profile->id,
+		// older avatar activity items use 'profile' for component
+		// see r4273
+		'profile',
+
 		'new_avatar',
 		__( 'Member changed profile picture', 'buddypress' ),
 		'bp_xprofile_format_activity_action_new_avatar'
