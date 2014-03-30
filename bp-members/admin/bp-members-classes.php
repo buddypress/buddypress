@@ -126,7 +126,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			'cb'         => '<input type="checkbox" />',
 			'username'   => __( 'Username', 'buddypress' ),
 			'name'       => __( 'Name', 'buddypress' ),
-			'email'      => __( 'E-mail', 'buddypress' ),
+			'email'      => __( 'Email', 'buddypress' ),
 			'registered' => __( 'Registered', 'buddypress' ),
 			'date_sent'  => __( 'Last Sent', 'buddypress' ),
 			'count_sent' => __( '# Times Emailed', 'buddypress' )
@@ -444,7 +444,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 			'cb'         => '<input type="checkbox" />',
 			'username'   => __( 'Username', 'buddypress' ),
 			'name'       => __( 'Name', 'buddypress' ),
-			'email'      => __( 'E-mail', 'buddypress' ),
+			'email'      => __( 'Email', 'buddypress' ),
 			'registered' => __( 'Registered', 'buddypress' ),
 			'date_sent'  => __( 'Last Sent', 'buddypress' ),
 			'count_sent' => __( '# Times Emailed', 'buddypress' )

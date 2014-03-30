@@ -928,8 +928,8 @@ class BP_Members_Admin {
 				'content' =>
 				'<p>' . __( 'This is the admininistration screen for pending accounts on your site.', 'buddypress' ) . '</p>' .
 				'<p>' . __( 'From the screen options, you can customize the displayed columns and the pagination of this screen.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'You can reorder the list of your pending accounts by clicking on the Username, E-mail or Registered column headers.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'Using the search form, you can find pending accounts more easily. The Username and E-mail fields will be included in the search.', 'buddypress' ) . '</p>'
+				'<p>' . __( 'You can reorder the list of your pending accounts by clicking on the Username, Email or Registered column headers.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'Using the search form, you can find pending accounts more easily. The Username and Email fields will be included in the search.', 'buddypress' ) . '</p>'
 			) );
 
 			get_current_screen()->add_help_tab( array(
