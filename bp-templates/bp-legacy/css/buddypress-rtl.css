@@ -1376,6 +1376,10 @@ body.register #buddypress div.page ul {
 #buddypress .field-visibility-settings-toggle {
 	font-style: italic;
 }
+#buddypress .field-visibility-settings .radio {
+	list-style: none;
+	margin-bottom: 0;
+}
 
 /*--------------------------------------------------------------
 3.11 - Widgets
