@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-03-29 21:30:35+00:00\n"
+"POT-Creation-Date: 2014-03-30 18:30:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -6800,34 +6800,34 @@ msgstr ""
 msgid "Sorry, no posts matched your criteria."
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:23
+#: bp-xprofile/bp-xprofile-activity.php:26
 msgid "Member changed profile picture"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:30
+#: bp-xprofile/bp-xprofile-activity.php:33
 msgid "New member registered"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:37
+#: bp-xprofile/bp-xprofile-activity.php:40
 msgid "Updated Profile"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:56
+#: bp-xprofile/bp-xprofile-activity.php:59
 #: tests/testcases/xprofile/activity.php:285
 msgid "%s changed their profile picture"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:77
+#: bp-xprofile/bp-xprofile-activity.php:80
 #: tests/testcases/xprofile/activity.php:307
 #: tests/testcases/xprofile/activity.php:333
 msgid "%s became a registered member"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:102
+#: bp-xprofile/bp-xprofile-activity.php:105
 msgid "%1$s&#8217;s profile was updated"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-activity.php:309
+#: bp-xprofile/bp-xprofile-activity.php:312
 msgid "Profile Updates"
 msgstr ""
 
