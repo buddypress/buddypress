@@ -70,7 +70,7 @@ get_header( 'buddypress' ); ?>
 
 										<tr <?php bp_field_css_class(); ?>>
 											<td class="field-name"><?php bp_the_profile_field_name(); ?></td>
-											<td class="field-visibility"><?php bp_xprofile_settings_visibility_select(); ?></td>
+											<td class="field-visibility"><?php bp_profile_settings_visibility_select(); ?></td>
 										</tr>
 
 									<?php endwhile; ?>

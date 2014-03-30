@@ -691,28 +691,61 @@ function bp_edit_profile_button() {
 /**
  * Echo the field visibility radio buttons
  */
-function bp_profile_visibility_radio_buttons() {
-	echo bp_profile_get_visibility_radio_buttons();
+function bp_profile_visibility_radio_buttons( $args = '' ) {
+	echo bp_profile_get_visibility_radio_buttons( $args );
 }
 	/**
 	 * Return the field visibility radio buttons
 	 */
-	function bp_profile_get_visibility_radio_buttons() {
-		$html = '<ul class="radio">';
+	function bp_profile_get_visibility_radio_buttons( $args = '' ) {
 
-		foreach( bp_xprofile_get_visibility_levels() as $level ) {
-			$checked = $level['id'] == bp_get_the_profile_field_visibility_level() ? ' checked="checked" ' : '';
+		// Parse optional arguments
+		$r = bp_parse_args( $args, array(
+			'field_id'     => bp_get_the_profile_field_id(),
+			'before'       => '<ul class="radio">',
+			'after'        => '</ul>',
+			'before_radio' => '<li>',
+			'after_radio'  => '</li>',
+			'class'        => 'bp-xprofile-visibility'
+		), 'xprofile_visibility_radio_buttons' );
 
-			// Only sanitize once
-			$field_id = bp_get_the_profile_field_id();
-			$level_id = esc_attr( $level['id'] );
+		// Empty return value, filled in below if a valid field ID is found
+		$retval = '';
 
-			$html .= '<li><label for="see-field_' . $field_id . '_' . $level_id . '"><input type="radio" id="see-field_' . $field_id . '_' . $level_id . '" name="field_' . $field_id . '_visibility" value="' . $level_id . '"' . $checked . ' /> ' . esc_html( $level['label'] ) . '</label></li>';
-		}
+		// Only do-the-do if there's a valid field ID
+		if ( ! empty( $r['field_id'] ) ) :
 
-		$html .= '</ul>';
+			// Start the output buffer
+			ob_start();
 
-		return apply_filters( 'bp_profile_get_visibility_radio_buttons', $html );
+			// Output anything before
+			echo $r['before']; ?>
+
+			<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
+
+				<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
+
+					<?php echo $r['before_radio']; ?>
+
+					<label for="<?php esc_attr( 'see-field_' . $r['field_id'] . '_' . $level['id'] ); ?>">
+						<input type="radio" id="<?php echo esc_attr( 'see-field_' . $r['field_id'] . '_' . $level['id'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] . '_visibility' ); ?>" value="<?php echo esc_attr( $level['id'] ); ?>" <?php checked( $level['id'], bp_get_the_profile_field_visibility_level() ); ?> />
+						<span class="field-visibility-text"><?php echo esc_html( $level['label'] ); ?></span>
+					</label>
+
+					<?php echo $r['after_radio']; ?>
+
+				<?php endforeach; ?>
+
+			<?php endif;
+
+			// Output anything after
+			echo $r['after'];
+
+			// Get the output buffer and empty it
+			$retval = ob_get_clean();
+		endif;
+
+		return apply_filters( 'bp_profile_get_visibility_radio_buttons', $retval, $r, $args );
 	}
 
 /**
@@ -720,50 +753,61 @@ function bp_profile_visibility_radio_buttons() {
  *
  * @since BuddyPress (2.0.0)
  */
-function bp_xprofile_settings_visibility_select( $args = '' ) {
-	echo bp_xprofile_get_settings_visibility_select( $args );
+function bp_profile_settings_visibility_select( $args = '' ) {
+	echo bp_profile_get_settings_visibility_select( $args );
 }
 	/**
 	 * Return the XProfile field visibility select list for settings
 	 *
 	 * @since BuddyPress (2.0.0)
 	 */
-	function bp_xprofile_get_settings_visibility_select( $args = '' ) {
+	function bp_profile_get_settings_visibility_select( $args = '' ) {
 
 		// Parse optional arguments
 		$r = bp_parse_args( $args, array(
-			'before' => '',
-			'after'  => '',
-			'class'  => 'bp-xprofile-visibility'
+			'field_id' => bp_get_the_profile_field_id(),
+			'before'   => '',
+			'after'    => '',
+			'class'    => 'bp-xprofile-visibility'
 		), 'xprofile_settings_visibility_select' );
 
-		// Start the output buffer
-		ob_start();
+		// Empty return value, filled in below if a valid field ID is found
+		$retval = '';
 
-		// Anything before
-		echo $r['before']; ?>
+		// Only do-the-do if there's a valid field ID
+		if ( ! empty( $r['field_id'] ) ) :
 
-		<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
+			// Start the output buffer
+			ob_start();
 
-			<select class="<?php echo esc_attr( $r['class'] ); ?>" name="field_<?php bp_the_profile_field_id(); ?>_visibility">
+			// Output anything before
+			echo $r['before']; ?>
 
-				<?php foreach ( bp_xprofile_get_visibility_levels() as $level ) : ?>
+			<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
 
-					<option value="<?php echo esc_attr( $level['id'] ); ?>" <?php selected( $level['id'], bp_get_the_profile_field_visibility_level() ); ?>><?php echo esc_html( $level['label'] ); ?></option>
+				<select class="<?php echo esc_attr( $r['class'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] ) ; ?>_visibility">
 
-				<?php endforeach; ?>
+					<?php foreach ( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
-			</select>
+						<option value="<?php echo esc_attr( $level['id'] ); ?>" <?php selected( $level['id'], bp_get_the_profile_field_visibility_level() ); ?>><?php echo esc_html( $level['label'] ); ?></option>
 
-		<?php else : ?>
+					<?php endforeach; ?>
 
-			<span class="field-visibility-settings-notoggle" title="<?php esc_attr_e( "This field's visibility cannot be changed.", 'buddypress' ); ?>"><?php bp_the_profile_field_visibility_level_label(); ?></span>
+				</select>
 
-		<?php endif;
+			<?php else : ?>
 
-		// Anything after
-		echo $r['after'];
+				<span class="field-visibility-settings-notoggle" title="<?php esc_attr_e( "This field's visibility cannot be changed.", 'buddypress' ); ?>"><?php bp_the_profile_field_visibility_level_label(); ?></span>
+
+			<?php endif;
+
+			// Output anything after
+			echo $r['after'];
+
+			// Get the output buffer and empty it
+			$retval = ob_get_clean();
+		endif;
 
 		// Output the dropdown list
-		return apply_filters( 'bp_xprofile_settings_visibility_select', ob_get_clean() );
+		return apply_filters( 'bp_profile_settings_visibility_select', $retval, $r, $args );
 	}
