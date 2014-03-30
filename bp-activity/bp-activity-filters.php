@@ -182,7 +182,6 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags['img']           = array();
 	$activity_allowedtags['img']['src']    = array();
 	$activity_allowedtags['img']['alt']    = array();
-	$activity_allowedtags['img']['class']  = array();
 	$activity_allowedtags['img']['width']  = array();
 	$activity_allowedtags['img']['height'] = array();
 	$activity_allowedtags['img']['class']  = array();
