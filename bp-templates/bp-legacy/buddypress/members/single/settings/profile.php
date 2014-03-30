@@ -6,27 +6,31 @@
 
 		<?php while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
 
-			<table class="profile-settings" id="xprofile-settings-<?php bp_the_profile_group_slug(); ?>">
-				<thead>
-					<tr>
-						<th class="title field-group-name"><?php bp_the_profile_group_name(); ?></th>
-						<th class="title"><?php _e( 'Visibility', 'buddypress' ); ?></th>
-					</tr>
-				</thead>
+			<?php if ( bp_profile_fields() ) : ?>
 
-				<tbody>
-
-					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
-
-						<tr <?php bp_field_css_class(); ?>>
-							<td class="field-name"><?php bp_the_profile_field_name(); ?></td>
-							<td class="field-visibility"><?php bp_profile_settings_visibility_select(); ?></td>
+				<table class="profile-settings" id="xprofile-settings-<?php bp_the_profile_group_slug(); ?>">
+					<thead>
+						<tr>
+							<th class="title field-group-name"><?php bp_the_profile_group_name(); ?></th>
+							<th class="title"><?php _e( 'Visibility', 'buddypress' ); ?></th>
 						</tr>
+					</thead>
 
-					<?php endwhile; ?>
+					<tbody>
 
-				</tbody>
-			</table>
+						<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+
+							<tr <?php bp_field_css_class(); ?>>
+								<td class="field-name"><?php bp_the_profile_field_name(); ?></td>
+								<td class="field-visibility"><?php bp_profile_settings_visibility_select(); ?></td>
+							</tr>
+
+						<?php endwhile; ?>
+
+					</tbody>
+				</table>
+
+			<?php endif; ?>
 
 		<?php endwhile; ?>
 
