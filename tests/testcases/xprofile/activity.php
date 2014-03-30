@@ -277,7 +277,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 	public function test_bp_xprofile_format_activity_action_new_avatar() {
 		$u = $this->create_user();
 		$a = $this->factory->activity->create( array(
-			'component' => buddypress()->profile->id,
+			'component' => 'profile',
 			'type' => 'new_avatar',
 			'user_id' => $u,
 		) );
