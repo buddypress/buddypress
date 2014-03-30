@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-03-30 19:30:36+00:00\n"
+"POT-Creation-Date: 2014-03-30 23:30:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -570,15 +570,15 @@ msgstr ""
 msgid "In reply to"
 msgstr ""
 
-#: bp-activity/bp-activity-filters.php:381
+#: bp-activity/bp-activity-filters.php:380
 msgid "[Read more]"
 msgstr ""
 
-#: bp-activity/bp-activity-filters.php:386
+#: bp-activity/bp-activity-filters.php:385
 msgid "&hellip;"
 msgstr ""
 
-#: bp-activity/bp-activity-filters.php:541
+#: bp-activity/bp-activity-filters.php:540
 msgid "Load Newest"
 msgstr ""
 
@@ -4161,8 +4161,13 @@ msgid "Pending <span class=\"count\">(%s)</span>"
 msgstr ""
 
 #: bp-members/admin/bp-members-classes.php:129
+#: bp-members/admin/bp-members-classes.php:277
 #: bp-members/admin/bp-members-classes.php:447
-msgid "E-mail"
+#: bp-members/admin/bp-members-classes.php:588
+#: bp-settings/bp-settings-loader.php:106
+#: bp-settings/bp-settings-loader.php:179
+#: bp-themes/bp-default/functions.php:645
+msgid "Email"
 msgstr ""
 
 #: bp-members/admin/bp-members-classes.php:130
@@ -4206,14 +4211,6 @@ msgstr ""
 #: bp-members/admin/bp-members-classes.php:175
 #: bp-members/admin/bp-members-classes.php:489
 msgid "Registration is disabled. %s"
-msgstr ""
-
-#: bp-members/admin/bp-members-classes.php:277
-#: bp-members/admin/bp-members-classes.php:588
-#: bp-settings/bp-settings-loader.php:106
-#: bp-settings/bp-settings-loader.php:179
-#: bp-themes/bp-default/functions.php:645
-msgid "Email"
 msgstr ""
 
 #: bp-members/bp-members-actions.php:53 bp-members/bp-members-admin.php:483
@@ -4360,11 +4357,11 @@ msgid "From the screen options, you can customize the displayed columns and the 
 msgstr ""
 
 #: bp-members/bp-members-admin.php:931
-msgid "You can reorder the list of your pending accounts by clicking on the Username, E-mail or Registered column headers."
+msgid "You can reorder the list of your pending accounts by clicking on the Username, Email or Registered column headers."
 msgstr ""
 
 #: bp-members/bp-members-admin.php:932
-msgid "Using the search form, you can find pending accounts more easily. The Username and E-mail fields will be included in the search."
+msgid "Using the search form, you can find pending accounts more easily. The Username and Email fields will be included in the search."
 msgstr ""
 
 #: bp-members/bp-members-admin.php:937
@@ -6824,7 +6821,8 @@ msgid "%s became a registered member"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-activity.php:105
-msgid "%1$s&#8217;s profile was updated"
+#: tests/testcases/xprofile/activity.php:356
+msgid "%s&#8217;s profile was updated"
 msgstr ""
 
 #: bp-xprofile/bp-xprofile-activity.php:312
@@ -7189,8 +7187,4 @@ msgstr ""
 
 #: tests/testcases/groups/activity.php:47
 msgid "%s joined the group %s"
-msgstr ""
-
-#: tests/testcases/xprofile/activity.php:356
-msgid "%s&#8217;s profile was updated"
 msgstr ""
