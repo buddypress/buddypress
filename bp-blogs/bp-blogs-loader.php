@@ -217,7 +217,7 @@ class BP_Blogs_Component extends BP_Component {
 	/**
 	 * Set up the title for pages and <title>
 	 */
-	function setup_title() {
+	public function setup_title() {
 		$bp = buddypress();
 
 		// Set up the component options navigation for Site

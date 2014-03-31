@@ -586,7 +586,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Sets up the title for pages and <title>
 	 */
-	function setup_title() {
+	public function setup_title() {
 		$bp = buddypress();
 
 		if ( bp_is_groups_component() ) {

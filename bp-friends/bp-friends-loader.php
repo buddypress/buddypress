@@ -220,7 +220,7 @@ class BP_Friends_Component extends BP_Component {
 	/**
 	 * Set up the title for pages and <title>.
 	 */
-	function setup_title() {
+	public function setup_title() {
 		$bp = buddypress();
 
 		// Adjust title

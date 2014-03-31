@@ -222,7 +222,7 @@ class BP_Notifications_Component extends BP_Component {
 	 *
 	 * @since BuddyPress (1.9.0)
 	 */
-	function setup_title() {
+	public function setup_title() {
 		$bp = buddypress();
 
 		// Adjust title

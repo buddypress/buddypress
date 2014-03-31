@@ -328,7 +328,7 @@ class BP_Activity_Component extends BP_Component {
 	 * @uses bp_is_my_profile()
 	 * @uses bp_core_fetch_avatar()
 	 */
-	function setup_title() {
+	public function setup_title() {
 		$bp = buddypress();
 
 		// Adjust title based on view
@@ -353,7 +353,7 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @since BuddyPress (1.6)
 	 */
-	 function setup_actions() {
+	public function setup_actions() {
 		// Spam prevention
 		add_action( 'bp_include', 'bp_activity_setup_akismet' );
 

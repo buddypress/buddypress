@@ -212,7 +212,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
-	function setup_title() {
+	public function setup_title() {
 		$bp = buddypress();
 
 		if ( bp_is_my_profile() ) {

@@ -231,7 +231,7 @@ class BP_Forums_Component extends BP_Component {
 	/**
 	 * Set up the title for pages and the <title> element.
 	 */
-	function setup_title() {
+	public function setup_title() {
 		$bp = buddypress();
 
 		// Adjust title based on view
