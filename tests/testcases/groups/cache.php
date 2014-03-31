@@ -101,4 +101,57 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $g, 'bp_groups' ) );
 	}
 
+	/**
+	 * @group bp_groups_prefetch_activity_object_data
+	 */
+	public function test_bp_groups_prefetch_activity_object_data_all_cached() {
+		$g = $this->factory->group->create();
+
+		// Prime cache
+		groups_get_group( array( 'group_id' => $g ) );
+
+		// fake an activity
+		$a = new stdClass;
+		$a->component = buddypress()->groups->id;
+		$a->item_id = $g;
+		$activities = array(
+			$a,
+		);
+
+		bp_groups_prefetch_activity_object_data( $activities );
+
+		// This assertion is not really necessary - just checks to see
+		// whether a fatal error has occurred above
+		$this->assertNotEmpty( wp_cache_get( $g, 'bp_groups' ) );
+	}
+
+	/**
+	 * @group bp_groups_prefetch_activity_object_data
+	 */
+	public function test_bp_groups_prefetch_activity_object_data_some_cached() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create();
+
+		// Prime cache
+		groups_get_group( array( 'group_id' => $g1 ) );
+
+		// fake activities
+		$a1 = new stdClass;
+		$a1->component = buddypress()->groups->id;
+		$a1->item_id = $g1;
+
+		$a2 = new stdClass;
+		$a2->component = buddypress()->groups->id;
+		$a2->item_id = $g2;
+
+		$activities = array(
+			$a1,
+			$a2,
+		);
+
+		bp_groups_prefetch_activity_object_data( $activities );
+
+		$this->assertNotEmpty( wp_cache_get( $g1, 'bp_groups' ) );
+		$this->assertNotEmpty( wp_cache_get( $g2, 'bp_groups' ) );
+	}
 }
