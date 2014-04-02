@@ -630,7 +630,6 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 
 			// find the parent 'new_blog_post' activity entry
 			$parent_activity_id = bp_activity_get_activity_id( array(
-				'user_id'           => $user_id,
 				'component'         => 'blogs',
 				'type'              => 'new_blog_post',
 				'item_id'           => $blog_id,
