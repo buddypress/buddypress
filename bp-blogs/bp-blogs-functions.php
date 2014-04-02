@@ -972,6 +972,7 @@ function bp_blogs_transition_activity_status( $new_status, $old_status, $comment
 	 * If a blog comment transitions to a "delete" or "hold" status, delete the activity item.
 	 * If a blog comment transitions to trashed, or spammed, mark the activity as spam.
 	 * If a blog comment transitions to approved (and the activity exists), mark the activity as ham.
+	 * If a blog comment transitions to unapproved (and the activity exists), mark the activity as spam.
 	 * Otherwise, record the comment into the activity stream.
 	 */
 
@@ -980,7 +981,7 @@ function bp_blogs_transition_activity_status( $new_status, $old_status, $comment
 		return bp_blogs_remove_comment( $comment->comment_ID );
 
 	// These clauses handle trash, spam, and un-spams.
-	} elseif ( in_array( $new_status, array( 'trash', 'spam' ) ) ) {
+	} elseif ( in_array( $new_status, array( 'trash', 'spam', 'unapproved' ) ) ) {
 		$action = 'spam_activity';
 	} elseif ( 'approved' == $new_status ) {
 		$action = 'ham_activity';
