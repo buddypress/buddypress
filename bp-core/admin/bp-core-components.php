@@ -262,6 +262,7 @@ function bp_core_admin_components_settings_handler() {
 
 	// Redirect
 	wp_redirect( $base_url );
+	die();
 }
 add_action( 'bp_admin_init', 'bp_core_admin_components_settings_handler' );
 
