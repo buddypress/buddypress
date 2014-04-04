@@ -427,7 +427,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 	bp_update_user_meta( $user_id, 'bp_favorite_activities', $my_favs );
 
 	// Update activity meta counts
-	if ( true === bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count ) ) {
+	if ( bp_activity_update_meta( $activity_id, 'favorite_count', $fav_count ) ) {
 
 		// Execute additional code
 		do_action( 'bp_activity_add_user_favorite', $activity_id, $user_id );
