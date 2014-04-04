@@ -721,7 +721,8 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/SlothLoveChunk/">SlothLoveChunk</a>,
 				<a href="https://profiles.wordpress.org/StijnDeWitt/">StijnDeWitt</a>,
 				<a href="https://profiles.wordpress.org/terraling/">terraling</a>,
-				<a href="https://profiles.wordpress.org/tw2113/">tw2113</a>
+				<a href="https://profiles.wordpress.org/tw2113/">tw2113</a>,
+				<a href="https://profiles.wordpress.org/vanillalounge/">vanillalounge</a>.
 			</p>
 
 			<?php if ( current_user_can( $this->capability ) ) :?>
