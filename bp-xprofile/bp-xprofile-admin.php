@@ -383,10 +383,13 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 		<div class="field-wrapper">
 
 			<?php
-			$field_type = bp_xprofile_create_field_type( $field->type );
-			$field_type->admin_field_html();
+			if ( in_array( $field->type, array_keys( bp_xprofile_get_field_types() ) ) ) {
+				$field_type = bp_xprofile_create_field_type( $field->type );
+				$field_type->admin_field_html();
 
-			do_action( 'xprofile_admin_field', $field, 1 );
+			} else {
+				do_action( 'xprofile_admin_field', $field, 1 );
+			}
 			?>
 
 			<?php if ( $field->description ) : ?>
