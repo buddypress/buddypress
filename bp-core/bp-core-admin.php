@@ -393,7 +393,7 @@ class BP_Admin {
 		}
 
 		/** Avatar upload for users or groups ************************************/
-		
+
 		if ( ! empty( $avatar_setting ) ) {
 		    // Allow avatar uploads
 		    add_settings_field( 'bp-disable-avatar-uploads', __( 'Avatar Uploads',   'buddypress' ), 'bp_admin_setting_callback_avatar_uploads',   'buddypress', $avatar_setting );
@@ -634,11 +634,6 @@ class BP_Admin {
 
 			<h4 class="wp-people-group"><?php _e( 'Project Leaders', 'buddypress' ); ?></h4>
 			<ul class="wp-people-group " id="wp-people-group-project-leaders">
-				<li class="wp-person" id="wp-person-apeatling">
-					<a href="http://profiles.wordpress.org/apeatling"><img src="http://0.gravatar.com/avatar/bb29d699b5cba218c313b61aa82249da?s=60" class="gravatar" alt="Andy Peatling" /></a>
-					<a class="web" href="http://profiles.wordpress.org/apeatling">Andy Peatling</a>
-					<span class="title"><?php _e( 'Founding Developer', 'buddypress' ); ?></span>
-				</li>
 				<li class="wp-person" id="wp-person-johnjamesjacoby">
 					<a href="http://profiles.wordpress.org/johnjamesjacoby"><img src="http://0.gravatar.com/avatar/81ec16063d89b162d55efe72165c105f?s=60" class="gravatar" alt="John James Jacoby" /></a>
 					<a class="web" href="http://profiles.wordpress.org/johnjamesjacoby">John James Jacoby</a>
@@ -656,31 +651,34 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h4 class="wp-people-group"><?php _e( 'Core Developers', 'buddypress' ); ?></h4>
-			<ul class="wp-people-group " id="wp-people-group-core-developers">
+			<h4 class="wp-people-group"><?php _e( 'Core Team', 'buddypress' ); ?></h4>
+			<ul class="wp-people-group " id="wp-people-group-core-team">
 				<li class="wp-person" id="wp-person-r-a-y">
 					<a href="http://profiles.wordpress.org/r-a-y"><img src="http://0.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=60" class="gravatar" alt="Ray" /></a>
 					<a class="web" href="http://profiles.wordpress.org/r-a-y">Ray</a>
+					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-imath">
+					<a href="http://profiles.wordpress.org/imath"><img src="http://0.gravatar.com/avatar/8b208ca408dad63888253ee1800d6a03?s=60" class="gravatar" alt="Mathieu Viet" /></a>
+					<a class="web" href="http://profiles.wordpress.org/imath">Mathieu Viet</a>
+					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-mercime">
+					<a href="http://profiles.wordpress.org/mercime"><img src="http://0.gravatar.com/avatar/fae451be6708241627983570a1a1817a?s=60" class="gravatar" alt="Mercime" /></a>
+					<a class="web" href="http://profiles.wordpress.org/mercime">Mercime</a>
+					<span class="title"><?php _e( 'Navigator', 'buddypress' ); ?></span>
 				</li>
 			</ul>
 
 			<h4 class="wp-people-group"><?php _e( 'Recent Rockstars', 'buddypress' ); ?></h4>
 			<ul class="wp-people-group " id="wp-people-group-rockstars">
-				<li class="wp-person" id="wp-person-imath">
-					<a href="http://profiles.wordpress.org/imath"><img src="http://0.gravatar.com/avatar/8b208ca408dad63888253ee1800d6a03?s=60" class="gravatar" alt="Mathieu Viet" /></a>
-					<a class="web" href="http://profiles.wordpress.org/imath">Mathieu Viet</a>
+				<li class="wp-person" id="wp-person-dcavins">
+					<a href="http://profiles.wordpress.org/dcavins"><img src="http://0.gravatar.com/avatar/a5fa7e83d59cb45ebb616235a176595a?s=60" class="gravatar" alt="David Cavins" /></a>
+					<a class="web" href="http://profiles.wordpress.org/dcavins">David Cavins</a>
 				</li>
-				<li class="wp-person" id="wp-person-hnla">
-					<a href="http://profiles.wordpress.org/hnla"><img src="http://0.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=60" class="gravatar" alt="Hugo Ashmore" /></a>
-					<a class="web" href="http://profiles.wordpress.org/hnla">Hugo Ashmore</a>
-				</li>
-				<li class="wp-person" id="wp-person-mercime">
-					<a href="http://profiles.wordpress.org/mercime"><img src="http://0.gravatar.com/avatar/fae451be6708241627983570a1a1817a?s=60" class="gravatar" alt="Mercime" /></a>
-					<a class="web" href="http://profiles.wordpress.org/mercime">Mercime</a>
-				</li>
-				<li class="wp-person" id="wp-person-karmatosed">
-					<a href="http://profiles.wordpress.org/karmatosed"><img src="http://0.gravatar.com/avatar/d36d2c1821af9249b69ff7f5ed60529b?s=60" class="gravatar" alt="Tammie Lister" /></a>
-					<a class="web" href="http://profiles.wordpress.org/karmatosed">Tammie Lister</a>
+				<li class="wp-person" id="wp-person-henry-wright">
+					<a href="http://profiles.wordpress.org/henry.wright"><img src="http://0.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=60" class="gravatar" alt="Henry Wright" /></a>
+					<a class="web" href="http://profiles.wordpress.org/henry.wright">Henry Wright</a>
 				</li>
 			</ul>
 
