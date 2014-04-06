@@ -84,6 +84,11 @@ div#community-profile-page div#bp_xprofile_user_admin_avatar div.avatar {
 	margin:0 auto;
 }
 
+div#community-profile-page div#bp_xprofile_user_admin_avatar div.avatar img {
+	max-width: 100%;
+	height: auto;
+}
+
 div#community-profile-page div#bp_xprofile_user_admin_avatar a {
 	display:block;
 	margin:1em 0;
