@@ -1033,7 +1033,7 @@ function bp_get_user_has_avatar( $user_id = 0 ) {
 		$user_id = bp_displayed_user_id();
 
 	$retval = false;
-	if ( bp_core_fetch_avatar( array( 'item_id' => $user_id, 'no_grav' => true, 'html' => false ) ) != bp_core_avatar_default() )
+	if ( bp_core_fetch_avatar( array( 'item_id' => $user_id, 'no_grav' => true, 'html' => false ) ) != bp_core_avatar_default( 'local' ) )
 		$retval = true;
 
 	return (bool) apply_filters( 'bp_get_user_has_avatar', $retval, $user_id );

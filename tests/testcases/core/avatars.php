@@ -53,4 +53,30 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		// reset globals
 		$this->go_to( '/' );
 	}
+
+	/**
+	 * @group bp_get_user_has_avatar
+	 */
+	public function test_bp_get_user_has_avatar_no_avatar_uploaded() {
+		$u = $this->create_user();
+		$this->assertFalse( bp_get_user_has_avatar( $u ) );
+	}
+
+	/**
+	 * @group bp_get_user_has_avatar
+	 */
+	public function test_bp_get_user_has_avatar_has_avatar_uploaded() {
+		$u = $this->create_user();
+
+		// Fake it
+		add_filter( 'bp_core_fetch_avatar_url', array( $this, 'avatar_cb' ) );
+
+		$this->assertTrue( bp_get_user_has_avatar( $u ) );
+
+		remove_filter( 'bp_core_fetch_avatar_url', array( $this, 'avatar_cb' ) );
+	}
+
+	public function avatar_cb() {
+		return 'foo';
+	}
 }
