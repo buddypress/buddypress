@@ -2900,11 +2900,28 @@ function bp_group_current_avatar( $type = 'thumb' ) {
 		return apply_filters( 'bp_get_group_current_avatar', $group_avatar );
 	}
 
-function bp_get_group_has_avatar() {
+function bp_get_group_has_avatar( $group_id = false ) {
 	global $bp;
 
-	if ( !empty( $_FILES ) || !bp_core_fetch_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group', 'no_grav' => true ) ) )
+	if ( false === $group_id ) {
+		$group_id = bp_get_current_group_id();
+	}
+
+	// Todo - this looks like an overgeneral check
+	if ( ! empty( $_FILES ) ) {
 		return false;
+	}
+
+	$group_avatar = bp_core_fetch_avatar( array(
+		'item_id' => $group_id,
+		'object' => 'group',
+		'no_grav' => true,
+		'html' => false,
+	) );
+
+	if ( bp_core_avatar_default( 'local' ) === $group_avatar ) {
+		return false;
+	}
 
 	return true;
 }
