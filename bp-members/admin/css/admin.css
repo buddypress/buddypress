@@ -96,6 +96,15 @@ div#community-profile-page p.not-activated {
 	color:red;
 }
 
+#community-profile-page #submitdiv #publishing-action {
+	float: none;
+	width: 100%;
+}
+
+.bp-view-profile {
+	float: left;
+}
+
 .alt {
 	background: none;
 }

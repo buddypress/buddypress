@@ -629,14 +629,6 @@ class BP_Members_Admin {
 
 		<div class="submitbox" id="submitcomment">
 			<div id="minor-publishing">
-				<div id="minor-publishing-actions">
-					<div id="preview-action">
-						<a class="button preview" href="<?php echo esc_url( bp_core_get_user_domain( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
-					</div>
-
-					<div class="clear"></div>
-				</div><!-- #minor-publishing-actions -->
-
 				<div id="misc-publishing-actions">
 					<?php
 					/**
@@ -666,7 +658,9 @@ class BP_Members_Admin {
 			</div><!-- #minor-publishing -->
 
 			<div id="major-publishing-actions">
+
 				<div id="publishing-action">
+					<a class="button bp-view-profile" href="<?php echo esc_url( bp_core_get_user_domain( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
 					<?php submit_button( esc_html__( 'Update Profile', 'buddypress' ), 'primary', 'save', false, array( 'tabindex' => '4' ) ); ?>
 				</div>
 				<div class="clear"></div>
