@@ -685,6 +685,7 @@ class BP_Admin {
 			<h4 class="wp-people-group"><?php _e( 'Contributors to BuddyPress 2.0', 'buddypress' ); ?></h4>
 			<p class="wp-credits-list">
 				<a href="https://profiles.wordpress.org/boonebgorges/">boonebgorges</a>,
+				<a href="https://profiles.wordpress.org/Bowromir/">Bowromir</a>,
 				<a href="https://profiles.wordpress.org/burakali/">burakali</a>,
 				<a href="https://profiles.wordpress.org/chouf1/">chouf1</a>,
 				<a href="https://profiles.wordpress.org/cmmarslender/">cmmarslender</a>,
