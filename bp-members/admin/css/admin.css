@@ -103,6 +103,7 @@ div#community-profile-page p.not-activated {
 	border-bottom: dotted 1px #ccc;
 	font-size: 14px;
 	margin: 15px 0;
+	padding: 10px;
 }
 .bp-profile-field:last-child {
 	border-bottom: 0;
