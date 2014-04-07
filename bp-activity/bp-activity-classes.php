@@ -1105,13 +1105,25 @@ class BP_Activity_Activity {
 	}
 
 	/**
-	 * Get a list of components that have recorded activity associated with them
+	 * Get a list of components that have recorded activity associated with them.
 	 *
+	 * @param bool $skip_last_activity If true, components will not be
+	 *        included if the only activity type associated with them is
+	 *        'last_activity'. (Since 2.0.0, 'last_activity' is stored in
+	 *        the activity table, but these items are not full-fledged
+	 *        activity items.) Default: true.
 	 * @return array List of component names.
 	 */
-	public static function get_recorded_components() {
+	public static function get_recorded_components( $skip_last_activity = true ) {
 		global $wpdb, $bp;
-		return $wpdb->get_col( "SELECT DISTINCT component FROM {$bp->activity->table_name} ORDER BY component ASC" );
+
+		if ( $skip_last_activity ) {
+			$components = $wpdb->get_col( "SELECT DISTINCT component FROM {$bp->activity->table_name} WHERE action != '' AND action != 'last_activity' ORDER BY component ASC" );
+		} else {
+			$components = $wpdb->get_col( "SELECT DISTINCT component FROM {$bp->activity->table_name} ORDER BY component ASC" );
+		}
+
+		return $components;
 	}
 
 	/**

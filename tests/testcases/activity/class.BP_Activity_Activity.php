@@ -443,6 +443,105 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group get_recorded_components
+	 */
+	public function test_get_recorded_components_skip_last_activity_false() {
+		$a1 = $this->factory->activity->create( array(
+			'component' => 'members',
+			'action' => 'last_activity',
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'component' => 'groups',
+			'action' => 'created_group',
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'component' => 'friends',
+			'action' => 'friendship_accepted',
+		) );
+
+		$found = BP_Activity_Activity::get_recorded_components( false );
+		sort( $found );
+
+		$this->assertSame( array( 'friends', 'groups', 'members' ), BP_Activity_Activity::get_recorded_components( false ) );
+	}
+
+	/**
+	 * @group get_recorded_components
+	 */
+	public function test_get_recorded_components_skip_last_activity_true_filter_empty_component() {
+		$a1 = $this->factory->activity->create( array(
+			'component' => 'members',
+			'action' => 'last_activity',
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'component' => 'groups',
+			'action' => 'created_group',
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'component' => 'friends',
+			'action' => 'friendship_accepted',
+		) );
+
+		$found = BP_Activity_Activity::get_recorded_components( true );
+		sort( $found );
+
+		$this->assertSame( array( 'friends', 'groups' ), BP_Activity_Activity::get_recorded_components() );
+	}
+
+	/**
+	 * @group get_recorded_components
+	 */
+	public function test_get_recorded_components_skip_last_activity_true_members_component_not_empty() {
+		$a1 = $this->factory->activity->create( array(
+			'component' => 'members',
+			'action' => 'last_activity',
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'component' => 'groups',
+			'action' => 'created_group',
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'component' => 'friends',
+			'action' => 'friendship_accepted',
+		) );
+		$a4 = $this->factory->activity->create( array(
+			'component' => 'members',
+			'action' => 'foo',
+		) );
+
+		$found = BP_Activity_Activity::get_recorded_components( true );
+		sort( $found );
+
+		$this->assertSame( array( 'friends', 'groups', 'members' ), BP_Activity_Activity::get_recorded_components() );
+	}
+
+	/**
+	 * @group get_recorded_components
+	 */
+	public function test_get_recorded_components_skip_last_activity_true_la_in_multiple_components() {
+		$a1 = $this->factory->activity->create( array(
+			'component' => 'members',
+			'action' => 'last_activity',
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'component' => 'groups',
+			'action' => 'created_group',
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'component' => 'friends',
+			'action' => 'friendship_accepted',
+		) );
+		$a4 = $this->factory->activity->create( array(
+			'component' => 'groups',
+			'action' => 'last_activity',
+		) );
+
+		$found = BP_Activity_Activity::get_recorded_components( true );
+		sort( $found );
+
+		$this->assertSame( array( 'friends', 'groups', ), BP_Activity_Activity::get_recorded_components() );
+	}
+	/**
 	 * @group activity_action
 	 */
 	public function test_instantiated_action_with_dynamic_callback() {
