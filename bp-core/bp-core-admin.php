@@ -546,10 +546,10 @@ class BP_Admin {
 					<h4><?php _e( 'Community and Support', 'buddypress' ); ?></h4>
 					<p><?php _e( 'Looking for help? The <a href="http://codex.buddypress.org/">BuddyPress Codex</a> has you covered, with dozens of user-contributed guides on how to configure and use your BP site. Can&#8217;t find what you need? Stop by <a href="http://buddypress.org/support/">our support forums</a>, where a vibrant community of BuddyPress users and developers is waiting to share tips, show off their sites, talk about the future of BuddyPress, and much more.', 'buddypress' ) ?></p>
 				</div>
+				<hr />
 
 			<?php endif; ?>
 
-			<hr />
 			<div class="changelog">
 				<h3><?php _e( 'Dynamic links for custom navigation menus', 'buddypress' ); ?></h3>
 
