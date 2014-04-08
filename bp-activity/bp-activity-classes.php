@@ -1189,8 +1189,7 @@ class BP_Activity_Activity {
 	 * @since BuddyPress (1.5.0)
 	 *
 	 * @param array $filter_array {
-	 *     Fields and values to filter by. Each can be either a single
-	 *     string, a comma-separated list, or an array of values.
+	 *     Fields and values to filter by.
 	 *     @type array|string|id $user_id User ID(s).
 	 *     @type array|string $object Corresponds to the 'component'
 	 *           column in the database.
@@ -1200,6 +1199,11 @@ class BP_Activity_Activity {
 	 *           column in the database.
 	 *     @type array|string|int $secondary_id Corresponds to the
 	 *           'secondary_item_id' column in the database.
+	 *     @type int $offset Return only those items with an ID greater
+	 *           than the offset value.
+	 *     @type string $since Return only those items that have a
+	 *           date_recorded value greater than a given MySQL-formatted
+	 *           date.
 	 * }
 	 * @return string The filter clause, for use in a SQL query.
 	 */
@@ -1240,6 +1244,15 @@ class BP_Activity_Activity {
 		if ( ! empty( $filter_array['offset'] ) ) {
 			$sid_sql = absint( $filter_array['offset'] );
 			$filter_sql[] = "a.id >= {$sid_sql}";
+		}
+
+		if ( ! empty( $filter_array['since'] ) ) {
+			// Validate that this is a proper Y-m-d H:i:s date
+			// Trick: parse to UNIX date then translate back
+			$translated_date = date( 'Y-m-d H:i:s', strtotime( $filter_array['since'] ) );
+			if ( $translated_date === $filter_array['since'] ) {
+				$filter_sql[] = "a.date_recorded > '{$translated_date}'";
+			}
 		}
 
 		if ( empty( $filter_sql ) )

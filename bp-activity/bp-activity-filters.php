@@ -429,7 +429,7 @@ add_filter( 'bp_core_get_js_dependencies', 'bp_activity_get_js_dependencies', 10
 function bp_activity_newest_class( $classes = '' ) {
 	$bp = buddypress();
 
-	if ( ! empty( $bp->activity->new_update_id ) && $bp->activity->new_update_id == bp_get_activity_id() ) {
+	if ( ! empty( $bp->activity->last_recorded ) && $bp->activity->last_recorded == bp_get_activity_date_recorded() ) {
 		$classes .= ' new-update';
 	}
 
@@ -438,12 +438,38 @@ function bp_activity_newest_class( $classes = '' ) {
 }
 
 /**
+ * Check if Activity Heartbeat feature i on to add a timestamp class.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @param string $classes
+ * @return string $classes
+ */
+function bp_activity_timestamp_class( $classes = '' ) {
+
+	if ( ! bp_activity_do_heartbeat() ) {
+		return $classes;
+	}
+
+	$activity_date = bp_get_activity_date_recorded();
+
+	if ( empty( $activity_date ) ) {
+		return $classes;
+	}
+	
+	$classes .= ' date-recorded-' . strtotime( $activity_date );
+
+	return $classes;
+}
+add_filter( 'bp_get_activity_css_class', 'bp_activity_timestamp_class', 9, 1 );
+
+/**
  * Use WordPress Heartbeat API to check for latest activity update.
  *
  * @since BuddyPress (2.0.0)
  *
  * @uses bp_activity_get_last_updated() to get the recorded date of the last activity
-
+ *
  * @param array $response
  * @param array $data
  * @return array $response
@@ -451,7 +477,7 @@ function bp_activity_newest_class( $classes = '' ) {
 function bp_activity_heartbeat_last_recorded( $response = array(), $data = array() ) {
 	$bp = buddypress();
 
-	if ( empty( $data['bp_activity_last_id'] ) ) {
+	if ( empty( $data['bp_activity_last_recorded'] ) ) {
 		return $response;
 	}
 
@@ -459,12 +485,12 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 	// filters), but force the offset to get only new items
 	$activity_latest_args = bp_parse_args(
 		bp_ajax_querystring( 'activity' ),
-		array( 'offset' => absint( $data['bp_activity_last_id'] ) + 1 ),
+		array( 'since' => date( 'Y-m-d H:i:s', $data['bp_activity_last_recorded'] ) ),
 		'activity_latest_args'
 	);
 
 	$newest_activities = array();
-	$last_activity_id  = 0;
+	$last_activity_recorded = 0;
 
 	// Temporarly add a just-posted class for new activity items
 	add_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
@@ -474,22 +500,23 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 		while ( bp_activities() ) {
 			bp_the_activity();
 
-			if ( $last_activity_id < bp_get_activity_id() ) {
-				$last_activity_id = bp_get_activity_id();
+			$atime = strtotime( bp_get_activity_date_recorded() );
+			if ( $last_activity_recorded < $atime ) {
+				$last_activity_recorded = $atime;
 			}
 
 			bp_get_template_part( 'activity/entry' );
 		}
 	}
 
-	$newest_activities['activities'] = ob_get_contents();
-	$newest_activities['last_id']    = $last_activity_id;
+	$newest_activities['activities']    = ob_get_contents();
+	$newest_activities['last_recorded'] = $last_activity_recorded;
 	ob_end_clean();
 
 	// Remove the temporary filter
 	remove_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
 
-	if ( ! empty( $newest_activities['last_id'] ) ) {
+	if ( ! empty( $newest_activities['last_recorded'] ) ) {
 		$response['bp_activity_newest_activities'] = $newest_activities;
 	}
 

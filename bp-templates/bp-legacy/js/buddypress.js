@@ -6,7 +6,7 @@ var bp_ajax_request = null;
 
 // Global variables to temporarly store newest activities
 var newest_activities = '';
-var activity_last_id  = 0;
+var activity_last_recorded  = 0;
 
 jq(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
@@ -91,7 +91,7 @@ jq(document).ready( function() {
 
 	/* New posts */
 	jq("#aw-whats-new-submit").on( 'click', function() {
-		var last_displayed_id = 0;
+		var last_date_recorded = 0;
 		var button = jq(this);
 		var form = button.closest("form#whats-new-form");
 
@@ -111,11 +111,16 @@ jq(document).ready( function() {
 		var item_id = jq("#whats-new-post-in").val();
 		var content = jq("#whats-new").val();
 		var firstrow = jq( '#buddypress ul.activity-list li' ).first();
+		var activity_row = firstrow;
 
-		if ( firstrow.hasClass( 'load-newest' ) ) {
-			last_displayed_id = firstrow.next().prop( 'id' ) ? firstrow.next().prop( 'id' ).replace( 'activity-','' ) : 0;
-		} else {
-			last_displayed_id = firstrow.prop( 'id' ) ? firstrow.prop( 'id' ).replace( 'activity-','' ) : 0;
+		if ( activity_row.hasClass( 'load-newest' ) ) {
+			activity_row = firstrow.next();
+		}
+
+		timestamp = activity_row.prop( 'class' ).match( /date-recorded-([0-9]+)/ );
+ 		
+ 		if ( timestamp ) {
+			last_date_recorded = timestamp[1];
 		}
 
 		/* Set object for non-profile posts */
@@ -130,7 +135,7 @@ jq(document).ready( function() {
 			'content': content,
 			'object': object,
 			'item_id': item_id,
-			'offset': last_displayed_id,
+			'since': last_date_recorded,
 			'_bp_as_nonce': jq('#_bp_as_nonce').val() || ''
 		},
 		function(response) {
@@ -157,7 +162,7 @@ jq(document).ready( function() {
 
 				jq("#activity-stream").prepend(response);
 
-				if ( ! last_displayed_id )
+				if ( ! last_date_recorded )
 					jq("#activity-stream li:first").addClass('new-update just-posted');
 
 				if ( 0 != jq("#latest-update").length ) {
@@ -184,7 +189,7 @@ jq(document).ready( function() {
 
 				// reset vars to get newest activities
 				newest_activities = '';
-				activity_last_id  = 0;
+				activity_last_recorded  = 0;
 			}
 
 			jq("#whats-new-options").animate({
@@ -305,6 +310,7 @@ jq(document).ready( function() {
 			var id        = li.attr('id').substr( 9, li.attr('id').length );
 			var link_href = target.attr('href');
 			var nonce     = link_href.split('_wpnonce=');
+			var timestamp = li.prop( 'class' ).match( /date-recorded-([0-9]+)/ );
 
 			nonce = nonce[1];
 
@@ -325,9 +331,9 @@ jq(document).ready( function() {
 					li.slideUp(300);
 
 					// reset vars to get newest activities
-					if ( activity_last_id == id ) {
+					if ( timestamp && activity_last_recorded == timestamp[1] ) {
 						newest_activities = '';
-						activity_last_id  = 0;
+						activity_last_recorded  = 0;
 					}
 				}
 			});
@@ -337,7 +343,8 @@ jq(document).ready( function() {
 
 		// Spam activity stream items
 		if ( target.hasClass( 'spam-activity' ) ) {
-			var li = target.parents( 'div.activity ul li' );
+			var li        = target.parents( 'div.activity ul li' );
+			var timestamp = li.prop( 'class' ).match( /date-recorded-([0-9]+)/ );
 			target.addClass( 'loading' );
 
 			jq.post( ajaxurl, {
@@ -354,9 +361,9 @@ jq(document).ready( function() {
 				} else {
 					li.slideUp( 300 );
 					// reset vars to get newest activities
-					if ( activity_last_id == id ) {
+					if ( timestamp && activity_last_recorded == timestamp[1] ) {
 						newest_activities = '';
-						activity_last_id  = 0;
+						activity_last_recorded  = 0;
 					}
 				}
 			});
@@ -407,6 +414,22 @@ jq(document).ready( function() {
 			event.preventDefault();
 
 			target.parent().hide();
+
+			/** 
+			 * If a plugin is updating the recorded_date of an activity 
+			 * it will be loaded as a new one. We need to look in the
+			 * stream and eventually remove similar ids to avoid "double".
+			 */
+			activity_html = jq.parseHTML( newest_activities );
+			
+			jq.each( activity_html, function( i, el ){
+				if( 'LI' == el.nodeName && jq(el).hasClass( 'just-posted' ) ) {
+					if( jq( '#' + jq(el).attr( 'id' ) ).length )
+						jq( '#' + jq(el).attr( 'id' ) ).remove();
+				}
+			} );
+
+			// Now the stream is cleaned, prepend newest
 			jq( '#buddypress ul.activity-list' ).prepend( newest_activities );
 
 			// reset the newest activities now they're displayed
@@ -1492,21 +1515,26 @@ jq(document).ready( function() {
 
 	// Set the last id to request after
 	jq( document ).on( 'heartbeat-send.buddypress', function( e, data ) {
+		
+		firstrow = 0;
 
 		// First row is default latest activity id
 		if ( jq( '#buddypress ul.activity-list li' ).first().prop( 'id' ) ) {
-			firstrow = jq( '#buddypress ul.activity-list li' ).first().prop( 'id' ).replace( 'activity-','' );
-		} else {
-			firstrow = 0;
+			// getting the timestamp
+			timestamp = jq( '#buddypress ul.activity-list li' ).first().prop( 'class' ).match( /date-recorded-([0-9]+)/ );
+
+			if ( timestamp ) {
+				firstrow = timestamp[1];
+			}
 		}
 
-		if ( 0 == activity_last_id || Number( firstrow ) > activity_last_id )
-			activity_last_id = Number( firstrow );
+		if ( 0 == activity_last_recorded || Number( firstrow ) > activity_last_recorded )
+			activity_last_recorded = Number( firstrow );
 
-		data['bp_activity_last_id'] = activity_last_id;
+		data['bp_activity_last_recorded'] = activity_last_recorded;
 	});
 
-	// Increment newest_activities and activity_last_id if data has been returned
+	// Increment newest_activities and activity_last_recorded if data has been returned
 	jq( document ).on( 'heartbeat-tick', function( e, data ) {
 
 		// Only proceed if we have newest activities
@@ -1515,7 +1543,7 @@ jq(document).ready( function() {
 		}
 
 		newest_activities = data['bp_activity_newest_activities']['activities'] + newest_activities;
-		activity_last_id  = Number( data['bp_activity_newest_activities']['last_id'] );
+		activity_last_recorded  = Number( data['bp_activity_newest_activities']['last_recorded'] );
 
 		if ( jq( '#buddypress ul.activity-list li' ).first().hasClass( 'load-newest' ) )
 			return;

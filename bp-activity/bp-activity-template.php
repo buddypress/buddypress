@@ -547,6 +547,7 @@ function bp_has_activities( $args = '' ) {
 		'primary_id'        => $primary_id,  // object ID to filter on e.g. a group_id or forum_id or blog_id etc.
 		'secondary_id'      => false,        // secondary object ID to filter on e.g. a post_id
 		'offset'            => false,        // return only items >= this ID
+		'since'             => false,        // return only items recorded since this Y-m-d H:i:s date
 
 		'meta_query'        => false,        // filter on activity meta. See WP_Meta_Query for format
 
@@ -641,8 +642,8 @@ function bp_has_activities( $args = '' ) {
 	// into bp-custom.php or your theme's functions.php
 	if ( isset( $_GET['afilter'] ) && apply_filters( 'bp_activity_enable_afilter_support', false ) )
 		$filter = array( 'object' => $_GET['afilter'] );
-	else if ( ! empty( $user_id ) || ! empty( $object ) || ! empty( $action ) || ! empty( $primary_id ) || ! empty( $secondary_id ) || ! empty( $offset ) )
-		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id, 'offset' => $offset );
+	else if ( ! empty( $user_id ) || ! empty( $object ) || ! empty( $action ) || ! empty( $primary_id ) || ! empty( $secondary_id ) || ! empty( $offset ) || ! empty( $since ) )
+		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id, 'offset' => $offset, 'since' => $since );
 	else
 		$filter = false;
 
@@ -2805,7 +2806,7 @@ function bp_send_public_message_link() {
  */
 function bp_activity_recurse_comments_activity_ids( $activity = array(), $activity_ids = array() ) {
 	if ( is_array( $activity ) && ! empty( $activity['activities'] ) ) {
-		$activity = $activity['activities'][0];	
+		$activity = $activity['activities'][0];
 	}
 
 	if ( ! empty( $activity->children ) ) {

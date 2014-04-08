@@ -706,10 +706,10 @@ function bp_legacy_theme_post_update() {
 	if ( empty( $activity_id ) )
 		exit( '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>' );
 
-	$last_id = isset( $_POST['offset'] ) ? absint( $_POST['offset'] ) + 1 : 0;
-	if ( $last_id ) {
-		$activity_args = array( 'offset' => $last_id );
-		$bp->activity->new_update_id = $activity_id;
+	$last_recorded = isset( $_POST['since'] ) ? date( 'Y-m-d H:i:s', intval( $_POST['since'] ) ) : 0;
+	if ( $last_recorded ) {
+		$activity_args = array( 'since' => $last_recorded );
+		$bp->activity->last_recorded = $last_recorded;
 		add_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
 	} else {
 		$activity_args = array( 'include' => $activity_id );
@@ -722,7 +722,7 @@ function bp_legacy_theme_post_update() {
 		}
 	}
 
-	if ( ! empty( $last_id ) ) {
+	if ( ! empty( $last_recorded ) ) {
 		remove_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
 	}
 
