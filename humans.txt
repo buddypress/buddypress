@@ -56,6 +56,11 @@ Title: Navigator
 Twitter: mercime_one
 Favorite Food: Paella Valenciana
 
+Name: Mathieu Viet
+Title: Core Developer
+Twitter: imath
+Favorite Food: Spaghetti Bolognese
+
 /* THANKS */
 hnla, mercime, modemlooper, cnorris23, karmatosed, photomatt
 
