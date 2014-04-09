@@ -239,6 +239,8 @@ function bp_blogs_prefetch_activity_object_data( $activities ) {
 	if ( ! empty( $blog_ids ) ) {
 		bp_blogs_update_meta_cache( $blog_ids );
 	}
+
+	return $activities;
 }
 add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_object_data' );
 

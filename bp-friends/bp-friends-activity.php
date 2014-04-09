@@ -197,6 +197,8 @@ function bp_friends_prefetch_activity_object_data( $activities ) {
 			'update_meta_cache' => false,
 		) );
 	}
+
+	return $activities;
 }
 add_filter( 'bp_activity_prefetch_object_data', 'bp_friends_prefetch_activity_object_data' );
 
