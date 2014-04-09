@@ -715,6 +715,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/reactuate/">reactuate</a>,
 				<a href="https://profiles.wordpress.org/rodrigorznd/">rodrigorznd</a>,
 				<a href="https://profiles.wordpress.org/rogercoathup/">rogercoathup</a>,
+				<a href="https://profiles.wordpress.org/rzen/">rzen</a>,
 				<a href="https://profiles.wordpress.org/SergeyBiryukov/">SergeyBiryukov</a>,
 				<a href="https://profiles.wordpress.org/shanebp/">shanebp</a>,
 				<a href="https://profiles.wordpress.org/SlothLoveChunk/">SlothLoveChunk</a>,
