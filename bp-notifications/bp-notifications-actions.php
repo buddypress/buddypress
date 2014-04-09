@@ -15,7 +15,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Handle marking single notifications as read
+ * Handle marking single notifications as read.
  *
  * @since BuddyPress (1.9.0)
  *
@@ -51,7 +51,7 @@ function bp_notifications_action_mark_read() {
 add_action( 'bp_actions', 'bp_notifications_action_mark_read' );
 
 /**
- * Handle marking single notifications as unread
+ * Handle marking single notifications as unread.
  *
  * @since BuddyPress (1.9.0)
  *
@@ -59,7 +59,7 @@ add_action( 'bp_actions', 'bp_notifications_action_mark_read' );
  */
 function bp_notifications_action_mark_unread() {
 
-	// Bail if not the unread screen
+	// Bail if not the read screen
 	if ( ! bp_is_notifications_component() || ! bp_is_current_action( 'read' ) ) {
 		return false;
 	}
@@ -87,7 +87,7 @@ function bp_notifications_action_mark_unread() {
 add_action( 'bp_actions', 'bp_notifications_action_mark_unread' );
 
 /**
- * Handle marking single notifications as unread
+ * Handle deleting single notifications.
  *
  * @since BuddyPress (1.9.0)
  *
@@ -95,7 +95,7 @@ add_action( 'bp_actions', 'bp_notifications_action_mark_unread' );
  */
 function bp_notifications_action_delete() {
 
-	// Bail if not the unread screen
+	// Bail if not the read or unread screen
 	if ( ! bp_is_notifications_component() || ! ( bp_is_current_action( 'read' ) || bp_is_current_action( 'unread' ) ) ) {
 		return false;
 	}
