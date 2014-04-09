@@ -103,6 +103,6 @@ function bp_xprofile_action_settings() {
 	do_action( 'bp_xprofile_settings_after_save' );
 
 	// Redirect to the root domain
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/privacy' );
+	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/profile' );
 }
 add_action( 'bp_actions', 'bp_xprofile_action_settings' );
