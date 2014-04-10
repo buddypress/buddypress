@@ -112,12 +112,17 @@ jq(document).ready( function() {
 		var content = jq("#whats-new").val();
 		var firstrow = jq( '#buddypress ul.activity-list li' ).first();
 		var activity_row = firstrow;
+		var timestamp = null;
 
-		if ( activity_row.hasClass( 'load-newest' ) ) {
-			activity_row = firstrow.next();
+		// Checks if at least one activity exists
+		if ( firstrow.length ) {
+
+			if ( activity_row.hasClass( 'load-newest' ) ) {
+				activity_row = firstrow.next();
+			}
+			
+			timestamp = activity_row.prop( 'class' ).match( /date-recorded-([0-9]+)/ );
 		}
-
-		timestamp = activity_row.prop( 'class' ).match( /date-recorded-([0-9]+)/ );
  		
  		if ( timestamp ) {
 			last_date_recorded = timestamp[1];
