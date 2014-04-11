@@ -711,6 +711,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/netweb/">netweb</a>,
 				<a href="https://profiles.wordpress.org/ninnypants/">ninnypants</a>,
 				Pietro Oliva,
+				<a href="https://profiles.wordpress.org/pross/">pross</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/reactuate/">reactuate</a>,
 				<a href="https://profiles.wordpress.org/rodrigorznd/">rodrigorznd</a>,
