@@ -488,26 +488,18 @@ class BP_Admin {
 
 		$pretty_permalinks_enabled = ! empty( $wp_rewrite->permalink_structure );
 
+		$image_base = buddypress()->plugin_url . 'bp-core/images/bp20/';
+
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
 		<div class="wrap about-wrap">
 			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
 			<div class="about-text">
 				<?php if ( $is_new_install ) : ?>
-				<?php printf( __( 'It&#8217;s a great time to use BuddyPress! %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes.', 'buddypress' ), $display_version ); ?>
+					<?php printf( __( 'It&#8217;s a great time to use BuddyPress! With a focus on speed, admin tools, and developer enhancements, %s is our leanest and most powerful version yet.', 'buddypress' ), $display_version ); ?>
 				<?php else : ?>
-					<?php printf( __( 'Thanks for updating! BuddyPress %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes.', 'buddypress' ), $display_version ); ?>
+					<?php printf( __( 'Thanks for updating! With a focus on speed, admin tools, and developer enhancements, BuddyPress %s is our leanest and most powerful version yet.', 'buddypress' ), $display_version ); ?>
 				<?php endif; ?>
-			</div>
-
-			<div class="changelog">
-				<h3><?php _e( 'Check out the highlights:', 'buddypress' ); ?></h3>
-
-				<ul>
-					<li><strong><?php _e( 'You can now add dynamic BuddyPress links to custom navigation menus.', 'buddypress' ); ?></strong></li>
-					<li><strong><?php _e( 'Notifications have been moved into their own component.', 'buddypress' ); ?></strong></li>
-					<li><strong><?php _e( 'Three new widgets, allowing easier site customization.', 'buddypress' ); ?></strong></li>
-				<ul>
 			</div>
 
 			<div class="bp-badge"></div>
@@ -551,48 +543,80 @@ class BP_Admin {
 			<?php endif; ?>
 
 			<div class="changelog">
-				<h3><?php _e( 'Dynamic links for custom navigation menus', 'buddypress' ); ?></h3>
+				<h2 class="about-headline-callout"><?php _e( 'Performance Improvements', 'buddypress' ); ?></h2>
+				<img class="about-overview-img" src="<?php echo $image_base ?>performance.png" alt="Performance improvements in BP 2.0" />
+				<p><?php esc_html_e( 'Whether your community has tens of members or tens of thousands, we think the performance improvements in BuddyPress 2.0 will knock your socks off. We&#8217;ve slashed our memory footprint and query overhead across the board, with a special focus on the Activity and Members components.', 'buddypress' ) ?></p>
+			</div>
 
-				<div class="feature-section">
-					<p><?php printf( __( 'It&#8217;s now easy to add BuddyPress-specific links to your menus through <a href="%s">Appearance &gt; Menus</a>. For example, you can now add a link to a specific user profile screen, and each person will end up at that screen inside their own user profile.', 'buddypress' ), admin_url( 'nav-menus.php' ) ); ?></p>
+			<hr />
+
+			<div class="changelog">
+				<h2 class="about-headline-callout"><?php _e( 'New Administrative Tools', 'buddypress' ); ?></h2>
+
+				<div class="feature-section col two-col">
+					<div>
+						<h4><?php esc_html_e( 'Extended Profiles in Admin', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Site administrators can edit members&#8217; xProfile data at Dashboard > Users > Extended Profiles.', 'buddypress' ); ?></p>
+						<img src="<?php echo $image_base ?>admin-xprofile.jpg" style="width:90%" />
+					</div>
+
+					<div class="last-feature">
+						<h4><?php esc_html_e( 'Registration Management', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Perform common tasks with pending signups - including resending activation emails and manually activating accounts - on the new Pending tab of Dashboard > Users.', 'buddypress' ); ?></p>
+						<img src="<?php echo $image_base ?>users-pending.jpg" style="width:90%" />
+					</div>
+				</div>
+
+				<div class="feature-section col two-col">
+					<div>
+						<h4><?php esc_html_e( 'BuddyPress Repair Tools', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Dashboard > Tools > BuddyPress contains a number of tools for correcting data that occasionally gets out of sync on BP installs.', 'buddypress' ); ?></p>
+						<img src="<?php echo $image_base ?>tools-buddypress.jpg" style="width:90%" />
+					</div>
+
+					<div class="feature-section col two-col">
+						<h4><?php esc_html_e( 'Mark Spammers in Admin', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Admins on non-Multisite installations can now perform spam actions from Dashboard > Users > All Users.', 'buddypress' ); ?></p>
+						<img src="<?php echo $image_base ?>user-mark-spam.jpg" style="width:90%" />
+					</div>
+				</div>
+
+			</div>
+
+			<hr />
+
+			<div class="changelog">
+				<h2 class="about-headline-callout"><?php esc_html_e( 'A More Dynamic Activity Stream', 'buddypress' ); ?></h2>
+				<div class="feature-section col two-col">
+					<div>
+						<p><?php esc_html_e( 'Spend a lot of time viewing the activity stream? BuddyPress 2.0 automatically lets you know when new items are waiting to be loaded.', 'buddypress' ); ?></p>
+
+						<p><?php esc_html_e( 'The activity stream is better integrated with blog posts, too. Comment on a blog post, and an activity item is posted. Comment on a blog-related activity item, and a blog comment is posted. No more worrying about fractured conversations.', 'buddypress' ) ?></p>
+
+						<p><?php esc_html_e( 'We&#8217;ve also reworked the way that phrases like "Boone posted an update" are handled, so that they&#8217;re always up-to-date and always translatable.', 'buddypress' ) ?></p>
+					</div>
+
+					<div class="feature-section col two-col">
+						<img src="<?php echo $image_base ?>load-newest.jpg" style="width:90%" />
+					</div>
 				</div>
 			</div>
 
 			<hr />
+
 			<div class="changelog">
-				<h3><?php _e( 'Notifications component', 'buddypress' ); ?></h3>
+				<h2 class="about-headline-callout"><?php esc_html_e( 'Developer Tools', 'buddypress' ); ?></h2>
 
-				<div class="feature-section">
-					<p><?php _e( 'The notification features have been promoted into a new component. Use it to keep your site&#8217;s members abreast of the latest connections and @mentions within the site, via email notifications and Toolbar alerts.', 'buddypress' ); ?></p>
-
-				</div>
-			</div>
-
-			<hr />
-			<div class="changelog">
-				<h3><?php _e( 'Widgets', 'buddypress' ); ?></h3>
-
-				<div class="feature-section">
+				<p><?php esc_html_e( 'BuddyPress 2.0 is full of new and improved tools for the theme and plugin developer. A few highlights:', 'buddypress' ) ?></p>
 					<ul>
-						<li><?php _e( '<strong>Friends Widget</strong>: a list of recently active, popular, and newest friends of the displayed member.', 'buddypress' ); ?></li>
-						<li><?php _e( '<strong>Log In Widget</strong>: adds a simple &ldquo;Log In&rdquo; form to your site.', 'buddypress' ); ?></li>
-						<li><?php _e( '<strong>Sitewide Notices Widget</strong>: display Sitewide Notices from the Private Messaging component.', 'buddypress' ); ?></li>
+						<li><?php _e( 'The <code>BP_XProfile_Field_Type</code> class makes it a breeze to create new xProfile field types with custom display callbacks, validation, and more.', 'buddypress' ); ?></li>
+						 <li><?php _e( 'Major improvements have taken place with respect to object caching throughout BuddyPress. If you use Memcached, APC, or some other persistent object caching backend on your BuddyPress site, you should notice huge performance boosts.', 'buddypress' ); ?></li>
+						 <li><?php _e( 'Our internal metadata libraries have been rewritten to use WP&#8217;s <code>add_metadata()</code>, <code>update_metadata()</code>, and so on. This means greater consistency and parity between the components when storing and retrieving BuddyPress metadata.', 'buddypress' ); ?></li>
+						 <li><?php printf( __( '<a href="%s">&hellip;and lots more!</a>', 'buddypress' ), 'http://codex.buddypress.org/releases/version-2-0' ); ?></li>
 					</ul>
 				</div>
-			</div>
 
-			<hr />
-			<div class="changelog">
-				<h3><?php _e( 'Developer changes', 'buddypress' ); ?></h3>
-
-				<div class="feature-section">
-					<ul>
-						<li><?php _e( '<code>bp_redirect_canonical()</code> functionality has been reinstated', 'buddypress' ); ?></li>
-						<li><?php _e( 'Improved phpDoc inline documentation', 'buddypress' ); ?></li>
-						<li><?php printf( __( 'Improved compatibility with <a href="%s">develop.svn.wordpress.org</a> unit-test suite', 'buddypress' ), 'https://develop.svn.wordpress.org/' ); ?></li>
-						<li><?php printf( __( '<a href="%s">&hellip;and lots more!</a>', 'buddypress' ), 'http://codex.buddypress.org/releases/version-1-9' ); ?></li>
-					</ul>
-				</div>
+				<hr />
 
 				<?php if ( current_user_can( $this->capability ) ) :?>
 					<div class="return-to-dashboard">
