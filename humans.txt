@@ -51,19 +51,19 @@ Title: Core Developer
 Twitter: r-a-y
 Favourite Food: tbd
 
-Name: Mercime
-Title: Navigator
-Twitter: mercime_one
-Favorite Food: Paella Valenciana
-
 Name: Mathieu Viet
 Title: Core Developer
 Twitter: imath
 Favorite Food: Spaghetti Bolognese
 
+Name: Mercime
+Title: Navigator
+Twitter: mercime_one
+Favorite Food: Paella Valenciana
+
 /* THANKS */
-hnla, mercime, modemlooper, cnorris23, karmatosed, photomatt
+hnla, modemlooper, cnorris23, karmatosed, photomatt
 
 /* META */
-Updated: 2014/04/05
+Updated: 2014/04/14
 See: http://humanstxt.org/
