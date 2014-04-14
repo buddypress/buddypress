@@ -1584,7 +1584,7 @@ function bp_core_activate_signup( $key ) {
 		BP_Signup::validate( $key );
 
 		if ( isset( $user_already_exists ) ) {
-			return new WP_Error( 'user_already_exists', __( 'That username is already activated.' ), $signup );
+			return new WP_Error( 'user_already_exists', __( 'That username is already activated.', 'buddypress' ), $signup );
 		}
 
 		// Set up data to pass to the legacy filter

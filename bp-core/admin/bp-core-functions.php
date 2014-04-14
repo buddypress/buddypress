@@ -842,9 +842,9 @@ function bp_core_admin_user_row_actions( $actions, $user_object ) {
 		$url = bp_get_admin_url( 'users.php' );
 
 		if ( bp_is_user_spammer( $user_object->ID ) ) {
-			$actions['ham'] = "<a href='" . wp_nonce_url( $url . "?action=ham&amp;user=$user_object->ID", 'bp-spam-user' ) . "'>" . __( 'Not Spam' ) . "</a>";
+			$actions['ham'] = "<a href='" . wp_nonce_url( $url . "?action=ham&amp;user=$user_object->ID", 'bp-spam-user' ) . "'>" . __( 'Not Spam', 'buddypress' ) . "</a>";
 		} else {
-			$actions['spam'] = "<a class='submitdelete' href='" . wp_nonce_url( $url . "?action=spam&amp;user=$user_object->ID", 'bp-spam-user' ) . "'>" . __( 'Mark as Spam' ) . "</a>";
+			$actions['spam'] = "<a class='submitdelete' href='" . wp_nonce_url( $url . "?action=spam&amp;user=$user_object->ID", 'bp-spam-user' ) . "'>" . __( 'Mark as Spam', 'buddypress' ) . "</a>";
 		}
 	}
 
