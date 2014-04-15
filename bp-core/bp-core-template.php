@@ -97,7 +97,7 @@ function bp_get_directory_title( $component = '' ) {
 	$title = '';
 
 	// Use the string provided by the component
-	if ( isset( buddypress()->{$component}->directory_title ) ) {
+	if ( ! empty( buddypress()->{$component}->directory_title ) ) {
 		$title = buddypress()->{$component}->directory_title;
 
 	// If none is found, concatenate
