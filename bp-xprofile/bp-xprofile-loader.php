@@ -44,6 +44,8 @@ class BP_XProfile_Component extends BP_Component {
 				'adminbar_myaccount_order' => 20
 			)
 		);
+
+		$this->setup_hooks();
 	}
 
 	/**
@@ -282,23 +284,18 @@ class BP_XProfile_Component extends BP_Component {
 				);
 			}
 
-			// Privacy Settings
-			if ( bp_is_active( 'settings' ) ) {
-
-				// Setup the logged in user variables
-				$settings_link = trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() );
-
-				// Add main Settings menu
-				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $bp->settings->id,
-					'id'     => 'my-account-' . $bp->settings->id . '-profile',
-					'title'  => __( 'Profile', 'buddypress' ),
-					'href'   => trailingslashit( $settings_link . 'profile' )
-				);
-			}
 		}
 
 		parent::setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
+	 * Add custom hooks.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 */
+	public function setup_hooks() {
+		add_filter( 'bp_settings_admin_nav', array( $this, 'setup_settings_admin_nav' ), 2 );
 	}
 
 	/**
@@ -321,6 +318,29 @@ class BP_XProfile_Component extends BP_Component {
 		}
 
 		parent::setup_title();
+	}
+
+	/**
+	 * Adds "Settings > Profile" subnav item under the "Settings" adminbar menu.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $wp_admin_nav The settings adminbar nav array.
+	 * @return array
+	 */
+	public function setup_settings_admin_nav( $wp_admin_nav ) {
+		// Setup the logged in user variables
+		$settings_link = trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() );
+
+		// Add the "Profile" subnav item
+		$wp_admin_nav[] = array(
+			'parent' => 'my-account-' . buddypress()->settings->id,
+			'id'     => 'my-account-' . buddypress()->settings->id . '-profile',
+			'title'  => __( 'Profile', 'buddypress' ),
+			'href'   => trailingslashit( $settings_link . 'profile' )
+		);
+
+		return $wp_admin_nav;
 	}
 }
 

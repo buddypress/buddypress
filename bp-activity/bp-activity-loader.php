@@ -269,6 +269,14 @@ class BP_Activity_Component extends BP_Component {
 				'href'   => trailingslashit( $activity_link )
 			);
 
+			// Personal
+			$wp_admin_nav[] = array(
+				'parent' => 'my-account-' . $this->id,
+				'id'     => 'my-account-' . $this->id . '-personal',
+				'title'  => __( 'Personal', 'buddypress' ),
+				'href'   => trailingslashit( $activity_link )
+			);
+
 			// Mentions
 			if ( bp_activity_do_mentions() ) {
 				$wp_admin_nav[] = array(
@@ -278,14 +286,6 @@ class BP_Activity_Component extends BP_Component {
 					'href'   => trailingslashit( $activity_link . 'mentions' )
 				);
 			}
-
-			// Personal
-			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-personal',
-				'title'  => __( 'Personal', 'buddypress' ),
-				'href'   => trailingslashit( $activity_link )
-			);
 
 			// Favorites
 			$wp_admin_nav[] = array(
