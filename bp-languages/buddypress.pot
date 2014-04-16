@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-04-15 14:30:37+00:00\n"
+"POT-Creation-Date: 2014-04-16 14:30:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -316,8 +316,8 @@ msgstr ""
 #: bp-activity/bp-activity-admin.php:672 bp-activity/bp-activity-admin.php:1391
 #: bp-forums/bp-forums-template.php:2112 bp-groups/bp-groups-admin.php:1396
 #: bp-themes/bp-default/functions.php:509 bp-xprofile/bp-xprofile-admin.php:402
-#: bp-xprofile/bp-xprofile-loader.php:193
-#: bp-xprofile/bp-xprofile-loader.php:271
+#: bp-xprofile/bp-xprofile-loader.php:195
+#: bp-xprofile/bp-xprofile-loader.php:273
 msgid "Edit"
 msgstr ""
 
@@ -618,7 +618,7 @@ msgid "Search Activity..."
 msgstr ""
 
 #: bp-activity/bp-activity-loader.php:165
-#: bp-activity/bp-activity-loader.php:286
+#: bp-activity/bp-activity-loader.php:276
 msgid "Personal"
 msgstr ""
 
@@ -684,7 +684,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/groups/single/admin.php:212
 #: bp-themes/bp-default/groups/single/admin.php:185
 #: bp-themes/bp-default/groups/single/admin.php:212
-#: bp-xprofile/bp-xprofile-loader.php:317
+#: bp-xprofile/bp-xprofile-loader.php:314
 msgid "Profile picture of %s"
 msgstr ""
 
@@ -860,8 +860,8 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress-functions.php:248
 #: bp-themes/bp-default/activity/entry.php:37
 #: bp-themes/bp-default/functions.php:166
-#: bp-xprofile/bp-xprofile-loader.php:183
-#: bp-xprofile/bp-xprofile-loader.php:263
+#: bp-xprofile/bp-xprofile-loader.php:185
+#: bp-xprofile/bp-xprofile-loader.php:265
 msgid "View"
 msgstr ""
 
@@ -2153,10 +2153,10 @@ msgid "Not recently active"
 msgstr ""
 
 #: bp-core/bp-core-loader.php:233 bp-members/bp-members-admin.php:329
-#: bp-members/bp-members-loader.php:184 bp-xprofile/bp-xprofile-loader.php:162
-#: bp-xprofile/bp-xprofile-loader.php:223
-#: bp-xprofile/bp-xprofile-loader.php:255
-#: bp-xprofile/bp-xprofile-loader.php:295
+#: bp-members/bp-members-loader.php:184 bp-xprofile/bp-xprofile-loader.php:164
+#: bp-xprofile/bp-xprofile-loader.php:225
+#: bp-xprofile/bp-xprofile-loader.php:257
+#: bp-xprofile/bp-xprofile-loader.php:339
 msgid "Profile"
 msgstr ""
 
@@ -2340,7 +2340,7 @@ msgstr ""
 #: bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php:8
 #: bp-themes/bp-default/activity/post-form.php:45
 #: bp-themes/bp-default/members/single/profile/profile-wp.php:8
-#: bp-xprofile/bp-xprofile-loader.php:312
+#: bp-xprofile/bp-xprofile-loader.php:309
 msgid "My Profile"
 msgstr ""
 
@@ -2842,7 +2842,7 @@ msgstr ""
 msgid "A member accepts your friendship request"
 msgstr ""
 
-#: bp-friends/bp-friends-template.php:66 bp-xprofile/bp-xprofile-loader.php:122
+#: bp-friends/bp-friends-template.php:66 bp-xprofile/bp-xprofile-loader.php:124
 msgid "My Friends"
 msgstr ""
 
@@ -6264,8 +6264,8 @@ msgstr ""
 
 #: bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:1
 #: bp-themes/bp-default/members/single/profile/change-avatar.php:1
-#: bp-xprofile/bp-xprofile-loader.php:205
-#: bp-xprofile/bp-xprofile-loader.php:280
+#: bp-xprofile/bp-xprofile-loader.php:207
+#: bp-xprofile/bp-xprofile-loader.php:282
 msgid "Change Avatar"
 msgstr ""
 
@@ -7159,15 +7159,15 @@ msgstr ""
 msgid "Add Another Option"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:107
+#: bp-xprofile/bp-xprofile-loader.php:109
 msgid "Everyone"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:111
+#: bp-xprofile/bp-xprofile-loader.php:113
 msgid "Only Me"
 msgstr ""
 
-#: bp-xprofile/bp-xprofile-loader.php:115
+#: bp-xprofile/bp-xprofile-loader.php:117
 msgid "All Members"
 msgstr ""
 
