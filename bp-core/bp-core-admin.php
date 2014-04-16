@@ -639,20 +639,19 @@ class BP_Admin {
 	 */
 	public function credits_screen() {
 
+		$is_new_install = ! empty( $_GET['is_new_install'] );
+
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
 		<div class="wrap about-wrap">
 			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
-			<div class="about-text"><?php printf( __( 'BuddyPress %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes.', 'buddypress' ), $display_version ); ?></div>
-			<div class="bp-badge"></div>
-
-			<h2 class="nav-tab-wrapper">
-				<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-about' ), 'index.php' ) ) ); ?>" class="nav-tab">
-					<?php _e( 'What&#8217;s New', 'buddypress' ); ?>
-				</a><a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'index.php' ) ) ); ?>" class="nav-tab nav-tab-active">
-					<?php _e( 'Credits', 'buddypress' ); ?>
-				</a>
-			</h2>
+			<div class="about-text">
+				<?php if ( $is_new_install ) : ?>
+					<?php printf( __( 'It&#8217;s a great time to use BuddyPress! With a focus on speed, admin tools, and developer enhancements, %s is our leanest and most powerful version yet.', 'buddypress' ), $display_version ); ?>
+				<?php else : ?>
+					<?php printf( __( 'Thanks for updating! With a focus on speed, admin tools, and developer enhancements, BuddyPress %s is our leanest and most powerful version yet.', 'buddypress' ), $display_version ); ?>
+				<?php endif; ?>
+			</div>
 
 			<p class="about-description"><?php _e( 'BuddyPress is created by a worldwide network of friendly folks.', 'buddypress' ); ?></p>
 
