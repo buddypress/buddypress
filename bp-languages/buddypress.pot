@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-04-16 14:30:51+00:00\n"
+"POT-Creation-Date: 2014-04-16 17:30:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1692,23 +1692,23 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:496 bp-core/bp-core-admin.php:645
+#: bp-core/bp-core-admin.php:496 bp-core/bp-core-admin.php:647
 msgid "Welcome to BuddyPress %s"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:499
+#: bp-core/bp-core-admin.php:499 bp-core/bp-core-admin.php:650
 msgid "It&#8217;s a great time to use BuddyPress! With a focus on speed, admin tools, and developer enhancements, %s is our leanest and most powerful version yet."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:501
+#: bp-core/bp-core-admin.php:501 bp-core/bp-core-admin.php:652
 msgid "Thanks for updating! With a focus on speed, admin tools, and developer enhancements, BuddyPress %s is our leanest and most powerful version yet."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:509 bp-core/bp-core-admin.php:651
+#: bp-core/bp-core-admin.php:509 bp-core/bp-core-admin.php:660
 msgid "What&#8217;s New"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:511 bp-core/bp-core-admin.php:653
+#: bp-core/bp-core-admin.php:511 bp-core/bp-core-admin.php:662
 msgid "Credits"
 msgstr ""
 
@@ -1828,47 +1828,43 @@ msgstr ""
 msgid "<a href=\"%s\">&hellip;and lots more!</a>"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:623 bp-core/bp-core-admin.php:757
+#: bp-core/bp-core-admin.php:623 bp-core/bp-core-admin.php:766
 msgid "Go to the BuddyPress Settings page"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:646
-msgid "BuddyPress %s is our first version with a new component in over two years. Not only that, there are plenty of new features, enhancements, and bug fixes."
-msgstr ""
-
-#: bp-core/bp-core-admin.php:657
+#: bp-core/bp-core-admin.php:666
 msgid "BuddyPress is created by a worldwide network of friendly folks."
 msgstr ""
 
-#: bp-core/bp-core-admin.php:659
+#: bp-core/bp-core-admin.php:668
 msgid "Project Leaders"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:664
+#: bp-core/bp-core-admin.php:673
 msgid "Project Lead"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:669 bp-core/bp-core-admin.php:674
+#: bp-core/bp-core-admin.php:678 bp-core/bp-core-admin.php:683
 msgid "Lead Developer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:678
+#: bp-core/bp-core-admin.php:687
 msgid "Core Team"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:683 bp-core/bp-core-admin.php:688
+#: bp-core/bp-core-admin.php:692 bp-core/bp-core-admin.php:697
 msgid "Core Developer"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:693
+#: bp-core/bp-core-admin.php:702
 msgid "Navigator"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:697
+#: bp-core/bp-core-admin.php:706
 msgid "Recent Rockstars"
 msgstr ""
 
-#: bp-core/bp-core-admin.php:709
+#: bp-core/bp-core-admin.php:718
 msgid "Contributors to BuddyPress 2.0"
 msgstr ""
 
