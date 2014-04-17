@@ -232,5 +232,5 @@ function bp_xprofile_screen_settings() {
 	}
 
 	// Load the template
-	bp_core_load_template( apply_filters( 'bp_settings_screen_xprofile', '/members/single/plugin' ) );
+	bp_core_load_template( apply_filters( 'bp_settings_screen_xprofile', '/members/single/settings/profile' ) );
 }
