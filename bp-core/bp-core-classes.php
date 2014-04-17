@@ -883,7 +883,7 @@ class BP_Core_User {
 
 		$sql = array();
 
-		$sql['select_main'] = "SELECT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.display_name, u.user_email";
+		$sql['select_main'] = "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.display_name, u.user_email";
 
 		if ( 'active' == $type || 'online' == $type || 'newest' == $type  ) {
 			$sql['select_active'] = ", um.meta_value as last_activity";

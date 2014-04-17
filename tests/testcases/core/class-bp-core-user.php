@@ -103,6 +103,27 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u1, $u3 ), $user_ids );
 	}
 
+	/**
+	 * @expectedDeprecated BP_Core_User::get_users
+	 * @group get_users
+	 * @group type
+	 */
+	public function test_type_alphabetical() {
+		$u1 = $this->create_user( array(
+			'display_name' => 'foo',
+		) );
+		$u2 = $this->create_user( array(
+			'display_name' => 'bar',
+		) );
+
+		global $wpdb;
+
+		$q = BP_Core_User::get_users( 'alphabetical' );
+		$found = array_map( 'intval', wp_list_pluck( $q['users'], 'id' ) );
+
+		$this->assertEquals( array( $u2, $u1 ), $found );
+	}
+
 	public function test_get_specific_users() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
