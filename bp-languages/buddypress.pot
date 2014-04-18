@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-04-18 17:30:25+00:00\n"
+"POT-Creation-Date: 2014-04-18 18:30:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2250,7 +2250,7 @@ msgstr ""
 
 #: bp-core/bp-core-widgets.php:200 bp-core/bp-core-widgets.php:298
 #: bp-core/deprecated/1.6.php:129 bp-core/deprecated/1.6.php:152
-#: bp-friends/bp-friends-widgets.php:91 bp-friends/bp-friends-widgets.php:179
+#: bp-friends/bp-friends-widgets.php:98 bp-friends/bp-friends-widgets.php:186
 #: bp-groups/bp-groups-template.php:2417 bp-groups/bp-groups-widgets.php:65
 #: bp-groups/bp-groups-widgets.php:146
 #: bp-templates/bp-legacy/buddypress/blogs/index.php:39
@@ -2261,14 +2261,14 @@ msgid "Newest"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:201 bp-core/bp-core-widgets.php:299
-#: bp-friends/bp-friends-widgets.php:92 bp-friends/bp-friends-widgets.php:180
+#: bp-friends/bp-friends-widgets.php:99 bp-friends/bp-friends-widgets.php:187
 #: bp-groups/bp-groups-widgets.php:66 bp-groups/bp-groups-widgets.php:147
 #: bp-members/bp-members-admin.php:642
 msgid "Active"
 msgstr ""
 
 #: bp-core/bp-core-widgets.php:205 bp-core/bp-core-widgets.php:300
-#: bp-friends/bp-friends-widgets.php:93 bp-friends/bp-friends-widgets.php:181
+#: bp-friends/bp-friends-widgets.php:100 bp-friends/bp-friends-widgets.php:188
 #: bp-groups/bp-groups-widgets.php:67 bp-groups/bp-groups-widgets.php:148
 msgid "Popular"
 msgstr ""
@@ -2277,7 +2277,7 @@ msgstr ""
 msgid "No one has signed up yet!"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:291 bp-friends/bp-friends-widgets.php:172
+#: bp-core/bp-core-widgets.php:291 bp-friends/bp-friends-widgets.php:179
 msgid "Link widget title to Members directory"
 msgstr ""
 
@@ -2327,7 +2327,7 @@ msgstr ""
 msgid "Recently Active Members"
 msgstr ""
 
-#: bp-core/bp-core-widgets.php:572 bp-friends/bp-friends-widgets.php:245
+#: bp-core/bp-core-widgets.php:572 bp-friends/bp-friends-widgets.php:252
 msgid "There were no members found, please try another filter."
 msgstr ""
 
@@ -2909,30 +2909,30 @@ msgid_plural "%s friends"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-friends/bp-friends-widgets.php:41
+#: bp-friends/bp-friends-widgets.php:48
 msgid "A dynamic list of recently active, popular, and newest Friends of the displayed member.  Widget is only shown when viewing a member profile."
 msgstr ""
 
-#: bp-friends/bp-friends-widgets.php:44
+#: bp-friends/bp-friends-widgets.php:51
 msgctxt "widget name"
 msgid "(BuddyPress) Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-widgets.php:66
+#: bp-friends/bp-friends-widgets.php:73
 msgid "%s&#8217;s Friends"
 msgstr ""
 
-#: bp-friends/bp-friends-widgets.php:128
+#: bp-friends/bp-friends-widgets.php:135
 #: bp-templates/bp-legacy/buddypress/members/members-loop.php:108
 #: bp-themes/bp-default/members/members-loop.php:108
 msgid "Sorry, no members were found."
 msgstr ""
 
-#: bp-friends/bp-friends-widgets.php:174
+#: bp-friends/bp-friends-widgets.php:181
 msgid "Max friends to show:"
 msgstr ""
 
-#: bp-friends/bp-friends-widgets.php:177
+#: bp-friends/bp-friends-widgets.php:184
 msgid "Default friends to show:"
 msgstr ""
 
