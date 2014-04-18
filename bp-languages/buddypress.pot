@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-04-16 17:30:55+00:00\n"
+"POT-Creation-Date: 2014-04-18 17:30:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4562,8 +4562,8 @@ msgstr ""
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you. Please contact the <a href=\"mailto:%s\">webmaster</a>."
 msgstr ""
 
-#: bp-members/bp-members-classes.php:512 bp-members/bp-members-classes.php:573
-#: bp-members/bp-members-classes.php:628
+#: bp-members/bp-members-classes.php:512 bp-members/bp-members-classes.php:577
+#: bp-members/bp-members-classes.php:632
 msgid "the sign-up has already been activated."
 msgstr ""
 
