@@ -17,7 +17,6 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertEquals( get_class( $field ), 'BP_XProfile_Field_Type_Textbox' );
 	}
 
-
 	public function test_textbox_validate_empty_string() {
 		$field = bp_xprofile_create_field_type( 'textbox' );
 		$this->assertTrue( $field->is_valid( '' ) );
@@ -41,7 +40,6 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertTrue( $field->is_valid( 'pizza' ) );
 	}
 
-
 	public function test_multiselectbox_validate_whitelisted_array() {
 		$field = bp_xprofile_create_field_type( 'multiselectbox' );
 		$field->set_whitelist_values( array( 'cheese', 'pepporoni' ) );
@@ -60,7 +58,6 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertFalse( $field->is_valid( '' ) );
 		$this->assertTrue( $field->is_valid( array() ) );
 	}
-
 
 	public function test_datebox_do_not_validate_string() {
 		$field = bp_xprofile_create_field_type( 'datebox' );
@@ -83,7 +80,6 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertFalse( $field->is_valid( '2013-12-22 19:11:30' ) );
 		$this->assertFalse( $field->is_valid( '2013-12-22' ) );
 	}
-
 
 	public function test_number_do_not_validate_string() {
 		$field = bp_xprofile_create_field_type( 'number' );
@@ -120,7 +116,6 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertFalse( $field->is_valid( array( 789 ) ) );
 	}
 
-
 	public function test_radiobutton_validate_whitelisted_array() {
 		$field = bp_xprofile_create_field_type( 'radio' );
 		$field->set_whitelist_values( array( 'cheese', 'pepporoni' ) );
@@ -138,7 +133,6 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 
 		$this->assertFalse( $field->is_valid( array( '' ) ) );
 	}
-
 
 	public function test_checkbox_validate_whitelisted_array() {
 		$field = bp_xprofile_create_field_type( 'checkbox' );
