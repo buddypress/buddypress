@@ -1001,7 +1001,7 @@ class BP_XProfile_Field {
 			if ( $field_type->supports_options && isset( $_POST[$option_name] ) && empty( $_POST[$option_name][1] ) ) {
 				$message = __( 'This field type require at least one option. Please add options below.', 'buddypress' );
 				return false;
-			} 
+			}
 		}
 
 		return true;
@@ -2566,10 +2566,10 @@ abstract class BP_XProfile_Field_Type {
 
 	/**
 	 * Set a regex that profile data will be asserted against.
-	 * 
+	 *
 	 * You can call this method multiple times to set multiple formats. When validation is performed,
 	 * it's successful as long as the new value matches any one of the registered formats.
-	 * 
+	 *
 	 * @param string $format Regex string
 	 * @param string $replace_format Optional; if 'replace', replaces the format instead of adding to it. Defaults to 'add'.
 	 * @return BP_XProfile_Field_Type
@@ -2590,10 +2590,10 @@ abstract class BP_XProfile_Field_Type {
 
 	/**
 	 * Add a value to this type's whitelist that that profile data will be asserted against.
-	 * 
+	 *
 	 * You can call this method multiple times to set multiple formats. When validation is performed,
 	 * it's successful as long as the new value matches any one of the registered formats.
-	 * 
+	 *
 	 * @param string|array $values
 	 * @return BP_XProfile_Field_Type
 	 * @since BuddyPress (2.0.0)
