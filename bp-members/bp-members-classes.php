@@ -565,9 +565,13 @@ class BP_Signup {
 
 			if ( ! empty( $user->errors ) ) {
 
-				$user_id = username_exists( $signup->user_login ) && 2 != self::check_user_status( $user_id );
+				$user_id = username_exists( $signup->user_login );
 
-				if ( !empty( $user_id ) ) {
+				if ( 2 !== self::check_user_status( $user_id ) ) {
+					$user_id = false;
+				}
+
+				if ( empty( $user_id ) ) {
 
 					// Status is not 2, so user's account has been activated
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
