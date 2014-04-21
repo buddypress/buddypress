@@ -822,6 +822,10 @@ class BP_Members_Admin {
 			return;
 		}
 
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+
 		if ( $this->users_page != get_current_screen()->id ) {
 			return;
 		}
