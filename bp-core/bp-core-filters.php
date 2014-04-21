@@ -537,10 +537,16 @@ function bp_setup_nav_menu_item( $menu_item ) {
 			break;
 	}
 
+	// If component is deactivated, make sure menu item doesn't render
+	if ( empty( $menu_item->url ) ) {
+		$menu_item->_invalid = true;
+
 	// Highlight the current page
-	$current = bp_get_requested_url();
-	if ( strpos( $current, $menu_item->url ) !== false ) {
-		$menu_item->classes[] = 'current_page_item';
+	} else {
+		$current = bp_get_requested_url();
+		if ( strpos( $current, $menu_item->url ) !== false ) {
+			$menu_item->classes[] = 'current_page_item';
+		}
 	}
 
 	return $menu_item;
