@@ -407,13 +407,17 @@ function bp_update_to_2_0() {
 }
 
 /**
- * 
+ * 2.0.1 database upgrade routine
+ *
  * @since BuddyPress (2.0.1)
  *
  * @return void
  */
 function bp_update_to_2_0_1() {
-	bp_core_maybe_upgrade_signups();
+
+	// We purposely call this during both the 2.0 upgrade and the 2.0.1 upgrade.
+	// Don't worry; it won't break anything, and safely handles all cases.
+	bp_core_maybe_install_signups();
 }
 
 /**
