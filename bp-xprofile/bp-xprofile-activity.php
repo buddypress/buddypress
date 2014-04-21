@@ -235,6 +235,10 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $o
 		return false;
 	}
 
+	if ( ! bp_is_active( 'activity' ) ) {
+		return false;
+	}
+
 	// Don't post if there have been no changes, or if the changes are
 	// related solely to non-public fields
 	$public_changes = false;
