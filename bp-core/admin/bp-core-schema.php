@@ -51,9 +51,8 @@ function bp_core_install( $active_components = false ) {
 	if ( !empty( $active_components['blogs'] ) )
 		bp_core_install_blog_tracking();
 
-	// Install the signups table
-	bp_core_install_signups();
-
+	// Maybe install (or upgrade) the signups table
+	bp_core_maybe_install_signups();
 }
 
 function bp_core_install_notifications() {

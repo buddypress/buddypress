@@ -349,7 +349,6 @@ function bp_update_to_1_9_2() {
  * @since BuddyPress (2.0.0)
  */
 function bp_update_to_2_0() {
-	global $wpdb;
 
 	/** Install activity tables for 'last_activity' ***************************/
 
@@ -461,10 +460,11 @@ function bp_core_signups_table_exists() {
 		return true;
 	}
 
-	// Check for the table (we suppress errors because users shouldn't see this)
+	// Suppress errors because users shouldn't see this
 	$old_suppress = $wpdb->suppress_errors();
 
 	// Never use bp_core_get_table_prefix() for any global users tables
+	// We also don't use $wpdb->signups because we want decisive evidence.
 	$table_exists = $wpdb->get_results( "DESCRIBE {$wpdb->base_prefix}signups;" );
 
 	// Restore previous error suppression setting
@@ -472,6 +472,38 @@ function bp_core_signups_table_exists() {
 
 	// Return whether or not the table exists
 	return (bool) $table_exists;
+}
+
+/**
+ * Check if the signups table already exists
+ *
+ * @since BuddyPress (2.0.1)
+ *
+ * @global WPDB $wpdb
+ *
+ * @link https://core.trac.wordpress.org/changeset/25179
+ *
+ * @return bool If signup_id column exists
+ */
+function bp_core_signups_id_column_exists() {
+	global $wpdb;
+
+	// No signups table to query, so bail and return false
+	if ( empty( $wpdb->signups ) ) {
+		return false;
+	}
+
+	// Suppress errors because users shouldn't see this
+	$old_suppress = $wpdb->suppress_errors();
+
+	// Never use bp_core_get_table_prefix() for any global users tables
+	$column_exists = $wpdb->query( "SHOW COLUMNS FROM {$wpdb->signups} LIKE 'signup_id'" );
+
+	// Restore previous error suppression setting
+	$wpdb->suppress_errors( $old_suppress );
+
+	// Column does not exist
+	return $column_exists;
 }
 
 /**
@@ -490,46 +522,18 @@ function bp_core_maybe_install_signups() {
 		return false;
 	}
 
-	// Try to install the sign-ups table
-	if ( ! is_multisite() && ! bp_core_signups_table_exists() ) {
+	// Table already exists, so maybe upgrade instead?
+	if ( bp_core_signups_table_exists() ) {
+
+		// 'signup_id' column doesn't exist, so run the upgrade
+		if ( ! bp_core_signups_id_column_exists() ) {
+			bp_core_upgrade_signups();
+		}
+
+	// Table does not exist, and not multisite, so install the signups table
+	} elseif ( ! is_multisite() ) {
 		bp_core_install_signups();
 	}
-
-	// Return whether or not the table exists now
-	return (bool) bp_core_signups_table_exists();
-}
-
-/**
- * Check if the signups table needs to be upgraded.
- *
- * Update the signups table, adding `signup_id` column and drop `domain` index.
- *
- * This is necessary because WordPress's `pre_schema_upgrade()` function wraps
- * table ALTER's in multisite checks, and other plugins may have installed their
- * own sign-ups table; Eg: Gravity Forms User Registration Add On
- *
- * @since BuddyPress (2.0.1)
- *
- * @see pre_schema_upgrade()
- * @link https://core.trac.wordpress.org/ticket/27855 WordPress Trac Ticket
- * @link https://buddypress.trac.wordpress.org/ticket/5563 BuddyPress Trac Ticket
- *
- * @return bool If signups table exists
- */
-function bp_core_maybe_upgrade_signups() {
-
-	// Bail if we are explicitly not upgrading global tables
-	if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
-		return false;
-	}
-
-	// Actually upgrade the sign-ups table
-	if ( bp_core_maybe_install_signups() ) {
-		bp_core_upgrade_signups();
-	}
-
-	// Return whether or not the table exists now
-	return (bool) bp_core_signups_table_exists();
 }
 
 /** Activation Actions ********************************************************/
