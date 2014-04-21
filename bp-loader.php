@@ -303,8 +303,8 @@ class BuddyPress {
 
 		/** Versions **************************************************/
 
-		$this->version    = '2.0';
-		$this->db_version = 7892;
+		$this->version    = '2.0.1';
+		$this->db_version = 8300;
 
 		/** Loading ***************************************************/
 

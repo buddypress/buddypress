@@ -348,6 +348,8 @@ function bp_core_install_blog_tracking() {
 	dbDelta( $sql );
 }
 
+/** Signups *******************************************************************/
+
 /**
  * Install the signups table.
  *
@@ -359,19 +361,15 @@ function bp_core_install_blog_tracking() {
 function bp_core_install_signups() {
 	global $wpdb;
 
-	// Multisite installations already have the signups table
-	if ( ! empty( $wpdb->signups ) ) {
-		return;
-	}
+	// Signups is not there and we need it so let's create it
+	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-schema.php' );
+	require_once( ABSPATH                  . 'wp-admin/includes/upgrade.php'     );
 
-	$wpdb->signups = bp_core_get_table_prefix() . 'signups';
-
-	// Setting the charset to be sure WordPress upgrade.php is loaded
-	$charset_collate = bp_core_set_charset();
+	// Never use bp_core_get_table_prefix() for any global users tables
+	$wpdb->signups = $wpdb->base_prefix . 'signups';
 
 	// Use WP's core CREATE TABLE query
 	$create_queries = wp_get_db_schema( 'ms_global' );
-
 	if ( ! is_array( $create_queries ) ) {
 		$create_queries = explode( ';', $create_queries );
 		$create_queries = array_filter( $create_queries );
@@ -380,13 +378,40 @@ function bp_core_install_signups() {
 	// Filter out all the queries except wp_signups
 	foreach ( $create_queries as $key => $query ) {
 		if ( preg_match( "|CREATE TABLE ([^ ]*)|", $query, $matches ) ) {
-			if ( $wpdb->signups != trim( $matches[1], '`' ) ) {
+			if ( trim( $matches[1], '`' ) !== $wpdb->signups ) {
 				unset( $create_queries[ $key ] );
 			}
 		}
 	}
 
+	// Run WordPress's database upgrader
 	if ( ! empty( $create_queries ) ) {
 		dbDelta( $create_queries );
 	}
+}
+
+/**
+ * Update the signups table, adding `signup_id` column and drop `domain` index.
+ *
+ * This is necessary because WordPress's `pre_schema_upgrade()` function wraps
+ * table ALTER's in multisite checks, and other plugins may have installed their
+ * own sign-ups table; Eg: Gravity Forms User Registration Add On
+ *
+ * @since BuddyPress (2.0.1)
+ *
+ * @see pre_schema_upgrade()
+ * @link https://core.trac.wordpress.org/ticket/27855 WordPress Trac Ticket
+ * @link https://buddypress.trac.wordpress.org/ticket/5563 BuddyPress Trac Ticket
+ *
+ * @global WPDB $wpdb
+ */
+function bp_core_upgrade_signups() {
+	global $wpdb;
+
+	// Never use bp_core_get_table_prefix() for any global users tables
+	$wpdb->signups = $wpdb->base_prefix . 'signups';
+
+	// Attempt to alter the signups table
+	$wpdb->query( "ALTER TABLE {$wpdb->signups} ADD signup_id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST" );
+	$wpdb->query( "ALTER TABLE {$wpdb->signups} DROP INDEX domain" );
 }

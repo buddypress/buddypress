@@ -235,6 +235,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 7892 ) {
 			bp_update_to_2_0();
 		}
+
+		// 2.0.1
+		if ( $raw_db_version < 8300 ) {
+			bp_update_to_2_0_1();
+		}
 	}
 
 	/** All done! *************************************************************/
@@ -242,6 +247,8 @@ function bp_version_updater() {
 	// Bump the version
 	bp_version_bump();
 }
+
+/** Upgrade Routines **********************************************************/
 
 /**
  * Remove unused metadata from database when upgrading from < 1.5.
@@ -338,6 +345,8 @@ function bp_update_to_1_9_2() {
  * - Ensure that the activity tables are installed, for last_activity storage.
  * - Migrate last_activity data from usermeta to activity table
  * - Add values for all BuddyPress options to the options table
+ *
+ * @since BuddyPress (2.0.0)
  */
 function bp_update_to_2_0() {
 	global $wpdb;
@@ -354,9 +363,8 @@ function bp_update_to_2_0() {
 
 	if ( ! is_multisite() ) {
 
-		if ( empty( $wpdb->signups ) ) {
-			bp_core_install_signups();
-		}
+		// Maybe install the signups table
+		bp_core_maybe_install_signups();
 
 		$signups = get_users( array(
 			'fields'       => 'all_with_meta',
@@ -400,6 +408,16 @@ function bp_update_to_2_0() {
 }
 
 /**
+ * 
+ * @since BuddyPress (2.0.1)
+ *
+ * @return void
+ */
+function bp_update_to_2_0_1() {
+	bp_core_maybe_upgrade_signups();
+}
+
+/**
  * Redirect user to BP's What's New page on first page load after activation.
  *
  * @since BuddyPress (1.7.0)
@@ -422,6 +440,96 @@ function bp_add_activation_redirect() {
 
 	// Add the transient to redirect
 	set_transient( '_bp_activation_redirect', true, 30 );
+}
+
+/** Signups *******************************************************************/
+
+/**
+ * Check if the signups table already exists
+ *
+ * @since BuddyPress (2.0.1)
+ *
+ * @global WPDB $wpdb
+ *
+ * @return bool If signups table exists
+ */
+function bp_core_signups_table_exists() {
+	global $wpdb;
+
+	// Some installations may already have a signups table (multisite, plugins, etc...)
+	if ( ! empty( $wpdb->signups ) ) {
+		return true;
+	}
+
+	// Check for the table (we suppress errors because users shouldn't see this)
+	$old_suppress = $wpdb->suppress_errors();
+
+	// Never use bp_core_get_table_prefix() for any global users tables
+	$table_exists = $wpdb->get_results( "DESCRIBE {$wpdb->base_prefix}signups;" );
+
+	// Restore previous error suppression setting
+	$wpdb->suppress_errors( $old_suppress );
+
+	// Return whether or not the table exists
+	return (bool) $table_exists;
+}
+
+/**
+ * Check if the signups table needs to be created.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @global WPDB $wpdb
+ *
+ * @return bool If signups table exists
+ */
+function bp_core_maybe_install_signups() {
+
+	// Bail if we are explicitly not upgrading global tables
+	if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+		return false;
+	}
+
+	// Try to install the sign-ups table
+	if ( ! is_multisite() && ! bp_core_signups_table_exists() ) {
+		bp_core_install_signups();
+	}
+
+	// Return whether or not the table exists now
+	return (bool) bp_core_signups_table_exists();
+}
+
+/**
+ * Check if the signups table needs to be upgraded.
+ *
+ * Update the signups table, adding `signup_id` column and drop `domain` index.
+ *
+ * This is necessary because WordPress's `pre_schema_upgrade()` function wraps
+ * table ALTER's in multisite checks, and other plugins may have installed their
+ * own sign-ups table; Eg: Gravity Forms User Registration Add On
+ *
+ * @since BuddyPress (2.0.1)
+ *
+ * @see pre_schema_upgrade()
+ * @link https://core.trac.wordpress.org/ticket/27855 WordPress Trac Ticket
+ * @link https://buddypress.trac.wordpress.org/ticket/5563 BuddyPress Trac Ticket
+ *
+ * @return bool If signups table exists
+ */
+function bp_core_maybe_upgrade_signups() {
+
+	// Bail if we are explicitly not upgrading global tables
+	if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+		return false;
+	}
+
+	// Actually upgrade the sign-ups table
+	if ( bp_core_maybe_install_signups() ) {
+		bp_core_upgrade_signups();
+	}
+
+	// Return whether or not the table exists now
+	return (bool) bp_core_signups_table_exists();
 }
 
 /** Activation Actions ********************************************************/
