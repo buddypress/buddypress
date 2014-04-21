@@ -52,7 +52,7 @@ function bp_core_install( $active_components = false ) {
 		bp_core_install_blog_tracking();
 
 	// Install the signups table
-	bp_core_install_signups();
+	bp_core_maybe_install_signups();
 
 }
 
