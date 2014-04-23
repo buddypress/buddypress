@@ -237,7 +237,7 @@ function bp_version_updater() {
 		}
 
 		// 2.0.1
-		if ( $raw_db_version < 8300 ) {
+		if ( $raw_db_version < 8311 ) {
 			bp_update_to_2_0_1();
 		}
 	}
@@ -448,69 +448,6 @@ function bp_add_activation_redirect() {
 /** Signups *******************************************************************/
 
 /**
- * Check if the signups table already exists
- *
- * @since BuddyPress (2.0.1)
- *
- * @global WPDB $wpdb
- *
- * @return bool If signups table exists
- */
-function bp_core_signups_table_exists() {
-	global $wpdb;
-
-	// Some installations may already have a signups table (multisite, plugins, etc...)
-	if ( ! empty( $wpdb->signups ) ) {
-		return true;
-	}
-
-	// Suppress errors because users shouldn't see this
-	$old_suppress = $wpdb->suppress_errors();
-
-	// Never use bp_core_get_table_prefix() for any global users tables
-	// We also don't use $wpdb->signups because we want decisive evidence.
-	$table_exists = $wpdb->get_results( "DESCRIBE {$wpdb->base_prefix}signups;" );
-
-	// Restore previous error suppression setting
-	$wpdb->suppress_errors( $old_suppress );
-
-	// Return whether or not the table exists
-	return (bool) $table_exists;
-}
-
-/**
- * Check if the signups table already exists
- *
- * @since BuddyPress (2.0.1)
- *
- * @global WPDB $wpdb
- *
- * @link https://core.trac.wordpress.org/changeset/25179
- *
- * @return bool If signup_id column exists
- */
-function bp_core_signups_id_column_exists() {
-	global $wpdb;
-
-	// No signups table to query, so bail and return false
-	if ( empty( $wpdb->signups ) ) {
-		return false;
-	}
-
-	// Suppress errors because users shouldn't see this
-	$old_suppress = $wpdb->suppress_errors();
-
-	// Never use bp_core_get_table_prefix() for any global users tables
-	$column_exists = $wpdb->query( "SHOW COLUMNS FROM {$wpdb->signups} LIKE 'signup_id'" );
-
-	// Restore previous error suppression setting
-	$wpdb->suppress_errors( $old_suppress );
-
-	// Column does not exist
-	return $column_exists;
-}
-
-/**
  * Check if the signups table needs to be created.
  *
  * @since BuddyPress (2.0.0)
@@ -526,18 +463,36 @@ function bp_core_maybe_install_signups() {
 		return false;
 	}
 
+	global $wpdb;
+
+	// The table to run queries against
+	$signups_table = $wpdb->base_prefix . 'signups';
+
+	// Suppress errors because users shouldn't see what happens next
+	$old_suppress  = $wpdb->suppress_errors();
+
+	// Never use bp_core_get_table_prefix() for any global users tables
+	$table_exists  = (bool) $wpdb->get_results( "DESCRIBE {$signups_table};" );
+
 	// Table already exists, so maybe upgrade instead?
-	if ( bp_core_signups_table_exists() ) {
+	if ( true === $table_exists ) {
+
+		// Look for the 'signup_id' column
+		$column_exists = $wpdb->query( "SHOW COLUMNS FROM {$signups_table} LIKE 'signup_id'" );
 
 		// 'signup_id' column doesn't exist, so run the upgrade
-		if ( ! bp_core_signups_id_column_exists() ) {
+		if ( empty( $column_exists ) ) {
 			bp_core_upgrade_signups();
 		}
 
-	// Table does not exist, and not multisite, so install the signups table
+	// Table does not exist, and we are a single site, so install the multisite
+	// signups table using WordPress core's database schema.
 	} elseif ( ! is_multisite() ) {
 		bp_core_install_signups();
 	}
+
+	// Restore previous error suppression setting
+	$wpdb->suppress_errors( $old_suppress );
 }
 
 /** Activation Actions ********************************************************/
