@@ -61,7 +61,7 @@ class BP_Members_Admin {
 	 * @access public
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @uses buddypress() to get BuddyPress main instance
+	 * @uses buddypress() to get BuddyPress main instance.
 	 */
 	public static function register_members_admin() {
 		if( ! is_admin() )

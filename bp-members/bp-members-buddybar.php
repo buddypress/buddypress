@@ -3,7 +3,7 @@
 /**
  * BuddyPress Members BuddyBar
  *
- * Handles the member functions related to the BuddyBar
+ * Handles the member functions related to the BuddyBar.
  *
  * @package BuddyPress
  * @subpackage MembersBuddyBar
@@ -13,7 +13,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Notifications Menu
+ * Add the Notifications menu to the BuddyBar.
  */
 function bp_adminbar_notifications_menu() {
 
@@ -27,7 +27,7 @@ function bp_adminbar_notifications_menu() {
 add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8 );
 
 /**
- * Blog Authors Menu (visible when not logged in)
+ * Add the Blog Authors menu to the BuddyBar (visible when not logged in).
  */
 function bp_adminbar_authors_menu() {
 	global $wpdb;
@@ -74,10 +74,10 @@ function bp_adminbar_authors_menu() {
 add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu', 12 );
 
 /**
+ * Add a member admin menu to the BuddyBar.
+ *
  * Adds an Toolbar menu to any profile page providing site moderator actions
  * that allow capable users to clean up a users account.
- *
- * @package BuddyPress XProfile
  */
 function bp_members_adminbar_admin_menu() {
 

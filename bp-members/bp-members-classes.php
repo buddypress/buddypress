@@ -472,8 +472,8 @@ class BP_Signup {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param array $signup_ids single id or list of ids to resend
-	 * @return array the results
+	 * @param array $signup_ids Single ID or list of IDs to resend.
+	 * @return array
 	 */
 	public static function resend( $signup_ids = array() ) {
 		if ( empty( $signup_ids ) || ! is_array( $signup_ids ) ) {
@@ -539,8 +539,8 @@ class BP_Signup {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param array $signup_ids Single id or list of ids to resend.
-	 * @return array the results
+	 * @param array $signup_ids Single ID or list of IDs to activate.
+	 * @return array
 	 */
 	public static function activate( $signup_ids = array() ) {
 		if ( empty( $signup_ids ) || ! is_array( $signup_ids ) ) {
@@ -599,8 +599,8 @@ class BP_Signup {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param array $signup_ids single id or list of ids to resend
-	 * @return array the results
+	 * @param array $signup_ids Single ID or list of IDs to delete.
+	 * @return array
 	 */
 	public static function delete( $signup_ids = array() ) {
 		global $wpdb;

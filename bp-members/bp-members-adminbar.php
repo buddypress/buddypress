@@ -3,7 +3,7 @@
 /**
  * BuddyPress Members Toolbar
  *
- * Handles the member functions related to the WordPress Toolbar
+ * Handles the member functions related to the WordPress Toolbar.
  *
  * @package BuddyPress
  * @subpackage MembersAdminBar
@@ -15,7 +15,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Add the "My Account" menu and all submenus.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
+ *
  * @todo Deprecate WP 3.2 Toolbar compatibility when we drop 3.2 support
  */
 function bp_members_admin_bar_my_account_menu() {
@@ -66,10 +67,9 @@ function bp_members_admin_bar_my_account_menu() {
 add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
 
 /**
- * Adds the User Admin top-level menu to user pages
+ * Add the User Admin top-level menu to user pages.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  */
 function bp_members_admin_bar_user_admin_menu() {
 	global $bp, $wp_admin_bar;
@@ -136,10 +136,9 @@ function bp_members_admin_bar_user_admin_menu() {
 add_action( 'admin_bar_menu', 'bp_members_admin_bar_user_admin_menu', 99 );
 
 /**
- * Build the "Notifications" dropdown
+ * Build the "Notifications" dropdown.
  *
- * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  */
 function bp_members_admin_bar_notifications_menu() {
 
@@ -153,9 +152,9 @@ function bp_members_admin_bar_notifications_menu() {
 add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu', 90 );
 
 /**
- * Remove rogue WP core edit menu when viewing a single user
+ * Remove rogue WP core Edit menu when viewing a single user.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  */
 function bp_members_remove_edit_page_menu() {
 	if ( bp_is_user() ) {

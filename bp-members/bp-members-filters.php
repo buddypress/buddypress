@@ -3,7 +3,7 @@
 /**
  * BuddyPress Members Filters
  *
- * Member specific filters
+ * Filters specific to the Members component.
  *
  * @package BuddyPress
  * @subpackage MembersFilters
@@ -13,19 +13,20 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Escape commonly used fullname output functions
+ * Escape commonly used fullname output functions.
  */
 add_filter( 'bp_displayed_user_fullname',    'esc_html' );
 add_filter( 'bp_get_loggedin_user_fullname', 'esc_html' );
 
 /**
- * Load additional sign-up sanitization filters on bp_loaded. These are used
- * to prevent XSS in the BuddyPress sign-up process. You can unhook these to
- * allow for customization of your registration fields, however it is highly
- * recommended that you leave these in place for the safety of your network.
+ * Load additional sign-up sanitization filters on bp_loaded.
  *
- * @since BuddyPress (1.5)
- * @uses add_filter()
+ * These are used to prevent XSS in the BuddyPress sign-up process. You can
+ * unhook these to allow for customization of your registration fields;
+ * however, it is highly recommended that you leave these in place for the
+ * safety of your network.
+ *
+ * @since BuddyPress (1.5.0)
  */
 function bp_members_signup_sanitization() {
 
@@ -53,12 +54,12 @@ function bp_members_signup_sanitization() {
 add_action( 'bp_loaded', 'bp_members_signup_sanitization' );
 
 /**
- * Filter the user profile URL to point to BuddyPress profile edit
+ * Filter the user profile URL to point to BuddyPress profile edit.
  *
- * @since BuddyPress 1.6
+ * @since BuddyPress (1.6.0)
  *
- * @param string $url
- * @param int $user_id
+ * @param string $url WP profile edit URL.
+ * @param int $user_id ID of the user.
  * @param string $scheme
  * @return string
  */
