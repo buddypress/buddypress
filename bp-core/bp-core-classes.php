@@ -1332,6 +1332,7 @@ class BP_Core_User {
 		}
 
 		// get cache for single user only
+		// @todo Why only single user?
 		if ( ! is_array( $user_id ) ) {
 			$cache = wp_cache_get( $user_id, 'bp_last_activity' );
 
@@ -1355,6 +1356,11 @@ class BP_Core_User {
 				'date_recorded' => $last_activity->date_recorded,
 				'activity_id'   => $last_activity->id,
 			);
+		}
+
+		// If this was a single user query, update the cache
+		if ( ! is_array( $user_id ) && isset( $retval[ $user_id ] ) ) {
+			wp_cache_set( $user_id, $retval[ $user_id ], 'bp_last_activity' );
 		}
 
 		return $retval;
