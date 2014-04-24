@@ -279,4 +279,95 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		$this->assertSame( $expected, bp_core_get_user_displaynames( array( $u1, $u2, ) ) );
 	}
+
+	/**
+	 * @group bp_members_migrate_signups
+	 */
+	public function test_bp_members_migrate_signups_standard() {
+		$u = $this->create_user();
+		$u_obj = new WP_User( $u );
+
+		// Fake an old-style registration
+		$key = wp_hash( $u_obj->ID );
+		update_user_meta( $u, 'activation_key', $key );
+
+		global $wpdb;
+		$wpdb->update(
+			$wpdb->users,
+			array( 'user_status' => '2', ),
+			array( 'ID' => $u, ),
+			array( '%d', ),
+			array( '%d', )
+		);
+		clean_user_cache( $u );
+
+		bp_members_migrate_signups();
+
+		$found = BP_Signup::get();
+
+		// Use email address as a sanity check
+		$found_email = isset( $found['signups'][0]->user_email ) ? $found['signups'][0]->user_email : '';
+		$this->assertSame( $u_obj->user_email, $found_email );
+
+		// Check that activation keys match
+		$found_key = isset( $found['signups'][0]->activation_key ) ? $found['signups'][0]->activation_key : '';
+		$this->assertSame( $key, $found_key );
+	}
+
+	/**
+	 * @group bp_members_migrate_signups
+	 */
+	public function test_bp_members_migrate_signups_activation_key_but_user_status_0() {
+		$u = $this->create_user();
+		$u_obj = new WP_User( $u );
+
+		// Fake an old-style registration
+		$key = wp_hash( $u_obj->ID );
+		update_user_meta( $u, 'activation_key', $key );
+
+		// ...but ensure that user_status is 0. This mimics the
+		// behavior of certain plugins that disrupt the BP registration
+		// flow
+		global $wpdb;
+		$wpdb->update(
+			$wpdb->users,
+			array( 'user_status' => '0', ),
+			array( 'ID' => $u, ),
+			array( '%d', ),
+			array( '%d', )
+		);
+		clean_user_cache( $u );
+
+		bp_members_migrate_signups();
+
+		// No migrations should have taken place
+		$found = BP_Signup::get();
+		$this->assertEmpty( $found['total'] );
+	}
+
+	/**
+	 * @group bp_members_migrate_signups
+	 */
+	public function test_bp_members_migrate_signups_no_activation_key_but_user_status_2() {
+		$u = $this->create_user();
+		$u_obj = new WP_User( $u );
+
+		// Fake an old-style registration but without an activation key
+		global $wpdb;
+		$wpdb->update(
+			$wpdb->users,
+			array( 'user_status' => '2', ),
+			array( 'ID' => $u, ),
+			array( '%d', ),
+			array( '%d', )
+		);
+		clean_user_cache( $u );
+
+		bp_members_migrate_signups();
+
+		// Use email address as a sanity check
+		$found = BP_Signup::get();
+		$found_email = isset( $found['signups'][0]->user_email ) ? $found['signups'][0]->user_email : '';
+		$this->assertSame( $u_obj->user_email, $found_email );
+	}
 }

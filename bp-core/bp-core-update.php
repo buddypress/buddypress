@@ -365,40 +365,8 @@ function bp_update_to_2_0() {
 		// Maybe install the signups table
 		bp_core_maybe_install_signups();
 
-		$signups = get_users( array(
-			'fields'       => 'all_with_meta',
-			'meta_key'     => 'activation_key',
-			'meta_compare' => 'EXISTS',
-		) );
-
-		if ( empty( $signups ) ) {
-			return;
-		}
-
-		foreach ( $signups as $signup ) {
-			$meta = array();
-
-			if ( bp_is_active( 'xprofile' ) ) {
-				$meta['field_1'] = $signup->display_name;
-			}
-
-			$meta['password'] = $signup->user_pass;
-
-			$user_login = preg_replace( '/\s+/', '', sanitize_user( $signup->user_login, true ) );
-			$user_email = sanitize_email( $signup->user_email );
-
-			BP_Signup::add( array(
-				'user_login'     => $user_login,
-				'user_email'     => $user_email,
-				'registered'     => $signup->user_registered,
-				'activation_key' => $signup->activation_key,
-				'meta'           => $meta
-			) );
-
-			// Deleting these options will remove signups from users count
-			delete_user_option( $signup->ID, 'capabilities' );
-			delete_user_option( $signup->ID, 'user_level'   );
-		}
+		// Run the migration script
+		bp_members_migrate_signups();
 	}
 
 	/** Add BP options to the options table ***********************************/
