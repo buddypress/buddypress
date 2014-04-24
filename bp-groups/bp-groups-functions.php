@@ -101,6 +101,7 @@ function groups_create_group( $args = '' ) {
 		$group = groups_get_group( array( 'group_id' => (int) $group_id ) );
 		$name  = ! empty( $name ) ? $name : $group->name;
 		$slug  = ! empty( $slug ) ? $slug : $group->slug;
+		$description = ! empty( $description ) ? $description : $group->description;
 
 		// Groups need at least a name
 		if ( empty( $name ) ) {
