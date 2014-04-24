@@ -2,8 +2,6 @@
 /**
  * BuddyPress Member Loader
  *
- * A members component to help contain all of the user specific slugs
- *
  * @package BuddyPress
  * @subpackage Members
  */
@@ -14,9 +12,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 class BP_Members_Component extends BP_Component {
 
 	/**
-	 * Start the members component creation process
+	 * Start the members component creation process.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	public function __construct() {
 		parent::start(
@@ -30,9 +28,11 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
-	 * Include files
+	 * Include bp-members files.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
+	 * @see BP_Component::includes() for description of parameters.
+	 *
+	 * @param array $includes See {@link BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
@@ -55,12 +55,16 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup globals
+	 * Set up bp-members global settings.
 	 *
 	 * The BP_MEMBERS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::setup_globals() for description of parameters.
+	 *
+	 * @param array $args See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
@@ -167,7 +171,16 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup BuddyBar navigation
+	 * Set up component navigation.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::setup_nav() for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 *        description.
+	 * @param array $sub_nav Optional. See BP_Component::setup_nav() for
+	 *        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 		$bp = buddypress();
@@ -208,9 +221,7 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
-	 * Sets up the title for pages and <title>
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
+	 * Set up the title for pages and <title>.
 	 */
 	public function setup_title() {
 		$bp = buddypress();
@@ -230,6 +241,9 @@ class BP_Members_Component extends BP_Component {
 	}
 }
 
+/**
+ * Set up the bp-members component.
+ */
 function bp_setup_members() {
 	buddypress()->members = new BP_Members_Component();
 }
