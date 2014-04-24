@@ -170,7 +170,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		// prime cache
 		$a = BP_Core_User::get_last_activity( $u );
 
-		$this->assertNotEmpty( wp_cache_get( $u, 'bp_last_activity' ) );
+		$this->assertSame( $a[ $u ], wp_cache_get( $u, 'bp_last_activity' ) );
 	}
 
 	/**
