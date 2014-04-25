@@ -209,7 +209,7 @@ function xprofile_screen_change_avatar() {
 		} else {
 			do_action( 'xprofile_avatar_uploaded' );
 			bp_core_add_message( __( 'Your new avatar was uploaded successfully.', 'buddypress' ) );
-			bp_core_redirect( bp_loggedin_user_domain() );
+			bp_core_redirect( bp_displayed_user_domain() );
 		}
 	}
 
