@@ -1054,10 +1054,6 @@ function bp_core_delete_account( $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
-	// Bail if account deletion is disabled
-	if ( bp_disable_account_deletion() )
-		return false;
-
 	// Site admins cannot be deleted
 	if ( is_super_admin( $user_id ) )
 		return false;

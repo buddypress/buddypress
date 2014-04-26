@@ -333,6 +333,11 @@ function bp_settings_action_delete_account() {
 		return;
 	}
 
+	// Bail if account deletion is disabled
+	if ( bp_disable_account_deletion() && ! bp_current_user_can( 'delete_users' ) ) {
+		return false;
+	}
+
 	// Nonce check
 	check_admin_referer( 'delete-account' );
 
