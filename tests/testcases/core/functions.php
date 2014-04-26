@@ -330,4 +330,19 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 			}
 		}
 	}
+
+	/**
+	 * @group bp_core_add_root_component
+	 */
+	public function test_add_root_component_not_in_bp_pages() {
+		buddypress()->foo = new stdClass;
+		buddypress()->foo->id = 'foo';
+		buddypress()->foo->slug = 'foo';
+
+		bp_core_add_root_component( 'foo' );
+
+		$this->assertTrue( in_array( 'foo', buddypress()->add_root ) );
+		$this->assertTrue( buddypress()->foo->has_directory );
+		$this->assertNotEmpty( buddypress()->loaded_components['foo'] );
+	}
 }
