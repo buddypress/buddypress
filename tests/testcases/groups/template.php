@@ -99,6 +99,33 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * Test using the 'slug' parameter in bp_has_groups()
+	 *
+	 * Note: The 'slug' parameter currently also requires the 'type' to be set
+	 * to 'single-group'.
+	 *
+	 * @group bp_has_groups
+	 */
+	public function test_bp_has_groups_single_group_with_slug() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Test Group',
+			'slug' => 'test-group',
+			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 100 ),
+		) );
+
+		global $groups_template;
+		bp_has_groups( array(
+			'type' => 'single-group',
+			'slug' => 'test-group',
+		) );
+
+		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$this->assertEquals( array( $g1 ), $ids );
+
+		$this->assertEquals( 1, $groups_template->group_count );
+	}
+
+	/**
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_vanilla() {
