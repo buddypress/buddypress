@@ -159,6 +159,27 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	/**
 	 * @group last_activity
 	 */
+	public function test_get_last_activity_in_cache_single_user() {
+		$u    = $this->create_user();
+		$time = bp_core_current_time();
+
+		BP_Core_User::update_last_activity( $u, $time );
+
+		// Cache is set during user creation. Clear to reflect actual pageload
+		wp_cache_delete( $u, 'bp_last_activity' );
+
+		// prime cache & get uncached results
+		$a = BP_Core_User::get_last_activity( $u );
+
+		// get cached results
+		$b = BP_Core_User::get_last_activity( $u );
+
+		$this->assertSame( $a, $b );
+	}
+
+	/**
+	 * @group last_activity
+	 */
 	public function test_update_last_activity() {
 		$u = $this->create_user();
 		$time = bp_core_current_time();
