@@ -18,7 +18,8 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * ticket BP4915
+	 * @ticket BP4915
+	 * @group bp_core_delete_account
 	 */
 	public function test_bp_core_delete_account() {
 		// Stash
@@ -52,24 +53,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		bp_core_delete_account( $user4 );
 		$maybe_user = new WP_User( $user4 );
 		$this->assertNotEquals( 0, $maybe_user->ID );
-		unset( $maybe_user );
-
-		// User cannot delete own account when account deletion is disabled
-		$user5 = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-		$this->set_current_user( $user5 );
-		bp_update_option( 'bp-disable-account-deletion', 1 );
-		bp_core_delete_account( $user5 );
-		$maybe_user = new WP_User( $user5 );
-		$this->assertNotEquals( 0, $maybe_user->ID );
-		unset( $maybe_user );
-
-		// User can delete own account when account deletion is enabled
-		$user6 = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-		$this->set_current_user( $user6 );
-		bp_update_option( 'bp-disable-account-deletion', 0 );
-		bp_core_delete_account( $user6 );
-		$maybe_user = new WP_User( $user6 );
-		$this->assertEquals( 0, $maybe_user->ID );
 		unset( $maybe_user );
 
 		// Cleanup
