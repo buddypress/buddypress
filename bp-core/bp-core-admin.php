@@ -554,30 +554,30 @@ class BP_Admin {
 				<h2 class="about-headline-callout"><?php _e( 'New Administrative Tools', 'buddypress' ); ?></h2>
 
 				<div class="feature-section col two-col">
-					<div>
+					<div class="col-1">
 						<h4><?php esc_html_e( 'Extended Profiles in Admin', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Site administrators can edit members&#8217; xProfile data at Dashboard > Users > Extended Profiles.', 'buddypress' ); ?></p>
-						<img src="<?php echo $image_base ?>admin-xprofile.jpg" style="width:90%" />
+						<img src="<?php echo $image_base ?>admin-xprofile.jpg" style="width:95%" />
 					</div>
 
-					<div class="last-feature">
+					<div class="col-2 last-feature">
 						<h4><?php esc_html_e( 'Registration Management', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Perform common tasks with pending signups - including resending activation emails and manually activating accounts - on the new Pending tab of Dashboard > Users.', 'buddypress' ); ?></p>
-						<img src="<?php echo $image_base ?>users-pending.jpg" style="width:90%" />
+						<img src="<?php echo $image_base ?>users-pending.jpg" style="width:95%" />
 					</div>
 				</div>
 
 				<div class="feature-section col two-col">
-					<div>
+					<div class="col-1">
 						<h4><?php esc_html_e( 'BuddyPress Repair Tools', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Dashboard > Tools > BuddyPress contains a number of tools for correcting data that occasionally gets out of sync on BP installs.', 'buddypress' ); ?></p>
-						<img src="<?php echo $image_base ?>tools-buddypress.jpg" style="width:90%" />
+						<img src="<?php echo $image_base ?>tools-buddypress.jpg" style="width:95%" />
 					</div>
 
-					<div class="feature-section col two-col">
+					<div class="col-2 last-feature">
 						<h4><?php esc_html_e( 'Mark Spammers in Admin', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Admins on non-Multisite installations can now perform spam actions from Dashboard > Users > All Users.', 'buddypress' ); ?></p>
-						<img src="<?php echo $image_base ?>user-mark-spam.jpg" style="width:90%" />
+						<img src="<?php echo $image_base ?>user-mark-spam.jpg" style="width:95%" />
 					</div>
 				</div>
 
@@ -588,7 +588,7 @@ class BP_Admin {
 			<div class="changelog">
 				<h2 class="about-headline-callout"><?php esc_html_e( 'A More Dynamic Activity Stream', 'buddypress' ); ?></h2>
 				<div class="feature-section col two-col">
-					<div>
+					<div class="col-1">
 						<p><?php esc_html_e( 'Spend a lot of time viewing the activity stream? BuddyPress 2.0 automatically lets you know when new items are waiting to be loaded.', 'buddypress' ); ?></p>
 
 						<p><?php esc_html_e( 'The activity stream is better integrated with blog posts, too. Comment on a blog post, and an activity item is posted. Comment on a blog-related activity item, and a blog comment is posted. No more worrying about fractured conversations.', 'buddypress' ) ?></p>
@@ -596,8 +596,8 @@ class BP_Admin {
 						<p><?php esc_html_e( 'We&#8217;ve also reworked the way that phrases like "Boone posted an update" are handled, so that they&#8217;re always up-to-date and always translatable.', 'buddypress' ) ?></p>
 					</div>
 
-					<div class="feature-section col two-col">
-						<img src="<?php echo $image_base ?>load-newest.jpg" style="width:90%" />
+					<div class="col-2 last-feature">
+						<img src="<?php echo $image_base ?>load-newest.jpg" />
 					</div>
 				</div>
 			</div>
