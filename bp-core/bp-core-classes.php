@@ -1321,46 +1321,35 @@ class BP_Core_User {
 	public static function get_last_activity( $user_id ) {
 		global $wpdb;
 
-		if ( is_array( $user_id ) ) {
-			$user_ids = wp_parse_id_list( $user_id );
-		} else {
-			$user_ids = array( absint( $user_id ) );
-		}
+		// Sanitize and remove empty values
+		$user_ids = array_filter( wp_parse_id_list( $user_id ) );
 
 		if ( empty( $user_ids ) ) {
 			return false;
 		}
 
-		// get cache for single user only
-		// @todo Why only single user?
-		if ( ! is_array( $user_id ) ) {
-			$cache = wp_cache_get( $user_id, 'bp_last_activity' );
+		$uncached_user_ids = bp_get_non_cached_ids( $user_ids, 'bp_last_activity' );
+		if ( ! empty( $uncached_user_ids ) ) {
+			$bp = buddypress();
 
-			if ( false !== $cache ) {
-				return $cache;
+			$user_ids_sql = implode( ',', $uncached_user_ids );
+			$user_count   = count( $uncached_user_ids );
+
+			$last_activities = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, date_recorded FROM {$bp->members->table_name_last_activity} WHERE component = %s AND type = 'last_activity' AND user_id IN ({$user_ids_sql}) LIMIT {$user_count}", $bp->members->id ) );
+
+			foreach ( $last_activities as $last_activity ) {
+				wp_cache_set( $last_activity->user_id, array(
+					'user_id'       => $last_activity->user_id,
+					'date_recorded' => $last_activity->date_recorded,
+					'activity_id'   => $last_activity->id,
+				), 'bp_last_activity' );
 			}
 		}
 
-		$bp = buddypress();
-
-		$user_ids_sql = implode( ',', $user_ids );
-		$user_count   = count( $user_ids );
-
-		$last_activities = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, date_recorded FROM {$bp->members->table_name_last_activity} WHERE component = %s AND type = 'last_activity' AND user_id IN ({$user_ids_sql}) LIMIT {$user_count}", $bp->members->id ) );
-
-		// Re-key
+		// Fetch all user data from the cache
 		$retval = array();
-		foreach ( $last_activities as $last_activity ) {
-			$retval[ $last_activity->user_id ] = array(
-				'user_id'       => $last_activity->user_id,
-				'date_recorded' => $last_activity->date_recorded,
-				'activity_id'   => $last_activity->id,
-			);
-		}
-
-		// If this was a single user query, update the cache
-		if ( ! is_array( $user_id ) && isset( $retval[ $user_id ] ) ) {
-			wp_cache_set( $user_id, $retval[ $user_id ], 'bp_last_activity' );
+		foreach ( $user_ids as $user_id ) {
+			$retval[ $user_id ] = wp_cache_get( $user_id, 'bp_last_activity' );
 		}
 
 		return $retval;
@@ -1385,7 +1374,7 @@ class BP_Core_User {
 
 		$activity = self::get_last_activity( $user_id );
 
-		if ( ! empty( $activity ) ) {
+		if ( ! empty( $activity[ $user_id ] ) ) {
 			$updated = $wpdb->update(
 				$table_name,
 
@@ -1442,7 +1431,7 @@ class BP_Core_User {
 				)
 			);
 
-			// setup activity array for caching
+			// set up activity array for caching
 			// view the foreach loop in the get_last_activity() method for format
 			$activity = array();
 			$activity[ $user_id ] = array(
@@ -1453,7 +1442,7 @@ class BP_Core_User {
 		}
 
 		// set cache
-		wp_cache_set( $user_id, $activity, 'bp_last_activity' );
+		wp_cache_set( $user_id, $activity[ $user_id ], 'bp_last_activity' );
 
 		return $updated;
 	}

@@ -158,6 +158,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group last_activity
+	 * @group cache
 	 */
 	public function test_get_last_activity_store_in_cache() {
 		$u = $this->create_user();
@@ -175,21 +176,72 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group last_activity
+	 * @group cache
 	 */
-	public function test_get_last_activity_in_cache_single_user() {
+	public function test_get_last_activity_store_in_cache_multiple_users() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$time = bp_core_current_time();
+
+		// Cache is set during user creation. Clear to reflect actual
+		// pageload
+		wp_cache_delete( $u1, 'bp_last_activity' );
+		wp_cache_delete( $u2, 'bp_last_activity' );
+
+		// prime cache
+		$a = BP_Core_User::get_last_activity( array( $u1, $u2 ) );
+
+		$this->assertSame( $a[ $u1 ], wp_cache_get( $u1, 'bp_last_activity' ) );
+		$this->assertSame( $a[ $u2 ], wp_cache_get( $u2, 'bp_last_activity' ) );
+	}
+
+	/**
+	 * @group last_activity
+	 * @group cache
+	 */
+	public function test_get_last_activity_from_cache_single_user() {
 		$u    = $this->create_user();
 		$time = bp_core_current_time();
 
 		BP_Core_User::update_last_activity( $u, $time );
 
-		// Cache is set during user creation. Clear to reflect actual pageload
+		// Cache is set during user creation. Clear to reflect actual
+		// pageload
 		wp_cache_delete( $u, 'bp_last_activity' );
 
-		// prime cache
-		$a = BP_Core_User::get_last_activity( $u );
-		$b = BP_Core_User::get_last_activity( $u );
+		// Prime cache
+		$uncached = BP_Core_User::get_last_activity( $u );
 
-		$this->assertSame( $a, $b );
+		// Fetch again to get from the cache
+		$cached = BP_Core_User::get_last_activity( $u );
+
+		$this->assertSame( $uncached, $cached );
+	}
+
+	/**
+	 * @group last_activity
+	 * @group cache
+	 */
+	public function test_get_last_activity_in_cache_multiple_users() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$time = bp_core_current_time();
+
+		BP_Core_User::update_last_activity( $u1, $time );
+		BP_Core_User::update_last_activity( $u2, $time );
+
+		// Cache is set during user creation. Clear to reflect actual pageload
+		wp_cache_delete( $u1, 'bp_last_activity' );
+		wp_cache_delete( $u2, 'bp_last_activity' );
+
+		// Prime cache
+		$uncached = BP_Core_User::get_last_activity( array( $u1, $u2 ) );
+
+		// Second grab will be from the cache
+		$cached = BP_Core_User::get_last_activity( array( $u1, $u2 ) );
+		$cached_u1 = wp_cache_get( $u1, 'bp_last_activity' );
+
+		$this->assertSame( $cached, $uncached );
 	}
 
 	/**
