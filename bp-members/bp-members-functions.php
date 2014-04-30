@@ -1036,18 +1036,16 @@ function bp_last_activity_migrate() {
 
 	$bp = buddypress();
 
-	// The "NOT IN" clause prevents duplicates
+	// Wipe out existing last_activity data in the activity table -
+	// this helps to prevent duplicates when pulling from the usermeta
+	// table
+	$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->members->table_name_last_activity} WHERE component = %s AND type = 'last_activity'", $bp->members->id ) );
+
 	$sql = "INSERT INTO {$bp->members->table_name_last_activity} (`user_id`, `component`, `type`, `action`, `content`, `primary_link`, `item_id`, `date_recorded` ) (
 		  SELECT user_id, '{$bp->members->id}' as component, 'last_activity' as type, '' as action, '' as content, '' as primary_link, 0 as item_id, meta_value AS date_recorded
 		  FROM {$wpdb->usermeta}
 		  WHERE
 		    meta_key = 'last_activity'
-		    AND
-		    user_id NOT IN (
-		      SELECT user_id
-		      FROM {$bp->members->table_name_last_activity}
-		      WHERE component = '{$bp->members->id}' AND type = 'last_activity'
-		    )
 	);";
 
 	return $wpdb->query( $sql );

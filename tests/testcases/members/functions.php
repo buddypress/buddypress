@@ -353,4 +353,50 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$found_email = isset( $found['signups'][0]->user_email ) ? $found['signups'][0]->user_email : '';
 		$this->assertSame( $u_obj->user_email, $found_email );
 	}
+
+	/**
+	 * @group bp_last_activity_migrate
+	 * @expectedIncorrectUsage update_user_meta( $user_id, 'last_activity' )
+	 * @expectedIncorrectUsage get_user_meta( $user_id, 'last_activity' )
+	 */
+	public function test_bp_last_activity_migrate() {
+		// We explicitly do not want last_activity created, so use the
+		// WP factory methods
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		$time = time();
+		$t1 = date( 'Y-m-d H:i:s', $time - 50 );
+		$t2 = date( 'Y-m-d H:i:s', $time - 500 );
+		$t3 = date( 'Y-m-d H:i:s', $time - 5000 );
+
+		update_user_meta( $u1, 'last_activity', $t1 );
+		update_user_meta( $u2, 'last_activity', $t2 );
+		update_user_meta( $u3, 'last_activity', $t3 );
+
+		// Create an existing entry in last_activity to test no dupes
+		global $wpdb, $bp;
+		$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->members->table_name_last_activity} (`user_id`, `component`, `type`, `action`, `content`, `primary_link`, `item_id`, `date_recorded` ) VALUES ( %d, %s, %s, %s, %s, %s, %d, %s )", $u2, $bp->members->id, 'last_activity', '', '', 0, $t1 ) );
+
+		bp_last_activity_migrate();
+
+		$expected = array(
+			$u1 => $t1,
+			$u2 => $t2,
+			$u3 => $t3,
+		);
+
+		$found = array(
+			$u1 => '',
+			$u2 => '',
+			$u3 => '',
+		);
+
+		foreach ( $found as $uid => $v ) {
+			$found[ $uid ] = bp_get_user_last_activity( $uid );
+		}
+
+		$this->assertSame( $expected, $found );
+	}
 }
