@@ -1514,6 +1514,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		<div class="datebox">
 
 			<label for="<?php bp_the_profile_field_input_name(); ?>_day"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+			<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 
 			<select <?php echo $day_html; ?>>
 				<?php bp_the_profile_field_options( array( 'type' => 'day', 'user_id' => $user_id ) ); ?>
@@ -1738,6 +1739,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 		<div class="checkbox">
 
 			<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+			<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 			<?php bp_the_profile_field_options( "user_id={$user_id}" ); ?>
 
 		</div>
@@ -1875,6 +1877,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 		<div class="radio">
 
 			<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+			<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 			<?php bp_the_profile_field_options( "user_id={$user_id}" );
 
 			if ( ! bp_get_the_profile_field_is_required() ) : ?>
@@ -2019,6 +2022,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 		) );
 	?>
 		<label for="<?php bp_the_profile_field_input_name(); ?>[]"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 		<select <?php echo $html; ?>>
 			<?php bp_the_profile_field_options( "user_id={$user_id}" ); ?>
 		</select>
@@ -2163,6 +2167,7 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 		$html = $this->get_edit_field_html_elements( $raw_properties );
 	?>
 		<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 		<select <?php echo $html; ?>>
 			<?php bp_the_profile_field_options( "user_id={$user_id}" ); ?>
 		</select>
@@ -2302,6 +2307,7 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 		) );
 	?>
 		<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 		<textarea <?php echo $html; ?>><?php bp_the_profile_field_edit_value(); ?></textarea>
 	<?php
 	}
@@ -2384,6 +2390,7 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 		) );
 	?>
 		<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 		<input <?php echo $html; ?>>
 	<?php
 	}
@@ -2463,6 +2470,7 @@ class BP_XProfile_Field_Type_Number extends BP_XProfile_Field_Type {
 		) );
 	?>
 		<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 		<input <?php echo $html; ?>>
 	<?php
 	}
