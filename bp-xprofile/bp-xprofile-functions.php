@@ -95,13 +95,12 @@ function bp_xprofile_create_field_type( $type ) {
 	$class = isset( $field[$type] ) ? $field[$type] : '';
 
 	/**
-	 * For backpat and to handle (missing) field types introduced by other plugins, fallback to
-	 * textbox if a type is unknown. Textbox validation and display is intentionally low key.
+	 * To handle (missing) field types, fallback to a placeholder field object if a type is unknown.
 	 */
 	if ( $class && class_exists( $class ) ) {
 		return new $class;
 	} else {
-		return new BP_XProfile_Field_Type_Textbox;
+		return new BP_XProfile_Field_Type_Placeholder;
 	}
 }
 
