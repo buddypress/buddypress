@@ -3,7 +3,7 @@
 /**
  * BuddyPress Member Screens
  *
- * Handlers for member screens that aren't handled elsewhere
+ * Handlers for member screens that aren't handled elsewhere.
  *
  * @package BuddyPress
  * @subpackage MembersScreens
@@ -13,10 +13,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Handles the display of the profile page by loading the correct template file.
- *
- * @package BuddyPress Members
- * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
+ * Handle the display of the profile page by loading the correct template file.
  */
 function bp_members_screen_display_profile() {
 	do_action( 'bp_members_screen_display_profile' );
@@ -24,15 +21,7 @@ function bp_members_screen_display_profile() {
 }
 
 /**
- * Handles the display of the members directory index
- *
- * @global object $bp
- *
- * @uses bp_is_user()
- * @uses bp_is_current_component()
- * @uses do_action()
- * @uses bp_core_load_template()
- * @uses apply_filters()
+ * Handle the display of the members directory index.
  */
 function bp_members_screen_index() {
 	if ( bp_is_members_directory() ) {
@@ -45,7 +34,9 @@ function bp_members_screen_index() {
 }
 add_action( 'bp_screens', 'bp_members_screen_index' );
 
-
+/**
+ * Handle the loading of the signup screen.
+ */
 function bp_core_screen_signup() {
 	global $bp;
 
@@ -220,6 +211,9 @@ function bp_core_screen_signup() {
 }
 add_action( 'bp_screens', 'bp_core_screen_signup' );
 
+/**
+ * Handle the loading of the Activate screen.
+ */
 function bp_core_screen_activation() {
 	global $bp;
 
@@ -267,31 +261,31 @@ function bp_core_screen_activation() {
 }
 add_action( 'bp_screens', 'bp_core_screen_activation' );
 
-/** Theme Compatability *******************************************************/
+/** Theme Compatibility *******************************************************/
 
 /**
  * The main theme compat class for BuddyPress Members.
  *
- * This class sets up the necessary theme compatability actions to safely output
+ * This class sets up the necessary theme compatibility actions to safely output
  * member template parts to the_title and the_content areas of a theme.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  */
 class BP_Members_Theme_Compat {
 
 	/**
-	 * Setup the members component theme compatibility
+	 * Set up the members component theme compatibility.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function __construct() {
 		add_action( 'bp_setup_theme_compat', array( $this, 'is_members' ) );
 	}
 
 	/**
-	 * Are we looking at something that needs members theme compatability?
+	 * Are we looking at something that needs members theme compatibility?
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function is_members() {
 
@@ -330,11 +324,12 @@ class BP_Members_Theme_Compat {
 	/**
 	 * Add template hierarchy to theme compat for the members directory page.
 	 *
-	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 * This is to mirror how WordPress has
+	 * {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @param string $templates The templates from bp_get_theme_compat_templates().
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates = array() ) {
@@ -352,9 +347,9 @@ class BP_Members_Theme_Compat {
 	}
 
 	/**
-	 * Update the global $post with directory data
+	 * Update the global $post with directory data.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function directory_dummy_post() {
 		bp_theme_compat_reset_post( array(
@@ -371,9 +366,9 @@ class BP_Members_Theme_Compat {
 	}
 
 	/**
-	 * Filter the_content with the members index template part
+	 * Filter the_content with the members index template part.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function directory_content() {
 		return bp_buffer_template_part( 'members/index', null, false );
@@ -384,11 +379,13 @@ class BP_Members_Theme_Compat {
 	/**
 	 * Add custom template hierarchy to theme compat for member pages.
 	 *
-	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 * This is to mirror how WordPress has
+	 * {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @param string $templates The templates from
+	 *        bp_get_theme_compat_templates().
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
@@ -412,9 +409,9 @@ class BP_Members_Theme_Compat {
 	}
 
 	/**
-	 * Update the global $post with the displayed user's data
+	 * Update the global $post with the displayed user's data.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function single_dummy_post() {
 		bp_theme_compat_reset_post( array(
@@ -431,9 +428,9 @@ class BP_Members_Theme_Compat {
 	}
 
 	/**
-	 * Filter the_content with the members' single home template part
+	 * Filter the_content with the members' single home template part.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function single_dummy_content() {
 		return bp_buffer_template_part( 'members/single/home', null, false );
@@ -447,14 +444,14 @@ new BP_Members_Theme_Compat();
  * This class sets up the necessary theme compatability actions to safely output
  * registration template parts to the_title and the_content areas of a theme.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  */
 class BP_Registration_Theme_Compat {
 
 	/**
 	 * Setup the groups component theme compatibility
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function __construct() {
 		add_action( 'bp_setup_theme_compat', array( $this, 'is_registration' ) );
@@ -463,7 +460,7 @@ class BP_Registration_Theme_Compat {
 	/**
 	 * Are we looking at either the registration or activation pages?
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function is_registration() {
 
@@ -484,13 +481,14 @@ class BP_Registration_Theme_Compat {
 	/** Template ***********************************************************/
 
 	/**
-	 * Add template hierarchy to theme compat for registration / activation pages.
+	 * Add template hierarchy to theme compat for registration/activation pages.
 	 *
-	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 * This is to mirror how WordPress has
+	 * {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @param string $templates The templates from bp_get_theme_compat_templates().
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function template_hierarchy( $templates ) {
@@ -509,9 +507,9 @@ class BP_Registration_Theme_Compat {
 	}
 
 	/**
-	 * Update the global $post with dummy data
+	 * Update the global $post with dummy data.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function dummy_post() {
 		// Registration page
@@ -549,7 +547,7 @@ class BP_Registration_Theme_Compat {
 	/**
 	 * Filter the_content with either the register or activate templates.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function dummy_content() {
 		if ( bp_is_register_page() ) {
