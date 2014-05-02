@@ -540,6 +540,11 @@ function bp_blogs_update_post( $post ) {
  * @return bool|object Returns false on failure, the comment object on success.
  */
 function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
+	// bail if activity component is not active
+	if ( ! bp_is_active( 'activity' ) ) {
+		return;
+	}
+
 	// Get the users comment
 	$recorded_comment = get_comment( $comment_id );
 
