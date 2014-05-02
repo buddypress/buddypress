@@ -852,3 +852,68 @@ function bp_blogs_activity_comment_permalink( $retval ) {
 	return $retval;
 }
 add_filter( 'bp_get_activity_comment_permalink', 'bp_blogs_activity_comment_permalink' );
+
+/**
+ * Changes single activity comment entries to use the blog comment permalink.
+ *
+ * This is only done if the activity comment is associated with a blog comment.
+ *
+ * @since BuddyPress (2.0.1)
+ *
+ * @param string $retval The activity permalink
+ * @param BP_Activity_Activity $activity
+ * @return string
+ */
+function bp_blogs_activity_comment_single_permalink( $retval, $activity ) {
+	if ( 'activity_comment' !== $activity->type ) {
+		return $retval;
+	}
+
+	$blog_comment_id = bp_activity_get_meta( $activity->id, 'bp_blogs_post_comment_id' );
+
+	if ( ! empty( $blog_comment_id ) ) {
+		$retval = $activity->primary_link;
+	}
+
+	return $retval;
+}
+add_filter( 'bp_activity_get_permalink', 'bp_blogs_activity_comment_single_permalink', 10, 2 );
+
+/**
+ * Formats single activity comment entries to use the blog comment action.
+ *
+ * This is only done if the activity comment is associated with a blog comment.
+ *
+ * @since BuddyPress (2.0.1)
+ *
+ * @param string $retval The activity action
+ * @param BP_Activity_Activity $activity
+ * @return string
+ */
+function bp_blogs_activity_comment_single_action( $retval, $activity ) {
+	if ( 'activity_comment' !== $activity->type ) {
+		return $retval;
+	}
+
+	$blog_comment_id = bp_activity_get_meta( $activity->id, 'bp_blogs_post_comment_id' );
+
+	if ( ! empty( $blog_comment_id ) ) {
+		// fetch the parent blog post activity item
+		$parent_blog_post_activity = new BP_Activity_Activity( $activity->item_id );
+
+		// fake a 'new_blog_comment' activity object
+		$object = $activity;
+
+		// override 'item_id' to use blog ID
+		$object->item_id = $parent_blog_post_activity->item_id;
+
+		// override 'secondary_item_id' to use comment ID
+		$object->secondary_item_id = $blog_comment_id;
+
+		// now format the activity action using the 'new_blog_comment' action callback
+		$retval = bp_blogs_format_activity_action_new_blog_comment( '', $object );
+	}
+
+	return $retval;
+}
+add_filter( 'bp_get_activity_action_pre_meta', 'bp_blogs_activity_comment_single_action', 10, 2 );
