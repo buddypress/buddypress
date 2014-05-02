@@ -706,7 +706,7 @@ function bp_legacy_theme_post_update() {
 	if ( empty( $activity_id ) )
 		exit( '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>' );
 
-	$last_recorded = isset( $_POST['since'] ) ? date( 'Y-m-d H:i:s', intval( $_POST['since'] ) ) : 0;
+	$last_recorded = ! empty( $_POST['since'] ) ? date( 'Y-m-d H:i:s', intval( $_POST['since'] ) ) : 0;
 	if ( $last_recorded ) {
 		$activity_args = array( 'since' => $last_recorded );
 		$bp->activity->last_recorded = $last_recorded;
