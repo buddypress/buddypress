@@ -2519,6 +2519,7 @@ class BP_XProfile_Field_Type_Placeholder extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.1)
 	 */
 	public function __construct() {
+		$this->set_format( '/.*/', 'replace' );
 	}
 
 	/**
