@@ -431,7 +431,7 @@ class BP_Admin {
 	public function modify_plugin_action_links( $links, $file ) {
 
 		// Return normal links if not BuddyPress
-		if ( plugin_basename( buddypress()->file ) != $file )
+		if ( plugin_basename( buddypress()->basename ) != $file )
 			return $links;
 
 		// Add a few links to the existing links array
