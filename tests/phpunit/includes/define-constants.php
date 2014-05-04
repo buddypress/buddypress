@@ -20,7 +20,7 @@ if ( getenv( 'WP_TESTS_DIR' ) ) {
 	define( 'WP_TESTS_DIR', getenv( 'WP_TESTS_DIR' ) );
 	define( 'WP_ROOT_DIR', WP_TESTS_DIR );
 } else {
-	define( 'WP_ROOT_DIR', dirname( dirname( dirname( dirname( dirname( dirname( __DIR__ ) ) ) ) ) ) );
+	define( 'WP_ROOT_DIR', dirname( dirname( dirname( dirname( dirname( dirname( dirname( __DIR__ ) ) ) ) ) ) ) );
 	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
 }
 
