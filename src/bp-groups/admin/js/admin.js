@@ -1,3 +1,5 @@
+/* global BP_Group_Admin, group_id, isRtl */
+
 (function($) {
 	function add_member_to_list( e, ui ) {
 		var remove_id = 'bp-groups-remove-new-member-' + ui.item.value;
@@ -38,7 +40,7 @@
 			window.warn_on_leave = false;
 		});
 
-		window.onbeforeunload = function(e) {
+		window.onbeforeunload = function() {
 			if ( window.warn_on_leave ) {
 				return BP_Group_Admin.warn_on_leave;
 			}

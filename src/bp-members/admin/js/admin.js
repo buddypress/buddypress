@@ -1,3 +1,5 @@
+/* exported clear */
+
 ( function( $ ) {
 	// Profile Visibility Settings
 

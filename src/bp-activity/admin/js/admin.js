@@ -1,3 +1,4 @@
+/* global bp_activity_admin_vars, postboxes, wpAjax */
 (function( $ ) {
 
 /**
@@ -19,7 +20,7 @@ var activityReply = {
 
 		// Close textarea on escape
 		$(document).on( 'keyup', '#bp-activities:visible', function( e ) {
-			if ( 27 == e.which ) {
+			if ( 27 === e.which ) {
 				activityReply.close();
 			}
 		});
@@ -30,7 +31,7 @@ var activityReply = {
 	 *
 	 * @since BuddyPress (1.6)
 	 */
-	open : function( e ) {
+	open : function() {
 		// Hide the container row, and move it to the new location
 		var box = $( '#bp-activities-container' ).hide();
 		$( this ).parents( 'tr' ).after( box );
@@ -47,9 +48,9 @@ var activityReply = {
 	 *
 	 * @since BuddyPress (1.6)
 	 */
-	close : function( e ) {
+	close : function() {
 		// Hide the container row
-		$('#bp-activities-container').fadeOut( '200', function () { 
+		$('#bp-activities-container').fadeOut( '200', function () {
 
 			// Empty and unfocus the text area
 			$( '#bp-activities' ).val( '' ).blur();
@@ -67,7 +68,7 @@ var activityReply = {
 	 *
 	 * @since BuddyPress (1.6)
 	 */
-	send : function( e ) {
+	send : function() {
 		// Hide any existing error message, and show the loading spinner
 		$( '#bp-replysubmit .error' ).hide();
 		$( '#bp-replysubmit .waiting' ).show();
@@ -123,7 +124,7 @@ var activityReply = {
 		var bg, id, response;
 
 		// Handle any errors in the response
-		if ( typeof( xml ) == 'string' ) {
+		if ( typeof( xml ) === 'string' ) {
 			activityReply.error( { 'responseText': xml } );
 			return false;
 		}
@@ -136,7 +137,7 @@ var activityReply = {
 		response = response.responses[0];
 
 		// Close and reset the reply row, and add the new Activity item into the list.
-		$('#bp-activities-container').fadeOut( '200', function () { 
+		$('#bp-activities-container').fadeOut( '200', function () {
 
 			// Empty and unfocus the text area
 			$( '#bp-activities' ).val( '' ).blur();

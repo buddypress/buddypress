@@ -1,13 +1,20 @@
+/* exported add_option, show_options, hide, fixHelper */
+/* jshint scripturl: true */
+
 function add_option(forWhat) {
-	var holder    = document.getElementById(forWhat + "_more");
-	var theId     = document.getElementById(forWhat + '_option_number').value;
-	var newDiv    = document.createElement('p');
-	var newOption = document.createElement('input');
-	var span      = document.createElement( 'span' );
-	var txt       = document.createTextNode( "\u00A0\u039E\u00A0" );
-	var isDefault = document.createElement( 'input' );
-	var span1     = document.createElement( 'span' );
-	var txt1      = document.createTextNode( " Default Value " );
+	var holder  = document.getElementById(forWhat + '_more'),
+		theId     = document.getElementById(forWhat + '_option_number').value,
+		newDiv    = document.createElement('p'),
+		newOption = document.createElement('input'),
+		span      = document.createElement( 'span' ),
+		txt       = document.createTextNode( '\u00A0\u039E\u00A0' ),
+		isDefault = document.createElement( 'input' ),
+		span1     = document.createElement( 'span' ),
+		txt1      = document.createTextNode( ' Default Value ' ),
+
+		toDelete     = document.createElement( 'a' ),
+		toDeleteText = document.createTextNode( '[x]' );
+
 
 	newDiv.setAttribute('id', forWhat + '_div' + theId);
 	newDiv.setAttribute('class', 'sortable');
@@ -18,7 +25,7 @@ function add_option(forWhat) {
 
 	span.appendChild( txt );
 
-	if ( forWhat == 'checkbox' || forWhat == 'multiselectbox' ) {
+	if ( forWhat === 'checkbox' || forWhat === 'multiselectbox' ) {
 		isDefault.setAttribute( 'type', 'checkbox' );
 		isDefault.setAttribute( 'name', 'isDefault_' + forWhat + '_option[' + theId + ']' );
 	} else {
@@ -30,16 +37,14 @@ function add_option(forWhat) {
 
 	span1.appendChild( txt1 );
 
-	var toDelete     = document.createElement( 'a' );
-	var toDeleteText = document.createTextNode( '[x]' );
 
-	toDelete.setAttribute( 'href', "javascript:hide('" + forWhat + '_div' + theId + "')" );
+	toDelete.setAttribute( 'href', 'javascript:hide("' + forWhat + '_div' + theId + '")' );
 	toDelete.setAttribute( 'class', 'delete' );
 	toDelete.appendChild( toDeleteText );
 
 	newDiv.appendChild( span );
 	newDiv.appendChild( newOption );
-	newDiv.appendChild( document.createTextNode( " " ) );
+	newDiv.appendChild( document.createTextNode( ' ' ) );
 	newDiv.appendChild( isDefault );
 	newDiv.appendChild( span1 );
 	newDiv.appendChild( toDelete );
@@ -49,11 +54,11 @@ function add_option(forWhat) {
 	enableSortableFieldOptions( forWhat );
 
 	// set focus on newly created element
-	document.getElementById(forWhat + "_option" + theId).focus();
+	document.getElementById(forWhat + '_option' + theId).focus();
 
 	theId++;
 
-	document.getElementById(forWhat + "_option_number").value = theId;
+	document.getElementById(forWhat + '_option_number').value = theId;
 }
 
 function show_options(forWhat) {
@@ -62,25 +67,31 @@ function show_options(forWhat) {
 	document.getElementById( 'multiselectbox' ).style.display = 'none';
 	document.getElementById( 'checkbox'       ).style.display = 'none';
 
-	if ( forWhat == 'radio' )
-		document.getElementById( 'radio' ).style.display = "";
+	if ( forWhat === 'radio' ) {
+		document.getElementById( 'radio' ).style.display = '';
+	}
 
-	if ( forWhat == 'selectbox' )
-		document.getElementById( 'selectbox' ).style.display = "";
+	if ( forWhat === 'selectbox' ) {
+		document.getElementById( 'selectbox' ).style.display = '';
+	}
 
-	if ( forWhat == 'multiselectbox' )
-		document.getElementById( 'multiselectbox' ).style.display = "";
+	if ( forWhat === 'multiselectbox' ) {
+		document.getElementById( 'multiselectbox' ).style.display = '';
+	}
 
-	if ( forWhat == 'checkbox' )
-		document.getElementById( 'checkbox' ).style.display = "";
+	if ( forWhat === 'checkbox' ) {
+		document.getElementById( 'checkbox' ).style.display = '';
+	}
 }
 
 function hide( id ) {
-	if ( !document.getElementById( id ) ) return false;
+	if ( !document.getElementById( id ) ) {
+		return false;
+	}
 
-	document.getElementById( id ).style.display = "none";
+	document.getElementById( id ).style.display = 'none';
 	// the field id is [fieldtype]option[iterator] and not [fieldtype]div[iterator]
-	field_id = id.replace( 'div', 'option' ); 
+	var field_id = id.replace( 'div', 'option' );
 	document.getElementById( field_id ).value = '';
 }
 
@@ -125,12 +136,12 @@ jQuery( document ).ready( function() {
 			'_wpnonce': jQuery('input#_wpnonce').val(),
 			'option_id': theId
 		},
-		function( response ) {} );
+		function() {} );
 	} );
 
 	//
 	jQuery( '[id^="sort_order_"]' ).change(function() {
-		if ( jQuery( this ).val() != 'custom' ) {
+		if ( jQuery( this ).val() !== 'custom' ) {
 			destroySortableFieldOptions();
 		} else {
 			enableSortableFieldOptions( jQuery('#fieldtype :selected').val() );
@@ -155,7 +166,7 @@ jQuery( document ).ready( function() {
 				'_wpnonce_reorder_groups': jQuery( 'input#_wpnonce_reorder_groups' ).val(),
 				'group_order': jQuery( this ).sortable( 'serialize' )
 			},
-			function( response ) {} );
+			function() {} );
 		}
 	}).disableSelection();
 
@@ -174,7 +185,7 @@ jQuery( document ).ready( function() {
 				'field_order': jQuery(this).sortable( 'serialize' ),
 				'field_group_id': jQuery(this).attr( 'id' )
 			},
-			function( response ) {} );
+			function() {} );
 		}
 	})
 
@@ -188,8 +199,9 @@ jQuery( document ).ready( function() {
 	enableSortableFieldOptions( jQuery('#fieldtype :selected').val() );
 
 	// tabs init with a custom tab template and an "add" callback filling in the content
-	var $tab_items;
-	var $tabs = jQuery( '#tabs' ).tabs();
+	var $tab_items,
+		$tabs = jQuery( '#tabs' ).tabs();
+
 	set_tab_items( $tabs );
 
 	function set_tab_items( $tabs ) {
@@ -202,11 +214,8 @@ jQuery( document ).ready( function() {
 
 			// When field is dropped on tab
 			drop: function( ev, ui ) {
-				// The tab
-				var $item = jQuery(this);
-
-				// The tab body
-				var $list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );
+				var $item = jQuery(this),  // The tab
+					$list   = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );  // The tab body
 
 				// Remove helper class
 				jQuery($item).removeClass( 'drop-candidate' );
@@ -218,7 +227,7 @@ jQuery( document ).ready( function() {
 					$tabs.tabs( 'option', 'active', $tab_items.index( $item ) );
 
 					// Show new placement
-					jQuery(this).appendTo($list).show( 'slow' ).animate( {opacity: "1"}, 500 );
+					jQuery(this).appendTo($list).show( 'slow' ).animate( {opacity: '1'}, 500 );
 
 					// Refresh $list variable
 					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );
@@ -228,17 +237,17 @@ jQuery( document ).ready( function() {
 					jQuery.post( ajaxurl, {
 						action: 'xprofile_reorder_fields',
 						'cookie': encodeURIComponent(document.cookie),
-						'_wpnonce_reorder_fields': jQuery( "input#_wpnonce_reorder_fields" ).val(),
+						'_wpnonce_reorder_fields': jQuery( 'input#_wpnonce_reorder_fields' ).val(),
 						'field_order': jQuery( $list ).sortable( 'serialize' ),
 						'field_group_id': jQuery( $list ).attr( 'id' )
 					},
-					function( response ) {} );
+					function() {} );
 				});
 			},
-			over: function( event, ui ) {
+			over: function() {
 				jQuery(this).addClass( 'drop-candidate' );
 			},
-			out: function( event, ui ) {
+			out: function() {
 				jQuery(this).removeClass( 'drop-candidate' );
 			}
 		});
