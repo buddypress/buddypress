@@ -38,7 +38,7 @@ before_script:
     - npm install -g grunt-cli
     - npm install
 
-script: grunt travis
+script: grunt test
 
 notifications:
     email: false
