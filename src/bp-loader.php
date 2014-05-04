@@ -413,7 +413,7 @@ class BuddyPress {
 	private function includes() {
 
 		// Load the WP abstraction file so BuddyPress can run on all WordPress setups.
-		require( $this->plugin_dir . '/bp-core/bp-core-wpabstraction.php' );
+		require( $this->plugin_dir . 'bp-core/bp-core-wpabstraction.php' );
 
 		// Setup the versions (after we include multisite abstraction above)
 		$this->versions();
