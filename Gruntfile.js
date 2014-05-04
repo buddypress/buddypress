@@ -12,7 +12,7 @@ module.exports = function( grunt ) {
 		'bp-groups/admin/css/*.css',
 		'bp-members/admin/css/*.css',
 		'bp-messages/css/*.css',
-		'bp-templates/bp-legacy/css,*.css',
+		'bp-templates/bp-legacy/css/*.css',
 		'bp-xprofile/admin/css/*.css',
 		'!**/*-rtl.css'  // Exclude RTL files
 	],

@@ -115,7 +115,7 @@ Hello, this is the BuddyPress Legacy stylesheet.
 }
 #buddypress form#whats-new-form #whats-new-content {
 	margin-right: 55px;
-	padding: 0 0 20px 20px;
+	padding: 0 20px 20px 0;
 }
 #buddypress form#whats-new-form p.activity-greeting {
 	line-height: 0.5em;
@@ -293,14 +293,16 @@ body.activity-permalink #buddypress .activity-content blockquote {
 	margin-right: 1em;
 	white-space: nowrap;
 }
-#buddypress .activity-list li.load-more {
+#buddypress .activity-list li.load-more,
+#buddypress .activity-list li.load-newest {
 	background: #f0f0f0;
 	font-size: 110%;
 	margin: 15px 0;
 	padding: 10px 15px;
 	text-align: center;
 }
-#buddypress .activity-list li.load-more a {
+#buddypress .activity-list li.load-more a,
+#buddypress .activity-list li.load-newest a {
 	color: #4D4D4D;
 }
 
@@ -489,7 +491,8 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	float: left;
 	margin: -39px 0 0 0;
 }
-#buddypress div.dir-search input[type=text] {
+#buddypress div.dir-search input[type=text],
+#buddypress li.groups-members-search input[type=text] {
 	font-size: 90%;
 	padding: 1px 3px;
 }
@@ -517,15 +520,15 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	padding: 10px 15px;
 }
 #buddypress div#message.error p {
-	background-color: #ffa;
-	border: 1px solid #960;
+	background-color: #fdc;
+	border: 1px solid #a00;
 	clear: right;
-	color: #960;
+	color: #800;
 }
 #buddypress div#message.updated p {
 	background-color: #efc;
 	border: 1px solid #591;
-	color: #591;
+	color: #250;
 }
 #buddypress .standard-form#signup_form div div.error {
 	background: #faa;
@@ -584,7 +587,9 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 #buddypress .standard-form select,
 #buddypress .standard-form input[type=password],
 #buddypress .dir-search input[type=search],
-#buddypress .dir-search input[type=text] {
+#buddypress .dir-search input[type=text],
+#buddypress .groups-members-search input[type=search],
+#buddypress .groups-members-search input[type=text] {
 	border: 1px solid #ccc;
 	background: #fafafa;
 	border-radius: 0;
@@ -605,8 +610,8 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	font-weight: bold;
 	margin: 15px 0 5px 0;
 }
-#buddypress .standard-form div.checkbox label,
-#buddypress .standard-form div.radio label {
+#buddypress .standard-form div.checkbox label:nth-child(n+2),
+#buddypress .standard-form div.radio div label {
 	color: #888;
 	font-size: 100%;
 	font-weight: normal;
@@ -743,17 +748,17 @@ a.bp-title-button {
 	text-decoration: none;
 }
 
-#buddypress form.standard-form .right-menu {
+#buddypress form.standard-form .left-menu {
 	float: right;
 }
 
-#buddypress form.standard-form .right-menu #invite-list ul{
-	margin: 1%;
+#buddypress form.standard-form .left-menu #invite-list ul{
+	margin:1%;
 	list-style: none;
 }
 
-#buddypress form.standard-form .right-menu #invite-list ul li {
-	margin: 0 1% 0 0;
+#buddypress form.standard-form .left-menu #invite-list ul li {
+	margin:0 1% 0 0;
 }
 
 #buddypress form.standard-form .main-column {
@@ -762,12 +767,21 @@ a.bp-title-button {
 
 #buddypress form.standard-form .main-column ul#friend-list {
 	clear:none;
+	float: right;
 }
 
 #buddypress form.standard-form .main-column ul#friend-list h4 {
 	clear:none;
 }
 
+/* Overrides for embedded WP editors */
+#buddypress .wp-editor-wrap a.button,
+#buddypress .wp-editor-wrap button,
+#buddypress .wp-editor-wrap input[type=submit],
+#buddypress .wp-editor-wrap input[type=button],
+#buddypress .wp-editor-wrap input[type=reset] {
+	padding: 0 10px 1px;
+}
 /*--------------------------------------------------------------
 3.6 - Ajax Loading
 --------------------------------------------------------------*/
@@ -882,10 +896,22 @@ a.bp-title-button {
 	margin: 20px 0 0 0;
 	padding: 1px 0 0 0;
 }
-#buddypress table {
+#buddypress table.notifications,
+#buddypress table.notifications-settings,
+#buddypress table.profile-settings,
+#buddypress table.profile-fields,
+#buddypress table.wp-profile-fields,
+#buddypress table.messages-notices,
+#buddypress table.forum {
 	width: 100%;
 }
-#buddypress table thead tr {
+#buddypress table.notifications thead tr,
+#buddypress table.notifications-settings thead tr,
+#buddypress table.profile-settings thead tr,
+#buddypress table.profile-fields thead tr,
+#buddypress table.wp-profile-fields thead tr,
+#buddypress table.messages-notices thead tr,
+#buddypress table.forum thead tr {
 	background: #eaeaea;
 }
 #buddypress table#message-threads {
@@ -905,12 +931,28 @@ a.bp-title-button {
 #buddypress table.profile-fields p:last-child {
 	margin-top: 0;
 }
-#buddypress table tr td,
-#buddypress table tr th {
+#buddypress table.notifications tr td,
+#buddypress table.notifications-settings tr td,
+#buddypress table.profile-settings tr td,
+#buddypress table.profile-fields tr td,
+#buddypress table.wp-profile-fields tr td,
+#buddypress table.messages-notices tr td,
+#buddypress table.forum tr td,
+#buddypress table.notifications tr th,
+#buddypress table.notifications-settings tr th,
+#buddypress table.profile-fields tr th,
+#buddypress table.wp-profile-fields tr th,
+#buddypress table.messages-notices tr th,
+#buddypress table.forum tr th {
 	padding: 8px;
 	vertical-align: middle;
 }
-#buddypress table tr td.label {
+#buddypress table.notifications tr td.label,
+#buddypress table.notifications-settings tr td.label,
+#buddypress table.profile-fields tr td.label,
+#buddypress table.wp-profile-fields tr td.label,
+#buddypress table.messages-notices tr td.label,
+#buddypress table.forum tr td.label {
 	border-left: 1px solid #eaeaea;
 	font-weight: bold;
 	width: 25%;
@@ -926,7 +968,13 @@ a.bp-title-button {
 #buddypress table.forum td {
 	text-align: center;
 }
-#buddypress table tr.alt td {
+#buddypress table.notifications tr.alt td,
+#buddypress table.notifications-settings tr.alt td,
+#buddypress table.profile-settings tr.alt td,
+#buddypress table.profile-fields tr.alt td,
+#buddypress table.wp-profile-fields tr.alt td,
+#buddypress table.messages-notices tr.alt td,
+#buddypress table.forum tr.alt td {
 	background: #f5f5f5;
 }
 #buddypress table.notification-settings {
@@ -936,11 +984,14 @@ a.bp-title-button {
 #buddypress #groups-notification-settings {
 	margin-bottom: 0;
 }
+#buddypress table.notifications th.icon,
+#buddypress table.notifications td:first-child,
 #buddypress table.notification-settings th.icon,
 #buddypress table.notification-settings td:first-child {
 	display: none;
 }
-#buddypress table.notification-settings th.title {
+#buddypress table.notification-settings th.title,
+#buddypress table.profile-settings th.title {
 	width: 80%;
 }
 #buddypress table.notification-settings .yes,
@@ -1037,7 +1088,10 @@ a.bp-title-button {
 	font-weight: normal;
 	margin-top: 3px;
 	text-decoration: none;
-	background: #ffff00;
+	background-color: #ffd;
+	border: 1px solid #cb2;
+	color: #440;
+	
 }
 #buddypress div#item-header {
 	overflow: hidden;
@@ -1246,7 +1300,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	background-color: #fff;
 }
 #buddypress div#item-nav ul li.loading a {
-	background-position: 88% 50%;
+	background-position: 12% 50%;
 }
 #buddypress div.item-list-tabs#object-nav {
 	margin-top: 0;
@@ -1303,7 +1357,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 }
 #buddypress div#message-thread img.avatar {
 	float: right;
-	margin: 0 10px 0 0;
+	margin: 0 0 0 10px;
 	vertical-align: middle;
 }
 #buddypress div#message-thread strong {
@@ -1432,6 +1486,32 @@ body.register #buddypress div.page ul {
 
 .widget.buddypress div.avatar-block{
 	overflow: hidden;
+}
+
+.widget.buddypress #bp-login-widget-form label {
+	display: block;
+	margin: 1rem 0 .5rem;
+}
+
+.widget.buddypress #bp-login-widget-form #bp-login-widget-submit {
+	margin-left: 10px;
+}
+
+.widget.buddypress .bp-login-widget-user-avatar {
+	float: right;
+	width: 60px;
+}
+
+.widget.buddypress .bp-login-widget-user-links > div {
+	padding-right: 60px;
+}
+
+.widget.buddypress .bp-login-widget-user-links > div {
+	margin-bottom: .5rem;
+}
+
+.widget.buddypress .bp-login-widget-user-links > div.bp-login-widget-user-link a {
+	font-weight: bold;
 }
 
 /*--------------------------------------------------------------
