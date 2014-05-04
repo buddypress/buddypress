@@ -1,0 +1,44 @@
+{
+	"author": "The BuddyPress Community",
+	"bugs": {
+		"url": "https://buddypress.trac.wordpress.org/"
+	},
+	"description": "Social networking in a box. Build a social network for your company, school, sports team, or niche community.",
+	"devDependencies": {
+		"grunt": "~0.4.4",
+		"grunt-checktextdomain": "~0.1.1",
+		"grunt-contrib-clean": "~0.5.0",
+		"grunt-contrib-copy": "~0.5.0",
+		"grunt-contrib-cssmin": "~0.9.0",
+		"grunt-contrib-imagemin": "~0.6.1",
+		"grunt-contrib-uglify": "~0.4.0",
+		"grunt-contrib-watch": "~0.6.1",
+		"grunt-contrib-jshint": "~0.10.0",
+		"grunt-cssjanus": "~0.2.2",
+		"grunt-contrib-less": "~0.11.0",
+		"grunt-exec": "~0.4.5",
+		"grunt-patch-wordpress": "~0.2.1",
+		"grunt-phpunit": "~0.3.3",
+		"grunt-wp-i18n": "~0.4.3",
+		"matchdep": "~0.3.0"
+	},
+	"keywords": [
+		"activity",
+		"community",
+		"forum",
+		"friends",
+		"groups",
+		"messaging",
+		"notifications",
+		"profiles",
+		"social network"
+	],
+	"homepage": "https://buddypress.org",
+	"license": "GPL-2.0+",
+	"name": "buddypress",
+	"repository": {
+		"type": "svn",
+		"url": "https://buddypress.svn.wordpress.org/trunk/"
+	},
+	"version": "2.0.1"
+}
