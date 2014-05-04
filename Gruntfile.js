@@ -27,6 +27,11 @@ module.exports = function( grunt ) {
 		'bp-messages/js/*.js',
 		'bp-templates/bp-legacy/js/*.js',
 		'bp-xprofile/admin/js/*.js'
+	],
+
+	BP_EXCLUDED_JS = [
+		'!bp-templates/bp-legacy/js/*.js',
+		'!bp-themes/bp-default/_inc/*.js'
 	];
 
 	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
@@ -41,7 +46,9 @@ module.exports = function( grunt ) {
 			core: {
 				expand: true,
 				cwd: SOURCE_DIR,
-				src: BP_JS,
+
+				// Exclude known bad JS from jshint for now; see #5613.
+				src: BP_JS.concat( BP_EXCLUDED_JS ),
 
 				/**
 				 * Limit JSHint's run to a single specified file: grunt jshint:core --file=filename.js
