@@ -4,8 +4,6 @@
  *
  * BuddyPress is social networking software with a twist from the creators of WordPress.
  *
- * $Id$
- *
  * @package BuddyPress
  * @subpackage Main
  */
