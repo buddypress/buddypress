@@ -359,7 +359,7 @@ class BuddyPress {
 
 		// BuddyPress root directory
 		$this->file           = __FILE__;
-		$this->basename       = plugin_basename( $this->file );
+		$this->basename       = str_replace( array( 'build/', 'src/' ), '', plugin_basename( $this->file ) );
 		$this->plugin_dir     = BP_PLUGIN_DIR;
 		$this->plugin_url     = BP_PLUGIN_URL;
 
