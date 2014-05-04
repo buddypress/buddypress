@@ -4,7 +4,7 @@
  * Define constants needed by test suite.
  */
 
-define( 'BP_PLUGIN_DIR', dirname( dirname( dirname( __FILE__ ) ) ) . '/' );
+define( 'BP_PLUGIN_DIR', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/' );
 
 if ( ! defined( 'BP_TESTS_DIR' ) ) {
 	define( 'BP_TESTS_DIR', dirname( dirname( __FILE__ ) ) . '/' );

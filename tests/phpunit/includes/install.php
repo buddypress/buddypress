@@ -15,11 +15,11 @@ require_once $config_file_path;
 require_once $tests_dir_path . '/includes/functions.php';
 
 function _load_buddypress() {
-	require dirname( dirname( dirname( __FILE__ ) ) ) . '/bp-loader.php';
+	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/bp-loader.php';
 }
 tests_add_filter( 'muplugins_loaded', '_load_buddypress' );
 
-define( 'BP_PLUGIN_DIR', dirname( dirname( dirname( __FILE__ ) ) ) . '/' );
+define( 'BP_PLUGIN_DIR', dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/' );
 define( 'BP_ROOT_BLOG', 1 );
 
 // Always load admin bar
