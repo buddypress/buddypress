@@ -7,12 +7,12 @@ php:
     - 5.5
 
 env:
-    - WP_VERSION=trunk WP_MULTISITE=0
-    - WP_VERSION=tags/3.8.1 WP_MULTISITE=0
-    - WP_VERSION=tags/3.7.1 WP_MULTISITE=0
-    - WP_VERSION=trunk WP_MULTISITE=1
-    - WP_VERSION=tags/3.8.1 WP_MULTISITE=1
-    - WP_VERSION=tags/3.7.1 WP_MULTISITE=1
+    - WP_VERSION=trunk
+    - WP_VERSION=tags/3.8.1
+    - WP_VERSION=tags/3.7.1
+    - WP_VERSION=trunk
+    - WP_VERSION=tags/3.8.1
+    - WP_VERSION=tags/3.7.1
 
 before_script:
     # set up WP install
