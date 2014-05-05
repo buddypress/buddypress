@@ -52,6 +52,7 @@ module.exports = function( grunt ) {
 
 				/**
 				 * Limit JSHint's run to a single specified file: grunt jshint:core --file=filename.js
+				 * Optionally, include the file path: grunt jshint:core --file=path/to/filename.js
 				 *
 				 * @param {String} filepath
 				 * @returns {Bool}
