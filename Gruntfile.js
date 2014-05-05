@@ -251,8 +251,8 @@ module.exports = function( grunt ) {
 	 * Register tasks.
 	 */
 
-	grunt.registerTask( 'build-dev',     ['jshint', 'cssjanus:core'] );
-	grunt.registerTask( 'build-commit',  ['build-dev', 'checktextdomain', 'makepot', 'imagemin'] );
+	grunt.registerTask( 'build',         ['jshint', 'cssjanus:core'] );
+	grunt.registerTask( 'build-commit',  ['build', 'checktextdomain', 'makepot', 'imagemin'] );
 	grunt.registerTask( 'build-release', ['build-commit', 'clean:all', 'copy:files', 'uglify:core', 'cssmin:ltr', 'cssmin:rtl', 'exec:bbpress', /*'exec:bpdefault',*/ 'test'] );
 
 
@@ -273,7 +273,7 @@ module.exports = function( grunt ) {
 
 
 	// Default task.
-	grunt.registerTask( 'default', ['build-dev'] );
+	grunt.registerTask( 'default', ['build'] );
 
 
 	/**
