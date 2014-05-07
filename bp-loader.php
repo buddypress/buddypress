@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The BuddyPress Plugin
  *
@@ -27,9 +28,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 $bp_loader = __DIR__ . '/build/bp-loader.php';
 
 // Load from source if no build exists
-if ( ! file_exists( $bp_loader ) || defined( 'BP_LOAD_SAUCE' ) ) {
+if ( ! file_exists( $bp_loader ) || defined( 'BP_LOAD_SOURCE' ) ) {
 	$bp_loader = __DIR__ . '/src/bp-loader.php';
 }
 
+// Include BuddyPress
 include( $bp_loader );
+
+// Unset the loader, since it's loaded in global scope
 unset( $bp_loader );
