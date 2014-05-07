@@ -2437,6 +2437,11 @@ function bp_groups_members_filter() {
 		<select id="group_members-order-by">
 			<option value="last_joined"><?php _e( 'Newest', 'buddypress' ); ?></option>
 			<option value="first_joined"><?php _e( 'Oldest', 'buddypress' ); ?></option>
+
+			<?php if ( bp_is_active( 'activity' ) ) : ?>
+				<option value="group_activity"><?php _e( 'Group Activity', 'buddypress' ); ?></option>
+			<?php endif; ?>
+
 			<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
 
 			<?php do_action( 'bp_groups_members_order_options' ); ?>

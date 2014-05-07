@@ -1707,11 +1707,20 @@ class BP_Group_Member_Query extends BP_User_Query {
 			$gm_ids = array( 0 );
 		}
 
-		// For 'last_joined' and 'first_joined' types, we force
-		// the order according to the query performed in
-		// BP_Group_Member_Query::get_group_members(). Otherwise, fall
-		// through and let BP_User_Query do its own ordering.
-		if ( in_array( $query->query_vars['type'], array( 'last_joined', 'first_joined' ) ) ) {
+		// For 'last_joined', 'first_joined', and 'group_activity'
+		// types, we override the default orderby clause of
+		// BP_User_Query. In the case of 'group_activity', we perform
+		// a separate query to get the necessary order. In the case of
+		// 'last_joined' and 'first_joined', we can trust the order of
+		// results from  BP_Group_Member_Query::get_group_members().
+		// In all other cases, we fall through and let BP_User_Query
+		// do its own (non-group-specific) ordering.
+		if ( in_array( $query->query_vars['type'], array( 'last_joined', 'first_joined', 'group_activity' ) ) ) {
+
+			// Group Activity DESC
+			if ( 'group_activity' == $query->query_vars['type'] ) {
+				$gm_ids = $this->get_gm_ids_ordered_by_activity( $query, $gm_ids );
+			}
 
 			// The first param in the FIELD() clause is the sort column id
 			$gm_ids = array_merge( array( 'u.id' ), wp_parse_id_list( $gm_ids ) );
@@ -1765,6 +1774,49 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		// Don't filter other BP_User_Query objects on the same page
 		remove_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10, 2 );
+	}
+
+	/**
+	 * Sort user IDs by how recently they have generated activity within a given group.
+	 *
+	 * @since  BuddyPress (2.1.0)
+	 *
+	 * @param BP_User_Query $query BP_User_Query object.
+	 * @param array $gm_ids array of group member ids.
+	 * @return array
+	 */
+	public function get_gm_ids_ordered_by_activity( $query, $gm_ids = array() ) {
+		global $wpdb;
+
+		if ( empty( $gm_ids ) ) {
+			return $gm_ids;
+		}
+
+		if ( ! bp_is_active( 'activity' ) ) {
+			return $gm_ids;
+		}
+
+		$activity_table = buddypress()->activity->table_name;
+
+		$sql = array(
+			'select'  => "SELECT user_id, max( date_recorded ) as date_recorded FROM {$activity_table}",
+			'where'   => array(),
+			'groupby' => 'GROUP BY user_id',
+			'orderby' => 'ORDER BY date_recorded',
+			'order'   => 'DESC',
+		);
+
+		$sql['where'] = array(
+			'user_id IN (' . implode( ',', wp_parse_id_list( $gm_ids ) ) . ')',
+			'item_id = ' . absint( $query->query_vars['group_id'] ),
+			$wpdb->prepare( "component = %s", buddypress()->groups->id ),
+		);
+
+		$sql['where'] = 'WHERE ' . implode( ' AND ', $sql['where'] );
+
+		$group_user_ids = $wpdb->get_results( "{$sql['select']} {$sql['where']} {$sql['groupby']} {$sql['orderby']} {$sql['order']}" );
+
+		return wp_list_pluck( $group_user_ids, 'user_id' );
 	}
 }
 
