@@ -112,7 +112,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			}
 			$path = stripslashes( $_SERVER['REQUEST_URI'] );
 
-			if ( version_compare( $GLOBALS['wp_version'], '3.9', '>=' ) ) {
+			// Get a cleaned-up version of the wp_version string
+			// (strip -src, -alpha, etc which may trip up version_compare())
+			$wp_version = (float) $GLOBALS['wp_version'];
+			if ( version_compare( $wp_version, '3.9', '>=' ) ) {
 
 				if ( is_admin() ) {
 					$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
