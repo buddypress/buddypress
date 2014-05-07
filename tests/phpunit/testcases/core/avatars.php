@@ -19,6 +19,28 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		wp_set_current_user( $this->old_current_user );
 	}
 
+	private function clean_existing_avatars( $type = 'user' ) {
+		if ( 'user' === $type ) {
+			$avatar_dir = 'avatars';
+		} else if ( 'group' === $object ) {
+			$avatar_dir = 'group-avatars';
+		}
+
+		$this->rrmdir( bp_core_avatar_upload_path() . '/' . $avatar_dir );
+	}
+
+	private function rrmdir( $dir ) {
+		foreach ( glob( $dir . '/*' ) as $file ) {
+			if ( is_dir( $file ) ) {
+				$this->rrmdir( $file );
+			} else {
+				@unlink( $file );
+			}
+		}
+
+		@rmdir( $dir );
+	}
+
 	/**
 	 * @ticket 4948
 	 */
@@ -58,6 +80,8 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	 * @group bp_get_user_has_avatar
 	 */
 	public function test_bp_get_user_has_avatar_no_avatar_uploaded() {
+		$this->clean_existing_avatars();
+
 		$u = $this->create_user();
 		$this->assertFalse( bp_get_user_has_avatar( $u ) );
 	}
