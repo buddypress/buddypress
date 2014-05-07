@@ -15,10 +15,7 @@ env:
 matrix:
   include:
     - php: 5.6
-      env: WP_VERSION=master
-  exclude:
-    - php: 5.5
-      env: WP_VERSION=tags/3.7.3
+      env: WP_VERSION=trunk
   allow_failures:
     - php: 5.6
 
@@ -37,6 +34,8 @@ before_script:
     - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
     - sed -i "s/yourusernamehere/root/" wp-tests-config.php
     - sed -i "s/yourpasswordhere//" wp-tests-config.php
+    # disable WP_DEBUG for PHP 5.5 due to ext/mysqli E_DEPRECATED errors
+    - if [[ "$TRAVIS_PHP_VERSION" == 5.5* ]] ; then sed -i "s:define( 'WP_DEBUG://define( 'WP_DEBUG:" wp-tests-config.php; fi;
     # set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
     # prepare for running the tests
@@ -48,3 +47,9 @@ script: grunt travis
 
 notifications:
     email: false
+
+    irc:
+        channels:
+            - "irc.freenode.net#buddypress-dev"
+        template:
+            - "Build %{build_number} (%{branch} - %{commit}): %{message} %{build_url}"
