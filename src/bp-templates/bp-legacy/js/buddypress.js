@@ -1241,7 +1241,7 @@ jq(document).ready( function() {
 	});
 
 	jq('#groups-dir-list').on('click', '.group-button a', function() {
-		var gid   = jq(this).parent().attr('id').
+		var gid   = jq(this).parent().attr('id'),
 			nonce   = jq(this).attr('href'),
 			thelink = jq(this);
 
