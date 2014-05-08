@@ -850,7 +850,9 @@ function bp_member_latest_update( $args = '' ) {
 		if ( !bp_is_active( 'activity' ) || empty( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
 			return false;
 
-		$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', sprintf( _x( '- &quot;%s &quot;', 'member latest update in member directory', 'buddypress' ), trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ) ) );
+		$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ) );
+
+		$update_content = sprintf( _x( '- &quot;%s&quot;', 'member latest update in member directory', 'buddypress' ), $update_content );
 
 		// If $view_link is true and the text returned by bp_create_excerpt() is different from the original text (ie it's
 		// been truncated), add the "View" link.
