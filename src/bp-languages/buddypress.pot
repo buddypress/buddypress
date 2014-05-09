@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress 2.1-alpha\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/buddypress\n"
-"POT-Creation-Date: 2014-05-08 17:46:26+00:00\n"
+"POT-Creation-Date: 2014-05-09 19:15:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -868,19 +868,19 @@ msgstr ""
 msgid "Clear Filter"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2852
+#: bp-activity/bp-activity-template.php:2860
 msgid "a user"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2906
+#: bp-activity/bp-activity-template.php:2914
 msgid "Send a public message on your activity stream."
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:2907
+#: bp-activity/bp-activity-template.php:2915
 msgid "Public Message"
 msgstr ""
 
-#: bp-activity/bp-activity-template.php:3360
+#: bp-activity/bp-activity-template.php:3368
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 

@@ -2656,21 +2656,29 @@ function bp_activity_can_comment() {
 }
 
 /**
- * Determine if a comment can be made on an activity reply item.
+ * Determine whether a comment can be made on an activity reply item.
  *
- * Defaults to true, but can be modified by plugins.
- *
- * @since BuddyPress (1.5)
- *
- * @uses apply_filters() To call the 'bp_activity_can_comment_reply' hook
+ * @since BuddyPress (1.5.0)
  *
  * @param object $comment Activity comment.
- * @return bool $can_comment True if comment can receive comments.
+ * @return bool $can_comment True if comment can receive comments, otherwise
+ *         false.
  */
 function bp_activity_can_comment_reply( $comment ) {
 	$can_comment = true;
 
-	if ( get_option( 'thread_comments' ) && bp_activity_get_comment_depth() >= get_option( 'thread_comments_depth' ) ) {
+	// Fall back on current comment in activity loop
+	$comment_depth = 0;
+	if ( isset( $comment->depth ) ) {
+		$comment_depth = intval( $comment->depth );
+	} else {
+		$comment_depth = bp_activity_get_comment_depth();
+	}
+
+	if ( get_option( 'thread_comments' ) ) {
+		$can_comment = $comment_depth < get_option( 'thread_comments_depth' );
+	} else {
+		// No threading for comment replies if no threading for comments
 		$can_comment = false;
 	}
 
