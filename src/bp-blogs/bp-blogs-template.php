@@ -671,22 +671,39 @@ function bp_blog_last_active( $args = array() ) {
 
 /**
  * Output the latest post from the current blog in the loop.
+ *
+ * @param array $args See {@link bp_get_blog_latest_post()}.
  */
-function bp_blog_latest_post() {
-	echo bp_get_blog_latest_post();
+function bp_blog_latest_post( $args = array() ) {
+	echo bp_get_blog_latest_post( $args );
 }
 	/**
 	 * Return the latest post from the current blog in the loop.
 	 *
+	 * @param array $args {
+	 *     Array of optional arguments.
+	 *     @type bool $latest_format If true, formatted "Latest post:
+	 *           [link to post]". If false, formatted "[link to post]".
+	 *           Default: true.
+	 * }
 	 * @return string $retval String of the form 'Latest Post: [link to post]'.
 	 */
-	function bp_get_blog_latest_post() {
+	function bp_get_blog_latest_post( $args = array() ) {
 		global $blogs_template;
+
+		$r = wp_parse_args( $args, array(
+			'latest_format' => true,
+		) );
 
 		$retval = bp_get_blog_latest_post_title();
 
-		if ( ! empty( $retval ) )
-			$retval = sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>' );
+		if ( ! empty( $retval ) ) {
+			if ( ! empty( $r['latest_format'] ) ) {
+				$retval = sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>' );
+			} else {
+				$retval = '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>';
+			}
+		}
 
 		return apply_filters( 'bp_get_blog_latest_post', $retval );
 	}
