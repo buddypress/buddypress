@@ -1625,6 +1625,23 @@ function bp_group_is_member( $group = false ) {
 }
 
 /**
+ * Check whether the current user has an outstanding invite to the current group in the loop.
+ *
+ * @param object $group Optional. Group data object. Defaults to the current
+ *        group in the groups loop.
+ * @return bool True if the user has an outstanding invite, otherwise false.
+ */
+function bp_group_is_invited( $group = false ) {
+	global $groups_template;
+
+	if ( empty( $group ) ) {
+		$group =& $groups_template->group;
+	}
+
+	return apply_filters( 'bp_group_is_invited', ! empty( $group->is_invited ) );
+}
+
+/**
  * Checks if a user is banned from a group.
  *
  * If this function is invoked inside the groups template loop (e.g. the group directory), then
@@ -1955,10 +1972,13 @@ function bp_group_status_message( $group = null ) {
 
 	if ( 'private' == $group->status ) {
  		if ( ! bp_group_has_requested_membership() ) {
-			if ( is_user_logged_in() )
+			if ( is_user_logged_in() && bp_group_is_invited() ) {
+				$message = __( 'You must accept your pending invitation before you can access this private group.', 'buddypress' );
+			} else if ( is_user_logged_in() ) {
 				$message = __( 'This is a private group and you must request group membership in order to join.', 'buddypress' );
-			else
+			} else {
 				$message = __( 'This is a private group. To join you must be a registered site member and request group membership.', 'buddypress' );
+			}
 
 		} else {
 			$message = __( 'This is a private group. Your membership request is awaiting approval from the group administrator.', 'buddypress' );

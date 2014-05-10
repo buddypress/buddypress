@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress 2.1-alpha\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/buddypress\n"
-"POT-Creation-Date: 2014-05-10 01:35:41+00:00\n"
+"POT-Creation-Date: 2014-05-10 02:02:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -569,8 +569,8 @@ msgstr ""
 #: bp-activity/bp-activity-classes.php:280
 #: bp-activity/bp-activity-template.php:139 bp-groups/bp-groups-classes.php:646
 #: bp-groups/bp-groups-functions.php:419 bp-groups/bp-groups-template.php:112
-#: bp-groups/bp-groups-template.php:2045 bp-groups/bp-groups-template.php:3018
-#: bp-groups/bp-groups-template.php:3286
+#: bp-groups/bp-groups-template.php:2065 bp-groups/bp-groups-template.php:3038
+#: bp-groups/bp-groups-template.php:3306
 msgid ""
 "Arguments passed to %1$s should be in an associative array. See the inline "
 "documentation at %2$s for more details."
@@ -679,8 +679,8 @@ msgstr ""
 #: bp-groups/bp-groups-template.php:821 bp-groups/bp-groups-template.php:858
 #: bp-groups/bp-groups-template.php:1287 bp-groups/bp-groups-template.php:1303
 #: bp-groups/bp-groups-template.php:1352 bp-groups/bp-groups-template.php:1368
-#: bp-groups/bp-groups-template.php:2243 bp-groups/bp-groups-template.php:2252
-#: bp-groups/bp-groups-template.php:2261 bp-groups/bp-groups-template.php:3177
+#: bp-groups/bp-groups-template.php:2263 bp-groups/bp-groups-template.php:2272
+#: bp-groups/bp-groups-template.php:2281 bp-groups/bp-groups-template.php:3197
 #: bp-members/bp-members-buddybar.php:64 bp-members/bp-members-loader.php:235
 #: bp-members/bp-members-template.php:703
 #: bp-members/bp-members-template.php:1136
@@ -977,7 +977,7 @@ msgid "Profile picture of site author %s"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:661 bp-core/bp-core-classes.php:816
-#: bp-groups/bp-groups-template.php:3394 bp-groups/bp-groups-widgets.php:85
+#: bp-groups/bp-groups-template.php:3414 bp-groups/bp-groups-widgets.php:85
 #: bp-groups/bp-groups-widgets.php:197 bp-members/bp-members-template.php:811
 #: bp-members/bp-members-template.php:1231
 #: bp-templates/bp-legacy/buddypress/groups/groups-loop.php:47
@@ -1081,7 +1081,7 @@ msgid "%s's Recent Comments"
 msgstr ""
 
 #: bp-blogs/bp-blogs-template.php:1187 bp-core/deprecated/1.5.php:417
-#: bp-forums/bp-forums-template.php:2196 bp-groups/bp-groups-template.php:2798
+#: bp-forums/bp-forums-template.php:2196 bp-groups/bp-groups-template.php:2818
 #: bp-members/bp-members-template.php:999
 #: bp-messages/bp-messages-template.php:471 bp-themes/bp-default/header.php:30
 #: bp-themes/bp-default/searchform.php:5
@@ -2004,8 +2004,8 @@ msgstr ""
 #: bp-core/bp-core-avatars.php:843 bp-core/bp-core-classes.php:813
 #: bp-core/bp-core-classes.php:814 bp-core/bp-core-classes.php:815
 #: bp-core/bp-core-template.php:160 bp-core/bp-core-template.php:176
-#: bp-groups/bp-groups-template.php:3388 bp-groups/bp-groups-template.php:3389
-#: bp-groups/bp-groups-template.php:3390
+#: bp-groups/bp-groups-template.php:3408 bp-groups/bp-groups-template.php:3409
+#: bp-groups/bp-groups-template.php:3410
 msgid "Avatar of %s"
 msgstr ""
 
@@ -2059,7 +2059,7 @@ msgstr ""
 msgid "You must log in to access the page you requested."
 msgstr ""
 
-#: bp-core/bp-core-classes.php:830 bp-groups/bp-groups-template.php:3398
+#: bp-core/bp-core-classes.php:830 bp-groups/bp-groups-template.php:3418
 msgid "%d group"
 msgid_plural "%d groups"
 msgstr[0] ""
@@ -2126,7 +2126,7 @@ msgid "Activate your Account"
 msgstr ""
 
 #: bp-core/bp-core-filters.php:462 bp-groups/bp-groups-loader.php:577
-#: bp-groups/bp-groups-template.php:1932 bp-groups/bp-groups-template.php:1933
+#: bp-groups/bp-groups-template.php:1949 bp-groups/bp-groups-template.php:1950
 #: bp-themes/bp-default/groups/create.php:18
 #: bp-themes/bp-default/groups/index.php:21
 msgid "Create a Group"
@@ -2285,7 +2285,7 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:200 bp-core/bp-core-widgets.php:298
 #: bp-core/deprecated/1.6.php:129 bp-core/deprecated/1.6.php:152
 #: bp-friends/bp-friends-widgets.php:98 bp-friends/bp-friends-widgets.php:186
-#: bp-groups/bp-groups-template.php:2438 bp-groups/bp-groups-widgets.php:65
+#: bp-groups/bp-groups-template.php:2458 bp-groups/bp-groups-widgets.php:65
 #: bp-groups/bp-groups-widgets.php:146
 #: bp-templates/bp-legacy/buddypress/blogs/index.php:39
 #: bp-templates/bp-legacy/buddypress/members/single/blogs.php:22
@@ -2408,12 +2408,12 @@ msgid "%1$s mentioned you in the group \"%2$s\""
 msgstr ""
 
 #: bp-core/deprecated/1.6.php:128 bp-core/deprecated/1.6.php:149
-#: bp-groups/bp-groups-template.php:2814 bp-groups/bp-groups-template.php:2836
+#: bp-groups/bp-groups-template.php:2834 bp-groups/bp-groups-template.php:2856
 msgid "Recently Active"
 msgstr ""
 
 #: bp-core/deprecated/1.6.php:130 bp-core/deprecated/1.6.php:155
-#: bp-groups/bp-groups-template.php:2819 bp-groups/bp-groups-template.php:2851
+#: bp-groups/bp-groups-template.php:2839 bp-groups/bp-groups-template.php:2871
 msgid "Alphabetically"
 msgstr ""
 
@@ -2465,8 +2465,8 @@ msgstr ""
 msgid "Please pick the group forum where you would like to post this topic."
 msgstr ""
 
-#: bp-forums/bp-forums-screens.php:208 bp-groups/bp-groups-template.php:1777
-#: bp-groups/bp-groups-template.php:1778
+#: bp-forums/bp-forums-screens.php:208 bp-groups/bp-groups-template.php:1794
+#: bp-groups/bp-groups-template.php:1795
 #: bp-templates/bp-legacy/buddypress/groups/single/forum.php:19
 #: bp-themes/bp-default/forums/index.php:23
 #: bp-themes/bp-default/groups/single/forum.php:19
@@ -3447,8 +3447,8 @@ msgstr ""
 msgid "Invitations"
 msgstr ""
 
-#: bp-groups/bp-groups-loader.php:454 bp-groups/bp-groups-template.php:1891
-#: bp-groups/bp-groups-template.php:1892
+#: bp-groups/bp-groups-loader.php:454 bp-groups/bp-groups-template.php:1908
+#: bp-groups/bp-groups-template.php:1909
 #: bp-templates/bp-legacy/buddypress-functions.php:1214
 #: bp-themes/bp-default/_inc/ajax.php:780
 msgid "Request Membership"
@@ -3943,7 +3943,7 @@ msgid "Demote to Member"
 msgstr ""
 
 #: bp-groups/bp-groups-template.php:1307 bp-groups/bp-groups-template.php:1372
-#: bp-groups/bp-groups-template.php:2336
+#: bp-groups/bp-groups-template.php:2356
 msgid "joined %s"
 msgstr ""
 
@@ -3963,7 +3963,7 @@ msgstr ""
 msgid "This group has no moderators"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:1817 bp-groups/bp-groups-template.php:1818
+#: bp-groups/bp-groups-template.php:1834 bp-groups/bp-groups-template.php:1835
 #: bp-templates/bp-legacy/buddypress-functions.php:1178
 #: bp-templates/bp-legacy/buddypress-functions.php:1191
 #: bp-themes/bp-default/_inc/ajax.php:744
@@ -3971,49 +3971,55 @@ msgstr ""
 msgid "Leave Group"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:1840 bp-groups/bp-groups-template.php:1841
+#: bp-groups/bp-groups-template.php:1857 bp-groups/bp-groups-template.php:1858
 #: bp-templates/bp-legacy/buddypress-functions.php:1212
 #: bp-themes/bp-default/_inc/ajax.php:778
 msgid "Join Group"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:1859 bp-groups/bp-groups-template.php:1860
+#: bp-groups/bp-groups-template.php:1876 bp-groups/bp-groups-template.php:1877
 msgid "Accept Invitation"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:1875 bp-groups/bp-groups-template.php:1876
+#: bp-groups/bp-groups-template.php:1892 bp-groups/bp-groups-template.php:1893
 msgid "Request Sent"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:1959
+#: bp-groups/bp-groups-template.php:1976
+msgid ""
+"You must accept your pending invitation before you can access this private "
+"group."
+msgstr ""
+
+#: bp-groups/bp-groups-template.php:1978
 msgid ""
 "This is a private group and you must request group membership in order to "
 "join."
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:1961
+#: bp-groups/bp-groups-template.php:1980
 msgid ""
 "This is a private group. To join you must be a registered site member and "
 "request group membership."
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:1964
+#: bp-groups/bp-groups-template.php:1984
 msgid ""
 "This is a private group. Your membership request is awaiting approval from "
 "the group administrator."
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:1968
+#: bp-groups/bp-groups-template.php:1988
 msgid "This is a hidden group and only invited members can join."
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2384 bp-members/bp-members-template.php:522
+#: bp-groups/bp-groups-template.php:2404 bp-members/bp-members-template.php:522
 msgid "Viewing member %1$s to %2$s (of %3$s member)"
 msgid_plural "Viewing members %1$s to %2$s (of %3$s members)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-groups/bp-groups-template.php:2436
+#: bp-groups/bp-groups-template.php:2456
 #: bp-notifications/bp-notifications-template.php:940
 #: bp-templates/bp-legacy/buddypress/blogs/index.php:36
 #: bp-templates/bp-legacy/buddypress/forums/index.php:42
@@ -4036,15 +4042,15 @@ msgstr[1] ""
 msgid "Order By:"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2439
+#: bp-groups/bp-groups-template.php:2459
 msgid "Oldest"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2442
+#: bp-groups/bp-groups-template.php:2462
 msgid "Group Activity"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2445
+#: bp-groups/bp-groups-template.php:2465
 #: bp-templates/bp-legacy/buddypress/blogs/index.php:40
 #: bp-templates/bp-legacy/buddypress/groups/index.php:42
 #: bp-templates/bp-legacy/buddypress/members/index.php:41
@@ -4060,47 +4066,47 @@ msgstr ""
 msgid "Alphabetical"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2672 bp-groups/bp-groups-template.php:2922
+#: bp-groups/bp-groups-template.php:2692 bp-groups/bp-groups-template.php:2942
 msgid "Group avatar"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2815 bp-groups/bp-groups-template.php:2839
+#: bp-groups/bp-groups-template.php:2835 bp-groups/bp-groups-template.php:2859
 msgid "Recently Joined"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2816 bp-groups/bp-groups-template.php:2842
+#: bp-groups/bp-groups-template.php:2836 bp-groups/bp-groups-template.php:2862
 msgid "Most Popular"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2817 bp-groups/bp-groups-template.php:2845
+#: bp-groups/bp-groups-template.php:2837 bp-groups/bp-groups-template.php:2865
 msgid "Administrator Of"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:2818 bp-groups/bp-groups-template.php:2848
+#: bp-groups/bp-groups-template.php:2838 bp-groups/bp-groups-template.php:2868
 msgid "Moderator Of"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3210
+#: bp-groups/bp-groups-template.php:3230
 msgid "requested %s"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3262
+#: bp-groups/bp-groups-template.php:3282
 msgid "Viewing requests %1$s to %2$s (of %3$s request)"
 msgid_plural "Viewing request %1$s to %2$s (of %3$s requests)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-groups/bp-groups-template.php:3557
+#: bp-groups/bp-groups-template.php:3577
 msgid "Viewing invitation %1$s to %2$s (of %3$s invitation)"
 msgid_plural "Viewing invitation %1$s to %2$s (of %3$s invitations)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-groups/bp-groups-template.php:3573
+#: bp-groups/bp-groups-template.php:3593
 msgid "Group Activity RSS Feed"
 msgstr ""
 
-#: bp-groups/bp-groups-template.php:3744
+#: bp-groups/bp-groups-template.php:3764
 msgid "%s group"
 msgid_plural "%s groups"
 msgstr[0] ""
