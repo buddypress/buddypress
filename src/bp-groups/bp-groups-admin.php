@@ -518,6 +518,10 @@ function bp_groups_admin_edit() {
 									<h3><?php _e( 'Name and Description', 'buddypress' ); ?></h3>
 									<div class="inside">
 										<input type="text" name="bp-groups-name" id="bp-groups-name" value="<?php echo esc_attr( stripslashes( $group_name ) ) ?>" />
+										<div id="bp-groups-permalink-box">
+											<strong><?php esc_html_e( 'Permalink:', 'buddypress' ) ?></strong> <span id="sample-permalink"><?php bp_group_permalink( $group ) ?></span> <a href="<?php echo bp_group_permalink( $group ) ?>" class="button button-small" id="bp-groups-visit-group"><?php esc_html_e( 'Visit Group', 'buddypress' ) ?></a>
+										</div>
+
 
 										<?php wp_editor( stripslashes( $group->description ), 'bp-groups-description', array( 'media_buttons' => false, 'teeny' => true, 'textarea_rows' => 5, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
 									</div>

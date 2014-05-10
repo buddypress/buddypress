@@ -14,6 +14,7 @@ body.toplevel_page_bp-groups table.groups th#last_active {
 #bp-groups-edit-form input#bp-groups-name {
 	font-size: 1.7em;
 	width: 100%;
+	margin-bottom: 6px;
 }
 #bp-groups-edit-form input#bp-groups-new-members {
 	width: 100%;
@@ -22,6 +23,10 @@ body.toplevel_page_bp-groups table.groups th#last_active {
 }
 .bp-groups-settings-section {
 	margin-bottom: 15px;
+}
+#bp-groups-permalink-box {
+	line-height: 24px;
+	color: #666;
 }
 .bp-groups-member-type {
 	position: relative;
