@@ -392,6 +392,10 @@ jq(document).ready( function() {
 
 		/* Load more updates at the end of the page */
 		if ( target.parent().hasClass('load-more') ) {
+			if ( bp_ajax_request ) {
+				bp_ajax_request.abort();
+			}
+
 			jq('#buddypress li.load-more').addClass('loading');
 
 			if ( null === jq.cookie('bp-activity-oldestpage') ) {
@@ -407,7 +411,7 @@ jq(document).ready( function() {
 				just_posted.push( jq(this).attr('id').replace( 'activity-','' ) );
 			});
 
-			jq.post( ajaxurl, {
+			bp_ajax_request = jq.post( ajaxurl, {
 				action: 'activity_get_older_updates',
 				'cookie': bp_get_cookies(),
 				'page': oldest_page,
