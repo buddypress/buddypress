@@ -633,19 +633,40 @@ function bp_blog_class() {
 
 /**
  * Output the last active date of the current blog in the loop.
+ *
+ * @param array $args See {@link bp_get_blog_last_active()}.
  */
-function bp_blog_last_active() {
-	echo bp_get_blog_last_active();
+function bp_blog_last_active( $args = array() ) {
+	echo bp_get_blog_last_active( $args );
 }
 	/**
 	 * Return the last active date of the current blog in the loop.
 	 *
+	 * @param array $args {
+	 *     Array of optional arguments.
+	 *     @type bool $active_format If true, formatted "Active 5 minutes
+	 *           ago". If false, formatted "5 minutes ago". Default: true.
+	 * }
 	 * @return string Last active date.
 	 */
-	function bp_get_blog_last_active() {
+	function bp_get_blog_last_active( $args = array() ) {
 		global $blogs_template;
 
-		return apply_filters( 'bp_blog_last_active', bp_core_get_last_activity( $blogs_template->blog->last_activity, __( 'active %s', 'buddypress' ) ) );
+		$r = wp_parse_args( $args, array(
+			'active_format' => true,
+		) );
+
+		if ( isset( $blogs_template->blog->last_activity ) ) {
+			if ( ! empty( $r['active_format'] ) ) {
+				$last_activity = bp_core_get_last_activity( $blogs_template->blog->last_activity, __( 'active %s', 'buddypress' ) );
+			} else {
+				$last_activity = bp_core_time_since( $blogs_template->blog->last_activity );
+			}
+		} else {
+			$last_activity = __( 'Never active', 'buddypress' );
+		}
+
+		return apply_filters( 'bp_blog_last_active', $last_activity, $r );
 	}
 
 /**
