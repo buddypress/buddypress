@@ -123,7 +123,7 @@ jq(document).ready( function() {
 			if ( activity_row.hasClass( 'load-newest' ) ) {
 				activity_row = firstrow.next();
 			}
-			
+
 			timestamp = activity_row.prop( 'class' ).match( /date-recorded-([0-9]+)/ );
 		}
 
@@ -434,13 +434,13 @@ jq(document).ready( function() {
 
 			target.parent().hide();
 
-			/** 
-			 * If a plugin is updating the recorded_date of an activity 
+			/**
+			 * If a plugin is updating the recorded_date of an activity
 			 * it will be loaded as a new one. We need to look in the
 			 * stream and eventually remove similar ids to avoid "double".
 			 */
 			activity_html = jq.parseHTML( newest_activities );
-			
+
 			jq.each( activity_html, function( i, el ){
 				if( 'LI' === el.nodeName && jq(el).hasClass( 'just-posted' ) ) {
 					if( jq( '#' + jq(el).attr( 'id' ) ).length ) {
@@ -1585,7 +1585,7 @@ jq(document).ready( function() {
 
 	// Set the last id to request after
 	jq( document ).on( 'heartbeat-send.buddypress', function( e, data ) {
-		
+
 		firstrow = 0;
 
 		// First row is default latest activity id
