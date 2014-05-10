@@ -507,8 +507,9 @@ function bp_has_activities( $args = '' ) {
 		$object = $bp->groups->id;
 		$primary_id = $bp->groups->current_group->id;
 
-		if ( ( 'public' != $bp->groups->current_group->status ) && ( groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) || bp_current_user_can( 'bp_moderate' ) ) )
+		if ( groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) || bp_current_user_can( 'bp_moderate' ) ) {
 			$show_hidden = true;
+		}
 	}
 
 	// The default scope should recognize custom slugs
