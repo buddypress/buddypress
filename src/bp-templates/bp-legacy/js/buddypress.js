@@ -1098,8 +1098,8 @@ jq(document).ready( function() {
 	jq( '.visibility-toggle-link' ).on( 'click', function( event ) {
 		event.preventDefault();
 
-		jq( this ).parent().hide()
-			.siblings( '.field-visibility-settings' ).show();
+		jq( this ).parent().hide().addClass( 'field-visibility-settings-hide' )
+			.siblings( '.field-visibility-settings' ).show().addClass( 'field-visibility-settings-open' );
 	} );
 
 	jq( '.field-visibility-settings-close' ).on( 'click', function( event ) {
@@ -1108,10 +1108,10 @@ jq(document).ready( function() {
 		var settings_div = jq( this ).parent(),
 			vis_setting_text = settings_div.find( 'input:checked' ).parent().text();
 
-		settings_div.hide()
+		settings_div.hide().removeClass( 'field-visibility-settings-open' )
 			.siblings( '.field-visibility-settings-toggle' )
 				.children( '.current-visibility-level' ).text( vis_setting_text ).end()
-			.show();
+			.show().removeClass( 'field-visibility-settings-hide' );
 	} );
 
 	jq('#profile-edit-form input:not(:submit), #profile-edit-form textarea, #profile-edit-form select, #signup_form input:not(:submit), #signup_form textarea, #signup_form select').change( function() {
