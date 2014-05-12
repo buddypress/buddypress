@@ -86,9 +86,9 @@ To view and read your messages please log in and visit: %4$s
 			}
 
 			// Send the message
-			$email_to      = apply_filters( 'messages_notification_new_message_to',      $email_to );
-			$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject, $sender_name );
-			$email_content = apply_filters( 'messages_notification_new_message_message', $email_content, $sender_name, $subject, $content, $message_link, $settings_link );
+			$email_to      = apply_filters( 'messages_notification_new_message_to',      $email_to, $ud );
+			$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject, $sender_name, $ud );
+			$email_content = apply_filters( 'messages_notification_new_message_message', $email_content, $sender_name, $subject, $content, $message_link, $settings_link, $ud );
 
 			wp_mail( $email_to, $email_subject, $email_content );
 		}
