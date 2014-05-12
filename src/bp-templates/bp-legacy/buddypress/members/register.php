@@ -66,7 +66,7 @@
 
 					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
-						<div class="editfield">
+						<div<?php bp_field_css_class( 'editfield' ); ?>>
 
 							<?php
 							$field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() );
