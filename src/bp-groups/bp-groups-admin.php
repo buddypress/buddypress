@@ -230,10 +230,6 @@ function bp_groups_admin_load() {
 			$user_names = array_merge( $user_names, explode( ',', $_POST['bp-groups-new-members'] ) );
 		}
 
-		if ( ! empty( $_POST['new_members'] ) ) {
-			$user_names = array_merge( $user_names, $_POST['new_members'] );
-		}
-
 		if ( ! empty( $user_names ) ) {
 
 			foreach( array_values( $user_names ) as $user_name ) {
