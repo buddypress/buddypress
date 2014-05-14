@@ -206,7 +206,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$now = time();
 		for ( $i = 3; $i <= 10; $i++ ) {
 			$this->add_user_to_group( $users[ $i ], $g, array(
-				'date_modified' => $now - 60 * $i,
+				'date_modified' => date( 'Y-m-d H:i:s', $now - ( 60 * $i ) ),
 			) );
 			$expected[] = $users[ $i ];
 		}
@@ -317,10 +317,10 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		$now = time();
 		$this->add_user_to_group( $u2, $g, array(
-			'date_modified' => $now - 60,
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
 		) );
 		$this->add_user_to_group( $u3, $g, array(
-			'date_modified' => $now - 60*60,
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 60*60 ),
 		) );
 
 		$m1 = new BP_Groups_Member( $u1, $g );
