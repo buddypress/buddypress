@@ -26,7 +26,7 @@ if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 } else {
 	// Support WP_DEVELOP_DIR, as used by some plugins
 	if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
-		define( 'WP_TESTS_DIR', getenv( 'WP_DEVELOP_DIR' ) );
+		define( 'WP_ROOT_DIR', getenv( 'WP_DEVELOP_DIR' ) );
 	} else {
 		define( 'WP_ROOT_DIR', dirname( dirname( dirname( dirname( dirname( dirname( dirname( __DIR__ ) ) ) ) ) ) ) );
 	}
