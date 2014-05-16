@@ -96,28 +96,6 @@ body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network.wp-has-current-s
     content: "";
 }
 
-th.column-gid {
-	width: 60px;
-}
-td.column-gid {
-	vertical-align: middle;
-}
-table.bp-group-members th,
-table.bp-group-members td {
-	padding: 5px 0;
-}
-table.bp-group-members .uid-column {
-	padding-left: 20px;
-	padding-right: 20px;
-}
-table.bp-group-members .uname-column {
-	width: 70%;
-}
-table.bp-group-members .urole-column {
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
 /* Components
 ------------------------------------------------------------------------------*/
 
