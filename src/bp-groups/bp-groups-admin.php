@@ -1376,11 +1376,11 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 */
 	function column_comment( $item = array() ) {
 
-		// Preorder items: Visit | Edit | Delete
+		// Preorder items: Edit | Delete | View
 		$actions = array(
-			'visit'  => '',
 			'edit'   => '',
 			'delete' => '',
+			'view'   => '',
 		);
 
 		// We need the group object for some BP functions
@@ -1390,18 +1390,18 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$base_url   = bp_get_admin_url( 'admin.php?page=bp-groups&amp;gid=' . $item['id'] );
 		$delete_url = wp_nonce_url( $base_url . "&amp;action=delete", 'bp-groups-delete' );
 		$edit_url   = $base_url . '&amp;action=edit';
-		$visit_url  = bp_get_group_permalink( $item_obj );
+		$view_url   = bp_get_group_permalink( $item_obj );
 
 		// Rollover actions
 
-		// Visit
-		$actions['visit'] = sprintf( '<a href="%s">%s</a>', esc_url( $visit_url ), __( 'Visit', 'buddypress' ) );
-
 		// Edit
-		$actions['edit'] = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), __( 'Edit', 'buddypress' ) );
+		$actions['edit']   = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url   ), __( 'Edit',   'buddypress' ) );
 
 		// Delete
 		$actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $delete_url ), __( 'Delete', 'buddypress' ) );
+
+		// Visit
+		$actions['view']   = sprintf( '<a href="%s">%s</a>', esc_url( $view_url   ), __( 'View',   'buddypress' ) );
 
 		// Other plugins can filter which actions are shown
 		$actions = apply_filters( 'bp_groups_admin_comment_row_actions', array_filter( $actions ), $item );
@@ -1418,7 +1418,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			'title'      => $item['name']
 		) );
 
-		$content = apply_filters_ref_array( 'bp_get_group_name', array( $item['name'], $item ) );
+		$content = apply_filters_ref_array( 'bp_get_group_name', array( sprintf( '<strong><a href="%s">%s</a></strong>', esc_url( $edit_url ), $item['name'] ), $item ) );
 
 		echo $avatar . ' ' . $content . ' ' . $this->row_actions( $actions );
 	}
