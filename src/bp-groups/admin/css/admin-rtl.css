@@ -7,6 +7,11 @@ body.toplevel_page_bp-groups table.groups th#last_active {
 	width: 15%;
 }
 
+#bp-groups-form .avatar {
+	float: right;
+	margin-left: 10px;
+	margin-top: 1px;
+}
 #bp-groups-edit-form input {
 	outline: medium none;
 }
