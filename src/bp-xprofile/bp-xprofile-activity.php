@@ -21,24 +21,28 @@ function xprofile_register_activity_actions() {
 		// older avatar activity items use 'profile' for component
 		// see r4273
 		'profile',
-
 		'new_avatar',
 		__( 'Member changed profile picture', 'buddypress' ),
-		'bp_xprofile_format_activity_action_new_avatar'
+		'bp_xprofile_format_activity_action_new_avatar',
+		__( 'Updated Avatars', 'buddypress' )
 	);
 
 	bp_activity_set_action(
 		$bp->profile->id,
 		'new_member',
 		__( 'New member registered', 'buddypress' ),
-		'bp_xprofile_format_activity_action_new_member'
+		'bp_xprofile_format_activity_action_new_member',
+		__( 'New Members', 'buddypress' ),
+		array( 'activity' )
 	);
 
 	bp_activity_set_action(
 		$bp->profile->id,
 		'updated_profile',
 		__( 'Updated Profile', 'buddypress' ),
-		'bp_xprofile_format_activity_action_updated_profile'
+		'bp_xprofile_format_activity_action_updated_profile',
+		__( 'Profile Updates', 'buddypress' ),
+		array( 'activity' )
 	);
 
 	do_action( 'xprofile_register_activity_actions' );
@@ -309,6 +313,7 @@ add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 
  * Add filters for xprofile activity types to Show dropdowns.
  *
  * @since BuddyPress (2.0.0)
+ * @todo Mark as deprecated
  */
 function xprofile_activity_filter_options() {
 	?>
@@ -317,4 +322,3 @@ function xprofile_activity_filter_options() {
 
 	<?php
 }
-add_action( 'bp_activity_filter_options', 'xprofile_activity_filter_options' );

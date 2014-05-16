@@ -3371,3 +3371,88 @@ function bp_activity_sitewide_feed() {
 <?php
 }
 add_action( 'bp_head', 'bp_activity_sitewide_feed' );
+
+/**
+ * Display available filters depending on the scope.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param string $context The current context. 'activity', 'member',
+ *	  'member_groups', 'group'.
+ * @uses bp_get_activity_show_filters()
+ */
+function bp_activity_show_filters( $context = '' ) {
+	echo bp_get_activity_show_filters( $context );
+}
+	/**
+	 * Get available filters depending on the scope.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param string $context The current context. 'activity', 'member',
+	 *	  'member_groups', 'group'
+	 * @return string HTML for <option> values.
+	 */
+	function bp_get_activity_show_filters( $context = '' ) {
+		// Set default context based on current page
+		if ( empty( $context ) ) {
+			if ( bp_is_user() ) {
+				switch ( bp_current_action() ) {
+					case bp_get_groups_slug() :
+						$context = 'member_groups';
+						break;
+
+					default :
+						$context = 'member';
+						break;
+				}
+			} else if ( bp_is_active( 'groups' ) && bp_is_group() ) {
+				$context = 'group';
+			} else {
+				$context = 'activity';
+			}
+		}
+
+		$filters = array();
+
+		// Walk through the registered actions, and prepare an the
+		// select box options.
+		foreach ( buddypress()->activity->actions as $actions ) {
+			foreach ( $actions as $action ) {
+				if ( ! in_array( $context, (array) $action['context'] ) ) {
+					continue;
+				}
+
+				// Friends activity collapses two filters into one
+				if ( in_array( $action['key'], array( 'friendship_accepted', 'friendship_created' ) ) ) {
+					$action['key'] = 'friendship_accepted,friendship_created';
+				}
+
+				$filters[ $action['key'] ] = $action['label'];
+			}
+		}
+
+		/**
+		 * Modify the filter options available in the activity filter dropdown.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param array $filters Array of filter options for the given
+		 *        context, in the following format:
+		 *            $option_value => $option_name
+		 * @param string $context Context for the filter. 'activity'
+		 *        'member', 'member_groups', 'group'.
+		 */
+		$filters = apply_filters( 'bp_get_activity_show_filters', $filters, $context );
+
+		// Build the options output
+		$output = '';
+
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $value => $filter ) {
+				$output .= '<option value="' . esc_attr( $value ) . '">' . esc_html( $filter ) . '</option>' . "\n";
+			}
+		}
+
+		return apply_filters( 'bp_get_activity_show_filters', $output, $filters, $context );
+	}

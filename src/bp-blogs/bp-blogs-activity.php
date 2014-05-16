@@ -32,7 +32,8 @@ function bp_blogs_register_activity_actions() {
 			$bp->blogs->id,
 			'new_blog',
 			__( 'New site created', 'buddypress' ),
-			'bp_blogs_format_activity_action_new_blog'
+			'bp_blogs_format_activity_action_new_blog',
+			__( 'New Sites', 'buddypress' )
 		);
 	}
 
@@ -40,14 +41,18 @@ function bp_blogs_register_activity_actions() {
 		$bp->blogs->id,
 		'new_blog_post',
 		__( 'New post published', 'buddypress' ),
-		'bp_blogs_format_activity_action_new_blog_post'
+		'bp_blogs_format_activity_action_new_blog_post',
+		__( 'Posts', 'buddypress' ),
+		array( 'activity', 'member' )
 	);
 
 	bp_activity_set_action(
 		$bp->blogs->id,
 		'new_blog_comment',
 		__( 'New post comment posted', 'buddypress' ),
-		'bp_blogs_format_activity_action_new_blog_comment'
+		'bp_blogs_format_activity_action_new_blog_comment',
+		__( 'Comments', 'buddypress' ),
+		array( 'activity', 'member' )
 	);
 
 	do_action( 'bp_blogs_register_activity_actions' );
