@@ -3396,18 +3396,21 @@ function bp_activity_show_filters( $context = '' ) {
 	function bp_get_activity_show_filters( $context = '' ) {
 		// Set default context based on current page
 		if ( empty( $context ) ) {
-			if ( bp_is_user() ) {
-				switch ( bp_current_action() ) {
-					case bp_get_groups_slug() :
-						$context = 'member_groups';
-						break;
 
-					default :
-						$context = 'member';
-						break;
+			// On member pages, default to 'member', unless this
+			// is a user's Groups activity
+			if ( bp_is_user() ) {
+				if ( bp_is_active( 'groups' ) && bp_is_current_action( bp_get_groups_slug() ) ) {
+					$context = 'member_groups';
+				} else {
+					$context = 'member';
 				}
+
+			// On individual group pages, default to 'group'
 			} else if ( bp_is_active( 'groups' ) && bp_is_group() ) {
 				$context = 'group';
+
+			// 'activity' everywhere else
 			} else {
 				$context = 'activity';
 			}
