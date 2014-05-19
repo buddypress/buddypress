@@ -150,10 +150,12 @@ class BP_XProfile_Group {
 
 		$where_sql = '';
 
-		if ( !empty( $profile_group_id ) )
+		if ( ! empty( $profile_group_id ) ) {
 			$where_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
-		elseif ( $exclude_groups )
-			$where_sql = $wpdb->prepare( "WHERE g.id NOT IN ({$exclude_groups})");
+		} else if ( $exclude_groups ) {
+			$exclude_groups = join( ',', wp_parse_id_list( $exclude_groups ) );
+			$where_sql = "WHERE g.id NOT IN ({$exclude_groups})";
+		}
 
 		if ( ! empty( $hide_empty_groups ) ) {
 			$group_ids = $wpdb->get_col( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );

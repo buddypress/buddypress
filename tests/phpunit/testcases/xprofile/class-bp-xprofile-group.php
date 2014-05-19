@@ -67,4 +67,36 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$this->assertSame( $expected, $found );
 	}
+
+	/**
+	 * @group get_xprofile_groups
+	 */
+	public function test_get_xprofile_groups() {
+		$g1 = $this->factory->xprofile_group->create();
+		$g2 = $this->factory->xprofile_group->create();
+		$g3 = $this->factory->xprofile_group->create();
+
+		$all = BP_XProfile_Group::get();
+		$all_results = array_map( 'absint', wp_list_pluck( $all, 'id' ) );
+
+		$e1 = array( $g1, $g2 );
+		$groups1 = BP_XProfile_Group::get( array(
+			'exclude_groups' => implode( ',', $e1 ),
+		) );
+
+		$r_groups1 = array_map( 'absint', wp_list_pluck( $groups1, 'id' ) );
+		$found1 = array_diff( $all_results, $r_groups1 );
+
+		$this->assertSame( $e1, array_merge( $found1, array() ) );
+
+		$e2 = array( $g2, $g3 );
+		$groups2 = BP_XProfile_Group::get( array(
+			'exclude_groups' => $e2,
+		) );
+
+		$r_groups2 = array_map( 'absint', wp_list_pluck( $groups2, 'id' ) );
+		$found2 = array_diff( $all_results, $r_groups2 );
+
+		$this->assertSame( $e2, array_merge( $found2, array() ) );
+	}
 }
