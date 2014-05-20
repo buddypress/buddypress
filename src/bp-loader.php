@@ -35,7 +35,7 @@ if ( !class_exists( 'BuddyPress' ) ) :
  */
 class BuddyPress {
 
-	/** Magic *************************************************************/
+	/** Magic *****************************************************************/
 
 	/**
 	 * BuddyPress uses many variables, most of which can be filtered to
@@ -50,7 +50,7 @@ class BuddyPress {
 	 */
 	private $data;
 
-	/** Not Magic *********************************************************/
+	/** Not Magic *************************************************************/
 
 	/**
 	 * @var array Primary BuddyPress navigation.
@@ -95,14 +95,14 @@ class BuddyPress {
 	 */
 	public $active_components = array();
 
-	/** Option Overload ***************************************************/
+	/** Option Overload *******************************************************/
 
 	/**
 	 * @var array Optional Overloads default options retrieved from get_option().
 	 */
 	public $options = array();
 
-	/** Singleton *********************************************************/
+	/** Singleton *************************************************************/
 
 	/**
 	 * Main BuddyPress Instance.
@@ -145,7 +145,7 @@ class BuddyPress {
 		return $instance;
 	}
 
-	/** Magic Methods *****************************************************/
+	/** Magic Methods *********************************************************/
 
 	/**
 	 * A dummy constructor to prevent BuddyPress from being loaded more than once.
@@ -205,7 +205,7 @@ class BuddyPress {
 	 */
 	public function __call( $name = '', $args = array() ) { unset( $name, $args ); return null; }
 
-	/** Private Methods ***************************************************/
+	/** Private Methods *******************************************************/
 
 	/**
 	 * Bootstrap constants.
@@ -299,23 +299,23 @@ class BuddyPress {
 	 */
 	private function setup_globals() {
 
-		/** Versions **************************************************/
+		/** Versions **********************************************************/
 
 		$this->version    = '2.1-alpha';
 		$this->db_version = 8311;
 
-		/** Loading ***************************************************/
+		/** Loading ***********************************************************/
 
 		$this->load_deprecated = ! apply_filters( 'bp_ignore_deprecated', BP_IGNORE_DEPRECATED );
 
-		/** Toolbar ***************************************************/
+		/** Toolbar ***********************************************************/
 
 		/**
 		 * @var string The primary toolbar ID
 		 */
 		$this->my_account_menu_id = '';
 
-		/** URIs ******************************************************/
+		/** URIs **************************************************************/
 
 		/**
 		 * @var int The current offset of the URI.
@@ -328,7 +328,7 @@ class BuddyPress {
 		 */
 		$this->no_status_set = false;
 
-		/** Components ************************************************/
+		/** Components ********************************************************/
 
 		/**
 		 * @var string Name of the current BuddyPress component (primary)
@@ -350,12 +350,12 @@ class BuddyPress {
 		 */
 		$this->is_single_item = false;
 
-		/** Root ******************************************************/
+		/** Root **************************************************************/
 
 		// BuddyPress Root blog ID
 		$this->root_blog_id = (int) apply_filters( 'bp_get_root_blog_id', BP_ROOT_BLOG );
 
-		/** Paths******************************************************/
+		/** Paths**************************************************************/
 
 		// BuddyPress root directory
 		$this->file           = __FILE__;
@@ -374,12 +374,12 @@ class BuddyPress {
 		$this->old_themes_dir = $this->plugin_dir . 'bp-themes';
 		$this->old_themes_url = $this->plugin_url . 'bp-themes';
 
-		/** Theme Compat **********************************************/
+		/** Theme Compat ******************************************************/
 
 		$this->theme_compat   = new stdClass(); // Base theme compatibility class
 		$this->filters        = new stdClass(); // Used when adding/removing filters
 
-		/** Users *****************************************************/
+		/** Users *************************************************************/
 
 		$this->current_user   = new stdClass();
 		$this->displayed_user = new stdClass();
@@ -418,7 +418,7 @@ class BuddyPress {
 		// Setup the versions (after we include multisite abstraction above)
 		$this->versions();
 
-		/** Update/Install ********************************************/
+		/** Update/Install ****************************************************/
 
 		// Theme compatability
 		require( $this->plugin_dir . 'bp-core/bp-core-template-loader.php'     );
@@ -526,7 +526,7 @@ class BuddyPress {
 		}
 	}
 
-	/** Public Methods ****************************************************/
+	/** Public Methods ********************************************************/
 
 	/**
 	 * Set up BuddyPress's legacy theme directory.
