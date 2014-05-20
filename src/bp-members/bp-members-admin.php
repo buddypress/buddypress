@@ -317,7 +317,7 @@ class BP_Members_Admin {
 			$wp_active = false;
 		} ?>
 
-		<ul id="profile-nav" class="nav-tab-wrapper">
+		<h2 id="profile-nav" class="nav-tab-wrapper">
 			<?php
 			/**
 			 * In configs where BuddyPress is not network activated, as regular
@@ -325,13 +325,11 @@ class BP_Members_Admin {
 			 * this check.
 			 */
 			?>
-			<?php if ( current_user_can( 'edit_user' ) ) :?>
-				<li class="nav-tab<?php echo esc_attr( $wp_active ); ?>"><a href="<?php echo esc_url( $wordpress_url );?>"><?php _e( 'Profile', 'buddypress' ); ?></a></li>
-			<?php endif ;?>
-			<li class="nav-tab<?php echo esc_attr( $bp_active ); ?>"><a href="<?php echo esc_url( $community_url );?>"><?php _e( 'Extended Profile', 'buddypress' ); ?></a></li>
-
-			<?php do_action( 'bp_members_admin_profile_nav', $active, $user ); ?>
-		</ul>
+			<?php if ( current_user_can( 'edit_user' ) ) : ?>
+				<a class="nav-tab<?php echo esc_attr( $wp_active ); ?>" href="<?php echo esc_url( $wordpress_url );?>"><?php _e( 'Profile', 'buddypress' ); ?></a>
+			<?php endif; ?>
+			<a class="nav-tab<?php echo esc_attr( $bp_active ); ?>" href="<?php echo esc_url( $community_url );?>"><?php _e( 'Extended Profile', 'buddypress' ); ?></a>
+		</h2>
 
 		<?php
 	}
@@ -350,11 +348,6 @@ class BP_Members_Admin {
 
 		if ( ! $user_id = intval( $_GET['user_id'] ) ) {
 			wp_die( __( 'No users were found', 'buddypress' ) );
-		}
-
-		// only edit others profile
-		if ( get_current_user_id() == $user_id ) {
-			bp_core_redirect( get_edit_user_link( $user_id ) );
 		}
 
 		// Build redirection URL
@@ -631,16 +624,22 @@ class BP_Members_Admin {
 			<div id="minor-publishing">
 				<div id="misc-publishing-actions">
 					<?php
+
+					// Get the spam status once here to compare against below
+					$is_spammer = bp_is_user_spammer( $user->ID );
+
 					/**
-					 * In configs where BuddyPress is not network activated, regular admins
-					 * cannot mark a user as a spammer on front end. This prevent them to do
-					 * it in backend.
+					 * In configs where BuddyPress is not network activated,
+					 * regular admins cannot mark a user as a spammer on front
+					 * end. This prevent them to do it in backend.
+					 *
+					 * Also prevent admins from marking themselves or other
+					 * admins as spammers.
 					 */
-					?>
-					<?php if ( empty( $this->subsite_activated ) || ( ! empty( $this->subsite_activated ) && current_user_can( 'manage_network_users' ) ) ) : ?>
+					if ( ( get_current_user_id() !== $user->ID ) && ( ! in_array( $user->user_login, get_super_admins() ) ) &&  empty( $this->subsite_activated ) || ( ! empty( $this->subsite_activated ) && current_user_can( 'manage_network_users' ) ) ) : ?>
 						<div class="misc-pub-section" id="comment-status-radio">
-							<label class="approved"><input type="radio" name="user_status" value="ham" <?php checked( bp_is_user_spammer( $user->ID ), false ); ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></label><br />
-							<label class="spam"><input type="radio" name="user_status" value="spam" <?php checked( bp_is_user_spammer( $user->ID ), true ); ?>><?php esc_html_e( 'Spammer', 'buddypress' ); ?></label>
+							<label class="approved"><input type="radio" name="user_status" value="ham" <?php checked( $is_spammer, false ); ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></label><br />
+							<label class="spam"><input type="radio" name="user_status" value="spam" <?php checked( $is_spammer, true ); ?>><?php esc_html_e( 'Spammer', 'buddypress' ); ?></label>
 						</div>
 					<?php endif ;?>
 
@@ -736,22 +735,13 @@ class BP_Members_Admin {
 	 * @return array Merged actions.
 	 */
 	public function row_actions( $actions = '', $user = null ) {
-		// only edit others profile
-		if ( get_current_user_id() == $user->ID ) {
-			return $actions;
-		}
-
-		// Prevent a regular admin to edit a super admin
-		if( in_array( $user->user_login, get_super_admins() ) ) {
-			return $actions;
-		}
 
 		$edit_profile = add_query_arg( array(
 			'user_id'         => $user->ID,
 			'wp_http_referer' => urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
 		), $this->edit_profile_url );
 
-		$edit_profile_link = '<a href="' . esc_url( $edit_profile ) . '">' . esc_html__( 'Extended Profile', 'buddypress' ) . '</a>';
+		$edit_profile_link = sprintf( '<a href="%1$s">%2$s</a>',  esc_url( $edit_profile ), esc_html__( 'Extended', 'buddypress' ) );
 
 		/**
 		 * Check the edit action is available
