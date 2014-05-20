@@ -260,7 +260,7 @@ class BuddyPress {
 					$plugins = get_site_option( 'active_sitewide_plugins');
 
 					// basename
-					$basename = str_replace( array( 'build/', 'src/' ), '', plugin_basename( constant( 'BP_PLUGIN_DIR' ) . 'bp-loader.php' ) );
+					$basename = plugin_basename( constant( 'BP_PLUGIN_DIR' ) . 'bp-loader.php' );
 
 					// plugin is network-activated; use main site ID instead
 					if ( isset( $plugins[ $basename ] ) ) {
