@@ -4,6 +4,34 @@
  * @since BuddyPress (1.6)
  */
 
+/* User's Lists
+------------------------------------------------------------------------------*/
+
+body.users-php th#role,
+body.users_page_bp-signups th#count_sent {
+	width: 10%;
+}
+
+body.users-php th#name,
+body.users-php th#registered,
+body.users-php th#email,
+body.users_page_bp-signups th#name,
+body.users_page_bp-signups th#registered,
+body.users_page_bp-signups th#email,
+body.users_page_bp-signups th#date_sent {
+	width: 15%;
+}
+
+body.users-php th#blogs,
+body.users_page_bp-signups th#blogs {
+	width: 20%;
+}
+
+body.users_page_bp-signups th.column-count_sent,
+body.users_page_bp-signups td.count_sent {
+	text-align: center;
+}
+
 /* Icon 32's
 ------------------------------------------------------------------------------*/
 
