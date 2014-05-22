@@ -692,15 +692,16 @@ class BP_Members_Admin {
 			do_action_ref_array( 'bp_members_admin_xprofile_metabox', array( $user_id, get_current_screen()->id, $this->stats_metabox ) );
 
 			// If xProfile is inactive, difficult to know what's profile we're on
-			$display_name = '';
 			if ( 'normal' === $this->stats_metabox->context ) {
-				$display_name = ' - ' . bp_core_get_user_displayname( $user_id );
+				$display_name = bp_core_get_user_displayname( $user_id );
+			} else {
+				$display_name = __( 'Member', 'buddypress' );
 			}
 
 			// User Stat metabox
 			add_meta_box(
 				'bp_members_admin_user_stats',
-				sprintf( _x( 'Stats%s', 'members user-admin edit screen', 'buddypress' ), $display_name ),
+				sprintf( _x( "%s's Stats", 'members user-admin edit screen', 'buddypress' ), $display_name ),
 				array( $this, 'user_admin_stats_metabox' ),
 				get_current_screen()->id,
 				sanitize_key( $this->stats_metabox->context ),
