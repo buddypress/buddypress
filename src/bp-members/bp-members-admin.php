@@ -114,7 +114,7 @@ class BP_Members_Admin {
 		$this->user_profile = is_network_admin() ? 'users' : 'profile';
 
 		// The current user id
-		$this->current_user_id = get_current_user_id(); 
+		$this->current_user_id = get_current_user_id();
 
 		// The user id being edited
 		$this->user_id = 0;
@@ -204,7 +204,7 @@ class BP_Members_Admin {
 	 * Get the user ID
 	 *
 	 * Look for $_GET['user_id']. If anything else, force the user ID to the
-	 * current user's ID so they aren't left without a user to edit. 
+	 * current user's ID so they aren't left without a user to edit.
 	 *
 	 * @since BuddyPress (2.1.0)
 	 *
@@ -229,7 +229,7 @@ class BP_Members_Admin {
 
 	/**
 	 * Can the current user edit the one displayed
-	 * 
+	 *
 	 * self profile editing / or bp_moderate check.
 	 * This might be replaced by more granular capabilities
 	 * in the future.
@@ -266,6 +266,10 @@ class BP_Members_Admin {
 	 */
 	private function get_user_notice() {
 
+		// Setup empty notice for return value
+		$notice = array();
+
+		// Updates
 		if ( ! empty( $_REQUEST['updated'] ) ) {
 			switch ( $_REQUEST['updated'] ) {
 			case 'avatar':
@@ -295,6 +299,7 @@ class BP_Members_Admin {
 			}
 		}
 
+		// Errors
 		if ( ! empty( $_REQUEST['error'] ) ) {
 			switch ( $_REQUEST['error'] ) {
 			case 'avatar':
@@ -450,7 +455,7 @@ class BP_Members_Admin {
 		// Add the profile_admin_head method to proper admin_head actions
 		foreach ( $page_head as $head ) {
 			add_action( "admin_head-{$head}", array( $this, 'profile_admin_head' ) );
-		}		
+		}
 	}
 
 	/**
@@ -762,8 +767,8 @@ class BP_Members_Admin {
 		}
 
 		// Construct URL for form
-		$form_url        = remove_query_arg( array( 'action', 'error', 'updated', 'spam', 'ham' ), $_SERVER['REQUEST_URI'] );
-		$form_url        = add_query_arg( 'action', 'update', $form_url );
+		$request_url     = remove_query_arg( array( 'action', 'error', 'updated', 'spam', 'ham' ), $_SERVER['REQUEST_URI'] );
+		$form_action_url = add_query_arg( 'action', 'update', $request_url );
 		$wp_http_referer = false;
 		if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
 			$wp_http_referer = remove_query_arg( array( 'action', 'updated' ), $_REQUEST['wp_http_referer'] );
@@ -811,7 +816,7 @@ class BP_Members_Admin {
 
 				$this->profile_nav( $user, 'BuddyPress' ); ?>
 
-				<form action="<?php echo esc_url( $form_url ); ?>" id="your-profile" method="post">
+				<form action="<?php echo esc_url( $form_action_url ); ?>" id="your-profile" method="post">
 					<div id="poststuff">
 
 						<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
@@ -1043,7 +1048,7 @@ class BP_Members_Admin {
 
 	/**
 	 * Add a filter to edit profile url in WP Admin Bar
-	 * 
+	 *
 	 * @access public
 	 * @since BuddyPress (2.1.0)
 	 */
@@ -1053,10 +1058,10 @@ class BP_Members_Admin {
 
 	/**
 	 * Filter the profile url
-	 * 
+	 *
 	 * @access public
 	 * @since BuddyPress (2.1.0)
-	 * 
+	 *
 	 * @uses  user_admin_url()
 	 */
 	public function filter_adminbar_profile_link( $profile_link = '', $url = '', $user_id = 0 ) {
@@ -1068,7 +1073,7 @@ class BP_Members_Admin {
 
 	/**
 	 * Remove the filter to edit profile url in WP Admin Bar
-	 * 
+	 *
 	 * @access public
 	 * @since BuddyPress (2.1.0)
 	 */
@@ -1386,7 +1391,7 @@ class BP_Members_Admin {
 		// Setup empty notice for return value
 		$notice = array();
 
-		// Updated
+		// Updates
 		if ( ! empty( $_REQUEST['updated'] ) ) {
 			switch ( $_REQUEST['updated'] ) {
 				case 'resent':
@@ -1493,7 +1498,7 @@ class BP_Members_Admin {
 			}
 		}
 
-		// Process error messages
+		// Errors
 		if ( ! empty( $_REQUEST['error'] ) ) {
 			switch ( $_REQUEST['error'] ) {
 				case 'do_resend':
