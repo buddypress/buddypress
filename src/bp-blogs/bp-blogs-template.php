@@ -340,7 +340,8 @@ function bp_rewind_blogs() {
  *	     'active', 'alphabetical', 'newest', or 'random'.
  *     @type array $include_blog_ids Array of blog IDs to limit results to.
  *     @type string $sort 'ASC' or 'DESC'. Default: 'DESC'.
- *     @type string $search_terms Limit results by a search term. Default: null.
+ *     @type string $search_terms Limit results by a search term. Default: the
+ *           value of $_REQUEST['s'], if present.
  *     @type int $user_id The ID of the user whose blogs should be retrieved.
  *           When viewing a user profile page, 'user_id' defaults to the ID of
  *           the displayed user. Otherwise the default is false.
@@ -357,11 +358,16 @@ function bp_has_blogs( $args = '' ) {
 	 */
 	$type         = 'active';
 	$user_id      = 0;
-	$search_terms = null;
 
 	// User filtering
 	if ( bp_displayed_user_id() )
 		$user_id = bp_displayed_user_id();
+
+	if ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) ) {
+		$search_terms = $_REQUEST['s'];
+	} else {
+		$search_terms = false;
+	}
 
 	$defaults = array(
 		'type'              => $type,
@@ -379,13 +385,6 @@ function bp_has_blogs( $args = '' ) {
 
 	$r = bp_parse_args( $args, $defaults, 'has_blogs' );
 	extract( $r );
-
-	if ( is_null( $search_terms ) ) {
-		if ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
-			$search_terms = $_REQUEST['s'];
-		else
-			$search_terms = false;
-	}
 
 	if ( $max ) {
 		if ( $per_page > $max ) {
