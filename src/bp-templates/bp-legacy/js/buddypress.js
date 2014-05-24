@@ -825,7 +825,7 @@ jq(document).ready( function() {
 			return;
 		}
 
-		var targetElem = ( event.target.nodeName === 'SPAN' ) ? event.target.parentNode : event.target.
+		var targetElem = ( event.target.nodeName === 'SPAN' ) ? event.target.parentNode : event.target,
 			target       = jq( targetElem ).parent(),
 			css_id, object, scope, filter, search_terms;
 
