@@ -392,7 +392,7 @@ function bp_has_blogs( $args = '' ) {
 	}
 
 	$blogs_template = new BP_Blogs_Template( $r['type'], $r['page'], $r['per_page'], $r['max'], $r['user_id'], $r['search_terms'], $r['page_arg'], $r['update_meta_cache'], $r['include_blog_ids'] );
-	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), $blogs_template );
+	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), $blogs_template, $r );
 }
 
 /**
