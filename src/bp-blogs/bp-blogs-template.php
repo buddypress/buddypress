@@ -352,12 +352,12 @@ function bp_has_blogs( $args = '' ) {
 	global $blogs_template;
 
 	/***
-	 * Set the defaults based on the current page. Any of these will be overridden
-	 * if arguments are directly passed into the loop. Custom plugins should always
-	 * pass their parameters directly to the loop.
+	 * Set the defaults based on the current page. Any of these will be
+	 * overridden if arguments are directly passed into the loop. Custom
+	 * plugins should always pass their parameters directly to the loop.
 	 */
-	$type         = 'active';
-	$user_id      = 0;
+	$type    = 'active';
+	$user_id = 0;
 
 	// User filtering
 	if ( bp_displayed_user_id() )
