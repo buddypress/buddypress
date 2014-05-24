@@ -384,15 +384,14 @@ function bp_has_blogs( $args = '' ) {
 	);
 
 	$r = bp_parse_args( $args, $defaults, 'has_blogs' );
-	extract( $r );
 
-	if ( $max ) {
-		if ( $per_page > $max ) {
-			$per_page = $max;
+	if ( $r['max'] ) {
+		if ( $r['per_page'] > $r['max'] ) {
+			$r['per_page'] = $r['max'];
 		}
 	}
 
-	$blogs_template = new BP_Blogs_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg, $update_meta_cache, $include_blog_ids );
+	$blogs_template = new BP_Blogs_Template( $r['type'], $r['page'], $r['per_page'], $r['max'], $r['user_id'], $r['search_terms'], $r['page_arg'], $r['update_meta_cache'], $r['include_blog_ids'] );
 	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), $blogs_template );
 }
 
