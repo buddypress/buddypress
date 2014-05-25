@@ -661,7 +661,7 @@ jq(document).ready( function() {
 				if ( response[0] + response[1] === '-1' ) {
 					comment_li.prepend( jq( response.substr( 2, response.length ) ).hide().fadeIn( 200 ) );
 				} else {
-					var children  = jq( '#' + comment_li.attr('id') + ' ul' ).children('li');
+					var children  = jq( '#' + comment_li.attr('id') + ' ul' ).children('li'),
 						child_count = 0,
 						count_span, new_count, show_all_a;
 
