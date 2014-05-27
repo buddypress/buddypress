@@ -17,22 +17,29 @@ jq(document).ready( function() {
 	bp_init_activity();
 
 	/* Object filter and scope set. */
-	var objects = [ 'members', 'groups', 'blogs', 'forums' ];
+	var objects = [ 'members', 'groups', 'blogs', 'forums' ],
+		$whats_new = jq('#whats-new');
+
 	bp_init_objects( objects );
 
 	/* @mention Compose Scrolling */
-	if ( bp_get_querystring('r') && jq('textarea#whats-new').length ) {
+	if ( $whats_new.length && bp_get_querystring('r') ) {
+		var $member_nicename = $whats_new.val();
+
 		jq('#whats-new-options').animate({
 			height:'40px'
 		});
-		jq("form#whats-new-form textarea").animate({
+
+		$whats_new.animate({
 			height:'50px'
 		});
-		jq.scrollTo( jq('textarea#whats-new'), 500, {
+
+		jq.scrollTo( $whats_new, 500, {
 			offset:-125,
 			easing:'swing'
 		} );
-		jq('textarea#whats-new').focus();
+
+		$whats_new.val('').focus().val( $member_nicename );
 	}
 
 	/**** Activity Posting ********************************************************/
