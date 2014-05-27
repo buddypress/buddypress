@@ -173,6 +173,9 @@ class BP_Members_Admin {
 		add_action( 'edit_user_profile',        array( $this, 'profile_nav'       ), 99, 1 );
 		add_action( 'show_user_profile',        array( $this, 'profile_nav'       ), 99, 1 );
 
+		// Editing users of a specific site
+		add_action( "admin_head-site-users.php", array( $this, 'profile_admin_head' ) );
+
 		// Add a row action to users listing
 		if ( bp_core_do_network_admin() ) {
 			add_filter( 'ms_user_row_actions',        array( $this, 'row_actions'                    ), 10, 2 );
@@ -479,8 +482,11 @@ class BP_Members_Admin {
 		}
 
 		// Force the parent file to users.php to open the correct top level menu
-		$parent_file  = 'users.php';
-		$submenu_file = 'users.php';
+		// but only if not editing a site via the network site editing page.
+		if ( 'sites.php' !== $parent_file ) {
+			$parent_file  = 'users.php';
+			$submenu_file = 'users.php';
+		}
 
 		// Editing your own profile, so recheck some vars
 		if ( true === $this->is_self_profile ) {
@@ -494,7 +500,7 @@ class BP_Members_Admin {
 				$submenu_file = 'profile.php';
 			}
 
-		// Not editing yourserf, so use user-edit.php
+		// Not editing yourself, so use user-edit.php
 		} else {
 			$edit_page = 'user-edit.php';
 		}
